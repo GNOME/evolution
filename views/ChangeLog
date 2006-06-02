@@ -1,3 +1,13 @@
+2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/Makefile.am: Added two new views Wide_View_Sent.galview
+	and Wide_View_Normal.galview to help views in wide mode.
+	* mail/galview.xml: Added them to views menu.
+	* mail/Wide_View_Normal.galview: Added a new default galview with
+	composite headers for normal folders.
+	* mail/Wide_View_Sent.galview: Added a new default galview with
+	composite headers for sent/draft folders.
+
 2005-10-19 Harish Krishnaswamy <kharish@novell.com>
 	
 	Committing for Nathan Owens <pianocomp81@yahoo.com>

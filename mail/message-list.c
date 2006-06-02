@@ -900,7 +900,10 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-	case COL_SENDER:		
+	case COL_SENDER:
+	case COL_RECIPIENTS:
+	case COL_MIXED_SENDER:
+	case COL_MIXED_RECIPIENTS:		
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
 		return g_strdup (value);
@@ -932,7 +935,10 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-	case COL_SENDER:		
+	case COL_SENDER:
+	case COL_RECIPIENTS:
+	case COL_MIXED_SENDER:
+	case COL_MIXED_RECIPIENTS:				
 		g_free (value);
 		break;
 	default:
@@ -963,6 +969,9 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
 	case COL_SENDER:
+	case COL_RECIPIENTS:
+	case COL_MIXED_SENDER:
+	case COL_MIXED_RECIPIENTS:				
 		return g_strdup ("");
 	default:
 		g_assert_not_reached ();
@@ -993,7 +1002,10 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-	case COL_SENDER:		
+	case COL_SENDER:
+	case COL_RECIPIENTS:
+	case COL_MIXED_SENDER:
+	case COL_MIXED_RECIPIENTS:				
 		return !(value && *(char *)value);
 	default:
 		g_assert_not_reached ();
@@ -1058,7 +1070,10 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-	case COL_SENDER:		
+	case COL_SENDER:
+	case COL_RECIPIENTS:
+	case COL_MIXED_SENDER:
+	case COL_MIXED_RECIPIENTS:				
 		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
@@ -1144,6 +1159,49 @@ subtree_earliest(MessageList *ml, ETreePath node, int sent)
 	}
 	
 	return earliest;
+}
+
+static gchar *
+sanitize_recipients (const gchar *string)
+{
+	GString     *gstring;
+	gboolean     quoted = FALSE;
+	const gchar *p;
+	GString *recipients = g_string_new ("");
+	char *single_add;
+	char **name;
+
+	if (!string || !*string)
+		return "";
+	
+	gstring = g_string_new ("");
+
+	for (p = string; *p; p = g_utf8_next_char (p)) {
+		gunichar c = g_utf8_get_char (p);
+
+		if (c == '"')
+			quoted = ~quoted;
+		else if (c == ',' && !quoted) {
+			single_add = g_string_free (gstring, FALSE);
+			name = g_strsplit(single_add,"<",2);
+			g_string_append (recipients, *name);
+			g_string_append (recipients, ",");
+			g_free (single_add);
+			g_strfreev (name);
+			gstring = g_string_new ("");
+			continue;
+		}
+
+		g_string_append_unichar (gstring, c);
+	}
+
+	single_add = g_string_free (gstring, FALSE);
+	name = g_strsplit(single_add,"<",2);
+	g_string_append (recipients, *name);
+	g_free (single_add);
+	g_strfreev (name);
+
+	return g_string_free (recipients, FALSE);
 }
 
 static void *
@@ -1296,17 +1354,23 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
 		return name;
 	}
-	case COL_SENDER:{
+	case COL_MIXED_RECIPIENTS:				
+	case COL_RECIPIENTS:{
 		char **sender_name;
+        	str = camel_message_info_to (msg_info);
+		
+		return sanitize_recipients(str);
+	}
+	case COL_MIXED_SENDER:		
+	case COL_SENDER:{
+		char **sender_name = NULL;
         	str = camel_message_info_from (msg_info);
 	        if(str!=""){
 			sender_name=g_strsplit(str,"<",2);
 			return (void *)(*sender_name);
 		}
 		else
-			return (void *)("");
-		
-                g_strfreev(sender_name); 
+			return (void *)("");		
 	}
  	default:
 		g_assert_not_reached ();
@@ -1408,6 +1472,56 @@ filter_date (time_t date)
 	return g_strdup (buf);
 }
 
+static ECell * create_composite_cell (int col)
+{
+	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *cell_tree, *cell_attach;
+	GdkPixbuf *images [7];
+	GConfClient *gconf;
+	char *fixed_name = NULL;
+	gboolean show_email;
+	int i;
+	int alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
+	
+	gconf = mail_config_get_gconf_client ();
+	fixed_name = gconf_client_get_string (gconf, "/desktop/gnome/interface/monospace_font_name", NULL);
+	show_email = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_email", NULL);
+	
+	cell_vbox = e_cell_vbox_new ();
+
+	cell_hbox = e_cell_hbox_new ();
+	
+	for (i = 0; i < 2; i++)
+		images [i] = states_pixmaps [i + 5].pixbuf;	
+	cell_attach = e_cell_toggle_new (0, 2, images);
+	
+	cell_date = e_cell_date_new(NULL, GTK_JUSTIFY_RIGHT);
+	g_object_set (G_OBJECT (cell_date),
+		      "bold_column", COL_UNREAD,
+		      "color_column", COL_COLOUR,
+		      NULL);
+
+	cell_from = e_cell_text_new(NULL, GTK_JUSTIFY_LEFT);
+	g_object_set (G_OBJECT (cell_from),
+		      "bold_column", COL_UNREAD,
+		      "color_column", COL_COLOUR,
+		      NULL);
+	
+	e_cell_hbox_append (cell_hbox, cell_from, show_email ? col : alt_col, 68);
+	e_cell_hbox_append (cell_hbox, cell_attach, COL_ATTACHMENT, 5);
+	e_cell_hbox_append (cell_hbox, cell_date, COL_SENT, 27);
+	
+	cell_sub = e_cell_text_new(fixed_name? fixed_name:NULL, GTK_JUSTIFY_LEFT);
+	g_object_set (G_OBJECT (cell_sub),
+/* 		      "bold_column", COL_UNREAD, */
+		      "color_column", COL_COLOUR,
+		      NULL);	
+	cell_tree = e_cell_tree_new (NULL, NULL, TRUE, cell_sub);
+	e_cell_vbox_append (cell_vbox, cell_hbox, COL_FROM);
+	e_cell_vbox_append (cell_vbox, cell_tree, COL_SUBJECT);
+
+	return cell_vbox;
+}
+
 static ETableExtras *
 message_list_create_extras (void)
 {
@@ -1415,7 +1529,7 @@ message_list_create_extras (void)
 	GdkPixbuf *images [7];
 	ETableExtras *extras;
 	ECell *cell;
-	
+
 	extras = e_table_extras_new ();
 	e_table_extras_add_pixbuf (extras, "status", states_pixmaps [0].pixbuf);
 	e_table_extras_add_pixbuf (extras, "score", states_pixmaps [13].pixbuf);
@@ -1475,6 +1589,13 @@ message_list_create_extras (void)
 		      NULL);
 	e_table_extras_add_cell (extras, "render_size", cell);
 
+	/* Composite cell for wide view */
+	cell = create_composite_cell (COL_FROM);
+	e_table_extras_add_cell (extras, "render_composite_from", cell);
+	
+	cell = create_composite_cell (COL_TO);
+	e_table_extras_add_cell (extras, "render_composite_to", cell);	
+	
 	return extras;
 }
 

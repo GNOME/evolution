@@ -29,6 +29,7 @@
 
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <libgnome/gnome-util.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -501,7 +502,8 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	char *id;
 	static GalViewCollection *collection = NULL;
 	CamelFolderInfo *fi = NULL;
-
+	gboolean show_wide = gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/display/show_wide", NULL);
+	
 	g_assert(emfv->folder);
 	g_assert(emfv->folder_uri);
 
@@ -558,21 +560,44 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	/* TODO: should this go through mail-config api? */
 	id = mail_config_folder_to_safe_url (emfv->folder);
 	p->view_instance = gal_view_instance_new (collection, id);
+
+	if (show_wide) {
+		char *safe_id, *filename;
+
+		/* Force to use the wide view */
+		g_free (p->view_instance->custom_filename);
+		g_free (p->view_instance->current_view_filename);		
+		safe_id = g_strdup (id);
+		e_filename_make_safe (safe_id);
+		filename = g_strdup_printf ("custom_wide_view-%s.xml", safe_id);
+		p->view_instance->custom_filename = g_concat_dir_and_file (collection->local_dir, filename);
+		g_free (filename);
+		filename = g_strdup_printf ("current_wide_view-%s.xml", safe_id);
+		p->view_instance->current_view_filename = g_concat_dir_and_file (collection->local_dir, filename);
+		g_free (safe_id);
+	}
 	g_free (id);
 
 	fi = camel_store_get_folder_info (emfv->folder->parent_store,
 					  emfv->folder->full_name,
 					  CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
 					  NULL);	
-	if (outgoing || (fi && ((fi->flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT)))
-		gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
+	if (outgoing || (fi && ((fi->flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT))) {
+		if (show_wide)
+			gal_view_instance_set_default_view(p->view_instance, "Wide_View_Sent");
+		else
+			gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
+	} else if (show_wide){
+		gal_view_instance_set_default_view(p->view_instance, "Wide_View_Normal");
+	}
+	
 	
 	gal_view_instance_load(p->view_instance);
 	
 	if (!gal_view_instance_exists(p->view_instance)) {
 		struct stat st;
 		char *path;
-		
+
 		path = mail_config_folder_to_cachename (emfv->folder, "et-header-");
 		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			ETableSpecification *spec;
@@ -608,6 +633,11 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		p->view_menus = gal_view_menus_new(p->view_instance);
 		gal_view_menus_apply(p->view_menus, emfv->uic, NULL);
 	}
+}
+
+void em_folder_view_setup_view_instance (EMFolderView *emfv)
+{
+	emfv_setup_view_instance (emfv);
 }
 
 /* ********************************************************************** */

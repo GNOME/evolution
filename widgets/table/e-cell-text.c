@@ -581,6 +581,27 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	if (text_view->edit || width <= 0)
 		return layout;
 
+	if (ect->font_name)
+	{
+		PangoFontDescription *desc = NULL, *fixed_desc = NULL;
+		char *fixed_family = NULL;
+		gint fixed_size;
+		
+		fixed_desc = pango_font_description_from_string (ect->font_name);
+		if (fixed_desc) {
+			fixed_family = pango_font_description_get_family (fixed_desc);
+			fixed_size = pango_font_description_get_size (fixed_desc);
+		} 
+		
+		desc = pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas))->font_desc);
+		pango_font_description_set_family (desc, fixed_family);
+		pango_font_description_set_size (desc, fixed_size);
+/*  		pango_font_description_set_style (desc, PANGO_STYLE_OBLIQUE); */
+		pango_layout_set_font_description (layout, desc);
+		pango_font_description_free (desc);
+		pango_font_description_free (fixed_desc);
+	}
+	
 	pango_layout_set_width (layout, width * PANGO_SCALE);
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
 

@@ -1,3 +1,32 @@
+2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added support for Vertical View in evolution in addition to the
+	existing classical view. It also supports a composite headers to be
+	shown in a multilined column.
+
+	* em-folder-browser.c: (emfb_pane_realised),
+	(emfb_pane_button_release_event), (emfb_init),
+	(em_folder_browser_show_preview), (em_folder_browser_show_wide),
+	(emfb_show_next), (emfb_show_below), (emfb_activate): Added code to
+	handle the new wide mode in Evolution.
+	* em-folder-browser.h:
+	* em-folder-view.c: (emfv_setup_view_instance),
+	(em_folder_view_setup_view_instance): Added code to handle the default
+	view in the wide mode for normal and sent/draft folders.
+	* em-folder-view.h:
+	* evolution-mail.schemas.in.in: Added schema for hpane size, showing
+	email in the composite headers and toggling wide more.
+	
+	* message-list.c: (ml_duplicate_value), (ml_free_value),
+	(ml_initialize_value), (ml_value_is_empty), (ml_value_to_string),
+	(sanitize_recipients), (ml_tree_value_at), (create_composite_cell),
+	(message_list_create_extras): Added a new composite header
+	render_composite_from/recipient which shows the headers in a
+	multilined column. 
+	* message-list.etspec: Added three new columns, Recipent, Messages
+	column for normal folders and Messages column for sent/draft folders.
+	* message-list.h:
+
 2006-05-30  Li Yuan  <li.yuan@sun.com>
 
 	Fix for #341381.

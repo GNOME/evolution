@@ -318,6 +318,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/show_email</key>
+      <applyto>/apps/evolution/mail/display/show_email</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Show the sender email in the messages column in the message list</short>
+         <long>
+          Show the email of the sender in the messages composite column in the message list
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/mark_seen_timeout</key>
       <applyto>/apps/evolution/mail/display/mark_seen_timeout</applyto>
       <owner>evolution-mail</owner>
@@ -369,6 +383,34 @@
          <short>Height of the message-list pane</short>
          <long>
           Height of the message-list pane.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/hpaned_size</key>
+      <applyto>/apps/evolution/mail/display/hpaned_size</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>450</default>
+      <locale name="C">
+         <short>Width of the message-list pane</short>
+         <long>
+          Width of the message-list pane.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/show_wide</key>
+      <applyto>/apps/evolution/mail/display/show_wide</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Use side-by-side or wide layout</short>
+         <long>
+	  If the &quot;Preview&quot; pane is on, then show it side-by-side rather than vertically.
          </long>
       </locale>
     </schema>

@@ -35,6 +35,12 @@
      accel="*Control*m"
      type="toggle"/>
 
+    <cmd name="ViewBelow" _label="_Classic View" 
+      type="radio" group="preview_display" _tip="Show message preview below the message list"/>
+
+    <cmd name="ViewAfter" _label="_Vertical View" 
+     type="radio" group="preview_display" _tip="Show message preview side-by-side with the message list"/>
+
   </commands>
 
   <keybindings>
@@ -50,10 +56,14 @@
     </submenu>
 
     <submenu name="View" _label="_View">
-      <placeholder name="ViewPreview">
-        <menuitem name="ViewPreview" verb="" _label="Message _Preview"/>
+      <placeholder name="ViewPreview">	    
+      <submenu name="Preview" _label="_Preview">	    
+        <menuitem name="ViewPreview" verb="" _label="Show Message _Preview"/>
+	<separator name="previewsep"/>
+	<menuitem name="ViewBelow" id="ViewBelow" _label="_Classic View"/>
+	<menuitem name="ViewAfter" id="ViewAfter" _label="_Vertical View"/>
+      </submenu>
       </placeholder>
-
       <separator f="" name="emailglobal"/>
       <placeholder name="MailMessageFilter"/>
       <placeholder name="MailMessageView"/>

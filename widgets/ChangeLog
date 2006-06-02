@@ -1,3 +1,19 @@
+2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added a new hbox cell renderer and a new Sort By menu to e-table to
+	sort by columns not shown in the table.
+
+	* table/Makefile.am:
+	* table/e-cell-text.c: (build_layout): Added support for font
+	rendering in cell
+	* table/e-cell-tree.c: (ect_event): Fixed a bug where the expander
+	animates in arbitary position.
+	* table/e-table-header-item.c: (ethi_popup_customize_view),
+	(sort_by_id), (popup_custom), (ethi_header_context_menu),
+	(ethi_event): Added a new Sort by menu, to the e-table headers, which
+	helps to easily sort by columns without adding that column.
+	* table/e-cell-hbox.[ch]: Added a new hbox renderer.
+
 2006-01-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-timezone-dialog/e-timezone-dialog.c: (get_zone_from_point):

@@ -1,3 +1,11 @@
+2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail-global.xml: Added menu item for wide view.
+	* evolution-mail-list.xml: Adjusted the separator for threads
+	* evolution-mail-message.xml: Combined the zoom option to a submenu.
+	* evolution.xml: Combined the side bar/toolbar/status bar to a submenu
+	to avoid the large growing View menu.
+
 2006-04-27  Rodney Dawes  <dobey@novell.com>
 
 	* evolution-mail-global.xml: Don't set gtk-delete as the stock icon

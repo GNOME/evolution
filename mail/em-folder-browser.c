@@ -35,6 +35,7 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkvpaned.h>
+#include <gtk/gtkhpaned.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gdk/gdkkeysyms.h>
 #include <gconf/gconf-client.h>
@@ -114,6 +115,8 @@ struct _EMFolderBrowserPrivate {
 	char *select_uid;
 	guint folder_changed_id;
 
+	int show_wide:1;
+
 	EMMenu *menu;		/* toplevel menu manager */
 };
 
@@ -154,7 +157,11 @@ emfb_pane_realised(GtkWidget *w, EMFolderBrowser *emfb)
 	GConfClient *gconf;
 
 	gconf = mail_config_get_gconf_client ();
-	gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int(gconf, "/apps/evolution/mail/display/paned_size", NULL));
+	
+	if (emfb->priv->show_wide)
+		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int(gconf, "/apps/evolution/mail/display/hpaned_size", NULL));
+	else
+		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int(gconf, "/apps/evolution/mail/display/paned_size", NULL));
 }
 
 static gboolean
@@ -162,9 +169,15 @@ emfb_pane_button_release_event(GtkWidget *w, GdkEventButton *e, EMFolderBrowser 
 {
 	GConfClient *gconf = mail_config_get_gconf_client ();
 
-	if (GTK_WIDGET_REALIZED (w))
-		gconf_client_set_int(gconf, "/apps/evolution/mail/display/paned_size",
-				     gtk_paned_get_position(GTK_PANED(w)), NULL);
+	if (GTK_WIDGET_REALIZED (w)) {
+		if (emfb->priv->show_wide)
+			gconf_client_set_int(gconf, "/apps/evolution/mail/display/hpaned_size",
+					     gtk_paned_get_position(GTK_PANED(w)), NULL);
+		else
+			gconf_client_set_int(gconf, "/apps/evolution/mail/display/paned_size",
+					     gtk_paned_get_position(GTK_PANED(w)), NULL);
+			
+	}
 	
 	return FALSE;
 }
@@ -221,7 +234,9 @@ emfb_init(GObject *o)
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
 	}
 
-	emfb->vpane = gtk_vpaned_new();
+	emfb->priv->show_wide = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/show_wide", NULL);
+	emfb->vpane = emfb->priv->show_wide?gtk_hpaned_new():gtk_vpaned_new();
+
 	g_signal_connect(emfb->vpane, "realize", G_CALLBACK(emfb_pane_realised), emfb);
 	emfb->priv->vpane_resize_id = g_signal_connect(emfb->vpane, "button_release_event", G_CALLBACK(emfb_pane_button_release_event), emfb);
 
@@ -345,7 +360,7 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		GConfClient *gconf = mail_config_get_gconf_client ();
 		int paned_size /*, y*/;
 
-		paned_size = gconf_client_get_int(gconf, "/apps/evolution/mail/display/paned_size", NULL);
+		paned_size = gconf_client_get_int(gconf, emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size":"/apps/evolution/mail/display/paned_size", NULL);
 
 		/*y = save_cursor_pos (emfb);*/
 		gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
@@ -374,6 +389,39 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 	}
 
 	/* FIXME: need to update menu's to reflect ui changes */
+}
+
+void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
+{
+	GtkWidget *w;
+
+	if ((emfb->priv->show_wide &&  state)
+	    || emfb->view.list == NULL
+	    || emfb->view.preview_active == 0) {
+		emfb->priv->show_wide = state;
+		return;
+	}
+
+	emfb->priv->show_wide = state;
+
+	w = emfb->priv->show_wide?gtk_hpaned_new():gtk_vpaned_new();
+
+	g_signal_handler_disconnect(emfb->vpane, emfb->priv->vpane_resize_id);
+	g_signal_connect(w, "realize", G_CALLBACK(emfb_pane_realised), emfb);
+	emfb->priv->vpane_resize_id = g_signal_connect(w, "button_release_event", G_CALLBACK(emfb_pane_button_release_event), emfb);
+
+	gtk_widget_show(w);
+	if (emfb->priv->show_wide)
+		gtk_paned_set_position((GtkPaned *)w, gconf_client_get_int(mail_config_get_gconf_client (), "/apps/evolution/mail/display/hpaned_size", NULL));
+	else
+		gtk_paned_set_position((GtkPaned *)w, gconf_client_get_int(mail_config_get_gconf_client (), "/apps/evolution/mail/display/paned_size", NULL));	
+	gtk_box_pack_start_defaults((GtkBox *)emfb, w);
+	gtk_widget_reparent((GtkWidget *)emfb->view.list, w);
+	gtk_widget_reparent((GtkWidget *)emfb->priv->preview, w);
+	gtk_widget_destroy(emfb->vpane);
+	emfb->vpane = w;
+	if (((EMFolderView *)emfb)->folder)
+		em_folder_view_setup_view_instance ((EMFolderView *) emfb);
 }
 
 /* ********************************************************************** */
@@ -945,6 +993,36 @@ emfb_view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 }
 
 static void
+emfb_show_next(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+{
+	GConfClient *gconf;
+	EMFolderBrowser *emfb = data;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	gconf = mail_config_get_gconf_client ();
+	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_wide", state[0] != '0', NULL);
+
+	em_folder_browser_show_wide(emfb, state[0] != '0');
+}
+
+static void
+emfb_show_below(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+{
+	GConfClient *gconf;
+	EMFolderBrowser *emfb = data;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	gconf = mail_config_get_gconf_client ();
+	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_wide", state[0] == '0', NULL);
+
+	em_folder_browser_show_wide(emfb, state[0] == '0');
+}
+
+static void
 emfb_list_scrolled (MessageList *ml, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
@@ -1173,7 +1251,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 	           preview settings - see folder_browser_set_message_preview()
 	           internals for details) */
 		g_signal_handler_block(emfb->vpane, emfb->priv->vpane_resize_id);
-		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL));
+		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size": "/apps/evolution/mail/display/paned_size", NULL));
 		g_signal_handler_unblock(emfb->vpane, emfb->priv->vpane_resize_id);
 		
 		/* (Pre)view toggle */
@@ -1221,6 +1299,20 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);				
 		bonobo_ui_component_add_listener(uic, "ViewThreaded", emfb_view_threaded, emfv);
 		message_list_set_threaded(emfv->list, state);
+
+		/* Show wide display */
+		state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_wide", NULL);
+		if (state) {
+			bonobo_ui_component_set_prop(uic, "/commands/ViewAfter", "state", "1", NULL);
+			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "0", NULL);
+		} else {
+			bonobo_ui_component_set_prop(uic, "/commands/ViewAfter", "state", "0", NULL);
+			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "1", NULL);			
+		}
+		
+		bonobo_ui_component_add_listener(uic, "ViewAfter", emfb_show_next, emfv);
+		bonobo_ui_component_add_listener(uic, "ViewBelow", emfb_show_below, emfv);
+		/* em_folder_browser_show_wide((EMFolderBrowser *)emfv, state); */
 
 		/* FIXME: Selection state */
 

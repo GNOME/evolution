@@ -483,9 +483,16 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 					gint tmp_row = row;
 					GdkRectangle area;
 					animate_closure_t *closure = g_new0 (animate_closure_t, 1);
+					int hgt;
+					
 					e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
 								&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
 					area.width = offset - 2;
+					hgt = e_cell_height (ecell_view, model_col, view_col, row);
+
+					if (hgt != area.height) /* Composite cells */
+						area.height += hgt;
+					
 					draw_expander (tree_view, GTK_LAYOUT (tree_view->canvas)->bin_window,
 						       expanded ? GTK_EXPANDER_SEMI_EXPANDED : GTK_EXPANDER_SEMI_COLLAPSED,
 						       GTK_STATE_NORMAL, &area);

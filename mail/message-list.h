@@ -57,6 +57,9 @@ enum {
 	COL_FOLLOWUP_DUE_BY,
 	COL_LOCATION,	        /* vfolder location? */
 	COL_SENDER,
+	COL_RECIPIENTS,
+	COL_MIXED_SENDER,
+	COL_MIXED_RECIPIENTS,
 	
 	/* normalised strings */
 	COL_FROM_NORM,

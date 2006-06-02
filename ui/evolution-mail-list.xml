@@ -77,9 +77,8 @@
 	      <menuitem name="ViewThreaded" verb="" _label="_Group By Threads"/>
         <menuitem name="ViewThreadsExpandAll" verb="" _label="E_xpand All Threads"/>
         <menuitem name="ViewThreadsCollapseAll" verb="" _label="Collapse All _Threads"/>
-	      
-        <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
  	<separator f="" name="emaillist"/>
+        <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
 	<menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
 	<menuitem name="ViewHideRead" verb="" _label="Hide _Read Messages"/>
 	<menuitem name="ViewShowAll" verb="" _label="Sh_ow Hidden Messages"/>

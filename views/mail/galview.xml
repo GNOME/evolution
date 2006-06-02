@@ -6,4 +6,6 @@
   <GalView id="By_Sender" _title="By Se_nder" filename="By_Sender.galview" type="etable"/>
   <GalView id="By_Status" _title="By S_tatus" filename="By_Status.galview" type="etable"/>
   <GalView id="By_Follow_Up_Flag" _title="By _Follow Up Flag" filename="By_Follow_Up_Flag.galview" type="etable"/>
+  <GalView id="Wide_View_Normal" _title="For _Wide View" filename="Wide_View_Normal.galview" type="etable"/>
+  <GalView id="Wide_View_Sent" _title="As Sent Folder for Wi_de View" filename="Wide_View_Sent.galview" type="etable"/>  
 </GalViewCollection>

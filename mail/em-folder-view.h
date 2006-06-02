@@ -138,6 +138,7 @@ guint32 em_folder_view_disable_mask(EMFolderView *emfv);
 
 void em_folder_view_set_statusbar(EMFolderView *emfv, gboolean statusbar);
 void em_folder_view_set_hide_deleted(EMFolderView *emfv, gboolean status);
+void em_folder_view_setup_view_instance (EMFolderView *emfv);
 
 #ifdef __cplusplus
 }

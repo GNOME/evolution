@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <string.h>
+#include <glib.h>
 
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
@@ -1449,7 +1450,7 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 	ETableHeaderItem *ethi = info->ethi;
 	ETableState *state;
 	ETableSpecification *spec;
-
+	
 	if (ethi->config)
 		e_table_config_raise (E_TABLE_CONFIG (ethi->config));
 	else {
@@ -1502,11 +1503,37 @@ static EPopupMenu ethi_context_menu [] = {
 };
 
 static void
+sort_by_id (GtkWidget *menu_item, ETableHeaderItem *ethi)
+{
+	int col = GPOINTER_TO_INT (g_object_get_data(menu_item, "col-number"));
+	ETableCol *ecol;
+
+	if (!gtk_check_menu_item_get_active(menu_item))
+		return;
+	
+	ecol = e_table_header_get_column (ethi->full_header, col);
+	ethi_change_sort_state (ethi, ecol);
+}
+
+static void
+popup_custom (GtkWidget *menu_item, EthiHeaderInfo *info)
+{
+	if (!gtk_check_menu_item_get_active(menu_item))
+		return;
+
+	ethi_popup_customize_view(menu_item, info);
+}
+static void
 ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
 	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
 	ETableCol *col;
-	GtkMenu *popup;
+	GtkMenu *popup, *sub_menu;;
+	int ncol, sort_count, sort_col;
+	GtkWidget *menu_item;
+	GSList *group = NULL;
+	ETableSortColumn column;
+	
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
 	col = e_table_header_get_column (ethi->eth, info->col);
@@ -1518,6 +1545,49 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 						 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
 						 128, info, E_I18N_DOMAIN);
+	
+	menu_item = gtk_menu_item_new_with_label (_("Sort By"));
+	gtk_widget_show (menu_item);
+	sub_menu = gtk_menu_new ();
+	gtk_widget_show (sub_menu);
+	gtk_menu_item_set_submenu (menu_item, sub_menu);
+	gtk_menu_shell_prepend (GTK_MENU_SHELL (popup), menu_item);
+
+	sort_count = e_table_sort_info_sorting_get_count(ethi->sort_info);
+
+	if (sort_count > 1 || sort_count < 1)
+		sort_col = -1; /* Custom sorting */
+	else {
+		column = e_table_sort_info_sorting_get_nth(ethi->sort_info, 0);
+		sort_col = column.column;
+	}
+	
+	/* Custom */
+	menu_item = gtk_radio_menu_item_new_with_label (group, _("Custom"));
+	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
+	gtk_widget_show (menu_item);
+	gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
+	if (sort_col == -1)
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+	g_signal_connect (menu_item, "toggled", G_CALLBACK (popup_custom), info);
+	
+	/* Show a seperator */
+	menu_item = gtk_separator_menu_item_new ();
+	gtk_widget_show (menu_item);
+	gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
+	/* Headers */
+	for (ncol = 0; ncol<ethi->full_header->col_count; ncol++)
+	{
+		menu_item = gtk_radio_menu_item_new_with_label (group, ethi->full_header->columns[ncol]->text);
+		gtk_widget_show (menu_item);
+		gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
+		
+		if (ncol == sort_col)
+			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+		g_object_set_data (menu_item, "col-number", GINT_TO_POINTER (ncol));
+		g_signal_connect (menu_item, "toggled", G_CALLBACK (sort_by_id), ethi);
+	}
+	
 	g_object_ref (popup);
 	gtk_object_sink (GTK_OBJECT (popup));
 	g_signal_connect (popup, "selection-done",
@@ -1718,7 +1788,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			ethi_end_resize (ethi);
 		} else if (was_maybe_drag && ethi->sort_info) {
 			ETableCol *ecol;
-		
+			
 			ecol = e_table_header_get_column (ethi->eth, ethi_find_col_by_x (ethi, e->button.x));
 			ethi_change_sort_state (ethi, ecol);
 		}
