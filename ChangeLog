@@ -1,3 +1,8 @@
+2006-06-02 Iain Buchanan <iaindb@netspace.net.au>
+
+	* configure.in: Fix typo that caused experimental plugins
+	to be skipped.
+
 2006-05-29  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in: Release updates and version
