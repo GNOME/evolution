@@ -1,3 +1,11 @@
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #341334
+	
+	* e-component-registry.c: (e_component_registry_peek_info): Check for
+	the presence of the fields before comparing. Exchange component wont
+	have these alias/etc.
+
 2006-05-15  Li Yuan <li.yuan@sun.com>
 
 	Fixes #341525
