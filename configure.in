@@ -1449,7 +1449,7 @@ plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
 plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments"
-plugins_experimental="$plugins_experimental $IPOD_SYNC"
+plugins_experimental="$plugins_experimental_always $IPOD_SYNC"
 all_plugins_experimental="$plugins_experimental_always ipod-sync"
 
 case x"$enable_plugins" in
