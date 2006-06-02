@@ -1,3 +1,10 @@
+2006-06-02  Tor Lillqvist  <tml@novell.com>
+
+	* e-util.c: Don't need the Win32-only fix_percent_l() after all,
+	this is taken care of in e_strftime(). (The check in e-d-s's
+	configure.in for the support of %l and %k has now been made more
+	reliable so it actually works also on Win32.)
+
 2006-06-02  Frederic Peters <fpeters@entrouvert.com>
 
 	* e-error.c: Set new scroll member to false in static 
