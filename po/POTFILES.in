@@ -20,6 +20,7 @@ a11y/e-table/gal-a11y-e-table-click-to-add.c
 a11y/e-table/gal-a11y-e-table-column-header.c
 a11y/widgets/ea-calendar-item.c
 a11y/widgets/ea-combo-button.c
+a11y/widgets/ea-expander.c
 addressbook/addressbook.error.xml
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
@@ -99,7 +100,6 @@ calendar/gui/dialogs/alarm-dialog.glade
 calendar/gui/dialogs/alarm-list-dialog.c
 calendar/gui/dialogs/alarm-list-dialog.glade
 calendar/gui/dialogs/cal-attachment-select-file.c
-calendar/gui/dialogs/cal-attachment.glade
 calendar/gui/dialogs/cal-prefs-dialog.c
 calendar/gui/dialogs/cal-prefs-dialog.glade
 calendar/gui/dialogs/calendar-setup.c
@@ -116,7 +116,6 @@ calendar/gui/dialogs/e-delegate-dialog.glade
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.c
 calendar/gui/dialogs/event-page.glade
-calendar/gui/dialogs/meeting-page.c
 calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
 calendar/gui/dialogs/memo-editor.c
