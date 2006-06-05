@@ -1,3 +1,7 @@
+2006-06-05  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* Makefile.am: Remove extra tabs. Fixes #343734.
+
 2006-05-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #341530.
