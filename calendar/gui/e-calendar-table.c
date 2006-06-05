@@ -58,6 +58,7 @@
 #include "print.h"
 #include <e-util/e-icon-factory.h>
 #include "e-cal-popup.h"
+#include "e-tasks.h"
 #include "misc.h"
 
 extern ECompEditorRegistry *comp_editor_registry;
@@ -1228,6 +1229,20 @@ open_url_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	gnome_url_show (icalproperty_get_url (prop), NULL);
 }
 
+/* Opens a new task editor */
+static void
+on_new_task (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	ECalendarTable *cal_table = data;
+	ETasks *tasks = g_object_get_data (cal_table, "tasks");
+
+	if (!tasks)
+		return;
+
+	e_tasks_new_task (tasks);
+	
+}
+
 /* Callback for the "delete tasks" menu item */
 static void
 delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
@@ -1238,7 +1253,10 @@ delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem tasks_popup_items [] = {
-	{ E_POPUP_ITEM, "00.open", N_("_Open"), e_calendar_table_on_open_task, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "00.newtask", N_("New _Task"), on_new_task, NULL, "stock_task", 0, 0},
+	{ E_POPUP_BAR, "01.bar" },
+	
+	{ E_POPUP_ITEM, "03.open", N_("_Open"), e_calendar_table_on_open_task, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "05.openweb", N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
 	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), e_calendar_table_on_save_as, NULL, GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "20.print", N_("_Print..."), e_calendar_table_on_print_task, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
