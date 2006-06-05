@@ -1,3 +1,11 @@
+2006-06-05  Li Yuan <li.yuan@sun.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade:
+	add labelled by relationship between label and e-timezone-entry.
+	* gui/e-timezone-entry.c: (add_relation),
+	(e_timezone_entry_set_timezone):
+	add relationship between label and entry.
+
 2006-06-01  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/Makefile.am, gui/dialogs/event-editor.c,

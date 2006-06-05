@@ -71,6 +71,8 @@ static void on_entry_changed		(GtkEntry	*entry,
 					 ETimezoneEntry *tentry);
 static void on_button_clicked		(GtkWidget	*widget,
 					 ETimezoneEntry	*tentry);
+static void add_relation		(ETimezoneEntry *tentry,
+					 GtkWidget *widget);
 
 static void e_timezone_entry_set_entry  (ETimezoneEntry *tentry);
 
@@ -224,6 +226,46 @@ e_timezone_entry_get_timezone		(ETimezoneEntry	*tentry)
 	return priv->zone;
 }
 
+static void
+add_relation				(ETimezoneEntry *tentry,
+					 GtkWidget *widget)
+{
+	AtkObject *a11ytentry, *a11yWidget;
+	AtkRelationSet *set;
+	AtkRelation *relation;
+	GPtrArray *target;
+	gpointer target_object;
+
+	/* add a labelled_by relation for widget for accessibility */
+
+	a11ytentry = gtk_widget_get_accessible (GTK_WIDGET (tentry));
+	a11yWidget = gtk_widget_get_accessible (widget);
+
+	set = atk_object_ref_relation_set (a11yWidget);
+	if (set != NULL) {
+		relation = atk_relation_set_get_relation_by_type (set,
+					ATK_RELATION_LABELLED_BY);
+		/* check whether has a labelled_by relation already */
+		if (relation != NULL)
+			return;
+	}
+
+	set = atk_object_ref_relation_set (a11ytentry);
+	if (!set)
+		return;
+
+	relation = atk_relation_set_get_relation_by_type (set,
+					ATK_RELATION_LABELLED_BY);
+	if (relation != NULL) {
+		target = atk_relation_get_target (relation);
+		target_object = g_ptr_array_index (target, 0);
+		if (ATK_IS_OBJECT (target_object)) {
+			atk_object_add_relationship (a11yWidget,
+					ATK_RELATION_LABELLED_BY,
+					ATK_OBJECT (target_object));
+		}
+	}
+}
 
 void
 e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
@@ -238,6 +280,8 @@ e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
 	priv->zone = zone;
 
 	e_timezone_entry_set_entry (tentry);
+
+	add_relation (tentry, priv->entry);
 }
 
 
