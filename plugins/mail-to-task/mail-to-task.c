@@ -21,10 +21,13 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-multipart.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>
+#include <camel/camel-utf8.h>
 #include "mail/em-menu.h"
 #include "mail/em-popup.h"
+#include "mail/em-utils.h"
 #include <calendar/common/authentication.h>
 
 typedef struct {
@@ -32,6 +35,26 @@ typedef struct {
 	struct _CamelFolder *folder;
 	GPtrArray *uids;
 }AsyncData;
+
+static char *
+clean_name(const unsigned char *s)
+{
+	GString *out = g_string_new("");
+	guint32 c;
+	char *r;
+
+	while ((c = camel_utf8_getc ((const unsigned char **)&s)))
+	{
+		if (!g_unichar_isprint (c) || ( c < 0x7f && strchr (" /'\"`&();|<>$%{}!", c )))
+			c = '_';
+		g_string_append_u (out, c);
+	}
+
+	r = g_strdup (out->str);
+	g_string_free (out, TRUE);
+
+	return r;
+}
 
 static void
 set_attendees (ECalComponent *comp, CamelMimeMessage *message)
@@ -77,19 +100,36 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 {
 	CamelDataWrapper *content;
 	CamelStream *mem;
+	CamelContentType *type;
+	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
 	ECalComponentText text;
 	GSList sl;
 	char *str, *convert_str = NULL;
-	int bytes_read, bytes_written;
+	gsize bytes_read, bytes_written;
+	gint count = 2;
 
 	content = camel_medium_get_content_object ((CamelMedium *) message);
 	if (!content)
 		return;
 
+	/*
+	 * Get non-multipart content from multipart message.
+	 */
+	while (CAMEL_IS_MULTIPART (content) && count > 0)
+	{
+		mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), 0);
+		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+		count--;
+	}
+
+	type = camel_mime_part_get_content_type (mime_part);
+	if (!camel_content_type_is (type, "text", "plain"))
+		return;
+
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (content, mem);
 
-	str = g_strndup (((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+	str = g_strndup ((const gchar*)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 	camel_object_unref (mem);
 
 	/* convert to UTF-8 string */
@@ -137,6 +177,60 @@ set_organizer (ECalComponent *comp, CamelMimeMessage *message)
 	e_cal_component_set_organizer (comp, &organizer);
 }
 
+static void
+set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
+{
+	int parts, i;
+	GSList *list = NULL;
+	const char *uid;
+	char *store_dir;
+	CamelDataWrapper *content;
+
+	content = camel_medium_get_content_object ((CamelMedium *) message);
+	if (!content || !CAMEL_IS_MULTIPART (content))
+		return;
+
+	parts = camel_multipart_get_number (CAMEL_MULTIPART (content));
+	if (parts < 1)
+		return;
+
+	e_cal_component_get_uid (comp, &uid);
+	store_dir = g_filename_from_uri (e_cal_get_local_attachment_store (client), NULL, NULL);
+
+	for (i = 1; i < parts; i++)
+	{
+		char *filename, *path, *tmp;
+		const char *orig_filename;
+		CamelMimePart *mime_part;
+
+		mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), i);
+
+		orig_filename = camel_mime_part_get_filename (mime_part);
+		if (!orig_filename)
+			continue;
+
+		tmp = clean_name ((const unsigned char *)orig_filename);
+		filename = g_strdup_printf ("%s-%s", uid, tmp);
+		path = g_build_filename (store_dir, filename, NULL);
+
+		if (em_utils_save_part_to_file (NULL, path, mime_part))
+		{
+			char *uri;
+			uri = g_filename_to_uri (path, NULL, NULL);
+			list = g_slist_append (list, g_strdup (uri));
+			g_free (uri);
+		}
+		
+		g_free (tmp);
+		g_free (filename);
+		g_free (path);
+	}
+
+	g_free (store_dir);
+
+	e_cal_component_set_attachment_list (comp, list);
+}
+
 static gboolean 
 do_mail_to_task (AsyncData *data)
 {
@@ -172,6 +266,9 @@ do_mail_to_task (AsyncData *data)
 			set_description (comp, message);
 			set_organizer (comp, message);
 			set_attendees (comp, message);
+
+			/* set attachment files */
+			set_attachments (client, comp, message);
 
 			/* save the task to the selected source */
 			e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);
