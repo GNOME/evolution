@@ -1,6 +1,16 @@
+2006-06-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	Fixes #332605.
+	* mail-to-task.c: 
+	(set_description): Multipart message handling.
+	(set_attachments): New function.
+	Set attachment files to a task.
+	(clean_name): New function.
+	from plugins/save-attachments/save-attachments.c.
+
 2006-03-04  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #330974, 333688.
+	Fixes #330974
 	* mail-to-task.c: 
 	(set_description): Check if the params are present,
 	before accessing the value. Fixes a crash.
