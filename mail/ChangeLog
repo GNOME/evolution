@@ -1,3 +1,8 @@
+2006-06-06  Harish Krishnaswamy  <kharish@novell.com>
+
+	* evolution-mail.schemas.in.in: typo correction.
+	Fixes #331694.
+
 2006-06-02  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-view.c (emfv_setup_view_instance): Can't make camel
