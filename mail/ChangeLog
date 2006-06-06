@@ -1,3 +1,8 @@
+2006-06-06  Harish Krishnaswamy  <kharish@novell.com>
+
+	* evolution-mail.schemas.in.in: correct a typo.
+	fixes #331694.
+
 2006-05-30  Li Yuan  <li.yuan@sun.com>
 
 	Fix for #341381.
