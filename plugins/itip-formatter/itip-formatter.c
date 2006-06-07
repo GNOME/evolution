@@ -261,7 +261,6 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	FormatItipPObject *pitip = data;
 	ESource *source;
 	ECalSourceType source_type;
-	icaltimezone *zone;
 
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
@@ -287,8 +286,6 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
 	}
 
-	zone = calendar_config_get_icaltimezone ();
-	e_cal_set_default_timezone (ecal, zone, NULL);
 
 	pitip->current_ecal = ecal;
 
@@ -299,6 +296,7 @@ static ECal *
 start_calendar_server (FormatItipPObject *pitip, ESource *source, ECalSourceType type, FormatItipOpenFunc func, gpointer data)
 {
 	ECal *ecal;
+	icaltimezone *zone = NULL;
 	
 	ecal = g_hash_table_lookup (pitip->ecals[type], e_source_peek_uid (source));
 	if (ecal) {
@@ -317,6 +315,9 @@ start_calendar_server (FormatItipPObject *pitip, ESource *source, ECalSourceType
 
 	g_hash_table_insert (pitip->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
 	
+	zone = calendar_config_get_icaltimezone ();
+	e_cal_set_default_timezone (ecal, zone, NULL);
+
 	e_cal_open_async (ecal, TRUE);
 
 	return ecal;
@@ -372,7 +373,6 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	ESource *source;
 	ECalSourceType source_type;
 	icalcomponent *icalcomp;
-	icaltimezone *zone;
 	GList *objects = NULL;
 	
 	source_type = e_cal_get_source_type (ecal);
@@ -410,7 +410,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	}
 
 
-	if (e_cal_get_object (ecal, fd->uid, fd->rid, &icalcomp, NULL)) {
+	if (!pitip->current_ecal && e_cal_get_object (ecal, fd->uid, fd->rid, &icalcomp, NULL)) {
 		icalcomponent_free (icalcomp);
 		
 		pitip->current_ecal = ecal;
@@ -435,8 +435,15 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		set_buttons_sensitive (pitip);
 	}
 
-	zone = calendar_config_get_icaltimezone ();
-	e_cal_set_default_timezone (ecal, zone, NULL);
+	if (pitip->current_ecal && e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+
+		if (check_is_instance (icalcomp))
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
+		else
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+	}
+
 
  cleanup:
 	d(printf ("Decreasing itip formatter search count to %d\n", fd->count));
@@ -518,15 +525,20 @@ static void
 find_server (FormatItipPObject *pitip, ECalComponent *comp)
 {
 	FormatItipFindData *fd = NULL;
-	GSList *groups, *l;
+	GSList *groups, *l, *sources_conflict = NULL, *all_sources = NULL;
 	const char *uid;
 	const char *rid;
+	CamelFolder *folder;
+	CamelURL *url;
+	char *uri;
+	ESource *source = NULL, *current_source = NULL;
 
 	e_cal_component_get_uid (comp, &uid);
 	rid = e_cal_component_get_recurid_as_string (comp);
 
-	pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS, 
-								 _("Searching for an existing version of this appointment"));
+	folder = (((pitip->pobject).format)->format).folder;
+        url = CAMEL_SERVICE (folder->parent_store)->url;
+        uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
@@ -539,36 +551,76 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 
 		sources = e_source_group_peek_sources (group);
 		for (m = sources; m; m = m->next) {
-			ESource *source;
-			ECal *ecal;
+                        char *source_uri = NULL;
 			
 			source = m->data;
 			
-			if (!fd) {
-				char *start = NULL, *end = NULL;
-				
-				fd = g_new0 (FormatItipFindData, 1);
-				fd->pitip = pitip;
-				fd->uid = g_strdup (uid);
-				fd->rid = g_strdup (rid);
-				
-				if (pitip->start_time && pitip->end_time) {
-					start = isodate_from_time_t (pitip->start_time);
-					end = isodate_from_time_t (pitip->end_time);
-					
-					fd->sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\")) (not (uid? \"%s\")))", 
-								    start, end, icalcomponent_get_uid (pitip->ical_comp));
-				}
-				
-				g_free (start);
-				g_free (end);
-			}
-			fd->count++;
-			d(printf ("Increasing itip formatter search count to %d\n", fd->count));
+			if (e_source_get_property (source, "conflict"))
+				sources_conflict = g_slist_prepend (sources_conflict, source);
 
-			ecal = start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
-		}		
+			if (current_source)
+				continue;
+			
+			source_uri = e_source_get_uri (source);
+			if (source_uri && (strcmp (uri, source_uri) == 0)) {
+				current_source = source;
+				sources_conflict = g_slist_prepend (sources_conflict, source);
+
+				g_free (source_uri);
+				continue;
+			}
+	
+			all_sources = g_slist_prepend (all_sources, source);
+			g_free (source_uri);
+	
+		}
 	}
+	
+	if (current_source)		
+		l = sources_conflict;
+	else {
+		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS, 
+				_("Searching for an existing version of this appointment"));
+
+		l = all_sources;
+	}
+
+	for (; l != NULL; l = l->next) {
+		ECal *ecal;
+		source = l->data;
+
+		if (!fd) {
+			char *start = NULL, *end = NULL;
+
+			fd = g_new0 (FormatItipFindData, 1);
+			fd->pitip = pitip;
+			fd->uid = g_strdup (uid);
+			fd->rid = g_strdup (rid);
+
+			if (pitip->start_time && pitip->end_time) {
+				start = isodate_from_time_t (pitip->start_time);
+				end = isodate_from_time_t (pitip->end_time);
+
+				fd->sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\")) (not (uid? \"%s\")))", 
+						start, end, icalcomponent_get_uid (pitip->ical_comp));
+			}
+
+			g_free (start);
+			g_free (end);
+		}
+		fd->count++;
+		d(printf ("Increasing itip formatter search count to %d\n", fd->count));
+
+		if (current_source == source)
+			pitip->current_ecal = start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
+		else 
+			ecal = start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
+
+	}		
+
+	g_slist_free (all_sources);
+	g_slist_free (sources_conflict);
+	g_free (uri);
 }
 
 static void
@@ -1769,48 +1821,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	if (pitip->calendar_uid)
 		pitip->current_ecal = start_calendar_server_by_uid (pitip, pitip->calendar_uid, pitip->type);
 	else {
-
-		/* Since the mailer uri matches with only groupwise calendar uri so for this case we need not 
-		   have to call find_server */
-                CamelFolder *folder;
-                CamelURL *url;
-                char *uri;
-		/* *l is already declared in this function */
-                GSList *groups, *l;
-                ESource *source = NULL;
-                gboolean found = FALSE;
-
-                folder = (((pitip->pobject).format)->format).folder;
-                url = CAMEL_SERVICE (folder->parent_store)->url;
-                uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-
-                groups = e_source_list_peek_groups (pitip->source_lists[pitip->type]);
-                for (l = groups; l && !found; l = l->next) {
-                        ESourceGroup *group;
-                        GSList *sources, *m;
-
-                        group = E_SOURCE_GROUP (l->data);
-                        sources = e_source_group_peek_sources (group);
-                        for (m = sources; m && !found; m = m->next) {
-                               char *source_uri = NULL;
-
-                               source = E_SOURCE (m->data);
-                               source_uri = e_source_get_uri (source);
-                               
-			       if (source_uri)
-				       found = (strcmp (uri, source_uri) == 0);
-                               
-			       g_free (source_uri);                            
-                        }
-                }
-
-                if (found) {
-                        pitip->current_ecal = start_calendar_server (pitip, source, pitip->type, cal_opened_cb, pitip);
-                        set_buttons_sensitive (pitip);
-                } else
-                        find_server (pitip, pitip->comp);
-	
-		g_free (uri);
+		find_server (pitip, pitip->comp);
+		set_buttons_sensitive (pitip);
 	}
 	
 	return TRUE;
