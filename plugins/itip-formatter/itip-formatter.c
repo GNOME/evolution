@@ -435,6 +435,14 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		set_buttons_sensitive (pitip);
 	}
 
+	if (pitip->current_ecal && e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+
+		if (check_is_instance (icalcomp))
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
+		else
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+	}
 
  cleanup:
 	d(printf ("Decreasing itip formatter search count to %d\n", fd->count));

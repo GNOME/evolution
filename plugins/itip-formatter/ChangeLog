@@ -1,3 +1,9 @@
+2006-06-07  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #344022
+	* itip-formatter.c: (find_cal_opened_cb): Check for the
+	static capability and add the recurrence widgets.						  
+
 2006-05-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #340296
