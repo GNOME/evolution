@@ -30,6 +30,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
 
 #include "e-map.h"
 
@@ -177,14 +178,15 @@ e_map_class_init (EMapClass *class)
 	object_class->destroy = e_map_destroy;
 
 	class->set_scroll_adjustments = e_map_set_scroll_adjustments;
-	widget_class->set_scroll_adjustments_signal = gtk_signal_new ("set_scroll_adjustments",
-								      GTK_RUN_LAST,
-								      GTK_CLASS_TYPE (object_class),
-								      G_STRUCT_OFFSET (EMapClass, set_scroll_adjustments),
-								      gtk_marshal_NONE__POINTER_POINTER,
-								      GTK_TYPE_NONE, 2,
-								      GTK_TYPE_ADJUSTMENT,
-								      GTK_TYPE_ADJUSTMENT);
+	widget_class->set_scroll_adjustments_signal = g_signal_new ("set_scroll_adjustments",
+								    G_OBJECT_CLASS_TYPE (gobject_class),
+								    G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+								    G_STRUCT_OFFSET (EMapClass, set_scroll_adjustments),
+								    NULL, NULL,
+								    e_util_marshal_NONE__OBJECT_OBJECT,
+								    G_TYPE_NONE, 2,
+								    GTK_TYPE_ADJUSTMENT,
+								    GTK_TYPE_ADJUSTMENT);
 
 	widget_class->unmap = e_map_unmap;
 	widget_class->realize = e_map_realize;

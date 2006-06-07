@@ -1,3 +1,9 @@
+2006-06-07  Federico Mena Quintero  <federico@novell.com>
+
+	* e-map.c (e_map_class_init): Don't use gtk_signal_new() for the
+	set_scroll_adjustments signal, and use the correct marshaler.
+	Fixes bug #331743.
+
 2006-06-01  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-attachment-bar.c: (e_attachment_bar_attach): Synch method signature
