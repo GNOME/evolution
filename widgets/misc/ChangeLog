@@ -1,3 +1,9 @@
+2006-06-07  Federico Mena Quintero  <federico@novell.com>
+
+	* e-map.c (e_map_class_init): Don't use gtk_signal_new() for the
+	set_scroll_adjustments signal, and use the correct marshaler.
+	Fixes bug #331743.
+
 2006-06-02  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug 343494
