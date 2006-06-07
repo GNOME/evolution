@@ -1580,7 +1580,7 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 		
 	}
 
-	if (limit > 0 && i>(limit-1)) {
+	if (limit > 0 && i>(limit)) {
 
 		
 		if (!strcmp (field, i18n_hdrs[2])) {

@@ -1,3 +1,8 @@
+2006-06-07  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-format-html.c: (efh_format_address): Fixed a minor bug, where the
+	plus symbol appears if the limit equals the address shown.
+
 2006-06-06  Harish Krishnaswamy  <kharish@novell.com>
 
 	* evolution-mail.schemas.in.in: typo correction.
