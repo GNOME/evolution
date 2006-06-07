@@ -1,3 +1,10 @@
+2006-06-07  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder-subscription.c (create_folder_subscription_dialog): 
+	Disabling the OK button and added a callback to change the sensitivity.
+	(user_name_entry_changed_callback): Call-back to enable OK button, on
+	entering username. Fixes #317025.
+
 2006-05-11  Sankar P  <psankar@novell.com>
 
 	* exchange-account-setup.c: (btn_chpass_clicked):
