@@ -303,8 +303,6 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 	}
 }
 
-static GtkWidget *g_label;
-
 /**
  * e_table_header_draw_button:
  * @drawable: Destination drawable.
@@ -335,6 +333,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	int inner_width, inner_height;
 	GdkGC *gc;
 	PangoLayout *layout;
+	static GtkWidget *g_label = NULL;
 
 	g_return_if_fail (drawable != NULL);
 	g_return_if_fail (ecol != NULL);
@@ -347,10 +346,10 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	if (g_label == NULL) {
 		GtkWidget *button = gtk_button_new_with_label("Hi");
 		GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-		g_label = GTK_BIN(button)->child;
 		gtk_container_add (GTK_CONTAINER (window), button);
 		gtk_widget_ensure_style (window);
 		gtk_widget_ensure_style (button);
+		g_label = GTK_BIN(button)->child;
 		gtk_widget_ensure_style (g_label);
 	}
 
