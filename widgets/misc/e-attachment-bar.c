@@ -121,8 +121,10 @@ attachment_destroy (EAttachmentBar *bar, EAttachment *attachment)
 	if (bar->priv->batch_unref)
 		return;
 	
-	if (g_ptr_array_remove (bar->priv->attachments, attachment))
+	if (g_ptr_array_remove (bar->priv->attachments, attachment)) {
+		update (bar);
 		g_signal_emit (bar, signals[CHANGED], 0);
+	}
 }
 
 static void

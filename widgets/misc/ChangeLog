@@ -1,3 +1,8 @@
+2006-06-08  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-attachment-bar.c (attachment_destroy): Call update (bar); the
+	rest of the fix for bug #178631.
+
 2006-06-07  Federico Mena Quintero  <federico@novell.com>
 
 	* e-map.c (e_map_class_init): Don't use gtk_signal_new() for the
@@ -6,8 +11,8 @@
 
 2006-06-01  Harish Krishnaswamy  <kharish@novell.com>
 
-	* e-attachment-bar.c: (e_attachment_bar_attach): Synch method signature
-	with its declaration. This was a build-breaker.
+	* e-attachment-bar.c (e_attachment_bar_attach): Synch method
+	signature with its declaration. This was a build-breaker.
 
 2006-05-26  Jeffrey Stedfast  <fejj@novell.com>
 
