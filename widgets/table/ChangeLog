@@ -1,3 +1,10 @@
+2006-06-08  Carlos Garcia Campos  <carlosgc@gnome.org>
+
+	** Fixes bug #343764
+	* e-table-header-utils.c: (e_table_header_draw_button): 
+	Ensure g_label points to the right widget before accessing to its
+	style.
+
 2006-04-10  Jeff Cai <jeff.cai@sun.com>
 
 	** Fixes bug #327035
