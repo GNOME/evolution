@@ -48,7 +48,7 @@ G_BEGIN_DECLS
 #        define E_I18N_DOMAIN GNOME_EXPLICIT_TRANSLATION_DOMAIN
 #    else
 /* No parentheses allowed here since that breaks string concatenation. */
-#        define E_I18N_DOMAIN PACKAGE
+#        define E_I18N_DOMAIN GETTEXT_PACKAGE
 #    endif
 #    define _(String) e_gettext (String)
 #    ifdef gettext_noop

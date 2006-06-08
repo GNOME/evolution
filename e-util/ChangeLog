@@ -1,3 +1,8 @@
+2006-06-08  Gary Coady  <garycoady@ubuntu.com>
+
+	* e-i18n.h: Use the correct gettext domain for translations.
+	Fixes bug #333003. (Committed by Andre Klapper)
+
 2006-06-02  Tor Lillqvist  <tml@novell.com>
 
 	* e-util.c: Don't need the Win32-only fix_percent_l() after all,
