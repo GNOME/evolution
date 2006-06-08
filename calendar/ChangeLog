@@ -1,3 +1,9 @@
+2006-06-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #341961.
+	* gui/dialogs/event-page.c: (event_page_fill_widgets):
+	Removed unnecessary e_cal_component_clone.
+
 2006-06-05  Li Yuan <li.yuan@sun.com>
 
 	* gui/dialogs/cal-prefs-dialog.glade:
