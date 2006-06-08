@@ -984,9 +984,6 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	cleanup_attendees (priv->deleted_attendees);
 	g_ptr_array_set_size (priv->deleted_attendees, 0);
 	
-	/* Component for cancellation */
-	priv->comp = e_cal_component_clone (comp);
-
 	/* Clean the page */
 	clear_widgets (epage);
 
