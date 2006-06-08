@@ -1,3 +1,8 @@
+2006-06-08  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-attachment-bar.c (attachment_destroy): Call update (bar); the
+	rest of the fix for bug #178631.
+
 2006-06-07  Federico Mena Quintero  <federico@novell.com>
 
 	* e-map.c (e_map_class_init): Don't use gtk_signal_new() for the
@@ -7,15 +12,16 @@
 2006-06-02  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug 343494
-	* e-search-bar.c: (add_button): Use gtk_button_set_image if GTK+ is
+
+	* e-search-bar.c (add_button): Use gtk_button_set_image if GTK+ is
 	2.6 or higher.
 
 2006-05-30  Li Yuan <li.yuan@sun.com>
 
 	Fix for #343280.
-	* e-search-bar.c: (add_button):
-	No need to add label when we use gtk_button_new_from_stock 
-	to create a button.
+
+	* e-search-bar.c (add_button): No need to add label when we use
+	gtk_button_new_from_stock to create a button.
 
 2006-05-26  Jeffrey Stedfast  <fejj@novell.com>
 
