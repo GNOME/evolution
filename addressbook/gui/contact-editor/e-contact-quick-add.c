@@ -138,7 +138,6 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 static void
 quick_add_merge_contact (QuickAdd *qa)
 {
-	quick_add_ref (qa);
 	addressbook_load (qa->book, merge_cb, qa);
 }
 

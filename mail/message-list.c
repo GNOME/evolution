@@ -2083,6 +2083,7 @@ message_list_finalise (GObject *object)
 		message_list->hidden_pool = NULL;
 	}
 
+	g_free(message_list->search);
 	g_free(message_list->frozen_search);
 	g_free(message_list->cursor_uid);
 

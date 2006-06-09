@@ -756,11 +756,13 @@ itip_view_destroy (GtkObject *object)
 		g_free (priv->sentby);
 		g_free (priv->delegator);
 		g_free (priv->attendee);
+		g_free (priv->summary);
 		g_free (priv->location);
 		g_free (priv->status);
 		g_free (priv->comment);
 		g_free (priv->start_tm);
 		g_free (priv->end_tm);
+		g_free (priv->description);
 
 		itip_view_clear_upper_info_items (view);
 		itip_view_clear_lower_info_items (view);

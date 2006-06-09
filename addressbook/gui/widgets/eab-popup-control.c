@@ -208,6 +208,8 @@ eab_popup_control_set_free_form (EABPopupControl *pop, const gchar *txt)
 		gchar *email = g_strndup (lt+1, gt-lt-1);
 		eab_popup_control_set_name (pop, name);
 		eab_popup_control_set_email (pop, email);
+		g_free(name);
+		g_free(email);
 
 		return TRUE;
 	}
