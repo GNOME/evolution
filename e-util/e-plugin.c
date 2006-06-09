@@ -187,6 +187,9 @@ ep_construct(EPlugin *ep, xmlNodePtr root)
 				if (!g_hash_table_lookup_extended(ep_plugins_pending_hooks, class, (void **)&oldclass, (void **)&l)) {
 					oldclass = class;
 					l = NULL;
+ 				}
+				else {
+					g_free(class);
 				}
 				l = g_slist_prepend(l, ep);
 				g_hash_table_insert(ep_plugins_pending_hooks, oldclass, l);
