@@ -1,3 +1,10 @@
+2006-06-09  Li Yuan <li.yuan@sun.com>
+
+	Fixes #341525
+
+	* e-sidebar.c: (button_toggled_callback):
+	If the button has been selected, it is no need to emit the signal.
+
 2006-04-18  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-shell-nm.c (e_shell_network_monitor): Intercept the
