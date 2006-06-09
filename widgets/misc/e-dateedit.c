@@ -1605,7 +1605,7 @@ on_time_entry_key_release		(GtkWidget	*widget,
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
 	}
-	e_date_edit_check_time_changed (dedit);
+
 	return FALSE;
 }
 
