@@ -1286,23 +1286,32 @@ ect_free_state (ECellView *ecell_view, int model_col, int view_col, int row, voi
 
 #define FONT_NAME "Sans Regular"
 
-static GnomeFont *
-get_font_for_size (double h)
+static PangoFontDescription *
+get_font_description_for_size (double h)
 {
-	GnomeFontFace *face;
-	GnomeFont *font;
-	double asc, desc, size;
+	PangoFontDescription *font_des = pango_font_description_new ();
+	pango_font_description_set_family (font_des, FONT_NAME);
+	pango_font_description_set_size (font_des, h * PANGO_SCALE);
+	return font_des;
+}
 
-	face = gnome_font_face_find (FONT_NAME);
+static void
+get_font_size (PangoLayout *layout, PangoFontDescription *font, const char *text,
+		double *width, double *height)
+{
+	int w;
+	int h;
 
-	asc = gnome_font_face_get_ascender (face);
-	desc = abs (gnome_font_face_get_descender (face));
-	size = h * 1000 / (asc + desc);
+	g_return_if_fail (layout != NULL);
+	pango_layout_set_font_description (layout, font);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_width (layout, -1);
+	pango_layout_set_indent (layout, 0);
 
-	font = gnome_font_find_closest (FONT_NAME, size);
+	pango_layout_get_size (layout, &w, &h);
 
-	g_object_unref (face);
-	return font;
+	*width = (double)w/(double)PANGO_SCALE;
+	*height = (double)h/(double)PANGO_SCALE;
 }
 
 static void
@@ -1310,13 +1319,23 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
-	GnomeFont *font = get_font_for_size (16);
+	PangoFontDescription *font_des = get_font_description_for_size (16);
+	PangoLayout *layout;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	double ty, ly, text_width;
+	double ty, ly, text_width, text_height;
+	ECellTextView *ectView = (ECellTextView *)ecell_view;
+	GtkWidget *canvas = GTK_WIDGET(ectView->canvas); 
+	PangoDirection dir;
 	gboolean strikeout, underline;
 
 	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
+	layout = gnome_print_pango_create_layout (context);
+	pango_layout_set_font_description (layout, font_des);
+	pango_layout_set_text (layout, string, -1);
+	get_font_size (layout, font_des, string, &text_width, &text_height);
 	gnome_print_gsave(context);
 	if (gnome_print_moveto(context, 2, 2) == -1)
 				/* FIXME */;
@@ -1331,38 +1350,54 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	if (gnome_print_clip(context) == -1)
 				/* FIXME */;
 
-	ty = (height - gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2;
-	text_width = gnome_font_get_width_utf8 (font, string);
+	pango_context = gtk_widget_get_pango_context (canvas);
+	font_metrics = pango_context_get_metrics (pango_context,
+		canvas->style->font_desc, pango_context_get_language(pango_context));
+	ty =  (double)(text_height - pango_font_metrics_get_ascent (font_metrics) - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(double)PANGO_SCALE;
 
 	strikeout = ect->strikeout_column >= 0 && row >= 0 &&
 		e_table_model_value_at (ecell_view->e_table_model, ect->strikeout_column, row);
 	underline = ect->underline_column >= 0 && row >= 0 &&
 		e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row);
 
+	dir = pango_find_base_dir (string, strlen(string));
 	if (underline) {
-		ly = ty + gnome_font_get_underline_position (font);
+		ly = ty + (double)pango_font_metrics_get_underline_position (font_metrics)/(double)PANGO_SCALE;
 		gnome_print_newpath (context);
-		gnome_print_moveto (context, 2, ly);
-		gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly);
-		gnome_print_setlinewidth (context, gnome_font_get_underline_thickness (font));
+		if (dir == PANGO_DIRECTION_RTL) {
+			gnome_print_moveto (context, width - 2, ly + text_height - 4);
+			gnome_print_lineto (context, MAX (width - 2 - text_width, 2), ly + text_height - 4);
+		}
+		else {
+			gnome_print_moveto (context, 2, ly + text_height - 4);
+			gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly + text_height - 4);
+		}
+		gnome_print_setlinewidth (context, (double)pango_font_metrics_get_underline_thickness (font_metrics)/(double)PANGO_SCALE);
 		gnome_print_stroke (context);
 	}
 
 	if (strikeout) {
-		ly = ty + (gnome_font_get_ascender (font)  - gnome_font_get_underline_thickness (font))/ 2.0;
+		ly = ty + (double)pango_font_metrics_get_strikethrough_position (font_metrics)/(double)PANGO_SCALE;
 		gnome_print_newpath (context);
-		gnome_print_moveto (context, 2, ly);
-		gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly);
-		gnome_print_setlinewidth (context, gnome_font_get_underline_thickness (font));
+		if (dir == PANGO_DIRECTION_RTL) {
+			gnome_print_moveto (context, width - 2, ly + text_height - 4);
+			gnome_print_lineto (context, MAX (width - 2 - text_width, 2), ly + text_height - 4);
+		}
+		else {
+			gnome_print_moveto (context, 2, ly + text_height - 4);
+			gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly + text_height - 4);
+		}
+		gnome_print_setlinewidth (context, (double)pango_font_metrics_get_strikethrough_thickness (font_metrics)/(double)PANGO_SCALE);
 		gnome_print_stroke (context);
 	}
 
-	gnome_print_moveto(context, 2, ty);
-	gnome_print_setfont(context, font);
-	gnome_print_show(context, string);
+	gnome_print_moveto(context, 2, text_height + 2);
+	pango_layout_set_width (layout, (width - 4)*PANGO_SCALE);
+	gnome_print_pango_layout(context, layout);
+	pango_font_description_free (font_des);
+	g_object_unref (layout);
 	gnome_print_grestore(context);
 	e_cell_text_free_text(ect, string);
-	g_object_unref (font);
 }
 
 static gdouble
@@ -1374,8 +1409,10 @@ ect_print_height (ECellView *ecell_view, GnomePrintContext *context,
 	 * Font size is 16 by default. To leave some margin for cell 
 	 * text area, 2 for footer, 2 for header, actual print height 
 	 * should be 16 + 4.
+	 * Height of some special font is much higher than others, 
+	 * such	as Arabic. So leave some more margin for cell.
 `	 */
-	return 16 + 4;
+	return 16 + 8;
 }
 
 static int
