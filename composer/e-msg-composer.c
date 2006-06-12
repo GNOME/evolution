@@ -2900,7 +2900,7 @@ attachment_guess_mime_type (const char *file_name)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult result;
-	char *type = NULL;
+	char *type = "";
 
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (file_name, info,

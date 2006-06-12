@@ -1,3 +1,9 @@
+2006-06-12  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	Fixes bug #177416 on bnc
+	* e-msg-composer.c: (attachment_guess_mime_type):
+	initialise type to "" and not NULL.
+	
 2006-05-26  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-msg-composer.c (drop_action): If 'str' is empty, continue
