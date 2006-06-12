@@ -57,7 +57,9 @@
 #ifdef HAVE_LDAP
 #ifndef G_OS_WIN32
 #include <ldap.h>
+#ifndef SUNLDAP
 #include <ldap_schema.h>
+#endif
 #else
 #include <winldap.h>
 #include "openldap-extract.h"
@@ -267,7 +269,7 @@ addressbook_ldap_init (GtkWidget *window, ESource *source)
 	}
 
 	ldap_error = ldap_set_option (ldap, LDAP_OPT_PROTOCOL_VERSION, &protocol_version);
-	if (LDAP_OPT_SUCCESS != ldap_error)
+	if (LDAP_SUCCESS != ldap_error)
 		g_warning ("failed to set protocol version to LDAPv3");
 
 	/* XXX do TLS if it's configured in */

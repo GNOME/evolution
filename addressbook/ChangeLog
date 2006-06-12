@@ -1,3 +1,10 @@
+2006-06-12  simon.zheng  <simon.zheng@sun.com>
+
+        Fix for #336453
+
+	* gui/component/addressbook-config.c: (addressbook_ldap_init):
+        Add SunLDAP library support - a variant of Netscape LDAP.
+
 2006-06-12  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c : If company name
