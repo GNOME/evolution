@@ -22,11 +22,7 @@ libgal_a11y_etable_la_SOURCES =		\
 	gal-a11y-e-table-click-to-add.c		\
 	gal-a11y-e-table-column-header.c	\
 	gal-a11y-e-table-click-to-add-factory.c	\
-	gal-a11y-e-table-factory.c		
-
-libgal_a11y_etableincludedir = $(privincludedir)/a11y/e-table
-
-libgal_a11y_etableinclude_HEADERS =		\
+	gal-a11y-e-table-factory.c		\
 	gal-a11y-e-tree.h			\
 	gal-a11y-e-tree-factory.h		\
 	gal-a11y-e-cell.h			\
