@@ -1,5 +1,12 @@
 2006-06-12  Devashish Sharma <sdevashish@novell.com>
 
+	* gui/contact-editor/e-contact-editor.c : If company name
+	is set and full name and file as are not set, set company name
+	as full name and fle name.
+	Fixes Bug #206320, 342903
+	
+2006-06-12  Devashish Sharma <sdevashish@novell.com>
+
 	* gui/contact-editor/e-contact-quick-add.c :Fix for Bug #341465
 
 2006-06-09  Chris Heath <chris@heathens.co.nz>

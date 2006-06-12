@@ -607,15 +607,23 @@ sensitize_ok (EContactEditor *ce)
 	gboolean   allow_save;
 	GtkWidget *entry_fullname;
 	GtkWidget *entry_file_as;
+	GtkWidget *company_name;
 	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
 	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	company_name = glade_xml_get_widget (ce->gui, "entry-company");
 	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
 	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
+	const char *company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));
 
 	allow_save = ce->target_editable && ce->changed ? TRUE : FALSE;
 
-	if (!strcmp (name_entry_string, "") || !strcmp (file_as_entry_string, ""))
-		allow_save = FALSE;
+	if (!strcmp (name_entry_string, "") || !strcmp (file_as_entry_string, "")) {
+		if (strcmp (company_name_string , "")) {
+			allow_save = TRUE;
+		}
+		else
+			allow_save = FALSE;
+	}
 	widget = glade_xml_get_widget (ce->gui, "button-ok");
 	gtk_widget_set_sensitive (widget, allow_save);
 }
@@ -2978,6 +2986,24 @@ save_contact (EContactEditor *ce, gboolean should_close)
 		if (e_error_run (GTK_WINDOW (ce->app), "addressbook:prompt-move", NULL) == GTK_RESPONSE_NO)
 			return;
 	}
+
+	GtkWidget *entry_fullname;
+	GtkWidget *entry_file_as;
+	GtkWidget *company_name;
+	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
+	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	company_name = glade_xml_get_widget (ce->gui, "entry-company");
+	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
+	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
+	const char *company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));
+
+	if (strcmp (company_name_string , "")) {
+		if (!strcmp (name_entry_string, "")) 
+			gtk_entry_set_text (GTK_ENTRY (entry_fullname), company_name_string);
+		if (!strcmp (file_as_entry_string, ""))
+			gtk_entry_set_text (GTK_ENTRY (entry_file_as), company_name_string);
+	}
+
 	extract_all (ce);
 	
 	if (!e_contact_editor_is_valid (EAB_EDITOR (ce))) {
