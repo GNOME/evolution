@@ -1,10 +1,15 @@
+2006-06-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS: Release updates.
+	* configure.in: Bump version. Evolution 2.7.3 release.
+
 2006-06-12  simon.zheng  <simon.zheng@sun.com>
 
-        Fix for #336453
+	Fix for #336453
 
 	* acinclude.m4:
 	* configure.in:
-        Add SunLDAP library support - a variant of Netscape LDAP.
+	Add SunLDAP library support - a variant of Netscape LDAP.
 
 2006-06-02 Iain Buchanan <iaindb@netspace.net.au>
 
