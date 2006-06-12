@@ -1,3 +1,11 @@
+2006-06-12  Wang Xin  <jedy.wang@sun.com>
+
+	**Fixes bug #344630
+	Change key confirm_expunge to confirm_purge.
+
+	* gui/apps_evolution_calendar.schemas.in.in:
+	* gui/migration.c:
+
 2006-06-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #341961.

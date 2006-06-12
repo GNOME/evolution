@@ -101,7 +101,7 @@ static e_gconf_map_t calendar_tasks_colours_map[] = {
 static e_gconf_map_t calendar_other_map[] = {
 	/* /Calendar/Other */
 	{ "ConfirmDelete", "calendar/prompts/confirm_delete", E_GCONF_MAP_BOOL },
-	{ "ConfirmExpunge", "calendar/prompts/confirm_expunge", E_GCONF_MAP_BOOL },
+	{ "ConfirmExpunge", "calendar/prompts/confirm_purge", E_GCONF_MAP_BOOL },
 	{ "UseDefaultReminder", "calendar/other/use_default_reminder", E_GCONF_MAP_BOOL },
 	{ "DefaultReminderInterval", "calendar/other/default_reminder_interval", E_GCONF_MAP_INT },
 	{ "DefaultReminderUnits", "calendar/other/default_reminder_units", E_GCONF_MAP_STRING },
