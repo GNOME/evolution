@@ -1,3 +1,7 @@
+2006-06-12  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-quick-add.c :Fix for Bug #341465
+
 2006-06-09  Chris Heath <chris@heathens.co.nz>
 
 	* gui/widgets/eab-popup-control.c (eab_popup_control_set_free_form): Fix
