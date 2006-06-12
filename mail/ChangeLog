@@ -1,3 +1,8 @@
+2006-06-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* message-list.etspec: Corrected the sortable parameter of the message
+	list correctly.
+
 2006-06-29  Chris Heath <chris@heathens.co.nz>
 
 	* message-list.c (message_list_finalise): Fix memory leak.
