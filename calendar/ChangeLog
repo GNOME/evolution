@@ -1,3 +1,9 @@
+2006-06-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/alarm-notify/alarm-queue.c: (remove_queued_alarm),
+	(alarm_trigger_cb), (tray_list_remove_async): 	Fixed atleast
+	6 crashes, that were in bnc.
+	
 2006-06-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #341961.

@@ -309,7 +309,7 @@ lookup_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
 /* Removes an alarm from the list of alarms of a component.  If the alarm was
  * the last one listed for the component, it removes the component itself.
  */
-static void
+static gboolean
 remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 		     gboolean free_object, gboolean remove_alarm)
 {
@@ -325,7 +325,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	}
 
 	if (!l)
-		return;
+		return FALSE;
 
 	cqa->queued_alarms = g_slist_delete_link (cqa->queued_alarms, l);
 
@@ -343,7 +343,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	 */
 
 	if (cqa->queued_alarms != NULL)
-		return;
+		return FALSE;
 
 	d(printf("%s:%d (remove_queued_alarm)) - Last Component. Removing CQA- Free=%d\n",__FILE__, __LINE__, free_object));
 	if (free_object) {
@@ -355,6 +355,8 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 		e_cal_component_alarms_free (cqa->alarms);
 		cqa->alarms = NULL;
 	}
+
+	return TRUE;
 }
 
 /* Callback used when an alarm triggers */
@@ -385,10 +387,8 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	 */
 
 	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
-	g_assert (alarm != NULL);
-
-	/* Show it independent of what the notification is?*/
-	display_notification (trigger, cqa, alarm_id, TRUE);
+	if (!alarm)
+		 return;
 
 	e_cal_component_alarm_get_action (alarm, &action);
 	e_cal_component_alarm_free (alarm);
@@ -402,6 +402,7 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 #ifdef HAVE_LIBNOTIFY
 		popup_notification (trigger, cqa, alarm_id, TRUE);
 #endif
+		display_notification (trigger, cqa, alarm_id, TRUE);		
 		break;
 
 	case E_CAL_COMPONENT_ALARM_EMAIL:
@@ -1119,11 +1120,15 @@ tray_list_remove_async(EThread *e, AlarmMsg *msg, void *data)
 	
 		if (!tray_data->snooze_set){
 			GList *temp = list->next;
+			gboolean status;
+			
 			tray_icons_list = g_list_remove_link (tray_icons_list, list);
-			remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, FALSE, TRUE);
-			g_hash_table_remove (tray_data->cqa->parent_client->uid_alarms_hash, tray_data->cqa->id);
-			e_cal_component_free_id (tray_data->cqa->id);
-			g_free (tray_data->cqa);			
+			status = remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, FALSE, TRUE);
+			if (status) {
+				g_hash_table_remove (tray_data->cqa->parent_client->uid_alarms_hash, tray_data->cqa->id);
+				e_cal_component_free_id (tray_data->cqa->id);
+				g_free (tray_data->cqa);
+			}
 			free_tray_icon_data (tray_data);
 			tray_data = NULL;
 			g_list_free_1 (list);
