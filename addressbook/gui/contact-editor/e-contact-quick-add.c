@@ -344,7 +344,7 @@ build_quick_add_dialog (QuickAdd *qa)
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
-	label = gtk_label_new_with_mnemonic (_("E-_mail"));
+	label = gtk_label_new_with_mnemonic (_("E_mail"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
 	gtk_table_attach (table, label,
