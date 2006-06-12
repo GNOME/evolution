@@ -444,6 +444,30 @@ msg_ldap="yes"
 fi # Win32
 
 dnl **************************************************
+dnl SunLDAP support, but if OpenLDAP support, skip check SunLDAP.
+dnl **************************************************
+if test "$with_openldap" = no ; then
+	EVO_SUNLDAP_CHECK(no)
+	case $with_sunldap in
+	no)
+               msg_ldap=no
+               ;;
+       *)
+               case $with_static_sunldap in
+               yes)
+                       msg_ldap="$with_sunldap (static)"
+                       ;;
+               *)
+                       msg_ldap="$with_sunldap (dynamic)"
+                       ;;
+               esac
+       esac
+else
+       with_sunldap=no
+fi
+AM_CONDITIONAL(SUNLDAP, test "$with_sunldap" != no)
+
+dnl **************************************************
 dnl NNTP support.
 dnl **************************************************
 AC_ARG_ENABLE(nntp, 
