@@ -335,6 +335,15 @@ proxy_soap_login (char *email)
 		e_error_run (NULL, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
 		return;
 	}	
+
+	/* README: There should not be the weird scenario of the proxy itself configured as an account.
+	   If so, it is violating the (li)unix philosophy of User creation. So dont care about that scenario*/
+
+	if (e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, email) != NULL) { 
+		e_error_run (NULL, "org.gnome.evolution.proxy-login:already-loggedin", email, NULL);
+		g_free (name);
+		return;
+	}
 	
 	srcAccount = pld->account;
 	cnc = proxy_login_get_cnc(srcAccount);
