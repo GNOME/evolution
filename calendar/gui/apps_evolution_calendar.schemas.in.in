@@ -420,8 +420,8 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/calendar/prompts/confirm_expunge</key>
-      <applyto>/apps/evolution/calendar/prompts/confirm_expunge</applyto>
+      <key>/schemas/apps/evolution/calendar/prompts/confirm_purge</key>
+      <applyto>/apps/evolution/calendar/prompts/confirm_purge</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
       <default>true</default>
