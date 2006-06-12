@@ -350,6 +350,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		gtk_widget_ensure_style (window);
 		gtk_widget_ensure_style (button);
 		g_label = GTK_BIN(button)->child;
+		g_object_add_weak_pointer (G_OBJECT (g_label), &g_label);
 		gtk_widget_ensure_style (g_label);
 	}
 
