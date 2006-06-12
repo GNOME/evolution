@@ -1,3 +1,9 @@
+2006-06-12  Ed Catmur  <ed@catmur.co.uk>
+
+	** Fixes bug #343764 now entirely
+	* e-table-header-utils.c: (e_table_header_draw_button): 
+	Adding a weak reference to avoid crashing.
+
 2006-06-08  Carlos Garcia Campos  <carlosgc@gnome.org>
 
 	** Fixes bug #343764
