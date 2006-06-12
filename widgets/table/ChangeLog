@@ -1,3 +1,15 @@
+2006-06-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Committing a fix for sorting in the vertical view.
+
+	* e-table-column-specification.c:
+	(e_table_column_specification_load_from_node):
+	* e-table-column-specification.h:
+	* e-table-header-item.c: (ethi_popup_sort_ascending),
+	(ethi_popup_sort_descending), (ethi_header_context_menu),
+	(ethi_change_sort_state):
+	* e-table-utils.c: (et_col_spec_to_col):
+
 2006-06-08  Carlos Garcia Campos  <carlosgc@gnome.org>
 
 	** Fixes bug #343764

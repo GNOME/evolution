@@ -116,6 +116,7 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 	etcs->cell          = e_xml_get_string_prop_by_name (node, "cell");
 	etcs->compare       = e_xml_get_string_prop_by_name (node, "compare");
 	etcs->search        = e_xml_get_string_prop_by_name (node, "search");
+	etcs->sortable	    = e_xml_get_string_prop_by_name (node, "sortable");
 	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, "priority", 0);
 
 	if (etcs->title == NULL)
