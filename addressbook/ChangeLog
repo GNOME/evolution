@@ -1,3 +1,9 @@
+2006-06-13  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #342646
+	* gui/widgets/e-addressbook-view.c: Plugged memory leak.
+	* gui/widgets/e-minicard-view.c: Ditto.
+
 2006-06-13  Oswald Rodrigues <ozzy_rodrigues@yahoo.com>
 
 	* gui/contact-editor/e-contact-quick-add.c (build_quick_add_dialog):

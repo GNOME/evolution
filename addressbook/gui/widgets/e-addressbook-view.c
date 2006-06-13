@@ -1150,6 +1150,7 @@ table_drag_data_get (ETable             *table,
 					selection_data->target,
 					8,
 					value, strlen (value));
+		g_free (value);
 		break;
 	}
 	case DND_TARGET_TYPE_SOURCE_VCARD: {
@@ -1161,6 +1162,7 @@ table_drag_data_get (ETable             *table,
 					selection_data->target,
 					8,
 					value, strlen (value));
+		g_free (value);
 		break;
 	}
 	}
@@ -1973,7 +1975,7 @@ selection_get (GtkWidget *invisible,
 
 	gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
 				8, value, strlen (value));
-				
+	g_free (value);
 }
 
 static void
