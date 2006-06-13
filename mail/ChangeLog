@@ -1,3 +1,8 @@
+2006-06-14  Tor Lillqvist  <tml@novell.com>
+
+	* em-account-editor.c (emae_check_complete): g_get_real_name()
+	returns UTF-8 on Win32.
+
 2006-06-09  Chris Heath <chris@heathens.co.nz>
 
 	* message-list.c (message_list_finalise): Fix memory leak.
