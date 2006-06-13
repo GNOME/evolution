@@ -48,6 +48,11 @@
   <_secondary>Cannot display folders.</_secondary>
  </error>
 
+ <error id="account-offline-generic" type="info">
+  <_primary>Exchange Account is offline.</_primary>
+  <_secondary>Cannot perform the operation.</_secondary>
+ </error>
+
  <error id="password-incorrect" type="error">
   <_primary>Could not authenticate to server.</_primary>
   <_secondary>Make sure the username and password are correct and try again.</_secondary>

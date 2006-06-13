@@ -446,12 +446,7 @@ org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 		g_warning ("Config listener not found");
 		return;
 	} else if (mode == OFFLINE_MODE) {
-		g_warning ("Unsubscribe to Other User's Folder is not allowed in Offline mode\n");
-		/* FIXME:
-		   I think throwing an error dialog is not allowed
-		   because of UI freeze.
-		   e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
-		*/
+		e_error_run (NULL, ERROR_DOMAIN ":account-offline-generic", NULL);
 		return;
 	}	
 
@@ -506,12 +501,7 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 		g_warning ("Config listener not found");
 		return;
 	} else if (mode == OFFLINE_MODE) {
-		g_warning ("Unsubscribe to Other User's Folder is not allowed in Offline mode\n");
-		/* FIXME:
-		   I think throwing an error dialog is not allowed 
-		   because of UI freeze.
-		   e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
-		*/
+		e_error_run (NULL, ERROR_DOMAIN ":account-offline-generic", NULL);
 		return;
 	}	
 
@@ -562,12 +552,11 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target,
 		return;
 	}	
 	else if (mode == OFFLINE_MODE) {
-		g_warning ("Subscribe to Other User's Folder is not allowed in Offline mode\n");
-		/* FIXME:
-		   I think throwing an error dialog is not allowed 
-		   because of UI freeze.
-		   e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
-		*/
+		/* Translators: this error code can be used for any operation 
+		 * (like subscribing to other user's folders, unsubscribing 
+		 * etc,) which can not be performed in offline mode 
+		 */
+		e_error_run (NULL, ERROR_DOMAIN ":account-offline-generic", NULL);
 		return;
 	}	
 

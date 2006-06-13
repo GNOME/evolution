@@ -1,3 +1,14 @@
+2006-06-13  Sushma Rai  <rsushma@novell.com>
+
+	* org-gnome-exchange-operations.error.xml: defined a new error code and
+	error string, for displaying in offline state.
+	
+	* exchange-folder.c (org_gnome_exchange_folder_ab_unsubscribe): Display
+	proper error in offline mode.
+	(org_gnome_exchange_folder_unsubscribe): Similar.
+	(org_gnome_exchange_folder_subscription): Similar. 
+	Fixes #344270.
+
 2006-06-07  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-folder-subscription.c (create_folder_subscription_dialog): 
