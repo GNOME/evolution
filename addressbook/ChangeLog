@@ -1,3 +1,9 @@
+2006-06-13  Oswald Rodrigues <ozzy_rodrigues@yahoo.com>
+
+	* gui/contact-editor/e-contact-quick-add.c (build_quick_add_dialog):
+	created patch to make _F,_m,_S mnemonics in contact-quick add 
+	dialog work. Fixes bug #332347.
+
 2006-06-12  simon.zheng  <simon.zheng@sun.com>
 
         Fix for #336453
