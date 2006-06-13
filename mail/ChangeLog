@@ -1,3 +1,8 @@
+2006-06-13  Andre Klapper <a9016009@gmx.de>
+
+	* mail.error.xml: changing string "Ximian Evolution" to "Evolution".
+	Fixes bug #344298.
+
 2006-06-13  Tor Lillqvist  <tml@novell.com>
 
 	* em-format-html.c (efh_format_address): Fix build on Win32, where

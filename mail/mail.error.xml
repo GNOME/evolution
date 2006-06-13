@@ -167,12 +167,12 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
   <error id="no-delete-special-folder" type="error">
     <_primary>Cannot delete system folder &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
+    <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
   </error>
 
   <error id="no-rename-special-folder" type="error">
     <_primary>Cannot rename or move system folder &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
+    <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
   </error>
 
   <error id="ask-delete-folder" type="question" default="GTK_RESPONSE_CANCEL">
