@@ -132,6 +132,18 @@ folder_name_entry_changed_callback (GtkEditable *editable,
 }
 
 static void
+user_name_entry_changed_callback (GtkEditable *editable, void *data)
+{
+	GtkDialog *dialog = GTK_DIALOG (data);
+	const char *user_name_text = gtk_entry_get_text (GTK_ENTRY (editable));
+
+	if (*user_name_text == '\0')
+		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
+	else
+		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, TRUE);
+}
+
+static void
 setup_server_option_menu (GladeXML *glade_xml, gchar *mail_account)
 {
 	GtkWidget *widget;
@@ -263,7 +275,7 @@ create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname)
 {
 	ENameSelector *name_selector;
 	GladeXML *glade_xml;
-	GtkWidget *dialog;
+	GtkWidget *dialog, *ok_button;
 	SubscriptionInfo *subscription_info;
 
 	subscription_info = g_new0 (SubscriptionInfo, 1);
@@ -281,6 +293,12 @@ create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname)
 	subscription_info->name_selector_widget = setup_name_selector (glade_xml, &name_selector);
 	subscription_info->name_selector = name_selector;
 	gtk_widget_grab_focus (subscription_info->name_selector_widget);
+
+	ok_button = glade_xml_get_widget (glade_xml, "button1");
+	gtk_widget_set_sensitive (ok_button, FALSE);
+	g_signal_connect (subscription_info->name_selector_widget, "changed",
+			  G_CALLBACK (user_name_entry_changed_callback), dialog);
+
 	setup_server_option_menu (glade_xml, account->account_name);
 	setup_folder_name_combo (glade_xml, fname);
 	subscription_info->folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
