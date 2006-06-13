@@ -143,6 +143,11 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	
+	
+	if (!funcinfo) {
+		 GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
+		 gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+	}
 
 	g_return_if_fail (funcinfo);
 
