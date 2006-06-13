@@ -1560,19 +1560,19 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 			if (!strcmp (field, i18n_hdrs[2])) {
 				
 				g_string_append (out, "<a href=\"##TO##\">...</a>");
-				str = g_strdup ("<a href=\"##TO##\"><img src="EVOLUTION_ICONSDIR"\"/plus.png\" /></a>  ");
+				str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/plus.png\" /></a>  ", EVOLUTION_ICONSDIR);
 				
 				return str;
 			}
 			else if (!strcmp (field, i18n_hdrs[3])) {
 				g_string_append (out, "<a href=\"##CC##\">...</a>");
-				str = g_strdup ("<a href=\"##CC##\"><img src="EVOLUTION_ICONSDIR"\"/plus.png\" /></a>  ");
+				str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/plus.png\" /></a>  ", EVOLUTION_ICONSDIR);
 
 				return str;
 			}
 			else if (!strcmp (field, i18n_hdrs[4])) {
 				g_string_append (out, "<a href=\"##BCC##\">...</a>");
-				str = g_strdup ("<a href=\"##BCC##\"><img src="EVOLUTION_ICONSDIR"\"/plus.png\" /></a>  ");
+				str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/plus.png\" /></a>  ", EVOLUTION_ICONSDIR);
 
 				return str;
 			}
@@ -1584,13 +1584,13 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 
 		
 		if (!strcmp (field, i18n_hdrs[2])) {
-			str = g_strdup_printf ("<a href=\"##TO##\"><img src="EVOLUTION_ICONSDIR"\"/minus.png\" /></a>  ");
+			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);
 		}
 		else if (!strcmp (field, i18n_hdrs[3])) {
-			str = g_strdup ("<a href=\"##CC##\"><img src="EVOLUTION_ICONSDIR"\"/minus.png\" /></a>  ");
+			str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);
 		}
 		else if (!strcmp (field, i18n_hdrs[4])) {
-			str = g_strdup ("<a href=\"##BCC##\"><img src="EVOLUTION_ICONSDIR"\"/minus.png\" /></a>  ");
+			str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);
 		}
 	}
 
