@@ -95,6 +95,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 					selection_data->target,
 					8,
 					value, strlen (value));
+		g_free (value);
 		break;
 	}
 	case DND_TARGET_TYPE_SOURCE_VCARD_LIST: {
@@ -108,6 +109,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 					selection_data->target,
 					8,
 					value, strlen (value));
+		g_free (value);
 		break;
 	}
 	}
