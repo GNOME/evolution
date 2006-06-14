@@ -491,10 +491,10 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 			   itself, just insert width/height tags in
 			   the html */
 			gdk_pixbuf_loader_write (loader, photo->data, photo->length, NULL);
+			gdk_pixbuf_loader_close (loader, NULL);
 			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 			if (pixbuf)
-				gdk_pixbuf_ref (pixbuf);
-			gdk_pixbuf_loader_close (loader, NULL);
+				g_object_ref (pixbuf);
 			g_object_unref (loader);
 			if (pixbuf) {
 				int max_dimension;
