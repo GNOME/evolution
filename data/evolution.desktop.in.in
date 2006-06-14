@@ -7,8 +7,11 @@ Exec=evolution-@BASE_VERSION@
 Icon=evolution
 Terminal=false
 Type=Application
-Categories=GNOME;GTK;Application;Office;X-Red-Hat-Base;
+Categories=GNOME;GTK;Office;Email;Calendar;ContactManagement;X-Red-Hat-Base;
 StartupNotify=true
+X-GNOME-Bugzilla-Bugzilla=GNOME
 X-GNOME-Bugzilla-Product=Evolution
+X-GNOME-Bugzilla-Component=Miscellaneous
+X-GNOME-Bugzilla-Version=@BASE_VERSION@.x
 X-GNOME-Bugzilla-OtherBinaries=evolution-data-server-@DATASERVER_EXEC_VERSION@;evolution-exchange-storage;evolution-alarm-notify;
 
