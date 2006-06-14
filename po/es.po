@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-12 19:13+0200\n"
-"PO-Revision-Date: 2006-06-12 19:15+0200\n"
+"POT-Creation-Date: 2006-06-14 15:39+0200\n"
+"PO-Revision-Date: 2006-06-14 15:40+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@tecknolabs.com>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -525,7 +525,7 @@ msgid "_Discard"
 msgstr "_Descartar"
 
 #: ../addressbook/addressbook.error.xml.h:35
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "{0}"
 msgstr "{0}"
 
@@ -567,7 +567,7 @@ msgstr "Configure el autocompletado aquí"
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1338
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:586
+#: ../plugins/exchange-operations/exchange-folder.c:575
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -1472,7 +1472,7 @@ msgstr "Dirección"
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
-#: ../addressbook/gui/widgets/e-minicard-view.c:520
+#: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:175
 #: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-entry.c:1312
@@ -2596,11 +2596,11 @@ msgstr "_Editar todo"
 msgid "_Full name"
 msgstr "Nombre _completo"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:348
 msgid "E_mail"
 msgstr "_Correo-e"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:357
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:359
 msgid "_Select Address Book"
 msgstr "_Seleccione la libreta de direcciones"
 
@@ -2790,7 +2790,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
 #: ../addressbook/gui/widgets/e-addressbook-view.c:223
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
-#: ../addressbook/gui/widgets/e-minicard-view.c:506
+#: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
 msgstr "Libro"
 
@@ -2881,7 +2881,7 @@ msgstr[1] "%d contactos"
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
 #: ../addressbook/gui/widgets/e-addressbook-view.c:237
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
-#: ../addressbook/gui/widgets/e-minicard-view.c:513
+#: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
 msgstr "Consulta"
 
@@ -2917,7 +2917,7 @@ msgid "Type"
 msgstr "Tipo"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:834
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2067
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2069
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Guardar como VCard…"
@@ -2999,13 +2999,13 @@ msgid "P_aste"
 msgstr "_Pegar"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1601
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1603
 #: ../calendar/gui/cal-search-bar.c:343
 msgid "Any Category"
 msgstr "Cualquier categoría"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1802
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1804
 msgid "Print cards"
 msgstr "Imprimir tarjetas"
 
@@ -3236,7 +3236,7 @@ msgstr "Longitud máx. del campo"
 msgid "Column Width"
 msgstr "Anchura de columna"
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:172
+#: ../addressbook/gui/widgets/e-minicard-view.c:174
 msgid ""
 "\n"
 "\n"
@@ -3250,7 +3250,7 @@ msgstr ""
 "\n"
 "o pulse dos veces aquí para crear un contacto nuevo."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:175
+#: ../addressbook/gui/widgets/e-minicard-view.c:177
 msgid ""
 "\n"
 "\n"
@@ -3264,7 +3264,7 @@ msgstr ""
 "\n"
 "Pulse dos veces aquí para crear un contacto nuevo."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:180
+#: ../addressbook/gui/widgets/e-minicard-view.c:182
 msgid ""
 "\n"
 "\n"
@@ -3274,7 +3274,7 @@ msgstr ""
 "\n"
 "Buscar contacto."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:182
+#: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
 "\n"
 "\n"
@@ -3284,7 +3284,7 @@ msgstr ""
 "\n"
 "No hay elementos para mostrar en esta vista."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:499
+#: ../addressbook/gui/widgets/e-minicard-view.c:501
 msgid "Adapter"
 msgstr "Adaptador"
 
@@ -3409,7 +3409,7 @@ msgstr "No hay definido un contacto para sí mismo"
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
 #. E_BOOK_ERROR_PERMISSION_DENIED
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "Permission denied"
 msgstr "Permiso denegado"
 
@@ -3434,7 +3434,7 @@ msgstr "Protocolo no implementado"
 #: ../calendar/gui/e-cal-component-preview.c:234
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:657
-#: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/print.c:2372
+#: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/print.c:2385
 msgid "Canceled"
 msgstr "Cancelado"
 
@@ -4537,11 +4537,11 @@ msgstr "Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:526 ../calendar/gui/e-tasks.c:1348
-#: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
+#: ../calendar/gui/print.c:1840 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:483
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:592
+#: ../plugins/exchange-operations/exchange-folder.c:581
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:387
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:594
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -5185,7 +5185,7 @@ msgstr "El lugar contiene"
 msgid "Unmatched"
 msgstr "No coincidente"
 
-#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2509
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2522
 #: ../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:20
 #: ../ui/evolution-mail-message.xml.h:74 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
@@ -5196,7 +5196,7 @@ msgstr "Imprimir"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2111
-#: ../plugins/exchange-operations/exchange-folder.c:580
+#: ../plugins/exchange-operations/exchange-folder.c:569
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
@@ -5599,140 +5599,147 @@ msgstr ""
 msgid "Pick a color"
 msgstr "Elija un color"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#. Sunday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "S_un"
 msgstr "_Dom"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "Sábado"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Select the calendars for alarm notification"
 msgstr "Seleccione los calendarios para las alarmas de notificación"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Sh_ow a reminder"
 msgstr "M_ostrar un recordatorio"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Show week _numbers in date navigator"
 msgstr "Mostrar los _números de las semanas en el navegador de fechas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 #: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "Domingo"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "T_asks due today:"
 msgstr "Ta_reas que vencen hoy:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#. Thursday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "T_hu"
 msgstr "_Jue"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "Template:"
 msgstr "Plantilla:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #: ../calendar/gui/dialogs/recurrence-page.c:1083
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "Jueves"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "Time _zone:"
 msgstr "_Zona horaria:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "Time format:"
 msgstr "Formato de la hora:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 #: ../calendar/gui/dialogs/recurrence-page.c:1081
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "Martes"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1082
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "Miércoles"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "Wee_k starts on:"
 msgstr "La _semana empieza en:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "Work days:"
 msgstr "Días laborables:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_12 hour (AM/PM)"
 msgstr "_12 horas (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_24 hour"
 msgstr "_24 horas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Ask for confirmation when deleting items"
 msgstr "Pedir confirm_ación al borrar elementos"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Compress weekends in month view"
 msgstr "_Comprimir fines de semana en la vista mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Day begins:"
 msgstr "La jornada laboral _comienza a las:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#. Friday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Fri"
 msgstr "_Vie"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Hide completed tasks after"
 msgstr "_Ocultar tareas terminadas tras"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#. Monday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Mon"
 msgstr "_Lun"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Overdue tasks:"
 msgstr "Tareas fuera de pla_zo:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#. Saturday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
 msgid "_Sat"
 msgstr "_Sáb"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Show appointment end times in week and month view"
 msgstr ""
 "_Mostrar la hora del final de las citas en las vistas semanales y mensuales"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Time divisions:"
 msgstr "Divisiones de _hora:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#. Tuesday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:67
 msgid "_Tue"
 msgstr "_Mar"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
+#. Wednesday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:69
 msgid "_Wed"
 msgstr "M_ié"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
@@ -5865,23 +5872,23 @@ msgstr "%s  No ha realizado cambios, ¿actualizar el editor?"
 msgid "Validation error: %s"
 msgstr "Error de validación: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2267
+#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2280
 msgid " to "
 msgstr " a "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2271
+#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2284
 msgid " (Completed "
 msgstr "(Completado "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2273
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2286
 msgid "Completed "
 msgstr "Completado "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2278
+#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2291
 msgid " (Due "
 msgstr " (Vence "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2280
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2293
 msgid "Due "
 msgstr "Vence "
 
@@ -6211,8 +6218,6 @@ msgid "Customize"
 msgstr "Personalizar"
 
 #. an empty string is the same as 'None'
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
 #: ../calendar/gui/dialogs/event-page.c:2958
@@ -6226,7 +6231,6 @@ msgstr "Personalizar"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1678
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:192
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
 #: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
 msgid "None"
@@ -6365,7 +6369,7 @@ msgstr "Organizador"
 msgid "Organizer:"
 msgstr "Organizador:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2308
+#: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2321
 msgid "Memo"
 msgstr "Nota"
 
@@ -6631,7 +6635,7 @@ msgstr "<span weight=\"bold\">Estado</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:655
 #: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/e-itip-control.c:891
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
-#: ../calendar/gui/print.c:2369 ../plugins/save-calendar/csv-format.c:390
+#: ../calendar/gui/print.c:2382 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "Terminado"
 
@@ -6646,7 +6650,7 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:345
 #: ../calendar/gui/e-cal-model-tasks.c:653
 #: ../calendar/gui/e-cal-model-tasks.c:728
-#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2366
+#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2379
 msgid "In Progress"
 msgstr "En proceso"
 
@@ -6667,7 +6671,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-component-preview.c:238
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:651
-#: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2363
+#: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2376
 msgid "Not Started"
 msgstr "Sin comenzar"
 
@@ -7272,7 +7276,7 @@ msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2195 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2195 ../calendar/gui/print.c:2349
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
@@ -7322,19 +7326,19 @@ msgstr "divisiones de %02i minutos"
 #: ../calendar/gui/e-day-view-top-item.c:1311
 #: ../calendar/gui/e-day-view.c:1534
 #: ../calendar/gui/e-week-view-main-item.c:310
-#: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1525
+#: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1538
 msgid "%A %d %B"
 msgstr "%A %e de %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:745 ../calendar/gui/e-week-view.c:503
-#: ../calendar/gui/print.c:841
+#: ../calendar/gui/print.c:858
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:748 ../calendar/gui/e-week-view.c:506
-#: ../calendar/gui/print.c:843
+#: ../calendar/gui/print.c:860
 msgid "pm"
 msgstr "pm"
 
@@ -8014,7 +8018,7 @@ msgstr "Seleccione la zona horaria"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:327
-#: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1509
+#: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1522
 msgid "%d %B"
 msgstr "%e de %B"
 
@@ -8271,240 +8275,240 @@ msgstr "No se pudo migrar el calendario «%s»"
 msgid "Unable to migrate tasks `%s'"
 msgstr "No es posible migrar las tareas en «%s»"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "1st"
 msgstr "1"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "2nd"
 msgstr "2"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "3rd"
 msgstr "3"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "4th"
 msgstr "4"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "5th"
 msgstr "5"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "6th"
 msgstr "6"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "7th"
 msgstr "7"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "8th"
 msgstr "8"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "9th"
 msgstr "9"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "10th"
 msgstr "10"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "11th"
 msgstr "11"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "12th"
 msgstr "12"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "13th"
 msgstr "13"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "14th"
 msgstr "14"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "15th"
 msgstr "15"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "16th"
 msgstr "16"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "17th"
 msgstr "17"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "18th"
 msgstr "18"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "19th"
 msgstr "19"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "20th"
 msgstr "20"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "21st"
 msgstr "21"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "22nd"
 msgstr "22"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "23rd"
 msgstr "23"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "24th"
 msgstr "24"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "25th"
 msgstr "25"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "26th"
 msgstr "26"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "27th"
 msgstr "27"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "28th"
 msgstr "28"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "29th"
 msgstr "29"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "30th"
 msgstr "30"
 
-#: ../calendar/gui/print.c:499
+#: ../calendar/gui/print.c:580
 msgid "31st"
 msgstr "31"
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "Su"
 msgstr "Do"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "Mo"
 msgstr "Lu"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "Tu"
 msgstr "Ma"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "We"
 msgstr "Mi"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "Th"
 msgstr "Ju"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "Fr"
 msgstr "Vi"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "Sa"
 msgstr "Sa"
 
 #. Day
-#: ../calendar/gui/print.c:1923
+#: ../calendar/gui/print.c:1936
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Día seleccionado (%a %d de %b de %Y)"
 
-#: ../calendar/gui/print.c:1948 ../calendar/gui/print.c:1952
+#: ../calendar/gui/print.c:1961 ../calendar/gui/print.c:1965
 msgid "%a %b %d"
 msgstr "%a, %e de %b"
 
-#: ../calendar/gui/print.c:1949
+#: ../calendar/gui/print.c:1962
 msgid "%a %d %Y"
 msgstr "%a, %e %Y"
 
-#: ../calendar/gui/print.c:1953 ../calendar/gui/print.c:1955
-#: ../calendar/gui/print.c:1956
+#: ../calendar/gui/print.c:1966 ../calendar/gui/print.c:1968
+#: ../calendar/gui/print.c:1969
 msgid "%a %b %d %Y"
 msgstr "%a, %e de %b de %Y"
 
-#: ../calendar/gui/print.c:1960
+#: ../calendar/gui/print.c:1973
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Semana seleccionada (%s - %s)"
 
 #. Month
-#: ../calendar/gui/print.c:1968
+#: ../calendar/gui/print.c:1981
 msgid "Selected month (%b %Y)"
 msgstr "Mes seleccionado (%b de %Y)"
 
 #. Year
-#: ../calendar/gui/print.c:1975
+#: ../calendar/gui/print.c:1988
 msgid "Selected year (%Y)"
 msgstr "Año seleccionado (%Y)"
 
-#: ../calendar/gui/print.c:2304
+#: ../calendar/gui/print.c:2317
 msgid "Appointment"
 msgstr "Cita"
 
-#: ../calendar/gui/print.c:2306
+#: ../calendar/gui/print.c:2319
 msgid "Task"
 msgstr "Tarea"
 
-#: ../calendar/gui/print.c:2328
+#: ../calendar/gui/print.c:2341
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumen: %s"
 
-#: ../calendar/gui/print.c:2379
+#: ../calendar/gui/print.c:2392
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
-#: ../calendar/gui/print.c:2396
+#: ../calendar/gui/print.c:2409
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioridad: %s"
 
-#: ../calendar/gui/print.c:2408
+#: ../calendar/gui/print.c:2421
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaje completado: %i"
 
-#: ../calendar/gui/print.c:2420
+#: ../calendar/gui/print.c:2433
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2434
+#: ../calendar/gui/print.c:2447
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
-#: ../calendar/gui/print.c:2445
+#: ../calendar/gui/print.c:2458
 msgid "Contacts: "
 msgstr "Contactos: "
 
-#: ../calendar/gui/print.c:2585 ../calendar/gui/print.c:2673
-#: ../calendar/gui/print.c:2799 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2601 ../calendar/gui/print.c:2691
+#: ../calendar/gui/print.c:2820 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Vista previa"
 
-#: ../calendar/gui/print.c:2620
+#: ../calendar/gui/print.c:2636
 msgid "Print Item"
 msgstr "Imprimir elemento"
 
@@ -11085,11 +11089,11 @@ msgstr "Opciones de recepción"
 msgid "Checking for New Mail"
 msgstr "Comprobación de correo nuevo"
 
-#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
@@ -11481,7 +11485,7 @@ msgstr "Borradores"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:598
+#: ../plugins/exchange-operations/exchange-folder.c:587
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
@@ -12785,7 +12789,7 @@ msgstr "Importando «%s»"
 
 #: ../mail/importers/evolution-outlook-importer.c:266
 #: ../mail/importers/netscape-importer.c:1254
-#: ../plugins/startup-wizard/startup-wizard.c:237
+#: ../plugins/startup-wizard/startup-wizard.c:235
 #: ../shell/e-shell-importer.c:536
 msgid "Please wait"
 msgstr "Por favor espere"
@@ -14438,11 +14442,9 @@ msgstr "La firma ya existe"
 
 #: ../mail/mail.error.xml.h:89
 msgid ""
-"System folders are required for Ximian Evolution to function correctly and "
-"cannot be renamed, moved, or deleted."
-msgstr ""
-"Ximian Evolution requiere las carpetas de sistema para funcionar "
-"correctamente y no pueden renombrarse, moverse o borrarse."
+"System folders are required for Evolution to function correctly and cannot "
+"be renamed, moved, or deleted."
+msgstr "Evolution requiere las carpetas de sistema para funcionar correctamente y no pueden renombrarse, moverse o borrarse."
 
 #: ../mail/mail.error.xml.h:90
 msgid ""
@@ -15329,14 +15331,14 @@ msgstr "Árbol de carpetas de Exchange"
 msgid "Unsubscribe Folder..."
 msgstr "Desuscribirse de la carpeta…"
 
-#: ../plugins/exchange-operations/exchange-folder.c:464
-#: ../plugins/exchange-operations/exchange-folder.c:524
+#: ../plugins/exchange-operations/exchange-folder.c:459
+#: ../plugins/exchange-operations/exchange-folder.c:514
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "¿Seguro que desea desuscribirse de la carpeta «%s»?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:476
-#: ../plugins/exchange-operations/exchange-folder.c:536
+#: ../plugins/exchange-operations/exchange-folder.c:471
+#: ../plugins/exchange-operations/exchange-folder.c:526
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Desuscribirse de «%s»"
@@ -15462,6 +15464,10 @@ msgid "Cannot display folders."
 msgstr "No se pueden mostrar carpetas."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
+msgid "Cannot perform the operation."
+msgstr "No se puede efectuar la operación."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
@@ -15469,15 +15475,15 @@ msgstr ""
 "Los cambios a las opciones de la cuenta Exchange «{0}» sólo tendrán lugar "
 "después de reiniciar Evolution."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
 msgstr "No se pudo autenticar con el servidor."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 msgid "Could not change password."
 msgstr "No se pudo cambiar la contraseña."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 msgid ""
 "Could not configure Exchange account because \n"
 "an unknown error occurred. Check the URL, \n"
@@ -15487,55 +15493,55 @@ msgstr ""
 "ocurrió un error desconocido. Compruebe el URL,\n"
 "usuario y contraseña e inténtelo otra vez."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
 msgid "Could not connect to Exchange server."
 msgstr "No se pudo conectar con el servidor Exchange."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not connect to server {0}."
 msgstr "No se pudo conectar con el servidor {0}."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not determine folder permissions for delegates."
 msgstr "No se pudieron determinar los permisos de la carpeta para delegados."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not find Exchange Web Storage System."
 msgstr "No se pudo encontrar el sistema de almacenamiento Web de Exchange."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 msgid "Could not locate server {0}."
 msgstr "No se pudo localizar el servidor {0}."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
 msgid "Could not make {0} a delegate"
 msgstr "No se pudo hacer de {0} un delegado"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not read folder permissions"
 msgstr "No se pudieron leer los permisos de la carpeta"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
 msgid "Could not read folder permissions."
 msgstr "No se pudieron leer los permisos de la carpeta."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not read out-of-office state"
 msgstr "No se pudo leer el estado de disponibilidad"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Could not update folder permissions."
 msgstr "No se pudo actualizar los permisos de la carpeta."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Could not update out-of-office state"
 msgstr "No se pudo actualizar el estado de disponibilidad"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Exchange Account is offline."
 msgstr "La cuenta de Exchange está desconectada."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
@@ -15562,28 +15568,28 @@ msgstr ""
 "{0}\n"
 "  "
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Failed to update delegates:"
 msgstr "Falló al actualizar delegados:"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
 msgid "Folder already exists"
 msgstr "La carpeta ya existe"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 msgid "Folder does not exist"
 msgstr "La carpeta no existe"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 msgid "Folder offline"
 msgstr "Carpeta desconectada"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1269
 msgid "Generic error"
 msgstr "Error genérico"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
@@ -15591,66 +15597,66 @@ msgstr ""
 "Si OWA se está ejecutando en una ruta diferente, debe especificarla en el "
 "diálogo de configuración de cuenta."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Mailbox for {0} is not on this server."
 msgstr "El buzón de {0} no está en este servidor."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the URL is correct and try again."
 msgstr "Asegúrese de que la URL es correcta e intente de nuevo."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the server name is spelled correctly and try again."
 msgstr ""
 "Asegúrese de que el nombre del servidor esté escrito correctamente e "
 "inténtelo de nuevo."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "Make sure the username and password are correct and try again."
 msgstr ""
 "Asegúrese de que el usuario y contraseña son correctos e intente de nuevo."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No Global Catalog server configured for this account."
 msgstr "No hay un servidor de Catálogo Global configurado para esta cuenta."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 msgid "No mailbox for user {0} on {1}."
 msgstr "No hay buzón para el usuario {0} en {1}."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "No such user {0}"
 msgstr "No existe ese usuario {0}"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "Password successfully changed."
 msgstr "Contraseña cambiada con éxito."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Please restart Evolution for changes to take effect"
 msgstr "Por favor, reinicie Evolution para que los cambios tengan efecto"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Please select a user."
 msgstr "Seleccione un usuario."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "Server rejected password because it is too weak."
 msgstr "El servidor rechazó la contraseña porque es demasiado débil."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be disabled when you quit Evolution"
 msgstr "La cuenta de Exchange se desactivará cuando salga de Evolution"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange account will be removed when you quit Evolution"
 msgstr "La cuenta de Exchange se eliminará cuando salga de Evolution"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid "The Exchange server is not compatible with Exchange Connector."
 msgstr "El servidor Exchange no es compatible con Exchange Connector."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
 msgid ""
 "The server is running Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
@@ -15658,7 +15664,7 @@ msgstr ""
 "El servidor está funcionando con Exchange 5.5. Exchange Connector\n"
 "sólo soporta Microsoft Exchange 2000 y 2003."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:57
 msgid ""
 "This probably means that your server requires \n"
 "you to specify the Windows domain name \n"
@@ -15672,52 +15678,52 @@ msgstr ""
 "\n"
 "O quizá tan sólo ha escrito mal la contraseña."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
 msgid "Try again with a different password."
 msgstr "Inténtelo con una contraseña diferente."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
 msgid "Unable to add user to access control list:"
 msgstr "No  puede añadirse el usuario a la lista de control de acceso:"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Unable to edit delegates."
 msgstr "Imposible editar delegados."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 msgid "Unknown error looking up {0}"
 msgstr "Error desconocido al buscar {0}"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
 msgid "Unknown error."
 msgstr "Error desconocido."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 msgid "Unknown type"
 msgstr "Tipo desconocido"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "Unsupported operation"
 msgstr "Operación no soportada"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You are nearing your quota available for storing mail on this server."
 msgstr ""
 "Está cerca de su cuota disponible para almacenar correo en este servidor."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You cannot make yourself your own delegate"
 msgstr "No puede hacerse así mismo su propio delegado"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You have exceeded your quota for storing mail on this server."
 msgstr "Ha excedido su cuota para almacenar correo en este servidor."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "You may only configure a single Exchange account."
 msgstr "Sólo puede configurar una sola cuenta de Exchange."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
@@ -15725,13 +15731,13 @@ msgstr ""
 "Su uso actual es: {0} Kib. Intente hacer algo de espacio borrando algunos "
 "mensajes."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
 msgstr "Su uso actual es: {0} Kib. No podrá ni enviar ni recibir correo ahora."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
@@ -15739,19 +15745,19 @@ msgstr ""
 "Su uso actual es: {0} Kib. No podrá enviar correo hasta que haga algo de "
 "espacio borrando algunos mensajes."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
 msgid "Your password has expired."
 msgstr "Su contraseña ha caducado."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "{0} cannot be added to an access control list"
 msgstr "{0} no  puede añadirse a la lista de control de acceso"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0} is already a delegate"
 msgstr "{0} ya es un delegado"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid "{0} is already in the list"
 msgstr "{0} ya está en la lista"
 
@@ -17286,18 +17292,18 @@ msgstr ""
 "\n"
 "Por favor pulse el botón «Adelante» para continuar. "
 
-#: ../plugins/startup-wizard/startup-wizard.c:140
+#: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
 msgid "Please select the information that you would like to import:"
 msgstr "Seleccione la información que quiera importar:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:155
+#: ../plugins/startup-wizard/startup-wizard.c:153
 #: ../shell/e-shell-importer.c:411
 #, c-format
 msgid "From %s:"
 msgstr "De %s:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:235
+#: ../plugins/startup-wizard/startup-wizard.c:233
 #: ../shell/e-shell-importer.c:522
 msgid "Importing data."
 msgstr "Importando datos."
@@ -20250,8 +20256,12 @@ msgstr "Con fecha de _vencimiento"
 msgid "With _Status"
 msgstr "Con _estado"
 
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:197
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:642
+#. Put the ""UTC" entry at the top of the combo's list.
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:195
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:383
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:385
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:387
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:739
 msgid "UTC"
 msgstr "UTC"
 
