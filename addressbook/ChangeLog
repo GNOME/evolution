@@ -1,3 +1,10 @@
+2006-06-14  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #344227
+	* gui/widgets/eab-contact-display.c:
+	(eab_contact_display_render_compact): gdk_pixbuf_loader_close should
+	be called before gdk_pixbuf_loader_get_pixbuf.
+
 2006-06-13  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #342646
