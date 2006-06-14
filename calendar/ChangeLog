@@ -1,3 +1,9 @@
+2006-06-14  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_task_list):
+	Remove GroupWise from the list Task ESource Groups as it supports
+	a single Task list only. Fixes bug #176596 in bugzilla.novell.com.
+
 2006-06-14  Aishwarya k <aishkalyan@gmail.com>
 
 	 *Fix for bug #339217
