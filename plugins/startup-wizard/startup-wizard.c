@@ -110,9 +110,7 @@ startup_wizard_timezone_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	page = gnome_druid_page_standard_new_with_vals ("Timezone", NULL, NULL);
 	e_timezone_dialog_reparent (etd, GNOME_DRUID_PAGE_STANDARD (page)->vbox);
 
-	zone = calendar_config_get_icaltimezone	();
-	if (zone)
-		e_timezone_dialog_set_timezone (etd, zone);
+	e_timezone_dialog_set_timezone (etd, NULL);
 	
 	gnome_druid_append_page (GNOME_DRUID (hook_data->parent), GNOME_DRUID_PAGE (page));
 
