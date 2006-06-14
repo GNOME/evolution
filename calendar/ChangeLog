@@ -1,3 +1,25 @@
+2006-06-14  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #272688
+	* gui/print.c: (evo_calendar_print_data_new),
+	(evo_calendar_print_data_free),
+	(evo_calendar_print_renderer_get_width), (get_font_size),
+	(get_font_for_size), (print_text), (print_text_size),
+	(print_text_size_bold), (titled_box), (print_month_small),
+	(bound_text), (print_day_background), (print_day_long_event),
+	(print_day_event), (print_day_details), (print_week_long_event),
+	(print_week_day_event), (print_week_event),
+	(print_week_view_background), (print_week_summary),
+	(print_year_summary), (print_month_summary), (print_todo_details),
+	(print_day_view), (print_week_view), (print_month_view),
+	(print_year_view), (print_date_label), (print_comp_item),
+	(print_calendar), (print_comp), (print_title), (print_table):
+	Use the pango layout for printing. Do not use gnome_print_show
+	as it is broken on i18n character set.
+	
+	Committing the patch from Dave Malcolm <dmalcolm@redhat.com>
+	Fixed some compiler warnings.
+
 2006-06-12  Wang Xin  <jedy.wang@sun.com>
 
 	**Fixes bug #344630
