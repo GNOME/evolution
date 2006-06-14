@@ -1,3 +1,7 @@
+2006-06-14  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	* configure.in: Use libgnomeprint-2.2 >= 2.7.0.
+
 2006-06-02 Iain Buchanan <iaindb@netspace.net.au>
 
 	* configure.in: Fix typo that caused experimental plugins
