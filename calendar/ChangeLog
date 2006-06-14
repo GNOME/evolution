@@ -1,6 +1,5 @@
 2006-06-14  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #272688
 	* gui/print.c: (evo_calendar_print_data_new),
 	(evo_calendar_print_data_free),
 	(evo_calendar_print_renderer_get_width), (get_font_size),
