@@ -1,3 +1,9 @@
+2006-06-14  Andre Klapper  <a9016009@gmx.de>
+
+	* data/evolution.desktop.in.in: fixing categories, bugzilla entry,
+	adding bugzilla component and bugzilla version.
+	Fixes bug #335410. Thanks to Vincent Fretin and Olav Vitters.
+
 2006-06-14  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	* configure.in: Use libgnomeprint-2.2 >= 2.7.0.
