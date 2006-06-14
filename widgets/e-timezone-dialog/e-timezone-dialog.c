@@ -31,6 +31,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <misc/e-map.h>
+#include <libecal/e-cal-time-util.h>
 
 #include "e-util/e-util-private.h"
 
@@ -65,6 +66,9 @@ struct _ETimezoneDialogPrivate {
 	GtkWidget *preview_label;
 };
 
+extern char *tzname[2];
+extern long timezone;
+extern int daylight;
 
 static void e_timezone_dialog_class_init	(ETimezoneDialogClass *class);
 static void e_timezone_dialog_init		(ETimezoneDialog      *etd);
@@ -187,13 +191,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	/* Clear any existing items in the combo. */
 	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
 
-	/* Put the "None" and "UTC" entries at the top of the combo's list.
-	   When "None" is selected we want the field to be cleared. */
-	listitem = gtk_list_item_new_with_label (_("None"));
-	gtk_combo_set_item_string (combo, GTK_ITEM (listitem), "");
-	gtk_widget_show (listitem);
-	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
-
+	/* Put the ""UTC" entry at the top of the combo's list. */
 	listitem = gtk_list_item_new_with_label (_("UTC"));
 	gtk_widget_show (listitem);
 	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
@@ -285,6 +283,33 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 	return NULL;
 }
 
+static int
+get_local_offset ()
+{
+	time_t now = time(NULL), t_gmt, t_local;
+	struct tm gmt, local;
+	int diff;
+		
+	gmtime_r (&now, &gmt);
+	localtime_r (&now, &local);
+	t_gmt = mktime (&gmt);
+	t_local = mktime (&local);
+	diff = t_local - t_gmt;
+
+	return diff;
+}
+
+static const icaltimezone*
+get_local_timezone()
+{
+	icaltimezone *zone;
+	
+	tzset();
+	zone =  icaltimezone_get_builtin_timezone_from_offset (-timezone, tzname[0]);
+
+	return zone;
+}
+
 /* Gets the widgets from the XML file and returns if they are all available.
  * For the widgets whose values can be simply set with e-dialog-utils, it does
  * that as well.
@@ -329,18 +354,75 @@ e_timezone_dialog_new (void)
 	return e_timezone_dialog_construct (E_TIMEZONE_DIALOG (etd));
 }
 
+static void
+format_utc_offset			(int		 utc_offset,
+					 char		*buffer)
+{
+  char *sign = "+";
+  int hours, minutes, seconds;
+
+  if (utc_offset < 0) {
+    utc_offset = -utc_offset;
+    sign = "-";
+  }
+
+  hours = utc_offset / 3600;
+  minutes = (utc_offset % 3600) / 60;
+  seconds = utc_offset % 60;
+
+  /* Sanity check. Standard timezone offsets shouldn't be much more than 12
+     hours, and daylight saving shouldn't change it by more than a few hours.
+     (The maximum offset is 15 hours 56 minutes at present.) */
+  if (hours < 0 || hours >= 24 || minutes < 0 || minutes >= 60
+      || seconds < 0 || seconds >= 60) {
+    fprintf (stderr, "Warning: Strange timezone offset: H:%i M:%i S:%i\n",
+	     hours, minutes, seconds);
+  }
+
+  if (hours == 0 && minutes == 0 && seconds == 0)
+	  strcpy (buffer, _("UTC"));
+  else if (seconds == 0)
+	  sprintf (buffer, "%s %s%02i:%02i", _("UTC"), sign, hours, minutes);
+  else
+	  sprintf (buffer, "%s %s%02i:%02i:%02i", _("UTC"), sign, hours, minutes, seconds);
+}
+
+
+static char *
+zone_display_name_with_offset (icaltimezone *zone)
+{
+	const char *display_name;
+	struct tm local;
+	struct icaltimetype tt;
+	int offset;
+	char buffer [100];
+	time_t now = time(NULL);
+	char *display;
+	
+	gmtime_r ((const time_t *) &now, &local);
+	tt = tm_to_icaltimetype (&local, TRUE);
+	offset = icaltimezone_get_utc_offset(zone, &tt, NULL);
+
+	format_utc_offset (offset, buffer);
+	
+	display_name = icaltimezone_get_display_name (zone);
+	if (icaltimezone_get_builtin_timezone (display_name))
+		display_name = _(display_name);
+
+	return g_strdup_printf("%s (%s)\n", display_name, buffer);;
+}
+
 static const char *
 zone_display_name (icaltimezone *zone)
 {
 	const char *display_name;
-
+	
 	display_name = icaltimezone_get_display_name (zone);
 	if (icaltimezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
 
 	return display_name;
 }
-
 
 /* This flashes the currently selected timezone in the map. */
 static gboolean
@@ -374,7 +456,8 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	ETimezoneDialogPrivate *priv;
 	double longitude, latitude;
 	icaltimezone *new_zone;
-
+	char *display=NULL;
+	
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
@@ -394,9 +477,11 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 
 	new_zone = get_zone_from_point (etd, priv->point_hover);
 
-	gtk_label_set_text (GTK_LABEL (priv->preview_label),
-			    zone_display_name (new_zone));
+	display = zone_display_name_with_offset(new_zone);
+	gtk_label_set_text (GTK_LABEL (priv->preview_label), display);
 
+	g_free (display);
+	
 	return TRUE;
 }
 
@@ -561,24 +646,36 @@ e_timezone_dialog_get_timezone (ETimezoneDialog *etd)
  * selected location. The caller must ensure that @zone is not freed
  * before @etd is destroyed.
  **/
+
 void
 e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 				icaltimezone    *zone)
 {
 	ETimezoneDialogPrivate *priv;
-
+	char *display=NULL;
+	
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
+ 	if (!zone) {
+		zone=get_local_timezone();
+		if (!zone)
+			zone = icaltimezone_get_utc_timezone();
+	}
+
+	if (zone)
+		display=zone_display_name_with_offset(zone);
+	
 	priv = etd->priv;
 
 	priv->zone = zone;
 
 	gtk_label_set_text (GTK_LABEL (priv->preview_label),
-			    zone ? zone_display_name (zone) : "");
+			    zone ? display : "");
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
-			    zone ? zone_display_name (zone) : "");
+			    zone ? zone_display_name(zone) : "");
 
 	set_map_timezone (etd, zone);
+	g_free (display);
 }
 
 

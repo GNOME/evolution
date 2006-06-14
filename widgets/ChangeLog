@@ -1,3 +1,14 @@
+2006-06-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #204798 , #235691 , #229132
+	* e-timezone-dialog/e-timezone-dialog.c: 
+	(e_timezone_dialog_add_timezones), (get_local_offset),
+	(get_local_timezone), (format_utc_offset),
+	(zone_display_name_with_offset), (zone_display_name),
+	(on_map_motion), (e_timezone_dialog_set_timezone): Added code to set
+	the timezone as default to local timezone and show the time offset in
+	the map motion.
+
 2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added a new hbox cell renderer and a new Sort By menu to e-table to
