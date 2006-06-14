@@ -469,7 +469,7 @@
 			<widget class="GtkCheckButton" id="mon_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Mon</property>
+			  <property name="label" translatable="yes" comments="Monday">_Mon</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -491,7 +491,7 @@
 			<widget class="GtkCheckButton" id="tue_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Tue</property>
+			  <property name="label" translatable="yes" comments="Tuesday">_Tue</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -513,7 +513,7 @@
 			<widget class="GtkCheckButton" id="wed_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Wed</property>
+			  <property name="label" translatable="yes" comments="Wednesday">_Wed</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -535,7 +535,7 @@
 			<widget class="GtkCheckButton" id="thu_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">T_hu</property>
+			  <property name="label" translatable="yes" comments="Thursday">T_hu</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -557,7 +557,7 @@
 			<widget class="GtkCheckButton" id="fri_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Fri</property>
+			  <property name="label" translatable="yes" comments="Friday">_Fri</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -579,7 +579,7 @@
 			<widget class="GtkCheckButton" id="sat_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Sat</property>
+			  <property name="label" translatable="yes" comments="Saturday">_Sat</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -601,7 +601,7 @@
 			<widget class="GtkCheckButton" id="sun_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">S_un</property>
+			  <property name="label" translatable="yes" comments="Sunday">S_un</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>

@@ -1,3 +1,9 @@
+2006-06-14  Aishwarya k <aishkalyan@gmail.com>
+
+	 *Fix for bug #339217
+	 * gui/dialogs/cal-prefs-dialog.glade:
+	 Added translator comments for weekdays.
+
 2006-06-14  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/print.c: (evo_calendar_print_data_new),
