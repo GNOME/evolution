@@ -1,3 +1,7 @@
+2006-06-15  Tor Lillqvist  <tml@novell.com>
+
+	* org-gnome-evolution-caldav.eplug.in: Use SOEXT.
+
 2006-03-28  Jeff Cai  <jeff.cai@sun.com>
 
 	** Fixes #333881

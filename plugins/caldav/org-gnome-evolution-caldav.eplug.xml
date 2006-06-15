@@ -3,7 +3,7 @@
 	<e-plugin
 	  type="shlib"
 	  id="org.gnome.evolution.caldav"
-	  location="@PLUGINDIR@/liborg-gnome-evolution-caldav.so"
+	  location="@PLUGINDIR@/liborg-gnome-evolution-caldav@SOEXT@"
 	  load-on-startup="true"
 	  domain="@GETTEXT_PACKAGE@"
 	  localedir="@LOCALEDIR@"
