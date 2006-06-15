@@ -2,7 +2,7 @@
 
 	* plugin.mk: Must expand also @GETTEXT_PACKAGE@ and @LOCALEDIR@,
 	at least the caldav plugin has a .eplug.in file that refers to
-	those. (On the other hand, it is questionable why
+	those. (On the other hand, it is questionable whether
 	org-gnome-evolution-caldav.eplug.in needs to specify domain and
 	localedir at all.)
 
