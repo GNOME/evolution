@@ -1,3 +1,8 @@
+2006-06-14  Arvind_evo <sa.phoenix@gmail.com>
+
+	* gui/dialogs/event-page.c : Enabled save button when the group is 
+	changed from a previously saved meeting.
+
 2006-06-14  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_task_list):
