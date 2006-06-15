@@ -177,7 +177,19 @@ initialize_nss (void)
 	char *evolution_dir_path;
 	gboolean success;
 
-	evolution_dir_path = g_build_path ("/", g_get_home_dir (), ".evolution", NULL);
+	evolution_dir_path = g_build_filename (g_get_home_dir (), ".evolution", NULL);
+
+#ifdef G_OS_WIN32
+	/* NSS wants filenames in system codepage */
+	{
+		char *cp_path = g_win32_locale_filename_from_utf8 (evolution_dir_path);
+
+		if (cp_path) {
+			g_free (evolution_dir_path);
+			evolution_dir_path = cp_path;
+		}
+	}
+#endif
 
 	/* we initialize NSS here to make sure it only happens once */
 	success = (SECSuccess == NSS_InitReadWrite (evolution_dir_path));
