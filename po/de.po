@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-10 08:42+0100\n"
-"PO-Revision-Date: 2006-03-10 08:34+0100\n"
-"Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
+"PO-Revision-Date: 2006-06-15 16:12+0200\n"
+"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -727,7 +727,7 @@ msgstr "Adressbucheigenschaften"
 #: ../addressbook/gui/component/addressbook-migrate.c:73
 #: ../calendar/gui/migration.c:153 ../mail/em-migrate.c:1201
 msgid "Migrating..."
-msgstr "Migrationsvorgang..."
+msgstr "Migrationsvorgang …"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
 #: ../calendar/gui/migration.c:200 ../mail/em-migrate.c:1242
@@ -753,7 +753,7 @@ msgstr ""
 "Der Speicherort und die Hierarchie der Evolution-Kontaktordner hat sich seit "
 "Evolution 1.x verändert.\n"
 "\n"
-"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner..."
+"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1133
 msgid ""
@@ -763,7 +763,7 @@ msgid ""
 msgstr ""
 "Das Format der Mailinglisten-Kontakte hat sich geändert.\n"
 "\n"
-"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner..."
+"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1142
 msgid ""
@@ -773,7 +773,7 @@ msgid ""
 msgstr ""
 "Das Format der Telefonnummnern hat sich teilweise geändert.\n"
 "\n"
-"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner..."
+"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1152
 msgid ""
@@ -784,7 +784,7 @@ msgstr ""
 "Das Palm-Sync-changelog und die map-Dateien von Evolution haben sich "
 "geändert.\n"
 "\n"
-"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Pilot-Sync-Daten..."
+"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Pilot-Sync-Daten …"
 
 #: ../addressbook/gui/component/addressbook-view.c:434
 #: ../mail/em-folder-utils.c:503
@@ -825,13 +825,13 @@ msgstr "_Löschen"
 
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "Save As Vcard..."
-msgstr "Als VCard speichern..."
+msgstr "Als VCard speichern …"
 
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../calendar/gui/calendar-component.c:539
 #: ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
-msgstr "Ei_genschaften..."
+msgstr "Ei_genschaften …"
 
 #: ../addressbook/gui/component/addressbook-view.c:1345
 msgid "Contact Source Selector"
@@ -1297,7 +1297,7 @@ msgstr "Kontakteditor"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
-msgstr "_Voller Name..."
+msgstr "_Voller Name …"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "Image"
@@ -2900,7 +2900,7 @@ msgstr "Typ"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:2067
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
-msgstr "Als VCard speichern..."
+msgstr "Als VCard speichern …"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
 #: ../calendar/gui/dialogs/comp-editor.c:1088
@@ -2912,15 +2912,15 @@ msgstr "Ö_ffnen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:959
 msgid "_New Contact..."
-msgstr "_Neuer Kontakt..."
+msgstr "_Neuer Kontakt …"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:960
 msgid "New Contact _List..."
-msgstr "Neue Kontakt_liste..."
+msgstr "Neue Kontakt_liste …"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "_Save as VCard..."
-msgstr "Als VCard _speichern..."
+msgstr "Als VCard _speichern …"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "_Forward Contact"
@@ -2948,11 +2948,11 @@ msgstr "_Drucken"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Cop_y to Address Book..."
-msgstr "In Adressbuch _kopieren..."
+msgstr "In Adressbuch _kopieren …"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:973
 msgid "Mo_ve to Address Book..."
-msgstr "In Adressbuch _verschieben..."
+msgstr "In Adressbuch _verschieben …"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:976
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
@@ -3644,7 +3644,7 @@ msgstr "Kontaktinformationen für %s"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:287
 msgid "Querying Address Book..."
-msgstr "Adressbuch wird abgefragt..."
+msgstr "Adressbuch wird abgefragt …"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
@@ -3678,7 +3678,7 @@ msgstr "GTK-Baumansicht"
 #: ../mail/importers/evolution-outlook-importer.c:264
 #: ../mail/importers/netscape-importer.c:1252
 msgid "Importing..."
-msgstr "Importieren..."
+msgstr "Importieren …"
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
@@ -3709,7 +3709,7 @@ msgstr "Evolution CSV- und Tab-Importeur"
 #: ../calendar/importers/icalendar-importer.c:312
 #: ../calendar/importers/icalendar-importer.c:677 ../shell/shell.error.xml.h:6
 msgid "Importing ..."
-msgstr "Importieren ..."
+msgstr "Importieren …"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -3767,7 +3767,7 @@ msgstr "Abmessungen:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr "_Schrift..."
+msgstr "_Schrift …"
 
 #: ../addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
@@ -3919,7 +3919,7 @@ msgstr "Breite:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr "_Schrift..."
+msgstr "_Schrift …"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
@@ -5935,7 +5935,7 @@ msgstr "Ei_genschaften"
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
-msgstr "Anlage _hinzufügen..."
+msgstr "Anlage _hinzufügen …"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1468
 #: ../mail/em-format-html-display.c:2065
@@ -6075,7 +6075,7 @@ msgstr "Das Objekt konnte auf Grund eines Fehlers nicht gelöscht werden"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
-msgstr "Kontakte..."
+msgstr "Kontakte …"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 #: ../plugins/exchange-operations/exchange-delegates.c:421
@@ -6237,12 +6237,12 @@ msgstr "15 Minuten vor dem Termin"
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:1
 msgid "Atte_ndees..."
-msgstr "Teil_nehmer..."
+msgstr "Teil_nehmer …"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr "Ka_tegorien..."
+msgstr "Ka_tegorien …"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 msgid "Custom Alarm:"
@@ -6356,7 +6356,7 @@ msgstr "Organisa_tor ändern"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "Co_ntacts..."
-msgstr "Ko_ntakte..."
+msgstr "Ko_ntakte …"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
@@ -6725,7 +6725,7 @@ msgstr "Aufgaben in »%s« konnten nicht geöffnet werden."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
-msgstr "Ka_tegorien..."
+msgstr "Ka_tegorien …"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
@@ -7001,11 +7001,11 @@ msgstr "Zugewiesen"
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
-msgstr "Speichern unter..."
+msgstr "Speichern unter …"
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:1913
 msgid "Select folder to save selected attachments..."
-msgstr "Ordner zum Speichern der gewählten Anlagen auswählen..."
+msgstr "Ordner zum Speichern der gewählten Anlagen auswählen …"
 
 #: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, c-format
@@ -7016,7 +7016,7 @@ msgstr "namenloses_bild.%s"
 #: ../calendar/gui/e-calendar-view.c:1596 ../calendar/gui/e-memo-table.c:854
 #: ../mail/em-folder-view.c:1087 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
-msgstr "_Speichern unter..."
+msgstr "_Speichern unter …"
 
 #: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
@@ -7030,7 +7030,7 @@ msgstr "Auswahl _speichern"
 #: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
 msgid "Open in %s..."
-msgstr "In %s öffnen..."
+msgstr "In %s öffnen …"
 
 #: ../calendar/gui/e-calendar-table.c:408
 msgid "0%"
@@ -7090,7 +7090,7 @@ msgstr "Objekte werden aktualisiert"
 #: ../calendar/gui/e-calendar-view.c:1138 ../calendar/gui/e-memo-table.c:742
 #: ../composer/e-msg-composer.c:1349
 msgid "Save as..."
-msgstr "Speichern unter..."
+msgstr "Speichern unter …"
 
 #: ../calendar/gui/e-calendar-table.c:1175 ../calendar/gui/e-memo-table.c:853
 msgid "Open _Web Page"
@@ -7105,7 +7105,7 @@ msgstr "_Website öffnen"
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr "_Drucken..."
+msgstr "_Drucken …"
 
 #: ../calendar/gui/e-calendar-table.c:1181
 #: ../calendar/gui/e-calendar-view.c:1601 ../calendar/gui/e-memo-table.c:859
@@ -7190,7 +7190,7 @@ msgstr "Objekte werden kopiert"
 
 #: ../calendar/gui/e-calendar-view.c:1575
 msgid "New _Appointment..."
-msgstr "Neuer _Termin..."
+msgstr "Neuer _Termin …"
 
 #: ../calendar/gui/e-calendar-view.c:1576
 msgid "New All Day _Event"
@@ -7215,27 +7215,27 @@ msgstr "_Heute wählen"
 
 #: ../calendar/gui/e-calendar-view.c:1591
 msgid "_Select Date..."
-msgstr "_Datum wählen..."
+msgstr "_Datum wählen …"
 
 #: ../calendar/gui/e-calendar-view.c:1607
 msgid "Cop_y to Calendar..."
-msgstr "In Kalender k_opieren..."
+msgstr "In Kalender k_opieren …"
 
 #: ../calendar/gui/e-calendar-view.c:1608
 msgid "Mo_ve to Calendar..."
-msgstr "In Kalender _verschieben..."
+msgstr "In Kalender _verschieben …"
 
 #: ../calendar/gui/e-calendar-view.c:1609
 msgid "_Delegate Meeting..."
-msgstr "Besprechung dele_gieren..."
+msgstr "Besprechung dele_gieren …"
 
 #: ../calendar/gui/e-calendar-view.c:1610
 msgid "_Schedule Meeting..."
-msgstr "Besprechung _ansetzen..."
+msgstr "Besprechung _ansetzen …"
 
 #: ../calendar/gui/e-calendar-view.c:1611
 msgid "_Forward as iCalendar..."
-msgstr "Als i_Calendar weiterleiten..."
+msgstr "Als i_Calendar weiterleiten …"
 
 #: ../calendar/gui/e-calendar-view.c:1612
 msgid "_Reply"
@@ -7761,7 +7761,7 @@ msgstr "Kalender laden"
 
 #: ../calendar/gui/e-itip-control.glade.h:8
 msgid "Loading calendar..."
-msgstr "Kalender wird geladen..."
+msgstr "Kalender wird geladen …"
 
 #: ../calendar/gui/e-itip-control.glade.h:10
 msgid "Server Message:"
@@ -7896,7 +7896,7 @@ msgstr "Keine Informationen"
 
 #: ../calendar/gui/e-meeting-time-sel.c:427
 msgid "A_ttendees..."
-msgstr "_Teilnehmer..."
+msgstr "_Teilnehmer …"
 
 #: ../calendar/gui/e-meeting-time-sel.c:444
 msgid "O_ptions"
@@ -7983,7 +7983,7 @@ msgstr "Notizen unter %s werden geöffnet"
 
 #: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1239
 msgid "Deleting selected objects..."
-msgstr "Gewählte Objekte werden gelöscht..."
+msgstr "Gewählte Objekte werden gelöscht …"
 
 #: ../calendar/gui/e-pub-utils.c:322
 #, c-format
@@ -8001,7 +8001,7 @@ msgstr "Aufgaben unter %s werden geöffnet"
 
 #: ../calendar/gui/e-tasks.c:1216
 msgid "Completing tasks..."
-msgstr "Aufgaben werden abgeschlossen..."
+msgstr "Aufgaben werden abgeschlossen …"
 
 #: ../calendar/gui/e-tasks.c:1266
 msgid "Expunging"
@@ -8032,7 +8032,7 @@ msgstr "Benutzerdefinierte Ansicht _speichern"
 
 #: ../calendar/gui/gnome-cal.c:2240
 msgid "_Define Views..."
-msgstr "Ansichten _definieren..."
+msgstr "Ansichten _definieren …"
 
 #: ../calendar/gui/gnome-cal.c:2402
 #, c-format
@@ -8047,7 +8047,7 @@ msgstr "Aufgaben unter %s werden geladen"
 #: ../calendar/gui/gnome-cal.c:2525
 #, c-format
 msgid "Opening %s"
-msgstr "%s wird geöffnet..."
+msgstr "%s wird geöffnet …"
 
 #: ../calendar/gui/gnome-cal.c:3430
 msgid "Purging"
@@ -8179,7 +8179,7 @@ msgstr "Löschen"
 
 #: ../calendar/gui/memos-component.c:453
 msgid "Properties..."
-msgstr "Eigenschaften..."
+msgstr "Eigenschaften …"
 
 #: ../calendar/gui/memos-component.c:526
 #, c-format
@@ -8253,7 +8253,7 @@ msgstr ""
 "Der Speicherort und die Hierarchie der Evolution-Aufgabenordner hat sich "
 "seit Evolution 1.x verändert.\n"
 "\n"
-"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner..."
+"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
 
 #: ../calendar/gui/migration.c:166
 msgid ""
@@ -8265,7 +8265,7 @@ msgstr ""
 "Der Speicherort und die Hierarchie der Evolution-Kalenderordner hat sich "
 "seit Evolution 1.x verändert.\n"
 "\n"
-"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner..."
+"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:765 ../calendar/gui/migration.c:933
@@ -11443,7 +11443,7 @@ msgstr "<b>Dann</b>"
 
 #: ../mail/em-folder-browser.c:144
 msgid "C_reate Search Folder From Search..."
-msgstr "Sucho_rdner aus Suche anlegen..."
+msgstr "Sucho_rdner aus Suche anlegen …"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
@@ -11508,7 +11508,7 @@ msgstr "Verschickt"
 
 #: ../mail/em-folder-tree-model.c:514 ../mail/em-folder-tree-model.c:818
 msgid "Loading..."
-msgstr "Ladevorgang..."
+msgstr "Ladevorgang …"
 
 #: ../mail/em-folder-tree.c:694
 msgid "Mail Folder Tree"
@@ -11566,20 +11566,20 @@ msgstr "In _neuem Fenster öffnen"
 
 #: ../mail/em-folder-tree.c:2047
 msgid "_Copy..."
-msgstr "_Kopieren..."
+msgstr "_Kopieren …"
 
 #: ../mail/em-folder-tree.c:2048
 msgid "_Move..."
-msgstr "_Verschieben..."
+msgstr "_Verschieben …"
 
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2052
 msgid "_New Folder..."
-msgstr "Ordner a_nlegen..."
+msgstr "Ordner a_nlegen …"
 
 #: ../mail/em-folder-tree.c:2055 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
-msgstr "_Umbenennen..."
+msgstr "_Umbenennen …"
 
 #: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:130
 msgid "_Empty Trash"
@@ -11629,7 +11629,7 @@ msgstr "_Weiterleiten"
 
 #: ../mail/em-folder-view.c:1086 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
-msgstr "Als neue Nachricht _bearbeiten..."
+msgstr "Als neue Nachricht _bearbeiten …"
 
 #: ../mail/em-folder-view.c:1092
 msgid "U_ndelete"
@@ -11637,11 +11637,11 @@ msgstr "Löschen rü_ckgängig"
 
 #: ../mail/em-folder-view.c:1093
 msgid "_Move to Folder..."
-msgstr "In Ordner verschie_ben..."
+msgstr "In Ordner verschie_ben …"
 
 #: ../mail/em-folder-view.c:1094
 msgid "_Copy to Folder..."
-msgstr "In Ordner _kopieren..."
+msgstr "In Ordner _kopieren …"
 
 #: ../mail/em-folder-view.c:1097
 msgid "Mar_k as Read"
@@ -11669,7 +11669,7 @@ msgstr "Als _nicht unerwünscht markieren"
 
 #: ../mail/em-folder-view.c:1103
 msgid "Mark for Follo_w Up..."
-msgstr "Als Folg_enachricht markieren..."
+msgstr "Als Folg_enachricht markieren …"
 
 #: ../mail/em-folder-view.c:1105
 msgid "_Label"
@@ -11910,11 +11910,11 @@ msgstr "Anlage"
 
 #: ../mail/em-format-html-display.c:1874
 msgid "Select folder to save all attachments..."
-msgstr "Ordner zum Speichern aller Anlagen auswählen..."
+msgstr "Ordner zum Speichern aller Anlagen auswählen …"
 
 #: ../mail/em-format-html-display.c:1921
 msgid "_Save Selected..."
-msgstr "Gewählte _speichern..."
+msgstr "Gewählte _speichern …"
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:1988
@@ -12097,7 +12097,7 @@ msgstr ""
 "Der Speicherort und die Hierarchie der Evolution-E-Mail-Ordner hat sich seit "
 "Evolution 1.x verändert.\n"
 "\n"
-"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner..."
+"Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
 
 #: ../mail/em-migrate.c:1648
 #, c-format
@@ -12163,7 +12163,7 @@ msgstr "Link im Browser ö_ffnen"
 
 #: ../mail/em-popup.c:621
 msgid "_Send New Message To..."
-msgstr "Neue Nachricht _schicken an..."
+msgstr "Neue Nachricht _schicken an …"
 
 #: ../mail/em-popup.c:622
 msgid "_Add to Address Book"
@@ -12205,7 +12205,7 @@ msgstr "Nachricht"
 
 #: ../mail/em-utils.c:634
 msgid "Save Message..."
-msgstr "Nachricht speichern..."
+msgstr "Nachricht speichern …"
 
 #: ../mail/em-utils.c:683
 msgid "Add address"
@@ -13118,7 +13118,7 @@ msgstr "Kontenverwaltung"
 
 #: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
-msgstr "N_eue Signatur..."
+msgstr "N_eue Signatur …"
 
 #: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
@@ -13417,7 +13417,7 @@ msgstr "An _Passwort erinnern"
 
 #: ../mail/mail-config.glade.h:120
 msgid "S_elect..."
-msgstr "A_uswählen..."
+msgstr "A_uswählen …"
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
@@ -13425,7 +13425,7 @@ msgstr "_Standard-Schrift:"
 
 #: ../mail/mail-config.glade.h:122
 msgid "Se_lect..."
-msgstr "Aus_wählen..."
+msgstr "Aus_wählen …"
 
 #: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font"
@@ -13909,7 +13909,7 @@ msgstr "Dienst wird überprüft"
 
 #: ../mail/mail-send-recv.c:158
 msgid "Canceling..."
-msgstr "Absagevorgang..."
+msgstr "Absagevorgang …"
 
 #: ../mail/mail-send-recv.c:329
 msgid "Send & Receive Mail"
@@ -13921,11 +13921,11 @@ msgstr "_Alles abbrechen"
 
 #: ../mail/mail-send-recv.c:425
 msgid "Updating..."
-msgstr "Aktualisieren..."
+msgstr "Aktualisieren …"
 
 #: ../mail/mail-send-recv.c:425 ../mail/mail-send-recv.c:478
 msgid "Waiting..."
-msgstr "Warten..."
+msgstr "Warten …"
 
 #: ../mail/mail-send-recv.c:709
 msgid "Checking for new mail"
@@ -14846,7 +14846,7 @@ msgstr "Plugin zum Sichern und Wiederherstellen"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup Settings..."
-msgstr "Backup-Einstellungen..."
+msgstr "Backup-Einstellungen …"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "Backup and restore Evolution data and settings"
@@ -14854,7 +14854,7 @@ msgstr "Sichern und Wiederherstellen von Evolution-Daten und Einstellungen"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "Restore Settings..."
-msgstr "Einstellungen zurücksetzen..."
+msgstr "Einstellungen zurücksetzen …"
 
 #: ../plugins/bbdb/bbdb.c:430 ../plugins/bbdb/bbdb.c:439
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -15316,7 +15316,7 @@ msgstr "Auf_gaben:"
 #: ../plugins/exchange-operations/exchange-folder-permission.c:58
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
-msgstr "Berechtigungen..."
+msgstr "Berechtigungen …"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:135
 msgid "Folder Name"
@@ -15339,7 +15339,7 @@ msgstr "Exchange-Ordnerbaum"
 #: ../plugins/exchange-operations/exchange-folder.c:229
 #: ../plugins/exchange-operations/exchange-folder.c:239
 msgid "Unsubscribe Folder..."
-msgstr "Ordner abbestellen..."
+msgstr "Ordner abbestellen …"
 
 #: ../plugins/exchange-operations/exchange-folder.c:463
 #: ../plugins/exchange-operations/exchange-folder.c:523
@@ -15355,11 +15355,11 @@ msgstr "Abbestellen von »%s«"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
-msgstr "Passwortablauf-Warnung..."
+msgstr "Passwortablauf-Warnung …"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
 msgid "Your password will expire in 7 days..."
-msgstr "Ihr Passwort wird in 7 Tagen ablaufen..."
+msgstr "Ihr Passwort wird in 7 Tagen ablaufen …"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
@@ -15443,7 +15443,7 @@ msgstr "Benutzer auswählen"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
 msgid "Address Book..."
-msgstr "Adressbuch..."
+msgstr "Adressbuch …"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
@@ -15820,7 +15820,7 @@ msgstr "<b>Einstellungen zu unerwünschten Nachrichten</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
 msgid "Junk Mail Settings..."
-msgstr "Einstellungen zu unerwünschten Nachrichten..."
+msgstr "Einstellungen zu unerwünschten Nachrichten …"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List:</b>"
@@ -15888,7 +15888,7 @@ msgstr "Die berechtigten Nutzer werden folgende Benachrichtigung erhalten.\n"
 
 #: ../plugins/groupwise-features/properties.glade.h:11
 msgid "_Contacts..."
-msgstr "_Kontakte..."
+msgstr "_Kontakte …"
 
 #: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Customize notification message"
@@ -15900,7 +15900,7 @@ msgstr "_Nicht freigeben"
 
 #: ../plugins/groupwise-features/properties.glade.h:15
 msgid "_Shared With ..."
-msgstr "_Freigegeben für ..."
+msgstr "_Freigegeben für …"
 
 #: ../plugins/groupwise-features/properties.glade.h:16
 msgid "_Sharing"
@@ -15973,7 +15973,7 @@ msgstr "%sPasswort für %s (Benutzer %s) eingeben"
 
 #: ../plugins/groupwise-features/proxy-login.c:505
 msgid "_Proxy Login..."
-msgstr "_Vertretungsanmeldung..."
+msgstr "_Vertretungsanmeldung …"
 
 #: ../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
@@ -15993,7 +15993,7 @@ msgstr "Eingabe der Benutzer und Festlegen der Rechte"
 
 #: ../plugins/groupwise-features/share-folder-common.c:342
 msgid "New _Shared Folder..."
-msgstr "Neue Ordner_freigabe..."
+msgstr "Neue Ordner_freigabe …"
 
 #: ../plugins/groupwise-features/share-folder-common.c:450
 msgid "Sharing"
@@ -16001,7 +16001,7 @@ msgstr "Freigeben"
 
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
-msgstr "Nachrichtenstatus verfolgen..."
+msgstr "Nachrichtenstatus verfolgen …"
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
@@ -16013,7 +16013,7 @@ msgstr "Hula-Kontoeinrichtung"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Calendar"
-msgstr "In Kalender i_mportieren..."
+msgstr "In Kalender i_mportieren …"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:88
 msgid "_Import to Tasks"
@@ -17138,7 +17138,7 @@ msgstr "Anlagen speichern"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
 msgid "Save Attachments ..."
-msgstr "Anlagen speichern ..."
+msgstr "Anlagen speichern …"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
 msgid "Save all attachments"
@@ -17616,7 +17616,7 @@ msgstr ""
 "Matthias Warkus <mawa@iname.com>\n"
 "Christian Neumair <chris@gnome-de.org>\n"
 "Manuel Borchers <webmaster@matronix.de>\n"
-"Hendrik Richter <hendi@gnome-de.org>\n"
+"Hendrik Richter <hendrikr@gnome.org>\n"
 "Frank Arnold <frank@scirocco-5v-turbo.de>"
 
 #: ../shell/e-shell-window-commands.c:775
@@ -17997,7 +17997,7 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:595
 #: ../smime/gui/certificate-manager.c:603
 msgid "Select a certificate to import..."
-msgstr "Wählen Sie ein zu importierendes Zertifikat..."
+msgstr "Wählen Sie ein zu importierendes Zertifikat …"
 
 #: ../smime/gui/certificate-manager.c:267
 #: ../smime/gui/certificate-manager.c:472
@@ -18480,7 +18480,7 @@ msgstr "Die Eigenschaften des gewählten Ordners ändern"
 
 #: ../ui/evolution-addressbook.xml.h:4
 msgid "Co_py All Contacts To..."
-msgstr "Kontakte _kopieren nach..."
+msgstr "Kontakte _kopieren nach …"
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
@@ -18488,7 +18488,7 @@ msgstr "Kontakt_vorschau"
 
 #: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
-msgstr "Gewählte Kontakte in einen anderen Ordner kopieren..."
+msgstr "Gewählte Kontakte in einen anderen Ordner kopieren …"
 
 #: ../ui/evolution-addressbook.xml.h:8
 msgid "Copy the contacts of the selected folder into another folder"
@@ -18500,7 +18500,7 @@ msgstr "Die Auswahl kopieren"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
-msgstr "In Ordner kopieren..."
+msgstr "In Ordner kopieren …"
 
 #: ../ui/evolution-addressbook.xml.h:11
 msgid "Create a new addressbook folder"
@@ -18534,11 +18534,11 @@ msgstr "Kontakt weiterleiten"
 
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Mo_ve All Contacts To..."
-msgstr "Alle Kontakte _verschieben nach..."
+msgstr "Alle Kontakte _verschieben nach …"
 
 #: ../ui/evolution-addressbook.xml.h:20
 msgid "Move Selected Contacts to Another Folder..."
-msgstr "Gewählte Kontakte in einen anderen Ordner verschieben..."
+msgstr "Gewählte Kontakte in einen anderen Ordner verschieben …"
 
 #: ../ui/evolution-addressbook.xml.h:21
 msgid "Move the contacts of the selected folder into another folder"
@@ -18546,7 +18546,7 @@ msgstr "Die Kontakte des gewählten Ordners in einen anderen Ordner verschieben"
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
-msgstr "In Ordner verschieben..."
+msgstr "In Ordner verschieben …"
 
 #: ../ui/evolution-addressbook.xml.h:23
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
@@ -18635,7 +18635,7 @@ msgstr "A_ktionen"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
-msgstr "Kontakt _kopieren nach..."
+msgstr "Kontakt _kopieren nach …"
 
 #: ../ui/evolution-addressbook.xml.h:48
 msgid "_Copy Folder Contacts To"
@@ -18647,11 +18647,11 @@ msgstr "Kontakt _löschen"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
-msgstr "Kontakt _weiterleiten..."
+msgstr "Kontakt _weiterleiten …"
 
 #: ../ui/evolution-addressbook.xml.h:53
 msgid "_Move Contact to..."
-msgstr "Kontakt _verschieben nach..."
+msgstr "Kontakt _verschieben nach …"
 
 #: ../ui/evolution-addressbook.xml.h:54
 msgid "_Move Folder Contacts To"
@@ -18667,7 +18667,7 @@ msgstr "_Umbenennen"
 
 #: ../ui/evolution-addressbook.xml.h:61
 msgid "_Save Contact as VCard..."
-msgstr "Kontakt als V_Card speichern..."
+msgstr "Kontakt als V_Card speichern …"
 
 #: ../ui/evolution-addressbook.xml.h:62
 msgid "_Save Folder Contacts As VCard"
@@ -18675,7 +18675,7 @@ msgstr "Ordnerkontakte als VCa_rd speichern"
 
 #: ../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
-msgstr "_Nachricht an Kontakt schicken..."
+msgstr "_Nachricht an Kontakt schicken …"
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -18855,7 +18855,7 @@ msgstr "Schließen"
 
 #: ../ui/evolution-editor.xml.h:14 ../ui/evolution-message-composer.xml.h:41
 msgid "_Attachment..."
-msgstr "_Anlage..."
+msgstr "_Anlage …"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-mail-messagedisplay.xml.h:4
 #: ../ui/evolution-message-composer.xml.h:44 ../ui/evolution-subscribe.xml.h:9
@@ -19065,7 +19065,7 @@ msgstr "Ordner auf entfernten Servern abonnieren oder abbestellen"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "_Copy Folder To..."
-msgstr "Ordner _kopieren nach..."
+msgstr "Ordner _kopieren nach …"
 
 #: ../ui/evolution-mail-global.xml.h:17
 msgid "_Message Filters"
@@ -19073,11 +19073,11 @@ msgstr "Nachrichtenf_ilter"
 
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "_Move Folder To..."
-msgstr "Ordner verschie_ben nach..."
+msgstr "Ordner verschie_ben nach …"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "_New..."
-msgstr "_Neu..."
+msgstr "_Neu …"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -19329,23 +19329,23 @@ msgstr "Die vorhergehende ungelesene Nachricht anzeigen"
 
 #: ../ui/evolution-mail-message.xml.h:33
 msgid "F_orward As..."
-msgstr "_Weiterleiten als..."
+msgstr "_Weiterleiten als …"
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "Filter über Mailing_liste..."
+msgstr "Filter über Mailing_liste …"
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "Filter über _Absender..."
+msgstr "Filter über _Absender …"
 
 #: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "Filter über _Empfänger..."
+msgstr "Filter über _Empfänger …"
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr "Filter über _Betreff..."
+msgstr "Filter über _Betreff …"
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
@@ -19357,7 +19357,7 @@ msgstr "Die gewählten Nachrichten zur Nachverfolgung markieren"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "_Folgenachricht..."
+msgstr "_Folgenachricht …"
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -19501,19 +19501,19 @@ msgstr "Die gewählten Nachrichten als Textdatei speichern"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
-msgstr "Suchordner über Mailing_liste..."
+msgstr "Suchordner über Mailing_liste …"
 
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Recipients..."
-msgstr "Suchordner über _Empfänger..."
+msgstr "Suchordner über _Empfänger …"
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from S_ubject..."
-msgstr "Suchordner über _Betreff..."
+msgstr "Suchordner über _Betreff …"
 
 #: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from Sen_der..."
-msgstr "Suchordner über _Absender..."
+msgstr "Suchordner über _Absender …"
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
@@ -19633,7 +19633,7 @@ msgstr "_Zitiert"
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
-msgstr "Nachricht _speichern..."
+msgstr "Nachricht _speichern …"
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Undelete Message"
@@ -19767,7 +19767,7 @@ msgstr "Entwurf speichern"
 
 #: ../ui/evolution-message-composer.xml.h:22
 msgid "Save _As..."
-msgstr "Speichern _unter..."
+msgstr "Speichern _unter …"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "Save _Draft"
@@ -19779,7 +19779,7 @@ msgstr "Als Entwurf speichern"
 
 #: ../ui/evolution-message-composer.xml.h:25
 msgid "Save in folder..."
-msgstr "In Ordner speichern..."
+msgstr "In Ordner speichern …"
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save the current file"
@@ -19860,7 +19860,7 @@ msgstr "_Von-Feld"
 
 #: ../ui/evolution-message-composer.xml.h:49
 msgid "_Open..."
-msgstr "Ö_ffnen..."
+msgstr "Ö_ffnen …"
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
@@ -20008,7 +20008,7 @@ msgstr "Aufgabe ö_ffnen"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr "Info zu Evolution..."
+msgstr "Info zu Evolution …"
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
@@ -20053,7 +20053,7 @@ msgstr "Fensterknöpfe verbergen"
 
 #: ../ui/evolution.xml.h:13
 msgid "I_mport..."
-msgstr "I_mportieren..."
+msgstr "I_mportieren …"
 
 #: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
@@ -20169,7 +20169,7 @@ msgstr "Erscheinungsbild der _Schaltflächen"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Synchronization Options..."
-msgstr "S_ynchronisationsoptionen..."
+msgstr "S_ynchronisationsoptionen …"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Text only"
@@ -20301,7 +20301,7 @@ msgstr "Ansichten für »%s« definieren"
 
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit..."
-msgstr "_Bearbeiten..."
+msgstr "_Bearbeiten …"
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
 #: ../widgets/table/e-table-header-item.c:1839
@@ -20339,7 +20339,7 @@ msgstr "Benutzerdefinierte Ansicht speichern"
 #: ../widgets/menus/gal-view-instance.c:592
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
-msgstr "Ansichten definieren..."
+msgstr "Ansichten definieren …"
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "C_urrent View"
@@ -20347,7 +20347,7 @@ msgstr "A_ktuelle Ansicht"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
-msgstr "Benutzerdefinierte Ansicht speichern..."
+msgstr "Benutzerdefinierte Ansicht speichern …"
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
@@ -20547,7 +20547,7 @@ msgstr "Geben Sie den zu verwendenden Zeichensatz ein"
 
 #: ../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
-msgstr "Weitere..."
+msgstr "Weitere …"
 
 #: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
@@ -20555,7 +20555,7 @@ msgstr "_Zeichenkodierung"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
-msgstr "..."
+msgstr " …"
 
 #: ../widgets/misc/e-dateedit.c:321
 msgid "Date and Time"
@@ -20661,15 +20661,15 @@ msgstr "Suche speichern"
 
 #: ../widgets/misc/e-filter-bar.h:92 ../widgets/misc/e-filter-bar.h:99
 msgid "_Save Search..."
-msgstr "Suche _speichern..."
+msgstr "Suche _speichern …"
 
 #: ../widgets/misc/e-filter-bar.h:93 ../widgets/misc/e-filter-bar.h:100
 msgid "_Edit Saved Searches..."
-msgstr "Gespeicherte Suchen _bearbeiten..."
+msgstr "Gespeicherte Suchen _bearbeiten …"
 
 #: ../widgets/misc/e-filter-bar.h:94 ../widgets/misc/e-filter-bar.h:101
 msgid "_Advanced Search..."
-msgstr "Er_weiterte Suche..."
+msgstr "Er_weiterte Suche …"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -20916,7 +20916,7 @@ msgstr "Hier klicken, um zur Adresse zu gehen"
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Edit Master Category List..."
-msgstr "Hauptkategorienliste bearbeiten..."
+msgstr "Hauptkategorienliste bearbeiten …"
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "Item(s) belong to these _categories:"
@@ -21046,12 +21046,12 @@ msgstr "Hinzu_fügen ->"
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
 msgid "_Fields Shown..."
-msgstr "An_gezeigte Felder..."
+msgstr "An_gezeigte Felder …"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
 msgid "_Sort..."
-msgstr "_Sortieren..."
+msgstr "_Sortieren …"
 
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
@@ -21079,7 +21079,7 @@ msgstr "Verfügbare Felder"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
-msgstr "_Gruppieren nach..."
+msgstr "_Gruppieren nach …"
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
@@ -21101,7 +21101,7 @@ msgstr "Alle Kopfzeilen"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
-msgstr "Spalte hinzufügen..."
+msgstr "Spalte hinzufügen …"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
@@ -21243,7 +21243,7 @@ msgstr "Diese Spalte entfernen"
 
 #: ../widgets/table/e-table-header-item.c:1494
 msgid "Add a Column..."
-msgstr "Spalte hinzufügen..."
+msgstr "Spalte hinzufügen …"
 
 #: ../widgets/table/e-table-header-item.c:1496
 msgid "Alignment"
@@ -21255,11 +21255,11 @@ msgstr "Optimal"
 
 #: ../widgets/table/e-table-header-item.c:1498
 msgid "Format Columns..."
-msgstr "Spalten formatieren..."
+msgstr "Spalten formatieren …"
 
 #: ../widgets/table/e-table-header-item.c:1500
 msgid "Customize Current View..."
-msgstr "Aktuelle Ansicht anpassen..."
+msgstr "Aktuelle Ansicht anpassen …"
 
 #: ../widgets/table/e-table-header-item.c:1811 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
@@ -21499,7 +21499,7 @@ msgstr "Handle-Popup"
 #~ "zu verwenden, da Ihre Verbindung bereits sicher ist."
 
 #~ msgid "Advanced..."
-#~ msgstr "Komplex..."
+#~ msgstr "Komplex …"
 
 #~ msgid "Select target addressbook."
 #~ msgstr "Wählen Sie das Zieladressbuch."
@@ -21659,10 +21659,10 @@ msgstr "Handle-Popup"
 #~ msgstr "<b>Von:</b>"
 
 #~ msgid "_Delegate To..."
-#~ msgstr "_Delegieren an..."
+#~ msgstr "_Delegieren an …"
 
 #~ msgid "Con_tacts..."
-#~ msgstr "_Kontakte..."
+#~ msgstr "_Kontakte …"
 
 #~ msgid "Assignment"
 #~ msgstr "Arbeitsauftrag"
@@ -21740,7 +21740,7 @@ msgstr "Handle-Popup"
 #~ msgstr "Filter"
 
 #~ msgid "Execute Command..."
-#~ msgstr "Befehl ausführen..."
+#~ msgstr "Befehl ausführen …"
 
 #~ msgid "T_erminal Font:"
 #~ msgstr "_Terminal-Schrift:"
@@ -21853,7 +21853,7 @@ msgstr "Handle-Popup"
 #~ msgstr "Verschieben"
 
 #~ msgid "_About Evolution..."
-#~ msgstr "_Info zu Evolution..."
+#~ msgstr "_Info zu Evolution …"
 
 #~ msgid "_Send / Receive"
 #~ msgstr "_Verschicken/Abrufen"
@@ -21875,3 +21875,6 @@ msgstr "Handle-Popup"
 
 #~ msgid "Always Search"
 #~ msgstr "Immer suchen"
+
+
+
