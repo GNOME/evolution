@@ -1,3 +1,8 @@
+2006-06-15  Tor Lillqvist  <tml@novell.com>
+
+	* lib/e-cert-db.c (initialize_nss): On Win32, NSS wants filenames
+	in system codepage, so convert UTF-8 filename to system codepage.
+
 2006-01-30  Tor Lillqvist  <tml@novell.com>
 
 	* lib/e-cert-db.c (install_loadable_roots): On Win32, don't bother
