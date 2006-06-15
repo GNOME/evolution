@@ -3,7 +3,7 @@ INCLUDES = 						\
 	-I .						\
 	-I$(top_srcdir)	                                \
 	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		
-	
+
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = org-gnome-evolution-caldav.eplug
@@ -16,7 +16,7 @@ liborg_gnome_evolution_caldav_la_LIBADD = 	\
 	$(EVOLUTION_CALENDAR_LIBS)		\
 	$(EPLUGIN_LIBS)		
 
-liborg_gnome_evolution_caldav_la_LDFLAGS = -module -avoid-version
+liborg_gnome_evolution_caldav_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 EXTRA_DIST =				\
 	org-gnome-evolution-caldav.eplug.in
