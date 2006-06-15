@@ -1,3 +1,11 @@
+2006-06-15  Tor Lillqvist  <tml@novell.com>
+
+	* plugin.mk: Must expand also @GETTEXT_PACKAGE@ and @LOCALEDIR@,
+	at least the caldav plugin has a .eplug.in file that refers to
+	those. (On the other hand, it is questionable whether
+	org-gnome-evolution-caldav.eplug.in needs to specify domain and
+	localedir at all.)
+
 2006-06-14  Andre Klapper  <a9016009@gmx.de>
 
 	* data/evolution.desktop.in.in: fixing categories, bugzilla entry,
