@@ -1,3 +1,10 @@
+2006-06-15  Tor Lillqvist  <tml@novell.com>
+
+	* e-plugin.c (ep_construct): On Win32, if the compile-time
+	localedir's prefix from the plugin's .eplug file matches
+	Evolution's compile-time prefix, replace it with the run-time
+	prefix (installation directory).
+
 2006-06-09  Chris Heath <chris@heathens.co.nz>
 
 	* e-plugin.c (ep_construct): Fix memory leak.

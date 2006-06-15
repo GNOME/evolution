@@ -145,6 +145,14 @@ ep_construct(EPlugin *ep, xmlNodePtr root)
 	ep->domain = e_plugin_xml_prop(root, "domain");
 	if (ep->domain
 	    && (localedir = e_plugin_xml_prop(root, "localedir"))) {
+#ifdef G_OS_WIN32
+		char *mapped_localedir =
+			e_util_replace_prefix (EVOLUTION_PREFIX,
+					       e_util_get_prefix (),
+					       localedir);
+		g_free (localedir);
+		localedir = mapped_localedir;
+#endif
 		bindtextdomain(ep->domain, localedir);
 		g_free(localedir);
 	}
