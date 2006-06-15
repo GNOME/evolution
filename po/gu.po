@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-13 05:55+0200\n"
-"PO-Revision-Date: 2006-06-13 10:55+0530\n"
+"POT-Creation-Date: 2006-06-15 05:57+0200\n"
+"PO-Revision-Date: 2006-06-15 10:34+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -539,7 +540,7 @@ msgid "_Discard"
 msgstr "છોડી દો(_D)"
 
 #: ../addressbook/addressbook.error.xml.h:35
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "{0}"
 msgstr "{0}"
 
@@ -581,7 +582,7 @@ msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખા
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1338
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:586
+#: ../plugins/exchange-operations/exchange-folder.c:575
 msgid "Contacts"
 msgstr "સંપર્કો"
 
@@ -1469,7 +1470,7 @@ msgstr "સરનામું"
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
-#: ../addressbook/gui/widgets/e-minicard-view.c:520
+#: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:175
 #: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-entry.c:1312
@@ -2593,11 +2594,11 @@ msgstr "સંપૂર્ણ ફેરફાર કરો (_E)"
 msgid "_Full name"
 msgstr "પુરૂં નામ (_F)"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:348
 msgid "E_mail"
 msgstr "ઈમેઈલ (_m)"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:357
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:359
 msgid "_Select Address Book"
 msgstr "સરનામા પુસ્તિકા પસંદ કરો (_S)"
 
@@ -2786,7 +2787,7 @@ msgstr "નીચેની યાદીમાંથી સંપર્ક ખે
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
 #: ../addressbook/gui/widgets/e-addressbook-view.c:223
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
-#: ../addressbook/gui/widgets/e-minicard-view.c:506
+#: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
 msgstr "ચોપડી"
 
@@ -2877,7 +2878,7 @@ msgstr[1] "%d સંપર્કો"
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
 #: ../addressbook/gui/widgets/e-addressbook-view.c:237
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
-#: ../addressbook/gui/widgets/e-minicard-view.c:513
+#: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
 msgstr "પ્રશ્ન"
 
@@ -2913,7 +2914,7 @@ msgid "Type"
 msgstr "પ્રકાર"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:834
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2067
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2069
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "VCard તરીકે સંગ્રહો..."
@@ -2995,13 +2996,13 @@ msgid "P_aste"
 msgstr "ચોંટાડો (_a)"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1601
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1603
 #: ../calendar/gui/cal-search-bar.c:343
 msgid "Any Category"
 msgstr "કોઈપણ વર્ગ"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1802
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1804
 msgid "Print cards"
 msgstr "કાર્ડો છાપો"
 
@@ -3232,7 +3233,7 @@ msgstr "ક્ષેત્રના નામની મહત્તમ લંબ
 msgid "Column Width"
 msgstr "સ્તંભની પહોળાઈ"
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:172
+#: ../addressbook/gui/widgets/e-minicard-view.c:174
 msgid ""
 "\n"
 "\n"
@@ -3246,7 +3247,7 @@ msgstr ""
 "\n"
 "અથવા નવો સંપર્ક બનાવવા માટે બવડું-ક્લિક કરો."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:175
+#: ../addressbook/gui/widgets/e-minicard-view.c:177
 msgid ""
 "\n"
 "\n"
@@ -3260,7 +3261,7 @@ msgstr ""
 "\n"
 "નવો સંપર્ક બનાવવા માટે અંહિ બે વાર ક્લિક કરો."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:180
+#: ../addressbook/gui/widgets/e-minicard-view.c:182
 msgid ""
 "\n"
 "\n"
@@ -3270,7 +3271,7 @@ msgstr ""
 "\n"
 "સંપર્ક માટે શોધો."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:182
+#: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
 "\n"
 "\n"
@@ -3280,7 +3281,7 @@ msgstr ""
 "\n"
 "આ દેખાવમાં જોવા માટે કોઈ વસ્તુઓ નથી."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:499
+#: ../addressbook/gui/widgets/e-minicard-view.c:501
 msgid "Adapter"
 msgstr "એડેપ્ટર"
 
@@ -3405,7 +3406,7 @@ msgstr "કોઈ પોતાનો સંપર્ક વ્યાખ્યા
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
 #. E_BOOK_ERROR_PERMISSION_DENIED
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "Permission denied"
 msgstr "પરવાનગી નથી"
 
@@ -3430,7 +3431,7 @@ msgstr "પ્રોટોકોલને આધાર નથી"
 #: ../calendar/gui/e-cal-component-preview.c:234
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:657
-#: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/print.c:2372
+#: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/print.c:2385
 msgid "Canceled"
 msgstr "નકારાઈ ગયું"
 
@@ -4481,11 +4482,11 @@ msgstr "મેમો"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:526 ../calendar/gui/e-tasks.c:1348
-#: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
+#: ../calendar/gui/print.c:1840 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:483
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:592
+#: ../plugins/exchange-operations/exchange-folder.c:581
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:387
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:594
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -5075,7 +5076,7 @@ msgstr "સ્થાન સમાવે છે"
 msgid "Unmatched"
 msgstr "બંધબેસતા નથી"
 
-#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2509
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2522
 #: ../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:20
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
@@ -5086,7 +5087,7 @@ msgstr "છાપો"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2111
-#: ../plugins/exchange-operations/exchange-folder.c:580
+#: ../plugins/exchange-operations/exchange-folder.c:569
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
@@ -5483,139 +5484,146 @@ msgstr ""
 msgid "Pick a color"
 msgstr "રંગ પસંદ કરો"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#. Sunday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "S_un"
 msgstr "સુર્ય (_u)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "શનિવાર"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Select the calendars for alarm notification"
 msgstr "એલાર્મ સૂચનો માટે કેલેન્ડરો પસંદ કરો"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Sh_ow a reminder"
 msgstr "રીમાઈન્ડર બતાવો (_o)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Show week _numbers in date navigator"
 msgstr "તારીખ બતાવનારમાં અઠવાડિયાનો ક્રમાંક બતાવો (_n)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 #: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "રવિવાર"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "T_asks due today:"
 msgstr "આજ સુધીની બાબતો (_a):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#. Thursday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "T_hu"
 msgstr "ગુરુ (_h)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "Template:"
 msgstr "ટેમ્પલેટ:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #: ../calendar/gui/dialogs/recurrence-page.c:1083
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "ગુરુવાર"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "Time _zone:"
 msgstr "ટાઈમ ઝોન (_z):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "Time format:"
 msgstr "સમયનું બંધારણ:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 #: ../calendar/gui/dialogs/recurrence-page.c:1081
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "મંગળવાર"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1082
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "બુધવાર"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "Wee_k starts on:"
 msgstr "અઠવાડિયું આ દિવસે શરૂ થાય છે (_k):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "Work days:"
 msgstr "કામ કરવાના દિવસો:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_12 hour (AM/PM)"
 msgstr "_12 કલાક (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_24 hour"
 msgstr "_24 કલાક"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Ask for confirmation when deleting items"
 msgstr "વસ્તુઓ કાઢી નાખતી વખતે ખાતરી માટે પૂછો (_A)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Compress weekends in month view"
 msgstr "મહિનાના દેખાવમાં અઠવાડિયાના અંતે સંકોચો (_C)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Day begins:"
 msgstr "દિવસ શરુ થાય છે (_D):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#. Friday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Fri"
 msgstr "શુક્ર (_F)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Hide completed tasks after"
 msgstr "પછી પૂર્ણ થયેલ બાબતો છુપાવો (_H)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#. Monday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Mon"
 msgstr "સોમ (_M)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Overdue tasks:"
 msgstr "પછીની બાબતો (_O):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#. Saturday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
 msgid "_Sat"
 msgstr "શનિ (_S)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Show appointment end times in week and month view"
 msgstr "અઠવાડિયા અને મહિના દેખાવમાં મુલાકાતના અંત સમયો બતાવો (_S)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Time divisions:"
 msgstr "સમયની વહેંચણી (_T):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#. Tuesday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:67
 msgid "_Tue"
 msgstr "મંગળ (_T)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
+#. Wednesday
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:69
 msgid "_Wed"
 msgstr "બુધ (_W)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "before every appointment"
 msgstr "દરેક મુલાકાત પહેલા"
 
@@ -5652,11 +5660,11 @@ msgstr "કેલેન્ડર ગુણધર્મો"
 msgid "New Calendar"
 msgstr "નવું કેલેન્ડર"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:528
+#: ../calendar/gui/dialogs/calendar-setup.c:547
 msgid "Task List Properties"
 msgstr "બાબત યાદી ગુણધર્મો"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:594
+#: ../calendar/gui/dialogs/calendar-setup.c:613
 msgid "New Memo List"
 msgstr "નવી મેમો યાદી"
 
@@ -5743,23 +5751,23 @@ msgstr "%s  તમે કોઈ ફેરફારો કર્યા નથી,
 msgid "Validation error: %s"
 msgstr "ચકાસણી ભૂલ: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2267
+#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2280
 msgid " to "
 msgstr " પ્રતિ "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2271
+#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2284
 msgid " (Completed "
 msgstr " (પૂર્ણ થયું "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2273
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2286
 msgid "Completed "
 msgstr "પૂર્ણ થયું "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2278
+#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2291
 msgid " (Due "
 msgstr " (કારણે "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2280
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2293
 msgid "Due "
 msgstr "કારણે "
 
@@ -6085,8 +6093,6 @@ msgid "Customize"
 msgstr "વૈવિધ્યપૂર્ણ"
 
 #. an empty string is the same as 'None'
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
 #: ../calendar/gui/dialogs/event-page.c:2958
@@ -6100,7 +6106,6 @@ msgstr "વૈવિધ્યપૂર્ણ"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1678
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:192
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
 #: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
 msgid "None"
@@ -6239,7 +6244,7 @@ msgstr "આયોજક"
 msgid "Organizer:"
 msgstr "આયોજક:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2308
+#: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2321
 msgid "Memo"
 msgstr "મેમો"
 
@@ -6502,7 +6507,7 @@ msgstr "<span weight=\"bold\">સ્થિતિ</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:655
 #: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/e-itip-control.c:891
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
-#: ../calendar/gui/print.c:2369 ../plugins/save-calendar/csv-format.c:390
+#: ../calendar/gui/print.c:2382 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "સમાપ્ત"
 
@@ -6517,7 +6522,7 @@ msgstr "ઊંચુ"
 #: ../calendar/gui/e-cal-model-tasks.c:345
 #: ../calendar/gui/e-cal-model-tasks.c:653
 #: ../calendar/gui/e-cal-model-tasks.c:728
-#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2366
+#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2379
 msgid "In Progress"
 msgstr "પ્રગતિમાં છે"
 
@@ -6538,7 +6543,7 @@ msgstr "સામાન્ય"
 #: ../calendar/gui/e-cal-component-preview.c:238
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:651
-#: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2363
+#: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2376
 msgid "Not Started"
 msgstr "શરુ થયું નથી"
 
@@ -7143,7 +7148,7 @@ msgid "Organizer: %s"
 msgstr "આયોજક: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2195 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2195 ../calendar/gui/print.c:2349
 #, c-format
 msgid "Location: %s"
 msgstr "સ્થળ: %s"
@@ -7193,19 +7198,19 @@ msgstr "%02i મિનિટ ભાગલાઓ"
 #: ../calendar/gui/e-day-view-top-item.c:1311
 #: ../calendar/gui/e-day-view.c:1534
 #: ../calendar/gui/e-week-view-main-item.c:310
-#: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1525
+#: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1538
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:745 ../calendar/gui/e-week-view.c:503
-#: ../calendar/gui/print.c:841
+#: ../calendar/gui/print.c:858
 msgid "am"
 msgstr "સવાર"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:748 ../calendar/gui/e-week-view.c:506
-#: ../calendar/gui/print.c:843
+#: ../calendar/gui/print.c:860
 msgid "pm"
 msgstr "સાંજ"
 
@@ -7873,7 +7878,7 @@ msgstr "ટાઈમઝોન પસંદ કરો"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:327
-#: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1509
+#: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1522
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -8125,240 +8130,240 @@ msgstr "કેલેન્ડર `%s' ને ફેરવવામાં અસ�
 msgid "Unable to migrate tasks `%s'"
 msgstr "બાબતો `%s' ફેરવવામાં અસમર્થ"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "1st"
 msgstr "પહેલુ"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "2nd"
 msgstr "બીજુ"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "3rd"
 msgstr "ત્રીજુ"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "4th"
 msgstr "ચોથુ"
 
-#: ../calendar/gui/print.c:493
+#: ../calendar/gui/print.c:574
 msgid "5th"
 msgstr "પાંચમુ"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "6th"
 msgstr "છઠ્ઠુ"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "7th"
 msgstr "સાતમુ"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "8th"
 msgstr "આઠમુ"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "9th"
 msgstr "નવમુ"
 
-#: ../calendar/gui/print.c:494
+#: ../calendar/gui/print.c:575
 msgid "10th"
 msgstr "દસમુ"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "11th"
 msgstr "અગિયારમુ"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "12th"
 msgstr "બારમુ"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "13th"
 msgstr "તેરમુ"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "14th"
 msgstr "ચૌદમુ"
 
-#: ../calendar/gui/print.c:495
+#: ../calendar/gui/print.c:576
 msgid "15th"
 msgstr "પંદરમુ"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "16th"
 msgstr "સોળમુ"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "17th"
 msgstr "સત્તરમુ"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "18th"
 msgstr "અઢારમુ"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "19th"
 msgstr "ઓગણીસમુ"
 
-#: ../calendar/gui/print.c:496
+#: ../calendar/gui/print.c:577
 msgid "20th"
 msgstr "વીસમુ"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "21st"
 msgstr "એકવીસમુ"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "22nd"
 msgstr "બાવીસમુ"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "23rd"
 msgstr "ત્રેવીસમુ"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "24th"
 msgstr "ચોવીસમુ"
 
-#: ../calendar/gui/print.c:497
+#: ../calendar/gui/print.c:578
 msgid "25th"
 msgstr "પચ્ચીસમુ"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "26th"
 msgstr "છવ્વીસમુ"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "27th"
 msgstr "સત્તાવીસમુ"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "28th"
 msgstr "અટ્ઠાવીસમુ"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "29th"
 msgstr "ઓગણત્રીસમુ"
 
-#: ../calendar/gui/print.c:498
+#: ../calendar/gui/print.c:579
 msgid "30th"
 msgstr "ત્રીસમુ"
 
-#: ../calendar/gui/print.c:499
+#: ../calendar/gui/print.c:580
 msgid "31st"
 msgstr "એકત્રીસમુ"
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "Su"
 msgstr "રવિ"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "Mo"
 msgstr "સોમ"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "Tu"
 msgstr "મંગળ"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "We"
 msgstr "બુધ"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "Th"
 msgstr "ગુરુ"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "Fr"
 msgstr "શુક્ર"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "Sa"
 msgstr "શનિ"
 
 #. Day
-#: ../calendar/gui/print.c:1923
+#: ../calendar/gui/print.c:1936
 msgid "Selected day (%a %b %d %Y)"
 msgstr "પસંદ કરેલ દિવસ (%a %b %d %Y)"
 
-#: ../calendar/gui/print.c:1948 ../calendar/gui/print.c:1952
+#: ../calendar/gui/print.c:1961 ../calendar/gui/print.c:1965
 msgid "%a %b %d"
 msgstr "%a %b %d"
 
-#: ../calendar/gui/print.c:1949
+#: ../calendar/gui/print.c:1962
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: ../calendar/gui/print.c:1953 ../calendar/gui/print.c:1955
-#: ../calendar/gui/print.c:1956
+#: ../calendar/gui/print.c:1966 ../calendar/gui/print.c:1968
+#: ../calendar/gui/print.c:1969
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: ../calendar/gui/print.c:1960
+#: ../calendar/gui/print.c:1973
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "પસંદ કરેલ અઠવાડિયુ (%s - %s)"
 
 #. Month
-#: ../calendar/gui/print.c:1968
+#: ../calendar/gui/print.c:1981
 msgid "Selected month (%b %Y)"
 msgstr "પસંદ કરેલ મહિનો (%b %Y)"
 
 #. Year
-#: ../calendar/gui/print.c:1975
+#: ../calendar/gui/print.c:1988
 msgid "Selected year (%Y)"
 msgstr "પસંદ કરેલ વર્ષ (%Y)"
 
-#: ../calendar/gui/print.c:2304
+#: ../calendar/gui/print.c:2317
 msgid "Appointment"
 msgstr "મુલાકાત"
 
-#: ../calendar/gui/print.c:2306
+#: ../calendar/gui/print.c:2319
 msgid "Task"
 msgstr "બાબત"
 
-#: ../calendar/gui/print.c:2328
+#: ../calendar/gui/print.c:2341
 #, c-format
 msgid "Summary: %s"
 msgstr "સાર: %s"
 
-#: ../calendar/gui/print.c:2379
+#: ../calendar/gui/print.c:2392
 #, c-format
 msgid "Status: %s"
 msgstr "સ્થિતિ: %s"
 
-#: ../calendar/gui/print.c:2396
+#: ../calendar/gui/print.c:2409
 #, c-format
 msgid "Priority: %s"
 msgstr "પ્રાધાન્ય: %s"
 
-#: ../calendar/gui/print.c:2408
+#: ../calendar/gui/print.c:2421
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "પૂર્ણ થયેલ ટકા: %i"
 
-#: ../calendar/gui/print.c:2420
+#: ../calendar/gui/print.c:2433
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2434
+#: ../calendar/gui/print.c:2447
 #, c-format
 msgid "Categories: %s"
 msgstr "વર્ગો: %s"
 
-#: ../calendar/gui/print.c:2445
+#: ../calendar/gui/print.c:2458
 msgid "Contacts: "
 msgstr "સંપર્કો: "
 
-#: ../calendar/gui/print.c:2585 ../calendar/gui/print.c:2673
-#: ../calendar/gui/print.c:2799 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2601 ../calendar/gui/print.c:2691
+#: ../calendar/gui/print.c:2820 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "છાપનનું પૂર્વદર્શન"
 
-#: ../calendar/gui/print.c:2620
+#: ../calendar/gui/print.c:2636
 msgid "Print Item"
 msgstr "વસ્તુ છાપો"
 
@@ -10917,11 +10922,11 @@ msgstr "વિકલ્પો મેળવી રહ્યા છીએ"
 msgid "Checking for New Mail"
 msgstr "નવા મેઈલો માટે ચકાસી રહ્યા છીએ"
 
-#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "ખાતા સંપાદક"
 
-#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "ઈવોલ્યુશન ખાતા મદદનીશ"
 
@@ -11313,7 +11318,7 @@ msgstr "ડ્રાફ્ટો"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:598
+#: ../plugins/exchange-operations/exchange-folder.c:587
 msgid "Inbox"
 msgstr "ઈનબોક્સ"
 
@@ -12583,7 +12588,7 @@ msgstr "`%s' આયાત કરી રહ્યા છીએ"
 
 #: ../mail/importers/evolution-outlook-importer.c:266
 #: ../mail/importers/netscape-importer.c:1254
-#: ../plugins/startup-wizard/startup-wizard.c:237
+#: ../plugins/startup-wizard/startup-wizard.c:235
 #: ../shell/e-shell-importer.c:536
 msgid "Please wait"
 msgstr "મહેરબાની કરીને રાહ જુઓ"
@@ -14210,11 +14215,9 @@ msgstr "સહી પહેલાથી જ હાજર છે"
 
 #: ../mail/mail.error.xml.h:89
 msgid ""
-"System folders are required for Ximian Evolution to function correctly and "
-"cannot be renamed, moved, or deleted."
-msgstr ""
-"સિસ્ટમ ફોલ્ડરોને Ximian ઈવોલ્યુશન ને યોગ્ય રીતે કામ કરવાની જરુર છે અને તેનું નામ બદલી શકાતું "
-"નથી, ખસેડી શકાતી નથી, અથવા કાઢી શકાતું નથી."
+"System folders are required for Evolution to function correctly and cannot "
+"be renamed, moved, or deleted."
+msgstr "ઈવોલ્યુશનને યોગ્ય રીતે કામ કરવા માટે સિસ્ટમ ફોલ્ડરો જરૂરી છે અને તેમનું નામ બદલી શકાતું નથી, તેમને ખસાડી શકાતા નથી, અથવા કાઢી શકાતા નથી."
 
 #: ../mail/mail.error.xml.h:90
 msgid ""
@@ -15074,14 +15077,14 @@ msgstr "એક્સચેન્જ ફોલ્ડર વૃક્ષ"
 msgid "Unsubscribe Folder..."
 msgstr "ફોલ્ડરોની ઉમેદવારી દૂર કરો..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:464
-#: ../plugins/exchange-operations/exchange-folder.c:524
+#: ../plugins/exchange-operations/exchange-folder.c:459
+#: ../plugins/exchange-operations/exchange-folder.c:514
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "શું ખરેખર ફોલ્ડર \"%s\" માંથી ઉમેદવારી દૂર કરવી છે?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:476
-#: ../plugins/exchange-operations/exchange-folder.c:536
+#: ../plugins/exchange-operations/exchange-folder.c:471
+#: ../plugins/exchange-operations/exchange-folder.c:526
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "\"%s\" માંથી ઉમેદવારી દૂર કરો"
@@ -15205,6 +15208,10 @@ msgid "Cannot display folders."
 msgstr "ફોલ્ડરો દર્શાવી શકતા નથી."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
+msgid "Cannot perform the operation."
+msgstr "પ્રક્રિયા કરી શકતા નથી."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
@@ -15212,15 +15219,15 @@ msgstr ""
 "ફેરબદલી ખાતા \"{0}\" માટેના વિકલ્પોમાં ફેરફારો માત્ર ઈવોલ્યુશન પુનઃશરૂ કર્યા પછી જ અસર "
 "આપશે."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
 msgstr "સર્વરમાં સત્તાધિકરણ કરી શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 msgid "Could not change password."
 msgstr "પાસવર્ડ બદલી શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 msgid ""
 "Could not configure Exchange account because \n"
 "an unknown error occurred. Check the URL, \n"
@@ -15230,55 +15237,55 @@ msgstr ""
 "એક અજ્ઞાત ભૂલ ઉદ્દભવી. URL, વપરાશકર્તા નામ, અને પાસવર્ડ ચકાસો, \n"
 "અને ફરીથી પ્રયત્ન કરો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
 msgid "Could not connect to Exchange server."
 msgstr "એક્સચેન્જ સર્વર સાથે જોડાઈ શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not connect to server {0}."
 msgstr "સર્વર {0} સાથે જોડાઈ શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not determine folder permissions for delegates."
 msgstr "પ્રતિનિધીઓ માટે ફોલ્ડર પરવાનગીઓ નક્કી કરી શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not find Exchange Web Storage System."
 msgstr "એક્સચેજન્જ વેબ સ્ટોરેજ સિસ્ટમ શોધી શકતા નથી."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 msgid "Could not locate server {0}."
 msgstr "સર્વર {0} સ્થિત કરી શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
 msgid "Could not make {0} a delegate"
 msgstr "{0} ને પ્રતિનિધી બનાવી શક્યા નહિં"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not read folder permissions"
 msgstr "ફોલ્ડર પરવાનગીઓ વાંચી શક્યા નહિં"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
 msgid "Could not read folder permissions."
 msgstr "ફોલ્ડર પરવાનગીઓ વાંચી શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not read out-of-office state"
 msgstr "ઓફિસ-ની-બહાર સ્થિતિ વાંચી શક્યા નહિં"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Could not update folder permissions."
 msgstr "ફોલ્ડર પરવાનગીઓ સુધારી શક્યા નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Could not update out-of-office state"
 msgstr "ઓફિસ-ની-બહાર સ્થિતિ સુધારી શક્યા નહિં"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Exchange Account is offline."
 msgstr "એક્સચેન્જ ખાતું ઓફલાઈન છે"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
@@ -15306,28 +15313,28 @@ msgstr ""
 "{0}\n"
 "  "
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Failed to update delegates:"
 msgstr "પ્રતિનિધીઓ સુધારવામાં નિષ્ફળ:"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
 msgid "Folder already exists"
 msgstr "ફોલ્ડર પહેલાથી જ હાજર છે"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 msgid "Folder does not exist"
 msgstr "ફોલ્ડર અસ્તિત્વમાં નથી"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 msgid "Folder offline"
 msgstr "ફોલ્ડર ઓફલાઈન"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1269
 msgid "Generic error"
 msgstr "સામાન્ય ભૂલ"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
@@ -15335,63 +15342,63 @@ msgstr ""
 "જો OWA એ અલગ પાથ પર ચાલી રહેલ હોય, તો તમારે તેને ખાતા રૂપરેખાંકન સંવાદમાં સ્પષ્ટ કરવું જ "
 "પડશે."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Mailbox for {0} is not on this server."
 msgstr "{0} માટેનું મેઈલબોક્સ એ આ સર્વર પર નથી."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the URL is correct and try again."
 msgstr "URL યોગ્ય છે એની ખાતરી કરો અને ફરીથી પ્રયત્ન કરો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the server name is spelled correctly and try again."
 msgstr "સર્વર નામની જોડણી યોગ્ય રીતે લખાયેલી છે તેની ખાતરી કરો અને ફરીથી પ્રયત્ન કરો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "Make sure the username and password are correct and try again."
 msgstr "વપરાશકર્તા નામ અને પાસવર્ડ યોગ્ય છે તેની ખાતરી કરો અને ફરીથી પ્રયત્ન કરો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No Global Catalog server configured for this account."
 msgstr "કોઈ વૈશ્વિક કેટેલોગ સર્વર આ ખાતા માટે રૂપરેખાંકિત થયેલ નથી."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 msgid "No mailbox for user {0} on {1}."
 msgstr "વપરાશકર્તા {0} માટે {1} પર કોઈ મેઈલબોક્સ નથી."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "No such user {0}"
 msgstr "આવો કોઈ વપરાશકર્તા {0} નથી"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "Password successfully changed."
 msgstr "પાસવર્ડ સફળતાપૂર્વક બદલાઈ ગયો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Please restart Evolution for changes to take effect"
 msgstr "ફેરફારોની અસર જોવા માટે મહેરબાની કરીને ઈવોલ્યુશન પુનઃશરૂ કરો"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Please select a user."
 msgstr "મહેરબાની કરીને વપરાશકર્તા પસંદ કરો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "Server rejected password because it is too weak."
 msgstr "સર્વરે પાસવર્ડ નકાર્યો કારણ કે તે ખૂબ નબળો છે."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be disabled when you quit Evolution"
 msgstr "એક્સચેન્જ ખાતું નિષ્ક્રિય કરવામાં આવશે જ્યારે તમે ઈવોલ્યુશનમાંથી બહાર નીકળો"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange account will be removed when you quit Evolution"
 msgstr "એક્સચેન્જ ખાતું દૂર કરવામાં આવશે જ્યારે તમે ઈવોલ્યુશનમાંથી બહાર નીકળો"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid "The Exchange server is not compatible with Exchange Connector."
 msgstr "એક્સચેન્જ સર્વર એક્સચેન્જ કનેક્ટર સાથે સુસંગત નથી"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
 msgid ""
 "The server is running Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
@@ -15399,7 +15406,7 @@ msgstr ""
 "સર્વર Exchange 5.5 ચલાવી રહેલ છે. એક્સચેન્જ કનેક્ટર \n"
 "એ Microsoft Exchange 2000 અને 2003 ને જ માત્ર આધાર આપે છે."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:57
 msgid ""
 "This probably means that your server requires \n"
 "you to specify the Windows domain name \n"
@@ -15413,51 +15420,51 @@ msgstr ""
 "\n"
 "અથવા કદાચ તમે તમારો પાસવર્ડ ખોટો લખ્યો હશે."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
 msgid "Try again with a different password."
 msgstr "અલગ પાસવર્ડ સાથે ફરીથી પ્રયત્ન કરો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
 msgid "Unable to add user to access control list:"
 msgstr "વપરાશકર્તાને વપરાશ નિયંત્રણ યાદીમાં ઉમેરવામાં અસમર્થ:"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Unable to edit delegates."
 msgstr "પ્રતિનિધીઓમાં ફેરફાર કરવામાં અસમર્થ."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 msgid "Unknown error looking up {0}"
 msgstr "{0} જોવામાં અજ્ઞાત ભૂલ"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
 msgid "Unknown error."
 msgstr "અજ્ઞાત ભૂલ."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 msgid "Unknown type"
 msgstr "અજ્ઞાત પ્રકાર"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "Unsupported operation"
 msgstr "બિનઆધારભૂત પ્રક્રિયા"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You are nearing your quota available for storing mail on this server."
 msgstr "તમે આ સર્વર પર મેઈલ સંગ્રહવા માટે ઉપલબ્ધ ક્વોટા નજીક કરી રહ્યા છો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You cannot make yourself your own delegate"
 msgstr "તમે તમારી પોતાની જાતે પ્રતિનિધી બની શકો નહિં"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You have exceeded your quota for storing mail on this server."
 msgstr "તમે આ સર્વર પર મેઈલ સંગ્રહવા માટે ક્વોટાની મર્યાદા ઓળંગી દીધી છે."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "You may only configure a single Exchange account."
 msgstr "તમે માત્ર એક એક્સચેન્જ ખાતું રૂપરેખાંકિત કરી શકો છો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
@@ -15465,7 +15472,7 @@ msgstr ""
 "તમારો વર્તમાન વપરાશ: {0} KB છે. અમુક મેઈલ કાઢી નાંખીને થોડી જગ્યા સાફ કરવાનો પ્રયત્ન "
 "કરો."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
@@ -15473,7 +15480,7 @@ msgstr ""
 "તમારો વર્તમાન વપરાશ: {0} KB છે. તમે ક્યાં તો મેઈલો મોકલવા માટે કે મેળવવા માટે સમર્થ હશો "
 "નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
@@ -15481,19 +15488,19 @@ msgstr ""
 "તમારો વર્તમાન વપરાશ: {0} KB છે. તમે જ્યાં સુધી અમુક મેઈલો કાઢી નાંખીને અમુક જગ્યા ખાલી "
 "કરો નહિં ત્યાં સુધી મેઈલો મોકલવા માટે સમર્થ હશો નહિં."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
 msgid "Your password has expired."
 msgstr "તમારા પાસવર્ડની મર્યાદા સમાપ્ત થઈ ગઈ છે."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "{0} cannot be added to an access control list"
 msgstr "{0} એ વપરાશ નિયંત્રણ યાદીમાં ઉમેરી શકાતું નથી"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0} is already a delegate"
 msgstr "{0} એ પહેલાથી જ પ્રતિનિધી છે"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid "{0} is already in the list"
 msgstr "{0} એ પહેલાથી જ યાદીમાં છે"
 
@@ -16987,18 +16994,18 @@ msgstr ""
 "\n"
 "મહેરબાની કરીને ચાલુ રાખવા માટે \"આગળ ધપાવો\" બટન ક્લિક કરો. "
 
-#: ../plugins/startup-wizard/startup-wizard.c:140
+#: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
 msgid "Please select the information that you would like to import:"
 msgstr "મહેરબાની કરીને તમે જેની આયાત કરવા માંગો તે જાણકારી પસંદ કરો:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:155
+#: ../plugins/startup-wizard/startup-wizard.c:153
 #: ../shell/e-shell-importer.c:411
 #, c-format
 msgid "From %s:"
 msgstr "%s માંથી:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:235
+#: ../plugins/startup-wizard/startup-wizard.c:233
 #: ../shell/e-shell-importer.c:522
 msgid "Importing data."
 msgstr "માહિતી આયાત કરી રહ્યા છીએ."
@@ -19928,8 +19935,12 @@ msgstr "પહેલાની તારીખ સહિત (_D)"
 msgid "With _Status"
 msgstr "સ્થિતિ સહિત (_S)"
 
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:197
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:642
+#. Put the ""UTC" entry at the top of the combo's list.
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:195
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:383
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:385
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:387
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:739
 msgid "UTC"
 msgstr "UTC"
 
