@@ -1,3 +1,10 @@
+2006-06-15  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/component/addressbook-view.c : Drag-n-drop contacts now
+	defaults to Moving the contact and the contacts moved will be 
+	instantly removed from the source addressbook.
+	Fixes Bug #337085 and #337086
+
 2006-06-14  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #344227

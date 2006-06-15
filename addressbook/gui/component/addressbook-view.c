@@ -1193,15 +1193,9 @@ selector_tree_drag_data_received (GtkWidget *widget,
 
 	eab_book_and_contact_list_from_string (data->data, &source_book, &contactlist);
 
-	if (source_book) {
-		if (!e_book_open (source_book, FALSE, NULL)) {
-			g_warning (G_STRLOC ": Couldn't open source EBook.");
-			g_object_unref (source_book);
-			source_book = NULL;
-		}
-	} else {
-		g_warning (G_STRLOC ": No source EBook provided.");
-	}
+	AddressbookView *view = (AddressbookView *) user_data;
+	EABView *v = get_current_view (view);
+	g_object_get (v->model, "book",&source_book, NULL);
 
 	/* Set up merge context */
 
@@ -1213,7 +1207,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	merge_context->current_contact = contactlist->data;
 	merge_context->remaining_contacts = g_list_delete_link (contactlist, contactlist);
 
-	merge_context->remove_from_source = context->suggested_action == GDK_ACTION_MOVE ? TRUE : FALSE;
+	merge_context->remove_from_source = context->suggested_action == GDK_ACTION_MOVE ? FALSE : TRUE;
 
 	/* Start merge */
 
