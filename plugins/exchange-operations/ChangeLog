@@ -1,3 +1,12 @@
+2006-06-15  Sushma Rai  <rsushma@novell.com>
+
+	* Makefile.am: Added exchange-oof.glade to the list of glade files.
+
+	* exchange-config-listener.c (exchange_config_listener_authenticate):
+	On successful connection, checking if the OOF state is set in the 
+	server, and if it is set, asking the user if he wants to change it
+	to in-office during login. Fixes #344650.
+
 2006-06-13  Sushma Rai  <rsushma@novell.com>
 
 	* org-gnome-exchange-operations.error.xml: defined a new error code and

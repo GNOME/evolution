@@ -59,7 +59,8 @@ glade_DATA =							\
 	exchange-folder-tree.glade				\
 	exchange-permissions-dialog.glade			\
 	e-foreign-folder-dialog.glade				\
-	exchange-passwd-expiry.glade
+	exchange-passwd-expiry.glade				\
+	exchange-oof.glade
 
 error_DATA = org-gnome-exchange-operations.error
 errordir = $(privdatadir)/errors

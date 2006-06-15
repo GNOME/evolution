@@ -32,6 +32,7 @@
 
 #include <exchange-constants.h>
 #include <exchange-hierarchy.h>
+#include <exchange-oof.h>
 #include <e-folder-exchange.h>
 #include <e2k-marshal.h>
 #include <e2k-uri.h>
@@ -733,8 +734,13 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		e_passwords_forget_password ("Exchange", key);
 		exchange_account_set_save_password (account, FALSE);
 	}
+
  	exchange_account_connect (account, password, &result);
+
 	g_free (password);
+	g_free (key);
+	camel_url_free (camel_url);
+
 	if (result == EXCHANGE_ACCOUNT_PASSWORD_EXPIRED) {
 #ifdef HAVE_KRB5
 		new_password = get_new_exchange_password (account);
@@ -784,7 +790,6 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		 * expiry warning period 
 		 */
 		result = EXCHANGE_ACCOUNT_CONNECT_SUCCESS;
-		
 	}
 	if (result == EXCHANGE_ACCOUNT_CONNECT_SUCCESS) {
 		int max_pwd_age_days;
@@ -794,9 +799,41 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		if (max_pwd_age_days >= 0) {
 			display_passwd_expiry_message (max_pwd_age_days, account);
 		}
+
+		/* check for oof state */
+
+		GladeXML *xml;
+		GtkWidget *dialog;
+		GtkResponseType response;
+		gboolean oof;
+
+		if (exchange_oof_get (account, &oof, NULL)) {
+			if (oof) {
+				/* OOF state is set, check if user wants to set it back to in-office */
+				xml = glade_xml_new (CONNECTOR_GLADEDIR "/exchange-oof.glade",
+						     "oof_dialog", NULL);
+				if (!xml) {
+					e_error_run (NULL, "org-gnome-exchange-operations:state-update-error", NULL);
+					return result;
+				}
+
+				dialog = glade_xml_get_widget (xml, "oof_dialog");
+				if (!dialog) {
+					e_error_run (NULL, "org-gnome-exchange-operations:state-update-error", NULL);
+					g_object_unref (xml);
+					return result;
+				}
+	
+				response = gtk_dialog_run (GTK_DIALOG (dialog));
+				gtk_widget_destroy (dialog);
+				g_object_unref (xml);
+
+				if (response == GTK_RESPONSE_YES)
+					if (!exchange_oof_set (account, FALSE, NULL))
+						e_error_run (NULL, "org-gnome-exchange-operations:state-update-error", NULL);
+			}
+		}
 	}
-	g_free (key);
-	camel_url_free (camel_url);
 	return result;
 }
 
