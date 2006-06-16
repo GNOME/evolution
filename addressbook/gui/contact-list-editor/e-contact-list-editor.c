@@ -484,7 +484,11 @@ close_cb (GtkWidget *widget, EContactListEditor *cle)
 static void
 save_and_close_cb (GtkWidget *widget, EContactListEditor *cle)
 {
-	save_contact (cle, TRUE);
+	EABEditor *editor = EAB_EDITOR (cle);
+	if (! (cle->editable  &&  cle->allows_contact_lists))
+		eab_editor_close(editor);
+	else
+		save_contact (cle, TRUE);
 }
 
 static void
@@ -903,7 +907,8 @@ set_editable (EContactListEditor *editor)
 	gtk_widget_set_sensitive (editor->add_button, editor->editable && editor->allows_contact_lists);
 	gtk_widget_set_sensitive (editor->remove_button, editor->editable && editor->allows_contact_lists);
 	gtk_widget_set_sensitive (editor->select_button, editor->editable && editor->allows_contact_lists);
-	gtk_widget_set_sensitive (editor->table, editor->editable && editor->allows_contact_lists);
+	gtk_widget_set_sensitive (editor->cancel_button, editor->editable && editor->allows_contact_lists);
+	gtk_widget_set_sensitive (editor->visible_addrs_checkbutton, editor->editable && editor->allows_contact_lists);
 }
 
 /* Callback used when the editor is destroyed */
