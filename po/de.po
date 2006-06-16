@@ -4,7 +4,7 @@
 # Manuel Borchers <webmaster@matronix.de>, 2002.
 # Kai Lahmann <kl@linuxfaqs.de>, 2000.
 # Matthias Warkus <mawa@iname.com>, 2000.
-# Hendrik Richter <hendik@gnome-de.org>, 2004, 2005.
+# Hendrik Richter <hendik@gnome-de.org>, 2004, 2005, 2006.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 #
 # Sprachregelungen:
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-01 18:03+0200\n"
-"PO-Revision-Date: 2006-05-01 18:11+0200\n"
+"PO-Revision-Date: 2006-06-16 12:19+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -771,7 +771,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Das Format der Telefonnummnern hat sich teilweise geändert.\n"
+"Das Format der Telefonnummern hat sich teilweise geändert.\n"
 "\n"
 "Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner..."
 
