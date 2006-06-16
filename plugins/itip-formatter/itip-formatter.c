@@ -273,6 +273,12 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 						      _("Failed to load the calendar '%s'"),
 						      e_source_peek_name (source));
+		 
+		if (pitip->current_ecal == ecal) {
+			pitip->current_ecal = NULL;
+			itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
+		}
+
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 		return;
 	}
@@ -391,6 +397,11 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 						      _("Failed to load the calendar '%s'"),
 						      e_source_peek_name (source));
+		if (pitip->current_ecal == ecal) {
+			pitip->current_ecal = NULL;
+			itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
+		}
+			
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 		goto cleanup;
 	}
@@ -443,7 +454,6 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		else
 			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
 	}
-
 
  cleanup:
 	d(printf ("Decreasing itip formatter search count to %d\n", fd->count));

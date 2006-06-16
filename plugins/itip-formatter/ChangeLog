@@ -1,3 +1,10 @@
+2006-06-16  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #179774 (b.n.c)
+	* itip-formatter.c: (cal_opened_cb), (find_cal_opened_cb):
+	Reset the current_ecal and disable the buttons if the calendar
+	is not opened properly.
+
 2006-06-09  Chris Heath <chris@heathens.co.nz>
 
 	* itip-view.c (itip_view_destroy): Fix memory leak.
