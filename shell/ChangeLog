@@ -1,3 +1,13 @@
+2006-06-17  Tor Lillqvist  <tml@novell.com>
+
+	* e-shell.c (impl_finalize): Don't call
+	bonobo_activation_active_server_unregister() here, it's too late,
+	the EShell Bonobo object has already been deactivated and its
+	associated CORBA object is NULL.
+	(notify_no_windows_left_idle_cb): Instead, call
+	bonobo_activation_active_server_unregister() here, when the EShell
+	Bonobo object is still fully active.
+
 2006-06-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #252814
