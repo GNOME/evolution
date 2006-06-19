@@ -360,13 +360,18 @@ static gboolean
 notify_no_windows_left_idle_cb (void *data)
 {
 	EShell *shell;
+	EShellPrivate *priv;
 
 	shell = E_SHELL (data);
+	priv = shell->priv;
 
 	set_interactive (shell, FALSE);
 
 	g_signal_emit (shell, signals [NO_WINDOWS_LEFT], 0);
 
+	if (priv->iid != NULL)
+		bonobo_activation_active_server_unregister (priv->iid,
+							    bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
 	bonobo_object_unref (BONOBO_OBJECT (shell));
 
 	return FALSE;
@@ -467,10 +472,6 @@ impl_finalize (GObject *object)
 
 	shell = E_SHELL (object);
 	priv = shell->priv;
-
-	if (priv->iid != NULL)
-		bonobo_activation_active_server_unregister (priv->iid,
-							    bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
 
 	e_free_string_list (priv->crash_type_names);
 
