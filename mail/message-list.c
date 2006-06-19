@@ -1519,9 +1519,19 @@ static ECell * create_composite_cell (int col)
 	e_cell_vbox_append (cell_vbox, cell_hbox, COL_FROM);
 	e_cell_vbox_append (cell_vbox, cell_tree, COL_SUBJECT);
 
+	g_object_set_data (cell_vbox, "cell_date", cell_date);
+	g_object_set_data (cell_vbox, "cell_sub", cell_sub);
+	g_object_set_data (cell_vbox, "cell_from", cell_from);
 	return cell_vbox;
 }
 
+static void
+composite_cell_set_strike_col (ECell *cell, int col)
+{
+	g_object_set (g_object_get_data(cell, "cell_date"),  "strikeout_column", col, NULL);
+	g_object_set (g_object_get_data(cell, "cell_from"),  "strikeout_column", col, NULL);	
+}
+	
 static ETableExtras *
 message_list_create_extras (void)
 {
@@ -3024,6 +3034,12 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		
 		cell = e_table_extras_get_cell (message_list->extras, "render_size");
 		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
+
+		cell = e_table_extras_get_cell (message_list->extras, "render_composite_from");		
+		composite_cell_set_strike_col (cell, strikeout_col);
+
+		cell = e_table_extras_get_cell (message_list->extras, "render_composite_to");		
+		composite_cell_set_strike_col (cell, strikeout_col);
 		
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);
