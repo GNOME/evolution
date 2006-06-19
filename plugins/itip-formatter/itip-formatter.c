@@ -796,7 +796,6 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 		CamelMimeMessage *msg = ((EMFormat *) pitip->pobject.format)->message;
 		
 		e_cal_component_get_attachment_list (clone_comp, &attachments);
-		g_message ("Number of attachments is %d", g_slist_length (attachments));
 		
 		for (l = attachments; l; l = l->next) {
 			GSList *parts = NULL, *m;
@@ -817,7 +816,6 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 						continue;
 
 					new_uri = em_utils_temp_save_part (NULL, part);
-					g_message ("DEBUG: the uri obtained was %s\n", new_uri);
 					new_attachments = g_slist_append (new_attachments, new_uri);
 				}
 
