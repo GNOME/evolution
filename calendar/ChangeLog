@@ -71,7 +71,6 @@
 	meeting-page.[ch], cal-attachment.glade and references
 	in includes.
 
->>>>>>> 1.3011.2.25
 2006-05-25  Tor Lillqvist  <tml@novell.com>
 
 	* gui/dialogs/event-editor.c (event_editor_init): Construct
