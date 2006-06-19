@@ -427,12 +427,31 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 			e_source_set_color (sdialog->source, color);
 	} else {
 		GConfClient *gconf;
-		GSList *l;
+		GSList *l, *ptr, *temp = NULL;
 
 		sdialog->source = e_source_new ("", "");
 		gconf = gconf_client_get_default ();
 		sdialog->source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
 		l = e_source_list_peek_groups (sdialog->source_list);
+		/* Skip GW as it supports only one calendar */
+		ptr = l;
+		if (!strncmp (e_source_group_peek_base_uri ((ESourceGroup *)ptr->data),
+				"groupwise://", 12 )) {
+				l = l->next;
+				g_object_unref (ptr->data);
+				g_slist_free_1 (ptr);
+		}
+		for (ptr=l; ptr->next;) {
+			if (!strncmp (e_source_group_peek_base_uri ((ESourceGroup *)ptr->next->data),
+				"groupwise://", 12 )) {
+				temp = ptr->next;
+				ptr->next = temp->next;
+				g_object_unref (temp->data);
+				g_slist_free_1 (temp);
+			} else {
+				ptr = ptr->next;
+			}	
+		}
 		sdialog->menu_source_groups = g_slist_copy(l);
 
 		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;

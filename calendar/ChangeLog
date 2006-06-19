@@ -1,5 +1,11 @@
 2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
 
+	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_calendar):
+	Remove GroupWise from the Calendar ESource Groups as it supports
+	a single calendar only. 
+
+2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
+
 	* gui/dialogs/comp-editor.c (fill_widgets):
 	Free GSList and its data after calling 
 	e_cal_component_get_attachment_list.
