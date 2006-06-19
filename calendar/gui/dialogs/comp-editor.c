@@ -2357,6 +2357,8 @@ fill_widgets (CompEditor *editor)
 		GSList *attachment_list = NULL;
 		e_cal_component_get_attachment_list (priv->comp, &attachment_list);
 		set_attachment_list (editor, attachment_list);
+		g_slist_foreach (attachment_list, g_free, NULL);
+		g_slist_free (attachment_list);
 	}	
 
 	for (l = priv->pages; l != NULL; l = l->next)

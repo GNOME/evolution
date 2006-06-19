@@ -1,3 +1,9 @@
+2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/comp-editor.c (fill_widgets):
+	Free GSList and its data after calling 
+	e_cal_component_get_attachment_list.
+
 2006-06-14  Arvind_evo <sa.phoenix@gmail.com>
 
 	* gui/dialogs/event-page.c : Enabled save button when the group is 
