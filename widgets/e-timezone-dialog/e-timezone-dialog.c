@@ -37,6 +37,18 @@
 
 #include "e-timezone-dialog.h"
 
+#ifdef G_OS_WIN32
+/* Undef the similar macros from pthread.h, they don't check if
+ * gmtime() and localtime() return NULL.
+ */
+#undef gmtime_r
+#undef localtime_r
+
+/* The gmtime() and localtime() in Microsoft's C library are MT-safe */
+#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
+#define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
+#endif
+
 #define E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA 0xc070a0ff
 #define E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA 0xffff60ff
 #define E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA 0xff60e0ff
@@ -66,9 +78,11 @@ struct _ETimezoneDialogPrivate {
 	GtkWidget *preview_label;
 };
 
+#ifndef G_OS_WIN32 /* Declared properly in time.h already */
 extern char *tzname[2];
 extern long timezone;
 extern int daylight;
+#endif
 
 static void e_timezone_dialog_class_init	(ETimezoneDialogClass *class);
 static void e_timezone_dialog_init		(ETimezoneDialog      *etd);

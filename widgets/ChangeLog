@@ -1,3 +1,10 @@
+2006-06-19  Tor Lillqvist  <tml@novell.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c: Define gmtime_r() and
+	localtime_r() macros for Win32. Should not declare tzname,
+	timezone and daylight on Win32, they are declared properly in
+	<time.h> already.
+
 2006-06-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #204798 , #235691 , #229132
