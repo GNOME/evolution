@@ -1,3 +1,13 @@
+2006-06-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #252814
+	Committing a patch from Oswald.
+
+	* e-combo-button.c: (e_combo_button_init),
+	(e_combo_button_pack_hbox), (e_combo_button_pack_vbox):
+	* e-combo-button.h: Adds new packing support for supporting toolbar
+	options.
+
 2006-06-19  Chpe <chpe@gnome.org>
 
 	* e-combo-button.c: (paint): Fix for bug #262210

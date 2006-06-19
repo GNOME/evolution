@@ -30,6 +30,7 @@
 
 #include <gtk/gtkarrow.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkimage.h>
@@ -42,10 +43,12 @@ struct _EComboButtonPrivate {
 	GtkWidget *label;
 	GtkWidget *arrow_image;
 	GtkWidget *hbox;
+	GtkWidget *vbox;
 
 	GtkMenu *menu;
 
 	gboolean menu_popped_up;
+	gboolean is_already_packed;
 };
 
 #define SPACING 2
@@ -437,6 +440,23 @@ e_combo_button_init (EComboButton *combo_button)
 
 	priv = g_new (EComboButtonPrivate, 1);
 	combo_button->priv = priv;
+	
+	priv->icon              = NULL;
+	priv->menu              = NULL;
+	priv->menu_popped_up    = FALSE;
+	priv->is_already_packed = FALSE;
+}
+
+void
+e_combo_button_pack_hbox (EComboButton *combo_button)
+{
+	EComboButtonPrivate *priv;
+	
+	priv = combo_button->priv;
+
+	if(priv->is_already_packed){
+		gtk_widget_destroy (priv->hbox);
+	}
 
 	priv->hbox = gtk_hbox_new (FALSE, SPACING);
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
@@ -448,17 +468,56 @@ e_combo_button_init (EComboButton *combo_button)
 
 	priv->label = gtk_label_new ("");
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE,
-			    2 * GTK_WIDGET (combo_button)->style->xthickness);
+			    0);
 	gtk_widget_show (priv->label);
 
 	priv->arrow_image = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_box_pack_end (GTK_BOX (priv->hbox), priv->arrow_image, TRUE, TRUE,
 			  GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->arrow_image);
+	
+	gtk_widget_show (priv->hbox);
+	
+	priv->is_already_packed = TRUE;
+}
 
-	priv->icon           = NULL;
-	priv->menu           = NULL;
-	priv->menu_popped_up = FALSE;
+void
+e_combo_button_pack_vbox (EComboButton *combo_button)
+{
+	EComboButtonPrivate *priv;
+	
+	priv = combo_button->priv;
+	
+	if(priv->is_already_packed){
+		gtk_widget_destroy (priv->hbox);
+	}
+
+	priv->hbox = gtk_hbox_new (FALSE, SPACING);
+	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
+	gtk_widget_show (priv->hbox);
+
+   	priv->vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (priv->vbox);
+	
+	priv->icon_image = e_icon_factory_get_image (NULL, E_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (priv->vbox), priv->icon_image, TRUE, TRUE, 0);
+	gtk_widget_show (priv->icon_image);
+
+	priv->label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (priv->vbox), priv->label, TRUE, TRUE,
+			    0);
+	gtk_widget_show (priv->label);
+
+	gtk_box_pack_start (GTK_BOX(priv->hbox),priv->vbox, TRUE, TRUE, 0);
+	
+	priv->arrow_image = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	gtk_box_pack_end (GTK_BOX (priv->hbox), priv->arrow_image, TRUE, TRUE,
+			  GTK_WIDGET (combo_button)->style->xthickness);
+	gtk_widget_show (priv->arrow_image);
+	
+	gtk_widget_show (priv->hbox);
+	
+	priv->is_already_packed = TRUE;
 }
 
 

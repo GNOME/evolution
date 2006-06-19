@@ -72,6 +72,8 @@ void       e_combo_button_set_label  (EComboButton *combo_button,
 				      const char   *label);
 void       e_combo_button_set_menu   (EComboButton *combo_button,
 				      GtkMenu      *menu);
+void       e_combo_button_pack_vbox  (EComboButton *combo_button);
+void       e_combo_button_pack_hbox  (EComboButton *combo_button);
 
 GtkWidget *e_combo_button_get_label  (EComboButton *combo_button);
 

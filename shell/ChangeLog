@@ -1,3 +1,11 @@
+2006-06-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #252814
+	
+	* e-user-creatable-items-handler.c: (new_button_change),
+	(setup_toolbar_button), (e_user_creatable_items_handler_activate):
+	Read the toolbar setting and set the combo button. Patch from Oswald.
+
 2006-06-17  Andre Klapper  <a9016009@gmx.de>
 
 	* main.c: update last stable version number from 2.6.1 to 2.6.2

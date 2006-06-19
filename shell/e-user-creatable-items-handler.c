@@ -50,6 +50,9 @@
 #include <ctype.h>
 #include <string.h>
 
+#include <gconf/gconf-client.h>
+#include <libgnome/gnome-gconf.h>
+
 struct _Component {
 	char *id, *alias;
 	GNOME_Evolution_Component component;
@@ -668,11 +671,53 @@ gtk_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, int nth)
 }
 
 static void
+new_button_change (GConfClient *gconf,
+		   unsigned int connection_id,
+		   GConfEntry *entry,
+		   EUserCreatableItemsHandler *handler)
+{
+	EUserCreatableItemsHandlerPrivate *priv;
+	char *val;
+
+	priv = handler->priv;
+	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
+
+	if(!g_ascii_strcasecmp (val,"both")){
+		e_combo_button_pack_vbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 priv->default_menu_item->icon);
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _(" New "));
+	}
+	else if(!g_ascii_strcasecmp (val,"both-horiz")){
+		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 priv->default_menu_item->icon);
+	}
+	else if(!g_ascii_strcasecmp (val,"icons")){
+		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 priv->default_menu_item->icon);
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button),_(""));
+	}
+	else if(!g_ascii_strcasecmp(val,"text")){
+		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 NULL);
+	}
+	gtk_widget_show (priv->new_button);
+}
+
+static void
 setup_toolbar_button (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
+ 	GConfClient *gconf = gconf_client_get_default ();
+	char *val;
 
 	priv = handler->priv;
+	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
 
 	priv->new_button = e_combo_button_new ();
 	priv->new_menu = gtk_menu_new ();
@@ -682,9 +727,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	gtk_widget_show_all (priv->new_menu);
 	e_combo_button_set_menu (E_COMBO_BUTTON (priv->new_button),
 				 GTK_MENU (priv->new_menu));
-	e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
-	gtk_widget_show (priv->new_button);
-
+        
 	g_signal_connect (priv->new_button, "activate_default",
 			  G_CALLBACK (default_activate), handler);
 
@@ -697,10 +740,36 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	}
 
 	gtk_widget_set_sensitive (priv->new_button, TRUE);
+	
+	if(!g_ascii_strcasecmp (val,"both")){
+		e_combo_button_pack_vbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 priv->default_menu_item->icon);
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _(" New "));
+	}
+	else if(!g_ascii_strcasecmp (val,"both-horiz")){
+		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 priv->default_menu_item->icon);
+	}
+	else if(!g_ascii_strcasecmp (val,"icons")){
+		e_combo_button_pack_vbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 priv->default_menu_item->icon);
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), NULL);
+	}
+	else if(!g_ascii_strcasecmp(val,"text")){
+		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
+		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+					 NULL);
+	}
 
-	e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-				 priv->default_menu_item->icon);
+	gconf_client_notify_add(gconf,"/desktop/gnome/interface/toolbar_style", 
+		(GConfClientNotifyFunc)new_button_change, handler, NULL, NULL);
 
+	gtk_widget_show (priv->new_button);
 	priv->tooltips = gtk_tooltips_new ();
 	gtk_object_ref (GTK_OBJECT (priv->tooltips));
 	gtk_object_sink (GTK_OBJECT (priv->tooltips));
@@ -863,5 +932,3 @@ e_user_creatable_items_handler_activate (EUserCreatableItemsHandler *handler,
 					BONOBO_OBJREF (priv->new_control),
 					NULL);
 }
-
-
