@@ -94,6 +94,7 @@ paint (EComboButton *combo_button,
 {
 	EComboButtonPrivate *priv = combo_button->priv;
 	GtkWidget *widget = GTK_WIDGET (combo_button);
+	GtkButton *button = GTK_BUTTON (combo_button);
 	GtkShadowType shadow_type;
 	gboolean interior_focus;
 	int separator_x;
@@ -142,17 +143,22 @@ paint (EComboButton *combo_button,
 		height -= 2 * (focus_width + focus_pad);
 	}
 
-	gtk_paint_box (widget->style, widget->window,
-		       GTK_WIDGET_STATE (widget), shadow_type,
-		       area, widget, "button",
-		       x, y, separator_x, height);
+	if (button->relief != GTK_RELIEF_NONE || button->depressed ||
+	    priv->menu_popped_up ||
+	    GTK_WIDGET_STATE (widget) == GTK_STATE_PRELIGHT) {
 
-	if (width - separator_x > 0)
 		gtk_paint_box (widget->style, widget->window,
 			       GTK_WIDGET_STATE (widget), shadow_type,
 			       area, widget, "button",
-			       separator_x, y, width - separator_x, height);
-
+			       x, y, separator_x, height);
+	
+		if (width - separator_x > 0)
+			gtk_paint_box (widget->style, widget->window,
+				       GTK_WIDGET_STATE (widget), shadow_type,
+				       area, widget, "button",
+				       separator_x, y, width - separator_x, height);
+	}
+	
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
 		if (interior_focus) {
 			x += widget->style->xthickness + focus_pad;

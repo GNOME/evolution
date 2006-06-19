@@ -1,3 +1,7 @@
+2006-06-19  Chpe <chpe@gnome.org>
+
+	* e-combo-button.c: (paint): Fix for bug #262210
+
 2006-06-09  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	* e-dateedit.c (): Removing aggressive time check when entering a
