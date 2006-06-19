@@ -1396,7 +1396,7 @@ static void
 view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 {
 	FormatItipPObject *pitip = data;
-	gboolean status = FALSE;
+	gboolean status = FALSE, delete_invitation_from_cache = FALSE;
 	icalproperty *prop;
 	ECalComponentTransparency trans;
 
@@ -1418,53 +1418,67 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	}
 
 	switch (response) {
-	case ITIP_VIEW_RESPONSE_ACCEPT:
-		status = change_status (pitip->ical_comp, pitip->my_address, 
+		case ITIP_VIEW_RESPONSE_ACCEPT:
+			status = change_status (pitip->ical_comp, pitip->my_address, 
 					ICAL_PARTSTAT_ACCEPTED);
-		if (status) {
-			e_cal_component_rescan (pitip->comp);
-			update_item (pitip, response);
-		}
-		break;
-	case ITIP_VIEW_RESPONSE_TENTATIVE:
-		status = change_status (pitip->ical_comp, pitip->my_address,
+			if (status) {
+				e_cal_component_rescan (pitip->comp);
+				update_item (pitip, response);
+				if (e_cal_get_save_schedules (pitip->current_ecal))
+					delete_invitation_from_cache = TRUE;
+			}
+			break;
+		case ITIP_VIEW_RESPONSE_TENTATIVE:
+			status = change_status (pitip->ical_comp, pitip->my_address,
 					ICAL_PARTSTAT_TENTATIVE);
-		if (status) {
-			e_cal_component_rescan (pitip->comp);
-			update_item (pitip, response);
-		}
-		break;
-	case ITIP_VIEW_RESPONSE_DECLINE:
-		status = change_status (pitip->ical_comp, pitip->my_address,
+			if (status) {
+				e_cal_component_rescan (pitip->comp);
+				update_item (pitip, response);
+				if (e_cal_get_save_schedules (pitip->current_ecal))
+					delete_invitation_from_cache = TRUE;
+
+			}
+			break;
+		case ITIP_VIEW_RESPONSE_DECLINE:
+			status = change_status (pitip->ical_comp, pitip->my_address,
 					ICAL_PARTSTAT_DECLINED);
-		if (status) {
-			e_cal_component_rescan (pitip->comp);
+			if (status) {
+				e_cal_component_rescan (pitip->comp);
+				update_item (pitip, response);
+				if (e_cal_get_save_schedules (pitip->current_ecal))
+					delete_invitation_from_cache = TRUE;
+			}
+			break;
+		case ITIP_VIEW_RESPONSE_UPDATE:
+			update_attendee_status (pitip);
+			break;
+		case ITIP_VIEW_RESPONSE_CANCEL:
 			update_item (pitip, response);
-		}
-		break;
-	case ITIP_VIEW_RESPONSE_UPDATE:
-		update_attendee_status (pitip);
-		break;
-	case ITIP_VIEW_RESPONSE_CANCEL:
-		update_item (pitip, response);
-		break;
-	case ITIP_VIEW_RESPONSE_REFRESH:
-		send_item (pitip);
-		break;
-	case ITIP_VIEW_RESPONSE_OPEN:
-		g_idle_add (idle_open_cb, pitip);
-		return;
-	default:
-		break;
+			break;
+		case ITIP_VIEW_RESPONSE_REFRESH:
+			send_item (pitip);
+			break;
+		case ITIP_VIEW_RESPONSE_OPEN:
+			g_idle_add (idle_open_cb, pitip);
+			return;
+		default:
+			break;
 	}
 
-	if (pitip->delete_message) {
+	if (delete_invitation_from_cache) {
+		CamelFolderChangeInfo *changes = NULL;
+		camel_folder_summary_remove_uid(((EMFormat *) pitip->pobject.format)->folder->summary, ((EMFormat *) pitip->pobject.format)->uid);
+		changes = camel_folder_change_info_new ();
+		camel_folder_change_info_remove_uid (changes, (char *)((EMFormat *) pitip->pobject.format)->uid);
+		camel_object_trigger_event (((EMFormat *) pitip->pobject.format)->folder, "folder_changed", changes);
+		camel_folder_change_info_free (changes);
+	}
+
+	if (!delete_invitation_from_cache && pitip->delete_message) {
 		g_message ("Deleting!");
 		camel_folder_delete_message (((EMFormat *) pitip->pobject.format)->folder, ((EMFormat *) pitip->pobject.format)->uid);
 	}
 	
-        if (e_cal_get_save_schedules (pitip->current_ecal))
-                return;
 
         if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
                 ECalComponent *comp = NULL;

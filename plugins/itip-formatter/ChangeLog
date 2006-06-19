@@ -1,3 +1,8 @@
+2006-06-19  Sankar P  <psankar@novell.com>
+	
+	* itip-formatter.c:
+	Deletes meeting invitations for GW when they are accepted/declined.
+	
 2006-06-09  Chris Heath <chris@heathens.co.nz>
 
 	* itip-view.c (itip_view_destroy): Fix memory leak.
