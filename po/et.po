@@ -5520,7 +5520,7 @@ msgstr "Laupäev"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "Select the calendars for alarm notification"
-msgstr ""
+msgstr "Alarmmärguannetega kalendrite valimine"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Sh_ow a reminder"
@@ -6183,7 +6183,7 @@ msgstr "Sündmuse kirjeldus"
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr "Kokku_võte:"
+msgstr "Kokkuvõt_e:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 msgid "_Alarm"
@@ -18527,7 +18527,7 @@ msgstr "Laiendatud saatmisvalikute lisamine"
 
 #: ../ui/evolution-event-editor.xml.h:10
 msgid "Make this a recurring event"
-msgstr "Muuda seekordne sündmus korduvaks"
+msgstr "Selle sündmuse muutmine korduvaks"
 
 #: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-memo-editor.xml.h:4
 #: ../ui/evolution-task-editor.xml.h:6
@@ -19763,7 +19763,7 @@ msgstr "Ainult _ikoonid"
 
 #: ../ui/evolution.xml.h:47
 msgid "_Quick Reference"
-msgstr "_Kiirviide"
+msgstr "_Välkjuhend"
 
 #: ../ui/evolution.xml.h:48
 msgid "_Quit"
