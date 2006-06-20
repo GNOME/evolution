@@ -1,3 +1,8 @@
+2006-06-20  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c
+	(zone_display_name_with_offset): Fix compiler warning.
+
 2006-06-19  Tor Lillqvist  <tml@novell.com>
 
 	* e-timezone-dialog/e-timezone-dialog.c: Define gmtime_r() and

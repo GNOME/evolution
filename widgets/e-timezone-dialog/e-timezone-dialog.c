@@ -411,7 +411,6 @@ zone_display_name_with_offset (icaltimezone *zone)
 	int offset;
 	char buffer [100];
 	time_t now = time(NULL);
-	char *display;
 	
 	gmtime_r ((const time_t *) &now, &local);
 	tt = tm_to_icaltimetype (&local, TRUE);
