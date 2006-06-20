@@ -6,5 +6,10 @@
 Proxy login as &quot;{0}&quot; was unsuccessful. Please check Email Id and try again; 
 </secondary>
 </error>
-</error-list>
 
+<error id="already-loggedin" type="error">
+	<primary>Account Already Exists</primary>
+	<secondary>Account &quot;{0}&quot; already exists. Please check your folder tree.</secondary>
+</error>
+
+</error-list>
