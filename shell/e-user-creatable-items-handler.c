@@ -754,7 +754,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 					 priv->default_menu_item->icon);
 	}
 	else if(!g_ascii_strcasecmp (val,"icons")){
-		e_combo_button_pack_vbox (E_COMBO_BUTTON (priv->new_button));
+		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
 		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
 					 priv->default_menu_item->icon);
 		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), NULL);
