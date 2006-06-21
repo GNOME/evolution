@@ -627,6 +627,7 @@ emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
 	EMFolderView *emfv = data;
 	
 	message_list_select_all(emfv->list);
+	gtk_widget_grab_focus (emfv->list);
 }
 
 static void

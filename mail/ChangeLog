@@ -1,3 +1,10 @@
+2006-06-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #344338
+	
+	* em-folder-browser.c: (emfb_edit_select_all): grab focus after
+	Ctrl+A.
+
 2006-06-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #344580
