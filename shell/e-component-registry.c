@@ -314,11 +314,11 @@ e_component_registry_peek_info (EComponentRegistry *registry,
 
 		switch (field) {
 		case ECR_FIELD_ID:
-			if (strcmp (info->id, key) == 0)
+			if (info->id && (strcmp (info->id, key) == 0))
 				return info;
 			break;
 		case ECR_FIELD_ALIAS:
-			if (strcmp (info->alias, key) == 0)
+			if (info->alias && (strcmp (info->alias, key) == 0))
 				return info;
 			break;
 		case ECR_FIELD_SCHEMA:
