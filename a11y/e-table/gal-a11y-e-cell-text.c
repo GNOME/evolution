@@ -66,7 +66,7 @@ ect_check (gpointer a11y)
 		|| gaec->model_col <0 || gaec->model_col >= e_table_model_column_count (item->table_model))
 		return FALSE;
 
-	if (!GAL_A11Y_IS_E_CELL_TEXT (gaec->cell_view->ecell))
+	if (!E_IS_CELL_TEXT (gaec->cell_view->ecell))
 		return FALSE;
 
 	return TRUE;
