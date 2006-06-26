@@ -121,7 +121,7 @@ init_dbus (void)
 	
 	dbus_error_init (&error);
 	if (!(bus = dbus_bus_get (DBUS_BUS_SESSION, &error))) {
-		g_warning ("could not get system bus: %s\n", error.message);
+		g_warning ("could not get session bus: %s\n", error.message);
 		dbus_error_free (&error);
 		return FALSE;
 	}
