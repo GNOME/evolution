@@ -1,13 +1,14 @@
 2006-06-12  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
+
 	Fixes bug #177416 on bnc
-	* e-msg-composer.c: (attachment_guess_mime_type):
-	initialise type to "" and not NULL.
-	
+
+	* e-msg-composer.c (attachment_guess_mime_type): initialise type
+	to "" and not NULL.
+
 2006-05-26  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-msg-composer.c (drop_action): If 'str' is empty, continue
-	immediately rather than trying to parse it a URL.
+	immediately rather than trying to parse it as a URL.
 
 2006-05-25  Jeffrey Stedfast  <fejj@novell.com>
 
@@ -23,12 +24,12 @@
 
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
-	Added support to attach from remote shares
-
 	* e-msg-composer-select-file.c (get_selector),
-	(select_attach_response):
+	(select_attach_response): Added support to attach from remote
+	shares
 
-	* e-msg-composer.c (add_to_bar, drop_action):
+	* e-msg-composer.c (add_to_bar, drop_action): Added support to
+	attach from remote shares
 
 2006-03-09  Sam Yang  <sam.yang@sun.com>
 
