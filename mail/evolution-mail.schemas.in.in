@@ -475,7 +475,7 @@
       <key>/schemas/apps/evolution/mail/display/address_compress</key>
       <applyto>/apps/evolution/mail/display/address_compress</applyto>
       <owner>evolution-mail</owner>
-      <type>boolean</type>
+      <type>bool</type>
       <default>true</default>
       <locale name="C">
          <short>Compress display of addresses in TO/CC/BCC</short>

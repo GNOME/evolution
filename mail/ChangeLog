@@ -1,3 +1,8 @@
+2006-06-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution-mail.schemas.in.in:
+	Changed type name "boolean" to "bool". Fixes bug #345677.
+
 2006-06-27  Arvind_evo  <sa.phoenix@gmail.com>
 		
 	Fix for bug#260354 comment 35:
