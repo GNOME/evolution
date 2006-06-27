@@ -661,8 +661,10 @@ do_delete (gpointer data, gpointer user_data)
 {
 	EBook *book = user_data;
 	EContact *contact = data;
-
-	e_book_async_remove_contact(book, contact, contact_deleted_cb, NULL);
+	const char *id;
+	
+	id = e_contact_get_const (contact, E_CONTACT_UID);
+	e_book_remove_contact(book, id, NULL);
 }
 
 static void
