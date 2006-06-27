@@ -1,3 +1,9 @@
+2006-06-27  Arvind_evo  <sa.phoenix@gmail.com>
+		
+	Fix for bug#260354 comment 35:
+	* mail-component.c: set the window title to reflect the
+	localized folder names
+
 2006-06-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #344338
