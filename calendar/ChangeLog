@@ -1,3 +1,9 @@
+2006-06-28  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/e-itip-control.glade: Adding translator comments to the
+	"--to--" string. Removing three strings from translations.
+	Fixes bug #325126.
+
 2006-06-28  Rajeev ramanathan  <rajeevramanathan_2004@yahoo.co.in>
 
 	**Fixes bug #329305

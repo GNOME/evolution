@@ -147,7 +147,7 @@
 
                                 <child>
                                   <widget class="GtkLabel" id="dtstart_label">
-                                    <property name="label" translatable="yes">date-start</property>
+                                    <property name="label" translatable="no">date-start</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                                     <property name="wrap">no</property>
                                     <property name="xalign">0.5</property>
@@ -166,7 +166,7 @@
                                 <child>
                                   <widget class="GtkLabel" id="label3">
                                     <property name="label" translatable="yes">--to--</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify" comments="To Translators: in the sense of 'from a date --to-- a date">GTK_JUSTIFY_CENTER</property>
                                     <property name="wrap">no</property>
                                     <property name="xalign">0.5</property>
                                     <property name="yalign">0</property>
@@ -183,7 +183,7 @@
 
                                 <child>
                                   <widget class="GtkLabel" id="dtend_label">
-                                    <property name="label" translatable="yes">date-end</property>
+                                    <property name="label" translatable="no">date-end</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                                     <property name="wrap">no</property>
                                     <property name="xalign">0.5</property>
@@ -466,7 +466,7 @@
                     <property name="orientation">GTK_PROGRESS_LEFT_TO_RIGHT</property>
                     <property name="activity_mode">no</property>
                     <property name="show_text">no</property>
-                    <property name="format" translatable="yes">%P %%</property>
+                    <property name="format" translatable="no">%P %%</property>
                     <property name="text_xalign">0.5</property>
                     <property name="text_yalign">0.5</property>
                     <property name="visible">yes</property>
