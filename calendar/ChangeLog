@@ -1,3 +1,10 @@
+2006-06-28  Rajeev ramanathan  <rajeevramanathan_2004@yahoo.co.in>
+
+	**Fixes bug #329305
+
+	*gui/dialogs/event-page.glade: Changed mnemonic Atte_ndees to 
+	Attendee_s
+
 2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_calendar):
