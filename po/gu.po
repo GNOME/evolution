@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-20 05:50+0200\n"
-"PO-Revision-Date: 2006-06-20 10:51+0530\n"
+"POT-Creation-Date: 2006-06-29 06:27+0200\n"
+"PO-Revision-Date: 2006-06-29 10:37+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -3564,7 +3565,7 @@ msgid "Error adding list"
 msgstr "યાદી ઉમેરવામાં ભૂલ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
-#: ../addressbook/gui/widgets/eab-gui-util.c:700
+#: ../addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Error adding contact"
 msgstr "સંપર્ક ઉમેરવામાં ભૂલ"
 
@@ -3636,37 +3637,37 @@ msgstr "સરનામા પુસ્તિકા પસંદ કરો"
 msgid "list"
 msgstr "યાદી"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:761
+#: ../addressbook/gui/widgets/eab-gui-util.c:763
 msgid "Move contact to"
 msgstr "ને સંપર્ક ખસેડો"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:763
+#: ../addressbook/gui/widgets/eab-gui-util.c:765
 msgid "Copy contact to"
 msgstr "સંપર્કની નકલ અંહિ કરો"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:766
+#: ../addressbook/gui/widgets/eab-gui-util.c:768
 msgid "Move contacts to"
 msgstr "સંપર્કોને અંહિ ખસેડો"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:768
+#: ../addressbook/gui/widgets/eab-gui-util.c:770
 msgid "Copy contacts to"
 msgstr "સંપર્કોની નકલ અંહિ કરો"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:994
+#: ../addressbook/gui/widgets/eab-gui-util.c:996
 msgid "Multiple VCards"
 msgstr "ઘણાબધા VCards"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:997
+#: ../addressbook/gui/widgets/eab-gui-util.c:999
 #, c-format
 msgid "VCard for %s"
 msgstr "%s માટે VCard"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1038
-#: ../addressbook/gui/widgets/eab-gui-util.c:1056
+#: ../addressbook/gui/widgets/eab-gui-util.c:1040
+#: ../addressbook/gui/widgets/eab-gui-util.c:1058
 msgid "Contact information"
 msgstr "સંપર્ક જાણકારી"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1058
+#: ../addressbook/gui/widgets/eab-gui-util.c:1060
 #, c-format
 msgid "Contact information for %s"
 msgstr "%s માટે સંપર્ક જાણકારી"
@@ -6126,9 +6127,8 @@ msgid "15 minutes before appointment"
 msgstr "મુલાકાત પહેલાની ૧૫ મીનિટો"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
-#: ../calendar/gui/dialogs/task-page.glade.h:1
-msgid "Atte_ndees..."
-msgstr "સભાજનો (_n)..."
+msgid "Attendee_s..."
+msgstr "સભાજનો (_s)..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
@@ -6242,7 +6242,7 @@ msgid "Organizer"
 msgstr "આયોજક"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:7
-#: ../calendar/gui/e-itip-control.glade.h:9
+#: ../calendar/gui/e-itip-control.glade.h:7
 msgid "Organizer:"
 msgstr "આયોજક:"
 
@@ -6593,6 +6593,10 @@ msgstr "નક્કી થયેલ તારીખ ખોટી છે"
 msgid "Unable to open tasks in '%s'."
 msgstr "'%s' માં બાબતો ખોલવા સમર્થ નથી."
 
+#: ../calendar/gui/dialogs/task-page.glade.h:1
+msgid "Atte_ndees..."
+msgstr "સભાજનો (_n)..."
+
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
 msgstr "વર્ગો (_i)..."
@@ -6753,7 +6757,7 @@ msgstr "શીર્ષક વગરનું"
 
 #: ../calendar/gui/e-cal-component-preview.c:188
 #: ../calendar/gui/e-itip-control.c:1103
-#: ../calendar/gui/e-itip-control.glade.h:11
+#: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
 msgstr "સાર:"
 
@@ -6781,7 +6785,7 @@ msgstr "પ્રાધાન્ય:"
 
 #: ../calendar/gui/e-cal-component-preview.c:269
 #: ../calendar/gui/e-itip-control.c:1159
-#: ../calendar/gui/e-itip-control.glade.h:6
+#: ../calendar/gui/e-itip-control.glade.h:4
 #: ../composer/e-msg-composer-attachment.glade.h:2
 #: ../mail/mail-config.glade.h:69 ../widgets/misc/e-attachment.glade.h:3
 msgid "Description:"
@@ -7603,42 +7607,29 @@ msgstr "તાજી જાણકારી મોકલો"
 msgid "Cancel"
 msgstr "રદ કરો"
 
-#: ../calendar/gui/e-itip-control.glade.h:2
-#, no-c-format
-msgid "%P %%"
-msgstr "%P %%"
-
-#: ../calendar/gui/e-itip-control.glade.h:3
+#: ../calendar/gui/e-itip-control.glade.h:1
 msgid "--to--"
 msgstr "--પ્રતિ--"
 
-#: ../calendar/gui/e-itip-control.glade.h:4
+#: ../calendar/gui/e-itip-control.glade.h:2
 msgid "Calendar Message"
 msgstr "કેલેન્ડર સંદેશો"
 
-#: ../calendar/gui/e-itip-control.glade.h:5
+#: ../calendar/gui/e-itip-control.glade.h:3
 msgid "Date:"
 msgstr "તારીખ:"
 
-#: ../calendar/gui/e-itip-control.glade.h:7
+#: ../calendar/gui/e-itip-control.glade.h:5
 msgid "Loading Calendar"
 msgstr "કેલેન્ડર લાવી રહ્યા છીએ"
 
-#: ../calendar/gui/e-itip-control.glade.h:8
+#: ../calendar/gui/e-itip-control.glade.h:6
 msgid "Loading calendar..."
 msgstr "કેલેન્ડર લાવી રહ્યા છીએ..."
 
-#: ../calendar/gui/e-itip-control.glade.h:10
+#: ../calendar/gui/e-itip-control.glade.h:8
 msgid "Server Message:"
 msgstr "સર્વર સંદેશો:"
-
-#: ../calendar/gui/e-itip-control.glade.h:12
-msgid "date-end"
-msgstr "તારીખ-અંત"
-
-#: ../calendar/gui/e-itip-control.glade.h:13
-msgid "date-start"
-msgstr "તારીખ-ેશરુ"
 
 #: ../calendar/gui/e-meeting-list-view.c:70
 msgid "Chair Persons"
@@ -19952,7 +19943,7 @@ msgstr "સ્થિતિ સહિત (_S)"
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:397
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:399
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:401
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:753
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:752
 msgid "UTC"
 msgstr "UTC"
 
