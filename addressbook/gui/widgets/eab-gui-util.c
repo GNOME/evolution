@@ -313,13 +313,15 @@ file_exists(GtkWindow *window, const char *filename)
 {
 	GtkWidget *dialog;
 	gint response;
+	char * utf8_filename;
 
+	utf8_filename = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
 	dialog = gtk_message_dialog_new (window,
 					 0,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_NONE,
-					 _("%s already exists\nDo you want to overwrite it?"), filename);
-
+					 _("%s already exists\nDo you want to overwrite it?"), utf8_filename);
+	g_free (utf8_filename);
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				_("Overwrite"), GTK_RESPONSE_ACCEPT,

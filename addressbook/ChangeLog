@@ -1,3 +1,9 @@
+2006-06-29  simon.zheng  <simon.zheng@sun.com>
+
+	* gui/widgets/eab-gui-util.c: (file_exists): Convert filename
+	from glib encoding to utf8 encoding.
+	Fixes Bug #339151
+
 2006-06-27  Devashish Sharma  <sdevashish@novell.com>
 
 	* gui/widgets/eab-gui-util.c (do_delete) :Fix for 
