@@ -511,6 +511,9 @@ org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
  }
 
 static EPopupItem popup_items[] = {
+/* To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise 
+ * feature by which one person can send/read mails/appointments using another person's identity 
+ * without knowing his password, for example if that other person is on vacation */
 { E_POPUP_ITEM, "20.emc.04", N_("_Proxy Login..."), org_gnome_proxy_account_login, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
 };
 
