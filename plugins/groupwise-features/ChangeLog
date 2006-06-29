@@ -1,3 +1,8 @@
+2006-06-29  Andre Klapper  <a9016009@gmx.de>
+
+	* proxy-login.c: add translator comments to the string "Proxy 
+	login". Fixes bug #345055.
+
 2006-06-12  Sankar P  <psankar@novell.com>
 
 	* proxy-login.c: org-gnome-proxy-login-errors.xml:
