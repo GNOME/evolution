@@ -93,7 +93,7 @@
 #define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
 #endif
 
-#define d(x)
+#define d(x) 
 #define t(x)
 
 struct _MLSelection {
@@ -1209,8 +1209,12 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 {
 	MessageList *message_list = model_data;
 	CamelMessageInfo *msg_info;
+	CamelException ex;
+
 	const char *str;
 	guint32 flags;
+
+	camel_exception_init (&ex);
 
 	if (e_tree_model_node_is_root (etm, path))
 		return NULL;
@@ -1342,8 +1346,11 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return (void *) colour;
 	}
 	case COL_LOCATION: {
+		/* Fixme : freeing memory stuff (mem leaks) */
 		CamelFolder *folder;
-		char *name;
+		CamelURL *curl;
+		EAccount *account;
+		char *location, *euri, *url;
 		
 		if (CAMEL_IS_VEE_FOLDER(message_list->folder)) {
 			folder = camel_vee_folder_get_location((CamelVeeFolder *)message_list->folder, (CamelVeeMessageInfo *)msg_info, NULL);
@@ -1351,8 +1358,27 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			folder = message_list->folder;
 		}
 		
-		camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
-		return name;
+ 		url = mail_tools_folder_to_url (folder);
+ 		euri = em_uri_from_camel(url);
+ 
+ 		account = mail_config_get_account_by_source_url (url);
+ 
+ 		if (account) {
+ 			curl = camel_url_new (url, &ex); 
+ 			location = g_strconcat (account->name, ":", curl->path, NULL);
+ 		} else {
+ 			/* Local account */
+ 			euri = em_uri_from_camel(url);
+ 			curl = camel_url_new (euri, &ex); 
+ 			if (curl->host && !strcmp(curl->host, "local") && curl->user && !strcmp(curl->user, "local")) 
+ 				location = g_strconcat ("On This Computer", ":",curl->path, NULL);
+ 		}
+ 
+ 		camel_exception_clear (&ex);
+ 		g_free (url);
+ 		g_free (euri);
+ 
+ 		return location;
 	}
 	case COL_MIXED_RECIPIENTS:				
 	case COL_RECIPIENTS:{
@@ -1673,7 +1699,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
 		g_object_set_data (((GnomeCanvasItem *) item)->canvas, "freeze-cursor", 1);
-		
+
 		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
 			e_tree_load_expanded_state (message_list->tree, path);

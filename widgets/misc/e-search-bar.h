@@ -43,20 +43,23 @@ G_BEGIN_DECLS
 #define E_IS_SEARCH_BAR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_SEARCH_BAR_TYPE))
 #define E_IS_SEARCH_BAR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_SEARCH_BAR_TYPE))
 
+enum _ESearchBarItemType {
+	ESB_ITEMTYPE_NORMAL,
+	ESB_ITEMTYPE_CHECK,
+	ESB_ITEMTYPE_RADIO,
+};
+typedef enum _ESearchBarItemType ESearchBarItemType;
+
 typedef struct {
 	char *text;
 	int id;
-	gboolean translate; /* whether to translate the text */
-} ESearchBarSubitem;
-	
-typedef struct {
-	char *text;
-	int id;
-	ESearchBarSubitem *subitems;
+	int type;
 } ESearchBarItem;
 
 typedef struct _ESearchBar       ESearchBar;
 typedef struct _ESearchBarClass  ESearchBarClass;
+
+typedef void (*ESearchBarMenuFunc)(ESearchBar *esb, ESearchBarItem *menu_items );
 
 struct _ESearchBar
 {
@@ -75,14 +78,27 @@ struct _ESearchBar
 	GtkWidget *dropdown_holder;	/* holds the dropdown */
 	GtkWidget *option_menu;
 	GtkWidget *suboption_menu;
-	GtkWidget *activate_button;
+	GtkWidget *option_button;
 	GtkWidget *clear_button;
 	GtkWidget *entry_box;
+	GtkWidget *icon_entry;
+
+	/* show option widgets */
+	GtkWidget *viewoption_box;
+	GtkWidget *viewoption; /* an option menu for the choices associated with some search options */
+	GtkWidget *viewoption_menu;
+
+	/* search scope widgets */
+	GtkWidget *scopeoption_box;
+	GtkWidget *scopeoption; /* an option menu for the choices associated with scope search */
+	GtkWidget *scopeoption_menu;
+
 	guint      pending_activate;
 
 	/* The currently-selected item & subitem */
 	int        item_id;
-	int        subitem_id; /* < 0 if the entry widget is active */
+	int        viewitem_id; /* Current View Id */
+	int        scopeitem_id; /* Scope of search */
 };
 
 struct _ESearchBarClass
@@ -94,6 +110,7 @@ struct _ESearchBarClass
 
 	/* signals */
 	void (*search_activated) (ESearchBar *search);
+	void (*search_cleared)     (ESearchBar *search);
 	void (*query_changed)    (ESearchBar *search);
 	void (*menu_activated)   (ESearchBar *search, int item);
 };
@@ -121,9 +138,10 @@ void  e_search_bar_add_menu  (ESearchBar     *search_bar,
 
 void  e_search_bar_set_option     (ESearchBar        *search_bar,
 				   ESearchBarItem    *option_items);
-void  e_search_bar_set_suboption  (ESearchBar        *search_bar,
-				   int                option_id,
-				   ESearchBarSubitem *subitems);
+
+void e_search_bar_set_viewoption (ESearchBar *search_bar, 
+				    int option_id, 
+				    ESearchBarItem *subitems);
 
 void  e_search_bar_set_menu_sensitive  (ESearchBar *search_bar,
 					int         id,
@@ -133,13 +151,25 @@ void  e_search_bar_set_item_id  (ESearchBar *search_bar,
 				 int         id);
 int   e_search_bar_get_item_id  (ESearchBar *search_bar);
 
-void  e_search_bar_set_subitem_id  (ESearchBar *search_bar,
-				    int         id);
-int   e_search_bar_get_subitem_id  (ESearchBar *search_bar);
+int   e_search_bar_get_viewitem_id (ESearchBar *search_bar);
 
 void  e_search_bar_set_ids  (ESearchBar *search_bar,
 			     int         item_id,
 			     int         subitem_id);
+
+void e_search_bar_set_scopeoption (ESearchBar *search_bar, ESearchBarItem *scopeitems);
+
+void e_search_bar_set_scopeoption_menu (ESearchBar *search_bar, GtkMenu *menu);
+
+void e_search_bar_set_search_scope (ESearchBar *search_bar, int id);
+
+void e_search_bar_set_viewoption_menu (ESearchBar *search_bar, GtkWidget *menu);
+
+void e_search_bar_set_viewoption_menufunc (ESearchBar *search_bar, ESearchBarMenuFunc *menu_gen_func, void *data);
+
+GtkWidget *e_search_bar_get_selected_viewitem (ESearchBar *search_bar);
+
+int e_search_bar_get_search_scope (ESearchBar *search_bar);
 
 void  e_search_bar_set_text  (ESearchBar *search_bar,
 			      const char *text);

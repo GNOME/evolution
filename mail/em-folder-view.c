@@ -91,6 +91,7 @@
 #include "em-folder-view.h"
 #include "em-folder-browser.h"
 #include "em-mailer-prefs.h"
+#include "em-folder-browser.h"
 #include "em-message-browser.h"
 #include "message-list.h"
 #include "em-utils.h"
@@ -185,6 +186,7 @@ emfv_init(GObject *o)
 	EMFolderView *emfv = (EMFolderView *)o;
 	struct _EMFolderViewPrivate *p;
 	extern CamelSession *session;
+	GtkWidget *search_bar;
 	
 	gtk_box_set_homogeneous (GTK_BOX (emfv), FALSE);
 
@@ -226,6 +228,9 @@ emfv_init(GObject *o)
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
+
+	search_bar = em_format_html_get_search_dialog (emfv->preview);
+	gtk_box_pack_end(GTK_WIDGET (emfv), search_bar, FALSE, FALSE, 5);
 
 	emfv->async = mail_async_event_new();
 

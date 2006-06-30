@@ -913,7 +913,7 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 	e_xml_set_bool_prop_by_name (root, "default", tar.expanded_default);
 
 	g_hash_table_foreach (etta->priv->nodes, save_expanded_state_func, &tar);
-	
+
 	e_xml_save_file (filename, doc);
 	xmlFreeDoc (doc);
 }

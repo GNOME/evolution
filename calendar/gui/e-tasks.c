@@ -220,7 +220,7 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 		g_free (priv->sexp);
 	
 	priv->sexp = g_strdup (sexp);
-	
+
 	update_view (tasks);
 }
 

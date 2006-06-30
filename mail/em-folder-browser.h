@@ -44,6 +44,10 @@ struct _EMFolderBrowser {
 
 struct _EMFolderBrowserClass {
 	EMFolderViewClass parent_class;
+
+	/* Signals*/
+	void (*account_search_activated) (EMFolderBrowser *emfb);
+	void (*account_search_cleared) (EMFolderBrowser *emfb);
 };
 
 GType em_folder_browser_get_type(void);

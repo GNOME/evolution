@@ -21,6 +21,7 @@
 #define __E_FILTER_BAR_H__
 
 #include <gtk/gtk.h>
+#include <camel/camel-vee-folder.h>
 
 #include "e-search-bar.h"
 
@@ -55,14 +56,13 @@ typedef void (*EFilterBarConfigRule)(EFilterBar *, FilterRule *rule, int id, con
 
 struct _EFilterBar {
 	ESearchBar parent;
-	
 	int menu_base, option_base;
 	GPtrArray *menu_rules, *option_rules;
 	
 	ESearchBarItem *default_items;
 	
 	GtkWidget *save_dialog;    /* current save dialogue (so we dont pop up multiple ones) */
-	
+
 	FilterRule *current_query; /* as it says */
 	int setquery;		   /* true when we're setting a query directly to advanced, so dont popup the dialog */
 	
@@ -72,6 +72,10 @@ struct _EFilterBar {
 	
 	EFilterBarConfigRule config;
 	void *config_data;
+
+	CamelVeeFolder *all_account_search_vf;
+	CamelVeeFolder *account_search_vf;
+
 };
 
 struct _EFilterBarClass
@@ -87,12 +91,20 @@ enum {
 
 	/* preset option options */
 	E_FILTERBAR_ADVANCED_ID = -5,
+	E_FILTERBAR_CURRENT_MESSAGE_ID = -6,
+	E_FILTERBAR_CURRENT_FOLDER_ID = -7,
+	E_FILTERBAR_CURRENT_ACCOUNT_ID = -8,
+	E_FILTERBAR_ALL_ACCOUNTS_ID = -9,
 };
 
-#define E_FILTERBAR_SAVE      { N_("_Save Search..."), E_FILTERBAR_SAVE_ID, NULL }
-#define E_FILTERBAR_EDIT      { N_("_Edit Saved Searches..."), E_FILTERBAR_EDIT_ID, NULL }
-#define E_FILTERBAR_ADVANCED  { N_("_Advanced Search..."), E_FILTERBAR_ADVANCED_ID, NULL }
-#define E_FILTERBAR_SEPARATOR { NULL, 0, NULL }
+#define E_FILTERBAR_SAVE      { N_("_Save Search..."), E_FILTERBAR_SAVE_ID, 0 }
+#define E_FILTERBAR_EDIT      { N_("_Edit Saved Searches..."), E_FILTERBAR_EDIT_ID, 0 }
+#define E_FILTERBAR_ADVANCED  { N_("_Advanced Search..."), E_FILTERBAR_ADVANCED_ID, 0 }
+#define E_FILTERBAR_ALL_ACCOUNTS { N_("All Accounts"), E_FILTERBAR_ALL_ACCOUNTS_ID, ESB_ITEMTYPE_RADIO }
+#define E_FILTERBAR_CURRENT_ACCOUNT { N_("Current Account"), E_FILTERBAR_CURRENT_ACCOUNT_ID, ESB_ITEMTYPE_RADIO }
+#define E_FILTERBAR_CURRENT_FOLDER { N_("Current Folder"), E_FILTERBAR_CURRENT_FOLDER_ID, ESB_ITEMTYPE_RADIO }
+#define E_FILTERBAR_CURRENT_MESSAGE { N_("Current Message"), E_FILTERBAR_CURRENT_MESSAGE_ID, ESB_ITEMTYPE_RADIO }
+#define E_FILTERBAR_SEPARATOR { NULL, 0, NULL, 0 }
 
 #ifdef JUST_FOR_TRANSLATORS
 const char * strings[] = {

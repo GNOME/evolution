@@ -50,6 +50,7 @@ widgetsinclude_HEADERS =			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
 	e-expander.h				\
+	e-icon-entry.h				\
 	e-image-chooser.h			\
 	e-info-label.h				\
 	e-map.h					\
@@ -97,6 +98,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
 	e-expander.c				\
+	e-icon-entry.c				\
 	e-image-chooser.c			\
 	e-info-label.c				\
 	e-map.c					\

@@ -45,12 +45,11 @@ enum {
 
 /* Comments are disabled because they are kind of useless right now, see bug 33247 */
 static ESearchBarItem search_option_items[] = {
-	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, NULL },
-	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, NULL },
-	{ N_("Category is"), SEARCH_CATEGORY_IS, NULL },
-	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, NULL },
-	{ N_("Location contains"), SEARCH_LOCATION_CONTAINS, NULL },
-	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, NULL },
+	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ N_("Location contains"), SEARCH_LOCATION_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, ESB_ITEMTYPE_RADIO },
 };
 
 /* IDs for the categories suboptions */
@@ -186,48 +185,28 @@ static const char *
 get_current_category (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	int id, subid;
+	gint viewid;
 
 	priv = cal_search->priv;
 
 	g_assert (priv->categories != NULL);
 
-	id = e_search_bar_get_item_id (E_SEARCH_BAR (cal_search));
-	if (id != SEARCH_CATEGORY_IS)
-		return NULL;
+	viewid = e_search_bar_get_viewitem_id (E_SEARCH_BAR (cal_search));
 
-	subid = e_search_bar_get_subitem_id (E_SEARCH_BAR (cal_search));
-	if (subid == CATEGORIES_ALL)
+	if (viewid == CATEGORIES_ALL)
 		return (const char *) 1;
-	else if (subid == CATEGORIES_UNMATCHED)
+	else if (viewid == CATEGORIES_UNMATCHED)
 		return NULL;
 	else {
 		int i;
 
-		i = subid - CATEGORIES_OFFSET;
+		i = viewid - CATEGORIES_OFFSET;
 		g_assert (i >= 0 && i < priv->categories->len);
 
 		return priv->categories->pdata[i];
 	}
 }
 
-/* Sets the query string to be (contains? "field" "text") */
-static void
-notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field)
-{
-	char *text;
-	char *sexp;
-
-	text = e_search_bar_get_text (E_SEARCH_BAR (cal_search));
-	if (!text)
-		return; /* This is an error in the UTF8 conversion, not an empty string! */
-
-	sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
-	g_free (text);
-
-	notify_sexp_changed (cal_search, sexp);
-	g_free (sexp);
-}
 
 /* Returns a sexp for the selected category in the drop-down menu.  The "All"
  * option is returned as (const char *) 1, and the "Unfiled" option is returned
@@ -242,10 +221,40 @@ get_category_sexp (CalSearchBar *cal_search)
 
 	if (category == NULL)
 		return g_strdup ("(has-categories? #f)"); /* Unfiled items */
-	else if (category == (const char *) 1)
+	else if (category == (const char *) 1) {
 		return NULL; /* All items */
+	}
 	else
 		return g_strdup_printf ("(has-categories? \"%s\")", category); /* Specific category */
+}
+
+
+/* Sets the query string to be (contains? "field" "text") */
+static void
+notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const char *view)
+{
+	char *text = NULL;
+	char *sexp = " ";
+
+	text = e_search_bar_get_text (E_SEARCH_BAR (cal_search));
+
+	if (!text)
+		return; /* This is an error in the UTF8 conversion, not an empty string! */
+
+	if (text && *text) {
+	    sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
+	    g_free (text);
+	} else 
+	    sexp = g_strdup_printf ("(contains? \"summary\" \"\")", field, text); /* Show all */
+
+
+	/* Apply the selected view on search */
+	view = get_category_sexp (cal_search);
+	if (view && *view)
+	    sexp = g_strconcat ("(and ",sexp, view, ")", NULL);
+
+	notify_sexp_changed (cal_search, sexp);
+	g_free (sexp);
 }
 
 /* Sets the query string to the appropriate match for categories */
@@ -255,6 +264,7 @@ notify_category_is (CalSearchBar *cal_search)
 	char *sexp;
 
 	sexp = get_category_sexp (cal_search);
+
 	if (!sexp)
 		notify_sexp_changed (cal_search, "#t"); /* Match all */
 	else
@@ -269,41 +279,34 @@ static void
 regen_query (CalSearchBar *cal_search)
 {
 	int id;
-	const char *category;
+	const char *category_sexp, *category;
 
 	/* Fetch the data from the ESearchBar's entry widgets */
-
 	id = e_search_bar_get_item_id (E_SEARCH_BAR (cal_search));
 
-	/* Generate the different types of queries */
+	/* Get the selected view */
+	category_sexp = get_category_sexp (cal_search);
 
+	/* Generate the different types of queries */
 	switch (id) {
 	case SEARCH_ANY_FIELD_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "any");
+		notify_e_cal_view_contains (cal_search, "any", category_sexp);
 		break;
 
 	case SEARCH_SUMMARY_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "summary");
+		notify_e_cal_view_contains (cal_search, "summary", category_sexp);
 		break;
 
 	case SEARCH_DESCRIPTION_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "description");
+		notify_e_cal_view_contains (cal_search, "description", category_sexp);
 		break;
 
 	case SEARCH_COMMENT_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "comment");
+		notify_e_cal_view_contains (cal_search, "comment", category_sexp);
 		break;
 
 	case SEARCH_LOCATION_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "location");
-		break;
-
-	case SEARCH_CATEGORY_IS:
-		notify_category_is (cal_search);
-
-		category = cal_search_bar_get_category (cal_search);
-		gtk_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[CATEGORY_CHANGED],
-				 category);
+		notify_e_cal_view_contains (cal_search, "location", category_sexp);
 		break;
 
 	default:
@@ -311,6 +314,16 @@ regen_query (CalSearchBar *cal_search)
 	}
 }
 
+static void
+regen_view_query (CalSearchBar *cal_search)
+{
+        const char *category;
+	notify_category_is (cal_search);
+
+	category = cal_search_bar_get_category (cal_search);
+	gtk_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[CATEGORY_CHANGED],
+			 category);
+}
 /* search_activated handler for the calendar search bar */
 static void
 cal_search_bar_search_activated (ESearchBar *search)
@@ -328,7 +341,7 @@ static void
 make_suboptions (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	ESearchBarSubitem *subitems;
+	ESearchBarItem *subitems;
 	int i;
 
 	priv = cal_search->priv;
@@ -336,17 +349,15 @@ make_suboptions (CalSearchBar *cal_search)
 	g_assert (priv->categories != NULL);
 
 	/* Categories plus "all", "unmatched", separator, terminator */
-	subitems = g_new (ESearchBarSubitem, priv->categories->len + 3 + 1);
+	subitems = g_new (ESearchBarItem, priv->categories->len + 3 + 1);
 
 	/* All, unmatched, separator */
 
 	subitems[0].text = _("Any Category");
 	subitems[0].id = CATEGORIES_ALL;
-	subitems[0].translate = FALSE;
 
 	subitems[1].text = _("Unmatched");
 	subitems[1].id = CATEGORIES_UNMATCHED;
-	subitems[1].translate = FALSE;
 
 	/* All the other items */
 
@@ -363,14 +374,13 @@ make_suboptions (CalSearchBar *cal_search)
 
 			subitems[i + CATEGORIES_OFFSET].text      = str;
 			subitems[i + CATEGORIES_OFFSET].id        = i + CATEGORIES_OFFSET;
-			subitems[i + CATEGORIES_OFFSET].translate = FALSE;
 		}
 
 		subitems[i + CATEGORIES_OFFSET].id = -1; /* terminator */
 	} else
 		subitems[2].id = -1; /* terminator */
 
-	e_search_bar_set_suboption (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, subitems);
+	e_search_bar_set_viewoption (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, subitems);
 
 	/* Free the strings */
 	for (i = 0; i < priv->categories->len; i++)
@@ -402,14 +412,13 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 		if ((flags & bit) != 0) {
 			items[j].text = search_option_items[i].text;
 			items[j].id = search_option_items[i].id;
-			items[j].subitems = search_option_items[i].subitems;
+			items[j].type = search_option_items[i].type;
 			j++;
 		}
 	}
 	
 	items[j].text = NULL;
 	items[j].id = -1;
-	items[j].subitems = NULL;
 	
 	e_search_bar_construct (E_SEARCH_BAR (cal_search), NULL, items);
 	make_suboptions (cal_search);

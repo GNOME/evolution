@@ -1,3 +1,25 @@
+2006-06-30  Johnny Jacob <jjohnny@novell.com>
+	* mail/em-folder-browser.h: Added search_activated signal
+	* mail/em-folder-view.c: (emfv_init):
+	* mail/em-format-html-display.c: (efhd_search_response),
+	(efhd_search_response_back), (efhd_search_destroy),
+	(efhd_search_case_toggled), (efhd_key_pressed),
+	(clear_button_clicked_cb), (icon_entry_changed_cb),
+	(em_format_html_get_search_dialog), (set_focus_cb),
+	(em_format_html_display_search),
+	(em_format_html_display_search_with),
+	(em_format_html_display_search_close):
+	* mail/em-format-html-display.h:
+	* mail/mail-component.c: (disable_folder_tree),
+	(enable_folder_tree), (impl_createView):
+	* mail/mail-vfolder.c: (mail_vfolder_add_uri),
+	(mail_vfolder_get_sources_local),
+	(mail_vfolder_get_sources_remote), (store_folder_renamed):
+	* mail/message-list.c: (ml_tree_value_at),
+	(message_list_setup_etree):
+	* mail/message-list.etspec:
+	Added code for search ui.
+
 2006-06-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution-mail.schemas.in.in:

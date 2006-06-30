@@ -105,6 +105,7 @@
 #include "em-popup.h"
 #include "e-attachment.h"
 #include "e-attachment-bar.h"
+#include "e-icon-entry.h"
 
 #ifdef G_OS_WIN32
 /* Undefine the similar macro from <pthread.h>,it doesn't check if
@@ -123,8 +124,9 @@
 struct _EMFormatHTMLDisplayPrivate {
 	/* For the interactive search dialogue */
 	/* TODO: Should this be more subtle, like the mozilla one? */
-	GtkDialog *search_dialog;
+	GtkHBox   *search_dialog;
 	GtkWidget *search_entry;
+	GtkWidget *search_entry_box;
 	GtkWidget *search_matches_label;
 	GtkWidget *search_case_check;
 	char *search_text;
@@ -527,35 +529,65 @@ efhd_update_search(EMFormatHTMLDisplay *efhd)
 }
 
 static void
-efhd_search_response(GtkWidget *w, int button, EMFormatHTMLDisplay *efhd)
+efhd_search_response(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
-	if (button == GTK_RESPONSE_ACCEPT) {
-		char *txt = g_strdup(gtk_entry_get_text((GtkEntry *)p->search_entry));
+	char *txt = g_strdup(gtk_entry_get_text((GtkEntry *)p->search_entry));
 
-		g_strstrip(txt);
-		if (p->search_text && strcmp(p->search_text, txt) == 0 && !p->search_wrap) {
-			if (!gtk_html_engine_search_next(((EMFormatHTML *)efhd)->html))
-				p->search_wrap = TRUE;
-			g_free(txt);
-		} else {
-			g_free(p->search_text);
-			p->search_text = txt;
-			if (!p->search_wrap)
-				efhd_update_search(efhd);
-			p->search_wrap = FALSE;
-			gtk_html_engine_search(((EMFormatHTML *)efhd)->html, txt,
-					       gtk_toggle_button_get_active((GtkToggleButton *)p->search_case_check),
-					       TRUE, FALSE);
-		}
+	g_strstrip(txt);
+	if (p->search_text && strcmp(p->search_text, txt) == 0 && !p->search_wrap) {
+		gtk_html_engine_search_set_forward (((EMFormatHTML *)efhd)->html, TRUE);
+		if (!gtk_html_engine_search_next(((EMFormatHTML *)efhd)->html))
+			p->search_wrap = TRUE;
+		g_free(txt);
 	} else {
 		g_free(p->search_text);
-		p->search_text = NULL;
-		gtk_widget_destroy((GtkWidget *)p->search_dialog);
-		p->search_dialog = NULL;
-		em_format_html_display_set_search(efhd, EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY, NULL);
+		p->search_text = txt;
+		if (!p->search_wrap)
+			efhd_update_search(efhd);
+		p->search_wrap = FALSE;
+		gtk_html_engine_search(((EMFormatHTML *)efhd)->html, txt,
+				       gtk_toggle_button_get_active((GtkToggleButton *)p->search_case_check),
+				       TRUE, FALSE);
 	}
+}
+
+
+static void
+efhd_search_response_back (GtkWidget *w, EMFormatHTMLDisplay *efhd)
+{
+	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
+
+	char *txt = g_strdup(gtk_entry_get_text((GtkEntry *)p->search_entry));
+
+	g_strstrip(txt);
+	if (p->search_text && strcmp(p->search_text, txt) == 0 && !p->search_wrap) {
+		gtk_html_engine_search_set_forward (((EMFormatHTML *)efhd)->html, FALSE);
+		if (!gtk_html_engine_search_next(((EMFormatHTML *)efhd)->html))
+			p->search_wrap = TRUE;
+		g_free(txt);
+	} else {
+		g_free(p->search_text);
+		p->search_text = txt;
+		if (!p->search_wrap)
+			efhd_update_search(efhd);
+		p->search_wrap = FALSE;
+		gtk_html_engine_search(((EMFormatHTML *)efhd)->html, txt,
+				       gtk_toggle_button_get_active((GtkToggleButton *)p->search_case_check),
+				       FALSE, FALSE);
+	}
+}
+
+
+static void
+efhd_search_destroy(GtkWidget *w, EMFormatHTMLDisplay *efhd)
+{
+	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
+	g_free(p->search_text);
+	p->search_text = NULL;
+	gtk_widget_hide((GtkWidget *)p->search_dialog);
+	em_format_html_display_set_search(efhd, EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY, NULL);
 }
 
 static void
@@ -565,13 +597,116 @@ efhd_search_case_toggled(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 
 	g_free(p->search_text);
 	p->search_text = NULL;
-	efhd_search_response(w, GTK_RESPONSE_ACCEPT, efhd);
+	efhd_search_response(w, efhd);
+}
+
+static gboolean 
+efhd_key_pressed (GtkWidget *w, GdkEventKey *event, EMFormatHTMLDisplay *efhd)
+{
+	if (event->keyval == GDK_Escape){
+		efhd_search_destroy (w, efhd);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 static void
-efhd_search_entry_activate(GtkWidget *w, EMFormatHTMLDisplay *efhd)
+clear_button_clicked_cb (GtkWidget *widget, gpointer dummy, EMFormatHTMLDisplay *efhd)
 {
-	efhd_search_response(w, GTK_RESPONSE_ACCEPT, efhd);
+	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
+
+	gtk_entry_set_text (p->search_entry, "");
+
+	gtk_signal_emit_by_name (p->search_entry, "activate", efhd);
+}
+
+/* Controlls the visibility of icon_entry's visibility */
+static void
+icon_entry_changed_cb (GtkWidget *widget, GtkWidget *clear_button)
+{
+	const char *text = gtk_entry_get_text (widget);
+
+	if (text && *text)
+		gtk_widget_show (clear_button);
+	else
+		gtk_widget_hide (clear_button);
+}
+
+GtkWidget *
+em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
+{
+	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
+	GtkWidget *hbox3, *hbox2, *button3, *button2, *button1, *label1, *alignment, *image1, *label2;
+	GtkWidget *icon_entry, *clear_button;
+
+	p->search_entry_box = gtk_hbox_new (FALSE, 0);
+
+	label1 = gtk_label_new (_("Find:"));
+	gtk_widget_show (label1);
+	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), label1, FALSE, FALSE, 5);
+
+	/* Icon entry */
+	icon_entry = e_icon_entry_new ();
+	p->search_entry = e_icon_entry_get_entry (E_ICON_ENTRY (icon_entry));
+	gtk_widget_show (p->search_entry);
+	clear_button = e_icon_entry_create_button ("gtk-clear");
+	e_icon_entry_pack_widget (E_ICON_ENTRY (icon_entry), clear_button, FALSE);
+	gtk_widget_show_all (icon_entry);
+	gtk_widget_hide (clear_button);
+
+	g_signal_connect (G_OBJECT (clear_button), "button-press-event", clear_button_clicked_cb, efhd);
+	g_signal_connect (G_OBJECT (p->search_entry), "changed", icon_entry_changed_cb, clear_button);
+
+	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), icon_entry, FALSE, FALSE, 0);
+//	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), icon_entry, TRUE, TRUE, 0);
+
+	hbox2 = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, FALSE, FALSE, 5);
+//	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
+
+	button3 = gtk_button_new_from_stock ("gtk-go-back");
+	gtk_widget_show (button3);
+	gtk_box_pack_start ((GtkBox *)(hbox2), button3, FALSE, FALSE, 5);
+
+	button2 = gtk_button_new_from_stock ("gtk-go-forward");
+	gtk_widget_show (button2);
+	gtk_box_pack_start ((GtkBox *)(hbox2), button2, FALSE, FALSE, 5);
+
+	p->search_case_check = gtk_check_button_new_with_mnemonic (_("Match case"));
+	gtk_widget_show (p->search_case_check);
+	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_case_check, FALSE, FALSE, 0);
+
+	p->search_matches_label = gtk_label_new (_(""));
+	gtk_widget_show (p->search_matches_label);
+	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_matches_label, TRUE, TRUE, 0);
+	p->search_dialog = (GtkWidget *)hbox2;
+	
+	p->search_wrap = FALSE;
+
+	g_signal_connect (p->search_entry, "activate", G_CALLBACK(efhd_search_response), efhd);
+	g_signal_connect (p->search_entry, "key-press-event", G_CALLBACK(efhd_key_pressed), efhd);
+	g_signal_connect (p->search_case_check, "toggled", G_CALLBACK(efhd_search_case_toggled), efhd);
+	g_signal_connect (button2, "clicked", G_CALLBACK(efhd_search_response), efhd);
+	g_signal_connect (button3, "clicked", G_CALLBACK(efhd_search_response_back), efhd);
+
+	efhd_update_matches(efhd);
+
+	return (GtkWidget *)p->search_dialog;
+
+}
+
+static void
+set_focus_cb (GtkWidget *window, GtkWidget *widget, EMFormatHTMLDisplay *efhd)
+{
+	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
+	GtkWidget *sbar = p->search_dialog;
+	
+	while (widget != NULL && widget != sbar) {
+		widget = widget->parent;
+    	}
+
+	if (widget != sbar) 
+		efhd_search_destroy(widget, efhd);
 }
 
 /**
@@ -584,45 +719,52 @@ void
 em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
-	GladeXML *xml;
-	char *gladefile;
 
-	if (p->search_dialog) {
-		gdk_window_raise(((GtkWidget *)p->search_dialog)->window);
-		return;
+	if (p->search_dialog){
+               GtkWidget *toplevel;
+               gtk_widget_show ( (GtkWidget *)(p->search_dialog));
+               gtk_widget_grab_focus ( (GtkWidget *)(p->search_entry));
+	       gtk_widget_show ( (GtkWidget *) p->search_entry_box);
+
+               toplevel = gtk_widget_get_toplevel ((GtkWidget *)(p->search_dialog));
+
+               g_signal_connect (toplevel, "set-focus",
+                                 G_CALLBACK (set_focus_cb), efhd);
 	}
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-dialogs.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, "search_message_dialog", NULL);
-	g_free (gladefile);
+}
+/**
+ * em_format_html_display_search_with:
+ * @efhd: 
+ * 
+ * Run an interactive search dialogue.
+ **/
+void
+em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word)
+{
+	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
+	char *str;
 
-	if (xml == NULL) {
-		g_warning("Cannot open search dialog glade file");
-		/* ?? */
-		return;
+	if (p->search_dialog){
+               GtkWidget *toplevel;
+               gtk_widget_show ( (GtkWidget *)(p->search_dialog));
+	       
+	       /* Set the query */
+	       gtk_entry_set_text ( (GtkWidget *) p->search_entry, word);
+	       gtk_widget_hide ( (GtkWidget *) p->search_entry_box);
+
+	       /* Trigger the search */
+	       gtk_signal_emit_by_name (p->search_entry, "activate", efhd);
 	}
+}
 
-	/* TODO: The original put the subject in the frame, but it had some
-	   ugly arbitrary string-cutting code to make sure it fit. */
+void
+em_format_html_display_search_close (EMFormatHTMLDisplay *efhd)
+{
+	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
-	p->search_dialog = (GtkDialog *)glade_xml_get_widget(xml, "search_message_dialog");
-	p->search_entry = glade_xml_get_widget(xml, "search_entry");
-	p->search_matches_label = glade_xml_get_widget(xml, "search_matches_label");
-	p->search_case_check = glade_xml_get_widget(xml, "search_case_check");
-	p->search_wrap = FALSE;
-
-	gtk_dialog_set_default_response((GtkDialog *)p->search_dialog, GTK_RESPONSE_ACCEPT);
-	e_dialog_set_transient_for ((GtkWindow *) p->search_dialog, (GtkWidget *) ((EMFormatHTML *) efhd)->html);
-	gtk_window_set_destroy_with_parent ((GtkWindow *) p->search_dialog, TRUE);
-	efhd_update_matches(efhd);
-
-	g_signal_connect(p->search_entry, "activate", G_CALLBACK(efhd_search_entry_activate), efhd);
-	g_signal_connect(p->search_case_check, "toggled", G_CALLBACK(efhd_search_case_toggled), efhd);
-	g_signal_connect(p->search_dialog, "response", G_CALLBACK(efhd_search_response), efhd);
-	gtk_widget_show((GtkWidget *)p->search_dialog);
-	gtk_widget_hide((GtkWidget *)p->search_matches_label);
+	if (p->search_dialog)
+		efhd_search_destroy(p->search_dialog, efhd);
 }
 
 void

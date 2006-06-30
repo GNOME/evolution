@@ -161,11 +161,6 @@
     </rule>
     
     <rule grouping="any" source="demand">
-      <_title>Category is</_title>
-      <sources/>
-    </rule>
-    
-    <rule grouping="any" source="demand">
       <_title>Any field contains</_title>
       <sources/>
     </rule>

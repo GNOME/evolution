@@ -1,3 +1,12 @@
+2006-06-30  Johnny Jacob  <jjohnny@novell.com>
+	* gui/cal-search-bar.c: (get_current_category),
+	(get_category_sexp), (notify_e_cal_view_contains),
+	(notify_category_is), (regen_query), (regen_view_query),
+	(make_suboptions), (cal_search_bar_construct): Added/Removed code
+	for new search ui.
+	* gui/e-tasks.c: (search_bar_sexp_changed_cb):
+	Added/Removed code for search ui.
+
 2006-06-28  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/e-itip-control.glade: Adding translator comments to the

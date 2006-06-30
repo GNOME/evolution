@@ -51,6 +51,10 @@ void em_format_html_display_set_caret_mode(EMFormatHTMLDisplay *efhd, gboolean s
 
 void em_format_html_display_set_search(EMFormatHTMLDisplay *efhd, int type, GSList *strings);
 void em_format_html_display_search(EMFormatHTMLDisplay *efhd);
+void em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word);
+void em_format_html_display_search_close (EMFormatHTMLDisplay *efhd);
+
+GtkWidget *em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd);
 
 void em_format_html_display_cut (EMFormatHTMLDisplay *efhd);
 void em_format_html_display_copy (EMFormatHTMLDisplay *efhd);

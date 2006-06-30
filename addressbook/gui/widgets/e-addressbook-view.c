@@ -166,10 +166,9 @@ enum {
 };
 
 static ESearchBarItem addressbook_search_option_items[] = {
-	{ N_("Name begins with"), ESB_FULL_NAME, NULL },
-	{ N_("Email begins with"), ESB_EMAIL, NULL },
-	{ N_("Category is"), ESB_CATEGORY, NULL }, /* We attach subitems below */
-	{ N_("Any field contains"), ESB_ANY, NULL },
+	{ N_("Name begins with"), ESB_FULL_NAME, ESB_ITEMTYPE_RADIO },
+	{ N_("Email begins with"), ESB_EMAIL, ESB_ITEMTYPE_RADIO },
+	{ N_("Any field contains"), ESB_ANY, ESB_ITEMTYPE_RADIO },
 	{ NULL, -1, NULL }
 };
 
@@ -1483,11 +1482,9 @@ static void
 search_activated (ESearchBar *esb, EABView *v)
 {
 	GList *master_list;
-	char *search_word, *search_query;
+	char *search_word, *search_query, *view_sexp;
 	const char *category_name;
 	int search_type, subid;
-
-	g_message ("in search_activated");
 
 	g_object_get(esb,
 		     "text", &search_word,
@@ -1495,7 +1492,7 @@ search_activated (ESearchBar *esb, EABView *v)
 		     NULL);
 
 	if (search_type == E_FILTERBAR_ADVANCED_ID) {
-		//gtk_widget_show(eab_search_dialog_new(v));
+		gtk_widget_show(eab_search_dialog_new(v));
 	}
 	else {
 		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
@@ -1514,25 +1511,25 @@ search_activated (ESearchBar *esb, EABView *v)
 				search_query = g_strdup_printf ("(beginswith \"email\" %s)",
 								s->str);
 				break;
-			case ESB_CATEGORY:
-				subid = e_search_bar_get_subitem_id (esb);
-
-				if (subid < 0 || subid == G_MAXINT) {
-					/* match everything */
-					search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
-				} else {
-					master_list = get_master_list ();
-					category_name = g_list_nth_data (master_list, subid);
-					search_query = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
-				}
-				break;
 			default:
 				search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
 				break;
 			}
 			g_string_free (s, TRUE);
-		} else
+
+		} else 
 			search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
+
+		/* Merge view and sexp */
+		subid = e_search_bar_get_viewitem_id (esb);
+
+		if (subid != G_MAXINT) {
+			master_list = get_master_list (); 
+			category_name = g_list_nth_data (master_list, subid);
+			view_sexp = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
+			search_query = g_strconcat ("(and ", view_sexp, search_query, ")", NULL);
+			g_free (view_sexp);
+		}
 
 		if (search_query)
 			g_object_set (v,
@@ -1564,6 +1561,7 @@ query_changed (ESearchBar *esb, EABView *view)
 	search_type = e_search_bar_get_item_id(esb);
 	if (search_type == E_FILTERBAR_ADVANCED_ID) {
 		g_object_get (esb, "query", &query, NULL);
+		printf ("e-addresbook-view.c : query_changed : query = %s\n",query);
 		g_object_set (view, "query", query, NULL);
 		g_free (query);
 	}
@@ -1572,8 +1570,8 @@ query_changed (ESearchBar *esb, EABView *view)
 static int
 compare_subitems (const void *a, const void *b)
 {
-	const ESearchBarSubitem *subitem_a = a;
-	const ESearchBarSubitem *subitem_b = b;
+	const ESearchBarItem *subitem_a = a;
+	const ESearchBarItem *subitem_b = b;
 	char *collate_a, *collate_b;
 	int ret;
 
@@ -1589,33 +1587,32 @@ compare_subitems (const void *a, const void *b)
 }
 
 static void
+
 make_suboptions (EABView *view)
 {
-	ESearchBarSubitem *subitems, *s;
+	ESearchBarItem *subitems, *s;
 	GList *master_list;
 	gint i, N;
 
 	master_list = get_master_list ();
 	N = g_list_length (master_list);
-	subitems = g_new (ESearchBarSubitem, N+2);
+	subitems = g_new (ESearchBarItem, N+2);
 
 	subitems[0].id = G_MAXINT;
 	subitems[0].text = g_strdup (_("Any Category"));
-	subitems[0].translate = FALSE;
 
 	for (i=0; i<N; ++i) {
 		const char *category = g_list_nth_data (master_list, i);
-
 		subitems[i+1].id = i;
 		subitems[i+1].text = g_strdup (category);
-		subitems[i+1].translate = FALSE;
 	}
+
 	subitems[N+1].id = -1;
 	subitems[N+1].text = NULL;
 
 	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
 
-	e_search_bar_set_suboption ( (ESearchBar *) view->search, ESB_CATEGORY, subitems);
+	e_search_bar_set_viewoption ( (ESearchBar *) view->search, ESB_CATEGORY, subitems);
 
 	for (s = subitems; s->id != -1; s++) {
 		if (s->text)
