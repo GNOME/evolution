@@ -4747,7 +4747,7 @@ msgstr "Xác nhận khi xoá hẳn"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
-msgstr "Ngày cần ngụ ý giờ bắt đầu và kết thức đều làm việc."
+msgstr "Ngày cần ngụ ý giờ bắt đầu và kết thúc đều làm việc."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
@@ -4787,7 +4787,7 @@ msgstr "Ví trị ô cửa sổ ngang"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr "Giờ kết thức ngày làm việc, có dạng 24 giờ (0-23)."
+msgstr "Giờ kết thúc ngày làm việc, có dạng 24 giờ (0-23)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
@@ -4820,7 +4820,7 @@ msgstr "Màu Dòng Marcus Bains — Thanh thời gian"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Minute the workday ends on, 0 to 59."
-msgstr "Phút kết thức ngày làm việc, 0-59."
+msgstr "Phút kết thúc ngày làm việc, 0-59."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Minute the workday starts on, 0 to 59."
@@ -6829,7 +6829,7 @@ msgstr "%s %s trước khi kết thúc cuộc hẹn"
 #: ../calendar/gui/e-alarm-list.c:506
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "%s %s sau khi kết thức cuộc hẹn"
+msgstr "%s %s sau khi kết thúc cuộc hẹn"
 
 #.Translator: The %s refers to the base, which would be actions like
 #.* "Play a sound"
@@ -17788,7 +17788,7 @@ msgstr "Khởi chạy trong chế độ trực tuyến"
 
 #: ../shell/main.c:479
 msgid "Forcibly shut down all Evolution components"
-msgstr "Buộc kết thức mọi thành phần Evolution"
+msgstr "Buộc kết thúc mọi thành phần Evolution"
 
 #: ../shell/main.c:483
 msgid "Forcibly re-migrate from Evolution 1.4"
