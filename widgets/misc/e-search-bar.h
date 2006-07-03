@@ -153,6 +153,8 @@ int   e_search_bar_get_item_id  (ESearchBar *search_bar);
 
 int   e_search_bar_get_viewitem_id (ESearchBar *search_bar);
 
+void  e_search_bar_set_viewitem_id (ESearchBar *search_bar, int id);
+
 void  e_search_bar_set_ids  (ESearchBar *search_bar,
 			     int         item_id,
 			     int         subitem_id);
