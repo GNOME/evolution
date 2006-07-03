@@ -1,3 +1,10 @@
+2006-04-22 Srinivasa Ragavan <sragavan@novell.com>
+
+	* ical-format.c (do_save_calendar_ical): Ask for overwrite, if the
+	file already exists.
+
+	** Fixes bug #329345
+
 2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* org-gnome-save-calendar.eplug.xml:
