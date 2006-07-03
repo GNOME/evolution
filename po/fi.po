@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-22 07:15+0300\n"
-"PO-Revision-Date: 2006-05-29 21:58+0300\n"
+"PO-Revision-Date: 2006-07-03 12:43+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -7184,7 +7184,7 @@ msgstr "Aika: %s %s"
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:116
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%a %d/%m/%Y %H.%M.%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:119
@@ -16012,13 +16012,13 @@ msgstr "Tänään"
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:189
 msgid "Today %H:%M"
-msgstr "Tänään %H:%M"
+msgstr "Tänään %H.%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:193
 msgid "Today %H:%M:%S"
-msgstr "Tänään %H:%M:%S"
+msgstr "Tänään %H.%M.%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
@@ -16035,13 +16035,13 @@ msgstr "Huomenna"
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:217
 msgid "Tomorrow %H:%M"
-msgstr "Huomenna %H:%M"
+msgstr "Huomenna %H.%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:221
 msgid "Tomorrow %H:%M:%S"
-msgstr "Huomenna %H:%M:%S"
+msgstr "Huomenna %H.%M.%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
@@ -16065,13 +16065,13 @@ msgstr "%A"
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:254
 msgid "%A %H:%M"
-msgstr "%Ana klo %H:%M"
+msgstr "%Ana klo %H.%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:258
 msgid "%A %H:%M:%S"
-msgstr "%Ana klo %H:%M:%S"
+msgstr "%Ana klo %H.%M.%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
@@ -16096,13 +16096,13 @@ msgstr "+%Ana %d. %Bn %Y"
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:282
 msgid "%A, %B %e %H:%M"
-msgstr "+%Ana %d. %Bn klo %H:%M"
+msgstr "+%Ana %d. %Bn klo %H.%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:286
 msgid "%A, %B %e %H:%M:%S"
-msgstr "+%Ana %d. %Bn klo %H:%M:%S"
+msgstr "+%Ana %d. %Bn klo %H.%M.%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
@@ -16125,13 +16125,13 @@ msgstr "%Ana %d. %Bta %Y"
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:306
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%Ana %d. %Bta %Y klo %H:%M"
+msgstr "%Ana %d. %Bta %Y klo %H.%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:310
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%Ana %d. %Bta %Y klo %H:%M:%S"
+msgstr "%Ana %d. %Bta %Y klo %H.%M.%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
@@ -17301,7 +17301,7 @@ msgstr "Tiedoston _tyyppi:"
 
 #: ../shell/e-shell-importer.c:338
 msgid "Import data and settings from _older programs"
-msgstr "Tuodaan tietoja ja asetuksia _vanhemmista ohjelmista"
+msgstr "Tuo tietoja ja asetuksia _vanhemmista ohjelmista"
 
 #: ../shell/e-shell-importer.c:341
 msgid "Import a _single file"
@@ -20293,7 +20293,7 @@ msgstr "Aika"
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1436 ../widgets/misc/e-dateedit.c:1763
 msgid "%H:%M"
-msgstr "%H:%M"
+msgstr "%H.%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../widgets/misc/e-dateedit.c:1439 ../widgets/misc/e-dateedit.c:1766
@@ -20646,7 +20646,7 @@ msgstr "ponnahduslista"
 
 #: ../widgets/table/e-cell-date.c:64
 msgid "%l:%M %p"
-msgstr "%H:%M %p"
+msgstr "%H.%M %p"
 
 #: ../widgets/table/e-cell-pixbuf.c:397
 msgid "Selected Column"
@@ -21590,7 +21590,7 @@ msgstr "Kahvan ponnahdusikkuna"
 #~ msgstr "%a %d/%m/%Y %I:%M %p"
 
 #~ msgid "%a %m/%d/%Y %H:%M"
-#~ msgstr "%a %d/%m/%Y %H:%M"
+#~ msgstr "%a %d/%m/%Y %H.%M"
 
 #~ msgid "%a %m/%d/%Y %I %p"
 #~ msgstr "%a %d.%m.%Y %l %p"
@@ -21608,7 +21608,7 @@ msgstr "Kahvan ponnahdusikkuna"
 #~ msgstr "%d.%m.%Y %l.%m %p"
 
 #~ msgid "%m/%d/%Y %H:%M"
-#~ msgstr "%d.%m.%Y %H:%M"
+#~ msgstr "%d.%m.%Y %H.%M"
 
 #~ msgid "%m/%d/%Y %I %p"
 #~ msgstr "%d.%m.%Y %l %p"
@@ -21620,7 +21620,7 @@ msgstr "Kahvan ponnahdusikkuna"
 #~ msgstr "%I:%M:%S %p"
 
 #~ msgid "%H:%M:%S"
-#~ msgstr "%H:%M:%S"
+#~ msgstr "%H.%M.%S"
 
 #~ msgid "%I %p"
 #~ msgstr "%l %p"
