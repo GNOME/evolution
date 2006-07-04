@@ -1,3 +1,7 @@
+2006-07-04  Andre Klapper  <a9016009@gmx.de>
+
+	* e-search-bar.c: fixing two typos, adding translator comments.
+
 2006-07-03  Harry Lu  <harry.lu@sun.com>
 
 	Fix compile error in solaris

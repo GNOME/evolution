@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+sear/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * e-search-bar.c
  *
@@ -908,7 +908,9 @@ e_search_bar_construct (ESearchBar *search_bar,
 	/* Current View filter */
 	search_bar->viewoption_box = gtk_hbox_new (0, FALSE);
 
-	label = gtk_label_new_with_mnemonic (_("Show : "));
+	/* To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
+	to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on... */
+	label = gtk_label_new_with_mnemonic (_("Show: "));
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX(search_bar->viewoption_box), label, FALSE, FALSE, 0);
 
@@ -922,7 +924,9 @@ e_search_bar_construct (ESearchBar *search_bar,
 
 	/* Search entry */
 	hbox = gtk_hbox_new (FALSE, 0);
-	label = gtk_label_new_with_mnemonic (_("S_earch : "));
+	/* To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
+	the term to search for */
+	label = gtk_label_new_with_mnemonic (_("S_earch: "));
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX(hbox), search_bar->entry_box, FALSE, FALSE, 0);
@@ -931,6 +935,8 @@ e_search_bar_construct (ESearchBar *search_bar,
 	/* Search Scope Widgets */
 	search_bar->scopeoption_box = gtk_hbox_new (0, FALSE);
 	gtk_box_set_spacing (GTK_BOX (search_bar->scopeoption_box), 3);
+	/* To Translators: The " in " label is part of the Quick Search Bar, example:
+	Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account */
 	label = gtk_label_new_with_mnemonic (_(" in "));
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
