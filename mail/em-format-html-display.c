@@ -672,7 +672,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	gtk_widget_show (button2);
 	gtk_box_pack_start ((GtkBox *)(hbox2), button2, FALSE, FALSE, 5);
 
-	p->search_case_check = gtk_check_button_new_with_mnemonic (_("Match case"));
+	p->search_case_check = gtk_check_button_new_with_mnemonic (_("Match _case"));
 	gtk_widget_show (p->search_case_check);
 	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_case_check, FALSE, FALSE, 0);
 

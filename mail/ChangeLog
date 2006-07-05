@@ -1,3 +1,8 @@
+2006-07-05  Andre Klapper  <a9016009@gmx.de>
+
+	* em-format-html-display.c: Added mnemonic to string.
+	Fixes bug #346645.
+
 2006-06-30  Johnny Jacob <jjohnny@novell.com>
 	* mail/em-folder-browser.h: Added search_activated signal
 	* mail/em-folder-view.c: (emfv_init):
