@@ -55,15 +55,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-04 06:05+0200\n"
-"PO-Revision-Date: 2006-05-27 13:56+0200\n"
+"POT-Creation-Date: 2006-07-05 22:28+0200\n"
+"PO-Revision-Date: 2006-07-05 23:24+0200\n"
 "Last-Translator: Vincent van Adrighem <adrighem@gnome.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -3667,13 +3666,11 @@ msgstr "Fout bij verwijderen kaart"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
+msgstr ""
 "%d contact weergeven zal %d nieuw venster openen.\n"
 "Wilt u dit contact werkelijk weergeven?"
-msgstr[1] ""
 "%d contacten weergeven zal %d nieuwe vensters openen.\n"
 "Wilt u deze contacten werkelijk weergeven?"
 
@@ -4880,7 +4877,7 @@ msgstr "Agendanotitie-informatie"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Event Transparency"
-msgstr ""
+msgstr "Doorschijnendheid gebeurtenis"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Free/busy server URLs"
@@ -4892,7 +4889,7 @@ msgstr "Vrij/bezet sjabloon-URL"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Gradient of the events in calendar views."
-msgstr ""
+msgstr "Gradiënt van de gebeurtenissen in agendaweergaven."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Hide completed tasks"
@@ -5116,6 +5113,7 @@ msgid ""
 "Transparency of the events in calendar views (A value between 0 and 10, "
 "opaque by default)."
 msgstr ""
+"Doorschijnendheid van de gebeurtenissen in de agendaweergaven (Een waarde tussen 0 en 10, standaard niet doorzichtig)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Twenty four hour time format"
@@ -6137,7 +6135,7 @@ msgstr "Doel is alleen lezen"
 
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr ""
+msgstr "Dit item _verwijderen uit de postvakken van alle andere geadresseerden?"
 
 #: ../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -11991,7 +11989,7 @@ msgstr "Klik hier om mail te versturen naar %s"
 
 #: ../mail/em-folder-view.c:2860
 msgid "Click to hide/unhide addresses"
-msgstr ""
+msgstr "Klik om adressen te tonen/verbergen"
 
 #. message-search popup match count string
 #: ../mail/em-format-html-display.c:501
@@ -12007,7 +12005,7 @@ msgstr "_Zoeken:"
 # betere vertaling?
 #: ../mail/em-format-html-display.c:675
 #, fuzzy
-msgid "Match case"
+msgid "Match _case"
 msgstr "Alles meenemen"
 
 # Niet ondertekend of positief getal?
@@ -17261,7 +17259,8 @@ msgid "Mark All Read"
 msgstr "Alles markeren als gelezen"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-msgid "Mark me_ssages as read"
+#, fuzzy
+msgid "Mark Me_ssages as Read"
 msgstr "Berichten markeren als _gelezen"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
@@ -17510,8 +17509,8 @@ msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
 msgstr ""
-"Filtert spam met Spamassassin. Deze plugin vereist dat "
-"Spamassassin is geïnstalleerd"
+"Filtert spam met Spamassassin. Deze plugin vereist dat Spamassassin is "
+"geïnstalleerd"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "Spamassassin junk plugin"
@@ -21311,18 +21310,24 @@ msgstr "Item ID"
 msgid "Text"
 msgstr "Tekst"
 
-#: ../widgets/misc/e-search-bar.c:911
+#. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
+#. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
+#: ../widgets/misc/e-search-bar.c:913
 #, fuzzy
-msgid "Show : "
+msgid "Show: "
 msgstr "één dag tonen"
 
 # zoekopdracht
-#: ../widgets/misc/e-search-bar.c:925
+#. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
+#. the term to search for
+#: ../widgets/misc/e-search-bar.c:929
 #, fuzzy
-msgid "S_earch : "
+msgid "S_earch: "
 msgstr "Zoeken"
 
-#: ../widgets/misc/e-search-bar.c:934
+#. To Translators: The " in " label is part of the Quick Search Bar, example:
+#. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
+#: ../widgets/misc/e-search-bar.c:940
 #, fuzzy
 msgid " in "
 msgstr " en "
