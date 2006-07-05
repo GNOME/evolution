@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-03 06:25+0200\n"
-"PO-Revision-Date: 2006-07-03 11:13+0530\n"
+"POT-Creation-Date: 2006-07-05 06:05+0200\n"
+"PO-Revision-Date: 2006-07-05 09:52+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -16596,8 +16597,8 @@ msgid "Mark All Read"
 msgstr "બધાને વાંચ્યા એમ નિશાનિત કરો"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-msgid "Mark me_ssages as read"
-msgstr "સંદેશાઓને વાચ્યા એમ નિશાનિત કરો (_s)"
+msgid "Mark Me_ssages as Read"
+msgstr "સંદેશાઓને વાંચ્યા એમ નિશાનિત કરો (_s)"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
@@ -20481,15 +20482,21 @@ msgstr "વસ્તુ ID"
 msgid "Text"
 msgstr "લખાણ"
 
-#: ../widgets/misc/e-search-bar.c:911
-msgid "Show : "
-msgstr "બતાવો : "
+#. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
+#. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
+#: ../widgets/misc/e-search-bar.c:913
+msgid "Show: "
+msgstr "બતાવો: "
 
-#: ../widgets/misc/e-search-bar.c:925
-msgid "S_earch : "
-msgstr "શોધો : "
+#. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
+#. the term to search for
+#: ../widgets/misc/e-search-bar.c:929
+msgid "S_earch: "
+msgstr "શોધો (_e): "
 
-#: ../widgets/misc/e-search-bar.c:934
+#. To Translators: The " in " label is part of the Quick Search Bar, example:
+#. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
+#: ../widgets/misc/e-search-bar.c:940
 msgid " in "
 msgstr " અંદર "
 
