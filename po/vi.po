@@ -109,7 +109,7 @@ msgstr "Đi tới ngày"
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
 msgid "a table to view and select the current time range"
-msgstr "một bảng cho phép xem và chọn phạm vị thời gian hiện có"
+msgstr "một bảng cho phép xem và chọn phạm vi thời gian hiện có"
 
 #: ../a11y/calendar/ea-day-view.c:149
 #: ../a11y/calendar/ea-week-view.c:150
