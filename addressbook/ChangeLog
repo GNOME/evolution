@@ -1,3 +1,9 @@
+2006-07-06  Devashish Sharma  <sdevashish@novell.com>
+  	 
+	** Fixes bug #338710
+	* gui/contact-editor/e-contact-quick-add.c : Right click add to
+	contacts doesnt work on email addresses in received mails.
+  	 
 2006-06-14  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #344227
