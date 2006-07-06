@@ -1,3 +1,9 @@
+2006-07-06  Harish Krishnaswamy  <kharish@novell.com>
+
+	* itip-formatter.c: (format_itip_object):
+	Handle ICAL_X methods from Microsoft Live as 
+	request methods.
+
 2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* itip-formatter.c (update_item):
