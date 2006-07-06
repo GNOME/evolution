@@ -670,7 +670,7 @@ setup_widgets (EShellWindow *window)
 	priv->view_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->view_notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->view_notebook), FALSE);
-	gtk_paned_pack2 (GTK_PANED (priv->paned), priv->view_notebook, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (priv->paned), priv->view_notebook, FALSE, FALSE);
 	gtk_widget_show (priv->view_notebook);
 
 	gtk_paned_set_position (GTK_PANED (priv->paned),

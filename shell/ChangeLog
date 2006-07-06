@@ -1,3 +1,9 @@
+2006-07-05  Li Yuan  <li.yuan@sun.com>
+
+	* e-shell-window.c: (setup_widgets):
+	Fix for #346613.
+	Make the view_notebook cannot be resized shorter than its need.
+
 2006-06-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-user-creatable-items-handler.c: (setup_toolbar_button): Fixed a
