@@ -1932,7 +1932,7 @@ msgstr "Cu-ouai-th"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Kyrgyzstan"
-msgstr "Cơ-chi-x-tănh"
+msgstr "Cơ-chi-x-tăng"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Laos"
@@ -2276,7 +2276,7 @@ msgstr "Xan Pi-e và Mi-quê-lon"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Sudan"
-msgstr "Xu-đănh"
+msgstr "Xu-đăng"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Suriname"
@@ -2348,7 +2348,7 @@ msgstr "Thổ-nhĩ-kỳ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turkmenistan"
-msgstr "Thua-khợ-me-ni-x-tănh"
+msgstr "Thua-khợ-me-ni-x-tăng"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Turks And Caicos Islands"
