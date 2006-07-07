@@ -1,3 +1,10 @@
+2006-07-07  Wang Xin  <jedy.wang@sun.com>
+
+	Fixes #345222
+
+	* gui/dialogs/alarm-dialog.c: (alarm_to_malarm_widgets),
+	(populate_widgets_from_alarm): Handle mail alarm.
+
 2006-06-14  Aishwarya k <aishkalyan@gmail.com>
 
 	 *Fix for bug #339217
