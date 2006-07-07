@@ -1,3 +1,9 @@
+2006-07-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #341369
+	* exchange-calendar.c:
+	* exchange-contacts.c: fixing a memory leak.
+
 2006-06-13  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-folder-subscription.c (create_folder_subscription_dialog):

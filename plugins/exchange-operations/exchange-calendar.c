@@ -296,6 +296,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	
 	g_ptr_array_free (callist, TRUE);
+	g_object_unref (ts_pcalendar);
 	return tv_pcalendar;
 }
 

@@ -743,6 +743,8 @@ rule_editor_treeview_new (char *widget_name, char *string1, char *string2, int i
 	gtk_widget_show (scrolled);
 	gtk_widget_show (table);
 	
+	g_object_unref (model);
+	
 	return scrolled;
 }
 
