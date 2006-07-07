@@ -3848,6 +3848,7 @@ e_text_preedit_changed_cb (GtkIMContext *context,
 					NULL, NULL);
 
 	etext->preedit_len = strlen (preedit_string);
+	g_free (preedit_string);
 
 	g_signal_emit (etext, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
 }

@@ -1,3 +1,9 @@
+2006-07-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #341354.
+	* text/e-text.c: (e_text_preedit_changed_cb):
+	Plugged memory leak.
+
 2006-06-30  Johnny Jacob  <jjohnny@novell.com>
 	* misc/Makefile.am: Added e-icon-entry.c, e-icon-entry.h
 	* misc/e-filter-bar.c: (rule_advanced_response),
