@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-06 22:09+0200\n"
-"PO-Revision-Date: 2006-05-07 00:08+0300\n"
+"PO-Revision-Date: 2006-07-07 07:24+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10668,7 +10668,7 @@ msgstr "Test"
 
 #: ../filter/filter-rule.c:799
 msgid "_Search name:"
-msgstr "_Otsingubaas:"
+msgstr "Otsingu_baas:"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
