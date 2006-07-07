@@ -1,3 +1,8 @@
+2006-07-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #341369
+	* rule-editor.c: fixing a memory leak.
+
 2006-02-24  Shi Pu <shi.pu@sun.com>
 
 	** Fixes Bug #323853

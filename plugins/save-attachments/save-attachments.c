@@ -91,6 +91,8 @@ free_data(struct _save_data *data)
 	g_free(data->path);
 	g_free(data->uid);
 	camel_object_unref(data->folder);
+	if (data->model)
+		g_object_unref(data->model);
 	g_free(data);
 }
 

@@ -294,6 +294,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	g_ptr_array_free (conlist, TRUE);  
+	g_object_unref (ts_pcontacts);
 	return vb_pcontacts;
 }
 
