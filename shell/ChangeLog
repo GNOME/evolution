@@ -1,3 +1,12 @@
+2006-07-07  Li Yuan  <li.yuan@sun.com>
+
+	* e-shell-window.c: (setup_widgets):
+	Fix for #346613.
+	Fix the problem pointed out by Johnny <jjohnny@novell.com>.
+	When maximize Evolution, close and start Evolution sometimes,
+	the sidebar grows towards right. Set the view_notebook can be expanded
+	when the paned widget is resized.
+
 2006-07-05  Li Yuan  <li.yuan@sun.com>
 
 	* e-shell-window.c: (setup_widgets):
