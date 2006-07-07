@@ -1,3 +1,9 @@
+2006-07-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #341354.
+	* text/e-text.c: (e_text_preedit_changed_cb):
+	Plugged memory leak.
+
 2006-01-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-timezone-dialog/e-timezone-dialog.c: (get_zone_from_point):
