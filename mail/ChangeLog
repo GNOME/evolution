@@ -1,3 +1,9 @@
+2006-07-07 Ushveen Kaur <kushveen@novell.com>
+
+	Fixes bug #336963.
+	* em-message-browser.c:
+	set the scroll bar in the message display to automatic
+	
 2006-06-27  Arvind_evo  <sa.phoenix@gmail.com>
 		
 	Fix for bug#260354 comment 35:
