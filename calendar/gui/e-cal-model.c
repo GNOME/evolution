@@ -2133,5 +2133,27 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zon
 	
 	comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
 
+	if (end_time.zone)
+		zone = end_time.zone;
+	else {
+		icalparameter *param = NULL;
+		icalproperty *prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
+	
+	       if (prop)	{
+			param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+
+			if (param) {
+				const char *tzid = NULL;
+				icaltimezone *end_zone = NULL;
+
+				tzid = icalparameter_get_tzid (param);
+				e_cal_get_timezone (comp_data->client, tzid, &end_zone, NULL);
+
+				if (end_zone)
+					zone = end_zone;
+			}
+	       }
+
+	}
 	comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
 }
