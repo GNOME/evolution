@@ -1,3 +1,11 @@
+2006-07-07  Wang Xin  <jedy.wang@sun.com>
+
+	Fixes #345222
+
+	* gui/dialogs/alarm-dialog.c: (alarm_to_dialog),
+	(alarm_to_malarm_widgets); (populate_widgets_from_alarm):
+	Handle mail alarm.
+
 2006-06-30  Johnny Jacob  <jjohnny@novell.com>
 	* gui/cal-search-bar.c: (get_current_category),
 	(get_category_sexp), (notify_e_cal_view_contains),
