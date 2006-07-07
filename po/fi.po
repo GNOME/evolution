@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-02 19:54+0300\n"
-"PO-Revision-Date: 2006-07-03 13:24+0300\n"
+"POT-Creation-Date: 2006-07-07 08:19+0300\n"
+"PO-Revision-Date: 2006-07-07 08:21+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -687,7 +687,7 @@ msgstr "Kopioi kirjan sisältö paikallisesti yhteydettömään käyttöön"
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2015
+#: ../plugins/itip-formatter/itip-formatter.c:2021
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Yleiset"
@@ -4449,7 +4449,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Pilotin tehtävälistan ohjelmalohkoa ei voi kirjoittaa"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2006
+#: ../plugins/itip-formatter/itip-formatter.c:2012
 msgid "Calendar and Tasks"
 msgstr "Kalenteri ja tehtävät"
 
@@ -5276,7 +5276,7 @@ msgstr "Kalenterin avaamiseen ei ollut tarvittavia oikeuksia"
 msgid "Unknown error"
 msgstr "Tuntematon virhe"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:567
+#: ../calendar/gui/dialogs/alarm-dialog.c:614
 msgid "Edit Alarm"
 msgstr "Muokkaa hälytystä"
 
@@ -6144,7 +6144,7 @@ msgstr "Muokkaa"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1703
+#: ../plugins/itip-formatter/itip-formatter.c:1709
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
 #: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
 msgid "None"
@@ -6904,7 +6904,7 @@ msgstr "Ei"
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1329
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1728
+#: ../plugins/itip-formatter/itip-formatter.c:1734
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:720
 #: ../widgets/misc/e-charset-picker.c:63
@@ -7365,12 +7365,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:669
-#: ../plugins/itip-formatter/itip-formatter.c:1716
+#: ../plugins/itip-formatter/itip-formatter.c:1722
 msgid "Accepted"
 msgstr "Hyväksytty"
 
 #: ../calendar/gui/e-itip-control.c:1136 ../calendar/gui/itip-utils.c:672
-#: ../plugins/itip-formatter/itip-formatter.c:1719
+#: ../plugins/itip-formatter/itip-formatter.c:1725
 msgid "Tentatively Accepted"
 msgstr "Alustavasti hyväksytty"
 
@@ -7378,7 +7378,7 @@ msgstr "Alustavasti hyväksytty"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:675 ../calendar/gui/itip-utils.c:704
-#: ../plugins/itip-formatter/itip-formatter.c:1722
+#: ../plugins/itip-formatter/itip-formatter.c:1728
 msgid "Declined"
 msgstr "Hylätty"
 
@@ -7748,7 +7748,7 @@ msgstr "Alustava"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:678
-#: ../plugins/itip-formatter/itip-formatter.c:1725
+#: ../plugins/itip-formatter/itip-formatter.c:1731
 msgid "Delegated"
 msgstr "Valtuutettu"
 
@@ -11690,8 +11690,8 @@ msgid "Find:"
 msgstr "Etsi:"
 
 #: ../mail/em-format-html-display.c:675
-msgid "Match case"
-msgstr "Täsmää kirjainkoko"
+msgid "Match _case"
+msgstr "Täsmää _kirjainkoko"
 
 #: ../mail/em-format-html-display.c:923 ../mail/em-format-html.c:617
 msgid "Unsigned"
@@ -13608,7 +13608,7 @@ msgstr "_Valmis"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "F_ind:"
-msgstr "Et_si:"
+msgstr "_Etsi:"
 
 #: ../mail/mail-dialogs.glade.h:9
 msgid "Find in Message"
@@ -16129,17 +16129,17 @@ msgstr ""
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2031
+#: ../plugins/itip-formatter/itip-formatter.c:2037
 msgid "_Delete message after acting"
 msgstr "_Poista viesti, kun toimenpide on suoritettu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2041
-#: ../plugins/itip-formatter/itip-formatter.c:2073
+#: ../plugins/itip-formatter/itip-formatter.c:2047
+#: ../plugins/itip-formatter/itip-formatter.c:2079
 msgid "Conflict Search"
 msgstr "Ristiriitaisuuksien haku"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2056
+#: ../plugins/itip-formatter/itip-formatter.c:2062
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Valitse kalenterit, joista etsitään päällekkäisiä kokouksia"
 
@@ -16767,7 +16767,7 @@ msgid "Mark All Read"
 msgstr "Merkitse kaikki _luetuksi"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-msgid "Mark me_ssages as read"
+msgid "Mark Me_ssages as Read"
 msgstr "Merkitse vie_stit luetuiksi"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
@@ -20654,7 +20654,7 @@ msgstr "Sarakkeen leveys"
 
 #: ../widgets/misc/e-search-bar.c:527
 msgid "_Search"
-msgstr "_Etsi"
+msgstr "Et_si"
 
 #: ../widgets/misc/e-search-bar.c:533
 msgid "_Find Now"
@@ -20674,15 +20674,21 @@ msgstr "Kohteen ID"
 msgid "Text"
 msgstr "Teksti"
 
-#: ../widgets/misc/e-search-bar.c:911
-msgid "Show : "
-msgstr "Näytä:"
+#. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
+#. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
+#: ../widgets/misc/e-search-bar.c:913
+msgid "Show: "
+msgstr "Näytä: "
 
-#: ../widgets/misc/e-search-bar.c:925
-msgid "S_earch : "
-msgstr "_Etsi:"
+#. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
+#. the term to search for
+#: ../widgets/misc/e-search-bar.c:929
+msgid "S_earch: "
+msgstr "_Etsi: "
 
-#: ../widgets/misc/e-search-bar.c:934
+#. To Translators: The " in " label is part of the Quick Search Bar, example:
+#. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
+#: ../widgets/misc/e-search-bar.c:940
 msgid " in "
 msgstr " kuluessa "
 
