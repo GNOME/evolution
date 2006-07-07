@@ -1,3 +1,9 @@
+2006-07-07 Ushveen Kaur <kushveen@novell.com>
+
+	Fixes bug #336963.
+	* em-message-browser.c:
+	set the scroll bar in the message display to automatic
+	
 2006-07-07  Andre Klapper  <a9016009@gmx.de>
 
 	* em-format-html-display.c: Changing one mnemonic to avoid a
