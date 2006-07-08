@@ -2781,7 +2781,7 @@ static void
 image_clicked (GtkWidget *button, EContactEditor *editor)
 {
 	const gchar *title = _("Please select an image for this contact");
-	const gchar *no_image = _("No image");
+	const gchar *no_image = _("_No image");
 	GtkImage *preview;
 
 	if (!editor->file_selector) {

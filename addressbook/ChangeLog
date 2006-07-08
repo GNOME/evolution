@@ -1,3 +1,8 @@
+2006-07-08  Aishwarya K  <aishkalyan@gmail.com>
+
+	Fix for #332963
+	* e-contact-editor.c: Set the mnemonic character for "No image"
+
 2006-06-30  Johnny Jacob  <jjohnny@novell.com>
 	* gui/cal-search-bar.c: (get_current_category),
 	(get_category_sexp), (notify_e_cal_view_contains),
