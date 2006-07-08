@@ -1184,7 +1184,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[2].id = CREATE_TASK_LIST_ID;
 	list->_buffer[2].description = _("New task list");
-	list->_buffer[2].menuDescription = _("Task l_ist");
+	list->_buffer[2].menuDescription = _("Tas_k list");
 	list->_buffer[2].tooltip = _("Create a new task list");
 	list->_buffer[2].menuShortcut = '\0';
 	list->_buffer[2].iconName = "stock_todo";
