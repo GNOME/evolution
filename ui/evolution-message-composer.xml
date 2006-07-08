@@ -156,6 +156,7 @@
 	
 	<dockitem name="Toolbar" behavior="exclusive" look="system">
 		<toolitem name="FileSend" verb="" pixtype="pixbuf" priority="1"/>
+		<separator f="" name="emailcomposer2"/>
 		<toolitem name="FileSaveDraft" verb="" pixtype="pixbuf" priority="1"/>
 		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>	
 

@@ -1,3 +1,9 @@
+2006-07-08  Andreas Köhler  <andi5.py@gmx.net>
+
+	* evolution-message-composer.xml: adding a seperator between
+	"save" and "save draft" button. Fixes bug #318462.
+	(Committed by Andre Klapper)
+
 2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* evolution-mail-global.xml: Added menu item for wide view.
