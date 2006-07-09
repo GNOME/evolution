@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.7.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-30 23:44+0900\n"
-"PO-Revision-Date: 2006-07-01 02:56+0900\n"
+"POT-Creation-Date: 2006-07-09 22:00+0900\n"
+"PO-Revision-Date: 2006-07-09 22:01+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -681,7 +681,7 @@ msgstr "오프라인 작업을 위해 주소록 내용을 로컬에 복사합니
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2015
+#: ../plugins/itip-formatter/itip-formatter.c:2021
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "일반"
@@ -1028,20 +1028,26 @@ msgstr ""
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
-msgstr "이 옵션을 켜면 LDAP 서버가 SSL을 지원하는 경우에만 에볼루션에서 그 LDAP 서버에 연결합니다."
+msgstr ""
+"이 옵션을 켜면 LDAP 서버가 SSL을 지원하는 경우에만 에볼루션에서 그 LDAP 서버"
+"에 연결합니다."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
-msgstr "이 옵션을 켜면 LDAP 서버가 SSL을 지원하는 경우에만 에볼루션에서 그 LDAP 서버에 연결합니다."
+msgstr ""
+"이 옵션을 켜면 LDAP 서버가 SSL을 지원하는 경우에만 에볼루션에서 그 LDAP 서버"
+"에 연결합니다."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
-msgstr "이 옵션을 선택하면 서버에서 SSL을 지원하지 않는다는 의미입니다.  연결이 안전하지 않을 수도 있고, 보안상의 침투에 취약할 수 있습니다."
+msgstr ""
+"이 옵션을 선택하면 서버에서 SSL을 지원하지 않는다는 의미입니다.  연결이 안전"
+"하지 않을 수도 있고, 보안상의 침투에 취약할 수 있습니다."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
@@ -1064,7 +1070,9 @@ msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
-msgstr "찾기 기준은 찾기를 시작할 항목의 고유 이름(distinguished name, DN)입니다. 찾기 기준을 비워두면, 디렉토리 트리의 맨 위부터 찾기 시작합니다."
+msgstr ""
+"찾기 기준은 찾기를 시작할 항목의 고유 이름(distinguished name, DN)입니다. 찾"
+"기 기준을 비워두면, 디렉토리 트리의 맨 위부터 찾기 시작합니다."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -2417,7 +2425,7 @@ msgstr "짐바브웨"
 #: ../plugins/exchange-operations/exchange-delegates.c:934
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
 #: ../plugins/plugin-manager/plugin-manager.c:42
-#: ../plugins/save-attachments/save-attachments.c:368
+#: ../plugins/save-attachments/save-attachments.c:370
 #: ../widgets/menus/gal-view-new-dialog.c:73
 msgid "Name"
 msgstr "이름"
@@ -2517,8 +2525,8 @@ msgid "Please select an image for this contact"
 msgstr "이 연락처에 사용할 그림을 선택하십시오"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2784
-msgid "No image"
-msgstr "그림이 없습니다"
+msgid "_No image"
+msgstr "그림 없음(N)"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3086
 msgid ""
@@ -4420,7 +4428,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "파일롯의 ToDo 프로그램 블록에 쓸 수 없습니다"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2006
+#: ../plugins/itip-formatter/itip-formatter.c:2012
 msgid "Calendar and Tasks"
 msgstr "달력 및 작업"
 
@@ -5249,7 +5257,7 @@ msgstr "달력을 열 허가가 거부되었습니다"
 msgid "Unknown error"
 msgstr "알 수 없는 오류가 발생했습니다"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:567
+#: ../calendar/gui/dialogs/alarm-dialog.c:614
 msgid "Edit Alarm"
 msgstr "알림 편집"
 
@@ -6144,7 +6152,7 @@ msgstr "사용자 지정"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1703
+#: ../plugins/itip-formatter/itip-formatter.c:1709
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
 #: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
 msgid "None"
@@ -6919,7 +6927,7 @@ msgstr "아니오"
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1329
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1728
+#: ../plugins/itip-formatter/itip-formatter.c:1734
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:720
 #: ../widgets/misc/e-charset-picker.c:63
@@ -7386,12 +7394,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:669
-#: ../plugins/itip-formatter/itip-formatter.c:1716
+#: ../plugins/itip-formatter/itip-formatter.c:1722
 msgid "Accepted"
 msgstr "수락"
 
 #: ../calendar/gui/e-itip-control.c:1136 ../calendar/gui/itip-utils.c:672
-#: ../plugins/itip-formatter/itip-formatter.c:1719
+#: ../plugins/itip-formatter/itip-formatter.c:1725
 msgid "Tentatively Accepted"
 msgstr "잠정적으로 수락"
 
@@ -7399,7 +7407,7 @@ msgstr "잠정적으로 수락"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:675 ../calendar/gui/itip-utils.c:704
-#: ../plugins/itip-formatter/itip-formatter.c:1722
+#: ../plugins/itip-formatter/itip-formatter.c:1728
 msgid "Declined"
 msgstr "거부"
 
@@ -7778,7 +7786,7 @@ msgstr "잠정적"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:678
-#: ../plugins/itip-formatter/itip-formatter.c:1725
+#: ../plugins/itip-formatter/itip-formatter.c:1731
 msgid "Delegated"
 msgstr "대리"
 
@@ -8138,8 +8146,8 @@ msgid "New memo"
 msgstr "새 메모"
 
 #: ../calendar/gui/memos-component.c:1156
-msgid "_Memo"
-msgstr "메모(_M)"
+msgid "Mem_o"
+msgstr "메모(_O)"
 
 #: ../calendar/gui/memos-component.c:1157
 msgid "Create a new memo"
@@ -8150,8 +8158,8 @@ msgid "New memo list"
 msgstr "새 메모 목록"
 
 #: ../calendar/gui/memos-component.c:1164
-msgid "Memo l_ist"
-msgstr "메모 목록(_I)"
+msgid "Memo li_st"
+msgstr "메모 목록(_S)"
 
 #: ../calendar/gui/memos-component.c:1165
 msgid "Create a new memo list"
@@ -8490,8 +8498,8 @@ msgid "New task list"
 msgstr "새 작업 목록"
 
 #: ../calendar/gui/tasks-component.c:1187
-msgid "Task l_ist"
-msgstr "작업 목록(_I)"
+msgid "Tas_k list"
+msgstr "작업 목록(_K)"
 
 #: ../calendar/gui/tasks-component.c:1188
 msgid "Create a new task list"
@@ -11738,8 +11746,8 @@ msgid "Find:"
 msgstr "찾기:"
 
 #: ../mail/em-format-html-display.c:675
-msgid "Match case"
-msgstr "대소문자 구별"
+msgid "M_atch case"
+msgstr "대소문자 구별(_A)"
 
 #: ../mail/em-format-html-display.c:923 ../mail/em-format-html.c:617
 msgid "Unsigned"
@@ -12226,7 +12234,9 @@ msgstr "받는 사람/참조/숨은 참조의 주소를 간략하게 표시"
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
-msgstr "받는 사람/참조/숨은 참조의 주소를 address_count에 지정한 개수만큼 간략하게 표시합니다."
+msgstr ""
+"받는 사람/참조/숨은 참조의 주소를 address_count에 지정한 개수만큼 간략하게 표"
+"시합니다."
 
 #: ../mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to compose messages"
@@ -12302,7 +12312,9 @@ msgid ""
 "by typing in the text. Use is that you can easily find a folder in that side "
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
-msgstr "보조 모음의 찾기 기능을 사용해 텍스트를 입력해서 찾기를 시작할 수 있습니다. 폴더의 이름을 입력하면 보조 모음에 있는 해당 폴더로 바로 이동합니다."
+msgstr ""
+"보조 모음의 찾기 기능을 사용해 텍스트를 입력해서 찾기를 시작할 수 있습니다. "
+"폴더의 이름을 입력하면 보조 모음에 있는 해당 폴더로 바로 이동합니다."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid "Enable/disable caret mode"
@@ -12326,7 +12338,9 @@ msgstr "사용자가 10개 이상의 메세지를 한번에 열면, 정말로 �
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
-msgstr "\"미리 보기\" 창이 켜져 있는 경우, 창을 위아래가 아니라 옆으로 나란히 표시합니다."
+msgstr ""
+"\"미리 보기\" 창이 켜져 있는 경우, 창을 위아래가 아니라 옆으로 나란히 표시합"
+"니다."
 
 #: ../mail/evolution-mail.schemas.in.in.h:33
 msgid ""
@@ -12597,7 +12611,9 @@ msgstr ""
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
-msgstr "기본 메세지 목록 보기에서 표시할 주소의 길이를 지정합니다. 길이를 넘어가면 '...'으로 표시합니다."
+msgstr ""
+"기본 메세지 목록 보기에서 표시할 주소의 길이를 지정합니다. 길이를 넘어가면 "
+"'...'으로 표시합니다."
 
 #: ../mail/evolution-mail.schemas.in.in.h:94
 msgid "Thread the message list."
@@ -13995,7 +14011,8 @@ msgid ""
 msgstr ""
 "&quot;{1}&quot;에 비어 있지 않은 폴더가 있습니다.\n"
 "\n"
-"이 폴더를 무시할 수도 있고, 덮어 쓰거나, 그 내용 뒤에 덧붙이거나, 끝낼 수 있습니다."
+"이 폴더를 무시할 수도 있고, 덮어 쓰거나, 그 내용 뒤에 덧붙이거나, 끝낼 수 있"
+"습니다."
 
 #: ../mail/mail.error.xml.h:5
 msgid ""
@@ -14313,7 +14330,9 @@ msgstr "계정을 사용하도록 만들거나 다른 계정으로 보내 보십
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr "\"받는 사람:\" 필드에 올바른 전자메일 주소를 입력하십시오. 입력창 옆의 \"받는 사람:\" 단추를 누르면 전자메일 주소를 찾을 수 있습니다."
+msgstr ""
+"\"받는 사람:\" 필드에 올바른 전자메일 주소를 입력하십시오. 입력창 옆의 \"받"
+"는 사람:\" 단추를 누르면 전자메일 주소를 찾을 수 있습니다."
 
 #: ../mail/mail.error.xml.h:76
 msgid ""
@@ -15376,7 +15395,9 @@ msgstr "작업을 수행할 수 없습니다."
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
-msgstr "Exchange 계정 \"{0}\"의 설정에 바꾼 사항들은 에볼루션을 다시 시작해야 적용됩니다."
+msgstr ""
+"Exchange 계정 \"{0}\"의 설정에 바꾼 사항들은 에볼루션을 다시 시작해야 적용됩"
+"니다."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
@@ -16104,17 +16125,17 @@ msgstr "이 항목을 모두 처리하려면, 파일을 저장해서 그 달력�
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2031
+#: ../plugins/itip-formatter/itip-formatter.c:2037
 msgid "_Delete message after acting"
 msgstr "적용한 다음에 메세지 지우기(_D)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2041
-#: ../plugins/itip-formatter/itip-formatter.c:2073
+#: ../plugins/itip-formatter/itip-formatter.c:2047
+#: ../plugins/itip-formatter/itip-formatter.c:2079
 msgid "Conflict Search"
 msgstr "충돌 찾기"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2056
+#: ../plugins/itip-formatter/itip-formatter.c:2062
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "충돌하는 모임을 찾을 달력을 선택하십시오"
 
@@ -16579,17 +16600,14 @@ msgid "Convert the selected message to a new task"
 msgstr "선택한 메세지를 새 작업으로 바꿉니다"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact list _owner"
 msgstr "리스트 담당자에게 연락(_O)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
 msgstr "리스트 아카이브 받기(_A)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get list _usage information"
 msgstr "리스트 사용 정보 받기(_U)"
 
@@ -16609,17 +16627,14 @@ msgid ""
 msgstr "일반적인 메일링 리스트 명령을 제공합니다 (가입, 탈퇴 등)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post message to list"
 msgstr "리스트에 메세지 보내기(_P)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
 msgid "_Subscribe to list"
 msgstr "리스트에 가입(_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 msgid "_Un-subscribe to list"
 msgstr "리스트에 탈퇴(_U)"
 
@@ -16700,15 +16715,27 @@ msgstr "메세지 편집(_E)"
 msgid "_Send message"
 msgstr "메세지 보내기(_S)"
 
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
+msgid "Contact List _Owner"
+msgstr "리스트 담당자에게 연락(_O)"
+
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr "이 메세지가 속한 메일링 리스트의 소유자에게 연락합니다"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
+msgid "Get List _Archive"
+msgstr "리스트 아카이브 받기(_A)"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+msgid "Get List _Usage Information"
+msgstr "리스트 사용 정보 받기(_U)"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get an archive of the list this message belongs to"
 msgstr "이 메세지가 속한 메일링 리스트의 아카이브를 받습니다"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get information about the usage of the list this message belongs to"
 msgstr "이 메세지가 속한 메일링 리스트의 사용방법 정보를 받습니다"
 
@@ -16724,12 +16751,24 @@ msgstr "이 메세지가 속한 메일링 리스트에 가입합니다"
 msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "이 메세지가 속한 메일링 리스트에서 탈퇴합니다"
 
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
+msgid "_Post Message to List"
+msgstr "리스트에 메세지 보내기(_P)"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
+msgid "_Subscribe to List"
+msgstr "리스트에 가입(_S)"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
+msgid "_Unsubscribe from List"
+msgstr "리스트에서 탈퇴"
+
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
 msgstr "모두 읽은 것으로 표시"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-msgid "Mark me_ssages as read"
+msgid "Mark Me_ssages as Read"
 msgstr "메세지를 읽은 것으로 표시(_S)"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
@@ -16991,15 +17030,15 @@ msgstr "첨부 저장 ..."
 msgid "Save all attachments"
 msgstr "모든 첨부 저장"
 
-#: ../plugins/save-attachments/save-attachments.c:338
+#: ../plugins/save-attachments/save-attachments.c:340
 msgid "Select save base name"
 msgstr "저장할 위치 선택"
 
-#: ../plugins/save-attachments/save-attachments.c:357
+#: ../plugins/save-attachments/save-attachments.c:359
 msgid "MIME Type"
 msgstr "MIME 형식"
 
-#: ../plugins/save-attachments/save-attachments.c:365
+#: ../plugins/save-attachments/save-attachments.c:367
 #: ../ui/evolution-editor.xml.h:12 ../ui/evolution-message-composer.xml.h:19
 msgid "Save"
 msgstr "저장"
@@ -17746,7 +17785,8 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"데이터와 설정을 업그레이드하면 {0}의 디스크 공간이 필요합니다. 하지만 {1}만 남아 있습니다.\n"
+"데이터와 설정을 업그레이드하면 {0}의 디스크 공간이 필요합니다. 하지만 {1}만 "
+"남아 있습니다.\n"
 "\n"
 "계속 하시기 전에, 홈 디렉토리에 공간을 더 확보해야 합니다."
 
@@ -20639,16 +20679,22 @@ msgstr "항목 ID"
 msgid "Text"
 msgstr "텍스트"
 
-#: ../widgets/misc/e-search-bar.c:911
-msgid "Show : "
-msgstr "보기 : "
+#. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
+#. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
+#: ../widgets/misc/e-search-bar.c:913
+msgid "Show: "
+msgstr "보기: "
 
-#: ../widgets/misc/e-search-bar.c:925
-msgid "S_earch : "
-msgstr "찾기(_E) : "
+#. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
+#. the term to search for
+#: ../widgets/misc/e-search-bar.c:929
+msgid "S_earch: "
+msgstr "찾기(_E): "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: ../widgets/misc/e-search-bar.c:934
+#. To Translators: The " in " label is part of the Quick Search Bar, example:
+#. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
+#: ../widgets/misc/e-search-bar.c:940
 msgid " in "
 msgstr " 위치 : "
 
