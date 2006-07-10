@@ -388,53 +388,6 @@ reset_layout_attrs (EText *text)
 	calc_height (text);
 }
 
-static cairo_font_options_t *
-get_font_options ()
-{
-	char *antialiasing, *hinting, *subpixel_order;
-	cairo_font_options_t *font_options = cairo_font_options_create ();
-
-	/* Antialiasing */
-	antialiasing = gconf_client_get_string (gconf_client_get_default (),
-			"/desktop/gnome/font_rendering/antialiasing", NULL);
-	if (strcmp (antialiasing, "grayscale") == 0)
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_GRAY);
-	else if (strcmp (antialiasing, "rgba") == 0)
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_SUBPIXEL);
-	else if (strcmp (antialiasing, "none") == 0)
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_NONE);
-	else
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
-
-	hinting = gconf_client_get_string (gconf_client_get_default (),
-			"/desktop/gnome/font_rendering/hinting", NULL);
-	if (strcmp (hinting, "full") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_FULL);
-	else if (strcmp (hinting, "medium") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_MEDIUM);
-	else if (strcmp (hinting, "slight") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_SLIGHT);
-	else if (strcmp (hinting, "none") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_NONE);
-	else
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
-
-	subpixel_order = gconf_client_get_string (gconf_client_get_default (),
-			"/desktop/gnome/font_rendering/rgba_order", NULL);
-	if (strcmp (subpixel_order, "rgb") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_RGB);
-	else if (strcmp (subpixel_order, "bgr") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_BGR);
-	else if (strcmp (subpixel_order, "vrgb") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VRGB);
-	else if (strcmp (subpixel_order, "vbgr") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VBGR);
-	else
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
-
-	return font_options;
-}
-
 static void
 create_layout (EText *text)
 {
@@ -452,30 +405,12 @@ create_layout (EText *text)
 static void
 reset_layout (EText *text)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (text);
-	cairo_font_options_t *font_options;
-	PangoContext *context;
-
 	if (text->layout == NULL) {
 		create_layout (text);
 	}
 	else {
-		context = pango_layout_get_context (text->layout);
-
-		font_options = get_font_options();
-		pango_cairo_context_set_font_options (context, font_options);
-		cairo_font_options_destroy (font_options);
-		pango_layout_context_changed (text->layout);
-
-		text->font_desc = pango_font_description_new ();
-		pango_font_description_set_size (text->font_desc, 
-			pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
-		pango_font_description_set_family (text->font_desc,
-			pango_font_description_get_family ((GTK_WIDGET (item->canvas))->style->font_desc));
-		pango_layout_set_font_description (text->layout, text->font_desc);
-
- 		pango_layout_set_text (text->layout, text->text, -1);
- 		reset_layout_attrs (text);
+		pango_layout_set_text (text->layout, text->text, -1);
+		reset_layout_attrs (text);
 	}
 
 	if (!text->button_down) {

@@ -1,3 +1,9 @@
+2006-07-10  Harish Krishnaswamy  <kharish@novell.com>
+
+	* table/e-cell-text.c: (ect_unrealize), (build_layout):
+	* text/e-text.c: (reset_layout): Revert the previous
+	patch. Requires rework.
+
 2006-07-05  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 	* text/e-text.c, table/e-cell-text.c:
 		Added code to render ECell and EText text items with 
