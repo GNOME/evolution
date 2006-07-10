@@ -1,3 +1,12 @@
+2006-07-10  Harish Krishnaswamy  <kharish@novell.com>
+
+	* evolution-shell.pc.in: 
+	defined @datarootdir@. Patch submitted by 
+	Frederic Peters. 
+	
+	* evolution-plugin.pc.in : Similar change.
+	Fixes #345083.
+
 2006-06-15  Tor Lillqvist  <tml@novell.com>
 
 	* plugin.mk: Must expand also @GETTEXT_PACKAGE@ and @LOCALEDIR@,
