@@ -1,5 +1,10 @@
 2006-07-10  Harish Krishnaswamy  <kharish@novell.com>
 
+	* configure.in, NEWS: Evolution 2.7.4 release 
+	updates.
+
+2006-07-10  Harish Krishnaswamy  <kharish@novell.com>
+
 	* evolution-shell.pc.in: 
 	defined @datarootdir@. Patch submitted by 
 	Frederic Peters. 
