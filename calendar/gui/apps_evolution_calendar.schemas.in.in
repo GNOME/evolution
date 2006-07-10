@@ -16,6 +16,18 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/use_daylight_saving</key>
+      <applyto>/apps/evolution/calendar/display/use_daylight_saving</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>daylight savings time</short>
+        <long>Whether to use daylight savings time while displaying events.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/use_24hour_format</key>
       <applyto>/apps/evolution/calendar/display/use_24hour_format</applyto>
       <owner>evolution-calendar</owner>

@@ -1,3 +1,22 @@
+2006-07-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #332911
+	* gui/apps_evolution_calendar.schemas.in.in:
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.c: (set_standard_offsets),
+	(calendar_config_get_icaltimezone),
+	(calendar_config_add_notification_timezone),
+	(calendar_config_get_daylight_saving),
+	(calendar_config_set_daylight_saving),
+	(calendar_config_add_notification_daylight_saving):
+	* gui/calendar-config.h:
+	* gui/dialogs/cal-prefs-dialog.c: (timezone_changed),
+	(daylight_saving_changed), (setup_changes), (show_config),
+	(calendar_prefs_dialog_construct):
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: Added the support
+	for optional daylight savings time with timezones.
+
 2006-07-08  Ushveen Kaur  <kushveen@novell.com>
 
 	Fixes #332230.
@@ -19,6 +38,7 @@
 	(alarm_to_malarm_widgets); (populate_widgets_from_alarm):
 	Handle mail alarm.
 
+>>>>>>> 1.3068
 2006-06-30  Johnny Jacob  <jjohnny@novell.com>
 	* gui/cal-search-bar.c: (get_current_category),
 	(get_category_sexp), (notify_e_cal_view_contains),
