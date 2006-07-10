@@ -142,7 +142,6 @@ typedef struct {
 	int xofs, yofs;                 /* This gets added to the x
                                            and y for the cell text. */
 	double ellipsis_width[2];      /* The width of the ellipsis. */
-
 } ECellTextView;
 
 struct _CellEdit {
@@ -439,6 +438,7 @@ ect_unrealize (ECellView *ecv)
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (ecv);
+
 }
 
 static void
@@ -502,6 +502,53 @@ build_attr_list (ECellTextView *text_view, int row, int text_length)
 		}
 	}
 	return attrs;
+}
+
+static cairo_font_options_t *
+get_font_options ()
+{
+	char *antialiasing, *hinting, *subpixel_order;
+	cairo_font_options_t *font_options = cairo_font_options_create ();
+
+	/* Antialiasing */
+	antialiasing = gconf_client_get_string (gconf_client_get_default (),
+			"/desktop/gnome/font_rendering/antialiasing", NULL);
+	if (strcmp (antialiasing, "grayscale") == 0)
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_GRAY);
+	else if (strcmp (antialiasing, "rgba") == 0)
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_SUBPIXEL);
+	else if (strcmp (antialiasing, "none") == 0)
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_NONE);
+	else
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
+
+	hinting = gconf_client_get_string (gconf_client_get_default (),
+			"/desktop/gnome/font_rendering/hinting", NULL);
+	if (strcmp (hinting, "full") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_FULL);
+	else if (strcmp (hinting, "medium") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_MEDIUM);
+	else if (strcmp (hinting, "slight") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_SLIGHT);
+	else if (strcmp (hinting, "none") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_NONE);
+	else
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
+
+	subpixel_order = gconf_client_get_string (gconf_client_get_default (),
+			"/desktop/gnome/font_rendering/rgba_order", NULL);
+	if (strcmp (subpixel_order, "rgb") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_RGB);
+	else if (strcmp (subpixel_order, "bgr") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_BGR);
+	else if (strcmp (subpixel_order, "vrgb") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VRGB);
+	else if (strcmp (subpixel_order, "vbgr") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VBGR);
+	else
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
+
+	return font_options;
 }
 
 static PangoLayout *
@@ -570,6 +617,8 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	PangoAttrList *attrs ;
 	PangoLayout *layout;
+	PangoContext *context;
+	cairo_font_options_t *font_options;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas), text);
 
@@ -580,6 +629,13 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 
 	if (text_view->edit || width <= 0)
 		return layout;
+
+	context = pango_layout_get_context (layout);
+
+	font_options = get_font_options();
+	pango_cairo_context_set_font_options (context, font_options);
+	cairo_font_options_destroy (font_options);
+	pango_layout_context_changed (layout);
 
 	if (ect->font_name)
 	{
@@ -632,7 +688,7 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	default:
 		break;
 	}
-	
+
 	return layout;
 }
 

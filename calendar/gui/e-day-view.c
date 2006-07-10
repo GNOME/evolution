@@ -783,13 +783,6 @@ e_day_view_init (EDayView *day_view)
 				       "EDayViewTopItem::day_view", day_view,
 				       NULL);
 
-	day_view->resize_long_event_rect_item =
-		gnome_canvas_item_new (canvas_group,
-				       gnome_canvas_rect_get_type(),
-				       "width_pixels", 1,
-				       NULL);
-	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
-
 	day_view->drag_long_event_rect_item =
 		gnome_canvas_item_new (canvas_group,
 				       gnome_canvas_rect_get_type (),
@@ -862,35 +855,6 @@ e_day_view_init (EDayView *day_view)
 				       e_day_view_main_item_get_type (),
 				       "EDayViewMainItem::day_view", day_view,
 				       NULL);
-
-	day_view->resize_rect_item =
-		gnome_canvas_item_new (canvas_group,
-				       gnome_canvas_rect_get_type(),
-				       "width_pixels", 1,
-				       NULL);
-	gnome_canvas_item_hide (day_view->resize_rect_item);
-
-	day_view->resize_bar_item =
-		gnome_canvas_item_new (canvas_group,
-				       gnome_canvas_rect_get_type(),
-				       "width_pixels", 1,
-				       NULL);
-	gnome_canvas_item_hide (day_view->resize_bar_item);
-
-	day_view->main_canvas_top_resize_bar_item =
-		gnome_canvas_item_new (canvas_group,
-				       gnome_canvas_rect_get_type (),
-				       "width_pixels", 1,
-				       NULL);
-	gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-
-	day_view->main_canvas_bottom_resize_bar_item =
-		gnome_canvas_item_new (canvas_group,
-				       gnome_canvas_rect_get_type (),
-				       "width_pixels", 1,
-				       NULL);
-	gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
-
 
 	day_view->drag_rect_item =
 		gnome_canvas_item_new (canvas_group,
@@ -1102,37 +1066,10 @@ e_day_view_realize (GtkWidget *widget)
 
 
 	/* Set the canvas item colors. */
-	gnome_canvas_item_set (day_view->resize_long_event_rect_item,
-			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
-			       "outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			       NULL);
-
 	gnome_canvas_item_set (day_view->drag_long_event_rect_item,
 			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
 			       "outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
 			       NULL);
-
-
-	gnome_canvas_item_set (day_view->resize_rect_item,
-			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
-			       "outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			       NULL);
-
-	gnome_canvas_item_set (day_view->resize_bar_item,
-			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-			       "outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			       NULL);
-
-	gnome_canvas_item_set (day_view->main_canvas_top_resize_bar_item,
-			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-			       "outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			       NULL);
-
-	gnome_canvas_item_set (day_view->main_canvas_bottom_resize_bar_item,
-			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-			       "outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			       NULL);
-
 
 	gnome_canvas_item_set (day_view->drag_rect_item,
 			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
@@ -1271,14 +1208,6 @@ e_day_view_style_set (GtkWidget *widget,
 					NULL);
 		}
 	}
-	gnome_canvas_item_set (day_view->main_canvas_top_resize_bar_item,
-			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-			"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			NULL);
-	gnome_canvas_item_set (day_view->main_canvas_bottom_resize_bar_item,
-			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-			"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			NULL);
 
 	/* Set up Pango prerequisites */
 	font_desc = gtk_widget_get_style (widget)->font_desc;
@@ -1793,8 +1722,8 @@ e_day_view_update_event_label (EDayView *day_view,
 			       gint event_num)
 {
 	EDayViewEvent *event;
-	char *text, *start_suffix, *end_suffix;
-	gboolean free_text = FALSE, editing_event = FALSE;
+	char *text, *start_suffix, *end_suffix, *mode;
+	gboolean free_text = FALSE, editing_event = FALSE, show_span = FALSE, format_time;
 	gint offset;
 	gint start_hour, start_display_hour, start_minute, start_suffix_width;
 	gint end_hour, end_display_hour, end_minute, end_suffix_width;
@@ -1813,20 +1742,31 @@ e_day_view_update_event_label (EDayView *day_view,
 	    && day_view->editing_event_num == event_num)
 		editing_event = TRUE;
 
-	if (!editing_event
-	    && (event->start_minute % day_view->mins_per_row != 0
-		|| (day_view->show_event_end_times
-		    && event->end_minute % day_view->mins_per_row != 0))) {
-		offset = day_view->first_hour_shown * 60
-			+ day_view->first_minute_shown;
+	if (!editing_event) {
+		if (event->start_minute % day_view->mins_per_row != 0
+			|| (day_view->show_event_end_times
+		    	&& event->end_minute % day_view->mins_per_row != 0)) {
+				offset = day_view->first_hour_shown * 60
+				+ day_view->first_minute_shown;
+				show_span = TRUE;
+			} else {
+				offset = 0;
+		}
 		start_minute = offset + event->start_minute;
 		end_minute = offset + event->end_minute;
+
+		format_time = (((end_minute - start_minute)/day_view->mins_per_row) >= 2) ? TRUE : FALSE;
 
 		start_hour = start_minute / 60;
 		start_minute = start_minute % 60;
 
 		end_hour = end_minute / 60;
 		end_minute = end_minute % 60;
+
+		if (format_time)
+			mode = "\n";
+		else
+			mode = "";
 
 		e_day_view_convert_time_to_display (day_view, start_hour,
 						    &start_display_hour,
@@ -1838,41 +1778,48 @@ e_day_view_update_event_label (EDayView *day_view,
 						    &end_suffix_width);
 
 		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
-			if (day_view->show_event_end_times) {
+			if (day_view->show_event_end_times && show_span) {
 				/* 24 hour format with end time. */
 				text = g_strdup_printf
-					("%2i:%02i-%2i:%02i %s",
+					("%2i:%02i-%2i:%02i %s %s",
 					 start_display_hour, start_minute,
-					 end_display_hour, end_minute,
+					 end_display_hour, end_minute, mode,
 					 text);
 			} else {
+				free_text = TRUE;
+				if (format_time) {
 				/* 24 hour format without end time. */
 				text = g_strdup_printf
-					("%2i:%02i %s",
-					 start_display_hour, start_minute,
+					("%2i:%02i %s %s",
+					 start_display_hour, start_minute, mode,
 					 text);
+				free_text = FALSE;
+				}
 			}
 		} else {
-			if (day_view->show_event_end_times) {
+			if (day_view->show_event_end_times && offset != 0) {
 				/* 12 hour format with end time. */
 				text = g_strdup_printf
-					("%2i:%02i%s-%2i:%02i%s %s",
-					 start_display_hour, start_minute,
+					("%2i:%02i%s-%2i:%02i%s %s %s",
+					 start_display_hour, start_minute, 
 					 start_suffix,
-					 end_display_hour, end_minute,
+					 end_display_hour, end_minute, mode,
 					 end_suffix,
 					 text);
 			} else {
 				/* 12 hour format without end time. */
 				text = g_strdup_printf
-					("%2i:%02i%s %s",
+					("%2i:%02i%s %s %s",
 					 start_display_hour, start_minute,
-					 start_suffix,
+					 start_suffix, mode,
 					 text);
 			}
 		}
 
-		free_text = TRUE;
+		if (free_text)
+			free_text = FALSE;
+		else
+			free_text = TRUE;
 	}
 
 	gnome_canvas_item_set (event->canvas_item,
@@ -1886,7 +1833,6 @@ e_day_view_update_event_label (EDayView *day_view,
 	if (free_text)
 		g_free (text);
 }
-
 
 static void
 e_day_view_update_long_event_label (EDayView *day_view,
@@ -2746,7 +2692,6 @@ e_day_view_convert_time_to_position (EDayView	*day_view,
 	return offset * day_view->row_height / day_view->mins_per_row;
 }
 
-
 static gboolean
 e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 				       GdkEventButton *event,
@@ -3049,6 +2994,7 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 		} else if (event->type == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (day_view, day,
 							  event_num);
+
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (day_view->main_canvas),
 						      "button_press_event");
 			return TRUE;
@@ -3120,9 +3066,6 @@ e_day_view_on_long_event_click (EDayView *day_view,
 
 			/* Create the edit rect if necessary. */
 			e_day_view_reshape_resize_long_event_rect_item (day_view);
-
-			/* Make sure the text item is on top. */
-			gnome_canvas_item_raise_to_top (day_view->resize_long_event_rect_item);
 
 			/* Raise the event's item, above the rect as well. */
 			gnome_canvas_item_raise_to_top (event->canvas_item);
@@ -3197,10 +3140,6 @@ e_day_view_on_event_click (EDayView *day_view,
 
 			e_day_view_reshape_main_canvas_resize_bars (day_view);
 
-			/* Make sure the text item is on top. */
-			gnome_canvas_item_raise_to_top (day_view->resize_rect_item);
-			gnome_canvas_item_raise_to_top (day_view->resize_bar_item);
-
 			/* Raise the event's item, above the rect as well. */
 			gnome_canvas_item_raise_to_top (event->canvas_item);
 		}
@@ -3240,7 +3179,6 @@ e_day_view_reshape_resize_long_event_rect_item (EDayView *day_view)
 						    &start_day, &end_day,
 						    &item_x, &item_y,
 						    &item_w, &item_h)) {
-		gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
 		return;
 	}
 
@@ -3248,14 +3186,6 @@ e_day_view_reshape_resize_long_event_rect_item (EDayView *day_view)
 	y1 = item_y;
 	x2 = item_x + item_w - 1;
 	y2 = item_y + item_h - 1;
-
-	gnome_canvas_item_set (day_view->resize_long_event_rect_item,
-			       "x1", x1,
-			       "y1", y1,
-			       "x2", x2,
-			       "y2", y2,
-			       NULL);
-	gnome_canvas_item_show (day_view->resize_long_event_rect_item);
 }
 
 
@@ -3275,7 +3205,6 @@ e_day_view_reshape_resize_rect_item (EDayView *day_view)
 	    || !e_day_view_get_event_position (day_view, day, event_num,
 					       &item_x, &item_y,
 					       &item_w, &item_h)) {
-		gnome_canvas_item_hide (day_view->resize_rect_item);
 		return;
 	}
 
@@ -3283,22 +3212,6 @@ e_day_view_reshape_resize_rect_item (EDayView *day_view)
 	y1 = item_y;
 	x2 = item_x + item_w - 1;
 	y2 = item_y + item_h - 1;
-
-	gnome_canvas_item_set (day_view->resize_rect_item,
-			       "x1", x1 + E_DAY_VIEW_BAR_WIDTH - 1,
-			       "y1", y1,
-			       "x2", x2,
-			       "y2", y2,
-			       NULL);
-	gnome_canvas_item_show (day_view->resize_rect_item);
-
-	gnome_canvas_item_set (day_view->resize_bar_item,
-			       "x1", x1,
-			       "y1", y1,
-			       "x2", x1 + E_DAY_VIEW_BAR_WIDTH - 1,
-			       "y2", y2,
-			       NULL);
-	gnome_canvas_item_show (day_view->resize_bar_item);
 }
 
 
@@ -3564,8 +3477,6 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 			if (day_view->resize_bars_event_day != -1) {
 				day_view->resize_bars_event_day = -1;
 				day_view->resize_bars_event_num = -1;
-				gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-				gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
 			}
 
 			target_list = gtk_target_list_new (target_table,
@@ -3667,8 +3578,6 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			if (day_view->resize_bars_event_day != -1) {
 				day_view->resize_bars_event_day = -1;
 				day_view->resize_bars_event_num = -1;
-				gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-				gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
 			}
 
 			target_list = gtk_target_list_new (target_table,
@@ -3987,8 +3896,6 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
 	
  out:
- 	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
- 
  	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
 	g_object_unref (comp);
@@ -4055,14 +3962,10 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
-	gnome_canvas_item_hide (day_view->resize_rect_item);
-	gnome_canvas_item_hide (day_view->resize_bar_item);
 
 	/* Hide the horizontal bars. */
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
-	gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-	gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
@@ -4122,7 +4025,6 @@ e_day_view_abort_resize (EDayView *day_view)
 		day_view->last_cursor_set_in_top_canvas = day_view->normal_cursor;
 		gdk_window_set_cursor (day_view->top_canvas->window,
 				       day_view->normal_cursor);
-		gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
 	} else {
 		e_day_view_reshape_day_event (day_view, day, event_num);
 		e_day_view_reshape_main_canvas_resize_bars (day_view);
@@ -4131,8 +4033,6 @@ e_day_view_abort_resize (EDayView *day_view)
 		day_view->last_cursor_set_in_main_canvas = day_view->normal_cursor;
 		gdk_window_set_cursor (day_view->main_canvas->window,
 				       day_view->normal_cursor);
-		gnome_canvas_item_hide (day_view->resize_rect_item);
-		gnome_canvas_item_hide (day_view->resize_bar_item);
 	}
 }
 
@@ -4708,28 +4608,11 @@ e_day_view_reshape_main_canvas_resize_bars (EDayView *day_view)
 		y = item_y;
 		w = item_w - E_DAY_VIEW_BAR_WIDTH;
 		h = item_h;
+
+		gtk_widget_queue_draw (day_view->main_canvas);
 	} else {
-		gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-		gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
 		return;
 	}
-
-	gnome_canvas_item_set (day_view->main_canvas_top_resize_bar_item,
-			       "x1", x - E_DAY_VIEW_BAR_WIDTH,
-			       "y1", y - E_DAY_VIEW_BAR_HEIGHT,
-			       "x2", x + w - 1,
-			       "y2", y - 1,
-			       NULL);
-	gnome_canvas_item_show (day_view->main_canvas_top_resize_bar_item);
-
-	gnome_canvas_item_set (day_view->main_canvas_bottom_resize_bar_item,
-			       "x1", x - E_DAY_VIEW_BAR_WIDTH,
-			       "y1", y + h,
-			       "x2", x + w - 1,
-			       "y2", y + h + E_DAY_VIEW_BAR_HEIGHT - 1,
-			       NULL);
-
-	gnome_canvas_item_show (day_view->main_canvas_bottom_resize_bar_item);
 }
 
 
@@ -5888,6 +5771,9 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			ECalendarViewPosition pos;
 			gboolean main_canvas = TRUE;
 
+			if (day_view->editing_event_num != -1)
+				return FALSE;
+
 			/* Convert the coords to the main canvas window, or return if the
 			   window is not found. */
 			if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -5916,6 +5802,9 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			}
 
 			if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
+				return FALSE;
+
+			if (day_view->resize_event_num == event_num)
 				return FALSE;
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
@@ -6091,9 +5980,6 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 		
 	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
-	gnome_canvas_item_hide (day_view->resize_rect_item);
-	gnome_canvas_item_hide (day_view->resize_bar_item);
-
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
  	if (e_cal_component_is_instance (comp)) {
@@ -6253,9 +6139,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 
-		/* Hide the horizontal bars. */
-		gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-		gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
 	}
 
 	/* Reset the edit fields. */
@@ -7222,8 +7105,6 @@ e_day_view_on_main_canvas_drag_leave (GtkWidget      *widget,
 	/* Hide the resize bars if they are being used in the drag. */
 	if (day_view->drag_event_day == day_view->resize_bars_event_day
 	    && day_view->drag_event_num == day_view->resize_bars_event_num) {
-		gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-		gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
 	}
 }
 

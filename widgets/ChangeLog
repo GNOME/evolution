@@ -1,3 +1,8 @@
+2006-07-05  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+	* text/e-text.c, table/e-cell-text.c:
+		Added code to render ECell and EText text items with 
+	antialiasing, hinting and sub-pixel ordering with cairo.
+
 2006-07-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #341354.

@@ -1,3 +1,22 @@
+2006-07-10  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	* gui/e-day-view.c:(e_day_view_update_event_label)
+	Added code for Day/Work Week view item, top border showing time
+	(e_day_view_realize), (e_day_view_on_event_click), 
+	(e_day_view_on_long_event_click), (e_day_view_reshape_resize_long_event_rect),
+	(e_day_view_reshape_resize_rect_item),(e_day_view_on_top_canvas_motion),
+	(e_day_view_finish_resize),(e_day_view_abort_resize),
+	(e_day_view_reshape_main_canvas_resize_bar):
+	Added code for Resize Transparency with Cairo drawing.
+
+	(e_day_view_on_text_item_event):
+	Fixed crashes because of tooltip during editing and resize.
+
+	* gui/e-day-view-main-canvas.c:
+	(e_day_view_main_item_draw_day_event):
+	Added code for Time displayed on resizing events and for Shadow 
+	Effect for item selection
+
 2006-07-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #332911
