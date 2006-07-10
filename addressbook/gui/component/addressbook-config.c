@@ -327,6 +327,7 @@ supported_bases_create_table (char *name, char *string1, char *string2, int num1
 
 	model = gtk_list_store_new (1, G_TYPE_STRING);
 	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
+	g_object_unref (model);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Base"), renderer, "text", 0, NULL);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, FALSE);

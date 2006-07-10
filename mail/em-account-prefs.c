@@ -515,6 +515,7 @@ em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2, 
 	
 	model = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
 	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
+	g_object_unref (model);
 	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Enabled"),
 						     renderer, "active", 0, NULL);
 	

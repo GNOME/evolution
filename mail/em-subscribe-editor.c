@@ -631,6 +631,7 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		
 		model = gtk_tree_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 		sub->tree = (GtkTreeView *) gtk_tree_view_new_with_model ((GtkTreeModel *) model);
+		g_object_unref (model);
 		gtk_widget_show ((GtkWidget *)sub->tree);
 		
 		sub->widget = gtk_scrolled_window_new (NULL, NULL);

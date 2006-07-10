@@ -1389,6 +1389,7 @@ create_treeview_view (EABView *view)
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
 	treeview = gtk_tree_view_new_with_model (adapter);
+	g_object_unref (adapter);
 
 	gtk_widget_show (treeview);
 
