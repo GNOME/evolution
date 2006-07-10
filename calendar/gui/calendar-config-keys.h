@@ -29,6 +29,7 @@ G_BEGIN_DECLS
 
 /* Display settings */
 #define CALENDAR_CONFIG_TIMEZONE CALENDAR_CONFIG_PREFIX "/display/timezone"
+#define CALENDAR_CONFIG_DAYLIGHT_SAVING CALENDAR_CONFIG_PREFIX "/display/use_daylight_saving"
 #define CALENDAR_CONFIG_SELECTED_CALENDARS CALENDAR_CONFIG_PREFIX "/display/selected_calendars"
 #define CALENDAR_CONFIG_PRIMARY_CALENDAR CALENDAR_CONFIG_PREFIX "/display/primary_calendar"
 #define CALENDAR_CONFIG_24HOUR CALENDAR_CONFIG_PREFIX "/display/use_24hour_format"

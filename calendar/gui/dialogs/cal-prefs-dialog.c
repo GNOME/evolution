@@ -130,9 +130,25 @@ static void
 timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	icaltimezone *zone;
+	icalcomponent *icalcomp, *dl_comp;
 
 	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (prefs->timezone));
+	icalcomp = icaltimezone_get_component (zone);
+
+	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) 
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
+	else 
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);
+	 	
 	calendar_config_set_timezone (icaltimezone_get_location (zone));
+}
+
+static void
+daylight_saving_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
+{
+	gboolean set = gtk_toggle_button_get_active ((GtkToggleButton *) prefs->daylight_saving);
+	calendar_config_set_daylight_saving (set);
+	timezone_changed (widget, prefs);
 }
 
 static void
@@ -351,6 +367,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 		g_signal_connect (G_OBJECT (prefs->working_days[i]), "toggled", G_CALLBACK (working_days_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->timezone), "changed", G_CALLBACK (timezone_changed), prefs);
+	g_signal_connect (G_OBJECT (prefs->daylight_saving), "toggled", G_CALLBACK (daylight_saving_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->start_of_day), "changed", G_CALLBACK (start_of_day_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->end_of_day), "changed", G_CALLBACK (end_of_day_changed), prefs);
@@ -479,12 +496,25 @@ show_config (CalendarPrefsDialog *prefs)
 	CalWeekdays working_days;
 	gint mask, day, week_start_day, time_divisions;
 	icaltimezone *zone;
-	gboolean sensitive;
+	gboolean sensitive, set = FALSE;
+	icalcomponent *icalcomp, *dl_comp;
+	char *location;
 
 	/* Timezone. */
-	zone = calendar_config_get_icaltimezone ();
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (prefs->timezone), zone);
+	g_free (location);
 
+	icalcomp = icaltimezone_get_component (zone);
+	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) 
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
+	else 
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);
+	
+	set = calendar_config_get_daylight_saving ();
+	gtk_toggle_button_set_active ((GtkToggleButton *) prefs->daylight_saving, set);
+		
 	/* Working Days. */
 	working_days = calendar_config_get_working_days ();
 	mask = 1 << 0;
@@ -609,6 +639,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 
 	/* General tab */
 	prefs->timezone = glade_xml_get_widget (gui, "timezone");
+	prefs->daylight_saving = glade_xml_get_widget (gui, "daylight_cb");
 	for (i = 0; i < 7; i++)
 		prefs->working_days[i] = glade_xml_get_widget (gui, working_day_names[i]);
 	prefs->week_start_day = glade_xml_get_widget (gui, "week_start_day");

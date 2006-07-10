@@ -255,4 +255,8 @@ gboolean  calendar_config_locale_supports_12_hour_format(void);
 void	  calendar_config_set_dir_path (const char *);
 char *	  calendar_config_get_dir_path (void);
 
+gboolean calendar_config_get_daylight_saving (void);
+void calendar_config_set_daylight_saving (gboolean daylight_saving);
+guint calendar_config_add_notification_daylight_saving (GConfClientNotifyFunc func, gpointer data);
+
 #endif /* _CALENDAR_CONFIG_H_ */
