@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-08 02:06+0200\n"
-"PO-Revision-Date: 2006-07-08 02:20+0200\n"
+"POT-Creation-Date: 2006-07-10 11:19+0200\n"
+"PO-Revision-Date: 2006-07-10 11:20+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2556,8 +2556,8 @@ msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2784
-msgid "No image"
-msgstr "Sin imagen"
+msgid "_No image"
+msgstr "_Sin imagen"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3086
 msgid ""
@@ -8194,7 +8194,7 @@ msgid "New memo"
 msgstr "Nota nueva"
 
 #: ../calendar/gui/memos-component.c:1156
-msgid "_Memo"
+msgid "Mem_o"
 msgstr "_Nota"
 
 #: ../calendar/gui/memos-component.c:1157
@@ -8206,7 +8206,7 @@ msgid "New memo list"
 msgstr "Lista de notas nueva"
 
 #: ../calendar/gui/memos-component.c:1164
-msgid "Memo l_ist"
+msgid "Memo li_st"
 msgstr "_Lista de notas"
 
 #: ../calendar/gui/memos-component.c:1165
@@ -8551,7 +8551,7 @@ msgid "New task list"
 msgstr "Lista de tareas nueva"
 
 #: ../calendar/gui/tasks-component.c:1187
-msgid "Task l_ist"
+msgid "Tas_k list"
 msgstr "_Lista de tareas"
 
 #: ../calendar/gui/tasks-component.c:1188
@@ -16724,17 +16724,14 @@ msgid "Convert the selected message to a new task"
 msgstr "Convierte el mensaje seleccionado en una tarea nueva"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact list _owner"
 msgstr "_Responsable de la lista de contactos"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
 msgstr "Obtener _archivador de la lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get list _usage information"
 msgstr "Obtener información de _uso de la lista"
 
@@ -16756,17 +16753,14 @@ msgstr ""
 "desuscribirse, …)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post message to list"
 msgstr "_Publicar un mensaje a la lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
 msgid "_Subscribe to list"
 msgstr "_Suscribirse a la lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 msgid "_Un-subscribe to list"
 msgstr "Des_uscribirse de la lista"
 
@@ -16851,6 +16845,10 @@ msgstr "_Editar mensaje"
 msgid "_Send message"
 msgstr "_Enviar mensaje"
 
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
+msgid "Contact List _Owner"
+msgstr "_Responsable de la lista de contactos"
+
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr ""
@@ -16858,10 +16856,18 @@ msgstr ""
 "mensaje"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
+msgid "Get List _Archive"
+msgstr "Obtener _archivador de la lista"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+msgid "Get List _Usage Information"
+msgstr "Obtener información de _uso de la lista"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get an archive of the list this message belongs to"
 msgstr "Obtener un archivador de la lista a la que pertenece este mensaje"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get information about the usage of the list this message belongs to"
 msgstr ""
 "Obtiene información sobre el uso de la lista a la que pertenece este mensaje"
@@ -16878,6 +16884,18 @@ msgstr "Suscribirse a la lista de correo a la que pertenece este mensaje"
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
 msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "Desuscribirse de la lista de correo a la que pertenece este mensaje"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
+msgid "_Post Message to List"
+msgstr "_Publicar un mensaje a la lista"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
+msgid "_Subscribe to List"
+msgstr "_Suscribirse a la lista"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
+msgid "_Unsubscribe from List"
+msgstr "_Desuscribirse de la lista"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -21519,3 +21537,6 @@ msgstr "Contexto IM"
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr "Tirador emergente"
+
+#~ msgid "_Memo"
+#~ msgstr "_Nota"
