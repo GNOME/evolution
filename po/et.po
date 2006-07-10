@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-06 22:09+0200\n"
-"PO-Revision-Date: 2006-07-07 07:24+0300\n"
+"PO-Revision-Date: 2006-07-10 14:23+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -5630,7 +5630,7 @@ msgstr "Nädala ja kuu vaadetel näidatakse _sündmuste lõpuaegu"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Time divisions:"
-msgstr "_Aja jaotised:"
+msgstr "_Aja jaotamine:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Tue"
@@ -6686,7 +6686,7 @@ msgstr "_Parool:"
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
 msgid "_Remember password"
-msgstr "Parooli _meeldejätmine"
+msgstr "Parool jäetakse _meelde"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
@@ -18577,7 +18577,7 @@ msgstr "Kategooriavälja kuvamise sisse- ja väljalülitamine"
 
 #: ../ui/evolution-event-editor.xml.h:24
 msgid "Toggles whether to have All Day Event"
-msgstr ""
+msgstr "Kogu päeva kestva sündmuse sisse- ja väljalülitamine"
 
 #: ../ui/evolution-event-editor.xml.h:25
 msgid "Toggles whether to show time as busy"
