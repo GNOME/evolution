@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-05-07 00:08+0300\n"
+"PO-Revision-Date: 2006-07-10 14:23+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -5516,7 +5516,7 @@ msgstr "Laupäev"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "Select the calendars for alarm notification"
-msgstr ""
+msgstr "Alarmmärguannetega kalendrite valimine"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Sh_ow a reminder"
@@ -5626,7 +5626,7 @@ msgstr "Nädala ja kuu vaadetel näidatakse _sündmuste lõpuaegu"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Time divisions:"
-msgstr "_Aja jaotised:"
+msgstr "_Aja jaotamine:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Tue"
@@ -6673,7 +6673,7 @@ msgstr "_Parool:"
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
 msgid "_Remember password"
-msgstr "Parooli _meeldejätmine"
+msgstr "Parool jäetakse _meelde"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
@@ -10682,7 +10682,7 @@ msgstr "Test"
 
 #: ../filter/filter-rule.c:799
 msgid "_Search name:"
-msgstr "_Otsingubaas:"
+msgstr "Otsingu_baas:"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
@@ -13703,7 +13703,7 @@ msgstr "Andmeid pole võimalik kirjutada: %s"
 #: ../mail/mail-ops.c:2262
 #, c-format
 msgid "Disconnecting from %s"
-msgstr "Ühendun lahti: %s"
+msgstr "Ühenduse katkestamine: %s"
 
 #: ../mail/mail-ops.c:2262
 #, c-format
@@ -18568,7 +18568,7 @@ msgstr "Kategooriavälja kuvamise sisse- ja väljalülitamine"
 
 #: ../ui/evolution-event-editor.xml.h:24
 msgid "Toggles whether to have All Day Event"
-msgstr ""
+msgstr "Kogu päeva kestva sündmuse sisse- ja väljalülitamine"
 
 #: ../ui/evolution-event-editor.xml.h:25
 msgid "Toggles whether to show time as busy"
