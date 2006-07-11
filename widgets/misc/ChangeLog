@@ -1,3 +1,10 @@
+2006-06-20  Li Yuan <li.yuan@sun.com>
+
+	Fixes bug #345402
+
+	* e-dateedit.c: (on_date_popup_key_press):
+	Grab the popup window when some key except ESC is pressed.
+
 2006-07-04  Andre Klapper  <a9016009@gmx.de>
 
 	* e-search-bar.c: fixing two typos, adding translator comments.

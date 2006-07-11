@@ -1323,8 +1323,10 @@ on_date_popup_key_press			(GtkWidget	*widget,
 					 GdkEventKey	*event,
 					 EDateEdit	*dedit)
 {
-	if (event->keyval != GDK_Escape)
+	if (event->keyval != GDK_Escape) {
+    	gdk_keyboard_grab (dedit->priv->cal_popup->window, TRUE, GDK_CURRENT_TIME);
 		return FALSE;
+	}
 
 	g_signal_stop_emission_by_name (widget, "key_press_event");
 	hide_date_popup (dedit);
