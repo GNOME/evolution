@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-11 06:44+0300\n"
-"PO-Revision-Date: 2006-07-11 13:06+0300\n"
+"PO-Revision-Date: 2006-07-11 20:16+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -20537,12 +20537,12 @@ msgstr "Aika"
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1436 ../widgets/misc/e-dateedit.c:1763
 msgid "%H:%M"
-msgstr "%H.%M"
+msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../widgets/misc/e-dateedit.c:1439 ../widgets/misc/e-dateedit.c:1766
 msgid "%I:%M %p"
-msgstr "%I.%M %p"
+msgstr "%I:%M %p"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
@@ -20720,7 +20720,7 @@ msgstr "_Etsi: "
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:940
 msgid " in "
-msgstr " kuluessa "
+msgstr " lähteestä "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
