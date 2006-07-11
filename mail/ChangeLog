@@ -1,5 +1,12 @@
 2006-07-11  Johnny Jacob  <johnnyjacob@gmail.com>
 
+	Fixes #246235.
+	* em-vfolder-rule.c (get_widget): Deleted the option menu and
+	replaced with radio buttons.
+	* mail-dialogs.glade: Removed option menu and added radio buttons
+
+2006-07-11  Johnny Jacob  <johnnyjacob@gmail.com>
+
 	** Fixes Bug # 324241
 
 	* mail/em-composer-prefs.c (em_composer_prefs_construct): Changed

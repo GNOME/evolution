@@ -57,9 +57,9 @@ static void em_vfolder_rule_finalise(GObject *obj);
 /* DO NOT internationalise these strings */
 static const char *with_names[] = {
 	"specific",
-	"local",
+	"local_remote_active",
 	"remote_active",
-	"local_remote_active"
+	"local"
 };
 
 static FilterRuleClass *parent_class = NULL;
@@ -256,7 +256,6 @@ xml_encode(FilterRule *fr)
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	xmlNodePtr node, set, work;
 	GList *l;
-	
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
 	g_assert(node != NULL);
 	g_assert(vr->with >= 0 && vr->with < sizeof(with_names)/sizeof(with_names[0]));
@@ -373,6 +372,7 @@ struct _source_data {
 	const char *current;
 	GtkListStore *model;
 	GtkTreeView *list;
+	GtkWidget *source_selector;
 	GtkButton *buttons[BUTTON_LAST];
 };
 
@@ -414,10 +414,25 @@ static void
 select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 {
 	em_vfolder_rule_with_t with;
+	GList *group = NULL;
+	gboolean sensitive = FALSE;
+	gint i = 0;	
 
-	with = gtk_option_menu_get_history((GtkOptionMenu *)widget);
-	if (with < EM_VFOLDER_RULE_WITH_SPECIFIC || with > EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+	if ( !gtk_toggle_button_get_active (widget) )
+		return;
+
+	group = gtk_radio_button_get_group (widget);
+
+	for (i=0; i< g_list_length(group); i++) {
+		if ( g_list_nth_data (group, with = i) == widget ) 
+			break;
+	}
+
+	if ( with < EM_VFOLDER_RULE_WITH_SPECIFIC || with > EM_VFOLDER_RULE_WITH_LOCAL )
 		with = 0;
+
+	gtk_widget_set_sensitive (data->source_selector, !with );
+
 	data->vr->with = with;
 }
 
@@ -598,7 +613,8 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	GtkWidget *widget, *frame, *list;
 	struct _source_data *data;
-	GtkOptionMenu *omenu;
+	GtkRadioButton *rb;
+	GList *group;
 	const char *source;
 	GtkTreeIter iter;
 	GladeXML *gui;
@@ -641,9 +657,23 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	
 	g_signal_connect(data->list, "cursor-changed", G_CALLBACK(select_source), data);
 	
-	omenu =(GtkOptionMenu *)glade_xml_get_widget(gui, "source_option");
-	gtk_option_menu_set_history(omenu, vr->with);
-	g_signal_connect(omenu, "changed", G_CALLBACK(select_source_with_changed), data);
+	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "local_rb");
+	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+
+	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "remote_rb");
+	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+
+	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "local_and_remote_rb");
+	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+
+	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "specific_rb");
+	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+
+	data->source_selector = (GtkWidget *)glade_xml_get_widget (gui, "source_selector");
+
+	rb = g_list_nth_data(gtk_radio_button_get_group (rb), vr->with);
+	gtk_toggle_button_set_active (rb, TRUE);
+	gtk_signal_emit_by_name (rb, "toggled");
 	
 	set_sensitive(data);
 		

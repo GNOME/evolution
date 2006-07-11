@@ -1600,48 +1600,16 @@ Please select a follow up action from the &quot;Flag&quot; menu.</property>
 		  <property name="spacing">6</property>
 
 		  <child>
-		    <widget class="GtkOptionMenu" id="source_option">
+		    <widget class="GtkRadioButton" id="local_rb">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="history">0</property>
-
-		      <child internal-child="menu">
-			<widget class="GtkMenu" id="convertwidget8">
-			  <property name="visible">True</property>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget9">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">specific folders only</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget10">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">with all local folders</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget11">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">with all active remote folders</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget12">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">with all local and active remote folders</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-			</widget>
-		      </child>
+		      <property name="label" translatable="yes">All local folders</property>
+		      <property name="use_underline">True</property>
+		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
+		      <property name="active">False</property>
+		      <property name="inconsistent">False</property>
+		      <property name="draw_indicator">True</property>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -1651,7 +1619,68 @@ Please select a follow up action from the &quot;Flag&quot; menu.</property>
 		  </child>
 
 		  <child>
-		    <widget class="GtkHBox" id="hbox3">
+		    <widget class="GtkRadioButton" id="remote_rb">
+		      <property name="visible">True</property>
+		      <property name="can_focus">True</property>
+		      <property name="label" translatable="yes">All active remote folders</property>
+		      <property name="use_underline">True</property>
+		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
+		      <property name="active">False</property>
+		      <property name="inconsistent">False</property>
+		      <property name="draw_indicator">True</property>
+		      <property name="group">local_rb</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkRadioButton" id="local_and_remote_rb">
+		      <property name="visible">True</property>
+		      <property name="can_focus">True</property>
+		      <property name="label" translatable="yes">All local and active remote folders</property>
+		      <property name="use_underline">True</property>
+		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
+		      <property name="active">False</property>
+		      <property name="inconsistent">False</property>
+		      <property name="draw_indicator">True</property>
+		      <property name="group">local_rb</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkRadioButton" id="specific_rb">
+		      <property name="visible">True</property>
+		      <property name="can_focus">True</property>
+		      <property name="label" translatable="yes">Specific folders</property>
+		      <property name="use_underline">True</property>
+		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
+		      <property name="active">False</property>
+		      <property name="inconsistent">False</property>
+		      <property name="draw_indicator">True</property>
+		      <property name="group">local_rb</property>
+
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkHBox" id="source_selector">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">6</property>
