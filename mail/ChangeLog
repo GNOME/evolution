@@ -1,3 +1,11 @@
+2006-07-11  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** Fixes Bug # 324241
+
+	* mail/em-composer-prefs.c (em_composer_prefs_construct): Changed
+	signal handled for sig_edit and sig_delete from "pressed" to
+	"clicked".
+
 2006-07-07 Ushveen Kaur <kushveen@novell.com>
 
 	Fixes bug #336963.
