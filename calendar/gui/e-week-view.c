@@ -1916,6 +1916,11 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	if (week_view->popup_event_num == event_num)
 		week_view->popup_event_num = -1;
 
+	e_cal_model_free_component_data (event->comp_data);
+	event->comp_data = NULL;
+
+	g_array_remove_index (week_view->events, event_num);
+
 	/* We leave the span elements in the array, but set the canvas item
 	   pointers to NULL. */
 	for (span_num = 0; span_num < event->num_spans; span_num++) {
@@ -1932,10 +1937,6 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 		}
 	}
 
-	e_cal_model_free_component_data (event->comp_data);
-	event->comp_data = NULL;
-
-	g_array_remove_index (week_view->events, event_num);
 	week_view->events_need_layout = TRUE;
 
 	return TRUE;
