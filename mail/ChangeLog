@@ -1,3 +1,12 @@
+2006-07-11  Johnny Jacob  <jjohnny@novell.com> 
+
+	** Patch by Not Zed  <NotZed@Ximian.com>
+	** See bug #262003
+
+	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked): put
+	the potentially long descriptions into a textbuffer so it's
+	scrollable.
+
 2006-07-07 Ushveen Kaur <kushveen@novell.com>
 
 	Fixes bug #336963.

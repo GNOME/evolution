@@ -52,6 +52,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtktextview.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkmenu.h>
@@ -1086,10 +1087,24 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	if (po->valid->sign.description) {
-		w = gtk_label_new(po->valid->sign.description);
-		gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
-		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
-		gtk_label_set_selectable((GtkLabel *)w, TRUE);
+		GtkTextBuffer *buffer;
+
+		buffer = gtk_text_buffer_new(NULL);
+		gtk_text_buffer_set_text(buffer, po->valid->sign.description, strlen(po->valid->sign.description));
+		w = g_object_new(gtk_scrolled_window_get_type(),
+				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
+				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
+				 "shadow_type", GTK_SHADOW_IN,
+				 "child", g_object_new(gtk_text_view_get_type(),
+						       "buffer", buffer,
+						       "cursor_visible", FALSE,
+						       "editable", FALSE,
+						       "width_request", 500,
+						       "height_request", 160,
+						       NULL),
+				 NULL);
+		g_object_unref(buffer);
+
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 
@@ -1104,10 +1119,24 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	if (po->valid->encrypt.description) {
-		w = gtk_label_new(po->valid->encrypt.description);
-		gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
-		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
-		gtk_label_set_selectable((GtkLabel *)w, TRUE);
+		GtkTextBuffer *buffer;
+
+		buffer = gtk_text_buffer_new(NULL);
+		gtk_text_buffer_set_text(buffer, po->valid->encrypt.description, strlen(po->valid->encrypt.description));
+		w = g_object_new(gtk_scrolled_window_get_type(),
+				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
+				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
+				 "shadow_type", GTK_SHADOW_IN,
+				 "child", g_object_new(gtk_text_view_get_type(),
+						       "buffer", buffer,
+						       "cursor_visible", FALSE,
+						       "editable", FALSE,
+						       "width_request", 500,
+						       "height_request", 160,
+						       NULL),
+				 NULL);
+		g_object_unref(buffer);
+
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 
