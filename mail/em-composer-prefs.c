@@ -988,10 +988,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	g_signal_connect (prefs->sig_add_script, "clicked", G_CALLBACK (sig_add_script_cb), prefs);
 	
 	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
-	g_signal_connect (prefs->sig_edit, "pressed", G_CALLBACK (sig_edit_cb), prefs);
+	g_signal_connect (prefs->sig_edit, "clicked", G_CALLBACK (sig_edit_cb), prefs);
 	
 	prefs->sig_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureDelete"));
-	g_signal_connect (prefs->sig_delete, "pressed", G_CALLBACK (sig_delete_cb), prefs);
+	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete_cb), prefs);
 	
 	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSignatures"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
