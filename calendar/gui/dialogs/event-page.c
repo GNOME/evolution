@@ -2985,6 +2985,9 @@ init_widgets (EventPage *epage)
 	g_signal_connect((priv->categories), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
 
+	/* emit signal when the group is changed */
+	g_signal_connect((priv->source_selector),"changed",G_CALLBACK(field_changed_cb),epage);
+
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = calendar_config_get_icaltimezone ();
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
