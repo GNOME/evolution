@@ -1,3 +1,10 @@
+2006-07-11  Li Yuan <li.yuan@sun.com>
+
+	* gui/e-week-view.c: (e_week_view_remove_event_cb):
+	remove week_view->comp_data first, since garray is not thread
+	safe and the event's address may be changed.
+	Fix for #345969.
+
 2006-07-11  Li Yuan	<li.yuan@sun.com>
 
 	* gui/dialogs/event-page.c: (sensitize_widgets):
