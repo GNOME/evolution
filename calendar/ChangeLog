@@ -1,3 +1,18 @@
+2006-07-11  Li Yuan	<li.yuan@sun.com>
+
+	* gui/dialogs/event-page.c: (sensitize_widgets):
+	* gui/dialogs/event-page.glade:
+	Add mnemonic widget to widget, and change calendar's shortcut key.
+
+	Fix for #345510.
+
+2006-07-11  Li Yuan  <li.yuan@sun.com>
+
+	* gui/e-week-view.c: (e_week_view_focus):
+	Fix for 345923.
+	If there is not any event in week view,
+	just grab week view itself.
+
 2006-07-07  Wang Xin  <jedy.wang@sun.com>
 
 	Fixes #345222

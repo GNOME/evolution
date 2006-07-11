@@ -869,7 +869,8 @@ sensitize_widgets (EventPage *epage)
 		gtk_widget_hide (priv->list_box);
 		gtk_widget_hide (priv->attendee_box);
 		gtk_widget_hide (priv->organizer);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Cale_ndar:"));
+		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("_Calendar:"));
+		gtk_label_set_mnemonic_widget ((GtkLabel *) priv->org_cal_label, priv->source_selector);
 	} else {
 		gtk_widget_show (priv->calendar_label);
 		gtk_widget_show (priv->list_box);
