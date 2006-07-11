@@ -149,6 +149,7 @@
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
 		  <property name="angle">0</property>
+		  <property name="mnemonic_widget">organizer-entry</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -177,6 +178,7 @@
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
 		  <property name="angle">0</property>
+		  <property name="mnemonic_widget">start-time</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -746,7 +748,7 @@
 		      <child>
 			<widget class="GtkLabel" id="calendar-label">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Cale_ndar:</property>
+			  <property name="label" translatable="yes">_Calendar:</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>

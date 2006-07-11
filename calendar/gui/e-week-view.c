@@ -1218,6 +1218,12 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 		last_focus_span_num = week_view->editing_span_num;
 	}
 
+	/* if there is not event, just grab week_view */
+	if (week_view->events->len == 0) {
+		gtk_widget_grab_focus (widget);
+		return TRUE;
+	}
+
 	for (event_loop = 0; event_loop < week_view->events->len;
 	     ++event_loop) {
 		if (!e_week_view_get_next_tab_event (week_view, direction,
