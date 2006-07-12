@@ -457,7 +457,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 	stuff->check = check;
 
-	label = gtk_label_new ("Select Address book for Automatic Contacts");
+	label = gtk_label_new (_("Select Address book for Automatic Contacts"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
 
 	/* Source selection option menu */
@@ -493,7 +493,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
 	stuff->check_gaim = check_gaim;
 	
-	gaim_label = gtk_label_new ("Select Address book for Gaim buddy list");
+	gaim_label = gtk_label_new (_("Select Address book for Gaim buddy list"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_label, FALSE, FALSE, 0);
 
 	/* Gaim Source Selection Option Menu */
