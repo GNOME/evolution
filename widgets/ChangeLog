@@ -1,3 +1,9 @@
+2006-07-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #347182.
+	* misc/e-combo-button.c: (e_combo_button_set_label):
+	Removed needless g_return_if_fail().
+
 2006-07-10  Harish Krishnaswamy  <kharish@novell.com>
 
 	* table/e-cell-text.c: (ect_unrealize), (build_layout):

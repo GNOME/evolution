@@ -567,7 +567,6 @@ e_combo_button_set_label (EComboButton *combo_button,
 
 	g_return_if_fail (combo_button != NULL);
 	g_return_if_fail (E_IS_COMBO_BUTTON (combo_button));
-	g_return_if_fail (label != NULL);
 
 	priv = combo_button->priv;
 

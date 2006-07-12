@@ -671,6 +671,31 @@ gtk_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, int nth)
 }
 
 static void
+set_combo_button_style (EComboButton *button, const gchar *style, GdkPixbuf *icon)
+{
+	if(!g_ascii_strcasecmp (style,"both")){
+		e_combo_button_pack_vbox (button);
+		e_combo_button_set_icon (button, icon);
+		e_combo_button_set_label (button, _(" New "));
+	}
+	else if(!g_ascii_strcasecmp (style,"both-horiz")){
+		e_combo_button_pack_hbox (button);
+		e_combo_button_set_label (button, _("New"));
+		e_combo_button_set_icon (button, icon);
+	}
+	else if(!g_ascii_strcasecmp (style,"icons")){
+		e_combo_button_pack_hbox (button);
+		e_combo_button_set_icon (button, icon);
+		e_combo_button_set_label (button, "");
+	}
+	else if(!g_ascii_strcasecmp(style,"text")){
+		e_combo_button_pack_hbox (button);
+		e_combo_button_set_label (button, _("New"));
+		e_combo_button_set_icon (button, NULL);
+	}
+}
+
+static void
 new_button_change (GConfClient *gconf,
 		   unsigned int connection_id,
 		   GConfEntry *entry,
@@ -682,30 +707,9 @@ new_button_change (GConfClient *gconf,
 	priv = handler->priv;
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
 
-	if(!g_ascii_strcasecmp (val,"both")){
-		e_combo_button_pack_vbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 priv->default_menu_item->icon);
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _(" New "));
-	}
-	else if(!g_ascii_strcasecmp (val,"both-horiz")){
-		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 priv->default_menu_item->icon);
-	}
-	else if(!g_ascii_strcasecmp (val,"icons")){
-		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 priv->default_menu_item->icon);
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button),_(""));
-	}
-	else if(!g_ascii_strcasecmp(val,"text")){
-		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 NULL);
-	}
+	set_combo_button_style (E_COMBO_BUTTON (priv->new_button), 
+				val, priv->default_menu_item->icon);	
+
 	gtk_widget_show (priv->new_button);
 }
 
@@ -741,30 +745,8 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 
 	gtk_widget_set_sensitive (priv->new_button, TRUE);
 	
-	if(!g_ascii_strcasecmp (val,"both")){
-		e_combo_button_pack_vbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 priv->default_menu_item->icon);
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _(" New "));
-	}
-	else if(!g_ascii_strcasecmp (val,"both-horiz")){
-		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 priv->default_menu_item->icon);
-	}
-	else if(!g_ascii_strcasecmp (val,"icons")){
-		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 priv->default_menu_item->icon);
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), NULL);
-	}
-	else if(!g_ascii_strcasecmp(val,"text")){
-		e_combo_button_pack_hbox (E_COMBO_BUTTON (priv->new_button));
-		e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
-		e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-					 NULL);
-	}
+	set_combo_button_style (E_COMBO_BUTTON (priv->new_button), 
+				val, priv->default_menu_item->icon);	
 
 	gconf_client_notify_add(gconf,"/desktop/gnome/interface/toolbar_style", 
 		(GConfClientNotifyFunc)new_button_change, handler, NULL, NULL);

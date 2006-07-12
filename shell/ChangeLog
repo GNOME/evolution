@@ -1,3 +1,11 @@
+2006-07-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #347182
+	* e-user-creatable-items-handlers.c:
+	(set_combo_button_style): New function.
+	(new_button_change): Call set_combo_button_style.
+	(setup_toolbar_button): Call set_combo_button_style.
+
 2006-07-07  Li Yuan  <li.yuan@sun.com>
 
 	* e-shell-window.c: (setup_widgets):
