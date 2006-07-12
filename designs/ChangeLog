@@ -1,3 +1,8 @@
+2006-07-12  Andre Klapper  <a9016009@gmx.de>
+
+	* read_receipts/read.glade: remove empty tab from translation.
+	Fixes bug #339411.
+
 2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* read_receipts/read.glade: Corrected the spelling for receipt.
