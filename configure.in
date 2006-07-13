@@ -1698,6 +1698,7 @@ help/Makefile
 help/C/Makefile
 help/quickref/Makefile
 help/quickref/C/Makefile
+help/quickref/de/Makefile
 shell/Makefile
 shell/evolution-nognome
 ui/Makefile

@@ -1,3 +1,9 @@
+2006-07-13  Andre Klapper  <a9016009@gmx.de>
+
+	* configure.in:
+	
+	adding localized (german) quick reference card. see bug #307856.
+
 2006-07-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: Update EDS requirement to
