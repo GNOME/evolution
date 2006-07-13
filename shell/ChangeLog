@@ -1,3 +1,10 @@
+2006-07-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #345331
+	
+	* e-user-creatable-items-handler.c: (set_combo_button_style): Default
+	to both style.
+
 2006-07-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #347182
