@@ -4,14 +4,13 @@
 # Supranee Thirawatthanasuk <supranee@opentle.org>, 2005.
 # Theppitak Karoonboonyanan <thep@linux.thai.net>, 2005-2006.
 # 
-#: ../mail/em-format-html-display.c:679
-#: ../shell/e-user-creatable-items-handler.c:701
+#: ../mail/em-format-html-display.c:680
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-02 20:54+0700\n"
-"PO-Revision-Date: 2006-07-02 21:42+0700\n"
+"POT-Creation-Date: 2006-07-13 13:22+0700\n"
+"PO-Revision-Date: 2006-07-13 14:02+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +155,7 @@ msgstr "%A %d %b %Ey"
 #: ../a11y/calendar/ea-gnome-calendar.c:190
 #: ../calendar/gui/calendar-component.c:664
 #: ../calendar/gui/e-day-view-top-item.c:1315
-#: ../calendar/gui/e-day-view.c:1551
+#: ../calendar/gui/e-day-view.c:1480
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
@@ -190,7 +189,7 @@ msgstr "%d %b %Ey"
 #: ../a11y/calendar/ea-gnome-calendar.c:220
 #: ../calendar/gui/calendar-component.c:690
 #: ../calendar/gui/e-day-view-top-item.c:1319
-#: ../calendar/gui/e-day-view.c:1567
+#: ../calendar/gui/e-day-view.c:1496
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
@@ -493,7 +492,7 @@ msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "ที่อยู่ติดต่อ {0} นี้จะยังไม่สามารถใช้ได้ จนกว่าจะเริ่มการทำงานของ Evolution ใหม่"
 
-#: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:496
+#: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:511
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:15
@@ -635,7 +634,7 @@ msgid "Create a new contact list"
 msgstr "สร้างรายชื่อที่อยู่ติดต่อใหม่"
 
 #: ../addressbook/gui/component/addressbook-component.c:242
-#: ../addressbook/gui/component/addressbook-config.c:1204
+#: ../addressbook/gui/component/addressbook-config.c:1205
 msgid "New Address Book"
 msgstr "สมุดที่อยู่ใหม่"
 
@@ -651,62 +650,62 @@ msgstr "สร้างสมุดที่อยู่ใหม่"
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "การปรับรุ่นค่าตั้งหรือโฟลเดอร์สมุดที่อยู่ล้มเหลว"
 
-#: ../addressbook/gui/component/addressbook-config.c:331
+#: ../addressbook/gui/component/addressbook-config.c:332
 msgid "Base"
 msgstr "จุดเริ่มต้น"
 
-#: ../addressbook/gui/component/addressbook-config.c:532
+#: ../addressbook/gui/component/addressbook-config.c:533
 #: ../calendar/gui/dialogs/calendar-setup.c:192
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
 msgstr "ประเ_ภท:"
 
-#: ../addressbook/gui/component/addressbook-config.c:634
+#: ../addressbook/gui/component/addressbook-config.c:635
 msgid "Copy book content locally for offline operation"
 msgstr "คัดลอกเนื้อหาสมุดที่อยู่ไว้ที่เครื่องเพื่อการทำงานแบบออฟไลน์"
 
-#: ../addressbook/gui/component/addressbook-config.c:983
+#: ../addressbook/gui/component/addressbook-config.c:984
 #: ../addressbook/gui/component/ldap-config.glade.h:22
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2015
+#: ../plugins/itip-formatter/itip-formatter.c:2021
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "ทั่วไป"
 
-#: ../addressbook/gui/component/addressbook-config.c:984
+#: ../addressbook/gui/component/addressbook-config.c:985
 #: ../addressbook/gui/widgets/e-addressbook-view.c:562
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "สมุดที่อยู่"
 
-#: ../addressbook/gui/component/addressbook-config.c:988
+#: ../addressbook/gui/component/addressbook-config.c:989
 msgid "Server Information"
 msgstr "ข้อมูลเซิร์ฟเวอร์"
 
-#: ../addressbook/gui/component/addressbook-config.c:990
+#: ../addressbook/gui/component/addressbook-config.c:991
 msgid "Authentication"
 msgstr "การยืนยันตัวบุคคล"
 
-#: ../addressbook/gui/component/addressbook-config.c:993
+#: ../addressbook/gui/component/addressbook-config.c:994
 #: ../addressbook/gui/component/ldap-config.glade.h:17
-#: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
+#: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "รายละเอียด"
 
-#: ../addressbook/gui/component/addressbook-config.c:994
+#: ../addressbook/gui/component/addressbook-config.c:995
 #: ../mail/em-folder-browser.c:791
 msgid "Searching"
 msgstr "การค้นหา"
 
-#: ../addressbook/gui/component/addressbook-config.c:996
+#: ../addressbook/gui/component/addressbook-config.c:997
 msgid "Downloading"
 msgstr "การดาวน์โหลด"
 
-#: ../addressbook/gui/component/addressbook-config.c:1202
+#: ../addressbook/gui/component/addressbook-config.c:1203
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "คุณสมบัติสมุดที่อยู่"
@@ -1330,6 +1329,8 @@ msgid "_Birthday:"
 msgstr "วันเ_กิด:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: ../calendar/gui/dialogs/event-page.c:872
+#: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1654
 msgid "_Calendar:"
 msgstr "_ปฏิทิน:"
@@ -2418,7 +2419,7 @@ msgstr "ซิมบับเว"
 #: ../plugins/exchange-operations/exchange-delegates.c:934
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
 #: ../plugins/plugin-manager/plugin-manager.c:42
-#: ../plugins/save-attachments/save-attachments.c:368
+#: ../plugins/save-attachments/save-attachments.c:370
 #: ../widgets/menus/gal-view-new-dialog.c:73
 msgid "Name"
 msgstr "ชื่อ"
@@ -2518,8 +2519,8 @@ msgid "Please select an image for this contact"
 msgstr "กรุณาเลือกรูปสำหรับที่อยู่ติดต่อนี้"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2784
-msgid "No image"
-msgstr "ไม่มีรูป"
+msgid "_No image"
+msgstr "ไ_ม่มีรูป"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3086
 msgid ""
@@ -2874,7 +2875,7 @@ msgid "Type"
 msgstr "ชนิด"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:833
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2066
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2067
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "บันทึกเป็น VCard..."
@@ -2956,13 +2957,13 @@ msgid "P_aste"
 msgstr "_แปะ"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1602
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1603
 #: ../calendar/gui/cal-search-bar.c:356
 msgid "Any Category"
 msgstr "หมวดใดก็ได้"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1801
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1802
 msgid "Print cards"
 msgstr "พิมพ์นามบัตร"
 
@@ -2995,7 +2996,7 @@ msgid "Car Phone"
 msgstr "โทรศัพท์รถ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.glade.h:8
+#: ../calendar/gui/dialogs/event-page.glade.h:7
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -4388,7 +4389,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "ไม่สามารถเขียนบล็อคโปรแกรม ToDo ของปาล์มได้"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2006
+#: ../plugins/itip-formatter/itip-formatter.c:2012
 msgid "Calendar and Tasks"
 msgstr "ปฏิทินและงาน"
 
@@ -4997,24 +4998,32 @@ msgid "Whether to show week numbers in the date navigator."
 msgstr "กำหนดว่าจะแสดงสัปดาห์ที่ในปฏิทินเลือกวันที่หรือไม่"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
+msgid "Whether to use daylight savings time while displaying events."
+msgstr "กำหนดว่าจะใช้การปรับเวลาหน้าร้อนขณะแสดงเหตุการณ์ต่างๆ หรือไม่"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Work days"
 msgstr "วันทำงาน"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
 msgid "Workday end hour"
 msgstr "ชั่วโมงสิ้นสุดวันทำงาน"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
 msgid "Workday end minute"
 msgstr "นาทีสิ้นสุดวันทำงาน"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
 msgid "Workday start hour"
 msgstr "ชั่วโมงเริ่มต้นวันทำงาน"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:91
 msgid "Workday start minute"
 msgstr "นาทีเริ่มต้นวันทำงาน"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:92
+msgid "daylight savings time"
+msgstr "ปรับเวลาหน้าร้อน"
 
 #: ../calendar/gui/cal-search-bar.c:48
 msgid "Summary contains"
@@ -5201,7 +5210,7 @@ msgstr "ไม่อนุญาตให้เปิดปฏิทิน"
 msgid "Unknown error"
 msgstr "ข้อผิดพลาดไม่ทราบสาเหตุ"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:567
+#: ../calendar/gui/dialogs/alarm-dialog.c:614
 msgid "Edit Alarm"
 msgstr "แก้ไขการเตือน"
 
@@ -5317,7 +5326,7 @@ msgid "A_dd"
 msgstr "เ_พิ่ม"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: ../calendar/gui/dialogs/event-page.glade.h:4
 #: ../ui/evolution-event-editor.xml.h:1
 msgid "Alarms"
@@ -5335,7 +5344,7 @@ msgstr ""
 msgid "Attach file(s)"
 msgstr "แนบแฟ้ม"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:469
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:486
 msgid "Selected Calendars for Alarms"
 msgstr "ปฏิทินที่เลือกเพื่อใช้แจ้งเตือน"
 
@@ -5386,27 +5395,31 @@ msgstr "<span weight=\"bold\">เวลา</span>"
 msgid "<span weight=\"bold\">Work Week</span>"
 msgstr "<span weight=\"bold\">สัปดาห์ทำงาน</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+msgid "Adjust for daylight sa_ving time"
+msgstr "ปรับเวลาหน้า_ร้อน"
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
 msgstr "สิ้นสุ_ดวัน:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
 msgstr "แสดง"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: ../calendar/gui/dialogs/event-editor.c:591
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "ว่าง/ไม่ว่าง"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
 msgstr "ศุกร์"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid ""
 "Minutes\n"
 "Hours\n"
@@ -5416,13 +5429,13 @@ msgstr ""
 "ชั่วโมง\n"
 "วัน"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: ../calendar/gui/dialogs/recurrence-page.c:1080
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
 msgstr "จันทร์"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid ""
 "Monday\n"
 "Tuesday\n"
@@ -5440,152 +5453,152 @@ msgstr ""
 "วันเสาร์\n"
 "วันอาทิตย์"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 #: ../mail/mail-config.glade.h:106
 msgid "Pick a color"
 msgstr "เลือกสี"
 
 #. Sunday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "S_un"
 msgstr "อ_า."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "เสาร์"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Select the calendars for alarm notification"
 msgstr "เลือกปฏิทินสำหรับการแจ้งเตือน"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Sh_ow a reminder"
 msgstr "เ_ตือนความจำ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
 msgstr "แสดงสัป_ดาห์ที่ในปฏิทิน"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "อาทิตย์"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "T_asks due today:"
 msgstr "_งานที่ถึงกำหนดวันนี้"
 
 #. Thursday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "T_hu"
 msgstr "พ_ฤ."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Template:"
 msgstr "รูปแบบข้อความ:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: ../calendar/gui/dialogs/recurrence-page.c:1083
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "พฤหัสบดี"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: ../calendar/gui/dialogs/event-page.glade.h:14
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: ../calendar/gui/dialogs/event-page.glade.h:13
 msgid "Time _zone:"
 msgstr "เ_ขตเวลา:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "Time format:"
 msgstr "รูปแบบเวลา:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1081
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "อังคาร"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 #: ../calendar/gui/dialogs/recurrence-page.c:1082
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "พุธ"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "Wee_k starts on:"
 msgstr "เริ่มต้น_สัปดาห์ที่:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "Work days:"
 msgstr "วันทำงาน:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_12 hour (AM/PM)"
 msgstr "_12 ชั่วโมง (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_24 hour"
 msgstr "_24 ชั่วโมง"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Ask for confirmation when deleting items"
 msgstr "_ถามเพื่อการยืนยันขณะลบรายการ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Compress weekends in month view"
 msgstr "_กระชับวันสุดสัปดาห์ในมุมมองเดือน"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Day begins:"
 msgstr "เริ่มต้น_วัน:"
 
 #. Friday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Fri"
 msgstr "_ศ."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Hide completed tasks after"
 msgstr "_ซ่อนงานที่เสร็จแล้วหลังจาก"
 
 #. Monday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Mon"
 msgstr "_จ."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
 msgstr "งานที่เ_ลยกำหนด:"
 
 #. Saturday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Sat"
 msgstr "_ส."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
 msgstr "แ_สดงเวลาสิ้นสุดนัดหมายในมุมมองสัปดาห์และเดือน"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
 msgid "_Time divisions:"
 msgstr "การ_จำแนกเวลา:"
 
 #. Tuesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:67
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
 msgid "_Tue"
 msgstr "_อ."
 
 #. Wednesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:69
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "_Wed"
 msgstr "_พ."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
 msgstr "ก่อนนัดหมายทุกครั้ง"
 
@@ -5780,7 +5793,7 @@ msgid "Show Attachment _Bar"
 msgstr "แสดงแ_ถบเอกสารแนบ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1099
-#: ../calendar/gui/dialogs/event-page.c:1891
+#: ../calendar/gui/dialogs/event-page.c:1892
 #: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3624
@@ -5804,7 +5817,7 @@ msgid "_Add attachment..."
 msgstr "เ_พิ่มเอกสารแนบ..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1489
-#: ../mail/em-format-html-display.c:2233
+#: ../mail/em-format-html-display.c:2262
 msgid "Show Attachments"
 msgstr "แสดงเอกสารแนบ"
 
@@ -5955,109 +5968,104 @@ msgid "Recurrence"
 msgstr "การเวียนซ้ำ"
 
 #: ../calendar/gui/dialogs/event-page.c:807
-#: ../calendar/gui/dialogs/event-page.c:2711
+#: ../calendar/gui/dialogs/event-page.c:2712
 msgid "This event has alarms"
 msgstr "เหตุการณ์นี้มีการแจ้งเตือน"
 
-#: ../calendar/gui/dialogs/event-page.c:872
-#: ../calendar/gui/dialogs/event-page.glade.h:7
-msgid "Cale_ndar:"
-msgstr "_ปฏิทิน:"
-
-#: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/event-page.glade.h:12
+#: ../calendar/gui/dialogs/event-page.c:879
+#: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
 msgstr "ผู้_ประสานงาน:"
 
-#: ../calendar/gui/dialogs/event-page.c:916
+#: ../calendar/gui/dialogs/event-page.c:917
 msgid "_Delegatees"
 msgstr "ผู้_รับฉันทะ"
 
-#: ../calendar/gui/dialogs/event-page.c:918
+#: ../calendar/gui/dialogs/event-page.c:919
 msgid "Atte_ndees"
 msgstr "ผู้เ_ข้าประชุม"
 
-#: ../calendar/gui/dialogs/event-page.c:1083
+#: ../calendar/gui/dialogs/event-page.c:1084
 msgid "Event with no start date"
 msgstr "เหตุการณ์ที่ไม่บอกวันเริ่มต้น"
 
-#: ../calendar/gui/dialogs/event-page.c:1086
+#: ../calendar/gui/dialogs/event-page.c:1087
 msgid "Event with no end date"
 msgstr "เหตุการณ์ที่ไม่บอกวันสิ้นสุด"
 
-#: ../calendar/gui/dialogs/event-page.c:1254
+#: ../calendar/gui/dialogs/event-page.c:1255
 #: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "วันเริ่มต้นไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1264
+#: ../calendar/gui/dialogs/event-page.c:1265
 msgid "End date is wrong"
 msgstr "วันสิ้นสุดไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1287
+#: ../calendar/gui/dialogs/event-page.c:1288
 msgid "Start time is wrong"
 msgstr "เวลาเริ่มต้นไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1294
+#: ../calendar/gui/dialogs/event-page.c:1295
 msgid "End time is wrong"
 msgstr "เวลาสิ้นสุดไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1449
+#: ../calendar/gui/dialogs/event-page.c:1450
 #: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "ผู้ประสานงานที่เลือกไม่มีบัญชีผู้ใช้อีกแล้ว"
 
-#: ../calendar/gui/dialogs/event-page.c:1455
+#: ../calendar/gui/dialogs/event-page.c:1456
 #: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "ต้องมีผู้ประสานงานด้วย"
 
-#: ../calendar/gui/dialogs/event-page.c:1470
+#: ../calendar/gui/dialogs/event-page.c:1471
 #: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "ต้องการผู้เข้าประชุมอย่างน้อยหนึ่งคน"
 
-#: ../calendar/gui/dialogs/event-page.c:1892
+#: ../calendar/gui/dialogs/event-page.c:1893
 #: ../calendar/gui/dialogs/task-page.c:1199
 msgid "_Add "
 msgstr "เ_พิ่ม"
 
-#: ../calendar/gui/dialogs/event-page.c:2618
+#: ../calendar/gui/dialogs/event-page.c:2619
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "ไม่สามารถเปิดปฏิทิน '%s'"
 
-#: ../calendar/gui/dialogs/event-page.c:2921
+#: ../calendar/gui/dialogs/event-page.c:2922
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d วันก่อนนัดหมาย"
 msgstr[1] "%d วันก่อนนัดหมาย"
 
-#: ../calendar/gui/dialogs/event-page.c:2929
+#: ../calendar/gui/dialogs/event-page.c:2930
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d ชั่วโมงก่อนนัดหมาย"
 msgstr[1] "%d ชั่วโมงก่อนนัดหมาย"
 
-#: ../calendar/gui/dialogs/event-page.c:2937
+#: ../calendar/gui/dialogs/event-page.c:2938
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d นาทีก่อนนัดหมาย"
 msgstr[1] "%d นาทีก่อนนัดหมาย"
 
-#: ../calendar/gui/dialogs/event-page.c:2953
+#: ../calendar/gui/dialogs/event-page.c:2954
 msgid "Customize"
 msgstr "ปรับแต่ง"
 
 #. an empty string is the same as 'None'
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/event-page.c:2958
+#: ../calendar/gui/dialogs/event-page.c:2959
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
 #: ../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2282
@@ -6067,9 +6075,9 @@ msgstr "ปรับแต่ง"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1703
+#: ../plugins/itip-formatter/itip-formatter.c:1709
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
-#: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
+#: ../widgets/misc/e-dateedit.c:1507 ../widgets/misc/e-dateedit.c:1721
 msgid "None"
 msgstr "ไม่"
 
@@ -6094,25 +6102,25 @@ msgstr "ผู้เข้า_ประชุม..."
 msgid "Ca_tegories..."
 msgstr "ห_มวด..."
 
-#: ../calendar/gui/dialogs/event-page.glade.h:9
+#: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "Custom Alarm:"
 msgstr "เสียงเตือนเลือกเอง"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:10
+#: ../calendar/gui/dialogs/event-page.glade.h:9
 #: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "D_escription:"
 msgstr "_คำอธิบาย:"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:11
+#: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
 msgstr "คำบรรยายเหตุการณ์"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:13
+#: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
 msgstr "สรุ_ป:"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:15
+#: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
 msgstr "แ_จ้งเตือน"
 
@@ -6776,7 +6784,7 @@ msgstr "วันเริ่มต้น"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-memo-table.etspec.h:4 ../mail/mail-dialogs.glade.h:16
+#: ../calendar/gui/e-memo-table.etspec.h:4 ../mail/mail-dialogs.glade.h:20
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
 msgstr "สรุป"
@@ -6826,7 +6834,7 @@ msgstr "ไม่ตกลง"
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1329
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1728
+#: ../plugins/itip-formatter/itip-formatter.c:1734
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:720
 #: ../widgets/misc/e-charset-picker.c:63
@@ -6845,7 +6853,7 @@ msgstr "มอบหมาย"
 msgid "Save As..."
 msgstr "บันทึกเป็น..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2081
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2110
 msgid "Select folder to save selected attachments..."
 msgstr "เลือกโฟลเดอร์ที่จะบันทึกเอกสารแนบที่เลือก..."
 
@@ -7162,7 +7170,7 @@ msgstr "ความละเอียด %02i นาที"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:1311
-#: ../calendar/gui/e-day-view.c:1534
+#: ../calendar/gui/e-day-view.c:1463
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1538
 msgid "%A %d %B"
@@ -7286,12 +7294,12 @@ msgstr "<br> กรุณาดูข้อมูลข้างล่างน�
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:669
-#: ../plugins/itip-formatter/itip-formatter.c:1716
+#: ../plugins/itip-formatter/itip-formatter.c:1722
 msgid "Accepted"
 msgstr "ตอบรับแล้ว"
 
 #: ../calendar/gui/e-itip-control.c:1136 ../calendar/gui/itip-utils.c:672
-#: ../plugins/itip-formatter/itip-formatter.c:1719
+#: ../plugins/itip-formatter/itip-formatter.c:1725
 msgid "Tentatively Accepted"
 msgstr "อาจตอบรับ"
 
@@ -7299,7 +7307,7 @@ msgstr "อาจตอบรับ"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:675 ../calendar/gui/itip-utils.c:704
-#: ../plugins/itip-formatter/itip-formatter.c:1722
+#: ../plugins/itip-formatter/itip-formatter.c:1728
 msgid "Declined"
 msgstr "ปฏิเสธ"
 
@@ -7668,7 +7676,7 @@ msgstr "ไม่แน่"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:678
-#: ../plugins/itip-formatter/itip-formatter.c:1725
+#: ../plugins/itip-formatter/itip-formatter.c:1731
 msgid "Delegated"
 msgstr "ส่งผู้แทนเข้าประชุม"
 
@@ -8022,7 +8030,7 @@ msgid "New memo"
 msgstr "บันทึกช่วยจำใหม่"
 
 #: ../calendar/gui/memos-component.c:1156
-msgid "_Memo"
+msgid "Mem_o"
 msgstr "บันทึก_ช่วยจำ"
 
 #: ../calendar/gui/memos-component.c:1157
@@ -8034,7 +8042,7 @@ msgid "New memo list"
 msgstr "รายการบันทึกช่วยจำใหม่"
 
 #: ../calendar/gui/memos-component.c:1164
-msgid "Memo l_ist"
+msgid "Memo li_st"
 msgstr "_รายการบันทึกช่วยจำ"
 
 #: ../calendar/gui/memos-component.c:1165
@@ -8374,8 +8382,8 @@ msgid "New task list"
 msgstr "รายการงานใหม่"
 
 #: ../calendar/gui/tasks-component.c:1187
-msgid "Task l_ist"
-msgstr "รายการงาน"
+msgid "Tas_k list"
+msgstr "รายการ_งาน"
 
 #: ../calendar/gui/tasks-component.c:1188
 msgid "Create a new task list"
@@ -10382,18 +10390,14 @@ msgid "Yes, Change Status"
 msgstr "ตกลงเปลี่ยนสถานะ"
 
 #: ../designs/read_receipts/read.glade.h:1
-msgid "      "
-msgstr "      "
-
-#: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
 msgstr "<b>การรับอีเมล</b>"
 
-#: ../designs/read_receipts/read.glade.h:3
+#: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Sending Email:</b>"
 msgstr "<b>การส่งอีเมล:</b>"
 
-#: ../designs/read_receipts/read.glade.h:4
+#: ../designs/read_receipts/read.glade.h:3
 msgid ""
 "<small>This page allows you to choose if you want to be notified via a read "
 "receipt when a message you\n"
@@ -10403,31 +10407,31 @@ msgstr ""
 "<small>หน้านี้เปิดโอกาสให้คุณเลือกว่าคุณต้องการจะรับการแจ้งผ่านการแจ้งรับเมื่อข้อความที่คุณส่งถูกเปิดอ่านหรือไม่\n"
 "และเปิดให้คุณระบุสิ่งที่ Evolution ควรจะทำเมื่อมีผู้ร้องขอการแจ้งกลับจากคุณ</small>"
 
-#: ../designs/read_receipts/read.glade.h:6
+#: ../designs/read_receipts/read.glade.h:5
 msgid "Always send back a read receipt"
 msgstr "ส่งการแจ้งรับข้อความเสมอ"
 
-#: ../designs/read_receipts/read.glade.h:7
+#: ../designs/read_receipts/read.glade.h:6
 msgid "Ask me if I want to send back a read receipt"
 msgstr "ถามก่อนส่งการแจ้งรับข้อความ"
 
-#: ../designs/read_receipts/read.glade.h:8
+#: ../designs/read_receipts/read.glade.h:7
 msgid "Never send back a read receipt"
 msgstr "ไม่ส่งการแจ้งรับข้อความ"
 
-#: ../designs/read_receipts/read.glade.h:9
+#: ../designs/read_receipts/read.glade.h:8
 msgid "Read Receipts"
 msgstr "การแจ้งรับข้อความ"
 
-#: ../designs/read_receipts/read.glade.h:10
+#: ../designs/read_receipts/read.glade.h:9
 msgid "Request a read receipt for all messages I send"
 msgstr "ร้องขอการแจ้งรับสำหรับทุกข้อความที่ส่ง"
 
-#: ../designs/read_receipts/read.glade.h:11
+#: ../designs/read_receipts/read.glade.h:10
 msgid "Unless the message is sent to a mailing list, and not to me personally"
 msgstr "ถ้าข้อความไม่ได้ส่งไปที่เมลลิงลิสต์และไม่ได้ส่งตรงถึงฉัน"
 
-#: ../designs/read_receipts/read.glade.h:12
+#: ../designs/read_receipts/read.glade.h:11
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
@@ -10802,7 +10806,7 @@ msgid "Mail"
 msgstr "เมล"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
-#: ../mail/em-account-prefs.c:531
+#: ../mail/em-account-prefs.c:532
 msgid "Mail Accounts"
 msgstr "บัญชีเมล"
 
@@ -10834,7 +10838,7 @@ msgstr ""
 "และทำเครื่องหมายที่กล่องกาเครื่องหมายเพื่อแสดงการยอมรับ\n"
 
 #: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
-#: ../mail/em-vfolder-rule.c:496
+#: ../mail/em-vfolder-rule.c:511
 msgid "Select Folder"
 msgstr "เลือกโฟลเดอร์"
 
@@ -10901,17 +10905,17 @@ msgid "[Default]"
 msgstr "[บัญชีหลัก]"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: ../mail/em-account-prefs.c:518 ../mail/em-composer-prefs.c:930
+#: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:205
 #: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
 msgstr "เปิดใช้งาน"
 
-#: ../mail/em-account-prefs.c:524
+#: ../mail/em-account-prefs.c:525
 msgid "Account name"
 msgstr "ชื่อบัญชี"
 
-#: ../mail/em-account-prefs.c:526
+#: ../mail/em-account-prefs.c:527
 msgid "Protocol"
 msgstr "โพรโทคอล"
 
@@ -11467,7 +11471,7 @@ msgid "Mark as _Important"
 msgstr "ทำเครื่องหมายว่า_สำคัญ"
 
 #: ../mail/em-folder-view.c:1135
-msgid "_Mark as Unimportant"
+msgid "Mark as Un_important"
 msgstr "ทำเครื่องหมายว่าไ_ม่สำคัญ"
 
 #: ../mail/em-folder-view.c:1136
@@ -11571,74 +11575,74 @@ msgid "Click to hide/unhide addresses"
 msgstr "คลิกเพื่อแสดง/ซ่อนที่อยู่ต่างๆ"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:501
+#: ../mail/em-format-html-display.c:502
 #, c-format
 msgid "Matches: %d"
 msgstr "หาพบ: %d"
 
-#: ../mail/em-format-html-display.c:644
+#: ../mail/em-format-html-display.c:645
 msgid "Find:"
 msgstr "หา:"
 
-#: ../mail/em-format-html-display.c:675
-msgid "Match case"
-msgstr "ตัวพิมพ์ใหญ่-เล็กตรงกัน"
+#: ../mail/em-format-html-display.c:676
+msgid "M_atch case"
+msgstr "ตัว_พิมพ์ใหญ่-เล็กตรงกัน"
 
-#: ../mail/em-format-html-display.c:923 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:924 ../mail/em-format-html.c:617
 msgid "Unsigned"
 msgstr "ไม่มีลายเซ็นกำกับ"
 
-#: ../mail/em-format-html-display.c:923
+#: ../mail/em-format-html-display.c:924
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "ข้อความนี้ไม่มีลายเซ็นกำกับ ไม่มีอะไรประกันได้เลยว่าข้อความนี้เป็นมาจากผู้ส่งจริง"
 
-#: ../mail/em-format-html-display.c:924 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:925 ../mail/em-format-html.c:618
 msgid "Valid signature"
 msgstr "ลายเซ็นถูกต้อง"
 
-#: ../mail/em-format-html-display.c:924
+#: ../mail/em-format-html-display.c:925
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr "ข้อความนี้มีลายเซ็นกำกับที่ถูกต้อง ซึ่งหมายความว่า ข้อความนี้น่าจะมาจากผู้ส่งจริง"
 
-#: ../mail/em-format-html-display.c:925 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:619
 msgid "Invalid signature"
 msgstr "ลายเซ็นไม่ถูกต้อง"
 
-#: ../mail/em-format-html-display.c:925
+#: ../mail/em-format-html-display.c:926
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr "ลายเซ็นกำกับข้อความนี้ตรวจสอบแล้วไม่ผ่าน เป็นไปได้ว่าข้อความอาจถูกแก้ไขระหว่างทาง"
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 msgid "Valid signature, cannot verify sender"
 msgstr "ลายเซ็นถูกต้อง แต่ไม่สามารถตรวจสอบผู้ส่ง"
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "ข้อความนี้มีลายเซ็นกำกับที่ถูกต้อง แต่ไม่สามารถตรวจสอบผู้ส่งข้อความได้"
 
-#: ../mail/em-format-html-display.c:932 ../mail/em-format-html.c:626
+#: ../mail/em-format-html-display.c:933 ../mail/em-format-html.c:626
 msgid "Unencrypted"
 msgstr "ไม่ได้เข้ารหัส"
 
-#: ../mail/em-format-html-display.c:932
+#: ../mail/em-format-html-display.c:933
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr "ข้อความนี้ไม่ได้เข้ารหัส เนื้อหาอาจถูกดักอ่านระหว่างทางในอินเทอร์เน็ตได้"
 
-#: ../mail/em-format-html-display.c:933 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:934 ../mail/em-format-html.c:627
 msgid "Encrypted, weak"
 msgstr "เข้ารหัสแบบอ่อน"
 
-#: ../mail/em-format-html-display.c:933
+#: ../mail/em-format-html-display.c:934
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11647,21 +11651,21 @@ msgstr ""
 "ข้อความนี้ถูกเข้ารหัส แต่ใช้อัลกอริทึมเข้ารหัสที่อ่อน บุคคลอื่นอาจดักอ่านได้ยากก็จริง "
 "แต่ก็ไม่ใช่เป็นไปไม่ได้ โดยใช้เวลาไม่มากเกินไป"
 
-#: ../mail/em-format-html-display.c:934 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:628
 msgid "Encrypted"
 msgstr "เข้ารหัส"
 
-#: ../mail/em-format-html-display.c:934
+#: ../mail/em-format-html-display.c:935
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "ข้อความนี้ถูกเข้ารหัส บุคคลอื่นดักอ่านเนื้อหาได้ยาก"
 
-#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:629
 msgid "Encrypted, strong"
 msgstr "เข้ารหัสแบบแน่นหนา"
 
-#: ../mail/em-format-html-display.c:935
+#: ../mail/em-format-html-display.c:936
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11669,72 +11673,72 @@ msgid ""
 msgstr ""
 "ข้อความนี้ถูกเข้ารหัสด้วยอัลกอริทึมเข้ารหัสที่แน่นหนา บุคคลอื่นดักอ่านเนื้อหาได้ยากมาก ด้วยเวลาปกติ"
 
-#: ../mail/em-format-html-display.c:1036 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1037 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_ดูใบรับรอง"
 
-#: ../mail/em-format-html-display.c:1051
+#: ../mail/em-format-html-display.c:1052
 msgid "This certificate is not viewable"
 msgstr "ใบรับรองนี้เปิดดูไม่ได้"
 
-#: ../mail/em-format-html-display.c:1342
+#: ../mail/em-format-html-display.c:1371
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "เสร็จเมื่อ %d %B %Ey %H:%M"
 
-#: ../mail/em-format-html-display.c:1350
+#: ../mail/em-format-html-display.c:1379
 msgid "Overdue:"
 msgstr "เลยกำหนด:"
 
-#: ../mail/em-format-html-display.c:1353
+#: ../mail/em-format-html-display.c:1382
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "ภายใน %d %B %Ey %H:%M"
 
-#: ../mail/em-format-html-display.c:1413
+#: ../mail/em-format-html-display.c:1442
 msgid "_View Inline"
 msgstr "แ_สดงในบรรทัด"
 
-#: ../mail/em-format-html-display.c:1414
+#: ../mail/em-format-html-display.c:1443
 msgid "_Hide"
 msgstr "_ซ่อน"
 
-#: ../mail/em-format-html-display.c:1415
+#: ../mail/em-format-html-display.c:1444
 msgid "_Fit to Width"
 msgstr "_พอดีความกว้าง"
 
-#: ../mail/em-format-html-display.c:1416
+#: ../mail/em-format-html-display.c:1445
 msgid "Show _Original Size"
 msgstr "แสดงขนาด_จริง"
 
-#: ../mail/em-format-html-display.c:1835 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:1864 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "เอกสารแนบ"
 
-#: ../mail/em-format-html-display.c:2042
+#: ../mail/em-format-html-display.c:2071
 msgid "Select folder to save all attachments..."
 msgstr "เลือกโฟลเดอร์ที่จะบันทึกเอกสารแนบทั้งหมด..."
 
-#: ../mail/em-format-html-display.c:2089
+#: ../mail/em-format-html-display.c:2118
 msgid "_Save Selected..."
 msgstr "_บันทึกรายการที่เลือก..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2156
+#: ../mail/em-format-html-display.c:2185
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "เอกสารแ_นบ %d ฉบับ"
 msgstr[1] "เอกสารแ_นบ %d ฉบับ"
 
-#: ../mail/em-format-html-display.c:2163 ../mail/em-format-html-display.c:2239
+#: ../mail/em-format-html-display.c:2192 ../mail/em-format-html-display.c:2268
 msgid "S_ave"
 msgstr "_บันทึก"
 
-#: ../mail/em-format-html-display.c:2174
+#: ../mail/em-format-html-display.c:2203
 msgid "S_ave All"
 msgstr "บันทึกทั้งห_มด"
 
-#: ../mail/em-format-html-display.c:2235
+#: ../mail/em-format-html-display.c:2264
 msgid "No Attachment"
 msgstr "ไม่มีเอกสารแนบ"
 
@@ -11965,20 +11969,20 @@ msgstr "เ_พิ่มในสมุดที่อยู่"
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr ""
 
-#: ../mail/em-subscribe-editor.c:644
+#: ../mail/em-subscribe-editor.c:645
 msgid "Subscribed"
 msgstr ""
 
-#: ../mail/em-subscribe-editor.c:648
+#: ../mail/em-subscribe-editor.c:649
 msgid "Folder"
 msgstr "โฟลเดอร์"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:869
+#: ../mail/em-subscribe-editor.c:870
 msgid "Please select a server."
 msgstr "กรุณาเลือกเซิร์ฟเวอร์"
 
-#: ../mail/em-subscribe-editor.c:890
+#: ../mail/em-subscribe-editor.c:891
 msgid "No server has been selected"
 msgstr "ไม่ได้เลือกเซิร์ฟเวอร์"
 
@@ -12012,7 +12016,7 @@ msgstr "ข้อความจาก %s"
 msgid "Search _Folders"
 msgstr "โ_ฟลเดอร์ค้นหา"
 
-#: ../mail/em-vfolder-rule.c:576
+#: ../mail/em-vfolder-rule.c:591
 msgid "Search Folder source"
 msgstr "แหล่งสำหรับโฟลเดอร์ค้นหา"
 
@@ -13448,47 +13452,63 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">การเข้ารหัส</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
+msgid "All active remote folders"
+msgstr "โฟลเดอร์ระยะไกลที่ใช้งานอยู่ทั้งหมด"
+
+#: ../mail/mail-dialogs.glade.h:6
+msgid "All local and active remote folders"
+msgstr "โฟลเดอร์ในเครื่องและโฟลเดอร์ระยะไกลที่ใช้อยู่ทั้งหมด"
+
+#: ../mail/mail-dialogs.glade.h:7
+msgid "All local folders"
+msgstr "โฟลเดอร์ในเครื่องทั้งหมด"
+
+#: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
 msgstr "ตัวพิมพ์ใหญ่-เ_ล็กตรงกัน"
 
-#: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:2
+#: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:2
 msgid "Co_mpleted"
 msgstr "เ_สร็จแล้ว"
 
-#: ../mail/mail-dialogs.glade.h:8
+#: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
 msgstr "_หา:"
 
-#: ../mail/mail-dialogs.glade.h:9
+#: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
 msgstr "หาในข้อความ"
 
-#: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:297
+#: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "ปักธงเพื่อตามกระทู้"
 
-#: ../mail/mail-dialogs.glade.h:11
+#: ../mail/mail-dialogs.glade.h:14
 msgid "Folder Subscriptions"
 msgstr "การบอกรับข้อมูลของโฟลเดอร์"
 
-#: ../mail/mail-dialogs.glade.h:12
+#: ../mail/mail-dialogs.glade.h:15
 msgid "License Agreement"
 msgstr "ข้อตกลงสัญญาอนุญาต"
 
-#: ../mail/mail-dialogs.glade.h:13
+#: ../mail/mail-dialogs.glade.h:16
 msgid "None Selected"
 msgstr "ไม่ได้เลือก"
 
-#: ../mail/mail-dialogs.glade.h:14
+#: ../mail/mail-dialogs.glade.h:17
 msgid "S_erver:"
 msgstr "เ_ซิร์ฟเวอร์:"
 
-#: ../mail/mail-dialogs.glade.h:15
+#: ../mail/mail-dialogs.glade.h:18
 msgid "Security Information"
 msgstr "ข้อมูลระบบรักษาความปลอดภัย"
 
-#: ../mail/mail-dialogs.glade.h:17 ../mail/message-tags.glade.h:4
+#: ../mail/mail-dialogs.glade.h:19
+msgid "Specific folders"
+msgstr "เจาะจงโฟลเดอร์"
+
+#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -13496,46 +13516,30 @@ msgstr ""
 "ข้อความต่อไปนี้ คือข้อความที่คุณเลือกไว้เพื่อติดตามกระทู้\n"
 "กรุณาเลือกปฏิบัติการติดตามกระทู้จากเมนู \"ธง\""
 
-#: ../mail/mail-dialogs.glade.h:19
+#: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
 msgstr "_ยอมรับสัญญาอนุญาต"
 
-#: ../mail/mail-dialogs.glade.h:20 ../mail/message-tags.glade.h:6
+#: ../mail/mail-dialogs.glade.h:24 ../mail/message-tags.glade.h:6
 msgid "_Due By:"
 msgstr "กระทำ_ภายใน:"
 
-#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:7
+#: ../mail/mail-dialogs.glade.h:25 ../mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "_ธง:"
 
-#: ../mail/mail-dialogs.glade.h:22
+#: ../mail/mail-dialogs.glade.h:26
 msgid "_Subscribe"
 msgstr "_บอกรับข้อมูล"
 
-#: ../mail/mail-dialogs.glade.h:23
+#: ../mail/mail-dialogs.glade.h:27
 msgid "_Tick this to accept the license agreement"
 msgstr "_กาที่นี่เพื่อยอมรับข้อตกลงในสัญญาอนุญาต"
 
-#: ../mail/mail-dialogs.glade.h:24
+#: ../mail/mail-dialogs.glade.h:28
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "เ_ลิกบอกรับ"
-
-#: ../mail/mail-dialogs.glade.h:25
-msgid "specific folders only"
-msgstr "เจาะจงโฟลเดอร์"
-
-#: ../mail/mail-dialogs.glade.h:26
-msgid "with all active remote folders"
-msgstr "รวมโฟลเดอร์ระยะไกลที่ใช้งานอยู่ทั้งหมด"
-
-#: ../mail/mail-dialogs.glade.h:27
-msgid "with all local and active remote folders"
-msgstr "รวมโฟลเดอร์ในเครื่องและโฟลเดอร์ระยะไกลที่ใช้อยู่ทั้งหมด"
-
-#: ../mail/mail-dialogs.glade.h:28
-msgid "with all local folders"
-msgstr "รวมโฟลเดอร์ในเครื่องทั้งหมด"
 
 #: ../mail/mail-folder-cache.c:858
 #, c-format
@@ -14607,6 +14611,10 @@ msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "เพิ่มรายการในสมุดที่อยู่โดย_อัตโนมัติเมื่อตอบเมล"
 
+#: ../plugins/bbdb/bbdb.c:460
+msgid "Select Address book for Automatic Contacts"
+msgstr "เลือกสมุดที่อยู่สำหรับที่อยู่ติดต่ออัตโนมัติ"
+
 #: ../plugins/bbdb/bbdb.c:475
 msgid "Instant Messaging Contacts"
 msgstr "ที่อยู่ติดต่อสำหรับข้อความทันใจ"
@@ -14616,6 +14624,10 @@ msgstr "ที่อยู่ติดต่อสำหรับข้อคว
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
 msgstr "ปรับข้อมูลที่อยู่ติดต่อและรูปภาพกับรายการของ gaim เป็นระยะ"
+
+#: ../plugins/bbdb/bbdb.c:496
+msgid "Select Address book for Gaim buddy list"
+msgstr "เลือกสมุดที่อยู่สำหรับคู่สนทนาของ Gaim"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:507
@@ -15914,17 +15926,17 @@ msgstr "เพื่อจะดำเนินงานรายการทั
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2031
+#: ../plugins/itip-formatter/itip-formatter.c:2037
 msgid "_Delete message after acting"
 msgstr "_ลบข้อความหลังจากทำแล้ว"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2041
-#: ../plugins/itip-formatter/itip-formatter.c:2073
+#: ../plugins/itip-formatter/itip-formatter.c:2047
+#: ../plugins/itip-formatter/itip-formatter.c:2079
 msgid "Conflict Search"
 msgstr "การค้นหาการชนกัน"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2056
+#: ../plugins/itip-formatter/itip-formatter.c:2062
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "เลือกปฏิทินที่จะค้นหาการประชุมที่ชนกัน"
 
@@ -16390,17 +16402,14 @@ msgid "Convert the selected message to a new task"
 msgstr "แปลงข้อความที่เลือกเป็นงานชิ้นใหม่"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact list _owner"
 msgstr "ติดต่อเ_จ้าของลิสต์"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
 msgstr "ดู_กรุข้อความเก่าของลิสต์"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get list _usage information"
 msgstr "ดูข้อมูล_วิธีใช้ของลิสต์"
 
@@ -16420,17 +16429,14 @@ msgid ""
 msgstr "ปฏิบัติการสำหรับคำสั่งปกติของเมลลิงลิสต์ (สมัครสมาชิก, ยกเลิกการสมัคร, ...)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post message to list"
 msgstr "_ส่งข้อความเข้าลิสต์"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
 msgid "_Subscribe to list"
 msgstr "ส_มัครเข้าลิสต์"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 msgid "_Un-subscribe to list"
 msgstr "ยกเ_ลิกการสมัครเข้าลิสต์"
 
@@ -16511,15 +16517,27 @@ msgstr "แ_ก้ไขข้อความ"
 msgid "_Send message"
 msgstr "_ส่งข้อความ"
 
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
+msgid "Contact List _Owner"
+msgstr "ติดต่อเ_จ้าของลิสต์"
+
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr "ติดต่อเจ้าของเมลลิงลิสต์ที่เป็นต้นตอของข้อความนี้"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
+msgid "Get List _Archive"
+msgstr "ดู_กรุข้อความเก่าของลิสต์"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+msgid "Get List _Usage Information"
+msgstr "ดูข้อมูล_วิธีใช้ของลิสต์"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get an archive of the list this message belongs to"
 msgstr "ดูกรุข้อความเก่าของลิสต์ที่เป็นต้นตอของข้อความนี้"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get information about the usage of the list this message belongs to"
 msgstr "ดูข้อมูลเกี่ยวกับวิธีใช้ของลิสต์ที่เป็นต้นตอของข้อความนี้"
 
@@ -16535,12 +16553,24 @@ msgstr "สมัครเป็นสมาชิกของเมลลิง
 msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "ยกเลิกการสมัครเป็นสมาชิกของเมลลิงลิสต์ที่เป็นต้นตอของข้อความนี้"
 
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
+msgid "_Post Message to List"
+msgstr "_ส่งข้อความเข้าลิสต์"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
+msgid "_Subscribe to List"
+msgstr "ส_มัครเข้าลิสต์"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
+msgid "_Unsubscribe from List"
+msgstr "เ_ลิกบอกรับข้อมูลจากลิสต์"
+
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
 msgstr "ทำเครื่องหมายอ่านแล้วทั้งหมด"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-msgid "Mark me_ssages as read"
+msgid "Mark Me_ssages as Read"
 msgstr "ทำเครื่องหมายทุก_ข้อความว่าอ่านแล้ว"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
@@ -16798,15 +16828,15 @@ msgstr "บันทึกเอกสารแนบ ..."
 msgid "Save all attachments"
 msgstr "บันทึกเอกสารแนบทั้งหมด"
 
-#: ../plugins/save-attachments/save-attachments.c:338
+#: ../plugins/save-attachments/save-attachments.c:340
 msgid "Select save base name"
 msgstr "เลือกชื่อต้นสำหรับการบันทึก"
 
-#: ../plugins/save-attachments/save-attachments.c:357
+#: ../plugins/save-attachments/save-attachments.c:359
 msgid "MIME Type"
 msgstr "ชนิด MIME"
 
-#: ../plugins/save-attachments/save-attachments.c:365
+#: ../plugins/save-attachments/save-attachments.c:367
 #: ../ui/evolution-editor.xml.h:12 ../ui/evolution-message-composer.xml.h:19
 msgid "Save"
 msgstr "บันทึก"
@@ -17322,15 +17352,12 @@ msgstr "ไม่สามารถลงทะเบียนกับ OAF"
 msgid "Configuration Database not found"
 msgstr "ไม่พบฐานข้อมูลค่าตั้ง"
 
-#: ../shell/e-user-creatable-items-handler.c:689
-#: ../shell/e-user-creatable-items-handler.c:748
+#: ../shell/e-user-creatable-items-handler.c:679
 msgid " New "
 msgstr " ใหม่ "
 
+#: ../shell/e-user-creatable-items-handler.c:683
 #: ../shell/e-user-creatable-items-handler.c:693
-#: ../shell/e-user-creatable-items-handler.c:705
-#: ../shell/e-user-creatable-items-handler.c:752
-#: ../shell/e-user-creatable-items-handler.c:764
 msgid "New"
 msgstr "สร้างใหม่"
 
@@ -20244,12 +20271,12 @@ msgid "Time"
 msgstr "เวลา"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: ../widgets/misc/e-dateedit.c:1436 ../widgets/misc/e-dateedit.c:1763
+#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
 msgid "%H:%M"
 msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: ../widgets/misc/e-dateedit.c:1439 ../widgets/misc/e-dateedit.c:1766
+#: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
@@ -20411,15 +20438,21 @@ msgstr ""
 msgid "Text"
 msgstr "ข้อความ"
 
-#: ../widgets/misc/e-search-bar.c:911
-msgid "Show : "
-msgstr "แสดง : "
+#. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
+#. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
+#: ../widgets/misc/e-search-bar.c:913
+msgid "Show: "
+msgstr "แสดง: "
 
-#: ../widgets/misc/e-search-bar.c:925
-msgid "S_earch : "
-msgstr "_ค้นหา : "
+#. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
+#. the term to search for
+#: ../widgets/misc/e-search-bar.c:929
+msgid "S_earch: "
+msgstr "_ค้นหา: "
 
-#: ../widgets/misc/e-search-bar.c:934
+#. To Translators: The " in " label is part of the Quick Search Bar, example:
+#. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
+#: ../widgets/misc/e-search-bar.c:940
 msgid " in "
 msgstr " ใน "
 
@@ -21126,6 +21159,15 @@ msgstr ""
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid "Cale_ndar:"
+#~ msgstr "_ปฏิทิน:"
+
+#~ msgid "_Memo"
+#~ msgstr "บันทึก_ช่วยจำ"
+
+#~ msgid "      "
+#~ msgstr "      "
 
 #~ msgid "Category is"
 #~ msgstr "อยู่ในหมวด"
