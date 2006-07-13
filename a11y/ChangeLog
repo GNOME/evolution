@@ -1,3 +1,8 @@
+2006-07-13  Andre Klapper  <a9016009@gmx.de>
+
+	* calendar/ea-day-view.c: Added translator comments to
+	some strings. Fixes bug #331016. Thanks to Boby Wang.
+
 2006-06-22  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-table/gal-a11y-e-cell-text.c: (ect_check):
