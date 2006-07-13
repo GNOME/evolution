@@ -1,3 +1,7 @@
+2006-07-13  Andre Klapper  <a9016009@gmx.de>
+
+	* mail-config.glade: remove empty strings from translation
+
 2006-07-11  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Change mnemonic for Mark as Unimportant, fixes
