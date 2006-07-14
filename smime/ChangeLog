@@ -1,3 +1,10 @@
+2006-06-20  Arvind_evo  <sa.phoenix@gmail.com>
+	
+	** Fix for bug #268592
+
+	* gui/certificate-manager.c : hidden the backup and backupall button till 
+	a functionality has been developed in the future.
+	
 2006-06-15  Tor Lillqvist  <tml@novell.com>
 
 	* lib/e-cert-db.c (initialize_nss): On Win32, NSS wants filenames

@@ -1016,5 +1016,9 @@ certificate_manager_config_control_new (void)
 	gtk_widget_set_sensitive(cfm_data->backup_your_button, FALSE);
 	gtk_widget_set_sensitive(cfm_data->backup_all_your_button, FALSE);
 
+	//hide the widgets till a functionality is developed in the future....
+	gtk_widget_hide_all(cfm_data->backup_your_button);
+	gtk_widget_hide_all(cfm_data->backup_all_your_button);
+	
 	return evolution_config_control_new (control_widget);
 }
