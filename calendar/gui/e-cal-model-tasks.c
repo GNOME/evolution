@@ -1098,6 +1098,51 @@ e_cal_model_tasks_mark_task_complete (ECalModelTasks *model, gint model_row)
 }
 
 /**
+ * e_cal_model_tasks_mark_task_incomplete
+ */
+void
+e_cal_model_tasks_mark_task_incomplete (ECalModelTasks *model, gint model_row)
+{
+ 	ECalModelComponent *comp_data; 
+	icalproperty *prop,*prop1,*prop2;
+	gboolean set_completed = TRUE;
+
+ 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model)); 
+ 	g_return_if_fail (model_row >= 0 && model_row < e_table_model_row_count (E_TABLE_MODEL (model))); 
+
+ 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), model_row); 
+ 	if (comp_data)
+	{ 
+	    e_table_model_pre_change (E_TABLE_MODEL (model));
+	    /* Status */
+	    prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY); 
+ 	    if (prop) 
+		icalproperty_set_status (prop, ICAL_STATUS_NEEDSACTION);
+	    else 	     
+		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_NEEDSACTION));
+	    
+	    /*complete property*/
+	    prop1= icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+	    if (prop1) 
+	    {
+		icalcomponent_remove_property (comp_data->icalcomp, prop1);
+		icalproperty_free (prop1);
+	    }
+	    
+	    /* Percent. */
+	    prop1 = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
+	    if (prop1)
+	    {
+		icalcomponent_remove_property (comp_data->icalcomp, prop1);
+		icalproperty_free (prop1);
+	    }
+	    
+	    e_table_model_row_changed (E_TABLE_MODEL (model), model_row); 
+	}
+}
+
+
+/**
  * e_cal_model_tasks_update_due_tasks
  */
 void

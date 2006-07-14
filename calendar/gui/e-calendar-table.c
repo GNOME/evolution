@@ -1199,6 +1199,27 @@ mark_row_complete_cb (int model_row, gpointer data)
 	e_cal_model_tasks_mark_task_complete (E_CAL_MODEL_TASKS (cal_table->model), model_row);
 }
 
+/* Used from e_table_selected_row_foreach() */
+static void
+mark_row_incomplete_cb (int model_row, gpointer data)
+{
+	ECalendarTable *cal_table;
+
+	cal_table = E_CALENDAR_TABLE (data);
+	e_cal_model_tasks_mark_task_incomplete (E_CAL_MODEL_TASKS (cal_table->model), model_row);
+}
+
+/* Callback used for the "mark tasks as incomplete" menu item */
+static void
+mark_as_incomplete_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	ECalendarTable *cal_table = data;
+	ETable *etable;
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, mark_row_incomplete_cb, cal_table);
+}
+
 /* Callback used for the "mark tasks as complete" menu item */
 static void
 mark_as_complete_cb (EPopup *ep, EPopupItem *pitem, void *data)
@@ -1273,11 +1294,13 @@ static EPopupItem tasks_popup_items [] = {
 	{ E_POPUP_ITEM, "90.forward", N_("_Forward as iCalendar"), e_calendar_table_on_forward, NULL, "stock_mail-forward", E_CAL_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "a0.markonecomplete", N_("_Mark as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE},
 	{ E_POPUP_ITEM, "b0.markmanycomplete", N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE },
+	{ E_POPUP_ITEM, "c0.markoneincomplete", N_("_Mark as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_COMPLETE},
+	{ E_POPUP_ITEM, "d0.markmanyincomplete", N_("_Mark Selected Tasks as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_COMPLETE },
 
-	{ E_POPUP_BAR, "c0.bar" },
+	{ E_POPUP_BAR, "e0.bar" },
 
-	{ E_POPUP_ITEM, "d0.delete", N_("_Delete"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "e0.deletemany", N_("_Delete Selected Tasks"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "f0.delete", N_("_Delete"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "g0.deletemany", N_("_Delete Selected Tasks"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
 };
 
 static void

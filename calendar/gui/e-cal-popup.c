@@ -581,10 +581,10 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 			int i=0;
 			for (; i < t->events->len; i++) {
 				ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[i];
-				if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY)) {
+				if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY)) 
 					mask &= ~E_CAL_POPUP_SELECT_NOTCOMPLETE;
-					break;
-				}
+				else
+					mask &= ~E_CAL_POPUP_SELECT_COMPLETE;
 			}
 		}
 
@@ -636,6 +636,9 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 		if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY))
 			mask &= ~E_CAL_POPUP_SELECT_NOTCOMPLETE;
 
+		if (icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY))
+			mask &= ~E_CAL_POPUP_SELECT_COMPLETE;
+		
 		g_object_unref (comp);
 		g_free (user_email);
 	}
@@ -799,6 +802,7 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "accept", E_CAL_POPUP_SELECT_ACCEPTABLE },
 	{ "not-complete", E_CAL_POPUP_SELECT_NOTCOMPLETE },
 	{ "no-save-schedules", E_CAL_POPUP_SELECT_NOSAVESCHEDULES },
+	{ "complete" , E_CAL_POPUP_SELECT_COMPLETE},
 	{ 0 }
 };
 

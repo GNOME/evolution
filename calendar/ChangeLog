@@ -1,3 +1,15 @@
+2006-06-14 Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #329772
+	
+	* gui/e-cal-model-tasks.c: function added to change status of a task 
+	as incomplete.
+	* gui/e-cal-popup.c: status of task checked and changed to incomplete 
+	if option selected.
+	* gui/e-cal-popup.h: E_CAL_POPUP_SELECT_COMPLETE added
+	* gui/e-calendar-table.c: function added to mark the task in selected 
+	row as incomplete.
+
 2006-07-11  Li Yuan <li.yuan@sun.com>
 
 	* gui/e-week-view.c: (e_week_view_remove_event_cb):
