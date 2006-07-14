@@ -37,6 +37,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -315,7 +316,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	int row, num_sources;
 	GList *list = NULL;
 	struct _send_data *data;
-        GtkWidget *send_icon, *recv_icon; 
+        GtkWidget *send_icon, *recv_icon,*scrolled_window; 
 	GtkLabel *label;
 	EClippedLabel *status_label;
 	GtkProgressBar *bar;
@@ -363,8 +364,16 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gtk_table_set_row_spacings (table, 6);
 	gtk_table_set_col_spacings (table, 6);
 
-       	gtk_box_pack_start (GTK_BOX (gd->vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
-	
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);	
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), table);
+	gtk_box_pack_start (GTK_BOX (gd->vbox), scrolled_window,TRUE, TRUE, 0); 
+	gtk_widget_set_usize (gd->vbox, 600,200);
+	gtk_widget_show (GTK_WIDGET (scrolled_window));	
+
 	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
 	data = setup_send_data ();
 	
