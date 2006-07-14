@@ -1,3 +1,12 @@
+2006-07-14  Ushveen Kaur <kushveen@novell.com>
+
+	** Fix for bug #332909
+	
+	* gui/contact-editor/e-contact-editor.[ch]: (image_chooser_changed),
+	(fill_in_simple_field), (extract_simple_field), (image_selected),
+	(image_cleared), (e_contact_editor_init): Remember the image change
+	and prompt only if changed.
+
 2006-07-06  Devashish Sharma  <sdevashish@novell.com>
   	 
 	** Fixes bug #338710

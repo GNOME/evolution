@@ -76,7 +76,7 @@ struct _EContactEditor
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_contact : 1;
 
-	/* Whether the image chooser widget has been changed. */
+	/* Whether an image is associated with a contact. */
 	guint image_set : 1;
 
 	/* Whether the contact has been changed since bringing up the contact editor */
@@ -87,6 +87,9 @@ struct _EContactEditor
 
 	/* Whether an async wombat call is in progress */
 	guint in_async_call : 1;
+
+	/* Whether an image is changed */
+	guint image_changed : 1;
 
 	EList *writable_fields;
 	
