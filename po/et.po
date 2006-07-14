@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-06 22:09+0200\n"
-"PO-Revision-Date: 2006-07-10 14:23+0300\n"
+"PO-Revision-Date: 2006-07-14 19:18+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1319,11 +1319,11 @@ msgstr "_Aadress:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Anniversary:"
-msgstr "_Aastapäev:"
+msgstr "Aasta_päev:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Assistant:"
-msgstr "_Assistent:"
+msgstr "Ass_istent:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Birthday:"
@@ -1332,7 +1332,7 @@ msgstr "_Sünnipäev:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: ../plugins/itip-formatter/itip-view.c:1652
 msgid "_Calendar:"
-msgstr "_Kalender:"
+msgstr "Kalen_der:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
@@ -1354,7 +1354,7 @@ msgstr "_Riik:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Department:"
-msgstr "Osakon_d:"
+msgstr "Osako_nd:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_File under:"
@@ -1362,11 +1362,11 @@ msgstr "_Salvesta kui:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Free/Busy:"
-msgstr "_Vaba/hõivatud:"
+msgstr "Vaba/_hõivatud:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Home Page:"
-msgstr "_Koduleht:"
+msgstr "Kod_uleht:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Manager:"
@@ -1374,7 +1374,7 @@ msgstr "_Juht:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Notes:"
-msgstr "_Märkused:"
+msgstr "Mä_rkused:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 msgid "_Office:"
@@ -1391,7 +1391,7 @@ msgstr "_Eriala:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 msgid "_Spouse:"
-msgstr "_Abikaasa:"
+msgstr "A_bikaasa:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
@@ -1413,7 +1413,7 @@ msgstr "Soovib saada _HTML sõnumeid"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 msgid "_Web Log:"
-msgstr "_Veebilogi:"
+msgstr "Veebilo_gi:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
