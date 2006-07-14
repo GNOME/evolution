@@ -329,10 +329,10 @@ e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 
 	gtk_entry_set_text (GTK_ENTRY (priv->entry), name_buffer);
 
-	if (!priv->default_zone || (priv->zone != priv->default_zone))
-		gtk_widget_show (priv->entry);
-	else
-		gtk_widget_hide (priv->entry);
+	/* do we need to hide the timezone entry at all? i know this overrules the previous case of hiding the timezone
+	 * entry field when we select the default timezone 
+         */  
+	gtk_widget_show (priv->entry);
 
 	g_free (name_buffer);
 }

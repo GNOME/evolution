@@ -513,6 +513,9 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 				       start_zone);
 	event_page_set_show_timezone (epage, calendar_config_get_show_timezone() & !all_day_event);
 
+	/*unblock the endtimezone widget*/
+	g_signal_handlers_unblock_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_timezone),
 					    epage);
 
@@ -2521,7 +2524,8 @@ start_timezone_changed_cb (GtkWidget *widget, gpointer data)
 	if (priv->sync_timezones) {
 		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 		priv->updating = TRUE;
-		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->end_timezone), zone);
+		/*the earlier method caused an infinite recursion*/
+		priv->end_timezone=priv->start_timezone;
 		gtk_widget_show_all (priv->end_timezone);
 		priv->updating = FALSE;
 	}
@@ -2987,6 +2991,9 @@ init_widgets (EventPage *epage)
 
 	/* emit signal when the group is changed */
 	g_signal_connect((priv->source_selector),"changed",G_CALLBACK(field_changed_cb),epage);
+
+	/*call the field_changed_cb when the timezone is changed*/
+	g_signal_connect((priv->start_timezone), "changed",G_CALLBACK (field_changed_cb), epage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = calendar_config_get_icaltimezone ();
