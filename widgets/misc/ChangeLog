@@ -1,3 +1,10 @@
+2006-06-07 Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #341333
+	
+	* e-dateedit.c:	accelarator for 'now'('w') and 'today'('t') 
+	'None'('n')	
+	
 2006-07-11  Li Yuan <li.yuan@sun.com>
 
 	Fixes bug #345402

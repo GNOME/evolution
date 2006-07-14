@@ -458,13 +458,13 @@ create_children			(EDateEdit	*dedit)
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
         gtk_widget_show (bbox);
 
-	priv->now_button = gtk_button_new_with_label (_("Now"));
+	priv->now_button = gtk_button_new_with_mnemonic (_("No_w"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->now_button);
         gtk_widget_show (priv->now_button);
 	g_signal_connect (priv->now_button, "clicked",
 			  G_CALLBACK (on_date_popup_now_button_clicked), dedit);
 
-	priv->today_button = gtk_button_new_with_label (_("Today"));
+	priv->today_button = gtk_button_new_with_mnemonic (_("_Today"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->today_button);
         gtk_widget_show (priv->today_button);
 	g_signal_connect (priv->today_button, "clicked",
@@ -472,7 +472,7 @@ create_children			(EDateEdit	*dedit)
 
 	/* Note that we don't show this here, since by default a 'None' date
 	   is not permitted. */
-	priv->none_button = gtk_button_new_with_label (_("None"));
+	priv->none_button = gtk_button_new_with_mnemonic (_("_None"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->none_button);
 	g_signal_connect (priv->none_button, "clicked",
 			  G_CALLBACK (on_date_popup_none_button_clicked), dedit);
