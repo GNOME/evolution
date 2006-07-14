@@ -1,3 +1,13 @@
+2006-06-17   Arvind <sa.phoenix@gmail.com>
+
+	** Fix for bug#330633
+
+	* gui/dialogs/event-page.c : Enabled save button when the timezone
+	  is changed from an existing meeting/appointment
+
+	* gui/e-timezone-entry.c : prevented the shrinking of the timezone
+	field when the timezone is set to the default timezone
+
 2006-07-11  Arvind_evo <sa.phoenix@gmail.com>
   	 
 	* gui/dialogs/event-page.c: Enabled save button when the group is
