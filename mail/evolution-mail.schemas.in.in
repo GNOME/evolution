@@ -747,6 +747,20 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/prompts/mark_all_read</key>
+      <applyto>/apps/evolution/mail/prompts/mark_all_read</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Prompt while marking multiple messages</short>
+         <long>
+	 It disables/enables the prompt while marking multiple messages.
+         </long>
+      </locale>
+    </schema>
+    
     <!-- Trash settings -->
 
     <schema>

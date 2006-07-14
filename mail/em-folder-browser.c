@@ -1307,8 +1307,7 @@ emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
 
 	if (emfv->folder == NULL)
 		return;
-	
-	if( e_error_run ((GtkWidget *)emfv,"mail:ask-mark-all-read",NULL) == GTK_RESPONSE_YES){
+	if( em_utils_prompt_user((GtkWindow *)emfv, "/apps/evolution/mail/prompts/mark_all_read","mail:ask-mark-all-read", NULL)){
 		uids = message_list_get_uids(emfv->list);
 		camel_folder_freeze(emfv->folder);
 		for (i=0;i<uids->len;i++)

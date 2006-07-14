@@ -1,3 +1,12 @@
+2006-07-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #335747
+
+	* em-folder-browser.c: (emfb_mark_all_read): Prompt optionally while
+	marking multiple messages.
+	* evolution-mail.schemas.in.in: Added a schema for prompting while
+	marking multiple messages.
+
 2006-07-13  Andre Klapper  <a9016009@gmx.de>
 
 	* mail-config.glade: remove empty strings from translation
