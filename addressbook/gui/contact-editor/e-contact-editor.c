@@ -646,6 +646,7 @@ static void
 image_chooser_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	editor->image_set = TRUE;
+	editor->image_changed = TRUE;
 }
 
 static void
@@ -2203,7 +2204,7 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 			editor->image_set = FALSE;
 			g_free (file_name);
 		}
-
+		editor->image_changed = FALSE;
 		e_contact_photo_free (photo);
 	}
 	else if (GTK_IS_TOGGLE_BUTTON (widget)) {
@@ -2258,60 +2259,64 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	}
 	else if (E_IS_IMAGE_CHOOSER (widget)) {
 		EContactPhoto photo;
-
-		if (editor->image_set &&
-		    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
-						    &photo.data, &photo.length)) {
-			GdkPixbuf *pixbuf, *new;
-			GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
-			
-			gdk_pixbuf_loader_write (loader, photo.data, photo.length, NULL);
-			gdk_pixbuf_loader_close (loader, NULL);
-			
-			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-			if (pixbuf) {
-				int width, height;
+		if (editor->image_changed)
+		{
+			if (editor->image_set &&
+			    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
+							    &photo.data, &photo.length)) {
+				GdkPixbuf *pixbuf, *new;
+				GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 				
-				g_object_ref (pixbuf);
-		
-				height = gdk_pixbuf_get_height (pixbuf);
-				width = gdk_pixbuf_get_width (pixbuf);
-		
-				if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
-
-					if ( width > height) {
-						height = height * 96 / width;
-						width = 96;
-					} else {
-						width = width *96 / height;
-						height = 96;
+				gdk_pixbuf_loader_write (loader, photo.data, photo.length, NULL);
+				gdk_pixbuf_loader_close (loader, NULL);
+				
+				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+				if (pixbuf) {
+					int width, height;
+					
+					g_object_ref (pixbuf);
+					
+					height = gdk_pixbuf_get_height (pixbuf);
+					width = gdk_pixbuf_get_width (pixbuf);
+					
+					if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
+						
+						if ( width > height) {
+							height = height * 96 / width;
+							width = 96;
+						} else {
+							width = width *96 / height;
+							height = 96;
+						}
+						
+						new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+						if (new) {
+							g_free(photo.data);
+							gdk_pixbuf_save_to_buffer (new, &photo.data, &photo.length, "jpeg", NULL, "quality", "100", NULL);
+							g_object_unref (new);
+						}
+						
 					}
-		
-	        		       	new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
-					if (new) {
-						g_free(photo.data);
-		        	       		gdk_pixbuf_save_to_buffer (new, &photo.data, &photo.length, "jpeg", NULL, "quality", "100", NULL);
-						g_object_unref (new);
-					}
-
+					
+					g_object_unref (pixbuf);
 				}
-			
-				g_object_unref (pixbuf);
+				editor->image_changed = FALSE;
+				g_object_unref (loader);
+				
+				e_contact_set (contact, field_id, &photo);
+				
+				g_free (photo.data);
+				
 			}
-
-			g_object_unref (loader);
-			
-			e_contact_set (contact, field_id, &photo);
-			
-			g_free (photo.data);
-		}
-		else {
-			e_contact_set (contact, E_CONTACT_PHOTO, NULL);
+			else {
+				editor->image_changed = FALSE;
+				e_contact_set (contact, E_CONTACT_PHOTO, NULL);
+			}
 		}
 	}
 	else if (GTK_IS_TOGGLE_BUTTON (widget)) {
 		gboolean val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-
+		
 		e_contact_set (contact, field_id, val?(void *)1:NULL);
 	}
 	else {
@@ -2707,6 +2712,7 @@ image_selected (EContactEditor *editor)
 	g_signal_handlers_unblock_by_func (image_chooser, image_chooser_changed, editor);
 
 	editor->image_set = TRUE;
+	editor->image_changed = TRUE;
 	object_changed (G_OBJECT (image_chooser), editor);
 }
 
@@ -2727,6 +2733,7 @@ image_cleared (EContactEditor *editor)
 	g_free (file_name);
 
 	editor->image_set = FALSE;
+	editor->image_changed = TRUE;
 	object_changed (G_OBJECT (image_chooser), editor);
 }
 
@@ -3279,6 +3286,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->contact = NULL;
 	e_contact_editor->changed = FALSE;
 	e_contact_editor->image_set = FALSE;
+	e_contact_editor->image_changed = FALSE;
 	e_contact_editor->in_async_call = FALSE;
 	e_contact_editor->target_editable = TRUE;
 
