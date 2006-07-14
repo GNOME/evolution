@@ -220,7 +220,7 @@ struct _EMsgComposerPrivate {
 	GtkWidget *saveas;	/* saveas async file requester */
 	GtkWidget *load;	/* same for load - not used */
 	
-	
+	char *help_section;	/* this is for the help label */
 	
 	
 };
@@ -293,6 +293,8 @@ static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *mul
 
 static void set_editor_signature (EMsgComposer *composer);
 
+/* used by e_msg_composer for showing the help menu item */
+static void e_msg_composer_show_help (EMsgComposer *composer);
 
 static EDestination**
 destination_list_to_vector_sized (GList *list, int n)
@@ -1776,6 +1778,18 @@ menu_file_close_cb (BonoboUIComponent *uic,
 	do_exit (composer);
 }
 
+/* this is the callback for the help menu */
+static void
+menu_help_cb (BonoboUIComponent *uic,
+	      void *data,
+	      const char *path)
+{
+	EMsgComposer *composer = (EMsgComposer *) data;
+	
+	e_msg_composer_show_help (composer);
+}
+
+
 static void
 add_to_bar (EMsgComposer *composer, GSList *names, int is_inline)
 {
@@ -2110,7 +2124,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSaveAs", menu_file_save_as_cb),
 	BONOBO_UI_VERB ("FileSaveDraft", menu_file_save_draft_cb),
 	BONOBO_UI_VERB ("FileClose", menu_file_close_cb),
-	
+	BONOBO_UI_VERB ("Help", menu_help_cb), 
 	BONOBO_UI_VERB ("FileAttach", menu_file_add_attachment_cb),
 	
 	BONOBO_UI_VERB ("FileSend", menu_file_send_cb),
@@ -2750,6 +2764,8 @@ destroy (GtkObject *object)
 		p->menu = NULL;
 	}
 
+	/* free the help menu */
+	g_free(p->help_section);
 	
 	if (p->load) {
 		gtk_widget_destroy(p->load);
@@ -2836,6 +2852,23 @@ destroy (GtkObject *object)
 }
 
 
+/* show the help menu item of the composer */
+static void
+e_msg_composer_show_help (EMsgComposer *composer)
+{
+	GError *error = NULL;
+	EMsgComposerPrivate *p = composer->priv;
+
+	gnome_help_display_desktop (NULL,
+				    "evolution-" BASE_VERSION,
+				    "evolution-" BASE_VERSION ".xml",
+				    p->help_section,
+				    &error);
+	if (error != NULL)
+		g_warning ("%s", error->message);
+}
+
+
 /* GtkWidget methods.  */
 
 static int
@@ -3285,6 +3318,8 @@ init (EMsgComposer *composer)
 	p->smime_sign               = FALSE;
 	p->smime_encrypt            = FALSE;
 	
+	p->help_section             = g_strdup("usage-composer");
+
 	p->has_changed              = FALSE;
 	p->autosaved                = FALSE;
 	

@@ -1,3 +1,11 @@
+2006-07-14  Arvind <sa.phoenix@gmail.com>
+
+	** Fixes bug #209254
+	
+	* e-msg-composer.c: (menu_help_cb), (destroy),
+	(e_msg_composer_show_help), (init): initiated help when clicked 
+	help menu
+
 2006-06-12  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	Fixes bug #177416 on bnc
