@@ -7,14 +7,13 @@
 # Huomautus: PIM ei ole suomennettu, evolution on suomeksi
 # yksinkertaisesti sähköpostiohjelma. Saa ehdottaa nimeä.
 #
-#: ../mail/em-format-html-display.c:679
-#: ../shell/e-user-creatable-items-handler.c:701
+#: ../mail/em-format-html-display.c:680
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-11 06:44+0300\n"
-"PO-Revision-Date: 2006-07-11 20:16+0300\n"
+"POT-Creation-Date: 2006-07-14 07:54+0300\n"
+"PO-Revision-Date: 2006-07-14 07:56+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -116,32 +115,42 @@ msgstr "Siirry päivään"
 msgid "a table to view and select the current time range"
 msgstr "taulukko, josta voi nähdä ja nykyisen aikaalueen"
 
-#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:150
+#. To translators: Here, "It" is either like "Work Week View: July
+#. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
+#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:150
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
 msgstr[0] "%d tapahtuma."
 msgstr[1] "%d tapahtumaa."
 
-#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:152
+#. To translators: Here, "It" is either like "Work Week View: July
+#. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
+#: ../a11y/calendar/ea-day-view.c:155 ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
 msgstr "Ei tapahtumia."
 
-#: ../a11y/calendar/ea-day-view.c:155
+#. To translators: First %s is the week, for example "July 10th -
+#. July 14th, 2006". Second %s is the number of events in this work
+#. week, for example "It has %d event/events." or  "It has no events."
+#: ../a11y/calendar/ea-day-view.c:162
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "Työviikon näkymä: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:158
+#. To translators: First %s is the day, for example "Thursday July
+#. 13th, 2006". Second %s is the number of events on this day, for
+#. example "It has %d event/events." or  "It has no events."
+#: ../a11y/calendar/ea-day-view.c:168
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "Päivänäkymä: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:189
+#: ../a11y/calendar/ea-day-view.c:199
 msgid "calendar view for a work week"
 msgstr "kalenterin näkymä työviikkoon"
 
-#: ../a11y/calendar/ea-day-view.c:191
+#: ../a11y/calendar/ea-day-view.c:201
 msgid "calendar view for one or more days"
 msgstr "Kalenteri näkymä yhdelle tai useammalle päivälle"
 
@@ -508,7 +517,7 @@ msgstr ""
 "Yhteystietoja {0} ei voida käyttää ennen kuin Evolution käynnistetään "
 "uudestaan."
 
-#: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:496
+#: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:511
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:15
@@ -623,7 +632,7 @@ msgstr "Tällä tietokoneella"
 #: ../calendar/gui/memos-component.c:202 ../calendar/gui/migration.c:482
 #: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
-#: ../mail/em-migrate.c:1055 ../mail/mail-config.glade.h:105
+#: ../mail/em-migrate.c:1055 ../mail/mail-config.glade.h:104
 msgid "Personal"
 msgstr "Henkilökohtainen"
 
@@ -686,7 +695,7 @@ msgstr "Kopioi kirjan sisältö paikallisesti yhteydettömään käyttöön"
 #: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
-#: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
+#: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:85
 #: ../plugins/itip-formatter/itip-formatter.c:2021
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -708,7 +717,7 @@ msgstr "Kirjautuminen"
 
 #: ../addressbook/gui/component/addressbook-config.c:994
 #: ../addressbook/gui/component/ldap-config.glade.h:17
-#: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
+#: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Yksityiskohtaiset"
 
@@ -1173,8 +1182,8 @@ msgstr "_Kirjautumismenetelmä:"
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:245
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
-#: ../mail/mail-config.glade.h:164
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:4
+#: ../mail/mail-config.glade.h:163
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
 msgid "_Name:"
 msgstr "_Nimi:"
 
@@ -1187,7 +1196,7 @@ msgid "_Search scope:"
 msgstr "_Hakualue:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
-#: ../mail/mail-config.glade.h:171
+#: ../mail/mail-config.glade.h:170
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Palvelin: "
@@ -1228,7 +1237,7 @@ msgstr "minuutti"
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 #: ../plugins/groupwise-features/properties.glade.h:1
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
 #: ../widgets/misc/e-attachment.glade.h:1
 #: ../widgets/misc/gal-categories.glade.h:1
@@ -1331,7 +1340,7 @@ msgstr "Puhelin"
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:236
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:203
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1054
-#: ../mail/mail-config.glade.h:154
+#: ../mail/mail-config.glade.h:153
 msgid "Work"
 msgstr "Työ"
 
@@ -1353,6 +1362,8 @@ msgid "_Birthday:"
 msgstr "_Syntymäpäivä:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: ../calendar/gui/dialogs/event-page.c:872
+#: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1654
 msgid "_Calendar:"
 msgstr "_Kalenteri:"
@@ -3018,7 +3029,7 @@ msgid "Car Phone"
 msgstr "Autopuhelin"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.glade.h:8
+#: ../calendar/gui/dialogs/event-page.glade.h:7
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -4569,7 +4580,7 @@ msgstr "Torkkumisaika:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:158
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
@@ -5444,7 +5455,7 @@ msgstr ""
 "<i>%u ja %d korvataan käyttäjällä ja aluenimellä sähköpostiosoitteesta.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#: ../mail/mail-config.glade.h:9
+#: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Hälytykset</span>"
 
@@ -5453,7 +5464,7 @@ msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgstr "<span weight=\"bold\">Vapaa/varattu-tietojen oletuspalvelin</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#: ../mail/mail-config.glade.h:18
+#: ../mail/mail-config.glade.h:17
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Yleistä</span>"
@@ -5530,7 +5541,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
-#: ../mail/mail-config.glade.h:106
+#: ../mail/mail-config.glade.h:105
 msgid "Pick a color"
 msgstr "Valitse väri"
 
@@ -5583,7 +5594,7 @@ msgid "Thursday"
 msgstr "Torstai"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#: ../calendar/gui/dialogs/event-page.glade.h:14
+#: ../calendar/gui/dialogs/event-page.glade.h:13
 msgid "Time _zone:"
 msgstr "Aikavyöhyke: "
 
@@ -5868,7 +5879,7 @@ msgid "Show Attachment _Bar"
 msgstr "Näytä _liitepalkki"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1099
-#: ../calendar/gui/dialogs/event-page.c:1891
+#: ../calendar/gui/dialogs/event-page.c:1892
 #: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3624
@@ -5892,7 +5903,7 @@ msgid "_Add attachment..."
 msgstr "_Lisää liite..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1489
-#: ../mail/em-format-html-display.c:2233
+#: ../mail/em-format-html-display.c:2262
 msgid "Show Attachments"
 msgstr "Näytä liitteet"
 
@@ -6044,109 +6055,104 @@ msgid "Recurrence"
 msgstr "Toistuvuus"
 
 #: ../calendar/gui/dialogs/event-page.c:807
-#: ../calendar/gui/dialogs/event-page.c:2711
+#: ../calendar/gui/dialogs/event-page.c:2712
 msgid "This event has alarms"
 msgstr "Tapahtumassa on hälytyksiä"
 
-#: ../calendar/gui/dialogs/event-page.c:872
-#: ../calendar/gui/dialogs/event-page.glade.h:7
-msgid "Cale_ndar:"
-msgstr "_Kalenteri:"
-
-#: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/event-page.glade.h:12
+#: ../calendar/gui/dialogs/event-page.c:879
+#: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
 msgstr "_Järjestäjä:"
 
-#: ../calendar/gui/dialogs/event-page.c:916
+#: ../calendar/gui/dialogs/event-page.c:917
 msgid "_Delegatees"
 msgstr "_Valtuutetut"
 
-#: ../calendar/gui/dialogs/event-page.c:918
+#: ../calendar/gui/dialogs/event-page.c:919
 msgid "Atte_ndees"
 msgstr "_Osanottajat"
 
-#: ../calendar/gui/dialogs/event-page.c:1083
+#: ../calendar/gui/dialogs/event-page.c:1084
 msgid "Event with no start date"
 msgstr "Tapahtuma ilman alkupäivämäärää"
 
-#: ../calendar/gui/dialogs/event-page.c:1086
+#: ../calendar/gui/dialogs/event-page.c:1087
 msgid "Event with no end date"
 msgstr "Tapahtuma ilman päättymispäivää"
 
-#: ../calendar/gui/dialogs/event-page.c:1254
+#: ../calendar/gui/dialogs/event-page.c:1255
 #: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "Aloituspäiväys on virheellinen"
 
-#: ../calendar/gui/dialogs/event-page.c:1264
+#: ../calendar/gui/dialogs/event-page.c:1265
 msgid "End date is wrong"
 msgstr "Lopetuspäiväys on virheellinen"
 
-#: ../calendar/gui/dialogs/event-page.c:1287
+#: ../calendar/gui/dialogs/event-page.c:1288
 msgid "Start time is wrong"
 msgstr "Alkamisaika on väärin"
 
-#: ../calendar/gui/dialogs/event-page.c:1294
+#: ../calendar/gui/dialogs/event-page.c:1295
 msgid "End time is wrong"
 msgstr "Lopetusaika on virheellinen"
 
-#: ../calendar/gui/dialogs/event-page.c:1449
+#: ../calendar/gui/dialogs/event-page.c:1450
 #: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "Valitulla järjestäjällä ei enää ole käyttäjätiliä"
 
-#: ../calendar/gui/dialogs/event-page.c:1455
+#: ../calendar/gui/dialogs/event-page.c:1456
 #: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Järjestäjä vaaditaan."
 
-#: ../calendar/gui/dialogs/event-page.c:1470
+#: ../calendar/gui/dialogs/event-page.c:1471
 #: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "Vähintään yksi läsnäolija vaaditaan."
 
-#: ../calendar/gui/dialogs/event-page.c:1892
+#: ../calendar/gui/dialogs/event-page.c:1893
 #: ../calendar/gui/dialogs/task-page.c:1199
 msgid "_Add "
 msgstr "_Lisää "
 
-#: ../calendar/gui/dialogs/event-page.c:2618
+#: ../calendar/gui/dialogs/event-page.c:2619
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Kalenteria \"%s\" ei voi avata"
 
-#: ../calendar/gui/dialogs/event-page.c:2921
+#: ../calendar/gui/dialogs/event-page.c:2922
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d päivä ennen tapaamista"
 msgstr[1] "%d päivää ennen tapaamista"
 
-#: ../calendar/gui/dialogs/event-page.c:2929
+#: ../calendar/gui/dialogs/event-page.c:2930
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d tunti ennen tapaamista"
 msgstr[1] "%d tuntia ennen tapaamista"
 
-#: ../calendar/gui/dialogs/event-page.c:2937
+#: ../calendar/gui/dialogs/event-page.c:2938
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuutti ennen tapaamista"
 msgstr[1] "%d minuuttia ennen apaamista"
 
-#: ../calendar/gui/dialogs/event-page.c:2953
+#: ../calendar/gui/dialogs/event-page.c:2954
 msgid "Customize"
 msgstr "Muokkaa"
 
 #. an empty string is the same as 'None'
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/event-page.c:2958
+#: ../calendar/gui/dialogs/event-page.c:2959
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
 #: ../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2282
@@ -6158,7 +6164,7 @@ msgstr "Muokkaa"
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1709
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
-#: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
+#: ../widgets/misc/e-dateedit.c:1507 ../widgets/misc/e-dateedit.c:1721
 msgid "None"
 msgstr "Määrittelemätön"
 
@@ -6183,25 +6189,25 @@ msgstr "O_sanottajat..."
 msgid "Ca_tegories..."
 msgstr "Ry_hmät..."
 
-#: ../calendar/gui/dialogs/event-page.glade.h:9
+#: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "Custom Alarm:"
 msgstr "Oma hälytys:"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:10
+#: ../calendar/gui/dialogs/event-page.glade.h:9
 #: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "D_escription:"
 msgstr "_Kuvaus:"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:11
+#: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
 msgstr "Tapahtuman kuvaus:"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:13
+#: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
 msgstr "_Yhteenveto:"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:15
+#: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
 msgstr "_Hälytys"
 
@@ -6492,7 +6498,7 @@ msgid "<b>Exceptions</b>"
 msgstr "<b>Poikkeukset</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
-#: ../mail/mail-config.glade.h:3
+#: ../mail/mail-config.glade.h:2
 msgid "<b>Preview</b>"
 msgstr "<b>Esikatselu</b>"
 
@@ -6837,7 +6843,7 @@ msgstr "Prioriteetti:"
 #: ../calendar/gui/e-itip-control.c:1159
 #: ../calendar/gui/e-itip-control.glade.h:4
 #: ../composer/e-msg-composer-attachment.glade.h:2
-#: ../mail/mail-config.glade.h:69 ../widgets/misc/e-attachment.glade.h:3
+#: ../mail/mail-config.glade.h:68 ../widgets/misc/e-attachment.glade.h:3
 msgid "Description:"
 msgstr "Kuvaus:"
 
@@ -6866,7 +6872,7 @@ msgstr "Aloituspäivä"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-memo-table.etspec.h:4 ../mail/mail-dialogs.glade.h:16
+#: ../calendar/gui/e-memo-table.etspec.h:4 ../mail/mail-dialogs.glade.h:20
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
 msgstr "Kuvaus"
@@ -6935,7 +6941,7 @@ msgstr "Annettu tehtäväksi"
 msgid "Save As..."
 msgstr "Tallenna nimellä..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2081
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2110
 msgid "Select folder to save selected attachments..."
 msgstr "Valitse kansio, johon valitut liitteet tallennetaan..."
 
@@ -10493,18 +10499,14 @@ msgid "Yes, Change Status"
 msgstr "Kyllä, vaihda tila"
 
 #: ../designs/read_receipts/read.glade.h:1
-msgid "      "
-msgstr " "
-
-#: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
 msgstr "<b>Vastaanotetaan sähköpostia</b>"
 
-#: ../designs/read_receipts/read.glade.h:3
+#: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Sending Email:</b>"
 msgstr "<b>Lähetetään sähköpostia:</b>"
 
-#: ../designs/read_receipts/read.glade.h:4
+#: ../designs/read_receipts/read.glade.h:3
 msgid ""
 "<small>This page allows you to choose if you want to be notified via a read "
 "receipt when a message you\n"
@@ -10516,33 +10518,33 @@ msgstr ""
 "ja määritellä, mitä Evolution tekee jos joku pyytää sinulta kuittausta.</"
 "small>"
 
-#: ../designs/read_receipts/read.glade.h:6
+#: ../designs/read_receipts/read.glade.h:5
 msgid "Always send back a read receipt"
 msgstr "Lähetä aina kuittaus viestin lukemisesta"
 
-#: ../designs/read_receipts/read.glade.h:7
+#: ../designs/read_receipts/read.glade.h:6
 msgid "Ask me if I want to send back a read receipt"
 msgstr "Kysy, lähetäänkö \"luettu\"-kuittaus takaisin"
 
-#: ../designs/read_receipts/read.glade.h:8
+#: ../designs/read_receipts/read.glade.h:7
 msgid "Never send back a read receipt"
 msgstr "Älä koskaan lähetä \"luettu\"-kuittausta"
 
-#: ../designs/read_receipts/read.glade.h:9
+#: ../designs/read_receipts/read.glade.h:8
 msgid "Read Receipts"
 msgstr "Vastaanottajat"
 
-#: ../designs/read_receipts/read.glade.h:10
+#: ../designs/read_receipts/read.glade.h:9
 msgid "Request a read receipt for all messages I send"
 msgstr "Pyydä \"luettu\"-kuittausta kaikista sähköposteista, jotka lähetän"
 
-#: ../designs/read_receipts/read.glade.h:11
+#: ../designs/read_receipts/read.glade.h:10
 msgid "Unless the message is sent to a mailing list, and not to me personally"
 msgstr ""
 "Paitsi jos viesti on lähetetty sähköpostilistalle eikä minulle "
 "henkilökohtaisesti"
 
-#: ../designs/read_receipts/read.glade.h:12
+#: ../designs/read_receipts/read.glade.h:11
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
@@ -10679,19 +10681,19 @@ msgid "Choose a file"
 msgstr "Valitse tiedosto"
 
 #: ../filter/filter-label.c:121 ../mail/em-filter-i18n.h:26
-#: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:92
+#: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:91
 msgid "Important"
 msgstr "Tärkeä"
 
 #. forest green
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1056
-#: ../mail/mail-config.glade.h:146
+#: ../mail/mail-config.glade.h:145
 msgid "To Do"
 msgstr "Tehtävää"
 
 #. blue
 #: ../filter/filter-label.c:125 ../mail/em-migrate.c:1057
-#: ../mail/mail-config.glade.h:96
+#: ../mail/mail-config.glade.h:95
 msgid "Later"
 msgstr "Myöhemmin"
 
@@ -10841,7 +10843,7 @@ msgstr "sitten"
 msgid "months"
 msgstr "kuukautta"
 
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:180
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:179
 msgid "seconds"
 msgstr "sekuntia"
 
@@ -10928,7 +10930,7 @@ msgid "Mail Accounts"
 msgstr "Sähköpostitilit"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
-#: ../mail/mail-config.glade.h:99
+#: ../mail/mail-config.glade.h:98
 msgid "Mail Preferences"
 msgstr "Sähköpostin asetukset"
 
@@ -10955,7 +10957,7 @@ msgstr ""
 "ja ruksita laatikko, jos hyväksyt lisenssin\n"
 
 #: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
-#: ../mail/em-vfolder-rule.c:496
+#: ../mail/em-vfolder-rule.c:511
 msgid "Select Folder"
 msgstr "Valitse kansio"
 
@@ -10963,11 +10965,11 @@ msgstr "Valitse kansio"
 msgid "Ask for each message"
 msgstr "Kysy jokaisen viestin osalta"
 
-#: ../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:90
 msgid "Identity"
 msgstr "Omat tiedot"
 
-#: ../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:118
+#: ../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
 msgstr "Vastaanotto"
 
@@ -10975,16 +10977,16 @@ msgstr "Vastaanotto"
 msgid "Automatically check for _new mail every"
 msgstr "T_arkista onko uutta postia joka"
 
-#: ../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:130
+#: ../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:129
 msgid "Sending Email"
 msgstr "Lähetys"
 
-#: ../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:67
 msgid "Defaults"
 msgstr "Oletusasetukset"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
+#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:122
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Turvallisuus"
@@ -10998,11 +11000,11 @@ msgstr "Vastaanoton asetukset"
 msgid "Checking for New Mail"
 msgstr "Uusien viestien haku"
 
-#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Tilimuokkain"
 
-#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Evolutionin sähköpostitilien apulainen"
 
@@ -11207,7 +11209,7 @@ msgstr "Lista"
 msgid "is not Flagged"
 msgstr "ei ole merkitty"
 
-#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:94
+#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Roskaposti"
@@ -11588,7 +11590,7 @@ msgid "Mark as _Important"
 msgstr "Merkitse _tärkeäksi"
 
 #: ../mail/em-folder-view.c:1135
-msgid "_Mark as Unimportant"
+msgid "Mark as Un_important"
 msgstr "Merkitse yhden_tekeväksi"
 
 #: ../mail/em-folder-view.c:1136
@@ -11692,24 +11694,24 @@ msgid "Click to hide/unhide addresses"
 msgstr "Napsauta piilottaaksesi tai näyttääksesi osoitteet"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:501
+#: ../mail/em-format-html-display.c:502
 #, c-format
 msgid "Matches: %d"
 msgstr "Osumia: %d"
 
-#: ../mail/em-format-html-display.c:644
+#: ../mail/em-format-html-display.c:645
 msgid "Find:"
 msgstr "Etsi:"
 
-#: ../mail/em-format-html-display.c:675
+#: ../mail/em-format-html-display.c:676
 msgid "M_atch case"
 msgstr "Täsmää _kirjainkoko"
 
-#: ../mail/em-format-html-display.c:923 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:924 ../mail/em-format-html.c:617
 msgid "Unsigned"
 msgstr "Allekirjoittamaton"
 
-#: ../mail/em-format-html-display.c:923
+#: ../mail/em-format-html-display.c:924
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11717,11 +11719,11 @@ msgstr ""
 "Viesti ei ole allekirjoitettu. Ei ole varmaa, että viestin lähettäjä on "
 "varmasti se, jolta viesti näyttää olevan."
 
-#: ../mail/em-format-html-display.c:924 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:925 ../mail/em-format-html.c:618
 msgid "Valid signature"
 msgstr "Hyväksytty allekirjoitus"
 
-#: ../mail/em-format-html-display.c:924
+#: ../mail/em-format-html-display.c:925
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11729,11 +11731,11 @@ msgstr ""
 "Tämä viesti on allekirjoitettu ja varmennettu. Viesti on "
 "hyvintodennäköisesti aito."
 
-#: ../mail/em-format-html-display.c:925 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:619
 msgid "Invalid signature"
 msgstr "Hylätty allekirjoitus"
 
-#: ../mail/em-format-html-display.c:925
+#: ../mail/em-format-html-display.c:926
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11741,11 +11743,11 @@ msgstr ""
 "Tämän viestin allekirjoitusta ei voida tarkistaa, se on ehkä muuttunut "
 "siirron aikana."
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 msgid "Valid signature, cannot verify sender"
 msgstr "Allekirjoitus on kelvollinen, mutta lähettäjää ei voida varmistaa"
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11753,11 +11755,11 @@ msgstr ""
 "Tämä viesti on allekirjoitettu kelvollisella allekirjoituksella, mutta "
 "viestin lähettäjää ei voida varmistaa."
 
-#: ../mail/em-format-html-display.c:932 ../mail/em-format-html.c:626
+#: ../mail/em-format-html-display.c:933 ../mail/em-format-html.c:626
 msgid "Unencrypted"
 msgstr "Salaamaton"
 
-#: ../mail/em-format-html-display.c:932
+#: ../mail/em-format-html-display.c:933
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -11765,11 +11767,11 @@ msgstr ""
 "Viesti ei ole salattu. Viestin sisältöä voidaan tutkia sen kulkiessa "
 "Internetin läpi."
 
-#: ../mail/em-format-html-display.c:933 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:934 ../mail/em-format-html.c:627
 msgid "Encrypted, weak"
 msgstr "Heikosti salattu"
 
-#: ../mail/em-format-html-display.c:933
+#: ../mail/em-format-html-display.c:934
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11779,11 +11781,11 @@ msgstr ""
 "mahdotonta, että ulkopuolinen pystyy purkamaan ja katsomaan viestin sisällön "
 "melko lyhyessä ajassa."
 
-#: ../mail/em-format-html-display.c:934 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:628
 msgid "Encrypted"
 msgstr "Salattu"
 
-#: ../mail/em-format-html-display.c:934
+#: ../mail/em-format-html-display.c:935
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11791,11 +11793,11 @@ msgstr ""
 "Viesti on salattu. Ulkopuolisen on vaikea avata viestin sisältö "
 "luettavakseen."
 
-#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:629
 msgid "Encrypted, strong"
 msgstr "Salattu vahvalla algoritmilla"
 
-#: ../mail/em-format-html-display.c:935
+#: ../mail/em-format-html-display.c:936
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11805,72 +11807,72 @@ msgstr ""
 "vaikea purkaa salausta ja nähdä tämän viestin sisältön missään "
 "käytännöllisessä ajassa."
 
-#: ../mail/em-format-html-display.c:1036 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1037 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Näytä varmenne"
 
-#: ../mail/em-format-html-display.c:1051
+#: ../mail/em-format-html-display.c:1052
 msgid "This certificate is not viewable"
 msgstr "Tätä varmennetta ei voida näyttää"
 
-#: ../mail/em-format-html-display.c:1342
+#: ../mail/em-format-html-display.c:1371
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Valmistui %B %d, %Y, %l.%M %p"
 
-#: ../mail/em-format-html-display.c:1350
+#: ../mail/em-format-html-display.c:1379
 msgid "Overdue:"
 msgstr "Eräpäivä ylitetty:"
 
-#: ../mail/em-format-html-display.c:1353
+#: ../mail/em-format-html-display.c:1382
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "kirjoittanut %d %l.%M %p"
 
-#: ../mail/em-format-html-display.c:1413
+#: ../mail/em-format-html-display.c:1442
 msgid "_View Inline"
 msgstr "Näytä _sisäkkäisesti"
 
-#: ../mail/em-format-html-display.c:1414
+#: ../mail/em-format-html-display.c:1443
 msgid "_Hide"
 msgstr "_Piilota"
 
-#: ../mail/em-format-html-display.c:1415
+#: ../mail/em-format-html-display.c:1444
 msgid "_Fit to Width"
 msgstr "Sovita _leveyteen"
 
-#: ../mail/em-format-html-display.c:1416
+#: ../mail/em-format-html-display.c:1445
 msgid "Show _Original Size"
 msgstr "Näytä alkuperäinen k_oko"
 
-#: ../mail/em-format-html-display.c:1835 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:1864 ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Liite"
 
-#: ../mail/em-format-html-display.c:2042
+#: ../mail/em-format-html-display.c:2071
 msgid "Select folder to save all attachments..."
 msgstr "Valitse kansio, johon kaikki liitteet tallennetaan..."
 
-#: ../mail/em-format-html-display.c:2089
+#: ../mail/em-format-html-display.c:2118
 msgid "_Save Selected..."
 msgstr "_Tallenna valinta..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2156
+#: ../mail/em-format-html-display.c:2185
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "%d _liite"
 msgstr[1] "%d _liitettä"
 
-#: ../mail/em-format-html-display.c:2163 ../mail/em-format-html-display.c:2239
+#: ../mail/em-format-html-display.c:2192 ../mail/em-format-html-display.c:2268
 msgid "S_ave"
 msgstr "T_allenna"
 
-#: ../mail/em-format-html-display.c:2174
+#: ../mail/em-format-html-display.c:2203
 msgid "S_ave All"
 msgstr "Tallenna _kaikki"
 
-#: ../mail/em-format-html-display.c:2235
+#: ../mail/em-format-html-display.c:2264
 msgid "No Attachment"
 msgstr "Ei liitteitä"
 
@@ -12150,7 +12152,7 @@ msgstr "Viestit %s:ltä"
 msgid "Search _Folders"
 msgstr "_Hakunäkymät"
 
-#: ../mail/em-vfolder-rule.c:576
+#: ../mail/em-vfolder-rule.c:591
 msgid "Search Folder source"
 msgstr "Hakunäkymän lähde"
 
@@ -12968,226 +12970,220 @@ msgstr "Te_htävää"
 msgid "_Later"
 msgstr "_Myöhemmin"
 
-#: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
-msgid "    "
-msgstr " "
-
-#: ../mail/mail-config.glade.h:2
+#: ../mail/mail-config.glade.h:1
 msgid " Ch_eck for Supported Types "
 msgstr "Tar_kista tuetut tyypit"
 
-#: ../mail/mail-config.glade.h:4
+#: ../mail/mail-config.glade.h:3
 msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr "<b>SSL ei ole tuettu tässä Evolutionin käännöksessä</b>"
 
-#: ../mail/mail-config.glade.h:5
+#: ../mail/mail-config.glade.h:4
 msgid "<b>Sig_natures</b>"
 msgstr "<b>Alle_kirjoitukset</b>"
 
-#: ../mail/mail-config.glade.h:6
+#: ../mail/mail-config.glade.h:5
 msgid "<b>_Languages</b>"
 msgstr "<b>Kielet</b>"
 
-#: ../mail/mail-config.glade.h:7
+#: ../mail/mail-config.glade.h:6
 msgid "<small>This will make the the filter more reliable, but slower</small>"
 msgstr "<small>Tämä tekee suodattimesta luotettavan mutta hitaamman</small>"
 
-#: ../mail/mail-config.glade.h:8
+#: ../mail/mail-config.glade.h:7
 msgid "<span weight=\"bold\">Account Information</span>"
 msgstr "<span weight=\"bold\">Tilin tiedot</span>"
 
-#: ../mail/mail-config.glade.h:10
+#: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Authentication Type</span>"
 msgstr "<span weight=\"bold\">Tunnistustapa</span>"
 
-#: ../mail/mail-config.glade.h:11
+#: ../mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\">Tunnistus</span>"
 
-#: ../mail/mail-config.glade.h:12
+#: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Composing Messages</span>"
 msgstr "<span weight=\"bold\">Viestien kirjoitus</span>"
 
-#: ../mail/mail-config.glade.h:13
+#: ../mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Configuration</span>"
 msgstr "<span weight=\"bold\">Asetukset</span>"
 
-#: ../mail/mail-config.glade.h:14
+#: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Default Behavior</span>"
 msgstr "<span weight=\"bold\">Oletustoimintatapa</span>"
 
-#: ../mail/mail-config.glade.h:15
+#: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Poista viesti</span>"
 
-#: ../mail/mail-config.glade.h:16
+#: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
 msgstr "<span weight=\"bold\">_Näytettävät otsakkeet</span>"
 
-#: ../mail/mail-config.glade.h:17
+#: ../mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Suodattimen asetukset</span>"
 
-#: ../mail/mail-config.glade.h:19
+#: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels and Colors</span>"
 msgstr "<span weight=\"bold\">Merkinnät ja värit</span>"
 
-#: ../mail/mail-config.glade.h:20
+#: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
 msgstr "<span weight=\"bold\">Kuvien lataus</span>"
 
-#: ../mail/mail-config.glade.h:21
+#: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Message Display</span>"
 msgstr "<span weight=\"bold\">Viestin näyttö</span>"
 
-#: ../mail/mail-config.glade.h:22
+#: ../mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\">Viestin kirjasimet</span>"
 
-#: ../mail/mail-config.glade.h:23
+#: ../mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Receipts</span>"
 msgstr "<span weight=\"bold\">Viestin vastaanottajat</span>"
 
-#: ../mail/mail-config.glade.h:24
+#: ../mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">New Mail Notification</span>"
 msgstr "<span weight=\"bold\">Huomautus uusista viesteistä</span>"
 
-#: ../mail/mail-config.glade.h:25
+#: ../mail/mail-config.glade.h:24
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
 msgid "<span weight=\"bold\">Optional Information</span>"
 msgstr "<span weight=\"bold\">Valinnaiset tiedot</span>"
 
-#: ../mail/mail-config.glade.h:26
+#: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">Vaihtoehdot</span>"
 
-#: ../mail/mail-config.glade.h:27
+#: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
-#: ../mail/mail-config.glade.h:28
+#: ../mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">Tulostettavat kirjasimet</span>"
 
-#: ../mail/mail-config.glade.h:29
+#: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">Vaadittavat tiedot</span>"
 
-#: ../mail/mail-config.glade.h:30
+#: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 
-#: ../mail/mail-config.glade.h:31
+#: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">Turvallisuus</span>"
 
-#: ../mail/mail-config.glade.h:32
+#: ../mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr "<span weight=\"bold\">Lähetetyt viestit ja luonnokset</span>"
 
-#: ../mail/mail-config.glade.h:33
+#: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Palvelimen asetukset</span>"
 
-#: ../mail/mail-config.glade.h:35
+#: ../mail/mail-config.glade.h:34
 msgid "Account Management"
 msgstr "Tilinhallinta"
 
-#: ../mail/mail-config.glade.h:36
+#: ../mail/mail-config.glade.h:35
 msgid "Add Ne_w Signature..."
 msgstr "Lisää uusi _allekirjoitus..."
 
-#: ../mail/mail-config.glade.h:37
+#: ../mail/mail-config.glade.h:36
 msgid "Add _Script"
 msgstr "Lisää _skripti"
 
-#: ../mail/mail-config.glade.h:38
+#: ../mail/mail-config.glade.h:37
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Allekirjoita _aina lähtevät viestit käytettäessä tätä sähköpostitiliä"
 
-#: ../mail/mail-config.glade.h:39
+#: ../mail/mail-config.glade.h:38
 msgid "Also encrypt to sel_f when sending encrypted mail"
 msgstr "_Salaa myös itselleni salattua sähköpostia lähetettäessä"
 
-#: ../mail/mail-config.glade.h:40
+#: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "Lähetä aina kopio (Cc) osoitteeseen:"
 
-#: ../mail/mail-config.glade.h:41
+#: ../mail/mail-config.glade.h:40
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Lähetä aina _piiloitettu kopio (Bcc) osoitteeseen:"
 
-#: ../mail/mail-config.glade.h:42
+#: ../mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Luota salattaessa aina avaimiin avainrenkaassani"
 
-#: ../mail/mail-config.glade.h:43
+#: ../mail/mail-config.glade.h:42
 msgid "Always encrypt to _myself when sending encrypted mail"
 msgstr "Salaa _aina myös itselle lähetettäessä salattua sähköpostia"
 
-#: ../mail/mail-config.glade.h:44
+#: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
 msgstr "Liitä alkuperäinen viesti"
 
-#: ../mail/mail-config.glade.h:46
+#: ../mail/mail-config.glade.h:45
 msgid "Automatically insert _smiley images"
 msgstr "Lisää _hymiöt kuvina automaattisesti"
 
-#: ../mail/mail-config.glade.h:47
+#: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
 msgstr "Balttilainen (ISO-8859-13)"
 
-#: ../mail/mail-config.glade.h:48
+#: ../mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-4)"
 msgstr "Balttilainen (ISO-8859-4)"
 
-#: ../mail/mail-config.glade.h:49
+#: ../mail/mail-config.glade.h:48
 msgid "Beep w_hen new mail arrives"
 msgstr "_Piippaa kun uutta sähköpostia saapuu"
 
-#: ../mail/mail-config.glade.h:50
+#: ../mail/mail-config.glade.h:49
 msgid "C_haracter set:"
 msgstr "_Merkistö:"
 
-#: ../mail/mail-config.glade.h:51
+#: ../mail/mail-config.glade.h:50
 msgid "Ch_eck for Supported Types "
 msgstr "Tar_kista tuetut tyypit"
 
-#: ../mail/mail-config.glade.h:52
+#: ../mail/mail-config.glade.h:51
 msgid "Check in_coming mail for junk"
 msgstr "Etsi _saapuvasta sähköpostista roskapostia"
 
-#: ../mail/mail-config.glade.h:53
+#: ../mail/mail-config.glade.h:52
 msgid "Check spelling while I _type"
 msgstr "Tarkista _oikeinkirjoitus kirjoitettaessa"
 
-#: ../mail/mail-config.glade.h:54
+#: ../mail/mail-config.glade.h:53
 msgid "Checks incoming mail messages to be Junk"
 msgstr "Etsi roskapostia saapuneiden viestien joukosta"
 
-#: ../mail/mail-config.glade.h:55
+#: ../mail/mail-config.glade.h:54
 msgid "Cle_ar"
 msgstr "_Tyhjennä"
 
-#: ../mail/mail-config.glade.h:56
+#: ../mail/mail-config.glade.h:55
 msgid "Clea_r"
 msgstr "_Tyhjennä"
 
-#: ../mail/mail-config.glade.h:57
+#: ../mail/mail-config.glade.h:56
 msgid "Color for _misspelled words:"
 msgstr "_Väärin kirjoitettujen sanojen väri:"
 
-#: ../mail/mail-config.glade.h:58
+#: ../mail/mail-config.glade.h:57
 msgid "Colors"
 msgstr "Värit"
 
-#: ../mail/mail-config.glade.h:59
+#: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
 msgstr "_Varmista viestien lopullinen siivous kansiosta"
 
-#: ../mail/mail-config.glade.h:60
+#: ../mail/mail-config.glade.h:59
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -13203,135 +13199,135 @@ msgstr ""
 "\n"
 "Tallenna asetuksesi näpäyttämällä painiketta \"Toteuta\""
 
-#: ../mail/mail-config.glade.h:66
+#: ../mail/mail-config.glade.h:65
 msgid "De_fault"
 msgstr "_Oletustili"
 
-#: ../mail/mail-config.glade.h:67
+#: ../mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
 msgstr "Merkistön _oletuskoodaus:"
 
-#: ../mail/mail-config.glade.h:70
+#: ../mail/mail-config.glade.h:69
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "_Allekirjoita lähtevät viestit sähköisesti (oletuksena)"
 
-#: ../mail/mail-config.glade.h:71
+#: ../mail/mail-config.glade.h:70
 msgid "Do not quote original message"
 msgstr "Älä lainaa alkuperäistä viestiä"
 
-#: ../mail/mail-config.glade.h:72
+#: ../mail/mail-config.glade.h:71
 msgid "Done"
 msgstr "Valmis"
 
-#: ../mail/mail-config.glade.h:73
+#: ../mail/mail-config.glade.h:72
 msgid "Drafts _Folder:"
 msgstr "_Luonnosten kansio:"
 
-#: ../mail/mail-config.glade.h:74
+#: ../mail/mail-config.glade.h:73
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
 msgid "E_nable"
 msgstr "Kä_ytä"
 
-#: ../mail/mail-config.glade.h:75
+#: ../mail/mail-config.glade.h:74
 msgid "Email Accounts"
 msgstr "Sähköpostitilit"
 
-#: ../mail/mail-config.glade.h:76
+#: ../mail/mail-config.glade.h:75
 msgid "Email _Address:"
 msgstr "Sähköposti_osoite:"
 
-#: ../mail/mail-config.glade.h:77
+#: ../mail/mail-config.glade.h:76
 msgid "Empty trash folders on e_xit"
 msgstr "Tyhj_ennä roskakorit lopetettaessa"
 
-#: ../mail/mail-config.glade.h:78
+#: ../mail/mail-config.glade.h:77
 msgid "Encry_ption certificate:"
 msgstr "_Salausvarmenne:"
 
-#: ../mail/mail-config.glade.h:79
+#: ../mail/mail-config.glade.h:78
 msgid "Encrypt out_going messages (by default)"
 msgstr "Salaa lähtevät viestit oletuksena"
 
-#: ../mail/mail-config.glade.h:81
+#: ../mail/mail-config.glade.h:80
 msgid "Fi_xed width Font:"
 msgstr "_Tasalevyinen kirjasin:"
 
-#: ../mail/mail-config.glade.h:82
+#: ../mail/mail-config.glade.h:81
 msgid "Fi_xed-width:"
 msgstr "_Tasalevyinen:"
 
-#: ../mail/mail-config.glade.h:83
+#: ../mail/mail-config.glade.h:82
 msgid "Font Properties"
 msgstr "Kirjasimen ominaisuudet"
 
-#: ../mail/mail-config.glade.h:84
+#: ../mail/mail-config.glade.h:83
 msgid "Format messages in _HTML"
 msgstr "Muotoile viestit HTML:nä"
 
-#: ../mail/mail-config.glade.h:85
+#: ../mail/mail-config.glade.h:84
 msgid "Full Nam_e:"
 msgstr "_Koko nimi:"
 
-#: ../mail/mail-config.glade.h:87
+#: ../mail/mail-config.glade.h:86
 msgid "HTML Mail"
 msgstr "HTML-viesti"
 
-#: ../mail/mail-config.glade.h:88
+#: ../mail/mail-config.glade.h:87
 msgid "Headers"
 msgstr "Otsakkeet"
 
-#: ../mail/mail-config.glade.h:89
+#: ../mail/mail-config.glade.h:88
 msgid "Highlight _quotations with"
 msgstr "_Lainausten korostukeen käytetty väri"
 
-#: ../mail/mail-config.glade.h:90
+#: ../mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
 msgstr "Lisää myös etätestit"
 
-#: ../mail/mail-config.glade.h:93
+#: ../mail/mail-config.glade.h:92
 msgid "Inline"
 msgstr "Sisäkkäisesti"
 
-#: ../mail/mail-config.glade.h:95
+#: ../mail/mail-config.glade.h:94
 msgid "Languages Table"
 msgstr "Kielitaulukko"
 
-#: ../mail/mail-config.glade.h:97
+#: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
 msgstr "Sähköpostiasetukset"
 
-#: ../mail/mail-config.glade.h:98
+#: ../mail/mail-config.glade.h:97
 msgid "Mail Headers Table"
 msgstr "Sähköposti otsikkotaulu"
 
-#: ../mail/mail-config.glade.h:100
+#: ../mail/mail-config.glade.h:99
 msgid "Mailbox location"
 msgstr "Postilaatikon sijainti"
 
-#: ../mail/mail-config.glade.h:101
+#: ../mail/mail-config.glade.h:100
 msgid "Message Composer"
 msgstr "Viestin muokkain"
 
-#: ../mail/mail-config.glade.h:102
+#: ../mail/mail-config.glade.h:101
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 "Huomio: salasanaa ei kysytä ennen kuin otat ensimmäistä kertaa yhteyttä"
 
-#: ../mail/mail-config.glade.h:103
+#: ../mail/mail-config.glade.h:102
 msgid "Or_ganization:"
 msgstr "Organi_saatio:"
 
-#: ../mail/mail-config.glade.h:104
+#: ../mail/mail-config.glade.h:103
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG _avaimen ID:"
 
-#: ../mail/mail-config.glade.h:107
+#: ../mail/mail-config.glade.h:106
 msgid "Play sound file when new mail arri_ves"
 msgstr "_Soita äänitiedosto uuden sähköpostin saapuessa"
 
-#: ../mail/mail-config.glade.h:108
+#: ../mail/mail-config.glade.h:107
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -13339,7 +13335,7 @@ msgstr ""
 "Syötä kuvaava nimi tälle tilille allaolevaan kenttään.\n"
 "Tätä nimeä käytetään ainoastaan ohjelman sisäisesti tilin näyttöön."
 
-#: ../mail/mail-config.glade.h:110
+#: ../mail/mail-config.glade.h:109
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -13348,7 +13344,7 @@ msgstr ""
 "asetuksista, kysy järjestelmäsi ylläpitäjältä tai Internet-"
 "palveluntarjoajaltasi."
 
-#: ../mail/mail-config.glade.h:111
+#: ../mail/mail-config.glade.h:110
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -13358,116 +13354,116 @@ msgstr ""
 "kentät eivät ole pakollisia, jollet halua sisältää näitä tietoja "
 "lähettämiisi sähköpostiviesteihin."
 
-#: ../mail/mail-config.glade.h:112
+#: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
 msgstr "Valitse joku seuraavista vaihtoehdoista"
 
-#: ../mail/mail-config.glade.h:113
+#: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
 "Vahvista viestin lähetys, jos ainoastaan Bcc-vastaanottajia on määritelty"
 
-#: ../mail/mail-config.glade.h:114
+#: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
 msgstr "Lainaa alkuperäinen viesti"
 
-#: ../mail/mail-config.glade.h:115
+#: ../mail/mail-config.glade.h:114
 msgid "Quoted"
 msgstr "Lainattu"
 
-#: ../mail/mail-config.glade.h:116
+#: ../mail/mail-config.glade.h:115
 msgid "Re_member password"
 msgstr "Muista _salasana"
 
-#: ../mail/mail-config.glade.h:117
+#: ../mail/mail-config.glade.h:116
 msgid "Re_ply-To:"
 msgstr "_Vastausosoite:"
 
-#: ../mail/mail-config.glade.h:119
+#: ../mail/mail-config.glade.h:118
 msgid "Remember _password"
 msgstr "Muista _salasana"
 
-#: ../mail/mail-config.glade.h:120
+#: ../mail/mail-config.glade.h:119
 msgid "S_elect..."
 msgstr "_Valitse..."
 
-#: ../mail/mail-config.glade.h:121
+#: ../mail/mail-config.glade.h:120
 msgid "S_tandard Font:"
 msgstr "_Oletuskirjaisin:"
 
-#: ../mail/mail-config.glade.h:122
+#: ../mail/mail-config.glade.h:121
 msgid "Se_lect..."
 msgstr "_Valitse..."
 
-#: ../mail/mail-config.glade.h:124
+#: ../mail/mail-config.glade.h:123
 msgid "Select HTML fixed width font"
 msgstr "Valitse HTML-viestin tasalevyinen kirjasin"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font for printing"
 msgstr "Valitse HTML-viestin tasalevyinen kirjasin tulostusta varten"
 
-#: ../mail/mail-config.glade.h:126
+#: ../mail/mail-config.glade.h:125
 msgid "Select HTML variable width font"
 msgstr "Valite HTML-viestin vaihtuvalevyinen kirjasin"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font for printing"
 msgstr "Valitse HTML-viestin vaihtuvalevyinen kirjasin tulostusta varten"
 
-#: ../mail/mail-config.glade.h:128
+#: ../mail/mail-config.glade.h:127
 msgid "Select sound file"
 msgstr "Valitse äänitiedosto"
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:128
 msgid "Send message receipts:"
 msgstr "Lähetä viestin kuittaus:"
 
-#: ../mail/mail-config.glade.h:131
+#: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
 msgstr "Lähtevä posti"
 
-#: ../mail/mail-config.glade.h:132
+#: ../mail/mail-config.glade.h:131
 msgid "Sent _Messages Folder:"
 msgstr "Lähetettyjen _viestien kansio:"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:132
 msgid "Ser_ver requires authentication"
 msgstr "P_alvelin vaati todennuksen"
 
-#: ../mail/mail-config.glade.h:134
+#: ../mail/mail-config.glade.h:133
 msgid "Server _Type: "
 msgstr "Palvelintyyppi: "
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:134
 msgid "Sig_ning certificate:"
 msgstr "_Allekirjoitusvarmenne:"
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:135
 msgid "Signat_ure:"
 msgstr "_Allekirjoitus:"
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:136
 msgid "Signatures"
 msgstr "Allekirjoitukset"
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:137
 msgid "Signatures Table"
 msgstr "Allekirjoitusten taulu"
 
-#: ../mail/mail-config.glade.h:139
+#: ../mail/mail-config.glade.h:138
 msgid "Specify _filename:"
 msgstr "Anna _tiedostonimi:"
 
-#: ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.glade.h:139
 msgid "Spell Checking"
 msgstr "Oikoluku"
 
-#: ../mail/mail-config.glade.h:141
+#: ../mail/mail-config.glade.h:140
 msgid "T_ype: "
 msgstr "_Tyyppi:"
 
-#: ../mail/mail-config.glade.h:142
+#: ../mail/mail-config.glade.h:141
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -13475,7 +13471,7 @@ msgstr ""
 "Lista käytettävissä olevista kielistä riippuu ainoastaan siitä, mille "
 "kielille sinulla on sanastoja asennettuna."
 
-#: ../mail/mail-config.glade.h:143
+#: ../mail/mail-config.glade.h:142
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -13485,7 +13481,7 @@ msgstr ""
 "Nimi jonka valitset on käytössä ainoastaan tässä listassa\n"
 "näytettäessä."
 
-#: ../mail/mail-config.glade.h:147
+#: ../mail/mail-config.glade.h:146
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -13493,15 +13489,15 @@ msgstr ""
 "Anna nimi jolla haluaisit kutsua tätä sähköpostitiliä.\n"
 "Esimerkiksi \"Työ\" tai \"Henkilökohtaista\""
 
-#: ../mail/mail-config.glade.h:149 ../plugins/caldav/caldav-source.c:282
+#: ../mail/mail-config.glade.h:148 ../plugins/caldav/caldav-source.c:282
 msgid "User_name:"
 msgstr "Käyttäjät_unnus:"
 
-#: ../mail/mail-config.glade.h:150
+#: ../mail/mail-config.glade.h:149
 msgid "V_ariable-width:"
 msgstr "_Vaihtuva leveys:"
 
-#: ../mail/mail-config.glade.h:151
+#: ../mail/mail-config.glade.h:150
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13511,92 +13507,96 @@ msgstr ""
 "\n"
 "Valitse \"Eteenpäin\" aloittaaksesi."
 
-#: ../mail/mail-config.glade.h:155
+#: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
 msgstr "_Lisää allekirjoitus:"
 
-#: ../mail/mail-config.glade.h:156
+#: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
 msgstr "Lataa _aina kuvat verkosta"
 
-#: ../mail/mail-config.glade.h:157
+#: ../mail/mail-config.glade.h:156
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Älä huomauta uuden sähköpostin saapumisesta"
 
-#: ../mail/mail-config.glade.h:158
+#: ../mail/mail-config.glade.h:157
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "_Älä allekirjoita kokouskutsuja (Outlook-yhteensopivuus)"
 
-#: ../mail/mail-config.glade.h:160
+#: ../mail/mail-config.glade.h:159
 msgid "_Forward style:"
 msgstr "_Välitä tyyli:"
 
-#: ../mail/mail-config.glade.h:161
+#: ../mail/mail-config.glade.h:160
 msgid "_Load images in mail from contacts"
 msgstr "_Hae viestin kuvat, jos yhteystieto on osoitekirjassa"
 
-#: ../mail/mail-config.glade.h:162
+#: ../mail/mail-config.glade.h:161
 msgid "_Make this my default account"
 msgstr "Tee tästä _oletustilini"
 
-#: ../mail/mail-config.glade.h:163
+#: ../mail/mail-config.glade.h:162
 msgid "_Mark messages as read after"
 msgstr "_Merkitse viestit luetuiksi kun on kulunut"
 
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:164
 msgid "_Never load images from the Internet"
 msgstr "_Älä koskaan lataa kuvia verkosta"
 
-#: ../mail/mail-config.glade.h:166
+#: ../mail/mail-config.glade.h:165
 msgid "_Path:"
 msgstr "_Polku:"
 
-#: ../mail/mail-config.glade.h:167
+#: ../mail/mail-config.glade.h:166
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgstr ""
 "_Kysy vahvistus lähetettäessä HTML-viestejä henkilöille, jotka eivät niitä "
 "halua"
 
-#: ../mail/mail-config.glade.h:168
+#: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Kysy vahvistus lähetettäessä viestejä tyhjällä Aihe-otsakkella"
 
-#: ../mail/mail-config.glade.h:169
+#: ../mail/mail-config.glade.h:168
 msgid "_Reply style:"
 msgstr "_Vastaustyyli:"
 
-#: ../mail/mail-config.glade.h:170
+#: ../mail/mail-config.glade.h:169
 msgid "_Script:"
 msgstr "_Komentotiedosto:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.glade.h:173
+#: ../mail/mail-config.glade.h:172
 msgid "_Show image animations"
 msgstr "Näytä kuvien animaatiot"
 
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:173
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "_Rajaa To-, Cc- ja Bcc-otsakkeet lukumäärään "
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
 msgstr "_Käytä salattua yhteyttä:"
 
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
 msgstr "Käytä samoja _kirjasimia kuin muut ohjelmat"
 
-#: ../mail/mail-config.glade.h:177
+#: ../mail/mail-config.glade.h:176
 msgid "addresses"
 msgstr "osoitteet"
 
-#: ../mail/mail-config.glade.h:178
+#: ../mail/mail-config.glade.h:177
 msgid "color"
 msgstr " väri"
 
-#: ../mail/mail-config.glade.h:179
+#: ../mail/mail-config.glade.h:178
 msgid "description"
 msgstr "kuvaus"
+
+#: ../mail/mail-dialogs.glade.h:1
+msgid "    "
+msgstr " "
 
 #: ../mail/mail-dialogs.glade.h:2
 msgid "<b>Search Folder Sources</b>"
@@ -13611,47 +13611,63 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Salaus</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
+msgid "All active remote folders"
+msgstr "Kaikki aktiiviset etäkansiot"
+
+#: ../mail/mail-dialogs.glade.h:6
+msgid "All local and active remote folders"
+msgstr "Kaikki paikalliset kansiot ja aktiiviset etäkansiot"
+
+#: ../mail/mail-dialogs.glade.h:7
+msgid "All local folders"
+msgstr "Kaikki paikalliset kansiot"
+
+#: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
 msgstr "Kirjain_koolla on merkitystä"
 
-#: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:2
+#: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:2
 msgid "Co_mpleted"
 msgstr "_Valmis"
 
-#: ../mail/mail-dialogs.glade.h:8
+#: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
 msgstr "_Etsi:"
 
-#: ../mail/mail-dialogs.glade.h:9
+#: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
 msgstr "Hae viestistä"
 
-#: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:297
+#: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "Merkitse edelleenlähetettäväksi"
 
-#: ../mail/mail-dialogs.glade.h:11
+#: ../mail/mail-dialogs.glade.h:14
 msgid "Folder Subscriptions"
 msgstr "Tilatut kansiot"
 
-#: ../mail/mail-dialogs.glade.h:12
+#: ../mail/mail-dialogs.glade.h:15
 msgid "License Agreement"
 msgstr "Lisenssisopimus"
 
-#: ../mail/mail-dialogs.glade.h:13
+#: ../mail/mail-dialogs.glade.h:16
 msgid "None Selected"
 msgstr "Ei mitään valittuna"
 
-#: ../mail/mail-dialogs.glade.h:14
+#: ../mail/mail-dialogs.glade.h:17
 msgid "S_erver:"
 msgstr "_Palvelin: "
 
-#: ../mail/mail-dialogs.glade.h:15
+#: ../mail/mail-dialogs.glade.h:18
 msgid "Security Information"
 msgstr "Turvatiedot"
 
-#: ../mail/mail-dialogs.glade.h:17 ../mail/message-tags.glade.h:4
+#: ../mail/mail-dialogs.glade.h:19
+msgid "Specific folders"
+msgstr "Tietyt kansiot"
+
+#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -13659,46 +13675,30 @@ msgstr ""
 "Viestit jotka olet valinnut lähetettäviksi edelleen on listattu alla.\n"
 "Valitse tehtävä uudelleenlähetys \"Merkki\" valikosta."
 
-#: ../mail/mail-dialogs.glade.h:19
+#: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
 msgstr "_Hyväksy lisenssi"
 
-#: ../mail/mail-dialogs.glade.h:20 ../mail/message-tags.glade.h:6
+#: ../mail/mail-dialogs.glade.h:24 ../mail/message-tags.glade.h:6
 msgid "_Due By:"
 msgstr "_Erääntyy:"
 
-#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:7
+#: ../mail/mail-dialogs.glade.h:25 ../mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "_Merkki:"
 
-#: ../mail/mail-dialogs.glade.h:22
+#: ../mail/mail-dialogs.glade.h:26
 msgid "_Subscribe"
 msgstr "_Tilaa"
 
-#: ../mail/mail-dialogs.glade.h:23
+#: ../mail/mail-dialogs.glade.h:27
 msgid "_Tick this to accept the license agreement"
 msgstr "_Laita tähän rasti, jos hyväksyt lisenssiehdot"
 
-#: ../mail/mail-dialogs.glade.h:24
+#: ../mail/mail-dialogs.glade.h:28
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "_Peru tilaus"
-
-#: ../mail/mail-dialogs.glade.h:25
-msgid "specific folders only"
-msgstr "vain määritellyt kansiot"
-
-#: ../mail/mail-dialogs.glade.h:26
-msgid "with all active remote folders"
-msgstr "kaikki aktiiviset etäkansiot"
-
-#: ../mail/mail-dialogs.glade.h:27
-msgid "with all local and active remote folders"
-msgstr "kaikki paikalliset ja aktiiviset etäkansiot"
-
-#: ../mail/mail-dialogs.glade.h:28
-msgid "with all local folders"
-msgstr "kaikki paikalliset kansiot"
 
 #: ../mail/mail-folder-cache.c:858
 #, c-format
@@ -14801,6 +14801,10 @@ msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "Lisää lähettäjä _automaattisesti osoitekirjaan, kun viestiin vastataan"
 
+#: ../plugins/bbdb/bbdb.c:460
+msgid "Select Address book for Automatic Contacts"
+msgstr "Valitse osoitekirja automaattisille yhteystiedoille"
+
 #: ../plugins/bbdb/bbdb.c:475
 msgid "Instant Messaging Contacts"
 msgstr "Pikaviestinnän yhteystiedot"
@@ -14813,10 +14817,14 @@ msgstr ""
 "Hae ja yhdistä säännöllisin väliajoin yhteystiedot ja kuvat gaimin "
 "kaverilistasta"
 
+#: ../plugins/bbdb/bbdb.c:496
+msgid "Select Address book for Gaim buddy list"
+msgstr "Valitse osoitekirja Gaimin kaverilistalle"
+
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:507
 msgid "Synchronize with _buddy list now"
-msgstr "Yhdistä tiedot _pikaviestimistä"
+msgstr "Yhdistä tiedot _kaverilistasta"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
@@ -15301,59 +15309,59 @@ msgstr "Lisää käyttäjä:"
 msgid "Add User"
 msgstr "Lisää käyttäjä"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 msgid "<b>Permissions</b>"
 msgstr "<b>Oikeudet</b>"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "Cannot Delete"
 msgstr "Ei voida poistaa"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Edit"
 msgstr "Ei voida muokata"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Create items"
 msgstr "Luo kohteita"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
 msgid "Create subfolders"
 msgstr "Luo alikansioita"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
 msgid "Delete Any Items"
 msgstr "Poista kohteita"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Own Items"
 msgstr "Poista omat kohdat"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
 msgid "Edit Any Items"
 msgstr "Muokkaa kohtia"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
 msgid "Edit Own Items"
 msgstr "Muokka omia kohtia"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 msgid "Folder contact"
 msgstr "Kansion sisältö"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 msgid "Folder owner"
 msgstr "Kansion omistaja"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 msgid "Folder visible"
 msgstr "Kansio näkyvissä"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
 msgid "Read items"
 msgstr "Luetut kohdat"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Role: "
 msgstr "Rooli: "
 
@@ -17597,17 +17605,14 @@ msgstr "OAF:ia ei voidaan rekisteröidä"
 msgid "Configuration Database not found"
 msgstr "Asetustietokantaa ei löytynyt"
 
-#: ../shell/e-user-creatable-items-handler.c:689
-#: ../shell/e-user-creatable-items-handler.c:748
-msgid " New "
-msgstr " Uusi "
-
-#: ../shell/e-user-creatable-items-handler.c:693
-#: ../shell/e-user-creatable-items-handler.c:705
-#: ../shell/e-user-creatable-items-handler.c:752
-#: ../shell/e-user-creatable-items-handler.c:764
+#: ../shell/e-user-creatable-items-handler.c:678
+#: ../shell/e-user-creatable-items-handler.c:688
 msgid "New"
 msgstr "Uusi"
+
+#: ../shell/e-user-creatable-items-handler.c:693
+msgid " New "
+msgstr " Uusi "
 
 #: ../shell/evolution-test-component.c:140
 msgid "New Test"
@@ -20271,11 +20276,11 @@ msgstr "Tapahtumiskerta"
 msgid "Save Current View"
 msgstr "Tallenna nykyinen näkymä"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Create new view"
 msgstr "Luo uusi _näkymä"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:4
 msgid "_Replace existing view"
 msgstr "_Korvaa olemassaoleva näkymä"
 
@@ -20535,12 +20540,12 @@ msgid "Time"
 msgstr "Aika"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: ../widgets/misc/e-dateedit.c:1436 ../widgets/misc/e-dateedit.c:1763
+#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
 msgid "%H:%M"
 msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: ../widgets/misc/e-dateedit.c:1439 ../widgets/misc/e-dateedit.c:1766
+#: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
@@ -21425,6 +21430,12 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "Cale_ndar:"
+#~ msgstr "_Kalenteri:"
+
+#~ msgid "      "
+#~ msgstr " "
 
 #~ msgid "_Memo"
 #~ msgstr "_Muistilappu"
