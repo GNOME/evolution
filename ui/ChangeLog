@@ -1,3 +1,9 @@
+2006-07-14  Arvind <sa.phoenix@gmail.com>
+
+	** Fix for bug #209254
+	
+	* evolution-message-composer.xml: Added a HELP menu.
+
 2006-07-08  Andreas Köhler  <andi5.py@gmx.net>
 
 	* evolution-message-composer.xml: adding a seperator between
