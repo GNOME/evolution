@@ -1,5 +1,10 @@
 2006-07-17  Sankar P  <psankar@novell.com>
 
+	* mail-retract.c: (retract_mail_settings)
+	Made the success message translatable and fixed a typo.
+	
+2006-07-17  Sankar P  <psankar@novell.com>
+
 	* mail-send-options.c: (feed_input_data)
 	* mail-send-options.h:
 	Added support for X_SEND_OPT_SECURITY

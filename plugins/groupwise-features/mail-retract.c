@@ -50,7 +50,7 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 		e_error_run (NULL, "org.gnome.evolution.message.retract:retract-failure", NULL);
 	else {
 		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "Message retracted succesfully");	
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, _("Message retracted successfully"));	
 		gtk_dialog_run (GTK_DIALOG(dialog));
 		gtk_widget_destroy (dialog);
 	}
