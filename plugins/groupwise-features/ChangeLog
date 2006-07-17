@@ -1,5 +1,11 @@
 2006-07-17  Sankar P  <psankar@novell.com>
 
+	* mail-send-options.c: (feed_input_data)
+	* mail-send-options.h:
+	Added support for X_SEND_OPT_SECURITY
+	
+2006-07-17  Sankar P  <psankar@novell.com>
+
 	* Added support for GroupWise Message Retract
 	* Files added: mail-retract.c, org-gnome-mail-retract-errors.xml
 	* Files modified: org-gnome-groupwise-features.eplug.xml, Makefile.am

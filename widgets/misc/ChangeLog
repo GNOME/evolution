@@ -1,3 +1,9 @@
+2006-07-17  Sankar P  <psankar@novell.com>
+
+	* Replaced classification with security in the send-options
+	so that the client ui looks consistent (GW)
+	* e-send-options.[c|h|glade]:
+	
 2006-07-11  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #347166

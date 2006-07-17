@@ -26,6 +26,7 @@
 #define X_SEND_OPTIONS	      "X-gw-send-options"
 /*General Options*/
 #define X_SEND_OPT_PRIORITY   "X-gw-send-opt-priority"
+#define X_SEND_OPT_SECURITY   "X-gw-send-opt-security"
 #define X_REPLY_CONVENIENT    "X-reply-convenient"
 #define X_REPLY_WITHIN	      "X-reply-within"
 #define X_EXPIRE_AFTER	      "X-expire-after"

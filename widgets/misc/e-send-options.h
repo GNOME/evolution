@@ -51,6 +51,15 @@ typedef enum {
 } ESendOptionsPriority;
 
 typedef enum {
+	E_SECURITY_NORMAL,
+	E_SECURITY_PROPRIETARY,
+	E_SECURITY_CONFIDENTIAL,
+	E_SECURITY_SECRET,
+	E_SECURITY_TOP_SECRET,
+	E_SECURITY_FOR_YOUR_EYES_ONLY
+} ESendOptionsSecurity;
+
+typedef enum {
 	E_RETURN_NOTIFY_NONE,
 	E_RETURN_NOTIFY_MAIL
 } ESendOptionsReturnNotify;
@@ -71,6 +80,7 @@ typedef struct {
 	gint expire_after;
 	gboolean delay_enabled;
 	time_t delay_until;
+	gint security;
 } ESendOptionsGeneral;
 
 typedef struct {

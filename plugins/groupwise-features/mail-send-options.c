@@ -112,7 +112,13 @@ feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
 
 		if (dialog->data->gopts->priority) {
 			temp = g_strdup_printf ("%d",dialog->data->gopts->priority);
-			e_msg_composer_add_header (comp, X_SEND_OPT_PRIORITY,temp);
+			e_msg_composer_add_header (comp, X_SEND_OPT_PRIORITY, temp);
+			g_free (temp);
+		}
+		
+		if (dialog->data->gopts->security) {
+			temp = g_strdup_printf ("%d",dialog->data->gopts->security);
+			e_msg_composer_add_header (comp, X_SEND_OPT_SECURITY, temp);
 			g_free (temp);
 		}
 	} 

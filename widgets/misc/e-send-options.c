@@ -57,8 +57,8 @@ struct _ESendOptionsDialogPrivate {
 	/* priority */
 	GtkWidget *priority;
 
-	/* Classification */
-	GtkWidget *classification;
+	/* Security */
+	GtkWidget *security;
 		
 	/* Widgets for Reply Requestion options */
 	GtkWidget *reply_request;
@@ -88,7 +88,7 @@ struct _ESendOptionsDialogPrivate {
 	GtkWidget *when_completed;
 	
 	/* label widgets */
-	GtkWidget *classification_label;
+	GtkWidget *security_label;
 	GtkWidget *priority_label;
 	GtkWidget *gopts_label;
 	GtkWidget *sopts_label;
@@ -126,7 +126,7 @@ e_send_options_get_widgets_data (ESendOptionsDialog *sod)
 	sopts = sod->data->sopts;
 	
 	gopts->priority = gtk_combo_box_get_active ((GtkComboBox *) priv->priority);
-	gopts->classify = gtk_combo_box_get_active ((GtkComboBox *) priv->classification);
+	gopts->security = gtk_combo_box_get_active ((GtkComboBox *) priv->security);
 	
 	gopts->reply_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->reply_request));
 	gopts->reply_convenient = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->reply_convenient));
@@ -171,7 +171,7 @@ e_send_options_fill_widgets_with_data (ESendOptionsDialog *sod)
 	tmp = time (NULL);
 
 	gtk_combo_box_set_active ((GtkComboBox *) priv->priority, gopts->priority);
-	gtk_combo_box_set_active ((GtkComboBox *) priv->classification, gopts->classify);
+	gtk_combo_box_set_active ((GtkComboBox *) priv->security, gopts->security);
 
 	if (gopts->reply_enabled) 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->reply_request), TRUE);
@@ -417,7 +417,7 @@ get_widgets (ESendOptionsDialog *sod)
 
 	priv->priority = GW ("combo-priority");
 	priv->status = GW ("status-tracking");
-	priv->classification = GW ("classification-combo");
+	priv->security = GW ("security-combo");
 	priv->notebook = (GtkNotebook *)GW ("notebook");
 	priv->reply_request = GW ("reply-request-button");
 	priv->reply_convenient = GW ("reply-convinient");
@@ -437,7 +437,7 @@ get_widgets (ESendOptionsDialog *sod)
 	priv->when_declined = GW ("delete-combo");
 	priv->when_accepted = GW ("accept-combo");
 	priv->when_completed = GW ("complete-combo");
-	priv->classification_label = GW ("classification-label");
+	priv->security_label = GW ("security-label");
 	priv->gopts_label = GW ("gopts-label");
 	priv->sopts_label = GW ("slabel");
 	priv->priority_label = GW ("priority-label");
@@ -450,7 +450,7 @@ get_widgets (ESendOptionsDialog *sod)
 #undef GW
 
 	return (priv->priority
-		&& priv->classification
+		&& priv->security
 		&& priv->status
 		&& priv->reply_request
 		&& priv->reply_convenient
@@ -469,7 +469,7 @@ get_widgets (ESendOptionsDialog *sod)
 		&& priv->when_declined
 		&& priv->when_accepted
 		&& priv->when_completed
-		&& priv->classification_label
+		&& priv->security_label
 		&& priv->priority_label
 		&& priv->opened_label
 		&& priv->gopts_label
@@ -494,7 +494,7 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 		gtk_notebook_set_show_tabs (priv->notebook, TRUE);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->priority_label), priv->priority);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->classification_label), priv->classification);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->security_label), priv->security);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->accepted_label), priv->when_accepted);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->declined_label), priv->when_declined);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->opened_label), priv->when_opened);
@@ -527,8 +527,8 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 			gtk_widget_hide (priv->when_completed);
 		case E_ITEM_TASK:
 		        priv->help_section = g_strdup ("usage-calendar-todo");
-			gtk_widget_hide (priv->classification_label);
-			gtk_widget_hide (priv->classification);
+			gtk_widget_hide (priv->security_label);
+			gtk_widget_hide (priv->security);
 			gtk_widget_set_sensitive (priv->autodelete, FALSE);
 			break;
 		default:
@@ -752,7 +752,7 @@ e_sendoptions_dialog_init (GObject *object)
 	sod->priv = priv;
 	sod->data = new;
 	sod->data->initialized = FALSE;
-	sod->data->gopts->classify = 0;
+	sod->data->gopts->security = 0;
 
 	priv->gopts_needed = TRUE;
 	priv->xml = NULL;
@@ -761,7 +761,7 @@ e_sendoptions_dialog_init (GObject *object)
 	priv->notebook = NULL;
 	priv->priority = NULL;
 	priv->status = NULL;
-	priv->classification = NULL;
+	priv->security = NULL;
 	priv->reply_request = NULL;
 	priv->reply_convenient = NULL;
 	priv->within_days = NULL;
@@ -778,7 +778,7 @@ e_sendoptions_dialog_init (GObject *object)
 	priv->when_declined = NULL;
 	priv->when_accepted = NULL;
 	priv->when_completed = NULL;
-	priv->classification_label = NULL;
+	priv->security_label = NULL;
 	priv->priority_label = NULL;
 	priv->opened_label = NULL;
 	priv->gopts_label = NULL;
