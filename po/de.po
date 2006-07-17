@@ -4,7 +4,7 @@
 # Manuel Borchers <webmaster@matronix.de>, 2002.
 # Kai Lahmann <kl@linuxfaqs.de>, 2000.
 # Matthias Warkus <mawa@iname.com>, 2000.
-# Hendrik Richter <hendik@gnome-de.org>, 2004, 2005, 2006.
+# Hendrik Richter <hendrikr@gnome.org>, 2004, 2005, 2006.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 #
 # Sprachregelungen:
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-01 18:03+0200\n"
-"PO-Revision-Date: 2006-06-16 12:19+0200\n"
+"PO-Revision-Date: 2006-07-17 14:58+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5164,7 +5164,8 @@ msgid ""
 "events."
 msgstr ""
 "Dieser Vorgang löscht alle Ereignisse, die älter als der angegebene Zeitraum "
-"sind. Falls Sie fortfahren, können Sie diese Aufgaben nicht wiederherstellen."
+"sind. Falls Sie fortfahren, können Sie diese Ereignisse nicht "
+"wiederherstellen."
 
 #: ../calendar/gui/calendar-commands.c:354
 msgid "Purge events older than"
@@ -12299,7 +12300,7 @@ msgstr "Die Vorgabebreite des Nachrichtenfensters"
 
 #: ../mail/evolution-mail.schemas.in.in.h:19
 msgid "Default width of the Subscribe dialog"
-msgstr "Die Vorgabebereite des Abonnementdialogs"
+msgstr "Die Vorgabebreite des Abonnementdialogs"
 
 #: ../mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
