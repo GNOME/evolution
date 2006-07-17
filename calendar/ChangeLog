@@ -1,3 +1,9 @@
+2006-07-17  Li Yuan <li.yuan@sun.com>
+
+	* gui/dialogs/task-page.glade:
+	Add labelled_by relation to start-date and due-date.
+	Fix for #347473.
+
 2006-07-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/apps_evolution_calendar.schemas.in.in: Added key for storing tag
