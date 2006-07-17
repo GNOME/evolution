@@ -1,3 +1,18 @@
+2006-07-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/apps_evolution_calendar.schemas.in.in: Added key for storing tag
+	calendar position in the left pane.
+	* gui/calendar-component.c: (calcomp_vpane_realized),
+	(calcomp_vpane_resized), (create_component_view),
+	(calendar_component_init): Added tag calendar in the left pane
+	* gui/calendar-config-keys.h: Added keys to fetch conf 
+	* gui/calendar-config.c: (calendar_config_get_tag_vpane_pos),
+	(calendar_config_set_tag_vpane_pos):
+	* gui/calendar-config.h:
+	* gui/gnome-cal.c: (setup_config), (gnome_calendar_get_tag),
+	(setup_widgets), (gnome_calendar_set_pane_positions),
+	(gnome_calendar_hpane_realized): Removed code for tag calendar.
+
 2006-07-14   Arvind <sa.phoenix@gmail.com>
 
         ** Fix for bug#330633

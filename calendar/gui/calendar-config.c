@@ -808,6 +808,21 @@ calendar_config_set_month_vpane_pos	(gint	      vpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, vpane_pos, NULL);
 }
 
+float
+calendar_config_get_tag_vpane_pos	(void)
+{
+	calendar_config_init ();
+
+	return  gconf_client_get_float (config, CALENDAR_CONFIG_TAG_VPANE_POS, NULL);
+}
+
+
+void
+calendar_config_set_tag_vpane_pos	(float	      vpane_pos)
+{
+	gconf_client_set_float (config, CALENDAR_CONFIG_TAG_VPANE_POS, vpane_pos, NULL);
+}
+
 /* The current list of task lists selected */
 GSList   *
 calendar_config_get_tasks_selected (void)

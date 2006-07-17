@@ -172,6 +172,9 @@ void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
 gint      calendar_config_get_month_vpane_pos	(void);
 void	  calendar_config_set_month_vpane_pos	(gint	      vpane_pos);
 
+float     calendar_config_get_tag_vpane_pos	(void);
+void	  calendar_config_set_tag_vpane_pos	(float	      vpane_pos);
+
 /* The current list of task lists selected */
 GSList   *calendar_config_get_tasks_selected (void);
 void	  calendar_config_set_tasks_selected (GSList *selected);

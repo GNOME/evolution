@@ -55,6 +55,7 @@ G_BEGIN_DECLS
 #define CALENDAR_CONFIG_VPANE_POS CALENDAR_CONFIG_PREFIX "/display/vpane_position"
 #define CALENDAR_CONFIG_MONTH_HPANE_POS CALENDAR_CONFIG_PREFIX "/display/month_hpane_position"
 #define CALENDAR_CONFIG_MONTH_VPANE_POS CALENDAR_CONFIG_PREFIX "/display/month_vpane_position"
+#define CALENDAR_CONFIG_TAG_VPANE_POS CALENDAR_CONFIG_PREFIX "/display/tag_vpane_position"
 #define CALENDAR_CONFIG_TASK_PREVIEW CALENDAR_CONFIG_PREFIX "/display/show_task_preview"
 #define CALENDAR_CONFIG_TASK_VPANE_POS CALENDAR_CONFIG_PREFIX "/display/task_vpane_position"
 #define CALENDAR_CONFIG_COMPRESS_WEEKEND CALENDAR_CONFIG_PREFIX "/display/compress_weekend"

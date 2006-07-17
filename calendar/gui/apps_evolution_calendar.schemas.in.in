@@ -230,7 +230,17 @@
         <long>Position of the vertical pane, between the view and the date navigator calendar and task list in the month view, in pixels.</long>
       </locale>
     </schema>
-
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/tag_vpane_position</key>
+      <applyto>/apps/evolution/calendar/display/tag_vpane_position</applyto>
+      <owner>evolution-calendar</owner>
+      <type>float</type>
+      <default>0.5</default>
+      <locale name="C">
+        <short>Month view vertical pane position </short>
+        <long>Position of the vertical pane, between the view and the date navigator calendar and task list in the month view, in pixels.</long>
+      </locale>
+    </schema>
     <schema>
       <key>/schemas/apps/evolution/calendar/display/show_task_preview</key>
       <applyto>/apps/evolution/calendar/display/show_task_preview</applyto>

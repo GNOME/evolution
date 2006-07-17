@@ -114,7 +114,6 @@ struct _GnomeCalendarPrivate {
 
 	GtkWidget   *hpane;
 	GtkWidget   *notebook;
-	GtkWidget   *vpane;
 
 	ECalendar   *date_navigator;
 	EMiniCalendarConfig *date_navigator_config;	
@@ -155,9 +154,7 @@ struct _GnomeCalendarPrivate {
 	   calendar month widths & heights in the date navigator, so that they
 	   will work OK after theme changes. */
 	gint	     hpane_pos;
-	gint	     vpane_pos;
 	gint	     hpane_pos_month_view;
-	gint	     vpane_pos_month_view;
 
 	/* The signal handler id for our GtkCalendar "day_selected" handler. */
 	guint	     day_selected_id;
@@ -218,8 +215,6 @@ static void update_view_times (GnomeCalendar *gcal, time_t start_time);
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 
 static void gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal);
-static void gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal);
-static gboolean gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
 static void gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data);
 static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
 
@@ -1226,9 +1221,7 @@ setup_config (GnomeCalendar *calendar)
 	
 	/* Pane positions */
 	priv->hpane_pos = calendar_config_get_hpane_pos ();
-	priv->vpane_pos = calendar_config_get_vpane_pos ();
 	priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
-	priv->vpane_pos_month_view = calendar_config_get_month_vpane_pos ();
 }
 
 static void
@@ -1328,6 +1321,12 @@ view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, Gno
 			
 }
 
+GtkWidget * 
+gnome_calendar_get_tag (GnomeCalendar *gcal)
+{
+	return gcal->priv->date_navigator;
+}
+
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -1368,15 +1367,6 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->notebook);
 	gtk_paned_pack1 (GTK_PANED (priv->hpane), priv->notebook, FALSE, TRUE);
 
-	/* The VPaned widget, to contain the GtkCalendar & ToDo list. */
-	priv->vpane = gtk_vpaned_new ();
-	g_signal_connect_after (priv->vpane, "realize",
-				G_CALLBACK(gnome_calendar_vpane_realized), gcal);
-	g_signal_connect (priv->vpane, "button_release_event",
-			  G_CALLBACK (gnome_calendar_vpane_resized), gcal);
-	gtk_widget_show (priv->vpane);
-	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->vpane, TRUE, TRUE);
-
 	/* The ECalendar. */
 	w = e_calendar_new ();
 	priv->date_navigator = E_CALENDAR (w);
@@ -1388,8 +1378,6 @@ setup_widgets (GnomeCalendar *gcal)
 					       (ECalendarItemGetTimeCallback) get_current_time,
 					       gcal, NULL);
 
-	gtk_paned_pack1 (GTK_PANED (priv->vpane), w, FALSE, TRUE);	
-
 	g_signal_connect (priv->date_navigator->calitem, "selection_changed",
 			  G_CALLBACK (gnome_calendar_on_date_navigator_selection_changed), gcal);
 	g_signal_connect (priv->date_navigator->calitem, "date_range_changed",
@@ -1400,7 +1388,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The ToDo list. */
 	priv->todo = e_calendar_table_new ();
 	priv->todo_config = e_calendar_table_config_new (E_CALENDAR_TABLE (priv->todo));
-	gtk_paned_pack2 (GTK_PANED (priv->vpane), priv->todo, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->todo, TRUE, TRUE);
 	gtk_widget_show (priv->todo);
 
 	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
@@ -2333,10 +2321,8 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
 		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos_month_view);
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
 	} else {
 		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
 	}
 }
 
@@ -3139,38 +3125,6 @@ gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal)
 	} else {
 		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
 	}
-}
-
-static void
-gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
-	} else {
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
-	}
-}
-
-static gboolean
-gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		priv->vpane_pos_month_view = gtk_paned_get_position (GTK_PANED (priv->vpane));
-		calendar_config_set_month_vpane_pos (priv->vpane_pos_month_view);
-	} else {
-		priv->vpane_pos = gtk_paned_get_position (GTK_PANED (priv->vpane));
-		calendar_config_set_vpane_pos (priv->vpane_pos);
-	}
-
-	return FALSE;
 }
 
 static void 

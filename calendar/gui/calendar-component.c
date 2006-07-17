@@ -104,6 +104,8 @@ typedef struct
 	EUserCreatableItemsHandler *creatable_items_handler;
 
 	EActivityHandler *activity_handler;
+	
+	float	     vpane_pos;
 } CalendarComponentView;
 
 struct _CalendarComponentPrivate {
@@ -125,6 +127,22 @@ struct _CalendarComponentPrivate {
 
 /* FIXME This should be gnome cal likely */
 extern ECompEditorRegistry *comp_editor_registry;
+
+static void
+calcomp_vpane_realized (GtkWidget *vpane, CalendarComponentView *view)
+{
+	gtk_paned_set_position (GTK_PANED (vpane), view->vpane_pos*vpane->allocation.height);
+}
+
+static gboolean
+calcomp_vpane_resized (GtkWidget *vpane, GdkEventButton *e, CalendarComponentView *view)
+{
+
+	view->vpane_pos = gtk_paned_get_position (GTK_PANED (vpane));
+	calendar_config_set_tag_vpane_pos (view->vpane_pos/(float)vpane->allocation.height);
+
+	return FALSE;
+}
 
 static void
 ensure_sources (CalendarComponent *component)
@@ -1248,7 +1266,7 @@ create_component_view (CalendarComponent *calendar_component)
 {
 	CalendarComponentPrivate *priv;
 	CalendarComponentView *component_view;
-	GtkWidget *selector_scrolled_window, *vbox;
+	GtkWidget *selector_scrolled_window, *vbox, *vpane;
 	GtkWidget *statusbar_widget;
 	guint not;
 	AtkObject *a11y;
@@ -1258,9 +1276,16 @@ create_component_view (CalendarComponent *calendar_component)
 	/* Create the calendar component view */
 	component_view = g_new0 (CalendarComponentView, 1);
 	
+	vpane = gtk_vpaned_new ();
+	g_signal_connect_after (vpane, "realize",
+				G_CALLBACK(calcomp_vpane_realized), component_view);
+	g_signal_connect (vpane, "button_release_event",
+			  G_CALLBACK (calcomp_vpane_resized), component_view);
+	gtk_widget_show (vpane);
 	/* Add the source lists */
 	component_view->source_list = g_object_ref (priv->source_list);
 	component_view->task_source_list = g_object_ref (priv->task_source_list);
+	component_view->vpane_pos = calendar_config_get_tag_vpane_pos ();
 	
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (calendar_component->priv->source_list);
@@ -1298,8 +1323,10 @@ create_component_view (CalendarComponent *calendar_component)
 	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
-
-	component_view->sidebar_control = bonobo_control_new (vbox);
+	
+	gtk_paned_pack1 (GTK_PANED (vpane), vbox, FALSE, TRUE);	
+	
+	component_view->sidebar_control = bonobo_control_new (vpane);
 
 	/* Create main view */
 	component_view->view_control = control_factory_new_control ();
@@ -1308,8 +1335,10 @@ create_component_view (CalendarComponent *calendar_component)
 
 		return NULL;
 	}
-
+	
 	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
+
+	gtk_paned_pack2 (GTK_PANED (vpane), gnome_calendar_get_tag (component_view->calendar), FALSE, TRUE);	
 
 	/* This signal is thrown if backends die - we update the selector */
 	g_signal_connect (component_view->calendar, "source_added", 
@@ -1616,6 +1645,7 @@ calendar_component_init (CalendarComponent *component)
 
 	component->priv = priv;
 	ensure_sources (component);
+
 	if (!e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
 		;
 }
