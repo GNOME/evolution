@@ -4,7 +4,7 @@
 # Manuel Borchers <webmaster@matronix.de>, 2002.
 # Kai Lahmann <kl@linuxfaqs.de>, 2000.
 # Matthias Warkus <mawa@iname.com>, 2000.
-# Hendrik Richter <hendik@gnome-de.org>, 2004, 2005.
+# Hendrik Richter <hendrikr@gnome.org>, 2004, 2005, 2006.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 #
 # Sprachregelungen:
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-17 14:48+0200\n"
-"PO-Revision-Date: 2006-07-17 14:49+0200\n"
+"PO-Revision-Date: 2006-07-17 14:51+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12444,7 +12444,7 @@ msgstr "Die Vorgabebreite des Nachrichtenfensters"
 
 #: ../mail/evolution-mail.schemas.in.in.h:21
 msgid "Default width of the Subscribe dialog"
-msgstr "Die Vorgabebereite des Abonnementdialogs"
+msgstr "Die Vorgabebreite des Abonnementdialogs"
 
 #: ../mail/evolution-mail.schemas.in.in.h:22
 msgid "Draw spelling error indicators on words as you type."
