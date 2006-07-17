@@ -93,7 +93,12 @@
 			<menu id="org.gnome.evolution.calendar.view.popup" target="select" factory = "org_gnome_accept">
 			</menu>
 		</hook>
-	
+
+		<hook class="org.gnome.evolution.mail.popup:1.0">
+		      <menu id="org.gnome.evolution.mail.folderview.popup" target="select"
+			factory = "org_gnome_retract_message">
+		      </menu>
+		</hook>
 		
 	</e-plugin>
 

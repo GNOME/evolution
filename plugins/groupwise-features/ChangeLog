@@ -1,3 +1,9 @@
+2006-07-17  Sankar P  <psankar@novell.com>
+
+	* Added support for GroupWise Message Retract
+	* Files added: mail-retract.c, org-gnome-mail-retract-errors.xml
+	* Files modified: org-gnome-groupwise-features.eplug.xml, Makefile.am
+	
 2006-06-29  Andre Klapper  <a9016009@gmx.de>
 
 	* proxy-login.c: add translator comments to the string "Proxy 

@@ -38,7 +38,8 @@ liborg_gnome_groupwise_features_la_SOURCES = 	\
 		proxy.c				\
 		proxy-login.h			\
 		proxy-login.c			\
-		process-meeting.c
+		process-meeting.c               \
+		mail-retract.c
 
 liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la			\
@@ -64,7 +65,8 @@ glade_DATA =			\
 error_DATA = 					\
 	org-gnome-shared-folder.errors.xml	\
 	org-gnome-proxy-errors.xml		\
-	org-gnome-proxy-login-errors.xml
+	org-gnome-proxy-login-errors.xml        \
+	org-gnome-mail-retract-errors.xml
 
 errordir = $(privdatadir)/errors
 
@@ -75,6 +77,7 @@ EXTRA_DIST =						\
 	$(glade_DATA) 					\
 	org-gnome-compose-send-options.xml		\
 	org-gnome-groupwise-features.eplug.xml		\
-	org-gnome-proxy-login-errors.xml
+	org-gnome-proxy-login-errors.xml        \
+	org-gnome-mail-retract-errors.xml
 
 CLEANFILES = $(BUILT_SOURCES)
