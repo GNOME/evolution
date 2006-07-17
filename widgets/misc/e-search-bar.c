@@ -612,7 +612,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	GSList *group = NULL;
 	int i;
 
-	if (esb->option) 
+	if (esb->option_menu) 
 		gtk_widget_destroy (esb->option_menu);
 
 	esb->option_menu = menu = gtk_menu_new ();
@@ -659,8 +659,6 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	}
 
 	gtk_widget_show_all (menu);
-
-	gtk_option_menu_set_history (GTK_OPTION_MENU (esb->option), 0);
 
  	entry_focus_out_cb (esb->entry, NULL, esb);
 }

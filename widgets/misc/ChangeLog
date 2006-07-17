@@ -1,3 +1,10 @@
+2006-07-11  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #347166
+	
+	* widgets/misc.e-search-bar.c: (set_option):
+	remove gtk_option_menu_set_history().
+
 2006-06-07 Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #341333
