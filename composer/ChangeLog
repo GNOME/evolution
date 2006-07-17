@@ -1,3 +1,10 @@
+2006-07-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #209254
+	
+	* e-msg-composer.c: (destroy): Check the memory corruption due to
+	previous commit.	
+
 2006-07-14  Arvind <sa.phoenix@gmail.com>
 
 	** Fixes bug #209254

@@ -2764,9 +2764,6 @@ destroy (GtkObject *object)
 		p->menu = NULL;
 	}
 
-	/* free the help menu */
-	g_free(p->help_section);
-	
 	if (p->load) {
 		gtk_widget_destroy(p->load);
 		p->load = NULL;
