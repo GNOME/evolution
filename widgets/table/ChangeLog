@@ -1,3 +1,8 @@
+2006-07-18  Benoît Dejean  <benoit@placenet.org>
+
+	** Fixes bug #333041
+	* e-table-group-container.c: add gettext support to some strings.
+
 2006-06-12  simon.zheng  <simon.zheng@sun.com>
 
 	**Fixes bug #338295

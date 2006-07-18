@@ -342,15 +342,15 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 	gchar *text;
 
 	if (etgc->ecol->text) {
-		text = g_strdup_printf ((child_node->count == 1)
-					? _("%s : %s (%d item)")
-					: _("%s : %s (%d items)"),
+		text = g_strdup_printf (ngettext("%s : %s (%d item)",
+						 "%s : %s (%d items)",
+						 child_node->count),
 					etgc->ecol->text, child_node->string,
 					(gint) child_node->count);
 	} else {
-		text = g_strdup_printf ((child_node->count == 1)
-					? _("%s (%d item)")
-					: _("%s (%d items)"),
+		text = g_strdup_printf (ngettext("%s (%d item)",
+						 "%s (%d items)",
+						 child_node->count),
 					child_node->string,
 					(gint) child_node->count);
 	}
