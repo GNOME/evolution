@@ -1,5 +1,10 @@
 2006-07-18  Andre Klapper  <a9016009@gmx.de>
 
+	* calendar.error.xml: removing duplicated error messages, fixing
+	default answers. Fixes bug #347765.
+
+2006-07-18  Andre Klapper  <a9016009@gmx.de>
+
 	* gui/dialogs/calendar-setup.glade:
 	* gui/dialogs/new-calendar.glade:
 	* gui/dialogs/new-task-list.glade:
