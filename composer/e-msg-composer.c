@@ -220,9 +220,6 @@ struct _EMsgComposerPrivate {
 	GtkWidget *saveas;	/* saveas async file requester */
 	GtkWidget *load;	/* same for load - not used */
 	
-	char *help_section;	/* this is for the help label */
-	
-	
 };
 
 enum {
@@ -2859,7 +2856,7 @@ e_msg_composer_show_help (EMsgComposer *composer)
 	gnome_help_display_desktop (NULL,
 				    "evolution-" BASE_VERSION,
 				    "evolution-" BASE_VERSION ".xml",
-				    p->help_section,
+				    "usage-composer",
 				    &error);
 	if (error != NULL)
 		g_warning ("%s", error->message);
@@ -3315,8 +3312,6 @@ init (EMsgComposer *composer)
 	p->smime_sign               = FALSE;
 	p->smime_encrypt            = FALSE;
 	
-	p->help_section             = g_strdup("usage-composer");
-
 	p->has_changed              = FALSE;
 	p->autosaved                = FALSE;
 	

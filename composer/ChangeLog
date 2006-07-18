@@ -1,3 +1,10 @@
+2006-07-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for memory leak in bug #209254
+
+	* e-msg-composer.c: (e_msg_composer_show_help), (init): Used constant
+	string for help.
+
 2006-07-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #209254
