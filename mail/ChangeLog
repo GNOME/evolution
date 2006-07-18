@@ -1,3 +1,7 @@
+2006-07-18  Andre Klapper  <a9016009@gmx.de>
+
+	* message-tags.glade: remove "*" from translation. Fixes bug #331147.
+
 2006-07-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #336963

@@ -1,3 +1,8 @@
+2006-07-18  Andre Klapper  <a9016009@gmx.de>
+
+	* exchange-change-password.glade:
+	remove "*" from translation. Fixes bug #331147.
+
 2006-07-13  Andre Klapper  <a9016009@gmx.de>
 
 	* exchange-permissions-dialog.glade: remove empty strings from 

@@ -1,3 +1,11 @@
+2006-07-18  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/dialogs/calendar-setup.glade:
+	* gui/dialogs/new-calendar.glade:
+	* gui/dialogs/new-task-list.glade:
+	* gui/dialogs/url-editor-dialog.glade:
+	remove "*" from translation. Fixes bug #331147.
+
 2006-07-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/apps_evolution_calendar.schemas.in.in: Corrected the text in the

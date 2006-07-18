@@ -1,3 +1,12 @@
+2006-07-18  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/contact-editor/contact-editor.glade: 
+	* gui/contact-editor/fulladdr.glade: 
+	* gui/contact-editor/fullname.glade: 
+	* gui/contact-editor/im.glade: 
+	* gui/contact-list-editor/contact-list-editor.glade: 
+	remove "*" from translation. Fixes bug #331147.
+
 2006-19-06 Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #332909

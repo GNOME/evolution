@@ -1,3 +1,10 @@
+2006-07-18  Andre Klapper  <a9016009@gmx.de>
+
+	* e-timezone-dialog/e-timezone-dialog.glade: 
+	* menus/gal-view-instance-save-as-dialog.glade: 
+	* menus/gal-view-new-dialog.glade: 
+	remove "*" from translation. Fixes bug #331147.
+
 2006-07-13  Andre Klapper  <a9016009@gmx.de>
 
 	* menus/gal-view-instance-save-as-dialog.glade: 
