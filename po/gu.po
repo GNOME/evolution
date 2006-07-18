@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-16 22:35+0200\n"
-"PO-Revision-Date: 2006-07-17 09:36+0530\n"
+"POT-Creation-Date: 2006-07-17 22:33+0200\n"
+"PO-Revision-Date: 2006-07-18 09:42+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -194,7 +195,7 @@ msgid "calendar view for one or more days"
 msgstr "એક અથવા વધુ દિવસો માટે કેલેન્ડર દેખાવ"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
-#: ../calendar/gui/calendar-component.c:661
+#: ../calendar/gui/calendar-component.c:679
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -205,7 +206,7 @@ msgstr "%A %d %b %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
-#: ../calendar/gui/calendar-component.c:664
+#: ../calendar/gui/calendar-component.c:682
 #: ../calendar/gui/e-day-view-top-item.c:1315
 #: ../calendar/gui/e-day-view.c:1480
 #: ../calendar/gui/e-week-view-main-item.c:319
@@ -216,9 +217,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
 #: ../a11y/calendar/ea-gnome-calendar.c:199
-#: ../calendar/gui/calendar-component.c:666
-#: ../calendar/gui/calendar-component.c:671
-#: ../calendar/gui/calendar-component.c:673
+#: ../calendar/gui/calendar-component.c:684
+#: ../calendar/gui/calendar-component.c:689
+#: ../calendar/gui/calendar-component.c:691
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -226,10 +227,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:222
 #: ../a11y/calendar/ea-gnome-calendar.c:228
 #: ../a11y/calendar/ea-gnome-calendar.c:230
-#: ../calendar/gui/calendar-component.c:685
-#: ../calendar/gui/calendar-component.c:692
-#: ../calendar/gui/calendar-component.c:698
-#: ../calendar/gui/calendar-component.c:700
+#: ../calendar/gui/calendar-component.c:703
+#: ../calendar/gui/calendar-component.c:710
+#: ../calendar/gui/calendar-component.c:716
+#: ../calendar/gui/calendar-component.c:718
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -239,7 +240,7 @@ msgstr "%d %b %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
-#: ../calendar/gui/calendar-component.c:690
+#: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/e-day-view-top-item.c:1319
 #: ../calendar/gui/e-day-view.c:1496
 #: ../calendar/gui/e-week-view-main-item.c:333
@@ -598,7 +599,7 @@ msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખા
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1332
-#: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
+#: ../calendar/gui/calendar-component.c:265 ../calendar/gui/migration.c:400
 #: ../plugins/exchange-operations/exchange-folder.c:575
 msgid "Contacts"
 msgstr "સંપર્કો"
@@ -639,7 +640,7 @@ msgstr "તમારા S/MIME પ્રમાણપત્રોની અંહ
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:141
 #: ../addressbook/gui/component/addressbook-migrate.c:483
-#: ../calendar/gui/calendar-component.c:209
+#: ../calendar/gui/calendar-component.c:227
 #: ../calendar/gui/memos-component.c:194 ../calendar/gui/migration.c:474
 #: ../calendar/gui/migration.c:567 ../calendar/gui/migration.c:1075
 #: ../calendar/gui/tasks-component.c:190 ../mail/em-folder-tree-model.c:199
@@ -656,7 +657,7 @@ msgstr "આ કમ્પ્યુટરમાં"
 #: ../addressbook/gui/component/addressbook-component.c:149
 #: ../addressbook/gui/component/addressbook-migrate.c:491
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: ../calendar/gui/calendar-component.c:217
+#: ../calendar/gui/calendar-component.c:235
 #: ../calendar/gui/memos-component.c:202 ../calendar/gui/migration.c:482
 #: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
@@ -851,7 +852,7 @@ msgstr "નવી સરનામા પુસ્તિકા (_N)"
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:978
-#: ../calendar/gui/calendar-component.c:538
+#: ../calendar/gui/calendar-component.c:556
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:861
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
@@ -867,7 +868,7 @@ msgid "Save As Vcard..."
 msgstr "Vcard તરીકે સંગ્રહો..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
-#: ../calendar/gui/calendar-component.c:539
+#: ../calendar/gui/calendar-component.c:557
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "ગુણધર્મો (_P)..."
@@ -928,7 +929,7 @@ msgid "URI for the folder last used in the select names dialog."
 msgstr "નામ પસંદ કરો સંવાદમાં છેલ્લે વપરાયેલ ફોલ્ડર માટેની URI."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Vertical pane position"
 msgstr "ઊભી તકતીની સ્થિતિ"
 
@@ -2990,12 +2991,12 @@ msgid "Cu_t"
 msgstr "કાપો (_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:976
-#: ../calendar/gui/calendar-component.c:537
+#: ../calendar/gui/calendar-component.c:555
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:852
 #: ../calendar/gui/memos-component.c:451 ../calendar/gui/tasks-component.c:442
-#: ../composer/e-msg-composer.c:3158 ../mail/em-folder-tree.c:986
+#: ../composer/e-msg-composer.c:3155 ../mail/em-folder-tree.c:986
 #: ../mail/em-folder-view.c:1112 ../mail/message-list.c:1899
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -4446,7 +4447,7 @@ msgid "Calendar and Tasks"
 msgstr "કેલેન્ડર અને બાબતો"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1294
+#: ../calendar/gui/calendar-component.c:1319
 msgid "Calendars"
 msgstr "કેલેન્ડરો"
 
@@ -4848,11 +4849,17 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid ""
+"Position of the vertical pane, between the calendar lists and the date "
+"navigator calendar."
+msgstr "ઊભી તકતીનું સ્થાન, કેલેન્ડર યાદીઓ અને તારીખ સંશોધક કેલેન્ડર વચ્ચે."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
+msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr "ઊભી તકતીની સ્થિતિ, બાબત યાદી અને બાબત પૂર્વદર્શન તકતીની વચ્ચે, પિક્સેલોમાં."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
@@ -4860,7 +4867,7 @@ msgstr ""
 "ઊભી તકતીની સ્થિતિ, દેખાવ અને તારીખ શોધક કેલેન્ડર અને બાબત યાદીના વચ્ચે મહિના દેખાવમાં, "
 "પિક્સેલમાં."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
@@ -4868,65 +4875,65 @@ msgstr ""
 "ઊભી તકતીનું સ્થાન, દેખાવ અને તારીખ શોધક કેલેન્ડર અને બાબત યાદીની વચ્ચે જ્યારે મહિના "
 "દેખાવમાં નહિં હોય, પિક્સેલમાં."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Programs that are allowed to be run by alarms."
 msgstr "કાર્યક્રમો કે જે એલાર્મો દ્વારા ચલાવવા માટે પરવાનગી અપાયેલ છે."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં RSVP ક્ષેત્ર બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Show Role field in the event/task/meeting editor"
 msgstr "ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં ભૂમિકા ક્ષેત્ર બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Show appointment end times in week and month views"
 msgstr "અઠવાડિયા અને મહિના દેખાવોમાં મુલાકાત અંત સમયો બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 msgid "Show categories field in the event/meeting/task editor"
 msgstr "ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં વર્ગો ક્ષેત્ર બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Show display alarms in notification tray"
 msgstr "સૂચન ટ્રેમાં ડિસ્પ્લે એલાર્મો બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Show status field in the event/task/meeting editor"
 msgstr "ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં પરિસ્થિતિ ક્ષેત્ર બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 #: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "Show the \"Preview\" pane"
 msgstr "\"પૂર્વદર્શન\" તકતી બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 #: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "Show the \"Preview\" pane."
 msgstr "\"પૂર્વદર્શન\" તકતી બતાવો."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Show timezone field in the event/meeting editor"
 msgstr "ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં ટાઈમઝોન ક્ષેત્ર બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
 msgid "Show type field in the event/task/meeting editor"
 msgstr "ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં લખો ક્ષેત્ર બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid "Show week numbers in date navigator"
 msgstr "તારીખ શોધકમાં અઠવાડિયા નંબરો બતાવો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Tasks due today color"
 msgstr "આજ સુધીની બાબતો રંગ"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Tasks vertical pane position"
 msgstr "બાબતો ઊભી તકતીની સ્થિતિ"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -4935,7 +4942,7 @@ msgstr ""
 "મુક્ત/વ્યસ્ત માહિતી ફોલબેક તરીકે વાપરવાની URL ટેમ્પલેટ, %u એ મેઈલ સરનામાના વપરાશકર્તા "
 "ભાગથી બદલાઈ જશે અને %d એ ડોમેઈન દ્વારા બદલાઈ જશે."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
@@ -4943,57 +4950,57 @@ msgstr ""
 "કેલેન્ડરમાં તારીખો અને સમયો માટે વાપરવાનો મૂળભુત ટાઈમઝોન, \"અમેરિકા/ન્યુ યોર્ક\" જેવી "
 "જગ્યા જેવી બિનભાષાંતરિક ઓલ્સન ટાઈમઝોન ડેટાબેઝની જેમ."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Time divisions"
 msgstr "સમયની વહેંચણી"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Time the last alarm ran, in time_t."
 msgstr "છેલ્લે એલાર્મ ચાલ્યું ત્યારનો સમય, time_t માં."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid "Timezone"
 msgstr "ટાઈમઝોન"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid ""
 "Transparency of the events in calendar views (A value between 0 and 10, "
 "opaque by default)."
 msgstr "કેલેન્ડર દૃશ્યોમાં ઘટનાઓની પારદર્શકતા (૦ અને ૧૦ વચ્ચેની કિંમત, મૂળભૂત રીતે અપારદર્શક)."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Twenty four hour time format"
 msgstr "ચોવીસ કલાક સમય બંધારણ"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "મૂળભુત યાદ અપાવનાર માટેના એકમો, \"મિનિટો\", \"કલાકો\" અથવા \"દિવસો\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr "ક્યારે બાબતો છુપાવવી તે નક્કી કરવાનો એકમ, \"મિનિટો\", \"કલાકો\" અથવા \"દિવસો\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid "Week start"
 msgstr "અઠવાડિયાની શરૂઆત"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgstr "અઠવાડિયું શરૂ થાય તે દિવસ, રવિવાર (૦) થી શનિવાર (૬)."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr "પ્રદર્શિત એલાર્મો માટે શું સૂચક ટ્રે વાપરવી કે નહિં."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
 msgid "Whether to ask for confirmation when deleting an appointment or task."
 msgstr "જ્યારે મુલાકાત અથવા બાબત કાઢી રહ્યા હોય ત્યારે શું ખાતરી માટે પૂછવું."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
 msgstr "જ્યારે મુલાકાતો અને બાબતો સંપૂર્ણપણે દૂર કરી રહ્યા હોય ત્યારે શું ખાતરી માટે પૂછવું."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
@@ -5001,79 +5008,79 @@ msgstr ""
 "શું મહિના દેખાવમાં અઠવાડિયાના અંતિમ દિવસો સંકોચવા, કે જે શનિવાર અને રવિવારને એક દિવસની "
 "જગ્યામાં મૂકે."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
 msgid "Whether to display the end time of events in the week and month views."
 msgstr "શું અઠવાડિયા અને મહિના દેખાવોમાં ઘટનાઓના સમય પ્રદર્શિત કરવા."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr "શું માર્કસ બેઈન્સ લીટી (વર્તમાન સમયમાં લીટી) કેલેન્ડરમાં દોરવી."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
 msgid "Whether to hide completed tasks in the tasks view."
 msgstr "બાબતોના દેખાવમાં શું પૂર્ણ થયેલ બાબતો છુપાવવી."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
 msgid "Whether to set a default reminder for appointments."
 msgstr "શું મુલાકાતો માટે મૂળભુત યાદ અપાવનાર સુયોજિત કરવું."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr "શું ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં RSVP ક્ષેત્ર બતાવવું કે નહિં"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr "શું ઘટના/મંત્રણા સંપાદકમાં વર્ગો ક્ષેત્ર બતાવવું"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr "શું ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં ભૂમિકા ક્ષેત્ર બતાવવું કે નહિં"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:82
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "શું ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં પરિસ્થિતિ ક્ષેત્ર બતાવવું કે નહિં"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:82
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:83
 msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "શું સમયને am/pm ની જગ્યાએ ચોવીસ કલાકના બંધારણમાં બતાવવા."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:83
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:84
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr "શું ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં ટાઈમઝોન ક્ષેત્ર બતાવવું કે નહિં"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:84
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:85
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "શું ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં પ્રકાર ક્ષેત્ર બતાવવું કે નહિં"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:85
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
 msgid "Whether to show week numbers in the date navigator."
 msgstr "શું તારીખ શોધકમાં અઠવાડિયા નંબરો બતાવવા."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Whether to use daylight savings time while displaying events."
 msgstr "જ્યારે ઘટનાઓ દર્શાવી રહ્યા હોય ત્યારે શું દિવસીય બચાવ વપરાશ બતાવવો કે નહિં."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
 msgid "Work days"
 msgstr "કામ કરવાના દિવસો"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
 msgid "Workday end hour"
 msgstr "કામ કરવાનો દિવસ અંત થાય ત્યારનો કલાક"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
 msgid "Workday end minute"
 msgstr "કામ કરવાનો દિવસ અંત થાય ત્યારની મિનિટ"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:91
 msgid "Workday start hour"
 msgstr "કામ કરવાનો દિવસ શરૂ થાય ત્યારનો કલાક"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:91
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:92
 msgid "Workday start minute"
 msgstr "કામ કરવાનો દિવસ શરૂ થાય ત્યારની મિનિટ"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:92
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:93
 msgid "daylight savings time"
 msgstr "દિવસીય બચાવ સમય"
 
@@ -5105,9 +5112,9 @@ msgid "Print"
 msgstr "છાપો"
 
 #: ../calendar/gui/calendar-commands.c:119
-#: ../calendar/gui/calendar-component.c:709
+#: ../calendar/gui/calendar-component.c:727
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2111
+#: ../calendar/gui/gnome-cal.c:2099
 #: ../plugins/exchange-operations/exchange-folder.c:569
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
@@ -5136,7 +5143,7 @@ msgstr "ના કરતાં જૂની ઘટનાઓ કાઢો"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:12
 #: ../filter/filter.glade.h:14 ../plugins/calendar-http/calendar-http.c:288
 #: ../plugins/calendar-weather/calendar-weather.c:565
-#: ../widgets/misc/e-send-options.glade.h:36
+#: ../widgets/misc/e-send-options.glade.h:38
 msgid "days"
 msgstr "દિવસો"
 
@@ -5144,89 +5151,89 @@ msgstr "દિવસો"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:235
+#: ../calendar/gui/calendar-component.c:253
 #: ../calendar/gui/memos-component.c:221 ../calendar/gui/migration.c:501
 #: ../calendar/gui/migration.c:594 ../calendar/gui/migration.c:1102
 #: ../calendar/gui/tasks-component.c:217
 msgid "On The Web"
 msgstr "વેબ પર"
 
-#: ../calendar/gui/calendar-component.c:253 ../calendar/gui/migration.c:403
+#: ../calendar/gui/calendar-component.c:271 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
 msgstr "જન્મદિવસો અને સાલગીરીઓ"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:259
+#: ../calendar/gui/calendar-component.c:277
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "હવામાન"
 
-#: ../calendar/gui/calendar-component.c:536
+#: ../calendar/gui/calendar-component.c:554
 msgid "_New Calendar"
 msgstr "નવું કેલેન્ડર (_N)"
 
-#: ../calendar/gui/calendar-component.c:840
+#: ../calendar/gui/calendar-component.c:858
 msgid "Failed upgrading calendars."
 msgstr "કેલેન્ડરો સુધારવામાં નિષ્ફળ."
 
-#: ../calendar/gui/calendar-component.c:1139
+#: ../calendar/gui/calendar-component.c:1157
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "ઘટનાઓ અને મંત્રણાઓ બનાવવા માટે કેલેન્ડર '%s' ખોલવા માટે અસમર્થ"
 
-#: ../calendar/gui/calendar-component.c:1155
+#: ../calendar/gui/calendar-component.c:1173
 msgid "There is no calendar available for creating events and meetings"
 msgstr "ત્યાં ઘટનાઓ અને મંત્રણાઓ બનાવવા ામટે કોઈ કેલેન્ડર ઉપલબ્ધ નથી"
 
-#: ../calendar/gui/calendar-component.c:1269
+#: ../calendar/gui/calendar-component.c:1294
 msgid "Calendar Source Selector"
 msgstr "કેલેન્ડર સ્રોત પસંદ કરનાર"
 
-#: ../calendar/gui/calendar-component.c:1460
+#: ../calendar/gui/calendar-component.c:1489
 msgid "New appointment"
 msgstr "નવી મુલાકાત"
 
-#: ../calendar/gui/calendar-component.c:1461
+#: ../calendar/gui/calendar-component.c:1490
 msgid "_Appointment"
 msgstr "મુલાકાત (_A)"
 
-#: ../calendar/gui/calendar-component.c:1462
+#: ../calendar/gui/calendar-component.c:1491
 msgid "Create a new appointment"
 msgstr "નવી મુલાકાત બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1468
+#: ../calendar/gui/calendar-component.c:1497
 msgid "New meeting"
 msgstr "નવી મંત્રણા"
 
-#: ../calendar/gui/calendar-component.c:1469
+#: ../calendar/gui/calendar-component.c:1498
 msgid "M_eeting"
 msgstr "મંત્રણા (_e)"
 
-#: ../calendar/gui/calendar-component.c:1470
+#: ../calendar/gui/calendar-component.c:1499
 msgid "Create a new meeting request"
 msgstr "નવી મંત્રણા મંજૂરી બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1476
+#: ../calendar/gui/calendar-component.c:1505
 msgid "New all day appointment"
 msgstr "નવી બધા દિવસની મુલાકાત"
 
-#: ../calendar/gui/calendar-component.c:1477
+#: ../calendar/gui/calendar-component.c:1506
 msgid "All Day A_ppointment"
 msgstr "બધા દિવસની મુલાકાત (_p)"
 
-#: ../calendar/gui/calendar-component.c:1478
+#: ../calendar/gui/calendar-component.c:1507
 msgid "Create a new all-day appointment"
 msgstr "નવી બધા દિવસની મુલાકાત બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1484
+#: ../calendar/gui/calendar-component.c:1513
 msgid "New calendar"
 msgstr "નવું કેલેન્ડર"
 
-#: ../calendar/gui/calendar-component.c:1485
+#: ../calendar/gui/calendar-component.c:1514
 msgid "Cale_ndar"
 msgstr "કેલેન્ડર (_n)"
 
-#: ../calendar/gui/calendar-component.c:1486
+#: ../calendar/gui/calendar-component.c:1515
 msgid "Create a new calendar"
 msgstr "નવું કેલેન્ડર બનાવો"
 
@@ -5796,28 +5803,28 @@ msgstr " (કારણે "
 msgid "Due "
 msgstr "કારણે "
 
-#: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2894
+#: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2891
 #, c-format
 msgid "Attached message - %s"
 msgstr "જોડાણ સંદેશો - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
-#: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2899
-#: ../composer/e-msg-composer.c:3095
+#: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2896
+#: ../composer/e-msg-composer.c:3092
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "જોડાયેલ સંદેશો"
 msgstr[1] "%d જોડાયેલ સંદેશાઓ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3159
+#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3156
 #: ../mail/em-folder-tree.c:987 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1008 ../mail/message-list.c:1900
 msgid "_Move"
 msgstr "ખસેડો (_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3161
+#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3158
 #: ../mail/em-folder-tree.c:989 ../mail/message-list.c:1902
 msgid "Cancel _Drag"
 msgstr "ખેંચવાનું રદ કરો (_D)"
@@ -5846,7 +5853,7 @@ msgstr "જોડાણ પટ્ટી બતાવો (_B)"
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3659
+#: ../composer/e-msg-composer.c:3656
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5855,14 +5862,14 @@ msgstr "દૂર કરો (_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1100
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3660 ../mail/em-folder-tree.c:2065
+#: ../composer/e-msg-composer.c:3657 ../mail/em-folder-tree.c:2065
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "ગુણધર્મો (_P)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1102
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3662
+#: ../composer/e-msg-composer.c:3659
 msgid "_Add attachment..."
 msgstr "જોડાણ ઉમેરો (_A)..."
 
@@ -6582,7 +6589,7 @@ msgid "_Date completed:"
 msgstr "પૂર્ણ થયેલ તારીખ (_D):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
-#: ../widgets/misc/e-send-options.glade.h:31
+#: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Priority:"
 msgstr "પ્રાધાન્ય (_P):"
 
@@ -7842,7 +7849,7 @@ msgid "Memo sort"
 msgstr "મેમો ક્રમમાં ગોઠવો"
 
 #: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:837
-#: ../calendar/gui/gnome-cal.c:2557
+#: ../calendar/gui/gnome-cal.c:2543
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7898,38 +7905,38 @@ msgstr "ટાઈમઝોન પસંદ કરો"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../calendar/gui/gnome-cal.c:786
+#: ../calendar/gui/gnome-cal.c:781
 msgid "Updating query"
 msgstr "પ્રશ્ન સુધારી રહ્યા છીએ"
 
-#: ../calendar/gui/gnome-cal.c:2234
+#: ../calendar/gui/gnome-cal.c:2222
 msgid "_Custom View"
 msgstr "વૈવિધ્યપૂર્ણ દેખાવ (_C)"
 
-#: ../calendar/gui/gnome-cal.c:2235
+#: ../calendar/gui/gnome-cal.c:2223
 msgid "_Save Custom View"
 msgstr "વૈવિધ્યપૂર્ણ દેખાવ સંગ્રહો (_S)"
 
-#: ../calendar/gui/gnome-cal.c:2240
+#: ../calendar/gui/gnome-cal.c:2228
 msgid "_Define Views..."
 msgstr "દેખાવો વ્યાખ્યાયિત કરો (_D)..."
 
-#: ../calendar/gui/gnome-cal.c:2402
+#: ../calendar/gui/gnome-cal.c:2388
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "%s તરફ મુલાકાતો લાવી રહ્યા છીએ"
 
-#: ../calendar/gui/gnome-cal.c:2421
+#: ../calendar/gui/gnome-cal.c:2407
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "%s તરફ બાબતો લાવી રહ્યા છીએ"
 
-#: ../calendar/gui/gnome-cal.c:2525
+#: ../calendar/gui/gnome-cal.c:2511
 #, c-format
 msgid "Opening %s"
 msgstr "%s ખોલી રહ્યા છીએ"
 
-#: ../calendar/gui/gnome-cal.c:3430
+#: ../calendar/gui/gnome-cal.c:3384
 msgid "Purging"
 msgstr "ભેગું કરી રહ્યા છીએ"
 
@@ -10191,7 +10198,7 @@ msgid "Hide _Attachment Bar"
 msgstr "જોડાણપટ્ટી છુપાવો (_A)"
 
 #: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2536
-#: ../composer/e-msg-composer.c:3905
+#: ../composer/e-msg-composer.c:3902
 msgid "Show _Attachment Bar"
 msgstr "જોડાણ પટ્ટી બતાવો (_A)"
 
@@ -10226,12 +10233,12 @@ msgstr "આપોઆપ બનતુ"
 msgid "Si_gnature:"
 msgstr "સહી (_g):"
 
-#: ../composer/e-msg-composer.c:2547 ../composer/e-msg-composer.c:3787
-#: ../composer/e-msg-composer.c:3790
+#: ../composer/e-msg-composer.c:2547 ../composer/e-msg-composer.c:3784
+#: ../composer/e-msg-composer.c:3787
 msgid "Compose Message"
 msgstr "સંદેશો બનાવો"
 
-#: ../composer/e-msg-composer.c:5014
+#: ../composer/e-msg-composer.c:5011
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -15642,7 +15649,7 @@ msgstr "જૂથપ્રમાણે સંદેશાઓને મોકલ�
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
-#: ../widgets/misc/e-send-options.glade.h:17
+#: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
 msgstr "મોકલોના વિકલ્પો"
 
@@ -20533,11 +20540,11 @@ msgstr "હમણાં શોધો (_F)"
 msgid "_Clear"
 msgstr "સાફ કરો (_C)"
 
-#: ../widgets/misc/e-search-bar.c:787
+#: ../widgets/misc/e-search-bar.c:785
 msgid "Item ID"
 msgstr "વસ્તુ ID"
 
-#: ../widgets/misc/e-search-bar.c:794 ../widgets/text/e-entry.c:1249
+#: ../widgets/misc/e-search-bar.c:792 ../widgets/text/e-entry.c:1249
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3485
 #: ../widgets/text/e-text.c:3486
 msgid "Text"
@@ -20545,19 +20552,19 @@ msgstr "લખાણ"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:913
+#: ../widgets/misc/e-search-bar.c:911
 msgid "Show: "
 msgstr "બતાવો: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
-#: ../widgets/misc/e-search-bar.c:929
+#: ../widgets/misc/e-search-bar.c:927
 msgid "S_earch: "
 msgstr "શોધો (_e): "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:940
+#: ../widgets/misc/e-search-bar.c:938
 msgid " in "
 msgstr " અંદર "
 
@@ -20608,8 +20615,8 @@ msgid "A_uto-delete sent item"
 msgstr "મોકલાયેલ વસ્તુઓને આપોઆપ કાઢી નાંખો (_u)"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-msgid "C_lassification"
-msgstr "વર્ગીકરણ (_l)"
+msgid "Classification"
+msgstr "વર્ગીકરણ"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
@@ -20633,23 +20640,29 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:12
 msgid ""
-"Public\n"
-"Private\n"
+"Normal\n"
+"Proprietary\n"
 "Confidential\n"
+"Secret\n"
+"Top Secret\n"
+"For Your Eyes Only"
 msgstr ""
-"જાહેર\n"
+"સામાન્ય\n"
+"વ્યક્તિગત\n"
 "ખાનગી\n"
-"વિશ્વસનીય\n"
+"છુપું\n"
+"ખૂબ છુપું\n"
+"માત્ર તમારી આંખો માટે"
 
-#: ../widgets/misc/e-send-options.glade.h:16
+#: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
 msgstr "જવાબની માંગણી થયેલ છે (_e)"
 
-#: ../widgets/misc/e-send-options.glade.h:18
+#: ../widgets/misc/e-send-options.glade.h:20
 msgid "Sta_tus Tracking"
 msgstr "પરિસ્થિતિ પકડવાનું (_t)"
 
-#: ../widgets/misc/e-send-options.glade.h:19
+#: ../widgets/misc/e-send-options.glade.h:21
 msgid ""
 "Undefined\n"
 "High\n"
@@ -20661,51 +20674,51 @@ msgstr ""
 "પ્રમાણભૂત\n"
 "નીચું"
 
-#: ../widgets/misc/e-send-options.glade.h:23
+#: ../widgets/misc/e-send-options.glade.h:25
 msgid "When acce_pted:"
 msgstr "જ્યારે સ્વીકારાય (_p):"
 
-#: ../widgets/misc/e-send-options.glade.h:24
+#: ../widgets/misc/e-send-options.glade.h:26
 msgid "When co_mpleted:"
 msgstr "જ્યારે પૂર્ણ થાય (_m):"
 
-#: ../widgets/misc/e-send-options.glade.h:25
+#: ../widgets/misc/e-send-options.glade.h:27
 msgid "When decli_ned:"
 msgstr "જ્યારે નકારાય (_n):"
 
-#: ../widgets/misc/e-send-options.glade.h:26
+#: ../widgets/misc/e-send-options.glade.h:28
 msgid "Wi_thin"
 msgstr "ની સાથે (_t)"
 
-#: ../widgets/misc/e-send-options.glade.h:27
+#: ../widgets/misc/e-send-options.glade.h:29
 msgid "_After:"
 msgstr "પછી (_A):"
 
-#: ../widgets/misc/e-send-options.glade.h:28
+#: ../widgets/misc/e-send-options.glade.h:30
 msgid "_All information"
 msgstr "બધી જાણકારી (_A)"
 
-#: ../widgets/misc/e-send-options.glade.h:29
+#: ../widgets/misc/e-send-options.glade.h:31
 msgid "_Delay message delivery"
 msgstr "સંદેશો પહોંચવામાં વિલંબ (_D)"
 
-#: ../widgets/misc/e-send-options.glade.h:30
+#: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Delivered"
 msgstr "પહોંચી ગયો (_D)"
 
-#: ../widgets/misc/e-send-options.glade.h:32
+#: ../widgets/misc/e-send-options.glade.h:34
 msgid "_Set expiration date"
 msgstr "સમયસમાપ્તિ તારીખ સુયોજિત કરો (_S)"
 
-#: ../widgets/misc/e-send-options.glade.h:33
+#: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Until:"
 msgstr "જ્યાં સુધી નહિં (_U):"
 
-#: ../widgets/misc/e-send-options.glade.h:34
+#: ../widgets/misc/e-send-options.glade.h:36
 msgid "_When convenient"
 msgstr "જ્યારે યોગ્ય લાગે (_W)"
 
-#: ../widgets/misc/e-send-options.glade.h:35
+#: ../widgets/misc/e-send-options.glade.h:37
 msgid "_When opened:"
 msgstr "જ્યારે ખૂલે (_W):"
 
