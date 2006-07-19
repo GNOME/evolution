@@ -377,7 +377,7 @@ static ECalConfigItem eccp_items[] = {
 static ECalConfigItem ectp_items[] = {
 	{ E_CONFIG_BOOK, "", NULL },
 	{ E_CONFIG_PAGE,          "00.general", N_("General") },
-	{ E_CONFIG_SECTION_TABLE, "00.general/00.source", N_("Tasks List") },
+	{ E_CONFIG_SECTION_TABLE, "00.general/00.source", N_("Task List") },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/00.type", NULL, eccp_get_source_type },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/10.name", NULL, eccp_get_source_name },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/20.color", NULL, eccp_get_source_color },
@@ -388,7 +388,7 @@ static ECalConfigItem ectp_items[] = {
 static ECalConfigItem ecmp_items[] = {
 	{ E_CONFIG_BOOK, "", NULL },
 	{ E_CONFIG_PAGE,          "00.general", N_("General") },
-	{ E_CONFIG_SECTION_TABLE, "00.general/00.source", N_("Memos List") },
+	{ E_CONFIG_SECTION_TABLE, "00.general/00.source", N_("Memo List") },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/00.type", NULL, eccp_get_source_type },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/10.name", NULL, eccp_get_source_name },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/20.color", NULL, eccp_get_source_color },
