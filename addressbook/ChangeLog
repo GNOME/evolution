@@ -1,3 +1,11 @@
+2006-07-18  Ross Burton  <ross@openedhand.com>
+
+	* addressbook/gui/contact-editor/e-contact-editor.c:
+	* addressbook/gui/contact-list-editor/e-contact-list-editor.c:
+	* addressbook/gui/widgets/eab-contact-display.c:
+	Fix for EContactPhoto changes.  Partially fixed by Hiroyuki Ikezoe
+	<poincare@ikezoe.net>, finished by myself.  (#347870).
+
 2006-07-18  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/contact-editor/contact-editor.glade: 

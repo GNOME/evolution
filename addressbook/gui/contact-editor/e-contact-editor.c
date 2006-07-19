@@ -2192,10 +2192,10 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	}
 	else if (E_IS_IMAGE_CHOOSER (widget)) {
 		EContactPhoto *photo = e_contact_get (contact, field_id);
-		if (photo) {
+		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
 			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (widget),
-							photo->data,
-							photo->length);
+							photo->data.inlined.data,
+							photo->data.inlined.length);
 			editor->image_set = TRUE;
 		}
 		else {
@@ -2259,15 +2259,16 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	}
 	else if (E_IS_IMAGE_CHOOSER (widget)) {
 		EContactPhoto photo;
+		photo.type = E_CONTACT_PHOTO_TYPE_INLINED;
 		if (editor->image_changed)
 		{
 			if (editor->image_set &&
 			    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
-							    &photo.data, &photo.length)) {
+							    &photo.data.inlined.data, &photo.data.inlined.length)) {
 				GdkPixbuf *pixbuf, *new;
 				GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 				
-				gdk_pixbuf_loader_write (loader, photo.data, photo.length, NULL);
+				gdk_pixbuf_loader_write (loader, photo.data.inlined.data, photo.data.inlined.length, NULL);
 				gdk_pixbuf_loader_close (loader, NULL);
 				
 				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
@@ -2291,8 +2292,8 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 						
 						new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 						if (new) {
-							g_free(photo.data);
-							gdk_pixbuf_save_to_buffer (new, &photo.data, &photo.length, "jpeg", NULL, "quality", "100", NULL);
+							g_free(photo.data.inlined.data);
+							gdk_pixbuf_save_to_buffer (new, &photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
 							g_object_unref (new);
 						}
 						
@@ -2305,7 +2306,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 				
 				e_contact_set (contact, field_id, &photo);
 				
-				g_free (photo.data);
+				g_free (photo.data.inlined.data);
 				
 			}
 			else {

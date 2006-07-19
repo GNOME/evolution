@@ -1088,8 +1088,10 @@ extract_info(EContactListEditor *editor)
 						       &image_data_len)) {
 			EContactPhoto photo;
 
-			photo.data = image_data;
-			photo.length = image_data_len;
+			photo.type = E_CONTACT_PHOTO_TYPE_INLINED;
+			photo.data.inlined.mime_type = NULL;
+			photo.data.inlined.data = image_data;
+			photo.data.inlined.length = image_data_len;
 
 			e_contact_set (contact, E_CONTACT_LOGO, &photo);
 			g_free (image_data);
@@ -1177,8 +1179,8 @@ fill_in_info(EContactListEditor *editor)
 		g_list_free (email_list);
 
 		photo = e_contact_get (editor->contact, E_CONTACT_LOGO);
-		if (photo) {
-			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (editor->list_image), photo->data, photo->length);
+		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
+			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (editor->list_image), photo->data.inlined.data, photo->data.inlined.length);
 			e_contact_photo_free (photo);
 		}
 	}

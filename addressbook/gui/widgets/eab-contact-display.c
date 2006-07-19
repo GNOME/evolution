@@ -227,7 +227,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		if (!photo)
 			photo = e_contact_get (display->priv->contact, E_CONTACT_LOGO);
 
-		gtk_html_stream_write (handle, photo->data, photo->length);
+		gtk_html_stream_write (handle, photo->data.inlined.data, photo->data.inlined.length);
 
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 
@@ -575,7 +575,8 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 		photo = e_contact_get (contact, E_CONTACT_PHOTO);
 		if (!photo)
 			photo = e_contact_get (contact, E_CONTACT_LOGO);
-		if (photo) {
+		/* Only handle inlined photos for now */
+		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
 			gtk_html_stream_printf (html_stream, "<img border=\"1\" src=\"internal-contact-photo:\">");
 			e_contact_photo_free (photo);
 		}
@@ -645,7 +646,7 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 			   image here.  we don't scale the pixbuf
 			   itself, just insert width/height tags in
 			   the html */
-			gdk_pixbuf_loader_write (loader, photo->data, photo->length, NULL);
+			gdk_pixbuf_loader_write (loader, photo->data.inlined.data, photo->data.inlined.length, NULL);
 			gdk_pixbuf_loader_close (loader, NULL);
 			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 			if (pixbuf)
