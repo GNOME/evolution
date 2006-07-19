@@ -92,6 +92,17 @@ enum {
 	LAST_SIGNAL
 };
 
+static struct {
+	gchar *name;
+	gchar *pretty_name;
+}
+common_location [] =
+{
+	{ "WORK",  N_ ("Work Email")  },
+	{ "HOME",  N_ ("Home Email")  },
+	{ "OTHER", N_ ("Other Email") }
+};
+
 static guint e_minicard_signals [LAST_SIGNAL] = {0, };
 
 GType
@@ -806,6 +817,70 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	g_free(string);
 }
 
+
+static const char *
+get_email_location (EVCardAttribute *attr)
+{
+	gint i;
+
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+		if (e_vcard_attribute_has_type (attr, common_location [i].name))
+			return common_location [i].pretty_name;
+	}
+
+	return NULL;
+}
+
+static void
+add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, int limit)
+{
+	GnomeCanvasItem *new_item;
+	GnomeCanvasGroup *group;
+	EMinicardField *minicard_field;
+	char *name;
+	char *string;
+	GList *l, *le;
+	int count =0;
+	GList *emails = e_contact_get (e_minicard->contact, E_CONTACT_EMAIL);
+	group = GNOME_CANVAS_GROUP( e_minicard );
+
+	for (l=email_list, le=emails; l!=NULL && count < limit && le!=NULL; l = l->next, le=le->next) {
+		
+		name = get_email_location ((EVCardAttribute *) l->data);
+		string = e_text_to_html (le->data, 0);
+
+		new_item = e_minicard_label_new(group);
+	
+		gnome_canvas_item_set( new_item,
+				       "width", e_minicard->width - 4.0,
+				       "fieldname", name,
+				       "field", string,
+				       "max_field_name_length", left_width,
+				       "editable", FALSE /* e_minicard->editable */,
+				       NULL );
+
+
+#ifdef notyet
+		g_object_set(E_MINICARD_LABEL(new_item)->field,
+			     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
+			     NULL);
+#endif
+		g_object_set_data(G_OBJECT (E_MINICARD_LABEL(new_item)->field),
+				  "EMinicard:field",
+				  GINT_TO_POINTER(E_CONTACT_EMAIL));
+
+		minicard_field = g_new(EMinicardField, 1);
+		minicard_field->field = E_CONTACT_EMAIL;
+		minicard_field->label = new_item;
+
+		e_minicard->fields = g_list_append( e_minicard->fields, minicard_field);
+		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
+		count++;
+		g_free(string);
+	}
+	g_list_free (emails);
+}
+
 static int
 get_left_width(EMinicard *e_minicard)
 {
@@ -844,6 +919,7 @@ remodel( EMinicard *e_minicard )
 		char *file_as;
 		int left_width = -1;
 		gboolean is_list = FALSE;
+		gboolean email_rendered = FALSE;
 
 		if (e_minicard->header_text) {
 			file_as = e_contact_get (e_minicard->contact, E_CONTACT_FILE_AS);
@@ -866,12 +942,19 @@ remodel( EMinicard *e_minicard )
 
 		for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) && count < 5; field++) {
 			EMinicardField *minicard_field = NULL;
-
+			gboolean is_email=FALSE;
+			
 			if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
 				continue;
 
 			if (field == E_CONTACT_FULL_NAME && is_list)
 				continue;
+			if (field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2 || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) {
+				if (email_rendered)
+					continue;
+				email_rendered = TRUE;
+				is_email=TRUE;
+			}
 
 			if (list)
 				minicard_field = list->data;
@@ -897,12 +980,27 @@ remodel( EMinicard *e_minicard )
 					left_width = get_left_width(e_minicard);
 				}
 
-				string = e_contact_get(e_minicard->contact, field);
-				if (string && *string) {
-					add_field(e_minicard, field, left_width);
-					count++;
+				if (is_email) {
+					GList *email;
+					int limit;
+
+					limit = 5 - count;
+					email = e_contact_get_attributes (e_minicard->contact, E_CONTACT_EMAIL);
+					add_email_field (e_minicard, email, left_width, limit);
+					if (count+limit >5)
+						count = 5;
+					else
+						count = count + g_list_length (email);
+					is_email=FALSE;
+					g_list_free (email);
+				} else {
+					string = e_contact_get(e_minicard->contact, field);
+					if (string && *string) {
+						add_field(e_minicard, field, left_width);
+						count++;
+					}
+					g_free(string);
 				}
-				g_free(string);
 			}
 		}
 

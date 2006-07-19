@@ -48,6 +48,16 @@ struct _EABContactDisplayPrivate {
 	char *selection_uri;
 };
 
+static struct {
+	gchar *name;
+	gchar *pretty_name;
+}
+common_location [] =
+{
+	{ "WORK",  N_ ("Work")  },
+	{ "HOME",  N_ ("Home")  },
+	{ "OTHER", N_ ("Other") }
+};
 
 #define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"  \
                     "<head>\n<meta name=\"generator\" content=\"Evolution Addressbook Component\">\n</head>\n"
@@ -289,7 +299,7 @@ render_address (GtkHTMLStream *html_stream, EContact *contact, const char *html_
 
 		gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">%s</td></tr>", html_label, _("(map)"), html);
 
-		g_free (html);
+This shoul		g_free (html);
 		return;
 	}
 
@@ -406,6 +416,26 @@ accum_attribute (GString *gstr, EContact *contact, const char *html_label, ECont
 }
 
 static void
+accum_time_attribute (GString *gstr, EContact *contact, const char *html_label, EContactField field, const char *icon, unsigned int html_flags)
+{
+	EContactDate *date;
+	struct tm tdate;
+	char sdate[100];
+	
+	date = e_contact_get (contact, field);
+	memset (&tdate, 0, sizeof (struct tm));
+
+	if (date) {
+		tdate.tm_year = date->year-1900;
+		tdate.tm_mday = date->day;
+		tdate.tm_mon = date->month-1;
+		strftime (sdate, 100, "%x", &tdate);
+		accum_name_value (gstr, html_label, sdate, icon, html_flags);
+		e_contact_date_free (date);
+	}
+}
+
+static void
 accum_multival_attribute (GString *gstr, EContact *contact, const char *html_label, EContactField field, const char *icon, unsigned int html_flags)
 {
 	GList *val_list, *l;
@@ -451,15 +481,28 @@ end_block (GtkHTMLStream *html_stream)
 	gtk_html_stream_printf (html_stream, "<tr><td height=\"20\">&nbsp;</td></tr>");
 }
 
+static const char *
+get_email_location (EVCardAttribute *attr)
+{
+	gint i;
+
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+		if (e_vcard_attribute_has_type (attr, common_location [i].name))
+			return common_location [i].pretty_name;
+	}
+
+	return NULL;
+}
+
 static void
 render_contact (GtkHTMLStream *html_stream, EContact *contact)
 {
 	GString *accum;
-	GList *email_list, *l;
+	GList *email_list, *l, *email_attr_list, *al;
 #ifdef HANDLE_MAILTO_INTERNALLY
 	int email_num = 0;
 #endif
-	char *nl;
+	char *nl, *nick=NULL;
 
 	gtk_html_stream_printf (html_stream, "<table border=\"0\">");
 
@@ -469,16 +512,18 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	start_block (html_stream, "");
 
 	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
-	for (l = email_list; l; l = l->next) {
+	email_attr_list = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+	
+	for (l = email_list, al=email_attr_list; l && al; l = l->next, al = al->next) {
 #ifdef HANDLE_MAILTO_INTERNALLY
 		char *html = e_text_to_html (l->data, 0);
-		g_string_append_printf (accum, "%s<a href=\"internal-mailto:%d\">%s</a>", nl, email_num, html);
+		g_string_append_printf (accum, "%s<a href=\"internal-mailto:%d\">%s</a> <font color=" HEADER_COLOR ">(%s)</font>", nl, email_num, html, get_email_location ((EVCardAttribute *) al->data));
 		email_num ++;
 		g_free (html);
 		nl = "<br>";
 		
 #else
-		g_string_append_printf (accum, "%s%s", nl, (char*)l->data);
+		g_string_append_printf (accum, "%s%s <font color=" HEADER_COLOR ">(%s)</font>", nl, (char*)l->data, get_email_location ((EVCardAttribute *) al->data));
 		nl = "\n";
 #endif
 	}
@@ -499,7 +544,14 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	}
 
 	g_string_assign (accum, "");
-
+	nick = e_contact_get (contact, E_CONTACT_NICKNAME);
+	if (nick && *nick) {
+		accum_name_value (accum, _("Nickname"), nick, NULL, 0);
+		if (accum->len > 0)
+			gtk_html_stream_printf (html_stream, "%s", accum->str);
+	}
+	
+	g_string_assign (accum, "");
 	accum_multival_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM, AIM_ICON, 0);
 	accum_multival_attribute (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE, GROUPWISE_ICON, 0);
 	accum_multival_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ, ICQ_ICON, 0);
@@ -515,14 +567,20 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	g_string_assign (accum, "");
 
 	accum_attribute (accum, contact, _("Organization"), E_CONTACT_ORG, NULL, 0);
+	accum_attribute (accum, contact, _("Department"), E_CONTACT_ORG_UNIT, NULL, 0);
+	accum_attribute (accum, contact, _("Profession"), E_CONTACT_ROLE, NULL, 0);
 	accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
+	accum_attribute (accum, contact, _("Manager"), E_CONTACT_MANAGER, NULL, 0);
+	accum_attribute (accum, contact, _("Assistant"), E_CONTACT_ASSISTANT, NULL, 0);
 	accum_attribute (accum, contact, _("Video Chat"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Calendar"), E_CONTACT_CALENDAR_URI, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Free/Busy"), E_CONTACT_FREEBUSY_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);	
 	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, 0);
 	accum_attribute (accum, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
 	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_WORK, E_CONTACT_ADDRESS_LABEL_WORK);
 
 	if (accum->len > 0) {
-		start_block (html_stream, _("work"));
+		start_block (html_stream, _("Work"));
 		gtk_html_stream_printf (html_stream, "%s", accum->str);
 		end_block (html_stream);
 	}
@@ -535,9 +593,11 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_HOME, NULL, 0);
 	accum_attribute (accum, contact, _("Mobile Phone"), E_CONTACT_PHONE_MOBILE, NULL, 0);
 	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
-
+	accum_time_attribute (accum, contact, _("Birthday"), E_CONTACT_BIRTH_DATE, NULL, 0);
+	accum_time_attribute (accum, contact, _("Anniversary"), E_CONTACT_ANNIVERSARY, NULL, 0);
+	accum_attribute (accum, contact, _("Spouse"), E_CONTACT_SPOUSE, NULL, 0);
 	if (accum->len > 0) {
-		start_block (html_stream, _("personal"));
+		start_block (html_stream, _("Personal"));
 		gtk_html_stream_printf (html_stream, "%s", accum->str);
 		end_block (html_stream);
 	}

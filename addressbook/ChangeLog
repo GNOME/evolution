@@ -1,3 +1,11 @@
+2006-07-19  Devashish Sharma  <sdevashish@novell.com>
+
+	* addressbook/gui/widgets/e-minicard.c :
+	* addressbook/gui/widgets/eab-contact-display.c : In the minicard view
+	and preview pane, show the type(home, work) of email instead of showing 
+	email1,email2.
+	Fixes Bug 343816.
+
 2006-07-18  Ross Burton  <ross@openedhand.com>
 
 	* addressbook/gui/contact-editor/e-contact-editor.c:
