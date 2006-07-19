@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-17 22:33+0200\n"
-"PO-Revision-Date: 2006-07-18 09:42+0530\n"
+"POT-Creation-Date: 2006-07-18 23:40+0200\n"
+"PO-Revision-Date: 2006-07-19 09:34+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -2996,7 +2997,7 @@ msgstr "કાપો (_t)"
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:852
 #: ../calendar/gui/memos-component.c:451 ../calendar/gui/tasks-component.c:442
-#: ../composer/e-msg-composer.c:3155 ../mail/em-folder-tree.c:986
+#: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:986
 #: ../mail/em-folder-view.c:1112 ../mail/message-list.c:1899
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -5803,28 +5804,28 @@ msgstr " (કારણે "
 msgid "Due "
 msgstr "કારણે "
 
-#: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2891
+#: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2888
 #, c-format
 msgid "Attached message - %s"
 msgstr "જોડાણ સંદેશો - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
-#: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2896
-#: ../composer/e-msg-composer.c:3092
+#: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2893
+#: ../composer/e-msg-composer.c:3089
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "જોડાયેલ સંદેશો"
 msgstr[1] "%d જોડાયેલ સંદેશાઓ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3156
+#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
 #: ../mail/em-folder-tree.c:987 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1008 ../mail/message-list.c:1900
 msgid "_Move"
 msgstr "ખસેડો (_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3158
+#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
 #: ../mail/em-folder-tree.c:989 ../mail/message-list.c:1902
 msgid "Cancel _Drag"
 msgstr "ખેંચવાનું રદ કરો (_D)"
@@ -5833,7 +5834,7 @@ msgstr "ખેંચવાનું રદ કરો (_D)"
 msgid "Could not update object"
 msgstr "ઓબ્જેક્ટ સુધારી શક્યા નથી"
 
-#: ../calendar/gui/dialogs/comp-editor.c:945 ../composer/e-msg-composer.c:2504
+#: ../calendar/gui/dialogs/comp-editor.c:945 ../composer/e-msg-composer.c:2501
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5853,7 +5854,7 @@ msgstr "જોડાણ પટ્ટી બતાવો (_B)"
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3656
+#: ../composer/e-msg-composer.c:3651
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5862,14 +5863,14 @@ msgstr "દૂર કરો (_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1100
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3657 ../mail/em-folder-tree.c:2065
+#: ../composer/e-msg-composer.c:3652 ../mail/em-folder-tree.c:2065
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "ગુણધર્મો (_P)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1102
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3659
+#: ../composer/e-msg-composer.c:3654
 msgid "_Add attachment..."
 msgstr "જોડાણ ઉમેરો (_A)..."
 
@@ -6123,7 +6124,7 @@ msgstr "વૈવિધ્યપૂર્ણ"
 #: ../calendar/gui/dialogs/event-page.c:2963
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
-#: ../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2296
+#: ../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2293
 #: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1388 ../mail/em-account-prefs.c:475
 #: ../mail/em-junk-hook.c:78
@@ -6992,7 +6993,7 @@ msgstr "ઓબ્જેક્ટો સુધારી રહ્યા છીએ
 
 #: ../calendar/gui/e-calendar-table.c:1106
 #: ../calendar/gui/e-calendar-view.c:1248 ../calendar/gui/e-memo-table.c:741
-#: ../composer/e-msg-composer.c:1351
+#: ../composer/e-msg-composer.c:1348
 msgid "Save as..."
 msgstr "આ રીતે સંગ્રહો..."
 
@@ -10183,62 +10184,62 @@ msgstr "જોડો (_t)"
 msgid "Insert Attachment"
 msgstr "જોડાણ ઉમેરો"
 
-#: ../composer/e-msg-composer.c:830
+#: ../composer/e-msg-composer.c:827
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "જતા સંદેશાઓની સહી કરી શકતા નથી: આ ખાતા માટે સહી કરવાનું કોઈ પ્રમાણપત્ર નથી"
 
-#: ../composer/e-msg-composer.c:837
+#: ../composer/e-msg-composer.c:834
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr "જતા સંદેશાઓને એનક્રિપ્ટ કરી શકતા નથી: આ ખાતા માટે કોઈ એનક્રિપ્શન પ્રમાણપત્ર નથી"
 
-#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2533
+#: ../composer/e-msg-composer.c:1294 ../composer/e-msg-composer.c:2530
 msgid "Hide _Attachment Bar"
 msgstr "જોડાણપટ્ટી છુપાવો (_A)"
 
-#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2536
-#: ../composer/e-msg-composer.c:3902
+#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2533
+#: ../composer/e-msg-composer.c:3897
 msgid "Show _Attachment Bar"
 msgstr "જોડાણ પટ્ટી બતાવો (_A)"
 
-#: ../composer/e-msg-composer.c:1332 ../composer/e-msg-composer.c:1366
+#: ../composer/e-msg-composer.c:1329 ../composer/e-msg-composer.c:1363
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "અજ્ઞાત કારણ"
 
-#: ../composer/e-msg-composer.c:1404
+#: ../composer/e-msg-composer.c:1401
 msgid "Could not open file"
 msgstr "ફાઈલ ખોલી શક્યા નથી"
 
-#: ../composer/e-msg-composer.c:1412
+#: ../composer/e-msg-composer.c:1409
 msgid "Unable to retrieve message from editor"
 msgstr "સંપાદકમાંથી સંદેશો મેળવવા સમર્થ નથી"
 
-#: ../composer/e-msg-composer.c:1691
+#: ../composer/e-msg-composer.c:1688
 msgid "Untitled Message"
 msgstr "શીર્ષક વગરનો સંદેશો"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1726
+#: ../composer/e-msg-composer.c:1723
 msgid "Open File"
 msgstr "ફાઈલ ખોલો"
 
-#: ../composer/e-msg-composer.c:2176 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2173 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "આપોઆપ બનતુ"
 
-#: ../composer/e-msg-composer.c:2279
+#: ../composer/e-msg-composer.c:2276
 msgid "Si_gnature:"
 msgstr "સહી (_g):"
 
-#: ../composer/e-msg-composer.c:2547 ../composer/e-msg-composer.c:3784
-#: ../composer/e-msg-composer.c:3787
+#: ../composer/e-msg-composer.c:2544 ../composer/e-msg-composer.c:3779
+#: ../composer/e-msg-composer.c:3782
 msgid "Compose Message"
 msgstr "સંદેશો બનાવો"
 
-#: ../composer/e-msg-composer.c:5011
+#: ../composer/e-msg-composer.c:5006
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -20939,25 +20940,19 @@ msgstr ""
 "તમારા કોષ્ટકમાં સ્તંભ ઉમેરવા માટે, તેને એવા સ્થાનમાં ખેંચો\n"
 "કે જેમાં તમે તેને જોવા માંગો."
 
-#: ../widgets/table/e-table-group-container.c:346
+#: ../widgets/table/e-table-group-container.c:345
 #, c-format
 msgid "%s : %s (%d item)"
-msgstr "%s : %s (%d વસ્તુ)"
+msgid_plural "%s : %s (%d items)"
+msgstr[0] "%s : %s (%d વસ્તુ)"
+msgstr[1] "%s : %s (%d વસ્તુઓ)"
 
-#: ../widgets/table/e-table-group-container.c:347
-#, c-format
-msgid "%s : %s (%d items)"
-msgstr "%s : %s (%d વસ્તુઓ)"
-
-#: ../widgets/table/e-table-group-container.c:352
+#: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s (%d item)"
-msgstr "%s (%d વસ્તુ)"
-
-#: ../widgets/table/e-table-group-container.c:353
-#, c-format
-msgid "%s (%d items)"
-msgstr "%s (%d વસ્તુઓ)"
+msgid_plural "%s (%d items)"
+msgstr[0] "%s (%d વસ્તુ)"
+msgstr[1] "%s (%d વસ્તુઓ)"
 
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-container.c:898
