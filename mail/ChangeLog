@@ -1,3 +1,8 @@
+2006-06-10 Shree Krishnan <shreekrishnan@gmail.com>
+
+	** Fix for bug #338442
+	* mail-config.glade: Set the mnemonic character for "Send message receipts" 
+
 2006-07-18  Andre Klapper  <a9016009@gmx.de>
 
 	* message-tags.glade: remove "*" from translation. Fixes bug #331147.

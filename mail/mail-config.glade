@@ -3342,8 +3342,8 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <child>
 			<widget class="GtkLabel" id="label583">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Send message receipts:</property>
-			  <property name="use_underline">False</property>
+			 <property name="label" translatable="yes">S_end message receipts:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3353,6 +3353,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
 			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="mnemonic_widget">receipt_policy_dropdown</property>
 			  <property name="width_chars">-1</property>
 			  <property name="single_line_mode">False</property>
 			  <property name="angle">0</property>
