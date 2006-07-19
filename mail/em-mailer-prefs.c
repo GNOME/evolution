@@ -664,7 +664,12 @@ notify_type_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 		type = MAIL_CONFIG_NOTIFY_BEEP;
 	else
 		type = MAIL_CONFIG_NOTIFY_PLAY_SOUND;
-	
+
+	if (type == MAIL_CONFIG_NOTIFY_PLAY_SOUND)
+                gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_sound_file, TRUE);
+	else
+	        gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_sound_file, FALSE);
+
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/notify/type", type, NULL);
 }
 
@@ -829,7 +834,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER_BUTTON (prefs->notify_sound_file), buf ? buf : "");
 	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (prefs->notify_sound_file), "selection-changed",
 			  G_CALLBACK (notify_sound_changed), prefs);
-	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL))
+	if (val != MAIL_CONFIG_NOTIFY_PLAY_SOUND)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_sound_file, FALSE);
 	g_free (buf);
 	

@@ -1,3 +1,11 @@
+2006-07-14 Raghavendran R <raghavguru7@gmail.com>
+
+	** Fix for bug #330355
+
+	 * em-mailer-prefs.c:Mailer Preferences. New mail notification,
+	"specify filename" was enabled for radNotifyNot and radNotifyBeep.
+	Disable the button, when it wasnt for button.
+
 2006-06-10 Shree Krishnan <shreekrishnan@gmail.com>
 
 	** Fix for bug #338442
