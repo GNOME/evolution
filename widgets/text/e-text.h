@@ -215,6 +215,8 @@ struct _EText {
 	gboolean      im_context_signals_registered;
 
 	gboolean      handle_popup;
+
+	PangoFontDescription *font_desc;
 };
 
 struct _ETextClass {

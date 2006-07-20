@@ -1,3 +1,8 @@
+2006-07-05  Rajeev ramanathan <rajeevramanathan_2004@yaoo.co.in>
+
+	* text/e-text.[ch]: Added code to render EText text 
+	items with antialiasing, hinting and sub-pixel ordering with cairo.
+	
 2006-07-18  Andre Klapper  <a9016009@gmx.de>
 
 	* e-timezone-dialog/e-timezone-dialog.glade: 

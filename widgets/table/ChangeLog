@@ -1,3 +1,9 @@
+2006-07-05  Rajeev ramanathan <rajeevramanathan_2004@yaoo.co.in>
+
+	* e-cell-text.c: (ect_unrealize), (build_layout), (ect_draw): Added
+	code to render ECell text items with antialiasing, hinting 
+	and sub-pixel ordering with cairo.
+
 2006-07-18  Benoît Dejean  <benoit@placenet.org>
 
 	** Fixes bug #333041

@@ -405,12 +405,30 @@ create_layout (EText *text)
 static void
 reset_layout (EText *text)
 {
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (text);
+	cairo_font_options_t *font_options;
+	PangoContext *context;
+
 	if (text->layout == NULL) {
 		create_layout (text);
 	}
 	else {
-		pango_layout_set_text (text->layout, text->text, -1);
-		reset_layout_attrs (text);
+		context = pango_layout_get_context (text->layout);
+
+		font_options = get_font_options();
+		pango_cairo_context_set_font_options (context, font_options);
+		cairo_font_options_destroy (font_options);
+		pango_layout_context_changed (text->layout);
+
+		text->font_desc = pango_font_description_new ();
+		pango_font_description_set_size (text->font_desc, 
+			pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
+		pango_font_description_set_family (text->font_desc,
+			pango_font_description_get_family ((GTK_WIDGET (item->canvas))->style->font_desc));
+		pango_layout_set_font_description (text->layout, text->font_desc);
+
+ 		pango_layout_set_text (text->layout, text->text, -1);
+ 		reset_layout_attrs (text);
 	}
 
 	if (!text->button_down) {
