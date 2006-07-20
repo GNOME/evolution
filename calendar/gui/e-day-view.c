@@ -6251,6 +6251,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		}
 		
 	}
+	gtk_widget_queue_draw (day_view->main_canvas);
 
  out:
 
