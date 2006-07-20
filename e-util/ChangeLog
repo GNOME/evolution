@@ -1,3 +1,7 @@
+2006-07-20  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	* e-util.[ch]: (get_font_options): Added code to get font options.
+
 2006-06-15  Tor Lillqvist  <tml@novell.com>
 
 	* e-plugin.c (ep_construct): On Win32, if the compile-time

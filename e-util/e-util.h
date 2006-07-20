@@ -27,6 +27,7 @@
 #include <sys/types.h>
 #include <glib-object.h>
 #include <limits.h>
+#include <gconf/gconf-client.h>
 
 #ifdef __cplusplus
 extern "C" {
