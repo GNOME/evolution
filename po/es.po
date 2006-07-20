@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-19 23:34+0200\n"
-"PO-Revision-Date: 2006-07-19 23:36+0200\n"
+"POT-Creation-Date: 2006-07-20 18:00+0200\n"
+"PO-Revision-Date: 2006-07-20 18:02+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1472,9 +1472,9 @@ msgstr "Dirección"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:186
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-entry.c:1312
-#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3607
-#: ../widgets/text/e-text.c:3608
+#: ../widgets/table/e-cell-text.c:1841 ../widgets/text/e-entry.c:1312
+#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3625
+#: ../widgets/text/e-text.c:3626
 msgid "Editable"
 msgstr "Editable"
 
@@ -2887,7 +2887,7 @@ msgstr "Error al obtener la vista de libro"
 #: ../widgets/table/e-table.c:3329
 #: ../widgets/table/e-tree-selection-model.c:825
 #: ../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
-#: ../widgets/text/e-text.c:3471 ../widgets/text/e-text.c:3472
+#: ../widgets/text/e-text.c:3489 ../widgets/text/e-text.c:3490
 msgid "Model"
 msgstr "Modelo"
 
@@ -3188,7 +3188,7 @@ msgstr "Sitio web"
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
-#: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
+#: ../widgets/text/e-text.c:3667 ../widgets/text/e-text.c:3668
 msgid "Width"
 msgstr "Anchura"
 
@@ -3203,7 +3203,7 @@ msgstr "Anchura"
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
-#: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
+#: ../widgets/text/e-text.c:3675 ../widgets/text/e-text.c:3676
 msgid "Height"
 msgstr "Altura"
 
@@ -7897,7 +7897,7 @@ msgstr "En proceso"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:447
+#: ../calendar/gui/e-meeting-time-sel-item.c:464
 #: ../calendar/gui/e-meeting-time-sel.c:2113
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d de %B, %Y"
@@ -7906,14 +7906,14 @@ msgstr "%A, %d de %B, %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:451
+#: ../calendar/gui/e-meeting-time-sel-item.c:468
 #: ../calendar/gui/e-meeting-time-sel.c:2146
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:455
+#: ../calendar/gui/e-meeting-time-sel-item.c:472
 msgid "%m/%d/%Y"
 msgstr "%e/%m/%Y"
 
@@ -11974,10 +11974,10 @@ msgstr "_Guardar seleccionados…"
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:2185
 #, c-format
-msgid "%d attachme_nt"
-msgid_plural "%d attachme_nts"
-msgstr[0] "%d ad_junto"
-msgstr[1] "%d ad_juntos"
+msgid "%d at_tachment"
+msgid_plural "%d at_tachments"
+msgstr[0] "%d a_djunto"
+msgstr[1] "%d a_djuntos"
 
 #: ../mail/em-format-html-display.c:2192 ../mail/em-format-html-display.c:2268
 msgid "S_ave"
@@ -18664,7 +18664,7 @@ msgstr "Guarda los contactos seleccionados en una VCard."
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "Guarda los contactos de la carpeta seleccionada como VCard"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2709
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2727
 msgid "Select All"
 msgstr "Seleccionar todo"
 
@@ -20508,8 +20508,8 @@ msgstr "Calendario mensual"
 
 #: ../widgets/misc/e-canvas-background.c:457
 #: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1284
-#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3563
-#: ../widgets/text/e-text.c:3564
+#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3581
+#: ../widgets/text/e-text.c:3582
 msgid "Fill color"
 msgstr "Color de relleno"
 
@@ -20518,16 +20518,16 @@ msgstr "Color de relleno"
 #: ../widgets/misc/e-canvas-background.c:471
 #: ../widgets/misc/e-canvas-background.c:472 ../widgets/text/e-entry.c:1291
 #: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
-#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3570
-#: ../widgets/text/e-text.c:3571 ../widgets/text/e-text.c:3578
-#: ../widgets/text/e-text.c:3579
+#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3588
+#: ../widgets/text/e-text.c:3589 ../widgets/text/e-text.c:3596
+#: ../widgets/text/e-text.c:3597
 msgid "GDK fill color"
 msgstr "Color de relleno GDK"
 
 #: ../widgets/misc/e-canvas-background.c:478
 #: ../widgets/misc/e-canvas-background.c:479 ../widgets/text/e-entry.c:1305
-#: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3585
-#: ../widgets/text/e-text.c:3586
+#: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3603
+#: ../widgets/text/e-text.c:3604
 msgid "Fill stipple"
 msgstr "Punteo de relleno"
 
@@ -20872,8 +20872,8 @@ msgid "Item ID"
 msgstr "ID de elemento"
 
 #: ../widgets/misc/e-search-bar.c:792 ../widgets/text/e-entry.c:1249
-#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3485
-#: ../widgets/text/e-text.c:3486
+#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3503
+#: ../widgets/text/e-text.c:3504
 msgid "Text"
 msgstr "Texto"
 
@@ -20886,14 +20886,14 @@ msgstr "Mostrar: "
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:927
-msgid "S_earch: "
+msgid "Sear_ch: "
 msgstr "_Buscar: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:938
-msgid " in "
-msgstr " en "
+#: ../widgets/misc/e-search-bar.c:939
+msgid " i_n "
+msgstr " e_n "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -21099,23 +21099,23 @@ msgstr "Columna enfocada"
 msgid "Unselected Column"
 msgstr "Columna deseleccionada"
 
-#: ../widgets/table/e-cell-text.c:1807
+#: ../widgets/table/e-cell-text.c:1813
 msgid "Strikeout Column"
 msgstr "Tachar columna"
 
-#: ../widgets/table/e-cell-text.c:1814
+#: ../widgets/table/e-cell-text.c:1820
 msgid "Underline Column"
 msgstr "Subrayar columna"
 
-#: ../widgets/table/e-cell-text.c:1821
+#: ../widgets/table/e-cell-text.c:1827
 msgid "Bold Column"
 msgstr "Columna en negrita"
 
-#: ../widgets/table/e-cell-text.c:1828
+#: ../widgets/table/e-cell-text.c:1834
 msgid "Color Column"
 msgstr "Color de la columna"
 
-#: ../widgets/table/e-cell-text.c:1842
+#: ../widgets/table/e-cell-text.c:1848
 msgid "BG Color Column"
 msgstr "Color de fondo de la columna"
 
@@ -21472,7 +21472,7 @@ msgid "This should test the minicard canvas item"
 msgstr "Esto debería probar el elemento de lienzo de minitarjetas"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
-#: ../widgets/text/e-text.c:3478 ../widgets/text/e-text.c:3479
+#: ../widgets/text/e-text.c:3496 ../widgets/text/e-text.c:3497
 msgid "Event Processor"
 msgstr "Procesador de acontecimientos"
 
@@ -21485,57 +21485,57 @@ msgid "GDKFont"
 msgstr "Tipografía GDK"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
-#: ../widgets/text/e-text.c:3514 ../widgets/text/e-text.c:3515
+#: ../widgets/text/e-text.c:3532 ../widgets/text/e-text.c:3533
 msgid "Justification"
 msgstr "Justificación"
 
 #: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
-#: ../widgets/text/e-text.c:3614 ../widgets/text/e-text.c:3615
+#: ../widgets/text/e-text.c:3632 ../widgets/text/e-text.c:3633
 msgid "Use ellipsis"
 msgstr "Usar elipsis"
 
 #: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
-#: ../widgets/text/e-text.c:3621 ../widgets/text/e-text.c:3622
+#: ../widgets/text/e-text.c:3639 ../widgets/text/e-text.c:3640
 msgid "Ellipsis"
 msgstr "Elipsis"
 
 #: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
-#: ../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
+#: ../widgets/text/e-text.c:3646 ../widgets/text/e-text.c:3647
 msgid "Line wrap"
 msgstr "Ajuste de línea"
 
 #: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
-#: ../widgets/text/e-text.c:3635 ../widgets/text/e-text.c:3636
+#: ../widgets/text/e-text.c:3653 ../widgets/text/e-text.c:3654
 msgid "Break characters"
 msgstr "Caracteres de ruptura"
 
 #: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
-#: ../widgets/text/e-text.c:3642 ../widgets/text/e-text.c:3643
+#: ../widgets/text/e-text.c:3660 ../widgets/text/e-text.c:3661
 msgid "Max lines"
 msgstr "Líneas máximas"
 
 #: ../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
-#: ../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
+#: ../widgets/text/e-text.c:3689 ../widgets/text/e-text.c:3690
 msgid "Allow newlines"
 msgstr "Permitir nuevas líneas"
 
 #: ../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
-#: ../widgets/text/e-text.c:3664 ../widgets/text/e-text.c:3665
+#: ../widgets/text/e-text.c:3682 ../widgets/text/e-text.c:3683
 msgid "Draw borders"
 msgstr "Dibujar bordes"
 
 #: ../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
-#: ../widgets/text/e-text.c:3678 ../widgets/text/e-text.c:3679
+#: ../widgets/text/e-text.c:3696 ../widgets/text/e-text.c:3697
 msgid "Draw background"
 msgstr "Dibujar fondo"
 
 #: ../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
-#: ../widgets/text/e-text.c:3685 ../widgets/text/e-text.c:3686
+#: ../widgets/text/e-text.c:3703 ../widgets/text/e-text.c:3704
 msgid "Draw button"
 msgstr "Dibujar botón"
 
 #: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
-#: ../widgets/text/e-text.c:3692 ../widgets/text/e-text.c:3693
+#: ../widgets/text/e-text.c:3710 ../widgets/text/e-text.c:3711
 msgid "Cursor position"
 msgstr "Posición del cursor"
 
@@ -21543,59 +21543,59 @@ msgstr "Posición del cursor"
 msgid "Emulate label resize"
 msgstr "Emular redimensionado de etiqueta"
 
-#: ../widgets/text/e-text.c:2721
+#: ../widgets/text/e-text.c:2739
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
-#: ../widgets/text/e-text.c:3492 ../widgets/text/e-text.c:3493
+#: ../widgets/text/e-text.c:3510 ../widgets/text/e-text.c:3511
 msgid "Bold"
 msgstr "Negrita"
 
-#: ../widgets/text/e-text.c:3499 ../widgets/text/e-text.c:3500
+#: ../widgets/text/e-text.c:3517 ../widgets/text/e-text.c:3518
 msgid "Strikeout"
 msgstr "Tachar"
 
-#: ../widgets/text/e-text.c:3506 ../widgets/text/e-text.c:3507
+#: ../widgets/text/e-text.c:3524 ../widgets/text/e-text.c:3525
 msgid "Anchor"
 msgstr "Ancla"
 
-#: ../widgets/text/e-text.c:3521 ../widgets/text/e-text.c:3522
+#: ../widgets/text/e-text.c:3539 ../widgets/text/e-text.c:3540
 msgid "Clip Width"
 msgstr "Ancho del clip"
 
-#: ../widgets/text/e-text.c:3528 ../widgets/text/e-text.c:3529
+#: ../widgets/text/e-text.c:3546 ../widgets/text/e-text.c:3547
 msgid "Clip Height"
 msgstr "Alto del clip"
 
-#: ../widgets/text/e-text.c:3535 ../widgets/text/e-text.c:3536
+#: ../widgets/text/e-text.c:3553 ../widgets/text/e-text.c:3554
 msgid "Clip"
 msgstr "Clip"
 
-#: ../widgets/text/e-text.c:3542 ../widgets/text/e-text.c:3543
+#: ../widgets/text/e-text.c:3560 ../widgets/text/e-text.c:3561
 msgid "Fill clip rectangle"
 msgstr "Rellenar el rectángulo del clip"
 
-#: ../widgets/text/e-text.c:3549 ../widgets/text/e-text.c:3550
+#: ../widgets/text/e-text.c:3567 ../widgets/text/e-text.c:3568
 msgid "X Offset"
 msgstr "Desplazamiento en X"
 
-#: ../widgets/text/e-text.c:3556 ../widgets/text/e-text.c:3557
+#: ../widgets/text/e-text.c:3574 ../widgets/text/e-text.c:3575
 msgid "Y Offset"
 msgstr "Desplazamiento en Y"
 
-#: ../widgets/text/e-text.c:3592 ../widgets/text/e-text.c:3593
+#: ../widgets/text/e-text.c:3610 ../widgets/text/e-text.c:3611
 msgid "Text width"
 msgstr "Anchura del texto"
 
-#: ../widgets/text/e-text.c:3599 ../widgets/text/e-text.c:3600
+#: ../widgets/text/e-text.c:3617 ../widgets/text/e-text.c:3618
 msgid "Text height"
 msgstr "Altura del texto"
 
-#: ../widgets/text/e-text.c:3699 ../widgets/text/e-text.c:3700
+#: ../widgets/text/e-text.c:3717 ../widgets/text/e-text.c:3718
 msgid "IM Context"
 msgstr "Contexto IM"
 
-#: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
+#: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr "Tirador emergente"
 
