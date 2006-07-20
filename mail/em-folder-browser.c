@@ -201,9 +201,9 @@ static ESearchBarItem temp_view_items[] = {
 };
 
 static ESearchBarItem emfb_search_scope_items[] = {
-	E_FILTERBAR_ALL_ACCOUNTS,
-	E_FILTERBAR_CURRENT_ACCOUNT,
 	E_FILTERBAR_CURRENT_FOLDER,
+	E_FILTERBAR_CURRENT_ACCOUNT,
+	E_FILTERBAR_ALL_ACCOUNTS,
 	E_FILTERBAR_CURRENT_MESSAGE,
 	{ NULL, -1, 0 }
 };

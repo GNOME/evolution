@@ -1,3 +1,10 @@
+2006-07-19  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for bug #347993
+	
+	* em-folder-browser.c : Changed default scope of search to
+	'Current Folder'
+
 2006-07-14 Raghavendran R <raghavguru7@gmail.com>
 
 	** Fix for bug #330355
