@@ -924,18 +924,19 @@ e_search_bar_construct (ESearchBar *search_bar,
 	hbox = gtk_hbox_new (FALSE, 0);
 	/* To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 	the term to search for */
-	label = gtk_label_new_with_mnemonic (_("S_earch: "));
+	label = gtk_label_new_with_mnemonic (_("Sear_ch: "));
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX(hbox), search_bar->entry_box, FALSE, FALSE, 0);
 	gtk_widget_show (search_bar->entry_box);
+	gtk_label_set_mnemonic_widget (label, search_bar->entry);
 
 	/* Search Scope Widgets */
 	search_bar->scopeoption_box = gtk_hbox_new (0, FALSE);
 	gtk_box_set_spacing (GTK_BOX (search_bar->scopeoption_box), 3);
 	/* To Translators: The " in " label is part of the Quick Search Bar, example:
 	Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account */
-	label = gtk_label_new_with_mnemonic (_(" in "));
+	label = gtk_label_new_with_mnemonic (_(" i_n "));
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
 
@@ -944,6 +945,7 @@ e_search_bar_construct (ESearchBar *search_bar,
 	gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), search_bar->scopeoption, FALSE, FALSE, 0);
 	gtk_widget_show_all (search_bar->scopeoption_box);
 	gtk_widget_hide (hbox);
+	gtk_label_set_mnemonic_widget (label, search_bar->scopeoption);
 
 	gtk_box_pack_end (GTK_BOX(hbox), search_bar->scopeoption_box, FALSE, FALSE, 0);
 	gtk_widget_hide (search_bar->scopeoption_box);
