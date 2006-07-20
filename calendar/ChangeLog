@@ -1,3 +1,10 @@
+2006-07-19  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes bug #347773
+
+	* gui/e-day-view-main-item.c: Bug in Appointment resize preview in calendar 
+	day/work-week view is fixed.
+
 2006-07-19  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/dialogs/calendar-setup.c: harmonize strings.

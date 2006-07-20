@@ -1330,8 +1330,9 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num  && (GTK_WIDGET_HAS_FOCUS (day_view->main_canvas)))
 	{
-//		item_x -= 1;
-//		item_y -= 2;
+		/* For embossing Item selection */
+		item_x -= 1;
+		item_y -= 2;
 
 		/* Vertical Line */
 		cairo_save (cr);
@@ -1604,12 +1605,13 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				cairo_set_source_rgb (cr, 1, 1, 1);
 			cairo_show_text (cr, end_time);
 			cairo_restore (cr);
-
-			if (scroll_flag < bar_y2)
-				event->end_minute += day_view->mins_per_row;
-			else 
-				event->end_minute -= day_view->mins_per_row;
 		}
+	}
+
+	if (bar_y2 > scroll_flag){
+		event->end_minute += day_view->mins_per_row;
+	} else if (bar_y2 < scroll_flag) {
+		event->end_minute -= day_view->mins_per_row;
 	}
 
 	comp = e_cal_component_new ();
