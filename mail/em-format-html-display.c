@@ -2182,7 +2182,7 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 		char *txt;
 
 		/* Cant i put in the number of attachments here ?*/
-		txt = g_strdup_printf(ngettext("%d attachme_nt", "%d attachme_nts", nattachments), nattachments);
+		txt = g_strdup_printf(ngettext("%d at_tachment", "%d at_tachments", nattachments), nattachments);
 		gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->label, txt);
 		g_free (txt);
 	
