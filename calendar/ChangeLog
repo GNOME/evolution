@@ -1,3 +1,9 @@
+2006-07-19  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	* gui/e-meeting-time-sel.c :(e_meeting_time_selector_construct)
+	* gui/e-meeting-time-sel-item.c : Drawn freebusy view in calendar with cairo,
+	and changed colors for better look and feel.
+
 2006-07-20  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	* gui/e-day-view.c: Fixed the embossing issue on item selection.

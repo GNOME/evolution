@@ -84,7 +84,7 @@ static void e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mt
 						    int width, int height);
 static void e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, GDate *date, int x, int scroll_y, int width, int height);
 static gint e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *mts_item, GDate *date, gint row);
-static void e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, int row, int x, int y, int width, int first_period, EMeetingFreeBusyType busy_type);
+static void e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, int row, int x, int y, int width, int first_period, EMeetingFreeBusyType busy_type, cairo_t *cr);
 
 static EMeetingTimeSelectorPosition e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_item, gint x, gint y);
 static gboolean e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
@@ -257,12 +257,14 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GDate date, last_date, current_date;
 	gboolean is_display_top, show_meeting_time;
 	GdkGC *gc, *stipple_gc;
+	cairo_t *cr;
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 	mts = mts_item->mts;
 	g_return_if_fail (mts != NULL);
 	gc = mts_item->main_gc;
 	stipple_gc = mts_item->stipple_gc;
+	cr = gdk_cairo_create (drawable);
 
 	is_display_top = (GTK_WIDGET (item->canvas) == mts->display_top)
 		? TRUE : FALSE;
@@ -274,15 +276,18 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							    &last_date, NULL);
 
 	/* For the top display draw the 'All Attendees' row background. */
+	cairo_save (cr);
 	if (is_display_top) {
-		gdk_gc_set_foreground (gc, &mts->all_attendees_bg_color);
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    0, mts->row_height * 2 - y,
+		gdk_cairo_set_source_color (cr, &mts->all_attendees_bg_color);
+		cairo_rectangle (cr, 0, mts->row_height * 2 - y,
 				    width, mts->row_height);
+		cairo_fill (cr); 	
 	} else {
-		gdk_gc_set_foreground (gc, &mts->bg_color);
-		gdk_draw_rectangle (drawable, gc, TRUE, 0, 0, width, height);
+		gdk_cairo_set_source_color (cr, &mts->bg_color);
+		cairo_rectangle (cr,  0, 0, width, height);
+		cairo_fill (cr);
 	}
+	cairo_restore (cr);
 
 	/* Calculate the x coordinates of the meeting time. */
 	show_meeting_time = e_meeting_time_selector_get_meeting_time_positions (mts, &meeting_start_x, &meeting_end_x);
@@ -291,20 +296,24 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (show_meeting_time
 	    && (meeting_end_x - 1 >= x) && (meeting_start_x + 1 < x + width)
 	    && (meeting_end_x - meeting_start_x > 2)) {
-		gdk_gc_set_foreground (gc, &mts->meeting_time_bg_color);
-		if (is_display_top)
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    meeting_start_x + 1 - x, mts->row_height * 2 - y,
-					    meeting_end_x - meeting_start_x - 2, mts->row_height);
-		else
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    meeting_start_x + 1 - x, 0,
-					    meeting_end_x - meeting_start_x - 2, height);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &mts->meeting_time_bg_color);
+		if (is_display_top){
+			cairo_rectangle (cr, meeting_start_x + 1 - x, mts->row_height * 2 - y,
+					    meeting_end_x - meeting_start_x - 2, mts->row_height); 			
+			cairo_fill (cr);
+		} else {
+			cairo_rectangle (cr, meeting_start_x + 1 - x, 0,
+					    meeting_end_x - meeting_start_x - 2, height); 
+			cairo_fill (cr);
+		}
+		cairo_restore (cr);
 	}
 
 	/* For the main display draw the stipple background for attendee's
 	   that have no calendar information. */
 	if (!is_display_top) {
+		gdk_cairo_set_source_color (cr, &mts->grid_color);
 		gdk_gc_set_foreground (gc, &mts->grid_color);
 		gdk_gc_set_foreground (stipple_gc, &mts->grid_color);
 		gdk_gc_set_background (stipple_gc, &mts->stipple_bg_color);
@@ -323,11 +332,15 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					} else {
 						if (start_x >= 0) {
 							gdk_draw_rectangle (drawable, stipple_gc, TRUE, 0, row_y, start_x, mts->row_height);
-							gdk_draw_line (drawable, gc, start_x, row_y, start_x, row_y + mts->row_height);
+							cairo_move_to (cr, start_x, row_y);
+							cairo_line_to (cr, start_x, row_y + mts->row_height);
+							cairo_stroke (cr);
 						}
 						if (end_x <= width) {
 							gdk_draw_rectangle (drawable, stipple_gc, TRUE, end_x, row_y, width - end_x, mts->row_height);
-							gdk_draw_line (drawable, gc, end_x, row_y, end_x, row_y + mts->row_height);
+							cairo_move_to (cr, end_x, row_y);
+							cairo_line_to (cr, end_x, row_y + mts->row_height);
+							cairo_stroke (cr);
 						}
 					}
 				}
@@ -376,22 +389,26 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			bar_height = height;
 		}
 
-		gdk_gc_set_foreground (gc, &mts->grid_color);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &mts->grid_color);
 
 		if ((meeting_start_x + 2 >= x)
 		    && (meeting_start_x - 2 < x + width)) {
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    meeting_start_x - 2 - x, bar_y,
+			cairo_rectangle (cr, meeting_start_x - 2 - x, bar_y,
 					    5, bar_height);
+			cairo_fill (cr);
 		}
 
 		if ((meeting_end_x + 2 >= x)
 		    && (meeting_end_x - 2 < x + width)) {
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    meeting_end_x - 2 - x, bar_y,
+			cairo_rectangle (cr, meeting_end_x - 2 - x, bar_y,
 					    5, bar_height);
+			cairo_fill (cr);
+
 		}
+		cairo_restore (cr);
 	}
+	cairo_destroy (cr);
 }
 
 
@@ -431,7 +448,7 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	     grid_x < mts->day_width - mts->col_width;
 	     grid_x += mts->col_width) {
 		gdk_draw_line (drawable, gc,
-			       x + grid_x, mts->row_height * 2 - 4 - scroll_y,
+			       x + grid_x, mts->row_height * 2 - 1 - scroll_y,
 			       x + grid_x, height);
 	}
 	grid_x = mts->day_width - 2;
@@ -503,9 +520,13 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 	gint row, y;
 	GdkGC *gc;
 	gint *first_periods;
+	cairo_t *cr;
+	guint16 red, green, blue;
+	gdouble cc = 65535.0;
 
 	mts = mts_item->mts;
 	gc = mts_item->main_gc;
+	cr = gdk_cairo_create (drawable);
 
 	/* Calculate the y coordinate to paint the row at in the drawable. */
 	y = 2 * mts->row_height - scroll_y - 1;
@@ -522,14 +543,19 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 	     busy_type < E_MEETING_FREE_BUSY_LAST;
 	     busy_type++) {
 		gdk_gc_set_foreground (gc, &mts->busy_colors[busy_type]);
+		red = mts->busy_colors[busy_type].red;
+		green = mts->busy_colors[busy_type].green;
+		blue = mts->busy_colors[busy_type].blue;
+		cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.8);
 		for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++) {
 			if (first_periods[row] == -1)
 				continue;
-			e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_periods[row], busy_type);
+			e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_periods[row], busy_type, cr);
 		}
 	}
 
 	g_free (first_periods);
+	cairo_destroy (cr);
 }
 
 
@@ -616,9 +642,13 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 	EMeetingFreeBusyType busy_type;
 	gint row, y, first_period;
 	GdkGC *gc;
+	cairo_t *cr;
+	guint16 red, green, blue;
+	gdouble cc = 65535.0;
 
 	mts = mts_item->mts;
 	gc = mts_item->main_gc;
+	cr = gdk_cairo_create (drawable);
 
 	/* Calculate the first visible attendee row. */
 	row = scroll_y / mts->row_height;
@@ -639,12 +669,17 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 			     busy_type < E_MEETING_FREE_BUSY_LAST;
 			     busy_type++) {
 				gdk_gc_set_foreground (gc, &mts->busy_colors[busy_type]);
-				e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_period, busy_type);
+				red = mts->busy_colors[busy_type].red;
+				green = mts->busy_colors[busy_type].green;
+				blue = mts->busy_colors[busy_type].blue; 
+				cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.8);
+				e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_period, busy_type, cr);
 			}
 		}
 		y += mts->row_height;
 		row++;
 	}
+	cairo_destroy (cr);
 }
 
 
@@ -684,7 +719,7 @@ e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *m
    busy type, e.g out of office. It is passed the index of the first visible
    busy period of the attendee and continues until it runs off the screen. */
 static void
-e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, int x, int y, int width, int row, int first_period, EMeetingFreeBusyType busy_type)
+e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, int x, int y, int width, int row, int first_period, EMeetingFreeBusyType busy_type, cairo_t *cr)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingAttendee *ia;
@@ -740,14 +775,13 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 		 the top/bottom line of each row. */
 		if (x2 - x1 > 0) {
 #if E_MEETING_TIME_SELECTOR_DRAW_GRID_LINES_AT_BOTTOM
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    x1 - x, y + 2,
+			cairo_rectangle (cr, x1 - x, y + 2,
 					    x2 - x1, mts->row_height - 5);
 #else
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    x1 - x, y + 3,
+			cairo_rectangle (cr, x1 - x, y + 3,
 					    x2 - x1, mts->row_height - 5);
 #endif
+			cairo_fill (cr);
 		}
 	}
 }

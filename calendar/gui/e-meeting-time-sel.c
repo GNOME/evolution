@@ -652,18 +652,18 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	/* Allocate the colors. */
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (mts));
-	e_meeting_time_selector_alloc_named_color (mts, "gray75", &mts->bg_color);
-	e_meeting_time_selector_alloc_named_color (mts, "gray50", &mts->all_attendees_bg_color);
+	e_meeting_time_selector_alloc_named_color (mts, "snow", &mts->bg_color);
+	e_meeting_time_selector_alloc_named_color (mts, "snow3", &mts->all_attendees_bg_color);
 	gdk_color_black (colormap, &mts->grid_color);
 	gdk_color_white (colormap, &mts->grid_shadow_color);
 	e_meeting_time_selector_alloc_named_color (mts, "gray50", &mts->grid_unused_color);
-	gdk_color_white (colormap, &mts->meeting_time_bg_color);
 	gdk_color_white (colormap, &mts->stipple_bg_color);
 	gdk_color_white (colormap, &mts->attendee_list_bg_color);
 
-	e_meeting_time_selector_alloc_named_color (mts, "LightSkyBlue2", &mts->busy_colors[E_MEETING_FREE_BUSY_TENTATIVE]);
+	e_meeting_time_selector_alloc_named_color (mts, "snow4", &mts->meeting_time_bg_color);
+	e_meeting_time_selector_alloc_named_color (mts, "yellow", &mts->busy_colors[E_MEETING_FREE_BUSY_TENTATIVE]);
 	e_meeting_time_selector_alloc_named_color (mts, "blue", &mts->busy_colors[E_MEETING_FREE_BUSY_BUSY]);
-	e_meeting_time_selector_alloc_named_color (mts, "HotPink3", &mts->busy_colors[E_MEETING_FREE_BUSY_OUT_OF_OFFICE]);
+	e_meeting_time_selector_alloc_named_color (mts, "orange4", &mts->busy_colors[E_MEETING_FREE_BUSY_OUT_OF_OFFICE]);
 
 	/* Create the stipple, for attendees with no data. */
 	mts->stipple = gdk_bitmap_create_from_data (NULL, (gchar*)stipple_bits,
