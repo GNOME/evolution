@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-18 23:40+0200\n"
-"PO-Revision-Date: 2006-07-19 09:34+0530\n"
+"POT-Creation-Date: 2006-07-20 07:08+0200\n"
+"PO-Revision-Date: 2006-07-20 15:20+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -549,7 +550,7 @@ msgstr "તમારા {0} માટેના સંપર્કો જ્ય�
 
 #: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:511
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
-#: ../plugins/groupwise-features/properties.glade.h:10
+#: ../plugins/groupwise-features/properties.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
 msgstr "ઉમેરો (_A)"
@@ -657,7 +658,8 @@ msgstr "આ કમ્પ્યુટરમાં"
 #. orange
 #: ../addressbook/gui/component/addressbook-component.c:149
 #: ../addressbook/gui/component/addressbook-migrate.c:491
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
+#: ../addressbook/gui/widgets/eab-contact-display.c:600
 #: ../calendar/gui/calendar-component.c:235
 #: ../calendar/gui/memos-component.c:202 ../calendar/gui/migration.c:482
 #: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
@@ -711,7 +713,7 @@ msgstr "આધાર"
 
 #: ../addressbook/gui/component/addressbook-config.c:533
 #: ../calendar/gui/dialogs/calendar-setup.c:192
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:10
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Type:"
 msgstr "પ્રકાર (_T):"
 
@@ -959,7 +961,7 @@ msgid "636"
 msgstr "૬૩૬"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:6
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 msgid "<b>Authentication</b>"
 msgstr "<b>સત્તાધિકરણ</b>"
 
@@ -1202,9 +1204,9 @@ msgstr "પ્રવેશ પદ્ધતિ (_L):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:245
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:8
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:7
 #: ../mail/mail-config.glade.h:163
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Name:"
 msgstr "નામ (_N):"
 
@@ -1237,7 +1239,7 @@ msgstr "પત્રો"
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:14
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:16
 #: ../mail/em-account-editor.c:2021
 #: ../plugins/calendar-http/calendar-http.c:286
@@ -1246,240 +1248,222 @@ msgid "minutes"
 msgstr "મિનિટો"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:1
-#: ../addressbook/gui/contact-editor/fullname.glade.h:1
-#: ../addressbook/gui/contact-editor/im.glade.h:1
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:1
-#: ../calendar/gui/dialogs/new-calendar.glade.h:1
-#: ../calendar/gui/dialogs/new-task-list.glade.h:1
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
-#: ../mail/message-tags.glade.h:1
-#: ../plugins/exchange-operations/exchange-change-password.glade.h:1
-#: ../plugins/groupwise-features/properties.glade.h:1
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
-#: ../widgets/menus/gal-view-new-dialog.glade.h:1
-#: ../widgets/misc/e-attachment.glade.h:1
-#: ../widgets/misc/gal-categories.glade.h:1
-msgid "*"
-msgstr "*"
-
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
 msgstr "<b>ઈ-મેઈલ</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Home</b>"
 msgstr "<b>ઘર</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Instant Messaging</b>"
 msgstr "<b>તુરંત સંદેશાવ્યવહાર</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:5
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Job</b>"
 msgstr "<b>કામ</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>મિશ્રિત</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "<b>Other</b>"
 msgstr "<b>બીજા</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Telephone</b>"
 msgstr "<b>ટેલિફોન</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "<b>Web Addresses</b>"
 msgstr "<b>વેબ સરનામાઓ</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Work</b>"
 msgstr "<b>કાર્ય</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
-#: ../addressbook/gui/widgets/eab-contact-display.c:503
+#: ../addressbook/gui/widgets/eab-contact-display.c:555
 msgid "AIM"
 msgstr "AIM"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:274
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:171
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#: ../addressbook/gui/widgets/e-minicard.c:182
+#: ../addressbook/gui/widgets/e-minicard.c:193
 msgid "Contact"
 msgstr "સંપર્ક"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:551
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:566
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2415
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2416
 msgid "Contact Editor"
 msgstr "સંપર્ક સંપાદક"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Full _Name..."
 msgstr "પૂરુ નામ (_N)..."
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Image"
 msgstr "ઈમેજ"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
 msgid "MSN Messenger"
 msgstr "MSN સંદેશાવાહક"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Mailing Address"
 msgstr "મેઈલ સરનામું"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
 msgid "Ni_ckname:"
 msgstr "લાડકુ નામ (_c):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
 msgid "Novell Groupwise"
 msgstr "નોવેલ જૂથ પ્રમાણે"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Personal Information"
 msgstr "અંગત જાણકારી"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Telephone"
 msgstr "ટેલિફોન"
 
 #. red
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:236
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:203
+#: ../addressbook/gui/widgets/eab-contact-display.c:57
+#: ../addressbook/gui/widgets/eab-contact-display.c:583
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1054
 #: ../mail/mail-config.glade.h:153
 msgid "Work"
 msgstr "કાર્ય"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "_Address:"
 msgstr "સરનામુ (_A):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Anniversary:"
 msgstr "સાલગીરી (_A):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Assistant:"
 msgstr "મદદનીશ (_A):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Birthday:"
 msgstr "જન્મ દિવસ (_B):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 #: ../calendar/gui/dialogs/event-page.c:875
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1654
 msgid "_Calendar:"
 msgstr "કેલેન્ડર (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "_Categories..."
 msgstr "વર્ગો (_C)..."
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_City:"
 msgstr "શહેર (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Company:"
 msgstr "કંપની (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Country:"
 msgstr "દેશ (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Department:"
 msgstr "વિભાગ (_D):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_File under:"
 msgstr "ની નીચે ફાઈલ (_F):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Free/Busy:"
 msgstr "મુક્ત/વ્યસ્ત (_F):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Home Page:"
 msgstr "ઘર પાનુ (_H):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Manager:"
 msgstr "વ્યવસ્થાપક (_M):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Notes:"
 msgstr "નોંધો (_N):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Office:"
 msgstr "ઓફિસ (_O):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_PO Box:"
 msgstr "_PO બોક્સ:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "_Profession:"
 msgstr "ધંધો (_P):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Spouse:"
 msgstr "પત્ની (_S):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_State/Province:"
 msgstr "રાજ્ય/પ્રોવિન્સ (_S):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
-#: ../addressbook/gui/contact-editor/fullname.glade.h:18
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: ../addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Title:"
 msgstr "શીર્ષક (_T):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Video Chat:"
 msgstr "વિડીયો સંવાદ (_V):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Wants to receive HTML mail"
 msgstr "HTML મેઈલ મેળવવાની જરુર છે (_W)"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Web Log:"
 msgstr "વેબ લોગ (_W):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Where:"
 msgstr "ક્યાં (_W):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:49
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 msgid "_Zip/Postal Code:"
 msgstr "ઝીપ/પોસ્ટલ કોડ (_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:97
-#: ../addressbook/gui/widgets/eab-contact-display.c:522
-#: ../addressbook/gui/widgets/eab-contact-display.c:537
+#: ../addressbook/gui/widgets/eab-contact-display.c:580
+#: ../addressbook/gui/widgets/eab-contact-display.c:595
 msgid "Address"
 msgstr "સરનામું"
 
@@ -1493,7 +1477,7 @@ msgstr "સરનામું"
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
-#: ../addressbook/gui/widgets/e-minicard.c:175
+#: ../addressbook/gui/widgets/e-minicard.c:186
 #: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3607
@@ -2484,7 +2468,7 @@ msgstr "AOL તુરંત સંદેશાવાહક"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
-#: ../addressbook/gui/widgets/eab-contact-display.c:506
+#: ../addressbook/gui/widgets/eab-contact-display.c:558
 msgid "Jabber"
 msgstr "જેબર"
 
@@ -2494,7 +2478,7 @@ msgstr "યાહુ મેસેન્જર"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:68
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
-#: ../addressbook/gui/widgets/eab-contact-display.c:505
+#: ../addressbook/gui/widgets/eab-contact-display.c:557
 msgid "ICQ"
 msgstr "ICQ"
 
@@ -2515,26 +2499,28 @@ msgstr "વપરાશકર્તાનું નામ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:232
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:204
+#: ../addressbook/gui/widgets/eab-contact-display.c:58
 msgid "Home"
 msgstr "ઘર"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:240
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:205
+#: ../addressbook/gui/widgets/eab-contact-display.c:59
 msgid "Other"
 msgstr "બીજા"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:188
-#: ../addressbook/gui/widgets/eab-contact-display.c:508
+#: ../addressbook/gui/widgets/eab-contact-display.c:560
 msgid "Yahoo"
 msgstr "યાહુ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
-#: ../addressbook/gui/widgets/eab-contact-display.c:507
+#: ../addressbook/gui/widgets/eab-contact-display.c:559
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:191
-#: ../addressbook/gui/widgets/eab-contact-display.c:504
+#: ../addressbook/gui/widgets/eab-contact-display.c:556
 msgid "GroupWise"
 msgstr "જૂથ પ્રમાણે"
 
@@ -2563,20 +2549,20 @@ msgid "Changed"
 msgstr "બદલાયેલ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:561
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2410
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2411
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "સંપર્ક સંપાદક - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2790
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2791
 msgid "Please select an image for this contact"
 msgstr "મહેરબાની કરીને આ સંપર્ક માટે ચિત્ર પસંદ કરો"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2791
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2792
 msgid "_No image"
 msgstr "કોઈ ચિત્ર નથી (_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3093
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3094
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2584,23 +2570,23 @@ msgstr ""
 "સંપર્ક માહિતી અયોગ્ય છે:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3098
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' નું બંધારણ અયોગ્ય છે"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3104
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3105
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' નું બંધારણ અયોગ્ય છે"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3119
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3130
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3120
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3131
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' ખાલી છે"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3145
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3146
 msgid "Invalid contact."
 msgstr "અયોગ્ય સંપર્ક."
 
@@ -2658,104 +2644,104 @@ msgstr ""
 "શું તમે ખરેખર આ સંપર્કો\n"
 "દૂર કરવા માંગો છો?"
 
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:2
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
 msgstr "સરનામુ _૨:"
 
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:3
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Ci_ty:"
 msgstr "શહેર (_t):"
 
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:4
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Countr_y:"
 msgstr "દેશ (_y):"
 
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Full Address"
 msgstr "પૂરુ સરનામુ"
 
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:9
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
 msgstr "_ZIP કોડ:"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:2
+#: ../addressbook/gui/contact-editor/fullname.glade.h:1
 msgid "Dr."
 msgstr "Dr."
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:3
+#: ../addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Esq."
 msgstr "Esq."
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:4
+#: ../addressbook/gui/contact-editor/fullname.glade.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "Full Name"
 msgstr "પૂરું નામ"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:5
+#: ../addressbook/gui/contact-editor/fullname.glade.h:4
 msgid "I"
 msgstr "I"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:6
+#: ../addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "II"
 msgstr "II"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:7
+#: ../addressbook/gui/contact-editor/fullname.glade.h:6
 msgid "III"
 msgstr "III"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:8
+#: ../addressbook/gui/contact-editor/fullname.glade.h:7
 msgid "Jr."
 msgstr "Jr."
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:9
+#: ../addressbook/gui/contact-editor/fullname.glade.h:8
 msgid "Miss"
 msgstr "કુમારી"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:10
+#: ../addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Mr."
 msgstr "શ્રીમાન"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:11
+#: ../addressbook/gui/contact-editor/fullname.glade.h:10
 msgid "Mrs."
 msgstr "શ્રીમતિ"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:12
+#: ../addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Ms."
 msgstr "Ms."
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:13
+#: ../addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Sr."
 msgstr "Sr."
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:14
+#: ../addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "_First:"
 msgstr "પહેલુ (_F):"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:15
+#: ../addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_Last:"
 msgstr "છેલ્લુ (_L):"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:16
+#: ../addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Middle:"
 msgstr "વચ્ચેનું (_M):"
 
-#: ../addressbook/gui/contact-editor/fullname.glade.h:17
+#: ../addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Suffix:"
 msgstr "પ્રત્યય (_S):"
 
-#: ../addressbook/gui/contact-editor/im.glade.h:2
+#: ../addressbook/gui/contact-editor/im.glade.h:1
 msgid "Add IM Account"
 msgstr "IM ખાતુ ઉમેરો"
 
-#: ../addressbook/gui/contact-editor/im.glade.h:3
+#: ../addressbook/gui/contact-editor/im.glade.h:2
 msgid "_Account name:"
 msgstr "ખાતાનું નામ (_A):"
 
-#: ../addressbook/gui/contact-editor/im.glade.h:4
+#: ../addressbook/gui/contact-editor/im.glade.h:3
 msgid "_IM Service:"
 msgstr "_IM સેવા:"
 
-#: ../addressbook/gui/contact-editor/im.glade.h:5
+#: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:242
@@ -2767,40 +2753,40 @@ msgstr "જગ્યા (_L):"
 msgid "\n"
 msgstr "\n"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Add an email to the List"
 msgstr "ઈ-મેઈલને યાદીમાં ઉમેરો"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:878
 msgid "Contact List Editor"
 msgstr "સંપર્ક યાદી સંપાદક"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Insert email addresses from Address Book"
 msgstr "સરનામા પુસ્તિકામાંથી ઈમેઈલ સરનામાઓ દાખલ કરો"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "Members"
 msgstr "સભ્યો"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "Remove an email address from the List"
 msgstr "યાદીમાંથી ઈ-મેઈલ સરનામું દૂર કરો"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "_Hide addresses when sending mail to this list"
 msgstr "આ યાદીને મેઈલ મોકલતી વખતે સરનામાઓ છુપાવો (_H)"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_List name:"
 msgstr "યાદીનું નામ (_L):"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_Select"
 msgstr "પસંદ કરો (_S)"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "નીચેની યાદીમાંથી સંપર્ક ખેંચી લો અથવા ઈ-મેઈલ સરનામુ લખો (_T):"
 
@@ -3022,6 +3008,7 @@ msgid "Print cards"
 msgstr "કાર્ડો છાપો"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
+#: ../addressbook/gui/widgets/eab-contact-display.c:574
 msgid "Assistant"
 msgstr "મદદનીશ"
 
@@ -3062,7 +3049,7 @@ msgid "Company Phone"
 msgstr "સંસ્થાનો ફોન"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: ../addressbook/gui/widgets/eab-contact-display.c:722
+#: ../addressbook/gui/widgets/eab-contact-display.c:783
 #: ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "ઈ-મેઈલ"
@@ -3108,20 +3095,22 @@ msgid "Journal"
 msgstr "જર્નલ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
+#: ../addressbook/gui/widgets/eab-contact-display.c:573
 msgid "Manager"
 msgstr "વ્યવસ્થાપક"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: ../addressbook/gui/widgets/eab-contact-display.c:536
+#: ../addressbook/gui/widgets/eab-contact-display.c:594
 msgid "Mobile Phone"
 msgstr "મોબાઈલ ફોન"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
+#: ../addressbook/gui/widgets/eab-contact-display.c:549
 msgid "Nickname"
 msgstr "ખોટું નામ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: ../addressbook/gui/widgets/eab-contact-display.c:547
+#: ../addressbook/gui/widgets/eab-contact-display.c:607
 msgid "Note"
 msgstr "નોંધ"
 
@@ -3130,7 +3119,7 @@ msgid "Office"
 msgstr "ઓફિસ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-#: ../addressbook/gui/widgets/eab-contact-display.c:517
+#: ../addressbook/gui/widgets/eab-contact-display.c:569
 msgid "Organization"
 msgstr "સંસ્થા"
 
@@ -3163,6 +3152,7 @@ msgid "Role"
 msgstr "ભૂમિકા"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
+#: ../addressbook/gui/widgets/eab-contact-display.c:598
 msgid "Spouse"
 msgstr "પત્ની"
 
@@ -3193,7 +3183,7 @@ msgid "Web Site"
 msgstr "વેબ સાઈટ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
-#: ../addressbook/gui/widgets/e-minicard.c:138
+#: ../addressbook/gui/widgets/e-minicard.c:149
 #: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
 #: ../widgets/misc/e-reflow.c:1436 ../widgets/misc/e-reflow.c:1437
 #: ../widgets/table/e-table-click-to-add.c:516
@@ -3209,7 +3199,7 @@ msgid "Width"
 msgstr "પહોળાઈ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
-#: ../addressbook/gui/widgets/e-minicard.c:145
+#: ../addressbook/gui/widgets/e-minicard.c:156
 #: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
 #: ../widgets/misc/e-reflow.c:1444 ../widgets/misc/e-reflow.c:1445
 #: ../widgets/table/e-table-click-to-add.c:523
@@ -3224,7 +3214,7 @@ msgid "Height"
 msgstr "ઊંચાઈ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
-#: ../addressbook/gui/widgets/e-minicard.c:153
+#: ../addressbook/gui/widgets/e-minicard.c:164
 msgid "Has Focus"
 msgstr "નો ફોકસ"
 
@@ -3300,94 +3290,136 @@ msgstr ""
 msgid "Adapter"
 msgstr "એડેપ્ટર"
 
-#: ../addressbook/gui/widgets/e-minicard.c:161
+#: ../addressbook/gui/widgets/e-minicard.c:101
+msgid "Work Email"
+msgstr "કામનો ઈ-મેઈલ"
+
+#: ../addressbook/gui/widgets/e-minicard.c:102
+msgid "Home Email"
+msgstr "ઘરનો ઈમેઈલ"
+
+#: ../addressbook/gui/widgets/e-minicard.c:103
+msgid "Other Email"
+msgstr "અન્ય ઈમેઈલ"
+
+#: ../addressbook/gui/widgets/e-minicard.c:172
 msgid "Selected"
 msgstr "પસંદ કરેલ"
 
-#: ../addressbook/gui/widgets/e-minicard.c:168
+#: ../addressbook/gui/widgets/e-minicard.c:179
 msgid "Has Cursor"
 msgstr "ને કર્સર"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:163 ../mail/em-popup.c:620
+#: ../addressbook/gui/widgets/eab-contact-display.c:173 ../mail/em-popup.c:620
 msgid "_Open Link in Browser"
 msgstr "કડીને બ્રાઉઝરમાં ખોલો (_O)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:164
+#: ../addressbook/gui/widgets/eab-contact-display.c:174
 #: ../mail/em-folder-view.c:2497
 msgid "_Copy Link Location"
 msgstr "કડીની જગ્યાની નકલ કરો (_C)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:165
+#: ../addressbook/gui/widgets/eab-contact-display.c:175
 msgid "_Send New Message To ..."
 msgstr "નવો સંદેશો આના પ્રતિ મોકલો (_S) ..."
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:166
+#: ../addressbook/gui/widgets/eab-contact-display.c:176
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
 msgstr "ઈમેઈલ સરનામાની નકલ કરો (_E)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:290
-#: ../addressbook/gui/widgets/eab-contact-display.c:353
+#: ../addressbook/gui/widgets/eab-contact-display.c:300
+#: ../addressbook/gui/widgets/eab-contact-display.c:363
 msgid "(map)"
 msgstr "(નકશો)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:300
-#: ../addressbook/gui/widgets/eab-contact-display.c:366
+#: ../addressbook/gui/widgets/eab-contact-display.c:310
+#: ../addressbook/gui/widgets/eab-contact-display.c:376
 msgid "map"
 msgstr "નકશો"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:431
-#: ../addressbook/gui/widgets/eab-contact-display.c:700
+#: ../addressbook/gui/widgets/eab-contact-display.c:461
+#: ../addressbook/gui/widgets/eab-contact-display.c:761
 msgid "List Members"
 msgstr "સભ્યોની યાદી"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:494
-#: ../addressbook/gui/widgets/eab-contact-display.c:496
+#: ../addressbook/gui/widgets/eab-contact-display.c:539
+#: ../addressbook/gui/widgets/eab-contact-display.c:541
 msgid "E-mail"
 msgstr "ઈ-મેઈલ"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:518
+#: ../addressbook/gui/widgets/eab-contact-display.c:570
+msgid "Department"
+msgstr "વિભાગ"
+
+#: ../addressbook/gui/widgets/eab-contact-display.c:571
+msgid "Profession"
+msgstr "વ્યવસાય"
+
+#: ../addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Position"
 msgstr "જગ્યા"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:519
+#: ../addressbook/gui/widgets/eab-contact-display.c:575
 msgid "Video Chat"
 msgstr "વિડીયો સંવાદ"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:520
-#: ../addressbook/gui/widgets/eab-contact-display.c:535
+#: ../addressbook/gui/widgets/eab-contact-display.c:576
+#: ../calendar/gui/calendar-commands.c:119
+#: ../calendar/gui/calendar-component.c:727
+#: ../calendar/gui/dialogs/calendar-setup.c:369
+#: ../calendar/gui/gnome-cal.c:2099
+#: ../plugins/exchange-operations/exchange-folder.c:569
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
+#: ../plugins/hula-account-setup/camel-hula-listener.c:379
+#: ../plugins/hula-account-setup/camel-hula-listener.c:408
+#: ../plugins/publish-calendar/publish-calendar.glade.h:5
+msgid "Calendar"
+msgstr "કેલેન્ડર"
+
+#: ../addressbook/gui/widgets/eab-contact-display.c:577
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: ../calendar/gui/dialogs/event-editor.c:591
+#: ../ui/evolution-event-editor.xml.h:8
+msgid "Free/Busy"
+msgstr "મુક્ત/વ્યસ્ત"
+
+#: ../addressbook/gui/widgets/eab-contact-display.c:578
+#: ../addressbook/gui/widgets/eab-contact-display.c:593
 msgid "Phone"
 msgstr "ફોન"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:521
+#: ../addressbook/gui/widgets/eab-contact-display.c:579
 msgid "Fax"
 msgstr "ફેક્સ"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:525
-msgid "work"
-msgstr "કામ"
-
-#: ../addressbook/gui/widgets/eab-contact-display.c:532
+#: ../addressbook/gui/widgets/eab-contact-display.c:590
 msgid "Home Page"
 msgstr "ઘર પાનું"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:533
+#: ../addressbook/gui/widgets/eab-contact-display.c:591
 msgid "Web Log"
 msgstr "વેબ લોગ"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:540
-msgid "personal"
-msgstr "ખાનગી"
+#: ../addressbook/gui/widgets/eab-contact-display.c:596
+msgid "Birthday"
+msgstr "જન્મદિવસ"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:718
+#: ../addressbook/gui/widgets/eab-contact-display.c:597
+msgid "Anniversary"
+msgstr "વર્ષગાંઠ"
+
+#: ../addressbook/gui/widgets/eab-contact-display.c:779
 msgid "Job Title"
 msgstr "કામનું શીર્ષક"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:749
+#: ../addressbook/gui/widgets/eab-contact-display.c:810
 msgid "Home page"
 msgstr "ઘર પાનું"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:757
+#: ../addressbook/gui/widgets/eab-contact-display.c:818
 msgid "Blog"
 msgstr "બ્લોગ"
 
@@ -4530,7 +4562,7 @@ msgstr[1] "મિનિટો"
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:131
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:12
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
 #: ../plugins/calendar-http/calendar-http.c:287
 #: ../plugins/calendar-weather/calendar-weather.c:564
@@ -5112,20 +5144,6 @@ msgstr "બંધબેસતા નથી"
 msgid "Print"
 msgstr "છાપો"
 
-#: ../calendar/gui/calendar-commands.c:119
-#: ../calendar/gui/calendar-component.c:727
-#: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2099
-#: ../plugins/exchange-operations/exchange-folder.c:569
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
-#: ../plugins/hula-account-setup/camel-hula-listener.c:379
-#: ../plugins/hula-account-setup/camel-hula-listener.c:408
-#: ../plugins/publish-calendar/publish-calendar.glade.h:5
-msgid "Calendar"
-msgstr "કેલેન્ડર"
-
 #: ../calendar/gui/calendar-commands.c:348
 msgid ""
 "This operation will permanently erase all events older than the selected "
@@ -5141,7 +5159,7 @@ msgstr "ના કરતાં જૂની ઘટનાઓ કાઢો"
 
 #: ../calendar/gui/calendar-commands.c:359
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:12
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:11
 #: ../filter/filter.glade.h:14 ../plugins/calendar-http/calendar-http.c:288
 #: ../plugins/calendar-weather/calendar-weather.c:565
 #: ../widgets/misc/e-send-options.glade.h:38
@@ -5465,12 +5483,6 @@ msgstr "દિવસ અંત થાય છે (_e):"
 msgid "Display"
 msgstr "ડિસ્પ્લે"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:591
-#: ../ui/evolution-event-editor.xml.h:8
-msgid "Free/Busy"
-msgstr "મુક્ત/વ્યસ્ત"
-
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:730
@@ -5512,7 +5524,7 @@ msgstr ""
 "રવિવાર"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:5
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:4
 #: ../mail/mail-config.glade.h:105
 msgid "Pick a color"
 msgstr "રંગ પસંદ કરો"
@@ -5673,16 +5685,16 @@ msgid "Cop_y memo list contents locally for offline operation"
 msgstr "ઓફલાઈન પ્રક્રિયા માટે મેમો યાદી સમાવિષ્ટોની સ્થાનિક રીતે નકલ કરો (_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:4
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "C_olor:"
 msgstr "રંગ (_o):"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:380
-msgid "Tasks List"
-msgstr "બાબતોની યાદી"
+msgid "Task List"
+msgstr "બાબત યાદી"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:391
-msgid "Memos List"
+msgid "Memo List"
 msgstr "મેમો યાદી"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
@@ -5701,35 +5713,35 @@ msgstr "બાબત યાદી ગુણધર્મો"
 msgid "New Memo List"
 msgstr "નવી મેમો યાદી"
 
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:2
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:1
 msgid "Add Calendar"
 msgstr "કેલેન્ડર ઉમેરો"
 
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:3
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Task List"
 msgstr "બાબત યાદી ઉમેરો"
 
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:6
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 msgid "_Add Calendar"
 msgstr "કેલેન્ડર ઉમેરો (_A)"
 
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:7
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Task List"
 msgstr "બાબત યાદી ઉમેરો (_A)"
 
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:9
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:8
 #: ../plugins/calendar-http/calendar-http.c:271
 #: ../plugins/calendar-weather/calendar-weather.c:548
 msgid "_Refresh:"
 msgstr "ફરીથી તાજુ કરો (_R):"
 
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:11
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:10
 #: ../plugins/caldav/caldav-source.c:247
 #: ../plugins/calendar-http/calendar-http.c:133
 msgid "_URL:"
 msgstr "_URL:"
 
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:15
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../filter/filter.glade.h:21 ../plugins/calendar-http/calendar-http.c:289
 #: ../plugins/calendar-weather/calendar-weather.c:566
 msgid "weeks"
@@ -5856,7 +5868,7 @@ msgstr "જોડાણ પટ્ટી બતાવો (_B)"
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3651
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
-#: ../plugins/groupwise-features/properties.glade.h:14
+#: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
 msgid "_Remove"
 msgstr "દૂર કરો (_R)"
@@ -6288,39 +6300,39 @@ msgstr "જૂથ (_G):"
 msgid "_Memo Content:"
 msgstr "મેમો સમાવિષ્ટ (_M):"
 
-#: ../calendar/gui/dialogs/new-calendar.glade.h:2
+#: ../calendar/gui/dialogs/new-calendar.glade.h:1
 msgid "<b>Calendar options</b>"
 msgstr "<b>કેલેન્ડર વિકલ્પો</b>"
 
-#: ../calendar/gui/dialogs/new-calendar.glade.h:3
+#: ../calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "Add New Calendar"
 msgstr "નવું કેલેન્ડર ઉમેરો"
 
-#: ../calendar/gui/dialogs/new-calendar.glade.h:4
+#: ../calendar/gui/dialogs/new-calendar.glade.h:3
 msgid "Calendar Group"
 msgstr "કેલેન્ડર જૂથ"
 
-#: ../calendar/gui/dialogs/new-calendar.glade.h:5
+#: ../calendar/gui/dialogs/new-calendar.glade.h:4
 msgid "Calendar Location"
 msgstr "કેલેન્ડરની જગ્યા"
 
-#: ../calendar/gui/dialogs/new-calendar.glade.h:6
+#: ../calendar/gui/dialogs/new-calendar.glade.h:5
 msgid "Calendar Name"
 msgstr "કેલેન્ડરનું નામ"
 
-#: ../calendar/gui/dialogs/new-task-list.glade.h:2
+#: ../calendar/gui/dialogs/new-task-list.glade.h:1
 msgid "<b>Task List Options</b>"
 msgstr "<b>બાબતોની યાદી વિકલ્પો</b>"
 
-#: ../calendar/gui/dialogs/new-task-list.glade.h:3
+#: ../calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "Add New Task List"
 msgstr "નવી બાબતોની યાદી ઉમેરો"
 
-#: ../calendar/gui/dialogs/new-task-list.glade.h:4
+#: ../calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Task List Group"
 msgstr "બાબતોની યાદીનું જૂથ"
 
-#: ../calendar/gui/dialogs/new-task-list.glade.h:5
+#: ../calendar/gui/dialogs/new-task-list.glade.h:4
 msgid "Task List Name"
 msgstr "બાબતોની યાદીનું નામ"
 
@@ -6640,46 +6652,46 @@ msgstr "ટાઈમ ઝોન:"
 msgid "_Due date:"
 msgstr "પહેલાની તારીખ (_D):"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:3
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "<b>Free/Busy C_alendars</b>"
 msgstr "<b>મુક્ત/વ્યસ્ત કેલેન્ડરો (_a)</b>"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:4
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "<b>Publishing Frequency</b>"
 msgstr "<b>પ્રકાશન આવૃત્તિ</b>"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing _Location</b>"
 msgstr "<b>પ્રકાશન જગ્યા (_L)</b>"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "Free/Busy Publishing Settings"
 msgstr "મુક્ત/વ્યસ્ત પ્રકાશન સુયોજનો"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "_Daily"
 msgstr "દરરોજ (_D)"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:8
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Manual"
 msgstr "મદદપત્રિકા (_M)"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:8
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
 msgid "_Password:"
 msgstr "પાસવર્ડ (_P):"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
 msgid "_Remember password"
 msgstr "પાસવર્ડ યાદ રાખો (_R)"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
 msgid "_Username:"
 msgstr "વપરાશકર્તા નામ (_U):"
 
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:12
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Weekly"
 msgstr "અઠવાડિયે (_W)"
 
@@ -6810,7 +6822,7 @@ msgstr "પ્રાધાન્ય:"
 #: ../calendar/gui/e-itip-control.c:1159
 #: ../calendar/gui/e-itip-control.glade.h:4
 #: ../composer/e-msg-composer-attachment.glade.h:2
-#: ../mail/mail-config.glade.h:68 ../widgets/misc/e-attachment.glade.h:3
+#: ../mail/mail-config.glade.h:68 ../widgets/misc/e-attachment.glade.h:2
 msgid "Description:"
 msgstr "વર્ણન:"
 
@@ -9043,7 +9055,7 @@ msgid "America/Nassau"
 msgstr "અમેરિકા/નાસાઉ"
 
 #: ../calendar/zones.h:138
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "America/New_York"
 msgstr "અમેરિકા/ન્યુ યોર્ક (_Y)"
 
@@ -10084,17 +10096,17 @@ msgid "Cannot attach file %s: not a regular file"
 msgstr "ફાઈલ %s જોડી શકતા નથી: નિયમિત ફાઈલ નથી"
 
 #: ../composer/e-msg-composer-attachment.glade.h:1
-#: ../widgets/misc/e-attachment.glade.h:2
+#: ../widgets/misc/e-attachment.glade.h:1
 msgid "Attachment Properties"
 msgstr "જોડાણના ગુણધર્મો"
 
 #: ../composer/e-msg-composer-attachment.glade.h:3
-#: ../widgets/misc/e-attachment.glade.h:4
+#: ../widgets/misc/e-attachment.glade.h:3
 msgid "File name:"
 msgstr "ફાઈલનું નામ:"
 
 #: ../composer/e-msg-composer-attachment.glade.h:4
-#: ../widgets/misc/e-attachment.glade.h:5
+#: ../widgets/misc/e-attachment.glade.h:4
 msgid "MIME type:"
 msgstr "MIME પ્રકાર:"
 
@@ -10928,7 +10940,7 @@ msgid "Defaults"
 msgstr "મૂળભુતો"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:122
+#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "સુરક્ષા"
@@ -11272,7 +11284,7 @@ msgstr "પ્રક્રિયા કરવાનું બંધ કરો"
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:90 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
-#: ../plugins/groupwise-features/properties.glade.h:7
+#: ../plugins/groupwise-features/properties.glade.h:6
 #: ../smime/lib/e-cert.c:1132
 msgid "Subject"
 msgstr "વિષય"
@@ -11338,7 +11350,7 @@ msgstr[0] "નહિં વાંચેલ સંદેશાઓ:"
 msgstr[1] "નહિં વાંચેલ સંદેશાઓ:"
 
 #: ../mail/em-folder-properties.c:316
-#: ../plugins/groupwise-features/properties.glade.h:3
+#: ../plugins/groupwise-features/properties.glade.h:2
 msgid "Folder Properties"
 msgstr "ફોલ્ડરના ગુણધર્મો"
 
@@ -11882,7 +11894,7 @@ msgstr "આને પણ ખબર વિના"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1663 ../mail/em-format-quote.c:322
-#: ../mail/em-mailer-prefs.c:1019
+#: ../mail/em-mailer-prefs.c:1024
 msgid "Mailer"
 msgstr "મેઈલ મોકલનાર"
 
@@ -13305,36 +13317,36 @@ msgid "S_elect..."
 msgstr "પસંદ કરો (_e)..."
 
 #: ../mail/mail-config.glade.h:120
+msgid "S_end message receipts:"
+msgstr "સંદેશા રસીદો મોકલો (_e):"
+
+#: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
 msgstr "પ્રમાણભૂત ફોન્ટ (_t):"
 
-#: ../mail/mail-config.glade.h:121
+#: ../mail/mail-config.glade.h:122
 msgid "Se_lect..."
 msgstr "પસંદ કરો (_l)..."
 
-#: ../mail/mail-config.glade.h:123
+#: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font"
 msgstr "HTML ચોક્કસ પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:124
+#: ../mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font for printing"
 msgstr "છાપવા માટે HTML ચોક્કસ પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font"
 msgstr "HTML ચલિત પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:126
+#: ../mail/mail-config.glade.h:127
 msgid "Select HTML variable width font for printing"
 msgstr "છાપન માટે HTML ચલિત પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:128
 msgid "Select sound file"
 msgstr "ધ્વનિ ફાઈલ પસંદ કરો"
-
-#: ../mail/mail-config.glade.h:128
-msgid "Send message receipts:"
-msgstr "સંદેશા રસીદો મોકલો:"
 
 #: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
@@ -13541,7 +13553,7 @@ msgstr "બધા સ્થાનિક ફોલ્ડરો"
 msgid "Case _sensitive"
 msgstr "કેસ પ્રત્યે સંવેદનશીલ (_s)"
 
-#: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:2
+#: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:1
 msgid "Co_mpleted"
 msgstr "સમાપ્ત (_m)"
 
@@ -13554,7 +13566,7 @@ msgid "Find in Message"
 msgstr "સંદેશામાં શોધો"
 
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
-#: ../mail/message-tags.glade.h:3
+#: ../mail/message-tags.glade.h:2
 msgid "Flag to Follow Up"
 msgstr "અનુસરવા માટેની નિશાની"
 
@@ -13582,7 +13594,7 @@ msgstr "સુરક્ષા જાણકારી"
 msgid "Specific folders"
 msgstr "ચોક્કસ ફોલ્ડરો"
 
-#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:4
+#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:3
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -13594,11 +13606,11 @@ msgstr ""
 msgid "_Accept License"
 msgstr "લાઈસન્સ સ્વીકારો (_A)"
 
-#: ../mail/mail-dialogs.glade.h:24 ../mail/message-tags.glade.h:6
+#: ../mail/mail-dialogs.glade.h:24 ../mail/message-tags.glade.h:5
 msgid "_Due By:"
 msgstr "દ્વારા છેલ્લે (_D):"
 
-#: ../mail/mail-dialogs.glade.h:25 ../mail/message-tags.glade.h:7
+#: ../mail/mail-dialogs.glade.h:25 ../mail/message-tags.glade.h:6
 msgid "_Flag:"
 msgstr "ઝંડો (_F):"
 
@@ -13847,7 +13859,7 @@ msgid "Enter a name for this signature."
 msgstr "આ સહી માટે નામ દાખલ કરો."
 
 #: ../mail/mail-signature-editor.c:434
-#: ../plugins/groupwise-features/properties.glade.h:5
+#: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Name:"
 msgstr "નામ:"
 
@@ -14918,7 +14930,7 @@ msgid "Change the password for Exchange account"
 msgstr "એક્સચેન્જ ખાતા માટે પાસવર્ડ બદલો"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:330
-#: ../plugins/exchange-operations/exchange-change-password.glade.h:2
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 msgid "Change Password"
 msgstr "પાસવર્ડ બદલો"
 
@@ -14990,19 +15002,19 @@ msgstr ""
 msgid "The two passwords do not match. Please re-enter the passwords."
 msgstr "બે પાસવર્ડો બંધબેસતા નથી. મહેરબાની કરીને પાસવર્ડો પાછા-દાખલ કરો."
 
-#: ../plugins/exchange-operations/exchange-change-password.glade.h:3
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Confirm Password:"
 msgstr "ખાતરી પાસવર્ડ:"
 
-#: ../plugins/exchange-operations/exchange-change-password.glade.h:4
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Current Password:"
 msgstr "વર્તમાન પાસવર્ડ:"
 
-#: ../plugins/exchange-operations/exchange-change-password.glade.h:5
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:4
 msgid "New Password:"
 msgstr "નવો પાસવર્ડ:"
 
-#: ../plugins/exchange-operations/exchange-change-password.glade.h:6
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:5
 msgid "Your current password has expired. Please change your password now."
 msgstr ""
 "તમારો વર્તમાન પાસવર્ડની સમયમર્યાદા સમાપ્ત થઈ ગઈ છે. મહેરબાની કરીને તમારો પાસવર્ડ "
@@ -15666,40 +15678,40 @@ msgstr "Groupwise લક્ષણો"
 msgid "Accept Tentatively"
 msgstr "કસોટી માટે સ્વીકારો"
 
-#: ../plugins/groupwise-features/properties.glade.h:2
+#: ../plugins/groupwise-features/properties.glade.h:1
 msgid "<b>Users:</b>"
 msgstr "<b>વપરાશકર્તાઓ:</b>"
 
-#: ../plugins/groupwise-features/properties.glade.h:4
+#: ../plugins/groupwise-features/properties.glade.h:3
 #: ../widgets/table/e-table-click-to-add.c:509
 msgid "Message"
 msgstr "સંદેશો"
 
-#: ../plugins/groupwise-features/properties.glade.h:6
+#: ../plugins/groupwise-features/properties.glade.h:5
 msgid "Shared Folder Notification"
 msgstr "વહેંચાયેલ ફોલ્ડરનું સૂચન"
 
-#: ../plugins/groupwise-features/properties.glade.h:8
+#: ../plugins/groupwise-features/properties.glade.h:7
 msgid "The participants will receive the following notification.\n"
 msgstr "ભાગ લેનારાઓ નીચેનું સૂચન મેળવશે.\n"
 
-#: ../plugins/groupwise-features/properties.glade.h:11
+#: ../plugins/groupwise-features/properties.glade.h:10
 msgid "_Contacts..."
 msgstr "સંપર્કો (_C)..."
 
-#: ../plugins/groupwise-features/properties.glade.h:12
+#: ../plugins/groupwise-features/properties.glade.h:11
 msgid "_Customize notification message"
 msgstr "સૂચક સંદેશો વૈવિધ્યપૂર્ણ બનાવો (_C)"
 
-#: ../plugins/groupwise-features/properties.glade.h:13
+#: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Not Shared"
 msgstr "વહેંચાયેલ નથી (_N)"
 
-#: ../plugins/groupwise-features/properties.glade.h:15
+#: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Shared With ..."
 msgstr "સાથે વહેંચાયેલ (_S) ..."
 
-#: ../plugins/groupwise-features/properties.glade.h:16
+#: ../plugins/groupwise-features/properties.glade.h:15
 msgid "_Sharing"
 msgstr "વહેંચી રહ્યા છીએ (_S)"
 
@@ -20044,23 +20056,23 @@ msgstr "સ્થિતિ સહિત (_S)"
 msgid "UTC"
 msgstr "UTC"
 
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "<b>Time Zones</b>"
 msgstr "<b>ટાઈમ ઝોન</b>"
 
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "<b>_Selection</b>"
 msgstr "<b>પસંદગી (_S)</b>"
 
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
 msgstr "ટાઈમ ઝોન પસંદ કરો"
 
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "TimeZone Combobox"
 msgstr "ટાઈમઝોન કમ્બોબોક્સ"
 
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:7
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -20110,11 +20122,11 @@ msgstr "પળ"
 msgid "Save Current View"
 msgstr "વર્તમાન દેખાવ સંગ્રહો"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "_Create new view"
 msgstr "નવો દેખાવ બનાવો (_C)"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:4
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
 msgid "_Replace existing view"
 msgstr "વર્તમાન દેખાવ બદલો (_R)"
 
@@ -20149,19 +20161,19 @@ msgstr "કારખાનું"
 msgid "Define New View"
 msgstr "નવો દેખાવ વ્યાખ્યાયિત કરો"
 
-#: ../widgets/menus/gal-view-new-dialog.glade.h:2
+#: ../widgets/menus/gal-view-new-dialog.glade.h:1
 msgid "Name of new view:"
 msgstr "નવા દેખાવનું નામ:"
 
-#: ../widgets/menus/gal-view-new-dialog.glade.h:3
+#: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Type of View"
 msgstr "દેખાવનો પ્રકાર"
 
-#: ../widgets/menus/gal-view-new-dialog.glade.h:4
+#: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of view:"
 msgstr "દેખાવનો પ્રકાર:"
 
-#: ../widgets/misc/e-attachment.glade.h:6
+#: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
 msgstr "જોડાણનું આપોઆપ પ્રદર્શન સૂચવો"
 
@@ -20737,19 +20749,19 @@ msgstr "%s (%d%% પૂર્ણ થયું)"
 msgid "Click here to go to URL"
 msgstr "URL પર જવા માટે અંહિ ક્લિક કરો"
 
-#: ../widgets/misc/gal-categories.glade.h:2
+#: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
 msgstr "મુખ્ય વર્ગ યાદીમાં ફેરફાર કરો..."
 
-#: ../widgets/misc/gal-categories.glade.h:3
+#: ../widgets/misc/gal-categories.glade.h:2
 msgid "Item(s) belong to these _categories:"
 msgstr "વસ્તુઓ આ વર્ગોને અનુસરે છે:"
 
-#: ../widgets/misc/gal-categories.glade.h:4
+#: ../widgets/misc/gal-categories.glade.h:3
 msgid "_Available Categories:"
 msgstr "ઉપલબ્ધ વર્ગો (_A):"
 
-#: ../widgets/misc/gal-categories.glade.h:5
+#: ../widgets/misc/gal-categories.glade.h:4
 msgid "categories"
 msgstr "વર્ગો"
 
