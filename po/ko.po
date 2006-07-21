@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.7.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-19 21:25+0900\n"
-"PO-Revision-Date: 2006-07-19 21:34+0900\n"
+"POT-Creation-Date: 2006-07-21 23:22+0900\n"
+"PO-Revision-Date: 2006-07-21 23:24+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -717,7 +717,7 @@ msgid "Details"
 msgstr "자세히"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
-#: ../mail/em-folder-browser.c:791
+#: ../mail/em-folder-browser.c:792
 msgid "Searching"
 msgstr "찾는 중"
 
@@ -1252,7 +1252,7 @@ msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:274
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:171
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:174
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:193
 msgid "Contact"
@@ -1433,7 +1433,7 @@ msgstr "주소"
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:96
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:142
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:302
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:185
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:188
 #: ../addressbook/gui/widgets/e-addressbook-model.c:310
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
@@ -1441,9 +1441,9 @@ msgstr "주소"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:186
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-entry.c:1312
-#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3607
-#: ../widgets/text/e-text.c:3608
+#: ../widgets/table/e-cell-text.c:1841 ../widgets/text/e-entry.c:1312
+#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3625
+#: ../widgets/text/e-text.c:3626
 msgid "Editable"
 msgstr "편집 가능"
 
@@ -2721,7 +2721,7 @@ msgid "Add an email to the List"
 msgstr "전자메일을 목록에 더합니다"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:878
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:938
 msgid "Contact List Editor"
 msgstr "연락처 목록 편집기"
 
@@ -2753,7 +2753,7 @@ msgstr "선택(_S)"
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "메일주소를 입력하거나 연락처를 아래의 목록으로 끌어 당기십시오(_T):"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:164
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
 #: ../addressbook/gui/widgets/e-addressbook-view.c:222
@@ -2762,15 +2762,15 @@ msgstr "메일주소를 입력하거나 연락처를 아래의 목록으로 끌�
 msgid "Book"
 msgstr "북"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:178
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:181
 msgid "Is New List"
 msgstr "새 목록"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:751
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:759
 msgid "_Members"
 msgstr "구성원(_M)"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:754
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
 msgid "Contact List Members"
 msgstr "연락처 목록 구성원"
 
@@ -2855,7 +2855,7 @@ msgstr "주소록 보기를 가져오는 데 오류가 발생했습니다"
 #: ../widgets/table/e-table.c:3329
 #: ../widgets/table/e-tree-selection-model.c:825
 #: ../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
-#: ../widgets/text/e-text.c:3471 ../widgets/text/e-text.c:3472
+#: ../widgets/text/e-text.c:3489 ../widgets/text/e-text.c:3490
 msgid "Model"
 msgstr "모델"
 
@@ -3159,7 +3159,7 @@ msgstr "웹 사이트"
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
-#: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
+#: ../widgets/text/e-text.c:3667 ../widgets/text/e-text.c:3668
 msgid "Width"
 msgstr "너비"
 
@@ -3174,7 +3174,7 @@ msgstr "너비"
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
-#: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
+#: ../widgets/text/e-text.c:3675 ../widgets/text/e-text.c:3676
 msgid "Height"
 msgstr "높이"
 
@@ -4306,66 +4306,62 @@ msgid "The calendar is not marked for offline usage."
 msgstr "이 달력은 오프라인에서 사용할 수 있게 표시하지 않았습니다."
 
 #: ../calendar/calendar.error.xml.h:47
-msgid "The calendar you have selected is read-only"
-msgstr "선택한 달력은 읽기 전용입니다"
-
-#: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
 msgstr "메모 목록이 오프라인에서 사용할 수 있게 표시하지 않았습니다"
 
-#: ../calendar/calendar.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:48
 msgid "The task list is not marked for offline usage."
 msgstr "작업 목록이 오프라인에서 사용할 수 있게 표시하지 않았습니다."
 
-#: ../calendar/calendar.error.xml.h:50
+#: ../calendar/calendar.error.xml.h:49
 msgid "This calendar will be removed permanently."
 msgstr "이 달력은 완전히 지워집니다."
 
-#: ../calendar/calendar.error.xml.h:51
+#: ../calendar/calendar.error.xml.h:50
 msgid "This memo list will be removed permanently."
 msgstr "이 메모 목록은 완전히 지워집니다."
 
-#: ../calendar/calendar.error.xml.h:52
+#: ../calendar/calendar.error.xml.h:51
 msgid "This task list will be removed permanently."
 msgstr "이 작업 목록은 완전히 지워집니다."
 
-#: ../calendar/calendar.error.xml.h:53
+#: ../calendar/calendar.error.xml.h:52
 msgid "Would you like to save your changes to this appointment?"
 msgstr "바뀐 부분을 이 약속에 저장하시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:54
+#: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to save your changes to this memo?"
 msgstr "바뀐 부분을 이 메모에 저장하시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:55
+#: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this task?"
 msgstr "바뀐 부분을 이 작업에 저장하시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:56
+#: ../calendar/calendar.error.xml.h:55
 msgid "Would you like to send a cancelation notice for this journal entry?"
 msgstr "이 일지 항목에 대한 취소 공지를 보내시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:56
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "모든 참가자에게 취소 공지를 보내시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "모임 정보를 참가자들에게 보내시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send this task to participants?"
 msgstr "이 작업을 참가자들에게 보내시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "업데이트한 모임 정보를 참가자들에게 보내시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send updated task information to participants?"
 msgstr "업데이트한 작업 정보를 참가자들에게 보내시겠습니까?"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:61
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
@@ -4374,6 +4370,12 @@ msgstr ""
 "지원하지 않는 GroupWise 서버에 연결되어 있기 때문에 에볼루션을 사용하면서 문"
 "제가 발생할 수도 있습니다. 서버를 지원하는 버전으로 업그레이드하는 게 가장 좋"
 "습니다."
+
+#: ../calendar/calendar.error.xml.h:62
+msgid ""
+"You have a read-only calendar source selected. Change to Calendar View and "
+"highlight a calendar that can accept appointments."
+msgstr "읽기 전용 달력 소스를 선택했습니다. 달력 보기로 바꾸고 약속을 저장할 수 있는 달력을 선택하십시오."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "You have changed this appointment, but not yet saved it."
@@ -5712,11 +5714,11 @@ msgid "C_olor:"
 msgstr "색(_O):"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:380
-msgid "Tasks List"
+msgid "Task List"
 msgstr "작업 목록"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:391
-msgid "Memos List"
+msgid "Memo List"
 msgstr "메모 목록"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
@@ -7842,7 +7844,7 @@ msgstr "진행중"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:447
+#: ../calendar/gui/e-meeting-time-sel-item.c:464
 #: ../calendar/gui/e-meeting-time-sel.c:2113
 msgid "%A, %B %d, %Y"
 msgstr "%Y년 %b %e일 %A"
@@ -7851,14 +7853,14 @@ msgstr "%Y년 %b %e일 %A"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:451
+#: ../calendar/gui/e-meeting-time-sel-item.c:468
 #: ../calendar/gui/e-meeting-time-sel.c:2146
 msgid "%a %m/%d/%Y"
 msgstr "%Y/%m/%d (%a)"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:455
+#: ../calendar/gui/e-meeting-time-sel-item.c:472
 msgid "%m/%d/%Y"
 msgstr "%Y/%m/%d"
 
@@ -10198,16 +10200,16 @@ msgid "MIME type:"
 msgstr "MIME 형식:"
 
 # post -> 게시, Microsoft Office XP 참고
-#: ../composer/e-msg-composer-hdrs.c:559
+#: ../composer/e-msg-composer-hdrs.c:570
 msgid "Posting destination"
 msgstr "게시물 수신자"
 
 # post -> 게시, Microsoft Office XP 참고
-#: ../composer/e-msg-composer-hdrs.c:560
+#: ../composer/e-msg-composer-hdrs.c:571
 msgid "Choose folders to post the message to."
 msgstr "메세지를 올릴 폴더를 선택하십시오."
 
-#: ../composer/e-msg-composer-hdrs.c:592
+#: ../composer/e-msg-composer-hdrs.c:603
 msgid "Click here for the address book"
 msgstr "주소록을 보려면 누르십시오"
 
@@ -10218,45 +10220,45 @@ msgstr "주소록을 보려면 누르십시오"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:624
+#: ../composer/e-msg-composer-hdrs.c:635
 msgid "_Reply-To:"
 msgstr "회신 주소(_R):"
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:631
+#: ../composer/e-msg-composer-hdrs.c:642
 msgid "Fr_om:"
 msgstr "보낸 사람(_O):"
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:638
+#: ../composer/e-msg-composer-hdrs.c:649
 msgid "S_ubject:"
 msgstr "제목(_U):"
 
-#: ../composer/e-msg-composer-hdrs.c:647
+#: ../composer/e-msg-composer-hdrs.c:658
 msgid "_To:"
 msgstr "받는 사람(_T):"
 
-#: ../composer/e-msg-composer-hdrs.c:648
+#: ../composer/e-msg-composer-hdrs.c:659
 msgid "Enter the recipients of the message"
 msgstr "메세지를 받을 사람을 입력하십시오"
 
-#: ../composer/e-msg-composer-hdrs.c:651
+#: ../composer/e-msg-composer-hdrs.c:662
 msgid "_Cc:"
 msgstr "참조(_C):"
 
-#: ../composer/e-msg-composer-hdrs.c:652
+#: ../composer/e-msg-composer-hdrs.c:663
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "메세지의 사본을 받을 사람의 주소를 입력하십시오"
 
-#: ../composer/e-msg-composer-hdrs.c:655
+#: ../composer/e-msg-composer-hdrs.c:666
 msgid "_Bcc:"
 msgstr "숨은 참조(_B):"
 
-#: ../composer/e-msg-composer-hdrs.c:656
+#: ../composer/e-msg-composer-hdrs.c:667
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -10267,16 +10269,16 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:663
+#: ../composer/e-msg-composer-hdrs.c:674
 msgid "_Post To:"
 msgstr "게시 위치(_P):"
 
-#: ../composer/e-msg-composer-hdrs.c:668
+#: ../composer/e-msg-composer-hdrs.c:679
 msgid "Click here to select folders to post to"
 msgstr "게시할 폴더를 고를려면 여기를 누르십시오"
 
 # post -> 게시, Microsoft Office XP 참고
-#: ../composer/e-msg-composer-hdrs.c:673
+#: ../composer/e-msg-composer-hdrs.c:684
 msgid "Post To:"
 msgstr "게시 위치:"
 
@@ -11043,7 +11045,7 @@ msgid "Defaults"
 msgstr "기본값"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:122
+#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "보안"
@@ -11940,9 +11942,9 @@ msgstr "선택한 것 저장(_S)..."
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:2185
 #, c-format
-msgid "%d attachme_nt"
-msgid_plural "%d attachme_nts"
-msgstr[0] "%d개 첨부(_N)"
+msgid "%d at_tachment"
+msgid_plural "%d at_tachments"
+msgstr[0] "%d개 첨부(_T)"
 
 #: ../mail/em-format-html-display.c:2192 ../mail/em-format-html-display.c:2268
 msgid "S_ave"
@@ -12032,7 +12034,7 @@ msgstr "숨은 참조"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1663 ../mail/em-format-quote.c:322
-#: ../mail/em-mailer-prefs.c:1019
+#: ../mail/em-mailer-prefs.c:1024
 msgid "Mailer"
 msgstr "메일 프로그램"
 
@@ -13450,36 +13452,36 @@ msgid "S_elect..."
 msgstr "선택(_E)..."
 
 #: ../mail/mail-config.glade.h:120
+msgid "S_end message receipts:"
+msgstr "메세지 수신 확인 보내기(_E):"
+
+#: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
 msgstr "일반 글꼴(_T):"
 
-#: ../mail/mail-config.glade.h:121
+#: ../mail/mail-config.glade.h:122
 msgid "Se_lect..."
 msgstr "선택(_L)..."
 
-#: ../mail/mail-config.glade.h:123
+#: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font"
 msgstr "HTML 고정폭 글꼴을 선택하십시오"
 
-#: ../mail/mail-config.glade.h:124
+#: ../mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font for printing"
 msgstr "인쇄에 사용할 HTML 고정폭 글꼴을 선택하십시오"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font"
 msgstr "HTML 가변폭 글꼴을 선택하십시오"
 
-#: ../mail/mail-config.glade.h:126
+#: ../mail/mail-config.glade.h:127
 msgid "Select HTML variable width font for printing"
 msgstr "인쇄에 사용할 HTML 가변폭 글꼴을 선택하십시오"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:128
 msgid "Select sound file"
 msgstr "사운드 파일을 고르십시오"
-
-#: ../mail/mail-config.glade.h:128
-msgid "Send message receipts:"
-msgstr "메세지 수신 확인 보내기:"
 
 #: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
@@ -18509,7 +18511,7 @@ msgstr "선택한 연락처를 VCard로 저장합니다."
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "선택한 폴더의 연락처를 VCard로 저장합니다"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2709
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2727
 msgid "Select All"
 msgstr "모두 선택"
 
@@ -20370,8 +20372,8 @@ msgstr "달별 달력"
 
 #: ../widgets/misc/e-canvas-background.c:457
 #: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1284
-#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3563
-#: ../widgets/text/e-text.c:3564
+#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3581
+#: ../widgets/text/e-text.c:3582
 msgid "Fill color"
 msgstr "채우기 색"
 
@@ -20380,16 +20382,16 @@ msgstr "채우기 색"
 #: ../widgets/misc/e-canvas-background.c:471
 #: ../widgets/misc/e-canvas-background.c:472 ../widgets/text/e-entry.c:1291
 #: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
-#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3570
-#: ../widgets/text/e-text.c:3571 ../widgets/text/e-text.c:3578
-#: ../widgets/text/e-text.c:3579
+#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3588
+#: ../widgets/text/e-text.c:3589 ../widgets/text/e-text.c:3596
+#: ../widgets/text/e-text.c:3597
 msgid "GDK fill color"
 msgstr "GDK 채우기 색"
 
 #: ../widgets/misc/e-canvas-background.c:478
 #: ../widgets/misc/e-canvas-background.c:479 ../widgets/text/e-entry.c:1305
-#: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3585
-#: ../widgets/text/e-text.c:3586
+#: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3603
+#: ../widgets/text/e-text.c:3604
 msgid "Fill stipple"
 msgstr "스티플 채우기"
 
@@ -20732,8 +20734,8 @@ msgid "Item ID"
 msgstr "항목 ID"
 
 #: ../widgets/misc/e-search-bar.c:792 ../widgets/text/e-entry.c:1249
-#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3485
-#: ../widgets/text/e-text.c:3486
+#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3503
+#: ../widgets/text/e-text.c:3504
 msgid "Text"
 msgstr "텍스트"
 
@@ -20746,15 +20748,15 @@ msgstr "보기: "
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:927
-msgid "S_earch: "
-msgstr "찾기(_E): "
+msgid "Sear_ch: "
+msgstr "찾기(_C): "
 
 # FIXME - hard to translate UI + string based on English grammar
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:938
-msgid " in "
-msgstr " 위치 : "
+#: ../widgets/misc/e-search-bar.c:939
+msgid " i_n "
+msgstr " 위치(_N) : "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -20962,23 +20964,23 @@ msgstr "포커스된 열"
 msgid "Unselected Column"
 msgstr "선택 해제한 열"
 
-#: ../widgets/table/e-cell-text.c:1807
+#: ../widgets/table/e-cell-text.c:1813
 msgid "Strikeout Column"
 msgstr "취소선 열"
 
-#: ../widgets/table/e-cell-text.c:1814
+#: ../widgets/table/e-cell-text.c:1820
 msgid "Underline Column"
 msgstr "밑줄 열"
 
-#: ../widgets/table/e-cell-text.c:1821
+#: ../widgets/table/e-cell-text.c:1827
 msgid "Bold Column"
 msgstr "굵은 글자 열"
 
-#: ../widgets/table/e-cell-text.c:1828
+#: ../widgets/table/e-cell-text.c:1834
 msgid "Color Column"
 msgstr "색깔 있는 열"
 
-#: ../widgets/table/e-cell-text.c:1842
+#: ../widgets/table/e-cell-text.c:1848
 msgid "BG Color Column"
 msgstr "배경색 열"
 
@@ -21334,7 +21336,7 @@ msgid "This should test the minicard canvas item"
 msgstr "미니카드 캔버스 아이템을 테스트합니다"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
-#: ../widgets/text/e-text.c:3478 ../widgets/text/e-text.c:3479
+#: ../widgets/text/e-text.c:3496 ../widgets/text/e-text.c:3497
 msgid "Event Processor"
 msgstr "이벤트 처리기"
 
@@ -21347,57 +21349,57 @@ msgid "GDKFont"
 msgstr "GDK글꼴"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
-#: ../widgets/text/e-text.c:3514 ../widgets/text/e-text.c:3515
+#: ../widgets/text/e-text.c:3532 ../widgets/text/e-text.c:3533
 msgid "Justification"
 msgstr "맞춤"
 
 #: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
-#: ../widgets/text/e-text.c:3614 ../widgets/text/e-text.c:3615
+#: ../widgets/text/e-text.c:3632 ../widgets/text/e-text.c:3633
 msgid "Use ellipsis"
 msgstr "타원 사용"
 
 #: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
-#: ../widgets/text/e-text.c:3621 ../widgets/text/e-text.c:3622
+#: ../widgets/text/e-text.c:3639 ../widgets/text/e-text.c:3640
 msgid "Ellipsis"
 msgstr "타원"
 
 #: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
-#: ../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
+#: ../widgets/text/e-text.c:3646 ../widgets/text/e-text.c:3647
 msgid "Line wrap"
 msgstr "줄 바꿈"
 
 #: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
-#: ../widgets/text/e-text.c:3635 ../widgets/text/e-text.c:3636
+#: ../widgets/text/e-text.c:3653 ../widgets/text/e-text.c:3654
 msgid "Break characters"
 msgstr "끊김 문자"
 
 #: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
-#: ../widgets/text/e-text.c:3642 ../widgets/text/e-text.c:3643
+#: ../widgets/text/e-text.c:3660 ../widgets/text/e-text.c:3661
 msgid "Max lines"
 msgstr "최대 줄 수"
 
 #: ../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
-#: ../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
+#: ../widgets/text/e-text.c:3689 ../widgets/text/e-text.c:3690
 msgid "Allow newlines"
 msgstr "줄바꿈 허용"
 
 #: ../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
-#: ../widgets/text/e-text.c:3664 ../widgets/text/e-text.c:3665
+#: ../widgets/text/e-text.c:3682 ../widgets/text/e-text.c:3683
 msgid "Draw borders"
 msgstr "테두리 그리기"
 
 #: ../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
-#: ../widgets/text/e-text.c:3678 ../widgets/text/e-text.c:3679
+#: ../widgets/text/e-text.c:3696 ../widgets/text/e-text.c:3697
 msgid "Draw background"
 msgstr "바탕 그리기"
 
 #: ../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
-#: ../widgets/text/e-text.c:3685 ../widgets/text/e-text.c:3686
+#: ../widgets/text/e-text.c:3703 ../widgets/text/e-text.c:3704
 msgid "Draw button"
 msgstr "단추 그리기"
 
 #: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
-#: ../widgets/text/e-text.c:3692 ../widgets/text/e-text.c:3693
+#: ../widgets/text/e-text.c:3710 ../widgets/text/e-text.c:3711
 msgid "Cursor position"
 msgstr "커서 위치"
 
@@ -21405,61 +21407,64 @@ msgstr "커서 위치"
 msgid "Emulate label resize"
 msgstr "레이블 크기 바꾸기 에뮬레이션"
 
-#: ../widgets/text/e-text.c:2721
+#: ../widgets/text/e-text.c:2739
 msgid "Input Methods"
 msgstr "입력기"
 
-#: ../widgets/text/e-text.c:3492 ../widgets/text/e-text.c:3493
+#: ../widgets/text/e-text.c:3510 ../widgets/text/e-text.c:3511
 msgid "Bold"
 msgstr "굵은 글씨"
 
-#: ../widgets/text/e-text.c:3499 ../widgets/text/e-text.c:3500
+#: ../widgets/text/e-text.c:3517 ../widgets/text/e-text.c:3518
 msgid "Strikeout"
 msgstr "취소선"
 
-#: ../widgets/text/e-text.c:3506 ../widgets/text/e-text.c:3507
+#: ../widgets/text/e-text.c:3524 ../widgets/text/e-text.c:3525
 msgid "Anchor"
 msgstr "연결"
 
-#: ../widgets/text/e-text.c:3521 ../widgets/text/e-text.c:3522
+#: ../widgets/text/e-text.c:3539 ../widgets/text/e-text.c:3540
 msgid "Clip Width"
 msgstr "자르기 너비"
 
-#: ../widgets/text/e-text.c:3528 ../widgets/text/e-text.c:3529
+#: ../widgets/text/e-text.c:3546 ../widgets/text/e-text.c:3547
 msgid "Clip Height"
 msgstr "자르기 높이"
 
-#: ../widgets/text/e-text.c:3535 ../widgets/text/e-text.c:3536
+#: ../widgets/text/e-text.c:3553 ../widgets/text/e-text.c:3554
 msgid "Clip"
 msgstr "자르기"
 
-#: ../widgets/text/e-text.c:3542 ../widgets/text/e-text.c:3543
+#: ../widgets/text/e-text.c:3560 ../widgets/text/e-text.c:3561
 msgid "Fill clip rectangle"
 msgstr "자르기 사각형"
 
-#: ../widgets/text/e-text.c:3549 ../widgets/text/e-text.c:3550
+#: ../widgets/text/e-text.c:3567 ../widgets/text/e-text.c:3568
 msgid "X Offset"
 msgstr "가로 오프셋"
 
-#: ../widgets/text/e-text.c:3556 ../widgets/text/e-text.c:3557
+#: ../widgets/text/e-text.c:3574 ../widgets/text/e-text.c:3575
 msgid "Y Offset"
 msgstr "세로 오프셋"
 
-#: ../widgets/text/e-text.c:3592 ../widgets/text/e-text.c:3593
+#: ../widgets/text/e-text.c:3610 ../widgets/text/e-text.c:3611
 msgid "Text width"
 msgstr "텍스트 너비"
 
-#: ../widgets/text/e-text.c:3599 ../widgets/text/e-text.c:3600
+#: ../widgets/text/e-text.c:3617 ../widgets/text/e-text.c:3618
 msgid "Text height"
 msgstr "텍스트 높이"
 
-#: ../widgets/text/e-text.c:3699 ../widgets/text/e-text.c:3700
+#: ../widgets/text/e-text.c:3717 ../widgets/text/e-text.c:3718
 msgid "IM Context"
 msgstr "입력기 컨텍스트"
 
-#: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
+#: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr "팝업 처리"
+
+#~ msgid "The calendar you have selected is read-only"
+#~ msgstr "선택한 달력은 읽기 전용입니다"
 
 #~ msgid "*"
 #~ msgstr "*"
