@@ -51,6 +51,7 @@
 #include "e-contact-list-model.h"
 #include "e-contact-list-editor-marshal.h"
 #include "eab-contact-merging.h"
+#include <gdk/gdkkeysyms.h>
 
 static void e_contact_list_editor_init		(EContactListEditor		 *editor);
 static void e_contact_list_editor_class_init	(EContactListEditorClass	 *klass);
@@ -78,6 +79,8 @@ static void list_name_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_image_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor);
 static void source_selected (GtkWidget *source_option_menu, ESource *source, EContactListEditor *editor);
+static gboolean email_key_pressed (GtkWidget *w, GdkEventKey *event, EContactListEditor *editor);
+static void email_match_selected (GtkWidget *w, EDestination *destination, EContactListEditor *editor);
 
 static void close_cb (GtkWidget *widget, EContactListEditor *editor);
 static void save_and_close_cb (GtkWidget *widget, EContactListEditor *editor);
@@ -240,6 +243,8 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "clicked", G_CALLBACK(add_email_cb), editor);
 	g_signal_connect (editor->email_entry,
 			  "activate", G_CALLBACK(add_email_cb), editor);
+	g_signal_connect ((ENameSelectorEntry *)editor->email_entry,
+			  "updated", G_CALLBACK(email_match_selected), editor);
 	g_signal_connect (editor->remove_button,
 			  "clicked", G_CALLBACK(remove_entry_cb), editor);
 	g_signal_connect (editor->select_button,
@@ -248,6 +253,8 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "changed", G_CALLBACK(list_name_changed_cb), editor);
 	g_signal_connect (editor->visible_addrs_checkbutton,
 			  "toggled", G_CALLBACK(visible_addrs_toggled_cb), editor);
+	g_signal_connect (editor->email_entry, 
+	 		  "key-press-event", G_CALLBACK(email_key_pressed), editor);
 
 	e_table_drag_dest_set (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
 			       0, list_drag_types, num_list_drag_types, GDK_ACTION_LINK);
@@ -306,6 +313,7 @@ new_target_cb (EBook *new_book, EBookStatus status, EContactListEditor *editor)
 			g_object_unref (new_book);
 		return;
 	}
+	e_contact_store_add_book (((ENameSelectorEntry *)editor->email_entry)->contact_store, new_book);
 
 	g_object_set (editor, "book", new_book, NULL);
 	g_object_unref (new_book);
@@ -811,6 +819,32 @@ e_contact_list_editor_create_source_option_menu (gchar *name,
 	return menu;
 }
 
+GtkWidget *
+e_contact_list_editor_create_name_selector (gchar *name,
+						 gchar *string1, gchar *string2,
+						 gint int1, gint int2);
+
+GtkWidget *
+e_contact_list_editor_create_name_selector (gchar *name,
+						 gchar *string1, gchar *string2,
+						 gint int1, gint int2)
+{
+	ENameSelectorModel *name_selector_model;
+	ENameSelectorEntry *name_selector_entry;
+	ENameSelector *name_selector = e_name_selector_new ();
+
+	name_selector_model = e_name_selector_peek_model (name_selector);
+	e_name_selector_model_add_section (name_selector_model, "Members", "Members", NULL);
+	
+	name_selector_entry = e_name_selector_peek_section_entry (name_selector, "Members");
+
+	e_name_selector_entry_set_contact_editor_func (name_selector_entry, e_contact_editor_new);
+	e_name_selector_entry_set_contact_list_editor_func (name_selector_entry, e_contact_list_editor_new);
+	gtk_widget_show (GTK_WIDGET (name_selector_entry));
+	
+	return (GtkWidget *)name_selector_entry;
+}
+
 static void
 add_email_cb (GtkWidget *w, EContactListEditor *editor)
 {
@@ -829,6 +863,32 @@ add_email_cb (GtkWidget *w, EContactListEditor *editor)
 	}
 
 	gtk_entry_set_text (GTK_ENTRY(editor->email_entry), "");
+	command_state_changed (editor);
+}
+
+static void
+email_match_selected (GtkWidget *w, EDestination *destination, EContactListEditor *editor)
+{
+	char *email;
+	EDestinationStore *store;
+	GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (editor->table));
+	
+	email = g_strdup(e_destination_get_address (destination));
+	store = e_name_selector_entry_peek_destination_store ((ENameSelectorEntry *)w);
+	e_destination_store_remove_destination (store, destination);
+	gtk_entry_set_text (GTK_ENTRY(editor->email_entry), "");	
+	
+	if (email && *email) {
+		e_contact_list_model_add_email (E_CONTACT_LIST_MODEL(editor->model), email);
+
+		/* Skip to the end of the list */
+		if (adj->upper - adj->lower > adj->page_size)
+			gtk_adjustment_set_value (adj, adj->upper);
+		
+		editor->changed = TRUE;
+	}
+
+	g_free (email);
 	command_state_changed (editor);
 }
 
@@ -897,6 +957,22 @@ visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor)
 {
 	editor->changed = TRUE;
 	command_state_changed (editor);
+}
+
+static gboolean
+email_key_pressed (GtkWidget *w, GdkEventKey *event, EContactListEditor *editor)
+{
+
+        if (event->keyval == GDK_comma || event->keyval == GDK_Return) {
+		ENameSelectorEntry *entry = (ENameSelectorEntry *)w;
+		
+		g_signal_emit_by_name (entry, "activate", 0);
+		add_email_cb (w, editor);
+
+                return TRUE;
+        }
+
+	return FALSE;
 }
 
 static void
