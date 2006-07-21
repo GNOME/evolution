@@ -604,10 +604,10 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 {
 	GtkWidget *w;
+	int paned_size;
 
 	if ((emfb->priv->show_wide &&  state)
-	    || emfb->view.list == NULL
-	    || emfb->view.preview_active == 0) {
+	    || emfb->view.list == NULL) {
 		emfb->priv->show_wide = state;
 		return;
 	}
@@ -620,16 +620,17 @@ void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 	g_signal_connect(w, "realize", G_CALLBACK(emfb_pane_realised), emfb);
 	emfb->priv->vpane_resize_id = g_signal_connect(w, "button_release_event", G_CALLBACK(emfb_pane_button_release_event), emfb);
 
-	gtk_widget_show(w);
-	if (emfb->priv->show_wide)
-		gtk_paned_set_position((GtkPaned *)w, gconf_client_get_int(mail_config_get_gconf_client (), "/apps/evolution/mail/display/hpaned_size", NULL));
-	else
-		gtk_paned_set_position((GtkPaned *)w, gconf_client_get_int(mail_config_get_gconf_client (), "/apps/evolution/mail/display/paned_size", NULL));	
 	gtk_box_pack_start_defaults((GtkBox *)emfb, w);
 	gtk_widget_reparent((GtkWidget *)emfb->view.list, w);
 	gtk_widget_reparent((GtkWidget *)emfb->priv->preview, w);
 	gtk_widget_destroy(emfb->vpane);
+	gtk_container_resize_children (w);
 	emfb->vpane = w;
+	gtk_widget_show(w);
+
+	paned_size = gconf_client_get_int(mail_config_get_gconf_client(), emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size":"/apps/evolution/mail/display/paned_size", NULL);
+	gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
+
 	if (((EMFolderView *)emfb)->folder)
 		em_folder_view_setup_view_instance ((EMFolderView *) emfb);
 }

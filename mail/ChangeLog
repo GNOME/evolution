@@ -1,3 +1,10 @@
+2006-07-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #346316
+
+	* em-folder-browser.c: (em_folder_browser_show_wide): Redraw the child
+	widgets and pack it accordingly.
+
 2006-07-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-format-html-display.c: (efhd_attachment_bar_refresh): Modified
