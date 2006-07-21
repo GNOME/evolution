@@ -1,3 +1,9 @@
+2006-07-20  Devashish Sharma   <sdevashish@novell.com>
+
+	** Fixes bug 273921
+	* e-msg-composer-hdrs.c: Set the index number which indicates the
+	destination list (To or CC or BCC).
+
 2006-07-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for memory leak in bug #209254

@@ -186,19 +186,30 @@ address_button_clicked_cb (GtkButton *button, gpointer data)
 	EMsgComposerHdrs *hdrs;
 	EMsgComposerHdrsPrivate *priv;
 	ENameSelectorDialog *name_selector_dialog;
+	guint index = 0;
 	
 	emchas = data;
 	hdrs = emchas->hdrs;
 	priv = hdrs->priv;
 	
-	if (button == (GtkButton *) hdrs->priv->to.label)
+	if (button == (GtkButton *) hdrs->priv->to.label) {
 		gtk_widget_grab_focus (hdrs->priv->to.entry);
-	else if (button == (GtkButton *) priv->cc.label)
+		index = 0;
+		printf("index:%d\n", index);
+	}
+	else if (button == (GtkButton *) priv->cc.label) {
 		gtk_widget_grab_focus (hdrs->priv->cc.entry);
-	else if (button == (GtkButton *) priv->bcc.label)
+		index = 1;
+		printf("index:%d\n", index);
+	}
+	else if (button == (GtkButton *) priv->bcc.label) {
 		gtk_widget_grab_focus (hdrs->priv->bcc.entry);
+		index = 2;
+		printf("index:%d\n", index);
+	}
 	
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
+	e_name_selector_dialog_set_destination_index (name_selector_dialog, index);
 	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 }
 
