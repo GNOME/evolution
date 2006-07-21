@@ -2505,7 +2505,7 @@ e_text_copy_clipboard (EText *text)
 			 selection_end_pos - selection_start_pos);
 
 	gtk_clipboard_set_text (
-#ifdef GTK_2_2
+#if GTK_CHECK_VERSION (2, 2, 0)
 				gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 							  GDK_SELECTION_CLIPBOARD),
 #else
@@ -2605,7 +2605,7 @@ e_text_update_primary_selection (EText *text)
 	};
 	GtkClipboard *clipboard;
 
-#ifdef GTK_2_2
+#if GTK_CHECK_VERSION (2, 2, 0)
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas), GDK_SELECTION_PRIMARY);
 #else
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
@@ -2644,7 +2644,7 @@ e_text_paste (EText *text, GdkAtom selection)
 {
 	g_object_ref (text);
 	gtk_clipboard_request_text (
-#ifdef GTK_2_2
+#if GTK_CHECK_VERSION (2, 2, 0)
 
 				    gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 							      selection),
@@ -2779,7 +2779,7 @@ e_text_do_popup (EText *text, GdkEventButton *button, int position)
 	closure->position = position;
 
 	gtk_clipboard_request_contents (
-#ifdef GTK_2_2
+#if GTK_CHECK_VERSION (2, 2, 0)
 
 					gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 								  GDK_SELECTION_CLIPBOARD),

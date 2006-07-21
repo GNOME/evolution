@@ -1,3 +1,8 @@
+2006-07-21  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes 342313.
+	* text/e-text.c: Use GTK_CHECK_VERSION instead of GTK_2_2.
+
 2006-07-05  Rajeev ramanathan <rajeevramanathan_2004@yaoo.co.in>
 
 	* text/e-text.[ch]: Added code to render EText text 
