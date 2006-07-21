@@ -1,3 +1,8 @@
+2006-07-21  Andre Klapper  <a9016009@gmx.de>
+
+	* calendar.error.xml: improve calendar read-only error message.
+	Fixes bug #342281.
+
 2006-07-19  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	* gui/e-meeting-time-sel.c :(e_meeting_time_selector_construct)
