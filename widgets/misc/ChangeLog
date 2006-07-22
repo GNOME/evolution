@@ -1,3 +1,9 @@
+2006-07-22  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* e-attachment.c (e_attachment_new_remote_file): Fix handling of
+	remote files containing non-alphanumeric chars. Committed patch by
+	Srini. Fixes bug #342242.
+
 2006-07-11  Li Yuan <li.yuan@sun.com>
 
 	* Fixes bug #345402

@@ -400,10 +400,12 @@ e_attachment_new_remote_file (const char *url,
 	EAttachment *new;
 	DownloadInfo *download_info;
 	gchar *base;
-
+	CamelURL *curl;
+	
 	g_return_val_if_fail (url != NULL, NULL);
 
-	base = g_path_get_basename (url);
+	curl = camel_url_new (url, NULL);
+	base = g_path_get_basename (curl->path);
 	
 	new = g_object_new (E_TYPE_ATTACHMENT, NULL);
 	new->editor_gui = NULL;
@@ -422,6 +424,7 @@ e_attachment_new_remote_file (const char *url,
 	download_info->file_name = g_strdup (new->file_name);
 	download_to_local_path (gnome_vfs_uri_new(url), gnome_vfs_uri_new(new->file_name), download_info);
 
+	camel_url_free (curl);
 	return new;
 }
 
@@ -445,6 +448,7 @@ e_attachment_build_remote_file (const char *file_name,
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
+		g_message ("Cannot attach file %s: %s\n", file_name, g_strerror (errno));
 		return;
 	}
 	
@@ -453,6 +457,7 @@ e_attachment_build_remote_file (const char *file_name,
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: not a regular file"),
 				      file_name);
+		g_message ("Cannot attach file %s: not a regular file", file_name);
 		return;
 	}
 	
