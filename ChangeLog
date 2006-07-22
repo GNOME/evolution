@@ -1,3 +1,10 @@
+2006-07-22  Julio M. Merino Vidal  <jmmv@NetBSD.org>
+
+	* configure.in: Do not assume that only SunOS has pkill because
+	other systems (e.g. NetBSD) also have it.  Fix the check that
+	looks for an utility to kill a process by name to properly detect
+	either pkill or killall.  Fixes bug #336853.
+
 2006-07-13  Andre Klapper  <a9016009@gmx.de>
 
 	* configure.in:
