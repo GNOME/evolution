@@ -292,7 +292,14 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
 	}
 
-
+	if (pitip->type == E_CAL_SOURCE_TYPE_JOURNAL) {
+		if (e_cal_get_static_capability (ecal, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)) 
+			itip_view_set_needs_decline (ITIP_VIEW (pitip->view), TRUE);
+		else
+			itip_view_set_needs_decline (ITIP_VIEW (pitip->view), FALSE);
+		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
+	}
+		
 	pitip->current_ecal = ecal;
 
 	set_buttons_sensitive (pitip);
@@ -355,20 +362,6 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
 	start_calendar_server (pitip, source, pitip->type, cal_opened_cb, pitip);
-
-	/* If it is a GW recurrence instance, enable the 'Apply to all
-	 * instances' option */
-	if (pitip->current_ecal && e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
-		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
-	
-		if (check_is_instance (icalcomp))
-			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
-		else
-			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
-	} else
-		itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
-		
- 		
 }
 
 static void
@@ -446,13 +439,25 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		set_buttons_sensitive (pitip);
 	}
 
-	if (pitip->current_ecal && e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
-		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+	if (pitip->current_ecal) {
+		if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+			icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
 
-		if (check_is_instance (icalcomp))
-			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
-		else
-			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+			if (check_is_instance (icalcomp))
+				itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
+			else
+				itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+		}
+
+		if (pitip->type == E_CAL_SOURCE_TYPE_JOURNAL) {
+			/* TODO The static capability should be made generic to convey that the calendar contains unaccepted items */
+			if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)) 
+				itip_view_set_needs_decline (ITIP_VIEW (pitip->view), TRUE);
+			else
+				itip_view_set_needs_decline (ITIP_VIEW (pitip->view), FALSE);
+
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
+		}
 	}
 
  cleanup:
@@ -474,6 +479,9 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 				break;
 			case E_CAL_SOURCE_TYPE_TODO:
 				uid = calendar_config_get_primary_tasks ();
+				break;
+			case E_CAL_SOURCE_TYPE_JOURNAL:
+				uid = calendar_config_get_primary_memos ();
 				break;
 			default:
 				uid = NULL;
@@ -1241,7 +1249,8 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 		kind = icalcomponent_isa (pitip->ical_comp);
 		if (kind != ICAL_VEVENT_COMPONENT
 		    && kind != ICAL_VTODO_COMPONENT
-		    && kind != ICAL_VFREEBUSY_COMPONENT)
+		    && kind != ICAL_VFREEBUSY_COMPONENT
+		    && kind != ICAL_VJOURNAL_COMPONENT)
 			pitip->ical_comp = get_next (&pitip->iter);
 	}
 
@@ -1260,6 +1269,9 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	case ICAL_VTODO_COMPONENT:
 		pitip->type = E_CAL_SOURCE_TYPE_TODO;
 		break;
+	case ICAL_VJOURNAL_COMPONENT:
+		pitip->type = E_CAL_SOURCE_TYPE_JOURNAL;
+		break;
 	default:
 		set_itip_error (pitip, container, 
 				_("The item in the calendar is not valid"), 
@@ -1270,6 +1282,7 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	pitip->total = icalcomponent_count_components (pitip->main_comp, ICAL_VEVENT_COMPONENT);
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VTODO_COMPONENT);
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VFREEBUSY_COMPONENT);
+	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VJOURNAL_COMPONENT);
 
 	if (pitip->total > 1) {
 		set_itip_error (pitip, container, 
@@ -1283,53 +1296,54 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 		pitip->current = 0;
 	}
 
-	
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (pitip->ical_comp));
-	my_address = itip_get_comp_attendee (comp, NULL);
-	g_object_unref (comp);
-	comp = NULL;
-	
-	prop = find_attendee (pitip->ical_comp, my_address);	
+	if (icalcomponent_isa (pitip->ical_comp) != ICAL_VJOURNAL_COMPONENT) {
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (pitip->ical_comp));
+		my_address = itip_get_comp_attendee (comp, NULL);
+		g_object_unref (comp);
+		comp = NULL;
 
-	if (prop) {
-		icalparameter *param;
-		const char * delfrom; 
+		prop = find_attendee (pitip->ical_comp, my_address);	
 
-		if ((param =icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER))) {
-			delfrom = icalparameter_get_delegatedfrom (param);
+		if (prop) {
+			icalparameter *param;
+			const char * delfrom; 
 
-			pitip->delegator_address = g_strdup (itip_strip_mailto (delfrom));
+			if ((param =icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER))) {
+				delfrom = icalparameter_get_delegatedfrom (param);
+
+				pitip->delegator_address = g_strdup (itip_strip_mailto (delfrom));
+			}
+
 		}
-			
-	}
 
-	/* Determine any delegate sections */
-	prop = icalcomponent_get_first_property (pitip->ical_comp, ICAL_X_PROPERTY);
-	while (prop) {
-		const char *x_name, *x_val;
+		/* Determine any delegate sections */
+		prop = icalcomponent_get_first_property (pitip->ical_comp, ICAL_X_PROPERTY);
+		while (prop) {
+			const char *x_name, *x_val;
 
-		x_name = icalproperty_get_x_name (prop);
-		x_val = icalproperty_get_x (prop);
+			x_name = icalproperty_get_x_name (prop);
+			x_val = icalproperty_get_x (prop);
 
-		if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-UID"))
-			pitip->calendar_uid = g_strdup (x_val);
-		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-URI"))
-			g_warning (G_STRLOC ": X-EVOLUTION-DELEGATOR-CALENDAR-URI used");
-		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-ADDRESS"))
-			pitip->delegator_address = g_strdup (x_val);
-		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-NAME"))
-			pitip->delegator_name = g_strdup (x_val);
+			if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-UID"))
+				pitip->calendar_uid = g_strdup (x_val);
+			else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-URI"))
+				g_warning (G_STRLOC ": X-EVOLUTION-DELEGATOR-CALENDAR-URI used");
+			else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-ADDRESS"))
+				pitip->delegator_address = g_strdup (x_val);
+			else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-NAME"))
+				pitip->delegator_name = g_strdup (x_val);
 
-		prop = icalcomponent_get_next_property (pitip->ical_comp, ICAL_X_PROPERTY);
-	}
+			prop = icalcomponent_get_next_property (pitip->ical_comp, ICAL_X_PROPERTY);
+		}
 
-	/* Strip out alarms for security purposes */
-	alarm_iter = icalcomponent_begin_component (pitip->ical_comp, ICAL_VALARM_COMPONENT);
-	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
-		icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
-		
-		icalcompiter_next (&alarm_iter);
+		/* Strip out alarms for security purposes */
+		alarm_iter = icalcomponent_begin_component (pitip->ical_comp, ICAL_VALARM_COMPONENT);
+		while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
+			icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
+
+			icalcompiter_next (&alarm_iter);
+		}
 	}
 
 	pitip->comp = e_cal_component_new ();
@@ -1364,17 +1378,17 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 		trigger.u.rel_duration.is_neg = TRUE;
 
 		switch (units) {
-		case CAL_MINUTES:
-			trigger.u.rel_duration.minutes = interval;
-			break;
-		case CAL_HOURS:	
-			trigger.u.rel_duration.hours = interval;
-			break;
-		case CAL_DAYS:	
-			trigger.u.rel_duration.days = interval;
-			break;
-		default:
-			g_assert_not_reached ();
+			case CAL_MINUTES:
+				trigger.u.rel_duration.minutes = interval;
+				break;
+			case CAL_HOURS:	
+				trigger.u.rel_duration.hours = interval;
+				break;
+			case CAL_DAYS:	
+				trigger.u.rel_duration.days = interval;
+				break;
+			default:
+				g_assert_not_reached ();
 		}
 
 		e_cal_component_alarm_set_trigger (acomp, trigger);
@@ -1431,8 +1445,11 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
-			status = change_status (pitip->ical_comp, pitip->my_address, 
+			if (pitip->type != E_CAL_SOURCE_TYPE_JOURNAL)
+				status = change_status (pitip->ical_comp, pitip->my_address, 
 					ICAL_PARTSTAT_ACCEPTED);
+			else
+				status = TRUE;
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
 				update_item (pitip, response);
@@ -1452,8 +1469,16 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			}
 			break;
 		case ITIP_VIEW_RESPONSE_DECLINE:
-			status = change_status (pitip->ical_comp, pitip->my_address,
+			if (pitip->type != E_CAL_SOURCE_TYPE_JOURNAL)
+				status = change_status (pitip->ical_comp, pitip->my_address,
 					ICAL_PARTSTAT_DECLINED);
+			else {
+				prop = icalproperty_new_x ("1");	
+				icalproperty_set_x_name (prop, "X-GW-DECLINED");
+				icalcomponent_add_property (pitip->ical_comp, prop);
+				status = TRUE;
+			}
+
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
 				update_item (pitip, response);
@@ -1599,7 +1624,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	GString *gstring = NULL;
 	GSList *list, *l;
 	icalcomponent *icalcomp;
-	const char *string;
+	const char *string, *org;
 	int i;
 
 	/* Accounts */
@@ -1673,7 +1698,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 		/* An organizer sent this */
 		e_cal_component_get_organizer (pitip->comp, &organizer);
-		itip_view_set_organizer (ITIP_VIEW (pitip->view), organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value));
+		org = organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value);
+		itip_view_set_organizer (ITIP_VIEW (pitip->view), org);
 		/* FIXME, do i need to strip the sentby somehow? Maybe with camel? */
 		itip_view_set_sentby (ITIP_VIEW (pitip->view), organizer.sentby);
 	

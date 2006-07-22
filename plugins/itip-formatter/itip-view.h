@@ -168,6 +168,7 @@ gboolean itip_view_get_buttons_sensitive (ItipView *view);
 void itip_view_set_show_recur_check (ItipView *view, gboolean show);
 gboolean itip_view_get_recur_check_state (ItipView *view);
 
+void itip_view_set_needs_decline (ItipView *view, gboolean needs_decline);
 
 G_END_DECLS
 

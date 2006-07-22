@@ -1,3 +1,13 @@
+2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* itip-formatter.c: (cal_opened_cb), (source_selected_cb),
+	(find_cal_opened_cb), (extract_itip_data), (view_response_cb),
+	(format_itip_object):
+	* itip-view.c: (set_journal_sender_text), (set_sender_text),
+	(set_buttons), (itip_view_set_source_list),
+	(itip_view_get_rsvp_comment), (itip_view_set_needs_decline):
+	* itip-view.h: Added support shared Memos.
+
 2006-07-06  Harish Krishnaswamy  <kharish@novell.com>
 
 	* itip-formatter.c: (format_itip_object):

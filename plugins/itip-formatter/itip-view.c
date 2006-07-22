@@ -123,6 +123,8 @@ struct _ItipViewPrivate {
 	
 	GtkWidget *button_box;
 	gboolean buttons_sensitive;
+
+	gboolean needs_decline;
 };
 
 /* Signal IDs */
@@ -463,6 +465,49 @@ set_tasklist_sender_text (ItipView *view)
 }
 
 static void
+set_journal_sender_text (ItipView *view)
+{
+	ItipViewPrivate *priv;
+	const char *organizer, *attendee;
+	char *sender = NULL;
+
+	priv = view->priv;
+
+	organizer = priv->organizer ? priv->organizer : _("An unknown person");
+	attendee = priv->attendee ? priv->attendee : _("An unknown person");
+	
+	switch (priv->mode) {
+	case ITIP_VIEW_MODE_PUBLISH:
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following memo:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has published the following memo:"), organizer);
+		break;
+	case ITIP_VIEW_MODE_ADD:
+		/* FIXME What text for this? */
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing memo:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing memo:"), organizer);
+		break;
+	case ITIP_VIEW_MODE_CANCEL:
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following shared memo:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has canceled the following shared memo:"), organizer);
+		break;
+	default:
+		break;
+	}
+
+	gtk_label_set_text (GTK_LABEL (priv->sender_label), sender);
+	gtk_label_set_use_markup (GTK_LABEL (priv->sender_label), TRUE);
+
+	g_free (sender);
+}
+
+
+static void
 set_sender_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -475,6 +520,9 @@ set_sender_text (ItipView *view)
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
 		set_tasklist_sender_text (view);
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		set_journal_sender_text (view);
 		break;
 	default:
 		break;
@@ -707,6 +755,8 @@ set_buttons (ItipView *view)
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		/* FIXME Is this really the right button? */
+		if (priv->needs_decline)
+			set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
@@ -715,8 +765,10 @@ set_buttons (ItipView *view)
 		set_one_button (view, is_recur_set ? _("_Accept all") : _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_ADD:
-		set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
-		set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		if (priv->type != E_CAL_SOURCE_TYPE_JOURNAL) {
+			set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+			set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		}
 		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
@@ -1651,7 +1703,13 @@ itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 	g_signal_connect (priv->esom, "source_selected", G_CALLBACK (source_selected_cb), view);
 
 	if (!priv->esom_header) {
-		priv->esom_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
+		if (priv->type == E_CAL_SOURCE_TYPE_EVENT)
+			priv->esom_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
+		else if (priv->type == E_CAL_SOURCE_TYPE_TODO)
+			priv->esom_header = gtk_label_new_with_mnemonic (_("_Tasks :"));
+		else if (priv->type == E_CAL_SOURCE_TYPE_JOURNAL)
+			priv->esom_header = gtk_label_new_with_mnemonic (_("Memos :"));
+
 		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->esom_header), priv->esom);
 		gtk_widget_show (priv->esom_header);
 	}
@@ -1840,6 +1898,19 @@ itip_view_get_rsvp_comment (ItipView *view)
 	priv = view->priv;
 	
 	return gtk_entry_get_text (GTK_ENTRY (priv->rsvp_comment_entry));
+}
+
+void
+itip_view_set_needs_decline (ItipView *view, gboolean needs_decline)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	priv->needs_decline = needs_decline;
 }
 
 void
