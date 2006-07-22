@@ -1,3 +1,9 @@
+2006-07-22  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder-subscription.c (subscribe_to_folder): Checking if a 
+	user is subscribing to his own folder. Fixes #311322.
+	Patch submitted by "Vandana Shenoy .B  <shvandana@novell.com>"
+
 2006-07-18  Andre Klapper  <a9016009@gmx.de>
 
 	* exchange-change-password.glade:
