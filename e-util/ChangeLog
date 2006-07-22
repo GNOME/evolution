@@ -1,3 +1,9 @@
+2006-07-22  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-util.c: (get_font_options): Handle cases when the
+	props are undefined. This bug is currently causing Evo
+	to crash as soon as it comes up.
+
 2006-07-20  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	* e-util.[ch]: (get_font_options): Added code to get font options.
