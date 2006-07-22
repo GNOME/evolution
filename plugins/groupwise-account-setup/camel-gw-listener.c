@@ -159,8 +159,10 @@ lookup_account_info (const char *key)
 
 #define CALENDAR_SOURCES "/apps/evolution/calendar/sources"
 #define TASKS_SOURCES "/apps/evolution/tasks/sources"
+#define NOTES_SOURCES "/apps/evolution/memos/sources"
 #define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
 #define SELECTED_TASKS   "/apps/evolution/calendar/tasks/selected_tasks"
+#define SELECTED_NOTES   "/apps/evolution/calendar/memos/selected_memos"
 
 static void
 add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url)
@@ -385,6 +387,7 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	url = camel_url_new (info->source_url, NULL);
 	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url);
 	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url);
+	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url);
 	
 	camel_url_free (url);
 
@@ -415,6 +418,8 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 	relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
 	remove_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), relative_uri);
 	remove_esource ("/apps/evolution/tasks/sources", info->name,  _("Checklist"), relative_uri);
+	remove_esource ("/apps/evolution/memos/sources", info->name,  _("Notes"), relative_uri);
+	
 	camel_url_free (url);
 	g_free (relative_uri);
 
@@ -592,6 +597,7 @@ add_proxy_sources (GwAccountInfo *info, const char *parent_name)
 	url = camel_url_new (info->source_url, NULL);
 	add_proxy_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name);
 	add_proxy_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name);
+	add_proxy_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, parent_name);
 	
 	camel_url_free (url);
 }
@@ -949,6 +955,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			
 			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, new_url);
 			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name,  new_url);
+			modify_esource ("/apps/evolution/memos/sources", existing_account_info, account->name,  new_url);
 			modify_addressbook_sources (account, existing_account_info);
 			
 		}

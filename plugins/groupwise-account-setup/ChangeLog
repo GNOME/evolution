@@ -1,3 +1,9 @@
+2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* camel-gw-listener.c: (add_calendar_tasks_sources),
+	(remove_calendar_tasks_sources), (add_proxy_sources),
+	(account_changed): Added support Gw notes.
+
 2006-04-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* camel-gw-listener.c: (add_esource):
