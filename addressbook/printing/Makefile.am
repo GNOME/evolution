@@ -40,6 +40,7 @@ contact_print_test_SOURCES = 	\
 contact_print_test_LDADD =	\
 	libecontactprint.la					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 contact_print_style_editor_test_SOURCES = 	\
@@ -48,6 +49,7 @@ contact_print_style_editor_test_SOURCES = 	\
 contact_print_style_editor_test_LDADD =	\
 	libecontactprint.la					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 
