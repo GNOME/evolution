@@ -980,20 +980,12 @@ dnl *****************
 dnl killall or pkill?
 dnl *****************
 
-AC_MSG_CHECKING(for command to kill processes)
-
-if test `uname -s` = "SunOS" ; then
-	KILL_PROCESS_CMD="pkill";
+AC_PATH_PROGS(KILL_PROCESS_CMD, killall pkill)
+if test -z "$KILL_PROCESS_CMD"; then
+	AC_MSG_WARN([Could not find a command to kill a process by name])
 else
-	KILL_PROCESS_CMD="killall";
-fi
-
-KILL_PROCESS_CMD=`which $KILL_PROCESS_CMD`
-if test -z "$KILL_PROCESS_CMD" ; then
-	AC_MSG_RESULT(none)
-else
-	AC_MSG_RESULT($KILL_PROCESS_CMD)
-	AC_DEFINE_UNQUOTED([KILL_PROCESS_CMD], "$KILL_PROCESS_CMD", [Command to kill processes by name])
+	AC_DEFINE_UNQUOTED([KILL_PROCESS_CMD], "$KILL_PROCESS_CMD",
+		[Command to kill processes by name])
 fi
 
 dnl ******************************
