@@ -2848,6 +2848,7 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 
 	/* Display the dialog */
 
+	gtk_window_set_modal (GTK_WINDOW (editor->file_selector), TRUE);
 	gtk_window_present (GTK_WINDOW (editor->file_selector));
 }
 

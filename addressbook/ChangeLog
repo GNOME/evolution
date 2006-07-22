@@ -1,3 +1,13 @@
+2006-07-20  Boby Wang <boby.wang@sun.com>
+
+	Reviewed by Harish Krishnaswamy <kharish@novell.com>
+	
+	** Fix bug #347381
+
+	* gui/contact-editor/e-contact-editor.c: (image_clicked):
+	Set the image chooser dialog to modal dialog, then we can focus back to
+	the chooser dialog by <ALT + TAB>
+
 2006-07-19  Devashish Sharma  <sdevashish@novell.com>
 
 	* addressbook/gui/widgets/e-minicard.c :
