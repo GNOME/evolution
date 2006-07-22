@@ -1,3 +1,9 @@
+2006-07-22  Yuri Pankov <yuri.pankov@gmail.com>
+
+	Reviewed by Harish Krishnaswamy <kharish@novell.com>
+
+	* message-list.c: Add missing headers. Fixes #344744.
+
 2006-07-22 Yuri Pankov <yuri.pankov@gmail.com>
 	
 	Reviewed by Harish Krishnaswamy <kharish@novell.com>
