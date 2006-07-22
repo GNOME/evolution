@@ -61,6 +61,7 @@
 #include <gtk/gtkdnd.h>
 #include <gtk/gtktoolbutton.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtkcheckbutton.h>
 
 #include <glade/glade.h>
 

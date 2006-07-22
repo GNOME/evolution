@@ -20,6 +20,9 @@ void vfolder_gui_add_rule (struct _EMVFolderRule *rule);
 void vfolder_gui_add_from_message (struct _CamelMimeMessage *msg, int flags, const char *source);
 void vfolder_gui_add_from_address (struct _CamelInternetAddress *addr, int flags, const char *source);
 
+GList * mail_vfolder_get_sources_local (void);
+GList * mail_vfolder_get_sources_remote (void);
+
 /* add a uri that is now (un)available to vfolders in a transient manner */
 void mail_vfolder_add_uri(struct _CamelStore *store, const char *uri, int remove);
 
