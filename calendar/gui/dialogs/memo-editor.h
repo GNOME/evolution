@@ -53,7 +53,7 @@ struct _MemoEditorClass {
 GtkType     memo_editor_get_type       (void);
 MemoEditor *memo_editor_construct      (MemoEditor *te,
 					ECal  *client);
-MemoEditor *memo_editor_new            (ECal  *client);
+MemoEditor *memo_editor_new            (ECal  *client, CompEditorFlags flags);
 
 
 #endif /* __MEMO_EDITOR_H__ */

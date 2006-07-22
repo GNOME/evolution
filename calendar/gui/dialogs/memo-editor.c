@@ -208,10 +208,11 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 	MemoEditorPrivate *priv;
 	CompEditor *editor = COMP_EDITOR (me);
 	gboolean read_only = FALSE;
+	guint32 flags = comp_editor_get_flags (editor);
 	
 	priv = me->priv;
 
-	priv->memo_page = memo_page_new (editor->uic);
+	priv->memo_page = memo_page_new (editor->uic, flags);
 	g_object_ref (priv->memo_page);
 	gtk_object_sink (GTK_OBJECT (priv->memo_page));
 	comp_editor_append_page (COMP_EDITOR (me), 
@@ -225,6 +226,8 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 	
 	bonobo_ui_component_set_prop (editor->uic, "/Toolbar/ecal3", "hidden", "1", NULL);
 	comp_editor_set_e_cal (COMP_EDITOR (me), client);
+	
+		
 
 	init_widgets (me);
 
@@ -241,6 +244,12 @@ memo_editor_set_e_cal (CompEditor *editor, ECal *client)
 static void
 memo_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
+	CompEditorFlags flags = comp_editor_get_flags (editor);
+	ECal *client = comp_editor_get_e_cal (editor);
+	
+	if (flags & COMP_EDITOR_IS_SHARED)
+		comp_editor_set_needs_send (editor, itip_organizer_is_user (comp, client));
+	
 	if (COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp (editor, comp);
 }
@@ -289,11 +298,12 @@ memo_editor_finalize (GObject *object)
  * editor could not be created.
  **/
 MemoEditor *
-memo_editor_new (ECal *client)
+memo_editor_new (ECal *client, CompEditorFlags flags)
 {
 	MemoEditor *me;
 
 	me = g_object_new (TYPE_MEMO_EDITOR, NULL);
+	comp_editor_set_flags (COMP_EDITOR (me), flags);
 	return memo_editor_construct (me, client);
 }
 

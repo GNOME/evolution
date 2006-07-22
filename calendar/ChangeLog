@@ -1,3 +1,56 @@
+2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* calendar.error.xml:
+	* gui/calendar-component.c: (update_task_memo_selection),
+	(update_primary_task_memo_selection),
+	(config_tasks_selection_changed_cb),
+	(config_primary_tasks_selection_changed_cb),
+	(config_memos_selection_changed_cb),
+	(config_primary_memos_selection_changed_cb),
+	(create_component_view), (destroy_component_view),
+	(calendar_component_init):
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor.h:
+	* gui/dialogs/memo-editor.c: (memo_editor_construct),
+	(memo_editor_edit_comp), (memo_editor_new):
+	* gui/dialogs/memo-editor.h:
+	* gui/dialogs/memo-page.c: (memo_page_init), (memo_page_finalize),
+	(memo_page_focus_main_widget), (clear_widgets),
+	(sensitize_widgets), (memo_page_fill_widgets),
+	(fill_comp_with_recipients), (get_current_account),
+	(memo_page_fill_component), (get_widgets), (to_button_clicked_cb),
+	(response_cb), (init_widgets), (get_to_entry),
+	(memo_page_construct), (memo_page_new),
+	(memo_page_create_date_edit):
+	* gui/dialogs/memo-page.glade:
+	* gui/dialogs/memo-page.h:
+	* gui/e-cal-component-memo-preview.c: (timet_to_str_with_zone),
+	(write_html):
+	* gui/e-cal-model.c: (ecm_value_at):
+	* gui/e-memo-table-config.c: (e_memo_table_config_set_table):
+	* gui/e-memo-table.c: (date_compare_cb), (e_memo_table_init),
+	(open_memo), (e_memo_table_get_current_time):
+	* gui/e-memo-table.etspec:
+	* gui/e-memo-table.h:
+	* gui/gnome-cal.c: (gnome_calendar_class_init),
+	(get_focus_location), (memo_canvas_focus_change_cb),
+	(memo_selection_change_cb), (update_memo_view), (setup_config),
+	(view_progress_cb), (view_done_cb), (setup_widgets),
+	(gnome_calendar_init), (gnome_calendar_destroy),
+	(gnome_calendar_set_pane_positions), (client_cal_opened_cb),
+	(default_client_cal_opened_cb), (open_ecal), (backend_died_cb),
+	(gnome_calendar_remove_source_by_uid),
+	(gnome_calendar_vpane_realized), (gnome_calendar_vpane_resized),
+	(gnome_calendar_cut_clipboard), (gnome_calendar_copy_clipboard),
+	(gnome_calendar_paste_clipboard),
+	(gnome_calendar_notify_dates_shown_changed),
+	(gnome_calendar_delete_selection),
+	(gnome_calendar_get_memopad_menu):
+	* gui/gnome-cal.h:
+	* gui/memos-component.c: (create_new_memo), (create_local_item_cb),
+	(impl__get_userCreatableItems), (impl_requestCreateItem): Added support
+	shared memos, Gw notes.							
+
 2006-07-21  Andre Klapper  <a9016009@gmx.de>
 
 	* calendar.error.xml: improve calendar read-only error message.

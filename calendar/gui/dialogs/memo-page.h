@@ -52,7 +52,7 @@ typedef struct {
 
 GtkType   memo_page_get_type  (void);
 MemoPage *memo_page_construct (MemoPage *epage);
-MemoPage *memo_page_new       (BonoboUIComponent *uic);
+MemoPage *memo_page_new       (BonoboUIComponent *uic, CompEditorPageFlags flags);
 
 G_END_DECLS
 

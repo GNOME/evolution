@@ -100,18 +100,59 @@ url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointe
 	}
 }
 
+/* Converts a time_t to a string, relative to the specified timezone */
+static char *
+timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *default_zone)
+{
+	struct icaltimetype itt;
+	icaltimezone *zone;
+        struct tm tm;
+        char buf[256];                                                                                              
+
+	if (dt->tzid) {
+		/* If we can't find the zone, we'll guess its "local" */
+		if (!e_cal_get_timezone (ecal, dt->tzid, &zone, NULL))
+			zone = NULL;
+	} else if (dt->value->is_utc) {
+		zone = icaltimezone_get_utc_timezone ();
+	} else {
+		zone = NULL;
+	}
+	
+	
+	itt = *dt->value;
+	if (zone)
+		icaltimezone_convert_time (&itt, zone, default_zone);
+        tm = icaltimetype_to_tm (&itt);
+                                                                                              
+        e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
+                                     FALSE, FALSE, buf, sizeof (buf));
+
+	return g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
+}
+
 static void
 write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone *default_zone)
 {
 	ECalComponentText text;
+	ECalComponentDateTime dt;
 	gchar *str;
 	GSList *l;
 	gboolean one_added = FALSE;
 
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	gtk_html_stream_printf (stream,
-				"<HTML><BODY>");
+	/* write document header */
+	e_cal_component_get_summary (comp, &text);
+
+	if (text.value)
+		gtk_html_stream_printf (stream,
+					"<HTML><BODY><H1>%s</H1>",
+					text.value);
+	else
+		gtk_html_stream_printf (stream,
+					"<HTML><BODY><H1><I>%s</I></H1>",
+					_("Untitled"));
 
 	/* write icons for the categories */
 	e_cal_component_get_categories_list (comp, &l);
@@ -155,6 +196,16 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	gtk_html_stream_printf (stream, "<TABLE BORDER=\"0\" WIDTH=\"80%%\">"
 				"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"></TD></TR>");	
 
+	/* write start date */
+	e_cal_component_get_dtstart (comp, &dt);
+	if (dt.value != NULL) {
+		str = timet_to_str_with_zone (&dt, ecal, default_zone);
+		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
+					_("Start Date:"), str);
+
+		e_cal_component_free_datetime (&dt);
+		g_free (str);
+	}
 
 	/* write description and URL */
 	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
@@ -163,7 +214,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	if (l) {
 		GSList *node;
 
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Memo:"));
+		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
 
 		gtk_html_stream_printf (stream, "<TD>");
 

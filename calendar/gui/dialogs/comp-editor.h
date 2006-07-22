@@ -65,6 +65,7 @@ typedef enum {
 	COMP_EDITOR_DELEGATE = 1<<2,
 	COMP_EDITOR_USER_ORG = 1<<3,
 	COMP_EDITOR_IS_ASSIGNED = 1<<4,
+	COMP_EDITOR_IS_SHARED = 1 << 5
 } CompEditorFlags;
 
 GtkType       comp_editor_get_type         (void);

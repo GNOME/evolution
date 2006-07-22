@@ -56,6 +56,7 @@
 #include "calendar-component.h"
 
 #define CREATE_MEMO_ID               "memo"
+#define CREATE_SHARED_MEMO_ID	     "shared-memo"
 #define CREATE_MEMO_LIST_ID          "memo-list"
 
 enum DndTargetType {
@@ -905,12 +906,19 @@ create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComp
 	ECal *ecal;
 	ECalComponent *comp;
 	MemoEditor *editor;
+	CompEditorFlags flags = 0;
 	
 	ecal = setup_create_ecal (memo_component, component_view);
 	if (!ecal)
 		return FALSE;
 
-	editor = memo_editor_new (ecal);
+	flags |= COMP_EDITOR_NEW_ITEM;
+	if (is_assigned) {
+		flags |= COMP_EDITOR_IS_SHARED;
+		flags |= COMP_EDITOR_USER_ORG;
+	}
+
+	editor = memo_editor_new (ecal, flags);
 	comp = cal_comp_memo_new_with_defaults (ecal);
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
@@ -942,8 +950,9 @@ create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type
 	
 	if (strcmp (item_type_name, CREATE_MEMO_ID) == 0) {
 		create_new_memo (memos_component, FALSE, component_view);
-	}
-	else if (strcmp (item_type_name, CREATE_MEMO_LIST_ID) == 0) {
+	} else if (strcmp (item_type_name, CREATE_SHARED_MEMO_ID) == 0) {
+		create_new_memo (memos_component, TRUE, component_view);
+	} else if (strcmp (item_type_name, CREATE_MEMO_LIST_ID) == 0) {
 		calendar_setup_new_memo_list (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (component_view->memos))));
 	}
 }
@@ -1145,7 +1154,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 {
 	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
 
-	list->_length  = 2;
+	list->_length  = 3;
 	list->_maximum = list->_length;
 	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
 
@@ -1159,13 +1168,21 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].iconName = "stock_insert-note";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = CREATE_MEMO_LIST_ID;
-	list->_buffer[1].description = _("New memo list");
-	list->_buffer[1].menuDescription = _("Memo li_st");
-	list->_buffer[1].tooltip = _("Create a new memo list");
-	list->_buffer[1].menuShortcut = '\0';
-	list->_buffer[1].iconName = "stock_notes";
-	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
+	list->_buffer[1].id = CREATE_SHARED_MEMO_ID;
+	list->_buffer[1].description = _("New shared memo");
+	list->_buffer[1].menuDescription = _("_Shared memo");
+	list->_buffer[1].tooltip = _("Create a shared new memo");
+	list->_buffer[1].menuShortcut = 's';
+	list->_buffer[1].iconName = "stock_insert-note";
+	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
+
+	list->_buffer[2].id = CREATE_MEMO_LIST_ID;
+	list->_buffer[2].description = _("New memo list");
+	list->_buffer[2].menuDescription = _("Memo li_st");
+	list->_buffer[2].tooltip = _("Create a new memo list");
+	list->_buffer[2].menuShortcut = '\0';
+	list->_buffer[2].iconName = "stock_notes";
+	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
 }
@@ -1184,6 +1201,9 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	else if (strcmp (item_type_name, CREATE_MEMO_LIST_ID) == 0) {
 		/* FIXME Should we use the last opened window? */
 		calendar_setup_new_memo_list (NULL);
+	} else if (strcmp (item_type_name, CREATE_SHARED_MEMO_ID) == 0) {
+		if (!create_new_memo (memos_component, TRUE, NULL))
+			bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 	}
 	else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);

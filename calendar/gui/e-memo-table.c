@@ -88,6 +88,7 @@ static gint e_memo_table_on_key_press		(ETable		*table,
 						 gint		 col,
 						 GdkEventKey	*event,
 						 EMemoTable *memo_table);
+static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
 
 static ECalModelComponent *get_selected_comp (EMemoTable *memo_table);
 static void open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data);
@@ -134,6 +135,34 @@ e_memo_table_class_init (EMemoTableClass *klass)
 	/* clipboard atom */
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+}
+
+static gint
+date_compare_cb (gconstpointer a, gconstpointer b)
+{
+	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
+	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
+	struct icaltimetype tt;
+
+	/* First check if either is NULL. NULL dates sort last. */
+	if (!dv1 || !dv2) {
+		if (dv1 == dv2)
+			return 0;
+		else if (dv1)
+			return -1;
+		else
+			return 1;
+	}
+
+	/* Copy the 2nd value and convert it to the same timezone as the
+	   first. */
+	tt = dv2->tt;
+
+	icaltimezone_convert_time (&tt, dv2->zone, dv1->zone);
+
+	/* Now we can compare them. */
+
+	return icaltime_compare (dv1->tt, tt);
 }
 
 /* Comparison function for the task-sort column.  Sorts by due date and then by
@@ -204,7 +233,7 @@ e_memo_table_init (EMemoTable *memo_table)
 {
 	GtkWidget *table;
 	ETable *e_table;
-	ECell *cell;
+	ECell *cell, *popup_cell;
 	ETableExtras *extras;
 	gint i;
 	AtkObject *a11y;
@@ -229,8 +258,28 @@ e_memo_table_init (EMemoTable *memo_table)
 
 	e_table_extras_add_cell (extras, "calstring", cell);
 
+	/*
+	 * Date fields.
+	 */
+	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
+	g_object_set (G_OBJECT (cell),
+		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		      NULL);
 
+	popup_cell = e_cell_date_edit_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	g_object_unref (cell);
+	e_table_extras_add_cell (extras, "dateedit", popup_cell);
+	memo_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
+	e_cell_date_edit_set_get_time_callback (E_CELL_DATE_EDIT (popup_cell),
+						e_memo_table_get_current_time,
+						memo_table, NULL);
+
+	/* Sorting */
+	e_table_extras_add_compare (extras, "date-compare",
+				    date_compare_cb);
+	
 	/* Create pixmaps */
 
 	if (!icon_pixbufs[0])
@@ -681,11 +730,19 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 	medit = e_comp_editor_registry_find (comp_editor_registry, uid);
 	if (medit == NULL) {
 		ECalComponent *comp;
-
-		medit = COMP_EDITOR (memo_editor_new (comp_data->client));
+		CompEditorFlags flags = 0;
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+
+		if (e_cal_component_has_organizer (comp))
+			flags |= COMP_EDITOR_IS_SHARED;
+
+		if (itip_organizer_is_user (comp, comp_data->client))
+			flags |= COMP_EDITOR_USER_ORG;
+
+		medit = COMP_EDITOR (memo_editor_new (comp_data->client, flags));
+
 		comp_editor_edit_comp (medit, comp);
 		
 		e_comp_editor_registry_add (comp_editor_registry, medit, FALSE);
@@ -978,6 +1035,34 @@ e_memo_table_save_state (EMemoTable	*memo_table,
 	e_table_save_state (e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable)),
 			    filename);
 }
+
+/* Returns the current time, for the ECellDateEdit items.
+   FIXME: Should probably use the timezone of the item rather than the
+   current timezone, though that may be difficult to get from here. */
+static struct tm
+e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
+{
+	icaltimezone *zone;
+	struct tm tmp_tm = { 0 };
+	struct icaltimetype tt;
+
+	/* Get the current timezone. */
+	zone = calendar_config_get_icaltimezone ();
+
+	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+
+	/* Now copy it to the struct tm and return it. */
+	tmp_tm.tm_year  = tt.year - 1900;
+	tmp_tm.tm_mon   = tt.month - 1;
+	tmp_tm.tm_mday  = tt.day;
+	tmp_tm.tm_hour  = tt.hour;
+	tmp_tm.tm_min   = tt.minute;
+	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_isdst = -1;
+
+	return tmp_tm;
+}
+
 
 #ifdef TRANSLATORS_ONLY
 

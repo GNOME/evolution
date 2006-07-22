@@ -22,10 +22,13 @@
  */
 
 #include "calendar-config.h"
+#include "e-cell-date-edit-config.h"
 #include "e-memo-table-config.h"
 
 struct _EMemoTableConfigPrivate {
 	EMemoTable *table;
+
+	ECellDateEditConfig *cell_config;
 	
 	GList *notifications;
 };
@@ -208,6 +211,11 @@ e_memo_table_config_set_table (EMemoTableConfig *table_config, EMemoTable *table
 		priv->table = NULL;
 	}
 	
+	if (priv->cell_config) {
+		g_object_unref (priv->cell_config);
+		priv->cell_config = NULL;
+	}
+
 	for (l = priv->notifications; l; l = l->next)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 
@@ -231,4 +239,7 @@ e_memo_table_config_set_table (EMemoTableConfig *table_config, EMemoTable *table
 
 	not = calendar_config_add_notification_24_hour_format (twentyfour_hour_changed_cb, table_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	/* Date cell */
+	priv->cell_config = e_cell_date_edit_config_new (table->dates_cell);
 }

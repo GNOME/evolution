@@ -171,6 +171,11 @@
   <_secondary>Your calendars will not be available until Evolution is restarted.</_secondary>
  </error>
 
+ <error id="memos-crashed" type="error">
+  <_primary>The Evolution memo has quit unexpectedly.</_primary>
+  <_secondary>Your memos will not be available until Evolution is restarted.</_secondary>
+ </error>
+
  <error id="editor-error" type="error">
   <_primary>Editor could not be loaded.</_primary>
   <_secondary>{0}.</_secondary>

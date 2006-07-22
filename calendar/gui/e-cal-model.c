@@ -468,6 +468,11 @@ ecm_value_at (ETableModel *etm, int col, int row)
 		comp = e_cal_component_new ();
 		icalcomp = icalcomponent_new_clone (comp_data->icalcomp);
 		if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
+			if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+				g_object_unref (comp);
+				return GINT_TO_POINTER (retval);
+			}
+				
 			if (e_cal_component_has_recurrences (comp))
 				retval = 1;
 			else if (itip_organizer_is_user (comp, comp_data->client))

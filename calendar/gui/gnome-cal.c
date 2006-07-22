@@ -68,9 +68,11 @@
 #include "e-cal-list-view-config.h"
 #include "e-mini-calendar-config.h"
 #include "e-calendar-table-config.h"
+#include "e-memo-table-config.h"
 #include "evolution-calendar.h"
 #include "gnome-cal.h"
 #include "calendar-component.h"
+#include "memos-component.h"
 #include "cal-search-bar.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
@@ -114,11 +116,15 @@ struct _GnomeCalendarPrivate {
 
 	GtkWidget   *hpane;
 	GtkWidget   *notebook;
+	GtkWidget   *vpane;
 
 	ECalendar   *date_navigator;
 	EMiniCalendarConfig *date_navigator_config;	
 	GtkWidget   *todo;
 	ECalendarTableConfig *todo_config;
+	
+	GtkWidget   *memo;
+	EMemoTableConfig *memo_config;
 	
 	GtkWidget   *day_view;
 	GtkWidget   *work_week_view;
@@ -132,11 +138,13 @@ struct _GnomeCalendarPrivate {
 	/* plugin menu managers */
 	ECalMenu    *calendar_menu;
 	ECalMenu    *taskpad_menu;
+	ECalMenu    *memopad_menu;
 
 	/* Calendar query for the date navigator */
 	GList       *dn_queries; /* list of CalQueries */
 	char        *sexp;
 	char        *todo_sexp;
+	char        *memo_sexp;
 	guint        update_timeout;
 	guint        update_marcus_bains_line_timeout;
 	
@@ -155,6 +163,8 @@ struct _GnomeCalendarPrivate {
 	   will work OK after theme changes. */
 	gint	     hpane_pos;
 	gint	     hpane_pos_month_view;
+	gint	     vpane_pos;
+	gint 	     vpane_pos_month_view;
 
 	/* The signal handler id for our GtkCalendar "day_selected" handler. */
 	guint	     day_selected_id;
@@ -183,8 +193,10 @@ enum {
 	DATES_SHOWN_CHANGED,
 	CALENDAR_SELECTION_CHANGED,
 	TASKPAD_SELECTION_CHANGED,
+	MEMOPAD_SELECTION_CHANGED,
 	CALENDAR_FOCUS_CHANGE,
 	TASKPAD_FOCUS_CHANGE,
+	MEMOPAD_FOCUS_CHANGE,
 	GOTO_DATE,
 	SOURCE_ADDED,
 	SOURCE_REMOVED,
@@ -196,6 +208,7 @@ enum {
 typedef enum {
 	FOCUS_CALENDAR,
 	FOCUS_TASKPAD,
+	FOCUS_MEMOPAD,
 	FOCUS_OTHER
 } FocusLocation;
 
@@ -217,6 +230,8 @@ static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 static void gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal);
 static void gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data);
 static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
+static void gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal);
+static gboolean gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
 
 static void gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
 								 GnomeCalendar *gcal);
@@ -227,6 +242,7 @@ static void gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal);
 static void update_query (GnomeCalendar *gcal);
 
 static void update_todo_view (GnomeCalendar *gcal);
+static void update_memo_view (GnomeCalendar *gcal);
 
 G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, GTK_TYPE_VBOX)
 
@@ -264,6 +280,15 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	gnome_calendar_signals[MEMOPAD_SELECTION_CHANGED] =
+		gtk_signal_new ("memopad_selection_changed",
+				GTK_RUN_LAST,
+				G_TYPE_FROM_CLASS (object_class),
+				GTK_SIGNAL_OFFSET (GnomeCalendarClass, memopad_selection_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+
 	gnome_calendar_signals[CALENDAR_FOCUS_CHANGE] =
 		gtk_signal_new ("calendar_focus_change",
 				GTK_RUN_FIRST,
@@ -278,6 +303,15 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				GTK_RUN_FIRST,
 				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (GnomeCalendarClass, taskpad_focus_change),
+				gtk_marshal_NONE__BOOL,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_BOOL);
+
+	gnome_calendar_signals[MEMOPAD_FOCUS_CHANGE] =
+		gtk_signal_new ("memopad_focus_change",
+				GTK_RUN_FIRST,
+				G_TYPE_FROM_CLASS (object_class),
+				GTK_SIGNAL_OFFSET (GnomeCalendarClass, memopad_focus_change),
 				gtk_marshal_NONE__BOOL,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_BOOL);
@@ -331,8 +365,10 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	class->dates_shown_changed = NULL;
 	class->calendar_selection_changed = NULL;
 	class->taskpad_selection_changed = NULL;
+	class->memopad_selection_changed = NULL;
 	class->calendar_focus_change = NULL;
 	class->taskpad_focus_change = NULL;
+	class->memopad_focus_change = NULL;
 	class->source_added = NULL;
 	class->source_removed = NULL;
 	class->goto_date = gnome_calendar_goto_date;
@@ -647,14 +683,17 @@ static FocusLocation
 get_focus_location (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	ETable *etable;
+	ETable *etable, *m_etable;
 
 	priv = gcal->priv;
 
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (priv->todo));
+	m_etable = e_memo_table_get_table (E_MEMO_TABLE (priv->memo));
 
 	if (GTK_WIDGET_HAS_FOCUS (etable->table_canvas))
 		return FOCUS_TASKPAD;
+	else if (GTK_WIDGET_HAS_FOCUS (m_etable->table_canvas))
+		return FOCUS_MEMOPAD;
 	else {
 		GtkWidget *widget;
 		EDayView *dv;
@@ -959,6 +998,19 @@ table_canvas_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer 
 }
 
 static gint
+memo_canvas_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals [MEMOPAD_FOCUS_CHANGE],
+			 event->in ? TRUE : FALSE);
+
+	return FALSE;
+}
+
+static gint
 calendar_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	GnomeCalendar *gcal;
@@ -1023,6 +1075,16 @@ table_selection_change_cb (ETable *etable, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 
 	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[TASKPAD_SELECTION_CHANGED]);
+}
+
+static void
+memo_selection_change_cb (ETable *etable, gpointer data)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[MEMOPAD_SELECTION_CHANGED]);
 }
 
 static void
@@ -1137,6 +1199,41 @@ update_todo_view (GnomeCalendar *gcal)
 }
 
 static void
+update_memo_view (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+	ECalModel *model, *view_model;
+	time_t start, end; 
+	char *iso_start, *iso_end;
+	
+	priv = gcal->priv;
+	
+	/* Set the query on the memo pad*/
+	if (priv->memo_sexp) {
+		g_free (priv->memo_sexp);
+	}
+	
+	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memo));
+	view_model = e_calendar_view_get_model(priv->views[priv->current_view_type]);
+	e_cal_model_get_time_range (view_model, &start, &end);
+
+	if (start != -1 && end != -1) {
+		iso_start = isodate_from_time_t (start);
+		iso_end = isodate_from_time_t (end);
+
+		priv->memo_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
+				"                           (make-time \"%s\"))"
+				"     %s)",
+				iso_start, iso_end, 
+				priv->sexp ? priv->sexp : "");
+		e_cal_model_set_search_query (model, priv->memo_sexp);
+
+		g_free (iso_start);
+		g_free (iso_end);
+	}
+}
+
+static void
 process_completed_tasks (GnomeCalendar *gcal, gboolean config_changed)
 {
 	GnomeCalendarPrivate *priv;
@@ -1221,7 +1318,9 @@ setup_config (GnomeCalendar *calendar)
 	
 	/* Pane positions */
 	priv->hpane_pos = calendar_config_get_hpane_pos ();
+	priv->vpane_pos = calendar_config_get_vpane_pos ();
 	priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
+	priv->vpane_pos_month_view = calendar_config_get_month_vpane_pos ();
 }
 
 static void
@@ -1307,6 +1406,8 @@ view_progress_cb (ECalModel *model, const char *message, int percent, ECalSource
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (gcal->priv->week_view), message, percent);
 	} else if (type == E_CAL_SOURCE_TYPE_TODO) {
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (gcal->priv->todo), message, percent);
+	} else if (type == E_CAL_SOURCE_TYPE_JOURNAL) {
+		e_memo_table_set_status_message (E_MEMO_TABLE (gcal->priv->memo), message);
 	}
 }
 
@@ -1317,6 +1418,8 @@ view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, Gno
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (gcal->priv->week_view), NULL, -1);
 	} else if (type == E_CAL_SOURCE_TYPE_TODO) {
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (gcal->priv->todo), NULL, -1);
+	} else if (type == E_CAL_SOURCE_TYPE_JOURNAL) {
+		e_memo_table_set_status_message (E_MEMO_TABLE (gcal->priv->memo), NULL);
 	}
 			
 }
@@ -1331,11 +1434,13 @@ static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	GtkWidget *w;
+	GtkWidget *w, *sep;
 	gchar *filename;
 	ETable *etable;
 	GtkAdjustment *adjustment;
 	ECalModel *w_model;
+	GtkWidget *vbox;
+	GtkWidget *label;
 	int i;
 
 	priv = gcal->priv;
@@ -1384,12 +1489,34 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (gnome_calendar_on_date_navigator_date_range_changed), gcal);
 	g_signal_connect (w, "scroll-event",
 			  G_CALLBACK (gnome_calendar_date_navigator_scrolled), gcal);
+	
+	/* The VPaned widget, to contain the ToDo list & Memo list */
+	priv->vpane = gtk_vpaned_new ();
+	g_signal_connect_after (priv->vpane, "realize",
+				G_CALLBACK(gnome_calendar_vpane_realized), gcal);
+	g_signal_connect (priv->vpane, "button_release_event",
+			  G_CALLBACK (gnome_calendar_vpane_resized), gcal);
+	gtk_widget_show (priv->vpane);
+	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->vpane, TRUE, TRUE);
 
 	/* The ToDo list. */
+	vbox = gtk_vbox_new (FALSE, 0);
+	sep = gtk_hseparator_new ();
+	gtk_box_pack_start ((GtkBox *)vbox, sep, FALSE, TRUE, 0);
+	
+	label = gtk_label_new (NULL);
+	gtk_label_set_markup ((GtkLabel *)label, "<b> Tasks </b>");
+	gtk_box_pack_start ((GtkBox *)vbox, label, FALSE, TRUE, 0);
+	
 	priv->todo = e_calendar_table_new ();
 	priv->todo_config = e_calendar_table_config_new (E_CALENDAR_TABLE (priv->todo));
-	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->todo, TRUE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (priv->vpane), vbox, FALSE, TRUE);
+	gtk_box_pack_end ((GtkBox *)vbox, priv->todo, TRUE, TRUE, 0);
+	
 	gtk_widget_show (priv->todo);
+	gtk_widget_show (label);
+	gtk_widget_show (vbox);
+	gtk_widget_show (sep);
 
 	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
 				     "TaskPad", NULL);
@@ -1501,6 +1628,42 @@ setup_widgets (GnomeCalendar *gcal)
 		gtk_widget_show (GTK_WIDGET (priv->views[i]));
 	}
 
+	/* Memo view */
+	vbox = gtk_vbox_new (FALSE, 0);
+	label = gtk_label_new (NULL);
+	gtk_label_set_markup ((GtkLabel *)label, "<b> Memos </b>");
+	gtk_box_pack_start ((GtkBox *)vbox, label, FALSE, TRUE, 0);
+	priv->memo = e_memo_table_new ();
+	priv->memo_config = e_memo_table_config_new (E_MEMO_TABLE (priv->memo));
+	gtk_paned_pack2 (GTK_PANED (priv->vpane), vbox, TRUE, TRUE);
+	gtk_box_pack_end ((GtkBox *)vbox, priv->memo, TRUE, TRUE, 0);
+	
+	gtk_widget_show (priv->memo);
+	gtk_widget_show (label);
+	gtk_widget_show (vbox);
+
+	filename = g_build_filename (memos_component_peek_config_directory (memos_component_peek ()),
+				     "MemoPad", NULL);
+	e_memo_table_load_state (E_MEMO_TABLE (priv->memo), filename);
+	
+	update_memo_view (gcal);
+	g_free (filename);
+
+	etable = e_memo_table_get_table (E_MEMO_TABLE (priv->memo));
+	g_signal_connect (etable->table_canvas, "focus_in_event",
+			  G_CALLBACK (memo_canvas_focus_change_cb), gcal);
+	g_signal_connect (etable->table_canvas, "focus_out_event",
+			  G_CALLBACK (memo_canvas_focus_change_cb), gcal);
+
+	g_signal_connect (etable, "selection_change",
+			  G_CALLBACK (memo_selection_change_cb), gcal);
+	
+	g_signal_connect (e_memo_table_get_model ((EMemoTable *)priv->memo), "cal_view_progress",
+				G_CALLBACK (view_progress_cb), gcal);
+	g_signal_connect (e_memo_table_get_model ((EMemoTable *)priv->memo), "cal_view_done",
+				G_CALLBACK (view_done_cb), gcal);
+
+
 	/* make sure we set the initial time ranges for the views */
 	update_view_times (gcal, time (NULL));
 	gnome_calendar_update_date_navigator (gcal);	
@@ -1530,10 +1693,12 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->calendar_menu = e_cal_menu_new("org.gnome.evolution.calendar.view");
 	priv->taskpad_menu = e_cal_menu_new("org.gnome.evolution.calendar.taskpad");
+	priv->memopad_menu = e_cal_menu_new ("org.gnome.evolution.calendar.memopad");
 
 	priv->dn_queries = NULL;	
 	priv->sexp = g_strdup ("#t"); /* Match all */
 	priv->todo_sexp = g_strdup ("#t");
+	priv->memo_sexp = g_strdup ("#t");
 
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
@@ -1598,6 +1763,7 @@ gnome_calendar_destroy (GtkObject *object)
 		}
 		g_object_unref (priv->date_navigator_config);
 		g_object_unref (priv->todo_config);
+		g_object_unref (priv->memo_config);
 		
 		for (l = priv->notifications; l; l = l->next)
 			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
@@ -1608,6 +1774,12 @@ gnome_calendar_destroy (GtkObject *object)
 		filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
 					     "TaskPad", NULL);
 		e_calendar_table_save_state (E_CALENDAR_TABLE (priv->todo), filename);
+		g_free (filename);
+		
+		/* Save the MemoPad layout. */
+		filename = g_build_filename (memos_component_peek_config_directory (memos_component_peek ()),
+					     "MemoPad", NULL);
+		e_memo_table_save_state (E_MEMO_TABLE (priv->memo), filename);
 		g_free (filename);
 
 		if (priv->dn_queries) {
@@ -1629,6 +1801,11 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->todo_sexp) {
 			g_free (priv->todo_sexp);
 			priv->todo_sexp = NULL;
+		}
+
+		if (priv->memo_sexp) {
+			g_free (priv->memo_sexp);
+			priv->memo_sexp = NULL;
 		}
 
 		if (priv->update_timeout) {
@@ -1659,6 +1836,11 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->taskpad_menu) {
 			g_object_unref (priv->taskpad_menu);
 			priv->taskpad_menu = NULL;
+		}
+
+		if (priv->memopad_menu) {
+			g_object_unref (priv->memopad_menu);
+			priv->memopad_menu = NULL;
 		}
 
 		g_free (priv);
@@ -2321,8 +2503,10 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
 		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos_month_view);
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
 	} else {
 		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
 	}
 }
 
@@ -2349,6 +2533,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	case E_CAL_SOURCE_TYPE_TODO:
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), NULL);
 	default:
 		break;
 	}
@@ -2412,7 +2598,13 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 		break;
-		
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		msg = g_strdup_printf (_("Loading memos at %s"), e_cal_get_uri (ecal));
+		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), msg);
+		g_free (msg);
+		e_cal_model_add_client (e_memo_table_get_model (E_MEMO_TABLE (priv->memo)), ecal);
+		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), NULL);
+		break;		
 	default:
 		g_assert_not_reached ();
 		return;
@@ -2440,6 +2632,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		break;		
 	case E_CAL_SOURCE_TYPE_TODO:
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), NULL);
 		break;
 	default:
 		break;
@@ -2488,7 +2683,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	case E_CAL_SOURCE_TYPE_TODO:
 		e_cal_model_set_default_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), ecal);
 		break;
-
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		e_cal_model_set_default_client (e_memo_table_get_model (E_MEMO_TABLE (priv->memo)), ecal);
+		break;
 	default:
 		break;
         }
@@ -2515,6 +2712,9 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 		break;
 	case E_CAL_SOURCE_TYPE_TODO :
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg, -1);
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), msg);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -2584,7 +2784,14 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		break;
+		
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		id = "calendar:memos-crashed";
+		
+		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), NULL);
 
+		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
+		break;
 	default:
 		g_assert_not_reached ();
 		return;
@@ -2825,6 +3032,11 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 		
 	case E_CAL_SOURCE_TYPE_TODO:
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+		e_cal_model_remove_client (model, client);
+		break;
+
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		model = e_memo_table_get_model (E_MEMO_TABLE (priv->memo));
 		e_cal_model_remove_client (model, client);
 		break;
 		
@@ -3180,6 +3392,37 @@ gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 	
 	return FALSE;
 }
+static void
+gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
+	} else {
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
+	}
+}
+
+static gboolean
+gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
+		priv->vpane_pos_month_view = gtk_paned_get_position (GTK_PANED (priv->vpane));
+		calendar_config_set_month_vpane_pos (priv->vpane_pos_month_view);
+	} else {
+		priv->vpane_pos = gtk_paned_get_position (GTK_PANED (priv->vpane));
+		calendar_config_set_vpane_pos (priv->vpane_pos);
+	}
+
+	return FALSE;
+}
 
 void
 gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
@@ -3195,6 +3438,8 @@ gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
 		e_calendar_view_cut_clipboard (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_cut_clipboard (E_CALENDAR_TABLE (priv->todo));
+	else if (location == FOCUS_MEMOPAD)
+		e_calendar_table_copy_clipboard (E_MEMO_TABLE (priv->memo));
 }
 
 void
@@ -3211,6 +3456,8 @@ gnome_calendar_copy_clipboard (GnomeCalendar *gcal)
 		e_calendar_view_copy_clipboard (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_copy_clipboard (E_CALENDAR_TABLE (priv->todo));
+	else if (location == FOCUS_MEMOPAD)
+		e_calendar_table_copy_clipboard (E_MEMO_TABLE (priv->memo));
 }
 
 void
@@ -3227,6 +3474,8 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 		e_calendar_view_paste_clipboard (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_paste_clipboard (E_CALENDAR_TABLE (priv->todo));
+	else if (location == FOCUS_MEMOPAD)
+		e_memo_table_paste_clipboard (E_MEMO_TABLE (priv->memo));
 }
 
 
@@ -3267,6 +3516,7 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 		gtk_signal_emit (GTK_OBJECT (gcal),
 				 gnome_calendar_signals[DATES_SHOWN_CHANGED]);
 	}
+	update_memo_view (gcal);
 }
 
 
@@ -3332,6 +3582,8 @@ gnome_calendar_delete_selection		(GnomeCalendar  *gcal)
 		e_calendar_view_delete_selected_events (E_CALENDAR_VIEW (view));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_delete_selected (E_CALENDAR_TABLE (priv->todo));
+	else if (location == FOCUS_MEMOPAD)
+		e_memo_table_delete_selected (E_MEMO_TABLE (priv->memo));
 }
 
 void
@@ -3491,6 +3743,14 @@ ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
  
  	return gcal->priv->calendar_menu;
 }
+
+ECalMenu *gnome_calendar_get_memopad_menu (GnomeCalendar *gcal)
+{
+ 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+ 
+ 	return gcal->priv->memopad_menu;
+}
+
 
 void
 gnome_calendar_edit_appointment (GnomeCalendar *gcal,

@@ -56,6 +56,9 @@ struct _EMemoTable {
 
 	GtkWidget *etable;
 
+	/* The ECell used to view & edit dates. */
+	ECellDateEdit *dates_cell;
+
 	/* Fields used for cut/copy/paste */
 	icalcomponent *tmp_vcal;
 

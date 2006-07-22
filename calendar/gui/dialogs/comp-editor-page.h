@@ -49,6 +49,7 @@ typedef enum {
 	COMP_EDITOR_PAGE_DELEGATE = 1<<2,
 	COMP_EDITOR_PAGE_USER_ORG = 1<<3,
 	COMP_EDITOR_PAGE_IS_ASSIGNED = 1<<4,
+	COMP_EDITOR_PAGE_IS_SHARED = 1<<5
 } CompEditorPageFlags;
 
 typedef struct {
