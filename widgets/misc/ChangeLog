@@ -1,3 +1,8 @@
+2006-07-22 Yuri Pankov <yuri.pankov@gmail.com>
+	
+	Reviewed by Harish Krishnaswamy <kharish@novell.com>
+	* e-icon-entry.c:  Add missing headers. Fixes #347689.
+
 2006-07-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-search-bar.c: (e_search_bar_construct):  Modified

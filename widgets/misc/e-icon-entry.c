@@ -37,8 +37,10 @@
 #include "e-icon-entry.h"
 
 #include <gtk/gtkentry.h>
+#include <gtk/gtkeventbox.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkimage.h>
 
 #define E_ICON_ENTRY_GET_PRIVATE(object)(G_TYPE_INSTANCE_GET_PRIVATE ((object), E_TYPE_ICON_ENTRY, EIconEntryPrivate))
 
