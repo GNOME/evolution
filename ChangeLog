@@ -1,3 +1,8 @@
+2006-07-21  Luca Ferretti  <elle.uca@libero.it>
+
+	* configure.in: add support for xulrunner and seamonkey (NSS and NSPR).
+	(committed by Karsten Bräckelmann)
+
 2006-07-22  Julio M. Merino Vidal  <jmmv@NetBSD.org>
 
 	* configure.in: Do not assume that only SunOS has pkill because
