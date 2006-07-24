@@ -1,3 +1,12 @@
+2006-07-24  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder-subscription.c (subscribe_to_folder): Handling the 
+	errors EXCHANGE_ACCOUNT_FOLDER_GC_NOTREACHABLE and 
+	EXCHANGE_ACCOUNT_FOLDER_NO_SUCH_USER.
+
+	* org-gnome-exchange-operations.error.xml: Added an error code 
+	folder-no-gc-error and corresponding error string. Fixes #234359. 
+
 2006-07-22  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-folder-subscription.c (subscribe_to_folder): Checking if a 

@@ -259,6 +259,12 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 				case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
 					e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
 					break;
+				case EXCHANGE_ACCOUNT_FOLDER_GC_NOTREACHABLE:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-no-gc-error", NULL);
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_NO_SUCH_USER:
+					e_error_run (NULL, ERROR_DOMAIN ":no-user-error", user_email_address, NULL);
+					break;
 				case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:
 					e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
 					break;
