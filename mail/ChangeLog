@@ -1,5 +1,12 @@
 2006-07-24  Sushma Rai  <rsushma@novell.com>
 
+	* em-account-editor.c: (emae_option_entry) : activate the mnemonic for
+	text box, add an extra paramenter to the function call.
+	Fixes #332282.
+	Patch submitted by "Vandana Shenoy .B <shvandana@novell.com>"
+
+2006-07-24  Sushma Rai  <rsushma@novell.com>
+
 	* em-subscribe-editor.c (_EMSubscribeEditor): Removed the members 
 	subscribe_button and unsubscribe_button.
 	(sub_do_subscribe)(sub_subscribe)(sub_editor_subscribe)
