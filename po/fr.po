@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-22 11:42+0200\n"
+"POT-Creation-Date: 2006-07-24 11:16+0200\n"
 "PO-Revision-Date: 2006-07-22 11:42+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -378,7 +378,7 @@ msgid ""
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
 "Actuellement, Evolution ne permet d'accéder qu'au système d'adresses "
-"GroupWise. Utilisez un autre client de messagerie pour avoir accès aux "
+"GroupWise. Veuillez utilisez un autre client de messagerie pour avoir accès aux "
 "contacts fréquents et au dossier de contacts personnels de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:9
@@ -2561,7 +2561,7 @@ msgstr "Veuillez sélectionner une image pour ce contact"
 msgid "No image"
 msgstr "Pas d'image"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3065
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3066
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2569,23 +2569,23 @@ msgstr ""
 "La donnée sur le contact n'est pas valide :\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3069
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3070
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "« %s » a un format invalide"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3076
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3077
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s « %s » a un format invalude"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3091
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3102
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3092
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s « %s » est vide"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3117
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3118
 msgid "Invalid contact."
 msgstr "Contact invalide"
 
@@ -10194,14 +10194,14 @@ msgstr "Barre des pièces jointes"
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
 #: ../widgets/misc/e-attachment.c:242 ../widgets/misc/e-attachment.c:258
-#: ../widgets/misc/e-attachment.c:446 ../widgets/misc/e-attachment.c:462
+#: ../widgets/misc/e-attachment.c:449 ../widgets/misc/e-attachment.c:467
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Impossible de joindre le fichier %s : %s."
 
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
-#: ../widgets/misc/e-attachment.c:250 ../widgets/misc/e-attachment.c:454
+#: ../widgets/misc/e-attachment.c:250 ../widgets/misc/e-attachment.c:458
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr ""
@@ -12092,8 +12092,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"L'emplacement et la hiérarchie des dossiers des boîtes aux lettres ont "
-"changés depuis Evolution 1.x.\n"
+"L'emplacement et la hiérarchie des dossiers des boîtes à lettres ont changés "
+"depuis Evolution 1.x.\n"
 "\n"
 "Veuillez patienter pendant qu'Evolution migre vos dossiers..."
 
@@ -12111,7 +12111,7 @@ msgstr "Impossible de copier le dossier « %s » vers « %s » : %s"
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr ""
-"Impossible de rechercher les boîtes aux lettres existant dans « %s » : %s"
+"Impossible de rechercher les boîtes à lettres existant dans « %s » : %s"
 
 #: ../mail/em-migrate.c:2063
 #, c-format
@@ -12734,7 +12734,7 @@ msgstr "Assistant d'importation Elm d'Evolution"
 
 #: ../mail/importers/elm-importer.c:382
 msgid "Import mail from Elm."
-msgstr "Importation des boîtes aux lettres de Elm."
+msgstr "Importation des boîtes à lettres de Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:83
 #: ../mail/importers/evolution-outlook-importer.c:136
@@ -12748,11 +12748,11 @@ msgstr "Sélectionnez un dossier pour l'import"
 
 #: ../mail/importers/evolution-mbox-importer.c:223
 msgid "Berkeley Mailbox (mbox)"
-msgstr "Boîte aux lettres Berkeley (mbox)"
+msgstr "Boîte à lettres Berkeley (mbox)"
 
 #: ../mail/importers/evolution-mbox-importer.c:224
 msgid "Importer Berkeley Mailbox format folders"
-msgstr "Importe les dossiers au format de boîte aux lettres Berkeley"
+msgstr "Importe les dossiers au format de boîte à lettres Berkeley"
 
 #: ../mail/importers/evolution-outlook-importer.c:262
 #: ../mail/importers/mail-importer.c:233 ../shell/e-shell-importer.c:518
@@ -12770,7 +12770,7 @@ msgstr "Veuillez patienter"
 #: ../mail/importers/evolution-outlook-importer.c:310
 #: ../mail/importers/mail-importer.c:148
 msgid "Importing mailbox"
-msgstr "Importation des boîtes aux lettres"
+msgstr "Importation des boîtes à lettres"
 
 #: ../mail/importers/mail-importer.c:376
 #, c-format
@@ -12868,7 +12868,7 @@ msgstr "Assistant d'importation Pine d'Evolution"
 
 #: ../mail/importers/pine-importer.c:434
 msgid "Import mail from Pine."
-msgstr "Importation des boîtes aux lettres de Pine."
+msgstr "Importation des boîtes à lettres de Pine."
 
 #: ../mail/mail-autofilter.c:79
 #, c-format
@@ -13334,7 +13334,7 @@ msgstr "En-têtes des messages"
 
 #: ../mail/mail-config.glade.h:100
 msgid "Mailbox location"
-msgstr "Emplacement de la boîte aux lettres"
+msgstr "Emplacement de la boîte à lettres"
 
 #: ../mail/mail-config.glade.h:101
 msgid "Message Composer"
@@ -13373,7 +13373,7 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Saisissez les informations nécessaires pour envoyer le courriel. En cas de "
+"Veuillez saisir les informations nécessaires pour envoyer le courriel. En cas de "
 "doute, adressez-vous à votre administrateur système ou à votre fournisseur "
 "d'accès Internet."
 
@@ -14344,7 +14344,7 @@ msgstr "Ouvrir trop de messages en une fois peut prendre un long moment."
 
 #: ../mail/mail.error.xml.h:73
 msgid "Please check your account settings and try again."
-msgstr "Vérifiez les paramètres de votre compte et essayez à nouveau."
+msgstr "Veuillez vérifiez les paramètres de votre compte et essayez à nouveau."
 
 #: ../mail/mail.error.xml.h:74
 msgid "Please enable the account or send using another account."
@@ -14357,7 +14357,7 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Saisissez une adresse électronique valide dans le champ À :. Vous pouvez "
+"Veuillez saisir une adresse électronique valide dans le champ À :. Vous pouvez "
 "rechercher des adresses électroniques en cliquant sur le bouton À : à côté "
 "de la boîte de saisie."
 
@@ -14375,7 +14375,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:79
 msgid "Please provide an unique name to identify this signature."
-msgstr "Fournissez un nom unique pour identifier la signature."
+msgstr "Veuillez fournir un nom unique pour identifier cette signature."
 
 #: ../mail/mail.error.xml.h:80
 msgid "Please wait."
@@ -15156,12 +15156,12 @@ msgid ""
 "Please enter the correct password"
 msgstr ""
 "Ce mot de passe est différent du mot de passe existant pour votre compte. "
-"Saisissez le mot de passe du compte"
+"Veuillez saisir le bon mot de passe"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
 msgstr ""
-"Les deux mots de passe sont différents. Saisissez à nouveau les mots de "
+"Les deux mots de passe sont différents. Veuillez ressaisir les mots de "
 "passe."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
@@ -15179,7 +15179,7 @@ msgstr "Nouveau mot de passe :"
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
 msgstr ""
-"Le mot de passe actuel a expiré. Changez votre mot de passe dès à présent."
+"Le mot de passe actuel a expiré. Veuillez modifier votre mot de passe dès à présent."
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
@@ -15555,7 +15555,7 @@ msgstr ""
 "d'Evolution.\n"
 "\n"
 "Pour fournir des informations à ce sujet à votre\n"
-"administrateur, suivez le lien suivant :\n"
+"administrateur, veuillez suivre le lien suivant :\n"
 "\n"
 "{0}\n"
 "  "
@@ -15591,7 +15591,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
-msgstr "La boîte aux lettres de {0} n'est pas sur ce serveur."
+msgstr "La boîte à lettres de {0} n'est pas sur ce serveur."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Make sure the URL is correct and try again."
@@ -15615,7 +15615,7 @@ msgstr "Aucun catalogue global configuré pour ce compte."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
-msgstr "Pas de boîtes aux lettres pour l'utilisateur {0} on {1}."
+msgstr "Aucune boîtes à lettres pour l'utilisateur {0} on {1}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 msgid "No such user {0}"
@@ -16924,7 +16924,7 @@ msgstr "Notifie de nouveau courriel"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr "Un greffon pour gérer quel greffon sont actif ou non."
+msgstr "Un greffon pour gérer quels greffons sont actif ou non."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
@@ -17818,7 +17818,7 @@ msgstr "Envoyer la sortie de débogage de tous les composants vers un fichier."
 
 #: ../shell/main.c:488
 msgid "Disable loading of any plugins."
-msgstr "Désactiver le chargement des extensions."
+msgstr "Désactiver le chargement des greffons."
 
 #: ../shell/main.c:519
 #, c-format
