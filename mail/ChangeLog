@@ -1,3 +1,15 @@
+2006-07-24  Sushma Rai  <rsushma@novell.com>
+
+	* em-subscribe-editor.c (_EMSubscribeEditor): Removed the members 
+	subscribe_button and unsubscribe_button.
+	(sub_do_subscribe)(sub_subscribe)(sub_editor_subscribe)
+	(sub_editor_unsubscribe): Removed.
+	(sub_selection_changed)(em_subscribe_editor_new): Removed the handling
+	for the subscribe and unsubscribe buttons.
+
+	* mail-dialogs.glade: Removed "Subscribe" and "Unsubscribe" buttons.
+	Fixes #331509.
+
 2006-07-22  Yuri Pankov <yuri.pankov@gmail.com>
 
 	Reviewed by Harish Krishnaswamy <kharish@novell.com>

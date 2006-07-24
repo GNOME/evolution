@@ -75,8 +75,6 @@ struct _EMSubscribeEditor {
 	GtkWidget *optionmenu;
 	GtkWidget *none_selected; /* 'please select a xxx' message */
 	GtkWidget *none_selected_item;
-	GtkWidget *subscribe_button;
-	GtkWidget *unsubscribe_button;
 	GtkWidget *progress;
 };
 
@@ -429,35 +427,6 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 /* ********************************************************************** */
 
 /* (un) subscribes the current selection */
-static void sub_do_subscribe(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, void *data)
-{
-	EMSubscribe *sub = data;
-	EMSubscribeNode *node;
-	gboolean subscribed;
-
-	gtk_tree_model_get(model, iter, 0, &subscribed, 2, &node, -1);
-	if (sub->subscribed_state ^ subscribed) {
-		char *spath;
-
-		spath = gtk_tree_path_to_string(path);
-		gtk_tree_store_set((GtkTreeStore *)model, iter, 0, subscribed, -1);
-		sub_subscribe_folder(sub, node, sub->subscribed_state, spath);
-		g_free(spath);
-	}
-}
-
-static void
-sub_subscribe(EMSubscribe *sub, gboolean subscribed)
-{
-	GtkTreeSelection *selection;
-
-	if (sub->tree == NULL)
-		return;
-
-	sub->subscribed_state = subscribed;
-	selection = gtk_tree_view_get_selection (sub->tree);
-	gtk_tree_selection_selected_foreach(selection, sub_do_subscribe, sub);
-}
 
 static void
 sub_subscribe_toggled(GtkCellRendererToggle *render, const char *spath, EMSubscribe *sub)
@@ -508,8 +477,6 @@ sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
 	else if (sub->selected_subscribed_count == 0)
 		dounsub = FALSE;
 
-	gtk_widget_set_sensitive(sub->editor->subscribe_button, dosub);
-	gtk_widget_set_sensitive(sub->editor->unsubscribe_button, dounsub);
 }
 
 /* double-clicking causes a node item to be evaluated directly */
@@ -722,24 +689,6 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 }
 
 static void
-sub_editor_subscribe(GtkWidget *w, EMSubscribeEditor *se)
-{
-	d(printf("subscribe clicked, current = %p\n", se->current));
-
-	if (se->current)
-		sub_subscribe(se->current, TRUE);
-}
-
-static void
-sub_editor_unsubscribe(GtkWidget *w, EMSubscribeEditor *se)
-{
-	d(printf("unsubscribe clicked\n"));
-
-	if (se->current)
-		sub_subscribe(se->current, FALSE);
-}
-
-static void
 sub_editor_got_store(char *uri, CamelStore *store, void *data)
 {
 	struct _EMSubscribe *sub = data;
@@ -860,11 +809,6 @@ GtkDialog *em_subscribe_editor_new(void)
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
 
 	se->vbox = glade_xml_get_widget(xml, "tree_box");
-
-	se->subscribe_button = glade_xml_get_widget (xml, "subscribe_button");
-	g_signal_connect(se->subscribe_button, "clicked", G_CALLBACK(sub_editor_subscribe), se);
-	se->unsubscribe_button = glade_xml_get_widget (xml, "unsubscribe_button");
-	g_signal_connect(se->unsubscribe_button, "clicked", G_CALLBACK(sub_editor_unsubscribe), se);
 
 	/* FIXME: This is just to get the shadow, is there a better way? */
 	w = gtk_label_new(_("Please select a server."));
