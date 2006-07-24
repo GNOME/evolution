@@ -1,5 +1,34 @@
+Evolution 2.7.90 2006-07-24
+---------------------------
+
+Updated Translations:
+
+Zygimantas Berucka (lt), 
+Christophe Merlet (fr),
+Francisco Javier F. Serrador (es),
+Changwoo Ryu (ko), Jonathan Ernst (fr),
+Nikos Charonitakis (el), Funda Wang (zh_CN),
+Ankit Patel (gu), Ilkka Tuohela (fi),
+Raivis Dejus (lv), Kostas Papadimas (el),
+Dzongkhalinux team, DIT (dz), Hendrik Richter (de),
+Daniel Nylander (sv), Ivar Smolin (et),
+Theppitak Karoonboonyanan (th), Simos Xenitellis (el),
+Chao-Hsuing Liao (zh_HK, zh_TW)
+
+Bug fixes and features :
+
+Arvind, Andre Klapper, Boby Wang, Yuri Pankov, 
+Harish Krishnaswamy, Srinivasa Ragavan, Johnny Jacob,
+Raghavendran, Shree Krishnan, Ushveen Kaur, Karsten
+Brackelmann, Michael Zucchi, Hiroyuki Ikezoe,
+Rajeev Ramanathan, Chenthill Palanisamy, Li Yuan,
+Devashish Sharma, Mikhail Zabaluev, Ross Burton,  
+Sankar, Benoît Dejean, Vandana Shenoy, Julio M. Merino
+Vidal, Luca Ferretti.
+
 Evolution 2.7.4 2006-07-10
 --------------------------
+Updated Translations:
 
 Francisco Javier F. Serrador, Jovan Naumovski,
 Changwoo Ryu, Nikos Charonitakis, Rostislav

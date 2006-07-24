@@ -1,3 +1,8 @@
+2006-07-24  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS, configure.in: Evolution 2.7.90 release 
+	updates.
+
 2006-07-21  Luca Ferretti  <elle.uca@libero.it>
 
 	* configure.in: add support for xulrunner and seamonkey (NSS and NSPR).
