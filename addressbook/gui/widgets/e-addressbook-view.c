@@ -1493,7 +1493,7 @@ search_activated (ESearchBar *esb, EABView *v)
 		     NULL);
 
 	if (search_type == E_FILTERBAR_ADVANCED_ID) {
-		gtk_widget_show(eab_search_dialog_new(v));
+		// gtk_widget_show(eab_search_dialog_new(v));
 	}
 	else {
 		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
