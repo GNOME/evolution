@@ -1,3 +1,9 @@
+2006-07-24  Ushveen Kaur  <kushveen@novell.com>
+
+	** Fixes Bug #341840
+	
+	* mail-error.xml: button label changed for dialog ask-mark-read.
+
 2006-07-24  Sushma Rai  <rsushma@novell.com>
 
 	* em-account-editor.c: (emae_option_entry) : activate the mnemonic for
