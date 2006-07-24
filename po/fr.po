@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.7.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-22 14:57+0200\n"
-"PO-Revision-Date: 2006-07-22 14:34+0200\n"
-"Last-Translator: Jonathan Ernst <jonathan@ernstfamily.ch>\n"
+"POT-Creation-Date: 2006-07-24 11:31+0200\n"
+"PO-Revision-Date: 2006-07-24 11:31+0200\n"
+"Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4481,10 +4481,9 @@ msgstr ""
 "redémarré."
 
 #: ../calendar/calendar.error.xml.h:68
-#, fuzzy
 msgid "Your memos will not be available until Evolution is restarted."
 msgstr ""
-"Vos tâches ne seront plus disponibles tant que Evolution n'aura pas été "
+"Vos mémos ne seront plus disponibles tant que Evolution n'aura pas été "
 "redémarré."
 
 #: ../calendar/calendar.error.xml.h:69
@@ -6146,7 +6145,7 @@ msgstr "La destination est en lecture seule"
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
 msgstr ""
-"_Supprimer cet élément de toutes les autres boîtes aux lettres des "
+"_Supprimer cet élément de toutes les autres boîtes à lettres des "
 "destinataires ?"
 
 #: ../calendar/gui/dialogs/delete-error.c:54
@@ -7278,14 +7277,12 @@ msgid "_Mark Selected Tasks as Complete"
 msgstr "_Marquer les tâches sélectionnées comme terminées"
 
 #: ../calendar/gui/e-calendar-table.c:1297
-#, fuzzy
 msgid "_Mark as Incomplete"
-msgstr "_Marquer comme terminé"
+msgstr "_Marquer comme incomplet"
 
 #: ../calendar/gui/e-calendar-table.c:1298
-#, fuzzy
 msgid "_Mark Selected Tasks as Incomplete"
-msgstr "_Marquer les tâches sélectionnées comme terminées"
+msgstr "_Marquer les tâches sélectionnées comme imcomplète"
 
 #: ../calendar/gui/e-calendar-table.c:1303
 msgid "_Delete Selected Tasks"
@@ -10695,6 +10692,7 @@ msgid "calendar information"
 msgstr "Informations du calendrier"
 
 #: ../designs/OOA/ooa.glade.h:1
+#: ../plugins/exchange-operations/exchange-oof.glade.h:1
 msgid ""
 "<b>Currently, your status is \"Out of the Office\". </b>\n"
 "\n"
@@ -10705,14 +10703,17 @@ msgstr ""
 "Voulez-vous activer l'état « Au bureau » ? "
 
 #: ../designs/OOA/ooa.glade.h:4
+#: ../plugins/exchange-operations/exchange-oof.glade.h:4
 msgid "<b>Out of Office Message:</b>"
 msgstr "<b>Message « Absent du bureau » :</b>"
 
 #: ../designs/OOA/ooa.glade.h:5
+#: ../plugins/exchange-operations/exchange-oof.glade.h:5
 msgid "<b>Status:</b>"
 msgstr "<b>État :</b>"
 
 #: ../designs/OOA/ooa.glade.h:6
+#: ../plugins/exchange-operations/exchange-oof.glade.h:6
 msgid ""
 "<small>The message specified below will be automatically sent to each person "
 "who sends\n"
@@ -10723,10 +10724,12 @@ msgstr ""
 "envoyant des courriels pendant votre absence du bureau.</small>"
 
 #: ../designs/OOA/ooa.glade.h:8
+#: ../plugins/exchange-operations/exchange-oof.glade.h:8
 msgid "I am currently in the office"
 msgstr "Je suis actuellement au bureau."
 
 #: ../designs/OOA/ooa.glade.h:9
+#: ../plugins/exchange-operations/exchange-oof.glade.h:9
 msgid "I am currently out of the office"
 msgstr "Je suis actuellement absent du bureau."
 
@@ -10735,10 +10738,12 @@ msgid "No, Do not Change Status"
 msgstr "Non, ne pas modifier l'état"
 
 #: ../designs/OOA/ooa.glade.h:12
+#: ../plugins/exchange-operations/exchange-oof.glade.h:11
 msgid "Out of Office Assistant"
 msgstr "Assistant Absent du bureau"
 
 #: ../designs/OOA/ooa.glade.h:13
+#: ../plugins/exchange-operations/exchange-oof.glade.h:12
 msgid "Yes, Change Status"
 msgstr "Oui, modifier l'état"
 
@@ -12271,7 +12276,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"L'emplacement et la hiérarchie des dossiers des boîtes aux lettres ont "
+"L'emplacement et la hiérarchie des dossiers des boîtes à lettres ont "
 "changés depuis Evolution 1.x.\n"
 "\n"
 "Veuillez patienter pendant qu'Evolution migre vos dossiers..."
@@ -12290,7 +12295,7 @@ msgstr "Impossible de copier le dossier « %s » vers « %s » : %s"
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr ""
-"Impossible de rechercher les boîtes aux lettres existant dans « %s » : %s"
+"Impossible de rechercher les boîtes à lettres existant dans « %s » : %s"
 
 #: ../mail/em-migrate.c:2064
 #, c-format
@@ -12350,26 +12355,26 @@ msgstr "Envoyer un nouveau _message à..."
 msgid "_Add to Address Book"
 msgstr "_Ajouter dans le carnet d'adresses"
 
-#: ../mail/em-subscribe-editor.c:615
+#: ../mail/em-subscribe-editor.c:582
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr ""
 "Soit ce stockage ne supporte pas les abonnements, ou soit ils ne sont pas "
 "activés."
 
-#: ../mail/em-subscribe-editor.c:645
+#: ../mail/em-subscribe-editor.c:612
 msgid "Subscribed"
 msgstr "Abonné"
 
-#: ../mail/em-subscribe-editor.c:649
+#: ../mail/em-subscribe-editor.c:616
 msgid "Folder"
 msgstr "Dossier"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:870
+#: ../mail/em-subscribe-editor.c:814
 msgid "Please select a server."
 msgstr "Veuillez sélectionner un serveur."
 
-#: ../mail/em-subscribe-editor.c:891
+#: ../mail/em-subscribe-editor.c:835
 msgid "No server has been selected"
 msgstr "Aucun serveur n'a été sélectionné."
 
@@ -12984,7 +12989,7 @@ msgstr "Assistant d'importation Elm d'Evolution"
 
 #: ../mail/importers/elm-importer.c:382
 msgid "Import mail from Elm."
-msgstr "Importation des boîtes aux lettres de Elm."
+msgstr "Importation des boîtes à lettres de Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:83
 #: ../mail/importers/evolution-outlook-importer.c:136
@@ -12998,11 +13003,11 @@ msgstr "Sélectionnez un dossier pour l'import"
 
 #: ../mail/importers/evolution-mbox-importer.c:223
 msgid "Berkeley Mailbox (mbox)"
-msgstr "Boîte aux lettres Berkeley (mbox)"
+msgstr "Boîte à lettres Berkeley (mbox)"
 
 #: ../mail/importers/evolution-mbox-importer.c:224
 msgid "Importer Berkeley Mailbox format folders"
-msgstr "Importe les dossiers au format de boîte aux lettres Berkeley"
+msgstr "Importe les dossiers au format de boîte à lettres Berkeley"
 
 #: ../mail/importers/evolution-outlook-importer.c:262
 #: ../mail/importers/mail-importer.c:233 ../shell/e-shell-importer.c:529
@@ -13020,7 +13025,7 @@ msgstr "Veuillez patienter"
 #: ../mail/importers/evolution-outlook-importer.c:310
 #: ../mail/importers/mail-importer.c:148
 msgid "Importing mailbox"
-msgstr "Importation des boîtes aux lettres"
+msgstr "Importation des boîtes à lettres"
 
 #: ../mail/importers/mail-importer.c:376
 #, c-format
@@ -13118,7 +13123,7 @@ msgstr "Assistant d'importation Pine d'Evolution"
 
 #: ../mail/importers/pine-importer.c:434
 msgid "Import mail from Pine."
-msgstr "Importation des boîtes aux lettres de Pine."
+msgstr "Importation des boîtes à lettres de Pine."
 
 #: ../mail/mail-autofilter.c:79
 #, c-format
@@ -13578,7 +13583,7 @@ msgstr "En-têtes des messages"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Mailbox location"
-msgstr "Emplacement de la boîte aux lettres"
+msgstr "Emplacement de la boîte à lettres"
 
 #: ../mail/mail-config.glade.h:100
 msgid "Message Composer"
@@ -13891,19 +13896,16 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Chiffrement</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "All active remote folders"
-msgstr "avec tous les dossiers actifs distants"
+msgstr "Tous les dossiers actifs distants"
 
 #: ../mail/mail-dialogs.glade.h:6
-#, fuzzy
 msgid "All local and active remote folders"
-msgstr "avec tous les dossiers actifs locaux et distants"
+msgstr "Tous les dossiers locaux et actifs distants"
 
 #: ../mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "All local folders"
-msgstr "avec tous les dossiers locaux"
+msgstr "Tous les dossiers locaux"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
@@ -13971,17 +13973,8 @@ msgid "_Flag:"
 msgstr "_Marqueur :"
 
 #: ../mail/mail-dialogs.glade.h:26
-msgid "_Subscribe"
-msgstr "_S'abonner"
-
-#: ../mail/mail-dialogs.glade.h:27
 msgid "_Tick this to accept the license agreement"
 msgstr "Cochez ici pour accepter les _termes de la licence"
-
-#: ../mail/mail-dialogs.glade.h:28
-#: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
-msgid "_Unsubscribe"
-msgstr "Se _désabonner"
 
 #: ../mail/mail-folder-cache.c:858
 #, c-format
@@ -15679,6 +15672,10 @@ msgstr "Lire les éléments"
 msgid "Role: "
 msgstr "Rôle : "
 
+#: ../plugins/exchange-operations/exchange-oof.glade.h:10
+msgid "No, Don't Change Status"
+msgstr "Non, ne pas modifier l'état"
+
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
 msgid "Select User"
 msgstr "Sélectionner un utilisateur"
@@ -15855,7 +15852,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Mailbox for {0} is not on this server."
-msgstr "La boîte aux lettres de {0} n'est pas sur ce serveur."
+msgstr "La boîte à lettres de {0} n'est pas sur ce serveur."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the URL is correct and try again."
@@ -15879,7 +15876,7 @@ msgstr "Aucun catalogue global configuré pour ce compte."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 msgid "No mailbox for user {0} on {1}."
-msgstr "Pas de boîtes aux lettres pour l'utilisateur {0} on {1}."
+msgstr "Aucune boîtes à lettres pour l'utilisateur {0} on {1}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "No such user {0}"
@@ -16051,6 +16048,10 @@ msgstr ""
 msgid "Unsubscribe Folders"
 msgstr "Se désabonner des dossiers"
 
+#: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
+msgid "_Unsubscribe"
+msgstr "Se _désabonner"
+
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:390
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:421
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:600
@@ -16101,6 +16102,15 @@ msgstr "_Activer"
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
 msgstr "_Liste des pourriels"
+
+#: ../plugins/groupwise-features/mail-retract.c:53
+msgid "Message retracted successfully"
+msgstr ""
+
+#: ../plugins/groupwise-features/mail-retract.c:60
+#, fuzzy
+msgid "Retract Mail"
+msgstr "Récupération du courriel"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
@@ -17253,7 +17263,7 @@ msgstr "Notifie de nouveau courriel"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr "Un greffon pour gérer quel greffon sont actif ou non."
+msgstr "Un greffon pour gérer quels greffons sont actif ou non."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
@@ -18021,7 +18031,7 @@ msgstr "Arguments non valides"
 
 #: ../shell/e-shell.c:1266
 #, fuzzy
-msgid "CanJot register on OAF"
+msgid "Cannot register on OAF"
 msgstr "Impossible d'enregistrer dans OAF."
 
 #: ../shell/e-shell.c:1268
@@ -21885,94 +21895,3 @@ msgstr "Contexte des méthodes de saisie"
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr "Poignée du menu contextuel"
-
-#~ msgid "*"
-#~ msgstr "*"
-
-#~ msgid "work"
-#~ msgstr "bureau"
-
-#~ msgid "personal"
-#~ msgstr "personnel"
-
-#~ msgid "The calendar you have selected is read-only"
-#~ msgstr "Le calendrier que vous avez sélectionné est en lecture seule"
-
-#~ msgid "Cale_ndar:"
-#~ msgstr "Cale_ndrier :"
-
-#~ msgid "Memo:"
-#~ msgstr "Mémo :"
-
-#~ msgid "_Memo"
-#~ msgstr "_Mémo"
-
-#~ msgid "      "
-#~ msgstr "      "
-
-#~ msgid "C_lassification"
-#~ msgstr "C_lassification"
-
-#~ msgid ""
-#~ "Public\n"
-#~ "Private\n"
-#~ "Confidential\n"
-#~ msgstr ""
-#~ "Public\n"
-#~ "Privé\n"
-#~ "Confidentiel\n"
-
-#~ msgid "%s : %s (%d items)"
-#~ msgstr "%s : %s (%d éléments)"
-
-#~ msgid "%s (%d items)"
-#~ msgstr "%s (%d éléments)"
-
-#~ msgid "Category is"
-#~ msgstr "La catégorie est"
-
-#~ msgid "Video Conferencing"
-#~ msgstr "Visioconférence"
-
-#~ msgid "WWW"
-#~ msgstr "Web"
-
-#~ msgid "Locat_ion:"
-#~ msgstr "L_ieu :"
-
-#~ msgid "Dele_gatees"
-#~ msgstr "Délé_gués"
-
-#~ msgid "From:"
-#~ msgstr "De :"
-
-#~ msgid "%P %%"
-#~ msgstr "%P %%"
-
-#~ msgid "date-end"
-#~ msgstr "date de fin"
-
-#~ msgid "date-start"
-#~ msgstr "date de début"
-
-#~ msgid "Properties..."
-#~ msgstr "Propriétés..."
-
-#~ msgid ""
-#~ "Unable to create output file: %s\n"
-#~ " %s"
-#~ msgstr ""
-#~ "Impossible de créer le fichier de sortie : %s\n"
-#~ " %s"
-
-#~ msgid "Original Location"
-#~ msgstr "Emplacement d'origine :"
-
-#~ msgid "Search Type"
-#~ msgstr "Type de recherche"
-
-#~ msgid "Subitem ID"
-#~ msgstr "ID du sous-élément"
-
-#~ msgid "Find _Now"
-#~ msgstr "Rechercher _maintenant"
