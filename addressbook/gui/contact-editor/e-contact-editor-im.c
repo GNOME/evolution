@@ -64,6 +64,7 @@ static const char *im_labels[] = {
         N_("Novell Groupwise"),
 	N_("Jabber"),
 	N_("Yahoo Messenger"),
+	N_("Gadu-Gadu Messenger"),
 	N_("MSN Messenger"),
 	N_("ICQ")
 };
@@ -73,6 +74,7 @@ static const char *im_images[] = {
 	"im-nov",
 	"im-jabber",
 	"im-yahoo",
+	"im-gadugadu",
 	"im-msn",
 	"im-icq"
 };

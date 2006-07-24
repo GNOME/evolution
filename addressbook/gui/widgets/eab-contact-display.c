@@ -71,6 +71,7 @@ common_location [] =
 #define JABBER_ICON       "im-jabber"
 #define MSN_ICON          "im-msn"
 #define YAHOO_ICON        "im-yahoo"
+#define GADUGADU_ICON	    "im-gadugadu"
 #define VIDEOCONF_ICON    "stock_video-conferencing"
 
 #define MAX_COMPACT_IMAGE_DIMENSION 48
@@ -558,6 +559,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	accum_multival_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER, JABBER_ICON, 0);
 	accum_multival_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN, MSN_ICON, 0);
 	accum_multival_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO, YAHOO_ICON, 0);
+	accum_multival_attribute (accum, contact, _("Gadu-Gadu"), E_CONTACT_IM_GADUGADU, GADUGADU_ICON, 0);
 
 	if (accum->len > 0)
 		gtk_html_stream_printf (html_stream, "%s", accum->str);

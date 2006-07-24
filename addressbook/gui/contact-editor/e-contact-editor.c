@@ -186,6 +186,7 @@ im_service [] =
 	{ E_CONTACT_IM_AIM,       N_ ("AIM")       },
 	{ E_CONTACT_IM_JABBER,    N_ ("Jabber")    },
 	{ E_CONTACT_IM_YAHOO,     N_ ("Yahoo")     },
+	{ E_CONTACT_IM_GADUGADU,  N_ ("Gadu-Gadu") },
 	{ E_CONTACT_IM_MSN,       N_ ("MSN")       },
 	{ E_CONTACT_IM_ICQ,       N_ ("ICQ")       },
 	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") }
@@ -3059,6 +3060,7 @@ static const EContactField  non_string_fields [] = {
 	E_CONTACT_IM_GROUPWISE,
 	E_CONTACT_IM_JABBER,
 	E_CONTACT_IM_YAHOO,
+	E_CONTACT_IM_GADUGADU,
 	E_CONTACT_IM_MSN,
 	E_CONTACT_IM_ICQ,
 	E_CONTACT_PHOTO,

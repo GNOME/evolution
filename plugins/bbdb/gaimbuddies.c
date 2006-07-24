@@ -287,6 +287,8 @@ proto_to_contact_field (const char *proto)
 		return E_CONTACT_IM_YAHOO;
 	if (! strcmp (proto, "prpl-jabber"))
 		return E_CONTACT_IM_JABBER;
+	if (! strcmp (proto, "prpl-gg"))
+		return E_CONTACT_IM_GADUGADU;
 
 	return E_CONTACT_IM_AIM;
 }

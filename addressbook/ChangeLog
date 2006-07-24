@@ -1,3 +1,9 @@
+2006-07-24  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-editor/e-contact-editor-im.c: Added support for gadu gadu im 
+	in contact entry.
+
 2006-07-22  Mikhail Zabaluev <mhz@altlinux.org>
 
 	Reviewed by Harish Krishnaswamy <kharish@novell.com>
