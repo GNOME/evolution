@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.7.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-24 11:31+0200\n"
+"POT-Creation-Date: 2006-07-24 12:03+0200\n"
 "PO-Revision-Date: 2006-07-24 11:31+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -401,8 +401,8 @@ msgid ""
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
 "Actuellement, Evolution ne permet d'accéder qu'au système d'adresses "
-"GroupWise. Utilisez un autre client de messagerie pour avoir accès aux "
-"contacts fréquents et au dossier de contacts personnels de GroupWise."
+"GroupWise. Veuillez utiliser un autre client de messagerie pour avoir accès "
+"aux contacts fréquents et au dossier de contacts personnels de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
@@ -12276,8 +12276,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"L'emplacement et la hiérarchie des dossiers des boîtes à lettres ont "
-"changés depuis Evolution 1.x.\n"
+"L'emplacement et la hiérarchie des dossiers des boîtes à lettres ont changés "
+"depuis Evolution 1.x.\n"
 "\n"
 "Veuillez patienter pendant qu'Evolution migre vos dossiers..."
 
@@ -13622,9 +13622,9 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Saisissez les informations nécessaires pour envoyer le courriel. En cas de "
-"doute, adressez-vous à votre administrateur système ou à votre fournisseur "
-"d'accès Internet."
+"Veuillez saisir les informations nécessaires pour envoyer le courriel. En "
+"cas de doute, adressez-vous à votre administrateur système ou à votre "
+"fournisseur d'accès Internet."
 
 #: ../mail/mail-config.glade.h:110
 msgid ""
@@ -13639,7 +13639,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
-msgstr "Veuillez effectuer une sélection parmi les options suivantes."
+msgstr "Veuillez effectuer une sélection parmi les options suivantes"
 
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -14597,7 +14597,7 @@ msgstr "Ouvrir trop de messages en une fois peut prendre un long moment."
 
 #: ../mail/mail.error.xml.h:73
 msgid "Please check your account settings and try again."
-msgstr "Vérifiez les paramètres de votre compte et essayez à nouveau."
+msgstr "Veuillez vérifier les paramètres de votre compte et essayez à nouveau."
 
 #: ../mail/mail.error.xml.h:74
 msgid "Please enable the account or send using another account."
@@ -14610,9 +14610,9 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Saisissez une adresse électronique valide dans le champ À :. Vous pouvez "
-"rechercher des adresses électroniques en cliquant sur le bouton À : à côté "
-"de la boîte de saisie."
+"Veuillez saisir une adresse électronique valide dans le champ À :. Vous "
+"pouvez rechercher des adresses électroniques en cliquant sur le bouton À : à "
+"côté de la boîte de saisie."
 
 #: ../mail/mail.error.xml.h:76
 msgid ""
@@ -14628,7 +14628,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:79
 msgid "Please provide an unique name to identify this signature."
-msgstr "Fournissez un nom unique pour identifier la signature."
+msgstr "Veuillez fournir un nom unique pour identifier cette signature."
 
 #: ../mail/mail.error.xml.h:80
 msgid "Please wait."
@@ -15407,13 +15407,12 @@ msgid ""
 "Please enter the correct password"
 msgstr ""
 "Ce mot de passe est différent du mot de passe existant pour votre compte. "
-"Saisissez le mot de passe du compte"
+"Veuillez saisir le bon mot de passe"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
 msgstr ""
-"Les deux mots de passe sont différents. Saisissez à nouveau les mots de "
-"passe."
+"Les deux mots de passe sont différents. Veuillez ressaisir les mots de passe."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Confirm Password:"
@@ -15430,7 +15429,8 @@ msgstr "Nouveau mot de passe :"
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
 msgid "Your current password has expired. Please change your password now."
 msgstr ""
-"Le mot de passe actuel a expiré. Changez votre mot de passe dès à présent."
+"Le mot de passe actuel a expiré. Veuillez modifier votre mot de passe dès à "
+"présent."
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:663
 #, c-format
@@ -15816,7 +15816,7 @@ msgstr ""
 "d'Evolution.\n"
 "\n"
 "Pour fournir des informations à ce sujet à votre\n"
-"administrateur, suivez le lien suivant :\n"
+"administrateur, veuillez suivre le lien suivant :\n"
 "\n"
 "{0}\n"
 "  "
