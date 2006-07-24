@@ -1,3 +1,11 @@
+2006-07-24  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	Free the gconf client after use.
+	* gui/e-day-view.c (e_day_view_update_event_label) 
+	(e_day_view_on_text_item_event): Fix the gal tooltip and show the appt
+	header if the event spans over minutes per row.
+
 2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* calendar.error.xml:

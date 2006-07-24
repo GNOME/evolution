@@ -1797,14 +1797,14 @@ e_day_view_update_event_label (EDayView *day_view,
 				}
 			}
 		} else {
-			if (day_view->show_event_end_times && offset != 0) {
+			if (day_view->show_event_end_times && show_span) {
 				/* 12 hour format with end time. */
 				text = g_strdup_printf
 					("%2i:%02i%s-%2i:%02i%s %s %s",
 					 start_display_hour, start_minute, 
 					 start_suffix,
-					 end_display_hour, end_minute, mode,
-					 end_suffix,
+					 end_display_hour, end_minute, end_suffix,
+					 mode,
 					 text);
 			} else {
 				/* 12 hour format without end time. */
@@ -5771,9 +5771,6 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			ECalendarViewPosition pos;
 			gboolean main_canvas = TRUE;
 
-			if (day_view->editing_event_num != -1)
-				return FALSE;
-
 			/* Convert the coords to the main canvas window, or return if the
 			   window is not found. */
 			if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -5802,9 +5799,6 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			}
 
 			if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
-				return FALSE;
-
-			if (day_view->resize_event_num == event_num)
 				return FALSE;
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);

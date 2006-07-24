@@ -1269,6 +1269,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint end_hour, end_display_hour, end_minute, end_suffix_width;
 	int scroll_flag = 0;
 	gint row_y;
+	GConfClient *gconf;
 
 	day_view = dvmitem->day_view;
 
@@ -1278,13 +1279,17 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 	gc = day_view->main_gc;
 
-	alpha = gconf_client_get_float (gconf_client_get_default (),
+	gconf = gconf_client_get_default ();
+
+	alpha = gconf_client_get_float (gconf,
 				         "/apps/evolution/calendar/display/events_transparency",
 					 NULL);
 
-	gradient = gconf_client_get_bool (gconf_client_get_default (),
+	gradient = gconf_client_get_bool (gconf,
 					"/apps/evolution/calendar/display/events_gradient",
 					NULL);
+
+	g_object_unref (gconf);
 
 	/* If the event is currently being dragged, don't draw it. It will
 	   be drawn in the special drag items. */
@@ -1512,8 +1517,9 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
 	date_fraction = rect_height / day_view->row_height;
-	short_event = (((event->end_minute - event->start_minute)/day_view->mins_per_row) >= 2) ? FALSE : TRUE ;
-	
+	short_event = ((((event->end_minute - event->start_minute)/day_view->mins_per_row) >= 2) 
+				|| (((event->end_minute - event->start_minute)%day_view->mins_per_row) <= day_view->mins_per_row))? FALSE : TRUE ;	
+
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num) 
 		short_event = TRUE;
