@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-07-10 14:23+0300\n"
+"PO-Revision-Date: 2006-07-19 12:09+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -661,7 +661,7 @@ msgstr "Baas"
 #: ../calendar/gui/dialogs/calendar-setup.c:192
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
-msgstr "_Tüüp:"
+msgstr "L_iik:"
 
 #: ../addressbook/gui/component/addressbook-config.c:632
 msgid "Copy book content locally for offline operation"
@@ -1288,7 +1288,7 @@ msgstr "Postiaadress"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid "Ni_ckname:"
-msgstr "_Hüüdnimi:"
+msgstr "H_üüdnimi:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
@@ -1315,15 +1315,15 @@ msgstr "Töö"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
-msgstr "_Aadress:"
+msgstr "Aa_dress:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Anniversary:"
-msgstr "_Aastapäev:"
+msgstr "Aasta_päev:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Assistant:"
-msgstr "_Assistent:"
+msgstr "Ass_istent:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Birthday:"
@@ -1332,7 +1332,7 @@ msgstr "_Sünnipäev:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: ../plugins/itip-formatter/itip-view.c:1652
 msgid "_Calendar:"
-msgstr "_Kalender:"
+msgstr "Kalen_der:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
@@ -1354,7 +1354,7 @@ msgstr "_Riik:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Department:"
-msgstr "Osakon_d:"
+msgstr "Osako_nd:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_File under:"
@@ -1362,11 +1362,11 @@ msgstr "_Salvesta kui:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Free/Busy:"
-msgstr "_Vaba/hõivatud:"
+msgstr "Vaba/_hõivatud:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Home Page:"
-msgstr "_Koduleht:"
+msgstr "Kod_uleht:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Manager:"
@@ -1374,7 +1374,7 @@ msgstr "_Juht:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Notes:"
-msgstr "_Märkused:"
+msgstr "Mä_rkused:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 msgid "_Office:"
@@ -1391,7 +1391,7 @@ msgstr "_Eriala:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 msgid "_Spouse:"
-msgstr "_Abikaasa:"
+msgstr "A_bikaasa:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
@@ -1413,12 +1413,12 @@ msgstr "Soovib saada _HTML sõnumeid"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 msgid "_Web Log:"
-msgstr "_Veebilogi:"
+msgstr "Veebilo_gi:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 msgid "_Where:"
-msgstr "_Kus:"
+msgstr "K_us:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:49
 msgid "_Zip/Postal Code:"
@@ -2595,7 +2595,7 @@ msgstr "Aadress _2:"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Ci_ty:"
-msgstr "_Linn:"
+msgstr "Li_nn:"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Countr_y:"
@@ -2691,7 +2691,7 @@ msgstr "_KS teenus:"
 #: ../plugins/exchange-operations/exchange-calendar.c:234
 #: ../plugins/exchange-operations/exchange-contacts.c:222
 msgid "_Location:"
-msgstr "_Asukoht:"
+msgstr "Asuko_ht:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
@@ -2836,7 +2836,7 @@ msgstr "Päring"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:446
 msgid "Error getting book view"
-msgstr ""
+msgstr "Viga raamatu vaate hankimisel"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
 #: ../widgets/table/e-table-click-to-add.c:502
@@ -5190,7 +5190,7 @@ msgstr "Uus kalender"
 
 #: ../calendar/gui/calendar-component.c:1482
 msgid "Cale_ndar"
-msgstr "_Kalender"
+msgstr "Kale_nder"
 
 #: ../calendar/gui/calendar-component.c:1483
 msgid "Create a new calendar"
@@ -5598,7 +5598,7 @@ msgstr "_Nädalalõppe kuvatakse kokkusurutud vormis"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Day begins:"
-msgstr "Päev _algab:"
+msgstr "Päev al_gab:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Fri"
@@ -5614,7 +5614,7 @@ msgstr "_E"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Overdue tasks:"
-msgstr "_Tähtaja ületanud ülesanded:"
+msgstr "Tä_htaja ületanud ülesanded:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Sat"
@@ -5622,11 +5622,11 @@ msgstr "_L"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Show appointment end times in week and month view"
-msgstr "Nädala ja kuu vaadetel näidatakse _sündmuste lõpuaegu"
+msgstr "Nädala ja kuu vaadetel näidatakse sündmuste _lõpuaegu"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Time divisions:"
-msgstr "_Aja jaotamine:"
+msgstr "Aja _jaotamine:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Tue"
@@ -6187,7 +6187,7 @@ msgstr "_Alarm"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
-msgstr "_Aeg:"
+msgstr "Ae_g:"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6219,7 +6219,7 @@ msgstr "Osaleja"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:2
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr "Osaleja lisamiseks vajuta siia"
+msgstr "Osaleja lisamiseks klõpsa siia"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:3
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -7069,7 +7069,7 @@ msgstr "_Kustuta valitud ülesanded"
 #: ../calendar/gui/e-calendar-table.c:1428
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr "Ülesande lisamiseks vajuta siia"
+msgstr "Ülesande lisamiseks klõpsa siia"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -7866,7 +7866,7 @@ msgstr "_Kustuta valitud märkmed"
 
 #: ../calendar/gui/e-memo-table.c:993 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
-msgstr "Märkme lisamiseks vajuta siia"
+msgstr "Märkme lisamiseks klõpsa siia"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
 msgid "Memo sort"
@@ -10150,7 +10150,7 @@ msgstr "Aadressiraamatu kasutamiseks klõpsa siia"
 #.
 #: ../composer/e-msg-composer-hdrs.c:619
 msgid "_Reply-To:"
-msgstr "_Vasta-kellele:"
+msgstr "V_asta-kellele:"
 
 #.
 #. * From
@@ -10164,7 +10164,7 @@ msgstr "_Saatja:"
 #.
 #: ../composer/e-msg-composer-hdrs.c:633
 msgid "S_ubject:"
-msgstr "_Teema:"
+msgstr "T_eema:"
 
 #: ../composer/e-msg-composer-hdrs.c:642
 msgid "_To:"
@@ -10199,7 +10199,7 @@ msgstr ""
 #.
 #: ../composer/e-msg-composer-hdrs.c:658
 msgid "_Post To:"
-msgstr "_Postita kuhu:"
+msgstr "Postita ku_hu:"
 
 #: ../composer/e-msg-composer-hdrs.c:663
 msgid "Click here to select folders to post to"
@@ -10270,7 +10270,7 @@ msgstr "Automaatselt koostatud"
 
 #: ../composer/e-msg-composer.c:2254
 msgid "Si_gnature:"
-msgstr "_Signatuur:"
+msgstr "Si_gnatuur:"
 
 #: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3725
 #: ../composer/e-msg-composer.c:3728
@@ -12817,7 +12817,7 @@ msgstr "    "
 
 #: ../mail/mail-config.glade.h:2
 msgid " Ch_eck for Supported Types "
-msgstr "_Toetatavate tüüpide tuvastamine"
+msgstr "T_uvasta toetatavad liigid"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -12825,7 +12825,7 @@ msgstr "<b>Käesolev Evolition ehitatud ilma SSL'i toeta</b>"
 
 #: ../mail/mail-config.glade.h:5
 msgid "<b>Sig_natures</b>"
-msgstr "<b>_Allkirjad</b>"
+msgstr "<b>All_kirjad</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>_Languages</b>"
@@ -12833,7 +12833,7 @@ msgstr "<b>_Keeled</b>"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<small>See teeb filtris usaldusväärsemaks aga ka aeglasemaks</small>"
+msgstr "<small>See teeb filtri usaldusväärsemaks aga ka aeglasemaks</small>"
 
 #: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -12841,7 +12841,7 @@ msgstr "<span weight=\"bold\">Konto andmed</span>"
 
 #: ../mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr "<span weight=\"bold\">Autentimise tüüp</span>"
+msgstr "<span weight=\"bold\">Autentimise liik</span>"
 
 #: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication</span>"
@@ -13107,7 +13107,7 @@ msgstr "Kirjatüübi omadused"
 
 #: ../mail/mail-config.glade.h:84
 msgid "Format messages in _HTML"
-msgstr "Sõnumite vormindamine _HTML'is"
+msgstr "Sõnumite vormindamine _HTML-is"
 
 #: ../mail/mail-config.glade.h:85
 msgid "Full Nam_e:"
@@ -13234,7 +13234,7 @@ msgstr "_Vali..."
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
-msgstr "_Tavaline kirjatüüp:"
+msgstr "Tavaline ki_rjatüüp:"
 
 #: ../mail/mail-config.glade.h:122
 msgid "Se_lect..."
@@ -13357,7 +13357,7 @@ msgstr "Allkirja _lisamine"
 
 #: ../mail/mail-config.glade.h:156
 msgid "_Always load images from the Internet"
-msgstr "_Internetis olevad pildid laaditakse alati"
+msgstr "_Internetis asuvad pildid laaditakse alati"
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Do not notify me when new mail arrives"
@@ -13415,7 +13415,7 @@ msgstr "_Pildianimatsioonide näitamine"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
-msgstr "_Turvalise ühenduse kasutamine:"
+msgstr "Tu_rvalise ühenduse kasutamine:"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
@@ -13703,7 +13703,7 @@ msgstr "Andmeid pole võimalik kirjutada: %s"
 #: ../mail/mail-ops.c:2262
 #, c-format
 msgid "Disconnecting from %s"
-msgstr "Ühenduse katkestamine: %s"
+msgstr "Ühendun lahti: %s"
 
 #: ../mail/mail-ops.c:2262
 #, c-format
@@ -14180,7 +14180,7 @@ msgstr "Probleem vana postikausta &quot;{0}&quot; migreerimisel."
 
 #: ../mail/mail.error.xml.h:83
 msgid "Querying server"
-msgstr ""
+msgstr "Serverist pärimine"
 
 #: ../mail/mail.error.xml.h:84
 msgid "Querying server for a list of supported authentication mechanisms."
@@ -14617,7 +14617,7 @@ msgstr "Automaatsed kontaktid"
 #: ../plugins/bbdb/bbdb.c:454
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr "_Aadressiraamatu kirjete automaatne loomine sõnumile vastamisel"
+msgstr "Aa_dressiraamatu kirjete automaatne loomine sõnumile vastamisel"
 
 #: ../plugins/bbdb/bbdb.c:475
 msgid "Instant Messaging Contacts"
@@ -14633,7 +14633,7 @@ msgstr ""
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:507
 msgid "Synchronize with _buddy list now"
-msgstr "Sünkroniseeri sõ_branimekiri nüüd"
+msgstr "Sünkroniseeri sõ_braloend nüüd"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
@@ -14897,7 +14897,7 @@ msgstr "A_utentimine"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:828
 msgid "Authentication Type"
-msgstr "Autentimise tüüp"
+msgstr "Autentimise liik"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:842
 msgid "Ch_eck for Supported Types"
@@ -15936,7 +15936,7 @@ msgstr ""
 #. FIXME Need a schema for this
 #: ../plugins/itip-formatter/itip-formatter.c:1994
 msgid "_Delete message after acting"
-msgstr ""
+msgstr "Sõnumi _kustutamine peale tegevuse läbiviimist"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2004
 #: ../plugins/itip-formatter/itip-formatter.c:2036
@@ -17538,6 +17538,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"Sinu süsteemi seadistused ei vasta Sinu Evolution'i seadistustele.\n"
+"\n"
+"Üksikasjade jaoks klõpsa nupule \"Abi\"."
 
 #: ../shell/shell.error.xml.h:26
 msgid ""
@@ -17547,6 +17550,11 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"Sinu süsteemi seadistused ei vasta Sinu Evolution'i seadistustele.\n"
+"\n"
+"{0}\n"
+"\n"
+"Üksikasjade jaoks klõpsa nupule \"Abi\"."
 
 #: ../shell/shell.error.xml.h:31
 msgid "_Forget"
@@ -17727,8 +17735,8 @@ msgid ""
 "and its policy and procedures (if available)."
 msgstr ""
 "Enne selle sertifitseerimiskeskuse (SK) usaldamist ükskõik mis eesmärgil, "
-"peaksid sa selle SK kasutamisreeglitega ja protseduuridega (kui need on "
-"saadaval)."
+"peaksid sa tutvuma selle SK kasutamisreeglitega ja protseduuridega (kui need "
+"on saadaval)."
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1077
 msgid "Certificate"
@@ -17821,7 +17829,7 @@ msgstr "Usalda selle sertifikaadi autentsust"
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
 msgstr ""
-"Seda sertifitseerimiskeskust usaldatakse e-post kasutajate tuvastamisel"
+"Seda sertifitseerimiskeskust usaldatakse e-posti kasutajate tuvastamisel"
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
@@ -18527,7 +18535,7 @@ msgstr "A_valik"
 
 #: ../ui/evolution-event-editor.xml.h:12
 msgid "Query free / busy information for the attendees"
-msgstr ""
+msgstr "Osalejate vaba/hõivatud andmete pärimine"
 
 #: ../ui/evolution-event-editor.xml.h:13 ../ui/evolution-task-editor.xml.h:7
 msgid "R_ole Field"
@@ -19451,7 +19459,7 @@ msgstr "_Pimekoopia (Bcc) väli"
 
 #: ../ui/evolution-message-composer.xml.h:43
 msgid "_Cc Field"
-msgstr "_Koopia (Cc) väli"
+msgstr "K_oopia (Cc) väli"
 
 #: ../ui/evolution-message-composer.xml.h:45
 msgid "_Delete all"
@@ -19459,7 +19467,7 @@ msgstr "_Kustuta kõik"
 
 #: ../ui/evolution-message-composer.xml.h:48
 msgid "_From Field"
-msgstr "_Kellelt (From) väli"
+msgstr "_Saatja väli"
 
 #: ../ui/evolution-message-composer.xml.h:49
 msgid "_Open..."
@@ -19467,7 +19475,7 @@ msgstr "_Ava..."
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
-msgstr "_Postita-kuhu väli"
+msgstr "Postita-ku_hu väli"
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Prioritize Message"
@@ -19483,7 +19491,7 @@ msgstr "_Turvalisus"
 
 #: ../ui/evolution-message-composer.xml.h:55
 msgid "_To Field"
-msgstr "_Vasta-kellele (To) väli"
+msgstr "_Kellele väli"
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
@@ -19538,7 +19546,7 @@ msgstr "_Inverdi valik"
 
 #: ../ui/evolution-task-editor.xml.h:4
 msgid "Click change / view the status details of the task"
-msgstr ""
+msgstr "Klõpsa ülesande oleku üksikasjade vaatamiseks või muutmiseks"
 
 #: ../ui/evolution-task-editor.xml.h:9
 msgid "Status Details"
