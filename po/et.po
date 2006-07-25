@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-15 07:02+0200\n"
-"PO-Revision-Date: 2006-07-19 12:09+0300\n"
+"PO-Revision-Date: 2006-07-25 11:29+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -13565,19 +13565,16 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Krüptimine</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "All active remote folders"
-msgstr "koos kõigi aktiivsete võrgukaustadega"
+msgstr "Kõik aktiivsed võrgukaustad"
 
 #: ../mail/mail-dialogs.glade.h:6
-#, fuzzy
 msgid "All local and active remote folders"
-msgstr "koos kõigi kohalike ja aktiivsete võrgukaustadega"
+msgstr "Kõik kohalikud kaustad ja aktiivsed võrgukaustad"
 
 #: ../mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "All local folders"
-msgstr "koos kõigi kohalike kalatoogidega"
+msgstr "Kõik kohalikud kaustad"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
@@ -13589,7 +13586,7 @@ msgstr "_Lõpetatud"
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
-msgstr "_Otsing:"
+msgstr "Ot_sing:"
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
@@ -20400,7 +20397,7 @@ msgstr "Muu..."
 
 #: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
-msgstr ""
+msgstr "K_ooditabel"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
@@ -20526,19 +20523,19 @@ msgstr "_Laiendatud otsing..."
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
-msgstr "Kõik kontod"
+msgstr "Kõigist kontodest"
 
 #: ../widgets/misc/e-filter-bar.h:104
 msgid "Current Account"
-msgstr "Käesolev konto"
+msgstr "Käesolevast kontost"
 
 #: ../widgets/misc/e-filter-bar.h:105
 msgid "Current Folder"
-msgstr "Käesolev kaust"
+msgstr "Käesolevast kaustast"
 
 #: ../widgets/misc/e-filter-bar.h:106
 msgid "Current Message"
-msgstr "Käesolev sõnum"
+msgstr "Käesolevast sõnumist"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -20617,9 +20614,8 @@ msgstr "Ot_sing: "
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:940
-#, fuzzy
 msgid " in "
-msgstr " ja "
+msgstr " "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
