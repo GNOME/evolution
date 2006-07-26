@@ -1,3 +1,10 @@
+2006-07-26  Arvind <sa.phoenix@gmail.com>
+
+	** Fix for bug #274276
+
+	* em-folder-selection-button.c: (set_contents): Localizes the folder 
+	names in the filter and while importing mail
+
 2006-07-26  Andre Klapper  <a9016009@gmx.de>
 
 	* em-folder-browser.c: correcting a grammar bug. Fixes bug #348674.
