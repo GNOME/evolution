@@ -130,7 +130,7 @@ set_contents (EMFolderSelectionButton *button)
 	char *folder_name = em_utils_folder_name_from_uri (priv->uri);
 	
 	if (folder_name) {
-		gtk_label_set_text (GTK_LABEL (priv->label), folder_name);
+		gtk_label_set_text (GTK_LABEL (priv->label), _(folder_name));
 		g_free (folder_name);
 	} else {
 		set_contents_unselected (button);
