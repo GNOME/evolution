@@ -347,7 +347,7 @@
       <default>1.0</default>
       <locale name="C">
         <short>Event Transparency</short>
-        <long>Transparency of the events in calendar views (A value between 0 and 10, opaque by default).</long>
+        <long>Transparency of the events in calendar views, a value between 0 (transparent) and 1 (opaque).</long>
       </locale>
     </schema>
 

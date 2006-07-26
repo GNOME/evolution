@@ -1,3 +1,9 @@
+2006-07-26  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	* gui/apps_evolution_calendar.schemas.in.in: Fix for bug #348486. 
+	Corrected wrong description in /apps/evolution/calendar/display/
+	event_transparency GConf key.
+
 2006-07-26  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #347772
