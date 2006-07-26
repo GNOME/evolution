@@ -1,3 +1,7 @@
+2006-07-26  Andre Klapper  <a9016009@gmx.de>
+
+	* em-folder-browser.c: correcting a grammar bug. Fixes bug #348674.
+
 2006-07-24  Ushveen Kaur  <kushveen@novell.com>
 
 	** Fixes Bug #341840

@@ -192,7 +192,7 @@ static ESearchBarItem temp_view_items[] = {
 	{ NULL, 0, 0 },
 	{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 },
 	{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 },
-	{ N_("Last 5 Days Messages"), VIEW_LAST_FIVE_DAYS, 0 },
+	{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 },
 	{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 },
 	{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 },
 /* 	{ NULL, 0, NULL }, */
