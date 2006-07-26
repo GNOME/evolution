@@ -1,3 +1,10 @@
+2006-07-26  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	** Fixes bgo bug #333821 and bnc bug 181851
+
+	* mail-folder-cache.c: (ping_store_ping): Ping store only iff
+	store is online and connected.
+	
 2006-07-26  Arvind <sa.phoenix@gmail.com>
 
 	** Fix for bug #274276

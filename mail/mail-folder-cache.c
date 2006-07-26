@@ -864,9 +864,18 @@ ping_store_desc (struct _mail_msg *mm, int done)
 static void
 ping_store_ping (struct _mail_msg *mm)
 {
+	gboolean online = FALSE;
 	struct _ping_store_msg *m = (struct _ping_store_msg *) mm;
 	
-	if (CAMEL_SERVICE (m->store)->status == CAMEL_SERVICE_CONNECTED)
+	if (CAMEL_SERVICE (m->store)->status == CAMEL_SERVICE_CONNECTED) {
+		if (CAMEL_IS_DISCO_STORE (m->store) &&
+		    camel_disco_store_status (CAMEL_DISCO_STORE (m->store)) != CAMEL_DISCO_STORE_OFFLINE)
+			online = TRUE;
+		else if (CAMEL_IS_OFFLINE_STORE (m->store) && 
+			 CAMEL_OFFLINE_STORE (m->store)->state != CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
+			online = TRUE;
+	}
+	if (online)
 		camel_store_noop (m->store, &mm->ex);
 }
 
