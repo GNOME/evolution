@@ -1,3 +1,9 @@
+2006-07-26  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #347772
+	* gui/apps_evolution_calendar.schemas.in.in: Set the adjust
+	for daylight savings by default.
+
 2006-07-24  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):

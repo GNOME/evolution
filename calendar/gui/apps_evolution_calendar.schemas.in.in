@@ -20,7 +20,7 @@
       <applyto>/apps/evolution/calendar/display/use_daylight_saving</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default>false</default>
+      <default>true</default>
       <locale name="C">
         <short>daylight savings time</short>
         <long>Whether to use daylight savings time while displaying events.</long>
