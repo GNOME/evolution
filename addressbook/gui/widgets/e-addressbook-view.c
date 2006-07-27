@@ -1524,9 +1524,9 @@ search_activated (ESearchBar *esb, EABView *v)
 		/* Merge view and sexp */
 		subid = e_search_bar_get_viewitem_id (esb);
 
-		if (subid != G_MAXINT) {
+		if (subid) {
 			master_list = get_master_list (); 
-			category_name = g_list_nth_data (master_list, subid);
+			category_name = g_list_nth_data (master_list, subid-1);
 			view_sexp = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
 			search_query = g_strconcat ("(and ", view_sexp, search_query, ")", NULL);
 			g_free (view_sexp);
@@ -1562,7 +1562,6 @@ query_changed (ESearchBar *esb, EABView *view)
 	search_type = e_search_bar_get_item_id(esb);
 	if (search_type == E_FILTERBAR_ADVANCED_ID) {
 		g_object_get (esb, "query", &query, NULL);
-		printf ("e-addresbook-view.c : query_changed : query = %s\n",query);
 		g_object_set (view, "query", query, NULL);
 		g_free (query);
 	}
@@ -1599,12 +1598,12 @@ make_suboptions (EABView *view)
 	N = g_list_length (master_list);
 	subitems = g_new (ESearchBarItem, N+2);
 
-	subitems[0].id = G_MAXINT;
+	subitems[0].id = 0;
 	subitems[0].text = g_strdup (_("Any Category"));
 
 	for (i=0; i<N; ++i) {
 		const char *category = g_list_nth_data (master_list, i);
-		subitems[i+1].id = i;
+		subitems[i+1].id = i+1;
 		subitems[i+1].text = g_strdup (category);
 	}
 
