@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-24 19:04+0200\n"
-"PO-Revision-Date: 2006-07-24 19:03+0200\n"
+"POT-Creation-Date: 2006-07-27 11:37+0200\n"
+"PO-Revision-Date: 2006-07-27 11:39+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.11.1\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -378,11 +378,11 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
-msgstr "No se pudo obtener el esquema de información del servidor LDAP."
+msgstr "No es posible obtener el esquema de información del servidor LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Could not remove addressbook."
-msgstr "No se pudo eliminar la libreta de direcciones."
+msgstr "No es posible eliminar la libreta de direcciones."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid ""
@@ -409,7 +409,7 @@ msgstr "Error al guardar {0} a {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Failed to authenticate with LDAP server."
-msgstr "Falló al autenticarse con el servidor LDAP."
+msgstr "No es posible autenticar con el servidor LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:13
 msgid "GroupWise Address book creation:"
@@ -551,12 +551,12 @@ msgstr "Dirección de sincr. predeterminada:"
 #: ../addressbook/conduit/address-conduit.c:1241
 #: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
-msgstr "No se pudo cargar la libreta de direcciones"
+msgstr "No es posible cargar la libreta de direcciones"
 
 #: ../addressbook/conduit/address-conduit.c:1310
 #: ../addressbook/conduit/address-conduit.c:1313
 msgid "Could not read pilot's Address application block"
-msgstr "No se pudo leer el bloque de la aplicación de Direcciones del Pilot"
+msgstr "No es posible leer el bloque de la aplicación de Direcciones del Pilot"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -864,7 +864,7 @@ msgstr "Accediendo al servidor LDAP anónimamente"
 #: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:499
 msgid "Failed to authenticate.\n"
-msgstr "Falló al autenticar.\n"
+msgstr "No es posible autenticar.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:479
@@ -3488,7 +3488,7 @@ msgstr "Cancelado"
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
 msgid "Could not cancel"
-msgstr "No se pudo cancelar"
+msgstr "No es posible cancelar"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:64
@@ -3533,7 +3533,7 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 msgstr ""
-"No se pudo abrir esta libreta de direcciones. Esto significa que esta "
+"No es posible abrir esta libreta de direcciones. Esto significa que esta "
 "libreta no está marcada para su uso desconectado o no la ha descargado para "
 "uso desconectado. Por favor, cargue la libreta de direcciones una vez en "
 "modo conectado para descargar su contenido"
@@ -3544,7 +3544,7 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"No se pudo abrir esta libreta de direcciones. Compruebe que la ruta %s "
+"No es posible abrir esta libreta de direcciones. Compruebe que la ruta %s "
 "exista y que tenga permisos para acceder a ella."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:112
@@ -3552,7 +3552,7 @@ msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"No se pudo abrir esta libreta de direcciones.  Esto significa que ha "
+"No es posible abrir esta libreta de direcciones.  Esto significa que ha "
 "introducido una URI errónea, o que el servidor LDAP es inaccesible."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:117
@@ -3570,7 +3570,7 @@ msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr ""
-"No se pudo abrir esta libreta de direcciones. Esto significa que ha "
+"No es posible abrir esta libreta de direcciones. Esto significa que ha "
 "introducido una URI errónea, o que el servidor LDAP es inaccesible."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:147
@@ -4029,7 +4029,7 @@ msgstr "Esto debería probar el código de impresión de los contactos"
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
-msgstr "No se pudo abrir el archivo"
+msgstr "No es posible abrir el archivo"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
 msgid "Couldn't get list of addressbooks"
@@ -4229,7 +4229,7 @@ msgstr "¿Seguro que quiere enviar la tarea mensaje sin un resumen?"
 
 #: ../calendar/calendar.error.xml.h:23
 msgid "Cannot create a new event"
-msgstr "No se puede crear un acontecimiento nuevo"
+msgstr "No es posible crear un acontecimiento nuevo"
 
 #: ../calendar/calendar.error.xml.h:24
 msgid "Delete calendar '{0}'?"
@@ -4257,7 +4257,7 @@ msgstr "Descarga en progreso. ¿Desea guardar la tarea?"
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Editor could not be loaded."
-msgstr "No se pudo cargar el editor."
+msgstr "No es posible cargar el editor."
 
 #: ../calendar/calendar.error.xml.h:31
 msgid ""
@@ -4515,17 +4515,18 @@ msgstr "No se ha podido iniciar el servidor evolution-data-server"
 #: ../calendar/conduits/calendar/calendar-conduit.c:1529
 #: ../calendar/conduits/calendar/calendar-conduit.c:1532
 msgid "Could not read pilot's Calendar application block"
-msgstr "No se pudo leer información de la aplicación de calendario del Pilot"
+msgstr ""
+"No es posible leer información de la aplicación de calendario del Pilot"
 
 #: ../calendar/conduits/memo/memo-conduit.c:937
 #: ../calendar/conduits/memo/memo-conduit.c:940
 msgid "Could not read pilot's Memo application block"
-msgstr "No se pudo leer los datos de la aplicación Memo del Pilot"
+msgstr "No es posible leer los datos de la aplicación Memo del Pilot"
 
 #: ../calendar/conduits/memo/memo-conduit.c:976
 #: ../calendar/conduits/memo/memo-conduit.c:979
 msgid "Could not write pilot's Memo application block"
-msgstr "No se pudo escribir los datos de la aplicación Memo del Pilot"
+msgstr "No es posible escribir los datos de la aplicación Memo del Pilot"
 
 #: ../calendar/conduits/todo/todo-conduit.c:239
 msgid "Default Priority:"
@@ -4534,12 +4535,12 @@ msgstr "Prioridad predeterminada:"
 #: ../calendar/conduits/todo/todo-conduit.c:1112
 #: ../calendar/conduits/todo/todo-conduit.c:1115
 msgid "Could not read pilot's ToDo application block"
-msgstr "No se pudo leer los datos de la aplicación ToDo del Pilot"
+msgstr "No es posible leer los datos de la aplicación ToDo del Pilot"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1151
 #: ../calendar/conduits/todo/todo-conduit.c:1154
 msgid "Could not write pilot's ToDo application block"
-msgstr "No se pudo escribir el bloque de aplicación ToDo del Pilot"
+msgstr "No es posible escribir el bloque de aplicación ToDo del Pilot"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 #: ../plugins/itip-formatter/itip-formatter.c:2038
@@ -4742,11 +4743,12 @@ msgstr "No preguntar otra vez sobre este programa."
 
 #: ../calendar/gui/alarm-notify/notify-main.c:140
 msgid "Could not initialize Bonobo"
-msgstr "No se pudo inicializar Bonobo"
+msgstr "No es posible inicializar Bonobo"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:153
 msgid "Could not create the alarm notify service factory"
-msgstr "No se pudo crear la fábrica del servicio de la alarma de notificación"
+msgstr ""
+"No es posible crear la fábrica del servicio de la alarma de notificación"
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -5089,11 +5091,9 @@ msgstr "Zona horaria "
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid ""
-"Transparency of the events in calendar views (A value between 0 and 10, "
-"opaque by default)."
-msgstr ""
-"Transparencia de los eventos en las vistas de calendario (Un valor entre 0 y "
-"10, opaco por omisión)."
+"Transparency of the events in calendar views, a value between 0 "
+"(transparent) and 1 (opaque)."
+msgstr "Transparencia de los acontecimientos en las vistas del calendario, un valor entre 0 (transparente) y 1 (opaco)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Twenty four hour time format"
@@ -5324,7 +5324,7 @@ msgstr "Falló al actualizar calendarios."
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
-"No se pudo abrir el calendario «%s» para crear acontecimientos y reuniones"
+"No es posible abrir el calendario «%s» para crear acontecimientos y reuniones"
 
 #: ../calendar/gui/calendar-component.c:1210
 msgid "There is no calendar available for creating events and meetings"
@@ -5980,7 +5980,7 @@ msgstr "Cancelar _arrastre"
 
 #: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
-msgstr "No se pudo actualizar el objeto"
+msgstr "No es posible actualizar el objeto"
 
 #: ../calendar/gui/dialogs/comp-editor.c:945 ../composer/e-msg-composer.c:2501
 #, c-format
@@ -6091,11 +6091,11 @@ msgstr "Imposible usar la versión actual."
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
-msgstr "No se pudo abrir el origen"
+msgstr "No es posible abrir el origen"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:69
 msgid "Could not open destination"
-msgstr "No se pudo abrir el destino"
+msgstr "No es posible abrir el destino"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
@@ -6248,7 +6248,7 @@ msgstr "_Añadir"
 #: ../calendar/gui/dialogs/event-page.c:2623
 #, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "No se pudo abrir el calendario «%s»."
+msgstr "No es posible abrir el calendario «%s»."
 
 #: ../calendar/gui/dialogs/event-page.c:2926
 #, c-format
@@ -8354,7 +8354,7 @@ msgstr ""
 #: ../calendar/gui/migration.c:794
 #, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr "No se pudo migrar el calendario «%s»"
+msgstr "No es posible migrar el calendario «%s»"
 
 #. FIXME: domain/code
 #: ../calendar/gui/migration.c:962
@@ -10284,14 +10284,14 @@ msgstr "Barra de adjuntos"
 #: ../widgets/misc/e-attachment.c:439 ../widgets/misc/e-attachment.c:456
 #, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "No se pudo adjuntar el archivo %s: %s"
+msgstr "No es posible adjuntar el archivo %s: %s"
 
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
 #: ../widgets/misc/e-attachment.c:249 ../widgets/misc/e-attachment.c:448
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "No se pudo adjuntar el archivo %s: no es un archivo normal"
+msgstr "No es posible adjuntar el archivo %s: no es un archivo normal"
 
 #: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../widgets/misc/e-attachment.glade.h:1
@@ -10400,16 +10400,16 @@ msgstr "Inserta un adjunto"
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
-"No se puede firmar el mensaje saliente: No hay establecido un certificado de "
-"firma para esta cuenta"
+"No es posible firmar el mensaje saliente: No hay establecido un certificado "
+"de firma para esta cuenta"
 
 #: ../composer/e-msg-composer.c:834
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"No se puede encriptar el mensaje saliente: no hay establecido un certificado "
-"de encriptado para esta cuenta"
+"No es posible encriptar el mensaje saliente: no hay establecido un "
+"certificado de encriptado para esta cuenta"
 
 #: ../composer/e-msg-composer.c:1294 ../composer/e-msg-composer.c:2530
 msgid "Hide _Attachment Bar"
@@ -10427,7 +10427,7 @@ msgstr "Razón desconocida"
 
 #: ../composer/e-msg-composer.c:1401
 msgid "Could not open file"
-msgstr "No se pudo abrir el archivo"
+msgstr "No es posible abrir el archivo"
 
 #: ../composer/e-msg-composer.c:1409
 msgid "Unable to retrieve message from editor"
@@ -10504,15 +10504,15 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:7
 msgid "Could not create composer window."
-msgstr "No se pudo crear la ventana de redacción."
+msgstr "No es posible crear la ventana de redacción."
 
 #: ../composer/mail-composer.error.xml.h:8
 msgid "Could not create message."
-msgstr "No se pudo crear un mensaje."
+msgstr "No es posible crear un mensaje."
 
 #: ../composer/mail-composer.error.xml.h:9
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr "No se pudo leer el archivo de firma «{0}»."
+msgstr "No es posible leer el archivo de firma «{0}»."
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid "Could not retrieve messages to attach from {0}."
@@ -10520,7 +10520,7 @@ msgstr "No no pudo obtenerse un mensaje al que adjuntar desde {0}."
 
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr "No se pudo autoguardar el archivo «{0}»."
+msgstr "No es posible autoguardar el archivo «{0}»."
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid "Directories can not be attached to Messages."
@@ -10566,13 +10566,13 @@ msgid ""
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
 msgstr ""
-"No se pudo activar el componente del editor HTML.\n"
+"No es posible activar el componente del editor HTML.\n"
 "\n"
 "Asegúrese de que tiene la versión correcta de gtkhtml y libgtkthml instalada."
 
 #: ../composer/mail-composer.error.xml.h:22
 msgid "Unable to activate the address selector control."
-msgstr "No se pudo activar el control de selección de direcciones."
+msgstr "No es posible activar el control de selección de direcciones."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "Unfinished messages found"
@@ -10769,11 +10769,11 @@ msgstr "Error interno, solicitado un error desconocido «%s»"
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
-msgstr "No se pudo abrir el archivo «{0}»."
+msgstr "No es posible abrir el archivo «{0}»."
 
 #: ../e-util/e-system.error.xml.h:3
 msgid "Cannot save file &quot;{0}&quot;."
-msgstr "No se pudo guardar el archivo «{0}»."
+msgstr "No es posible guardar el archivo «{0}»."
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Do you wish to overwrite it?"
@@ -10938,7 +10938,7 @@ msgstr "Error en la expresión regular «{0}»."
 
 #: ../filter/filter.error.xml.h:2
 msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr "No se puede compilar la expresión regular «{1}»."
+msgstr "No es posible compilar la expresión regular «{1}»."
 
 #: ../filter/filter.error.xml.h:3
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
@@ -11549,7 +11549,7 @@ msgid "Recent Messages"
 msgstr "Mensajes recientes"
 
 #: ../mail/em-folder-browser.c:195
-msgid "Last 5 Days Messages"
+msgid "Last 5 Days' Messages"
 msgstr "Mensajes de los últimos 5 días"
 
 #: ../mail/em-folder-browser.c:196
@@ -11650,7 +11650,7 @@ msgstr "Copiando los mensajes a la carpeta %s"
 
 #: ../mail/em-folder-tree.c:888
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "No se pudo dejar el(los) mensaje(s) en el almacén de nivel superior"
+msgstr "No es posible dejar el(los) mensaje(s) en el almacén de nivel superior"
 
 #: ../mail/em-folder-tree.c:984 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
@@ -12161,11 +12161,11 @@ msgstr "%s adjunto"
 
 #: ../mail/em-format.c:1141 ../mail/em-format.c:1289 ../mail/em-format.c:1591
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "No se pudo interpretar el mensaje S/MIME: Error desconocido"
+msgstr "No es posible interpretar el mensaje S/MIME: Error desconocido"
 
 #: ../mail/em-format.c:1271 ../mail/em-format.c:1427
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "No se pudo analizar el mensaje MIME. Mostrando la fuente."
+msgstr "No es posible analizar el mensaje MIME. Mostrando la fuente."
 
 #: ../mail/em-format.c:1279
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -12214,22 +12214,22 @@ msgstr ""
 #: ../mail/em-migrate.c:1649
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "No se pudo crear la carpeta nueva: «%s»: %s"
+msgstr "No es posible crear la carpeta nueva: «%s»: %s"
 
 #: ../mail/em-migrate.c:1675
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "No se pudo copiar el la carpeta «%s» a «%s»: %s"
+msgstr "No es posible copiar el la carpeta «%s» a «%s»: %s"
 
 #: ../mail/em-migrate.c:1860
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "No se pudo buscar buzones existentes en «%s»: %s"
+msgstr "No es posible buscar buzones existentes en «%s»: %s"
 
 #: ../mail/em-migrate.c:2064
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr "No se pudo abrir los datos antiguos POP keep-on-server «%s»: %s"
+msgstr "No es posible abrir los datos antiguos POP keep-on-server «%s»: %s"
 
 #: ../mail/em-migrate.c:2078
 #, c-format
@@ -12239,24 +12239,24 @@ msgstr "Fallo al crear directorio de datos POP3 keep-on-server  «%s»: %s"
 #: ../mail/em-migrate.c:2107
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "No se pudo copiar los datos POP3 keep-on-server «%s»: %s"
+msgstr "No es posible copiar los datos POP3 keep-on-server «%s»: %s"
 
 #: ../mail/em-migrate.c:2578 ../mail/em-migrate.c:2590
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "Fallo al crear almacén de correo local  «%s»: %s"
+msgstr "No es posible crear el almacén de correo local  «%s»: %s"
 
 #: ../mail/em-migrate.c:2713
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr "No se pudo crear las carpetas de correo local en: «%s»: %s"
+msgstr "No es posible crear las carpetas de correo local en: «%s»: %s"
 
 #: ../mail/em-migrate.c:2732
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
-"No se pudo leer la configuración de la instalación anterior de Evolution, "
+"No es posible leer la configuración de la instalación anterior de Evolution, "
 "«evolution/config.xmldb» no existe o está corrompido."
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
@@ -13897,7 +13897,7 @@ msgstr "Obteniendo mensajes"
 #: ../mail/mail-ops.c:566
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "Falló al aplicar los filtros al correo saliente: %s"
+msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
 #: ../mail/mail-ops.c:578 ../mail/mail-ops.c:607
 #, c-format
@@ -13905,13 +13905,13 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
-"Falló al anexar a %s: %s\n"
-"Anexando a la carpeta local «Correo enviado» en su lugar."
+"No es posible anexar a %s: %s\n"
+"Se anexará a la carpeta local «Correo enviado» en su lugar."
 
 #: ../mail/mail-ops.c:624
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "Falló al anexar a la carpeta local «Correo enviado»: %s"
+msgstr "No es posible anexar a la carpeta local «Correo enviado»: %s"
 
 #: ../mail/mail-ops.c:736
 #, c-format
@@ -14034,13 +14034,13 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
-"No se pudo crear el archivo de salida: %s:\n"
+"No es posible crear el archivo de salida: %s:\n"
 " %s"
 
 #: ../mail/mail-ops.c:2114
 #, c-format
 msgid "Could not write data: %s"
-msgstr "No se pudo escribir datos: %s"
+msgstr "No es posible escribir datos: %s"
 
 #: ../mail/mail-ops.c:2263
 #, c-format
@@ -14119,7 +14119,7 @@ msgstr "Nombre:"
 #: ../mail/mail-tools.c:120
 #, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr "No se pudo crear el directorio spool «%s»: %s"
+msgstr "No es posible crear el directorio spool «%s»: %s"
 
 #: ../mail/mail-tools.c:150
 #, c-format
@@ -14264,51 +14264,51 @@ msgstr "Firma en blanco"
 
 #: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
-msgstr "No se puede añadir la carpeta de búsqueda «{0}»."
+msgstr "No es posible añadir la carpeta de búsqueda «{0}»."
 
 #: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "No se pudo copiar la carpeta: «{0}» a «{1}»."
+msgstr "No es posible copiar la carpeta: «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
-msgstr "No se pudo crear la carpeta: «{0}»."
+msgstr "No es posible crear la carpeta: «{0}»."
 
 #: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
-msgstr "No se pudo crear el directorio de guardado temporal."
+msgstr "No es posible crear el directorio de guardado temporal."
 
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr "No se pudo crear el directorio de guardado, debido a «{1}»"
+msgstr "No es posible crear el directorio de guardado, debido a «{1}»"
 
 #: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr "No se puede borrar la carpeta «{0}»."
+msgstr "No es posible borrar la carpeta «{0}»."
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "No se pudo borrar la carpeta de sistema «{0}»."
+msgstr "No es posible borrar la carpeta de sistema «{0}»."
 
 #: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
-msgstr "No se puede editar la carpeta de búsqueda «{0}» porque no existe."
+msgstr "No es posible editar la carpeta de búsqueda «{0}» porque no existe."
 
 #: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "No se puede mover la carpeta «{0}» a «{1}»."
+msgstr "No es posible mover la carpeta «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "No se pudo abrir el origen «{1}»"
+msgstr "No es posible abrir el origen «{1}»"
 
 #: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "No se pudo abrir el origen «{2}»."
+msgstr "No es posible abrir el origen «{2}»."
 
 #: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "No se pudo abrir el destino «{2}»."
+msgstr "No es posible abrir el destino «{2}»."
 
 #: ../mail/mail.error.xml.h:33
 msgid ""
@@ -14316,33 +14316,33 @@ msgid ""
 "problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"No se pudo leer el archivo de licencia «{0}», debido a un problema de "
+"No es posible leer el archivo de licencia «{0}», debido a un problema de "
 "instalación. No será posible usar este proveedor hasta que pueda aceptar "
 "esta licencia."
 
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "No se puede renombrar «{0}» a «{1}»."
+msgstr "No es posible renombrar «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr "No se pudo renombrar o mover la carpeta de sistema «{0}»."
+msgstr "No es posible renombrar o mover la carpeta de sistema «{0}»."
 
 #: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
-msgstr "No se puede guardar los cambios en la cuenta."
+msgstr "No es posible guardar los cambios en la cuenta."
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "No se pudo guardar al directorio «{0}»."
+msgstr "No es posible guardar al directorio «{0}»."
 
 #: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr "No se pudo guardar al archivo «{0}»."
+msgstr "No es posible guardar al archivo «{0}»."
 
 #: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "No se puede establecer el script de firma «{0}»."
+msgstr "No es posible establecer el script de firma «{0}»."
 
 #: ../mail/mail.error.xml.h:40
 msgid ""
@@ -14355,7 +14355,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
-msgstr "No se pudo guardar el archivo de firma."
+msgstr "No es posible guardar el archivo de firma."
 
 #: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
@@ -14676,12 +14676,12 @@ msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
-"No se pudo abrir la carpeta de borradores para esta cuenta. ¿Quiere usar la "
-"carpeta de borradores del sistema?"
+"No es posible abrir la carpeta de borradores para esta cuenta. ¿Quiere usar "
+"la carpeta de borradores del sistema?"
 
 #: ../mail/mail.error.xml.h:114
 msgid "Unable to read license file."
-msgstr "No se pudo leer el archivo de licencia."
+msgstr "No es posible leer el archivo de licencia."
 
 #: ../mail/mail.error.xml.h:115
 msgid "Use _Default"
@@ -15360,30 +15360,30 @@ msgstr "¿Desea quitar el delegado %s?"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:680
 msgid "Could not access Active Directory"
-msgstr "No se pudo acceder al Active Directory"
+msgstr "No es posible acceder al Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:692
 msgid "Could not find self in Active Directory"
-msgstr "No se pudo encontrar a sí mismo en el Active Directory"
+msgstr "No es posible encontrar a sí mismo en el Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:705
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
-msgstr "No se pudo encontrar al delegado %s en el Active Directory"
+msgstr "No es posible encontrar al delegado %s en el Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:717
 #, c-format
 msgid "Could not remove delegate %s"
-msgstr "No se pudo quitar al delegado %s"
+msgstr "No es posible quitar al delegado %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:777
 msgid "Could not update list of delegates."
-msgstr "No se pudo actualizar la lista de delegados."
+msgstr "No es posible actualizar la lista de delegados."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:795
 #, c-format
 msgid "Could not add delegate %s"
-msgstr "No se pudo añadir el delegado %s"
+msgstr "No es posible añadir el delegado %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:963
 msgid "Error reading delegates list."
@@ -15515,11 +15515,11 @@ msgstr "<b>Permisos</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "Cannot Delete"
-msgstr "No se puede borrar"
+msgstr "No es posible borrar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Edit"
-msgstr "No se puede editar"
+msgstr "No es posible editar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Create items"
@@ -15599,15 +15599,16 @@ msgstr "Operaciones de Exchange"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
-msgstr "No se puede cambiar la contraseña debido a problemas de configuración."
+msgstr ""
+"No es posible cambiar la contraseña debido a problemas de configuración."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
-msgstr "No se pueden mostrar carpetas."
+msgstr "No es posiblen mostrar carpetas."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid "Cannot perform the operation."
-msgstr "No se puede efectuar la operación."
+msgstr "No es posible efectuar la operación."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid ""
@@ -15619,11 +15620,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
-msgstr "No se pudo autenticar con el servidor."
+msgstr "No es posible autenticar con el servidor."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 msgid "Could not change password."
-msgstr "No se pudo cambiar la contraseña."
+msgstr "No es posible cambiar la contraseña."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 msgid ""
@@ -15631,17 +15632,17 @@ msgid ""
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
 msgstr ""
-"No se puede configurar la cuenta de Exchange porque \n"
+"No es posible configurar la cuenta de Exchange porque \n"
 "ocurrió un error desconocido. Compruebe el URL,\n"
 "usuario y contraseña e inténtelo otra vez."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
 msgid "Could not connect to Exchange server."
-msgstr "No se pudo conectar con el servidor Exchange."
+msgstr "No es posible conectar con el servidor Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not connect to server {0}."
-msgstr "No se pudo conectar con el servidor {0}."
+msgstr "No es posible conectar con el servidor {0}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not determine folder permissions for delegates."
@@ -15649,15 +15650,15 @@ msgstr "No se pudieron determinar los permisos de la carpeta para delegados."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not find Exchange Web Storage System."
-msgstr "No se pudo encontrar el sistema de almacenamiento Web de Exchange."
+msgstr "No es posible encontrar el sistema de almacenamiento Web de Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 msgid "Could not locate server {0}."
-msgstr "No se pudo localizar el servidor {0}."
+msgstr "No es posible localizar el servidor {0}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
 msgid "Could not make {0} a delegate"
-msgstr "No se pudo hacer de {0} un delegado"
+msgstr "No es posible hacer de {0} un delegado"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not read folder permissions"
@@ -15669,15 +15670,15 @@ msgstr "No se pudieron leer los permisos de la carpeta."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not read out-of-office state"
-msgstr "No se pudo leer el estado de disponibilidad"
+msgstr "No es posible leer el estado de disponibilidad"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Could not update folder permissions."
-msgstr "No se pudo actualizar los permisos de la carpeta."
+msgstr "No es posible actualizar los permisos de la carpeta."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Could not update out-of-office state"
-msgstr "No se pudo actualizar el estado de disponibilidad"
+msgstr "No es posible actualizar el estado de disponibilidad"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Exchange Account is offline."
@@ -15733,7 +15734,7 @@ msgstr "Error genérico"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Global Catalog Server is not reachable"
-msgstr "No se puede llegar al Servidor de Catálogo Global"
+msgstr "No es posible llegar al Servidor de Catálogo Global"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid ""
@@ -16231,7 +16232,7 @@ msgstr "Falló la exportación de los datos."
 
 #: ../plugins/ipod-sync/sync.c:231
 msgid "Could not open addressbook!"
-msgstr "No se pudo abrir la libreta de direcciones"
+msgstr "No es posible abrir la libreta de direcciones"
 
 #: ../plugins/ipod-sync/sync.c:232
 msgid "Could not open the Evolution addressbook to export data."
@@ -16240,7 +16241,7 @@ msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:291
 msgid "Could not open calendar/todo!"
-msgstr "No se pudo abrir el calendario/tareas"
+msgstr "No es posible abrir el calendario/tareas"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
@@ -16252,7 +16253,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:391
 #, c-format
 msgid "Failed to load the calendar '%s'"
-msgstr "Falló al cargar el calendario «%s»"
+msgstr "No es posible cargar el calendario «%s»"
 
 #: ../plugins/itip-formatter/itip-formatter.c:411
 #, c-format
@@ -16266,19 +16267,19 @@ msgstr "Se encontró la cita en el calendario «%s»"
 
 #: ../plugins/itip-formatter/itip-formatter.c:513
 msgid "Unable to find any calendars"
-msgstr "No se pudo encontrar ningún calendario"
+msgstr "No es posible encontrar ningún calendario"
 
 #: ../plugins/itip-formatter/itip-formatter.c:520
 msgid "Unable to find this meeting in any calendar"
-msgstr "No se pudo encontrar esta reunión en ningún calendario"
+msgstr "No es posible encontrar esta reunión en ningún calendario"
 
 #: ../plugins/itip-formatter/itip-formatter.c:524
 msgid "Unable to find this task in any task list"
-msgstr "No se pudo encontrar esta tarea en ninguna lista de tareas"
+msgstr "No es posible encontrar esta tarea en ninguna lista de tareas"
 
 #: ../plugins/itip-formatter/itip-formatter.c:528
 msgid "Unable to find this journal entry in any journal"
-msgstr "No se pudo encontrar esta entrada del diario en ningún diario"
+msgstr "No es posible encontrar esta entrada del diario en ningún diario"
 
 #: ../plugins/itip-formatter/itip-formatter.c:601
 msgid "Searching for an existing version of this appointment"
@@ -16286,12 +16287,12 @@ msgstr "Buscando una versión existente de esta cita"
 
 #: ../plugins/itip-formatter/itip-formatter.c:796
 msgid "Unable to parse item"
-msgstr "No se pudo interpretar el elemento"
+msgstr "No es posible interpretar el elemento"
 
 #: ../plugins/itip-formatter/itip-formatter.c:853
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "No se pudo enviar el elemento al calendario «%s»: %s"
+msgstr "No es posible enviar el elemento al calendario «%s»: %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:864
 #, c-format
@@ -16324,7 +16325,7 @@ msgstr "Enviar una notificación de cancelación al delegado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:980
 msgid "Could not send the cancelation notice to the delegate"
-msgstr "No se pudo enviar una notificación de cancelación al delegado"
+msgstr "No es posible enviar una notificación de cancelación al delegado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1065
 msgid "Attendee status could not be updated because the status is invalid"
@@ -16335,7 +16336,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:1092
 #, c-format
 msgid "Unable to update attendee. %s"
-msgstr "No se pudo actualizar la asistencia. %s"
+msgstr "No es posible actualizar la asistencia. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1096
 msgid "Attendee status updated"
@@ -17825,7 +17826,7 @@ msgstr "Bug Buddy no está instalado."
 
 #: ../shell/e-shell-window-commands.c:136
 msgid "Bug buddy could not be run."
-msgstr "No se pudo ejecutar Bug Buddy."
+msgstr "No es posible ejecutar Bug Buddy."
 
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
@@ -17882,7 +17883,7 @@ msgstr "Argumentos inválidos"
 
 #: ../shell/e-shell.c:1266
 msgid "Cannot register on OAF"
-msgstr "No se pudo registrar en OAF"
+msgstr "No es posible registrar en OAF"
 
 #: ../shell/e-shell.c:1268
 msgid "Configuration Database not found"
@@ -18227,7 +18228,7 @@ msgstr "Número de serie"
 
 #: ../smime/gui/certificate-manager.c:293
 msgid "Expires"
-msgstr "Caducidad"
+msgstr "Caduca"
 
 #: ../smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
@@ -18547,7 +18548,7 @@ msgstr "Clave pública del propósito"
 
 #: ../smime/lib/e-cert.c:810 ../smime/lib/e-cert.c:859
 msgid "Error: Unable to process extension"
-msgstr "Erro: No se pudo procesar la extensión"
+msgstr "Erro: No es posible procesar la extensión"
 
 #: ../smime/lib/e-cert.c:831 ../smime/lib/e-cert.c:843
 msgid "Object Signer"
@@ -18668,7 +18669,7 @@ msgstr "Asunto predeterminado para el mensaje."
 #: ../tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "No se pudo ejecutar: «%s»: %s\n"
+msgstr "No es posible ejecutar: «%s»: %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
