@@ -844,6 +844,12 @@ impl_dispose (GObject *object)
 		priv->tooltips = NULL;
 	}
 
+	#ifdef NM_SUPPORT_GLIB
+		e_shell_nm_glib_dispose (E_SHELL_WINDOW (object));
+	#elif NM_SUPPORT
+		e_shell_dbus_dispose (E_SHELL_WINDOW (object));
+	#endif
+
 	(* G_OBJECT_CLASS (e_shell_window_parent_class)->dispose) (object);
 }
 

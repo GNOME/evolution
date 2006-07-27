@@ -1,3 +1,11 @@
+2006-07-27  Bastien Nocera  <hadess@hadess.net>
+
+	* e-shell-nm-glib.c: (e_shell_glib_network_monitor),
+	(e_shell_nm_glib_initialise), (e_shell_nm_glib_dispose):
+	* e-shell-nm.c: (e_shell_dbus_dispose):
+	* e-shell-window.c: (impl_dispose): Fix warnings at build-time, and
+	clean up the connections to the D-Bus on exit (Closes: #332387)
+
 2006-07-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #345331

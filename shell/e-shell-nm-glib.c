@@ -31,6 +31,7 @@
 #include <e-shell-window.h>
 
 static libnm_glib_ctx *nm_ctx = NULL;
+static guint id = 0;
 
 static void e_shell_glib_network_monitor (libnm_glib_ctx *ctx, gpointer user_data)
 {
@@ -44,24 +45,19 @@ static void e_shell_glib_network_monitor (libnm_glib_ctx *ctx, gpointer user_dat
 
 	state = libnm_glib_get_network_state (ctx);
 	line_status = e_shell_get_line_status (shell);
-	
+
 	if (line_status == E_SHELL_LINE_STATUS_ONLINE && state == LIBNM_NO_NETWORK_CONNECTION) {
 	   	 shell_state = GNOME_Evolution_FORCED_OFFLINE;
 		 e_shell_go_offline (shell, window, shell_state);   
 	} else if (line_status == E_SHELL_LINE_STATUS_OFFLINE && state == LIBNM_ACTIVE_NETWORK_CONNECTION) {
 	       	 shell_state = GNOME_Evolution_USER_ONLINE;
 		 e_shell_go_online (shell, window, shell_state);
-	} else  		
-		return LIBNM_INVALID_CONTEXT;
-
-	return FALSE;
+	}
 }
 
 
 int e_shell_nm_glib_initialise (EShellWindow *window )
 {
-	guint id;
-
 	if (!nm_ctx)
 	{
 		nm_ctx = libnm_glib_init ();
@@ -75,3 +71,14 @@ int e_shell_nm_glib_initialise (EShellWindow *window )
 	
 	return TRUE;
 }
+
+void e_shell_nm_glib_dispose (EShellWindow *window )
+{
+	if (id != 0 && nm_ctx != NULL) {
+		libnm_glib_unregister_callback (nm_ctx, id);
+		libnm_glib_shutdown (nm_ctx);
+		nm_ctx = NULL;
+		id = 0;
+	}
+}
+
