@@ -1257,6 +1257,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	ECalComponentTransparency transparency;
 	cairo_t *cr;
 	cairo_pattern_t *pat;
+	cairo_font_options_t *font_options;
 	guint16 red, green, blue;
 	gint i;
 	gdouble radius, x0, y0, rect_height, rect_width;
@@ -1264,9 +1265,13 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gboolean gradient;
 	gdouble cc = 65535.0;
 	gdouble date_fraction;
-	gboolean short_event, resize_flag = FALSE;
-	gchar *end_time, *end_suffix;
+	gboolean short_event = FALSE, resize_flag = FALSE;
+	gchar *end_resize_time, *end_resize_suffix;
+	gint start_hour, start_display_hour, start_minute, start_suffix_width;
 	gint end_hour, end_display_hour, end_minute, end_suffix_width;
+	gboolean show_span = FALSE, format_time;
+	gint offset, interval;
+	char *text, *start_suffix, *end_suffix;
 	int scroll_flag = 0;
 	gint row_y;
 	GConfClient *gconf;
@@ -1290,6 +1295,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					NULL);
 
 	g_object_unref (gconf);
+
+	font_options = get_font_options ();
 
 	/* If the event is currently being dragged, don't draw it. It will
 	   be drawn in the special drag items. */
@@ -1339,137 +1346,138 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		item_x -= 1;
 		item_y -= 2;
 
-		/* Vertical Line */
-		cairo_save (cr);
-		pat = cairo_pattern_create_linear (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 6.5, item_y + 13.75,
-							item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 13.75, item_y + 13.75);
-		cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
-		cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
-		cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
-		cairo_set_source (cr, pat);
-		cairo_rectangle (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 6.5, item_y + 14.75, 7.0, item_h - 22.0);
-		cairo_fill (cr);
-		cairo_pattern_destroy (pat);
+		if (MAX (0, item_w - 31.5) != 0) {
+			/* Vertical Line */
+			cairo_save (cr);
+			pat = cairo_pattern_create_linear (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 6.5, item_y + 13.75,
+								item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 13.75, item_y + 13.75);
+			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
+			cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
+			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
+			cairo_set_source (cr, pat);
+			cairo_rectangle (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 6.5, item_y + 14.75, 7.0, item_h - 22.0);
+			cairo_fill (cr);
+			cairo_pattern_destroy (pat);
 
-		/* Arc at the right */		
-		pat = cairo_pattern_create_radial (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 3, item_y + 13.5, 5.0,
-					item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 12.0);
-		cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
-		cairo_pattern_add_color_stop_rgba (pat, 0.25, 0, 0, 0, 0.2);
-		cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
-		cairo_set_source (cr, pat);
-		cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 8.0, 11 * M_PI / 8, M_PI / 8);
-		cairo_fill (cr);
-		cairo_pattern_destroy (pat);
+			/* Arc at the right */		
+			pat = cairo_pattern_create_radial (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 3, item_y + 13.5, 5.0,
+						item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 12.0);
+			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
+			cairo_pattern_add_color_stop_rgba (pat, 0.25, 0, 0, 0, 0.2);
+			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
+			cairo_set_source (cr, pat);
+			cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 8.0, 11 * M_PI / 8, M_PI / 8);
+			cairo_fill (cr);
+			cairo_pattern_destroy (pat);
 
-		cairo_set_source_rgb (cr, 0, 0, 0);
-		cairo_set_line_width (cr, 1.25);
-		cairo_move_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 9.5);
-		cairo_line_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 9.5, item_y + 15);
-		cairo_stroke (cr);
+			cairo_set_source_rgb (cr, 0, 0, 0);
+			cairo_set_line_width (cr, 1.25);
+			cairo_move_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 9.5);
+			cairo_line_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 9.5, item_y + 15);
+			cairo_stroke (cr);
 
-		/* Horizontal line */
-		pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h,
+			/* Horizontal line */
+			pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h,
 							item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h + 7);
-		cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
-		cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
-		cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
-		cairo_set_source (cr, pat);
-		cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 16.5, item_y + item_h, item_w - 31.5, 7.0);
-		cairo_fill (cr);
-		cairo_pattern_destroy (pat);
+			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
+			cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
+			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
+			cairo_set_source (cr, pat);
+			cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 16.5, item_y + item_h, item_w - 31.5, 7.0);
+			cairo_fill (cr);
+			cairo_pattern_destroy (pat);
 
-		/* Bottom arc */
-		pat = cairo_pattern_create_radial (item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 5.0,
-					item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 12.0);
-		cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
-		cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
-		cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
-		cairo_set_source (cr, pat);
-		cairo_arc (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 13, item_y + item_h - 5, 12.0, 3 * M_PI / 8, 9 * M_PI / 8);
-		cairo_fill (cr);
-		cairo_pattern_destroy (pat);
+			/* Bottom arc */
+			pat = cairo_pattern_create_radial (item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 5.0,
+						item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 12.0);
+			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
+			cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
+			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
+			cairo_set_source (cr, pat);
+			cairo_arc (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 13, item_y + item_h - 5, 12.0, 3 * M_PI / 8, 9 * M_PI / 8);
+			cairo_fill (cr);
+			cairo_pattern_destroy (pat);
 
-		cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
-		cairo_set_line_width (cr, 2);
-		cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 14, item_y + item_h + 2);
-		cairo_line_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 15.5, item_y + item_h + 3);
-		cairo_stroke (cr);
-		cairo_set_source_rgba (cr, 0, 0, 0, 0.27);
-		cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h + 3.5);
-		cairo_line_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 17, item_y + item_h + 3.5);
-		cairo_stroke (cr);
+			cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
+			cairo_set_line_width (cr, 2);
+			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 14, item_y + item_h + 2);
+			cairo_line_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 15.5, item_y + item_h + 3);
+			cairo_stroke (cr);
+			cairo_set_source_rgba (cr, 0, 0, 0, 0.27);
+			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h + 3.5);
+			cairo_line_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 17, item_y + item_h + 3.5);
+			cairo_stroke (cr);
 
-		/* Arc in middle */
-		pat = cairo_pattern_create_radial (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 1.0,
-					item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 12.0);
-		cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
-		cairo_pattern_add_color_stop_rgba (pat, 0.8, 0, 0, 0, 0.2);
-		cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
-		cairo_set_source (cr, pat);
-		cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 12.0, 15 * M_PI / 8,  5 * M_PI / 8);
-		cairo_fill (cr);
-		cairo_pattern_destroy (pat);
+			/* Arc in middle */
+			pat = cairo_pattern_create_radial (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 1.0,
+						item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 12.0);
+			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
+			cairo_pattern_add_color_stop_rgba (pat, 0.8, 0, 0, 0, 0.2);
+			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
+			cairo_set_source (cr, pat);
+			cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 12.0, 15 * M_PI / 8,  5 * M_PI / 8);
+			cairo_fill (cr);
+			cairo_pattern_destroy (pat);
 
-		cairo_set_source_rgba (cr, 0, 0, 0, 0.27);
-		cairo_move_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 1, item_y + item_h + 3);
-		cairo_line_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH , item_y + item_h + 3);
-		cairo_stroke (cr);
+			cairo_set_source_rgba (cr, 0, 0, 0, 0.27);
+			cairo_move_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 1, item_y + item_h + 3);
+			cairo_line_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH , item_y + item_h + 3);
+			cairo_stroke (cr);
 
-		cairo_set_source_rgba (cr, 0, 0, 0, 0.27);
-		cairo_move_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 9, item_y + item_h - 6);
-		cairo_line_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 10, item_y + item_h - 6);
-		cairo_stroke (cr);
-
-
-		cairo_restore (cr);
+			cairo_set_source_rgba (cr, 0, 0, 0, 0.27);
+			cairo_move_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 9, item_y + item_h - 6);
+			cairo_line_to (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 10, item_y + item_h - 6);
+			cairo_stroke (cr);
 	
-		/* Black border */
-		cairo_save (cr);
-		x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 9; 
-		y0	   = item_y + 10;
-		rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 7, 0);
-		rect_height = item_h - 7;
+			cairo_restore (cr);
+	
+			/* Black border */
+			cairo_save (cr);
+			x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 9; 
+			y0  	   = item_y + 10;
+			rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 7, 0);
+			rect_height = item_h - 7;
 
-		radius = 20; 	
+			radius = 20; 	
 
-		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+			draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-		cairo_set_source_rgb (cr, 0, 0, 0);
-		cairo_fill (cr);
-		cairo_restore (cr);
+			cairo_set_source_rgb (cr, 0, 0, 0);
+			cairo_fill (cr);
+			cairo_restore (cr);
+	
+			/* Extra Grid lines when clicked */
+			cairo_save (cr);
 
-		/* Extra Grid lines when clicked */
-		cairo_save (cr);
+			x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1; 
+			y0	   = item_y + 2;
+			rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
+			rect_height = item_h - 4.;
 
-		x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1; 
-		y0	   = item_y + 2;
-		rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
-		rect_height = item_h - 4.;
+			radius = 16; 	
 
-		radius = 16; 	
+			draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+			cairo_set_source_rgb (cr, 1, 1, 1);
+			cairo_fill (cr);
 
-		cairo_set_source_rgb (cr, 1, 1, 1);
-		cairo_fill (cr);
+			gdk_cairo_set_source_color (cr, 
+				&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 
-		gdk_cairo_set_source_color (cr, 
-			&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
-
-		for (row_y = y0;
-		     row_y < rect_height + y0;
-		     row_y += day_view->row_height) {
-			if (row_y >= 0 && row_y < rect_height + y0) {
-				cairo_set_line_width (cr, 0.7);
-				cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1 , row_y);
-				cairo_line_to (cr, item_x + item_w -2, row_y);
-				cairo_stroke (cr);
+			for (row_y = y0;
+			     row_y < rect_height + y0;
+			     row_y += day_view->row_height) {
+				if (row_y >= 0 && row_y < rect_height + y0) {
+					cairo_set_line_width (cr, 0.7);
+					cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1 , row_y);
+					cairo_line_to (cr, item_x + item_w -2, row_y);
+					cairo_stroke (cr);
+				}
 			}
-		}
-		cairo_restore (cr);
+			cairo_restore (cr);
+		} 
 	}
-	
+
 	/* Draw the background of the event with white to play with transparency */
 	cairo_save (cr);
 
@@ -1517,8 +1525,16 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
 	date_fraction = rect_height / day_view->row_height;
-	short_event = ((((event->end_minute - event->start_minute)/day_view->mins_per_row) >= 2) 
-				|| (((event->end_minute - event->start_minute)%day_view->mins_per_row) <= day_view->mins_per_row))? FALSE : TRUE ;	
+	interval = event->end_minute - event->start_minute;
+
+	if ((interval/day_view->mins_per_row) >= 2) 
+		short_event = FALSE;
+	else if ((interval%day_view->mins_per_row)==0) {
+		if (((event->end_minute%day_view->mins_per_row) == 0) || ((event->start_minute%day_view->mins_per_row) == 0))
+			short_event = TRUE;	
+		}
+	else
+		short_event = FALSE;
 
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num) 
@@ -1588,37 +1604,130 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 			e_day_view_convert_time_to_display (day_view, end_hour,
 							    &end_display_hour,
-							    &end_suffix,
+							    &end_resize_suffix,
 							    &end_suffix_width);
 			
 			cairo_save (cr);
+			cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
+				item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
+				item_h - 5.5);
+			cairo_clip (cr);
+			cairo_new_path (cr);
+
 			if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
 				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 32, item_y + item_h - 8);
-				end_time = g_strdup_printf ("%2i:%02i",
+				end_resize_time = g_strdup_printf ("%2i:%02i",
 					 end_display_hour, end_minute);
 					 
 			} else {
 				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 48, item_y + item_h - 8);
-				end_time = g_strdup_printf ("%2i:%02i%s",
+				end_resize_time = g_strdup_printf ("%2i:%02i%s",
 						 end_display_hour, end_minute,
-						 end_suffix);
+						 end_resize_suffix);
 			}
-
 			cairo_set_font_size (cr, 14);
 			if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
 				cairo_set_source_rgb (cr, 0, 0, 0);
 			else
 				cairo_set_source_rgb (cr, 1, 1, 1);
-			cairo_show_text (cr, end_time);
+			cairo_set_font_options (cr, font_options);
+			cairo_show_text (cr, end_resize_time);
+			cairo_close_path (cr);
 			cairo_restore (cr);
 		}
 	}
 
-	if (bar_y2 > scroll_flag){
+	if (bar_y2 > scroll_flag)
 		event->end_minute += day_view->mins_per_row;
-	} else if (bar_y2 < scroll_flag) {
+	else if (bar_y2 < scroll_flag) 
 		event->end_minute -= day_view->mins_per_row;
+
+	if (!short_event)
+	{
+		if (event->start_minute % day_view->mins_per_row != 0
+			|| (day_view->show_event_end_times
+		    	&& event->end_minute % day_view->mins_per_row != 0)) {
+				offset = day_view->first_hour_shown * 60
+				+ day_view->first_minute_shown;
+				show_span = TRUE;
+			} else {
+				offset = 0;
+		}
+		start_minute = offset + event->start_minute;
+		end_minute = offset + event->end_minute;
+
+		format_time = (((end_minute - start_minute)/day_view->mins_per_row) >= 2) ? TRUE : FALSE;
+
+		start_hour = start_minute / 60;
+		start_minute = start_minute % 60;
+
+		end_hour = end_minute / 60;
+		end_minute = end_minute % 60;
+
+		e_day_view_convert_time_to_display (day_view, start_hour,
+						    &start_display_hour,
+						    &start_suffix,
+						    &start_suffix_width);
+		e_day_view_convert_time_to_display (day_view, end_hour,
+						    &end_display_hour,
+						    &end_suffix,
+						    &end_suffix_width);
+
+		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+			if (day_view->show_event_end_times && show_span) {
+				/* 24 hour format with end time. */
+				text = g_strdup_printf
+					("%2i:%02i-%2i:%02i",
+					 start_display_hour, start_minute,
+					 end_display_hour, end_minute); 
+			} else {
+				if (format_time) {
+				/* 24 hour format without end time. */
+				text = g_strdup_printf
+					("%2i:%02i",
+					 start_display_hour, start_minute);
+				}
+			}
+		} else {
+			if (day_view->show_event_end_times && show_span) {
+				/* 12 hour format with end time. */
+				text = g_strdup_printf
+					("%2i:%02i%s-%2i:%02i%s",
+					 start_display_hour, start_minute, 
+					 start_suffix,
+					 end_display_hour, end_minute, end_suffix);
+			} else {
+				/* 12 hour format without end time. */
+				text = g_strdup_printf
+					("%2i:%02i%s",
+					 start_display_hour, start_minute,
+					 start_suffix);
+			}
+		}
+
+		cairo_save (cr);
+		cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
+			item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
+			14);
+		cairo_clip (cr);
+		cairo_new_path (cr);
+		if (resize_flag)
+			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 10, item_y + 13);
+		else
+			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 14, item_y + 13);
+		if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
+			cairo_set_source_rgb (cr, 0, 0, 0);
+		else
+			cairo_set_source_rgb (cr, 1, 1, 1);
+		cairo_set_font_size (cr, 14.0);
+		cairo_set_font_options (cr, font_options);
+		cairo_show_text (cr, text);
+		cairo_close_path (cr);
+		cairo_restore (cr);
 	}
+
+	if (font_options)
+		cairo_font_options_destroy (font_options);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -1721,8 +1830,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
 				cairo_save (cr);
+				cairo_rectangle (cr, icon_x, icon_y, max_icon_w, max_icon_h);
+				cairo_clip (cr);
+				cairo_new_path (cr);
 				gdk_cairo_set_source_pixbuf (cr, day_view->reminder_icon, icon_x, icon_y);
 				cairo_paint (cr);
+				cairo_close_path (cr);
 				cairo_restore (cr);
 	
 				icon_x += icon_x_inc;
@@ -1736,8 +1849,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 			
 				cairo_save (cr);
+				cairo_rectangle (cr, icon_x, icon_y, max_icon_w, max_icon_h);
+				cairo_clip (cr);
+				cairo_new_path (cr);
 				gdk_cairo_set_source_pixbuf (cr, day_view->recurrence_icon, icon_x, icon_y);
 				cairo_paint (cr);
+				cairo_close_path (cr);
 				cairo_restore (cr);
 	
 				icon_x += icon_x_inc;
@@ -1750,8 +1867,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
 				cairo_save (cr);
+				cairo_rectangle (cr, icon_x, icon_y, max_icon_w, max_icon_h);
+				cairo_clip (cr);
+				cairo_new_path (cr);
 				gdk_cairo_set_source_pixbuf (cr, day_view->attach_icon, icon_x, icon_y);
 				cairo_paint (cr);
+				cairo_close_path (cr);
 				cairo_restore (cr);
 				icon_x += icon_x_inc;
 				icon_y += icon_y_inc;
@@ -1763,8 +1884,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
 				cairo_save (cr);
+				cairo_rectangle (cr, icon_x, icon_y, max_icon_w, max_icon_h);
+				cairo_clip (cr);
+				cairo_new_path (cr);
 				gdk_cairo_set_source_pixbuf (cr, day_view->timezone_icon, icon_x, icon_y);
 				cairo_paint (cr);
+				cairo_close_path (cr);
 				cairo_restore (cr);
 			
 				icon_x += icon_x_inc;
@@ -1801,17 +1926,17 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					- E_DAY_VIEW_EVENT_BORDER_WIDTH;
 				max_icon_h = item_y + item_h - icon_y
 					- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
-
+	
 				gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 				if (mask != NULL)
 					gdk_gc_set_clip_mask (gc, mask);
 				gdk_draw_pixmap (drawable, gc,
-						 pixmap,
-						 0, 0, icon_x, icon_y,
-						 MIN (E_DAY_VIEW_ICON_WIDTH,
-						      max_icon_w),
-						 MIN (E_DAY_VIEW_ICON_HEIGHT,
-						      max_icon_h));
+					 pixmap,
+					 0, 0, icon_x, icon_y,
+					 MIN (E_DAY_VIEW_ICON_WIDTH,
+					      max_icon_w),
+					 MIN (E_DAY_VIEW_ICON_HEIGHT,
+					      max_icon_h));
 
 				gdk_pixmap_unref (pixmap);
 				if (mask != NULL)
@@ -1824,8 +1949,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			gdk_gc_set_clip_mask (gc, NULL);
 		}
 
-	/* free memory */
-	e_cal_component_free_categories_list (categories_list);
+		/* free memory */
+		e_cal_component_free_categories_list (categories_list);
 	}
 
 	g_object_unref (comp);

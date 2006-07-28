@@ -1,3 +1,10 @@
+2006-07-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	* gui/e-day-view.c (e_day_view_update_event_label):
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	Added code to draw time on top border with cairo, because of text reposition
+	when drawn in pango when events are overlapped.
+	
 2006-07-26  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	* gui/apps_evolution_calendar.schemas.in.in: Fix for bug #348486. 

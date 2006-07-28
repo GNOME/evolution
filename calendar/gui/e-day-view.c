@@ -1722,12 +1722,10 @@ e_day_view_update_event_label (EDayView *day_view,
 			       gint event_num)
 {
 	EDayViewEvent *event;
-	char *text, *start_suffix, *end_suffix, *mode;
-	gboolean free_text = FALSE, editing_event = FALSE, show_span = FALSE, format_time;
-	gint offset;
-	gint start_hour, start_display_hour, start_minute, start_suffix_width;
-	gint end_hour, end_display_hour, end_minute, end_suffix_width;
+	char *text;
+	gboolean free_text = FALSE, editing_event = FALSE, short_event = FALSE;
 	const gchar *summary;
+	gint interval;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
 
@@ -1742,84 +1740,22 @@ e_day_view_update_event_label (EDayView *day_view,
 	    && day_view->editing_event_num == event_num)
 		editing_event = TRUE;
 
+	interval = event->end_minute - event->start_minute;
+
+	if ((interval/day_view->mins_per_row) >= 2) 
+		short_event = FALSE;
+	else if ((interval%day_view->mins_per_row)==0)
+		if (((event->end_minute%day_view->mins_per_row)==0) || ((event->start_minute%day_view->mins_per_row)==0)){
+			short_event = TRUE;	
+		}
+	else
+		short_event = FALSE;
+
 	if (!editing_event) {
-		if (event->start_minute % day_view->mins_per_row != 0
-			|| (day_view->show_event_end_times
-		    	&& event->end_minute % day_view->mins_per_row != 0)) {
-				offset = day_view->first_hour_shown * 60
-				+ day_view->first_minute_shown;
-				show_span = TRUE;
-			} else {
-				offset = 0;
-		}
-		start_minute = offset + event->start_minute;
-		end_minute = offset + event->end_minute;
-
-		format_time = (((end_minute - start_minute)/day_view->mins_per_row) >= 2) ? TRUE : FALSE;
-
-		start_hour = start_minute / 60;
-		start_minute = start_minute % 60;
-
-		end_hour = end_minute / 60;
-		end_minute = end_minute % 60;
-
-		if (format_time)
-			mode = "\n";
-		else
-			mode = "";
-
-		e_day_view_convert_time_to_display (day_view, start_hour,
-						    &start_display_hour,
-						    &start_suffix,
-						    &start_suffix_width);
-		e_day_view_convert_time_to_display (day_view, end_hour,
-						    &end_display_hour,
-						    &end_suffix,
-						    &end_suffix_width);
-
-		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
-			if (day_view->show_event_end_times && show_span) {
-				/* 24 hour format with end time. */
-				text = g_strdup_printf
-					("%2i:%02i-%2i:%02i %s %s",
-					 start_display_hour, start_minute,
-					 end_display_hour, end_minute, mode,
-					 text);
-			} else {
-				free_text = TRUE;
-				if (format_time) {
-				/* 24 hour format without end time. */
-				text = g_strdup_printf
-					("%2i:%02i %s %s",
-					 start_display_hour, start_minute, mode,
-					 text);
-				free_text = FALSE;
-				}
-			}
-		} else {
-			if (day_view->show_event_end_times && show_span) {
-				/* 12 hour format with end time. */
-				text = g_strdup_printf
-					("%2i:%02i%s-%2i:%02i%s %s %s",
-					 start_display_hour, start_minute, 
-					 start_suffix,
-					 end_display_hour, end_minute, end_suffix,
-					 mode,
-					 text);
-			} else {
-				/* 12 hour format without end time. */
-				text = g_strdup_printf
-					("%2i:%02i%s %s %s",
-					 start_display_hour, start_minute,
-					 start_suffix, mode,
-					 text);
-			}
-		}
-
-		if (free_text)
-			free_text = FALSE;
-		else
+		if (!short_event) {
+			text = g_strdup_printf (" \n%s", text);
 			free_text = TRUE;
+		}
 	}
 
 	gnome_canvas_item_set (event->canvas_item,
