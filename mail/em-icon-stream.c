@@ -168,7 +168,7 @@ emis_fit(GdkPixbuf *pixbuf, int maxwidth, int maxheight, int *scale)
 
 	if ((maxwidth && width > maxwidth)
 	    || (maxheight && height > maxheight)) {
-		if (width >= height) {
+		if (width >= height || maxheight == 0) {
 			if (scale)
 				*scale = maxwidth * EMIS_SCALE / width;
 			height = height * maxwidth / width;
