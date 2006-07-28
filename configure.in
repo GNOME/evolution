@@ -507,6 +507,19 @@ fi
 AM_CONDITIONAL(ENABLE_IMAP4, test x$enable_imap4 = xyes)
 
 dnl **************************************************
+dnl Cairo Calendar support.
+dnl **************************************************
+AC_ARG_ENABLE(cairo-calendar,
+[  --enable-cairo-calendar=[no/yes]      Build evolution calendar with cairo support.],,enable_cairo_calendar="yes")
+if test "x$enable_cairo_calendar" = "xyes"; then
+        AC_DEFINE(ENABLE_CAIRO,1,[Build evolution with cairo support])
+        msg_cairo=yes
+else
+        msg_cairo=no
+fi
+AM_CONDITIONAL(ENABLE_CAIRO, test x$enable_cairo_calendar = xyes)
+
+dnl **************************************************
 dnl * Posix thread support
 dnl **************************************************
 

@@ -47,8 +47,6 @@
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 
-#define ENABLE_CAIRO 1
-
 static const int e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };

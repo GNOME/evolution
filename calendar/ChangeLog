@@ -1,5 +1,19 @@
 2006-07-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
+	* gui/e-calendar-view.h: Removed the hardcoded ENABLE_CAIRO
+	* gui/e-day-view.c (e_day_view_style_set) (e_day_view_init) 
+	(e_day_view_realize) (e_day_view_update_event_label) 
+	(e_day_view_on_long_event_click) (e_day_view_reshape_resize_long_event_rec) 
+	(e_day_view_reshape_resize_rect_item) (e_day_view_on_top_canvas_motion) 
+	(e_day_view_on_main_canvas_motion) (e_day_view_finish_long_event_resize) 
+	(e_day_view_finish_resize) (e_day_view_abort_resize)
+	 (e_day_view_reshape_main_canvas_resize_bars) (e_day_view_change_event_time) 
+	(e_day_view_on_editing_stopped) (e_day_view_on_main_canvas_drag_leave):
+	This adds a macro ENABLE_CAIRO to
+        disable cairo for slow rendering machines.	
+
+2006-07-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
 	* gui/e-day-view.c (e_day_view_update_event_label):
 	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
 	Added code to draw time on top border with cairo, because of text reposition
