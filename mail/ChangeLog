@@ -1,3 +1,10 @@
+2006-07-28  Sankar P  <psankar@novell.com>
+
+	* committed on behalf of Srinivasa Ragavan <sragavan@novell.com>
+	* em-icon-stream.c: (emis_fit):
+	We dont scale on height if the maxheight is zero
+	Fixes 335431
+	
 2006-07-26  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	** Fixes bgo bug #333821 and bnc bug 181851
