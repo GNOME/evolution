@@ -378,7 +378,7 @@ msgid ""
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
 "Actuellement, Evolution ne permet d'accéder qu'au système d'adresses "
-"GroupWise. Veuillez utilisez un autre client de messagerie pour avoir accès "
+"GroupWise. Veuillez utiliser un autre client de messagerie pour avoir accès "
 "aux contacts fréquents et au dossier de contacts personnels de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:9
@@ -13667,7 +13667,7 @@ msgstr "Aucun sélectionné"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "S_erver:"
-msgstr "S_erveur :"
+msgstr "_Serveur :"
 
 #: ../mail/mail-dialogs.glade.h:15
 msgid "Security Information"
@@ -16933,7 +16933,7 @@ msgstr "Gestionnaire de greffons"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr "Activer et désactiver les extensions"
+msgstr "Active et désactive les greffons"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
@@ -17473,7 +17473,7 @@ msgstr "Indique si le panneau latéral doit être visible."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the toolbar should be visible."
-msgstr "Indique si la barre d'outil doit être visible."
+msgstr "Indique si la barre d'outils doit être visible."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid ""
