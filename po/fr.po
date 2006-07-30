@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-24 11:16+0200\n"
+"POT-Creation-Date: 2006-07-30 12:24+0200\n"
 "PO-Revision-Date: 2006-07-22 11:42+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -378,8 +378,8 @@ msgid ""
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
 "Actuellement, Evolution ne permet d'accéder qu'au système d'adresses "
-"GroupWise. Veuillez utilisez un autre client de messagerie pour avoir accès aux "
-"contacts fréquents et au dossier de contacts personnels de GroupWise."
+"GroupWise. Veuillez utilisez un autre client de messagerie pour avoir accès "
+"aux contacts fréquents et au dossier de contacts personnels de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
@@ -644,7 +644,7 @@ msgstr "_Contacts"
 
 #: ../addressbook/gui/component/addressbook-component.c:228
 msgid "Create a new contact"
-msgstr "Créer un nouveau contact"
+msgstr "Crée un nouveau contact"
 
 #: ../addressbook/gui/component/addressbook-component.c:235
 msgid "Contact _List"
@@ -652,7 +652,7 @@ msgstr "_Liste de contacts"
 
 #: ../addressbook/gui/component/addressbook-component.c:236
 msgid "Create a new contact list"
-msgstr "Créer une nouvelle liste de contacts"
+msgstr "Crée une nouvelle liste de contacts"
 
 #: ../addressbook/gui/component/addressbook-component.c:242
 #: ../addressbook/gui/component/addressbook-config.c:1202
@@ -665,7 +665,7 @@ msgstr "_Carnet d'adresses"
 
 #: ../addressbook/gui/component/addressbook-component.c:244
 msgid "Create a new address book"
-msgstr "Créer un nouveau carnet d'adresses"
+msgstr "Crée un nouveau carnet d'adresses"
 
 #: ../addressbook/gui/component/addressbook-component.c:406
 msgid "Failed upgrading Address Book settings or folders."
@@ -1202,7 +1202,7 @@ msgstr "Domain_e de recherche :"
 #: ../mail/mail-config.glade.h:171
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
-msgstr "S_erveur :"
+msgstr "_Serveur :"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
@@ -2084,7 +2084,7 @@ msgstr "Mozambique"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Myanmar"
-msgstr "Myanmar"
+msgstr "Birmanie"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Namibia"
@@ -2428,11 +2428,11 @@ msgstr "Vietnam"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, British"
-msgstr "Îles Vierges (anglaises)"
+msgstr "Îles Vierges britanniques"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Virgin Islands, U.S."
-msgstr "Îles Vierges (US)"
+msgstr "Îles Vierges américaines"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Wallis And Futuna Islands"
@@ -2572,12 +2572,12 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3070
 #, c-format
 msgid "'%s' has an invalid format"
-msgstr "« %s » a un format invalide"
+msgstr "« %s » n'a pas un format valide"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3077
 #, c-format
 msgid "%s'%s' has an invalid format"
-msgstr "%s « %s » a un format invalude"
+msgstr "%s « %s » n'a pas un format valide"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3092
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
@@ -2587,7 +2587,7 @@ msgstr "%s « %s » est vide"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3118
 msgid "Invalid contact."
-msgstr "Contact invalide"
+msgstr "Contact non valide."
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:290
 msgid "Contact Quick-Add"
@@ -2834,7 +2834,7 @@ msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr "Nouveau contact"
+msgstr "Nouveau contact :"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
@@ -2969,7 +2969,7 @@ msgstr "Envoyer un _message aux contacts"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:969
 msgid "_Print"
-msgstr "Im_primer"
+msgstr "_Imprimer"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Cop_y to Address Book..."
@@ -3462,7 +3462,7 @@ msgstr "Autre erreur"
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid "Invalid server version"
-msgstr "Version du serveur invalide"
+msgstr "Version du serveur non valide"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:94
 msgid ""
@@ -4776,7 +4776,7 @@ msgstr "Confirmer le nettoyage"
 msgid "Days on which the start and end of work hours should be indicated."
 msgstr ""
 "Jours pour lesquels les heures de début et de fin du travail doivent être "
-"indiquées"
+"indiquées."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
@@ -4895,7 +4895,7 @@ msgid ""
 "calendar and task list in the month view, in pixels."
 msgstr ""
 "Position du panneau horizontale en vue mensuelle, entre le navigateur de "
-"vues et de dates du calendrier et la liste des tâches, en pixels"
+"vues et de dates du calendrier et la liste des tâches, en pixels."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid ""
@@ -5274,7 +5274,7 @@ msgstr "_Rendez-vous"
 
 #: ../calendar/gui/calendar-component.c:1459
 msgid "Create a new appointment"
-msgstr "Créer un nouveau rendez-vous"
+msgstr "Crée un nouveau rendez-vous"
 
 #: ../calendar/gui/calendar-component.c:1465
 msgid "New meeting"
@@ -5286,7 +5286,7 @@ msgstr "_Réunion"
 
 #: ../calendar/gui/calendar-component.c:1467
 msgid "Create a new meeting request"
-msgstr "Créer une nouvelle demande de réunion"
+msgstr "Crée une nouvelle demande de réunion"
 
 #: ../calendar/gui/calendar-component.c:1473
 msgid "New all day appointment"
@@ -5298,7 +5298,7 @@ msgstr "Rendez-vous toute la _journée"
 
 #: ../calendar/gui/calendar-component.c:1475
 msgid "Create a new all-day appointment"
-msgstr "Créer un nouveau rendez-vous toute la journée"
+msgstr "Crée un nouveau rendez-vous toute la journée"
 
 #: ../calendar/gui/calendar-component.c:1481
 msgid "New calendar"
@@ -5306,11 +5306,11 @@ msgstr "Nouveau calendrier"
 
 #: ../calendar/gui/calendar-component.c:1482
 msgid "Cale_ndar"
-msgstr "Cale_ndrier"
+msgstr "_Calendrier"
 
 #: ../calendar/gui/calendar-component.c:1483
 msgid "Create a new calendar"
-msgstr "Créer un nouveau calendrier"
+msgstr "Crée un nouveau calendrier"
 
 #: ../calendar/gui/calendar-view-factory.c:109
 msgid "Day View"
@@ -6261,7 +6261,7 @@ msgstr "Alarme personnalisée :"
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 #: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "D_escription:"
-msgstr "D_escription :"
+msgstr "_Description :"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
@@ -6269,12 +6269,12 @@ msgstr "Description de l'événement :"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 msgid "Locat_ion:"
-msgstr "L_ieu :"
+msgstr "_Lieu :"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr "Résu_mé :"
+msgstr "_Résumé :"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 msgid "_Alarm"
@@ -6687,7 +6687,7 @@ msgstr "Pourcentage _effectué :"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Stat_us:"
-msgstr "Ét_at :"
+msgstr "É_tat :"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 #: ../calendar/gui/e-calendar-table.c:389
@@ -7447,8 +7447,7 @@ msgid ""
 "the menu below."
 msgstr ""
 "<br> Veuillez vérifier les informations suivantes puis sélectionner une "
-"action\n"
-"du menu ci-dessous."
+"action du menu ci-dessous."
 
 #: ../calendar/gui/e-itip-control.c:1132
 #: ../calendar/gui/e-meeting-list-view.c:205
@@ -8106,7 +8105,7 @@ msgstr "Octobre"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr "Sélectionner une date"
+msgstr "Sélectionnez une date"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "September"
@@ -8214,7 +8213,7 @@ msgstr "_Mémo"
 
 #: ../calendar/gui/memos-component.c:1157
 msgid "Create a new memo"
-msgstr "Créer un nouveau mémo"
+msgstr "Crée un nouveau mémo"
 
 #: ../calendar/gui/memos-component.c:1163
 msgid "New memo list"
@@ -8226,7 +8225,7 @@ msgstr "L_iste des mémos"
 
 #: ../calendar/gui/memos-component.c:1165
 msgid "Create a new memo list"
-msgstr "Créer une nouvelle liste de mémos"
+msgstr "Crée une nouvelle liste de mémos"
 
 #: ../calendar/gui/memos-control.c:340
 msgid "Print Memos"
@@ -8548,7 +8547,7 @@ msgstr "Nouvelle tâche"
 
 #: ../calendar/gui/tasks-component.c:1172
 msgid "Create a new task"
-msgstr "Créer une nouvelle tâche"
+msgstr "Crée une nouvelle tâche"
 
 #: ../calendar/gui/tasks-component.c:1178
 msgid "New assigned task"
@@ -8560,7 +8559,7 @@ msgstr "_Assigner une tâche"
 
 #: ../calendar/gui/tasks-component.c:1180
 msgid "Create a new assigned task"
-msgstr "Créer une tâche nouvellement assignée"
+msgstr "Crée une tâche nouvellement assignée"
 
 #: ../calendar/gui/tasks-component.c:1186
 msgid "New task list"
@@ -8572,7 +8571,7 @@ msgstr "_Liste de tâches"
 
 #: ../calendar/gui/tasks-component.c:1188
 msgid "Create a new task list"
-msgstr "Créer une nouvelle liste des tâches"
+msgstr "Crée une nouvelle liste des tâches"
 
 #: ../calendar/gui/tasks-control.c:438
 msgid ""
@@ -10578,11 +10577,11 @@ msgstr ""
 
 #: ../designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr "Je suis actuellement au bureau."
+msgstr "Je suis actuellement au bureau"
 
 #: ../designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr "Je suis actuellement absent du bureau."
+msgstr "Je suis actuellement absent du bureau"
 
 #: ../designs/OOA/ooa.glade.h:10
 msgid "No, Do not Change Status"
@@ -10659,7 +10658,7 @@ msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
-"Un fichier du même nom existe.\n"
+"Un fichier du même nom existe déjà.\n"
 "L'écraser ?"
 
 #: ../e-util/e-dialog-utils.c:283 ../e-util/e-system.error.xml.h:6
@@ -10710,7 +10709,7 @@ msgstr "É_craser"
 
 #: ../e-util/eggtrayicon.c:121
 msgid "The orientation of the tray."
-msgstr "Orientation de la zone de notification."
+msgstr "L'orientation de la zone de notification."
 
 #: ../filter/filter-datespec.c:78
 #, c-format
@@ -10866,11 +10865,11 @@ msgstr "Le fichier « {0} » n'existe pas ou n'est pas un fichier régulier."
 
 #: ../filter/filter.error.xml.h:4
 msgid "Missing date."
-msgstr "Date manquante"
+msgstr "Date manquante."
 
 #: ../filter/filter.error.xml.h:5
 msgid "Missing file name."
-msgstr "Nom de fichier manquant"
+msgstr "Nom de fichier manquant."
 
 #: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:70
 msgid "Missing name."
@@ -10914,7 +10913,7 @@ msgid ""
 "12:00am of the date specified."
 msgstr ""
 "La date du message sera comparée à la date\n"
-"spécifiée (12:00)"
+"spécifiée (12:00)."
 
 #: ../filter/filter.glade.h:7
 msgid ""
@@ -11100,11 +11099,11 @@ msgstr "Options de réception"
 
 #: ../mail/em-account-editor.c:2357 ../mail/em-account-editor.c:2448
 msgid "Checking for New Mail"
-msgstr "Recherche de nouveau courriel"
+msgstr "Recherche de nouveaux courriels"
 
 #: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
-msgstr "Édition du compte"
+msgstr "Éditeur de comptes"
 
 #: ../mail/em-account-editor.c:2799 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
@@ -11620,7 +11619,7 @@ msgstr "Création d'un dossier"
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Specify where to create the folder:"
-msgstr "Précisez l'emplacement de création du dossier"
+msgstr "Précisez l'emplacement de création du dossier :"
 
 #: ../mail/em-folder-view.c:1081 ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
@@ -11730,7 +11729,7 @@ msgstr "Filtre sur la _liste de diffusion"
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:1967 ../mail/em-folder-view.c:2011
 msgid "Default"
-msgstr "Défaut"
+msgstr "Par défaut"
 
 #: ../mail/em-folder-view.c:2110
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
@@ -11954,7 +11953,7 @@ msgstr "Signature valide mais impossible de vérifier l'expéditeur"
 
 #: ../mail/em-format-html.c:881
 msgid "Malformed external-body part."
-msgstr "Partie corps externe mal formée"
+msgstr "Partie corps externe mal formée."
 
 #: ../mail/em-format-html.c:911
 #, c-format
@@ -12051,7 +12050,7 @@ msgstr "Impossible d'analyser le message S/MIME : erreur inconnue"
 
 #: ../mail/em-format.c:1271 ../mail/em-format.c:1427
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Impossible d'analyser le message MIME. Afficher comme source"
+msgstr "Impossible d'analyser le message MIME. Afficher comme source."
 
 #: ../mail/em-format.c:1279
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -12338,7 +12337,7 @@ msgstr "Hauteur du panneau de la liste des messages"
 
 #: ../mail/evolution-mail.schemas.in.in.h:26
 msgid "Height of the message-list pane."
-msgstr "Hauteur du panneau de la liste des messages"
+msgstr "Hauteur du panneau de la liste des messages."
 
 #: ../mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -12395,7 +12394,7 @@ msgid ""
 msgstr ""
 "Liste des étiquettes connues pour le client de messagerie d'Evolution. Cette "
 "liste contient des chaînes de type nom:couleur où les couleurs utilisent "
-"l'encodage hexadécimal HTML"
+"l'encodage hexadécimal HTML."
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
@@ -12706,7 +12705,7 @@ msgstr "L'élément du menu Affichage/Envoyer À est coché"
 
 #: ../mail/evolution-mail.schemas.in.in.h:105
 msgid "View/PostTo menu item is checked."
-msgstr "L'élément du menu Affichage/Envoyer À est coché"
+msgstr "L'élément du menu Affichage/Envoyer À est coché."
 
 #: ../mail/evolution-mail.schemas.in.in.h:106
 msgid "View/ReplyTo menu item is checked"
@@ -12965,7 +12964,7 @@ msgstr "_Dossier de courriel"
 
 #: ../mail/mail-component.c:789
 msgid "Create a new mail folder"
-msgstr "Créer un nouveau dossier pour le courriel"
+msgstr "Crée un nouveau dossier pour le courriel"
 
 #: ../mail/mail-component.c:933
 msgid "Failed upgrading Mail settings or folders."
@@ -13035,7 +13034,7 @@ msgstr "<span weight=\"bold\">Authentification</span>"
 
 #: ../mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr "<span weight=\"bold\">Rédaction de messages</span>"
+msgstr "<span weight=\"bold\">Rédaction des messages</span>"
 
 #: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Configuration</span>"
@@ -13150,11 +13149,11 @@ msgstr "Toujours envoyer une copie cachée (Cc_i) à :"
 #: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
-"Toujours faire _confiance aux clés de mon trousseau lors du chiffrement."
+"Toujours faire _confiance aux clés de mon trousseau lors du chiffrement"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "Toujours chiffrer pour _moi-même lors de l'envoi de courriel chiffré."
+msgstr "Toujours chiffrer pour _moi-même lors de l'envoi de courriel chiffré"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
@@ -13373,9 +13372,9 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Veuillez saisir les informations nécessaires pour envoyer le courriel. En cas de "
-"doute, adressez-vous à votre administrateur système ou à votre fournisseur "
-"d'accès Internet."
+"Veuillez saisir les informations nécessaires pour envoyer le courriel. En "
+"cas de doute, adressez-vous à votre administrateur système ou à votre "
+"fournisseur d'accès Internet."
 
 #: ../mail/mail-config.glade.h:111
 msgid ""
@@ -13668,7 +13667,7 @@ msgstr "Aucun sélectionné"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "S_erver:"
-msgstr "S_erveur"
+msgstr "S_erveur :"
 
 #: ../mail/mail-dialogs.glade.h:15
 msgid "Security Information"
@@ -13930,7 +13929,7 @@ msgstr "Attente..."
 
 #: ../mail/mail-send-recv.c:709
 msgid "Checking for new mail"
-msgstr "Recherche de nouveau courriel"
+msgstr "Recherche de nouveaux courriels"
 
 #: ../mail/mail-session.c:204
 #: ../plugins/exchange-operations/exchange-config-listener.c:710
@@ -14237,7 +14236,7 @@ msgstr "Voulez-vous enregistrer vos modifications ?"
 
 #: ../mail/mail.error.xml.h:50
 msgid "Enter password."
-msgstr "Saisissez le mot de passe"
+msgstr "Saisissez le mot de passe."
 
 #: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
@@ -14304,7 +14303,7 @@ msgstr "Ignorer"
 
 #: ../mail/mail.error.xml.h:64
 msgid "Invalid authentication"
-msgstr "Authentification invalide"
+msgstr "Authentification non valide"
 
 #: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
@@ -14357,9 +14356,9 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Veuillez saisir une adresse électronique valide dans le champ À :. Vous pouvez "
-"rechercher des adresses électroniques en cliquant sur le bouton À : à côté "
-"de la boîte de saisie."
+"Veuillez saisir une adresse électronique valide dans le champ À :. Vous "
+"pouvez rechercher des adresses électroniques en cliquant sur le bouton À : à "
+"côté de la boîte de saisie."
 
 #: ../mail/mail.error.xml.h:76
 msgid ""
@@ -14809,7 +14808,7 @@ msgstr "Redémarrer Evolution"
 msgid "A plugin for backing up and restore Evolution data and settings."
 msgstr ""
 "Un greffon pour sauvegarder et restaurer les données et les réglages "
-"d'Evolution"
+"d'Evolution."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
@@ -15161,8 +15160,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
 msgstr ""
-"Les deux mots de passe sont différents. Veuillez ressaisir les mots de "
-"passe."
+"Les deux mots de passe sont différents. Veuillez ressaisir les mots de passe."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Confirm Password:"
@@ -15179,7 +15177,8 @@ msgstr "Nouveau mot de passe :"
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
 msgstr ""
-"Le mot de passe actuel a expiré. Veuillez modifier votre mot de passe dès à présent."
+"Le mot de passe actuel a expiré. Veuillez modifier votre mot de passe dès à "
+"présent."
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
@@ -15566,11 +15565,11 @@ msgstr "Impossible de mettre à jour les délégués :"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Folder already exists"
-msgstr "Dossier déjà existant"
+msgstr "Le dossier existe déjà"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
 msgid "Folder does not exist"
-msgstr "Le dossier n'existe pas."
+msgstr "Le dossier n'existe pas"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 msgid "Folder offline"
@@ -16437,12 +16436,12 @@ msgstr "<b>%s</b> par l'intermédiaire de %s a annulé la réunion suivante :"
 #: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
 msgid "<b>%s</b> has canceled the following meeting."
-msgstr "<b>%s</b> a annulé la réunion suivante :"
+msgstr "<b>%s</b> a annulé la réunion suivante."
 
 #: ../plugins/itip-formatter/itip-view.c:379
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> a proposé les changements suivants à la réunion :"
+msgstr "<b>%s</b> a proposé les changements suivants à la réunion."
 
 #: ../plugins/itip-formatter/itip-view.c:383
 #, c-format
@@ -16454,7 +16453,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:385
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> a refusé les changements suivants de la réunion :"
+msgstr "<b>%s</b> a refusé les changements suivants de la réunion."
 
 #: ../plugins/itip-formatter/itip-view.c:412
 #, c-format
@@ -16578,7 +16577,7 @@ msgstr "Tout _accepter"
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:724
 msgid "_Send Information"
-msgstr "Envoyer l'information"
+msgstr "_Envoyer l'information"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:728
@@ -16587,7 +16586,7 @@ msgstr "Mettre à jo_ur l'état du participant"
 
 #: ../plugins/itip-formatter/itip-view.c:731
 msgid "_Update"
-msgstr "Mettre à jo_ur"
+msgstr "_Mettre à jour"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:890
@@ -16646,7 +16645,7 @@ msgstr "Se _déconnecter du proxy"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
 msgid "Allows disabling of accounts."
-msgstr "Permet de désactiver des comptes"
+msgstr "Permet de désactiver des comptes."
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
 msgid "Disable Account"
@@ -16916,11 +16915,11 @@ msgstr "Génère un message D-BUS lorsqu'un nouveau courriel arrive."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 msgid "New Mail Notification"
-msgstr "Notification de nouveau courriel"
+msgstr "Notification de nouveaux courriels"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
 msgid "New mail notify"
-msgstr "Notifie de nouveau courriel"
+msgstr "Notifie les nouveaux courriels"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
@@ -17067,7 +17066,7 @@ msgstr "Emplacement de publication"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:12
 msgid "Publishing _Frequency:"
-msgstr "_Fréquence de publication"
+msgstr "_Fréquence de publication :"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:13
 msgid ""
@@ -17433,7 +17432,7 @@ msgstr "Largeur par défaut de la fenêtre principale, en pixels."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "The default width for the sidebar, in pixels."
-msgstr "Largeur par défaut du panneau latéral, en pixels"
+msgstr "Largeur par défaut du panneau latéral, en pixels."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
@@ -17584,7 +17583,7 @@ msgstr "Un nom de dossier ne peut pas contenir le caractère « / »."
 
 #: ../shell/e-shell-utils.c:137
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "Un nom de dossier ne peut pas contenir le caractère « # »"
+msgstr "Un nom de dossier ne peut pas contenir le caractère « # »."
 
 #: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
@@ -17597,7 +17596,7 @@ msgstr "Les outils du Gnome-Pilot ne semblent pas installés sur ce système."
 #: ../shell/e-shell-window-commands.c:79
 #, c-format
 msgid "Error executing %s."
-msgstr "Erreur à l'exécution de %s"
+msgstr "Erreur à l'exécution de %s."
 
 #: ../shell/e-shell-window-commands.c:128
 msgid "Bug buddy is not installed."
@@ -17667,7 +17666,7 @@ msgstr "Changer pour %s"
 
 #: ../shell/e-shell.c:634
 msgid "Uknown system error."
-msgstr "Erreur système inconnue"
+msgstr "Erreur système inconnue."
 
 #: ../shell/e-shell.c:830 ../shell/e-shell.c:831
 #, c-format
@@ -17704,7 +17703,7 @@ msgstr "_Test"
 
 #: ../shell/evolution-test-component.c:142
 msgid "Create a new test item"
-msgstr "Créer une nouveau élément de test"
+msgstr "Crée un nouvel élément de test"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -19272,7 +19271,7 @@ msgstr "Copie les messages sélectionnés dans un autre dossier"
 
 #: ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected messages to the clipboard"
-msgstr "Copier les messages sélectionnés vers le presse-papiers"
+msgstr "Copie les messages sélectionnés vers le presse-papiers"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
@@ -19577,7 +19576,7 @@ msgstr "Sans i_mportance"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
-msgstr "Zoom _arrière"
+msgstr "Zoom a_rrière"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "_Attached"
@@ -19605,7 +19604,7 @@ msgstr "Marquer _achevé"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
-msgstr "_Aller à"
+msgstr "A_ller à"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Important"
@@ -19665,7 +19664,7 @@ msgstr "Non l_u"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom In"
-msgstr "_Zoom avant"
+msgstr "Zoom a_vant"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
 msgid "Close this window"
@@ -20088,7 +20087,7 @@ msgstr "Nouvelle _fenêtre"
 
 #: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
-msgstr "Préfére_nces"
+msgstr "_Préférences"
 
 #: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
@@ -20716,7 +20715,7 @@ msgstr "Synchroniser les enregistrements privés :"
 
 #: ../widgets/misc/e-pilot-settings.c:120
 msgid "Sync Categories:"
-msgstr "Synchroniser les catégories"
+msgstr "Synchroniser les catégories :"
 
 #: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
