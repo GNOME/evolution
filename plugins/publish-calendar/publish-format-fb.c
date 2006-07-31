@@ -41,6 +41,8 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 	icaltimezone *utc;
 	time_t start = time(NULL), end;
 	icalcomponent *top_level;
+	char *email = NULL;
+	GList *users = NULL;
 
 	utc = icaltimezone_get_utc_timezone ();
 	start = time_day_begin_with_zone (start, utc);
@@ -60,11 +62,16 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		g_error_free (error);
 		return FALSE;
 	}
+	
+	if (e_cal_get_cal_address (client, &email, &error)) {
+		if (email && *email)	
+			users = g_list_append (users, email);
+	}
 
 	top_level = e_cal_util_new_top_level ();
 	error = NULL;
 
-	if (e_cal_get_free_busy (client, NULL, start, end, &objects, &error)) {
+	if (e_cal_get_free_busy (client, users, start, end, &objects, &error)) {
 		char *ical_string;
 		GnomeVFSFileSize bytes_written;
 		GnomeVFSResult result;
@@ -86,8 +93,17 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		/* FIXME: EError */
 		g_object_unref (client);
 		g_error_free (error);
+		if (users) 
+			g_list_free (users);
+		g_free (email);
+		
 		return FALSE;
 	}
+	
+	if (users) 
+		g_list_free (users);
+
+	g_free (email);
 
 	g_object_unref (client);
 	return TRUE;
