@@ -1248,8 +1248,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 		
 			/* Maybe we should warn about this first? */			
 			while (valid) {
-				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-				valid = gtk_tree_model_iter_next (model, &iter);
+				valid = gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 			}
 			
 			gtk_widget_destroy (alarm_notifications_dialog->dialog);
