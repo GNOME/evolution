@@ -1,4 +1,4 @@
-2006-06-12  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #329740
 	* publish-format-fb.c: (write_calendar): Pass the email id
