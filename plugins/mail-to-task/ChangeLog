@@ -1,3 +1,13 @@
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #310489
+	* mail-to-task.c: 
+	(set_attendees): 
+	(set_organizer): Appended the mailto field
+	to the  email values.
+	(do_mail_to_task):Set the ICAL_X parameter
+	so that no mail is sent to the recipients.			 
+
 2006-06-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	Fixes #332605.

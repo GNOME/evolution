@@ -59,7 +59,7 @@ clean_name(const unsigned char *s)
 static void
 set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 {
-	GSList *attendees = NULL, *l;
+	GSList *attendees = NULL, *l, *to_free = NULL;
 	ECalComponentAttendee *ca;
 	const CamelInternetAddress *to, *cc, *bcc, *arr[3];
 	int len, i, j;
@@ -77,8 +77,14 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 			const char *name, *addr;
 
 			if (camel_internet_address_get (arr[j], i, &name, &addr)) {
+				char *temp;
+
 				ca = g_new0 (ECalComponentAttendee, 1);
-				ca->value = addr;
+				
+				temp = g_strconcat ("mailto:", addr, NULL);
+				ca->value = temp;
+				to_free = g_slist_prepend (to_free, temp);
+				
 				ca->cn = name;
 				/* FIXME: missing many fields */
 
@@ -92,6 +98,9 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 	for (l = attendees; l != NULL; l = l->next)
 		g_free (l->data);
 
+	g_slist_foreach (to_free, (GFunc) g_free, NULL);
+	
+	g_slist_free (to_free);
 	g_slist_free (attendees);
 }
 
@@ -161,6 +170,7 @@ set_organizer (ECalComponent *comp, CamelMimeMessage *message)
 	const CamelInternetAddress *address;
 	const char *str, *name;
 	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
+	char *temp;
 
 	if (message->reply_to)
 		address = message->reply_to;
@@ -172,9 +182,12 @@ set_organizer (ECalComponent *comp, CamelMimeMessage *message)
 	if (!camel_internet_address_get (address, 0, &name, &str))
 		return;
 
-	organizer.value = str;
+	temp = g_strconcat ("mailto:", str, NULL);
+	organizer.value = temp;
 	organizer.cn = name;
 	e_cal_component_set_organizer (comp, &organizer);
+	
+	g_free (temp);
 }
 
 static void
@@ -246,6 +259,8 @@ do_mail_to_task (AsyncData *data)
 			CamelMimeMessage *message;
 			ECalComponent *comp;
 			ECalComponentText text;
+			icalproperty *icalprop;
+			icalcomponent *icalcomp;
 
 			/* retrieve the message from the CamelFolder */
 			message = camel_folder_get_message (folder, g_ptr_array_index (uids, i), NULL);
@@ -270,8 +285,14 @@ do_mail_to_task (AsyncData *data)
 			/* set attachment files */
 			set_attachments (client, comp, message);
 
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+			
+			icalprop = icalproperty_new_x ("1");
+			icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
+			icalcomponent_add_property (icalcomp, icalprop);
+			
 			/* save the task to the selected source */
-			e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);
+			e_cal_create_object (client, icalcomp, NULL, NULL);
 
 			g_object_unref (comp);
 		}
