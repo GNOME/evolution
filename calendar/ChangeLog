@@ -1,3 +1,10 @@
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #345646
+	* gui/dialogs/recurrence-page.c: 
+	(recurrence_page_finalize): Diconnect the signal handler
+	while destroying the page.
+
 2006-06-17   Arvind <sa.phoenix@gmail.com>
 
 	** Fix for bug#330633
