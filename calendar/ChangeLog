@@ -1,5 +1,11 @@
 2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #344927
+	* gui/dialogs/event-page.c: 
+	(event_page_fill_widgets): Set the classification.
+
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #333423
 	* gui/alarm-notify/alarm-queue.c: 
 	(notify_dialog_cb): Need not get the next iter through

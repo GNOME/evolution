@@ -327,7 +327,7 @@ clear_widgets (TaskPage *tpage)
 	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), 0);
 
 	/* Classification */
-	priv->classification = E_CAL_COMPONENT_CLASS_PRIVATE;
+	priv->classification = E_CAL_COMPONENT_CLASS_PUBLIC;
 	set_classification_menu (tpage, priv->classification);
 
 	/* Categories */
@@ -644,6 +644,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
                 break;
 	}
 	set_classification_menu (tpage, cl);
+	priv->classification = cl;
 
 	e_cal_component_get_uid (comp, &uid);
 	if (e_cal_get_object (COMP_EDITOR_PAGE (tpage)->client, uid, NULL, &icalcomp, NULL)) {
