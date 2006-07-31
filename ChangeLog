@@ -1,3 +1,8 @@
+2006-07-31  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS, configure.in: Evolution 2.7.3 release
+	updates.
+
 2006-07-22  Julio M. Merino Vidal  <jmmv@NetBSD.org>
 
 	* configure.in: Do not assume that only SunOS has pkill because
