@@ -1,3 +1,10 @@
+2006-07-27  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #345646
+	* gui/dialogs/recurrence-page.c: 
+	(recurrence_page_finalize): Diconnect the signal handler
+	while destroying the page.
+
 2006-07-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	* gui/e-calendar-view.h: Removed the hardcoded ENABLE_CAIRO
