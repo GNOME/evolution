@@ -22,6 +22,7 @@
 
 #include "url-editor-dialog.h"
 #include <libedataserverui/e-passwords.h>
+#include <libedataserver/e-url.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <string.h>
 #include <e-util/e-util-private.h>
@@ -252,14 +253,14 @@ static void
 set_from_uri (UrlEditorDialog *dialog)
 {
 	EPublishUri *uri;
-	char *method, *username, *server, *port;
-	char *tmp1, *tmp2, *tmp3;
+	char *method;
+	EUri *euri = NULL;
 
 	uri = dialog->uri;
 
+	euri = e_uri_new (uri->location);
 	/* determine our method */
-	tmp1 = strchr (uri->location, ':');
-	method = g_strndup (uri->location, tmp1 - uri->location);
+	method = euri->protocol;
 	if (strcmp (method, "smb") == 0)
 		uri->service_type = TYPE_SMB;
 	else if (strcmp (method, "sftp") == 0)
@@ -274,46 +275,22 @@ set_from_uri (UrlEditorDialog *dialog)
 		uri->service_type = TYPE_DAVS;
 	else
 		uri->service_type = TYPE_URI;
-	g_free (method);
 
-	/* We've eliminated the protocol field. Now we need
-	 * to figure out whether we've got a username */
-	tmp2 = tmp1 + 3;
-	tmp1 = strchr (tmp2, '@');
-	tmp3 = strchr (tmp2, '/');
-	if (tmp1) {
-		if (tmp1 < tmp3) {
-			/* We've got an @, and it's inside the hostname
-			 * field. Extract and set the username */
-			username = g_strndup (tmp2, tmp1 - tmp2);
-			gtk_entry_set_text (GTK_ENTRY (dialog->username_entry), username);
-			g_free (username);
+	if (euri->user) 
+		gtk_entry_set_text (GTK_ENTRY (dialog->username_entry), euri->user);
 
-			/* Move tmp2 up to the server field */
-			tmp2 = tmp1 + 1;
-		}
-	}
+	if (euri->host)	
+		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), euri->host);
 
-	/* Do we have a port? */
-	tmp1 = strchr (tmp2, ':');
-	if (tmp1 && (tmp1 < tmp3)) {
-		server = g_strndup (tmp2, tmp1 - tmp2);
-		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), server);
-		g_free (server);
+	if (euri->port)
+		gtk_entry_set_text (GTK_ENTRY (dialog->port_entry), euri->port);
 
-		tmp1++;
-		port = g_strndup (tmp1, tmp3 - tmp1);
-		gtk_entry_set_text (GTK_ENTRY (dialog->port_entry), port);
-		g_free (port);
-	} else {
-		server = g_strndup (tmp2, tmp3 - tmp2);
-		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), server);
-		g_free (server);
-	}
-
-	gtk_entry_set_text (GTK_ENTRY (dialog->file_entry), tmp3);
+	if (euri->path)
+		gtk_entry_set_text (GTK_ENTRY (dialog->file_entry), euri->path);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->publish_service), uri->service_type);
+
+	e_uri_free (euri);
 }
 
 static gboolean

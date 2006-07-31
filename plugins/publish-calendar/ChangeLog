@@ -1,3 +1,9 @@
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #347973
+	* url-editor-dialog.c: (set_from_uri): Parse the uri 
+	using EUri.
+
 2006-02-09  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	Fixes #328389
