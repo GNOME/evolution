@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-30 12:24+0200\n"
-"PO-Revision-Date: 2006-07-22 11:42+0200\n"
+"POT-Creation-Date: 2006-07-31 16:38+0200\n"
+"PO-Revision-Date: 2006-07-31 16:38+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -2496,7 +2496,7 @@ msgstr "Emplacement"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:135
 msgid "Username"
-msgstr "Nom d'utilisateur"
+msgstr "Identifiant"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:232
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:204
@@ -6782,7 +6782,7 @@ msgstr "Mémo_riser le mot de passe"
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
 msgid "_Username:"
-msgstr "Nom d'_utilisateur :"
+msgstr "_Identifiant :"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "_Weekly"
@@ -10555,11 +10555,11 @@ msgid ""
 msgstr ""
 "<b>Votre état actuel est « Absent du bureau ». </b>\n"
 "\n"
-"Voulez-vous activer l'état « Au bureau » ? "
+"Voulez-vous remplacer votre état par « Au bureau » ? "
 
 #: ../designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr "<b>Message « Absent du bureau » :</b>"
+msgstr "<b>Message d'absence du bureau :</b>"
 
 #: ../designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
@@ -10571,9 +10571,9 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
-"<small>Le message spécifié ci-dessous sera automatiquement envoyé à toute "
-"personne vous\n"
-"envoyant des courriels pendant votre absence du bureau.</small>"
+"<small>Le message spécifié ci-dessous sera envoyé automatiquement à toutes "
+"les personnes vous\n"
+"envoyant des courriels en votre absence du bureau.</small>"
 
 #: ../designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
@@ -10589,11 +10589,11 @@ msgstr "Non, ne pas modifier l'état"
 
 #: ../designs/OOA/ooa.glade.h:12
 msgid "Out of Office Assistant"
-msgstr "Assistant Absent du bureau"
+msgstr "Assistant d'absence du bureau"
 
 #: ../designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
-msgstr "Oui, modifier l'état"
+msgstr "Oui, changer l'état"
 
 #: ../designs/read_receipts/read.glade.h:1
 msgid "      "
@@ -11080,7 +11080,7 @@ msgstr "Vérifier automatiquement les _nouveaux courriels toutes les"
 
 #: ../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
-msgstr "Envoi du courriel"
+msgstr "Envoi des courriels"
 
 #: ../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:68
 msgid "Defaults"
@@ -13002,7 +13002,7 @@ msgstr "    "
 
 #: ../mail/mail-config.glade.h:2
 msgid " Ch_eck for Supported Types "
-msgstr " _Vérifier les types supportés "
+msgstr " Vé_rifier les types supportés "
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13123,7 +13123,7 @@ msgstr "Gestion des comptes"
 
 #: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
-msgstr "Ajouter une _nouvelle signature..."
+msgstr "A_jouter une nouvelle signature..."
 
 #: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
@@ -13181,7 +13181,7 @@ msgstr "Jeu de _caractères :"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
-msgstr "_Vérifier les types supportés "
+msgstr "Vé_rifier les types supportés "
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check in_coming mail for junk"
@@ -13189,7 +13189,7 @@ msgstr "Vérifier la présence de pourriels dans les messages _entrants"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
-msgstr "Vérifier l'or_thographe pendant la frappe"
+msgstr "_Vérifier l'orthographe pendant la frappe"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
@@ -13205,7 +13205,7 @@ msgstr "E_ffacer"
 
 #: ../mail/mail-config.glade.h:57
 msgid "Color for _misspelled words:"
-msgstr "Couleur pour les _mots mal orthographiés :"
+msgstr "_Couleur des mots mal orthographiés :"
 
 #: ../mail/mail-config.glade.h:58
 msgid "Colors"
@@ -13297,7 +13297,7 @@ msgstr "Formater les messages en _HTML"
 
 #: ../mail/mail-config.glade.h:85
 msgid "Full Nam_e:"
-msgstr "Nom compl_et :"
+msgstr "Nom _complet :"
 
 #: ../mail/mail-config.glade.h:87
 msgid "HTML Mail"
@@ -13349,11 +13349,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:103
 msgid "Or_ganization:"
-msgstr "Or_ganisation :"
+msgstr "_Organisation :"
 
 #: ../mail/mail-config.glade.h:104
 msgid "PGP/GPG _Key ID:"
-msgstr "ID de la _clé PGP/GPG :"
+msgstr "_ID de la clé PGP/GPG :"
 
 #: ../mail/mail-config.glade.h:107
 msgid "Play sound file when new mail arri_ves"
@@ -13411,7 +13411,7 @@ msgstr "_Mémoriser le mot de passe"
 
 #: ../mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
-msgstr "Ré_pondre à :"
+msgstr "_Répondre à :"
 
 #: ../mail/mail-config.glade.h:119
 msgid "Remember _password"
@@ -13463,11 +13463,11 @@ msgstr "Dossier des _messages envoyés :"
 
 #: ../mail/mail-config.glade.h:133
 msgid "Ser_ver requires authentication"
-msgstr "Le _serveur requiert une authentification."
+msgstr "Le serveur requiert une _authentification."
 
 #: ../mail/mail-config.glade.h:134
 msgid "Server _Type: "
-msgstr "_Type de serveur : "
+msgstr "_Type du serveur : "
 
 #: ../mail/mail-config.glade.h:135
 msgid "Sig_ning certificate:"
@@ -13475,7 +13475,7 @@ msgstr "Certificat de _signature :"
 
 #: ../mail/mail-config.glade.h:136
 msgid "Signat_ure:"
-msgstr "Signat_ure :"
+msgstr "_Signature :"
 
 #: ../mail/mail-config.glade.h:137
 msgid "Signatures"
@@ -13525,7 +13525,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:149 ../plugins/caldav/caldav-source.c:282
 msgid "User_name:"
-msgstr "_Nom d'utilisateur :"
+msgstr "_Identifiant :"
 
 #: ../mail/mail-config.glade.h:150
 msgid "V_ariable-width:"
@@ -13567,7 +13567,7 @@ msgstr "_Ouvrir les images dans les courriels des contacts"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
-msgstr "En faire _mon compte par défaut"
+msgstr "En faire mon compte par _défaut"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
@@ -15044,8 +15044,8 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"Cette option utilisera l'authentification par mot de passe sécurisé (NTLM) "
-"pour se connecter au serveur Exchange."
+"Cette option permet d'établir une connexion au serveur Exchange en utilisant "
+"l'authentification par mot de passe sécurisé (NTLM)."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
@@ -15056,8 +15056,8 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Cette option utilisera un mot de passe en texte brut standard pour se "
-"connecter au serveur Exchange."
+"Cette option permet d'établir une connexion au serveur Exchange en utilisant "
+"l'authentification par mot de passe en texte brut standard."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
@@ -15122,7 +15122,7 @@ msgstr "Paramètres d'Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
-msgstr "URL _OWA :"
+msgstr "_URL OWA :"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
@@ -15134,7 +15134,7 @@ msgstr "Type d'authentification"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
-msgstr "_Vérifier les types supportés"
+msgstr "Vé_rifier les types supportés"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
@@ -15154,13 +15154,14 @@ msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
-"Ce mot de passe est différent du mot de passe existant pour votre compte. "
-"Veuillez saisir le bon mot de passe"
+"Le mot de passe actuel ne correspond pas au mot de passe existant de votre "
+"compte. Veuillez saisir le bon mot de passe"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
 msgstr ""
-"Les deux mots de passe sont différents. Veuillez ressaisir les mots de passe."
+"Les deux mots de passe ne correspondent pas. Veuillez ressaisir les mots de "
+"passe."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Confirm Password:"
@@ -15177,8 +15178,8 @@ msgstr "Nouveau mot de passe :"
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
 msgstr ""
-"Le mot de passe actuel a expiré. Veuillez modifier votre mot de passe dès à "
-"présent."
+"Votre mot de passe actuel a expiré. Veuillez changer votre mot de passe "
+"maintenant."
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
@@ -15243,7 +15244,7 @@ msgstr "Erreur lors de la lecture de la liste des délégués."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
-msgstr "Auteur (lire, créer)"
+msgstr "Auteur (lecture, création)"
 
 #. Translators: This is used for permissions for <user> for the folder Calendar.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
@@ -15261,7 +15262,7 @@ msgstr "Délégués"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
-msgstr "Éditeur (lire, créer, éditer)"
+msgstr "Éditeur (lecture, création, modification)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid "Permissions for"
@@ -15269,20 +15270,19 @@ msgstr "Permissions pour"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
-msgstr "Relecteur (lecture-seule)"
+msgstr "Relecteur (lecture seule)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
 msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
 msgstr ""
-"Ces utilisateurs seront capables d'envoyer des courriels\n"
-"en votre noms et d'accéder à vos dossiers avec les\n"
-"permissions que vous leur avez donné."
+"Ces utilisateurs pourront envoyer des courriels en votre nom\n"
+"et accéder à vos dossiers avec les permissions que vous leur accordez."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Delegate can see private items"
-msgstr "Le _délégué peut voir des éléments privés"
+msgstr "_Le délégué peut voir les éléments privés"
 
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
@@ -15336,7 +15336,7 @@ msgstr "Se désabonner du dossier « %s »"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
-msgstr "Avertissement d'expiration de mot de passe..."
+msgstr "Avertissement d'expiration du mot de passe..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
 msgid "Your password will expire in 7 days..."
@@ -15372,7 +15372,7 @@ msgstr "Impossible de supprimer"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Cannot Edit"
-msgstr "Impossible d'éditer"
+msgstr "Impossible de modifier"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
 msgid "Create items"
@@ -15384,7 +15384,7 @@ msgstr "Créer des sous-dossiers"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Any Items"
-msgstr "Supprimer n'importe quel élément"
+msgstr "Supprimer n'importe quels éléments"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
 msgid "Delete Own Items"
@@ -15392,11 +15392,11 @@ msgstr "Supprimer ses propres éléments"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
 msgid "Edit Any Items"
-msgstr "Éditer n'importe quel élément"
+msgstr "Modifier n'importe quels éléments"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 msgid "Edit Own Items"
-msgstr "Éditer ses propres éléments"
+msgstr "Modifier ses propres éléments"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 msgid "Folder contact"
@@ -15412,7 +15412,7 @@ msgstr "Dossier visible"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Read items"
-msgstr "Lire les éléments"
+msgstr "Lire des éléments"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
 msgid "Role: "
@@ -15667,7 +15667,7 @@ msgid ""
 msgstr ""
 "Cela signifie peut être la nécessité que vous précisiez \n"
 "le nom de domaine Windows à votre serveur avec votre\n"
-"nom d'utilisateur (ex. &quot;DOMAINE\\\\utilisateur&quot;).\n"
+"identifiant (ex. &quot;DOMAINE\\\\utilisateur&quot;).\n"
 "\n"
 "Il est aussi possible que vous ayez saisi un mauvais\n"
 "mot de passe."
@@ -17024,7 +17024,7 @@ msgstr "Autorise les calendriers a être publiés sur le Web"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Calendar Publishing"
-msgstr "Publication de calendrier"
+msgstr "Publication du calendrier"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
 msgid "Locations"
@@ -18012,7 +18012,7 @@ msgstr "Sélectionnez un certificat à importer..."
 #: ../smime/gui/certificate-manager.c:472
 #: ../smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
-msgstr "Nom de certificat"
+msgstr "Nom du certificat"
 
 #: ../smime/gui/certificate-manager.c:276
 #: ../smime/gui/certificate-manager.c:490
@@ -18026,7 +18026,7 @@ msgstr "Numéro de série"
 
 #: ../smime/gui/certificate-manager.c:293
 msgid "Expires"
-msgstr "Expire"
+msgstr "Expire le"
 
 #: ../smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
