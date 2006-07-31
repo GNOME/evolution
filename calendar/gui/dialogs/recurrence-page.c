@@ -2092,7 +2092,7 @@ interval_value_changed_cb (GtkAdjustment *adj, gpointer data)
  * change the contents of the recurrence special widget.
  */
 static void
-interval_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+interval_selection_done_cb (GtkOptionMenu *menu, gpointer data)
 {
 	RecurrencePage *rpage;
 
@@ -2107,7 +2107,7 @@ interval_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
  * change the contents of the ending special widget.
  */
 static void
-ending_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+ending_selection_done_cb (GtkOptionMenu *menu, gpointer data)
 {
 	RecurrencePage *rpage;
 
@@ -2310,7 +2310,6 @@ init_widgets (RecurrencePage *rpage)
 	RecurrencePagePrivate *priv;
 	ECalendar *ecal;
 	GtkAdjustment *adj;
-	GtkWidget *menu;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell_renderer;
 
@@ -2345,16 +2344,14 @@ init_widgets (RecurrencePage *rpage)
 			    rpage);
 
 	/* Recurrence units */
-
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-	g_signal_connect((menu), "selection_done",
+	
+	g_signal_connect(GTK_OPTION_MENU (priv->interval_unit), "changed",
 			    G_CALLBACK (interval_selection_done_cb),
 			    rpage);
 
 	/* Recurrence ending */
-
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
-	g_signal_connect((menu), "selection_done",
+	
+	g_signal_connect(GTK_OPTION_MENU (priv->ending_menu), "changed",
 			    G_CALLBACK (ending_selection_done_cb), rpage);
 
 	/* Exception buttons */

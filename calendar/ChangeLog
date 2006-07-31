@@ -1,3 +1,10 @@
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #323499
+	* gui/dialogs/recurrence-page.c: (interval_selection_done_cb),
+	(ending_selection_done_cb), (init_widgets): Listen to the
+	changed signal from the GtkOptionMenu.
+
 2006-07-27  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #345646
