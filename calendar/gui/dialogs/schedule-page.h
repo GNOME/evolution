@@ -53,7 +53,7 @@ GtkType      schedule_page_get_type  (void);
 SchedulePage *schedule_page_construct (SchedulePage *mpage, EMeetingStore *ems);
 SchedulePage *schedule_page_new       (EMeetingStore *ems);
 void schedule_page_set_name_selector (SchedulePage *spage, ENameSelector *name_selector);
-
+void schedule_page_set_meeting_time (SchedulePage *spage, icaltimetype *start_tt, icaltimetype *end_tt);
 
 
 G_END_DECLS
