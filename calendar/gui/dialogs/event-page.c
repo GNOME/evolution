@@ -552,7 +552,7 @@ clear_widgets (EventPage *epage)
 	set_all_day (epage, FALSE);
 
 	/* Classification */
-	priv->classification = E_CAL_COMPONENT_CLASS_PRIVATE;
+	priv->classification = E_CAL_COMPONENT_CLASS_PUBLIC;
 	set_classification_menu (epage, priv->classification);
 
 	/* Show Time As (Transparency) */
@@ -1108,6 +1108,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		break;
 	}
 	set_classification_menu (epage, cl);
+	priv->classification = cl;
 
 	/* Show Time As (Transparency) */
 	e_cal_component_get_transparency (comp, &transparency);
