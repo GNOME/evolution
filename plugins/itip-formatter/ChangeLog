@@ -1,41 +1,24 @@
-2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* itip-formatter.c: (cal_opened_cb), (source_selected_cb),
-	(find_cal_opened_cb), (extract_itip_data), (view_response_cb),
-	(format_itip_object):
-	* itip-view.c: (set_journal_sender_text), (set_sender_text),
-	(set_buttons), (itip_view_set_source_list),
-	(itip_view_get_rsvp_comment), (itip_view_set_needs_decline):
-	* itip-view.h: Added support shared Memos.
-
-2006-07-06  Harish Krishnaswamy  <kharish@novell.com>
+2006-07-31  Harish Krishnaswamy  <kharish@novell.com>
 
 	* itip-formatter.c: (format_itip_object):
 	Handle ICAL_X methods from Microsoft Live as 
 	request methods.
 
-2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
-
-	* itip-formatter.c (update_item):
-	Free GSList and its data after calling 
-	e_cal_component_get_attachment_list.
-
-2006-06-16  Sankar P  <psankar@novell.com>
-
-	* itip-formatter.c: (view_response_cb):
-	Deletes a GroupWise appointment if accepted or deleted.
-		
-2006-06-16  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #179774 (b.n.c)
-	* itip-formatter.c: (cal_opened_cb), (find_cal_opened_cb):
-	Reset the current_ecal and disable the buttons if the calendar
-	is not opened properly.
-
+2006-06-19  Sankar P  <psankar@novell.com>
+	
+	* itip-formatter.c:
+	Deletes meeting invitations for GW when they are accepted/declined.
+	
 2006-06-09  Chris Heath <chris@heathens.co.nz>
 
 	* itip-view.c (itip_view_destroy): Fix memory leak.
 	Fixes bug #335423.
+
+2006-06-07  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #344022
+	* itip-formatter.c: (find_cal_opened_cb): Check for the
+	static capability and add the recurrence widgets.						  
 
 2006-05-31  Chenthill Palanisamy  <pchenthill@novell.com>
 

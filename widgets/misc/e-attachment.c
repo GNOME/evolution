@@ -64,7 +64,6 @@ enum {
 	UPDATE,
 	LAST_SIGNAL
 };
-
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static GObjectClass *parent_class = NULL;
@@ -75,7 +74,7 @@ changed (EAttachment *attachment)
 	g_signal_emit (attachment, signals[CHANGED], 0);
 }
 
-
+
 /* GtkObject methods.  */
 
 static void
@@ -105,7 +104,7 @@ finalise (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-
+
 /* Signals.  */
 
 static void
@@ -120,7 +119,7 @@ real_update_attachment (EAttachment *attachment, char *msg)
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 }
 
-
+
 static void
 class_init (EAttachmentClass *klass)
 {
@@ -213,7 +212,7 @@ attachment_guess_mime_type (const char *file_name)
 	return type;
 }
 
-
+
 /**
  * e_attachment_new:
  * @file_name: filename to attach
@@ -223,7 +222,9 @@ attachment_guess_mime_type (const char *file_name)
  * Return value: the new attachment, or %NULL on error
  **/
 EAttachment *
-e_attachment_new (const char *file_name, const char *disposition, CamelException *ex)
+e_attachment_new (const char *file_name,
+			       const char *disposition,
+			       CamelException *ex)
 {
 	EAttachment *new;
 	CamelMimePart *part;
@@ -232,7 +233,7 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 	struct stat statbuf;
 	char *mime_type;
 	char *filename;
-	CamelURL *url;
+	CamelURL *curl;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
@@ -251,14 +252,16 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 		return NULL;
 	}
 	
-	if (!(stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0))) {
+	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
+	if (!stream) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
 		return NULL;
 	}
 	
-	if ((mime_type = attachment_guess_mime_type (file_name))) {
+	mime_type = attachment_guess_mime_type (file_name);
+	if (mime_type) {
 		if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
 			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
 		} else {
@@ -304,10 +307,10 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 	new->is_available_local = TRUE;
 	new->file_name = filename;
 	
-	url = camel_url_new ("file:", NULL);
-	camel_url_set_path (url, file_name);
-	new->store_uri = camel_url_to_string (url, 0);
-	camel_url_free (url);
+	curl = camel_url_new ("file:", NULL);
+	camel_url_set_path (curl, file_name);
+	new->store_uri = camel_url_to_string (curl, 0);
+	camel_url_free (curl);
 	
 	return new;
 }
@@ -315,8 +318,8 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 
 typedef struct DownloadInfo {
 	EAttachment *attachment;
-	char *file_name;
-} DownloadInfo;
+	gchar *file_name;
+}DownloadInfo;
 
 static int
 async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
@@ -363,42 +366,46 @@ async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 }
 
 static void
-download_to_local_path (GnomeVFSURI *source_uri, GnomeVFSURI *target_uri, DownloadInfo *download_info)
+download_to_local_path (GnomeVFSURI  *source_uri, GnomeVFSURI  *target_uri, DownloadInfo *download_info)
 			
 {
-	GList *source_uri_list;
-	GList *target_uri_list;
-	
-	source_uri_list = g_list_append (NULL, source_uri);
-	target_uri_list = g_list_append (NULL, target_uri);
-	
+	GnomeVFSResult       result;
+	GList               *source_uri_list = NULL;
+	GList               *target_uri_list = NULL;
+
+	source_uri_list = g_list_prepend (source_uri_list, source_uri);
+	target_uri_list = g_list_prepend (target_uri_list, target_uri);
+
 	/* Callback info */
-	gnome_vfs_async_xfer (&download_info->attachment->handle,    /* handle_return   */
-			      source_uri_list,                       /* source_uri_list */
-			      target_uri_list,                       /* target_uri_list */
-			      GNOME_VFS_XFER_DEFAULT,                /* xfer_options    */
-			      GNOME_VFS_XFER_ERROR_MODE_ABORT,       /* error_mode      */ 
-			      GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE, /* overwrite_mode  */ 
-			      GNOME_VFS_PRIORITY_DEFAULT,            /* priority        */
-			      (GnomeVFSAsyncXferProgressCallback) async_progress_update_cb,
-			      download_info,                         /* update_callback_data   */
-			      NULL,                                  /* progress_sync_callback */
-			      NULL);                                 /* sync_callback_data     */
+	/* Maybe check the result here somewhere? */
+	result = gnome_vfs_async_xfer (&download_info->attachment->handle,                        /* handle_return   */
+				       source_uri_list,                       /* source_uri_list */
+				       target_uri_list,                       /* target_uri_list */
+				       GNOME_VFS_XFER_DEFAULT,                /* xfer_options    */
+				       GNOME_VFS_XFER_ERROR_MODE_ABORT,       /* error_mode      */ 
+				       GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE, /* overwrite_mode  */ 
+				       GNOME_VFS_PRIORITY_DEFAULT,            /* priority        */
+				       (GnomeVFSAsyncXferProgressCallback) async_progress_update_cb,              /* progress_update_callback */
+				       download_info,                         /* update_callback_data     */
+				       NULL,                                  /* progress_sync_callback   */
+				       NULL);                                 /* sync_callback_data       */
 }
 
 EAttachment *
-e_attachment_new_remote_file (const char *uri, const char *disposition, const char *path, CamelException *ex)
+e_attachment_new_remote_file (const char *url,
+			      const char *disposition,
+			      const char *path,
+			      CamelException *ex)
 {
 	EAttachment *new;
 	DownloadInfo *download_info;
-	CamelURL *url;
-	char *base;
+	gchar *base;
+	CamelURL *curl;
 	
-	g_return_val_if_fail (uri != NULL, NULL);
-	
-	url = camel_url_new (uri, NULL);
-	base = g_path_get_basename (url->path);
-	camel_url_free (url);
+	g_return_val_if_fail (url != NULL, NULL);
+
+	curl = camel_url_new (url, NULL);
+	base = g_path_get_basename (curl->path);
 	
 	new = g_object_new (E_TYPE_ATTACHMENT, NULL);
 	new->editor_gui = NULL;
@@ -409,20 +416,23 @@ e_attachment_new_remote_file (const char *uri, const char *disposition, const ch
 	new->is_available_local = FALSE;
 	new->percentage = 0;
 	new->file_name = g_build_filename (path, base, NULL);
-	
-	g_free (base);
-	
+
+	g_free(base);
+
 	download_info = g_new (DownloadInfo, 1);
 	download_info->attachment = new;
 	download_info->file_name = g_strdup (new->file_name);
-	download_to_local_path (gnome_vfs_uri_new (uri), gnome_vfs_uri_new (new->file_name), download_info);
-	
+	download_to_local_path (gnome_vfs_uri_new(url), gnome_vfs_uri_new(new->file_name), download_info);
+
+	camel_url_free (curl);
 	return new;
 }
 
-
 void
-e_attachment_build_remote_file (const char *file_name, EAttachment *attachment, const char *disposition, CamelException *ex)
+e_attachment_build_remote_file (const char *file_name,
+					     EAttachment *attachment,
+					     const char *disposition,
+					     CamelException *ex)
 {
 	CamelMimePart *part;
 	CamelDataWrapper *wrapper;
@@ -430,11 +440,11 @@ e_attachment_build_remote_file (const char *file_name, EAttachment *attachment, 
 	struct stat statbuf;
 	char *mime_type;
 	char *filename;
-	CamelURL *url;
+	CamelURL *curl;
 	
 	g_return_if_fail (file_name != NULL);
 	
-	if (g_stat (file_name, &statbuf) == -1) {
+	if (g_stat (file_name, &statbuf) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
@@ -451,14 +461,16 @@ e_attachment_build_remote_file (const char *file_name, EAttachment *attachment, 
 		return;
 	}
 	
-	if (!(stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0))) {
+	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
+	if (!stream) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
 		return;
 	}
 	
-	if ((mime_type = attachment_guess_mime_type (file_name))) {
+	mime_type = attachment_guess_mime_type (file_name);
+	if (mime_type) {
 		if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
 			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
 		} else {
@@ -505,13 +517,13 @@ e_attachment_build_remote_file (const char *file_name, EAttachment *attachment, 
 	g_free (attachment->file_name);
 	attachment->file_name = filename;
 	
-	url = camel_url_new ("file:", NULL);
-	camel_url_set_path (url, file_name);
-	attachment->store_uri = camel_url_to_string (url, 0);
-	camel_url_free (url);
+	curl = camel_url_new ("file:", NULL);
+	camel_url_set_path (curl, file_name);
+	attachment->store_uri = camel_url_to_string (curl, 0);
+	camel_url_free (curl);
 
 }
-
+
 
 /**
  * e_attachment_new_from_mime_part:
@@ -629,7 +641,7 @@ ok_cb (GtkWidget *widget, gpointer data)
 		camel_mime_part_set_content_type (attachment->body, str);
 		camel_data_wrapper_set_mime_type(camel_medium_get_content_object(CAMEL_MEDIUM (attachment->body)), str);
 	}
-	
+
 	if (attachment->is_available_local) {
 		switch (gtk_toggle_button_get_active (dialog_data->disposition_checkbox)) {
 		case 0:
@@ -666,22 +678,27 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 	const char *disposition;
 	DialogData *dialog_data;
 	GladeXML *editor_gui;
-	GtkWidget *window;
 	char *type;
 	char *filename;
 	
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	
 	if (attachment->editor_gui != NULL) {
-		window = glade_xml_get_widget (attachment->editor_gui, "dialog");
+		GtkWidget *window;
+		
+		window = glade_xml_get_widget (attachment->editor_gui,
+					       "dialog");
 		gdk_window_show (window->window);
 		return;
 	}
 	
-	filename = g_build_filename (EVOLUTION_GLADEDIR, "e-attachment.glade", NULL);
-	editor_gui = glade_xml_new (filename, NULL, NULL);
+	filename = g_build_filename (EVOLUTION_GLADEDIR,
+				     "e-attachment.glade",
+				     NULL);
+	editor_gui = glade_xml_new (filename,
+				    NULL, NULL);
 	g_free (filename);
-	
+
 	if (editor_gui == NULL) {
 		g_warning ("Cannot load `e-attachment.glade'");
 		return;
@@ -689,47 +706,58 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 	
 	attachment->editor_gui = editor_gui;
 	
-	gtk_window_set_transient_for (GTK_WINDOW (glade_xml_get_widget (editor_gui, "dialog")),
-				      GTK_WINDOW (gtk_widget_get_toplevel (parent)));
+	gtk_window_set_transient_for
+		(GTK_WINDOW (glade_xml_get_widget (editor_gui, "dialog")),
+		 GTK_WINDOW (gtk_widget_get_toplevel (parent)));
 	
 	dialog_data = g_new (DialogData, 1);
 	dialog_data->attachment = attachment;
 	dialog_data->dialog = glade_xml_get_widget (editor_gui, "dialog");
-	dialog_data->file_name_entry = GTK_ENTRY (glade_xml_get_widget (editor_gui, "file_name_entry"));
-	dialog_data->description_entry = GTK_ENTRY (glade_xml_get_widget (editor_gui, "description_entry"));
-	dialog_data->mime_type_entry = GTK_ENTRY (glade_xml_get_widget (editor_gui, "mime_type_entry"));
-	dialog_data->disposition_checkbox = GTK_TOGGLE_BUTTON (glade_xml_get_widget (editor_gui, "disposition_checkbox"));
-	
-	if (attachment->is_available_local) {
-		set_entry (editor_gui, "file_name_entry", camel_mime_part_get_filename (attachment->body));
-		set_entry (editor_gui, "description_entry", camel_mime_part_get_description (attachment->body));
+	dialog_data->file_name_entry = GTK_ENTRY (
+		glade_xml_get_widget (editor_gui, "file_name_entry"));
+	dialog_data->description_entry = GTK_ENTRY (
+		glade_xml_get_widget (editor_gui, "description_entry"));
+	dialog_data->mime_type_entry = GTK_ENTRY (
+		glade_xml_get_widget (editor_gui, "mime_type_entry"));
+	dialog_data->disposition_checkbox = GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget (editor_gui, "disposition_checkbox"));
+
+	if (attachment->is_available_local)	{
+		set_entry (editor_gui, "file_name_entry",
+			   camel_mime_part_get_filename (attachment->body));
+		set_entry (editor_gui, "description_entry",
+			   camel_mime_part_get_description (attachment->body));
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		type = camel_content_type_simple (content_type);
 		set_entry (editor_gui, "mime_type_entry", type);
 		g_free (type);
-		
+	
 		disposition = camel_mime_part_get_disposition (attachment->body);
 		gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
 					      disposition && !g_ascii_strcasecmp (disposition, "inline"));
 	} else {
-		set_entry (editor_gui, "file_name_entry", attachment->file_name);
-		set_entry (editor_gui, "description_entry", attachment->description);
-		if ((type = attachment_guess_mime_type (attachment->file_name))) {
+		set_entry (editor_gui, "file_name_entry",
+			   attachment->file_name);
+		set_entry (editor_gui, "description_entry",
+			   attachment->description);
+		type = attachment_guess_mime_type (attachment->file_name);
+		if (type) {
 			set_entry (editor_gui, "mime_type_entry", type);
 			g_free (type);
 		} else {
 			set_entry (editor_gui, "mime_type_entry", "");
 		}
-		
+	
 		gtk_toggle_button_set_active (dialog_data->disposition_checkbox, attachment->disposition);
+		
 	}
 	
 	connect_widget (editor_gui, "dialog", "response", (GCallback)response_cb, dialog_data);
-	
+
 	/* make sure that when the parent gets hidden/closed that our windows also close */
 	parent = gtk_widget_get_toplevel (parent);
-	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy", (GCallback) close_cb, dialog_data,
+	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy", (GCallback)close_cb, dialog_data,
 					GTK_OBJECT (dialog_data->dialog));
-	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "hide", (GCallback) close_cb, dialog_data,
+	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "hide", (GCallback)close_cb, dialog_data,
 					GTK_OBJECT (dialog_data->dialog));
 }

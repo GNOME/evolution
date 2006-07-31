@@ -234,7 +234,6 @@ em_folder_selection_button_clicked (GtkButton *button)
 
 	model = mail_component_peek_tree_model (mail_component_peek ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
-	g_object_unref (model);
 	em_folder_tree_set_multiselect (emft, priv->multiple_select);
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
 	dialog = em_folder_selector_new (emft, EM_FOLDER_SELECTOR_CAN_CREATE, priv->title, priv->caption, NULL);

@@ -142,6 +142,7 @@ typedef struct {
 	int xofs, yofs;                 /* This gets added to the x
                                            and y for the cell text. */
 	double ellipsis_width[2];      /* The width of the ellipsis. */
+
 } ECellTextView;
 
 struct _CellEdit {
@@ -438,7 +439,6 @@ ect_unrealize (ECellView *ecv)
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (ecv);
-
 }
 
 static void
@@ -570,8 +570,6 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	PangoAttrList *attrs ;
 	PangoLayout *layout;
-	PangoContext *context;
-	cairo_font_options_t *font_options;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas), text);
 
@@ -583,34 +581,6 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	if (text_view->edit || width <= 0)
 		return layout;
 
-	context = pango_layout_get_context (layout);
-
-	font_options = get_font_options();
-	pango_cairo_context_set_font_options (context, font_options);
-	cairo_font_options_destroy (font_options);
-	pango_layout_context_changed (layout);
-
-	if (ect->font_name)
-	{
-		PangoFontDescription *desc = NULL, *fixed_desc = NULL;
-		char *fixed_family = NULL;
-		gint fixed_size;
-		
-		fixed_desc = pango_font_description_from_string (ect->font_name);
-		if (fixed_desc) {
-			fixed_family = pango_font_description_get_family (fixed_desc);
-			fixed_size = pango_font_description_get_size (fixed_desc);
-		} 
-		
-		desc = pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas))->font_desc);
-		pango_font_description_set_family (desc, fixed_family);
-		pango_font_description_set_size (desc, fixed_size);
-/*  		pango_font_description_set_style (desc, PANGO_STYLE_OBLIQUE); */
-		pango_layout_set_font_description (layout, desc);
-		pango_font_description_free (desc);
-		pango_font_description_free (fixed_desc);
-	}
-	
 	pango_layout_set_width (layout, width * PANGO_SCALE);
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
 
@@ -641,7 +611,7 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	default:
 		break;
 	}
-
+	
 	return layout;
 }
 
@@ -742,7 +712,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	selected = flags & E_CELL_SELECTED;
 
 	if (selected) {
+		if (flags & E_CELL_FOCUSED)
 			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
+		else
+			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
 	} else {
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 

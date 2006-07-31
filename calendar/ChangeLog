@@ -12,14 +12,13 @@
 	Fixes #344927
 	* gui/dialogs/event-page.c: 
 	(event_page_fill_widgets): Set the classification.
-
+				   
 2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #333423
-	* gui/alarm-notify/alarm-queue.c: 
-	(notify_dialog_cb): Need not get the next iter through
-	the tree model, as gtk list store would store the next 
-	valid iter in iter.
+	Fixes #323499
+	* gui/dialogs/recurrence-page.c: (interval_selection_done_cb),
+	(ending_selection_done_cb), (init_widgets): Listen to the
+	changed signal from the GtkOptionMenu.
 
 2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -28,194 +27,28 @@
 	(ending_selection_done_cb), (init_widgets): Listen to the
 	changed signal from the GtkOptionMenu.
 
-2006-07-27  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #345646
 	* gui/dialogs/recurrence-page.c: 
 	(recurrence_page_finalize): Diconnect the signal handler
 	while destroying the page.
 
-2006-07-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+2006-06-17   Arvind <sa.phoenix@gmail.com>
 
-	* gui/e-calendar-view.h: Removed the hardcoded ENABLE_CAIRO
-	* gui/e-day-view.c (e_day_view_style_set) (e_day_view_init) 
-	(e_day_view_realize) (e_day_view_update_event_label) 
-	(e_day_view_on_long_event_click) (e_day_view_reshape_resize_long_event_rec) 
-	(e_day_view_reshape_resize_rect_item) (e_day_view_on_top_canvas_motion) 
-	(e_day_view_on_main_canvas_motion) (e_day_view_finish_long_event_resize) 
-	(e_day_view_finish_resize) (e_day_view_abort_resize)
-	 (e_day_view_reshape_main_canvas_resize_bars) (e_day_view_change_event_time) 
-	(e_day_view_on_editing_stopped) (e_day_view_on_main_canvas_drag_leave):
-	This adds a macro ENABLE_CAIRO to
-        disable cairo for slow rendering machines.	
+	** Fix for bug#330633
 
-2006-07-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	* gui/e-day-view.c (e_day_view_update_event_label):
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
-	Added code to draw time on top border with cairo, because of text reposition
-	when drawn in pango when events are overlapped.
-	
-2006-07-26  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	* gui/apps_evolution_calendar.schemas.in.in: Fix for bug #348486. 
-	Corrected wrong description in /apps/evolution/calendar/display/
-	event_transparency GConf key.
-
-2006-07-26  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #347772
-	* gui/apps_evolution_calendar.schemas.in.in: Set the adjust
-	for daylight savings by default.
-
-2006-07-24  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
-	Free the gconf client after use.
-	* gui/e-day-view.c (e_day_view_update_event_label) 
-	(e_day_view_on_text_item_event): Fix the gal tooltip and show the appt
-	header if the event spans over minutes per row.
-
-2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* calendar.error.xml:
-	* gui/calendar-component.c: (update_task_memo_selection),
-	(update_primary_task_memo_selection),
-	(config_tasks_selection_changed_cb),
-	(config_primary_tasks_selection_changed_cb),
-	(config_memos_selection_changed_cb),
-	(config_primary_memos_selection_changed_cb),
-	(create_component_view), (destroy_component_view),
-	(calendar_component_init):
-	* gui/dialogs/comp-editor-page.h:
-	* gui/dialogs/comp-editor.h:
-	* gui/dialogs/memo-editor.c: (memo_editor_construct),
-	(memo_editor_edit_comp), (memo_editor_new):
-	* gui/dialogs/memo-editor.h:
-	* gui/dialogs/memo-page.c: (memo_page_init), (memo_page_finalize),
-	(memo_page_focus_main_widget), (clear_widgets),
-	(sensitize_widgets), (memo_page_fill_widgets),
-	(fill_comp_with_recipients), (get_current_account),
-	(memo_page_fill_component), (get_widgets), (to_button_clicked_cb),
-	(response_cb), (init_widgets), (get_to_entry),
-	(memo_page_construct), (memo_page_new),
-	(memo_page_create_date_edit):
-	* gui/dialogs/memo-page.glade:
-	* gui/dialogs/memo-page.h:
-	* gui/e-cal-component-memo-preview.c: (timet_to_str_with_zone),
-	(write_html):
-	* gui/e-cal-model.c: (ecm_value_at):
-	* gui/e-memo-table-config.c: (e_memo_table_config_set_table):
-	* gui/e-memo-table.c: (date_compare_cb), (e_memo_table_init),
-	(open_memo), (e_memo_table_get_current_time):
-	* gui/e-memo-table.etspec:
-	* gui/e-memo-table.h:
-	* gui/gnome-cal.c: (gnome_calendar_class_init),
-	(get_focus_location), (memo_canvas_focus_change_cb),
-	(memo_selection_change_cb), (update_memo_view), (setup_config),
-	(view_progress_cb), (view_done_cb), (setup_widgets),
-	(gnome_calendar_init), (gnome_calendar_destroy),
-	(gnome_calendar_set_pane_positions), (client_cal_opened_cb),
-	(default_client_cal_opened_cb), (open_ecal), (backend_died_cb),
-	(gnome_calendar_remove_source_by_uid),
-	(gnome_calendar_vpane_realized), (gnome_calendar_vpane_resized),
-	(gnome_calendar_cut_clipboard), (gnome_calendar_copy_clipboard),
-	(gnome_calendar_paste_clipboard),
-	(gnome_calendar_notify_dates_shown_changed),
-	(gnome_calendar_delete_selection),
-	(gnome_calendar_get_memopad_menu):
-	* gui/gnome-cal.h:
-	* gui/memos-component.c: (create_new_memo), (create_local_item_cb),
-	(impl__get_userCreatableItems), (impl_requestCreateItem): Added support
-	shared memos, Gw notes.							
-
-2006-07-21  Andre Klapper  <a9016009@gmx.de>
-
-	* calendar.error.xml: improve calendar read-only error message.
-	Fixes bug #342281.
-
-2006-07-19  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	* gui/e-meeting-time-sel.c :(e_meeting_time_selector_construct)
-	* gui/e-meeting-time-sel-item.c : Drawn freebusy view in calendar with cairo,
-	and changed colors for better look and feel.
-
-2006-07-20  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	* gui/e-day-view.c: Fixed the embossing issue on item selection.
-
-2006-07-19  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	** Fixes bug #347773
-
-	* gui/e-day-view-main-item.c: Bug in Appointment resize preview in calendar 
-	day/work-week view is fixed.
-
-2006-07-19  Andre Klapper  <a9016009@gmx.de>
-
-	* gui/dialogs/calendar-setup.c: harmonize strings.
-	Fixes bug #346552.
-
-2006-07-18  Andre Klapper  <a9016009@gmx.de>
-
-	* calendar.error.xml: removing duplicated error messages, fixing
-	default answers. Fixes bug #347765.
-
-2006-07-18  Andre Klapper  <a9016009@gmx.de>
-
-	* gui/dialogs/calendar-setup.glade:
-	* gui/dialogs/new-calendar.glade:
-	* gui/dialogs/new-task-list.glade:
-	* gui/dialogs/url-editor-dialog.glade:
-	remove "*" from translation. Fixes bug #331147.
-
-2006-07-17  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* gui/apps_evolution_calendar.schemas.in.in: Corrected the text in the
-	schema.
-
-2006-07-17  Li Yuan <li.yuan@sun.com>
-
-	* gui/dialogs/task-page.glade:
-	Add labelled_by relation to start-date and due-date.
-	Fix for #347473.
-
-2006-07-17  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* gui/apps_evolution_calendar.schemas.in.in: Added key for storing tag
-	calendar position in the left pane.
-	* gui/calendar-component.c: (calcomp_vpane_realized),
-	(calcomp_vpane_resized), (create_component_view),
-	(calendar_component_init): Added tag calendar in the left pane
-	* gui/calendar-config-keys.h: Added keys to fetch conf 
-	* gui/calendar-config.c: (calendar_config_get_tag_vpane_pos),
-	(calendar_config_set_tag_vpane_pos):
-	* gui/calendar-config.h:
-	* gui/gnome-cal.c: (setup_config), (gnome_calendar_get_tag),
-	(setup_widgets), (gnome_calendar_set_pane_positions),
-	(gnome_calendar_hpane_realized): Removed code for tag calendar.
-
-2006-07-14   Arvind <sa.phoenix@gmail.com>
-
-        ** Fix for bug#330633
 	* gui/dialogs/event-page.c : Enabled save button when the timezone
 	  is changed from an existing meeting/appointment
 
 	* gui/e-timezone-entry.c : prevented the shrinking of the timezone
 	field when the timezone is set to the default timezone
 
-2006-06-14 Ushveen Kaur <kushveen@novell.com>
-
-	** Fixes bug #329772
-	
-	* gui/e-cal-model-tasks.c: function added to change status of a task 
-	as incomplete.
-	* gui/e-cal-popup.c: status of task checked and changed to incomplete 
-	if option selected.
-	* gui/e-cal-popup.h: E_CAL_POPUP_SELECT_COMPLETE added
-	* gui/e-calendar-table.c: function added to mark the task in selected 
-	row as incomplete.
-
+2006-07-11  Arvind_evo <sa.phoenix@gmail.com>
+  	 
+	* gui/dialogs/event-page.c: Enabled save button when the group is
+	changed from a previously saved meeting.
+ 
 2006-07-11  Li Yuan <li.yuan@sun.com>
 
 	* gui/e-week-view.c: (e_week_view_remove_event_cb):
@@ -238,109 +71,12 @@
 	If there is not any event in week view,
 	just grab week view itself.
 
-2006-07-10  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	* gui/e-day-view.c:(e_day_view_update_event_label)
-	Added code for Day/Work Week view item, top border showing time
-	(e_day_view_realize), (e_day_view_on_event_click), 
-	(e_day_view_on_long_event_click), (e_day_view_reshape_resize_long_event_rect),
-	(e_day_view_reshape_resize_rect_item),(e_day_view_on_top_canvas_motion),
-	(e_day_view_finish_resize),(e_day_view_abort_resize),
-	(e_day_view_reshape_main_canvas_resize_bar):
-	Added code for Resize Transparency with Cairo drawing.
-
-	(e_day_view_on_text_item_event):
-	Fixed crashes because of tooltip during editing and resize.
-
-	* gui/e-day-view-main-canvas.c:
-	(e_day_view_main_item_draw_day_event):
-	Added code for Time displayed on resizing events and for Shadow 
-	Effect for item selection
-
-2006-07-10  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #332911
-	* gui/apps_evolution_calendar.schemas.in.in:
-	* gui/calendar-config-keys.h:
-	* gui/calendar-config.c: (set_standard_offsets),
-	(calendar_config_get_icaltimezone),
-	(calendar_config_add_notification_timezone),
-	(calendar_config_get_daylight_saving),
-	(calendar_config_set_daylight_saving),
-	(calendar_config_add_notification_daylight_saving):
-	* gui/calendar-config.h:
-	* gui/dialogs/cal-prefs-dialog.c: (timezone_changed),
-	(daylight_saving_changed), (setup_changes), (show_config),
-	(calendar_prefs_dialog_construct):
-	* gui/dialogs/cal-prefs-dialog.glade:
-	* gui/dialogs/cal-prefs-dialog.h: Added the support
-	for optional daylight savings time with timezones.
-
-2006-07-08  Ushveen Kaur  <kushveen@novell.com>
-
-	Fixes #332230.
-	* gui/memos-component.c:
-	* gui/tasks-component.c:
-	Fixes mnemonic conflicts in the "New" menu.
-
-2006-07-07  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/e-cal-model.c: (e_cal_model_set_instance_times):
-	Handle the start_time_zone != end_time_zone scenario.
-	Fixes bugzilla.novell.com #190421.
-
 2006-07-07  Wang Xin  <jedy.wang@sun.com>
 
 	Fixes #345222
 
-	* gui/dialogs/alarm-dialog.c: (alarm_to_dialog),
-	(alarm_to_malarm_widgets); (populate_widgets_from_alarm):
-	Handle mail alarm.
-
-2006-06-30  Johnny Jacob  <jjohnny@novell.com>
-	* gui/cal-search-bar.c: (get_current_category),
-	(get_category_sexp), (notify_e_cal_view_contains),
-	(notify_category_is), (regen_query), (regen_view_query),
-	(make_suboptions), (cal_search_bar_construct): Added/Removed code
-	for new search ui.
-	* gui/e-tasks.c: (search_bar_sexp_changed_cb):
-	Added/Removed code for search ui.
-
-2006-06-28  Andre Klapper  <a9016009@gmx.de>
-
-	* gui/e-itip-control.glade: Adding translator comments to the
-	"--to--" string. Removing three strings from translations.
-	Fixes bug #325126.
-
-2006-06-28  Rajeev ramanathan  <rajeevramanathan_2004@yahoo.co.in>
-
-	**Fixes bug #329305
-
-	*gui/dialogs/event-page.glade: Changed mnemonic Atte_ndees to 
-	Attendee_s
-
-2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_calendar):
-	Remove GroupWise from the Calendar ESource Groups as it supports
-	a single calendar only. 
-
-2006-06-19  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/comp-editor.c (fill_widgets):
-	Free GSList and its data after calling 
-	e_cal_component_get_attachment_list.
-
-2006-06-14  Arvind_evo <sa.phoenix@gmail.com>
-
-	* gui/dialogs/event-page.c : Enabled save button when the group is 
-	changed from a previously saved meeting.
-
-2006-06-14  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_task_list):
-	Remove GroupWise from the list Task ESource Groups as it supports
-	a single Task list only. Fixes bug #176596 in bugzilla.novell.com.
+	* gui/dialogs/alarm-dialog.c: (alarm_to_malarm_widgets),
+	(populate_widgets_from_alarm): Handle mail alarm.
 
 2006-06-14  Aishwarya k <aishkalyan@gmail.com>
 
@@ -369,19 +105,31 @@
 	Committing the patch from Dave Malcolm <dmalcolm@redhat.com>
 	Fixed some compiler warnings.
 
+2006-06-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #315860
+	* gui/alarm-notify/alarm-notify-dialog.c: 
+	(dialog_response_cb): pick the function info from
+	the the first iterator.
+	Backporting the fix made by sragavan@novell.com to
+	gnome-2-14 branch.
+	
+2006-06-07  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes bug #304648
+
+	* gui/e-day-view.c :
+	* gui/e-week-view.c : Now the summary appears in white for dark 
+	event colors in all calendar views.
+
 2006-06-12  Wang Xin  <jedy.wang@sun.com>
 
 	**Fixes bug #344630
 	Change key confirm_expunge to confirm_purge.
+
 	* gui/apps_evolution_calendar.schemas.in.in:
 	* gui/migration.c:
 
-2006-06-12  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* gui/alarm-notify/alarm-queue.c: (remove_queued_alarm),
-	(alarm_trigger_cb), (tray_list_remove_async): 	Fixed atleast
-	6 crashes, that were in bnc.
-	
 2006-06-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #341961.
@@ -396,54 +144,29 @@
 	(e_timezone_entry_set_timezone):
 	add relationship between label and entry.
 
-2006-06-05  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixed bug #268884
-	
-	* gui/e-calendar-table.c: (on_new_task): Added a new popup entry.
-	* gui/e-tasks.c: (setup_widgets): Added a reference to table
-
 2006-06-01  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/Makefile.am, gui/dialogs/event-editor.c,
-	gui/dialogs/task-editor.c: Remove redundant files 
+	gui/dialogs/task-editor.c: Remove redundant files
 	meeting-page.[ch], cal-attachment.glade and references
 	in includes.
 
-2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+2006-05-25  Tor Lillqvist  <tml@novell.com>
 
-	** Added support to save calendar/events/attachments to remote
-	shares in Calenda/Memo/Tasks components.
+	* gui/dialogs/event-editor.c (event_editor_init): Construct
+	pathname to query-free-busy.png at run-time. Fixes Win32 build
+	broken by the fix for #321832 below.
 
-	* gui/dialogs/cal-attachment-select-file.c: (run_selector),
-	(comp_editor_select_file_attachments):
-	* gui/dialogs/comp-editor.c: (drop_action), (cab_add),
-	(menu_insert_attachment_cb):
-	* gui/e-cal-popup.c: (temp_save_part):
-	* gui/e-calendar-table.c: (e_calendar_table_on_save_as):
-	* gui/e-calendar-view.c: (on_save_as),
-	(e_calendar_view_get_tooltips):
-	* gui/e-memo-table.c: (e_memo_table_on_save_as):
+2006-05-22  Harish Krishnaswamy  <kharish@novell.com>
 
-2006-05-23  Srinivasa Ragavan  <sragavan@novell.com>
-
-	More alarm fixes
-
-	* gui/alarm-notify/alarm-notify-dialog.c: (dialog_response_cb),
-	(notified_alarms_dialog_new), (tree_selection_changed_cb):
-	* gui/alarm-notify/alarm-queue.c: (query_objects_changed_async),
-	(free_tray_icon_data):
+	* gui/memos-component.c: Revert one change from the
+	previous commit as the string is not already translated
+	and breaks the string freeze.
 
 2006-05-22  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	**Fixes bug #331418
 	* gui/memos-component.c: Set mnemonics in popup menu.
-
-2006-05-13  Harish Krishnaswamy  <kharish@novell.com>
-
-	Patch suggested by Yu-Hui Liu
-	* conduits/todo/todo-conduit.c: (pre_sync):
-	Check for timezone before passing the context.
 
 2006-04-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -454,40 +177,6 @@
 	(e_calendar_view_get_tooltips): Get the timezone from the backend
 	using the tzid if its not present in the icalcomponent.
 
-2006-05-04  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
-	
-	Commited few pending cairo stuff. This adds a macro ENABLE_CAIRO to
-	disable cairo for slow performing machines. Also added a patch to
-	disable gradient and select foreground color based on the back ground
-	color.
-	
-	* gui/apps_evolution_calendar.schemas.in.in:
-	* gui/e-calendar-view.c:
-	* gui/e-calendar-view.h:
-	* gui/e-day-view-main-item.c: (e_day_view_main_item_draw),
-	(e_day_view_main_item_draw_events_in_vbars),
-	(e_day_view_main_item_draw_long_events_in_vbars),
-	(e_day_view_main_item_draw_day_events),
-	(e_day_view_main_item_draw_day_event):
-	* gui/e-day-view-time-item.c: (e_day_view_time_item_draw):
-	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw),
-	(e_day_view_top_item_draw_long_event),
-	(e_day_view_top_item_draw_triangle):
-	* gui/e-day-view.c: (e_day_view_get_text_color),
-	(e_day_view_style_set), (e_day_view_reshape_long_event),
-	(e_day_view_reshape_day_event):
-	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw),
-	(e_week_view_draw_time), (e_week_view_event_item_draw_icons),
-	(e_week_view_event_item_draw_triangle):
-	* gui/e-week-view-main-item.c: (e_week_view_main_item_draw_day):
-	* gui/e-week-view.c: (e_week_view_get_text_color),
-	(e_week_view_reshape_event_span):
-
-2006-05-04  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/event-page.glade: Set mnemonic to
-	L instead of the conflicting 'i'. Fixes #334056.
-
 2006-05-04  Chenthill Palanisamy  <pchenthill novell com>
 
 	Fixes #333689
@@ -495,165 +184,21 @@
 	(init_widgets): Check if the units is -1 before
 	adding the menu item.
 
-2006-05-02  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Committing change pointed by Li Yuan <Li.Yuan@Sun.COM>	
-	
-	* gui/e-calendar-table.c: (e_calendar_table_delete_selected): Corrected
-	argument passed to delete_component_dialog while deleting multiple
-	tasks.	
-
-2006-04-27  Tor Lillqvist  <tml@novell.com>
-
-	* gui/e-day-view-main-item.c
-	(e_day_view_main_item_draw_long_events_in_vbars): Fix crash:
-	Should use a GdkColor struct as such here, not a pointer.
-
-	* gui/dialogs/event-editor.c (event_editor_init): Construct
-	pathname to query-free-busy.png at run-time. Fixes Win32 build
-	broken by the fix for #321832 below.
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-	
-	** Fixes bug #328194
-
-	* gui/dialogs/calendar-setup.c: Added mnemonics.
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fix for bug #331510 from Victor
-	
-	* gui/cal-search-bar.h: Added a new flag for Memo Search
-	* gui/e-memos.c: (setup_widgets): Initiate memo search.
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Patch from PR Suman to add icons missing in menu items.
-
-	* gui/tasks-control.c: (tasks_control_activate): Added icon for
-	forward task.
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Patch from PR Suman to add icons missing in menu items.
-
-	* gui/dialogs/comp-editor.c: Added Attach icon to menu.
-	* gui/dialogs/event-editor.c: Added free/busy and recurrence icons.
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-	
-	Cairo Updates from Rajeev. Now it draws a solid border around the
-	event.
-
-	* gui/e-day-view-main-item.c:
-	(e_day_view_main_item_draw_day_event):
-	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw_long_event):
-	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw):
-
-2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
-
-	Cairo support for Calendar (Rajeev Ramanathan)
-	
-	* gui/apps_evolution_calendar.schemas.in.in: Added key for
-	transparency control.
-	* gui/e-calendar-view.c: (draw_curved_rectangle): A common code for
-	drawing curved rectangles
-	* gui/e-day-view-main-item.c: (e_day_view_main_item_draw),
-	(e_day_view_main_item_draw_events_in_vbars),
-	(e_day_view_main_item_draw_long_events_in_vbars),
-	(e_day_view_main_item_draw_day_event): Used cairo to draw day view events.
-	* gui/e-day-view-time-item.c: 
-	(e_day_view_time_item_get_column_width),
-	(e_day_view_time_item_draw): Used cairo to draw day view time items.
-	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw),
-	(e_day_view_top_item_draw_long_event),
-	(e_day_view_top_item_draw_triangle): Used cairo to draw day view long events.
-	* gui/e-day-view.c: (e_day_view_init), (e_day_view_destroy),
-	(e_day_view_style_set),
-	(e_day_view_reshape_main_canvas_resize_bars),
-	(e_day_view_get_num_events_selected): Used cairo to draw day controls.
-	* gui/e-day-view.h: Added a new font size variable
-	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw),
-	(e_week_view_draw_time), (e_week_view_event_item_draw_icons),
-	(e_week_view_event_item_draw_triangle): Used cairo to draw week view
-	controls.
-	* gui/e-week-view-main-item.c: (e_week_view_main_item_draw_day): Used 
-	cairo to draw week view events.
-
 2006-04-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #332409
+	Fixes #323409
 	* gui/calendar-component.c: (setup_create_ecal): Reset the ecal to NULL.
 	* gui/e-calendar-view.c: 
 	(e_calendar_view_new_appointment_for): If the default client does not
 	exist do not open the dialog.
-
+	
 2006-04-22  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/event-page.c (attendee_added_cb):
-	Added the delfrom property to the delegatee. Fixes
+	Add the delfrom property to the delegatee. Fixes
 	#165714 (bugzilla.novell.com)
 
-2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixes bug #326434
-	
-	* gui/e-calendar-view.c: (e_calendar_view_move_tip),
-	(e_calendar_view_get_tooltips): Added New function to move tooltip
-	with respect to screen size.
-	* gui/e-day-view.c: (e_day_view_on_text_item_event): move the tooltip
-	* gui/e-week-view.c: (tooltip_event_cb),
-	(e_week_view_on_text_item_event): Move the tooltip
-
-2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
-
-	Rewrite of Alarm daemon with EThread to make it thread safe. It also
-	fixes a lot of random crashes.
-
-	* gui/alarm-notify/alarm-notify.c: (process_removal_in_hash),
-	(list_changed_cb), (load_calendars), (alarm_notify_init),
-	(dequeue_client), (alarm_notify_finalize), (alarm_channel_setup),
-	(alarm_msg_destroy), (alarm_msgport_replied), (alarm_msg_received),
-	(alarm_notify_new), (cal_opened_cb), (alarm_notify_add_calendar),
-	(alarm_notify_remove_calendar):
-	* gui/alarm-notify/alarm-notify.h:
-	* gui/alarm-notify/alarm-queue.c: (queue_midnight_refresh),
-	(add_client_alarms_cb), (midnight_refresh_async),
-	(midnight_refresh_cb), (remove_queued_alarm), (alarm_trigger_cb),
-	(add_component_alarms), (load_alarms), (load_alarms_for_today),
-	(cal_opened_cb), (remove_alarms), (remove_comp), (duplicate_ical),
-	(duplicate_ecal), (query_objects_changed_async),
-	(query_objects_changed_cb), (query_objects_removed_async),
-	(query_objects_removed_cb), (create_snooze), (edit_component),
-	(on_dialog_objs_removed_async), (on_dialog_objs_removed_cb),
-	(tray_list_remove_cqa_async), (tray_list_remove_cqa),
-	(tray_list_remove_async), (tray_list_remove_icons),
-	(tray_list_remove_data_async), (tray_list_remove_data),
-	(notify_dialog_cb), (open_alarm_dialog), (tray_icon_clicked_cb),
-	(tray_list_add_async), (tray_list_add_new), (display_notification),
-	(popup_notification), (audio_notification), (mail_notification),
-	(procedure_notification_dialog), (procedure_notification),
-	(check_midnight_refresh), (alarm_queue_init),
-	(free_client_alarms_cb), (alarm_queue_done), (compare_ids),
-	(hash_ids), (alarm_queue_add_async), (alarm_queue_add_client),
-	(remove_cqa), (remove_comp_by_id), (remove_client_alarms),
-	(alarm_queue_remove_async), (alarm_queue_remove_client),
-	(update_cqa), (update_qa):
-	* gui/alarm-notify/alarm.c: (alarm_remove):
-
-2006-02-16  Johnny Jacob  <johnnyjacob@gmail.com>
-
-	** Fixes #330955
-
-	* gui/e-memo-table.etspec : Change the column from summary to 
-	description.
-	* gui/e-cal-model.c : (ecm_duplicate_value) : Dup value for
-	description also.
-	(e_cal_model_create_component_with_defaults) : create a memo
-	component with defaults.
-	* gui/e-cal-model-memos.c : (ecmm_is_cell_editable).
-
-2006-04-10  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-04-07  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #163039
 	* gui/e-meeting-store.c: (ems_finalize), (ems_init),
@@ -665,6 +210,11 @@
 	* gui/e-meeting-time-sel.c: 
 	(e_meeting_time_selector_refresh_cb): Changed the return type of 
 	the function to return a boolean variable.
+
+2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-day-view.c: (e_day_view_on_main_canvas_motion):
+	Enable drag and drop of recurring appointments.
 
 2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -683,12 +233,7 @@
 	(e_meeting_list_view_set_name_selector): Functions to get and set the name
 	selector.
 
-2006-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/e-day-view.c: (e_day_view_on_main_canvas_motion):
-	Enable drag and drop of recurring appointments.
-
-2006-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #162005
 	* gui/comp-util.c: (cal_comp_is_on_server): Pass the recurrence
@@ -701,47 +246,13 @@
 	Because the passing text is in UTF-8 encoding, it should be traversed
 	by utf-8 char order rather than one by one byte.
 
-2006-04-04  Irene Huang <Irene.Huang@sun.com>
+2006-03-20  Irene Huang <Irene.Huang@sun.com>
 
-       	Fixes bug 335214
+        Fixes bug 335214
 
 	* gui/e-cal-model.c: (e_cal_view_objects_added_cb):
         Call e_table_model_pre_change (E_TABLE_MODEL (model)); before
-       	deleting row.
-
-2006-04-03  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #158107
-	* gui/dialogs/delete-comp.c: (delete_component_dialog),
-	(cb_toggled_cb), (prompt_retract_dialog):
-	* gui/dialogs/delete-comp.h:
-	* gui/e-calendar-table.c: (add_retract_data), (check_for_retract),
-	(e_calendar_table_delete_selected):
-	* gui/e-calendar-view.c: (add_retract_data), (check_for_retract),
-	(delete_event), (e_calendar_view_delete_selected_occurrence): Added
-	retract support.
-
-2006-03-29  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #160357 [b.n.c]
-	* gui/e-meeting-store.c: 
-	(ems_init): Initialize the num queries.
-	(freebusy_async): maintain the num queries count.
-	(refresh_busy_periods): Set the store to FreeBusy data.
-	* gui/e-meeting-store.[ch]: 
-	(e_meeting_store_get_num_queries): Get the number of freebusy
-	queries currently going on.
-	* gui/e-meeting-time-sel-item.c:
-	(e_meeting_time_selector_item_init): Added a busy cursor.
-	(e_meeting_time_selector_item_destroy):
-	* gui/e-meeting-time-sel-item.h: Added a busy cursor and a function
-	to reset the normal cursor.
-	* gui/e-meeting-time-sel.c: 
-	* gui/e-meeting-time-sel.h:
-	(e_meeting_time_selector_construct): Get the main and top canvas items.
-	(e_meeting_time_selector_refresh_cb): Set the normal cursor checking the number
-	of FreeBusy queries.
-	(e_meeting_time_selector_refresh_free_busy):Set the Busy cursor.
+        deleting row.
 
 2006-03-28  Jeff Cai  <jeff.cai@sun.com> 
 	
@@ -757,7 +268,7 @@
 	* gui/calendar-component.c: (update_task_selection): need to see if
 	source is NULL to avoid a CRITICAL warning.
 
-2006-03-23  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-03-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #329502
 	* gui/e-meeting-list-view.c: (attendee_edited_cb):
@@ -785,15 +296,6 @@
 
 	* gui/dialogs/alarm-dialog.c: (alarm_to_dalarm_widgets): call
 	set_text only when description.value is not NULL.
-
-2006-03-20  Boby Wang <boby.wang@sun.com>
-
-	** Fix for bug #268584
-
-	* gui/dialogs/cal-attachment-select-file.c: (run_selector):
-	* gui/dialogs/cal-attachment.glade:
-	set the accelerate key for "Suggest Suggest automatic display of
-	attachment"
 
 2006-03-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -13533,4 +13035,3 @@
 
 	* gui/e-tasks.c (e_tasks_delete_completed): no need to do the
 	expunge asyn
-

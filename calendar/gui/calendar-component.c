@@ -86,11 +86,9 @@ typedef struct
 {
 	ESourceList *source_list;
 	ESourceList *task_source_list;
-	ESourceList *memo_source_list;
 	
 	GSList *source_selection;
 	GSList *task_source_selection;
-	GSList *memo_source_selection;
 	
 	GnomeCalendar *calendar;
 
@@ -106,8 +104,6 @@ typedef struct
 	EUserCreatableItemsHandler *creatable_items_handler;
 
 	EActivityHandler *activity_handler;
-	
-	float	     vpane_pos;
 } CalendarComponentView;
 
 struct _CalendarComponentPrivate {
@@ -119,7 +115,6 @@ struct _CalendarComponentPrivate {
 
 	ESourceList *source_list;
 	ESourceList *task_source_list;
-	ESourceList *memo_source_list;
 
 	GList *views;
 
@@ -130,22 +125,6 @@ struct _CalendarComponentPrivate {
 
 /* FIXME This should be gnome cal likely */
 extern ECompEditorRegistry *comp_editor_registry;
-
-static void
-calcomp_vpane_realized (GtkWidget *vpane, CalendarComponentView *view)
-{
-	gtk_paned_set_position (GTK_PANED (vpane), view->vpane_pos*vpane->allocation.height);
-}
-
-static gboolean
-calcomp_vpane_resized (GtkWidget *vpane, GdkEventButton *e, CalendarComponentView *view)
-{
-
-	view->vpane_pos = gtk_paned_get_position (GTK_PANED (vpane));
-	calendar_config_set_tag_vpane_pos (view->vpane_pos/(float)vpane->allocation.height);
-
-	return FALSE;
-}
 
 static void
 ensure_sources (CalendarComponent *component)
@@ -409,52 +388,39 @@ update_selection (CalendarComponentView *component_view)
 }
 
 static void
-update_task_memo_selection (CalendarComponentView *component_view, ECalSourceType type)
+update_task_selection (CalendarComponentView *component_view)
 {
-	GSList *uids_selected, *l, *source_selection;
-	ESourceList *source_list = NULL;
+	GSList *uids_selected, *l;
 
-	if (type == E_CAL_SOURCE_TYPE_TODO) {
-		/* Get the selection in gconf */
-		uids_selected = calendar_config_get_tasks_selected ();
-		source_list = component_view->task_source_list;
-		source_selection = component_view->task_source_selection;
-		
-	} else {
-		uids_selected = calendar_config_get_memos_selected ();
-		source_list = component_view->memo_source_list;
-		source_selection = component_view->memo_source_selection;
-	}
+	/* Get the selection in gconf */
+	uids_selected = calendar_config_get_tasks_selected ();
 
 	/* Remove any that aren't there any more */
-	for (l = source_selection; l; l = l->next) {
+	for (l = component_view->task_source_selection; l; l = l->next) {
 		char *uid = l->data;
 		ESource *source;
 
-		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->task_source_list, uid);
 		if (!source)
-			gnome_calendar_remove_source_by_uid (component_view->calendar, type, uid);
+			gnome_calendar_remove_source_by_uid (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, uid);
 		else if (!is_in_uids (uids_selected, source))
-			gnome_calendar_remove_source (component_view->calendar, type, source);
+			gnome_calendar_remove_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source);
 		
 		g_free (uid);
 	}
-	g_slist_free (source_selection);
+	g_slist_free (component_view->task_source_selection);
 
 	/* Make sure the whole selection is there */
 	for (l = uids_selected; l; l = l->next) {
 		char *uid = l->data;
 		ESource *source;
 
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-		if (source && !gnome_calendar_add_source (component_view->calendar, type, source))
+		source = e_source_list_peek_source_by_uid (component_view->task_source_list, uid);
+		if (source && !gnome_calendar_add_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source))
 			/* FIXME do something */;
 	}
 
-	if (type == E_CAL_SOURCE_TYPE_TODO)
-		component_view->task_source_selection = uids_selected;
-	else
-		component_view->memo_source_selection = uids_selected;
+	component_view->task_source_selection = uids_selected;
 }
 
 static void
@@ -480,28 +446,20 @@ update_primary_selection (CalendarComponentView *component_view)
 }
 
 static void
-update_primary_task_memo_selection (CalendarComponentView *component_view, ECalSourceType type)
+update_primary_task_selection (CalendarComponentView *component_view)
 {
 	ESource *source = NULL;
 	char *uid;
-	ESourceList *source_list = NULL;
 
-	if (type == E_CAL_SOURCE_TYPE_TODO) {
-		uid = calendar_config_get_primary_tasks ();
-		source_list = component_view->task_source_list;
-	} else {
-		uid = calendar_config_get_primary_memos ();
-		source_list = component_view->memo_source_list;
-	}
-
+	uid = calendar_config_get_primary_tasks ();
 	if (uid) {
-		source = e_source_list_peek_source_by_uid (source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->task_source_list, uid);
 
 		g_free (uid);
 	}
 	
 	if (source)
-		gnome_calendar_set_default_source (component_view->calendar, type, source);
+		gnome_calendar_set_default_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source);
 }
 
 /* Callbacks.  */
@@ -772,27 +730,14 @@ config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *
 static void
 config_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
-	update_task_memo_selection (data, E_CAL_SOURCE_TYPE_TODO);
+	update_task_selection (data);
 }
 
 
 static void
 config_primary_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
-	update_primary_task_memo_selection (data, E_CAL_SOURCE_TYPE_TODO);
-}
-
-static void
-config_memos_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	update_task_memo_selection (data, E_CAL_SOURCE_TYPE_JOURNAL);
-}
-
-
-static void
-config_primary_memos_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	update_primary_task_memo_selection (data, E_CAL_SOURCE_TYPE_JOURNAL);
+	update_primary_task_selection (data);
 }
 
 /* Evolution::Component CORBA methods.  */
@@ -1193,11 +1138,8 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 							 _("Unable to open the calendar '%s' for creating events and meetings"), 
 							 e_source_peek_name (source));
-
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
-			g_object_unref (priv->create_ecal);
-			priv->create_ecal = NULL;
 
 			return NULL;
 		}
@@ -1303,7 +1245,7 @@ create_component_view (CalendarComponent *calendar_component)
 {
 	CalendarComponentPrivate *priv;
 	CalendarComponentView *component_view;
-	GtkWidget *selector_scrolled_window, *vbox, *vpane;
+	GtkWidget *selector_scrolled_window, *vbox;
 	GtkWidget *statusbar_widget;
 	guint not;
 	AtkObject *a11y;
@@ -1313,17 +1255,9 @@ create_component_view (CalendarComponent *calendar_component)
 	/* Create the calendar component view */
 	component_view = g_new0 (CalendarComponentView, 1);
 	
-	vpane = gtk_vpaned_new ();
-	g_signal_connect_after (vpane, "realize",
-				G_CALLBACK(calcomp_vpane_realized), component_view);
-	g_signal_connect (vpane, "button_release_event",
-			  G_CALLBACK (calcomp_vpane_resized), component_view);
-	gtk_widget_show (vpane);
 	/* Add the source lists */
 	component_view->source_list = g_object_ref (priv->source_list);
 	component_view->task_source_list = g_object_ref (priv->task_source_list);
-	component_view->memo_source_list = g_object_ref (priv->memo_source_list);
-	component_view->vpane_pos = calendar_config_get_tag_vpane_pos ();
 	
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (calendar_component->priv->source_list);
@@ -1361,10 +1295,8 @@ create_component_view (CalendarComponent *calendar_component)
 	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
-	
-	gtk_paned_pack1 (GTK_PANED (vpane), vbox, FALSE, TRUE);	
-	
-	component_view->sidebar_control = bonobo_control_new (vpane);
+
+	component_view->sidebar_control = bonobo_control_new (vbox);
 
 	/* Create main view */
 	component_view->view_control = control_factory_new_control ();
@@ -1373,10 +1305,8 @@ create_component_view (CalendarComponent *calendar_component)
 
 		return NULL;
 	}
-	
-	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
 
-	gtk_paned_pack2 (GTK_PANED (vpane), gnome_calendar_get_tag (component_view->calendar), FALSE, TRUE);	
+	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
 
 	/* This signal is thrown if backends die - we update the selector */
 	g_signal_connect (component_view->calendar, "source_added", 
@@ -1415,26 +1345,16 @@ create_component_view (CalendarComponent *calendar_component)
 	/* Load the selection from the last run */
 	update_selection (component_view);	
 	update_primary_selection (component_view);
-	update_task_memo_selection (component_view, E_CAL_SOURCE_TYPE_TODO);
-	update_primary_task_memo_selection (component_view, E_CAL_SOURCE_TYPE_TODO);
-	update_task_memo_selection (component_view, E_CAL_SOURCE_TYPE_JOURNAL);
-	update_primary_task_memo_selection (component_view, E_CAL_SOURCE_TYPE_JOURNAL);
+	update_task_selection (component_view);
+	update_primary_task_selection (component_view);
 
-	/* If the tasks/memos selection changes elsewhere, update it for the mini
+	/* If the tasks selection changes elsewhere, update it for the mini
 	   mini tasks view sidebar */
 	not = calendar_config_add_notification_tasks_selected (config_tasks_selection_changed_cb, 
 							       component_view);
 	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
 
-	not = calendar_config_add_notification_memos_selected (config_memos_selection_changed_cb, 
-							       component_view);
-	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
-
 	not = calendar_config_add_notification_primary_tasks (config_primary_tasks_selection_changed_cb, 
-							      component_view);
-	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
-	
-	not = calendar_config_add_notification_primary_memos (config_primary_memos_selection_changed_cb, 
 							      component_view);
 	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
 
@@ -1451,9 +1371,6 @@ destroy_component_view (CalendarComponentView *component_view)
 
 	if (component_view->task_source_list)
 		g_object_unref (component_view->task_source_list);
-	
-	if (component_view->memo_source_list)
-		g_object_unref (component_view->memo_source_list);
 
 	if (component_view->source_selection)
 		e_source_selector_free_selection (component_view->source_selection);
@@ -1696,10 +1613,7 @@ calendar_component_init (CalendarComponent *component)
 
 	component->priv = priv;
 	ensure_sources (component);
-
 	if (!e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
-		;
-	if (!e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL))
 		;
 }
 

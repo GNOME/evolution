@@ -72,7 +72,7 @@ guint e_attachment_bar_get_num_attachments (EAttachmentBar *bar);
 void e_attachment_bar_attach (EAttachmentBar *bar, const char *file_name, const char *disposition);
 void e_attachment_bar_attach_mime_part (EAttachmentBar *bar, CamelMimePart *part);
 int e_attachment_bar_get_download_count (EAttachmentBar *bar);
-void e_attachment_bar_attach_remote_file (EAttachmentBar *bar, const char *url, const char *disposition);
+void e_attachment_bar_attach_remote_file (EAttachmentBar *bar, const char *url);
 GSList *e_attachment_bar_get_attachment (EAttachmentBar *bar, int id);
 void e_attachment_bar_add_attachment (EAttachmentBar *bar, EAttachment *attachment);
 void e_attachment_bar_edit_selected (EAttachmentBar *bar);

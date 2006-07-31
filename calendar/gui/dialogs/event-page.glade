@@ -77,7 +77,7 @@
 	      <child>
 		<widget class="GtkLabel" id="location-label">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Location:</property>
+		  <property name="label" translatable="yes">Locat_ion:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -855,7 +855,7 @@
 			      <child>
 				<widget class="GtkLabel" id="attendees-label">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Attendee_s...</property>
+				  <property name="label" translatable="yes">Atte_ndees...</property>
 				  <property name="use_underline">True</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>

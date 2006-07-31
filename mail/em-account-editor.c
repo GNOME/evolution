@@ -1883,7 +1883,7 @@ emae_option_entry_changed(GtkEntry *entry, EMAccountEditorService *service)
 }
 
 static GtkWidget *
-emae_option_entry(EMAccountEditorService *service, CamelURL *url, const char *name, const char *def, GtkWidget *l)
+emae_option_entry(EMAccountEditorService *service, CamelURL *url, const char *name, const char *def)
 {
 	GtkWidget *w;
 	const char *val = camel_url_get_param(url, name);
@@ -1900,7 +1900,6 @@ emae_option_entry(EMAccountEditorService *service, CamelURL *url, const char *na
 	w = g_object_new(gtk_entry_get_type(),
 			 "text", val,
 			 NULL);
-	gtk_label_set_mnemonic_widget ((GtkLabel*)l, w);
 	g_object_set_data((GObject *)w, "option-name", (void *)name);
 	g_signal_connect(w, "changed", G_CALLBACK(emae_option_entry_changed), service);
 	gtk_widget_show(w);
@@ -2105,7 +2104,7 @@ section:
 		case CAMEL_PROVIDER_CONF_ENTRY:
 			l = g_object_new(gtk_label_get_type(), "label", entries[i].text, "xalign", 0.0, "use_underline", TRUE, NULL);
 			gtk_widget_show(l);
-			w = emae_option_entry(service, url, entries[i].name, entries[i].value, l);
+			w = emae_option_entry(service, url, entries[i].name, entries[i].value);
 			gtk_table_attach((GtkTable *)parent, l, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 			gtk_table_attach((GtkTable *)parent, w, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 			if (depw) {

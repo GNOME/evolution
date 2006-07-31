@@ -1,45 +1,20 @@
-2006-07-18  Andre Klapper  <a9016009@gmx.de>
-
-	* properties.glade: remove "*" from translation. Fixes bug #331147.
-
-2006-07-17  Sankar P  <psankar@novell.com>
-
-	* mail-retract.c: (retract_mail_settings)
-	Made the success message translatable and fixed a typo.
-	
-2006-07-17  Sankar P  <psankar@novell.com>
-
-	* mail-send-options.c: (feed_input_data)
-	* mail-send-options.h:
-	Added support for X_SEND_OPT_SECURITY
-	
-2006-07-17  Sankar P  <psankar@novell.com>
-
-	* Added support for GroupWise Message Retract
-	* Files added: mail-retract.c, org-gnome-mail-retract-errors.xml
-	* Files modified: org-gnome-groupwise-features.eplug.xml, Makefile.am
-	
 2006-06-29  Andre Klapper  <a9016009@gmx.de>
 
 	* proxy-login.c: add translator comments to the string "Proxy 
 	login". Fixes bug #345055.
 
-2006-06-12  Sankar P  <psankar@novell.com>
+2006-05-26  Sankar P  <psankar@novell.com>
 
-	* proxy-login.c: org-gnome-proxy-login-errors.xml:
-	Handled error case to not allow proxy login to the same account 
-	more than once. Fixes #340535
-
+	* org-gnome-proxy-login-errors.xml:
+	proxy-login.c: 
+	Dont allow the same user to be proxied twice.
+	Fixes #340535
+	
 2006-05-31  David Richards  <drichard@largo.com>
 
 	* proxy-login-dialog.glade:
 	Increases the height of the dialog to make it easily usable
 	
-2006-04-24  Sankar P  <psankar@novell.com>
-
-	* org-gnome-proxy-login-errors.xml:
-	Changed the ; in the end to a . in an error message
-
 2006-03-01  Sankar P  <psankar@novell.com>
 
 	* proxy-login.c: (proxy_get_password) 

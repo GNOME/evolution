@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.7.90, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.6.3, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
 # Gross hack to enable 'make dist' on automake 1.9+tar 1.14.
@@ -27,7 +27,7 @@ dnl This is for api/versioning tracking for things like bonobo .server files
 dnl
 dnl This should always be the major/minor of the stable version or stable version to be
 dnl *************************************************************************************************
-BASE_VERSION=2.8
+BASE_VERSION=2.6
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
@@ -49,7 +49,7 @@ dnl The controls whether things like the development warning in shell/main.c are
 dnl
 dnl This should be set to 0 for stable releases and 1 for unstable releases
 dnl *************************************************************************************************
-AC_DEFINE(DEVELOPMENT, 1, [If we are in development mode or not])
+AC_DEFINE(DEVELOPMENT, 0, [If we are in development mode or not])
 AC_SUBST(DEVELOPMENT)
 
 AC_ISC_POSIX
@@ -80,8 +80,9 @@ AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
 AC_SUBST(HAVE_JW)
 
 dnl I18N stuff
-AC_PROG_INTLTOOL([0.35.0])
+AC_PROG_INTLTOOL([0.30])
 
+ALL_LINGUAS="am ar az be bg bn br bs ca cs cy da de dz el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hi hr hu id is it ja ka ko ku lt lv mn mk ms nb ne nl nn no pa pl pt pt_BR ro ru rw sk sl sq sr sr@Latn sv ta te th tr uk vi wa xh zh_CN zh_HK zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-$BASE_VERSION
@@ -423,18 +424,8 @@ no)
 		;;
 	esac
 esac
-
-SAVE_CFLAGS="$CFLAGS"
-SAVE_LIBS="$LIBS"
-LDAP_CFLAGS="-DLDAP_DEPRECATED"
-CFLAGS="$CFLAGS $LDAP_CFLAGS"
-LIBS="$LIBS $LDAP_LIBS"
-AC_CHECK_FUNCS(ldap_ntlm_bind)
-CFLAGS="$SAVE_CFLAGS"
-LIBS="$SAVE_LIBS"
-
 else # Win32
-LDAP_CFLAGS="-DLDAP_DEPRECATED"
+LDAP_CFLAGS=""
 LDAP_LIBS="-lwldap32"
 AC_SUBST(LDAP_CFLAGS)
 AC_SUBST(LDAP_LIBS)
@@ -442,30 +433,6 @@ AC_DEFINE(HAVE_LDAP,1,[Define if you have LDAP support])
 AM_CONDITIONAL(ENABLE_LDAP, true)
 msg_ldap="yes"
 fi # Win32
-
-dnl **************************************************
-dnl SunLDAP support, but if OpenLDAP support, skip check SunLDAP.
-dnl **************************************************
-if test "$with_openldap" = no ; then
-	EVO_SUNLDAP_CHECK(no)
-	case $with_sunldap in
-	no)
-               msg_ldap=no
-               ;;
-       *)
-               case $with_static_sunldap in
-               yes)
-                       msg_ldap="$with_sunldap (static)"
-                       ;;
-               *)
-                       msg_ldap="$with_sunldap (dynamic)"
-                       ;;
-               esac
-       esac
-else
-       with_sunldap=no
-fi
-AM_CONDITIONAL(SUNLDAP, test "$with_sunldap" != no)
 
 dnl **************************************************
 dnl NNTP support.
@@ -505,19 +472,6 @@ else
 	msg_imap4=no
 fi
 AM_CONDITIONAL(ENABLE_IMAP4, test x$enable_imap4 = xyes)
-
-dnl **************************************************
-dnl Cairo Calendar support.
-dnl **************************************************
-AC_ARG_ENABLE(cairo-calendar,
-[  --enable-cairo-calendar=[no/yes]      Build evolution calendar with cairo support.],,enable_cairo_calendar="yes")
-if test "x$enable_cairo_calendar" = "xyes"; then
-        AC_DEFINE(ENABLE_CAIRO,1,[Build evolution with cairo support])
-        msg_cairo=yes
-else
-        msg_cairo=no
-fi
-AM_CONDITIONAL(ENABLE_CAIRO, test x$enable_cairo_calendar = xyes)
 
 dnl **************************************************
 dnl * Posix thread support
@@ -782,7 +736,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	
 	if test "x${check_manually}" = "xno"; then
 		AC_MSG_CHECKING(Mozilla NSPR pkg-config module name)
-		mozilla_nspr_pcs="nspr mozilla-nspr firefox-nspr xulrunner-nspr seamonkey-nspr"
+		mozilla_nspr_pcs="nspr mozilla-nspr firefox-nspr"
 		for pc in $mozilla_nspr_pcs; do
 			if $PKG_CONFIG --exists $pc; then
 				AC_MSG_RESULT($pc)
@@ -792,7 +746,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		done
 		
 		AC_MSG_CHECKING(Mozilla NSS pkg-config module name)
-		mozilla_nss_pcs="nss mozilla-nss firefox-nss xulrunner-nss seamonkey-nss"
+		mozilla_nss_pcs="nss mozilla-nss firefox-nss"
 		for pc in $mozilla_nss_pcs; do
 			if $PKG_CONFIG --exists $pc; then
 				AC_MSG_RESULT($pc)
@@ -822,7 +776,6 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	fi
 	
 	if test "x${check_manually}" = "xyes"; then
-		mozilla_nss=""
 		have_nspr_includes="no"
 		if test "x${with_nspr_includes}" != "xno"; then
 			CPPFLAGS_save="$CPPFLAGS"
@@ -1154,7 +1107,7 @@ dnl --- Required version numbers
 
 GTKHTML_REQUIRED=3.7.0
 GTKHTML_PACKAGE=3.8
-EDS_REQUIRED=1.7.90
+EDS_REQUIRED=1.3.1
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
 GNOME_VFS_REQUIRED=2.4
@@ -1703,7 +1656,6 @@ help/Makefile
 help/C/Makefile
 help/quickref/Makefile
 help/quickref/C/Makefile
-help/quickref/de/Makefile
 shell/Makefile
 shell/evolution-nognome
 ui/Makefile

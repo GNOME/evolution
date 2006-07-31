@@ -186,7 +186,6 @@ im_service [] =
 	{ E_CONTACT_IM_AIM,       N_ ("AIM")       },
 	{ E_CONTACT_IM_JABBER,    N_ ("Jabber")    },
 	{ E_CONTACT_IM_YAHOO,     N_ ("Yahoo")     },
-	{ E_CONTACT_IM_GADUGADU,  N_ ("Gadu-Gadu") },
 	{ E_CONTACT_IM_MSN,       N_ ("MSN")       },
 	{ E_CONTACT_IM_ICQ,       N_ ("ICQ")       },
 	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") }
@@ -608,23 +607,15 @@ sensitize_ok (EContactEditor *ce)
 	gboolean   allow_save;
 	GtkWidget *entry_fullname;
 	GtkWidget *entry_file_as;
-	GtkWidget *company_name;
 	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
 	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
-	company_name = glade_xml_get_widget (ce->gui, "entry-company");
 	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
 	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
-	const char *company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));
 
 	allow_save = ce->target_editable && ce->changed ? TRUE : FALSE;
 
-	if (!strcmp (name_entry_string, "") || !strcmp (file_as_entry_string, "")) {
-		if (strcmp (company_name_string , "")) {
-			allow_save = TRUE;
-		}
-		else
-			allow_save = FALSE;
-	}
+	if (!strcmp (name_entry_string, "") || !strcmp (file_as_entry_string, ""))
+		allow_save = FALSE;
 	widget = glade_xml_get_widget (ce->gui, "button-ok");
 	gtk_widget_set_sensitive (widget, allow_save);
 }
@@ -2193,10 +2184,10 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	}
 	else if (E_IS_IMAGE_CHOOSER (widget)) {
 		EContactPhoto *photo = e_contact_get (contact, field_id);
-		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
+		if (photo) {
 			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (widget),
-							photo->data.inlined.data,
-							photo->data.inlined.length);
+							photo->data,
+							photo->length);
 			editor->image_set = TRUE;
 		}
 		else {
@@ -2260,16 +2251,15 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	}
 	else if (E_IS_IMAGE_CHOOSER (widget)) {
 		EContactPhoto photo;
-		photo.type = E_CONTACT_PHOTO_TYPE_INLINED;
 		if (editor->image_changed)
 		{
 			if (editor->image_set &&
 			    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
-							    &photo.data.inlined.data, &photo.data.inlined.length)) {
+							    &photo.data, &photo.length)) {
 				GdkPixbuf *pixbuf, *new;
 				GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 				
-				gdk_pixbuf_loader_write (loader, photo.data.inlined.data, photo.data.inlined.length, NULL);
+				gdk_pixbuf_loader_write (loader, photo.data, photo.length, NULL);
 				gdk_pixbuf_loader_close (loader, NULL);
 				
 				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
@@ -2293,8 +2283,8 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 						
 						new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 						if (new) {
-							g_free(photo.data.inlined.data);
-							gdk_pixbuf_save_to_buffer (new, &photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
+							g_free(photo.data);
+							gdk_pixbuf_save_to_buffer (new, &photo.data, &photo.length, "jpeg", NULL, "quality", "100", NULL);
 							g_object_unref (new);
 						}
 						
@@ -2307,7 +2297,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 				
 				e_contact_set (contact, field_id, &photo);
 				
-				g_free (photo.data.inlined.data);
+				g_free (photo.data);
 				
 			}
 			else {
@@ -2566,19 +2556,40 @@ source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor 
 						   (EBookCallback) new_target_cb, editor);
 }
 
-static void
-full_name_response (GtkDialog *dialog, int response, EContactEditor *editor)
+static gboolean
+full_name_key_press_event( GtkWidget *widget, GdkEventKey *event, EContactEditor *editor)
 {
-	EContactName *name;
-	GtkWidget *fname_widget;
-	int style = 0;
-	gboolean editable = FALSE;
+	if (event->keyval == GDK_Return) {
+		gtk_dialog_response (GTK_DIALOG (widget), GTK_RESPONSE_OK);
+		return TRUE;
+	}
+	return FALSE;
+}
 
-	g_object_get (dialog, 
-		      "editable", &editable,
+static void
+full_name_clicked (GtkWidget *button, EContactEditor *editor)
+{
+	GtkDialog *dialog = GTK_DIALOG (e_contact_editor_fullname_new (editor->name));
+	gboolean fullname_supported;
+	int result;
+
+	fullname_supported = is_field_supported (editor, E_CONTACT_FULL_NAME);
+
+	g_object_set (dialog,
+		      "editable", fullname_supported & editor->target_editable,
 		      NULL);
 
-	if (editable && response == GTK_RESPONSE_OK) {
+	g_signal_connect (GTK_WIDGET (dialog), "key-press-event", G_CALLBACK (full_name_key_press_event), editor);
+
+	gtk_widget_show (GTK_WIDGET(dialog));
+	result = gtk_dialog_run (dialog);
+	gtk_widget_hide (GTK_WIDGET (dialog));
+
+	if (fullname_supported && editor->target_editable && result == GTK_RESPONSE_OK) {
+		EContactName *name;
+		GtkWidget *fname_widget;
+		int style = 0;
+
 		g_object_get (dialog,
 			      "name", &name,
 			      NULL);
@@ -2600,45 +2611,11 @@ full_name_response (GtkDialog *dialog, int response, EContactEditor *editor)
 
 		file_as_set_style(editor, style);
 	}
-	gtk_widget_hide (GTK_WIDGET (dialog));
-}
-
-static gint
-full_name_editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-	if (widget) {
-		if (GTK_IS_WIDGET (widget))
-			gtk_widget_destroy(widget);
-		}
-	return TRUE;
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
-full_name_clicked (GtkWidget *button, EContactEditor *editor)
-{
-	GtkDialog *dialog = GTK_DIALOG (e_contact_editor_fullname_new (editor->name));
-	gboolean fullname_supported;
-	
-	
-	fullname_supported = is_field_supported (editor, E_CONTACT_FULL_NAME);
-
-	g_object_set (dialog,
-		      "editable", fullname_supported & editor->target_editable,
-		      NULL);
-
-	g_signal_connect(dialog, "response",
-			G_CALLBACK (full_name_response), editor);
-	
-	/* Close the fullname dialog if the editor is closed */
-	g_signal_connect_swapped (EAB_EDITOR (editor), "editor_closed",
-			    G_CALLBACK (full_name_editor_delete_event_cb), GTK_WIDGET (dialog));
-
-	gtk_widget_show (GTK_WIDGET(dialog));
-}
-
-
-static void
-categories_response (GtkDialog *dialog, int response, EContactEditor *editor)
+response (GtkDialog *dialog, int response, EContactEditor *editor)
 {
 	const char *categories;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
@@ -2653,13 +2630,22 @@ categories_response (GtkDialog *dialog, int response, EContactEditor *editor)
 	gtk_widget_hide(GTK_WIDGET(dialog));
 }
 
-static gint
-categories_editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+static gboolean
+categories_key_press_event( GtkWidget *widget, GdkEventKey *event, EContactEditor *editor)
 {
-	if (widget) {
+	if (event->keyval == GDK_Return) {
+		gtk_dialog_response (GTK_DIALOG (widget), GTK_RESPONSE_OK);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static gint
+editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	if (widget)
 		if (GTK_IS_WIDGET (widget))
 			gtk_widget_destroy(widget);
-		}
 	return TRUE;
 }
 
@@ -2681,12 +2667,14 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 		return;
 	}
 	
+	g_signal_connect (GTK_WIDGET (dialog), "key-press-event", G_CALLBACK (categories_key_press_event), editor);
+
 	g_signal_connect(dialog, "response",
-			G_CALLBACK (categories_response), editor);
+			G_CALLBACK (response), editor);
 	
 	/* Close the category dialog if the editor is closed*/
 	g_signal_connect_swapped (EAB_EDITOR (editor), "editor_closed",
-			    G_CALLBACK (categories_editor_delete_event_cb), GTK_WIDGET (dialog));
+			    G_CALLBACK (editor_delete_event_cb), GTK_WIDGET (dialog));
 	
 	gtk_widget_show(GTK_WIDGET(dialog));
 	g_free (categories);
@@ -2790,7 +2778,7 @@ static void
 image_clicked (GtkWidget *button, EContactEditor *editor)
 {
 	const gchar *title = _("Please select an image for this contact");
-	const gchar *no_image = _("_No image");
+	const gchar *no_image = _("No image");
 	GtkImage *preview;
 
 	if (!editor->file_selector) {
@@ -2996,24 +2984,6 @@ save_contact (EContactEditor *ce, gboolean should_close)
 		if (e_error_run (GTK_WINDOW (ce->app), "addressbook:prompt-move", NULL) == GTK_RESPONSE_NO)
 			return;
 	}
-
-	GtkWidget *entry_fullname;
-	GtkWidget *entry_file_as;
-	GtkWidget *company_name;
-	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
-	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
-	company_name = glade_xml_get_widget (ce->gui, "entry-company");
-	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
-	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
-	const char *company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));
-
-	if (strcmp (company_name_string , "")) {
-		if (!strcmp (name_entry_string, "")) 
-			gtk_entry_set_text (GTK_ENTRY (entry_fullname), company_name_string);
-		if (!strcmp (file_as_entry_string, ""))
-			gtk_entry_set_text (GTK_ENTRY (entry_file_as), company_name_string);
-	}
-
 	extract_all (ce);
 	
 	if (!e_contact_editor_is_valid (EAB_EDITOR (ce))) {
@@ -3060,7 +3030,6 @@ static const EContactField  non_string_fields [] = {
 	E_CONTACT_IM_GROUPWISE,
 	E_CONTACT_IM_JABBER,
 	E_CONTACT_IM_YAHOO,
-	E_CONTACT_IM_GADUGADU,
 	E_CONTACT_IM_MSN,
 	E_CONTACT_IM_ICQ,
 	E_CONTACT_PHOTO,

@@ -6,40 +6,13 @@
 	* e-shell-window.c: (impl_dispose): Fix warnings at build-time, and
 	clean up the connections to the D-Bus on exit (Closes: #332387)
 
-2006-07-13  Srinivasa Ragavan  <sragavan@novell.com>
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
-	** Fix for bug #345331
+	** Fix for bug #341334
 	
-	* e-user-creatable-items-handler.c: (set_combo_button_style): Default
-	to both style.
-
-2006-07-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
-
-	** Fixes bug #347182
-	* e-user-creatable-items-handlers.c:
-	(set_combo_button_style): New function.
-	(new_button_change): Call set_combo_button_style.
-	(setup_toolbar_button): Call set_combo_button_style.
-
-2006-07-07  Li Yuan  <li.yuan@sun.com>
-
-	* e-shell-window.c: (setup_widgets):
-	Fix for #346613.
-	Fix the problem pointed out by Johnny <jjohnny@novell.com>.
-	When maximize Evolution, close and start Evolution sometimes,
-	the sidebar grows towards right. Set the view_notebook can be expanded
-	when the paned widget is resized.
-
-2006-07-05  Li Yuan  <li.yuan@sun.com>
-
-	* e-shell-window.c: (setup_widgets):
-	Fix for #346613.
-	Make the view_notebook cannot be resized shorter than its need.
-
-2006-06-21  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* e-user-creatable-items-handler.c: (setup_toolbar_button): Fixed a
-	minor packing issue in New button.
+	* e-component-registry.c: (e_component_registry_peek_info): Check for
+	the presence of the fields before comparing. Exchange component wont
+	have these alias/etc.
 
 2006-06-17  Tor Lillqvist  <tml@novell.com>
 
@@ -51,75 +24,27 @@
 	bonobo_activation_active_server_unregister() here, when the EShell
 	Bonobo object is still fully active.
 
-2006-06-19  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixes bug #252814
-	
-	* e-user-creatable-items-handler.c: (new_button_change),
-	(setup_toolbar_button), (e_user_creatable_items_handler_activate):
-	Read the toolbar setting and set the combo button. Patch from Oswald.
-
-2006-06-17  Andre Klapper  <a9016009@gmx.de>
-
-	* main.c: update last stable version number from 2.6.1 to 2.6.2
-
-2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fix for bug #341334
-	
-	* e-component-registry.c: (e_component_registry_peek_info): Check for
-	the presence of the fields before comparing. Exchange component wont
-	have these alias/etc.
-
-2006-05-15  Li Yuan <li.yuan@sun.com>
+2006-06-09  Li Yuan <li.yuan@sun.com>
 
 	Fixes #341525
 
 	* e-sidebar.c: (button_toggled_callback):
 	If the button has been selected, it is no need to emit the signal.
 
-2006-04-30  Nancy Cai <nancy.cai@sun.com>
-
-	Fixes #323853
-
-	* e-shell-importer.c: (filename_changed), (item_selected),
-	(importer_file_page_new), (prepare_file_page):
-	replacing GnomeFileEntry by GtkFileButton, which can import task files
-	with none UTF-8 filenames.
-
-2006-04-27  Andre Klapper  <a9016009@gmx.de>
-
-	* main.c: update last stable version number from 2.4.2.1 to 2.6.1
-
-2006-04-24  Harish Krishnaswamy  <kharish@novell.com>
-
-	* main.c: (kill_dataserver): add eds-1.4 and eds-1.6
-	to the list of old instances.
-
-2006-04-24  Harish Krishnaswamy  <kharish@novell.com>
-
-	* e-shell-window-commands.c: Update credits for
-	the previous development series.
-
-2006-04-06  Alejandro Andres <fuzzy.alej@gmail.com>
-
-	* e-shell-view.c
-	* e-shell-window.c
-
-	Fixes #337258. Now Evolution is shown at the end of the title bar.
-
-2006-04-21  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixes bug #329731
-
-	* apps_evolution_shell.schemas.in.in: Added schema to maintain the
-	visibility of status bar.
-
 2006-04-18  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-shell-nm.c (e_shell_network_monitor): Intercept the
 	Disconnected signal and setup a timeout to try and reconnect when
 	the dbus daemon comes back up.
+
+2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	* main.c (kill_dataserver): add evolution-data-server-1.4
+	to the list of old dataserver instances.
+
+2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-shell-window-commands.c: Update credits.
 
 2006-02-21  Tor Lillqvist  <tml@novell.com>
 
@@ -197,9 +122,10 @@
 
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
-	* e-shell-nm-glib.c (e_shell_nm_glib_initialise): Remove
-	suspicious and possibly redundant register/unregister calls. Fixes
-	#325364 (critical warning crasher).
+	* e-shell-nm-glib.c: (e_shell_nm_glib_initialise):
+	Remove suspicious and possibly redundant 
+	register/unregister calls. Fixes #325364 (critical
+	warning crasher).
 
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
@@ -225,6 +151,7 @@
 
 	* shell.error.xml: fixed two dead links to "support.ximian.com" now to
 	the (yet to come) FAQ at go-evolution.org. (#315866)
+
 
 2005-12-22  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
@@ -269,44 +196,44 @@
 	e_shell_go_online.
 	
 2005-12-21  Not Zed  <NotZed@Ximian.com>
-
-	* e-shell-view.c (impl_ShellView_setTitle): take a component id
-	argument.
-
-	* e-shell-window.c (component_view_free): release the corba object
-	properly.
-	(e_shell_window_set_title): new helper to set the title for the
-	component.
-	(switch_view): use the component specific title if available or
-	fallback to the component name.
-
+ 
+ 	* e-shell-view.c (impl_ShellView_setTitle): take a component id
+ 	argument.
+ 
+ 	* e-shell-window.c (component_view_free): release the corba object
+ 	properly.
+ 	(e_shell_window_set_title): new helper to set the title for the
+ 	component.
+ 	(switch_view): use the component specific title if available or
+ 	fallback to the component name.
+ 
 2004-12-21  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #60354.
-
-	* Evolution-Component.idl: createControls -> createView and
-	ComponentView to keep track of things.
-
-	* Evolution-Shell.idl: return a new type ShellView from
-	createNewWindow so other parts of the system can access it later.
-	ShellView so far just lets you set title or switch component, but
-	could be subclassed later.
-
-	* e-shell.c (impl_Shell_createNewWindow): return a shell view.
-
-	* e-shell-window.c (init_view): create the view from the compnent
-	first, then get the controls from it separately.
-	(init): setup the e-shell-view object for the create view
-	thing.
-
-	* e-shell-view.c (e_shell_view_new): simple bonobo object for
-	Evolution_ShellView, keep track of the EShellWindow.
-
-	* e-component-view.[ch]: simple bonobo object for
-	Evolution_ComponentView.  Just keep track of the controls.
+ 
+ 	** See bug #60354.
+ 
+ 	* Evolution-Component.idl: createControls -> createView and
+ 	ComponentView to keep track of things.
+ 
+ 	* Evolution-Shell.idl: return a new type ShellView from
+ 	createNewWindow so other parts of the system can access it later.
+ 	ShellView so far just lets you set title or switch component, but
+ 	could be subclassed later.
+ 
+ 	* e-shell.c (impl_Shell_createNewWindow): return a shell view.
+ 
+ 	* e-shell-window.c (init_view): create the view from the compnent
+ 	first, then get the controls from it separately.
+ 	(init): setup the e-shell-view object for the create view
+ 	thing.
+ 
+ 	* e-shell-view.c (e_shell_view_new): simple bonobo object for
+ 	Evolution_ShellView, keep track of the EShellWindow.
+ 
+ 	* e-component-view.[ch]: simple bonobo object for
+ 	Evolution_ComponentView.  Just keep track of the controls.
 
 	Committed on behalf of NotZed - partha
-
+ 
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* e-config-upgrade.c: Use libedataserver's e_xml_parse_file()
@@ -354,16 +281,16 @@
 
 	solves bug # 307780
 
-	* e-shell-window.h: added the prototype for the function
+	* e-shell-window.h : added the prototype for the function
 	e_shell_window_peek_statusbar(..);
-
-	* e-shell-window.c: show/hide the status bar widget based on the saved
+	
+	* e-shell-window.c : show/hide the status bar widget based on the saved
 	property.
 	retreive the status bar's previous status and set in UI.
 	define the function e_shell_window_peek_statusbar() which retrieves
 	the status bar widget for e-shell-window-commands.c
-
-	* e-shell-window-commands.c: view_statusbar_item_toggled_handler()
+	
+	* e-shell-window-commands.c : view_statusbar_item_toggled_handler()
 	is the component listener for the "View Status Bar" menu item.it 
 	handles the click event in the menu item "View status Bar".The
 	state of the status bar is also saved every time an event occurs

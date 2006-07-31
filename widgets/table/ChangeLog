@@ -1,20 +1,9 @@
-2006-07-05  Rajeev ramanathan <rajeevramanathan_2004@yaoo.co.in>
-
-	* e-cell-text.c: (ect_unrealize), (build_layout), (ect_draw): Added
-	code to render ECell text items with antialiasing, hinting 
-	and sub-pixel ordering with cairo.
-
-2006-07-18  Benoît Dejean  <benoit@placenet.org>
-
-	** Fixes bug #333041
-	* e-table-group-container.c: add gettext support to some strings.
-
 2006-06-12  simon.zheng  <simon.zheng@sun.com>
 
-	**Fixes bug #338295
-	* e-cell-text.c: (get_font_description_for_size), (get_font_size),
-	(ect_print), (ect_print_height): Use pango to handle text when 
-	printing tasks
+        **Fixes bug #338295
+        * e-cell-text.c: (get_font_description_for_size), (get_font_size),
+        (ect_print), (ect_print_height): Use pango to handle text when
+        printing tasks
 
 2006-06-12  Ed Catmur  <ed@catmur.co.uk>
 
@@ -22,34 +11,12 @@
 	* e-table-header-utils.c: (e_table_header_draw_button): 
 	Adding a weak reference to avoid crashing.
 
-2006-06-12  Srinivasa Ragavan  <sragavan@novell.com>
-
-	Committing a fix for sorting in the vertical view.
-
-	* e-table-column-specification.c:
-	(e_table_column_specification_load_from_node):
-	* e-table-column-specification.h:
-	* e-table-header-item.c: (ethi_popup_sort_ascending),
-	(ethi_popup_sort_descending), (ethi_header_context_menu),
-	(ethi_change_sort_state):
-	* e-table-utils.c: (et_col_spec_to_col):
-
 2006-06-08  Carlos Garcia Campos  <carlosgc@gnome.org>
 
 	** Fixes bug #343764
 	* e-table-header-utils.c: (e_table_header_draw_button): 
 	Ensure g_label points to the right widget before accessing to its
 	style.
-
-2006-06-05  Hiroyuki Ikezoe  <poincare@ikezoe.net>
-
-	* Makefile.am: Remove extra tabs. Fixes #343734.
-
-2006-05-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
-
-	** Fixes bug #341530.
-	* e-table.h:
-	Removed duplicate delcaration of e_table_commi_click_to_add.
 
 2006-04-10  Jeff Cai <jeff.cai@sun.com>
 

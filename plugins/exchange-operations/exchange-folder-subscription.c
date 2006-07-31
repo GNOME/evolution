@@ -189,7 +189,6 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 {
 	SubscriptionInfo *subscription_info = data;
 	gchar *user_email_address = NULL, *folder_name = NULL, *path = NULL;
-	char *subscriber_email;
 	EFolder *folder = NULL;
 	EDestinationStore *destination_store;
 	GList *destinations;
@@ -213,18 +212,6 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 
 			if (user_email_address != NULL && *user_email_address != '\0')
 				break;
-
-			/* check if user is trying to subscribe to his own folder */
-			subscriber_email = exchange_account_get_email_id (subscription_info->account);
-			if (subscriber_email != NULL && *subscriber_email != '\0') {
-				if (g_str_equal (subscriber_email, user_email_address)) {
-					e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
-					g_free (user_email_address);
-					gtk_widget_destroy (dialog);
-					destroy_subscription_info (subscription_info);
-					return;
-				}
-			}
 
 			/* It would be nice to insensitivize the OK button appropriately 
 		   	instead of doing this, but unfortunately we can't do this for the
@@ -258,12 +245,6 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 					break;
 				case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
 					e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
-					break;
-				case EXCHANGE_ACCOUNT_FOLDER_GC_NOTREACHABLE:
-					e_error_run (NULL, ERROR_DOMAIN ":folder-no-gc-error", NULL);
-					break;
-				case EXCHANGE_ACCOUNT_FOLDER_NO_SUCH_USER:
-					e_error_run (NULL, ERROR_DOMAIN ":no-user-error", user_email_address, NULL);
 					break;
 				case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:
 					e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);

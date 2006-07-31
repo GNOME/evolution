@@ -1,38 +1,3 @@
-2006-07-13  Andre Klapper  <a9016009@gmx.de>
-
-	* calendar/ea-day-view.c: Added translator comments to
-	some strings. Fixes bug #331016. Thanks to Boby Wang.
-
-2006-06-22  Harish Krishnaswamy  <kharish@novell.com>
-
-	* e-table/gal-a11y-e-cell-text.c: (ect_check):
-	Revert Rajeev's patch for #330728, #332727..
-
-2006-06-12  Li Yuan <li.yuan@sun.com>
-
-	* Makefile.am, e-table/Makefile.am,
-	e-text/Makefile.am: Do not install header files, and make sure
-	they will be included in the tarball when make dist.
-
-2006-05-16  Harish Krishnaswamy  <kharish@novell.com>
-
-	* Makefile.am, e-table/Makefile.am
-	e-text/Makefile.am: Revert the earlier patch.
-	They are needed, after all.
-
-2006-05-15  Harish Krishnaswamy  <kharish@novell.com>
-
-	Patch submitted by Li Yuan <li.yuan@sun.com>
-	* Makefile.am, e-table/Makefile.am, 
-	e-text/Makefile.am: Do not install header files.
-
-2006-05-08  Li Yuan <li.yuan@sun.com>
-
-	Fix for #333279.
-
-	* e-table/gal-a11y-e-table-item.c: (table_is_row_selected):
-	If row<0, just return FALSE.
-
 2006-04-28  Boby Wang <boby.wang@sun.com>
 
 	Fix for #339136
@@ -60,16 +25,6 @@
 	* ea-factory.h: Disable accessible code when accessibility is not enabled
 	* gal-a11y-factory.h: Remove some unused code
 
-2006-04-27  Boby Wang <boby.wang@sun.com>
-
-	Fix for #332821
-
-	* widgets/Makefile.am:
-	* widgets/ea-expander.[ch]:
-	Add two new files to implement the accessibility of EExpander.
-	* widgets/ea-widgets.[ch]:(e_expander_a11y_init):
-	Implement the accessibility of EExpander.
-
 2006-04-24  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	reviewed by: Harish Krishnaswamy <kharish@novell.com> 
@@ -77,12 +32,6 @@
 	*  e-table/gal-a11y-e-cell-text.c: (ect_check)
 	Fixes the corrupted reference to cell_view->ecell
 	Fix for #330728, #332727.
-
-2006-03-20  Boby Wang <boby.wang@sun.com>
-	Fix for #319308
-
-	* addressbook/ea-minicard-view.c: (ea_minicard_view_get_name):
-	add the folder name to the name of current minicard view
 
 2006-03-06  Harry Lu <harry.lu@sun.com>
 

@@ -111,7 +111,7 @@ type_as_function ## _factory_get_type (void)					\
                 atk_registry_set_factory_type (atk_get_default_registry (),     \
                                       obj_type,                                 \
                                       type_as_function ## _factory_get_type ());\
-        }									\
+        }                                                                       \
 }
 
 #endif /* _EA_FACTORY_H__ */

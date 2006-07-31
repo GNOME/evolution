@@ -20,7 +20,6 @@ a11y/e-table/gal-a11y-e-table-click-to-add.c
 a11y/e-table/gal-a11y-e-table-column-header.c
 a11y/widgets/ea-calendar-item.c
 a11y/widgets/ea-combo-button.c
-a11y/widgets/ea-expander.c
 addressbook/addressbook.error.xml
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
@@ -306,7 +305,6 @@ plugins/exchange-operations/exchange-folder.c
 plugins/exchange-operations/exchange-passwd-expiry.glade
 plugins/exchange-operations/exchange-permissions-dialog.c
 plugins/exchange-operations/exchange-permissions-dialog.glade
-plugins/exchange-operations/exchange-oof.glade
 plugins/exchange-operations/exchange-user-dialog.c
 plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml
 plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml
@@ -322,7 +320,6 @@ plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml
 plugins/groupwise-features/install-shared.c
 plugins/groupwise-features/junk-mail-settings.c
 plugins/groupwise-features/junk-settings.glade
-plugins/groupwise-features/mail-retract.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
 plugins/groupwise-features/org-gnome-proxy-errors.xml

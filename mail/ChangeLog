@@ -4,7 +4,7 @@
 	* em-icon-stream.c: (emis_fit):
 	We dont scale on height if the maxheight is zero
 	Fixes 335431
-		
+	
 2006-07-26  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	** Fixes bgo bug #333821 and bnc bug 181851
@@ -19,120 +19,11 @@
 	* em-folder-selection-button.c: (set_contents): Localizes the folder 
 	names in the filter and while importing mail
 
-2006-07-26  Andre Klapper  <a9016009@gmx.de>
-
-	* em-folder-browser.c: correcting a grammar bug. Fixes bug #348674.
-
-2006-07-24  Ushveen Kaur  <kushveen@novell.com>
-
-	** Fixes Bug #341840
-	
-	* mail-error.xml: button label changed for dialog ask-mark-read.
-
-2006-07-24  Sushma Rai  <rsushma@novell.com>
-
-	* em-account-editor.c: (emae_option_entry) : activate the mnemonic for
-	text box, add an extra paramenter to the function call.
-	Fixes #332282.
-	Patch submitted by "Vandana Shenoy .B <shvandana@novell.com>"
-
-2006-07-24  Sushma Rai  <rsushma@novell.com>
-
-	* em-subscribe-editor.c (_EMSubscribeEditor): Removed the members 
-	subscribe_button and unsubscribe_button.
-	(sub_do_subscribe)(sub_subscribe)(sub_editor_subscribe)
-	(sub_editor_unsubscribe): Removed.
-	(sub_selection_changed)(em_subscribe_editor_new): Removed the handling
-	for the subscribe and unsubscribe buttons.
-
-	* mail-dialogs.glade: Removed "Subscribe" and "Unsubscribe" buttons.
-	Fixes #331509.
-
-2006-07-22  Yuri Pankov <yuri.pankov@gmail.com>
-
-	Reviewed by Harish Krishnaswamy <kharish@novell.com>
-
-	* message-list.c: Add missing headers. Fixes #344744.
-
-2006-07-22 Yuri Pankov <yuri.pankov@gmail.com>
-	
-	Reviewed by Harish Krishnaswamy <kharish@novell.com>
-
-	* em-format-html-display.c: Add missing headers.
-	* mail-vfolder.h: Add function prototypes.Fixes #347689.
-
-2006-07-21  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixes bug #346316
-
-	* em-folder-browser.c: (em_folder_browser_show_wide): Redraw the child
-	widgets and pack it accordingly.
-
-2006-07-20  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* em-format-html-display.c: (efhd_attachment_bar_refresh): Modified
-	the mnemonics for avoiding the conflict with search.
-
-2006-07-19  Johnny Jacob  <jjohnny@novell.com>
-
-	** Fix for bug #347993
-	
-	* em-folder-browser.c : Changed default scope of search to
-	'Current Folder'
-
-2006-07-14 Raghavendran R <raghavguru7@gmail.com>
-
-	** Fix for bug #330355
-
-	 * em-mailer-prefs.c:Mailer Preferences. New mail notification,
-	"specify filename" was enabled for radNotifyNot and radNotifyBeep.
-	Disable the button, when it wasnt for button.
-
-2006-06-10 Shree Krishnan <shreekrishnan@gmail.com>
-
-	** Fix for bug #338442
-	* mail-config.glade: Set the mnemonic character for "Send message receipts" 
-
-2006-07-18  Andre Klapper  <a9016009@gmx.de>
-
-	* message-tags.glade: remove "*" from translation. Fixes bug #331147.
-
 2006-07-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #336963
-
-	* em-folder-browser.c: (emfb_init): Make the scrollbar automatic.
-
-2006-22-06 Ushveen Kaur <kushveen@novell.com>
-
-	** Fixes bug #335241
-
-	* mail-send-recv.c: a scroll box added for the send recv popup dialog.
-
-2006-07-14  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fix for bug #335747
-
-	* em-folder-browser.c: (emfb_mark_all_read): Prompt optionally while
-	marking multiple messages.
-	* evolution-mail.schemas.in.in: Added a schema for prompting while
-	marking multiple messages.
-
-2006-07-13  Andre Klapper  <a9016009@gmx.de>
-
-	* mail-config.glade: remove empty strings from translation
-
-2006-07-11  Karsten Bräckelmann  <guenther@rudersport.de>
-
-	* em-folder-view.c: Change mnemonic for Mark as Unimportant, fixes
-	bug #347246.
-
-2006-07-11  Johnny Jacob  <johnnyjacob@gmail.com>
-
-	Fixes #246235.
-	* em-vfolder-rule.c (get_widget): Deleted the option menu and
-	replaced with radio buttons.
-	* mail-dialogs.glade: Removed option menu and added radio buttons
+	
+	* em-folder-browser.c: (emfb_init): Make scrollbar automatic.
 
 2006-07-11  Johnny Jacob  <johnnyjacob@gmail.com>
 
@@ -142,58 +33,12 @@
 	signal handled for sig_edit and sig_delete from "pressed" to
 	"clicked".
 
-2006-07-11  Johnny Jacob  <jjohnny@novell.com> 
-
-	** Patch by Not Zed  <NotZed@Ximian.com>
-	** See bug #262003
-
-	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked): put
-	the potentially long descriptions into a textbuffer so it's
-	scrollable.
-
 2006-07-07 Ushveen Kaur <kushveen@novell.com>
 
 	Fixes bug #336963.
 	* em-message-browser.c:
 	set the scroll bar in the message display to automatic
 	
-2006-07-07  Andre Klapper  <a9016009@gmx.de>
-
-	* em-format-html-display.c: Changing one mnemonic to avoid a
-	mnemonic conflict with an upcoming patch by Jony.
-
-2006-07-05  Andre Klapper  <a9016009@gmx.de>
-
-	* em-format-html-display.c: Added mnemonic to string.
-	Fixes bug #346645.
-
-2006-06-30  Johnny Jacob <jjohnny@novell.com>
-	* mail/em-folder-browser.h: Added search_activated signal
-	* mail/em-folder-view.c: (emfv_init):
-	* mail/em-format-html-display.c: (efhd_search_response),
-	(efhd_search_response_back), (efhd_search_destroy),
-	(efhd_search_case_toggled), (efhd_key_pressed),
-	(clear_button_clicked_cb), (icon_entry_changed_cb),
-	(em_format_html_get_search_dialog), (set_focus_cb),
-	(em_format_html_display_search),
-	(em_format_html_display_search_with),
-	(em_format_html_display_search_close):
-	* mail/em-format-html-display.h:
-	* mail/mail-component.c: (disable_folder_tree),
-	(enable_folder_tree), (impl_createView):
-	* mail/mail-vfolder.c: (mail_vfolder_add_uri),
-	(mail_vfolder_get_sources_local),
-	(mail_vfolder_get_sources_remote), (store_folder_renamed):
-	* mail/message-list.c: (ml_tree_value_at),
-	(message_list_setup_etree):
-	* mail/message-list.etspec:
-	Added code for search ui.
-
-2006-06-27  Matthew Barnes  <mbarnes@redhat.com>
-
-	* evolution-mail.schemas.in.in:
-	Changed type name "boolean" to "bool". Fixes bug #345677.
-
 2006-06-27  Arvind_evo  <sa.phoenix@gmail.com>
 		
 	Fix for bug#260354 comment 35:
@@ -204,149 +49,35 @@
 
 	** Fix for bug #344338
 	
-	* em-folder-browser.c: (emfb_edit_select_all): grab focus after
-	Ctrl+A.
+	* em-folder-browser.c: (emfb_edit_select_all): grab focus on Ctrl+A.
 
-2006-06-19  Srinivasa Ragavan  <sragavan@novell.com>
+2006-06-17  Srinivasa Ragavan  <sragavan@novell.com>
 
-	** Fix for bug #344580
+	** fixes bug #342092
 
-	* message-list.c: (create_composite_cell),
-	(composite_cell_set_strike_col), (message_list_set_folder): Strike out
-	deleted mails, if set to visible
+	* em-popup.c: (emp_standard_menu_factory): Read the mime
+	from the right file.
 
 2006-06-14  Tor Lillqvist  <tml@novell.com>
 
 	* em-account-editor.c (emae_check_complete): g_get_real_name()
 	returns UTF-8 on Win32.
 
-2006-06-13  Andre Klapper <a9016009@gmx.de>
-
-	* mail.error.xml: changing string "Ximian Evolution" to "Evolution".
-	Fixes bug #344298.
-
-2006-06-13  Tor Lillqvist  <tml@novell.com>
-
-	* em-format-html.c (efh_format_address): Fix build on Win32, where
-	EVOLUTION_ICONSDIR is a function call.
-
-2006-06-12  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* message-list.etspec: Corrected the sortable parameter of the message
-	list correctly.
-
-2006-06-29  Chris Heath <chris@heathens.co.nz>
+2006-06-09  Chris Heath <chris@heathens.co.nz>
 
 	* message-list.c (message_list_finalise): Fix memory leak.
 	Fixes bug #335423.
 
-2006-06-07  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* em-format-html.c: (efh_format_address): Fixed a minor bug, where the
-	plus symbol appears if the limit equals the address shown.
-
 2006-06-06  Harish Krishnaswamy  <kharish@novell.com>
 
-	* evolution-mail.schemas.in.in: typo correction.
-	Fixes #331694.
-
-2006-06-02  Jeffrey Stedfast  <fejj@novell.com>
-
-	* em-folder-view.c (emfv_setup_view_instance): Can't make camel
-	calls from the main thread or we run the risk of deadlocking.
-
-2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Added support for Vertical View in evolution in addition to the
-	existing classical view. It also supports a composite headers to be
-	shown in a multilined column.
-
-	* em-folder-browser.c (emfb_pane_realised),
-	(emfb_pane_button_release_event, emfb_init),
-	(em_folder_browser_show_preview, em_folder_browser_show_wide),
-	(emfb_show_next, emfb_show_below, emfb_activate): Added code to
-	handle the new wide mode in Evolution.
-
-	* em-folder-view.c (emfv_setup_view_instance),
-	(em_folder_view_setup_view_instance): Added code to handle the
-	default view in the wide mode for normal and sent/draft folders.
-
-	* evolution-mail.schemas.in.in: Added schema for hpane size,
-	showing email in the composite headers and toggling wide more.
-	
-	* message-list.c (ml_duplicate_value, ml_free_value),
-	(ml_initialize_value, ml_value_is_empty, ml_value_to_string),
-	(sanitize_recipients, ml_tree_value_at, create_composite_cell),
-	(message_list_create_extras): Added a new composite header
-	render_composite_from/recipient which shows the headers in a
-	multilined column.
-
-	* message-list.etspec: Added three new columns, Recipent, Messages
-	column for normal folders and Messages column for sent/draft
-	folders.
+	* evolution-mail.schemas.in.in: correct a typo.
+	fixes #331694.
 
 2006-05-30  Li Yuan  <li.yuan@sun.com>
 
 	Fix for #341381.
-
-	* message-list.c (message_list_set_folder): We should lock
-	e-tree-memory when we change it.
-
-2006-05-30  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixes bug #332936
-
-	* mail.error.xml: Used a new property called scroll that adds the
-	multilines error messages into a viewport.
-
-2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Added remote shares save/load support across evolution.
-
-	* em-utils.c (emu_file_check_local, emu_get_save_filesel),
-	(emu_save_part_response, emu_save_parts_response),
-	(emu_save_messages_response): Added code to save
-	messages/attachments to remote shares.
-
-	* mail-ops.c (save_messages_save, save_part_save): Same.
-
-2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** fixes bug #342092
-
-	* em-popup.c (emp_standard_menu_factory): Read the mime from the
-	right file.
-
-2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
-
-	Added support for collapsible headers for To/Cc/Bcc fields.
-
-	* em-folder-view.c (emfv_format_link_clicked, emfv_on_url_cb):
-
-	* em-format-html-display.c (efhd_html_button_press_event),
-	(efhd_html_link_clicked, efhd_html_on_url, efhd_format_clone):
-
-	* em-format-html.c (efh_url_requested, efh_format_text_header),
-	(efh_format_address, efh_format_header):
-
-	* em-mailer-prefs.c (address_compress_count_changed),
-	(toggle_button_init, em_mailer_prefs_construct):
-
-	* evolution-mail.schemas.in.in:
-
-	* mail-config.c (gconf_address_count_changed),
-	(gconf_address_compress_changed, mail_config_init),
-	(mail_config_get_labels, mail_config_get_address_count):
-
-	* mail-config.glade:
-
-2006-05-24  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixes bug #342676
-	
-	* message-list.c: (ml_duplicate_value), (ml_free_value),
-	(ml_initialize_value), (ml_value_is_empty), (ml_value_to_string):
-	* message-list.etspec: Fixed the column sorter right.
+	* message-list.c: (message_list_set_folder):
+	We should lock e-tree-memory when we change it.
 
 2006-05-04  Jeffrey Stedfast  <fejj@novell.com>
 
@@ -354,80 +85,14 @@
 	before removing the store from our hash and cache. Should fix
 	Novell bug #166987.
 
-2006-04-30  Shi Pu <shi.pu@sun.com>
- 
-	** Fixes bug #323853
-
-	* em-composer-prefs.c (sig_edit_cb, sig_add_script_response):
-
-	* em-mailer-prefs.c (notify_sound_changed)
-	(em_mailer_prefs_construct):
-
-	* em-mailer-prefs.h:
-
-	* mail-config.glade: Replace GnomeFileEntry by
-	GtkFileChooserButton.
- 
 2006-04-27  Rodney Dawes  <dobey@novell.com>
 
-	* em-folder-tree.c (render_pixbuf): Use gnome-fs-trash-empty
-	rather than stock_delete for the Trash folder icon
+	* em-folder-tree.c (render_pixbuf): Use gnome-fs-trash-empty rather
+	than stock_delete for the Trash folder icon
 
-	* em-folder-view.c (emfv_popup_items[]): Don't set an icon for
-	Undelete
-	(emfv_message_pixmaps[]): Don't set an icon for Undelete and set
-	the icon for deleting a message to gnome-fs-trash-empty, not
-	stock_delete
-
-	Fixes #339626
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Patch from Victor for adding a Sender header to message list.
-
-	* message-list.c (ml_duplicate_value, ml_free_value),
-	(ml_initialize_value, ml_value_is_empty, ml_value_to_string),
-	(ml_tree_value_at): Handled the new column header.
-
-	* message-list.etspec: Added a new column header to spec.
-
-	* message-list.h: Added a new column
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* em-folder-view.c (emfv_setup_view_instance): Comparing the
-	FolderInfo flags right, to make Mailbox to show From header in
-	message list for groupwise servers.
-
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Fixes bug #323402
-
-	* em-folder-tree.c (folder_tree_new): Code for Ellipsizing folder
-	tree. (Patch from Vincent Noel)
-
-	* em-migrate.c: Adding side_bar_search to 
-
-	* evolution-mail.schemas.in.in: Adding a schema for enabling/disabling
-	side bar search. (Patch from Rakesh)
-
-2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* mail-session.c (get_password): Ask passphrase if the user is
-	supposed to enter the same.
-
-2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* em-format-html-display.c (efhd_attachment_button),
-	(efhd_format_attachment): Added code to create image cache of
-	image attachment in the ethread instead of main thread to avoid
-	gui lockup.
-
-2006-04-21  Sankar P  <psankar@novell.com>
-
-	* mail-mt.c (do_op_status): Fix the cryptic
-	hexa-status-bar-message.  The problem still lies somewhere. But
-	dont show something weird to the user.
+	* em-folder-view.c (emfv_popup_items[]): Don't set an icon for Undelete
+	(emfv_message_pixmaps[]): Don't set an icon for Undelete and set the
+	icon for deleting a message to gnome-fs-trash-empty, not stock_delete
 	
 2006-04-20  Jeffrey Stedfast  <fejj@novell.com>
 
@@ -454,7 +119,6 @@
 2006-04-10  Jeff Cai <jeff.cai@sun.com>
 
 	** Fixes 333243
-
 	* em-folder-tree-model.c (em_folder_tree_model_remove_folders):
 	For null uri, don't need remove it.
 
@@ -465,43 +129,22 @@
 	* message-list.c (mail_folder_hide_by_flag):
 	If CamelMessageInfo is null, don't free it.
 
-2006-03-29  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* em-folder-view.c (smfv_setup_view_instance): use the flags
-	CAMEL_STORE_FOLDER_INFO_SUBSCRIBED instead of
-	CAMEL_STORE_FOLDER_INFO_FAST when getting folder info
-
-2006-03-25  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	**Fixes #329585
-
-	* mail-config.glade: Changed Remove button to Delete button
-
-	* mail.error.xml: Changed current Layout DELETE [Do not delete] to
-	[Do not delete] DELETE
-
 2006-03-22  Patrick Ohly  <patrick.ohly@intel.com>
 
-	* em-utils.c (em_utils_selection_set_urilist): Fixed premature
-	memory free. Fixes bug #335203.
+	* em-utils.c (em_utils_selection_set_urilist):
+	Fixed premature memory free. Fixes bug #335203.
 
 2006-03-21  Simon Zheng  <simon.zheng@sun.com>
 
-	Fixed bug #326571
+	Fixes bug #326571
+	* em-utils.c (em_filename_make_safe), (emu_get_save_filesel),
+	(emu_save_parts_response):
+	Add em_filename_make_safe(), and use it to allow filenames
+	contain more valid characters when saving attachment.
 
-	* em-utils.c (em_filename_make_safe, emu_get_save_filesel):
-	(emu_save_parts_response): Add em_filename_make_safe(), and use it
-	to allow filenames contain more valid characters when saving
-	attachments.
+2006-03-12  Takeshi AIHANA <takeshi.aihana@gmail.com>
 
-2006-03-20  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* em-folder-view.c (emfv_setup_view_instance): Added code to set
-	the mail view column for sent folder.
-
-2006-03-12  Frank Arnold  <farnold@cvs.gnome.org>
-
-	* default/de/Inbox: Updated German translation of default inbox.
+	* default/ja/Inbox: Updated Japanese translation.
 
 2006-03-06  Simon Zheng  <simon.zheng@sun.com>
 
@@ -512,7 +155,7 @@
 
 2006-03-03  Andre Klapper  <a9016009@gmx.de>
 
-	* configure.in:
+	* configure.in
 
 	* mail/default/Makefile.am: added support for macedonian (mk)
 	welcome message
@@ -524,12 +167,13 @@
 2006-03-03  Žygimantas Beručka  <zygis@gnome.org>
 
 	* default/Makefile.am: Added Lithuanian to SUBDIRS.
+
 	* default/lt/*: Added Lithuanian translation for default mailbox.
 
 2006-03-02  Ilkka Tuohela  <hile@iki.fi>
 
-	* fi.po: Updated Finnish inbox to actually use 2.6 example, not
-	the old one...
+	* fi.po: Updated Finnish inbox to actually use 2.6 example,
+	         not the old one...
 
 2006-03-01  Ilkka Tuohela  <hile@iki.fi>
 
@@ -908,19 +552,19 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* mail-tools.c (mail_tool_get_local_movemail_path):
 	Use e_util_mkdir_hier() instead of e_mkdir_hier().
 
-	Use e_util_strstrcase() instead of e_strstrcasea().
+        Use e_util_strstrcase() instead of e_strstrcasea().
     
-	use e_strftime() in evolution-data-server/
-	libedataserver/e-data-server-util.c instead of the copy in 
-	evolution/e-util/e-util.c.
+        use e_strftime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
  
-	use e_filename_make_safe() in evolution-data-server/
-	libedataserver/e-data-server-util.c instead of the copy in 
-	evolution/e-util/e-util.c.
-	
-	use e_utf8_strftime() in evolution-data-server/
-	libedataserver/e-data-server-util.c instead of the copy in 
-	evolution/e-util/e-util.c.
+ 	use e_filename_make_safe() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+        
+        use e_utf8_strftime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
 
 2006-01-06  Andre Klapper <a9016009@gmx.de>
 
@@ -1018,7 +662,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-12-22  Andre Klapper <a9016009@gmx.de>
 
 	* mail-config.glade: changed one duplicated mnemonic.
-	  Fixes bug 313801.
+          Fixes bug 313801.
 
 2005-12-20  Andre Klapper <a9016009@gmx.de>
 
@@ -1028,7 +672,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-12-19  Andre Klapper <a9016009@gmx.de>
 
 	* mail-config.glade: changed 3 HIG-violating mnemonics.
-	  Fixes bug 256913.
+          Fixes bug 256913.
 
 2005-12-23  Srinivasa Ragavan  <sragavan@novell.com>
 
@@ -3963,8 +3607,8 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2004-07-13  Dan Winship  <danw@novell.com>
 
-	* em-utils.c (em_utils_selection_set_urilist):
-	(em_utils_temp_save_part): free return value from e_mkdtemp
+	* em-utils.c (em_utils_selection_set_urilist,
+	em_utils_temp_save_part): free return value from e_mkdtemp
 
 2004-07-09  Not Zed  <NotZed@Ximian.com>
 
@@ -7382,9 +7026,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2004-02-01  Bill Zhu <bill.zhu@sun.com>
 
-	Fixes for bug #53530
+        Fixes for bug #53530
 
-	* em-utils.c (em_utils_redirect_message): Removed the duplicate 
+        * em-utils.c (em_utils_redirect_message): Removed the duplicate 
 	adding of attachments
 
 2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
@@ -7886,7 +7530,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	(config_write_style): use MAIL_CONFIG_RC_DIR
 	(mail_config_init): ditto
 
-	see http://bugzilla.ximian.com/show_bug.cgi?id=52969
+        * see http://bugzilla.ximian.com/show_bug.cgi?id=52969
 
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 

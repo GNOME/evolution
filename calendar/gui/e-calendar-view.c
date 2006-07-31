@@ -859,60 +859,10 @@ e_calendar_view_paste_clipboard (ECalendarView *cal_view)
 }
 
 static void
-add_retract_data (ECalComponent *comp, const char *retract_comment, CalObjModType mod)
-{
-	icalcomponent *icalcomp = NULL;
-	icalproperty *icalprop = NULL;
-
-	icalcomp = e_cal_component_get_icalcomponent (comp);
-	if (retract_comment && *retract_comment)
-		icalprop = icalproperty_new_x (retract_comment);
-	else
-		icalprop = icalproperty_new_x ("0");
-	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
-	icalcomponent_add_property (icalcomp, icalprop);
-
-	if (mod == CALOBJ_MOD_ALL) 
-		icalprop = icalproperty_new_x ("All");
-	else
-		icalprop = icalproperty_new_x ("This");
-	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RECUR-MOD");
-	icalcomponent_add_property (icalcomp, icalprop);
-}
-
-static gboolean 
-check_for_retract (ECalComponent *comp, ECal *client)
-{
-	ECalComponentOrganizer org;
-	char *email = NULL;
-	const char *strip = NULL;
-	gboolean ret_val = FALSE;
-
-	if (!(e_cal_component_has_attendees (comp) && 
-				e_cal_get_save_schedules (client)))
-		return ret_val;
-
-	e_cal_component_get_organizer (comp, &org);
-	strip = itip_strip_mailto (org.value);
-	
-	if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
-		ret_val = TRUE;
-	}
-
-	if (!ret_val)
-		ret_val = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
-
-	g_free (email);
-	return ret_val;
-}
-
-static void
 delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 {
 	ECalComponent *comp;
 	ECalComponentVType vtype;
-	gboolean  delete = FALSE;
-	GError *error = NULL;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -922,39 +872,9 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 	if (!e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
 		e_cal_component_set_recurid (comp, NULL);
 
-	if (check_for_retract (comp, event->comp_data->client)) {
-		char *retract_comment = NULL;
-		gboolean retract = FALSE;
-
-		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view));
-		if (retract) {
-			GList *users = NULL;
-			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
-
-			add_retract_data (comp, retract_comment, CALOBJ_MOD_ALL);
-			icalcomp = e_cal_component_get_icalcomponent (comp);
-			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_send_objects (event->comp_data->client, icalcomp, &users, 
-						&mod_comp, &error))	{
-				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-				g_clear_error (&error);
-				error = NULL;
-			} else {
-
-				if (mod_comp)
-					icalcomponent_free (mod_comp);
-
-				if (users) {
-					g_list_foreach (users, (GFunc) g_free, NULL);
-					g_list_free (users);
-				}
-			}
-		}
-	} else 
-		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
-
-	if (delete) {
+	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
 		const char *uid;
+		GError *error = NULL;
 		
 		if (itip_organizer_is_user (comp, event->comp_data->client) 
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
@@ -968,13 +888,13 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 			g_object_unref (comp);
 			return;
 		}
-		
+
 		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 			e_cal_remove_object_with_mod (event->comp_data->client, uid, 
 				e_cal_component_get_recurid_as_string (comp), CALOBJ_MOD_ALL, &error);
 		else
 			e_cal_remove_object (event->comp_data->client, uid, &error);
-
+		
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
 	}
@@ -1024,49 +944,18 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	GList *selected;
 	ECalComponent *comp;
 	ECalendarViewEvent *event;
-	ECalComponentVType vtype;
-	gboolean  delete = FALSE;
-	GError *error = NULL;
 		
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
 		return;
+	
 	event = (ECalendarViewEvent *) selected->data;
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	vtype = e_cal_component_get_vtype (comp);
 
-	if (check_for_retract (comp, event->comp_data->client)) {
-		char *retract_comment = NULL;
-		gboolean retract = FALSE;
-
-		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view));
-		if (retract) {
-			GList *users = NULL;
-			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
-
-			add_retract_data (comp, retract_comment, CALOBJ_MOD_THIS);
-			icalcomp = e_cal_component_get_icalcomponent (comp);
-			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_send_objects (event->comp_data->client, icalcomp, &users, 
-						&mod_comp, &error))	{
-				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-				g_clear_error (&error);
-				error = NULL;
-			} else {
-				if (mod_comp)
-					icalcomponent_free (mod_comp);
-				if (users) {
-					g_list_foreach (users, (GFunc) g_free, NULL);
-					g_list_free (users);
-				}
-			}
-		}
-	} else 
-		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
-
-	if (delete) {
+	if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
 		const char *uid, *rid = NULL;
+		GError *error = NULL;
 		ECalComponentDateTime dt;
 		icaltimezone *zone = NULL;
 		gboolean is_instance = FALSE;
@@ -1122,7 +1011,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			e_cal_modify_object (event->comp_data->client, event->comp_data->icalcomp, CALOBJ_MOD_THIS,
 				       	&error);
 		}
-	
+
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
 	}
@@ -1239,8 +1128,9 @@ on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	GList *selected;
 	char *filename;
 	char *ical_string;
+	FILE *file;
 	ECalendarViewEvent *event;
-	
+
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
 		return;
@@ -1255,9 +1145,16 @@ on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 		g_warning ("Couldn't convert item to a string");
 		return;
 	}
-
-	e_write_file_uri (filename, ical_string);
+	
+	file = g_fopen (filename, "w");
+	if (file == NULL) {
+		g_warning ("Couldn't save item");
+		return;
+	}
+	
+	fprintf (file, "%s", ical_string);
 	g_free (ical_string);
+	fclose (file);
 
 	g_list_free (selected);
 }
@@ -1835,7 +1732,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 	default_client = e_cal_model_get_default_client (priv->model);
 
-	if (!default_client || e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
+	if (default_client && e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
 		g_warning ("Default client not loaded \n");
 		return;
 	}
@@ -1898,7 +1795,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 		flags |= COMP_EDITOR_USER_ORG;
 	}
 	
-	open_event_with_flags (cal_view, default_client,
+	open_event_with_flags (cal_view, e_cal_model_get_default_client (priv->model),
 			icalcomp, flags);
 
 	g_object_unref (comp);
@@ -2060,44 +1957,6 @@ get_label (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone)
         return g_strdup (buffer);
 }
 
-void 
-e_calendar_view_move_tip (GtkWidget *widget, int x, int y)
-{
-  GtkRequisition requisition;
-  gint w, h;
-  GdkScreen *screen;
-  GdkScreen *pointer_screen;
-  gint monitor_num, px, py;
-  GdkRectangle monitor;	
-
-  screen = gtk_widget_get_screen (widget);
-
-  gtk_widget_size_request (widget, &requisition);
-  w = requisition.width;
-  h = requisition.height;
-
-  gdk_display_get_pointer (gdk_screen_get_display (screen),
-                           &pointer_screen, &px, &py, NULL);
-  if (pointer_screen != screen) 
-    {
-      px = x;
-      py = y;
-    }
-  monitor_num = gdk_screen_get_monitor_at_point (screen, px, py);
-  gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-  if ((x + w) > monitor.x + monitor.width)
-    x -= (x + w) - (monitor.x + monitor.width);
-  else if (x < monitor.x)
-    x = monitor.x;
-
-  if ((y + h + widget->allocation.height + 4) > monitor.y + monitor.height)
-    y = y - h - 36;
-
-  gtk_window_move (GTK_WINDOW (widget), x, y);
-  gtk_widget_show (widget); 
-}
-
 /* 
  * It is expected to show the tooltips in this below format
  *
@@ -2128,10 +1987,9 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	if (widget)
 		gtk_widget_destroy (widget);
 
-	default_zone = e_calendar_view_get_timezone  (data->cal_view);
 	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
-
 	client = pevent->comp_data->client;
+	default_zone = e_calendar_view_get_timezone  (data->cal_view);
 
 	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);
 	if (!e_cal_component_set_icalcomponent (newcomp, clone_comp))
@@ -2243,9 +2101,6 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	gtk_container_add ((GtkContainer *)pevent->tooltip, frame);
 			
 	gtk_widget_show_all (pevent->tooltip);	
-
-	e_calendar_view_move_tip (pevent->tooltip, pevent->x +16, pevent->y+16);
-
 	gdk_keyboard_grab (pevent->tooltip->window, FALSE, GDK_CURRENT_TIME);
 	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), data->cal_view);
 	pevent->timeout = -1;
@@ -2257,54 +2112,4 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	return FALSE;
 }
 	
-#ifdef ENABLE_CAIRO
-void
-draw_curved_rectangle (cairo_t *cr, double x0, double y0,
-			double rect_width, double rect_height,
-			double radius)
-{
-	double x1, y1;
-	
-	x1 = x0 + rect_width; 
-	y1 = y0 + rect_height;
 
-	if (!rect_width || !rect_height)
-	    return;
-	if (rect_width / 2 < radius) {
-	    if (rect_height / 2 < radius) {
-	        cairo_move_to  (cr, x0, (y0 + y1)/2);
-        	cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
-	        cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
-	        cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
-	        cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
-	    } else {
-        	cairo_move_to  (cr, x0, y0 + radius);
-	        cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
-        	cairo_curve_to (cr, x1, y0, x1, y0, x1, y0 + radius);
-	        cairo_line_to (cr, x1 , y1 - radius);
-	        cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
-        	cairo_curve_to (cr, x0, y1, x0, y1, x0, y1- radius);
-    		}
-	} else {
-	    if (rect_height / 2 < radius) {
-        	cairo_move_to  (cr, x0, (y0 + y1)/2);
-	        cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
-	        cairo_line_to (cr, x1 - radius, y0);
-	        cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
-        	cairo_curve_to (cr, x1, y1, x1, y1, x1 - radius, y1);
-	        cairo_line_to (cr, x0 + radius, y1);
-        	cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
-	    } else {
-        	cairo_move_to  (cr, x0, y0 + radius);
-	        cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
-        	cairo_line_to (cr, x1 - radius, y0);
-	        cairo_curve_to (cr, x1, y0, x1, y0, x1, y0 + radius);
-        	cairo_line_to (cr, x1 , y1 - radius);
-	        cairo_curve_to (cr, x1, y1, x1, y1, x1 - radius, y1);
-        	cairo_line_to (cr, x0 + radius, y1);
-	        cairo_curve_to (cr, x0, y1, x0, y1, x0, y1- radius);
-    		}
-	}
-	cairo_close_path (cr);
-}
-#endif

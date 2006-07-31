@@ -29,7 +29,6 @@
 
 #include <glib.h>
 #include <glib/gstdio.h>
-#include <libgnome/gnome-util.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -91,7 +90,6 @@
 #include "em-folder-view.h"
 #include "em-folder-browser.h"
 #include "em-mailer-prefs.h"
-#include "em-folder-browser.h"
 #include "em-message-browser.h"
 #include "message-list.h"
 #include "em-utils.h"
@@ -186,7 +184,6 @@ emfv_init(GObject *o)
 	EMFolderView *emfv = (EMFolderView *)o;
 	struct _EMFolderViewPrivate *p;
 	extern CamelSession *session;
-	GtkWidget *search_bar;
 	
 	gtk_box_set_homogeneous (GTK_BOX (emfv), FALSE);
 
@@ -228,9 +225,6 @@ emfv_init(GObject *o)
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
-
-	search_bar = em_format_html_get_search_dialog (emfv->preview);
-	gtk_box_pack_end(GTK_WIDGET (emfv), search_bar, FALSE, FALSE, 5);
 
 	emfv->async = mail_async_event_new();
 
@@ -502,14 +496,14 @@ emfv_list_display_view(GalViewInstance *instance, GalView *view, EMFolderView *e
 static void
 emfv_setup_view_instance(EMFolderView *emfv)
 {
-	static GalViewCollection *collection = NULL;
 	struct _EMFolderViewPrivate *p = emfv->priv;
-	gboolean outgoing, show_wide;
+	gboolean outgoing;
 	char *id;
-	
+	static GalViewCollection *collection = NULL;
+
 	g_assert(emfv->folder);
 	g_assert(emfv->folder_uri);
-	
+
 	if (collection == NULL) {
 		ETableSpecification *spec;
 		GalViewFactory *factory;
@@ -555,49 +549,25 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		g_object_unref(p->view_menus);
 		p->view_menus = NULL;
 	}
-	
-	/* TODO: should this go through mail-config api? */
-	id = mail_config_folder_to_safe_url (emfv->folder);
-	p->view_instance = gal_view_instance_new (collection, id);
-	
-	show_wide = gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/display/show_wide", NULL);
-	
-	if (show_wide) {
-		char *safe_id, *filename;
-		
-		/* Force to use the wide view */
-		g_free (p->view_instance->custom_filename);
-		g_free (p->view_instance->current_view_filename);		
-		safe_id = g_strdup (id);
-		e_filename_make_safe (safe_id);
-		filename = g_strdup_printf ("custom_wide_view-%s.xml", safe_id);
-		p->view_instance->custom_filename = g_concat_dir_and_file (collection->local_dir, filename);
-		g_free (filename);
-		filename = g_strdup_printf ("current_wide_view-%s.xml", safe_id);
-		p->view_instance->current_view_filename = g_concat_dir_and_file (collection->local_dir, filename);
-		g_free (safe_id);
-	}
-	g_free (id);
-	
+
 	outgoing = em_utils_folder_is_drafts (emfv->folder, emfv->folder_uri)
 		|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
 		|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
 	
-	if (outgoing) {
-		if (show_wide)
-			gal_view_instance_set_default_view(p->view_instance, "Wide_View_Sent");
-		else
-			gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
-	} else if (show_wide) {
-		gal_view_instance_set_default_view(p->view_instance, "Wide_View_Normal");
-	}
+	/* TODO: should this go through mail-config api? */
+	id = mail_config_folder_to_safe_url (emfv->folder);
+	p->view_instance = gal_view_instance_new (collection, id);
+	g_free (id);
+	
+	if (outgoing)
+		gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
 	
 	gal_view_instance_load(p->view_instance);
 	
 	if (!gal_view_instance_exists(p->view_instance)) {
 		struct stat st;
 		char *path;
-
+		
 		path = mail_config_folder_to_cachename (emfv->folder, "et-header-");
 		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			ETableSpecification *spec;
@@ -633,11 +603,6 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		p->view_menus = gal_view_menus_new(p->view_instance);
 		gal_view_menus_apply(p->view_menus, emfv->uic, NULL);
 	}
-}
-
-void em_folder_view_setup_view_instance (EMFolderView *emfv)
-{
-	emfv_setup_view_instance (emfv);
 }
 
 /* ********************************************************************** */
@@ -1132,7 +1097,7 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_ITEM, "50.emfv.00", N_("Mar_k as Read"), emfv_popup_mark_read, NULL, "stock_mail-open", EM_POPUP_SELECT_MARK_READ|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "50.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "stock_mail-unread", EM_POPUP_SELECT_MARK_UNREAD|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "stock_mail-priority-high", EM_POPUP_SELECT_MARK_IMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.03", N_("Mark as Un_important"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.03", N_("_Mark as Unimportant"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "50.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "stock_spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_JUNK },
 	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "stock_not-spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_NOT_JUNK },
 	{ E_POPUP_ITEM, "50.emfv.06", N_("Mark for Follo_w Up..."), emfv_popup_flag_followup, NULL, "stock_mail-flag-for-followup",  EM_POPUP_SELECT_FLAG_FOLLOWUP|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -2457,9 +2422,6 @@ emfv_list_selection_change(ETree *tree, EMFolderView *emfv)
 static void
 emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderView *emfv)
 {
-	if (!strncmp (uri, "##", 2))
-		return;
-		
 	if (!g_ascii_strncasecmp (uri, "mailto:", 7)) {
 		em_utils_compose_new_message_with_mailto (uri, emfv->folder_uri);
 	} else if (*uri == '#') {
@@ -2856,8 +2818,6 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 			g_free(addr);
 			camel_url_free(curl);
 			camel_object_unref(cia);
-		} else if (!strncmp (url, "##", 2)) {
-			nice_url = g_strdup_printf (_("Click to hide/unhide addresses"), url);
 		} else
 			nice_url = g_strdup_printf (_("Click to open %s"), url);
 	}

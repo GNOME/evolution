@@ -1,13 +1,3 @@
-2006-07-22  Harish Krishnaswamy  <kharish@novell.com>
-
-	* e-util.c: (get_font_options): Handle cases when the
-	props are undefined. This bug is currently causing Evo
-	to crash as soon as it comes up.
-
-2006-07-20  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	* e-util.[ch]: (get_font_options): Added code to get font options.
-
 2006-06-15  Tor Lillqvist  <tml@novell.com>
 
 	* e-plugin.c (ep_construct): On Win32, if the compile-time
@@ -31,25 +21,6 @@
 	this is taken care of in e_strftime(). (The check in e-d-s's
 	configure.in for the support of %l and %k has now been made more
 	reliable so it actually works also on Win32.)
-
-2006-06-02  Frederic Peters <fpeters@entrouvert.com>
-
-	* e-error.c: Set new scroll member to false in static 
-	declarations. Fixes build breaker #343446.
-
-2006-05-30  Srinivasa Ragavan  <sragavan@novell.com>
-	
-	* e-error.c: (ee_load), (e_error_newv): Added a new property
-	called scroll, to show the messages in a scrolled view port.
-
-2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
-
-	* e-dialog-utils.c: (save_ok), (e_file_dialog_save),
-	(save_folder_ok), (e_file_dialog_save_folder): Added code
-	to enable file chooser to work with remote shares
-	* e-util.c: (e_write_file), (e_write_file_uri): Added
-	a new api to write to remote shares.
-	* e-util.h:
 
 2006-04-26  Li Yuan <li.yuan@sun.com>
 

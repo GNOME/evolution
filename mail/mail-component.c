@@ -618,43 +618,6 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 	g_object_set_data((GObject *)emfv, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, component_view)));
 }
 
-static void 
-disable_folder_tree (gpointer *emfb, gpointer dummy,  GtkWidget *widget)
-{
-	gtk_widget_set_sensitive (widget, FALSE);
-}
-
-static void 
-enable_folder_tree (GtkWidget *emfb, gpointer dum, GtkWidget *emft)
-{
-	char *uri;
-	CamelURL *selected_curl, *current_curl;
-	CamelFolder *folder;
-	CamelException ex;
-	EMFolderView *emfv = (EMFolderView *)emfb;
-
-	/* Currently displayed folder */
-	MessageList *ml = emfv->list;
-	folder = ml->folder;
-	uri = mail_tools_folder_to_url (folder);
-	current_curl = camel_url_new (uri, NULL);
-
-	/* Selected folder in emft*/
-	uri = em_folder_tree_get_selected_uri ((EMFolderTree *) emft);
-	folder = mail_tool_uri_to_folder (uri, 0, &ex);
-	selected_curl = camel_url_new (uri, NULL);
-
-	if (!camel_url_equal (selected_curl, current_curl)) 
- 		g_signal_emit_by_name (emft, "folder-selected", emft, uri, folder->full_name, uri, folder->folder_flags); 
-
-	gtk_widget_set_sensitive (emft, TRUE);
-
-	camel_url_free (current_curl);
-	camel_url_free (selected_curl);
-	g_free (uri);
-
-}
-
 /* Evolution::Component CORBA methods.  */
 
 static GNOME_Evolution_ComponentView
@@ -713,12 +676,9 @@ impl_createView (PortableServer_Servant servant,
 			       e_user_creatable_items_handler_new("mail", create_local_item_cb, tree_widget),
 			       (GDestroyNotify)g_object_unref);
 
-
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 
-	g_signal_connect((EMFolderBrowser *)view_widget, "account_search_cleared", G_CALLBACK (enable_folder_tree), tree_widget);
-	g_signal_connect(((EMFolderBrowser *)view_widget), "account_search_activated", G_CALLBACK (disable_folder_tree), tree_widget);
 	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), component_view);
 	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), component_view);
 	

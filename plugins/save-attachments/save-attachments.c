@@ -50,7 +50,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkalignment.h>
 #include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkfilechooserbutton.h>
+#include <libgnomeui/gnome-file-entry.h>
 
 #include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
@@ -245,7 +245,7 @@ save_response(GtkWidget *d, int id, struct _save_data *data)
 	if (id == GTK_RESPONSE_OK) {
 		char *tmp;
 
-		data->base = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->entry));
+		data->base = gnome_file_entry_get_full_path((GnomeFileEntry *)data->entry, FALSE);
 		data->path = g_strdup(data->base);
 		tmp = strrchr(data->path, '/');
 		if (tmp)
@@ -281,7 +281,7 @@ entry_changed(GtkWidget *entry, struct _save_data *data)
 	char *basename = NULL;
 	const char *file;
 
-	path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->entry));
+	path = gnome_file_entry_get_full_path((GnomeFileEntry *)data->entry, FALSE);
 	if (path == NULL
 	    || G_IS_DIR_SEPARATOR (path[strlen(path)-1])
 	    || (basename = g_path_get_basename(path)) == NULL
@@ -337,13 +337,14 @@ save_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, vo
 							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							  GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 							  NULL);
-	w = gtk_file_chooser_button_new (_("Select save base name"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	w = gnome_file_entry_new("save-attachments", _("Select save base name"));
 	data->entry = w;
 	g_object_set(w, "filechooser_action", GTK_FILE_CHOOSER_ACTION_SAVE, NULL);
 	gtk_widget_show(w);
 	gtk_box_pack_start((GtkBox *)dialog->vbox, w, FALSE, TRUE, 6);
 
-	g_signal_connect(GTK_FILE_CHOOSER_BUTTON (w), "selection-changed", G_CALLBACK(entry_changed), data);
+	w = gnome_file_entry_gtk_entry((GnomeFileEntry *)data->entry);
+	g_signal_connect(w, "changed", G_CALLBACK(entry_changed), data);
 
 	model = gtk_tree_store_new(5, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
 	data->model = model;

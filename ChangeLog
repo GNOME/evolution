@@ -1,17 +1,7 @@
-2006-07-28  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+2006-07-31  Harish Krishnaswamy  <kharish@novell.com>
 
-	* configure.in: Added configure script for building
-	evolution calendar with cairo support.
-
-2006-07-24  Harish Krishnaswamy  <kharish@novell.com>
-
-	* NEWS, configure.in: Evolution 2.7.90 release 
+	* NEWS, configure.in: Evolution 2.7.3 release
 	updates.
-
-2006-07-21  Luca Ferretti  <elle.uca@libero.it>
-
-	* configure.in: add support for xulrunner and seamonkey (NSS and NSPR).
-	(committed by Karsten Bräckelmann)
 
 2006-07-22  Julio M. Merino Vidal  <jmmv@NetBSD.org>
 
@@ -19,31 +9,6 @@
 	other systems (e.g. NetBSD) also have it.  Fix the check that
 	looks for an utility to kill a process by name to properly detect
 	either pkill or killall.  Fixes bug #336853.
-
-2006-07-13  Andre Klapper  <a9016009@gmx.de>
-
-	* configure.in:
-	
-	adding localized (german) quick reference card. see bug #307856.
-
-2006-07-12  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: Update EDS requirement to
-	1.7.4.
-	
-2006-07-10  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in, NEWS: Evolution 2.7.4 release 
-	updates.
-
-2006-07-10  Harish Krishnaswamy  <kharish@novell.com>
-
-	* evolution-shell.pc.in: 
-	defined @datarootdir@. Patch submitted by 
-	Frederic Peters. 
-	
-	* evolution-plugin.pc.in : Similar change.
-	Fixes #345083.
 
 2006-06-15  Tor Lillqvist  <tml@novell.com>
 
@@ -63,43 +28,15 @@
 	
 	* configure.in: Use libgnomeprint-2.2 >= 2.7.0.
 
-2006-06-12  Harish Krishnaswamy  <kharish@novell.com>
-
-	* NEWS: Release updates.
-	* configure.in: Bump version. Evolution 2.7.3 release.
-
-2006-06-12  simon.zheng  <simon.zheng@sun.com>
-
-	Fix for #336453
-
-	* acinclude.m4:
-	* configure.in:
-	Add SunLDAP library support - a variant of Netscape LDAP.
-
 2006-06-02 Iain Buchanan <iaindb@netspace.net.au>
 
 	* configure.in: Fix typo that caused experimental plugins
 	to be skipped.
 
-2006-05-27  Thomas Vander Stichele  <thomas at apestaart dot org>
+2006-05-29  Harish Krishnaswamy  <kharish@novell.com>
 
-	* widgets/misc/e-attachment-bar.c: (update):
-	  Fix compilation by adding missing (
-
-2006-05-22  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: Update intltool requirements.
-
-2006-05-09  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* configure.in: Patch from Brian Pepple to achieve
-	GNOME Goal for po/LINGUAS. Closes bug #337965.
-	* po/LINGUAS: New file.
-
-2006-05-02  Kjartan Maraas  <kmaraas@gnome.org>
-
-	configure.in: Fix compilation with modern openldap releases.
-	Partially fixes bug #325957. Patch from Sushuma Rai.
+	* NEWS, configure.in: Release updates and version
+	bump. Release - Evolution 2.6.2
 
 2006-04-28  Sven Herzberg  <herzi@gnome-de.org>
 
@@ -110,41 +47,47 @@
 	* shell/e-shell-window.c: added window state saving and updated window
 	size saving to work as expected (fixes bug 243962)
 
-2006-04-27  Tor Lillqvist  <tml@novell.com>
-
-	* win32/libemiscwidgets.def: Add e_expander_get_type which now is
-	needed when linking libevolution-widgets-a11y.
-
 2006-04-25  Jeffrey Stedfast  <fejj@novell.com>
 
 	* configure.in: Figure out auto-magically what the mozilla-nss
 	pkg-config module name is.
 
-2006-04-24  Harish Krishnaswamy  <kharish@novell.com>
+2006-04-10  Harish Krishnaswamy <kharish@novell.com>
 
-	* NEWS, configure.in: Release updates. Bump version.
-	***** Release 2.7.1 *****
+	--------------------------
+	Release : Evolution 2.6.1
+	--------------------------
 
-2006-04-19  Philip Van Hoof  <pvanhoof@gnome.org>
+	* NEWS, configure.in: Release updates and version bump.
 
-	* shell/main.c: Replaced popt with GOption API
+2006-04-08  Jérémy Ar Floc'h  <jeremy.lefloch@gmail.com>
 
-2006-04-17  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* configure.in: Remove obsolete entry for no_NO.
-
-2006-03-27  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* MAINTAINERS: Changing the maintainers file to reflect
-	the current mail maintainers.
+	* configure.in (ALL_LINGUAS): Added Breton (br).
 
 2006-03-22  Tommi Vainikainen  <thv@iki.fi>
 
 	* configure.in (ALL_LINGUAS): Added Dzongkha (dz).
 
-2006-03-12  Vladimer Sichinava  <alinux@siena.linux.it>
+2006-03-22  Tor Lillqvist  <tml@novell.com>
 
-	* configure.in: Added "ka" Georgian
+	* evolution-zip.in: The evolution.keys and evolution.mime files
+	don't have any version number in their name. I doubt these files
+	actually get used on Win32, though, so prolly silly to put them in
+	the zip file.
+
+2006-03-14  Vladimer Sichinava  <alinux@siena.linux.it>
+
+        * configure.in: Added "ka" Georgian tu ALL_LINGUAS
+	
+2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS, configure.in : Release updates and version bump.
+	--------------------------
+	Release : Evolution 2.6.0
+	--------------------------
+	
+	* data/Makefile.am: Delink the version from the desktop file
+	to enable smoother upgrades.
 
 2006-03-12  Benoît Dejean  <benoit@placenet.org>
 
@@ -152,7 +95,7 @@
 	* mail/default/Makefile.am:
 	* mail/default/fr/Inbox:
 	* mail/default/fr/Makefile.am: Added French welcome message.
-	
+
 2006-03-03  Andre Klapper  <a9016009@gmx.de>
 
 	* configure.in,

@@ -20,7 +20,7 @@
 
 2006-03-04  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #330974, 333688.
+	Fixes #330974
 	* mail-to-task.c: 
 	(set_description): Check if the params are present,
 	before accessing the value. Fixes a crash.

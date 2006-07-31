@@ -1,82 +1,100 @@
-Evolution 2.7.90 2006-07-24
----------------------------
+Evolution 2.6.3 2006-07-31 
+--------------------------
 
 Updated Translations:
 
-Zygimantas Berucka (lt), 
-Christophe Merlet (fr),
-Francisco Javier F. Serrador (es),
-Changwoo Ryu (ko), Jonathan Ernst (fr),
-Nikos Charonitakis (el), Funda Wang (zh_CN),
-Ankit Patel (gu), Ilkka Tuohela (fi),
-Raivis Dejus (lv), Kostas Papadimas (el),
-Dzongkhalinux team, DIT (dz), Hendrik Richter (de),
-Daniel Nylander (sv), Ivar Smolin (et),
-Theppitak Karoonboonyanan (th), Simos Xenitellis (el),
-Chao-Hsuing Liao (zh_HK, zh_TW)
+Christophe Merlet (fr)
+Zygimantas Beručka (lt), Hendrik Richter (de),
+Ivar Smolin (et), Ilkka Tuohela (fi), Clytie Siddall (vi),
+Ankit Patel (gu), Francisco Javier F. Serrador (es),
+I. Felix (ta), Hendrik Richter (de), Daniel Nylander (sv),
+Hendrik Richter (de), Ignacio Casal Quinteiro (gl),
+Kjartan Maraas (nb), Pawan Chitrakar (ne), Funda Wang 
+Ahmad Riza H Nst (id), Pema Geyleg (dz)
 
 Bug fixes and features :
 
-Arvind, Andre Klapper, Boby Wang, Yuri Pankov, 
-Harish Krishnaswamy, Srinivasa Ragavan, Johnny Jacob,
-Raghavendran, Shree Krishnan, Ushveen Kaur, Karsten
-Brackelmann, Michael Zucchi, Hiroyuki Ikezoe,
-Rajeev Ramanathan, Chenthill Palanisamy, Li Yuan,
-Devashish Sharma, Mikhail Zabaluev, Ross Burton,  
-Sankar, Benoît Dejean, Vandana Shenoy, Julio M. Merino
-Vidal, Luca Ferretti.
+#336963 - Srinivasa Ragavan
+#324241 - Johnny Jacob
+#336963 - Ushveen Kaur
+#260354 - Arvind_evo
+#335423 - Chris Heath
+#331694 - Harish 
+#341381 - Li Yuan
+#341334 - Srinivasa Ragavan
+#341525 - Li Yuan
+#268592 - Arvind_evo 
+#333003 - Gary Coady
+#330633 - Arvind_evo
+#345969 - Li Yuan
+#345510 - Li Yuan
+#345923 - Li Yuan
+#34522 - Wang Xin
+#339217 - Aishwarya K
+#304648 - Rajeev
+#344630 - Wang Xin
+#341961 - Hiroyuki Ikezoe
+#341369 - Hiroyuki Ikezoe
+#347381 - Boby Wang
+#332909 - Ushveen Kaur
+#338710 - Devashish
+#344227 - Hiroyuki Ikezoe
+#342646 - Hiroyuki Ikezoe
+#332347 - Oswald Rodrigues
+#335423 - Chris Heath
+#310489 - Chenthill 
+#336853 - Julio M. Merino Vidal
+#333821 - Varadhan
+#329740 - Chenthill
+#347973 - Chenthill
+#332387 - Bastien Nocera
 
-Evolution 2.7.4 2006-07-10
---------------------------
-Updated Translations:
 
-Francisco Javier F. Serrador, Jovan Naumovski,
-Changwoo Ryu, Nikos Charonitakis, Rostislav
-Raykov, Ilkka Tuohela, Ivar Smolin, Ahmad Riza
-H Nst, Inaki Larranaga, Ankit Patel, Vincent
-van Adrighem, Runa Bhattacharjee, Benoît Dejean,
-Theppitak Karoonboonyanan, Pawan Chitrakar, I.Felix,
-Rajesh Ranjan, Kjartan Maraas, Chao-Hsiung Liao,
-Clytie Siddall, Hendrik Richter, Daniel Nylander.
+#335410 - (Andre, Vincent Fretin, Olav Vitters)
+A typo fix that was causing experimental plugins
+to be skipped (Iain Buchanan)
 
-Bug fixes :
+Other major fixes :
 
-Andreas Köhler, Harish Krishnaswamy, Ushveen Kaur,
-Andre Klapper, Johnny Jacob, Mathew Barnes, Arvind_evo,
-Srinivasa Ragavan, Tor Lillqvist, Li Yuan, Chenthill,
-Wang Xin, Rajeev Ramanathan, Aishwarya K, Hiroyuki Ikezoe,
-Simon Zheng, Devashish Sharma, Oswald Rodrigues, Harry Lu,
-Oswald, Sushma Rai, Mathew Barnes, Karsten Bräckelmann,
-Sankar P, Frederic Peters.
+* Use pango Layout for printing - Dave Malcolm
+* Tons for Win32 related fixes - Tor Lillqvist
 
-Evolution 2.7.3 2006-06-12
---------------------------
+Evolution 2.6.2 2006-05-29 
+---------------------------
+Bug fixes since last release :
+http://go-evolution.org/Evo2.6.2#Evolution
 
-Updated Translations contributed by
-Ilkka Tuohela, Ignacio Casal Quinteiro, Kjartan Maraas,
-Ankit Patel, Francisco Javier F. Serrador,
-Funda Wang, Pema Geyleg, Vincent van Adrighem,
-Clytie Siddall, Stanislav Brabec, Priit Laes,
-Alexander Shopov.
-
-Bug fixes and other changes : 
-Srinivasa Ragavan, Li Yuan, Harish Krishnaswamy,
-Chris Heath, Jeffrey Stedfast, Gary Coady, Tor Lillqvist,
-Frederic Peters, Wang Xin, Hiroyuki Ikezoe, Li Yuan,
-Parthasarathi Susarla,  Simon Zheng, Devashish Sharma,
-Roozbeh Pournader, Johnny Jacob, Federico Mena Quintero
-Ed Catmur,  Carlos Garcia Campos, Sushma Rai, Sankar P,
-David Richards, Chenthill Palanisamy, 
-
-Evolution 2.7.1 2006-04-24
+Evolution 2.6.1 2006-04-10 
 ---------------------------
 
-First release of 2.7 development series.
+Bug fixes since last release :
+http://go-evolution.org/Evo2.6.1#Evolution
 
-What is new ?
--------------
+Evolution 2.6.0 2006-03-13 
+---------------------------
 
-* Integration of Evolution Calendar with Cairo
+What is new since Evolution 2.4 ?
+---------------------------------
+
+	- a new Memo Component
+	- a new Look for the Event/Task/Meeting Editor
+	- Calendar Publishing support
+	- CalDAV support
+	- Network Manager support
+	- HULA connectivity support
+	- Improved GroupWise support
+	- Improved Event Recurrence support
+	- Calendar Tooltips
+	- CSV/tab importers for Mozilla, Outlook and Evolution formats
+	- Contact list support for LDAP addressbooks
+	- Support for saving Advanced Searches for Address books
+	- Support for Prioritizing messages in the composer
+	- Lots of bug fixes and lots of other User Interface Improvements
+	- Updated Translations
+
+Bug fixes since last release :
+http://go-evolution.org/Evo2.6.0#Evolution
+
 
 Evolution 2.5.92 2006-02-27
 ---------------------------

@@ -1,100 +1,27 @@
-2006-07-24  Sushma Rai  <rsushma@novell.com>
-
-	* gui/widgets/e-addressbook-view.c (search_activated): Commented out
-	reference to undefined function eab_search_dialog_new(). See #347910. 
-
-2006-07-24  Devashish Sharma  <sdevashish@novell.com>
-
-	* gui/contact-editor/e-contact-editor.c:
-	* gui/contact-editor/e-contact-editor-im.c: Added support for gadu gadu im 
-	in contact entry.
-
-2006-07-22  Mikhail Zabaluev <mhz@altlinux.org>
+2006-07-22  Boby Wang <boby.wang@sun.com>
 
 	Reviewed by Harish Krishnaswamy <kharish@novell.com>
-
-	* printing/Makefile.am: Add missing .la files
-	Fixes #334206.	
-
-2006-07-20  Boby Wang <boby.wang@sun.com>
-
-	Reviewed by Harish Krishnaswamy <kharish@novell.com>
-	
-	** Fix bug #347381
+	** Fixes bug #347381
 
 	* gui/contact-editor/e-contact-editor.c: (image_clicked):
 	Set the image chooser dialog to modal dialog, then we can focus back to
 	the chooser dialog by <ALT + TAB>
 
-2006-07-19  Devashish Sharma  <sdevashish@novell.com>
+2006-07-14  Ushveen Kaur <kushveen@novell.com>
 
-	* addressbook/gui/widgets/e-minicard.c :
-	* addressbook/gui/widgets/eab-contact-display.c : In the minicard view
-	and preview pane, show the type(home, work) of email instead of showing 
-	email1,email2.
-	Fixes Bug 343816.
-
-2006-07-18  Ross Burton  <ross@openedhand.com>
-
-	* addressbook/gui/contact-editor/e-contact-editor.c:
-	* addressbook/gui/contact-list-editor/e-contact-list-editor.c:
-	* addressbook/gui/widgets/eab-contact-display.c:
-	Fix for EContactPhoto changes.  Partially fixed by Hiroyuki Ikezoe
-	<poincare@ikezoe.net>, finished by myself.  (#347870).
-
-2006-07-18  Andre Klapper  <a9016009@gmx.de>
-
-	* gui/contact-editor/contact-editor.glade: 
-	* gui/contact-editor/fulladdr.glade: 
-	* gui/contact-editor/fullname.glade: 
-	* gui/contact-editor/im.glade: 
-	* gui/contact-list-editor/contact-list-editor.glade: 
-	remove "*" from translation. Fixes bug #331147.
-
-2006-19-06 Ushveen Kaur <kushveen@novell.com>
-
-	** Fixes bug #332909
+	** Fix for bug #332909
 	
-	* gui/contact-editor/e-contact-editor.[ch]: once asked for resizing, it 
-	wont ask again.
+	* gui/contact-editor/e-contact-editor.[ch]: (image_chooser_changed),
+	(fill_in_simple_field), (extract_simple_field), (image_selected),
+	(image_cleared), (e_contact_editor_init): Remember the image change
+	and prompt only if changed.
 
-2006-07-08  Aishwarya K  <aishkalyan@gmail.com>
-
-	Fix for #332963
-	* e-contact-editor.c: Set the mnemonic character for "No image"
-
-2006-06-30  Johnny Jacob  <jjohnny@novell.com>
-	* gui/cal-search-bar.c: (get_current_category),
-	(get_category_sexp), (notify_e_cal_view_contains),
-	(notify_category_is), (regen_query), (regen_view_query),
-	(make_suboptions), (cal_search_bar_construct): Added/Removed code
-	for new search ui.
-	* gui/e-tasks.c: (search_bar_sexp_changed_cb):
-	Added/Removed code for search ui.
-
-2006-06-29  simon.zheng  <simon.zheng@sun.com>
-
-	* gui/widgets/eab-gui-util.c: (file_exists): Convert filename
-	from glib encoding to utf8 encoding.
-	Fixes Bug #339151
-
-2006-06-27  Devashish Sharma  <sdevashish@novell.com>
-
-	* gui/widgets/eab-gui-util.c (do_delete) :Fix for 
-	Bug #333691.
-
-2006-06-16  Devashish Sharma  <sdevashish@novell.com>
-
-	* gui/contact-list-editor/e-contact-list-editor.c :
-	Fix for Bug #317511
-
-2006-06-15  Devashish Sharma  <sdevashish@novell.com>
-
-	* gui/component/addressbook-view.c : Drag-n-drop contacts now
-	defaults to Moving the contact and the contacts moved will be 
-	instantly removed from the source addressbook.
-	Fixes Bug #337085 and #337086
-
+2006-07-06  Devashish Sharma  <sdevashish@novell.com>
+  	 
+	** Fixes bug #338710
+	* gui/contact-editor/e-contact-quick-add.c : Right click add to
+	contacts doesnt work on email addresses in received mails.
+  	 
 2006-06-14  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #344227
@@ -114,65 +41,18 @@
 	created patch to make _F,_m,_S mnemonics in contact-quick add 
 	dialog work. Fixes bug #332347.
 
-2006-06-12  simon.zheng  <simon.zheng@sun.com>
-
-        Fix for #336453
-
-	* gui/component/addressbook-config.c: (addressbook_ldap_init):
-        Add SunLDAP library support - a variant of Netscape LDAP.
-
-2006-06-12  Devashish Sharma <sdevashish@novell.com>
-
-	* gui/contact-editor/e-contact-editor.c : If company name
-	is set and full name and file as are not set, set company name
-	as full name and fle name.
-	Fixes Bug #206320, 342903
-	
-2006-06-12  Devashish Sharma <sdevashish@novell.com>
-
-	* gui/contact-editor/e-contact-quick-add.c :Fix for Bug #341465
-
 2006-06-09  Chris Heath <chris@heathens.co.nz>
 
-	* gui/widgets/eab-popup-control.c (eab_popup_control_set_free_form): Fix
+	* gui/widgets/eab-popup-control.c (eab_popup_control_set_free_form): Fix 
 	memory leak
 	* gui/contact-editor/e-contact-quick-add.c (quick_add_merge_contact): Ditto.
 	Fixes bug #335423.
-
-2006-05-25  Devashish Sharma  <sdevashish@novell.com>
-
-	* gui/contact-editor/e-contact-quick-add.c : Right click add to
-	contacts doesnt work on email addresses in received mails.
-
-2006-05-25  Devashish Sharma  <sdevashish@novell.com>
-
-	* gui/widgets/eab-contact-display.c : Name of some fields differ 
-	when seen in preview pane and contact editor (Video Chat in contact
-	editor and Video Conferencing in preview pane).
-
-2006-05-25  Devashish Sharma  <sdevashish@novel.com>
-
-	* gui/contact-list-editor/e-contact-list-editor.c : Contacts
-	added to a contact list cant be added again.
-
-2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
-
-	** Added code to save vcards/addressbooks to remote shares
-
-	* gui/widgets/eab-gui-util.c: (save_it), (eab_contact_save),
-	(eab_contact_list_save):
 
 2006-05-17  Roozbeh Pournader  <roozbeh@farsiweb.info>
 
 	Fix for gnome bug #341931, farsiweb #562
 	* gui/contact-editor/e-contact-editor.c: Mark a few messages for
 	  translation.
-
-2006-05-12  simon.zheng  <simon.zheng@sun.com>
-
-	Fix for Bug 341521
-	* gui/contact-editor/contact-editor.glade: Change the label
-	name of categories button.
 
 2006-04-27  Boby Wang <boby.wang@sun.com>
 
@@ -181,50 +61,12 @@
 	* gui/contact-editor/fullname.glade:
 	Add labelled-by relationship to gtkcombo.
 
-2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-	
-	** Patch from PR Suman to add icons missing in menu items.
-
-	* gui/component/addressbook-view.c: Added icons for forward and send.
-
-2006-02-18  M Victor Aloysius J <victoraloy@gmail.com>
-
-	** Fixes bug #317512
-	
-	* gui/eab-contact-editot.c:
-	* gui/eab-popup.h:
-	* gui/eab-popup.c:
-	Hyperlinked email-addresses and websites in preview pane support right 
-	click mouse options. 
-
-2006-04-21  Simon Zheng  <simon.zheng@sun.com>
-
-	Fix for bug #337604
-	* printing/e-contact-print.c: (e_contact_print_response):
-	Should destory the print dialog window after clicking Print
-	Preview button.
-
-2006-04-21  Devashish Sharma  <sdevashish@novell.com>
-
-	Fix for Bug 333869.
-	* printing/e-contact-print-types.h: Remove member letter_tabs in
-	struct _EContactPrintStyle.
-	* printing/e-contact-print.c (e_contact_start_new_page),
-	(e_contact_get_contact_size), (e_contact_print_contact),
-	(e_contact_start_new_column), (complete_sequence),
-	(e_contact_build_style), (e_contact_print_response),
-	(e_contact_print_preview):
-	To be consistent with minicard view, remove functions and data structure 
-	associated with letter tab printing.
-	Patch by Simon Zheng <simon.zheng@sun.com>.
-
-2006-04-21  Devashish Sharma  <sdevashish@novell.com>
+2006-04-21  simon.zheng  <simon.zheng@sun.com>
 
 	Fix for Bug 336713
-	* gui/merging/eab-contact-merging.c: (cancelit): After selecting 
-	"cancel duplicate" when pasting contacts, can't remove those
-	EContactMergingLookup. Make finished_lookup() available. 
-	Patch by Simon Zheng <simon.zheng@sun.com>.
+        * gui/merging/eab-contact-merging.c: (cancelit): After selecting
+        "cancel duplicate" when pasting contacts, can't remove those
+        EContactMergingLookup. Make finished_lookup() available.
 
 2006-03-29  Li Yuan <li.yuan@sun.com>
 
@@ -233,21 +75,6 @@
 	(source_selector_key_press_event_callback):
 	we should return false if it is not a del event to make gtktreeview
 	deal the rest of keys.
-
-2006-03-10  Devashish Sharma  <sdevashish@novell.com>
-
-	* gui/component/ldap-config.glade : ldap port numbers
-	were marked for translation. Fixes 331020.
-
-2006-03-10  Devashish Sharma  <sdevashish@novell.com>
-
-	Fix for bug #333855
-	* gui/contact-editor/e-contact-editor.c (full_name_response),
-	(full_name_key_press_event), (full_name_editor_delete_event_cb),
-	(full_name_clicked):
-	The fullname dialog should be non-modal as well as categories dialog.
-	Patch by Simon Zheng <simon.zheng@sun.com>. Made some changes to the 
-	patch and committed.
 
 2006-03-06  Devashish Sharma <sdevashish@novell.com>
 

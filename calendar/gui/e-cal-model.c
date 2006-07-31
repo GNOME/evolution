@@ -468,11 +468,6 @@ ecm_value_at (ETableModel *etm, int col, int row)
 		comp = e_cal_component_new ();
 		icalcomp = icalcomponent_new_clone (comp_data->icalcomp);
 		if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
-			if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
-				g_object_unref (comp);
-				return GINT_TO_POINTER (retval);
-			}
-				
 			if (e_cal_component_has_recurrences (comp))
 				retval = 1;
 			else if (itip_organizer_is_user (comp, comp_data->client))
@@ -785,7 +780,6 @@ ecm_duplicate_value (ETableModel *etm, int col, const void *value)
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		return g_strdup (value);
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
@@ -1838,9 +1832,6 @@ e_cal_model_create_component_with_defaults (ECalModel *model)
 	case ICAL_VTODO_COMPONENT :
 		comp = cal_comp_task_new_with_defaults (client);
 		break;
-	case ICAL_VJOURNAL_COMPONENT :
-	        comp = cal_comp_memo_new_with_defaults (client);
-		break;
 	default:
 		return NULL;
 	}
@@ -2138,27 +2129,5 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zon
 	
 	comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
 
-	if (end_time.zone)
-		zone = end_time.zone;
-	else {
-		icalparameter *param = NULL;
-		icalproperty *prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
-	
-	       if (prop)	{
-			param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
-
-			if (param) {
-				const char *tzid = NULL;
-				icaltimezone *end_zone = NULL;
-
-				tzid = icalparameter_get_tzid (param);
-				e_cal_get_timezone (comp_data->client, tzid, &end_zone, NULL);
-
-				if (end_zone)
-					zone = end_zone;
-			}
-	       }
-
-	}
 	comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
 }

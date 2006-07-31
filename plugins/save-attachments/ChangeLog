@@ -1,15 +1,7 @@
-2006-07-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+2006-07-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>C
 
 	** Fixes bug #341369
 	* save-attachments.c: fixing a memory leak.
-
-2006-02-28  Shi Pu <shi.pu@sun.com>
-
-	** Fixes #323853
-
-	* save-attachments.c: (save_response), (entry_changed),
-	(save_got_message):
-	replace GnomeFileEntry by GtkFileChooserButton.
 
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 

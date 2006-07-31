@@ -39,7 +39,6 @@
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -236,35 +235,6 @@ e_write_file(const char *filename, const char *data, int flags)
 	if (close(fd) != 0) {
 		return errno;
 	}
-	return 0;
-}
-
-gint
-e_write_file_uri (const char *filename, const char *data)
-{
-	guint64 length = strlen(data);
-	guint64 bytes;
-	GnomeVFSResult result;
-	GnomeVFSHandle *handle = NULL;
-
-	result = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, TRUE, 0755);
-	if (result != GNOME_VFS_OK) {
-		g_warning ("Couldn't save item");
-		return 1;
-	}
-	
-	while (length > 0) {
-		gnome_vfs_write(handle, data, length, &bytes);
-		if (bytes > 0) {
-			length -= bytes;
-			data += bytes;
-		} else {
-			gnome_vfs_close(handle);
-			return 1;
-		}
-	}
-
-	gnome_vfs_close (handle);
 	return 0;
 }
 
@@ -1125,63 +1095,3 @@ e_gettext (const char *msgid)
 
 	return dgettext (E_I18N_DOMAIN, msgid);
 }
-
-cairo_font_options_t *
-get_font_options ()
-{
-	char *antialiasing, *hinting, *subpixel_order;
-	GConfClient *gconf = gconf_client_get_default ();
-	cairo_font_options_t *font_options = cairo_font_options_create ();
-
-	/* Antialiasing */
-	antialiasing = gconf_client_get_string (gconf,
-			"/desktop/gnome/font_rendering/antialiasing", NULL);
-	if (antialiasing == NULL) 
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
-	else {
-		if (strcmp (antialiasing, "grayscale") == 0)
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_GRAY);
-		else if (strcmp (antialiasing, "rgba") == 0)
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_SUBPIXEL);
-		else if (strcmp (antialiasing, "none") == 0)
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_NONE);
-		else
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
-	}
-	hinting = gconf_client_get_string (gconf,
-			"/desktop/gnome/font_rendering/hinting", NULL);
-	if (hinting == NULL)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
-	else {
-		if (strcmp (hinting, "full") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_FULL);
-		else if (strcmp (hinting, "medium") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_MEDIUM);
-		else if (strcmp (hinting, "slight") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_SLIGHT);
-		else if (strcmp (hinting, "none") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_NONE);
-		else
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
-	}
-	subpixel_order = gconf_client_get_string (gconf,
-			"/desktop/gnome/font_rendering/rgba_order", NULL);
-	if (subpixel_order == NULL)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
-	else {
-		if (strcmp (subpixel_order, "rgb") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_RGB);
-		else if (strcmp (subpixel_order, "bgr") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_BGR);
-		else if (strcmp (subpixel_order, "vrgb") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VRGB);
-		else if (strcmp (subpixel_order, "vbgr") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VBGR);
-		else
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
-	}
-	g_object_unref (gconf);
-	return font_options;
-}
-
-

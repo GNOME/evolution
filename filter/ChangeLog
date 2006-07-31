@@ -3,13 +3,6 @@
 	** Fixes bug #341369
 	* rule-editor.c: fixing a memory leak.
 
-2006-02-24  Shi Pu <shi.pu@sun.com>
-
-	** Fixes Bug #323853
-
-	* filter-file.c: (filename_changed), (get_widget):
-	Replace GnomeFileEntry by GtkFileChooserButton.
-
 2006-01-27  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-element.c: (filter_element_get_type): Remove unused code

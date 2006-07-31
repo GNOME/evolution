@@ -57,7 +57,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
 
-#include <gtk/gtkfilechooserbutton.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include <libgnomeui/gnome-color-picker.h>
 
 #include <gtkhtml/gtkhtml.h>
@@ -319,8 +319,8 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 		/* signature script */
 		GtkWidget *entry;
 		
-		entry = glade_xml_get_widget (prefs->sig_script_gui, "filechooserbutton_add_script");
-		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (entry), sig->filename);
+		entry = glade_xml_get_widget (prefs->sig_script_gui, "fileentry_add_script_script");
+		gnome_file_entry_set_filename ((GnomeFileEntry *) entry, sig->filename);
 		
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 		gtk_entry_set_text (GTK_ENTRY (entry), sig->name);
@@ -383,8 +383,8 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 	int argc;
 	
 	if (button == GTK_RESPONSE_ACCEPT) {
-		entry = glade_xml_get_widget (prefs->sig_script_gui, "filechooserbutton_add_script");
-		script = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (entry));
+		entry = glade_xml_get_widget (prefs->sig_script_gui, "fileentry_add_script_script");
+		script = gnome_file_entry_get_full_path((GnomeFileEntry *)entry, FALSE);
 		
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 		name = gtk_entry_get_text (GTK_ENTRY (entry));

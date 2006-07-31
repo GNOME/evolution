@@ -65,7 +65,6 @@
 #define ICON_BORDER 2
 #define ICON_TEXT_SPACING 2
 
-
 static GnomeIconListClass *parent_class = NULL;
 
 struct _EAttachmentBarPrivate {
@@ -76,7 +75,6 @@ struct _EAttachmentBarPrivate {
 	char *path;
 };
 
-
 enum {
 	CHANGED,
 	LAST_SIGNAL
@@ -84,12 +82,10 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-
 static void update (EAttachmentBar *bar);
 
-
 static char *
-size_to_string (size_t size)
+size_to_string (gulong size)
 {
 	char *size_string;
 	
@@ -139,7 +135,8 @@ attachment_changed_cb (EAttachment *attachment,
 }
 
 static void
-add_common (EAttachmentBar *bar, EAttachment *attachment)
+add_common (EAttachmentBar *bar,
+	    EAttachment *attachment)
 {
 	g_return_if_fail (attachment != NULL);
 	
@@ -153,25 +150,28 @@ add_common (EAttachmentBar *bar, EAttachment *attachment)
 }
 
 static void
-add_from_mime_part (EAttachmentBar *bar, CamelMimePart *part)
+add_from_mime_part (EAttachmentBar *bar,
+		    CamelMimePart *part)
 {
 	add_common (bar, e_attachment_new_from_mime_part (part));
 }
 
 static void
-add_from_file (EAttachmentBar *bar, const char *file_name, const char *disposition)
+add_from_file (EAttachmentBar *bar,
+	       const char *file_name,
+	       const char *disposition)
 {
 	EAttachment *attachment;
 	CamelException ex;
 	
 	camel_exception_init (&ex);
-	
-	if ((attachment = e_attachment_new (file_name, disposition, &ex))) {
+	attachment = e_attachment_new (file_name, disposition, &ex);
+	if (attachment) {
 		add_common (bar, attachment);
 	} else {
 		/* FIXME: Avoid using error from mailer */
-		e_error_run ((GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) bar), "mail-composer:no-attach",
-			     file_name, camel_exception_get_description (&ex), NULL);
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "mail-composer:no-attach",
+			    file_name, camel_exception_get_description(&ex), NULL);
 		camel_exception_clear (&ex);
 	}
 }
@@ -203,66 +203,6 @@ calculate_height_width(EAttachmentBar *bar, int *new_width, int *new_height)
 	return;
 }
 
-void
-e_attachment_bar_create_attachment_cache (EAttachment *attachment)
-{
-
-	CamelContentType *content_type;
-
-	content_type = camel_mime_part_get_content_type (attachment->body);
-
-	if (camel_content_type_is(content_type, "image", "*")) {
-		CamelDataWrapper *wrapper;
-		CamelStreamMem *mstream;
-		GdkPixbufLoader *loader;
-		gboolean error = TRUE;
-		GdkPixbuf *pixbuf;
-		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
-		mstream = (CamelStreamMem *) camel_stream_mem_new ();
-			
-		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
-			
-		/* Stream image into pixbuf loader */
-		loader = gdk_pixbuf_loader_new ();
-		error = !gdk_pixbuf_loader_write (loader, mstream->buffer->data, mstream->buffer->len, NULL);
-		gdk_pixbuf_loader_close (loader, NULL);
-			
-		if (!error) {
-			int ratio, width, height;
-			
-			/* Shrink pixbuf */
-			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-			width = gdk_pixbuf_get_width (pixbuf);
-			height = gdk_pixbuf_get_height (pixbuf);
-			if (width >= height) {
-				if (width > 48) {
-					ratio = width / 48;
-					width = 48;
-					height = height / ratio;
-				}
-			} else {
-				if (height > 48) {
-					ratio = height / 48;
-					height = 48;
-					width = width / ratio;
-				}
-			}
-			
-			attachment->pixbuf_cache = gdk_pixbuf_scale_simple (pixbuf, width,height,GDK_INTERP_BILINEAR);
-			pixbuf = attachment->pixbuf_cache;
-			g_object_ref(pixbuf);
-		} else {
-			attachment->pixbuf_cache = NULL;
-			g_warning ("GdkPixbufLoader Error");
-		}
-			
-		/* Destroy everything */
-		g_object_unref (loader);
-		camel_object_unref (mstream);
-	}
-}
-
 static void
 update (EAttachmentBar *bar)
 {
@@ -283,16 +223,17 @@ update (EAttachmentBar *bar)
 		EAttachment *attachment;
 		CamelContentType *content_type;
 		char *size_string, *label;
-		GdkPixbuf *pixbuf = NULL;
+		GdkPixbuf *pixbuf=NULL;
 		const char *desc;
 		
 		attachment = priv->attachments->pdata[i];
 		
 		if (!attachment->is_available_local) {
 			/* stock_attach would be better, but its fugly scaled up */
-			if ((pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG))) {
+			pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
+			if (pixbuf) {
 				attachment->index = gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, "");
-				g_object_unref (pixbuf);
+				g_object_unref(pixbuf);
 			}
 			continue;
 		}
@@ -300,7 +241,8 @@ update (EAttachmentBar *bar)
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
-		if ((pixbuf = attachment->pixbuf_cache)) {
+		pixbuf = attachment->pixbuf_cache;
+		if (pixbuf) {
 			g_object_ref(pixbuf);
 		} else if (camel_content_type_is(content_type, "image", "*")) {
 			CamelDataWrapper *wrapper;
@@ -339,10 +281,13 @@ update (EAttachmentBar *bar)
 					}
 				}
 				
-				attachment->pixbuf_cache = gdk_pixbuf_scale_simple (pixbuf, width, height,
-										    GDK_INTERP_BILINEAR);
+				attachment->pixbuf_cache = gdk_pixbuf_scale_simple 
+					(pixbuf,
+					 width,
+					 height,
+					 GDK_INTERP_BILINEAR);
 				pixbuf = attachment->pixbuf_cache;
-				g_object_ref (pixbuf);
+				g_object_ref(pixbuf);
 			} else {
 				pixbuf = NULL;
 				g_warning ("GdkPixbufLoader Error");
@@ -364,7 +309,8 @@ update (EAttachmentBar *bar)
 		if (!desc)
 			desc = _("attachment");
 		
-		if (attachment->size && (size_string = size_to_string (attachment->size))) {
+		if (attachment->size
+		    && (size_string = size_to_string (attachment->size))) {
 			label = g_strdup_printf ("%s (%s)", desc, size_string);
 			g_free (size_string);
 		} else
@@ -382,56 +328,56 @@ update (EAttachmentBar *bar)
 			}
 			g_free (mime_type);
 		}
-		
+
 		if (pixbuf) {
-			GdkPixbuf *pixbuf_orig = pixbuf;
+			GdkPixbuf* pixbuf_orig = pixbuf;
 			pixbuf = gdk_pixbuf_add_alpha (pixbuf_orig, TRUE, 255, 255, 255);
-			
+
 			/* gdk_pixbuf_add_alpha returns a newly allocated pixbuf,
 			   free the original one. 
 			*/
 			g_object_unref (pixbuf_orig);
-			
+
 			/* In case of a attachment bar, in a signed/encrypted part, display the status as a emblem*/
 			if (attachment->sign) {
 				/* Show the signature status at the right-bottom.*/
 				GdkPixbuf *sign = NULL;
-				int x, y;
-				
+				int x,y;
+
 				if (attachment->sign == CAMEL_CIPHER_VALIDITY_SIGN_BAD)
-					sign = e_icon_factory_get_icon ("stock_signature-bad", E_ICON_SIZE_MENU);
+					sign = e_icon_factory_get_icon("stock_signature-bad", E_ICON_SIZE_MENU);
 				else if (attachment->sign == CAMEL_CIPHER_VALIDITY_SIGN_GOOD)
-					sign = e_icon_factory_get_icon ("stock_signature-ok", E_ICON_SIZE_MENU);
+					sign = e_icon_factory_get_icon("stock_signature-ok", E_ICON_SIZE_MENU);
 				else
-					sign = e_icon_factory_get_icon ("stock_signature", E_ICON_SIZE_MENU);
+					sign = e_icon_factory_get_icon("stock_signature", E_ICON_SIZE_MENU);
+
+				x = gdk_pixbuf_get_width(pixbuf) - 17;
+				y = gdk_pixbuf_get_height(pixbuf) - 17;
 				
-				x = gdk_pixbuf_get_width (pixbuf) - 17;
-				y = gdk_pixbuf_get_height (pixbuf) - 17;
-				
-				gdk_pixbuf_copy_area (sign, 0, 0, 16, 16, pixbuf, x, y);
+				gdk_pixbuf_copy_area(sign, 0, 0, 16, 16, pixbuf, x, y);
 				g_object_unref (sign);
 			}
-			
+
 			if (attachment->encrypt) {
 				/* Show the encryption status at the top left.*/
-				GdkPixbuf *encrypt = e_icon_factory_get_icon ("stock_lock-ok", E_ICON_SIZE_MENU);
+				GdkPixbuf *encrypt = e_icon_factory_get_icon("stock_lock-ok", E_ICON_SIZE_MENU);
 				
-				gdk_pixbuf_copy_area (encrypt, 0, 0, 16, 16, pixbuf, 1, 1);
+				gdk_pixbuf_copy_area(encrypt, 0, 0, 16, 16, pixbuf, 1, 1);
 				g_object_unref (encrypt);
 			}
-			
+
 			gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, label);
-			g_object_unref (pixbuf);
+			g_object_unref(pixbuf);
 		}
 		
 		g_free (label);
 	}
 	
 	gnome_icon_list_thaw (icon_list);
-	
+
 	/* Resize */
 	if (bar->expand) {
-		gtk_widget_get_size_request ((GtkWidget *) bar, &bar_width, &bar_height);
+		gtk_widget_get_size_request ((GtkWidget *)bar, &bar_width, &bar_height);
 		
 		if (bar->priv->attachments->len) {
 			int per_col, rows, height, width;
@@ -440,7 +386,7 @@ update (EAttachmentBar *bar)
 			per_col = bar_width / width;
 			per_col = (per_col ? per_col : 1);
 			rows = (bar->priv->attachments->len + per_col -1) / per_col;
-			gtk_widget_set_size_request ((GtkWidget *) bar, bar_width, rows * height);
+			gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, rows * height);
 		}
 	}
 }
@@ -705,17 +651,20 @@ destroy (GtkObject *object)
 }
 
 static char *
-temp_save_part (CamelMimePart *part)
+temp_save_part(CamelMimePart *part)
 {
 	const char *filename;
 	char *tmpdir, *path, *mfilename = NULL, *utf8_mfilename = NULL;
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
-	
-	if (!(tmpdir = e_mkdtemp ("evolution-tmp-XXXXXX")))
+
+	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
+	if (tmpdir == NULL) {
 		return NULL;
-	
-	if (!(filename = camel_mime_part_get_filename (part))) {
+	}
+
+	filename = camel_mime_part_get_filename (part);
+	if (filename == NULL) {
 		/* This is the default filename used for temporary file creation */
 		filename = _("Unknown");
 	} else {
@@ -725,14 +674,14 @@ temp_save_part (CamelMimePart *part)
 		g_free (utf8_mfilename);
 		filename = (const char *) mfilename;
 	}
-	
-	path = g_build_filename (tmpdir, filename, NULL);
-	g_free (tmpdir);
-	g_free (mfilename);
-	
+
+	path = g_build_filename(tmpdir, filename, NULL);
+	g_free(tmpdir);
+	g_free(mfilename);
+
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	stream = camel_stream_fs_new_with_name (path, O_RDWR|O_CREAT|O_TRUNC, 0600);
-	
+
 	if (!stream) {
 		/* TODO handle error conditions */
 		g_message ("DEBUG: could not open the file to write\n");
@@ -842,17 +791,17 @@ eab_button_press_event(EAttachmentBar *bar, GdkEventButton *event, gpointer dumm
 	};	
 
 	selected = gnome_icon_list_get_selection(icon_list);
-	length = g_list_length (selected);
+	length = g_list_length(selected);
 
 	if (event) {
 		icon_number = gnome_icon_list_get_icon_at(icon_list, event->x, event->y);
 		if (icon_number < 0) { 
-			/* When nothing is selected, deselect all */
-			gnome_icon_list_unselect_all (icon_list);
+			/* When nothing is selected deselect all*/
+			gnome_icon_list_unselect_all(icon_list);
 			length = 0;
 			selected = NULL;
 		}
-		
+	
 		if (event->button == 1) {
 			/* If something is selected, then allow drag or else help to select */
 			if (length)
@@ -861,11 +810,11 @@ eab_button_press_event(EAttachmentBar *bar, GdkEventButton *event, gpointer dumm
 				gtk_drag_source_unset((GtkWidget *)bar);
 			return FALSE;
 		}
-		
+	
 		/* If not r-click dont progress any more.*/
 		if (event->button != 3)
-			return FALSE;
-		
+			return FALSE;	
+
 		/* When a r-click on something, if it is in the already selected list, consider a r-click of multiple things
 		 * or deselect all and select only this for r-click 
 		 */
@@ -874,42 +823,42 @@ eab_button_press_event(EAttachmentBar *bar, GdkEventButton *event, gpointer dumm
 				if (GPOINTER_TO_INT(tmp->data) == icon_number)
 					take_selected = TRUE;
 			}
-			
+	
 			if (!take_selected) {
 				gnome_icon_list_unselect_all(icon_list);
 				gnome_icon_list_select_icon(icon_list, icon_number);
 			}
 		}
-	}
-	
+	} 
 	return FALSE;
 }
 
 static gboolean
 eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 {
-	EAttachment *attachment;
+	GSList *p = NULL;
 	GError *error = NULL;
 	gboolean ret = FALSE;
-	CamelURL *url;
-	char *path;
-	GSList *p;
-	
+
 	if (E_IS_ATTACHMENT_BAR (bar) && event->type == GDK_2BUTTON_PRESS) {
 		p = e_attachment_bar_get_selected (bar);
-		if (p && p->next == NULL) {
-			attachment = p->data;
-			
+		if (p && g_slist_length(p) == 1) {
+			EAttachment *attachment;
+			char *path = NULL;
+
+			attachment = (EAttachment *)p->data;
+
 			/* Check if the file is stored already */
 			if (!attachment->store_uri) {
+				CamelURL *curl;
+				
 				path = temp_save_part (attachment->body);				
-				url = camel_url_new ("file:", NULL);
-				camel_url_set_path (url, path);
-				attachment->store_uri = camel_url_to_string (url, 0);
-				camel_url_free (url);
-				g_free (path);
+				curl  = camel_url_new ("file:", NULL);
+				camel_url_set_path ( curl, path);
+				attachment->store_uri = camel_url_to_string (curl, 0);
+				camel_url_free (curl);
 			}
-			
+
 			/* launch the url now */
 			gnome_url_show (attachment->store_uri, &error);
 			if (error) {
@@ -917,12 +866,13 @@ eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 				g_error_free (error);
 				error = NULL;
 			}
-			
+
+			g_free (path);
 			ret = TRUE;
 		}
-		
+
 		if (p) {
-			g_slist_foreach (p, (GFunc) g_object_unref, NULL);
+			g_slist_foreach (p, (GFunc)g_object_unref, NULL);
 			g_slist_free (p);
 		}
 	}
@@ -1021,8 +971,8 @@ e_attachment_bar_new (GtkAdjustment *adj)
 	gnome_icon_list_set_selection_mode (icon_list, GTK_SELECTION_MULTIPLE);
 
 	atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (new)), 
-			     _("Attachment Bar"));
-	
+			_("Attachment Bar"));
+
 	g_signal_connect (new, "button_release_event", G_CALLBACK(eab_button_release_event), NULL);
 	g_signal_connect (new, "button_press_event", G_CALLBACK(eab_button_press_event), NULL);
 	g_signal_connect (new, "drag-data-get", G_CALLBACK(eab_drag_data_get), NULL);
@@ -1125,7 +1075,9 @@ attach_to_multipart (CamelMultipart *multipart,
 }
 
 void
-e_attachment_bar_to_multipart (EAttachmentBar *bar, CamelMultipart *multipart, const char *default_charset)
+e_attachment_bar_to_multipart (EAttachmentBar *bar,
+			       CamelMultipart *multipart,
+			       const char *default_charset)
 {
 	struct _EAttachmentBarPrivate *priv;
 	EAttachment *attachment;
@@ -1154,7 +1106,9 @@ e_attachment_bar_get_num_attachments (EAttachmentBar *bar)
 
 
 void
-e_attachment_bar_attach (EAttachmentBar *bar, const char *file_name, const char *disposition)
+e_attachment_bar_attach (EAttachmentBar *bar,
+			 const char *file_name,
+			 const char *disposition)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	g_return_if_fail (file_name != NULL && disposition != NULL);
@@ -1163,7 +1117,8 @@ e_attachment_bar_attach (EAttachmentBar *bar, const char *file_name, const char 
 }
 
 void
-e_attachment_bar_add_attachment (EAttachmentBar *bar, EAttachment *attachment)
+e_attachment_bar_add_attachment (EAttachmentBar *bar,
+				 EAttachment *attachment)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
@@ -1190,30 +1145,32 @@ e_attachment_bar_get_download_count (EAttachmentBar *bar)
 	return n;
 }
 
-void
-e_attachment_bar_attach_remote_file (EAttachmentBar *bar, const char *url, const char *disposition)
+void 
+e_attachment_bar_attach_remote_file (EAttachmentBar *bar, const char *url)
 {
 	EAttachment *attachment;
 	CamelException ex;
-	
+
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
-	
+
 	if (!bar->priv->path)
-		bar->priv->path = e_mkdtemp ("attach-XXXXXX");
-	
+		bar->priv->path = e_mkdtemp("attach-XXXXXX");
+
 	camel_exception_init (&ex);
-	if ((attachment = e_attachment_new_remote_file (url, disposition, bar->priv->path, &ex))) {
-		add_common (bar, attachment);
+	attachment = e_attachment_new_remote_file (url, "attachment", bar->priv->path, &ex);
+	if (attachment) {
 		g_signal_connect (attachment, "update", G_CALLBACK (update_remote_file), bar);
+		add_common (bar, attachment);
 	} else {
-		e_error_run ((GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) bar), "mail-composer:no-attach",
-			     attachment->file_name, camel_exception_get_description (&ex), NULL);
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "mail-composer:no-attach",
+			    attachment->file_name, camel_exception_get_description(&ex), NULL);
 		camel_exception_clear (&ex);
 	}
 }
 
 void
-e_attachment_bar_attach_mime_part (EAttachmentBar *bar, CamelMimePart *part)
+e_attachment_bar_attach_mime_part (EAttachmentBar *bar,
+				   CamelMimePart *part)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	

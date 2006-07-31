@@ -345,7 +345,7 @@ build_quick_add_dialog (QuickAdd *qa)
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
-	label = gtk_label_new_with_mnemonic (_("E_mail"));
+	label = gtk_label_new_with_mnemonic (_("E-_mail"));
 	gtk_label_set_mnemonic_widget ((GtkLabel *)label, qa->email_entry);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
@@ -373,6 +373,7 @@ build_quick_add_dialog (QuickAdd *qa)
 			    GTK_WIDGET (table),
 			    FALSE, FALSE, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
+			  
 	
 	return dialog;
 }

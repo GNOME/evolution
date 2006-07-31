@@ -509,11 +509,11 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
             if (a->cn != NULL && *a->cn)
                 e_destination_set_name (dest, a->cn);
             if (a->value != NULL && *a->value) {
-                if (!strncasecmp (a->value, "MAILTO:", 7))
-                    e_destination_set_email (dest, a->value + 7);
-                else
-                    e_destination_set_email (dest, a->value);
-            }
+				if (!strncasecmp (a->value, "MAILTO:", 7))
+					e_destination_set_email (dest, a->value + 7);
+				else
+					e_destination_set_email (dest, a->value);
+			}
             e_destination_store_append_destination (destination_store, dest);
             g_object_unref(GTK_OBJECT (dest));
         }

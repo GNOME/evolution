@@ -159,10 +159,8 @@ lookup_account_info (const char *key)
 
 #define CALENDAR_SOURCES "/apps/evolution/calendar/sources"
 #define TASKS_SOURCES "/apps/evolution/tasks/sources"
-#define NOTES_SOURCES "/apps/evolution/memos/sources"
 #define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
 #define SELECTED_TASKS   "/apps/evolution/calendar/tasks/selected_tasks"
-#define SELECTED_NOTES   "/apps/evolution/calendar/memos/selected_memos"
 
 static void
 add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url)
@@ -387,7 +385,6 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	url = camel_url_new (info->source_url, NULL);
 	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url);
 	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url);
-	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url);
 	
 	camel_url_free (url);
 
@@ -418,8 +415,6 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 	relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
 	remove_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), relative_uri);
 	remove_esource ("/apps/evolution/tasks/sources", info->name,  _("Checklist"), relative_uri);
-	remove_esource ("/apps/evolution/memos/sources", info->name,  _("Notes"), relative_uri);
-	
 	camel_url_free (url);
 	g_free (relative_uri);
 
@@ -431,8 +426,8 @@ get_addressbook_names_from_server (char *source_url)
   	char *key;
         EGwConnection *cnc;	
 	char *password;
-	GList *book_list = NULL;
-	int status, count = 0;
+	GList *book_list;
+	int status;
 	const char *soap_port;
 	CamelURL *url;
 	gboolean remember;
@@ -456,18 +451,18 @@ get_addressbook_names_from_server (char *source_url)
         if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
+	if (!use_ssl)
+		use_ssl = "";
 
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
 	
-	if (use_ssl && g_str_equal (use_ssl, "always"))
+	if (!g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
 	else 
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
 	
 	cnc = NULL;
-
 	do {
-		count ++;
 		/*we have to uncache the password before prompting again*/
 		if (failed_auth) {
 			e_passwords_forget_password ("Groupwise", key);
@@ -488,27 +483,27 @@ get_addressbook_names_from_server (char *source_url)
 			if (!password) 
 				break;
 		}
-
 		cnc = e_gw_connection_new (uri, url->user, password);
-		g_free (password);
-		if (!E_IS_GW_CONNECTION(cnc)) {
-			if (count == 3)
-				break;
+		if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
+			char *http_uri = g_strconcat ("http://", uri + 8, NULL);
+			cnc = e_gw_connection_new (http_uri, url->user, password);
+			g_free (http_uri);
 		}
+
+		g_free (password);
 
 		failed_auth = _("Failed to authenticate.\n");
 		flags |= E_PASSWORDS_REPROMPT;
 	} while (cnc == NULL);
-
-	g_free (key);
 	
 	if (E_IS_GW_CONNECTION(cnc))  {
 		book_list = NULL;	
 		status = e_gw_connection_get_address_book_list (cnc, &book_list);
 		if (status == E_GW_CONNECTION_STATUS_OK)
 			return book_list;
+	    
+		       
 	}
-
 	/*FIXME: This error message should be relocated to addressbook and should reflect 
 	 * that it actually failed to get the addressbooks*/
 	e_error_run (NULL, "mail:gw-accountsetup-error", poa_address, NULL);
@@ -597,7 +592,6 @@ add_proxy_sources (GwAccountInfo *info, const char *parent_name)
 	url = camel_url_new (info->source_url, NULL);
 	add_proxy_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name);
 	add_proxy_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name);
-	add_proxy_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, parent_name);
 	
 	camel_url_free (url);
 }
@@ -680,7 +674,7 @@ add_addressbook_sources (EAccount *account)
 		g_object_unref (source);
 	}
 	e_source_list_add_group (list, group, -1);
-	e_source_list_sync (list, NULL);
+      	e_source_list_sync (list, NULL);	
 	g_object_unref (group);
 	g_object_unref (list);
 	g_object_unref (client);
@@ -945,8 +939,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 
 		if ((old_poa_address && strcmp (old_poa_address, new_poa_address))
 		   ||  (old_soap_port && strcmp (old_soap_port, new_soap_port)) 
-		   ||  strcmp (old_url->user, new_url->user)
-	           || (!old_use_ssl) 
+		   ||  strcmp (old_url->user, new_url->user) 
 		   || strcmp (old_use_ssl, new_use_ssl)) {
 			
 			account_removed (account_listener, account);
@@ -955,7 +948,6 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			
 			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, new_url);
 			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name,  new_url);
-			modify_esource ("/apps/evolution/memos/sources", existing_account_info, account->name,  new_url);
 			modify_addressbook_sources (account, existing_account_info);
 			
 		}

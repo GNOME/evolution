@@ -475,11 +475,6 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkWidget *tree;
-	gboolean side_bar_search;
-	GConfClient *gconf;
-
-	gconf = mail_config_get_gconf_client ();	
-	side_bar_search = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/side_bar_search", NULL);
 	
 	tree = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 	GTK_WIDGET_SET_FLAGS(tree, GTK_CAN_FOCUS);
@@ -492,7 +487,6 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_tree_view_column_set_cell_data_func (column, renderer, render_pixbuf, NULL, NULL);
 	
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (column, renderer, render_display_name, NULL, NULL);
 	
@@ -502,8 +496,7 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
 
 	gtk_tree_view_set_search_column((GtkTreeView *)tree, COL_STRING_DISPLAY_NAME);
-	gtk_tree_view_set_enable_search((GtkTreeView *)tree, side_bar_search);
-
+	
 	return (GtkTreeView *) tree;
 }
 

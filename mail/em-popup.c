@@ -736,7 +736,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		items = NULL;
 		len = 0;
 	}
-	
+
 	if (mime_type) {
 		apps = gnome_vfs_mime_get_all_applications(mime_type);
 		
