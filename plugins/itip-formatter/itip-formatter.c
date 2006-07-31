@@ -1636,9 +1636,16 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	case ICAL_METHOD_DECLINECOUNTER:
 		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_DECLINECOUNTER);
 		break;
-	default:
-		g_assert_not_reached ();
+	case ICAL_METHOD_X :
+		/* Handle appointment requests from Microsoft
+		 * Live. This is  a best-at-hand-now handling.
+		 * Must be revisited when we have  better access 
+		 * to the source of such meetings */
+		pitip->method = ICAL_METHOD_REQUEST;
+		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REQUEST);
 		break;
+	default:
+		return FALSE;
 	}
 
 	itip_view_set_item_type (ITIP_VIEW (pitip->view), pitip->type);
