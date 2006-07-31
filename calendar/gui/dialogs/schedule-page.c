@@ -256,8 +256,6 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 		}
 	}
 
-	e_meeting_time_selector_set_all_day (priv->sel, all_day);
-	
 	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt.year,
 			      start_tt.month, start_tt.day);
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
@@ -386,6 +384,28 @@ init_widgets (SchedulePage *spage)
 }
 
 
+void
+schedule_page_set_meeting_time (SchedulePage *spage, icaltimetype *start_tt, icaltimetype *end_tt)
+{
+	SchedulePagePrivate *priv;
+	gboolean all_day;
+
+	priv = spage->priv;
+
+	all_day = (start_tt->is_date && end_tt->is_date) ? TRUE : FALSE;
+
+	if (all_day) {
+		if (icaltime_compare_date_only (*end_tt, *start_tt) > 0) {
+			icaltime_adjust (end_tt, -1, 0, 0, 0);
+		}
+	}
+
+	e_meeting_time_selector_set_meeting_time (priv->sel, start_tt->year, start_tt->month, start_tt->day, 
+			start_tt->hour, start_tt->minute, end_tt->year, end_tt->month, end_tt->day, end_tt->hour,
+			end_tt->minute);
+	e_meeting_time_selector_set_all_day (priv->sel, all_day);
+	
+}
 
 /**
  * schedule_page_construct:

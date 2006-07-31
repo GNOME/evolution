@@ -1,5 +1,14 @@
 2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #335276
+	* gui/dialogs/event-editor.c: (event_editor_edit_comp):
+	Set the meeting time in the time selector.
+	* gui/dialogs/schedule-page.c: (schedule_page_set_meeting_time):
+	* gui/dialogs/schedule-page.h: Added a function to set the meeting
+	time in the time selector.
+
+2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #344927
 	* gui/dialogs/event-page.c: 
 	(event_page_fill_widgets): Set the classification.

@@ -645,6 +645,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	EventEditorPrivate *priv;
 	ECalComponentOrganizer organizer;
 	gboolean delegate;
+	ECalComponentDateTime dtstart, dtend;
 	ECal *client;
 	GSList *attendees = NULL;
 	
@@ -653,7 +654,17 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	
 	priv->updating = TRUE;
 	delegate = (comp_editor_get_flags (COMP_EDITOR (editor)) & COMP_EDITOR_DELEGATE);
-	
+
+	if (priv->sched_page) {
+		e_cal_component_get_dtstart (comp, &dtstart);
+		e_cal_component_get_dtend (comp, &dtend);
+
+		schedule_page_set_meeting_time (priv->sched_page, dtstart.value, dtend.value);
+
+		e_cal_component_free_datetime (&dtstart);
+		e_cal_component_free_datetime (&dtend);
+	}
+
 	if (COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp (editor, comp);
 
@@ -662,7 +673,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	/* Get meeting related stuff */
 	e_cal_component_get_organizer (comp, &organizer);
 	e_cal_component_get_attendee_list (comp, &attendees);
-
+	
 	/* Set up the attendees */
 	if (attendees != NULL) {
 		GSList *l;
