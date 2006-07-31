@@ -1,3 +1,64 @@
+Evolution 2.6.3 2006-07-31 
+--------------------------
+
+Updated Translations:
+
+Christophe Merlet (fr)
+Zygimantas Beručka (lt), Hendrik Richter (de),
+Ivar Smolin (et), Ilkka Tuohela (fi), Clytie Siddall (vi),
+Ankit Patel (gu), Francisco Javier F. Serrador (es),
+I. Felix (ta), Hendrik Richter (de), Daniel Nylander (sv),
+Hendrik Richter (de), Ignacio Casal Quinteiro (gl),
+Kjartan Maraas (nb), Pawan Chitrakar (ne), Funda Wang 
+Ahmad Riza H Nst (id), Pema Geyleg (dz)
+
+Bug fixes and features :
+
+#336963 - Srinivasa Ragavan
+#324241 - Johnny Jacob
+#336963 - Ushveen Kaur
+#260354 - Arvind_evo
+#335423 - Chris Heath
+#331694 - Harish 
+#341381 - Li Yuan
+#341334 - Srinivasa Ragavan
+#341525 - Li Yuan
+#268592 - Arvind_evo 
+#333003 - Gary Coady
+#330633 - Arvind_evo
+#345969 - Li Yuan
+#345510 - Li Yuan
+#345923 - Li Yuan
+#34522 - Wang Xin
+#339217 - Aishwarya K
+#304648 - Rajeev
+#344630 - Wang Xin
+#341961 - Hiroyuki Ikezoe
+#341369 - Hiroyuki Ikezoe
+#347381 - Boby Wang
+#332909 - Ushveen Kaur
+#338710 - Devashish
+#344227 - Hiroyuki Ikezoe
+#342646 - Hiroyuki Ikezoe
+#332347 - Oswald Rodrigues
+#335423 - Chris Heath
+#310489 - Chenthill 
+#336853 - Julio M. Merino Vidal
+#333821 - Varadhan
+#329740 - Chenthill
+#347973 - Chenthill
+#332387 - Bastien Nocera
+
+
+#335410 - (Andre, Vincent Fretin, Olav Vitters)
+A typo fix that was causing experimental plugins
+to be skipped (Iain Buchanan)
+
+Other major fixes :
+
+* Use pango Layout for printing - Dave Malcolm
+* Tons for Win32 related fixes - Tor Lillqvist
+
 Evolution 2.6.2 2006-05-29 
 ---------------------------
 Bug fixes since last release :
