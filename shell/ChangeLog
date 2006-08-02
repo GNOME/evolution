@@ -1,3 +1,7 @@
+2006-08-02  Andre Klapper  <a9016009@gmx.de>
+
+	* main.c: update last stable version number from 2.6.2 to 2.6.3
+
 2006-07-27  Bastien Nocera  <hadess@hadess.net>
 
 	* e-shell-nm-glib.c: (e_shell_glib_network_monitor),
