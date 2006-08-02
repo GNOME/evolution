@@ -1,3 +1,8 @@
+2006-07-25  Johnny Jacob  <jjohnny@novell.com>
+	
+	* gui/widgets/e-addressbook-view.c: (search_activated),
+	(query_changed), (make_suboptions) : Assign proper search item ids.
+
 2006-07-24  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/e-addressbook-view.c (search_activated): Commented out
