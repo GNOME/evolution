@@ -581,6 +581,7 @@ publish_uris_set_timeout (GSList *uris)
 
 		if (!uri->location) {
 			g_free (uri);
+			l = g_slist_next (l);
 			continue;
 		}
 
