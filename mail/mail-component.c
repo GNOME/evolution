@@ -619,13 +619,13 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 }
 
 static void 
-disable_folder_tree (gpointer *emfb, gpointer dummy,  GtkWidget *widget)
+disable_folder_tree (gpointer *emfb, GtkWidget *widget)
 {
 	gtk_widget_set_sensitive (widget, FALSE);
 }
 
 static void 
-enable_folder_tree (GtkWidget *emfb, gpointer dum, GtkWidget *emft)
+enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 {
 	char *uri;
 	CamelURL *selected_curl, *current_curl;

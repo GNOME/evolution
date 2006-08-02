@@ -501,8 +501,8 @@ emfb_class_init(GObjectClass *klass)
 			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_activated),
 			      NULL,
 			      NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1, G_TYPE_STRING);
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	folder_browser_signals[ACCOUNT_SEARCH_CLEARED] =
 		g_signal_new ("account_search_cleared",
@@ -511,8 +511,8 @@ emfb_class_init(GObjectClass *klass)
 			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_cleared),
 			      NULL,
 			      NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1, G_TYPE_STRING);
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 
 	((GtkObjectClass *)klass)->destroy = emfb_destroy;
