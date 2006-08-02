@@ -1,3 +1,10 @@
+2006-08-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #335241
+
+	* mail-send-recv.c: (dialog_map), (build_dialog): Let the send receive
+	dialog grow to a fixed size, before we show the scroll bar. 
+
 2006-07-26  Alessandro Decina <alessandro@nnva.org>
 
 	** Fix for bug #348164

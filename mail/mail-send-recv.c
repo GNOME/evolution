@@ -308,6 +308,21 @@ static send_info_t get_receive_type(const char *url)
 	return SEND_INVALID;
 }
 
+gboolean
+dialog_map (GtkWidget *window, GdkEvent  *event, GtkWidget *table)
+{
+	int h, w;
+
+	w = table->allocation.width + 30 /* Spacing around the table */;
+	h = table->allocation.height + 60 /* Cancell All button and Seperator and outer spacing */;
+
+	if (w > 750)
+		w = 750;
+	if (h > 400)
+		h = 400;
+	gtk_widget_set_usize (window, w, h);
+}
+
 static struct _send_data *
 build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destination)
 {
@@ -332,7 +347,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	
 	gtk_widget_ensure_style ((GtkWidget *)gd);
 	gtk_container_set_border_width ((GtkContainer *)gd->vbox, 0);
-	gtk_container_set_border_width ((GtkContainer *)gd->action_area, 12);
+	gtk_container_set_border_width ((GtkContainer *)gd->action_area, 6);
 
 	stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel _All"), GTK_STOCK_CANCEL);
 	gtk_widget_show((GtkWidget *)stop);
@@ -360,7 +375,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	g_object_unref (iter);
 	
 	table = (GtkTable *) gtk_table_new (num_sources, 4, FALSE);
-	gtk_container_set_border_width ((GtkContainer *) table, 12);
+	gtk_container_set_border_width ((GtkContainer *) table, 6);
 	gtk_table_set_row_spacings (table, 6);
 	gtk_table_set_col_spacings (table, 6);
 
@@ -507,6 +522,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gtk_widget_show (GTK_WIDGET (gd));
 	
 	g_signal_connect (gd, "response", G_CALLBACK (dialog_response), data);
+	g_signal_connect (gd, "map-event", G_CALLBACK (dialog_map), table);
 	
 	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 	
