@@ -107,7 +107,6 @@ static void
 clear_search (ESearchBar *esb)
 {
 	e_search_bar_set_text (esb, "");
-	e_search_bar_set_item_id (esb, 0);
 	e_search_bar_set_viewitem_id (esb, 0);
 
 	emit_search_activated (esb);

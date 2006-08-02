@@ -1,3 +1,9 @@
+2006-08-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #349565
+
+	* e-search-bar.c: (clear_search): Dont clear the criteria.
+
 2006-07-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-calendar-item.c: Removed the hardcoded ENABLE_CAIRO for tag
