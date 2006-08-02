@@ -1,3 +1,9 @@
+2006-08-02  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #343991
+	* publish-calendar.c: (publish_uris_set_timeout): Iterate
+	the list when the uri is NULL.
+
 2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #329740
