@@ -1,3 +1,9 @@
+2006-08-03  Devashish Sharma  <sdevashish@novell.com>
+
+	* bbdb.c: Gaim and automatic contacts were not seen until
+	evolution is restarted. 
+	Fix for Bug #346180, 349371, 346353
+
 2006-07-18  Ross Burton  <ross@openedhand.com>
 
 	* gaimbuddies.c:
