@@ -261,7 +261,10 @@ bbdb_open_addressbook (int type)
 	gconf = gconf_client_get_default ();
 
 	/* Check to see if we're supposed to be running */
-	enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
+	if (type == GAIM_ADDRESSBOOK)
+		enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE_GAIM, NULL);
+	else
+		enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
 	if (! enable) {
 		g_object_unref (G_OBJECT (gconf));
 		return NULL;
@@ -326,6 +329,7 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 {
 	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
 	gboolean active;
+	ESource *selected_source;
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
@@ -333,6 +337,10 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE, active, NULL);
 	
 	gtk_widget_set_sensitive (stuff->option_menu, active);
+	if (active && !gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL)) {
+		selected_source = e_source_option_menu_peek_selected (E_SOURCE_OPTION_MENU (stuff->option_menu));
+		gconf_client_set_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, e_source_get_uri (selected_source), NULL);
+	}
 }
 
 static void
@@ -340,6 +348,7 @@ enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
 {
 	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
 	gboolean active;
+	ESource *selected_source;
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
@@ -347,6 +356,10 @@ enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE_GAIM, active, NULL);
 	
 	gtk_widget_set_sensitive (stuff->gaim_option_menu, active);
+	if (active && !gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL)) {
+		selected_source = e_source_option_menu_peek_selected (E_SOURCE_OPTION_MENU (stuff->gaim_option_menu));
+		gconf_client_set_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, e_source_get_uri (selected_source), NULL);
+	}
 }
 
 static void
