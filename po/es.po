@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-27 11:37+0200\n"
-"PO-Revision-Date: 2006-07-27 21:31+0200\n"
+"PO-Revision-Date: 2006-08-04 20:12+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -7145,7 +7145,7 @@ msgstr "Abrir página _web"
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr "Im_primir…"
+msgstr "_Imprimir…"
 
 #: ../calendar/gui/e-calendar-table.c:1287
 #: ../calendar/gui/e-calendar-view.c:1704 ../calendar/gui/e-memo-table.c:908
@@ -17065,7 +17065,7 @@ msgstr "Activar y desactivar complementos"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
-msgstr "_Complementos"
+msgstr "Com_plementos"
 
 #: ../plugins/plugin-manager/plugin-manager.c:43
 msgid "Author(s)"
@@ -17132,7 +17132,7 @@ msgstr "Da una opción para imprimir el correo desde el editor"
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "_Vista preliminar de impresión"
+msgstr "Vi_sta previa de impresión"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
 msgid "Prints the message"
@@ -19853,7 +19853,7 @@ msgstr "Borra todo excepto la firma"
 
 #: ../ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr "Encriptar este mensaje con PGP"
+msgstr "Encriptar este mensaje con GPG"
 
 #: ../ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
@@ -19952,7 +19952,7 @@ msgstr "Establecer la prioridad del mensaje a alta"
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Sign this message with your PGP key"
-msgstr "Firmar este mensaje con su clave PGP"
+msgstr "Firmar este mensaje con su clave GPG"
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your S/MIME Signature Certificate"
@@ -20194,7 +20194,7 @@ msgstr "Ocultar los botones de la ventana"
 
 #: ../ui/evolution.xml.h:14
 msgid "I_mport..."
-msgstr "_Importar…"
+msgstr "I_mportar…"
 
 #: ../ui/evolution.xml.h:15
 msgid "Icons _and text"
@@ -20278,7 +20278,7 @@ msgstr "Ver/Ocultar la barra de estado"
 
 #: ../ui/evolution.xml.h:36
 msgid "_About"
-msgstr "Acerca _de"
+msgstr "_Acerca de"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Close Window"
@@ -20286,7 +20286,7 @@ msgstr "_Cerrar ventana"
 
 #: ../ui/evolution.xml.h:40
 msgid "_Forget Passwords"
-msgstr "O_lvidar contraseñas"
+msgstr "_Olvidar contraseñas"
 
 #: ../ui/evolution.xml.h:42
 msgid "_Hide buttons"
