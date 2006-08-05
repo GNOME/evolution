@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-07-19 12:09+0300\n"
+"PO-Revision-Date: 2006-07-25 11:29+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -13451,7 +13451,7 @@ msgstr "_Lõpetatud"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "F_ind:"
-msgstr "_Otsing:"
+msgstr "Ot_sing:"
 
 #: ../mail/mail-dialogs.glade.h:9
 msgid "Find in Message"
@@ -13703,7 +13703,7 @@ msgstr "Andmeid pole võimalik kirjutada: %s"
 #: ../mail/mail-ops.c:2262
 #, c-format
 msgid "Disconnecting from %s"
-msgstr "Ühendun lahti: %s"
+msgstr "Ühenduse katkestamine: %s"
 
 #: ../mail/mail-ops.c:2262
 #, c-format
@@ -20159,7 +20159,7 @@ msgstr "Muu..."
 
 #: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
-msgstr ""
+msgstr "K_ooditabel"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
