@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-05 17:44+0200\n"
-"PO-Revision-Date: 2006-08-05 17:46+0200\n"
+"PO-Revision-Date: 2006-08-05 18:21+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2550,7 +2550,7 @@ msgstr "Modificados"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2412
 #, c-format
 msgid "Contact Editor - %s"
-msgstr "Editor de contactos - %s"
+msgstr "Editor de contactos: %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2792
 msgid "Please select an image for this contact"
@@ -4068,9 +4068,7 @@ msgstr "NÚMERO"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
-msgstr ""
-"Error en los argumentos de la línea de comandos, por favor use la opción --"
-"help para ver el uso."
+msgstr "Error en los argumentos de la línea de comandos, use la opción --help para ver el uso."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
@@ -4105,7 +4103,7 @@ msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
 msgstr ""
-"Añadir un Resumen con sentido a su cita dará a sus destinatarios una idea de "
+"Añadir un resumen con sentido a su cita dará a sus destinatarios una idea de "
 "qué trata su cita."
 
 #: ../calendar/calendar.error.xml.h:2
@@ -4807,7 +4805,7 @@ msgstr "Días en los cuales debe indicarse el inicio y fin de las horas de traba
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
-msgstr "Recordatorio predeterminado de cita"
+msgstr "Recordatorio predeterminado de citas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
@@ -4885,11 +4883,11 @@ msgstr "Línea de Marcus Bains"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Marcus Bains Line Color - Day View"
-msgstr "Color de la línea de Marcus Bains - Vista de día"
+msgstr "Color de la línea de Marcus Bains de la vista de día"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Marcus Bains Line Color - Time bar"
-msgstr "Color de la línea de Marcus Bains - Barra de tiempo"
+msgstr "Color de la línea de Marcus Bains de la barra de tiempo"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Minute the workday ends on, 0 to 59."
@@ -5329,7 +5327,7 @@ msgstr "Crea una solicitud de reunión nueva"
 
 #: ../calendar/gui/calendar-component.c:1556
 msgid "New all day appointment"
-msgstr "Cita para todo el día nueva"
+msgstr "Cita nueva para todo el día"
 
 #: ../calendar/gui/calendar-component.c:1557
 msgid "All Day A_ppointment"
@@ -5921,7 +5919,7 @@ msgstr "Vence "
 #: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2888
 #, c-format
 msgid "Attached message - %s"
-msgstr "Mensaje adjunto - %s"
+msgstr "Mensaje adjunto: %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
@@ -6006,31 +6004,31 @@ msgstr "Editar cita"
 #: ../calendar/gui/dialogs/comp-editor.c:2146
 #, c-format
 msgid "Meeting - %s"
-msgstr "Reunión - %s"
+msgstr "Reunión: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2105
 #: ../calendar/gui/dialogs/comp-editor.c:2148
 #, c-format
 msgid "Appointment - %s"
-msgstr "Cita - %s"
+msgstr "Cita: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2109
 #: ../calendar/gui/dialogs/comp-editor.c:2152
 #, c-format
 msgid "Assigned Task - %s"
-msgstr "Tarea asignada - %s"
+msgstr "Tarea asignada: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2111
 #: ../calendar/gui/dialogs/comp-editor.c:2154
 #, c-format
 msgid "Task - %s"
-msgstr "Tarea - %s"
+msgstr "Tarea: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2114
 #: ../calendar/gui/dialogs/comp-editor.c:2157
 #, c-format
 msgid "Journal entry - %s"
-msgstr "Entrada del diario - %s"
+msgstr "Entrada del diario: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2125
 #: ../calendar/gui/dialogs/comp-editor.c:2167
@@ -6864,21 +6862,21 @@ msgstr "%s al comienzo de la cita"
 #: ../calendar/gui/e-alarm-list.c:501
 #, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "%s %s antes de terminar a cita"
+msgstr "%s %s antes del fin de la cita"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:506
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "%s %s tras finalizar la cita"
+msgstr "%s %s tras el fin de la cita"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:513
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr "%s al finalizar la cita"
+msgstr "%s al fin de la cita"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
@@ -8494,7 +8492,7 @@ msgstr "%a, %e de %b de %Y"
 #: ../calendar/gui/print.c:1973
 #, c-format
 msgid "Selected week (%s - %s)"
-msgstr "Semana seleccionada (%s - %s)"
+msgstr "Semana seleccionada (%s – %s)"
 
 #. Month
 #: ../calendar/gui/print.c:1981
@@ -12721,7 +12719,7 @@ msgid ""
 msgstr ""
 "Esta clave debería contener una lista de estructuras XML especificando "
 "cabeceras personalizadas, e indicando si deben mostrarse. El formato de la "
-"estructura XML es &lt;header enabled&gt; - poner a activado si la cabecera "
+"estructura XML es &lt;header enabled&gt;: poner a activado si la cabecera "
 "se debe mostrar en la vista de correo."
 
 #: ../mail/evolution-mail.schemas.in.in.h:95
@@ -12730,7 +12728,7 @@ msgid ""
 "beyond which a '...' is shown."
 msgstr ""
 "Esto establece el número de direcciones a mostrar en la vista de lista de "
-"mensajes predeterminada, más allá de los cuales se muestra un «...»."
+"mensajes predeterminada, más allá de los cuales se muestra un «…»."
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Thread the message list."
@@ -14085,7 +14083,7 @@ msgstr "Intentando mover correo desde un origen que no es un buzón «%s»"
 #: ../mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
-msgstr "Mensaje reenviado - %s"
+msgstr "Mensaje reenviado: %s"
 
 #: ../mail/mail-tools.c:258
 msgid "Forwarded message"
@@ -17948,7 +17946,7 @@ msgstr "Desactiva la carga de cualquier complemento."
 
 #: ../shell/main.c:515
 msgid "- The Evolution PIM and Email Client"
-msgstr "- El cliente de correo-e y GIP Evolution"
+msgstr "El cliente de correo-e y GIP Evolution"
 
 #: ../shell/main.c:526
 #, c-format
@@ -18827,7 +18825,7 @@ msgstr "Borra todas las repeticiones"
 
 #: ../ui/evolution-calendar.xml.h:8
 msgid "Delete the appointment"
-msgstr "Borrar la cita"
+msgstr "Borra la cita"
 
 #: ../ui/evolution-calendar.xml.h:10
 msgid "Delete this occurrence"
@@ -19044,7 +19042,7 @@ msgstr "Clasificar como público"
 
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Click here to set or unset alarms for this event"
-msgstr "Pulse aquí para poner o quitar alarmas para este evento"
+msgstr "Pulse aquí para poner o quitar alarmas para este acontecimiento"
 
 #: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 msgid "Insert advanced send options"
@@ -21517,7 +21515,7 @@ msgstr "Apariencia retro"
 
 #: ../widgets/table/e-tree.c:3306
 msgid "Draw lines and +/- expanders."
-msgstr "Dibujar líneas y expansores +/-."
+msgstr "Dibujar líneas y expansores +/−."
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
