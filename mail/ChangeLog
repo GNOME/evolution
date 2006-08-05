@@ -1,3 +1,10 @@
+2006-08-04  Johnny Jacob  <jjohnny@novell.com>
+
+	* em-format-html-display.c : Added mnemonic for "Fi_nd" and
+	"Fo_rward".
+	* em-folder-browser.c : (get_view_query) : Added query for
+	"messages masrked as important"
+	
 2006-08-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #335241

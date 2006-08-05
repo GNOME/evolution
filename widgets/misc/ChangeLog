@@ -1,3 +1,13 @@
+2006-08-04  Johnny Jacob  <jjohnny@novell.com>
+
+	* e-icon-entry.c: (set_cursor) : Added. Change cursor over icon.
+	(e_icon_entry_create_button) : Handle enter/leave-notify signals
+	for changing cursor.
+	* e-search-bar.c: (e_search_bar_construct) : Added mnemonic for
+	"Sho_w". Added tooltips for e-icon-entry.
+	(option_activated_cb) : Set the selected item's label in tooltip.
+	
+	
 2006-08-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #349565

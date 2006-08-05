@@ -47,6 +47,7 @@ enum {
 static ESearchBarItem search_option_items[] = {
 	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, ESB_ITEMTYPE_RADIO },
 	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ N_("Category is"), SEARCH_CATEGORY_IS, ESB_ITEMTYPE_RADIO },
 	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, ESB_ITEMTYPE_RADIO },
 	{ N_("Location contains"), SEARCH_LOCATION_CONTAINS, ESB_ITEMTYPE_RADIO },
 	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, ESB_ITEMTYPE_RADIO },

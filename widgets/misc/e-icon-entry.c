@@ -37,10 +37,8 @@
 #include "e-icon-entry.h"
 
 #include <gtk/gtkentry.h>
-#include <gtk/gtkeventbox.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkhbox.h>
-#include <gtk/gtkimage.h>
 
 #define E_ICON_ENTRY_GET_PRIVATE(object)(G_TYPE_INSTANCE_GET_PRIVATE ((object), E_TYPE_ICON_ENTRY, EIconEntryPrivate))
 
@@ -118,7 +116,7 @@ e_icon_entry_paint (GtkWidget *widget,
 			    NULL, entry_widget, "entry_bg", 
 			    /* FIXME: was 0, 0 in gtk_entry_expose, but I think this is correct: */
 			    x, y, width, height);
-     
+
 	gtk_paint_shadow (entry_widget->style, widget->window,
 			  GTK_STATE_NORMAL, GTK_SHADOW_IN,
 			  NULL, entry_widget, "entry",
@@ -334,6 +332,7 @@ e_icon_entry_pack_widget (EIconEntry *entry,
 			     gboolean start)
 {
 	EIconEntryPrivate *priv;
+	GtkWidget *box;
 
 	g_return_if_fail (E_IS_ICON_ENTRY (entry));
 
@@ -350,6 +349,18 @@ e_icon_entry_pack_widget (EIconEntry *entry,
 	}
 }
 
+static void 
+set_cursor (GtkWidget *widget, GdkEventCrossing *event, gpointer dummy)
+{
+
+    if (event->type == GDK_ENTER_NOTIFY)
+	gdk_window_set_cursor (widget->window, gdk_cursor_new (GDK_HAND1));
+    else
+	gdk_window_set_cursor (widget->window, gdk_cursor_new (GDK_LEFT_PTR));
+
+
+}
+
 GtkWidget *
 e_icon_entry_create_button (const char *stock)
 {
@@ -357,11 +368,14 @@ e_icon_entry_create_button (const char *stock)
 	GtkWidget *image;
 
 	eventbox = gtk_event_box_new ();
-        gtk_container_set_border_width (GTK_CONTAINER (eventbox), 2);
-        gtk_event_box_set_visible_window ( (eventbox), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (eventbox), 2);
+	gtk_event_box_set_visible_window ((eventbox), FALSE);
 
 	image = gtk_image_new_from_stock (stock, GTK_ICON_SIZE_MENU);
-        gtk_container_add (GTK_CONTAINER (eventbox), image);
+	gtk_container_add (GTK_CONTAINER (eventbox), image);
+
+	g_signal_connect_after (eventbox, "enter-notify-event", set_cursor, NULL);
+	g_signal_connect_after (eventbox, "leave-notify-event", set_cursor, NULL);
 
 	return eventbox;
 }

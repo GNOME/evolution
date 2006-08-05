@@ -643,13 +643,14 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 
 	p->search_entry_box = gtk_hbox_new (FALSE, 0);
 
-	label1 = gtk_label_new (_("Find:"));
+	label1 = gtk_label_new_with_mnemonic (_("Fi_nd:"));
 	gtk_widget_show (label1);
 	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), label1, FALSE, FALSE, 5);
 
 	/* Icon entry */
 	icon_entry = e_icon_entry_new ();
 	p->search_entry = e_icon_entry_get_entry (E_ICON_ENTRY (icon_entry));
+	gtk_label_set_mnemonic_widget (label1, p->search_entry);
 	gtk_widget_show (p->search_entry);
 	clear_button = e_icon_entry_create_button ("gtk-clear");
 	e_icon_entry_pack_widget (E_ICON_ENTRY (icon_entry), clear_button, FALSE);
@@ -670,7 +671,8 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	gtk_widget_show (button3);
 	gtk_box_pack_start ((GtkBox *)(hbox2), button3, FALSE, FALSE, 5);
 
-	button2 = gtk_button_new_from_stock ("gtk-go-forward");
+	button2 = gtk_button_new_with_mnemonic (_("Fo_rward"));
+	gtk_button_set_image (button2, gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
 	gtk_widget_show (button2);
 	gtk_box_pack_start ((GtkBox *)(hbox2), button2, FALSE, FALSE, 5);
 
@@ -745,7 +747,6 @@ void
 em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
-	char *str;
 
 	if (p->search_dialog){
                GtkWidget *toplevel;

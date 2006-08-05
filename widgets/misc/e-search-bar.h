@@ -21,6 +21,7 @@
 #define __E_SEARCH_BAR_H__
 
 #include <gtk/gtkhbox.h>
+#include <gtk/gtktooltips.h>
 
 #include <bonobo/bonobo-ui-component.h>
 
@@ -94,7 +95,7 @@ struct _ESearchBar
 	GtkWidget *scopeoption_menu;
 
 	guint      pending_activate;
-
+	GtkTooltips *tooltips;
 	/* The currently-selected item & subitem */
 	int        item_id;
 	int        viewitem_id; /* Current View Id */

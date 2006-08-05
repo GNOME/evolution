@@ -303,6 +303,7 @@ entry_focus_out_cb (GtkWidget *widget,
 		if (text && *text) {
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_INSENSITIVE]));
 			gtk_entry_set_text (GTK_ENTRY (esb->entry), text);
+			gtk_tooltips_set_tip (esb->tooltips, esb->option_button, text, "Search type");
 			gtk_widget_hide (esb->clear_button);
 		}
 	}
@@ -430,6 +431,14 @@ option_activated_cb (GtkWidget *widget,
 /* 	id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "EsbItemId")); */
 
 /* 	esb->item_id = id; */
+	char *text;
+
+	if (GTK_IS_RADIO_MENU_ITEM (gtk_menu_get_active ( GTK_MENU (esb->option_menu)))) {
+		text = get_selected_item_label (esb->option_menu);
+		if (text && *text) 
+			gtk_tooltips_set_tip (esb->tooltips, esb->option_button, text, "Search type");
+	}
+
 	emit_query_changed (esb);
 	emit_search_activated (esb);
 }
@@ -842,6 +851,7 @@ init (ESearchBar *esb)
 	esb->scopeoption      = NULL;
 	esb->scopeoption_box  = NULL;
 
+	esb->tooltips         = NULL;
 	esb->pending_activate = 0;
 
 	esb->item_id          = 0;
@@ -875,6 +885,8 @@ e_search_bar_construct (ESearchBar *search_bar,
 
 	gtk_box_set_homogeneous (GTK_BOX (search_bar), FALSE);
 
+	search_bar->tooltips = gtk_tooltips_new ();
+
 	bighbox = gtk_hbox_new (FALSE, 0);
 	search_bar->entry_box = gtk_hbox_new (0, FALSE);
 	search_bar->icon_entry = e_icon_entry_new ();
@@ -907,11 +919,12 @@ e_search_bar_construct (ESearchBar *search_bar,
 
 	/* To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 	to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on... */
-	label = gtk_label_new_with_mnemonic (_("Show: "));
+	label = gtk_label_new_with_mnemonic (_("Sho_w: "));
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX(search_bar->viewoption_box), label, FALSE, FALSE, 0);
 
 	search_bar->viewoption = gtk_option_menu_new ();
+	gtk_label_set_mnemonic_widget (label, search_bar->viewoption);
 	gtk_box_pack_start (GTK_BOX(search_bar->viewoption_box), search_bar->viewoption, FALSE, TRUE, 0);
 	gtk_widget_show_all (search_bar->viewoption_box);
 	gtk_box_pack_start (GTK_BOX(search_bar), search_bar->viewoption_box, FALSE, FALSE, 0);

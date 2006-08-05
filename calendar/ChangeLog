@@ -1,3 +1,8 @@
+2006-08-04  Johnny Jacob <jjohnny@novell.com>
+
+	* gui/cal-search-bar.h : Changed the CAL_SEARCH items mask for
+	tasks, memos, calendar.
+
 2006-07-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #335276

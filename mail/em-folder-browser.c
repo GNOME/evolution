@@ -175,6 +175,7 @@ enum {
 	VIEW_NO_LABEL,
 	VIEW_LABEL,
 	VIEW_ANY_FIELD_CONTAINS,
+	VIEW_MESSAGES_MARKED_AS_IMPORTANT,
 	VIEW_CUSTOMIZE
 };
 
@@ -194,6 +195,7 @@ static ESearchBarItem temp_view_items[] = {
 	{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 },
 	{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 },
 	{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 },
+	{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0},
 	{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 },
 /* 	{ NULL, 0, NULL }, */
 /* 	{ N_("Customize"), NOT_IMPLEMENTED, NULL }, */
@@ -763,6 +765,9 @@ get_view_query (ESearchBar *esb)
         case VIEW_LABEL:
 		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
 		view_sexp = g_strdup_printf ("(match-all (= (user-tag \"label\")  \"%s\"))",tag);
+		break;
+	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:
+		view_sexp = "(match-all (system-flag  \"Flagged\"))";
 		break;
 	case VIEW_ANY_FIELD_CONTAINS:
 		break;
