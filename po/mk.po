@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER, 2003.
 #
-#: ../mail/em-format-html-display.c:681
+#: ../mail/em-format-html-display.c:683
 # Damjan Georgievski <penguinista@mail.net.mk>, 2003.
 # Marko Ivanoski <marko@programmer.net>, 2003.
 # Ivan Stojmirov <stojmir@linux.net.mk>, 2003.
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-31 08:15+0200\n"
-"PO-Revision-Date: 2006-07-31 20:02+0200\n"
+"POT-Creation-Date: 2006-08-05 14:47+0200\n"
+"PO-Revision-Date: 2006-08-05 22:55+0200\n"
 "Last-Translator: Jovan Naumovski <jovan@lugola.net>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
@@ -723,7 +723,7 @@ msgid "Details"
 msgstr "Детали"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
-#: ../mail/em-folder-browser.c:792
+#: ../mail/em-folder-browser.c:797
 msgid "Searching"
 msgstr "Пребарувам"
 
@@ -1057,8 +1057,8 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
-"Одбирајќи ја оваа опција значи дека Evolution ќе се поврзува на LDAP серверот "
-"само доколку серверот подржува TLS."
+"Одбирајќи ја оваа опција значи дека Evolution ќе се поврзува на LDAP "
+"серверот само доколку серверот подржува TLS."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
@@ -1139,8 +1139,8 @@ msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
-"Ова е името на серверот што ќе се појавува во вашата листа на Evolution папки. "
-"Единствено се користи за приказ."
+"Ова е името на серверот што ќе се појавува во вашата листа на Evolution "
+"папки. Единствено се користи за приказ."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
@@ -1148,9 +1148,9 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"Ова е портот на LDAP серверот на кој Evolution ќе проба да се поврзе. Дадена е "
-"и листа на стандардни порти. Прашајте го вашиот системски администратор кој "
-"порт да го зададете."
+"Ова е портот на LDAP серверот на кој Evolution ќе проба да се поврзе. Дадена "
+"е и листа на стандардни порти. Прашајте го вашиот системски администратор "
+"кој порт да го зададете."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
@@ -2837,7 +2837,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
-#: ../calendar/gui/cal-search-bar.c:52
+#: ../calendar/gui/cal-search-bar.c:53
 msgid "Any field contains"
 msgstr "Било кое поле содржи"
 
@@ -2986,7 +2986,7 @@ msgstr "Вм_етни"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1602
-#: ../calendar/gui/cal-search-bar.c:356
+#: ../calendar/gui/cal-search-bar.c:357
 msgid "Any Category"
 msgstr "Било која категорија"
 
@@ -4411,8 +4411,8 @@ msgid ""
 "You have a read-only calendar source selected. Change to Calendar View and "
 "highlight a calendar that can accept appointments."
 msgstr ""
-"Имате изберено извор на календар кој може само да се чита. Префрлете се на поглед на календар и "
-"означете календар кој може да прифаќа состаноци."
+"Имате изберено извор на календар кој може само да се чита. Префрлете се на "
+"поглед на календар и означете календар кој може да прифаќа состаноци."
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this appointment, but not yet saved it."
@@ -4622,8 +4622,8 @@ msgstr "Закажувања"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1617
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1623
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1616
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1622
 #: ../calendar/gui/e-itip-control.c:1113
 #: ../plugins/itip-formatter/itip-view.c:934
 msgid "Location:"
@@ -4656,31 +4656,31 @@ msgstr "_Дремнува"
 msgid "location of appointment"
 msgstr "локација на состанок"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1453
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1599
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1452
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1598
 msgid "No summary available."
 msgstr "Нема достапен краток преглед."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1462
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1464
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1461
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1463
 msgid "No description available."
 msgstr "Нема достапен опис."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1472
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1471
 msgid "No location information available."
 msgstr "Нема достапни информации за локација."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1531
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1530
 #, c-format
 msgid "You have %d alarms"
 msgstr "Имате %d аларми"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1697
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1723
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1722
 msgid "Warning"
 msgstr "Предупредување"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1701
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1700
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4692,7 +4692,7 @@ msgstr ""
 "конфигуриран да испрати епошта. Развојот наместо тоа ќе прикажува\n"
 "нормална разговорна кутија."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1729
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1728
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4709,7 +4709,7 @@ msgstr ""
 "\n"
 "Дали си сигурен дека сакаш да ја извршуваш ова програма?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1743
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1742
 msgid "Do not ask me about this program again."
 msgstr "Не ме прашувај повторно за ова програма."
 
@@ -5047,8 +5047,8 @@ msgid ""
 "Transparency of the events in calendar views, a value between 0 "
 "(transparent) and 1 (opaque)."
 msgstr ""
-"Провидност на настаните во прегледите на календарот, вредност меѓу 0 (провидно) и 1 "
-"(непровидно)."
+"Провидност на настаните во прегледите на календарот, вредност меѓу 0 "
+"(провидно) и 1 (непровидно)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Twenty four hour time format"
@@ -5179,14 +5179,18 @@ msgid "Description contains"
 msgstr "Описот содржи"
 
 #: ../calendar/gui/cal-search-bar.c:50
+msgid "Category is"
+msgstr "Категоријата е"
+
+#: ../calendar/gui/cal-search-bar.c:51
 msgid "Comment contains"
 msgstr "Коментари содржи"
 
-#: ../calendar/gui/cal-search-bar.c:51
+#: ../calendar/gui/cal-search-bar.c:52
 msgid "Location contains"
 msgstr "Локацијата содржи"
 
-#: ../calendar/gui/cal-search-bar.c:359
+#: ../calendar/gui/cal-search-bar.c:360
 msgid "Unmatched"
 msgstr "Несовпаднати"
 
@@ -5540,7 +5544,7 @@ msgid "Display"
 msgstr "Прикажи"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#: ../calendar/gui/dialogs/recurrence-page.c:1084
+#: ../calendar/gui/dialogs/recurrence-page.c:1088
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
 msgstr "Петок"
@@ -5556,7 +5560,7 @@ msgstr ""
 "Денови"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: ../calendar/gui/dialogs/recurrence-page.c:1080
+#: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
 msgstr "Понеделник"
@@ -5591,7 +5595,7 @@ msgid "S_un"
 msgstr "С_онце"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
-#: ../calendar/gui/dialogs/recurrence-page.c:1085
+#: ../calendar/gui/dialogs/recurrence-page.c:1089
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "Сабота"
@@ -5609,7 +5613,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Прикажи неделни_броеви во навигаторот за дати "
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#: ../calendar/gui/dialogs/recurrence-page.c:1086
+#: ../calendar/gui/dialogs/recurrence-page.c:1090
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "Недела"
@@ -5628,7 +5632,7 @@ msgid "Template:"
 msgstr "Мостра:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: ../calendar/gui/dialogs/recurrence-page.c:1083
+#: ../calendar/gui/dialogs/recurrence-page.c:1087
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "Четврток"
@@ -5643,13 +5647,13 @@ msgid "Time format:"
 msgstr "Формат на време:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#: ../calendar/gui/dialogs/recurrence-page.c:1081
+#: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "Вторник"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
-#: ../calendar/gui/dialogs/recurrence-page.c:1082
+#: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "Среда"
@@ -5923,8 +5927,8 @@ msgid "Show Attachment _Bar"
 msgstr "Прикажи Лента за при_врзоци"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1099
-#: ../calendar/gui/dialogs/event-page.c:1895
-#: ../calendar/gui/dialogs/task-page.c:1198
+#: ../calendar/gui/dialogs/event-page.c:1896
+#: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3651
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5947,7 +5951,7 @@ msgid "_Add attachment..."
 msgstr "_Додај приврзок..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1489
-#: ../mail/em-format-html-display.c:2263
+#: ../mail/em-format-html-display.c:2264
 msgid "Show Attachments"
 msgstr "Прикажи приврзоци"
 
@@ -6102,7 +6106,7 @@ msgid "Recurrence"
 msgstr "Повторно појавување"
 
 #: ../calendar/gui/dialogs/event-page.c:810
-#: ../calendar/gui/dialogs/event-page.c:2716
+#: ../calendar/gui/dialogs/event-page.c:2717
 msgid "This event has alarms"
 msgstr "Овој настан има аларми"
 
@@ -6130,52 +6134,52 @@ msgstr "Настан без почетен датум"
 msgid "Event with no end date"
 msgstr "Настан без завршен датум"
 
-#: ../calendar/gui/dialogs/event-page.c:1258
+#: ../calendar/gui/dialogs/event-page.c:1259
 #: ../calendar/gui/dialogs/memo-page.c:684
-#: ../calendar/gui/dialogs/task-page.c:848
+#: ../calendar/gui/dialogs/task-page.c:849
 msgid "Start date is wrong"
 msgstr "Почетната дата е погрешна "
 
-#: ../calendar/gui/dialogs/event-page.c:1268
+#: ../calendar/gui/dialogs/event-page.c:1269
 msgid "End date is wrong"
 msgstr "Крајната дата е погрешна "
 
-#: ../calendar/gui/dialogs/event-page.c:1291
+#: ../calendar/gui/dialogs/event-page.c:1292
 msgid "Start time is wrong"
 msgstr "Почетното време е погрешно "
 
-#: ../calendar/gui/dialogs/event-page.c:1298
+#: ../calendar/gui/dialogs/event-page.c:1299
 msgid "End time is wrong"
 msgstr "Крајното време е прогрешно"
 
-#: ../calendar/gui/dialogs/event-page.c:1453
+#: ../calendar/gui/dialogs/event-page.c:1454
 #: ../calendar/gui/dialogs/memo-page.c:719
-#: ../calendar/gui/dialogs/task-page.c:905
+#: ../calendar/gui/dialogs/task-page.c:906
 msgid "The organizer selected no longer has an account."
 msgstr "Избраниот организатор повеќе нема сметка."
 
-#: ../calendar/gui/dialogs/event-page.c:1459
+#: ../calendar/gui/dialogs/event-page.c:1460
 #: ../calendar/gui/dialogs/memo-page.c:725
-#: ../calendar/gui/dialogs/task-page.c:911
+#: ../calendar/gui/dialogs/task-page.c:912
 msgid "An organizer is required."
 msgstr "Потребен е организатор"
 
-#: ../calendar/gui/dialogs/event-page.c:1474
-#: ../calendar/gui/dialogs/task-page.c:926
+#: ../calendar/gui/dialogs/event-page.c:1475
+#: ../calendar/gui/dialogs/task-page.c:927
 msgid "At least one attendee is required."
 msgstr "Барем еден посетител е потребен."
 
-#: ../calendar/gui/dialogs/event-page.c:1896
-#: ../calendar/gui/dialogs/task-page.c:1199
+#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/task-page.c:1200
 msgid "_Add "
 msgstr "_Додај"
 
-#: ../calendar/gui/dialogs/event-page.c:2623
+#: ../calendar/gui/dialogs/event-page.c:2624
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Не може да се отвори календарот '%s'."
 
-#: ../calendar/gui/dialogs/event-page.c:2926
+#: ../calendar/gui/dialogs/event-page.c:2927
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -6183,7 +6187,7 @@ msgstr[0] "%d ден пред состанокот"
 msgstr[1] "%d денa пред состанокот"
 msgstr[2] "%d денa пред состанокот"
 
-#: ../calendar/gui/dialogs/event-page.c:2934
+#: ../calendar/gui/dialogs/event-page.c:2935
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -6191,7 +6195,7 @@ msgstr[0] "%d час пред состанокот"
 msgstr[1] "%d часа пред состанокот"
 msgstr[2] "%d часа пред состанокот"
 
-#: ../calendar/gui/dialogs/event-page.c:2942
+#: ../calendar/gui/dialogs/event-page.c:2943
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -6199,12 +6203,12 @@ msgstr[0] "%d минута пред состанокот"
 msgstr[1] "%d минути пред состанокот"
 msgstr[2] "%d минути пред состанокот"
 
-#: ../calendar/gui/dialogs/event-page.c:2958
+#: ../calendar/gui/dialogs/event-page.c:2959
 msgid "Customize"
 msgstr "Прилагоди..."
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:2963
+#: ../calendar/gui/dialogs/event-page.c:2964
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
 #: ../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2293
@@ -6458,17 +6462,17 @@ msgstr "Овој и идни случаи"
 msgid "All Instances"
 msgstr "Сите случаи"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:494
+#: ../calendar/gui/dialogs/recurrence-page.c:498
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Овој состанок содржи повторувања што Evolution не може да ги уреди"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:815
+#: ../calendar/gui/dialogs/recurrence-page.c:819
 msgid "Recurrence date is invalid"
 msgstr "Повторувачката дата е неважечка"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:928
+#: ../calendar/gui/dialogs/recurrence-page.c:932
 msgid "on"
 msgstr "на"
 
@@ -6476,7 +6480,7 @@ msgstr "на"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:992
+#: ../calendar/gui/dialogs/recurrence-page.c:996
 msgid "first"
 msgstr "прв"
 
@@ -6485,7 +6489,7 @@ msgstr "прв"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:998
+#: ../calendar/gui/dialogs/recurrence-page.c:1002
 msgid "second"
 msgstr "втор"
 
@@ -6493,7 +6497,7 @@ msgstr "втор"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1003
+#: ../calendar/gui/dialogs/recurrence-page.c:1007
 msgid "third"
 msgstr "трет"
 
@@ -6501,7 +6505,7 @@ msgstr "трет"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1008
+#: ../calendar/gui/dialogs/recurrence-page.c:1012
 msgid "fourth"
 msgstr "четврт"
 
@@ -6509,13 +6513,13 @@ msgstr "четврт"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1013
+#: ../calendar/gui/dialogs/recurrence-page.c:1017
 msgid "last"
 msgstr "последен"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1039
+#: ../calendar/gui/dialogs/recurrence-page.c:1043
 msgid "Other Date"
 msgstr "Друг датум"
 
@@ -6523,7 +6527,7 @@ msgstr "Друг датум"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/recurrence-page.c:1051
 msgid "1st to 10th"
 msgstr "1ви до 10ти"
 
@@ -6531,7 +6535,7 @@ msgstr "1ви до 10ти"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1053
+#: ../calendar/gui/dialogs/recurrence-page.c:1057
 msgid "11th to 20th"
 msgstr "11ти до 20ти"
 
@@ -6539,26 +6543,26 @@ msgstr "11ти до 20ти"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1059
+#: ../calendar/gui/dialogs/recurrence-page.c:1063
 msgid "21st to 31st"
 msgstr "21ви до 31ви"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1079
+#: ../calendar/gui/dialogs/recurrence-page.c:1083
 msgid "day"
 msgstr "ден"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1219
+#: ../calendar/gui/dialogs/recurrence-page.c:1223
 msgid "on the"
 msgstr "на"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1408
+#: ../calendar/gui/dialogs/recurrence-page.c:1412
 msgid "occurrences"
 msgstr "случувања"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2377
+#: ../calendar/gui/dialogs/recurrence-page.c:2378
 msgid "Date/Time"
 msgstr "Датум/време:"
 
@@ -6709,11 +6713,11 @@ msgstr "_Задача"
 msgid "Task Details"
 msgstr "Детали"
 
-#: ../calendar/gui/dialogs/task-page.c:821
+#: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
 msgstr "До датумот е погрешен"
 
-#: ../calendar/gui/dialogs/task-page.c:1649
+#: ../calendar/gui/dialogs/task-page.c:1650
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Не може да се отворат задачите во '%s'."
@@ -7008,7 +7012,7 @@ msgstr "Доделено"
 msgid "Save As..."
 msgstr "Зачувај како..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2111
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2112
 msgid "Select folder to save selected attachments..."
 msgstr "Одбери папка за зачувување на одбраните привезоци..."
 
@@ -7172,7 +7176,7 @@ msgstr "Притиснете за да додадете задача"
 msgid "% Complete"
 msgstr "% Завршено"
 
-#: ../calendar/gui/e-calendar-table.etspec.h:5 ../mail/mail-send-recv.c:636
+#: ../calendar/gui/e-calendar-table.etspec.h:5 ../mail/mail-send-recv.c:652
 msgid "Complete"
 msgstr "Завршено"
 
@@ -7745,7 +7749,7 @@ msgid "Send Latest Information"
 msgstr "Испрати најнови информации"
 
 #: ../calendar/gui/e-itip-control.c:2345 ../calendar/gui/itip-utils.c:692
-#: ../mail/mail-send-recv.c:432 ../mail/mail-send-recv.c:485
+#: ../mail/mail-send-recv.c:447 ../mail/mail-send-recv.c:500
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Откажи"
@@ -11451,35 +11455,39 @@ msgstr "<b>Потоа</b> "
 msgid "C_reate Search Folder From Search..."
 msgstr "Креирај папка за пребарување од пребарувањето..."
 
-#: ../mail/em-folder-browser.c:183
+#: ../mail/em-folder-browser.c:184
 msgid "All Messages"
 msgstr "Сите пораки"
 
-#: ../mail/em-folder-browser.c:184
+#: ../mail/em-folder-browser.c:185
 msgid "Unread Messages"
 msgstr "Непрочитана пораки"
 
-#: ../mail/em-folder-browser.c:186
+#: ../mail/em-folder-browser.c:187
 msgid "No Label"
 msgstr "Нема ознака"
 
-#: ../mail/em-folder-browser.c:193
+#: ../mail/em-folder-browser.c:194
 msgid "Read Messages"
 msgstr "Прочитај ги пораките"
 
-#: ../mail/em-folder-browser.c:194
+#: ../mail/em-folder-browser.c:195
 msgid "Recent Messages"
 msgstr "Скорашни пораки"
 
-#: ../mail/em-folder-browser.c:195
+#: ../mail/em-folder-browser.c:196
 msgid "Last 5 Days' Messages"
 msgstr "Пораки од последните 5 дена"
 
-#: ../mail/em-folder-browser.c:196
+#: ../mail/em-folder-browser.c:197
 msgid "Messages with Attachments"
 msgstr "Пораки со приврзоци"
 
-#: ../mail/em-folder-browser.c:197
+#: ../mail/em-folder-browser.c:198
+msgid "Important Messages"
+msgstr "Важни пораки"
+
+#: ../mail/em-folder-browser.c:199
 msgid "Messages Not Junk"
 msgstr "Пораката не е отпад"
 
@@ -11807,38 +11815,42 @@ msgid "Matches: %d"
 msgstr "Одговара: %d"
 
 #: ../mail/em-format-html-display.c:646
-msgid "Find:"
-msgstr "Пронајди:"
+msgid "Fi_nd:"
+msgstr "Про_најди:"
 
-#: ../mail/em-format-html-display.c:677
+#: ../mail/em-format-html-display.c:674
+msgid "Fo_rward"
+msgstr "Пр_епрати"
+
+#: ../mail/em-format-html-display.c:679
 msgid "M_atch case"
 msgstr "С_овпадни се"
 
-#: ../mail/em-format-html-display.c:925 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:617
 msgid "Unsigned"
 msgstr "Непотпишано"
 
-#: ../mail/em-format-html-display.c:925
+#: ../mail/em-format-html-display.c:926
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "Пораката не е потпишана. Нема гаранција дека оваа порака е автентична."
 
-#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:618
 msgid "Valid signature"
 msgstr "Важечки потпис"
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr "Оваа порака е потпишана и е валидна, значи дека оваа порака е автентична."
 
-#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:928 ../mail/em-format-html.c:619
 msgid "Invalid signature"
 msgstr "Неважечки потпис"
 
-#: ../mail/em-format-html-display.c:927
+#: ../mail/em-format-html-display.c:928
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11846,11 +11858,11 @@ msgstr ""
 "Потписот на оваа порака не може да се провери, може да е променет при "
 "преносот."
 
-#: ../mail/em-format-html-display.c:928
+#: ../mail/em-format-html-display.c:929
 msgid "Valid signature, cannot verify sender"
 msgstr "Валиден потпис, не може да се провери испраќачот"
 
-#: ../mail/em-format-html-display.c:928
+#: ../mail/em-format-html-display.c:929
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11858,11 +11870,11 @@ msgstr ""
 "Оваа порака е потпишана со валиден потпис, но испраќачот на пораката не може "
 "да се провери."
 
-#: ../mail/em-format-html-display.c:934 ../mail/em-format-html.c:626
+#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:626
 msgid "Unencrypted"
 msgstr "Не-енкриптирано"
 
-#: ../mail/em-format-html-display.c:934
+#: ../mail/em-format-html-display.c:935
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -11870,11 +11882,11 @@ msgstr ""
 "Оваа порака не е енкриптирана. Нејзината содржина може да се види при "
 "преносот на интернет."
 
-#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:627
 msgid "Encrypted, weak"
 msgstr "Слабо енкриптирано"
 
-#: ../mail/em-format-html-display.c:935
+#: ../mail/em-format-html-display.c:936
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11884,11 +11896,11 @@ msgstr ""
 "тешко, но не и неможно некој од надворешноста да ја види содржината на оваа "
 "порака во разумно време."
 
-#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:628
 msgid "Encrypted"
 msgstr "Енкриптирано"
 
-#: ../mail/em-format-html-display.c:936
+#: ../mail/em-format-html-display.c:937
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11896,11 +11908,11 @@ msgstr ""
 "Оваа порака е енкриптирана. Ќе биде тешко некој од надворешноста да ја види "
 "содржината на оваа порака."
 
-#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:629
 msgid "Encrypted, strong"
 msgstr "Јако енкриптирано"
 
-#: ../mail/em-format-html-display.c:937
+#: ../mail/em-format-html-display.c:938
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11909,57 +11921,57 @@ msgstr ""
 "Оваа порака е енкриптирана, со јак алгоритам за енкрипција. Ќе биде многу "
 "тешко некој од надворешноста да ја види содржината во разумно време."
 
-#: ../mail/em-format-html-display.c:1038 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1039 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Види сертификат"
 
-#: ../mail/em-format-html-display.c:1053
+#: ../mail/em-format-html-display.c:1054
 msgid "This certificate is not viewable"
 msgstr "Овој сертификат не може да се види"
 
-#: ../mail/em-format-html-display.c:1372
+#: ../mail/em-format-html-display.c:1373
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Завршено на %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1380
+#: ../mail/em-format-html-display.c:1381
 msgid "Overdue:"
 msgstr "Пречекорени:"
 
-#: ../mail/em-format-html-display.c:1383
+#: ../mail/em-format-html-display.c:1384
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "со %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1443
+#: ../mail/em-format-html-display.c:1444
 msgid "_View Inline"
 msgstr "_Види внатре"
 
-#: ../mail/em-format-html-display.c:1444
+#: ../mail/em-format-html-display.c:1445
 msgid "_Hide"
 msgstr "_Скриј"
 
-#: ../mail/em-format-html-display.c:1445
+#: ../mail/em-format-html-display.c:1446
 msgid "_Fit to Width"
 msgstr "_Подеси на ширина"
 
-#: ../mail/em-format-html-display.c:1446
+#: ../mail/em-format-html-display.c:1447
 msgid "Show _Original Size"
 msgstr "Покажи _оригинална големина"
 
-#: ../mail/em-format-html-display.c:1865 ../mail/mail-config.glade.h:44
+#: ../mail/em-format-html-display.c:1866 ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Привезок"
 
-#: ../mail/em-format-html-display.c:2072
+#: ../mail/em-format-html-display.c:2073
 msgid "Select folder to save all attachments..."
 msgstr "Одбери папка за зачувување на сите привезоци..."
 
-#: ../mail/em-format-html-display.c:2119
+#: ../mail/em-format-html-display.c:2120
 msgid "_Save Selected..."
 msgstr "_Зачувај го одбраното..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2186
+#: ../mail/em-format-html-display.c:2187
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
@@ -11967,15 +11979,15 @@ msgstr[0] "%d пр_иврзок"
 msgstr[1] "%d пр_иврзоци"
 msgstr[2] "%d пр_иврзоци"
 
-#: ../mail/em-format-html-display.c:2193 ../mail/em-format-html-display.c:2269
+#: ../mail/em-format-html-display.c:2194 ../mail/em-format-html-display.c:2270
 msgid "S_ave"
 msgstr "З_ачувај"
 
-#: ../mail/em-format-html-display.c:2204
+#: ../mail/em-format-html-display.c:2205
 msgid "S_ave All"
 msgstr "З_ачувај ги сите"
 
-#: ../mail/em-format-html-display.c:2265
+#: ../mail/em-format-html-display.c:2266
 msgid "No Attachment"
 msgstr "Нема привезоци"
 
@@ -13840,7 +13852,7 @@ msgstr "Испраќам порака %d од %d"
 msgid "Failed to send %d of %d messages"
 msgstr "Не може да се испрати %d од %d пораки"
 
-#: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:632
+#: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:648
 msgid "Canceled."
 msgstr "Откажано."
 
@@ -13979,23 +13991,23 @@ msgstr "Проверувам сервис"
 msgid "Canceling..."
 msgstr "Откажувам..."
 
-#: ../mail/mail-send-recv.c:330
+#: ../mail/mail-send-recv.c:345
 msgid "Send & Receive Mail"
 msgstr "Испрати и прими пошта"
 
-#: ../mail/mail-send-recv.c:337
+#: ../mail/mail-send-recv.c:352
 msgid "Cancel _All"
 msgstr "Откажи _се"
 
-#: ../mail/mail-send-recv.c:434
+#: ../mail/mail-send-recv.c:449
 msgid "Updating..."
 msgstr "Ажурира..."
 
-#: ../mail/mail-send-recv.c:434 ../mail/mail-send-recv.c:487
+#: ../mail/mail-send-recv.c:449 ../mail/mail-send-recv.c:502
 msgid "Waiting..."
 msgstr "Чекам..."
 
-#: ../mail/mail-send-recv.c:718
+#: ../mail/mail-send-recv.c:734
 msgid "Checking for new mail"
 msgstr "Проверувам за нова пошта"
 
@@ -14484,8 +14496,8 @@ msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
 msgstr ""
-"Системски папки се потребни за Evolution да функционира точно и не може да се "
-"преименуваат, преместуваат или бришат."
+"Системски папки се потребни за Evolution да функционира точно и не може да "
+"се преименуваат, преместуваат или бришат."
 
 #: ../mail/mail.error.xml.h:91
 msgid ""
@@ -14884,35 +14896,35 @@ msgstr "Направи бекап и врати ги Evolution податоци�
 msgid "Restore Settings..."
 msgstr "Врати поставки..."
 
-#: ../plugins/bbdb/bbdb.c:430 ../plugins/bbdb/bbdb.c:439
+#: ../plugins/bbdb/bbdb.c:443 ../plugins/bbdb/bbdb.c:452
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Автоматски контакти"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:454
+#: ../plugins/bbdb/bbdb.c:467
 msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr "_Автоматски креирај записи во адресарот кога одговараш на mail"
 
-#: ../plugins/bbdb/bbdb.c:460
+#: ../plugins/bbdb/bbdb.c:473
 msgid "Select Address book for Automatic Contacts"
 msgstr "Изберете адресар за автоматски контакти"
 
-#: ../plugins/bbdb/bbdb.c:475
+#: ../plugins/bbdb/bbdb.c:488
 msgid "Instant Messaging Contacts"
 msgstr "Контакти за брзи пораки"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:490
+#: ../plugins/bbdb/bbdb.c:503
 msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr "Повремено синхронизирај информации и слики од мојот клиент за бр_зи пораки"
 
-#: ../plugins/bbdb/bbdb.c:496
+#: ../plugins/bbdb/bbdb.c:509
 msgid "Select Address book for Gaim buddy list"
 msgstr "Изберете адресар за контактите од Gaim"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:507
+#: ../plugins/bbdb/bbdb.c:520
 msgid "Synchronize with _buddy list now"
 msgstr "Синхронизрај со листата на к_онтакти сега"
 
@@ -16125,7 +16137,9 @@ msgstr "Не можам да отворам calendar/todo!"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
-msgstr "Не можам да го отворам Evolution calendar/todo листа за да експортирам податоци"
+msgstr ""
+"Не можам да го отворам Evolution calendar/todo листа за да експортирам "
+"податоци"
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
 #: ../plugins/itip-formatter/itip-formatter.c:391
@@ -17363,8 +17377,8 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Добродојдовте во Evolution. Наредните неколку екрани ќе овозможат Evolution да "
-"се поврзе на Вашите сметки за е-пошта, и да увезе датотеки од други "
+"Добродојдовте во Evolution. Наредните неколку екрани ќе овозможат Evolution "
+"да се поврзе на Вашите сметки за е-пошта, и да увезе датотеки од други "
 "апликации \n"
 "\n"
 "Кликнете на копчето \"Напред\" за да продолжите."
@@ -17480,7 +17494,9 @@ msgstr "Лентата за статус е видлива"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "Конфигурациската верзија на Evolution, со големо/помало/ниво на конфигурација."
+msgstr ""
+"Конфигурациската верзија на Evolution, со големо/помало/ниво на "
+"конфигурација."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default height for the main window, in pixels."
@@ -17538,7 +17554,9 @@ msgstr "Дали лентата со алатки треба да биде ви�
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr "Дали дијалогот за предупредување во развојните верзии на Evolution е изоставен."
+msgstr ""
+"Дали дијалогот за предупредување во развојните верзии на Evolution е "
+"изоставен."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Whether the window buttons should be visible."
@@ -17581,8 +17599,8 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Одбери ја датотеката која сакаш да се увезе во Evolution, и одбери кој тип на "
-"датотека е од листата.\n"
+"Одбери ја датотеката која сакаш да се увезе во Evolution, и одбери кој тип "
+"на датотека е од листата.\n"
 "\n"
 "Можеш да одбереш \"Автоматски\" ако не знаеш, и Evolution ќе се обиде да го "
 "направи."
@@ -17918,8 +17936,8 @@ msgstr ""
 "Целата содржина на &quot;evolution&quot; папката ќе биде трајно отстранета.\n"
 "\n"
 "Се препорачува рачно да верификуваш дали твојата пошта, контакти и податоци "
-"во календарот се присутни, и дека оваа верзија на Evolution работи во ред пред "
-"бришење на старите податоци.\n"
+"во календарот се присутни, и дека оваа верзија на Evolution работи во ред "
+"пред бришење на старите податоци.\n"
 "\n"
 "Штом се избрише, не може да се врати претходната верзија на Evolution без "
 "рачна интервенција.\n"
@@ -17975,8 +17993,8 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"Конфигурацијата на системот не одговара со твојата Evolution конфигурација:/n/n"
-"{0}/n/nКликни помош за детали."
+"Конфигурацијата на системот не одговара со твојата Evolution конфигурација:/"
+"n/n{0}/n/nКликни помош за детали."
 
 #: ../shell/shell.error.xml.h:31
 msgid "_Forget"
@@ -20813,23 +20831,23 @@ msgstr "Reflow модел"
 msgid "Column width"
 msgstr "Ширина на колоната"
 
-#: ../widgets/misc/e-search-bar.c:527
+#: ../widgets/misc/e-search-bar.c:535
 msgid "_Search"
 msgstr "Пребарај"
 
-#: ../widgets/misc/e-search-bar.c:533
+#: ../widgets/misc/e-search-bar.c:541
 msgid "_Find Now"
 msgstr "Најди сега"
 
-#: ../widgets/misc/e-search-bar.c:534
+#: ../widgets/misc/e-search-bar.c:542
 msgid "_Clear"
 msgstr "Исчисти"
 
-#: ../widgets/misc/e-search-bar.c:785
+#: ../widgets/misc/e-search-bar.c:793
 msgid "Item ID"
 msgstr "ID на ставка"
 
-#: ../widgets/misc/e-search-bar.c:792 ../widgets/text/e-entry.c:1249
+#: ../widgets/misc/e-search-bar.c:800 ../widgets/text/e-entry.c:1249
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3503
 #: ../widgets/text/e-text.c:3504
 msgid "Text"
@@ -20837,19 +20855,19 @@ msgstr "Текст"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:911
-msgid "Show: "
-msgstr "Прикажи: "
+#: ../widgets/misc/e-search-bar.c:922
+msgid "Sho_w: "
+msgstr "При_кажи: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
-#: ../widgets/misc/e-search-bar.c:927
+#: ../widgets/misc/e-search-bar.c:939
 msgid "Sear_ch: "
 msgstr "Бар_ај: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:939
+#: ../widgets/misc/e-search-bar.c:951
 msgid " i_n "
 msgstr " в_о "
 
