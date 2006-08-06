@@ -4,13 +4,13 @@
 # Supranee Thirawatthanasuk <supranee@opentle.org>, 2005.
 # Theppitak Karoonboonyanan <thep@linux.thai.net>, 2005-2006.
 # 
-#: ../mail/em-format-html-display.c:681
+#: ../mail/em-format-html-display.c:683
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-03 09:10+0700\n"
-"PO-Revision-Date: 2006-08-03 11:37+0700\n"
+"POT-Creation-Date: 2006-08-06 23:42+0700\n"
+"PO-Revision-Date: 2006-08-06 23:58+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -708,7 +708,7 @@ msgid "Details"
 msgstr "รายละเอียด"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
-#: ../mail/em-folder-browser.c:792
+#: ../mail/em-folder-browser.c:797
 msgid "Searching"
 msgstr "การค้นหา"
 
@@ -1442,7 +1442,7 @@ msgstr "แก้ไขได้"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "United States"
-msgstr "สหรัฐอเมริกา "
+msgstr "สหรัฐอเมริกา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
 msgid "Afghanistan"
@@ -1534,7 +1534,7 @@ msgstr "เบลีซ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Benin"
-msgstr "เบนิน "
+msgstr "เบนิน"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
 msgid "Bermuda"
@@ -1710,7 +1710,7 @@ msgstr "เอริเทรีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Estonia"
-msgstr "เอสโตเนีย "
+msgstr "เอสโตเนีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "Ethiopia"
@@ -1718,7 +1718,7 @@ msgstr "เอธิโอเปีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Falkland Islands"
-msgstr "หมู่เกาะฟอร์คแลนด์"
+msgstr "หมู่เกาะฟอล์กแลนด์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
@@ -1858,7 +1858,7 @@ msgstr "อิรัก"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Ireland"
-msgstr "ไอร์แลนด์ "
+msgstr "ไอร์แลนด์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Isle of Man"
@@ -1938,7 +1938,7 @@ msgstr "ไลบีเรีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Libya"
-msgstr "ลิเบีย "
+msgstr "ลิเบีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Liechtenstein"
@@ -1970,7 +1970,7 @@ msgstr "มาลาวี"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Malaysia"
-msgstr "มาเลเซีย "
+msgstr "มาเลเซีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Maldives"
@@ -2814,7 +2814,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
-#: ../calendar/gui/cal-search-bar.c:52
+#: ../calendar/gui/cal-search-bar.c:53
 msgid "Any field contains"
 msgstr "ข้อมูลใดๆ มีคำว่า"
 
@@ -2962,7 +2962,7 @@ msgstr "_แปะ"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1602
-#: ../calendar/gui/cal-search-bar.c:356
+#: ../calendar/gui/cal-search-bar.c:357
 msgid "Any Category"
 msgstr "หมวดใดก็ได้"
 
@@ -5101,14 +5101,18 @@ msgid "Description contains"
 msgstr "คำอธิบายมีคำว่า"
 
 #: ../calendar/gui/cal-search-bar.c:50
+msgid "Category is"
+msgstr "อยู่ในหมวด"
+
+#: ../calendar/gui/cal-search-bar.c:51
 msgid "Comment contains"
 msgstr "มีความคิดเห็น"
 
-#: ../calendar/gui/cal-search-bar.c:51
+#: ../calendar/gui/cal-search-bar.c:52
 msgid "Location contains"
 msgstr "สถานที่มีคำว่า"
 
-#: ../calendar/gui/cal-search-bar.c:359
+#: ../calendar/gui/cal-search-bar.c:360
 msgid "Unmatched"
 msgstr "ไม่ตรงกัน"
 
@@ -5761,7 +5765,8 @@ msgstr "รายการบันทึกนี้มีการเปลี
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s คุณได้แก้ไขข้อมูลบางอย่าง จะละเลยการเปลี่ยนแปลงนี้ และปรับข้อมูลเครื่องมือแก้ไขหรือไม่?"
+msgstr ""
+"%s คุณได้แก้ไขข้อมูลบางอย่าง จะละเลยการเปลี่ยนแปลงนี้ และปรับข้อมูลเครื่องมือแก้ไขหรือไม่?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5864,7 +5869,7 @@ msgid "_Add attachment..."
 msgstr "เ_พิ่มเอกสารแนบ..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1489
-#: ../mail/em-format-html-display.c:2263
+#: ../mail/em-format-html-display.c:2264
 msgid "Show Attachments"
 msgstr "แสดงเอกสารแนบ"
 
@@ -6917,7 +6922,7 @@ msgstr "มอบหมาย"
 msgid "Save As..."
 msgstr "บันทึกเป็น..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2111
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2112
 msgid "Select folder to save selected attachments..."
 msgstr "เลือกโฟลเดอร์ที่จะบันทึกเอกสารแนบที่เลือก..."
 
@@ -10271,8 +10276,8 @@ msgstr "เขียนจดหมาย"
 
 #: ../composer/e-msg-composer.c:5006
 msgid ""
-"<b>(The composer contains a non-text message body, which cannot be edited.)"
-"<b>"
+"<b>(The composer contains a non-text message body, which cannot be edited.)</"
+"b>"
 msgstr "<b>(ช่องเขียนจดหมายมีเนื้อหาที่ไม่ใช่ข้อความ ซึ่งไม่สามารถแก้ไขได้)</b>"
 
 #: ../composer/mail-composer.error.xml.h:1
@@ -11328,35 +11333,39 @@ msgstr "<b>แล้ว</b>"
 msgid "C_reate Search Folder From Search..."
 msgstr "_สร้างโฟลเดอร์ค้นหาจากการค้นหา..."
 
-#: ../mail/em-folder-browser.c:183
+#: ../mail/em-folder-browser.c:184
 msgid "All Messages"
 msgstr "ทุกข้อความ"
 
-#: ../mail/em-folder-browser.c:184
+#: ../mail/em-folder-browser.c:185
 msgid "Unread Messages"
 msgstr "ข้อความที่ยังไม่ได้อ่าน"
 
-#: ../mail/em-folder-browser.c:186
+#: ../mail/em-folder-browser.c:187
 msgid "No Label"
 msgstr "ไม่มีป้าย"
 
-#: ../mail/em-folder-browser.c:193
+#: ../mail/em-folder-browser.c:194
 msgid "Read Messages"
 msgstr "ข้อความที่อ่านแล้ว"
 
-#: ../mail/em-folder-browser.c:194
+#: ../mail/em-folder-browser.c:195
 msgid "Recent Messages"
 msgstr "ข้อความล่าสุด"
 
-#: ../mail/em-folder-browser.c:195
+#: ../mail/em-folder-browser.c:196
 msgid "Last 5 Days' Messages"
 msgstr "ข้อความภายใน 5 วันก่อน"
 
-#: ../mail/em-folder-browser.c:196
+#: ../mail/em-folder-browser.c:197
 msgid "Messages with Attachments"
 msgstr "ข้อความที่มีเอกสารแนบ"
 
-#: ../mail/em-folder-browser.c:197
+#: ../mail/em-folder-browser.c:198
+msgid "Important Messages"
+msgstr "ข้อความสำคัญ"
+
+#: ../mail/em-folder-browser.c:199
 msgid "Messages Not Junk"
 msgstr "ข้อความที่ไม่ใช่เมลขยะ"
 
@@ -11682,68 +11691,72 @@ msgid "Matches: %d"
 msgstr "หาพบ: %d"
 
 #: ../mail/em-format-html-display.c:646
-msgid "Find:"
-msgstr "หา:"
+msgid "Fi_nd:"
+msgstr "_หา:"
 
-#: ../mail/em-format-html-display.c:677
+#: ../mail/em-format-html-display.c:674
+msgid "Fo_rward"
+msgstr "_ส่งต่อ"
+
+#: ../mail/em-format-html-display.c:679
 msgid "M_atch case"
 msgstr "ตัว_พิมพ์ใหญ่-เล็กตรงกัน"
 
-#: ../mail/em-format-html-display.c:925 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:617
 msgid "Unsigned"
 msgstr "ไม่มีลายเซ็นกำกับ"
 
-#: ../mail/em-format-html-display.c:925
+#: ../mail/em-format-html-display.c:926
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "ข้อความนี้ไม่มีลายเซ็นกำกับ ไม่มีอะไรประกันได้เลยว่าข้อความนี้เป็นมาจากผู้ส่งจริง"
 
-#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:618
 msgid "Valid signature"
 msgstr "ลายเซ็นถูกต้อง"
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr "ข้อความนี้มีลายเซ็นกำกับที่ถูกต้อง ซึ่งหมายความว่า ข้อความนี้น่าจะมาจากผู้ส่งจริง"
 
-#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:928 ../mail/em-format-html.c:619
 msgid "Invalid signature"
 msgstr "ลายเซ็นไม่ถูกต้อง"
 
-#: ../mail/em-format-html-display.c:927
+#: ../mail/em-format-html-display.c:928
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr "ลายเซ็นกำกับข้อความนี้ตรวจสอบแล้วไม่ผ่าน เป็นไปได้ว่าข้อความอาจถูกแก้ไขระหว่างทาง"
 
-#: ../mail/em-format-html-display.c:928
+#: ../mail/em-format-html-display.c:929
 msgid "Valid signature, cannot verify sender"
 msgstr "ลายเซ็นถูกต้อง แต่ไม่สามารถตรวจสอบผู้ส่ง"
 
-#: ../mail/em-format-html-display.c:928
+#: ../mail/em-format-html-display.c:929
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "ข้อความนี้มีลายเซ็นกำกับที่ถูกต้อง แต่ไม่สามารถตรวจสอบผู้ส่งข้อความได้"
 
-#: ../mail/em-format-html-display.c:934 ../mail/em-format-html.c:626
+#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:626
 msgid "Unencrypted"
 msgstr "ไม่ได้เข้ารหัส"
 
-#: ../mail/em-format-html-display.c:934
+#: ../mail/em-format-html-display.c:935
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr "ข้อความนี้ไม่ได้เข้ารหัส เนื้อหาอาจถูกดักอ่านระหว่างทางในอินเทอร์เน็ตได้"
 
-#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:627
 msgid "Encrypted, weak"
 msgstr "เข้ารหัสแบบอ่อน"
 
-#: ../mail/em-format-html-display.c:935
+#: ../mail/em-format-html-display.c:936
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11752,21 +11765,21 @@ msgstr ""
 "ข้อความนี้ถูกเข้ารหัส แต่ใช้อัลกอริทึมเข้ารหัสที่อ่อน บุคคลอื่นอาจดักอ่านได้ยากก็จริง "
 "แต่ก็ไม่ใช่เป็นไปไม่ได้ โดยใช้เวลาไม่มากเกินไป"
 
-#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:628
 msgid "Encrypted"
 msgstr "เข้ารหัส"
 
-#: ../mail/em-format-html-display.c:936
+#: ../mail/em-format-html-display.c:937
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "ข้อความนี้ถูกเข้ารหัส บุคคลอื่นดักอ่านเนื้อหาได้ยาก"
 
-#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:629
 msgid "Encrypted, strong"
 msgstr "เข้ารหัสแบบแน่นหนา"
 
-#: ../mail/em-format-html-display.c:937
+#: ../mail/em-format-html-display.c:938
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11774,72 +11787,72 @@ msgid ""
 msgstr ""
 "ข้อความนี้ถูกเข้ารหัสด้วยอัลกอริทึมเข้ารหัสที่แน่นหนา บุคคลอื่นดักอ่านเนื้อหาได้ยากมาก ด้วยเวลาปกติ"
 
-#: ../mail/em-format-html-display.c:1038 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1039 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_ดูใบรับรอง"
 
-#: ../mail/em-format-html-display.c:1053
+#: ../mail/em-format-html-display.c:1054
 msgid "This certificate is not viewable"
 msgstr "ใบรับรองนี้เปิดดูไม่ได้"
 
-#: ../mail/em-format-html-display.c:1372
+#: ../mail/em-format-html-display.c:1373
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "เสร็จเมื่อ %d %B %Ey %H:%M"
 
-#: ../mail/em-format-html-display.c:1380
+#: ../mail/em-format-html-display.c:1381
 msgid "Overdue:"
 msgstr "เลยกำหนด:"
 
-#: ../mail/em-format-html-display.c:1383
+#: ../mail/em-format-html-display.c:1384
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "ภายใน %d %B %Ey %H:%M"
 
-#: ../mail/em-format-html-display.c:1443
+#: ../mail/em-format-html-display.c:1444
 msgid "_View Inline"
 msgstr "แ_สดงในบรรทัด"
 
-#: ../mail/em-format-html-display.c:1444
+#: ../mail/em-format-html-display.c:1445
 msgid "_Hide"
 msgstr "_ซ่อน"
 
-#: ../mail/em-format-html-display.c:1445
+#: ../mail/em-format-html-display.c:1446
 msgid "_Fit to Width"
 msgstr "_พอดีความกว้าง"
 
-#: ../mail/em-format-html-display.c:1446
+#: ../mail/em-format-html-display.c:1447
 msgid "Show _Original Size"
 msgstr "แสดงขนาด_จริง"
 
-#: ../mail/em-format-html-display.c:1865 ../mail/mail-config.glade.h:44
+#: ../mail/em-format-html-display.c:1866 ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "เอกสารแนบ"
 
-#: ../mail/em-format-html-display.c:2072
+#: ../mail/em-format-html-display.c:2073
 msgid "Select folder to save all attachments..."
 msgstr "เลือกโฟลเดอร์ที่จะบันทึกเอกสารแนบทั้งหมด..."
 
-#: ../mail/em-format-html-display.c:2119
+#: ../mail/em-format-html-display.c:2120
 msgid "_Save Selected..."
 msgstr "_บันทึกรายการที่เลือก..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2186
+#: ../mail/em-format-html-display.c:2187
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
 msgstr[0] "เอกสารแ_นบ %d ฉบับ"
 msgstr[1] "เอกสารแ_นบ %d ฉบับ"
 
-#: ../mail/em-format-html-display.c:2193 ../mail/em-format-html-display.c:2269
+#: ../mail/em-format-html-display.c:2194 ../mail/em-format-html-display.c:2270
 msgid "S_ave"
 msgstr "_บันทึก"
 
-#: ../mail/em-format-html-display.c:2204
+#: ../mail/em-format-html-display.c:2205
 msgid "S_ave All"
 msgstr "บันทึกทั้งห_มด"
 
-#: ../mail/em-format-html-display.c:2265
+#: ../mail/em-format-html-display.c:2266
 msgid "No Attachment"
 msgstr "ไม่มีเอกสารแนบ"
 
@@ -14700,37 +14713,37 @@ msgstr "สำรองและเรียกคืนข้อมูลแล
 msgid "Restore Settings..."
 msgstr "ค่าตั้งการเรียกคืน..."
 
-#: ../plugins/bbdb/bbdb.c:430 ../plugins/bbdb/bbdb.c:439
+#: ../plugins/bbdb/bbdb.c:443 ../plugins/bbdb/bbdb.c:452
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "ติดต่ออัตโนมัติ"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:454
+#: ../plugins/bbdb/bbdb.c:467
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "เพิ่มรายการในสมุดที่อยู่โดย_อัตโนมัติเมื่อตอบเมล"
 
-#: ../plugins/bbdb/bbdb.c:460
+#: ../plugins/bbdb/bbdb.c:473
 msgid "Select Address book for Automatic Contacts"
 msgstr "เลือกสมุดที่อยู่สำหรับที่อยู่ติดต่ออัตโนมัติ"
 
-#: ../plugins/bbdb/bbdb.c:475
+#: ../plugins/bbdb/bbdb.c:488
 msgid "Instant Messaging Contacts"
 msgstr "ที่อยู่ติดต่อสำหรับข้อความทันใจ"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:490
+#: ../plugins/bbdb/bbdb.c:503
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
 msgstr "ปรับข้อมูลที่อยู่ติดต่อและรูปภาพกับรายการของ gaim เป็นระยะ"
 
-#: ../plugins/bbdb/bbdb.c:496
+#: ../plugins/bbdb/bbdb.c:509
 msgid "Select Address book for Gaim buddy list"
 msgstr "เลือกสมุดที่อยู่สำหรับคู่สนทนาของ Gaim"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:507
+#: ../plugins/bbdb/bbdb.c:520
 msgid "Synchronize with _buddy list now"
 msgstr "ปรับข้อมูลกับรายชื่อ_คู่สนทนาเดี๋ยวนี้"
 
@@ -17247,8 +17260,7 @@ msgstr "รุ่นล่าสุดของการปรับรุ่น
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
-"รายการของพาธของโฟลเดอร์ที่จะปรับข้อมูลลงดิสก์ให้ตรงกัน เพื่อใช้งานแบบออฟไลน์"
+msgstr "รายการของพาธของโฟลเดอร์ที่จะปรับข้อมูลลงดิสก์ให้ตรงกัน เพื่อใช้งานแบบออฟไลน์"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
@@ -20593,23 +20605,23 @@ msgstr ""
 msgid "Column width"
 msgstr "ความกว้างคอลัมน์"
 
-#: ../widgets/misc/e-search-bar.c:526
+#: ../widgets/misc/e-search-bar.c:535
 msgid "_Search"
 msgstr "_ค้นหา"
 
-#: ../widgets/misc/e-search-bar.c:532
+#: ../widgets/misc/e-search-bar.c:541
 msgid "_Find Now"
 msgstr "_หาเดี๋ยวนี้"
 
-#: ../widgets/misc/e-search-bar.c:533
+#: ../widgets/misc/e-search-bar.c:542
 msgid "_Clear"
 msgstr "_ล้าง"
 
-#: ../widgets/misc/e-search-bar.c:784
+#: ../widgets/misc/e-search-bar.c:793
 msgid "Item ID"
 msgstr ""
 
-#: ../widgets/misc/e-search-bar.c:791 ../widgets/text/e-entry.c:1249
+#: ../widgets/misc/e-search-bar.c:800 ../widgets/text/e-entry.c:1249
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3503
 #: ../widgets/text/e-text.c:3504
 msgid "Text"
@@ -20617,19 +20629,19 @@ msgstr "ข้อความ"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:910
-msgid "Show: "
-msgstr "แสดง: "
+#: ../widgets/misc/e-search-bar.c:922
+msgid "Sho_w: "
+msgstr "แ_สดง: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
-#: ../widgets/misc/e-search-bar.c:926
+#: ../widgets/misc/e-search-bar.c:939
 msgid "Sear_ch: "
 msgstr "_ค้นหา: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:938
+#: ../widgets/misc/e-search-bar.c:951
 msgid " i_n "
 msgstr " ใ_น "
 
@@ -21384,9 +21396,6 @@ msgstr "จัดการหน้าต่างผุดขึ้น"
 
 #~ msgid "      "
 #~ msgstr "      "
-
-#~ msgid "Category is"
-#~ msgstr "อยู่ในหมวด"
 
 #~ msgid "%P %%"
 #~ msgstr "%P %%"
