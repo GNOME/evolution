@@ -1,3 +1,7 @@
+2006-08-06  Andre Klapper <a9016009@gmx.de>
+
+	* e-msg-composer.c: close an html tag properly. Fixes bug #350154.
+
 2006-07-20  Devashish Sharma   <sdevashish@novell.com>
 
 	** Fixes bug 273921

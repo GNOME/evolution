@@ -5003,7 +5003,7 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 	EMsgComposerPrivate *p = composer->priv;
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)<b>"), -1, FALSE, FALSE);
+	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)</b>"), -1, FALSE, FALSE);
 	e_msg_composer_set_send_html (composer, FALSE);
 	disable_editor (composer);
 	
