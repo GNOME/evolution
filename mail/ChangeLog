@@ -1,3 +1,8 @@
+2006-08-07  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* em-folder-tree.c (render_display_name): Marking vFolder names in
+	the folder tree localizable. Fixes bug #330915 (Roozbeh Pournader).
+
 2006-08-04  Johnny Jacob  <jjohnny@novell.com>
 
 	* em-format-html-display.c : Added mnemonic for "Fi_nd" and

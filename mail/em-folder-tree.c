@@ -347,7 +347,22 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	}
 	
 	if (!is_store && unread) {
-		display = g_strdup_printf ("%s (%u)", name, unread);
+		/* Translators: This is the string used for displaying the
+		 * folder names in folder trees. "%s" will be replaced by
+		 * the folder's name and "%u" will be replaced with the
+		 * number of unread messages in the folder.
+		 *
+		 * Most languages should translate this as "%s (%u)". The
+		 * languages that use localized digits (like Persian) may
+		 * need to replace "%u" with "%Iu". Right-to-left languages
+		 * (like Arabic and Hebrew) may need to add bidirectional
+		 * formatting codes to take care of the cases the folder
+		 * name appears in either direction.
+		 *
+		 * Do not translate the "folder-display|" part. Remove it
+		 * from your translation.
+		 */
+		display = g_strdup_printf (Q_("folder-display|%s (%u)"), name, unread);
 		g_free (name);
 	} else
 		display = name;
