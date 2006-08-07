@@ -234,7 +234,7 @@ username, and password, and try again.</_secondary>
 
  <error id="folder-no-gc-error" type="error">
   <_primary>Global Catalog Server is not reachable</_primary>
-  <_secondary>Please make sure the Global Catalog Sever name is correct.</_secondary> 
+  <_secondary>Please make sure the Global Catalog Server name is correct.</_secondary> 
  </error>
 
  <error id="folder-generic-error" type="error">
