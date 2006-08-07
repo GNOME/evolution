@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-06 23:42+0700\n"
-"PO-Revision-Date: 2006-08-06 23:58+0700\n"
+"POT-Creation-Date: 2006-08-07 22:08+0700\n"
+"PO-Revision-Date: 2006-08-07 22:17+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -152,7 +152,7 @@ msgid "calendar view for one or more days"
 msgstr "มุมมองปฏิทินสำหรับวันเดียวหรือหลายวัน"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
-#: ../calendar/gui/calendar-component.c:703
+#: ../calendar/gui/calendar-component.c:704
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Ey"
 
@@ -163,7 +163,7 @@ msgstr "%A %d %b %Ey"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
-#: ../calendar/gui/calendar-component.c:706
+#: ../calendar/gui/calendar-component.c:707
 #: ../calendar/gui/e-day-view-top-item.c:1315
 #: ../calendar/gui/e-day-view.c:2104
 #: ../calendar/gui/e-week-view-main-item.c:319
@@ -174,9 +174,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
 #: ../a11y/calendar/ea-gnome-calendar.c:199
-#: ../calendar/gui/calendar-component.c:708
-#: ../calendar/gui/calendar-component.c:713
-#: ../calendar/gui/calendar-component.c:715
+#: ../calendar/gui/calendar-component.c:709
+#: ../calendar/gui/calendar-component.c:714
+#: ../calendar/gui/calendar-component.c:716
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Ey"
 
@@ -184,10 +184,10 @@ msgstr "%a %d %b %Ey"
 #: ../a11y/calendar/ea-gnome-calendar.c:222
 #: ../a11y/calendar/ea-gnome-calendar.c:228
 #: ../a11y/calendar/ea-gnome-calendar.c:230
-#: ../calendar/gui/calendar-component.c:727
-#: ../calendar/gui/calendar-component.c:734
-#: ../calendar/gui/calendar-component.c:740
-#: ../calendar/gui/calendar-component.c:742
+#: ../calendar/gui/calendar-component.c:728
+#: ../calendar/gui/calendar-component.c:735
+#: ../calendar/gui/calendar-component.c:741
+#: ../calendar/gui/calendar-component.c:743
 msgid "%d %b %Y"
 msgstr "%d %b %Ey"
 
@@ -197,7 +197,7 @@ msgstr "%d %b %Ey"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
-#: ../calendar/gui/calendar-component.c:732
+#: ../calendar/gui/calendar-component.c:733
 #: ../calendar/gui/e-day-view-top-item.c:1319
 #: ../calendar/gui/e-day-view.c:2120
 #: ../calendar/gui/e-week-view-main-item.c:333
@@ -400,32 +400,42 @@ msgstr "เกิดข้อผิดพลาดขณะบันทึก {0
 msgid "Failed to authenticate with LDAP server."
 msgstr "ตรวจสอบสิทธิ์ด้วยเซิร์ฟเวอร์ LDAP ล้มเหลว"
 
+#. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1908
+msgid "Failed to delete contact"
+msgstr "ไม่สามารถลบที่อยู่ติดต่อ"
+
+#: ../addressbook/addressbook.error.xml.h:14
 msgid "GroupWise Address book creation:"
 msgstr "การสร้างสมุดที่อยู่ของ GroupWise:"
 
-#: ../addressbook/addressbook.error.xml.h:14
+#: ../addressbook/addressbook.error.xml.h:15
 msgid "LDAP server did not respond with valid schema information."
 msgstr "เซิร์ฟเวอร์ LDAP ไม่ตอบสนองกับข้อมูล schema ที่ถูกต้อง"
 
-#: ../addressbook/addressbook.error.xml.h:15
+#: ../addressbook/addressbook.error.xml.h:16
+msgid "Permission Denied."
+msgstr "ไม่ได้รับอนุญาต"
+
+#: ../addressbook/addressbook.error.xml.h:17
 msgid "Server Version"
 msgstr "รุ่นเซิร์ฟเวอร์"
 
-#: ../addressbook/addressbook.error.xml.h:16
+#: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
 msgstr "คุณลักษณะบางอย่างอาจจะไม่เหมาะกับเซิร์ฟเวอร์ปัจจุบันของคุณ"
 
-#: ../addressbook/addressbook.error.xml.h:17
+#: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "สมุดที่อยู่ Evolution หยุดทำงานกระทันหัน"
 
-#: ../addressbook/addressbook.error.xml.h:18
+#: ../addressbook/addressbook.error.xml.h:20
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr "รูปภาพที่คุณเลือกมีขนาดใหญ่ คุณต้องการปรับขนาดก่อนหรือไม่?"
 
-#: ../addressbook/addressbook.error.xml.h:19
+#: ../addressbook/addressbook.error.xml.h:21
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -434,19 +444,19 @@ msgstr ""
 "เซิร์ฟเวอร์ LDAP นี้อาจจะใช้ LDAP รุ่นเก่า ซึ่งไม่สนับสนุนการทำงานนี้ "
 "หรืออาจจะมีการกำหนดค่าผิดพลาด กรุณาสอบถามผู้ดูแลระบบของคุณ เกี่ยวกับจุดเริ่มต้นค้นหาที่สนับสนุน"
 
-#: ../addressbook/addressbook.error.xml.h:20
+#: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
 msgstr "สมุดที่อยู่นี้จะถูกลบไปแบบถาวร"
 
-#: ../addressbook/addressbook.error.xml.h:21
+#: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
 msgstr "สมุดที่อยู่นี้ไม่สามารถเปิดได้"
 
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
 msgstr "เซิร์ฟเวอร์สมุดที่อยู่ไม่มีฐานการค้นที่แนะนำเลย"
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -454,27 +464,27 @@ msgstr ""
 "สมุดที่อยู่นี้อาจจะไม่สามารถเข้าถึงได้ หรืออาจจะสะกดชื่อเซิร์ฟเวอร์ผิด "
 "หรือการเชื่อมต่อเครือข่ายของคุณหลุดไป"
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "This server does not support LDAPv3 schema information."
 msgstr "เซิร์ฟเวอร์นี้ไม่สนับสนุนข้อมูล schema ของ LDAPv3"
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
 msgstr "ไม่สามารถเปิดสมุดที่อยู่"
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
 msgstr "ไม่สามารถดำเนินการค้นหา"
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to save {0}."
 msgstr "ไม่สามารถบันทึก {0}"
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Would you like to save your changes?"
 msgstr "คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?"
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:31
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -482,7 +492,7 @@ msgstr ""
 "คุณกำลังพยายามย้ายที่อยู่ติดต่อจากสมุดที่อยู่หนึ่งไปยังอีกที่หนึ่ง แต่ไม่สามารถลบออกจากต้นทางได้ "
 "คุณต้องการจะเปลี่ยนเป็นการบันทึกที่อยู่ติดต่อนี้แทนการย้ายหรือไม่?"
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:32
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
@@ -491,34 +501,34 @@ msgstr ""
 "คุณกำลังเชื่อมต่อกับเซิร์ฟเวอร์ GroupWise รุ่นที่ไม่ได้สนับสนุน อาจจะทำให้เกิดปัญหาการใช้ "
 "Evolution ทางที่ดีที่สุดคือเซิร์ฟเวอร์ควรปรับปรุงให้ใช้กับรุ่นที่สนับสนุน"
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:33
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr "คุณได้เปลี่ยนแปลงแก้ไขที่อยู่ติดต่อนี้ไปแล้ว คุณต้องการบันทึกการเปลี่ยนแปลงหรือไม่?"
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:34
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "ที่อยู่ติดต่อ {0} นี้จะยังไม่สามารถใช้ได้ จนกว่าจะเริ่มการทำงานของ Evolution ใหม่"
 
-#: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:511
+#: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:511
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
 msgstr "เ_พิ่ม"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:36
 msgid "_Discard"
 msgstr "_ละทิ้ง"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:37
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
 msgstr "{0}"
 
-#: ../addressbook/addressbook.error.xml.h:36
+#: ../addressbook/addressbook.error.xml.h:38
 msgid "{1}"
 msgstr "{1}"
 
@@ -555,7 +565,7 @@ msgstr "กำหนดค่าเติมเต็มคำอัตโนม
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1332
-#: ../calendar/gui/calendar-component.c:268 ../calendar/gui/migration.c:400
+#: ../calendar/gui/calendar-component.c:269 ../calendar/gui/migration.c:400
 #: ../plugins/exchange-operations/exchange-folder.c:575
 msgid "Contacts"
 msgstr "ที่อยู่ติดต่อ"
@@ -596,7 +606,7 @@ msgstr "จัดการการตรวจสอบ S/MIME ของคุ�
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:141
 #: ../addressbook/gui/component/addressbook-migrate.c:483
-#: ../calendar/gui/calendar-component.c:230
+#: ../calendar/gui/calendar-component.c:231
 #: ../calendar/gui/memos-component.c:195 ../calendar/gui/migration.c:474
 #: ../calendar/gui/migration.c:567 ../calendar/gui/migration.c:1075
 #: ../calendar/gui/tasks-component.c:190 ../mail/em-folder-tree-model.c:199
@@ -614,7 +624,7 @@ msgstr "ในคอมพิวเตอร์นี้"
 #: ../addressbook/gui/component/addressbook-migrate.c:491
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:602
-#: ../calendar/gui/calendar-component.c:238
+#: ../calendar/gui/calendar-component.c:239
 #: ../calendar/gui/memos-component.c:203 ../calendar/gui/migration.c:482
 #: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
@@ -808,7 +818,7 @@ msgstr "สมุดที่อยู่ใ_หม่"
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:978
-#: ../calendar/gui/calendar-component.c:580
+#: ../calendar/gui/calendar-component.c:581
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:443
@@ -824,7 +834,7 @@ msgid "Save As Vcard..."
 msgstr "บันทึกเป็น VCard..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
-#: ../calendar/gui/calendar-component.c:581
+#: ../calendar/gui/calendar-component.c:582
 #: ../calendar/gui/memos-component.c:454 ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "คุณ_สมบัติ..."
@@ -2879,7 +2889,7 @@ msgid "Type"
 msgstr "ชนิด"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:833
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2066
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2083
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "บันทึกเป็น VCard..."
@@ -2942,7 +2952,7 @@ msgid "Cu_t"
 msgstr "_ตัด"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:976
-#: ../calendar/gui/calendar-component.c:579
+#: ../calendar/gui/calendar-component.c:580
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
@@ -2970,6 +2980,12 @@ msgstr "หมวดใดก็ได้"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1801
 msgid "Print cards"
 msgstr "พิมพ์นามบัตร"
+
+#. E_BOOK_ERROR_OTHER_ERROR
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1908
+#: ../addressbook/gui/widgets/eab-gui-util.c:70
+msgid "Other error"
+msgstr "ข้อผิดพลาดอื่นๆ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:576
@@ -3329,7 +3345,7 @@ msgstr "การสนทนาภาพ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:578
 #: ../calendar/gui/calendar-commands.c:119
-#: ../calendar/gui/calendar-component.c:751
+#: ../calendar/gui/calendar-component.c:752
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2281
 #: ../plugins/exchange-operations/exchange-folder.c:569
@@ -3476,11 +3492,6 @@ msgstr "ไม่มีแหล่งดังกล่าว"
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Not available in offline mode"
 msgstr "ใช้ในโหมดออฟไลน์ไม่ได้"
-
-#. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/eab-gui-util.c:70
-msgid "Other error"
-msgstr "ข้อผิดพลาดอื่นๆ"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
@@ -4455,7 +4466,7 @@ msgid "Calendar and Tasks"
 msgstr "ปฏิทินและงาน"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1357
+#: ../calendar/gui/calendar-component.c:1358
 msgid "Calendars"
 msgstr "ปฏิทิน"
 
@@ -5149,89 +5160,89 @@ msgstr "วัน"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:256
+#: ../calendar/gui/calendar-component.c:257
 #: ../calendar/gui/memos-component.c:222 ../calendar/gui/migration.c:501
 #: ../calendar/gui/migration.c:594 ../calendar/gui/migration.c:1102
 #: ../calendar/gui/tasks-component.c:217
 msgid "On The Web"
 msgstr "ในเว็บ"
 
-#: ../calendar/gui/calendar-component.c:274 ../calendar/gui/migration.c:403
+#: ../calendar/gui/calendar-component.c:275 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
 msgstr "วันเกิด & วันครบรอบปี"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:280
+#: ../calendar/gui/calendar-component.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "รายงานอากาศ"
 
-#: ../calendar/gui/calendar-component.c:578
+#: ../calendar/gui/calendar-component.c:579
 msgid "_New Calendar"
 msgstr "ปฏิทินใ_หม่"
 
-#: ../calendar/gui/calendar-component.c:895
+#: ../calendar/gui/calendar-component.c:896
 msgid "Failed upgrading calendars."
 msgstr "การปรับปรุงรุ่นปฏิทินล้มเหลว"
 
-#: ../calendar/gui/calendar-component.c:1194
+#: ../calendar/gui/calendar-component.c:1195
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "ไม่สามารถเปิดปฏิทิน '%s' เพื่อการสร้างเหตุการณ์และการประชุม"
 
-#: ../calendar/gui/calendar-component.c:1210
+#: ../calendar/gui/calendar-component.c:1211
 msgid "There is no calendar available for creating events and meetings"
 msgstr "ไม่มีปฏิทินที่จะใช้ได้สำหรับการสร้างเหตุการณ์และการประชุม"
 
-#: ../calendar/gui/calendar-component.c:1332
+#: ../calendar/gui/calendar-component.c:1333
 msgid "Calendar Source Selector"
 msgstr "ช่องเลือกแหล่งปฏิทิน"
 
-#: ../calendar/gui/calendar-component.c:1540
+#: ../calendar/gui/calendar-component.c:1541
 msgid "New appointment"
 msgstr "นัดหมายใหม่"
 
-#: ../calendar/gui/calendar-component.c:1541
+#: ../calendar/gui/calendar-component.c:1542
 msgid "_Appointment"
 msgstr "_นัดหมาย"
 
-#: ../calendar/gui/calendar-component.c:1542
+#: ../calendar/gui/calendar-component.c:1543
 msgid "Create a new appointment"
 msgstr "สร้างนัดหมายใหม่"
 
-#: ../calendar/gui/calendar-component.c:1548
+#: ../calendar/gui/calendar-component.c:1549
 msgid "New meeting"
 msgstr "การประชุมใหม่"
 
-#: ../calendar/gui/calendar-component.c:1549
+#: ../calendar/gui/calendar-component.c:1550
 msgid "M_eeting"
 msgstr "การ_ประชุม"
 
-#: ../calendar/gui/calendar-component.c:1550
+#: ../calendar/gui/calendar-component.c:1551
 msgid "Create a new meeting request"
 msgstr "สร้างการขอการประชุมใหม่"
 
-#: ../calendar/gui/calendar-component.c:1556
+#: ../calendar/gui/calendar-component.c:1557
 msgid "New all day appointment"
 msgstr "นัดหมายตลอดทั้งวันใหม่"
 
-#: ../calendar/gui/calendar-component.c:1557
+#: ../calendar/gui/calendar-component.c:1558
 msgid "All Day A_ppointment"
 msgstr "นัดหมาย_ตลอดทั้งวัน"
 
-#: ../calendar/gui/calendar-component.c:1558
+#: ../calendar/gui/calendar-component.c:1559
 msgid "Create a new all-day appointment"
 msgstr "สร้างการประชุมตลอดทั้งวันใหม่"
 
-#: ../calendar/gui/calendar-component.c:1564
+#: ../calendar/gui/calendar-component.c:1565
 msgid "New calendar"
 msgstr "ปฏิทินใหม่"
 
-#: ../calendar/gui/calendar-component.c:1565
+#: ../calendar/gui/calendar-component.c:1566
 msgid "Cale_ndar"
 msgstr "_ปฏิทิน"
 
-#: ../calendar/gui/calendar-component.c:1566
+#: ../calendar/gui/calendar-component.c:1567
 msgid "Create a new calendar"
 msgstr "สร้างปฏิทินใหม่"
 
@@ -15485,7 +15496,7 @@ msgid "Password successfully changed."
 msgstr "เปลี่ยนรหัสผ่านสำเร็จแล้ว"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
-msgid "Please make sure the Global Catalog Sever name is correct."
+msgid "Please make sure the Global Catalog Server name is correct."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
@@ -19038,7 +19049,7 @@ msgid "Select all visible messages"
 msgstr "เลือกข้อความทั้งหมดที่มองเห็น"
 
 #: ../ui/evolution-mail-list.xml.h:25
-msgid "Sh_ow Hidden Messages"
+msgid "Show Hidde_n Messages"
 msgstr "แส_ดงข้อความที่ซ่อนไว้"
 
 #: ../ui/evolution-mail-list.xml.h:26
@@ -19919,7 +19930,7 @@ msgid "Import data from other programs"
 msgstr "นำเข้าข้อมูลจากโปรแกรมอื่น"
 
 #: ../ui/evolution.xml.h:16
-msgid "La_yout"
+msgid "Lay_out"
 msgstr "การ_จัดเรียง"
 
 #: ../ui/evolution.xml.h:18
