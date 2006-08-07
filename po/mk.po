@@ -1,4 +1,4 @@
-# translation of evolution.HEAD.mk.po to Macedonian
+# translation of mk.po to Macedonian
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER, 2003.
 #
@@ -13,11 +13,11 @@
 # Arangel Angov <ufo@linux.net.mk>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.mk\n"
+"Project-Id-Version: mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-07 06:48+0200\n"
-"PO-Revision-Date: 2006-08-07 13:44+0200\n"
-"Last-Translator: Jovan Naumovski <jovan@lugola.net>\n"
+"POT-Creation-Date: 2006-08-07 15:14+0200\n"
+"PO-Revision-Date: 2006-08-07 19:23+0200\n"
+"Last-Translator: Arangel Angov <ufo@linux.net.mk>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -414,33 +414,43 @@ msgstr "Грешка при снимањето на {0} во {1}: {2}"
 msgid "Failed to authenticate with LDAP server."
 msgstr "Не успеа да се автентицира со LDAP серверот."
 
+#. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1908
+msgid "Failed to delete contact"
+msgstr "Не успеав да го избришам контактот"
+
+#: ../addressbook/addressbook.error.xml.h:14
 msgid "GroupWise Address book creation:"
 msgstr "GroupWise адресар креација:"
 
-#: ../addressbook/addressbook.error.xml.h:14
+#: ../addressbook/addressbook.error.xml.h:15
 msgid "LDAP server did not respond with valid schema information."
 msgstr "LDAP серверот одговори со невалидни шема информации."
 
-#: ../addressbook/addressbook.error.xml.h:15
+#: ../addressbook/addressbook.error.xml.h:16
+msgid "Permission Denied."
+msgstr "Недозволен пристап."
+
+#: ../addressbook/addressbook.error.xml.h:17
 msgid "Server Version"
 msgstr "Верзија на серверот"
 
-#: ../addressbook/addressbook.error.xml.h:16
+#: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
 msgstr "Некои опции може да не работат правилно со твојот тековен сервер"
 
-#: ../addressbook/addressbook.error.xml.h:17
+#: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "Evolution адресарот неочекувано откажа."
 
-#: ../addressbook/addressbook.error.xml.h:18
+#: ../addressbook/addressbook.error.xml.h:20
 msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 "Сликата што ја избравте е голема. Дали сакате да и ја смените големината и "
 "да ја складирате?"
 
-#: ../addressbook/addressbook.error.xml.h:19
+#: ../addressbook/addressbook.error.xml.h:21
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -450,19 +460,19 @@ msgstr ""
 "поддржува оваа функционалност или може погрешно да ја конфигурира. Прашај го "
 "твојот администратор за поддржани бази на пребарување."
 
-#: ../addressbook/addressbook.error.xml.h:20
+#: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
 msgstr "Овој адресар ќе биде трајно отстранет."
 
-#: ../addressbook/addressbook.error.xml.h:21
+#: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
 msgstr "Овој адресар не може да се отвори."
 
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
 msgstr "Овој сервер на адреси ги нема предложените термини за пребарување."
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -470,27 +480,27 @@ msgstr ""
 "Овој сервер на адресари може да е недостапен или името на серверот може да е "
 "погрешно напишано или твоето мрежно поврзување е исклучено."
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "This server does not support LDAPv3 schema information."
 msgstr "Овој сервер не поддржува LDAPv3 шеми информации"
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
 msgstr "Не може да се отвори адресарот"
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
 msgstr "Не може да се изврши пребарувањето."
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to save {0}."
 msgstr "Не може да се зачува {0}."
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Would you like to save your changes?"
 msgstr "Дали сакаш да ги зачуваш промените?"
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:31
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -498,42 +508,42 @@ msgstr ""
 "Пробуваш да преместиш контакт од еден адресар во друг но тој не може да се "
 "отстрани од изворот. Дали сакаш да зачуваш копија наместо?"
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:32
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
 msgstr "Се поврзуваш на неподдржан GroupWise "
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:33
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr "Направи измени на овој контакт. Дали сакаш да ги зачуваш овие промени?"
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:34
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Вашите контакти за {0} нема да бидат достапни додека Evolution не се "
 "рестартира."
 
-#: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:511
+#: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:511
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
 msgstr "_Додај"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:36
 msgid "_Discard"
 msgstr "_Отфрли"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:37
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
 msgstr "{0}"
 
-#: ../addressbook/addressbook.error.xml.h:36
+#: ../addressbook/addressbook.error.xml.h:38
 msgid "{1}"
 msgstr "{1}"
 
@@ -2903,7 +2913,7 @@ msgid "Type"
 msgstr "Тип"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:833
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2066
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2083
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Сними како VCard..."
@@ -2994,6 +3004,12 @@ msgstr "Било која категорија"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1801
 msgid "Print cards"
 msgstr "Печати карти"
+
+#. E_BOOK_ERROR_OTHER_ERROR
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1908
+#: ../addressbook/gui/widgets/eab-gui-util.c:70
+msgid "Other error"
+msgstr "Друга грешка"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:576
@@ -3501,11 +3517,6 @@ msgstr "Нема таков извор"
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Not available in offline mode"
 msgstr "Не е достапно во офлајн режим"
-
-#. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/eab-gui-util.c:70
-msgid "Other error"
-msgstr "Друга грешка"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
@@ -10388,8 +10399,8 @@ msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
 msgstr ""
-"<b>(Пишувачот содржи нетекстуално тело на пораката кое не може да биде уредувано.)</"
-"b>"
+"<b>(Пишувачот содржи нетекстуално тело на пораката кое не може да биде "
+"уредувано.)</b>"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
@@ -15679,8 +15690,8 @@ msgid "Password successfully changed."
 msgstr "Лозинката успешно е променета."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
-msgid "Please make sure the Global Catalog Sever name is correct."
-msgstr "Ве молам, осигурајте се дека името на Global Catalog точно."
+msgid "Please make sure the Global Catalog Server name is correct."
+msgstr "Ве молам, осигурајте се дека името на Global Catalog серверот е точно."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "Please restart Evolution for changes to take effect"
@@ -19262,8 +19273,8 @@ msgid "Select all visible messages"
 msgstr "Одбери ги сите видливи пораки"
 
 #: ../ui/evolution-mail-list.xml.h:25
-msgid "Sh_ow Hidden Messages"
-msgstr "По_кажи скриени пораки"
+msgid "Show Hidde_n Messages"
+msgstr "Покажи скриен_и пораки"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Show messages that have been temporarily hidden"
@@ -20143,8 +20154,8 @@ msgid "Import data from other programs"
 msgstr "Увези податоци од други програми"
 
 #: ../ui/evolution.xml.h:16
-msgid "La_yout"
-msgstr "Из_глед"
+msgid "Lay_out"
+msgstr "Изг_лед"
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
