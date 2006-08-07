@@ -1891,6 +1891,25 @@ eab_view_print_preview(EABView *view)
 #endif
 }
 
+/* callback function to handle removal of contacts for 
+ * which a user doesnt have write permission  
+ */
+static void delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
+{
+	switch(status) {
+		case E_BOOK_ERROR_OK :
+		case E_BOOK_ERROR_CANCELLED :
+			break;
+	 	case E_BOOK_ERROR_PERMISSION_DENIED :
+                	e_error_run (NULL, "addressbook:contact-delete-error-perm", NULL);
+			break;
+	  	default :
+			/* Unknown error */
+			e_error_run (NULL, "addressbook:generic-error", _("Failed to delete contact"), _("Other error"), NULL);
+			break;
+	}
+}
+
 void
 eab_view_delete_selection(EABView *view, gboolean is_delete)
 {
@@ -1929,10 +1948,9 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 		}
 
 		/* Remove the cards all at once. */
-		/* XXX no callback specified... ugh */
 		e_book_async_remove_contacts (view->book,
 					      ids,
-					      NULL,
+					      delete_contacts_cb,
 					      NULL);
 			
 		g_list_free (ids);
@@ -1941,10 +1959,9 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 		for (l=list;l;l=g_list_next(l)) {
 			contact = l->data;
 			/* Remove the card. */
-			/* XXX no callback specified... ugh */
 			e_book_async_remove_contact (view->book,
 						     contact,
-						     NULL,
+						     delete_contacts_cb,
 						     NULL);
 		}
 	}

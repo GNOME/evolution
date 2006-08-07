@@ -1,3 +1,14 @@
+2006-08-07  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/e-addressbook-view.c (eab_view_delete_selection): Added a
+	callback function to handle the contact deletion error.
+	(delete_contacts_cb): Added new, a callback function.
+
+	* addressbook.error.xml: Added a error code contact-delete-error-perm
+	and corresponding error string. Fixes #260403
+
+	Original patch was submitted by "Vandana Shenoy .B"
+
 2006-07-25  Johnny Jacob  <jjohnny@novell.com>
 	
 	* gui/widgets/e-addressbook-view.c: (search_activated),
