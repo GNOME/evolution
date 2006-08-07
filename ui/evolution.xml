@@ -114,7 +114,7 @@
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>
       <submenu name="Window" _label="_Window"/>
-      <submenu name="layout" _label="La_yout">
+      <submenu name="layout" _label="Lay_out">
       <menuitem name="ViewToolbar" id="ViewToolbar" verb=""/>
       <menuitem name="ViewStatusBar" id="ViewStatusBar"/>
       <menuitem name="ViewSideBar" id="ViewSideBar"/>

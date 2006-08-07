@@ -81,7 +81,7 @@
         <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
 	<menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
 	<menuitem name="ViewHideRead" verb="" _label="Hide _Read Messages"/>
-	<menuitem name="ViewShowAll" verb="" _label="Sh_ow Hidden Messages"/>
+	<menuitem name="ViewShowAll" verb="" _label="Show Hidde_n Messages"/>
       </placeholder>
 
     </submenu>

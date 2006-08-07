@@ -1,3 +1,9 @@
+2006-08-07  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail-list.xml:
+	* evolution.xml: Fixed a mnemonic issue with La_yout, so that 'Y"
+	doesnt get the underline (HIG).
+
 2006-07-14  Arvind <sa.phoenix@gmail.com>
 
 	** Fix for bug #209254
