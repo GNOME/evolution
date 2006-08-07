@@ -1,3 +1,8 @@
+2006-08-07  Rahul Bhalerao  <b.rahul.pm@gmail.com>
+
+	* mr.po: Added a new file for Marathi
+	* LINGUAS: Added a corrosponding entry for Marathi(mr) in LINGUAS file
+	
 2006-08-07  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* es.po: Updated Spanish translation.
