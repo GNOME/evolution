@@ -1,3 +1,10 @@
+2006-08-07  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fix for bug #350267
+	
+	* gui/calendar-component.c: (calcomp_vpane_realized): Fix the
+	miscalculation becoz of convertion from float to int.
+
 2006-08-04  Johnny Jacob <jjohnny@novell.com>
 
 	* gui/cal-search-bar.h : Changed the CAL_SEARCH items mask for

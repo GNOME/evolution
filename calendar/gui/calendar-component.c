@@ -134,7 +134,8 @@ extern ECompEditorRegistry *comp_editor_registry;
 static void
 calcomp_vpane_realized (GtkWidget *vpane, CalendarComponentView *view)
 {
-	gtk_paned_set_position (GTK_PANED (vpane), view->vpane_pos*vpane->allocation.height);
+	gtk_paned_set_position (GTK_PANED (vpane), (int)(view->vpane_pos*vpane->allocation.height));
+	
 }
 
 static gboolean
