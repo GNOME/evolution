@@ -35,6 +35,7 @@
 
 #include <libxml/tree.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnome/gnome-i18n.h>

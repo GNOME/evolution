@@ -1,3 +1,9 @@
+2006-08-08  Harish Krishnaswamy  <kharish@novell.com>
+
+	* em-folder-tree.c: Add header glib/gi18n.h to provide the missing
+	symbol required by the previous commit. This was an ugly crasher
+	on the release tarball candidate.
+	
 2006-08-07  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-tree.c (render_display_name): Marking vFolder names in
