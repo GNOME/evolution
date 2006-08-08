@@ -1,4 +1,4 @@
-# translation of mk.po to Macedonian
+# translation of evolution.HEAD.mk.po to Macedonian
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER, 2003.
 #
@@ -13,11 +13,11 @@
 # Arangel Angov <ufo@linux.net.mk>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: mk\n"
+"Project-Id-Version: evolution.HEAD.mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-07 15:14+0200\n"
-"PO-Revision-Date: 2006-08-07 19:23+0200\n"
-"Last-Translator: Arangel Angov <ufo@linux.net.mk>\n"
+"POT-Creation-Date: 2006-08-07 22:51+0200\n"
+"PO-Revision-Date: 2006-08-08 01:57+0200\n"
+"Last-Translator: Jovan Naumovski <jovan@lugola.net>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,7 +163,7 @@ msgid "calendar view for one or more days"
 msgstr "календарски приказ за еден или повеќе денови"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
-#: ../calendar/gui/calendar-component.c:703
+#: ../calendar/gui/calendar-component.c:704
 msgid "%A %d %b %Y"
 msgstr "%A %d %B %Y"
 
@@ -174,7 +174,7 @@ msgstr "%A %d %B %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
-#: ../calendar/gui/calendar-component.c:706
+#: ../calendar/gui/calendar-component.c:707
 #: ../calendar/gui/e-day-view-top-item.c:1315
 #: ../calendar/gui/e-day-view.c:2104
 #: ../calendar/gui/e-week-view-main-item.c:319
@@ -185,9 +185,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
 #: ../a11y/calendar/ea-gnome-calendar.c:199
-#: ../calendar/gui/calendar-component.c:708
-#: ../calendar/gui/calendar-component.c:713
-#: ../calendar/gui/calendar-component.c:715
+#: ../calendar/gui/calendar-component.c:709
+#: ../calendar/gui/calendar-component.c:714
+#: ../calendar/gui/calendar-component.c:716
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -195,10 +195,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:222
 #: ../a11y/calendar/ea-gnome-calendar.c:228
 #: ../a11y/calendar/ea-gnome-calendar.c:230
-#: ../calendar/gui/calendar-component.c:727
-#: ../calendar/gui/calendar-component.c:734
-#: ../calendar/gui/calendar-component.c:740
-#: ../calendar/gui/calendar-component.c:742
+#: ../calendar/gui/calendar-component.c:728
+#: ../calendar/gui/calendar-component.c:735
+#: ../calendar/gui/calendar-component.c:741
+#: ../calendar/gui/calendar-component.c:743
 msgid "%d %b %Y"
 msgstr "%d %B %Y"
 
@@ -208,7 +208,7 @@ msgstr "%d %B %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
-#: ../calendar/gui/calendar-component.c:732
+#: ../calendar/gui/calendar-component.c:733
 #: ../calendar/gui/e-day-view-top-item.c:1319
 #: ../calendar/gui/e-day-view.c:2120
 #: ../calendar/gui/e-week-view-main-item.c:333
@@ -580,7 +580,7 @@ msgstr "Конфигурирај автокомплетирање овде"
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1332
-#: ../calendar/gui/calendar-component.c:268 ../calendar/gui/migration.c:400
+#: ../calendar/gui/calendar-component.c:269 ../calendar/gui/migration.c:400
 #: ../plugins/exchange-operations/exchange-folder.c:575
 msgid "Contacts"
 msgstr "Контакти"
@@ -621,7 +621,7 @@ msgstr "Уреди ги твоите S/MIME сертификати овде"
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:141
 #: ../addressbook/gui/component/addressbook-migrate.c:483
-#: ../calendar/gui/calendar-component.c:230
+#: ../calendar/gui/calendar-component.c:231
 #: ../calendar/gui/memos-component.c:195 ../calendar/gui/migration.c:474
 #: ../calendar/gui/migration.c:567 ../calendar/gui/migration.c:1075
 #: ../calendar/gui/tasks-component.c:190 ../mail/em-folder-tree-model.c:199
@@ -639,7 +639,7 @@ msgstr "На овој компјутер"
 #: ../addressbook/gui/component/addressbook-migrate.c:491
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:602
-#: ../calendar/gui/calendar-component.c:238
+#: ../calendar/gui/calendar-component.c:239
 #: ../calendar/gui/memos-component.c:203 ../calendar/gui/migration.c:482
 #: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
@@ -833,11 +833,11 @@ msgstr "_Нов адресар"
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:978
-#: ../calendar/gui/calendar-component.c:580
+#: ../calendar/gui/calendar-component.c:581
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:443
-#: ../mail/em-folder-tree.c:2061 ../mail/em-folder-view.c:1126
+#: ../mail/em-folder-tree.c:2077 ../mail/em-folder-view.c:1126
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -849,7 +849,7 @@ msgid "Save As Vcard..."
 msgstr "Сними како VCard..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
-#: ../calendar/gui/calendar-component.c:581
+#: ../calendar/gui/calendar-component.c:582
 #: ../calendar/gui/memos-component.c:454 ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "С_војства..."
@@ -2976,12 +2976,12 @@ msgid "Cu_t"
 msgstr "От_сечи"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:976
-#: ../calendar/gui/calendar-component.c:579
+#: ../calendar/gui/calendar-component.c:580
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:442
-#: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:986
+#: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1112 ../mail/message-list.c:1901
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3370,7 +3370,7 @@ msgstr "Видео разговор"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:578
 #: ../calendar/gui/calendar-commands.c:119
-#: ../calendar/gui/calendar-component.c:751
+#: ../calendar/gui/calendar-component.c:752
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2281
 #: ../plugins/exchange-operations/exchange-folder.c:569
@@ -4529,7 +4529,7 @@ msgid "Calendar and Tasks"
 msgstr "Календар и задачи"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1357
+#: ../calendar/gui/calendar-component.c:1358
 msgid "Calendars"
 msgstr "Календари"
 
@@ -5238,89 +5238,89 @@ msgstr "денови"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:256
+#: ../calendar/gui/calendar-component.c:257
 #: ../calendar/gui/memos-component.c:222 ../calendar/gui/migration.c:501
 #: ../calendar/gui/migration.c:594 ../calendar/gui/migration.c:1102
 #: ../calendar/gui/tasks-component.c:217
 msgid "On The Web"
 msgstr "На интернет"
 
-#: ../calendar/gui/calendar-component.c:274 ../calendar/gui/migration.c:403
+#: ../calendar/gui/calendar-component.c:275 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
 msgstr "Родендени и годишнини"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:280
+#: ../calendar/gui/calendar-component.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "Време"
 
-#: ../calendar/gui/calendar-component.c:578
+#: ../calendar/gui/calendar-component.c:579
 msgid "_New Calendar"
 msgstr "_Нов Календар"
 
-#: ../calendar/gui/calendar-component.c:895
+#: ../calendar/gui/calendar-component.c:896
 msgid "Failed upgrading calendars."
 msgstr "Надградбата на календарите не успеа."
 
-#: ../calendar/gui/calendar-component.c:1194
+#: ../calendar/gui/calendar-component.c:1195
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Не може да се отвори календарот '%s' за креирање настани и состаноци"
 
-#: ../calendar/gui/calendar-component.c:1210
+#: ../calendar/gui/calendar-component.c:1211
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Нема достапен календар за креирање настани и состаноци"
 
-#: ../calendar/gui/calendar-component.c:1332
+#: ../calendar/gui/calendar-component.c:1333
 msgid "Calendar Source Selector"
 msgstr "Избирач на извор на календар"
 
-#: ../calendar/gui/calendar-component.c:1540
+#: ../calendar/gui/calendar-component.c:1541
 msgid "New appointment"
 msgstr "Ново закажување"
 
-#: ../calendar/gui/calendar-component.c:1541
+#: ../calendar/gui/calendar-component.c:1542
 msgid "_Appointment"
 msgstr "_Закажување"
 
-#: ../calendar/gui/calendar-component.c:1542
+#: ../calendar/gui/calendar-component.c:1543
 msgid "Create a new appointment"
 msgstr "Создади ново закажување"
 
-#: ../calendar/gui/calendar-component.c:1548
+#: ../calendar/gui/calendar-component.c:1549
 msgid "New meeting"
 msgstr "Нов состанок"
 
-#: ../calendar/gui/calendar-component.c:1549
+#: ../calendar/gui/calendar-component.c:1550
 msgid "M_eeting"
 msgstr "С_останок"
 
-#: ../calendar/gui/calendar-component.c:1550
+#: ../calendar/gui/calendar-component.c:1551
 msgid "Create a new meeting request"
 msgstr "Создади ново барање за состанок"
 
-#: ../calendar/gui/calendar-component.c:1556
+#: ../calendar/gui/calendar-component.c:1557
 msgid "New all day appointment"
 msgstr "Нов целодневен состанок"
 
-#: ../calendar/gui/calendar-component.c:1557
+#: ../calendar/gui/calendar-component.c:1558
 msgid "All Day A_ppointment"
 msgstr "Цело_дневен состанок"
 
-#: ../calendar/gui/calendar-component.c:1558
+#: ../calendar/gui/calendar-component.c:1559
 msgid "Create a new all-day appointment"
 msgstr "Креирај нови цело дневни закажувања"
 
-#: ../calendar/gui/calendar-component.c:1564
+#: ../calendar/gui/calendar-component.c:1565
 msgid "New calendar"
 msgstr "Нов календар"
 
-#: ../calendar/gui/calendar-component.c:1565
+#: ../calendar/gui/calendar-component.c:1566
 msgid "Cale_ndar"
 msgstr "Кале_ндар"
 
-#: ../calendar/gui/calendar-component.c:1566
+#: ../calendar/gui/calendar-component.c:1567
 msgid "Create a new calendar"
 msgstr "Креирај нов календар"
 
@@ -5906,13 +5906,13 @@ msgstr[1] "Прикачени пораки - %d"
 msgstr[2] "Прикачени пораки - %d"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
-#: ../mail/em-folder-tree.c:987 ../mail/em-folder-utils.c:368
+#: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1008 ../mail/message-list.c:1902
 msgid "_Move"
 msgstr "_Помести"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
-#: ../mail/em-folder-tree.c:989 ../mail/message-list.c:1904
+#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1904
 msgid "Cancel _Drag"
 msgstr "Откажи _влечење"
 
@@ -5950,7 +5950,7 @@ msgstr "_Отстрани"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1100
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3652 ../mail/em-folder-tree.c:2065
+#: ../composer/e-msg-composer.c:3652 ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Својства"
@@ -11570,48 +11570,68 @@ msgstr "Испратени"
 msgid "Loading..."
 msgstr "Се вчитува..."
 
-#: ../mail/em-folder-tree.c:701
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:366
+#, c-format
+msgid "folder-display|%s (%u)"
+msgstr "%s (%u)"
+
+#: ../mail/em-folder-tree.c:717
 msgid "Mail Folder Tree"
 msgstr "Дрво на папки со пошта"
 
-#: ../mail/em-folder-tree.c:861
+#: ../mail/em-folder-tree.c:877
 #, c-format
 msgid "Moving folder %s"
 msgstr "Преместување на папката %s"
 
-#: ../mail/em-folder-tree.c:863
+#: ../mail/em-folder-tree.c:879
 #, c-format
 msgid "Copying folder %s"
 msgstr "Копирање на папката %s"
 
-#: ../mail/em-folder-tree.c:870 ../mail/message-list.c:1806
+#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1806
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Преместувам пораки во папка %s"
 
-#: ../mail/em-folder-tree.c:872 ../mail/message-list.c:1808
+#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1808
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копирам пораки во папка %s"
 
-#: ../mail/em-folder-tree.c:888
+#: ../mail/em-folder-tree.c:904
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не може да се остават порака(и) во најгорно ниво на сместување"
 
-#: ../mail/em-folder-tree.c:984 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:1000 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "Копирај во папка"
 
-#: ../mail/em-folder-tree.c:985 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:1001 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "Премести во папка"
 
-#: ../mail/em-folder-tree.c:1690 ../mail/mail-ops.c:1060
+#: ../mail/em-folder-tree.c:1706 ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Скенирам папки во \"%s\""
 
-#: ../mail/em-folder-tree.c:2049 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2065 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
@@ -11619,28 +11639,28 @@ msgstr "Скенирам папки во \"%s\""
 msgid "_View"
 msgstr "_Поглед"
 
-#: ../mail/em-folder-tree.c:2050
+#: ../mail/em-folder-tree.c:2066
 msgid "Open in _New Window"
 msgstr "Отвори во _нов прозорец"
 
-#: ../mail/em-folder-tree.c:2054
+#: ../mail/em-folder-tree.c:2070
 msgid "_Copy..."
 msgstr "Копирај..."
 
-#: ../mail/em-folder-tree.c:2055
+#: ../mail/em-folder-tree.c:2071
 msgid "_Move..."
 msgstr "Помести..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2059
+#: ../mail/em-folder-tree.c:2075
 msgid "_New Folder..."
 msgstr "Нова папка..."
 
-#: ../mail/em-folder-tree.c:2062 ../ui/evolution-mail-list.xml.h:34
+#: ../mail/em-folder-tree.c:2078 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
 msgstr "Преименувај..."
 
-#: ../mail/em-folder-tree.c:2067 ../mail/mail.error.xml.h:128
+#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:128
 msgid "_Empty Trash"
 msgstr "_Испразни отпад"
 
