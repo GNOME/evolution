@@ -1,3 +1,11 @@
+2006-08-08  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes bug #235909
+	* gui/e-cal-model-tasks.c (get_due_status): Get the timezone for
+	the due date field correctly.
+
+	Committing for  Mubeen Jukaku  <jmubeen@novell.com>
+
 2006-08-07  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fix for bug #350267

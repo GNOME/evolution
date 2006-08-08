@@ -428,10 +428,17 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 			else
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		} else {
-			/* Get the current time in the same timezone as the DUE date.*/
-			if (!e_cal_get_timezone (comp_data->client, icaltime_get_tzid (due_tt), &zone, NULL))
+			icalparameter *param;
+			const char *tzid;
+
+			if(!(param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER)))
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
-			
+
+			/* Get the current time in the same timezone as the DUE date.*/
+			tzid = icalparameter_get_tzid (param);
+			if (!e_cal_get_timezone (comp_data->client, tzid, &zone, NULL))
+				return E_CAL_MODEL_TASKS_DUE_FUTURE;
+
 			now_tt = icaltime_current_time_with_zone (zone);
 
 			if (icaltime_compare (due_tt, now_tt) <= 0) 
