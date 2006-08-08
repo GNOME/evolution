@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-06 22:47+0200\n"
-"PO-Revision-Date: 2006-08-07 10:10+0530\n"
+"POT-Creation-Date: 2006-08-07 22:51+0200\n"
+"PO-Revision-Date: 2006-08-08 10:06+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -202,7 +203,7 @@ msgid "calendar view for one or more days"
 msgstr "એક અથવા વધુ દિવસો માટે કેલેન્ડર દેખાવ"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
-#: ../calendar/gui/calendar-component.c:703
+#: ../calendar/gui/calendar-component.c:704
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -213,7 +214,7 @@ msgstr "%A %d %b %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
-#: ../calendar/gui/calendar-component.c:706
+#: ../calendar/gui/calendar-component.c:707
 #: ../calendar/gui/e-day-view-top-item.c:1315
 #: ../calendar/gui/e-day-view.c:2104
 #: ../calendar/gui/e-week-view-main-item.c:319
@@ -224,9 +225,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
 #: ../a11y/calendar/ea-gnome-calendar.c:199
-#: ../calendar/gui/calendar-component.c:708
-#: ../calendar/gui/calendar-component.c:713
-#: ../calendar/gui/calendar-component.c:715
+#: ../calendar/gui/calendar-component.c:709
+#: ../calendar/gui/calendar-component.c:714
+#: ../calendar/gui/calendar-component.c:716
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -234,10 +235,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:222
 #: ../a11y/calendar/ea-gnome-calendar.c:228
 #: ../a11y/calendar/ea-gnome-calendar.c:230
-#: ../calendar/gui/calendar-component.c:727
-#: ../calendar/gui/calendar-component.c:734
-#: ../calendar/gui/calendar-component.c:740
-#: ../calendar/gui/calendar-component.c:742
+#: ../calendar/gui/calendar-component.c:728
+#: ../calendar/gui/calendar-component.c:735
+#: ../calendar/gui/calendar-component.c:741
+#: ../calendar/gui/calendar-component.c:743
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -247,7 +248,7 @@ msgstr "%d %b %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
-#: ../calendar/gui/calendar-component.c:732
+#: ../calendar/gui/calendar-component.c:733
 #: ../calendar/gui/e-day-view-top-item.c:1319
 #: ../calendar/gui/e-day-view.c:2120
 #: ../calendar/gui/e-week-view-main-item.c:333
@@ -453,31 +454,41 @@ msgstr "{0} નો {1} માં સંગ્રહ કરવામાં ભૂ
 msgid "Failed to authenticate with LDAP server."
 msgstr "LDAP સર્વર સાથે સત્તાધિકરણ કરવામાં નિષ્ફળ."
 
+#. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1908
+msgid "Failed to delete contact"
+msgstr "સંપર્ક કાઢી નાંખવામાં નિષ્ફળ"
+
+#: ../addressbook/addressbook.error.xml.h:14
 msgid "GroupWise Address book creation:"
 msgstr "જૂથપ્રમાણે સરનામા પુસ્તિકા બનાવટ:"
 
-#: ../addressbook/addressbook.error.xml.h:14
+#: ../addressbook/addressbook.error.xml.h:15
 msgid "LDAP server did not respond with valid schema information."
 msgstr "પદ્ધતિની યોગ્ય જાણકારી સાથે LDAP સર્વર જવાબ આપતું નથી."
 
-#: ../addressbook/addressbook.error.xml.h:15
+#: ../addressbook/addressbook.error.xml.h:16
+msgid "Permission Denied."
+msgstr "પરવાનગી નામંજૂર."
+
+#: ../addressbook/addressbook.error.xml.h:17
 msgid "Server Version"
 msgstr "સર્વર આવૃત્તિ"
 
-#: ../addressbook/addressbook.error.xml.h:16
+#: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
 msgstr "અમુક લક્ષણો તમારા વર્તમાન સર્વર સાથે યોગ્ય રીતે કામ કરશે નહિં"
 
-#: ../addressbook/addressbook.error.xml.h:17
+#: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "ઈવોલ્યુશન સરનામાપોથી અનિચ્છનીય રીતે બંધ થઈ ગઈ."
 
-#: ../addressbook/addressbook.error.xml.h:18
+#: ../addressbook/addressbook.error.xml.h:20
 msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr "તમે પસંદ કરેલ ચિત્ર મોટું છે. શું તમે તેનું માપ બદલવા માંગો છો અને તેનો સંગ્રહ કરવા માંગો છો?"
 
-#: ../addressbook/addressbook.error.xml.h:19
+#: ../addressbook/addressbook.error.xml.h:21
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -486,19 +497,19 @@ msgstr ""
 "આ LDAP સર્વર કદાચ LDAP ની જૂની આવૃત્તિ વાપરે છે; કે જે આ વિધેયોને આધાર આપતું નથી અથવા તે "
 "કદાચ રુપરેખાંકિત થયેલ નથી. તમારા સંચાલકને શોધ માટેના આધારો માટે પૂછો."
 
-#: ../addressbook/addressbook.error.xml.h:20
+#: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
 msgstr "સરનામા પુસ્તિકા કાયમ માટે દૂર થઈ જશે."
 
-#: ../addressbook/addressbook.error.xml.h:21
+#: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
 msgstr "સરનામાપોથી ખોલી શકાઈ નહિ."
 
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
 msgstr "આ સરનામાપોથી સર્વર પાસે કોઈ શોધાયેલ આધારો નથી."
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -506,27 +517,27 @@ msgstr ""
 "સરનામા પુસ્તિકા કદાચ પહોંચી શકાય નહિં અથવા સર્વર નામની જોડણી ખોટી હોઈ શકે અથવા "
 "તમારું નેટવર્ક જોડાણ ધીમું હોઈ શકે."
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "This server does not support LDAPv3 schema information."
 msgstr "આ સર્વર LDAPv3 પદ્ધતિની જાણકારીને આધાર આપતું નથી."
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
 msgstr "સરનામાપોથી ખોલવા માટે સમર્થ નથી"
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
 msgstr "શોધ કરવામાં સમર્થ નથી."
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to save {0}."
 msgstr "{0} સંગ્રહવામાં અસમર્થ."
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Would you like to save your changes?"
 msgstr "શું તમે તમારા ફેરફારો સંગ્રહવા માંગો છો?"
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:31
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -534,7 +545,7 @@ msgstr ""
 "તમે એક સરનામાપોથીમાંથી બીજી જગ્યાએ સંપર્ક ખસેડવાનો પ્રયત્ન કરી રહ્યા છો પરંતુ તે "
 "સ્રોતમાંથી દૂર કરી શકાતો નથી. શું તમે એની જગ્યાએ તેની નકલનો સંગ્રહ કરવા માંગો છો?"
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:32
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
@@ -543,33 +554,33 @@ msgstr ""
 "તમે બિનઆધારભૂત GroupWise સર્વર સાથે જોડાઈ રહ્યા છો અને ઈવોલ્યુશનમાં કદાચ સમસ્યાઓ "
 "મેળવશો. શ્રેષ્ઠ પરિણામો માટે સર્વર આધારભૂત આવૃત્તિમાં સુધારાવું જોઈએ"
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:33
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr "તમે આ સંપર્ક સાથે સુધારાઓ કર્યા છે. શું તમે આ બદલાવો સંગ્રહવા માંગો છો?"
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:34
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "તમારા {0} માટેના સંપર્કો જ્યાં સુધી ઈવોલ્યુશન ફરીથી ચાલુ ન થાય ત્યાં સુધી ઉપલબ્ધ થશે નહિ."
 
-#: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:511
+#: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:511
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
 msgstr "ઉમેરો (_A)"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:36
 msgid "_Discard"
 msgstr "છોડી દો(_D)"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:37
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
 msgstr "{0}"
 
-#: ../addressbook/addressbook.error.xml.h:36
+#: ../addressbook/addressbook.error.xml.h:38
 msgid "{1}"
 msgstr "{1}"
 
@@ -606,7 +617,7 @@ msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખા
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1332
-#: ../calendar/gui/calendar-component.c:268 ../calendar/gui/migration.c:400
+#: ../calendar/gui/calendar-component.c:269 ../calendar/gui/migration.c:400
 #: ../plugins/exchange-operations/exchange-folder.c:575
 msgid "Contacts"
 msgstr "સંપર્કો"
@@ -647,7 +658,7 @@ msgstr "તમારા S/MIME પ્રમાણપત્રોની અંહ
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:141
 #: ../addressbook/gui/component/addressbook-migrate.c:483
-#: ../calendar/gui/calendar-component.c:230
+#: ../calendar/gui/calendar-component.c:231
 #: ../calendar/gui/memos-component.c:195 ../calendar/gui/migration.c:474
 #: ../calendar/gui/migration.c:567 ../calendar/gui/migration.c:1075
 #: ../calendar/gui/tasks-component.c:190 ../mail/em-folder-tree-model.c:199
@@ -665,7 +676,7 @@ msgstr "આ કમ્પ્યુટરમાં"
 #: ../addressbook/gui/component/addressbook-migrate.c:491
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:602
-#: ../calendar/gui/calendar-component.c:238
+#: ../calendar/gui/calendar-component.c:239
 #: ../calendar/gui/memos-component.c:203 ../calendar/gui/migration.c:482
 #: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
@@ -860,11 +871,11 @@ msgstr "નવી સરનામા પુસ્તિકા (_N)"
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:978
-#: ../calendar/gui/calendar-component.c:580
+#: ../calendar/gui/calendar-component.c:581
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:443
-#: ../mail/em-folder-tree.c:2061 ../mail/em-folder-view.c:1126
+#: ../mail/em-folder-tree.c:2077 ../mail/em-folder-view.c:1126
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -876,7 +887,7 @@ msgid "Save As Vcard..."
 msgstr "Vcard તરીકે સંગ્રહો..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
-#: ../calendar/gui/calendar-component.c:581
+#: ../calendar/gui/calendar-component.c:582
 #: ../calendar/gui/memos-component.c:454 ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "ગુણધર્મો (_P)..."
@@ -2929,7 +2940,7 @@ msgid "Type"
 msgstr "પ્રકાર"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:833
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2066
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2083
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "VCard તરીકે સંગ્રહો..."
@@ -2992,12 +3003,12 @@ msgid "Cu_t"
 msgstr "કાપો (_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:976
-#: ../calendar/gui/calendar-component.c:579
+#: ../calendar/gui/calendar-component.c:580
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:442
-#: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:986
+#: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1112 ../mail/message-list.c:1901
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3020,6 +3031,12 @@ msgstr "કોઈપણ વર્ગ"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1801
 msgid "Print cards"
 msgstr "કાર્ડો છાપો"
+
+#. E_BOOK_ERROR_OTHER_ERROR
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1908
+#: ../addressbook/gui/widgets/eab-gui-util.c:70
+msgid "Other error"
+msgstr "બીજી ભૂલ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:576
@@ -3380,7 +3397,7 @@ msgstr "વિડીયો સંવાદ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:578
 #: ../calendar/gui/calendar-commands.c:119
-#: ../calendar/gui/calendar-component.c:751
+#: ../calendar/gui/calendar-component.c:752
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2281
 #: ../plugins/exchange-operations/exchange-folder.c:569
@@ -3527,11 +3544,6 @@ msgstr "આવો કોઈ સ્રોત નથી"
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Not available in offline mode"
 msgstr "ઓફલાઈન સ્થિતિમાં ઉપલબ્ધ નથી"
-
-#. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/eab-gui-util.c:70
-msgid "Other error"
-msgstr "બીજી ભૂલ"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
@@ -4506,7 +4518,7 @@ msgid "Calendar and Tasks"
 msgstr "કેલેન્ડર અને બાબતો"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1357
+#: ../calendar/gui/calendar-component.c:1358
 msgid "Calendars"
 msgstr "કેલેન્ડરો"
 
@@ -5200,89 +5212,89 @@ msgstr "દિવસો"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:256
+#: ../calendar/gui/calendar-component.c:257
 #: ../calendar/gui/memos-component.c:222 ../calendar/gui/migration.c:501
 #: ../calendar/gui/migration.c:594 ../calendar/gui/migration.c:1102
 #: ../calendar/gui/tasks-component.c:217
 msgid "On The Web"
 msgstr "વેબ પર"
 
-#: ../calendar/gui/calendar-component.c:274 ../calendar/gui/migration.c:403
+#: ../calendar/gui/calendar-component.c:275 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
 msgstr "જન્મદિવસો અને સાલગીરીઓ"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:280
+#: ../calendar/gui/calendar-component.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "હવામાન"
 
-#: ../calendar/gui/calendar-component.c:578
+#: ../calendar/gui/calendar-component.c:579
 msgid "_New Calendar"
 msgstr "નવું કેલેન્ડર (_N)"
 
-#: ../calendar/gui/calendar-component.c:895
+#: ../calendar/gui/calendar-component.c:896
 msgid "Failed upgrading calendars."
 msgstr "કેલેન્ડરો સુધારવામાં નિષ્ફળ."
 
-#: ../calendar/gui/calendar-component.c:1194
+#: ../calendar/gui/calendar-component.c:1195
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "ઘટનાઓ અને મંત્રણાઓ બનાવવા માટે કેલેન્ડર '%s' ખોલવા માટે અસમર્થ"
 
-#: ../calendar/gui/calendar-component.c:1210
+#: ../calendar/gui/calendar-component.c:1211
 msgid "There is no calendar available for creating events and meetings"
 msgstr "ત્યાં ઘટનાઓ અને મંત્રણાઓ બનાવવા ામટે કોઈ કેલેન્ડર ઉપલબ્ધ નથી"
 
-#: ../calendar/gui/calendar-component.c:1332
+#: ../calendar/gui/calendar-component.c:1333
 msgid "Calendar Source Selector"
 msgstr "કેલેન્ડર સ્રોત પસંદ કરનાર"
 
-#: ../calendar/gui/calendar-component.c:1540
+#: ../calendar/gui/calendar-component.c:1541
 msgid "New appointment"
 msgstr "નવી મુલાકાત"
 
-#: ../calendar/gui/calendar-component.c:1541
+#: ../calendar/gui/calendar-component.c:1542
 msgid "_Appointment"
 msgstr "મુલાકાત (_A)"
 
-#: ../calendar/gui/calendar-component.c:1542
+#: ../calendar/gui/calendar-component.c:1543
 msgid "Create a new appointment"
 msgstr "નવી મુલાકાત બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1548
+#: ../calendar/gui/calendar-component.c:1549
 msgid "New meeting"
 msgstr "નવી મંત્રણા"
 
-#: ../calendar/gui/calendar-component.c:1549
+#: ../calendar/gui/calendar-component.c:1550
 msgid "M_eeting"
 msgstr "મંત્રણા (_e)"
 
-#: ../calendar/gui/calendar-component.c:1550
+#: ../calendar/gui/calendar-component.c:1551
 msgid "Create a new meeting request"
 msgstr "નવી મંત્રણા મંજૂરી બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1556
+#: ../calendar/gui/calendar-component.c:1557
 msgid "New all day appointment"
 msgstr "નવી બધા દિવસની મુલાકાત"
 
-#: ../calendar/gui/calendar-component.c:1557
+#: ../calendar/gui/calendar-component.c:1558
 msgid "All Day A_ppointment"
 msgstr "બધા દિવસની મુલાકાત (_p)"
 
-#: ../calendar/gui/calendar-component.c:1558
+#: ../calendar/gui/calendar-component.c:1559
 msgid "Create a new all-day appointment"
 msgstr "નવી બધા દિવસની મુલાકાત બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1564
+#: ../calendar/gui/calendar-component.c:1565
 msgid "New calendar"
 msgstr "નવું કેલેન્ડર"
 
-#: ../calendar/gui/calendar-component.c:1565
+#: ../calendar/gui/calendar-component.c:1566
 msgid "Cale_ndar"
 msgstr "કેલેન્ડર (_n)"
 
-#: ../calendar/gui/calendar-component.c:1566
+#: ../calendar/gui/calendar-component.c:1567
 msgid "Create a new calendar"
 msgstr "નવું કેલેન્ડર બનાવો"
 
@@ -5862,13 +5874,13 @@ msgstr[0] "જોડાયેલ સંદેશો"
 msgstr[1] "%d જોડાયેલ સંદેશાઓ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
-#: ../mail/em-folder-tree.c:987 ../mail/em-folder-utils.c:368
+#: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1008 ../mail/message-list.c:1902
 msgid "_Move"
 msgstr "ખસેડો (_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
-#: ../mail/em-folder-tree.c:989 ../mail/message-list.c:1904
+#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1904
 msgid "Cancel _Drag"
 msgstr "ખેંચવાનું રદ કરો (_D)"
 
@@ -5905,7 +5917,7 @@ msgstr "દૂર કરો (_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1100
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3652 ../mail/em-folder-tree.c:2065
+#: ../composer/e-msg-composer.c:3652 ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "ગુણધર્મો (_P)"
@@ -11478,48 +11490,68 @@ msgstr "મોકલાયેલ"
 msgid "Loading..."
 msgstr "લાવી રહ્યા છીએ..."
 
-#: ../mail/em-folder-tree.c:701
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:366
+#, c-format
+msgid "folder-display|%s (%u)"
+msgstr "%s (%u)"
+
+#: ../mail/em-folder-tree.c:717
 msgid "Mail Folder Tree"
 msgstr "મેઈલ ફોલ્ડર વૃક્ષ"
 
-#: ../mail/em-folder-tree.c:861
+#: ../mail/em-folder-tree.c:877
 #, c-format
 msgid "Moving folder %s"
 msgstr "ફોલ્ડર %s ખસેડી રહ્યા છીએ"
 
-#: ../mail/em-folder-tree.c:863
+#: ../mail/em-folder-tree.c:879
 #, c-format
 msgid "Copying folder %s"
 msgstr "ફોલ્ડર %s નકલ કરી રહ્યા છીએ"
 
-#: ../mail/em-folder-tree.c:870 ../mail/message-list.c:1806
+#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1806
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "સંદેશાઓ ફોલ્ડર %s માં ખસેડી રહ્યા છીએ"
 
-#: ../mail/em-folder-tree.c:872 ../mail/message-list.c:1808
+#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1808
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "સંદેશાઓ ફોલ્ડર %s માં નકલ કરી રહ્યા છીએ"
 
-#: ../mail/em-folder-tree.c:888
+#: ../mail/em-folder-tree.c:904
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "ઉચ્ચ સ્તરના સંગ્રહસ્થાનમાં સંદેશાઓ મૂકી શકતા નથી"
 
-#: ../mail/em-folder-tree.c:984 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:1000 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "આ ફોલ્ડરમાં નકલ કરો (_C)"
 
-#: ../mail/em-folder-tree.c:985 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:1001 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "આ ફોલ્ડરમાં ખસેડો (_M)"
 
-#: ../mail/em-folder-tree.c:1690 ../mail/mail-ops.c:1060
+#: ../mail/em-folder-tree.c:1706 ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" માં ફોલ્ડરો ચકાસી રહ્યા છીએ"
 
-#: ../mail/em-folder-tree.c:2049 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2065 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
@@ -11527,28 +11559,28 @@ msgstr "\"%s\" માં ફોલ્ડરો ચકાસી રહ્યા �
 msgid "_View"
 msgstr "દેખાવ (_V)"
 
-#: ../mail/em-folder-tree.c:2050
+#: ../mail/em-folder-tree.c:2066
 msgid "Open in _New Window"
 msgstr "નવી વિન્ડોમાં ખોલો (_N)"
 
-#: ../mail/em-folder-tree.c:2054
+#: ../mail/em-folder-tree.c:2070
 msgid "_Copy..."
 msgstr "નકલ કરો (_C)..."
 
-#: ../mail/em-folder-tree.c:2055
+#: ../mail/em-folder-tree.c:2071
 msgid "_Move..."
 msgstr "ખસેડો (_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2059
+#: ../mail/em-folder-tree.c:2075
 msgid "_New Folder..."
 msgstr "નવું ફોલ્ડર (_N)..."
 
-#: ../mail/em-folder-tree.c:2062 ../ui/evolution-mail-list.xml.h:34
+#: ../mail/em-folder-tree.c:2078 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
 msgstr "નામ બદલો (_R)..."
 
-#: ../mail/em-folder-tree.c:2067 ../mail/mail.error.xml.h:128
+#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:128
 msgid "_Empty Trash"
 msgstr "કચરાપેટી ખાલી કરો (_E)"
 
@@ -15546,7 +15578,7 @@ msgid "Password successfully changed."
 msgstr "પાસવર્ડ સફળતાપૂર્વક બદલાઈ ગયો."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
-msgid "Please make sure the Global Catalog Sever name is correct."
+msgid "Please make sure the Global Catalog Server name is correct."
 msgstr "મહેરબાની કરીને ખાતરી કરો કે વૈશ્વિક કેટલોગ સર્વર નામ યોગ્ય છે."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
@@ -19116,8 +19148,8 @@ msgid "Select all visible messages"
 msgstr "બધા દ્રશ્યમાન સંદેશાઓને પસંદ કરો"
 
 #: ../ui/evolution-mail-list.xml.h:25
-msgid "Sh_ow Hidden Messages"
-msgstr "છુપા સંદેશાઓને બતાવો (_o)"
+msgid "Show Hidde_n Messages"
+msgstr "છુપા સંદેશાઓને બતાવો (_n)"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Show messages that have been temporarily hidden"
@@ -19997,8 +20029,8 @@ msgid "Import data from other programs"
 msgstr "બીજા કાર્યક્રમોમાંથી માહિતી આયાત કરો"
 
 #: ../ui/evolution.xml.h:16
-msgid "La_yout"
-msgstr "દેખાવ (_y)"
+msgid "Lay_out"
+msgstr "દેખાવ (_o)"
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
