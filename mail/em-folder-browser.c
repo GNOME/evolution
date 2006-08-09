@@ -603,6 +603,11 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 	/* FIXME: need to update menu's to reflect ui changes */
 }
 
+gboolean em_folder_browser_get_wide (EMFolderBrowser *emfb)
+{
+	return emfb->priv->show_wide;
+}
+
 void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 {
 	GtkWidget *w;
@@ -1874,8 +1879,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		message_list_set_threaded(emfv->list, state);
 
 		/* Show wide display */
-		state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_wide", NULL);
-		if (state) {
+		if (emfb->priv->show_wide) {
 			bonobo_ui_component_set_prop(uic, "/commands/ViewAfter", "state", "1", NULL);
 			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "0", NULL);
 		} else {

@@ -56,7 +56,7 @@ GtkWidget *em_folder_browser_new(void);
 
 void em_folder_browser_show_preview(EMFolderBrowser *emfv, gboolean state);
 void em_folder_browser_show_wide(EMFolderBrowser *emfv, gboolean state);
-
+gboolean em_folder_browser_get_wide(EMFolderBrowser *emfv);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

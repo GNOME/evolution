@@ -560,8 +560,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	id = mail_config_folder_to_safe_url (emfv->folder);
 	p->view_instance = gal_view_instance_new (collection, id);
 	
-	show_wide = gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/display/show_wide", NULL);
-	
+	show_wide = em_folder_browser_get_wide (emfv);
 	if (show_wide) {
 		char *safe_id, *filename;
 		
