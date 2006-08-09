@@ -1,3 +1,12 @@
+2006-08-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #350411 #350476
+	
+	* em-mailer-prefs.c (notify_sound_changed): When prefs comes up,
+	nothing is set in FILE chooser, so it returns NULL and bypass it.
+	(em_mailer_prefs_construct): Get the file chooser widget before
+	setting radio active.
+
 2006-08-08  Harish Krishnaswamy  <kharish@novell.com>
 
 	* em-folder-tree.c: Add header glib/gi18n.h to provide the missing

@@ -679,7 +679,8 @@ notify_sound_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 	const char *filename;
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (prefs->notify_sound_file));
-	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/notify/sound", filename, NULL);
+	/* When we startup the file name will be NULL*/
+	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/notify/sound", filename ? filename : "", NULL);
 }
 
 static GtkWidget *
@@ -818,6 +819,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_not, FALSE);
 	
 	prefs->notify_beep = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radNotifyBeep"));
+	prefs->notify_sound_file = GTK_FILE_CHOOSER_BUTTON (glade_xml_get_widget (gui, "fileNotifyPlaySoundButton"));	
 	gtk_toggle_button_set_active (prefs->notify_beep, val == MAIL_CONFIG_NOTIFY_BEEP);
 	g_signal_connect (prefs->notify_beep, "toggled", G_CALLBACK (notify_type_changed), prefs);
 	if (locked)
@@ -829,7 +831,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_play_sound, FALSE);
 	
-	prefs->notify_sound_file = GTK_FILE_CHOOSER_BUTTON (glade_xml_get_widget (gui, "fileNotifyPlaySoundButton"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL);
 	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER_BUTTON (prefs->notify_sound_file), buf ? buf : "");
 	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (prefs->notify_sound_file), "selection-changed",
