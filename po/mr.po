@@ -1,4 +1,5 @@
 # translation of mr.po to Marathi
+# translation of mr.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Rahul Bhalerao <b.rahul.pm@gmail.com>, 2006.
@@ -8,7 +9,7 @@ msgstr ""
 "Project-Id-Version: mr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-09 06:46+0200\n"
-"PO-Revision-Date: 2006-08-09 01:58+0530\n"
+"PO-Revision-Date: 2006-08-09 16:26+0530\n"
 "Last-Translator: Rahul Bhalerao <b.rahul.pm@gmail.com>\n"
 "Language-Team: Marathi\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:180
 msgid "evolution addressbook"
-msgstr ""
+msgstr "इवॉल्यूशन पत्तावही"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:226
@@ -37,13 +38,13 @@ msgstr "नविन संपर्क यादी"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "सद्य पत्ता वही फोल्डर %s मध्ये %d कार्ड आहे"
+msgstr[1] "सद्य पत्ता वही फोल्डर %s मध्ये %d कार्ड आहेत"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:12
 msgid "Open"
-msgstr ""
+msgstr "उघडा"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
@@ -55,38 +56,36 @@ msgstr "संपर्क: "
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
-msgstr ""
+msgstr "इवॉल्यूशन मिनीकार्ड"
 
 #: ../a11y/calendar/ea-cal-view-event.c:264
 msgid "It has alarms."
-msgstr ""
+msgstr "यास अलार्म आहे."
 
 #: ../a11y/calendar/ea-cal-view-event.c:267
 msgid "It has recurrences."
-msgstr ""
+msgstr "यास पुनरावृत्त्या आहेत."
 
 #: ../a11y/calendar/ea-cal-view-event.c:270
-#, fuzzy
 msgid "It is a meeting."
-msgstr "a."
+msgstr "यास सभा आहेत."
 
 #: ../a11y/calendar/ea-cal-view-event.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "दिनदर्शिका सारांश."
+msgstr "दिनदर्शिका प्रसंग: सारांश आहे %s."
 
 #: ../a11y/calendar/ea-cal-view-event.c:278
-#, fuzzy
 msgid "Calendar Event: It has no summary."
-msgstr "दिनदर्शिका."
+msgstr "दिनदर्शिका प्रसंग: यास सारांश नाही."
 
 #: ../a11y/calendar/ea-cal-view-event.c:297
 msgid "calendar view event"
-msgstr ""
+msgstr "दिनदर्शिका दृश्य प्रसंग"
 
 #: ../a11y/calendar/ea-cal-view-event.c:526
 msgid "Grab Focus"
-msgstr ""
+msgstr "प्रकाशझोत पकडा"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
@@ -106,7 +105,7 @@ msgstr "आज वर जा"
 
 #: ../a11y/calendar/ea-cal-view.c:306
 msgid "Go to Date"
-msgstr ""
+msgstr "या तारखेस जा"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
@@ -120,22 +119,22 @@ msgstr "a"
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "यास %d प्रसंग आहे."
+msgstr[1] "यास %d प्रसंग आहेत."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../a11y/calendar/ea-day-view.c:155 ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
-msgstr ""
+msgstr "यास प्रसंग नाहीत."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
 #. week, for example "It has %d event/events." or  "It has no events."
 #: ../a11y/calendar/ea-day-view.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Work Week View: %s. %s"
-msgstr "दृश्य"
+msgstr "कार्य आठवडा दृश्य: %s. %s"
 
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
@@ -146,19 +145,17 @@ msgid "Day View: %s. %s"
 msgstr "दिन दृश्य: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:199
-#, fuzzy
 msgid "calendar view for a work week"
-msgstr "च्यासाठी a"
+msgstr "कार्य आठवड्यासाठी दिनदर्शिका दृश्य"
 
 #: ../a11y/calendar/ea-day-view.c:201
-#, fuzzy
 msgid "calendar view for one or more days"
-msgstr "च्यासाठी दिवस"
+msgstr "एक किंवा अधिक दिवसांसाठी दिनदर्शिका दृश्य"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
 #: ../calendar/gui/calendar-component.c:704
 msgid "%A %d %b %Y"
-msgstr ""
+msgstr "%A %d %b %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -217,19 +214,19 @@ msgstr "Gnome दिनदर्शिका"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:290
 msgid "search bar"
-msgstr ""
+msgstr "शोध पट्टी"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "evolution calendar search bar"
-msgstr ""
+msgstr "इवॉल्यूशन दिनदर्शिका शोध पट्टी"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
-msgstr ""
+msgstr "उडी बटन"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr ""
+msgstr "येथे क्लिक् करा, तुम्हास अधिक प्रसंग सापडतील."
 
 #: ../a11y/calendar/ea-week-view.c:157
 #, c-format
@@ -242,60 +239,54 @@ msgid "Week View: %s. %s"
 msgstr "आठवडा दृश्य: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:192
-#, fuzzy
 msgid "calendar view for a month"
-msgstr "च्यासाठी a"
+msgstr "महिन्यासाठी दिनदर्शिका दृश्य"
 
 #: ../a11y/calendar/ea-week-view.c:194
-#, fuzzy
 msgid "calendar view for one or more weeks"
-msgstr "च्यासाठी आठवडे"
+msgstr "एक किंवा अधिक आठवड्यांसाठी दिनदर्शिका दृश्य"
 
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
 msgid "popup"
-msgstr ""
+msgstr "पॉपअप"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
-#, fuzzy
 msgid "popup a child"
-msgstr "a अपत्य"
+msgstr "अपत्य पॉपअप करा"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:612
 msgid "edit"
-msgstr ""
+msgstr "संपादा"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:613
-#, fuzzy
 msgid "begin editing this cell"
-msgstr "ही"
+msgstr "हा रकाना संपादणे सुरू करा"
 
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
 msgid "toggle"
-msgstr ""
+msgstr "उलटे करा"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
 msgid "toggle the cell"
-msgstr ""
+msgstr "रकाना उलटा करा"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
 msgid "expand"
-msgstr ""
+msgstr "विस्तारा"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
-#, fuzzy
 msgid "expands the row in the ETree containing this cell"
-msgstr "ही"
+msgstr "हा रकाना असलेल्या ETree मधील रांगेस विस्तारा"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
 msgid "collapse"
-msgstr ""
+msgstr "कोसळवा"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
-#, fuzzy
 msgid "collapses the row in the ETree containing this cell"
-msgstr "ही"
+msgstr "हा रकाना असलेली ETree मधील रांग कोसळवा"
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
@@ -305,20 +296,20 @@ msgstr "तक्ता रकाना"
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
 #: ../widgets/table/e-table-click-to-add.c:574
 msgid "click to add"
-msgstr ""
+msgstr "जमा करण्यासाठी क्लिक् करा"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
-msgstr ""
+msgstr "क्लिक्"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
-msgstr ""
+msgstr "क्रमबद्ध करा"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #: ../a11y/widgets/ea-calendar-item.c:304
 #, c-format
@@ -327,11 +318,11 @@ msgstr "दिनदर्शिका: %s पासून %s पर्यंत
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
-msgstr ""
+msgstr "इवॉल्यूशन दिनदर्शिका बाब"
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
-msgstr ""
+msgstr "कॉम्बो बटन"
 
 #: ../a11y/widgets/ea-combo-button.c:50
 msgid "Activate Default"
@@ -339,15 +330,15 @@ msgstr "मुलभूत कार्यान्वित करा"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "पॉपअप मेनू"
 
 #: ../a11y/widgets/ea-expander.c:40
 msgid "Toggle Attachment Bar"
-msgstr ""
+msgstr "जोडपट्टी उलट करा"
 
 #: ../a11y/widgets/ea-expander.c:50
 msgid "activate"
-msgstr ""
+msgstr "कार्यान्वित करा"
 
 #: ../addressbook/addressbook.error.xml.h:1
 #, fuzzy
@@ -357,18 +348,16 @@ msgid ""
 msgstr "ही a?"
 
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid "Address '{0}' already exists."
-msgstr "पत्ता."
+msgstr "पत्ता '{0}' आधिच अस्तित्वात आहे. "
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Cannot move contact."
-msgstr ""
+msgstr "संपर्क हलवू शकत नाही."
 
 #: ../addressbook/addressbook.error.xml.h:4
-#, fuzzy
 msgid "Category editor not available."
-msgstr "प्रवर्ग."
+msgstr "प्रवर्ग संपादक उपलब्ध नाही."
 
 #: ../addressbook/addressbook.error.xml.h:5
 #, fuzzy
@@ -379,13 +368,12 @@ msgid ""
 msgstr "a."
 
 #: ../addressbook/addressbook.error.xml.h:6
-#, fuzzy
 msgid "Could not get schema information for LDAP server."
-msgstr "च्यासाठी LDAP."
+msgstr "LDAP सेवकासाठी स्कीमा माहीती मिळवता आली नाही."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Could not remove addressbook."
-msgstr ""
+msgstr "पत्तावही काढता आली नाही."
 
 #: ../addressbook/addressbook.error.xml.h:8
 #, fuzzy
@@ -393,49 +381,41 @@ msgid ""
 "Currently you can access only GroupWise System Address Book from Evolution. "
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and Groupwise Personal Contacts folders."
-msgstr "प्रणाली पत्ता Evolution संपर्क संपर्क."
+msgstr "प्रणाली पत्ता इवॉल्यूशन संपर्क संपर्क."
 
 #: ../addressbook/addressbook.error.xml.h:9
-#, fuzzy
 msgid "Delete address book '{0}'?"
-msgstr "नष्ट करा?"
+msgstr "पत्ता वही '{0}' नष्ट करावी?"
 
 #: ../addressbook/addressbook.error.xml.h:10
-#, fuzzy
 msgid "Error loading addressbook."
-msgstr "चूक."
+msgstr "पत्ता वही भारित करताना चूक."
 
 #: ../addressbook/addressbook.error.xml.h:11
-#, fuzzy
 msgid "Error saving {0} to {1}: {2}"
-msgstr "चूक"
+msgstr "{0} ला {1}: {2} मध्ये संग्रहित करण्यात चूक"
 
 #: ../addressbook/addressbook.error.xml.h:12
-#, fuzzy
 msgid "Failed to authenticate with LDAP server."
-msgstr "LDAP."
+msgstr "LDAP सेवकाशी अधिप्रमाणित होण्यात चूक."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1908
-#, fuzzy
 msgid "Failed to delete contact"
-msgstr "निवडलेले संपर्क नष्ट करा"
+msgstr "संपर्क नष्ट करणयात अपयशी"
 
 #: ../addressbook/addressbook.error.xml.h:14
-#, fuzzy
 msgid "GroupWise Address book creation:"
-msgstr "पत्ता:"
+msgstr "समुहा नुसार पत्ता वही निर्मिती:"
 
 #: ../addressbook/addressbook.error.xml.h:15
-#, fuzzy
 msgid "LDAP server did not respond with valid schema information."
-msgstr "LDAP."
+msgstr "LDAP सेवकाने प्रतिसाद वैध स्कीमा माहितीसह दिला नाही."
 
 #: ../addressbook/addressbook.error.xml.h:16
-#, fuzzy
 msgid "Permission Denied."
-msgstr "च्यासाठी"
+msgstr "परवानगी नाकारली."
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Server Version"
@@ -443,17 +423,15 @@ msgstr "सर्वर आवृत्ती"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
-msgstr ""
+msgstr "काही वेशिष्ट्ये तुमच्या सद्य सेवकासह व्यवस्थित काम करणार नाहीत"
 
 #: ../addressbook/addressbook.error.xml.h:19
-#, fuzzy
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन पत्ता वही अनपेक्षितरित्या बंद झाली."
 
 #: ../addressbook/addressbook.error.xml.h:20
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
-msgstr ""
+msgid "The image you have selected is large. Do you want to resize and store it?"
+msgstr "तुम्ही निवडलेली प्रतिमा मोठी आहे. तुम्ही ती पुनराकारित करून संग्रहू इच्छिता?"
 
 #: ../addressbook/addressbook.error.xml.h:21
 #, fuzzy
@@ -465,15 +443,15 @@ msgstr "LDAP चाा LDAP ही च्यासाठी."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
-msgstr ""
+msgstr "पत्ता वही कायम स्वरूपी काढून टाकली जाईल."
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
-msgstr ""
+msgstr "पत्तावही उघडता आली नाही."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
+msgstr "या पत्तावही सेवकाकडे कोणताही सुचवलेले शोध बेस नाहीत."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
@@ -483,23 +461,23 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "This server does not support LDAPv3 schema information."
-msgstr ""
+msgstr "सेवक LDAPv3 स्कीमा माहितीस आधार देत नाही."
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
-msgstr ""
+msgstr "पत्ता वही उघडण्यास असमर्थ"
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
-msgstr ""
+msgstr "शोध करणयास असमर्थ."
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to save {0}."
-msgstr ""
+msgstr "{0} सुरक्षित करण्यास असमर्थ."
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Would you like to save your changes?"
-msgstr ""
+msgstr "तुम्ही तुमचे बदल संग्रहू इच्छिता काय?"
 
 #: ../addressbook/addressbook.error.xml.h:31
 #, fuzzy
@@ -514,7 +492,7 @@ msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
-msgstr "Evolution a"
+msgstr "इवॉल्यूशन a"
 
 #: ../addressbook/addressbook.error.xml.h:33
 #, fuzzy
@@ -524,10 +502,8 @@ msgid ""
 msgstr "ही?"
 
 #: ../addressbook/addressbook.error.xml.h:34
-#, fuzzy
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
-msgstr "च्यासाठी Evolution."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgstr "इवॉल्यूशन पुन्हा सुरू होइपर्यंत तुमचे {0} साठीचे संपर्क उपलब्ध होणार नाहीत."
 
 #: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:511
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
@@ -538,16 +514,16 @@ msgstr "जोडा(_A)"
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "_Discard"
-msgstr ""
+msgstr "झुगारून द्या(_D)"
 
 #: ../addressbook/addressbook.error.xml.h:37
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../addressbook/addressbook.error.xml.h:38
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
@@ -556,29 +532,28 @@ msgstr "मुलभूत सिंक पत्ता:"
 #: ../addressbook/conduit/address-conduit.c:1241
 #: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
-msgstr ""
+msgstr "पत्तावही भारित करता आली नाही"
 
 #: ../addressbook/conduit/address-conduit.c:1310
 #: ../addressbook/conduit/address-conduit.c:1313
-#, fuzzy
 msgid "Could not read pilot's Address application block"
-msgstr "पत्ता"
+msgstr "पायलटचे पत्ता अनुप्रयोग ब्लॉक वाचता आले नाहीत"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr ""
+msgstr "स्वयंपूर्णता"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
-msgstr ""
+msgstr "संपर्क(_o)"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr ""
+msgstr "प्रमाणपत्रे"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
-msgstr ""
+msgstr "स्वयंपूर्णता येथे व्यूहरचित करा"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
@@ -590,41 +565,35 @@ msgstr "संपर्क"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 msgid "Evolution Address Book"
-msgstr "Evolution पत्ता वही"
+msgstr "इवॉल्यूशन पत्ता वही"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Address Book address pop-up"
-msgstr "Evolution पत्ता"
+msgstr "इवॉल्यूशन पत्ता वही पत्ता पॉप-अप"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
-#, fuzzy
 msgid "Evolution Address Book address viewer"
-msgstr "Evolution पत्ता"
+msgstr "इवॉल्यूशन पत्ता वही पत्ता दर्शक"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Address Book card viewer"
-msgstr "Evolution पत्ता"
+msgstr "इवॉल्यूशन पत्ता वही कार्ड दर्शक"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
-#, fuzzy
 msgid "Evolution Address Book component"
-msgstr "Evolution पत्ता"
+msgstr "इवॉल्यूशन पत्ता वही पत्ता भाग"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
-#, fuzzy
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन S/Mime प्रमाणपत्र व्यवस्थापन नियंत्रण"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
-#, fuzzy
 msgid "Evolution folder settings configuration control"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन फोल्डर रचना व्यूहरचना नियंत्रण"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
-msgstr ""
+msgstr "तुमची S/MIME प्रमाणपत्रे येथे व्यवस्थापित करा"
 
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
@@ -637,7 +606,7 @@ msgstr ""
 #: ../mail/em-folder-tree-model.c:201 ../mail/mail-component.c:299
 #: ../mail/mail-vfolder.c:223
 msgid "On This Computer"
-msgstr ""
+msgstr "या संगणकावर"
 
 #. Create the default Person addressbook
 #. Create the default Person calendar
@@ -654,7 +623,7 @@ msgstr ""
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
 #: ../mail/em-migrate.c:1055 ../mail/mail-config.glade.h:104
 msgid "Personal"
-msgstr ""
+msgstr "खाजगी"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:159
@@ -667,18 +636,16 @@ msgid "_Contact"
 msgstr "संपर्क(_C)"
 
 #: ../addressbook/gui/component/addressbook-component.c:228
-#, fuzzy
 msgid "Create a new contact"
-msgstr "a"
+msgstr "नविन संपर्क निर्माण करा"
 
 #: ../addressbook/gui/component/addressbook-component.c:235
 msgid "Contact _List"
 msgstr "संपर्क यादी(_L)"
 
 #: ../addressbook/gui/component/addressbook-component.c:236
-#, fuzzy
 msgid "Create a new contact list"
-msgstr "a"
+msgstr "नविन संपर्क यादी निर्माण करा"
 
 #: ../addressbook/gui/component/addressbook-component.c:242
 #: ../addressbook/gui/component/addressbook-config.c:1205
@@ -690,14 +657,12 @@ msgid "Address _Book"
 msgstr "पत्ता वही(_B)"
 
 #: ../addressbook/gui/component/addressbook-component.c:244
-#, fuzzy
 msgid "Create a new address book"
-msgstr "a"
+msgstr "नविन पत्ता वही निर्माण करा"
 
 #: ../addressbook/gui/component/addressbook-component.c:406
-#, fuzzy
 msgid "Failed upgrading Address Book settings or folders."
-msgstr "पत्ता."
+msgstr "फोल्डरसाठी पत्ता वही रचना सुधारण्यात अपयशी."
 
 #: ../addressbook/gui/component/addressbook-config.c:332
 msgid "Base"
@@ -710,9 +675,8 @@ msgid "_Type:"
 msgstr "प्रकार(_T): "
 
 #: ../addressbook/gui/component/addressbook-config.c:635
-#, fuzzy
 msgid "Copy book content locally for offline operation"
-msgstr "प्रतिलिपी च्यासाठी"
+msgstr "पुस्तकातील मजकूर ऑफलाइन क्रियांसाठी स्थानिकरित्या प्रतिलिपी करा"
 
 #: ../addressbook/gui/component/addressbook-config.c:984
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -749,11 +713,11 @@ msgstr "तपशील"
 #: ../addressbook/gui/component/addressbook-config.c:995
 #: ../mail/em-folder-browser.c:797
 msgid "Searching"
-msgstr ""
+msgstr "शोझत आहे"
 
 #: ../addressbook/gui/component/addressbook-config.c:997
 msgid "Downloading"
-msgstr ""
+msgstr "डाउनलोड करत आहे"
 
 #: ../addressbook/gui/component/addressbook-config.c:1203
 #: ../addressbook/gui/component/ldap-config.glade.h:13
@@ -763,13 +727,13 @@ msgstr "पत्ता वही गुणधर्म"
 #: ../addressbook/gui/component/addressbook-migrate.c:73
 #: ../calendar/gui/migration.c:153 ../mail/em-migrate.c:1202
 msgid "Migrating..."
-msgstr ""
+msgstr "स्थानांतरण करत आहे..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
 #: ../calendar/gui/migration.c:200 ../mail/em-migrate.c:1243
 #, c-format
 msgid "Migrating `%s':"
-msgstr ""
+msgstr "`%s' स्थानांतरीत करत आहे:"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:629
 msgid "LDAP Servers"
@@ -777,7 +741,7 @@ msgstr "LDAP सेवक"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:744
 msgid "Autocompletion Settings"
-msgstr ""
+msgstr "स्वयंपूर्णता रचना"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1119
 #, fuzzy
@@ -786,7 +750,7 @@ msgid ""
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "चाा Evolution Evolution Evolution."
+msgstr "चाा इवॉल्यूशन इवॉल्यूशन इवॉल्यूशन."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1133
 #, fuzzy
@@ -794,7 +758,7 @@ msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "चाा Evolution."
+msgstr "चाा इवॉल्यूशन."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1142
 #, fuzzy
@@ -802,7 +766,7 @@ msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "Evolution Evolution."
+msgstr "इवॉल्यूशन इवॉल्यूशन."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1152
 #, fuzzy
@@ -810,28 +774,27 @@ msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
-msgstr "Evolution Evolution."
+msgstr "इवॉल्यूशन इवॉल्यूशन."
 
 #: ../addressbook/gui/component/addressbook-view.c:434
 #: ../mail/em-folder-utils.c:503
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "\"%s\" फोल्डरचे नाव बदला:"
 
 #: ../addressbook/gui/component/addressbook-view.c:437
 #: ../mail/em-folder-utils.c:505
 msgid "Rename Folder"
-msgstr ""
+msgstr "फोल्डरचे नाव बदला"
 
 #: ../addressbook/gui/component/addressbook-view.c:442
 #: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
-msgstr ""
+msgstr "फोल्डरच्या नावात '/' असू शकत नाही"
 
 #: ../addressbook/gui/component/addressbook-view.c:445
-#, fuzzy
 msgid "A Folder with this name already exists"
-msgstr "ही"
+msgstr "या नावाचा फोल्डर आदीच अस्तित्वात आहे"
 
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "_New Address Book"
@@ -859,31 +822,30 @@ msgstr "Vcard म्हणून संग्रहा..."
 #: ../calendar/gui/calendar-component.c:582
 #: ../calendar/gui/memos-component.c:454 ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
-msgstr ""
+msgstr "गुणधर्म(_P)..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1343
 msgid "Contact Source Selector"
 msgstr "संपर्क स्त्रोत निवडकर्ता"
 
 #: ../addressbook/gui/component/addressbook.c:99
-#, fuzzy
 msgid "Accessing LDAP Server anonymously"
-msgstr "LDAP सर्वर"
+msgstr "LDAP सर्वर निनावी पद्धतीने मिळवत आहे"
 
 #: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:499
 msgid "Failed to authenticate.\n"
-msgstr ""
+msgstr "अधिप्रमाणन करण्यास अपयशी.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for %s (user %s)"
-msgstr "च्यासाठी"
+msgstr "%s (उपयोक्ता %s)साठी गुप्तशब्द दाखल करा"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "Autocomplete length"
-msgstr ""
+msgstr "स्वयंपूर्णता लांबी"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 #, fuzzy
@@ -903,35 +865,32 @@ msgid ""
 msgstr "चाा बिंदू."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
-#, fuzzy
 msgid "Show preview pane"
-msgstr "दाखवा"
+msgstr "पूर्वदर्शन तावदान दाखवा"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 #, fuzzy
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
-msgstr "चाा Evolution."
+msgstr "चाा इवॉल्यूशन."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
-#, fuzzy
 msgid "URI for the folder last used in the select names dialog"
-msgstr "च्यासाठी"
+msgstr "नाव निवडा या संवादात अखेरीस वापरलेला फोल्डरसाठीचा URI"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
-#, fuzzy
 msgid "URI for the folder last used in the select names dialog."
-msgstr "च्यासाठी."
+msgstr "नाव निवडा या संवादात अखेरीस वापरलेला फोल्डरसाठीचा URI."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Vertical pane position"
-msgstr ""
+msgstr "उभे तावदान स्थिती"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr ""
+msgstr "पूर्वदर्शन तावदान दाखवावे कि नाही."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
@@ -964,11 +923,11 @@ msgstr "<b> प्रदर्शन</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
-msgstr ""
+msgstr "<b>डाउनलोड करत आहे</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Searching</b>"
-msgstr ""
+msgstr "<b>शोधत आहे</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "<b>Server Information</b>"
@@ -985,15 +944,15 @@ msgstr "पत्ता वही जोडा"
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 #: ../mail/em-account-editor.c:777
 msgid "Always"
-msgstr ""
+msgstr "नेहमी"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "Anonymously"
-msgstr ""
+msgstr "निनावीपणे"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
-msgstr ""
+msgstr "मुलभूत"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid "Distinguished name"
@@ -1005,9 +964,8 @@ msgstr "ईमेल पत्ता"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 #, fuzzy
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution ही."
+msgid "Evolution will use this email address to authenticate you with the server."
+msgstr "इवॉल्यूशन ही."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
@@ -1070,14 +1028,14 @@ msgstr "चाा च्यासाठी ही मुलभूत चाा."
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
-msgstr "ही Evolution LDAP LDAP SSL."
+msgstr "ही इवॉल्यूशन LDAP LDAP SSL."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 #, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
-msgstr "ही Evolution LDAP LDAP."
+msgstr "ही इवॉल्यूशन LDAP LDAP."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 #, fuzzy
@@ -1140,14 +1098,14 @@ msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
-msgstr "Evolution नोंद ही ईमेल पत्ता."
+msgstr "इवॉल्यूशन नोंद ही ईमेल पत्ता."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 #, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
-msgstr "च्यासाठी ही Evolution च्यासाठी "
+msgstr "च्यासाठी ही इवॉल्यूशन च्यासाठी "
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 #, fuzzy
@@ -1155,7 +1113,7 @@ msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
-msgstr "LDAP Evolution चाा."
+msgstr "LDAP इवॉल्यूशन चाा."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
@@ -3261,7 +3219,7 @@ msgid ""
 "Search for the Contact\n"
 "\n"
 "or double-click here to create a new Contact."
-msgstr "च्यासाठी संपर्क a संपर्क."
+msgstr "च्यासाठी संपर्क क्लिक् a संपर्क."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:177
 #, fuzzy
@@ -3271,7 +3229,7 @@ msgid ""
 "There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
-msgstr "ही a संपर्क."
+msgstr "ही क्लिक् a संपर्क."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:182
 #, fuzzy
@@ -3317,7 +3275,7 @@ msgstr "आहे"
 #: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:620
 #, fuzzy
 msgid "_Open Link in Browser"
-msgstr "ब्राउजर"
+msgstr "उघडा ब्राउजर"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
 #: ../mail/em-folder-view.c:2497
@@ -3560,7 +3518,7 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
-msgstr "चाा Evolution LDAP LDAP Evolution LDAP Evolution."
+msgstr "चाा इवॉल्यूशन LDAP LDAP इवॉल्यूशन LDAP इवॉल्यूशन."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:124
 #, fuzzy
@@ -3576,7 +3534,7 @@ msgid ""
 "configured to return or Evolution is configured to display.\n"
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
-msgstr "ही Evolution निर्देशिका च्यासाठी ही."
+msgstr "ही इवॉल्यूशन निर्देशिका च्यासाठी ही."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:153
 #, fuzzy
@@ -3781,12 +3739,12 @@ msgstr ""
 #: ../addressbook/importers/evolution-csv-importer.c:844
 #, fuzzy
 msgid "Evolution CSV or Tab (.csv, .tab)"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
 #, fuzzy
 msgid "Evolution CSV and Tab Importer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:583
 #: ../addressbook/importers/evolution-vcard-importer.c:250
@@ -3803,7 +3761,7 @@ msgstr "LDAP स्वरुप(फॉरमॅट)"
 #: ../addressbook/importers/evolution-ldif-importer.c:755
 #, fuzzy
 msgid "Evolution LDIF importer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:547
 msgid "VCard (.vcf, .gcrd)"
@@ -3812,7 +3770,7 @@ msgstr ""
 #: ../addressbook/importers/evolution-vcard-importer.c:548
 #, fuzzy
 msgid "Evolution VCard Importer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../addressbook/printing/e-contact-print-envelope.c:213
 #: ../addressbook/printing/e-contact-print-envelope.c:234
@@ -4078,8 +4036,7 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 #, fuzzy
-msgid ""
-"The number of cards in one output file in asychronous mode, default size 100."
+msgid "The number of cards in one output file in asychronous mode, default size 100."
 msgstr "चाा फाइल मुलभूत."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
@@ -4088,8 +4045,7 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
 #, fuzzy
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr "आदेश."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
@@ -4147,8 +4103,7 @@ msgstr "सर्व."
 
 #: ../calendar/calendar.error.xml.h:4
 #, fuzzy
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr "सर्व ही."
 
 #: ../calendar/calendar.error.xml.h:5
@@ -4165,8 +4120,7 @@ msgstr "सर्व."
 
 #: ../calendar/calendar.error.xml.h:7
 #, fuzzy
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr "सर्व ही."
 
 #: ../calendar/calendar.error.xml.h:8
@@ -4178,8 +4132,7 @@ msgstr "सर्व ही."
 
 #: ../calendar/calendar.error.xml.h:9
 #, fuzzy
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr "सर्व ही."
 
 #: ../calendar/calendar.error.xml.h:10
@@ -4289,8 +4242,7 @@ msgstr "ईमेल ही."
 
 #: ../calendar/calendar.error.xml.h:32
 #, fuzzy
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
+msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr "ईमेल."
 
 #: ../calendar/calendar.error.xml.h:33
@@ -4362,17 +4314,17 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:44
 #, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../calendar/calendar.error.xml.h:45
 #, fuzzy
 msgid "The Evolution memo has quit unexpectedly."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../calendar/calendar.error.xml.h:46
 #, fuzzy
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../calendar/calendar.error.xml.h:47
 #, fuzzy
@@ -4449,7 +4401,7 @@ msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
 "a supported version."
-msgstr "Evolution a."
+msgstr "इवॉल्यूशन a."
 
 #: ../calendar/calendar.error.xml.h:63
 #, fuzzy
@@ -4476,17 +4428,17 @@ msgstr "ही."
 #: ../calendar/calendar.error.xml.h:67
 #, fuzzy
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../calendar/calendar.error.xml.h:68
 #, fuzzy
 msgid "Your memos will not be available until Evolution is restarted."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../calendar/calendar.error.xml.h:69
 #, fuzzy
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../calendar/calendar.error.xml.h:70
 #: ../composer/mail-composer.error.xml.h:27
@@ -4581,37 +4533,37 @@ msgstr "दिनदर्शिका "
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks"
-msgstr "Evolution दिनदर्शिका आणि कामे"
+msgstr "इवॉल्यूशन दिनदर्शिका आणि कामे"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 #, fuzzy
 msgid "Evolution Calendar configuration control"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 #, fuzzy
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 #, fuzzy
 msgid "Evolution Calendar/Task editor"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 #, fuzzy
 msgid "Evolution's Calendar component"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 #, fuzzy
 msgid "Evolution's Memos component"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #, fuzzy
 msgid "Evolution's Tasks component"
-msgstr "Evolution कामे"
+msgstr "इवॉल्यूशन कामे"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Memo_s"
@@ -4649,7 +4601,7 @@ msgstr "कामे(_T)"
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 #, fuzzy
 msgid "Evolution Calendar alarm notification service"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
 msgid "minute"
@@ -4749,7 +4701,7 @@ msgid ""
 "email notifications yet, but this reminder was\n"
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
-msgstr "Evolution ही Evolution."
+msgstr "इवॉल्यूशन ही इवॉल्यूशन."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1728
 #, fuzzy, c-format
@@ -4761,7 +4713,7 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"Evolution दिनदर्शिका खालील\n"
+"इवॉल्यूशन दिनदर्शिका खालील\n"
 " ही?"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1742
@@ -4836,8 +4788,7 @@ msgstr "च्यासाठी"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 #, fuzzy
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "वेळ च्यासाठी मुलभूत."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
@@ -5141,8 +5092,7 @@ msgstr "च्यासाठी a मुलभूत मिनिटे ता�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 #, fuzzy
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr "च्यासाठी मिनिटे तास दिवस."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
@@ -5181,8 +5131,7 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr "चाा."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
@@ -5212,8 +5161,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:83
 #, fuzzy
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "तास चाा."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:84
@@ -5602,8 +5550,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid ""
-"<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -6065,8 +6012,9 @@ msgid "Show Attachments"
 msgstr "दाखवा"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1490
+#, fuzzy
 msgid "Press space key to toggle attachment bar"
-msgstr ""
+msgstr "उलटे करा"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2097
 #: ../calendar/gui/dialogs/comp-editor.c:2140
@@ -6565,8 +6513,7 @@ msgstr "a?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
 #, fuzzy
-msgid ""
-"You are modifying a recurring journal entry. What would you like to modify?"
+msgid "You are modifying a recurring journal entry. What would you like to modify?"
 msgstr "a?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
@@ -6589,7 +6536,7 @@ msgstr "सर्व"
 #: ../calendar/gui/dialogs/recurrence-page.c:498
 #, fuzzy
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन संपादा."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:819
 msgid "Recurrence date is invalid"
@@ -7166,8 +7113,9 @@ msgstr "संग्रहो निवडलेले"
 
 #: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
+#, fuzzy
 msgid "Open in %s..."
-msgstr ""
+msgstr "उघडा."
 
 #: ../calendar/gui/e-calendar-table.c:409
 msgid "0%"
@@ -7331,8 +7279,9 @@ msgid "Start date"
 msgstr "आरंभ दिनांक"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:12
+#, fuzzy
 msgid "Task sort"
-msgstr ""
+msgstr "क्रमबद्ध करा"
 
 #: ../calendar/gui/e-calendar-view.c:1367
 msgid "Moving items"
@@ -7628,8 +7577,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1226
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1305
@@ -8118,8 +8066,9 @@ msgid "Click to add a memo"
 msgstr "a"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
+#, fuzzy
 msgid "Memo sort"
-msgstr ""
+msgstr "क्रमबद्ध करा"
 
 #: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:837
 #: ../calendar/gui/gnome-cal.c:2743
@@ -8422,7 +8371,7 @@ msgid ""
 "Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "चाा Evolution Evolution Evolution."
+msgstr "चाा इवॉल्यूशन इवॉल्यूशन इवॉल्यूशन."
 
 #: ../calendar/gui/migration.c:166
 #, fuzzy
@@ -8431,7 +8380,7 @@ msgid ""
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "चाा Evolution Evolution Evolution."
+msgstr "चाा इवॉल्यूशन इवॉल्यूशन इवॉल्यूशन."
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:765 ../calendar/gui/migration.c:933
@@ -8796,7 +8745,7 @@ msgstr ""
 #: ../calendar/importers/icalendar-importer.c:445
 #, fuzzy
 msgid "Evolution iCalendar importer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../calendar/importers/icalendar-importer.c:521
 msgid "Reminder!"
@@ -8809,7 +8758,7 @@ msgstr ""
 #: ../calendar/importers/icalendar-importer.c:574
 #, fuzzy
 msgid "Evolution vCalendar importer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../calendar/importers/icalendar-importer.c:736
 msgid "Calendar Events"
@@ -8818,7 +8767,7 @@ msgstr "दिनदर्शिका प्रसंग"
 #: ../calendar/importers/icalendar-importer.c:773
 #, fuzzy
 msgid "Evolution Calendar intelligent importer"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -10497,8 +10446,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:827
 #, fuzzy
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "नाही च्यासाठी ही"
 
 #: ../composer/e-msg-composer.c:834
@@ -10641,7 +10589,7 @@ msgstr "चूक&quot;&quot;."
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
-msgstr "Evolution a."
+msgstr "इवॉल्यूशन a."
 
 #: ../composer/mail-composer.error.xml.h:17
 #, fuzzy
@@ -10662,11 +10610,12 @@ msgid ""
 "\n"
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
-msgstr "चाा."
+msgstr "कार्यान्वित करा चाा."
 
 #: ../composer/mail-composer.error.xml.h:22
+#, fuzzy
 msgid "Unable to activate the address selector control."
-msgstr ""
+msgstr "कार्यान्वित करा."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "Unfinished messages found"
@@ -10701,7 +10650,7 @@ msgstr "संदेश संग्रहा(_S)"
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:522
 msgid "Evolution"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:575
 msgid "Groupware Suite"
@@ -10710,7 +10659,7 @@ msgstr ""
 #: ../data/evolution.desktop.in.in.h:3
 #, fuzzy
 msgid "The Evolution PIM and Email Client"
-msgstr "Evolution ईमेल"
+msgstr "इवॉल्यूशन ईमेल"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10793,7 +10742,7 @@ msgid ""
 "receipt when a message you\n"
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
-msgstr "<small> a a Evolution a</small>"
+msgstr "<small> a a इवॉल्यूशन a</small>"
 
 #: ../designs/read_receipts/read.glade.h:5
 #, fuzzy
@@ -10829,7 +10778,7 @@ msgstr "a"
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
-msgstr "a Evolution?"
+msgstr "a इवॉल्यूशन?"
 
 #: ../e-util/e-dialog-utils.c:283
 #, fuzzy
@@ -10844,20 +10793,20 @@ msgstr "फाइलवर गिरवावे?"
 
 #: ../e-util/e-error.c:86 ../e-util/e-error.c:87 ../e-util/e-error.c:129
 msgid "Evolution Error"
-msgstr "Evolution चूक"
+msgstr "इवॉल्यूशन चूक"
 
 #: ../e-util/e-error.c:88 ../e-util/e-error.c:89 ../e-util/e-error.c:127
 msgid "Evolution Warning"
-msgstr "Evolution ताकीद"
+msgstr "इवॉल्यूशन ताकीद"
 
 #: ../e-util/e-error.c:126
 msgid "Evolution Information"
-msgstr "Evolution माहिती"
+msgstr "इवॉल्यूशन माहिती"
 
 #: ../e-util/e-error.c:128
 #, fuzzy
 msgid "Evolution Query"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #. setup a dummy error
 #: ../e-util/e-error.c:454
@@ -11164,8 +11113,7 @@ msgid "Composer Preferences"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -11178,32 +11126,32 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
-msgstr "Evolution मेल"
+msgstr "इवॉल्यूशन मेल"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
 #, fuzzy
 msgid "Evolution Mail accounts configuration control"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 #, fuzzy
 msgid "Evolution Mail component"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 #, fuzzy
 msgid "Evolution Mail composer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
 #, fuzzy
 msgid "Evolution Mail composer configuration control"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
 #, fuzzy
 msgid "Evolution Mail preferences control"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:523
 #: ../mail/importers/elm-importer.c:341
@@ -11297,7 +11245,7 @@ msgstr ""
 #: ../mail/em-account-editor.c:2800 ../mail/mail-config.glade.h:79
 #, fuzzy
 msgid "Evolution Account Assistant"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/em-account-prefs.c:331 ../mail/em-account-prefs.c:376
 #: ../mail/em-account-prefs.c:409
@@ -12351,7 +12299,7 @@ msgid ""
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "चाा Evolution Evolution Evolution."
+msgstr "चाा इवॉल्यूशन इवॉल्यूशन इवॉल्यूशन."
 
 #: ../mail/em-migrate.c:1649
 #, c-format
@@ -12398,7 +12346,7 @@ msgstr ""
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
 msgid "_Reply to sender"
@@ -12590,7 +12538,7 @@ msgstr "रिकामी कचरा"
 #: ../mail/evolution-mail.schemas.in.in.h:24
 #, fuzzy
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "रिकामी कचरा Evolution."
+msgstr "रिकामी कचरा इवॉल्यूशन."
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
 #, fuzzy
@@ -12645,7 +12593,7 @@ msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
-msgstr "a च्यासाठी a Evolution ही a GNOME च्यासाठी."
+msgstr "a च्यासाठी a इवॉल्यूशन ही a GNOME च्यासाठी."
 
 #: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -12676,7 +12624,7 @@ msgstr "चाा"
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
-msgstr "चाा चाा Evolution."
+msgstr "चाा चाा इवॉल्यूशन."
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 #, fuzzy
@@ -12688,7 +12636,7 @@ msgstr "चाा."
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
-msgstr "चाा चाा Evolution."
+msgstr "चाा चाा इवॉल्यूशन."
 
 #: ../mail/evolution-mail.schemas.in.in.h:42
 #, fuzzy
@@ -12796,8 +12744,7 @@ msgstr "a."
 
 #: ../mail/evolution-mail.schemas.in.in.h:64
 #, fuzzy
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "a a."
 
 #: ../mail/evolution-mail.schemas.in.in.h:65
@@ -13077,7 +13024,7 @@ msgstr ""
 #: ../mail/importers/elm-importer.c:381
 #, fuzzy
 msgid "Evolution Elm importer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/importers/elm-importer.c:382
 #, fuzzy
@@ -13145,7 +13092,7 @@ msgid ""
 "Evolution's scores, and the affected filters use scores instead\n"
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
-msgstr "चाा Evolution Evolution चाा a a चाा प्राधान्यक्रम."
+msgstr "चाा इवॉल्यूशन इवॉल्यूशन चाा a a चाा प्राधान्यक्रम."
 
 #: ../mail/importers/netscape-importer.c:687
 #, fuzzy
@@ -13154,7 +13101,7 @@ msgid ""
 "the \"Ignore Thread\" or \"Watch Thread\"\n"
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
-msgstr "चाा दुर्लक्ष करा Evolution."
+msgstr "चाा दुर्लक्ष करा इवॉल्यूशन."
 
 #: ../mail/importers/netscape-importer.c:704
 #, fuzzy
@@ -13164,12 +13111,12 @@ msgid ""
 "which is not supported in Evolution. Those filters\n"
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
-msgstr "चाा चाा च्यासाठी a Evolution."
+msgstr "चाा चाा च्यासाठी a इवॉल्यूशन."
 
 #: ../mail/importers/netscape-importer.c:1251
 #, fuzzy
 msgid "Evolution is importing your old Netscape data"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/importers/netscape-importer.c:1708
 msgid "Importing Netscape data"
@@ -13188,7 +13135,7 @@ msgstr ""
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
-msgstr "Evolution Evolution?"
+msgstr "इवॉल्यूशन इवॉल्यूशन?"
 
 #: ../mail/importers/pine-importer.c:229
 msgid "Importing Pine data"
@@ -13197,7 +13144,7 @@ msgstr ""
 #: ../mail/importers/pine-importer.c:433
 #, fuzzy
 msgid "Evolution Pine importer"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../mail/importers/pine-importer.c:434
 #, fuzzy
@@ -13343,7 +13290,7 @@ msgstr "च्यासाठी "
 #: ../mail/mail-config.glade.h:3
 #, fuzzy
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr "<b> SSL ही चाा Evolution</b>"
+msgstr "<b> SSL ही चाा इवॉल्यूशन</b>"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>Sig_natures</b>"
@@ -13567,7 +13514,7 @@ msgid ""
 "using Evolution. \n"
 "\n"
 "Click \"Apply\" to save your settings."
-msgstr "अभिनंदन Evolution."
+msgstr "अभिनंदन इवॉल्यूशन."
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
@@ -13875,7 +13822,7 @@ msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin. "
-msgstr "सुस्वागतम्  Evolution पुढे "
+msgstr "सुस्वागतम्  इवॉल्यूशन पुढे "
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -14351,8 +14298,7 @@ msgstr "नविन"
 
 #: ../mail/mail.error.xml.h:1
 #, fuzzy
-msgid ""
-"A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr "&quot;&quot; a."
 
 #: ../mail/mail.error.xml.h:2
@@ -14397,8 +14343,7 @@ msgstr "ही?"
 
 #: ../mail/mail.error.xml.h:10
 #, fuzzy
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
+msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "ही?"
 
 #: ../mail/mail.error.xml.h:11
@@ -14475,8 +14420,9 @@ msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:28
+#, fuzzy
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
-msgstr ""
+msgstr "संपादा&quot;&quot;."
 
 #: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -14630,7 +14576,7 @@ msgstr ""
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../mail/mail.error.xml.h:63
 msgid "Ignore"
@@ -14751,7 +14697,7 @@ msgstr ""
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
-msgstr "प्रणाली च्यासाठी Evolution."
+msgstr "प्रणाली च्यासाठी इवॉल्यूशन."
 
 #: ../mail/mail.error.xml.h:91
 #, fuzzy
@@ -14806,8 +14752,7 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:108
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:109
@@ -14904,8 +14849,9 @@ msgid "_Expunge"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:130
+#, fuzzy
 msgid "_Open Messages"
-msgstr ""
+msgstr "उघडा"
 
 #: ../mail/message-list.c:1019
 msgid "Unseen"
@@ -15096,46 +15042,46 @@ msgstr ""
 #: ../plugins/backup-restore/backup-restore.c:51
 #, fuzzy
 msgid "Select name of Evolution archive"
-msgstr "चाा Evolution"
+msgstr "चाा इवॉल्यूशन"
 
 #: ../plugins/backup-restore/backup-restore.c:61
 #, fuzzy
 msgid "_Restart Evolution after backup"
-msgstr "पुनःआरंभ Evolution"
+msgstr "पुनःआरंभ इवॉल्यूशन"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 #, fuzzy
 msgid "Select Evolution archive to restore"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 #, fuzzy
 msgid "_Restart Evolution after restore"
-msgstr "पुनःआरंभ Evolution"
+msgstr "पुनःआरंभ इवॉल्यूशन"
 
 #: ../plugins/backup-restore/backup.c:109
 #, fuzzy
 msgid "Backup Evolution directory"
-msgstr "Evolution निर्देशिका"
+msgstr "इवॉल्यूशन निर्देशिका"
 
 #: ../plugins/backup-restore/backup.c:111
 #, fuzzy
 msgid "Restore Evolution directory"
-msgstr "Evolution निर्देशिका"
+msgstr "इवॉल्यूशन निर्देशिका"
 
 #: ../plugins/backup-restore/backup.c:113
 #, fuzzy
 msgid "Check Evolution archive"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../plugins/backup-restore/backup.c:115
 msgid "Restart Evolution"
-msgstr "Evolution पुन्हा सुरू करा"
+msgstr "इवॉल्यूशन पुन्हा सुरू करा"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 #, fuzzy
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "च्यासाठी Evolution."
+msgstr "च्यासाठी इवॉल्यूशन."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
@@ -15149,7 +15095,7 @@ msgstr ""
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 #, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "Restore Settings..."
@@ -15162,8 +15108,7 @@ msgstr "आपोआप संपर्क"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:467
-msgid ""
-"_Automatically create entries in the addressbook when responding to mail"
+msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:473
@@ -15178,8 +15123,7 @@ msgstr "संपर्क"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:503
-msgid ""
-"Periodically synchronize contact information and images from gaim buddy list"
+msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:509
@@ -15293,7 +15237,7 @@ msgstr ""
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr "a."
+msgstr "a पॉपअप."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
 msgid "Copy tool"
@@ -15302,18 +15246,17 @@ msgstr "प्रतिलिपी उपकरण"
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
 #, fuzzy
 msgid "Check whether Evolution is the default mailer"
-msgstr "Evolution मुलभूत"
+msgstr "इवॉल्यूशन मुलभूत"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
 #, fuzzy
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "Evolution मुलभूत."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
+msgstr "इवॉल्यूशन मुलभूत."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 #, fuzzy
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "Evolution मुलभूत."
+msgstr "इवॉल्यूशन मुलभूत."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 #, fuzzy
@@ -15323,7 +15266,7 @@ msgstr "मुलभूत "
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 #, fuzzy
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "Evolution मुलभूत?"
+msgstr "इवॉल्यूशन मुलभूत?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
@@ -15345,7 +15288,7 @@ msgstr "च्यासाठी a मुलभूत."
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 #, fuzzy
 msgid "Open Other User's Folder"
-msgstr "इतर"
+msgstr "उघडा इतर"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
@@ -15468,7 +15411,7 @@ msgstr "च्यासाठी"
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
-msgstr "Evolution च्यासाठी."
+msgstr "इवॉल्यूशन च्यासाठी."
 
 #. User entered a wrong existing
 #. * password. Prompt him again.
@@ -15586,8 +15529,9 @@ msgid "Delegates"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
+#, fuzzy
 msgid "Editor (read, create, edit)"
-msgstr ""
+msgstr "संपादा"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 #, fuzzy
@@ -15794,7 +15738,7 @@ msgstr ""
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
-msgstr "पर्याय च्यासाठी Evolution."
+msgstr "पर्याय च्यासाठी इवॉल्यूशन."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
@@ -15880,7 +15824,7 @@ msgid ""
 "\n"
 "{0}\n"
 "  "
-msgstr "सर्वर ही च्यासाठी Evolution "
+msgstr "सर्वर ही च्यासाठी इवॉल्यूशन "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Failed to update delegates:"
@@ -15955,12 +15899,12 @@ msgstr "गुप्तशब्द यशस्वीरित्या बद�
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 #, fuzzy
 msgid "Please make sure the Global Catalog Server name is correct."
-msgstr "वैश्विक."
+msgstr "वैश्विक सर्वर."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 #, fuzzy
 msgid "Please restart Evolution for changes to take effect"
-msgstr "Evolution च्यासाठी"
+msgstr "इवॉल्यूशन च्यासाठी"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 #, fuzzy
@@ -15975,12 +15919,12 @@ msgstr "सर्वर."
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 #, fuzzy
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
 #, fuzzy
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
 msgid "The Exchange server is not compatible with Exchange Connector."
@@ -16012,8 +15956,9 @@ msgid "Unable to add user to access control list:"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
+#, fuzzy
 msgid "Unable to edit delegates."
-msgstr ""
+msgstr "संपादा."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 #, fuzzy
@@ -16417,7 +16362,7 @@ msgstr ""
 #: ../plugins/ipod-sync/sync.c:232
 #, fuzzy
 msgid "Could not open the Evolution addressbook to export data."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../plugins/ipod-sync/sync.c:291
 msgid "Could not open calendar/todo!"
@@ -16426,7 +16371,7 @@ msgstr ""
 #: ../plugins/ipod-sync/sync.c:292
 #, fuzzy
 msgid "Could not open the Evolution calendar/todo list to export data."
-msgstr "Evolution."
+msgstr "इवॉल्यूशन."
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
 #: ../plugins/itip-formatter/itip-formatter.c:391
@@ -16760,8 +16705,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:369
 #, fuzzy, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b></b> च्यासाठी खालील:"
 
 #: ../plugins/itip-formatter/itip-view.c:372
@@ -17003,8 +16947,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 #, fuzzy
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "a जोडा?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -17041,8 +16984,7 @@ msgstr "नाही"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 #, fuzzy
-msgid ""
-"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr "a च्यासाठी."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
@@ -17404,7 +17346,7 @@ msgstr ""
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 #, fuzzy
 msgid "Evolution Profiler"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 #, fuzzy
@@ -17684,7 +17626,7 @@ msgstr ""
 #: ../plugins/startup-wizard/startup-wizard.c:85
 #, fuzzy
 msgid "Evolution Setup Assistant"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
@@ -17697,7 +17639,7 @@ msgid ""
 "to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
-msgstr "सुस्वागतम्  Evolution Evolution पुढे "
+msgstr "सुस्वागतम्  इवॉल्यूशन इवॉल्यूशन क्लिक् पुढे "
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
@@ -17735,20 +17677,20 @@ msgstr ""
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
-msgstr "Evolution शेल"
+msgstr "इवॉल्यूशन शेल"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
 #, fuzzy
 msgid "Evolution Shell Config factory"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
-msgstr "Evolution कसोटी"
+msgstr "इवॉल्यूशन कसोटी"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr "Evolution कसोटी भाग"
+msgstr "इवॉल्यूशन कसोटी भाग"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 #, fuzzy
@@ -17791,8 +17733,7 @@ msgstr "शेवटचे"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 #, fuzzy
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "चाा च्यासाठी च्यासाठी"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
@@ -17822,7 +17763,7 @@ msgstr ""
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "चाा Evolution च्यासाठी."
+msgstr "चाा इवॉल्यूशन च्यासाठी."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 #, fuzzy
@@ -17844,7 +17785,7 @@ msgstr "मुलभूत च्यासाठी बिंदू."
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
-msgstr "चाा Evolution च्यासाठी."
+msgstr "चाा इवॉल्यूशन च्यासाठी."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 #, fuzzy
@@ -17861,7 +17802,7 @@ msgstr ""
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
 #, fuzzy
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "Evolution चाा."
+msgstr "इवॉल्यूशन चाा."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Whether or not the window should be maximized."
@@ -17881,9 +17822,8 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:27
 #, fuzzy
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
-msgstr "चाा Evolution."
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
+msgstr "चाा इवॉल्यूशन."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Whether the window buttons should be visible."
@@ -17928,7 +17868,7 @@ msgid ""
 "\n"
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
-msgstr "फाइल Evolution चाा फाइल Evolution."
+msgstr "फाइल इवॉल्यूशन चाा फाइल इवॉल्यूशन."
 
 #: ../shell/e-shell-importer.c:146
 #, fuzzy
@@ -17942,7 +17882,7 @@ msgid ""
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
-msgstr "Evolution च्यासाठी खालील नाही मागे"
+msgstr "इवॉल्यूशन च्यासाठी खालील नाही क्लिक् मागे"
 
 #: ../shell/e-shell-importer.c:291
 msgid "F_ilename:"
@@ -17967,7 +17907,7 @@ msgstr "एकच फाइल आयात करा(_s)"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Preferences"
-msgstr "Evolution प्राधान्यता"
+msgstr "इवॉल्यूशन प्राधान्यता"
 
 #: ../shell/e-shell-utils.c:118
 #, fuzzy
@@ -18030,17 +17970,17 @@ msgstr ""
 #: ../shell/e-shell-window.c:371
 #, fuzzy
 msgid "Evolution is currently online. Click on this button to work offline."
-msgstr "Evolution ही."
+msgstr "इवॉल्यूशन ही."
 
 #: ../shell/e-shell-window.c:379
 #, fuzzy
 msgid "Evolution is in the process of going offline."
-msgstr "Evolution चाा."
+msgstr "इवॉल्यूशन चाा."
 
 #: ../shell/e-shell-window.c:386
 #, fuzzy
 msgid "Evolution is currently offline. Click on this button to work online."
-msgstr "Evolution ही."
+msgstr "इवॉल्यूशन ही."
 
 #: ../shell/e-shell-window.c:786
 #, c-format
@@ -18098,11 +18038,11 @@ msgstr "a"
 #: ../shell/import.glade.h:1
 #, fuzzy
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "आयात फाइल Evolution "
+msgstr "आयात फाइल इवॉल्यूशन "
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr "Evolution आयात सहाय्यक"
+msgstr "इवॉल्यूशन आयात सहाय्यक"
 
 #: ../shell/import.glade.h:3
 msgid "Import File"
@@ -18131,7 +18071,7 @@ msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
-msgstr "सुस्वागतम्  Evolution आयात ही चाा Evolution."
+msgstr "सुस्वागतम्  इवॉल्यूशन आयात ही चाा इवॉल्यूशन."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:233
@@ -18152,7 +18092,7 @@ msgid ""
 "\n"
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
-msgstr "च्यासाठी ही Evolution चाा Evolution a चाा Evolution च्यासाठी चाा चाा"
+msgstr "च्यासाठी ही इवॉल्यूशन चाा इवॉल्यूशन a चाा इवॉल्यूशन च्यासाठी चाा चाा"
 
 #: ../shell/main.c:257
 msgid ""
@@ -18160,7 +18100,7 @@ msgid ""
 "The Evolution Team\n"
 msgstr ""
 "धन्यवाद\n"
-"Evolution संघ\n"
+"इवॉल्यूशन संघ\n"
 
 #: ../shell/main.c:264
 msgid "Do not tell me again"
@@ -18169,7 +18109,7 @@ msgstr ""
 #: ../shell/main.c:468
 #, fuzzy
 msgid "Start Evolution activating the specified component"
-msgstr "आरंभ Evolution"
+msgstr "आरंभ इवॉल्यूशन"
 
 #: ../shell/main.c:472
 #, fuzzy
@@ -18179,12 +18119,12 @@ msgstr "आरंभ"
 #: ../shell/main.c:475
 #, fuzzy
 msgid "Forcibly shut down all Evolution components"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../shell/main.c:479
 #, fuzzy
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../shell/main.c:482
 #, fuzzy
@@ -18199,7 +18139,7 @@ msgstr "अकार्यान्वित चाा."
 #: ../shell/main.c:515
 #, fuzzy
 msgid "- The Evolution PIM and Email Client"
-msgstr "Evolution ईमेल"
+msgstr "इवॉल्यूशन ईमेल"
 
 #: ../shell/main.c:526
 #, fuzzy, c-format
@@ -18225,7 +18165,7 @@ msgstr "नष्ट करा?"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
-msgstr "Evolution सुरू होऊ शकत नाही."
+msgstr "इवॉल्यूशन सुरू होऊ शकत नाही."
 
 #: ../shell/shell.error.xml.h:5
 msgid ""
@@ -18254,7 +18194,7 @@ msgid ""
 "\n"
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
-msgstr "चाा&quot;&quot; निर्देशिका स्वहस्ते चाा ही चाा Evolution ही चाा Evolution"
+msgstr "चाा&quot;&quot; निर्देशिका स्वहस्ते चाा ही चाा इवॉल्यूशन ही चाा इवॉल्यूशन"
 
 #: ../shell/shell.error.xml.h:15
 #, fuzzy
@@ -18288,7 +18228,7 @@ msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
 "Click help for details"
-msgstr "Evolution च्यासाठी"
+msgstr "इवॉल्यूशन च्यासाठी"
 
 #: ../shell/shell.error.xml.h:26
 #, fuzzy
@@ -18298,7 +18238,7 @@ msgid ""
 "{0}\n"
 "\n"
 "Click help for details."
-msgstr "Evolution च्यासाठी."
+msgstr "इवॉल्यूशन च्यासाठी."
 
 #: ../shell/shell.error.xml.h:31
 msgid "_Forget"
@@ -18593,8 +18533,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:44
 #, fuzzy
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "फाइल:"
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -19206,8 +19145,9 @@ msgid "Work Week"
 msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:42
+#, fuzzy
 msgid "_Open Appointment"
-msgstr ""
+msgstr "उघडा"
 
 #: ../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:7
 #, fuzzy
@@ -19273,8 +19213,9 @@ msgstr ""
 
 #: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
+#, fuzzy
 msgid "I_nsert"
-msgstr ""
+msgstr "I"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:41
 msgid "_Attachment..."
@@ -19459,13 +19400,14 @@ msgid "Create a new folder for storing mail"
 msgstr "a च्यासाठी"
 
 #: ../ui/evolution-mail-global.xml.h:5
+#, fuzzy
 msgid "Create or edit Search Folder definitions"
-msgstr ""
+msgstr "संपादा"
 
 #: ../ui/evolution-mail-global.xml.h:6
 #, fuzzy
 msgid "Create or edit rules for filtering new mail"
-msgstr "च्यासाठी"
+msgstr "संपादा च्यासाठी"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
@@ -19608,8 +19550,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:15
 #, fuzzy
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "a"
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -19652,8 +19593,9 @@ msgid "Select all visible messages"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:25
+#, fuzzy
 msgid "Show Hidde_n Messages"
-msgstr ""
+msgstr "दाखवा"
 
 #: ../ui/evolution-mail-list.xml.h:26
 #, fuzzy
@@ -19950,17 +19892,17 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:63
 #, fuzzy
 msgid "Open a window for composing a mail message"
-msgstr "a च्यासाठी a"
+msgstr "उघडा a च्यासाठी a"
 
 #: ../ui/evolution-mail-message.xml.h:64
 #, fuzzy
 msgid "Open the selected messages in a new window"
-msgstr "a"
+msgstr "उघडा a"
 
 #: ../ui/evolution-mail-message.xml.h:65
 #, fuzzy
 msgid "Open the selected messages in the composer for editing"
-msgstr "च्यासाठी"
+msgstr "उघडा च्यासाठी"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
@@ -20153,11 +20095,12 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:122
 #, fuzzy
 msgid "_Open in New Window"
-msgstr "नविन"
+msgstr "उघडा नविन"
 
 #: ../ui/evolution-mail-message.xml.h:123
+#, fuzzy
 msgid "_Previous Message"
-msgstr ""
+msgstr "मागे"
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Quoted"
@@ -20226,8 +20169,9 @@ msgid "View the selected memo"
 msgstr "दृश्य"
 
 #: ../ui/evolution-memos.xml.h:18
+#, fuzzy
 msgid "_Open Memo"
-msgstr ""
+msgstr "उघडा"
 
 #: ../ui/evolution-message-composer.xml.h:2
 #, fuzzy
@@ -20409,8 +20353,9 @@ msgid "_From Field"
 msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:49
+#, fuzzy
 msgid "_Open..."
-msgstr ""
+msgstr "उघडा."
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
@@ -20567,17 +20512,18 @@ msgid "View the selected task"
 msgstr "दृश्य"
 
 #: ../ui/evolution-tasks.xml.h:27
+#, fuzzy
 msgid "_Open Task"
-msgstr ""
+msgstr "उघडा"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr "Evolution विषयी..."
+msgstr "इवॉल्यूशन विषयी..."
 
 #: ../ui/evolution.xml.h:2
 #, fuzzy
 msgid "Change Evolution's settings"
-msgstr "Evolution"
+msgstr "इवॉल्यूशन"
 
 #: ../ui/evolution.xml.h:3
 #, fuzzy
@@ -20681,7 +20627,7 @@ msgstr "उपकरणपट्टी दाखवा(_T)"
 
 #: ../ui/evolution.xml.h:27
 msgid "Show information about Evolution"
-msgstr "Evolution विषयी माहिती दाखवा"
+msgstr "इवॉल्यूशन विषयी माहिती दाखवा"
 
 #: ../ui/evolution.xml.h:28
 msgid "Submit Bug Report"
@@ -21576,8 +21522,9 @@ msgid "categories"
 msgstr ""
 
 #: ../widgets/table/e-cell-combo.c:177
+#, fuzzy
 msgid "popup list"
-msgstr ""
+msgstr "पॉपअप"
 
 #: ../widgets/table/e-cell-date.c:64
 msgid "%l:%M %p"
@@ -21952,8 +21899,9 @@ msgid "Always search"
 msgstr ""
 
 #: ../widgets/table/e-table.c:3322
+#, fuzzy
 msgid "Use click to add"
-msgstr ""
+msgstr "क्लिक्"
 
 #: ../widgets/table/e-tree.c:3284 ../widgets/table/e-tree.c:3285
 msgid "ETree table adapter"
@@ -22113,3 +22061,4 @@ msgstr ""
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr ""
+
