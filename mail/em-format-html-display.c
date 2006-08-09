@@ -2216,8 +2216,10 @@ efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 
 	gtk_widget_size_request (efhd->priv->attachment_bar, &req);
 	width = ((GtkWidget *) efh->html)->allocation.width - 16;
-	/* Update the width of the bar */
-	e_attachment_bar_set_width(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), width);
+	
+	/* Update the width of the bar when the width is greater than 1*/
+	if (width > 0)
+		e_attachment_bar_set_width(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), width);
 }
 
 static gboolean
@@ -2247,7 +2249,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
 	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image, *save, *scroll;
-	int width, height;
+	int width, height, bar_width;
 
 	priv->attachment_bar = e_attachment_bar_new(NULL);
 	scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -2288,9 +2290,10 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 
 	/* FIXME: What if the text is more?. Should we reduce the text with appending ...?
 	 * or resize the bar? How to figure out that, it needs more space? */
+	bar_width = ((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */16;
 	gtk_widget_set_size_request (priv->attachment_bar, 
-					((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */16,
-					84 /* FIXME: Default show only one row, Dont hardcode size*/);
+				     bar_width > 0 ? bar_width : 0,
+				     84 /* FIXME: Default show only one row, Dont hardcode size*/);
 	
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)vbox, hbox2, FALSE, FALSE, 2);

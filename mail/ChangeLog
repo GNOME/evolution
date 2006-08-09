@@ -1,5 +1,13 @@
 2006-08-09  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #348565
+
+	* em-format-html-display.c (efhd_bar_resize) (efhd_add_bar): Check 
+	the bar size, 	before setting the width. The width goes to zero, 
+	when switching from classic to vertical view and vice versa.
+
+2006-08-09  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #350411 #350476
 	
 	* em-mailer-prefs.c (notify_sound_changed): When prefs comes up,
