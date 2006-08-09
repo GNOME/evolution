@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: mr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-09 06:46+0200\n"
-"PO-Revision-Date: 2006-08-09 16:26+0530\n"
+"PO-Revision-Date: 2006-08-09 20:24+0530\n"
 "Last-Translator: Rahul Bhalerao <b.rahul.pm@gmail.com>\n"
 "Language-Team: Marathi\n"
 "MIME-Version: 1.0\n"
@@ -495,11 +495,10 @@ msgid ""
 msgstr "इवॉल्यूशन a"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#, fuzzy
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr "ही?"
+msgstr "तुम्ही या संपर्कात फेरफार केले आहेत. तुम्ही हे बदल संग्रहू इच्छिता?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
@@ -956,29 +955,28 @@ msgstr "मुलभूत"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid "Distinguished name"
-msgstr ""
+msgstr "निराळे नाव"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Email address"
 msgstr "ईमेल पत्ता"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-#, fuzzy
 msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "इवॉल्यूशन ही."
+msgstr "इवॉल्यूशन हा ईमेल पत्ता तुम्हास सेवकाशी अधिप्रमाणित करण्यासाठी वापरेल."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
-msgstr ""
+msgstr "शक्यप्राय शोध बेस शोधा"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 msgid "Lo_gin:"
-msgstr ""
+msgstr "प्रवेश(लॉगीन)(_g):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 #: ../mail/em-account-editor.c:776
 msgid "Never"
-msgstr ""
+msgstr "कधीच नाही"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
@@ -989,7 +987,7 @@ msgstr "सांकेतीकरण नाही"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
-msgstr ""
+msgstr "एक"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
@@ -1001,19 +999,19 @@ msgstr "SSL सांकेतीकरण"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
-msgstr ""
+msgstr "शोध गाळक"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
-msgstr ""
+msgstr "शोध बेस(_b):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
-msgstr ""
+msgstr "शोध गाळक(_f):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Search filter"
-msgstr ""
+msgstr "शोध गाळक"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:32
 #, fuzzy
@@ -1047,11 +1045,11 @@ msgstr "ही SSL."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
-msgstr ""
+msgstr "उप"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "Supported Search Bases"
-msgstr ""
+msgstr "समर्थनीय शोध बेस"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
@@ -1059,7 +1057,7 @@ msgstr ""
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
-msgstr ""
+msgstr "TLS सांकेतीकरण"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
 #, fuzzy
@@ -1079,18 +1077,20 @@ msgid ""
 msgstr "निर्देशिका चाा चाा."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
-#, fuzzy
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr "चाा."
+msgstr ""
+"हे तुमच्या ldap सेवकाचे पूर्ण नाव आहे. उदाहरणार्थ, \"ldap.mycompany.com"
+"\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
-#, fuzzy
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
-msgstr "चाा ही."
+msgstr ""
+"ही डाउनलोड करावयाच्या प्रविष्टांची कमाल मर्यादा आहे. हा आकडा खूप मोठा निर्धारित केल्याने "
+"तुमची पत्ता वहीची गती मंद होइल."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 #, fuzzy
@@ -1117,15 +1117,15 @@ msgstr "LDAP इवॉल्यूशन चाा."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
-msgstr ""
+msgstr "निराळे नाव(DN) वापरत आहे"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "Using email address"
-msgstr ""
+msgstr "ईमेल पत्ता वापरत आहे"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "Whenever Possible"
-msgstr ""
+msgstr "शक्य तेव्हा"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Add Address Book"
@@ -1133,15 +1133,15 @@ msgstr "पत्ता वही जोडा"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
-msgstr ""
+msgstr "डाउनलोड मर्यादा(_D):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
-msgstr ""
+msgstr "शक्यप्राय शोध बेस शोधा(_F):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
-msgstr ""
+msgstr "प्रवेश(लॉगीन) पद्धती(_L):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:245
@@ -1157,7 +1157,7 @@ msgstr "पोर्ट(_P):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Search scope:"
-msgstr ""
+msgstr "शोध व्याप्ती(_S):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
 #: ../mail/mail-config.glade.h:170
@@ -1167,15 +1167,15 @@ msgstr "सर्वर(_S):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
-msgstr ""
+msgstr "कालबाद(_T):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
-msgstr ""
+msgstr "सुरक्षित जोडणी वापरा(_U):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
-msgstr ""
+msgstr "कार्ड"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
@@ -1194,15 +1194,15 @@ msgstr "<b> ईमेल</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Home</b>"
-msgstr ""
+msgstr "<b>गृह</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Instant Messaging</b>"
-msgstr ""
+msgstr "<b>तत्काळ संदेशवहन</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Job</b>"
-msgstr ""
+msgstr "<b>कार्य</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "<b>Miscellaneous</b>"
@@ -1214,7 +1214,7 @@ msgstr "<b>इतर</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Telephone</b>"
-msgstr ""
+msgstr "<b>दूरध्वनी</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "<b>Web Addresses</b>"
@@ -1222,13 +1222,13 @@ msgstr "<b>वेब पत्ता</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Work</b>"
-msgstr ""
+msgstr "<b>काम</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:556
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:275
@@ -1256,7 +1256,7 @@ msgstr "प्रतिमा"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:68
 msgid "MSN Messenger"
-msgstr ""
+msgstr "MSN मेसेंजर"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Mailing Address"
@@ -1264,12 +1264,12 @@ msgstr "मेलिंग पत्ता"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
 msgid "Ni_ckname:"
-msgstr ""
+msgstr "टोपणनाव(_c):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
 msgid "Novell Groupwise"
-msgstr ""
+msgstr "Novell Groupwise"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Personal Information"
@@ -1277,7 +1277,7 @@ msgstr "खाजगी माहिती"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Telephone"
-msgstr ""
+msgstr "दूरध्वनी"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
@@ -1288,7 +1288,7 @@ msgstr ""
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1054
 #: ../mail/mail-config.glade.h:153
 msgid "Work"
-msgstr ""
+msgstr "काम"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
@@ -1297,15 +1297,15 @@ msgstr "पत्ता(_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Anniversary:"
-msgstr ""
+msgstr "वाढदिवस(_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Assistant:"
-msgstr ""
+msgstr "सहाय्यक(_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Birthday:"
-msgstr ""
+msgstr "जन्मदिवस(_B):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 #: ../calendar/gui/dialogs/event-page.c:875
@@ -1320,19 +1320,19 @@ msgstr "श्रेण्या(_C)..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_City:"
-msgstr ""
+msgstr "शहर(_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Company:"
-msgstr ""
+msgstr "कंपनी(_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Country:"
-msgstr ""
+msgstr "देश(_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Department:"
-msgstr ""
+msgstr "विभाग(_D):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_File under:"
@@ -1348,47 +1348,46 @@ msgstr "गृह पृष्ठ(_H):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Manager:"
-msgstr ""
+msgstr "व्यवस्थापक(_M):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Notes:"
-msgstr ""
+msgstr "टिपा(_N):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Office:"
-msgstr ""
+msgstr "कार्यालय(_O):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
-#, fuzzy
 msgid "_PO Box:"
-msgstr "खोका:"
+msgstr "पो. बॉक्स(_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "_Profession:"
-msgstr ""
+msgstr "व्यवसाय(_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Spouse:"
-msgstr ""
+msgstr "पत्नी(_S):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_State/Province:"
-msgstr ""
+msgstr "राज्य/प्रांत(_S):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Title:"
-msgstr ""
+msgstr "शिर्षक(_T):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Video Chat:"
-msgstr ""
+msgstr "विडिओ गप्पा(चॅट)(_V):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Wants to receive HTML mail"
-msgstr ""
+msgstr "HTML मेल मिळवू इच्छितो(_W)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Web Log:"
@@ -1397,11 +1396,11 @@ msgstr "वेब लॉग(_W):"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Where:"
-msgstr ""
+msgstr "कुठे(_W):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 msgid "_Zip/Postal Code:"
-msgstr ""
+msgstr "झिप/पोस्टल कोड(_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:97
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
@@ -1425,7 +1424,7 @@ msgstr "पत्ता"
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3625
 #: ../widgets/text/e-text.c:3626
 msgid "Editable"
-msgstr ""
+msgstr "संपादनीय"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "United States"
@@ -1449,7 +1448,7 @@ msgstr "अमेरिकन सामोआ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Andorra"
-msgstr ""
+msgstr "अंडोरा"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Angola"
@@ -1457,7 +1456,7 @@ msgstr "अंगोला"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Anguilla"
-msgstr ""
+msgstr "अंगुला"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antarctica"
@@ -1529,7 +1528,7 @@ msgstr "बर्मुडा"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Bhutan"
-msgstr ""
+msgstr "भुतान"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Bolivia"
@@ -1537,7 +1536,7 @@ msgstr "बोलीविया"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "बोस्निया आणि हेर्झेगोविना"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Botswana"
@@ -1545,7 +1544,7 @@ msgstr "बोत्सवाना"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Bouvet Island"
-msgstr ""
+msgstr "बोवेट बेट"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Brazil"
@@ -1605,7 +1604,7 @@ msgstr "चिली"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "China"
-msgstr ""
+msgstr "चीन"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Christmas Island"
@@ -1613,7 +1612,7 @@ msgstr "क्रिसमस बेट"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "कोकोस (कीलिंग) बेटे"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
 msgid "Colombia"
@@ -1625,11 +1624,11 @@ msgstr "कोमोरोस"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo"
-msgstr ""
+msgstr "कॉन्गो"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Congo, The Democratic Republic Of The"
-msgstr ""
+msgstr "कॉन्गो, लोकशाही गणराज्य"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cook Islands"
@@ -1693,7 +1692,7 @@ msgstr "विषुवृतीय गाइना"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Eritrea"
-msgstr ""
+msgstr "एरिट्रिआ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Estonia"
@@ -1705,7 +1704,7 @@ msgstr "ईथिओपीआ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Falkland Islands"
-msgstr ""
+msgstr "फाकलँड बेटे"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
@@ -1741,7 +1740,7 @@ msgstr "गेबन"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Gambia"
-msgstr ""
+msgstr "गाम्बिया"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Georgia"
@@ -1805,11 +1804,11 @@ msgstr "हैती"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "हर्ड आणि मेकडोनाल्ड बेटे"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
 msgid "Holy See"
-msgstr ""
+msgstr "होली सी"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
 msgid "Honduras"
@@ -1889,11 +1888,11 @@ msgstr "किरीबाटी"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Democratic People's Republic Of"
-msgstr ""
+msgstr "कोरिआ, लोकशाही लोकांचे गणराज्य"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Korea, Republic Of"
-msgstr ""
+msgstr "कोरिआ, गणराज्य"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kuwait"
@@ -1929,7 +1928,7 @@ msgstr "लीबिया"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Liechtenstein"
-msgstr ""
+msgstr "लिचेनस्टाइन"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Lithuania"
@@ -1941,7 +1940,7 @@ msgstr "लक्समबर्ग"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macao"
-msgstr ""
+msgstr "मकाओ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Macedonia"
@@ -1989,7 +1988,7 @@ msgstr "मॉरीशस"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mayotte"
-msgstr ""
+msgstr "मयोटे"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Mexico"
@@ -1997,7 +1996,7 @@ msgstr "मेक्झिको"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Micronesia"
-msgstr ""
+msgstr "मायक्रोनेसिया"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Moldova, Republic Of"
@@ -2005,7 +2004,7 @@ msgstr "माल्डोवा, गणतंत्र"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Monaco"
-msgstr ""
+msgstr "मोनॅको"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Mongolia"
@@ -2013,7 +2012,7 @@ msgstr "मंगोलिया"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Montserrat"
-msgstr ""
+msgstr "मॉन्टसेराट"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Morocco"
@@ -2069,7 +2068,7 @@ msgstr "नाईजेरीया"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Niue"
-msgstr ""
+msgstr "नियू"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Norfolk Island"
@@ -2097,11 +2096,11 @@ msgstr "पलाउ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Palestinian Territory"
-msgstr ""
+msgstr "पॅलेस्टाइन टेरीटरी"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Panama"
-msgstr ""
+msgstr "पनामा"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Papua New Guinea"
@@ -2121,7 +2120,7 @@ msgstr "फिलिपाइन्स"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Pitcairn"
-msgstr ""
+msgstr "पिटकैर्न"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Poland"
@@ -2157,7 +2156,7 @@ msgstr "र्वान्डा"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "सेंट किट्स आणि नेविस"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Lucia"
@@ -2165,7 +2164,7 @@ msgstr "संत ल्युसीआ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Saint Vincent And The Grenadines"
-msgstr ""
+msgstr "सेंट विन्सेंट आणि दी ग्रेनेडाइन्स"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Samoa"
@@ -2189,7 +2188,7 @@ msgstr "सेनेगल"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Serbia And Montenegro"
-msgstr ""
+msgstr "सर्बिया आणि मॉन्टेनेग्रो"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Seychelles"
@@ -2289,7 +2288,7 @@ msgstr "थाइलँड"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Timor-Leste"
-msgstr ""
+msgstr "टिमोर-लेस्टे"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Togo"
@@ -2297,7 +2296,7 @@ msgstr "टोगो"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tokelau"
-msgstr ""
+msgstr "टोकेलाउ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Tonga"
@@ -2321,7 +2320,7 @@ msgstr "तुर्कमेनीस्तान"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "तुर्क आणि कैकोस बेटे"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Tuvalu"
