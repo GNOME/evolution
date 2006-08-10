@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-10 15:10+0200\n"
-"PO-Revision-Date: 2006-08-10 15:41+0200\n"
+"PO-Revision-Date: 2006-08-10 18:25+0200\n"
 "Last-Translator: Xavier Conde Rueda <xavi.conde@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -484,11 +484,9 @@ msgstr "Creació de la llibreta d'adreces del GroupWise"
 msgid "LDAP server did not respond with valid schema information."
 msgstr "El servidor LDAP no ha respost amb informació d'esquema vàlida."
 
-# fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/addressbook.error.xml.h:16
-#, fuzzy
 msgid "Permission Denied."
-msgstr "S'ha denegat el permís"
+msgstr "S'ha denegat el permís."
 
 # fitxer: smime.ca.po
 #: ../addressbook/addressbook.error.xml.h:17
@@ -12584,9 +12582,7 @@ msgstr "Si_gnatura:"
 msgid "Compose Message"
 msgstr "Redacta un missatge"
 
-# fitxer: composer.ca.po
 #: ../composer/e-msg-composer.c:5006
-#, fuzzy
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -13898,11 +13894,9 @@ msgstr "Missatge dels darrers 5 dies"
 msgid "Messages with Attachments"
 msgstr "Missatges amb fitxers adjunts"
 
-# fitxer: ui.evolution-mail-message.xml.h.ca.po
 #: ../mail/em-folder-browser.c:198
-#, fuzzy
 msgid "Important Messages"
-msgstr "Següent m_issatge important"
+msgstr "Missatges importants"
 
 # fitxer: mail.ca.po.3
 #: ../mail/em-folder-browser.c:199
@@ -14319,9 +14313,8 @@ msgstr "Cerca:"
 
 # fitxer: mail.ca.po.1
 #: ../mail/em-format-html-display.c:674
-#, fuzzy
 msgid "Fo_rward"
-msgstr "Reenvia"
+msgstr "_Reenvia"
 
 # fitxer: smime.ca.po
 #: ../mail/em-format-html-display.c:679
@@ -15299,7 +15292,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Spell check inline"
-msgstr "Comprovació ortogràfica al lloc"
+msgstr "Comprovació ortogràfica mentre s'escriu"
 
 #: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "Subscribe dialog default height"
@@ -15309,7 +15302,6 @@ msgstr "Alçada predeterminada de la finestra de subscripció"
 msgid "Subscribe dialog default width"
 msgstr "Amplada predeterminada de la finestra de subscripció"
 
-# fitxer: mail.ca.po.2
 #: ../mail/evolution-mail.schemas.in.in.h:90
 msgid "Terminal font"
 msgstr "Tipus de lletra de terminal"
@@ -16252,7 +16244,7 @@ msgstr "S_elecciona..."
 # fitxer: camel.ca.po.1
 #: ../mail/mail-config.glade.h:120
 msgid "S_end message receipts:"
-msgstr "_Envia recepció del missatge:"
+msgstr "_Envia un justificant de recepció:"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:121
@@ -25378,7 +25370,7 @@ msgstr "Camps disponi_bles:"
 #: ../widgets/table/e-table-config.glade.h:2
 #: ../widgets/table/e-table-header-item.c:1593
 msgid "Ascending"
-msgstr "Sentit ascendent"
+msgstr "Ascendent"
 
 # fitxer: mail.ca.po.3
 #: ../widgets/table/e-table-config-no-group.glade.h:4
@@ -25392,7 +25384,7 @@ msgstr "Neteja-ho tot"
 #: ../widgets/table/e-table-config.glade.h:4
 #: ../widgets/table/e-table-header-item.c:1593
 msgid "Descending"
-msgstr "Sentit descendent"
+msgstr "Descendent"
 
 # gal/e-table/e-table-config.glade.h:19
 #: ../widgets/table/e-table-config-no-group.glade.h:8
@@ -25471,12 +25463,12 @@ msgstr "Estat"
 # gal/e-table/e-table-config.c:300 gal/e-table/e-table-config.c:342
 #: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
 msgid "(Ascending)"
-msgstr "(Sentit ascendent)"
+msgstr "(Ascendent)"
 
 # gal/e-table/e-table-config.c:300 gal/e-table/e-table-config.c:342
 #: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
 msgid "(Descending)"
-msgstr "(Sentit descendent)"
+msgstr "(Descendent)"
 
 # gal/e-table/e-table-config.c:307
 #: ../widgets/table/e-table-config.c:314
