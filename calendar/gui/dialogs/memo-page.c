@@ -703,7 +703,7 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	if (str)
 		g_free (str);
 
-	if ((page->flags & COMP_EDITOR_PAGE_IS_SHARED) && (page->flags & COMP_EDITOR_PAGE_NEW_ITEM) && fill_comp_with_recipients (priv->name_selector, comp)) {
+	if ((page->flags & COMP_EDITOR_PAGE_IS_SHARED) && fill_comp_with_recipients (priv->name_selector, comp)) {
 		ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 
 		EAccount *a;
@@ -731,7 +731,8 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		organizer.cn = a->id->name;
 		e_cal_component_set_organizer (comp, &organizer);
 
-		comp_editor_page_notify_needs_send (page);
+		if (page->flags & COMP_EDITOR_PAGE_NEW_ITEM)
+			comp_editor_page_notify_needs_send (page);
 
 		g_free (addr);
 	}

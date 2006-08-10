@@ -247,9 +247,6 @@ memo_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	CompEditorFlags flags = comp_editor_get_flags (editor);
 	ECal *client = comp_editor_get_e_cal (editor);
 	
-	if (flags & COMP_EDITOR_IS_SHARED)
-		comp_editor_set_needs_send (editor, itip_organizer_is_user (comp, client));
-	
 	if (COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp (editor, comp);
 }
