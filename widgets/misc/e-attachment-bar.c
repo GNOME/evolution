@@ -739,7 +739,7 @@ eab_drag_data_get(EAttachmentBar *bar, GdkDragContext *drag, GtkSelectionData *d
 		if (!(path = temp_save_part (attachment->body)))
 			continue;
 		
-		url = camel_url_new ("file:", NULL);
+		url = camel_url_new ("file://", NULL);
 		camel_url_set_path (url, path);
 		attachment->store_uri = camel_url_to_string (url, 0);
 		camel_url_free (url);
@@ -853,7 +853,7 @@ eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 				CamelURL *curl;
 				
 				path = temp_save_part (attachment->body);				
-				curl  = camel_url_new ("file:", NULL);
+				curl  = camel_url_new ("file://", NULL);
 				camel_url_set_path ( curl, path);
 				attachment->store_uri = camel_url_to_string (curl, 0);
 				camel_url_free (curl);
