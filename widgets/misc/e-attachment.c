@@ -304,7 +304,7 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 	new->is_available_local = TRUE;
 	new->file_name = filename;
 	
-	url = camel_url_new ("file:", NULL);
+	url = camel_url_new ("file://", NULL);
 	camel_url_set_path (url, file_name);
 	new->store_uri = camel_url_to_string (url, 0);
 	camel_url_free (url);
@@ -505,7 +505,7 @@ e_attachment_build_remote_file (const char *file_name, EAttachment *attachment, 
 	g_free (attachment->file_name);
 	attachment->file_name = filename;
 	
-	url = camel_url_new ("file:", NULL);
+	url = camel_url_new ("file://", NULL);
 	camel_url_set_path (url, file_name);
 	attachment->store_uri = camel_url_to_string (url, 0);
 	camel_url_free (url);

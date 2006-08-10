@@ -790,7 +790,7 @@ eab_drag_data_get(EAttachmentBar *bar, GdkDragContext *drag, GtkSelectionData *d
 		if (!(path = temp_save_part (attachment->body)))
 			continue;
 		
-		url = camel_url_new ("file:", NULL);
+		url = camel_url_new ("file://", NULL);
 		camel_url_set_path (url, path);
 		attachment->store_uri = camel_url_to_string (url, 0);
 		camel_url_free (url);
@@ -903,13 +903,13 @@ eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 			/* Check if the file is stored already */
 			if (!attachment->store_uri) {
 				path = temp_save_part (attachment->body);				
-				url = camel_url_new ("file:", NULL);
+				url = camel_url_new ("file://", NULL);
 				camel_url_set_path (url, path);
 				attachment->store_uri = camel_url_to_string (url, 0);
 				camel_url_free (url);
 				g_free (path);
 			}
-			
+
 			/* launch the url now */
 			gnome_url_show (attachment->store_uri, &error);
 			if (error) {

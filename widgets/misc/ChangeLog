@@ -1,3 +1,11 @@
+2006-08-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #341482
+	
+	* e-attachment-bar.c: (eab_drag_data_get), (eab_icon_clicked_cb):
+	* e-attachment.c: (e_attachment_new),
+	(e_attachment_build_remote_file): Use file:// as the uri.
+
 2006-08-04  Johnny Jacob  <jjohnny@novell.com>
 
 	* e-icon-entry.c: (set_cursor) : Added. Change cursor over icon.
