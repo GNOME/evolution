@@ -61,7 +61,8 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 		else
 			id = "calendar:prompt-send-updated-task-info";
 		break;
-
+	case E_CAL_COMPONENT_JOURNAL:
+		return TRUE;
 	default:
 		g_message ("send_component_dialog(): "
 			   "Cannot handle object of type %d", vtype);

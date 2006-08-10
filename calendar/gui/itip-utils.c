@@ -601,7 +601,23 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 		e_cal_component_free_attendee_list (attendees);
 		
 		break;
+	case E_CAL_COMPONENT_METHOD_PUBLISH:
+		if(users) {
+			len = g_list_length (users);
+			to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+			to_list->_maximum = len;
+			to_list->_length = 0;
+			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
+			
+			for (l = users; l != NULL; l = l->next) {
+				recipient = &(to_list->_buffer[to_list->_length]);
+				recipient->name = CORBA_string_dup ("");
+				recipient->address = CORBA_string_dup (l->data);
+				to_list->_length++;
+			}
 
+			break;
+		}
 	default:
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		to_list->_maximum = to_list->_length = 0;
@@ -1145,12 +1161,11 @@ append_cal_attachments (GNOME_Evolution_Composer composer_server, ECalComponent
 
 gboolean
 itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
-		ECal *client, icalcomponent *zones, GSList *attachments_list)
+		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users)
 {
 	GNOME_Evolution_Composer composer_server;
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
-	GList *users = NULL;
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
@@ -1267,7 +1282,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 			retval = TRUE;
 	}
 
-	if (method == E_CAL_COMPONENT_METHOD_PUBLISH) {
+	if ((method == E_CAL_COMPONENT_METHOD_PUBLISH) && !users) {
 		GNOME_Evolution_Composer_show (composer_server, &ev);
 		if (BONOBO_EX (&ev))
 			g_warning ("Unable to show the composer while sending iTip message");

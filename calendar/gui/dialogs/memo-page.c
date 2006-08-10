@@ -485,7 +485,7 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 				}
 				
 				if (book) {
-					GList *contacts;
+					GList *contacts = NULL;
 					EContact *n_con = NULL;
 					char *qu;
 					EBookQuery *query;
@@ -496,7 +496,6 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 
 					if (!e_book_get_contacts (book, query, &contacts, NULL)) {
 						g_warning ("Could not get contact from the book \n");
-						return;
 					} else {
 						des = e_destination_new ();
 						n_con = contacts->data;
@@ -704,7 +703,7 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	if (str)
 		g_free (str);
 
-	if ((page->flags & COMP_EDITOR_PAGE_IS_SHARED) && fill_comp_with_recipients (priv->name_selector, comp)) {
+	if ((page->flags & COMP_EDITOR_PAGE_IS_SHARED) && (page->flags & COMP_EDITOR_PAGE_NEW_ITEM) && fill_comp_with_recipients (priv->name_selector, comp)) {
 		ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 
 		EAccount *a;
@@ -731,6 +730,8 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		organizer.value = addr;
 		organizer.cn = a->id->name;
 		e_cal_component_set_organizer (comp, &organizer);
+
+		comp_editor_page_notify_needs_send (page);
 
 		g_free (addr);
 	}
@@ -899,6 +900,27 @@ widget_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 
 	return FALSE;
 }
+
+/* Callback used when the summary changes; we emit the notification signal. */
+static void
+summary_changed_cb (GtkEditable *editable, gpointer data)
+{
+	MemoPage *mpage;
+	MemoPagePrivate *priv;
+	gchar *summary;
+	
+	mpage = MEMO_PAGE (data);
+	priv = mpage->priv;
+	
+	if (priv->updating)
+		return;
+	
+	summary = e_dialog_editable_get (GTK_WIDGET (editable));
+	comp_editor_page_notify_summary_changed (COMP_EDITOR_PAGE (mpage),
+						 summary);
+	g_free (summary);
+}
+
 static void
 to_button_clicked_cb (GtkButton *button, gpointer data) 
 {
@@ -925,6 +947,14 @@ init_widgets (MemoPage *mpage)
 
 	priv = mpage->priv;
 
+	/* Summary */
+	g_signal_connect((priv->summary_entry), "changed",
+			    G_CALLBACK (summary_changed_cb), mpage);
+	g_signal_connect(priv->summary_entry, "focus-in-event",
+			    G_CALLBACK (widget_focus_in_cb), mpage);
+	g_signal_connect(priv->summary_entry, "focus-out-event",
+			    G_CALLBACK (widget_focus_out_cb), mpage);
+
 	/* Memo Content */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content));
 
@@ -942,7 +972,7 @@ init_widgets (MemoPage *mpage)
 	/* Source selector */
 	g_signal_connect((priv->source_selector), "source_selected",
 			 G_CALLBACK (source_changed_cb), mpage);
-
+	
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
 
@@ -955,6 +985,12 @@ init_widgets (MemoPage *mpage)
 	
 	g_signal_connect((priv->summary_entry), "changed",
 			    G_CALLBACK (field_changed_cb), mpage);
+	
+	g_signal_connect((priv->source_selector), "changed",
+			 G_CALLBACK (field_changed_cb), mpage);
+	
+	g_signal_connect((priv->start_date), "changed",
+			 G_CALLBACK (field_changed_cb), mpage);
 
 	if (priv->name_selector) {
 		ENameSelectorDialog *name_selector_dialog;
@@ -964,6 +1000,7 @@ init_widgets (MemoPage *mpage)
 		g_signal_connect (name_selector_dialog, "response",
 			  G_CALLBACK (response_cb), mpage);
 		g_signal_connect ((priv->to_button), "clicked", G_CALLBACK (to_button_clicked_cb), mpage);
+		g_signal_connect ((priv->to_entry), "changed", G_CALLBACK (field_changed_cb), mpage);
 	}
 	
 	memo_page_set_show_categories (mpage, calendar_config_get_show_categories());

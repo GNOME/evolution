@@ -381,7 +381,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		if (itip_organizer_is_user (comp, comp_data->client) &&
 		    send_component_dialog (NULL, comp_data->client, comp, FALSE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
-					comp_data->client, NULL, NULL);
+					comp_data->client, NULL, NULL, NULL);
 	} else {
 		g_warning (G_STRLOC ": Could not modify the object!");
 		

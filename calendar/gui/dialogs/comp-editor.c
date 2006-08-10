@@ -861,9 +861,12 @@ save_comp_with_send (CompEditor *editor)
 		return FALSE;
 
 	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org))) {
- 		if (itip_organizer_is_user (priv->comp, priv->client))
- 			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
- 		else {
+ 		if (itip_organizer_is_user (priv->comp, priv->client)) {
+ 			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
+				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_PUBLISH);
+			else
+				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
+		} else {
 			if (!comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST))
 				return FALSE;
  			
@@ -2460,12 +2463,43 @@ set_attendees_for_delegation (ECalComponent *comp, const char *address, ECalComp
 
 }
 
+static void
+get_users_from_memo_comp (ECalComponent *comp, GList **users)
+{
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+	const char *attendees = NULL;
+	char **emails, **iter;
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	
+	for (icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY); icalprop; 
+			icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
+		if (g_str_equal (icalproperty_get_x_name (icalprop), "X-EVOLUTION-RECIPIENTS")) {
+			break;
+		}
+	}
+
+	if (icalprop)	 {
+		attendees = icalproperty_get_x (icalprop);
+		emails = g_strsplit (attendees, ";", -1);
+
+		iter = emails;
+		while (*iter) {
+			*users = g_list_append (*users, g_strdup (*iter));
+			iter++;
+		}
+		g_strfreev (emails);
+	}
+}
+
 static gboolean
 real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
 	ECalComponent *send_comp;
 	char *address = NULL;
+	GList *users = NULL;
 	
 	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
@@ -2473,6 +2507,10 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	priv = editor->priv;
 
 	send_comp = e_cal_component_clone (priv->comp);
+
+	if (e_cal_component_get_vtype (send_comp) == E_CAL_COMPONENT_JOURNAL) 
+		get_users_from_memo_comp (send_comp, &users);
+	
 	/* The user updates the delegated status to the Organizer, so remove all other attendees */
 	if ((priv->flags & COMP_EDITOR_DELEGATE)) {
 		address = itip_get_comp_attendee (send_comp, priv->client);
@@ -2483,7 +2521,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	
 	if (!e_cal_component_has_attachments (priv->comp)) {
 		if (itip_send_comp (method, send_comp, priv->client,
-					NULL, NULL)) {
+					NULL, NULL, users)) {
 			g_object_unref (send_comp);
 			return TRUE;
 		}
@@ -2504,7 +2542,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 		/* mime_attach_list is freed by itip_send_comp */
 		mime_attach_list = comp_editor_get_mime_attach_list (editor);
 		if (itip_send_comp (method, send_comp, priv->client,
-					NULL, mime_attach_list)) {
+					NULL, mime_attach_list, users)) {
 			save_comp (editor);
 			g_object_unref (send_comp);
 			return TRUE;

@@ -1183,7 +1183,7 @@ e_calendar_table_on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL, NULL);
 
 		g_object_unref (comp);
 	}

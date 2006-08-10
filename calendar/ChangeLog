@@ -1,3 +1,30 @@
+2006-08-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-model-calendar.c: (ecmc_set_value_at):
+	* gui/e-calendar-table.c: (e_calendar_table_on_forward):
+	* gui/e-calendar-view.c: (e_calendar_view_add_event),
+	(e_calendar_view_cut_clipboard), (delete_event),
+	(e_calendar_view_delete_selected_occurrence), (on_forward),
+	(e_calendar_view_modify_and_send):
+	* gui/e-itip-control.c: (send_item), (send_freebusy),
+	(ok_clicked_cb):
+	* gui/e-memo-table.c: (e_memo_table_on_forward):
+	* gui/tasks-control.c: (tasks_control_forward_cmd):
+	* gui/dialogs/task-editor.c: (task_editor_send_comp):
+	* gui/dialogs/event-editor.c: (event_editor_send_comp):
+	Updated the itip_send_comp.
+	* gui/dialogs/memo-page.c: (fill_comp_with_recipients),
+	(memo_page_fill_component), (summary_changed_cb), (init_widgets):
+	Connect the changed signal to summary, date and group widgets.
+	Fill the list of users from the component and send the component.
+	* gui/dialogs/send-comp.c: (send_component_dialog):
+	* gui/dialogs/comp-editor.c: (save_comp_with_send),
+	(get_users_from_memo_comp), (real_send_comp):
+	* gui/itip-utils.c: (comp_to_list), 
+	Fill the recipient list while sharing memos.	
+	* gui/itip-utils.h (itip_send_comp):
+	adding an argument to send the list of users.
+	
 2006-08-09  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/alarm-list-dialog.h: Add missing
