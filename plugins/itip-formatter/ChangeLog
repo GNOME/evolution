@@ -1,3 +1,8 @@
+2006-08-11  Harish Krishnaswamy  <kharish@novell.com>
+
+	* itip-formatter.c: (send_comp_to_attendee):
+	Add missing argument in the call to itip_send_comp.
+
 2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* itip-formatter.c: (cal_opened_cb), (source_selected_cb),

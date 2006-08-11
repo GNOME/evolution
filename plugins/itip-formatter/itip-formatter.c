@@ -957,7 +957,7 @@ send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, cons
 	}
 	
 	/* FIXME send the attachments in the request */
-	status = itip_send_comp (method, send_comp, client, NULL, NULL);
+	status = itip_send_comp (method, send_comp, client, NULL, NULL, NULL);
 	
 	g_object_unref (send_comp);
 
