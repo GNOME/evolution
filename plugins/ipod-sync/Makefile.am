@@ -13,7 +13,8 @@ liborg_gnome_ipod_sync_evolution_la_SOURCES = \
 	ical-format.c			\
 	evolution-ipod-sync.c		\
 	ipod.c				\
-	format-handler.h
+	format-handler.h                \
+	evolution-ipod-sync.h
 
 liborg_gnome_ipod_sync_evolution_la_LDFLAGS = -module -avoid-version
 liborg_gnome_ipod_sync_evolution_la_LIBADD = 			\

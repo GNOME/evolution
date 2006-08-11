@@ -1,4 +1,9 @@
 2006-05-13  Harish Krishnaswamy  <kharish@novell.com>
+	
+	* Makefile.am : Add evolution-ipod-sync.h to dist. 
+	Fixes #350388.
+
+2006-05-13  Harish Krishnaswamy  <kharish@novell.com>
 
 	patch submitted by: Hiroyuki Ikezoe
 
