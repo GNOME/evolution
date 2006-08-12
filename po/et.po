@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-09 15:12+0200\n"
-"PO-Revision-Date: 2006-08-10 13:16+0300\n"
+"PO-Revision-Date: 2006-08-12 09:27+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -6261,14 +6261,14 @@ msgstr "Ae_g:"
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
-msgstr "kuni"
+msgstr "kestusega"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
-msgstr "kuupäevani"
+msgstr "kuni"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
