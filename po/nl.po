@@ -20609,7 +20609,7 @@ msgstr "Be_veiliging"
 
 #: ../ui/evolution-message-composer.xml.h:55
 msgid "_To Field"
-msgstr "_Van-veld"
+msgstr "_Aan-veld"
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
