@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: mr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-09 06:46+0200\n"
-"PO-Revision-Date: 2006-08-10 18:25+0530\n"
+"PO-Revision-Date: 2006-08-13 06:02+0530\n"
 "Last-Translator: Rahul Bhalerao <b.rahul.pm@gmail.com>\n"
 "Language-Team: Marathi\n"
 "MIME-Version: 1.0\n"
@@ -849,12 +849,12 @@ msgstr "स्वयंपूर्णता लांबी"
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 #, fuzzy
 msgid "EFolderList XML for the list of completion URIs"
-msgstr "च्यासाठी यादी चाा"
+msgstr "XML च्यासाठी यादी चाा"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 #, fuzzy
 msgid "EFolderList XML for the list of completion URIs."
-msgstr "च्यासाठी यादी चाा."
+msgstr "XML च्यासाठी यादी चाा."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 #, fuzzy
@@ -872,7 +872,7 @@ msgstr "पूर्वदर्शन तावदान दाखवा"
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
-msgstr "चाा Evolution."
+msgstr "चाा अक्षरे आधी Evolution."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
@@ -2534,7 +2534,7 @@ msgstr "%s'%s' अवैध स्वरूपात आहे"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3134
 #, c-format
 msgid "%s'%s' is empty"
-msgstr ""
+msgstr "%s'%s' रिकामे आहे"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3149
 msgid "Invalid contact."
@@ -4188,14 +4188,12 @@ msgid "Error loading calendar"
 msgstr "दिनदर्शिका भारित करण्यात चूक"
 
 #: ../calendar/calendar.error.xml.h:34
-#, fuzzy
 msgid "Error loading memo list"
-msgstr "चूक यादी"
+msgstr "मेमो यादी भारित करताना चूक"
 
 #: ../calendar/calendar.error.xml.h:35
-#, fuzzy
 msgid "Error loading task list"
-msgstr "चूक यादी"
+msgstr "कामांची यादी भारित करताना चूक"
 
 #: ../calendar/calendar.error.xml.h:36
 #, fuzzy
@@ -4382,7 +4380,7 @@ msgstr "Evolution."
 #: ../calendar/calendar.error.xml.h:70
 #: ../composer/mail-composer.error.xml.h:27
 msgid "_Discard Changes"
-msgstr ""
+msgstr "बदल अमान्य करा(_D)"
 
 #: ../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:53
@@ -4396,7 +4394,7 @@ msgstr "बदल सुरक्षित करा(_S)"
 #: ../calendar/calendar.error.xml.h:73
 #: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:132
 msgid "_Send"
-msgstr ""
+msgstr "पाठवा(_S)"
 
 #: ../calendar/calendar.error.xml.h:74
 msgid "_Send Notice"
@@ -4404,7 +4402,7 @@ msgstr "सुचना पाठवा(_S)"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:323
 #: ../smime/gui/component.c:50
@@ -4412,9 +4410,8 @@ msgid "Enter password"
 msgstr "गुप्तशब्द दाखल करा"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:255
-#, fuzzy
 msgid "Split Multi-Day Events:"
-msgstr "स्पिल्ट:"
+msgstr "बहू-दिन प्रसंग स्पिल्ट करा:"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:1432
 #: ../calendar/conduits/calendar/calendar-conduit.c:1433
@@ -4463,7 +4460,7 @@ msgstr "दिनदर्शिका आणि कामे"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 #: ../calendar/gui/calendar-component.c:1358
 msgid "Calendars"
-msgstr ""
+msgstr "दिनदर्शिका"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 #, fuzzy
@@ -4475,9 +4472,8 @@ msgid "Evolution Calendar and Tasks"
 msgstr "इवॉल्यूशन दिनदर्शिका आणि कामे"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
-#, fuzzy
 msgid "Evolution Calendar configuration control"
-msgstr "Evolution दिनदर्शिका"
+msgstr "Evolution दिनदर्शिका व्यूहरचना नियंत्रण"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 #, fuzzy
@@ -4485,35 +4481,31 @@ msgid "Evolution Calendar scheduling message viewer"
 msgstr "Evolution दिनदर्शिका"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Calendar/Task editor"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका/काम संपादक"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
-#, fuzzy
 msgid "Evolution's Calendar component"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशनचा दिनदर्शिका विभाग"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
-#, fuzzy
 msgid "Evolution's Memos component"
-msgstr "Evolution"
+msgstr "इवॉल्यूशनचा मेमो विभाग"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#, fuzzy
 msgid "Evolution's Tasks component"
-msgstr "Evolution कामे"
+msgstr "इवॉल्यूशनचा कामे विभाग"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Memo_s"
-msgstr ""
+msgstr "मेमो(_s)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:323 ../calendar/gui/e-memos.c:1084
 #: ../calendar/gui/memos-component.c:531
 #: ../calendar/gui/memos-component.c:1006 ../calendar/gui/memos-control.c:340
 msgid "Memos"
-msgstr ""
+msgstr "मेमो"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:526 ../calendar/gui/e-tasks.c:1348
@@ -4530,7 +4522,7 @@ msgstr "कामे"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 msgid "_Calendars"
-msgstr ""
+msgstr "दिनदर्शिका(_C)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:15
 #: ../views/tasks/galview.xml.h:3
@@ -4540,7 +4532,7 @@ msgstr "कामे(_T)"
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 #, fuzzy
 msgid "Evolution Calendar alarm notification service"
-msgstr "Evolution दिनदर्शिका"
+msgstr "इवॉल्यूशन दिनदर्शिका"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
 msgid "minute"
@@ -4567,7 +4559,7 @@ msgstr "आरंभ वेळ"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
-msgstr ""
+msgstr "नियुक्त्या"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
@@ -4580,7 +4572,7 @@ msgstr "ठिकाण:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
-msgstr ""
+msgstr "डुलक्यांची वेळ(_t):"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
@@ -4599,34 +4591,30 @@ msgstr "संपादा(_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
-msgstr ""
+msgstr "डुलक्या(_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
-#, fuzzy
 msgid "location of appointment"
-msgstr "चाा"
+msgstr "नियुक्तीचे ठिकाण"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1452
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1598
-#, fuzzy
 msgid "No summary available."
-msgstr "नाही."
+msgstr "सारांश उपलब्ध नाही."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1461
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1463
-#, fuzzy
 msgid "No description available."
-msgstr "नाही."
+msgstr "वर्णन उपलब्ध नाही."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1471
-#, fuzzy
 msgid "No location information available."
-msgstr "नाही."
+msgstr "ठिकाणाची माहिती उपलब्ध नाही."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1530
 #, c-format
 msgid "You have %d alarms"
-msgstr ""
+msgstr "तुमच्याकडे %d अलार्म आहेत"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1696
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1722
@@ -4670,7 +4658,7 @@ msgstr ""
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
-msgstr ""
+msgstr "अवैध वेळ"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
@@ -4698,12 +4686,12 @@ msgstr[1] "%d मिनिटे"
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d सेकंद"
+msgstr[1] "%d सेकंद"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
-msgstr ""
+msgstr "अलार्म कार्यक्रम"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 #, fuzzy
@@ -4723,7 +4711,7 @@ msgstr "पार्श्वभूमी चाा."
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 #, fuzzy
 msgid "Calendars to run alarms for"
-msgstr "च्यासाठी"
+msgstr "दिनदर्शिका च्यासाठी"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 #, fuzzy
@@ -4741,7 +4729,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Confirm expunge"
-msgstr ""
+msgstr "एक्सपंज निश्चित करा"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 #, fuzzy
@@ -4772,14 +4760,12 @@ msgid "Event Transparency"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
-#, fuzzy
 msgid "Free/busy server URLs"
-msgstr "मुक्त"
+msgstr "मुक्त/व्यस्त सेवक URLs"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
-#, fuzzy
 msgid "Free/busy template URL"
-msgstr "मुक्त URL"
+msgstr "मुक्त/व्यस्त टेम्प्लेट URL"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 #, fuzzy
@@ -4788,15 +4774,15 @@ msgstr "चाा."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Hide completed tasks"
-msgstr ""
+msgstr "पूर्ण झालेली कामे लपवा"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hide task units"
-msgstr ""
+msgstr "काम एकके लपवा"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Hide task value"
-msgstr ""
+msgstr "काम मूल्य लपवा"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Horizontal pane position"
@@ -4818,9 +4804,8 @@ msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr "काम मिनिटे."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
-#, fuzzy
 msgid "Last alarm time"
-msgstr "शेवटचे"
+msgstr "शेवटची अलार्म वेळ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 #, fuzzy
@@ -4829,17 +4814,15 @@ msgstr "चाा च्यासाठी."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Marcus Bains Line"
-msgstr ""
+msgstr "मार्कस बैन्स लाइन"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
-#, fuzzy
 msgid "Marcus Bains Line Color - Day View"
-msgstr "दृश्य"
+msgstr "मार्कस बैन्स लाइन रंग - दिवस दृश्य"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
-#, fuzzy
 msgid "Marcus Bains Line Color - Time bar"
-msgstr "वेळ"
+msgstr "मार्कस बैन्स लाइन रंग - वेळ पट्टी"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Minute the workday ends on, 0 to 59."
@@ -4860,12 +4843,12 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
 #, fuzzy
 msgid "Number of units for determining a default reminder."
-msgstr "चाा च्यासाठी a मुलभूत."
+msgstr "संख्या चाा च्यासाठी a मुलभूत."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 #, fuzzy
 msgid "Number of units for determining when to hide tasks."
-msgstr "चाा च्यासाठी."
+msgstr "संख्या चाा च्यासाठी."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid "Overdue tasks color"
@@ -5036,7 +5019,7 @@ msgstr "च्यासाठी मिनिटे तास दिवस."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid "Week start"
-msgstr ""
+msgstr "आठवडा आरंभ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
@@ -5124,24 +5107,20 @@ msgid "Work days"
 msgstr "कामाचे दिवस"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
-#, fuzzy
 msgid "Workday end hour"
-msgstr "तास"
+msgstr "कार्यदिन समाप्ती तास"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
-#, fuzzy
 msgid "Workday end minute"
-msgstr "मिनिटे"
+msgstr "कार्यदिन समाप्ती मिनिट"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:91
-#, fuzzy
 msgid "Workday start hour"
-msgstr "तास"
+msgstr "कार्यदिन आरंभ तास"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:92
-#, fuzzy
 msgid "Workday start minute"
-msgstr "मिनिटे"
+msgstr "कार्यदिन आरंभ मिनिट"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:93
 msgid "daylight savings time"
@@ -5169,14 +5148,14 @@ msgstr "ठिकाणात समाविष्ट"
 
 #: ../calendar/gui/cal-search-bar.c:360
 msgid "Unmatched"
-msgstr ""
+msgstr "न जुळलेले"
 
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2522
 #: ../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:20
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
-msgstr ""
+msgstr "छापा"
 
 #: ../calendar/gui/calendar-commands.c:348
 #, fuzzy
@@ -5212,13 +5191,13 @@ msgstr "वेब वर"
 
 #: ../calendar/gui/calendar-component.c:275 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
-msgstr ""
+msgstr "जन्मदिवस आणि वाढदिवस"
 
 #. Create the weather group
 #: ../calendar/gui/calendar-component.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
-msgstr ""
+msgstr "हवामान"
 
 #: ../calendar/gui/calendar-component.c:579
 msgid "_New Calendar"
@@ -5248,12 +5227,11 @@ msgstr "नविन नियुक्ती"
 
 #: ../calendar/gui/calendar-component.c:1542
 msgid "_Appointment"
-msgstr ""
+msgstr "नियुक्ती(_A)"
 
 #: ../calendar/gui/calendar-component.c:1543
-#, fuzzy
 msgid "Create a new appointment"
-msgstr "a"
+msgstr "नविन नियुक्ती निर्माण करा"
 
 #: ../calendar/gui/calendar-component.c:1549
 msgid "New meeting"
@@ -5261,27 +5239,23 @@ msgstr "नविन सभा"
 
 #: ../calendar/gui/calendar-component.c:1550
 msgid "M_eeting"
-msgstr ""
+msgstr "सभा(_e)"
 
 #: ../calendar/gui/calendar-component.c:1551
-#, fuzzy
 msgid "Create a new meeting request"
-msgstr "a"
+msgstr "नविन सभा विनंती निर्माण करा"
 
 #: ../calendar/gui/calendar-component.c:1557
-#, fuzzy
 msgid "New all day appointment"
-msgstr "नविन"
+msgstr "नविन पूर्ण दिवस नियुक्ती"
 
 #: ../calendar/gui/calendar-component.c:1558
-#, fuzzy
 msgid "All Day A_ppointment"
-msgstr "सर्व"
+msgstr "पूर्ण दिवस नियुक्ती(_p)"
 
 #: ../calendar/gui/calendar-component.c:1559
-#, fuzzy
 msgid "Create a new all-day appointment"
-msgstr "a"
+msgstr "नविन पूर्ण दिवस नियुक्ती तयार करा"
 
 #: ../calendar/gui/calendar-component.c:1565
 msgid "New calendar"
@@ -5289,7 +5263,7 @@ msgstr "नविन दिनदर्शिका"
 
 #: ../calendar/gui/calendar-component.c:1566
 msgid "Cale_ndar"
-msgstr ""
+msgstr "दिनदर्शिका(_n)"
 
 #: ../calendar/gui/calendar-component.c:1567
 msgid "Create a new calendar"
@@ -5300,9 +5274,8 @@ msgid "Day View"
 msgstr "दिन दृश्य"
 
 #: ../calendar/gui/calendar-view-factory.c:112
-#, fuzzy
 msgid "Work Week View"
-msgstr "काम दृश्य"
+msgstr "काम आठवडा दृश्य"
 
 #: ../calendar/gui/calendar-view-factory.c:115
 msgid "Week View"
@@ -5335,7 +5308,7 @@ msgstr "अलार्म संपादन करा"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:1
 msgid "<b>Alarm</b>"
-msgstr ""
+msgstr "<b>अलार्म</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Options</b>"
@@ -5343,7 +5316,7 @@ msgstr "<b>पर्याय</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Repeat</b>"
-msgstr ""
+msgstr "<b>पुनरावृत्ती</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "Add Alarm"
@@ -5351,21 +5324,20 @@ msgstr "अलार्म जोडा"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Custom _message"
-msgstr ""
+msgstr "स्वेच्छा संदेश(_m)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "स्वेच्छा अलार्म ध्वनी"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Mes_sage:"
-msgstr ""
+msgstr "संदेश(_s):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:8
 #: ../calendar/gui/e-alarm-list.c:446
-#, fuzzy
 msgid "Play a sound"
-msgstr "a"
+msgstr "ध्वनी चालवा"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:9
 #: ../calendar/gui/e-alarm-list.c:450
@@ -5374,18 +5346,17 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: ../calendar/gui/e-alarm-list.c:458
-#, fuzzy
 msgid "Run a program"
-msgstr "a"
+msgstr "कार्यक्रम चालवा"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
 msgid "Send To:"
-msgstr ""
+msgstr "यांस पाठवा:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
 #: ../calendar/gui/e-alarm-list.c:454
 msgid "Send an email"
-msgstr ""
+msgstr "ईमेल पाठवा"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Arguments:"
@@ -5393,35 +5364,34 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Program:"
-msgstr ""
+msgstr "कार्यक्रम(_P):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Repeat the alarm"
-msgstr ""
+msgstr "अलार्म पुनरावृत्त करा(_R)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Sound:"
-msgstr "आवाज(_S):"
+msgstr "ध्वनी(_S):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "after"
-msgstr ""
+msgstr "नंतर"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "before"
-msgstr ""
+msgstr "आधी"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "day(s)"
-msgstr ""
+msgstr "दिवस"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21
-#, fuzzy
 msgid "end of appointment"
-msgstr "चाा"
+msgstr "नियुक्तीची समाप्ती"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "extra times every"
@@ -5436,24 +5406,23 @@ msgid "minute(s)"
 msgstr "मिनिटे"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
-#, fuzzy
 msgid "start of appointment"
-msgstr "चाा"
+msgstr "नियुक्तीची सुरूवात"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
-msgstr ""
+msgstr "क्रिया/ट्रिगर"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr ""
+msgstr "जोडा(_d)"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: ../calendar/gui/dialogs/event-page.glade.h:4
 #: ../ui/evolution-event-editor.xml.h:1
 msgid "Alarms"
-msgstr ""
+msgstr "अलार्म"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:97
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:116
@@ -5469,9 +5438,8 @@ msgid "Attach file(s)"
 msgstr "फाइल जोडा"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:486
-#, fuzzy
 msgid "Selected Calendars for Alarms"
-msgstr "निवडलेले च्यासाठी"
+msgstr "अलार्मसाठी निवडलेल्या दिनदर्शिका"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid ""
@@ -5495,7 +5463,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">चेतावन्या</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
@@ -5509,16 +5477,15 @@ msgstr "<span weight=\"bold\"> सामान्य</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<span weight=\"bold\">Task List</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">कामांची यादी</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Time</span>"
 msgstr "<span weight=\"bold\"> वेळ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Work Week</span>"
-msgstr "<span weight=\"bold\"> काम</span>"
+msgstr "<span weight=\"bold\">कामाचा आठवडा</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 #, fuzzy
@@ -5527,7 +5494,7 @@ msgstr "च्यासाठी"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
-msgstr ""
+msgstr "दिवस संपतो(_e):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
@@ -5537,7 +5504,7 @@ msgstr "प्रदर्शन"
 #: ../calendar/gui/dialogs/recurrence-page.c:1088
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
-msgstr ""
+msgstr "शुक्रवार"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid ""
@@ -5553,7 +5520,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
-msgstr ""
+msgstr "सोमवार"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid ""
@@ -5565,6 +5532,13 @@ msgid ""
 "Saturday\n"
 "Sunday"
 msgstr ""
+"सोमवार\n"
+"मंगळवार\n"
+"बुधवार\n"
+"गुरूवार\n"
+"शुक्रवार\n"
+"शनिवार\n"
+"रविवार"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5575,13 +5549,13 @@ msgstr "रंग निवडा"
 #. Sunday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "S_un"
-msgstr ""
+msgstr "रवि(_u)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1089
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
-msgstr ""
+msgstr "शनिवार"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #, fuzzy
@@ -5589,9 +5563,8 @@ msgid "Select the calendars for alarm notification"
 msgstr "च्यासाठी"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "Sh_ow a reminder"
-msgstr "a"
+msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 #, fuzzy
@@ -5602,27 +5575,26 @@ msgstr "दाखवा"
 #: ../calendar/gui/dialogs/recurrence-page.c:1090
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
-msgstr ""
+msgstr "रविवार"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "T_asks due today:"
-msgstr "T:"
+msgstr "आजची कामे(_a):"
 
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "T_hu"
-msgstr "T_hu"
+msgstr "गुरू(_h)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Template:"
-msgstr ""
+msgstr "टेम्प्लेट:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: ../calendar/gui/dialogs/recurrence-page.c:1087
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
-msgstr ""
+msgstr "गुरूवार"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 #: ../calendar/gui/dialogs/event-page.glade.h:13
@@ -5637,32 +5609,30 @@ msgstr "वेळ स्वरूप:"
 #: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
-msgstr ""
+msgstr "मंगळवार"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 #: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
-msgstr ""
+msgstr "बुधवार"
 
 #. A weekday like "Monday" follows
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "Wee_k starts on:"
-msgstr ""
+msgstr "आठवडा सुरू होतो(_k):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "Work days:"
 msgstr "कामाचे दिवस:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
-#, fuzzy
 msgid "_12 hour (AM/PM)"
-msgstr "तास"
+msgstr "_12 तास (AM/PM)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
-#, fuzzy
 msgid "_24 hour"
-msgstr "तास"
+msgstr "_24 तास"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 #, fuzzy
@@ -5675,21 +5645,21 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Day begins:"
-msgstr ""
+msgstr "दिवस सुरू होतो(_D):"
 
 #. Friday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Fri"
-msgstr ""
+msgstr "शुक्र(_F)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Hide completed tasks after"
-msgstr ""
+msgstr "नंतर पूर्ण झालेली कामे लपवा(_H)"
 
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Mon"
-msgstr ""
+msgstr "सोम(_M)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
@@ -5698,7 +5668,7 @@ msgstr ""
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Sat"
-msgstr ""
+msgstr "शनि(_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 #, fuzzy
@@ -5712,16 +5682,16 @@ msgstr "वेळ विभाजने(_T):"
 #. Tuesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
 msgid "_Tue"
-msgstr ""
+msgstr "मंगळ(_T)"
 
 #. Wednesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "_Wed"
-msgstr ""
+msgstr "बुध(_W)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
-msgstr ""
+msgstr "प्रत्येक नियुक्ती आधी"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:288
 #, fuzzy
@@ -5745,11 +5715,11 @@ msgstr "रंग(_o):"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 msgid "Task List"
-msgstr ""
+msgstr "कामांची यादी"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 msgid "Memo List"
-msgstr ""
+msgstr "मेमो यादी"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
 msgid "Calendar Properties"
@@ -5761,7 +5731,7 @@ msgstr "नविन दिनदर्शिका"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:566
 msgid "Task List Properties"
-msgstr ""
+msgstr "कामाच्या यादीचे गुणधर्म"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:632
 msgid "New Memo List"
@@ -5772,24 +5742,22 @@ msgid "Add Calendar"
 msgstr "दिनदर्शिका जोडा"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:2
-#, fuzzy
 msgid "Add Task List"
-msgstr "जोडा"
+msgstr "कामांची यादी जोडा"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 msgid "_Add Calendar"
 msgstr "दिनदर्शिका जोडा(_A)"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
-#, fuzzy
 msgid "_Add Task List"
-msgstr "जोडा"
+msgstr "कामांची यादी जोडा(_A)"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
 #: ../plugins/calendar-http/calendar-http.c:271
 #: ../plugins/calendar-weather/calendar-weather.c:548
 msgid "_Refresh:"
-msgstr ""
+msgstr "ताजे करा(_R):"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:10
 #: ../plugins/caldav/caldav-source.c:247
@@ -5850,11 +5818,11 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor-page.c:515
 #, c-format
 msgid "Validation error: %s"
-msgstr ""
+msgstr "पडताळणी चूक: %s"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2280
 msgid " to "
-msgstr ""
+msgstr " प्रति"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2284
 msgid " (Completed "
@@ -5866,16 +5834,16 @@ msgstr "पूर्ण "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2291
 msgid " (Due "
-msgstr ""
+msgstr " (बाकी "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2293
 msgid "Due "
-msgstr ""
+msgstr "बाकी"
 
 #: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2888
 #, c-format
 msgid "Attached message - %s"
-msgstr ""
+msgstr "जोडलेला संदेश - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
@@ -5884,8 +5852,8 @@ msgstr ""
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "जोडलेला संदेश"
+msgstr[1] "जोडलेले संदेश"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
@@ -5895,9 +5863,8 @@ msgstr "हलवा(_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
 #: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1904
-#, fuzzy
 msgid "Cancel _Drag"
-msgstr "रद्द"
+msgstr "खेचणे रद्द करा(_D)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
@@ -5907,8 +5874,8 @@ msgstr ""
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>%d</b> जोडणी"
+msgstr[1] "<b>%d</b> जोडण्या"
 
 #: ../calendar/gui/dialogs/comp-editor.c:977
 msgid "Hide Attachment _Bar"
@@ -5941,15 +5908,13 @@ msgstr "गुणधर्म(_P)"
 #: ../calendar/gui/dialogs/comp-editor.c:1102
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3654
-#, fuzzy
 msgid "_Add attachment..."
-msgstr "जोडा."
+msgstr "जोडणी जोडा(_A)..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1489
 #: ../mail/em-format-html-display.c:2264
-#, fuzzy
 msgid "Show Attachments"
-msgstr "दाखवा"
+msgstr "जोडण्या दाखवा"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1490
 #, fuzzy
@@ -5965,32 +5930,31 @@ msgstr "नियुक्ती संपादन करा"
 #: ../calendar/gui/dialogs/comp-editor.c:2146
 #, c-format
 msgid "Meeting - %s"
-msgstr ""
+msgstr "सभा - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2105
 #: ../calendar/gui/dialogs/comp-editor.c:2148
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "नियुक्ती - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2109
 #: ../calendar/gui/dialogs/comp-editor.c:2152
 #, c-format
 msgid "Assigned Task - %s"
-msgstr ""
+msgstr "सोपवलेले काम - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2111
 #: ../calendar/gui/dialogs/comp-editor.c:2154
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "काम - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2114
 #: ../calendar/gui/dialogs/comp-editor.c:2157
 #, c-format
-#, fuzzy
 msgid "Journal entry - %s"
-msgstr "जर्नल"
+msgstr "जर्नल प्रविष्ट - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2125
 #: ../calendar/gui/dialogs/comp-editor.c:2167
@@ -6001,14 +5965,13 @@ msgstr "सारांश नाही"
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:518
 #: ../mail/em-utils.c:555 ../widgets/misc/e-attachment-bar.c:365
 msgid "attachment"
-msgstr ""
+msgstr "जोडणी"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2766
 #: ../calendar/gui/dialogs/comp-editor.c:2820
 #: ../calendar/gui/dialogs/comp-editor.c:2844
-#, fuzzy
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr "ही"
+msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:2868
 msgid "Unable to use current version!"
@@ -6091,20 +6054,20 @@ msgstr "संपर्क..."
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To:"
-msgstr ""
+msgstr "येथे डेलिगेट:"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:3
 msgid "Enter Delegate"
-msgstr ""
+msgstr "डेलिगेट दाखल करा"
 
 #: ../calendar/gui/dialogs/event-editor.c:564
 msgid "Appoint_ment"
-msgstr ""
+msgstr "नियुक्ती(_m)"
 
 #: ../calendar/gui/dialogs/event-editor.c:568
 #: ../ui/evolution-event-editor.xml.h:14
 msgid "Recurrence"
-msgstr ""
+msgstr "पुनरावृत्ती"
 
 #: ../calendar/gui/dialogs/event-page.c:810
 #: ../calendar/gui/dialogs/event-page.c:2717
@@ -6117,15 +6080,15 @@ msgstr ""
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
 #: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
-msgstr ""
+msgstr "संयोजक(_g): "
 
 #: ../calendar/gui/dialogs/event-page.c:920
 msgid "_Delegatees"
-msgstr ""
+msgstr "प्रतिनिधी(_D)"
 
 #: ../calendar/gui/dialogs/event-page.c:922
 msgid "Atte_ndees"
-msgstr ""
+msgstr "उपस्थित(_n)"
 
 #: ../calendar/gui/dialogs/event-page.c:1087
 msgid "Event with no start date"
@@ -6138,24 +6101,20 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.c:1259
 #: ../calendar/gui/dialogs/memo-page.c:684
 #: ../calendar/gui/dialogs/task-page.c:849
-#, fuzzy
 msgid "Start date is wrong"
-msgstr "आरंभ"
+msgstr "आरंभ दिनांक अयोग्य"
 
 #: ../calendar/gui/dialogs/event-page.c:1269
-#, fuzzy
 msgid "End date is wrong"
-msgstr "समाप्त"
+msgstr "समाप्त दिनांक अयोग्य"
 
 #: ../calendar/gui/dialogs/event-page.c:1292
-#, fuzzy
 msgid "Start time is wrong"
-msgstr "आरंभ"
+msgstr "आरंभ वेळ अयोग्य"
 
 #: ../calendar/gui/dialogs/event-page.c:1299
-#, fuzzy
 msgid "End time is wrong"
-msgstr "समाप्त"
+msgstr "समाप्त वेळ अयोग्य"
 
 #: ../calendar/gui/dialogs/event-page.c:1454
 #: ../calendar/gui/dialogs/memo-page.c:719
@@ -6167,12 +6126,12 @@ msgstr ""
 #: ../calendar/gui/dialogs/memo-page.c:725
 #: ../calendar/gui/dialogs/task-page.c:912
 msgid "An organizer is required."
-msgstr ""
+msgstr "संयोजक आवश्यक"
 
 #: ../calendar/gui/dialogs/event-page.c:1475
 #: ../calendar/gui/dialogs/task-page.c:927
 msgid "At least one attendee is required."
-msgstr ""
+msgstr "किमान एक उपस्थित आवश्यक."
 
 #: ../calendar/gui/dialogs/event-page.c:1897
 #: ../calendar/gui/dialogs/task-page.c:1200
@@ -6188,26 +6147,26 @@ msgstr ""
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "नियुक्तीआधी %d दिवस"
+msgstr[1] "नियुक्तीआधी %d दिवस"
 
 #: ../calendar/gui/dialogs/event-page.c:2935
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "तास"
-msgstr[1] "तास"
+msgstr[0] "नियुक्तीआधी %d तास"
+msgstr[1] "नियुक्तीआधी %d तास"
 
 #: ../calendar/gui/dialogs/event-page.c:2943
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "मिनिटे"
-msgstr[1] "मिनिटे"
+msgstr[0] "नियुक्तीआधी %d मिनिटे"
+msgstr[1] "नियुक्तीआधी %d मिनिटे"
 
 #: ../calendar/gui/dialogs/event-page.c:2959
 msgid "Customize"
-msgstr ""
+msgstr "स्वेच्छेनिसार करा"
 
 #. an empty string is the same as 'None'
 #: ../calendar/gui/dialogs/event-page.c:2964
@@ -6228,35 +6187,33 @@ msgstr "काहीच नाही"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
-msgstr ""
+msgstr "नियुक्तीआधी १ दिवस"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "1 hour before appointment"
-msgstr "तास"
+msgstr "नियुक्तीआधी १ तास"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:3
-#, fuzzy
 msgid "15 minutes before appointment"
-msgstr "मिनिटे"
+msgstr "नियुक्तीआधी १५ मिनिटे"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
-msgstr ""
+msgstr "उपस्थित(_s)..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "प्रवर्ग(_t)..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "Custom Alarm:"
-msgstr ""
+msgstr "स्वेच्छेचा अलार्म:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 #: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "D_escription:"
-msgstr ""
+msgstr "वर्णन(_e):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
@@ -6265,11 +6222,11 @@ msgstr "प्रसंग वर्णन"
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr ""
+msgstr "सारांश(_m):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
-msgstr ""
+msgstr "अलार्म(_A)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
@@ -6287,12 +6244,12 @@ msgstr "च्यासाठी"
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
-msgstr ""
+msgstr "पर्यंत"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
-msgstr ""
+msgstr "उपस्थित"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:2
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
@@ -6307,12 +6264,12 @@ msgstr "सामान्य नाव"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:4
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
-msgstr ""
+msgstr "येथून प्रतिनिधीत्व"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:5
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr ""
+msgstr "येथे प्रतिनिधीत्व"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:6
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -6322,14 +6279,14 @@ msgstr "भाषा"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:7
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Member"
-msgstr ""
+msgstr "सदस्य"
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
 #: ../calendar/gui/e-meeting-list-view.c:509
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
@@ -6341,28 +6298,28 @@ msgstr "स्थिती"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
-msgstr ""
+msgstr "<b>उपस्थित(_e)</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "C_hange Organizer"
-msgstr ""
+msgstr "संयोजक बदला(_h)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "Co_ntacts..."
-msgstr ""
+msgstr "संपर्क(_n)..."
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
-msgstr ""
+msgstr "संयोजक"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:7
 #: ../calendar/gui/e-itip-control.glade.h:7
 msgid "Organizer:"
-msgstr ""
+msgstr "संयोजक:"
 
 #: ../calendar/gui/dialogs/memo-editor.c:220 ../calendar/gui/print.c:2321
 msgid "Memo"
-msgstr ""
+msgstr "मेमो"
 
 #: ../calendar/gui/dialogs/memo-page.c:866
 #, c-format
@@ -6373,16 +6330,16 @@ msgstr ""
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:846
 #: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
 msgid "To"
-msgstr ""
+msgstr "प्रति"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Sta_rt date:"
-msgstr ""
+msgstr "आरंभ दिनांक(_r):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
 msgid "Su_mmary"
-msgstr ""
+msgstr "सारांश(_m)"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 msgid "T_o:"
@@ -6396,7 +6353,7 @@ msgstr "समूह(_G):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:7
 msgid "_Memo Content:"
-msgstr ""
+msgstr "मेमो मजकूर(_M):"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 msgid "<b>Calendar options</b>"
@@ -6419,60 +6376,52 @@ msgid "Calendar Name"
 msgstr "दिनदर्शिका नाव"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
-#, fuzzy
 msgid "<b>Task List Options</b>"
-msgstr "<b> पर्याय</b>"
+msgstr "<b>कामांच्या यादीचे पर्याय</b>"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:2
-#, fuzzy
 msgid "Add New Task List"
-msgstr "जोडा नविन"
+msgstr "नविन कामांची यादी जोडा"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Task List Group"
-msgstr ""
+msgstr "कामांची यादी समुह"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:4
-#, fuzzy
 msgid "Task List Name"
-msgstr "नाव"
+msgstr "कामांची यादीचे नाव"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
-#, fuzzy
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr "a?"
+msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
-#, fuzzy
 msgid "You are delegating a recurring event. What would you like to delegate?"
-msgstr "a?"
+msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
-#, fuzzy
 msgid "You are modifying a recurring task. What would you like to modify?"
-msgstr "a?"
+msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-#, fuzzy
 msgid "You are modifying a recurring journal entry. What would you like to modify?"
-msgstr "a?"
+msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
-msgstr ""
+msgstr "फक्त हा इन्स्टन्स"
 
 #: ../calendar/gui/dialogs/recur-comp.c:94
 msgid "This and Prior Instances"
-msgstr ""
+msgstr "हा आणि पूर्वीचे इन्स्टन्सेस"
 
 #: ../calendar/gui/dialogs/recur-comp.c:100
 msgid "This and Future Instances"
-msgstr ""
+msgstr "हा आणि भावी इन्स्टन्सेस"
 
 #: ../calendar/gui/dialogs/recur-comp.c:105
-#, fuzzy
 msgid "All Instances"
-msgstr "सर्व"
+msgstr "सर्व इन्स्टन्सेस"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:498
 #, fuzzy
@@ -6487,7 +6436,7 @@ msgstr ""
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:932
 msgid "on"
-msgstr ""
+msgstr "वर"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -6495,7 +6444,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:996
 msgid "first"
-msgstr ""
+msgstr "पहिला"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -6504,7 +6453,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1002
 msgid "second"
-msgstr ""
+msgstr "दुसरा"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -6512,7 +6461,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1007
 msgid "third"
-msgstr ""
+msgstr "तिसरा"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
@@ -6520,7 +6469,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1012
 msgid "fourth"
-msgstr ""
+msgstr "चौथा"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -6528,7 +6477,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1017
 msgid "last"
-msgstr ""
+msgstr "शेवटचा"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
@@ -6542,7 +6491,7 @@ msgstr "इतर दिनांक"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1051
 msgid "1st to 10th"
-msgstr ""
+msgstr "१ला ते १०वा"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -6550,7 +6499,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1057
 msgid "11th to 20th"
-msgstr ""
+msgstr "११वा ते २०वा"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -6558,22 +6507,22 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1063
 msgid "21st to 31st"
-msgstr ""
+msgstr "२१वा ते ३१वा"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1083
 msgid "day"
-msgstr ""
+msgstr "दिवस"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1223
 msgid "on the"
-msgstr ""
+msgstr "वर"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1412
 msgid "occurrences"
-msgstr ""
+msgstr "उद्भव"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2378
 msgid "Date/Time"
@@ -6581,22 +6530,22 @@ msgstr "दिनांक/वेळ"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "<b>Exceptions</b>"
-msgstr ""
+msgstr "<b>अपवाद</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
 msgid "<b>Preview</b>"
-msgstr ""
+msgstr "<b>पूर्वदृश्य</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "<b>Recurrence</b>"
-msgstr ""
+msgstr "<b>पुनरावृत्ती</b>"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
-msgstr ""
+msgstr "प्रत्येक"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6608,23 +6557,23 @@ msgstr ""
 #. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
-msgstr ""
+msgstr "नेहमी"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
-msgstr ""
+msgstr "महिने"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
-msgstr ""
+msgstr "आठवडे"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
-msgstr ""
+msgstr "वर्ष"
 
 #: ../calendar/gui/dialogs/task-details-page.c:411
 #: ../calendar/gui/dialogs/task-details-page.c:431
@@ -6660,7 +6609,7 @@ msgstr "पूर्ण "
 #: ../calendar/gui/e-cal-component-preview.c:250
 #: ../calendar/gui/e-calendar-table.c:387 ../mail/message-list.c:1031
 msgid "High"
-msgstr ""
+msgstr "उंच"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:6
 #: ../calendar/gui/e-cal-component-preview.c:228
@@ -6669,13 +6618,13 @@ msgstr ""
 #: ../calendar/gui/e-cal-model-tasks.c:735
 #: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2379
 msgid "In Progress"
-msgstr ""
+msgstr "प्रगतीमध्ये"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:254
 #: ../calendar/gui/e-calendar-table.c:389 ../mail/message-list.c:1029
 msgid "Low"
-msgstr ""
+msgstr "खाली"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:252
@@ -6690,24 +6639,24 @@ msgstr "सामान्य"
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2376
 msgid "Not Started"
-msgstr ""
+msgstr "सुरू नाही"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "P_ercent complete:"
-msgstr ""
+msgstr "टक्के पूर्ण(_e):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Stat_us:"
-msgstr ""
+msgstr "स्थिती(_u):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 #: ../calendar/gui/e-calendar-table.c:390
 msgid "Undefined"
-msgstr ""
+msgstr "अव्याख्यीत"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Date completed:"
-msgstr ""
+msgstr "दिनांक पूर्ण(_D):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
 #: ../widgets/misc/e-send-options.glade.h:33
@@ -6721,12 +6670,11 @@ msgstr "वेब पेज(_W):"
 #: ../calendar/gui/dialogs/task-editor.c:425
 #: ../calendar/gui/tasks-component.c:1171
 msgid "_Task"
-msgstr ""
+msgstr "काम(_T)"
 
 #: ../calendar/gui/dialogs/task-editor.c:429
-#, fuzzy
 msgid "Task Details"
-msgstr "तपशील"
+msgstr "काम तपशील"
 
 #: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
@@ -6739,15 +6687,15 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.glade.h:1
 msgid "Atte_ndees..."
-msgstr ""
+msgstr "उपस्थित(_e)..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
-msgstr ""
+msgstr "प्रवर्ग(_i)..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
-msgstr ""
+msgstr "संयोजक(_g):"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:7
 msgid "Time zone:"
@@ -6760,16 +6708,15 @@ msgstr ""
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
 #, fuzzy
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr "<b> मुक्त</b>"
+msgstr "<b> मुक्त C</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "<b>Publishing Frequency</b>"
 msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Publishing _Location</b>"
-msgstr "<b> ठिकाण</b>"
+msgstr "<b>प्रकाशन ठिकाण(_L)</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
 #, fuzzy
@@ -6778,11 +6725,11 @@ msgstr "मुक्त"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "_Daily"
-msgstr ""
+msgstr "दैनंदिन(_D)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Manual"
-msgstr ""
+msgstr "स्वहस्ते(_M)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:8
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
@@ -6792,7 +6739,7 @@ msgstr "गुप्तशब्द(_P):"
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
 msgid "_Remember password"
-msgstr ""
+msgstr "गुप्तशब्द लक्षात ठेवा(_R)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
@@ -6801,23 +6748,23 @@ msgstr "उपयोक्तानाम(_U):"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Weekly"
-msgstr ""
+msgstr "आठवड्याला(_W)"
 
 #. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:396
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d दिवस"
+msgstr[1] "%d दिवस"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d आठवडा"
+msgstr[1] "%d आठवडे"
 
 #: ../calendar/gui/e-alarm-list.c:464
 #, fuzzy
@@ -6829,14 +6776,14 @@ msgstr "अपरिचित"
 #: ../calendar/gui/e-alarm-list.c:478
 #, fuzzy, c-format
 msgid "%s %s before the start of the appointment"
-msgstr "चाा"
+msgstr "आधी चाा"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:483
 #, fuzzy, c-format
 msgid "%s %s after the start of the appointment"
-msgstr "चाा"
+msgstr "नंतर चाा"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
@@ -6850,14 +6797,14 @@ msgstr "चाा"
 #: ../calendar/gui/e-alarm-list.c:501
 #, fuzzy, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "चाा"
+msgstr "आधी चाा"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:506
 #, fuzzy, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "चाा"
+msgstr "नंतर चाा"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
@@ -6889,7 +6836,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-memo-preview.c:155
 #: ../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:804
 msgid "Untitled"
-msgstr ""
+msgstr "शिर्षकहीन"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:204
 #: ../calendar/gui/e-cal-component-preview.c:195
@@ -6918,8 +6865,9 @@ msgid "Summary:"
 msgstr "सारांश:"
 
 #: ../calendar/gui/e-cal-component-preview.c:217
+#, fuzzy
 msgid "Due Date:"
-msgstr ""
+msgstr "दिनांक:"
 
 #. write status
 #. Status
@@ -6937,17 +6885,17 @@ msgstr "प्राधान्यक्रम:"
 #: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:314
 #: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:365
 msgid "Public"
-msgstr ""
+msgstr "सार्वजनिक"
 
 #: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
 #: ../calendar/gui/e-calendar-table.c:366
 msgid "Private"
-msgstr ""
+msgstr "खाजगी"
 
 #: ../calendar/gui/e-cal-list-view.c:257 ../calendar/gui/e-cal-model.c:325
 #: ../calendar/gui/e-calendar-table.c:367
 msgid "Confidential"
-msgstr ""
+msgstr "गुप्त"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
@@ -6974,7 +6922,7 @@ msgstr "मुक्त"
 #: ../calendar/gui/e-calendar-table.c:440
 #: ../calendar/gui/e-meeting-time-sel.c:412
 msgid "Busy"
-msgstr ""
+msgstr "व्यस्त"
 
 #: ../calendar/gui/e-cal-model-tasks.c:610
 msgid ""
@@ -7043,64 +6991,61 @@ msgstr "असे संग्रहा(_S).."
 
 #: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
-#, fuzzy
 msgid "Set as _Background"
-msgstr "पार्श्वभूमी"
+msgstr "पार्श्वभूमी म्हणून निर्धारित करा(_B)"
 
 #: ../calendar/gui/e-cal-popup.c:278
-#, fuzzy
 msgid "_Save Selected"
-msgstr "संग्रहो निवडलेले"
+msgstr "निवडलेले संग्रहा(_S)"
 
 #: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
-#, fuzzy
 msgid "Open in %s..."
-msgstr "उघडा."
+msgstr "%s मध्ये उघडा..."
 
 #: ../calendar/gui/e-calendar-table.c:409
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: ../calendar/gui/e-calendar-table.c:410
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: ../calendar/gui/e-calendar-table.c:411
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: ../calendar/gui/e-calendar-table.c:412
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: ../calendar/gui/e-calendar-table.c:413
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: ../calendar/gui/e-calendar-table.c:414
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: ../calendar/gui/e-calendar-table.c:415
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: ../calendar/gui/e-calendar-table.c:416
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: ../calendar/gui/e-calendar-table.c:417
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: ../calendar/gui/e-calendar-table.c:418
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: ../calendar/gui/e-calendar-table.c:419
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: ../calendar/gui/e-calendar-table.c:704
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:482
@@ -7136,14 +7081,14 @@ msgstr "वेब पेज उघडा(_W)"
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr ""
+msgstr "छापा(_P)..."
 
 #: ../calendar/gui/e-calendar-table.c:1287
 #: ../calendar/gui/e-calendar-view.c:1704 ../calendar/gui/e-memo-table.c:908
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr ""
+msgstr "कापा(_u)"
 
 #: ../calendar/gui/e-calendar-table.c:1289
 #: ../calendar/gui/e-calendar-view.c:1687
@@ -7152,11 +7097,11 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
-msgstr ""
+msgstr "चिटकवा(_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1293 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
-msgstr ""
+msgstr "सोपवलेले काम(_A)"
 
 #: ../calendar/gui/e-calendar-table.c:1294 ../calendar/gui/e-memo-table.c:914
 #: ../ui/evolution-tasks.xml.h:26
@@ -7257,17 +7202,15 @@ msgstr "T"
 
 #: ../calendar/gui/e-calendar-view.c:1694
 msgid "_Select Date..."
-msgstr ""
+msgstr "दिनांक निवडा(_S)..."
 
 #: ../calendar/gui/e-calendar-view.c:1710
-#, fuzzy
 msgid "Cop_y to Calendar..."
-msgstr "दिनदर्शिका."
+msgstr "दिनदर्शिकेत प्रतिलिपी करा(_y)..."
 
 #: ../calendar/gui/e-calendar-view.c:1711
-#, fuzzy
 msgid "Mo_ve to Calendar..."
-msgstr "दिनदर्शिका."
+msgstr "दिनदर्शिकेत हलवा(_v)..."
 
 #: ../calendar/gui/e-calendar-view.c:1712
 msgid "_Delegate Meeting..."
@@ -7284,19 +7227,17 @@ msgstr "पुढे."
 
 #: ../calendar/gui/e-calendar-view.c:1715
 msgid "_Reply"
-msgstr ""
+msgstr "उत्तर(_R)"
 
 #: ../calendar/gui/e-calendar-view.c:1716 ../mail/em-folder-view.c:1117
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
-#, fuzzy
 msgid "Reply to _All"
-msgstr "सर्व"
+msgstr "सर्वांस उत्तर(_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1721
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "ही"
+msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1722 ../ui/evolution-calendar.xml.h:9
 #, fuzzy
@@ -7312,13 +7253,13 @@ msgstr "नष्ट करा सर्व"
 #: ../calendar/gui/e-calendar-view.c:2175
 #, c-format
 msgid "Organizer: %s <%s>"
-msgstr ""
+msgstr "संयोजक: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
 #: ../calendar/gui/e-calendar-view.c:2179
 #, c-format
 msgid "Organizer: %s"
-msgstr ""
+msgstr "संयोजक: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2195 ../calendar/gui/print.c:2349
@@ -7370,38 +7311,37 @@ msgstr "मिनिटे"
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1538
 msgid "%A %d %B"
-msgstr ""
+msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:746 ../calendar/gui/e-day-view.c:1087
 #: ../calendar/gui/e-week-view.c:503 ../calendar/gui/print.c:858
 msgid "am"
-msgstr ""
+msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1090
 #: ../calendar/gui/e-week-view.c:506 ../calendar/gui/print.c:860
 msgid "pm"
-msgstr ""
+msgstr "pm"
 
 #: ../calendar/gui/e-itip-control.c:759
-#, fuzzy
 msgid "Yes. (Complex Recurrence)"
-msgstr "होय"
+msgstr "होय. (क्लिष्ट उद्भव)"
 
 #: ../calendar/gui/e-itip-control.c:770
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "प्रत्येक दिवस"
+msgstr[1] "प्रत्येक %d दिवस"
 
 #: ../calendar/gui/e-itip-control.c:775
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "प्रत्येक आठवडा"
+msgstr[1] "प्रत्येक %d आठवडे"
 
 #: ../calendar/gui/e-itip-control.c:777
 #, c-format
@@ -7412,7 +7352,7 @@ msgstr[1] ""
 
 #: ../calendar/gui/e-itip-control.c:785
 msgid " and "
-msgstr ""
+msgstr " आणि "
 
 #: ../calendar/gui/e-itip-control.c:792
 #, fuzzy, c-format
@@ -7451,11 +7391,11 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:857
 msgid "Starts"
-msgstr ""
+msgstr "आरंभ"
 
 #: ../calendar/gui/e-itip-control.c:870
 msgid "Ends"
-msgstr ""
+msgstr "समाप्त"
 
 #: ../calendar/gui/e-itip-control.c:904
 #: ../plugins/save-calendar/csv-format.c:395
@@ -7480,7 +7420,7 @@ msgstr "iCalendar चूक"
 #: ../plugins/itip-formatter/itip-view.c:476
 #: ../plugins/itip-formatter/itip-view.c:477
 msgid "An unknown person"
-msgstr ""
+msgstr "अपरिचित व्यक्ती"
 
 #. Describe what the user can do
 #: ../calendar/gui/e-itip-control.c:1084
@@ -7496,7 +7436,7 @@ msgstr "<br> खालील."
 #: ../calendar/gui/itip-utils.c:669
 #: ../plugins/itip-formatter/itip-formatter.c:1748
 msgid "Accepted"
-msgstr ""
+msgstr "स्वीकारले"
 
 #: ../calendar/gui/e-itip-control.c:1136 ../calendar/gui/itip-utils.c:672
 #: ../plugins/itip-formatter/itip-formatter.c:1751
@@ -7509,7 +7449,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:675 ../calendar/gui/itip-utils.c:704
 #: ../plugins/itip-formatter/itip-formatter.c:1754
 msgid "Declined"
-msgstr ""
+msgstr "नाकारले"
 
 #: ../calendar/gui/e-itip-control.c:1224
 msgid ""
@@ -7542,7 +7482,7 @@ msgstr "<b></b> a."
 
 #: ../calendar/gui/e-itip-control.c:1315
 msgid "Meeting Proposal"
-msgstr ""
+msgstr "सभेचे निवेदन"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1321
@@ -7551,9 +7491,8 @@ msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1322
-#, fuzzy
 msgid "Meeting Update"
-msgstr "अद्ययावत करा"
+msgstr "सभा अद्ययावतन"
 
 #: ../calendar/gui/e-itip-control.c:1326
 #, c-format
@@ -7561,9 +7500,8 @@ msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1327
-#, fuzzy
 msgid "Meeting Update Request"
-msgstr "अद्ययावत करा"
+msgstr "सभा अद्ययावतन विनंती"
 
 #: ../calendar/gui/e-itip-control.c:1334
 #, fuzzy, c-format
@@ -7572,7 +7510,7 @@ msgstr "<b></b> a."
 
 #: ../calendar/gui/e-itip-control.c:1335
 msgid "Meeting Reply"
-msgstr ""
+msgstr "सभा उत्तर"
 
 #: ../calendar/gui/e-itip-control.c:1342
 #, fuzzy, c-format
@@ -7581,7 +7519,7 @@ msgstr "<b></b> a."
 
 #: ../calendar/gui/e-itip-control.c:1343
 msgid "Meeting Cancelation"
-msgstr ""
+msgstr "सभा रद्दीकरण"
 
 #: ../calendar/gui/e-itip-control.c:1353 ../calendar/gui/e-itip-control.c:1430
 #: ../calendar/gui/e-itip-control.c:1470
@@ -7591,7 +7529,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1354
 msgid "Bad Meeting Message"
-msgstr ""
+msgstr "वाईट सभा संदेश"
 
 #: ../calendar/gui/e-itip-control.c:1381
 #, c-format
@@ -7614,7 +7552,7 @@ msgstr "<b></b> a."
 
 #: ../calendar/gui/e-itip-control.c:1392
 msgid "Task Proposal"
-msgstr ""
+msgstr "कामाचे निवेदन"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1398
@@ -7623,9 +7561,8 @@ msgid "<b>%s</b> wishes to add to an existing task."
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1399
-#, fuzzy
 msgid "Task Update"
-msgstr "अद्ययावत करा"
+msgstr "काम अद्ययावतन"
 
 #: ../calendar/gui/e-itip-control.c:1403
 #, c-format
@@ -7633,9 +7570,8 @@ msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1404
-#, fuzzy
 msgid "Task Update Request"
-msgstr "अद्ययावत करा"
+msgstr "काम अद्ययावतन विनंती"
 
 #: ../calendar/gui/e-itip-control.c:1411
 #, fuzzy, c-format
@@ -7644,7 +7580,7 @@ msgstr "<b></b> a."
 
 #: ../calendar/gui/e-itip-control.c:1412
 msgid "Task Reply"
-msgstr ""
+msgstr "कामाचे उत्तर"
 
 #: ../calendar/gui/e-itip-control.c:1419
 #, fuzzy, c-format
@@ -7653,11 +7589,11 @@ msgstr "<b></b> a."
 
 #: ../calendar/gui/e-itip-control.c:1420
 msgid "Task Cancelation"
-msgstr ""
+msgstr "काम रद्दीकरण"
 
 #: ../calendar/gui/e-itip-control.c:1431
 msgid "Bad Task Message"
-msgstr ""
+msgstr "वाईट काम संदेश"
 
 #: ../calendar/gui/e-itip-control.c:1455
 #, c-format
@@ -7683,14 +7619,12 @@ msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b></b> a."
 
 #: ../calendar/gui/e-itip-control.c:1466
-#, fuzzy
 msgid "Free/Busy Reply"
-msgstr "मुक्त"
+msgstr "मुक्त/व्यस्त उत्तर"
 
 #: ../calendar/gui/e-itip-control.c:1471
-#, fuzzy
 msgid "Bad Free/Busy Message"
-msgstr "मुक्त"
+msgstr "वाईट मुक्त/व्यस्त संदेश"
 
 #: ../calendar/gui/e-itip-control.c:1546
 msgid "The message does not appear to be properly formed"
@@ -7701,18 +7635,16 @@ msgid "The message contains only unsupported requests."
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1638
-#, fuzzy
 msgid "The attachment does not contain a valid calendar message"
-msgstr "a"
+msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1670
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1904
-#, fuzzy
 msgid "Update complete\n"
-msgstr "अद्ययावत करा"
+msgstr "अद्ययावतन पूर्ण\n"
 
 #: ../calendar/gui/e-itip-control.c:1932
 msgid "Object is invalid and cannot be updated\n"
@@ -7724,9 +7656,8 @@ msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "a जोडा?"
 
 #: ../calendar/gui/e-itip-control.c:1954
-#, fuzzy
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "चाा"
+msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1971
 msgid "Attendee status updated\n"
@@ -7738,9 +7669,8 @@ msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1998 ../calendar/gui/e-itip-control.c:2046
-#, fuzzy
 msgid "Item sent!\n"
-msgstr "बाब"
+msgstr "बाब पाठवली!\n"
 
 #: ../calendar/gui/e-itip-control.c:2000 ../calendar/gui/e-itip-control.c:2050
 msgid "The item could not be sent!\n"
@@ -7748,17 +7678,16 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2130
 msgid "Choose an action:"
-msgstr ""
+msgstr "क्रिया निवडा:"
 
 #: ../calendar/gui/e-itip-control.c:2202
-#, fuzzy
 msgid "Update"
 msgstr "अद्ययावत करा"
 
 #: ../calendar/gui/e-itip-control.c:2230
 #: ../plugins/groupwise-features/process-meeting.c:48
 msgid "Accept"
-msgstr ""
+msgstr "स्वीकारा"
 
 #: ../calendar/gui/e-itip-control.c:2231
 msgid "Tentatively accept"
@@ -7767,12 +7696,11 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:2232
 #: ../plugins/groupwise-features/process-meeting.c:50
 msgid "Decline"
-msgstr ""
+msgstr "नकारा"
 
 #: ../calendar/gui/e-itip-control.c:2261
-#, fuzzy
 msgid "Send Free/Busy Information"
-msgstr "मुक्त माहिती"
+msgstr "मुक्त/व्यस्त माहिती पाठवा"
 
 #: ../calendar/gui/e-itip-control.c:2289
 #, fuzzy
@@ -7780,9 +7708,8 @@ msgid "Update respondent status"
 msgstr "अद्ययावत करा"
 
 #: ../calendar/gui/e-itip-control.c:2317
-#, fuzzy
 msgid "Send Latest Information"
-msgstr "माहिती"
+msgstr "नविनतम माहिती पाठवा"
 
 #: ../calendar/gui/e-itip-control.c:2345 ../calendar/gui/itip-utils.c:692
 #: ../mail/mail-send-recv.c:447 ../mail/mail-send-recv.c:500
@@ -7792,7 +7719,7 @@ msgstr "रद्द"
 
 #: ../calendar/gui/e-itip-control.glade.h:1
 msgid "--to--"
-msgstr ""
+msgstr "--प्रति--"
 
 #: ../calendar/gui/e-itip-control.glade.h:2
 msgid "Calendar Message"
@@ -7800,7 +7727,7 @@ msgstr "दिनदर्शिका संदेश"
 
 #: ../calendar/gui/e-itip-control.glade.h:3
 msgid "Date:"
-msgstr ""
+msgstr "दिनांक:"
 
 #: ../calendar/gui/e-itip-control.glade.h:5
 msgid "Loading Calendar"
@@ -7816,99 +7743,99 @@ msgstr "सर्वर संदेश:"
 
 #: ../calendar/gui/e-meeting-list-view.c:70
 msgid "Chair Persons"
-msgstr ""
+msgstr "अध्यक्ष"
 
 #: ../calendar/gui/e-meeting-list-view.c:71
 #: ../calendar/gui/e-meeting-list-view.c:154
 msgid "Required Participants"
-msgstr ""
+msgstr "आवश्यक सहभागी"
 
 #: ../calendar/gui/e-meeting-list-view.c:72
 msgid "Optional Participants"
-msgstr ""
+msgstr "पर्यायी सहभागी"
 
 #: ../calendar/gui/e-meeting-list-view.c:73
 msgid "Resources"
-msgstr ""
+msgstr "साधने"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:99 ../calendar/gui/e-meeting-store.c:116
 #: ../calendar/gui/e-meeting-store.c:758
 msgid "Individual"
-msgstr ""
+msgstr "व्यक्तीगत"
 
 #: ../calendar/gui/e-meeting-list-view.c:166
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
 #: ../widgets/table/e-table-config-no-group.glade.h:7
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "समुह"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
 msgid "Resource"
-msgstr ""
+msgstr "साधन"
 
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
 msgid "Room"
-msgstr ""
+msgstr "खोली"
 
 #: ../calendar/gui/e-meeting-list-view.c:179
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:151
 msgid "Chair"
-msgstr ""
+msgstr "खूर्ची"
 
 #: ../calendar/gui/e-meeting-list-view.c:180
 #: ../calendar/gui/e-meeting-store.c:136 ../calendar/gui/e-meeting-store.c:153
 #: ../calendar/gui/e-meeting-store.c:761
 msgid "Required Participant"
-msgstr ""
+msgstr "आवश्यक सहभागी"
 
 #: ../calendar/gui/e-meeting-list-view.c:181
 #: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:155
 msgid "Optional Participant"
-msgstr ""
+msgstr "पर्यायी सहभागी"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:140 ../calendar/gui/e-meeting-store.c:157
 msgid "Non-Participant"
-msgstr ""
+msgstr "गैर-सहभागी"
 
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:184 ../calendar/gui/e-meeting-store.c:207
 #: ../calendar/gui/e-meeting-store.c:771
 msgid "Needs Action"
-msgstr ""
+msgstr "क्रिया गरजेची"
 
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Tentative"
-msgstr ""
+msgstr "टेंटेटिव"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:678
 #: ../plugins/itip-formatter/itip-formatter.c:1757
 msgid "Delegated"
-msgstr ""
+msgstr "डेलिगेटेड"
 
 #. The extra space is just a hack to occupy more space for Attendee
 #: ../calendar/gui/e-meeting-list-view.c:470
 msgid "Attendee                          "
-msgstr ""
+msgstr "उपस्थित                          "
 
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 msgid "In Process"
-msgstr ""
+msgstr "प्रगतीमध्ये"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:464
 #: ../calendar/gui/e-meeting-time-sel.c:2113
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -7923,12 +7850,11 @@ msgstr "%a %m/%d/%Y"
 #. %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:472
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%m/%d/%Y"
 
 #: ../calendar/gui/e-meeting-time-sel.c:413 ../designs/OOA/ooa.glade.h:11
-#, fuzzy
 msgid "Out of Office"
-msgstr "चाा कार्यालय"
+msgstr "कार्यालया बाहेर"
 
 #: ../calendar/gui/e-meeting-time-sel.c:414
 msgid "No Information"
@@ -7936,11 +7862,11 @@ msgstr "माहिती नाही"
 
 #: ../calendar/gui/e-meeting-time-sel.c:428
 msgid "A_ttendees..."
-msgstr ""
+msgstr "उपस्थित(_t)..."
 
 #: ../calendar/gui/e-meeting-time-sel.c:445
 msgid "O_ptions"
-msgstr ""
+msgstr "पर्याय(_p)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:462
 #, fuzzy
@@ -7953,71 +7879,66 @@ msgid "Show _zoomed out"
 msgstr "दाखवा"
 
 #: ../calendar/gui/e-meeting-time-sel.c:487
-#, fuzzy
 msgid "_Update free/busy"
-msgstr "अद्ययावत करा"
+msgstr "मुक्त/व्यस्त अद्ययावत करा(_U)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:502
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: ../calendar/gui/e-meeting-time-sel.c:520
 msgid "_Autopick"
-msgstr ""
+msgstr "ऑटोपिक(_A)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:535
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: ../calendar/gui/e-meeting-time-sel.c:552
-#, fuzzy
 msgid "_All people and resources"
-msgstr "सर्व"
+msgstr "सर्व लोक आणि साधने(_A)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:561
-#, fuzzy
 msgid "All _people and one resource"
-msgstr "सर्व"
+msgstr "सर्व लोक आणि एक साधन(_p)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:570
 msgid "_Required people"
-msgstr ""
+msgstr "आवश्यक लोक(_R)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:579
 msgid "Required people and _one resource"
-msgstr ""
+msgstr "आवश्यक लोक आणि एक साधन(_o)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:615
 msgid "_Start time:"
 msgstr "आरंभ वेळ(_S):"
 
 #: ../calendar/gui/e-meeting-time-sel.c:642
-#, fuzzy
 msgid "_End time:"
-msgstr "समाप्त:"
+msgstr "समाप्ती वेळ(_E):"
 
 #: ../calendar/gui/e-memo-table.c:919
-#, fuzzy
 msgid "_Delete Selected Memos"
-msgstr "नष्ट करा निवडलेले"
+msgstr "निवडलेले मेमो नष्ट करा(_D)"
 
 #: ../calendar/gui/e-memo-table.c:1070 ../calendar/gui/e-memo-table.etspec.h:2
-#, fuzzy
 msgid "Click to add a memo"
-msgstr "a"
+msgstr ""
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
-#, fuzzy
 msgid "Memo sort"
-msgstr "क्रमबद्ध करा"
+msgstr "मेमो क्रमबद्ध करा"
 
 #: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:837
 #: ../calendar/gui/gnome-cal.c:2743
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
-msgstr "चूक\n"
+msgstr ""
+"%s वर चूक:\n"
+" %s"
 
 #: ../calendar/gui/e-memos.c:772
 msgid "Loading memos"
@@ -8038,9 +7959,8 @@ msgid "Enter the password for %s"
 msgstr "च्यासाठी"
 
 #: ../calendar/gui/e-tasks.c:885
-#, fuzzy
 msgid "Loading tasks"
-msgstr "भारित करतोय"
+msgstr "कामे भारित करतोय"
 
 #: ../calendar/gui/e-tasks.c:972
 #, c-format
@@ -8065,21 +7985,19 @@ msgstr "काळक्षेत्र निवडा"
 #: ../calendar/gui/e-week-view-main-item.c:327
 #: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1522
 msgid "%d %B"
-msgstr ""
+msgstr "%d %B"
 
 #: ../calendar/gui/gnome-cal.c:820
 msgid "Updating query"
 msgstr ""
 
 #: ../calendar/gui/gnome-cal.c:2404
-#, fuzzy
 msgid "_Custom View"
-msgstr "दृश्य"
+msgstr "स्वेच्छा दृश्य(_C)"
 
 #: ../calendar/gui/gnome-cal.c:2405
-#, fuzzy
 msgid "_Save Custom View"
-msgstr "संग्रहो दृश्य"
+msgstr "स्वेच्छा दृश्य संग्रहा(_S)"
 
 #: ../calendar/gui/gnome-cal.c:2410
 msgid "_Define Views..."
@@ -8103,68 +8021,67 @@ msgstr "भारित करतोय"
 #: ../calendar/gui/gnome-cal.c:2708
 #, c-format
 msgid "Opening %s"
-msgstr ""
+msgstr "पर्यायी %s"
 
 #: ../calendar/gui/gnome-cal.c:3636
 msgid "Purging"
-msgstr ""
+msgstr "पर्जींग"
 
 #: ../calendar/gui/goto-dialog.glade.h:1
 msgid "April"
-msgstr ""
+msgstr "एप्रिल"
 
 #: ../calendar/gui/goto-dialog.glade.h:2
 msgid "August"
-msgstr ""
+msgstr "ऑगस्ट"
 
 #: ../calendar/gui/goto-dialog.glade.h:3
 msgid "December"
-msgstr ""
+msgstr "डिसेंबर"
 
 #: ../calendar/gui/goto-dialog.glade.h:4
 msgid "February"
-msgstr ""
+msgstr "फेब्रुवारी"
 
 #: ../calendar/gui/goto-dialog.glade.h:5
 msgid "January"
-msgstr ""
+msgstr "जानेवारी"
 
 #: ../calendar/gui/goto-dialog.glade.h:6
 msgid "July"
-msgstr ""
+msgstr "जुलै"
 
 #: ../calendar/gui/goto-dialog.glade.h:7
 msgid "June"
-msgstr ""
+msgstr "जुन"
 
 #: ../calendar/gui/goto-dialog.glade.h:8
 msgid "March"
-msgstr ""
+msgstr "मार्च"
 
 #: ../calendar/gui/goto-dialog.glade.h:9
 msgid "May"
-msgstr ""
+msgstr "मे"
 
 #: ../calendar/gui/goto-dialog.glade.h:10
 msgid "November"
-msgstr ""
+msgstr "नोव्हेंबर"
 
 #: ../calendar/gui/goto-dialog.glade.h:11
 msgid "October"
-msgstr ""
+msgstr "अक्टोबर"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr ""
+msgstr "दिनांक निवडा"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "September"
-msgstr ""
+msgstr "सप्टेंबर"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
-#, fuzzy
 msgid "_Select Today"
-msgstr "आज"
+msgstr "आज निवडा(_S)"
 
 #: ../calendar/gui/itip-utils.c:412 ../calendar/gui/itip-utils.c:461
 #: ../calendar/gui/itip-utils.c:563
@@ -8177,21 +8094,19 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:754
 msgid "Event information"
-msgstr ""
+msgstr "प्रसंग माहिती"
 
 #: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:756
 msgid "Task information"
-msgstr ""
+msgstr "काम माहिती"
 
 #: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:758
-#, fuzzy
 msgid "Journal information"
-msgstr "जर्नल"
+msgstr "जर्नल माहिती"
 
 #: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:776
-#, fuzzy
 msgid "Free/Busy information"
-msgstr "मुक्त"
+msgstr "मुक्त/व्यस्त माहिती"
 
 #: ../calendar/gui/itip-utils.c:639
 msgid "Calendar information"
@@ -8199,24 +8114,24 @@ msgstr "दिनदर्शिका माहिती"
 
 #: ../calendar/gui/itip-utils.c:688
 msgid "Updated"
-msgstr ""
+msgstr "अद्ययावत"
 
 #: ../calendar/gui/itip-utils.c:696
 msgid "Refresh"
-msgstr ""
+msgstr "ताजे करा"
 
 #: ../calendar/gui/itip-utils.c:700
 msgid "Counter-proposal"
-msgstr ""
+msgstr "प्रती-निवेदन"
 
 #: ../calendar/gui/itip-utils.c:772
-#, fuzzy, c-format
+#, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr "मुक्त"
+msgstr "मुक्त/व्यस्त माहिती (%s ते %s)"
 
 #: ../calendar/gui/itip-utils.c:782
 msgid "iCalendar information"
-msgstr ""
+msgstr "iCalendar माहिती"
 
 #: ../calendar/gui/itip-utils.c:937
 #, fuzzy
@@ -8224,24 +8139,23 @@ msgid "You must be an attendee of the event."
 msgstr "चाा."
 
 #: ../calendar/gui/memos-component.c:451
-#, fuzzy
 msgid "_New Memo List"
-msgstr "नविन"
+msgstr "नविन मेमो यादी(_N)"
 
 #: ../calendar/gui/memos-component.c:527
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d मेमो"
+msgstr[1] "%d मेमो"
 
 #: ../calendar/gui/memos-component.c:529 ../calendar/gui/tasks-component.c:519
 #: ../mail/mail-component.c:560
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d निवडला"
+msgstr[1] ", %d निवडले"
 
 #: ../calendar/gui/memos-component.c:576
 msgid "Failed upgrading memos."
@@ -8258,9 +8172,8 @@ msgid "There is no calendar available for creating memos"
 msgstr "च्यासाठी"
 
 #: ../calendar/gui/memos-component.c:981
-#, fuzzy
 msgid "Memo Source Selector"
-msgstr "स्त्रोत"
+msgstr "मेमो स्त्रोत निवडकर्ता"
 
 #: ../calendar/gui/memos-component.c:1164
 msgid "New memo"
@@ -8268,12 +8181,11 @@ msgstr "नविन मेमो"
 
 #: ../calendar/gui/memos-component.c:1165
 msgid "Mem_o"
-msgstr ""
+msgstr "मेमो(_o)"
 
 #: ../calendar/gui/memos-component.c:1166
-#, fuzzy
 msgid "Create a new memo"
-msgstr "a"
+msgstr "नविन मेमो निर्माण करा"
 
 #: ../calendar/gui/memos-component.c:1172
 #, fuzzy
@@ -8295,16 +8207,15 @@ msgstr "नविन मेमो यादी "
 
 #: ../calendar/gui/memos-component.c:1181
 msgid "Memo li_st"
-msgstr ""
+msgstr "मेमो यादी(_s)"
 
 #: ../calendar/gui/memos-component.c:1182
-#, fuzzy
 msgid "Create a new memo list"
-msgstr "a यादी"
+msgstr "नविन मेमो यादी निर्माण करा"
 
 #: ../calendar/gui/memos-control.c:340
 msgid "Print Memos"
-msgstr ""
+msgstr "मेमो छापा"
 
 #: ../calendar/gui/migration.c:162
 #, fuzzy
@@ -8343,162 +8254,161 @@ msgstr ""
 
 #: ../calendar/gui/print.c:574
 msgid "1st"
-msgstr ""
+msgstr "१ला"
 
 #: ../calendar/gui/print.c:574
 msgid "2nd"
-msgstr ""
+msgstr "२रा"
 
 #: ../calendar/gui/print.c:574
 msgid "3rd"
-msgstr ""
+msgstr "३रा"
 
 #: ../calendar/gui/print.c:574
 msgid "4th"
-msgstr ""
+msgstr "४था"
 
 #: ../calendar/gui/print.c:574
 msgid "5th"
-msgstr ""
+msgstr "५वा"
 
 #: ../calendar/gui/print.c:575
 msgid "6th"
-msgstr ""
+msgstr "६वा"
 
 #: ../calendar/gui/print.c:575
 msgid "7th"
-msgstr ""
+msgstr "७वा"
 
 #: ../calendar/gui/print.c:575
 msgid "8th"
-msgstr ""
+msgstr "८वा"
 
 #: ../calendar/gui/print.c:575
 msgid "9th"
-msgstr ""
+msgstr "९वा"
 
 #: ../calendar/gui/print.c:575
 msgid "10th"
-msgstr ""
+msgstr "१०वा"
 
 #: ../calendar/gui/print.c:576
 msgid "11th"
-msgstr ""
+msgstr "११वा"
 
 #: ../calendar/gui/print.c:576
 msgid "12th"
-msgstr ""
+msgstr "१२वा"
 
 #: ../calendar/gui/print.c:576
 msgid "13th"
-msgstr ""
+msgstr "१३वा"
 
 #: ../calendar/gui/print.c:576
 msgid "14th"
-msgstr ""
+msgstr "१४वा"
 
 #: ../calendar/gui/print.c:576
 msgid "15th"
-msgstr ""
+msgstr "१५वा"
 
 #: ../calendar/gui/print.c:577
 msgid "16th"
-msgstr ""
+msgstr "१६वा"
 
 #: ../calendar/gui/print.c:577
 msgid "17th"
-msgstr ""
+msgstr "१७वा"
 
 #: ../calendar/gui/print.c:577
 msgid "18th"
-msgstr ""
+msgstr "१८वा"
 
 #: ../calendar/gui/print.c:577
 msgid "19th"
-msgstr ""
+msgstr "१९वा"
 
 #: ../calendar/gui/print.c:577
 msgid "20th"
-msgstr ""
+msgstr "२०वा"
 
 #: ../calendar/gui/print.c:578
 msgid "21st"
-msgstr ""
+msgstr "२१वा"
 
 #: ../calendar/gui/print.c:578
 msgid "22nd"
-msgstr ""
+msgstr "२२वा"
 
 #: ../calendar/gui/print.c:578
 msgid "23rd"
-msgstr ""
+msgstr "२३वा"
 
 #: ../calendar/gui/print.c:578
 msgid "24th"
-msgstr ""
+msgstr "२४वा"
 
 #: ../calendar/gui/print.c:578
 msgid "25th"
-msgstr ""
+msgstr "२५वा"
 
 #: ../calendar/gui/print.c:579
 msgid "26th"
-msgstr ""
+msgstr "२६वा"
 
 #: ../calendar/gui/print.c:579
 msgid "27th"
-msgstr ""
+msgstr "२७वा"
 
 #: ../calendar/gui/print.c:579
 msgid "28th"
-msgstr ""
+msgstr "२८वा"
 
 #: ../calendar/gui/print.c:579
 msgid "29th"
-msgstr ""
+msgstr "२९वा"
 
 #: ../calendar/gui/print.c:579
 msgid "30th"
-msgstr ""
+msgstr "३०वा"
 
 #: ../calendar/gui/print.c:580
 msgid "31st"
-msgstr ""
+msgstr "३१वा"
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday
 #: ../calendar/gui/print.c:655
 msgid "Su"
-msgstr ""
+msgstr "रवि"
 
 #: ../calendar/gui/print.c:655
 msgid "Mo"
-msgstr ""
+msgstr "सोम"
 
 #: ../calendar/gui/print.c:655
 msgid "Tu"
-msgstr ""
+msgstr "मंगळ"
 
 #: ../calendar/gui/print.c:655
 msgid "We"
-msgstr ""
+msgstr "बुध"
 
 #: ../calendar/gui/print.c:656
 msgid "Th"
-msgstr ""
+msgstr "गुरू"
 
 #: ../calendar/gui/print.c:656
 msgid "Fr"
-msgstr ""
+msgstr "शुक्र"
 
 #: ../calendar/gui/print.c:656
 msgid "Sa"
-msgstr ""
+msgstr "शनी"
 
 #. Day
 #: ../calendar/gui/print.c:1936
-#, fuzzy
 msgid "Selected day (%a %b %d %Y)"
-msgstr "निवडलेले a"
+msgstr "निवडलेला दिवस (%a %b %d %Y)"
 
 #: ../calendar/gui/print.c:1961 ../calendar/gui/print.c:1965
 msgid "%a %b %d"
@@ -8530,11 +8440,11 @@ msgstr "निवडलेले वर्ष (%Y)"
 
 #: ../calendar/gui/print.c:2317
 msgid "Appointment"
-msgstr ""
+msgstr "नियुक्ती"
 
 #: ../calendar/gui/print.c:2319
 msgid "Task"
-msgstr ""
+msgstr "काम"
 
 #: ../calendar/gui/print.c:2341
 #, c-format
@@ -8573,24 +8483,22 @@ msgstr "संपर्क:"
 #: ../calendar/gui/print.c:2601 ../calendar/gui/print.c:2691
 #: ../calendar/gui/print.c:2820 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
-msgstr ""
+msgstr "छपाई पूर्वदृश्य"
 
 #: ../calendar/gui/print.c:2636
-#, fuzzy
 msgid "Print Item"
-msgstr "बाब"
+msgstr "बाब छापा"
 
 #: ../calendar/gui/tasks-component.c:441
-#, fuzzy
 msgid "_New Task List"
-msgstr "नविन"
+msgstr "नविन कामाची यादी(_N)"
 
 #: ../calendar/gui/tasks-component.c:517
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d काम"
+msgstr[1] "%d कामे"
 
 #: ../calendar/gui/tasks-component.c:566
 msgid "Failed upgrading tasks."
@@ -8607,48 +8515,40 @@ msgid "There is no calendar available for creating tasks"
 msgstr "च्यासाठी"
 
 #: ../calendar/gui/tasks-component.c:987
-#, fuzzy
 msgid "Task Source Selector"
-msgstr "स्त्रोत"
+msgstr "काम स्त्रोत निवडकर्ता"
 
 #: ../calendar/gui/tasks-component.c:1170
-#, fuzzy
 msgid "New task"
-msgstr "नविन"
+msgstr "नविन काम"
 
 #: ../calendar/gui/tasks-component.c:1172
-#, fuzzy
 msgid "Create a new task"
-msgstr "a"
+msgstr "नविन काम निर्माण करा"
 
 #: ../calendar/gui/tasks-component.c:1178
-#, fuzzy
 msgid "New assigned task"
-msgstr "नविन"
+msgstr "नविन सोपवलेले काम"
 
 #: ../calendar/gui/tasks-component.c:1179
 msgid "Assigne_d Task"
-msgstr ""
+msgstr "सोपवलेले काम(_d)"
 
 #: ../calendar/gui/tasks-component.c:1180
-#, fuzzy
 msgid "Create a new assigned task"
-msgstr "a"
+msgstr "नविन सोपवलेले काम निर्माण करा"
 
 #: ../calendar/gui/tasks-component.c:1186
-#, fuzzy
 msgid "New task list"
-msgstr "नविन यादी"
+msgstr "नविन कामाची यादी"
 
 #: ../calendar/gui/tasks-component.c:1187
-#, fuzzy
 msgid "Tas_k list"
-msgstr "यादी"
+msgstr "कामाची यादी(_k)"
 
 #: ../calendar/gui/tasks-component.c:1188
-#, fuzzy
 msgid "Create a new task list"
-msgstr "a यादी"
+msgstr "नविन कामाची यादी निर्माण करा"
 
 #: ../calendar/gui/tasks-control.c:446
 msgid ""
@@ -8660,21 +8560,20 @@ msgstr ""
 
 #: ../calendar/gui/tasks-control.c:449
 msgid "Do not ask me again."
-msgstr ""
+msgstr "मला पुन्हा विचारा."
 
 #: ../calendar/gui/tasks-control.c:483
-#, fuzzy
 msgid "Print Tasks"
-msgstr "कामे"
+msgstr "कामे छापा"
 
 #. The first letter of each day of the week starting with Sunday
 #: ../calendar/gui/weekday-picker.c:319
 msgid "SMTWTFS"
-msgstr ""
+msgstr "SMTWTFS"
 
 #: ../calendar/importers/icalendar-importer.c:79
 msgid "Appointments and Meetings"
-msgstr ""
+msgstr "नियुक्त्या आणि सभा"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
@@ -8683,34 +8582,31 @@ msgstr ""
 
 #: ../calendar/importers/icalendar-importer.c:444
 msgid "iCalendar files (.ics)"
-msgstr ""
+msgstr "iCalendar फाइली (.ics)"
 
 #: ../calendar/importers/icalendar-importer.c:445
-#, fuzzy
 msgid "Evolution iCalendar importer"
-msgstr "Evolution"
+msgstr "Evolution iCalendar आयातक"
 
 #: ../calendar/importers/icalendar-importer.c:521
 msgid "Reminder!"
-msgstr ""
+msgstr "रिमाइंडर!"
 
 #: ../calendar/importers/icalendar-importer.c:573
 msgid "vCalendar files (.vcf)"
-msgstr ""
+msgstr "vCalendar फाइली (.vcf)"
 
 #: ../calendar/importers/icalendar-importer.c:574
-#, fuzzy
 msgid "Evolution vCalendar importer"
-msgstr "Evolution"
+msgstr "Evolution vCalendar आयातक"
 
 #: ../calendar/importers/icalendar-importer.c:736
 msgid "Calendar Events"
 msgstr "दिनदर्शिका प्रसंग"
 
 #: ../calendar/importers/icalendar-importer.c:773
-#, fuzzy
 msgid "Evolution Calendar intelligent importer"
-msgstr "Evolution दिनदर्शिका"
+msgstr "Evolution दिनदर्शिका बुद्धीमान आयातक"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -10263,7 +10159,7 @@ msgstr "%.0fG"
 #: ../composer/e-msg-composer-attachment-bar.c:740
 #: ../widgets/misc/e-attachment-bar.c:1024
 msgid "Attachment Bar"
-msgstr ""
+msgstr "जोडणी पट्टी"
 
 #: ../composer/e-msg-composer-attachment.c:187
 #: ../composer/e-msg-composer-attachment.c:203
@@ -10271,21 +10167,21 @@ msgstr ""
 #: ../composer/e-msg-composer-attachment.c:313
 #: ../widgets/misc/e-attachment.c:241 ../widgets/misc/e-attachment.c:256
 #: ../widgets/misc/e-attachment.c:439 ../widgets/misc/e-attachment.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "फाइल"
+msgstr "फाइल %s जोडता येत नाही: %s"
 
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
 #: ../widgets/misc/e-attachment.c:249 ../widgets/misc/e-attachment.c:448
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "फाइल a फाइल"
+msgstr "फाइल %s जोडता येत नाही: नियमित फाइल नाही"
 
 #: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../widgets/misc/e-attachment.glade.h:1
 msgid "Attachment Properties"
-msgstr ""
+msgstr "जोडणी गुणधर्म"
 
 #: ../composer/e-msg-composer-attachment.glade.h:3
 #: ../widgets/misc/e-attachment.glade.h:3
@@ -10295,7 +10191,7 @@ msgstr "फाइल नाव:"
 #: ../composer/e-msg-composer-attachment.glade.h:4
 #: ../widgets/misc/e-attachment.glade.h:4
 msgid "MIME type:"
-msgstr ""
+msgstr "MIME प्रकार:"
 
 #: ../composer/e-msg-composer-hdrs.c:570
 msgid "Posting destination"
@@ -10319,25 +10215,25 @@ msgstr "च्यासाठी"
 #.
 #: ../composer/e-msg-composer-hdrs.c:635
 msgid "_Reply-To:"
-msgstr ""
+msgstr "प्रति-उत्तर(_R):"
 
 #.
 #. * From
 #.
 #: ../composer/e-msg-composer-hdrs.c:642
 msgid "Fr_om:"
-msgstr ""
+msgstr "कडून(_o):"
 
 #.
 #. * Subject
 #.
 #: ../composer/e-msg-composer-hdrs.c:649
 msgid "S_ubject:"
-msgstr ""
+msgstr "विषय(_u):"
 
 #: ../composer/e-msg-composer-hdrs.c:658
 msgid "_To:"
-msgstr ""
+msgstr "प्रति(_T):"
 
 #: ../composer/e-msg-composer-hdrs.c:659
 #, fuzzy
@@ -10346,7 +10242,7 @@ msgstr "चाा"
 
 #: ../composer/e-msg-composer-hdrs.c:662
 msgid "_Cc:"
-msgstr ""
+msgstr "_Cc:"
 
 #: ../composer/e-msg-composer-hdrs.c:663
 #, fuzzy
@@ -10355,7 +10251,7 @@ msgstr "a चाा"
 
 #: ../composer/e-msg-composer-hdrs.c:666
 msgid "_Bcc:"
-msgstr ""
+msgstr "_Bcc:"
 
 #: ../composer/e-msg-composer-hdrs.c:667
 #, fuzzy
@@ -10381,11 +10277,11 @@ msgstr ""
 
 #: ../composer/e-msg-composer-select-file.c:82
 msgid "A_ttach"
-msgstr ""
+msgstr "जोडा(_t)"
 
 #: ../composer/e-msg-composer-select-file.c:243
 msgid "Insert Attachment"
-msgstr ""
+msgstr "जोडणी दाखल करा"
 
 #: ../composer/e-msg-composer.c:827
 #, fuzzy
@@ -10423,8 +10319,9 @@ msgid "Unable to retrieve message from editor"
 msgstr ""
 
 #: ../composer/e-msg-composer.c:1688
+#, fuzzy
 msgid "Untitled Message"
-msgstr ""
+msgstr "शिर्षकहीन"
 
 #. NB: This function is never used anymore
 #: ../composer/e-msg-composer.c:1723
@@ -10438,12 +10335,12 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:2276
 msgid "Si_gnature:"
-msgstr ""
+msgstr "स्वाक्षरी(_g):"
 
 #: ../composer/e-msg-composer.c:2544 ../composer/e-msg-composer.c:3779
 #: ../composer/e-msg-composer.c:3782
 msgid "Compose Message"
-msgstr ""
+msgstr "संदेश घडवा"
 
 #: ../composer/e-msg-composer.c:5006
 #, fuzzy
@@ -10477,7 +10374,7 @@ msgstr "&quot;&quot; पर्याय."
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
 #: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
-msgstr ""
+msgstr "कारण &quot;{1}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:6
 #, fuzzy
@@ -10553,7 +10450,7 @@ msgid ""
 "\n"
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
-msgstr "कार्यान्वित करा चाा."
+msgstr "कार्यान्वित करा HTML चाा."
 
 #: ../composer/mail-composer.error.xml.h:22
 #, fuzzy
@@ -10574,16 +10471,17 @@ msgid "You cannot attach the file `{0}' to this message."
 msgstr "फाइल ही."
 
 #: ../composer/mail-composer.error.xml.h:26
+#, fuzzy
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
+msgstr "आधी."
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid "_Do not Recover"
-msgstr ""
+msgstr "सुधारू नका(_D)"
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Recover"
-msgstr ""
+msgstr "सुधारा(_R)"
 
 #: ../composer/mail-composer.error.xml.h:30
 msgid "_Save Message"
@@ -10606,11 +10504,11 @@ msgstr "Evolution ईमेल"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
-msgstr ""
+msgstr "पत्ता कार्ड"
 
 #: ../data/evolution.keys.in.in.h:2
 msgid "calendar information"
-msgstr ""
+msgstr "दिनदर्शिका माहिती"
 
 #: ../designs/OOA/ooa.glade.h:1
 #: ../plugins/exchange-operations/exchange-oof.glade.h:1
@@ -10623,9 +10521,8 @@ msgstr "<b> चाा कार्यालय</b> कार्यालय "
 
 #: ../designs/OOA/ooa.glade.h:4
 #: ../plugins/exchange-operations/exchange-oof.glade.h:4
-#, fuzzy
 msgid "<b>Out of Office Message:</b>"
-msgstr "<b> चाा कार्यालय</b>"
+msgstr "<b>कार्यालया बाहेर:</b>"
 
 #: ../designs/OOA/ooa.glade.h:5
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
@@ -10643,32 +10540,27 @@ msgstr "<small> चाा</small>"
 
 #: ../designs/OOA/ooa.glade.h:8
 #: ../plugins/exchange-operations/exchange-oof.glade.h:8
-#, fuzzy
 msgid "I am currently in the office"
-msgstr "I"
+msgstr "मी सद्ध्या ऑफिसमध्ये आहे"
 
 #: ../designs/OOA/ooa.glade.h:9
 #: ../plugins/exchange-operations/exchange-oof.glade.h:9
-#, fuzzy
 msgid "I am currently out of the office"
-msgstr "I चाा"
+msgstr "मी सद्ध्या ऑफिस बाहेर आहे"
 
 #: ../designs/OOA/ooa.glade.h:10
-#, fuzzy
 msgid "No, Do not Change Status"
-msgstr "नाही स्थिती"
+msgstr "नाही, स्थिती बदलू नका"
 
 #: ../designs/OOA/ooa.glade.h:12
 #: ../plugins/exchange-operations/exchange-oof.glade.h:11
-#, fuzzy
 msgid "Out of Office Assistant"
-msgstr "चाा कार्यालय सहाय्यक"
+msgstr "कार्यालयाबाहेर सहाय्यक"
 
 #: ../designs/OOA/ooa.glade.h:13
 #: ../plugins/exchange-operations/exchange-oof.glade.h:12
-#, fuzzy
 msgid "Yes, Change Status"
-msgstr "होय स्थिती"
+msgstr "होय, स्थिती बदला"
 
 #: ../designs/read_receipts/read.glade.h:1
 msgid "<b>Receiving Email</b>"
@@ -10747,7 +10639,6 @@ msgid "Evolution Information"
 msgstr "इवॉल्यूशन माहिती"
 
 #: ../e-util/e-error.c:128
-#, fuzzy
 msgid "Evolution Query"
 msgstr "Evolution प्रश्न"
 
@@ -10777,9 +10668,8 @@ msgid "File exists &quot;{0}&quot;."
 msgstr "फाइल&quot;&quot;."
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:131
-#, fuzzy
 msgid "_Overwrite"
-msgstr "गिरवा"
+msgstr "गिरवा(_O)"
 
 #: ../e-util/eggtrayicon.c:121
 #, fuzzy
@@ -10808,50 +10698,49 @@ msgstr[0] "%d तास आधी"
 msgstr[1] "%d तास आधी"
 
 #: ../filter/filter-datespec.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "आधी"
-msgstr[1] "आधी"
+msgstr[0] "१ दिवस आधी"
+msgstr[1] "%d दिवस आधी"
 
 #: ../filter/filter-datespec.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "आधी"
-msgstr[1] "आधी"
+msgstr[0] "१ आठवडा आधी"
+msgstr[1] "%d आठवडे आधी"
 
 #: ../filter/filter-datespec.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "आधी"
-msgstr[1] "आधी"
+msgstr[0] "१ महिना आधी"
+msgstr[1] "%d महिने आधी"
 
 #: ../filter/filter-datespec.c:84
-#, fuzzy, c-format
+#, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "आधी"
-msgstr[1] "आधी"
+msgstr[0] "१ वर्ष आधी"
+msgstr[1] "%d वर्षआधी"
 
 #: ../filter/filter-datespec.c:285
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<दिनांक निवडण्यासाठी येथे क्लिक करा>"
 
 #: ../filter/filter-datespec.c:288 ../filter/filter-datespec.c:299
 msgid "now"
-msgstr ""
+msgstr "आता"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../filter/filter-datespec.c:295
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%d-%b-%Y"
 
 #: ../filter/filter-datespec.c:415
-#, fuzzy
 msgid "Select a time to compare against"
-msgstr "a"
+msgstr ""
 
 #: ../filter/filter-file.c:293 ../filter/filter-file.c:299
 msgid "Choose a file"
@@ -10860,19 +10749,19 @@ msgstr "फाइल निवडा"
 #: ../filter/filter-label.c:121 ../mail/em-filter-i18n.h:26
 #: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:91
 msgid "Important"
-msgstr ""
+msgstr "महत्वाचे"
 
 #. forest green
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1056
 #: ../mail/mail-config.glade.h:145
 msgid "To Do"
-msgstr ""
+msgstr "टु डू"
 
 #. blue
 #: ../filter/filter-label.c:125 ../mail/em-migrate.c:1057
 #: ../mail/mail-config.glade.h:95
 msgid "Later"
-msgstr ""
+msgstr "नंतर"
 
 #: ../filter/filter-part.c:532 ../shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
@@ -10880,12 +10769,12 @@ msgstr "कसोटी"
 
 #: ../filter/filter-rule.c:799
 msgid "_Search name:"
-msgstr ""
+msgstr "शोध नाव(_S):"
 
 #: ../filter/filter-rule.c:827
 #, fuzzy
 msgid "Find items that meet the following criteria"
-msgstr "खालील"
+msgstr "शोधा खालील"
 
 #: ../filter/filter-rule.c:866
 msgid "If all criteria are met"
@@ -10897,7 +10786,7 @@ msgstr ""
 
 #: ../filter/filter-rule.c:868
 msgid "Find items:"
-msgstr ""
+msgstr "बाबी शोधा:"
 
 #: ../filter/filter-rule.c:889
 msgid "All related"
@@ -10905,7 +10794,7 @@ msgstr "सर्व संबंधीत"
 
 #: ../filter/filter-rule.c:889
 msgid "Replies"
-msgstr ""
+msgstr "उत्तरे"
 
 #: ../filter/filter-rule.c:889
 msgid "Replies and parents"
@@ -10923,11 +10812,11 @@ msgstr ""
 #: ../filter/filter-rule.c:986 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:328
 msgid "Incoming"
-msgstr ""
+msgstr "येणारे"
 
 #: ../filter/filter-rule.c:986 ../mail/em-utils.c:329
 msgid "Outgoing"
-msgstr ""
+msgstr "जाणारे"
 
 #: ../filter/filter.error.xml.h:1
 msgid "Bad regular expression &quot;{0}&quot;."
@@ -11053,8 +10942,9 @@ msgid "Rule name"
 msgstr "नियम नाव"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
+#, fuzzy
 msgid "Composer Preferences"
-msgstr ""
+msgstr "प्राधान्यता"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Configure mail preferences, including security and message display, here"
@@ -11104,26 +10994,26 @@ msgstr "Evolution"
 #: ../mail/mail-component.c:579 ../mail/mail-component.c:701
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
-msgstr ""
+msgstr "मेल"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
 #: ../mail/em-account-prefs.c:532
 msgid "Mail Accounts"
-msgstr ""
+msgstr "मेल खाती"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
 #: ../mail/mail-config.glade.h:98
 msgid "Mail Preferences"
-msgstr ""
+msgstr "मेल प्राधान्यता"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 msgid "_Mail"
-msgstr ""
+msgstr "मेल(_M)"
 
 #: ../mail/em-account-editor.c:403
 #, c-format
 msgid "%s License Agreement"
-msgstr ""
+msgstr "%s परवाना करार"
 
 #: ../mail/em-account-editor.c:410
 #, fuzzy, c-format
@@ -11137,7 +11027,7 @@ msgstr "च्यासाठी"
 #: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
 #: ../mail/em-vfolder-rule.c:511
 msgid "Select Folder"
-msgstr ""
+msgstr "फोल्डर निवडा"
 
 #: ../mail/em-account-editor.c:778
 #, fuzzy
@@ -11146,7 +11036,7 @@ msgstr "च्यासाठी"
 
 #: ../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:90
 msgid "Identity"
-msgstr ""
+msgstr "ओळख"
 
 #: ../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
@@ -11163,7 +11053,7 @@ msgstr "ईमेल पाठवत आहे"
 
 #: ../mail/em-account-editor.c:2254 ../mail/mail-config.glade.h:67
 msgid "Defaults"
-msgstr ""
+msgstr "मुलभूत"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2320 ../mail/mail-config.glade.h:123
@@ -11184,12 +11074,11 @@ msgstr "च्यासाठी नविन"
 
 #: ../mail/em-account-editor.c:2800 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
-msgstr ""
+msgstr "खाते संपादक"
 
 #: ../mail/em-account-editor.c:2800 ../mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Evolution Account Assistant"
-msgstr "Evolution सहाय्यक"
+msgstr "Evolution खाते सहाय्यक"
 
 #: ../mail/em-account-prefs.c:331 ../mail/em-account-prefs.c:376
 #: ../mail/em-account-prefs.c:409
@@ -11215,7 +11104,7 @@ msgstr "कार्यान्वित"
 
 #: ../mail/em-account-prefs.c:525
 msgid "Account name"
-msgstr ""
+msgstr "खाते नाम"
 
 #: ../mail/em-account-prefs.c:527
 msgid "Protocol"
@@ -11224,7 +11113,7 @@ msgstr "प्रोटोकॉल"
 #: ../mail/em-composer-prefs.c:311 ../mail/em-composer-prefs.c:437
 #: ../mail/mail-config.c:999
 msgid "Unnamed"
-msgstr ""
+msgstr "निनावी"
 
 #: ../mail/em-composer-prefs.c:936
 msgid "Language(s)"
@@ -11237,7 +11126,7 @@ msgstr "जोडा"
 
 #: ../mail/em-composer-prefs.c:999
 msgid "Signature(s)"
-msgstr ""
+msgstr "स्वाक्षरी"
 
 #: ../mail/em-composer-utils.c:874 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
@@ -11290,12 +11179,14 @@ msgid "Copy to Folder"
 msgstr "फोल्डरमध्ये प्रतिलिपी करा"
 
 #: ../mail/em-filter-i18n.h:9
+#, fuzzy
 msgid "Date received"
-msgstr ""
+msgstr "दिनांक"
 
 #: ../mail/em-filter-i18n.h:10
+#, fuzzy
 msgid "Date sent"
-msgstr ""
+msgstr "दिनांक"
 
 #: ../mail/em-filter-i18n.h:11 ../ui/evolution-addressbook.xml.h:15
 #: ../ui/evolution-calendar.xml.h:5 ../ui/evolution-mail-message.xml.h:25
@@ -11337,7 +11228,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:20
 msgid "Draft"
-msgstr ""
+msgstr "मसुदा"
 
 #: ../mail/em-filter-i18n.h:21
 msgid "ends with"
@@ -11345,11 +11236,11 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:22
 msgid "Exist"
-msgstr ""
+msgstr "अस्तित्वात आहे"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "exists"
-msgstr ""
+msgstr "अस्तित्वात आहे"
 
 #: ../mail/em-filter-i18n.h:24
 msgid "Expression"
@@ -11362,15 +11253,15 @@ msgstr "वर"
 
 #: ../mail/em-filter-i18n.h:27
 msgid "is"
-msgstr ""
+msgstr "आहे"
 
 #: ../mail/em-filter-i18n.h:28
 msgid "is after"
-msgstr ""
+msgstr "नंतर आहे"
 
 #: ../mail/em-filter-i18n.h:29
 msgid "is before"
-msgstr ""
+msgstr "आधी आहे"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "is Flagged"
@@ -11386,7 +11277,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:33
 msgid "is not"
-msgstr ""
+msgstr "नाही आहे"
 
 #: ../mail/em-filter-i18n.h:34
 msgid "is not Flagged"
@@ -11395,34 +11286,31 @@ msgstr ""
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr ""
+msgstr "जंक"
 
 #: ../mail/em-filter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "कसोटी"
+msgstr "जंक कसोटी"
 
 #: ../mail/em-filter-i18n.h:37 ../widgets/misc/e-expander.c:190
 msgid "Label"
 msgstr "लेबल"
 
 #: ../mail/em-filter-i18n.h:38
-#, fuzzy
 msgid "Mailing list"
-msgstr "यादी"
+msgstr "मेलिंग यादी"
 
 #: ../mail/em-filter-i18n.h:39
 msgid "Match All"
 msgstr "सर्व जुळवे"
 
 #: ../mail/em-filter-i18n.h:40
-#, fuzzy
 msgid "Message Body"
-msgstr "धड"
+msgstr "संदेश धड"
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Message Header"
-msgstr ""
+msgstr "संदेश शिर्षक"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Message is Junk"
@@ -11446,7 +11334,7 @@ msgstr "आवाज चालवा"
 
 #: ../mail/em-filter-i18n.h:47 ../mail/message-tag-followup.c:81
 msgid "Read"
-msgstr ""
+msgstr "वाचा"
 
 #: ../mail/em-filter-i18n.h:48 ../mail/message-list.etspec.h:11
 msgid "Recipients"
@@ -11474,15 +11362,15 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:54
 msgid "Run Program"
-msgstr ""
+msgstr "कार्यक्रम चालवा"
 
 #: ../mail/em-filter-i18n.h:55 ../mail/message-list.etspec.h:12
 msgid "Score"
-msgstr ""
+msgstr "स्कोर"
 
 #: ../mail/em-filter-i18n.h:56 ../mail/message-list.etspec.h:13
 msgid "Sender"
-msgstr ""
+msgstr "पाठवणारा"
 
 #: ../mail/em-filter-i18n.h:57
 msgid "Set Status"
@@ -11519,7 +11407,7 @@ msgstr "प्रक्रिया करणे थांबवा"
 #: ../plugins/groupwise-features/properties.glade.h:6
 #: ../smime/lib/e-cert.c:1132
 msgid "Subject"
-msgstr ""
+msgstr "विषय"
 
 #: ../mail/em-filter-i18n.h:66
 msgid "Unset Status"
@@ -11528,11 +11416,12 @@ msgstr "स्थिती अनिर्धारित करा"
 #. and now for the action area
 #: ../mail/em-filter-rule.c:488
 msgid "<b>Then</b>"
-msgstr ""
+msgstr "<b>मग</b>"
 
 #: ../mail/em-folder-browser.c:162
+#, fuzzy
 msgid "C_reate Search Folder From Search..."
-msgstr ""
+msgstr "C."
 
 #: ../mail/em-folder-browser.c:184
 msgid "All Messages"
@@ -11555,9 +11444,8 @@ msgid "Recent Messages"
 msgstr ""
 
 #: ../mail/em-folder-browser.c:196
-#, fuzzy
 msgid "Last 5 Days' Messages"
-msgstr "शेवटचे दिवस"
+msgstr "शेवटच्या ५ दिवसातील संदेश"
 
 #: ../mail/em-folder-browser.c:197
 msgid "Messages with Attachments"
@@ -11565,7 +11453,7 @@ msgstr ""
 
 #: ../mail/em-folder-browser.c:198
 msgid "Important Messages"
-msgstr ""
+msgstr "महत्वाचा संदेश"
 
 #: ../mail/em-folder-browser.c:199
 msgid "Messages Not Junk"
@@ -11589,7 +11477,7 @@ msgstr[1] ""
 #: ../mail/em-folder-properties.c:316
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "Folder Properties"
-msgstr ""
+msgstr "फोल्डर गुणधर्म"
 
 #: ../mail/em-folder-selection-button.c:123
 msgid "<click here to select a folder>"
@@ -11597,39 +11485,39 @@ msgstr ""
 
 #: ../mail/em-folder-selector.c:261
 msgid "Create"
-msgstr ""
+msgstr "निर्माण करा"
 
 #: ../mail/em-folder-selector.c:265
 msgid "Folder _name:"
-msgstr ""
+msgstr "फोल्डर नाव(_n):"
 
 #: ../mail/em-folder-tree-model.c:203 ../mail/em-folder-tree-model.c:205
 #: ../mail/mail-vfolder.c:911 ../mail/mail-vfolder.c:984
 msgid "Search Folders"
-msgstr ""
+msgstr "फोल्डर शोधा"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:209 ../mail/em-folder-tree-model.c:211
 msgid "UNMATCHED"
-msgstr ""
+msgstr "UNMATCHED"
 
 #: ../mail/em-folder-tree-model.c:484 ../mail/mail-component.c:151
 msgid "Drafts"
-msgstr ""
+msgstr "मसुदे"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
 #: ../plugins/exchange-operations/exchange-folder.c:587
 msgid "Inbox"
-msgstr ""
+msgstr "इनबॉक्स"
 
 #: ../mail/em-folder-tree-model.c:490 ../mail/mail-component.c:152
 msgid "Outbox"
-msgstr ""
+msgstr "आइटबॉक्स"
 
 #: ../mail/em-folder-tree-model.c:492 ../mail/mail-component.c:153
 msgid "Sent"
-msgstr ""
+msgstr "पाठवलेले"
 
 #: ../mail/em-folder-tree-model.c:514 ../mail/em-folder-tree-model.c:818
 msgid "Loading..."
@@ -11653,7 +11541,7 @@ msgstr "भारित करतोय..."
 #: ../mail/em-folder-tree.c:366
 #, c-format
 msgid "folder-display|%s (%u)"
-msgstr ""
+msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:717
 msgid "Mail Folder Tree"
@@ -11743,8 +11631,9 @@ msgid "Select folder"
 msgstr ""
 
 #: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1023
+#, fuzzy
 msgid "C_opy"
-msgstr ""
+msgstr "C"
 
 #: ../mail/em-folder-utils.c:581
 #: ../plugins/groupwise-features/share-folder-common.c:145
@@ -11839,8 +11728,9 @@ msgid "Cl_ear Flag"
 msgstr ""
 
 #: ../mail/em-folder-view.c:1150
+#, fuzzy
 msgid "Crea_te Rule From Message"
-msgstr ""
+msgstr "नियम"
 
 #: ../mail/em-folder-view.c:1151
 msgid "Search Folder from _Subject"
@@ -11883,8 +11773,9 @@ msgstr "मुलभूत"
 #: ../mail/em-folder-view.c:2145
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
+#, fuzzy
 msgid "Print Message"
-msgstr ""
+msgstr "छापा"
 
 #: ../mail/em-folder-view.c:2301
 msgid "Unable to retrieve message"
@@ -12096,7 +11987,7 @@ msgstr "नाही"
 #: ../mail/em-format-html-print.c:130
 #, fuzzy, c-format
 msgid "Page %d of %d"
-msgstr "पेज चाा"
+msgstr "%d पान %d पैकी"
 
 #: ../mail/em-format-html.c:483 ../mail/em-format-html.c:485
 #, fuzzy, c-format
@@ -12182,8 +12073,9 @@ msgstr ""
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:91
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
+#, fuzzy
 msgid "Date"
-msgstr ""
+msgstr "दिनांक"
 
 #: ../mail/em-format-html.c:1726 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:92
@@ -12372,12 +12264,14 @@ msgid "Search Folder source"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
+#, fuzzy
 msgid "Automatic link recognition"
-msgstr ""
+msgstr "स्वयंचलित"
 
 #: ../mail/evolution-mail.schemas.in.in.h:2
+#, fuzzy
 msgid "Automatic smiley recognition"
-msgstr ""
+msgstr "स्वयंचलित"
 
 #: ../mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
@@ -12576,14 +12470,14 @@ msgstr "चाा चाा Evolution यादी."
 #: ../mail/evolution-mail.schemas.in.in.h:40
 #, fuzzy
 msgid "List of custom headers and whether they are enabled."
-msgstr "चाा."
+msgstr "चाा स्वेच्छेचे."
 
 #: ../mail/evolution-mail.schemas.in.in.h:41
 #, fuzzy
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
-msgstr "चाा चाा Evolution यादी."
+msgstr "चाा चाा Evolution यादी HTML."
 
 #: ../mail/evolution-mail.schemas.in.in.h:42
 #, fuzzy
@@ -12598,7 +12492,7 @@ msgstr "चाा."
 #: ../mail/evolution-mail.schemas.in.in.h:44
 #, fuzzy
 msgid "Load images for HTML messages over http"
-msgstr "भार च्यासाठी"
+msgstr "भार च्यासाठी HTML"
 
 #: ../mail/evolution-mail.schemas.in.in.h:45
 #, fuzzy
@@ -12606,7 +12500,7 @@ msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
 "load images off the net"
-msgstr "भार च्यासाठी कधीच नाही भार नेहमी"
+msgstr "भार च्यासाठी HTML कधीच नाही भार नेहमी"
 
 #: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "Log filter actions"
@@ -12626,12 +12520,14 @@ msgid "Logfile to log filter actions."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:50
+#, fuzzy
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "नंतर"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
+#, fuzzy
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "नंतर."
 
 #: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Mark citations in the message \"Preview\""
@@ -12678,7 +12574,7 @@ msgstr "नविन"
 #: ../mail/evolution-mail.schemas.in.in.h:61
 #, fuzzy
 msgid "Number of addresses to display in TO/CC/BCC"
-msgstr "चाा"
+msgstr "संख्या चाा"
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt on empty subject"
@@ -12707,10 +12603,11 @@ msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
+#, fuzzy
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
+msgstr "HTML HTML."
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 #, fuzzy
@@ -12718,8 +12615,9 @@ msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "a."
 
 #: ../mail/evolution-mail.schemas.in.in.h:70
+#, fuzzy
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../mail/evolution-mail.schemas.in.in.h:71
 msgid "Prompt while marking multiple messages"
@@ -12740,12 +12638,12 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.in.h:75
 #, fuzzy
 msgid "Send HTML mail by default"
-msgstr "मुलभूत"
+msgstr "HTML मुलभूत"
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 #, fuzzy
 msgid "Send HTML mail by default."
-msgstr "मुलभूत."
+msgstr "HTML मुलभूत."
 
 #: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Show Animations"
@@ -12828,7 +12726,7 @@ msgid ""
 "and whether they are to be displayed. The format of the XML structure is &lt;"
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
-msgstr "a यादी चाा चाा&lt;&gt;."
+msgstr "a यादी चाा XML स्वेच्छेचे चाा XML&lt;&gt;."
 
 #: ../mail/evolution-mail.schemas.in.in.h:95
 #, fuzzy
@@ -12876,13 +12774,14 @@ msgid "Use Spamassassin daemon and client (spamc/spamd)"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:104
+#, fuzzy
 msgid "Use custom fonts"
-msgstr ""
+msgstr "स्वेच्छेचे"
 
 #: ../mail/evolution-mail.schemas.in.in.h:105
 #, fuzzy
 msgid "Use custom fonts for displaying mail"
-msgstr "च्यासाठी"
+msgstr "स्वेच्छेचे च्यासाठी"
 
 #: ../mail/evolution-mail.schemas.in.in.h:106
 msgid "Use only local spam tests."
@@ -13125,7 +13024,7 @@ msgstr "यादी"
 #: ../mail/mail-autofilter.c:372
 #, fuzzy
 msgid "Add Filter Rule"
-msgstr "जोडा"
+msgstr "जोडा नियम"
 
 #: ../mail/mail-component.c:521
 #, c-format
@@ -13238,7 +13137,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:1
 #, fuzzy
 msgid " Ch_eck for Supported Types "
-msgstr "च्यासाठी "
+msgstr "च्यासाठी प्रकार "
 
 #: ../mail/mail-config.glade.h:3
 #, fuzzy
@@ -13247,7 +13146,7 @@ msgstr "<b> SSL ही चाा Evolution</b>"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>Sig_natures</b>"
-msgstr ""
+msgstr "<b>स्वाक्षऱ्या(_n)</b>"
 
 #: ../mail/mail-config.glade.h:5
 msgid "<b>_Languages</b>"
@@ -13275,7 +13174,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\"> व्यूहरचना</span>"
 
 #: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Default Behavior</span>"
@@ -13314,9 +13213,8 @@ msgid "<span weight=\"bold\">Message Receipts</span>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:23
-#, fuzzy
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr "<span weight=\"bold\"> नविन</span>"
+msgstr "<span weight=\"bold\"> नविन मेल सुचना</span>"
 
 #: ../mail/mail-config.glade.h:24
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
@@ -13328,8 +13226,9 @@ msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">पर्याय</span>"
 
 #: ../mail/mail-config.glade.h:26
+#, fuzzy
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\"> एकांत</span>"
 
 #: ../mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Printed Fonts</span>"
@@ -13341,20 +13240,20 @@ msgstr "<span weight=\"bold\">आवश्यक माहिती</span>"
 
 #: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">सुरक्षित MIME (S/MIME)</span>"
 
 #: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">सुरक्षा</span>"
 
 #: ../mail/mail-config.glade.h:31
+#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\"> मसुदा</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\"> सर्वर</span>"
+msgstr "<span weight=\"bold\"> सर्वर व्यूहरचना</span>"
 
 #: ../mail/mail-config.glade.h:34
 msgid "Account Management"
@@ -13417,13 +13316,14 @@ msgid "Beep w_hen new mail arrives"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:49
+#, fuzzy
 msgid "C_haracter set:"
-msgstr ""
+msgstr "C:"
 
 #: ../mail/mail-config.glade.h:50
 #, fuzzy
 msgid "Ch_eck for Supported Types "
-msgstr "च्यासाठी "
+msgstr "च्यासाठी प्रकार "
 
 #: ../mail/mail-config.glade.h:51
 #, fuzzy
@@ -13474,7 +13374,7 @@ msgstr "अभिनंदन Evolution."
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
-msgstr ""
+msgstr "मुलभूत(_f)"
 
 #: ../mail/mail-config.glade.h:66
 #, fuzzy
@@ -13501,7 +13401,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:73
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
 msgid "E_nable"
-msgstr ""
+msgstr "कार्यान्वित करा(_n)"
 
 #: ../mail/mail-config.glade.h:74
 msgid "Email Accounts"
@@ -13526,8 +13426,9 @@ msgid "Encrypt out_going messages (by default)"
 msgstr "मुलभूत"
 
 #: ../mail/mail-config.glade.h:80
+#, fuzzy
 msgid "Fi_xed width Font:"
-msgstr ""
+msgstr "फॉन्ट:"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Fi_xed-width:"
@@ -13535,7 +13436,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:82
 msgid "Font Properties"
-msgstr ""
+msgstr "फॉन्ट गुणधर्म"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Format messages in _HTML"
@@ -13547,15 +13448,16 @@ msgstr "संपूर्ण नाव(_e):"
 
 #: ../mail/mail-config.glade.h:86
 msgid "HTML Mail"
-msgstr ""
+msgstr "HTML मेल"
 
 #: ../mail/mail-config.glade.h:87
 msgid "Headers"
-msgstr ""
+msgstr "मथळे"
 
 #: ../mail/mail-config.glade.h:88
+#, fuzzy
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "प्रकाशमान करा"
 
 #: ../mail/mail-config.glade.h:89
 #, fuzzy
@@ -13564,7 +13466,7 @@ msgstr "I"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Inline"
-msgstr ""
+msgstr "ओळीमध्ये"
 
 #: ../mail/mail-config.glade.h:94
 msgid "Languages Table"
@@ -13572,7 +13474,7 @@ msgstr "भाषांचा तक्ता"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
-msgstr ""
+msgstr "मेल व्यूहरचना"
 
 #: ../mail/mail-config.glade.h:97
 #, fuzzy
@@ -13661,7 +13563,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:119
 msgid "S_elect..."
-msgstr ""
+msgstr "निवडा(_e)..."
 
 #: ../mail/mail-config.glade.h:120
 msgid "S_end message receipts:"
@@ -13669,29 +13571,31 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
-msgstr ""
+msgstr "मानक फॉन्ट(_t):"
 
 #: ../mail/mail-config.glade.h:122
 msgid "Se_lect..."
-msgstr ""
+msgstr "निवडा(_l)..."
 
 #: ../mail/mail-config.glade.h:124
+#, fuzzy
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "HTML"
 
 #: ../mail/mail-config.glade.h:125
 #, fuzzy
 msgid "Select HTML fixed width font for printing"
-msgstr "च्यासाठी"
+msgstr "HTML च्यासाठी"
 
 #: ../mail/mail-config.glade.h:126
+#, fuzzy
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "HTML"
 
 #: ../mail/mail-config.glade.h:127
 #, fuzzy
 msgid "Select HTML variable width font for printing"
-msgstr "च्यासाठी"
+msgstr "HTML च्यासाठी"
 
 #: ../mail/mail-config.glade.h:128
 #, fuzzy
@@ -13778,7 +13682,7 @@ msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin. "
-msgstr "सुस्वागतम्  Evolution सहाय्यक पुढे "
+msgstr "सुस्वागतम्  Evolution व्यूहरचना सहाय्यक पुढे "
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -13814,8 +13718,9 @@ msgid "_Make this my default account"
 msgstr "ही मुलभूत"
 
 #: ../mail/mail-config.glade.h:162
+#, fuzzy
 msgid "_Mark messages as read after"
-msgstr ""
+msgstr "नंतर"
 
 #: ../mail/mail-config.glade.h:164
 #, fuzzy
@@ -13827,8 +13732,9 @@ msgid "_Path:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:166
+#, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
-msgstr ""
+msgstr "HTML"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
@@ -13862,23 +13768,24 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:176
 msgid "addresses"
-msgstr ""
+msgstr "पत्ते"
 
 #: ../mail/mail-config.glade.h:177
 msgid "color"
-msgstr ""
+msgstr "रंग"
 
 #: ../mail/mail-config.glade.h:178
 msgid "description"
-msgstr ""
+msgstr "वर्णन"
 
 #: ../mail/mail-dialogs.glade.h:1
 msgid "    "
 msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
+#, fuzzy
 msgid "<b>Search Folder Sources</b>"
-msgstr ""
+msgstr "<b> स्त्रोत</b>"
 
 #: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
@@ -13904,19 +13811,19 @@ msgstr "सर्व स्थानिक फोल्डर"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
-msgstr ""
+msgstr "लिपी संवेदनशील(_s)"
 
 #: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:1
 msgid "Co_mpleted"
-msgstr ""
+msgstr "पूर्ण(_m)"
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
-msgstr ""
+msgstr "शोधा(_i):"
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
-msgstr ""
+msgstr "संदेशात शोधा"
 
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:2
@@ -13938,7 +13845,7 @@ msgstr "काहीच नाही निवडलेले"
 
 #: ../mail/mail-dialogs.glade.h:17
 msgid "S_erver:"
-msgstr ""
+msgstr "सेवक(_e):"
 
 #: ../mail/mail-dialogs.glade.h:18
 msgid "Security Information"
@@ -13953,7 +13860,7 @@ msgstr ""
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
-msgstr "च्यासाठी a."
+msgstr "च्यासाठी अनुसरा a अनुसरा."
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
@@ -14014,7 +13921,6 @@ msgid "Failed to send %d of %d messages"
 msgstr "चाा"
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:648
-#, fuzzy
 msgid "Canceled."
 msgstr "रद्द केले."
 
@@ -14322,7 +14228,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:14
 #, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "a?"
+msgstr "a HTML?"
 
 #: ../mail/mail.error.xml.h:15
 #, fuzzy
@@ -14604,7 +14510,7 @@ msgid ""
 "HTML email:\n"
 "{0}\n"
 "Send anyway?"
-msgstr "खालील?"
+msgstr "खालील HTML?"
 
 #: ../mail/mail.error.xml.h:80
 #, fuzzy
@@ -14849,8 +14755,9 @@ msgid "Highest"
 msgstr ""
 
 #: ../mail/message-list.c:1451 ../widgets/table/e-cell-date.c:57
+#, fuzzy
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
@@ -15007,7 +14914,7 @@ msgstr "चाा Evolution"
 #: ../plugins/backup-restore/backup-restore.c:61
 #, fuzzy
 msgid "_Restart Evolution after backup"
-msgstr "पुनःआरंभ Evolution"
+msgstr "पुनःआरंभ Evolution नंतर"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 #, fuzzy
@@ -15017,7 +14924,7 @@ msgstr "Evolution"
 #: ../plugins/backup-restore/backup-restore.c:97
 #, fuzzy
 msgid "_Restart Evolution after restore"
-msgstr "पुनःआरंभ Evolution"
+msgstr "पुनःआरंभ Evolution नंतर"
 
 #: ../plugins/backup-restore/backup.c:109
 #, fuzzy
@@ -15074,7 +14981,7 @@ msgstr ""
 #: ../plugins/bbdb/bbdb.c:473
 #, fuzzy
 msgid "Select Address book for Automatic Contacts"
-msgstr "पत्ता च्यासाठी संपर्क"
+msgstr "पत्ता च्यासाठी स्वयंचलित संपर्क"
 
 #: ../plugins/bbdb/bbdb.c:488
 #, fuzzy
@@ -15119,8 +15026,9 @@ msgid "Use _SSL"
 msgstr "SSL वापरा(_S)"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
+#, fuzzy
 msgid "Local Calendars"
-msgstr ""
+msgstr "दिनदर्शिका"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 #, fuzzy
@@ -15142,8 +15050,9 @@ msgstr "च्यासाठी."
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
+#, fuzzy
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "हवामान"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
@@ -15162,12 +15071,14 @@ msgid "Weather: Snow"
 msgstr "हवामान: हिमवृष्टी"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
+#, fuzzy
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "हवामान"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
+#, fuzzy
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "हवामान"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
 #, fuzzy
@@ -15192,8 +15103,9 @@ msgid "Provides core functionality for weather calendars."
 msgstr "च्यासाठी."
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
+#, fuzzy
 msgid "Weather Calendars"
-msgstr ""
+msgstr "हवामान दिनदर्शिका"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
 #, fuzzy
@@ -15367,7 +15279,7 @@ msgstr "अधिप्रमाणन प्रकार"
 #: ../plugins/exchange-operations/exchange-account-setup.c:843
 #, fuzzy
 msgid "Ch_eck for Supported Types"
-msgstr "च्यासाठी"
+msgstr "च्यासाठी प्रकार"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
@@ -15480,8 +15392,9 @@ msgstr ""
 
 #. Translators: This is used for permissions for <user> for the folder Calendar.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
+#, fuzzy
 msgid "C_alendar:"
-msgstr ""
+msgstr "C:"
 
 #. Translators: This is used for permissions for <user> for the folder Contacts.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
@@ -15704,7 +15617,7 @@ msgstr ""
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
-msgstr "पर्याय च्यासाठी Evolution."
+msgstr "पर्याय च्यासाठी नंतर Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
@@ -15790,7 +15703,7 @@ msgid ""
 "\n"
 "{0}\n"
 "  "
-msgstr "सर्वर ही च्यासाठी Evolution "
+msgstr "सर्वर ही च्यासाठी Evolution अनुसरा "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Failed to update delegates:"
@@ -15910,7 +15823,7 @@ msgid ""
 "as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
 "\n"
 "Or you might have just typed your password wrong."
-msgstr "चाा&quot;&quot;."
+msgstr "विंडोज चाा&quot;&quot;."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 #, fuzzy
@@ -16030,8 +15943,9 @@ msgstr ""
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:390
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:421
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:600
+#, fuzzy
 msgid "Notes"
-msgstr ""
+msgstr "टिपा"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:420
 msgid "Checklist"
@@ -16175,8 +16089,9 @@ msgid "Read items marked _private"
 msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
+#, fuzzy
 msgid "Reminder Notes"
-msgstr ""
+msgstr "टिपा"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
@@ -16480,7 +16395,7 @@ msgstr "चाा फाइल"
 #: ../plugins/itip-formatter/itip-formatter.c:2063
 #, fuzzy
 msgid "_Delete message after acting"
-msgstr "नष्ट करा"
+msgstr "नष्ट करा नंतर"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2073
 #: ../plugins/itip-formatter/itip-formatter.c:2105
@@ -16551,91 +16466,91 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:251
 #, c-format
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:256
 msgid "%A %H:%M"
-msgstr ""
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:260
 msgid "%A %H:%M:%S"
-msgstr ""
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:265
 msgid "%A %l:%M %p"
-msgstr ""
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:269
 msgid "%A %l:%M:%S %p"
-msgstr ""
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:278
 msgid "%A, %B %e"
-msgstr ""
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:284
 msgid "%A, %B %e %H:%M"
-msgstr ""
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:288
 msgid "%A, %B %e %H:%M:%S"
-msgstr ""
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:293
 msgid "%A, %B %e %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:297
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:303
 msgid "%A, %B %e, %Y"
-msgstr ""
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:308
 msgid "%A, %B %e, %Y %H:%M"
-msgstr ""
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:312
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr ""
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:317
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:321
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:346
 #, fuzzy, c-format
@@ -16827,8 +16742,9 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:772
 #: ../plugins/itip-formatter/itip-view.c:788
 #: ../plugins/itip-formatter/itip-view.c:793
+#, fuzzy
 msgid "_Accept"
-msgstr ""
+msgstr "स्वीकारा(_A)"
 
 #: ../plugins/itip-formatter/itip-view.c:763
 msgid "_Decline all"
@@ -16893,8 +16809,9 @@ msgid "_Tasks :"
 msgstr "कामे(_T):"
 
 #: ../plugins/itip-formatter/itip-view.c:1711
+#, fuzzy
 msgid "Memos :"
-msgstr ""
+msgstr "मेमो:"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
@@ -17013,8 +16930,9 @@ msgid "Get list _usage information"
 msgstr "यादी"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
+#, fuzzy
 msgid "Mailing List Actions"
-msgstr ""
+msgstr "क्रिया"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
@@ -17055,7 +16973,7 @@ msgid ""
 "\n"
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
-msgstr "URL यादी."
+msgstr "URL यादी नंतर."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
@@ -17215,7 +17133,7 @@ msgstr ""
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 #, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "a."
+msgstr "a D."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 #, fuzzy
@@ -17266,7 +17184,7 @@ msgstr "नोंद"
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
 msgid "Plugin"
-msgstr ""
+msgstr "प्लगीन"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 #, fuzzy
@@ -17275,7 +17193,7 @@ msgid ""
 "disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
-msgstr "a"
+msgstr "a HTML"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
@@ -17290,7 +17208,7 @@ msgstr ""
 #: ../plugins/prefer-plain/prefer-plain.c:105
 #, fuzzy
 msgid "Show HTML if present"
-msgstr "दाखवा"
+msgstr "दाखवा HTML"
 
 #: ../plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
@@ -17302,7 +17220,7 @@ msgstr ""
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
 msgid "HTML Mode"
-msgstr ""
+msgstr "HTML रीत"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -17313,7 +17231,7 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr ""
+msgstr "मुद्रण पूर्वदृश्य(_v)"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
 msgid "Prints the message"
@@ -17358,18 +17276,19 @@ msgstr "<span weight=\"bold\"> ठिकाण</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr ""
+msgstr "<span weight=\"bold\"> स्त्रोत</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
+#, fuzzy
 msgid ""
 "Daily\n"
 "Weekly\n"
 "Manual (via Actions menu)"
-msgstr ""
+msgstr "क्रिया"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
 msgid "P_ort:"
-msgstr ""
+msgstr "पोर्ट(_o):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
 #, fuzzy
@@ -17672,11 +17591,12 @@ msgstr "इवॉल्यूशन कसोटी भाग"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 #, fuzzy
 msgid "A GNOME Print description of the current printer settings"
-msgstr "GNOME चाा"
+msgstr "GNOME छापा चाा"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
+#, fuzzy
 msgid "Configuration version"
-msgstr ""
+msgstr "व्यूहरचना"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
 #, fuzzy
@@ -17830,7 +17750,7 @@ msgstr "ठीक"
 #: ../shell/e-shell-folder-title-bar.c:584
 #: ../shell/e-shell-folder-title-bar.c:585
 msgid "(Untitled)"
-msgstr ""
+msgstr "(शिर्षकहीन)"
 
 #: ../shell/e-shell-importer.c:137
 #, fuzzy
@@ -17845,7 +17765,7 @@ msgid ""
 "\n"
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
-msgstr "फाइल Evolution चाा फाइल यादी Evolution."
+msgstr "फाइल Evolution चाा फाइल यादी स्वयंचलित Evolution."
 
 #: ../shell/e-shell-importer.c:146
 #, fuzzy
@@ -17940,7 +17860,7 @@ msgstr "काम"
 #: ../shell/e-shell-window-commands.c:819 ../ui/evolution.xml.h:55
 #, fuzzy
 msgid "_Work Offline"
-msgstr "काम"
+msgstr "ऑफनाइल काम करा(_W)"
 
 #: ../shell/e-shell-window-commands.c:832
 #, fuzzy
@@ -17990,8 +17910,9 @@ msgid "Cannot register on OAF"
 msgstr ""
 
 #: ../shell/e-shell.c:1268
+#, fuzzy
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "व्यूहरचना"
 
 #: ../shell/e-user-creatable-items-handler.c:678
 #: ../shell/e-user-creatable-items-handler.c:688
@@ -18174,7 +18095,7 @@ msgid ""
 "\n"
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
-msgstr "चाा&quot;&quot; निर्देशिका स्वहस्ते चाा संपर्क ही चाा Evolution ही चाा Evolution"
+msgstr "चाा&quot;&quot; निर्देशिका स्वहस्ते चाा संपर्क ही चाा Evolution आधी ही चाा Evolution"
 
 #: ../shell/shell.error.xml.h:15
 #, fuzzy
@@ -18200,7 +18121,7 @@ msgid ""
 "\n"
 "You will need to make more space available in your home directory before you "
 "can continue."
-msgstr "चाा निर्देशिका."
+msgstr "चाा निर्देशिका आधी."
 
 #: ../shell/shell.error.xml.h:23
 #, fuzzy
@@ -18288,8 +18209,9 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:285 ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:570
+#, fuzzy
 msgid "Serial Number"
-msgstr ""
+msgstr "संख्या"
 
 #: ../smime/gui/certificate-manager.c:293
 msgid "Expires"
@@ -18355,8 +18277,9 @@ msgid "<b>Field Value</b>"
 msgstr "<b>क्षेत्र मूल्य</b>"
 
 #: ../smime/gui/smime-ui.glade.h:5
+#, fuzzy
 msgid "<b>Fingerprints</b>"
-msgstr ""
+msgstr "<b>बोटांचे ठसे</b>"
 
 #: ../smime/gui/smime-ui.glade.h:6
 msgid "<b>Issued By</b>"
@@ -18683,8 +18606,9 @@ msgid "Not Critical"
 msgstr "गंभीर नाही"
 
 #: ../smime/lib/e-cert.c:965
+#, fuzzy
 msgid "Extensions"
-msgstr ""
+msgstr "विस्तार"
 
 #: ../smime/lib/e-cert.c:1036
 #, c-format
@@ -18817,12 +18741,14 @@ msgstr "a"
 #: ../ui/evolution-addressbook.xml.h:12
 #: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-memos.xml.h:4
 #: ../ui/evolution-tasks.xml.h:4
+#, fuzzy
 msgid "Cut"
-msgstr ""
+msgstr "कापा"
 
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
+#, fuzzy
 msgid "Cut the selection"
-msgstr ""
+msgstr "निवड कापा"
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
@@ -18864,20 +18790,23 @@ msgstr "हलवा."
 #: ../ui/evolution-addressbook.xml.h:23
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
 #: ../ui/evolution-tasks.xml.h:11
+#, fuzzy
 msgid "Paste"
-msgstr ""
+msgstr "चिटकवा"
 
 #: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:17
+#, fuzzy
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "क्लिपबोर्ड चिटकवा"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
 msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:28
+#, fuzzy
 msgid "Print selected contacts"
-msgstr ""
+msgstr "छापा"
 
 #: ../ui/evolution-addressbook.xml.h:29
 msgid "Rename the selected folder"
@@ -19030,16 +18959,19 @@ msgid "Delete this occurrence"
 msgstr "नष्ट करा ही"
 
 #: ../ui/evolution-calendar.xml.h:11
+#, fuzzy
 msgid "Go To"
-msgstr ""
+msgstr "जा"
 
 #: ../ui/evolution-calendar.xml.h:12
+#, fuzzy
 msgid "Go back"
-msgstr ""
+msgstr "जा"
 
 #: ../ui/evolution-calendar.xml.h:13
+#, fuzzy
 msgid "Go forward"
-msgstr ""
+msgstr "जा"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -19066,7 +18998,7 @@ msgstr "मागे"
 #: ../ui/evolution-calendar.xml.h:22
 #, fuzzy
 msgid "Print this calendar"
-msgstr "ही"
+msgstr "छापा ही"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
@@ -19077,8 +19009,9 @@ msgid "Purge old appointments and meetings"
 msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:25
+#, fuzzy
 msgid "Select _Date"
-msgstr ""
+msgstr "दिनांक"
 
 #: ../ui/evolution-calendar.xml.h:26
 #, fuzzy
@@ -19142,23 +19075,27 @@ msgstr "प्रतिलिपी"
 #: ../ui/evolution-composer-entries.xml.h:3
 #, fuzzy
 msgid "Copy selection to clipboard"
-msgstr "प्रतिलिपी"
+msgstr "निवड क्लिपबोर्डवर प्रतिलिपी करा"
 
 #: ../ui/evolution-composer-entries.xml.h:6 ../ui/evolution-editor.xml.h:9
+#, fuzzy
 msgid "Cut selected text to the clipboard"
-msgstr ""
+msgstr "कापा"
 
 #: ../ui/evolution-composer-entries.xml.h:7
+#, fuzzy
 msgid "Cut selection to clipboard"
-msgstr ""
+msgstr "निवड क्लिपबोर्डवर कापा"
 
 #: ../ui/evolution-composer-entries.xml.h:9
+#, fuzzy
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "क्लिपबोर्डवरून चिटकवा"
 
 #: ../ui/evolution-composer-entries.xml.h:10 ../ui/evolution-editor.xml.h:11
+#, fuzzy
 msgid "Paste text from the clipboard"
-msgstr ""
+msgstr "चिटकवा"
 
 #: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:14
 msgid "Select all text"
@@ -19193,14 +19130,15 @@ msgstr ""
 #: ../ui/evolution-editor.xml.h:6 ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:3
 #: ../ui/evolution-signature-editor.xml.h:7
+#, fuzzy
 msgid "Close"
-msgstr ""
+msgstr "बंद करा"
 
 #: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
 #, fuzzy
 msgid "I_nsert"
-msgstr "I"
+msgstr "दाखल(_n)"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:41
 msgid "_Attachment..."
@@ -19208,8 +19146,9 @@ msgstr ""
 
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 #: ../ui/evolution-message-composer.xml.h:44 ../ui/evolution-subscribe.xml.h:9
+#, fuzzy
 msgid "_Close"
-msgstr ""
+msgstr "बंद करा(_C)"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:47
@@ -19238,8 +19177,9 @@ msgstr "सर्व"
 
 #: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-memo-editor.xml.h:1
 #: ../ui/evolution-task-editor.xml.h:1
+#, fuzzy
 msgid "Classify as Confidential"
-msgstr ""
+msgstr "गुप्त"
 
 #: ../ui/evolution-event-editor.xml.h:5 ../ui/evolution-memo-editor.xml.h:2
 #: ../ui/evolution-task-editor.xml.h:2
@@ -19259,7 +19199,7 @@ msgstr "च्यासाठी ही"
 #: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 #, fuzzy
 msgid "Insert advanced send options"
-msgstr "पर्याय"
+msgstr "दाखल करा पर्याय"
 
 #: ../ui/evolution-event-editor.xml.h:10
 #, fuzzy
@@ -19328,8 +19268,9 @@ msgid "Toggles whether to show time as busy"
 msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:26
+#, fuzzy
 msgid "_Alarms"
-msgstr ""
+msgstr "अलार्म"
 
 #: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
 #: ../ui/evolution-task-editor.xml.h:18
@@ -19344,7 +19285,7 @@ msgstr ""
 #: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-memo-editor.xml.h:8
 #: ../ui/evolution-task-editor.xml.h:20
 msgid "_Confidential"
-msgstr ""
+msgstr "गुप्त(_C)"
 
 #: ../ui/evolution-event-editor.xml.h:30
 msgid "_Free/Busy"
@@ -19357,7 +19298,7 @@ msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:22
 msgid "_RSVP"
-msgstr ""
+msgstr "_RSVP"
 
 #: ../ui/evolution-event-editor.xml.h:33
 msgid "_Recurrence"
@@ -19507,8 +19448,9 @@ msgstr "प्रतिलिपी"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:7
+#, fuzzy
 msgid "Cut selected message(s) to the clipboard"
-msgstr ""
+msgstr "कापा"
 
 #: ../ui/evolution-mail-list.xml.h:8
 #, fuzzy
@@ -19546,8 +19488,9 @@ msgid "Mar_k All Messages as Read"
 msgstr "सर्व"
 
 #: ../ui/evolution-mail-list.xml.h:17
+#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr ""
+msgstr "चिटकवा"
 
 #: ../ui/evolution-mail-list.xml.h:18
 #, fuzzy
@@ -19603,8 +19546,9 @@ msgid "Threaded Message list"
 msgstr "यादी"
 
 #: ../ui/evolution-mail-list.xml.h:31
+#, fuzzy
 msgid "_Group By Threads"
-msgstr ""
+msgstr "समुह"
 
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-mail-message.xml.h:116
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
@@ -19715,12 +19659,14 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "a ही"
 
 #: ../ui/evolution-mail-message.xml.h:23
+#, fuzzy
 msgid "Cut selected messages to the clipboard"
-msgstr ""
+msgstr "कापा"
 
 #: ../ui/evolution-mail-message.xml.h:24
+#, fuzzy
 msgid "Decrease the text size"
-msgstr ""
+msgstr "पाठ आकार कमी करा"
 
 #: ../ui/evolution-mail-message.xml.h:26
 #, fuzzy
@@ -19785,7 +19731,7 @@ msgstr "च्यासाठी"
 #: ../ui/evolution-mail-message.xml.h:39
 #, fuzzy
 msgid "Flag selected messages for follow-up"
-msgstr "च्यासाठी"
+msgstr "च्यासाठी अनुसरा"
 
 #: ../ui/evolution-mail-message.xml.h:40
 #, fuzzy
@@ -19793,8 +19739,9 @@ msgid "Follow _Up..."
 msgstr "वर."
 
 #: ../ui/evolution-mail-message.xml.h:41
+#, fuzzy
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "HTML"
 
 #: ../ui/evolution-mail-message.xml.h:43
 #, fuzzy
@@ -19817,8 +19764,9 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "पुढे"
 
 #: ../ui/evolution-mail-message.xml.h:47
+#, fuzzy
 msgid "Increase the text size"
-msgstr ""
+msgstr "पाठ आकार वाढवा"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
@@ -19861,17 +19809,17 @@ msgstr "हलवा"
 #: ../ui/evolution-mail-message.xml.h:59
 #, fuzzy
 msgid "Next _Important Message"
-msgstr "पुढे"
+msgstr "पुढील"
 
 #: ../ui/evolution-mail-message.xml.h:60
 #, fuzzy
 msgid "Next _Thread"
-msgstr "पुढे"
+msgstr "पुढील"
 
 #: ../ui/evolution-mail-message.xml.h:61
 #, fuzzy
 msgid "Next _Unread Message"
-msgstr "पुढे"
+msgstr "पुढील"
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
@@ -19893,12 +19841,14 @@ msgid "Open the selected messages in the composer for editing"
 msgstr "उघडा च्यासाठी"
 
 #: ../ui/evolution-mail-message.xml.h:66
+#, fuzzy
 msgid "P_revious Unread Message"
-msgstr ""
+msgstr "P"
 
 #: ../ui/evolution-mail-message.xml.h:67
+#, fuzzy
 msgid "Paste messages from the clipboard"
-msgstr ""
+msgstr "चिटकवा"
 
 #: ../ui/evolution-mail-message.xml.h:68
 #, fuzzy
@@ -19931,7 +19881,7 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:77
 #, fuzzy
 msgid "Print this message"
-msgstr "ही"
+msgstr "छापा ही"
 
 #: ../ui/evolution-mail-message.xml.h:78
 msgid "Re_direct"
@@ -19942,8 +19892,9 @@ msgid "Redirect (bounce) the selected message to someone"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:84
+#, fuzzy
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "पुनःनिर्धारण"
 
 #: ../ui/evolution-mail-message.xml.h:85
 #, fuzzy
@@ -20015,16 +19966,18 @@ msgid "Uni_mportant"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:100
+#, fuzzy
 msgid "Zoom _Out"
-msgstr ""
+msgstr "झूम"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "_Attached"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:102
+#, fuzzy
 msgid "_Caret Mode"
-msgstr ""
+msgstr "कॅरेट"
 
 #: ../ui/evolution-mail-message.xml.h:103
 #, fuzzy
@@ -20036,8 +19989,9 @@ msgid "_Delete Message"
 msgstr "संदेश नष्ट करा(_D)"
 
 #: ../ui/evolution-mail-message.xml.h:108
+#, fuzzy
 msgid "_Find in Message..."
-msgstr ""
+msgstr "शोधा."
 
 #: ../ui/evolution-mail-message.xml.h:109
 #, fuzzy
@@ -20045,8 +19999,9 @@ msgid "_Flag Completed"
 msgstr "पूर्ण "
 
 #: ../ui/evolution-mail-message.xml.h:111
+#, fuzzy
 msgid "_Go To"
-msgstr ""
+msgstr "जा"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Important"
@@ -20088,7 +20043,7 @@ msgstr "उघडा नविन"
 #: ../ui/evolution-mail-message.xml.h:123
 #, fuzzy
 msgid "_Previous Message"
-msgstr "मागे"
+msgstr "मागील"
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Quoted"
@@ -20107,17 +20062,19 @@ msgid "_Unread"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:131
+#, fuzzy
 msgid "_Zoom"
-msgstr ""
+msgstr "झूम"
 
 #: ../ui/evolution-mail-message.xml.h:132
+#, fuzzy
 msgid "_Zoom In"
-msgstr ""
+msgstr "झूम"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
 #, fuzzy
 msgid "Close this window"
-msgstr "ही"
+msgstr "बंद करा ही"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
 msgid "Main toolbar"
@@ -20129,8 +20086,9 @@ msgid "Copy selected memo"
 msgstr "प्रतिलिपी"
 
 #: ../ui/evolution-memos.xml.h:5
+#, fuzzy
 msgid "Cut selected memo"
-msgstr ""
+msgstr "कापा"
 
 #: ../ui/evolution-memos.xml.h:7
 #, fuzzy
@@ -20138,8 +20096,9 @@ msgid "Delete selected memos"
 msgstr "नष्ट करा"
 
 #: ../ui/evolution-memos.xml.h:9
+#, fuzzy
 msgid "Paste memo from the clipboard"
-msgstr ""
+msgstr "चिटकवा"
 
 #: ../ui/evolution-memos.xml.h:10
 #, fuzzy
@@ -20149,7 +20108,7 @@ msgstr "यादी चाा"
 #: ../ui/evolution-memos.xml.h:13
 #, fuzzy
 msgid "Print the list of memos"
-msgstr "यादी चाा"
+msgstr "छापा यादी चाा"
 
 #: ../ui/evolution-memos.xml.h:14
 #, fuzzy
@@ -20175,7 +20134,7 @@ msgstr "a फाइल"
 #: ../ui/evolution-signature-editor.xml.h:13
 #, fuzzy
 msgid "Close the current file"
-msgstr "फाइल"
+msgstr "बंद करा फाइल"
 
 #: ../ui/evolution-message-composer.xml.h:5
 #, fuzzy
@@ -20194,8 +20153,9 @@ msgstr "ही"
 
 #: ../ui/evolution-message-composer.xml.h:8
 #: ../ui/evolution-signature-editor.xml.h:14
+#, fuzzy
 msgid "For_mat"
-msgstr ""
+msgstr "स्वरूप(_m)"
 
 #: ../ui/evolution-message-composer.xml.h:9
 msgid "Get delivery notification when your message is read"
@@ -20236,7 +20196,7 @@ msgstr "असे संग्रहा"
 #: ../ui/evolution-message-composer.xml.h:21
 #, fuzzy
 msgid "Save Draft"
-msgstr "संग्रहो"
+msgstr "संग्रहो मसुदा"
 
 #: ../ui/evolution-message-composer.xml.h:22
 msgid "Save _As..."
@@ -20245,7 +20205,7 @@ msgstr "असे संग्रहा(_A)..."
 #: ../ui/evolution-message-composer.xml.h:23
 #, fuzzy
 msgid "Save _Draft"
-msgstr "संग्रहो"
+msgstr "संग्रहो मसुदा"
 
 #: ../ui/evolution-message-composer.xml.h:24
 #, fuzzy
@@ -20278,8 +20238,9 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:30
 #: ../ui/evolution-signature-editor.xml.h:23
+#, fuzzy
 msgid "Send the mail in HTML format"
-msgstr ""
+msgstr "HTML"
 
 #: ../ui/evolution-message-composer.xml.h:31
 #, fuzzy
@@ -20346,7 +20307,7 @@ msgstr "क्षेत्र"
 #: ../ui/evolution-message-composer.xml.h:49
 #, fuzzy
 msgid "_Open..."
-msgstr "उघडा."
+msgstr "उघडा(_O)..."
 
 #: ../ui/evolution-message-composer.xml.h:50
 #, fuzzy
@@ -20372,12 +20333,13 @@ msgid "_To Field"
 msgstr "क्षेत्र"
 
 #: ../ui/evolution-signature-editor.xml.h:1
+#, fuzzy
 msgid "C_lose"
-msgstr ""
+msgstr "C"
 
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
-msgstr ""
+msgstr "H_TML"
 
 #: ../ui/evolution-signature-editor.xml.h:17
 msgid "Save and Close"
@@ -20455,8 +20417,9 @@ msgid "Copy selected tasks"
 msgstr "प्रतिलिपी"
 
 #: ../ui/evolution-tasks.xml.h:5
+#, fuzzy
 msgid "Cut selected tasks"
-msgstr ""
+msgstr "कापा"
 
 #: ../ui/evolution-tasks.xml.h:7
 #, fuzzy
@@ -20478,8 +20441,9 @@ msgid "Mark selected tasks as complete"
 msgstr ""
 
 #: ../ui/evolution-tasks.xml.h:12
+#, fuzzy
 msgid "Paste tasks from the clipboard"
-msgstr ""
+msgstr "चिटकवा"
 
 #: ../ui/evolution-tasks.xml.h:13
 #, fuzzy
@@ -20489,7 +20453,7 @@ msgstr "यादी चाा"
 #: ../ui/evolution-tasks.xml.h:16
 #, fuzzy
 msgid "Print the list of tasks"
-msgstr "यादी चाा"
+msgstr "छापा यादी चाा"
 
 #: ../ui/evolution-tasks.xml.h:18
 #, fuzzy
@@ -20663,12 +20627,14 @@ msgid "_About"
 msgstr "च्या विषयी(_A)"
 
 #: ../ui/evolution.xml.h:40
+#, fuzzy
 msgid "_Close Window"
-msgstr ""
+msgstr "बंद करा"
 
 #: ../ui/evolution.xml.h:43
+#, fuzzy
 msgid "_Forget Passwords"
-msgstr ""
+msgstr "गुप्तशब्द"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Hide buttons"
@@ -20687,8 +20653,9 @@ msgid "_Quit"
 msgstr "सोडून द्या(_Q)"
 
 #: ../ui/evolution.xml.h:50
+#, fuzzy
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "दर्शन"
 
 #: ../ui/evolution.xml.h:51
 #, fuzzy
@@ -20774,12 +20741,14 @@ msgid "_Messages"
 msgstr ""
 
 #: ../views/memos/galview.xml.h:1
+#, fuzzy
 msgid "_Memos"
-msgstr ""
+msgstr "मेमो"
 
 #: ../views/tasks/galview.xml.h:1
+#, fuzzy
 msgid "With _Due Date"
-msgstr ""
+msgstr "दिनांक"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Status"
@@ -20863,8 +20832,9 @@ msgid "_Create new view"
 msgstr ""
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
+#, fuzzy
 msgid "_Replace existing view"
-msgstr ""
+msgstr "बदली करा"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:587
@@ -21092,8 +21062,9 @@ msgid "Unknown character set: %s"
 msgstr "अपरिचित"
 
 #: ../widgets/misc/e-charset-picker.c:219
+#, fuzzy
 msgid "Character Encoding"
-msgstr ""
+msgstr "अक्षर एनकोडिंग"
 
 #: ../widgets/misc/e-charset-picker.c:234
 msgid "Enter the character set to use"
@@ -21104,8 +21075,9 @@ msgid "Other..."
 msgstr "इतर..."
 
 #: ../widgets/misc/e-charset-picker.c:482
+#, fuzzy
 msgid "Ch_aracter Encoding"
-msgstr ""
+msgstr "एनकोडिंग"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
@@ -21292,16 +21264,18 @@ msgid "Reflow model"
 msgstr ""
 
 #: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
+#, fuzzy
 msgid "Column width"
-msgstr ""
+msgstr "स्तंभ"
 
 #: ../widgets/misc/e-search-bar.c:535
 msgid "_Search"
 msgstr ""
 
 #: ../widgets/misc/e-search-bar.c:541
+#, fuzzy
 msgid "_Find Now"
-msgstr ""
+msgstr "शोधा"
 
 #: ../widgets/misc/e-search-bar.c:542
 msgid "_Clear"
@@ -21338,13 +21312,15 @@ msgstr ""
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
+#, fuzzy
 msgid "Cursor Row"
-msgstr ""
+msgstr "रांग"
 
 #: ../widgets/misc/e-selection-model-array.c:554
 #: ../widgets/table/e-tree-selection-model.c:818
+#, fuzzy
 msgid "Cursor Column"
-msgstr ""
+msgstr "स्तंभ"
 
 #: ../widgets/misc/e-selection-model.c:214
 msgid "Sorter"
@@ -21530,16 +21506,19 @@ msgid "Selected Column"
 msgstr "निवडलेला स्तंभ"
 
 #: ../widgets/table/e-cell-pixbuf.c:404
+#, fuzzy
 msgid "Focused Column"
-msgstr ""
+msgstr "स्तंभ"
 
 #: ../widgets/table/e-cell-pixbuf.c:411
+#, fuzzy
 msgid "Unselected Column"
-msgstr ""
+msgstr "स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1813
+#, fuzzy
 msgid "Strikeout Column"
-msgstr ""
+msgstr "खोडा स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1820
 msgid "Underline Column"
@@ -21550,12 +21529,14 @@ msgid "Bold Column"
 msgstr "ठळक स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1834
+#, fuzzy
 msgid "Color Column"
-msgstr ""
+msgstr "स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1848
+#, fuzzy
 msgid "BG Color Column"
-msgstr ""
+msgstr "स्तंभ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
@@ -21585,8 +21566,9 @@ msgstr ""
 
 #: ../widgets/table/e-table-config-no-group.glade.h:8
 #: ../widgets/table/e-table-config.glade.h:7
+#, fuzzy
 msgid "Group Items By"
-msgstr ""
+msgstr "समुह"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
@@ -21648,8 +21630,9 @@ msgid "_Sort..."
 msgstr "क्रमबद्ध करा(_S)..."
 
 #: ../widgets/table/e-table-config.c:150
+#, fuzzy
 msgid "State"
-msgstr ""
+msgstr "स्थिती"
 
 #: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
 msgid "(Ascending)"
@@ -21673,8 +21656,9 @@ msgid "Available Fields"
 msgstr ""
 
 #: ../widgets/table/e-table-config.glade.h:17
+#, fuzzy
 msgid "_Group By..."
-msgstr ""
+msgstr "समुह."
 
 #: ../widgets/table/e-table-config.glade.h:19
 #, fuzzy
@@ -21692,8 +21676,9 @@ msgstr ""
 #: ../widgets/table/e-table-field-chooser-item.c:642
 #: ../widgets/table/e-table-field-chooser.c:84
 #: ../widgets/table/e-table-header-item.c:1906
+#, fuzzy
 msgid "Full Header"
-msgstr ""
+msgstr "शिर्षक"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
@@ -21732,7 +21717,7 @@ msgstr[1] ""
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 #, fuzzy
 msgid "Alternating Row Colors"
-msgstr "रंग"
+msgstr "रांग रंग"
 
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-container.c:905
@@ -21824,12 +21809,12 @@ msgstr ""
 #: ../widgets/table/e-table-header-item.c:1495
 #, fuzzy
 msgid "Group By This Field"
-msgstr "क्षेत्र"
+msgstr "समुह क्षेत्र"
 
 #: ../widgets/table/e-table-header-item.c:1496
 #, fuzzy
 msgid "Group By Box"
-msgstr "खोका"
+msgstr "समुह खोका"
 
 #: ../widgets/table/e-table-header-item.c:1498
 msgid "Remove This Column"
@@ -21840,8 +21825,9 @@ msgid "Add a Column..."
 msgstr "स्तंभ जोडा..."
 
 #: ../widgets/table/e-table-header-item.c:1501
+#, fuzzy
 msgid "Alignment"
-msgstr ""
+msgstr "एकीकरण"
 
 #: ../widgets/table/e-table-header-item.c:1502
 msgid "Best Fit"
@@ -21921,7 +21907,7 @@ msgstr "कसोटी"
 
 #: ../widgets/text/e-entry-test.c:50
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr ""
+msgstr "Copyright (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
 msgid "This should test the minicard canvas item"
@@ -21929,17 +21915,16 @@ msgstr ""
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3496 ../widgets/text/e-text.c:3497
-#, fuzzy
 msgid "Event Processor"
 msgstr "प्रसंग प्रोसेसर"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
 msgid "Font"
-msgstr ""
+msgstr "फॉन्ट"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
 msgid "GDKFont"
-msgstr ""
+msgstr "GDKFont"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
 #: ../widgets/text/e-text.c:3532 ../widgets/text/e-text.c:3533
@@ -21963,8 +21948,9 @@ msgstr ""
 
 #: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
 #: ../widgets/text/e-text.c:3653 ../widgets/text/e-text.c:3654
+#, fuzzy
 msgid "Break characters"
-msgstr ""
+msgstr "अक्षरे"
 
 #: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
 #: ../widgets/text/e-text.c:3660 ../widgets/text/e-text.c:3661
@@ -22012,7 +21998,7 @@ msgstr "ठळक"
 
 #: ../widgets/text/e-text.c:3517 ../widgets/text/e-text.c:3518
 msgid "Strikeout"
-msgstr ""
+msgstr "खोडा"
 
 #: ../widgets/text/e-text.c:3524 ../widgets/text/e-text.c:3525
 msgid "Anchor"
@@ -22057,6 +22043,7 @@ msgid "IM Context"
 msgstr ""
 
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
+#, fuzzy
 msgid "Handle Popup"
-msgstr ""
+msgstr "पॉपअप"
 
