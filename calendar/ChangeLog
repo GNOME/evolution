@@ -1,3 +1,9 @@
+2006-08-14  Li Yuan  <li.yuan@sun.com>
+
+	* gui/alarm-notify/alarm-queue.c: (mail_notification):
+	Fixes #351253, make the dialog shows the label and 
+	can be closed.
+
 2006-08-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-cal-model-calendar.c: (ecmc_set_value_at):

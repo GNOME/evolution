@@ -1701,9 +1701,11 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 				 "email notifications yet, but this reminder was\n"
 				 "configured to send an email.  Evolution will display\n"
 				 "a normal reminder dialog box instead."));
+	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 /* Performs notification of a procedure alarm */
