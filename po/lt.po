@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-16 19:01+0300\n"
-"PO-Revision-Date: 2006-08-16 19:07+0300\n"
+"PO-Revision-Date: 2006-08-16 19:28+0300\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -11614,7 +11614,7 @@ msgstr "Įkeliama..."
 #: ../mail/em-folder-tree.c:366
 #, c-format
 msgid "folder-display|%s (%u)"
-msgstr "folder-display|%s (%u)"
+msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:717
 msgid "Mail Folder Tree"
