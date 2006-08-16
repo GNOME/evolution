@@ -278,6 +278,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		summary_string = g_strdup (_("Calendar Event: It has no summary."));
 
 	name_string = g_strdup_printf ("%s %s %s %s", summary_string, alarm_string, recur_string, meeting_string);
+	g_free (summary_string);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_string);
 #ifdef ACC_DEBUG

@@ -1,3 +1,8 @@
+2006-08-16  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* calendar/ea-cal-view-event.c: (ea_cal_view_event_get_name):
+	Don't leak summary_string here.
+
 2006-07-13  Andre Klapper  <a9016009@gmx.de>
 
 	* calendar/ea-day-view.c: Added translator comments to
