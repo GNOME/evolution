@@ -1180,6 +1180,9 @@ get_font_options ()
 		else
 			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
 	}
+	g_free (antialiasing);
+	g_free (hinting);
+	g_free (subpixel_order);
 	g_object_unref (gconf);
 	return font_options;
 }
