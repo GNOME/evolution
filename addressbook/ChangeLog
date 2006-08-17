@@ -1,3 +1,10 @@
+2006-08-09  Ushveen Kaur  <kushveen@novell.com>
+
+	** Fixes bug #261239
+	
+	* gui/contact-editor/contact-editor.glade: Tab focus corrected in
+	Mailing Address tab of Contact Editor.
+
 2006-08-07  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/e-addressbook-view.c (eab_view_delete_selection): Added a
