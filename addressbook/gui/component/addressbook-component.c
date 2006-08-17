@@ -306,6 +306,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	g_object_unref (gconf_client);
 	if (!e_book_get_addressbooks (&source_list, NULL)) {
 		g_warning ("Could not get addressbook source list from GConf!");
+		g_free (uid);
 		return;
 	}
 	if (uid) {
