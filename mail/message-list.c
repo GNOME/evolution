@@ -1550,6 +1550,9 @@ static ECell * create_composite_cell (int col)
 	g_object_set_data (cell_vbox, "cell_date", cell_date);
 	g_object_set_data (cell_vbox, "cell_sub", cell_sub);
 	g_object_set_data (cell_vbox, "cell_from", cell_from);
+
+	g_free (fixed_name);
+
 	return cell_vbox;
 }
 

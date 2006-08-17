@@ -1,5 +1,9 @@
 2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* message-list.c: (create_composite_cell): Plug a leak.
+
+2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* em-format-html.c: (efh_url_requested): Plug a leak.
 
 2006-08-09  Srinivasa Ragavan  <sragavan@novell.com>
