@@ -1,3 +1,7 @@
+2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* em-format-html.c: (efh_url_requested): Plug a leak.
+
 2006-08-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-folder-browser.c: (em_folder_browser_get_wide),

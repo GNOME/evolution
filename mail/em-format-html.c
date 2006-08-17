@@ -573,6 +573,7 @@ efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMForma
 			gtk_html_stream_write (handle, data, length);
 
 		gtk_html_stream_close(handle, status? GTK_HTML_STREAM_OK : GTK_HTML_STREAM_ERROR);
+		g_free (data);
 	} else {
 		d(printf("HTML Includes reference to unknown uri '%s'\n", url));
 		gtk_html_stream_close(handle, GTK_HTML_STREAM_ERROR);
