@@ -63,7 +63,7 @@ Miguel de Icaza.
 	applications that use the above components to get their work done.
 
 	To achieve this Evolution is designed to be scriptable, and it
-	exports its internals trough CORBA/Bonobo.  It is implemented
+	exports its internals through CORBA/Bonobo.  It is implemented
 	as a collection of Bonobo containers and Bonobo components.
 
 	There is a clean separation between the views (the user
@@ -92,7 +92,7 @@ Miguel de Icaza.
 	nested, and the package does grouping of information displayed
 	according to the criteria defined there.
 
-	This is used in multiple places troughout evolution: it is
+	This is used in multiple places throughout evolution: it is
 	used for the Mail summary display, for the TODO display and
 	TODO new data entry and for the address book.
 
