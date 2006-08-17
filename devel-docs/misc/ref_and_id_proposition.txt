@@ -56,7 +56,7 @@ folder caching or message referencing if messages are referenced only
 by their position within their parent folder.
    
 
-We thus have to find a general way to identify and retreive a message
+We thus have to find a general way to identify and retrieve a message
 within its folder. One thing is sure, however: all folders
 implementation won't allow this method. Pop3 stores will always access
 messages using their rank on the server. MUA using Camel will thus
@@ -181,7 +181,7 @@ gboolean camel_folder_uid_is_reference (CamelFolder *folder, gchar *uid)
 Then all usual operations on the folder act if the message was
 actually physically stored in this folder. For example, when the mailer
 uses camel_folder_get_message_by_uid onto the (v)folder, the actual
-message is retreived from its physical store.
+message is retrieved from its physical store.
 
 As you can see, the uid of the message within its physical parent
 folder is different than its uid within the (v)folder. This is because
