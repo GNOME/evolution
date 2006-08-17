@@ -278,8 +278,11 @@ bbdb_open_addressbook (int type)
 	g_object_unref (G_OBJECT (gconf));
 	if (uri == NULL)
 		book = e_book_new_system_addressbook (&error);
-	else
+	else {
 		book = e_book_new_from_uri (uri, &error);
+		g_free (uri);
+	}
+
 	if (book == NULL) {
 		g_warning ("bbdb: failed to get addressbook: %s\n", error->message);
 		g_error_free (error);
@@ -403,6 +406,7 @@ create_addressbook_option_menu (struct bbdb_stuff *stuff, int type)
 	if (selected_source_uri != NULL) {
 		selected_source = e_source_new_with_absolute_uri ("", selected_source_uri);
 		e_source_option_menu_select (E_SOURCE_OPTION_MENU (menu), selected_source);
+		g_free (selected_source_uri);
 	}
 
 	gtk_widget_show (menu);

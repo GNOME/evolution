@@ -1,3 +1,8 @@
+2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* bbdb.c: (bbdb_open_addressbook),
+	(create_addressbook_option_menu): Plug a couple leaks.
+
 2006-08-03  Devashish Sharma  <sdevashish@novell.com>
 
 	* bbdb.c: Gaim and automatic contacts were not seen until
