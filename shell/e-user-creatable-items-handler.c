@@ -709,6 +709,7 @@ new_button_change (GConfClient *gconf,
 	set_combo_button_style (E_COMBO_BUTTON (priv->new_button), 
 				val, priv->default_menu_item->icon);	
 
+	g_free (val);
 	gtk_widget_show (priv->new_button);
 }
 
@@ -756,6 +757,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	gtk_object_sink (GTK_OBJECT (priv->tooltips));
 	gtk_tooltips_set_tip (priv->tooltips, priv->new_button,
 			      priv->default_menu_item->tooltip, NULL);
+	g_free (val);
 }
 
 
