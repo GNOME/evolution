@@ -1,5 +1,10 @@
 2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* gaimbuddies.c: (bbdb_sync_buddy_list_check): Don't leak
+	the file path here.
+
+2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* bbdb.c: (bbdb_open_addressbook),
 	(create_addressbook_option_menu): Plug a couple leaks.
 

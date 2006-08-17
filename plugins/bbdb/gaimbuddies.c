@@ -92,9 +92,12 @@ bbdb_sync_buddy_list_check (void)
 
 	blist_path = g_build_path ("/", getenv ("HOME"), ".gaim/blist.xml", NULL);
 	if (stat (blist_path, &statbuf) < 0) {
+		g_free (blist_path);
 		g_object_unref (G_OBJECT (gconf));
 		return;
 	}
+
+	g_free (blist_path);
 
 	/* Reprocess the buddy list if it's been updated. */
 	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, NULL);
