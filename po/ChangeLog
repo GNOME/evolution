@@ -1,3 +1,8 @@
+2006-08-17  Subhransu Behera  <arya_subhransu@yahoo.co.in>
+
+	* or.po: Added and Updated Oriya Translation.
+	* LINGUAS: Added Oriya (or) to The List of Languages.
+
 2006-08-16  Žygimantas Beručka  <zygis@gnome.org>
 
 	* lt.po: Small fix of Lithuanian translation.
