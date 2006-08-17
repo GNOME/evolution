@@ -149,7 +149,7 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 		struct tm mytm =  icaltimetype_to_tm (time);
 		gchar *str = (gchar*) g_malloc (sizeof (gchar) * 200);
 		gchar *tmp = NULL;
-
+		gchar *timezone;
 		/*
 		 * Translator: the %FT%T is the thirth argument for a strftime function.
 		 * It lets you define the formatting of the date in the rdf-file.
@@ -160,10 +160,11 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 		cur_node = xmlNewChild (node, NULL, tag, str);
 
 		/* Not sure about this property */
-		tmp = g_strdup_printf ("http://www.w3.org/2002/12/cal/tzd/%s#tz", calendar_config_get_timezone ());
+		timezone = calendar_config_get_timezone ();
+		tmp = g_strdup_printf ("http://www.w3.org/2002/12/cal/tzd/%s#tz", timezone);
 		xmlSetProp (cur_node, "rdf:datatype", tmp);
 		g_free (tmp);
-
+		g_free (timezone);
 		g_free (str);
 	}
 }

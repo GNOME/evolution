@@ -1,3 +1,7 @@
+2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* rdf-format.c: (add_time_to_rdf): Plug a leak.
+
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	
