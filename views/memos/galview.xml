@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <GalViewCollection default-view="Memos">
-  <GalView id="Memos" _title="_Memos" filename="Memos.galview" type="etable"/>
+  <GalView id="Memos" _title="Memos" filename="Memos.galview" type="etable"/>
 </GalViewCollection>
