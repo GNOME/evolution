@@ -1,3 +1,8 @@
+2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/e-week-view-event-item.c:
+	(e_week_view_event_item_draw_icons): Plug a leak.
+
 2006-08-14  Li Yuan  <li.yuan@sun.com>
 
 	* gui/alarm-notify/alarm-queue.c: (mail_notification):

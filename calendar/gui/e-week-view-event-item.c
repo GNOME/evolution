@@ -1400,6 +1400,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 			gdk_bitmap_unref (mask);
 	}
 
+	cairo_destroy (cr);
 	e_cal_component_free_categories_list (categories_list);
 	g_object_unref(comp);
 
