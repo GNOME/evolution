@@ -47,4 +47,4 @@ struct _EaExpanderClass {
 GType ea_expander_get_type (void);
 AtkObject* ea_expander_new (GtkWidget *expander);
 
-#endif /* ! _EA_EXPANDER_H */_
+#endif /* ! _EA_EXPANDER_H_ */

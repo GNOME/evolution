@@ -1,3 +1,10 @@
+2006-08-17  Li Yuan <li.yuan@sun.com>
+
+	Patch submitted by Pavel Roskin <proski@gnu.org>
+
+	* widgets/ea-expander.h:
+	Fix warning about ignored token after #endif.
+
 2006-08-16  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* calendar/ea-cal-view-event.c: (ea_cal_view_event_get_name):
