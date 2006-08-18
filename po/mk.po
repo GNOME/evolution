@@ -1,4 +1,4 @@
-# translation of mk.po to Macedonian
+# translation of evolution.HEAD.mk.po to Macedonian
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER, 2003.
 #
@@ -13,11 +13,11 @@
 # Arangel Angov <ufo@linux.net.mk>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: mk\n"
+"Project-Id-Version: evolution.HEAD.mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-12 23:16+0200\n"
-"PO-Revision-Date: 2006-08-13 02:54+0200\n"
-"Last-Translator: Arangel Angov <ufo@linux.net.mk>\n"
+"POT-Creation-Date: 2006-08-18 06:55+0200\n"
+"PO-Revision-Date: 2006-08-18 15:51+0200\n"
+"Last-Translator: Jovan Naumovski <jovan@lugola.net>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,11 +89,11 @@ msgstr "Настан во календарот: Резултатите се %s."
 msgid "Calendar Event: It has no summary."
 msgstr "Настан во календарот: Нема резултати."
 
-#: ../a11y/calendar/ea-cal-view-event.c:297
+#: ../a11y/calendar/ea-cal-view-event.c:298
 msgid "calendar view event"
 msgstr "поглед на настан во календар"
 
-#: ../a11y/calendar/ea-cal-view-event.c:526
+#: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
 msgstr "Има фокус"
 
@@ -682,7 +682,7 @@ msgstr "Адре_сар"
 msgid "Create a new address book"
 msgstr "Креирај нов адресар"
 
-#: ../addressbook/gui/component/addressbook-component.c:406
+#: ../addressbook/gui/component/addressbook-component.c:407
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Не успеа надградување на адресарски поставки или папки. "
 
@@ -1338,9 +1338,8 @@ msgid "Work"
 msgstr "Работа"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
-msgid "_Address:"
-msgstr "_Адреса:"
+msgid "_Address: "
+msgstr "_Адреса: "
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Anniversary:"
@@ -2657,6 +2656,10 @@ msgstr "Зем_ја:"
 msgid "Full Address"
 msgstr "Целосна адреса"
 
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
+msgid "_Address:"
+msgstr "_Адреса:"
+
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
 msgstr "Поштенск_и код:"
@@ -2982,7 +2985,7 @@ msgstr "От_сечи"
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:442
 #: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:1002
-#: ../mail/em-folder-view.c:1111 ../mail/message-list.c:1901
+#: ../mail/em-folder-view.c:1111 ../mail/message-list.c:1904
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -4687,7 +4690,7 @@ msgid "You have %d alarms"
 msgstr "Имате %d аларми"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1696
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1722
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1724
 msgid "Warning"
 msgstr "Предупредување"
 
@@ -4703,7 +4706,7 @@ msgstr ""
 "конфигуриран да испрати епошта. Развојот наместо тоа ќе прикажува\n"
 "нормална разговорна кутија."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1728
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1730
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4720,7 +4723,7 @@ msgstr ""
 "\n"
 "Дали си сигурен дека сакаш да ја извршуваш ова програма?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1742
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1744
 msgid "Do not ask me about this program again."
 msgstr "Не ме прашувај повторно за ова програма."
 
@@ -5907,12 +5910,12 @@ msgstr[2] "Прикачени пораки - %d"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1007 ../mail/message-list.c:1902
+#: ../mail/em-folder-view.c:1007 ../mail/message-list.c:1905
 msgid "_Move"
 msgstr "_Помести"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
-#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1904
+#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1907
 msgid "Cancel _Drag"
 msgstr "Откажи _влечење"
 
@@ -6376,7 +6379,7 @@ msgstr "Мемо"
 msgid "Unable to open memos in '%s'."
 msgstr "Не можам да ѓи отворам задачите во '%s'."
 
-#: ../calendar/gui/dialogs/memo-page.c:1019 ../mail/em-format-html.c:1488
+#: ../calendar/gui/dialogs/memo-page.c:1019 ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:846
 #: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
 msgid "To"
@@ -11446,7 +11449,7 @@ msgstr "почнува со"
 msgid "Stop Processing"
 msgstr "Престани со процесирање"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1659
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1660
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:90 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
@@ -11604,12 +11607,12 @@ msgstr "Преместување на папката %s"
 msgid "Copying folder %s"
 msgstr "Копирање на папката %s"
 
-#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1806
+#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1809
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Преместувам пораки во папка %s"
 
-#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1808
+#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1811
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копирам пораки во папка %s"
@@ -11859,7 +11862,7 @@ msgstr "Пр_епрати"
 msgid "M_atch case"
 msgstr "С_овпадни се"
 
-#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:618
 msgid "Unsigned"
 msgstr "Непотпишано"
 
@@ -11869,7 +11872,7 @@ msgid ""
 "authentic."
 msgstr "Пораката не е потпишана. Нема гаранција дека оваа порака е автентична."
 
-#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:619
 msgid "Valid signature"
 msgstr "Важечки потпис"
 
@@ -11879,7 +11882,7 @@ msgid ""
 "message is authentic."
 msgstr "Оваа порака е потпишана и е валидна, значи дека оваа порака е автентична."
 
-#: ../mail/em-format-html-display.c:928 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:928 ../mail/em-format-html.c:620
 msgid "Invalid signature"
 msgstr "Неважечки потпис"
 
@@ -11903,7 +11906,7 @@ msgstr ""
 "Оваа порака е потпишана со валиден потпис, но испраќачот на пораката не може "
 "да се провери."
 
-#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:626
+#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:627
 msgid "Unencrypted"
 msgstr "Не-енкриптирано"
 
@@ -11915,7 +11918,7 @@ msgstr ""
 "Оваа порака не е енкриптирана. Нејзината содржина може да се види при "
 "преносот на интернет."
 
-#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:628
 msgid "Encrypted, weak"
 msgstr "Слабо енкриптирано"
 
@@ -11929,7 +11932,7 @@ msgstr ""
 "тешко, но не и неможно некој од надворешноста да ја види содржината на оваа "
 "порака во разумно време."
 
-#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:629
 msgid "Encrypted"
 msgstr "Енкриптирано"
 
@@ -11941,7 +11944,7 @@ msgstr ""
 "Оваа порака е енкриптирана. Ќе биде тешко некој од надворешноста да ја види "
 "содржината на оваа порака."
 
-#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:630
 msgid "Encrypted, strong"
 msgstr "Јако енкриптирано"
 
@@ -12034,88 +12037,88 @@ msgstr "Страница %d од %d"
 msgid "Retrieving `%s'"
 msgstr "Собирам `%s'"
 
-#: ../mail/em-format-html.c:620
+#: ../mail/em-format-html.c:621
 msgid "Valid signature but cannot verify sender"
 msgstr "Валиден потпис но не може да се провери испраќачот"
 
-#: ../mail/em-format-html.c:891
+#: ../mail/em-format-html.c:892
 msgid "Malformed external-body part."
 msgstr "Изобличен надворешен дел од телото."
 
-#: ../mail/em-format-html.c:921
+#: ../mail/em-format-html.c:922
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Покажувач до FTP сајт (%s)"
 
-#: ../mail/em-format-html.c:932
+#: ../mail/em-format-html.c:933
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Покажувач до локална датотека (%s) валидна на сајт  \"%s\""
 
-#: ../mail/em-format-html.c:934
+#: ../mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Покажувач на локална датотека (%s)"
 
-#: ../mail/em-format-html.c:955
+#: ../mail/em-format-html.c:956
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Покажувач до далечни податоци (%s)"
 
-#: ../mail/em-format-html.c:966
+#: ../mail/em-format-html.c:967
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Покажувач до непознати надворешни податоци  (\"%s\"тип)"
 
-#: ../mail/em-format-html.c:1193
+#: ../mail/em-format-html.c:1194
 msgid "Formatting message"
 msgstr "Форматирање на порака"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "Од"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:86
 msgid "Reply-To"
 msgstr "Одговори на"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:88
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:89
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1663 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1664 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1025
 msgid "Mailer"
 msgstr "Поштар"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1690
+#: ../mail/em-format-html.c:1691
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1693
+#: ../mail/em-format-html.c:1694
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1703 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1704 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:91
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Датум"
 
-#: ../mail/em-format-html.c:1726 ../mail/em-format.c:851
+#: ../mail/em-format-html.c:1727 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:92
 msgid "Newsgroups"
 msgstr "Дискусиони групи"
@@ -12483,8 +12486,9 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
-"Листа на сметки познати на компонентата за пошта на Evolution. Листата содржи "
-"стрингови кои именуваат подпапки слични на /apps/evolution/mail/accounts."
+"Листа на сметки познати на компонентата за пошта на Evolution. Листата "
+"содржи стрингови кои именуваат подпапки слични на /apps/evolution/mail/"
+"accounts."
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "List of custom headers and whether they are enabled."
@@ -12495,9 +12499,9 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
-"Листа на ознаки познати на компонентата за пошта на Evolution. Листата содржи "
-"стрингови кои содржат name:color каде бојата го користи hex енкодингот на "
-"HTML."
+"Листа на ознаки познати на компонентата за пошта на Evolution. Листата "
+"содржи стрингови кои содржат name:color каде бојата го користи hex "
+"енкодингот на HTML."
 
 #: ../mail/evolution-mail.schemas.in.in.h:42
 msgid "List of mime types to check for bonobo component viewers"
@@ -13495,8 +13499,8 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Ве молам внесете информации за начинот на кој ќе испраќате пошта. Ако не "
-"сте сигурни, прашајте го Вашиот систем администраторот или интернет провајдерот."
+"Ве молам внесете информации за начинот на кој ќе испраќате пошта. Ако не сте "
+"сигурни, прашајте го Вашиот систем администраторот или интернет провајдерот."
 
 #: ../mail/mail-config.glade.h:110
 msgid ""
@@ -14759,11 +14763,11 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:2241 ../mail/message-list.etspec.h:9
+#: ../mail/message-list.c:2244 ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Пораки"
 
-#: ../mail/message-list.c:3629
+#: ../mail/message-list.c:3632
 msgid "Generating message list"
 msgstr "Генерирам листа на пораки"
 
@@ -14929,35 +14933,35 @@ msgstr "Направи бекап и врати ги Evolution податоци�
 msgid "Restore Settings..."
 msgstr "Врати поставки..."
 
-#: ../plugins/bbdb/bbdb.c:443 ../plugins/bbdb/bbdb.c:452
+#: ../plugins/bbdb/bbdb.c:447 ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Автоматски контакти"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:467
+#: ../plugins/bbdb/bbdb.c:471
 msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr "_Автоматски креирај записи во адресарот кога одговараш на порака"
 
-#: ../plugins/bbdb/bbdb.c:473
+#: ../plugins/bbdb/bbdb.c:477
 msgid "Select Address book for Automatic Contacts"
 msgstr "Изберете адресар за автоматски контакти"
 
-#: ../plugins/bbdb/bbdb.c:488
+#: ../plugins/bbdb/bbdb.c:492
 msgid "Instant Messaging Contacts"
 msgstr "Контакти за брзи пораки"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:503
+#: ../plugins/bbdb/bbdb.c:507
 msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr "Повремено синхронизирај информации и слики од мојот клиент за бр_зи пораки"
 
-#: ../plugins/bbdb/bbdb.c:509
+#: ../plugins/bbdb/bbdb.c:513
 msgid "Select Address book for Gaim buddy list"
 msgstr "Изберете адресар за контактите од Gaim"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:520
+#: ../plugins/bbdb/bbdb.c:524
 msgid "Synchronize with _buddy list now"
 msgstr "Синхронизрај со листата на к_онтакти сега"
 
@@ -15074,7 +15078,9 @@ msgstr "Провери дали Evolution е стандарден клиент �
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "Секојпат кога се подигнува Evolution, провери дали е стандарден клиент за е-пошта."
+msgstr ""
+"Секојпат кога се подигнува Evolution, провери дали е стандарден клиент за е-"
+"пошта."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
@@ -16868,8 +16874,8 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"Електронска порака ќе биде испратена на URL \"{0}\". Може да ја испратиш пораката "
-"автоматски, или да ја видиш и уредиш претходно.\n"
+"Електронска порака ќе биде испратена на URL \"{0}\". Може да ја испратиш "
+"пораката автоматски, или да ја видиш и уредиш претходно.\n"
 "\n"
 "Треба да добиеш одговор од поштенската листа набрзо откако пораката е "
 "испратена."
@@ -17362,7 +17368,7 @@ msgstr "Зачувај на _диск"
 msgid "%FT%T"
 msgstr "%FT%T"
 
-#: ../plugins/save-calendar/rdf-format.c:396
+#: ../plugins/save-calendar/rdf-format.c:397
 msgid "RDF format (.rdf)"
 msgstr "RDF формат (.rdf)"
 
