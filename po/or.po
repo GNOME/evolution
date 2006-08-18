@@ -20383,136 +20383,136 @@ msgstr ""
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "_Available Categories:"
-msgstr ""
+msgstr "ଉପଲବ୍ଧ ବିଭାଗ (_A):"
 
 #: ../widgets/misc/gal-categories.glade.h:4
 msgid "categories"
-msgstr ""
+msgstr "ବିଭାଗ"
 
 #: ../widgets/table/e-cell-combo.c:177
 msgid "popup list"
-msgstr ""
+msgstr "ପପ-ଅପ ତାଲିକା"
 
 #: ../widgets/table/e-cell-date.c:64
 msgid "%l:%M %p"
-msgstr ""
+msgstr "%l:%M %p"
 
 #: ../widgets/table/e-cell-pixbuf.c:397
 msgid "Selected Column"
-msgstr ""
+msgstr "ଚୟିତ ସ୍ତମ୍ଭ"
 
 #: ../widgets/table/e-cell-pixbuf.c:404
 msgid "Focused Column"
-msgstr ""
+msgstr "କେନ୍ଦ୍ରୀଭୂତ ସ୍ତମ୍ଭ"
 
 #: ../widgets/table/e-cell-pixbuf.c:411
 msgid "Unselected Column"
-msgstr ""
+msgstr "ଅଚୟିତ ସ୍ତମ୍ଭ"
 
 #: ../widgets/table/e-cell-text.c:1813
 msgid "Strikeout Column"
-msgstr ""
+msgstr "ସ୍ତମ୍ଭକୁ ଗାର ପକାଇ କାଟନ୍ତୁ"
 
 #: ../widgets/table/e-cell-text.c:1820
 msgid "Underline Column"
-msgstr ""
+msgstr "ରେଖାଙ୍କିତ ସ୍ତମ୍ଭ"
 
 #: ../widgets/table/e-cell-text.c:1827
 msgid "Bold Column"
-msgstr ""
+msgstr "ଗାଢ ସ୍ତମ୍ଭ"
 
 #: ../widgets/table/e-cell-text.c:1834
 msgid "Color Column"
-msgstr ""
+msgstr "ରଙ୍ଗ ସ୍ତମ୍ଭ"
 
 #: ../widgets/table/e-cell-text.c:1848
 msgid "BG Color Column"
-msgstr ""
+msgstr "BG ରଙ୍ଗ ସ୍ତମ୍ଭ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
-msgstr ""
+msgstr "<- ଅପସାରଣ କରନ୍ତୁ (_R)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
 msgid "A_vailable Fields:"
-msgstr ""
+msgstr "ଉପଲବ୍ଧ କ୍ଷେତ୍ର ମାନ (_v):"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
 #: ../widgets/table/e-table-header-item.c:1593
 msgid "Ascending"
-msgstr ""
+msgstr "ସାନରୁ ବଡ କ୍ରମରେ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:4
 #: ../widgets/table/e-table-config.glade.h:3
 msgid "Clear All"
-msgstr ""
+msgstr "ସବୁକିଛି ସଫାକରନ୍ତୁ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:4
 #: ../widgets/table/e-table-header-item.c:1593
 msgid "Descending"
-msgstr ""
+msgstr "ବଡରୁ ସାନ କ୍ରମରେ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:8
 #: ../widgets/table/e-table-config.glade.h:7
 msgid "Group Items By"
-msgstr ""
+msgstr "ଏପରି ଭାବରେ ସମୂହୀକ୍ରୁତ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
 msgid "Move _Down"
-msgstr ""
+msgstr "ତଳକୁ ଯାଆନ୍ତୁ (_D)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:9
 msgid "Move _Up"
-msgstr ""
+msgstr "ଉପରକୁ ଯାଆନ୍ତୁ (_U)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
-msgstr ""
+msgstr "ଏହି କ୍ଷେତ୍ର ମାନଙ୍କୁ କ୍ରମାନ୍ବୟରେ ଦେଖାନ୍ତୁ (_o):"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
-msgstr ""
+msgstr "କ୍ଷେତ୍ର ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
 msgid "Show field in View"
-msgstr ""
+msgstr "ଦ୍ରୁଶ୍ଯରେ ପ୍ରଦର୍ଶିତ କ୍ଷେତ୍ର"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:12
 msgid "Sort"
-msgstr ""
+msgstr "ସଜାଡନ୍ତୁ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:15
 #: ../widgets/table/e-table-config.glade.h:13
 msgid "Sort Items By"
-msgstr ""
+msgstr "ବସ୍ତୁ ମାନଙ୍କୁ ଏପରି ଭାବରେ ସଜାଡନ୍ତୁ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:16
 #: ../widgets/table/e-table-config.glade.h:14
 msgid "Then By"
-msgstr ""
+msgstr "ତାପରେ ଏପରି ଭାବରେ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 msgid "_Add ->"
-msgstr ""
+msgstr "ଯୋଗ କରନ୍ତୁ (_A) ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "ପ୍ରଦର୍ଶିତ କ୍ଷେତ୍ର (_F) ..."
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
 msgid "_Sort..."
-msgstr ""
+msgstr "ସଜାଡନ୍ତୁ (_S) ..."
 
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
@@ -20520,53 +20520,53 @@ msgstr "ରାଜ୍ଯ"
 
 #: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
 msgid "(Ascending)"
-msgstr ""
+msgstr "(ସାନରୁ ବଡ କ୍ରମରେ)"
 
 #: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
 msgid "(Descending)"
-msgstr ""
+msgstr "(ବଡରୁ ସାନ କ୍ରମରେ)"
 
 #: ../widgets/table/e-table-config.c:314
 msgid "Not sorted"
-msgstr ""
+msgstr "ସଜଡା ଯାଇନାହିଁ"
 
 #: ../widgets/table/e-table-config.c:355
 msgid "No grouping"
-msgstr ""
+msgstr "କୌଣସି ସମୂହୀକରଣ ହୋଇନାହିଁ"
 
 #: ../widgets/table/e-table-config.c:584
 msgid "Available Fields"
-msgstr ""
+msgstr "ଅବସ୍ଥିତ କ୍ଷେତ୍ର ମାନ"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
-msgstr ""
+msgstr "ଏହା ଦ୍ବାରା ସମୂହୀକ୍ରୁତ କରନ୍ତୁ (_G) ..."
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
-msgstr ""
+msgstr "ଏହି କ୍ଷେତ୍ର ମାନଙ୍କୁ କ୍ରମାନ୍ବୟରେ ଦେଖାନ୍ତୁ (_S):"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:635
 #: ../widgets/table/e-table-field-chooser.c:77
 #: ../widgets/table/e-table-header-item.c:1892
 msgid "DnD code"
-msgstr ""
+msgstr "DnD ସଙ୍କେତ"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
 #: ../widgets/table/e-table-field-chooser-item.c:642
 #: ../widgets/table/e-table-field-chooser.c:84
 #: ../widgets/table/e-table-header-item.c:1906
 msgid "Full Header"
-msgstr ""
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ ଶୀର୍ଷକ"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
-msgstr ""
+msgstr "ଗୋଟିଏ ସ୍ତମ୍ଭକୁ ଯୋଗ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
-msgstr ""
+msgstr "କ୍ଷେତ୍ର ଚୟକ"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
@@ -20578,15 +20578,15 @@ msgstr ""
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s : %s (%d ବସ୍ତୁ)"
+msgstr[1] "%s : %s (%d ବସ୍ତୁ)"
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s (%d ବସ୍ତୁ)"
+msgstr[1] "%s (%d ବସ୍ତୁ)"
 
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-container.c:898
@@ -20594,7 +20594,7 @@ msgstr[1] ""
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 msgid "Alternating Row Colors"
-msgstr ""
+msgstr "ପର୍ଯ୍ଯାୟକ୍ରମିକ ଧାଡି ରଙ୍ଗ"
 
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-container.c:905
@@ -20603,7 +20603,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
-msgstr ""
+msgstr "ଭୂସମାନ୍ତର ଅଙ୍କନ କ୍ଷେତ୍ର"
 
 #: ../widgets/table/e-table-group-container.c:911
 #: ../widgets/table/e-table-group-container.c:912
@@ -20612,7 +20612,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
-msgstr ""
+msgstr "ଭୂଲମ୍ବ ଅଙ୍କନ କ୍ଷେତ୍ର"
 
 #: ../widgets/table/e-table-group-container.c:918
 #: ../widgets/table/e-table-group-container.c:919
@@ -20621,7 +20621,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
-msgstr ""
+msgstr "ଫୋକସ ଅଙ୍କନ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-group-container.c:925
 #: ../widgets/table/e-table-group-container.c:926
@@ -20629,7 +20629,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-item.c:3001 ../widgets/table/e-table-item.c:3002
 msgid "Cursor mode"
-msgstr ""
+msgstr "ଦର୍ଶିକା ଅବସ୍ଥା"
 
 #: ../widgets/table/e-table-group-container.c:932
 #: ../widgets/table/e-table-group-container.c:933
@@ -20637,7 +20637,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
-msgstr ""
+msgstr "ଚୟନ ନମୁନା"
 
 #: ../widgets/table/e-table-group-container.c:939
 #: ../widgets/table/e-table-group-container.c:940
@@ -20647,7 +20647,7 @@ msgstr ""
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
-msgstr ""
+msgstr "ଦୈର୍ଘ୍ଯ ପ୍ରଭାବସୀମା"
 
 #: ../widgets/table/e-table-group-container.c:946
 #: ../widgets/table/e-table-group-container.c:947
@@ -20657,14 +20657,14 @@ msgstr ""
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
-msgstr ""
+msgstr "ଏକରୂପ ଧାଡି ଉଚ୍ଚତା"
 
 #: ../widgets/table/e-table-group-container.c:953
 #: ../widgets/table/e-table-group-container.c:954
 #: ../widgets/table/e-table-group-leaf.c:643
 #: ../widgets/table/e-table-group-leaf.c:644
 msgid "Frozen"
-msgstr ""
+msgstr "ଫ୍ରୋଜେନ"
 
 #: ../widgets/table/e-table-header-item.c:1471
 msgid "Customize Current View"
