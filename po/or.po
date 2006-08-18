@@ -3971,27 +3971,27 @@ msgstr "କେବଳ csv କିମ୍ବା vcard ଶୈଳୀକୁ ସହା�
 
 #: ../addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "ତାଳହୀନ ଧାରାରେ, ନିର୍ଗମ ଗୋଟିଏ ଫାଇଲ ହେବା ଉଚିତ।"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:122
 msgid "In normal mode, there is no need for the size option."
-msgstr ""
+msgstr "ସାଧାରଣ ଧାରାରେ, ସେଠାରେ ଆକାର ବିକଲ୍ପର କୌଣସି ଆବଶ୍ଯକତା ନାହିଁ।"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:153
 msgid "Unhandled error"
-msgstr ""
+msgstr "ଅନିୟନ୍ତ୍ରିତ ତ୍ରୁଟି"
 
 #: ../addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
-msgstr ""
+msgstr "ପୂର୍ବ ଠିକଣା ପୁସ୍ତିକାକୁ ଧାରଣ କରିବା ସମୟରେ ତ୍ରୁଟି।"
 
 #: ../addressbook/tools/evolution-addressbook-import.c:67
 msgid "Input File"
-msgstr ""
+msgstr "ନିବେଶ ଫାଇଲ"
 
 #: ../addressbook/tools/evolution-addressbook-import.c:82
 msgid "No filename provided."
-msgstr ""
+msgstr "କୌଣସି ଫାଇଲ ନାମ ଦିଆଯାଇ ନାହିଁ।"
 
 #: ../calendar/calendar.error.xml.h:1
 msgid ""
@@ -20668,188 +20668,188 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1471
 msgid "Customize Current View"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ଦ୍ରୁଶ୍ଯକୁ ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-header-item.c:1491
 msgid "Sort Ascending"
-msgstr ""
+msgstr "ସାନରୁ ବଡ କ୍ରମରେ ସଜାଡନ୍ତୁ"
 
 #: ../widgets/table/e-table-header-item.c:1492
 msgid "Sort Descending"
-msgstr ""
+msgstr "ବଡରୁ ସାନ କ୍ରମରେ ସଜାଡନ୍ତୁ"
 
 #: ../widgets/table/e-table-header-item.c:1493
 msgid "Unsort"
-msgstr ""
+msgstr "ଅସଜଡା"
 
 #: ../widgets/table/e-table-header-item.c:1495
 msgid "Group By This Field"
-msgstr ""
+msgstr "ଏହି କ୍ଷେତ୍ର ଅନୁସାରେ ସମୂହରେ ବିଭାଜିତ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-header-item.c:1496
 msgid "Group By Box"
-msgstr ""
+msgstr "ବକ୍ସ ଅନୁସାରେ ସମୂହରେ ବିଭାଜିତ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-header-item.c:1498
 msgid "Remove This Column"
-msgstr ""
+msgstr "ଏହି ସ୍ତମ୍ଭକୁ ଅପସାରଣ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table-header-item.c:1499
 msgid "Add a Column..."
-msgstr ""
+msgstr "ଗୋଟିଏ ସ୍ତମ୍ଭ ଯୋଗ କରନ୍ତୁ ..."
 
 #: ../widgets/table/e-table-header-item.c:1501
 msgid "Alignment"
-msgstr ""
+msgstr "ପାର୍ଶ୍ବସଜ୍ଜା"
 
 #: ../widgets/table/e-table-header-item.c:1502
 msgid "Best Fit"
-msgstr ""
+msgstr "ସର୍ବତ୍କ୍ରୁଷ୍ଟ ଅନୁରୂପ"
 
 #: ../widgets/table/e-table-header-item.c:1503
 msgid "Format Columns..."
-msgstr ""
+msgstr "ସ୍ତମ୍ଭ ମାନଙ୍କୁ ସଂରୂପିତ କରନ୍ତୁ ..."
 
 #: ../widgets/table/e-table-header-item.c:1505
 msgid "Customize Current View..."
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ଦ୍ରୁଶ୍ଯକୁ ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ ..."
 
 #: ../widgets/table/e-table-header-item.c:1554
 msgid "Sort By"
-msgstr ""
+msgstr "ସଜାଡିବା ନିୟମ"
 
 #: ../widgets/table/e-table-header-item.c:1899 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
-msgstr ""
+msgstr "ଅକ୍ଷରରୂପ ସେଟ"
 
 #: ../widgets/table/e-table-header-item.c:1920
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
-msgstr ""
+msgstr "ସଜଡା ଯାଇଥିବା ସୂଚନା"
 
 #: ../widgets/table/e-table-header-item.c:1934
 #: ../widgets/table/e-tree-scrolled.c:221
 #: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
-msgstr ""
+msgstr "ବ୍ରୁକ୍ଷ"
 
 #: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
 msgid "Table header"
-msgstr ""
+msgstr "ସାରଣୀ ଶୀର୍ଷକ"
 
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Table model"
-msgstr ""
+msgstr "ସାରଣୀ ନମୁନା"
 
 #: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
-msgstr ""
+msgstr "ଦର୍ଶିକା ଧାଡି"
 
 #: ../widgets/table/e-table.c:3315 ../widgets/table/e-tree.c:3298
 #: ../widgets/table/e-tree.c:3299
 msgid "Always search"
-msgstr ""
+msgstr "ସବୁବେଳେ ସନ୍ଧାନ କରନ୍ତୁ"
 
 #: ../widgets/table/e-table.c:3322
 msgid "Use click to add"
-msgstr ""
+msgstr "ଯୋଗ କରିବା ପାଇଁ 'ଦବାନ୍ତୁ' କୁ ବ୍ଯବହାର କରନ୍ତୁ"
 
 #: ../widgets/table/e-tree.c:3284 ../widgets/table/e-tree.c:3285
 msgid "ETree table adapter"
-msgstr ""
+msgstr "ETree ସାରଣୀ ଅନୁକୂଳକ"
 
 #: ../widgets/table/e-tree.c:3305
 msgid "Retro Look"
-msgstr ""
+msgstr "ମନୋହର ରୂପ"
 
 #: ../widgets/table/e-tree.c:3306
 msgid "Draw lines and +/- expanders."
-msgstr ""
+msgstr "ରେଖା ଏବଂ +/- ଆବର୍ଦ୍ଧକ ଅଙ୍କନ କରନ୍ତୁ।"
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
-msgstr ""
+msgstr "ମିନିକାର୍ଡ ପରୀକ୍ଷଣ"
 
 #: ../widgets/text/e-entry-test.c:50
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr ""
+msgstr "ସ୍ବତ୍ତ୍ବାଧୀକାର (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
 msgid "This should test the minicard canvas item"
-msgstr ""
+msgstr "ଏହା ମିନିକାର୍ଡ ଅଙ୍କନକ୍ଷେତ୍ର ବସ୍ତୁକୁ ପରୀକ୍ଷଣ କରିବା ଉଚିତ"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3496 ../widgets/text/e-text.c:3497
 msgid "Event Processor"
-msgstr ""
+msgstr "ଘଟଣା ସଂସାଧକ"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
 msgid "Font"
-msgstr ""
+msgstr "ଅକ୍ଷରରୂପ"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
 msgid "GDKFont"
-msgstr ""
+msgstr "GDKFont"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
 #: ../widgets/text/e-text.c:3532 ../widgets/text/e-text.c:3533
 msgid "Justification"
-msgstr ""
+msgstr "ଯଥାର୍ଥତା"
 
 #: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
 #: ../widgets/text/e-text.c:3632 ../widgets/text/e-text.c:3633
 msgid "Use ellipsis"
-msgstr ""
+msgstr "ପଦଶୂନ୍ଯତା ବ୍ଯବହାର କରନ୍ତୁ"
 
 #: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
 #: ../widgets/text/e-text.c:3639 ../widgets/text/e-text.c:3640
 msgid "Ellipsis"
-msgstr ""
+msgstr "ପଦଶୂନ୍ଯତା"
 
 #: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
 #: ../widgets/text/e-text.c:3646 ../widgets/text/e-text.c:3647
 msgid "Line wrap"
-msgstr ""
+msgstr "ରେଖାକୁ ଆବ୍ରୁତ କରନ୍ତୁ"
 
 #: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
 #: ../widgets/text/e-text.c:3653 ../widgets/text/e-text.c:3654
 msgid "Break characters"
-msgstr ""
+msgstr "ଅକ୍ଷର ମାନଙ୍କୁ ବିଚ୍ଛିନ୍ନ କରନ୍ତୁ"
 
 #: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
 #: ../widgets/text/e-text.c:3660 ../widgets/text/e-text.c:3661
 msgid "Max lines"
-msgstr ""
+msgstr "ସର୍ବାଧିକ ରେଖା"
 
 #: ../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
 #: ../widgets/text/e-text.c:3689 ../widgets/text/e-text.c:3690
 msgid "Allow newlines"
-msgstr ""
+msgstr "ନୂତନ ରେଖା ମାନଙ୍କୁ ସ୍ବୀକାର କରନ୍ତୁ"
 
 #: ../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
 #: ../widgets/text/e-text.c:3682 ../widgets/text/e-text.c:3683
 msgid "Draw borders"
-msgstr ""
+msgstr "ଧାର ଅଙ୍କନ କରନ୍ତୁ"
 
 #: ../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
 #: ../widgets/text/e-text.c:3696 ../widgets/text/e-text.c:3697
 msgid "Draw background"
-msgstr ""
+msgstr "ପ୍ରୁଷ୍ଠଭୂମି ଅଙ୍କନ କରନ୍ତୁ"
 
 #: ../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
 #: ../widgets/text/e-text.c:3703 ../widgets/text/e-text.c:3704
 msgid "Draw button"
-msgstr ""
+msgstr "ବଟନ ଅଙ୍କନ କରନ୍ତୁ"
 
 #: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
 #: ../widgets/text/e-text.c:3710 ../widgets/text/e-text.c:3711
 msgid "Cursor position"
-msgstr ""
+msgstr "ଦର୍ଶିକା ଅବସ୍ଥିତି"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "ସୂଚକ ଆକାର ପରିବର୍ତ୍ତନକୁ ଅନୁକରଣ କରନ୍ତୁ"
 
 #: ../widgets/text/e-text.c:2739
 msgid "Input Methods"
@@ -20861,49 +20861,49 @@ msgstr "ଗାଢ ଅକ୍ଷର"
 
 #: ../widgets/text/e-text.c:3517 ../widgets/text/e-text.c:3518
 msgid "Strikeout"
-msgstr ""
+msgstr "ଗାର ପକାଇ କାଟନ୍ତୁ"
 
 #: ../widgets/text/e-text.c:3524 ../widgets/text/e-text.c:3525
 msgid "Anchor"
-msgstr ""
+msgstr "ସ୍ଥିରବିନ୍ଦୁ"
 
 #: ../widgets/text/e-text.c:3539 ../widgets/text/e-text.c:3540
 msgid "Clip Width"
-msgstr ""
+msgstr "ପ୍ରସ୍ଥ କାଟନ୍ତୁ "
 
 #: ../widgets/text/e-text.c:3546 ../widgets/text/e-text.c:3547
 msgid "Clip Height"
-msgstr ""
+msgstr "ଦୈର୍ଘ୍ଯ କାଟନ୍ତୁ"
 
 #: ../widgets/text/e-text.c:3553 ../widgets/text/e-text.c:3554
 msgid "Clip"
-msgstr ""
+msgstr "କାଟନ୍ତୁ"
 
 #: ../widgets/text/e-text.c:3560 ../widgets/text/e-text.c:3561
 msgid "Fill clip rectangle"
-msgstr ""
+msgstr "କ୍ଲିପ ଆୟତକ୍ଷେତ୍ରକୁ ଭରନ୍ତୁ"
 
 #: ../widgets/text/e-text.c:3567 ../widgets/text/e-text.c:3568
 msgid "X Offset"
-msgstr ""
+msgstr "ଏକ୍ସ ଅଫସେଟ"
 
 #: ../widgets/text/e-text.c:3574 ../widgets/text/e-text.c:3575
 msgid "Y Offset"
-msgstr ""
+msgstr "ୟାଇ ଅଫସେଟ"
 
 #: ../widgets/text/e-text.c:3610 ../widgets/text/e-text.c:3611
 msgid "Text width"
-msgstr ""
+msgstr "ପାଠ୍ଯ ପ୍ରସ୍ଥ"
 
 #: ../widgets/text/e-text.c:3617 ../widgets/text/e-text.c:3618
 msgid "Text height"
-msgstr ""
+msgstr "ପାଠ୍ଯ ଦୈର୍ଘ୍ଯ"
 
 #: ../widgets/text/e-text.c:3717 ../widgets/text/e-text.c:3718
 msgid "IM Context"
-msgstr ""
+msgstr "IM ପ୍ରସଙ୍ଗ"
 
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
-msgstr ""
+msgstr "ପପ-ଅପ ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ"
 
