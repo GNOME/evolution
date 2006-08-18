@@ -1,3 +1,10 @@
+2006-08-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #350884
+	
+	* message-list.c: (subtree_latest), (ml_tree_value_at): Sort thread
+	based on the date of last message received.
+
 2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* message-list.c: (create_composite_cell): Plug a leak.

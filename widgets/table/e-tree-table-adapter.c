@@ -82,6 +82,8 @@ struct ETreeTableAdapterPriv {
 	int          sort_info_changed_id;
 };
 
+static void etta_sort_info_changed (ETableSortInfo *sort_info, ETreeTableAdapter *etta);
+
 static GNode *
 lookup_gnode(ETreeTableAdapter *etta, ETreePath path)
 {
@@ -744,12 +746,22 @@ etta_proxy_no_change (ETreeModel *etm, ETreeTableAdapter *etta)
 	e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
+guint resort_model (ETreeTableAdapter *etta)
+{
+	etta_sort_info_changed (NULL, etta);
+	return FALSE;
+}
+
 static void
 etta_proxy_node_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter *etta)
 {
 	update_node(etta, path);
-
 	e_table_model_changed(E_TABLE_MODEL(etta));
+
+	/* FIXME: Really it shouldnt be required. But a lot of thread
+	 * which were supposed to be present in the list is way below
+	 */
+	g_idle_add (resort_model, etta);
 }
 
 static void

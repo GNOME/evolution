@@ -1133,10 +1133,10 @@ subtree_size(MessageList *ml, ETreePath node)
 }
 
 static time_t
-subtree_earliest(MessageList *ml, ETreePath node, int sent)
+subtree_latest(MessageList *ml, ETreePath node, int sent)
 {
 	CamelMessageInfo *info;
-	time_t earliest = 0, date;
+	time_t latest = 0, date;
 	ETreePath *child;
 	
 	while (node) {
@@ -1148,19 +1148,19 @@ subtree_earliest(MessageList *ml, ETreePath node, int sent)
 		else
 			date = camel_message_info_date_received(info);
 		
-		if (earliest == 0 || date < earliest)
-			earliest = date;
+		if (latest == 0 || date > latest)
+			latest = date;
 		
 		if ((child = e_tree_model_node_get_first_child (ml->model, node))) {
-			date = subtree_earliest(ml, child, sent);
-			if (earliest == 0 || (date != 0 && date < earliest))
-				earliest = date;
+			date = subtree_latest(ml, child, sent);
+			if (latest == 0 || (date != 0 && date > latest))
+				latest = date;
 		}
 		
 		node = e_tree_model_node_get_next (ml->model, node);
 	}
 	
-	return earliest;
+	return latest;
 }
 
 static gchar *
@@ -1288,10 +1288,25 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return (void *)(str ? str : "");
 	case COL_SUBJECT_NORM:
 		return (void *) get_normalised_string (message_list, msg_info, col);
-	case COL_SENT:
+	case COL_SENT: {
+		ETreePath child;
+
+		child = e_tree_model_node_get_first_child(etm, path);
+		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
+			return GINT_TO_POINTER (subtree_latest (message_list, child, 1));
+		}
+		
 		return GINT_TO_POINTER (camel_message_info_date_sent(msg_info));
-	case COL_RECEIVED:
+	}
+	case COL_RECEIVED: {
+		ETreePath child;
+
+		child = e_tree_model_node_get_first_child(etm, path);
+		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
+			return GINT_TO_POINTER (subtree_latest (message_list, child, 0));
+		}
 		return GINT_TO_POINTER (camel_message_info_date_received(msg_info));
+	}	
 	case COL_TO:
 		str = camel_message_info_to (msg_info);
 		return (void *)(str ? str : "");

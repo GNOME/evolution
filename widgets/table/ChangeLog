@@ -1,3 +1,11 @@
+2006-08-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #350884
+
+	* e-tree-table-adapter.c: (resort_model),
+	(etta_proxy_node_changed): Sort the model after for gmail like
+	display.
+
 2006-07-05  Rajeev ramanathan <rajeevramanathan_2004@yaoo.co.in>
 
 	* e-cell-text.c: (ect_unrealize), (build_layout), (ect_draw): Added
