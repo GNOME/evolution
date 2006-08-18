@@ -37,79 +37,79 @@ msgstr "ନୂତନ ସମ୍ପର୍କ ତାଲିକା"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ଉପସ୍ଥିତ %s ଠିକଣା ପୁସ୍ତିକା ଫୋଲଡରରେ %d କାର୍ଡ ଅଛି"
+msgstr[1] "ଉପସ୍ଥିତ %s ଠିକଣା ପୁସ୍ତିକା ଫୋଲଡରରେ %d କାର୍ଡ ଗୁଡିକ ଅଛି"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:12
 msgid "Open"
-msgstr ""
+msgstr "ଖୋଲନ୍ତୁ"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
-msgstr ""
+msgstr "ସମ୍ପର୍କ ତାଲିକା:"
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
-msgstr ""
+msgstr "ସମ୍ପର୍କ:"
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ମିନିକାର୍ଡ"
 
 #: ../a11y/calendar/ea-cal-view-event.c:264
 msgid "It has alarms."
-msgstr ""
+msgstr "ଏଥିରେ ସତର୍କ ଘଣ୍ଟି ଅଛି।"
 
 #: ../a11y/calendar/ea-cal-view-event.c:267
 msgid "It has recurrences."
-msgstr ""
+msgstr "ଏଥିରେ ପୁନରାବ୍ରୁତ୍ତି ଅଛି।"
 
 #: ../a11y/calendar/ea-cal-view-event.c:270
 msgid "It is a meeting."
-msgstr ""
+msgstr "ଏହା ଗୋଟିଏ ସାକ୍ଷାତ ଅଟେ।"
 
 #: ../a11y/calendar/ea-cal-view-event.c:276
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ଘଟଣା: %s ସାରାଂଶ ଅଟେ।"
 
 #: ../a11y/calendar/ea-cal-view-event.c:278
 msgid "Calendar Event: It has no summary."
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ଘଟଣା: ଏହାର କୌଣସି ସାରାଂଶ ନାହିଁ।"
 
 #: ../a11y/calendar/ea-cal-view-event.c:298
 msgid "calendar view event"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ଦ୍ରୁଶ୍ଯ ଘଟଣା"
 
 #: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
-msgstr ""
+msgstr "ଫୋକସକୁ ନିଅନ୍ତୁ"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
-msgstr ""
+msgstr "ନୂତନ ନିଯୁକ୍ତି"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "New All Day Event"
-msgstr ""
+msgstr "ନୂତନ ପୂର୍ଣ୍ଣ ଦିବସ ଘଟଣା"
 
 #: ../a11y/calendar/ea-cal-view.c:304
 msgid "New Meeting"
-msgstr ""
+msgstr "ନୂତନ ସାକ୍ଷାତ"
 
 #: ../a11y/calendar/ea-cal-view.c:305
 msgid "Go to Today"
-msgstr ""
+msgstr "ଆଜିକୁ ଯାଆନ୍ତୁ"
 
 #: ../a11y/calendar/ea-cal-view.c:306
 msgid "Go to Date"
-msgstr ""
+msgstr "ଦିନକୁ ଯାଆନ୍ତୁ"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
 msgid "a table to view and select the current time range"
-msgstr ""
+msgstr "ଉପସ୍ଥିତ ସମୟ ପରିସରକୁ ଦେଖିବା ପାଇଁ ଏବଂ ଚୟନ କରିବା ପାଇଁ ଗୋଟିଏ ସାରଣୀ"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
@@ -117,14 +117,14 @@ msgstr ""
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ଏଥିରେ %d ଘଟଣା ଅଛି।"
+msgstr[1] "ଏଥିରେ %d ଘଟଣା ଅଛି।"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../a11y/calendar/ea-day-view.c:155 ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
-msgstr ""
+msgstr "ଏଥିରେ କୌଣସି ଘଟଣା ନାହିଁ।"
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
@@ -132,7 +132,7 @@ msgstr ""
 #: ../a11y/calendar/ea-day-view.c:162
 #, c-format
 msgid "Work Week View: %s. %s"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ସପ୍ତାହ ଦ୍ରୁଶ୍ଯ: %s. %s"
 
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
@@ -140,20 +140,20 @@ msgstr ""
 #: ../a11y/calendar/ea-day-view.c:168
 #, c-format
 msgid "Day View: %s. %s"
-msgstr ""
+msgstr "ଦିନ ଦ୍ରୁଶ୍ଯ: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:199
 msgid "calendar view for a work week"
-msgstr ""
+msgstr "ଗୋଟିଏ କାର୍ଯ୍ଯ ସପ୍ତାହ ପାଇଁ କ୍ଯାଲେଣ୍ଡର ଦ୍ରୁଶ୍ଯ"
 
 #: ../a11y/calendar/ea-day-view.c:201
 msgid "calendar view for one or more days"
-msgstr ""
+msgstr "ଗୋଟିଏ ଏବଂ ଅଧିକ ଦିବସ ପାଇଁ କ୍ଯାଲେଣ୍ଡର ଦ୍ରୁଶ୍ଯ"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
 #: ../calendar/gui/calendar-component.c:704
 msgid "%A %d %b %Y"
-msgstr ""
+msgstr "%A %d %b %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -168,7 +168,7 @@ msgstr ""
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a %d %b"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
@@ -177,7 +177,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:714
 #: ../calendar/gui/calendar-component.c:716
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%a %d %b %Y"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:216
 #: ../a11y/calendar/ea-gnome-calendar.c:222
@@ -188,7 +188,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:741
 #: ../calendar/gui/calendar-component.c:743
 msgid "%d %b %Y"
-msgstr ""
+msgstr "%d %b %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -202,159 +202,161 @@ msgstr ""
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
-msgstr ""
+msgstr "%d %b"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:247
 #: ../a11y/calendar/ea-gnome-calendar.c:255
 #: ../calendar/importers/icalendar-importer.c:772
 msgid "Gnome Calendar"
-msgstr ""
+msgstr "ନୋମ କ୍ଯାଲେଣ୍ଡର"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:290
 msgid "search bar"
-msgstr ""
+msgstr "ସନ୍ଧାନ ପଟି"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "evolution calendar search bar"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ କ୍ଯାଲେଣ୍ଡର ସନ୍ଧାନ ପଟି"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
-msgstr ""
+msgstr "ଡେଇଁବା ବଟନ"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr ""
+msgstr "ଏଠାରେ ଦବାନ୍ତୁ, ଆପଣ ଅଧିକ ଘଟଣା ପାଇ ପାରିବେ।"
 
 #: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
-msgstr ""
+msgstr "ମାସ ଦ୍ରୁଶ୍ଯ: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
-msgstr ""
+msgstr "ସପ୍ତାହ ଦ୍ରୁଶ୍ଯ: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
-msgstr ""
+msgstr "ଗୋଟିଏ ସପ୍ତାହ ପାଇଁ କ୍ଯାଲେଣ୍ଡର ଦ୍ରୁଶ୍ଯ"
 
 #: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
-msgstr ""
+msgstr "ଅଧିକ କିମ୍ବା ସପ୍ତାହ ପାଇଁ କ୍ଯାଲେଣ୍ଡର ଦ୍ରୁଶ୍ଯ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
 msgid "popup"
-msgstr ""
+msgstr "ପପ-ଅପ"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
 msgid "popup a child"
-msgstr ""
+msgstr "ଗୋଟିଏ ନିର୍ଭରକକୁ ପପ-ଅପ କରନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:612
 msgid "edit"
-msgstr ""
+msgstr "ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:613
 msgid "begin editing this cell"
-msgstr ""
+msgstr "ଏହି କକ୍ଷକୁ ସମ୍ପାଦନ କରିବା ପ୍ରାରମ୍ଭ କରନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
 msgid "toggle"
-msgstr ""
+msgstr "ଅଦଳବଦଳ କରନ୍ତୁ"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
 msgid "toggle the cell"
-msgstr ""
+msgstr "କକ୍ଷ ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
 msgid "expand"
-msgstr ""
+msgstr "ସମ୍ପ୍ରସାରଣ କରନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
 msgid "expands the row in the ETree containing this cell"
-msgstr ""
+msgstr "ଏହି କକ୍ଷକୁ ଧାରଣ କରିଥିବା ETree ରେ ଧାଡିକୁ ସମ୍ପ୍ରସାରିତ କରିଥାଏ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
 msgid "collapse"
-msgstr ""
+msgstr "ସଙ୍କୋଚନ କରନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
 msgid "collapses the row in the ETree containing this cell"
-msgstr ""
+msgstr "ଏହି କକ୍ଷକୁ ଧାରଣ କରିଥିବା ETree ରେ ଧାଡିକୁ ସଙ୍କୋଚିତ କରନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
-msgstr ""
+msgstr "ସାରଣୀ କକ୍ଷ"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
 #: ../widgets/table/e-table-click-to-add.c:574
 msgid "click to add"
-msgstr ""
+msgstr "ଯୋଗ କରିବା ପାଇଁ ଦବାନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
-msgstr ""
+msgstr "ଦବାନ୍ତୁ"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
-msgstr ""
+msgstr "ସଜାଡନ୍ତୁ"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #: ../a11y/widgets/ea-calendar-item.c:304
 #, c-format
 msgid "Calendar: from %s to %s"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର: %s ରୁ %s କୁ"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ କ୍ଯାଲେଣ୍ଡର ବସ୍ତୁ"
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
-msgstr ""
+msgstr "ସମ୍ମଳିତ ବଟନ"
 
 #: ../a11y/widgets/ea-combo-button.c:50
 msgid "Activate Default"
-msgstr ""
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତକୁ ସକ୍ରିୟ କରନ୍ତୁ"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "ପପ-ଅପ ତାଲିକା"
 
 #: ../a11y/widgets/ea-expander.c:40
 msgid "Toggle Attachment Bar"
-msgstr ""
+msgstr "ସଂଲଗ୍ନିତ ପଟିକୁ ବଦଳାନ୍ତୁ"
 
 #: ../a11y/widgets/ea-expander.c:50
 msgid "activate"
-msgstr ""
+msgstr "ସକ୍ରିୟ କରନ୍ତୁ"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr ""
+"ଏହି ସମ୍ପର୍କର ଇ-ଡାକ ଠିକଣା କିମ୍ବା ନାମଟି ପୂର୍ବରୁ ରହିଛି। ଆପଣ ତଥାପି ସମାନ ଠିକଣା ଥିବା ଗୋଟିଏ ନୂତନ କାର୍ଡକୁ "
+"ଯୋଡିବା ପାଇଁ ଚାହୁଁଛନ୍ତି କି?"
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
-msgstr ""
+msgstr "ଠିକଣା '{0}' ପୂର୍ବରୁ ରହିଛି।"
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Cannot move contact."
-msgstr ""
+msgstr "ସମ୍ପର୍କକୁ ହଟାଇ ପାରିବ ନାହିଁ।"
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Category editor not available."
-msgstr ""
+msgstr "ଶ୍ରେଣୀ ସମ୍ପାଦକ ଅନୁପଲବ୍ଧ।"
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid ""
@@ -365,11 +367,11 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
-msgstr ""
+msgstr "LDAP ସେବକ ପାଇଁ ବିବରଣିକା ସୂଚନା ପାଇ ପାରିଲା ନାହିଁ।"
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Could not remove addressbook."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଅପସାରଣ କରି ପାରିଲା ନାହିଁ।"
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid ""
@@ -380,49 +382,49 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା '{0}' କୁ ଅପସାରଣ କରନ୍ତୁ"
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Error loading addressbook."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଧାରଣ କରିବାରେ ତ୍ରୁଟି।"
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Error saving {0} to {1}: {2}"
-msgstr ""
+msgstr "{0} କୁ {1} ରେ ସଂରକ୍ଷଣ କରିବା ସମୟରେ ତ୍ରୁଟି: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Failed to authenticate with LDAP server."
-msgstr ""
+msgstr "LDAP ସେବକ ସହିତ ବୈଧିକରଣ କରିବା ସମୟରେ ତ୍ରୁଟି।"
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1908
 msgid "Failed to delete contact"
-msgstr ""
+msgstr "ଖାତାକୁ ଅପସାରଣ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "GroupWise Address book creation:"
-msgstr ""
+msgstr "ସମୂହ ଅନୁସାରେ ଠିକଣା ପୁସ୍ତିକା ପ୍ରସ୍ତୁତି:"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "LDAP server did not respond with valid schema information."
-msgstr ""
+msgstr "LDAP ସେବକ ବୈଧ ବିବରଣିକା ସୂଚନା ସହିତ ଉତ୍ତର ଦେଲାନାହିଁ"
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "Permission Denied."
-msgstr ""
+msgstr "ଅନୁମତି ନିଷିଦ୍ଧ।"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Server Version"
-msgstr ""
+msgstr "ସେବକ ସଂସ୍କରଣ"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
-msgstr ""
+msgstr "ଆପଣଙ୍କର ସାମ୍ପ୍ରତିକ ସେବକ ସହିତ କିଛି ଗୁଣ ସଠିକ ରୂପରେ କାର୍ଯ୍ଯ କରି ନ ପାରେ"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଠିକଣା ପୁସ୍ତିକାଟି ଅପ୍ରତ୍ଯାଶିତ ଭାବରେ ବନ୍ଦ ହୋଇଗଲା।"
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "The image you have selected is large. Do you want to resize and store it?"
@@ -556,35 +558,35 @@ msgstr "ସମ୍ପର୍କ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 msgid "Evolution Address Book"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଠିକଣା ପୁସ୍ତିକା"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Address Book address pop-up"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଠିକଣା ପୁସ୍ତିକା ଠିକଣା ପପ-ଅପ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Address Book address viewer"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଠିକଣା ପୁସ୍ତିକା ଠିକଣା ପ୍ରଦର୍ଶକ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Address Book card viewer"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଠିକଣା ପୁସ୍ତିକା କାର୍ଡ ପ୍ରଦର୍ଶକ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Address Book component"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଠିକଣା ପୁସ୍ତିକା ଉପାଦାନ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଏସ/ମାଇମ ପ୍ରମାଣପତ୍ର ପରିଚାଳନା ବ୍ଯବସ୍ଥା ନିୟନ୍ତ୍ରଣ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ଫୋଲଡର ସଂଯୋଜନା ବିନ୍ଯାସ ନିୟନ୍ତ୍ରଣ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
-msgstr ""
+msgstr "ଆପଣଙ୍କର ଏସ/ମାଇମ ପ୍ରମାଣପତ୍ରକୁ ଏଠାରେ ପରିଚାଳନା କରନ୍ତୁ"
 
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
@@ -597,7 +599,7 @@ msgstr ""
 #: ../mail/em-folder-tree-model.c:201 ../mail/mail-component.c:299
 #: ../mail/mail-vfolder.c:223
 msgid "On This Computer"
-msgstr ""
+msgstr "ଏହି କମ୍ପୁଟରରେ"
 
 #. Create the default Person addressbook
 #. Create the default Person calendar
@@ -614,46 +616,46 @@ msgstr ""
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
 #: ../mail/em-migrate.c:1055 ../mail/mail-config.glade.h:104
 msgid "Personal"
-msgstr ""
+msgstr "ବ୍ଯକ୍ତିଗତ"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:159
 #: ../addressbook/gui/component/addressbook-migrate.c:501
 msgid "On LDAP Servers"
-msgstr ""
+msgstr "LDAP ସେବକରେ"
 
 #: ../addressbook/gui/component/addressbook-component.c:227
 msgid "_Contact"
-msgstr ""
+msgstr "ସମ୍ପର୍କ (_C)"
 
 #: ../addressbook/gui/component/addressbook-component.c:228
 msgid "Create a new contact"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ ସମ୍ପର୍କ ସ୍ରୁଷ୍ଟି କରନ୍ତୁ"
 
 #: ../addressbook/gui/component/addressbook-component.c:235
 msgid "Contact _List"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ତାଲିକା (_L)"
 
 #: ../addressbook/gui/component/addressbook-component.c:236
 msgid "Create a new contact list"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ ସମ୍ପର୍କ ତାଲିକା ସ୍ରୁଷ୍ଟି କରନ୍ତୁ"
 
 #: ../addressbook/gui/component/addressbook-component.c:242
 #: ../addressbook/gui/component/addressbook-config.c:1205
 msgid "New Address Book"
-msgstr ""
+msgstr "ନୂତନ ଠିକଣା ପୁସ୍ତିକା"
 
 #: ../addressbook/gui/component/addressbook-component.c:243
 msgid "Address _Book"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା (_B)"
 
 #: ../addressbook/gui/component/addressbook-component.c:244
 msgid "Create a new address book"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ ଠିକଣା ପୁସ୍ତିକା ସ୍ରୁଷ୍ଟି କରନ୍ତୁ"
 
 #: ../addressbook/gui/component/addressbook-component.c:406
 msgid "Failed upgrading Address Book settings or folders."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା ସଂଯୋଜନା କିମ୍ବା ଫୋଲଡରକୁ ଉନ୍ନୟନ କରିବାରେ ବିଫଳ।"
 
 #: ../addressbook/gui/component/addressbook-config.c:332
 msgid "Base"
@@ -663,11 +665,11 @@ msgstr "ଆଧାର"
 #: ../calendar/gui/dialogs/calendar-setup.c:192
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Type:"
-msgstr ""
+msgstr "ପ୍ରକାର (_T):"
 
 #: ../addressbook/gui/component/addressbook-config.c:635
 msgid "Copy book content locally for offline operation"
-msgstr ""
+msgstr "ଅନ-ଲାଇନ କାର୍ଯ୍ଯକଳାପ ପାଇଁ ପୁସ୍ତିକା ବିଷୟ ବସ୍ତୁକୁ ସ୍ଥାନୀୟ ଭାବରେ ନକଲ କରନ୍ତୁ"
 
 #: ../addressbook/gui/component/addressbook-config.c:984
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -685,11 +687,11 @@ msgstr "ସାଧାରଣ"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:562
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା"
 
 #: ../addressbook/gui/component/addressbook-config.c:989
 msgid "Server Information"
-msgstr ""
+msgstr "ସେବକ ସୂଚନା"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
 msgid "Authentication"
@@ -704,35 +706,35 @@ msgstr "ବିସ୍ତ୍ରୁତ ବିବରଣୀ"
 #: ../addressbook/gui/component/addressbook-config.c:995
 #: ../mail/em-folder-browser.c:802
 msgid "Searching"
-msgstr ""
+msgstr "ସନ୍ଧାନ କରୁଅଛି"
 
 #: ../addressbook/gui/component/addressbook-config.c:997
 msgid "Downloading"
-msgstr ""
+msgstr "ଆହରଣ କରୁଅଛି"
 
 #: ../addressbook/gui/component/addressbook-config.c:1203
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା ଗୁଣଧର୍ମ"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:73
 #: ../calendar/gui/migration.c:153 ../mail/em-migrate.c:1202
 msgid "Migrating..."
-msgstr ""
+msgstr "ସ୍ଥାନ ପରିବର୍ତ୍ତନ କରୁଅଛି ..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
 #: ../calendar/gui/migration.c:200 ../mail/em-migrate.c:1243
 #, c-format
 msgid "Migrating `%s':"
-msgstr ""
+msgstr "`%s' ର ସ୍ଥାନ ପରିବର୍ତ୍ତନ କରୁଅଛି:"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:629
 msgid "LDAP Servers"
-msgstr ""
+msgstr "LDAP ସେବକ"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:744
 msgid "Autocompletion Settings"
-msgstr ""
+msgstr "ସ୍ବତଃସମ୍ପନ୍ନ ବିନ୍ଯାସ"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1119
 msgid ""
@@ -767,25 +769,25 @@ msgstr ""
 #: ../mail/em-folder-utils.c:503
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "\"%s\" ଫୋଲଡରର ନାମକୁ ବଦଳାନ୍ତୁ:"
 
 #: ../addressbook/gui/component/addressbook-view.c:437
 #: ../mail/em-folder-utils.c:505
 msgid "Rename Folder"
-msgstr ""
+msgstr "ଫୋଲଡରର ନାମ ବଦଳାନ୍ତୁ"
 
 #: ../addressbook/gui/component/addressbook-view.c:442
 #: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
-msgstr ""
+msgstr "ଫୋଲଡରର ନାମ ଗୋଟିଏ '/' ଧାରଣ କରିପାରିବ ନାହିଁ"
 
 #: ../addressbook/gui/component/addressbook-view.c:445
 msgid "A Folder with this name already exists"
-msgstr ""
+msgstr "ଏହି ନାମ ବିଶିଷ୍ଟ ଗୋଟିଏ ଫୋଲଡର ପୂର୍ବରୁ ରହିଛି"
 
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "_New Address Book"
-msgstr ""
+msgstr "ନୂତନ ଠିକଣା ପୁସ୍ତିକା (_N)"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
@@ -803,36 +805,36 @@ msgstr "ଅପସାରଣ କରନ୍ତୁ (_D)"
 
 #: ../addressbook/gui/component/addressbook-view.c:959
 msgid "Save As Vcard..."
-msgstr ""
+msgstr "Vcard ଭାବରେ ସଂରକ୍ଷଣ କରନ୍ତୁ..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
 #: ../calendar/gui/calendar-component.c:582
 #: ../calendar/gui/memos-component.c:454 ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
-msgstr ""
+msgstr "ଗୁଣଧର୍ମ (_P) ..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1343
 msgid "Contact Source Selector"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ଉତ୍ସ ଚୟକ"
 
 #: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
-msgstr ""
+msgstr "LDAP ସେବକକୁ ଅଜ୍ଞାତ ଭାବରେ ଅଭିଗମ କରୁଅଛି"
 
 #: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:499
 msgid "Failed to authenticate.\n"
-msgstr ""
+msgstr "ବୈଧିକ୍ରୁତ କରିବାରେ ବିଫଳ।\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:479
 #, c-format
 msgid "Enter password for %s (user %s)"
-msgstr ""
+msgstr "%s (%s ଚାଳକ) ପାଇଁ ପ୍ରବେଶ ସଙ୍କେତ ଭରଣ କରନ୍ତୁ"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "Autocomplete length"
-msgstr ""
+msgstr "ସ୍ବତଃସମ୍ପନ୍ନ ଦୈର୍ଘ୍ଯ"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
@@ -850,7 +852,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
-msgstr ""
+msgstr "ପୂର୍ବାଲୋକନ ଫଳକକୁ ଦେଖାନ୍ତୁ"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid ""
@@ -881,11 +883,11 @@ msgstr "୧"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:2
 msgid "3268"
-msgstr ""
+msgstr "୩୨୬୮"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:3
 msgid "389"
-msgstr ""
+msgstr "୩୮୯"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:4
 msgid "5"
@@ -893,7 +895,7 @@ msgstr "୫"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:5
 msgid "636"
-msgstr ""
+msgstr "୬୩୬"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:6
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
@@ -902,36 +904,36 @@ msgstr "<b>ବୈଧିକରଣ</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
 msgid "<b>Display</b>"
-msgstr ""
+msgstr "<b>ପ୍ରଦର୍ଶନ</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
-msgstr ""
+msgstr "<b>ଆହରଣ କରୁଅଛି</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Searching</b>"
-msgstr ""
+msgstr "<b>ସନ୍ଧାନ କରୁଅଛି</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "<b>Server Information</b>"
-msgstr ""
+msgstr "<b>ସେବକ ସୂଚନା</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "<b>Type:</b>"
-msgstr ""
+msgstr "<b>ପ୍ରକାର:</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:12
 msgid "Add Address Book"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଯୋଗ କରନ୍ତୁ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 #: ../mail/em-account-editor.c:777
 msgid "Always"
-msgstr ""
+msgstr "ସର୍ବଦା"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "Anonymously"
-msgstr ""
+msgstr "ଅଜ୍ଞାତ ଭାବରେ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
@@ -939,23 +941,23 @@ msgstr "ମୌଳିକ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid "Distinguished name"
-msgstr ""
+msgstr "ପ୍ରଖ୍ଯାତ ନାମ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Email address"
-msgstr ""
+msgstr "ଇ-ଡାକ ଠିକଣା"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 msgid "Evolution will use this email address to authenticate you with the server."
-msgstr ""
+msgstr "ଆପଣଙ୍କୁ ସେବକରେ ବୈଧିକ୍ରୁତ କରିବା ପାଇଁ ଇଭୋଲ୍ଯୁସନ ଏହି ଇ-ଡାକ ଠିକଣାକୁ ବ୍ଯବହାର କରିବ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
-msgstr ""
+msgstr "ସମ୍ଭାବ୍ଯ ସନ୍ଧାନ ଆଧାରକୁ ଖୋଜନ୍ତୁ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 msgid "Lo_gin:"
-msgstr ""
+msgstr "ଲଗଇନ (_g):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 #: ../mail/em-account-editor.c:776
@@ -967,11 +969,11 @@ msgstr "କେବେ ନୁହେଁ"
 #: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
-msgstr ""
+msgstr "କୌଣସି ଗୋପନୀୟତା ନାହିଁ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
-msgstr ""
+msgstr "ଏକ"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
@@ -979,23 +981,23 @@ msgstr ""
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
-msgstr ""
+msgstr "SSL ଗୋପନୀୟତା"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
-msgstr ""
+msgstr "ଫିଲଟର ଖୋଜନ୍ତୁ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
-msgstr ""
+msgstr "ଆଧାର ଖୋଜନ୍ତୁ (_b):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
-msgstr ""
+msgstr "ଫିଲଟର ଖୋଜନ୍ତୁ (_f):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Search filter"
-msgstr ""
+msgstr "ଫିଲଟର ଖୋଜନ୍ତୁ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
@@ -1025,11 +1027,11 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
-msgstr ""
+msgstr "ଉପ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "Supported Search Bases"
-msgstr ""
+msgstr "ସମର୍ଥିତ ସନ୍ଧାନ ଆଧାର"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
@@ -1037,7 +1039,7 @@ msgstr ""
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
-msgstr ""
+msgstr "TLS ଗୋପନୀୟତା"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
@@ -1088,31 +1090,31 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
-msgstr ""
+msgstr "ପ୍ରଖ୍ଯାତ ନାମ (DN) କୁ ବ୍ଯବହାର କରୁଅଛି"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "Using email address"
-msgstr ""
+msgstr "ଇ-ଡାକ ଠିକଣାକୁ ବ୍ଯବହାର କରୁଅଛି"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "Whenever Possible"
-msgstr ""
+msgstr "ଯେତେବେଳେ ସମ୍ଭବ ହେବ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Add Address Book"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଯୋଗ କରନ୍ତୁ (_A)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
-msgstr ""
+msgstr "ଆହରଣ ସୀମା (_D):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
-msgstr ""
+msgstr "ସମ୍ଭାବ୍ଯ ସନ୍ଧାନ ଆଧାରକୁ ଖୋଜନ୍ତୁ (_F)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
-msgstr ""
+msgstr "ଲଗଇନ ପଦ୍ଧତି (_L):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:245
@@ -1120,7 +1122,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:163
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Name:"
-msgstr ""
+msgstr "ନାମ (_N):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:54
 msgid "_Port:"
@@ -1128,25 +1130,25 @@ msgstr "ସଂଯୋଗିକୀ (_P):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Search scope:"
-msgstr ""
+msgstr "ସନ୍ଧାନ ସୁଯୋଗ (_S):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
 #: ../mail/mail-config.glade.h:170
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
-msgstr ""
+msgstr "ସେବକ (_S):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
-msgstr ""
+msgstr "ସମୟ ସମାପ୍ତି (_T):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
-msgstr ""
+msgstr "ସୁରକ୍ଷିତ ସଂଯୋଗକୁ ବ୍ଯବହାର କରନ୍ତୁ (_U):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
-msgstr ""
+msgstr "କାର୍ଡ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
@@ -1161,45 +1163,45 @@ msgstr "ମିନିଟ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "<b>Email</b>"
-msgstr ""
+msgstr "<b>ଇ-ଡାକ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Home</b>"
-msgstr ""
+msgstr "<b>ମୂଳସ୍ଥାନ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Instant Messaging</b>"
-msgstr ""
+msgstr "<b>ତତ୍କାଳ ସନ୍ଦେଶ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Job</b>"
-msgstr ""
+msgstr "<b>କାର୍ଯ୍ଯ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "<b>Miscellaneous</b>"
-msgstr ""
+msgstr "<b>ବିବିଧ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>ଅନ୍ଯାନ୍ଯ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Telephone</b>"
-msgstr ""
+msgstr "<b>ଟେଲିଫୋନ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "<b>Web Addresses</b>"
-msgstr ""
+msgstr "<b>ଓ୍ବେବ ଠିକଣା</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Work</b>"
-msgstr ""
+msgstr "<b>କାର୍ଯ୍ଯ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:556
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:275
@@ -1207,44 +1209,44 @@ msgstr ""
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:193
 msgid "Contact"
-msgstr ""
+msgstr "ସମ୍ପର୍କ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:552
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:567
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2417
 msgid "Contact Editor"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ସମ୍ପାଦକ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Full _Name..."
-msgstr ""
+msgstr "ପୂରା ନାମ (_N) ..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Image"
-msgstr ""
+msgstr "ପ୍ରତିଛବି"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:68
 msgid "MSN Messenger"
-msgstr ""
+msgstr "MSN ସମ୍ବାଦ ବାହକ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Mailing Address"
-msgstr ""
+msgstr "ଚିଠି ପଠାଇବା ଠିକଣା"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
 msgid "Ni_ckname:"
-msgstr ""
+msgstr "ଡାକ ନାମ (_c):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
 msgid "Novell Groupwise"
-msgstr ""
+msgstr "Novell ସମୂହଗତ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Personal Information"
-msgstr ""
+msgstr "ବ୍ଯକ୍ତିଗତ ସୂଚନା"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Telephone"
@@ -1259,7 +1261,7 @@ msgstr "ଟେଲିଫୋନ"
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1054
 #: ../mail/mail-config.glade.h:153
 msgid "Work"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
@@ -1268,110 +1270,110 @@ msgstr "ଠିକଣା (_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Anniversary:"
-msgstr ""
+msgstr "ବାର୍ଷିକୀ (_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Assistant:"
-msgstr ""
+msgstr "ସହକାରୀ (_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Birthday:"
-msgstr ""
+msgstr "ଜନ୍ମଦିନ (_B):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 #: ../calendar/gui/dialogs/event-page.c:875
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1707
 msgid "_Calendar:"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "_Categories..."
-msgstr ""
+msgstr "ଶ୍ରେଣୀବିଭାଗ (_C) ..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_City:"
-msgstr ""
+msgstr "ସହର (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Company:"
-msgstr ""
+msgstr "କମ୍ପାନୀ (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Country:"
-msgstr ""
+msgstr "ଦେଶ (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Department:"
-msgstr ""
+msgstr "ବିଭାଗ (_D):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_File under:"
-msgstr ""
+msgstr "ଫାଇଲକୁ ଏହା ଅନ୍ତର୍ଭୂକ୍ତ କରନ୍ତୁ (_F):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Free/Busy:"
-msgstr ""
+msgstr "ମୁକ୍ତ/ବ୍ଯସ୍ତ (_F):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Home Page:"
-msgstr ""
+msgstr "ମୂଳସ୍ଥାନ ପ୍ରୁଷ୍ଠ (_H):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Manager:"
-msgstr ""
+msgstr "ପରିଚାଳକ (_M):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Notes:"
-msgstr ""
+msgstr "ଟିପ୍ପଣୀ (_N):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Office:"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯାଳୟ (_O):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_PO Box:"
-msgstr ""
+msgstr "ପି.ଓ. ବାକ୍ସ (_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "_Profession:"
-msgstr ""
+msgstr "ବ୍ରୁତ୍ତି (_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Spouse:"
-msgstr ""
+msgstr "ଜୀବନସାଥୀ (_S):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_State/Province:"
-msgstr ""
+msgstr "ରାଜ୍ଯ/ପ୍ରଦେଶ (_S):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Title:"
-msgstr ""
+msgstr "ଶୀର୍ଷକ (_T):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Video Chat:"
-msgstr ""
+msgstr "ଭିଡିଓ ଗପସପ (_V):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Wants to receive HTML mail"
-msgstr ""
+msgstr "HTML ଡାକ ପାଇବା ପାଇଁ ଚାହିଁଥାଏ (_W)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Web Log:"
-msgstr ""
+msgstr "ଓ୍ବେବ ଲଗ (_W):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Where:"
-msgstr ""
+msgstr "କେଉଁଠାରେ (_W):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 msgid "_Zip/Postal Code:"
-msgstr ""
+msgstr "ଜିପ/ପୋଷ୍ଟାଲ କୋଡ (_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:97
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
@@ -1395,7 +1397,7 @@ msgstr "ଠିକଣା"
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3625
 #: ../widgets/text/e-text.c:3626
 msgid "Editable"
-msgstr ""
+msgstr "ସମ୍ପାଦନ ଯୋଗ୍ଯ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "United States"
@@ -1435,7 +1437,7 @@ msgstr "ଆଣ୍ଟାର୍କଟିକା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "ଆଣ୍ଟିଗୁଆ ଏବଂ ବାର୍ବୁଡା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Argentina"
@@ -1507,7 +1509,7 @@ msgstr "ବୋଲିଭିଆ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "ବୋସନିୟା ଏବଂ ହର୍ଜିଗୋଭିନା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Botswana"
@@ -1599,7 +1601,7 @@ msgstr "କଙ୍ଗୋ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Congo, The Democratic Republic Of The"
-msgstr ""
+msgstr "କଙ୍ଗୋର ଲୋକତାନ୍ତ୍ରିକ ଗଣତନ୍ତ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cook Islands"
@@ -1675,11 +1677,11 @@ msgstr "ଇଥୋପିୟା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Falkland Islands"
-msgstr ""
+msgstr "ଫକଲ୍ଯାଣ୍ଡ ଦ୍ବୀପ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
-msgstr "ଫାରୋ ଦ୍ବୀପ"
+msgstr "ଫାରୋ ଦ୍ବୀପପୁଞ୍ଜ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Fiji"
@@ -1763,7 +1765,7 @@ msgstr "ଗିନୀ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "ଗିନୀ-ବିସୁ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Guyana"
@@ -1775,11 +1777,11 @@ msgstr "ହୈତି"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "ହାର୍ଡ ଏବଂ ମେକ-ଡୋନାଲଡ ଦ୍ବୀପପୁଞ୍ଜ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
 msgid "Holy See"
-msgstr ""
+msgstr "ହୋଲୀ ସାଗର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
 msgid "Honduras"
@@ -1859,11 +1861,11 @@ msgstr "କୀରିବତୀ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Democratic People's Republic Of"
-msgstr ""
+msgstr "କୋରିୟାର ଲୋକତାନ୍ତ୍ରିକ ଗଣତନ୍ତ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Korea, Republic Of"
-msgstr ""
+msgstr "କୋରିୟାର ଗଣତନ୍ତ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kuwait"
@@ -1911,7 +1913,7 @@ msgstr "ଲେକ୍ସମ୍ବର୍ଗ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macao"
-msgstr ""
+msgstr "ମାକାଓ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Macedonia"
@@ -1971,7 +1973,7 @@ msgstr "ମାଇକ୍ରୋନେସିୟା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Moldova, Republic Of"
-msgstr ""
+msgstr "ମାଲଡୋଭାର ଗଣତନ୍ତ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Monaco"
@@ -2127,7 +2129,7 @@ msgstr "ରଓ୍ବାଣ୍ଡା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "ସେଣ୍ଟ କିଟ୍ସ ଏବଂ ନେଭିସ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Lucia"
@@ -2135,7 +2137,7 @@ msgstr "ସେଣ୍ଟ ଲୁସିୟା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Saint Vincent And The Grenadines"
-msgstr ""
+msgstr "ସେଣ୍ଟ ଭିନସେଣ୍ଟ ଏବଂ ଦା ଗ୍ରୀନା-ଡାଇନ୍ସ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Samoa"
@@ -2147,7 +2149,7 @@ msgstr "ସେନ ମେରୀନୋ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Sao Tome And Principe"
-msgstr ""
+msgstr "ସାଓ ଟୋମ ଏବଂ ପ୍ରିନସିପୀ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Saudi Arabia"
@@ -2159,7 +2161,7 @@ msgstr "ସେନେଗାଲ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Serbia And Montenegro"
-msgstr ""
+msgstr "ସର୍ବିୟା ଏବଂ ମୋଣ୍ଟେନିଗ୍ରୋ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Seychelles"
@@ -2195,7 +2197,7 @@ msgstr "ଦକ୍ଷିଣ ଆଫ୍ରିକା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "ଦକ୍ଷିଣ ଜର୍ଜିୟା ଏବଂ ଦକ୍ଷିଣ ସେଣ୍ଡଓ୍ବିଚ ଦ୍ବୀପପୁଞ୍ଜ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Spain"
@@ -2207,11 +2209,11 @@ msgstr "ଶ୍ରୀଲଙ୍କା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "St. Helena"
-msgstr ""
+msgstr "ସେଣ୍ଟ ହେଲୀନା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "St. Pierre And Miquelon"
-msgstr ""
+msgstr "ସେଣ୍ଟ ପିୟରେ ଏବଂ ମେକ୍ବୀଲୋନ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Sudan"
@@ -2223,7 +2225,7 @@ msgstr "ସୂରୀନାମ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
+msgstr "ଭାଲବାର୍ଡ ଏବଂ ଜାନ ମୟେନ ଦ୍ବୀପପୁଞ୍ଜ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Swaziland"
@@ -2251,7 +2253,7 @@ msgstr "ତାଜୀକିସ୍ତାନ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tanzania, United Republic Of"
-msgstr ""
+msgstr "ତାଞ୍ଜାନିୟାର ସଂଯୁକ୍ତ ଗଣତନ୍ତ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Thailand"
@@ -2259,7 +2261,7 @@ msgstr "ଥାଇଲ୍ଯାଣ୍ଡ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Timor-Leste"
-msgstr ""
+msgstr "ତିମୋର-ଲେଷ୍ଟେ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Togo"
@@ -2275,7 +2277,7 @@ msgstr "ଟୋଙ୍ଗା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "ତ୍ରିନୀଦାଦ ଏବଂ ଟୋବାଗୋ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Tunisia"
@@ -2291,7 +2293,7 @@ msgstr "ତୁର୍କମେନିସ୍ତାନ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "ତୁର୍କ ଏବଂ କାଇକୋସ ଦ୍ବୀପପୁଞ୍ଜ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Tuvalu"
@@ -2339,15 +2341,15 @@ msgstr "ଭିୟେତନାମ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "ଭର୍ଜିନ ଦ୍ବୀପପୁଞ୍ଜ, ବ୍ରିଟୀଶ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "ଭର୍ଜିନ ଦ୍ବୀପପୁଞ୍ଜ, ଯୁକ୍ତରାଷ୍ଟ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "ଓ୍ବାଲିସ ଏବଂ ପୁଟୁନା ଦ୍ବୀପ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Western Sahara"
@@ -2376,27 +2378,27 @@ msgstr "ନାମ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "AOL Instant Messenger"
-msgstr ""
+msgstr "AOL ତତ୍କାଳ ସମ୍ବାଦ ବାହାକ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:559
 msgid "Jabber"
-msgstr ""
+msgstr "ଜାବର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:66
 msgid "Yahoo Messenger"
-msgstr ""
+msgstr "ୟାହୁ ସମ୍ବାଦ ବାହାକ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
 msgid "Gadu-Gadu Messenger"
-msgstr ""
+msgstr "ଗାଡୁ-ଗାଡୁ ସମ୍ବାଦ ବାହାକ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:69
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:191
 #: ../addressbook/gui/widgets/eab-contact-display.c:558
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:121
 msgid "Service"
@@ -2411,13 +2413,13 @@ msgstr "ଅବସ୍ଥାନ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:137
 msgid "Username"
-msgstr ""
+msgstr "ଚାଳକ ନାମ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:205
 #: ../addressbook/gui/widgets/eab-contact-display.c:58
 msgid "Home"
-msgstr ""
+msgstr "ମୂଳସ୍ଥାନ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:242
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:206
@@ -2428,106 +2430,108 @@ msgstr "ଅନ୍ଯାନ୍ଯ"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:561
 msgid "Yahoo"
-msgstr ""
+msgstr "ୟାହୁ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:562
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "ଗାଡୁ-ଗାଡୁ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/widgets/eab-contact-display.c:560
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
 #: ../addressbook/gui/widgets/eab-contact-display.c:557
 msgid "GroupWise"
-msgstr ""
+msgstr "ସମୂହ ଅନୁସାରେ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:261
 msgid "Source Book"
-msgstr ""
+msgstr "ଉତ୍ସ ପୁସ୍ତିକା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:268
 msgid "Target Book"
-msgstr ""
+msgstr "ଲକ୍ଷ୍ଯ ପୁସ୍ତିକା"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:282
 msgid "Is New Contact"
-msgstr ""
+msgstr "ନୂତନ ସମ୍ପର୍କ ଅଟେ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:289
 msgid "Writable Fields"
-msgstr ""
+msgstr "ଲିଖନୀୟ କ୍ଷେତ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:296
 msgid "Required Fields"
-msgstr ""
+msgstr "ଆବଶ୍ଯକୀୟ କ୍ଷେତ୍ର"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:310
 msgid "Changed"
-msgstr ""
+msgstr "ପରିବର୍ତ୍ତିତ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:562
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2412
 #, c-format
 msgid "Contact Editor - %s"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ସମ୍ପାଦକ - %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2792
 msgid "Please select an image for this contact"
-msgstr ""
+msgstr "ଦୟାକରି ଏହି ସମ୍ପର୍କ ପାଇଁ ଗୋଟିଏ ପ୍ରତିଛବି ଚୟନ କରନ୍ତୁ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2793
 msgid "_No image"
-msgstr ""
+msgstr "କୌଣସି ପ୍ରତିଛବି ନାହିଁ (_N)"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
+"ସମ୍ପର୍କ ତଥ୍ଯଟି ଅବୈଧ ଅଟେ:\n"
+"\n"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3101
 #, c-format
 msgid "'%s' has an invalid format"
-msgstr ""
+msgstr "'%s' ଗୋଟିଏ ଅବୈଧ ପଦ୍ଧତି ଅଟେ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3108
 #, c-format
 msgid "%s'%s' has an invalid format"
-msgstr ""
+msgstr "%s'%s' ରେ ଗୋଟିଏ ଅବୈଧ ପଦ୍ଧତି ଅଛି"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3123
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3134
 #, c-format
 msgid "%s'%s' is empty"
-msgstr ""
+msgstr "%s'%s' ଖାଲି ଅଛି"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3149
 msgid "Invalid contact."
-msgstr ""
+msgstr "ଅବୈଧ ସମ୍ପର୍କ।"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:290
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "ଶୀଘ୍ର-ଯୋଗ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:293
 msgid "_Edit Full"
-msgstr ""
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ ସମ୍ପାଦନ କରନ୍ତୁ (_E)"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:337
 msgid "_Full name"
-msgstr ""
+msgstr "ପୂରା ନାମ (_F)"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:348
 msgid "E_mail"
-msgstr ""
+msgstr "ଇ-ଡାକ (_m)"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:359
 msgid "_Select Address Book"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଚୟନ କରନ୍ତୁ (_S)"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:322
 #, c-format
@@ -2535,12 +2539,16 @@ msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s)?"
 msgstr ""
+"ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ\n"
+"(%s) ସମ୍ପର୍କ ତାଲିକାକୁ ଅପସାରଣ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:325
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
 msgstr ""
+"ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ଏହି\n"
+"ସମ୍ପର୍କ ତାଲିକା ଗୁଡିକୁ ଅପସାରଣ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:330
 #, c-format
@@ -2548,32 +2556,36 @@ msgid ""
 "Are you sure you want\n"
 "to delete contact (%s)?"
 msgstr ""
+"ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ\n"
+"(%s) ସମ୍ପର୍କକୁ ଅପସାରଣ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:333
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
 msgstr ""
+"ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ଏହି\n"
+"ସମ୍ପର୍କ ଗୁଡିକୁ ଅପସାରଣ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି?"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
-msgstr ""
+msgstr "ଠିକଣା ୨ (_2):"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Ci_ty:"
-msgstr ""
+msgstr "ସହର (_t):"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Countr_y:"
-msgstr ""
+msgstr "ଦେଶ (_y):"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Full Address"
-msgstr ""
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ ଠିକଣା"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
-msgstr ""
+msgstr "ଜିପ କୋଡ (_Z):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:1
 msgid "Dr."
@@ -2581,7 +2593,7 @@ msgstr "ଡା."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Esq."
-msgstr ""
+msgstr "ଶ୍ରୀଯୁକ୍ତ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
@@ -2590,19 +2602,19 @@ msgstr "ପୂରା ନାମ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:4
 msgid "I"
-msgstr "I"
+msgstr "ପ୍ରଥମ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "II"
-msgstr ""
+msgstr "ଦ୍ବିତୀୟ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:6
 msgid "III"
-msgstr ""
+msgstr "ତ୍ରୁତୀୟ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
 msgid "Jr."
-msgstr ""
+msgstr "କନିଷ୍ଠ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:8
 msgid "Miss"
@@ -2610,7 +2622,7 @@ msgstr "କୁମାରୀ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Mr."
-msgstr "ଶ୍ରୀ"
+msgstr "ଶ୍ରୀମାନ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:10
 msgid "Mrs."
@@ -2622,35 +2634,35 @@ msgstr "ସୁଶ୍ରୀ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Sr."
-msgstr ""
+msgstr "ବରିଷ୍ଠ"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "_First:"
-msgstr ""
+msgstr "ପ୍ରଥମ (_F):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_Last:"
-msgstr ""
+msgstr "ଅନ୍ତିମ (_L):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Middle:"
-msgstr ""
+msgstr "ମଧ୍ଯମ (_M):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Suffix:"
-msgstr ""
+msgstr "ଉପସର୍ଗ (_S):"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:1
 msgid "Add IM Account"
-msgstr ""
+msgstr "IM ଖାତା ଯୋଗ କରନ୍ତୁ"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:2
 msgid "_Account name:"
-msgstr ""
+msgstr "ଖାତା ନାମ (_A):"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:3
 msgid "_IM Service:"
-msgstr ""
+msgstr "IM ସେବା (_I):"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
@@ -2658,7 +2670,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-calendar.c:242
 #: ../plugins/exchange-operations/exchange-contacts.c:235
 msgid "_Location:"
-msgstr ""
+msgstr "ଅବସ୍ଥାନ (_L):"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
@@ -2666,16 +2678,16 @@ msgstr "\n"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Add an email to the List"
-msgstr ""
+msgstr "ତାଲିକାରେ ଗୋଟିଏ ଇ-ଡାକ ଠିକଣା ଯୋଗ କରନ୍ତୁ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:938
 msgid "Contact List Editor"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ତାଲିକା ସମ୍ପାଦକ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Insert email addresses from Address Book"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାରୁ ଗୋଟିଏ ଇ-ଡାକ ଠିକଣା ଭର୍ତ୍ତୀ କରନ୍ତୁ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "Members"
@@ -2683,23 +2695,23 @@ msgstr "ସଦସ୍ଯ ମାନେ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "Remove an email address from the List"
-msgstr ""
+msgstr "ତାଲିକାରୁ ଗୋଟିଏ ଇ-ଡାକ ଠିକଣା କାଢନ୍ତୁ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "_Hide addresses when sending mail to this list"
-msgstr ""
+msgstr "ଏହି ଗୋଷ୍ଠୀକୁ ଡାକ ପଠାଇବା ପୂର୍ବରୁ ଠିକଣା ମାନଙ୍କୁ ଲୁକ୍କାୟିତ କରନ୍ତୁ (_H)"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_List name:"
-msgstr ""
+msgstr "ତାଲିକା ନାମ (_L):"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_Select"
-msgstr ""
+msgstr "ଚୟନ କରନ୍ତୁ (_S)"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
+msgstr "ଗୋଟିଏ ଇ-ଡାକ ଠିକଣାକୁ ଟାଇପ କରନ୍ତୁ ଏବଂ ଗୋଟିଏ ସମ୍ପର୍କକୁ ନିମ୍ନଲିଖିତ ତାଲିକା ନିକଟକୁ ଟାଣି ଆଣନ୍ତୁ:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
@@ -2708,79 +2720,83 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
-msgstr ""
+msgstr "ପୁସ୍ତକ"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:181
 msgid "Is New List"
-msgstr ""
+msgstr "ନୂତନ ତାଲିକା ଅଟେ"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:759
 msgid "_Members"
-msgstr ""
+msgstr "ସଦସ୍ଯ (_M)"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
 msgid "Contact List Members"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ତାଲିକା ସଦସ୍ଯ"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
-msgstr ""
+msgstr "ପରିବର୍ତ୍ତିତ ସମ୍ପର୍କ:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
-msgstr ""
+msgstr "ବିରୋଧୀ ସମ୍ପର୍କ:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:3
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:1
 msgid "Duplicate Contact Detected"
-msgstr ""
+msgstr "ନକଲି ସମ୍ପର୍କ ମିଳିଲା"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:4
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
+"ଏହି ସମ୍ପର୍କର ପରିବର୍ତ୍ତିତ ଇ-ଡାକ କିମ୍ବା ନାମ ପୂର୍ବରୁ ଏହି ଫୋଲଡରରେ ରହିଛି।\n"
+"ଆପଣ ତଥାପି ଏହାରୁ ଯୋଗ କରିବା ପାଇଁ ଚାହାଁନ୍ତି କି?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr ""
+msgstr "ନୂତନ ସମ୍ପର୍କ:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
-msgstr ""
+msgstr "ପ୍ରାଥମିକ ସମ୍ପର୍କ:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:4
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
+"ଏହି ସମ୍ପର୍କର ପରିବର୍ତ୍ତିତ ଇ-ଡାକ କିମ୍ବା ନାମ ପୂର୍ବରୁ ଏହି ଫୋଲଡରରେ ରହିଛି।\n"
+"ଆପଣ ତଥାପି ଏହାରୁ ଯୋଗ କରିବା ପାଇଁ ଚାହାଁନ୍ତି କି?"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
 #: ../calendar/gui/cal-search-bar.c:53
 msgid "Any field contains"
-msgstr ""
+msgstr "ଯେ କୌଣସି କ୍ଷେତ୍ର ଏହାକୁ ଧାରଣ କରିଥାଏ"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:170
 msgid "Email begins with"
-msgstr ""
+msgstr "ଇ-ଡାକ ଏହା ସହିତ ପ୍ରାରମ୍ଭ ହୋଇଥାଏ"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.c:169
 msgid "Name begins with"
-msgstr ""
+msgstr "ନାମ ଏହା ସହିତ ପ୍ରାରମ୍ଭ ହୋଇଥାଏ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:148
 msgid "No contacts"
-msgstr ""
+msgstr "କୌଣସି ସମ୍ପର୍କ ନାହିଁ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:151
 #, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ସମ୍ପର୍କ"
+msgstr[1] "%d ସମ୍ପର୍କ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
@@ -2792,7 +2808,7 @@ msgstr "ପ୍ରଶ୍ନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:446
 msgid "Error getting book view"
-msgstr ""
+msgstr "ପୁସ୍ତକ ଦ୍ରୁଶ୍ଯ ପାଇବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
 #: ../widgets/table/e-table-click-to-add.c:502
@@ -2806,7 +2822,7 @@ msgstr "ମୋଡେଲ"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:103
 msgid "Error modifying card"
-msgstr ""
+msgstr "କାର୍ଡରେ ସଂଶୋଧନ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:229
 msgid "Source"
@@ -2825,7 +2841,7 @@ msgstr "ପ୍ରକାର"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:2083
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
-msgstr ""
+msgstr "VCard ଭାବରେ ସଂରକ୍ଷଣ କରନ୍ତୁ ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:956
 #: ../calendar/gui/dialogs/comp-editor.c:1101
@@ -2833,56 +2849,56 @@ msgstr ""
 #: ../calendar/gui/e-calendar-view.c:1698 ../calendar/gui/e-memo-table.c:901
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
-msgstr ""
+msgstr "ଖୋଲନ୍ତୁ (_O)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:958
 msgid "_New Contact..."
-msgstr ""
+msgstr "ନୂତନ ସମ୍ପର୍କ (_N) ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:959
 msgid "New Contact _List..."
-msgstr ""
+msgstr "ନୂତନ ସମ୍ପର୍କ ତାଲିକା (_L) ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:962
 msgid "_Save as VCard..."
-msgstr ""
+msgstr "VCard ଭାବରେ ସଂରକ୍ଷଣ କରନ୍ତୁ (_S) ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "_Forward Contact"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ଅଗ୍ରସରିତ କରନ୍ତୁ (_F)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "_Forward Contacts"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ମାନଙ୍କୁ ଅଗ୍ରସରିତ କରନ୍ତୁ (_F)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "Send _Message to Contact"
-msgstr ""
+msgstr "ସମ୍ପର୍କକୁ ସନ୍ଦେଶ ପଠାନ୍ତୁ (_M)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "Send _Message to List"
-msgstr ""
+msgstr "ଗୋଷ୍ଠୀକୁ ସନ୍ଦେଶ ପଠାନ୍ତୁ (_M)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "Send _Message to Contacts"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ମାନଙ୍କୁ ସନ୍ଦେଶ ପଠାନ୍ତୁ (_M)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "_Print"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ କରନ୍ତୁ (_P)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "Cop_y to Address Book..."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାରେ ନକଲ କରନ୍ତୁ (_y) ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Mo_ve to Address Book..."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ପଠାନ୍ତୁ (_v) ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:975
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
-msgstr ""
+msgstr "କାଟନ୍ତୁ (_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:976
 #: ../calendar/gui/calendar-component.c:580
@@ -2897,57 +2913,57 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
 #: ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
-msgstr ""
+msgstr "ନକଲ କରନ୍ତୁ (_C)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "P_aste"
-msgstr ""
+msgstr "ଲଗାନ୍ତୁ (_a)"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1602
 #: ../calendar/gui/cal-search-bar.c:357
 msgid "Any Category"
-msgstr ""
+msgstr "ଯେ କୌଣସି ବିଭାଗ"
 
 #. FIXME: Allow range selection in table views, as in minicard view
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1801
 msgid "Print cards"
-msgstr ""
+msgstr "କାର୍ଡ ମାନଙ୍କୁ ମୂଦ୍ରଣ କରନ୍ତୁ"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1908
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:576
 msgid "Assistant"
-msgstr ""
+msgstr "ସହକାରୀ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant Phone"
-msgstr ""
+msgstr "ସହାକାରୀ ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
-msgstr ""
+msgstr "ବ୍ଯବସାୟ ଫ୍ଯାକ୍ସ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Phone"
-msgstr ""
+msgstr "ବ୍ଯବସାୟ ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Phone 2"
-msgstr ""
+msgstr "ବ୍ଯବସାୟ ଫୋନ ୨"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Callback Phone"
-msgstr ""
+msgstr "କଲ-ବେକ ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Car Phone"
-msgstr ""
+msgstr "କାର ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:7
@@ -2955,11 +2971,11 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
 msgid "Categories"
-msgstr "ବିଭାଗ ଗୁଡିକ"
+msgstr "ବିଭାଗ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Company Phone"
-msgstr ""
+msgstr "କମ୍ପାନୀ ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: ../addressbook/gui/widgets/eab-contact-display.c:785
@@ -2969,19 +2985,19 @@ msgstr "ଇ-ଡାକ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 msgid "Email 2"
-msgstr ""
+msgstr "ଇ-ଡାକ ୨"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 3"
-msgstr ""
+msgstr "ଇ-ଡାକ ୩"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Family Name"
-msgstr ""
+msgstr "ପରିବାର ନାମ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "File As"
-msgstr ""
+msgstr "ଏଭଳି ଭାବରେ ଭରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Given Name"
@@ -2989,7 +3005,7 @@ msgstr "ଦିଆ ଯାଇଥିବା ନାମ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Fax"
-msgstr ""
+msgstr "ଘର ଫ୍ଯାକ୍ସ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Phone"
@@ -2997,25 +3013,25 @@ msgstr "ଘର ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone 2"
-msgstr ""
+msgstr "ଘର ଫୋନ ୨"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "ISDN Phone"
-msgstr ""
+msgstr "ISDN ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Journal"
-msgstr ""
+msgstr "ପତ୍ରିକା"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 #: ../addressbook/gui/widgets/eab-contact-display.c:575
 msgid "Manager"
-msgstr ""
+msgstr "ପରିଚାଳକ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:596
 msgid "Mobile Phone"
-msgstr ""
+msgstr "ମୋବାଇଲ ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 #: ../addressbook/gui/widgets/eab-contact-display.c:550
@@ -3025,7 +3041,7 @@ msgstr "ଡାକ ନାମ"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 #: ../addressbook/gui/widgets/eab-contact-display.c:609
 msgid "Note"
-msgstr ""
+msgstr "ଟିପ୍ପଣୀ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Office"
@@ -3034,27 +3050,27 @@ msgstr "କାର୍ଯ୍ଯାଳୟ"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 #: ../addressbook/gui/widgets/eab-contact-display.c:571
 msgid "Organization"
-msgstr ""
+msgstr "ସଙ୍ଗଠନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:28
 msgid "Other Fax"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ଫ୍ଯାକ୍ସ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Phone"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Pager"
-msgstr ""
+msgstr "ପେଜର"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Primary Phone"
-msgstr ""
+msgstr "ପ୍ରାଥମିକ ଫୋନ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Radio"
-msgstr ""
+msgstr "ରେଡିଓ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
@@ -3062,12 +3078,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
-msgstr ""
+msgstr "ଭୂମିକା"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 #: ../addressbook/gui/widgets/eab-contact-display.c:600
 msgid "Spouse"
-msgstr ""
+msgstr "ଜୀବନସାଥୀ"
 
 #. Translators: This is a vcard standard and stands for the type of
 #. phone used by the hearing impaired. TTY stands for "teletype"
@@ -3077,23 +3093,23 @@ msgstr ""
 #. different and established translation for this in your language.
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
-msgstr ""
+msgstr "ଟେଲେକ୍ସ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
-msgstr ""
+msgstr "ଶୀର୍ଷକ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
-msgstr ""
+msgstr "ଏକକ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Web Site"
-msgstr ""
+msgstr "ଓ୍ବେବ ସାଇଟ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:149
@@ -3109,7 +3125,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
 #: ../widgets/text/e-text.c:3667 ../widgets/text/e-text.c:3668
 msgid "Width"
-msgstr ""
+msgstr "ପ୍ରସ୍ଥ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:156
@@ -3124,32 +3140,32 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/text/e-text.c:3675 ../widgets/text/e-text.c:3676
 msgid "Height"
-msgstr ""
+msgstr "ଉଚ୍ଚତା"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
 #: ../addressbook/gui/widgets/e-minicard.c:164
 msgid "Has Focus"
-msgstr ""
+msgstr "ଫୋକସ ଅଛି"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
-msgstr ""
+msgstr "କ୍ଷେତ୍ର"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:143
 msgid "Field Name"
-msgstr ""
+msgstr "କ୍ଷେତ୍ର ନାମ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
-msgstr ""
+msgstr "ପାଠ୍ଯ ନମୁନା"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:157
 msgid "Max field name length"
-msgstr ""
+msgstr "ସର୍ବାଧିକ କ୍ଷେତ୍ର ନାମ ଦୈର୍ଘ୍ଯ"
 
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:128
 msgid "Column Width"
-msgstr ""
+msgstr "ସ୍ତମ୍ଭ ପ୍ରସ୍ଥ"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:174
 msgid ""
@@ -3159,6 +3175,11 @@ msgid ""
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"ସମ୍ପର୍କ ପାଇଁ ଖୋଜନ୍ତୁ\n"
+"\n"
+"ଗୋଟିଏ ନୂତନ ସମ୍ପର୍କ ସ୍ରୁଷ୍ଟି କରିବା ପାଇଁ ଏଠାରେ ଦୁଇଥର ଦବାନ୍ତୁ।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:177
 msgid ""
@@ -3168,6 +3189,11 @@ msgid ""
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"ଏହି ଦ୍ରୁଶ୍ଯରେ ପ୍ରଦର୍ଶନ କରିବା ପାଇଁ କୌଣସି ବସ୍ତୁ ନାହିଁ।\n"
+"\n"
+"ଗୋଟିଏ ନୂତନ ସମ୍ପର୍କ ସ୍ରୁଷ୍ଟି କରିବା ପାଇଁ ଏଠାରେ ଦୁଇଥର ଦବାନ୍ତୁ।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:182
 msgid ""
@@ -3175,6 +3201,9 @@ msgid ""
 "\n"
 "Search for the Contact."
 msgstr ""
+"\n"
+"\n"
+"ସମ୍ପର୍କ ପାଇଁ ଖୋଜନ୍ତୁ।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
@@ -3182,63 +3211,66 @@ msgid ""
 "\n"
 "There are no items to show in this view."
 msgstr ""
+"\n"
+"\n"
+"ଏହି ଦ୍ରୁଶ୍ଯରେ ପ୍ରଦର୍ଶନ କରିବା ପାଇଁ କୌଣସି ବସ୍ତୁ ନାହିଁ।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:501
 msgid "Adapter"
-msgstr ""
+msgstr "ଏଡେପ୍ଟର"
 
 #: ../addressbook/gui/widgets/e-minicard.c:101
 msgid "Work Email"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ଇ-ଡାକ"
 
 #: ../addressbook/gui/widgets/e-minicard.c:102
 msgid "Home Email"
-msgstr ""
+msgstr "ମୂଳସ୍ଥାନ ଇ-ଡାକ"
 
 #: ../addressbook/gui/widgets/e-minicard.c:103
 msgid "Other Email"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ଇ-ଡାକ"
 
 #: ../addressbook/gui/widgets/e-minicard.c:172
 msgid "Selected"
-msgstr ""
+msgstr "ଚୟିତ"
 
 #: ../addressbook/gui/widgets/e-minicard.c:179
 msgid "Has Cursor"
-msgstr ""
+msgstr "ଦର୍ଶିକା ଅଛି"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:620
 msgid "_Open Link in Browser"
-msgstr ""
+msgstr "ବ୍ରାଉଜରରେ ସଂଯୋଗକୁ ଖୋଲନ୍ତୁ (_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
 #: ../mail/em-folder-view.c:2496
 msgid "_Copy Link Location"
-msgstr ""
+msgstr "ସଂଯୋଗ ଅବସ୍ଥାନକୁ ନକଲ କରନ୍ତୁ (_C)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:176
 msgid "_Send New Message To ..."
-msgstr ""
+msgstr "ନୂତନ ସନ୍ଦେଶକୁ ଏଠାକୁ ପଠାନ୍ତୁ (_S) ..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:177
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
-msgstr ""
+msgstr "ଇ-ଡାକ ଠିକଣାକୁ ନକଲ କରନ୍ତୁ (_E)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:301
 #: ../addressbook/gui/widgets/eab-contact-display.c:364
 msgid "(map)"
-msgstr ""
+msgstr "(ନକ୍ସା)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:311
 #: ../addressbook/gui/widgets/eab-contact-display.c:377
 msgid "map"
-msgstr ""
+msgstr "ନକ୍ସା"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:462
 #: ../addressbook/gui/widgets/eab-contact-display.c:763
 msgid "List Members"
-msgstr ""
+msgstr "ସଦସ୍ଯ ମାନଙ୍କୁ ସୂଚୀବଦ୍ଧ କରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:540
 #: ../addressbook/gui/widgets/eab-contact-display.c:542
@@ -3247,19 +3279,19 @@ msgstr "ଇ-ଡାକ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Department"
-msgstr ""
+msgstr "ବିଭାଗ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:573
 msgid "Profession"
-msgstr ""
+msgstr "ବ୍ରୁତ୍ତି"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:574
 msgid "Position"
-msgstr ""
+msgstr "ଅବସ୍ଥାନ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:577
 msgid "Video Chat"
-msgstr ""
+msgstr "ଭିଡିଓ ଗପସପ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:578
 #: ../calendar/gui/calendar-commands.c:119
@@ -3281,70 +3313,70 @@ msgstr "କ୍ଯାଲେଣ୍ଡର"
 #: ../calendar/gui/dialogs/event-editor.c:591
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
-msgstr ""
+msgstr "ମୁକ୍ତ/ବ୍ଯସ୍ତ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
 #: ../addressbook/gui/widgets/eab-contact-display.c:595
 msgid "Phone"
-msgstr ""
+msgstr "ଫୋନ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:581
 msgid "Fax"
-msgstr "ଫାକ୍ସ"
+msgstr "ଫ୍ଯାକ୍ସ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:592
 msgid "Home Page"
-msgstr ""
+msgstr "ମୂଳସ୍ଥାନ ପ୍ରୁଷ୍ଠା"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:593
 msgid "Web Log"
-msgstr ""
+msgstr "ଓ୍ବେବ ଲଗ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:598
 msgid "Birthday"
-msgstr ""
+msgstr "ଜନ୍ମଦିନ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:599
 msgid "Anniversary"
-msgstr ""
+msgstr "ବାର୍ଷିକୀ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:781
 msgid "Job Title"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ଶୀର୍ଷକ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:812
 msgid "Home page"
-msgstr ""
+msgstr "ମୂଳସ୍ଥାନ ପ୍ରୁଷ୍ଠା"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:820
 msgid "Blog"
-msgstr ""
+msgstr "ବ୍ଲୋଗ"
 
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:50
 msgid "Success"
-msgstr ""
+msgstr "ସଫଳତା"
 
 #. E_BOOK_ERROR_INVALID_ARG
 #. E_BOOK_ERROR_BUSY
 #: ../addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Backend busy"
-msgstr ""
+msgstr "ପ୍ରୁଷ୍ଠଭାଗ ବ୍ଯସ୍ତ"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:53
 msgid "Repository offline"
-msgstr ""
+msgstr "ଭଣ୍ଡାର ଅଫ-ଲାଇନ"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: ../addressbook/gui/widgets/eab-gui-util.c:54
 msgid "Address Book does not exist"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା ଅନୁପଲବ୍ଧ"
 
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: ../addressbook/gui/widgets/eab-gui-util.c:55
 msgid "No Self Contact defined"
-msgstr ""
+msgstr "କୌଣସି ସ୍ବ-ସମ୍ପର୍କ ବ୍ଯାଖ୍ଯା କରାଯାଇ ନାହିଁ"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
@@ -3352,22 +3384,22 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Permission denied"
-msgstr ""
+msgstr "ଅନୁମତି ନିଷିଦ୍ଧ"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
 msgid "Contact not found"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ମିଳିଲା ନାହିଁ"
 
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
 #: ../addressbook/gui/widgets/eab-gui-util.c:60
 msgid "Contact ID already exists"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ପରିଚୟ ପୂର୍ବରୁ ରହିଛି"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: ../addressbook/gui/widgets/eab-gui-util.c:61
 msgid "Protocol not supported"
-msgstr ""
+msgstr "ପ୍ରୋଟୋକଲ ସମର୍ଥିତ ନୁହେଁ"
 
 #. E_BOOK_ERROR_CANCELLED
 #: ../addressbook/gui/widgets/eab-gui-util.c:62
@@ -3377,44 +3409,44 @@ msgstr ""
 #: ../calendar/gui/e-cal-model-tasks.c:664
 #: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/print.c:2385
 msgid "Canceled"
-msgstr ""
+msgstr "ବାତିଲ କରାଗଲା"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
 msgid "Could not cancel"
-msgstr ""
+msgstr "ବାତିଲ କରିପାରିଲା ନାହିଁ"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:64
 #: ../calendar/gui/comp-editor-factory.c:433
 msgid "Authentication Failed"
-msgstr ""
+msgstr "ବୈଧିକରଣ ବିଫଳ"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: ../addressbook/gui/widgets/eab-gui-util.c:65
 msgid "Authentication Required"
-msgstr ""
+msgstr "ବୈଧିକରଣ ଆବଶ୍ଯକ"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:66
 msgid "TLS not Available"
-msgstr ""
+msgstr "TLS ଅବସ୍ଥିତ ନାହିଁ"
 
 #. E_BOOK_ERROR_CORBA_EXCEPTION
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
 #: ../addressbook/gui/widgets/eab-gui-util.c:68
 msgid "No such source"
-msgstr ""
+msgstr "ସେପରି କୌଣସି ଉତ୍ସ ନାହିଁ"
 
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Not available in offline mode"
-msgstr ""
+msgstr "ଅଫ-ଲାଇନ ଧାରାରେ ଉପଲବ୍ଧ ନାହିଁ"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid "Invalid server version"
-msgstr ""
+msgstr "ଅବୈଧ ସେବକ ସଂସ୍କରଣ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:94
 msgid ""
@@ -3467,41 +3499,41 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
+msgstr "ଏହି ଠିକଣା ପୁସ୍ତିକାର ପ୍ରୁଷ୍ଠଭାଗ ଏହି ପ୍ରଶ୍ନକୁ ବିଶ୍ଳେଷଣ କରିବାରେ ଅସମର୍ଥ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:162
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
+msgstr "ଏହି ଠିକଣା ପୁସ୍ତିକାର ପ୍ରୁଷ୍ଠଭାଗ ଏହି ପ୍ରଶ୍ନକୁ ସଂସାଧନ କରିବାରୁ ମନା କରିଦେଲା।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:165
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "ପ୍ରଶ୍ନଟି ସଫଳତାର ସହିତ ପଚରା ଗଲାନାହିଁ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
 msgid "Error adding list"
-msgstr ""
+msgstr "ତାଲିକା ଯୋଗ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
 #: ../addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Error adding contact"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ଯୋଗ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:198
 msgid "Error modifying list"
-msgstr ""
+msgstr "ତାଲିକା ପରିବର୍ତ୍ତିତ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:198
 msgid "Error modifying contact"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ପରିବର୍ତ୍ତିତ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
 msgid "Error removing list"
-msgstr ""
+msgstr "ତାଲିକା ଅପସାରଣ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
 #: ../addressbook/gui/widgets/eab-gui-util.c:657
 msgid "Error removing contact"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ଅପସାରଣ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:292
 #, c-format
@@ -3523,7 +3555,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:327
 msgid "Overwrite"
-msgstr ""
+msgstr "ନବଲିଖନ କରନ୍ତୁ"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
@@ -3532,191 +3564,191 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:377
 msgid "contact"
 msgid_plural "contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ସମ୍ପର୍କ"
+msgstr[1] "ସମ୍ପର୍କ ମାନ"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:425
 msgid "card.vcf"
-msgstr ""
+msgstr "card.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:462
 msgid "Select Address Book"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଚୟନ କରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:603
 msgid "list"
-msgstr ""
+msgstr "ତାଲିକା"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:765
 msgid "Move contact to"
-msgstr ""
+msgstr "ଏଠାକୁ ସମ୍ପର୍କକୁ ଘୁଞ୍ଚାନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:767
 msgid "Copy contact to"
-msgstr ""
+msgstr "ଏଠାରେ ସମ୍ପର୍କକୁ ନକଲ କରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:770
 msgid "Move contacts to"
-msgstr ""
+msgstr "ଏଠାକୁ ସମ୍ପର୍କ ମାନଙ୍କୁ ଘୁଞ୍ଚାନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:772
 msgid "Copy contacts to"
-msgstr ""
+msgstr "ଏଠାରେ ସମ୍ପର୍କ ମାନଙ୍କୁ ନକଲ କରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:998
 msgid "Multiple VCards"
-msgstr ""
+msgstr "ଏକାଧିକ VCards"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1001
 #, c-format
 msgid "VCard for %s"
-msgstr ""
+msgstr "%s ପାଇଁ VCard"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1042
 #: ../addressbook/gui/widgets/eab-gui-util.c:1060
 msgid "Contact information"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ସୂଚନା"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1062
 #, c-format
 msgid "Contact information for %s"
-msgstr ""
+msgstr "%s ପାଇଁ ସମ୍ପର୍କ ସୂଚନା"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:289
 msgid "Querying Address Book..."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ପ୍ରଶ୍ନ ପଚାରୁଛି ..."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ସେଠାରେ ଅନ୍ଯ ଗୋଟିଏ ସମ୍ପର୍କ ଅଛି।"
+msgstr[1] "ସେଠାରେ ଅନ୍ଯାନ୍ଯ %d ସମ୍ପର୍କ ଅଛନ୍ତି।"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
 msgid "Show Full VCard"
-msgstr ""
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ VCard କୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:227
 msgid "Show Compact VCard"
-msgstr ""
+msgstr "ସଂକ୍ଷିପ୍ତ VCard କୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:277
 msgid "Save in addressbook"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାରେ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../addressbook/gui/widgets/gal-view-factory-minicard.c:25
 msgid "Card View"
-msgstr ""
+msgstr "କାର୍ଡ ଦ୍ରୁଶ୍ଯ"
 
 #: ../addressbook/gui/widgets/gal-view-factory-treeview.c:26
 msgid "GTK Tree View"
-msgstr ""
+msgstr "GTK ବ୍ରୁକ୍ଷ ଦ୍ରୁଶ୍ଯ"
 
 #: ../addressbook/importers/evolution-csv-importer.c:624
 #: ../mail/importers/evolution-outlook-importer.c:264
 #: ../mail/importers/netscape-importer.c:1252
 msgid "Importing..."
-msgstr ""
+msgstr "ଆୟତ କରୁଅଛି ..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "ଆଉଟଲୁକ CSV କିମ୍ବା ଟ୍ଯାବ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
 msgid "Outlook CSV and Tab Importer"
-msgstr ""
+msgstr "ଆଉଟଲୁକ CSV ଏବଂ ଟ୍ଯାବ ଆୟତକ"
 
 #: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "ମୋଜିଲା CSV କିମ୍ବା ଟ୍ଯାବ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
 msgid "Mozilla CSV and Tab Importer"
-msgstr ""
+msgstr "ମୋଜିଲା CSV ଏବଂ ଟ୍ଯାବ ଆୟତକ"
 
 #: ../addressbook/importers/evolution-csv-importer.c:844
 msgid "Evolution CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ CSV କିମ୍ବା ଟ୍ଯାବ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ CSV ଏବଂ ଟ୍ଯାବ ଆୟତକ"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:583
 #: ../addressbook/importers/evolution-vcard-importer.c:250
 #: ../calendar/importers/icalendar-importer.c:312
 #: ../calendar/importers/icalendar-importer.c:677 ../shell/shell.error.xml.h:6
 msgid "Importing ..."
-msgstr ""
+msgstr "ଆୟତ କରୁଅଛି ..."
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
+msgstr "LDAP ତଥ୍ଯ ବିନିମୟ ଶୈଳୀ (.ldif)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:755
 msgid "Evolution LDIF importer"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ LDIF ଆୟତକ"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:547
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:548
 msgid "Evolution VCard Importer"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ VCard ଆୟତକ"
 
 #: ../addressbook/printing/e-contact-print-envelope.c:213
 #: ../addressbook/printing/e-contact-print-envelope.c:234
 msgid "Print envelope"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ ଲଫାପା"
 
 #: ../addressbook/printing/e-contact-print.c:849
 msgid "Print contacts"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ ସମ୍ପର୍କ"
 
 #: ../addressbook/printing/e-contact-print.c:939
 #: ../addressbook/printing/e-contact-print.c:967
 msgid "Print contact"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ ସମ୍ପର୍କ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
-msgstr ""
+msgstr "୧୦ ବିନ୍ଦୁ ଟାହୋମା"
 
 #: ../addressbook/printing/e-contact-print.glade.h:2
 msgid "8 pt. Tahoma"
-msgstr ""
+msgstr "୮ ବିନ୍ଦୁ ଟାହୋମା"
 
 #: ../addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
-msgstr ""
+msgstr "ଶେଷରେ ଖାଲି ଫର୍ମ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "ମୂଳ ଅଙ୍ଗ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
-msgstr ""
+msgstr "ନିମ୍ନଭାଗ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:6
 msgid "Dimensions:"
-msgstr ""
+msgstr "ପରିସର:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr ""
+msgstr "ଅକ୍ଷରରୂପ (_F) ..."
 
 #: ../addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr ""
+msgstr "ଅକ୍ଷରରୂପ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
-msgstr ""
+msgstr "ପାଦିକା:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
@@ -3730,60 +3762,60 @@ msgstr "ସଜ୍ଜିକରଣ ଶୈଳୀ"
 #: ../widgets/table/e-table-header-item.c:1913
 #: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
-msgstr ""
+msgstr "ଶୀର୍ଷକ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:12
 msgid "Header/Footer"
-msgstr ""
+msgstr "ଶୀର୍ଷକ/ପାଦିକା"
 
 #: ../addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr ""
+msgstr "ଶିରୋନାମା"
 
 #: ../addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr ""
+msgstr "ପ୍ରତ୍ଯେକ ଅକ୍ଷର ପାଇଁ ଶୀର୍ଷକ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
-msgstr ""
+msgstr "ଉଚ୍ଚତା:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "ଯଥାଶୀଘ୍ର ଉଭୟ ଉଭୟଙ୍କୁ ଅନୁକରଣ କରନ୍ତୁ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
-msgstr ""
+msgstr "ଅନ୍ତର୍ଭୂକ୍ତ କରନ୍ତୁ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
-msgstr ""
+msgstr "ପାରିପାର୍ଶ୍ବିକ ଦ୍ରୁଶ୍ଯ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
-msgstr ""
+msgstr "ବାମ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "କଡରେ ଅକ୍ଷର ଟ୍ଯାବ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
-msgstr ""
+msgstr "ମାର୍ଜିନ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:22
 msgid "Number of columns:"
-msgstr ""
+msgstr "ସ୍ତମ୍ଭ ମାନଙ୍କର ସଂଖ୍ଯା:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:23
 msgid "Options"
-msgstr "ପସନ୍ଦ ମାନ"
+msgstr "ବିକଲ୍ପ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:24
 #: ../e-util/eggtrayicon.c:120
 msgid "Orientation"
-msgstr ""
+msgstr "ଅନୁସ୍ଥାପନ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:25
 msgid "Page"
@@ -3791,43 +3823,43 @@ msgstr "ପ୍ରୁଷ୍ଠା"
 
 #: ../addressbook/printing/e-contact-print.glade.h:26
 msgid "Page Setup:"
-msgstr ""
+msgstr "ପ୍ରୁଷ୍ଠା ବ୍ଯବସ୍ଥାପନ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
-msgstr ""
+msgstr "କାଗଜ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
-msgstr ""
+msgstr "କାଗଜ ଉତ୍ସ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
-msgstr ""
+msgstr "ଚିତ୍ରପଟ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
-msgstr ""
+msgstr "ପୂର୍ବାଲୋକନ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
-msgstr ""
+msgstr "ଧୂସର ଛାୟାଙ୍କନ ବ୍ଯବହାର କରି ଛାପନ୍ତୁ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:32
 msgid "Reverse on even pages"
-msgstr ""
+msgstr "ଯୁଗ୍ମ ପ୍ରୁଷ୍ଠା ମାନଙ୍କରେ ଓଲଟା ଛାପନ୍ତୁ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:33
 msgid "Right:"
-msgstr ""
+msgstr "ଡାହାଣ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "ଅଂଶ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
-msgstr ""
+msgstr "ଛାୟା"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
@@ -3835,19 +3867,19 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
-msgstr ""
+msgstr "ଆକାର:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:37
 msgid "Start on a new page"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ ପ୍ରୁଷ୍ଠାରେ ପ୍ରାରମ୍ଭ କରନ୍ତୁ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:38
 msgid "Style name:"
-msgstr ""
+msgstr "ଶୈଳୀ ନାମ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:39
 msgid "Top:"
-msgstr ""
+msgstr "ଉପରେ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
 #: ../calendar/gui/dialogs/calendar-setup.c:176
@@ -3860,82 +3892,82 @@ msgstr "ଓସାର:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr ""
+msgstr "ଅକ୍ଷରରୂପ (_F) ..."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ ଶୈଳୀ ସମ୍ପାଦକ ପରୀକ୍ଷଣ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
 #: ../addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr ""
+msgstr "ସ୍ବତ୍ତ୍ବାଧୀକାର (C) 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "ଏହା ସମ୍ପର୍କ ମୂଦ୍ରଣ ଶୈଳୀ ସମ୍ପାଦକ ଓ୍ବିଜେଟକୁ ପରୀକ୍ଷଣ କରିବା ଉଚିତ"
 
 #: ../addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ ପରୀକ୍ଷଣ ସହିତ ଯୋଗଯୋଗ କରନ୍ତୁ"
 
 #: ../addressbook/printing/test-print.c:55
 msgid "This should test the contact print code"
-msgstr ""
+msgstr "ଏହା ସମ୍ପର୍କ ମୂଦ୍ରଣ ସଙ୍କେତକୁ ପରୀକ୍ଷଣ କରିବା ଉଚିତ"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
-msgstr ""
+msgstr "ଫାଇଲ ଖୋଲି ପାରିବ ନାହିଁ"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
 msgid "Couldn't get list of addressbooks"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାର ତାଲିକାକୁ ପାଇ ପାରିଲା ନାହିଁ"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:72
 msgid "failed to open book"
-msgstr ""
+msgstr "ପୁସ୍ତକକୁ ଖୋଲିବାରେ ବିଫଳ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr ""
+msgstr "ସାଧାରଣ ନିର୍ଗମ ବଦଳରେ ନିର୍ଗମ ଫାଇଲକୁ ନିର୍ଦ୍ଦିଷ୍ଟ କରନ୍ତୁ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "ନିର୍ଗମ ଫାଇଲ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local addressbook folders"
-msgstr ""
+msgstr "ସ୍ଥାନୀୟ ଠିକଣା ପୁସ୍ତିକା ଫୋଲଡର ମାନଙ୍କୁ ସୂଚୀବଦ୍ଧ କରନ୍ତୁ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
-msgstr ""
+msgstr "କାର୍ଡ ମାନଙ୍କୁ vcard କିମ୍ବା csv ଫାଇଲ ରୂପରେ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "[vcard|csv]"
-msgstr ""
+msgstr "[vcard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode"
-msgstr ""
+msgstr "ତାଳହୀନ ଧାରାରେ ନିର୍ଯ୍ଯାସିତ କରନ୍ତୁ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "The number of cards in one output file in asychronous mode, default size 100."
-msgstr ""
+msgstr "ଗୋଟିଏ ନିର୍ଗମ ଫାଇଲରେ ତାଳହୀନ ଧାରାରେ କାର୍ଡ ମାନଙ୍କର ସଂଖ୍ଯା, ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଆକାରଟି ୧୦୦ ଅଟେ।"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "ସଂଖ୍ଯା"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
-msgstr ""
+msgstr "ପାଠ୍ଯ ନିର୍ଦ୍ଦେଶ ସ୍ବତନ୍ତ୍ରଚର ତ୍ରୁଟି, ବ୍ଯବହାର ବିଧିକୁ ଦେଖିବା ପାଇଁ ଦୟାକରି --help ବିକଲ୍ପକୁ ବ୍ଯବହାର କରନ୍ତୁ।"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
-msgstr ""
+msgstr "କେବଳ csv କିମ୍ବା vcard ଶୈଳୀକୁ ସହାୟତା ପ୍ରଦାନ କରନ୍ତୁ।"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
@@ -5145,7 +5177,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Options</b>"
-msgstr "<b>ପସନ୍ଦ</b>"
+msgstr "<b>ବିକଲ୍ପ</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Repeat</b>"
@@ -18260,7 +18292,7 @@ msgstr "ସହାୟତା (_H)"
 
 #: ../ui/evolution-editor.xml.h:21
 msgid "_Options"
-msgstr "ପସନ୍ଦ (_O)"
+msgstr "ବିକଲ୍ପ (_O)"
 
 #: ../ui/evolution-event-editor.xml.h:2
 msgid "All Day Event"
