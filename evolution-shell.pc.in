@@ -19,5 +19,5 @@ Name: evolution-shell
 Description: libraries needed for Evolution shell components
 Version: @VERSION@
 Requires: libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= @BONOBOUI_REQUIRED@
-Libs: -L${privlibdir} -leshell
+Libs: -L${privlibdir} -leshell -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}
