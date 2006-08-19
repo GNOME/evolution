@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-09 15:12+0200\n"
-"PO-Revision-Date: 2006-08-12 09:27+0300\n"
+"PO-Revision-Date: 2006-08-18 08:13+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1210,7 +1210,7 @@ msgstr "_Turvalist ühendust kasutatakse:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
-msgstr "kaardid"
+msgstr "kaarti"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
@@ -2497,7 +2497,7 @@ msgstr "Yahoo"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:562
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/widgets/eab-contact-display.c:560
@@ -3571,6 +3571,9 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
+"Selle päringu sooritamiseks kulunud aeg ületas selle aadressiraamatu\n"
+"jaoks määratud piirangu. Palun täpsusta oma otsingut või suurenda selle\n"
+"aadressiraamatu kataloogiserveri eelistustest ajapiirangut."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
 msgid "The backend for this addressbook was unable to parse this query."
@@ -7139,14 +7142,12 @@ msgid "_Mark Selected Tasks as Complete"
 msgstr "_Märgi valitud ülesanne lõpetatuks"
 
 #: ../calendar/gui/e-calendar-table.c:1297
-#, fuzzy
 msgid "_Mark as Incomplete"
-msgstr "_Märgi lõpetatuks"
+msgstr "_Märgi kui lõpetamata"
 
 #: ../calendar/gui/e-calendar-table.c:1298
-#, fuzzy
 msgid "_Mark Selected Tasks as Incomplete"
-msgstr "_Märgi valitud ülesanne lõpetatuks"
+msgstr "_Märgi valitud ülesanded kui lõpetamata"
 
 #: ../calendar/gui/e-calendar-table.c:1303
 msgid "_Delete Selected Tasks"
@@ -11529,7 +11530,7 @@ msgstr "Laadimine..."
 #: ../mail/em-folder-tree.c:366
 #, c-format
 msgid "folder-display|%s (%u)"
-msgstr ""
+msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:717
 msgid "Mail Folder Tree"
@@ -11677,7 +11678,6 @@ msgid "Mark as _Important"
 msgstr "Märgi _tähtsaks "
 
 #: ../mail/em-folder-view.c:1134
-#, fuzzy
 msgid "Mark as Un_important"
 msgstr "Märgi m_ittetähtsaks"
 
@@ -12609,16 +12609,14 @@ msgid "Show deleted messages in the message-list"
 msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:83
-#, fuzzy
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
-msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:84
-#, fuzzy
 msgid "Show the sender email in the messages column in the message list"
-msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
+msgstr "Saatja aadressi näitamine sõnumite loendi sõnumiveerus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Sound file to play when new mail arrives."
@@ -13460,9 +13458,8 @@ msgid "S_elect..."
 msgstr "_Vali..."
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid "S_end message receipts:"
-msgstr "_Saada sõnum"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
@@ -14379,7 +14376,7 @@ msgstr "Palun kontrolli oma kontosätteid ja proovi uuesti."
 
 #: ../mail/mail.error.xml.h:75
 msgid "Please enable the account or send using another account."
-msgstr ""
+msgstr "Palun luba konto või saada mõne muu konto kaudu."
 
 #: ../mail/mail.error.xml.h:76
 msgid ""
@@ -14592,9 +14589,8 @@ msgid "_Discard changes"
 msgstr "_Hülga muudatused"
 
 #: ../mail/mail.error.xml.h:127
-#, fuzzy
 msgid "_Do not Mark as Read"
-msgstr "_Märgi loetuks"
+msgstr "_Ära märgi loetuks"
 
 #: ../mail/mail.error.xml.h:129
 msgid "_Expunge"
@@ -16813,12 +16809,15 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"Selle sõnumi päis {0} on vigaselt vormindatud ja seda pole võimalik "
+"töödelda.\n"
+"Päis: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
+msgstr "Sõnumi päises pole selle toimingu läbiviimiseks vajalikke andmeid."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -19033,14 +19032,12 @@ msgid "Show Message _Preview"
 msgstr "Näita sõnumi _eelvaadet"
 
 #: ../ui/evolution-mail-global.xml.h:14
-#, fuzzy
 msgid "Show message preview below the message list"
-msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
+msgstr "Sõnumi eelvaate näitamine sõnumiloendi all"
 
 #: ../ui/evolution-mail-global.xml.h:15
-#, fuzzy
 msgid "Show message preview side-by-side with the message list"
-msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
+msgstr "Sõnumi eelvaate näitamine sõnumiloendi kõrval"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview window"
@@ -19644,7 +19641,6 @@ msgid "_Unread"
 msgstr "Lu_gemata"
 
 #: ../ui/evolution-mail-message.xml.h:131
-#, fuzzy
 msgid "_Zoom"
 msgstr "_Suurenda"
 
