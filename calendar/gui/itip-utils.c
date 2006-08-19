@@ -1104,7 +1104,7 @@ append_cal_attachments (GNOME_Evolution_Composer composer_server, ECalComponent
 	for (l = attach_list; l ; l = l->next) {
 		mime_attach = (struct CalMimeAttach *) l->data;
 		
-		filename = CORBA_string_dup (mime_attach->filename);
+		filename = CORBA_string_dup (mime_attach->filename ? mime_attach->filename : "");
 		content_type = CORBA_string_dup	(mime_attach->content_type);
 		description = CORBA_string_dup (mime_attach->description);
 		
