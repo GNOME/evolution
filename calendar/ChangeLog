@@ -1,3 +1,9 @@
+2006-08-18  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #343369
+	* gui/itip-utils.c: (append_cal_attachments):
+	Set the file name to empty string in its absence.
+
 2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/e-week-view-event-item.c:
