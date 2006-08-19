@@ -1,3 +1,9 @@
+2006-08-19  Harish Krishnaswamy  <kharish@novell.com>
+
+	* evolution-plugin.pc.in, evolution-shell.pc.in:
+	Include rpath in libs specified. Fixes #350385.
+	(Patch submitted by Øystein Gisnås)
+	
 2006-08-07  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.7.91 release 
