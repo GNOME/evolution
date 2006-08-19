@@ -311,6 +311,10 @@ start_calendar_server (FormatItipPObject *pitip, ESource *source, ECalSourceType
 	}
 	
 	ecal = auth_new_cal_from_source (source, type);
+	
+	if (!ecal)
+		return NULL;
+	
 	g_signal_connect (G_OBJECT (ecal), "cal_opened", G_CALLBACK (func), data);
 
 	g_hash_table_insert (pitip->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
