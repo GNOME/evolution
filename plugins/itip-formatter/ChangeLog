@@ -1,3 +1,9 @@
+2006-08-18  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #328268
+	* itip-formatter.c: (start_calendar_server): Check
+	for the presence of ecal before connecting the signal.						 
+
 2006-08-11  Harish Krishnaswamy  <kharish@novell.com>
 
 	* itip-formatter.c: (send_comp_to_attendee):
