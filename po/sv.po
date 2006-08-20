@@ -12,14 +12,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.222 2006/08/16 05:29:57 dnylande Exp $
+# $Id: sv.po,v 1.223 2006/08/20 14:34:02 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-15 15:36+0200\n"
-"PO-Revision-Date: 2006-08-15 18:07+0100\n"
+"POT-Creation-Date: 2006-08-20 07:52+0200\n"
+"PO-Revision-Date: 2006-08-20 15:54+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -88,11 +88,11 @@ msgstr "Kalenderevenemang: Sammanfattningen är %s."
 msgid "Calendar Event: It has no summary."
 msgstr "Kalenderevenemang: Det har ingen sammanfattning."
 
-#: ../a11y/calendar/ea-cal-view-event.c:297
+#: ../a11y/calendar/ea-cal-view-event.c:298
 msgid "calendar view event"
 msgstr "kalendervisningshändelse"
 
-#: ../a11y/calendar/ea-cal-view-event.c:526
+#: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
 msgstr "Tag fokus"
 
@@ -657,7 +657,7 @@ msgstr "Adress_bok"
 msgid "Create a new address book"
 msgstr "Skapa en ny adressbok"
 
-#: ../addressbook/gui/component/addressbook-component.c:406
+#: ../addressbook/gui/component/addressbook-component.c:407
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Misslyckades med att uppgradera adressboksinställningar eller mappar."
 
@@ -683,7 +683,7 @@ msgstr "Kopiera bokinnehåll lokalt för frånkopplad åtgärd"
 #: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:222
 #: ../mail/mail-config.glade.h:85
-#: ../plugins/itip-formatter/itip-formatter.c:2047
+#: ../plugins/itip-formatter/itip-formatter.c:2051
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Allmänt"
@@ -1259,9 +1259,8 @@ msgid "Work"
 msgstr "Jobb"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
-msgid "_Address:"
-msgstr "_Adress:"
+msgid "_Address: "
+msgstr "_Adress: "
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Anniversary:"
@@ -2581,6 +2580,10 @@ msgstr "_Land:"
 msgid "Full Address"
 msgstr "Fullständig adress"
 
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
+msgid "_Address:"
+msgstr "_Adress:"
+
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
 msgstr "_Postnummer:"
@@ -2913,7 +2916,7 @@ msgstr "Klipp _ut"
 #: ../composer/e-msg-composer.c:3152
 #: ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1111
-#: ../mail/message-list.c:1901
+#: ../mail/message-list.c:1919
 #: ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13
@@ -4382,7 +4385,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Kunde inte skriva pilotens att-göra-programblock"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2038
+#: ../plugins/itip-formatter/itip-formatter.c:2042
 msgid "Calendar and Tasks"
 msgstr "Kalender och uppgifter"
 
@@ -5767,14 +5770,14 @@ msgstr[1] "%d bifogade meddelanden"
 #: ../mail/em-folder-tree.c:1003
 #: ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1007
-#: ../mail/message-list.c:1902
+#: ../mail/message-list.c:1920
 msgid "_Move"
 msgstr "_Flytta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448
 #: ../composer/e-msg-composer.c:3155
 #: ../mail/em-folder-tree.c:1005
-#: ../mail/message-list.c:1904
+#: ../mail/message-list.c:1922
 msgid "Cancel _Drag"
 msgstr "Avbryt _dragning"
 
@@ -6091,7 +6094,7 @@ msgstr "Anpassa"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1735
+#: ../plugins/itip-formatter/itip-formatter.c:1739
 #: ../widgets/misc/e-cell-date-edit.c:249
 #: ../widgets/misc/e-dateedit.c:1507
 #: ../widgets/misc/e-dateedit.c:1721
@@ -6244,7 +6247,7 @@ msgid "Unable to open memos in '%s'."
 msgstr "Kan inte öppna memo i \"%s\"."
 
 #: ../calendar/gui/dialogs/memo-page.c:1019
-#: ../mail/em-format-html.c:1488
+#: ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:846
 #: ../mail/em-mailer-prefs.c:87
@@ -6900,7 +6903,7 @@ msgstr "Nej"
 #: ../calendar/gui/e-meeting-store.c:222
 #: ../mail/em-utils.c:1329
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1760
+#: ../plugins/itip-formatter/itip-formatter.c:1764
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:720
 #: ../widgets/misc/e-charset-picker.c:63
@@ -7422,13 +7425,13 @@ msgstr "<br> Granska följande information, och välj sedan en åtgärd från me
 #: ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:685
-#: ../plugins/itip-formatter/itip-formatter.c:1748
+#: ../plugins/itip-formatter/itip-formatter.c:1752
 msgid "Accepted"
 msgstr "Godtaget"
 
 #: ../calendar/gui/e-itip-control.c:1136
 #: ../calendar/gui/itip-utils.c:688
-#: ../plugins/itip-formatter/itip-formatter.c:1751
+#: ../plugins/itip-formatter/itip-formatter.c:1755
 msgid "Tentatively Accepted"
 msgstr "Preliminärt godtaget"
 
@@ -7438,7 +7441,7 @@ msgstr "Preliminärt godtaget"
 #: ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:691
 #: ../calendar/gui/itip-utils.c:720
-#: ../plugins/itip-formatter/itip-formatter.c:1754
+#: ../plugins/itip-formatter/itip-formatter.c:1758
 msgid "Declined"
 msgstr "Avslaget"
 
@@ -7653,7 +7656,7 @@ msgid "Attendee status updated\n"
 msgstr "Deltagarstatus är uppdaterad\n"
 
 #: ../calendar/gui/e-itip-control.c:1974
-#: ../plugins/itip-formatter/itip-formatter.c:1100
+#: ../plugins/itip-formatter/itip-formatter.c:1104
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Deltagarstatusen kan inte uppdateras eftersom objektet inte längre finns"
 
@@ -7820,7 +7823,7 @@ msgstr "Preliminärt"
 #: ../calendar/gui/e-meeting-store.c:192
 #: ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:694
-#: ../plugins/itip-formatter/itip-formatter.c:1757
+#: ../plugins/itip-formatter/itip-formatter.c:1761
 msgid "Delegated"
 msgstr "Delegerat"
 
@@ -11412,7 +11415,7 @@ msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
 #: ../mail/em-filter-i18n.h:65
-#: ../mail/em-format-html.c:1659
+#: ../mail/em-format-html.c:1660
 #: ../mail/em-format-quote.c:313
 #: ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:90
@@ -11579,13 +11582,13 @@ msgid "Copying folder %s"
 msgstr "Kopierar mappen %s"
 
 #: ../mail/em-folder-tree.c:886
-#: ../mail/message-list.c:1806
+#: ../mail/message-list.c:1824
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Flyttar meddelanden till mappen %s"
 
 #: ../mail/em-folder-tree.c:888
-#: ../mail/message-list.c:1808
+#: ../mail/message-list.c:1826
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopierar meddelanden till mappen %s"
@@ -11852,7 +11855,7 @@ msgid "M_atch case"
 msgstr "M_atcha versaler/gemener"
 
 #: ../mail/em-format-html-display.c:926
-#: ../mail/em-format-html.c:617
+#: ../mail/em-format-html.c:618
 msgid "Unsigned"
 msgstr "Osignerat"
 
@@ -11861,7 +11864,7 @@ msgid "This message is not signed. There is no guarantee that this message is au
 msgstr "Detta meddelande är inte signerat. Det finns ingen garanti att detta meddelande är autentiskt."
 
 #: ../mail/em-format-html-display.c:927
-#: ../mail/em-format-html.c:618
+#: ../mail/em-format-html.c:619
 msgid "Valid signature"
 msgstr "Giltig signatur"
 
@@ -11870,7 +11873,7 @@ msgid "This message is signed and is valid meaning that it is very likely that t
 msgstr "Detta meddelande är signerat och giltigt, vilket betyder att det är mycket sannolikt att meddelandet är autentiskt."
 
 #: ../mail/em-format-html-display.c:928
-#: ../mail/em-format-html.c:619
+#: ../mail/em-format-html.c:620
 msgid "Invalid signature"
 msgstr "Ogiltig signatur"
 
@@ -11887,7 +11890,7 @@ msgid "This message is signed with a valid signature, but the sender of the mess
 msgstr "Detta meddelande är signerat med en giltig signatur, men meddelandets avsändare kan inte verifieras."
 
 #: ../mail/em-format-html-display.c:935
-#: ../mail/em-format-html.c:626
+#: ../mail/em-format-html.c:627
 msgid "Unencrypted"
 msgstr "Okrypterat"
 
@@ -11896,7 +11899,7 @@ msgid "This message is not encrypted. Its content may be viewed in transit acros
 msgstr "Detta meddelande är inte krypterat. Dess innehåll kan ses i överföringen på Internet."
 
 #: ../mail/em-format-html-display.c:936
-#: ../mail/em-format-html.c:627
+#: ../mail/em-format-html.c:628
 msgid "Encrypted, weak"
 msgstr "Krypterat, svagt"
 
@@ -11905,7 +11908,7 @@ msgid "This message is encrypted, but with a weak encryption algorithm. It would
 msgstr "Detta meddelande är krypterat, men med en svag krypteringsalgoritm. Det skulle vara svårt men inte omöjligt för en utomstående att se innehållet i detta meddelande inom en rimlig tid."
 
 #: ../mail/em-format-html-display.c:937
-#: ../mail/em-format-html.c:628
+#: ../mail/em-format-html.c:629
 msgid "Encrypted"
 msgstr "Krypterat"
 
@@ -11914,7 +11917,7 @@ msgid "This message is encrypted.  It would be difficult for an outsider to view
 msgstr "Detta meddelande är krypterat. Det skulle vara svårt för en utomstående att se innehållet i detta meddelande."
 
 #: ../mail/em-format-html-display.c:938
-#: ../mail/em-format-html.c:629
+#: ../mail/em-format-html.c:630
 msgid "Encrypted, strong"
 msgstr "Krypterat, starkt"
 
@@ -12005,44 +12008,44 @@ msgstr "Sida %d av %d"
 msgid "Retrieving `%s'"
 msgstr "Hämtar \"%s\""
 
-#: ../mail/em-format-html.c:620
+#: ../mail/em-format-html.c:621
 msgid "Valid signature but cannot verify sender"
 msgstr "Giltig signatur men kan inte verifiera avsändaren"
 
-#: ../mail/em-format-html.c:891
+#: ../mail/em-format-html.c:892
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
-#: ../mail/em-format-html.c:921
+#: ../mail/em-format-html.c:922
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: ../mail/em-format-html.c:932
+#: ../mail/em-format-html.c:933
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: ../mail/em-format-html.c:934
+#: ../mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: ../mail/em-format-html.c:955
+#: ../mail/em-format-html.c:956
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: ../mail/em-format-html.c:966
+#: ../mail/em-format-html.c:967
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: ../mail/em-format-html.c:1193
+#: ../mail/em-format-html.c:1194
 msgid "Formatting message"
 msgstr "Formaterar meddelande"
 
-#: ../mail/em-format-html.c:1488
+#: ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:844
 #: ../mail/em-mailer-prefs.c:85
@@ -12051,21 +12054,21 @@ msgstr "Formaterar meddelande"
 msgid "From"
 msgstr "Från"
 
-#: ../mail/em-format-html.c:1488
+#: ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845
 #: ../mail/em-mailer-prefs.c:86
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: ../mail/em-format-html.c:1488
+#: ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847
 #: ../mail/em-mailer-prefs.c:88
 msgid "Cc"
 msgstr "Kopia"
 
-#: ../mail/em-format-html.c:1488
+#: ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848
 #: ../mail/em-mailer-prefs.c:89
@@ -12073,23 +12076,23 @@ msgid "Bcc"
 msgstr "Blindkopia"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1663
+#: ../mail/em-format-html.c:1664
 #: ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1025
 msgid "Mailer"
 msgstr "E-postprogram"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1690
+#: ../mail/em-format-html.c:1691
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a %H.%M %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1693
+#: ../mail/em-format-html.c:1694
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%H.%M %Z)</I>"
 
-#: ../mail/em-format-html.c:1703
+#: ../mail/em-format-html.c:1704
 #: ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:91
@@ -12099,7 +12102,7 @@ msgstr "<I> (%H.%M %Z)</I>"
 msgid "Date"
 msgstr "Datum"
 
-#: ../mail/em-format-html.c:1726
+#: ../mail/em-format-html.c:1727
 #: ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:92
 msgid "Newsgroups"
@@ -14561,45 +14564,45 @@ msgstr "Högre"
 msgid "Highest"
 msgstr "Högsta"
 
-#: ../mail/message-list.c:1451
+#: ../mail/message-list.c:1466
 #: ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1458
+#: ../mail/message-list.c:1473
 #: ../plugins/itip-formatter/itip-view.c:200
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Idag %l.%M"
 
-#: ../mail/message-list.c:1467
+#: ../mail/message-list.c:1482
 #: ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "Igår %H.%M"
 
-#: ../mail/message-list.c:1479
+#: ../mail/message-list.c:1494
 #: ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %H.%M"
 
-#: ../mail/message-list.c:1487
+#: ../mail/message-list.c:1502
 #: ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %H.%M"
 
-#: ../mail/message-list.c:1489
+#: ../mail/message-list.c:1504
 #: ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2241
+#: ../mail/message-list.c:2259
 #: ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Meddelanden"
 
-#: ../mail/message-list.c:3629
+#: ../mail/message-list.c:3647
 msgid "Generating message list"
 msgstr "Genererar meddelandelista"
 
@@ -14764,36 +14767,36 @@ msgstr "Säkerhetskopiera och återställ data och inställningar i Evolution"
 msgid "Restore Settings..."
 msgstr "Återställ inställningar..."
 
-#: ../plugins/bbdb/bbdb.c:443
-#: ../plugins/bbdb/bbdb.c:452
+#: ../plugins/bbdb/bbdb.c:447
+#: ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Automatiska kontakter"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:467
+#: ../plugins/bbdb/bbdb.c:471
 msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr "Skapa _automatiskt poster i adressboken då e-post besvaras"
 
-#: ../plugins/bbdb/bbdb.c:473
+#: ../plugins/bbdb/bbdb.c:477
 msgid "Select Address book for Automatic Contacts"
 msgstr "Välj adressbok för automatiska kontakter"
 
-#: ../plugins/bbdb/bbdb.c:488
+#: ../plugins/bbdb/bbdb.c:492
 msgid "Instant Messaging Contacts"
 msgstr "Kontakter för snabbmeddelanden"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:503
+#: ../plugins/bbdb/bbdb.c:507
 msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr "Synkronisera periodiskt kontaktinformation och bilder från Gaims kompislista"
 
-#: ../plugins/bbdb/bbdb.c:509
+#: ../plugins/bbdb/bbdb.c:513
 msgid "Select Address book for Gaim buddy list"
 msgstr "Välj adressbok för Gaims kompislista"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:520
+#: ../plugins/bbdb/bbdb.c:524
 msgid "Synchronize with _buddy list now"
 msgstr "Synkronisera med _kompislistan nu"
 
@@ -15971,137 +15974,137 @@ msgid "Could not open the Evolution calendar/todo list to export data."
 msgstr "Kunde inte öppna Evolutions kalender-/att-göra-lista för att exportera data."
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
-#: ../plugins/itip-formatter/itip-formatter.c:391
+#: ../plugins/itip-formatter/itip-formatter.c:395
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Misslyckades med att läsa in kalendern \"%s\""
 
-#: ../plugins/itip-formatter/itip-formatter.c:411
+#: ../plugins/itip-formatter/itip-formatter.c:415
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Ett möte i kalendern \"%s\" är i konflikt med detta sammanträde"
 
-#: ../plugins/itip-formatter/itip-formatter.c:437
+#: ../plugins/itip-formatter/itip-formatter.c:441
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Hittade mötet i kalendern \"%s\""
 
-#: ../plugins/itip-formatter/itip-formatter.c:513
+#: ../plugins/itip-formatter/itip-formatter.c:517
 msgid "Unable to find any calendars"
 msgstr "Kunde inte hitta några kalendrar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:520
+#: ../plugins/itip-formatter/itip-formatter.c:524
 msgid "Unable to find this meeting in any calendar"
 msgstr "Kunde inte hitta detta sammanträde i någon kalender"
 
-#: ../plugins/itip-formatter/itip-formatter.c:524
+#: ../plugins/itip-formatter/itip-formatter.c:528
 msgid "Unable to find this task in any task list"
 msgstr "Kunde inte hitta denna uppgift i någon uppgiftslista"
 
-#: ../plugins/itip-formatter/itip-formatter.c:528
+#: ../plugins/itip-formatter/itip-formatter.c:532
 msgid "Unable to find this journal entry in any journal"
 msgstr "Kunde inte hitta den här dagboksposten i någon dagbok"
 
-#: ../plugins/itip-formatter/itip-formatter.c:601
+#: ../plugins/itip-formatter/itip-formatter.c:605
 msgid "Searching for an existing version of this appointment"
 msgstr "Söker efter en existerande version av detta möte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:796
+#: ../plugins/itip-formatter/itip-formatter.c:800
 msgid "Unable to parse item"
 msgstr "Kan inte tolka objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:853
+#: ../plugins/itip-formatter/itip-formatter.c:857
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kan inte skicka objekt till kalendern \"%s\". %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:864
+#: ../plugins/itip-formatter/itip-formatter.c:868
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Skickade till kalendern \"%s\" som accepterat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:868
+#: ../plugins/itip-formatter/itip-formatter.c:872
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Skickade till kalendern \"%s\" som preliminärt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:873
+#: ../plugins/itip-formatter/itip-formatter.c:877
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Skickade till kalendern \"%s\" som avslaget"
 
-#: ../plugins/itip-formatter/itip-formatter.c:878
+#: ../plugins/itip-formatter/itip-formatter.c:882
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Skickade till kalendern \"%s\" som avbrutet"
 
-#: ../plugins/itip-formatter/itip-formatter.c:971
+#: ../plugins/itip-formatter/itip-formatter.c:975
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisatören har tagit bort delegaten %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:978
+#: ../plugins/itip-formatter/itip-formatter.c:982
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Skickade ett avbokningsmeddelande till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:980
+#: ../plugins/itip-formatter/itip-formatter.c:984
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Kunde inte skicka en avbokningsnotering till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1065
+#: ../plugins/itip-formatter/itip-formatter.c:1069
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Deltagarstatus kunde inte uppdateras eftersom statusen är ogiltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1092
+#: ../plugins/itip-formatter/itip-formatter.c:1096
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kan inte uppdatera deltagare. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1096
+#: ../plugins/itip-formatter/itip-formatter.c:1100
 msgid "Attendee status updated"
 msgstr "Deltagarstatusen är uppdaterad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1223
+#: ../plugins/itip-formatter/itip-formatter.c:1227
 msgid "The calendar attached is not valid"
 msgstr "Den bifogade kalendern är inte giltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1224
+#: ../plugins/itip-formatter/itip-formatter.c:1228
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Meddelandet påstår sig innehålla en kalender, men kalendern är inte en giltig iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1259
-#: ../plugins/itip-formatter/itip-formatter.c:1277
-#: ../plugins/itip-formatter/itip-formatter.c:1355
+#: ../plugins/itip-formatter/itip-formatter.c:1263
+#: ../plugins/itip-formatter/itip-formatter.c:1281
+#: ../plugins/itip-formatter/itip-formatter.c:1359
 msgid "The item in the calendar is not valid"
 msgstr "Objektet i kalendern är inte giltigt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1260
-#: ../plugins/itip-formatter/itip-formatter.c:1278
-#: ../plugins/itip-formatter/itip-formatter.c:1356
+#: ../plugins/itip-formatter/itip-formatter.c:1264
+#: ../plugins/itip-formatter/itip-formatter.c:1282
+#: ../plugins/itip-formatter/itip-formatter.c:1360
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Meddelandet innehåller en kalender, men kalendern innehåller inga händelser, uppgifter eller ledig-/upptageninformation"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1289
+#: ../plugins/itip-formatter/itip-formatter.c:1293
 msgid "The calendar attached contains multiple items"
 msgstr "Den bifogade kalendern innehåller flera objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1290
+#: ../plugins/itip-formatter/itip-formatter.c:1294
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "För att kunna behandla alla dessa objekt bör filen sparas och kalendern importeras"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2063
+#: ../plugins/itip-formatter/itip-formatter.c:2067
 msgid "_Delete message after acting"
 msgstr "_Ta bort meddelande efter åtgärd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2073
-#: ../plugins/itip-formatter/itip-formatter.c:2105
+#: ../plugins/itip-formatter/itip-formatter.c:2077
+#: ../plugins/itip-formatter/itip-formatter.c:2109
 msgid "Conflict Search"
 msgstr "Konfliktsökning"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2088
+#: ../plugins/itip-formatter/itip-formatter.c:2092
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Välj de kalendrar som ska genomsökas efter sammanträdeskonflikter"
 
@@ -17121,7 +17124,7 @@ msgstr "_Spara till disk"
 msgid "%FT%T"
 msgstr "%FT%T"
 
-#: ../plugins/save-calendar/rdf-format.c:396
+#: ../plugins/save-calendar/rdf-format.c:397
 msgid "RDF format (.rdf)"
 msgstr "RDF-format (.rdf)"
 
