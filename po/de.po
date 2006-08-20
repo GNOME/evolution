@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-17 14:48+0200\n"
-"PO-Revision-Date: 2006-08-20 15:01+0200\n"
+"PO-Revision-Date: 2006-08-20 23:43+0200\n"
 "Last-Translator: Christian Kintner <mail@christian-kintner.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -343,7 +343,7 @@ msgstr "Kontextmenü"
 
 #: ../a11y/widgets/ea-expander.c:40
 msgid "Toggle Attachment Bar"
-msgstr ""
+msgstr "Anlagenleiste ein-/ausblenden"
 
 #: ../a11y/widgets/ea-expander.c:50
 msgid "activate"
@@ -1387,7 +1387,6 @@ msgid "_Calendar:"
 msgstr "_Kalender:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "_Categories..."
 msgstr "Ka_tegorien …"
 
@@ -2573,9 +2572,8 @@ msgid "Please select an image for this contact"
 msgstr "Bitte wählen Sie ein Bild für diesen Kontakt"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2791
-#, fuzzy
 msgid "_No image"
-msgstr "Kein Bild"
+msgstr "_Kein Bild"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3093
 msgid ""
@@ -2588,18 +2586,18 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
 #, c-format
 msgid "'%s' has an invalid format"
-msgstr ""
+msgstr "»%s« hat ein ungültiges Format"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "%s'%s' has an invalid format"
-msgstr ""
+msgstr "%s»%s« hat ein ungültiges Format"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3119
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3130
 #, c-format
 msgid "%s'%s' is empty"
-msgstr ""
+msgstr "%s»%s« ist leer"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3145
 msgid "Invalid contact."
@@ -3323,9 +3321,8 @@ msgid "_Copy Link Location"
 msgstr "Link-Ziel _kopieren"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:165
-#, fuzzy
 msgid "_Send New Message To ..."
-msgstr "Neue Nachricht _schicken an …"
+msgstr "Neue Nachricht _senden an …"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:166
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
@@ -3357,9 +3354,8 @@ msgid "Position"
 msgstr "Position"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:519
-#, fuzzy
 msgid "Video Chat"
-msgstr "_Video-Chat:"
+msgstr "Video-Chat:"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:520
 #: ../addressbook/gui/widgets/eab-contact-display.c:535
@@ -3375,14 +3371,12 @@ msgid "work"
 msgstr "geschäftlich"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:532
-#, fuzzy
 msgid "Home Page"
-msgstr "_Homepage:"
+msgstr "Homepage:"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:533
-#, fuzzy
 msgid "Web Log"
-msgstr "_Weblog:"
+msgstr "Weblog:"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:540
 msgid "personal"
@@ -4567,7 +4561,7 @@ msgstr "Evolution-Kalenderkomponente"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution's Memos component"
-msgstr "Evolution-Notizenkomponente"
+msgstr "Evolution-Notizkomponente"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Tasks component"
@@ -4829,9 +4823,8 @@ msgid "Default reminder value"
 msgstr "Wert der Vorgabeerinnerung"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
-#, fuzzy
 msgid "Event Gradient"
-msgstr "Ereignisinformationen"
+msgstr "Ereignisverlauf"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Event Transparency"
@@ -5827,7 +5820,7 @@ msgstr "Aufgabenliste"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 msgid "Memos List"
-msgstr "Notizenliste"
+msgstr "Notizliste"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
 msgid "Calendar Properties"
@@ -8238,9 +8231,8 @@ msgid "You must be an attendee of the event."
 msgstr "Sie müssen ein Teilnehmer des Ereignisses sein."
 
 #: ../calendar/gui/memos-component.c:450
-#, fuzzy
 msgid "_New Memo List"
-msgstr "Neue Notizenliste"
+msgstr "_Neue Notizliste"
 
 #: ../calendar/gui/memos-component.c:526
 #, c-format
@@ -8274,16 +8266,15 @@ msgstr "Es ist kein Kalender zum Anlegen von Notizen verfügbar"
 
 #: ../calendar/gui/memos-component.c:972
 msgid "Memo Source Selector"
-msgstr "Notizenquellenauswahl"
+msgstr "Notizquellenauswahl"
 
 #: ../calendar/gui/memos-component.c:1155
 msgid "New memo"
 msgstr "Neue Notiz"
 
 #: ../calendar/gui/memos-component.c:1156
-#, fuzzy
 msgid "Mem_o"
-msgstr "Notiz"
+msgstr "N_otiz"
 
 #: ../calendar/gui/memos-component.c:1157
 msgid "Create a new memo"
@@ -8291,16 +8282,15 @@ msgstr "Eine neue Notiz anlegen"
 
 #: ../calendar/gui/memos-component.c:1163
 msgid "New memo list"
-msgstr "Neue Notizenliste"
+msgstr "Neue Notizliste"
 
 #: ../calendar/gui/memos-component.c:1164
-#, fuzzy
 msgid "Memo li_st"
 msgstr "Noti_zenliste"
 
 #: ../calendar/gui/memos-component.c:1165
 msgid "Create a new memo list"
-msgstr "Eine neue Notizenliste anlegen"
+msgstr "Eine neue Notizliste anlegen"
 
 #: ../calendar/gui/memos-control.c:340
 msgid "Print Memos"
@@ -11526,44 +11516,36 @@ msgid "C_reate Search Folder From Search..."
 msgstr "Sucho_rdner aus Suche anlegen …"
 
 #: ../mail/em-folder-browser.c:183
-#, fuzzy
 msgid "All Messages"
-msgstr "Nachrichten"
+msgstr "Alle Nachrichten"
 
 #: ../mail/em-folder-browser.c:184
-#, fuzzy
 msgid "Unread Messages"
-msgstr "Ungelesene Nachrichten:"
+msgstr "Ungelesene Nachrichten"
 
 #: ../mail/em-folder-browser.c:186
-#, fuzzy
 msgid "No Label"
-msgstr "Beschriftung"
+msgstr "Keine Beschriftung"
 
 #: ../mail/em-folder-browser.c:193
-#, fuzzy
 msgid "Read Messages"
-msgstr "Ge_lesene Nachrichten verbergen"
+msgstr "Gelesene Nachrichten"
 
 #: ../mail/em-folder-browser.c:194
-#, fuzzy
 msgid "Recent Messages"
-msgstr "Nachrichten ö_ffnen"
+msgstr "Letzte Nachrichten"
 
 #: ../mail/em-folder-browser.c:195
-#, fuzzy
 msgid "Last 5 Days Messages"
-msgstr "Fehlerhafte Aufgabenmitteilung"
+msgstr "Nachrichten der letzten fünf Tage"
 
 #: ../mail/em-folder-browser.c:196
-#, fuzzy
 msgid "Messages with Attachments"
-msgstr "Anlage hinzufügen"
+msgstr "Nachrichten mit Anlagen"
 
 #: ../mail/em-folder-browser.c:197
-#, fuzzy
 msgid "Messages Not Junk"
-msgstr "Nachricht ist nicht unerwünscht"
+msgstr "Nachrichten sind nicht unerwünscht"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
@@ -11777,9 +11759,8 @@ msgid "Mark as _Important"
 msgstr "Als w_ichtig markieren"
 
 #: ../mail/em-folder-view.c:1135
-#, fuzzy
 msgid "Mark as Un_important"
-msgstr "Als unwichtig _markieren"
+msgstr "Als un_wichtig markieren"
 
 #: ../mail/em-folder-view.c:1136
 msgid "Mark as _Junk"
@@ -11890,14 +11871,12 @@ msgid "Matches: %d"
 msgstr "Passt auf: %d"
 
 #: ../mail/em-format-html-display.c:645
-#, fuzzy
 msgid "Find:"
-msgstr "S_uchen:"
+msgstr "Suchen:"
 
 #: ../mail/em-format-html-display.c:676
-#, fuzzy
 msgid "M_atch case"
-msgstr "Auf alles zutreffen"
+msgstr "_Groß-/Kleinschreibung berücksichtigen"
 
 #: ../mail/em-format-html-display.c:924 ../mail/em-format-html.c:617
 msgid "Unsigned"
@@ -12385,7 +12364,7 @@ msgstr "Vorgabebreite des Editorfensters"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr "Kürzen der Adressanzeige in den Empfängerfeldern"
+msgstr "Kürzen der Adressanzeige in den Empfängerfeldern (An/Kopie/Blindkopie)"
 
 #CHECK
 #: ../mail/evolution-mail.schemas.in.in.h:9
@@ -12393,8 +12372,8 @@ msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
-"Die Anzeige der Adressen in den Empfängerfeldern auf die im Schlüssel "
-"»address_count« angegebene Anzahl reduzieren."
+"Die Anzeige der Adressen in den Empfängerfeldern (An/Kopie/Blindkopie) "
+"auf die im Schlüssel »address_count« angegebene Anzahl reduzieren."
 
 #: ../mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to compose messages"
@@ -12464,7 +12443,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:26
 msgid "Enable or disable type ahead search feature"
-msgstr ""
+msgstr "Schnellsuche an- oder abschalten"
 
 #: ../mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -12522,7 +12501,6 @@ msgstr ""
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr ""
 "Die Anzeige während dem Markieren mehrerer Nachrichten aktivieren/deaktivieren"
-
 
 #: ../mail/evolution-mail.schemas.in.in.h:35
 msgid "Last time empty trash was run"
@@ -12742,20 +12720,15 @@ msgstr ""
 msgid "Show deleted messages in the message-list"
 msgstr "Gelöschte Nachrichten in der Nachrichtenliste anzeigen"
 
-
 #: ../mail/evolution-mail.schemas.in.in.h:83
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
-msgstr ""
-
-
+msgstr "Absender in der Spalte »Nachrichten« der Nachrichtenliste anzeigen"
 
 #: ../mail/evolution-mail.schemas.in.in.h:84
 msgid "Show the sender email in the messages column in the message list"
-msgstr ""
-
-
+msgstr "Absender in der Spalte »Nachrichten« der Nachrichtenliste anzeigen"
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Sound file to play when new mail arrives."
@@ -12866,7 +12839,7 @@ msgstr "Ausschließlich lokale Spam-Tests verwenden (kein DNS)."
 
 #: ../mail/evolution-mail.schemas.in.in.h:108
 msgid "Use side-by-side or wide layout"
-msgstr ""
+msgstr "Breite oder nebeneinander ausgerichtete Ansicht benutzen?"
 
 #: ../mail/evolution-mail.schemas.in.in.h:109
 msgid "Variable width font"
@@ -14651,13 +14624,11 @@ msgid "Signature Already Exists"
 msgstr "Signatur existiert bereits"
 
 #: ../mail/mail.error.xml.h:89
-#, fuzzy
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
 msgstr ""
-"Ximian Evolution benötigt Systemordner, um korrekt zu funktionieren und "
-"können weder umbenannt, noch verschoben oder gelöscht werden."
+"Evolution benötigt Systemordner, um korrekt zu funktionieren. Diese können weder umbenannt, noch verschoben oder gelöscht werden."
 
 #: ../mail/mail.error.xml.h:90
 msgid ""
@@ -15077,9 +15048,8 @@ msgstr ""
 "_Automatische Erstellung von Adressbucheinträgen bei Beantwortung von E-Mails"
 
 #: ../plugins/bbdb/bbdb.c:460
-#, fuzzy
 msgid "Select Address book for Automatic Contacts"
-msgstr "Automatische Kontakte"
+msgstr "Adressbuch für automatische Kontakte auswählen"
 
 #: ../plugins/bbdb/bbdb.c:475
 msgid "Instant Messaging Contacts"
@@ -15094,9 +15064,8 @@ msgstr ""
 "abgleichen"
 
 #: ../plugins/bbdb/bbdb.c:496
-#, fuzzy
 msgid "Select Address book for Gaim buddy list"
-msgstr "Adressbuch auswählen"
+msgstr "Adressbuch für die Gaim-Kontaktliste auswählen"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:507
@@ -15865,9 +15834,8 @@ msgid "Password successfully changed."
 msgstr "Das Passwort wurde erfolgreich geändert."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
-#, fuzzy
 msgid "Please restart Evolution for changes to take effect"
-msgstr "Bitte starten Sie Evolution neu"
+msgstr "Bitte starten Sie Evolution neu, damit die Änderungen angewendet werden"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Please select a user."
@@ -17665,9 +17633,8 @@ msgid "Start in offline mode"
 msgstr "Im Offline-Modus starten"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
-#, fuzzy
 msgid "Statusbar is visible"
-msgstr "Seitenleiste anzeigen"
+msgstr "Statusleiste ist sichtbar"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid ""
@@ -17714,7 +17681,6 @@ msgstr "Werkzeugleiste anzeigen"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Soll Evolution im Offline- statt im Online-Modus gestartet werden?"
-
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Whether or not the window should be maximized."
@@ -18076,9 +18042,8 @@ msgid "Disable loading of any plugins."
 msgstr "Das Laden von allen Plugins deaktivieren."
 
 #: ../shell/main.c:515
-#, fuzzy
 msgid "- The Evolution PIM and Email Client"
-msgstr "Die Evolution PIM- und E-Mail-Anwendung"
+msgstr "– Die Evolution PIM- und E-Mail-Anwendung"
 
 #: ../shell/main.c:526
 #, c-format
@@ -20370,9 +20335,8 @@ msgid "Import data from other programs"
 msgstr "Daten aus anderen Programmen importieren"
 
 #: ../ui/evolution.xml.h:16
-#, fuzzy
 msgid "La_yout"
-msgstr "_Info"
+msgstr "_Anordnung"
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
@@ -20548,7 +20512,6 @@ msgid "By _Follow Up Flag"
 msgstr "Nach _Folgenachricht-Markierung"
 
 #: ../views/mail/galview.xml.h:7
-#, fuzzy
 msgid "For _Wide View"
 msgstr "Für _breite Ansicht"
 
@@ -21092,21 +21055,19 @@ msgstr "Text"
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:911
 msgid "Show: "
-msgstr ""
+msgstr "Anzeigen: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:927
-#, fuzzy
 msgid "S_earch: "
-msgstr "Suchen"
+msgstr "_Suchen: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:938
-#, fuzzy
 msgid " in "
-msgstr " und "
+msgstr " in "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
