@@ -6,7 +6,8 @@
 # Matthias Warkus <mawa@iname.com>, 2000.
 # Hendrik Richter <hendrikr@gnome.org>, 2004, 2005, 2006.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
-#
+# Christian Kintner <mail@christian-kintner.de>, 2006.
+# 
 # Sprachregelungen:
 # task = Aufgabe (Auftrag klingt nach Buchhaltung)
 # mailbox = Postfach (dt. Mailbox ist die Übersetzung von "BBS")
@@ -19,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-17 14:48+0200\n"
-"PO-Revision-Date: 2006-07-17 15:04+0200\n"
-"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
+"PO-Revision-Date: 2006-08-20 15:01+0200\n"
+"Last-Translator: Christian Kintner <mail@christian-kintner.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,11 +45,11 @@ msgid "New Contact List"
 msgstr "Neue Kontaktliste"
 
 #: ../a11y/addressbook/ea-minicard-view.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "Angezeigter Adressbuchordner enthält %d Karte"
-msgstr[1] "Angezeigter Adressbuchordner enthält %d Karten"
+msgstr[0] "Angezeigter Adressbuchordner %s enthält %d Karte"
+msgstr[1] "Angezeigter Adressbuchordner %s enthält %d Karten"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:12
@@ -341,14 +342,12 @@ msgid "Popup Menu"
 msgstr "Kontextmenü"
 
 #: ../a11y/widgets/ea-expander.c:40
-#, fuzzy
 msgid "Toggle Attachment Bar"
-msgstr "Anlagenleiste"
+msgstr ""
 
 #: ../a11y/widgets/ea-expander.c:50
-#, fuzzy
 msgid "activate"
-msgstr "Privat"
+msgstr "aktivieren"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid ""
@@ -2619,7 +2618,6 @@ msgid "_Full name"
 msgstr "_Voller Name"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:348
-#, fuzzy
 msgid "E_mail"
 msgstr "E-_Mail"
 
@@ -4228,7 +4226,7 @@ msgstr "Kalender »{0}« löschen?"
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete memo list '{0}'?"
-msgstr "Notizenliste »{0}« löschen?"
+msgstr "Notizliste »{0}« löschen?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete task list '{0}'?"
@@ -4273,7 +4271,7 @@ msgstr "Fehler beim Laden des Kalenders"
 
 #: ../calendar/calendar.error.xml.h:34
 msgid "Error loading memo list"
-msgstr "Fehler beim Laden der Notizenliste"
+msgstr "Fehler beim Laden der Notizliste"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid "Error loading task list"
@@ -4360,7 +4358,7 @@ msgstr "Der ausgewählte Kalender ist schreibgeschützt"
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
-msgstr "Die Notizenliste ist nicht für eine Offline-Benutzung markiert."
+msgstr "Die Notizliste ist nicht für eine Offline-Benutzung markiert."
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
@@ -4372,7 +4370,7 @@ msgstr "Dieser Kalender wird unwiderruflich gelöscht."
 
 #: ../calendar/calendar.error.xml.h:51
 msgid "This memo list will be removed permanently."
-msgstr "Diese Notizenliste wird unwiderruflich gelöscht."
+msgstr "Diese Notizliste wird unwiderruflich gelöscht."
 
 #: ../calendar/calendar.error.xml.h:52
 msgid "This task list will be removed permanently."
@@ -4838,6 +4836,9 @@ msgstr "Ereignisinformationen"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Event Transparency"
 msgstr ""
+"Sie haben eine schreibgeschützte Kalenderquelle ausgewählt. Wechseln Sie zur "
+"Kalenderansicht und wählen Sie einen Kalender, der Termine aktzeptieren "
+"kann, aus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Free/busy server URLs"
@@ -4849,7 +4850,7 @@ msgstr "Vorlage-URL für Verfügbarkeitsdaten"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Gradient of the events in calendar views."
-msgstr ""
+msgstr "Verlauf der Ereignisse in der Kalenderansicht."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Hide completed tasks"
@@ -4952,13 +4953,12 @@ msgstr ""
 "Monatsansicht eingestellt ist."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar."
 msgstr ""
-"Die Position der vertikalen Leiste zwischen den Karten- und Listenansichten "
-"und dem Vorschaufeld in Pixel."
+"Die Position der vertikalen Leiste zwischen der Kalenderliste und dem "
+"Datumsauswahl-Kalender."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid ""
@@ -5079,6 +5079,8 @@ msgid ""
 "Transparency of the events in calendar views (A value between 0 and 10, "
 "opaque by default)."
 msgstr ""
+"Transparenz der Ereignisse in der Kalenderansicht; ein Wert zwischen 0 "
+"(transparent) und 1 (deckend)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Twenty four hour time format"
@@ -5192,7 +5194,7 @@ msgstr "Sollen die Wochennummern im Datumsnavigator angezeigt werden?"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Whether to use daylight savings time while displaying events."
-msgstr ""
+msgstr "Legt fest, ob die Sommerzeit beim Anzeigen von Terminen beachtet wird."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
 msgid "Work days"
@@ -5216,7 +5218,7 @@ msgstr "Minute, zu der der Arbeitstag beginnt"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:93
 msgid "daylight savings time"
-msgstr ""
+msgstr "Sommerzeit"
 
 #: ../calendar/gui/cal-search-bar.c:48
 msgid "Summary contains"
@@ -5534,9 +5536,8 @@ msgstr "Alarme"
 #: ../composer/e-msg-composer-attachment.glade.h:5
 #: ../composer/e-msg-composer-select-file.c:98
 #: ../composer/e-msg-composer-select-file.c:118
-#, fuzzy
 msgid "_Suggest automatic display of attachment"
-msgstr "Automatische Anzeige der Anlage vorschlagen"
+msgstr "Automatische Anzeige der Anlage _vorschlagen"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
@@ -5597,7 +5598,7 @@ msgstr "<b>Arbeitswoche</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
-msgstr ""
+msgstr "An die Sommer_zeit anpassen"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
@@ -5803,20 +5804,17 @@ msgid "before every appointment"
 msgstr "vor jedem Termin"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:288
-#, fuzzy
 msgid "Cop_y calendar contents locally for offline operation"
-msgstr "Den Kalenderinhalt lokal zur Arbeit im Offline-Modus kopieren"
+msgstr "Den Kalenderinhalt lokal zur Arbeit im Offline-Modus _kopieren"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
-#, fuzzy
 msgid "Cop_y task list contents locally for offline operation"
 msgstr ""
-"Den Inhalt der Aufgabenliste lokal zur Arbeit im Offline-Modus kopieren"
+"Den Inhalt der Aufgabenliste lokal zur Arbeit im Offline-Modus _kopieren"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:292
-#, fuzzy
 msgid "Cop_y memo list contents locally for offline operation"
-msgstr "Den Inhalt der Notizenliste lokal zur Arbeit im Offline-Modus kopieren"
+msgstr "Den Inhalt der Notizliste lokal zur Arbeit im Offline-Modus kopieren"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5845,7 +5843,7 @@ msgstr "Aufgabenlisteneigenschaften"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:632
 msgid "New Memo List"
-msgstr "Neue Notizenliste"
+msgstr "Neue Notizliste"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
@@ -6107,6 +6105,8 @@ msgstr "Ziel ist nur lesbar"
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
 msgstr ""
+"Soll dieses Objekt von allen anderen Postfächern der Empfänger ge_löscht "
+"werden?"
 
 #: ../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -6311,7 +6311,6 @@ msgid "15 minutes before appointment"
 msgstr "15 Minuten vor dem Termin"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Attendee_s..."
 msgstr "Teil_nehmer …"
 
@@ -7222,12 +7221,10 @@ msgid "_Mark Selected Tasks as Complete"
 msgstr "Gewählte Aufgaben als abgeschlossen _markieren"
 
 #: ../calendar/gui/e-calendar-table.c:1297
-#, fuzzy
 msgid "_Mark as Incomplete"
 msgstr "Als abgeschlossen _markieren"
 
 #: ../calendar/gui/e-calendar-table.c:1298
-#, fuzzy
 msgid "_Mark Selected Tasks as Incomplete"
 msgstr "Gewählte Aufgaben als abgeschlossen _markieren"
 
@@ -7266,7 +7263,6 @@ msgstr "Priorität"
 msgid "Start date"
 msgstr "Anfangsdatum"
 
-# CHECK
 #: ../calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
 msgstr "Aufgabensortierung"
@@ -8269,7 +8265,7 @@ msgstr "Auffrischen der Notizen gescheitert."
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr ""
-"Die Notizenliste »%s« konnte nicht zum Anlegen von Ereignissen und Terminen "
+"Die Notizliste »%s« konnte nicht zum Anlegen von Ereignissen und Terminen "
 "geöffnet werden"
 
 #: ../calendar/gui/memos-component.c:884
@@ -8644,7 +8640,6 @@ msgid "New task list"
 msgstr "Neue Aufgabenliste"
 
 #: ../calendar/gui/tasks-component.c:1187
-#, fuzzy
 msgid "Tas_k list"
 msgstr "Aufgabenl_iste"
 
@@ -11482,7 +11477,7 @@ msgstr "Absender"
 
 #: ../mail/em-filter-i18n.h:57
 msgid "Set Status"
-msgstr "Status setzen:"
+msgstr "Status setzen"
 
 #: ../mail/em-filter-i18n.h:58
 msgid "Size (kB)"
@@ -11886,7 +11881,7 @@ msgstr "Klicken Sie hier, um eine E-Mail an %s zu verfassen"
 
 #: ../mail/em-folder-view.c:2860
 msgid "Click to hide/unhide addresses"
-msgstr ""
+msgstr "Adressen anzeigen/verbergen"
 
 #. message-search popup match count string
 #: ../mail/em-format-html-display.c:502
@@ -12028,7 +12023,7 @@ msgstr "am %d. %b, %k:%M"
 
 #: ../mail/em-format-html-display.c:1442
 msgid "_View Inline"
-msgstr "An _Ort und Stelle anzeigen"
+msgstr "_Inline (eingebettet) anzeigen"
 
 #: ../mail/em-format-html-display.c:1443
 msgid "_Hide"
@@ -12390,13 +12385,16 @@ msgstr "Vorgabebreite des Editorfensters"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr ""
+msgstr "Kürzen der Adressanzeige in den Empfängerfeldern"
 
+#CHECK
 #: ../mail/evolution-mail.schemas.in.in.h:9
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
+"Die Anzeige der Adressen in den Empfängerfeldern auf die im Schlüssel "
+"»address_count« angegebene Anzahl reduzieren."
 
 #: ../mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to compose messages"
@@ -12475,6 +12473,10 @@ msgid ""
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
 msgstr ""
+"Aktivieren der Seitenleisten-Suchfunktion, damit Sie interaktiv suchen "
+"können, indem Sie lediglich zu tippen beginnen. Benutzen Sie dies, damit Sie "
+"Ordner finden, indem Sie nur dessen Name tippen, die Auswahl springt dann "
+"sofort zu diesem Ordner."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid "Enable/disable caret mode"
@@ -12501,6 +12503,8 @@ msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
 msgstr ""
+"Bei aktivierter Nachrichtenvorschau diese neben der Nachrichtenliste anstatt "
+"darunter anzeigen."
 
 # CHECK - etwas holprig
 #: ../mail/evolution-mail.schemas.in.in.h:33
@@ -12517,6 +12521,8 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr ""
+"Die Anzeige während dem Markieren mehrerer Nachrichten aktivieren/deaktivieren"
+
 
 #: ../mail/evolution-mail.schemas.in.in.h:35
 msgid "Last time empty trash was run"
@@ -12646,6 +12652,8 @@ msgstr "Benachrichtigungstyp bei neuen E-Mails"
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr ""
+"Anzahl der Adressen, die in den Empfängerfeldern (An/Kopie/Blindkopie( "
+"angezeigt werden"
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt on empty subject"
@@ -12694,9 +12702,8 @@ msgstr ""
 "verschicken"
 
 #: ../mail/evolution-mail.schemas.in.in.h:71
-#, fuzzy
 msgid "Prompt while marking multiple messages"
-msgstr "Beim Säubern rückfragen"
+msgstr "Anzeigen wenn mehrere Nachrichten markiert werden"
 
 #: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Recognize links in text and replace them."
@@ -12735,17 +12742,20 @@ msgstr ""
 msgid "Show deleted messages in the message-list"
 msgstr "Gelöschte Nachrichten in der Nachrichtenliste anzeigen"
 
+
 #: ../mail/evolution-mail.schemas.in.in.h:83
-#, fuzzy
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
-msgstr "Gelöschte Nachrichten in der Nachrichtenliste anzeigen"
+msgstr ""
+
+
 
 #: ../mail/evolution-mail.schemas.in.in.h:84
-#, fuzzy
 msgid "Show the sender email in the messages column in the message list"
-msgstr "Gelöschte Nachrichten in der Nachrichtenliste anzeigen"
+msgstr ""
+
+
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Sound file to play when new mail arrives."
@@ -12803,6 +12813,8 @@ msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
 msgstr ""
+"Dies setzt die Anzahl der Adressen, die in der Standardansicht angezeigt "
+"werden, bevor »…« angezeigt wird."
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Thread the message list."
@@ -12910,14 +12922,12 @@ msgstr ""
 "einer Nachricht auf keine Referenznachricht verweisen."
 
 #: ../mail/evolution-mail.schemas.in.in.h:121
-#, fuzzy
 msgid "Width of the message-list pane"
-msgstr "Höhe des Nachrichtenlistenfelds"
+msgstr "Breite der Nachrichtenliste"
 
 #: ../mail/evolution-mail.schemas.in.in.h:122
-#, fuzzy
 msgid "Width of the message-list pane."
-msgstr "Höhe des Nachrichtenlistenfelds."
+msgstr "Breite der Nachrichtenliste."
 
 #: ../mail/importers/elm-importer.c:192
 msgid "Importing Elm data"
@@ -13517,7 +13527,7 @@ msgstr "Zusätzliche _Ferntests durchführen"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Inline"
-msgstr "An Ort und Stelle"
+msgstr "Eingebettet"
 
 #: ../mail/mail-config.glade.h:94
 msgid "Languages Table"
@@ -13806,7 +13816,7 @@ msgstr "Bildanimationen an_zeigen"
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr ""
+msgstr "Empfängerkopfzeilen (An/Kopie/Blindkopie) _verkleinern zu "
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
@@ -13817,9 +13827,8 @@ msgid "_Use the same fonts as other applications"
 msgstr "Dieselben Schriften wie andere Anwendungen _verwenden"
 
 #: ../mail/mail-config.glade.h:176
-#, fuzzy
 msgid "addresses"
-msgstr "Adresse"
+msgstr "Adressen"
 
 #: ../mail/mail-config.glade.h:177
 msgid "color"
@@ -13846,19 +13855,16 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<b>Verschlüsselung</b>"
 
 #: ../mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "All active remote folders"
-msgstr "mit allen aktiven entfernten Ordnern"
+msgstr "Alle aktive entfernte Ordner"
 
 #: ../mail/mail-dialogs.glade.h:6
-#, fuzzy
 msgid "All local and active remote folders"
-msgstr "mit allen lokalen und aktiven, entfernten Ordnern"
+msgstr "Alle lokale und aktive, entfernte Ordner"
 
 #: ../mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "All local folders"
-msgstr "mit allen lokalen Ordnern"
+msgstr "Alle lokale Ordner"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
@@ -13902,9 +13908,8 @@ msgid "Security Information"
 msgstr "Sicherheitsinformationen"
 
 #: ../mail/mail-dialogs.glade.h:19
-#, fuzzy
 msgid "Specific folders"
-msgstr "nur bestimmte Ordner"
+msgstr "Bestimmte Ordner"
 
 #: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:4
 msgid ""
@@ -14142,12 +14147,11 @@ msgid "Checking for new mail"
 msgstr "Nach neuen E-Mails sehen"
 
 #: ../mail/mail-session.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Passwort für %s eingeben"
 
 #: ../mail/mail-session.c:207
-#, fuzzy
 msgid "Enter Passphrase"
 msgstr "Geben Sie das Passwort ein"
 
@@ -14234,7 +14238,6 @@ msgstr ""
 "anderen Namen."
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
@@ -14244,7 +14247,7 @@ msgstr ""
 "Es existiert bereits ein nicht leerer Ordner unter »{1}«.\n"
 "\n"
 "Sie können diesen Ordner ignorieren, überschreiben, seinen Inhalt anhängen "
-"oder abbrechen.\n"
+"oder abbrechen."
 
 #: ../mail/mail.error.xml.h:5
 msgid ""
@@ -14804,7 +14807,7 @@ msgid ""
 msgstr ""
 "Sie müssen mindestens einen Ordner als Quelle angeben.\n"
 "Dies geschieht entweder durch individuelle Auswahl der Ordner und/oder durch "
-"das Wählen aller lokalen bzw. aller entfernten Ordner oder beider."
+"das Wählen aller lokalen, aller entfernten Ordner oder beider."
 
 #: ../mail/mail.error.xml.h:123
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
@@ -14918,9 +14921,8 @@ msgid "Received"
 msgstr "Erhalten"
 
 #: ../mail/message-list.etspec.h:14
-#, fuzzy
 msgid "Sent Messages"
-msgstr "Nachrichten ö_ffnen"
+msgstr "Nachrichten verschicken"
 
 #: ../mail/message-list.etspec.h:15
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
@@ -15690,12 +15692,10 @@ msgid "Cannot display folders."
 msgstr "Ordner konnten nicht angezeigt werden."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
-#, fuzzy
 msgid "Cannot perform the operation."
 msgstr "Fehler beim Ausführen eines Vorgangs."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
-#, fuzzy
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
@@ -17067,7 +17067,6 @@ msgid "_Send message"
 msgstr "Nachricht ver_schicken"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-#, fuzzy
 msgid "Contact List _Owner"
 msgstr "Kontaktlisten_besitzer"
 
@@ -17076,12 +17075,10 @@ msgid "Contact the owner of the mailing list this message belongs to"
 msgstr "Kontakt zum Eigner der Mailingliste dieser Nachricht aufnehmen"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
-#, fuzzy
 msgid "Get List _Archive"
 msgstr "Listen_archiv abrufen"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
-#, fuzzy
 msgid "Get List _Usage Information"
 msgstr "Ben_utzungsinformationen der Liste abrufen"
 
@@ -17107,26 +17104,22 @@ msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "Die Mailingliste der gewählten Nachricht abbestellen"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#, fuzzy
 msgid "_Post Message to List"
 msgstr "_Nachricht an Liste schicken"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#, fuzzy
 msgid "_Subscribe to List"
 msgstr "Liste _abonnieren"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Unsubscribe from List"
-msgstr "Abbestellen von »%s«"
+msgstr "Liste _abbestellen"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
 msgstr "Alles als gelesen markieren"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-#, fuzzy
 msgid "Mark Me_ssages as Read"
 msgstr "Nachrichten als ge_lesen markieren"
 
@@ -17631,9 +17624,8 @@ msgid "Default window height"
 msgstr "Voreingestellte Fensterhöhe"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
-#, fuzzy
 msgid "Default window state"
-msgstr "Voreingestellte Fensterbreite"
+msgstr "Voreingestllter Fensterzustand"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "Default window width"
@@ -17723,17 +17715,16 @@ msgstr "Werkzeugleiste anzeigen"
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Soll Evolution im Offline- statt im Online-Modus gestartet werden?"
 
+
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
-#, fuzzy
 msgid "Whether or not the window should be maximized."
-msgstr "Sollen die Fensterknöpfe angezeigt werden?"
+msgstr "Soll das Fenster maximiert werden?"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the sidebar should be visible."
 msgstr "Soll die Seitenleiste angezeigt werden?"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:25
-#, fuzzy
 msgid "Whether the status bar should be visible."
 msgstr "Soll die Werkzeugleiste angezeigt werden?"
 
@@ -17886,7 +17877,8 @@ msgstr ""
 "Christian Neumair <chris@gnome-de.org>\n"
 "Manuel Borchers <webmaster@matronix.de>\n"
 "Hendrik Richter <hendrikr@gnome.org>\n"
-"Frank Arnold <frank@scirocco-5v-turbo.de>"
+"Frank Arnold <frank@scirocco-5v-turbo.de>\n"
+"Christian Kintner <mail@christian-kintner.de>"
 
 #: ../shell/e-shell-window-commands.c:806
 msgid "_Work Online"
@@ -17952,9 +17944,8 @@ msgid "New"
 msgstr "Neu"
 
 #: ../shell/e-user-creatable-items-handler.c:693
-#, fuzzy
 msgid " New "
-msgstr "Neu"
+msgstr " Neu "
 
 #: ../shell/evolution-test-component.c:140
 msgid "New Test"
@@ -18371,7 +18362,7 @@ msgstr "<b>Aussteller</b>"
 
 #: ../smime/gui/smime-ui.glade.h:7
 msgid "<b>Issued To</b>"
-msgstr "<b>Ausgestellt auf<b>"
+msgstr "<b>Ausgestellt auf</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
@@ -19345,19 +19336,17 @@ msgid "Search F_olders"
 msgstr "S_uchordner"
 
 #: ../ui/evolution-mail-global.xml.h:13
-#, fuzzy
 msgid "Show Message _Preview"
-msgstr "Nachrichten_vorschau"
+msgstr "Nachrichten_vorschau anzeigen"
 
 #: ../ui/evolution-mail-global.xml.h:14
-#, fuzzy
 msgid "Show message preview below the message list"
-msgstr "Gelöschte Nachrichten in der Nachrichtenliste anzeigen"
+msgstr "Nachrichtenvorschau unter der Nachrichtenliste anzeigen"
 
+# CHECK
 #: ../ui/evolution-mail-global.xml.h:15
-#, fuzzy
 msgid "Show message preview side-by-side with the message list"
-msgstr "Gelöschte Nachrichten in der Nachrichtenliste anzeigen"
+msgstr "Nachrichtenvorschau neben der Nachrichtenliste zeigen"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview window"
@@ -19367,10 +19356,10 @@ msgstr "Nachrichten-Vorschaufenster anzeigen"
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Ordner auf entfernten Servern abonnieren oder abbestellen"
 
+# CHECK
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "_Classic View"
-msgstr "E_instufung"
+msgstr "_Klassische Ansicht"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "_Copy Folder To..."
@@ -19389,9 +19378,8 @@ msgid "_New..."
 msgstr "_Neu …"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Preview"
-msgstr "Vorschau:"
+msgstr "_Vorschau"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -19400,10 +19388,10 @@ msgstr "Vorschau:"
 msgid "_Subscriptions"
 msgstr "A_bonnements"
 
+# CHECK - macht überhaupt keinen Sinn
 #: ../ui/evolution-mail-global.xml.h:28
-#, fuzzy
 msgid "_Vertical View"
-msgstr "Vertikales Zeichengitter"
+msgstr "_Vertikale Ansicht"
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the name of this folder"
@@ -19963,7 +19951,6 @@ msgid "_Unread"
 msgstr "_Ungelesen"
 
 #: ../ui/evolution-mail-message.xml.h:131
-#, fuzzy
 msgid "_Zoom"
 msgstr "Ansicht ver_größern"
 
@@ -20412,19 +20399,16 @@ msgid "Set up Pilot configuration"
 msgstr "Die Pilot-Einstellungen festlegen"
 
 #: ../ui/evolution.xml.h:24
-#, fuzzy
 msgid "Show Side _Bar"
-msgstr "Sei_tenleiste"
+msgstr "Sei_tenleiste anzeigen"
 
 #: ../ui/evolution.xml.h:25
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "Stat_usleiste"
+msgstr "Stat_usleiste anzeigen"
 
 #: ../ui/evolution.xml.h:26
-#, fuzzy
 msgid "Show _Toolbar"
-msgstr "_Werkzeugleiste"
+msgstr "_Werkzeugleiste anzeigen"
 
 #: ../ui/evolution.xml.h:27
 msgid "Show information about Evolution"
@@ -20538,10 +20522,10 @@ msgstr "_Monatsansicht"
 msgid "_Work Week View"
 msgstr "_Arbeitswochenansicht"
 
+#CHECK
 #: ../views/mail/galview.xml.h:1
-#, fuzzy
 msgid "As Sent Folder for Wi_de View"
-msgstr "Als _Verschickt-Ordner"
+msgstr "Als Verschickt-Ordner für _breite Ansicht"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
@@ -20566,7 +20550,7 @@ msgstr "Nach _Folgenachricht-Markierung"
 #: ../views/mail/galview.xml.h:7
 #, fuzzy
 msgid "For _Wide View"
-msgstr "Arbeitswochenansicht"
+msgstr "Für _breite Ansicht"
 
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
@@ -20924,14 +20908,12 @@ msgid "Time"
 msgstr "Uhrzeit"
 
 #: ../widgets/misc/e-dateedit.c:461
-#, fuzzy
 msgid "No_w"
-msgstr "Jetzt"
+msgstr "_Jetzt"
 
 #: ../widgets/misc/e-dateedit.c:467
-#, fuzzy
 msgid "_Today"
-msgstr "Heute"
+msgstr "_Heute"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
@@ -21028,24 +21010,20 @@ msgid "_Advanced Search..."
 msgstr "Er_weiterte Suche …"
 
 #: ../widgets/misc/e-filter-bar.h:103
-#, fuzzy
 msgid "All Accounts"
-msgstr "E-Mail-Konten"
+msgstr "Alle Konten"
 
 #: ../widgets/misc/e-filter-bar.h:104
-#, fuzzy
 msgid "Current Account"
-msgstr "Quellkonto"
+msgstr "Derzeitiges Konto"
 
 #: ../widgets/misc/e-filter-bar.h:105
-#, fuzzy
 msgid "Current Folder"
-msgstr "Ordner anlegen"
+msgstr "Derzeitiger Ordner"
 
 #: ../widgets/misc/e-filter-bar.h:106
-#, fuzzy
 msgid "Current Message"
-msgstr "Nachrichten ö_ffnen"
+msgstr "Derzeitige Nachricht"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -21177,9 +21155,8 @@ msgid "A_uto-delete sent item"
 msgstr "Gesendetes Element a_utomatisch löschen"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "Classification"
-msgstr "E_instufung"
+msgstr "Einstufung"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
@@ -21210,6 +21187,12 @@ msgid ""
 "Top Secret\n"
 "For Your Eyes Only"
 msgstr ""
+"Normal\n"
+"Geschützt\n"
+"Vertraulich\n"
+"Geheim\n"
+"Streng geheim\n"
+"Nur für Sie"
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
@@ -21643,9 +21626,8 @@ msgid "Customize Current View..."
 msgstr "Aktuelle Ansicht anpassen …"
 
 #: ../widgets/table/e-table-header-item.c:1554
-#, fuzzy
 msgid "Sort By"
-msgstr "Sortieren"
+msgstr "Sortieren nach"
 
 #: ../widgets/table/e-table-header-item.c:1899 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
