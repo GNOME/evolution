@@ -110,6 +110,8 @@ static void	set_map_timezone		(ETimezoneDialog *etd,
 						 icaltimezone    *zone);
 static void	on_combo_changed		(GtkEditable	*entry,
 						 ETimezoneDialog *etd);
+static void	map_destroy_cb			(gpointer data, 
+						 GObject *where_object_was);
 
 G_DEFINE_TYPE (ETimezoneDialog, e_timezone_dialog, G_TYPE_OBJECT)
 
@@ -268,6 +270,9 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 	priv->map = e_map_new ();
 	map = GTK_WIDGET (priv->map);
+
+	g_object_weak_ref(G_OBJECT(map), map_destroy_cb, priv);
+
 	gtk_widget_set_events (map, gtk_widget_get_events (map)
 			       | GDK_LEAVE_NOTIFY_MASK
 			       | GDK_VISIBILITY_NOTIFY_MASK);
@@ -784,4 +789,16 @@ e_timezone_dialog_reparent (ETimezoneDialog *etd,
 	priv = etd->priv;
 
 	gtk_widget_reparent (priv->table, new_parent);
+}
+
+static void
+map_destroy_cb(gpointer data, GObject *where_object_was)
+{
+	
+	ETimezoneDialogPrivate *priv = data;
+	if (priv->timeout_id) {
+		g_source_remove(priv->timeout_id);
+		priv->timeout_id = 0;
+	}
+	return;
 }
