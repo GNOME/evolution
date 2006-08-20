@@ -1,3 +1,8 @@
+2006-05-19  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #322771
+	* copy-tool.c: Use GtkClipboard instead of GtkInvisible.
+
 2005-11-30  Simon Zheng  <Simon.Zheng@Sun.Com>
 
 	Fix for 322733.
