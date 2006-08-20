@@ -969,7 +969,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			edit->show_cursor = FALSE;
 
 		} else {
-			if (edit->im_context) {
+			if (edit && edit->im_context) {
 				g_signal_handlers_disconnect_matched (
 						edit->im_context, 
 						G_SIGNAL_MATCH_DATA, 0, 0, 
@@ -978,10 +978,6 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			}
 
 			ect_stop_editing (text_view, TRUE);
-			if (edit->timeout_id) {
-				g_source_remove(edit->timeout_id);
-				edit->timeout_id = 0;
-			}
 		}
 		return_val = TRUE;
 		/* Fallthrough */

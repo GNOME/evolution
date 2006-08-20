@@ -887,6 +887,7 @@ e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
 	if (strcmp (old_text, text)) {
 		e_cell_text_set_value (ecell_text, ecv->e_table_model,
 				       ecol->col_idx, ecp->popup_row, text);
+		e_cell_leave_edit (ecv, ecp->popup_view_col, ecol->col_idx, ecp->popup_row, NULL);
 	}
 
 	e_cell_text_free_text (ecell_text, old_text);

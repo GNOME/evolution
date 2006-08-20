@@ -1,3 +1,8 @@
+2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-cell-text.c: (ect_event): Add a null check and remove code for a
+	possible crash which is really useless.
+
 2006-08-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Patch from Pavel Roskin.
