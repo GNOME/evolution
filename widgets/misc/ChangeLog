@@ -1,3 +1,22 @@
+2006-08-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Patch from Pavel Roskin.
+
+	* e-icon-entry.c: Added missing headers.
+
+2006-08-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-filter-bar.c: (rule_editor_destroyed),
+	(rule_advanced_response), (do_advanced), (save_search_dialog),
+	(menubar_activated), (option_changed), (set_property):
+	* e-search-bar.c: (clear_search), (clear_verb_cb),
+	(paint_search_text), (entry_focus_out_cb), (entry_changed_cb),
+	(scopeoption_changed_cb), (set_option), (class_init), (init),
+	(e_search_bar_construct), (e_search_bar_set_scopeoption),
+	(e_search_bar_set_item_id), (e_search_bar_get_text),
+	(e_search_bar_scope_enable):
+	* e-search-bar.h:
+
 2006-08-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #341482

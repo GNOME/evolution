@@ -45,6 +45,7 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomeprint/gnome-print-pango.h>
 
 #include "a11y/e-table/gal-a11y-e-cell-registry.h"
 #include "a11y/e-table/gal-a11y-e-cell-text.h"

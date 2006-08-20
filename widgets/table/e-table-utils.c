@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include <libintl.h>		/* This file uses dgettext() but no _() */
+#include <string.h>
 
 #include "e-util/e-util.h"
 #include "misc/e-unicode.h"
