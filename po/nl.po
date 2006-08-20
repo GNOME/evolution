@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-10 22:52+0200\n"
+"POT-Creation-Date: 2006-08-20 16:54+0200\n"
 "PO-Revision-Date: 2006-08-11 05:58+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -127,12 +127,12 @@ msgid "Calendar Event: It has no summary."
 msgstr "Agendanotitie: bevat geen samenvatting."
 
 # is dit goed?
-#: ../a11y/calendar/ea-cal-view-event.c:297
+#: ../a11y/calendar/ea-cal-view-event.c:298
 msgid "calendar view event"
 msgstr "agendanotitie weergeven"
 
 # aandacht grijpen/betere vertaling?
-#: ../a11y/calendar/ea-cal-view-event.c:526
+#: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
 msgstr "Focus grijpen"
 
@@ -748,7 +748,7 @@ msgid "Create a new address book"
 msgstr "Nieuw adresboek aanmaken"
 
 # upgraden/opwaarderen
-#: ../addressbook/gui/component/addressbook-component.c:406
+#: ../addressbook/gui/component/addressbook-component.c:407
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Het opwaarderen van adresboek-instellingen of mappen is mislukt."
 
@@ -774,7 +774,7 @@ msgstr "De inhoud van het adresboek lokaal kopiëren voor offline gebruik"
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:85
-#: ../plugins/itip-formatter/itip-formatter.c:2047
+#: ../plugins/itip-formatter/itip-formatter.c:2051
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Algemeen"
@@ -1414,8 +1414,7 @@ msgid "Work"
 msgstr "Werk"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
-msgid "_Address:"
+msgid "_Address: "
 msgstr "_Adres:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
@@ -1545,7 +1544,7 @@ msgstr "Adres"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:186
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1841 ../widgets/text/e-entry.c:1312
+#: ../widgets/table/e-cell-text.c:1842 ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3625
 #: ../widgets/text/e-text.c:3626
 msgid "Editable"
@@ -2738,6 +2737,10 @@ msgstr "_Land:"
 msgid "Full Address"
 msgstr "Volledig adres"
 
+#: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
+msgid "_Address:"
+msgstr "_Adres:"
+
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
 msgstr "_Postcode:"
@@ -3064,7 +3067,7 @@ msgstr "K_nippen"
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:442
 #: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:1002
-#: ../mail/em-folder-view.c:1111 ../mail/message-list.c:1901
+#: ../mail/em-folder-view.c:1111 ../mail/message-list.c:1919
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -4643,7 +4646,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Kon actielijstgegevens niet naar de pilot schrijven"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2038
+#: ../plugins/itip-formatter/itip-formatter.c:2042
 msgid "Calendar and Tasks"
 msgstr "Agenda en taken"
 
@@ -4807,7 +4810,7 @@ msgid "You have %d alarms"
 msgstr "U heeft %d alarmeringen"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1696
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1722
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1724
 msgid "Warning"
 msgstr "Waarschuwing"
 
@@ -4823,7 +4826,7 @@ msgstr ""
 "u dit ingesteld. Evolution zal in plaats daarvan een\n"
 "normaal dialoogvenster weergeven als herinnering."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1728
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1730
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4840,7 +4843,7 @@ msgstr ""
 "\n"
 "Weet u zeker dat dit programma gestart moet worden?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1742
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1744
 msgid "Do not ask me about this program again."
 msgstr "Dit bericht niet meer weergeven voor dit programma."
 
@@ -5069,7 +5072,9 @@ msgstr ""
 msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar."
-msgstr "Positie van het verticale paneel, tussen de agendalijst en de datumkiezer-agenda."
+msgstr ""
+"Positie van het verticale paneel, tussen de agendalijst en de datumkiezer-"
+"agenda."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid ""
@@ -5193,7 +5198,9 @@ msgstr "Tijdzone"
 msgid ""
 "Transparency of the events in calendar views, a value between 0 "
 "(transparent) and 1 (opaque)."
-msgstr "Doorschijning van de notities in de agendaweergaven, een waarde tussen 0 (transparant) en 1 (niet transparant)."
+msgstr ""
+"Doorschijning van de notities in de agendaweergaven, een waarde tussen 0 "
+"(transparant) en 1 (niet transparant)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Twenty four hour time format"
@@ -5306,7 +5313,8 @@ msgstr "Of weeknummers getoond worden in de datumkiezer."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Whether to use daylight savings time while displaying events."
-msgstr "Of bij het weergeven van agendanotities, zomertijd gebruikt dient te worden."
+msgstr ""
+"Of bij het weergeven van agendanotities, zomertijd gebruikt dient te worden."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
 msgid "Work days"
@@ -6071,12 +6079,12 @@ msgstr[1] "%d bijgevoegde berichten"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1007 ../mail/message-list.c:1902
+#: ../mail/em-folder-view.c:1007 ../mail/message-list.c:1920
 msgid "_Move"
 msgstr "_Verplaatsen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
-#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1904
+#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1922
 msgid "Cancel _Drag"
 msgstr "_Slepen annuleren"
 
@@ -6399,7 +6407,7 @@ msgstr "Aanpassen"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1735
+#: ../plugins/itip-formatter/itip-formatter.c:1739
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:1507
 #: ../widgets/misc/e-dateedit.c:1721
 msgid "None"
@@ -6550,7 +6558,7 @@ msgstr "Memo"
 msgid "Unable to open memos in '%s'."
 msgstr "Kan memo's in '%s' niet openen."
 
-#: ../calendar/gui/dialogs/memo-page.c:1019 ../mail/em-format-html.c:1488
+#: ../calendar/gui/dialogs/memo-page.c:1019 ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:846
 #: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
 msgid "To"
@@ -7215,7 +7223,7 @@ msgstr "Nee"
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1329
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1760
+#: ../plugins/itip-formatter/itip-formatter.c:1764
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:720
 #: ../widgets/misc/e-charset-picker.c:63
@@ -7693,12 +7701,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:685
-#: ../plugins/itip-formatter/itip-formatter.c:1748
+#: ../plugins/itip-formatter/itip-formatter.c:1752
 msgid "Accepted"
 msgstr "Geaccepteerd"
 
 #: ../calendar/gui/e-itip-control.c:1136 ../calendar/gui/itip-utils.c:688
-#: ../plugins/itip-formatter/itip-formatter.c:1751
+#: ../plugins/itip-formatter/itip-formatter.c:1755
 msgid "Tentatively Accepted"
 msgstr "Voorlopig geaccepteerd"
 
@@ -7707,7 +7715,7 @@ msgstr "Voorlopig geaccepteerd"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:691 ../calendar/gui/itip-utils.c:720
-#: ../plugins/itip-formatter/itip-formatter.c:1754
+#: ../plugins/itip-formatter/itip-formatter.c:1758
 msgid "Declined"
 msgstr "Afgewezen"
 
@@ -7934,7 +7942,7 @@ msgid "Attendee status updated\n"
 msgstr "Bezoekerstatus ververst\n"
 
 #: ../calendar/gui/e-itip-control.c:1974
-#: ../plugins/itip-formatter/itip-formatter.c:1100
+#: ../plugins/itip-formatter/itip-formatter.c:1104
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Bezoekerstatus kan niet ververst worden omdat het object niet meer bestaat"
@@ -8089,7 +8097,7 @@ msgstr "Voorlopig"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:694
-#: ../plugins/itip-formatter/itip-formatter.c:1757
+#: ../plugins/itip-formatter/itip-formatter.c:1761
 msgid "Delegated"
 msgstr "Overgedragen"
 
@@ -10742,7 +10750,9 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "Het bestand ‘{0}’ is niet een regulier bestand en kan niet verstuurd worden in een bericht"
+msgstr ""
+"Het bestand ‘{0}’ is niet een regulier bestand en kan niet verstuurd worden "
+"in een bericht"
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid ""
@@ -11730,7 +11740,7 @@ msgstr "begint met"
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1659
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1660
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:90 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
@@ -11892,12 +11902,12 @@ msgstr "Verplaatsen van map %s"
 msgid "Copying folder %s"
 msgstr "Kopiëren van map %s"
 
-#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1806
+#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1824
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Berichten worden verplaatst naar map %s"
 
-#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1808
+#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1826
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Berichten worden gekopieerd naar map %s"
@@ -12150,7 +12160,7 @@ msgid "M_atch case"
 msgstr "_Hoofdlettergevoelig"
 
 # Niet ondertekend of positief getal?
-#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:618
 msgid "Unsigned"
 msgstr "Niet getekend"
 
@@ -12162,7 +12172,7 @@ msgstr ""
 "Dit bericht is niet ondertekend, Er kan niet worden aangetoond dat het "
 "authentiek is."
 
-#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:619
 msgid "Valid signature"
 msgstr "Geldige handtekening"
 
@@ -12174,7 +12184,7 @@ msgstr ""
 "Dit bericht is geldig en is ondertekend, de afzender van dit bericht is zeer "
 "waarschijnlijk degene die hij claimt te zijn."
 
-#: ../mail/em-format-html-display.c:928 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:928 ../mail/em-format-html.c:620
 msgid "Invalid signature"
 msgstr "Ongeldige handtekening"
 
@@ -12198,7 +12208,7 @@ msgstr ""
 "Dit bericht is ondertekend met een geldige handtekening maar de afzender van "
 "het bericht kan niet worden geverifieerd."
 
-#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:626
+#: ../mail/em-format-html-display.c:935 ../mail/em-format-html.c:627
 msgid "Unencrypted"
 msgstr "Niet versleuteld"
 
@@ -12210,7 +12220,7 @@ msgstr ""
 "Dit bericht is niet versleuteld.  De inhoud van het bericht kan tijdens de "
 "weg die het over het internet aflegt, mogelijk door anderen gelezen worden."
 
-#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:628
 msgid "Encrypted, weak"
 msgstr "Versleuteld, zwak"
 
@@ -12224,7 +12234,7 @@ msgstr ""
 "Het zal voor een buitenstaander moeilijk zijn, maar niet onmogelijk, om "
 "binnen een redelijke tijd de inhoud van dit bericht te ontcijferen."
 
-#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:629
 msgid "Encrypted"
 msgstr "Versleuteld"
 
@@ -12236,7 +12246,7 @@ msgstr ""
 "Dit bericht is versleuteld. Het zal voor een buitenstaander moeilijk zijn om "
 "de inhoud van het bericht te ontcijferen."
 
-#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:630
 msgid "Encrypted, strong"
 msgstr "Versleuteld, sterk"
 
@@ -12332,89 +12342,89 @@ msgstr "Pagina %d van %d"
 msgid "Retrieving `%s'"
 msgstr "Ophalen van ‘%s’"
 
-#: ../mail/em-format-html.c:620
+#: ../mail/em-format-html.c:621
 msgid "Valid signature but cannot verify sender"
 msgstr "Geldige handtekening, kan afzender niet verifiëren"
 
-#: ../mail/em-format-html.c:891
+#: ../mail/em-format-html.c:892
 msgid "Malformed external-body part."
 msgstr "Misvormd extern-berichtgedeelte."
 
-#: ../mail/em-format-html.c:921
+#: ../mail/em-format-html.c:922
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Verwijzing naar FTP site (%s)"
 
-#: ../mail/em-format-html.c:932
+#: ../mail/em-format-html.c:933
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Verwijzing naar lokaal bestand (%s) geldig bij site \"%s\""
 
-#: ../mail/em-format-html.c:934
+#: ../mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Verwijzing naar lokaal bestand (%s)"
 
-#: ../mail/em-format-html.c:955
+#: ../mail/em-format-html.c:956
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Verwijzing naar externe gegevens (%s)"
 
-#: ../mail/em-format-html.c:966
+#: ../mail/em-format-html.c:967
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 
-#: ../mail/em-format-html.c:1193
+#: ../mail/em-format-html.c:1194
 msgid "Formatting message"
 msgstr "Opmaken van bericht"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "Van"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:86
 msgid "Reply-To"
 msgstr "Antwoordadres"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:88
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1488 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:89
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1663 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1664 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1025
 msgid "Mailer"
 msgstr "E-mailprogramma"
 
 # a = afgekorte weeknaam, R = 24h tijd, Z is tijdzone
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1690
+#: ../mail/em-format-html.c:1691
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1693
+#: ../mail/em-format-html.c:1694
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1703 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1704 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:91
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Datum"
 
-#: ../mail/em-format-html.c:1726 ../mail/em-format.c:851
+#: ../mail/em-format-html.c:1727 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:92
 msgid "Newsgroups"
 msgstr "Nieuwsgroepen"
@@ -12521,7 +12531,9 @@ msgstr "Kon locale mail-mappen niet maken op ‘%s’: %s"
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
-msgstr "Niet in staat de instellingen van een vorige versie Evolution te lezen. ‘evolution/config.xmldb’ bestaat niet of is beschadigd."
+msgstr ""
+"Niet in staat de instellingen van een vorige versie Evolution te lezen. "
+"‘evolution/config.xmldb’ bestaat niet of is beschadigd."
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
 msgid "_Reply to sender"
@@ -12634,7 +12646,9 @@ msgstr "Compact weergeven van adressen in Aan/CC/BCC"
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
-msgstr "De adressen in het veld ‘Aan/CC/BCC’ weergeven tot het aantal dat in address_count wordt aangegeven."
+msgstr ""
+"De adressen in het veld ‘Aan/CC/BCC’ weergeven tot het aantal dat in "
+"address_count wordt aangegeven."
 
 #: ../mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to compose messages"
@@ -12699,7 +12713,8 @@ msgstr "Alle prullenbakken legen bij het afsluiten van Evolution."
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr "Cursormodus gebruiken zodat u een cursor ziet bij het lezen van e-mail."
+msgstr ""
+"Cursormodus gebruiken zodat u een cursor ziet bij het lezen van e-mail."
 
 # Aanzetten of uitzetten van de typen-terwijl-zoeken functie
 #: ../mail/evolution-mail.schemas.in.in.h:26
@@ -12712,7 +12727,10 @@ msgid ""
 "by typing in the text. Use is that you can easily find a folder in that side "
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
-msgstr "Zet de zijbalk-zoekfunctie aan zodat u interactief kunt zoeken door tekst te typen. Dit is handig om snel naar een map te gaan, door de naam van de map te typen."
+msgstr ""
+"Zet de zijbalk-zoekfunctie aan zodat u interactief kunt zoeken door tekst te "
+"typen. Dit is handig om snel naar een map te gaan, door de naam van de map "
+"te typen."
 
 # cursor modus aan/uit
 # activeren/deactiveren
@@ -12741,14 +12759,20 @@ msgstr ""
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
-msgstr "Als het \"Voorbeeld\" venster open is, toon het dan naast elkaar in plaats van onder elkaar."
+msgstr ""
+"Als het \"Voorbeeld\" venster open is, toon het dan naast elkaar in plaats "
+"van onder elkaar."
 
 #: ../mail/evolution-mail.schemas.in.in.h:33
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
-msgstr "Als er geen ingebouwde weergave is voor een bepaald mime-type in Evolution, dan kan elk mime-type wat in deze lijst overeenkomt met een bonobo-component weergave in de Gnome mime-type database gebruikt worden voor weergave van de inhoud."
+msgstr ""
+"Als er geen ingebouwde weergave is voor een bepaald mime-type in Evolution, "
+"dan kan elk mime-type wat in deze lijst overeenkomt met een bonobo-component "
+"weergave in de Gnome mime-type database gebruikt worden voor weergave van de "
+"inhoud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -12980,19 +13004,24 @@ msgstr "Verwijderde berichten tonen in de berichtenlijst"
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
-msgstr "De e-mail van de afzender in de berichtensamenvattingskolom tonen in de berichtenlijst"
+msgstr ""
+"De e-mail van de afzender in de berichtensamenvattingskolom tonen in de "
+"berichtenlijst"
 
 #: ../mail/evolution-mail.schemas.in.in.h:84
 msgid "Show the sender email in the messages column in the message list"
-msgstr "De e-mail van de afzender in de berichtenkolom tonen in de berichtenlijst"
+msgstr ""
+"De e-mail van de afzender in de berichtenkolom tonen in de berichtenlijst"
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Sound file to play when new mail arrives."
-msgstr "Het geluidsbestand dat afgespeeld wordt bij het arriveren van nieuwe e-mail."
+msgstr ""
+"Het geluidsbestand dat afgespeeld wordt bij het arriveren van nieuwe e-mail."
 
 #: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "Geeft het type melding dat de gebruiker wenst te krijgen bij nieuwe mail."
+msgstr ""
+"Geeft het type melding dat de gebruiker wenst te krijgen bij nieuwe mail."
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Spell check inline"
@@ -13040,7 +13069,9 @@ msgstr ""
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
-msgstr "Dit bepaalt hoeveel adressen weergegeven worden in de standaard berichtenlijst, waarna een '...' zal worden getoond."
+msgstr ""
+"Dit bepaalt hoeveel adressen weergegeven worden in de standaard "
+"berichtenlijst, waarna een '...' zal worden getoond."
 
 # boomstructuur voor berichtenlijst
 #: ../mail/evolution-mail.schemas.in.in.h:96
@@ -14902,7 +14933,9 @@ msgstr "Handtekening bestaat al"
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
-msgstr "Systeemmappen zijn vereist om Evolution correct te laten functioneren en kunnen niet hernoemd, verplaatst of verwijderd worden."
+msgstr ""
+"Systeemmappen zijn vereist om Evolution correct te laten functioneren en "
+"kunnen niet hernoemd, verplaatst of verwijderd worden."
 
 #: ../mail/mail.error.xml.h:91
 msgid ""
@@ -15119,38 +15152,38 @@ msgstr "Hoog"
 msgid "Highest"
 msgstr "Hoogste"
 
-#: ../mail/message-list.c:1451 ../widgets/table/e-cell-date.c:57
+#: ../mail/message-list.c:1466 ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1458 ../plugins/itip-formatter/itip-view.c:200
+#: ../mail/message-list.c:1473 ../plugins/itip-formatter/itip-view.c:200
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Vandaag %l:%M %p"
 
-#: ../mail/message-list.c:1467 ../widgets/table/e-cell-date.c:82
+#: ../mail/message-list.c:1482 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "Gisteren %l:%M %p"
 
-#: ../mail/message-list.c:1479 ../widgets/table/e-cell-date.c:94
+#: ../mail/message-list.c:1494 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1487 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1502 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../mail/message-list.c:1489 ../widgets/table/e-cell-date.c:104
+#: ../mail/message-list.c:1504 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:2241 ../mail/message-list.etspec.h:9
+#: ../mail/message-list.c:2259 ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Berichten"
 
-#: ../mail/message-list.c:3629
+#: ../mail/message-list.c:3647
 msgid "Generating message list"
 msgstr "Genereren van berichtenlijst"
 
@@ -15319,40 +15352,40 @@ msgstr "Evolution data en instellingen backup maken en herstellen"
 msgid "Restore Settings..."
 msgstr "Instellingen herstellen..."
 
-#: ../plugins/bbdb/bbdb.c:443 ../plugins/bbdb/bbdb.c:452
+#: ../plugins/bbdb/bbdb.c:447 ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Automatische contacten"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:467
+#: ../plugins/bbdb/bbdb.c:471
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 "_Automatisch kaarten aanmaken in het adresboek bij het beantwoorden van mail"
 
-#: ../plugins/bbdb/bbdb.c:473
+#: ../plugins/bbdb/bbdb.c:477
 msgid "Select Address book for Automatic Contacts"
 msgstr "Selecteer het adresboek voor automatische contacten"
 
-#: ../plugins/bbdb/bbdb.c:488
+#: ../plugins/bbdb/bbdb.c:492
 msgid "Instant Messaging Contacts"
 msgstr "Contacten voor expresberichten"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:503
+#: ../plugins/bbdb/bbdb.c:507
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 "Periodiek de contactinformatie en afbeeldingen synchroniseren uit de "
 "buddylijst van gaim"
 
-#: ../plugins/bbdb/bbdb.c:509
+#: ../plugins/bbdb/bbdb.c:513
 msgid "Select Address book for Gaim buddy list"
 msgstr "Selecteer het adresboek voor de buddylijst van Gaim"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:520
+#: ../plugins/bbdb/bbdb.c:524
 msgid "Synchronize with _buddy list now"
 msgstr "Met _buddylijst synchroniseren"
 
@@ -15967,7 +16000,9 @@ msgstr "Kan de bewerking niet uitvoeren."
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
-msgstr "Wijzigingen in de configuratie van het Exchange-account ‘{0}’ zullen pas effect hebben nadat u Evolution afsluit en opnieuw opstart."
+msgstr ""
+"Wijzigingen in de configuratie van het Exchange-account ‘{0}’ zullen pas "
+"effect hebben nadat u Evolution afsluit en opnieuw opstart."
 
 # kon niet aanmelden bij server.
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
@@ -16098,7 +16133,9 @@ msgstr "Global Catalog Server is niet bereikbaar"
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr "Indien OWA op een ander pad draait, moet u dat opgeven in het dialoogvenster voor accountconfiguratie."
+msgstr ""
+"Indien OWA op een ander pad draait, moet u dat opgeven in het dialoogvenster "
+"voor accountconfiguratie."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Mailbox for {0} is not on this server."
@@ -16623,7 +16660,7 @@ msgstr ""
 "Kon de Evolution agenda/actielijst niet openen om gegevens te exporteren."
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
-#: ../plugins/itip-formatter/itip-formatter.c:391
+#: ../plugins/itip-formatter/itip-formatter.c:395
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Kon de agenda '%s' niet laden"
@@ -16631,97 +16668,97 @@ msgstr "Kon de agenda '%s' niet laden"
 # Deze bijeenkomst conflicteert met een afspraak in de agenda %s/
 # Een afspraak in de agenda %s conflicteert met deze bijeenkomst
 # valt gelijk met/conflicteert met
-#: ../plugins/itip-formatter/itip-formatter.c:411
+#: ../plugins/itip-formatter/itip-formatter.c:415
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Een afspraak in de agenda '%s' valt gelijk met deze bijeenkomst"
 
-#: ../plugins/itip-formatter/itip-formatter.c:437
+#: ../plugins/itip-formatter/itip-formatter.c:441
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "De afspraak is gevonden in de agenda '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:513
+#: ../plugins/itip-formatter/itip-formatter.c:517
 msgid "Unable to find any calendars"
 msgstr "Kon geen enkele agenda vinden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:520
+#: ../plugins/itip-formatter/itip-formatter.c:524
 msgid "Unable to find this meeting in any calendar"
 msgstr "Kon deze bijeenkomst in geen enkele agenda terugvinden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:524
+#: ../plugins/itip-formatter/itip-formatter.c:528
 msgid "Unable to find this task in any task list"
 msgstr "Kon deze taak in geen enkele takenlijst terugvinden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:528
+#: ../plugins/itip-formatter/itip-formatter.c:532
 msgid "Unable to find this journal entry in any journal"
 msgstr "Kon deze dagboekaantekening in geen enkel dagboek terugvinden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:601
+#: ../plugins/itip-formatter/itip-formatter.c:605
 msgid "Searching for an existing version of this appointment"
 msgstr "Zoekende naar een bestaande versie van deze afspraak"
 
-#: ../plugins/itip-formatter/itip-formatter.c:796
+#: ../plugins/itip-formatter/itip-formatter.c:800
 msgid "Unable to parse item"
 msgstr "Kan het item niet verwerken"
 
-#: ../plugins/itip-formatter/itip-formatter.c:853
+#: ../plugins/itip-formatter/itip-formatter.c:857
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kan item niet naar agenda '%s' versturen. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:864
+#: ../plugins/itip-formatter/itip-formatter.c:868
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Verzonden aan agenda '%s' als geaccepteerd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:868
+#: ../plugins/itip-formatter/itip-formatter.c:872
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Verzonden aan agenda '%s' als voorlopig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:873
+#: ../plugins/itip-formatter/itip-formatter.c:877
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Verzonden aan agenda '%s' als afgewezen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:878
+#: ../plugins/itip-formatter/itip-formatter.c:882
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Verzonden aan agenda '%s' als geannuleerd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:971
+#: ../plugins/itip-formatter/itip-formatter.c:975
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisator heeft de gedelegeerde %s verwijderd "
 
-#: ../plugins/itip-formatter/itip-formatter.c:978
+#: ../plugins/itip-formatter/itip-formatter.c:982
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Een annuleringsbericht is aan de gedelegeerde verstuurd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:980
+#: ../plugins/itip-formatter/itip-formatter.c:984
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Kon het annuleringsbericht voor de gedelegeerde niet verzenden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1065
+#: ../plugins/itip-formatter/itip-formatter.c:1069
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Aanwezigheidsstatus kon niet ververst worden omdat de status ongeldig is"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1092
+#: ../plugins/itip-formatter/itip-formatter.c:1096
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kon aanwezige niet updaten. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1096
+#: ../plugins/itip-formatter/itip-formatter.c:1100
 msgid "Attendee status updated"
 msgstr "Aanwezigheidstatus ververst"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1223
+#: ../plugins/itip-formatter/itip-formatter.c:1227
 msgid "The calendar attached is not valid"
 msgstr "De bijgevoegde agenda is niet geldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1224
+#: ../plugins/itip-formatter/itip-formatter.c:1228
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -16729,15 +16766,15 @@ msgstr ""
 "Het bericht claimt dat het een agenda bevat, maar de agenda is geen geldige "
 "iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1259
-#: ../plugins/itip-formatter/itip-formatter.c:1277
-#: ../plugins/itip-formatter/itip-formatter.c:1355
+#: ../plugins/itip-formatter/itip-formatter.c:1263
+#: ../plugins/itip-formatter/itip-formatter.c:1281
+#: ../plugins/itip-formatter/itip-formatter.c:1359
 msgid "The item in the calendar is not valid"
 msgstr "Het item in de agenda is niet geldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1260
-#: ../plugins/itip-formatter/itip-formatter.c:1278
-#: ../plugins/itip-formatter/itip-formatter.c:1356
+#: ../plugins/itip-formatter/itip-formatter.c:1264
+#: ../plugins/itip-formatter/itip-formatter.c:1282
+#: ../plugins/itip-formatter/itip-formatter.c:1360
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -16745,11 +16782,11 @@ msgstr ""
 "Het bericht bevat een agenda, maar de agenda bevat geen aantekenigen, taken "
 "of vrij/bezet-informatie"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1289
+#: ../plugins/itip-formatter/itip-formatter.c:1293
 msgid "The calendar attached contains multiple items"
 msgstr "De bijgevoegde agenda bevat meerdere items"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1290
+#: ../plugins/itip-formatter/itip-formatter.c:1294
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -16759,17 +16796,17 @@ msgstr ""
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2063
+#: ../plugins/itip-formatter/itip-formatter.c:2067
 msgid "_Delete message after acting"
 msgstr "_Bericht verwijderen na actie"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2073
-#: ../plugins/itip-formatter/itip-formatter.c:2105
+#: ../plugins/itip-formatter/itip-formatter.c:2077
+#: ../plugins/itip-formatter/itip-formatter.c:2109
 msgid "Conflict Search"
 msgstr "Dubbele afspraken zoeken"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2088
+#: ../plugins/itip-formatter/itip-formatter.c:2092
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 "Selecteer de agenda's waarbinnen naar dubbele afspraken moet worden gezocht"
@@ -16938,7 +16975,8 @@ msgstr "<b>%s</b> heeft de volgende bijeenkomst aan u gedelegeerd:"
 #: ../plugins/itip-formatter/itip-view.c:356
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> vraagt u via %s bij de volgende bijeenkomst aanwezig te zijn:<"
+msgstr ""
+"<b>%s</b> vraagt u via %s bij de volgende bijeenkomst aanwezig te zijn:<"
 
 #: ../plugins/itip-formatter/itip-view.c:358
 #, c-format
@@ -17881,7 +17919,7 @@ msgstr "Opslaan op _schijf"
 msgid "%FT%T"
 msgstr "%FT%T"
 
-#: ../plugins/save-calendar/rdf-format.c:396
+#: ../plugins/save-calendar/rdf-format.c:397
 msgid "RDF format (.rdf)"
 msgstr "RDF-formaat (.rdf)"
 
@@ -18082,7 +18120,10 @@ msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
-msgstr "De stijl van de vensterknoppen. Kan zijn \"text\", \"icons\", \"both\", of \"toolbar\". Indien \"toolbar\" wordt gebruikt, wordt de stijl bepaald door de instelling van Gnome voor werkbalken."
+msgstr ""
+"De stijl van de vensterknoppen. Kan zijn \"text\", \"icons\", \"both\", of "
+"\"toolbar\". Indien \"toolbar\" wordt gebruikt, wordt de stijl bepaald door "
+"de instelling van Gnome voor werkbalken."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Toolbar is visible"
@@ -19885,7 +19926,9 @@ msgstr "Selecteer alle en alleen de berichten die nu niet zijn geselecteerd"
 
 #: ../ui/evolution-mail-list.xml.h:23
 msgid "Select all messages in the same thread as the selected message"
-msgstr "Selecteer alle berichten die bij de discussie van het geselecteerde bericht horen"
+msgstr ""
+"Selecteer alle berichten die bij de discussie van het geselecteerde bericht "
+"horen"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select all visible messages"
@@ -21014,11 +21057,11 @@ msgid "With _Status"
 msgstr "Met _status"
 
 #. Put the ""UTC" entry at the top of the combo's list.
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:209
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:397
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:399
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:401
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:752
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:211
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:402
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:404
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:406
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:757
 msgid "UTC"
 msgstr "UTC"
 
@@ -21775,23 +21818,23 @@ msgstr "Kolom met invoeraandacht"
 msgid "Unselected Column"
 msgstr "Niet geselecteerde kolom"
 
-#: ../widgets/table/e-cell-text.c:1813
+#: ../widgets/table/e-cell-text.c:1814
 msgid "Strikeout Column"
 msgstr "Doorgehaalde kolom"
 
-#: ../widgets/table/e-cell-text.c:1820
+#: ../widgets/table/e-cell-text.c:1821
 msgid "Underline Column"
 msgstr "Onderstreepte kolom"
 
-#: ../widgets/table/e-cell-text.c:1827
+#: ../widgets/table/e-cell-text.c:1828
 msgid "Bold Column"
 msgstr "Vetgedrukte kolom"
 
-#: ../widgets/table/e-cell-text.c:1834
+#: ../widgets/table/e-cell-text.c:1835
 msgid "Color Column"
 msgstr "Gekleurde kolom"
 
-#: ../widgets/table/e-cell-text.c:1848
+#: ../widgets/table/e-cell-text.c:1849
 msgid "BG Color Column"
 msgstr "Kolom met achtergrondkleur"
 
