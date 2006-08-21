@@ -114,26 +114,22 @@ command_submit_bug (BonoboUIComponent *uih,
 		    EShellWindow *window,
 		    const char *path)
 {
-        int pid;
-        char *args[] = {
-                "bug-buddy",
-                "--sm-disable",
-                "--package=evolution",
-                "--package-ver="VERSION,
-                NULL
-        };
+	gchar *command_line;
+	GError *error = NULL;
 
-        args[0] = g_find_program_in_path ("bug-buddy");
-        if (!args[0]) {
-                e_notice (NULL, GTK_MESSAGE_ERROR, _("Bug buddy is not installed."));
-		return;
-        }
+        command_line = "bug-buddy --sm-disable --package=Evolution";
 
-        pid = gnome_execute_async (NULL, 4, args);
-        g_free (args[0]);
+	g_debug ("Spawning: %s", command_line);
 
-        if (pid == -1)
-                e_notice (NULL, GTK_MESSAGE_ERROR, _("Bug buddy could not be run."));
+	if (!g_spawn_command_line_async (command_line, &error)) {
+		if (error->code == G_SPAWN_ERROR_NOENT)
+			e_notice (NULL, GTK_MESSAGE_ERROR,
+				_("Bug buddy is not installed."));
+		else
+			e_notice (NULL, GTK_MESSAGE_ERROR,
+				_("Bug buddy could not be run."));
+		g_error_free (error);
+	}
 }
 
 /* must be in utf8, the weird breaking of escaped strings

@@ -1,3 +1,10 @@
+2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #346797 Patch by Matthew Barnes
+
+	* e-shell-window-commands.c: (command_submit_bug): Fix to use new bug
+	buddy.
+
 2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-user-creatable-items-handler.c: (new_button_change),
