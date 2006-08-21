@@ -1,3 +1,10 @@
+2006-08-21  Li Yuan <li.yuan@sun.com>
+
+	** Fixes bug #348753
+
+	* e-search-bar.c: (entry_key_press_cb), (e_search_bar_construct):
+	Add accelerate key to the search bar. <ALT ARROW_DOWN> open option window.
+
 2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-filter-bar.c: (rule_editor_destroyed),

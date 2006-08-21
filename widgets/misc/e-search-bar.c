@@ -29,6 +29,7 @@
 #include <config.h>
 #endif
 
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkmenuitem.h>
@@ -479,6 +480,20 @@ clear_button_clicked_cb (GtkWidget *widget, GdkEventButton *event,
 	clear_search (esb);
 
 	gtk_widget_grab_focus (esb->entry);
+}
+
+static gboolean
+entry_key_press_cb (GtkWidget *widget,
+		   GdkEventKey *key_event,
+		   ESearchBar *esb)
+{
+	if (((key_event->state & gtk_accelerator_get_default_mod_mask ()) == 
+		GDK_MOD1_MASK) && (key_event->keyval == GDK_Down)) {
+			option_button_clicked_cb (NULL, NULL, esb);
+			return TRUE;
+	}
+	
+	return FALSE;
 }
 
 static void
@@ -932,6 +947,8 @@ e_search_bar_construct (ESearchBar *search_bar,
 			  G_CALLBACK (entry_focus_in_cb), search_bar);
 	g_signal_connect (search_bar->entry, "focus-out-event",
 			  G_CALLBACK (entry_focus_out_cb), search_bar);
+	g_signal_connect (search_bar->entry, "key-press-event",
+			  G_CALLBACK (entry_key_press_cb), search_bar);
 
 	search_bar->clear_button = e_icon_entry_create_button ("gtk-clear");
 	g_signal_connect (G_OBJECT (search_bar->clear_button), "button-press-event", clear_button_clicked_cb, search_bar);
