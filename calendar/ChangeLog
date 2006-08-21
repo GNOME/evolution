@@ -1,3 +1,9 @@
+2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/cal-search-bar.c: (string_without_underscores),
+	(generate_viewoption_menu), (make_suboptions): Fixes few search
+	issues.
+
 2006-08-18  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #343369

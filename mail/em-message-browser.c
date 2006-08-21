@@ -111,7 +111,8 @@ emmb_init(GObject *o)
 
 	gtk_widget_show(p->preview);
 
-	gtk_box_pack_start_defaults((GtkBox *)emmb, p->preview);
+	gtk_box_pack_start ((GtkBox *)emmb, p->preview, TRUE, TRUE, 0);
+	gtk_box_pack_start((GtkBox *)emmb, em_format_html_get_search_dialog (emmb->view.preview), FALSE, FALSE, 0);
 }
 
 static void

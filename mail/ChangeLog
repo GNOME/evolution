@@ -1,3 +1,17 @@
+2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fixes a lot of search issues including widget packing.
+
+	* em-folder-browser.c: (generate_viewoption_menu),
+	(viewoption_menu_generator), (emfb_realize), (emfb_init),
+	(em_folder_browser_show_preview), (emfb_search_search_activated),
+	(emfb_search_search_cleared), (emfb_list_key_press),
+	(emfb_list_message_selected), (emfb_set_search_folder):
+	* em-folder-view.c: (emfv_init), (emfv_message_search),
+	(em_folder_view_get_popup_target), (emfv_setting_notify):
+	* em-folder-view.h:
+	* em-message-browser.c: (emmb_init):
+
 2006-08-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #350884

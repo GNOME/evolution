@@ -104,6 +104,7 @@ CamelStore *vfolder_store; /* the 1 static vfolder store */
 
 struct _EMFolderBrowserPrivate {
 	GtkWidget *preview;	/* container for message display */
+	GtkWidget *scroll;
 
 	GtkWidget *subscribe_editor;
 
@@ -122,9 +123,15 @@ struct _EMFolderBrowserPrivate {
 	guint folder_changed_id;
 
 	int show_wide:1;
-
+	gboolean scope_restricted;
+	
 	EMMenu *menu;		/* toplevel menu manager */
 };
+
+typedef struct EMFBSearchBarItem {
+	ESearchBarItem search;
+	char *image;
+} EMFBSearchBarItem;
 
 static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
 static void emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri);
@@ -135,6 +142,7 @@ static void emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id,
 static void emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb);
 static void emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb);
 static void emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *emfb);
+static void emfb_search_search_cleared(ESearchBar *esb);
 
 static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
 static void emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb);
@@ -180,26 +188,26 @@ enum {
 };
 
 /* Options for View */
-static ESearchBarItem emfb_view_items[] = {
-	{ N_("All Messages"), VIEW_ALL_MESSAGES, 0 },
-	{ N_("Unread Messages"), VIEW_UNREAD_MESSAGES, 0 },
-	{ NULL, 0, 0 },
-	{ N_("No Label"),VIEW_NO_LABEL, 0 },
-	{ NULL, -1, 0 }
+static EMFBSearchBarItem emfb_view_items[] = {
+	{{ N_("All Messages"), VIEW_ALL_MESSAGES, 0 }, NULL},
+	{{ N_("Unread Messages"), VIEW_UNREAD_MESSAGES, 0 }, "stock_mail-unread"},
+	{{ NULL, 0, 0 }, NULL},
+	{{ N_("No Label"),VIEW_NO_LABEL, 0 }, NULL},
+	{{ NULL, -1, 0 }, NULL}
 };
 
 /* TODO: Following options should be  customizable */
-static ESearchBarItem temp_view_items[] = {
-	{ NULL, 0, 0 },
-	{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 },
-	{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 },
-	{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 },
-	{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 },
-	{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0},
-	{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 },
+static EMFBSearchBarItem temp_view_items[] = {
+	{{ NULL, 0, 0 }, NULL},
+	{{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 }, "stock_mail-open"},
+	{{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 }, NULL},
+	{{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 }, NULL},
+	{{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 }, "stock_attach"},
+	{{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0}, "stock_mail-priority-high"},
+	{{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 }, "stock_not-spam"},
 /* 	{ NULL, 0, NULL }, */
 /* 	{ N_("Customize"), NOT_IMPLEMENTED, NULL }, */
-	{ NULL, -1, 0 }
+	{{ NULL, -1, 0 }, NULL}
 };
 
 static ESearchBarItem emfb_search_scope_items[] = {
@@ -278,7 +286,7 @@ string_without_underscores (const char *s)
 }
 
 static GtkWidget *
-generate_viewoption_menu ()
+generate_viewoption_menu (GtkWidget *emfv)
 {
 	GtkWidget *menu, *menu_item;
 	gint i = 0;
@@ -286,11 +294,13 @@ generate_viewoption_menu ()
 
 	menu = gtk_menu_new ();
 
-	for (i = 0; emfb_view_items[i].id != -1; ++i) {
-		if (emfb_view_items[i].text) {
+	for (i = 0; emfb_view_items[i].search.id != -1; ++i) {
+		if (emfb_view_items[i].search.text) {
 			char *str;
-			str = string_without_underscores (emfb_view_items[i].text);
-			menu_item = gtk_menu_item_new_with_label (str);
+			str = string_without_underscores (emfb_view_items[i].search.text);
+			menu_item = gtk_image_menu_item_new_with_label (str);
+/* 			if (emfb_view_items[i].image)
+ 				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (emfb_view_items[i].image, E_ICON_SIZE_MENU)); */
 			g_free (str);
 		} else {
 			menu_item = gtk_menu_item_new ();
@@ -298,7 +308,7 @@ generate_viewoption_menu ()
 		}
 
 		g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
-				   GINT_TO_POINTER (emfb_view_items[i].id));
+				   GINT_TO_POINTER (emfb_view_items[i].search.id));
 
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
@@ -309,10 +319,25 @@ generate_viewoption_menu ()
 		MailConfigLabel *label = l->data;
 		if (label->name && *(label->name)) {
 			char *str;
+/*			GdkPixmap *pixmap;
+			GdkColor colour;
+			GdkGC *gc;
+			GtkImage *image;
+			
+			gdk_color_parse(label->colour, &colour);
+			gdk_color_alloc(gdk_colormap_get_system(), &colour);
+		
+			pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
+			gc = gdk_gc_new(((GtkWidget *)emfv)->window);
+			gdk_gc_set_foreground(gc, &colour);
+			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
+			gdk_gc_unref(gc); 
+			
+			image = gtk_image_new_from_pixmap(pixmap, NULL); */
 			str = string_without_underscores (label->name);
-			menu_item = gtk_menu_item_new_with_label (str);
+			menu_item = gtk_image_menu_item_new_with_label (str);
 			g_free (str);
-
+/* 			gtk_image_menu_item_set_image (menu_item, image); */
 			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
 					   GINT_TO_POINTER (VIEW_LABEL));
 		
@@ -324,11 +349,13 @@ generate_viewoption_menu ()
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 	}
 
-	for (i = 0; temp_view_items[i].id != -1; ++i) {
-		if (temp_view_items[i].text) {
+	for (i = 0; temp_view_items[i].search.id != -1; ++i) {
+		if (temp_view_items[i].search.text) {
 			char *str;
-			str = string_without_underscores (temp_view_items[i].text);
-			menu_item = gtk_menu_item_new_with_label (str);
+			str = string_without_underscores (temp_view_items[i].search.text);
+			menu_item = gtk_image_menu_item_new_with_label (str);
+/*			if (temp_view_items[i].image)
+				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (temp_view_items[i].image, E_ICON_SIZE_MENU)); */
 			g_free (str);
 		} else {
 			menu_item = gtk_menu_item_new ();
@@ -336,7 +363,7 @@ generate_viewoption_menu ()
 		}
 
 		g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
-				   GINT_TO_POINTER (temp_view_items[i].id));
+				   GINT_TO_POINTER (temp_view_items[i].search.id));
 
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
@@ -354,7 +381,7 @@ viewoption_menu_generator ()
 	ESearchBarItem dup_item;
 	GSList *l;
 
-	for (i = 0; emfb_view_items[i].id != -1; i++) 
+	for (i = 0; emfb_view_items[i].search.id != -1; i++) 
 		g_array_append_vals (menu, &emfb_view_items[i], 1);
 
 	for (l = mail_config_get_labels(); l; l = l->next) {
@@ -374,6 +401,16 @@ viewoption_menu_generator ()
 	return menu;
 }
 
+static void
+emfb_realize (GtkWidget *widget)
+{
+	GtkWidget *menu;
+	EMFolderBrowser *emfb = (EMFolderBrowser *)widget;
+
+	menu = generate_viewoption_menu(widget);
+	e_search_bar_set_viewoption_menu ((ESearchBar *)emfb->search, menu);	
+}
+	      
 static void
 emfb_init(GObject *o)
 {
@@ -412,15 +449,16 @@ emfb_init(GObject *o)
 		emfb->search = e_filter_bar_new(search_context, systemrules, userrules, emfb_search_config_search, emfb);
 		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
-
-		menu = generate_viewoption_menu();
-		e_search_bar_set_viewoption_menu ((ESearchBar *)emfb->search, menu);
+		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
+		emfb->priv->scope_restricted = TRUE;
+		g_signal_connect(emfb, "realize", G_CALLBACK(emfb_realize), NULL);
 		gtk_widget_show((GtkWidget *)emfb->search);
 
 		p->search_menu_activated_id = g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
 		p->search_activated_id = g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
 		p->search_query_changed_id = g_signal_connect(emfb->search, "query_changed", G_CALLBACK(emfb_search_query_changed), emfb);
-
+		g_signal_connect(emfb->search, "search_cleared", G_CALLBACK(emfb_search_search_cleared), NULL);
+		
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
 	}
 
@@ -438,14 +476,16 @@ emfb_init(GObject *o)
 	gtk_widget_show((GtkWidget *)emfb->view.list);
 
 	/* currently: just use a scrolledwindow for preview widget */
-	p->preview = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy((GtkScrolledWindow *)p->preview, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type((GtkScrolledWindow *)p->preview, GTK_SHADOW_IN);
-	gtk_widget_show(p->preview);
+	p->scroll = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy((GtkScrolledWindow *)p->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type((GtkScrolledWindow *)p->scroll, GTK_SHADOW_IN);
+	gtk_widget_show(p->scroll);
 
-	gtk_container_add((GtkContainer *)p->preview, (GtkWidget *)emfb->view.preview->formathtml.html);
+	p->preview = gtk_vbox_new (FALSE, 6);
+	gtk_container_add((GtkContainer *)p->scroll, (GtkWidget *)emfb->view.preview->formathtml.html);
 	gtk_widget_show((GtkWidget *)emfb->view.preview->formathtml.html);
-
+	gtk_box_pack_start ((GtkBox *)p->preview, p->scroll, TRUE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *)p->preview, em_format_html_get_search_dialog (emfb->view.preview), FALSE, FALSE, 0);
 	gtk_paned_add2((GtkPaned *)emfb->vpane, p->preview);
 	gtk_widget_show(p->preview);
 
@@ -563,8 +603,14 @@ GtkWidget *em_folder_browser_new(void)
 void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 {
 	if ((emfb->view.preview_active ^ state) == 0
-	    || emfb->view.list == NULL)
+	    || emfb->view.list == NULL) {
+		if (state && emfb->priv->scope_restricted && emfb->view.list->cursor_uid && *(emfb->view.list->cursor_uid)) {
+			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
+			emfb->priv->scope_restricted = FALSE;
+		}
+			
 		return;
+	}
 	
 	emfb->view.preview_active = state;
 	
@@ -581,6 +627,8 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		if (emfb->view.list->cursor_uid) {
 			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
 
+			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);		
+			emfb->priv->scope_restricted = FALSE;			
 			strcpy(uid, emfb->view.list->cursor_uid);
 			em_folder_view_set_message(&emfb->view, uid, FALSE);
 		}
@@ -595,6 +643,9 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		emfb->view.displayed_uid = NULL;
 
 		gtk_widget_hide(emfb->priv->preview);
+		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);		
+		emfb->priv->scope_restricted = TRUE;
+		printf("%s(%d):%s: TRUE\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 		/*
 		mail_display_set_message (emfb->mail_display, NULL, NULL, NULL);
 		emfb_ui_message_loaded (emfb);*/
@@ -917,7 +968,6 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	GList *folder_list_account = NULL ;
 	GList *l, *folder_list = NULL ;
 	CamelException *ex;
-
 	ex = camel_exception_new ();
 
 	if (emfv->list == NULL || emfv->folder == NULL)
@@ -944,6 +994,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	    case E_FILTERBAR_CURRENT_ACCOUNT_ID:
 		    word = e_search_bar_get_text (esb);
 		    if (!(word && *word)) {
+			    mail_cancel_all ();
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);
 			    break;
@@ -984,6 +1035,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	    case E_FILTERBAR_ALL_ACCOUNTS_ID:
 		    word = e_search_bar_get_text (esb);
 		    if (!(word && *word)) {
+			    mail_cancel_all ();			    
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);		    
 			    break;
@@ -1079,6 +1131,13 @@ emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *emfb)
 	}
 }
 
+static void
+emfb_search_search_cleared(ESearchBar *esb)
+{
+	/* FIXME: It should just cancel search.*/
+	mail_cancel_all();
+}
+
 /* ********************************************************************** */
 
 static int
@@ -1089,10 +1148,10 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	
 	switch (ev->key.keyval) {
 	case GDK_space:
-		em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->preview), TRUE);
+		em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
 		break;
 	case GDK_BackSpace:
-		em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->preview), FALSE);
+		em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), FALSE);
 		break;
 	default:
 		return FALSE;
@@ -1105,10 +1164,18 @@ static void
 emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
-	
+
 	if (emfv->folder == NULL)
 		return;
-	
+
+	if (uid && *uid && emfb->priv->scope_restricted && emfb->view.preview_active) {
+		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);		
+		emfb->priv->scope_restricted = FALSE;
+	} else if ( !(uid && *uid) && !emfb->priv->scope_restricted) {
+		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);		
+		emfb->priv->scope_restricted = TRUE;
+	}
+
 	camel_object_meta_set (emfv->folder, "evolution:selected_uid", uid);
 	camel_object_state_write (emfv->folder);
 }
@@ -1711,7 +1778,7 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			"<column source=\"0\"/> <column source=\"3\"/> <column source=\"1\"/>"
 			"<column source=\"14\"/> <column source=\"5\"/>"
 			"<column source=\"7\"/> <column source=\"13\"/> "
-                        "<grouping> </grouping> </ETableState>";
+                        "<grouping><leaf column=\"7\" ascending=\"false\"/> </grouping> </ETableState>";
 	e_tree_set_state (((MessageList *)emfv->list)->tree, state);
 	
 	message_list_thaw(emfv->list);

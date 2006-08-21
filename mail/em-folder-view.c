@@ -75,6 +75,7 @@
 #include "menus/gal-view-menus.h"
 
 #include "misc/e-charset-picker.h"
+#include <misc/e-filter-bar.h>
 
 #include "e-util/e-error.h"
 #include "e-util/e-dialog-utils.h"
@@ -228,9 +229,6 @@ emfv_init(GObject *o)
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
-
-	search_bar = em_format_html_get_search_dialog (emfv->preview);
-	gtk_box_pack_end(GTK_WIDGET (emfv), search_bar, FALSE, FALSE, 5);
 
 	emfv->async = mail_async_event_new();
 
@@ -1504,8 +1502,14 @@ static void
 emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
-
-	em_format_html_display_search(emfv->preview);
+	
+	if (!emfv->list_active) /* We are in new mail window */
+		em_format_html_display_search(emfv->preview);
+	else  {
+                /* We are in top level. Just grab focus to Search Bar */
+		gtk_widget_grab_focus (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->entry);
+		gtk_option_menu_set_history (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->scopeoption, 3);
+	}
 }
 
 static void
@@ -1860,7 +1864,7 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageReplySender",       EM_POPUP_SELECT_ONE },
 	{ "MessageEdit",              EM_POPUP_SELECT_EDIT },
 	{ "MessageSaveAs",            EM_POPUP_SELECT_MANY },
-	{ "MessageSearch",            EM_POPUP_SELECT_ONE },
+	{ "MessageSearch",            EM_POPUP_SELECT_ONE| EM_FOLDER_VIEW_PREVIEW_PRESENT },
 	{ "MessageUndelete",          EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_UNDELETE },
 	{ "PrintMessage",             EM_POPUP_SELECT_ONE },
 	{ "PrintPreviewMessage",      EM_POPUP_SELECT_ONE },
@@ -2182,6 +2186,9 @@ em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display
 	else
 		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_NOSELECTION;
 
+	if (emfv->preview_active)
+		t->target.mask &= ~EM_FOLDER_VIEW_PREVIEW_PRESENT;
+	
 	/* See bug #54770 */
 	if (!emfv->hide_deleted)
 		t->target.mask &= ~EM_POPUP_SELECT_DELETE;
@@ -2721,12 +2728,15 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
         case EMFV_SHOW_PREVIEW: {
 		gboolean state_gconf, state_camel;
 		char *ret;
-		
+
 		/* If emfv->folder hasn't been initialized, do nothing */ 
 		if (!emfv->folder)
 			return;
 		
 		state_gconf = gconf_value_get_bool (value);
+		if (state_gconf == FALSE)
+			emfv_enable_menus (emfv);
+		
 		if ((ret = camel_object_meta_get (emfv->folder, "evolution:show_preview"))) {
 			state_camel = (ret[0] != '0');
 			g_free (ret);

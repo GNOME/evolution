@@ -30,8 +30,13 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
+#include <e-util/e-icon-factory.h>
 #include "cal-search-bar.h"
 
+typedef struct CALSearchBarItem {
+	 ESearchBarItem search;
+	 char *image;
+}CALSearchBarItem;
 
 /* IDs and option items for the ESearchBar */
 enum {
@@ -337,55 +342,126 @@ cal_search_bar_search_activated (ESearchBar *search)
 
 
 
+
+static char *
+string_without_underscores (const char *s)
+{
+	char *new_string;
+	const char *sp;
+	char *dp;
+
+	new_string = g_malloc (strlen (s) + 1);
+
+	dp = new_string;
+	for (sp = s; *sp != '\0'; sp ++) {
+		if (*sp != '_') {
+			*dp = *sp;
+			dp ++;
+		} else if (sp[1] == '_') {
+			/* Translate "__" in "_".  */
+			*dp = '_';
+			dp ++;
+			sp ++;
+		}
+	}
+	*dp = 0;
+
+	return new_string;
+}
+
+static GtkWidget *
+generate_viewoption_menu (CALSearchBarItem *subitems)
+{
+	GtkWidget *menu, *menu_item;
+	gint i = 0;
+	GSList *l;
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; subitems[i].search.id != -1; ++i) {
+		if (subitems[i].search.text) {
+			char *str = NULL;
+			str = string_without_underscores (subitems[i].search.text);
+			menu_item = gtk_image_menu_item_new_with_label (str);
+/*			if (subitems[i].image)
+				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (subitems[i].image, E_ICON_SIZE_MENU));*/
+			g_free (str);
+		} else {
+			menu_item = gtk_menu_item_new ();
+			gtk_widget_set_sensitive (menu_item, FALSE);
+		}
+
+		g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
+				   GINT_TO_POINTER (subitems[i].search.id));
+
+		gtk_widget_show (menu_item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+	}
+
+	return menu;
+}
+
 /* Creates the suboptions menu for the ESearchBar with the list of categories */
 static void
 make_suboptions (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	ESearchBarItem *subitems;
+	CALSearchBarItem *subitems;
 	int i;
-
+	GtkWidget *menu;
+	
 	priv = cal_search->priv;
 
 	g_assert (priv->categories != NULL);
 
 	/* Categories plus "all", "unmatched", separator, terminator */
-	subitems = g_new (ESearchBarItem, priv->categories->len + 3 + 1);
+	subitems = g_new (CALSearchBarItem, priv->categories->len + 3 + 1);
 
 	/* All, unmatched, separator */
 
-	subitems[0].text = _("Any Category");
-	subitems[0].id = CATEGORIES_ALL;
+	subitems[0].search.text = _("Any Category");
+	subitems[0].search.id = CATEGORIES_ALL;
+	subitems[0].image = NULL;
 
-	subitems[1].text = _("Unmatched");
-	subitems[1].id = CATEGORIES_UNMATCHED;
-
+	subitems[1].search.text = _("Unmatched");
+	subitems[1].search.id = CATEGORIES_UNMATCHED;
+	subitems[1].image = NULL;
+	
 	/* All the other items */
 
 	if (priv->categories->len > 0) {
-		subitems[2].text = NULL; /* separator */
-		subitems[2].id = 0;
+		 subitems[2].search.text = NULL; /* separator */
+		 subitems[2].search.id = 0;
+		 subitems[2].image = 0;
+		 
+		 for (i = 0; i < priv->categories->len; i++) {
+			  const char *category;
+			  char *str;
 
-		for (i = 0; i < priv->categories->len; i++) {
-			const char *category;
-			char *str;
+			  category = priv->categories->pdata[i];
+			  str = g_strdup (category ? category : "");
 
-			category = priv->categories->pdata[i];
-			str = g_strdup (category ? category : "");
+			  subitems[i + CATEGORIES_OFFSET].search.text      = str;
+			  subitems[i + CATEGORIES_OFFSET].search.id        = i + CATEGORIES_OFFSET;
+			  subitems[i + CATEGORIES_OFFSET].image        = e_categories_get_icon_file_for(str);
+		 }
 
-			subitems[i + CATEGORIES_OFFSET].text      = str;
-			subitems[i + CATEGORIES_OFFSET].id        = i + CATEGORIES_OFFSET;
-		}
+		 subitems[i + CATEGORIES_OFFSET].search.id = -1; /* terminator */
+		 subitems[2].search.text = NULL;
+		 subitems[2].image = NULL;		
+	} else {
+		 
+		 subitems[2].search.id = -1; /* terminator */
+		 subitems[2].search.text = NULL;
+		 subitems[2].image = NULL;
+	}	
 
-		subitems[i + CATEGORIES_OFFSET].id = -1; /* terminator */
-	} else
-		subitems[2].id = -1; /* terminator */
-
-	e_search_bar_set_viewoption (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, subitems);
-
+	menu = generate_viewoption_menu (subitems);
+	e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
+	
 	/* Free the strings */
 	for (i = 0; i < priv->categories->len; i++)
-		g_free (subitems[i + CATEGORIES_OFFSET].text);
+		g_free (subitems[i + CATEGORIES_OFFSET].search.text);
 
 	g_free (subitems);
 }
