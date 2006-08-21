@@ -56,28 +56,24 @@ popup_free (EPopup *ep, GSList *items, void *data)
 void
 mail_account_disable (EPopup *ep, EPopupItem *p, void *data)
 {
-	char *uri = data;
-	EAccount *account;
+	MailComponent *component;
+	EAccount *account = data;
 
-	account = mail_config_get_account_by_source_url (uri);
+	g_assert (account != NULL);
 
-	if (account) {
-		MailComponent *component = mail_component_peek ();
+	component = mail_component_peek ();
+
+	if (mail_config_has_proxies (account))
+		mail_config_remove_account_proxies (account);
 		
-		if (mail_config_has_proxies(account))
-			mail_config_remove_account_proxies (account);
-		
-		account->enabled = !account->enabled;
-		e_account_list_change(mail_config_get_accounts(), account);
-		mail_component_remove_store_by_uri (component, account->source->url);		
+	account->enabled = !account->enabled;
+	e_account_list_change (mail_config_get_accounts (), account);
+	mail_component_remove_store_by_uri (component, account->source->url);
+ 
+	if (account->parent_uid)
+		mail_config_remove_account (account);
 
-		if (account->parent_uid)
-			mail_config_remove_account (account);
-
-		mail_config_save_accounts();	
-	}	
-
-	return ;
+	mail_config_save_accounts();
 }
 
 void
@@ -88,6 +84,9 @@ org_gnome_create_mail_account_disable (EPlugin *ep, EMPopupTargetFolder *t)
 
 	account = mail_config_get_account_by_source_url (t->uri);
 
+	if (account == NULL)
+		return;
+
 	if (g_strrstr (t->uri,"groupwise://") && account->parent_uid) {
 		popup_items[PROXY_LOGOUT].label =  _(popup_items [PROXY_LOGOUT].label);
 		menus = g_slist_prepend (menus, &popup_items [PROXY_LOGOUT]);
@@ -97,8 +96,6 @@ org_gnome_create_mail_account_disable (EPlugin *ep, EMPopupTargetFolder *t)
 		menus = g_slist_prepend (menus, &popup_items [ACCOUNT_DISABLE]);
 	}
 
-	e_popup_add_items (t->target.popup, menus, NULL, popup_free, t->uri);	
-
-	return;
+	e_popup_add_items (t->target.popup, menus, NULL, popup_free, account);
 }
 
