@@ -1,3 +1,8 @@
+2006-08-21  Matthew Barnes  <mbarnes@redhat.com>
+  	 
+	* mail-send-recv.c:
+	Silence Camel exception warning at startup - fixes bug 352248.
+
 2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fixes a lot of search issues including widget packing.
