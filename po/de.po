@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-21 18:19+0200\n"
-"PO-Revision-Date: 2006-08-21 18:28+0200\n"
+"PO-Revision-Date: 2006-08-21 18:35+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -13375,7 +13375,7 @@ msgstr "<b>Nachrichtenschriften</b>"
 
 #: ../mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Receipts</span>"
-msgstr "<b>Nachrichtenquittierungen</b>"
+msgstr "<b>Lesebestätigungen</b>"
 
 #: ../mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">New Mail Notification</span>"
