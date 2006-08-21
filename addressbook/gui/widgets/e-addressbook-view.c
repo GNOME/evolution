@@ -34,6 +34,7 @@
 #include <filter/rule-editor.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <e-util/e-xml-utils.h>
+#include <e-util/e-icon-factory.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <libgnomeprint/gnome-print.h>
@@ -146,6 +147,12 @@ enum DndTargetType {
 };
 #define VCARD_TYPE "text/x-vcard"
 #define SOURCE_VCARD_TYPE "text/x-source-vcard"
+
+typedef struct EABSearchBarItem {
+	ESearchBarItem search;
+	char *image;
+}EABSearchBarItem;
+
 static GtkTargetEntry drag_types[] = {
 	{ SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD },
 	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
@@ -1586,37 +1593,98 @@ compare_subitems (const void *a, const void *b)
 	return ret;
 }
 
-static void
+static char *
+string_without_underscores (const char *s)
+{
+	char *new_string;
+	const char *sp;
+	char *dp;
 
+	new_string = g_malloc (strlen (s) + 1);
+
+	dp = new_string;
+	for (sp = s; *sp != '\0'; sp ++) {
+		if (*sp != '_') {
+			*dp = *sp;
+			dp ++;
+		} else if (sp[1] == '_') {
+			/* Translate "__" in "_".  */
+			*dp = '_';
+			dp ++;
+			sp ++;
+		}
+	}
+	*dp = 0;
+
+	return new_string;
+}
+
+static GtkWidget *
+generate_viewoption_menu (EABSearchBarItem *subitems)
+{
+	GtkWidget *menu, *menu_item;
+	gint i = 0;
+	GSList *l;
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; subitems[i].search.id != -1; ++i) {
+		if (subitems[i].search.text) {
+			char *str = NULL;
+			str = string_without_underscores (subitems[i].search.text);
+			menu_item = gtk_image_menu_item_new_with_label (str);
+/*			if (subitems[i].image)
+				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (subitems[i].image, E_ICON_SIZE_MENU)); */
+			g_free (str);
+		} else {
+			menu_item = gtk_menu_item_new ();
+			gtk_widget_set_sensitive (menu_item, FALSE);
+		}
+
+		g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
+				   GINT_TO_POINTER (subitems[i].search.id));
+
+		gtk_widget_show (menu_item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+	}
+
+	return menu;
+}
+
+static void
 make_suboptions (EABView *view)
 {
-	ESearchBarItem *subitems, *s;
+	EABSearchBarItem *subitems, *s;
 	GList *master_list;
 	gint i, N;
-
+	GtkWidget *menu;
+	
 	master_list = get_master_list ();
 	N = g_list_length (master_list);
-	subitems = g_new (ESearchBarItem, N+2);
+	subitems = g_new (EABSearchBarItem, N+2);
 
-	subitems[0].id = 0;
-	subitems[0].text = g_strdup (_("Any Category"));
+	subitems[0].search.id = 0;
+	subitems[0].search.text = g_strdup (_("Any Category"));
+	subitems[0].image = NULL;
 
 	for (i=0; i<N; ++i) {
 		const char *category = g_list_nth_data (master_list, i);
-		subitems[i+1].id = i+1;
-		subitems[i+1].text = g_strdup (category);
+		subitems[i+1].search.id = i+1;
+		subitems[i+1].search.text = g_strdup (category);
+		subitems[i+1].image = e_categories_get_icon_file_for (category);
 	}
 
-	subitems[N+1].id = -1;
-	subitems[N+1].text = NULL;
-
+	subitems[N+1].search.id = -1;
+	subitems[N+1].search.text = NULL;
+	subitems[N+1].image = NULL;
+	
 	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
+	menu = generate_viewoption_menu (subitems);
+	e_search_bar_set_viewoption_menu ((ESearchBar *)view->search, menu);
 
-	e_search_bar_set_viewoption ( (ESearchBar *) view->search, ESB_CATEGORY, subitems);
-
-	for (s = subitems; s->id != -1; s++) {
-		if (s->text)
-			g_free (s->text);
+	for (s = subitems; ((ESearchBarItem *)s)->id != -1; s++) {
+		if (((ESearchBarItem *)s)->text)
+			g_free (((ESearchBarItem *)s)->text);
 	}
 	g_free (subitems);
 }
