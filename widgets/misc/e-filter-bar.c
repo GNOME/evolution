@@ -67,7 +67,6 @@ rule_editor_destroyed (EFilterBar *efb, GObject *deadbeef)
 {
 	efb->save_dialog = NULL;
 	e_search_bar_set_menu_sensitive (E_SEARCH_BAR (efb), E_FILTERBAR_SAVE_ID, TRUE);
-	gtk_widget_set_sensitive (E_SEARCH_BAR (efb)->entry, TRUE);
 }
 
 /* FIXME: need to update the popup menu to match any edited rules, sigh */
@@ -125,7 +124,10 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 
 			gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
-			gtk_widget_show (esb->clear_button);
+			gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+			gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+			e_search_bar_set_text (esb,_("Advanced Search"));
+			gtk_widget_set_sensitive (esb->clear_button, TRUE);
 				
 			if (response == GTK_RESPONSE_APPLY) {
 				if (!rule_context_find_rule (efb->context, rule->name, rule->source))
@@ -134,6 +136,8 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 				rule_context_save (efb->context, efb->userrules);
 			}
 		}
+	} else {
+		e_search_bar_set_item_id (esb, esb->last_search_option);
 	}
 	
 	if (response != GTK_RESPONSE_APPLY)
@@ -183,7 +187,6 @@ do_advanced (ESearchBar *esb)
 		g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
 		
 		e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
-		gtk_widget_set_sensitive (esb->entry, FALSE);
 		
 		gtk_widget_show (dialog);
 	}
@@ -228,7 +231,6 @@ save_search_dialog (ESearchBar *esb)
 	g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
 			
 	e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
-	gtk_widget_set_sensitive (esb->entry, FALSE);
 		
 	gtk_widget_show (dialog);
 }
@@ -277,9 +279,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			e_search_bar_set_item_id (esb, E_FILTERBAR_ADVANCED_ID);
 			efb->setquery = FALSE;
 			
-			gtk_widget_set_sensitive (esb->entry, FALSE);
 		} else {
-			gtk_widget_set_sensitive (esb->entry, TRUE);
 			return;
 		}
 	}
@@ -316,12 +316,10 @@ option_changed (ESearchBar *esb, void *data)
 				efb->config (efb, efb->current_query, id, query, efb->config_data);
 				g_free (query);
 			}
-			gtk_widget_set_sensitive (esb->entry, TRUE);
 		} else {
 			gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
-			
-			gtk_widget_set_sensitive (esb->entry, id == E_SEARCHBAR_CLEAR_ID);
+			gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
 			efb->current_query = NULL;
 		}
 	}
@@ -662,12 +660,15 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 						rule = filter_rule_new ();
 						if (filter_rule_xml_decode (rule, node, efb->context) != 0) {
 							gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
-							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);							
+							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
+							gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, NULL);
 							g_object_unref (rule);
 							rule = NULL;
 						} else {
 							gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+							gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+							gtk_widget_modify_base (((ESearchBar *)efb)->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));							
 							g_object_set_data_full (object, "rule", rule, (GDestroyNotify) g_object_unref);
 						}
 					}
@@ -690,9 +691,12 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					if (text && *text) {
 						gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+						gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+						gtk_widget_modify_base (((ESearchBar *)efb)->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 					} else {
 						gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
-						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);						
+						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);		
+						gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, NULL);
 					}
 					xmlFree (text);
 					

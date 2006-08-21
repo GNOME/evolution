@@ -1,5 +1,17 @@
 2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* e-filter-bar.c: (rule_editor_destroyed),
+	(rule_advanced_response), (do_advanced), (save_search_dialog),
+	(menubar_activated), (option_changed), (set_property):
+	* e-search-bar.[ch]: (clear_search), (clear_verb_cb),
+	(paint_search_text), (entry_focus_out_cb), (entry_changed_cb),
+	(scopeoption_changed_cb), (set_option), (class_init), (init),
+	(e_search_bar_construct), (e_search_bar_set_scopeoption),
+	(e_search_bar_set_item_id), (e_search_bar_get_text),
+	(e_search_bar_scope_enable): Fixes a lot of search issue.
+
+2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug 347430
 	
 	* e-cell-date-edit.c: (e_cell_date_edit_update_cell): commit the text

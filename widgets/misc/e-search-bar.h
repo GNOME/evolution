@@ -100,6 +100,7 @@ struct _ESearchBar
 	int        item_id;
 	int        viewitem_id; /* Current View Id */
 	int        scopeitem_id; /* Scope of search */
+	int        last_search_option;
 };
 
 struct _ESearchBarClass
@@ -177,7 +178,7 @@ int e_search_bar_get_search_scope (ESearchBar *search_bar);
 void  e_search_bar_set_text  (ESearchBar *search_bar,
 			      const char *text);
 char *e_search_bar_get_text  (ESearchBar *search_bar);
-
+void e_search_bar_scope_enable (ESearchBar *search_bar, int did, gboolean state);
 G_END_DECLS
 
 
