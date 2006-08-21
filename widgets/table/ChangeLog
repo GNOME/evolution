@@ -1,3 +1,8 @@
+2006-08-21  Andre Klapper  <a9016009@gmx.de>
+
+	* e-table-config.glade:
+	changed window focus. Fixes bug #266802.
+
 2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-cell-text.c: (ect_event): Add a null check and remove code for a
