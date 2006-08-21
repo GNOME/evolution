@@ -28,6 +28,7 @@
 #include <glib-object.h>
 #include <limits.h>
 #include <gconf/gconf-client.h>
+#include <cairo/cairo.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -214,6 +215,7 @@ gchar    *e_ascii_dtostr                                                   (gcha
    Less than 0 for the int means copy the whole string. */
 gchar    *e_strdup_append_strings                                          (gchar             *first_string,
 									    ...);
+cairo_font_options_t * get_font_options ();
 
 #ifdef __cplusplus
 }
