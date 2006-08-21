@@ -1,3 +1,10 @@
+2006-08-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #346549
+	* gui/dialogs/task-details-page.c (priority_index_to_value):
+	set the priority to undefined if its value does not match the cases.
+	Removed the assertion so that we don't quit.
+
 2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/cal-search-bar.c: (string_without_underscores),
