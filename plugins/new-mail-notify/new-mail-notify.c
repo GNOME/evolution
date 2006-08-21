@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>
+#include <mail/em-utils.h>
 #include <mail/em-event.h>
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
@@ -45,7 +46,7 @@ static DBusConnection *bus = NULL;
 static gboolean enabled = FALSE;
 
 static void
-send_dbus_message (const char *name, const char *data)
+send_dbus_message (const char *name, const char *data, gboolean resolve)
 {
 	DBusMessage *message;
 	
@@ -62,6 +63,18 @@ send_dbus_message (const char *name, const char *data)
 #endif	
 				  DBUS_TYPE_INVALID);
 
+	if (resolve) {
+		char * display_name = em_utils_folder_name_from_uri(data);
+		dbus_message_append_args (message,
+#if DBUS_VERSION >= 310
+					  DBUS_TYPE_STRING, &display_name,
+#else
+					  DBUS_TYPE_STRING, display_name,
+#endif	
+					  DBUS_TYPE_INVALID);
+		
+	}
+
 	/* Sends the message */
 	dbus_connection_send (bus, message, NULL);
 	
@@ -73,14 +86,14 @@ void
 org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("MessageReading", t->folder->name);
+		send_dbus_message ("MessageReading", t->folder->name, FALSE);
 }
 
 void
 org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("Newmail", t->uri);
+		send_dbus_message ("Newmail", t->uri, TRUE);
 }
 
 
