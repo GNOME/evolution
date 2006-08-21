@@ -1,3 +1,25 @@
+Evolution 2.7.92 2006-08-21
+---------------------------
+
+Updated Translations
+
+Hendrik Richter (de), Wouter Bolsterlee (nl), Daniel Nylander (sv),
+Priit Laes (et), Francisco Javier F. Serrador (es), Satoru SATOH (ja),
+Subhransu Behera (or), Matic Å½gu (sl), Jovan Naumovski (mk), 
+Ankit Patel (gu), Å½ygimantas BeruÄka (lt), Gabor Kelemen (hu),
+Ilkka Tuohela (fi), Ahmad Riza H Nst (id), Rahul Bhalerao (mr),
+Clytie Siddall (vi), Changwoo Ryu (ko), Chao-Hsiung Liao (zh_HK) (zh_TW),
+Tino Meinen (nl), Ani Peter (ml), Xavier Conde Rueda (ca), 
+Maxim Dziumanenko (uk), Guntupalli Karunakar (dz), Leonid Kanter (ru),
+Daniel van Eeden (nl), Kjartan Maraas (nb)
+
+Bug Fixes
+
+Pavel Roskin, Kjartan Maraas, Srinivasa Ragavan, Laurent Goujon, 
+Matthew Barnes, Chenthill Palanisamy, Li Yuan, Harish Krishnaswamy,
+Mubeen Jukaku, Ushveen Kaur, Jeff Cai, Johannes Berg, Hiroyuki Ikezoe,
+Øystein Gisnås
+
 Evolution 2.7.91 2006-08-07
 ---------------------------
 
