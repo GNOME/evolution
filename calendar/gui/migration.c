@@ -478,11 +478,13 @@ create_calendar_sources (CalendarComponent *component,
 	}
 
 	if (!*personal_source) {
+		char *primary_calendar = calendar_config_get_primary_calendar ();
+
 		/* Create the default Person calendar */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
 		
-		if (!calendar_config_get_primary_calendar () && !calendar_config_get_calendars_selected ()) {
+		if (!primary_calendar && !calendar_config_get_calendars_selected ()) {
 			GSList selected;
 
 			calendar_config_set_primary_calendar (e_source_peek_uid (source));
@@ -491,7 +493,8 @@ create_calendar_sources (CalendarComponent *component,
 			selected.next = NULL;
 			calendar_config_set_calendars_selected (&selected);
 		}
-		
+
+		g_free (primary_calendar);		
 		e_source_set_color (source, 0xBECEDD);
 		*personal_source = source;
 	}
