@@ -31,8 +31,39 @@
 #define GCONF_KEY_CHECKDEFAULT   "/apps/evolution/mail/prompts/checkdefault"
 #define GCONF_KEY_MAILTO_ENABLED "/desktop/gnome/url-handlers/mailto/enabled"
 #define GCONF_KEY_MAILTO_COMMAND "/desktop/gnome/url-handlers/mailto/command"
+#define EVOLUTION_MAILTO_COMMAND "evolution --component=mail %s"
 
 void org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *target);
+
+static gboolean
+evolution_is_default_mailer (const gchar *mailto_command)
+{
+        gint argc;
+        gchar **argv;
+        gchar *basename;
+        gboolean is_default;
+
+        if (mailto_command == NULL)
+                return FALSE;
+
+        g_debug ("mailto URL command: %s", mailto_command);
+
+        /* tokenize the mailto command */
+        if (!g_shell_parse_argv (mailto_command, &argc, &argv, NULL))
+                return FALSE;
+
+        g_assert (argc > 0);
+
+        /* check the basename of the first token */
+        basename = g_path_get_basename (argv[0]);
+        g_debug ("mailto URL program: %s", basename);
+        is_default = g_str_has_prefix (basename, "evolution");
+        g_free (basename);
+
+        g_strfreev (argv);
+
+        return is_default;
+}
 
 void
 org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *target)
@@ -54,11 +85,11 @@ org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *targe
 		mailer  = gconf_client_get_string(client, GCONF_KEY_MAILTO_COMMAND, NULL);
 
 		/* Check whether we are the default mailer */
-		if(mailer == NULL || (strcmp(mailer, "@evolution %s") != 0 && strcmp(mailer, "evolution %s") != 0)) { 
+		if (!evolution_is_default_mailer (mailer)) {
 			/* Ask whether we should be the default mailer */
 			if(em_utils_prompt_user(NULL, GCONF_KEY_CHECKDEFAULT, "org.gnome.default.mailer:check-default", NULL)) {
 				gconf_client_set_bool(client, GCONF_KEY_MAILTO_ENABLED, TRUE, NULL);
-				gconf_client_set_string(client, GCONF_KEY_MAILTO_COMMAND, "evolution %s", NULL);
+				gconf_client_set_string(client, GCONF_KEY_MAILTO_COMMAND, EVOLUTION_MAILTO_COMMAND, NULL);
 			}
 		}
 		

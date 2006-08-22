@@ -1,3 +1,11 @@
+2006-08-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #350823
+	
+	* default-mailer.c: (evolution_is_default_mailer),
+	(org_gnome_default_mailer_check_default): Patch from Matthew Barnes
+	to make it robust as well as invokes the right component.
+
 2006-02-27  Srinivasa Ragavan <sragavan@novell.com>
 
 	* default-mailer.c (org_gnome_default_mailer_check_default): Used 
