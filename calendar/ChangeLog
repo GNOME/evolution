@@ -1,3 +1,10 @@
+2006-02-14  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	**Fixes #325935
+
+	* gui/memos-component.c: (selector_tree_drag_motion):
+	Edited code to move the memo from one task list to another.
+
 2006-08-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #351263
