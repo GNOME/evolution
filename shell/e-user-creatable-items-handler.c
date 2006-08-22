@@ -690,7 +690,7 @@ set_combo_button_style (EComboButton *button, const gchar *style, GdkPixbuf *ico
 	} else { /* Default to both */
 		e_combo_button_pack_vbox (button);
 		e_combo_button_set_icon (button, icon);
-		e_combo_button_set_label (button, _(" New "));
+		e_combo_button_set_label (button, _("New"));
 	}
 }
 
