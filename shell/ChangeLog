@@ -1,4 +1,9 @@
-2006-07-31  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+2006-08-22  Andre Klapper  <a9016009@gmx.de>
+
+	* e-shell-window-commands.c: Update some credits for
+	the previous development series.
+
+2006-08-22  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #346317
 	* e-user-creatable-items-handler.c: (set_combo_button_style): Truncate
