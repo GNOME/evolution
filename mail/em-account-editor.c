@@ -1136,6 +1136,39 @@ emae_uri_changed(EMAccountEditorService *service, CamelURL *url)
 static void
 emae_service_url_changed(EMAccountEditorService *service, void (*setval)(CamelURL *, const char *), GtkEntry *entry)
 {
+        GtkComboBox *dropdown;
+        int id;
+        GtkTreeModel *model;
+        GtkTreeIter iter;
+        CamelServiceAuthType *authtype;
+
+        CamelURL *url = emae_account_url(service->emae, emae_service_info[service->type].account_uri_key);
+        const char *text = gtk_entry_get_text(entry);
+
+        setval(url, (text && text[0])?text:NULL);
+
+        if (text && text[0] && setval == camel_url_set_user) {
+                dropdown = service->authtype;
+                if(dropdown) {
+                        id = gtk_combo_box_get_active (dropdown);
+                        if (id != -1) {
+                                model = gtk_combo_box_get_model (dropdown);
+                                        if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
+                                                gtk_tree_model_get (model, &iter, 1, &authtype, -1);
+                                                if (authtype)
+                                                        camel_url_set_authmech (url, authtype->authproto);
+                                        }
+                        }
+                }
+        }
+
+        emae_uri_changed(service, url);
+        camel_url_free(url);
+}
+
+static void
+emae_service_url_path_changed(EMAccountEditorService *service, void (*setval)(CamelURL *, const char *), GtkWidget *widget)
+{
 	GtkComboBox *dropdown;
 	int id;
 	GtkTreeModel *model;
@@ -1143,7 +1176,7 @@ emae_service_url_changed(EMAccountEditorService *service, void (*setval)(CamelUR
 	CamelServiceAuthType *authtype;
 	
 	CamelURL *url = emae_account_url(service->emae, emae_service_info[service->type].account_uri_key);
-	const char *text = gtk_entry_get_text(entry);
+	const char *text = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
 
 	setval(url, (text && text[0])?text:NULL);
 	
@@ -1179,9 +1212,9 @@ emae_username_changed(GtkEntry *entry, EMAccountEditorService *service)
 }
 
 static void
-emae_path_changed(GtkEntry *entry, EMAccountEditorService *service)
+emae_path_changed(GtkWidget *widget, EMAccountEditorService *service)
 {
-	emae_service_url_changed(service, camel_url_set_path, entry);
+	emae_service_url_path_changed(service, camel_url_set_path, widget);
 }
 
 static int
@@ -1609,8 +1642,7 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 	service->hostlabel = (GtkLabel *)glade_xml_get_widget (xml, info->hostlabel);
 	service->username = GTK_ENTRY (glade_xml_get_widget (xml, info->username));
 	service->userlabel = (GtkLabel *)glade_xml_get_widget (xml, info->userlabel);
-	if (info->path) {
-		service->path = GTK_ENTRY (glade_xml_get_widget (xml, info->path));
+	if (info->pathentry) {
 		service->pathlabel = (GtkLabel *)glade_xml_get_widget(xml, info->pathlabel);
 		service->pathentry = glade_xml_get_widget(xml, info->pathentry);
 	}
@@ -1633,8 +1665,8 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 	}
 	if (url->user)
 		gtk_entry_set_text(service->username, url->user);
-	if (service->path && url->path)
-		gtk_entry_set_text(service->path, url->path);
+	if (service->pathentry && url->path)
+		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (service->path), url->path);
 
 	tmp = camel_url_get_param(url, "use_ssl");
 	if (tmp == NULL)
@@ -1649,8 +1681,8 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 
 	g_signal_connect (service->hostname, "changed", G_CALLBACK (emae_hostname_changed), service);
 	g_signal_connect (service->username, "changed", G_CALLBACK (emae_username_changed), service);
-	if (service->path)
-		g_signal_connect (service->path, "changed", G_CALLBACK (emae_path_changed), service);
+	if (service->pathentry)
+		g_signal_connect (GTK_FILE_CHOOSER (service->pathentry), "selection-changed", G_CALLBACK (emae_path_changed), service);
 
 	g_signal_connect(service->use_ssl, "changed", G_CALLBACK(emae_ssl_changed), service);
 
