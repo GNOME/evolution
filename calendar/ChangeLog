@@ -1,3 +1,11 @@
+2006-08-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #351263
+	* gui/dialogs/event-page.c: (init_widgets):
+	do not add  duplicate items in menu.
+
+	Committing the patch from Sebastien Bacher <seb123@debian.org> 
+
 2006-08-22  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/calendar-component.c (ensure_sources): Plug a leak.

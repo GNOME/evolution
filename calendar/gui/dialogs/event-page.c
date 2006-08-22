@@ -2920,41 +2920,35 @@ init_widgets (EventPage *epage)
 	/* Add the user defined time if necessary */
 	priv->alarm_units = calendar_config_get_default_reminder_units ();
 	priv->alarm_interval = calendar_config_get_default_reminder_interval ();
-	
+
+	menu_label = "";	
 	switch (priv->alarm_units) {
 	case CAL_DAYS:
-		if (priv->alarm_interval != -1) {
+		if (priv->alarm_interval != 1) {
 			menu_label = g_strdup_printf (ngettext("%d day before appointment", "%d days before appointment", priv->alarm_interval), priv->alarm_interval);
-		} else {
-			priv->alarm_interval = -1;
-		}
+		} 
 		break;
 		
 	case CAL_HOURS:
-		if (priv->alarm_interval != -1) {
+		if (priv->alarm_interval != 1) {
 			menu_label = g_strdup_printf (ngettext("%d hour before appointment", "%d hours before appointment", priv->alarm_interval), priv->alarm_interval);
-		} else {
-			priv->alarm_interval = -1;
-		}
+		} 
 		break;
 		
 	case CAL_MINUTES:
-		if (priv->alarm_interval != -1) {
+		if (priv->alarm_interval != 15) {
 			menu_label = g_strdup_printf (ngettext("%d minute before appointement", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
-		} else {
-			priv->alarm_interval = -1;
-		}
+		} 
 		break;
 	}
-	
-	if (menu_label) {
-		GtkWidget *item, *menu;
 
-		item = gtk_menu_item_new_with_label (menu_label);
-		gtk_widget_show (item);
-		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	cus_item = gtk_menu_item_new_with_label (menu_label);
+	if(menu_label[0] != '\0') {
+		gtk_widget_show (cus_item);
 	}
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), cus_item); 
 
 	cus_item = gtk_menu_item_new_with_label (_("Customize"));
 	gtk_widget_show (cus_item);
