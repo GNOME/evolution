@@ -1,19 +1,19 @@
-From evolution@novell.com Wed Mar 15 12:00:00 2006
+From evolution@novell.com Wed Sep 06 07:45:12 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
+	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
+	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
 From: "The Evolution Team" <evolution@novell.com>
 To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.6.0
-Date: 15 March 2006 12:00:00 +0000
+X-Mailer: Evolution 2.8.0
+Date: 06 September 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Welcome to Evolution!
@@ -22,7 +22,7 @@ Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
 Status:   
 X-Evolution-Source: pop://rupert@pop.novell.com/inbox
-X-Evolution: 00000ddd-0030
+X-Evolution: 00000002-0000
 
 
 --=-t4dRE6cqcdSBHOrMdTQ1
@@ -49,22 +49,16 @@ Getting Started
 
 New Features
 
-	Evolution 2.6 has
+	Evolution 2.8 has
 	
-	# a new Memo Component
-	# a new Look for the Event/Task/Meeting Editor
-	# Calendar Publishing support
-	# CalDAV support
-	# Network Manager support
-	# HULA connectivity support
-	# Improved GroupWise support
-	# Improved Event Recurrence support
-	# Calendar Tooltips
-	# CSV/tab importers for Mozilla, Outlook and Evolution formats
-	# Contact list support for LDAP addressbooks
-	# Support for saving Advanced Searches for Address books
-	# Support for Prioritizing messages in the composer
-	# Lots of bug fixes and lots of other User Interface Improvements
+	# A New Search Interface and Global Search in Mailer
+	# A Wide Screen Mode, Vertical Preview in Mailer
+	# Better Look and Feel ("Cairo" integration)
+	# Faster Performance, lots of Memory Fixes and Memory Reduction
+	# Support for GroupWise Reminder Notes and Mail Retract
+	# Sharable Notes in the Journal (filesystem)
+	# GNOME Keyring Manager Support
+	# Lots of Bug fixes and lots of other Improvements
 
 Bug Reporting
 
@@ -95,103 +89,92 @@ Content-Type: text/html; charset=utf-8
 </HEAD>
 <BODY BGCOLOR="#f8fcf8">
 <TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
-<TR>
-<TD ALIGN="left" VALIGN="top">
+<TR><TD ALIGN="left" VALIGN="top">
 <IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
+<TD></TD><TD></TD><TD></TD><TD></TD><TD></TD>
 <TD ALIGN="right" VALIGN="top">
 <IMG SRC="cid:1001417929.27019.7.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-</TR>
-<TR>
-<TD>
-</TD>
-<TD>
+</TR><TR><TD></TD><TD>
 <IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
-<TD>
-</TD>
-<TD>
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>The Evolution Team</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> is proud to welcome you to </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">, a complete system for managing your communications and personal information.</FONT></FONT SIZE="4"></TD>
-<TD>
-</TD>
-<TD>
-<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
-<TD>
-</TD>
-</TR>
-<TR>
-<TD ALIGN="left" VALIGN="bottom">
-<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD ALIGN="right" VALIGN="bottom">
-<div align=right>
-<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></div>
-</TD>
-</TR>
-</TABLE>
-<h2>Getting Started</h2>
+<TD></TD><TD>
+<FONT COLOR="#f8fcf8"><FONT SIZE="4">
+
+
+<B>The Evolution Team</B> is proud to welcome you to <B>Evolution</B>, a complete system for managing your communications and personal information.
+
+
+</FONT SIZE="4"></FONT>
+</TD><TD></TD><TD>
+<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48">
+</TD><TD></TD></TR><TR><TD ALIGN="left" VALIGN="bottom">
+<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8">
+</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD>
+<TD ALIGN="right" VALIGN="bottom"><div align=right>
+<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8">
+</div></TD></TR></TABLE>
+
+
+<h2>
+Getting Started
+</h2>
 
 <blockquote>
+
 	On the left of the Evolution window is the side bar, with
 	shortcuts to all your mail folders. Below that, you will find
 	buttons for your calendars, contacts, tasks, mail and memos.
+
 <br><br>
-    For a complete guide to using Evolution, select <b>Table of
+
+    For a complete guide to using Evolution, select <b>Table of 
     Contents</b> in the <b>Help</b> menu, or press the <b>F1</b> key.
+
 <br><br>
 </blockquote>
 
-<h2>New Features</h2>
+<h2>
+New Features
+</h2>
+
 <blockquote>
-	Evolution 2.6 has 
+	Evolution 2.8 has 
 	<ul>
-	<li>A new Memo component</li>
-	<li>A new Look for the Event/Task/Meeting Editor</li>
-	<li>Calendar Publishing support</li>
-	<li>CalDAV support</li>
-	<li>Network Manager support</li>
-	<li>HULA connectivity support</li>
-	<li>Improved GroupWise support</li>
-	<li>Improved Event Recurrence support</li>
-	<li>Calendar Tooltips</li>
-	<li>CSV Importers for Mozilla, Outlook and Evolution formats</li>
-	<li>Contact List support for LDAP Address Books</li>
-	<li>Support for Saving Advanced Searches for Address Books</li>
-	<li>Support for Prioritizing messages in the Composer</li>
-	<li>Lots of bug fixes and lots of other User Interface improvements</li>
+	<li>
+	A New Search Interface and Global Search in Mailer
+	</li><li>
+	A Wide Screen Mode, Vertical Preview in Mailer
+	</li><li>
+	Better Look and Feel ("Cairo" integration)
+	</li><li>
+	Faster Performance, lots of Memory Fixes and Memory Reduction
+	</li><li>
+	Support for GroupWise Reminder Notes and Mail Retract
+	</li><li>
+	Sharable Notes in the Journal (filesystem)
+	</li><li>
+	GNOME Keyring Manager Support
+	</li><li>
+	Lots of Bug fixes and lots of other Improvements
+	</li>
 	</ul>
 <br>
 </blockquote>
 
-<h2>Bug Reporting</h2>
+<h2>
+Bug Reporting
+</h2>
 <blockquote>
 	Bugs should be reported to <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
 <br><br>
 </blockquote> 
 
-<h2>More Information</h2>
+<h2>
+More Information
+</h2>
 
 <blockquote>
 	You can subscribe to the Evolution users mailing list at
-	<a
-	href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
+	<a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
 	Information on the Evolution project is available at
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
@@ -202,9 +185,10 @@ Content-Type: text/html; charset=utf-8
 <br><br>	
 </blockquote>
 
-Yours Sincerely,<br>
-The Evolution Team<br>
-<a href="mailto:evolution@novell.com">evolution@novell.com</a>
+Yours Sincerely,
+<br>
+The Evolution Team
+<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
@@ -364,5 +348,9 @@ AP8A/wD/oL2nkwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9EJGQsLBap83esAAACESURB
 VHja7dRBDcAgEADBgwDBEj4wUvdN+2h1kJvVMNmy9vVF4mokr93PGwRkFjBHJ8ADCPAAAjyAAA8g
 wAMI8AACPIAADyDAAwjwAAI8gAAPIMADCPAAAjyAAA8gwAMI8AACPIAADyDAAwjwAAI8gAAPIMAD
 CPAAAjyAAA8gwAMIOL8fcegyqOBdwTkAAAAASUVORK5CYII=
+
+
+--=-t4dRE6cqcdSBHOrMdTQ1
+Content-Transfer-Encoding: 8bit
 
 --=-t4dRE6cqcdSBHOrMdTQ1
