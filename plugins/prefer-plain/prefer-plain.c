@@ -177,6 +177,7 @@ e_plugin_lib_enable(EPluginLib *ep, int enable)
 					break;
 				}
 			}
+			g_free (key);
 		} else {
 			epp_mode = 0;
 		}

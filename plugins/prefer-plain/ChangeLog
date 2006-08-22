@@ -1,3 +1,7 @@
+2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* prefer-plain.c: (e_plugin_lib_enable): Don't leak the key.
+
 2006-01-19  Andre Klapper <a9016009@gmx.de>
 
 	* org-gnome-prefer-plain.eplug.xml
