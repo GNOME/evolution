@@ -1,3 +1,10 @@
+2006-08-22  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fix for bug #350337
+
+	* message-list.c: (ml_tree_value_at): Patch from Daniel Gryniewicz to
+	check the null string.
+
 2006-08-22  Andre Klapper  <a9016009@gmx.de>
 
 	* default/C/Inbox: Update the Welcome mail.
