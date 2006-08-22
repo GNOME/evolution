@@ -95,11 +95,13 @@ static int em_junk_sa_spamd_restarts_count = 0;
 char *em_junk_sa_spamc_gconf_binary = NULL;
 char *em_junk_sa_spamd_gconf_binary = NULL;
 
+#if 0
 static const char *
 em_junk_sa_get_name (void)
 {
 	return _("Spamassassin (built-in)");
 }
+#endif
 
 static int
 pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err, int wait_for_termination, GByteArray *output_buffer)
@@ -755,7 +757,7 @@ em_junk_sa_init (void)
 
 		pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
 		g_free (em_junk_sa_preferred_socket_path);
-		em_junk_sa_preferred_socket_path = g_strdup (gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/socket_path", NULL));
+		em_junk_sa_preferred_socket_path = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/socket_path", NULL);
 		pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
 
 		gconf_client_notify_add(em_junk_sa_gconf, "/apps/evolution/mail/junk/sa",
