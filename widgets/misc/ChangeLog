@@ -1,3 +1,10 @@
+2006-08-23  Behnam Esfahbod  <behnam@zwnj.org>
+  	 
+	* e-calendar.c:
+	* e-calendar-item.c:
+	flip month view in RTL locale - fixes bug 342443.
+	committed by Andre Klapper
+
 2006-08-23  Matthew Barnes  <mbarnes@redhat.com>
   	 
 	* e-multi-config-dialog.c:

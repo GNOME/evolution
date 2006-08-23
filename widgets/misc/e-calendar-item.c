@@ -1691,7 +1691,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	/* Calculate the top-left position of the entire month display. */
 	month_x = item->x1 + xthickness + calitem->x_offset
-		+ col * calitem->month_width - x;
+		+ ( (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+		? (calitem->cols-1 - col) : col ) * calitem->month_width - x;
 	month_w = item->x2 - item->x1 - xthickness * 2;
 	month_w = MIN (month_w, calitem->month_width);
 	month_y = item->y1 + ythickness + row * calitem->month_height - y;
@@ -1807,6 +1808,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	day_index = calitem->week_start_day;
 	pango_layout_set_font_description (layout, font_desc);
+	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+		text_x += (7-1) * calitem->cell_width;
 	gdk_gc_set_foreground (fg_gc, &style->text[GTK_STATE_ACTIVE]);
 	for (day = 0; day < 7; day++) {
 		layout_set_day_text (calitem, layout, day_index);
@@ -1814,7 +1817,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 				 text_x - calitem->day_widths [day_index],
 				 text_y,
 				 layout);
-		text_x += calitem->cell_width;
+		text_x += (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+				? -calitem->cell_width : calitem->cell_width;
 		day_index++;
 		if (day_index == 7)
 			day_index = 0;
@@ -1999,7 +2003,10 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 
 		for (dcol = 0; dcol < 7; dcol++) {
 			if (draw_day) {
-				day_x = cells_x + dcol * calitem->cell_width;
+				day_x = cells_x +
+					( (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+					? 7-1 - dcol : dcol ) * calitem->cell_width;
+
 				day_y = cells_y + drow * calitem->cell_height;
 
 				today = years[mon] == today_year
@@ -2866,6 +2873,8 @@ e_calendar_item_convert_position_to_day	(ECalendarItem	*calitem,
 
 	if (row >= calitem->rows || col >= calitem->cols)
 		return FALSE;
+	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+		col = calitem->cols-1 - col;
 
 	*month_offset = row * calitem->cols + col;
 
@@ -2910,6 +2919,8 @@ e_calendar_item_convert_position_to_day	(ECalendarItem	*calitem,
 		if (x < 0)
 			return FALSE;
 		day_col = x / calitem->cell_width;
+		if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+			day_col = E_CALENDAR_COLS_PER_MONTH-1 - day_col;
 		if (day_col >= E_CALENDAR_COLS_PER_MONTH)
 			return FALSE;
 	}

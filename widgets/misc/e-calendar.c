@@ -355,8 +355,10 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 		- E_CALENDAR_ARROW_BUTTON_Y_PAD * 2;
 
 	gnome_canvas_item_set (cal->prev_item,
-			       "x", xthickness * 2
-			       + E_CALENDAR_ARROW_BUTTON_X_PAD,
+			       "x", (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+			       ? new_x2 + 1 - xthickness * 2 - E_CALENDAR_ARROW_BUTTON_X_PAD
+			         - arrow_button_size
+			       : xthickness * 2 + E_CALENDAR_ARROW_BUTTON_X_PAD,
 			       "y", ythickness * 2
 			       + E_CALENDAR_ARROW_BUTTON_Y_PAD,
 			       "width", arrow_button_size,
@@ -364,9 +366,10 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 			       NULL);
 
 	gnome_canvas_item_set (cal->next_item,
-			       "x", new_x2 + 1 - xthickness * 2
-			       - E_CALENDAR_ARROW_BUTTON_X_PAD
-			       - arrow_button_size,
+			       "x", (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+			       ? xthickness * 2 + E_CALENDAR_ARROW_BUTTON_X_PAD
+			       : new_x2 + 1 - xthickness * 2 - E_CALENDAR_ARROW_BUTTON_X_PAD
+			         - arrow_button_size,
 			       "y", ythickness * 2
 			       + E_CALENDAR_ARROW_BUTTON_Y_PAD,
 			       "width", arrow_button_size,
