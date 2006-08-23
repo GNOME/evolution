@@ -994,7 +994,7 @@ update_attendee_status (FormatItipPObject *pitip)
 	icalcomponent *icalcomp = NULL, *org_icalcomp;
 	const char *uid, *rid;
 	const char *delegate;
-	GError *error;
+	GError *error = NULL;
 	
 	/* Obtain our version */
 	e_cal_component_get_uid (pitip->comp, &uid);

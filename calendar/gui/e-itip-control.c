@@ -1916,7 +1916,7 @@ update_attendee_status (EItipControl *itip)
 	icalcomponent *icalcomp = NULL;
 	const char *uid;
 	GtkWidget *dialog;
-	GError *error;
+	GError *error = NULL;
 	
 	priv = itip->priv;
 	
