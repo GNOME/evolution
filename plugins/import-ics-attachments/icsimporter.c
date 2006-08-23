@@ -150,7 +150,7 @@ get_menu_type (void *data)
 	else
 		part = ((EMPopupTargetPart *) target)->part;
 
-	path = em_utils_temp_save_part (NULL, part);
+	path = em_utils_temp_save_part (NULL, part, FALSE);
 
 	icalcomp = get_icalcomponent_from_file (path);
 
@@ -177,7 +177,7 @@ import_ics (EPlugin *ep, EPopupTarget *t, void *data)
 	else
 		part = ((EMPopupTargetPart *) target)->part;
 
-	path = em_utils_temp_save_part (NULL, part);
+	path = em_utils_temp_save_part (NULL, part, FALSE);
 	init_widgets(path);
 }
 

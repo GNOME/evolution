@@ -1,3 +1,10 @@
+2006-08-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #347248
+	
+	* icsimporter.c: (get_menu_type), (import_ics): Update the
+	em_utils_temp_save_part to use readwrite mode.
+
 2006-02-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	reviewed by Veerapuram Varadhan	 <vvaradhan@novell.com>

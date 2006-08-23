@@ -1,3 +1,10 @@
+2006-08-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #347248
+
+	* itip-formatter.c: (update_item): Update the
+	em_utils_temp_save_part to use readwrite mode.
+
 2006-08-23  Matthew Barnes  <mbarnes@redhat.com>
   	 
 	* itip-formatter.c:

@@ -827,7 +827,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 					if (part == (CamelMimePart *) msg || part == pitip->pobject.part)
 						continue;
 
-					new_uri = em_utils_temp_save_part (NULL, part);
+					new_uri = em_utils_temp_save_part (NULL, part, FALSE);
 					new_attachments = g_slist_append (new_attachments, new_uri);
 				}
 
@@ -836,7 +836,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 			} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
 				part = camel_mime_message_get_part_by_content_id (msg, uri + 4);
 				if (part) {
-					new_uri = em_utils_temp_save_part (NULL, part);
+					new_uri = em_utils_temp_save_part (NULL, part, FALSE);
 					new_attachments = g_slist_append (new_attachments, new_uri);
 				}
 

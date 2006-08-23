@@ -1304,6 +1304,7 @@ emu_save_part_done(CamelMimePart *part, char *name, int done, void *data)
  * em_utils_temp_save_part:
  * @parent: 
  * @part: 
+ * @mode: readonly or not.
  * 
  * Save a part's content to a temporary file, and return the
  * filename.
