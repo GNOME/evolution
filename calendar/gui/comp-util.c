@@ -205,7 +205,7 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 gboolean
 cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 {
-	const char *uid, *rid;
+	const char *uid, *rid = NULL;
 	icalcomponent *icalcomp;
 	GError *error = NULL;
 
@@ -221,7 +221,12 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 	 * the user.
 	 */
 	e_cal_component_get_uid (comp, &uid);
-	rid = e_cal_component_get_recurid_as_string (comp);
+	
+	/*TODO We should not be checking for this here. But since e_cal_util_construct_instance does not
+	  create the instances of all day events, so we dafault to old behaviour */
+	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+		rid = e_cal_component_get_recurid_as_string (comp);
+	}
 
 	if (e_cal_get_object (client, uid, rid, &icalcomp, &error)) {
 		icalcomponent_free (icalcomp);
