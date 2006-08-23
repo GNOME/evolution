@@ -1,3 +1,10 @@
+2006-08-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #341691
+	* gui/comp-util.c: (cal_comp_is_on_server):
+	Do not send the recurrence id for backends which
+	support recurrence with master object.
+
 2006-08-23  Matthew Barnes  <mbarnes@redhat.com>
   	 
 	* gui/e-itip-control.c:
