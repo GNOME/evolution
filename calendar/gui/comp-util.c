@@ -223,7 +223,7 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 	e_cal_component_get_uid (comp, &uid);
 	
 	/*TODO We should not be checking for this here. But since e_cal_util_construct_instance does not
-	  create the instances of all events, so we dafault to old behaviour */
+	  create the instances of all day events, so we dafault to old behaviour */
 	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
 		rid = e_cal_component_get_recurid_as_string (comp);
 	}
