@@ -1,3 +1,9 @@
+2006-08-23  Daniel Gryniewicz  <dang@gentoo.org>
+  	 
+	* e-shell-window.c:
+	Make sure default window sizes are positive numbers.
+	Fixes bug 349967. Committed by Andre Klapper.
+
 2006-08-22  Andre Klapper  <a9016009@gmx.de>
 
 	* e-shell-window-commands.c: Update some credits for

@@ -993,6 +993,7 @@ e_shell_window_new (EShell *shell,
 	BonoboUIContainer *ui_container;
 	char *default_component_id = NULL;
 	char *xmlfile;
+	gint width, height;
 
 	if (bonobo_window_construct (BONOBO_WINDOW (window),
 				     bonobo_ui_container_new (),
@@ -1050,9 +1051,10 @@ e_shell_window_new (EShell *shell,
 	g_free(default_component_id);
 	g_object_unref (gconf_client);
 
-	gtk_window_set_default_size (GTK_WINDOW (window),
-				     gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/width", NULL),
-				     gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/height", NULL));
+	width = gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/width", NULL);
+	height = gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/height", NULL);
+	gtk_window_set_default_size (GTK_WINDOW (window), (width >= 0) ? width : 0,
+			(height >= 0) ? height : 0);
 	if (gconf_client_get_bool (gconf_client, "/apps/evolution/shell/view_defaults/maximized", NULL)) {
 		gtk_window_maximize (GTK_WINDOW (window));
 	}
