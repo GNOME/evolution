@@ -633,6 +633,7 @@ static EPopupItem emp_standard_uri_popups[] = {
 static void
 emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 {
+	printf("in emp_apps_open_in\n");
 	char *path;
 	EPopupTarget *target = ep->target;
 	CamelMimePart *part;
@@ -642,7 +643,7 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 	else
 		part = ((EMPopupTargetPart *) target)->part;
 
-	path = em_utils_temp_save_part(target->widget, part);
+	path = em_utils_temp_save_part(target->widget, part, TRUE);
 	if (path) {
 		GnomeVFSMimeApplication *app = item->user_data;
 		char *uri;

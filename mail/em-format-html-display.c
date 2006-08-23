@@ -1566,7 +1566,7 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 			return;
 		}
 
-		path = em_utils_temp_save_part(w, part);
+		path = em_utils_temp_save_part(w, part, FALSE);
 		if (path == NULL)
 			return;
 

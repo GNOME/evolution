@@ -1,3 +1,16 @@
+2006-08-02  Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #347238
+
+	* em-utils.h : Added a boolean variable to determine the readonly mode
+	* em-utils.c (em_utils_temp_save_part) : Save in readonly mode or not.
+	* em-popup.c (emp_apps_open_in) : set Read only for "open in"
+	attachments.
+	* em-format-html-display.c (efhd_drag_data_get) : Set 644 for dnd
+	attachments.
+	* mail-ops.c (save_part_save): 	File permissions changed to 644 
+	while saving the attachment and drag and drop.
+
 2006-08-22  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fix for bug #350337

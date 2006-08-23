@@ -2093,7 +2093,7 @@ save_part_save (struct _mail_msg *mm)
 	CamelStream *stream;
 	
 	if(!m->readonly){
-		if (!(stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666))) {
+		if (!(stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0644))) {
 			camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot create output file: %s:\n %s"),
 					      m->path, g_strerror (errno));

@@ -705,7 +705,7 @@ destroy (GtkObject *object)
 }
 
 static char *
-temp_save_part (CamelMimePart *part)
+temp_save_part (CamelMimePart *part, gboolean readonly)
 {
 	const char *filename;
 	char *tmpdir, *path, *mfilename = NULL, *utf8_mfilename = NULL;
@@ -731,7 +731,10 @@ temp_save_part (CamelMimePart *part)
 	g_free (mfilename);
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	stream = camel_stream_fs_new_with_name (path, O_RDWR|O_CREAT|O_TRUNC, 0600);
+	if (readonly)
+		stream = camel_stream_fs_new_with_name (path, O_RDWR|O_CREAT|O_TRUNC, 0444);
+	else 
+		stream = camel_stream_fs_new_with_name (path, O_RDWR|O_CREAT|O_TRUNC, 0644);
 	
 	if (!stream) {
 		/* TODO handle error conditions */
@@ -787,7 +790,7 @@ eab_drag_data_get(EAttachmentBar *bar, GdkDragContext *drag, GtkSelectionData *d
 		}
 		
 		/* If we are not able to save, ignore it */
-		if (!(path = temp_save_part (attachment->body)))
+		if (!(path = temp_save_part (attachment->body, FALSE)))
 			continue;
 		
 		url = camel_url_new ("file://", NULL);
@@ -902,7 +905,7 @@ eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 			
 			/* Check if the file is stored already */
 			if (!attachment->store_uri) {
-				path = temp_save_part (attachment->body);				
+				path = temp_save_part (attachment->body, TRUE);				
 				url = camel_url_new ("file://", NULL);
 				camel_url_set_path (url, path);
 				attachment->store_uri = camel_url_to_string (url, 0);

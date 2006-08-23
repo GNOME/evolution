@@ -1,3 +1,10 @@
+2006-08-07 Ushveen Kaur <kushveen@novell.com>
+
+	** Fix for bug #347238
+
+	* e-attachment-bar.c: Changed the file permission changed to 644 
+	while saving the attachment.
+
 2006-08-21  Li Yuan <li.yuan@sun.com>
 
 	** Fixes bug #348753

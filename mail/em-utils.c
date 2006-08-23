@@ -1311,7 +1311,7 @@ emu_save_part_done(CamelMimePart *part, char *name, int done, void *data)
  * Return value: NULL if anything failed.
  **/
 char *
-em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
+em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 {
 	const char *filename;
 	char *tmpdir, *path, *utf8_mfilename = NULL, *mfilename = NULL;
@@ -1340,8 +1340,10 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 	g_free(mfilename);
 		
 	/* FIXME: This doesn't handle default charsets */
-	mail_msg_wait(mail_save_part(part, path, emu_save_part_done, &done, TRUE));
-        
+	if (mode)
+		mail_msg_wait(mail_save_part(part, path, emu_save_part_done, &done, TRUE));
+	else
+		mail_msg_wait(mail_save_part(part, path, emu_save_part_done, &done, FALSE));
 	if (!done) {
 		/* mail_save_part should popup an error box automagically */
 		g_free(path);
