@@ -1,3 +1,9 @@
+2006-08-23  Matthew Barnes  <mbarnes@redhat.com>
+  	 
+	* e-multi-config-dialog.c:
+	improve GError initialization code - fixes bug 352423.
+	committed by Andre Klapper
+
 2006-08-07 Ushveen Kaur <kushveen@novell.com>
 
 	** Fix for bug #347238

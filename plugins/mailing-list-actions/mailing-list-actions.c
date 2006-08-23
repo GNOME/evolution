@@ -99,7 +99,6 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 	const char* header = NULL, *headerpos;
 	char *end, *url = NULL;
 	int t;
-	GError *err;
 	EMsgComposer *composer;
 	int send_message_response;
 	EAccount *account;
@@ -160,7 +159,7 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 
 			goto exit;
 		} else {
-			err = NULL;
+			GError *err = NULL;
 			gnome_url_show (url, &err);
 			if (!err)
 				goto exit;

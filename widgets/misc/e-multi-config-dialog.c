@@ -186,11 +186,9 @@ static void
 impl_response (GtkDialog *dialog, int response_id)
 {
 	EMultiConfigDialog *multi_config_dialog;
-	GError *error;
+	GError *error = NULL;
 
 	multi_config_dialog = E_MULTI_CONFIG_DIALOG (dialog);
-
-	error = NULL;
 
 	switch (response_id) {
 	case GTK_RESPONSE_HELP:

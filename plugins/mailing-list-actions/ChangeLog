@@ -1,3 +1,9 @@
+2006-08-23  Matthew Barnes  <mbarnes@redhat.com>
+  	 
+	* mailing-list-actions.c:
+	fix an uninitialized GError - fixes bug 352423.
+	committed by Andre Klapper
+
 2006-07-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	* org-gnome-mailing-list-actions.xml: Fixing header capitalization
