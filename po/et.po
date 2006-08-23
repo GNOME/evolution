@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-09 15:12+0200\n"
-"PO-Revision-Date: 2006-08-18 08:13+0300\n"
+"PO-Revision-Date: 2006-08-23 09:37+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10238,7 +10238,7 @@ msgstr "Aadressiraamatu kasutamiseks klõpsa siia"
 #.
 #: ../composer/e-msg-composer-hdrs.c:635
 msgid "_Reply-To:"
-msgstr "V_asta-kellele:"
+msgstr "Kellele-v_astata:"
 
 #.
 #. * From
@@ -10287,7 +10287,7 @@ msgstr ""
 #.
 #: ../composer/e-msg-composer-hdrs.c:674
 msgid "_Post To:"
-msgstr "Postita ku_hu:"
+msgstr "Ku_hu postitada:"
 
 #: ../composer/e-msg-composer-hdrs.c:679
 msgid "Click here to select folders to post to"
@@ -10295,7 +10295,7 @@ msgstr "Klõpsa siia, et valida kaustad kuhu postitada"
 
 #: ../composer/e-msg-composer-hdrs.c:684
 msgid "Post To:"
-msgstr "Postita kuhu:"
+msgstr "Kuhu postitada:"
 
 #: ../composer/e-msg-composer-select-file.c:82
 msgid "A_ttach"
@@ -12762,11 +12762,11 @@ msgstr "Vaade/Postita-kuhu menüükirje on märgitud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:118
 msgid "View/ReplyTo menu item is checked"
-msgstr "Vaade/Vasta-kellele menüükirje on märgitud"
+msgstr "Vaade/Kellele-vastata menüükirje on märgitud"
 
 #: ../mail/evolution-mail.schemas.in.in.h:119
 msgid "View/ReplyTo menu item is checked."
-msgstr "Vaade/Vasta-kellele menüükirje on märgitud."
+msgstr "Vaade/Kellele-vastata menüükirje on märgitud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:120
 msgid ""
@@ -13447,7 +13447,7 @@ msgstr "_Parool jäetakse meelde"
 
 #: ../mail/mail-config.glade.h:116
 msgid "Re_ply-To:"
-msgstr "_Vasta-kellele:"
+msgstr "Kellele-_vastata:"
 
 #: ../mail/mail-config.glade.h:118
 msgid "Remember _password"
@@ -19690,7 +19690,7 @@ msgstr "_Ava märge"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr "Lisab sõnumile faili"
+msgstr "Sõnumile faili lisamine"
 
 #.
 #. <cmd name="FileSave" _label="Save"
@@ -19741,7 +19741,7 @@ msgstr "PGP-allkiri"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "R_equest Read Receipt"
-msgstr "_Lugemiskinnituse küsimine"
+msgstr "Küsi _lugemiskinnitust"
 
 #: ../ui/evolution-message-composer.xml.h:17
 msgid "S/MIME Encrypt"
@@ -19830,7 +19830,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Vasta-kellele välja näitamise sisse- või väljalülitamine"
+msgstr "Kellele-vastata välja näitamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the To field is displayed"
@@ -19862,11 +19862,11 @@ msgstr "Postita-ku_hu väli"
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Prioritize Message"
-msgstr ""
+msgstr "Määra sõnum _oluliseks"
 
 #: ../ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
-msgstr "_Vasta-kellele väli"
+msgstr "Kellele-_vastata väli"
 
 #: ../ui/evolution-message-composer.xml.h:54
 msgid "_Security"
