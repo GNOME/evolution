@@ -1,3 +1,9 @@
+2006-08-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #334821 by Tollef Fog Heen
+	
+	* main.c: it should not spawn the default shell for uris.
+
 2006-08-23  Daniel Gryniewicz  <dang@gentoo.org>
   	 
 	* e-shell-window.c:

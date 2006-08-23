@@ -377,7 +377,8 @@ idle_cb (void *data)
 	}
 
 	if (shell != NULL) {
-		e_shell_create_window (shell, default_component_id, NULL);
+		if (g_slist_length (uri_list) == 0)
+			e_shell_create_window (shell, default_component_id, NULL);
 		open_uris (corba_shell, uri_list);
 	} else {
 		CORBA_Environment ev;
