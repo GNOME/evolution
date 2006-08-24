@@ -421,7 +421,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	cr = gdk_cairo_create (drawable);
 
 	/* Set up Pango prerequisites */
-	font_desc = style->font_desc;
+	font_desc = pango_font_description_copy (style->font_desc);
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
 	font_metrics = pango_context_get_metrics (pango_context, font_desc,
 						  pango_context_get_language (pango_context));
@@ -575,7 +575,6 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 				 format_string ? format_string : "<b>%d</b>", date);
 		pango_cairo_update_context (cr, pango_context);
 		layout = pango_cairo_create_layout (cr);
-		pango_font_description_set_size (font_desc, 10 * PANGO_SCALE);
 		pango_layout_set_font_description (layout, font_desc);
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_set_markup (layout, buffer, strlen(buffer));	
@@ -584,7 +583,6 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 				 format_string ? format_string : "%d", date);
 		pango_cairo_update_context (cr, pango_context);
 		layout = pango_cairo_create_layout (cr);
-		pango_font_description_set_size (font_desc, 10 * PANGO_SCALE);	
 		pango_layout_set_font_description (layout, font_desc);
 		pango_layout_set_text (layout, buffer, -1);
 	}
@@ -610,6 +608,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		cairo_restore (cr);
 	}
 	pango_font_metrics_unref (font_metrics);
+	pango_font_description_free (font_desc);
 	cairo_destroy (cr);
 }
 #endif

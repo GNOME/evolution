@@ -1,3 +1,9 @@
+2006-08-24  Ross Burton  <ross@openedhand.com>
+
+	* gui/e-week-view-main-item.c:
+	Don't manipulate the style's font description and don't use custom
+	sizes (#347933).
+
 2006-08-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/alarm-notify/alarm-notify-dialog.c: (dialog_response_cb):
