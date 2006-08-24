@@ -19077,7 +19077,7 @@ msgstr "Follow _Up..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr "Vždy nahrávat obrázky v HTML zprávách"
+msgstr "Nahrát obrázky v této HTML zprávě"
 
 #: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
@@ -19317,7 +19317,7 @@ msgstr "Ne_vyžádaná pošta"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Load Images"
-msgstr "Načítat _obrázky"
+msgstr "Načíst _obrázky"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Message Source"
