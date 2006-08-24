@@ -28,7 +28,7 @@
 #include <glib-object.h>
 #include <limits.h>
 #include <gconf/gconf-client.h>
-#include <cairo/cairo.h>
+#include <cairo.h>
 
 #ifdef __cplusplus
 extern "C" {
