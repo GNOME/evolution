@@ -507,46 +507,46 @@ msgstr "ଯୋଗ କରନ୍ତୁ (_A)"
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "_Discard"
-msgstr ""
+msgstr "ବାତିଲ କରନ୍ତୁ (_D)"
 
 #: ../addressbook/addressbook.error.xml.h:37
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../addressbook/addressbook.error.xml.h:38
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
-msgstr ""
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଏକକାଳୀନ ଠିକଣା:"
 
 #: ../addressbook/conduit/address-conduit.c:1241
 #: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଧାରଣ କରିପାରିଲା ନାହିଁ"
 
 #: ../addressbook/conduit/address-conduit.c:1310
 #: ../addressbook/conduit/address-conduit.c:1313
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "ଚାଳକର ଠିକଣା ପ୍ରୟୋଗ ଖଣ୍ଡକୁ ପଢି ପାରିଲା ନାହିଁ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr ""
+msgstr "ସ୍ବତଃସମ୍ପନ୍ନ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
-msgstr ""
+msgstr "ସମ୍ପର୍କ (_o)"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr ""
+msgstr "ପ୍ରମାଣପତ୍ର"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
-msgstr ""
+msgstr "ସ୍ବତଃସମ୍ପନ୍ନ ପ୍ରକ୍ରିୟାକୁ ଏଠାରେ ବିନ୍ଯାସ କରନ୍ତୁ"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
@@ -871,11 +871,11 @@ msgstr ""
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Vertical pane position"
-msgstr ""
+msgstr "ଭୂଲମ୍ବ ଫଳକ ଅବସ୍ଥିତି"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr ""
+msgstr "ପୂର୍ବାଲୋକନ ଫଳକକୁ ଦେଖାଯିବକି ନାହିଁ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
@@ -3552,6 +3552,8 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"%s ପୂର୍ବରୁ ରହିଛି\n"
+"ଆପଣ ଏହାକି ନବଲିଖନ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି କି?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:327
 msgid "Overwrite"
@@ -4445,22 +4447,22 @@ msgstr "କାର୍ଯ୍ଯ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 msgid "_Calendars"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର (_C)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:15
 #: ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ (_T)"
 
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ କ୍ଯାଲେଣ୍ଡର ସତର୍କ ଧ୍ବନୀ ସେବା"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ମିନିଟ"
+msgstr[1] "ମିନିଟ"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:131
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
@@ -4476,12 +4478,12 @@ msgstr[1] "ଘଣ୍ଟା"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
 msgid "Start time"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭିକ ସମୟ"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
-msgstr ""
+msgstr "ନିୟୁକ୍ତି"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
@@ -4494,7 +4496,7 @@ msgstr "ଅବସ୍ଥାନ:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
-msgstr ""
+msgstr "ସ୍ବଲ୍ପ ସମୟ ବିରତି ଅବଧି (_t):"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
@@ -4513,30 +4515,30 @@ msgstr "ସମ୍ପାଦନ କରନ୍ତୁ (_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
-msgstr ""
+msgstr "ସ୍ବଲ୍ପ ସମୟ ବିରତି (_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
-msgstr ""
+msgstr "ନିଯୁକ୍ତିର ଅବସ୍ଥାନ"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1452
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1598
 msgid "No summary available."
-msgstr ""
+msgstr "କୌଣସି ସାରାଂଶ ଉପଲବ୍ଧ ନାହିଁ।"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1461
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1463
 msgid "No description available."
-msgstr ""
+msgstr "କୌଣସି ବର୍ଣ୍ଣନା ଉପଲବ୍ଧ ନାହିଁ।"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1471
 msgid "No location information available."
-msgstr ""
+msgstr "କୌଣସି ଅବସ୍ଥାନ ସୂଚନା ଉପଲବ୍ଧ ନାହିଁ।"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1530
 #, c-format
 msgid "You have %d alarms"
-msgstr ""
+msgstr "ଆପଣଙ୍କ ନିକଟରେ %d ସତର୍କ ଅଛି"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1696
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1724
@@ -4564,19 +4566,19 @@ msgstr ""
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1744
 msgid "Do not ask me about this program again."
-msgstr ""
+msgstr "ଏହି ପ୍ରୋଗ୍ରାମ ବିଷୟରେ ମୋତେ ପୁନର୍ବାର ପଚାରନ୍ତୁ ନାହିଁ।"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:140
 msgid "Could not initialize Bonobo"
-msgstr ""
+msgstr "ବୋନୋବୋକୁ ପ୍ରାରମ୍ଭିକ୍ରୁତ କରିପାରିଲା ନାହିଁ"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:153
 msgid "Could not create the alarm notify service factory"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀ ସେବା କାରଖାନାକୁ ସ୍ରୁଷ୍ଟି କରିପାରିଲା ନାହିଁ"
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
-msgstr ""
+msgstr "ଅବୈଧ ସମୟ"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
@@ -4584,8 +4586,8 @@ msgstr ""
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ଘଣ୍ଟା"
+msgstr[1] "%d ଘଣ୍ଟା"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
@@ -4593,8 +4595,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ମିନିଟ"
+msgstr[1] "%d ମିନିଟ"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
@@ -4604,16 +4606,16 @@ msgstr[1] ""
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ସେକେଣ୍ଡ"
+msgstr[1] "%d ସେକେଣ୍ଡ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
-msgstr ""
+msgstr "ସତର୍କ ପ୍ରୋଗ୍ରାମ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 msgid "Ask for confirmation when deleting items"
-msgstr ""
+msgstr "ବସ୍ତୁ ମାନଙ୍କୁ ଅପସାରଣ କରିବା ସମୟରେ ଅନୁମୋଦନ ପାଇଁ ପଚାରନ୍ତୁ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
@@ -4972,51 +4974,51 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
 msgid "Work days"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯଦିବସ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
 msgid "Workday end hour"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯଦିବସ ଅନ୍ତିମ ଘଣ୍ଟା"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
 msgid "Workday end minute"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯଦିବସ ଅନ୍ତିମ ମିନିଟ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:91
 msgid "Workday start hour"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯଦିବସ ପ୍ରାରମ୍ଭିକ ଘଣ୍ଟା"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:92
 msgid "Workday start minute"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯଦିବସ ପ୍ରାରମ୍ଭିକ ମିନିଟ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:93
 msgid "daylight savings time"
-msgstr ""
+msgstr "ଦିବାଲୋକ ସଂରକ୍ଷଣ ସମୟ"
 
 #: ../calendar/gui/cal-search-bar.c:48
 msgid "Summary contains"
-msgstr ""
+msgstr "ସାରଂଶ ବିଷୟ"
 
 #: ../calendar/gui/cal-search-bar.c:49
 msgid "Description contains"
-msgstr ""
+msgstr "ବର୍ଣ୍ଣନା ବିଷୟ"
 
 #: ../calendar/gui/cal-search-bar.c:50
 msgid "Category is"
-msgstr ""
+msgstr "ବିଭାଗ ଏହା ଅଟେ"
 
 #: ../calendar/gui/cal-search-bar.c:51
 msgid "Comment contains"
-msgstr ""
+msgstr "ମନ୍ତବ୍ଯ ବିଷୟ"
 
 #: ../calendar/gui/cal-search-bar.c:52
 msgid "Location contains"
-msgstr ""
+msgstr "ଅବସ୍ଥାନ ବିଷୟ"
 
 #: ../calendar/gui/cal-search-bar.c:360
 msgid "Unmatched"
-msgstr ""
+msgstr "ଅମେଳ"
 
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2522
 #: ../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:20
@@ -5034,7 +5036,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-commands.c:354
 msgid "Purge events older than"
-msgstr ""
+msgstr "ଏହା ପୂର୍ବବର୍ତ୍ତୀ ଘଟଣା ମାନଙ୍କୁ ନିଷ୍କାସିତ କରନ୍ତୁ"
 
 #: ../calendar/gui/calendar-commands.c:359
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
@@ -5054,30 +5056,30 @@ msgstr "ଦିନ"
 #: ../calendar/gui/migration.c:594 ../calendar/gui/migration.c:1102
 #: ../calendar/gui/tasks-component.c:217
 msgid "On The Web"
-msgstr ""
+msgstr "ୱେବରେ"
 
 #: ../calendar/gui/calendar-component.c:275 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
-msgstr ""
+msgstr "ଜନ୍ମଦିନ ଏବଂ ବାର୍ଷିକୀ"
 
 #. Create the weather group
 #: ../calendar/gui/calendar-component.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
-msgstr ""
+msgstr "ପାଣିପାଗ"
 
 #: ../calendar/gui/calendar-component.c:579
 msgid "_New Calendar"
-msgstr ""
+msgstr "ନୂତନ କ୍ଯାଲେଣ୍ଡର (_N)"
 
 #: ../calendar/gui/calendar-component.c:896
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ଉନ୍ନୟନ କରିବା ସମୟରେ ବିଫଳ।"
 
 #: ../calendar/gui/calendar-component.c:1195
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
+msgstr "ଘଟଣା ଏବଂ ସଭା ସ୍ରୁଷ୍ଟି କରିବା ପାଇଁ '%s' କ୍ଯାଲେଣ୍ଡର ଖୋଲିବାରେ ଅସମର୍ଥ"
 
 #: ../calendar/gui/calendar-component.c:1211
 msgid "There is no calendar available for creating events and meetings"
