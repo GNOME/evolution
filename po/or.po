@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-17 07:35+0200\n"
-"PO-Revision-Date: 2006-08-17 17:35+0530\n"
+"PO-Revision-Date: 2006-08-24 18:23+0530\n"
 "Last-Translator: Subhransu Behera <arya_subhransu@yahoo.co.in>\n"
 "Language-Team: Oriya <oriya-group@lists.sarovar.org>\n"
 "MIME-Version: 1.0\n"
@@ -2069,7 +2069,7 @@ msgstr "ପଲାଊ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Palestinian Territory"
-msgstr ""
+msgstr "ପାଲେଷ୍ଟାଇନ ଅଞ୍ଚଳ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Panama"
@@ -2384,7 +2384,7 @@ msgstr "AOL ତତ୍କାଳ ସମ୍ବାଦ ବାହାକ"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:559
 msgid "Jabber"
-msgstr "ଜାବର"
+msgstr "Jabber"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:66
 msgid "Yahoo Messenger"
@@ -2430,12 +2430,12 @@ msgstr "ଅନ୍ଯାନ୍ଯ"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:561
 msgid "Yahoo"
-msgstr "ୟାହୁ"
+msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:562
 msgid "Gadu-Gadu"
-msgstr "ଗାଡୁ-ଗାଡୁ"
+msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/widgets/eab-contact-display.c:560
@@ -4328,12 +4328,12 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "{0}."
-msgstr ""
+msgstr "{0}।"
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:323
 #: ../smime/gui/component.c:50
 msgid "Enter password"
-msgstr ""
+msgstr "ପ୍ରବେଶ ସଙ୍କେତ ଭରଣ କରନ୍ତୁ"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:255
 msgid "Split Multi-Day Events:"
@@ -5023,7 +5023,7 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ କରନ୍ତୁ"
 
 #: ../calendar/gui/calendar-commands.c:348
 msgid ""
@@ -6478,12 +6478,12 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Stat_us:"
-msgstr ""
+msgstr "ସ୍ଥିତି (_u)"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 #: ../calendar/gui/e-calendar-table.c:390
 msgid "Undefined"
-msgstr ""
+msgstr "ଅପରିଭାଷିତ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Date completed:"
@@ -6852,7 +6852,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:414
 msgid "50%"
-msgstr ""
+msgstr "୫୦%"
 
 #: ../calendar/gui/e-calendar-table.c:415
 msgid "60%"
@@ -6872,7 +6872,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:419
 msgid "100%"
-msgstr ""
+msgstr "୧୦୦%"
 
 #: ../calendar/gui/e-calendar-table.c:704
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:482
@@ -6908,7 +6908,7 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr ""
+msgstr "ମୂଦ୍ରଣ କରନ୍ତୁ ... (_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1287
 #: ../calendar/gui/e-calendar-view.c:1704 ../calendar/gui/e-memo-table.c:908
@@ -8057,127 +8057,127 @@ msgstr ""
 
 #: ../calendar/gui/print.c:574
 msgid "1st"
-msgstr ""
+msgstr "ପ୍ରଥମ"
 
 #: ../calendar/gui/print.c:574
 msgid "2nd"
-msgstr ""
+msgstr "ଦ୍ବିତୀୟ"
 
 #: ../calendar/gui/print.c:574
 msgid "3rd"
-msgstr ""
+msgstr "ତ୍ରୁତୀୟ"
 
 #: ../calendar/gui/print.c:574
 msgid "4th"
-msgstr ""
+msgstr "ଚତୁର୍ଥ"
 
 #: ../calendar/gui/print.c:574
 msgid "5th"
-msgstr ""
+msgstr "ପଞ୍ଚମ"
 
 #: ../calendar/gui/print.c:575
 msgid "6th"
-msgstr ""
+msgstr "ଷଷ୍ଠ"
 
 #: ../calendar/gui/print.c:575
 msgid "7th"
-msgstr ""
+msgstr "ସପ୍ତମ"
 
 #: ../calendar/gui/print.c:575
 msgid "8th"
-msgstr ""
+msgstr "ଅଷ୍ଟମ"
 
 #: ../calendar/gui/print.c:575
 msgid "9th"
-msgstr ""
+msgstr "ନବମ"
 
 #: ../calendar/gui/print.c:575
 msgid "10th"
-msgstr ""
+msgstr "ଦଶମ"
 
 #: ../calendar/gui/print.c:576
 msgid "11th"
-msgstr ""
+msgstr "ଏକାଦଶ"
 
 #: ../calendar/gui/print.c:576
 msgid "12th"
-msgstr ""
+msgstr "ଦ୍ବାଦଶ"
 
 #: ../calendar/gui/print.c:576
 msgid "13th"
-msgstr ""
+msgstr "ତ୍ରୟୋଦଶ"
 
 #: ../calendar/gui/print.c:576
 msgid "14th"
-msgstr ""
+msgstr "ଚତୁର୍ଦ୍ଦଶ"
 
 #: ../calendar/gui/print.c:576
 msgid "15th"
-msgstr ""
+msgstr "ପଞ୍ଚଦଶ"
 
 #: ../calendar/gui/print.c:577
 msgid "16th"
-msgstr ""
+msgstr "ଷଡୋଶ"
 
 #: ../calendar/gui/print.c:577
 msgid "17th"
-msgstr ""
+msgstr "ସପ୍ତଦଶ"
 
 #: ../calendar/gui/print.c:577
 msgid "18th"
-msgstr ""
+msgstr "ଅଷ୍ଟଦଶ"
 
 #: ../calendar/gui/print.c:577
 msgid "19th"
-msgstr ""
+msgstr "ଉନବିଂଶ"
 
 #: ../calendar/gui/print.c:577
 msgid "20th"
-msgstr ""
+msgstr "ବିଂଶ"
 
 #: ../calendar/gui/print.c:578
 msgid "21st"
-msgstr ""
+msgstr "ଏକବିଂଶ"
 
 #: ../calendar/gui/print.c:578
 msgid "22nd"
-msgstr ""
+msgstr "ଦ୍ବିବିଂଶ"
 
 #: ../calendar/gui/print.c:578
 msgid "23rd"
-msgstr ""
+msgstr "ତ୍ରୟୋବିଂଶ"
 
 #: ../calendar/gui/print.c:578
 msgid "24th"
-msgstr ""
+msgstr "ଚତୁର୍ବିଂଶ"
 
 #: ../calendar/gui/print.c:578
 msgid "25th"
-msgstr ""
+msgstr "ପଞ୍ଚବିଂଶ"
 
 #: ../calendar/gui/print.c:579
 msgid "26th"
-msgstr ""
+msgstr "ଷଡବିଂଶ"
 
 #: ../calendar/gui/print.c:579
 msgid "27th"
-msgstr ""
+msgstr "ସପ୍ତବିଂଶ"
 
 #: ../calendar/gui/print.c:579
 msgid "28th"
-msgstr ""
+msgstr "ଅଷ୍ଟବିଂଶ"
 
 #: ../calendar/gui/print.c:579
 msgid "29th"
-msgstr ""
+msgstr "ନବବିଂଶ"
 
 #: ../calendar/gui/print.c:579
 msgid "30th"
-msgstr ""
+msgstr "ତିଂଶ"
 
 #: ../calendar/gui/print.c:580
 msgid "31st"
-msgstr ""
+msgstr "ଏକତିଂଶ"
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday
 #: ../calendar/gui/print.c:655
@@ -10906,7 +10906,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:5
 msgid "Attachments"
-msgstr ""
+msgstr "ସଂଲଗ୍ନକ"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "Beep"
@@ -11259,7 +11259,7 @@ msgstr ""
 
 #: ../mail/em-folder-tree-model.c:514 ../mail/em-folder-tree-model.c:818
 msgid "Loading..."
-msgstr ""
+msgstr "ଧାରଣ କରୁଅଛି..."
 
 #. Translators: This is the string used for displaying the
 #. * folder names in folder trees. "%s" will be replaced by
@@ -11773,12 +11773,12 @@ msgstr ""
 #: ../mail/em-format-html.c:1663 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1025
 msgid "Mailer"
-msgstr ""
+msgstr "ପ୍ରେରକ"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1690
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: ../mail/em-format-html.c:1693
@@ -14241,7 +14241,7 @@ msgstr ""
 
 #: ../mail/message-list.c:1451 ../widgets/table/e-cell-date.c:57
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
@@ -14508,31 +14508,31 @@ msgstr ""
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "ପାଣିପାଗ: ମେଘୁଆ"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr ""
+msgstr "ପାଣିପାଗ: କୁହୁଡି"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "ପାଣିପାଗ: ଆଂଶିକ ମେଘାଚ୍ଛନ୍ନ"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
 msgid "Weather: Rain"
-msgstr ""
+msgstr "ପାଣିପାଗ: ବର୍ଷା"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
 msgid "Weather: Snow"
-msgstr ""
+msgstr "ପାଣିପାଗ: ବରଫ"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "ପାଣିପାଗ: ଖରାପାଗ"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "ପାଣିପାଗ: ଘଡଘଡି ସହ ବର୍ଷା"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
 msgid "Select a location"
@@ -15328,7 +15328,7 @@ msgstr ""
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:421
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:600
 msgid "Notes"
-msgstr ""
+msgstr "ଟିପ୍ପଣୀ"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:420
 msgid "Checklist"
@@ -17107,7 +17107,7 @@ msgstr ""
 #. * about box
 #: ../shell/e-shell-window-commands.c:561
 msgid "translator-credits"
-msgstr ""
+msgstr "ଶୁଭ୍ରାଂଶୁ ବେହେରା <arya_subhransu@yahoo.co.in>"
 
 #: ../shell/e-shell-window-commands.c:806
 msgid "_Work Online"
@@ -17799,12 +17799,12 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:965
 msgid "Extensions"
-msgstr ""
+msgstr "ଅନୁଲଗ୍ନ"
 
 #: ../smime/lib/e-cert.c:1036
 #, c-format
 msgid "%s = %s"
-msgstr ""
+msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1092 ../smime/lib/e-cert.c:1212
 msgid "Certificate Signature Algorithm"
@@ -18001,7 +18001,7 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr ""
+msgstr "ସବୁକିଛି ଚୟନ କରନ୍ତୁ (_A)"
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
@@ -18122,7 +18122,7 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
-msgstr ""
+msgstr "ତାଲିକା"
 
 #: ../ui/evolution-calendar.xml.h:15
 msgid "Month"
@@ -18140,7 +18140,7 @@ msgstr ""
 #: ../ui/evolution-calendar.xml.h:19 ../ui/evolution-mail-message.xml.h:74
 #: ../widgets/misc/e-calendar.c:177
 msgid "Previous"
-msgstr ""
+msgstr "ପୂର୍ବବର୍ତ୍ତୀ"
 
 #: ../ui/evolution-calendar.xml.h:22
 msgid "Print this calendar"
@@ -18993,7 +18993,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
-msgstr ""
+msgstr "ସାନ କରନ୍ତୁ (_O)"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "_Attached"
@@ -19021,7 +19021,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
-msgstr ""
+msgstr "ଏଠାକୁ ଯାଆନ୍ତୁ (_G)"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Important"
@@ -19049,7 +19049,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Normal Size"
-msgstr ""
+msgstr "ସାଧାରଣ ଆକାର (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Not Junk"
@@ -19293,7 +19293,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:49
 msgid "_Open..."
-msgstr ""
+msgstr "ଖୋଲନ୍ତୁ ... (_O)"
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
@@ -19912,27 +19912,27 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Baltic"
-msgstr ""
+msgstr "ବାଲଟିକ"
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Central European"
-msgstr ""
+msgstr "କେନ୍ଦ୍ର ୟୁରୋପୀୟ"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Chinese"
-msgstr ""
+msgstr "ଚାଇନୀଜ"
 
 #: ../widgets/misc/e-charset-picker.c:67
 msgid "Cyrillic"
-msgstr ""
+msgstr "ସିରୀଲିକ"
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Greek"
-msgstr ""
+msgstr "ଗ୍ରୀକ"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Hebrew"
-msgstr ""
+msgstr "ହିବ୍ରୁ"
 
 #: ../widgets/misc/e-charset-picker.c:70
 msgid "Japanese"
@@ -19944,37 +19944,37 @@ msgstr "କୋରୀୟାନ "
 
 #: ../widgets/misc/e-charset-picker.c:72
 msgid "Thai"
-msgstr ""
+msgstr "ଥାଈ"
 
 #: ../widgets/misc/e-charset-picker.c:73
 msgid "Turkish"
-msgstr ""
+msgstr "ତୁର୍କୀ"
 
 #: ../widgets/misc/e-charset-picker.c:74
 msgid "Unicode"
-msgstr ""
+msgstr "ୟୁନିକୋଡ"
 
 #: ../widgets/misc/e-charset-picker.c:75
 msgid "Western European"
-msgstr ""
+msgstr "ପଶ୍ଚିମ ୟୁରୋପୀୟ"
 
 #: ../widgets/misc/e-charset-picker.c:76
 msgid "Western European, New"
-msgstr ""
+msgstr "ପଶ୍ଚିମ ୟୁରୋପୀୟ, ନୂତନ"
 
 #: ../widgets/misc/e-charset-picker.c:93 ../widgets/misc/e-charset-picker.c:94
 #: ../widgets/misc/e-charset-picker.c:95
 msgid "Traditional"
-msgstr ""
+msgstr "ପାରମ୍ପରିକ"
 
 #: ../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
 #: ../widgets/misc/e-charset-picker.c:98 ../widgets/misc/e-charset-picker.c:99
 msgid "Simplified"
-msgstr ""
+msgstr "ସରଳିକ୍ରୁତ"
 
 #: ../widgets/misc/e-charset-picker.c:102
 msgid "Ukrainian"
-msgstr ""
+msgstr "ୟୁକ୍ରେନିୟାନ"
 
 #: ../widgets/misc/e-charset-picker.c:105
 msgid "Visual"
