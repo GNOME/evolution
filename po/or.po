@@ -5079,91 +5079,91 @@ msgstr "କ୍ଯାଲେଣ୍ଡର ଉନ୍ନୟନ କରିବା ସମ
 #: ../calendar/gui/calendar-component.c:1195
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr "ଘଟଣା ଏବଂ ସଭା ସ୍ରୁଷ୍ଟି କରିବା ପାଇଁ '%s' କ୍ଯାଲେଣ୍ଡର ଖୋଲିବାରେ ଅସମର୍ଥ"
+msgstr "ଘଟଣା ଏବଂ ସାକ୍ଷାତକାର ସ୍ରୁଷ୍ଟି କରିବା ପାଇଁ '%s' କ୍ଯାଲେଣ୍ଡର ଖୋଲିବାରେ ଅସମର୍ଥ"
 
 #: ../calendar/gui/calendar-component.c:1211
 msgid "There is no calendar available for creating events and meetings"
-msgstr ""
+msgstr "ଘଟଣା ଏବଂ ସାକ୍ଷାତକାର ସ୍ରୁଷ୍ଟି କରିବା ପାଇଁ କୌଣସି କ୍ଯାଲେଣ୍ଡର ଉପଲବ୍ଧ ନାହିଁ"
 
 #: ../calendar/gui/calendar-component.c:1333
 msgid "Calendar Source Selector"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ଉତ୍ସ ଚୟକ"
 
 #: ../calendar/gui/calendar-component.c:1541
 msgid "New appointment"
-msgstr ""
+msgstr "ନୂତନ ସାକ୍ଷାତକାର"
 
 #: ../calendar/gui/calendar-component.c:1542
 msgid "_Appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର (_A)"
 
 #: ../calendar/gui/calendar-component.c:1543
 msgid "Create a new appointment"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ ସାକ୍ଷାତକାର ସ୍ରୁଷ୍ଟି କରନ୍ତୁ"
 
 #: ../calendar/gui/calendar-component.c:1549
 msgid "New meeting"
-msgstr ""
+msgstr "ନୂତନ ସାକ୍ଷାତକାର"
 
 #: ../calendar/gui/calendar-component.c:1550
 msgid "M_eeting"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର (_e)"
 
 #: ../calendar/gui/calendar-component.c:1551
 msgid "Create a new meeting request"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ ସାକ୍ଷାତକାର ନିବେଦନ"
 
 #: ../calendar/gui/calendar-component.c:1557
 msgid "New all day appointment"
-msgstr ""
+msgstr "ନୂତନ ସମ୍ପୂର୍ଣ ଦିବସ ବ୍ଯାପି ସାକ୍ଷାତକାର"
 
 #: ../calendar/gui/calendar-component.c:1558
 msgid "All Day A_ppointment"
-msgstr ""
+msgstr "ସମ୍ପୂର୍ଣ ଦିବସ ବ୍ଯାପି ସାକ୍ଷାତକାର (_A)"
 
 #: ../calendar/gui/calendar-component.c:1559
 msgid "Create a new all-day appointment"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ ସମ୍ପୂର୍ଣ ଦିବସ ବ୍ଯାପି ସାକ୍ଷାତକାର"
 
 #: ../calendar/gui/calendar-component.c:1565
 msgid "New calendar"
-msgstr ""
+msgstr "ନୂତନ କ୍ଯାଲେଣ୍ଡର"
 
 #: ../calendar/gui/calendar-component.c:1566
 msgid "Cale_ndar"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର (_n)"
 
 #: ../calendar/gui/calendar-component.c:1567
 msgid "Create a new calendar"
-msgstr ""
+msgstr "ଗୋଟିଏ ନୂତନ କ୍ଯାଲେଣ୍ଡର ସ୍ରୁଷ୍ଟି କରନ୍ତୁ"
 
 #: ../calendar/gui/calendar-view-factory.c:109
 msgid "Day View"
-msgstr ""
+msgstr "ଦିବସ ଦ୍ରୁଶ୍ଯ"
 
 #: ../calendar/gui/calendar-view-factory.c:112
 msgid "Work Week View"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ସପ୍ତାହ ଦ୍ରୁଶ୍ଯ"
 
 #: ../calendar/gui/calendar-view-factory.c:115
 msgid "Week View"
-msgstr ""
+msgstr "ସପ୍ତାହ ଦ୍ରୁଶ୍ଯ"
 
 #: ../calendar/gui/calendar-view-factory.c:118
 msgid "Month View"
-msgstr ""
+msgstr "ମାନ ଦ୍ରୁଶ୍ଯ"
 
 #: ../calendar/gui/comp-editor-factory.c:415
 msgid "Error while opening the calendar"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡରକୁ ଖୋଲିବା ସମୟରେ ତ୍ରୁଟି"
 
 #: ../calendar/gui/comp-editor-factory.c:421
 msgid "Method not supported when opening the calendar"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡରକୁ ଖୋଲିବା ସମୟରେ ପଦ୍ଧତି ସମର୍ଥିତ ନୁହେଁ"
 
 #: ../calendar/gui/comp-editor-factory.c:427
 msgid "Permission denied to open the calendar"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଟରକୁ ଖୋଲିବା ପାଇଁ ଅନୁମତି ନିଷିଦ୍ଧ"
 
 #: ../calendar/gui/comp-editor-factory.c:439 ../shell/e-shell.c:1272
 msgid "Unknown error"
@@ -5171,11 +5171,11 @@ msgstr "ଅଜଣା ତ୍ରୁଟି"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:614
 msgid "Edit Alarm"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀକୁ ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:1
 msgid "<b>Alarm</b>"
-msgstr ""
+msgstr "<b>ସତର୍କ ଧ୍ବନୀ</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Options</b>"
@@ -5183,113 +5183,113 @@ msgstr "<b>ବିକଲ୍ପ</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Repeat</b>"
-msgstr ""
+msgstr "<b>ପୁନରାବ୍ରୁତ୍ତି କରନ୍ତୁ</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "Add Alarm"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀ ଯୋଗ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Custom _message"
-msgstr ""
+msgstr "ସନ୍ଦେଶକୁ ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ (_m)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀକୁ ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Mes_sage:"
-msgstr ""
+msgstr "ସନ୍ଦେଶ (_s):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:8
 #: ../calendar/gui/e-alarm-list.c:446
 msgid "Play a sound"
-msgstr ""
+msgstr "ଗୋଟିଏ ଶବ୍ଦ ବଜାନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:9
 #: ../calendar/gui/e-alarm-list.c:450
 msgid "Pop up an alert"
-msgstr ""
+msgstr "ଗୋଟିଏ ସତର୍କକୁ ପପ-ଅପ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: ../calendar/gui/e-alarm-list.c:458
 msgid "Run a program"
-msgstr ""
+msgstr "ଗୋଟିଏ ପ୍ରୋଗ୍ରାମକୁ ଚାଳନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
 msgid "Send To:"
-msgstr ""
+msgstr "ଏଠାକୁ ପଠାନ୍ତୁ:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
 #: ../calendar/gui/e-alarm-list.c:454
 msgid "Send an email"
-msgstr ""
+msgstr "ଗୋଟିଏ ଇ-ଡାକ ପଠାନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Arguments:"
-msgstr ""
+msgstr "ସ୍ବତନ୍ତ୍ରଚର (_A):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Program:"
-msgstr ""
+msgstr "ପ୍ରୋଗ୍ରାମ (_P):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Repeat the alarm"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀକୁ ପୁନର୍ବାର ବଜାନ୍ତୁ (_R)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Sound:"
-msgstr ""
+msgstr "ଧ୍ବନୀ (_S):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "after"
-msgstr ""
+msgstr "ପରେ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "before"
-msgstr ""
+msgstr "ପୂର୍ବରୁ"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "day(s)"
-msgstr ""
+msgstr "ଦିନ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21
 msgid "end of appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାରର ସମାପ୍ତି"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "extra times every"
-msgstr ""
+msgstr "ଅତିରିକ୍ତ ସମୟ ପ୍ରାପ୍ତି"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "hour(s)"
-msgstr ""
+msgstr "ଘଣ୍ଟା"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 msgid "minute(s)"
-msgstr ""
+msgstr "ମିନିଟ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 msgid "start of appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାରର ପ୍ରାରମ୍ଭ"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ/ଟ୍ରଗର"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr ""
+msgstr "ଯୋଗ କରନ୍ତୁ (_d)"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: ../calendar/gui/dialogs/event-page.glade.h:4
 #: ../ui/evolution-event-editor.xml.h:1
 msgid "Alarms"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀ"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:97
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:116
@@ -5297,15 +5297,15 @@ msgstr ""
 #: ../composer/e-msg-composer-select-file.c:98
 #: ../composer/e-msg-composer-select-file.c:118
 msgid "_Suggest automatic display of attachment"
-msgstr ""
+msgstr "ସଂଲଗ୍ନକର ସ୍ବତଃ ପ୍ରଦର୍ଶନକୁ ପରାମର୍ଶ କରନ୍ତୁ (_S)"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
-msgstr ""
+msgstr "ଫାଇଲ ସଂଲଗ୍ନ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:486
 msgid "Selected Calendars for Alarms"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀ ପାଇଁ କ୍ଯାଲେଣ୍ଡର ଚୟନ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid ""
@@ -5315,6 +5315,11 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
+"୬୦ ମିନିଟ\n"
+"୩୦ ମିନିଟ\n"
+"୧୫ ମିନିଟ\n"
+"୧୦ ମିନିଟ\n"
+"୦୫ ମିନିଟ"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
@@ -5324,37 +5329,37 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ସତର୍କ ଧ୍ବନୀ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ମୁକ୍ତ/ବ୍ଯସ୍ତ ସେବକ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:17
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ସାଧାରଣ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<span weight=\"bold\">Task List</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">କାର୍ଯ୍ଯ ତାଲିକା</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Time</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ସମୟ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "<span weight=\"bold\">Work Week</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">କାର୍ଯ୍ଯ ସପ୍ତାହ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
-msgstr ""
+msgstr "ଦିବାଲୋକ ସଂରକ୍ଷଣ ସମୟ ପାଇଁ ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ (_v)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
-msgstr ""
+msgstr "ଦିବସ ସମାପ୍ତି (_e):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
@@ -5364,7 +5369,7 @@ msgstr "ପ୍ରଦର୍ଶନ"
 #: ../calendar/gui/dialogs/recurrence-page.c:1088
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
-msgstr ""
+msgstr "ଶୁକ୍ରବାର"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid ""
@@ -5372,12 +5377,15 @@ msgid ""
 "Hours\n"
 "Days"
 msgstr ""
+"ମିିନିଟ\n"
+"ଘଣ୍ଟା\n"
+"ଦିନ"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
-msgstr ""
+msgstr "ସୋମବାର"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid ""
@@ -5389,6 +5397,13 @@ msgid ""
 "Saturday\n"
 "Sunday"
 msgstr ""
+"ସୋମବାର\n"
+"ମଙ୍ଗଳବାର\n"
+"ବୁଧବାର\n"
+"ଗୁରୁବାର\n"
+"ଶୁକ୍ରବାର\n"
+"ଶନିବାର\n"
+"ରବିବାର"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5399,88 +5414,88 @@ msgstr "ଗୋଟିଏ ରଙ୍ଗ ଚୟନ କରନ୍ତୁ"
 #. Sunday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "S_un"
-msgstr ""
+msgstr "ରବି (_u)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1089
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
-msgstr ""
+msgstr "ଶନିବାର"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Select the calendars for alarm notification"
-msgstr ""
+msgstr "ସତର୍କ ସୂଚନା ପାଇଁ କ୍ଯାଲଣ୍ଡର ଚୟନ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "ଗୋଟିଏ ସ୍ମାରକପତ୍ର ଦେଖାନ୍ତୁ (_o)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
-msgstr ""
+msgstr "ତାରିଖ ପ୍ରଦର୍ଶକରେ ସପ୍ତାହ ସଂଖ୍ଯା ମାନଙ୍କୁ ଦେଖାନ୍ତୁ (_n)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1090
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
-msgstr ""
+msgstr "ରବିବାର"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "T_asks due today:"
-msgstr ""
+msgstr "ଆଜି କାର୍ଯ୍ଯ ସମାପ୍ତ କରିବାର ଅନ୍ତିମ ଦିବସ (_a):"
 
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "T_hu"
-msgstr ""
+msgstr "ଗୁରୁ (_h)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Template:"
-msgstr ""
+msgstr "ଛାଞ୍ଚ:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: ../calendar/gui/dialogs/recurrence-page.c:1087
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
-msgstr ""
+msgstr "ଗୁରୁବାର"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 msgid "Time _zone:"
-msgstr ""
+msgstr "ସମୟ ମଣ୍ଡଳ (_z):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "Time format:"
-msgstr ""
+msgstr "ସମୟ ପ୍ରାରୂପ:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
-msgstr ""
+msgstr "ମଙ୍ଗଳବାର"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 #: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
-msgstr ""
+msgstr "ବୁଧବାର"
 
 #. A weekday like "Monday" follows
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "Wee_k starts on:"
-msgstr ""
+msgstr "ସପ୍ତାହ ଏହି ବାରରେ ଆରମ୍ଭ ହୁଏ (_k):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "Work days:"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ଦିବସ:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_12 hour (AM/PM)"
-msgstr ""
+msgstr "୧୨ ଘଣ୍ଟା (ପୂର୍ବାହ୍ନ/ଅପରାହ୍ନ) (_1)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_24 hour"
-msgstr ""
+msgstr "୨୪ ଘଣ୍ଟା (_2)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Ask for confirmation when deleting items"
@@ -5492,30 +5507,30 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Day begins:"
-msgstr ""
+msgstr "ଦିନ ପ୍ରାରମ୍ଭ ହୋଇଥାଏ (_D):"
 
 #. Friday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Fri"
-msgstr ""
+msgstr "ଶୁକ୍ର (_F)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Hide completed tasks after"
-msgstr ""
+msgstr "ସମ୍ପନ୍ନ କାର୍ଯ୍ଯକୁ ପରେ ଲୁକ୍କୟିତ କରନ୍ତୁ (_H)"
 
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Mon"
-msgstr ""
+msgstr "ସୋମ (_M)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
-msgstr ""
+msgstr "ସମୟାତିକ୍ରାନ୍ତ କାର୍ଯ୍ଯ (_O):"
 
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Sat"
-msgstr ""
+msgstr "ଶନି (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
@@ -5523,21 +5538,21 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
 msgid "_Time divisions:"
-msgstr ""
+msgstr "ସମୟ ବିଭାଜନ (_T):"
 
 #. Tuesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
 msgid "_Tue"
-msgstr ""
+msgstr "ମଙ୍ଗଳ (_T)"
 
 #. Wednesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "_Wed"
-msgstr ""
+msgstr "ବୁଧ (_W)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
-msgstr ""
+msgstr "ପ୍ରତ୍ଯେକ ସାକ୍ଷାତକାର ପୂର୍ବରୁ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:288
 msgid "Cop_y calendar contents locally for offline operation"
@@ -5554,59 +5569,59 @@ msgstr ""
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "C_olor:"
-msgstr ""
+msgstr "ରଙ୍ଗ (_o):"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 msgid "Task List"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ତାଲିକା"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 msgid "Memo List"
-msgstr ""
+msgstr "ସନ୍ଦେଶ ସୂଚୀ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
 msgid "Calendar Properties"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ଗୁଣଧର୍ମ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:481
 msgid "New Calendar"
-msgstr ""
+msgstr "ନୂତନ କ୍ଯାଲେଣ୍ଡର"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:566
 msgid "Task List Properties"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ତାଲିକା ଗୁଣଧର୍ମ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:632
 msgid "New Memo List"
-msgstr ""
+msgstr "ନୂତନ ସନ୍ଦେଶ ସୂଚୀ"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:1
 msgid "Add Calendar"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡାର ଯୋଗ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Task List"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ସୂଚୀ ଯୋଗ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 msgid "_Add Calendar"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡାର ଯୋଗ କରନ୍ତୁ (_A)"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Task List"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ତାଲିକା ଯୋଗ କରନ୍ତୁ (_A)"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
 #: ../plugins/calendar-http/calendar-http.c:271
 #: ../plugins/calendar-weather/calendar-weather.c:548
 msgid "_Refresh:"
-msgstr ""
+msgstr "ସତେଜନ କରନ୍ତୁ (_R):"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:10
 #: ../plugins/caldav/caldav-source.c:247
 #: ../plugins/calendar-http/calendar-http.c:133
 msgid "_URL:"
-msgstr ""
+msgstr "ୟୁ.ଆର.ଏଲ. (_U):"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../filter/filter.glade.h:21 ../plugins/calendar-http/calendar-http.c:289
@@ -5616,11 +5631,11 @@ msgstr "ସପ୍ତାହ"
 
 #: ../calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr ""
+msgstr "ଏହି ଘଟଣାକୁ ଅପସାରଣ କରାଯାଇଛି।"
 
 #: ../calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr ""
+msgstr "ଏହି ସପ୍ତାହକୁ ଅପସାରଣ କରାଯାଇଛି।"
 
 #: ../calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
@@ -5661,32 +5676,32 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor-page.c:515
 #, c-format
 msgid "Validation error: %s"
-msgstr ""
+msgstr "ବୈଧିକରଣ ତ୍ରୁଟି: %s"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2280
 msgid " to "
-msgstr ""
+msgstr "ଏଠାକୁ"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2284
 msgid " (Completed "
-msgstr ""
+msgstr " (ସମାପ୍ତ"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2286
 msgid "Completed "
-msgstr ""
+msgstr "ସମାପ୍ତ"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2291
 msgid " (Due "
-msgstr ""
+msgstr "(ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2293
 msgid "Due "
-msgstr ""
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2888
 #, c-format
 msgid "Attached message - %s"
-msgstr ""
+msgstr "ସଂଲଗ୍ନିତ ସନ୍ଦେଶ - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
@@ -5695,39 +5710,39 @@ msgstr ""
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ସଂଲଗ୍ନିତ ସନ୍ଦେଶ"
+msgstr[1] "ସଂଲଗ୍ନିତ ସନ୍ଦେଶ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1007 ../mail/message-list.c:1902
 msgid "_Move"
-msgstr ""
+msgstr "ଘୁଞ୍ଚାନ୍ତୁ (_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
 #: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1904
 msgid "Cancel _Drag"
-msgstr ""
+msgstr "ଟାଣିବା ପ୍ରକ୍ରିୟାକୁ ବାତିଲ କରନ୍ତୁ (_D)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
-msgstr ""
+msgstr "ବସ୍ତୁକୁ ଅଦ୍ଯତିତ କରିପାରିଲା ନାହିଁ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:948 ../composer/e-msg-composer.c:2501
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>%d</b> ସଂଲଗ୍ନକ"
+msgstr[1] "<b>%d</b> ସଂଲଗ୍ନକ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:980
 msgid "Hide Attachment _Bar"
-msgstr ""
+msgstr "ସଂଲଗ୍ନକ ପଟିକୁ ଲୁକ୍କାୟିତ କରନ୍ତୁ (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:983
 #: ../calendar/gui/dialogs/comp-editor.c:1468
 msgid "Show Attachment _Bar"
-msgstr ""
+msgstr "ସଂଲଗ୍ନକ ପଟିକୁ ପ୍ରଦର୍ଶିତ କରନ୍ତୁ (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1102
 #: ../calendar/gui/dialogs/event-page.c:1896
@@ -5751,12 +5766,12 @@ msgstr "ଗୁଣଧର୍ମ (_P)"
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3654
 msgid "_Add attachment..."
-msgstr ""
+msgstr "ସଂଲଗ୍ନକ ଯୋଗ କରନ୍ତୁ (_A)..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1492
 #: ../mail/em-format-html-display.c:2266
 msgid "Show Attachments"
-msgstr ""
+msgstr "ସଂଲଗ୍ନକ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1493
 msgid "Press space key to toggle attachment bar"
@@ -5765,48 +5780,48 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2100
 #: ../calendar/gui/dialogs/comp-editor.c:2143
 msgid "Edit Appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାରକୁ ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2106
 #: ../calendar/gui/dialogs/comp-editor.c:2149
 #, c-format
 msgid "Meeting - %s"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2108
 #: ../calendar/gui/dialogs/comp-editor.c:2151
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2112
 #: ../calendar/gui/dialogs/comp-editor.c:2155
 #, c-format
 msgid "Assigned Task - %s"
-msgstr ""
+msgstr "ହସ୍ତାନ୍ତରିତ କାର୍ଯ୍ଯ - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2114
 #: ../calendar/gui/dialogs/comp-editor.c:2157
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2117
 #: ../calendar/gui/dialogs/comp-editor.c:2160
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "ପତ୍ରିକା ପ୍ରବିଷ୍ଟି - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2128
 #: ../calendar/gui/dialogs/comp-editor.c:2170
 msgid "No summary"
-msgstr ""
+msgstr "କୌଣସି ସାରଂଶ ନାହିଁ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2715
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:518
 #: ../mail/em-utils.c:555 ../widgets/misc/e-attachment-bar.c:365
 msgid "attachment"
-msgstr ""
+msgstr "ସଂଲଗ୍ନକ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2804
 #: ../calendar/gui/dialogs/comp-editor.c:2858
@@ -6022,28 +6037,28 @@ msgstr "କିଛି ନୁହେଁ"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
-msgstr ""
+msgstr "୧ ଦିନ ପୂର୍ବରୁ ସାକ୍ଷାତକାର"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
-msgstr ""
+msgstr "୧ ଘଣ୍ଟା ପୂର୍ବରୁ ସାକ୍ଷାତକାର"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
-msgstr ""
+msgstr "୧୫ ମିନିଟ ପୂର୍ବରୁ ସାକ୍ଷାତକାର"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
-msgstr ""
+msgstr "ଶ୍ରୋତା... (_s)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "ବିଭାଗ... (_t)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "Custom Alarm:"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀକୁ ଉଚ୍ଛାରୂପଣ କରନ୍ତୁ:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 #: ../calendar/gui/dialogs/task-page.glade.h:3
@@ -6052,20 +6067,20 @@ msgstr "ବର୍ଣ୍ଣନା (_e):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
-msgstr ""
+msgstr "ଘଟଣା ବର୍ଣ୍ଣନା"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr ""
+msgstr "ସାରାଂଶ (_m):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
-msgstr ""
+msgstr "ସତର୍କ ଧ୍ବନୀ (_A)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
-msgstr ""
+msgstr "ସମୟ (_T)"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6079,32 +6094,32 @@ msgstr "ପାଇଁ"
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
-msgstr ""
+msgstr "ଯେପର୍ଯ୍ଯନ୍ତ"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
-msgstr ""
+msgstr "ଶ୍ରୋତା"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:2
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr ""
+msgstr "ଗୋଟିଏ ଶ୍ରୋତା ଯୋଗ କରିବା ପାଇଁ ଏଠାରେ ଦବାନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:3
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Common Name"
-msgstr ""
+msgstr "ସାଧାରଣ ନାମ"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:4
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
-msgstr ""
+msgstr "ଏଠାରୁ ନିର୍ବାଚିତ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:5
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr ""
+msgstr "ଏଠାକୁ ନିର୍ବାଚିତ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:6
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -6121,7 +6136,7 @@ msgstr "ସଦସ୍ଯ"
 #: ../calendar/gui/e-meeting-list-view.c:509
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
@@ -6133,52 +6148,52 @@ msgstr "ଅବସ୍ଥିତି"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
-msgstr ""
+msgstr "<b>ଶ୍ରୋତା (_e)</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "C_hange Organizer"
-msgstr ""
+msgstr "ସଙ୍ଗଠକକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ (_h)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "Co_ntacts..."
-msgstr ""
+msgstr "ସମ୍ପର୍କ... (_n)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
-msgstr ""
+msgstr "ସଙ୍ଗଠକ"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:7
 #: ../calendar/gui/e-itip-control.glade.h:7
 msgid "Organizer:"
-msgstr ""
+msgstr "ସଙ୍ଗଠକ:"
 
 #: ../calendar/gui/dialogs/memo-editor.c:220 ../calendar/gui/print.c:2321
 msgid "Memo"
-msgstr ""
+msgstr "ସ୍ମାରକପତ୍ର"
 
 #: ../calendar/gui/dialogs/memo-page.c:868
 #, c-format
 msgid "Unable to open memos in '%s'."
-msgstr ""
+msgstr "'%s' ରେ ସ୍ମାରକପତ୍ରକୁ ଖୋଲିବାରେ ଅସମର୍ଥ।"
 
 #: ../calendar/gui/dialogs/memo-page.c:1019 ../mail/em-format-html.c:1488
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:846
 #: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
 msgid "To"
-msgstr ""
+msgstr "ଏଠାକୁ"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Sta_rt date:"
-msgstr ""
+msgstr "ତାରିଖ ପ୍ରାରମ୍ଭ କରନ୍ତୁ (_r):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
 msgid "Su_mmary"
-msgstr ""
+msgstr "ସାରାଂଶ (_m)"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 msgid "T_o:"
-msgstr ""
+msgstr "ଏଠାକୁ (_o):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:6
 #: ../calendar/gui/dialogs/task-page.c:434
@@ -6188,43 +6203,43 @@ msgstr "ସମୂହ (_G):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:7
 msgid "_Memo Content:"
-msgstr ""
+msgstr "ସ୍ମାରକପତ୍ର ସୂଚୀ (_M):"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 msgid "<b>Calendar options</b>"
-msgstr ""
+msgstr "<b>କ୍ଯାଲେଣ୍ଡର ବିକଲ୍ପ</b>"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "Add New Calendar"
-msgstr ""
+msgstr "ନୂତନ କ୍ଯାଲେଣ୍ଡରକୁ ଯୋଗ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:3
 msgid "Calendar Group"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ସମୂହ"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:4
 msgid "Calendar Location"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ଅବସ୍ଥାନ"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:5
 msgid "Calendar Name"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର ନାମ"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 msgid "<b>Task List Options</b>"
-msgstr ""
+msgstr "<b>କାର୍ଯ୍ଯ ତାଲିକା ବିକଲ୍ପ</b>"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "Add New Task List"
-msgstr ""
+msgstr "ନୂତନ କାର୍ଯ୍ଯ ତାଲିକାକୁ ଯୋଗ କରନ୍ତୁ"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Task List Group"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ତାଲିକା ସମୂହ"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:4
 msgid "Task List Name"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ତାଲିକା ନାମ"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event. What would you like to modify?"
@@ -6244,19 +6259,19 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
-msgstr ""
+msgstr "କେବଳ ଏହି ଦ୍ରୁଷ୍ଟାନ୍ତ"
 
 #: ../calendar/gui/dialogs/recur-comp.c:94
 msgid "This and Prior Instances"
-msgstr ""
+msgstr "ଏହା ଏବଂ ଏହା ପୂର୍ବର ଦ୍ରୁଷ୍ଟାନ୍ତ"
 
 #: ../calendar/gui/dialogs/recur-comp.c:100
 msgid "This and Future Instances"
-msgstr ""
+msgstr "ଏହା ଏବଂ ଭବିଷ୍ଯତ ଦ୍ରୁଷ୍ଟାନ୍ତ"
 
 #: ../calendar/gui/dialogs/recur-comp.c:105
 msgid "All Instances"
-msgstr ""
+msgstr "ସମସ୍ତ ଦ୍ରୁଷ୍ଟାନ୍ତ"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:498
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -6264,7 +6279,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.c:819
 msgid "Recurrence date is invalid"
-msgstr ""
+msgstr "ପୁନଃପୌନିକ ତାରିଖ ଅବୈଧ ଅଟେ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
@@ -6278,7 +6293,7 @@ msgstr "ଚାଲୁ"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:996
 msgid "first"
-msgstr ""
+msgstr "ପ୍ରଥମ"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -6287,7 +6302,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1002
 msgid "second"
-msgstr ""
+msgstr "ଦ୍ବିତୀୟ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -6295,7 +6310,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1007
 msgid "third"
-msgstr ""
+msgstr "ତ୍ରୁତୀୟ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
@@ -6303,7 +6318,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1012
 msgid "fourth"
-msgstr ""
+msgstr "ଚତୁର୍ଥ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -6311,13 +6326,13 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1017
 msgid "last"
-msgstr ""
+msgstr "ଅନ୍ତିମ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
 #: ../calendar/gui/dialogs/recurrence-page.c:1043
 msgid "Other Date"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ତାରିଖ"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -6325,7 +6340,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1051
 msgid "1st to 10th"
-msgstr ""
+msgstr "ପ୍ରଥମରୁ ଦଶମ"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -6333,7 +6348,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1057
 msgid "11th to 20th"
-msgstr ""
+msgstr "ଏକାଦଶରୁ ବିଂଶତମ"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -6341,45 +6356,45 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1063
 msgid "21st to 31st"
-msgstr ""
+msgstr "ଏକବିଂଶରୁ ଏକତିଂଶ"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1083
 msgid "day"
-msgstr ""
+msgstr "ଦିନ"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1223
 msgid "on the"
-msgstr ""
+msgstr "ଏହା ଉପରେ"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1412
 msgid "occurrences"
-msgstr ""
+msgstr "ଘଟଣା"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2378
 msgid "Date/Time"
-msgstr ""
+msgstr "ଦିନ/ତାରିଖ"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "<b>Exceptions</b>"
-msgstr ""
+msgstr "<b>ବ୍ଯତିକ୍ରମ</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
 msgid "<b>Preview</b>"
-msgstr ""
+msgstr "<b>ପୂର୍ବାବଲୋକନ</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "<b>Recurrence</b>"
-msgstr ""
+msgstr "<b>ପୁନଃପୌନିକ</b>"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
-msgstr ""
+msgstr "ପ୍ରତ୍ଯେକ"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6391,40 +6406,40 @@ msgstr ""
 #. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
-msgstr ""
+msgstr "ଚିରକାଳ ପାଇଁ"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
-msgstr ""
+msgstr "ମାସ"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
-msgstr ""
+msgstr "ସପ୍ତାହ"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
-msgstr ""
+msgstr "ବର୍ଷ"
 
 #: ../calendar/gui/dialogs/task-details-page.c:411
 #: ../calendar/gui/dialogs/task-details-page.c:431
 msgid "Completed date is wrong"
-msgstr ""
+msgstr "ସମ୍ପନ୍ନ ତାରିଖ ଭୂଲ ଅଟେ"
 
 #: ../calendar/gui/dialogs/task-details-page.c:518
 msgid "Web Page"
-msgstr ""
+msgstr "ୱେବ ପ୍ରୁଷ୍ଠା"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ବିବିଧ</span>"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:2
 msgid "<span weight=\"bold\">Status</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ସ୍ଥିତି</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -6436,7 +6451,7 @@ msgstr ""
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/print.c:2382 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
-msgstr ""
+msgstr "ସମାପ୍ତ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:250
@@ -6451,7 +6466,7 @@ msgstr "ବ୍ରୁହତ"
 #: ../calendar/gui/e-cal-model-tasks.c:735
 #: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2379
 msgid "In Progress"
-msgstr ""
+msgstr "ପ୍ରଗତି ପଥରେ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:254
@@ -6472,11 +6487,11 @@ msgstr "ସାଧାରଣ"
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2376
 msgid "Not Started"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭ କରାଯାଇ ନାହିଁ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "P_ercent complete:"
-msgstr ""
+msgstr "ସମ୍ପନ୍ନ ପ୍ରତିଶତ (_e)"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Stat_us:"
@@ -6489,74 +6504,74 @@ msgstr "ଅପରିଭାଷିତ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Date completed:"
-msgstr ""
+msgstr "ସମ୍ପନ୍ନ ତାରିଖ (_D):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
 #: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Priority:"
-msgstr ""
+msgstr "ଅଗ୍ରାଧିକାର (_P):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Web Page:"
-msgstr ""
+msgstr "ୱେବ ପ୍ରୁଷ୍ଠା (_W):"
 
 #: ../calendar/gui/dialogs/task-editor.c:425
 #: ../calendar/gui/tasks-component.c:1171
 msgid "_Task"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ (_T)"
 
 #: ../calendar/gui/dialogs/task-editor.c:429
 msgid "Task Details"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ବିବରଣୀ"
 
 #: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
-msgstr ""
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ତାରିଖ ଭୂଲ ଅଟେ"
 
 #: ../calendar/gui/dialogs/task-page.c:1650
 #, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr ""
+msgstr "'%s' ରେ କାର୍ଯ୍ଯକୁ ଖୋଲିବାରେ ଅସମର୍ଥ।"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:1
 msgid "Atte_ndees..."
-msgstr ""
+msgstr "ଉପସ୍ଥିତ... (_n)"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
-msgstr ""
+msgstr "ବିଭାଗ... (_i)"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
-msgstr ""
+msgstr "ସଙ୍ଗଠକ (_g):"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:7
 msgid "Time zone:"
-msgstr ""
+msgstr "ସମୟ ମଣ୍ଡଳ:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 msgid "_Due date:"
-msgstr ""
+msgstr "ପୂର୍ବନିର୍ଦ୍ଧାରିତ ତାରିଖ (_D):"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr ""
+msgstr "<b>ମୁକ୍ତ/ବ୍ଯସ୍ତ କ୍ଯାଲେଣ୍ଡର (_a)</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "<b>Publishing Frequency</b>"
-msgstr ""
+msgstr "<b>ପ୍ରକାଶକୀୟ ଆବ୍ରୁତି</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing _Location</b>"
-msgstr ""
+msgstr "<b>ପ୍ରକାଶକୀୟ ଅବସ୍ଥାନ (_L)</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "Free/Busy Publishing Settings"
-msgstr ""
+msgstr "ମୁକ୍ତ/ବ୍ଯସ୍ତ ପ୍ରକାଶକୀୟ ବିନ୍ଯାସ"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "_Daily"
-msgstr ""
+msgstr "ଦୈନିକ (_D)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Manual"
@@ -6570,7 +6585,7 @@ msgstr "ପ୍ରବେଶ ସଂଙ୍କେତ (_P):"
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
 msgid "_Remember password"
-msgstr ""
+msgstr "ପ୍ରବେଶ ସଂଙ୍କେତକୁ ମନେ ରଖିବ (_R)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
@@ -6579,100 +6594,100 @@ msgstr "ଚାଳକ ର ନାମ (_U):"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Weekly"
-msgstr ""
+msgstr "ସାପ୍ତାହିକ (_W)"
 
 #. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:396
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ଦିନ"
+msgstr[1] "%d ଦିନ"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ସପ୍ତାହ"
+msgstr[1] "%d ସପ୍ତାହ"
 
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "ସମ୍ପାଦନ କରାଯିବା ଅଜଣା କାର୍ଯ୍ଯ"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:478
 #, c-format
 msgid "%s %s before the start of the appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ପ୍ରାରମ୍ଭ କରିବା ପୂର୍ବରୁ %s %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:483
 #, c-format
 msgid "%s %s after the start of the appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ପ୍ରାରମ୍ଭ କରିବା ପରେ %s %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:490
 #, c-format
 msgid "%s at the start of the appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାରର ପ୍ରାରମ୍ଭରେ %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:501
 #, c-format
 msgid "%s %s before the end of the appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ସମାପ୍ତ କରିବା ପୂର୍ବରୁ %s %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:506
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ସମାପ୍ତ କରିବା ପରେ %s %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:513
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାରର ଅନ୍ତରେ %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
 #: ../calendar/gui/e-alarm-list.c:537
 #, c-format
 msgid "%s at %s"
-msgstr ""
+msgstr "%s %s ରେ"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
 #: ../calendar/gui/e-alarm-list.c:545
 #, c-format
 msgid "%s for an unknown trigger type"
-msgstr ""
+msgstr "ଗୋଟିଏ ଅଜଣା ଟ୍ରିଗର ପ୍ରକାର ପାଇଁ %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2861
 #, c-format
 msgid "Click to open %s"
-msgstr ""
+msgstr "%s କୁ ଖୋଲିବା ପାଇଁ ଦବାନ୍ତୁ"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:155
 #: ../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:804
 msgid "Untitled"
-msgstr ""
+msgstr "ଶୀର୍ଷକ ବିହୀନ"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:204
 #: ../calendar/gui/e-cal-component-preview.c:195
 #: ../calendar/gui/e-cal-component-preview.c:206
 msgid "Start Date:"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭିକ ତାରିଖ:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:217
 #: ../calendar/gui/e-cal-component-preview.c:269
@@ -6686,17 +6701,17 @@ msgstr "ବର୍ଣ୍ଣନା:"
 #: ../calendar/gui/e-cal-component-memo-preview.c:250
 #: ../calendar/gui/e-cal-component-preview.c:301
 msgid "Web Page:"
-msgstr ""
+msgstr "ୱେବ ପ୍ରୁଷ୍ଠା:"
 
 #: ../calendar/gui/e-cal-component-preview.c:188
 #: ../calendar/gui/e-itip-control.c:1103
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
-msgstr ""
+msgstr "ସାରାଂଶ:"
 
 #: ../calendar/gui/e-cal-component-preview.c:217
 msgid "Due Date:"
-msgstr ""
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ତାରିଖ:"
 
 #. write status
 #. Status
@@ -6709,43 +6724,43 @@ msgstr "ଅବସ୍ଥିତି:"
 
 #: ../calendar/gui/e-cal-component-preview.c:248
 msgid "Priority:"
-msgstr ""
+msgstr "ଅଗ୍ରାଧିକାର:"
 
 #: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:314
 #: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:365
 msgid "Public"
-msgstr ""
+msgstr "ସାର୍ବଜନୀନ"
 
 #: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
 #: ../calendar/gui/e-calendar-table.c:366
 msgid "Private"
-msgstr ""
+msgstr "ବ୍ଯକ୍ତିଗତ"
 
 #: ../calendar/gui/e-cal-list-view.c:257 ../calendar/gui/e-cal-model.c:325
 #: ../calendar/gui/e-calendar-table.c:367
 msgid "Confidential"
-msgstr ""
+msgstr "ଗୋପନୀୟ"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
-msgstr ""
+msgstr "ସମାପ୍ତ ତାରିଖ"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:4
 msgid "Start Date"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭିକ ତାରିଖ"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5 ../mail/mail-dialogs.glade.h:20
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
-msgstr ""
+msgstr "ସାରଂଶ"
 
 #: ../calendar/gui/e-cal-model-calendar.c:183
 #: ../calendar/gui/e-calendar-table.c:439
 msgid "Free"
-msgstr "ମାଗଣା"
+msgstr "ମୁକ୍ତ"
 
 #: ../calendar/gui/e-cal-model-calendar.c:186
 #: ../calendar/gui/e-calendar-table.c:440
@@ -6793,15 +6808,15 @@ msgstr "ଅଜଣା"
 
 #: ../calendar/gui/e-cal-model.c:926
 msgid "Recurring"
-msgstr ""
+msgstr "ପୁନଃପୌନିକ"
 
 #: ../calendar/gui/e-cal-model.c:928
 msgid "Assigned"
-msgstr ""
+msgstr "ନ୍ଯସ୍ତ"
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
-msgstr ""
+msgstr "ଏପରି ଭାବରେ ସଂରକ୍ଷିତ କରନ୍ତୁ..."
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2112
 msgid "Select folder to save selected attachments..."
@@ -6810,47 +6825,47 @@ msgstr ""
 #: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, c-format
 msgid "untitled_image.%s"
-msgstr ""
+msgstr "ଶୀର୍ଷକ ବିହୀନ ପ୍ରତିଛବି (_i)। %s"
 
 #: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1282
 #: ../calendar/gui/e-calendar-view.c:1699 ../calendar/gui/e-memo-table.c:903
 #: ../mail/em-folder-view.c:1121 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
-msgstr ""
+msgstr "ଏପରି ଭାବରେ ସଂରକ୍ଷିତ କରନ୍ତୁ... (_S)"
 
 #: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
 msgid "Set as _Background"
-msgstr ""
+msgstr "ପ୍ରୁଷ୍ଠଭୂମି ଭାବରେ ବିନ୍ଯାସ କରନ୍ତୁ (_B)"
 
 #: ../calendar/gui/e-cal-popup.c:278
 msgid "_Save Selected"
-msgstr ""
+msgstr "ଚୟିତ ବସ୍ତୁକୁ ସଂରକ୍ଷିତ କରନ୍ତୁ (_S)"
 
 #: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
 msgid "Open in %s..."
-msgstr ""
+msgstr "%s ରେ ଖୋଲନ୍ତୁ..."
 
 #: ../calendar/gui/e-calendar-table.c:409
 msgid "0%"
-msgstr ""
+msgstr "୦%"
 
 #: ../calendar/gui/e-calendar-table.c:410
 msgid "10%"
-msgstr ""
+msgstr "୧୦%"
 
 #: ../calendar/gui/e-calendar-table.c:411
 msgid "20%"
-msgstr ""
+msgstr "୨୦%"
 
 #: ../calendar/gui/e-calendar-table.c:412
 msgid "30%"
-msgstr ""
+msgstr "୩୦%"
 
 #: ../calendar/gui/e-calendar-table.c:413
 msgid "40%"
-msgstr ""
+msgstr "୪୦%"
 
 #: ../calendar/gui/e-calendar-table.c:414
 msgid "50%"
@@ -6858,19 +6873,19 @@ msgstr "୫୦%"
 
 #: ../calendar/gui/e-calendar-table.c:415
 msgid "60%"
-msgstr ""
+msgstr "୬୦%"
 
 #: ../calendar/gui/e-calendar-table.c:416
 msgid "70%"
-msgstr ""
+msgstr "୭୦%"
 
 #: ../calendar/gui/e-calendar-table.c:417
 msgid "80%"
-msgstr ""
+msgstr "୮୦%"
 
 #: ../calendar/gui/e-calendar-table.c:418
 msgid "90%"
-msgstr ""
+msgstr "୯୦%"
 
 #: ../calendar/gui/e-calendar-table.c:419
 msgid "100%"
@@ -6879,27 +6894,27 @@ msgstr "୧୦୦%"
 #: ../calendar/gui/e-calendar-table.c:704
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:482
 msgid "Deleting selected objects"
-msgstr ""
+msgstr "ଚୟିତ ବସ୍ତୁ ମାନଙ୍କୁ ଅପସାରିଥ କରୁଅଛି"
 
 #: ../calendar/gui/e-calendar-table.c:957
 #: ../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:659
 msgid "Updating objects"
-msgstr ""
+msgstr "ବସ୍ତୁ ମାନଙ୍କୁ ଅଦ୍ଯତିତ କରୁଅଛି"
 
 #: ../calendar/gui/e-calendar-table.c:1106
 #: ../calendar/gui/e-calendar-view.c:1248 ../calendar/gui/e-memo-table.c:798
 #: ../composer/e-msg-composer.c:1348
 msgid "Save as..."
-msgstr ""
+msgstr "ଏପରି ଭାବରେ ସଂରକ୍ଷିତ କରନ୍ତୁ..."
 
 #: ../calendar/gui/e-calendar-table.c:1277
 #: ../calendar/gui/e-calendar-view.c:1681
 msgid "New _Task"
-msgstr ""
+msgstr "ନୂତନ କାର୍ଯ୍ଯ (_T)"
 
 #: ../calendar/gui/e-calendar-table.c:1281 ../calendar/gui/e-memo-table.c:902
 msgid "Open _Web Page"
-msgstr ""
+msgstr "ୱେବ ପ୍ରୁଷ୍ଠାକୁ ଖୋଲନ୍ତୁ (_W)"
 
 #: ../calendar/gui/e-calendar-table.c:1283
 #: ../calendar/gui/e-calendar-view.c:1684
@@ -6917,7 +6932,7 @@ msgstr "ମୂଦ୍ରଣ କରନ୍ତୁ ... (_P)"
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr ""
+msgstr "କାଟନ୍ତୁ (_u)"
 
 #: ../calendar/gui/e-calendar-table.c:1289
 #: ../calendar/gui/e-calendar-view.c:1687
@@ -6926,11 +6941,11 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
-msgstr ""
+msgstr "ଲଗାନ୍ତୁ (_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1293 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ନ୍ଯସ୍ତ କରନ୍ତୁ (_A)"
 
 #: ../calendar/gui/e-calendar-table.c:1294 ../calendar/gui/e-memo-table.c:914
 #: ../ui/evolution-tasks.xml.h:26
