@@ -266,7 +266,6 @@ memo_editor_finalize (GObject *object)
 {
 	MemoEditor *me;
 	MemoEditorPrivate *priv;
-	ECalComponent *comp;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEMO_EDITOR (object));

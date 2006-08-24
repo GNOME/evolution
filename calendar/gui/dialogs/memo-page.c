@@ -283,7 +283,7 @@ memo_page_set_classification (MemoPage *page, ECalComponentClassification class)
 static void
 sensitize_widgets (MemoPage *mpage)
 {
-	gboolean read_only, sens, sensitize;
+	gboolean read_only, sens = FALSE, sensitize;
 	MemoPagePrivate *priv;
 	
 	priv = mpage->priv;

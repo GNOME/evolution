@@ -147,9 +147,9 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 	}
 
 	if (!funcinfo) {
-		 GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
-		 gboolean valid = gtk_tree_model_get_iter_first (model, &iter);
-		 gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+		GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
+		gtk_tree_model_get_iter_first (model, &iter);
+		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 	}
 	g_return_if_fail (funcinfo);
 	switch (response_id) {

@@ -979,7 +979,7 @@ add_clicked_cb (GtkButton *btn, TaskPage *page)
 	e_meeting_list_view_edit (page->priv->list_view, attendee);
 }
 
-void edit_clicked_cb (GtkButton *btn, TaskPage *tpage)
+static void edit_clicked_cb (GtkButton *btn, TaskPage *tpage)
 {
 	TaskPagePrivate *priv;
 	GtkTreePath *path = NULL;

@@ -1,3 +1,27 @@
+2006-08-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/alarm-notify/alarm-notify-dialog.c: (dialog_response_cb):
+	* gui/alarm-notify/alarm-notify.c: (list_changed_cb),
+	(dequeue_client), (alarm_msgport_replied),
+	(alarm_notify_add_calendar), (alarm_notify_remove_calendar):
+	* gui/alarm-notify/alarm-queue.c: (queue_midnight_refresh),
+	(add_client_alarms_cb), (midnight_refresh_async),
+	(remove_queued_alarm), (add_component_alarms), (cal_opened_cb),
+	(remove_alarms), (remove_comp), (query_objects_changed_async),
+	(edit_component), (tray_list_remove_cqa_async),
+	(tray_list_remove_data_async), (notify_dialog_cb),
+	(open_alarm_dialog), (tray_icon_clicked_cb), (tray_list_add_async),
+	(free_client_alarms_cb), (alarm_queue_add_async), (remove_cqa),
+	(remove_client_alarms):
+	* gui/dialogs/alarm-dialog.c: (alarm_to_dalarm_widgets),
+	(populate_widgets_from_alarm), (action_selection_done_cb):
+	* gui/dialogs/alarm-list-dialog.c: (alarm_list_dialog_peek):
+	* gui/dialogs/cal-prefs-dialog.c: (show_alarms_config):
+	* gui/dialogs/memo-editor.c: (memo_editor_finalize):
+	* gui/dialogs/memo-page.c: (sensitize_widgets):
+	* gui/dialogs/task-page.c: (edit_clicked_cb):
+	Fix all compiler warnings and correct some other issues.
+
 2006-08-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #341691

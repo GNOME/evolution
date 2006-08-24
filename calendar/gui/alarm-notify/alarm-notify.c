@@ -26,6 +26,7 @@
 #include <string.h>
 #include <bonobo/bonobo-main.h>
 #include <libedataserver/e-url.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-passwords.h>
 #include <libecal/e-cal.h>
 #include "alarm-notify.h"
@@ -170,7 +171,7 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	g_hash_table_foreach (priv->uri_client_hash[source_type], (GHFunc) process_removal_in_hash, &prd);
 
 	for (l = prd.removals; l; l = l->next) {
-		d (printf("%s:%d (list_changed_cb) - Removing Calendar %s\n", __FILE__, __LINE__, l->data));		
+		d (printf("%s:%d (list_changed_cb) - Removing Calendar %s\n", __FILE__, __LINE__, (char *)l->data));
 		alarm_notify_remove_calendar (an, source_type, l->data);
 	}
 	g_list_free (prd.removals);
@@ -253,7 +254,7 @@ dequeue_client (gpointer key, gpointer value, gpointer user_data)
 {
 	ECal *client = value;
 
-	d (printf("%s:%d (dequeue_client) - Removing client %d\n ", __FILE__, __LINE__, client));
+	d (printf("%s:%d (dequeue_client) - Removing client %p\n ", __FILE__, __LINE__, client));
 	alarm_queue_remove_client (client);
 }
 
@@ -328,9 +329,9 @@ static gboolean
 alarm_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 {
 	EMsgPort *port = (EMsgPort *)d;
-	AlarmMsg *m;
+	EMsg *m;
 
-	while (( m = (AlarmMsg *)e_msgport_get(port))) {
+	while (( m = e_msgport_get(port))) {
 		d (printf("%s:%d (alarm_msgport_replied) - %p: Replied to GUI thread\n", __FILE__, __LINE__, m));
 		alarm_msg_destroy(NULL, m, NULL);
 	}
@@ -450,7 +451,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	client = auth_new_cal_from_source (source, source_type);
 
 	if (client) {
-		d (printf("%s:%d (alarm_notify_add_calendar) - Calendar Open Async... %d\n", __FILE__, __LINE__, client));	
+		d (printf("%s:%d (alarm_notify_add_calendar) - Calendar Open Async... %p\n", __FILE__, __LINE__, client));	
 		g_hash_table_insert (priv->uri_client_hash[source_type], g_strdup (str_uri), client);
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
 		e_cal_open_async (client, FALSE);
@@ -470,7 +471,7 @@ alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const
 
 	client = g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri);
 	if (client) {
-		d (printf("%s:%d (alarm_notify_remove_calendar) - Removing Client %d\n", __FILE__, __LINE__, client));
+		d (printf("%s:%d (alarm_notify_remove_calendar) - Removing Client %p\n", __FILE__, __LINE__, client));
 		alarm_queue_remove_client (client);
 		g_hash_table_remove (priv->uri_client_hash[source_type], str_uri);
 	}

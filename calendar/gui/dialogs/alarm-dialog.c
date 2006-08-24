@@ -29,6 +29,7 @@
 #endif
 
 #include <string.h>
+#include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkdialog.h>
@@ -40,7 +41,7 @@
 #include <gtk/gtktextbuffer.h>
 #include <gtk/gtktextview.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
@@ -365,7 +366,7 @@ alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
 
 	if (description.value) {
 		e_dialog_toggle_set (dialog->dalarm_message, TRUE);
-		text_buffer = gtk_text_view_get_buffer (dialog->dalarm_description);
+		text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
 		gtk_text_buffer_set_text (text_buffer, description.value, -1);
 	}
 }
@@ -654,7 +655,7 @@ populate_widgets_from_alarm (Dialog *dialog)
 
 	/* Alarm options */
 	e_dialog_option_menu_set (dialog->action, *action, action_map);
-	action_selection_done_cb (dialog->action, dialog);
+	action_selection_done_cb (GTK_MENU_SHELL (dialog->action), dialog);
 
 	switch (*action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
@@ -1078,7 +1079,7 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	case E_CAL_COMPONENT_ALARM_AUDIO:
 		dir = calendar_config_get_dir_path ();
 		if ( dir && *dir )
-			gnome_file_entry_set_default_path (dialog->aalarm_file_entry, dir);
+			gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (dialog->aalarm_file_entry), dir);
 		check_custom_sound (dialog);
 		break;
 

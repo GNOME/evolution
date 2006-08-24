@@ -308,8 +308,6 @@ GtkWidget *
 alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 {
 	Dialog *dialog;
-	int response_id;
-	GList *icon_list;
 	char *gladefile;
 	
 	dialog = (Dialog *)g_new (Dialog, 1);
@@ -339,8 +337,8 @@ alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 	g_object_unref (dialog->xml);
 
 	/* Free the other stuff when the parent really gets destroyed. */
-	g_object_set_data_full (dialog->box, "toplevel", dialog->toplevel, gtk_widget_destroy);
-	g_object_set_data_full (dialog->box, "dialog", dialog, g_free);
+	g_object_set_data_full (G_OBJECT (dialog->box), "toplevel", dialog->toplevel, (GDestroyNotify) gtk_widget_destroy);
+	g_object_set_data_full (G_OBJECT (dialog->box), "dialog", dialog, g_free);
 
 	return dialog->box;
 }
