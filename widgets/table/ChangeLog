@@ -1,3 +1,8 @@
+2006-08-24  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #337582
+	* e-cell-text.c: Use GtkClipboard instead of GtkInvisible.
+
 2006-08-21  Andre Klapper  <a9016009@gmx.de>
 
 	* e-table-config.glade:

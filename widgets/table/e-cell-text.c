@@ -185,12 +185,7 @@ struct _CellEdit {
 
 	ETextEventProcessor *tep;       /* Text Event Processor */
 
-	GtkWidget *invisible;           /* For selection handling */
 	gboolean has_selection;         /* TRUE if we have the selection */
-	gchar *primary_selection;       /* Primary selection text */
-	gint primary_length;            /* Primary selection text length in BYTES */
-	gchar *clipboard_selection;     /* Clipboard selection text */
-	gint clipboard_length;          /* Clipboard selection text length in BYTES */
 
 	guint pointer_in : 1;
 	guint default_cursor_shown : 1;
@@ -298,14 +293,8 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 	
 	old_text = edit->old_text;
 	text = edit->text;
-	if (edit->invisible)
-		gtk_widget_destroy (edit->invisible);
 	if (edit->tep)
 		g_object_unref (edit->tep);
-	if (edit->primary_selection)
-		g_free (edit->primary_selection);
-	if (edit->clipboard_selection)
-		g_free (edit->clipboard_selection);
 	if (! edit->default_cursor_shown){
 		gdk_window_set_cursor (GTK_WIDGET(text_view->canvas)->window, NULL);
 		edit->default_cursor_shown = TRUE;
@@ -1219,12 +1208,6 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 
 	edit->has_selection = FALSE;
 	
-	edit->invisible = NULL;
-	edit->primary_selection = NULL;
-	edit->primary_length = 0;
-	edit->clipboard_selection = NULL;
-	edit->clipboard_length = 0;
-
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
 	
@@ -2528,144 +2511,53 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	}
 }
 
-#ifdef DO_SELECTION
-static void
-_selection_clear_event (GtkInvisible *invisible,
-			GdkEventSelection *event,
-			CellEdit *edit)
-{
-	if (event->selection == GDK_SELECTION_PRIMARY) {
-		g_free (edit->primary_selection);
-		edit->primary_selection = NULL;
-		edit->primary_length = 0;
-
-		edit->has_selection = FALSE;
-#if 0
-		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
-#endif
-
-	} else if (event->selection == clipboard_atom) {
-		g_free (edit->clipboard_selection);
-		edit->clipboard_selection = NULL;
-		edit->clipboard_length = 0;
-	}
-}
-
-static void
-_selection_get (GtkInvisible *invisible,
-		GtkSelectionData *selection_data,
-		guint info,
-		guint time_stamp,
-		CellEdit *edit)
-{
-	switch (info) {
-	case E_SELECTION_PRIMARY:
-		gtk_selection_data_set (selection_data, UTF8_ATOM,
-					8, edit->primary_selection, 
-					edit->primary_length);
-		break;
-	case E_SELECTION_CLIPBOARD:
-		gtk_selection_data_set (selection_data, UTF8_ATOM,
-					8, edit->clipboard_selection, 
-					edit->clipboard_length);
-		break;
-	}
-}
-
-/* fixme: What happens, if delivered string is not UTF-8? */
-
-static void
-_selection_received (GtkInvisible *invisible,
-		     GtkSelectionData *selection_data,
-		     guint time,
-		     CellEdit *edit)
-{
-	if (selection_data->length < 0 || 
-			!(selection_data->type == UTF8_ATOM ||
-			selection_data->type == GDK_SELECTION_TYPE_STRING)) {
-		return;
-	} else {
-		ETextEventProcessorCommand command;
-		command.action = E_TEP_INSERT;
-		command.position = E_TEP_SELECTION;
-		command.string = selection_data->data;
-		command.value = selection_data->length;
-		command.time = time;
-		e_cell_text_view_command (edit->tep, &command, edit);
-	}
-}
-
-static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit)
-{
-	if (edit->invisible == NULL) {
-		GtkWidget *invisible = gtk_invisible_new ();
-		edit->invisible = invisible;
-		
-		gtk_selection_add_target (invisible,
-					  GDK_SELECTION_PRIMARY,
-					  UTF8_ATOM,
-					  E_SELECTION_PRIMARY);
-		gtk_selection_add_target (invisible,
-					  clipboard_atom,
-					  UTF8_ATOM,
-					  E_SELECTION_CLIPBOARD);
-		
-		g_signal_connect (invisible, "selection_get",
-				  G_CALLBACK (_selection_get), 
-				  edit);
-		g_signal_connect (invisible, "selection_clear_event",
-				  G_CALLBACK (_selection_clear_event),
-				  edit);
-		g_signal_connect (invisible, "selection_received",
-				  G_CALLBACK (_selection_received),
-				  edit);
-	}
-	return edit->invisible;
-}
-#endif
-
 static void
 e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAtom selection, char *data, gint length)
 {
 #if DO_SELECTION
-	gboolean successful;
-	GtkWidget *invisible;
-
-	invisible = e_cell_text_view_get_invisible (edit);
-
-	if (selection == GDK_SELECTION_PRIMARY){
-		if (edit->primary_selection) {
-			g_free (edit->primary_selection);
-		}
-		edit->primary_selection = g_strndup (data, length);
-		edit->primary_length = length;
-	} else if (selection == clipboard_atom) {
-		if (edit->clipboard_selection) {
-			g_free (edit->clipboard_selection);
-		}
-		edit->clipboard_selection = g_strndup (data, length);
-		edit->clipboard_length = length;
+	GtkClipboard *clipboard;
+	
+	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (edit->text_view->canvas), selection);
+	
+	if (selection == GDK_SELECTION_PRIMARY) {
+		edit->has_selection = TRUE;
 	}
 
-	successful = gtk_selection_owner_set (invisible,
-					      selection,
-					      time);
-	
-	if (selection == GDK_SELECTION_PRIMARY)
-		edit->has_selection = successful;
+	gtk_clipboard_set_text (clipboard, data, length);
 #endif
 }
+
+#ifdef DO_SELECTION
+static void
+paste_received (GtkClipboard *clipboard,
+		const gchar  *text,
+		gpointer      data)
+{
+	CellEdit *edit;
+
+	g_return_if_fail (data);
+
+	edit = (CellEdit *) data;
+
+	if (text && g_utf8_validate (text, strlen (text), NULL)) {
+		ETextEventProcessorCommand command;
+		command.action = E_TEP_INSERT;
+		command.position = E_TEP_SELECTION;
+		command.string = (char *)text;
+		command.value = strlen (text);
+		command.time = GDK_CURRENT_TIME;
+		e_cell_text_view_command (edit->tep, &command, edit);
+	}
+}
+#endif
 
 static void
 e_cell_text_view_get_selection (CellEdit *edit, GdkAtom selection, guint32 time)
 {
 #if DO_SELECTION
-	GtkWidget *invisible;
-	invisible = e_cell_text_view_get_invisible (edit);
-	gtk_selection_convert (invisible,
-			      selection,
-			      UTF8_ATOM,
-			      time);
+	gtk_clipboard_request_text (gtk_widget_get_clipboard (GTK_WIDGET (edit->text_view->canvas),
+							      selection),
+				    paste_received, edit);
 #endif
 }
 
