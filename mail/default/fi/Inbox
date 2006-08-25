@@ -1,18 +1,18 @@
-From evolution@novell.com Wed Mar 15 12:00:00 2006
+From evolution@novell.com Wed Sep 06 12:00:00 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
+	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
+	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
 From: "Evolution-tiimi" <evolution@novell.com>
 To: Evolutionin käyttäjät <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.6.0
+X-Mailer: Evolution 2.8.0
 Date: 15 March 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
@@ -30,7 +30,7 @@ Content-Type: multipart/alternative; boundary="=-2gZ1roA/HoYrlRDVGyiM"
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
 Evolution-tiimi toivottaa sinut tervetulleeksi käyttämään Evolutionia. 
@@ -44,33 +44,25 @@ Ohjeita uusille käyttäjille
     painikkeita, joista voit vaihtaa näkymää sähköpostin, kalenterin, 
     yhteystietojen, tehtävien ja muistilappujen välillä.
 
-    Voit lukea Evolutionin ohjekirjaa valitsemalla \"Ohje\"-valikosta
+    Voit lukea Evolutionin ohjekirjaa valitsemalla "Ohje"-valikosta
     kohta "Sisältö" valikosta tai painamalla F1-näppäintä. Valitettavasti 
     tätä ohjetta ei vielä kuitenkaan ole suomennettu.
 
 Uusia ominaisuuksia
 
-    Evolutionin version 2.6 uusia ominaisuuksia ovat muun muassa
+    Evolutionin version 2.8 uusia ominaisuuksia ovat muun muassa
 
-    # Uusi osa muistilappujen hallintaan
-    # Tapahtumien, tehtävien ja kokousten muokkaimella on uusi ulkoasu
-    # Tuki kalenterien julkaisemiselle
-    # Tuki CalDAV-protokollalle
-    # Tuki Network Manager -ohjelman hallitsemille verkkoyhteyksille
-    # HULA-yhteydet 
-    # Parannettu GroupWise-tuki
-    # Parannettu tapahtumien toistuvuuden tuki
-    # Kalenterien opasteet
-    # CSV/tab-muotoisten tietojen tuonti Mozillasta, Outlookista ja 
-      Evolutionista
-    # Yhteystietolistojen tuki LDAP-osoitekirjoissa
-    # Osoitekirjojen edistyneet haut voidaan tallentaa
-    # Viestin muokkaimessa viestit voidaan järjestää tärkeysjärjestykseen
-    # Paljon korjattuja virheitä ja parannuksia käyttöliittymään
+    # Uusi käyttöliittymä tekstin hakuun kaikista sähköposteista
+    # Leveän näytön tila ja pystysuuntainen viestin esikatselu
+    # Parannettu käyttötuntuma ja Cairo-tuki
+    # Nopeampi suorituskyky ja pienempi muistinkäytö
+    # Tuki Groupwise-tilien muistilapuille ja viestien perumiselle
+    # Tiedostojärjestelmässä tuetua jaettuvat päiväkirjan muistilaput
+    # Paljon korjattuja vikoja ja muita parannuksia 
 
 Vikailmoitukset
 
-    Raportoi löytämäsi viat osoitteessa http://bugzilla.gnome.org
+    Raportoi löytämäsi viat osoitteessa http://bugzilla.gnome.org.
 
 Lisätietoja
 
@@ -156,7 +148,7 @@ Content-Type: text/html; charset=utf-8
 
     <br /><br />
 
-    Voit lukea Evolutionin ohjekirjaa valitsemalla \"Ohje\"-valikosta
+    Voit lukea Evolutionin ohjekirjaa valitsemalla "Ohje"-valikosta
     kohta "Sisältö" valikosta tai painamalla F1-näppäintä. Valitettavasti 
     tätä ohjetta ei vielä kuitenkaan ole suomennettu.
 
@@ -166,24 +158,16 @@ Content-Type: text/html; charset=utf-8
 
 <blockquote>
 
-    Evolutionin version 2.6 uusia ominaisuuksia ovat muun muassa
+    Evolutionin version 2.8 uusia ominaisuuksia ovat muun muassa
     <br /><br />
     <ul>
-    <li> Uusi osa muistilappujen hallintaan </li>
-    <li> Tapahtumien, tehtävien ja kokousten muokkaimella on uusi ulkoasu </li>
-    <li> Tuki kalenterien julkaisemiselle </li>
-    <li> Tuki CalDAV-protokollalle </li>
-    <li> Tuki Network Manager -ohjelman hallitsemille verkkoyhteyksille </li>
-    <li> HULA-yhteydet  </li>
-    <li> Parannettu GroupWise-tuki </li>
-    <li> Parannettu tapahtumien toistuvuuden tuki </li>
-    <li> Kalenterien opasteet </li>
-    <li> CSV/tab-muotoisten tietojen tuonti Mozillasta, Outlookista ja
-         Evolutionista  </li>
-    <li> Yhteystietolistojen tuki LDAP-osoitekirjoissa </li>
-    <li> Osoitekirjojen edistyneet haut voidaan tallentaa </li>
-    <li> Viestin muokkaimessa viestit voidaan järjestää tärkeysjärjestykseen </li>
-    <li> Paljon korjattuja virheitä ja parannuksia käyttöliittymään </li>
+    <li>  Uusi käyttöliittymä tekstin hakuun kaikista sähköposteista </li>
+    <li>  Leveän näytön tila ja pystysuuntainen viestin esikatselu </li>
+    <li>  Parannettu käyttötuntuma ja Cairo-tuki </li>
+    <li>  Nopeampi suorituskyky ja pienempi muistinkäytö </li>
+    <li>  Tuki Groupwise-tilien muistilapuille ja viestien perumiselle </li>
+    <li>  Tiedostojärjestelmässä tuetua jaettuvat päiväkirjan muistilaput </li>
+    <li>  Paljon korjattuja vikoja ja muita parannuksia  </li>
     </ul>
 
 </blockquote>
@@ -200,15 +184,16 @@ Content-Type: text/html; charset=utf-8
 <h2> Lisätietoja </h2>
 
 <blockquote>
-
+    <p>
     Voit liittyä Evolution-käyttäjien sähköpostilistalle osoitteessa
 	<a href="http://mail.gnome.org/mailman/listinfo/evolution-list"
            >http://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
+    </p>
+    <p>
     Lisätietoja Evolutionista löytyy osoitteesta
 	<a href="http://www.gnome.org/projects/evolution"
             >http://www.gnome.org/projects/evolution</a>.
-
+    </p>
 </blockquote>
 
 Evolution-tiimi<br />
