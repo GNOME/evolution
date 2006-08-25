@@ -1,3 +1,4 @@
+# translation of ml.po to Malayalam
 # translation of evolution.HEAD.ml.po to Malayalam
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -8,10 +9,10 @@
 #: ../mail/em-format-html-display.c:683
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.ml\n"
+"Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 07:17+0200\n"
-"PO-Revision-Date: 2006-08-24 19:33+0530\n"
+"PO-Revision-Date: 2006-08-25 10:14+0530\n"
 "Last-Translator: Ani Peter <apeter@redhat.com>\n"
 "Language-Team: Malayalam\n"
 "MIME-Version: 1.0\n"
@@ -1266,7 +1267,6 @@ msgid "Work"
 msgstr "ജോലി"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
-#, fuzzy
 msgid "_Address: "
 msgstr "വിലാസം: (_A)"
 
@@ -3243,20 +3243,17 @@ msgid "Has Cursor"
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:620
-#, fuzzy
 msgid "_Open Link in Browser"
-msgstr "പുതിയ ജാലത്തില് തുറക്കുക"
+msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
 #: ../mail/em-folder-view.c:2503
-#, fuzzy
 msgid "_Copy Link Location"
-msgstr "ബന്ധ സ്ഥാനം പക‍ര്ത്തുക"
+msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:176
-#, fuzzy
 msgid "_Send New Message To ..."
-msgstr "വേറെ‌ സംരക്ഷിക്കൂ..."
+msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:177
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
@@ -9489,491 +9486,491 @@ msgstr ""
 
 #: ../calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/അസോര്‍സ്"
 
 #: ../calendar/zones.h:267
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/ബെര്‍മൂഡാ"
 
 #: ../calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/കാനറീ"
 
 #: ../calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/കേയ്പ്_വെര്‍ഡി"
 
 #: ../calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/ഫെറോ"
 
 #: ../calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/ജാന്‍_മയേന്‍"
 
 #: ../calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/മഡേയിറാ"
 
 #: ../calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/റെയിജാവിക്ക്"
 
 #: ../calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/സൌത്ത്_ജോര്‍ജിയാ"
 
 #: ../calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/സെന്‍റ്_ഹെലേനാ"
 
 #: ../calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "അറ്റ്ലാന്‍റിക്/സ്റ്റാന്‍ലീ"
 
 #: ../calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/അഡലെയിഡ്"
 
 #: ../calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/ബ്രിസ്ബന്‍"
 
 #: ../calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/ബ്രോക്കന്‍_ഹില്‍"
 
 #: ../calendar/zones.h:280
 msgid "Australia/Darwin"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/ഡാര്‍വിന്‍"
 
 #: ../calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/ഹോബാര്‍ട്ട്"
 
 #: ../calendar/zones.h:282
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/ലിന്‍ഡ്മാന്‍"
 
 #: ../calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/ലോര്‍ഡ്_ഹോവ്"
 
 #: ../calendar/zones.h:284
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/മെല്‍ബണ്‍"
 
 #: ../calendar/zones.h:285
 msgid "Australia/Perth"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/പേര്‍ഥ്"
 
 #: ../calendar/zones.h:286
 msgid "Australia/Sydney"
-msgstr ""
+msgstr "ഓസ്ട്രേലിയാ/സിഡ്ണീ"
 
 #: ../calendar/zones.h:287
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "യൂറോപ്പ്/ആംസ്റ്റര്‍ഡാം"
 
 #: ../calendar/zones.h:288
 msgid "Europe/Andorra"
-msgstr ""
+msgstr "യൂറോപ്പ്/ആന്‍ഡോറാ"
 
 #: ../calendar/zones.h:289
 msgid "Europe/Athens"
-msgstr ""
+msgstr "യൂറോപ്പ്/ഏഥെന്‍സ്"
 
 #: ../calendar/zones.h:290
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "യൂറോപ്പ്/ബെല്‍ഫാസ്റ്റ്"
 
 #: ../calendar/zones.h:291
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "യൂറോപ്പ്/ബെല്‍ഗ്രേഡ്"
 
 #: ../calendar/zones.h:292
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "യൂറോപ്പ്/ബെര്‍ലിന്‍"
 
 #: ../calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "യൂറോപ്പ്/ബ്രാട്ടിസ്ലാവാ"
 
 #: ../calendar/zones.h:294
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "യൂറോപ്പ്/ബ്രസ്സല്‍സ്"
 
 #: ../calendar/zones.h:295
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "യൂറോപ്പ്/ബുക്യാറെസ്റ്റ്"
 
 #: ../calendar/zones.h:296
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "യൂറോപ്പ്/ബുഡാപെസ്റ്റ്"
 
 #: ../calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "യൂറോപ്പ്/ചിസിനാവു"
 
 #: ../calendar/zones.h:298
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "യൂറോപ്പ്/കോപ്പന്‍ഹാഗന്‍"
 
 #: ../calendar/zones.h:299
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "യൂറോപ്പ്/ഡൂബ്ളിന്‍"
 
 #: ../calendar/zones.h:300
 msgid "Europe/Gibraltar"
-msgstr ""
+msgstr "യൂറോപ്പ്/ഗിബ്രാല്‍ട്ടര്‍"
 
 #: ../calendar/zones.h:301
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "യൂറോപ്പ്/ഹെല്‍സിങ്കി"
 
 #: ../calendar/zones.h:302
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "യൂറോപ്പ്/ഇസ്‍താന്‍ബുല്‍"
 
 #: ../calendar/zones.h:303
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "യൂറോപ്പ്/കാലിനിന്‍ഗ്രാഡ്"
 
 #: ../calendar/zones.h:304
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "യൂറോപ്പ്/കെയ്‍വ്"
 
 #: ../calendar/zones.h:305
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "യൂറോപ്പ്/ലിസ്ബണ്‍"
 
 #: ../calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "യൂറോപ്പ്/ജുബ്ജാനാ"
 
 #: ../calendar/zones.h:307
 msgid "Europe/London"
-msgstr ""
+msgstr "യൂറോപ്പ്/ലണ്ടന്‍"
 
 #: ../calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr ""
+msgstr "യൂറോപ്പ്/ലക്സംബര്‍ഗ്"
 
 #: ../calendar/zones.h:309
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "യൂറോപ്പ്/മാട്രിഡ്"
 
 #: ../calendar/zones.h:310
 msgid "Europe/Malta"
-msgstr ""
+msgstr "യൂറോപ്പ്/മാല്‍ട്ടാ"
 
 #: ../calendar/zones.h:311
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "യൂറോപ്പ്/മിന്‍സ്ക്"
 
 #: ../calendar/zones.h:312
 msgid "Europe/Monaco"
-msgstr ""
+msgstr "യൂറോപ്പ്/മൊണാകോ"
 
 #: ../calendar/zones.h:313
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "യൂറോപ്പ്/മോസ്കോ"
 
 #: ../calendar/zones.h:314
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "യൂറോപ്പ്/നിക്കോഷ്യാ"
 
 #: ../calendar/zones.h:315
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "യൂറോപ്പ്/ഓസ്ലോ"
 
 #: ../calendar/zones.h:316
 msgid "Europe/Paris"
-msgstr ""
+msgstr "യൂറോപ്പ്/പാരിസ്"
 
 #: ../calendar/zones.h:317
 msgid "Europe/Prague"
-msgstr ""
+msgstr "യൂറോപ്പ്/പ്രേഗ്"
 
 #: ../calendar/zones.h:318
 msgid "Europe/Riga"
-msgstr ""
+msgstr "യൂറോപ്പ്/റിഗാ"
 
 #: ../calendar/zones.h:319
 msgid "Europe/Rome"
-msgstr ""
+msgstr "യൂറോപ്പ്/റോം"
 
 #: ../calendar/zones.h:320
 msgid "Europe/Samara"
-msgstr ""
+msgstr "യൂറോപ്പ്/സമാറാ"
 
 #: ../calendar/zones.h:321
 msgid "Europe/San_Marino"
-msgstr ""
+msgstr "യൂറോപ്പ്/സാന്‍_മാരിനോ"
 
 #: ../calendar/zones.h:322
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "യൂറോപ്പ്/സാരാജിവോ"
 
 #: ../calendar/zones.h:323
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "യൂറോപ്പ്/സിംഫെറോപ്പോള്‍"
 
 #: ../calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "യൂറോപ്പ്/സ്കോപ്"
 
 #: ../calendar/zones.h:325
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "യൂറോപ്പ്/സോഫിയാ"
 
 #: ../calendar/zones.h:326
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "യൂറോപ്പ്/സ്റ്റോക്കോം"
 
 #: ../calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "യൂറോപ്പ്/റ്റാലിന്‍"
 
 #: ../calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "യൂറോപ്പ്/റ്റിറെയിന്‍"
 
 #: ../calendar/zones.h:329
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "യൂറോപ്പ്/ഉസ്കോറോഡ്"
 
 #: ../calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "യൂറോപ്പ്/വാഡുസ്"
 
 #: ../calendar/zones.h:331
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "യൂറോപ്പ്/വത്തിക്കാന്‍"
 
 #: ../calendar/zones.h:332
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "യൂറോപ്പ്/വിയെന്നാ"
 
 #: ../calendar/zones.h:333
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "യൂറോപ്പ്/വില്‍നിയസ്"
 
 #: ../calendar/zones.h:334
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "യൂറോപ്പ്/വാര്‍സോ"
 
 #: ../calendar/zones.h:335
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "യൂറോപ്പ്/സാഗ്രെബ്"
 
 #: ../calendar/zones.h:336
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "യൂറോപ്പ്/സപ്പോറോസീ"
 
 #: ../calendar/zones.h:337
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "യൂറോപ്പ്/സ്യൂറിക്ക്"
 
 #: ../calendar/zones.h:338
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/അന്‍ട്ടണാനാരിവോ"
 
 #: ../calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/ചാഗോസ്"
 
 #: ../calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/ക്രിസ്ത്മസ്"
 
 #: ../calendar/zones.h:341
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/കോക്കോസ്"
 
 #: ../calendar/zones.h:342
 msgid "Indian/Comoro"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/കോമോറോ"
 
 #: ../calendar/zones.h:343
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/കെര്‍ഗ്വിലന്‍"
 
 #: ../calendar/zones.h:344
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/മാഹേ"
 
 #: ../calendar/zones.h:345
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/മാല്‍ഡീവ്സ്"
 
 #: ../calendar/zones.h:346
 msgid "Indian/Mauritius"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/മൌറീഷ്യസ്"
 
 #: ../calendar/zones.h:347
 msgid "Indian/Mayotte"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/മായോട്ടേ"
 
 #: ../calendar/zones.h:348
 msgid "Indian/Reunion"
-msgstr ""
+msgstr "ഇന്ത്യന്‍/റീയൂണിയന്‍"
 
 #: ../calendar/zones.h:349
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "പസിഫിക്/ആപിയ"
 
 #: ../calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "പസിഫിക്/ഓക്ക്ലാന്‍ഡ്"
 
 #: ../calendar/zones.h:351
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "പസിഫിക്/ചാത്തം"
 
 #: ../calendar/zones.h:352
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "പസിഫിക്/ഈസ്റ്റര്‍"
 
 #: ../calendar/zones.h:353
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "പസിഫിക്/എഫേറ്റ്"
 
 #: ../calendar/zones.h:354
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "പസിഫിക്/എന്‍ഡര്‍ബറി"
 
 #: ../calendar/zones.h:355
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "പസിഫിക്/ഫക്കോഫോ"
 
 #: ../calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "പസിഫിക്/ഫിജി"
 
 #: ../calendar/zones.h:357
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "പസിഫിക്/ഫുനാഫുത്തി"
 
 #: ../calendar/zones.h:358
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "പസിഫിക്/ഗാലാപാഗോസ്"
 
 #: ../calendar/zones.h:359
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "പസിഫിക്/ഗാബിയര്‍"
 
 #: ../calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "പസിഫിക്/ഗ്വഡാല്‍കനാല്‍"
 
 #: ../calendar/zones.h:361
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "പസിഫിക്/ഗ്വാം"
 
 #: ../calendar/zones.h:362
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "പസിഫിക്/ഹോണോലുലു"
 
 #: ../calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "പസിഫിക്/ജോണ്‍സ്റ്റണ്‍"
 
 #: ../calendar/zones.h:364
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "പസിഫിക്/കിറിറ്റിമാറ്റി"
 
 #: ../calendar/zones.h:365
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "പസിഫിക്/കോസ്രായി"
 
 #: ../calendar/zones.h:366
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "പസിഫിക്/ക്വാജലീന്‍"
 
 #: ../calendar/zones.h:367
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "പസിഫിക്/മജൂറോ"
 
 #: ../calendar/zones.h:368
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "പസിഫിക്/മാര്‍ക്വിസാസ്"
 
 #: ../calendar/zones.h:369
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "പസിഫിക്/മിഡ്വേ"
 
 #: ../calendar/zones.h:370
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "പസിഫിക്/നൌറൂ"
 
 #: ../calendar/zones.h:371
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "പസിഫിക്/നിയൂ"
 
 #: ../calendar/zones.h:372
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "പസിഫിക്/നോര്‍ഫോക്ക്"
 
 #: ../calendar/zones.h:373
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "പസിഫിക്/നാവുമിയാ"
 
 #: ../calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "പസിഫിക്/പാഗോ_പാഗോ"
 
 #: ../calendar/zones.h:375
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "പസിഫിക്/പാലൌ"
 
 #: ../calendar/zones.h:376
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "പസിഫിക്/പിറ്റ്കാരിന്‍"
 
 #: ../calendar/zones.h:377
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "പസിഫിക്/പോണാപ്പ്"
 
 #: ../calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "പസിഫിക്/പോര്‍ട്ട്_മോറെസ്ബി"
 
 #: ../calendar/zones.h:379
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "പസിഫിക്/രാറോട്ടോങ്കാ"
 
 #: ../calendar/zones.h:380
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "പസിഫിക്/സായിപ്പാന്‍"
 
 #: ../calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "പസിഫിക്/താഹിത്തി"
 
 #: ../calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "പസിഫിക്/തരാവാ"
 
 #: ../calendar/zones.h:383
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "പസിഫിക്/ടോഗാടാപ്പു"
 
 #: ../calendar/zones.h:384
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "പസിഫിക്/ട്രൂക്ക്"
 
 #: ../calendar/zones.h:385
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "പസിഫിക്/വെയിക്"
 
 #: ../calendar/zones.h:386
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "പസിഫിക്/വാല്ലിസ്"
 
 #: ../calendar/zones.h:387
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "പസിഫിക്/യാപ്പ്"
 
 #: ../composer/e-msg-composer-attachment-bar.c:105
 #: ../widgets/misc/e-attachment-bar.c:107
@@ -11276,7 +11273,7 @@ msgstr "UNMATCHED"
 
 #: ../mail/em-folder-tree-model.c:484 ../mail/mail-component.c:151
 msgid "Drafts"
-msgstr "Drafts"
+msgstr ""
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
@@ -11431,7 +11428,7 @@ msgstr ""
 #: ../mail/em-folder-view.c:1115 ../mail/em-popup.c:561 ../mail/em-popup.c:572
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
-msgstr "മുന്നോട്ട്"
+msgstr ""
 
 #: ../mail/em-folder-view.c:1118 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
@@ -11681,7 +11678,7 @@ msgstr "Completed on %B %d, %Y, %l:%M %p"
 
 #: ../mail/em-format-html-display.c:1381
 msgid "Overdue:"
-msgstr "Overdue:"
+msgstr ""
 
 #: ../mail/em-format-html-display.c:1384
 msgid "by %B %d, %Y, %l:%M %p"
@@ -11709,14 +11706,12 @@ msgid "Attachment"
 msgstr ""
 
 #: ../mail/em-format-html-display.c:2073
-#, fuzzy
 msgid "Select folder to save all attachments..."
-msgstr "വേറെ‌ സംരക്ഷിക്കൂ..."
+msgstr ""
 
 #: ../mail/em-format-html-display.c:2120
-#, fuzzy
 msgid "_Save Selected..."
-msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+msgstr ""
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:2187
@@ -11789,7 +11784,7 @@ msgstr ""
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
-msgstr "ഇവിടെ"
+msgstr ""
 
 #: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:86
@@ -11827,7 +11822,7 @@ msgstr "<I> (%R %Z)</I>"
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
-msgstr "തിയ്യതി"
+msgstr "തീയതി"
 
 #: ../mail/em-format-html.c:1727 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:92
@@ -11852,14 +11847,12 @@ msgid "Unsupported encryption type for multipart/encrypted"
 msgstr ""
 
 #: ../mail/em-format.c:1446
-#, fuzzy
 msgid "Unsupported signature format"
-msgstr "പിന്തുണയ്‌ക്കപ്പെടാത്ത സംക്രിയ"
+msgstr "സംക്രിയ"
 
 #: ../mail/em-format.c:1454 ../mail/em-format.c:1520
-#, fuzzy
 msgid "Error verifying signature"
-msgstr "തെരയുമ്പോള് തകരാര്"
+msgstr ""
 
 #: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Unknown error verifying signature"
@@ -11950,20 +11943,19 @@ msgstr ""
 
 #: ../mail/em-popup.c:622
 msgid "_Add to Address Book"
-msgstr "ഇവലൂഷന് വിലാസപുസ്തകം"
+msgstr ""
 
 #: ../mail/em-subscribe-editor.c:582
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr ""
 
 #: ../mail/em-subscribe-editor.c:612
-#, fuzzy
 msgid "Subscribed"
-msgstr "ഭരമേല്‌ക്കുക"
+msgstr ""
 
 #: ../mail/em-subscribe-editor.c:616
 msgid "Folder"
-msgstr "കൂട്"
+msgstr "ഫോള്‍ഡര്‍"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:814
@@ -11975,45 +11967,38 @@ msgid "No server has been selected"
 msgstr ""
 
 #: ../mail/em-utils.c:141
-#, fuzzy
 msgid "Do not show this message again."
-msgstr "ഈ സംവാദം വീണ്ടും കാണിക്കുക"
+msgstr ""
 
 #: ../mail/em-utils.c:336
-#, fuzzy
 msgid "Message Filters"
-msgstr "നാരിഴ"
+msgstr ""
 
 #: ../mail/em-utils.c:516 ../mail/em-utils.c:553
-#, fuzzy
 msgid "message"
 msgstr "സന്ദേശം"
 
 #: ../mail/em-utils.c:688
-#, fuzzy
 msgid "Save Message..."
-msgstr "വേറെ‌ സംരക്ഷിക്കൂ..."
+msgstr ""
 
 #: ../mail/em-utils.c:737
-#, fuzzy
 msgid "Add address"
-msgstr "വിലാസം"
+msgstr ""
 
 #. Drop filename for messages from a mailbox
 #: ../mail/em-utils.c:1221
-#, fuzzy, c-format
+#, c-format
 msgid "Messages from %s"
-msgstr "സന്ദേശം"
+msgstr ""
 
 #: ../mail/em-vfolder-editor.c:112
-#, fuzzy
 msgid "Search _Folders"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../mail/em-vfolder-rule.c:591
-#, fuzzy
 msgid "Search Folder source"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
@@ -12418,14 +12403,12 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
-#, fuzzy
 msgid "Thread the message list."
-msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:97
-#, fuzzy
 msgid "Thread the message-list"
-msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "Thread the message-list based on Subject"
@@ -12522,14 +12505,12 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:121
-#, fuzzy
 msgid "Width of the message-list pane"
-msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:122
-#, fuzzy
 msgid "Width of the message-list pane."
-msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr ""
 
 #: ../mail/importers/elm-importer.c:192
 msgid "Importing Elm data"
@@ -12563,9 +12544,9 @@ msgstr ""
 
 #: ../mail/importers/evolution-outlook-importer.c:262
 #: ../mail/importers/mail-importer.c:233 ../shell/e-shell-importer.c:529
-#, fuzzy, c-format
+#, c-format
 msgid "Importing `%s'"
-msgstr "സുപ്രധാനമായ"
+msgstr ""
 
 #: ../mail/importers/evolution-outlook-importer.c:266
 #: ../mail/importers/netscape-importer.c:1254
@@ -12680,11 +12661,11 @@ msgid "Add Filter Rule"
 msgstr ""
 
 #: ../mail/mail-component.c:521
-#, fuzzy, c-format
+#, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] "നീക്കം ചെയ‌്തൂ"
-msgstr[1] "നീക്കം ചെയ‌്തൂ"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../mail/mail-component.c:523
 #, c-format
@@ -12694,11 +12675,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../mail/mail-component.c:546
-#, fuzzy, c-format
+#, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "കരട്‌"
-msgstr[1] "കരട്‌"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../mail/mail-component.c:548
 #, c-format
@@ -12741,51 +12722,44 @@ msgid "Compose a new mail message"
 msgstr ""
 
 #: ../mail/mail-component.c:827
-#, fuzzy
 msgid "New Mail Folder"
-msgstr "പുതിയ കൂട്"
+msgstr ""
 
 #: ../mail/mail-component.c:828
 msgid "Mail _Folder"
 msgstr ""
 
 #: ../mail/mail-component.c:829
-#, fuzzy
 msgid "Create a new mail folder"
-msgstr "ഒരു പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
+msgstr ""
 
 #: ../mail/mail-component.c:973
 msgid "Failed upgrading Mail settings or folders."
 msgstr ""
 
 #: ../mail/mail-config.c:85
-#, fuzzy
 msgid "I_mportant"
-msgstr "സുപ്രധാനമായ"
+msgstr ""
 
 #. red
 #: ../mail/mail-config.c:86
-#, fuzzy
 msgid "_Work"
-msgstr "പ്രവ‌ര്ത്തി"
+msgstr ""
 
 #. orange
 #: ../mail/mail-config.c:87
-#, fuzzy
 msgid "_Personal"
-msgstr "വ്യക്തിപരം"
+msgstr ""
 
 #. forest green
 #: ../mail/mail-config.c:88
-#, fuzzy
 msgid "_To Do"
-msgstr "ഉപകരണങ്ങള്"
+msgstr ""
 
 #. blue
 #: ../mail/mail-config.c:89
-#, fuzzy
 msgid "_Later"
-msgstr "ഒട്ടിപ്പ്"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:1
 msgid " Ch_eck for Supported Types "
@@ -12796,14 +12770,12 @@ msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>Sig_natures</b>"
-msgstr "<b>അവസ്ഥ</b>"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>_Languages</b>"
-msgstr "<b>അവസ്ഥ</b>"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:6
 msgid "<small>This will make the the filter more reliable, but slower</small>"
@@ -12952,11 +12924,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
-msgstr "Baltic (ISO-8859-13)"
+msgstr "ബാള്‍ട്ടിക്ക്  (ISO-8859-13)"
 
 #: ../mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-4)"
-msgstr "Baltic (ISO-8859-4)"
+msgstr "ബാള്‍ട്ടിക്ക് (ISO-8859-4)"
 
 #: ../mail/mail-config.glade.h:48
 msgid "Beep w_hen new mail arrives"
@@ -12983,23 +12955,20 @@ msgid "Checks incoming mail messages to be Junk"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:54
-#, fuzzy
 msgid "Cle_ar"
-msgstr "വൃത്തിയാക്കല്"
+msgstr "വെടിപ്പാക്കുക (_a)"
 
 #: ../mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Clea_r"
-msgstr "വൃത്തിയാക്കല്"
+msgstr "വെടിപ്പാക്കുക (_r)"
 
 #: ../mail/mail-config.glade.h:56
 msgid "Color for _misspelled words:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Colors"
-msgstr "വര്‌ണങ്ങള്‌"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
@@ -13033,12 +13002,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:71
 msgid "Done"
-msgstr "ചെയ്യ‍ുക"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Drafts _Folder:"
-msgstr "കൂട്:"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:73
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
@@ -13050,9 +13018,8 @@ msgid "Email Accounts"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:75
-#, fuzzy
 msgid "Email _Address:"
-msgstr "ഇമെയില് വിലാസം"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:76
 msgid "Empty trash folders on e_xit"
@@ -13083,14 +13050,12 @@ msgid "Format messages in _HTML"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:84
-#, fuzzy
 msgid "Full Nam_e:"
-msgstr "മൂഴുവന് പേര‍്:"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:86
-#, fuzzy
 msgid "HTML Mail"
-msgstr "തപാല്"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:87
 msgid "Headers"
@@ -13109,9 +13074,8 @@ msgid "Inline"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:94
-#, fuzzy
 msgid "Languages Table"
-msgstr "ഭാഷ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
@@ -13180,30 +13144,27 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:114
 msgid "Quoted"
-msgstr "ഉദ്ധരിച്ചു"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:115
-#, fuzzy
 msgid "Re_member password"
-msgstr "ഈ പാസ്സ്‍വേ‍ര്ഡ് ഓര്ക്കുക"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:116
 msgid "Re_ply-To:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:118
-#, fuzzy
 msgid "Remember _password"
-msgstr "ഈ പാസ്സ്‍വേ‍ര്ഡ് ഓര്ക്കുക"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:119
 msgid "S_elect..."
 msgstr ""
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid "S_end message receipts:"
-msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
@@ -13230,9 +13191,8 @@ msgid "Select HTML variable width font for printing"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:128
-#, fuzzy
 msgid "Select sound file"
-msgstr "അധികൃതമാക്കല് പരാചയപ്പെട്ടു"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
@@ -13259,9 +13219,8 @@ msgid "Signat_ure:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Signatures"
-msgstr "സിങ്കപ്പൂര്‌"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:137
 msgid "Signatures Table"
@@ -13276,9 +13235,8 @@ msgid "Spell Checking"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:140
-#, fuzzy
 msgid "T_ype: "
-msgstr "തരം:"
+msgstr "തരം: (_y)"
 
 #: ../mail/mail-config.glade.h:141
 msgid ""
@@ -13388,13 +13346,12 @@ msgid "_Use the same fonts as other applications"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:176
-#, fuzzy
 msgid "addresses"
-msgstr "വിലാസം"
+msgstr "വിലാസങ്ങള്‍"
 
 #: ../mail/mail-config.glade.h:177
 msgid "color"
-msgstr ""
+msgstr "നിറം"
 
 #: ../mail/mail-config.glade.h:178
 msgid "description"
@@ -13405,9 +13362,8 @@ msgid "    "
 msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
-#, fuzzy
 msgid "<b>Search Folder Sources</b>"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
@@ -13430,18 +13386,16 @@ msgid "All local folders"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:8
-#, fuzzy
 msgid "Case _sensitive"
-msgstr "ലിപി ഗ്രാഹകം"
+msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:1
 msgid "Co_mpleted"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:11
-#, fuzzy
 msgid "F_ind:"
-msgstr "കണ്ടെത്തുക:"
+msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
@@ -13469,14 +13423,12 @@ msgid "S_erver:"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:18
-#, fuzzy
 msgid "Security Information"
-msgstr "വിവരം"
+msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:19
-#, fuzzy
 msgid "Specific folders"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:3
 msgid ""
@@ -13542,9 +13494,8 @@ msgid "Failed to send %d of %d messages"
 msgstr ""
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:652
-#, fuzzy
 msgid "Canceled."
-msgstr "റദ്ദാക്കുക"
+msgstr ""
 
 #: ../mail/mail-ops.c:765
 msgid "Complete."
@@ -13628,11 +13579,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../mail/mail-ops.c:1942
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
-msgstr[1] "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../mail/mail-ops.c:2013
 #, c-format
@@ -13672,9 +13623,8 @@ msgid "Checking Service"
 msgstr ""
 
 #: ../mail/mail-send-recv.c:159
-#, fuzzy
 msgid "Canceling..."
-msgstr "റദ്ദാക്കുക"
+msgstr "റദ്ദാക്കുന്നു..."
 
 #: ../mail/mail-send-recv.c:349
 msgid "Send & Receive Mail"
@@ -13690,31 +13640,30 @@ msgstr "പരിഷ്കരിക്കുന്നു..."
 
 #: ../mail/mail-send-recv.c:453 ../mail/mail-send-recv.c:506
 msgid "Waiting..."
-msgstr ""
+msgstr "കാത്തിരിക്കുന്നു..."
 
 #: ../mail/mail-send-recv.c:738
 msgid "Checking for new mail"
 msgstr ""
 
 #: ../mail/mail-session.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Passphrase for %s"
-msgstr "%s അടയാളവാക്യം%s(ഉപയോക്താവ്%s)"
+msgstr ""
 
 #: ../mail/mail-session.c:207
-#, fuzzy
 msgid "Enter Passphrase"
-msgstr "അടയാളവാക്യം"
+msgstr ""
 
 #: ../mail/mail-session.c:210
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
-msgstr ""
+msgstr "%s-നുളള പാസ്‍വേര്‍ഡ് നല്‍കുക"
 
 #: ../mail/mail-session.c:212
 msgid "Enter Password"
-msgstr ""
+msgstr "പാസ്‍വേര്‍ഡ് നല്‍കുക"
 
 #: ../mail/mail-session.c:250
 msgid "User canceled operation."
@@ -13758,9 +13707,9 @@ msgid "Invalid folder: `%s'"
 msgstr ""
 
 #: ../mail/mail-vfolder.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "Setting up Search Folder: %s"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../mail/mail-vfolder.c:240
 #, c-format
@@ -13773,14 +13722,12 @@ msgid "Updating Search Folders for '%s'"
 msgstr ""
 
 #: ../mail/mail-vfolder.c:1023
-#, fuzzy
 msgid "Edit Search Folder"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../mail/mail-vfolder.c:1107
-#, fuzzy
 msgid "New Search Folder"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:1
 msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
@@ -13861,9 +13808,8 @@ msgid "Because &quot;{2}&quot;."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Blank Signature"
-msgstr "സിങ്കപ്പൂര്‌"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
@@ -13967,14 +13913,12 @@ msgid "Discard changes?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Do not delete"
-msgstr "നീക്കം ചെയ്യ‍ുക"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Do not disable"
-msgstr "സ്തംഭിപ്പിക്കുക"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:47
 msgid "Do you want the operation to be performed in the subfolders?"
@@ -13989,18 +13933,16 @@ msgid "Do you wish to save your changes?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:50
-#, fuzzy
 msgid "Enter password."
-msgstr "അടയാളവാക്യം"
+msgstr "പാസ്‍വേര്‍ഡ് നല്‍കുക."
 
 #: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:52
-#, fuzzy
 msgid "Error while performing operation."
-msgstr "തെരയുമ്പോള് തകരാര്"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
@@ -14049,9 +13991,8 @@ msgid "Ignore"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:64
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "അധികൃതമാക്കല്"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
@@ -14236,9 +14177,8 @@ msgid "Unable to read license file."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:115
-#, fuzzy
 msgid "Use _Default"
-msgstr "സ്വതേ"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:116
 msgid "Use default drafts folder?"
@@ -14276,9 +14216,8 @@ msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:125
-#, fuzzy
 msgid "_Append"
-msgstr "തുറക്കുക"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:126
 msgid "_Discard changes"
@@ -14293,9 +14232,8 @@ msgid "_Expunge"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:130
-#, fuzzy
 msgid "_Open Messages"
-msgstr "സന്ദേശം"
+msgstr ""
 
 #: ../mail/message-list.c:1019
 msgid "Unseen"
@@ -14342,11 +14280,11 @@ msgstr "?"
 #: ../mail/message-list.c:1473 ../plugins/itip-formatter/itip-view.c:202
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
-msgstr "Today %l:%M %p"
+msgstr "ഇന്ന് %l:%M %p"
 
 #: ../mail/message-list.c:1482 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
-msgstr "Yesterday %l:%M %p"
+msgstr "ഇന്നലെ %l:%M %p"
 
 #: ../mail/message-list.c:1494 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
@@ -14361,9 +14299,8 @@ msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2259 ../mail/message-list.etspec.h:9
-#, fuzzy
 msgid "Messages"
-msgstr "സന്ദേശം"
+msgstr "സന്ദേശങ്ങള്‍"
 
 #: ../mail/message-list.c:3647
 msgid "Generating message list"
@@ -14390,9 +14327,8 @@ msgid "Received"
 msgstr ""
 
 #: ../mail/message-list.etspec.h:14
-#, fuzzy
 msgid "Sent Messages"
-msgstr "സന്ദേശം"
+msgstr ""
 
 #: ../mail/message-list.etspec.h:15
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
@@ -14417,7 +14353,7 @@ msgstr ""
 
 #: ../mail/message-tag-followup.c:79 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr "മുന്നോട്ട്"
+msgstr ""
 
 #: ../mail/message-tag-followup.c:80
 msgid "No Response Necessary"
@@ -14460,9 +14396,8 @@ msgid "Subject or Sender contains"
 msgstr ""
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Address Books"
-msgstr "വിലാസം"
+msgstr ""
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
 msgid "Provides core functionality for local address books."
@@ -14520,9 +14455,8 @@ msgid "Backup and restore plugin"
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
-#, fuzzy
 msgid "Backup Settings..."
-msgstr "സജ്ജീകരണം"
+msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "Backup and restore Evolution data and settings"
@@ -14534,9 +14468,8 @@ msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:447 ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
-#, fuzzy
 msgid "Automatic Contacts"
-msgstr "തനിയെയുള്ള"
+msgstr ""
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:471
@@ -14544,9 +14477,8 @@ msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:477
-#, fuzzy
 msgid "Select Address book for Automatic Contacts"
-msgstr "തനിയെയുള്ള"
+msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:492
 msgid "Instant Messaging Contacts"
@@ -14586,9 +14518,8 @@ msgid "Use _SSL"
 msgstr ""
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Calendars"
-msgstr "കലണ്ടര്"
+msgstr ""
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Provides core functionality for local calendars."
@@ -14599,9 +14530,8 @@ msgid "_Secure connection"
 msgstr ""
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
-#, fuzzy
 msgid "HTTP Calendars"
-msgstr "കലണ്ടര്"
+msgstr ""
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
@@ -14621,9 +14551,8 @@ msgid "Weather: Partly Cloudy"
 msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Rain"
-msgstr "നല്ല മഴ"
+msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
 msgid "Weather: Snow"
@@ -14634,9 +14563,8 @@ msgid "Weather: Sunny"
 msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
-#, fuzzy
 msgid "Weather: Thunderstorms"
-msgstr "ഇടിയോടുകൂടിയ കൊടുങ്കാറ്റ്"
+msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
 msgid "Select a location"
@@ -14659,9 +14587,8 @@ msgid "Provides core functionality for weather calendars."
 msgstr ""
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
-#, fuzzy
 msgid "Weather Calendars"
-msgstr "നെത‌ര്ലാന്റ്സ്"
+msgstr ""
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
 msgid ""
@@ -14670,9 +14597,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
-#, fuzzy
 msgid "Copy tool"
-msgstr "പക‍ര്പ്പ്"
+msgstr ""
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -14696,14 +14622,12 @@ msgstr ""
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
-#, fuzzy
 msgid "Mark as _default folder"
-msgstr "ഒരു പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
+msgstr ""
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
-#, fuzzy
 msgid "Default Sources"
-msgstr "സ്വതേ"
+msgstr ""
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid ""
@@ -14716,25 +14640,21 @@ msgid "Open Other User's Folder"
 msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "വ്യക്തിവിവരം"
+msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
-msgstr "മൂഴുവന് പേര‍്:"
+msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
-msgstr "പേര‍് മാറ്റുക"
+msgstr "ഉപയോക്താവ്: (_U)"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
-#, fuzzy
 msgid "Secure Password"
-msgstr "അടയാളവാക്യം"
+msgstr ""
 
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-operations/exchange-account-setup.c:66
@@ -14744,9 +14664,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
-#, fuzzy
 msgid "Plaintext Password"
-msgstr "അടയാളവാക്യം"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:76
 msgid ""
@@ -14755,9 +14674,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
-#, fuzzy
 msgid "Out Of Office"
-msgstr "കാര്യാലയം"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:264
 msgid ""
@@ -14777,15 +14695,13 @@ msgstr ""
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:328
-#, fuzzy
 msgid "Change the password for Exchange account"
-msgstr "%s അടയാളവാക്യം%s(ഉപയോക്താവ്%s)"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:330
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
-#, fuzzy
 msgid "Change Password"
-msgstr "അടയാളവാക്യം"
+msgstr "പാസ്‍വേര്‍ഡ് മാറ്റുക"
 
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
@@ -14798,9 +14714,8 @@ msgstr ""
 
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:349
-#, fuzzy
 msgid "Miscelleneous"
-msgstr "പലവക"
+msgstr ""
 
 #. Folder Size
 #: ../plugins/exchange-operations/exchange-account-setup.c:359
@@ -14808,30 +14723,25 @@ msgid "View the size of all Exchange folders"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:361
-#, fuzzy
 msgid "Folders Size"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:368
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "സജ്ജീകരണം"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:610
-#, fuzzy
 msgid "_OWA URL:"
-msgstr "ചേര്ക്കുക"
+msgstr "_OWA URL:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:636
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "അധികൃതമാക്കല്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:829
-#, fuzzy
 msgid "Authentication Type"
-msgstr "അധികൃതമാക്കല്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
@@ -14858,19 +14768,16 @@ msgid "The two passwords do not match. Please re-enter the passwords."
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
-#, fuzzy
 msgid "Confirm Password:"
-msgstr "അടയാളവാക്യം"
+msgstr "പാസ്‍വേര്‍ഡ് ഉറപ്പ് വരുത്തുക:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
-#, fuzzy
 msgid "Current Password:"
-msgstr "അടയാളവാക്യം"
+msgstr "നിലവിലുളള പാസ്‍വേര്‍ഡ്:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:4
-#, fuzzy
 msgid "New Password:"
-msgstr "അടയാളവാക്യം"
+msgstr "പുതിയ പാസ്‍വേര്‍ഡ്:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
 msgid "Your current password has expired. Please change your password now."
@@ -14885,26 +14792,23 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
 #: ../widgets/table/e-table-header-item.c:1572
-#, fuzzy
 msgid "Custom"
-msgstr "മുറിപ്പ്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
-#, fuzzy
 msgid "Delegate Permissions"
-msgstr "നീക്കം ചെയ്യ‍ുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:202
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Permissions for %s"
-msgstr "അനുവാദങ്ങള്‌"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
-#, fuzzy
 msgid "Delegate To"
-msgstr "നീക്കം ചെയ്യ‍ുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
@@ -14925,24 +14829,22 @@ msgid "Could not find delegate %s in Active Directory"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:717
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove delegate %s"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:777
-#, fuzzy
 msgid "Could not update list of delegates."
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:795
-#, fuzzy, c-format
+#, c-format
 msgid "Could not add delegate %s"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:963
-#, fuzzy
 msgid "Error reading delegates list."
-msgstr "ഇവലൂഷന് വിലാസപുസ്തകം"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
@@ -14950,29 +14852,25 @@ msgstr ""
 
 #. Translators: This is used for permissions for <user> for the folder Calendar.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
-#, fuzzy
 msgid "C_alendar:"
-msgstr "കലണ്ടര്"
+msgstr ""
 
 #. Translators: This is used for permissions for <user> for the folder Contacts.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "ബന്ധം സ്ഥാപിക്കുന്നു..."
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#, fuzzy
 msgid "Delegates"
-msgstr "നീക്കം ചെയ്യ‍ുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
-#, fuzzy
 msgid "Permissions for"
-msgstr "അനുവാദങ്ങള്‌"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
@@ -14985,37 +14883,31 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
-#, fuzzy
 msgid "_Delegate can see private items"
-msgstr "ഒരു പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
+msgstr ""
 
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
-#, fuzzy
 msgid "_Inbox:"
-msgstr "ഇന്‌ബോക്സ്"
+msgstr ""
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:19
-#, fuzzy
 msgid "_Tasks:"
-msgstr "അനുബന്ധങ്ങള്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-folder-permission.c:58
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
-#, fuzzy
 msgid "Permissions..."
-msgstr "അനുവാദങ്ങള്‌"
+msgstr "അനുവാദങ്ങള്‍..."
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:135
-#, fuzzy
 msgid "Folder Name"
-msgstr "കൂട്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:139
-#, fuzzy
 msgid "Folder Size"
-msgstr "കൂട്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:310
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
@@ -15029,21 +14921,20 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-folder.c:66
 #: ../plugins/exchange-operations/exchange-folder.c:229
 #: ../plugins/exchange-operations/exchange-folder.c:239
-#, fuzzy
 msgid "Unsubscribe Folder..."
-msgstr "ഭരമേല്‌ക്കാതിരിക്കുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-folder.c:459
 #: ../plugins/exchange-operations/exchange-folder.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
-msgstr "ഭരമേല്‌ക്കാതിരിക്കുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-folder.c:471
 #: ../plugins/exchange-operations/exchange-folder.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribe from \"%s\""
-msgstr "ഭരമേല്‌ക്കാതിരിക്കുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
@@ -15054,61 +14945,52 @@ msgid "Your password will expire in 7 days..."
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
-#, fuzzy
 msgid "_Change Password"
-msgstr "അടയാളവാക്യം"
+msgstr "പാസ്‍വേര്‍ഡ് മാറ്റുക (_C)"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:4
 msgid "ok_button"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
-#, fuzzy
 msgid "(Permission denied.)"
-msgstr "അനുവാദങ്ങള്‌"
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
-msgid "Add User:"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
-#, fuzzy
+msgid "Add User:"
+msgstr "ഉപയോക്താവിനെ ചേര്‍ക്കുക:"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User"
-msgstr "ചേര്ക്കുക"
+msgstr "ഉപയോക്താവിനെ ചേര്‍ക്കുക"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Permissions</b>"
-msgstr "ബദലുകള്‌"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
-#, fuzzy
 msgid "Cannot Delete"
-msgstr "രചന തുറക്കുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Edit"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
-#, fuzzy
 msgid "Create items"
-msgstr "ക്രൊയോഷ്യ"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
-#, fuzzy
 msgid "Create subfolders"
-msgstr "ഒരു പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
-#, fuzzy
 msgid "Delete Any Items"
-msgstr "നീക്കം ചെയ്യ‍ുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
-#, fuzzy
 msgid "Delete Own Items"
-msgstr "നീക്കം ചെയ്യ‍ുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
 msgid "Edit Any Items"
@@ -15119,19 +15001,16 @@ msgid "Edit Own Items"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
-#, fuzzy
 msgid "Folder contact"
-msgstr "ഉള്‍ക്കൊള്ളുന്നു"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
-#, fuzzy
 msgid "Folder owner"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
-#, fuzzy
 msgid "Folder visible"
-msgstr "കൂടുകള്"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
 msgid "Read items"
@@ -15146,14 +15025,12 @@ msgid "No, Don't Change Status"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
-#, fuzzy
 msgid "Select User"
-msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+msgstr "ഉപയോക്താവിനെ തിരഞ്ഞെടുക്കുക"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
-#, fuzzy
 msgid "Address Book..."
-msgstr "വിലാസം"
+msgstr "വിലാസപുസ്തകം..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
@@ -15170,23 +15047,20 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
-#, fuzzy
 msgid "Exchange Operations"
-msgstr "സജ്ജീകരണം"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
-#, fuzzy
 msgid "Cannot display folders."
-msgstr "രചന തുറക്കുക"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
-#, fuzzy
 msgid "Cannot perform the operation."
-msgstr "തെരയുമ്പോള് തകരാര്"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid ""
@@ -15199,9 +15073,8 @@ msgid "Could not authenticate to server."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
-#, fuzzy
 msgid "Could not change password."
-msgstr "അടയാളവാക്യം"
+msgstr "പാസ്‍വേര്‍ഡ് മാറ്റുവാന്‍ സാധ്യമല്ല."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 msgid ""
@@ -15235,23 +15108,20 @@ msgid "Could not make {0} a delegate"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
-#, fuzzy
 msgid "Could not read folder permissions"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
-#, fuzzy
 msgid "Could not read folder permissions."
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not read out-of-office state"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
-#, fuzzy
 msgid "Could not update folder permissions."
-msgstr "നിറം സംസ്ഥാപിക്കാന്‌ കഴിയുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Could not update out-of-office state"
@@ -15278,23 +15148,20 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
-#, fuzzy
 msgid "Failed to update delegates:"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
 msgid "Folder already exists"
-msgstr ""
+msgstr "ഫോള്‍ഡര്‍ നിലവിലുണ്ട്"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
-#, fuzzy
 msgid "Folder does not exist"
-msgstr "ഗുണഗണങ്ങള്‌"
+msgstr "ഫോള്‍ഡര്‍ നിലവിലില്ല"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
-#, fuzzy
 msgid "Folder offline"
-msgstr "ഗുണഗണങ്ങള്‌"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1270
@@ -15353,7 +15220,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "Please select a user."
-msgstr ""
+msgstr "ഒരു ഉപയോക്താവിനെ തിരഞ്ഞെടുക്കുക."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "Server rejected password because it is too weak."
@@ -15388,36 +15255,31 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Try again with a different password."
-msgstr ""
+msgstr "മറ്റൊരു പാസ്‍വേര്‍ഡ് ഉപയോഗിച്ച് വീണ്ടും ശ്രമിക്കുക."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 msgid "Unable to add user to access control list:"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
-#, fuzzy
 msgid "Unable to edit delegates."
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
-#, fuzzy
 msgid "Unknown error looking up {0}"
-msgstr "അറിയാത്ത ഏതോ പ്രശ്നം"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-#, fuzzy
 msgid "Unknown error."
-msgstr "അറിയാത്ത ഏതോ പ്രശ്നം"
+msgstr "അപരിചിതമായ പിശക്."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
-#, fuzzy
 msgid "Unknown type"
-msgstr "അറിയപ്പെടാത്ത"
+msgstr "അറിയപ്പെടാത്ത തരം"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-#, fuzzy
 msgid "Unsupported operation"
-msgstr "പിന്തുണയ്‌ക്കപ്പെടാത്ത സംക്രിയ"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You are nearing your quota available for storing mail on this server."
@@ -15455,7 +15317,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "Your password has expired."
-msgstr ""
+msgstr "നിങ്ങളുടെ പാസ്‍വേര്‍ഡിന്‍റെ കാലാവധി കഴിഞ്ഞിരിക്കുന്നു."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid "{0} cannot be added to an access control list"
@@ -15487,74 +15349,63 @@ msgid "Allows unsubscribing of mail folders in the folder tree context menu."
 msgstr ""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
-#, fuzzy
 msgid "Unsubscribe Folders"
-msgstr "ഭരമേല്‌ക്കാതിരിക്കുക"
+msgstr ""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
-msgstr "ഭരമേല്‌ക്കാതിരിക്കുക"
+msgstr ""
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:390
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:421
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:600
-#, fuzzy
 msgid "Notes"
-msgstr "വടക്ക്-കിഴക്ക്"
+msgstr "കുറിപ്പുകള്‍"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:420
-#, fuzzy
 msgid "Checklist"
-msgstr "നാമാവലി"
+msgstr ""
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Groupwise Account Setup"
 msgstr ""
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
-#, fuzzy
 msgid "Junk Settings"
-msgstr "സജ്ജീകരണം"
+msgstr ""
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
 msgid "<b>Junk Mail Settings</b>"
 msgstr ""
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
-#, fuzzy
 msgid "Junk Mail Settings..."
-msgstr "സജ്ജീകരണം"
+msgstr ""
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
-#, fuzzy
 msgid "<b>Junk List:</b>"
-msgstr "<b>അവസ്ഥ</b>"
+msgstr ""
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
-#, fuzzy
 msgid "Email:"
-msgstr "ഇ-മെയില്"
+msgstr "ഇ-മെയില്‍:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
-#, fuzzy
 msgid "Junk Mail Settings"
-msgstr "സജ്ജീകരണം"
+msgstr ""
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
-#, fuzzy
 msgid "_Disable"
-msgstr "സ്തംഭിപ്പിക്കുക"
+msgstr "പ്രവര്‍ത്തന രഹിതമാക്കുക (_D)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:6
-#, fuzzy
 msgid "_Enable"
-msgstr "പ്രാപ്യം"
+msgstr "പ്രവര്‍ത്തന സജ്ജമാക്കുക (_E)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
-#, fuzzy
 msgid "_Junk List"
-msgstr "ജൂണ്"
+msgstr ""
 
 #: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message retracted successfully"
@@ -15571,9 +15422,8 @@ msgstr ""
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "Send Options"
-msgstr "ബദലുകള്‌"
+msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
@@ -15588,9 +15438,8 @@ msgid "Accept Tentatively"
 msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:1
-#, fuzzy
 msgid "<b>Users:</b>"
-msgstr "<b>അവസ്ഥ</b>"
+msgstr "<b>ഉപയോക്താക്കള്‍:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
 #: ../widgets/table/e-table-click-to-add.c:509
@@ -15606,9 +15455,8 @@ msgid "The participants will receive the following notification.\n"
 msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:10
-#, fuzzy
 msgid "_Contacts..."
-msgstr "ബന്ധം സ്ഥാപിക്കുന്നു..."
+msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:11
 msgid "_Customize notification message"
@@ -15623,28 +15471,24 @@ msgid "_Shared With ..."
 msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:15
-#, fuzzy
 msgid "_Sharing"
-msgstr "തെരയുന്നു"
+msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Name</b>"
-msgstr "<b>അവസ്ഥ</b>"
+msgstr "<b>പേര്</b>"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
 msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
-#, fuzzy
 msgid "Add/Edit"
-msgstr "ചിട്ട"
+msgstr "ചേര്‍ക്കുക/മാറ്റം വരുത്തുക"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
-#, fuzzy
 msgid "Con_tacts"
-msgstr "ബന്ധം സ്ഥാപിക്കുന്നു..."
+msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
@@ -15659,34 +15503,29 @@ msgid "Reminder Notes"
 msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
-#, fuzzy
 msgid "Subscribe to my _alarms"
-msgstr "ഭരമേല്‌ക്കുക"
+msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
-#, fuzzy
 msgid "Subscribe to my _notifications"
-msgstr "ഭരമേല്‌ക്കുക"
+msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
-#, fuzzy
 msgid "_Read"
-msgstr "പുതുക്കുക"
+msgstr "വായിക്കുക (_R)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
-#, fuzzy
 msgid "_Write"
-msgstr "മേലെഴുത്ത്"
+msgstr "എഴുതുക (_W)"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
 msgstr ""
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "വ്യക്തിവിവരം"
+msgstr ""
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
@@ -15696,17 +15535,16 @@ msgstr ""
 #: ../plugins/groupwise-features/proxy-login.c:263
 #: ../plugins/groupwise-features/proxy.c:503
 #: ../plugins/groupwise-features/send-options.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "%s അടയാളവാക്യം%s(ഉപയോക്താവ്%s)"
+msgstr "%s %s-നുളള പാസ്‍വേര്‍ഡ് നല്‍കുക (ഉപയോക്താവ് %s)"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
 #. * feature by which one person can send/read mails/appointments using another person's identity
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:517
-#, fuzzy
 msgid "_Proxy Login..."
-msgstr "അച്ചടി..."
+msgstr ""
 
 #: ../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
@@ -15718,26 +15556,23 @@ msgstr ""
 
 #: ../plugins/groupwise-features/share-folder-common.c:322
 msgid "Users"
-msgstr ""
+msgstr "ഉപയോക്താക്കള്‍"
 
 #: ../plugins/groupwise-features/share-folder-common.c:323
 msgid "Enter the users and set permissions"
 msgstr ""
 
 #: ../plugins/groupwise-features/share-folder-common.c:342
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "പുതിയ കൂട്"
+msgstr ""
 
 #: ../plugins/groupwise-features/share-folder-common.c:450
-#, fuzzy
 msgid "Sharing"
-msgstr "തെരയുന്നു"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:242
-#, fuzzy
 msgid "Track Message Status..."
-msgstr "വേറെ‌ സംരക്ഷിക്കൂ..."
+msgstr ""
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
@@ -15748,40 +15583,34 @@ msgid "Hula Account Setup"
 msgstr ""
 
 #: ../plugins/import-ics-attachments/icsimporter.c:83
-#, fuzzy
 msgid "_Import to Calendar"
-msgstr "കലണ്ടര്"
+msgstr ""
 
 #: ../plugins/import-ics-attachments/icsimporter.c:88
-#, fuzzy
 msgid "_Import to Tasks"
-msgstr "സുപ്രധാനമായ"
+msgstr ""
 
 #: ../plugins/import-ics-attachments/icsimporter.c:198
-#, fuzzy
 msgid "Import ICS"
-msgstr "സുപ്രധാനമായ"
+msgstr ""
 
 #: ../plugins/import-ics-attachments/icsimporter.c:226
-#, fuzzy
 msgid "Select Task List"
-msgstr "അനുബന്ധങ്ങള്"
+msgstr ""
 
 #: ../plugins/import-ics-attachments/icsimporter.c:230
-#, fuzzy
 msgid "Select Calendar"
-msgstr "ന്യ‌ൂ കാലിഡോണിയ"
+msgstr "കലണ്ടര്‍ തിരഞ്ഞെടുക്കുക"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:261
 #: ../shell/e-shell-importer.c:714
-#, fuzzy
 msgid "_Import"
-msgstr "സുപ്രധാനമായ"
+msgstr ""
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:149
 msgid "iCalendar format (.ics)"
-msgstr ""
+msgstr "iCalendar രീതി (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/calendar/addressbook with Apple iPod"
@@ -15806,27 +15635,24 @@ msgid ""
 msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
-#, fuzzy
 msgid "Could not export data!"
-msgstr "നിറം സംസ്ഥാപിക്കാന്‌ കഴിയുന്നില്ല"
+msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:203
 msgid "Exporting data failed."
 msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:231
-#, fuzzy
 msgid "Could not open addressbook!"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:232
 msgid "Could not open the Evolution addressbook to export data."
 msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:291
-#, fuzzy
 msgid "Could not open calendar/todo!"
-msgstr "നിറം സംസ്ഥാപിക്കാന്‌ കഴിയുന്നില്ല"
+msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
@@ -15834,9 +15660,9 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
 #: ../plugins/itip-formatter/itip-formatter.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load the calendar '%s'"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:415
 #, c-format
@@ -15844,24 +15670,21 @@ msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "Found the appointment in the calendar '%s'"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:517
-#, fuzzy
 msgid "Unable to find any calendars"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:524
-#, fuzzy
 msgid "Unable to find this meeting in any calendar"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:528
-#, fuzzy
 msgid "Unable to find this task in any task list"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:532
 msgid "Unable to find this journal entry in any journal"
@@ -15872,9 +15695,8 @@ msgid "Searching for an existing version of this appointment"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:800
-#, fuzzy
 msgid "Unable to parse item"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:857
 #, c-format
@@ -15919,9 +15741,9 @@ msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:1096
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to update attendee. %s"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:1100
 msgid "Attendee status updated"
@@ -15981,54 +15803,54 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:188 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:241
 msgid "Today"
-msgstr "Today"
+msgstr "ഇന്ന്"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:193
 msgid "Today %H:%M"
-msgstr "Today %H:%M"
+msgstr "ഇന്ന് %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:197
 msgid "Today %H:%M:%S"
-msgstr "Today %H:%M:%S"
+msgstr "ഇന്ന് %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:206
 msgid "Today %l:%M:%S %p"
-msgstr "Today %l:%M:%S %p"
+msgstr "ഇന്ന് %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:216
 msgid "Tomorrow"
-msgstr "Tomorrow"
+msgstr "നാളെ"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:221
 msgid "Tomorrow %H:%M"
-msgstr "Tomorrow %H:%M"
+msgstr "നാളെ %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:225
 msgid "Tomorrow %H:%M:%S"
-msgstr "Tomorrow %H:%M:%S"
+msgstr "നാളെ %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:230
 msgid "Tomorrow %l:%M %p"
-msgstr "Tomorrow %l:%M %p"
+msgstr "നാളെ %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:234
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Tomorrow %l:%M:%S %p"
+msgstr "നാളെ %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:253
@@ -16123,7 +15945,7 @@ msgstr "%A, %B %e, %Y %l:%M:%S %p"
 #: ../plugins/itip-formatter/itip-view.c:348
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> through %s has published the following meeting information:"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:350
 #, c-format
@@ -16294,32 +16116,28 @@ msgstr ""
 
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:755
-#, fuzzy
 msgid "_Open Calendar"
-msgstr "ന്യ‌ൂ കാലിഡോണിയ"
+msgstr "കലണ്ടര്‍ തുറക്കുക (_O)"
 
 #: ../plugins/itip-formatter/itip-view.c:761
 #: ../plugins/itip-formatter/itip-view.c:765
 #: ../plugins/itip-formatter/itip-view.c:771
 #: ../plugins/itip-formatter/itip-view.c:788
 #: ../plugins/itip-formatter/itip-view.c:793
-#, fuzzy
 msgid "_Decline"
-msgstr "നീക്കിക്കളയുന്നു"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:762
 #: ../plugins/itip-formatter/itip-view.c:767
 #: ../plugins/itip-formatter/itip-view.c:774
 #: ../plugins/itip-formatter/itip-view.c:790
 #: ../plugins/itip-formatter/itip-view.c:795
-#, fuzzy
 msgid "_Accept"
-msgstr "സമ്മതം"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:765
-#, fuzzy
 msgid "_Decline all"
-msgstr "നീക്കിക്കളയുന്നു"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:766
 msgid "_Tentative all"
@@ -16329,48 +16147,42 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:772
 #: ../plugins/itip-formatter/itip-view.c:789
 #: ../plugins/itip-formatter/itip-view.c:794
-#, fuzzy
 msgid "_Tentative"
-msgstr "അധികൃതമാക്കല്"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:767
-#, fuzzy
 msgid "_Accept all"
-msgstr "സമ്മതം"
+msgstr ""
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:778
-#, fuzzy
 msgid "_Send Information"
-msgstr "വിവരം"
+msgstr ""
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:782
-#, fuzzy
 msgid "_Update Attendee Status"
-msgstr "വിലാസപുസ്തകം തുറക്കാന് പററുന്നില്ല"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:785
-#, fuzzy
 msgid "_Update"
-msgstr "പരിഷ്ക്കരിക്കുക"
+msgstr "പരിഷ്ക്കരിക്കുക (_U)"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:944
-#, fuzzy
 msgid "Start time:"
-msgstr "അവസ്ഥ"
+msgstr "തുടങ്ങുന്ന സമയം:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:953
 msgid "End time:"
-msgstr ""
+msgstr "അവസാനിക്കുന്ന സമയം:"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:969
 #: ../plugins/itip-formatter/itip-view.c:1019
 msgid "Comment:"
-msgstr ""
+msgstr "അഭിപ്രായം:"
 
 #: ../plugins/itip-formatter/itip-view.c:1033
 msgid "Send u_pdates to attendees"
@@ -16381,9 +16193,8 @@ msgid "A_pply to all instances"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:1711
-#, fuzzy
 msgid "_Tasks :"
-msgstr "അനുബന്ധങ്ങള്"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:1713
 msgid "Memos :"
@@ -16420,14 +16231,13 @@ msgid "Allows disabling of accounts."
 msgstr ""
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-#, fuzzy
 msgid "Disable Account"
-msgstr "സ്തംഭിപ്പിക്കുക"
+msgstr ""
 
 #: ../plugins/mail-remote/client.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "System error: %s"
-msgstr "അറിയാത്ത ഏതോ പ്രശ്നം"
+msgstr "സിസ്റ്റത്തില്‍ പിശക്: %s"
 
 #: ../plugins/mail-remote/client.c:32
 #, c-format
@@ -16447,9 +16257,8 @@ msgid "A plugin which implements a CORBA interface for accessing mail data remot
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
-#, fuzzy
 msgid "Mail Remote"
-msgstr "കൂട്:"
+msgstr ""
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
@@ -16516,14 +16325,12 @@ msgid "_Post message to list"
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
-#, fuzzy
 msgid "_Subscribe to list"
-msgstr "ഭരമേല്‌ക്കുക"
+msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
-#, fuzzy
 msgid "_Un-subscribe to list"
-msgstr "ഭരമേല്‌ക്കാതിരിക്കുക"
+msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -16582,14 +16389,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
-#, fuzzy
 msgid "_Edit message"
-msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr "സന്ദേശത്തില്‍ മാറ്റങ്ങള്‍ വരുത്തുക (_E)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
-#, fuzzy
 msgid "_Send message"
-msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
+msgstr "സന്ദേശം അയയ്ക്കുക (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact List _Owner"
@@ -16604,9 +16409,8 @@ msgid "Get List _Archive"
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
-#, fuzzy
 msgid "Get List _Usage Information"
-msgstr "വിവരം"
+msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get an archive of the list this message belongs to"
@@ -16629,19 +16433,16 @@ msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#, fuzzy
 msgid "_Post Message to List"
-msgstr "സന്ദേശം"
+msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#, fuzzy
 msgid "_Subscribe to List"
-msgstr "ഭരമേല്‌ക്കുക"
+msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Unsubscribe from List"
-msgstr "ഭരമേല്‌ക്കാതിരിക്കുക"
+msgstr ""
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -16698,22 +16499,20 @@ msgstr ""
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 #: ../plugins/plugin-manager/plugin-manager.c:180
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "പാലകന്‌"
+msgstr ""
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
 msgstr ""
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "_Plugins"
-msgstr "അച്ചടി"
+msgstr "പ്ളഗിനുകള്‍ (_P)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:43
 msgid "Author(s)"
-msgstr ""
+msgstr "രചയിതാവ്"
 
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../widgets/table/e-table-config-no-group.glade.h:6
@@ -16728,7 +16527,7 @@ msgstr ""
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
 msgid "Plugin"
-msgstr ""
+msgstr "പ്ളഗിന്‍"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
@@ -16761,7 +16560,7 @@ msgstr ""
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
 msgid "HTML Mode"
-msgstr ""
+msgstr "HTML രീതി"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -16772,17 +16571,15 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "അച്ചടി-തിരനോട്ടം"
+msgstr ""
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
-#, fuzzy
 msgid "Prints the message"
-msgstr "സംയോജനം"
+msgstr "സന്ദേശം പ്രിന്‍റ് ചെയ്യുന്നു"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
-#, fuzzy
 msgid "Evolution Profiler"
-msgstr "ഇവലൂഷന് വിലാസപുസ്തകം"
+msgstr ""
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
@@ -16793,31 +16590,28 @@ msgid "Allows calendars to be published to the web"
 msgstr ""
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Calendar Publishing"
-msgstr "കലണ്ടര്"
+msgstr ""
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Locations"
-msgstr "സ്ഥാനം:"
+msgstr "സ്ഥാനങ്ങള്‍"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
-#, fuzzy
 msgid "_Publish Calendar Information"
-msgstr "വിവരം"
+msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.c:399
 msgid "Are you sure you want to remove this URL?"
-msgstr ""
+msgstr "നിങ്ങള്‍ക്ക് ഈ URL നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">സ്ഥാനം</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ഉറവിടങ്ങള്‍</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
 msgid ""
@@ -16827,14 +16621,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
-#, fuzzy
 msgid "P_ort:"
-msgstr "അച്ചടി"
+msgstr "പോര്‍ട്ട്:(_o)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
-#, fuzzy
 msgid "Publishing Location"
-msgstr "കലണ്ടര്"
+msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:12
 msgid "Publishing _Frequency:"
@@ -16852,29 +16644,26 @@ msgid ""
 msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
-#, fuzzy
 msgid "Service _type:"
-msgstr "ഉറവിടം"
+msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
-#, fuzzy
 msgid "_File:"
-msgstr "ശേഖരം"
+msgstr "ഫയല്‍: (_F)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
 msgid "_Publish as:"
 msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:28
-#, fuzzy
 msgid ""
 "iCal\n"
 "Free/Busy"
-msgstr "തിരക്ക്"
+msgstr ""
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:102
 msgid "Spamassassin (built-in)"
-msgstr ""
+msgstr "Spamassassin (built-in)"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid ""
@@ -16892,14 +16681,12 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
-#, fuzzy
 msgid "Save attachments"
-msgstr "സംയോജനം"
+msgstr ""
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments ..."
-msgstr "വേറെ‌ സംരക്ഷിക്കൂ..."
+msgstr ""
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
 msgid "Save all attachments"
@@ -16911,7 +16698,7 @@ msgstr ""
 
 #: ../plugins/save-attachments/save-attachments.c:359
 msgid "MIME Type"
-msgstr "MIME Type"
+msgstr "MIME തരം"
 
 #: ../plugins/save-attachments/save-attachments.c:367
 #: ../ui/evolution-editor.xml.h:12 ../ui/evolution-message-composer.xml.h:19
@@ -16931,14 +16718,12 @@ msgid "UID"
 msgstr "UID"
 
 #: ../plugins/save-calendar/csv-format.c:387
-#, fuzzy
 msgid "Description List"
-msgstr "വിവരണം"
+msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:388
-#, fuzzy
 msgid "Categories List"
-msgstr "വ‍ര്ഗ്ഗങ്ങള്"
+msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:389
 msgid "Comment List"
@@ -16946,20 +16731,19 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:391
 msgid "Created"
-msgstr ""
+msgstr "നിര്‍മ്മിച്ചു"
 
 #: ../plugins/save-calendar/csv-format.c:392
 msgid "Contact List"
 msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:393
-#, fuzzy
 msgid "Start"
-msgstr "അവസ്ഥ"
+msgstr "തുടക്കം"
 
 #: ../plugins/save-calendar/csv-format.c:394
 msgid "End"
-msgstr ""
+msgstr "അവസാനം"
 
 #: ../plugins/save-calendar/csv-format.c:396
 msgid "percent Done"
@@ -16970,14 +16754,12 @@ msgid "URL"
 msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:399
-#, fuzzy
 msgid "Attendees List"
-msgstr "അവസാനിക്കുന്നത്"
+msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:401
-#, fuzzy
 msgid "Modified"
-msgstr "പരിഷ്കരിക്കുക"
+msgstr "പരിഷ്കരിച്ചു"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
@@ -17012,9 +16794,8 @@ msgid "Saves selected calendar or tasks list to disk."
 msgstr ""
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "_Save to Disk"
-msgstr "പേ‍ര‍് മാറ്റി‌ സംരക്ഷിക്കുക"
+msgstr "ഡിസ്കിലേക്ക് സംരക്ഷിക്കുക (_S)"
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -17027,13 +16808,12 @@ msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:397
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "RDF രീതി (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:169
 #: ../plugins/save-calendar/save-calendar.c:180
-#, fuzzy
 msgid "Select destination file"
-msgstr "അധികൃതമാക്കല് പരാചയപ്പെട്ടു"
+msgstr "ലക്ഷ്യസ്ഥാന ഫയല്‍ തിരഞ്ഞെടുക്കുക"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
@@ -17044,9 +16824,8 @@ msgid "Selects a single calendar or task source for viewing."
 msgstr ""
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-#, fuzzy
 msgid "Show _only this Calendar"
-msgstr "കലണ്ടര്"
+msgstr "ഈ കലണ്ടര്‍ മാത്രം കാണിക്കുക (_o)"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
 msgid "Show _only this Task List"
@@ -17066,7 +16845,7 @@ msgstr ""
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
-msgstr ""
+msgstr "സ്വാഗതം"
 
 #: ../plugins/startup-wizard/startup-wizard.c:89
 msgid ""
@@ -17085,13 +16864,12 @@ msgstr ""
 #: ../shell/e-shell-importer.c:411
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "%s-ല്‍ നിന്ന്:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:233
 #: ../shell/e-shell-importer.c:522
-#, fuzzy
 msgid "Importing data."
-msgstr "സുപ്രധാനമായ"
+msgstr ""
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
@@ -17119,23 +16897,20 @@ msgid "Evolution Shell Config factory"
 msgstr ""
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Test"
-msgstr "ഇവലൂഷന് വിലാസപുസ്തകം"
+msgstr ""
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
-msgstr "ഇവലൂഷന് വിലാസപുസ്തകം"
+msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
-#, fuzzy
 msgid "Configuration version"
-msgstr "അനുരൂപമാക്കല്‍"
+msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default sidebar width"
@@ -17167,7 +16942,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
-msgstr ""
+msgstr "പ്രിന്‍ററിന്‍റെ ക്രമീകരണങ്ങള്‍"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Sidebar is visible"
@@ -17271,7 +17046,7 @@ msgstr ""
 #: ../shell/e-shell-folder-title-bar.c:584
 #: ../shell/e-shell-folder-title-bar.c:585
 msgid "(Untitled)"
-msgstr ""
+msgstr "(പേരില്ലാത്തത്)"
 
 #: ../shell/e-shell-importer.c:137
 msgid "Choose the type of importer to run:"
@@ -17299,17 +17074,16 @@ msgid ""
 msgstr ""
 
 #: ../shell/e-shell-importer.c:291
-#, fuzzy
 msgid "F_ilename:"
-msgstr "രചനാനാമം"
+msgstr "ഫയല്‍നാമം: (_i)"
 
 #: ../shell/e-shell-importer.c:297 ../shell/e-shell-importer.c:300
 msgid "Select a file"
-msgstr ""
+msgstr "ഒരു ഫയല്‍ തിരഞ്ഞെടുക്കുക"
 
 #: ../shell/e-shell-importer.c:313
 msgid "File _type:"
-msgstr ""
+msgstr "ഏത് തരം ഫയല്‍: (_t)"
 
 #: ../shell/e-shell-importer.c:349
 msgid "Import data and settings from _older programs"
@@ -17320,13 +17094,12 @@ msgid "Import a _single file"
 msgstr ""
 
 #: ../shell/e-shell-settings-dialog.c:318
-#, fuzzy
 msgid "Evolution Preferences"
-msgstr "ഇവലൂഷന് വിലാസപുസ്തകം"
+msgstr "Evolution ഇഷ്ടാനിഷ്ടങ്ങള്‍"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
-msgstr ""
+msgstr "ഫോള്‍ഡര്‍ നാമം വ്യക്തമാക്കിയിട്ടില്ല."
 
 #: ../shell/e-shell-utils.c:125
 msgid "Folder name cannot contain the Return character."
@@ -17334,11 +17107,11 @@ msgstr ""
 
 #: ../shell/e-shell-utils.c:131
 msgid "Folder name cannot contain the character \"/\"."
-msgstr ""
+msgstr "ഫോള്‍ഡറിന്‍റെ പേരില്‍ \"/\" പാടില്ല."
 
 #: ../shell/e-shell-utils.c:137
 msgid "Folder name cannot contain the character \"#\"."
-msgstr ""
+msgstr "ഫോള്‍ഡറിന്‍റെ പേരില്‍ \"#\" പാടില്ല."
 
 #: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
@@ -17351,22 +17124,22 @@ msgstr ""
 #: ../shell/e-shell-window-commands.c:79
 #, c-format
 msgid "Error executing %s."
-msgstr ""
+msgstr "%s പ്രവര്‍ത്തിപ്പിക്കുന്നതില്‍ പിശക്."
 
 #: ../shell/e-shell-window-commands.c:127
 msgid "Bug buddy is not installed."
-msgstr ""
+msgstr "Bug buddy ഇന്‍സ്റ്റോള്‍ ചെയ്തിട്ടില്ല."
 
 #: ../shell/e-shell-window-commands.c:130
 msgid "Bug buddy could not be run."
-msgstr ""
+msgstr "Bug buddy പ്രവര്‍ത്തിക്കുവാന്‍ സാധ്യമാകുന്നില്ല."
 
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
 #: ../shell/e-shell-window-commands.c:560
 msgid "translator-credits"
-msgstr ""
+msgstr "അനി പീറ്റര്‍ <peter.ani@gmail.com>"
 
 #: ../shell/e-shell-window-commands.c:805
 msgid "_Work Online"
@@ -17395,12 +17168,11 @@ msgstr ""
 #: ../shell/e-shell-window.c:786
 #, c-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "%s-ലേക്ക് മാറുക"
 
 #: ../shell/e-shell.c:634
-#, fuzzy
 msgid "Uknown system error."
-msgstr "അറിയാത്ത ഏതോ പ്രശ്നം"
+msgstr "അപരിചിതമായ സിസ്റ്റം പിശക്"
 
 #: ../shell/e-shell.c:830 ../shell/e-shell.c:831
 #, c-format
@@ -17430,19 +17202,16 @@ msgid "New"
 msgstr "പുതിയ"
 
 #: ../shell/evolution-test-component.c:140
-#, fuzzy
 msgid "New Test"
-msgstr "പരീക്ഷിക്കുക"
+msgstr "പുതിയ പരീക്ഷണം"
 
 #: ../shell/evolution-test-component.c:141
-#, fuzzy
 msgid "_Test"
-msgstr "പരീക്ഷിക്കുക"
+msgstr "പരീക്ഷിക്കുക (_T)"
 
 #: ../shell/evolution-test-component.c:142
-#, fuzzy
 msgid "Create a new test item"
-msgstr "ഒരു പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
+msgstr ""
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -17457,9 +17226,8 @@ msgid "Import File"
 msgstr ""
 
 #: ../shell/import.glade.h:4
-#, fuzzy
 msgid "Import Location"
-msgstr "സ്ഥാനം:"
+msgstr ""
 
 #: ../shell/import.glade.h:5
 msgid "Importer Type"
@@ -17470,9 +17238,8 @@ msgid "Select Importers"
 msgstr ""
 
 #: ../shell/import.glade.h:7
-#, fuzzy
 msgid "Select a File"
-msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+msgstr "ഒരു ഫയല്‍ തിരഞ്ഞെടുക്കുക"
 
 #: ../shell/import.glade.h:8
 msgid ""
@@ -17507,11 +17274,12 @@ msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
+"നന്ദി\n"
+"Evolution ടീം\n"
 
 #: ../shell/main.c:264
-#, fuzzy
 msgid "Do not tell me again"
-msgstr "ഈ സംവാദം വീണ്ടും കാണിക്കുക"
+msgstr "ഇനി പറയേണ്ടതില്ല"
 
 #: ../shell/main.c:469
 msgid "Start Evolution activating the specified component"
@@ -17553,9 +17321,8 @@ msgid "Are you sure you want to forget all remembered passwords?"
 msgstr ""
 
 #: ../shell/shell.error.xml.h:2
-#, fuzzy
 msgid "Continue"
-msgstr "യോജനം"
+msgstr "മുന്പോട്ട് പോവുക"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
@@ -17563,7 +17330,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
-msgstr ""
+msgstr "Evolution തുടങ്ങുവാന്‍ സാധ്യമാകുന്നില്ല."
 
 #: ../shell/shell.error.xml.h:5
 msgid ""
@@ -17632,9 +17399,8 @@ msgid ""
 msgstr ""
 
 #: ../shell/shell.error.xml.h:31
-#, fuzzy
 msgid "_Forget"
-msgstr "അച്ചടി"
+msgstr "മറക്കുക (_F)"
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Keep Data"
@@ -17642,7 +17408,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:33
 msgid "_Remind Me Later"
-msgstr ""
+msgstr "പിന്നീട് ഓര്‍മ്മിപ്പിക്കുക (_R)"
 
 #: ../shell/shell.error.xml.h:34
 msgid ""
@@ -17687,26 +17453,23 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:472
 #: ../smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
-msgstr ""
+msgstr "സര്‍ട്ടിഫിക്കേറ്റിന്‍റെ പേര്"
 
 #: ../smime/gui/certificate-manager.c:276
 #: ../smime/gui/certificate-manager.c:490
-#, fuzzy
 msgid "Purposes"
-msgstr "പൂരോഗതി‌"
+msgstr "ആവശ്യങ്ങള്‍"
 
 #: ../smime/gui/certificate-manager.c:285 ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:570
 msgid "Serial Number"
-msgstr ""
+msgstr "ക്രമ നംബര്‍"
 
 #: ../smime/gui/certificate-manager.c:293
-#, fuzzy
 msgid "Expires"
-msgstr "വ്യഞ്ജകം"
+msgstr ""
 
 #: ../smime/gui/certificate-manager.c:481
-#, fuzzy
 msgid "E-Mail Address"
 msgstr "ഇമെയില് വിലാസം"
 
@@ -17716,19 +17479,18 @@ msgid "Certificate Viewer: %s"
 msgstr ""
 
 #: ../smime/gui/component.c:47
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for `%s'"
-msgstr "%s അടയാളവാക്യം%s(ഉപയോക്താവ്%s)"
+msgstr "`%s'-നുളള പാസ്‍വേര്‍ഡ് എന്‍റര്‍ ചെയ്യുക"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:70
-#, fuzzy
 msgid "Enter new password for certificate database"
-msgstr "%s അടയാളവാക്യം%s(ഉപയോക്താവ്%s)"
+msgstr ""
 
 #: ../smime/gui/component.c:72
 msgid "Enter new password"
-msgstr ""
+msgstr "പുതിസ പാസ്‍വേര്‍ഡ് എന്‍റര്‍ ചെയ്യുക"
 
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:121
@@ -17747,7 +17509,7 @@ msgstr ""
 
 #: ../smime/gui/e-cert-selector.c:174
 msgid "Select certificate"
-msgstr ""
+msgstr "സര്‍ട്ടിഫിക്കേറ്റ് തിരഞ്ഞെടുക്കുക"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
@@ -17782,17 +17544,16 @@ msgid "<b>This certificate has been verified for the following uses:</b>"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:9
-#, fuzzy
 msgid "<b>Validity</b>"
-msgstr "<b>അവസ്ഥ</b>"
+msgstr "<b>കാലാവധി</b> "
 
 #: ../smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "അധികാരികള്‍"
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "ബാക്കപ്പ്"
 
 #: ../smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
@@ -17806,7 +17567,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1077
 msgid "Certificate"
-msgstr ""
+msgstr "സര്‍ട്ടിഫിക്കേറ്റ്"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
@@ -17837,9 +17598,8 @@ msgid "Dummy window only"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Edit"
-msgstr "ചിട്ട"
+msgstr "മാറ്റം വരുത്തുക"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
@@ -17854,9 +17614,8 @@ msgid "Email Signer Certificate"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:27
-#, fuzzy
 msgid "Expires On"
-msgstr "വ്യഞ്ജകം"
+msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:29
 msgid "Import"
@@ -17884,11 +17643,11 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:819
 msgid "SSL Client Certificate"
-msgstr ""
+msgstr "SSL ക്ളൈന്‍റ് സര്‍ട്ടിഫിക്കേറ്റ്"
 
 #: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:823
 msgid "SSL Server Certificate"
-msgstr ""
+msgstr "SSL സര്‍വര്‍ സര്‍ട്ടിഫിക്കേറ്റ്"
 
 #: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
@@ -17907,7 +17666,6 @@ msgid "Trust this CA to identify web sites."
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:42
-#, fuzzy
 msgid "View"
 msgstr "കാഴ്ച"
 
@@ -17925,7 +17683,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr ""
+msgstr "നിങ്ങളുടെ സര്‍ട്ടിഫിക്കേറ്റുകള്‍"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
@@ -17934,7 +17692,7 @@ msgstr ""
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:676
 msgid "Certificate already exists"
-msgstr ""
+msgstr "സര്‍ട്ടിഫിക്കേറ്റ് നിലവിലുണ്ട്"
 
 #: ../smime/lib/e-cert.c:239 ../smime/lib/e-cert.c:249
 msgid "%d/%m/%Y"
@@ -17942,46 +17700,44 @@ msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:425
-#, fuzzy
 msgid "Sign"
-msgstr "സ്‌പെയിന്"
+msgstr "ഒപ്പ് വെക്കുക"
 
 #: ../smime/lib/e-cert.c:426
-#, fuzzy
 msgid "Encrypt"
-msgstr "ഈജിപ്ത്"
+msgstr "രഹസ്യഭാഷയിലാക്കുക"
 
 #: ../smime/lib/e-cert.c:531
 msgid "Version"
-msgstr "Version"
+msgstr "വേര്‍ഷന്‍"
 
 #: ../smime/lib/e-cert.c:546
 msgid "Version 1"
-msgstr "Version 1"
+msgstr "വേര്‍ഷന്‍ 1"
 
 #: ../smime/lib/e-cert.c:549
 msgid "Version 2"
-msgstr "Version 2"
+msgstr "വേര്‍ഷന്‍ 2"
 
 #: ../smime/lib/e-cert.c:552
 msgid "Version 3"
-msgstr "Version 3"
+msgstr "വേര്‍ഷന്‍ 3"
 
 #: ../smime/lib/e-cert.c:634
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr "PKCS #1 MD2 With RSA Encryption"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:637
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr "PKCS #1 MD5 With RSA Encryption"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:640
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 With RSA Encryption"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:667
 msgid "PKCS #1 RSA Encryption"
-msgstr "PKCS #1 RSA Encryption"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:670
 msgid "Certificate Key Usage"
@@ -18030,11 +17786,11 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:835
 msgid "SSL Certificate Authority"
-msgstr ""
+msgstr "SSL സര്‍ട്ടിഫിക്കേറ്റ് അഥോറിറ്റി"
 
 #: ../smime/lib/e-cert.c:839
 msgid "Email Certificate Authority"
-msgstr ""
+msgstr "ഈമെയില്‍ സര്‍ട്ടിഫിക്കേറ്റ് അഥോറിറ്റി"
 
 #: ../smime/lib/e-cert.c:867
 msgid "Signing"
@@ -18065,18 +17821,16 @@ msgid "CRL Signer"
 msgstr ""
 
 #: ../smime/lib/e-cert.c:939
-#, fuzzy
 msgid "Critical"
-msgstr "ക്രൊയോഷ്യ"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:941 ../smime/lib/e-cert.c:944
 msgid "Not Critical"
 msgstr ""
 
 #: ../smime/lib/e-cert.c:965
-#, fuzzy
 msgid "Extensions"
-msgstr "വ്യഞ്ജകം"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:1036
 #, c-format
@@ -18085,12 +17839,11 @@ msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1092 ../smime/lib/e-cert.c:1212
 msgid "Certificate Signature Algorithm"
-msgstr ""
+msgstr "സര്‍ട്ടിഫീക്കേറ്റ് സിഗ്നേച്ചര്‍ ആല്‍ഗോരിഥം"
 
 #: ../smime/lib/e-cert.c:1101
-#, fuzzy
 msgid "Issuer"
-msgstr "ഇടയ്ക്ക് ചേര്ക്കുക"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:1155
 msgid "Issuer Unique ID"
@@ -18102,16 +17855,15 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:1217
 msgid "Certificate Signature Value"
-msgstr ""
+msgstr "സര്‍ട്ടിഫിക്കേറ്റ് സിഗ്നേച്ചര്‍ മൂല്ല്യം"
 
 #: ../smime/lib/e-pkcs12.c:266
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "PKCS12 ഫയലിനുളള പാസ്‍വേര്‍ഡ് "
 
 #: ../smime/lib/e-pkcs12.c:266
-#, fuzzy
 msgid "Enter password for PKCS12 file:"
-msgstr "%s അടയാളവാക്യം%s(ഉപയോക്താവ്%s)"
+msgstr "PKCS12 ഫയലിനുളള പാസ്‍വേര്‍ഡ് എന്‍റര്‍ ചെയ്യുക:"
 
 #: ../smime/lib/e-pkcs12.c:365
 msgid "Imported Certificate"
@@ -18127,7 +17879,7 @@ msgstr ""
 
 #: ../tools/evolution-launch-composer.c:323
 msgid "The filename to display in the mail."
-msgstr ""
+msgstr "മെയിലില്‍ പ്രദര്‍ശിപ്പിക്കുവാനുളള ഫയല്‍നാമം."
 
 #: ../tools/evolution-launch-composer.c:324
 msgid "Description of the attachment."
@@ -18139,7 +17891,7 @@ msgstr ""
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "Default subject for the message."
-msgstr ""
+msgstr "സന്ദേശത്തിന്‍റെ വിഷയം ഡീഫോള്‍ട്ട് ആക്കുക."
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -18147,113 +17899,106 @@ msgstr ""
 #: ../tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr ""
+msgstr "'%s' പ്രവര്‍ത്തിപ്പിക്കുവാന്‍ സാധ്യമായില്ല: %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr ""
+msgstr "%s (%s) അടച്ചു പൂട്ടുന്നു\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
-#, fuzzy
 msgid "Address _Book Properties"
-msgstr "ഗുണഗണങ്ങള്‌"
+msgstr "വിലാസ പുസ്തകത്തിന്‍റെ വിശേഷതകള്‍ (_B)"
 
 #: ../ui/evolution-addressbook.xml.h:3
 msgid "Change the properties of the selected folder"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡറിന്‍റെ വിശേഷതകള്‍ മാറ്റുക"
 
 #: ../ui/evolution-addressbook.xml.h:4
-#, fuzzy
 msgid "Co_py All Contacts To..."
-msgstr "ബന്ധം സ്ഥാപിക്കുന്നു..."
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:5
-#, fuzzy
 msgid "Contact _Preview"
-msgstr "അച്ചടി-തിരനോട്ടം"
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:6
 #: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
-msgstr "പക‍ര്പ്പ്"
+msgstr "പകര്‍ത്തുക"
 
 #: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത വിലാസങ്ങള്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് പകര്‍ത്തുക..."
 
 #: ../ui/evolution-addressbook.xml.h:8
 msgid "Copy the contacts of the selected folder into another folder"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡറിന്‍റെ വിലാസങ്ങള്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് പകര്‍ത്തുക"
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "തെരഞ്ഞെടുത്തവ പക‍ര്ത്തുക"
+msgstr "തിരഞ്ഞെടുത്തവ പകര്‍ത്തുക"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
-msgstr ""
+msgstr "ഫോള്‍ഡറിലേക്ക് പകര്‍ത്തുക..."
 
 #: ../ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Create a new addressbook folder"
-msgstr "ഒരു പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:12
 #: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-memos.xml.h:4
 #: ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
-msgstr "മുറിപ്പ്"
+msgstr "മുറിക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "തെരഞ്ഞെടുത്തവ മുറിക്കുക"
+msgstr "തിരഞ്ഞെടുത്തവ മുറിക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:14
-#, fuzzy
 msgid "Del_ete Address Book"
-msgstr "വിലാസം"
+msgstr "വിലാസപുസ്തകം വെട്ടി നീക്കുക (_e)"
 
 #: ../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത വിലാസങ്ങള്‍ വെട്ടി നീക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:17
-#, fuzzy
 msgid "Delete the selected folder"
-msgstr "തെരഞ്ഞെടുത്തവ മുറിക്കുക"
+msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡര്‍ വെട്ടി നീക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Forward Contact"
 msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:19
-#, fuzzy
 msgid "Mo_ve All Contacts To..."
-msgstr "ബന്ധം സ്ഥാപിക്കുന്നു..."
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:20
 msgid "Move Selected Contacts to Another Folder..."
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത വിലാസങ്ങള്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് മാറ്റുക..."
 
 #: ../ui/evolution-addressbook.xml.h:21
 msgid "Move the contacts of the selected folder into another folder"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡറിന്‍റെ വിലാസങ്ങള്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് മാറ്റുക"
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
-msgstr ""
+msgstr "ഫോള്‍ഡറിലേക്ക് മാറ്റുക..."
 
 #: ../ui/evolution-addressbook.xml.h:23
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
 #: ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
-msgstr "ഒട്ടിപ്പ്"
+msgstr "മുറിച്ചവ/പകര്‍ത്തിയവ ഒട്ടിക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
-msgstr "മുറിച്ചവ/പക‍‍ര്ത്തിയവ ഒട്ടിക്കുക"
+msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ ഒട്ടിക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
@@ -18261,16 +18006,15 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത വിലാസങ്ങള്‍ പ്രിന്‍റ് ചെയ്യുക"
 
 #: ../ui/evolution-addressbook.xml.h:29
 msgid "Rename the selected folder"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡറിന്‍റെ പേര് മാറ്റുക"
 
 #: ../ui/evolution-addressbook.xml.h:30
-#, fuzzy
 msgid "S_ave Address Book As VCard"
-msgstr "വിലാസം"
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:32
 msgid "Save selected contacts as a VCard."
@@ -18282,25 +18026,25 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2727
 msgid "Select All"
-msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+msgstr "എല്ലാം തിരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:35
 #: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+msgstr "എല്ലാം തിരഞ്ഞെടുക്കുക (_A)"
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
-msgstr ""
+msgstr "എല്ലാ വിലാസങ്ങളും തിരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:37
 msgid "Send a message to the selected contacts."
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത വിലാസങ്ങളിലേക്ക് ഒരു സന്ദേശം അയയ്ക്കുക."
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
-msgstr ""
+msgstr "വിലാസത്തിലേക്ക് സന്ദേശം അയയ്ക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "Send selected contacts to another person."
@@ -18312,11 +18056,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
-msgstr ""
+msgstr "നിര്‍ത്തുക (_o)"
 
 #: ../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
-msgstr "നിര്‌ത്തുക"
+msgstr "നിര്‍ത്തുക"
 
 #: ../ui/evolution-addressbook.xml.h:43
 msgid "Stop Loading"
@@ -18329,7 +18073,7 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:38
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
-msgstr ""
+msgstr "പ്രവര്‍ത്തനങ്ങള്‍ (_A)"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
@@ -18357,11 +18101,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:47
 msgid "_New"
-msgstr "പുതിയ"
+msgstr "പുതിയ (_N)"
 
 #: ../ui/evolution-addressbook.xml.h:60
 msgid "_Rename"
-msgstr ""
+msgstr "പേര് മാറ്റി സംരക്ഷിക്കുക (_R)"
 
 #: ../ui/evolution-addressbook.xml.h:61
 msgid "_Save Contact as VCard..."
@@ -18377,7 +18121,7 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr ""
+msgstr "ദിവസം"
 
 #: ../ui/evolution-calendar.xml.h:6
 msgid "Delete _all Occurrences"
@@ -18389,23 +18133,23 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:8
 msgid "Delete the appointment"
-msgstr ""
+msgstr "ഈ അപ്പോയിന്‍റ്മെന്‍റ് വെട്ടി നീക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:10
 msgid "Delete this occurrence"
-msgstr ""
+msgstr "ഇത് വെട്ടി നീക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:11
 msgid "Go To"
-msgstr ""
+msgstr "പോവുക"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
-msgstr ""
+msgstr "പുറകോട്ട് പോവുക"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
-msgstr ""
+msgstr "മുന്പോട്ട് പോവുക"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -18427,11 +18171,11 @@ msgstr ""
 #: ../ui/evolution-calendar.xml.h:19 ../ui/evolution-mail-message.xml.h:74
 #: ../widgets/misc/e-calendar.c:177
 msgid "Previous"
-msgstr ""
+msgstr "മുന്പുളളത്"
 
 #: ../ui/evolution-calendar.xml.h:22
 msgid "Print this calendar"
-msgstr ""
+msgstr "ഈ കലണ്ടര്‍ പ്രിന്‍റ് ചെയ്യുക"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
@@ -18443,43 +18187,43 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
-msgstr ""
+msgstr "തീയതി തിരഞ്ഞെടുക്കുക (_D)"
 
 #: ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
-msgstr ""
+msgstr "ഇന്ന് തിരഞ്ഞെടുക്കുക (_T)"
 
 #: ../ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
-msgstr ""
+msgstr "ഒരു തീയതി തിരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:28
 msgid "Select today"
-msgstr ""
+msgstr "ഇന്ന് തിരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
-msgstr ""
+msgstr "ലിസ്റ്റിലുളളത് പോലെ കാണിക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:30
 msgid "Show one day"
-msgstr ""
+msgstr "ഒരു ദിവസം കാണിക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:31
 msgid "Show one month"
-msgstr ""
+msgstr "ഒരു മാസം കാണിക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:32
 msgid "Show one week"
-msgstr ""
+msgstr "ഒരു ആഴ്ച കാണിക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
-msgstr ""
+msgstr "ജോലി ചെയ്യുന്ന ആഴ്ച കാണിക്കുക"
 
 #: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
-msgstr ""
+msgstr "നിലവിലുളള അപ്പോയിന്‍റ്മെന്‍റ് കാണുക"
 
 #: ../ui/evolution-calendar.xml.h:36
 msgid "Week"
@@ -18487,39 +18231,39 @@ msgstr "ആഴ്ച"
 
 #: ../ui/evolution-calendar.xml.h:37
 msgid "Work Week"
-msgstr ""
+msgstr "ജോലി ചെയ്യേണ്ട ആഴ്ച"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റ് തുറക്കുക (_O)"
 
 #: ../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:7
 msgid "Copy selected text to the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്ത ടെക്സ്റ്റ് പകര്‍ത്തുക"
 
 #: ../ui/evolution-composer-entries.xml.h:3
 msgid "Copy selection to clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്തത് പകര്‍ത്തുക"
 
 #: ../ui/evolution-composer-entries.xml.h:6 ../ui/evolution-editor.xml.h:9
 msgid "Cut selected text to the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്ത ടെക്സ്റ്റ് മുറിച്ച് മാറ്റുക"
 
 #: ../ui/evolution-composer-entries.xml.h:7
 msgid "Cut selection to clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്തത് മുറിച്ച് മാറ്റുക"
 
 #: ../ui/evolution-composer-entries.xml.h:9
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ നിന്നും ഒട്ടിക്കുക"
 
 #: ../ui/evolution-composer-entries.xml.h:10 ../ui/evolution-editor.xml.h:11
 msgid "Paste text from the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ നിന്നും ടെക്സ്റ്റ് ഒട്ടിക്കുക"
 
 #: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:14
 msgid "Select all text"
-msgstr ""
+msgstr "എല്ലാ ടെക്സ്റ്റും തിരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-editor.xml.h:1 ../ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -18527,19 +18271,19 @@ msgstr "സംയോജകം"
 
 #: ../ui/evolution-editor.xml.h:2
 msgid "Click here to attach a file"
-msgstr ""
+msgstr "ഒരു ഫയല്‍ കൂട്ടി ചേര്‍ക്കുന്നതിനായി ഇവിടെ ക്ളിക്ക് ചെയ്യുക"
 
 #: ../ui/evolution-editor.xml.h:3
 msgid "Click here to close the current window"
-msgstr ""
+msgstr "നിലവിലുളള ജാലകം അടയ്ക്കുന്നതിനായി ഇവിടെ ക്ളിക്ക് ചെയ്യുക"
 
 #: ../ui/evolution-editor.xml.h:4
 msgid "Click here to save the current window"
-msgstr ""
+msgstr "നിലവിലുളള ജാലകം സംരക്ഷിക്കുന്നതിനായി ഇവിടെ ക്ളിക്ക് ചെയ്യുക"
 
 #: ../ui/evolution-editor.xml.h:5
 msgid "Click here to view help available"
-msgstr ""
+msgstr "ലഭ്യമായ സഹായം കാണുന്നതിനായി ഇവിടെ ക്ളിക്ക് ചെയ്യുക"
 
 #.
 #. <cmd name="FileSave" _label="Save"
@@ -18564,18 +18308,18 @@ msgstr ""
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 #: ../ui/evolution-message-composer.xml.h:44 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
-msgstr "അടയ്‍ക്കുക"
+msgstr "അടയ്‍ക്കുക (_C)"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:42
 msgid "_File"
-msgstr "ശേഖരം"
+msgstr "ഫയല്‍ (_F)"
 
 #: ../ui/evolution-editor.xml.h:20 ../ui/evolution.xml.h:44
 msgid "_Help"
-msgstr "സഹായം"
+msgstr "സഹായം (_H)"
 
 #: ../ui/evolution-editor.xml.h:21
 msgid "_Options"
@@ -18592,17 +18336,17 @@ msgstr ""
 #: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-memo-editor.xml.h:1
 #: ../ui/evolution-task-editor.xml.h:1
 msgid "Classify as Confidential"
-msgstr ""
+msgstr "രഹസ്യ സ്വഭാവമുളളതായി വിഭാഗിക്കുക"
 
 #: ../ui/evolution-event-editor.xml.h:5 ../ui/evolution-memo-editor.xml.h:2
 #: ../ui/evolution-task-editor.xml.h:2
 msgid "Classify as Private"
-msgstr ""
+msgstr "സ്വകാര്യമായി വിഭാഗിക്കുക"
 
 #: ../ui/evolution-event-editor.xml.h:6 ../ui/evolution-memo-editor.xml.h:3
 #: ../ui/evolution-task-editor.xml.h:3
 msgid "Classify as public"
-msgstr ""
+msgstr "പൊതുകാര്യമായി വിഭാഗിക്കുക"
 
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Click here to set or unset alarms for this event"
@@ -18619,7 +18363,7 @@ msgstr ""
 #: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-memo-editor.xml.h:4
 #: ../ui/evolution-task-editor.xml.h:6
 msgid "Pu_blic"
-msgstr ""
+msgstr "പൊതു കാര്യം (_b)"
 
 #: ../ui/evolution-event-editor.xml.h:12
 msgid "Query free / busy information for the attendees"
@@ -18631,11 +18375,11 @@ msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:16
 msgid "Show time as _busy"
-msgstr ""
+msgstr "തിരക്കാണ് എന്ന് സമയം കാണിക്കുക (_b)"
 
 #: ../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:11
 msgid "Time _Zone"
-msgstr "സമയമേഘല (_Z)"
+msgstr "സമയമേഖല (_Z)"
 
 #: ../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:12
 msgid "Toggles whether the Attendee Type field is displayed"
@@ -18672,7 +18416,7 @@ msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:26
 msgid "_Alarms"
-msgstr ""
+msgstr "അലാറമുകള്‍ (_A)"
 
 #: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
 #: ../ui/evolution-task-editor.xml.h:18
@@ -18682,21 +18426,21 @@ msgstr "വര്‍ഗ്ഗങ്ങള്‍ (_C)"
 #: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:7
 #: ../ui/evolution-task-editor.xml.h:19
 msgid "_Classification"
-msgstr ""
+msgstr "വര്‍ഗ്ഗീകരണം (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-memo-editor.xml.h:8
 #: ../ui/evolution-task-editor.xml.h:20
 msgid "_Confidential"
-msgstr ""
+msgstr "രഹസ്യ സ്വഭാവമുളളത് (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:30
 msgid "_Free/Busy"
-msgstr ""
+msgstr "ഫ്രീ/തിരക്ക് (_F)"
 
 #: ../ui/evolution-event-editor.xml.h:31 ../ui/evolution-memo-editor.xml.h:9
 #: ../ui/evolution-task-editor.xml.h:21
 msgid "_Private"
-msgstr ""
+msgstr "സ്വകാര്യം (_P)"
 
 #: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:22
 msgid "_RSVP"
@@ -18704,7 +18448,7 @@ msgstr "_RSVP"
 
 #: ../ui/evolution-event-editor.xml.h:33
 msgid "_Recurrence"
-msgstr ""
+msgstr "പുനഃരാവര്‍ത്തനം (_R)"
 
 #: ../ui/evolution-event-editor.xml.h:34 ../ui/evolution-task-editor.xml.h:25
 msgid "_Status Field"
@@ -18720,11 +18464,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:3
 msgid "Copy the selected folder into another folder"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡര്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് പകര്‍ത്തുക"
 
 #: ../ui/evolution-mail-global.xml.h:4
 msgid "Create a new folder for storing mail"
-msgstr ""
+msgstr "മെയിലുകള്‍ സംരക്ഷിക്കുന്നതിനായി പുതിയ ഒരു ഫോള്‍ഡര്‍ ഉണ്ടാക്കുക"
 
 #: ../ui/evolution-mail-global.xml.h:5
 msgid "Create or edit Search Folder definitions"
@@ -18745,12 +18489,12 @@ msgstr "ഫോള്‍ഡര്‍ (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Move the selected folder into another folder"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡര്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് നീക്കുക"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:11
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
+msgstr "എല്ലാം ഫോള്‍ഡറുകളില്‍ നിന്നും എല്ലാ സന്ദേശങ്ങളും നീക്കം ചെയ്യുക"
 
 #: ../ui/evolution-mail-global.xml.h:12
 msgid "Search F_olders"
@@ -18813,11 +18557,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the name of this folder"
-msgstr ""
+msgstr "ഈ ഫോള്‍ഡറിന്‍റെ പേര് മാറ്റുക"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
-msgstr ""
+msgstr "ഈ ഫോള്‍ഡറിന്‍റെ വിശേഷതകള്‍ മാറ്റുക"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
@@ -18829,12 +18573,12 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ പകര്‍ത്തുക"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:7
 msgid "Cut selected message(s) to the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ വെട്ടി മാറ്റുക"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
@@ -18850,15 +18594,15 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ അദൃശ്യമാക്കുക (_e)"
 
 #: ../ui/evolution-mail-list.xml.h:13
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "വെട്ടി നീക്കിയ സന്ദേശങ്ങള്‍ അദൃശ്യമാക്കുക (_D)"
 
 #: ../ui/evolution-mail-list.xml.h:14
 msgid "Hide _Read Messages"
-msgstr ""
+msgstr "വായിച്ച സന്ദേശങ്ങള്‍ അദൃശ്യമാക്കുക (_R)"
 
 #: ../ui/evolution-mail-list.xml.h:15
 msgid "Hide deleted messages rather than displaying them with a line through them"
@@ -18866,19 +18610,19 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:16
 msgid "Mar_k All Messages as Read"
-msgstr ""
+msgstr "എല്ലാ സന്ദേശങ്ങളും വായിച്ചതായി അടയാളപ്പെടുത്തുക (_k)"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ നിന്നും സന്ദേശങ്ങള്‍ ഒട്ടിക്കുക"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
+msgstr "വെട്ടി നീക്കിയ സന്ദേശങ്ങള്‍ എല്ലാം എന്നന്നേക്കുമായി ഈ ഫോള്‍ഡറില്‍ നിന്നും നീക്കം ചെയ്യുക"
 
 #: ../ui/evolution-mail-list.xml.h:19
 msgid "Permanently remove this folder"
-msgstr ""
+msgstr "എന്നന്നേക്കുമായി ഈ ഫോള്‍ഡര്‍ നീക്കം ചെയ്യുക"
 
 #: ../ui/evolution-mail-list.xml.h:20
 msgid "Select Message _Thread"
@@ -18886,7 +18630,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:21
 msgid "Select _All Messages"
-msgstr ""
+msgstr "എല്ലാ സന്ദേങ്ങളും തിരഞ്ഞെടുക്കുക (_A)"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Select all and only the messages that are not currently selected"
@@ -18898,23 +18642,23 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select all visible messages"
-msgstr ""
+msgstr "ദൃശ്യമായ സന്ദേശങ്ങള്‍ എല്ലാം തിരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "Show Hidde_n Messages"
-msgstr ""
+msgstr "അദൃശ്യമാക്കിയ സന്ദേശങ്ങള്‍ കാണിക്കുക (_n)"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Show messages that have been temporarily hidden"
-msgstr ""
+msgstr "താല്‍ക്കാലികമായി അദൃശ്യമാക്കിയ സന്ദേശങ്ങള്‍ കാണിക്കുക"
 
 #: ../ui/evolution-mail-list.xml.h:27
 msgid "Temporarily hide all messages that have already been read"
-msgstr ""
+msgstr "നിങ്ങള്‍ വായിച്ച സന്ദേശങ്ങള്‍ എല്ലാം താല്‍ക്കാലികമായി അദൃശ്യമാക്കുക"
 
 #: ../ui/evolution-mail-list.xml.h:28
 msgid "Temporarily hide the selected messages"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ താല്‍ക്കാലികമായി അദൃശ്യമാക്കുക"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Threaded Message list"
@@ -18972,11 +18716,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected messages to another folder"
-msgstr ""
+msgstr "മറ്റൊരു ഫോള്‍ഡറിലേക്ക് തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ പകര്‍ത്തുക"
 
 #: ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected messages to the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ പകര്‍ത്തുക"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
@@ -19016,39 +18760,39 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:23
 msgid "Cut selected messages to the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡിലേക്ക് തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ മുറിച്ച് മാറ്റുക"
 
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
-msgstr ""
+msgstr "ടെക്സ്റ്റിന്‍റെ വലിപ്പം കുറയ്ക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
-msgstr ""
+msgstr "പ്രാധാന്യമുളള അടുത്ത സന്ദേശം കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next message"
-msgstr ""
+msgstr "അടുത്ത സന്ദേശം കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next thread"
-msgstr ""
+msgstr "അടുത്ത ത്രെഡ് കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
-msgstr ""
+msgstr "അടുത്ത വായിക്കാത്ത സന്ദേശം കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the previous important message"
-msgstr ""
+msgstr "മുന്പുളള പ്രാധാന്യമുളള സന്ദേശം കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous message"
-msgstr ""
+msgstr "മുന്പുളള സന്ദേശം കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous unread message"
-msgstr ""
+msgstr "മുന്പുളള വായിക്കാത്ത സന്ദേശം കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:33
 msgid "F_orward As..."
@@ -19104,7 +18848,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
-msgstr ""
+msgstr "വാചകത്തിന്‍റെ വലിപ്പം കൂട്ടുക"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
@@ -19112,11 +18856,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected messages as having been read"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ വായിച്ചതായി അടയാളപ്പെടുത്തുക"
 
 #: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected messages as important"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ പ്രാധാന്യമുളളവയായി അടയാളപ്പെടുത്തുക"
 
 #: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected messages as junk"
@@ -19128,11 +18872,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected messages as not having been read"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ വായിച്ചിട്ടില്ലാത്തവയായി അടയാളപ്പെടുത്തുക"
 
 #: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected messages as unimportant"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ പ്രാധാന്യം കുറഞ്ഞവയായി അടയാളപ്പെടുത്തുക"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
@@ -19140,19 +18884,19 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move selected messages to another folder"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് മാറ്റുക"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Next _Important Message"
-msgstr ""
+msgstr "അടുത്ത പ്രധാനമായ സന്ദേശം (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:60
 msgid "Next _Thread"
-msgstr ""
+msgstr "അടുത്ത ത്രെഡ് (_T)"
 
 #: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Unread Message"
-msgstr ""
+msgstr "അടുത്ത വായിക്കാത്ത സന്ദേശം (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
@@ -19164,7 +18908,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:64
 msgid "Open the selected messages in a new window"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ ഒരു പുതിയ ജാലകത്തില്‍ തുറക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:65
 msgid "Open the selected messages in the composer for editing"
@@ -19172,11 +18916,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
-msgstr ""
+msgstr "മുന്പുളള വായിക്കാത്ത സന്ദേശം (_r)"
 
 #: ../ui/evolution-mail-message.xml.h:67
 msgid "Paste messages from the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ നിന്നും സന്ദേശങ്ങള്‍ ഒട്ടിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:68
 msgid "Pos_t New Message to Folder"
@@ -19200,7 +18944,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:73
 msgid "Preview the message to be printed"
-msgstr ""
+msgstr "പ്രിന്‍റ് ചെയ്യുന്നതിന് മുന്പ് സന്ദേശം കാണുക"
 
 #: ../ui/evolution-mail-message.xml.h:77
 msgid "Print this message"
@@ -19216,11 +18960,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:84
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "ടെക്സ്റ്റ് ശരിയായ വലിപ്പത്തിലായി ക്രമീകരിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:85
 msgid "Save the selected messages as a text file"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ ഒരു സാധാരണ വാചക (ടെക്സ്റ്റ്) ഫയലായി സംരക്ഷിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -19248,11 +18992,11 @@ msgstr "എല്ലാം തിരഞ്ഞെടുക്കുക (_A)"
 
 #: ../ui/evolution-mail-message.xml.h:92
 msgid "Select all the text in a message"
-msgstr ""
+msgstr "ഒരു സന്ദേശത്തിലുളള മുഴുവന്‍ വാചകങ്ങളും തിരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:93
 msgid "Set up the page settings for your current printer"
-msgstr ""
+msgstr "നിങ്ങളുടെ നിവലവിലുളള പ്രിന്‍ററിന്‍റെ പേജ്  ക്രമീകരണങ്ങള്‍ ശരിയാക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:94
 msgid "Show a blinking cursor in the body of displayed messages"
@@ -19260,7 +19004,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:95
 msgid "Show messages in the normal style"
-msgstr ""
+msgstr "സന്ദേശം സാധാരണ രീതിയില്‍ കാണുക"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "Show messages with all email headers"
@@ -19276,7 +19020,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Uni_mportant"
-msgstr ""
+msgstr "പ്രാധാന്യമില്ലാത്തത് (_m)"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
@@ -19292,15 +19036,15 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:103
 msgid "_Clear Flag"
-msgstr ""
+msgstr "ഫ്ളാഗ് വെടിപ്പാക്കുക (_C)"
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Delete Message"
-msgstr ""
+msgstr "സന്ദേശം വെട്ടി മാറ്റുക (_D)"
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Find in Message..."
-msgstr ""
+msgstr "സന്ദേശത്തില്‍ കണ്ടുപിടിക്കുക... (_F)"
 
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Flag Completed"
@@ -19308,7 +19052,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
-msgstr ""
+msgstr "പോവുക (_G)"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Important"
@@ -19324,11 +19068,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Load Images"
-msgstr ""
+msgstr "ചിത്രങ്ങള്‍ ലോഡ് ചെയ്യുക (_L)"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Message Source"
-msgstr ""
+msgstr "സന്ദേശത്തിന്‍റെ ഉറവിടം (_M)"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
@@ -19348,7 +19092,7 @@ msgstr "പുതിയ ജാലത്തില്‍ തുറക്കുക 
 
 #: ../ui/evolution-mail-message.xml.h:123
 msgid "_Previous Message"
-msgstr ""
+msgstr "മുന്പുളള സന്ദേശം (_P)"
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Quoted"
@@ -19356,7 +19100,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
-msgstr ""
+msgstr "സന്ദേശം സംരക്ഷിക്കുക...(_S)"
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Undelete Message"
@@ -19364,11 +19108,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
-msgstr ""
+msgstr "വായിക്കാത്തത് (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
-msgstr ""
+msgstr "വലുതോ ചെറുതോ ആക്കുക (_Z)"
 
 #: ../ui/evolution-mail-message.xml.h:132
 msgid "_Zoom In"
@@ -19380,43 +19124,43 @@ msgstr "ഈ ജാലകം അടയ്‍ക്കുക"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
 msgid "Main toolbar"
-msgstr "പ്രധാന ആയുധപ്പട്ട"
+msgstr "പ്രധാന ടൂള്‍ ബാര്‍"
 
 #: ../ui/evolution-memos.xml.h:3
 msgid "Copy selected memo"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത മെമ്മൊ പകര്‍ത്തുക"
 
 #: ../ui/evolution-memos.xml.h:5
 msgid "Cut selected memo"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത മെമ്മൊ മുറിച്ച് മാറ്റുക"
 
 #: ../ui/evolution-memos.xml.h:7
 msgid "Delete selected memos"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത മെമ്മൊ വെട്ടി മാറ്റുക"
 
 #: ../ui/evolution-memos.xml.h:9
 msgid "Paste memo from the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ നിന്നും മെമ്മൊ ഒട്ടിക്കുക"
 
 #: ../ui/evolution-memos.xml.h:10
 msgid "Previews the list of memos to be printed"
-msgstr ""
+msgstr "പ്രിന്‍റ് ചെയ്യുന്നതിന് മുന്പ് മെമ്മൊയുടെ ലിസ്റ്റ് കാണുക"
 
 #: ../ui/evolution-memos.xml.h:13
 msgid "Print the list of memos"
-msgstr ""
+msgstr "മെമ്മൊകളുടെ ലിസ്റ്റ് പ്രിന്‍റ് ചെയ്യുക"
 
 #: ../ui/evolution-memos.xml.h:14
 msgid "View the selected memo"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത മെമ്മൊ കാണുക"
 
 #: ../ui/evolution-memos.xml.h:18
 msgid "_Open Memo"
-msgstr ""
+msgstr "മെമ്മൊ തുറക്കുക (_O)"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr ""
+msgstr "ഒരു ഫയല്‍ മെയിലിനൊപ്പം ചേര്‍ക്കുക"
 
 #.
 #. <cmd name="FileSave" _label="Save"
@@ -19459,7 +19203,7 @@ msgstr "ഒരു ഫയല്‍ തുറക്കുക"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "PGP Encrypt"
-msgstr ""
+msgstr "PGP രഹസ്യഭാഷ"
 
 #: ../ui/evolution-message-composer.xml.h:15
 msgid "PGP Sign"
@@ -19471,7 +19215,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:17
 msgid "S/MIME Encrypt"
-msgstr ""
+msgstr "S/MIME രഹസ്യഭാഷ"
 
 #: ../ui/evolution-message-composer.xml.h:18
 msgid "S/MIME Sign"
@@ -19511,7 +19255,7 @@ msgstr "സജീവ കാലികശേഖരം മറ്റൊരു പേ
 
 #: ../ui/evolution-message-composer.xml.h:28
 msgid "Save the message in a specified folder"
-msgstr ""
+msgstr "പറഞ്ഞിരിക്കുന്ന ഫോള്‍ഡറില്‍ സന്ദേശം സംരക്ഷിക്കുക"
 
 #: ../ui/evolution-message-composer.xml.h:29
 msgid "Send"
@@ -19520,7 +19264,7 @@ msgstr "അയ‍യ്‍ക്കുക"
 #: ../ui/evolution-message-composer.xml.h:30
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
-msgstr ""
+msgstr "HTML രീതിയില്‍ മെയില്‍ അയയ്ക്കുക"
 
 #: ../ui/evolution-message-composer.xml.h:31
 msgid "Send this message"
@@ -19528,15 +19272,15 @@ msgstr "ഈ സന്ദേശം അയ‍യ്‍ക്കുക"
 
 #: ../ui/evolution-message-composer.xml.h:32
 msgid "Set the message priority to high"
-msgstr ""
+msgstr "സന്ദേശത്തിന്‍റെ മുന്‍ഗണന ഏറ്റവും കൂടിയത് ആക്കുക"
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Sign this message with your PGP key"
-msgstr ""
+msgstr "നിങ്ങളുടെ PGP കീയോടൊപ്പം ഈ സന്ദേശവും ഒപ്പിടുക"
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr ""
+msgstr "നിങ്ങളുടെ S/MIME സിഗ്നേച്ചര്‍ സര്‍ട്ടിഫിക്കേറ്റിനോടൊപ്പം ഈ സന്ദേശവും ഒപ്പിടുക"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the BCC field is displayed"
@@ -19564,11 +19308,11 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:42
 msgid "_Bcc Field"
-msgstr ""
+msgstr "Bcc ഫീള്‍ഡ് (_B)"
 
 #: ../ui/evolution-message-composer.xml.h:43
 msgid "_Cc Field"
-msgstr ""
+msgstr "Cc ഫീള്‍ഡ് (_C)"
 
 #: ../ui/evolution-message-composer.xml.h:45
 msgid "_Delete all"
@@ -19596,7 +19340,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:54
 msgid "_Security"
-msgstr ""
+msgstr "സുരക്ഷിതത്വം (_S)"
 
 #: ../ui/evolution-message-composer.xml.h:55
 msgid "_To Field"
@@ -19623,7 +19367,7 @@ msgstr "സംരക്ഷിച്ച ശേഷം അടയ്ക്കുക 
 
 #: ../ui/evolution-signature-editor.xml.h:22
 msgid "Save the current file and close the window"
-msgstr ""
+msgstr "നിലവിലുളള ഫയല്‍ സംരക്ഷിച്ച് ജാലകം അടയ്ക്കുക"
 
 #: ../ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -19631,11 +19375,11 @@ msgstr ""
 
 #: ../ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
-msgstr ""
+msgstr "ലിസ്റ്റ് പുതുക്കുക"
 
 #: ../ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "ഫോള്‍ഡറുകളുടെ ലിസ്റ്റ് പുതുക്കുക"
 
 #: ../ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
@@ -19655,7 +19399,7 @@ msgstr ""
 
 #: ../ui/evolution-task-editor.xml.h:4
 msgid "Click change / view the status details of the task"
-msgstr ""
+msgstr "ജോലിയില്‍ മാറ്റം വരുത്തുവാന്‍ / അവസ്ഥ അറിയുന്നതിനായി ക്ളിക്ക് ചെയ്യുക"
 
 #: ../ui/evolution-task-editor.xml.h:9
 msgid "Status Details"
@@ -19663,11 +19407,11 @@ msgstr "അവസ്ഥയുടെ വിവരങ്ങള്‍"
 
 #: ../ui/evolution-task-editor.xml.h:10
 msgid "Time Zone"
-msgstr "സമയമേഘല"
+msgstr "സമയമേഖല"
 
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
-msgstr ""
+msgstr "അയയ്ക്കുന്നതിനുളള ഉപാധികള്‍ (_S)"
 
 #: ../ui/evolution-task-editor.xml.h:24
 msgid "_Status Details"
@@ -19675,31 +19419,31 @@ msgstr "അവസ്ഥയുടെ വിവരങ്ങള്‍ (_S)"
 
 #: ../ui/evolution-tasks.xml.h:3
 msgid "Copy selected tasks"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ജോലികള്‍ പകര്‍ത്തുക"
 
 #: ../ui/evolution-tasks.xml.h:5
 msgid "Cut selected tasks"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ജോലികള്‍ മുറിച്ച് മാറ്റുക"
 
 #: ../ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
-msgstr ""
+msgstr "പൂര്‍ത്തിയാക്കിയ ജോലികള്‍ മാറ്റുക"
 
 #: ../ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ജോലികള്‍ മാറ്റുക"
 
 #: ../ui/evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
-msgstr ""
+msgstr "പൂര്‍ത്തിയായതായി അടയാളപ്പെടുത്തുക (_k)"
 
 #: ../ui/evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ജോലികള്‍ പൂര്‍ത്തിയായതായി അടയാളപ്പെടുത്തുക"
 
 #: ../ui/evolution-tasks.xml.h:12
 msgid "Paste tasks from the clipboard"
-msgstr ""
+msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ നിന്നും ജോലികള്‍ ഒട്ടിക്കുക"
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
@@ -19707,7 +19451,7 @@ msgstr ""
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr ""
+msgstr "ജോലികളുടെ ലിസ്റ്റ് പ്രിന്‍റ് ചെയ്യുക"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "Show task preview window"
@@ -19719,11 +19463,11 @@ msgstr ""
 
 #: ../ui/evolution-tasks.xml.h:20
 msgid "View the selected task"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ജോലി കാണുക"
 
 #: ../ui/evolution-tasks.xml.h:27
 msgid "_Open Task"
-msgstr ""
+msgstr "ജോലി തുറക്കുക (_O)"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
@@ -19731,31 +19475,31 @@ msgstr "Evolution സംബന്ധിച്ച്..."
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr ""
+msgstr "Evolution-ന്‍റെ ക്രമീകരണങ്ങള്‍ മാറ്റുക"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "ടൂള്‍ബാറിന്‍റെ ദൃശ്യത മാറ്റുക"
 
 #: ../ui/evolution.xml.h:5
 msgid "Create a new window displaying this folder"
-msgstr ""
+msgstr "ഈ ഫോള്‍ഡര്‍ പ്രദര്‍ശിപ്പിക്കുന്ന ഒരു പുതിയ ജാലകം ഉണ്ടാക്കുക"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
+msgstr "ഡസ്ക്-ടോപ്പ് ടൂള്‍ബാര്‍ ക്രമീകരണം ഉപയോഗിച്ച് ജാലകത്തിന്‍റെ ബട്ടണുകള്‍ കാണിക്കുക"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "വാചകവും പ്രതിരൂപവുമുളള ജാലകത്തിന്‍റെ ബട്ടണുകള്‍ കാണിക്കുക"
 
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "പ്രതിരൂപം മാത്രമുളള ജാലകത്തിന്‍റെ ബട്ടണുകള്‍ കാണിക്കുക"
 
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "വാചകം മാത്രമുളള ജാലകത്തിന്‍റെ ബട്ടണുകള്‍ കാണിക്കുക"
 
 #: ../ui/evolution.xml.h:10
 msgid "Exit the program"
@@ -19767,7 +19511,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:12
 msgid "Hide window buttons"
-msgstr ""
+msgstr "ജാലകത്തിന്‍റെ ബട്ടണുകള്‍ അദൃശ്യമാക്കുക"
 
 #: ../ui/evolution.xml.h:13
 msgid "I_mport..."
@@ -19775,7 +19519,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
-msgstr ""
+msgstr "പ്രതിരൂപങ്ങളും വാചകവും (_a)"
 
 #: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
@@ -19807,7 +19551,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:23
 msgid "Set up Pilot configuration"
-msgstr ""
+msgstr "പൈലറ്റ് കോണ്‍ഫിഗറേഷന്‍ ക്രമീകരിക്കുക"
 
 #: ../ui/evolution.xml.h:24
 msgid "Show Side _Bar"
@@ -19823,11 +19567,11 @@ msgstr "ടൂള്‍ ബാര്‍ കാണിക്കുക (_T)"
 
 #: ../ui/evolution.xml.h:27
 msgid "Show information about Evolution"
-msgstr ""
+msgstr "Evolution കുറിച്ചുളള വിവരങ്ങള്‍ കാണിക്കുക"
 
 #: ../ui/evolution.xml.h:28
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "ബഗ് റിപോര്‍ട്ട് സമര്‍പ്പിക്കുക"
 
 #. <menuitem name="HelpFAQ" verb=""
 #. _label="Evolution _FAQ"/>
@@ -19835,11 +19579,11 @@ msgstr ""
 #. <separator/>
 #: ../ui/evolution.xml.h:33
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "ബഗ് റിപോര്‍ട്ട് സമര്‍പ്പിക്കുക (_B)"
 
 #: ../ui/evolution.xml.h:34
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
+msgstr "Bug Buddy വഴി ബഗ് റിപോര്‍ട്ട് ചെയ്യുക"
 
 #: ../ui/evolution.xml.h:35
 msgid "Toggle whether we are working offline."
@@ -19875,7 +19619,7 @@ msgstr "ബട്ടണുകള്‍ അദൃശ്യമാക്കുക (
 
 #: ../ui/evolution.xml.h:46
 msgid "_Icons only"
-msgstr ""
+msgstr "പ്രതിരൂപങ്ങള്‍ മാത്രം (_I)"
 
 #: ../ui/evolution.xml.h:48
 msgid "_Quick Reference"
@@ -19895,7 +19639,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:52
 msgid "_Text only"
-msgstr ""
+msgstr "വാചകം മാത്രം (_T)"
 
 #: ../ui/evolution.xml.h:54
 msgid "_Window"
@@ -19911,23 +19655,23 @@ msgstr ""
 
 #: ../views/addressbook/galview.xml.h:3
 msgid "_Phone List"
-msgstr ""
+msgstr "ഫോണ്‍ നംബറുകളുടെ ലിസ്റ്റ്"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr ""
+msgstr "ആഴ്ചയനുസരിച്ച് കാണുക (_e)"
 
 #: ../views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr ""
+msgstr "ദിവസമനുസരിച്ച് കാണുക (_D)"
 
 #: ../views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr ""
+msgstr "കാഴ്ച ലിസ്റ്റ് ചെയ്യുക (_L)"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr ""
+msgstr "മാസമനുസരിച്ച് കാണുക (_M)"
 
 #: ../views/calendar/galview.xml.h:5
 msgid "_Work Week View"
@@ -19967,7 +19711,7 @@ msgstr "സന്ദേശങ്ങള്‍ (_M)"
 
 #: ../views/memos/galview.xml.h:1
 msgid "_Memos"
-msgstr ""
+msgstr "മെമ്മോസ് (_M)"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
@@ -19988,7 +19732,7 @@ msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "<b>Time Zones</b>"
-msgstr "<b>സമയ മേഘലകള്‍</b>"
+msgstr "<b>സമയ മേഖലകള്‍</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "<b>_Selection</b>"
@@ -19996,11 +19740,11 @@ msgstr "<b>തിരഞ്ഞെടുക്കല്‍</b> (_S)"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
-msgstr "ഒരു സമയ മേഘല തിരഞ്ഞെടുക്കുക"
+msgstr "ഒരു സമയ മേഖല തിരഞ്ഞെടുക്കുക"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "TimeZone Combobox"
-msgstr ""
+msgstr "സമയമേഖല എന്‍റര്‍ ചെയ്യേണ്ട കോംപോ ബോക്സ്"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
@@ -20018,17 +19762,17 @@ msgstr "ശേഖരം"
 #: ../widgets/menus/gal-define-views.glade.h:4
 #, no-c-format
 msgid "Define Views for %s"
-msgstr ""
+msgstr "%s-നുളള കാഴ്ചകള്‍ വ്യക്തമാക്കുക"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
 msgid "Define Views"
-msgstr ""
+msgstr "കാഴ്ചകള്‍ വ്യക്തമാക്കുക"
 
 #: ../widgets/menus/gal-define-views.glade.h:2
 #, no-c-format
 msgid "Define Views for \"%s\""
-msgstr ""
+msgstr "\"%s\"-നുളള കാഴ്ചകള്‍ വ്യക്തമാക്കുക"
 
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit..."
@@ -20047,21 +19791,21 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
 msgid "Save Current View"
-msgstr ""
+msgstr "നിലവിലുളള കാഴ്ച സംരക്ഷിക്കുക"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "_Create new view"
-msgstr ""
+msgstr "പുതിയ കാഴ്ച ഉണ്ടാക്കുക (_C)"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
 msgid "_Replace existing view"
-msgstr ""
+msgstr "നിലവിലുളള കാഴ്ച മാറ്റുക (_R)"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:587
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
-msgstr ""
+msgstr "കാഴ്ച ഇഷ്ടമുളള രീതിയിലാക്കുക"
 
 #: ../widgets/menus/gal-view-instance.c:588
 msgid "Save Custom View"
@@ -20074,7 +19818,7 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "C_urrent View"
-msgstr ""
+msgstr "നിലവിലുളള കാഴ്ച (_u)"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
@@ -20082,7 +19826,7 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
-msgstr ""
+msgstr "ഫാക്ടറി"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
@@ -20090,15 +19834,15 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
 msgid "Name of new view:"
-msgstr ""
+msgstr "പുതിയ കാഴ്ചയുടെ പേര്:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Type of View"
-msgstr ""
+msgstr "ഏത് തരം കാഴ്ച"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of view:"
-msgstr ""
+msgstr "ഏത് തരം കാഴ്ച:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
@@ -20118,14 +19862,14 @@ msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:226
 msgid "Month Calendar"
-msgstr ""
+msgstr "മാസം കാണിക്കുന്ന കലണ്ടര്‍"
 
 #: ../widgets/misc/e-canvas-background.c:457
 #: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1284
 #: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3581
 #: ../widgets/text/e-text.c:3582
 msgid "Fill color"
-msgstr ""
+msgstr "നിറം നിറയ്ക്കുക"
 
 #: ../widgets/misc/e-canvas-background.c:464
 #: ../widgets/misc/e-canvas-background.c:465
@@ -20195,7 +19939,7 @@ msgstr "സമയം ഈ രീതിയില്‍ ആയിരിക്കണ
 
 #: ../widgets/misc/e-cell-percent.c:76
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
+msgstr "ശതമാനത്തിന്‍റെ മൂല്ല്യം 0-യ്ക്കും 100-നും ഇടയ്ക്കായിരിക്കണം"
 
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Baltic"
@@ -20306,7 +20050,7 @@ msgstr "കലണ്ടര്‍ കാണിന്നതിനായി ഈ ബ
 
 #: ../widgets/misc/e-dateedit.c:384
 msgid "Combo box to select time"
-msgstr ""
+msgstr "സമയം തിരഞ്ഞെടുക്കുന്നതിനുളള കോംപോ ബോക്സ്"
 
 #: ../widgets/misc/e-dateedit.c:385
 msgid "Time"
@@ -20332,7 +20076,7 @@ msgstr "%I:%M %p"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
-msgstr ""
+msgstr "വികസിപ്പിച്ചത്"
 
 #: ../widgets/misc/e-expander.c:183
 msgid "Whether or not the expander is expanded"
@@ -20383,7 +20127,7 @@ msgstr ""
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:129 ../widgets/misc/e-filter-bar.c:168
 msgid "Advanced Search"
-msgstr ""
+msgstr "വിപുലമായ തിരച്ചില്‍"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:216
@@ -20404,11 +20148,11 @@ msgstr "തിരച്ചില്‍ സംരക്ഷിക്കുക... (
 
 #: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
 msgid "_Edit Saved Searches..."
-msgstr ""
+msgstr "സംരക്ഷിച്ച തിരച്ചിലുകളില്‍ മാറ്റം വരുത്തുക... (_E)"
 
 #: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
 msgid "_Advanced Search..."
-msgstr ""
+msgstr "വിപുലമായ തിരച്ചില്‍... (_A)"
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
@@ -20432,7 +20176,7 @@ msgstr "ചിത്രം തിരഞ്ഞെടുക്കുക"
 
 #: ../widgets/misc/e-map.c:629
 msgid "World Map"
-msgstr "ലോകത്തിന്‍റെ ഭൂപടം"
+msgstr "ഭൂമിയുടെ ഭൂപടം"
 
 #: ../widgets/misc/e-map.c:631
 msgid ""
@@ -20454,7 +20198,7 @@ msgstr ""
 
 #: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
-msgstr ""
+msgstr "ശൂന്യമായ സന്ദേശം"
 
 #: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
@@ -20474,11 +20218,11 @@ msgstr "ഉടന്‍ തിരയുക (_F)"
 
 #: ../widgets/misc/e-search-bar.c:580
 msgid "_Clear"
-msgstr "തെളിവാക്കുക (_C)"
+msgstr "വെടിപ്പാക്കുക (_C)"
 
 #: ../widgets/misc/e-search-bar.c:831
 msgid "Item ID"
-msgstr ""
+msgstr "വസ്തുവിന്‍റെ ID"
 
 #: ../widgets/misc/e-search-bar.c:838 ../widgets/text/e-entry.c:1249
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3503
@@ -20502,7 +20246,7 @@ msgstr "തിരച്ചില്‍: (_c)"
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:1000
 msgid " i_n "
-msgstr ""
+msgstr " i_n "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -20516,7 +20260,7 @@ msgstr ""
 
 #: ../widgets/misc/e-selection-model.c:214
 msgid "Sorter"
-msgstr ""
+msgstr "ക്രമീകരണത്തിനുളള സംവിധാനം"
 
 #: ../widgets/misc/e-selection-model.c:221
 msgid "Selection Mode"
@@ -20524,7 +20268,7 @@ msgstr "തിരഞ്ഞെടുക്കല്‍ രീതി"
 
 #: ../widgets/misc/e-selection-model.c:229
 msgid "Cursor Mode"
-msgstr ""
+msgstr "കര്‍സര്‍ രീതി"
 
 #: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
@@ -20536,7 +20280,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
-msgstr ""
+msgstr "<b>മറുപടികള്‍</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 msgid "<b>Return Notification</b>"
@@ -20548,7 +20292,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr ""
+msgstr "അയച്ച വസ്തുക്കള്‍ തനിയേ നീക്കം ചെയ്യുക"
 
 #: ../widgets/misc/e-send-options.glade.h:6
 msgid "Classification"
@@ -20581,10 +20325,16 @@ msgid ""
 "Top Secret\n"
 "For Your Eyes Only"
 msgstr ""
+"സാധാരണ\n"
+"ഉടമസ്ഥാവകാശമുളള\n"
+"രഹസ്യ സ്വഭാവമുളളത് \n"
+"രഹസ്യം\n"
+"അതീവ രഹസ്യമായത് \n"
+"നിങ്ങള്‍ മാത്രം കാണുന്നതിന്"
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
-msgstr ""
+msgstr "മറുപടി ആവശ്യപ്പെട്ടിരിക്കുന്നു (_e)"
 
 #: ../widgets/misc/e-send-options.glade.h:20
 msgid "Sta_tus Tracking"
@@ -20636,7 +20386,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:34
 msgid "_Set expiration date"
-msgstr ""
+msgstr "കാലാവധി അവസാനിക്കുന്ന ദിവസം ക്രമീകരിക്കുക (_S)"
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Until:"
@@ -20666,19 +20416,19 @@ msgstr "URL-ലേക്ക് പോകുന്നതിനായി ക്ള
 
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "മാസ്റ്റര്‍ കാറ്റഗറി ലിസ്റ്റില്‍ മാറ്റം വരുത്തുക..."
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Item(s) belong to these _categories:"
-msgstr ""
+msgstr "ഈ വിഭാഗത്തില്‍പ്പെട്ട വസ്തുക്കള്‍: (_c)"
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "_Available Categories:"
-msgstr "ലഭ്യമായ വര്‍ഗ്ഗങ്ങള്‍: (_A)"
+msgstr "ലഭ്യമായ വിഭാഗങ്ങള്‍: (_A)"
 
 #: ../widgets/misc/gal-categories.glade.h:4
 msgid "categories"
-msgstr "വര്‍ഗ്ഗങ്ങള്‍"
+msgstr "വിഭാഗങ്ങള്‍"
 
 #: ../widgets/table/e-cell-combo.c:177
 msgid "popup list"
@@ -20727,7 +20477,7 @@ msgstr "<- നീക്കം ചെയ്യുക (_R)"
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
 msgid "A_vailable Fields:"
-msgstr ""
+msgstr "ലഭ്യമായ ഫീള്‍ഡുകള്‍: (_v)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
@@ -20763,13 +20513,13 @@ msgstr "മുകളിലേക്ക് നീക്കുക (_U)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
-msgstr ""
+msgstr "ഈ ഫീള്‍ഡുകള്‍ ക്രമത്തില്‍ കാണിക്കുക: (_o)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
-msgstr ""
+msgstr "ഫീള്‍ഡുകള്‍ കാണിക്കുക"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
@@ -20793,12 +20543,12 @@ msgstr ""
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 msgid "_Add ->"
-msgstr "ചേര്‍ക്കുക -> (_A)"
+msgstr "ചേര്‍ക്കുക -> (_A) "
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "കാണിച്ചിരിക്കുന്ന ഫീള്‍ഡുകള്‍... (_F)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
@@ -20827,7 +20577,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.c:584
 msgid "Available Fields"
-msgstr ""
+msgstr "ലഭ്യമായ ഫീള്‍ഡുകള്‍"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
@@ -20835,7 +20585,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
-msgstr ""
+msgstr "ഈ ഫീള്‍ഡുകള്‍ ക്രമത്തില്‍ കാണിക്കുക: (_S)"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:635
@@ -20864,6 +20614,8 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"ഒരു നിര ചേര്‍ക്കുന്നതിനായി,\n"
+"നിങ്ങള്‍ക്ക് നിര ആവശ്യമുളള സ്ഥാനത്ത് വലിച്ചിടുക"
 
 #: ../widgets/table/e-table-group-container.c:345
 #, c-format
@@ -20948,7 +20700,7 @@ msgstr ""
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
-msgstr ""
+msgstr "വരികള്‍ക്ക് ഒരേ ഉയരം"
 
 #: ../widgets/table/e-table-group-container.c:953
 #: ../widgets/table/e-table-group-container.c:954
@@ -20959,7 +20711,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1471
 msgid "Customize Current View"
-msgstr ""
+msgstr "നിലവിലുളള കാഴ്ച ഇഷ്ടമുളള രീതിയിലാക്കുക"
 
 #: ../widgets/table/e-table-header-item.c:1491
 msgid "Sort Ascending"
@@ -20971,7 +20723,7 @@ msgstr "അവരോഹണക്രമത്തില്‍ ക്രമീക�
 
 #: ../widgets/table/e-table-header-item.c:1493
 msgid "Unsort"
-msgstr ""
+msgstr "ക്രമീകരണം മാറ്റുക"
 
 #: ../widgets/table/e-table-header-item.c:1495
 msgid "Group By This Field"
@@ -21003,7 +20755,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1505
 msgid "Customize Current View..."
-msgstr ""
+msgstr "നിലവിലുളള കാഴ്ച ഇഷ്ടമുളള രീതിയിലാക്കുക..."
 
 #: ../widgets/table/e-table-header-item.c:1554
 msgid "Sort By"
@@ -21012,12 +20764,12 @@ msgstr "ക്രമീകരിക്കേണ്ട രീതി"
 #: ../widgets/table/e-table-header-item.c:1899 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
-msgstr ""
+msgstr "ലിപിയുടെ സെറ്റ്"
 
 #: ../widgets/table/e-table-header-item.c:1920
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
-msgstr ""
+msgstr "വിവരങ്ങള്‍ ക്രമീകരിക്കുക"
 
 #: ../widgets/table/e-table-header-item.c:1934
 #: ../widgets/table/e-tree-scrolled.c:221
@@ -21044,11 +20796,11 @@ msgstr "എല്ലായ്പ്പോഴും തിരയുക"
 
 #: ../widgets/table/e-table.c:3322
 msgid "Use click to add"
-msgstr "ചേര്‍ക്കുന്നതിനായ ക്ളിക്ക് ചെയ്യുക"
+msgstr "ചേര്‍ക്കുന്നതിനായി ക്ളിക്ക് ചെയ്യുക"
 
 #: ../widgets/table/e-tree.c:3284 ../widgets/table/e-tree.c:3285
 msgid "ETree table adapter"
-msgstr ""
+msgstr "ETree ടേബിള്‍ അഡാപ്റ്റര്‍"
 
 #: ../widgets/table/e-tree.c:3305
 msgid "Retro Look"
@@ -21091,12 +20843,12 @@ msgstr "ഉഭയക്രമീകരണം"
 #: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
 #: ../widgets/text/e-text.c:3632 ../widgets/text/e-text.c:3633
 msgid "Use ellipsis"
-msgstr ""
+msgstr "എലിപ്സിസ് ഉപയോഗിക്കുക"
 
 #: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
 #: ../widgets/text/e-text.c:3639 ../widgets/text/e-text.c:3640
 msgid "Ellipsis"
-msgstr ""
+msgstr "എലിപ്സിസ്"
 
 #: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
 #: ../widgets/text/e-text.c:3646 ../widgets/text/e-text.c:3647
