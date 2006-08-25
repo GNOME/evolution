@@ -3831,7 +3831,7 @@ regen_list_regened (struct _mail_msg *mm)
 	if (m->dotree) {
 		if (m->ml->just_set_folder)
 			m->ml->just_set_folder = FALSE;
-		else
+		else if (!m->search) /* Let us not store the tree state of search, since it will overwrite the test. */
 			save_tree_state (m->ml);
 		
 		build_tree (m->ml, m->tree, m->changes);
