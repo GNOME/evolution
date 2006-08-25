@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-21 18:19+0200\n"
-"PO-Revision-Date: 2006-08-21 18:35+0200\n"
+"PO-Revision-Date: 2006-08-25 13:35+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8106,7 +8106,7 @@ msgid ""
 "Error on %s:\n"
 " %s"
 msgstr ""
-"Fehler bei %s:\n"
+"Fehler bei »%s«:\n"
 " %s"
 
 #: ../calendar/gui/e-memos.c:772
@@ -14564,7 +14564,7 @@ msgstr "Fehler beim Ausführen eines Vorgangs."
 
 #: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
-msgstr "Fehler bei {0}."
+msgstr "Fehler bei »{0}«."
 
 #: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
