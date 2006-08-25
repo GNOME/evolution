@@ -67,7 +67,7 @@ msgstr "ଏଥିରେ ପୁନରାବ୍ରୁତ୍ତି ଅଛି।"
 
 #: ../a11y/calendar/ea-cal-view-event.c:270
 msgid "It is a meeting."
-msgstr "ଏହା ଗୋଟିଏ ସାକ୍ଷାତ ଅଟେ।"
+msgstr "ଏହା ଗୋଟିଏ ସଭା ଅଟେ।"
 
 #: ../a11y/calendar/ea-cal-view-event.c:276
 #, c-format
@@ -96,7 +96,7 @@ msgstr "ନୂତନ ପୂର୍ଣ୍ଣ ଦିବସ ଘଟଣା"
 
 #: ../a11y/calendar/ea-cal-view.c:304
 msgid "New Meeting"
-msgstr "ନୂତନ ସାକ୍ଷାତ"
+msgstr "ନୂତନ ସଭା"
 
 #: ../a11y/calendar/ea-cal-view.c:305
 msgid "Go to Today"
@@ -5786,7 +5786,7 @@ msgstr "ସାକ୍ଷାତକାରକୁ ସମ୍ପାଦନ କରନ୍�
 #: ../calendar/gui/dialogs/comp-editor.c:2149
 #, c-format
 msgid "Meeting - %s"
-msgstr "ସାକ୍ଷାତକାର - %s"
+msgstr "ସଭା - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2108
 #: ../calendar/gui/dialogs/comp-editor.c:2151
@@ -5899,7 +5899,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
-msgstr ""
+msgstr "ସମ୍ପର୍କ..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 #: ../plugins/exchange-operations/exchange-delegates.c:421
@@ -5912,17 +5912,17 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:564
 msgid "Appoint_ment"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର (_m)"
 
 #: ../calendar/gui/dialogs/event-editor.c:568
 #: ../ui/evolution-event-editor.xml.h:14
 msgid "Recurrence"
-msgstr ""
+msgstr "ପୁନଃପୌନିକତା"
 
 #: ../calendar/gui/dialogs/event-page.c:810
 #: ../calendar/gui/dialogs/event-page.c:2717
 msgid "This event has alarms"
-msgstr ""
+msgstr "ଏହି ଘଟଣାର ସତର୍କଧ୍ବନୀ ଅଛି"
 
 #: ../calendar/gui/dialogs/event-page.c:882
 #: ../calendar/gui/dialogs/event-page.glade.h:11
@@ -5930,41 +5930,41 @@ msgstr ""
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
 #: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
-msgstr ""
+msgstr "ସଙ୍ଗଠକ (_g):"
 
 #: ../calendar/gui/dialogs/event-page.c:920
 msgid "_Delegatees"
-msgstr ""
+msgstr "ନିର୍ବାଚିତ ପ୍ରତିନିଧୀ (_D)"
 
 #: ../calendar/gui/dialogs/event-page.c:922
 msgid "Atte_ndees"
-msgstr ""
+msgstr "ଶ୍ରୋତା (_n)"
 
 #: ../calendar/gui/dialogs/event-page.c:1087
 msgid "Event with no start date"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭିକ ତାରିଖ ସହିତ କୌଣସି ଘଟଣା ନାହିଁ"
 
 #: ../calendar/gui/dialogs/event-page.c:1090
 msgid "Event with no end date"
-msgstr ""
+msgstr "ଅନ୍ତିମ ତାରିଖ ସହିତ କୌଣସି ଘଟଣା ନାହିଁ"
 
 #: ../calendar/gui/dialogs/event-page.c:1259
 #: ../calendar/gui/dialogs/memo-page.c:683
 #: ../calendar/gui/dialogs/task-page.c:849
 msgid "Start date is wrong"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭିକ ତାରିଖ ଭୂଲ ଅଟେ"
 
 #: ../calendar/gui/dialogs/event-page.c:1269
 msgid "End date is wrong"
-msgstr ""
+msgstr "ଅନ୍ତିମ ତାରିଖ ଭୂଲ ଅଟେ"
 
 #: ../calendar/gui/dialogs/event-page.c:1292
 msgid "Start time is wrong"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭିକ ସମୟ ଭୂଲ ଅଟେ"
 
 #: ../calendar/gui/dialogs/event-page.c:1299
 msgid "End time is wrong"
-msgstr ""
+msgstr "ଅନ୍ତିମ ସମୟ ଭୂଲ ଅଟେ"
 
 #: ../calendar/gui/dialogs/event-page.c:1454
 #: ../calendar/gui/dialogs/memo-page.c:718
@@ -5986,7 +5986,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.c:1897
 #: ../calendar/gui/dialogs/task-page.c:1200
 msgid "_Add "
-msgstr ""
+msgstr "ଯୋଗ କରନ୍ତୁ (_A)"
 
 #: ../calendar/gui/dialogs/event-page.c:2624
 #, c-format
@@ -6950,49 +6950,49 @@ msgstr "କାର୍ଯ୍ଯ ନ୍ଯସ୍ତ କରନ୍ତୁ (_A)"
 #: ../calendar/gui/e-calendar-table.c:1294 ../calendar/gui/e-memo-table.c:914
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
-msgstr ""
+msgstr "iCalendar ଭାବରେ ଅଗ୍ରସରିତ କରନ୍ତୁ"
 
 #: ../calendar/gui/e-calendar-table.c:1295
 msgid "_Mark as Complete"
-msgstr ""
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ ବୋଲି ଘୋଷିତ କରନ୍ତୁ (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1296
 msgid "_Mark Selected Tasks as Complete"
-msgstr ""
+msgstr "ଚୟିତ କାର୍ଯ୍ଯକୁ ବୋଲି ଘୋଷିତ କରନ୍ତୁ (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1297
 msgid "_Mark as Incomplete"
-msgstr ""
+msgstr "ଅସମ୍ପୂର୍ଣ୍ଣ ବୋଲି ଘୋଷିତ କରନ୍ତୁ (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1298
 msgid "_Mark Selected Tasks as Incomplete"
-msgstr ""
+msgstr "ଚୟିତ କାର୍ଯ୍ଯକୁ ସମ୍ପୂର୍ଣ୍ଣ ବୋଲି ଘୋଷିତ କରନ୍ତୁ (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1303
 msgid "_Delete Selected Tasks"
-msgstr ""
+msgstr "ଚୟିତ କାର୍ଯ୍ଯକୁ ଅପସାରଣ କରନ୍ତୁ (_D)"
 
 #: ../calendar/gui/e-calendar-table.c:1536
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr ""
+msgstr "ଗୋଟିଏ କାର୍ଯ୍ଯକୁ ଯୋଗ କରିବା ପାଇଁ ଦବାନ୍ତୁ"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
 msgid "% Complete"
-msgstr ""
+msgstr "% ସମାପ୍ତ"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:5 ../mail/mail-send-recv.c:652
 msgid "Complete"
-msgstr ""
+msgstr "ସମାପ୍ତ"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
-msgstr ""
+msgstr "ସମ୍ପନ୍ନ ତାରିଖ"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
-msgstr ""
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ତାରିଖ"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:8
 #: ../plugins/save-calendar/csv-format.c:397
@@ -7001,120 +7001,120 @@ msgstr "ଅଗ୍ରାଧିକାର"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭିକ ତାରିଖ"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
-msgstr ""
+msgstr "କ୍ରମାନୁଯାୟୀ କାର୍ଯ୍ଯକୁ ସଜାଡନ୍ତୁ"
 
 #: ../calendar/gui/e-calendar-view.c:1367
 msgid "Moving items"
-msgstr ""
+msgstr "ବସ୍ତୁ ମାନଙ୍କୁ ସ୍ଥାନାନ୍ତରିତ କରୁଅଛି"
 
 #: ../calendar/gui/e-calendar-view.c:1369
 msgid "Copying items"
-msgstr ""
+msgstr "ବସ୍ତୁ ମାନଙ୍କୁ ନକଲ କରୁଅଛି"
 
 #: ../calendar/gui/e-calendar-view.c:1678
 msgid "New _Appointment..."
-msgstr ""
+msgstr "ନୂତନ ସାକ୍ଷାତକାର... (_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1679
 msgid "New All Day _Event"
-msgstr ""
+msgstr "ନୂତନ ସମଗ୍ର ଦିବସ ଘଟଣା (_E)"
 
 #: ../calendar/gui/e-calendar-view.c:1680
 msgid "New _Meeting"
-msgstr ""
+msgstr "ନୂତନ ସଭା (_M)"
 
 #. FIXME: hook in this somehow
 #: ../calendar/gui/e-calendar-view.c:1691
 msgid "_Current View"
-msgstr ""
+msgstr "ସାମ୍ପ୍ରତିକ ଦ୍ରୁଶ୍ଯ (_C)"
 
 #: ../calendar/gui/e-calendar-view.c:1693
 msgid "Select T_oday"
-msgstr ""
+msgstr "ଅଜିର ତାରିଖ ଚୟନ କରନ୍ତୁ (_o)"
 
 #: ../calendar/gui/e-calendar-view.c:1694
 msgid "_Select Date..."
-msgstr ""
+msgstr "ତାରିଖ ଚୟନ କରନ୍ତୁ... (_S)"
 
 #: ../calendar/gui/e-calendar-view.c:1710
 msgid "Cop_y to Calendar..."
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡରକୁ ନକଲ କରନ୍ତୁ... (_y)"
 
 #: ../calendar/gui/e-calendar-view.c:1711
 msgid "Mo_ve to Calendar..."
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡରକୁ ସ୍ଥାନାନ୍ତରିତ କରନ୍ତୁ... (_v)"
 
 #: ../calendar/gui/e-calendar-view.c:1712
 msgid "_Delegate Meeting..."
-msgstr ""
+msgstr "ନିର୍ବାଚିତ ପ୍ରାର୍ଥୀ ମାନଙ୍କର ସଭା... (_D)"
 
 #: ../calendar/gui/e-calendar-view.c:1713
 msgid "_Schedule Meeting..."
-msgstr ""
+msgstr "ସଭାର ଅନୁସୂଚୀ ସ୍ଥିର କରନ୍ତୁ... (_S)"
 
 #: ../calendar/gui/e-calendar-view.c:1714
 msgid "_Forward as iCalendar..."
-msgstr ""
+msgstr "iCalendar ଭାବରେ ଅଗ୍ରସରିତ କରନ୍ତୁ... (_F)"
 
 #: ../calendar/gui/e-calendar-view.c:1715
 msgid "_Reply"
-msgstr ""
+msgstr "ଉତ୍ତର ଦିଅନ୍ତୁ (_R)"
 
 #: ../calendar/gui/e-calendar-view.c:1716 ../mail/em-folder-view.c:1116
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
-msgstr ""
+msgstr "ସମସ୍ତଙ୍କୁ ଉତ୍ତର ଦିଅନ୍ତୁ (_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1721
 msgid "Make this Occurrence _Movable"
-msgstr ""
+msgstr "ଏହି ଘଟଣାକୁ ଗତିଶୀଳ ଭାବରେ ଚିହ୍ନିତ କରନ୍ତୁ (_M)"
 
 #: ../calendar/gui/e-calendar-view.c:1722 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
-msgstr ""
+msgstr "ଏହି ଘଟଣାକୁ ଅପସାରିତ କରନ୍ତୁ (_O)"
 
 #: ../calendar/gui/e-calendar-view.c:1723
 msgid "Delete _All Occurrences"
-msgstr ""
+msgstr "ସମସ୍ତ ଘଟଣାକୁ ଅପସାରିତ କରନ୍ତୁ (_A)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #: ../calendar/gui/e-calendar-view.c:2175
 #, c-format
 msgid "Organizer: %s <%s>"
-msgstr ""
+msgstr "ସଙ୍ଗଠକ: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
 #: ../calendar/gui/e-calendar-view.c:2179
 #, c-format
 msgid "Organizer: %s"
-msgstr ""
+msgstr "ସଙ୍ଗଠକ: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2195 ../calendar/gui/print.c:2349
 #, c-format
 msgid "Location: %s"
-msgstr ""
+msgstr "ଅବସ୍ଥାନ: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../calendar/gui/e-calendar-view.c:2226
 #, c-format
 msgid "Time: %s %s"
-msgstr ""
+msgstr "ସମୟ: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:116
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:119
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:124
 #, c-format
@@ -7131,7 +7131,7 @@ msgstr ""
 #: ../calendar/gui/e-day-view-time-item.c:808
 #, c-format
 msgid "%02i minute divisions"
-msgstr ""
+msgstr "%02i ମିନିଟ ବିଭାଜନ"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -7144,72 +7144,72 @@ msgstr ""
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1538
 msgid "%A %d %B"
-msgstr ""
+msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:746 ../calendar/gui/e-day-view.c:1087
 #: ../calendar/gui/e-week-view.c:503 ../calendar/gui/print.c:858
 msgid "am"
-msgstr ""
+msgstr "ପୂର୍ବାହ୍ନ"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1090
 #: ../calendar/gui/e-week-view.c:506 ../calendar/gui/print.c:860
 msgid "pm"
-msgstr ""
+msgstr "ଅପରାହ୍ନ"
 
 #: ../calendar/gui/e-itip-control.c:759
 msgid "Yes. (Complex Recurrence)"
-msgstr ""
+msgstr "ହଁ। (ଜଟିଳ ଆବ୍ରୁତି)"
 
 #: ../calendar/gui/e-itip-control.c:770
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ପ୍ରତି ଦିନ"
+msgstr[1] "ପ୍ରତି %d ଦିନ"
 
 #: ../calendar/gui/e-itip-control.c:775
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ପ୍ରତି ସପ୍ତାହ"
+msgstr[1] "ପ୍ରତି %d ସପ୍ତାହ"
 
 #: ../calendar/gui/e-itip-control.c:777
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ପ୍ରତି ସପ୍ତାହରେ"
+msgstr[1] "ପ୍ରତି %d ସପ୍ତାହରେ"
 
 #: ../calendar/gui/e-itip-control.c:785
 msgid " and "
-msgstr ""
+msgstr " ଏବଂ "
 
 #: ../calendar/gui/e-itip-control.c:792
 #, c-format
 msgid "The %s day of "
-msgstr ""
+msgstr "ଏହାର %s ଦିନ"
 
 #: ../calendar/gui/e-itip-control.c:805
 #, c-format
 msgid "The %s %s of "
-msgstr ""
+msgstr "ଏହାର %s %s"
 
 #: ../calendar/gui/e-itip-control.c:812
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ପ୍ରତି ମାସ"
+msgstr[1] "ପ୍ରତି %d ମାସ"
 
 #: ../calendar/gui/e-itip-control.c:816
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ପ୍ରତି ବର୍ଷ"
+msgstr[1] "ପ୍ରତି %d ବର୍ଷ"
 
 #: ../calendar/gui/e-itip-control.c:827
 #, c-format
