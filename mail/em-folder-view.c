@@ -138,7 +138,7 @@ static void emfv_on_url_cb(GObject *emitter, const char *url, EMFolderView *emfv
 static void emfv_on_url(EMFolderView *emfv, const char *uri, const char *nice_uri);
 
 static void emfv_set_seen (EMFolderView *emfv, const char *uid);
-
+static gboolean emfv_on_html_button_released_cb (GtkHTML *html, GdkEventButton *button, EMFolderView *emfv);
 static gboolean emfv_popup_menu (GtkWidget *widget);
 
 static const EMFolderViewEnable emfv_enable_map[];
@@ -221,6 +221,7 @@ emfv_init(GObject *o)
 	g_signal_connect(emfv->preview, "link_clicked", G_CALLBACK(emfv_format_link_clicked), emfv);
 	g_signal_connect(emfv->preview, "popup_event", G_CALLBACK(emfv_format_popup_event), emfv);
 	g_signal_connect (emfv->preview, "on_url", G_CALLBACK (emfv_on_url_cb), emfv);
+	g_signal_connect (((EMFormatHTML *)emfv->preview)->html, "button-release-event", G_CALLBACK (emfv_on_html_button_released_cb), emfv);
 #ifdef ENABLE_PROFILING
 	g_signal_connect(emfv->preview, "complete", G_CALLBACK (emfv_format_complete), emfv);
 #endif
@@ -2875,3 +2876,15 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 	
 	g_free (nice_url);
 }
+
+static gboolean
+emfv_on_html_button_released_cb (GtkHTML *html, GdkEventButton *button, EMFolderView *emfv)
+{
+	gboolean selected;
+	
+	selected = gtk_html_command (html, "is-selection-active");
+	bonobo_ui_component_set_prop(emfv->uic, "/commands/EditCopy", "sensitive", selected?"1":"0", NULL);
+	
+	return FALSE;
+}
+	

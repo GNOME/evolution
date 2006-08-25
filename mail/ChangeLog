@@ -1,3 +1,10 @@
+2006-08-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #336983
+	
+	* em-folder-view.c: (emfv_init), (emfv_on_html_button_released_cb):
+	Enable/disable Edit->Copy on button release on html.
+
 2006-08-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #352695
