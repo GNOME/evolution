@@ -1,19 +1,19 @@
-From evolution@novell.com Wed Mar 15 12:00:00 2006
+From evolution@novell.com Wed Sep 06 07:45:12 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
+	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
-From: "The Evolution Team" <evolution@novell.com>
-To: Evolution Users <evolution@novell.com>
+	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
+From: "Das Evolution-Team" <evolution@novell.com>
+To: Evolution-Benutzer <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.6.0
-Date: 15 March 2006 12:00:00 +0000
+X-Mailer: Evolution 2.8.0
+Date: 06 September 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Willkommen bei Evolution!
@@ -22,7 +22,7 @@ Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
 Status:   
 X-Evolution-Source: pop://rupert@pop.novell.com/inbox
-X-Evolution: 00000ddd-0030
+X-Evolution: 00000002-0000
 
 
 --=-t4dRE6cqcdSBHOrMdTQ1
@@ -52,25 +52,17 @@ Erste Schritte
 
 Neue Funktionen
 
-	Evolution 2.6 bietet
+	Evolution 2.8 bietet
 
-	* Eine neue Notiz-Komponente
-	* Ein neues Aussehen der Editoren für Besprechungen,
-	  Aufgaben und Ereignisse
-	* Unterstützung zur Veröffentlichung von Kalendern
-	* CalDAV-Unterstützung
-	* Unterstützung der Anwendung »NetworkManager«
-	* Verbindungsmöglichkeit zu HULA
-	* Verbesserte GroupWise-Unterstützung
-	* Verbesserte Unterstützung von wiederkehrenden Ereignissen
-	* Kalender-Tooltips
-	* CSV/Tab-Importierung für Mozilla-, Outlook- und Evolution-Formate
-	* Kontaktlistenunterstützung für LDAP-Adressbücher
-	* Speicherung von komplexen Suchen innerhalb von Adressbüchern
-	* Priorisierung von Nachrichten im Bearbeitungsfenster
-	* Viele behobene Fehler und eine Menge anderer Verbesserungen
-	  der Benutzerschnittstelle
-
+	* Eine neue Suchfunktion und eine globale Suche in der Mail-Komponente
+	* Einen Breitbild-Modus mit vertikaler Vorschau in der Mail-Komponente
+	* Verbesserte Darstellung (durch Integration von »Cairo«)
+	* Verbesserte Leistung und reduzierten Speicherverbrauch
+	* Unterstützung für GroupWise-Erinnerungsnotizen und Zurückziehen von
+	  E-Mails
+	* Gemeinsame Notizen (im Dateisystem)
+	* Integration des GNOME-Schlüsselbunds
+	* Viele behobene Fehler und weitere Verbesserungen
 
 Fehlerberichte
 
