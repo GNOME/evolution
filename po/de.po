@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-21 18:19+0200\n"
-"PO-Revision-Date: 2006-08-25 13:35+0200\n"
+"PO-Revision-Date: 2006-08-26 12:44+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10480,12 +10480,12 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:1294 ../composer/e-msg-composer.c:2530
 msgid "Hide _Attachment Bar"
-msgstr "A_nlagenleiste verbergen"
+msgstr "Anla_genleiste verbergen"
 
 #: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2533
 #: ../composer/e-msg-composer.c:3897
 msgid "Show _Attachment Bar"
-msgstr "A_nlagenleiste anzeigen"
+msgstr "Anla_genleiste anzeigen"
 
 #: ../composer/e-msg-composer.c:1329 ../composer/e-msg-composer.c:1363
 #: ../plugins/mail-remote/e-corba-utils.c:135
