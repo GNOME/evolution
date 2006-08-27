@@ -4,18 +4,18 @@
 # Clytie Siddall <clytie@riverland.net.au>, 2005-2006.
 # 
 msgid ""
-msgstr ""
-"Project-Id-Version: evolution 1.4 Gnome HEAD\n"
+""
+msgstr "Project-Id-Version: evolution 1.4 Gnome 2.14\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-25 04:39+0200\n"
-"PO-Revision-Date: 2006-06-24 22:34+0930\n"
+"PO-Revision-Date: 2006-08-27 21:32+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: LocFactoryEditor 1.6a11\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: LocFactoryEditor 1.6fc1\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -322,8 +322,7 @@ msgstr "Trình đơn bật lên"
 msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
-msgstr ""
-"Một liên lạc với địa chỉ này đã có. Bạn có muốn thêm một thẻ mới với cùng "
+msgstr "Một liên lạc với địa chỉ này đã có. Bạn có muốn thêm một thẻ mới với cùng "
 "địa chỉ bằng mọi giá không?"
 
 #: ../addressbook/addressbook.error.xml.h:2
@@ -343,8 +342,7 @@ msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
-msgstr ""
-"Hãy kiểm tra để bảo đảm mật khẩu của bạn được gõ chính xác và bạn sử dụng "
+msgstr "Hãy kiểm tra để bảo đảm mật khẩu của bạn được gõ chính xác và bạn sử dụng "
 "phương thức đăng nhập được hỗ trợ. Lưu ý rằng nhiều mật khẩu phân biệt chữ "
 "hoa, chữ thường; và hãy chắc đã tắt phím Caps Lock của bạn."
 
@@ -361,8 +359,7 @@ msgid ""
 "Currently you can access only GroupWise System Address Book from Evolution. "
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and Groupwise Personal Contacts folders."
-msgstr ""
-"Hiện thời bạn có thể truy cập chỉ Sổ Địa Chỉ hệ thống Groupwise từ "
+msgstr "Hiện thời bạn có thể truy cập chỉ Sổ Địa Chỉ hệ thống Groupwise từ "
 "Evolution. Hãy chạy một lần ứng dụng khách thư Groupwise khác, để lấy các "
 "thư mục GroupWise Frequent Contacts (liên lạc thường) và GroupWise Personal "
 "Contacts (liên lạc cá nhân)."
@@ -397,8 +394,7 @@ msgstr "Phiên bản máy phục vụ"
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "Some features may not work properly with your current server"
-msgstr ""
-"Có lẽ một số tính năng sẽ không hoạt động với máy phục vụ hiện thời của bạn."
+msgstr "Có lẽ một số tính năng sẽ không hoạt động với máy phục vụ hiện thời của bạn."
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -414,8 +410,7 @@ msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
-msgstr ""
-"Máy phục vụ LDAP này có lẽ dùng phiên bản LDAP cũ mà không hỗ trợ tính năng "
+msgstr "Máy phục vụ LDAP này có lẽ dùng phiên bản LDAP cũ mà không hỗ trợ tính năng "
 "này hoặc bị cấu hình sai. Hãy hỏi quản trị hệ thống về những cơ sở tìm kiếm "
 "được hỗ trợ."
 
@@ -435,8 +430,7 @@ msgstr "Máy phục vụ sổ địa chỉ này không đề nghị cơ sở tì
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
-msgstr ""
-"Không thể tiếp cận máy phục vụ sổ địa chỉ này, hoặc tên máy phục vụ đã gõ "
+msgstr "Không thể tiếp cận máy phục vụ sổ địa chỉ này, hoặc tên máy phục vụ đã gõ "
 "sai, hoặc bị ngắt kết nối."
 
 #: ../addressbook/addressbook.error.xml.h:24
@@ -463,8 +457,7 @@ msgstr "Bạn có muốn lưu các thay đổi chứ?"
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"Bạn đang cố di chuyển liên lạc từ sổ địa chỉ này sang sổ địa chỉ khác nhưng "
+msgstr "Bạn đang cố di chuyển liên lạc từ sổ địa chỉ này sang sổ địa chỉ khác nhưng "
 "mà không thể gỡ bỏ nó khỏi nguồn. Như thế thì bạn có muốn tạo một bản sao "
 "thay vào đó không?"
 
@@ -473,8 +466,7 @@ msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
-msgstr ""
-"Bạn đang kết nối đến một máy phục vụ Groupwise không được hỗ trợ thì có lẽ "
+msgstr "Bạn đang kết nối đến một máy phục vụ Groupwise không được hỗ trợ thì có lẽ "
 "sẽ gặp khó khăn sử dụng trình Evolution. Để được kết quả tốt nhất, bạn nên "
 "nâng cấp máy phục vụ lên một phiên bản được hỗ trợ."
 
@@ -487,8 +479,7 @@ msgstr "Bạn đã chỉnh sửa liên lạc này, thì có muốn lưu các tha
 #: ../addressbook/addressbook.error.xml.h:32
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
-"Các liên lạc của bạn cho « {0} » không thể sử dụng cho tới khi khởi chạy lại "
+msgstr "Các liên lạc của bạn cho « {0} » không thể sử dụng cho tới khi khởi chạy lại "
 "Evolution."
 
 #: ../addressbook/addressbook.error.xml.h:33
@@ -747,8 +738,7 @@ msgid ""
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Địa chỉ và cây thư mục liên lạc Evolution đã thay đổi so với Evolution 1.x.\n"
+msgstr "Địa chỉ và cây thư mục liên lạc Evolution đã thay đổi so với Evolution 1.x.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các thư mục..."
 
@@ -757,8 +747,7 @@ msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Định dạng của liên lạc hộp thư chung đã thay đổi.\n"
+msgstr "Định dạng của liên lạc hộp thư chung đã thay đổi.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các thư mục của bạn..."
 
@@ -767,8 +756,7 @@ msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Cách Evolution lưu một phần số điện thoại đã thay đổi.\n"
+msgstr "Cách Evolution lưu một phần số điện thoại đã thay đổi.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các thư mục của bạn..."
 
@@ -777,8 +765,7 @@ msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
-msgstr ""
-"Các tập tin bản ghi thay đổi và bản đồ đều của Evolution Palm Sync (trình "
+msgstr "Các tập tin bản ghi thay đổi và bản đồ đều của Evolution Palm Sync (trình "
 "đồng bộ hoá máy tính cầm tay chạy hệ thống Palm) đã thay.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi dữ liệu Pilot Sync..."
@@ -862,22 +849,19 @@ msgstr "Độ dài tự động gõ xong"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
-msgstr ""
-"XML EFolderList (danh sách thư mục điện) cho danh sách các địa chỉ Mạng sẽ "
+msgstr "XML EFolderList (danh sách thư mục điện) cho danh sách các địa chỉ Mạng sẽ "
 "gõ xong."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "EFolderList XML for the list of completion URIs."
-msgstr ""
-"XML EFolderList (danh sách thư mục điện) cho danh sách các địa chỉ Mạng sẽ "
+msgstr "XML EFolderList (danh sách thư mục điện) cho danh sách các địa chỉ Mạng sẽ "
 "gõ xong."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
-msgstr ""
-"Vị trí của ô cửa sổ dọc giữa ô xem thẻ và ô xem danh sách và ô cửa sổ xem "
+msgstr "Vị trí của ô cửa sổ dọc giữa ô xem thẻ và ô xem danh sách và ô cửa sổ xem "
 "thử, theo điểm ảnh."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
@@ -980,8 +964,7 @@ msgstr "Địa chỉ thư"
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
-msgstr ""
-"Evolution sẽ dùng địa chỉ thư điện tử này để xác thực bạn với máy phục vụ."
+msgstr "Evolution sẽ dùng địa chỉ thư điện tử này để xác thực bạn với máy phục vụ."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
@@ -1036,24 +1019,21 @@ msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
-msgstr ""
-"Bộ lọc tìm kiếm là kiểu đối tượng cần tìm kiếm. Nếu nó chưa được sửa đổi, "
+msgstr "Bộ lọc tìm kiếm là kiểu đối tượng cần tìm kiếm. Nếu nó chưa được sửa đổi, "
 "mặc định là hạng đối tượng kiểu « person » (người) sẽ được tìm kiếm."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
-msgstr ""
-"Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy phục vụ LDAP của "
+msgstr "Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy phục vụ LDAP của "
 "bạn nếu máy phục vụ LDAP ấy hỗ trợ SSL."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
-msgstr ""
-"Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy phục vụ LDAP của "
+msgstr "Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy phục vụ LDAP của "
 "bạn nếu máy phục vụ LDAP ấy hỗ trợ TLS."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
@@ -1061,8 +1041,7 @@ msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
-msgstr ""
-"Chọn tùy chọn này nghĩa là máy phục vụ của bạn không hỗ trợ SSL, cũng không "
+msgstr "Chọn tùy chọn này nghĩa là máy phục vụ của bạn không hỗ trợ SSL, cũng không "
 "hỗ trợ TLS. Như thế thì kết nối của bạn không an toàn, có thể bị lỗ hổng bảo "
 "mật."
 
@@ -1087,8 +1066,7 @@ msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
-msgstr ""
-"Cơ sở tìm là tên phân biệt (TP) của mục nhập nơi bắt đầu tìm kiếm. Nếu bạn "
+msgstr "Cơ sở tìm là tên phân biệt (TP) của mục nhập nơi bắt đầu tìm kiếm. Nếu bạn "
 "bỏ trống chỗ này, tìm kiếm sẽ được bắt đầu từ gốc cây thư mục."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
@@ -1097,8 +1075,7 @@ msgid ""
 "the directory tree. A search scope of \"sub\" will include all entries below "
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
-msgstr ""
-"Phạm vi tìm cho biết độ sâu tìm kiếm đi xuống trong cây thư mục. Phạm vi tìm "
+msgstr "Phạm vi tìm cho biết độ sâu tìm kiếm đi xuống trong cây thư mục. Phạm vi tìm "
 "kiếm «con» sẽ bao gồm mọi mục dưới cơ sở tìm. Phạm vi tìm kiếm «một» sẽ chỉ "
 "tìm những mục nằm một mức độ dưới trong cơ sở tìm thôi."
 
@@ -1106,8 +1083,7 @@ msgstr ""
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr ""
-"Đây là tên đầy đủ của máy phục vụ LDAP. Ví dụ:\n"
+msgstr "Đây là tên đầy đủ của máy phục vụ LDAP. Ví dụ:\n"
 "ldap.côngtytôi.com.vn"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
@@ -1121,16 +1097,14 @@ msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
-msgstr ""
-"Đây là cách Evolution dùng để xác thực bạn. Chú ý rằng đặt cái này là\n"
+msgstr "Đây là cách Evolution dùng để xác thực bạn. Chú ý rằng đặt cái này là\n"
 "« Địa chỉ thư » yêu cầu truy cập vô danh tới máy phục vụ LDAP. "
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
-msgstr ""
-"Đây là tên máy phục vụ xuất hiện trong danh sách thư mục Evolution. Chỉ được "
+msgstr "Đây là tên máy phục vụ xuất hiện trong danh sách thư mục Evolution. Chỉ được "
 "dùng với mục đích hiển thị thôi."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
@@ -1138,8 +1112,7 @@ msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
-msgstr ""
-"Đây là số hiệu cổng của máy phục vụ LDAP mà Evolution sẽ cố kết nối đến nó. "
+msgstr "Đây là số hiệu cổng của máy phục vụ LDAP mà Evolution sẽ cố kết nối đến nó. "
 "Một danh sách các cổng chuẩn đã được cung cấp. Hãy hỏi quản trị hệ thống của "
 "bạn để biết dùng cổng nào."
 
@@ -1954,7 +1927,7 @@ msgstr "Cu-ouai-th"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Kyrgyzstan"
-msgstr "Cơ-chi-x-tănh"
+msgstr "Cơ-chi-x-tăng"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Laos"
@@ -2298,7 +2271,7 @@ msgstr "Xan Pi-e và Mi-quê-lon"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Sudan"
-msgstr "Xu-đănh"
+msgstr "Xu-đăng"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Suriname"
@@ -2370,7 +2343,7 @@ msgstr "Thổ-nhĩ-kỳ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turkmenistan"
-msgstr "Thua-khợ-me-ni-x-tănh"
+msgstr "Thua-khợ-me-ni-x-tăng"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Turks And Caicos Islands"
@@ -2553,14 +2526,13 @@ msgstr "Hãy chọn ảnh cho liên lạc này"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
 msgid "No image"
-msgstr "Không ảnh"
+msgstr "Không có ảnh"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
 msgid ""
 "The contact data is invalid:\n"
 "\n"
-msgstr ""
-"Dữ liệu liên lạc không hợp lệ:\n"
+msgstr "Dữ liệu liên lạc không hợp lệ:\n"
 "\n"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3062
@@ -2608,16 +2580,14 @@ msgstr "Chọn _Sổ địa chỉ"
 msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s) ?"
-msgstr ""
-"Bạn có chắc muốn xoá bỏ\n"
+msgstr "Bạn có chắc muốn xoá bỏ\n"
 "danh sách liên lạc (%s) không?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:325
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
-msgstr ""
-"Bạn có chắc muốn xoá bỏ\n"
+msgstr "Bạn có chắc muốn xoá bỏ\n"
 "những danh sách liên lạc này không?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:330
@@ -2625,16 +2595,14 @@ msgstr ""
 msgid ""
 "Are you sure you want\n"
 "to delete contact (%s) ?"
-msgstr ""
-"Bạn có chắc muốn xoá bỏ\n"
+msgstr "Bạn có chắc muốn xoá bỏ\n"
 "liên lạc (%s) không?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:333
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
-msgstr ""
-"Bạn có chắc muốn xoá bỏ\n"
+msgstr "Bạn có chắc muốn xoá bỏ\n"
 "những liên lạc này không?"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:2
@@ -2655,7 +2623,7 @@ msgstr "Địa chỉ đầy đủ"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
-msgstr "Mã _bữu điện:"
+msgstr "Mã _bưu điện:"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Dr."
@@ -2820,8 +2788,7 @@ msgstr "Phát hiện liên lạc trùng"
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
-msgstr ""
-"Tên hoặc địa chỉ thư điện tử đã thay đổi của liên lạc này\n"
+msgstr "Tên hoặc địa chỉ thư điện tử đã thay đổi của liên lạc này\n"
 "đã có trong thư mục này. Bạn có muốn thêm nữa không?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
@@ -2836,8 +2803,7 @@ msgstr "Liên lạc gốc:"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
-msgstr ""
-"Tên hoặc địa chỉ thư điện từ của liên lạc này đã có\n"
+msgstr "Tên hoặc địa chỉ thư điện từ của liên lạc này đã có\n"
 "trong thư mục này. Bạn có muốn thêm nữa nữa?"
 
 #.We attach subitems below
@@ -3271,8 +3237,7 @@ msgid ""
 "There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
-msgstr ""
-"\n"
+msgstr "\n"
 "\n"
 "Không có mục nào để xem trong khung nhìn này.\n"
 "\n"
@@ -3283,8 +3248,7 @@ msgid ""
 "\n"
 "\n"
 "Search for the Contact."
-msgstr ""
-"\n"
+msgstr "\n"
 "\n"
 "Tìm kiếm liên lạc."
 
@@ -3293,8 +3257,7 @@ msgid ""
 "\n"
 "\n"
 "There are no items to show in this view."
-msgstr ""
-"\n"
+msgstr "\n"
 "\n"
 "Không có mục nào để xem trong khung nhìn này."
 
@@ -3396,7 +3359,7 @@ msgstr "Không có Sổ địa chỉ này"
 #.E_BOOK_ERROR_NO_SELF_CONTACT
 #: ../addressbook/gui/widgets/eab-gui-util.c:55
 msgid "No Self Contact defined"
-msgstr "Chưa định nghĩa Tự lien lạc"
+msgstr "Chưa định nghĩa Tự liên lạc"
 
 #.E_BOOK_ERROR_URI_NOT_LOADED
 #.E_BOOK_ERROR_URI_ALREADY_LOADED
@@ -3479,8 +3442,7 @@ msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
-msgstr ""
-"Chưa có mở được sổ địa chỉ này. Hoặc vì sổ này không có dấu cho phép sử dụng "
+msgstr "Chưa có mở được sổ địa chỉ này. Hoặc vì sổ này không có dấu cho phép sử dụng "
 "khi ngoại tuyến, hoặc chưa tải nó về để sử dụng ngoại tuyến. Hãy tải sổ địa "
 "chỉ ấy một lần trong chế độ trực tuyến, để tải nội dung nó về."
 
@@ -3489,16 +3451,14 @@ msgstr ""
 msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
-msgstr ""
-"Không thể mở sổ địa chỉ này. Vui lòng kiểm tra lại có đường dẫn « %s » và "
+msgstr "Không thể mở sổ địa chỉ này. Vui lòng kiểm tra lại có đường dẫn « %s » và "
 "bạn có quyền truy cập vào nó."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:112
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
-msgstr ""
-"Không thể mở sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã gõ sai địa chỉ "
+msgstr "Không thể mở sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã gõ sai địa chỉ "
 "Mạng, hoặc là do máy phục vụ LDAP không thể truy cập."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:117
@@ -3506,16 +3466,14 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
-msgstr ""
-"Phiên bản Evolution này không được biên dịch để hỗ trợ LDAP. Nếu bạn muốn "
+msgstr "Phiên bản Evolution này không được biên dịch để hỗ trợ LDAP. Nếu bạn muốn "
 "dùng LDAP trong Evolution, bạn phải cài đặt gói Evolution hỗ trợ LDAP."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:124
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
-msgstr ""
-"Không thể mở sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã gõ sai địa chỉ "
+msgstr "Không thể mở sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã gõ sai địa chỉ "
 "Mạng ấy, hoặc là do máy phục vụ không thể truy cập."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:147
@@ -3524,8 +3482,7 @@ msgid ""
 "configured to return or Evolution is configured to display.\n"
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
-msgstr ""
-"Quá nhiều thẻ khớp với truy vấn này, nhiều hơn cấu hình\n"
+msgstr "Quá nhiều thẻ khớp với truy vấn này, nhiều hơn cấu hình\n"
 "của máy phục vụ có thể trả gửi, hoặc cấu hình của Evolution\n"
 "có thể hiển thị. Bạn hãy tìm kiếm chính xác hơn hoặc tăng giới hạn\n"
 "kết quả trong Sở thích máy phục vụ thư mục cho sổ địa chỉ này."
@@ -3536,8 +3493,7 @@ msgid ""
 "you have configured for this addressbook.  Please make your search\n"
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
-msgstr ""
-"Thời gian thực hiện truy vấn này vượt quá giới hạn máy phục vụ\n"
+msgstr "Thời gian thực hiện truy vấn này vượt quá giới hạn máy phục vụ\n"
 "hoặc giới hạn do bạn cấu hình cho sổ địa chỉ này.\n"
 "Vui lòng tìm kiếm chính xác hơn hoặc tăng giới hạn thời gian trong\n"
 "Sở thích máy phục vụ thư mục cho sổ địa chỉ này."
@@ -3585,11 +3541,9 @@ msgstr "Gặp lỗi khi gỡ bỏ liên lạc"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
-"Opening %d contacts will open %d new windows as well.\n"
+msgid_plural "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
-"Việc mở %d liên lạc sẽ mở %d cửa sổ mới cùng lúc.\n"
+msgstr[0] "Việc mở %d liên lạc sẽ mở %d cửa sổ mới cùng lúc.\n"
 "Bạn có thật sự muốn hiển thị các liên lạc này không?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:321
@@ -3597,8 +3551,7 @@ msgstr[0] ""
 msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
-msgstr ""
-"%s đã có.\n"
+msgstr "%s đã có.\n"
 "Bạn có muốn ghi đè lên nó không?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:325
@@ -3656,12 +3609,12 @@ msgstr "VCard cho %s"
 #: ../addressbook/gui/widgets/eab-gui-util.c:1033
 #: ../addressbook/gui/widgets/eab-gui-util.c:1051
 msgid "Contact information"
-msgstr "Thông tin lien lạc"
+msgstr "Thông tin liên lạc"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1053
 #, c-format
 msgid "Contact information for %s"
-msgstr "Thông tin lien lạc cho %s"
+msgstr "Thông tin liên lạc cho %s"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:287
 msgid "Querying Address Book..."
@@ -3992,8 +3945,7 @@ msgstr "Liệt kê các thư mục sổ địa chỉ cục bộ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
-msgstr ""
-"Hiển thị mọi thẻ kiểu tập tin vCard (thẻ ảo) hoặc .csv (định giới bằng dấu "
+msgstr "Hiển thị mọi thẻ kiểu tập tin vCard (thẻ ảo) hoặc .csv (định giới bằng dấu "
 "phẩy)"
 
 # Format name: do not translate/ tên dạng thức: đừng dịch
@@ -4008,8 +3960,7 @@ msgstr "Xuất theo chế độ không đồng bộ"
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
 "The number of cards in one output file in asychronous mode, default size 100."
-msgstr ""
-"Số thẻ trong một tập tin kết xuất riêng lẻ trong chế độ không đồng bộ: kích "
+msgstr "Số thẻ trong một tập tin kết xuất riêng lẻ trong chế độ không đồng bộ: kích "
 "cỡ mặc định là 100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
@@ -4019,8 +3970,7 @@ msgstr "SỐ"
 #: ../addressbook/tools/evolution-addressbook-export.c:91
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
-msgstr ""
-"Lỗi đối số dòng lệnh, hãy dùng tùy chọn « --help » (trợ giúp) để xem cách sử "
+msgstr "Lỗi đối số dòng lệnh, hãy dùng tùy chọn « --help » (trợ giúp) để xem cách sử "
 "dụng đúng."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
@@ -4055,16 +4005,14 @@ msgstr "Chưa cung cấp tên tập tin."
 msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
-msgstr ""
-"Việc thêm một Tóm tắt có nghĩa vào cuộc hẹn bạn sẽ cho người nhận biết ý "
+msgstr "Việc thêm một Tóm tắt có nghĩa vào cuộc hẹn bạn sẽ cho người nhận biết ý "
 "kiến về lý do của cuộc hẹn này."
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 "Adding a meaningful summary to your task will give your recipients an idea "
 "of what your task is about."
-msgstr ""
-"Việc thêm một Tóm tắt có nghĩa vào tác vụ bạn sẽ cho người nhận biết ý kiến "
+msgstr "Việc thêm một Tóm tắt có nghĩa vào tác vụ bạn sẽ cho người nhận biết ý kiến "
 "về lý do của tác vụ này."
 
 #: ../calendar/calendar.error.xml.h:3
@@ -4192,15 +4140,13 @@ msgstr "Không thể tải bộ sửa."
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
-"Lời mời thư điện từ sẽ được gửi cho mọi người dự và cho phép họ chấp nhận "
+msgstr "Lời mời thư điện từ sẽ được gửi cho mọi người dự và cho phép họ chấp nhận "
 "tác vụ."
 
 #: ../calendar/calendar.error.xml.h:32
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
-msgstr ""
-"Lời mời thư điện tử sẽ được gửi cho mọi người dự và cho phép họ trả lời."
+msgstr "Lời mời thư điện tử sẽ được gửi cho mọi người dự và cho phép họ trả lời."
 
 #: ../calendar/calendar.error.xml.h:33
 msgid "Error loading calendar"
@@ -4218,61 +4164,53 @@ msgstr "Gặp lỗi khi tải danh sách tác vụ"
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr ""
-"Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
+msgstr "Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
 "nhật ký đã được xoá bỏ."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
-"Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
+msgstr "Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
 "cuộc họp đã được hủy bỏ."
 
 #: ../calendar/calendar.error.xml.h:38
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
-"Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
+msgstr "Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
 "tác vụ đã được xoá bỏ."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
-"Gửi thông tin cập nhật cho phép những người dự khác cập nhật lại lịch của họ."
+msgstr "Gửi thông tin cập nhật cho phép những người dự khác cập nhật lại lịch của họ."
 
 #: ../calendar/calendar.error.xml.h:40
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
-"Gửi thông tin cập nhật cho phép những người dự khác cập nhật danh sách tác "
+msgstr "Gửi thông tin cập nhật cho phép những người dự khác cập nhật danh sách tác "
 "vụ của họ."
 
 #: ../calendar/calendar.error.xml.h:41
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
-msgstr ""
-"Hiện thời đang tải về một số đính kèm. Khi lưu cuộc hẹn này, sẽ cũng mất các "
+msgstr "Hiện thời đang tải về một số đính kèm. Khi lưu cuộc hẹn này, sẽ cũng mất các "
 "đính kèm này."
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
-msgstr ""
-"Hiện thời đang tải về một số đính kèm. Khi lưu tác vụ này, sẽ cũng mất các "
+msgstr "Hiện thời đang tải về một số đính kèm. Khi lưu tác vụ này, sẽ cũng mất các "
 "đính kèm này."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
-msgstr ""
-"Có lẽ một số tính năng sẽ không hoạt động với máy phục vụ hiện thời của bạn."
+msgstr "Có lẽ một số tính năng sẽ không hoạt động với máy phục vụ hiện thời của bạn."
 
 #: ../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
@@ -4340,8 +4278,7 @@ msgstr "Bạn có muốn gửi tác vụ này cho những người dự không?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
-"Bạn có muốn gửi thông tin cuộc họp đã cập nhật cho những người dự không?"
+msgstr "Bạn có muốn gửi thông tin cuộc họp đã cập nhật cho những người dự không?"
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to send updated task information to participants?"
@@ -4352,8 +4289,7 @@ msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
 "a supported version."
-msgstr ""
-"Bạn đang kết nối đến một máy phục vụ Groupwise không được hỗ trợ thì có lẽ "
+msgstr "Bạn đang kết nối đến một máy phục vụ Groupwise không được hỗ trợ thì có lẽ "
 "sẽ gặp khó khăn sử dụng trình Evolution. Để được kết quả tốt nhất, bạn nên "
 "nâng cấp trình phục vụ lên một phiên bản được hỗ trợ."
 
@@ -4371,13 +4307,11 @@ msgstr "Bạn đã sửa đổi ghi nhớ này, nhưng chưa lưu lại."
 
 #: ../calendar/calendar.error.xml.h:66
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
-"Các lịch của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
+msgstr "Các lịch của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
 
 #: ../calendar/calendar.error.xml.h:67
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
-"Các tác vụ của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
+msgstr "Các tác vụ của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
 
 #: ../calendar/calendar.error.xml.h:68
 #: ../composer/mail-composer.error.xml.h:27
@@ -4639,8 +4573,7 @@ msgid ""
 "email notifications yet, but this reminder was\n"
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
-msgstr ""
-"Evolution chưa hỗ trợ bộ nhắc nhở lịch thông qua\n"
+msgstr "Evolution chưa hỗ trợ bộ nhắc nhở lịch thông qua\n"
 "thư điện tử, nhưng mà bộ nhắc nhở này đã được\n"
 "cấu hình để gửi thư. Thay vào đó, Evolution\n"
 "sẽ hiển thị một hộp thoại nhắc nhở thông thường."
@@ -4654,8 +4587,7 @@ msgid ""
 "        %s\n"
 "\n"
 "Are you sure you want to run this program?"
-msgstr ""
-"Lịch Evolution sắp nhắc nhở bạn. Bộ nhắc nhở này được cấu hình để chạy những "
+msgstr "Lịch Evolution sắp nhắc nhở bạn. Bộ nhắc nhở này được cấu hình để chạy những "
 "chương trình sau:\n"
 "\n"
 "        %s\n"
@@ -4730,8 +4662,7 @@ msgstr "Lịch cần chạy báo động cho chúng"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid ""
 "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr ""
-"Màu cần vẽ Dòng Marcus Bains trong thanh Thời gian (bỏ rỗng để chọn mặc định)"
+msgstr "Màu cần vẽ Dòng Marcus Bains trong thanh Thời gian (bỏ rỗng để chọn mặc định)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Color to draw the Marcus Bains line in the Day View."
@@ -4803,8 +4734,7 @@ msgstr "Giờ báo động cuối cùng"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "List of server URLs for free/busy publishing."
-msgstr ""
-"Danh sách các địa chỉ Mạng kiểu máy phục vụ để xuất bản thông tin Rảnh/Bận."
+msgstr "Danh sách các địa chỉ Mạng kiểu máy phục vụ để xuất bản thông tin Rảnh/Bận."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Marcus Bains Line"
@@ -4850,40 +4780,35 @@ msgstr "Màu của tác vụ quá hạn"
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
-msgstr ""
-"Ví trị của ô cửa sổ ngang, giữa lịch duyệt ngày và danh sách tác vụ khi "
+msgstr "Ví trị của ô cửa sổ ngang, giữa lịch duyệt ngày và danh sách tác vụ khi "
 "không phải trong ô xem tháng, theo điểm ảnh."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
-msgstr ""
-"Ví trị của ô cửa sổ ngang, giữa ô xem và lịch duyệt ngày và danh sách tác vụ "
+msgstr "Ví trị của ô cửa sổ ngang, giữa ô xem và lịch duyệt ngày và danh sách tác vụ "
 "khi trong ô xem tháng, theo điểm ảnh."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
-msgstr ""
-"Vị trí của ô cửa sổ dọc, giữa danh sách tác vụ và ô xem cộng việc, theo điểm "
+msgstr "Vị trí của ô cửa sổ dọc, giữa danh sách tác vụ và ô xem cộng việc, theo điểm "
 "ảnh."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
-msgstr ""
-"Ví trị của ô cửa sổ dọc, giữa ô xem và lịch duyệt ngày và danh sách công "
+msgstr "Ví trị của ô cửa sổ dọc, giữa ô xem và lịch duyệt ngày và danh sách công "
 "việc khi trong ô xem tháng, theo điểm ảnh."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
-msgstr ""
-"Ví trị của ô cửa sổ ngang, giữa lịch duyệt ngày và danh sách tác vụ khi "
+msgstr "Ví trị của ô cửa sổ ngang, giữa lịch duyệt ngày và danh sách tác vụ khi "
 "không phải trong ô xem tháng, theo điểm ảnh."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
@@ -4949,8 +4874,7 @@ msgstr "Ví trị ô cửa sổ dọc tác vụ"
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
-msgstr ""
-"Mẫu địa chỉ Mạng cần dùng là dữ liệu Rảnh/Bận phục hồi: « %u » được thay thế "
+msgstr "Mẫu địa chỉ Mạng cần dùng là dữ liệu Rảnh/Bận phục hồi: « %u » được thay thế "
 "bằng phần người dùng của địa chỉ thư, và « %d » được thay thế bằng miền của "
 "địa chỉ."
 
@@ -4958,9 +4882,8 @@ msgstr ""
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
-msgstr ""
-"Múi giờ mặc định cần dùng cho ngày và giờ trong lịch, là ví trị cơ sở dữ "
-"liệu kiểu Olsen chưa dịch như «Asia/Hanoi» (Châu Á/Hà nội)."
+msgstr "Múi giờ mặc định cần dùng cho ngày và giờ trong lịch, là ví trị cơ sở dữ "
+"liệu kiểu Olsen chưa dịch như « Asia/Hanoi » (Châu Á/Hà nội)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Time divisions"
@@ -4985,8 +4908,7 @@ msgstr "Đơn vị cho bộ nhắc nhở mặc định: « phút », « giờ »
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"Đơn vị để quyết định lúc nào ẩn cộng việc: « phút », « giờ » hay « ngày »."
+msgstr "Đơn vị để quyết định lúc nào ẩn cộng việc: « phút », « giờ » hay « ngày »."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Week start"
@@ -5012,21 +4934,18 @@ msgstr "Có nên hỏi xác nhận khi xoá hắn cuộc hẹn và tác vụ hay
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
-msgstr ""
-"Có nên nén những ngày cuối tuần trong ô xem tháng, mà hiển thị hai ngày Thứ "
+msgstr "Có nên nén những ngày cuối tuần trong ô xem tháng, mà hiển thị hai ngày Thứ "
 "Bảy và Chủ Nhật đều là cùng cách của một ngày tuần."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
 msgid "Whether to display the end time of events in the week and month views."
-msgstr ""
-"Có nên hiển thị thời điểm kết thúc sự kiện trong ô xem tuần và tháng đều hay "
+msgstr "Có nên hiển thị thời điểm kết thúc sự kiện trong ô xem tuần và tháng đều hay "
 "không."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr ""
-"Có nên vẽ Dòng Marcus Bains (dòng tại giờ hiện có) trong lịch hay không."
+msgstr "Có nên vẽ Dòng Marcus Bains (dòng tại giờ hiện có) trong lịch hay không."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
 msgid "Whether to hide completed tasks in the tasks view."
@@ -5038,8 +4957,7 @@ msgstr "Có nên lập bộ nhắc nhở mặc định cho mọi cuộc hẹn ha
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr ""
-"Có nên hiển thị trường RSVP trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
+msgstr "Có nên hiển thị trường RSVP trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
 msgid "Whether to show categories field in the event/meeting editor"
@@ -5047,20 +4965,17 @@ msgstr "Có nên hiển thị trường loại trong bộ sửa cuộc họp/s�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr ""
-"Có nên hiển thị trường Vai trò trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
+msgstr "Có nên hiển thị trường Vai trò trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr ""
-"Có nên hiển thị trường trạng thái trong bộ sửa cuộc họp/tác vụ/dữ kiện hay "
+msgstr "Có nên hiển thị trường trạng thái trong bộ sửa cuộc họp/tác vụ/dữ kiện hay "
 "không"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Có nên hiển thị giờ dạng 24-giờ thay vào dùng am/pm (buổi sáng/buổi chiều-"
+msgstr "Có nên hiển thị giờ dạng 24-giờ thay vào dùng am/pm (buổi sáng/buổi chiều-"
 "tối) hay không."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
@@ -5069,8 +4984,7 @@ msgstr "Có nên hiển thị trường múi giờ trong bộ sửa cuộc họp
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr ""
-"Có nên hiển thị trường kiểu trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
+msgstr "Có nên hiển thị trường kiểu trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show week numbers in the date navigator."
@@ -5145,8 +5059,7 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr ""
-"Thao tác này sẽ xoá bỏ hoàn toàn mọi sự kiện trước khoảng thời gian được "
+msgstr "Thao tác này sẽ xoá bỏ hoàn toàn mọi sự kiện trước khoảng thời gian được "
 "chọn. Nếu bạn tiếp tục thì sẽ không thể phục hồi những tác vụ này."
 
 #: ../calendar/gui/calendar-commands.c:354
@@ -5464,8 +5377,7 @@ msgid ""
 "15 minutes\n"
 "10 minutes\n"
 "05 minutes"
-msgstr ""
-"60 phút\n"
+msgstr "60 phút\n"
 "30 phút\n"
 "15 phút\n"
 "10 phút\n"
@@ -5475,8 +5387,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr ""
-"<i>« %u » và « %d » sẽ được thay thế bằng người dùng và miền riêng từng từ "
+msgstr "<i>« %u » và « %d » sẽ được thay thế bằng người dùng và miền riêng từng từ "
 "địa chỉ thư.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -5531,8 +5442,7 @@ msgid ""
 "Minutes\n"
 "Hours\n"
 "Days"
-msgstr ""
-"Phút\n"
+msgstr "Phút\n"
 "Giờ\n"
 "Ngày"
 
@@ -5551,8 +5461,7 @@ msgid ""
 "Friday\n"
 "Saturday\n"
 "Sunday"
-msgstr ""
-"Thứ Hai\n"
+msgstr "Thứ Hai\n"
 "Thứ Ba\n"
 "Thứ Tư\n"
 "Thứ Năm\n"
@@ -5704,15 +5613,15 @@ msgstr "trước mỗi cuộc hẹn"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:288
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Chép nội dung lịch cục bộ để hoạt động ngoại tuyến"
+msgstr "Chép nội dung lịch một cách cục bộ để hoạt động ngoại tuyến"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:291
 msgid "Copy task list contents locally for offline operation"
-msgstr "Chép nội dung danh sách tác vụ cục bộ để hoạt động ngoại tuyến"
+msgstr "Chép nội dung danh sách tác vụ một cách cục bộ để hoạt động ngoại tuyến"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:293
 msgid "Copy memo list contents locally for offline operation"
-msgstr "Chép nội dung danh sách ghi nhớ cục bộ để hoạt động ngoại tuyến"
+msgstr "Chép nội dung danh sách ghi nhớ một cách cục bộ để hoạt động ngoại tuyến"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:344
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5725,7 +5634,7 @@ msgstr "Danh sách tác vụ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:392
 msgid "Memos List"
-msgstr "Danh sách Ghi nhớ"
+msgstr "Danh sách ghi nhớ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:461
 msgid "Calendar Properties"
@@ -5794,8 +5703,7 @@ msgstr "Mục nhật ký này bị xoá bỏ."
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
-"%s  Bạn đã tạo ra một vài thay đổi. Bỏ qua những thay đổi này và đóng bộ "
+msgstr "%s  Bạn đã tạo ra một vài thay đổi. Bỏ qua những thay đổi này và đóng bộ "
 "biên soạn sao không?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
@@ -5818,8 +5726,7 @@ msgstr "Mục nhật ký này đã được thay đổi."
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
-"%s  Bạn đã tạo ra vài thay đổi. Bỏ qua những thay đổi này và cập nhật bộ "
+msgstr "%s  Bạn đã tạo ra vài thay đổi. Bỏ qua những thay đổi này và cập nhật bộ "
 "biên soạn không?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
@@ -5880,7 +5787,7 @@ msgstr[0] "%d thư đính kèm"
 #: ../mail/em-folder-view.c:973
 #: ../mail/message-list.c:1725
 msgid "_Move"
-msgstr "_Chuyển"
+msgstr "Chu_yển"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448
 #: ../composer/e-msg-composer.c:3123
@@ -6017,19 +5924,19 @@ msgstr "Đích chỉ cho phép đọc thôi."
 
 #: ../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
-msgstr "Không thể xoá bỏ sự kiện này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ sự kiện này vi gặp lỗi kiểu CORBA."
 
 #: ../calendar/gui/dialogs/delete-error.c:57
 msgid "The task could not be deleted due to a corba error"
-msgstr "Không thể xoá bỏ cộng việc này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ cộng việc này vi gặp lỗi kiểu CORBA."
 
 #: ../calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr "Không thể xoá bỏ mục nhật ký này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ mục nhật ký này vi gặp lỗi kiểu CORBA."
 
 #: ../calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr "Không thể xoá bỏ mục này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ mục này vi gặp lỗi kiểu CORBA."
 
 #: ../calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
@@ -6282,7 +6189,7 @@ msgstr "tới khi"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
 msgid "Dele_gatees"
-msgstr "Người ủ_y nhiệm"
+msgstr "N_gười ủy nhiệm"
 
 #: ../calendar/gui/dialogs/meeting-page.c:313
 msgid "From:"
@@ -6576,7 +6483,7 @@ msgstr "Mỗi"
 #.'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
-msgstr "Cuộc hẹn này _lặp lại"
+msgstr "C_uộc hẹn này lặp lại"
 
 #.TRANSLATORS: Entire string is for example:
 #.'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
@@ -6747,7 +6654,7 @@ msgstr "<b>Tần số Xuất bản</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "<b>Publishing _Location</b>"
-msgstr "<b>Địa điểm _Xuấn bản</b>"
+msgstr "<b>Địa điểm _Xuất bản</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Publishing Settings"
@@ -6796,14 +6703,16 @@ msgstr[0] "%d tuần"
 
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
-msgstr "Không biết hành động cần thực hiện"
+msgstr "Không biết hành động cần thực hiện."
 
 #.Translator: The first %s refers to the base, which would be actions like
 #.* "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:478
 #, c-format
 msgid "%s %s before the start of the appointment"
-msgstr "%s %s trước khi bắt đầu cuộc hẹn"#.Translator: The first %s refers to the base, which would be actions like
+msgstr "%s %s trước khi bắt đầu cuộc hẹn"
+
+#.Translator: The first %s refers to the base, which would be actions like
 #.* "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:483
 #, c-format
@@ -6952,8 +6861,7 @@ msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
 "45.436845,125.862501"
-msgstr ""
-"Vị trí địa lý phải được nhập theo dạng thức:\n"
+msgstr "Vị trí địa lý phải được nhập theo dạng thức:\n"
 "\n"
 "10.783114,106.699804 (Sài Gòn)"
 
@@ -7471,8 +7379,7 @@ msgstr "Người lạ"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr ""
-"<br>Vui lòng xem lại các chỉ dẫn sau và chọn một hành động từ trình đơn bên "
+msgstr "<br>Vui lòng xem lại các chỉ dẫn sau và chọn một hành động từ trình đơn bên "
 "dưới."
 
 #: ../calendar/gui/e-itip-control.c:1132
@@ -7504,14 +7411,12 @@ msgstr "Bị từ chối"
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr ""
-"Cuộc họp đã được hủy, tuy nhiên không tìm thấy nó trong các lịch của bạn."
+msgstr "Cuộc họp đã được hủy, tuy nhiên không tìm thấy nó trong các lịch của bạn."
 
 #: ../calendar/gui/e-itip-control.c:1226
 msgid ""
 "The task has been canceled, however it could not be found in your task lists"
-msgstr ""
-"Tác vụ đã được hủy, tuy nhiên không tìm thấy nó trong các danh sách tác vụ "
+msgstr "Tác vụ đã được hủy, tuy nhiên không tìm thấy nó trong các danh sách tác vụ "
 "của bạn."
 
 #: ../calendar/gui/e-itip-control.c:1305
@@ -7706,8 +7611,7 @@ msgstr "Đối tượng không hợp lệ nên không thể cập nhật nó.\n"
 
 #: ../calendar/gui/e-itip-control.c:1942
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
-"Hồi đáp này không phải đến từ một người dự hiện thời. Thêm người này như là "
+msgstr "Hồi đáp này không phải đến từ một người dự hiện thời. Thêm người này như là "
 "người dự nhé?"
 
 #: ../calendar/gui/e-itip-control.c:1954
@@ -7775,7 +7679,6 @@ msgstr "Gửi tin tức"
 msgid "Cancel"
 msgstr "Hủy bỏ"
 
-# Variable: do not translate/ biến: đừng dịch
 #: ../calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
 msgid "%P %%"
@@ -7807,11 +7710,11 @@ msgstr "Thư máy phục vụ:"
 
 #: ../calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
-msgstr "ngày-cuối"
+msgstr "ngày cuối"
 
 #: ../calendar/gui/e-itip-control.glade.h:13
 msgid "date-start"
-msgstr "ngày-đầu"
+msgstr "ngày đầu"
 
 #: ../calendar/gui/e-meeting-list-view.c:70
 msgid "Chair Persons"
@@ -8021,8 +7924,7 @@ msgstr "Sắp xếp ghi nhớ"
 msgid ""
 "Error on %s:\n"
 " %s"
-msgstr ""
-"Lỗi khi « %s »:\n"
+msgstr "Lỗi khi « %s »:\n"
 " %s"
 
 #: ../calendar/gui/e-memos.c:772
@@ -8288,8 +8190,7 @@ msgid ""
 "Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Địa chỉ và cây thư mục tác vụ Evolution đã thay đổi so với Evolution phiên "
+msgstr "Địa chỉ và cây thư mục tác vụ Evolution đã thay đổi so với Evolution phiên "
 "bản 1.x.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các thư mục..."
@@ -8300,8 +8201,7 @@ msgid ""
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Địa chỉ và cây thư mục lịch Evolution đã thay đổi so với Evolution phiên bản "
+msgstr "Địa chỉ và cây thư mục lịch Evolution đã thay đổi so với Evolution phiên bản "
 "1.x.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các thư mục..."
@@ -8310,8 +8210,7 @@ msgstr ""
 #: ../calendar/gui/migration.c:765
 #: ../calendar/gui/migration.c:933
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr ""
-"Không thể chuyển đổi các thiết lập cũ từ tập tin evolution/config.xmldb"
+msgstr "Không thể chuyển đổi các thiết lập cũ từ tập tin evolution/config.xmldb"
 
 #.FIXME: domain/code
 #: ../calendar/gui/migration.c:794
@@ -8619,7 +8518,7 @@ msgstr "Danh sách tác vụ mới"
 
 #: ../calendar/gui/tasks-component.c:1187
 msgid "Task l_ist"
-msgstr "_Danh sách tác vụ"
+msgstr "Danh sách tác _vụ"
 
 #: ../calendar/gui/tasks-component.c:1188
 msgid "Create a new task list"
@@ -8631,8 +8530,7 @@ msgid ""
 "continue, you will not be able to recover these tasks.\n"
 "\n"
 "Really erase these tasks?"
-msgstr ""
-"Thao tác này sẽ xoá bỏ hoàn toàn mọi tác vụ được đánh dấu đã hoàn tất. Nếu "
+msgstr "Thao tác này sẽ xoá bỏ hoàn toàn mọi tác vụ được đánh dấu đã hoàn tất. Nếu "
 "bạn tiếp tục, bạn sẽ không thể phục hồi những tác vụ này.\n"
 "\n"
 "Bạn có thật sự muốn xoá bỏ những tác vụ này sao?"
@@ -10322,8 +10220,7 @@ msgstr "_Bcc:"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
-msgstr ""
-"Bí mật Chép cho: hãy gõ các địa chỉ sẽ nhận một bản sao của thư mà không "
+msgstr "Bí mật Chép cho: hãy gõ các địa chỉ sẽ nhận một bản sao của thư mà không "
 "xuất hiện tên trong danh sách người nhận (tránh người gửi thư rác ăn cấp các "
 "địa chỉ ấy nhé)."
 
@@ -10353,8 +10250,7 @@ msgstr "Chèn đồ đính kèm"
 #: ../composer/e-msg-composer.c:828
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr ""
-"Không thể ký tên thư gửi đi: chưa lập chứng nhận chữ ký cho tài khoản này."
+msgstr "Không thể ký tên thư gửi đi: chưa lập chứng nhận chữ ký cho tài khoản này."
 
 #: ../composer/e-msg-composer.c:835
 msgid ""
@@ -10418,16 +10314,13 @@ msgstr "Viết thư"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr ""
-"<b>(Bộ soạn thảo chứa phần thân thư phi văn bản nên không thể hiệu chỉnh nó)"
-"</b>"
+msgstr "<b>(Bộ soạn thảo chứa phần thân thư khác chữ nên không thể hiệu chỉnh nó.)</b>"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
-msgstr ""
-"Hiện thời đang tải một số đính kèm về. Gửi thư này sẽ gửi nó không có những "
+msgstr "Hiện thời đang tải một số đính kèm về. Gửi thư này sẽ gửi nó không có những "
 "đính kèm treo."
 
 #: ../composer/mail-composer.error.xml.h:2
@@ -10455,8 +10348,7 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr ""
-"Đóng cửa sổ soạn này thì sẽ xoá bỏ thư ấy hoàn toàn, trừ bạn chọn lưu thư ấy "
+msgstr "Đóng cửa sổ soạn này thì sẽ xoá bỏ thư ấy hoàn toàn, trừ bạn chọn lưu thư ấy "
 "vào thư mục Nháp. Làm như thế sẽ cho phép bạn tiếp tục thư ấy lần sau."
 
 #: ../composer/mail-composer.error.xml.h:7
@@ -10499,22 +10391,19 @@ msgstr "Gặp lỗi khi lưu vào tập tin lưu tự động vì « {1} »."
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
-msgstr ""
-"Trình Evolution đã thoát bất ngờ trong khi bạn soạn một thư mới. Phục hồi "
+msgstr "Trình Evolution đã thoát bất ngờ trong khi bạn soạn một thư mới. Phục hồi "
 "thư ấy thì sẽ cho phép bạn tiếp tục từ chỗ ấy."
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
-"Tập tin « {0} » không phải là tập tin bình thường nên không thể được gửi "
+msgstr "Tập tin « {0} » không phải là tập tin bình thường nên không thể được gửi "
 "trong thư."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
-msgstr ""
-"Để đính kèm nội dung thư mục này thì bạn hãy hoặc đính kèm mỗi tập tin trong "
+msgstr "Để đính kèm nội dung thư mục này thì bạn hãy hoặc đính kèm mỗi tập tin trong "
 "nó từng cái một, hoặc tạo một kho của toàn bộ thư mục và đính kèm kho ấy."
 
 #: ../composer/mail-composer.error.xml.h:19
@@ -10523,8 +10412,7 @@ msgid ""
 "\n"
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
-msgstr ""
-"Không thể kích hoạt điều khiển bộ sửa HTML.\n"
+msgstr "Không thể kích hoạt điều khiển bộ sửa HTML.\n"
 "\n"
 "Vui lòng kiểm tra xem GtkHTML và libGtkHTML có được cài đặt đúng phiên bản "
 "chưa."
@@ -10590,8 +10478,7 @@ msgid ""
 "<b>Currently, your status is \"Out of the Office\". </b>\n"
 "\n"
 "Would you like to change your status to \"In the Office\"? "
-msgstr ""
-"<b>Hiện thời, trạng thái của bạn là «Ngoài văn phòng». </b>\n"
+msgstr "<b>Hiện thời, trạng thái của bạn là «Ngoài văn phòng». </b>\n"
 "\n"
 "Bạn có muốn thay đổi trạng thái thành «Trong văn phòng» không? "
 
@@ -10608,8 +10495,7 @@ msgid ""
 "<small>The message specified below will be automatically sent to each person "
 "who sends\n"
 "mail to you while you are out of the office.</small>"
-msgstr ""
-"<small>Thư dưới đây sẽ được tự động gửi tới mỗi người gửi thư cho bạn\n"
+msgstr "<small>Thư dưới đây sẽ được tự động gửi tới mỗi người gửi thư cho bạn\n"
 "khi bạn ở ngoài văn phòng.</small>"
 
 #: ../designs/OOA/ooa.glade.h:8
@@ -10650,8 +10536,7 @@ msgid ""
 "receipt when a message you\n"
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
-msgstr ""
-"<small>Trang này cho phép bạn chọn nếu muốn nhận thông báo người nhận đã đọc "
+msgstr "<small>Trang này cho phép bạn chọn nếu muốn nhận thông báo người nhận đã đọc "
 "thư của bạn, và cũng có thể lập hành động của trình Evolution khi người khác "
 "yêu cầu nhận thông báo đã đọc từ bạn.</small>"
 
@@ -10683,16 +10568,14 @@ msgstr "Trừ khi gửi thư ấy cho hộp thư chung, không phải cho tôi r
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
-msgstr ""
-"Khi bạn nhận một thư yêu cầu nhận thông báo đã đọc, trình Evolution nên làm "
+msgstr "Khi bạn nhận một thư yêu cầu nhận thông báo đã đọc, trình Evolution nên làm "
 "gì vậy?"
 
 #: ../e-util/e-dialog-utils.c:281
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
-msgstr ""
-"Tập tin tên này đã có.\n"
+msgstr "Tập tin tên này đã có.\n"
 "Ghi đè lên nó không?"
 
 #: ../e-util/e-dialog-utils.c:283
@@ -10902,8 +10785,7 @@ msgstr "Không thể biên dịch biểu thức chính quy « {1} »."
 
 #: ../filter/filter.error.xml.h:3
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
-msgstr ""
-"Tập tin « {0} » không tồn tại hoặc không phải là một tập tin bình thường."
+msgstr "Tập tin « {0} » không tồn tại hoặc không phải là một tập tin bình thường."
 
 #: ../filter/filter.error.xml.h:4
 msgid "Missing date."
@@ -10954,24 +10836,21 @@ msgstr "Hiển thị bộ lọc cho thư :"
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
-msgstr ""
-"Ngày gửi thư sẽ được đối chiếu với thời\n"
+msgstr "Ngày gửi thư sẽ được đối chiếu với thời\n"
 " điểm 12:00am tại ngày xác định."
 
 #: ../filter/filter.glade.h:7
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
-msgstr ""
-"Ngày gửi thư sẽ được đối chiếu\n"
+msgstr "Ngày gửi thư sẽ được đối chiếu\n"
 "với thời điểm liên quan lúc lọc."
 
 #: ../filter/filter.glade.h:9
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
-msgstr ""
-"Ngày gửi thư sẽ được đối chiếu\n"
+msgstr "Ngày gửi thư sẽ được đối chiếu\n"
 "với thời điểm hiện thời, khi lọc."
 
 #: ../filter/filter.glade.h:12
@@ -11022,8 +10901,7 @@ msgstr "Tùy thích bộ soạn thảo"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
 "Configure mail preferences, including security and message display, here"
-msgstr ""
-"Cấu hình Tùy thích thư tín, bao gồm tính bảo mật và hiển thị thư, ở đây."
+msgstr "Cấu hình Tùy thích thư tín, bao gồm tính bảo mật và hiển thị thư, ở đây."
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
@@ -11096,9 +10974,9 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr "\n"
-"Vui lòng đọc cẳn thận điều kiện quyền\n"
-"cho %s bên dưới, và đánh dấu\n"
-"trong hộp chọn để chấp nhận các điều kiện ấy.\n"
+"Vui lòng đọc cẩn thận điều kiện bản quyền\n"
+"về %s được hiển thị bên dưới, và đánh dấu\n"
+"trong hộp chọn để chấp nhận các điều kiện này.\n"
 
 #: ../mail/em-account-editor.c:482
 #: ../mail/em-filter-folder-element.c:237
@@ -11229,8 +11107,7 @@ msgstr "người gửi lạ"
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
-msgstr ""
-"Vào ${AbbrevWeekdayName}, ngày ${Day}, ${Month} năm ${Year} lúc ${24Hour}:"
+msgstr "Vào ${AbbrevWeekdayName}, ngày ${Day}, ${Month} năm ${Year} lúc ${24Hour}:"
 "${Minute} ${TimeZone}, ${Sender} viết:"
 
 #: ../mail/em-filter-editor.c:155
@@ -11388,7 +11265,7 @@ msgstr "Nhãn"
 
 #: ../mail/em-filter-i18n.h:38
 msgid "Mailing list"
-msgstr "Hôp thư chung"
+msgstr "Hộp thư chung"
 
 #: ../mail/em-filter-i18n.h:39
 msgid "Match All"
@@ -11750,7 +11627,7 @@ msgstr "Đánh dấu _Quan trọng"
 
 #: ../mail/em-folder-view.c:1100
 msgid "_Mark as Unimportant"
-msgstr "Đánh dấu _Không quan trọng"
+msgstr "Đánh dấu _không quan trọng"
 
 #: ../mail/em-folder-view.c:1101
 msgid "Mark as _Junk"
@@ -11890,8 +11767,7 @@ msgstr "Chữ ký không hợp lệ"
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
-msgstr ""
-"Không thể xác minh chữ ký của thư này: có lẽ nó bị giả trong khi truyền."
+msgstr "Không thể xác minh chữ ký của thư này: có lẽ nó bị giả trong khi truyền."
 
 #: ../mail/em-format-html-display.c:759
 msgid "Valid signature, cannot verify sender"
@@ -11925,8 +11801,7 @@ msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
-msgstr ""
-"Thư này mật mã, nhưng mà dùng thuật toán mật mã yếu. Người khác sẽ gặp khó "
+msgstr "Thư này mật mã, nhưng mà dùng thuật toán mật mã yếu. Người khác sẽ gặp khó "
 "khăn đọc thư này được một thời gian hữu ích, nhưng mà có thể làm như thế."
 
 #: ../mail/em-format-html-display.c:767
@@ -11950,8 +11825,7 @@ msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
-msgstr ""
-"Thư này mật mã dùng thuật toán mật mã mạnh. Người khác sẽ gặp khó khăn rất "
+msgstr "Thư này mật mã dùng thuật toán mật mã mạnh. Người khác sẽ gặp khó khăn rất "
 "nhiều đọc nội dung thư được thời gian hữu ích. "
 
 #: ../mail/em-format-html-display.c:869
@@ -12010,7 +11884,7 @@ msgstr "_Lưu vùng chọn..."
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
-msgstr[0] "%d đồ đính kèm"
+msgstr[0] "%d đồ đí_nh kèm"
 
 #: ../mail/em-format-html-display.c:1995
 #: ../mail/em-format-html-display.c:2071
@@ -12200,8 +12074,7 @@ msgid ""
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Vị trí và cây của các thư mục hộp thư Evolution đã thay đổi so sánh với "
+msgstr "Vị trí và cây của các thư mục hộp thư Evolution đã thay đổi so sánh với "
 "trình Evolution phiên bản 1.x.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các thư mục của bạn..."
@@ -12251,8 +12124,7 @@ msgstr "Không thể tạo những thư mục thư địa cục bộ « %s »: %
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
-msgstr ""
-"Không thể đọc thiết lập từ bản cài đặt Evolution cũ: tập tin «evolution/"
+msgstr "Không thể đọc thiết lập từ bản cài đặt Evolution cũ: tập tin «evolution/"
 "config.xmldb» bị hỏng hay không tồn tại."
 
 #: ../mail/em-popup.c:557
@@ -12442,16 +12314,14 @@ msgstr "Độ cao ô cửa sổ danh sách thư."
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
-msgstr ""
-"Nếu người dùng cố mở hơn 9 thư cùng lúc thì hỏi nếu họ thật muốn làm như thế."
+msgstr "Nếu người dùng cố mở hơn 9 thư cùng lúc thì hỏi nếu họ thật muốn làm như thế."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
-msgstr ""
-"Nếu Evolution không có bộ xem có sẵn cho một kiểu MIME nào đó thì sẽ dùng "
+msgstr "Nếu Evolution không có bộ xem có sẵn cho một kiểu MIME nào đó thì sẽ dùng "
 "bất cứ bộ xem tương thích với Bonobo nào sẵn sàng trong cơ sở dữ liệu kiểu "
 "MIME của GNOME."
 
@@ -12475,8 +12345,7 @@ msgstr "Danh sách các tài khoản"
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
-msgstr ""
-"Danh sách các tài khoản mà thành phần thư của Evolution biết được. Danh sách "
+msgstr "Danh sách các tài khoản mà thành phần thư của Evolution biết được. Danh sách "
 "ấy chứa chuỗi lập tên của các thư mục con liên quan với /apps/evolution/mail/"
 "accounts."
 
@@ -12488,14 +12357,12 @@ msgstr "Danh sách các dòng đầu tự chọn và nếu bật chưa."
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
-msgstr ""
-"Danh sách các nhãn mà thành phần thư của Evolution biết được. Danh sách ấy "
+msgstr "Danh sách các nhãn mà thành phần thư của Evolution biết được. Danh sách ấy "
 "chứa chuỗi name:color (tên:màu) mà màu ấy dạng hệ thập lục phân HTML."
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
-msgstr ""
-"Danh sách các kiểu MIME cần kiểm tra khớp với bộ xem thành phần Bonobo."
+msgstr "Danh sách các kiểu MIME cần kiểm tra khớp với bộ xem thành phần Bonobo."
 
 #: ../mail/evolution-mail.schemas.in.in.h:37
 msgid "List of protocol names whose license has been accepted."
@@ -12510,8 +12377,7 @@ msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
 "load images off the net"
-msgstr ""
-"Tải các ảnh cho thư HTML bằng giao thức HTTP hay HTTPS. Giá trị có thể là:\n"
+msgstr "Tải các ảnh cho thư HTML bằng giao thức HTTP hay HTTPS. Giá trị có thể là:\n"
 "0 - không bao giờ tải ảnh từ Mạng\n"
 "1 - tải ảnh nếu người gửi có trong Sổ địa chỉ\n"
 "2 - luôn luôn tải ảnh từ Mạng (không an toàn)"
@@ -12609,8 +12475,7 @@ msgstr "Nhắc khi người dùng cố gửi thư HTML cho liên lạc không mu
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr ""
-"Nhắc khi người dùng cố gửi thư mà không có người nhận Cho (To) hay Chép Cho "
+msgstr "Nhắc khi người dùng cố gửi thư mà không có người nhận Cho (To) hay Chép Cho "
 "(CC)."
 
 #: ../mail/evolution-mail.schemas.in.in.h:63
@@ -12647,8 +12512,7 @@ msgstr "Hiện ảnh đã hoạt cảnh kiểu hoạt cảnh."
 
 #: ../mail/evolution-mail.schemas.in.in.h:71
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
-"Hiển thị mọi thư bị xoá bỏ (kiểu gạch xuyên qua) trong danh sách các thư."
+msgstr "Hiển thị mọi thư bị xoá bỏ (kiểu gạch xuyên qua) trong danh sách các thư."
 
 #: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Show deleted messages in the message-list"
@@ -12696,8 +12560,7 @@ msgid ""
 "and whether they are to be displayed. The format of the XML structure is &lt;"
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
-msgstr ""
-"Khoá này nên chứa danh sách các cấu trúc XML ghi rõ dòng đầu tự chọn, và nếu "
+msgstr "Khoá này nên chứa danh sách các cấu trúc XML ghi rõ dòng đầu tự chọn, và nếu "
 "sẽ hiển thị chúng. Dang thức của cấu trúc XML là:\n"
 "&lt;header enabled&gt;\n"
 "(lập đã bật dòng đầu, nếu sẽ hiển thị dòng đầu ấy trong ô xem thư)."
@@ -12798,8 +12661,7 @@ msgstr "Mục trình đơn Xem/Trả lời cho đã chọn."
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr ""
-"Có nên trở về tạo nhánh thư theo chủ đề khi thư không chứa dòng đầu In-Reply-"
+msgstr "Có nên trở về tạo nhánh thư theo chủ đề khi thư không chứa dòng đầu In-Reply-"
 "To (trả lời theo thư trước) hay References (tham chiếu)."
 
 #: ../mail/importers/elm-importer.c:192
@@ -12874,8 +12736,7 @@ msgid ""
 "Evolution's scores, and the affected filters use scores instead\n"
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
-msgstr ""
-"Một số bộ lọc Netscape của bạn đựa vào độ ưu tiên thư,\n"
+msgstr "Một số bộ lọc Netscape của bạn dựa vào độ ưu tiên thư,\n"
 "mà Evolution không dùng. Thay vào đó, trình Evolution\n"
 "cung cấp điểm từ -3 đến 3, thì có thể lọc thư theo điểm\n"
 "đã gán vào nó.\n"
@@ -12892,8 +12753,7 @@ msgid ""
 "the \"Ignore Thread\" or \"Watch Thread\"\n"
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
-msgstr ""
-"Một số bộ lọc Netscape của bạn dùng tín năng\n"
+msgstr "Một số bộ lọc Netscape của bạn dùng tín năng\n"
 "« Bỏ qua nhánh » hay « Theo dõi nhánh » mà trình\n"
 "Evolution không hỗ trợ. Sẽ bỏ qua những bộ lọc này."
 
@@ -12904,8 +12764,7 @@ msgid ""
 "which is not supported in Evolution. Those filters\n"
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
-msgstr ""
-"Một số bộ lọc Netscape của bạn kiểm tra\n"
+msgstr "Một số bộ lọc Netscape của bạn kiểm tra\n"
 "nếu thân thư khớp (hay không khớp) một chuỗi đã cho,\n"
 "mà trình Evolution không hỗ trợ. Đã sửa đổi\n"
 "các bộ lọc ấy để kiểm tra nếu thân thư\n"
@@ -12931,8 +12790,7 @@ msgstr "Bộ lọc thư"
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
-msgstr ""
-"Evolution đã tìm một số tập tin thư dạng Netscape.\n"
+msgstr "Evolution đã tìm một số tập tin thư dạng Netscape.\n"
 "Bạn có muốn nhập chúng vào Evolution không?"
 
 #: ../mail/importers/pine-importer.c:229
@@ -13294,12 +13152,11 @@ msgid ""
 "using Evolution. \n"
 "\n"
 "Click \"Apply\" to save your settings."
-msgstr ""
-"Xin chúc mừng, bạn đã hoàn tất quá trình cấu hình thư.\n"
+msgstr "Xin chúc mừng, bạn đã hoàn tất quá trình cấu hình thư.\n"
 "\n"
 "Từ bây giờ bạn có thể gửi và nhận thư bằng Evolution.\n"
 "\n"
-"Hãu nhấn « Áp dụng » để lưu các thiết lập."
+"Hãy nhấn « Áp dụng » để lưu các thiết lập."
 
 #: ../mail/mail-config.glade.h:66
 msgid "De_fault"
@@ -13432,16 +13289,14 @@ msgstr "_Phát tập tin âm thanh khi nhận thư mới"
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
-msgstr ""
-"Hãy nhập một tên diễn tả cho tài khoản này vào trường bên dưới.\n"
+msgstr "Hãy nhập một tên diễn tả cho tài khoản này vào trường bên dưới.\n"
 "Chỉ được dùng tên này với mục đích hiển thị thôi."
 
 #: ../mail/mail-config.glade.h:110
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr ""
-"Hãy nhập thông tin về cách bạn sẽ gửi thư. Nếu bạn không chắc, hãy hỏi quản "
+msgstr "Hãy nhập thông tin về cách bạn sẽ gửi thư. Nếu bạn không chắc, hãy hỏi quản "
 "trị hệ thống hoặc ISP (nhà cung cấp dịch vụ Mạng) của bạn."
 
 #: ../mail/mail-config.glade.h:111
@@ -13449,8 +13304,7 @@ msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
-msgstr ""
-"Vui lòng nhập tên và địa chỉ thư điện từ vào bên dưới. Trường « tùy chọn » "
+msgstr "Vui lòng nhập tên và địa chỉ thư điện từ vào bên dưới. Trường « tùy chọn » "
 "bên dưới không cần phải đã chọn, trừ khi bạn muốn gồm thông tin ấy vào thư "
 "bạn cần gửi."
 
@@ -13516,7 +13370,7 @@ msgstr "Chọn tập tin âm thanh"
 
 #: ../mail/mail-config.glade.h:129
 msgid "Send message receipts:"
-msgstr "Gửi thông báo đã đọc thư:"
+msgstr "Gửi thông báo đã đọc thư :"
 
 #: ../mail/mail-config.glade.h:131
 msgid "Sending Mail"
@@ -13566,8 +13420,7 @@ msgstr "Kiể_u : "
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
-"Danh sách ngôn ngữ này phản ánh chỉ những ngôn ngữ cho mà bạn đã cài đặt từ "
+msgstr "Danh sách ngôn ngữ này phản ánh chỉ những ngôn ngữ cho mà bạn đã cài đặt từ "
 "điển."
 
 #: ../mail/mail-config.glade.h:143
@@ -13575,8 +13428,7 @@ msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
-msgstr ""
-"Đầu ra của tập lệnh này sẽ được dùng\n"
+msgstr "Đầu ra của tập lệnh này sẽ được dùng\n"
 "như là chữ ký bạn.\n"
 "Tên bạn xác định sẽ chỉ được dùng\n"
 "chỉ cho mục đích hiển thị."
@@ -13585,8 +13437,7 @@ msgstr ""
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
-msgstr ""
-"Hãy gõ tên mà bạn muốn dùng cho tài khoản này.\n"
+msgstr "Hãy gõ tên mà bạn muốn dùng cho tài khoản này.\n"
 "Ví dụ: « Chỗ làm » hoặc « Cá nhân »."
 
 #: ../mail/mail-config.glade.h:149
@@ -13603,8 +13454,7 @@ msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin. "
-msgstr ""
-"Chào mừng dùng Phụ tá cấu hình thư Evolution.\n"
+msgstr "Chào mừng dùng Phụ tá cấu hình thư Evolution.\n"
 "\n"
 "Hãy nhấn « Tiếp » để bắt đầu."
 
@@ -13745,13 +13595,12 @@ msgstr "Thông tin Bảo mật"
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
-msgstr ""
-"Các thư mà bạn đã chọn để theo dõi tiếp thì được liệt kê bên dưới.\n"
+msgstr "Các thư mà bạn đã chọn để theo dõi tiếp thì được liệt kê bên dưới.\n"
 "Hãy chọn một hành động theo dõi tiếp từ trình đơn « Cờ »."
 
 #: ../mail/mail-dialogs.glade.h:19
 msgid "_Accept License"
-msgstr "_Chấp nhận Bản Quyền"
+msgstr "_Chấp nhận Bản quyền"
 
 #: ../mail/mail-dialogs.glade.h:20
 #: ../mail/message-tags.glade.h:6
@@ -13769,8 +13618,7 @@ msgstr "Đăng _ký"
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Tick this to accept the license agreement"
-msgstr ""
-"Hãy đánh dấu _trong hộp chọn này để chấp nhận các điều kiện của bản quyền "
+msgstr "Hãy đánh dấu _trong hộp chọn này để chấp nhận các điều kiện của bản quyền "
 "này."
 
 #: ../mail/mail-dialogs.glade.h:24
@@ -13780,7 +13628,7 @@ msgstr "Hủ_y đăng ký"
 
 #: ../mail/mail-dialogs.glade.h:25
 msgid "specific folders only"
-msgstr "chỉ những thư mục dứt khoát thôi"
+msgstr "chỉ những thư mục xác định"
 
 #: ../mail/mail-dialogs.glade.h:26
 msgid "with all active remote folders"
@@ -13788,7 +13636,7 @@ msgstr "với mọi thư mục hoạt động từ xa"
 
 #: ../mail/mail-dialogs.glade.h:27
 msgid "with all local and active remote folders"
-msgstr "với mọi thư mục hoạt động từ xa và cục bộ đều"
+msgstr "với mọi thư mục hoạt động từ xa và cục bộ"
 
 #: ../mail/mail-dialogs.glade.h:28
 msgid "with all local folders"
@@ -13819,8 +13667,7 @@ msgstr "Việc áp dụng bộ lọc gửi đi bị lỗi: %s"
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
-msgstr ""
-"Lỗi phụ thêm vào %s: %s\n"
+msgstr "Lỗi phụ thêm vào %s: %s\n"
 "Thì phụ thêm vào thư mục « Đã gửi » thay thế."
 
 #: ../mail/mail-ops.c:623
@@ -13935,8 +13782,7 @@ msgstr[0] "Đang lưu %d thư..."
 msgid ""
 "Unable to create output file: %s\n"
 " %s"
-msgstr ""
-"Không thể tạo tập tin xuất: %s:\n"
+msgstr "Không thể tạo tập tin xuất: %s:\n"
 " %s"
 
 #: ../mail/mail-ops.c:2019
@@ -13944,8 +13790,7 @@ msgstr ""
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
-msgstr ""
-"Gặp lỗi khi lưu thư vào: %s:\n"
+msgstr "Gặp lỗi khi lưu thư vào: %s:\n"
 " %s"
 
 #: ../mail/mail-ops.c:2091
@@ -13958,8 +13803,7 @@ msgstr "Đang lưu đính kèm..."
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
-msgstr ""
-"Không thể tạo tập tin xuất: %s:\n"
+msgstr "Không thể tạo tập tin xuất: %s:\n"
 " %s"
 
 #: ../mail/mail-ops.c:2120
@@ -14091,8 +13935,7 @@ msgid ""
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
-msgstr ""
-"Một thư mục không rỗng tại « {1} » đã có.\n"
+msgstr "Một thư mục không rỗng tại « {1} » đã có.\n"
 "\n"
 "Bạn có thể chọn bỏ qua thư mục này, ghi đè lên nó, phụ thêm nội dung nó, "
 "hoặc thoát."
@@ -14101,8 +13944,7 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
-msgstr ""
-"Yêu cầu một thông báo đã đọc cho « {1} ». Gửi thông báo nhận đó cho {0} chứ?"
+msgstr "Yêu cầu một thông báo đã đọc cho « {1} ». Gửi thông báo nhận đó cho {0} chứ?"
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
@@ -14114,8 +13956,7 @@ msgstr "Chữ ký tên « {0} » đã có. Hãy gõ tên khác."
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr ""
-"Thêm một Chủ đề có nghĩa vào thư bạn sẽ cho người nhận ý kiến về nội dung."
+msgstr "Thêm một Chủ đề có nghĩa vào thư bạn sẽ cho người nhận ý kiến về nội dung."
 
 #: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -14128,8 +13969,7 @@ msgstr "Bạn có muốn xoá bỏ tài khoản này không?"
 #: ../mail/mail.error.xml.h:10
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
-msgstr ""
-"Bạn có chắc muốn tắt tài khoản này và xoá bỏ các ủy nhiệm của nó không?"
+msgstr "Bạn có chắc muốn tắt tài khoản này và xoá bỏ các ủy nhiệm của nó không?"
 
 #: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
@@ -14139,15 +13979,13 @@ msgstr "Bạn có chắc muốn mở cả {0} thư cùng lúc không?"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr ""
-"Bạn có chắc muốn gỡ bỏ hoàn toàn mọi thư đã xoá bỏ trong mọi thư mục không?"
+msgstr "Bạn có chắc muốn gỡ bỏ hoàn toàn mọi thư đã xoá bỏ trong mọi thư mục không?"
 
 #: ../mail/mail.error.xml.h:13
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
-msgstr ""
-"Bạn có chắc muốn xoá bỏ hoàn toàn mọi thư đã xoá bỏ trong thư mục « {0} » "
+msgstr "Bạn có chắc muốn xoá bỏ hoàn toàn mọi thư đã xoá bỏ trong thư mục « {0} » "
 "không?"
 
 #: ../mail/mail.error.xml.h:14
@@ -14156,8 +13994,7 @@ msgstr "Bạn có chắc muốn gửi thư dạng HTML không?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
-"Bạn có chắc muốn gửi thư chỉ có người nhận Bí mật Chép Cho (BCC) không?"
+msgstr "Bạn có chắc muốn gửi thư chỉ có người nhận Bí mật Chép Cho (BCC) không?"
 
 #: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
@@ -14228,8 +14065,7 @@ msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
 "license."
-msgstr ""
-"Không thể đọc tập tin quyền phép « {0} » vì gặp lỗi cài đặt. Bạn sẽ không "
+msgstr "Không thể đọc tập tin quyền phép « {0} » vì gặp lỗi cài đặt. Bạn sẽ không "
 "thể sử dụng nhà cung cấp này cho đến khi có thể chấp nhận quyền phép của nó."
 
 #: ../mail/mail.error.xml.h:34
@@ -14260,8 +14096,7 @@ msgstr "Không thể lập tập lệnh chữ ký « {0} »."
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr ""
-"Hãy kiểm tra xem đã gõ mật khẩu cho đúng. Nhiều mật khẩu phân biệt chữ hoa, "
+msgstr "Hãy kiểm tra xem đã gõ mật khẩu cho đúng. Nhiều mật khẩu phân biệt chữ hoa, "
 "chữ thường; phím CapsLock (chữ hoa luôn) phải tắt."
 
 #: ../mail/mail.error.xml.h:41
@@ -14332,8 +14167,7 @@ msgstr "Nếu bạn tiếp tục, bạn sẽ không thể phục hồi những t
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr ""
-"Nếu bạn xoá bỏ thư mục này, mọi nội dung của nó và mọi nội dung của thư mục "
+msgstr "Nếu bạn xoá bỏ thư mục này, mọi nội dung của nó và mọi nội dung của thư mục "
 "con của nó sẽ bị xoá bỏ hoàn toàn."
 
 #: ../mail/mail.error.xml.h:58
@@ -14344,8 +14178,7 @@ msgstr "Nếu bạn tiếp tục, mọi tài khoản ủy nhiệm sẽ bị xoá
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
-msgstr ""
-"Nếu bạn tiếp tục, thông tin tài khoản và các thông tin ủy nhiệm sẽ bị xoá bỏ "
+msgstr "Nếu bạn tiếp tục, thông tin tài khoản và các thông tin ủy nhiệm sẽ bị xoá bỏ "
 "hoàn toàn."
 
 #: ../mail/mail.error.xml.h:61
@@ -14356,8 +14189,7 @@ msgstr "Nếu bạn tiếp tục, thông tin tài khoản sẽ bị xoá bỏ ho
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr ""
-"Nếu bạn thoát thì những thư này sé không được gửi tới khi khởi chạy lại "
+msgstr "Nếu bạn thoát thì những thư này sẽ không được gửi tới khi khởi chạy lại "
 "trình Evolution."
 
 #: ../mail/mail.error.xml.h:63
@@ -14378,12 +14210,11 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients to "
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr ""
-"Nhiều hệ thống thư điện tử thêm một dòng đầu «Hình như Cho» (Apparently-To) "
-"vào mọi thư chỉ có người nhận BCC (Bí mật Chép Cho). Nếu thêm dòng đầu ấy, "
-"nó sẽ liệt kê mọi người nhận trong thư của bạn. Để tránh người gửi thư Rác "
-"ăn cấp các địa chỉ trong danh sách ấy, bạn hãy thêm ít nhất một người nhận "
-"Cho (To) hay Chép Cho (Cc), v.d. địa chỉ mình."
+msgstr "Nhiều hệ thống thư điện tử thêm một dòng đầu « Có vẻ là Cho » (Apparently-"
+"To) vào mọi thư chỉ có người nhận BCC (Bí mật Chép Cho). Nếu thêm dòng đầu "
+"ấy, nó sẽ liệt kê mọi người nhận trong thư của bạn. Để tránh người gửi thư "
+"Rác ăn cấp các địa chỉ trong danh sách ấy, bạn hãy thêm ít nhất một người "
+"nhận Cho (To) hay Chép Cho (Cc), v.d. địa chỉ mình."
 
 #: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
@@ -14391,7 +14222,7 @@ msgstr "Đánh dấu mọi thư Đã đọc"
 
 #: ../mail/mail.error.xml.h:68
 msgid "Mark all messages as read in the selected folder"
-msgstr "Đánh dấu mọi thư Đã đọc trong thư mục đã chọn"
+msgstr "Đánh dấu mọi thư Đã Đọc trong thư mục đã chọn."
 
 #: ../mail/mail.error.xml.h:69
 msgid "Missing folder."
@@ -14417,8 +14248,7 @@ msgstr "Hãy bật tài khoản này hoặc gửi bằng tài khoản khác."
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr ""
-"Hãy nhập một địa chỉ thư điện tử hợp lệ vào trường Cho: (To). Có thể tìm "
+msgstr "Hãy nhập một địa chỉ thư điện tử hợp lệ vào trường Cho: (To). Có thể tìm "
 "kiếm địa chỉ thư bằng cách nhắp vào nút Cho: (To) ở cạnh hộp nhập."
 
 #: ../mail/mail.error.xml.h:76
@@ -14427,8 +14257,7 @@ msgid ""
 "HTML email:\n"
 "{0}\n"
 "Send anyway?"
-msgstr ""
-"Hãy đảm bảo rằng những người nhận sau có thể và cũng muốn nhận thư dạng "
+msgstr "Hãy đảm bảo rằng những người nhận sau có thể và cũng muốn nhận thư dạng "
 "HTML:\n"
 "{0}\n"
 "Vẫn muốn gửi không?"
@@ -14451,8 +14280,7 @@ msgstr "Đang truy vấn máy phục vụ..."
 
 #: ../mail/mail.error.xml.h:83
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr ""
-"Đang truy vấn máy phục vụ có danh sách các cơ chế xác thực được hỗ trợ."
+msgstr "Đang truy vấn máy phục vụ có danh sách các cơ chế xác thực được hỗ trợ."
 
 #: ../mail/mail.error.xml.h:84
 msgid "Read receipt requested."
@@ -14460,8 +14288,7 @@ msgstr "Thông báo đã đọc được yêu cầu."
 
 #: ../mail/mail.error.xml.h:85
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
-msgstr ""
-"Bạn thật sự muốn xoá bỏ thư mục « {0} » và mọi thư mục con của nó không?"
+msgstr "Bạn thật sự muốn xoá bỏ thư mục « {0} » và mọi thư mục con của nó không?"
 
 #: ../mail/mail.error.xml.h:86
 msgid "Search Folders automatically updated."
@@ -14479,8 +14306,7 @@ msgstr "Chữ ký đã có"
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
-msgstr ""
-"Không cho phép thay đổi tên của thư mục hệ thống, di chuyển hay xoá bỏ chúng "
+msgstr "Không cho phép thay đổi tên của thư mục hệ thống, di chuyển hay xoá bỏ chúng "
 "vì trình Ximian Evolution cần thiết thư mục hệ thống để hoạt động được."
 
 #: ../mail/mail.error.xml.h:90
@@ -14491,8 +14317,7 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients in "
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
-msgstr ""
-"Bạn đang gửi cho một danh sách liên lạc có cấu hình ẩn mọi người nhận có "
+msgstr "Bạn đang gửi cho một danh sách liên lạc có cấu hình ẩn mọi người nhận có "
 "trong danh sách ấy.\n"
 "\n"
 "Nhiều hệ thống thư điện tử thêm một dòng đầu «Hình như Cho» (Apparently-To) "
@@ -14508,8 +14333,7 @@ msgid ""
 "Used the now removed folder:\n"
 "    &quot;{1}&quot;\n"
 "And have been updated."
-msgstr ""
-"Những thư mục tìm kiếm theo đây:\n"
+msgstr "Những thư mục tìm kiếm theo đây:\n"
 "{0}\n"
 "đã dùng thư mục mới bị gỡ bỏ:\n"
 "    « {1} »\n"
@@ -14522,8 +14346,7 @@ msgid ""
 "Used the now removed folder:\n"
 "    &quot;{1}&quot;\n"
 "And have been updated."
-msgstr ""
-"Những quy tắc lọc theo đây:\n"
+msgstr "Những quy tắc lọc theo đây:\n"
 "{0}\n"
 "đã dùng thư mục mới bị gỡ bỏ:\n"
 "    « {1} »\n"
@@ -14537,16 +14360,14 @@ msgstr "Tập tin tập lệnh phải tồn tại và có chạy được."
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
-msgstr ""
-"Có lẽ đã thêm thư mục này một cách ngầm; hãy dùng bộ sửa thư mục tìm kiếm để "
+msgstr "Có lẽ đã thêm thư mục này một cách ngầm; hãy dùng bộ sửa thư mục tìm kiếm để "
 "thêm nó một cách dứt khoát, nếu cần thiết."
 
 #: ../mail/mail.error.xml.h:106
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
-msgstr ""
-"Không thể gửi thư này vì bạn đang gửi nó bằng một tài khoản chưa được bật"
+msgstr "Không thể gửi thư này vì bạn đang gửi nó bằng một tài khoản chưa được bật"
 
 #: ../mail/mail.error.xml.h:107
 msgid ""
@@ -14557,8 +14378,7 @@ msgstr "Không thể gửi thư này vì bạn chưa ghi rõ người nhận nà
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr ""
-"Máy phục vụ này không hỗ trợ loại xác thực này và có lẽ hoàn toàn không hỗ "
+msgstr "Máy phục vụ này không hỗ trợ loại xác thực này và có lẽ hoàn toàn không hỗ "
 "trợ xác thực nào."
 
 #: ../mail/mail.error.xml.h:109
@@ -14569,8 +14389,7 @@ msgstr "Chữ ký này đã thay đổi, nhưng vẫn chưa được lưu."
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr ""
-"Hành động này sẽ đánh dấu mọi thư Đã Đọc trong thư mục đã chọn, cũng trong "
+msgstr "Hành động này sẽ đánh dấu mọi thư Đã Đọc trong thư mục đã chọn, cũng trong "
 "mọi thư mục con của nó."
 
 #: ../mail/mail.error.xml.h:111
@@ -14581,8 +14400,7 @@ msgstr "Không kết nối tới máy phục vụ Groupwise được."
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr ""
-"Không thể mở thư mục Nháp (Drafts) cho tài khoản này. Dùng thư mục Nháp của "
+msgstr "Không thể mở thư mục Nháp (Drafts) cho tài khoản này. Dùng thư mục Nháp của "
 "hệ thống thay thế chứ?"
 
 #: ../mail/mail.error.xml.h:113
@@ -14622,8 +14440,7 @@ msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
 "folders, all remote folders, or both."
-msgstr ""
-"Bạn phải ghi rõ ít nhất một thư mục là nguồn,\n"
+msgstr "Bạn phải ghi rõ ít nhất một thư mục là nguồn,\n"
 "hoặc bằng cách chọn mỗi thư mục từng một cái,\n"
 "hoặc/và bằng cách chọn mọi thư mục địa phương,\n"
 "mọi thư mục ở xa, hoặc cả hai."
@@ -14829,8 +14646,7 @@ msgstr "Cung cấp chức năng lõi cho các sổ địa chỉ cục bộ."
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
-msgstr ""
-"Một bổ sung định dạng mà hiển thị đính kèm âm thanh trong thư, và cho phép "
+msgstr "Một bổ sung định dạng mà hiển thị đính kèm âm thanh trong thư, và cho phép "
 "bạn phát chúng một cách trực tiếp từ trình Evolution."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
@@ -14871,8 +14687,7 @@ msgstr "Khởi chạy lại Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr ""
-"Bổ sung để lưu trữ và phục hồi dữ liệu và thiết lập của trình Evolution."
+msgstr "Bổ sung để lưu trữ và phục hồi dữ liệu và thiết lập của trình Evolution."
 
 #.the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
@@ -14911,8 +14726,7 @@ msgstr "Liên lạc Tin nhắn tức khắc"
 #: ../plugins/bbdb/bbdb.c:490
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
-msgstr ""
-"Đồng bộ hoá theo định kỷ các thông tin liên lạc và ảnh đều từ danh sách "
+msgstr "Đồng bộ hoá theo định kỷ các thông tin liên lạc và ảnh đều từ danh sách "
 "người bạn Gaim"
 
 #.Synchronize now button.
@@ -14925,8 +14739,7 @@ msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
-msgstr ""
-"Tự động chèn vào sổ địa chỉ các tên và địa chỉ thư đều khi bạn trả lời thư. "
+msgstr "Tự động chèn vào sổ địa chỉ các tên và địa chỉ thư đều khi bạn trả lời thư. "
 "Cũng chèn thông tin về liên lặc tin nhắn tức khác từ các danh sách người bạn "
 "của bạn."
 
@@ -15022,8 +14835,7 @@ msgstr "Lịch Thời tiết"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr ""
-"Một bổ sung thử ra mà biểu diễn một bổ sung trình đơn bật lên cho phép bạn "
+msgstr "Một bổ sung thử ra mà biểu diễn một bổ sung trình đơn bật lên cho phép bạn "
 "sao chép điều vào bảng nháp."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
@@ -15041,8 +14853,7 @@ msgstr "Kiểm tra nếu Evolution là trình thư mặc định."
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
 msgid ""
 "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr ""
-"Mỗi lần khởi chạy Evolution, kiểm tra nếu nó là trình thư mặc định hay không."
+msgstr "Mỗi lần khởi chạy Evolution, kiểm tra nếu nó là trình thư mặc định hay không."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
@@ -15054,8 +14865,7 @@ msgstr "Ứng dụng khách thư mặc định "
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr ""
-"Bạn có muốn đặt Evolution là ứng dụng khách thư điện tử mặc định của bạn "
+msgstr "Bạn có muốn đặt Evolution là ứng dụng khách thư điện tử mặc định của bạn "
 "không?"
 
 #: ../plugins/default-source/default-source.c:82
@@ -15099,8 +14909,7 @@ msgstr "Mật khẩu bảo mật"
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
-msgstr ""
-"Tùy chọn này sẽ kết nối đến máy phục vụ Exchange dùng cách xác thực mặt khẩu "
+msgstr "Tùy chọn này sẽ kết nối đến máy phục vụ Exchange dùng cách xác thực mặt khẩu "
 "bảo mật (NTLM)."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
@@ -15111,9 +14920,8 @@ msgstr "Mật khẩu chữ thô"
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới máy phục vụ Exchannge dùng cách xác thực mật "
-"khẩu chữ thô (không mã hoá)."
+msgstr "Tùy chọn này sẽ kết nối tới máy phục vụ Exchange dùng cách xác thực mật khẩu "
+"chữ thô (không mã hoá)."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
@@ -15123,8 +14931,7 @@ msgstr "Ở ngoại văn phòng"
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
-msgstr ""
-"Thư dưới đây sẽ được gửi tự động\n"
+msgstr "Thư dưới đây sẽ được gửi tự động\n"
 "tới mỗi người gửi thư cho bạn khi bạn ở ngoài văn phòng."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:276
@@ -15196,8 +15003,7 @@ msgstr "_Kiểm tra có kiểu được hỗ trợ"
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
-msgstr ""
-"Trình Evolution hiện thời trong chế độ ngoại tuyện. Như thế thì bạn chưa có "
+msgstr "Trình Evolution hiện thời trong chế độ ngoại tuyến. Như thế thì bạn chưa có "
 "thể tạo hay sửa đổi thư mục.\n"
 "Hãy chuyển đổi sang chế độ trực tuyến cho thao tác như vậy."
 
@@ -15208,8 +15014,7 @@ msgstr ""
 msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
-msgstr ""
-"Mật khẩu hiện thời không khớp với mật khẩu tồn tại cho tài khoản bạn. Hãy gõ "
+msgstr "Mật khẩu hiện thời không khớp với mật khẩu tồn tại cho tài khoản bạn. Hãy gõ "
 "mật khẩu đúng."
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
@@ -15230,8 +15035,7 @@ msgstr "Mật khẩu mới:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
-msgstr ""
-"Mật khẩu hiện thời của bạn đã hết hạn. Hãy thay đổi mật khẩu bạn ngay bây "
+msgstr "Mật khẩu hiện thời của bạn đã hết hạn. Hãy thay đổi mật khẩu bạn ngay bây "
 "giờ."
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:662
@@ -15329,14 +15133,13 @@ msgstr "Người xem lại (chỉ đọc)"
 msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
-msgstr ""
-"Những người dùng này sẽ có thể gửi thư điện tử\n"
+msgstr "Những người dùng này sẽ có thể gửi thư điện tử\n"
 "thay mặt cho bạn, cũng có thể truy cập các thư mục bạn,\n"
 "dùng quyền hạn mà bạn đã cho họ."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Delegate can see private items"
-msgstr "Người ủ_y nhiêm có thể thấy những mục tư nhân"
+msgstr "Người ủ_y nhiệm có thể thấy những mục tư nhân"
 
 #.Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
@@ -15492,8 +15295,7 @@ msgstr "Đăng ký với lịch của người dùng khác"
 msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
-msgstr ""
-"Bổ sung có quản lý một số thao tác và tính năng đặc trưng cho Evolution."
+msgstr "Bổ sung có quản lý một số thao tác và tính năng đặc trưng cho Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -15511,8 +15313,7 @@ msgstr "Không thể hiển thị thư mục."
 msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
-msgstr ""
-"Các thay đổi trong cấu hình của tài khoản Evolution sẽ có tác động chỉ sau khi bạn thoát và khởi chạy lại trình Evolution."
+msgstr "Các thay đổi trong cấu hình của tài khoản Evolution sẽ có tác động chỉ sau khi bạn thoát rồi khởi chạy lại trình Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -15527,8 +15328,7 @@ msgid ""
 "Could not configure Exchange account because \n"
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
-msgstr ""
-"Không thể cấu hình tài khoản Exchange\n"
+msgstr "Không thể cấu hình tài khoản Exchange\n"
 "vì gặp một lỗi lạ. Bạn hãy kiểm tra đã gõ đúng\n"
 "địa chỉ Mạng, tên người dùng và mật khẩu\n"
 "rồi thử lại."
@@ -15595,8 +15395,7 @@ msgid ""
 "\n"
 "{0}\n"
 "  "
-msgstr ""
-"Trình Exchange Connector cần thiết truy cập\n"
+msgstr "Trình Exchange Connector cần thiết truy cập\n"
 "chức năng nào đó trên máy phục vụ Exchange\n"
 "dương như bị tắt hay bị trở ngại.\n"
 "(Thường không phải do chủ tâm.)\n"
@@ -15635,8 +15434,7 @@ msgstr "Lỗi chung"
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr ""
-"Nếu OWA đang chạy trên đường dẫn khác thì bạn cần phải ghi rõ nó trong hộp "
+msgstr "Nếu OWA đang chạy trên đường dẫn khác thì bạn cần phải ghi rõ nó trong hộp "
 "thoại cấu hình tài khoản."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
@@ -15657,8 +15455,7 @@ msgstr "Hãy kiểm tra xem gõ tên người dùng và mật khẩu đúng, r�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
-msgstr ""
-"Không có trình phục vụ Phân loại Toàn cục được cấu hình cho tài khoản này."
+msgstr "Không có trình phục vụ Phân loại Toàn cục được cấu hình cho tài khoản này."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
@@ -15700,8 +15497,7 @@ msgstr "Tài khoản Exchange không tương thích với Exchange Connector."
 msgid ""
 "The server is running Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
-msgstr ""
-"Máy phục vụ có chạy phần mềm Exchange phiên bản 5.5.\n"
+msgstr "Máy phục vụ có chạy phần mềm Exchange phiên bản 5.5.\n"
 "Exchange Connector hỗ trợ chỉ Microsoft™ Exchange phiên bản 2000 và 2003."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
@@ -15711,12 +15507,11 @@ msgid ""
 "as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
 "\n"
 "Or you might have just typed your password wrong."
-msgstr ""
-"Rất có thể có nghĩa là máy phục vụ cần thiết\n"
+msgstr "Rất có thể có nghĩa là máy phục vụ cần thiết\n"
 "bạn ghi rõi tên miền Windows là phần của tên người dùng\n"
 "(v.d. « MIỀN\\người_dùng »).\n"
 "\n"
-"Hoạc có lẽ bạn đã gõ sai mật khẩu."
+"Hoặc có lẽ bạn đã gõ sai mật khẩu."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
 msgid "Try again with a different password."
@@ -15766,24 +15561,21 @@ msgstr "Bạn có thể cấu hình chỉ một tài khoản Exchange riêng l�
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
-msgstr ""
-"Hiện thời bạn đang sử dụng chỗ: {0}KB. Hãy cố giải phóng thêm chỗ trống bằng "
+msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Hãy cố giải phóng thêm chỗ trống bằng "
 "cách xoá bỏ một số thư."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr ""
-"Hiện thời bạn đang sử dụng chỗ: {0}KB. Như thế thì bạn hiện thời không thể "
+msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Như thế thì bạn hiện thời không thể "
 "gửi hoặc nhận thư."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
-msgstr ""
-"Hiện thời bạn đang sử dụng chỗ: {0}KB. Bạn sẽ không thể gửi thư đến khi bạn "
+msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Bạn sẽ không thể gửi thư đến khi bạn "
 "giải phóng thêm chỗ trống bằng cách xoá bỏ một số thư."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
@@ -16083,8 +15875,7 @@ msgstr "Không có thư mục xuất."
 msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
-msgstr ""
-"Không tìm thấy thư mục xuất trên iPod. Hãy chắc đã thiết lập đúng iPod rồi "
+msgstr "Không tìm thấy thư mục xuất trên iPod. Hãy chắc đã thiết lập đúng iPod rồi "
 "thử lại."
 
 #: ../plugins/ipod-sync/sync.c:174
@@ -16146,11 +15937,11 @@ msgstr "Không tìm thấy mục nhập nhật ký trong nhật ký nào"
 
 #: ../plugins/itip-formatter/itip-formatter.c:529
 msgid "Searching for an existing version of this appointment"
-msgstr "Đang tìm kíếm một phiên bản hiện thời của cuộc hẹn này"
+msgstr "Đang tìm kiếm một phiên bản hiện thời của cuộc hẹn này"
 
 #: ../plugins/itip-formatter/itip-formatter.c:726
 msgid "Unable to parse item"
-msgstr "Không thể phân tach mục"
+msgstr "Không thể phân tách mục"
 
 #: ../plugins/itip-formatter/itip-formatter.c:782
 #, c-format
@@ -16211,8 +16002,7 @@ msgstr "Lịch đã đính kèm không hợp lệ"
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
-msgstr ""
-"Thư này tuyên bố chứa một lịch, nhưng mà lịch đó không phải là một iCalendar "
+msgstr "Thư này tuyên bố chứa một lịch, nhưng mà lịch đó không phải là một iCalendar "
 "hợp lệ."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1187
@@ -16227,8 +16017,7 @@ msgstr "Mục trong lịch không hợp lệ."
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
-msgstr ""
-"Thư ấy có phải chứa một lịch, nhưng mà lịch ấy không chứa sự kiện nào, tác "
+msgstr "Thư ấy có phải chứa một lịch, nhưng mà lịch ấy không chứa sự kiện nào, tác "
 "vụ nào hay thông tin rảnh/bận nào."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1213
@@ -16636,9 +16425,7 @@ msgstr "Bộ định dạng Itip"
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
-msgstr ""
-"« {0} » đã ủy nhiệm cuộc họp này. Bạn có muốn thêm người ủy nhiệm « {1} » "
-"không?"
+msgstr "« {0} » đã ủy nhiệm cuộc họp này. Bạn có muốn thêm người ủy nhiệm « {1} » không?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
@@ -16647,8 +16434,7 @@ msgstr "Cuộc họp này đã được ủy nhiệm."
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr ""
-"Hồi đáp này không phải đến từ một người dự hiện thời. Thêm người này như là "
+msgstr "Hồi đáp này không phải đến từ một người dự hiện thời. Thêm người này như là "
 "người dự không?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -16740,19 +16526,18 @@ msgstr "Gọi thông tin về cách _dùng hộp"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
 msgid "Mailing List Actions"
-msgstr "Hành động Hôp thư chung"
+msgstr "Hành động Hộp thư chung"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
 msgid "Mailing _List"
-msgstr "_Hôp thư chung"
+msgstr "_Hộp thư chung"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
-msgstr ""
-"Cung cấp hành động cho lệnh hộp thư chung thường (đăng ký, bỏ đăng ký ...)"
+msgstr "Cung cấp hành động cho lệnh hộp thư chung thường (đăng ký, bỏ đăng ký ...)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
@@ -16780,8 +16565,7 @@ msgid ""
 "\n"
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
-msgstr ""
-"Sẽ gửi một thư cho địa chỉ Mạng « {0} ». Bạn có thể hoặc tự động gửi thư ấy, "
+msgstr "Sẽ gửi một thư cho địa chỉ Mạng « {0} ». Bạn có thể hoặc tự động gửi thư ấy, "
 "hoặc xem và sửa đổi nó trước đó.\n"
 "\n"
 "Bạn nên nhận một trả lời từ hộp thư chung một chút sau khi gửi thư ấy."
@@ -16802,8 +16586,7 @@ msgstr "Không cho phép gửi thư"
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
-msgstr ""
-"Không cho phép gửi thư cho hộp thư chung này. Có lẽ nó là hộp thư chung chỉ "
+msgstr "Không cho phép gửi thư cho hộp thư chung này. Có lẽ nó là hộp thư chung chỉ "
 "cho phép đọc. Hãy liên lạc với người chủ hộp thư chung, để tìm biết chi tiết."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
@@ -16816,8 +16599,7 @@ msgid ""
 "not contain any action we could handle.\n"
 "\n"
 "Header: {0}"
-msgstr ""
-"Không thể trực hiện hành động ấy. Có nghĩa là dòng đầu của hành động này "
+msgstr "Không thể trực hiện hành động ấy. Có nghĩa là dòng đầu của hành động này "
 "không chứa hành động nào trình này có quản lý được.\n"
 "\n"
 "Dòng đầu: {0}"
@@ -16827,8 +16609,7 @@ msgid ""
 "The {0} header of this message is malformed and could not be processed.\n"
 "\n"
 "Header: {1}"
-msgstr ""
-"Dòng đầu « {0} » của thư này có dạng sai nên không xử lý được nó.\n"
+msgstr "Dòng đầu « {0} » của thư này có dạng sai nên không xử lý được nó.\n"
 "\n"
 "Dòng đầu: {1}"
 
@@ -16876,7 +16657,7 @@ msgstr "Đánh dấu hết Đã đọc"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
 msgid "Mark me_ssages as read"
-msgstr "Đánh dấu thư Đã đọ_c"
+msgstr "Đánh dấ_u thư Đã đọc"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
@@ -16948,8 +16729,7 @@ msgstr "Mô tả"
 
 #: ../plugins/plugin-manager/plugin-manager.c:193
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
-"Ghi chú: một số thay đổi sẽ không hoạt động cho đến khi đã khởi động lại"
+msgstr "Ghi chú: một số thay đổi sẽ không hoạt động cho đến khi đã khởi động lại"
 
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
@@ -16962,8 +16742,7 @@ msgid ""
 "disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
-msgstr ""
-"Một bổ sung thử ra mà biểu diễn một bổ sung định dạng cho phép bạn chọn tắt "
+msgstr "Một bổ sung thử ra mà biểu diễn một bổ sung định dạng cho phép bạn chọn tắt "
 "dạng thức thư HTML.\n"
 "\n"
 "Bổ sung này chỉ chứa mã biểu diễn không được hỗ trợ thôi.\n"
@@ -17051,8 +16830,7 @@ msgid ""
 "Daily\n"
 "Weekly\n"
 "Manual (via Actions menu)"
-msgstr ""
-"Hàng ngày\n"
+msgstr "Hàng ngày\n"
 "Hàng tuần\n"
 "Tự chọn (qua trình đơn Hành động)"
 
@@ -17077,8 +16855,7 @@ msgid ""
 "WebDAV (HTTP)\n"
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
-msgstr ""
-"SSH\n"
+msgstr "SSH\n"
 "FTP công\n"
 "FTP (đang nhập)\n"
 "chia sẻ Windows\n"
@@ -17102,8 +16879,7 @@ msgstr "_Xuất dạng:"
 msgid ""
 "iCal\n"
 "Free/Busy"
-msgstr ""
-"iCal\n"
+msgstr "iCal\n"
 "Rảnh/Bận"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:101
@@ -17114,8 +16890,7 @@ msgstr "Spamassassin (sẵn có)"
 msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
-msgstr ""
-"Lọc thư rác bằng Spamassassin (nên bổ sung cần đến Spamassassin đã được cài "
+msgstr "Lọc thư rác bằng Spamassassin (nên bổ sung cần đến Spamassassin đã được cài "
 "đặt)."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
@@ -17301,8 +17076,7 @@ msgid ""
 "to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
-msgstr ""
-"Chào mừng dùng Evolution. Những màn hình kế tiếp\n"
+msgstr "Chào mừng dùng Evolution. Những màn hình kế tiếp\n"
 "sẽ cho phép Evolution kết nối với các tài khoản thư của bạn,\n"
 "và để nhập các tập tin từ các ứng dụng khác.\n"
 "\n"
@@ -17392,8 +17166,7 @@ msgstr "Phiên bản cấu hình Evolution đã cập nhật cuối cùng"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
-"Danh sách đường dẫn cho những thư mục sẽ được đồng bộ với đĩa để sử dụng "
+msgstr "Danh sách đường dẫn cho những thư mục sẽ được đồng bộ với đĩa để sử dụng "
 "ngoại tuyến."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
@@ -17417,8 +17190,7 @@ msgstr "Khởi chạy trong chế độ ngoại tuyến"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr ""
-"Phiên bản cấu hình của trình Evolution, với mức độ cấu hình lớn/nhỏ (v.d. « "
+msgstr "Phiên bản cấu hình của trình Evolution, với mức độ cấu hình lớn/nhỏ (v.d. « "
 "2.6.0 »)."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
@@ -17437,8 +17209,7 @@ msgstr "Độ rộng mặc định của thanh nách, theo điểm ảnh."
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
-msgstr ""
-"Phiên bản cấu hình Evolution đã cập nhật cuối cùng, với mức độ cấu hình lớn/"
+msgstr "Phiên bản cấu hình Evolution đã cập nhật cuối cùng, với mức độ cấu hình lớn/"
 "nhỏ (v.d. « 2.6.0 »)."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
@@ -17446,8 +17217,7 @@ msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
-msgstr ""
-"Kiểu dạng mọi cái nút cửa sổ. Có thể là « chữ », « ảnh », « cả hai » hay « "
+msgstr "Kiểu dạng mọi cái nút cửa sổ. Có thể là « chữ », « ảnh », « cả hai » hay « "
 "thanh công cụ ». Nếu lập « thanh công cụ » thì thiết lập thanh công cụ GNOME "
 "sẽ quyết định kiểu dạng các cái nút này."
 
@@ -17457,8 +17227,7 @@ msgstr "Hiện thanh công cụ"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr ""
-"Có nên khỏi chạy trình Evolution trong chế độ ngoại tuyến thay vào chế độ "
+msgstr "Có nên khỏi chạy trình Evolution trong chế độ ngoại tuyến thay vào chế độ "
 "trực tuyến hay không."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
@@ -17476,8 +17245,7 @@ msgstr "Có nên hiển thị thanh công cụ hay không."
 #: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr ""
-"Có nên bỏ qua hộp thoại cảnh báo trong phiên bản phát triển Evolution hay "
+msgstr "Có nên bỏ qua hộp thoại cảnh báo trong phiên bản phát triển Evolution hay "
 "không."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:26
@@ -17520,8 +17288,7 @@ msgid ""
 "\n"
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
-msgstr ""
-"Hãy chọn tập tin muốn nhập vào Evolution, và chọn kiểu tập tin từ danh sách "
+msgstr "Hãy chọn tập tin muốn nhập vào Evolution, và chọn kiểu tập tin từ danh sách "
 "dưới đây.\n"
 "\n"
 "Bạn có thể chọn « Tự động » nếu bạn không biết, và Evolution sẽ thử tự tìm "
@@ -17537,8 +17304,7 @@ msgid ""
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
-msgstr ""
-"Trình Evolution đã kiểm tra có thiết lập để nhập từ\n"
+msgstr "Trình Evolution đã kiểm tra có thiết lập để nhập từ\n"
 "những ứng dụng theo đây: Pine, Netscape, Elm, iCalendar.\n"
 "Chưa tìm thiết lập có thể nhập. Nếu bạn muốn thử lại,\n"
 "hãy nhắp vào cái nút «Lùi».\n"
@@ -17585,8 +17351,7 @@ msgstr "Tên thư mục không thể chứa ký tự dấu thăng « # »."
 
 #: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
-msgstr ""
-"Dấu chấm « . » và hai dấu chấm tiếp tực « .. » là hai tên thư mục đặc biệt, "
+msgstr "Dấu chấm « . » và hai dấu chấm tiếp tục « .. » là hai tên thư mục đặc biệt, "
 "được dành riêng."
 
 #: ../shell/e-shell-window-commands.c:71
@@ -17628,8 +17393,7 @@ msgstr "Ngoại tuyến"
 
 #: ../shell/e-shell-window.c:371
 msgid "Evolution is currently online. Click on this button to work offline."
-msgstr ""
-"Evolution hiện thời đang trực tuyến. Nhấn vào cái nút này để chạy ngoại "
+msgstr "Evolution hiện thời đang trực tuyến. Nhấn vào cái nút này để chạy ngoại "
 "tuyến."
 
 #: ../shell/e-shell-window.c:379
@@ -17638,8 +17402,7 @@ msgstr "Evolution đang chuyển sang ngoại tuyến."
 
 #: ../shell/e-shell-window.c:386
 msgid "Evolution is currently offline. Click on this button to work online."
-msgstr ""
-"Evolution hiện thời đang ngoại tuyến. Nhấn vào cái nút này để chạy trực "
+msgstr "Evolution hiện thời đang ngoại tuyến. Nhấn vào cái nút này để chạy trực "
 "tuyến."
 
 #: ../shell/e-shell-window.c:786
@@ -17724,8 +17487,7 @@ msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
-msgstr ""
-"Chào mừng dùng Trợ tá nhập Evolution.\n"
+msgstr "Chào mừng dùng Trợ tá nhập Evolution.\n"
 "Với trợ tá này, bạn sẽ được hướng dẫn thông qua tiến trình\n"
 "nhập các tập tin bên ngoài vào Evolution."
 
@@ -17748,8 +17510,7 @@ msgid ""
 "\n"
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
-msgstr ""
-"Xin chào. Xin cám ơn đã mất thời gian để tải về bản dùng thử này\n"
+msgstr "Xin chào. Xin cám ơn đã mất thời gian để tải về bản dùng thử này\n"
 "của bộ phần mềm nhóm Evolution.\n"
 "\n"
 "Đây là phiên bản Evolution chưa hoàn chỉnh. Nó gần hoàn chỉnh,\n"
@@ -17761,7 +17522,7 @@ msgstr ""
 "\n"
 "Nếu bạn tìm thấy lỗi, vui lòng thông báo cho chúng tôi tại <bugzilla.gnome."
 "org>.\n"
-"Sản phầm này không bảo đảm gì cả.\n"
+"Sản phẩm này không bảo đảm gì cả.\n"
 "\n"
 "Chúng tôi hy vọng bạn thích kết quả của quá trình làm việc của chúng tôi,\n"
 "và chúng tôi háo hức chờ đời sự đóng góp của bạn!\n"
@@ -17770,8 +17531,7 @@ msgstr ""
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
-msgstr ""
-"Xin cám ơn\n"
+msgstr "Xin cám ơn\n"
 "Nhóm Evolution\n"
 
 #: ../shell/main.c:262
@@ -17807,10 +17567,9 @@ msgstr "Tắt tải bổ sung nào."
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
-msgstr ""
-"%s: hai tùy chọn «--online» (trực tuyến) và «--offline» (ngoại tuyến)\n"
-"thì không thể được dùng chung.\n"
-"  Hãy dùng lệnh «%s --help» (trợ giúp) để biết thêm thông tin.\n"
+msgstr "%s: hai tùy chọn « --online » (trực tuyến) và « --offline » (ngoại tuyến)\n"
+"không thể được dùng chung.\n"
+"  Hãy dùng lệnh « %s --help » (trợ giúp) để biết thêm thông tin.\n"
 
 #: ../shell/shell.error.xml.h:1
 msgid "Are you sure you want to forget all remembered passwords?"
@@ -17832,8 +17591,7 @@ msgstr "Evolution không thể khởi chạy."
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
-msgstr ""
-"Quên đi các mật khẩu đã nhớ sẽ xoá hết mật khẩu đã nhớ. Như vậy bạn sẽ lại "
+msgstr "Quên đi các mật khẩu đã nhớ sẽ xoá hết mật khẩu đã nhớ. Như vậy bạn sẽ lại "
 "được nhắc gõ mật khẩu lần sau cần thiết."
 
 #: ../shell/shell.error.xml.h:7
@@ -17855,8 +17613,7 @@ msgid ""
 "\n"
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
-msgstr ""
-"Sắp gỡ bỏ hoàn toàn mọi nội dung của thư mục « evolution ».\n"
+msgstr "Sắp gỡ bỏ hoàn toàn mọi nội dung của thư mục « evolution ».\n"
 "\n"
 "Có đề nghị là bạn tự kiểm chứng có tất cả dữ liệu thư, liên lạc và lịch "
 "trong phiên bản mới, mà hoạt động cho đúng, trước khi xoá bỏ dữ liệu cũ "
@@ -17873,8 +17630,7 @@ msgid ""
 "evolution&quot; directory will be removed permanently. If you choose to keep "
 "this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
-msgstr ""
-"Phiên bản Evolution trước đã lưu dữ liệu tại một địa điểmkhác.\n"
+msgstr "Phiên bản Evolution trước đã lưu dữ liệu tại một địa điểm khác.\n"
 "\n"
 "Nếu bạn chọn gỡ bỏ dữ liệu này, toàn bộ nội dung của thư mục <evolution> sẽ "
 "bị gỡ bỏ hoàn toàn. Nếu bạn chọn giữ dữ liệu này, bạn có thể tự gỡ bỏ nội "
@@ -17891,8 +17647,7 @@ msgid ""
 "\n"
 "You will need to make more space available in your home directory before you "
 "can continue."
-msgstr ""
-"Nâng cấp các dữ liệu và thiết lập của bạn sẽ cần thiết đến {0} sức chứa trên "
+msgstr "Nâng cấp các dữ liệu và thiết lập của bạn sẽ cần thiết đến {0} sức chứa trên "
 "đĩa, nhưng mà hiện thời bạn chỉ có {1} sẵn sàng.\n"
 "\n"
 "Như thế thì bạn sẽ phải giải phóng thêm chỗ rỗng trong thư mục chinh của "
@@ -17903,8 +17658,7 @@ msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
 "Click help for details"
-msgstr ""
-"Cấu hình hệ thống bạn không khớp với cấu hình Evolution.\n"
+msgstr "Cấu hình hệ thống bạn không khớp với cấu hình Evolution.\n"
 "\n"
 "Hãy nhắp vào « Trợ giúp » để xem chi tiết."
 
@@ -17915,8 +17669,7 @@ msgid ""
 "{0}\n"
 "\n"
 "Click help for details."
-msgstr ""
-"Cấu hình hệ thống bạn không khớp với cấu hình Evolution.\n"
+msgstr "Cấu hình hệ thống bạn không khớp với cấu hình Evolution.\n"
 "\n"
 "{0}\n"
 "\n"
@@ -17940,8 +17693,7 @@ msgid ""
 "\n"
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
-msgstr ""
-"{1}\n"
+msgstr "{1}\n"
 "\n"
 "Nếu bạn chọn tiếp tục thì có lẽ sẽ không thể truy cập một phần dữ liệu cũ.\n"
 
@@ -17951,8 +17703,7 @@ msgid ""
 "Certificate '%s' is a CA certificate.\n"
 "\n"
 "Edit trust settings:"
-msgstr ""
-"Chức nhận « %s » là một chứng nhận CA (nhà cầm quyền chứng nhận).\n"
+msgstr "Chức nhận « %s » là một chứng nhận CA (nhà cầm quyền chứng nhận).\n"
 "\n"
 "Sửa đổi thiết lập tin cây:"
 
@@ -17961,8 +17712,7 @@ msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr ""
-"Vì bạn tin cây nhà cầm quyền đã phát hành chứng nhận này, thì bạn tin cây "
+msgstr "Vì bạn tin cây nhà cầm quyền đã phát hành chứng nhận này, thì bạn tin cây "
 "xác thực của chứng nhận này trừ khi chỉ thị cách khác ở đây."
 
 #: ../smime/gui/cert-trust-dialog.c:158
@@ -17970,8 +17720,7 @@ msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr ""
-"Vì bạn không tin cây nhà cầm quyền đã phát hành chứng nhận này, thì bạn "
+msgstr "Vì bạn không tin cây nhà cầm quyền đã phát hành chứng nhận này, thì bạn "
 "không tin cây xác thực của chứng nhận này trừ khi chỉ thị cách khác ở đây."
 
 #: ../smime/gui/certificate-manager.c:136
@@ -18033,8 +17782,7 @@ msgstr "Hãy gõ mật khẩu mới"
 msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
-msgstr ""
-"Phát hành cho:\n"
+msgstr "Phát hành cho:\n"
 "  Chủ đề: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:122
@@ -18042,8 +17790,7 @@ msgstr ""
 msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
-msgstr ""
-"Phát hành bởi:\n"
+msgstr "Phát hành bởi:\n"
 "  Chủ đề: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:174
@@ -18102,8 +17849,7 @@ msgstr "Lưu trữ hết"
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
-msgstr ""
-"Trước khi tin cây nhà cầm quyền này để làm gì thì bạn nên kiểm tra chứng "
+msgstr "Trước khi tin cây nhà cầm quyền này để làm gì thì bạn nên kiểm tra chứng "
 "nhận của nó, và chính thức và thủ tục của nó (nếu công bố)."
 
 #: ../smime/gui/smime-ui.glade.h:14
@@ -18199,13 +17945,11 @@ msgstr "Tin cây tính xác thực của chứng nhận này"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr ""
-"Tin cây nhà cầm quyền chứng nhận này để nhận diện người dùng thư điện tử."
+msgstr "Tin cây nhà cầm quyền chứng nhận này để nhận diện người dùng thư điện tử."
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
-msgstr ""
-"Tin cây nhà cầm quyền chứng nhận này để nhận diện người phát triển phần mềm."
+msgstr "Tin cây nhà cầm quyền chứng nhận này để nhận diện người phát triển phần mềm."
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
@@ -18801,7 +18545,7 @@ msgstr "Tuần làm việc"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
-msgstr "_Mở cuộc hẹn"
+msgstr "_Mở Cuộc hẹn"
 
 #: ../ui/evolution-composer-entries.xml.h:2
 #: ../ui/evolution-editor.xml.h:7
@@ -18871,7 +18615,7 @@ msgstr "Đóng"
 #: ../ui/evolution-editor.xml.h:14
 #: ../ui/evolution-message-composer.xml.h:41
 msgid "_Attachment..."
-msgstr "Đồ đính _kèm..."
+msgstr "Đồ đính _kèm.."
 
 #: ../ui/evolution-editor.xml.h:15
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
@@ -19219,7 +18963,7 @@ msgstr "Chọn mọi thư hiện rõ"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "Sh_ow Hidden Messages"
-msgstr "_Hiện thư bị ẩn"
+msgstr "Hiện thư bị ẩ_n"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Show messages that have been temporarily hidden"
@@ -20064,8 +19808,7 @@ msgstr "Tạo cửa sổ mới hiển thị thư mục này"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
-"Hiển thị mọi cái nút cửa sổ dùng thiết lập thanh công cụ của màn hình nền"
+msgstr "Hiển thị mọi cái nút cửa sổ dùng thiết lập thanh công cụ của màn hình nền"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
@@ -20133,7 +19876,7 @@ msgstr "Hiện thông tin về Evolution"
 
 #: ../ui/evolution.xml.h:24
 msgid "Side _Bar"
-msgstr "Khung _lề"
+msgstr "Hiện khung _lề"
 
 #: ../ui/evolution.xml.h:25
 msgid "Status _Bar"
@@ -20313,8 +20056,7 @@ msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
 "Use the right mouse button to zoom out."
-msgstr ""
-"Hãy dùng nút chuột trái để phóng to vùng trên bản đồ và chọn múi giờ.\n"
+msgstr "Hãy dùng nút chuột trái để phóng to vùng trên bản đồ và chọn múi giờ.\n"
 "Dùng nút chuột phải để thu nhỏ."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
@@ -20739,8 +20481,7 @@ msgstr "Bản đồ Thế giới"
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
-msgstr ""
-"Ô điều khiển bản đồ tương tác đựa vào con chuột để chọn múi giờ. Người thích "
+msgstr "Ô điều khiển bản đồ tương tác dựa vào con chuột để chọn múi giờ. Người thích "
 "dùng bàn phím thì nên chọn múi giờ trong hộp tổ hợp bên dưới thay vào đó."
 
 #: ../widgets/misc/e-pilot-settings.c:103
@@ -20879,8 +20620,7 @@ msgstr "Tùy chọn ch_ung"
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr ""
-"Không có\n"
+msgstr "Không có\n"
 "Thông báo đã đọc"
 
 #: ../widgets/misc/e-send-options.glade.h:12
@@ -20888,8 +20628,7 @@ msgid ""
 "Public\n"
 "Private\n"
 "Confidential\n"
-msgstr ""
-"Công\n"
+msgstr "Công\n"
 "Riêng\n"
 "Tin tưởng\n"
 
@@ -20907,8 +20646,7 @@ msgid ""
 "High\n"
 "Standard\n"
 "Low"
-msgstr ""
-"Chưa định nghĩa\n"
+msgstr "Chưa định nghĩa\n"
 "Cao\n"
 "Chuẩn\n"
 "Thấp"
@@ -21103,7 +20841,7 @@ msgstr "Rồi theo"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 msgid "_Add ->"
-msgstr "Th_êm →"
+msgstr "Thê_m →"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
@@ -21175,8 +20913,7 @@ msgstr "Bộ chọn trường"
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
-msgstr ""
-"Để thêm một cột vào bảng,\n"
+msgstr "Để thêm một cột vào bảng,\n"
 "hãy kéo nó vào vị trí đã định."
 
 #: ../widgets/table/e-table-group-container.c:346
@@ -21571,4 +21308,4 @@ msgstr "Ngữ cảnh IM"
 #: ../widgets/text/e-text.c:3706
 #: ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
-msgstr "Bộ bật lên móc kéo"
+msgstr "Móc kéo bật lên"
