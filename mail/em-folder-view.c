@@ -2189,10 +2189,11 @@ em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display
 
 	if (emfv->preview_active)
 		t->target.mask &= ~EM_FOLDER_VIEW_PREVIEW_PRESENT;
-	
+
+	/* See bug 352980 */
 	/* See bug #54770 */
-	if (!emfv->hide_deleted)
-		t->target.mask &= ~EM_POPUP_SELECT_DELETE;
+	/* if (!emfv->hide_deleted) 
+		t->target.mask &= ~EM_POPUP_SELECT_DELETE;*/
 	
 	return t;
 }

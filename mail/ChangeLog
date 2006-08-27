@@ -1,3 +1,11 @@
+2006-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #352980
+
+	* em-folder-view.c: (em_folder_view_get_popup_target): Disable deleted
+	for deleted message, and dont allow to workaround DEL key to move to
+	next message.
+
 2006-08-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #336983
