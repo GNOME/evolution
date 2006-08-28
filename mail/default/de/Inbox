@@ -162,25 +162,17 @@ Content-Type: text/html; charset=utf-8
 
 <h2>Neue Funktionen</h2>
 <blockquote>
-	Evolution 2.6 bietet
+	Evolution 2.8 bietet
 	<ul>
-	<li>Eine neue Notiz-Komponente</li>
-	<li>Ein neues Aussehen der Editoren für Besprechungen, Aufgaben und
-	    Ereignisse</li>
-	<li>Unterstützung zur Veröffentlichung von Kalendern</li>
-	<li>CalDAV-Unterstützung</li>
-	<li>Unterstützung der Anwendung »NetworkManager«</li>
-	<li>Verbindungsmöglichkeit zu HULA</li>
-	<li>Verbesserte GroupWise-Unterstützung</li>
-	<li>Verbesserte Unterstützung von wiederkehrenden Ereignissen</li>
-	<li>Kalender-Tooltips</li>
-	<li>CSV/Tab-Importierung für Mozilla-, Outlook- und
-	    Evolution-Formate</li>
-	<li>Kontaktlistenunterstützung für LDAP-Adressbücher</li>
-	<li>Speicherung von komplexen Suchen innerhalb von Adressbüchern</li>
-	<li>Priorisierung von Nachrichten im Bearbeitungsfenster</li>
-	<li>Viele behobene Fehler und eine Menge anderer Verbesserungen der
-	    Benutzerschnittstelle</li>
+	<li>Eine neue Suchfunktion und eine globale Suche in der Mail-Komponente</li>
+	<li>Einen Breitbild-Modus mit vertikaler Vorschau in der Mail-Komponente</li>
+	<li>Verbesserte Darstellung (durch Integration von »Cairo«)</li>
+	<li>Verbesserte Leistung und reduzierten Speicherverbrauch</li>
+	<li>Unterstützung für GroupWise-Erinnerungsnotizen und Zurückziehen von
+	  E-Mails</li>
+	<li>Gemeinsame Notizen (im Dateisystem)</li>
+	<li>Integration des GNOME-Schlüsselbunds</li>
+	<li>Viele behobene Fehler und weitere Verbesserungen</li>
 	</ul>
 <br>
 </blockquote>
