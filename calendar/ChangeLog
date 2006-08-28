@@ -1,3 +1,10 @@
+2006-08-28  Andre Klapper  <a9016009@gmx.de>
+
+	** Fix for bug #352988
+	
+	* gui/gnome-cal.c: (setup_widgets): Marking two strings for 
+	translation. 
+
 2006-08-24  Ross Burton  <ross@openedhand.com>
 
 	* gui/e-week-view-main-item.c:

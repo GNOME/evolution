@@ -1442,6 +1442,7 @@ setup_widgets (GnomeCalendar *gcal)
 	GtkWidget *vbox;
 	GtkWidget *label;
 	int i;
+	char *tmp;
 
 	priv = gcal->priv;
 
@@ -1505,7 +1506,9 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_box_pack_start ((GtkBox *)vbox, sep, FALSE, TRUE, 0);
 	
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, "<b> Tasks </b>");
+	tmp = g_strdup_printf ("<b> %s </b>", _("Tasks"));
+	gtk_label_set_markup ((GtkLabel *)label, tmp);
+	g_free (tmp);
 	gtk_box_pack_start ((GtkBox *)vbox, label, FALSE, TRUE, 0);
 	
 	priv->todo = e_calendar_table_new ();
@@ -1631,7 +1634,9 @@ setup_widgets (GnomeCalendar *gcal)
 	/* Memo view */
 	vbox = gtk_vbox_new (FALSE, 0);
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, "<b> Memos </b>");
+	tmp = g_strdup_printf ("<b> %s </b>", _("Memos"));
+	gtk_label_set_markup ((GtkLabel *)label, tmp);
+	g_free (tmp);	
 	gtk_box_pack_start ((GtkBox *)vbox, label, FALSE, TRUE, 0);
 	priv->memo = e_memo_table_new ();
 	priv->memo_config = e_memo_table_config_new (E_MEMO_TABLE (priv->memo));
