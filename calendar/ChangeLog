@@ -1,3 +1,8 @@
+2006-08-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-model-memos.c: (ecmm_fill_component_from_model):
+	set dtstart while creating memos using quick add.
+
 2006-08-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/migration.c: (is_groupwise_account), (add_gw_esource),

@@ -240,9 +240,16 @@ static void
 ecmm_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 				ETableModel *source_model, gint row)
 {
+	icaltimetype start;
 	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
 	g_return_if_fail (comp_data != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+
+	start = icalcomponent_get_dtstart (comp_data->icalcomp);
+	if (icaltime_compare_date_only (start, icaltime_null_time ()) == 0) {
+		start = icaltime_today ();
+		icalcomponent_set_dtstart (comp_data->icalcomp, start);
+	}
 
 }
 
