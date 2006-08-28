@@ -7,9 +7,9 @@
 	  load-on-startup="true"
 	  domain="@GETTEXT_PACKAGE@"
 	  localedir="@LOCALEDIR@"
-	  name="CalDAV sources">
+	  _name="CalDAV sources">
   		<author name="Christian Kellner" email="gicmo@gnome.org"/>
-		<description>CalDAV Calendar sources</description>
+		<_description>CalDAV Calendar sources</_description>
 
 		<hook class="org.gnome.evolution.calendar.config:1.0">
             	<group target="source"

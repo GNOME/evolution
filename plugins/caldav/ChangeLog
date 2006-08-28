@@ -1,3 +1,9 @@
+2006-08-28  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* org-gnome-evolution-caldav.eplug.xml: Mark name and
+	description for translation.
+	Makefile.am: Rename the above from .in to .xml
+
 2006-06-15  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED.
