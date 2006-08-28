@@ -1,5 +1,13 @@
 2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fixes bug #352982 and bug #336983
+	
+	* em-folder-view.c: (emfv_popup_delete), (emfv_select_all_text):
+	Fixes the issue of thread jumping on delete and enables COPY menu item
+	when clicking Select All Text.
+
+2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* em-format-html.c: (efh_format_address): Fix for a crash during
 	displaying camel address group.
 
