@@ -1,5 +1,10 @@
 2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* em-format-html.c: (efh_format_address): Fix for a crash during
+	displaying camel address group.
+
+2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #353059
 
 	* em-folder-browser.c: (generate_viewoption_menu): Added translated

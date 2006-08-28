@@ -1540,7 +1540,7 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 			break;
 		case CAMEL_HEADER_ADDRESS_GROUP:
 			g_string_append_printf (out, "%s: ", name);
-			efh_format_address (efh, out, a->v.members, NULL);
+			efh_format_address (efh, out, a->v.members, field);
 			g_string_append_printf (out, ";");
 			break;
 		default:
