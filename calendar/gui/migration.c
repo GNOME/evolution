@@ -45,6 +45,8 @@
 #include <libedataserver/e-dbhash.h>
 #include <libedataserver/e-xml-hash-utils.h>
 #include <libedataserver/e-xml-utils.h>
+#include <libedataserver/e-account-list.h>
+#include <camel/camel-url.h>
 
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-folder-map.h"
@@ -389,6 +391,7 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 #define CONTACTS_BASE_URI "contacts://"
 #define BAD_CONTACTS_BASE_URI "contact://"
 #define PERSONAL_RELATIVE_URI "system"
+#define GROUPWISE_BASE_URI "groupwise://"
 
 static ESourceGroup *
 create_calendar_contact_source (ESourceList *source_list)
@@ -1112,6 +1115,68 @@ create_memo_sources (MemosComponent *component,
 	g_free (base_uri);
 }
 
+static gboolean
+is_groupwise_account (EAccount *account)
+{
+	if (account->source->url != NULL) {
+		return g_str_has_prefix (account->source->url, GROUPWISE_BASE_URI);
+	} else {
+		return FALSE;
+	}
+}
+
+static void
+add_gw_esource (ESourceList *source_list, const char *group_name,  const char *source_name, CamelURL *url, GConfClient *client)
+{
+	ESourceGroup *group;
+	ESource *source;
+	GSList *ids, *temp ;
+	char *relative_uri;
+	const char *soap_port;
+	const char * use_ssl;
+	const char *poa_address;
+	const char *offline_sync;
+	
+	
+	poa_address = url->host;
+	if (!poa_address || strlen (poa_address) ==0)
+		return;
+	soap_port = camel_url_get_param (url, "soap_port");
+
+ 	if (!soap_port || strlen (soap_port) == 0)
+		soap_port = "7191";
+
+	use_ssl = camel_url_get_param (url, "use_ssl");
+	offline_sync = camel_url_get_param (url, "offline_sync");
+
+	group = e_source_group_new (group_name,  GROUPWISE_BASE_URI);
+	if (!e_source_list_add_group (source_list, group, -1))
+		return;
+	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
+	
+	source = e_source_new (source_name, relative_uri);
+	e_source_set_property (source, "auth", "1");
+	e_source_set_property (source, "username", url->user);
+	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
+	e_source_set_property (source, "auth-domain", "Groupwise");
+	e_source_set_property (source, "use_ssl", use_ssl);
+	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
+
+	e_source_set_color (source, 0xEEBC60);
+	e_source_group_add_source (group, source, -1);
+
+	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);
+	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
+	gconf_client_set_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, ids, NULL);
+	temp  = ids;
+	for (; temp != NULL; temp = g_slist_next (temp))
+		g_free (temp->data);
+	
+	g_slist_free (ids);
+	g_object_unref (source);
+	g_object_unref (group);
+	g_free (relative_uri);
+}
 
 gboolean
 migrate_memos (MemosComponent *component, int major, int minor, int revision, struct _GError **err)
@@ -1119,14 +1184,39 @@ migrate_memos (MemosComponent *component, int major, int minor, int revision, st
 	ESourceGroup *on_this_computer = NULL;
 	ESourceGroup *on_the_web = NULL;
 	ESource *personal_source = NULL;
+	ESourceList *source_list = NULL;
 	gboolean retval = FALSE;
+
+	source_list = memos_component_peek_source_list (component);
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
 	   groups/sources. */
-	create_memo_sources (component, memos_component_peek_source_list (component), &on_this_computer, &on_the_web, &personal_source);
+	create_memo_sources (component, source_list, &on_this_computer, &on_the_web, &personal_source);
 
-	e_source_list_sync (memos_component_peek_source_list (component), NULL);
+	/* Migration for Gw accounts between versions < 2.8 */
+	if (major == 2 && minor < 8) {
+		EAccountList *al;
+		EAccount *a;
+		CamelURL *url;	
+		EIterator *it;
+		GConfClient *gconf_client = gconf_client_get_default ();
+		al = e_account_list_new (gconf_client);
+		for (it = e_list_get_iterator((EList *)al);
+				e_iterator_is_valid(it);
+				e_iterator_next(it)) {
+			a = (EAccount *) e_iterator_get(it);
+			if (!a->enabled || !is_groupwise_account (a)) 
+				continue;
+			url = camel_url_new (a->source->url, NULL);
+			add_gw_esource (source_list, a->name, _("Notes"), url, gconf_client);
+			camel_url_free (url);
+		}
+		g_object_unref (al);
+		g_object_unref (gconf_client);
+	}
+
+	e_source_list_sync (source_list, NULL);
 	retval = TRUE;
 
 	if (on_this_computer)

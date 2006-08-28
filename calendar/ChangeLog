@@ -1,3 +1,9 @@
+2006-08-28  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/migration.c: (is_groupwise_account), (add_gw_esource),
+	(migrate_memos): Create e-sources for the Groupwise reminder
+	notes while migrating to 2.8 from a lower version.			
+
 2006-08-28  Andre Klapper  <a9016009@gmx.de>
 
 	** Fix for bug #352988
