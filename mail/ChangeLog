@@ -1,3 +1,10 @@
+2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #353059
+
+	* em-folder-browser.c: (generate_viewoption_menu): Added translated
+	strings to search, which are already translated.
+
 2006-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #352980

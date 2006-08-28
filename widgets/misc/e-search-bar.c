@@ -1177,7 +1177,7 @@ e_search_bar_set_scopeoption (ESearchBar *search_bar, ESearchBarItem *scopeitems
 	for (i = 0; scopeitems[i].id != -1; ++i) {
 		if (scopeitems[i].text) {
 			char *str;
-			str = string_without_underscores (scopeitems[i].text);
+			str = string_without_underscores (_(scopeitems[i].text));
 			menu_item = gtk_menu_item_new_with_label (str);
 			g_object_set_data_full (G_OBJECT (menu_item), "string",str, g_free);			
 		} else {

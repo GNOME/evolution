@@ -297,7 +297,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 	for (i = 0; emfb_view_items[i].search.id != -1; ++i) {
 		if (emfb_view_items[i].search.text) {
 			char *str;
-			str = string_without_underscores (emfb_view_items[i].search.text);
+			str = string_without_underscores (_(emfb_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
 /* 			if (emfb_view_items[i].image)
  				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (emfb_view_items[i].image, E_ICON_SIZE_MENU)); */
@@ -352,7 +352,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 	for (i = 0; temp_view_items[i].search.id != -1; ++i) {
 		if (temp_view_items[i].search.text) {
 			char *str;
-			str = string_without_underscores (temp_view_items[i].search.text);
+			str = string_without_underscores (_(temp_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
 /*			if (temp_view_items[i].image)
 				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (temp_view_items[i].image, E_ICON_SIZE_MENU)); */

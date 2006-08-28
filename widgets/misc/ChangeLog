@@ -1,3 +1,10 @@
+2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #353059
+
+	* e-search-bar.c: (e_search_bar_set_scopeoption): Added translatable
+	options to search strings, which are already translated.
+
 2006-08-23  Behnam Esfahbod  <behnam@zwnj.org>
   	 
 	* e-calendar.c:
