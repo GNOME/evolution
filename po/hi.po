@@ -10,14 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.hi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-25 01:44+0200\n"
-"PO-Revision-Date: 2006-08-25 16:11+0530\n"
+"POT-Creation-Date: 2006-08-28 07:13+0200\n"
+"PO-Revision-Date: 2006-08-28 12:46+0530\n"
 "Last-Translator: Rajesh Ranjan <rranjan@redhat.com>\n"
 "Language-Team: Hindi <fedora-trans-hi@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -395,8 +396,9 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
-"अभी आप एवोल्यूशन के केवल समूहीकृत सिस्टम पता पुस्तिका का अभिगम कर सकते हैं. "
-"कृपया कुछ अन्य समूहीकृत डाक क्लाइंट का प्रयोग करें, अपने समूहीआधृत बहुप्रयुक्त संपर्क और निजी संपर्क फोल्डर को पाने के लिये."
+"अभी आप एवोल्यूशन के केवल समूहीकृत सिस्टम पता पुस्तिका का अभिगम कर सकते हैं. कृपया कुछ अन्य "
+"समूहीकृत डाक क्लाइंट का प्रयोग करें, अपने समूहीआधृत बहुप्रयुक्त संपर्क और निजी संपर्क फोल्डर को "
+"पाने के लिये."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
@@ -835,7 +837,7 @@ msgstr "नयी पता पुस्तिका (_N)"
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:443
-#: ../mail/em-folder-tree.c:2077 ../mail/em-folder-view.c:1123
+#: ../mail/em-folder-tree.c:2077 ../mail/em-folder-view.c:1124
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -1045,23 +1047,25 @@ msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
-msgstr "खोज फिल्टर ऐसी चीज है जिसे आपने खोजा है, खोज करने के दौरान. अगर यह रूपांतरित नहीं है, मूलभूत रूप से खोज को \"person\" प्रकार के वस्तुवर्ग पर किया जायेगा."
+msgstr ""
+"खोज फिल्टर ऐसी चीज है जिसे आपने खोजा है, खोज करने के दौरान. अगर यह रूपांतरित नहीं है, "
+"मूलभूत रूप से खोज को \"person\" प्रकार के वस्तुवर्ग पर किया जायेगा."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
-"अगर आपका LDAP सर्वर SSL का समर्थन करता है तो इस विकल्प को चुनने का मतलब है "
-"कि एवोल्यूशन सिर्फ आपके LDAP सर्वर के साथ जुड़ सकेगा."
+"अगर आपका LDAP सर्वर SSL का समर्थन करता है तो इस विकल्प को चुनने का मतलब है कि "
+"एवोल्यूशन सिर्फ आपके LDAP सर्वर के साथ जुड़ सकेगा."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
-"अगर आपका LDAP सर्वर TLS का समर्थन करता है तो इस विकल्प को चुनने का मतलब है "
-"कि एवोल्यूशन सिर्फ आपके LDAP सर्वर के साथ जुड़ सकेगा."
+"अगर आपका LDAP सर्वर TLS का समर्थन करता है तो इस विकल्प को चुनने का मतलब है कि "
+"एवोल्यूशन सिर्फ आपके LDAP सर्वर के साथ जुड़ सकेगा."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
@@ -1069,8 +1073,8 @@ msgid ""
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
 msgstr ""
-"इस विकल्प के चयन का मतलब है कि आपका सर्वर या तो SSL या "
-"TLS का समर्थन नहीं करता है. इसका मतलब है कि आपका संबंधन असुरक्षित होगा, और आप सुरक्षा शोषण की दृष्टि से भेद्य बने रहेंगे."
+"इस विकल्प के चयन का मतलब है कि आपका सर्वर या तो SSL या TLS का समर्थन नहीं करता है. "
+"इसका मतलब है कि आपका संबंधन असुरक्षित होगा, और आप सुरक्षा शोषण की दृष्टि से भेद्य बने रहेंगे."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
@@ -2966,7 +2970,7 @@ msgstr "काटें (_t)"
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:442
 #: ../composer/e-msg-composer.c:3152 ../mail/em-folder-tree.c:1002
-#: ../mail/em-folder-view.c:1109 ../mail/message-list.c:1919
+#: ../mail/em-folder-view.c:1110 ../mail/message-list.c:1919
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -3303,7 +3307,7 @@ msgid "_Open Link in Browser"
 msgstr "ब्राउजर में लिंक खोलें (_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2503
+#: ../mail/em-folder-view.c:2505
 msgid "_Copy Link Location"
 msgstr "लिंक स्थान को कापी करें (_C)"
 
@@ -4233,8 +4237,8 @@ msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-"अगर आप रद्द करने की सूचना नहीं भेजते हैं, अन्य सहभागी नहीं जान पायेंगे कि जर्नल मिटाया "
-"जा चुका है."
+"अगर आप रद्द करने की सूचना नहीं भेजते हैं, अन्य सहभागी नहीं जान पायेंगे कि जर्नल मिटाया जा "
+"चुका है."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
@@ -4248,7 +4252,9 @@ msgstr ""
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
-msgstr "अगर आप रद्द करने की सूचना नहीं भेजते हैं, अन्य सहभागी नहीं जान पायेंगे कि कार्य मिटाया जा चुका है."
+msgstr ""
+"अगर आप रद्द करने की सूचना नहीं भेजते हैं, अन्य सहभागी नहीं जान पायेंगे कि कार्य मिटाया जा "
+"चुका है."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
@@ -4266,13 +4272,17 @@ msgstr "अद्यतनीकृत सूचना भेजना अन्
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
-msgstr "कुछ संलग्नक हैं जो डाउनलोड हो रहे हैं. व्यस्तता को सहेजना इन संलग्नक की क्षति के रूप में परिणाम देगा."
+msgstr ""
+"कुछ संलग्नक हैं जो डाउनलोड हो रहे हैं. व्यस्तता को सहेजना इन संलग्नक की क्षति के रूप में "
+"परिणाम देगा."
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
-msgstr "कुछ संलग्नक हैं जो डाउनलोड हो रहे हैं. व्यस्तता को सहेजना इन संलग्नक की क्षति के रूप में परिणाम देगा."
+msgstr ""
+"कुछ संलग्नक हैं जो डाउनलोड हो रहे हैं. व्यस्तता को सहेजना इन संलग्नक की क्षति के रूप में "
+"परिणाम देगा."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
@@ -4364,7 +4374,9 @@ msgstr ""
 msgid ""
 "You have a read-only calendar source selected. Change to Calendar View and "
 "highlight a calendar that can accept appointments."
-msgstr "आपने सिर्फ पठन के लिये कैलेंडर श्रोत चयन किया है. कैलेंडर दृश्य में बदलें और एक कैलेंडर उभारें जो कि व्यस्तता स्वीकार करता है."
+msgstr ""
+"आपने सिर्फ पठन के लिये कैलेंडर श्रोत चयन किया है. कैलेंडर दृश्य में बदलें और एक कैलेंडर उभारें जो "
+"कि व्यस्तता स्वीकार करता है."
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this appointment, but not yet saved it."
@@ -4989,9 +5001,7 @@ msgstr "समयक्षेत्र"
 msgid ""
 "Transparency of the events in calendar views, a value between 0 "
 "(transparent) and 1 (opaque)."
-msgstr ""
-"कैलेंडर दृश्य में घटना की पारदर्शिता, 0 "
-"(पारदर्शी) और 1 (अपारदर्शी) के बीच एक मान."
+msgstr "कैलेंडर दृश्य में घटना की पारदर्शिता, 0 (पारदर्शी) और 1 (अपारदर्शी) के बीच एक मान."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Twenty four hour time format"
@@ -5830,7 +5840,7 @@ msgstr[1] "संलग्न संदेश"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3153
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1005 ../mail/message-list.c:1920
+#: ../mail/em-folder-view.c:1006 ../mail/message-list.c:1920
 msgid "_Move"
 msgstr "विस्थापित करें (_M)"
 
@@ -6163,9 +6173,8 @@ msgid "15 minutes before appointment"
 msgstr "व्यस्तता के १५ मिनट पहले"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Attendee_s..."
-msgstr "शामिल होने वाले"
+msgstr "उपस्थित व्यक्ति (_s)..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
@@ -6173,9 +6182,8 @@ msgid "Ca_tegories..."
 msgstr "श्रेणियां (_t)..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "Custom Alarm:"
-msgstr "कस्टम सचेतक संदेश"
+msgstr "मनपसंद एलार्म:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 #: ../calendar/gui/dialogs/task-page.glade.h:3
@@ -6196,7 +6204,6 @@ msgid "_Alarm"
 msgstr "एलार्म (_A)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
-#, fuzzy
 msgid "_Time:"
 msgstr "समय (T):"
 
@@ -6791,7 +6798,7 @@ msgid "%s for an unknown trigger type"
 msgstr "अज्ञात ट्रिगर प्रकार के लिए %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2871
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2873
 #, c-format
 msgid "Click to open %s"
 msgstr "%s को खोलने के लिये क्लिक करें"
@@ -6950,7 +6957,7 @@ msgstr "शीर्षकविहीनचित्र.%s (_i)"
 
 #: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1282
 #: ../calendar/gui/e-calendar-view.c:1699 ../calendar/gui/e-memo-table.c:903
-#: ../mail/em-folder-view.c:1119 ../mail/em-popup.c:554 ../mail/em-popup.c:565
+#: ../mail/em-folder-view.c:1120 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
 msgstr "इस रूप में संग्रिहत करें (_S)..."
 
@@ -7040,7 +7047,7 @@ msgstr "वेब पृष्ठ खोलिये (_W)"
 #: ../calendar/gui/e-calendar-table.c:1283
 #: ../calendar/gui/e-calendar-view.c:1684
 #: ../calendar/gui/e-calendar-view.c:1700 ../calendar/gui/e-memo-table.c:904
-#: ../mail/em-folder-view.c:1120
+#: ../mail/em-folder-view.c:1121
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
@@ -7185,7 +7192,7 @@ msgstr "आईकैलेंडर के रूप में अग्रस�
 msgid "_Reply"
 msgstr "जवाब (_R)"
 
-#: ../calendar/gui/e-calendar-view.c:1716 ../mail/em-folder-view.c:1114
+#: ../calendar/gui/e-calendar-view.c:1716 ../mail/em-folder-view.c:1115
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
@@ -8113,9 +8120,9 @@ msgid "Failed upgrading memos."
 msgstr "मेमो उन्नयन में विफल."
 
 #: ../calendar/gui/memos-component.c:874
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
-msgstr "घटनाओं और बैठकों के निर्माण के लिए '%s' कार्य सूची को खोलने में अक्षम"
+msgstr "घटनाओं और बैठकों के निर्माण के लिए '%s' मेमो सूची को खोलने में अक्षम"
 
 #: ../calendar/gui/memos-component.c:887
 msgid "There is no calendar available for creating memos"
@@ -10291,7 +10298,6 @@ msgid "Compose Message"
 msgstr "संदेश लिखें"
 
 #: ../composer/e-msg-composer.c:5006
-#, fuzzy
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10914,7 +10920,7 @@ msgstr "एवोल्यूशन डाक कंपोजर विन्य
 msgid "Evolution Mail preferences control"
 msgstr "एवोल्यूशन डाक ........ नियंत्रण"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:521
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:522
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
 #: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:578
@@ -11546,14 +11552,14 @@ msgstr "रद्दी खाली करें (_E)"
 msgid "Copying `%s' to `%s'"
 msgstr "`%s' को `%s' में कॉपी कर रहा है"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1005
-#: ../mail/em-folder-view.c:1020
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1006
+#: ../mail/em-folder-view.c:1021
 #: ../mail/importers/evolution-mbox-importer.c:86
 #: ../mail/importers/evolution-outlook-importer.c:139
 msgid "Select folder"
 msgstr "फोल्डर चुनें"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1020
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1021
 msgid "C_opy"
 msgstr "कापी करें (_o)"
 
@@ -11575,146 +11581,146 @@ msgstr "फोल्डर बनाएं"
 msgid "Specify where to create the folder:"
 msgstr "निर्दिष्ट करें कि कहां फोल्डर बनाना है:"
 
-#: ../mail/em-folder-view.c:1113 ../ui/evolution-mail-message.xml.h:127
+#: ../mail/em-folder-view.c:1114 ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "प्रेषक को जबाव दें (_R)"
 
-#: ../mail/em-folder-view.c:1115 ../mail/em-popup.c:561 ../mail/em-popup.c:572
+#: ../mail/em-folder-view.c:1116 ../mail/em-popup.c:561 ../mail/em-popup.c:572
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "अग्रसारित करें (_F)"
 
-#: ../mail/em-folder-view.c:1118 ../ui/evolution-mail-message.xml.h:107
+#: ../mail/em-folder-view.c:1119 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "नए संदेश का संपादन करें (_E)..."
 
-#: ../mail/em-folder-view.c:1124
+#: ../mail/em-folder-view.c:1125
 msgid "U_ndelete"
 msgstr "प्रतिविलोपित करें (_n)"
 
-#: ../mail/em-folder-view.c:1125
+#: ../mail/em-folder-view.c:1126
 msgid "_Move to Folder..."
 msgstr "फोल्डर में विस्थापित करें (_M)..."
 
-#: ../mail/em-folder-view.c:1126
+#: ../mail/em-folder-view.c:1127
 msgid "_Copy to Folder..."
 msgstr "फोल्डर से कापी करें (_C)..."
 
-#: ../mail/em-folder-view.c:1129
+#: ../mail/em-folder-view.c:1130
 msgid "Mar_k as Read"
 msgstr "पढ़े गए के रूप में चिह्नित करें (_k)"
 
-#: ../mail/em-folder-view.c:1130
+#: ../mail/em-folder-view.c:1131
 msgid "Mark as _Unread"
 msgstr "अपठित के रूप में चिह्नित करें (_U)"
 
-#: ../mail/em-folder-view.c:1131
+#: ../mail/em-folder-view.c:1132
 msgid "Mark as _Important"
 msgstr "महत्वपूर्ण के रूप में चिह्नित करें (_I)"
 
-#: ../mail/em-folder-view.c:1132
+#: ../mail/em-folder-view.c:1133
 msgid "Mark as Un_important"
 msgstr "गैर महत्वपूर्ण के रूप में चिह्नित करें (_i)"
 
-#: ../mail/em-folder-view.c:1133
+#: ../mail/em-folder-view.c:1134
 msgid "Mark as _Junk"
 msgstr "जंक के रूप में चिह्नित करें (_J)"
 
-#: ../mail/em-folder-view.c:1134
+#: ../mail/em-folder-view.c:1135
 msgid "Mark as _Not Junk"
 msgstr "जंक नहीं है के रूप में चिह्नित करें (_N)"
 
-#: ../mail/em-folder-view.c:1135
+#: ../mail/em-folder-view.c:1136
 msgid "Mark for Follo_w Up..."
 msgstr "फोलो अप के लिये चिह्नित करें (_w)..."
 
-#: ../mail/em-folder-view.c:1137
+#: ../mail/em-folder-view.c:1138
 msgid "_Label"
 msgstr "लेबल (_L)"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1138 ../widgets/misc/e-dateedit.c:475
+#: ../mail/em-folder-view.c:1139 ../widgets/misc/e-dateedit.c:475
 msgid "_None"
 msgstr "कुछ नहीं (_N)"
 
-#: ../mail/em-folder-view.c:1143
+#: ../mail/em-folder-view.c:1144
 msgid "Fla_g Completed"
 msgstr "फ्लैग समाप्त (_g)"
 
-#: ../mail/em-folder-view.c:1144
+#: ../mail/em-folder-view.c:1145
 msgid "Cl_ear Flag"
 msgstr "फ्लैग हटाएं (_e)"
 
-#: ../mail/em-folder-view.c:1147
+#: ../mail/em-folder-view.c:1148
 msgid "Crea_te Rule From Message"
 msgstr "संदेश से नियम बनाएं (_t)"
 
-#: ../mail/em-folder-view.c:1148
+#: ../mail/em-folder-view.c:1149
 msgid "Search Folder from _Subject"
 msgstr "विषय से फोल्डर खोजें (_S)"
 
-#: ../mail/em-folder-view.c:1149
+#: ../mail/em-folder-view.c:1150
 msgid "Search Folder from Se_nder"
 msgstr "प्रेषक से फोल्डर खोजें (_n)"
 
-#: ../mail/em-folder-view.c:1150
+#: ../mail/em-folder-view.c:1151
 msgid "Search Folder from _Recipients"
 msgstr "प्राप्तकर्ता से फोल्डर खोजें (_R)"
 
-#: ../mail/em-folder-view.c:1151
+#: ../mail/em-folder-view.c:1152
 msgid "Search Folder from Mailing _List"
 msgstr "डाक सूची से फोल्डर खोजें (_L)"
 
-#: ../mail/em-folder-view.c:1155
+#: ../mail/em-folder-view.c:1156
 msgid "Filter on Sub_ject"
 msgstr "विषय पर निस्पंदक (_j)"
 
-#: ../mail/em-folder-view.c:1156
+#: ../mail/em-folder-view.c:1157
 msgid "Filter on Sen_der"
 msgstr "प्रेषक पर निस्पंदक (_d)"
 
-#: ../mail/em-folder-view.c:1157
+#: ../mail/em-folder-view.c:1158
 msgid "Filter on Re_cipients"
 msgstr "प्राप्तकर्ता पर निस्पंदक (_c)"
 
-#: ../mail/em-folder-view.c:1158
+#: ../mail/em-folder-view.c:1159
 msgid "Filter on _Mailing List"
 msgstr "डाक सूची पर निस्पंदक (_M)"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2005 ../mail/em-folder-view.c:2049
+#: ../mail/em-folder-view.c:2006 ../mail/em-folder-view.c:2050
 msgid "Default"
 msgstr "मूलभूत"
 
-#: ../mail/em-folder-view.c:2148
+#: ../mail/em-folder-view.c:2149
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "संदेश मुद्रित करें"
 
-#: ../mail/em-folder-view.c:2307
+#: ../mail/em-folder-view.c:2309
 msgid "Unable to retrieve message"
 msgstr "संदेश पुनर्प्राप्त करने में असमर्थ "
 
-#: ../mail/em-folder-view.c:2505
+#: ../mail/em-folder-view.c:2507
 msgid "Create _Search Folder"
 msgstr "खोज फोल्डर बनाएं (_S)"
 
-#: ../mail/em-folder-view.c:2506
+#: ../mail/em-folder-view.c:2508
 msgid "_From this Address"
 msgstr "इस पता से (_F)"
 
-#: ../mail/em-folder-view.c:2507
+#: ../mail/em-folder-view.c:2509
 msgid "_To this Address"
 msgstr "इस पता में (_T)"
 
-#: ../mail/em-folder-view.c:2864
+#: ../mail/em-folder-view.c:2866
 #, c-format
 msgid "Click to mail %s"
 msgstr "%s डाक पर क्लिक करें"
 
-#: ../mail/em-folder-view.c:2869
+#: ../mail/em-folder-view.c:2871
 msgid "Click to hide/unhide addresses"
 msgstr "पता छुपाने/दिखाने के लिये क्लिक करें"
 
@@ -11793,14 +11799,13 @@ msgid "Encrypted, weak"
 msgstr "गुप्त, दुर्बल"
 
 #: ../mail/em-format-html-display.c:936
-#, fuzzy
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
 "यह संदेश गुप्त है, लेकिन एक दुर्बल गोपन एलागरिथम के साथ है.  यह कठिन होगा लेकिन किसी "
-"बाहरी के लिए प्रायोगिक समय सीमा में संदेश की अंतर्वस्तु को देखना असंभव नहीं होगा "
+"बाहरी के लिए प्रायोगिक समय सीमा में संदेश की सामग्री देखना असंभव नहीं होगा."
 
 #: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:629
 msgid "Encrypted"
@@ -11817,14 +11822,13 @@ msgid "Encrypted, strong"
 msgstr "गुप्त, मजबूत"
 
 #: ../mail/em-format-html-display.c:938
-#, fuzzy
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
 "यह संदेश गुप्त है, एक मजबूत गोपन एलागरिथम के साथ.  किसी बाहरी के लिए प्रायोगिक समय "
-"सीमा में संदेश की अंतर्वस्तु को देखना बहुत कठिन होगा."
+"सीमा में संदेश की सामग्री देखना बहुत कठिन होगा."
 
 #: ../mail/em-format-html-display.c:1039 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
@@ -12279,7 +12283,10 @@ msgid ""
 "by typing in the text. Use is that you can easily find a folder in that side "
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
-msgstr "किनारा पट्टी खोज गुण सक्रिय करें ताकि आप पाठ रूप में टंकण कर अंतःक्रियात्मक खोज आरंभ कर सकें. इसका उपयोग है कि आप किनारे की पट्टी में आसानी से फोल्डर फोल्डर नाम टाइप कर पा सकते हैं और तब चयन स्वतः उस फोल्डर पर पहुंच जाता है."
+msgstr ""
+"किनारा पट्टी खोज गुण सक्रिय करें ताकि आप पाठ रूप में टंकण कर अंतःक्रियात्मक खोज आरंभ कर "
+"सकें. इसका उपयोग है कि आप किनारे की पट्टी में आसानी से फोल्डर फोल्डर नाम टाइप कर पा "
+"सकते हैं और तब चयन स्वतः उस फोल्डर पर पहुंच जाता है."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid "Enable/disable caret mode"
@@ -12584,7 +12591,9 @@ msgstr ""
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
-msgstr "यह पता की संख्या सेट करता है मूलभूत संदेश सूची दृश्य में दिखाने के लिये जिसके आगे '...' दिखाया जाता है."
+msgstr ""
+"यह पता की संख्या सेट करता है मूलभूत संदेश सूची दृश्य में दिखाने के लिये जिसके आगे '...' दिखाया "
+"जाता है."
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Thread the message list."
@@ -13542,9 +13551,8 @@ msgid "_Path:"
 msgstr "पथ (_P):"
 
 #: ../mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
-msgstr "तब प्रांप्ट करें जब  HTML संदेश उसे भेजा जा रहा हो जो न चाहता है (_P)"
+msgstr "तब प्रांप्ट करें जब HTML संदेश उसे भेजा जा रहा हो जो न चाहता है (_P)"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
@@ -13972,30 +13980,27 @@ msgid "A folder named &quot;{1}&quot; already exists. Please use a different nam
 msgstr "&quot;{1}&quot; नाम से फोल्डर पहले से उपस्थित है. कृपया दूसरे नाम का उपयोग करें."
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
 msgstr ""
-"&quot;{1}&quot;  पर एक अरिक्त फोल्डर पहले से ही उपस्थित है.\n"
+"&quot;{1}&quot; पर एक फोल्डर जो खाली नहीं है, पहले से ही उपस्थित है.\n"
 "\n"
-"आप इस फोल्डर को अनदेखा कर सकते हैं, अंतरवस्तु पर लिख और जोड़ सकते हैं, या छोड़ सकते हैं.\n"
+"आप इस फोल्डर को अनदेखा कर सकते हैं, सामग्री पर लिख और जोड़ सकते हैं, या छोड़ सकते हैं."
 
 #: ../mail/mail.error.xml.h:5
-#, fuzzy
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
 msgstr "एक पठन रसीद सूचना &quot;{1}&quot; के लिये निवेदित है.  प्राप्ति सूचना {0} को दें?"
 
 #: ../mail/mail.error.xml.h:6
-#, fuzzy
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
-msgstr "&quot;{1}&quot; नाम से फोल्डर पहले से उपस्थित है. कृपया दूसरे नाम का उपयोग करें."
+msgstr "&quot;{1}&quot; नाम के साथ हस्ताक्षर पहले से उपस्थित है. कृपया दूसरे नाम का उपयोग करें."
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -14014,7 +14019,6 @@ msgid "Are you sure you want to delete this account?"
 msgstr "क्या आप निश्चित हैं कि आप इस खाते को विलोपित करना चाहते हैं?"
 
 #: ../mail/mail.error.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "क्या आप निश्चित हैं कि आप इस खाते और इसके सभी प्रॉक्सी को विलोपित करना चाहते हैं?"
 
@@ -14109,14 +14113,13 @@ msgid "Cannot open target &quot;{2}&quot;."
 msgstr "लक्ष्य &quot;{2}&quot; खोल नहीं सकता."
 
 #: ../mail/mail.error.xml.h:33
-#, fuzzy
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
 "अधिष्ठापन समस्या के कारण लाइसेंस फाइल &quot;{0}&quot; न पढ़ सका.  आप इस उपलब्धकर्ता "
-"का उपयोग न कर पायेगे जबतक कि आप लाइसेंस स्वीकार न कर लें."
+"का उपयोग न कर पायेंगे जबतक कि आप लाइसेंस स्वीकार न कर लें."
 
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
@@ -14143,17 +14146,16 @@ msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "हस्ताक्षर स्क्रिप्ट &quot;{0}&quot; नहीं सेट कर सकता."
 
 #: ../mail/mail.error.xml.h:40
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"यह सुनिश्चित करने के लिये जांचें कि आपका शब्दकूट की वर्तनी ठीक है.  याद रखें कि ज्यादातर "
-"शब्दकूट स्थितियों के प्रचति संवेदनशील होते हैं; आपका कैप्स लॉक चालू हो सकता है."
+"यह सुनिश्चित करने के लिये जांचें कि आपके शब्दकूट की वर्तनी ठीक है.  याद रखें कि ज्यादातर "
+"शब्दकूट स्थितियों के प्रति संवेदनशील होते हैं; आपका कैप्स लॉक चालू हो सकता है."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
-msgstr "हस्ताक्षर संचिका संग्रहित नहीं कर सका."
+msgstr "हस्ताक्षर फाइल सहेज नहीं सका."
 
 #: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
@@ -14360,13 +14362,12 @@ msgid "Signature Already Exists"
 msgstr "हस्ताक्षर पहले से मौजूद है"
 
 #: ../mail/mail.error.xml.h:90
-#, fuzzy
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
 msgstr ""
-"Ximian Evolution के ठीक से काम करने के लिये सिस्टम फोल्डर जरूरी है और फिर नामकरण, "
-"हटाया व मिटाया नहीं जा सकता है."
+"एवोल्यूशन के ठीक से काम करने के लिये सिस्टम फोल्डर जरूरी है और पुनर्नामकरण, "
+"विस्थापन व विलोपन नहीं किया जा सकता है."
 
 #: ../mail/mail.error.xml.h:91
 msgid ""
@@ -14424,14 +14425,12 @@ msgstr ""
 "खोज फोल्डर संपादक में जाकर प्रत्यक्ष रूप से जोड़ें, अगर जरूरी हो."
 
 #: ../mail/mail.error.xml.h:107
-#, fuzzy
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
-msgstr "यह संदेश नहीं भेजा जा सकता है क्योंकि आपने किसी प्राप्तकर्ता को निर्दिष्ट नहीं किया है"
+msgstr "यह संदेश नहीं भेजा जा सकता है क्योंकि आपने जिस खाता को चुना है भेजने के लिये वह सक्रिय नहीं है"
 
 #: ../mail/mail.error.xml.h:108
-#, fuzzy
 msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "यह संदेश नहीं भेजा जा सकता है क्योंकि आपने किसी प्राप्तकर्ता को निर्दिष्ट नहीं किया है"
 
@@ -14448,22 +14447,20 @@ msgid "This signature has been changed, but has not been saved."
 msgstr "हस्ताक्षर बदला जा रहा है लेकिन संग्रहित नहीं किया गया है."
 
 #: ../mail/mail.error.xml.h:111
-#, fuzzy
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr "चयनित फोल्डर के सभी संदेशों को पठित बतायें"
+msgstr "यह चयनित फोल्डर व उपफोल्डर के सभी संदेशों को पठित बनायेगा."
 
 #: ../mail/mail.error.xml.h:112
 msgid "Unable to connect to the GroupWise server."
 msgstr "GroupWise सर्वर से जुड़ने में असमर्थ."
 
 #: ../mail/mail.error.xml.h:113
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr "इस खाता के लिये ड्राफ्ट फोल्डर बनाने में असमर्थ.  बदले में सिस्टम ड्राफ्ट फोल्डर का प्रयोग करें?"
+msgstr "इस खाता के लिये ड्राफ्ट फोल्डर बनाने में असमर्थ. बदले में सिस्टम ड्राफ्ट फोल्डर का प्रयोग करें?"
 
 #: ../mail/mail.error.xml.h:114
 msgid "Unable to read license file."
@@ -14520,9 +14517,8 @@ msgid "_Discard changes"
 msgstr "परिवर्तन त्यागें (_D)"
 
 #: ../mail/mail.error.xml.h:127
-#, fuzzy
 msgid "_Do not Mark as Read"
-msgstr "पढ़े गए के रूप में चिह्नित करें (_k)"
+msgstr "पठित रूप में चिह्नित मत करें (_k)"
 
 #: ../mail/mail.error.xml.h:129
 msgid "_Expunge"
@@ -14774,9 +14770,8 @@ msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr "पता पुस्तिका में स्वतः प्रविष्टि का बनाता है जब मेल को अनुक्रिया किया जा रहा होता है (_A)"
 
 #: ../plugins/bbdb/bbdb.c:477
-#, fuzzy
 msgid "Select Address book for Automatic Contacts"
-msgstr "स्वचालित संपर्क"
+msgstr "स्वचालित संपर्क के लिये पता पुस्तिका चुनें"
 
 #: ../plugins/bbdb/bbdb.c:492
 msgid "Instant Messaging Contacts"
@@ -14784,9 +14779,8 @@ msgstr "तत्काल संदेश संपर्क"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:507
-#, fuzzy
 msgid "Periodically synchronize contact information and images from gaim buddy list"
-msgstr "कालिक रूप से संपर्क सूचना को तुल्यकालित करता है और मेरे तुरत संदेशवाहक से (_i)"
+msgstr "कालिक रूप से संपर्क सूचना व बिंब को तुल्यकालित करता है मेरे गेम बडी सूची से."
 
 #: ../plugins/bbdb/bbdb.c:513
 msgid "Select Address book for Gaim buddy list"
@@ -14798,13 +14792,12 @@ msgid "Synchronize with _buddy list now"
 msgstr "मित्रसूची से तुल्यकालित करें (_b)"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"स्वचालित रूप से आपके पता पुस्तिका को भरता है नाम व ईमेल पता के साथ जैसे ही आप मेल का "
+"स्वचालित रूप से नाम व ईमेल पता के साथ आपके पता पुस्तिका को भरता है जैसे ही आप मेल का "
 "जबाब देते हैं. साथ ही IM संपर्क सूचना में आपके मित्र सूची से भरता है."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
@@ -14934,11 +14927,10 @@ msgid "Default Sources"
 msgstr "मूलभूत श्रोत"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Provides functionallity for marking a calendar or addressbook as the default "
 "one."
-msgstr "मौसम कैलेंडर के लिये केंद्रीय कार्यशीलता दें."
+msgstr "मूलभूत रूप में कैलेंडर या पतापुस्तिका चिह्नित करने के लिये कार्यशीलता देता है."
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -15093,9 +15085,9 @@ msgid "Your current password has expired. Please change your password now."
 msgstr "मौजूदा शब्दकूट खत्म हो गया. कृपया अपना शब्दकूट बदलें."
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "Your password will expire in the next %d days"
-msgstr "आपका शब्दकूट का समय खत्म हो गया."
+msgstr "आपका शब्दकूट का अगले %d दिनों में खत्म हो गया."
 
 #. Custom
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
@@ -15252,9 +15244,8 @@ msgid "Password Expiry Warning..."
 msgstr "शब्दकूट समयसामप्ति चेतावनी..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
-#, fuzzy
 msgid "Your password will expire in 7 days..."
-msgstr "आपका शब्दकूट सात दिन में समय समाप्त हो जायेगा..."
+msgstr "आपका शब्दकूट 7 दिन में समाप्त हो जायेगा..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
@@ -15375,11 +15366,10 @@ msgid "Cannot perform the operation."
 msgstr "संक्रिया कर नहीं सकता"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
-#, fuzzy
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
-msgstr "विनिमय खाता विन्यास में बदलाव तब आयेगा जब आप छोड़ते हैं और एवोल्यूशन फिर आरंभ करते हैं."
+msgstr "एक्सेंज खाता \"{0}\" विन्यास में बदलाव तब आयेगा जब आप छोड़ते हैं और एवोल्यूशन फिर आरंभ करते हैं."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
@@ -15448,7 +15438,6 @@ msgid "Exchange Account is offline."
 msgstr "लेनदेन खाता ऑफलाइन है"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
-#, fuzzy
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
@@ -15463,18 +15452,17 @@ msgid ""
 "{0}\n"
 "  "
 msgstr ""
-"विनिमय संबंधक कुछ प्रकार्यात्मकता पर\n"
-"पहुंच की जरूरत रखता है विनिमय सर्वर पर जो लगता है कि\n"
-"निष्क्रिय या अवरूद्ध है.  (यह प्रायः बिना \n"
-"इच्छा के है.)  आपका विनिमय प्रशासक \n"
+"एक्सेंज सर्वर पर एक्सेंज संबंधक कुछ प्रकार्यात्मकता पर\n"
+"पहुंच की जरूरत रखता है जो लगता है कि\n"
+"निष्क्रिय या अवरूद्ध है.  (यह प्रायः \n"
+"अनिच्छित है.) आपके एक्सेंज प्रशासक \n"
 "को इस प्रकार्यात्मकता को सक्रिय करने की जरूरत होगी \n"
-"Ximian Connector को प्रयोग करने के लिये.\n"
+"एवोल्यूशन एक्सेंज संबंधक को प्रयोग करने के लिये.\n"
 "\n"
-"आपके विनिमय प्रशासक पर सूचना देने के लिये \n"
+"आपके एक्सेंज प्रशासक पर सूचना देने के लिये \n"
 "कृपया नीचे के लिंक पर जायें:\n"
 "\n"
-"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
-"html\n"
+"{0}\n"
 "  "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
@@ -15569,12 +15557,11 @@ msgid "The Exchange server is not compatible with Exchange Connector."
 msgstr "विनिमय संबंधक के लिये विनिमय सर्वर सुसंगत नहीं है."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:57
-#, fuzzy
 msgid ""
 "The server is running Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
 msgstr ""
-"सर्वर Exchange 5.5 चला रहा है. विनिमय संबंधक \n"
+"सर्वर एक्सेंज 5.5 चला रहा है. एक्सेंच संबंधक \n"
 "सिर्फ Microsoft Exchange 2000 औऱ 2003 को समर्थन करता है."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:59
@@ -15620,39 +15607,34 @@ msgid "Unsupported operation"
 msgstr "असमर्थित संक्रिया"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#, fuzzy
 msgid "You are nearing your quota available for storing mail on this server."
-msgstr "आप अपने लिये इस सर्वर पर उपलब्ध कोटा सीमा के निकट हैं."
+msgstr "आप इस सर्वर पर मेल भंडारण के लिये उपलब्ध कोटा सीमा के निकट हैं."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "You cannot make yourself your own delegate"
 msgstr "आप स्वयं को नहीं दे सकते हैं"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
-#, fuzzy
 msgid "You have exceeded your quota for storing mail on this server."
-msgstr "आप अपने लिये इस सर्वर पर उपलब्ध कोटा सीमा से ज्यादा हैं."
+msgstr "आप अपने लिये इस सर्वर पर मेल भंडारण की उपलब्ध कोटा सीमा से ज्यादा का उपयोग कर रहे हैं."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid "You may only configure a single Exchange account."
 msgstr "आपको एकल विनिमय खाता विन्यस्त कर सकते हैं."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
-#, fuzzy
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
 msgstr "आपका मौजूदा प्रयोग है : {0}KB. कुछ मेल मिटाकर स्थान खाली करने की कोशिश करें."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
-#, fuzzy
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr "आपका मौजूदा प्रयोग है : {0}KB. आप मेल भेजने व पाने में समर्थ न हो पायेंगे."
+msgstr "आपका मौजूदा प्रयोग है : {0}KB. आप अब मेल भेजने व पाने में समर्थ न हो पायेंगे."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
-#, fuzzy
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
@@ -15892,9 +15874,8 @@ msgid "_Proxy Login..."
 msgstr "प्रॉक्सी लॉगिन (_P)..."
 
 #: ../plugins/groupwise-features/proxy.c:697
-#, fuzzy
 msgid "The Proxy tab will be available only when the account is online."
-msgstr "प्रॉक्सी टैब के उपलब्ध होने पर खाता सक्रिय हो जायेगा."
+msgstr "प्रॉक्सी टैब के खाता ऑनलाइन रहने पर उपलब्ध होगा."
 
 #: ../plugins/groupwise-features/proxy.c:702
 msgid "The Proxy tab will be available only when the account is enabled."
@@ -15978,7 +15959,9 @@ msgstr "कोई आउटपुट निर्देशिका नहीं
 msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
-msgstr "iPod पर आउटपुट निर्देशिका नहीं मिल पाया! कृपया सुनिश्चित करें कि iPod को ठीक से सेट किया गया है या फिर कोशिश करें."
+msgstr ""
+"iPod पर आउटपुट निर्देशिका नहीं मिल पाया! कृपया सुनिश्चित करें कि iPod को ठीक से सेट "
+"किया गया है या फिर कोशिश करें."
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
@@ -15993,14 +15976,12 @@ msgid "Could not open addressbook!"
 msgstr "पतापुस्तिका खोल नहीं कर सका!"
 
 #: ../plugins/ipod-sync/sync.c:232
-#, fuzzy
 msgid "Could not open the Evolution addressbook to export data."
-msgstr "एवोल्यूशन पता पुस्तिका अप्रत्याशित रूप से  बंद हो गया."
+msgstr "एवोल्यूशन पता पुस्तिका आंकड़ा निर्यात के लिये खोल नहीं सका."
 
 #: ../plugins/ipod-sync/sync.c:291
-#, fuzzy
 msgid "Could not open calendar/todo!"
-msgstr "गंतव्य को नहीं खोल सका"
+msgstr "कैलेंडर/शेष कार्य खोल नहीं सका!"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
@@ -16013,9 +15994,9 @@ msgid "Failed to load the calendar '%s'"
 msgstr "'%s' कैलेंडर को लोड करने में विफल."
 
 #: ../plugins/itip-formatter/itip-formatter.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "घटनाओं और बैटकों के निर्माण के लिये '%s' कैलेंडर को खोलने में अक्षम"
+msgstr "कैलेंडर '%s' में इस बैठक के साथ व्यस्तता में विरोध"
 
 #: ../plugins/itip-formatter/itip-formatter.c:441
 #, c-format
@@ -16067,7 +16048,7 @@ msgid "Sent to calendar '%s' as declined"
 msgstr "मनाही रूप से '%s' कैलेंडर में प्रेषित"
 
 #: ../plugins/itip-formatter/itip-formatter.c:882
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "रद्द रूप से '%s' कैलेंडर में प्रेषित"
 
@@ -16102,11 +16083,10 @@ msgid "The calendar attached is not valid"
 msgstr "संलग्न कैलेंडर मान्य नहीं है"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1228
-#, fuzzy
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
-msgstr "संदेश एक कैलेंडर रखता है, लेकिन कैलेंडर एक मान्य iCalendar नहीं है."
+msgstr "संदेश एक कैलेंडर रखने का दावा करता है, लेकिन कैलेंडर एक मान्य iCalendar नहीं है."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1263
 #: ../plugins/itip-formatter/itip-formatter.c:1281
@@ -16339,7 +16319,7 @@ msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> ने निम्न बैठक  संदेश भेजा है."
 
 #: ../plugins/itip-formatter/itip-view.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgstr "<b>%s</b> %s के द्वारा निम्न बैठक रद्द कर दिया है:"
 
@@ -16411,7 +16391,7 @@ msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> ने निम्न नियत कार्य अनुक्रिया को फिर वापस भेजा है:"
 
 #: ../plugins/itip-formatter/itip-view.c:446
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgstr "<b>%s</b> %s के द्वारा ने निम्न नियत कार्य को रद्द कर दिया है."
 
@@ -16436,9 +16416,9 @@ msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> ने कार्य भार को मना कर दिया है."
 
 #: ../plugins/itip-formatter/itip-view.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following memo:"
-msgstr "<b>%s</b> %s के द्वारा कार्य प्रकाशित की है."
+msgstr "<b>%s</b> %s के द्वारा निम्नलिखित मेमो प्रकाशित की है."
 
 #: ../plugins/itip-formatter/itip-view.c:486
 #, c-format
@@ -16446,9 +16426,9 @@ msgid "<b>%s</b> has published the following memo:"
 msgstr "<b>%s</b> निम्न मेमो प्रकाशित की है."
 
 #: ../plugins/itip-formatter/itip-view.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> %s के द्वारा एक मौजूदा बैठक में जोड़ना चाहता है."
+msgstr "<b>%s</b> %s के द्वारा एक मौजूदा मेमो में जोड़ना चाहता है."
 
 #: ../plugins/itip-formatter/itip-view.c:493
 #, c-format
@@ -16456,9 +16436,9 @@ msgid "<b>%s</b> wishes to add to an existing memo:"
 msgstr "<b>%s</b> एक मौजूदा मेमो में जोड़ना चाहता है:"
 
 #: ../plugins/itip-formatter/itip-view.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has canceled the following shared memo:"
-msgstr "<b>%s</b> %s के द्वारा निम्न बैठक रद्द कर दिया है:"
+msgstr "<b>%s</b> ने %s के द्वारा निम्न साझा मेमो रद्द कर दिया है:"
 
 #: ../plugins/itip-formatter/itip-view.c:499
 #, c-format
@@ -16491,17 +16471,15 @@ msgid "_Decline all"
 msgstr "सबको मना करें (_D)"
 
 #: ../plugins/itip-formatter/itip-view.c:766
-#, fuzzy
 msgid "_Tentative all"
-msgstr "औपबंधिक"
+msgstr "सभी अंतरिम (_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:766
 #: ../plugins/itip-formatter/itip-view.c:772
 #: ../plugins/itip-formatter/itip-view.c:789
 #: ../plugins/itip-formatter/itip-view.c:794
-#, fuzzy
 msgid "_Tentative"
-msgstr "औपबंधिक"
+msgstr "अंतरिम (_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:767
 msgid "_Accept all"
@@ -16562,7 +16540,6 @@ msgid "Itip Formatter"
 msgstr "Itip Formatter"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
-#, fuzzy
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot;?"
@@ -16648,9 +16625,8 @@ msgid "Mail to task"
 msgstr "कार्य को डाक भेजें"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
-#, fuzzy
 msgid "Convert the selected message to a new task"
-msgstr "चयनित संदेश को नए विंडो में खोलें"
+msgstr "चयनित संदेश को नए कार्य में बदलें"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Contact list _owner"
@@ -16813,14 +16789,12 @@ msgid "_Subscribe to List"
 msgstr "सूची की सदस्यता लें (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Unsubscribe from List"
-msgstr "\"%s\" सदस्यता त्यागें"
+msgstr "सूची से सदस्यता वापस लें (_U)"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
-#, fuzzy
 msgid "Mark All Read"
-msgstr "पढ़े गए के रूप में चिह्नित करें (_k)"
+msgstr "सबको पठित रूप में चिह्नित करें"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
 msgid "Mark Me_ssages as Read"
@@ -16904,14 +16878,13 @@ msgid "Plugin"
 msgstr "प्लगइन"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
 "disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"एक जांच प्लगिन जो एक फॉरमेटर प्लगिन को दिखाता है जो आपको HTML मेल को निष्क्रिय करने के "
+"एक जांच प्लगिन जो एक फॉरमेटर प्लगिन को दिखाता है जो आपको HTML मेल निष्क्रिय करने के "
 "लिये चुनने की अनुमति देता है.\n"
 "\n"
 "यह प्लगिन सिर्फ असमर्थित प्रदर्शन कोड है.\n"
@@ -17060,7 +17033,9 @@ msgstr "Spamassassin (अंतर्निहित)"
 msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
-msgstr "स्पैमएसेसिन के प्रयोग से जंक संदेश फिल्टर करें. इस प्लगिन के लिये स्पैमएसेसिन के अधिष्ठापित होने की जरूरत है."
+msgstr ""
+"स्पैमएसेसिन के प्रयोग से जंक संदेश फिल्टर करें. इस प्लगिन के लिये स्पैमएसेसिन के अधिष्ठापित होने "
+"की जरूरत है."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "Spamassassin junk plugin"
@@ -17356,11 +17331,10 @@ msgid "Statusbar is visible"
 msgstr "प्रस्थिति पट्टी दृश्यमान है"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
-#, fuzzy
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "एवोल्यूशन का विन्यास संस्कऱण, मुख्य/माइनर/विन्यास स्तर"
+msgstr "एवोल्यूशन का विन्यास संस्करण, मुख्य/माइनर/विन्यास स्तर के साथ (उदाहरण के लिये \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default height for the main window, in pixels."
@@ -17375,11 +17349,10 @@ msgid "The default width for the sidebar, in pixels."
 msgstr "साइड बार पट्टी की मूलभूत चौड़ाई पिक्सेल में"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
-#, fuzzy
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
-msgstr "एवोल्यूशन का अंतिम उन्नत विन्यास संस्करण, मुख्य/कमतर/विन्यास स्तर के साथ"
+msgstr "एवोल्यूशन का अंतिम उन्नत विन्यास संस्करण, मुख्य/कमतर/विन्यास स्तर के साथ (उदाहरण के लिये \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid ""
@@ -17399,9 +17372,8 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "क्या एवोल्यूशन ऑफलाइन मोड में आरंभ होगा बजाय ऑनलाइन मोड के."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
-#, fuzzy
 msgid "Whether or not the window should be maximized."
-msgstr "क्या विंडो बटन को दृश्य होना चाहिये"
+msgstr "क्या विंडो सबसे बड़े आकार का होना चाहिये या नहीं."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the sidebar should be visible."
@@ -17663,7 +17635,7 @@ msgstr ""
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:233
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17690,9 +17662,9 @@ msgstr ""
 "अगर आप एवोल्यूशन के संतुलित संस्करण चाहते हैं, हमारी गुजारिश हैं कि आप\n"
 "इस संस्करण को अनधिष्ठापित करें, और संस्करण %s को बदले में अधिष्ठापित करें.\n"
 "\n"
-"अगर आप बग पाते हैं, कृपया हमें bugzilla.ximian.com पर रिपोर्ट करें.\n"
+"अगर आप बग पाते हैं, कृपया हमें bugzilla.gnome.org पर रिपोर्ट करें.\n"
 "यह उत्पाद बिना किसी वारंटी के आता है और \n"
-"उनके लिये नहीं है जिसको भयानक गुस्सा करने की आदत है.\n"
+"उनके लिये नहीं है जो बहुत गुस्सैल हैं.\n"
 "\n"
 "हमें आशा है कि आप हमारी कड़ी मिहनत का आनंद लेंगे, और हमें\n"
 "आपके योगदान की प्रतीक्षा है!\n"
@@ -17763,7 +17735,6 @@ msgid "Evolution can not start."
 msgstr "एवोल्यूशन आरंभ नहीं कर सकता."
 
 #: ../shell/shell.error.xml.h:5
-#, fuzzy
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
@@ -17780,7 +17751,6 @@ msgid "Really delete old data?"
 msgstr "वास्तव में पुराने आंकड़ों को मिटाना चाहते हैं?"
 
 #: ../shell/shell.error.xml.h:9
-#, fuzzy
 msgid ""
 "The entire contents of the &quot;evolution&quot; directory are about to be "
 "permanently removed.\n"
@@ -17796,12 +17766,11 @@ msgstr ""
 "है.\n"
 "\n"
 "यह सलाह दी जाती है कि आप दस्ती रूप से जांचें कि आपके सारे मेल, संपर्क, औऱ कैलेंडर आंकड़ा मौजूद "
-"है, औरएवोल्यूशन का यह संस्कऱण इस पुराने आंकड़े को मिटाने के पहले ठीक से चलता है.\n"
+"है, और एवोल्यूशन का यह संस्कऱण इस पुराने आंकड़े को मिटाने के पहले ठीक से चलता है.\n"
 "\n"
 "मिटाने पर, आप एवोल्यूशन के पिछले संस्करण पर बिना दस्ती हस्तक्षेप के पदावनत नहीं हो सकते.\n"
 
 #: ../shell/shell.error.xml.h:15
-#, fuzzy
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -17812,8 +17781,8 @@ msgid ""
 msgstr ""
 "एवोल्यूशन का पिछला संस्करण अलग स्थान में आंकड़ा भंडारित रखता है.\n"
 "\n"
-"अगर आप इस आंकड़े को हटाना चाहते हैं, &quot;evolution&quot; निर्देशिका का सारा सामग्री "
-"स्थायी रूप से हटा दी जायेगी.  अगर आफ इस आंकडे को रखना चाहते है, तो आप दस्ती रूप से "
+"अगर आप इस आंकड़े को हटाना चाहते हैं, &quot;evolution&quot; निर्देशिका की सारी सामग्री "
+"स्थायी रूप से हटा दी जायेगी.  अगर आप इस आंकडे को रखना चाहते है, तो आप दस्ती रूप से "
 "&quot;evolution&quot; की सामग्री को अपनी सुविधानुसार हटा सकते हैं.\n"
 
 #: ../shell/shell.error.xml.h:19
@@ -17821,7 +17790,6 @@ msgid "Upgrade from previous version failed: {0}"
 msgstr "पूर्ववर्ती संस्करण से श्रेणीविस्तार असफल: {0}"
 
 #: ../shell/shell.error.xml.h:20
-#, fuzzy
 msgid ""
 "Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
@@ -17829,7 +17797,7 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"आपके आंकडे को उन्नत कर रहा है और जमावट को {0} डिस्क स्थान की जरूरत है, लेकिन आपके पास "
+"आपके आंकडें को उन्नत कर रहा है और जमावट को {0} डिस्क स्थान की जरूरत है, लेकिन आपके पास "
 "सिर्फ {1} उपलब्ध है.\n"
 "\n"
 "जारी रखने के पहले आपको आपके घर निर्देशिका में ज्यादा स्थान चाहिये."
@@ -18410,9 +18378,8 @@ msgid "Copy Selected Contacts to Another Folder..."
 msgstr "अन्य फोल्डर में चयनित संपर्क(र्कों) को कापी करें..."
 
 #: ../ui/evolution-addressbook.xml.h:8
-#, fuzzy
 msgid "Copy the contacts of the selected folder into another folder"
-msgstr "चयनित संदेशों की प्रतिलिपि दूसरे फोल्डर में डालें"
+msgstr "चयनित फोल्डर के संपर्क को दूसरे फोल्डर में कॉपी करें"
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -18461,9 +18428,8 @@ msgid "Move Selected Contacts to Another Folder..."
 msgstr "चयनित संपर्क(र्कों) को दूसरे फोल्डर में विस्थापित करें..."
 
 #: ../ui/evolution-addressbook.xml.h:21
-#, fuzzy
 msgid "Move the contacts of the selected folder into another folder"
-msgstr "चयनित फोल्डर को दूसरे फोल्डर में खिसकाएँ"
+msgstr "चयनित फोल्डर के संपर्क को दूसरे फोल्डर में खिसकाएँ"
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
@@ -18492,18 +18458,16 @@ msgid "Rename the selected folder"
 msgstr "चयनित फोल्डर का पुनर्नामकरण करें:"
 
 #: ../ui/evolution-addressbook.xml.h:30
-#, fuzzy
 msgid "S_ave Address Book As VCard"
-msgstr "नया पता पुस्तिका"
+msgstr "वी कार्ड के रूप में पता पुस्तिका सहेजें (_a)"
 
 #: ../ui/evolution-addressbook.xml.h:32
 msgid "Save selected contacts as a VCard."
 msgstr "Vकार्ड के रूप में चयनित संपर्क को संग्रहित करें."
 
 #: ../ui/evolution-addressbook.xml.h:33
-#, fuzzy
 msgid "Save the contacts of the selected folder as VCard"
-msgstr "Vकार्ड के रूप में चयनित संपर्क को संग्रहित करें."
+msgstr "Vकार्ड के रूप में चयनित फोल्डर सहेजें."
 
 #: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2727
 msgid "Select All"
@@ -18561,47 +18525,40 @@ msgid "_Copy Contact to..."
 msgstr "संपर्क यहां कापी करें (_C)..."
 
 #: ../ui/evolution-addressbook.xml.h:48
-#, fuzzy
 msgid "_Copy Folder Contacts To"
-msgstr "फोल्डर इसमें कापी करें (_C)..."
+msgstr "फोल्डर संपर्क इसमें कापी करें (_C)"
 
 #: ../ui/evolution-addressbook.xml.h:50
-#, fuzzy
 msgid "_Delete Contact"
-msgstr "संपर्क (_C)"
+msgstr "संपर्क मिटायें (_D)"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
 msgstr "संपर्क अग्रसारित करें (_F)..."
 
 #: ../ui/evolution-addressbook.xml.h:53
-#, fuzzy
 msgid "_Move Contact to..."
-msgstr "संपर्क को यहां खिसकायें"
+msgstr "संपर्क को यहां खिसकायें (_M)..."
 
 #: ../ui/evolution-addressbook.xml.h:54
-#, fuzzy
 msgid "_Move Folder Contacts To"
-msgstr "फोल्डर इसमें विस्थापित करें (_M)..."
+msgstr "फोल्डर सामग्री इसमें ले जायें (_M)"
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:47
 msgid "_New"
 msgstr "नया (_N)"
 
 #: ../ui/evolution-addressbook.xml.h:60
-#, fuzzy
 msgid "_Rename"
 msgstr "नाम बदलें (_R)"
 
 #: ../ui/evolution-addressbook.xml.h:61
-#, fuzzy
 msgid "_Save Contact as VCard..."
-msgstr "वीकार्ड के रुप में संग्रहित करें (_S)..."
+msgstr "वीकार्ड के रुप में संपर्क सहेजें (_S)..."
 
 #: ../ui/evolution-addressbook.xml.h:62
-#, fuzzy
 msgid "_Save Folder Contacts As VCard"
-msgstr "Vकार्ड के रूप में चयनित संपर्क को संग्रहित करें."
+msgstr "Vकार्ड के रूप में फोल्डर संपर्क सहेजें (_S)"
 
 #: ../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
@@ -18612,12 +18569,10 @@ msgid "Day"
 msgstr "दिन"
 
 #: ../ui/evolution-calendar.xml.h:6
-#, fuzzy
 msgid "Delete _all Occurrences"
-msgstr "सभी आवृत्तियों को मिटाएँ (_A)"
+msgstr "सभी आवृत्तियों को मिटाएँ (_a)"
 
 #: ../ui/evolution-calendar.xml.h:7
-#, fuzzy
 msgid "Delete all occurrences"
 msgstr "सभी आवृत्तियों को मिटाएँ"
 
@@ -18732,18 +18687,16 @@ msgid "Copy selected text to the clipboard"
 msgstr "क्लिपबोर्ड से चयनित पाठ की प्रतिलिपि लें"
 
 #: ../ui/evolution-composer-entries.xml.h:3
-#, fuzzy
 msgid "Copy selection to clipboard"
-msgstr "चुने हुए की प्रति क्लिपबोर्ड पर बनाएँ"
+msgstr "क्लिपबोर्ड पर चयन कॉपी करें"
 
 #: ../ui/evolution-composer-entries.xml.h:6 ../ui/evolution-editor.xml.h:9
 msgid "Cut selected text to the clipboard"
 msgstr "क्लिपबोर्ड से चयनित पाठ काटें"
 
 #: ../ui/evolution-composer-entries.xml.h:7
-#, fuzzy
 msgid "Cut selection to clipboard"
-msgstr "काटो चुने हुए को क्लिपबोर्ड पर काटो"
+msgstr "क्लिपबोर्ड पर अपना चयन काटें"
 
 #: ../ui/evolution-composer-entries.xml.h:9
 msgid "Paste from clipboard"
@@ -18774,9 +18727,8 @@ msgid "Click here to save the current window"
 msgstr "मौजूदा विंडो सहेजने के लिये यहां क्लिक करें"
 
 #: ../ui/evolution-editor.xml.h:5
-#, fuzzy
 msgid "Click here to view help available"
-msgstr "<तिथि के चयन के लिए यहां क्लिक करें>"
+msgstr "उपलब्ध मदद देखने के लिये यहां क्लिक करें"
 
 #.
 #. <cmd name="FileSave" _label="Save"
@@ -18842,19 +18794,16 @@ msgid "Classify as public"
 msgstr "सार्वजनिक रूप में वर्गीकृत करें"
 
 #: ../ui/evolution-event-editor.xml.h:7
-#, fuzzy
 msgid "Click here to set or unset alarms for this event"
-msgstr "इसे प्रेषित करने हेतु फोल्डर चयन के लिए यहीं क्लिक करें"
+msgstr "इस घटना के लिये एलार्म सेट करने व नहीं करने के लिए यहां क्लिक करें"
 
 #: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
-#, fuzzy
 msgid "Insert advanced send options"
-msgstr "उन्नत प्रेषण विकल्प (_v)"
+msgstr "उन्नत प्रेषण विकल्प डालें"
 
 #: ../ui/evolution-event-editor.xml.h:10
-#, fuzzy
 msgid "Make this a recurring event"
-msgstr "इस आवृत्ति को भ्रमण योग्य बनायें (_M)"
+msgstr "इसे बारंबार होने वाली घटना बनायें"
 
 #: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-memo-editor.xml.h:4
 #: ../ui/evolution-task-editor.xml.h:6
@@ -18862,9 +18811,8 @@ msgid "Pu_blic"
 msgstr "सार्वजनिक (_b)"
 
 #: ../ui/evolution-event-editor.xml.h:12
-#, fuzzy
 msgid "Query free / busy information for the attendees"
-msgstr "इस कैलेंडर रिक्त/व्यस्त सूचना प्रकाशित करें"
+msgstr "उपस्थित व्यक्ति के लिये रिक्त/व्यस्त सूचना प्रश्नगत करें"
 
 #: ../ui/evolution-event-editor.xml.h:13 ../ui/evolution-task-editor.xml.h:7
 msgid "R_ole Field"
@@ -18879,45 +18827,37 @@ msgid "Time _Zone"
 msgstr "समय क्षेत्र (_Z)"
 
 #: ../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:12
-#, fuzzy
 msgid "Toggles whether the Attendee Type field is displayed"
-msgstr "यदि प्रति क्षेत्र को प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या उपस्थित व्यक्ति प्रकार श्रेत्र दिखाया गया है"
 
 #: ../ui/evolution-event-editor.xml.h:19 ../ui/evolution-task-editor.xml.h:13
-#, fuzzy
 msgid "Toggles whether the RSVP field is displayed"
-msgstr "यदि CC क्षेत्र प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या RSVP श्रेत्र दिखाया गया है"
 
 #: ../ui/evolution-event-editor.xml.h:20 ../ui/evolution-task-editor.xml.h:14
-#, fuzzy
 msgid "Toggles whether the Role field is displayed"
-msgstr "यदि प्रति क्षेत्र को प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या भूमिका श्रेत्र दिखाया गया है"
 
 #: ../ui/evolution-event-editor.xml.h:21 ../ui/evolution-task-editor.xml.h:15
-#, fuzzy
 msgid "Toggles whether the Status field is displayed"
-msgstr "यदि प्रति क्षेत्र को प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या प्रस्थिति श्रेत्र दिखाना गया है"
 
 #: ../ui/evolution-event-editor.xml.h:22 ../ui/evolution-task-editor.xml.h:16
-#, fuzzy
 msgid "Toggles whether the time zone is displayed"
-msgstr "यदि प्रेषक चयनकर्ता प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या समय क्षेत्र दिखाना है"
 
 #: ../ui/evolution-event-editor.xml.h:23 ../ui/evolution-memo-editor.xml.h:5
 #: ../ui/evolution-task-editor.xml.h:17
-#, fuzzy
 msgid "Toggles whether to display categories"
-msgstr "यदि प्रति क्षेत्र को प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या श्रेणी दिखाना है"
 
 #: ../ui/evolution-event-editor.xml.h:24
-#, fuzzy
 msgid "Toggles whether to have All Day Event"
-msgstr "यदि CC क्षेत्र प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या सारे दिन की घटना रखना है"
 
 #: ../ui/evolution-event-editor.xml.h:25
-#, fuzzy
 msgid "Toggles whether to show time as busy"
-msgstr "यदि प्रति क्षेत्र को प्रदर्शित है तो टागल करें"
+msgstr "टॉगल करें कि क्या समय व्यस्त दिखाना है"
 
 #: ../ui/evolution-event-editor.xml.h:26
 msgid "_Alarms"
@@ -18960,9 +18900,8 @@ msgid "_Status Field"
 msgstr "प्रस्थिति क्षेत्र (_S)"
 
 #: ../ui/evolution-event-editor.xml.h:35 ../ui/evolution-task-editor.xml.h:26
-#, fuzzy
 msgid "_Type Field"
-msgstr "प्रति क्षेत्र (_T)"
+msgstr "प्रकार क्षेत्र (_T)"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -19011,14 +18950,12 @@ msgid "Show Message _Preview"
 msgstr "संदेश पूर्वावलोकन दिखायें (_P)"
 
 #: ../ui/evolution-mail-global.xml.h:14
-#, fuzzy
 msgid "Show message preview below the message list"
-msgstr "संदेश सूची में विलोपित संदेशों को दिखाएं"
+msgstr "संदेश सूची के नीचे संदेश पूर्वावलोकन दिखाता है"
 
 #: ../ui/evolution-mail-global.xml.h:15
-#, fuzzy
 msgid "Show message preview side-by-side with the message list"
-msgstr "संदेश सूची में विलोपित संदेशों को दिखाएं"
+msgstr "संदेश सूची के साथ किनारे व किनारे संदेश पूर्वावलोकन दिखाता है"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview window"
@@ -19072,14 +19009,12 @@ msgid "Change the properties of this folder"
 msgstr "इस फोल्डर की गुणों में परिवर्तन करें"
 
 #: ../ui/evolution-mail-list.xml.h:3
-#, fuzzy
 msgid "Collapse All _Threads"
-msgstr "थ्रेड से समूह (_T)"
+msgstr "सारे थ्रेड का निपात (_T)"
 
 #: ../ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Collapse all message threads"
-msgstr "सभी संदेश को पढ़े जा चुके के रूप में चिह्नित करें"
+msgstr "सभी संदेश का निपात करें"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
@@ -19393,9 +19328,8 @@ msgid "Mark the selected messages for deletion"
 msgstr "चयनित संदेशों को मिटाने के लिये चिह्नित करें"
 
 #: ../ui/evolution-mail-message.xml.h:57
-#, fuzzy
 msgid "Move selected messages to another folder"
-msgstr "चयनित संदेश(शों) को दूसरे फोल्डर में खिसकाएँ"
+msgstr "चयनित संदेश को दूसरे फोल्डर में खिसकाएँ"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Next _Important Message"
@@ -19418,12 +19352,10 @@ msgid "Open a window for composing a mail message"
 msgstr "एक डाक संदेश के लिए एक विंडो खोलें"
 
 #: ../ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Open the selected messages in a new window"
 msgstr "चयनित संदेश को नए विंडो में खोलें"
 
 #: ../ui/evolution-mail-message.xml.h:65
-#, fuzzy
 msgid "Open the selected messages in the composer for editing"
 msgstr "चयनित संदेश को कंपोजर में संपादन के लिए खोलें"
 
@@ -19476,9 +19408,8 @@ msgid "Reset the text to its original size"
 msgstr "अपने मूल आकार में पाठ को पुन: व्यवस्थित करें"
 
 #: ../ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Save the selected messages as a text file"
-msgstr "पाठ संचिका के रूप में संदेश को संग्रहित करें"
+msgstr "पाठ फाइल के रूप में संदेश सहेजता है"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -19657,9 +19588,8 @@ msgid "Paste memo from the clipboard"
 msgstr "क्लिपबोर्ड से मेमो चिपकाएँ"
 
 #: ../ui/evolution-memos.xml.h:10
-#, fuzzy
 msgid "Previews the list of memos to be printed"
-msgstr "मुद्रित की जाने वाली कार्यों की सूची का पूर्वावलोकन करें"
+msgstr "छापी जाने वाली मेमो सूची का पूर्वावलोकन देता है"
 
 #: ../ui/evolution-memos.xml.h:13
 msgid "Print the list of memos"
@@ -19705,9 +19635,8 @@ msgid "For_mat"
 msgstr "प्रारूप (_m)"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "Get delivery notification when your message is read"
-msgstr "संदेश पढ़े जाने पर प्राप्त सूचना को जानने के लिये जांचें"
+msgstr "संदेश पढ़े जाने पर प्राप्त सूचना पायें"
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
@@ -20194,9 +20123,8 @@ msgid "_Work Week View"
 msgstr "कार्य सप्ताह दृश्य (_W)"
 
 #: ../views/mail/galview.xml.h:1
-#, fuzzy
 msgid "As Sent Folder for Wi_de View"
-msgstr "प्रेषित फोल्डर के रूप में (_S)"
+msgstr "विस्तृत दृश्य के लिये प्रेषित फोल्डर के रूप में (_d)"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
