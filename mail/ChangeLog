@@ -1,3 +1,9 @@
+2006-08-29  Li Yuan <li.yuan@sun.com>
+
+	* em-folder-browser.c: (em_folder_browser_show_preview):
+	remove GNUC only macro.
+	Fix for #353344.
+
 2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #352982 and bug #336983

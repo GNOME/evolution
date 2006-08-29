@@ -645,7 +645,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		gtk_widget_hide(emfb->priv->preview);
 		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);		
 		emfb->priv->scope_restricted = TRUE;
-		printf("%s(%d):%s: TRUE\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 		/*
 		mail_display_set_message (emfb->mail_display, NULL, NULL, NULL);
 		emfb_ui_message_loaded (emfb);*/
