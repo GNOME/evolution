@@ -1279,12 +1279,15 @@ open_alarm_dialog (TrayIconData *tray_data)
 		if (tray_blink_id > -1)
 			g_source_remove (tray_blink_id);
 		tray_blink_id = -1;
-		
-		gtk_widget_destroy (GTK_WIDGET (tray_icon));
-		tray_icon = NULL;
+
 #ifndef USE_GTK_STATUS_ICON
+		gtk_widget_destroy (GTK_WIDGET (tray_icon));			
 		tray_image = NULL;
+#else
+		g_object_unref (tray_icon);
 #endif
+		tray_icon = NULL;
+
 		if (!alarm_notifications_dialog)
 			alarm_notifications_dialog = notified_alarms_dialog_new ();
 		
@@ -1333,11 +1336,15 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 				g_source_remove (tray_blink_id);
 			tray_blink_id = -1;
 			
-			gtk_widget_destroy (GTK_WIDGET (tray_icon));
-			tray_icon = NULL;
+			
+
 #ifndef USE_GTK_STATUS_ICON
+			gtk_widget_destroy (GTK_WIDGET (tray_icon));			
 			tray_image = NULL;
+#else
+			g_object_unref (tray_icon);
 #endif
+			tray_icon = NULL;			
 			return TRUE;
 		}
 	}

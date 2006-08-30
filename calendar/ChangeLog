@@ -1,3 +1,10 @@
+2006-08-30  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fix for bug #344463
+
+	* gui/alarm-notify/alarm-queue.c: (open_alarm_dialog),
+	(tray_icon_clicked_cb): Use unref to remove GtkStatusIcon.
+
 2006-08-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-cal-model-memos.c: (ecmm_fill_component_from_model):
