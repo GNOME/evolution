@@ -1,3 +1,4 @@
+# translation of bn_IN.po to Bengali India
 # Translation of evolution to Bengali India
 # This file is distributed under the same license as the Evolution package.
 # Copyright (C) 2004 Free Software Foundation
@@ -15,7 +16,7 @@ msgstr ""
 "Project-Id-Version: bn_IN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-29 07:34+0200\n"
-"PO-Revision-Date: 2006-08-30 22:10+0530\n"
+"PO-Revision-Date: 2006-08-31 19:36+0530\n"
 "Last-Translator: Runa Bhattacharjee <runabh@gmail.com>\n"
 "Language-Team: Bengali India\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +98,7 @@ msgstr ""
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
-msgstr "নতুন সাক্ষাত্‍কার"
+msgstr "নতুন সাক্ষাৎকার"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "New All Day Event"
@@ -863,7 +864,7 @@ msgstr "বৈশিষ্ট্যাবলী...(_P)"
 
 #: ../addressbook/gui/component/addressbook-view.c:1343
 msgid "Contact Source Selector"
-msgstr "পরিচিতির উত্‍‌স নির্বাচক"
+msgstr "পরিচিতির উৎ‌স নির্বাচক"
 
 #: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
@@ -1164,7 +1165,7 @@ msgid ""
 msgstr ""
 "এলড্যাপ (LDAP) সার্ভারের এই পোর্টটিতে Evolution সংযুক্ত হওয়ার চেষ্টা করবে। প্রমিত "
 "(Standard) পোর্টসমূহের একটি তালিকা প্রদান করা হল। কোন পোর্টটি আপনার উল্লেখ করা "
-"উচিত্‍তা জানতে হলে আপনার সিস্টেম অ্যাডমিনস্ট্রেটরকে জিজ্ঞাসা করুন।"
+"উচিৎতা জানতে হলে আপনার সিস্টেম অ্যাডমিনস্ট্রেটরকে জিজ্ঞাসা করুন।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
@@ -2551,7 +2552,7 @@ msgstr "গ্রুপওযাইস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:261
 msgid "Source Book"
-msgstr "উত্‍স বই"
+msgstr "উৎস বই"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:268
 msgid "Target Book"
@@ -2937,7 +2938,7 @@ msgstr "কার্ড পরিবর্তন করতে সমস্যা
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:236
 msgid "Source"
-msgstr "উত্‍স"
+msgstr "উৎস"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:250
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
@@ -3981,7 +3982,7 @@ msgstr "কাগজ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
-msgstr "কাগজের উত্‍স:"
+msgstr "কাগজের উৎস:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
@@ -4151,7 +4152,7 @@ msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
 msgstr ""
-"আপনার সাক্ষাত্‍‌কারের বোধগম্য সারসংক্ষেপ উল্লেখ করা থাকলে অন্তর্ভুক্ত বস্তু সম্পর্কে "
+"আপনার সাক্ষাৎ‌কারের বোধগম্য সারসংক্ষেপ উল্লেখ করা থাকলে অন্তর্ভুক্ত বস্তু সম্পর্কে "
 "প্রাপকরা জানতে সক্ষম হবেন।"
 
 #: ../calendar/calendar.error.xml.h:2
@@ -4206,7 +4207,7 @@ msgstr "আপনি কি '{0}' কর্ম-টি নিশ্চিতর�
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "আপনি কি '{0}' দ্বারা উল্লিখিত সাক্ষাত্‍কারটি নিশ্চিতরূপে মুছে ফেলতে ইচ্ছুক?"
+msgstr "আপনি কি '{0}' দ্বারা উল্লিখিত সাক্ষাৎকারটি নিশ্চিতরূপে মুছে ফেলতে ইচ্ছুক?"
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the journal entry '{0}'?"
@@ -4214,7 +4215,7 @@ msgstr "আপনি কি সাময়িকী এন্ট্রি '{0}'-�
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "আপনি কি {0} সাক্ষাত্‍কারগুলি নিশ্চিতরূপে মুছে ফেলতে ইচ্ছুক?"
+msgstr "আপনি কি {0} সাক্ষাৎকারগুলি নিশ্চিতরূপে মুছে ফেলতে ইচ্ছুক?"
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete these {0} journal entries?"
@@ -4226,7 +4227,7 @@ msgstr "আপনি কি এই {0} কাজগুলি নিশ্চি�
 
 #: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete this appointment?"
-msgstr "আপনি কি নিশ্চিতরূপে এই সাক্ষাত্‍কারটি মুছে ফেলতে ইচ্ছুক?"
+msgstr "আপনি কি নিশ্চিতরূপে এই সাক্ষাৎকারটি মুছে ফেলতে ইচ্ছুক?"
 
 #: ../calendar/calendar.error.xml.h:18
 #: ../calendar/gui/dialogs/delete-comp.c:189
@@ -4245,7 +4246,7 @@ msgstr "আপনি কি নিশ্চিতরূপে এই কর্�
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "আপনি কি নিশ্চিতরূপে সারসংক্ষেপ বিনা সাক্ষাত্‍‌কার প্রেরণ করতে ইচ্ছুক?"
+msgstr "আপনি কি নিশ্চিতরূপে সারসংক্ষেপ বিনা সাক্ষাৎ‌কার প্রেরণ করতে ইচ্ছুক?"
 
 #: ../calendar/calendar.error.xml.h:22
 msgid "Are you sure you want to send the task without a summary?"
@@ -4273,7 +4274,7 @@ msgstr "প্রেরণ করা হবে না (_n)"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Download in progress. Do you want to save the appointment?"
-msgstr "ডাউনলোড কর্ম বর্তমানে চলমান। আপনি কি সাক্ষাত্‍‌কার সংরক্ষণ করতে ইচ্ছুক?"
+msgstr "ডাউনলোড কর্ম বর্তমানে চলমান। আপনি কি সাক্ষাৎ‌কার সংরক্ষণ করতে ইচ্ছুক?"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Download in progress. Do you want to save the task?"
@@ -4352,8 +4353,8 @@ msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr ""
-"সংযুক্ত কয়েকটি বস্তু ডাউনলোড করা হচ্ছে। সাক্ষাত্‍‌কার সংরক্ষণ করা হলে অসমাপ্ত ডাউনলোড "
-"হওয়া বস্তুগুলি সাক্ষাত্‍‌কারের সাথে সংরক্ষিত হবে না।"
+"সংযুক্ত কয়েকটি বস্তু ডাউনলোড করা হচ্ছে। সাক্ষাৎ‌কার সংরক্ষণ করা হলে অসমাপ্ত ডাউনলোড "
+"হওয়া বস্তুগুলি সাক্ষাৎ‌কারের সাথে সংরক্ষিত হবে না।"
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
@@ -4407,7 +4408,7 @@ msgstr "কর্মতালিকা স্থায়ীরূপে মুছ�
 
 #: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to save your changes to this appointment?"
-msgstr "আপনি কি এই সাক্ষাত্‍কারে করা পরিবর্তনগুলি সংরক্ষণ করতে ইচ্ছুক?"
+msgstr "আপনি কি এই সাক্ষাৎকারে করা পরিবর্তনগুলি সংরক্ষণ করতে ইচ্ছুক?"
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this memo?"
@@ -4459,7 +4460,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this appointment, but not yet saved it."
-msgstr "আপনি এই সাক্ষাত্‍কারে কিছু পরিবর্তন করেছেন, কিন্তু সেগুলি সংরক্ষণ করেননি।"
+msgstr "আপনি এই সাক্ষাৎকারে কিছু পরিবর্তন করেছেন, কিন্তু সেগুলি সংরক্ষণ করেননি।"
 
 #: ../calendar/calendar.error.xml.h:65
 msgid "You have changed this task, but not yet saved it."
@@ -4662,7 +4663,7 @@ msgstr "আরম্ভের সময়"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
-msgstr "সাক্ষাত্‍কার"
+msgstr "সাক্ষাৎকার"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
@@ -4698,7 +4699,7 @@ msgstr "ঘুম (_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
-msgstr "সাক্ষাত্‍কারের স্থান"
+msgstr "সাক্ষাৎকারের স্থান"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1448
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1594
@@ -4844,7 +4845,7 @@ msgstr "যে সমস্ত দিনে কর্ম আরম্ভ ও শ
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
-msgstr "ডিফল্ট সাক্ষাত্‍‌কার তাগাদাব্যবস্থা"
+msgstr "ডিফল্ট সাক্ষাৎ‌কার তাগাদাব্যবস্থা"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
@@ -4892,11 +4893,11 @@ msgstr "অনুভূমিক পেইনের অবস্থান"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr "দিনের কাজ যে সময় সমাপ্ত হবে, চব্বিশ ঘন্টার বিন্যাসে অর্থাত্‍‌ ০ থেকে ২৩।"
+msgstr "দিনের কাজ যে সময় সমাপ্ত হবে, চব্বিশ ঘন্টার বিন্যাসে অর্থাৎ‌ ০ থেকে ২৩।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr "দিনের কাজ যে সময় আরম্ভ হবে, চব্বিশ ঘন্টার বিন্যাসে অর্থাত্‍‌ ০ থেকে ২৩।"
+msgstr "দিনের কাজ যে সময় আরম্ভ হবে, চব্বিশ ঘন্টার বিন্যাসে অর্থাৎ‌ ০ থেকে ২৩।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Intervals shown in Day and Work Week views, in minutes."
@@ -5010,7 +5011,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Show appointment end times in week and month views"
-msgstr "সাপ্তাহিক ও মাস অনুসারে প্রদর্শনক্ষেত্রে সাক্ষাত্‍‌কার সমাপ্তির সময় প্রদর্শন করা হবে।"
+msgstr "সাপ্তাহিক ও মাস অনুসারে প্রদর্শনক্ষেত্রে সাক্ষাৎ‌কার সমাপ্তির সময় প্রদর্শন করা হবে।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 msgid "Show categories field in the event/meeting/task editor"
@@ -5141,7 +5142,7 @@ msgstr "কর্ম অনুযায়ী প্রদর্শনক্ষে�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
 msgid "Whether to set a default reminder for appointments."
-msgstr "সাক্ষাত্‍‌কারের জন্য একটি ডিফল্ট তাগাদা নির্ধারণ করা হবে কি না।"
+msgstr "সাক্ষাৎ‌কারের জন্য একটি ডিফল্ট তাগাদা নির্ধারণ করা হবে কি না।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
 msgid "Whether to show RSVP field in the event/task/meeting editor"
@@ -5296,19 +5297,19 @@ msgstr "অনুষ্ঠান এবং সভা তৈরি করার �
 
 #: ../calendar/gui/calendar-component.c:1336
 msgid "Calendar Source Selector"
-msgstr "বর্ষপঞ্জির উত্‍‌স নির্বাচক"
+msgstr "বর্ষপঞ্জির উৎ‌স নির্বাচক"
 
 #: ../calendar/gui/calendar-component.c:1544
 msgid "New appointment"
-msgstr "নতুন সাক্ষাত্‍কার"
+msgstr "নতুন সাক্ষাৎকার"
 
 #: ../calendar/gui/calendar-component.c:1545
 msgid "_Appointment"
-msgstr "সাক্ষাত্‍কার (_A)"
+msgstr "সাক্ষাৎকার (_A)"
 
 #: ../calendar/gui/calendar-component.c:1546
 msgid "Create a new appointment"
-msgstr "একটি নতুন সাক্ষাত্‍কার তৈরি করুন"
+msgstr "একটি নতুন সাক্ষাৎকার তৈরি করুন"
 
 #: ../calendar/gui/calendar-component.c:1552
 msgid "New meeting"
@@ -5324,15 +5325,15 @@ msgstr "একটি নতুন সভার আবেদন তৈরি ক�
 
 #: ../calendar/gui/calendar-component.c:1560
 msgid "New all day appointment"
-msgstr "নতুন সারাদিনব্যাপী সাক্ষাত্‍কার"
+msgstr "নতুন সারাদিনব্যাপী সাক্ষাৎকার"
 
 #: ../calendar/gui/calendar-component.c:1561
 msgid "All Day A_ppointment"
-msgstr "সারাদিনব্যাপী সাক্ষাত্‍কার (_p)"
+msgstr "সারাদিনব্যাপী সাক্ষাৎকার (_p)"
 
 #: ../calendar/gui/calendar-component.c:1562
 msgid "Create a new all-day appointment"
-msgstr "একটি নতুন সারাদিনব্যাপী সাক্ষাত্‍কার তৈরি করুন"
+msgstr "একটি নতুন সারাদিনব্যাপী সাক্ষাৎকার তৈরি করুন"
 
 #: ../calendar/gui/calendar-component.c:1568
 msgid "New calendar"
@@ -5468,7 +5469,7 @@ msgstr "দিন"
 # FIXME
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21
 msgid "end of appointment"
-msgstr "সাক্ষাত্‍কারের সমাপ্তি"
+msgstr "সাক্ষাৎকারের সমাপ্তি"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "extra times every"
@@ -5484,7 +5485,7 @@ msgstr "মিনিট"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 msgid "start of appointment"
-msgstr "সাক্ষাত্‍কারের শুরু"
+msgstr "সাক্ষাৎকারের শুরু"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
@@ -5638,7 +5639,7 @@ msgstr "শনিবার"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Select the calendars for alarm notification"
-msgstr ""
+msgstr "সতর্কবার্তা প্রদানের জন্য বর্ষপঞ্জি নির্বাচন করুন"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Sh_ow a reminder"
@@ -5748,7 +5749,7 @@ msgstr "শনি (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
-msgstr "সপ্তাহ ও মাস অনুযায়ী প্রদর্শন ক্ষেত্রে সাক্ষাত্‍কার সমাপ্তির সময় প্রদর্শন করা হবে (_S)"
+msgstr "সপ্তাহ ও মাস অনুযায়ী প্রদর্শন ক্ষেত্রে সাক্ষাৎকার সমাপ্তির সময় প্রদর্শন করা হবে (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
 msgid "_Time divisions:"
@@ -5766,7 +5767,7 @@ msgstr "বুধ (_W)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
-msgstr "প্রতি সাক্ষাত্‍কারের পূর্বে"
+msgstr "প্রতি সাক্ষাৎকারের পূর্বে"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:288
 msgid "Cop_y calendar contents locally for offline operation"
@@ -5999,7 +6000,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2100
 #: ../calendar/gui/dialogs/comp-editor.c:2143
 msgid "Edit Appointment"
-msgstr "সাক্ষাত্‍কার সম্পাদন করুন"
+msgstr "সাক্ষাৎকার সম্পাদন করুন"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2106
 #: ../calendar/gui/dialogs/comp-editor.c:2149
@@ -6011,7 +6012,7 @@ msgstr "সভা - %s"
 #: ../calendar/gui/dialogs/comp-editor.c:2151
 #, c-format
 msgid "Appointment - %s"
-msgstr "সাক্ষাত্‍কার - %s"
+msgstr "সাক্ষাৎকার - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2112
 #: ../calendar/gui/dialogs/comp-editor.c:2155
@@ -6133,7 +6134,7 @@ msgstr "প্রতিনিধির নাম লিখুন"
 
 #: ../calendar/gui/dialogs/event-editor.c:564
 msgid "Appoint_ment"
-msgstr "সাক্ষাত্‍কার(_m)"
+msgstr "সাক্ষাৎকার(_m)"
 
 #: ../calendar/gui/dialogs/event-editor.c:568
 #: ../ui/evolution-event-editor.xml.h:14
@@ -6218,23 +6219,23 @@ msgstr "'%s' বর্ষপঞ্জিটি খোলা যায়নি।"
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "সাক্ষাত্‍কারের পূর্বে %d দিন"
-msgstr[1] "সাক্ষাত্‍কারের পূর্বে %d দিন"
+msgstr[0] "সাক্ষাৎকারের পূর্বে %d দিন"
+msgstr[1] "সাক্ষাৎকারের পূর্বে %d দিন"
 
 # FIXME
 #: ../calendar/gui/dialogs/event-page.c:2934
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "সাক্ষাত্‍কারের পূর্বে %d ঘন্টা"
-msgstr[1] "সাক্ষাত্‍কারের পূর্বে %d ঘন্টা"
+msgstr[0] "সাক্ষাৎকারের পূর্বে %d ঘন্টা"
+msgstr[1] "সাক্ষাৎকারের পূর্বে %d ঘন্টা"
 
 #: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "সাক্ষাত্‍কারের পূর্বে %d মিনিট"
-msgstr[1] "সাক্ষাত্‍কারের পূর্বে %d মিনিট"
+msgstr[0] "সাক্ষাৎকারের পূর্বে %d মিনিট"
+msgstr[1] "সাক্ষাৎকারের পূর্বে %d মিনিট"
 
 #: ../calendar/gui/dialogs/event-page.c:2953
 msgid "Customize"
@@ -6259,15 +6260,15 @@ msgstr "একটিও নয়"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
-msgstr "সাক্ষাত্‍কারের ১ দিন পূর্বে"
+msgstr "সাক্ষাৎকারের ১ দিন পূর্বে"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
-msgstr "সাক্ষাত্‍কারের ১ ঘন্টা পূর্বে"
+msgstr "সাক্ষাৎকারের ১ ঘন্টা পূর্বে"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
-msgstr "সাক্ষাত্‍কারের ১৫ মিনিট পূর্বে"
+msgstr "সাক্ষাৎকারের ১৫ মিনিট পূর্বে"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
@@ -6499,7 +6500,7 @@ msgstr "সমস্ত ইনস্ট্যান্স"
 #: ../calendar/gui/dialogs/recurrence-page.c:498
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
-"চিহ্নিত সাক্ষাত্‍‌কারের মধ্যে উপস্থিত পুনরাবৃত্তিকর বিষয়বস্ত Evolution-র দ্বারা সম্পাদন "
+"চিহ্নিত সাক্ষাৎ‌কারের মধ্যে উপস্থিত পুনরাবৃত্তিকর বিষয়বস্ত Evolution-র দ্বারা সম্পাদন "
 "করা সম্ভব নয়।"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:819
@@ -6625,7 +6626,7 @@ msgstr "প্রত্যেক"
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
-msgstr "চিহ্নিত সাক্ষাত্‍‌কার পুনরাবৃত্তি হয়(_u)"
+msgstr "চিহ্নিত সাক্ষাৎ‌কার পুনরাবৃত্তি হয়(_u)"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
@@ -8070,7 +8071,7 @@ msgstr "প্রদর্শনক্ষেত্র নির্ধারণ �
 #: ../calendar/gui/gnome-cal.c:2579
 #, c-format
 msgid "Loading appointments at %s"
-msgstr "%s-এর সাক্ষাত্‍কার লোড করা হচ্ছে"
+msgstr "%s-এর সাক্ষাৎকার লোড করা হচ্ছে"
 
 #: ../calendar/gui/gnome-cal.c:2598
 #, c-format
@@ -8235,7 +8236,7 @@ msgstr "কর্মসূচী তৈরি করার জন্য কো�
 
 #: ../calendar/gui/memos-component.c:983
 msgid "Memo Source Selector"
-msgstr "কর্মসূচী উত্‍‌স নির্বাচক"
+msgstr "কর্মসূচী উৎ‌স নির্বাচক"
 
 #: ../calendar/gui/memos-component.c:1166
 msgid "New memo"
@@ -8513,7 +8514,7 @@ msgstr "নির্বাচিত বছর (%Y)"
 
 #: ../calendar/gui/print.c:2317
 msgid "Appointment"
-msgstr "সাক্ষাত্‍কার"
+msgstr "সাক্ষাৎকার"
 
 #: ../calendar/gui/print.c:2319
 msgid "Task"
@@ -8588,7 +8589,7 @@ msgstr "কর্ম তৈরি করার জন্য কোনো বর�
 
 #: ../calendar/gui/tasks-component.c:987
 msgid "Task Source Selector"
-msgstr "কর্মের উত্‍‌স নির্বাচক"
+msgstr "কর্মের উৎ‌স নির্বাচক"
 
 #: ../calendar/gui/tasks-component.c:1170
 msgid "New task"
@@ -8649,7 +8650,7 @@ msgstr "SMTWTFS"
 
 #: ../calendar/importers/icalendar-importer.c:79
 msgid "Appointments and Meetings"
-msgstr "সাক্ষাত্‍কার এবং সভা"
+msgstr "সাক্ষাৎকার এবং সভা"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
@@ -9716,7 +9717,7 @@ msgstr "এশিয়া/ভ্লাডিভস্টক"
 
 #: ../calendar/zones.h:263
 msgid "Asia/Yakutsk"
-msgstr "এশিয়া/ইয়াকুত্‍স্ক"
+msgstr "এশিয়া/ইয়াকুৎস্ক"
 
 #: ../calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
@@ -10492,7 +10493,7 @@ msgstr "ডাউনলোড চলছে। আপনি কি মেইল �
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid "Error saving to autosave because &quot;{1}&quot;."
-msgstr "&quot;{1}&quot;-র কারণে অটোসেভে সংরক্ষণ করতে সমস্যা উত্‍‌পন্ন হয়েছে।"
+msgstr "&quot;{1}&quot;-র কারণে অটোসেভে সংরক্ষণ করতে সমস্যা উৎ‌পন্ন হয়েছে।"
 
 #: ../composer/mail-composer.error.xml.h:16
 msgid ""
@@ -10660,7 +10661,7 @@ msgstr ""
 
 #: ../designs/read_receipts/read.glade.h:5
 msgid "Always send back a read receipt"
-msgstr "সর্বদা মেইল-পাঠের সূচনা ফেরত্‍‌ পাঠানো হবে"
+msgstr "সর্বদা মেইল-পাঠের সূচনা ফেরৎ‌ পাঠানো হবে"
 
 #: ../designs/read_receipts/read.glade.h:6
 msgid "Ask me if I want to send back a read receipt"
@@ -12312,7 +12313,7 @@ msgstr "ফোল্ডার অনুসন্ধান করুন (_F)"
 
 #: ../mail/em-vfolder-rule.c:591
 msgid "Search Folder source"
-msgstr "অনুসন্ধান ফোল্ডারের উত্‍‌স"
+msgstr "অনুসন্ধান ফোল্ডারের উৎ‌স"
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
@@ -15031,7 +15032,7 @@ msgstr "আবহাওয়া: রোদ-ঝলমল"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr "আবহাওয়া: বজ্রবিদ্যুত্‍‌সহ ঝড়"
+msgstr "আবহাওয়া: বজ্রবিদ্যুৎ‌সহ ঝড়"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
 msgid "Select a location"
@@ -15098,7 +15099,7 @@ msgstr "ডিফল্ট ফোল্ডার হিসাবে চিহ্
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
-msgstr "ডিফল্ট উত্‌স "
+msgstr "ডিফল্ট উৎস "
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid ""
@@ -15760,7 +15761,7 @@ msgstr "প্রতিনিধি সংক্রান্ত তথ্য স
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 msgid "Unknown error looking up {0}"
-msgstr "{0} সংক্রান্ত তথ্য অনুসন্ধান করতে অজানা সমস্যা উত্‍‌পন্ন হয়েছে"
+msgstr "{0} সংক্রান্ত তথ্য অনুসন্ধান করতে অজানা সমস্যা উৎ‌পন্ন হয়েছে"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "Unknown error."
@@ -16162,12 +16163,12 @@ msgstr "'%s' বর্ষপঞ্জিটি লোড করতে ব্য�
 #: ../plugins/itip-formatter/itip-formatter.c:415
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "'%s' বর্ষপঞ্জির একটি সাক্ষাত্‌কার এই বৈঠকের সাথে একই সময়ে চিহ্নিত রয়েছে"
+msgstr "'%s' বর্ষপঞ্জির একটি সাক্ষাৎকার এই বৈঠকের সাথে একই সময়ে চিহ্নিত রয়েছে"
 
 #: ../plugins/itip-formatter/itip-formatter.c:441
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
-msgstr "'%s' বর্ষপঞ্জির মধ্যে সাক্ষাত্‌কার পাওয়া গিয়েছে"
+msgstr "'%s' বর্ষপঞ্জির মধ্যে সাক্ষাৎকার পাওয়া গিয়েছে"
 
 #: ../plugins/itip-formatter/itip-formatter.c:517
 msgid "Unable to find any calendars"
@@ -16175,7 +16176,7 @@ msgstr "বর্ষপঞ্জি সনাক্ত করতে ব্যর
 
 #: ../plugins/itip-formatter/itip-formatter.c:524
 msgid "Unable to find this meeting in any calendar"
-msgstr "কোনো বর্ষপঞ্জির মধ্যে এই সাক্ষাত্‌কার পাওয়া যায়নি"
+msgstr "কোনো বর্ষপঞ্জির মধ্যে এই সাক্ষাৎকার পাওয়া যায়নি"
 
 #: ../plugins/itip-formatter/itip-formatter.c:528
 msgid "Unable to find this task in any task list"
@@ -17004,7 +17005,7 @@ msgstr "মোনো লোডার"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "নতুন বার্তা প্রাপ্ত হলে D-BUS বার্তা উত্‍‌পন্ন করা হয়।"
+msgstr "নতুন বার্তা প্রাপ্ত হলে D-BUS বার্তা উৎ‌পন্ন করা হয়।"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 msgid "New Mail Notification"
@@ -17139,7 +17140,7 @@ msgstr "<span weight=\"bold\">অবস্থান</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr "<span weight=\"bold\">উত্‌স</span>"
+msgstr "<span weight=\"bold\">উৎস</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
 msgid ""
@@ -17357,11 +17358,11 @@ msgstr "গন্তব্য ফাইল নির্বাচন করুন
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
-msgstr "একটি উত্‍‌স নির্বাচন করুন"
+msgstr "একটি উৎ‌স নির্বাচন করুন"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 msgid "Selects a single calendar or task source for viewing."
-msgstr "প্রদর্শনের উদ্দেশ্যে একটি বর্ষপঞ্জি অথবা কর্মের উত্‍‌স নির্বাচন করে।"
+msgstr "প্রদর্শনের উদ্দেশ্যে একটি বর্ষপঞ্জি অথবা কর্মের উৎ‌স নির্বাচন করে।"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "Show _only this Calendar"
@@ -18765,7 +18766,7 @@ msgstr "সমস্ত উপস্থিতি মুছে ফেলুন"
 
 #: ../ui/evolution-calendar.xml.h:8
 msgid "Delete the appointment"
-msgstr "সাক্ষাত্‍কার মুছে ফেলুন"
+msgstr "সাক্ষাৎকার মুছে ফেলুন"
 
 #: ../ui/evolution-calendar.xml.h:10
 msgid "Delete this occurrence"
@@ -18868,7 +18869,7 @@ msgstr "কার্যসপ্তাহ"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
-msgstr "সাক্ষাত্‍কার খোলো(_O)"
+msgstr "সাক্ষাৎকার খোলো(_O)"
 
 #: ../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:7
 msgid "Copy selected text to the clipboard"
@@ -19142,9 +19143,8 @@ msgid "Show message preview below the message list"
 msgstr "বার্তা-তলিকায় নীচে বার্তা পূর্বপ্রদর্শন করা হবে"
 
 #: ../ui/evolution-mail-global.xml.h:15
-#, fuzzy
 msgid "Show message preview side-by-side with the message list"
-msgstr "বার্তা-তলিকায় মুছে-ফেলা বার্তা প্রদর্শন করা হবে"
+msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview window"
@@ -19155,18 +19155,16 @@ msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "দূরবর্তী সার্ভারে অবস্থিত ফোল্ডারে সাবস্ক্রাইব অথবা আনসাবস্ক্রাইব করুন"
 
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "_Classic View"
-msgstr "স্বনির্বাচিত প্রদর্শনক্ষেত্র(_C)"
+msgstr "পারম্পরিক প্রদর্শন(_C)"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "_Copy Folder To..."
 msgstr "ফোল্ডার কপি করার স্থান (_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:20
-#, fuzzy
 msgid "_Message Filters"
-msgstr "মেইলের ফিল্টার(_i)"
+msgstr "বার্তা ফিল্টার (_M)"
 
 #: ../ui/evolution-mail-global.xml.h:21
 msgid "_Move Folder To..."
@@ -19177,9 +19175,8 @@ msgid "_New..."
 msgstr "নতুন (_N)..."
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Preview"
-msgstr "পূর্বপ্রদর্শন:"
+msgstr "পূর্বপ্রদর্শন (_P)"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -19189,9 +19186,8 @@ msgid "_Subscriptions"
 msgstr "সাবস্ক্রিপশন(_S)"
 
 #: ../ui/evolution-mail-global.xml.h:28
-#, fuzzy
 msgid "_Vertical View"
-msgstr "সার্টিফিকেট প্রদর্শনকারী: %s"
+msgstr "উলম্ব দিয়ায় প্রদর্শন (_V)"
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the name of this folder"
@@ -19202,14 +19198,12 @@ msgid "Change the properties of this folder"
 msgstr "এই ফোল্ডারের বৈশিষ্ট্যাবলী পরিবর্তন করুন"
 
 #: ../ui/evolution-mail-list.xml.h:3
-#, fuzzy
 msgid "Collapse All _Threads"
-msgstr "থ্রেড অনুসারে দলভুক্ত করা হবে (_T)"
+msgstr "সব থ্রেড সংকুচিত করা হবে (_T)"
 
 #: ../ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Collapse all message threads"
-msgstr "সমস্ত বার্তা পড়া-হয়েছে হিসাবে চিহ্নিত করা হবে"
+msgstr "সমস্ত বার্তার থ্রেড সংকুচিত করা হবে"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
@@ -19222,16 +19216,15 @@ msgstr "নির্বাচিত বার্তা ক্লিপবোর�
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
-msgstr ""
+msgstr "সমস্ত থ্রেড প্রসারণ করা হবে (_x)"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
 msgstr "স্থায়ীরূপে বর্জন করুন (_x)"
 
 #: ../ui/evolution-mail-list.xml.h:10
-#, fuzzy
 msgid "Expand all message threads"
-msgstr "সমস্ত বার্তা পড়া-হয়েছে হিসাবে চিহ্নিত করা হবে"
+msgstr "সমস্ত বার্তার থ্রেড প্রসারণ করা হবে"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
@@ -19250,9 +19243,8 @@ msgid "Hide deleted messages rather than displaying them with a line through the
 msgstr "মুছে ফেলা বার্তাগুলির মাঝে রেখাঙ্কন করে প্রদর্শন করার পরিবর্তে লুকিয়ে ফেলা হবে"
 
 #: ../ui/evolution-mail-list.xml.h:16
-#, fuzzy
 msgid "Mar_k All Messages as Read"
-msgstr "বার্তাগুলিকে পড়া-হয়েছে হিসাবে চিহ্নিত করুন (_k)"
+msgstr "সমস্ত বার্তাগুলিকে পড়া-হয়েছে হিসাবে চিহ্নিত করুন (_k)"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
@@ -19287,9 +19279,8 @@ msgid "Select all visible messages"
 msgstr "সকল দৃশ্যমান বার্তা নির্বাচন করুন"
 
 #: ../ui/evolution-mail-list.xml.h:25
-#, fuzzy
 msgid "Show Hidde_n Messages"
-msgstr "আড়াল করা বার্তা প্রদর্শন করুন (_o)"
+msgstr "আড়াল করা বার্তা প্রদর্শন করুন (_n)"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Show messages that have been temporarily hidden"
@@ -19308,9 +19299,8 @@ msgid "Threaded Message list"
 msgstr "থ্রেড অনুযায়ী বার্তার তালিকা"
 
 #: ../ui/evolution-mail-list.xml.h:31
-#, fuzzy
 msgid "_Group By Threads"
-msgstr "থ্রেড অনুসারে দলভুক্ত করা হবে (_T)"
+msgstr "থ্রেড অনুসারে দলভুক্ত করা হবে (_G)"
 
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-mail-message.xml.h:116
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
@@ -19363,7 +19353,6 @@ msgid "Copy selected messages to another folder"
 msgstr "নির্বাচিত বার্তাগুলি অন্য একটি ফোল্ডারে কপি করুন"
 
 #: ../ui/evolution-mail-message.xml.h:13
-#, fuzzy
 msgid "Copy selected messages to the clipboard"
 msgstr "নির্বাচিত বার্তা ক্লিপবোর্ডে কপি করুন"
 
@@ -19404,7 +19393,6 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "এই বিষয় উল্লিখিত বার্তাগুলি ফিল্টার করার জন্য একটি নিয়ম তৈরি করুন"
 
 #: ../ui/evolution-mail-message.xml.h:23
-#, fuzzy
 msgid "Cut selected messages to the clipboard"
 msgstr "নির্বাচিত বার্তা ক্লিপবোর্ডে কাট করুন"
 
@@ -19421,9 +19409,8 @@ msgid "Display the next message"
 msgstr "পরবর্তী বার্তা প্রদর্শন করা হবে"
 
 #: ../ui/evolution-mail-message.xml.h:28
-#, fuzzy
 msgid "Display the next thread"
-msgstr "পরবর্তী না-পড়া থ্রেড প্রদর্শন করা হবে"
+msgstr "পরবর্তী থ্রেড প্রদর্শন করা হবে"
 
 #: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
@@ -19443,9 +19430,8 @@ msgstr "পূর্ববর্তী না-পড়া বার্তা প�
 
 # FIXME
 #: ../ui/evolution-mail-message.xml.h:33
-#, fuzzy
 msgid "F_orward As..."
-msgstr "পরিচিতি ফরওয়ার্ড করুন(_F)..."
+msgstr "অনুবর্তন করা হবে চিহ্নিত রূপে...(_o)"
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
@@ -19468,9 +19454,8 @@ msgid "Filter the selected messages for junk status"
 msgstr "নির্বাচিত বার্তাগুলিতে অনাকাঙ্ক্ষিত অবস্থা অনুসন্ধান করার জন্য ফিল্টার প্রয়োগ করা হবে"
 
 #: ../ui/evolution-mail-message.xml.h:39
-#, fuzzy
 msgid "Flag selected messages for follow-up"
-msgstr "নির্বাচিত বার্তাগুলি মুছে ফেলার জন্য চিহ্নিত করুন"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -19505,32 +19490,26 @@ msgid "Mar_k as"
 msgstr "এই রূপে চিহ্নিত করা হবে (_k)"
 
 #: ../ui/evolution-mail-message.xml.h:50
-#, fuzzy
 msgid "Mark the selected messages as having been read"
 msgstr "নির্বাচিত বার্তাগুলিকে পড়া-হয়েছে হিসাবে চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:51
-#, fuzzy
 msgid "Mark the selected messages as important"
 msgstr "নির্বাচিত বার্তাগুলিকে গুরুত্বপূর্ণ হিসাবে চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:52
-#, fuzzy
 msgid "Mark the selected messages as junk"
 msgstr "নির্বাচিত বার্তাগুলিকে অনাকাঙ্ক্ষিত হিসাবে চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:53
-#, fuzzy
 msgid "Mark the selected messages as not being junk"
 msgstr "নির্বাচিত বার্তাগুলিকে অনাকাঙ্ক্ষিত-নয় হিসাবে চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:54
-#, fuzzy
 msgid "Mark the selected messages as not having been read"
 msgstr "নির্বাচিত বার্তাগুলিকে পড়া-হয়নি হিসাবে চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Mark the selected messages as unimportant"
 msgstr "নির্বাচিত বার্তাগুলিকে অপ্রয়োজনীয় হিসাবে চিহ্নিত করুন"
 
@@ -19539,9 +19518,8 @@ msgid "Mark the selected messages for deletion"
 msgstr "নির্বাচিত বার্তাগুলি মুছে ফেলার জন্য চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:57
-#, fuzzy
 msgid "Move selected messages to another folder"
-msgstr "নির্বাচিত বার্তা অন্য একটি ফোল্ডারে সরাও"
+msgstr "নির্বাচিত বার্তাগুলি অন্য একটি ফোল্ডারে সরিয়ে নিন"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Next _Important Message"
@@ -19564,21 +19542,18 @@ msgid "Open a window for composing a mail message"
 msgstr "মেইল বার্তা লেখার জন্য একটি উইন্ডো খোলো"
 
 #: ../ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Open the selected messages in a new window"
-msgstr "নির্বাচিত বার্তাটি একটি নতুন উইন্ডোতে খোলো"
+msgstr "নির্বাচিত বার্তাগুলি একটি নতুন উইন্ডোতে প্রদর্শন করা হবে"
 
 #: ../ui/evolution-mail-message.xml.h:65
-#, fuzzy
 msgid "Open the selected messages in the composer for editing"
-msgstr "নির্বাচিত বার্তাটি কম্পোজারে খুলে সম্পাদন করুন"
+msgstr "নির্বাচিত বার্তাগুলি কম্পোজারে খুলে সম্পাদন করুন"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
 msgstr "পূর্ববর্তী না-পড়া বার্তা (_r)"
 
 #: ../ui/evolution-mail-message.xml.h:67
-#, fuzzy
 msgid "Paste messages from the clipboard"
 msgstr "ক্লিপবোর্ড থেকে বার্তা পেস্ট করুন"
 
@@ -19623,9 +19598,8 @@ msgid "Reset the text to its original size"
 msgstr "টেক্সটকে তার প্রাথমিক মাপে পুনরায় স্থাপন করুন"
 
 #: ../ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Save the selected messages as a text file"
-msgstr "বার্তাটি টেক্সট ফাইল হিসাবে সংরক্ষণ করুন"
+msgstr "নির্বাচিত বার্তাগুলি টেক্সট ফাইল হিসাবে সংরক্ষণ করুন"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -19664,12 +19638,10 @@ msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "প্রদর্শিত বার্তার মূল অংশের মাঝে ঝলকানিসহ একটি কার্সার প্রদর্শন করুন"
 
 #: ../ui/evolution-mail-message.xml.h:95
-#, fuzzy
 msgid "Show messages in the normal style"
 msgstr "বার্তাগুলি সাধারণ বিন্যাসে প্রদর্শন করুন"
 
 #: ../ui/evolution-mail-message.xml.h:96
-#, fuzzy
 msgid "Show messages with all email headers"
 msgstr "সমস্ত ই-মেইল হেডারসহ বার্তা প্রদর্শন করুন"
 
@@ -19678,7 +19650,6 @@ msgid "Show the raw email source of the message"
 msgstr "এই বার্তাটির ই-মেইল উত্স প্রদর্শন করুন"
 
 #: ../ui/evolution-mail-message.xml.h:98
-#, fuzzy
 msgid "Undelete the selected messages"
 msgstr "নির্বাচিত বার্তাগুলি মুছে না ফেলে, উদ্ধার করুন"
 
@@ -19691,18 +19662,16 @@ msgid "Zoom _Out"
 msgstr "ছোট করে প্রদর্শন (_O)"
 
 #: ../ui/evolution-mail-message.xml.h:101
-#, fuzzy
 msgid "_Attached"
-msgstr "সংযুক্ত করুন"
+msgstr "সংযুক্ত (_A)"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
 msgstr "ক্যারেট মোড (_C)"
 
 #: ../ui/evolution-mail-message.xml.h:103
-#, fuzzy
 msgid "_Clear Flag"
-msgstr "ফ্ল্যাগ মুছে ফেলুন (_e)"
+msgstr "ফ্ল্যাগ মুছে ফেলুন (_C)"
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Delete Message"
@@ -19713,9 +19682,8 @@ msgid "_Find in Message..."
 msgstr "বার্তার মধ্যে অনুসন্ধান করুন (_F)..."
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Flag Completed"
-msgstr "কাজ সম্পুর্ণর ফ্ল্যাগে (_g)"
+msgstr "কাজ সমাপ্তির ফ্ল্যাগ (_F)"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
@@ -19726,9 +19694,8 @@ msgid "_Important"
 msgstr "গুরুত্বপূর্ণ(_I)"
 
 #: ../ui/evolution-mail-message.xml.h:113
-#, fuzzy
 msgid "_Inline"
-msgstr "ইনলাইন"
+msgstr "ইনলাইন(_I)"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Junk"
@@ -19739,9 +19706,8 @@ msgid "_Load Images"
 msgstr "ছবি লোড করা হবে (_L)"
 
 #: ../ui/evolution-mail-message.xml.h:117
-#, fuzzy
 msgid "_Message Source"
-msgstr "বার্তার উত্‍‌স"
+msgstr "বার্তার উৎস(_M)"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
@@ -19764,9 +19730,8 @@ msgid "_Previous Message"
 msgstr "পূর্ববর্তী বার্তা (_P)"
 
 #: ../ui/evolution-mail-message.xml.h:125
-#, fuzzy
 msgid "_Quoted"
-msgstr "উদ্ধৃত"
+msgstr "উদ্ধৃত(_Q)"
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
@@ -19781,7 +19746,6 @@ msgid "_Unread"
 msgstr "পড়া হয়নি(_U)"
 
 #: ../ui/evolution-mail-message.xml.h:131
-#, fuzzy
 msgid "_Zoom"
 msgstr "বড় করে প্রদর্শন (_Z)"
 
@@ -19798,44 +19762,36 @@ msgid "Main toolbar"
 msgstr "প্রধান টুলবার"
 
 #: ../ui/evolution-memos.xml.h:3
-#, fuzzy
 msgid "Copy selected memo"
-msgstr "নির্বাচিত কর্ম কপি করুন"
+msgstr "নির্বাচিত কর্মসূচী কপি করুন"
 
 #: ../ui/evolution-memos.xml.h:5
-#, fuzzy
 msgid "Cut selected memo"
-msgstr "নির্বাচিত কর্ম কাট করুন"
+msgstr "নির্বাচিত কর্মসূচী কাট করুন"
 
 #: ../ui/evolution-memos.xml.h:7
-#, fuzzy
 msgid "Delete selected memos"
-msgstr "নির্বাচিত কর্মগুলি মুছে ফেলুন"
+msgstr "নির্বাচিত কর্মসূচী মুছে ফেলুন"
 
 #: ../ui/evolution-memos.xml.h:9
-#, fuzzy
 msgid "Paste memo from the clipboard"
-msgstr "ক্লিপবোর্ড থেকে টেক্সট পেস্ট করুন"
+msgstr "ক্লিপবোর্ড থেকে কর্মসূচী পেস্ট করুন"
 
 #: ../ui/evolution-memos.xml.h:10
-#, fuzzy
 msgid "Previews the list of memos to be printed"
-msgstr "যে কর্মতালিকাটি প্রিন্ট করা হবে তার পূর্বপ্রদর্শন করে"
+msgstr "প্রিন্ট করার জন্য চিহ্নিত কর্মসূচী তালিকার পূর্বপ্রদর্শন"
 
 #: ../ui/evolution-memos.xml.h:13
-#, fuzzy
 msgid "Print the list of memos"
-msgstr "কর্মতালিকা প্রিন্ট করুন"
+msgstr "কর্মসূচী তালিকা প্রিন্ট করুন"
 
 #: ../ui/evolution-memos.xml.h:14
-#, fuzzy
 msgid "View the selected memo"
-msgstr "নির্বাচিত কর্মটি প্রদর্শন করুন"
+msgstr "নির্বাচিত কর্মসূচী প্রদর্শন করুন"
 
 #: ../ui/evolution-memos.xml.h:18
-#, fuzzy
 msgid "_Open Memo"
-msgstr "খোলা বার্তা (_O)"
+msgstr "খোলা কর্মসূচী (_O)"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
@@ -19870,9 +19826,8 @@ msgid "For_mat"
 msgstr "বিন্যাস (_m)"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "Get delivery notification when your message is read"
-msgstr "আপনার বার্তা পাঠ হওয়ার পরে সূচনা প্রাপ্ত করার জন্য এই স্থানে চেক চিহ্ন দিন"
+msgstr "আপনার বার্তা পাঠ হওয়ার পরে সূচনা প্রাপ্তি করুন"
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
@@ -19891,9 +19846,8 @@ msgid "PGP Sign"
 msgstr "PGP স্বাক্ষর"
 
 #: ../ui/evolution-message-composer.xml.h:16
-#, fuzzy
 msgid "R_equest Read Receipt"
-msgstr "মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে"
+msgstr "মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে(_e)"
 
 #: ../ui/evolution-message-composer.xml.h:17
 msgid "S/MIME Encrypt"
@@ -19953,9 +19907,8 @@ msgid "Send this message"
 msgstr "বার্তাটি প্রেরণ করুন"
 
 #: ../ui/evolution-message-composer.xml.h:32
-#, fuzzy
 msgid "Set the message priority to high"
-msgstr "বার্তাটি টেক্সট ফাইল হিসাবে সংরক্ষণ করুন"
+msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Sign this message with your PGP key"
@@ -20014,9 +19967,8 @@ msgid "_Post-To Field"
 msgstr "এখানে-পোস্ট-করুন ক্ষেত্র (_P)"
 
 #: ../ui/evolution-message-composer.xml.h:51
-#, fuzzy
 msgid "_Prioritize Message"
-msgstr "বার্তা প্রিন্ট করুন"
+msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
@@ -20086,32 +20038,26 @@ msgid "Click change / view the status details of the task"
 msgstr ""
 
 #: ../ui/evolution-task-editor.xml.h:9
-#, fuzzy
 msgid "Status Details"
-msgstr "অবস্থা: %s"
+msgstr "অবস্থার বিবরণ"
 
 #: ../ui/evolution-task-editor.xml.h:10
-#, fuzzy
 msgid "Time Zone"
 msgstr "সময়-অঞ্চল"
 
 #: ../ui/evolution-task-editor.xml.h:23
-#, fuzzy
 msgid "_Send Options"
-msgstr "প্রেরণ সংক্রান্ত অপশন"
+msgstr "প্রেরণ সংক্রান্ত বিকল্প(_S)"
 
 #: ../ui/evolution-task-editor.xml.h:24
-#, fuzzy
 msgid "_Status Details"
-msgstr "অবস্থা: %s"
+msgstr "অবস্থার বিকল্প (_S)"
 
 #: ../ui/evolution-tasks.xml.h:3
-#, fuzzy
 msgid "Copy selected tasks"
 msgstr "নির্বাচিত কর্ম কপি করুন"
 
 #: ../ui/evolution-tasks.xml.h:5
-#, fuzzy
 msgid "Cut selected tasks"
 msgstr "নির্বাচিত কর্ম কাট করুন"
 
@@ -20132,7 +20078,6 @@ msgid "Mark selected tasks as complete"
 msgstr "নির্বাচিত কর্মগুলি সম্পন্ন-রূপে চিহ্নিত করুন"
 
 #: ../ui/evolution-tasks.xml.h:12
-#, fuzzy
 msgid "Paste tasks from the clipboard"
 msgstr "ক্লিপবোর্ড থেকে কর্ম পেস্ট করুন"
 
@@ -20205,9 +20150,8 @@ msgid "Hide window buttons"
 msgstr "উইন্ডো বাটন আড়াল করা হবে"
 
 #: ../ui/evolution.xml.h:13
-#, fuzzy
 msgid "I_mport..."
-msgstr "ইম্পোর্ট করুন (_I)..."
+msgstr "ইম্পোর্ট করুন...(_m)"
 
 #: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
@@ -20218,9 +20162,8 @@ msgid "Import data from other programs"
 msgstr "অন্যান্য প্রোগ্রাম থেকে ডাটা ইম্পোর্ট করুন"
 
 #: ../ui/evolution.xml.h:16
-#, fuzzy
 msgid "Lay_out"
-msgstr "অ্যাকাউন্ট (_A):"
+msgstr "বিন্যাস(_o)"
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
@@ -20235,9 +20178,8 @@ msgid "Send / Receive"
 msgstr "মেইল প্রেরণ / গ্রহণ করুন"
 
 #: ../ui/evolution.xml.h:21
-#, fuzzy
 msgid "Send / _Receive"
-msgstr "মেইল প্রেরণ / গ্রহণ করুন"
+msgstr "মেইল প্রেরণ / গ্রহণ করুন(_R)"
 
 #: ../ui/evolution.xml.h:22
 msgid "Send queued items and retrieve new items"
@@ -20248,19 +20190,16 @@ msgid "Set up Pilot configuration"
 msgstr "পাইলট কনফিগারেশন নির্ধারণ করুন"
 
 #: ../ui/evolution.xml.h:24
-#, fuzzy
 msgid "Show Side _Bar"
-msgstr "সংযুক্ত বস্তুসহ বার প্রদর্শন করা হবে (_B)"
+msgstr "পার্শ্ববর্তী বার প্রদর্শন করা হবে (_B)"
 
 #: ../ui/evolution.xml.h:25
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "স্ট্যাটার বার প্রদর্শন (_V)"
+msgstr "স্ট্যাটার বার প্রদর্শন করা হবে (_S)"
 
 #: ../ui/evolution.xml.h:26
-#, fuzzy
 msgid "Show _Toolbar"
-msgstr "টুলবার (_b)"
+msgstr "টুল-বার প্রদর্শন করা হবে (_T)"
 
 #: ../ui/evolution.xml.h:27
 msgid "Show information about Evolution"
@@ -20291,27 +20230,24 @@ msgid "Tool_bar style"
 msgstr "টুলবারের বিন্যাস(_b)"
 
 #: ../ui/evolution.xml.h:37
-#, fuzzy
 msgid "View/Hide the Side Bar"
-msgstr "স্ট্যাটাস বার প্রদর্শন/আড়াল করুন"
+msgstr "পার্শ্ববর্তী বার প্রদর্শন/আড়াল করুন"
 
 #: ../ui/evolution.xml.h:38
 msgid "View/Hide the Status Bar"
 msgstr "স্ট্যাটাস বার প্রদর্শন/আড়াল করুন"
 
 #: ../ui/evolution.xml.h:39
-#, fuzzy
 msgid "_About"
-msgstr "অ্যাকাউন্ট (_A):"
+msgstr "পরিচিতি (_A)"
 
 #: ../ui/evolution.xml.h:40
 msgid "_Close Window"
 msgstr "উইন্ডো বন্ধ করুন (_C)"
 
 #: ../ui/evolution.xml.h:43
-#, fuzzy
 msgid "_Forget Passwords"
-msgstr "পাসওয়ার্ড মনে রাখঅ হবে না (_P)"
+msgstr "পাসওয়ার্ড মনে রাখা হবে না (_F)"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Hide buttons"
@@ -20378,9 +20314,8 @@ msgid "_Work Week View"
 msgstr "কার্যসপ্তাহ ভিউ (_W)"
 
 #: ../views/mail/galview.xml.h:1
-#, fuzzy
 msgid "As Sent Folder for Wi_de View"
-msgstr "প্রেরিত ফোল্ডার হিসাবে (_S)"
+msgstr ""
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
@@ -20403,18 +20338,16 @@ msgid "By _Follow Up Flag"
 msgstr ""
 
 #: ../views/mail/galview.xml.h:7
-#, fuzzy
 msgid "For _Wide View"
-msgstr "কার্যসপ্তাহ ভিউ"
+msgstr ""
 
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
 msgstr "বার্তা (_M)"
 
 #: ../views/memos/galview.xml.h:1
-#, fuzzy
 msgid "_Memos"
-msgstr "সদস্য(_M)"
+msgstr "কর্মসূচী (_M)"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
@@ -20523,9 +20456,8 @@ msgid "Define Views..."
 msgstr "ভিউ নির্ধারণ করুন..."
 
 #: ../widgets/menus/gal-view-menus.c:291
-#, fuzzy
 msgid "C_urrent View"
-msgstr "বর্তমান প্রদর্শনক্ষেত্র (_C)"
+msgstr "বর্তমান প্রদর্শনক্ষেত্র (_u)"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
@@ -20681,9 +20613,8 @@ msgid "Korean"
 msgstr "কোরীয়"
 
 #: ../widgets/misc/e-charset-picker.c:72
-#, fuzzy
 msgid "Thai"
-msgstr "বৃহস্পতি"
+msgstr "থাই"
 
 #: ../widgets/misc/e-charset-picker.c:73
 msgid "Turkish"
@@ -20737,18 +20668,16 @@ msgid "Other..."
 msgstr "অন্যান্য..."
 
 #: ../widgets/misc/e-charset-picker.c:482
-#, fuzzy
 msgid "Ch_aracter Encoding"
-msgstr "অক্ষর মালা"
+msgstr "ক্যারেক্টার এনকোডিং (_a)"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
 msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:321
-#, fuzzy
 msgid "Date and Time"
-msgstr "তারিখ এবং সময়ের মান"
+msgstr "সময় ও তারিখ"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
@@ -20763,19 +20692,16 @@ msgid "Combo box to select time"
 msgstr "সময় নির্বাচন করতে ব্যবহৃত কম্বোবক্স"
 
 #: ../widgets/misc/e-dateedit.c:385
-#, fuzzy
 msgid "Time"
-msgstr "সময়-অঞ্চল"
+msgstr "সময়"
 
 #: ../widgets/misc/e-dateedit.c:461
-#, fuzzy
 msgid "No_w"
-msgstr "এখন"
+msgstr "এই মুহূর্তে (_w)"
 
 #: ../widgets/misc/e-dateedit.c:467
-#, fuzzy
 msgid "_Today"
-msgstr "আজ"
+msgstr "আজ(_T)"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
@@ -20856,9 +20782,8 @@ msgstr "অনুসন্ধান(_S)"
 
 # FIXME: 'ভিত্তি' শব্দটার ব্যবহার ঠিক ভাল লাগতেছে না :-(
 #: ../widgets/misc/e-filter-bar.c:251
-#, fuzzy
 msgid "Searches"
-msgstr "অনুসন্ধান(_S)"
+msgstr "অনুসন্ধান"
 
 #: ../widgets/misc/e-filter-bar.h:100 ../widgets/misc/e-filter-bar.h:111
 msgid "_Save Search..."
@@ -20873,24 +20798,20 @@ msgid "_Advanced Search..."
 msgstr "উন্নত অনুসন্ধান প্রক্রিয়া(_A)..."
 
 #: ../widgets/misc/e-filter-bar.h:103
-#, fuzzy
 msgid "All Accounts"
-msgstr "মেইল অ্যাকাউন্ট"
+msgstr "সর্বধরনের অ্যাকাউন্ট"
 
 #: ../widgets/misc/e-filter-bar.h:104
-#, fuzzy
 msgid "Current Account"
-msgstr "উত্সর অ্যাকাউন্ট"
+msgstr "বর্তমান অ্যাকাউন্ট"
 
 #: ../widgets/misc/e-filter-bar.h:105
-#, fuzzy
 msgid "Current Folder"
-msgstr "ফোল্ডার তৈরি করুন"
+msgstr "বর্তমান ফোল্ডার"
 
 #: ../widgets/misc/e-filter-bar.h:106
-#, fuzzy
 msgid "Current Message"
-msgstr "বার্তা প্রিন্ট করুন"
+msgstr "বর্তমান বার্তা"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -20959,23 +20880,20 @@ msgstr "টেক্সট"
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:971
-#, fuzzy
 msgid "Sho_w: "
-msgstr "একটি দিন প্রদর্শন করা হবে"
+msgstr "প্রদর্শন করা হবে:(_w)"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:988
-#, fuzzy
 msgid "Sear_ch: "
-msgstr "অনুসন্ধান করুন (_S)"
+msgstr "অনুসন্ধান করা হবে:(_c)"
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:1000
-#, fuzzy
 msgid " i_n "
-msgstr " এবং "
+msgstr " চিহ্নিত স্থানে (_n)"
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -21024,9 +20942,8 @@ msgid "A_uto-delete sent item"
 msgstr "প্রেরিত বস্তু স্বয়ংক্রিয়রূপে মুছে ফেলুন(_u)"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "Classification"
-msgstr "শ্রেণীবিভাগ (_l)"
+msgstr "শ্রেণীবিভাগ"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
@@ -21057,6 +20974,12 @@ msgid ""
 "Top Secret\n"
 "For Your Eyes Only"
 msgstr ""
+"Normal\n"
+"Proprietary\n"
+"Confidential\n"
+"Secret\n"
+"Top Secret\n"
+"For Your Eyes Only"
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
@@ -21091,9 +21014,8 @@ msgid "When decli_ned:"
 msgstr "প্রত্যাখ্যানের সময় (_n):"
 
 #: ../widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "Wi_thin"
-msgstr "অন্তর্গত (_i)"
+msgstr "অন্তর্গত (_t)"
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "_After:"
@@ -21138,9 +21060,8 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% সম্পন্ন)"
 
 #: ../widgets/misc/e-url-entry.c:107
-#, fuzzy
 msgid "Click here to go to URL"
-msgstr "url দেখতে এইস্থানে ক্লিক করুন"
+msgstr "URL দেখতে এইস্থানে ক্লিক করুন"
 
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
@@ -21344,14 +21265,14 @@ msgid ""
 msgstr ""
 
 #: ../widgets/table/e-table-group-container.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
 msgstr[0] "%s : %s (%d-টি বস্তু)"
 msgstr[1] "%s : %s (%d-টি বস্তু)"
 
 #: ../widgets/table/e-table-group-container.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d-টি বস্তু)"
@@ -21485,9 +21406,8 @@ msgid "Customize Current View..."
 msgstr "বর্তমান প্রদর্শনক্ষেত্র নিজস্ব পছন্দ অনুযায়ী বিন্যাস করুন"
 
 #: ../widgets/table/e-table-header-item.c:1554
-#, fuzzy
 msgid "Sort By"
-msgstr "ক্রমানুযায়ী বিন্যাস"
+msgstr "ক্রমবিন্যাস করা হবে"
 
 #: ../widgets/table/e-table-header-item.c:1899 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
