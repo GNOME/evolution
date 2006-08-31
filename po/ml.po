@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 07:17+0200\n"
-"PO-Revision-Date: 2006-08-27 00:11+0530\n"
+"PO-Revision-Date: 2006-08-31 20:27+0530\n"
 "Last-Translator: Ani Peter <apeter@redhat.com>\n"
 "Language-Team: Malayalam\n"
 "MIME-Version: 1.0\n"
@@ -1174,7 +1174,7 @@ msgstr "<b>ഹോം</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Instant Messaging</b>"
-msgstr ""
+msgstr "<b>Instant Messaging</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Job</b>"
@@ -3111,7 +3111,7 @@ msgstr "തലക്കെട്ട്"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
-msgstr ""
+msgstr "യൂണിറ്റ്"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Web Site"
@@ -3741,7 +3741,7 @@ msgstr "താഴ് വശം:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:6
 msgid "Dimensions:"
-msgstr ""
+msgstr "അളവുകള്‍:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
@@ -3807,7 +3807,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
-msgstr ""
+msgstr "മാര്‍ജിനുകള്‍"
 
 #: ../addressbook/printing/e-contact-print.glade.h:22
 msgid "Number of columns:"
@@ -4490,7 +4490,7 @@ msgstr "തുടങ്ങുന്ന സമയം"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
-msgstr ""
+msgstr "മുന്‍കൂട്ടി നിര്‍ണ്ണയിച്ച ജോലികള്‍"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
@@ -6094,7 +6094,7 @@ msgstr "സമയം: (_T)"
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
-msgstr ""
+msgstr "ഫോര്‍"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
@@ -6507,7 +6507,7 @@ msgstr "അവസ്ഥ: (_u)"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 #: ../calendar/gui/e-calendar-table.c:390
 msgid "Undefined"
-msgstr ""
+msgstr "വ്യക്തമല്ലാത്തത്"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Date completed:"
@@ -6582,7 +6582,7 @@ msgstr "എല്ലാ ദിവസവും (_D)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Manual"
-msgstr ""
+msgstr "മാനുവല്‍(_M)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:8
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
@@ -6767,7 +6767,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-model-calendar.c:183
 #: ../calendar/gui/e-calendar-table.c:439
 msgid "Free"
-msgstr ""
+msgstr "ഫ്രീ"
 
 #: ../calendar/gui/e-cal-model-calendar.c:186
 #: ../calendar/gui/e-calendar-table.c:440
@@ -7601,7 +7601,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-list-view.c:73
 msgid "Resources"
-msgstr ""
+msgstr "ഉറവിടങ്ങള്‍"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:99 ../calendar/gui/e-meeting-store.c:116
@@ -7619,7 +7619,7 @@ msgstr "കൂട്ടം"
 #: ../calendar/gui/e-meeting-list-view.c:167
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
 msgid "Resource"
-msgstr ""
+msgstr "റിസോഴ്സ്"
 
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
@@ -10333,11 +10333,14 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>നിലവില്‍ നിങ്ങളുടെ സ്റ്റേറ്റസ് \"ഓഫീസിന് പുറത്താണ്\" എന്നാണ്. </b>\n"
+"\n"
+"നിങ്ങള്‍ക്ക് ഈ സ്റ്റേറ്റസ് മാറ്റി \"ഓഫീസില്‍ ഉണ്ട്\" എന്നാക്കണമോ? "
 
 #: ../designs/OOA/ooa.glade.h:4
 #: ../plugins/exchange-operations/exchange-oof.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr ""
+msgstr "<b>ഓഫീസിന് പുറത്താണ് എന്ന സന്ദേശം:</b>"
 
 #: ../designs/OOA/ooa.glade.h:5
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
@@ -10355,12 +10358,12 @@ msgstr ""
 #: ../designs/OOA/ooa.glade.h:8
 #: ../plugins/exchange-operations/exchange-oof.glade.h:8
 msgid "I am currently in the office"
-msgstr ""
+msgstr "ഞാന്‍ ഇപ്പോള്‍ ഓഫീസില്‍ ഉണ്ട്"
 
 #: ../designs/OOA/ooa.glade.h:9
 #: ../plugins/exchange-operations/exchange-oof.glade.h:9
 msgid "I am currently out of the office"
-msgstr ""
+msgstr "ഞാന്‍ ഇപ്പോള്‍ ഓഫീസിന് പുറത്താണ്"
 
 #: ../designs/OOA/ooa.glade.h:10
 msgid "No, Do not Change Status"
@@ -10948,11 +10951,11 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:5
 msgid "Attachments"
-msgstr ""
+msgstr "അറ്റാച്മെന്‍റുകള്‍"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "Beep"
-msgstr ""
+msgstr "ബീപ്"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "contains"
@@ -11010,7 +11013,7 @@ msgstr "നിലവിലില്ല"
 
 #: ../mail/em-filter-i18n.h:20
 msgid "Draft"
-msgstr ""
+msgstr "ഇനിയും പൂര്‍ത്തികരിക്കാനുളളത്"
 
 #: ../mail/em-filter-i18n.h:21
 msgid "ends with"
@@ -11147,7 +11150,7 @@ msgstr "പ്രോഗ്രാം പ്രവര്‍ത്തിപ്പ�
 
 #: ../mail/em-filter-i18n.h:55 ../mail/message-list.etspec.h:12
 msgid "Score"
-msgstr ""
+msgstr "നേട്ടം"
 
 #: ../mail/em-filter-i18n.h:56 ../mail/message-list.etspec.h:13
 msgid "Sender"
@@ -11283,7 +11286,7 @@ msgstr "UNMATCHED"
 
 #: ../mail/em-folder-tree-model.c:484 ../mail/mail-component.c:151
 msgid "Drafts"
-msgstr ""
+msgstr "Drafts"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
@@ -11438,7 +11441,7 @@ msgstr ""
 #: ../mail/em-folder-view.c:1115 ../mail/em-popup.c:561 ../mail/em-popup.c:572
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
-msgstr ""
+msgstr "മുന്പോട്ട് (_F)"
 
 #: ../mail/em-folder-view.c:1118 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
@@ -11688,7 +11691,7 @@ msgstr "%B %d, %Y, %l:%M %p പൂര്‍ത്തിയാക്കിയി�
 
 #: ../mail/em-format-html-display.c:1381
 msgid "Overdue:"
-msgstr ""
+msgstr "Overdue:"
 
 #: ../mail/em-format-html-display.c:1384
 msgid "by %B %d, %Y, %l:%M %p"
@@ -11858,7 +11861,7 @@ msgstr ""
 
 #: ../mail/em-format.c:1446
 msgid "Unsupported signature format"
-msgstr ""
+msgstr "സംക്രിയ"
 
 #: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Error verifying signature"
@@ -11953,7 +11956,7 @@ msgstr ""
 
 #: ../mail/em-popup.c:622
 msgid "_Add to Address Book"
-msgstr ""
+msgstr "ഇവലൂഷന് വിലാസപുസ്തകം"
 
 #: ../mail/em-subscribe-editor.c:582
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -13431,7 +13434,7 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:15
 msgid "License Agreement"
-msgstr ""
+msgstr "ലൈസന്‍സ് എഗ്രീമന്‍റ്"
 
 #: ../mail/mail-dialogs.glade.h:16
 msgid "None Selected"
@@ -14386,7 +14389,7 @@ msgstr "നിങ്ങളുടെ അറിവിനായി"
 
 #: ../mail/message-tag-followup.c:79 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr ""
+msgstr "മുന്നോട്ട്"
 
 #: ../mail/message-tag-followup.c:80
 msgid "No Response Necessary"
@@ -14695,6 +14698,8 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
+"സുരക്ഷിതമായ പാസ്‍വേര്‍ഡ് (NTLM) അധികൃതമാക്കലിലൂടെ ഈ ഉപാധി Exchange സര്‍വറിലേക്ക് കണക്ട് "
+"ചെയ്യുന്നതിന് നിങ്ങളെ സഹായിക്കുന്നു."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
@@ -14705,6 +14710,8 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
+"സാധാരണയുളള പ്ളെയിന്‍ടെക്സ്റ്റ്  പാസ്‍വേര്‍ഡ് അധികൃതമാക്കലിലൂടെ ഈ ഉപാധി Exchange സര്‍വറിലേക്ക് "
+"കണക്ട് ചെയ്യുന്നതിന് നിങ്ങളെ സഹായിക്കുന്നു."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
@@ -14828,7 +14835,7 @@ msgstr "നിങ്ങളുടെ പാസ്‍വേര്‍ഡിന്�
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
 #: ../widgets/table/e-table-header-item.c:1572
 msgid "Custom"
-msgstr ""
+msgstr "യഥേഷ്ടം"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
@@ -15045,11 +15052,11 @@ msgstr "ഫോള്‍ഡറിന്‍റെ ഉടമസ്ഥന്‍"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 msgid "Folder visible"
-msgstr ""
+msgstr "ഫോള്‍ഡര്‍ അദൃശ്യമാണ്"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
 msgid "Read items"
-msgstr ""
+msgstr "വസ്തുക്കള്‍ വായിക്കുക"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Role: "
@@ -15057,7 +15064,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:10
 msgid "No, Don't Change Status"
-msgstr ""
+msgstr "വേണ്ട്, സ്റ്റേറ്റസ് മാറ്റേണ്ടതില്ല"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
 msgid "Select User"
@@ -15986,7 +15993,7 @@ msgstr "%A, %B %e, %Y %l:%M:%S %p"
 #: ../plugins/itip-formatter/itip-view.c:348
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr ""
+msgstr "<b>%s</b> through %s has published the following meeting information:"
 
 #: ../plugins/itip-formatter/itip-view.c:350
 #, c-format
@@ -17891,7 +17898,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:939
 msgid "Critical"
-msgstr ""
+msgstr "ക്രിട്ടിക്കല്‍"
 
 #: ../smime/lib/e-cert.c:941 ../smime/lib/e-cert.c:944
 msgid "Not Critical"
@@ -17899,7 +17906,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:965
 msgid "Extensions"
-msgstr ""
+msgstr "്യഞ്ജകം"
 
 #: ../smime/lib/e-cert.c:1036
 #, c-format
@@ -18797,11 +18804,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
-msgstr ""
+msgstr "പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for this mailing list"
-msgstr ""
+msgstr "പുതിയ ലോ‌ഞ്ചര്‌ നിര്മ്മിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this sender"
@@ -19256,7 +19263,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:8
 #: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
-msgstr ""
+msgstr "ശൈലി (_m)"
 
 #: ../ui/evolution-message-composer.xml.h:9
 msgid "Get delivery notification when your message is read"
@@ -20153,7 +20160,7 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:191
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "എക്സ്പാന്‍ഡറിന്‍റെ ലേബലിന്‍റെ ടെക്സ്റ്റ്"
 
 #: ../widgets/misc/e-expander.c:198
 msgid "Use underline"
@@ -20167,31 +20174,31 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:207
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "ലേബലിനും ചൈള്‍ഡിനും ഇടയ്ക്ക് ആവശ്യമുളള സ്ഥലം"
 
 #: ../widgets/misc/e-expander.c:216
 msgid "Label widget"
-msgstr ""
+msgstr "വിഡ്ജറ്റ് ലേബല്‍ ചെയ്യുക"
 
 #: ../widgets/misc/e-expander.c:217
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "സാധാരണയുളള എക്സ്പാന്‍ഡര്‍ ലേബലിയുടെ സ്ഥാനത്ത് പ്രദര്‍ശിപ്പിക്കേണ്ട വിഡ്ജറ്റ്"
 
 #: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3312
 msgid "Expander Size"
-msgstr ""
+msgstr "വികസിതരൂപം"
 
 #: ../widgets/misc/e-expander.c:224 ../widgets/table/e-tree.c:3313
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "എക്സ്പാന്‍ഡര്‍ ആരോയുടെ വലിപ്പം"
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "സൂചികയ്ക്ക് ആവശ്യമുളള സ്ഥലം"
 
 #: ../widgets/misc/e-expander.c:233
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "എക്സ്പാന്‍ഡര്‍ ആരോയുടെ ചുറ്റുമുളള സ്ഥലം"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:129 ../widgets/misc/e-filter-bar.c:168
