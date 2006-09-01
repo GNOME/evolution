@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-30 19:34+0200\n"
-"PO-Revision-Date: 2006-08-31 00:02+0200\n"
+"POT-Creation-Date: 2006-08-31 23:08+0200\n"
+"PO-Revision-Date: 2006-09-01 01:08+0200\n"
 "Last-Translator: Jovan Naumovski <jovan@lugola.net>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
@@ -11008,7 +11008,7 @@ msgstr "Име на правило"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "Преференци на пишувачот"
+msgstr "Преференции на пишувачот"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Configure mail preferences, including security and message display, here"
@@ -11063,7 +11063,7 @@ msgstr "Сметки за пошта"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
 #: ../mail/mail-config.glade.h:98
 msgid "Mail Preferences"
-msgstr "Преференци за пошта"
+msgstr "Преференции за пошта"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 msgid "_Mail"
@@ -11485,7 +11485,7 @@ msgstr "Сите пораки"
 
 #: ../mail/em-folder-browser.c:193
 msgid "Unread Messages"
-msgstr "Непрочитана пораки"
+msgstr "Непрочитани пораки"
 
 #: ../mail/em-folder-browser.c:195
 msgid "No Label"
@@ -11528,7 +11528,7 @@ msgstr[2] "Вкупно пораки:"
 #: ../mail/em-folder-properties.c:163
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
-msgstr[0] "Непрочитана пораки:"
+msgstr[0] "Непрочитани пораки:"
 msgstr[1] "Непрочитани пораки:"
 msgstr[2] "Непрочитани пораки:"
 
@@ -13083,8 +13083,8 @@ msgstr[2] "вкупно %d"
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d непрочитана"
-msgstr[1] ", %d непрочитана"
-msgstr[2] ", %d непрочитана"
+msgstr[1] ", %d непрочитани"
+msgstr[2] ", %d непрочитани"
 
 #: ../mail/mail-component.c:819
 msgid "New Mail Message"
@@ -18415,7 +18415,7 @@ msgstr "Идентификувач на алгоритам"
 
 #: ../smime/lib/e-cert.c:747
 msgid "Algorithm Parameters"
-msgstr "Преференци на алгоритам"
+msgstr "Преференции на алгоритам"
 
 #: ../smime/lib/e-cert.c:769
 msgid "Subject Public Key Info"
