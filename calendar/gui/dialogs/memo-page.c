@@ -293,6 +293,8 @@ sensitize_widgets (MemoPage *mpage)
 	
 	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_IS_SHARED)
 	 	sens = COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+	else
+		sens = TRUE;
 
 	sensitize = (!read_only && sens);
 	

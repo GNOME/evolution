@@ -1,3 +1,9 @@
+2006-09-01  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #353763
+	* gui/dialogs/memo-page.c: (sensitize_widgets):
+	set sens to TRUE if its not a shared memo.
+
 2006-08-30  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fix for bug #344463
