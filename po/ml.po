@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 07:17+0200\n"
-"PO-Revision-Date: 2006-08-31 20:27+0530\n"
+"PO-Revision-Date: 2006-09-01 23:46+0530\n"
 "Last-Translator: Ani Peter <apeter@redhat.com>\n"
 "Language-Team: Malayalam\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:180
 msgid "evolution addressbook"
-msgstr "evolution വിലാസപുസ്തകം"
+msgstr "evolution-നിലുളള മേല്‍വിലാസങ്ങള്‍"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:226
@@ -42,8 +42,8 @@ msgstr "പുതിയ വിലാസങ്ങള്‍ക്കുളള പ�
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "മേല്‍വിലാസങ്ങളുടെ നിലവിലുളള ഫോള്‍ഡര്‍ %s-ല്‍ %d കാര്‍ഡുണ്ട്"
+msgstr[1] "മേല്‍വിലാസങ്ങളുടെ നിലവിലുളള ഫോള്‍ഡര്‍ %s-ല്‍ %d കാര്‍ഡുകളുണ്ട്"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:12
@@ -60,48 +60,48 @@ msgstr "വിലാസം: "
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
-msgstr ""
+msgstr "evolution മിനികാര്‍ഡ്"
 
 #: ../a11y/calendar/ea-cal-view-event.c:264
 msgid "It has alarms."
-msgstr ""
+msgstr "ഇതിന് അലാറമുകളുണ്ട്."
 
 #: ../a11y/calendar/ea-cal-view-event.c:267
 msgid "It has recurrences."
-msgstr ""
+msgstr "ഇതിന് ആവര്‍ത്തനങ്ങളുണ്ട്."
 
 #: ../a11y/calendar/ea-cal-view-event.c:270
 msgid "It is a meeting."
-msgstr ""
+msgstr "ഇത് ഒരു മീറ്റിങ്ങ് ആണ്."
 
 #: ../a11y/calendar/ea-cal-view-event.c:276
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr ""
+msgstr "കലണ്ടര്‍ഇവന്‍റ്: %s ആണ് ചുരുക്കം."
 
 #: ../a11y/calendar/ea-cal-view-event.c:278
 msgid "Calendar Event: It has no summary."
-msgstr ""
+msgstr "കലണ്ടര്‍ഇവന്‍റ്: ഇതിന് സമ്മറി ലഭ്യമല്ല."
 
 #: ../a11y/calendar/ea-cal-view-event.c:298
 msgid "calendar view event"
-msgstr ""
+msgstr "കലണ്ടര്‍ കാണുന്ന ഇവന്‍റ്"
 
 #: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
-msgstr ""
+msgstr "ശ്രദ്ധ കേന്ദ്രീകരിക്കുക"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
-msgstr ""
+msgstr "പുതിയ അപ്പോയിന്‍റ്മെന്‍റ്"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "New All Day Event"
-msgstr ""
+msgstr "പുതിയ ദൈനം ദിന പരിപാടി"
 
 #: ../a11y/calendar/ea-cal-view.c:304
 msgid "New Meeting"
-msgstr ""
+msgstr "പുതിയ മീറ്റിങ്"
 
 #: ../a11y/calendar/ea-cal-view.c:305
 msgid "Go to Today"
@@ -114,7 +114,7 @@ msgstr "പറഞ്ഞിരിക്കുന്ന തീയതിയില�
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
 msgid "a table to view and select the current time range"
-msgstr ""
+msgstr "കാണുവാനും ആവശ്യമുളളവ തിരഞ്ഞെടുക്കുവാനുമുളള സമയ പരിധിയുടെ ടേബിള്‍"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
@@ -137,7 +137,7 @@ msgstr "ഇതിന് ഇവന്‍റുകള്‍ ഇല്ല."
 #: ../a11y/calendar/ea-day-view.c:162
 #, c-format
 msgid "Work Week View: %s. %s"
-msgstr ""
+msgstr "ഒരു ആഴ്ചയിലെ കാര്യപരിപാടികള്‍ കാണുക:%s. %s"
 
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
@@ -145,15 +145,15 @@ msgstr ""
 #: ../a11y/calendar/ea-day-view.c:168
 #, c-format
 msgid "Day View: %s. %s"
-msgstr ""
+msgstr "ഒരു ദിവസത്തെ കാര്യപരിപാടികള്‍ കാണുക:%s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:199
 msgid "calendar view for a work week"
-msgstr ""
+msgstr "ഒരു ആഴ്ചയിലെ കാര്യപരിപാടികള്‍ കാണുന്നതിനുളള കലണ്ടര്‍"
 
 #: ../a11y/calendar/ea-day-view.c:201
 msgid "calendar view for one or more days"
-msgstr ""
+msgstr "ഒന്നോ അതിലധികമോ ദിവസങ്ങള്‍ക്കുളള കലണ്ടര്‍"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
 #: ../calendar/gui/calendar-component.c:707
@@ -217,46 +217,46 @@ msgstr "Gnome കലണ്ടര്‍"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:290
 msgid "search bar"
-msgstr ""
+msgstr "തിരയുന്നതിനുളള ബാര്‍"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "evolution calendar search bar"
-msgstr ""
+msgstr "evolution കലണ്ടര്‍ തിരയുന്നതിനുളള ബാര്‍"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
-msgstr ""
+msgstr "വേഗത്തില്‍ കടക്കുന്നതിനുളള ബട്ടണ്‍"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr ""
+msgstr "ഇവിടെ ക്ളിക്ക് ചെയ്താല്‍, കാര്യപരിപാടികളുടെ കൂടുതല്‍ വിവരങ്ങള്‍ ലഭ്യമാകുന്നു."
 
 #: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
-msgstr ""
+msgstr "ഓരോ മാസത്തിലുളള കാര്യപരിപാടികള്‍ കാണുക: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
-msgstr ""
+msgstr "ഓരോ ദിവസവുമുളള കാര്യപരിപാടികള്‍ കാണുക: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
-msgstr ""
+msgstr "ഓരോ മാസവും കലണ്ടറില്‍ കാണുക"
 
 #: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
-msgstr ""
+msgstr "ഒന്നോ അതിലധികമോ ആഴ്ചകള്‍ കലണ്ടറില്‍ കാണുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
 msgid "popup"
-msgstr ""
+msgstr "പോപ്പപ്പ്"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
 msgid "popup a child"
-msgstr ""
+msgstr "ഒരു ചൈള്‍ഡിനെ പോപ്പപ്പ് ചെയ്യുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:612
 msgid "edit"
@@ -264,16 +264,16 @@ msgstr "മാറ്റം വരുത്തുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:613
 msgid "begin editing this cell"
-msgstr ""
+msgstr "ഈ സെലില്‍ മാറ്റങ്ങള്‍ വരുത്തുവാന്‍ ആരംഭിക്കുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
 msgid "toggle"
-msgstr ""
+msgstr "മാറുക"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
 msgid "toggle the cell"
-msgstr ""
+msgstr "സെല്ലുകള്‍ മാറുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
 msgid "expand"
@@ -281,19 +281,19 @@ msgstr "വികസിപ്പിക്കുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
 msgid "expands the row in the ETree containing this cell"
-msgstr ""
+msgstr "ഈ സെല്‍ അടങ്ങുന്ന ETree-ല്‍ ഉളള വരികള്‍ വികസിപ്പിക്കുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
 msgid "collapse"
-msgstr ""
+msgstr "തകര്‍ക്കുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
 msgid "collapses the row in the ETree containing this cell"
-msgstr ""
+msgstr "ഈ സെല്‍ അടങ്ങുന്ന ETree-ല്‍ ഉളള വരികള്‍ തകര്‍ക്കുക"
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
-msgstr ""
+msgstr "ടേബിളിലുളള സെല്‍"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
@@ -321,11 +321,11 @@ msgstr "കലണ്ടര്‍: %s മുതല്‍ %s വരെ"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
-msgstr ""
+msgstr "evolution കലണ്ടറിലുളള വസ്തു"
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
-msgstr ""
+msgstr "കോംപോ ബട്ടണ്‍"
 
 #: ../a11y/widgets/ea-combo-button.c:50
 msgid "Activate Default"
@@ -333,11 +333,11 @@ msgstr "ഡീഫോള്‍ട്ടായുളളത് പ്രവര്�
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "പോപ്പപ്പ് മെനു"
 
 #: ../a11y/widgets/ea-expander.c:40
 msgid "Toggle Attachment Bar"
-msgstr ""
+msgstr "മാറി കടക്കുന്ന അറ്റാച്ച് ബാര്‍"
 
 #: ../a11y/widgets/ea-expander.c:50
 msgid "activate"
@@ -348,6 +348,8 @@ msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr ""
+"ഈ വിലാസം നിലവിലുണ്ട്. ഈ വിലാസത്തിലേക്ക് ഒരു പുതിയ കാര്‍ഡ് ചേര്‍ക്കുവാന്‍ നിങ്ങള്‍ക്ക് "
+"ആഗ്രഹമുണ്ടോ?"
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
@@ -359,7 +361,7 @@ msgstr "വിലാസം മറ്റൊരിടത്തേക്ക് ന�
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Category editor not available."
-msgstr ""
+msgstr "വിഭാഗം എഡിറ്റര്‍ ലഭ്യമല്ല."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid ""
@@ -367,6 +369,8 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
+"നിങ്ങളുടെ പാസ്‍വേര്‍ഡില്‍ അക്ഷരത്തെറ്റില്ലെന്നും, ഒരു പിന്തുണയുളള ലോഗിന്‍ രീതിയാണ് നിങ്ങള്‍ "
+"ഉപയോഗിക്കുന്നത് എന്നും ഉറപ്പ് വരുത്തുക. ദയവായി caps lock ഓണ്‍ അല്ല എന്നും ഉറപ്പുവരുത്തുക."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
@@ -374,7 +378,7 @@ msgstr "LDAP സര്‍വറിനുളള സ്കീമാ വിവര�
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Could not remove addressbook."
-msgstr "വിലാസപുസ്തകം നീക്കം ചെയ്യുവാന്‍ സാധ്യമല്ല."
+msgstr "മേല്‍വിലാസങ്ങള്‍ നീക്കം ചെയ്യുവാന്‍ സാധ്യമല്ല."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid ""
@@ -397,7 +401,7 @@ msgstr "{0} {1} -ലേക്ക് സംരക്ഷിക്കുന്ന�
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Failed to authenticate with LDAP server."
-msgstr ""
+msgstr "LDAP സര്‍വറില്‍ ആധികാരികത ഉറപ്പാക്കല്‍ പരാജയപ്പെട്ടു."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
@@ -407,11 +411,11 @@ msgstr "വിലാസം നീക്കം ചെയ്യുന്നതി�
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "GroupWise Address book creation:"
-msgstr ""
+msgstr "ഓരോ ഗ്രൂപ്പായി മേല്‍വിലാസങ്ങള്‍ തിരിക്കുക:"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "LDAP server did not respond with valid schema information."
-msgstr ""
+msgstr "ശരിയായ സ്കീമാ വിവരങ്ങള്‍ക്ക് LDAP സര്‍വറില്‍ നിന്നും മറുപടി ലഭ്യമായില്ല."
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "Permission Denied."
@@ -431,7 +435,7 @@ msgstr "അപ്രതിക്ഷിതമായി Evolution വിലാസ 
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "The image you have selected is large. Do you want to resize and store it?"
-msgstr ""
+msgstr "നിങ്ങള്‍ തിരഞ്ഞെടുത്ത ഇമേജ് വളരെ വലുതാണ്.നിങ്ങള്‍ക്കിതിന്‍റെ വലിപ്പം കൂട്ടി സൂക്ഷിക്കണമോ?"
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid ""
@@ -442,21 +446,23 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
-msgstr "ഈ വിലാസപുസ്തകം എന്നേക്കുമായി നീക്കം ചെയ്യപ്പെടും."
+msgstr "ഈ മേല്‍വിലാസങ്ങള്‍ എന്നേക്കുമായി നീക്കം ചെയ്യപ്പെടും."
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
-msgstr "ഈ വിലാസപുസ്തകം തുറക്കുവാന്‍ സാധ്യമല്ല."
+msgstr "ഈ മേല്‍വിലാസങ്ങള്‍ തുറക്കുവാന്‍ സാധ്യമല്ല."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
+msgstr "ഈ മേല്‍വിലാസങ്ങളുടെ സര്‍വറിന് നിങ്ങള്‍ ആവശ്യപ്പെട്ട തിരച്ചിലുകള്‍ ലഭ്യമല്ല."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
+"നിങ്ങളുടെ മേല്‍വിലാസങ്ങള്‍ ലഭ്യമല്ല, അല്ലെങ്കില്‍ സര്‍വറിന്‍റെ പേരില്‍ അക്ഷരത്തെറ്റുണ്ടാവാം അല്ലെങ്കില്‍ "
+"നിങ്ങളുടെ നെറ്റ്‍വര്‍ക്ക് കണക്ഷനില്‍ പ്രശ്നം ഉണ്ടാവാം."
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "This server does not support LDAPv3 schema information."
@@ -464,7 +470,7 @@ msgstr "LDAPv3 സ്കീമാ വിവരങ്ങള്‍ ഈ സര്�
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
-msgstr "വിലാസപുസ്തകം തുറക്കുവാന്‍ സാധിക്കുന്നില്ല"
+msgstr "മേല്‍വിലാസങ്ങള്‍ തുറക്കുവാന്‍ സാധിക്കുന്നില്ല"
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
@@ -483,6 +489,8 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"നിങ്ങള്‍ ഒരു വിലാസത്തിന്‍റെ സ്ഥാനം മാറ്റുവാന്‍ ശ്രമിക്കുന്നു, പക്ഷേ, അത് ഉറവിടത്തില്‍ നിന്നും "
+"നീക്കം ചെയ്യുവാന്‍ സാധ്യമല്ല. നിങ്ങള്‍ക്ക് അതിന്‍റെ ഒരു പകര്‍പ്പ് മാറ്റി സൂക്ഷിക്കണമോ?"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid ""
@@ -495,7 +503,7 @@ msgstr ""
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr ""
+msgstr "നിങ്ങള്‍ ഈ വിലാസത്തിലേക്ക് മാറ്റങ്ങള്‍ വരുത്തിയിരിക്കുന്നു. നിങ്ങള്‍ക്ക് ഇവ സംരക്ഷിക്കപ്പടണമോ?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
@@ -510,7 +518,7 @@ msgstr "ചേര്‍ക്കുക (_A)"
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "_Discard"
-msgstr ""
+msgstr "ഉപേക്ഷിക്കുക (_D)"
 
 #: ../addressbook/addressbook.error.xml.h:37
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
@@ -523,17 +531,17 @@ msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
-msgstr ""
+msgstr "ഡീഫോള്‍ട്ടായ സിന്‍ക് മേല്‍വിലാസം:"
 
 #: ../addressbook/conduit/address-conduit.c:1241
 #: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
-msgstr "വിലാസപുസ്തകം തുറക്കുവാന്‍ സാധുക്കിന്നില്ല"
+msgstr "മേല്‍വിലാസങ്ങള്‍ തുറക്കുവാന്‍ സാധുക്കിന്നില്ല"
 
 #: ../addressbook/conduit/address-conduit.c:1310
 #: ../addressbook/conduit/address-conduit.c:1313
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "പൈലറ്റിന്‍റെ വിലാസത്തിനുളള ആപ്ളിക്കേഷന്‍ ബ്ളോക്ക് വായിക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -565,27 +573,27 @@ msgstr "Evolution വിലാസപുസ്തകം"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Address Book address pop-up"
-msgstr ""
+msgstr "Evolution-നുളള മേല്‍വിലാസങ്ങള്‍ പോപ്പപ്പ് ചെയ്യുക"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Address Book address viewer"
-msgstr ""
+msgstr "Evolution-നുളള മേല്‍വിലാസങ്ങള്‍ കാണുന്നതിനുളള പ്രയോഗം"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Address Book card viewer"
-msgstr ""
+msgstr "Evolution-നുളള മേല്‍വിലാസങ്ങളുടെ കാര്‍ഡ് കാണുന്നതിനുളള പ്രയോഗം"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Address Book component"
-msgstr ""
+msgstr "Evolution-നുളള മേല്‍വിലാസങ്ങളുടെ ഘടകം"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr ""
+msgstr "Evolution S/Mime സര്‍ട്ടിഫിക്കേറ്റ് മാനേജ്മെന്‍റ് നിയന്ത്രണം"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
-msgstr ""
+msgstr "Evolution-നുളള ഫോള്‍ഡര്‍ സജ്ജമാക്കുന്നതിനുളള ക്രമീകരണ നിയന്ത്രണ സംവിധാനം"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
@@ -646,19 +654,19 @@ msgstr "ഒരു പുതിയ വിലാസങ്ങളുടെ പട്
 #: ../addressbook/gui/component/addressbook-component.c:242
 #: ../addressbook/gui/component/addressbook-config.c:1205
 msgid "New Address Book"
-msgstr "പുതിയ വിലാസപുസ്തകം"
+msgstr "പുതിയ മേല്‍വിലാസങ്ങള്‍"
 
 #: ../addressbook/gui/component/addressbook-component.c:243
 msgid "Address _Book"
-msgstr "വിലാസപുസ്തകം (_B)"
+msgstr "മേല്‍വിലാസങ്ങള്‍ (_B)"
 
 #: ../addressbook/gui/component/addressbook-component.c:244
 msgid "Create a new address book"
-msgstr "ഒരു പുതിയ വിലാസപുസ്തകം ഉണ്ടാക്കുക"
+msgstr "ഒരു പുതിയ മേല്‍വിലാസം ഉണ്ടാക്കുക"
 
 #: ../addressbook/gui/component/addressbook-component.c:407
 msgid "Failed upgrading Address Book settings or folders."
-msgstr ""
+msgstr "മേല്‍വിലാസങ്ങളുടെ ക്രമീകരണങ്ങള്‍ അല്ലെങ്കില്‍ ഫോള്‍ഡര്‍ പുതുക്കുന്നതില്‍ പരാജയം."
 
 #: ../addressbook/gui/component/addressbook-config.c:332
 msgid "Base"
@@ -672,7 +680,7 @@ msgstr "തരം: (_T)"
 
 #: ../addressbook/gui/component/addressbook-config.c:635
 msgid "Copy book content locally for offline operation"
-msgstr ""
+msgstr "ഓഫ് ലൈന്‍ പ്രക്രിയയ്ക്കായി മേല്‍വിലാസങ്ങള്‍ ലോക്കലായി പകര്‍ത്തുക"
 
 #: ../addressbook/gui/component/addressbook-config.c:984
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -690,7 +698,7 @@ msgstr "സാധാരണമായ"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:569
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
-msgstr "വിലാസപുസ്തകം"
+msgstr "മേല്‍വിലാസങ്ങള്‍"
 
 #: ../addressbook/gui/component/addressbook-config.c:989
 msgid "Server Information"
@@ -698,7 +706,7 @@ msgstr "സര്‍വറിന്‍റെ വിവരം"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
 msgid "Authentication"
-msgstr "അധികൃതമാക്കല്‍"
+msgstr "ആധികാരകത ഉറപ്പുവരുത്തല്‍"
 
 #: ../addressbook/gui/component/addressbook-config.c:994
 #: ../addressbook/gui/component/ldap-config.glade.h:17
@@ -718,18 +726,18 @@ msgstr "ഡൊണ്‍‍ലോട് ചെയ്യുന്നു"
 #: ../addressbook/gui/component/addressbook-config.c:1203
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
-msgstr "വിലാസപുസ്തകത്തിന്‍റെ ഗുണഗണങ്ങള്‍"
+msgstr "മേല്‍വിലാസങ്ങളുടെ വിശേഷതകള്‍"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:73
 #: ../calendar/gui/migration.c:153 ../mail/em-migrate.c:1202
 msgid "Migrating..."
-msgstr ""
+msgstr "മറ്റൊരിടത്തേക്ക് നീക്കം ചെയ്യുന്നു"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
 #: ../calendar/gui/migration.c:200 ../mail/em-migrate.c:1243
 #, c-format
 msgid "Migrating `%s':"
-msgstr ""
+msgstr "`%s'-നെ മറ്റൊരിടത്തേക്ക് നീക്കം ചെയ്യുന്നു:"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:629
 msgid "LDAP Servers"
@@ -753,6 +761,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"മെയിലിങ് ലിസ്റ്റിലുളള വിലാസങ്ങളുടെ രൂപം മാറിയിരിക്കുന്നു.\n"
+"\n"
+"Evolution നിങ്ങളുടെ ഫോള്‍ഡറുകള്‍ മറ്റൊരിടത്തേക്ക് നീക്കം ചെയ്യുന്നു, ദയവായി കാത്തിരിക്കുക..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1142
 msgid ""
@@ -760,6 +771,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"ചില ഫോണ്‍ നംബറുകള്‍ മാറിയിരിക്കുന്നു.\n"
+"\n"
+"Evolution നിങ്ങളുടെ ഫോള്‍ഡറുകള്‍ മറ്റൊരിടത്തേക്ക് നീക്കം ചെയ്യുന്നു, ദയവായി കാത്തിരിക്കുക..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1152
 msgid ""
@@ -790,7 +804,7 @@ msgstr "ഈ പേരില്‍ ഒരു ഫോള്‍ഡര്‍ നി�
 
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "_New Address Book"
-msgstr "പുതിയ വിലാസപുസ്തകം (_N)"
+msgstr "പുതിയ മേല്‍വിലാസത്തിനുളള ഫോള്‍ഡര്‍ (_N)"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
@@ -818,16 +832,16 @@ msgstr "ഗുണഗണങ്ങള്‍... (_P)"
 
 #: ../addressbook/gui/component/addressbook-view.c:1343
 msgid "Contact Source Selector"
-msgstr ""
+msgstr "വിലാസങ്ങളുടെ ഉറവിടെ തിരഞ്ഞെടുക്കുന്നതിനുളള സംവിധാനം"
 
 #: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
-msgstr ""
+msgstr "LDAP സര്‍വറിലേക്ക് അജ്ഞാതമായി പ്രവേശിക്കുന്നു"
 
 #: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:499
 msgid "Failed to authenticate.\n"
-msgstr ""
+msgstr "ആധികാരികത ഉറപ്പ് വരുത്തല്‍ പരാജയപ്പെട്ടു.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:479
@@ -837,15 +851,15 @@ msgstr "%s-നുളള പാസ്‍വേര്‍ഡ് നല്‍കു�
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "Autocomplete length"
-msgstr ""
+msgstr "നീളം സ്വയം പൂര്‍ത്തിയാക്കുക"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
-msgstr ""
+msgstr "URI പൂര്‍ത്തിയാക്കുന്നതിനുളള EFolderList XML"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "EFolderList XML for the list of completion URIs."
-msgstr ""
+msgstr "URI പൂര്‍ത്തിയാക്കുന്നതിനുളള EFolderList XML."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid ""
@@ -855,30 +869,30 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
-msgstr ""
+msgstr "ക്രമീകരിച്ചശേഷം സ്ക്രീനില്‍ കാണുന്നതിനുളള പാളി"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
-msgstr ""
+msgstr "Evolution സ്വയം പൂര്‍ത്തിയാക്കുന്നതിന് മുന്പ് ടൈപ്പ് ചെയ്യേണ്ട അക്ഷരങ്ങളുടെ എണ്ണം."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
+msgstr "പേരുകള്‍ തിരഞ്ഞെടുക്കുവാനുളള ഡയലോഗില്‍ ഒടുവില്‍ ഉപയോഗിച്ച ഫോള്‍ഡറിന്‍റെ URI"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
-msgstr ""
+msgstr "പേരുകള്‍ തിരഞ്ഞെടുക്കുവാനുളള ഡയലോഗില്‍ ഒടുവില്‍ ഉപയോഗിച്ച ഫോള്‍ഡറിന്‍റെ URI."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Vertical pane position"
-msgstr ""
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr ""
+msgstr "ക്രമീകരിച്ചശേഷം സ്ക്രീനില്‍ കാണുന്നതിനുളള പാളി കാണിക്കണമോ എന്ന്."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
@@ -903,7 +917,7 @@ msgstr "636"
 #: ../addressbook/gui/component/ldap-config.glade.h:6
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 msgid "<b>Authentication</b>"
-msgstr "<b>അധികൃതമാക്കല്‍</b>"
+msgstr "<b>ആധികാരികത ഉറപ്പ് വരുത്തുക</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
 msgid "<b>Display</b>"
@@ -927,7 +941,7 @@ msgstr "<b>രീതി:</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:12
 msgid "Add Address Book"
-msgstr "വിലാസപുസ്തകം ചേര്‍ക്കുക"
+msgstr "മേല്‍വിലാസങ്ങളുടെ ഫോള്‍ഡര്‍ ചേര്‍ക്കുക"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 #: ../mail/em-account-editor.c:777
@@ -936,7 +950,7 @@ msgstr "എല്ലായ്പ്പോഴും"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "Anonymously"
-msgstr ""
+msgstr "അജ്ഞാതമായി"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
@@ -944,7 +958,7 @@ msgstr "അടിസ്ഥാനം"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid "Distinguished name"
-msgstr ""
+msgstr "ഡിസ്റ്റിഗ്വിഷ്ട് നെയിം"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Email address"
@@ -952,11 +966,11 @@ msgstr "ഈമെയില്‍ വിലാസം"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 msgid "Evolution will use this email address to authenticate you with the server."
-msgstr ""
+msgstr "നിങ്ങള്‍ക്ക് സര്‍വറിലേക്കുളള ആധികാരികത ഉറപ്പ് വരുത്തുന്നതിനായി Evolution ഈ ഈ മെയില്‍ വിലാസം ഉപയോഗിക്കുന്നു."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
-msgstr ""
+msgstr "തിരച്ചിലിന് സാധ്യമായ അടിത്തറകള്‍ കണ്ടുപിടിക്കുക"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 msgid "Lo_gin:"
@@ -972,7 +986,7 @@ msgstr "ഒരിക്കലും പാടില്ല"
 #: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
-msgstr ""
+msgstr "രഹസ്യഭാഷ ലഭ്യമല്ല"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
@@ -984,7 +998,7 @@ msgstr "ഒന്ന്"
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
-msgstr ""
+msgstr "SSL രഹസ്യ ഭാഷ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
@@ -992,7 +1006,7 @@ msgstr "ഫില്‍ട്ടര്‍ തിരയുക"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
-msgstr ""
+msgstr "തിരച്ചിലിനുളള അടിത്തറ: (_b)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
@@ -1014,12 +1028,16 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
+"നിങ്ങളുടെ LDAP സര്‍വര്‍ SSL പിന്തുണയ്ക്കുന്നു എങ്കില്‍ മാത്രം Evolution, LDAP സര്‍വറിലേക്ക് "
+"നിങ്ങളെ കണക്ട് ചെയ്യൂ എന്നാണ് ഈ ഉപാധിയുടെ അര്‍ത്ഥം."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
+"നിങ്ങളുടെ LDAP സര്‍വര്‍ TLS പിന്തുണയ്ക്കുന്നു എങ്കില്‍ മാത്രം Evolution, LDAP സര്‍വറിലേക്ക് "
+"നിങ്ങളെ കണക്ട് ചെയ്യൂ എന്നാണ് ഈ ഉപാധിയുടെ അര്‍ത്ഥം."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
@@ -1034,7 +1052,7 @@ msgstr "വിഷയം"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "Supported Search Bases"
-msgstr ""
+msgstr "പിന്തുണയുളള തിരച്ചില്‍ അടിത്തറകള്‍"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
@@ -1042,7 +1060,7 @@ msgstr ""
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
-msgstr ""
+msgstr "TLS രഹസ്യഭാഷ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
@@ -1070,6 +1088,8 @@ msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
+"ഡൌണ്‍‍ലോഡ് ചെയ്യുവാന്‍ സാധ്യമാകുന്ന ഏറ്റവും കൂടുതല്‍ എന്‍ട്രികള്‍. ഇതില്‍ കൂടുതല്‍ ആയി സെറ്റ്"
+"ചെയ്താല്‍, നിങ്ങളുടം മേല്‍വിലാസങ്ങള്‍ ലഭ്യമാകുന്ന വേഗത കുറയുന്നുയു."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
@@ -1077,12 +1097,17 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
+"നിങ്ങളുടെ ആധികാരികത evolution ഉറപ്പുവരുത്തുന്നത് ഇപ്രകാരമാണ്. ഇത് \"ഈ മെയില്‍ വിലാസം\" "
+"ആയി സെറ്റ് ചെയ്താല്‍, നിങ്ങളുടെ ldap സര്‍വറിലേക്ക് അജ്ഞാതമായി മാത്രമേ പ്രവേശിക്കുവാന്‍ "
+"നിങ്ങള്‍ക്ക് സാധ്യമാകൂ."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
+"നിങ്ങളുടെ Evolution ഫോള്‍ഡര്‍ ലിസ്റ്റില്‍ കാണപ്പെടുന്ന സര്‍വറിന്‍റെ പേര് ഇതാണ്. ഇത് "
+"പ്രദര്‍ശനത്തിന് മാത്രം ഉപയോഗിക്കുന്നു."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
@@ -1093,7 +1118,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
-msgstr ""
+msgstr "ഡിസ്റ്റിഗ്വിഷ്ഡ് നെയിം ഉപയോഗിക്കുന്നു (DN)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "Using email address"
@@ -1109,11 +1134,11 @@ msgstr "വിലാസപുസ്തകം തിരയുക (_A)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
-msgstr ""
+msgstr "ഡൌണ്‍‍ലോട് ചെയ്യുവാന്‍ സാധിക്കുന്ന പരിധി: (_D)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
-msgstr ""
+msgstr "തിരച്ചിലിന് സാധ്യമായ അടിത്തറകള്‍ കണ്ടുപിടിക്കുക (_F)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
@@ -1143,7 +1168,7 @@ msgstr "സര്‍വര്‍: (_S)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
-msgstr ""
+msgstr "സമയപരിധി: (_T)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
@@ -1219,7 +1244,7 @@ msgstr "വിലാസം"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:567
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2417
 msgid "Contact Editor"
-msgstr ""
+msgstr "എഡിറ്ററിനെ ബന്ധപ്പെടുക"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Full _Name..."
@@ -1245,7 +1270,7 @@ msgstr "ഇരട്ടപ്പേര്: (_c)"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
 msgid "Novell Groupwise"
-msgstr ""
+msgstr "Novell Groupwise"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Personal Information"
@@ -1311,15 +1336,15 @@ msgstr "വിഭാഗം: (_D)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_File under:"
-msgstr ""
+msgstr "ഫയല്‍ എവിടെ: (_F)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Free/Busy:"
-msgstr ""
+msgstr "ഫ്രീ/തിരക്കില്‍: (_F)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Home Page:"
-msgstr ""
+msgstr "ഹോം പേജ്: (_H)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Manager:"
@@ -1344,7 +1369,7 @@ msgstr "ഉദ്ദ്യോഗം: (_P)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Spouse:"
-msgstr ""
+msgstr "ഭാര്യ/ഭര്‍ത്താവ്: (_S)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
@@ -1358,15 +1383,15 @@ msgstr "തലക്കെട്ട്: (_T)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Video Chat:"
-msgstr ""
+msgstr "വീഡിയോ ചാറ്റ് : (_V)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Wants to receive HTML mail"
-msgstr ""
+msgstr "HTML മെയില്‍ ലഭ്യമാകണം (_W)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Web Log:"
-msgstr ""
+msgstr "വെബ് ലോഗ് : (_W)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
@@ -1975,7 +2000,7 @@ msgstr "മൈക്രോണേഷ്യാ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Moldova, Republic Of"
-msgstr ""
+msgstr "മോല്‍ഡോവാ, റിപബ്ളിക്"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Monaco"
@@ -2447,7 +2472,7 @@ msgstr "MSN"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
 #: ../addressbook/gui/widgets/eab-contact-display.c:557
 msgid "GroupWise"
-msgstr ""
+msgstr "ഗ്രൂപ്പ ക്രമത്തില്‍"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:261
 msgid "Source Book"
@@ -2455,7 +2480,7 @@ msgstr "ഉറവിടം പുസ്തകം"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:268
 msgid "Target Book"
-msgstr ""
+msgstr "ലക്ഷ്യസ്ഥാനം"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:282
 msgid "Is New Contact"
@@ -2463,11 +2488,11 @@ msgstr "ഒരു പുതിയ വിലാസമാണ്"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:289
 msgid "Writable Fields"
-msgstr ""
+msgstr "എഴുതുവാന്‍ സാധ്യമാകുന്ന ഫീള്‍ഡുകള്‍"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:296
 msgid "Required Fields"
-msgstr ""
+msgstr "ആവശ്യമുളള ഫീള്‍ഡുകള്‍"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:310
 msgid "Changed"
@@ -2517,7 +2542,7 @@ msgstr "അസാധുവായ വിലാസം."
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:290
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "Contact Quick-Add"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:293
 msgid "_Edit Full"
@@ -2656,7 +2681,7 @@ msgstr "മദ്ധ്യം: (_M)"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Suffix:"
-msgstr ""
+msgstr "ശേഷം ചേര്‍ക്കേണ്ടത്: (_S)"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:1
 msgid "Add IM Account"
@@ -2740,7 +2765,7 @@ msgstr "അംഗങ്ങള്‍ (_M)"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
 msgid "Contact List Members"
-msgstr ""
+msgstr "ലിസ്റ്റ് അംഗങ്ങളുമായി ബന്ധപ്പെടുക"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -2748,18 +2773,20 @@ msgstr "വിലാസം മാറിയിരിക്കുന്നു:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
-msgstr ""
+msgstr "പരസ്പര വിരുഗദ്ധമായ വിലാസങ്ങള്‍:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:3
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:1
 msgid "Duplicate Contact Detected"
-msgstr ""
+msgstr "ഒരേ വിലാസം രണ്ട് തവണ"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:4
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
+"ഈ വിലാസത്തിലുളള മാറ്റം വന്ന പേര് അല്ലെങ്കില്‍ ഈമെയില്‍ വിലാസം ഫോള്‍ഡറില്‍ \n"
+"നിലവിലുണ്ട്. നിങ്ങള്‍ക്ക് ഇത് വീണ്ടും ചേര്‍ക്കണമോ?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2781,7 +2808,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-view.c:178
 #: ../calendar/gui/cal-search-bar.c:58
 msgid "Any field contains"
-msgstr ""
+msgstr "ഏത് ഫീള്‍ഡില്‍"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:177
@@ -2814,7 +2841,7 @@ msgstr "ചോദ്യം"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:446
 msgid "Error getting book view"
-msgstr ""
+msgstr "പുസ്തകം കാണുന്നതില്‍ പിശക്"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
 #: ../widgets/table/e-table-click-to-add.c:502
@@ -2828,7 +2855,7 @@ msgstr "രീതി"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:103
 msgid "Error modifying card"
-msgstr ""
+msgstr "കാര്‍ഡില്‍ മാറ്റങ്ങള്‍ വരുത്തുന്നതില്‍ പിശക്"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:236
 msgid "Source"
@@ -2871,11 +2898,11 @@ msgstr "VCard ആയി സംരക്ഷിക്കുക...(_S)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:970
 msgid "_Forward Contact"
-msgstr ""
+msgstr "വിലാസം മറ്റൊരാള്‍ക്ക് നല്‍കുക (_F)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "_Forward Contacts"
-msgstr ""
+msgstr "വിലാസങ്ങള്‍ മറ്റൊരാള്‍ക്ക് നല്‍കുക (_F)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Send _Message to Contact"
@@ -2949,7 +2976,7 @@ msgstr "സഹായി"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant Phone"
-msgstr ""
+msgstr "മറ്റ് ഫോണ്‍ നംബര്‍"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
@@ -2965,11 +2992,11 @@ msgstr "ഓഫീസ് ഫോണ്‍ 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Callback Phone"
-msgstr ""
+msgstr "കോള്‍ബാക്ക് ഫോണ്‍"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Car Phone"
-msgstr ""
+msgstr "കാര്‍ ഫോണ്‍"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:7
@@ -3027,7 +3054,7 @@ msgstr "ISDN ഫോണ്‍"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Journal"
-msgstr ""
+msgstr "ജേര്‍ണല്‍"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 #: ../addressbook/gui/widgets/eab-contact-display.c:575
@@ -3056,7 +3083,7 @@ msgstr "ഓഫീസ്"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 #: ../addressbook/gui/widgets/eab-contact-display.c:571
 msgid "Organization"
-msgstr ""
+msgstr "സ്ഥാപനം"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:28
 msgid "Other Fax"
@@ -3072,7 +3099,7 @@ msgstr "പേജര്‍"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Primary Phone"
-msgstr ""
+msgstr "പ്രൈമറി ഫോണ്‍"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Radio"
@@ -3089,7 +3116,7 @@ msgstr "വേഷം"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 #: ../addressbook/gui/widgets/eab-contact-display.c:600
 msgid "Spouse"
-msgstr ""
+msgstr "ഭാര്യ/ഭര്‍ത്താവ്"
 
 #. Translators: This is a vcard standard and stands for the type of
 #. phone used by the hearing impaired. TTY stands for "teletype"
@@ -3155,19 +3182,19 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
-msgstr ""
+msgstr "ഫീള്‍ഡ്"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:143
 msgid "Field Name"
-msgstr ""
+msgstr "ഫീള്‍ഡിന്‍റെ പേര്"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
-msgstr ""
+msgstr "ടെക്സ്റ്റ് രൂപം"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:157
 msgid "Max field name length"
-msgstr ""
+msgstr "ഫീള്‍ഡിന്‍റെ പേരിന്‍റെ ഏറ്റവും കൂടിയ നീളം"
 
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:128
 msgid "Column Width"
@@ -3217,10 +3244,13 @@ msgid ""
 "\n"
 "There are no items to show in this view."
 msgstr ""
+"\n"
+"\n"
+"കാണുവാന്‍ വസ്തുക്കള്‍ ഒന്നും നിലവിലില്ല."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:501
 msgid "Adapter"
-msgstr ""
+msgstr "അഡാപ്റ്റര്‍"
 
 #: ../addressbook/gui/widgets/e-minicard.c:101
 msgid "Work Email"
@@ -3240,20 +3270,20 @@ msgstr "തിരഞ്ഞെടുത്ത്"
 
 #: ../addressbook/gui/widgets/e-minicard.c:179
 msgid "Has Cursor"
-msgstr ""
+msgstr "കര്‍സര്‍ ഉണ്ട്"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:620
 msgid "_Open Link in Browser"
-msgstr ""
+msgstr "ബ്രൌസറില്‍ ലിങ്ക് തുറക്കുക (_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
 #: ../mail/em-folder-view.c:2503
 msgid "_Copy Link Location"
-msgstr ""
+msgstr "ലിങ്കിന്‍റെ സ്ഥാനം പകര്‍ത്തുക (_C)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:176
 msgid "_Send New Message To ..."
-msgstr ""
+msgstr "പുതിയ സന്ദേശം അയയ്ക്കേണ്ടത് എവിടേയ്ക്ക്... (_S)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:177
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
@@ -3316,7 +3346,7 @@ msgstr "കലണ്ടര്‍"
 #: ../calendar/gui/dialogs/event-editor.c:591
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
-msgstr ""
+msgstr "ഫ്രീ/തിരക്ക്"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
 #: ../addressbook/gui/widgets/eab-contact-display.c:595
@@ -3333,7 +3363,7 @@ msgstr "പ്രധാന പേജ്"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:593
 msgid "Web Log"
-msgstr ""
+msgstr "വെബ് ലോഗ്"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:598
 msgid "Birthday"
@@ -3345,7 +3375,7 @@ msgstr "വാര്‍ഷികം"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:781
 msgid "Job Title"
-msgstr ""
+msgstr "ജോലിയുടെ പേര്"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:812
 msgid "Home page"
@@ -3364,12 +3394,12 @@ msgstr "വിജയം"
 #. E_BOOK_ERROR_BUSY
 #: ../addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Backend busy"
-msgstr ""
+msgstr "ബാക്കെന്‍ഡ് തിരക്കിലാണ്"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:53
 msgid "Repository offline"
-msgstr ""
+msgstr "റിപോസിറ്ററി ഓഫ് ലൈനാണ്"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: ../addressbook/gui/widgets/eab-gui-util.c:54
@@ -3379,7 +3409,7 @@ msgstr "വിലാസപുസ്തകം നിലവിലില്ല"
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: ../addressbook/gui/widgets/eab-gui-util.c:55
 msgid "No Self Contact defined"
-msgstr ""
+msgstr "സ്വയം ബന്ധപ്പെടുന്നതിനുളള വിലാസം ലഭ്യമല്ല"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
@@ -3444,7 +3474,7 @@ msgstr "ഉറവിടം ലഭ്യമല്ല"
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Not available in offline mode"
-msgstr ""
+msgstr "ഓഫ് ലൈനായി ലഭ്യമല്ല"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
@@ -3464,12 +3494,16 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
+"ഈ മേല്‍വിലാസങ്ങള്‍ ലഭ്യമാകുവാന്‍ സാധ്യമായില്ല.  %s എന്ന പാഥ് നിലവിലുണ്ടോ എന്നും നിങ്ങള്‍ക്ക് "
+"ഇതിലേക്ക് പ്രവേശനം ഉണ്ടോ എന്നും പരിശോധിക്കുക."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:112
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
+"ഈ മേല്‍വിലാസങ്ങള്‍ ലഭ്യമാകുവാന്‍ സാധ്യമായില്ല.  ഇതിനര്‍ത്ഥം. നിങ്ങള്‍ തെറ്റായ URI നല്‍കി, "
+"അല്ലെങ്കില്‍ LDAP സര്‍വര്‍ ലഭ്യമല്ല എന്നാണ്."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:117
 msgid ""
@@ -3483,6 +3517,8 @@ msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr ""
+"ഈ മേല്‍വിലാസങ്ങള്‍ ലഭ്യമാകുവാന്‍ സാധ്യമായില്ല.  ഇതിനര്‍ത്ഥം. നിങ്ങള്‍ തെറ്റായ URI നല്‍കി, "
+"അല്ലെങ്കില്‍ LDAP സര്‍വര്‍ ലഭ്യമല്ല എന്നാണ്."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:147
 msgid ""
@@ -3502,15 +3538,15 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
+msgstr "ഈ മേല്‍വിലാസങ്ങളുടെ ബാക്കെന്‍ഡിന് ഈ ചോദ്യം പാഴ്സ് ചെയ്യുവാന്‍ സാധ്യമായില്ല."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:162
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
+msgstr "ഈ മേല്‍വിലാസങ്ങളുടെ ബാക്കെന്‍ഡ് ഈ ചോദ്യം പ്രവര്‍ത്തിക്കുന്നതില്‍ നിരസിച്ചു."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:165
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "ഈ ചോദ്യം വിജയകരമായി പൂര്‍ത്തിയായില്ല."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
 msgid "Error adding list"
@@ -3547,7 +3583,11 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
+"%d വിലാസം തുറന്നാല്‍ %d പുതിയ ജാലകവും തുറക്കപ്പെടുന്നു.\n"
+"നിങ്ങള്‍ക്ക് ഈ വിലാസം കാണണമോ?"
 msgstr[1] ""
+"%d വിലാസങ്ങള്‍ തുറന്നാല്‍ %d പുതിയ ജാലകങ്ങളും തുറക്കപ്പെടുന്നു.\n"
+"നിങ്ങള്‍ക്ക് ഈ വിലാസം കാണണമോ?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:323
 #, c-format
@@ -3628,8 +3668,8 @@ msgstr "വിലാസപുസ്തകം ചോദ്യം ചെയ്യ�
 #, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "മറ്റൊരു വിലാസം കൂടിയുണ്ട്."
+msgstr[1] "%d വിലാസങ്ങള്‍ കൂടിയുണ്ട്."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
@@ -3646,17 +3686,17 @@ msgstr "വിലാസപുസ്തകത്തില്‍ സംരക്�
 
 #: ../addressbook/gui/widgets/gal-view-factory-minicard.c:25
 msgid "Card View"
-msgstr ""
+msgstr "കാര്‍ഡ് കാണുക"
 
 #: ../addressbook/gui/widgets/gal-view-factory-treeview.c:26
 msgid "GTK Tree View"
-msgstr ""
+msgstr "GTK ട്രീ കാണുക"
 
 #: ../addressbook/importers/evolution-csv-importer.c:624
 #: ../mail/importers/evolution-outlook-importer.c:264
 #: ../mail/importers/netscape-importer.c:1252
 msgid "Importing..."
-msgstr ""
+msgstr "ഇംപോര്‍ട്ട് ചെയ്യുന്നു..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
@@ -3664,7 +3704,7 @@ msgstr "Outlook CSV അല്ലെങ്കില്‍ Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
 msgid "Outlook CSV and Tab Importer"
-msgstr ""
+msgstr "Outlook CSV-യും ടാബ് ഇംപോര്‍ട്ടറും"
 
 #: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
@@ -3672,7 +3712,7 @@ msgstr "Mozilla CSV അല്ലെങ്കില്‍ Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
 msgid "Mozilla CSV and Tab Importer"
-msgstr ""
+msgstr "Mozilla CSV-യും ടാബ് ഇംപോര്‍ട്ടറും"
 
 #: ../addressbook/importers/evolution-csv-importer.c:844
 msgid "Evolution CSV or Tab (.csv, .tab)"
@@ -3680,14 +3720,14 @@ msgstr "Evolution CSV അല്ലെങ്കില്‍ Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
-msgstr ""
+msgstr "Evolution CSV-യും ടാബ് ഇംപോര്‍ട്ടറും"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:583
 #: ../addressbook/importers/evolution-vcard-importer.c:250
 #: ../calendar/importers/icalendar-importer.c:312
 #: ../calendar/importers/icalendar-importer.c:677 ../shell/shell.error.xml.h:6
 msgid "Importing ..."
-msgstr ""
+msgstr "ഇംപോര്‍ട്ട് ചെയ്യുന്നു..."
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -3733,7 +3773,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "സന്ദേശം"
 
 #: ../addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
@@ -3753,7 +3793,7 @@ msgstr "ലിപികള്‍"
 
 #: ../addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
-msgstr ""
+msgstr "അടിക്കുറിപ്പ്:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
@@ -3775,11 +3815,11 @@ msgstr "ഹെഡര്‍/ഫൂട്ടര്‍"
 
 #: ../addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr ""
+msgstr "തലക്കെട്ടുകള്‍"
 
 #: ../addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr ""
+msgstr "ഓരോ എഴുത്തിനുമുളള തലക്കെട്ടുകള്‍"
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
@@ -3787,7 +3827,7 @@ msgstr "ഉയരം:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "ഒന്നിനു പിറകെ ഒന്ന്"
 
 #: ../addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
@@ -3848,11 +3888,11 @@ msgstr "പ്രിന്‍റ് ചെയ്യുന്നതിന് മ�
 
 #: ../addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
-msgstr ""
+msgstr "ഗ്രെ ഫെയിഡിങ് ഉപയോഗിച്ച് പ്രിന്‍റ് ചെയ്യുക"
 
 #: ../addressbook/printing/e-contact-print.glade.h:32
 msgid "Reverse on even pages"
-msgstr ""
+msgstr "ഈവന്‍ പേജുകള്‍ വിപരീതമായി"
 
 #: ../addressbook/printing/e-contact-print.glade.h:33
 msgid "Right:"
@@ -3864,7 +3904,7 @@ msgstr "ഭാഗങ്ങള്‍:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
-msgstr ""
+msgstr "ഷെയിഡിങ്"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
@@ -3936,7 +3976,7 @@ msgstr "പുസ്തകം തുറക്കുവാന്‍ സാധ്�
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr ""
+msgstr "സ്റ്റാന്‍ഡേര്‍ഡ് ഔട്ട് പുട്ടിന് പകരം ഔട്ട് പുട്ട് ഫയല്‍ നല്‍കുക"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
@@ -3944,7 +3984,7 @@ msgstr "OUTPUTFILE"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local addressbook folders"
-msgstr ""
+msgstr "ലോക്കല്‍ മേല്‍വിലാസങ്ങളുടെ ഫോള്‍ഡറുകള്‍ ലിസ്റ്റ് ചെയ്യുക"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
@@ -3969,6 +4009,8 @@ msgstr "NUMBER"
 #: ../addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
+"കമാന്‍ഡ് ലൈനില്‍ ആര്‍ഗ്യുമെന്‍റ് പിശക്. ഉപയോഗിക്കേണ്ട വിധം കാണുന്നതിനായി --help "
+"ദയവായി ഉപയോഗിക്കുക."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
@@ -3988,7 +4030,7 @@ msgstr "അപരിചിതമായ പ്രശ്നം"
 
 #: ../addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
-msgstr ""
+msgstr "ഡീഫോള്‍ട്ടായ മേല്‍വിലാസങ്ങള്‍ ലോഡ് ചെയ്യുന്നതില്‍ പിശക്"
 
 #: ../addressbook/tools/evolution-addressbook-import.c:67
 msgid "Input File"
@@ -11070,7 +11112,7 @@ msgstr "is not Flagged"
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr ""
+msgstr "ആവശ്യമില്ലാത്തവ"
 
 #: ../mail/em-filter-i18n.h:36
 msgid "Junk Test"
@@ -11818,7 +11860,7 @@ msgstr "Bcc"
 #: ../mail/em-format-html.c:1664 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1025
 msgid "Mailer"
-msgstr ""
+msgstr "മെയിലര്‍"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1691
@@ -19795,7 +19837,7 @@ msgstr ""
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Status"
-msgstr ""
+msgstr "നിലവാലം ഉല്‍പ്പടെ (_S)"
 
 #. Put the ""UTC" entry at the top of the combo's list.
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:211
@@ -19906,7 +19948,7 @@ msgstr "ഫാക്ടറി"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
-msgstr ""
+msgstr "പുതിയ കാഴ്ച നല്‍കുക"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
 msgid "Name of new view:"
@@ -19956,7 +19998,7 @@ msgstr "നിറം നിറയ്ക്കുക"
 #: ../widgets/text/e-text.c:3589 ../widgets/text/e-text.c:3596
 #: ../widgets/text/e-text.c:3597
 msgid "GDK fill color"
-msgstr ""
+msgstr "GDK നിറം നിറയ്ക്കല്‍"
 
 #: ../widgets/misc/e-canvas-background.c:478
 #: ../widgets/misc/e-canvas-background.c:479 ../widgets/text/e-entry.c:1305
@@ -20085,20 +20127,20 @@ msgstr "യുക്രേനിയന്‍"
 
 #: ../widgets/misc/e-charset-picker.c:105
 msgid "Visual"
-msgstr ""
+msgstr "കാണുവാന്‍ സാധ്യമായ"
 
 #: ../widgets/misc/e-charset-picker.c:174
 #, c-format
 msgid "Unknown character set: %s"
-msgstr ""
+msgstr "അപരിചിതമായ അക്ഷരക്കൂട്ടം: %s"
 
 #: ../widgets/misc/e-charset-picker.c:219
 msgid "Character Encoding"
-msgstr ""
+msgstr "അക്ഷരം രഹസ്യഭാഷയില്‍"
 
 #: ../widgets/misc/e-charset-picker.c:234
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "ഉപയോഗിക്കുന്നതിനുളള അക്ഷക്കൂട്ടം നല്‍കുക"
 
 #: ../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
@@ -20106,7 +20148,7 @@ msgstr "മറ്റുള്ളവ..."
 
 #: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
-msgstr ""
+msgstr "അക്ഷരങ്ങള്‍ രഹസ്യഭാഷയില്‍ (_a)"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
@@ -20118,7 +20160,7 @@ msgstr "തീയതിയും സമയവും"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
-msgstr ""
+msgstr "തീയതി നല്‍കുവാനുളള ടെക്സ്റ്റ് എന്‍ട്രി"
 
 #: ../widgets/misc/e-dateedit.c:362
 msgid "Click this button to show a calendar"
@@ -20156,7 +20198,7 @@ msgstr "വികസിപ്പിച്ചത്"
 
 #: ../widgets/misc/e-expander.c:183
 msgid "Whether or not the expander is expanded"
-msgstr ""
+msgstr "എക്സ്പാന്‍ഡര്‍ വികസിച്ചിട്ടുണ്ടോ എന്ന്"
 
 #: ../widgets/misc/e-expander.c:191
 msgid "Text of the expander's label"
@@ -20327,12 +20369,12 @@ msgstr " i_n "
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
 msgid "Cursor Row"
-msgstr ""
+msgstr "കര്‍സറിന്‍റെ വരി"
 
 #: ../widgets/misc/e-selection-model-array.c:554
 #: ../widgets/table/e-tree-selection-model.c:818
 msgid "Cursor Column"
-msgstr ""
+msgstr "കര്‍സറിന്‍റെ നിര"
 
 #: ../widgets/misc/e-selection-model.c:214
 msgid "Sorter"
@@ -20348,11 +20390,11 @@ msgstr "കര്‍സര്‍ രീതി"
 
 #: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
-msgstr ""
+msgstr "നീക്കം ചെയ്തപ്പോള്‍: (_l)"
 
 #: ../widgets/misc/e-send-options.glade.h:1
 msgid "<b>Delivery Options</b>"
-msgstr ""
+msgstr "<b>അയയ്ക്കുന്നതിനുളള ഉപാധികള്‍</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
@@ -20360,11 +20402,11 @@ msgstr "<b>മറുപടികള്‍</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 msgid "<b>Return Notification</b>"
-msgstr ""
+msgstr "<b>Return Notification</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
-msgstr ""
+msgstr "<b>നിലവാരം അറിയുക</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
@@ -20380,7 +20422,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
-msgstr ""
+msgstr "അയച്ചതിന് ശേഷം തുറക്കുക (_v)"
 
 #: ../widgets/misc/e-send-options.glade.h:9
 msgid "Gene_ral Options"
@@ -20391,6 +20433,8 @@ msgid ""
 "None\n"
 "Mail Receipt"
 msgstr ""
+"ഒന്നുമില്ല\n"
+"മെയില്‍ ലഭിക്കേണ്ടത് എവിടെ"
 
 #: ../widgets/misc/e-send-options.glade.h:12
 msgid ""
@@ -20414,7 +20458,7 @@ msgstr "മറുപടി ആവശ്യപ്പെട്ടിരിക്�
 
 #: ../widgets/misc/e-send-options.glade.h:20
 msgid "Sta_tus Tracking"
-msgstr ""
+msgstr "നിലവാരം അറിയുക (_t)"
 
 #: ../widgets/misc/e-send-options.glade.h:21
 msgid ""
@@ -20430,11 +20474,11 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:25
 msgid "When acce_pted:"
-msgstr ""
+msgstr "സ്വീകരിക്കുന്പോള്‍: (_p)"
 
 #: ../widgets/misc/e-send-options.glade.h:26
 msgid "When co_mpleted:"
-msgstr ""
+msgstr "പൂര്‍ത്തിയാകുന്പോള്‍‍: (_m)"
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "When decli_ned:"
@@ -20442,7 +20486,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:28
 msgid "Wi_thin"
-msgstr ""
+msgstr "ഉളളില്‍ (_t)"
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "_After:"
@@ -20454,11 +20498,11 @@ msgstr "മുഴുവന്‍ വിവരങ്ങള്‍ (_A)"
 
 #: ../widgets/misc/e-send-options.glade.h:31
 msgid "_Delay message delivery"
-msgstr ""
+msgstr "സന്ദേശം താമസിച്ച് അയയ്ക്കുക (_D)"
 
 #: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Delivered"
-msgstr ""
+msgstr "അയച്ചു കഴിഞ്ഞു (_D)"
 
 #: ../widgets/misc/e-send-options.glade.h:34
 msgid "_Set expiration date"
@@ -20466,15 +20510,15 @@ msgstr "കാലാവധി അവസാനിക്കുന്ന ദിവ�
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Until:"
-msgstr ""
+msgstr "പരിധി: (_U)"
 
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "_When convenient"
-msgstr ""
+msgstr "സാധ്യമാകുന്പോള്‍ (_W)"
 
 #: ../widgets/misc/e-send-options.glade.h:37
 msgid "_When opened:"
-msgstr ""
+msgstr "തുറന്നപ്പോള്‍: (_W)"
 
 #: ../widgets/misc/e-task-widget.c:208
 #, c-format
@@ -20520,7 +20564,7 @@ msgstr "തിരഞ്ഞെടുത്ത നിര"
 
 #: ../widgets/table/e-cell-pixbuf.c:404
 msgid "Focused Column"
-msgstr ""
+msgstr "കര്‍സറുളള നിര"
 
 #: ../widgets/table/e-cell-pixbuf.c:411
 msgid "Unselected Column"
@@ -20544,7 +20588,7 @@ msgstr "നിരയ്ക്ക് നിറം കൊടുക്കുക"
 
 #: ../widgets/table/e-cell-text.c:1828
 msgid "BG Color Column"
-msgstr ""
+msgstr "BG നിറത്തിലുളള നിര"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
@@ -20575,7 +20619,7 @@ msgstr "അവരോഹരണത്തില്‍"
 #: ../widgets/table/e-table-config-no-group.glade.h:8
 #: ../widgets/table/e-table-config.glade.h:7
 msgid "Group Items By"
-msgstr ""
+msgstr "വസ്തുക്കള്‍ ഗ്രൂപ്പ് ചെയ്യേണ്ടത്"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
@@ -20600,7 +20644,7 @@ msgstr "ഫീള്‍ഡുകള്‍ കാണിക്കുക"
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
 msgid "Show field in View"
-msgstr ""
+msgstr "വ്യൂയില്‍ ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:12
@@ -20615,7 +20659,7 @@ msgstr "ക്രമീകരിക്കുക്കേണ്ട രീതി"
 #: ../widgets/table/e-table-config-no-group.glade.h:16
 #: ../widgets/table/e-table-config.glade.h:14
 msgid "Then By"
-msgstr ""
+msgstr "Then By"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 msgid "_Add ->"
@@ -20649,7 +20693,7 @@ msgstr "ക്രമീകരിച്ചിട്ടില്ലാത്തത
 
 #: ../widgets/table/e-table-config.c:355
 msgid "No grouping"
-msgstr ""
+msgstr "ഗ്രൂപ്പ് ആവശ്യമില്ല"
 
 #: ../widgets/table/e-table-config.c:584
 msgid "Available Fields"
@@ -20657,7 +20701,7 @@ msgstr "ലഭ്യമായ ഫീള്‍ഡുകള്‍"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
-msgstr ""
+msgstr "എങ്ങനെ ഗ്രൂപ്പ് ചെയ്യണം... (_G)"
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
@@ -20675,7 +20719,7 @@ msgstr "DnD കോഡ്"
 #: ../widgets/table/e-table-field-chooser.c:84
 #: ../widgets/table/e-table-header-item.c:1906
 msgid "Full Header"
-msgstr ""
+msgstr "മുഴുവന്‍ തലക്കെട്ട്"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
@@ -20683,7 +20727,7 @@ msgstr "ഒരു നിര ചേര്‍ക്കുക..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
-msgstr ""
+msgstr "ഫീള്‍ഡ് തിരഞ്ഞെടുക്കല്‍"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
@@ -20713,7 +20757,7 @@ msgstr[1] "%s (%d വസ്തുക്കള്‍)"
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 msgid "Alternating Row Colors"
-msgstr ""
+msgstr "ഒന്നിടവിട്ടുളള നിരകളുടെ നിറം"
 
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-container.c:905
@@ -20722,7 +20766,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
-msgstr ""
+msgstr "ഇടത്ത് നിന്നും വലത്തേക്ക് വരയ്ക്കുന്നതിനുളള ഗ്രിഡ്"
 
 #: ../widgets/table/e-table-group-container.c:911
 #: ../widgets/table/e-table-group-container.c:912
@@ -20731,7 +20775,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
-msgstr ""
+msgstr "മുകളില്‍ നിന്നും താഴേക്ക് വരയ്ക്കുന്നതിനുളള ഗ്രിഡ"
 
 #: ../widgets/table/e-table-group-container.c:918
 #: ../widgets/table/e-table-group-container.c:919
@@ -20740,7 +20784,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
-msgstr ""
+msgstr "ശ്രദ്ധ കേന്ദ്രീകരിക്കുക"
 
 #: ../widgets/table/e-table-group-container.c:925
 #: ../widgets/table/e-table-group-container.c:926
@@ -20748,7 +20792,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-item.c:3001 ../widgets/table/e-table-item.c:3002
 msgid "Cursor mode"
-msgstr ""
+msgstr "കര്‍സര്‍ രീതി"
 
 #: ../widgets/table/e-table-group-container.c:932
 #: ../widgets/table/e-table-group-container.c:933
@@ -20756,7 +20800,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
-msgstr ""
+msgstr "തിരഞ്ഞെടുക്കുന്ന വിധം"
 
 #: ../widgets/table/e-table-group-container.c:939
 #: ../widgets/table/e-table-group-container.c:940
@@ -20766,7 +20810,7 @@ msgstr ""
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
-msgstr ""
+msgstr "Length Threshold"
 
 #: ../widgets/table/e-table-group-container.c:946
 #: ../widgets/table/e-table-group-container.c:947
@@ -20803,11 +20847,11 @@ msgstr "ക്രമീകരണം മാറ്റുക"
 
 #: ../widgets/table/e-table-header-item.c:1495
 msgid "Group By This Field"
-msgstr ""
+msgstr "ഈ ഫീള്‍ഡ് അനുസരിച്ച് ഗ്രൂപ്പ് ചെയ്യുക"
 
 #: ../widgets/table/e-table-header-item.c:1496
 msgid "Group By Box"
-msgstr ""
+msgstr "ബോക്സ് അനുസരിച്ച് ഗ്രൂപ്പ് ചെയ്യുക"
 
 #: ../widgets/table/e-table-header-item.c:1498
 msgid "Remove This Column"
@@ -20827,7 +20871,7 @@ msgstr "ഏറ്റവും അനുയോജ്യം"
 
 #: ../widgets/table/e-table-header-item.c:1503
 msgid "Format Columns..."
-msgstr ""
+msgstr "നിരകള്‍ ക്രമപ്പെടുത്തുക..."
 
 #: ../widgets/table/e-table-header-item.c:1505
 msgid "Customize Current View..."
@@ -20863,7 +20907,7 @@ msgstr "ടേബിളിന്‍റെ രീതി"
 
 #: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
-msgstr ""
+msgstr "കര്‍സര്‍ വരി"
 
 #: ../widgets/table/e-table.c:3315 ../widgets/table/e-tree.c:3298
 #: ../widgets/table/e-tree.c:3299
@@ -20880,11 +20924,11 @@ msgstr "ETree ടേബിള്‍ അഡാപ്റ്റര്‍"
 
 #: ../widgets/table/e-tree.c:3305
 msgid "Retro Look"
-msgstr ""
+msgstr "Retro Look"
 
 #: ../widgets/table/e-tree.c:3306
 msgid "Draw lines and +/- expanders."
-msgstr ""
+msgstr "വരകളും +/- എക്സ്പോന്‍ഡറുകളും വരയ്ക്കുന്നു"
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
@@ -20896,7 +20940,7 @@ msgstr "Copyright (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
 msgid "This should test the minicard canvas item"
-msgstr ""
+msgstr "മിനികാര്‍ഡ് കാന്‍വാസ് വസ്തു ഇത് ഉപയോഗിച്ച് പരീക്ഷിക്കുന്നു."
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3496 ../widgets/text/e-text.c:3497
