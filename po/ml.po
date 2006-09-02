@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 07:17+0200\n"
-"PO-Revision-Date: 2006-09-01 23:46+0530\n"
+"PO-Revision-Date: 2006-09-02 13:43+0530\n"
 "Last-Translator: Ani Peter <apeter@redhat.com>\n"
 "Language-Team: Malayalam\n"
 "MIME-Version: 1.0\n"
@@ -1115,6 +1115,9 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
+"Evolution കണക്ട് ചെയ്യുവാന്‍ ശ്രമിക്കുന്ന LDAP സര്‍വറിലുളള പോര്‍ട്ടാണ് ഇത്. നിങ്ങള്‍ക്ക് "
+"നിലവാരമുളള പോര്‍ട്ടുകളുടെ തന്നിട്ടുണ്ട്, മറ്റ് പോര്‍ട്ടുകള്‍ ഉപയോഗിക്കുന്നതിന് സിസ്റ്റം അഡ്മിനിസ്ട്രേറ്ററുമായി "
+"ബന്ധപ്പെടുക."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
@@ -3178,7 +3181,7 @@ msgstr "ഉയരം"
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
 #: ../addressbook/gui/widgets/e-minicard.c:164
 msgid "Has Focus"
-msgstr ""
+msgstr "കര്‍സര്‍ ഇവിടെയാണ്"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
@@ -3511,6 +3514,9 @@ msgid ""
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
+"Evolution-ന്‍റെ ഈ വേര്‍ഷന്‍ ഇതിലുളള LDAP സര്‍വറിനെ പിന്തുണയ്ക്കുന്നില്ല. നിങ്ങള്‍ക്ക് Evolution-ല്‍ "
+"LDAP ഉപയോഗിക്കണമെങ്കില്‍, LDAP-എനേഹബിള്‍ഡ് Evolution പാക്കേജ് "
+"ഇന്‍സ്റ്റോള്‍ ചെയ്യേണ്ടാതാണ്."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:124
 msgid ""
@@ -3769,7 +3775,7 @@ msgstr "8 pt. Tahoma"
 
 #: ../addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
-msgstr ""
+msgstr "അവസാനമുളള ശൂന്യമായ ഫോമുകള്‍:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
@@ -3843,7 +3849,7 @@ msgstr "ഇടത്:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "ഇരുവശത്തുമുളള ലെറ്റര്‍ ടാബുകള്‍"
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -3941,7 +3947,7 @@ msgstr "ലിപി... (_F)"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
-msgstr ""
+msgstr "വിലാസം പ്രിന്‍റ് ചെയ്യുന്ന എഡിറ്റരുടെ പരീക്ഷണം"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
 #: ../addressbook/printing/test-print.c:53
@@ -3950,15 +3956,15 @@ msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "വിലാസം പ്രിന്‍റ് ചെയ്യുന്ന എഡിറ്റര്‍ വിഡ്ജറ്റിനെ പരീക്ഷിക്കുന്നതിനുളള സംവിധാനമാണിത്."
 
 #: ../addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
-msgstr ""
+msgstr "വിലാസം പ്രിന്‍റ് ചെയ്യുന്ന പരീക്ഷണം"
 
 #: ../addressbook/printing/test-print.c:55
 msgid "This should test the contact print code"
-msgstr ""
+msgstr "വിലാസം പ്രിന്‍റ് ചെയ്യുന്നതിനുളള കോഡ് ഇത് പരീക്ഷിക്കുന്നു"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
@@ -3996,11 +4002,11 @@ msgstr "[vcard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode"
-msgstr ""
+msgstr "അസിന്‍ക്രൊണസ് മോഡില്‍ എക്സ്പോര്‍ട്ട് ചെയ്യുക"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "The number of cards in one output file in asychronous mode, default size 100."
-msgstr ""
+msgstr "അസിന്‍ക്രൊണസ് മോഡില്‍ ഔട്ട് പുട്ട് ഫയലിലുളള കാര്‍ഡുകളുടെ എണ്ണം, ഡീഫോള്‍ഡ് വലിപ്പം 100 ആണ്."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
@@ -4057,38 +4063,54 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
+"ഈ ജേര്‍ണല്‍ എന്‍റിന്‍റികളിലുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:4
 msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
+"ഈ ജേര്‍ണലിലുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
+"ഈ അപ്പോയിന്‍റ്മെന്‍റ് സംബന്ധിച്ചുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:6
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
+"ഈ ജോലി സംബന്ധിച്ചുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"ഈ അപ്പോയിന്‍റ്മെന്‍റ് സംബന്ധിച്ചുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
+"ഈ ജേര്‍ണല്‍ എന്‍റിന്‍റിയിലുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
+"ഈ മീറ്റിങ് സംബന്ധിച്ചുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
+"ഈ ജോലി സംബന്ധിച്ചുളള വിവരങ്ങള്‍ എല്ലാം നീക്കം ചെയ്യപ്പെടുന്നു, വീണ്ടെടുക്കുവാന്‍ "
+"സാധ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -4096,19 +4118,19 @@ msgstr "'{0}' ജോലി നിങ്ങള്‍ക്ക് നീക്ക�
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr ""
+msgstr "'{0}' എന്ന അപ്പോയിന്‍റ്മെന്‍റ് നിങ്ങള്‍ക്ക് നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr ""
+msgstr "'{0}' എന്ന ജേര്‍ണല്‍ എന്‍ട്രി നിങ്ങള്‍ക്ക് നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr ""
+msgstr "'{0}' അപ്പോയിന്‍റ്മെന്‍റുകള്‍ നിങ്ങള്‍ക്ക് നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr ""
+msgstr "'{0}' ജേര്‍ണല്‍ എന്‍ട്രികള്‍ നിങ്ങള്‍ക്ക് നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} tasks?"
@@ -4116,17 +4138,17 @@ msgstr "ഈ '{0}' ജോലികള്‍ നിങ്ങള്‍ക്ക് 
 
 #: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete this appointment?"
-msgstr ""
+msgstr "ഈ അപ്പോയിന്‍റ്മെന്‍റ് നിങ്ങള്‍ക്ക് നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:18
 #: ../calendar/gui/dialogs/delete-comp.c:189
 msgid "Are you sure you want to delete this journal entry?"
-msgstr ""
+msgstr "ഈ ജേര്‍ണല്‍ എന്‍ട്രി നിങ്ങള്‍ക്ക് നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:19
 #: ../calendar/gui/dialogs/delete-comp.c:183
 msgid "Are you sure you want to delete this meeting?"
-msgstr ""
+msgstr "ഈ മീറ്റിങ് നിങ്ങള്‍ക്ക് നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:186
@@ -4204,42 +4226,56 @@ msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
+"നിങ്ങള്‍ റദ്ദാക്കല്‍ നോട്ടീസ് അയച്ചില്ലായെങ്കില്‍, ഈ ജേര്‍ണല്‍ നീക്കം ചെയ്തു എന്ന് പങ്കെടുക്കുന്നവര്‍ "
+"അറിയില്ല."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
+"നിങ്ങള്‍ റദ്ദാക്കല്‍ നോട്ടീസ് അയച്ചില്ലായെങ്കില്‍, ഈ മീറ്റിങ് റദ്ദാക്കി എന്ന് പങ്കെടുക്കുന്നവര്‍ "
+"അറിയില്ല."
 
 #: ../calendar/calendar.error.xml.h:38
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
+"നിങ്ങള്‍ റദ്ദാക്കല്‍ നോട്ടീസ് അയച്ചില്ലായെങ്കില്‍, ജോലി നീക്കം ചെയ്തു എന്ന് പങ്കെടുക്കുന്നവര്‍ "
+"അറിയില്ല."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
+"പങ്കെടുക്കുന്നവര്‍ക്ക് പുതുക്കിയ വിവരങ്ങള്‍ നല്‍കുന്നത് അവരുടെ കലണ്ടര്‍ പുതുക്കുന്നതിന് "
+"അവരെ സഹായിക്കുന്നു."
 
 #: ../calendar/calendar.error.xml.h:40
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
+"പങ്കെടുക്കുന്നവര്‍ക്ക് പുതുക്കിയ വിവരങ്ങള്‍ നല്‍കുന്നത് അവരുടെ ജോലിയുടെ ലിസ്റ്റ് പുതുക്കുന്നതിന് "
+"അവരെ സഹായിക്കുന്നു."
 
 #: ../calendar/calendar.error.xml.h:41
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr ""
+"ചില അറ്റാച്മെന്‍റുകള്‍ ഡൌണ്‍‍ലോഡ് ചെയ്യപ്പെടുന്നു. അപ്പോയിന്‍റ്മെന്‍റ് നിങ്ങള്‍ സംരക്ഷിച്ചാല്‍, "
+"അറ്റാച്മെന്‍റുകള്‍ നിങ്ങള്‍ക്ക് നഷ്ടമാകും."
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
+"ചില അറ്റാച്മെന്‍റുകള്‍ ഡൌണ്‍‍ലോഡ് ചെയ്യപ്പെടുന്നു. ജോലി നിങ്ങള്‍ സംരക്ഷിച്ചാല്‍, "
+"അറ്റാച്മെന്‍റുകള്‍ നിങ്ങള്‍ക്ക് നഷ്ടമാകും."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
@@ -4259,15 +4295,15 @@ msgstr "Evolution ജോലികള്‍ അപ്രതീക്ഷിതമ�
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The calendar is not marked for offline usage."
-msgstr ""
+msgstr "നെറ്റ്‍വര്‍ക്കിലല്ലാത്തപ്പോള്‍ ഉപയോഗിക്കുന്നതിനുളള കലണ്ടര്‍ അല്ല ഇത്."
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
-msgstr ""
+msgstr "നെറ്റ്‍വര്‍ക്കിലല്ലാത്തപ്പോള്‍ ഉപയോഗിക്കുന്നതിനുളള മെമ്മോ ലിസ്റ്റ് അല്ല ഇത്."
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
-msgstr ""
+msgstr "നെറ്റ്‍വര്‍ക്കിലല്ലാത്തപ്പോള്‍ ഉപയോഗിക്കുന്നതിനുളള ജോലിയുടെ ലിസ്റ്റ് അല്ല ഇത്."
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "This calendar will be removed permanently."
@@ -4283,7 +4319,7 @@ msgstr "ഈ ടാസ്ക് ലിസ്റ്റ് എന്നേക്ക
 
 #: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to save your changes to this appointment?"
-msgstr ""
+msgstr "ഈ അപ്പോയിന്‍റ്മെന്‍റിലേക്ക് വരുത്തിയ മാറ്റങ്ങള്‍ നിങ്ങള്‍ക്ക് സൂക്ഷിക്കണമോ?"
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this memo?"
@@ -4295,27 +4331,27 @@ msgstr "ഈ ജോലിയിലേക്ക് നിങ്ങള്‍ വര
 
 #: ../calendar/calendar.error.xml.h:56
 msgid "Would you like to send a cancelation notice for this journal entry?"
-msgstr ""
+msgstr "നിങ്ങള്‍ക്ക് ഈ ജേര്‍ണല്‍ എന്‍ട്രിയ്ക്ക് ഒരു റദ്ദാക്കല്‍ നോട്ടീസ് അയയ്ക്കണമോ?"
 
 #: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to send all the participants a cancelation notice?"
-msgstr ""
+msgstr "പങ്കെടുക്കന്നവര്‍ക്കെല്ലാം ഒരു റദ്ദാക്കല്‍ നോട്ടീസ് അയയ്ക്കണമോ?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "പങ്കെടുക്കുന്നവര്‍ക്ക് മീറ്റിങിനുളള ക്ഷണക്കത്ത് അയയ്ക്കണമോ?"
 
 #: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "പങ്കെടുക്കുന്നവര്‍ക്ക് ഈ ജോലി അയയ്ക്കണമോ?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "മീറ്റിങിന്‍റെ പുതുക്കിയ വിവരങ്ങള്‍ നിങ്ങള്‍ക്ക് പങ്കെടുക്കുന്നവര്‍ക്ക് അയച്ചുകൊടുക്കണമോ?"
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "ജോലിയുടെ പുതുക്കിയ വിവരങ്ങള്‍ നിങ്ങള്‍ക്ക് പങ്കെടുക്കുന്നവര്‍ക്ക് അയച്ചുകൊടുക്കണമോ?"
 
 #: ../calendar/calendar.error.xml.h:62
 msgid ""
@@ -4332,7 +4368,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this appointment, but not yet saved it."
-msgstr ""
+msgstr "നിങ്ങള്‍ ഈ അപ്പോയിന്‍റ്മെന്‍റില്‍ മാറ്റങ്ങള്‍ വരുത്തി, പക്ഷേ സംരക്ഷിച്ചിട്ടില്ല."
 
 #: ../calendar/calendar.error.xml.h:65
 msgid "You have changed this task, but not yet saved it."
@@ -4402,17 +4438,17 @@ msgstr "evolution-data-server ആരംഭിക്കുവാന്‍ സാ�
 #: ../calendar/conduits/calendar/calendar-conduit.c:1529
 #: ../calendar/conduits/calendar/calendar-conduit.c:1532
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "പൈലറ്റിന്‍റെ കലണ്ടറിനുളള ആപ്ളിക്കേഷന്‍ ബ്ളോക്ക് വായിക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../calendar/conduits/memo/memo-conduit.c:937
 #: ../calendar/conduits/memo/memo-conduit.c:940
 msgid "Could not read pilot's Memo application block"
-msgstr ""
+msgstr "പൈലറ്റിന്‍റെ മെമ്മോയ്ക്കുളള ആപ്ളിക്കേഷന്‍ ബ്ളോക്ക് വായിക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../calendar/conduits/memo/memo-conduit.c:976
 #: ../calendar/conduits/memo/memo-conduit.c:979
 msgid "Could not write pilot's Memo application block"
-msgstr ""
+msgstr "പൈലറ്റിന്‍റെ കലണ്ടറിനുളള ആപ്ളിക്കേഷന്‍ ബ്ളോക്ക് എഴുതുവാന്‍ സാധ്യമല്ല"
 
 #: ../calendar/conduits/todo/todo-conduit.c:239
 msgid "Default Priority:"
@@ -4421,12 +4457,12 @@ msgstr "ഡീഫോള്‍ട്ടായ മുന്‍ഗണന:"
 #: ../calendar/conduits/todo/todo-conduit.c:1112
 #: ../calendar/conduits/todo/todo-conduit.c:1115
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "പൈലറ്റിന്‍റെ ചെയ്യുവാനുളള കാര്യങ്ങള്‍ക്കുളള ആപ്ളിക്കേഷന്‍ ബ്ളോക്ക് വായിക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1151
 #: ../calendar/conduits/todo/todo-conduit.c:1154
 msgid "Could not write pilot's ToDo application block"
-msgstr ""
+msgstr "പൈലറ്റിന്‍റെ ചെയ്യുവാനുളള കാര്യങ്ങള്‍ക്കുളള ആപ്ളിക്കേഷന്‍ ബ്ളോക്ക് എഴുതുവാന്‍ സാധ്യമല്ല‍"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 #: ../plugins/itip-formatter/itip-formatter.c:2042
@@ -4448,7 +4484,7 @@ msgstr "Evolution കലണ്ടറും ജോലികളും"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Evolution Calendar configuration control"
-msgstr ""
+msgstr "Evolution കലണ്ടര്‍ കോണ്‍ഫിഗറേഷനുളള പ്രയോഗം"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
@@ -4505,7 +4541,7 @@ msgstr "ടാസ്ക്കുകള്‍ (_T)"
 
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr ""
+msgstr "Evolution കലണ്ടറിലുളള അലാറം അറിയിക്കുന്നതിനുളള സര്‍വീസ്"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
 msgid "minute"
@@ -4545,7 +4581,7 @@ msgstr "സ്ഥാനം:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
-msgstr ""
+msgstr "ഇനി എത്ര സമയത്തിന് ശേഷം: (_t)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
@@ -4564,16 +4600,16 @@ msgstr "മാറ്റം വരുത്തുക (_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
-msgstr ""
+msgstr "വീണ്ടും അലാറം അടിക്കുക (_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റെ സ്ഥാനം"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1452
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1598
 msgid "No summary available."
-msgstr ""
+msgstr "ചുരുക്കത്തിലുളള വിവരം ലഭ്യമല്ല."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1461
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1463
@@ -4587,7 +4623,7 @@ msgstr "സ്ഥാന വിവരങ്ങള്‍ ലഭ്യമല്ല.
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1530
 #, c-format
 msgid "You have %d alarms"
-msgstr ""
+msgstr "നിങ്ങള്‍ക്ക് %d അലാറമുകള്‍ ഉണ്ട്"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1696
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1724
@@ -4612,6 +4648,12 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"Evolution കലണ്ടര്‍ റിമയിന്‍ഡര്‍ ട്രിഗ്ഗര്‍ ചെയ്യുന്നതിനുളള പുറപ്പാടിലാണ്. താഴെ പറഞ്ഞിരിക്കുന്ന "
+"പ്രോഗ്രാം പ്രവര്‍ത്തിക്കുന്നതിനുളള സംവിധാനമാണിത് :\n"
+"\n"
+"        %s\n"
+"\n"
+"നിങ്ങള്‍ക്ക് ഈ പ്രോഗ്രാം പ്രവര്‍ത്തിക്കണമോ?"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1744
 msgid "Do not ask me about this program again."
@@ -4660,7 +4702,7 @@ msgstr[1] "%d സെക്കന്‍ഡുകള്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
-msgstr ""
+msgstr "അലാറമിനുളള പ്രോഗ്രാമുകള്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 msgid "Ask for confirmation when deleting items"
@@ -4668,19 +4710,19 @@ msgstr "ഇനങ്ങള്‍ നീക്കം ചെയ്യുന്ന�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr ""
+msgstr "ഇന്ന് ചെയ്യേണ്ട ജോലികളുടെ പശ്ചാത്തല നിറം \"#rrggbb\" രീതിയിലാണ്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr ""
+msgstr "സമയം കഴിഞ്ഞുപോയ ജോലികളുടെ പശ്ചാത്തല നിറം \"#rrggbb\" രീതിയിലാണ്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
-msgstr ""
+msgstr "അലാറമുകള്‍ക്കുളള കലണ്ടര്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr ""
+msgstr "ടൈം ബാറില്‍ Marcus Bains Line വരയ്ക്കുന്നതിനുളള നിറം (ഡീഫോള്‍ട്ടാണ് എങ്കില്‍ ശൂന്യം)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Color to draw the Marcus Bains line in the Day View."
@@ -4688,7 +4730,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Compress weekends in month view"
-msgstr ""
+msgstr "ഓരോ മാസവും കാണുന്ന കലണ്ടറിലുളള ആഴ്ചകള്‍ ചുരുക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Confirm expunge"
@@ -4696,23 +4738,23 @@ msgstr "expunge ഉറപ്പ് വരുത്തുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
-msgstr ""
+msgstr "ജോലി സമയങ്ങളുടെ ആരംഭവും അവസാനവും അറിയിക്കേണ്ട ദിവസങ്ങള്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
-msgstr ""
+msgstr "ഡീഫോള്‍ട്ടായ അപ്പോയിന്‍റ്മെന്‍റ് റിമയിന്‍ഡര്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
-msgstr ""
+msgstr "ഡീഫോള്‍ട്ട് റിമയിന്‍ഡര്‍ യൂണിറ്റുകള്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Default reminder value"
-msgstr ""
+msgstr "ഡീഫോള്‍ട്ട് റിമയിന്‍ഡര്‍ മൂല്ല്യം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Event Gradient"
-msgstr ""
+msgstr "ഇവന്‍റ് ഗ്രേഡിയന്‍റ്"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Event Transparency"
@@ -4720,11 +4762,11 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Free/busy server URLs"
-msgstr ""
+msgstr "ഫ്രീ/തിരക്കിലുളള സര്‍വര്‍ URL"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Free/busy template URL"
-msgstr ""
+msgstr "ഫ്രീ/തിരക്കിലുളള ടെംപ്ളേറ്റ് URL"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Gradient of the events in calendar views."
@@ -4736,7 +4778,7 @@ msgstr "പൂര്‍ത്തിയാക്കിയ ജോലികള്�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hide task units"
-msgstr ""
+msgstr "ടാസ്ക് യൂണിറ്റുകള്‍ അദൃശ്യമാക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Hide task value"
@@ -4744,27 +4786,27 @@ msgstr "ടാസ്കിന്‍റെ മൂല്ല്യം അദൃശ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Horizontal pane position"
-msgstr ""
+msgstr "ഇടത്ത് നിന്നും വലത്തേക്കുളള പാളിയുടെ സ്ഥാനം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ അവസാനിക്കുന്ന സമയം, 24-മണിക്കൂര്‍ സമയ രീതിയില്‍, 0-23 വരെ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ ആരംഭിക്കുന്ന സമയം, 24-മണിക്കൂര്‍ സമയ രീതിയില്‍, 0-23 വരെ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr ""
+msgstr "ദിവസങ്ങളും ജോലിയുളള ആഴ്ചയുടെ കലണ്ടറുകളിലും കാണിക്കുന്ന ഇടവേള സമയം, മിനിട്ടുകളില്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Last alarm time"
-msgstr ""
+msgstr "അവസാനം അലാറം അടിച്ച സമയം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "List of server URLs for free/busy publishing."
-msgstr ""
+msgstr "ഫ്രീ/തിരക്ക് എന്ന് പ്രസദ്ധീകരിക്കുന്നതിനുളള സര്‍വര്‍ URL-കളുടെ ലിസ്റ്റ്"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Marcus Bains Line"
@@ -4772,19 +4814,19 @@ msgstr "Marcus Bains ലൈന്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Marcus Bains Line Color - Day View"
-msgstr ""
+msgstr "Marcus Bains Line നിറം - ദിവസങ്ങള്‍ അനുസരിച്ച് കാണിക്കുന്ന കലണ്ടറില്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Marcus Bains Line Color - Time bar"
-msgstr ""
+msgstr "Marcus Bains Line നിറം - സമയത്തിന്‍റെ ബാര്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Minute the workday ends on, 0 to 59."
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ അവസാനിക്കുന്ന സമയം, മിനിട്ടുകളില്‍, 0-59 വരെ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Minute the workday starts on, 0 to 59."
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ ആരംഭിക്കുന്ന സമയം, മിനിട്ടുകളില്‍, 0-59 വരെ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Month view horizontal pane position"
@@ -4796,15 +4838,15 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
 msgid "Number of units for determining a default reminder."
-msgstr ""
+msgstr "ഒരു ഡീഫോള്‍ട്ടായ റിമയിന്‍ഡര്‍ കണ്ടുപിടിക്കുന്നതിനുളള യൂണിറ്റുകളുടെ നംബര്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid "Number of units for determining when to hide tasks."
-msgstr ""
+msgstr "ജോലികള്‍ അദൃശ്യമാക്കുന്നതിനുളള യൂണിറ്റുകളുടെ നംബര്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid "Overdue tasks color"
-msgstr ""
+msgstr "സമയം കഴിഞ്ഞ ജോലികളുടെ നിറം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
@@ -4844,15 +4886,15 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Programs that are allowed to be run by alarms."
-msgstr ""
+msgstr "അലാറമുകള്‍ ഉപയോഗിച്ച് പ്രവര്‍ത്തിക്കുവാന്‍ അനുവാദമുളള പ്രോഗ്രാമുകള്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള RSVP ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള വേഷത്തിന്‍റെ ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Show appointment end times in week and month views"
@@ -4860,41 +4902,41 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 msgid "Show categories field in the event/meeting/task editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള വിഭാഗങ്ങളുടെ ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Show display alarms in notification tray"
-msgstr ""
+msgstr "നോട്ടിഫിക്കേഷന്‍ ട്രേയില്‍ പ്രദര്‍ശനത്തിനുളള അലാറമുകള്‍ കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള നിലവാരത്തിന്‍റെ ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 #: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "Show the \"Preview\" pane"
-msgstr ""
+msgstr "\"സ്ക്രീനില്‍ കാണിക്കുക\" പാളി കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 #: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "Show the \"Preview\" pane."
-msgstr ""
+msgstr "\"സ്ക്രീനില്‍ കാണിക്കുക\" പാളി കാണിക്കുക."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള സമയമേഖലയുടെ ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
 msgid "Show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള ഏത് തരം എന്ന ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid "Show week numbers in date navigator"
-msgstr ""
+msgstr "തീയതിയ്ക്കുളള നാവിഗേറ്ററില്‍ ആഴ്ചകളുടെ എണ്ണം കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Tasks due today color"
-msgstr ""
+msgstr "ഇന്ന് അവസാനിക്കുന്ന ജോലികള്‍ക്കുളള നിറം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Tasks vertical pane position"
@@ -4915,11 +4957,11 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Time divisions"
-msgstr ""
+msgstr "സമയ വിഭാഗങ്ങള്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Time the last alarm ran, in time_t."
-msgstr ""
+msgstr "അവസാനമായി അലാറം അടിച്ച സമയം, time_t-ല്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid "Timezone"
@@ -4937,11 +4979,11 @@ msgstr "ഇരുപത്തിനാല്‍ മണിക്കൂര്‍ �
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
+msgstr "ഡീഫോള്‍ട്ട് കലണ്ടറിനുളള യൂണിറ്റുകള്‍, \"മിനിറ്റുകള്‍\", \"മണിക്കൂറുകള്‍\" അല്ലെങ്കില്‍ \"ദിവസങ്ങള്‍\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
+msgstr "ജോലികള്‍ എപ്പോള്‍ അദൃശ്യമാക്കണമെന്നുളള യൂണിറ്റുകള്‍, \"മിനിറ്റുകള്‍\", \"മണിക്കൂറുകള്‍\" അല്ലെങ്കില്‍ \"ദിവസങ്ങള്‍\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid "Week start"
@@ -4953,11 +4995,11 @@ msgstr "ആഴ്ചയുടെ ആരംഭം തുടങ്ങുന്ന�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid "Whether or not to use the notification tray for display alarms."
-msgstr ""
+msgstr "അലാറമുകള്‍ പ്രദര്‍ശിപ്പിക്കുന്നതിനുളള നോട്ടിഫിക്കേഷന്‍ ട്രേ ഉപയോഗിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr ""
+msgstr "ഒരു അപ്പോയിന്‍റ്മെന്‍റ് അല്ലെങ്കില്‍ ജോലി നീക്കം ചെയ്യുന്നതിന് മുന്പ് ഉറപ്പ് വരുത്തണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
@@ -4972,50 +5014,52 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
 msgid "Whether to display the end time of events in the week and month views."
 msgstr ""
+"ആഴ്ചയും മാസവും അനുസരിച്ച് കാണിക്കുന്ന കലണ്ടറില്‍ ഇവന്‍റുകള്‍ അവസാനിക്കുന്ന "
+"സമയം കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr ""
+msgstr "കലണ്ടറില്‍ Marcus Bains Line വരയ്ക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
 msgid "Whether to hide completed tasks in the tasks view."
-msgstr ""
+msgstr "ജോലികള്‍ കാണുന്ന കലണ്ടറില്‍ ജോലികള്‍ അദൃശ്യമാക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
 msgid "Whether to set a default reminder for appointments."
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റുകള്‍ക്കുളള ഡീഫോള്‍ട്ടായ റിമയിന്‍ഡര്‍ സെറ്റ് ചെയ്യണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള RSVP ഫീള്‍ഡ് കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള വിഭാഗങ്ങളുടെ ഫീള്‍ഡ് കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള വേഷത്തിനുളള ഫീള്‍ഡ് കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:82
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള നിലവാരത്തിന്‍റെ ഫീള്‍ഡ് കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:83
 msgid "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
+msgstr "സമയം am/pm എന്നതിന് പകരം 24-മണിക്കൂര്‍ രീതിയില്‍ കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:84
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള സമയമേഖലയുടെ ഫീള്‍ഡ് കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:85
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ്ററിലുളള ഏത് തരം എന്ന ഫീള്‍ഡ് കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
 msgid "Whether to show week numbers in the date navigator."
-msgstr ""
+msgstr "തീയതിയുടെ നാവിഗേറ്ററില്‍ ആഴ്ചയുടെ എണ്ണം കാണിക്കണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Whether to use daylight savings time while displaying events."
@@ -5027,19 +5071,19 @@ msgstr "ജോലിയുളള ദിവസങ്ങള്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
 msgid "Workday end hour"
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ അവസാനിക്കുന്ന മണിക്കൂര്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
 msgid "Workday end minute"
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ അവസാനിക്കുന്ന മിനിറ്റ്"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:91
 msgid "Workday start hour"
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ ആരംഭിക്കുന്ന മണിക്കൂര്‍"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:92
 msgid "Workday start minute"
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍ ആരംഭിക്കുന്ന മിനിറ്റ്"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:93
 msgid "daylight savings time"
@@ -5047,7 +5091,7 @@ msgstr ""
 
 #: ../calendar/gui/cal-search-bar.c:53
 msgid "Summary contains"
-msgstr ""
+msgstr "ചുരുക്കുത്തില്‍ പറയുന്നത്"
 
 #: ../calendar/gui/cal-search-bar.c:54
 msgid "Description contains"
@@ -5123,56 +5167,56 @@ msgstr "പുതിയ കലണ്ടര്‍ (_N)"
 
 #: ../calendar/gui/calendar-component.c:899
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "കലണ്ടറുകള്‍ പുതുക്കുന്നതില്‍ പരാജയം."
 
 #: ../calendar/gui/calendar-component.c:1198
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
+msgstr "ഇവന്‍റുകളും മീറ്റിങുകളും ഉണ്ടാക്കുന്നതിനായി കലണ്ടര്‍ '%s' തുറക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/calendar-component.c:1214
 msgid "There is no calendar available for creating events and meetings"
-msgstr ""
+msgstr "ഇവന്‍റുകളും മീറ്റിങുകളും ഉണ്ടാക്കുന്നതിനായി കലണ്ടര്‍ ലഭ്യമല്ല"
 
 #: ../calendar/gui/calendar-component.c:1336
 msgid "Calendar Source Selector"
-msgstr ""
+msgstr "കലണ്ടറിന്‍റെ ഉറവിടം തിരഞ്ഞെടുക്കുന്നതിനുളള സംവിധാനം"
 
 #: ../calendar/gui/calendar-component.c:1544
 msgid "New appointment"
-msgstr ""
+msgstr "പുതിയ അപ്പോയിന്‍റ്മെന്‍റ്"
 
 #: ../calendar/gui/calendar-component.c:1545
 msgid "_Appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റ് (_A)"
 
 #: ../calendar/gui/calendar-component.c:1546
 msgid "Create a new appointment"
-msgstr ""
+msgstr "ഒരു പുതിയ അപ്പോയിന്‍റ്മെന്‍റ് ഉണ്ടാക്കുക"
 
 #: ../calendar/gui/calendar-component.c:1552
 msgid "New meeting"
-msgstr ""
+msgstr "പുതിയ മീറ്റിങ്"
 
 #: ../calendar/gui/calendar-component.c:1553
 msgid "M_eeting"
-msgstr ""
+msgstr "മീറ്റിങ് (_e)"
 
 #: ../calendar/gui/calendar-component.c:1554
 msgid "Create a new meeting request"
-msgstr ""
+msgstr "ഒരു പുതിയ മീറ്റിങിനായി ആവശ്യപ്പെടുക"
 
 #: ../calendar/gui/calendar-component.c:1560
 msgid "New all day appointment"
-msgstr ""
+msgstr "ഒരു ദിവസം മുഴുവനുളള പുതിയ അപ്പോയിന്‍റ്മെന്‍റ്"
 
 #: ../calendar/gui/calendar-component.c:1561
 msgid "All Day A_ppointment"
-msgstr ""
+msgstr "ഒരു ദിവസം മുഴുവനുളള അപ്പോയിന്‍റ്മെന്‍റ് (_p)"
 
 #: ../calendar/gui/calendar-component.c:1562
 msgid "Create a new all-day appointment"
-msgstr ""
+msgstr "ഒരു ദിവസം മുഴുവനുളള പുതിയ അപ്പോയിന്‍റ്മെന്‍റ് ഉണ്ടാക്കുക"
 
 #: ../calendar/gui/calendar-component.c:1568
 msgid "New calendar"
@@ -5188,19 +5232,19 @@ msgstr "ഒരു പുതിയ കലണ്ടര്‍ ഉണ്ടാക്
 
 #: ../calendar/gui/calendar-view-factory.c:109
 msgid "Day View"
-msgstr ""
+msgstr "ഓരോ ദിവസം അനുസരിച്ച് കലണ്ടരില്‍ കാണുക"
 
 #: ../calendar/gui/calendar-view-factory.c:112
 msgid "Work Week View"
-msgstr ""
+msgstr "ജോലിയുളള ഓരോ ആഴ്ച അനുസരിച്ച് കലണ്ടരില്‍ കാണുക"
 
 #: ../calendar/gui/calendar-view-factory.c:115
 msgid "Week View"
-msgstr ""
+msgstr "ഓരോ ആഴ്ച അനുസരിച്ച് കലണ്ടരില്‍ കാണുക"
 
 #: ../calendar/gui/calendar-view-factory.c:118
 msgid "Month View"
-msgstr ""
+msgstr "ഓരോ മാസം അനുസരിച്ച് കലണ്ടരില്‍ കാണുക"
 
 #: ../calendar/gui/comp-editor-factory.c:415
 msgid "Error while opening the calendar"
@@ -5208,7 +5252,7 @@ msgstr "കലണ്ടര്‍ തുറക്കുന്നതില്‍ �
 
 #: ../calendar/gui/comp-editor-factory.c:421
 msgid "Method not supported when opening the calendar"
-msgstr ""
+msgstr "കലണ്ടര്‍ തുറക്കുന്പോള്‍ ഈ മാര്‍ഗ്ഗം പിന്തുണയ്ക്കുന്നില്ല"
 
 #: ../calendar/gui/comp-editor-factory.c:427
 msgid "Permission denied to open the calendar"
@@ -5220,7 +5264,7 @@ msgstr "അപരിചിതമായ പിശക്"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:614
 msgid "Edit Alarm"
-msgstr ""
+msgstr "അലാറത്തില്‍ മാറ്റം വരുത്തുക"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:1
 msgid "<b>Alarm</b>"
@@ -5244,7 +5288,7 @@ msgstr "സന്ദേശം ഇഷ്ടാനുസരണം തയ്യാ�
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "അലാറത്തിനുളള ശബ്ദം ഇഷ്ടമുളള രീതിയിലാക്കുക"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Mes_sage:"
@@ -5258,7 +5302,7 @@ msgstr "ഒരു ശബ്ദം പ്ളെ ചെയ്യുക"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:9
 #: ../calendar/gui/e-alarm-list.c:450
 msgid "Pop up an alert"
-msgstr ""
+msgstr "ഒരു അറിയിപ്പ് പോപ്പപ്പ് ചെയ്യുക"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: ../calendar/gui/e-alarm-list.c:458
@@ -5276,7 +5320,7 @@ msgstr "ഒരു ഈമെയില്‍ അയയ്ക്കുക"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Arguments:"
-msgstr ""
+msgstr "ആര്‍ഗ്യുമെന്‍റുകള്‍: (_A)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Program:"
@@ -5307,11 +5351,11 @@ msgstr "ദിവസം"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21
 msgid "end of appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റെ അവസാനം"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "extra times every"
-msgstr ""
+msgstr "അധിക സമയം"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "hour(s)"
@@ -5323,11 +5367,11 @@ msgstr "മിനിട്ട്"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 msgid "start of appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റെ തുടക്കം"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
-msgstr ""
+msgstr "പ്രവര്‍ത്തി/ട്രിഗ്ഗര്‍"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
@@ -5346,7 +5390,7 @@ msgstr "അലാറമുകള്‍"
 #: ../composer/e-msg-composer-select-file.c:98
 #: ../composer/e-msg-composer-select-file.c:118
 msgid "_Suggest automatic display of attachment"
-msgstr ""
+msgstr "അറ്റാച്മെന്‍റ് ഓട്ടോമാറ്റിക്കായി പ്രദര്‍ശിപ്പിക്കുക (_S)"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
@@ -5354,7 +5398,7 @@ msgstr "ഫയല്‍ കൂട്ടിചേര്‍ക്കുക"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:486
 msgid "Selected Calendars for Alarms"
-msgstr ""
+msgstr "അലാറമുകള്‍ക്ക് കലണ്ടറുകള്‍ തിരഞ്ഞെടുത്തു"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid ""
@@ -5373,7 +5417,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr ""
+msgstr "<i>%u-ഉം %d ഈ മെയില്‍ വിലാസത്തില്‍ നിന്നുളള യൂസറിനും ഡൊമെയിനിനും പകരമാണ്.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:8
@@ -5382,7 +5426,7 @@ msgstr "<span weight=\"bold\">അറിയിപ്പുകള്‍</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ഡീഫോള്‍ട്ടായ ഫ്രീ/തിരക്കിലുളള സര്‍വര്‍</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:17
@@ -5408,7 +5452,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
-msgstr ""
+msgstr "ദിവസത്തിന്‍റെ അവസാനം: (_e)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
@@ -5473,15 +5517,15 @@ msgstr "ശനി"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Select the calendars for alarm notification"
-msgstr ""
+msgstr "അലാറമുകളുടെ അറിയിപ്പില്‍ നിന്നും കലണ്ടര്‍ തിരഞ്ഞെടുക്കുക"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "ഒരു റിമയിന്‍ഡര്‍ കാണിക്കുക (_o)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
-msgstr ""
+msgstr "തീയതിയ്ക്കുളള നാവിഗേറ്ററില്‍ ആഴ്ചകളുടെ എണ്ണം കാണിക്കുക (_n)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1090
@@ -5491,7 +5535,7 @@ msgstr "ഞായര്‍"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "T_asks due today:"
-msgstr ""
+msgstr "ഇന്ന് സമയം അവസാനിക്കുന്ന ജോലികള്‍: (_a)"
 
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
@@ -5536,7 +5580,7 @@ msgstr "ആഴ്ച ആരംഭിക്കുന്നത്: (_k)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "Work days:"
-msgstr ""
+msgstr "ജോലിയുളള ദിവസങ്ങള്‍:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_12 hour (AM/PM)"
@@ -5552,7 +5596,7 @@ msgstr "ഇനങ്ങള്‍ നീക്കം ചെയ്യുന്ന�
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Compress weekends in month view"
-msgstr ""
+msgstr "മാസങ്ങള്‍ കാണിക്കുന്ന കലണ്ടറില്‍ ആഴ്ചയുടെ അവസാനദിവസങ്ങള്‍ ചുരുക്കുക (_C)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Day begins:"
@@ -5565,7 +5609,7 @@ msgstr "വെ (_F)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Hide completed tasks after"
-msgstr ""
+msgstr "പൂര്‍ത്തിയായ ജോലികള്‍ അദൃശ്യമാക്കേണ്ടത് (_H)"
 
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
@@ -5574,7 +5618,7 @@ msgstr "തി (_M)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
-msgstr ""
+msgstr "സമയം അധികമായ ജോലികള്‍: (_O)"
 
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
@@ -5583,11 +5627,11 @@ msgstr "ശനി (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
-msgstr ""
+msgstr "ആഴ്ചകളിലും മാസങ്ങളിലും അപ്പോയിന്‍റ്മെന്‍റിന്‍റെ അവസാനം കാണിക്കുക (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
 msgid "_Time divisions:"
-msgstr ""
+msgstr "സമയ വിഭാഗങ്ങള്‍: (_T)"
 
 #. Tuesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
@@ -5601,19 +5645,19 @@ msgstr "ബു (_W)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
-msgstr ""
+msgstr "ഏത് അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പും"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:288
 msgid "Cop_y calendar contents locally for offline operation"
-msgstr ""
+msgstr "ഓഫ് ലൈന്‍ ആകുന്പോള്‍ പ്രവര്‍ത്തിക്കുന്നതിനായി കലണ്ടറിലുളള ഉളളടക്കം പകര്‍ത്തുക (_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
 msgid "Cop_y task list contents locally for offline operation"
-msgstr ""
+msgstr "ഓഫ് ലൈന്‍ ആകുന്പോള്‍ പ്രവര്‍ത്തിക്കുന്നതിനായി ജോലികളുടെ ലിസ്റ്റിന്‍റെ ഉളളടക്കം പകര്‍ത്തുക (_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:292
 msgid "Cop_y memo list contents locally for offline operation"
-msgstr ""
+msgstr "ഓഫ് ലൈന്‍ ആകുന്പോള്‍ പ്രവര്‍ത്തിക്കുന്നതിനായി മെമ്മോ ലിസ്റ്റിന്‍റെ ഉളളടക്കം പകര്‍ത്തുക (_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:3
@@ -5688,7 +5732,7 @@ msgstr "ഈ ടാസ്ക് നീക്കം ചെയ്തിരിക്
 
 #: ../calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr ""
+msgstr "ഈ ജേര്‍ണല്‍ എന്‍ട്രി നീക്കം ചെയ്തിരിക്കുന്നു."
 
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
@@ -5710,7 +5754,7 @@ msgstr "ഈ ടാസ്ക്കില്‍ മാറ്റം വരുത്
 
 #: ../calendar/gui/dialogs/changed-comp.c:92
 msgid "This journal entry has been changed."
-msgstr ""
+msgstr "ഈ ജേര്‍ണല്‍ എന്‍ട്രി മാറ്റിയിരിക്കുന്നു."
 
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
@@ -5725,7 +5769,7 @@ msgstr "%s  നിങ്ങള്‍ മാറ്റങ്ങള്‍ വരു
 #: ../calendar/gui/dialogs/comp-editor-page.c:515
 #, c-format
 msgid "Validation error: %s"
-msgstr ""
+msgstr "ഉറപ്പ് വരുത്തലിലുളള പിശക്: %s"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2280
 msgid " to "
@@ -5741,11 +5785,11 @@ msgstr "പൂര്‍ത്തീകരിച്ചു"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2291
 msgid " (Due "
-msgstr ""
+msgstr " (അവസാനിക്കുന്നത്"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2293
 msgid "Due "
-msgstr ""
+msgstr "അവസാനിക്കുന്നത്"
 
 #: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2888
 #, c-format
@@ -5775,7 +5819,7 @@ msgstr "വലിച്ചിടുന്നത് റദ്ദാക്കു�
 
 #: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
-msgstr ""
+msgstr "ഒബ്ജക്ട് പുതുക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/dialogs/comp-editor.c:948 ../composer/e-msg-composer.c:2501
 #, c-format
@@ -5786,12 +5830,12 @@ msgstr[1] "<b>%d</b> Attachments"
 
 #: ../calendar/gui/dialogs/comp-editor.c:980
 msgid "Hide Attachment _Bar"
-msgstr ""
+msgstr "അറ്റാച്മെന്‍റ് ബാര്‍ അദൃശ്യമാക്കുക (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:983
 #: ../calendar/gui/dialogs/comp-editor.c:1468
 msgid "Show Attachment _Bar"
-msgstr ""
+msgstr "അറ്റാച്മെന്‍റ് ബാര്‍ കാണിക്കുക (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1102
 #: ../calendar/gui/dialogs/event-page.c:1896
@@ -5815,12 +5859,12 @@ msgstr "ഗുണഗണങ്ങള്‍ (_P)"
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3654
 msgid "_Add attachment..."
-msgstr ""
+msgstr "അറ്റാച്മെന്‍റ് ചേര്‍ക്കുക... (_A)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1492
 #: ../mail/em-format-html-display.c:2266
 msgid "Show Attachments"
-msgstr ""
+msgstr "അറ്റാച്മെന്‍റുകള്‍ കാണിക്കുക"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1493
 msgid "Press space key to toggle attachment bar"
@@ -5829,54 +5873,54 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2100
 #: ../calendar/gui/dialogs/comp-editor.c:2143
 msgid "Edit Appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റില്‍ മാറ്റം വരുത്തുക"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2106
 #: ../calendar/gui/dialogs/comp-editor.c:2149
 #, c-format
 msgid "Meeting - %s"
-msgstr ""
+msgstr "മീറ്റിങ് - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2108
 #: ../calendar/gui/dialogs/comp-editor.c:2151
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റ് - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2112
 #: ../calendar/gui/dialogs/comp-editor.c:2155
 #, c-format
 msgid "Assigned Task - %s"
-msgstr ""
+msgstr "ഏല്‍പിച്ചിരിക്കുന്ന ജോലി - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2114
 #: ../calendar/gui/dialogs/comp-editor.c:2157
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "ജോലി - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2117
 #: ../calendar/gui/dialogs/comp-editor.c:2160
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "ജേര്‍ണല്‍ എന്‍ട്രി - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2128
 #: ../calendar/gui/dialogs/comp-editor.c:2170
 msgid "No summary"
-msgstr ""
+msgstr "ചുരുക്കത്തില്‍ ഇല്ല"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2715
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:518
 #: ../mail/em-utils.c:555 ../widgets/misc/e-attachment-bar.c:365
 msgid "attachment"
-msgstr ""
+msgstr "അറ്റാച്മെന്‍റ്"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2804
 #: ../calendar/gui/dialogs/comp-editor.c:2858
 #: ../calendar/gui/dialogs/comp-editor.c:2882
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
+msgstr "ഈ വസ്തു പുതുക്കി എങ്കില്‍ ഇതിലേക്ക് വരുത്തിയ മാറ്റങ്ങള്‍ സംരക്ഷിക്കുന്നതല്ല"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2906
 msgid "Unable to use current version!"
@@ -5884,15 +5928,15 @@ msgstr "നിലവിലുളള വേര്‍ഷന്‍ ഉപയോഗ�
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
-msgstr ""
+msgstr "ഉറവിടം തുറക്കുവാനായില്ല"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:69
 msgid "Could not open destination"
-msgstr ""
+msgstr "ലക്ഷ്യസ്ഥാനം തുറക്കുവാനായില്ല"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
-msgstr ""
+msgstr "ലക്ഷ്യസ്ഥാനം വായിക്കുവാന്‍ മാത്രമേ സാധ്യമാകൂ"
 
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
@@ -5908,11 +5952,11 @@ msgstr "ഒരു corba പിശക് കാരണം ടാസ്ക് ന�
 
 #: ../calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
+msgstr "ഒരു corba പിശക് കാരണം ജേര്‍ണല്‍ എന്‍ട്രി നീക്കം ചെയ്യുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr ""
+msgstr "ഒരു corba പിശക് കാരണം വസ്തു ചെയ്യുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
@@ -5924,11 +5968,11 @@ msgstr "അനുവാദം നിഷേധിച്ച കാരണം ടാ
 
 #: ../calendar/gui/dialogs/delete-error.c:76
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
+msgstr "അനുവാദം നിഷേധിച്ച കാരണം ജേര്‍ണലിലുളള എന്‍ട്രി നീക്കം ചെയ്യുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
-msgstr ""
+msgstr "അനുവാദം നിഷേധിച്ച കാരണം വസ്തു നീക്കം ചെയ്യുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
@@ -5940,11 +5984,11 @@ msgstr "ഒരു പിശക് കാരണം ടാസ്ക് നീക�
 
 #: ../calendar/gui/dialogs/delete-error.c:92
 msgid "The journal entry could not be deleted due to an error"
-msgstr ""
+msgstr "ഒരു പിശക് കാരണം ജേര്‍ണല്‍ എന്‍ട്രി നീക്കം ചെയ്യുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr ""
+msgstr "ഒരു പിശക് കാരണം വസ്തു നീക്കം ചെയ്യുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
@@ -5961,7 +6005,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:564
 msgid "Appoint_ment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റ് (_m)"
 
 #: ../calendar/gui/dialogs/event-editor.c:568
 #: ../ui/evolution-event-editor.xml.h:14
@@ -5979,7 +6023,7 @@ msgstr "ഈ ഇവന്‍റിന് അലാറമുകല്‍ ഉണ്
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
 #: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
-msgstr ""
+msgstr "ഓര്‍ഗനൈസര്‍: (_g)"
 
 #: ../calendar/gui/dialogs/event-page.c:920
 msgid "_Delegatees"
@@ -5987,7 +6031,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:922
 msgid "Atte_ndees"
-msgstr ""
+msgstr "ഹാജരായവര്‍ (_n)"
 
 #: ../calendar/gui/dialogs/event-page.c:1087
 msgid "Event with no start date"
@@ -6019,13 +6063,13 @@ msgstr "അവസാനിക്കുന്ന സമയം തെറ്റാ�
 #: ../calendar/gui/dialogs/memo-page.c:718
 #: ../calendar/gui/dialogs/task-page.c:906
 msgid "The organizer selected no longer has an account."
-msgstr ""
+msgstr "നിങ്ങള്‍ തിരഞ്ഞെടുത്ത ഓര്‍ഗനൈസറില്‍ അക്കൌണ്ട് നിലവിലില്ല."
 
 #: ../calendar/gui/dialogs/event-page.c:1460
 #: ../calendar/gui/dialogs/memo-page.c:724
 #: ../calendar/gui/dialogs/task-page.c:912
 msgid "An organizer is required."
-msgstr ""
+msgstr "ഒരു ഓര്‍ഗനൈലര്‍ ആവശ്യമുണ്ട്."
 
 #: ../calendar/gui/dialogs/event-page.c:1475
 #: ../calendar/gui/dialogs/task-page.c:927
@@ -6046,22 +6090,22 @@ msgstr "കലണ്ടര്‍ '%s'തുറക്കുവാന്‍ സാ
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് %d ദിവസം"
+msgstr[1] "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് %d ദിവസങ്ങള്‍"
 
 #: ../calendar/gui/dialogs/event-page.c:2934
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് %d മണിക്കൂര്‍"
+msgstr[1] "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് %d മണിക്കൂറുകള്‍"
 
 #: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് %d മിനിട്ട്"
+msgstr[1] "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് %d മിനിട്ടുകള്‍"
 
 #: ../calendar/gui/dialogs/event-page.c:2953
 msgid "Customize"
@@ -6086,19 +6130,19 @@ msgstr "ഒന്നുമില്ല"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് 1 ദിവസം"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് 1 മണിക്കൂര്‍"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന് മുന്പ് 15 മിനിട്ടുകള്‍"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
-msgstr ""
+msgstr "ഹാജരായവര്‍... (_s)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
@@ -6107,7 +6151,7 @@ msgstr "വിഭാഗങ്ങള്‍... (_t)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "Custom Alarm:"
-msgstr ""
+msgstr "അലാറം ഇഷ്ടമുളളപോലെ ക്രമീകരിക്കുക:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 #: ../calendar/gui/dialogs/task-page.glade.h:3
@@ -6121,7 +6165,7 @@ msgstr "ഇവന്‍റ് വിവരണം"
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr ""
+msgstr "ചുരുക്കത്തില്‍: (_m)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
@@ -6136,24 +6180,24 @@ msgstr "സമയം: (_T)"
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
-msgstr "ഫോര്‍"
+msgstr "for"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
-msgstr ""
+msgstr "until"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
-msgstr ""
+msgstr "ഹാജരായവര്‍"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:2
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr ""
+msgstr "ഹാജരായവരെ ചേര്‍ക്കുന്നതിനായി ക്ളിക്ക് ചെയ്യുക"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:3
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -6197,11 +6241,11 @@ msgstr "അവസ്ഥ"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
-msgstr ""
+msgstr "<b>ഹാജരായവര്‍</b> (_e)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "C_hange Organizer"
-msgstr ""
+msgstr "ഓര്‍ഗനൈസര്‍ മാറ്റുക (_h)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "Co_ntacts..."
@@ -6209,12 +6253,12 @@ msgstr "വിലാസങ്ങള്‍... (_n)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
-msgstr ""
+msgstr "ഓര്‍ഗനൈസര്‍"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:7
 #: ../calendar/gui/e-itip-control.glade.h:7
 msgid "Organizer:"
-msgstr ""
+msgstr "ഓര്‍ഗനൈസര്‍:"
 
 #: ../calendar/gui/dialogs/memo-editor.c:220 ../calendar/gui/print.c:2321
 msgid "Memo"
@@ -6229,7 +6273,7 @@ msgstr "'%s'-ലുളള മെമ്മോസ് തുറക്കുവാ�
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:846
 #: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
 msgid "To"
-msgstr "വരെ"
+msgstr "എങ്ങോട്ടേക്ക്"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:5
@@ -6238,11 +6282,11 @@ msgstr "ആരംഭിക്കുന്ന തീയതി: (_r)"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
 msgid "Su_mmary"
-msgstr ""
+msgstr "ചുരുക്കത്തില്‍ (_m)"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 msgid "T_o:"
-msgstr "വരെ: (_o)"
+msgstr "എങ്ങോട്ടേക്ക്: (_o)"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:6
 #: ../calendar/gui/dialogs/task-page.c:434
@@ -6252,7 +6296,7 @@ msgstr "ഗ്രൂപ്പ്: (_G)"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:7
 msgid "_Memo Content:"
-msgstr ""
+msgstr "മെമ്മോയുടെ ഉളളടക്കം: (_M)"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 msgid "<b>Calendar options</b>"
@@ -6292,7 +6336,7 @@ msgstr "ടാസ്ക് ലിസ്റ്റ് പേര്"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr ""
+msgstr "പുനഃര്‍വൃത്തിക്കുന്ന ഒരു ഇവന്‍റാണ് നിങ്ങള്‍ മാറ്റുവാന്‍ ശ്രമിക്കുന്നത്. മാറ്റം വരുത്തണമെന്നുറപ്പാണോ?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
 msgid "You are delegating a recurring event. What would you like to delegate?"
@@ -6300,11 +6344,11 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task. What would you like to modify?"
-msgstr ""
+msgstr "പുനഃര്‍വൃത്തിക്കുന്ന ഒരു ജോലിയാണ് നിങ്ങള്‍ മാറ്റുവാന്‍ ശ്രമിക്കുന്നത്. മാറ്റം വരുത്തണമെന്നുറപ്പാണോ?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
 msgid "You are modifying a recurring journal entry. What would you like to modify?"
-msgstr ""
+msgstr "പുനഃര്‍വൃത്തിക്കുന്ന ഒരു ജേര്‍ണലിന്‍റെ എന്‍ട്രി ആണ് നിങ്ങള്‍ മാറ്റുവാന്‍ ശ്രമിക്കുന്നത്. മാറ്റം വരുത്തണമെന്നുറപ്പാണോ?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
@@ -6325,16 +6369,18 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:498
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
+"Evolution-ന് മാറ്റം വരുത്തുവാന്‍ സാധ്യമല്ലാത്ത പുനഃരാവൃത്തികള്‍ ഈ അപ്പോയിന്‍റ്മെന്‍റിന് "
+"ഉണ്ട്."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:819
 msgid "Recurrence date is invalid"
-msgstr ""
+msgstr "പുനഃരാവൃത്തിയ്ക്കുളള തീയതി അസാധുവാണ്"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:932
 msgid "on"
-msgstr "എന്ന്"
+msgstr "on"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -6416,11 +6462,11 @@ msgstr "ദിവസം"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1223
 msgid "on the"
-msgstr ""
+msgstr "on the"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1412
 msgid "occurrences"
-msgstr ""
+msgstr "ആവര്‍ത്തികള്‍"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2378
 msgid "Date/Time"
@@ -6428,7 +6474,7 @@ msgstr "തീയതി/സമയം"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "<b>Exceptions</b>"
-msgstr ""
+msgstr "<b>എക്സപ്ഷനുകള്‍</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
@@ -6449,7 +6495,7 @@ msgstr "എല്ലാ"
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
-msgstr ""
+msgstr "ഈ അപ്പോയിന്‍റ്മെന്‍റ് പുനഃരാവൃത്തിക്കുന്നു (_u)"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
@@ -6575,7 +6621,7 @@ msgstr "ടാസ്കിന്‍റെ വിശദവിവരങ്ങള�
 
 #: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
-msgstr ""
+msgstr "അവസാനിക്കുന്ന തീയതി തെറ്റാണ്"
 
 #: ../calendar/gui/dialogs/task-page.c:1650
 #, c-format
@@ -6584,7 +6630,7 @@ msgstr "'%s'-ലുളള ടാസ്ക്കുകള്‍ തുറക്�
 
 #: ../calendar/gui/dialogs/task-page.glade.h:1
 msgid "Atte_ndees..."
-msgstr ""
+msgstr "ഹാജരായവര്‍... (_n)"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
@@ -6592,7 +6638,7 @@ msgstr "വിഭാഗങ്ങള്‍s... (_i)"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
-msgstr ""
+msgstr "ഓര്‍ഗനൈസര്‍: (_g)"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:7
 msgid "Time zone:"
@@ -6600,11 +6646,11 @@ msgstr "സമയമേഖല:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 msgid "_Due date:"
-msgstr ""
+msgstr "അവസാനിക്കുന്ന തീയതി: (_D)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr ""
+msgstr "<b>ഫ്രീ/തിരക്കായ കലണ്ടറുകള്‍</b> (_a)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "<b>Publishing Frequency</b>"
@@ -6612,11 +6658,11 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing _Location</b>"
-msgstr ""
+msgstr "<b>പ്രസിദ്ധീകരിക്കുന്ന സ്ഥാനം</b> (_L)"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "Free/Busy Publishing Settings"
-msgstr ""
+msgstr "ഫ്രീ/തിരക്കുളള പ്രസിദ്ധീകരണ ക്രമീകരണങ്ങള്‍"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "_Daily"
@@ -6663,49 +6709,49 @@ msgstr[1] "%d ആഴ്ചകള്‍"
 
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "നടപ്പിലാക്കുവാന്‍ അപരിചിതമായ പ്രവര്‍ത്തി "
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:478
 #, c-format
 msgid "%s %s before the start of the appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റം ആരംഭത്തിന് മുന്പ് %s %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:483
 #, c-format
 msgid "%s %s after the start of the appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റം ആരംഭത്തിന് ശേഷം %s %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:490
 #, c-format
 msgid "%s at the start of the appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റം ആരംഭത്തില്‍ %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:501
 #, c-format
 msgid "%s %s before the end of the appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റം അവസാനിക്കുന്നതിന് മുന്പ് %s %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:506
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റം അവസാനിക്കുന്നതിന് ശേഷം %s %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:513
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റിന്‍റം അവസാനത്തില്‍ %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
@@ -6756,11 +6802,11 @@ msgstr "വെബ് പേജ്:"
 #: ../calendar/gui/e-itip-control.c:1103
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
-msgstr ""
+msgstr "ചുരുക്കത്തില്‍:"
 
 #: ../calendar/gui/e-cal-component-preview.c:217
 msgid "Due Date:"
-msgstr ""
+msgstr "അവസാനിക്കുന്ന തീയതി:"
 
 #. write status
 #. Status
@@ -6804,7 +6850,7 @@ msgstr "ആരംഭിക്കുന്ന തീയതി"
 #: ../calendar/gui/e-memo-table.etspec.h:5 ../mail/mail-dialogs.glade.h:20
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
-msgstr ""
+msgstr "ചുരുക്കം"
 
 #: ../calendar/gui/e-cal-model-calendar.c:183
 #: ../calendar/gui/e-calendar-table.c:439
@@ -6860,11 +6906,11 @@ msgstr "അപരിചിതമായ"
 
 #: ../calendar/gui/e-cal-model.c:926
 msgid "Recurring"
-msgstr ""
+msgstr "പുനഃരാവൃത്തിക്കുന്ന"
 
 #: ../calendar/gui/e-cal-model.c:928
 msgid "Assigned"
-msgstr ""
+msgstr "ഏല്‍പിച്ചിരിക്കുന്ന"
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
@@ -6872,7 +6918,7 @@ msgstr "പേര് മാറ്റി സംരക്ഷിക്കുക..."
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2112
 msgid "Select folder to save selected attachments..."
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത അറ്റാച്മെന്‍റുകള്‍ സൂക്ഷിക്കുന്നതിന് ഒരു ഫോള്‍ഡര്‍ തിരഞ്ഞെടുക്കുക..."
 
 #: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, c-format
@@ -6946,12 +6992,12 @@ msgstr "100%"
 #: ../calendar/gui/e-calendar-table.c:704
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:482
 msgid "Deleting selected objects"
-msgstr ""
+msgstr "തിരഞ്ഞെടുത്ത ഒബ്ജക്ടുകള്‍ നീക്കം ചെയ്യുന്നു"
 
 #: ../calendar/gui/e-calendar-table.c:957
 #: ../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:659
 msgid "Updating objects"
-msgstr ""
+msgstr "ഒബ്ജക്ടുകള്‍ പരിഷ്കരിക്കുന്നു"
 
 #: ../calendar/gui/e-calendar-table.c:1106
 #: ../calendar/gui/e-calendar-view.c:1248 ../calendar/gui/e-memo-table.c:798
@@ -6997,7 +7043,7 @@ msgstr "ഒട്ടിയ്ക്കുക (_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1293 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
-msgstr ""
+msgstr "ജോലി ഏല്‍പിക്കുക (_A)"
 
 #: ../calendar/gui/e-calendar-table.c:1294 ../calendar/gui/e-memo-table.c:914
 #: ../ui/evolution-tasks.xml.h:26
@@ -7044,7 +7090,7 @@ msgstr "പൂര്‍ത്തിയാകുന്ന തീയതി"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
-msgstr ""
+msgstr "അവസാനിക്കുന്ന തീയതി"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:8
 #: ../plugins/save-calendar/csv-format.c:397
@@ -7057,7 +7103,7 @@ msgstr "ആരംഭിക്കുന്ന തീയതി"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
-msgstr ""
+msgstr "ജോലി ക്രമീകരിക്കുക"
 
 #: ../calendar/gui/e-calendar-view.c:1367
 msgid "Moving items"
@@ -7073,7 +7119,7 @@ msgstr "പുതിയ അപ്പോയിന്‍റ്മെന്‍റ�
 
 #: ../calendar/gui/e-calendar-view.c:1679
 msgid "New All Day _Event"
-msgstr ""
+msgstr "ഒരു ദിവസം മുഴുവനുമുളള പുതിയ ഇവന്‍റ് (_E)"
 
 #: ../calendar/gui/e-calendar-view.c:1680
 msgid "New _Meeting"
@@ -7106,7 +7152,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1713
 msgid "_Schedule Meeting..."
-msgstr ""
+msgstr "മീറ്റിങ് ക്രമീകരിക്കുക... (_S)"
 
 #: ../calendar/gui/e-calendar-view.c:1714
 msgid "_Forward as iCalendar..."
@@ -7124,15 +7170,15 @@ msgstr "എല്ലാവര്‍ക്കും മറുപടി അയയ�
 
 #: ../calendar/gui/e-calendar-view.c:1721
 msgid "Make this Occurrence _Movable"
-msgstr ""
+msgstr "ഈ ആവൃത്തി മാറ്റാവുത്തതാക്കുക (_M)"
 
 #: ../calendar/gui/e-calendar-view.c:1722 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
-msgstr ""
+msgstr "ഈ ആവൃത്തി നീക്കം ചെയ്യുക (_O)"
 
 #: ../calendar/gui/e-calendar-view.c:1723
 msgid "Delete _All Occurrences"
-msgstr ""
+msgstr "എല്ലാ ആവൃത്തികളും നീക്കം ചെയ്യുക (_O)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #: ../calendar/gui/e-calendar-view.c:2175
@@ -7186,7 +7232,7 @@ msgstr ""
 #: ../calendar/gui/e-day-view-time-item.c:808
 #, c-format
 msgid "%02i minute divisions"
-msgstr ""
+msgstr "%02i മിനിട്ട് വിഭാഗങ്ങള്‍"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -7240,7 +7286,7 @@ msgstr[1] "എല്ലാ %d ആഴ്ചകളിലും"
 
 #: ../calendar/gui/e-itip-control.c:785
 msgid " and "
-msgstr ""
+msgstr " and "
 
 #: ../calendar/gui/e-itip-control.c:792
 #, c-format
@@ -7288,7 +7334,7 @@ msgstr "അവസാനിക്കുന്നു"
 #: ../calendar/gui/e-itip-control.c:904
 #: ../plugins/save-calendar/csv-format.c:395
 msgid "Due"
-msgstr ""
+msgstr "അവസാനിക്കുന്നത്"
 
 #: ../calendar/gui/e-itip-control.c:944 ../calendar/gui/e-itip-control.c:1001
 msgid "iCalendar Information"
@@ -7338,22 +7384,22 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:691 ../calendar/gui/itip-utils.c:720
 #: ../plugins/itip-formatter/itip-formatter.c:1758
 msgid "Declined"
-msgstr ""
+msgstr "അവസാനിച്ചിരിക്കുന്നു"
 
 #: ../calendar/gui/e-itip-control.c:1224
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr ""
+msgstr "മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു, നിങ്ങളുടെ കലണ്ടറില്‍ ഇത് ലഭ്യമാകുകയില്ല"
 
 #: ../calendar/gui/e-itip-control.c:1226
 msgid "The task has been canceled, however it could not be found in your task lists"
-msgstr ""
+msgstr "ജോലി റദ്ദാക്കിയിരിക്കുന്നു, നിങ്ങളുടെ ജോലിയുടെ ലിസ്റ്റില്‍ ഇത് ലഭ്യമാകുകയില്ല"
 
 #: ../calendar/gui/e-itip-control.c:1305
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr ""
+msgstr "<b>%s</b> മീറ്റിങ് വിവരം പ്രസീദ്ധീകരിച്ചിരിക്കുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1306
 msgid "Meeting Information"
@@ -7362,53 +7408,53 @@ msgstr "മീറ്റിങ് വിവരങ്ങള്‍"
 #: ../calendar/gui/e-itip-control.c:1312
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr ""
+msgstr "<b>%s</b> %s മീറ്റിങില്‍ ഉണ്ടാവണം എന്ന് ആവശ്യപ്പെടുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1314
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
+msgstr "<b>%s</b> നിങ്ങള്‍ മീറ്റിങില്‍ ഉണ്ടാവണം എന്ന് ആവശ്യപ്പെടുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1315
 msgid "Meeting Proposal"
-msgstr ""
+msgstr "മീറ്റിങ് ആവശ്യം"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1321
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr ""
+msgstr "<b>%s</b> നിലവിലുളള മീറ്റിങിലേക്ക് ചേര്‍ക്കുവാന്‍ ആഗ്രഹിക്കുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1322
 msgid "Meeting Update"
-msgstr ""
+msgstr "മീറ്റിങ് പുതുക്കുക"
 
 #: ../calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
+msgstr "<b>%s</b> മീറ്റിങിന്‍റെ ഏറ്റവും ഒടുവില്‍ ലഭ്യമായ വിവരം ലഭ്യമാകണമെന്ന് ആവശ്യപ്പെടുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1327
 msgid "Meeting Update Request"
-msgstr ""
+msgstr "മീറ്റിങ് പുതുക്കുന്നതിനുളള ആവശ്യം"
 
 #: ../calendar/gui/e-itip-control.c:1334
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr ""
+msgstr "<b>%s</b> ഒരു മീറ്റിങ് ആവശ്യമെന്ന് പറഞ്ഞതിലേക്ക് മറുപടി അയയ്ച്ചിരിക്കുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1335
 msgid "Meeting Reply"
-msgstr ""
+msgstr "മീറ്റിങിനുളള മറുപടി"
 
 #: ../calendar/gui/e-itip-control.c:1342
 #, c-format
 msgid "<b>%s</b> has canceled a meeting."
-msgstr ""
+msgstr "<b>%s</b> ഒരു മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1343
 msgid "Meeting Cancelation"
-msgstr ""
+msgstr "മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1353 ../calendar/gui/e-itip-control.c:1430
 #: ../calendar/gui/e-itip-control.c:1470
@@ -7418,7 +7464,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1354
 msgid "Bad Meeting Message"
-msgstr ""
+msgstr "മീറ്റിങിനുളള തെറ്റായ സന്ദേശം"
 
 #: ../calendar/gui/e-itip-control.c:1381
 #, c-format
@@ -7432,7 +7478,7 @@ msgstr "ജോലിയുടെ വിവരങ്ങള്‍"
 #: ../calendar/gui/e-itip-control.c:1389
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr ""
+msgstr "<b>%s</b> %s-നോട് ഒരു ജോലി ചെയ്യുവാന്‍ ആവശ്യപ്പെടുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1391
 #, c-format
