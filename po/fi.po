@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-25 11:36+0300\n"
-"PO-Revision-Date: 2006-08-25 11:36+0300\n"
+"PO-Revision-Date: 2006-09-03 10:09+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -14359,7 +14359,7 @@ msgstr "Virhe suoritettessa toimenpidettä."
 
 #: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
-msgstr "Virhe suoritettaessa \"{0}\"."
+msgstr "Virhe suoritettaessa komentoa \"{0}\"."
 
 #: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
@@ -16793,7 +16793,7 @@ msgstr "Tili ei voi lähettää sähköpostia"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
 msgid "No store available"
-msgstr "Ei säilöä saatavilla"
+msgstr "Ei tallennustilaa käytettävissä"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid ""
