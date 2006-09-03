@@ -2,14 +2,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Subhransu Behera <arya_subhransu@yahoo.co.in>, 2006.
+# Subhransu Behera <sbehera@redhat.com>, 2006.
 #: ../mail/em-format-html-display.c:683
 msgid ""
 msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-17 07:35+0200\n"
-"PO-Revision-Date: 2006-08-24 18:23+0530\n"
-"Last-Translator: Subhransu Behera <arya_subhransu@yahoo.co.in>\n"
+"PO-Revision-Date: 2006-09-03 16:19+0530\n"
+"Last-Translator: Subhransu Behera <sbehera@redhat.com>\n"
 "Language-Team: Oriya <oriya-group@lists.sarovar.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7599,7 +7600,7 @@ msgstr ""
 #: ../widgets/table/e-table-config-no-group.glade.h:7
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "ସମୂହ"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
@@ -7855,55 +7856,55 @@ msgstr ""
 
 #: ../calendar/gui/goto-dialog.glade.h:1
 msgid "April"
-msgstr ""
+msgstr "ଅପ୍ରେଲ"
 
 #: ../calendar/gui/goto-dialog.glade.h:2
 msgid "August"
-msgstr ""
+msgstr "ଅଗଷ୍ଟ"
 
 #: ../calendar/gui/goto-dialog.glade.h:3
 msgid "December"
-msgstr ""
+msgstr "ଡିସେମ୍ବର"
 
 #: ../calendar/gui/goto-dialog.glade.h:4
 msgid "February"
-msgstr ""
+msgstr "ଫେବ୍ରୁଆରୀ"
 
 #: ../calendar/gui/goto-dialog.glade.h:5
 msgid "January"
-msgstr ""
+msgstr "ଜାନୁଆରୀ"
 
 #: ../calendar/gui/goto-dialog.glade.h:6
 msgid "July"
-msgstr ""
+msgstr "ଜୁଲାଇ"
 
 #: ../calendar/gui/goto-dialog.glade.h:7
 msgid "June"
-msgstr ""
+msgstr "ଜୁନ"
 
 #: ../calendar/gui/goto-dialog.glade.h:8
 msgid "March"
-msgstr ""
+msgstr "ମାର୍ଚ୍ଚ"
 
 #: ../calendar/gui/goto-dialog.glade.h:9
 msgid "May"
-msgstr ""
+msgstr "ମଇ"
 
 #: ../calendar/gui/goto-dialog.glade.h:10
 msgid "November"
-msgstr ""
+msgstr "ନଭେମ୍ବର"
 
 #: ../calendar/gui/goto-dialog.glade.h:11
 msgid "October"
-msgstr ""
+msgstr "ଅକ୍ଟୋବର"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr ""
+msgstr "ତାରିଖ ଚୟନ କରନ୍ତୁ"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "September"
-msgstr ""
+msgstr "ସେପ୍ଟେମ୍ବର"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
@@ -8303,7 +8304,7 @@ msgstr ""
 #: ../calendar/gui/print.c:2601 ../calendar/gui/print.c:2691
 #: ../calendar/gui/print.c:2820 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
-msgstr ""
+msgstr "ପ୍ରକ୍ ଦର୍ଶନକୁ ମୂଦ୍ରଣ କରନ୍ତୁ"
 
 #: ../calendar/gui/print.c:2636
 msgid "Print Item"
@@ -10051,7 +10052,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer-hdrs.c:658
 msgid "_To:"
-msgstr ""
+msgstr "ଏଠାକୁ (_T):"
 
 #: ../composer/e-msg-composer-hdrs.c:659
 msgid "Enter the recipients of the message"
@@ -10120,7 +10121,7 @@ msgstr ""
 #: ../composer/e-msg-composer.c:1329 ../composer/e-msg-composer.c:1363
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
-msgstr ""
+msgstr "ଅଜଣା କାରଣ"
 
 #: ../composer/e-msg-composer.c:1401
 msgid "Could not open file"
@@ -10409,7 +10410,7 @@ msgstr ""
 
 #: ../e-util/e-dialog-utils.c:285 ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
-msgstr ""
+msgstr "ଫାଇଲକୁ ନବଲିଖନ କରନ୍ତୁ?"
 
 #: ../e-util/e-error.c:86 ../e-util/e-error.c:87 ../e-util/e-error.c:129
 msgid "Evolution Error"
@@ -10451,11 +10452,11 @@ msgstr ""
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:131
 msgid "_Overwrite"
-msgstr ""
+msgstr "ନବଲିଖନ କରନ୍ତୁ (_O)"
 
 #: ../e-util/eggtrayicon.c:121
 msgid "The orientation of the tray."
-msgstr ""
+msgstr "ଟ୍ରେ ର ଅନୁସ୍ଥାପନ।"
 
 #: ../filter/filter-datespec.c:78
 #, c-format
@@ -10530,7 +10531,7 @@ msgstr ""
 #: ../filter/filter-label.c:121 ../mail/em-filter-i18n.h:26
 #: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:91
 msgid "Important"
-msgstr ""
+msgstr "ଗୁରୁତ୍ବପୂର୍ଣ୍ଣ"
 
 #. forest green
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1056
@@ -10758,7 +10759,7 @@ msgstr ""
 #: ../mail/mail-component.c:579 ../mail/mail-component.c:701
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
-msgstr ""
+msgstr "ଡାକ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
 #: ../mail/em-account-prefs.c:532
@@ -10985,7 +10986,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:20
 msgid "Draft"
-msgstr ""
+msgstr "ଡ୍ରାଫଟ୍"
 
 #: ../mail/em-filter-i18n.h:21
 msgid "ends with"
@@ -11050,7 +11051,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:37 ../widgets/misc/e-expander.c:190
 msgid "Label"
-msgstr ""
+msgstr "ସୂଚକ"
 
 #: ../mail/em-filter-i18n.h:38
 msgid "Mailing list"
@@ -11122,7 +11123,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:55 ../mail/message-list.etspec.h:12
 msgid "Score"
-msgstr ""
+msgstr "ସ୍କୋର"
 
 #: ../mail/em-filter-i18n.h:56 ../mail/message-list.etspec.h:13
 msgid "Sender"
@@ -11366,11 +11367,11 @@ msgstr ""
 
 #: ../mail/em-folder-tree.c:2078 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
-msgstr ""
+msgstr "ନାମ ବଦଳାନ୍ତୁ ... (_R)"
 
 #: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:128
 msgid "_Empty Trash"
-msgstr ""
+msgstr "ଆବର୍ଜନା ପାତ୍ରକୁ ଖାଲି କରନ୍ତୁ (_E)"
 
 #: ../mail/em-folder-utils.c:104
 #, c-format
@@ -11467,7 +11468,7 @@ msgstr ""
 #. is not permitted.
 #: ../mail/em-folder-view.c:1140 ../widgets/misc/e-dateedit.c:475
 msgid "_None"
-msgstr ""
+msgstr "କିଛି ନାହିଁ (_N)"
 
 #: ../mail/em-folder-view.c:1145
 msgid "Fla_g Completed"
@@ -11675,7 +11676,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:1445
 msgid "_Hide"
-msgstr ""
+msgstr "ଲୁଚାନ୍ତୁ (_H)"
 
 #: ../mail/em-format-html-display.c:1446
 msgid "_Fit to Width"
@@ -11807,7 +11808,7 @@ msgstr ""
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
-msgstr ""
+msgstr "ତାରିଖ"
 
 #: ../mail/em-format-html.c:1726 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:92
@@ -11940,7 +11941,7 @@ msgstr ""
 
 #: ../mail/em-subscribe-editor.c:616
 msgid "Folder"
-msgstr ""
+msgstr "ଫୋଲଡର"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:814
@@ -12953,7 +12954,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:57
 msgid "Colors"
-msgstr ""
+msgstr "ରଙ୍ଗ"
 
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
@@ -13177,7 +13178,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:128
 msgid "Select sound file"
-msgstr ""
+msgstr "ଶବ୍ଦ ଫାଇଲକୁ ଚୟନ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
@@ -13295,7 +13296,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Path:"
-msgstr ""
+msgstr "ପଥ (_P):"
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
@@ -13380,7 +13381,7 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
-msgstr ""
+msgstr "ଖୋଜନ୍ତୁ (_i)"
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
@@ -13648,7 +13649,7 @@ msgstr ""
 
 #: ../mail/mail-session.c:212
 msgid "Enter Password"
-msgstr ""
+msgstr "ପ୍ରବେଶ ସଙ୍କେତକୁ ଭରଣ କରନ୍ତୁ"
 
 #: ../mail/mail-session.c:250
 msgid "User canceled operation."
@@ -14265,23 +14266,23 @@ msgstr "?"
 #: ../mail/message-list.c:1458 ../plugins/itip-formatter/itip-view.c:200
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "ଆଜି %l:%M %p"
 
 #: ../mail/message-list.c:1467 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "ଗତକାଲି %l:%M %p"
 
 #: ../mail/message-list.c:1479 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: ../mail/message-list.c:1487 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: ../mail/message-list.c:1489 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2241 ../mail/message-list.etspec.h:9
 msgid "Messages"
@@ -14947,7 +14948,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User"
-msgstr ""
+msgstr "ଚାଳକକୁ ଯୋଗ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 msgid "<b>Permissions</b>"
@@ -15151,7 +15152,7 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1270
 msgid "Generic error"
-msgstr ""
+msgstr "ସାଧାରଣ ତ୍ରୁଟି"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Global Catalog Server is not reachable"
@@ -15260,11 +15261,11 @@ msgstr "ଅଜଣା ତ୍ରୁଟି"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "Unknown type"
-msgstr ""
+msgstr "ଅଜଣା ପ୍ରକାର"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "Unsupported operation"
-msgstr ""
+msgstr "ଅସହାୟକ ଚାଳନା"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You are nearing your quota available for storing mail on this server."
@@ -15498,11 +15499,11 @@ msgstr ""
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
-msgstr ""
+msgstr "ପଢନ୍ତୁ (_R)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
-msgstr ""
+msgstr "ଲେଖନ୍ତୁ (_W)"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -15590,7 +15591,7 @@ msgstr ""
 #: ../plugins/import-ics-attachments/icsimporter.c:261
 #: ../shell/e-shell-importer.c:714
 msgid "_Import"
-msgstr ""
+msgstr "ଆୟତ କରନ୍ତୁ (_I)"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:149
@@ -15788,7 +15789,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:186 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:241
 msgid "Today"
-msgstr ""
+msgstr "ଆଜି"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
@@ -16151,7 +16152,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:783
 msgid "_Update"
-msgstr ""
+msgstr "ଅଦ୍ଯତନ"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:942
@@ -16167,7 +16168,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:967
 #: ../plugins/itip-formatter/itip-view.c:1017
 msgid "Comment:"
-msgstr ""
+msgstr "ଟିପ୍ପଣୀ:"
 
 #: ../plugins/itip-formatter/itip-view.c:1031
 msgid "Send u_pdates to attendees"
@@ -16512,7 +16513,7 @@ msgstr ""
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
 msgid "Plugin"
-msgstr ""
+msgstr "ପ୍ଲଗ-ଇନ"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
@@ -16556,7 +16557,7 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr ""
+msgstr "ମୁଦ୍ରଣ ପ୍ରାକ୍ଦର୍ଶନ (_v)"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
 msgid "Prints the message"
@@ -16630,11 +16631,11 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
-msgstr ""
+msgstr "ସେବାର ପ୍ରକାର (_t):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
 msgid "_File:"
-msgstr ""
+msgstr "ଫାଇଲ (_F):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
 msgid "_Publish as:"
@@ -16683,7 +16684,7 @@ msgstr ""
 
 #: ../plugins/save-attachments/save-attachments.c:359
 msgid "MIME Type"
-msgstr ""
+msgstr "MIME ପ୍ରକାର"
 
 #: ../plugins/save-attachments/save-attachments.c:367
 #: ../ui/evolution-editor.xml.h:12 ../ui/evolution-message-composer.xml.h:19
@@ -16744,7 +16745,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:401
 msgid "Modified"
-msgstr ""
+msgstr "ପରିବର୍ତ୍ତିତ"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
@@ -17924,7 +17925,7 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr ""
+msgstr "ବଛାକୁ ନକଲ କରନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
@@ -17938,11 +17939,11 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-memos.xml.h:4
 #: ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
-msgstr ""
+msgstr "କାଟନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr ""
+msgstr "ବଛାକୁ କାଟନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
@@ -17980,11 +17981,11 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
 #: ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
-msgstr ""
+msgstr "ଲଗାନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "କ୍ଲିପବୋର୍ଡକୁ ଲଗାନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
@@ -18091,7 +18092,7 @@ msgstr "ନୂତନ (_N)"
 
 #: ../ui/evolution-addressbook.xml.h:60
 msgid "_Rename"
-msgstr ""
+msgstr "ନାମ ବଦଳାନ୍ତୁ (_R)"
 
 #: ../ui/evolution-addressbook.xml.h:61
 msgid "_Save Contact as VCard..."
@@ -18280,12 +18281,12 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:3
 #: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
-msgstr ""
+msgstr "ବନ୍ଦ କରନ୍ତୁ"
 
 #: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
 msgid "I_nsert"
-msgstr ""
+msgstr "ଭର୍ତ୍ତୀ କରନ୍ତୁ (_n)"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:41
 msgid "_Attachment..."
@@ -19156,7 +19157,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:4
 #: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
-msgstr ""
+msgstr "ସାମ୍ପ୍ରତିକ ଫାଇଲ ବନ୍ଦ କରନ୍ତୁ"
 
 #: ../ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
@@ -19185,7 +19186,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:13
 msgid "Open a file"
-msgstr ""
+msgstr "ଗୋଟିଏ ଫାଇଲ ଖୋଲନ୍ତୁ"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "PGP Encrypt"
@@ -19217,7 +19218,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:22
 msgid "Save _As..."
-msgstr ""
+msgstr "ନୂଆ ନାମରେ ସଂରକ୍ଷଣ କରନ୍ତୁ... (_A)"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "Save _Draft"
@@ -19233,11 +19234,11 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save the current file"
-msgstr ""
+msgstr "ସାମ୍ପ୍ରତିକ ଫାଇଲକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../ui/evolution-message-composer.xml.h:27
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "ସାମ୍ପ୍ରତିକ ଫାଇଲକୁ ଏକ ଅଲଗା ନାମରେ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../ui/evolution-message-composer.xml.h:28
 msgid "Save the message in a specified folder"
@@ -19521,7 +19522,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:19
 msgid "Prefere_nces"
-msgstr ""
+msgstr "ପସନ୍ଦ (_n)"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / Receive"
@@ -19593,7 +19594,7 @@ msgstr "ବିବରଣୀ (_A)"
 
 #: ../ui/evolution.xml.h:40
 msgid "_Close Window"
-msgstr ""
+msgstr "ୱିଣ୍ଡୋ ବନ୍ଦ କରନ୍ତୁ (_C)"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Forget Passwords"
@@ -19769,7 +19770,7 @@ msgstr "ସମ୍ପାଦନ କରନ୍ତୁ (_E) ..."
 #: ../widgets/table/e-table-scrolled.c:222
 #: ../widgets/table/e-table-scrolled.c:223
 msgid "Table"
-msgstr ""
+msgstr "ସାରଣୀ"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
@@ -19907,7 +19908,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-item.c:3016
 msgid "Minimum Width"
-msgstr ""
+msgstr "ସର୍ବନିମ୍ନ ଓସାର"
 
 #: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
 #: ../widgets/misc/e-expander.c:206
@@ -20012,7 +20013,7 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ..."
 
 #: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
@@ -20053,12 +20054,12 @@ msgstr ""
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%I:%M %p"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
@@ -20104,7 +20105,7 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "ସୂଚକର ବ୍ଯବଧାନ"
 
 #: ../widgets/misc/e-expander.c:233
 msgid "Spacing around expander arrow"
@@ -20204,7 +20205,7 @@ msgstr ""
 
 #: ../widgets/misc/e-search-bar.c:542
 msgid "_Clear"
-msgstr ""
+msgstr "ସଫା କରନ୍ତୁ (_C)"
 
 #: ../widgets/misc/e-search-bar.c:793
 msgid "Item ID"
@@ -20214,7 +20215,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3503
 #: ../widgets/text/e-text.c:3504
 msgid "Text"
-msgstr ""
+msgstr "ପାଠ୍ଯ"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
@@ -20346,7 +20347,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "_After:"
-msgstr ""
+msgstr "ଏହା ପରେ (_A):"
 
 #: ../widgets/misc/e-send-options.glade.h:30
 msgid "_All information"
