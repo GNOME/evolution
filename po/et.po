@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 17:41+0200\n"
-"PO-Revision-Date: 2006-08-24 19:18+0300\n"
+"PO-Revision-Date: 2006-09-03 08:47+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -457,7 +457,7 @@ msgid ""
 msgstr ""
 "See LDAP server võib kasutada vanemat LDAP versiooni, mis ei toeta seda "
 "funktsionaalsust. Samas võib see LDAP server olla halvasti seadistatud. Küsi "
-"oma süsteemihaldurilt, milliseid otsingubaase sa peaksid kasutama."
+"oma süsteemihaldurilt, milliseid otsingupõhjasid sa peaksid kasutama."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
@@ -469,7 +469,7 @@ msgstr "Seda aadressisaamatud pole võimalik avada."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
-msgstr "See aadressiraamatuserver ei oma ühtegi soovituslikku otsingubaasi."
+msgstr "See aadressiraamatuserver ei oma ühtegi soovituslikku otsingupõhja."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
@@ -504,7 +504,7 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Sa proovid tõsta kontakti ühest aadressiraamatust teise kuid lähteraamatust "
+"Sa proovid tõsta kontakti ühest aadressiraamatust teise, kuid lähteraamatust "
 "pole seda võimalik kustutada. Kas sa soovid ümbertõstmise asemel salvestada "
 "koopiat?"
 
@@ -514,6 +514,9 @@ msgid ""
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
 msgstr ""
+"Sa ühendud toetamata GroupWise serverisse ja see võib Evolutioni "
+"kasutamisel tekitada probleeme. Parima tulemuse saavutamiseks peaksid sa "
+"serveritarkvara uuendama toetatud versiooniks"
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid ""
@@ -804,6 +807,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr ""
+"Evolutioni Palm Sync muutuste logi ja kaardifailid on muutunud.\n"
+"\n"
+"Palun oota kuni Evolution migreerib Sinu Pilot Sync andmed..."
 
 #: ../addressbook/gui/component/addressbook-view.c:434
 #: ../mail/em-folder-utils.c:503
@@ -999,7 +1005,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
-msgstr "Leia võimalikud otsingubaasid"
+msgstr "Leia võimalikud otsingupõhjad"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 msgid "Lo_gin:"
@@ -1035,7 +1041,7 @@ msgstr "Otsingufilter"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
-msgstr "_Otsingubaas:"
+msgstr "_Otsingupõhi:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
@@ -1051,6 +1057,8 @@ msgid ""
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
 msgstr ""
+"Otsingufiltris määratakse otsitavate objektide liik. Kui seda ei ole "
+"muudetud, siis otsitakse vaikimisi objektiklassi liigiga \"person\" (isik)."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
@@ -1083,7 +1091,7 @@ msgstr "Kogu alampuu (Sub)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "Supported Search Bases"
-msgstr "Toetatud otsingubaasid"
+msgstr "Toetatud otsingupõhjad"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
@@ -1099,6 +1107,8 @@ msgid ""
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
+"Otsingupõhi on otsingu alguse eraldusnimi (DN). Kui sa selle tühjaks jätad, "
+"siis alustatakse otsingut kataloogipuu kõige ülemisest kataloogist."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -1107,6 +1117,10 @@ msgid ""
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
 msgstr ""
+"Otsingu ulatus määrab kui sügaval kataloogides peab otsingut läbi viima. "
+"\"Kogu alampuu\" kaasab otsingusse kõik kirjed, mis jäävad otsingupõhjast "
+"allapoole. \"Üks tase alla\" kaasab otsingusse kirjed, mis jäävad "
+"otsingupõhjast ühe taseme võrra allapoole."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
@@ -1172,7 +1186,7 @@ msgstr "_Allalaadimise piirang:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
-msgstr "_Leia võimalikud otsingubaasid"
+msgstr "_Leia võimalikud otsingupõhjad"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
@@ -4405,6 +4419,9 @@ msgid ""
 "problems using Evolution. For best results, the server should be upgraded to "
 "a supported version."
 msgstr ""
+"Sa ühendud toetamata GroupWise serverisse ja see võib Evolutioni "
+"kasutamisel tekitada probleeme. Parima tulemuse saavutamiseks peaksid sa "
+"serveritarkvara uuendama toetatud versiooniks."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid ""
@@ -5473,7 +5490,7 @@ msgstr "Faili(de) manustamine"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:486
 msgid "Selected Calendars for Alarms"
-msgstr ""
+msgstr "Alarmidele valitud kalendrid"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid ""
@@ -7476,6 +7493,7 @@ msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
 msgstr ""
+"Koosolek on tühistatud, kuid seda pole Sinu kalendritest võimalik leida"
 
 #: ../calendar/gui/e-itip-control.c:1226
 msgid ""
@@ -10775,7 +10793,7 @@ msgstr "Test"
 
 #: ../filter/filter-rule.c:799
 msgid "_Search name:"
-msgstr "Otsingu_baas:"
+msgstr "Otsingu_põhi:"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
@@ -11714,7 +11732,7 @@ msgstr "_Eemalda silt"
 
 #: ../mail/em-folder-view.c:1147
 msgid "Crea_te Rule From Message"
-msgstr "_Loo sõnumi baasil reegel"
+msgstr "_Loo sõnumi põhjal reegel"
 
 #: ../mail/em-folder-view.c:1148
 msgid "Search Folder from _Subject"
@@ -11980,7 +11998,7 @@ msgstr "`%s' tõmbamine"
 
 #: ../mail/em-format-html.c:621
 msgid "Valid signature but cannot verify sender"
-msgstr "Signatuur kehtib kuid saatjat pole võimalik tuvastada"
+msgstr "Signatuur kehtib, kuid saatjat pole võimalik tuvastada"
 
 #: ../mail/em-format-html.c:892
 msgid "Malformed external-body part."
