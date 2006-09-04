@@ -14626,11 +14626,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
-msgstr ""
+msgstr "ହିସାବ ଖାତା (_A):"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
 msgid "_Folder Name:"
-msgstr ""
+msgstr "ଫୋଲଡର ନାମ (_F):"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
 msgid "_User:"
@@ -14639,7 +14639,7 @@ msgstr "ଚାଳକ (_U):"
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
 msgid "Secure Password"
-msgstr ""
+msgstr "ସୁରକ୍ଷିତ ପ୍ରବେଶ ସଙ୍କେତ"
 
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-operations/exchange-account-setup.c:66
@@ -14700,7 +14700,7 @@ msgstr ""
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:349
 msgid "Miscelleneous"
-msgstr ""
+msgstr "ବିବିଧ"
 
 #. Folder Size
 #: ../plugins/exchange-operations/exchange-account-setup.c:359
@@ -14709,28 +14709,28 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:361
 msgid "Folders Size"
-msgstr ""
+msgstr "ଫୋଲଡର ଆକାର"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:368
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
-msgstr ""
+msgstr "ବିନିମୟ ବିନ୍ଯାସ"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
-msgstr ""
+msgstr "_OWA ୟୁ.ଆର.ଏଲ.:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
-msgstr ""
+msgstr "ବୈଧିକୃତ କରନ୍ତୁ (_u)"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
-msgstr ""
+msgstr "ବୈଧିକରଣ ପ୍ରକାର"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
-msgstr ""
+msgstr "ସମର୍ଥିତ ପ୍ରକାର ପାଇଁ ଯାଞ୍ଚ କରନ୍ତୁ (_e)"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
@@ -14754,15 +14754,15 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Confirm Password:"
-msgstr "ପ୍ରବେଶ ସଙ୍କେତ କୁ ନିଶ୍ଚିତ କରନ୍ତୁ:"
+msgstr "ପ୍ରବେଶ ସଙ୍କେତକୁ ନିଶ୍ଚିତ କରନ୍ତୁ:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Current Password:"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ପ୍ରବେଶ ସଙ୍କେତ:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:4
 msgid "New Password:"
-msgstr ""
+msgstr "ନୂତନ ପ୍ରବେଶ ସଙ୍କେତ:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
 msgid "Your current password has expired. Please change your password now."
@@ -14783,13 +14783,13 @@ msgstr "ଇଚ୍ଛାରୂପଣ"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
-msgstr ""
+msgstr "ପ୍ରତିନିଧିଙ୍କ ଅନୁମତି"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:202
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
 #, c-format
 msgid "Permissions for %s"
-msgstr ""
+msgstr "%s ପାଇଁ ଅନୁମତି"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To"
@@ -14798,7 +14798,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
 msgid "Remove the delegate %s?"
-msgstr ""
+msgstr "%s ପ୍ରତିନିଧିଙ୍କୁ ଅପସାରଣ କରନ୍ତୁ?"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:680
 msgid "Could not access Active Directory"
@@ -14838,28 +14838,28 @@ msgstr ""
 #. Translators: This is used for permissions for <user> for the folder Calendar.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
 msgid "C_alendar:"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡର (_a):"
 
 #. Translators: This is used for permissions for <user> for the folder Contacts.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
 msgid "Co_ntacts:"
-msgstr ""
+msgstr "ସମ୍ପର୍କ (_n):"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 msgid "Delegates"
-msgstr ""
+msgstr "ପ୍ରତିନିଧି"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
-msgstr ""
+msgstr "ସମ୍ପାଦକ (ପଢନ୍ତୁ, ସୃଷ୍ଟି କରନ୍ତୁ, ସମ୍ପାଦନ କରନ୍ତୁ)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid "Permissions for"
-msgstr ""
+msgstr "ଏହା ପାଇଁ ଅନୁମତି"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
-msgstr ""
+msgstr "ସମୀକ୍ଷକ (କେବଳ ପଠନୀୟ)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
 msgid ""
@@ -14869,39 +14869,39 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Delegate can see private items"
-msgstr ""
+msgstr "ପ୍ରତିନିଧି ବ୍ଯକ୍ତିଗତ ବସ୍ତୁ ମାନଙ୍କୁ ଦେଖି ପାରିବେ (_D)"
 
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
 msgid "_Inbox:"
-msgstr ""
+msgstr "ଇନ-ବକ୍ସ (_I):"
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:19
 msgid "_Tasks:"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ (_T):"
 
 #: ../plugins/exchange-operations/exchange-folder-permission.c:58
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
-msgstr ""
+msgstr "ଅନୁମତି..."
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:135
 msgid "Folder Name"
-msgstr ""
+msgstr "ଫୋଲଡର ନାମ"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:139
 msgid "Folder Size"
-msgstr ""
+msgstr "ଫୋଲଡର ଆକାର"
 
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:310
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ଚାଳକ ଫୋଲଡରର ଗ୍ରାହକ ହୁଅନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
-msgstr ""
+msgstr "ଫୋଲଡର ବୃକ୍ଷକୁ ବିନିମୟ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
 #: ../plugins/exchange-operations/exchange-folder.c:229
@@ -14931,19 +14931,19 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
-msgstr ""
+msgstr "ପ୍ରବେଶ ସଙ୍କେତକୁ ବଦଳାନ୍ତୁ (_C)"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:4
 msgid "ok_button"
-msgstr ""
+msgstr "ଠିକ ଅଛି ବଟନ (_b)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
 msgid "(Permission denied.)"
-msgstr ""
+msgstr "(ଅନୁମତି ଅସ୍ବୀକୃତ।)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User:"
-msgstr ""
+msgstr "ଚାଳକକୁ ଯୋଗକରନ୍ତୁ:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User"
@@ -14951,79 +14951,79 @@ msgstr "ଚାଳକକୁ ଯୋଗ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 msgid "<b>Permissions</b>"
-msgstr ""
+msgstr "<b>ଅନୁମତି</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "Cannot Delete"
-msgstr ""
+msgstr "ଅପସାରଣ କରିପାରିବ ନାହିଁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Edit"
-msgstr ""
+msgstr "ସମ୍ପାଦନ କରିପାରିବ ନାହିଁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Create items"
-msgstr ""
+msgstr "ବସ୍ତୁ ମାନଙ୍କୁ ସୃଷ୍ଟି କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
 msgid "Create subfolders"
-msgstr ""
+msgstr "ଉପ-ଫୋଲଡର ସୃଷ୍ଟି କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
 msgid "Delete Any Items"
-msgstr ""
+msgstr "ଯେ କୌଣସି ବସ୍ତୁକୁ ଅପସାରଣ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Own Items"
-msgstr ""
+msgstr "ନିଜସ୍ବ ବସ୍ତୁକୁ ଅପସାରଣ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
 msgid "Edit Any Items"
-msgstr ""
+msgstr "ଯେ କୌଣସି ବସ୍ତୁକୁ ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
 msgid "Edit Own Items"
-msgstr ""
+msgstr "ନିଜସ୍ବ ବସ୍ତୁକୁ ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 msgid "Folder contact"
-msgstr ""
+msgstr "ଫୋଲଡର ସମ୍ପର୍କ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 msgid "Folder owner"
-msgstr ""
+msgstr "ଫୋଲଡର ମାଲିକ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 msgid "Folder visible"
-msgstr ""
+msgstr "ଫୋଲଡର ଦୃଶ୍ଯମାନ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
 msgid "Read items"
-msgstr ""
+msgstr "ପଠନ ବସ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Role: "
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ: "
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:10
 msgid "No, Don't Change Status"
-msgstr ""
+msgstr "ନାଁ, ମୋର ସ୍ଥିତିକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ ନାହିଁ"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
 msgid "Select User"
-msgstr ""
+msgstr "ଚାଳକକୁ ଚୟନ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
 msgid "Address Book..."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ଚାଳକ ସମ୍ପର୍କର ଗ୍ରାହକ ହୁଅନ୍ତୁ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ଚାଳକ କ୍ଯାଲେଣ୍ଡରର ଗ୍ରାହକ ହୁଅନ୍ତୁ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
 msgid ""
@@ -15033,7 +15033,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
-msgstr ""
+msgstr "ବିନିମୟ କାର୍ଯ୍ଯ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -15041,11 +15041,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
-msgstr ""
+msgstr "ଫୋଲଡରକୁ ପ୍ରଦର୍ଶିତ କରିପାରିବ ନାହିଁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid "Cannot perform the operation."
-msgstr ""
+msgstr "କାର୍ଯ୍ଯକୁ ସମ୍ପାଦନ କରିପାରିବ ନାହିଁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid ""
@@ -15055,11 +15055,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
-msgstr ""
+msgstr "ସେବକ ସହିତ ବୈଧିକୃତ ହୋଇ ପାରିଲା ନାହିଁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 msgid "Could not change password."
-msgstr ""
+msgstr "ପ୍ରବେଶ ସଙ୍କେତକୁ ପରିବର୍ତ୍ତନ କରିପାରିଲା ନାହିଁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 msgid ""
@@ -15070,11 +15070,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
 msgid "Could not connect to Exchange server."
-msgstr ""
+msgstr "ବିନିମୟ ସେବକ ସହିତ ସମ୍ପର୍କ ସ୍ଥାପନ କରିପାରିଲା ନାହିଁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not connect to server {0}."
-msgstr ""
+msgstr "ସେବକ {0} ସହିତ ସମ୍ପର୍କ ସ୍ଥାପନ କରିପାରିଲା ନାହିଁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not determine folder permissions for delegates."
@@ -15086,7 +15086,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 msgid "Could not locate server {0}."
-msgstr ""
+msgstr "ସେବକ {0} ର ସ୍ଥାନ ନିରୂପଣ କରିପାରିଲା ନାହିଁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
 msgid "Could not make {0} a delegate"
@@ -15134,19 +15134,19 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Failed to update delegates:"
-msgstr ""
+msgstr "ପ୍ରତିନିଧକୁ ଅଦ୍ଯତିତ କରିବାରେ ବିଫଳ:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
 msgid "Folder already exists"
-msgstr ""
+msgstr "ଫୋଲଡର ପୂର୍ବରୁ ରହିଛି"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 msgid "Folder does not exist"
-msgstr ""
+msgstr "ଫୋଲଡର ଅବସ୍ଥିତ ନାହିଁ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 msgid "Folder offline"
-msgstr ""
+msgstr "ଫୋଲଡର ଅଫଲାଇନ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1270
@@ -15155,7 +15155,7 @@ msgstr "ସାଧାରଣ ତ୍ରୁଟି"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Global Catalog Server is not reachable"
-msgstr ""
+msgstr "ସାମଗ୍ରିକ ତାଲିକା ସେବକକୁ ପହଞ୍ଚି ପାରିଲା ନାହିଁ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid ""
@@ -15189,11 +15189,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "No such user {0}"
-msgstr ""
+msgstr "କୌଣସି ଚାଳକ {0} ନାହିଁ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "Password successfully changed."
-msgstr ""
+msgstr "ପ୍ରବେଶ ସଙ୍କେତକୁ ସଫଳତାର ସହିତ ବଦଳାଗଲା।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Please make sure the Global Catalog Server name is correct."
@@ -15205,7 +15205,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "Please select a user."
-msgstr ""
+msgstr "ଦୟାକରି ଗୋଟିଏ ଚାଳକକୁ ଚୟନ କରନ୍ତୁ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "Server rejected password because it is too weak."
