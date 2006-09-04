@@ -91,6 +91,7 @@
 #define d(x) 
 
 static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);
+static void view_changed_timeout_remove (EComponentView *component_view);
 
 #define MAIL_COMPONENT_DEFAULT(mc) if (mc == NULL) mc = mail_component_peek();
 
@@ -439,6 +440,8 @@ impl_dispose (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
 
+	view_changed_timeout_remove ((EComponentView *)object);
+
 	if (priv->activity_handler != NULL) {
 		g_object_unref (priv->activity_handler);
 		priv->activity_handler = NULL;
@@ -580,6 +583,25 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 	}
 }
 
+static void
+view_changed_timeout_remove (EComponentView *component_view)
+{
+	gpointer v;
+	EInfoLabel *el;
+	EMFolderView *emfv;
+
+	v = g_object_get_data((GObject *)component_view, "view-changed-timeout");
+	if (v) {
+		g_source_remove(GPOINTER_TO_INT(v));
+		g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
+		
+		el = g_object_get_data((GObject *)component_view, "info-label");
+		emfv = g_object_get_data((GObject *)el, "folderview");
+		g_object_unref(el);
+		g_object_unref(emfv);
+	}
+}
+
 static int
 view_changed_timeout(void *d)
 {
@@ -589,7 +611,7 @@ view_changed_timeout(void *d)
 
 	view_changed(emfv, component_view);
 
-	g_object_set_data((GObject *)emfv, "view-changed-timeout", NULL);
+	g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
 
 	g_object_unref(el);
 	g_object_unref(emfv);
@@ -607,7 +629,7 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 	   we don't need to/want to run it immediately */
 
 	/* NB: we should have a 'view' struct/object to manage this crap, but this'll do for now */
-	v = g_object_get_data((GObject *)emfv, "view-changed-timeout");
+	v = g_object_get_data((GObject *)component_view, "view-changed-timeout");
 	if (v) {
 		g_source_remove(GPOINTER_TO_INT(v));
 	} else {
@@ -615,7 +637,7 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 		g_object_ref(el);
 	}
 
-	g_object_set_data((GObject *)emfv, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, component_view)));
+	g_object_set_data((GObject *)component_view, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, component_view)));
 }
 
 static void 

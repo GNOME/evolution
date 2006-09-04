@@ -1,3 +1,9 @@
+2006-09-04  Nickolay V. Shmyrev <nshmyrev@yandex.ru>
+
+	* mail-component.c: (impl_dispose)
+	(view_changed_timeout_remove) (view_changed_timeout):
+	Fixes a crash on exit-time issue. Resolves #334966
+	
 2006-08-29  Li Yuan <li.yuan@sun.com>
 
 	* em-folder-browser.c: (em_folder_browser_show_preview):
