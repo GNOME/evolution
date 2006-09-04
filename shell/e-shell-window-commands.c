@@ -543,6 +543,7 @@ static const char *documentors[] = {
 	"David Trowbridge",
 	"Jessica Prabhakar",
 	"Binika Preet",
+	"Radhika Nair",
 	NULL
 };
 
