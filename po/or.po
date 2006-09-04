@@ -2,15 +2,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Subhransu Behera <arya_subhransu@yahoo.co.in>, 2006.
-# Subhransu Behera <sbehera@redhat.com>, 2006.
 #: ../mail/em-format-html-display.c:683
 msgid ""
 msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-17 07:35+0200\n"
-"PO-Revision-Date: 2006-09-03 16:19+0530\n"
-"Last-Translator: Subhransu Behera <sbehera@redhat.com>\n"
+"PO-Revision-Date: 2006-09-04 11:27+0530\n"
+"Last-Translator: Subhransu Behera <arya_subhransu@yahoo.co.in>\n"
 "Language-Team: Oriya <oriya-group@lists.sarovar.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7216,34 +7215,34 @@ msgstr[1] "ପ୍ରତି %d ବର୍ଷ"
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ସମୟର ଗୋଟିଏ ସମଷ୍ଟି"
+msgstr[1] "%d ସମୟର ଗୋଟିଏ ସମଷ୍ଟି"
 
 #: ../calendar/gui/e-itip-control.c:836
 msgid ", ending on "
-msgstr ""
+msgstr ", ଏହି ଦିନରେ ସମାପ୍ତ ହେବ"
 
 #: ../calendar/gui/e-itip-control.c:857
 msgid "Starts"
-msgstr ""
+msgstr "ପ୍ରାରମ୍ଭ ହୋଇଥାଏ"
 
 #: ../calendar/gui/e-itip-control.c:870
 msgid "Ends"
-msgstr ""
+msgstr "ସମାପ୍ତ ହୁଏ"
 
 #: ../calendar/gui/e-itip-control.c:904
 #: ../plugins/save-calendar/csv-format.c:395
 msgid "Due"
-msgstr ""
+msgstr "ଅନ୍ତିମ ଦିବସ"
 
 #: ../calendar/gui/e-itip-control.c:944 ../calendar/gui/e-itip-control.c:1001
 msgid "iCalendar Information"
-msgstr ""
+msgstr "ଆଇ-କ୍ଯାଲେଣ୍ଡର ସୂଚନା"
 
 #. Title
 #: ../calendar/gui/e-itip-control.c:961
 msgid "iCalendar Error"
-msgstr ""
+msgstr "ଆଇ-କ୍ଯାଲେଣ୍ଡର ତୃଟି"
 
 #: ../calendar/gui/e-itip-control.c:1033 ../calendar/gui/e-itip-control.c:1049
 #: ../calendar/gui/e-itip-control.c:1060 ../calendar/gui/e-itip-control.c:1077
@@ -7254,7 +7253,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:476
 #: ../plugins/itip-formatter/itip-view.c:477
 msgid "An unknown person"
-msgstr ""
+msgstr "ଜଣେ ଅଜ୍ଞାତ ବ୍ଯକ୍ତି"
 
 #. Describe what the user can do
 #: ../calendar/gui/e-itip-control.c:1084
@@ -7269,12 +7268,12 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:685
 #: ../plugins/itip-formatter/itip-formatter.c:1748
 msgid "Accepted"
-msgstr ""
+msgstr "ସ୍ବୀକୃତ"
 
 #: ../calendar/gui/e-itip-control.c:1136 ../calendar/gui/itip-utils.c:688
 #: ../plugins/itip-formatter/itip-formatter.c:1751
 msgid "Tentatively Accepted"
-msgstr ""
+msgstr "ସାମୟିକଭାବେ ସ୍ବୀକୃତ"
 
 #: ../calendar/gui/e-itip-control.c:1140
 #: ../calendar/gui/e-meeting-list-view.c:206
@@ -7282,7 +7281,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:691 ../calendar/gui/itip-utils.c:720
 #: ../plugins/itip-formatter/itip-formatter.c:1754
 msgid "Declined"
-msgstr ""
+msgstr "ଅସ୍ବୀକୃତ"
 
 #: ../calendar/gui/e-itip-control.c:1224
 msgid ""
@@ -7297,35 +7296,35 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1305
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr ""
+msgstr "<b>%s</b> ନିକଟରେ ପ୍ରକାଶିତ ସଭା ସୂଚନା ଅଛି।"
 
 #: ../calendar/gui/e-itip-control.c:1306
 msgid "Meeting Information"
-msgstr ""
+msgstr "ସଭା ସୂଚନା"
 
 #: ../calendar/gui/e-itip-control.c:1312
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr ""
+msgstr "<b>%s</b> ଗୋଟିଏ ସଭାରେ %s ର ଉପସ୍ଥିତି ପାଇଁ ନିବେଦନ କରିଥାଏ।"
 
 #: ../calendar/gui/e-itip-control.c:1314
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
+msgstr "<b>%s</b> ସଭାରେ ଆପଣଙ୍କ ଉପସ୍ଥିତ ପାଇଁ ନିବେଦନ କରିଅଛି।"
 
 #: ../calendar/gui/e-itip-control.c:1315
 msgid "Meeting Proposal"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ପ୍ରସ୍ତାବ"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1321
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr ""
+msgstr "<b>%s</b> ଗୋଟିଏ ଚାଲୁଥିବା ସଭାରେ ଯୋଗ ଦେବା ପାଇଁ ଇଚ୍ଛାପ୍ରକାଶ କରୁଅଛି।"
 
 #: ../calendar/gui/e-itip-control.c:1322
 msgid "Meeting Update"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ଅଦ୍ଯତନ"
 
 #: ../calendar/gui/e-itip-control.c:1326
 #, c-format
@@ -7334,7 +7333,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1327
 msgid "Meeting Update Request"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ଅଦ୍ଯତନ ଅନୁରୋଧ"
 
 #: ../calendar/gui/e-itip-control.c:1334
 #, c-format
@@ -7343,7 +7342,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1335
 msgid "Meeting Reply"
-msgstr ""
+msgstr "ସାକ୍ଷାତକାର ଉତ୍ତର"
 
 #: ../calendar/gui/e-itip-control.c:1342
 #, c-format
@@ -14247,7 +14246,7 @@ msgstr ""
 
 #: ../mail/message-list.c:1028
 msgid "Lower"
-msgstr ""
+msgstr "ନିମ୍ନତର"
 
 #: ../mail/message-list.c:1032
 msgid "Higher"
@@ -16928,7 +16927,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
-msgstr ""
+msgstr "ମୂଦ୍ରଣୀ ବିନ୍ଯାସ"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Sidebar is visible"
@@ -18108,7 +18107,7 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr ""
+msgstr "ଦିନ"
 
 #: ../ui/evolution-calendar.xml.h:6
 msgid "Delete _all Occurrences"
@@ -18144,7 +18143,7 @@ msgstr "ତାଲିକା"
 
 #: ../ui/evolution-calendar.xml.h:15
 msgid "Month"
-msgstr ""
+msgstr "ମାସ"
 
 #: ../ui/evolution-calendar.xml.h:16 ../ui/evolution-mail-message.xml.h:58
 #: ../widgets/misc/e-calendar.c:201
@@ -19913,7 +19912,7 @@ msgstr "ସର୍ବନିମ୍ନ ଓସାର"
 #: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
 #: ../widgets/misc/e-expander.c:206
 msgid "Spacing"
-msgstr ""
+msgstr "ବ୍ଯବଧାନ"
 
 #: ../widgets/misc/e-cell-date-edit.c:233
 msgid "Now"
@@ -20063,7 +20062,7 @@ msgstr "%I:%M %p"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
-msgstr ""
+msgstr "ସମ୍ପ୍ରସାରିତ"
 
 #: ../widgets/misc/e-expander.c:183
 msgid "Whether or not the expander is expanded"
@@ -20071,11 +20070,11 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:191
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "ସମ୍ପ୍ରସାରକ ସୂଚକର ପାଠ୍ଯ"
 
 #: ../widgets/misc/e-expander.c:198
 msgid "Use underline"
-msgstr ""
+msgstr "ରେଖାଙ୍କନ ପଦ୍ଧତିକୁ ବ୍ଯବହାର କରନ୍ତୁ"
 
 #: ../widgets/misc/e-expander.c:199
 msgid ""
@@ -20085,23 +20084,23 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:207
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "ସୂଚକ ଏବଂ ନିର୍ଭରକ ମଧ୍ଯରେ ଦିଆଯିବା ବ୍ଯବଧାନ"
 
 #: ../widgets/misc/e-expander.c:216
 msgid "Label widget"
-msgstr ""
+msgstr "ସୂଚକ ୱିଜେଟ"
 
 #: ../widgets/misc/e-expander.c:217
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "ସ୍ବାଭାବିକ ସମ୍ପ୍ରସାରକ ସୂଚକ ସ୍ଥାନରେ ପ୍ରଦର୍ଶନ କରିବା ପାଇଁ ଗୋଟିଏ ୱିଜେଟ"
 
 #: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3312
 msgid "Expander Size"
-msgstr ""
+msgstr "ସମ୍ପ୍ରସାରକ ଆକାର"
 
 #: ../widgets/misc/e-expander.c:224 ../widgets/table/e-tree.c:3313
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "ସମ୍ପ୍ରସାରକ ତୀରର ଆକାର"
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Indicator Spacing"
@@ -20109,7 +20108,7 @@ msgstr "ସୂଚକର ବ୍ଯବଧାନ"
 
 #: ../widgets/misc/e-expander.c:233
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "ସମ୍ପ୍ରସାରକ ତୀର ଚତୁଃପାର୍ଶ୍ବରେ ବ୍ଯବଧାନ"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:164
