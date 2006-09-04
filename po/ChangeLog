@@ -1,3 +1,7 @@
+2006-09-04  Alessio Frusciante  <algol@firenze.linux.it>
+
+	* it.po: Fixed a bug in translation (#338403).
+
 2006-09-04  Danilo Šegan  <danilo@gnome.org>
 
 	* sr.po, sr@Latn.po: Updated by Igor Miletić.
