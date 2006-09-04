@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 07:17+0200\n"
-"PO-Revision-Date: 2006-09-03 00:49+0530\n"
+"PO-Revision-Date: 2006-09-03 16:13+0530\n"
 "Last-Translator: Ani Peter <apeter@redhat.com>\n"
 "Language-Team: Malayalam\n"
 "MIME-Version: 1.0\n"
@@ -443,6 +443,9 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"ഈ പ്രയോഗം പിന്തുണയ്കാത്ത, അല്ലെങ്കില്‍ തെറ്റായി ക്രമീകരിച്ച LDAP-ന്‍റെ പഴയ വേര്‍ഷന്‍ ആവും "
+"ഈ LDAP സര്‍വര്‍ ഉപയോഗിക്കുന്നത്. പിന്തുണയുളള തിരച്ചില്‍ അടിസ്ഥാനങ്ങള്‍ക്കുളള "
+"പിന്തുണയ്ക്ക് അഡ്മിനിസ്ട്രേറ്ററുടെ അനുവാദം ചോദിക്കുക."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
@@ -4055,12 +4058,16 @@ msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
 msgstr ""
+"അപ്പോയിന്‍റ്മെന്‍റിന് അര്‍ത്ഥമുളള ഒരു സമ്മറി ചേര്‍ക്കുന്നത് അത് ലഭ്യമാകുന്നവര്‍ക്ക് മീറ്റിങ് എന്തിനുളളത് "
+"എന്നതിനെപ്പറ്റി ഒരു ആശയം നല്‍കുന്നു."
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 "Adding a meaningful summary to your task will give your recipients an idea "
 "of what your task is about."
 msgstr ""
+"ടാസ്കിന് അര്‍ത്ഥമുളള ഒരു സമ്മറി ചേര്‍ക്കുന്നത് അത് ലഭ്യമാകുന്നവര്‍ക്ക് ടാസ്ക് എന്തിനുളളത് "
+"എന്നതിനെപ്പറ്റി ഒരു ആശയം നല്‍കുന്നു."
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -4161,11 +4168,11 @@ msgstr "ഈ ജോലി നിങ്ങള്‍ക്ക് നീക്കം
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr ""
+msgstr "ഒരു സമ്മറി ഇല്ലാതെ നിങ്ങള്‍ക്ക് അപ്പോയിന്‍റ്മെന്‍റ് അയയ്ക്കണമെന്നുറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:22
 msgid "Are you sure you want to send the task without a summary?"
-msgstr ""
+msgstr "ഒരു സമ്മറി ഇല്ലാതെ നിങ്ങള്‍ക്ക് ടാസ്ക് അയയ്ക്കണമെന്നുറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:23
 msgid "Cannot create a new event"
@@ -4669,7 +4676,7 @@ msgstr "Bonobo ആരംഭിക്കുവാന്‍ സാധ്യമാ�
 
 #: ../calendar/gui/alarm-notify/notify-main.c:153
 msgid "Could not create the alarm notify service factory"
-msgstr ""
+msgstr "അലാറം അറിയിപ്പ് സര്‍വീസ് ഫാക്ടറി ഉണ്ടാക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -4902,7 +4909,7 @@ msgstr "ഇവന്‍റ്/ജോലി/മീറ്റിങ് എഡിറ
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Show appointment end times in week and month views"
-msgstr ""
+msgstr "ആഴ്ചയും മാസങ്ങളും കാണുന്ന കലണ്ടറില്‍ അപ്പോയിന്‍റ്മെന്‍റുകള്‍ അവസാനിക്കുന്ന സമയം കാണിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 msgid "Show categories field in the event/meeting/task editor"
@@ -5007,7 +5014,7 @@ msgstr "ഒരു അപ്പോയിന്‍റ്മെന്‍റ് അ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr ""
+msgstr "അപ്പോയിന്‍റ്മെന്‍റുകളും ടാസ്കുകളും മായിക്കുന്നതിന് മുന്പ് ഉറപ്പ് വരുത്തണമോ എന്ന്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
 msgid ""
@@ -5130,10 +5137,12 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
+"തിരഞ്ഞെടുത്ത സമയപരിധിയ്ക്ക് മുന്പുളള എല്ലാ ഇവന്‍റുകളും ഈ പ്രക്രിയ മായിച്ചു കളയുന്നു. നിങ്ങള്‍ "
+"ഇത് തുടര്‍ന്നാല്‍ നിങ്ങള്‍ക്ക് ഈ ഇവന്‍റുകള്‍ വീണ്ടെടുക്കുവാന്‍ സാധ്യമല്ല."
 
 #: ../calendar/gui/calendar-commands.c:354
 msgid "Purge events older than"
-msgstr ""
+msgstr "ഇതിന് മുന്പുളള പഴയ ഇവന്‍റുകള്‍ കളയുക"
 
 #: ../calendar/gui/calendar-commands.c:359
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
@@ -6001,11 +6010,11 @@ msgstr "വിലാസങ്ങള്‍..."
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To:"
-msgstr ""
+msgstr "ഏല്‍പ്പിക്കേണ്ടത്:"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:3
 msgid "Enter Delegate"
-msgstr ""
+msgstr "പ്രതിനിധിയെ നല്‍കുക"
 
 #: ../calendar/gui/dialogs/event-editor.c:564
 msgid "Appoint_ment"
@@ -6031,7 +6040,7 @@ msgstr "ഓര്‍ഗനൈസര്‍: (_g)"
 
 #: ../calendar/gui/dialogs/event-page.c:920
 msgid "_Delegatees"
-msgstr ""
+msgstr "പ്രതിനിധികള്‍ (_D)"
 
 #: ../calendar/gui/dialogs/event-page.c:922
 msgid "Atte_ndees"
@@ -6078,7 +6087,7 @@ msgstr "ഒരു ഓര്‍ഗനൈലര്‍ ആവശ്യമുണ്�
 #: ../calendar/gui/dialogs/event-page.c:1475
 #: ../calendar/gui/dialogs/task-page.c:927
 msgid "At least one attendee is required."
-msgstr ""
+msgstr "ഒരാളെങ്കിലും ഹാജറാകേണ്ടതാണ്."
 
 #: ../calendar/gui/dialogs/event-page.c:1897
 #: ../calendar/gui/dialogs/task-page.c:1200
@@ -6211,12 +6220,12 @@ msgstr "സാധാരണ പേര്"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:4
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
-msgstr ""
+msgstr "എവിടെ നിന്ന് ഏല്‍പിച്ചിരിക്കുന്നു"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:5
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr ""
+msgstr "എന്ത് ഏല്‍പിച്ചിരിക്കുന്നു"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:6
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -6344,7 +6353,7 @@ msgstr "പുനഃര്‍വൃത്തിക്കുന്ന ഒരു �
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
 msgid "You are delegating a recurring event. What would you like to delegate?"
-msgstr ""
+msgstr "ഒരു ആവര്‍ത്തിക്കുന്ന ഇവന്‍റിന്‍റെ പ്രതിനിധി നിങ്ങള്‍ ആണ്. നിങ്ങള്‍ക്ക് പ്രതിനിധി ആകണമോ?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task. What would you like to modify?"
@@ -6769,7 +6778,7 @@ msgstr "%s-ല്‍ %s"
 #: ../calendar/gui/e-alarm-list.c:545
 #, c-format
 msgid "%s for an unknown trigger type"
-msgstr ""
+msgstr "%s ഒരു അപരിചിതമായ ട്രിഗ്ഗര്‍ രീതിയ്ക്ക്"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2871
@@ -7052,7 +7061,7 @@ msgstr "ജോലി ഏല്‍പിക്കുക (_A)"
 #: ../calendar/gui/e-calendar-table.c:1294 ../calendar/gui/e-memo-table.c:914
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
-msgstr ""
+msgstr "iCalendar ആയി അയയ്ക്കുക (_F)"
 
 #: ../calendar/gui/e-calendar-table.c:1295
 msgid "_Mark as Complete"
@@ -7160,7 +7169,7 @@ msgstr "മീറ്റിങ് ക്രമീകരിക്കുക... (_S)
 
 #: ../calendar/gui/e-calendar-view.c:1714
 msgid "_Forward as iCalendar..."
-msgstr ""
+msgstr "iCalendar ആയി അയയ്ക്കുക... (_F)"
 
 #: ../calendar/gui/e-calendar-view.c:1715
 msgid "_Reply"
@@ -7380,7 +7389,7 @@ msgstr "അംഗീകരിച്ചു"
 #: ../calendar/gui/e-itip-control.c:1136 ../calendar/gui/itip-utils.c:688
 #: ../plugins/itip-formatter/itip-formatter.c:1755
 msgid "Tentatively Accepted"
-msgstr ""
+msgstr "താല്‍ക്കാലികമായി സ്വീകരിച്ചിരിക്കുന്നു"
 
 #: ../calendar/gui/e-itip-control.c:1140
 #: ../calendar/gui/e-meeting-list-view.c:206
@@ -7473,7 +7482,7 @@ msgstr "മീറ്റിങിനുളള തെറ്റായ സന്ദ�
 #: ../calendar/gui/e-itip-control.c:1381
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr ""
+msgstr "<b>%s</b> ടാസ്കിന്‍റെ വിവരങ്ങള്‍ പ്രസിദ്ധീകരിച്ചിരിക്കുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1382
 msgid "Task Information"
@@ -7555,7 +7564,7 @@ msgstr "ഫ്രീ/തിരക്കുളള ആവശ്യം"
 #: ../calendar/gui/e-itip-control.c:1465
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
+msgstr "<b>%s</b> ഒരു ഫ്രീ/തിരക്കുളള നിര്‍ദ്ദേശത്തിന് മറുപടി അയച്ചിരിക്കുന്നു."
 
 #: ../calendar/gui/e-itip-control.c:1466
 msgid "Free/Busy Reply"
@@ -7595,11 +7604,11 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1954
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
+msgstr "അസാധുവായ അവസ്ഥ കാരണം ഹാജരായവരുടെ അവസ്ഥ പുതുക്കുവാന്‍ സാധ്യമായില്ല!\n"
 
 #: ../calendar/gui/e-itip-control.c:1971
 msgid "Attendee status updated\n"
-msgstr ""
+msgstr "ഹാജരായവരുടെ അവസ്ഥ പുതുക്കിയിരിക്കുന്നു\n"
 
 #: ../calendar/gui/e-itip-control.c:1974
 #: ../plugins/itip-formatter/itip-formatter.c:1104
@@ -7756,7 +7765,7 @@ msgstr "താല്‍ക്കാലികമായ"
 #: ../calendar/gui/itip-utils.c:694
 #: ../plugins/itip-formatter/itip-formatter.c:1761
 msgid "Delegated"
-msgstr ""
+msgstr "ഏല്‍പ്പിച്ചിരിക്കുന്നു"
 
 #. The extra space is just a hack to occupy more space for Attendee
 #: ../calendar/gui/e-meeting-list-view.c:470
@@ -8025,7 +8034,7 @@ msgstr "ഒരു ഓര്‍ഗനൈസര്‍ ആവശ്യമുണ്�
 
 #: ../calendar/gui/itip-utils.c:448
 msgid "At least one attendee is necessary"
-msgstr ""
+msgstr "ഒരാള്‍ എങ്കിലും ഹാജരാകേണ്ടതുണ്ട്"
 
 #: ../calendar/gui/itip-utils.c:647 ../calendar/gui/itip-utils.c:770
 msgid "Event information"
@@ -8155,6 +8164,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Evolution 1.x-ന് ശേഷം Evolution ടാസ്ക്കിന്‍റെ ഫോള്‍ഡറുകളുടെ സ്ഥാനവും "
+"അധികാരക്രമങ്ങളും മാറിയിരിക്കുന്നു.\n"
+"\n"
+"Evolution നിങ്ങളുടെ ഫോള്‍ഡര്‍ മറ്റൊരിടത്തേക്ക് മാറ്റുന്പോള്‍ ദയവായി കാത്തിരിക്കുക..."
 
 #: ../calendar/gui/migration.c:166
 msgid ""
@@ -8163,7 +8176,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolution 1.x-ന് ശേഷം Evolution തപാല്‍ പെട്ടിയുടെ ഫോള്‍ഡറുകളുടെ സ്ഥാനവും "
+"Evolution 1.x-ന് ശേഷം Evolution കലണ്ടറിന്‍റെ ഫോള്‍ഡറുകളുടെ സ്ഥാനവും "
 "അധികാരക്രമങ്ങളും മാറിയിരിക്കുന്നു.\n"
 "\n"
 "Evolution നിങ്ങളുടെ ഫോള്‍ഡര്‍ മറ്റൊരിടത്തേക്ക് മാറ്റുന്പോള്‍ ദയവായി കാത്തിരിക്കുക..."
@@ -10355,6 +10368,8 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"നിങ്ങള്‍ ഒരു പുതിയ സന്ദേശം ചിട്ടപ്പെടുത്തുന്നതിനിടയില്‍ Evolution അപ്രതീക്ഷിതമായി "
+"നിന്നിരിക്കുന്നു. ഈ സന്ദേശം വീണ്ടുത്താല്‍ നിങ്ങള്‍ക്ക് നിര്‍ത്തിയിടത്ത് നിന്നും തുടരുവാന്‍ സാധിക്കുന്നു."
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
@@ -10365,6 +10380,8 @@ msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
+"ഈ ഡയറക്ടിയുടെ ഉളളടക്കം ചേര്‍ക്കുന്നതിനായി, ഡയറക്ടറിയിലുളള ഓരോ ഫയലും ചേര്‍ക്കുക, "
+"അല്ലെങ്കില്‍ ഈ ഡയറക്ടറിയ്ക്ക ഒരു ആര്‍ക്കൈവ് ഉണ്ടാക്കി അത് ചേര്‍ക്കുക"
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid ""
@@ -10658,7 +10675,7 @@ msgstr "%d-%b-%Y"
 
 #: ../filter/filter-datespec.c:415
 msgid "Select a time to compare against"
-msgstr ""
+msgstr "താരതമ്യപ്പെടുത്തുന്നതിന് സമയം തിരഞ്ഞെടുക്കുക"
 
 #: ../filter/filter-file.c:293 ../filter/filter-file.c:299
 msgid "Choose a file"
@@ -10784,7 +10801,7 @@ msgstr "<b>ഫില്‍റ്റര്‍ നിയമങ്ങള്‍</b> 
 
 #: ../filter/filter.glade.h:2
 msgid "Compare against"
-msgstr ""
+msgstr "താരതമ്യപ്പെടുത്തേണ്ടത്"
 
 #: ../filter/filter.glade.h:4
 msgid "Show filters for mail:"
@@ -10860,11 +10877,11 @@ msgstr "ചിട്ടപ്പെടുത്തിന്നതിനുളള
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Configure mail preferences, including security and message display, here"
-msgstr ""
+msgstr "സെക്ക്യൂരിറ്റിയും സന്ദേശം പ്രദര്‍ശിപ്പിക്കുന്നതും, അങ്ങനെ മെയില്‍ ഇഷ്ടാനിഷ്ടങ്ങള്‍ എല്ലാം, ഇവിടെ ക്രമീകരിക്കുക"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "അക്ഷരത്തെറ്റ് പരിശോധന, ഒപ്പിടല്‍, സന്ദേശം ചിട്ടപ്പെടുത്തല്‍ എല്ലാം ഇവിടെ ക്രമീകരിക്കുക"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -11259,11 +11276,11 @@ msgstr "മടങ്ങുന്നു"
 
 #: ../mail/em-filter-i18n.h:52
 msgid "returns greater than"
-msgstr ""
+msgstr "വലുത് തിരികെ നല്‍കുന്നു"
 
 #: ../mail/em-filter-i18n.h:53
 msgid "returns less than"
-msgstr ""
+msgstr "ചെറുത് തിരികെ നല്‍കുന്നു"
 
 #: ../mail/em-filter-i18n.h:54
 msgid "Run Program"
@@ -11714,7 +11731,7 @@ msgstr "മുന്പോട്ട് (_r)"
 
 #: ../mail/em-format-html-display.c:679
 msgid "M_atch case"
-msgstr ""
+msgstr "പൊരുത്തമുളള അക്ഷരം കണ്ടുപിടിക്കുക (_a)"
 
 #: ../mail/em-format-html-display.c:926 ../mail/em-format-html.c:618
 msgid "Unsigned"
@@ -12065,6 +12082,8 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"മുന്പുളള Evolution ഇന്‍സ്റ്റോള്‍ ആയ`evolution/config വായിക്കുവാന്‍ സാധ്യമല്ല. "
+"xmldb' നിലവിലില്ല, അല്ലെങ്കില്‍ അതില്‍ തകരാറുണ്ട്."
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
 msgid "_Reply to sender"
@@ -12085,7 +12104,7 @@ msgstr "മേല്‍വിലാസങ്ങളുടെ പുസ്തക�
 
 #: ../mail/em-subscribe-editor.c:582
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr ""
+msgstr "ഇവിടെ വരിക്കാരെ പിന്തുണയ്ക്കുന്നില്ല, അവരെ സജ്ജമാക്കിയിട്ടില്ല."
 
 #: ../mail/em-subscribe-editor.c:612
 msgid "Subscribed"
@@ -12385,7 +12404,7 @@ msgstr "സന്ദേശ ജാലകത്തിന്‍റെ ഡീഫോ�
 
 #: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr ""
+msgstr "സന്ദേശം പ്രദര്‍ശിപ്പിക്കേണ്ട ശൈലി (\"സാധാരണ\", \"മുഴുവന്‍ തലക്കെട്ടുകളും\", \"ഉറവിടം\")"
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
 msgid "Minimum days between emptying the trash on exit"
@@ -12436,6 +12455,8 @@ msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
+"HTML മെയില്‍ ലഭിക്കുവാന്‍ താല്‍പര്യമില്ലാത്തവര്‍ക്ക് ഉപയോക്താവ് HTML മെയില്‍ അയയ്ക്കുവാന്‍ "
+"ശ്രമിച്ചാല്‍ ദയവായി അറിയിക്കുക."
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
@@ -13149,7 +13170,7 @@ msgstr "പുറത്തേക്ക് പോകുന്ന സന്ദേ�
 
 #: ../mail/mail-config.glade.h:70
 msgid "Do not quote original message"
-msgstr ""
+msgstr "ഒറിജിനല്‍ സന്ദേശം കാണിക്കേണ്ടതില്ല"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Done"
@@ -13218,7 +13239,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "വിദൂരത്തുളള പരീക്ഷണങ്ങള്‍ ഉല്‍പ്പെടുത്തുക (_n)"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Inline"
@@ -13301,7 +13322,7 @@ msgstr "ഒറിജിനല്‍ സന്ദേശം കോട്ട് ച
 
 #: ../mail/mail-config.glade.h:114
 msgid "Quoted"
-msgstr ""
+msgstr "കോട്ട് ചെയ്തിരിക്കുന്നു"
 
 #: ../mail/mail-config.glade.h:115
 msgid "Re_member password"
@@ -13321,7 +13342,7 @@ msgstr "തിരഞ്ഞെടുക്കുക... (_e)"
 
 #: ../mail/mail-config.glade.h:120
 msgid "S_end message receipts:"
-msgstr ""
+msgstr "സന്ദേശങ്ങള്‍ ലഭ്യമായി എന്ന കുറിപ്പ് അയയ്ക്കുക: (_e)"
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
@@ -13369,7 +13390,7 @@ msgstr "ഏത് തരം സര്‍വര്‍ : (_T)"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Sig_ning certificate:"
-msgstr ""
+msgstr "സര്‍ട്ടീഫിക്കേറ്റ് ഒപ്പ് വയ്ക്കുന്നു: (_n)"
 
 #: ../mail/mail-config.glade.h:135
 msgid "Signat_ure:"
@@ -13427,7 +13448,7 @@ msgstr "ഉപയോഗിക്കുന്ന പേര്: (_n)"
 
 #: ../mail/mail-config.glade.h:149
 msgid "V_ariable-width:"
-msgstr ""
+msgstr "മാറ്റുവാന്‍ സാധ്യമായ വീതി: (_a)"
 
 #: ../mail/mail-config.glade.h:150
 msgid ""
@@ -13575,7 +13596,7 @@ msgstr "പിന്തുടരുന്നതിനുളള ഫ്ളാഗ�
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "Folder Subscriptions"
-msgstr ""
+msgstr "ഫോള്‍ഡറിലേക്കുളള അംഗങ്ങള്‍"
 
 #: ../mail/mail-dialogs.glade.h:15
 msgid "License Agreement"
@@ -13638,7 +13659,7 @@ msgstr "മെയില്‍ ലഭ്യമാക്കുന്നു"
 #: ../mail/mail-ops.c:566
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr ""
+msgstr "പുറത്തേക്ക് പോകുന്ന ഫില്‍റ്ററുകള്‍ അംഗീകരിക്കുന്നതില്‍ പരാജയം: %s"
 
 #: ../mail/mail-ops.c:578 ../mail/mail-ops.c:607
 #, c-format
@@ -13688,7 +13709,7 @@ msgstr "%s-ലേക്ക് മെയിലുകള്‍ പകര്‍ത�
 
 #: ../mail/mail-ops.c:1170
 msgid "Forwarded messages"
-msgstr ""
+msgstr "ഫോര്‍‍വേഡ് ചെയ്ത സന്ദേശങ്ങള്‍"
 
 #: ../mail/mail-ops.c:1213
 #, c-format
@@ -13870,11 +13891,11 @@ msgstr ""
 #: ../mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
-msgstr ""
+msgstr "ഫോര്‍‍വേഡ് ചെയ്ത സന്ദേശം - %s"
 
 #: ../mail/mail-tools.c:258
 msgid "Forwarded message"
-msgstr ""
+msgstr "ഫോര്‍‍വേഡ് ചെയ്ത സന്ദേശം"
 
 #: ../mail/mail-tools.c:298
 #, c-format
@@ -14134,7 +14155,7 @@ msgstr "പാസ്‍വേര്‍ഡ് നല്‍കുക."
 
 #: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
-msgstr ""
+msgstr "ഫില്‍റ്ററിന്‍റെ അര്‍ത്ഥങ്ങള്‍ ലോഡ് ചെയ്യുന്നതില്‍ പിശക്."
 
 #: ../mail/mail.error.xml.h:52
 msgid "Error while performing operation."
@@ -14572,11 +14593,11 @@ msgstr "വിളി"
 
 #: ../mail/message-tag-followup.c:76
 msgid "Do Not Forward"
-msgstr ""
+msgstr "ഫോര്‍ഡ് ചെയ്യുവാന്‍ പാടില്ല"
 
 #: ../mail/message-tag-followup.c:77
 msgid "Follow-Up"
-msgstr ""
+msgstr "പിന്തുടരുക"
 
 #: ../mail/message-tag-followup.c:78
 msgid "For Your Information"
@@ -14642,7 +14663,7 @@ msgstr ""
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
-msgstr ""
+msgstr "ഓഡിയോ ഇന്‍‍ലൈന്‍ പ്ളഗിന്‍"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
@@ -14679,6 +14700,8 @@ msgstr "Evolution വീണ്ടും ആരംഭിക്കുക"
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
 msgstr ""
+"Evolution-ന്‍റെ ഡേറ്റായും ക്രമീകരണങ്ങളും ബാക്കപ്പ് ചെയ്ത്  സൂക്ഷിക്കുന്നതിനായി ഉപയോഗിക്കുന്ന "
+"പ്ളഗിന്‍."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
@@ -14706,6 +14729,8 @@ msgstr "ഓട്ടോമാറ്റിക്കായി ലഭ്യമാ�
 #: ../plugins/bbdb/bbdb.c:471
 msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
+"മെയിലുകള്‍ക്ക് മറുപടി അയയ്ക്കുന്പോള്‍ മേല്‍വിലാസങ്ങളുടെ പുസ്തകത്തില്‍ ഓട്ടോമാറ്റിക്കായി "
+"വിലാസങ്ങള്‍ ചേര്‍ക്കുക (_A)"
 
 #: ../plugins/bbdb/bbdb.c:477
 msgid "Select Address book for Automatic Contacts"
@@ -14722,7 +14747,7 @@ msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:513
 msgid "Select Address book for Gaim buddy list"
-msgstr ""
+msgstr "Gaim ബഡ്ഡി ലിസ്റ്റിലേക്ക് മേല്‍വിലാസങ്ങളുടെ പുസ്തകം തിരഞ്ഞെടുക്കുക"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:524
@@ -14943,11 +14968,11 @@ msgstr "പാസ്‍വേര്‍ഡ് മാറ്റുക"
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Manage the delegate settings for Exchange account"
-msgstr ""
+msgstr "Exchange അക്കൌണ്ടിനുളള പ്രതിനിധികളുടെ ക്രമീകരണങ്ങള്‍ കൈകാര്യം ചെയ്യുക"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:337
 msgid "Delegation Assitant"
-msgstr ""
+msgstr "പ്രതിനിധിയ്ക്കുളള സഹായി"
 
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:349
@@ -15039,7 +15064,7 @@ msgstr "യഥേഷ്ടം"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
-msgstr ""
+msgstr "പ്രതിനിധിയ്ക്കുളള അനുവാദങ്ങള്‍"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:202
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
@@ -15049,12 +15074,12 @@ msgstr "%s-നുളള അനുവാദങ്ങള്‍"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To"
-msgstr ""
+msgstr "എന്ത് ഏല്‍പിച്ചിരിക്കുന്നു"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
 msgid "Remove the delegate %s?"
-msgstr ""
+msgstr "%s എന്ന പ്രതിനിധിയെ നീക്കം ചെയ്യണമോ?"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:680
 msgid "Could not access Active Directory"
@@ -15067,25 +15092,25 @@ msgstr "സജീവമായ ഡയറക്ടറിയില്‍ സ്വ�
 #: ../plugins/exchange-operations/exchange-delegates.c:705
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
-msgstr ""
+msgstr "സജീവ ഡയറക്ടറിയില്‍ പ്രതിനിധി %s-നെ കണ്ടുപിടിക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:717
 #, c-format
 msgid "Could not remove delegate %s"
-msgstr ""
+msgstr "പ്രതിനിധി %s-നെ നീക്കം ചെയ്യുവാന്‍ സാധ്യമല്ല"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:777
 msgid "Could not update list of delegates."
-msgstr ""
+msgstr "പ്രതിനിധികളുടെ ലിസ്റ്റ് പുതുക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:795
 #, c-format
 msgid "Could not add delegate %s"
-msgstr ""
+msgstr "%s പ്രതിനിധിയെ ചേര്‍ക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:963
 msgid "Error reading delegates list."
-msgstr ""
+msgstr "പ്രതിനിധികളുടെ ലിസ്റ്റ് വായിക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
@@ -15103,7 +15128,7 @@ msgstr "വിലാസങ്ങള്‍: (_n)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 msgid "Delegates"
-msgstr ""
+msgstr "പ്രതിനിധികള്‍"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
@@ -15122,10 +15147,12 @@ msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
 msgstr ""
+"നിങ്ങളുടെ പേരില്‍ മെയില്‍ അയയ്ക്കുവാനും നിങ്ങളുടെ ഫോള്‍ഡറുകളില്‍\n"
+"പ്രവേശിക്കുന്നതിനുളള അനുവാദവും ഈ ഉപയോക്താക്കള്‍ക്ക് ഉണ്ട്."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Delegate can see private items"
-msgstr ""
+msgstr "പ്രതിനിധികള്‍ക്ക് സ്വകാര്യ വസ്തുക്കള്‍ കാണുവാന്‍ സാധ്യമാണ് (_D)"
 
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
@@ -15153,29 +15180,29 @@ msgstr "ഫോള്‍ഡറിന്‍റെ വലിപ്പം"
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:310
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "മറ്റ് ഉപയോക്താവിന്‍റെ ഫോള്‍ഡറില്‍ അംഗമാകുക"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
-msgstr ""
+msgstr "Exchange ഫോള്‍ഡര്‍ ട്രീ"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
 #: ../plugins/exchange-operations/exchange-folder.c:229
 #: ../plugins/exchange-operations/exchange-folder.c:239
 msgid "Unsubscribe Folder..."
-msgstr ""
+msgstr "ഫോള്‍ഡറില്‍ നിന്നും അംഗത്വം നിഷേധിക്കുക..."
 
 #: ../plugins/exchange-operations/exchange-folder.c:459
 #: ../plugins/exchange-operations/exchange-folder.c:514
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
-msgstr ""
+msgstr "ഫോള്‍ഡര്‍ \"%s\"-ല്‍ നിന്നും നിങ്ങള്‍ക്ക് അംഗത്വം ഉപേക്ഷിക്കേണമോ?"
 
 #: ../plugins/exchange-operations/exchange-folder.c:471
 #: ../plugins/exchange-operations/exchange-folder.c:526
 #, c-format
 msgid "Unsubscribe from \"%s\""
-msgstr ""
+msgstr "\"%s\" നിന്നും അംഗത്വം നിഷേധിക്കുക"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
@@ -15275,17 +15302,17 @@ msgstr "വിലാസപുസ്തകം..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
-msgstr ""
+msgstr "മറ്റ് ഉപയോക്താവിന്‍റെ വിലാസങ്ങളുടെ അംഗങ്ങളാകുക"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
-msgstr ""
+msgstr "മറ്റ് ഉപയോക്താവിന്‍റെ കലണ്ടറില്‍ അംഗങ്ങളാകുക"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
 msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
-msgstr ""
+msgstr "Exchange അക്കൌണ്ടിന്‍റെ പ്രത്യേക പ്രക്രിയകളും വിശേഷതകളും കൈകാര്യം ചെയ്യുന്ന പ്ളഗിന്‍"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -15339,7 +15366,7 @@ msgstr "സര്‍വര്‍ {0}-ലേക്ക് കണക്ട് ച�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not determine folder permissions for delegates."
-msgstr ""
+msgstr "പ്രതിനിധികള്‍ക്കുളള ഫോള്‍ഡര്‍ അനുവാദങ്ങള്‍ ലഭ്യമായില്ല."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not find Exchange Web Storage System."
@@ -15351,7 +15378,7 @@ msgstr "സര്‍വര്‍ {0} എവിടെ എന്ന് അറി�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
 msgid "Could not make {0} a delegate"
-msgstr ""
+msgstr "ഒരു പ്രതിനിധി {0} ഉണ്ടാക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not read folder permissions"
@@ -15395,7 +15422,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Failed to update delegates:"
-msgstr ""
+msgstr "പ്രതിനിധികളെ പുതുക്കുന്നതില്‍ പരാജയപ്പെട്ടു:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
 msgid "Folder already exists"
@@ -15500,6 +15527,11 @@ msgid ""
 "\n"
 "Or you might have just typed your password wrong."
 msgstr ""
+"ഇതിന്‍റ് അര്‍ത്ഥം, ഉപയോഗിക്കുന്ന പേരിന്‍റെ ഒരു ഭാഗമായി\n"
+"Windows ഡൊമെയിന്‍ നാമം പറയണമെന്ന് നിങ്ങളുടെ\n"
+"സര്‍വര്‍ ആവശ്യപ്പെടുന്നു.(eg, &quot;DOMAIN\\user&quot;).\n"
+"\n"
+"അല്ലെങ്കില്‍ നല്‍കിയ പാസ്‍വേര്‍ഡ് തെറ്റാവാം."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Try again with a different password."
@@ -15511,7 +15543,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
 msgid "Unable to edit delegates."
-msgstr ""
+msgstr "പ്രതിനിധികളില്‍ മാറ്റം വരുത്തുവാന്‍ സാധ്യമല്ല."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 msgid "Unknown error looking up {0}"
@@ -15579,7 +15611,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
 msgid "{0} is already a delegate"
-msgstr ""
+msgstr "{0} ഒരു പ്രതിനിധി ആണ്"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:82
 msgid "{0} is already in the list"
@@ -15587,7 +15619,7 @@ msgstr "{0} നിലവില്‍ ലിസ്റ്റിലുണ്ട്"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr ""
+msgstr "മറ്റ് ഉപയോക്താവിന്‍റെ ജോലികളില്‍ അംഗമാകുക"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
@@ -15596,7 +15628,7 @@ msgstr "ഫോള്‍ഡര്‍ അനുവാദങ്ങള്‍ പര�
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr ""
+msgstr "\"%s\"-ല്‍ നിന്നും അംഗത്വം നിഷേധിക്കുന്നു"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
@@ -15604,11 +15636,11 @@ msgstr ""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
-msgstr ""
+msgstr "ഫോള്‍ഡറുകളുടെ അംഗത്വം ഉപേക്ഷിക്കുന്നു"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "അംഗത്വം ഉപേക്ഷിക്കുന്നു (_U)"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:390
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:421
@@ -15718,15 +15750,15 @@ msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Not Shared"
-msgstr ""
+msgstr "ഷെയര്‍ഡ് അല്ല (_N)"
 
 #: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Shared With ..."
-msgstr ""
+msgstr "ഷെയര്‍ ചെയ്യുന്നത്... (_S)"
 
 #: ../plugins/groupwise-features/properties.glade.h:15
 msgid "_Sharing"
-msgstr ""
+msgstr "ഷെയര്‍ ചെയ്യുന്നു (_S)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
 msgid "<b>Name</b>"
@@ -15758,11 +15790,11 @@ msgstr "റിമയിന്‍ഡര്‍ കുറിപ്പുകള്�
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
-msgstr ""
+msgstr "എന്‍റെ അലാറമിലേക്ക് അംഗമാകുക (_a)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 msgid "Subscribe to my _notifications"
-msgstr ""
+msgstr "എന്‍റെ അറിയിപ്പുകളിലേക്ക് അംഗമാകുക (_a)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
@@ -15822,7 +15854,7 @@ msgstr "പുതിയ ഷെയര്‍ഡ് ഫോള്‍ഡര്‍... 
 
 #: ../plugins/groupwise-features/share-folder-common.c:450
 msgid "Sharing"
-msgstr ""
+msgstr "ഷെയര്‍ ചെയ്യുക"
 
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
@@ -15982,15 +16014,15 @@ msgstr "കലണ്ടര്‍ '%s'-ലേക്ക് റദ്ദാക്�
 #: ../plugins/itip-formatter/itip-formatter.c:975
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
+msgstr "പ്രതിനിധി %s-നെ ഓര്‍ഗനൈസര്‍ നീക്കം ചെയ്തിരിക്കുന്നു"
 
 #: ../plugins/itip-formatter/itip-formatter.c:982
 msgid "Sent a cancelation notice to the delegate"
-msgstr ""
+msgstr "പ്രതിനിധിയ്ക്ക് ഒരു റദ്ദാക്കല്‍ സന്ദേശം അയയ്ക്കുക"
 
 #: ../plugins/itip-formatter/itip-formatter.c:984
 msgid "Could not send the cancelation notice to the delegate"
-msgstr ""
+msgstr "പ്രതിനിധിയ്ക്ക് ഒരു റദ്ദാക്കല്‍ സന്ദേശം അയയ്ക്കുവാന്‍ സാധ്യമായില്ല"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1069
 msgid "Attendee status could not be updated because the status is invalid"
@@ -16014,6 +16046,8 @@ msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
+"സന്ദേശത്തില്‍ കലണ്ടര്‍ ഉണ്ട് എന്ന് അവകാശപ്പെടുന്നു, പക്ഷേ കലണ്ടര്‍ സാധുതയുളള ഒരു "
+"iCalendar അല്ല."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1263
 #: ../plugins/itip-formatter/itip-formatter.c:1281
@@ -16206,12 +16240,12 @@ msgstr "<b>%s</b> through %s has published the following meeting information:"
 #: ../plugins/itip-formatter/itip-view.c:350
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr ""
+msgstr "<b>%s</b> മീറ്റിങ് സംബന്ധിച്ചുളള താഴെ പറയുന്ന വിവരങ്ങള്‍ പ്രസിദ്ധീകരിച്ചു:"
 
 #: ../plugins/itip-formatter/itip-view.c:355
 #, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr ""
+msgstr "<b>%s</b> താഴെ പറയുന്ന മീറ്റിങ് നിങ്ങളെ ഏല്‍പ്പിച്ചിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:358
 #, c-format
@@ -16246,12 +16280,12 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:378
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
-msgstr ""
+msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:380
 #, c-format
 msgid "<b>%s</b> has canceled the following meeting."
-msgstr ""
+msgstr "<b>%s</b> മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു."
 
 #: ../plugins/itip-formatter/itip-view.c:383
 #, c-format
@@ -16442,11 +16476,11 @@ msgstr "അഭിപ്രായം:"
 
 #: ../plugins/itip-formatter/itip-view.c:1033
 msgid "Send u_pdates to attendees"
-msgstr ""
+msgstr "ഹാജരായവര്‍ക്ക് പുതുക്കിയ വിവരങ്ങള്‍ അയയ്ക്കുക (_p)"
 
 #: ../plugins/itip-formatter/itip-view.c:1042
 msgid "A_pply to all instances"
-msgstr ""
+msgstr "എല്ലാ തവണയും അംഗീകരിക്കുക (_p)"
 
 #: ../plugins/itip-formatter/itip-view.c:1711
 msgid "_Tasks :"
@@ -16469,10 +16503,12 @@ msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot;?"
 msgstr ""
+"&quot;{0}&quot; മീറ്റിങ് പ്രതിനിധീകരിക്കുന്നു. നിങ്ങള്‍ക്ക് പ്രതിനിധി"
+"&quot;{1}&quot;-നെ ചേര്‍ക്കണമോ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
-msgstr ""
+msgstr "ഈ മീറ്റിങ് പ്രതിനിധീകരിച്ചിരിക്കുന്നു"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
@@ -16514,7 +16550,7 @@ msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
-msgstr ""
+msgstr "വിദൂരത്തേക്കുളള മെയില്‍"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
@@ -16701,11 +16737,11 @@ msgstr "ഈ സന്ദേശത്തിന്‍റെ മെയിലിങ�
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr ""
+msgstr "ഈ സന്ദേശത്തിന്‍റെ മെയിലിങ് ലിസ്റ്റിലേക്ക് അംഗമാകുക"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
 msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr ""
+msgstr "ഈ സന്ദേശത്തിന്‍റെ മെയിലിങ് ലിസ്റ്റില്‍ നിന്നും അംഗത്വം ഉപേക്ഷിക്കുക"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post Message to List"
@@ -16713,11 +16749,11 @@ msgstr "ലിസ്റ്റിലേക്ക് സന്ദേശം അയ�
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
 msgid "_Subscribe to List"
-msgstr ""
+msgstr "ലിസ്റ്റില്‍ അംഗമാകുക (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 msgid "_Unsubscribe from List"
-msgstr ""
+msgstr "ലിസ്റ്റില്‍ നിന്നും അംഗത്വം ഉപേക്ഷിക്കുക (_U)"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -16860,7 +16896,7 @@ msgstr "Evolution പ്രൊഫൈലര്‍"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
-msgstr ""
+msgstr "ഡേറ്റാ ഇവന്‍റുകളുടെ പ്രൊഫൈലിങിനുളള ലോഗ് എഴുതുന്നു."
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
@@ -16968,7 +17004,7 @@ msgstr "Spamassassin ജങ്ക് പ്ളഗിന്‍"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr ""
+msgstr "എല്ലാ അറ്റാച്മെന്‍റുകളും അല്ലെങ്കില്‍ സന്ദേശത്തിന്‍റെ ഭാഗങ്ങള്‍ ഒരുമിച്ച് സൂക്ഷിക്കുന്നതിനുളള ഒരു പ്ളഗിന്‍"
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
@@ -17046,7 +17082,7 @@ msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:399
 msgid "Attendees List"
-msgstr ""
+msgstr "ഹാജരായവരുടെ ലിസ്റ്റ്"
 
 #: ../plugins/save-calendar/csv-format.c:401
 msgid "Modified"
@@ -17259,6 +17295,8 @@ msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr ""
+"Evolution-ന്‍റെ കോണ്‍ഫിഗറേഷന്‍ വേര്‍ഷന്‍, ചെറുത്/വലിയ കോണ്‍ഫിഗറേഷന്‍ ലെവല്‍ "
+"(ഉദാഹരണത്തിന് \"2.6.0\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default height for the main window, in pixels."
@@ -17276,7 +17314,7 @@ msgstr "സൈഡ് ബാറിന്‍റെ ഡീഫോള്‍ട്ട�
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
-msgstr ""
+msgstr "Evolution-ന്‍റെ ഏറ്റവും ഒടുവില്‍ പുതുക്കിയ കോണ്‍ഫിഗറേഷന്‍ വേര്‍ഷന്‍, ചെറുത്/വലിയ കോണ്‍ഫിഗറേഷന്‍ ലെവല്‍ (ഉദാഹരണത്തിന് \"2.6.0\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid ""
@@ -17354,6 +17392,11 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
+"Evolution-ലേക്ക് ഇംപോര്‍ട്ട് ചെയ്യേണ്ട ഫയലും, അത് ഏത് തരത്തിലുളളത് എന്നും "
+"ലിസ്റ്റില്‍ നിന്നും തിരഞ്ഞെടുക്കുക.\n"
+"\n"
+"നിങ്ങള്‍ക്ക് അറിയില്ലെങ്കില്‍ \"ഓട്ടോമാറ്റിക്ക് ആയി\" എന്ന് തിരഞ്ഞെടുക്കുക, Evolution ബാക്കി "
+"ശരിയാക്കുന്നതാണ്."
 
 #: ../shell/e-shell-importer.c:146
 msgid "Choose the destination for this import"
@@ -17366,6 +17409,10 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"താഴെ പറയുന്ന പ്രയോഗങ്ങളില്‍ നിന്നും ഇംപോര്‍ട്ട് ചെയ്യുന്നതിന് Evolution\n"
+"ക്രമീകരണങ്ങള്‍ പരിശോധിക്കുന്നു:Pine, Netscape, Elm, iCalendar.\n"
+"ഇംപോര്‍ട്ട് ചെയ്യുന്നതിന് സഹായിക്കുന്ന ക്രമീകരണങ്ങള്‍ ലഭ്യമല്ല. നിങ്ങള്‍ക്ക്\n"
+"വീണ്ടും ശ്രമിക്കണമെങ്കില്‍, ദയവായി \"പുറകോട്ട്\" ബട്ടണ്‍ ക്ളിക്ക് ചെയ്യുക.\n"
 
 #: ../shell/e-shell-importer.c:291
 msgid "F_ilename:"
@@ -17633,6 +17680,8 @@ msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
 msgstr ""
+"നിങ്ങളുടെ പാസ്‍വേര്‍ഡുകള്‍ മറന്നാല്‍, കംപ്യൂട്ടറിലുളള എല്ലാ പാസ്‍വേര്‍ഡുകളും മായിച്ചുകളയപ്പെടുന്നു. "
+"അടുത്ത തവണ ആവശ്യമുളളപ്പോള്‍ അവ ചോദിക്കുന്നതായിരിക്കും."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -19698,15 +19747,15 @@ msgstr "ഫോള്‍ഡറുകളുടെ ലിസ്റ്റ് പു�
 
 #: ../ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "അംഗത്വമുളള ഫോള്‍ഡറുകളുടെ ലിസ്റ്റില്‍ നിന്നും ഫോള്‍ഡര്‍ നീക്കം ചെയ്യുക"
 
 #: ../ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr ""
+msgstr "അംഗമാകുക"
 
 #: ../ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "അംഗത്വം ഉപേക്ഷിക്കുക"
 
 #: ../ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -20105,7 +20154,7 @@ msgstr "ടേബിള്‍"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
-msgstr ""
+msgstr "തവണ"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
 msgid "Save Current View"
