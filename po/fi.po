@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-25 11:36+0300\n"
-"PO-Revision-Date: 2006-09-03 10:09+0300\n"
+"PO-Revision-Date: 2006-09-06 10:20+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -11478,7 +11478,7 @@ msgstr "Luetut viestit"
 
 #: ../mail/em-folder-browser.c:203
 msgid "Recent Messages"
-msgstr "Äskettäiset viestit"
+msgstr "Viimeisimmät viestit"
 
 #: ../mail/em-folder-browser.c:204
 msgid "Last 5 Days' Messages"
