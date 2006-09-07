@@ -1,6 +1,7 @@
 eutilincludedir = $(privincludedir)/e-util
 econdincludedir = $(privincludedir)/e-conduit
 ecpsdir = $(privdatadir)/ecps
+ruledir = $(privdatadir)
 
 if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la

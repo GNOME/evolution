@@ -1,3 +1,11 @@
+2006-09-07  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (ruledir): Define ruledir here, too, like in
+	addressbook/gui/widgets/Makefile.am, as we use it in
+	SEARCH_RULE_DIR for the benefit of e-win32-reloc.c. Fixes the
+	Win32-specific problem "eab-widgets-WARNING **: Could not load
+	addressbook search; no parts". (#348419)
+
 2006-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #352941
