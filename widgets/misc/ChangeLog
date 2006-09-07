@@ -1,3 +1,9 @@
+2006-09-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #341099. 
+	* e-canvas-item.c: (e_canvas_unrealize):
+	Set second argument of gtk_im_context_set_client_window to NULL.
+
 2006-08-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #353059

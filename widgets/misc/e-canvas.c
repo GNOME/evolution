@@ -701,7 +701,7 @@ e_canvas_unrealize (GtkWidget *widget)
 		ecanvas->idle_id = 0;
 	}
 
-	gtk_im_context_set_client_window (ecanvas->im_context, widget->window);
+	gtk_im_context_set_client_window (ecanvas->im_context, NULL);
 
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
