@@ -1,3 +1,14 @@
+2006-09-08  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #343409
+	* gui/e-select-names-editable.c:
+	(e_select_names_editable_get_emails),
+	(e_select_names_editable_get_name),
+	(e_select_names_editable_get_names): Reverting the 
+	fix for the bug 320101 as it breaks delegation feature.
+	* gui/e-meeting-list-view.c: (attendee_edited_cb): copy
+	the delfrom parameter from the attendee being edited.
+
 2006-08-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #341691

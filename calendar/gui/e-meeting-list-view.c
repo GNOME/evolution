@@ -343,6 +343,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				e_meeting_attendee_set_role (attendee, e_meeting_attendee_get_role (existing_attendee));
 				e_meeting_attendee_set_rsvp (attendee, e_meeting_attendee_get_rsvp (existing_attendee));
 				e_meeting_attendee_set_status (attendee, e_meeting_attendee_get_status (existing_attendee));
+				e_meeting_attendee_set_delfrom (attendee, e_meeting_attendee_get_delfrom (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 		}
