@@ -129,7 +129,7 @@ GList *
 e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
-	GList *destinations, *l;
+	GList *destinations;
 	EDestination *destination;
 	GList *result = NULL;
 
@@ -140,26 +140,24 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 	if (!destinations)
 		return NULL;
 
-	for (l = destinations; l != NULL; l = l->next) {
-		destination = l->data;
-		if (e_destination_is_evolution_list (destination)) {	
-			const GList *list_dests, *l;
+	destination = destinations->data;
+	if (e_destination_is_evolution_list (destination)) {	
+		const GList *list_dests, *l;
 
-			list_dests = e_destination_list_get_dests (destination);
-			for (l = list_dests; l != NULL; l = g_list_next (l)) {
-				result = g_list_append (result, g_strdup (e_destination_get_email (l->data)));
-			}
-		} else {
-			/* check if the contact is contact list, it does not contain all the email ids  */
-			/* we dont expand it currently, TODO do we need to expand it by getting it from addressbook*/
-			if (e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
-				/* If its a contact_list which is not expanded, it wont have a email id,
-				   so we can use the name as the email id */
-
-				result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
-			} else
-				result = g_list_append (result, g_strdup (e_destination_get_email (destination)));
+		list_dests = e_destination_list_get_dests (destination);
+		for (l = list_dests; l != NULL; l = g_list_next (l)) {
+			result = g_list_append (result, g_strdup (e_destination_get_email (l->data)));
 		}
+	} else {
+		/* check if the contact is contact list, it does not contain all the email ids  */
+		/* we dont expand it currently, TODO do we need to expand it by getting it from addressbook*/
+		if (e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
+			/* If its a contact_list which is not expanded, it wont have a email id,
+			   so we can use the name as the email id */
+
+			 result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
+		} else
+			 result = g_list_append (result, g_strdup (e_destination_get_email (destination)));
 	}
 
 	g_list_free (destinations);
@@ -184,7 +182,6 @@ e_select_names_editable_get_name (ESelectNamesEditable *esne)
 
 	destination = destinations->data;
 	result = g_strdup (e_destination_get_name (destination));
-
 	g_list_free (destinations);
 	return result;
 }
@@ -193,7 +190,7 @@ GList *
 e_select_names_editable_get_names (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
-	GList *destinations, *l;
+	GList *destinations;
 	EDestination *destination;
 	GList *result = NULL;
 
@@ -204,19 +201,18 @@ e_select_names_editable_get_names (ESelectNamesEditable *esne)
 	if (!destinations)
 		return NULL;
 
-	for (l = destinations; l != NULL; l = l->next) {
-		destination = l->data;	
-		if (e_destination_is_evolution_list (destination)) {
-			const GList *list_dests, *l;
-
-			list_dests = e_destination_list_get_dests (destination);
-			for (l = list_dests; l != NULL; l = g_list_next (l)) {
-				result = g_list_append (result, g_strdup (e_destination_get_name (l->data)));
-			}
-		} else {
-			result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
+	destination = destinations->data;	
+	if (e_destination_is_evolution_list (destination)) {
+		const GList *list_dests, *l;
+		
+		list_dests = e_destination_list_get_dests (destination);
+		for (l = list_dests; l != NULL; l = g_list_next (l)) {
+			result = g_list_append (result, g_strdup (e_destination_get_name (l->data)));
 		}
+	} else {
+		result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
 	}
+
 	g_list_free (destinations);
 
 	return result;
