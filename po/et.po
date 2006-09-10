@@ -11,13 +11,12 @@
 #
 # Riigi- ja linnanimed: Marek Sepp <marek.sepp@ttu.ee>, 2001, 2002
 #
-#: ../mail/em-format-html-display.c:683
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 17:41+0200\n"
-"PO-Revision-Date: 2006-09-03 08:47+0300\n"
+"PO-Revision-Date: 2006-09-10 09:50+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -504,9 +503,9 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Sa proovid tõsta kontakti ühest aadressiraamatust teise, kuid lähteraamatust "
-"pole seda võimalik kustutada. Kas sa soovid ümbertõstmise asemel salvestada "
-"koopiat?"
+"Sa proovid kontakti ühest aadressiraamatust teise ümber tõsta, kuid "
+"lähteraamatust pole seda võimalik kustutada. Kas sa soovid ümbertõstmise "
+"asemel salvestada koopiat?"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid ""
@@ -5912,12 +5911,12 @@ msgstr[1] "%d manustatud sõnumit"
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1005 ../mail/message-list.c:1920
 msgid "_Move"
-msgstr "_Tõsta"
+msgstr "_Tõsta ümber"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3155
 #: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1922
 msgid "Cancel _Drag"
-msgstr ""
+msgstr "Tühista _lohistamine"
 
 #: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
@@ -7209,7 +7208,7 @@ msgstr "Ülesannete sortimine"
 
 #: ../calendar/gui/e-calendar-view.c:1367
 msgid "Moving items"
-msgstr "Kirjete tõstmine"
+msgstr "Kirjete ümbertõstmine"
 
 #: ../calendar/gui/e-calendar-view.c:1369
 msgid "Copying items"
@@ -11558,7 +11557,7 @@ msgstr "Kirjakaustade puu"
 #: ../mail/em-folder-tree.c:877
 #, c-format
 msgid "Moving folder %s"
-msgstr "Kausta %s tõstmine"
+msgstr "Kausta %s ümbertõstmine"
 
 #: ../mail/em-folder-tree.c:879
 #, c-format
@@ -11568,7 +11567,7 @@ msgstr "Kausta %s kopeerimine"
 #: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1824
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr "Sõnumite tõstmine %s kausta"
+msgstr "Sõnumite ümbertõstmine %s kausta"
 
 #: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1826
 #, c-format
@@ -11610,7 +11609,7 @@ msgstr "_Kopeeri..."
 
 #: ../mail/em-folder-tree.c:2071
 msgid "_Move..."
-msgstr "_Tõsta..."
+msgstr "_Tõsta ümber..."
 
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2075
@@ -13833,7 +13832,7 @@ msgstr "Sõnumi salvestamine kausta"
 #: ../mail/mail-ops.c:947
 #, c-format
 msgid "Moving messages to %s"
-msgstr "Sõnumite tõstmine kausta %s"
+msgstr "Sõnumite ümbertõstmine kausta %s"
 
 #: ../mail/mail-ops.c:947
 #, c-format
@@ -13867,7 +13866,7 @@ msgstr "Kausta %s salvestamine"
 #: ../mail/mail-ops.c:1522
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "Konto '%s' sõnumite puhastamine ja salvestamine"
 
 #: ../mail/mail-ops.c:1523
 #, c-format
@@ -14191,7 +14190,8 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Kausta &quot;{0}&quot; pole võimalik tõsta &quot;{1}&quot; kausta."
+msgstr ""
+"Kausta &quot;{0}&quot; pole võimalik &quot;{1}&quot; kausta ümber tõsta."
 
 #: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
@@ -15668,6 +15668,11 @@ msgid ""
 "\n"
 "Or you might have just typed your password wrong."
 msgstr ""
+"See tähendab arvatavasti seda, et server nõuab \n"
+"kasutajanimes ka Windowsi domeeni määramist \n"
+"(näiteks &quot;DOMEEN\\kasutaja&quot;).\n"
+"\n"
+"On ka võimalus, et sisestatud parool on lihtalt vale."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Try again with a different password."
@@ -16042,6 +16047,7 @@ msgstr "iKalendri vorming (.ics)"
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/calendar/addressbook with Apple iPod"
 msgstr ""
+"Valitud ülesande/kalendri/aadressiraamatu sünkroniseerimine Apple iPod'iga"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -16060,6 +16066,8 @@ msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
 msgstr ""
+"Väljundkataloogi ei leitud iPod'ist! Palun veendu, et iPod on korralikult "
+"seadistatud ja proovi uuesti."
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
@@ -16085,6 +16093,7 @@ msgstr "Kalendrit/ülesandeid pole võimalik avada!"
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
 msgstr ""
+"Evolutioni kalendrit/ülesannete loendit pole võimalik eksportimiseks avada."
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
 #: ../plugins/itip-formatter/itip-formatter.c:395
@@ -16095,7 +16104,7 @@ msgstr "Tõrge kalendri '%s' laadimisel"
 #: ../plugins/itip-formatter/itip-formatter.c:415
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr ""
+msgstr "Kalendris '%s' olev sündmus on selle kohtumisega vastuolus"
 
 #: ../plugins/itip-formatter/itip-formatter.c:441
 #, c-format
@@ -16120,7 +16129,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:605
 msgid "Searching for an existing version of this appointment"
-msgstr ""
+msgstr "Selle sündumuse olemasoleva versiooni otsimine"
 
 #: ../plugins/itip-formatter/itip-formatter.c:800
 msgid "Unable to parse item"
@@ -18522,11 +18531,11 @@ msgstr "_Tõsta kõik kontaktid asukohta..."
 
 #: ../ui/evolution-addressbook.xml.h:20
 msgid "Move Selected Contacts to Another Folder..."
-msgstr "Tõsta valitud kontaktid teise kausta..."
+msgstr "Valitud kontaktide ümbertõstmine teise kausta..."
 
 #: ../ui/evolution-addressbook.xml.h:21
 msgid "Move the contacts of the selected folder into another folder"
-msgstr "Valitud kaustas olevate kontaktide tõstmine teise kausta"
+msgstr "Valitud kaustas olevate kontaktide ümbertõstmine teise kausta"
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
@@ -19031,7 +19040,7 @@ msgstr "Ka_ust"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Move the selected folder into another folder"
-msgstr "Valitud kausta tõstmine teise kausta alla"
+msgstr "Valitud kausta ümbertõstmine teise kausta alla"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:11
@@ -19120,7 +19129,7 @@ msgstr "Valitud sõnumi(te) kopeerimine lõikelauale"
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:7
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Valitud sõnumi(te) lõikelauale tõstmine"
+msgstr "Valitud sõnumi(te) ümbertõstmine lõikelauale"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
@@ -19305,7 +19314,7 @@ msgstr "Reegli loomine selle teemaga sõnumite filtreerimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:23
 msgid "Cut selected messages to the clipboard"
-msgstr "Valitud sõnumite tõstmine lõikelauale"
+msgstr "Valitud sõnumite ümbertõstmine lõikelauale"
 
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
@@ -19429,7 +19438,7 @@ msgstr "Valitud sõnumite märkimine kustutatuks"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move selected messages to another folder"
-msgstr "Valitud sõnumite teise kausta tõstmine"
+msgstr "Valitud sõnumite ümbertõstmine teise kausta"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Next _Important Message"
@@ -21493,273 +21502,3 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid "The calendar you have selected is read-only"
-#~ msgstr "Sinu valitud kalender on kirjutuskaitsega"
-
-#~ msgid "Mark all messages as read in the selected folder"
-#~ msgstr "Kõigi valitud kataloogis olevate sõnumite loetuksmärkimine"
-
-#~ msgid "C_lassification"
-#~ msgstr "_Liigitamine"
-
-#~ msgid "%s : %s (%d items)"
-#~ msgstr "%s : %s (%d kirjet)"
-
-#~ msgid "%s (%d items)"
-#~ msgstr "%s (%d kirjet)"
-
-#~ msgid "Video Conferencing"
-#~ msgstr "Videokonverents"
-
-#~ msgid "Dele_gatees"
-#~ msgstr "_Delegaadid"
-
-#~ msgid "Original Location"
-#~ msgstr "Algne asukoht"
-
-#~ msgid "Search Type"
-#~ msgstr "Otsingu tüüp"
-
-#~ msgid "Subitem ID"
-#~ msgstr "Alamkirje ID"
-
-#~ msgid "Find No_w"
-#~ msgstr "_Otsi nüüd"
-
-#~ msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-#~ msgstr "Sinu sõnumit teemaga &quot;{0}&quot; ei toimetatud kohale."
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only try to use SSL/TLS "
-#~ "if you are in a insecure environment. For example, if you and your LDAP "
-#~ "server are behind a firewall at work, then Evolution doesn't need to use "
-#~ "SSL/TLS because your connection is already secure."
-#~ msgstr ""
-#~ "See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli "
-#~ "ainult siis kui sa oled ebaturvalises keskkonnas. Näiteks kui sina ja "
-#~ "sinu LDAP server asuvad mõlemad tulemüüriga kaitstud võrgus, siis "
-#~ "Evolution ei pea kasutama SSL/TLS protokolli, kuna sinu ühendus on juba "
-#~ "turvaline."
-
-#~ msgid "The Evolution Groupware Suite"
-#~ msgstr "Evolution grupitarkvarakomplekt"
-
-#~ msgid "_Show animated images"
-#~ msgstr "A_nimeeritud piltide kuvamine"
-
-#~ msgid "<b>%s (%s)</b> : %s"
-#~ msgstr "<b>%s (%s)</b> : %s"
-
-#~ msgid "<b>%s (%s)</b>"
-#~ msgstr "<b>%s (%s)</b>"
-
-#~ msgid "<b>%s</b> : %s"
-#~ msgstr "<b>%s</b> : %s"
-
-#~ msgid "<b>%s</b>"
-#~ msgstr "<b>%s</b>"
-
-#~ msgid "<span weight=\"bold\">Automatic Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Automaatsed kontaktid</span>"
-
-#~ msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Kiirsuhtluse kontaktid</span>"
-
-#~ msgid "<span weight=\"bold\">Conflict Search</span>"
-#~ msgstr "<span weight=\"bold\">Vastuolude otsing</span>"
-
-#~ msgid "Delete this Occurrence"
-#~ msgstr "Seekordse sündmuse kustutamine"
-
-#~ msgid "Addressbook"
-#~ msgstr "Aadressiraamat"
-
-#~ msgid "Task Table"
-#~ msgstr "Ülesannete tabel"
-
-#~ msgid "Removal Complete"
-#~ msgstr "Eemaldamine lõpetatud"
-
-#~ msgid "Con_tacts..."
-#~ msgstr "_Kontaktid..."
-
-#~ msgid "Memo Table"
-#~ msgstr "Märkmetabel"
-
-#~ msgid "Timezone Button"
-#~ msgstr "Ajavööndi nupp"
-
-#~ msgid "Mail Accounts Table"
-#~ msgstr "Postikontode tabel"
-
-#~ msgid "Attachment Button"
-#~ msgstr "Manuse nupp"
-
-#~ msgid "Filters"
-#~ msgstr "Filtrid"
-
-#~ msgid "Message List"
-#~ msgstr "Sõnumiloend"
-
-#~ msgid "Alar_ms"
-#~ msgstr "Alar_mid"
-
-#~ msgid "_All day Event"
-#~ msgstr "Kestab kogu _päeva"
-
-#~ msgid "Previous Button"
-#~ msgstr "Eelmine nupp"
-
-#~ msgid "Text Date Entry"
-#~ msgstr "Tekstiline kuupäeva väli"
-
-#~ msgid "Date Button"
-#~ msgstr "Kuupäeva nupp"
-
-#~ msgid "Time Combo Box"
-#~ msgstr "Aja valikukast"
-
-#~ msgid "Advanced..."
-#~ msgstr "Edasijõudnutele..."
-
-#~ msgid "_Advanced..."
-#~ msgstr "_Edasijõudnutele..."
-
-#~ msgid "Select target addressbook."
-#~ msgstr "Vali sihtaadressiraamat."
-
-#~ msgid "Select an Action"
-#~ msgstr "Vali tegevus"
-
-#~ msgid "Create a new contact \"%s\""
-#~ msgstr "Uue kontakti \"%s\" loomine"
-
-#~ msgid "Add address to existing contact \"%s\""
-#~ msgstr "Lisa aadress olemasolevale kontaktile \"%s\""
-
-#~ msgid "Or_ganizer"
-#~ msgstr "Ko_rraldaja"
-
-#~ msgid "_Description:"
-#~ msgstr "_Kirjeldus:"
-
-#~ msgid "<b>Dele_gatees</b>"
-#~ msgstr "<b>Dele_gaadid</b>"
-
-#~ msgid "<b>From:</b>"
-#~ msgstr "<b>Saatja:</b>"
-
-#~ msgid "Classi_fication:"
-#~ msgstr "_Liigitamine"
-
-#~ msgid "_Group"
-#~ msgstr "_Grupp"
-
-#~ msgid "T_erminal Font:"
-#~ msgstr "T_erminali kirjatüüp"
-
-#~ msgid "Evolution Settings"
-#~ msgstr "Evolutioni sätted"
-
-#~ msgid "_Select All"
-#~ msgstr "Vali _kõik"
-
-#~ msgid "Show Time _Zone"
-#~ msgstr "Näita _ajavööndit"
-
-#~ msgid "_About Evolution..."
-#~ msgstr "_Evolutionist lähemalt..."
-
-#~ msgid "_Attachment Bar"
-#~ msgstr "_Manuseriba"
-
-#~ msgid "Server: %s, Type: %s"
-#~ msgstr "Server: %s, tüüp: %s"
-
-#~ msgid "Path: %s, Type: %s"
-#~ msgstr "Kataloog: %s, tüüp: %s"
-
-#~ msgid "Type: %s"
-#~ msgstr "Tüüp: %s  "
-
-#~ msgid "Sa junk-plugin"
-#~ msgstr "SA rämpspostiplugin"
-
-#~ msgid "Dismiss"
-#~ msgstr "Katkesta"
-
-#~ msgid "Dismiss All"
-#~ msgstr "Tühista kõik"
-
-#~ msgid "<b>Default Free/Busy Server</b>"
-#~ msgstr "<b>Vaikimisi vaba/hõivatud server</b>"
-
-#~ msgid "<b>General</b>"
-#~ msgstr "<b>Üldine</b>"
-
-#~ msgid "<b>Task List</b>"
-#~ msgstr "<b>Ülesandeloend</b>"
-
-#~ msgid "<b>Time</b>"
-#~ msgstr "<b>Aeg</b>"
-
-#~ msgid "<b>Work Week</b>"
-#~ msgstr "<b>Töönädal</b>"
-
-#~ msgid "Calendar and Tasks Settings"
-#~ msgstr "Kalendri ja ülesannete sätted"
-
-#~ msgid "Color for overdue tasks"
-#~ msgstr "Tähtaja ületanud ülesannete värvus"
-
-#~ msgid "Color for tasks due today"
-#~ msgstr "Tänase tähtajaga ülesannete värvus"
-
-#~ msgid "_Publish Free/Busy Information"
-#~ msgstr "_Avalikusta vaba/hõivatud andmed"
-
-#~ msgid "_Rule name:"
-#~ msgstr "_Reegli nimi:"
-
-#~ msgid "Execute actions"
-#~ msgstr "Tegevused täidetakse juhul, kui"
-
-#~ msgid "Execute Command..."
-#~ msgstr "Käsu käivitamine..."
-
-#~ msgid "Publish Free/Busy information for this calendar"
-#~ msgstr "Selle kalendri vaba/hõivatud teabe avalikustamine"
-
-#~ msgid "Customize My Evolution"
-#~ msgstr "Minu Evolutioni kohandamine"
-
-#~ msgid "Move"
-#~ msgstr "Tõsta"
-
-#~ msgid "_Send / Receive"
-#~ msgstr "_Saada / võta vastu"
-
-#~ msgid "Search Editor"
-#~ msgstr "Otsinguredaktor"
-
-#~ msgid "description of appointment"
-#~ msgstr "sündmuse kirjeldus"
-
-#~ msgid "In_vitations"
-#~ msgstr "_Kutsed"
-
-#~ msgid "<b>Send Options</b>"
-#~ msgstr "<b>Saatmise valikud</b>"
-
-#~ msgid "This appointment has customized alarms"
-#~ msgstr "Sellel sündmusel on kohandatud alarmid"
-
-#~ msgid "Meetings and Tasks"
-#~ msgstr "Koosolekud ja ülesanded"
-
-#~ msgid "_Attachment Bar (drop attachments here)"
-#~ msgstr "_Manuseriba (tõsta manused siia)"
-
-#~ msgid "_Delegate To..."
-#~ msgstr "_Delegeerida..."
