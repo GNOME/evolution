@@ -72,8 +72,8 @@ msgstr "Νέα λίστα επαφών"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "ο φάκελος τρέχοντος βιβλίου διευθύνσεων  %s έχει %d κάρτα"
-msgstr[1] "Ο φάκελος τρέχοντος βιβλίου διευθύνσεων  %s έχει %d κάρτες"
+msgstr[0] "ο φάκελος αυτού του βιβλίου διευθύνσεων  %s έχει %d κάρτα"
+msgstr[1] "Ο φάκελος αυτού του βιβλίου διευθύνσεων  %s έχει %d κάρτες"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:12
@@ -351,7 +351,7 @@ msgstr "Ημερολόγιο: από %s σε %s"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
-msgstr "αντικείμενο ημερολογίουr Evolution"
+msgstr "αντικείμενο ημερολογίου Evolution"
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
@@ -359,7 +359,7 @@ msgstr "Κουμπί Combo"
 
 #: ../a11y/widgets/ea-combo-button.c:50
 msgid "Activate Default"
-msgstr "Ενεργοποίηση Προεπιλεγμένου"
+msgstr "Ενεργοποίηση προεπιλογής"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
@@ -469,7 +469,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "Το Βιβλίο Διευθύνσεων του Evolution τερματίστηκε απρόσμενα."
+msgstr "Το βιβλίο διευθύνσεων του Evolution τερματίστηκε απρόσμενα."
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid ""
@@ -6148,7 +6148,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:2906
 msgid "Unable to use current version!"
-msgstr "Δεν ήταν δυνατή η εκτέλεση της τρέχουσας έκδοση!"
+msgstr "Δεν ήταν δυνατή η εκτέλεση της τρέχουσας έκδοσης!"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
@@ -16293,7 +16293,7 @@ msgstr "Εισάγετε τους χρήστες και καθορίστε τα 
 
 #: ../plugins/groupwise-features/share-folder-common.c:342
 msgid "New _Shared Folder..."
-msgstr "_Νέος κοινόχρηστις φάκελος..."
+msgstr "_Νέος κοινόχρηστος φάκελος..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:450
 msgid "Sharing"
@@ -21115,15 +21115,15 @@ msgstr "Όλοι οι λογαριασμοί"
 
 #: ../widgets/misc/e-filter-bar.h:104
 msgid "Current Account"
-msgstr "Τρέχων λογαριασμός"
+msgstr "Αυτό το λογαριασμό"
 
 #: ../widgets/misc/e-filter-bar.h:105
 msgid "Current Folder"
-msgstr "Τρέχων φάκελος"
+msgstr "Αυτό τον φάκελο"
 
 #: ../widgets/misc/e-filter-bar.h:106
 msgid "Current Message"
-msgstr "Τρέχων μήνυμα"
+msgstr "Αυτό το μήνυμα"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -21214,7 +21214,7 @@ msgstr "Γραμμή Δρομέα"
 #: ../widgets/misc/e-selection-model-array.c:554
 #: ../widgets/table/e-tree-selection-model.c:818
 msgid "Cursor Column"
-msgstr "Στήλη Δρομέα"
+msgstr "Στήλη σρομέα"
 
 #: ../widgets/misc/e-selection-model.c:214
 msgid "Sorter"
@@ -21226,7 +21226,7 @@ msgstr "Λειτουργία Επιλογής"
 
 #: ../widgets/misc/e-selection-model.c:229
 msgid "Cursor Mode"
-msgstr "Λειτουργία Δρομέα"
+msgstr "Λειτουργία δρομέα"
 
 #: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
