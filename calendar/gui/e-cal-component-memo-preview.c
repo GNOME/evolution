@@ -235,7 +235,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 					string = g_string_append_c (string, text.value[i]);
 			}
 
-			gtk_html_stream_printf (stream, string->str);
+			gtk_html_stream_printf (stream,"%s",  string->str);
 			g_string_free (string, TRUE);
 		}
 

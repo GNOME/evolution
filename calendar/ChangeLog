@@ -1,3 +1,10 @@
+2006-09-11  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	Fixes #344276
+	* gui/e-cal-component-memo-preview.c: (write_html): made 
+	the memo preview work fine with special char.
+	Committing on behalf of Arvind <sa.phoenix@gmail.com>.
+
 2006-09-08  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #343409
