@@ -1,3 +1,10 @@
+2006-09-12  Ushveen Kaur  <kushveen@novell.com>
+
+	** Fixes bug #352353
+
+	* gui/widgets/eab-gui-utils.c (file_exists): Translator comment 
+	is added.
+
 2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/widgets/e-addressbook-view.c: (string_without_underscores),

@@ -320,6 +320,7 @@ file_exists(GtkWindow *window, const char *filename)
 					 0,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_NONE,
+					 /* For Translators only: "it" refers to the filename %s. */
 					 _("%s already exists\nDo you want to overwrite it?"), utf8_filename);
 	g_free (utf8_filename);
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
