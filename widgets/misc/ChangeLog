@@ -1,3 +1,10 @@
+2006-09-12  Ushveen Kaur  <kushveen@novell.com>
+
+	** Fix for bug #325614
+
+	* e-task-widget.c (e_task_widget_update) : Translator comment
+	added.
+
 2006-09-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #341099. 
