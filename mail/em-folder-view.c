@@ -955,16 +955,9 @@ emfv_popup_delete(EPopup *ep, EPopupItem *pitem, void *data)
 	count = em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
 	
 	if (count == 1) {
-		if (!emfv->list->threaded && !message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
+		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
 			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
-		else if (emfv->list->threaded) {
-			if (emfv->hide_deleted)
-				message_list_select_uid (emfv->list, "");
-			else 
-				message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
-		}
 	}
-
 }
 
 static void

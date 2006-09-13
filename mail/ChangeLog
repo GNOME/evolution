@@ -1,3 +1,9 @@
+2006-09-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #355294
+
+	* em-folder-view.c: (emfv_popup_delete): Set the cursor on delete.
+
 2006-09-09  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
 
 	* default/nl/Inbox: Dutch welcome message updated by
