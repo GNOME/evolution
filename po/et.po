@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-24 17:41+0200\n"
-"PO-Revision-Date: 2006-09-11 10:40+0300\n"
+"PO-Revision-Date: 2006-09-12 20:23+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -5025,6 +5025,8 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
+"Vaba/hõivatud andmete URL-i malli varuvariant. %u asendatakse e-posti "
+"aadressist võetud kasutajanimega ja %d asendatakse domeeniga."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid ""
@@ -5152,7 +5154,7 @@ msgstr "Kas kuupäevasirvijas näidatakse nädalate numbreid."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Whether to use daylight savings time while displaying events."
-msgstr ""
+msgstr "Kas sündmuste kuvamisel arvestatakse talve- ja suveaja nihkega."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
 msgid "Work days"
@@ -5176,7 +5178,7 @@ msgstr "Minut, millal tööpäev algab"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:93
 msgid "daylight savings time"
-msgstr ""
+msgstr "talve- ja suveaja nihe"
 
 #: ../calendar/gui/cal-search-bar.c:53
 msgid "Summary contains"
@@ -11576,7 +11578,7 @@ msgstr "Sõnumite kopeerimine %s kausta"
 
 #: ../mail/em-folder-tree.c:904
 msgid "Cannot drop message(s) into toplevel store"
-msgstr ""
+msgstr "Sõnumeid pole võimalik ülemise taseme hoidlasse panna"
 
 #: ../mail/em-folder-tree.c:1000 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
@@ -12538,7 +12540,7 @@ msgstr "Uuest sõnumist teatamise tüüp"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid "Number of addresses to display in TO/CC/BCC"
-msgstr ""
+msgstr "Aadresside arv, mis kuvatakse Saaja/Koopia/Pimekoopia väljadel"
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt on empty subject"
@@ -16699,7 +16701,7 @@ msgstr "Konto abil pole võimalik e-posti saata"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
 msgid "No store available"
-msgstr "Puudub salvestusmeedia"
+msgstr "Hoidlat pole saadaval"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid ""
