@@ -1,3 +1,10 @@
+2006-09-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #353920
+
+	* em-folder-browser.c: (emfb_search_search_activated): Mark two
+	messages for translation which have not been marked by accident.
+
 2006-09-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #355294

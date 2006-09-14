@@ -1016,7 +1016,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    /* Create a camel vee folder */
 		    storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
 		    vfolder_store = camel_session_get_store (session, storeuri, NULL);
-		    efb->account_search_vf = camel_vee_folder_new (vfolder_store,"Account Search",CAMEL_STORE_VEE_FOLDER_AUTO);
+		    efb->account_search_vf = camel_vee_folder_new (vfolder_store, _("Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
 
 		    /* Set the search expression  */
 		    g_object_get (esb, "query", &search_word, NULL);
@@ -1046,7 +1046,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    /* Create a camel vee folder */
 		    storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
 		    vfolder_store = camel_session_get_store (session, storeuri, NULL);
-		    efb->all_account_search_vf = camel_vee_folder_new (vfolder_store,"All Account Search",CAMEL_STORE_VEE_FOLDER_AUTO);
+		    efb->all_account_search_vf = camel_vee_folder_new (vfolder_store, _("All Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
 
 		    /* Set sexp  */
 		    g_object_get (esb, "query", &search_word, NULL);
