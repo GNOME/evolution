@@ -1,3 +1,7 @@
+2006-09-14  Andre Klapper  <a9016009@gmx.de>
+
+	* itip-view.c: correct display of time. Fixes bug #343686.
+
 2006-08-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #350395 by Øystein Gisnås

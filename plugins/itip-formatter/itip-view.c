@@ -324,7 +324,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 	
 	/* strftime returns 0 if the string doesn't fit, and leaves the buffer
 	   undefined, so we set it to the empty string in that case. */
-	if (e_utf8_strftime (buffer, buffer_size, format, date_tm) == 0)
+	if (e_utf8_strftime_fix_am_pm (buffer, buffer_size, format, date_tm) == 0)
 		buffer[0] = '\0';
 }
 
