@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-15 10:23+0300\n"
-"PO-Revision-Date: 2006-09-15 10:48+0300\n"
+"PO-Revision-Date: 2006-09-16 15:49+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -298,7 +298,7 @@ msgstr "Taulukon solu"
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
 #: ../widgets/table/e-table-click-to-add.c:574
 msgid "click to add"
-msgstr "lisää näpäyttämällä"
+msgstr "lisää napsauttamalla"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
@@ -3256,7 +3256,7 @@ msgstr ""
 "\n"
 "Etsi yhteystietoja.\n"
 "\n"
-"tai luo uusi yhteystieto kaksoisnäpäyttämällä."
+"tai luo uusi yhteystieto kaksoisnapsautuksella."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:177
 msgid ""
@@ -3270,7 +3270,7 @@ msgstr ""
 "\n"
 "Näkymässä ei ole mitään näytettävää.\n"
 "\n"
-"Luo uusi yhteystieto kaksoisnäpäyttämällä."
+"Luo uusi yhteystieto kaksoisnapsautuksella."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:182
 msgid ""
@@ -6301,7 +6301,7 @@ msgstr "Osanottaja"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:2
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr "Lisää läsnäolija näpäyttämällä tästä"
+msgstr "Lisää läsnäolija tästä"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:3
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -7177,7 +7177,7 @@ msgstr "_Poista valitut tehtävät"
 #: ../calendar/gui/e-calendar-table.c:1536
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr "Lisää tehtävä näpäyttämällä tästä"
+msgstr "Lisää tehtävä tästä"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -7960,7 +7960,7 @@ msgstr "_Poista valitut muistilaput"
 
 #: ../calendar/gui/e-memo-table.c:1070 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
-msgstr "Lisää muistilappu näpäyttämällä tästä"
+msgstr "Lisää muistilappu tästä"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
 msgid "Memo sort"
@@ -10256,7 +10256,7 @@ msgstr "Valitse kansio johon viesti postitetaan:"
 
 #: ../composer/e-msg-composer-hdrs.c:603
 msgid "Click here for the address book"
-msgstr "Avaa osoitekirja näpäyttämällä tästä"
+msgstr "Avaa osoitekirja tästä"
 
 #.
 #. * Reply-To:
@@ -10320,7 +10320,7 @@ msgstr "_Postita:"
 
 #: ../composer/e-msg-composer-hdrs.c:679
 msgid "Click here to select folders to post to"
-msgstr "Valitse kansiot, joihin postituksia lähetetään, näpäyttämällä tästä"
+msgstr "Valitse tästä kansiot, joihin postituksia lähetetään"
 
 #: ../composer/e-msg-composer-hdrs.c:684
 msgid "Post To:"
@@ -11341,7 +11341,7 @@ msgstr "Roskapostitesti"
 
 #: ../mail/em-filter-i18n.h:37 ../widgets/misc/e-expander.c:190
 msgid "Label"
-msgstr "Luokittelu"
+msgstr "Merkintä"
 
 #: ../mail/em-filter-i18n.h:38
 msgid "Mailing list"
@@ -11479,7 +11479,7 @@ msgstr "Lukemattomat viestit"
 
 #: ../mail/em-folder-browser.c:195
 msgid "No Label"
-msgstr "Ei nimiötä"
+msgstr "Ei merkintää"
 
 #: ../mail/em-folder-browser.c:202
 msgid "Read Messages"
@@ -11535,7 +11535,7 @@ msgstr "Kansion ominaisuudet"
 
 #: ../mail/em-folder-selection-button.c:123
 msgid "<click here to select a folder>"
-msgstr "<Valitse kansio näpäyttämällä tästä>"
+msgstr "<Valitse kansio tästä>"
 
 #: ../mail/em-folder-selector.c:261
 msgid "Create"
@@ -11760,7 +11760,7 @@ msgstr "_Merkitse _edelleen lähetettäväksi..."
 
 #: ../mail/em-folder-view.c:1138
 msgid "_Label"
-msgstr "_Nimiö"
+msgstr "_Merkintä"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
@@ -13358,7 +13358,7 @@ msgstr ""
 "Voit nyt lähettää ja vastaanottaa sähköpostia\n"
 "Evolutionin avulla.\n"
 "\n"
-"Tallenna asetuksesi näpäyttämällä painiketta \"Toteuta\""
+"Tallenna asetuksesi napsauttamalla painiketta \"Toteuta\""
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
@@ -14484,7 +14484,7 @@ msgid ""
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
 "Syötä kelvollinen sähköpostiosoite Vastaanottaja: kenttään. Voit etsiä "
-"sähköpostiosoitteita näpäyttämällä Vastaanottaja: painiketta kentän vieressä."
+"sähköpostiosoitteita napsauttamalla Vastaanottaja: -painiketta kentän vieressä."
 
 #: ../mail/mail.error.xml.h:77
 msgid ""
@@ -17847,7 +17847,7 @@ msgstr "Luo uusi testijuttu"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Tuo tiedosto Evolutioniin näpäyttämällä painiketta \"Tuo\"."
+msgstr "Tuo tiedosto Evolutioniin painikeesta \"Tuo\"."
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -21507,7 +21507,7 @@ msgstr "Hae aina"
 
 #: ../widgets/table/e-table.c:3322
 msgid "Use click to add"
-msgstr "Lisää näpäyttämälllä"
+msgstr "Lisää napsauttamalla"
 
 #: ../widgets/table/e-tree.c:3284 ../widgets/table/e-tree.c:3285
 msgid "ETree table adapter"
