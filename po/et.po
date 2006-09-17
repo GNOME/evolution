@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-15 14:50+0200\n"
-"PO-Revision-Date: 2006-09-15 22:36+0300\n"
+"PO-Revision-Date: 2006-09-16 19:19+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -2072,7 +2072,7 @@ msgstr "Mosambiik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Myanmar"
-msgstr "Myanmar"
+msgstr "Birma"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Namibia"
@@ -18836,15 +18836,15 @@ msgstr "Manusta"
 
 #: ../ui/evolution-editor.xml.h:2
 msgid "Click here to attach a file"
-msgstr "Faili manustamiseks klõpsa siia"
+msgstr "Faili manustamine"
 
 #: ../ui/evolution-editor.xml.h:3
 msgid "Click here to close the current window"
-msgstr "Käesoleva akna sulgemiseks klõpsa siia"
+msgstr "Käesoleva akna sulgemine"
 
 #: ../ui/evolution-editor.xml.h:4
 msgid "Click here to save the current window"
-msgstr "Käesoleva akna sisu salvestamiseks klõpsa siia"
+msgstr "Käesoleva akna sisu salvestamine"
 
 #: ../ui/evolution-editor.xml.h:5
 msgid "Click here to view help available"
