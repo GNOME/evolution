@@ -1,3 +1,10 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	Fixes bug #351332
+
+	* gui/widgets/e-minicard.c:
+	Fix implicit function declarations.
+
 2006-09-12  Ushveen Kaur  <kushveen@novell.com>
 
 	** Fixes bug #352353

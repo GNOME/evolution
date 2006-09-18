@@ -39,6 +39,7 @@
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
+#include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <libebook/e-destination.h>
 #include "a11y/addressbook/ea-addressbook.h"
