@@ -1,5 +1,12 @@
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
+	Fixes #351332
+
+	* calendar/ea-gnome-calendar.c:
+	Fix implicit function declarations.
+
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
 	Fixes #353472
 
 	* widgets/ea-calendar-cell.c: (ea_calendar_cell_finalize)
