@@ -1,3 +1,9 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #351332
+
+	* misc/e-attachment-bar.h: Fix implicit function declarations.
+
 2006-08-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #352450
