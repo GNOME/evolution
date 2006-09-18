@@ -162,9 +162,9 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_widget_show (priv->label);
 	gtk_box_pack_start (GTK_BOX (box), priv->label, TRUE, TRUE, 0);
 
-	gdk_pixmap_unref (pixmap);
+	g_object_unref (pixmap);
 	if (mask)
-		gdk_bitmap_unref (mask);
+		g_object_unref (mask);
 
 	priv->tooltips = gtk_tooltips_new ();
 	g_object_ref (priv->tooltips);

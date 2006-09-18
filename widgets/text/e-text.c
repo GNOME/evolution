@@ -229,7 +229,7 @@ e_text_dispose (GObject *object)
 	text->revert = NULL;
 
 	if (text->stipple)
-		gdk_bitmap_unref (text->stipple);
+		g_object_unref (text->stipple);
 	text->stipple = NULL;
 
 	if (text->timeout_id) {
@@ -645,11 +645,11 @@ static void
 set_stipple (EText *text, GdkBitmap *stipple, int reconfigure)
 {
 	if (text->stipple && !reconfigure)
-		gdk_bitmap_unref (text->stipple);
+		g_object_unref (text->stipple);
 
 	text->stipple = stipple;
 	if (stipple && !reconfigure)
-		gdk_bitmap_ref (stipple);
+		g_object_ref (stipple);
 
 	if (text->gc) {
 		if (stipple) {
@@ -1263,9 +1263,9 @@ e_text_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (text->gc);
 	text->gc = NULL;
 
-	gdk_cursor_destroy (text->i_cursor);
+	gdk_cursor_unref (text->i_cursor);
 	text->i_cursor = NULL;
-	gdk_cursor_destroy (text->default_cursor);
+	gdk_cursor_unref (text->default_cursor);
 	text->default_cursor = NULL;
 
 	if (parent_class->unrealize)

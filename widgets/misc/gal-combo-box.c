@@ -429,7 +429,7 @@ gal_combo_box_init (GalComboBox *combo_box)
 	gtk_widget_realize (combo_box->priv->popup);
 	cursor = gdk_cursor_new (GDK_TOP_LEFT_ARROW);
 	gdk_window_set_cursor (combo_box->priv->popup->window, cursor);
-	gdk_cursor_destroy (cursor);
+	gdk_cursor_unref (cursor);
 
 	combo_box->priv->torn_off = FALSE;
 	combo_box->priv->tearoff_window = NULL;
@@ -607,7 +607,7 @@ gtk_combo_tearoff_bg_copy (GalComboBox *combo)
 					 widget->allocation.height,
 					 -1);
 
-		gdk_draw_pixmap (pixmap, gc,
+		gdk_draw_drawable (GDK_DRAWABLE (pixmap), gc,
 				 widget->window,
 				 0, 0, 0, 0, -1, -1);
 		gdk_gc_unref (gc);
@@ -618,7 +618,7 @@ gtk_combo_tearoff_bg_copy (GalComboBox *combo)
       
 		gdk_window_set_back_pixmap
 			(combo->priv->tearoff_window->window, pixmap, FALSE);
-		gdk_pixmap_unref (pixmap);
+		g_object_unref (pixmap);
 	}
 }
 

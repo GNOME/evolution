@@ -167,7 +167,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 	gtk_widget_reparent(widget,
 			    GTK_WIDGET(etfc));
 
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 
 	etfc->canvas = GNOME_CANVAS(glade_xml_get_widget(gui, "canvas-buttons"));
 

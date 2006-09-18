@@ -97,7 +97,7 @@ etog_kill_view (ECellView *ecell_view)
 
 	for (i = 0; i < etog->n_states * CACHE_SEQ_COUNT; i++)
 		if (toggle_view->pixmap_cache[i])
-			gdk_pixmap_unref (toggle_view->pixmap_cache[i]);
+			g_object_unref (toggle_view->pixmap_cache[i]);
 	g_free (toggle_view->pixmap_cache);
 	g_free (ecell_view);
 }	
@@ -236,7 +236,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		height = gdk_pixbuf_get_height (image);
 	}
 
-	gdk_draw_pixmap	 (drawable, toggle_view->gc,
+	gdk_draw_drawable (drawable, toggle_view->gc,
 			  pixmap,
 			  0, 0,
 			  x, y,
@@ -369,7 +369,7 @@ etog_style_set (ECellView *ecell_view, GtkStyle *previous_style)
 
 	for (i = 0; i < toggle->n_states * CACHE_SEQ_COUNT; i++) {
 		if (toggle_view->pixmap_cache[i]) {
-			gdk_pixmap_unref (toggle_view->pixmap_cache[i]);
+			g_object_unref (toggle_view->pixmap_cache[i]);
 			toggle_view->pixmap_cache[i] = NULL;
 		}
 	}

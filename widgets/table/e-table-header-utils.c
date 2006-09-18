@@ -455,12 +455,12 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		gdk_gc_set_clip_rectangle (gc, NULL);
 
 		if (pixmap) {
-			gdk_draw_pixmap (drawable, gc, pixmap,
+			gdk_draw_drawable (drawable, gc, pixmap,
 					 0, 0,
 					 xpos,
 					 inner_y + (inner_height - clip_height) / 2,
 					 clip_width, clip_height);
-			gdk_pixmap_unref (pixmap);
+			g_object_unref (pixmap);
 		}
 	} else {
 		e_table_draw_elided_string (drawable, gc, widget, 

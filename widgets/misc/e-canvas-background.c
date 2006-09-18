@@ -161,11 +161,11 @@ set_stipple (ECanvasBackground *ecb, GdkBitmap *stipple, int use_value)
 {
 	if (use_value) {
 		if (ecb->priv->stipple)
-			gdk_bitmap_unref (ecb->priv->stipple);
+			g_object_unref (ecb->priv->stipple);
 
 		ecb->priv->stipple = stipple;
 		if (stipple)
-			gdk_bitmap_ref (stipple);
+			g_object_ref (stipple);
 	}
 
 	if (ecb->priv->gc) {
@@ -184,7 +184,7 @@ ecb_dispose (GObject *object)
 
 	if (ecb->priv) {
 		if (ecb->priv->stipple)
-			gdk_bitmap_unref (ecb->priv->stipple);
+			g_object_unref (ecb->priv->stipple);
 		ecb->priv->stipple = NULL;
 
 		g_free (ecb->priv);

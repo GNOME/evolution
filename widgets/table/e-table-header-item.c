@@ -491,7 +491,7 @@ make_shaped_window_from_xpm (const char **xpm)
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &bitmap, 128);
 	gdk_pixbuf_unref (pixbuf);
 
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 
 	pix = gtk_image_new_from_pixmap (pixmap, bitmap);
@@ -500,8 +500,8 @@ make_shaped_window_from_xpm (const char **xpm)
 	gtk_widget_shape_combine_mask (win, bitmap, 0, 0);
 	gtk_widget_pop_colormap ();
 	
-	gdk_pixmap_unref (pixmap);
-	gdk_bitmap_unref (bitmap);
+	g_object_unref (pixmap);
+	g_object_unref (bitmap);
 	
 	return win;
 }
@@ -950,7 +950,7 @@ ethi_unrealize (GnomeCanvasItem *item)
 	gtk_drag_dest_unset (GTK_WIDGET (item->canvas));
 
 	if (ethi->stipple){
-		gdk_bitmap_unref (ethi->stipple);
+		g_object_unref (ethi->stipple);
 		ethi->stipple = NULL;
 	}
 	
@@ -1216,12 +1216,12 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 			arrows, GINT_TO_POINTER (ecol->col_idx)));
 	gtk_drag_set_icon_pixmap (
 		context,
-		gdk_window_get_colormap (widget->window),
+		gdk_drawable_get_colormap (GDK_DRAWABLE (widget->window)),
 		pixmap,
 		NULL,
 		col_width / 2,
 		ethi->height / 2);
-	gdk_pixmap_unref (pixmap);
+	g_object_unref (pixmap);
 
 	ethi->maybe_drag = FALSE;
 	g_hash_table_destroy (arrows);

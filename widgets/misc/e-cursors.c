@@ -143,7 +143,7 @@ e_cursors_shutdown (void)
 	int i;
 
 	for (i = 0; cursors [i].hot_x; i++)
-		gdk_cursor_destroy (cursors [i].cursor);
+		gdk_cursor_unref (cursors [i].cursor);
 }
 
 

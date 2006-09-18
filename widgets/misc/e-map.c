@@ -319,7 +319,7 @@ e_map_realize (GtkWidget *widget)
 	attr.height = widget->allocation.height;
 	attr.wclass = GDK_INPUT_OUTPUT;
 	attr.visual = gdk_rgb_get_visual ();
-	attr.colormap = gdk_rgb_get_cmap ();
+	attr.colormap = gdk_rgb_get_colormap ();
 	attr.event_mask = gtk_widget_get_events (widget) |
 	  GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK |
 	  GDK_POINTER_MOTION_MASK;
@@ -1277,9 +1277,9 @@ scroll_to (EMap *view, int x, int y)
 	gc = gdk_gc_new (window);
 	gdk_gc_set_exposures (gc, TRUE);
 
-	gdk_window_copy_area (window, gc, dest_x, dest_y, window, src_x, src_y, width - abs (xofs), height - abs (yofs));
+	gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), src_x, src_y, dest_x, dest_y, width - abs (xofs), height - abs (yofs));
 
-	gdk_gc_destroy (gc);
+	g_object_unref (gc);
 
 	/* Add the scrolled-in region */
 
@@ -1429,7 +1429,7 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 
 	/* Get area constraints */
 
-	gdk_window_get_size (window, &area_width, &area_height);
+	gdk_drawable_get_size (GDK_DRAWABLE (window), &area_width, &area_height);
 
 	/* Initialize area division array indexes */
 
@@ -1487,9 +1487,9 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 				/* Push left */
 
 				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_window_copy_area (window, gc, line + j + 1, 0, window, line, 0, 1, area_height);
+					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), line, 0, line + j + 1, 0, 1, area_height);
 
-				gdk_window_copy_area (window, gc, 0, 0, window, zoom_chunk, 0, line, area_height);
+				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), zoom_chunk, 0, 0, 0, line, area_height);
 				if (line > target_x) target_x -= zoom_chunk;
 			}
 			else
@@ -1497,9 +1497,9 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 				/* Push right */
 
 				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_window_copy_area (window, gc, line + j - (zoom_chunk - 1), 0, window, line - zoom_chunk, 0, 1, area_height);
+					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), line - zoom_chunk, 0, line + j - (zoom_chunk - 1), 0, 1, area_height);
 
-				gdk_window_copy_area (window, gc, line, 0, window, line - zoom_chunk, 0, area_width - line, area_height);
+				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), line - zoom_chunk, 0, line, 0, area_width - line, area_height);
 				if (line < target_x) target_x += zoom_chunk;
 			}
 		}
@@ -1515,9 +1515,9 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 				/* Push up */
 
 				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_window_copy_area (window, gc, 0, line + j + 1, window, 0, line, area_width, 1);
+					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), 0, line, 0, line + j + 1, area_width, 1);
 
-				gdk_window_copy_area (window, gc, 0, 0, window, 0, zoom_chunk, area_width, line);
+				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), 0, zoom_chunk, 0, 0, area_width, line);
 				if (line > target_y) target_y -= zoom_chunk;
 			}
 			else
@@ -1525,9 +1525,9 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 				/* Push down */
 
 				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_window_copy_area (window, gc, 0, line + j - (zoom_chunk - 1), window, 0, line - zoom_chunk, area_width, 1);
+					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_WINDOW (window), 0, line - zoom_chunk, 0, line + j - (zoom_chunk - 1), area_width, 1);
 
-				gdk_window_copy_area (window, gc, 0, line, window, 0, line - zoom_chunk, area_width, area_height - line);
+				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), 0, line - zoom_chunk, 0, line, area_width, area_height - line);
 				if (line < target_y) target_y += zoom_chunk;
 			}
 		}
@@ -1540,7 +1540,7 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 
 	/* Free our GC */
 
-	gdk_gc_destroy (gc);
+	g_object_unref (gc);
 }
 
 

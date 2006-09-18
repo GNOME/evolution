@@ -564,12 +564,12 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 				    E_TABLE_COL_ARROW_NONE);
 
 	gtk_drag_set_icon_pixmap        (context,
-					 gdk_window_get_colormap (widget->window),
+					 gdk_drawable_get_colormap (GDK_DRAWABLE (widget->window)),
 					 pixmap,
 					 NULL,
 					 etfci->width / 2,
 					 button_height / 2);
-	gdk_pixmap_unref (pixmap);
+	g_object_unref (pixmap);
 	etfci->maybe_drag = FALSE;
 }
 

@@ -47,12 +47,9 @@
 /* maximum insertions between an idle event that we will do without scheduling an idle sort */
 #define ETS_INSERT_MAX (4)
 
-#define TREEPATH_CHUNK_AREA_SIZE (30 * sizeof (ETreeSortedPath))
-
 #define d(x)
 
 static ETreeModel *parent_class;
-static GMemChunk  *node_chunk;
 
 enum {
 	NODE_RESORTED,
@@ -365,7 +362,7 @@ static void
 free_path (ETreeSortedPath *path)
 {
 	free_children(path);
-	g_chunk_free(path, node_chunk);
+	g_slice_free(ETreeSortedPath, path);
 }
 
 static ETreeSortedPath *
@@ -373,7 +370,7 @@ new_path (ETreeSortedPath *parent, ETreePath corresponding)
 {
 	ETreeSortedPath *path;
 
-	path = g_chunk_new0 (ETreeSortedPath, node_chunk);
+	path = g_slice_new0 (ETreeSortedPath);
 
 	path->corresponding = corresponding;
 	path->parent = parent;
@@ -1156,8 +1153,6 @@ e_tree_sorted_class_init (ETreeSortedClass *klass)
 	GObjectClass *object_class       = G_OBJECT_CLASS (klass);
 
 	parent_class                     = g_type_class_peek_parent (klass);
-
-	node_chunk                       = g_mem_chunk_create (ETreeSortedPath, TREEPATH_CHUNK_AREA_SIZE, G_ALLOC_AND_FREE);
 
 	klass->node_resorted             = NULL;
 	

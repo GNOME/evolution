@@ -414,9 +414,9 @@ ect_unrealize (ECellView *ecv)
 	}
 
 	if (text_view->stipple)
-		gdk_bitmap_unref (text_view->stipple);
+		g_object_unref (text_view->stipple);
 
-	gdk_cursor_destroy (text_view->i_cursor);
+	gdk_cursor_unref (text_view->i_cursor);
 
 	if (ect->colors) {
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (text_view->canvas));

@@ -1793,7 +1793,7 @@ eti_unrealize (GnomeCanvasItem *item)
 	eti->grid_gc = NULL;
 	gdk_gc_unref (eti->focus_gc);
 	eti->focus_gc = NULL;
-	gdk_bitmap_unref (eti->stipple);
+	g_object_unref (eti->stipple);
 	eti->stipple = NULL;
 
 	eti_unrealize_cell_views (eti);

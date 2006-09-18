@@ -38,10 +38,7 @@
 
 #include "e-tree-memory.h"
 
-#define TREEPATH_CHUNK_AREA_SIZE (30 * sizeof (ETreeMemoryPath))
-
 static ETreeModelClass *parent_class;
-static GMemChunk  *node_chunk;
 
 enum {
 	FILL_IN_CHILDREN,
@@ -358,8 +355,6 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 
 	parent_class                     = g_type_class_peek_parent (klass);
 	
-	node_chunk                       = g_mem_chunk_create (ETreeMemoryPath, TREEPATH_CHUNK_AREA_SIZE, G_ALLOC_AND_FREE);
-
 	signals [FILL_IN_CHILDREN] =
 		g_signal_new ("fill_in_children",
 			      E_OBJECT_CLASS_TYPE (object_class),
@@ -509,7 +504,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 	if (!tree_model->priv->frozen)
 		e_tree_model_pre_change(E_TREE_MODEL(tree_model));
 
-	new_path = g_chunk_new0 (ETreeMemoryPath, node_chunk);
+	new_path = g_slice_new0 (ETreeMemoryPath);
 
 	new_path->node_data = node_data;
 	new_path->children_computed = FALSE;
@@ -584,7 +579,7 @@ child_free(ETreeMemory *etree, ETreeMemoryPath *node)
 		etree->priv->destroy_func (node->node_data, etree->priv->destroy_user_data);
 	}
 
-	g_chunk_free(node, node_chunk);
+	g_slice_free (ETreeMemoryPath, node);
 }
 
 /**

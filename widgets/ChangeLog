@@ -1,3 +1,27 @@
+2006-08-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #352450
+
+	* misc/e-canvas-background.c:
+	* misc/e-cursors.c:
+	* misc/e-map.c:
+	* misc/e-reflow.c:
+	* misc/e-task-widget.c:
+	* misc/gal-combo-box.c:
+	* table/e-cell-text.c:
+	* table/e-cell-toggle.c:
+	* table/e-table-field-chooser-item.c:
+	* table/e-table-field-chooser.c:
+	* table/e-table-header-item.c:
+	* table/e-table-header-utils.c:
+	* table/e-table-item.c:
+	* table/e-table.c:
+	* table/e-tree-memory.c:
+	* table/e-tree-sorted.c:
+	* table/e-tree.c:
+	* table/e-text.c:
+	Replace deprecated GLib and GDK function calls.
+
 2006-08-20  Jeff Cai  <jeff.cai@sun.com>
 
 	* e-timezone-dialog/e-timezone-dialog.c:

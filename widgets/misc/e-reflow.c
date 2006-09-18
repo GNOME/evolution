@@ -882,8 +882,8 @@ e_reflow_unrealize (GnomeCanvasItem *item)
 	if (!item->canvas->aa) {
 	}
   
-	gdk_cursor_destroy (reflow->arrow_cursor);
-	gdk_cursor_destroy (reflow->default_cursor);
+	gdk_cursor_unref (reflow->arrow_cursor);
+	gdk_cursor_unref (reflow->default_cursor);
 	reflow->arrow_cursor = NULL;
 	reflow->default_cursor = NULL;
 
