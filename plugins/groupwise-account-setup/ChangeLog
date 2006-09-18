@@ -1,3 +1,8 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* camel-gw-listener.c: (finalize)
+	Chain up to parent's finalize() method.
+
 2006-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* camel-gw-listener.c: (add_calendar_tasks_sources),
