@@ -62,6 +62,7 @@
 #include <gconf/gconf-client.h>
 
 #include <libgnome/gnome-exec.h>
+#include <libgnome/gnome-help.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-window-icon.h>

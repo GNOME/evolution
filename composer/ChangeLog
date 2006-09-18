@@ -1,3 +1,9 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	Fixes #351332
+
+	* e-msg-composer.c: Fix implicit function declarations.
+
 2006-08-06  Andre Klapper <a9016009@gmx.de>
 
 	* e-msg-composer.c: close an html tag properly. Fixes bug #350154.
