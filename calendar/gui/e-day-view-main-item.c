@@ -795,7 +795,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 			if (mask != NULL)
 				gdk_gc_set_clip_mask (gc, mask);
-			gdk_draw_pixmap (drawable, gc,
+			gdk_draw_drawable (drawable, gc,
 					 pixmap,
 					 0, 0, icon_x, icon_y,
 					 MIN (E_DAY_VIEW_ICON_WIDTH,
@@ -803,9 +803,9 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					 MIN (E_DAY_VIEW_ICON_HEIGHT,
 					      max_icon_h));
 
-			gdk_pixmap_unref (pixmap);
+			g_object_unref (pixmap);
 			if (mask != NULL)
-				gdk_bitmap_unref (mask);
+				g_object_unref (mask);
 
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
@@ -1930,7 +1930,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 				if (mask != NULL)
 					gdk_gc_set_clip_mask (gc, mask);
-				gdk_draw_pixmap (drawable, gc,
+				gdk_draw_drawable (drawable, gc,
 					 pixmap,
 					 0, 0, icon_x, icon_y,
 					 MIN (E_DAY_VIEW_ICON_WIDTH,
@@ -1938,9 +1938,9 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					 MIN (E_DAY_VIEW_ICON_HEIGHT,
 					      max_icon_h));
 
-				gdk_pixmap_unref (pixmap);
+				g_object_unref (pixmap);
 				if (mask != NULL)
-					gdk_bitmap_unref (mask);
+					g_object_unref (mask);
 
 				icon_x += icon_x_inc;
 				icon_y += icon_y_inc;

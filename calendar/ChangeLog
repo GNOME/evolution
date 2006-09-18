@@ -1,3 +1,16 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #352450
+
+	* gui/calendar-commands.c:
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-top-item.c:
+	* gui/e-meeting-list-view.c:
+	* gui/e-meeting-time-sel-item.c:
+	* gui/e-meeting-time-sel.c:
+	* gui/e-week-view-event-item.c:
+	Replace deprecated GLib and GDK function calls.
+
 2006-09-11  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	Fixes #344276

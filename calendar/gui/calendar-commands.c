@@ -154,7 +154,7 @@ set_clock_cursor (GnomeCalendar *gcal)
 
 	cursor = gdk_cursor_new (GDK_WATCH);
 	gdk_window_set_cursor (GTK_WIDGET (gcal)->window, cursor);
-	gdk_cursor_destroy (cursor);
+	gdk_cursor_unref (cursor);
 	gdk_flush ();
 }
 

@@ -822,7 +822,7 @@ e_meeting_time_selector_destroy (GtkObject *object)
 	e_meeting_time_selector_remove_timeout (mts);
 	
 	if (mts->stipple) {
-		gdk_bitmap_unref (mts->stipple);
+		g_object_unref (mts->stipple);
 		mts->stipple = NULL;
 	}
 	

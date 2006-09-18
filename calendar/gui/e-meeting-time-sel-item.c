@@ -159,15 +159,15 @@ e_meeting_time_selector_item_destroy (GtkObject *object)
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (object);
 
 	if (mts_item->normal_cursor) {
-		gdk_cursor_destroy (mts_item->normal_cursor);
+		gdk_cursor_unref (mts_item->normal_cursor);
 		mts_item->normal_cursor = NULL;
 	}
 	if (mts_item->resize_cursor) {
-		gdk_cursor_destroy (mts_item->resize_cursor);
+		gdk_cursor_unref (mts_item->resize_cursor);
 		mts_item->resize_cursor = NULL;
 	}
 	if (mts_item->busy_cursor) {
-		gdk_cursor_destroy (mts_item->busy_cursor);
+		gdk_cursor_unref (mts_item->busy_cursor);
 		mts_item->busy_cursor = NULL;
 	}
 

@@ -787,7 +787,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 					g_slist_free (*la);
 					*la = NULL;
 				} else
-					*la = g_slist_remove_link (*la, g_slist_find_custom (*la, attendee, (GCompareFunc)g_strcasecmp));
+					*la = g_slist_remove_link (*la, g_slist_find_custom (*la, attendee, (GCompareFunc)g_ascii_strcasecmp));
 			}
 		}
 

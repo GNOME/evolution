@@ -704,16 +704,16 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 			if (mask != NULL)
 				gdk_gc_set_clip_mask (gc, mask);
-			gdk_draw_pixmap (drawable, gc,
+			gdk_draw_drawable (drawable, gc,
 					 pixmap,
 					 0, 0, icon_x, icon_y,
 					 E_WEEK_VIEW_ICON_WIDTH,
 					 E_WEEK_VIEW_ICON_HEIGHT);
 			icon_x += icon_x_inc;
 		}
-		gdk_pixmap_unref (pixmap);
+		g_object_unref (pixmap);
 		if (mask != NULL)
-			gdk_bitmap_unref (mask);
+			g_object_unref (mask);
 	}
 
 	e_cal_component_free_categories_list (categories_list);
@@ -1388,16 +1388,16 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 			if (mask != NULL)
 				gdk_gc_set_clip_mask (gc, mask);
-			gdk_draw_pixmap (drawable, gc,
+			gdk_draw_drawable (drawable, gc,
 					 pixmap,
 					 0, 0, icon_x, icon_y,
 					 E_WEEK_VIEW_ICON_WIDTH,
 					 E_WEEK_VIEW_ICON_HEIGHT);
 			icon_x += icon_x_inc;
 		}
-		gdk_pixmap_unref (pixmap);
+		g_object_unref (pixmap);
 		if (mask != NULL)
-			gdk_bitmap_unref (mask);
+			g_object_unref (mask);
 	}
 
 	cairo_destroy (cr);
