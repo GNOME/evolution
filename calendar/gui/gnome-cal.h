@@ -198,6 +198,8 @@ void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
 						 const char* comp_uid,
 						 const char* comp_rid);
 
+GtkWidget * gnome_calendar_get_tag (GnomeCalendar *gcal);
+
 G_END_DECLS
 
 #endif

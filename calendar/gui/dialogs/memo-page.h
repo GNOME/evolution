@@ -53,6 +53,8 @@ typedef struct {
 GtkType   memo_page_get_type  (void);
 MemoPage *memo_page_construct (MemoPage *epage);
 MemoPage *memo_page_new       (BonoboUIComponent *uic, CompEditorPageFlags flags);
+void      memo_page_set_classification (MemoPage *page, ECalComponentClassification class);
+void      memo_page_set_show_categories (MemoPage *page, gboolean state);
 
 G_END_DECLS
 

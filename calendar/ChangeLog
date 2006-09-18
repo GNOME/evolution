@@ -1,5 +1,16 @@
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
+	Fixes #351332
+
+	* gui/cal-search-bar.c:
+	* gui/e-cal-model-tasks.h:
+	* gui/e-calendar-view.h:
+	* gui/gnome-cal.h:
+	* gui/dialogs/memo-page.h:
+	Fix implicit function declarations.
+
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #352450
 
 	* gui/calendar-commands.c:

@@ -31,6 +31,7 @@
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
 #include <e-util/e-icon-factory.h>
+#include <libedataserver/e-categories.h>
 #include "cal-search-bar.h"
 
 typedef struct CALSearchBarItem {

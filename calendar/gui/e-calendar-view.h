@@ -166,6 +166,18 @@ void           e_calendar_view_modify_and_send (ECalComponent *comp,
 					       gboolean new);
 
 gboolean	e_calendar_view_get_tooltips (ECalendarViewEventData *data);
+
+void           e_calendar_view_move_tip (GtkWidget *widget, int x, int y);
+
+#ifdef ENABLE_CAIRO
+void           draw_curved_rectangle (cairo_t *cr,
+                                      double x0,
+                                      double y0,
+                                      double rect_width,
+                                      double rect_height,
+                                      double radius);
+#endif
+
 G_END_DECLS
 
 #endif
