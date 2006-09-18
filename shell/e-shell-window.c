@@ -58,6 +58,13 @@
 
 #include <string.h>
 
+#ifdef NM_SUPPORT_GLIB
+void e_shell_nm_glib_initialise (EShellWindow *window);
+void e_shell_nm_glib_dispose (EShellWindow *window);
+#elif NM_SUPPORT
+void e_shell_dbus_initialise (EShellWindow *window);
+void e_shell_dbus_dispose (EShellWindow *window);
+#endif
 
 /* A view for each component.  These are all created when EShellWindow is
    instantiated, but with the widget pointers to NULL and the page number set

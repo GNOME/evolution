@@ -1,3 +1,9 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes #351332
+
+	* e-shell-window.c: Fix implicit function declarations.
+
 2006-09-14  Andre Klapper  <a9016009@gmx.de>
 
 	* main.c: update last stable version number from 2.6.3 to 2.8.0
