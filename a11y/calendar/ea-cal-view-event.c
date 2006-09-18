@@ -156,6 +156,8 @@ ea_cal_view_event_init (EaCalViewEvent *a11y)
 #ifdef ACC_DEBUG
 static void ea_cal_view_finalize (GObject *object)
 {
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+
 	++n_ea_cal_view_event_destroyed;
 	printf ("ACC_DEBUG: n_ea_cal_view_event_destroyed = %d\n",
 		n_ea_cal_view_event_destroyed);

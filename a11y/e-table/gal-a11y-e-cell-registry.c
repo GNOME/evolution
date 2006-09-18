@@ -28,6 +28,8 @@ gal_a11y_e_cell_registry_finalize (GObject *obj)
 
 	g_hash_table_destroy (registry->priv->table);
 	g_free (registry->priv);
+
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static void

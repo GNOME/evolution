@@ -190,6 +190,8 @@ ea_week_view_cell_new (GObject *obj)
 #ifdef ACC_DEBUG
 static void ea_week_view_cell_finalize (GObject *object)
 {
+        G_OBJECT_CLASS (parent_class)->finalize (object);
+
 	++n_ea_week_view_cell_destroyed;
 	printf ("ACC_DEBUG: n_ea_week_view_cell_destroyed = %d\n",
 		n_ea_week_view_cell_destroyed);

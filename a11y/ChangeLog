@@ -1,3 +1,15 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	Fixes #353472
+
+	* widgets/ea-calendar-cell.c: (ea_calendar_cell_finalize)
+	* calendar/ea-week-view-cell.c: (ea_week_view_cell_finalize)
+	* calendar/ea-day-view-cell.c: (ea_day_view_cell_finalize)
+	* calendar/ea-cal-view-event.c: (ea_cal_view_finalize)
+	* e-table/gal-a11y-e-cell-registry.c:
+	(gal_a11y_e_call_registry_finalize)
+	Chain up to parent's finalize() method.
+
 2006-08-17  Li Yuan <li.yuan@sun.com>
 
 	Patch submitted by Pavel Roskin <proski@gnu.org>
