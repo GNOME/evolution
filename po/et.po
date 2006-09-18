@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-15 14:50+0200\n"
-"PO-Revision-Date: 2006-09-16 19:19+0300\n"
+"PO-Revision-Date: 2006-09-17 21:30+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -558,7 +558,7 @@ msgstr "Vaikimisi sünkroniseerimisaadress:"
 #: ../addressbook/conduit/address-conduit.c:1241
 #: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
-msgstr "Aadressiraamatut ei õnnestunud laadida"
+msgstr "Aadressiraamatut pole võimalik laadida"
 
 #: ../addressbook/conduit/address-conduit.c:1310
 #: ../addressbook/conduit/address-conduit.c:1313
