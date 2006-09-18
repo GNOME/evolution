@@ -69,6 +69,8 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
+#include <libedataserver/e-data-server-util.h>
+
 #include "menus/gal-view-etable.h"
 #include "menus/gal-view-factory-etable.h"
 #include "menus/gal-view-instance.h"
