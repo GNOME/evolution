@@ -61,7 +61,7 @@ void e_cursor_set (GtkWidget *widget, ECursorType cursor)
 		}
 
 		gdk_window_set_cursor (toplevel->window, window_cursor);
-		gdk_cursor_destroy (window_cursor);
+		gdk_cursor_unref (window_cursor);
 	}
 
 }
