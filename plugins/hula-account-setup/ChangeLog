@@ -1,3 +1,8 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* camel-hula-listener.c: (finalize)
+	Chain up to parent's finalize() method.
+
 2006-01-09  Kjartan Maraas <kmaraas@gnome.org>
 
 	* camel-hula-listener.c: (is_hula_caldav_account), (add_esource),

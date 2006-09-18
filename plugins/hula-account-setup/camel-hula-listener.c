@@ -116,6 +116,8 @@ finalize (GObject *object)
 	}
 	
 	g_list_free (hula_accounts);
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 /*determines whehter the passed in account is hula or not by looking at source url */
