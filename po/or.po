@@ -1,21 +1,23 @@
 # translation of or.po to Oriya
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# Subhransu Behera <arya_subhransu@yahoo.co.in>, 2006.
 #: ../mail/em-format-html-display.c:683
+# Subhransu Behera <arya_subhransu@yahoo.co.in>, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-17 07:35+0200\n"
-"PO-Revision-Date: 2006-09-04 11:27+0530\n"
+"PO-Revision-Date: 2006-09-19 19:36+0530\n"
 "Last-Translator: Subhransu Behera <arya_subhransu@yahoo.co.in>\n"
 "Language-Team: Oriya <oriya-group@lists.sarovar.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
-"X-Generator: KBabel 1.9.1\n"
+"\n"
+"\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -439,41 +441,43 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book will be removed permanently."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାଟି ଚିରସ୍ଥାୟୀ ପାଇଁ ଅପସାରିତ ହୋଇଯିବ।"
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଖୋଲି ହେଲାନାହିଁ।"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକା ସେବକ ନିକଟରେ କୌଣସି ପରାମର୍ଶିତ ସନ୍ଧାନ ଆଧାର ନାହିଁ।"
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
+"ଏହି ଠିକଣା ପୁସ୍ତିକା ସେବକକୁ ପହଞ୍ଚି ହେବନାହିଁ କିମ୍ବା ସେବକ ନାମକୁ ସଠିକ ଭାବରେ "
+"ବନାନ କରାଯାଇ ନାହିଁ କିମ୍ବା ଆପଣଙ୍କ ଲେଟୱାର୍କ ସଂଯୋଗଟି ଅକାମି ହୋଇଯାଇଛି।"
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "This server does not support LDAPv3 schema information."
-msgstr ""
+msgstr "ସେବକଟି LDAPv3 ବିବରଣିକା ସୂଚନାକୁ ସମର୍ଥ କରେନାହିଁ।"
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
-msgstr ""
+msgstr "ଠିକଣା ପୁସ୍ତିକାକୁ ଖୋଲିବାରେ ଅସମର୍ଥ"
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
-msgstr ""
+msgstr "ସନ୍ଧାନ କରିବାରେ ଅସମର୍ଥ।"
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to save {0}."
-msgstr ""
+msgstr "{0} କୁ ସଂରକ୍ଷଣ କରିବାରେ ଅସମର୍ଥ।"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Would you like to save your changes?"
-msgstr ""
+msgstr "ଆପଣ ଆପଣଙ୍କ ପରିବର୍ତ୍ତନ ମାନଙ୍କୁ ସଂରକ୍ଷଣ କରିବା ପାଇଁ ଚାହିଁବେ କି ?"
 
 #: ../addressbook/addressbook.error.xml.h:31
 msgid ""
@@ -16419,11 +16423,11 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post Message to List"
-msgstr ""
+msgstr "ସୂଚୀବଦ୍ଧ କରିବା ପାଇଁ ପଠାଯାଇଥିବା ସନ୍ଦେଶ (_P)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
 msgid "_Subscribe to List"
-msgstr ""
+msgstr "ସମୂହରେ ପଞ୍ଜିକୃତ କରନ୍ତୁ (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 msgid "_Unsubscribe from List"
@@ -16431,11 +16435,11 @@ msgstr ""
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
-msgstr ""
+msgstr "ସବୁକିଛି ପଢିସାରିଲେ ବୋଲି ଚିହ୍ନିତ କରନ୍ତୁ"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
 msgid "Mark Me_ssages as Read"
-msgstr ""
+msgstr "ସନ୍ଦେଶ ମାନଙ୍କୁ ପଢିସାରିଲେ ବୋଲି ଚିହ୍ନିତ କରନ୍ତୁ"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
@@ -16443,7 +16447,7 @@ msgstr ""
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr ""
+msgstr "କ୍ଯାଲେଣ୍ଡରକୁ ଅଫ-ଲାଇନ ଭାବରେ ଚିହ୍ନିତ କରନ୍ତୁ"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
 msgid "Marks the selected calendar for offline viewing."
@@ -16471,11 +16475,11 @@ msgstr ""
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 msgid "New Mail Notification"
-msgstr ""
+msgstr "ନୂତନ ଡାକ ସୂଚନା"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
 msgid "New mail notify"
-msgstr ""
+msgstr "ନୂତନ ଡାକ ବିଷୟରେ ସୂଚୀତ କରନ୍ତୁ"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
@@ -16485,19 +16489,19 @@ msgstr ""
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 #: ../plugins/plugin-manager/plugin-manager.c:180
 msgid "Plugin Manager"
-msgstr ""
+msgstr "ପ୍ଲଗ-ଇନ ପରିଚାଳକ"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "ପ୍ଲଗ-ଇନ ମାନଙ୍କୁ ସକ୍ରିୟ ଏବଂ ନିଷ୍କ୍ରିୟ କରନ୍ତୁ"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
-msgstr ""
+msgstr "ପ୍ଲଗ-ଇନ (_P)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:43
 msgid "Author(s)"
-msgstr ""
+msgstr "ଲେଖକ"
 
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../widgets/table/e-table-config-no-group.glade.h:6
@@ -16507,7 +16511,7 @@ msgstr "ବର୍ଣ୍ଣନା"
 
 #: ../plugins/plugin-manager/plugin-manager.c:193
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
+msgstr "ଟିପ୍ପଣୀ: ପୁନର୍ଚାଳନ ନ କରିବା ପର୍ଯ୍ଯନ୍ତ କିଛି ପରିବର୍ତ୍ତନ ଗୁଡିକ ପ୍ରଭାବିତ ହେବେ ନାହିଁ"
 
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
@@ -16525,27 +16529,27 @@ msgstr ""
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
 msgid "Plain Text Mode"
-msgstr ""
+msgstr "ସାଧାରଣ ପାଠ୍ଯ ଧାରା"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:7
 msgid "Prefer plain-text"
-msgstr ""
+msgstr "ସାଧାରଣ-ପାଠ୍ଯକୁ ପସନ୍ଦ କରନ୍ତୁ"
 
 #: ../plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
-msgstr ""
+msgstr "ଉପସ୍ଥିତ ଥିଲେ HTML କୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
-msgstr ""
+msgstr "ସାଧାରଣ ଧାରାକୁ ପସନ୍ଦ କରନ୍ତୁ"
 
 #: ../plugins/prefer-plain/prefer-plain.c:107
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "କେବଳ ସାଧାରଣ ଧାରାକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
 msgid "HTML Mode"
-msgstr ""
+msgstr "HTML ଧାରା"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -16696,7 +16700,7 @@ msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ"
 #. *
 #: ../plugins/save-calendar/csv-format.c:171
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:385
 msgid "UID"
@@ -20274,27 +20278,27 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
-msgstr ""
+msgstr "<b>ଅବସ୍ଥିତି ଅନୁସରଣ</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr ""
+msgstr "ସ୍ବତଃ-ଅପସାରଣ ପ୍ରେରିତ ବସ୍ତୁ (_u)"
 
 #: ../widgets/misc/e-send-options.glade.h:6
 msgid "Classification"
-msgstr ""
+msgstr "ବିଭାଗୀକରଣ"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
-msgstr ""
+msgstr "ସୂଚନା ଅନୁସରଣ କରିବା ପାଇଁ ଗୋଟିଏ ପ୍ରେରିତ ବସ୍ତୁକୁ ସୃଷ୍ଟି କରନ୍ତୁ"
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
-msgstr ""
+msgstr "ହସ୍ତାନ୍ତର କରାଗଲା ଏବଂ ଖୋଲାଗଲା (_v)"
 
 #: ../widgets/misc/e-send-options.glade.h:9
 msgid "Gene_ral Options"
-msgstr ""
+msgstr "ସାଧାରଣ ବିକଲ୍ପ (_r)"
 
 #: ../widgets/misc/e-send-options.glade.h:10
 msgid ""
@@ -20318,7 +20322,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:20
 msgid "Sta_tus Tracking"
-msgstr ""
+msgstr "ଅବସ୍ଥିତି ଅନୁସରଣ (_t)"
 
 #: ../widgets/misc/e-send-options.glade.h:21
 msgid ""
@@ -20327,22 +20331,26 @@ msgid ""
 "Standard\n"
 "Low"
 msgstr ""
+"ଅପରିଭାଷିତ\n"
+"ଉଚ୍ଚ\n"
+"ମାନକ\n"
+"ନିମ୍ନ"
 
 #: ../widgets/misc/e-send-options.glade.h:25
 msgid "When acce_pted:"
-msgstr ""
+msgstr "ଗ୍ରହଣ କଲେ (_p):"
 
 #: ../widgets/misc/e-send-options.glade.h:26
 msgid "When co_mpleted:"
-msgstr ""
+msgstr "ସମାପ୍ତ ହେଲେ (_m)"
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "When decli_ned:"
-msgstr ""
+msgstr "ପ୍ରତ୍ଯାଖ୍ଯାନ କଲେ (_n):"
 
 #: ../widgets/misc/e-send-options.glade.h:28
 msgid "Wi_thin"
-msgstr ""
+msgstr "ଏହା ମଧ୍ଯରେ (_t)"
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "_After:"
@@ -20350,53 +20358,53 @@ msgstr "ଏହା ପରେ (_A):"
 
 #: ../widgets/misc/e-send-options.glade.h:30
 msgid "_All information"
-msgstr ""
+msgstr "ସମସ୍ତ ସୂଚନା (_A)"
 
 #: ../widgets/misc/e-send-options.glade.h:31
 msgid "_Delay message delivery"
-msgstr ""
+msgstr "ବିଳମ୍ବିତ ସନ୍ଦେଶକୁ ପଠାଗଲା (_D)"
 
 #: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Delivered"
-msgstr ""
+msgstr "ପଠାଗଲା (_D)"
 
 #: ../widgets/misc/e-send-options.glade.h:34
 msgid "_Set expiration date"
-msgstr ""
+msgstr "ଅବସାନ ସମୟକୁ ସେଟ କରନ୍ତୁ (_S)"
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Until:"
-msgstr ""
+msgstr "ଯେ ପର୍ଯ୍ଯନ୍ତ (_U):"
 
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "_When convenient"
-msgstr ""
+msgstr "ସୁବିଧା ହେଲେ (_W)"
 
 #: ../widgets/misc/e-send-options.glade.h:37
 msgid "_When opened:"
-msgstr ""
+msgstr "ଖୋଲିଲେ (_W)"
 
 #: ../widgets/misc/e-task-widget.c:208
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (%d%% ସମାପ୍ତ)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "Click here to go to URL"
-msgstr ""
+msgstr "ୟୁ.ଆର.ଏଲ. କୁ ଯିବା ପାଇଁ ଏଠାରେ ଦବାନ୍ତୁ"
 
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "ପ୍ରଧାନ ଶ୍ରେଣୀ ତାଲିକାକୁ ସମ୍ପାଦନ କରନ୍ତୁ..."
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Item(s) belong to these _categories:"
-msgstr ""
+msgstr "ବସ୍ତୁ(ଗୁଡିକ) ଏହି ଶ୍ରେଣୀ ଅନ୍ତର୍ଭୂକ୍ତ (_c):"
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "_Available Categories:"
