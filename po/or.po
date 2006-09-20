@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-17 07:35+0200\n"
-"PO-Revision-Date: 2006-09-19 19:36+0530\n"
+"PO-Revision-Date: 2006-09-20 16:11+0530\n"
 "Last-Translator: Subhransu Behera <arya_subhransu@yahoo.co.in>\n"
 "Language-Team: Oriya <oriya-group@lists.sarovar.org>\n"
 "MIME-Version: 1.0\n"
@@ -19553,11 +19553,11 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:26
 msgid "Show _Toolbar"
-msgstr ""
+msgstr "ସାଧନ ପଟିକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ (_T)"
 
 #: ../ui/evolution.xml.h:27
 msgid "Show information about Evolution"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ବିଷୟରେ ସୂଚନା ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:28
 msgid "Submit Bug Report"
@@ -19581,7 +19581,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:36
 msgid "Tool_bar style"
-msgstr ""
+msgstr "ସାଧନ ପଟି ଶୈଳୀ (_b)"
 
 #: ../ui/evolution.xml.h:37
 msgid "View/Hide the Side Bar"
@@ -19609,7 +19609,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:46
 msgid "_Icons only"
-msgstr ""
+msgstr "କେବଳ ଚିତ୍ରସଙ୍କେତ (_I)"
 
 #: ../ui/evolution.xml.h:48
 msgid "_Quick Reference"
@@ -19625,11 +19625,11 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "ସମକାଳିତ ବିକଲ୍ପ (_S) ..."
 
 #: ../ui/evolution.xml.h:52
 msgid "_Text only"
-msgstr ""
+msgstr "କେବଳ ପାଠ୍ଯା (_T)"
 
 #: ../ui/evolution.xml.h:54
 msgid "_Window"
@@ -19637,55 +19637,55 @@ msgstr "ଓ୍ବିଣ୍ଡୋ (_W)"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr ""
+msgstr "କମ୍ପାନୀ ଅନୁଯାୟୀ (_C)"
 
 #: ../views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr ""
+msgstr "ଠିକଣା କାର୍ଡ (_A)"
 
 #: ../views/addressbook/galview.xml.h:3
 msgid "_Phone List"
-msgstr ""
+msgstr "ଫୋନ ତାଲିକା (_P)"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr ""
+msgstr "ସପ୍ତାହ ପ୍ରଦର୍ଶନ (_e)"
 
 #: ../views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr ""
+msgstr "ଦିନ ପ୍ରଦର୍ଶନ (_D)"
 
 #: ../views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr ""
+msgstr "ତାଲିକା ପ୍ରଦର୍ଶନ (_L)"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr ""
+msgstr "ମାସ ପ୍ରଦର୍ଶନ (_M)"
 
 #: ../views/calendar/galview.xml.h:5
 msgid "_Work Week View"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ସପ୍ତାହ ପ୍ରଦର୍ଶନ (_W)"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
-msgstr ""
+msgstr "ପ୍ରଶସ୍ଥ ଦୃଶ୍ଯ ପାଇଁ ପ୍ରେରିତ ଫୋଲଡର ଭାବରେ"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
-msgstr ""
+msgstr "ପ୍ରେରିତ ଫୋଲଡର ଭାବରେ (_S)"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By S_tatus"
-msgstr ""
+msgstr "ଅବସ୍ଥିତି ଅନୁଯାୟୀ (_t)"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
-msgstr ""
+msgstr "ପ୍ରେରକ ଅନୁଯାୟୀ (_n)"
 
 #: ../views/mail/galview.xml.h:5
 msgid "By Su_bject"
-msgstr ""
+msgstr "ବିଷୟବସ୍ତୁ ଅନୁଯାୟୀ (_b)"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
@@ -19693,15 +19693,15 @@ msgstr ""
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
-msgstr ""
+msgstr "ପ୍ରଶସ୍ଥ ପ୍ରଦର୍ଶନ ପାଇଁ (_W)"
 
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
-msgstr ""
+msgstr "ସନ୍ଦେଶ (_M)"
 
 #: ../views/memos/galview.xml.h:1
 msgid "_Memos"
-msgstr ""
+msgstr "ସ୍ମାରକପତ୍ର (_M)"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
@@ -19709,7 +19709,7 @@ msgstr ""
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Status"
-msgstr ""
+msgstr "ଅବସ୍ଥିତି ସହିତ (_S)"
 
 #. Put the ""UTC" entry at the top of the combo's list.
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:209
@@ -19722,19 +19722,19 @@ msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "<b>Time Zones</b>"
-msgstr ""
+msgstr "<b>ସମୟ ମଣ୍ଡଳ</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "<b>_Selection</b>"
-msgstr ""
+msgstr "<b>ଚୟନ (_S)</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
-msgstr ""
+msgstr "ଗୋଟିଏ ସମୟ ମଣ୍ଡଳକୁ ଚୟନ କରନ୍ତୁ"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "TimeZone Combobox"
-msgstr ""
+msgstr "ସମୟ ମଣ୍ଡଳ ସମ୍ମିଳିତ ବାକ୍ସ"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
@@ -19746,23 +19746,23 @@ msgstr ""
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:188
 msgid "Collection"
-msgstr ""
+msgstr "ସଂଗ୍ରହ"
 
 #: ../widgets/menus/gal-define-views-dialog.c:325
 #: ../widgets/menus/gal-define-views.glade.h:4
 #, no-c-format
 msgid "Define Views for %s"
-msgstr ""
+msgstr "%s ପାଇଁ ପ୍ରଦର୍ଶନ ମାନଙ୍କୁ ବ୍ଯାଖ୍ଯା କରନ୍ତୁ"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
 msgid "Define Views"
-msgstr ""
+msgstr "ପ୍ରଦର୍ଶନ ଗୁଡିକୁ ବ୍ଯାଖ୍ଯା କରନ୍ତୁ"
 
 #: ../widgets/menus/gal-define-views.glade.h:2
 #, no-c-format
 msgid "Define Views for \"%s\""
-msgstr ""
+msgstr "\"%s\" ପାଇଁ ପ୍ରଦର୍ଶନ ଗୁଡିକୁ ବ୍ଯାଖ୍ଯା କରନ୍ତୁ"
 
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit..."
@@ -19777,42 +19777,42 @@ msgstr "ସାରଣୀ"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
-msgstr ""
+msgstr "ଉଦାହରଣ"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
 msgid "Save Current View"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ପ୍ରଦର୍ଶନକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "_Create new view"
-msgstr ""
+msgstr "ନୂତନ ପ୍ରଦର୍ଶନକୁ ସୃଷ୍ଟି କରନ୍ତୁ (_C)"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
 msgid "_Replace existing view"
-msgstr ""
+msgstr "ଅବସ୍ଥିତ ପ୍ରଦର୍ଶନକୁ ବଦଳାନ୍ତୁ (_R)"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:587
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
-msgstr ""
+msgstr "ଇଚ୍ଛାରୂପଣ ପ୍ରଦର୍ଶନ"
 
 #: ../widgets/menus/gal-view-instance.c:588
 msgid "Save Custom View"
-msgstr ""
+msgstr "ଇଚ୍ଛାରୂପଣ ପ୍ରଦର୍ଶନକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../widgets/menus/gal-view-instance.c:592
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
-msgstr ""
+msgstr "ପ୍ରଦର୍ଶନ ମାନଙ୍କୁ ବ୍ଯାଖ୍ଯା କରନ୍ତୁ..."
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "C_urrent View"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ପ୍ରଦର୍ଶନ (_u)"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
-msgstr ""
+msgstr "ଇଚ୍ଛାରୂପଣ ପ୍ରଦର୍ଶନକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ..."
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
@@ -19820,39 +19820,39 @@ msgstr "କାରଖାନା"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
-msgstr ""
+msgstr "ନୂତନ ପ୍ରଦର୍ଶନକୁ ବ୍ଯାଖ୍ଯା କରନ୍ତୁ"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
 msgid "Name of new view:"
-msgstr ""
+msgstr "ନୂତନ ପ୍ରଦର୍ଶନର ନାମ: "
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Type of View"
-msgstr ""
+msgstr "ପ୍ରଦର୍ଶନ କରିବାର ପ୍ରକାର:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of view:"
-msgstr ""
+msgstr "ପ୍ରଦର୍ଶନ କରିବାର ପ୍ରକାର:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
-msgstr ""
+msgstr "ସଂଲଗ୍ନକର ସ୍ବତଃ ପ୍ରଦର୍ଶନ ପାଇଁ ପରାମର୍ଶ କରନ୍ତୁ"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: ../widgets/misc/e-calendar-item.c:416
 msgid "MTWTFSS"
-msgstr ""
+msgstr "MTWTFSS"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1093
 #: ../widgets/misc/e-calendar-item.c:1746
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:226
 msgid "Month Calendar"
-msgstr ""
+msgstr "ମାସ ଅନୁଯାୟୀ କ୍ଯାଲେଣ୍ଡର"
 
 #: ../widgets/misc/e-canvas-background.c:457
 #: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1284
@@ -19877,34 +19877,34 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3603
 #: ../widgets/text/e-text.c:3604
 msgid "Fill stipple"
-msgstr ""
+msgstr "ବିନ୍ଦୁରୀତିରେ ଭରଣ କରନ୍ତୁ"
 
 #: ../widgets/misc/e-canvas-background.c:485
 #: ../widgets/misc/e-canvas-background.c:486
 msgid "X1"
-msgstr ""
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:492
 #: ../widgets/misc/e-canvas-background.c:493
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:499
 #: ../widgets/misc/e-canvas-background.c:500
 msgid "Y1"
-msgstr ""
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:506
 #: ../widgets/misc/e-canvas-background.c:507
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1429
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3015
 msgid "Minimum width"
-msgstr ""
+msgstr "ସର୍ବନିମ୍ନ ଓସାର"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:975
@@ -19920,12 +19920,12 @@ msgstr "ବ୍ଯବଧାନ"
 
 #: ../widgets/misc/e-cell-date-edit.c:233
 msgid "Now"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ"
 
 #: ../widgets/misc/e-cell-date-edit.c:793
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
+msgstr "ସମୟ ଏହି ଶୈଳୀରେ ରହିବା ଉଚିତ: %s"
 
 #: ../widgets/misc/e-cell-percent.c:76
 msgid "The percent value must be between 0 and 100, inclusive"
@@ -19999,20 +19999,20 @@ msgstr "ୟୁକ୍ରେନିୟାନ"
 
 #: ../widgets/misc/e-charset-picker.c:105
 msgid "Visual"
-msgstr ""
+msgstr "ଚାକ୍ଷୁଷ"
 
 #: ../widgets/misc/e-charset-picker.c:174
 #, c-format
 msgid "Unknown character set: %s"
-msgstr ""
+msgstr "ଅଜଣା ଅକ୍ଷରମାଳା:%s"
 
 #: ../widgets/misc/e-charset-picker.c:219
 msgid "Character Encoding"
-msgstr ""
+msgstr "ଅକ୍ଷର ସାଙ୍କେତିକରଣ"
 
 #: ../widgets/misc/e-charset-picker.c:234
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "ବ୍ଯବହାର କରାଯିବା ଅକ୍ଷରମାଳା ଭରଣ କରନ୍ତୁ"
 
 #: ../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
@@ -20020,7 +20020,7 @@ msgstr "ଅନ୍ଯାନ୍ଯ ..."
 
 #: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
-msgstr ""
+msgstr "ଅକ୍ଷର ସାଙ୍କେତିକରଣ (_a)"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
@@ -20032,15 +20032,15 @@ msgstr "ତାରିଖ ଏବଂ ସମୟ"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
-msgstr ""
+msgstr "ତାରିଖ ଭରଣ କରିବା ପାଇଁ ପାଠ୍ଯ ପ୍ରବିଷ୍ଟି"
 
 #: ../widgets/misc/e-dateedit.c:362
 msgid "Click this button to show a calendar"
-msgstr ""
+msgstr "ଗୋଟିଏ କ୍ଯାଲେଣ୍ଡର ପ୍ରଦର୍ଶନ କରିବା ପାଇଁ ଏହି ବଟନକୁ ଦବାନ୍ତୁ"
 
 #: ../widgets/misc/e-dateedit.c:384
 msgid "Combo box to select time"
-msgstr ""
+msgstr "ସମୟ ଚୟନ କରିବା ପାଇଁ ସମ୍ମିଳିତ ବାକ୍ସ"
 
 #: ../widgets/misc/e-dateedit.c:385
 msgid "Time"
@@ -20048,11 +20048,11 @@ msgstr "ସମୟ"
 
 #: ../widgets/misc/e-dateedit.c:461
 msgid "No_w"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ (_w)"
 
 #: ../widgets/misc/e-dateedit.c:467
 msgid "_Today"
-msgstr ""
+msgstr "ଆଜି (_T)"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
@@ -20070,7 +20070,7 @@ msgstr "ସମ୍ପ୍ରସାରିତ"
 
 #: ../widgets/misc/e-expander.c:183
 msgid "Whether or not the expander is expanded"
-msgstr ""
+msgstr "ସମ୍ପ୍ରସାରକଟି ସମ୍ପ୍ରସାରିତ ହୋଇଛି କି ନାହିଁ"
 
 #: ../widgets/misc/e-expander.c:191
 msgid "Text of the expander's label"
@@ -20117,56 +20117,56 @@ msgstr "ସମ୍ପ୍ରସାରକ ତୀର ଚତୁଃପାର୍ଶ୍�
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:164
 msgid "Advanced Search"
-msgstr ""
+msgstr "ଉନ୍ନତ ସନ୍ଧାନ"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:213
 msgid "Save Search"
-msgstr ""
+msgstr "ସନ୍ଧାନ ଫଳାଫଳକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../widgets/misc/e-filter-bar.c:247
 msgid "_Searches"
-msgstr ""
+msgstr "ଅନୁସନ୍ଧାନ (_S)"
 
 #: ../widgets/misc/e-filter-bar.c:249
 msgid "Searches"
-msgstr ""
+msgstr "ଅନୁସନ୍ଧାନ"
 
 #: ../widgets/misc/e-filter-bar.h:100 ../widgets/misc/e-filter-bar.h:111
 msgid "_Save Search..."
-msgstr ""
+msgstr "ସନ୍ଧାନ ଫଳାଫଳକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ (_S) ..."
 
 #: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
 msgid "_Edit Saved Searches..."
-msgstr ""
+msgstr "ସଂରକ୍ଷିତ ସନ୍ଧାନ ଫଳାଫଳକୁ ସମ୍ପାଦନ କରନ୍ତୁ (_E) ..."
 
 #: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
 msgid "_Advanced Search..."
-msgstr ""
+msgstr "ଉନ୍ନତ ସନ୍ଧାନ (_A) ..."
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
-msgstr ""
+msgstr "ସମସ୍ତ ଖାତା"
 
 #: ../widgets/misc/e-filter-bar.h:104
 msgid "Current Account"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ଖାତା"
 
 #: ../widgets/misc/e-filter-bar.h:105
 msgid "Current Folder"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ଫୋଲଡର"
 
 #: ../widgets/misc/e-filter-bar.h:106
 msgid "Current Message"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ସନ୍ଦେଶ"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
-msgstr ""
+msgstr "ପ୍ରତିଛବି ଚୟନ କରନ୍ତୁ"
 
 #: ../widgets/misc/e-map.c:629
 msgid "World Map"
-msgstr ""
+msgstr "ପୃଥିବୀ ମାନଚିତ୍ର"
 
 #: ../widgets/misc/e-map.c:631
 msgid ""
@@ -20176,27 +20176,27 @@ msgstr ""
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
-msgstr ""
+msgstr "ଏହା ଦ୍ବାରା ସିଙ୍କ କରନ୍ତୁ:"
 
 #: ../widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "ବ୍ଯକ୍ତିଗତ ଅନୁଲିପିକୁ ସିଙ୍କ କରନ୍ତୁ"
 
 #: ../widgets/misc/e-pilot-settings.c:120
 msgid "Sync Categories:"
-msgstr ""
+msgstr "ବିଭାଗ ମାନଙ୍କୁ ସିଙ୍କ କରନ୍ତୁ:"
 
 #: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
-msgstr ""
+msgstr "ଖାଲି ସନ୍ଦେଶ"
 
 #: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
-msgstr ""
+msgstr "ପୁନଃପ୍ରବାହ ନମୁନା"
 
 #: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
 msgid "Column width"
-msgstr ""
+msgstr "ସ୍ତମ୍ଭ ଓସାର"
 
 #: ../widgets/misc/e-search-bar.c:535
 msgid "_Search"
@@ -20204,7 +20204,7 @@ msgstr "ଖୋଜନ୍ତୁ (_S)"
 
 #: ../widgets/misc/e-search-bar.c:541
 msgid "_Find Now"
-msgstr ""
+msgstr "ବର୍ତ୍ତମାନ ଖୋଜନ୍ତୁ (_F)"
 
 #: ../widgets/misc/e-search-bar.c:542
 msgid "_Clear"
@@ -20212,7 +20212,7 @@ msgstr "ସଫା କରନ୍ତୁ (_C)"
 
 #: ../widgets/misc/e-search-bar.c:793
 msgid "Item ID"
-msgstr ""
+msgstr "ବସ୍ତୁ ପରିଚୟ"
 
 #: ../widgets/misc/e-search-bar.c:800 ../widgets/text/e-entry.c:1249
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3503
@@ -20224,57 +20224,57 @@ msgstr "ପାଠ୍ଯ"
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:922
 msgid "Sho_w: "
-msgstr ""
+msgstr "ପ୍ରଦର୍ଶନ କରନ୍ତୁ (_w): "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:939
 msgid "Sear_ch: "
-msgstr ""
+msgstr "ସନ୍ଧାନ କରନ୍ତୁ (_c): "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:951
 msgid " i_n "
-msgstr ""
+msgstr "ଚିହ୍ନିତ ସ୍ଥାନରେ (_n)"
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
 msgid "Cursor Row"
-msgstr ""
+msgstr "ଦର୍ଶିକା ଧାଡି"
 
 #: ../widgets/misc/e-selection-model-array.c:554
 #: ../widgets/table/e-tree-selection-model.c:818
 msgid "Cursor Column"
-msgstr ""
+msgstr "ଦର୍ଶିକା ସ୍ତମ୍ଭ"
 
 #: ../widgets/misc/e-selection-model.c:214
 msgid "Sorter"
-msgstr ""
+msgstr "ବଛାଳି"
 
 #: ../widgets/misc/e-selection-model.c:221
 msgid "Selection Mode"
-msgstr ""
+msgstr "ଚୟନ ଧାରା"
 
 #: ../widgets/misc/e-selection-model.c:229
 msgid "Cursor Mode"
-msgstr ""
+msgstr "ଦର୍ଶିକା ଧାରା"
 
 #: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
-msgstr ""
+msgstr "ଅପସାରଣ କରାଗଲେ:"
 
 #: ../widgets/misc/e-send-options.glade.h:1
 msgid "<b>Delivery Options</b>"
-msgstr ""
+msgstr "<b>ହସ୍ତାନ୍ତର ବିକଲ୍ପ</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
-msgstr ""
+msgstr "<b>ଉତ୍ତର</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 msgid "<b>Return Notification</b>"
-msgstr ""
+msgstr "<b>ପ୍ରତ୍ଯାବର୍ତ୍ତନ ସୂଚନା</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
