@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-17 07:35+0200\n"
-"PO-Revision-Date: 2006-09-20 16:11+0530\n"
+"PO-Revision-Date: 2006-09-20 17:58+0530\n"
 "Last-Translator: Subhransu Behera <arya_subhransu@yahoo.co.in>\n"
 "Language-Team: Oriya <oriya-group@lists.sarovar.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "X-Generator: KBabel 1.11.4\n"
@@ -19437,63 +19438,63 @@ msgstr ""
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr ""
+msgstr "ମୂଦ୍ରଣ କରାଯିବା କାର୍ଯ୍ଯ ତାଲାକାର ପୂର୍ବାବଲୋକନ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯର ତାଲିକାକୁ ମୂଦ୍ରଣ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "Show task preview window"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯ ପୂର୍ବାବଲୋକନ ୱିଣ୍ଡୋକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:19
 msgid "Task _Preview"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯକୁ ପୂର୍ବାବଲୋକନ କରନ୍ତୁ (_P)"
 
 #: ../ui/evolution-tasks.xml.h:20
 msgid "View the selected task"
-msgstr ""
+msgstr "ଚୟିତ କାର୍ଯ୍ଯକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:27
 msgid "_Open Task"
-msgstr ""
+msgstr "କାର୍ଯ୍ଯକୁ ଖୋଲନ୍ତୁ (_O)"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନ ବିଷୟରେ ..."
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr ""
+msgstr "ଇଭୋଲ୍ଯୁସନର ବିନ୍ଯାସକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "ସାଧନ ପଟିର ଦୃଶ୍ଯମାନ୍ଯତାକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:5
 msgid "Create a new window displaying this folder"
-msgstr ""
+msgstr "ଏହି ଫୋଲଡରକୁ ପ୍ରଦର୍ଶନ କରୁଥିବା ଗୋଟିଏ ନୂତନ ୱିଣ୍ଡୋକୁ ସୃଷ୍ଟି କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
+msgstr "ଡେସ୍କଟପ ସାଧନ ପଟି ବିନ୍ଯାସକୁ ବ୍ଯବହାର କରି ୱିଣ୍ଡୋ ବଟନକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "ୱିଣ୍ଡୋ ବଟନ ମାନଙ୍କୁ ପାଠ୍ଯ ଏବଂ ଚିତ୍ରସଙ୍କେତ ସହିତ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "ୱିଣ୍ଡୋ ବଟନ ମାନଙ୍କୁ କେବଳ ଚିତ୍ରସଙ୍କେତ ସହିତ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "ୱିଣ୍ଡୋ ବଟନ ମାନଙ୍କୁ କେବଳ ପାଠ୍ଯ ସହିତ ପ୍ରଦର୍ଶନ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:10
 msgid "Exit the program"
-msgstr ""
+msgstr "ପ୍ରୋଗ୍ରାମକୁ ବନ୍ଦ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
@@ -19501,27 +19502,27 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:12
 msgid "Hide window buttons"
-msgstr ""
+msgstr "ୱିଣ୍ଡୋ ବଟନ ମାନଙ୍କୁ ଲୁଚାଇ ରଖନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:13
 msgid "I_mport..."
-msgstr ""
+msgstr "ଆୟତ କରନ୍ତୁ (_I) ..."
 
 #: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
-msgstr ""
+msgstr "ଚିତ୍ରସଙ୍କେତ ଏବଂ ପାଠ୍ଯ (_a)"
 
 #: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr ""
+msgstr "ଅନ୍ଯାନ୍ଯ ପ୍ରୋଗ୍ରାମ ମାନଙ୍କ ମଧ୍ଯରୁ ତଥ୍ଯ ଆୟତ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:16
 msgid "Lay_out"
-msgstr ""
+msgstr "ବିନ୍ଯାସ (_o)"
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
-msgstr ""
+msgstr "ନୂତନ ୱିଣ୍ଡୋ (_W)"
 
 #: ../ui/evolution.xml.h:19
 msgid "Prefere_nces"
@@ -19529,11 +19530,11 @@ msgstr "ପସନ୍ଦ (_n)"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / Receive"
-msgstr ""
+msgstr "ପ୍ରେରଣ କରନ୍ତୁ / ଗ୍ରହଣ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:21
 msgid "Send / _Receive"
-msgstr ""
+msgstr "ପ୍ରେରଣ କରନ୍ତୁ / ଗ୍ରହଣ କରନ୍ତୁ (_R)"
 
 #: ../ui/evolution.xml.h:22
 msgid "Send queued items and retrieve new items"
@@ -19541,15 +19542,15 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:23
 msgid "Set up Pilot configuration"
-msgstr ""
+msgstr "ପଥପ୍ରଦର୍ଶକ ବିନ୍ଯାସକୁ ବ୍ଯବସ୍ଥାପିତ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:24
 msgid "Show Side _Bar"
-msgstr ""
+msgstr "ପାର୍ଶ୍ବ ପଟିକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ (_B)"
 
 #: ../ui/evolution.xml.h:25
 msgid "Show _Status Bar"
-msgstr ""
+msgstr "ଅବସ୍ଥିତି ପଟିକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ (_S)"
 
 #: ../ui/evolution.xml.h:26
 msgid "Show _Toolbar"
@@ -19561,7 +19562,7 @@ msgstr "ଇଭୋଲ୍ଯୁସନ ବିଷୟରେ ସୂଚନା ପ୍ର
 
 #: ../ui/evolution.xml.h:28
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "ତୃଟି ବିବରଣୀ ଦାଖଲ କରନ୍ତୁ"
 
 #. <menuitem name="HelpFAQ" verb=""
 #. _label="Evolution _FAQ"/>
@@ -19569,11 +19570,11 @@ msgstr ""
 #. <separator/>
 #: ../ui/evolution.xml.h:33
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "ତୃଟି ବିବରଣୀ ଦାଖଲ କରନ୍ତୁ (_B)"
 
 #: ../ui/evolution.xml.h:34
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
+msgstr "ବଗ-ବଡି ବ୍ଯବହାର କରି ଗୋଟିଏ ତୃଟି ବିବରଣୀ ଦାଖଲ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:35
 msgid "Toggle whether we are working offline."
@@ -19585,11 +19586,11 @@ msgstr "ସାଧନ ପଟି ଶୈଳୀ (_b)"
 
 #: ../ui/evolution.xml.h:37
 msgid "View/Hide the Side Bar"
-msgstr ""
+msgstr "ପାର୍ଶ୍ବ ପଟିକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ/ଲୁକ୍କାୟିତ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:38
 msgid "View/Hide the Status Bar"
-msgstr ""
+msgstr "ସାଧନ ପଟିକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ/ଲୁକ୍କାୟିତ କରନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:39
 msgid "_About"
