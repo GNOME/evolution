@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-15 14:50+0200\n"
-"PO-Revision-Date: 2006-09-17 21:30+0300\n"
+"PO-Revision-Date: 2006-09-19 00:47+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -7503,6 +7503,7 @@ msgstr ""
 msgid ""
 "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
+"Ülesanne on tühistatud, kuid seda pole Sinu ülesannete hulgast võimalik leida"
 
 #: ../calendar/gui/e-itip-control.c:1305
 #, c-format
@@ -17321,11 +17322,11 @@ msgstr "_Näita ainult seda ülesandeloendit"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "A plugin that handles the Startup wizard."
-msgstr ""
+msgstr "Käivitusviisardit käsitlev plugin."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Startup wizard"
-msgstr ""
+msgstr "Käivitusviisard"
 
 #: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
@@ -17443,7 +17444,7 @@ msgstr "Külgpaan on nähtav"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Skip development warning dialog"
-msgstr ""
+msgstr "Arendushoiatuse dialoogi jäetakse vahele"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13 ../shell/main.c:471
 msgid "Start in offline mode"
@@ -18153,7 +18154,7 @@ msgstr "Kontaktide sertifikaadid"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Ära selle sertifikaadi autentsust usalda"
 
 #: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
@@ -20865,7 +20866,7 @@ msgstr "<b>Oleku jälgimine</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr ""
+msgstr "Saadetud kirje a_utomaatne kustutamine"
 
 #: ../widgets/misc/e-send-options.glade.h:6
 msgid "Classification"
@@ -21382,7 +21383,7 @@ msgstr ""
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
-msgstr ""
+msgstr "Minikaardi test"
 
 #: ../widgets/text/e-entry-test.c:50
 msgid "Copyright (C) 2000, Helix Code, Inc."
@@ -21390,7 +21391,7 @@ msgstr "Autoriõigused (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
 msgid "This should test the minicard canvas item"
-msgstr ""
+msgstr "See peaks testima minikaardi lõuendi kirjet"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3496 ../widgets/text/e-text.c:3497
