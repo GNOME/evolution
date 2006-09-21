@@ -1366,7 +1366,7 @@ create_component_view (CalendarComponent *calendar_component)
 	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 	
-	gtk_paned_pack1 (GTK_PANED (vpane), vbox, FALSE, TRUE);	
+	gtk_paned_pack1 (GTK_PANED (vpane), vbox, FALSE, FALSE);	
 	
 	component_view->sidebar_control = bonobo_control_new (vpane);
 
@@ -1380,7 +1380,7 @@ create_component_view (CalendarComponent *calendar_component)
 	
 	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
 
-	gtk_paned_pack2 (GTK_PANED (vpane), gnome_calendar_get_tag (component_view->calendar), FALSE, TRUE);	
+	gtk_paned_pack2 (GTK_PANED (vpane), gnome_calendar_get_tag (component_view->calendar), FALSE, FALSE);	
 
 	/* This signal is thrown if backends die - we update the selector */
 	g_signal_connect (component_view->calendar, "source_added", 
