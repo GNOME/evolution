@@ -10959,7 +10959,7 @@ msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
-"Als u een bericht ontvangt met een ongeldige aanvraag voor leestbevestiging, "
+"Als u een bericht ontvangt met een aanvraag voor leesbevestiging, "
 "wat moet Evolution dan doen?"
 
 #: ../e-util/e-dialog-utils.c:283
