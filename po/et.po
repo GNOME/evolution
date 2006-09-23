@@ -344,7 +344,7 @@ msgstr "Manuseriba sisse- ja väljalülitamine"
 
 #: ../a11y/widgets/ea-expander.c:50
 msgid "activate"
-msgstr ""
+msgstr "aktiveerimine"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid ""
@@ -10492,6 +10492,8 @@ msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
+"Selle kataloogi manustamiseks tuleb failid ükshaaval manustada või luua "
+"kataloogist arhiiv ja siis see manustada."
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid ""
@@ -10645,7 +10647,7 @@ msgstr "Lugemiskinnitust küsitakse iga väljasaadetud sõnumi kohta"
 
 #: ../designs/read_receipts/read.glade.h:10
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr ""
+msgstr "Kui sõnum on saadetud postiloendisse ja mitte isiklikult mulle"
 
 #: ../designs/read_receipts/read.glade.h:11
 msgid ""
@@ -12032,7 +12034,7 @@ msgstr "Viide FTP saidile (%s)"
 #: ../mail/em-format-html.c:933
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr ""
+msgstr "Viide kohalikult failile (%s) on saidis \"%s\" korrektne"
 
 #: ../mail/em-format-html.c:935
 #, c-format
@@ -20459,7 +20461,7 @@ msgstr "GDK täitevärvus"
 #: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3603
 #: ../widgets/text/e-text.c:3604
 msgid "Fill stipple"
-msgstr ""
+msgstr "Täpiline täide"
 
 #: ../widgets/misc/e-canvas-background.c:485
 #: ../widgets/misc/e-canvas-background.c:486
