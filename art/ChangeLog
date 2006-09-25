@@ -1,3 +1,10 @@
+2006-09-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	Fixes bug #356811
+
+	* Makefile.am: Add a uninstall-local rule to remove
+	$(DESTDIR)$(datadir)/pixmaps/evolution-$(BASE_VERSION).png.
+
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added new icons to evolution.

@@ -17,6 +17,9 @@ if DEFAULT_BINARY
 	cd $(DESTDIR)$(datadir)/pixmaps && rm -f evolution.png && $(LN_S) evolution-$(BASE_VERSION).png evolution.png
 endif
 
+uninstall-local:
+	rm -f $(DESTDIR)$(datadir)/pixmaps/evolution-$(BASE_VERSION).png
+
 EXTRA_DIST = 				\
 	ChangeLog			\
 	ChangeLog.pre-1-4		\
