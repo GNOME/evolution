@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-15 14:50+0200\n"
-"PO-Revision-Date: 2006-09-19 00:47+0300\n"
+"PO-Revision-Date: 2006-09-27 23:35+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -11072,7 +11072,7 @@ msgstr "E-posti vastuvõtmine"
 
 #: ../mail/em-account-editor.c:2046
 msgid "Automatically check for _new mail every"
-msgstr "Uute sõnumite automaatne _kontroll vahemikuga"
+msgstr "Uusi sõnumeid _kontrollitakse automaatselt vahemikuga"
 
 #: ../mail/em-account-editor.c:2227 ../mail/mail-config.glade.h:129
 msgid "Sending Email"
@@ -13219,11 +13219,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "_Alati koopia saatmine (cc):"
+msgstr "_Alati saadetakse koopia (cc):"
 
 #: ../mail/mail-config.glade.h:40
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Alati _pimekoopia saatmine (bcc):"
+msgstr "Alati saadetakse _pimekoopia (bcc):"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
@@ -13231,7 +13231,7 @@ msgstr "Minu võtmerõngas olevad võtmed _usaldatakse alati"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "Krüptitud sõnumi saatmisel krüptida alati ka _enda jaoks"
+msgstr "Krüptitud sõnumi saatmisel krüptitakse alati ka _enda jaoks"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
@@ -13499,7 +13499,7 @@ msgstr "_Vali..."
 
 #: ../mail/mail-config.glade.h:120
 msgid "S_end message receipts:"
-msgstr ""
+msgstr "Lugemiskinnitus saadetakse:"
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
@@ -13688,7 +13688,7 @@ msgstr "Tu_rvalise ühenduse kasutamine:"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
-msgstr "Teiste rakendustega sama kirjatüübi _kasutamine"
+msgstr "Teiste rakendustega _kasutatakse sama kirjatüüpi"
 
 #: ../mail/mail-config.glade.h:176
 msgid "addresses"
@@ -14103,6 +14103,8 @@ msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
 msgstr ""
+"&quot;{1}&quot; kohta küsitakse lugemiskinnitust. Kas saata lugemiskinnitus "
+"aadressile {0}?"
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
@@ -14457,7 +14459,7 @@ msgstr "Serverist pärimine"
 
 #: ../mail/mail.error.xml.h:84
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "Serverilt autentimismehhanismide loendi küsimine."
+msgstr "Serverilt küsitakse toetatud autentimismehhanismide nimekirja."
 
 #: ../mail/mail.error.xml.h:85
 msgid "Read receipt requested."
@@ -14473,7 +14475,7 @@ msgstr "Otsikaustad automaatselt uuendatud."
 
 #: ../mail/mail.error.xml.h:88
 msgid "Send Receipt"
-msgstr ""
+msgstr "Saada kinnitus"
 
 #: ../mail/mail.error.xml.h:89
 msgid "Signature Already Exists"
@@ -19643,7 +19645,7 @@ msgstr "_Laadi pildid"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Message Source"
-msgstr "Sõnumi _allikas"
+msgstr "Sõnumi _lähtetekst"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
@@ -19683,7 +19685,7 @@ msgstr "Lu_gemata"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
-msgstr "_Suurenda"
+msgstr "_Suurendus"
 
 #: ../ui/evolution-mail-message.xml.h:132
 msgid "_Zoom In"
