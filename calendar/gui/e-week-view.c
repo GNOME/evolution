@@ -2126,7 +2126,14 @@ e_week_view_on_scroll (GtkWidget *widget,
 	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
 	gfloat new_value;
 	GtkWidget *tool_window = g_object_get_data (G_OBJECT (week_view), "tooltip-window");
-
+	guint timeout;
+	
+	timeout = GPOINTER_TO_UINT (g_object_get_data (week_view, "tooltip-timeout"));
+	if (timeout) {
+		g_source_remove (timeout);
+		g_object_set_data (G_OBJECT (week_view), "tooltip-timeout", NULL);
+	}
+	
 	if (tool_window) {
 		gtk_widget_destroy (tool_window);
 		g_object_set_data (G_OBJECT (week_view), "tooltip-window", NULL);
@@ -2540,18 +2547,21 @@ tooltip_destroy (EWeekView *week_view, GnomeCanvasItem *item)
 {
 	int event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
-
+	guint timeout;
+	
+	timeout = GPOINTER_TO_UINT (g_object_get_data (week_view, "tooltip-timeout"));
+	if (timeout) {
+		g_source_remove (timeout);
+		g_object_set_data (G_OBJECT (week_view), "tooltip-timeout", NULL);
+	}
+				    
 	pevent = tooltip_get_view_event (week_view, -1, event_num);
 	if (pevent) {
 		if (pevent->tooltip && g_object_get_data (G_OBJECT (week_view), "tooltip-window")) {
 			gtk_widget_destroy (pevent->tooltip);
 			pevent->tooltip = NULL;
 		}
-
-		if (pevent->timeout != -1) {
-			g_source_remove (pevent->timeout);
-			pevent->timeout = -1;
-		}
+			
 		g_object_set_data (G_OBJECT (week_view), "tooltip-window", NULL);
 	}
 }
@@ -2582,6 +2592,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			data->event_num = event_num;
 			data->get_view_event = tooltip_get_view_event;
 			pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);
+			g_object_set_data ((GObject *)view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));			
 			
 		return TRUE;
 		}
@@ -3154,7 +3165,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		data->event_num = nevent;
 		data->get_view_event = tooltip_get_view_event;
 		pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);		
-			
+		g_object_set_data ((GObject *)week_view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
+		
 		return TRUE;
 	}	
 	case GDK_LEAVE_NOTIFY:
