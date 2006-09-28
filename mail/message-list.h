@@ -128,9 +128,6 @@ struct _MessageList {
 	/* do we automatically hide junk messages? */
 	guint hidejunk : 1;
 	
-	/* is the message-list object in a destroyed state? */
-	guint destroyed : 1;
-
 	/* frozen count */
 	guint frozen:16;
 

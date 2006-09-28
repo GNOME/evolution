@@ -108,6 +108,7 @@ struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
 	struct _MLSelection clipboard;
+	gboolean destroyed;
 };
 
 static struct {
@@ -2039,6 +2040,7 @@ message_list_init (MessageList *message_list)
 	/* TODO: Should this only get the selection if we're realised? */
 	p = message_list->priv = g_malloc0(sizeof(*message_list->priv));
 	p->invisible = gtk_invisible_new();
+	p->destroyed = FALSE;
 	g_object_ref(p->invisible);
 	gtk_object_sink((GtkObject *)p->invisible);
 
@@ -2067,6 +2069,8 @@ message_list_destroy(GtkObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	struct _MessageListPrivate *p = message_list->priv;
 
+	p->destroyed = TRUE;
+	
 	if (message_list->async_event) {
 		mail_async_event_destroy(message_list->async_event);
 		message_list->async_event = NULL;
@@ -2115,8 +2119,6 @@ message_list_destroy(GtkObject *object)
 		message_list->seen_id = 0;
 	}
 
-	message_list->destroyed = TRUE;
-	
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy(object);
 }
 
@@ -2981,6 +2983,9 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelFolderChangeInfo *changes;
 	MessageList *ml = MESSAGE_LIST (user_data);
 
+	if (ml->priv->destroyed)
+		return;
+
 	if (event_data) {
 		changes = camel_folder_change_info_new();
 		camel_folder_change_info_cat(changes, (CamelFolderChangeInfo *)event_data);
@@ -3814,7 +3819,7 @@ regen_list_regened (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 
-	if (m->ml->destroyed)
+	if (m->ml->priv->destroyed)
 		return;
 	
 	if (!m->complete)

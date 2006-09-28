@@ -1,3 +1,11 @@
+2006-09-28  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Pushing a downstream fix in SUSE.
+	
+	* message-list.c: (message_list_init), (message_list_destroy),
+	(folder_changed), (regen_list_regened): Fix to indicate object destroy 
+	* message-list.h: removed the old mechanism.
+
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes #351332
