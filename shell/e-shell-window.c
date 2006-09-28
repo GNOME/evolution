@@ -146,6 +146,7 @@ static GdkBitmap *offline_mask = NULL;
 static GdkPixmap *online_pixmap = NULL;
 static GdkBitmap *online_mask = NULL;
 
+static gboolean store_window_size (GtkWidget* widget);
 
 /* ComponentView handling.  */
 
@@ -834,7 +835,8 @@ setup_widgets (EShellWindow *window)
 static void
 impl_dispose (GObject *object)
 {
-	EShellWindowPrivate *priv = E_SHELL_WINDOW (object)->priv;
+	EShellWindow *self = E_SHELL_WINDOW (object);
+	EShellWindowPrivate *priv = self->priv;
 
 	if (priv->shell != NULL) {
 		g_object_remove_weak_pointer (G_OBJECT (priv->shell), (void **) &priv->shell);
@@ -851,6 +853,14 @@ impl_dispose (GObject *object)
 		priv->tooltips = NULL;
 	}
 
+	if (priv->store_window_size_timer) {
+		g_source_remove (priv->store_window_size_timer);
+		self->priv->store_window_size_timer = 0;
+		
+		/* There was a timer. Let us store the settings.*/
+		store_window_size (self);		
+	}
+	
 	#ifdef NM_SUPPORT_GLIB
 		e_shell_nm_glib_dispose (E_SHELL_WINDOW (object));
 	#elif NM_SUPPORT
