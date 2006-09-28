@@ -1,3 +1,10 @@
+2006-09-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #357811
+	
+	* gui/widgets/e-addressbook-view.c: (search_activated): Fix for search
+	on any type to work.
+
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes bug #351332

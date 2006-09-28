@@ -168,7 +168,6 @@ static GalViewCollection *collection = NULL;
 enum {
 	ESB_FULL_NAME,
 	ESB_EMAIL,
-	ESB_CATEGORY,
 	ESB_ANY,
 };
 
@@ -1503,7 +1502,7 @@ search_activated (ESearchBar *esb, EABView *v)
 		// gtk_widget_show(eab_search_dialog_new(v));
 	}
 	else {
-		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
+		if ((search_word && strlen (search_word))) {
 			GString *s = g_string_new ("");
 			e_sexp_encode_string (s, search_word);
 			switch (search_type) {
