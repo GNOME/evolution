@@ -102,7 +102,7 @@ static ECharset charsets[] = {
 	{ "KOI8-U", E_CHARSET_CYRILLIC, N_("Ukrainian") },
 	{ "ISO-8859-5", E_CHARSET_CYRILLIC, NULL },
 	{ "ISO-8859-7", E_CHARSET_GREEK, NULL },
-	{ "ISO-8859-8", E_CHARSET_HEBREW, N_("Visual") },
+	{ "ISO-8859-8-i", E_CHARSET_HEBREW, N_("Logical") },
 	{ "ISO-2022-JP", E_CHARSET_JAPANESE, NULL },
 	{ "EUC-JP", E_CHARSET_JAPANESE, NULL },
 	{ "Shift_JIS", E_CHARSET_JAPANESE, NULL },
