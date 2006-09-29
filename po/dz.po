@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.dz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-28 23:49+0200\n"
-"PO-Revision-Date: 2006-08-29 10:27+0530\n"
+"POT-Creation-Date: 2006-09-29 06:47+0200\n"
+"PO-Revision-Date: 2006-09-29 12:35+0530\n"
 "Last-Translator: Mindu Dorji\n"
 "Language-Team: DZONGKHA <pgeyleg@dit.gov.bt>\n"
 "MIME-Version: 1.0\n"
@@ -58,32 +58,32 @@ msgstr "འབྲེལ་ས:"
 msgid "evolution minicard"
 msgstr "ཨི་བོ་ལུ་ཤཱན་གྱི་ ཤོག་བྱང་ཆུང་བ།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:264
+#: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
 msgstr "འདི་ལུ་འཇིགས་བརྡ་འདུག"
 
-#: ../a11y/calendar/ea-cal-view-event.c:267
+#: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
 msgstr "འདི་ལུ་སླར་འབྱུང་འདུག"
 
-#: ../a11y/calendar/ea-cal-view-event.c:270
+#: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
 msgstr "འདི་འཛོམས་འདུ་ཅིག་ཨིན་པས།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:276
+#: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "ཟླ་ཐོའི་བྱུང་ལས་: བཅུད་དོན་%s.ཨིན།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:278
+#: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
 msgstr "ཟླ་ཐོའི་བྱུང་ལས་: འདི་ལུ་བཅུད་དོན་མིན་འདུག"
 
-#: ../a11y/calendar/ea-cal-view-event.c:298
+#: ../a11y/calendar/ea-cal-view-event.c:300
 msgid "calendar view event"
 msgstr "ཟླ་ཐོའི་མཐོང་སྣང་བྱུང་ལས།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:527
+#: ../a11y/calendar/ea-cal-view-event.c:529
 msgid "Grab Focus"
 msgstr "ཆེད་དམིགས་བཟུང་།"
 
@@ -153,7 +153,7 @@ msgstr "ལཱ་གི་བདུན་ཕྲག་ཅིག་གི་དོ
 msgid "calendar view for one or more days"
 msgstr "ཉིནམ་གཅིག་གམ་ དེ་ལས་མང་བའི་ཟླ་ཐོའི་མཐོང་སྣང་།"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:187
+#: ../a11y/calendar/ea-gnome-calendar.c:188
 #: ../calendar/gui/calendar-component.c:707
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
@@ -164,7 +164,7 @@ msgstr "%A %d %b %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: ../a11y/calendar/ea-gnome-calendar.c:190
+#: ../a11y/calendar/ea-gnome-calendar.c:191
 #: ../calendar/gui/calendar-component.c:710
 #: ../calendar/gui/e-day-view-top-item.c:1315
 #: ../calendar/gui/e-day-view.c:2104
@@ -173,19 +173,19 @@ msgstr "%A %d %b %Y"
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:192
-#: ../a11y/calendar/ea-gnome-calendar.c:197
-#: ../a11y/calendar/ea-gnome-calendar.c:199
+#: ../a11y/calendar/ea-gnome-calendar.c:193
+#: ../a11y/calendar/ea-gnome-calendar.c:198
+#: ../a11y/calendar/ea-gnome-calendar.c:200
 #: ../calendar/gui/calendar-component.c:712
 #: ../calendar/gui/calendar-component.c:717
 #: ../calendar/gui/calendar-component.c:719
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:216
-#: ../a11y/calendar/ea-gnome-calendar.c:222
-#: ../a11y/calendar/ea-gnome-calendar.c:228
-#: ../a11y/calendar/ea-gnome-calendar.c:230
+#: ../a11y/calendar/ea-gnome-calendar.c:217
+#: ../a11y/calendar/ea-gnome-calendar.c:223
+#: ../a11y/calendar/ea-gnome-calendar.c:229
+#: ../a11y/calendar/ea-gnome-calendar.c:231
 #: ../calendar/gui/calendar-component.c:731
 #: ../calendar/gui/calendar-component.c:738
 #: ../calendar/gui/calendar-component.c:744
@@ -198,7 +198,7 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../a11y/calendar/ea-gnome-calendar.c:220
+#: ../a11y/calendar/ea-gnome-calendar.c:221
 #: ../calendar/gui/calendar-component.c:736
 #: ../calendar/gui/e-day-view-top-item.c:1319
 #: ../calendar/gui/e-day-view.c:2120
@@ -207,17 +207,17 @@ msgstr "%d %b %Y"
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:247
-#: ../a11y/calendar/ea-gnome-calendar.c:255
+#: ../a11y/calendar/ea-gnome-calendar.c:248
+#: ../a11y/calendar/ea-gnome-calendar.c:256
 #: ../calendar/importers/icalendar-importer.c:772
 msgid "Gnome Calendar"
 msgstr "ཇི་ནོམ་ཟླ་ཐོ།"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:290
+#: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "search bar"
 msgstr "འཚོལ་ཞིབ་ཕྲ་རིང་།"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:291
+#: ../a11y/calendar/ea-gnome-calendar.c:292
 msgid "evolution calendar search bar"
 msgstr "ཨི་བོ་ལུ་ཤཱན་ ཟླ་ཐོའི་འཚོལ་ཞིབ་ཕྲ་རིང་།"
 
@@ -391,7 +391,7 @@ msgstr "ཨེལ་ཌི་ཨེ་པི་ སར་བར་ལུ་ བ�
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1975
 msgid "Failed to delete contact"
 msgstr "འབྲེལ་ས་བཏོན་གཏང་མ་ཚུགས།"
 
@@ -583,7 +583,7 @@ msgstr "ཁྱོད་རའི་ ཨེསི་/མ་ཡིམ་ ལག་
 #: ../calendar/gui/tasks-component.c:190
 #: ../mail/em-folder-tree-model.c:199
 #: ../mail/em-folder-tree-model.c:201
-#: ../mail/mail-component.c:299
+#: ../mail/mail-component.c:300
 #: ../mail/mail-vfolder.c:223
 msgid "On This Computer"
 msgstr "གློག་རིག་འདི་གུ།"
@@ -676,7 +676,7 @@ msgid "General"
 msgstr "ཡོངས་ཁྱབ།"
 
 #: ../addressbook/gui/component/addressbook-config.c:985
-#: ../addressbook/gui/widgets/e-addressbook-view.c:569
+#: ../addressbook/gui/widgets/e-addressbook-view.c:568
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "ཁ་བྱང་ཀི་དེབ།"
@@ -697,7 +697,7 @@ msgid "Details"
 msgstr "རྒྱས་བཤད།"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
-#: ../mail/em-folder-browser.c:853
+#: ../mail/em-folder-browser.c:852
 msgid "Searching"
 msgstr "འཚོལ་ཞིབ་འབད་དོ།"
 
@@ -797,7 +797,7 @@ msgstr "ཁ་བྱང་ཀི་དེབ་གསརཔ།(_N)"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
-#: ../addressbook/gui/widgets/e-addressbook-view.c:985
+#: ../addressbook/gui/widgets/e-addressbook-view.c:984
 #: ../calendar/gui/calendar-component.c:584
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720
@@ -805,7 +805,7 @@ msgstr "ཁ་བྱང་ཀི་དེབ་གསརཔ།(_N)"
 #: ../calendar/gui/memos-component.c:453
 #: ../calendar/gui/tasks-component.c:443
 #: ../mail/em-folder-tree.c:2077
-#: ../mail/em-folder-view.c:1131
+#: ../mail/em-folder-view.c:1126
 #: ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30
@@ -834,12 +834,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "མིང་མེད་ཐོག་ལས་ ཨེལ་ཌི་ཨེ་པི་ སར་བར་ལུ་ འཛུལ་སྤྱོད་འབད་དོ།"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:499
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:501
 msgid "Failed to authenticate.\n"
 msgstr "བདེན་བཤད་འབད་མ་ཚུགས།\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:479
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:481
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "%s གི་དོན་ལས་ ཆོག་ཡིག་བཙུགས། (ལག་ལེན་པ་%s)"
@@ -1187,7 +1187,7 @@ msgstr "ཨེ་ཨའི་ཨེམ།"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:275
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:174
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#: ../addressbook/gui/widgets/e-minicard.c:193
+#: ../addressbook/gui/widgets/e-minicard.c:194
 msgid "Contact"
 msgstr "འབྲེལ་ས།"
 
@@ -1371,7 +1371,7 @@ msgstr "ཁ་བྱང་།"
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
-#: ../addressbook/gui/widgets/e-minicard.c:186
+#: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1821
 #: ../widgets/text/e-entry.c:1312
@@ -2703,7 +2703,7 @@ msgstr "འོག་གི་ཐོ་ཡིག་ནང་ལུ་ གློ�
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:229
+#: ../addressbook/gui/widgets/e-addressbook-view.c:228
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
@@ -2759,18 +2759,18 @@ msgstr ""
 "ཁྱོད་ཀྱིས་ འདི་གང་རུང་འབད་ ཁ་སྐོང་བརྐྱབ་ནི་ཨིན་ན?"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:178
-#: ../calendar/gui/cal-search-bar.c:58
+#: ../addressbook/gui/widgets/e-addressbook-view.c:177
+#: ../calendar/gui/cal-search-bar.c:59
 msgid "Any field contains"
 msgstr "ས་སྒོ་གང་རུང་ནང་ཡོད་པ།"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:177
+#: ../addressbook/gui/widgets/e-addressbook-view.c:176
 msgid "Email begins with"
 msgstr "གློག་འཕྲིན་འདི་གིས་ འགོ་བཙུགསཔ་ཨིན།"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:176
+#: ../addressbook/gui/widgets/e-addressbook-view.c:175
 msgid "Name begins with"
 msgstr "མིང་འདི་གིས་ འགོ་བཙུགསཔ་ཨིན།"
 
@@ -2787,7 +2787,7 @@ msgstr[1] "འབྲེལ་ས་%d།"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:243
+#: ../addressbook/gui/widgets/e-addressbook-view.c:242
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
@@ -2813,26 +2813,26 @@ msgstr "དཔེ།"
 msgid "Error modifying card"
 msgstr "ཤོག་བྱང་ལེགས་བཅོས་འབད་ནི་ལུ་འཛོལ་བ།"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:236
+#: ../addressbook/gui/widgets/e-addressbook-view.c:235
 msgid "Source"
 msgstr "འབྱུང་ཁུངས།"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:250
+#: ../addressbook/gui/widgets/e-addressbook-view.c:249
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:486
+#: ../calendar/gui/e-meeting-list-view.c:487
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:6
 msgid "Type"
 msgstr "དབྱེ་བ།"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:840
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2151
+#: ../addressbook/gui/widgets/e-addressbook-view.c:839
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2150
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "ཝི་ཤོག་བྱང་བཟུམ་སྦེ་ སྲུངས།..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:963
+#: ../addressbook/gui/widgets/e-addressbook-view.c:962
 #: ../calendar/gui/dialogs/comp-editor.c:1101
 #: ../calendar/gui/e-calendar-table.c:1280
 #: ../calendar/gui/e-calendar-view.c:1698
@@ -2841,57 +2841,57 @@ msgstr "ཝི་ཤོག་བྱང་བཟུམ་སྦེ་ སྲུ�
 msgid "_Open"
 msgstr "ཁ་ཕྱེ། (_O)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:965
+#: ../addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "_New Contact..."
 msgstr "འབྲེལ་ས་གསརཔ་…(_N)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:966
+#: ../addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "New Contact _List..."
 msgstr "འབྲེལ་སའི་ཐོ་ཡིག་གསརཔ་…(_L)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:969
+#: ../addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "_Save as VCard..."
 msgstr "ཝི་ཤོག་བྱང་བཟུམ་སྦེ་ སྲུང་བཞག་འབད་...(_S)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:970
+#: ../addressbook/gui/widgets/e-addressbook-view.c:969
 msgid "_Forward Contact"
 msgstr "འབྲེལ་ས་གདོང་བསྐྱོད་འབད།(_F)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:970
 msgid "_Forward Contacts"
 msgstr "འབྲེལ་ས་ཚུ་གདོང་བསྐྱོད་འབད།(_F)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:972
+#: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "Send _Message to Contact"
 msgstr "འབྲེལ་ས་ལུ་ འཕྲིན་དོན་གཏང་།(_M)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:973
+#: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Send _Message to List"
 msgstr "ཐོ་ཡིག་ལུ་འཕྲིན་དོན་གཏང་།(_M)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:974
+#: ../addressbook/gui/widgets/e-addressbook-view.c:973
 msgid "Send _Message to Contacts"
 msgstr "འབྲེལ་ས་ཚུ་ལུ་ འཕྲིན་དོན་གཏང་།(_M)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:974
 msgid "_Print"
 msgstr "དཔར་བསྐྲུན།(_P)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:978
+#: ../addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "Cop_y to Address Book..."
 msgstr "ཁ་བྱང་ཀི་དེབ་ནང་ འདྲ་བཤུས་རྐྱབས་...(_y)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../addressbook/gui/widgets/e-addressbook-view.c:978
 msgid "Mo_ve to Address Book..."
 msgstr "ཁ་བྱང་ཀི་དེབ་ནང་ སྤོ་བཤུད་འབད་...(_v)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:981
 #: ../ui/evolution-composer-entries.xml.h:4
 #: ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "བཏོག (_t)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:983
+#: ../addressbook/gui/widgets/e-addressbook-view.c:982
 #: ../calendar/gui/calendar-component.c:583
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1288
@@ -2899,10 +2899,10 @@ msgstr "བཏོག (_t)"
 #: ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:442
-#: ../composer/e-msg-composer.c:3152
+#: ../composer/e-msg-composer.c:3153
 #: ../mail/em-folder-tree.c:1002
-#: ../mail/em-folder-view.c:1117
-#: ../mail/message-list.c:1919
+#: ../mail/em-folder-view.c:1112
+#: ../mail/message-list.c:1920
 #: ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13
@@ -2913,23 +2913,23 @@ msgstr "བཏོག (_t)"
 msgid "_Copy"
 msgstr "འདྲ་བཤུས། (_C)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:984
+#: ../addressbook/gui/widgets/e-addressbook-view.c:983
 msgid "P_aste"
 msgstr "སྦྱར།(_a)"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1667
-#: ../calendar/gui/cal-search-bar.c:422
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1666
+#: ../calendar/gui/cal-search-bar.c:423
 msgid "Any Category"
 msgstr "དབྱེ་རིམ་གང་རུང་།"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1869
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1868
 msgid "Print cards"
 msgstr "ཤོག་བྱང་དཔར་བསྐྲུན་འབད།"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1975
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
 msgstr "འཛོལ་བ་གཞན།"
@@ -3072,7 +3072,7 @@ msgstr "རེ་ཌིའོ།"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:497
+#: ../calendar/gui/e-meeting-list-view.c:498
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -3110,7 +3110,7 @@ msgid "Web Site"
 msgstr "ཝེབ་ས་ཁོངས།"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
-#: ../addressbook/gui/widgets/e-minicard.c:149
+#: ../addressbook/gui/widgets/e-minicard.c:150
 #: ../widgets/misc/e-canvas-vbox.c:96
 #: ../widgets/misc/e-canvas-vbox.c:97
 #: ../widgets/misc/e-reflow.c:1436
@@ -3130,7 +3130,7 @@ msgid "Width"
 msgstr "རྒྱ་ཚད།"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
-#: ../addressbook/gui/widgets/e-minicard.c:156
+#: ../addressbook/gui/widgets/e-minicard.c:157
 #: ../widgets/misc/e-canvas-vbox.c:108
 #: ../widgets/misc/e-canvas-vbox.c:109
 #: ../widgets/misc/e-reflow.c:1444
@@ -3149,7 +3149,7 @@ msgid "Height"
 msgstr "མཐོ་ཚད།"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
-#: ../addressbook/gui/widgets/e-minicard.c:164
+#: ../addressbook/gui/widgets/e-minicard.c:165
 msgid "Has Focus"
 msgstr "ཆེད་དམིགས་འདུག"
 
@@ -3225,23 +3225,23 @@ msgstr ""
 msgid "Adapter"
 msgstr "མཐུན་བྱེད།"
 
-#: ../addressbook/gui/widgets/e-minicard.c:101
+#: ../addressbook/gui/widgets/e-minicard.c:102
 msgid "Work Email"
 msgstr "ལཱ་སའི་གློག་འཕྲིན།"
 
-#: ../addressbook/gui/widgets/e-minicard.c:102
+#: ../addressbook/gui/widgets/e-minicard.c:103
 msgid "Home Email"
 msgstr "ཁྱིམ་ནང་གི་གློག་འཕྲིན།"
 
-#: ../addressbook/gui/widgets/e-minicard.c:103
+#: ../addressbook/gui/widgets/e-minicard.c:104
 msgid "Other Email"
 msgstr "གློག་འཕྲིན་གཞན།"
 
-#: ../addressbook/gui/widgets/e-minicard.c:172
+#: ../addressbook/gui/widgets/e-minicard.c:173
 msgid "Selected"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི།"
 
-#: ../addressbook/gui/widgets/e-minicard.c:179
+#: ../addressbook/gui/widgets/e-minicard.c:180
 msgid "Has Cursor"
 msgstr "འོད་རྟགས་འདུག"
 
@@ -3251,7 +3251,7 @@ msgid "_Open Link in Browser"
 msgstr "བརའུ་ཟར་ནང་ལུ་ འབྲེལ་ལམ་ཁ་ཕྱེ། (_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2516
+#: ../mail/em-folder-view.c:2511
 msgid "_Copy Link Location"
 msgstr "འབྲེལ་ལམ་གནས་ཁོངས་ འདྲ་བཤུས་རྐྱབས། (_C)"
 
@@ -3306,11 +3306,11 @@ msgstr "གློག་ཐོག་ཁ་སླབ།"
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2286
 #: ../plugins/exchange-operations/exchange-folder.c:569
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:388
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:419
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:598
-#: ../plugins/hula-account-setup/camel-hula-listener.c:379
-#: ../plugins/hula-account-setup/camel-hula-listener.c:408
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:390
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:421
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:600
+#: ../plugins/hula-account-setup/camel-hula-listener.c:381
+#: ../plugins/hula-account-setup/camel-hula-listener.c:410
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
 msgid "Calendar"
 msgstr "ཟླ་ཐོ།"
@@ -3518,7 +3518,7 @@ msgid "Error adding list"
 msgstr "ཐོ་ཡིག་ཁ་སྐོང་བརྐྱབ་ནི་ལུ་འཛོལ་བ།"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
-#: ../addressbook/gui/widgets/eab-gui-util.c:704
+#: ../addressbook/gui/widgets/eab-gui-util.c:705
 msgid "Error adding contact"
 msgstr "འབྲེལ་ས་ཁ་སྐོང་བརྐྱབ་ནི་ལུ་འཛོལ་བ།"
 
@@ -3535,7 +3535,7 @@ msgid "Error removing list"
 msgstr "ཐོ་ཡིག་རྩ་བསྐྲད་གཏང་ནི་ལུ་འཛོལ་བ།"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
-#: ../addressbook/gui/widgets/eab-gui-util.c:657
+#: ../addressbook/gui/widgets/eab-gui-util.c:658
 msgid "Error removing contact"
 msgstr "འབྲེལ་ས་རྩ་བསྐྲད་གཏང་ནི་ལུ་འཛོལ་བ།"
 
@@ -3554,7 +3554,8 @@ msgstr[1] ""
 "འབྲེལ་ས་%dཁ་ཕྱེཝ་ད་ ཝིན་ཌོསི་གསརཔ་%dཡང་ ཁ་ཕྱེཝ་ཨིན།.\n"
 "ཁྱོད་ཀྱིས་ ངེས་པར་དུ་ འབྲེལ་ས་དེ་ཚུ་ཆ་མཉམ་ བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:323
+#. For Translators only: "it" refers to the filename %s.
+#: ../addressbook/gui/widgets/eab-gui-util.c:324
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3563,64 +3564,64 @@ msgstr ""
 "%s ཧེ་མ་ལས་འདུག\n"
 "འདི་ཚབ་སྲུང་འབད་ནི་ཨིན་ན?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:327
+#: ../addressbook/gui/widgets/eab-gui-util.c:328
 msgid "Overwrite"
 msgstr "ཚབ་སྲུང་འབད།"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:374
-#: ../addressbook/gui/widgets/eab-gui-util.c:377
+#: ../addressbook/gui/widgets/eab-gui-util.c:375
+#: ../addressbook/gui/widgets/eab-gui-util.c:378
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "འབྲེལ་ས།"
 msgstr[1] "འབྲེལ་ས།"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:425
+#: ../addressbook/gui/widgets/eab-gui-util.c:426
 msgid "card.vcf"
 msgstr "ཤོག་བྱང་.ཝི་སི་ཨེཕ།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:462
+#: ../addressbook/gui/widgets/eab-gui-util.c:463
 msgid "Select Address Book"
 msgstr "ཁ་བྱང་ཀི་དེབ་སེལ་འཐུ་འབད།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:603
+#: ../addressbook/gui/widgets/eab-gui-util.c:604
 msgid "list"
 msgstr "ཐོ་ཡིག"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:765
+#: ../addressbook/gui/widgets/eab-gui-util.c:766
 msgid "Move contact to"
 msgstr "འབྲེལ་ས་ལུ་ སྤོ་བཤུད་འབད།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:767
+#: ../addressbook/gui/widgets/eab-gui-util.c:768
 msgid "Copy contact to"
 msgstr "འབྲེལ་ས་ལུ་ འདྲ་བཤུས་རྐྱབས།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:770
+#: ../addressbook/gui/widgets/eab-gui-util.c:771
 msgid "Move contacts to"
 msgstr "འབྲེལ་ས་ཚུ་སྤོ་བཤུད་འབད་ཡུལ།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:772
+#: ../addressbook/gui/widgets/eab-gui-util.c:773
 msgid "Copy contacts to"
 msgstr "འབྲེལ་ས་ཚུ་འདྲ་བཤུས་བརྐྱབ་ཡུལ།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:998
+#: ../addressbook/gui/widgets/eab-gui-util.c:999
 msgid "Multiple VCards"
 msgstr "སྣ་མང་ཝི་ཤོག་བྱང་།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1001
+#: ../addressbook/gui/widgets/eab-gui-util.c:1002
 #, c-format
 msgid "VCard for %s"
 msgstr "%sགི་དོན་ལས་ ཝི་ཤོག་བྱང་།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1042
-#: ../addressbook/gui/widgets/eab-gui-util.c:1060
+#: ../addressbook/gui/widgets/eab-gui-util.c:1043
+#: ../addressbook/gui/widgets/eab-gui-util.c:1061
 msgid "Contact information"
 msgstr "འབྲེལ་སའི་བརྡ་དོན།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1062
+#: ../addressbook/gui/widgets/eab-gui-util.c:1063
 #, c-format
 msgid "Contact information for %s"
 msgstr "%sགི་དོན་ལུ་འབྲེལ་སའི་བརྡ་དོན།"
@@ -4427,8 +4428,8 @@ msgstr "བརྗེད་ཐོ་ཚུ།"
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
 #: ../plugins/exchange-operations/exchange-folder.c:581
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:389
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:599
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:391
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:601
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "ལས་ཀ་ཚུ།"
@@ -4476,8 +4477,8 @@ msgstr "ངོ་འཕྲད་ཚུ།"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1612
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1618
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1619
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1625
 #: ../calendar/gui/e-itip-control.c:1113
 #: ../plugins/itip-formatter/itip-view.c:936
 msgid "Location:"
@@ -4515,31 +4516,31 @@ msgstr "ཉིན་གཉིད་ཁུག་ནི། (_S)"
 msgid "location of appointment"
 msgstr "ངོ་འཕྲད་ཀྱི་གནས་ཁོངས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1448
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1594
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1455
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1601
 msgid "No summary available."
 msgstr "བཅུད་དོན་མི་འཐོབ་པས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1457
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1459
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1464
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1466
 msgid "No description available."
 msgstr "འགྲེལ་བཤད་མི་འཐོབ་པས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1467
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1474
 msgid "No location information available."
 msgstr "གནས་ཁོངས་ཀྱི་བརྡ་དོན་མི་འཐོབ་པས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1526
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1533
 #, c-format
 msgid "You have %d alarms"
 msgstr "འདི་ལུ་འཇིགས་བརྡ་%dའདུག"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1692
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1720
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1699
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1727
 msgid "Warning"
 msgstr "ཉེན་བརྡ།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1703
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4551,7 +4552,7 @@ msgstr ""
 "གཏང་ནིའི་དོན་ལུ་ རིམ་སྒྲིག་འབད་ནུག དེ་གི་ཚབ་ལུ་ ཨི་བོ་ལུ་ཤཱན་ \n"
 "དུས་རྒྱུན་གྱི་ ཌའི་ལོག་སྒྲོམ་ཅིག་ བཀྲམ་སྟོན་འབད་འོང་།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1726
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1733
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is configured to run the following program:\n"
@@ -4566,7 +4567,7 @@ msgstr ""
 "\n"
 "ཁྱོད་ཀྱིས་ ལས་རིམ་འདི་ གཡོག་བཀོལ་ནི་ ངེས་ཏིག་ཨིན་ན།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1740
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1747
 msgid "Do not ask me about this program again."
 msgstr "ང་ལུ་ ལས་རིམ་འདི་གི་སྐོར་ལས་ ལོག་སྟེ་མ་འདྲི།"
 
@@ -4981,27 +4982,27 @@ msgstr "ལཱ་གི་ཉིནམ་ འགོ་བཙུགས་ཀྱ�
 msgid "daylight savings time"
 msgstr "ཉིན་མདངས་སྲུང་བཞག་དུས་ཚོད།"
 
-#: ../calendar/gui/cal-search-bar.c:53
+#: ../calendar/gui/cal-search-bar.c:54
 msgid "Summary contains"
 msgstr "བཅུད་དོན་ནང་ཡོདཔ།"
 
-#: ../calendar/gui/cal-search-bar.c:54
+#: ../calendar/gui/cal-search-bar.c:55
 msgid "Description contains"
 msgstr "འགྲེལ་བཤད་ནང་ཡོདཔ།"
 
-#: ../calendar/gui/cal-search-bar.c:55
+#: ../calendar/gui/cal-search-bar.c:56
 msgid "Category is"
 msgstr "དབྱེ་རིམ་ཨིན་།"
 
-#: ../calendar/gui/cal-search-bar.c:56
+#: ../calendar/gui/cal-search-bar.c:57
 msgid "Comment contains"
 msgstr "བསམ་བཀོད་ནང་ཡོདཔ།"
 
-#: ../calendar/gui/cal-search-bar.c:57
+#: ../calendar/gui/cal-search-bar.c:58
 msgid "Location contains"
 msgstr "གནས་ཁོངས་ནང་ཡོདཔ།"
 
-#: ../calendar/gui/cal-search-bar.c:426
+#: ../calendar/gui/cal-search-bar.c:427
 msgid "Unmatched"
 msgstr "མཐུན་མིན།"
 
@@ -5693,7 +5694,7 @@ msgid "Due "
 msgstr "རན་པ།"
 
 #: ../calendar/gui/dialogs/comp-editor.c:207
-#: ../composer/e-msg-composer.c:2888
+#: ../composer/e-msg-composer.c:2889
 #, c-format
 msgid "Attached message - %s"
 msgstr "མཉམ་སྦྲགས་འཕྲིན་དོན་-- %s།"
@@ -5701,8 +5702,8 @@ msgstr "མཉམ་སྦྲགས་འཕྲིན་དོན་-- %s།"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
 #: ../calendar/gui/dialogs/comp-editor.c:382
-#: ../composer/e-msg-composer.c:2893
-#: ../composer/e-msg-composer.c:3089
+#: ../composer/e-msg-composer.c:2894
+#: ../composer/e-msg-composer.c:3090
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5710,18 +5711,18 @@ msgstr[0] "མཉམ་སྦྲགས་འཕྲིན་དོན།"
 msgstr[1] "མཉམ་སྦྲགས་འཕྲིན་དོན་%d།"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446
-#: ../composer/e-msg-composer.c:3153
+#: ../composer/e-msg-composer.c:3154
 #: ../mail/em-folder-tree.c:1003
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1013
-#: ../mail/message-list.c:1920
+#: ../mail/em-folder-view.c:1008
+#: ../mail/message-list.c:1921
 msgid "_Move"
 msgstr "སྤོ་བཤུད་འབད། (_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448
-#: ../composer/e-msg-composer.c:3155
+#: ../composer/e-msg-composer.c:3156
 #: ../mail/em-folder-tree.c:1005
-#: ../mail/message-list.c:1922
+#: ../mail/message-list.c:1923
 msgid "Cancel _Drag"
 msgstr "འདྲུད་ནི་ཆ་མེད་གཏང་། (_D)"
 
@@ -5730,7 +5731,7 @@ msgid "Could not update object"
 msgstr "དངོས་པོ་དུས་མཐུན་བཟོ་མ་ཚུགས།"
 
 #: ../calendar/gui/dialogs/comp-editor.c:948
-#: ../composer/e-msg-composer.c:2501
+#: ../composer/e-msg-composer.c:2502
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5750,7 +5751,7 @@ msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་སྟོན།(_B)"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3651
+#: ../composer/e-msg-composer.c:3652
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5759,7 +5760,7 @@ msgstr "རྩ་བསྐྲད་གཏང་། (_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1103
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3652
+#: ../composer/e-msg-composer.c:3653
 #: ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:33
@@ -5768,12 +5769,12 @@ msgstr "རྒྱུ་དངོས་ཚུ།(_P)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1105
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3654
+#: ../composer/e-msg-composer.c:3655
 msgid "_Add attachment..."
 msgstr "མཉམ་སྦྲགས་ཁ་སྐོང་རྐྱབས་...(_A)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1492
-#: ../mail/em-format-html-display.c:2266
+#: ../mail/em-format-html-display.c:2267
 msgid "Show Attachments"
 msgstr "མཉམ་སྦྲགས་ཚུ་སྟོན།"
 
@@ -5955,7 +5956,7 @@ msgid "Event with no end date"
 msgstr "མཇུག་བསྡུ་བའི་ཚེས་གྲངས་མེད་པའི་བྱུང་ལས།"
 
 #: ../calendar/gui/dialogs/event-page.c:1259
-#: ../calendar/gui/dialogs/memo-page.c:683
+#: ../calendar/gui/dialogs/memo-page.c:685
 #: ../calendar/gui/dialogs/task-page.c:849
 msgid "Start date is wrong"
 msgstr "འགོ་བཙུགས་ཚེས་གྲངས་ཕྱི་འགྱུར་ཨིན་པས།"
@@ -5973,13 +5974,13 @@ msgid "End time is wrong"
 msgstr "མཇུག་བསྡུ་བའི་ཆུ་ཚོད་ཕྱི་འགྱུར་ཨིན་པས།"
 
 #: ../calendar/gui/dialogs/event-page.c:1454
-#: ../calendar/gui/dialogs/memo-page.c:718
+#: ../calendar/gui/dialogs/memo-page.c:720
 #: ../calendar/gui/dialogs/task-page.c:906
 msgid "The organizer selected no longer has an account."
 msgstr "སེལ་འཐུ་འབད་མི་ འགོ་འདྲེན་པ་དེ་ལུ་ རྩིས་ཐོ་མིན་འདུག"
 
 #: ../calendar/gui/dialogs/event-page.c:1460
-#: ../calendar/gui/dialogs/memo-page.c:724
+#: ../calendar/gui/dialogs/memo-page.c:726
 #: ../calendar/gui/dialogs/task-page.c:912
 msgid "An organizer is required."
 msgstr "འགོ་འདྲེན་པ་ཅིག་དགོ་པས།"
@@ -6029,7 +6030,7 @@ msgstr "སྲོལ་སྒྲིག་འབད།"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1099
-#: ../composer/e-msg-composer.c:2293
+#: ../composer/e-msg-composer.c:2294
 #: ../filter/filter-rule.c:889
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
@@ -6143,14 +6144,14 @@ msgstr "འཐུས་མི།"
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:509
+#: ../calendar/gui/e-meeting-list-view.c:510
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "ལན་གསལ་གནང་ས།"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:520
+#: ../calendar/gui/e-meeting-list-view.c:521
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 #: ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:16
@@ -6183,12 +6184,12 @@ msgstr "འགོ་འདྲེན་པ་:"
 msgid "Memo"
 msgstr "བརྗེད་ཐོ།"
 
-#: ../calendar/gui/dialogs/memo-page.c:868
+#: ../calendar/gui/dialogs/memo-page.c:870
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "'%s'ནང་ལུ་ བརྗེད་ཐོ་ཚུ་ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: ../calendar/gui/dialogs/memo-page.c:1019
+#: ../calendar/gui/dialogs/memo-page.c:1021
 #: ../mail/em-format-html.c:1489
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:846
@@ -6474,7 +6475,7 @@ msgstr "མཇུག་བསྡུ་ཡོདཔ།"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:250
 #: ../calendar/gui/e-calendar-table.c:387
-#: ../mail/message-list.c:1031
+#: ../mail/message-list.c:1032
 msgid "High"
 msgstr "མཐོ།"
 
@@ -6491,7 +6492,7 @@ msgstr "ཡར་འཕེལ་འགྱོ་བའི་བསྒང་།"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:254
 #: ../calendar/gui/e-calendar-table.c:389
-#: ../mail/message-list.c:1029
+#: ../mail/message-list.c:1030
 msgid "Low"
 msgstr "དམའ།"
 
@@ -6499,7 +6500,7 @@ msgstr "དམའ།"
 #: ../calendar/gui/e-cal-component-preview.c:252
 #: ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-calendar-table.c:388
-#: ../mail/message-list.c:1030
+#: ../mail/message-list.c:1031
 msgid "Normal"
 msgstr "སྤྱིར་བཏང་།"
 
@@ -6697,7 +6698,7 @@ msgstr "མ་ཤེས་པའི་རྒྱུ་རྐྱེན་ཅིག
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2884
+#: ../mail/em-folder-view.c:2879
 #, c-format
 msgid "Click to open %s"
 msgstr "%s ཁ་ཕྱེ་ནི་ལུ་ ཨེབ་གཏང་འབད།"
@@ -6862,7 +6863,7 @@ msgid "Save As..."
 msgstr "དེ་སྦེ་སྲུངས་..."
 
 #: ../calendar/gui/e-cal-popup.c:193
-#: ../mail/em-format-html-display.c:2112
+#: ../mail/em-format-html-display.c:2113
 msgid "Select folder to save selected attachments..."
 msgstr "སེལ་འཐུ་འབད་མི་ མཉམ་སྦྲགས་ཚུ་ བསྲུང་ནི་འི་དོན་ལུ་ སྣོད་འཛིན་སེལ་འཐུ་འབད།"
 
@@ -6876,7 +6877,7 @@ msgstr "མགོ་མིང་མ་བཏགས་པའི་གཟུགས
 #: ../calendar/gui/e-calendar-table.c:1282
 #: ../calendar/gui/e-calendar-view.c:1699
 #: ../calendar/gui/e-memo-table.c:903
-#: ../mail/em-folder-view.c:1127
+#: ../mail/em-folder-view.c:1122
 #: ../mail/em-popup.c:554
 #: ../mail/em-popup.c:565
 msgid "_Save As..."
@@ -6957,7 +6958,7 @@ msgstr "དངོས་པོ་དུས་མཐུན་བཟོ་དོ།
 #: ../calendar/gui/e-calendar-table.c:1106
 #: ../calendar/gui/e-calendar-view.c:1248
 #: ../calendar/gui/e-memo-table.c:798
-#: ../composer/e-msg-composer.c:1348
+#: ../composer/e-msg-composer.c:1349
 msgid "Save as..."
 msgstr "དེ་སྦེ་སྲུངས་..."
 
@@ -6975,7 +6976,7 @@ msgstr "ཝེབ་ཤོག་ལེབ་ཁ་ཕྱེ། (_W)"
 #: ../calendar/gui/e-calendar-view.c:1684
 #: ../calendar/gui/e-calendar-view.c:1700
 #: ../calendar/gui/e-memo-table.c:904
-#: ../mail/em-folder-view.c:1128
+#: ../mail/em-folder-view.c:1123
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58
 #: ../ui/evolution-calendar.xml.h:44
@@ -7133,7 +7134,7 @@ msgid "_Reply"
 msgstr "ལན་གསལ།(_R)"
 
 #: ../calendar/gui/e-calendar-view.c:1716
-#: ../mail/em-folder-view.c:1122
+#: ../mail/em-folder-view.c:1117
 #: ../mail/em-popup.c:559
 #: ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
@@ -7751,7 +7752,7 @@ msgid "Delegated"
 msgstr "བགོ་སྤེལ་འབད་ཡོདཔ།"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:470
+#: ../calendar/gui/e-meeting-list-view.c:471
 msgid "Attendee                          "
 msgstr "ངོ་འཛོམས་པ།"
 
@@ -8088,7 +8089,7 @@ msgstr[1] "བརྗེད་ཐོ་%d"
 
 #: ../calendar/gui/memos-component.c:529
 #: ../calendar/gui/tasks-component.c:519
-#: ../mail/mail-component.c:560
+#: ../mail/mail-component.c:563
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -8191,9 +8192,9 @@ msgid "Unable to migrate tasks `%s'"
 msgstr "ལས་ཀ་`%sགཞིས་སྤོ་འབད་མ་ཚུགས།"
 
 #: ../calendar/gui/migration.c:1212
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:390
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:421
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:600
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:392
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:423
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:602
 msgid "Notes"
 msgstr "དྲན་འཛིན་ཚུ།"
 
@@ -10230,66 +10231,66 @@ msgstr "མཉམ་སྦྲགས་འབད།(_t)"
 msgid "Insert Attachment"
 msgstr "མཉམ་སྦྲགསབཙུགས།"
 
-#: ../composer/e-msg-composer.c:827
+#: ../composer/e-msg-composer.c:828
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "ཕྱིར་གཏང་འཕྲིན་དོན་ལུ་ མིང་རྟགས་བཀོད་མི་ཚུགས་པས། རྩིས་ཐོ་འདི་གི་དོན་ལས་ མིང་རྟགས་ལག་ཁྱེར་ གཞི་སྒྲིག་མ་འབད་བས།"
 
-#: ../composer/e-msg-composer.c:834
+#: ../composer/e-msg-composer.c:835
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
 msgstr "ཕྱིར་གཏང་འཕྲིན་དོན་ གསང་བ་བཟོ་མི་ཚུགས་པས། རྩིས་ཐོ་འདི་གི་དོན་ལས་ གསང་བཟོའི་ལག་ཁྱེར་ གཞི་སྒྲིག་མ་འབད་བས།"
 
-#: ../composer/e-msg-composer.c:1294
-#: ../composer/e-msg-composer.c:2530
+#: ../composer/e-msg-composer.c:1295
+#: ../composer/e-msg-composer.c:2531
 msgid "Hide _Attachment Bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་སྦ་བཞག(_A)"
 
-#: ../composer/e-msg-composer.c:1297
-#: ../composer/e-msg-composer.c:2533
-#: ../composer/e-msg-composer.c:3897
+#: ../composer/e-msg-composer.c:1298
+#: ../composer/e-msg-composer.c:2534
+#: ../composer/e-msg-composer.c:3898
 msgid "Show _Attachment Bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་སྟོན།(_A)"
 
-#: ../composer/e-msg-composer.c:1329
-#: ../composer/e-msg-composer.c:1363
+#: ../composer/e-msg-composer.c:1330
+#: ../composer/e-msg-composer.c:1364
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "རྒྱུ་མཚན་ཧ་མ་གོ"
 
-#: ../composer/e-msg-composer.c:1401
+#: ../composer/e-msg-composer.c:1402
 msgid "Could not open file"
 msgstr "ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: ../composer/e-msg-composer.c:1409
+#: ../composer/e-msg-composer.c:1410
 msgid "Unable to retrieve message from editor"
 msgstr "ཞུན་དགཔ་ལས་ འཕྲིན་དོན་སླར་འདྲེན་འབད་མི་ཚུགས་པས།"
 
-#: ../composer/e-msg-composer.c:1688
+#: ../composer/e-msg-composer.c:1689
 msgid "Untitled Message"
 msgstr "མགོ་མིང་མ་བཏགས་པའི་འཕྲིན་དོན།"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1723
+#: ../composer/e-msg-composer.c:1724
 msgid "Open File"
 msgstr "ཡིག་སྣོད་ཁ་ཕྱེ།"
 
-#: ../composer/e-msg-composer.c:2173
+#: ../composer/e-msg-composer.c:2174
 #: ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651
 #: ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "རང་བཞིན་གྱིས་བཟོ་བསྐྲུན་འབད་ཡོདཔ།"
 
-#: ../composer/e-msg-composer.c:2276
+#: ../composer/e-msg-composer.c:2277
 msgid "Si_gnature:"
 msgstr "མིང་རྟགས:(_g)"
 
-#: ../composer/e-msg-composer.c:2544
-#: ../composer/e-msg-composer.c:3779
-#: ../composer/e-msg-composer.c:3782
+#: ../composer/e-msg-composer.c:2545
+#: ../composer/e-msg-composer.c:3780
+#: ../composer/e-msg-composer.c:3783
 msgid "Compose Message"
 msgstr "འཕྲིན་དོན་བརྩམས།"
 
-#: ../composer/e-msg-composer.c:5006
+#: ../composer/e-msg-composer.c:5007
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(རྩོམ་མཁན་ལུ་ ཞུན་དག་འབད་མ་བཏུབ་པའི་ ཚིག་ཡིག་མེན་པའི་ འཕྲིན་དོན་མ་གཟུགས་ཅིག་འདུག།)<b>"
 
@@ -10416,7 +10417,7 @@ msgid "Evolution"
 msgstr "ཨི་བོ་ལུ་ཤཱན།"
 
 #: ../data/evolution.desktop.in.in.h:2
-#: ../shell/e-shell-window-commands.c:574
+#: ../shell/e-shell-window-commands.c:575
 msgid "Groupware Suite"
 msgstr "གུ་རུབ་ཝེར་ སུཊི།"
 
@@ -10904,13 +10905,13 @@ msgid "Evolution Mail preferences control"
 msgstr "ཨི་བོ་ལུ་ཤཱན་ ཡིག་འཕྲིན་གྱི་ དགའ་གདམ་ཚད་འཛིན།"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11
-#: ../mail/em-folder-view.c:522
+#: ../mail/em-folder-view.c:524
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
 #: ../mail/importers/pine-importer.c:387
-#: ../mail/mail-component.c:578
-#: ../mail/mail-component.c:579
-#: ../mail/mail-component.c:701
+#: ../mail/mail-component.c:581
+#: ../mail/mail-component.c:582
+#: ../mail/mail-component.c:723
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "ཡིག་འཕྲིན།"
@@ -11398,6 +11399,14 @@ msgstr "གལ་ཅན་འཕྲིན་དོན་ཚུ། "
 msgid "Messages Not Junk"
 msgstr "མཁོ་མེད་མེན་པའི་འཕྲིན་དོན་ཚུ།"
 
+#: ../mail/em-folder-browser.c:1019
+msgid "Account Search"
+msgstr "རྩིས་ཐོའི་འཚོལ་ཞིབ།"
+
+#: ../mail/em-folder-browser.c:1049
+msgid "All Account Search"
+msgstr "རྩིས་ཐོའི་འཚོལ་ཞིབ་ཆ་མཉམ།"
+
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:150
@@ -11444,24 +11453,24 @@ msgid "UNMATCHED"
 msgstr "མཐུན་མིན།"
 
 #: ../mail/em-folder-tree-model.c:484
-#: ../mail/mail-component.c:151
+#: ../mail/mail-component.c:152
 msgid "Drafts"
 msgstr "ཟིན་བྲིས་ཚུ།"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487
-#: ../mail/mail-component.c:150
+#: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-folder.c:587
 msgid "Inbox"
 msgstr "ཨིན་བོགསི།"
 
 #: ../mail/em-folder-tree-model.c:490
-#: ../mail/mail-component.c:152
+#: ../mail/mail-component.c:153
 msgid "Outbox"
 msgstr "ཨའུཊི་བོགསི"
 
 #: ../mail/em-folder-tree-model.c:492
-#: ../mail/mail-component.c:153
+#: ../mail/mail-component.c:154
 msgid "Sent"
 msgstr "བཏང་ཡོད།"
 
@@ -11505,13 +11514,13 @@ msgid "Copying folder %s"
 msgstr "སྣོད་འཛིན་%sའདྲ་བཤུས་རྐྱབ་དོ།"
 
 #: ../mail/em-folder-tree.c:886
-#: ../mail/message-list.c:1824
+#: ../mail/message-list.c:1825
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "འཕྲིན་དོན་ཚུ་ སྣོད་འཛིན་%sནང་ལུ་ སྤོ་བཤུད་འབད་དོ།"
 
 #: ../mail/em-folder-tree.c:888
-#: ../mail/message-list.c:1826
+#: ../mail/message-list.c:1827
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "འཕྲིན་དོན་ཚུ་ སྣོད་འཛིན་%sནང་ལུ་ འདྲ་བཤུས་རྐྱབ་དོ།"
@@ -11580,15 +11589,15 @@ msgid "Copying `%s' to `%s'"
 msgstr "`%s'ལས་`%s'ལུ་ འདྲ་བཤུས་རྐྱབ་དོ"
 
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1013
-#: ../mail/em-folder-view.c:1028
+#: ../mail/em-folder-view.c:1008
+#: ../mail/em-folder-view.c:1023
 #: ../mail/importers/evolution-mbox-importer.c:86
 #: ../mail/importers/evolution-outlook-importer.c:139
 msgid "Select folder"
 msgstr "སྣོད་འཛིན་སེལ་འཐུ་འབད།"
 
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1028
+#: ../mail/em-folder-view.c:1023
 msgid "C_opy"
 msgstr "འདྲ་བཤུས། (_o)"
 
@@ -11610,313 +11619,313 @@ msgstr "སྣོད་འཛིན་གསར་བསྐྲུན་འབད
 msgid "Specify where to create the folder:"
 msgstr "སྣོད་འཛིན་ག་ཏེ་ལུ་ གསར་བསྐྲུན་འབད་ནི་ཨིན་ན་ གསལ་བཀོད་འབད།"
 
-#: ../mail/em-folder-view.c:1121
+#: ../mail/em-folder-view.c:1116
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "གཏང་མི་ལུ་ལན་གསལ་གཏང་། (_R)"
 
-#: ../mail/em-folder-view.c:1123
+#: ../mail/em-folder-view.c:1118
 #: ../mail/em-popup.c:561
 #: ../mail/em-popup.c:572
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "གདོང་བསྐྱོད། (_F)"
 
-#: ../mail/em-folder-view.c:1126
+#: ../mail/em-folder-view.c:1121
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "འཕྲིན་དོན་གསརཔ་སྦེ་ ཞུན་དག་རྐྱབས། (_E)"
 
-#: ../mail/em-folder-view.c:1132
+#: ../mail/em-folder-view.c:1127
 msgid "U_ndelete"
 msgstr "བཏོན་བཤོལ། (_n)"
 
-#: ../mail/em-folder-view.c:1133
+#: ../mail/em-folder-view.c:1128
 msgid "_Move to Folder..."
 msgstr "སྣོད་འཛིན་ལུ་སྤོ་བཤུད་འབད་...(_M)"
 
-#: ../mail/em-folder-view.c:1134
+#: ../mail/em-folder-view.c:1129
 msgid "_Copy to Folder..."
 msgstr "སྣོད་འཛིན་ལུ་ འདྲ་བཤུས་རྐྱབས་...(_C)"
 
-#: ../mail/em-folder-view.c:1137
+#: ../mail/em-folder-view.c:1132
 msgid "Mar_k as Read"
 msgstr "ལྷག་ཡོདཔ་སྦེ་ རྟགས་བཀལ། (_k)"
 
-#: ../mail/em-folder-view.c:1138
+#: ../mail/em-folder-view.c:1133
 msgid "Mark as _Unread"
 msgstr "མ་ལྷགཔ་སྦེ་ རྟགས་བཀལ། (_U)"
 
-#: ../mail/em-folder-view.c:1139
+#: ../mail/em-folder-view.c:1134
 msgid "Mark as _Important"
 msgstr "གལ་ཅན་སྦེ་ རྟགས་བཀལ། (_I)"
 
-#: ../mail/em-folder-view.c:1140
+#: ../mail/em-folder-view.c:1135
 msgid "Mark as Un_important"
 msgstr "གལ་ཅན་མེནམ་སྦེ་ རྟགས་བཀལ། (_i)"
 
-#: ../mail/em-folder-view.c:1141
+#: ../mail/em-folder-view.c:1136
 msgid "Mark as _Junk"
 msgstr "མཁོ་མེད་སྦེ་ རྟགས་བཀལ། (_J)"
 
-#: ../mail/em-folder-view.c:1142
+#: ../mail/em-folder-view.c:1137
 msgid "Mark as _Not Junk"
 msgstr "མཁོ་མེད་མེནམ་སྦེ་ རྟགས་བཀལ། (_N)"
 
-#: ../mail/em-folder-view.c:1143
+#: ../mail/em-folder-view.c:1138
 msgid "Mark for Follo_w Up..."
 msgstr "ཤུལ་དཔྱད་ཀྱི་དོན་ལུ་ རྟགས་བཀལ་...(_w)"
 
-#: ../mail/em-folder-view.c:1145
+#: ../mail/em-folder-view.c:1140
 msgid "_Label"
 msgstr "ཁ་ཡིག(_L)"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1146
+#: ../mail/em-folder-view.c:1141
 #: ../widgets/misc/e-dateedit.c:475
 msgid "_None"
 msgstr "ཅི་མེད།(_N)"
 
-#: ../mail/em-folder-view.c:1151
+#: ../mail/em-folder-view.c:1146
 msgid "Fla_g Completed"
 msgstr "ཟུར་རྟགས་མཇུག་བསྡུ་ཡོད། (_g)"
 
-#: ../mail/em-folder-view.c:1152
+#: ../mail/em-folder-view.c:1147
 msgid "Cl_ear Flag"
 msgstr "ཟུར་རྟགས་བསལ། (_e)"
 
-#: ../mail/em-folder-view.c:1155
+#: ../mail/em-folder-view.c:1150
 msgid "Crea_te Rule From Message"
 msgstr "འཕྲིན་དོན་ནང་ལས་ ལམ་ལུགས་གསར་བསྐྲུན་འབད། (_t)"
 
-#: ../mail/em-folder-view.c:1156
+#: ../mail/em-folder-view.c:1151
 msgid "Search Folder from _Subject"
 msgstr "དོན་ཚན་ལས་ སྣོད་འཛིན་འཚོལ་ཞིབ་འབད། (_S)"
 
-#: ../mail/em-folder-view.c:1157
+#: ../mail/em-folder-view.c:1152
 msgid "Search Folder from Se_nder"
 msgstr "གཏང་མི་ནང་ལས་ སྣོད་འཛིན་འཚོལ་ཞིབ་འབད། (_n)"
 
-#: ../mail/em-folder-view.c:1158
+#: ../mail/em-folder-view.c:1153
 msgid "Search Folder from _Recipients"
 msgstr "ལེན་མཁན་ཚུ་ནང་ལས་ སྣོད་འཛིན་འཚོལ་ཞིབ་འབད། (_R)"
 
-#: ../mail/em-folder-view.c:1159
+#: ../mail/em-folder-view.c:1154
 msgid "Search Folder from Mailing _List"
 msgstr "འཕྲིན་གཏང་ཐོ་ཡིག་ནང་ལས་ སྣོད་འཛིན་འཚོལ་ཞིབ་འབད། (_L) "
 
-#: ../mail/em-folder-view.c:1163
+#: ../mail/em-folder-view.c:1158
 msgid "Filter on Sub_ject"
 msgstr "དོན་ཚན་ལུ་བཙགས། (_j)"
 
-#: ../mail/em-folder-view.c:1164
+#: ../mail/em-folder-view.c:1159
 msgid "Filter on Sen_der"
 msgstr "གཏང་མི་ལུ་བཙགས། (_d)"
 
-#: ../mail/em-folder-view.c:1165
+#: ../mail/em-folder-view.c:1160
 msgid "Filter on Re_cipients"
 msgstr "ལེན་མཁན་ཚུ་ལུ་བཙགས། (_c)"
 
-#: ../mail/em-folder-view.c:1166
+#: ../mail/em-folder-view.c:1161
 msgid "Filter on _Mailing List"
 msgstr "འཕྲིན་གཏང་ཐོ་ཡིག་ལུ་བཙགས། (_M)"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2017
-#: ../mail/em-folder-view.c:2061
+#: ../mail/em-folder-view.c:2012
+#: ../mail/em-folder-view.c:2056
 msgid "Default"
 msgstr "སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/em-folder-view.c:2160
+#: ../mail/em-folder-view.c:2155
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "འཕྲིན་དོན་དཔར་བསྐྲུན་འབད།"
 
-#: ../mail/em-folder-view.c:2320
+#: ../mail/em-folder-view.c:2315
 msgid "Unable to retrieve message"
 msgstr "འཕྲིན་དོན་སླར་འདྲེན་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-folder-view.c:2518
+#: ../mail/em-folder-view.c:2513
 msgid "Create _Search Folder"
 msgstr "འཚོལ་ཞིབ་སྣོད་འཛིན་ གསར་བསྐྲུན་འབད།(_S)"
 
-#: ../mail/em-folder-view.c:2519
+#: ../mail/em-folder-view.c:2514
 msgid "_From this Address"
 msgstr "ཁ་བྱང་འདི་ནང་ལས། (_F)"
 
-#: ../mail/em-folder-view.c:2520
+#: ../mail/em-folder-view.c:2515
 msgid "_To this Address"
 msgstr "ཁ་བྱང་འདི་ནང་ལུ། (_T)"
 
-#: ../mail/em-folder-view.c:2877
+#: ../mail/em-folder-view.c:2872
 #, c-format
 msgid "Click to mail %s"
 msgstr "ཡིག་འཕྲིན་%sལུ་ ཨེབ་གཏང་འབད།"
 
-#: ../mail/em-folder-view.c:2882
+#: ../mail/em-folder-view.c:2877
 msgid "Click to hide/unhide addresses"
 msgstr "ཁ་བྱང་ཚུ་སྦ་ནི་/སྦ་བཤོལ་འབད་ནི་ལུ་ ཨེབ་གཏང་འབད།"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:503
+#: ../mail/em-format-html-display.c:504
 #, c-format
 msgid "Matches: %d"
 msgstr "%d མཐུན་པས།"
 
-#: ../mail/em-format-html-display.c:646
+#: ../mail/em-format-html-display.c:647
 msgid "Fi_nd:"
 msgstr "འཚོལ་:(_n)"
 
-#: ../mail/em-format-html-display.c:674
+#: ../mail/em-format-html-display.c:675
 msgid "Fo_rward"
 msgstr "གདོང་བསྐྱོད།(_r)"
 
-#: ../mail/em-format-html-display.c:679
+#: ../mail/em-format-html-display.c:680
 msgid "M_atch case"
 msgstr "ཡི་གུ་མཐུན་སྒྲིག་འབད།(_a)"
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 #: ../mail/em-format-html.c:618
 msgid "Unsigned"
 msgstr "མིང་རྟགས་མ་བཀོདཔ།"
 
-#: ../mail/em-format-html-display.c:926
+#: ../mail/em-format-html-display.c:927
 msgid "This message is not signed. There is no guarantee that this message is authentic."
 msgstr "འཕྲིན་དོན་འདི་ལུ་ མིང་རྟགས་མ་བཀོདཔ་ལས་ འཕྲིན་དོན་འདི་ བདེན་པ་ཨིན་པའི་ ཉེན་ལེན་འབད་མི་ཚུགས།"
 
-#: ../mail/em-format-html-display.c:927
+#: ../mail/em-format-html-display.c:928
 #: ../mail/em-format-html.c:619
 msgid "Valid signature"
 msgstr "ནུས་ཅན་མིང་རྟགས།"
 
-#: ../mail/em-format-html-display.c:927
+#: ../mail/em-format-html-display.c:928
 msgid "This message is signed and is valid meaning that it is very likely that this message is authentic."
 msgstr "འཕྲིན་དོན་འདི་ལུ་ མིང་རྟགས་བཀོད་དེ་ ནུས་ཅན་ཨིནམ་ལས་ འཕྲིན་དོན་འདི་ ངེས་བདེན་འོང་ནི་མས།"
 
-#: ../mail/em-format-html-display.c:928
+#: ../mail/em-format-html-display.c:929
 #: ../mail/em-format-html.c:620
 msgid "Invalid signature"
 msgstr "ནུས་མེད་མིང་རྟགས།"
 
-#: ../mail/em-format-html-display.c:928
+#: ../mail/em-format-html-display.c:929
 msgid "The signature of this message cannot be verified, it may have been altered in transit."
 msgstr "འཕྲིན་དོན་འདི་གི་ མིང་རྟགས་འདི་ བདེན་སྦྱོར་འབད་མི་ཚུགས་པས། གཏོང་ལེན་ནང་ལུ་ མེདཔ་བཏང་གདའཔ་འོང་ནི་མས།"
 
-#: ../mail/em-format-html-display.c:929
+#: ../mail/em-format-html-display.c:930
 msgid "Valid signature, cannot verify sender"
 msgstr "མིང་རྟགས་ནུས་ཅན་ཨིན་པས། དེ་འབདཝ་ད་ གཏང་མི་བདེན་སྦྱོར་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-format-html-display.c:929
+#: ../mail/em-format-html-display.c:930
 msgid "This message is signed with a valid signature, but the sender of the message cannot be verified."
 msgstr "འཕྲིན་དོན་འདི་ལུ་ ནུས་ཅན་མིང་རྟགས་ཅིག་བཀོད་ནུག དེ་འབདཝ་ད་ འཕྲིན་དོན་གཏང་མི་དེ་ བདེན་སྦྱོར་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-format-html-display.c:935
+#: ../mail/em-format-html-display.c:936
 #: ../mail/em-format-html.c:627
 msgid "Unencrypted"
 msgstr "གསང་བ་མ་བཟོཝ།"
 
-#: ../mail/em-format-html-display.c:935
+#: ../mail/em-format-html-display.c:936
 msgid "This message is not encrypted. Its content may be viewed in transit across the Internet."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བ་མ་བཟོཝ་ལས་ འདི་གི་ནང་དོན་ཚུ་ ཨིན་ཊར་ནེཊི་བརྒྱུད་དེ་ གཏོང་ལེན་འབད་བའི་སྐབས་མཐོང་འོང་།"
 
-#: ../mail/em-format-html-display.c:936
+#: ../mail/em-format-html-display.c:937
 #: ../mail/em-format-html.c:628
 msgid "Encrypted, weak"
 msgstr "གསང་བཟོ་ལེགས་ཤོམ་མ་འགྱོ་བས།"
 
-#: ../mail/em-format-html-display.c:936
+#: ../mail/em-format-html-display.c:937
 msgid "This message is encrypted, but with a weak encryption algorithm. It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བཟོའི་ཨཱལ་གོ་རི་དམ་ ཤུགས་མེད་ཅིག་གི་ཐོག་ལས་གསང་བ་བཟོ་ནུག ཕྱི་མི་ཅིག་གིས་ འཕྲིན་དོན་འདི་གི་ནང་དོན་ཚུ་ མཐོང་ཚུགས་པར་ ལཱ་ཁག་མཚམས་ཅིག་ཡོད་རུང་ དུས་ཡུན་རན་ཏོག་ཏོ་ཅིག་ནང་ མཐོང་མ་ཚུགསཔ་མེད།"
 
-#: ../mail/em-format-html-display.c:937
+#: ../mail/em-format-html-display.c:938
 #: ../mail/em-format-html.c:629
 msgid "Encrypted"
 msgstr "གསང་བ་བཟོ་ནུག"
 
-#: ../mail/em-format-html-display.c:937
+#: ../mail/em-format-html-display.c:938
 msgid "This message is encrypted.  It would be difficult for an outsider to view the content of this message."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བ་བཟོ་ཡོདཔ་ལས་ འདི་གི་ནང་དོན་ཚུ་ ཕྱི་མི་ཅིག་གིས་ མཐོང་མི་ཚུགས།"
 
-#: ../mail/em-format-html-display.c:938
+#: ../mail/em-format-html-display.c:939
 #: ../mail/em-format-html.c:630
 msgid "Encrypted, strong"
 msgstr "སྒྲིང་སྒྲིང་སྦེ་ གསང་བ་བཟོ་ནུག"
 
-#: ../mail/em-format-html-display.c:938
+#: ../mail/em-format-html-display.c:939
 msgid "This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བཟོའི་ཨཱལ་གོ་རི་དམ་ སྒྲིང་སྒྲིང་ཅིག་གི་ཐོག་ལས་ གསང་བ་བཟོ་ནུག  ཕྱི་མི་ཅིག་གིས་ དུས་ཡུན་རན་ཏོག་ཏོ་ཅིག་ནང་ འཕྲིན་དོན་འདི་གི་ནང་དོན་ཚུ་ མཐོང་ཚུགས་པར་ལཱ་ཁག་ཡོད།"
 
-#: ../mail/em-format-html-display.c:1039
+#: ../mail/em-format-html-display.c:1040
 #: ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "ལག་ཁྱེར་ལུ་སྟོན། (_V)"
 
-#: ../mail/em-format-html-display.c:1054
+#: ../mail/em-format-html-display.c:1055
 msgid "This certificate is not viewable"
 msgstr "ལག་ཁྱེར་འདི་ མཐོང་མི་ཚུགས།"
 
-#: ../mail/em-format-html-display.c:1373
+#: ../mail/em-format-html-display.c:1374
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p ལུ་མཇུག་བསྡུ་ཡོད།"
 
-#: ../mail/em-format-html-display.c:1381
+#: ../mail/em-format-html-display.c:1382
 msgid "Overdue:"
 msgstr "ཧེ་མ་ལས་རན་ཡོདཔ།"
 
-#: ../mail/em-format-html-display.c:1384
+#: ../mail/em-format-html-display.c:1385
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %pལས།"
 
-#: ../mail/em-format-html-display.c:1444
+#: ../mail/em-format-html-display.c:1445
 msgid "_View Inline"
 msgstr "ཨིན་ལའིན་ལུ་སྟོན། (_V)"
 
-#: ../mail/em-format-html-display.c:1445
+#: ../mail/em-format-html-display.c:1446
 msgid "_Hide"
 msgstr "སྦ་བཞག (_H)"
 
-#: ../mail/em-format-html-display.c:1446
+#: ../mail/em-format-html-display.c:1447
 msgid "_Fit to Width"
 msgstr "རྒྱ་ཚད་ལུ་ཚུད་སྒྲིག་འབད།(_F)"
 
-#: ../mail/em-format-html-display.c:1447
+#: ../mail/em-format-html-display.c:1448
 msgid "Show _Original Size"
 msgstr "ཐོག་མའི་་ཚད་སྟོན། (_O)"
 
-#: ../mail/em-format-html-display.c:1866
+#: ../mail/em-format-html-display.c:1867
 #: ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "མཉམ་སྦྲགས།"
 
-#: ../mail/em-format-html-display.c:2073
+#: ../mail/em-format-html-display.c:2074
 msgid "Select folder to save all attachments..."
 msgstr "མཉམ་སྦྲགས་ཆ་མཉམ་བསྲུང་ནིའི་དོན་ལུ་ སྣོད་འཛིན་སེལ་འཐུ་འབད།"
 
-#: ../mail/em-format-html-display.c:2120
+#: ../mail/em-format-html-display.c:2121
 msgid "_Save Selected..."
 msgstr "སེལ་འཐུ་འབད་མི་་སྲུངས་...(_S)"
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2187
+#: ../mail/em-format-html-display.c:2188
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
 msgstr[0] "མཉམ་སྦྲགས་%d། (_t)"
 msgstr[1] "མཉམ་སྦྲགས་%d།(-t)"
 
-#: ../mail/em-format-html-display.c:2194
-#: ../mail/em-format-html-display.c:2272
+#: ../mail/em-format-html-display.c:2195
+#: ../mail/em-format-html-display.c:2273
 msgid "S_ave"
 msgstr "སྲུངས། (_a)"
 
-#: ../mail/em-format-html-display.c:2205
+#: ../mail/em-format-html-display.c:2206
 msgid "S_ave All"
 msgstr "ཆ་མཉམ་སྲུངས།(_a)"
 
-#: ../mail/em-format-html-display.c:2268
+#: ../mail/em-format-html-display.c:2269
 msgid "No Attachment"
 msgstr "མཉམ་སྦྲགས་མིན་འདུག"
 
@@ -12863,80 +12872,80 @@ msgstr "%sགི་འཕྲིན་གཏང་ཐོ་ཡིག"
 msgid "Add Filter Rule"
 msgstr "ཚགས་མའི་ལམ་ལུགས་ ཁ་སྐོང་བརྐྱབ།"
 
-#: ../mail/mail-component.c:521
+#: ../mail/mail-component.c:524
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%dབཏོན་བཏང་ཡི།"
 msgstr[1] "%dབཏོན་བཏང་ཡི།"
 
-#: ../mail/mail-component.c:523
+#: ../mail/mail-component.c:526
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "མཁོ་མེད་%d།"
 msgstr[1] "མཁོ་མེད་%d།"
 
-#: ../mail/mail-component.c:546
+#: ../mail/mail-component.c:549
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "ཟིན་བྲིས་%d།"
 msgstr[1] "ཟིན་བྲིས་%d།"
 
-#: ../mail/mail-component.c:548
+#: ../mail/mail-component.c:551
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%dབཏང་ཡོད།"
 msgstr[1] "%dབཏང་ཡོད།"
 
-#: ../mail/mail-component.c:550
+#: ../mail/mail-component.c:553
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d བཏང་བཤོལ་འབད་ཡི།"
 msgstr[1] "%d བཏང་བཤོལ་འབད་ཡི།"
 
-#: ../mail/mail-component.c:554
+#: ../mail/mail-component.c:557
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "བསྡོམས་%d།"
 msgstr[1] "བསྡོམས་%d།"
 
-#: ../mail/mail-component.c:556
+#: ../mail/mail-component.c:559
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ",%dམ་ལྷག"
 msgstr[1] ", %dམ་ལྷགཔ།"
 
-#: ../mail/mail-component.c:819
+#: ../mail/mail-component.c:841
 msgid "New Mail Message"
 msgstr "ཡིག་འཕྲིན་གསར་པའི་འཕྲིན་དོན།"
 
-#: ../mail/mail-component.c:820
+#: ../mail/mail-component.c:842
 msgid "_Mail Message"
 msgstr "ཡིག་འཕྲིན་གྱི་འཕྲིན་དོན། (_M)"
 
-#: ../mail/mail-component.c:821
+#: ../mail/mail-component.c:843
 msgid "Compose a new mail message"
 msgstr "ཡིག་འཕྲིན་གྱི་ འཕྲིན་དོན་གསརཔ་ཅིག་བརྩམ།"
 
-#: ../mail/mail-component.c:827
+#: ../mail/mail-component.c:849
 msgid "New Mail Folder"
 msgstr "ཡིག་འཕྲིན་གྱི་སྣོད་འཛིན་གསརཔ།"
 
-#: ../mail/mail-component.c:828
+#: ../mail/mail-component.c:850
 msgid "Mail _Folder"
 msgstr "ཡིག་འཕྲིན་གྱི་སྣོད་འཛིན། (_F)"
 
-#: ../mail/mail-component.c:829
+#: ../mail/mail-component.c:851
 msgid "Create a new mail folder"
 msgstr "ཡིག་འཕྲིན་གྱི་སྣོད་འཛིན་གསརཔ་ཅིག་ གསར་བསྐྲུན་འབད།"
 
-#: ../mail/mail-component.c:973
+#: ../mail/mail-component.c:995
 msgid "Failed upgrading Mail settings or folders."
 msgstr "ཡིག་འཕྲིན་གྱི་ སྒྲིག་སྟངས་སམ་ སྣོད་འཛིན་ཚུ་  ཡར་བསྐྱེད་འབད་མ་ཚུགས།"
 
@@ -14442,81 +14451,81 @@ msgstr "རྩ་མེད་གཏང་། (_E)"
 msgid "_Open Messages"
 msgstr "འཕྲིན་དོན་ཚུ་ཁ་ཕྱེ། (_O)"
 
-#: ../mail/message-list.c:1019
+#: ../mail/message-list.c:1020
 msgid "Unseen"
 msgstr "མ་མཐོངམ།"
 
-#: ../mail/message-list.c:1020
+#: ../mail/message-list.c:1021
 msgid "Seen"
 msgstr "མཐོང་མཐོངམ།"
 
-#: ../mail/message-list.c:1021
+#: ../mail/message-list.c:1022
 msgid "Answered"
 msgstr "ལན་སླབ་ཡོདཔ།"
 
-#: ../mail/message-list.c:1022
+#: ../mail/message-list.c:1023
 msgid "Multiple Unseen Messages"
 msgstr "མ་མཐོང་པའི་སྣ་མང་འཕྲིན་དོན།"
 
-#: ../mail/message-list.c:1023
+#: ../mail/message-list.c:1024
 msgid "Multiple Messages"
 msgstr "སྣ་མང་འཕྲིན་དོན།"
 
-#: ../mail/message-list.c:1027
+#: ../mail/message-list.c:1028
 msgid "Lowest"
 msgstr "དམའ་ཤོས།"
 
-#: ../mail/message-list.c:1028
+#: ../mail/message-list.c:1029
 msgid "Lower"
 msgstr "དམའ་མི།"
 
-#: ../mail/message-list.c:1032
+#: ../mail/message-list.c:1033
 msgid "Higher"
 msgstr "མཐོ་མི།"
 
-#: ../mail/message-list.c:1033
+#: ../mail/message-list.c:1034
 msgid "Highest"
 msgstr "མཐོ་ཤོས།"
 
-#: ../mail/message-list.c:1466
+#: ../mail/message-list.c:1467
 #: ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1473
+#: ../mail/message-list.c:1474
 #: ../plugins/itip-formatter/itip-view.c:202
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "ད་རིས་%l:%M %p"
 
-#: ../mail/message-list.c:1482
+#: ../mail/message-list.c:1483
 #: ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "ཁ་རྩང་%l:%M %p"
 
-#: ../mail/message-list.c:1494
+#: ../mail/message-list.c:1495
 #: ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1502
+#: ../mail/message-list.c:1503
 #: ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../mail/message-list.c:1504
+#: ../mail/message-list.c:1505
 #: ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:2259
+#: ../mail/message-list.c:2261
 #: ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "འཕྲིན་དོན་ཚུ།"
 
-#: ../mail/message-list.c:3647
+#: ../mail/message-list.c:3652
 msgid "Generating message list"
 msgstr "འཕྲིད་དོན་ཐོ་ཡིག་ བཟོ་བསྐྲུན་འབད་དོ།"
 
@@ -15571,7 +15580,7 @@ msgstr "སྣོད་འཛིན་ཚུ་ལུ་ མཁོ་མངག�
 msgid "_Unsubscribe"
 msgstr "མཁོ་མངགས་བཤོལ། (_U)"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:420
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:422
 msgid "Checklist"
 msgstr "ངེས་ཐོ།"
 
@@ -17347,36 +17356,36 @@ msgstr "བཱག་བ་ཌི་ གཡོག་བཀོལ་མ་ཚུ�
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:560
+#: ../shell/e-shell-window-commands.c:561
 msgid "translator-credits"
 msgstr "ཨའི་ཌི་ཨར་སི་གི་མ་དངུལ་རྒྱབ་སྐྱོར་ཐོག་ལས་ བརྡ་དོན་འཕྲུལ་རིག་ལས་ཁུངས་ནང་ སྐད་བསྒྱུར་འབད་ཡི། ཁ་གསལ་གྱི་དོན་ལུ་ འབྲེལ་བ་འཐབ་ས་: <pema_geyleg@druknet.bt>/<pgeyleg@dit.gov.bt>"
 
-#: ../shell/e-shell-window-commands.c:805
+#: ../shell/e-shell-window-commands.c:806
 msgid "_Work Online"
 msgstr "ཨཱོན་ལ་ཡིན་གུ་ ལཱ་འབད། (_W)"
 
-#: ../shell/e-shell-window-commands.c:818
+#: ../shell/e-shell-window-commands.c:819
 #: ../ui/evolution.xml.h:55
 msgid "_Work Offline"
 msgstr "ཨོཕ་ལ་ཡིན་གུ་ ལཱ་འབད། (_W)"
 
-#: ../shell/e-shell-window-commands.c:831
+#: ../shell/e-shell-window-commands.c:832
 msgid "Work Offline"
 msgstr "ཨོཕ་ལ་ཡིན་གུ་ ལཱ་འབད།"
 
-#: ../shell/e-shell-window.c:371
+#: ../shell/e-shell-window.c:379
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "ད་ལྟོ་ཨི་བོ་ལུ་ཤཱན་ ཨཱོན་ལ་ཡིན་གུ་ཡོད། ཨོཕ་ལ་ཡིན་གུ་ ལཱ་འབད་ནིའི་དོན་ལུ་ ཨེབ་རྟ་འདི་ལུ་ཨེབ་གཏང་འབད།"
 
-#: ../shell/e-shell-window.c:379
+#: ../shell/e-shell-window.c:387
 msgid "Evolution is in the process of going offline."
 msgstr "ཨི་བོ་ལུ་ཤཱན་ ཨོཕ་ལ་ཡིན་གུ་ འགྱོ་བའི་བསྒང་ཨིན་མས།"
 
-#: ../shell/e-shell-window.c:386
+#: ../shell/e-shell-window.c:394
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "ད་ལྟོ་ཨི་བོ་ལུ་ཤཱན་ ཨོཕ་ལ་ཡིན་གུ་ཡོད། ཨཱོན་ལ་ཡིན་གུ་ ལཱ་འབད་ནིའི་དོན་ལུ་ ཨེབ་རྟ་འདི་གུ་ ཨེབ་གཏང་འབད།"
 
-#: ../shell/e-shell-window.c:786
+#: ../shell/e-shell-window.c:794
 #, c-format
 msgid "Switch to %s"
 msgstr "%s ལུ་སོར་བསྒྱུར་འབད།"
@@ -20724,12 +20733,15 @@ msgstr "བྱ་སྟབས་བདེ་སྐབས། (_W)"
 msgid "_When opened:"
 msgstr "ནམ་ཁ་ཕྱེ་ཡོདཔ། (_W)"
 
-#: ../widgets/misc/e-task-widget.c:208
+#. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
+#: ../widgets/misc/e-task-widget.c:209
 #, c-format
 msgid "%s (...)"
 msgstr "%s (...)"
 
-#: ../widgets/misc/e-task-widget.c:213
+#. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
+#. %d is a number between 0 and 100, describing the percentage of operation complete
+#: ../widgets/misc/e-task-widget.c:215
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% ཡོངས་བསྒྲུབས།)"
