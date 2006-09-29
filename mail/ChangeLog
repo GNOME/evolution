@@ -1,3 +1,9 @@
+2006-09-29  Nick Sukharev  <nick@galaktika.ru>
+
+	* mail/em-format-html.c: UUEncoded calendars will be displayed as 
+	calendars, not as plain text. Fixes bug #352767.
+	(committed by Andre Klapper)
+
 2006-07-28  Sankar P  <psankar@novell.com>
 
 	* committed on behalf of Srinivasa Ragavan <sragavan@novell.com>
