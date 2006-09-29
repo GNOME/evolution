@@ -3,6 +3,7 @@
 
  <error id="no-attach" type="error" modal="true">
   <_primary>You cannot attach the file `{0}' to this message.</_primary>
+  <!--For Translators: '{1}' is the exception description,describing why the file could not be attached to the message -->
   <secondary>{1}</secondary>
  </error>
 

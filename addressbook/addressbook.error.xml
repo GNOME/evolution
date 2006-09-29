@@ -44,18 +44,22 @@
  </error>
 
  <error id="generic-error" type="error">
+ <!--For Translators: '{0}' is the type of error (eg: "invalid contact", "error adding contact", "error modifying contact", "error removing contact") -->
   <_primary>{0}</_primary>
+  <!-- For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT") -->
   <_secondary>{1}</_secondary>
  </error>
 
  <error id="load-error" type="error">
   <_title>Unable to open addressbook</_title>
   <_primary>Error loading addressbook.</_primary>
+  <!-- For Translators: {0} is string describing the error why the addressbook could not be loaded -->
   <_secondary>{0}</_secondary>
  </error>
 
  <error id="search-error" type="error">
   <_primary>Unable to perform search.</_primary>
+  <!-- For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query." -->
   <_secondary>{0}</_secondary>
  </error>
 
