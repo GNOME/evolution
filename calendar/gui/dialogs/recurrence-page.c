@@ -1080,6 +1080,9 @@ static GtkWidget *
 make_recur_month_menu (void)
 {
 	static const char *options[] = {
+		/* For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
+		   (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or 
+		   the name of a week day (like 'Monday' or 'Friday') always follow. */
 		N_("day"),
 		N_("Monday"),
 		N_("Tuesday"),
