@@ -762,7 +762,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		CamelMimePart *newpart = camel_multipart_get_part(mp, i);
 
 		type = camel_mime_part_get_content_type(newpart);
-		if (camel_content_type_is (type, "text", "*")) {
+		if (camel_content_type_is (type, "text", "*") && !camel_content_type_is(type, "text", "calendar")) {
 			camel_stream_printf (stream,
    					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
    					efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
