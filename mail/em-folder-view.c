@@ -1442,7 +1442,7 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 
 	if (gtk_html_command(((EMFormatHTML *)emfv->preview)->html, "is-selection-active")
 	    && (html = gtk_html_get_selection_html (((EMFormatHTML *)emfv->preview)->html, &len))
-	    && len) {
+	    && len && html[0]) {
 		CamelMimeMessage *msg, *src;
 		struct _camel_header_raw *header;
 		
