@@ -767,13 +767,19 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 
 	switch (r->freq) {
 	case ICAL_DAILY_RECURRENCE:
+		/* For Translators : 'Every day' is event Recurring every day */
+		/* For Translators : 'Every %d days' is event Recurring every %d days. %d is a digit */
 		sprintf (buffer, ngettext("Every day", "Every %d days", r->interval), r->interval);
 		break;
 
 	case ICAL_WEEKLY_RECURRENCE:
 		if (r->by_day[0] == ICAL_RECURRENCE_ARRAY_MAX) {
+			/* For Translators : 'Every week' is event Recurring every week */
+			/* For Translators : 'Every %d weeks' is event Recurring every %d weeks. %d is a digit */
 			sprintf (buffer, ngettext("Every week", "Every %d weeks", r->interval), r->interval);
 		} else {
+			/* For Translators : 'Every week on' is event Recurring every week on (dayname) and (dayname) and (dayname) */
+			/* For Translators : 'Every %d weeks on' is event Recurring: every %d weeks on (dayname) and (dayname). %d is a digit */
 			sprintf (buffer, ngettext("Every week on ", "Every %d weeks on ", r->interval), r->interval);
 
 			for (i = 1; i < 8 && r->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
@@ -782,6 +788,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 				strcat (buffer, get_dayname (r, i - 1));
 			}
 			if (i > 1)
+				/* For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)' */
 				strcat (buffer, _(" and "));
 			strcat (buffer, get_dayname (r, i - 1));
 		}
@@ -789,6 +796,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 
 	case ICAL_MONTHLY_RECURRENCE:
 		if (r->by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
+			/* For Translators : 'The %s day of' is part of the sentence 'event recurring on the (nth) day of every month.' */
 			sprintf (buffer, _("The %s day of "),
 				 nth (r->by_month_day[0]));
 		} else {
@@ -802,6 +810,8 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 			if (pos == 0)
 				pos = r->by_set_pos[0];
 
+			/* For Translators : 'The %s %s of' is part of the sentence 'event recurring on the (nth) (dayname) of every month.'
+			   eg,third monday of every month */
 			sprintf (buffer, _("The %s %s of "),
 				 nth (pos), get_dayname (r, 0));
 		}
@@ -809,10 +819,15 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		len = strlen (buffer);
 		buffer += len;
 		size -= len;
+		/* For Translators : 'every month' is part of the sentence 'event recurring on the (nth) day of every month.' */
+		/* For Translators : 'every %d months' is part of the sentence 'event recurring on the (nth) day of every %d months.'
+		 %d is a digit */
 		sprintf (buffer, ngettext("every month","every %d months", r->interval), r->interval);
 		break;
 
 	case ICAL_YEARLY_RECURRENCE:
+		/* For Translators : 'Every year' is event Recurring every year */
+		/* For Translators : 'Every %d years' is event Recurring every %d years. %d is a digit */
 		sprintf (buffer, ngettext("Every year", "Every %d years", r->interval), r->interval);
 		break;
 
@@ -824,6 +839,8 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 	buffer += len;
 	size -= len;
 	if (r->count) {
+	      /* For Translators:'a total of %d time' is part of the sentence of the form 'event recurring every day,a total of % time.' %d is a digit*/
+	      /* For Translators:'a total of %d times' is part of the sentence of the form 'event recurring every day,a total of % times.' %d is a digit*/
 		sprintf (buffer, ngettext("a total of %d time", " a total of %d times", r->count), r->count);
 	} else if (!icaltime_is_null_time (r->until)) {
 		ECalComponentDateTime dt;
@@ -833,6 +850,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		dt.tzid = icaltimezone_get_tzid ((icaltimezone *)r->until.zone);
 
 		write_label_piece (itip, &dt, buffer, size,
+				   /* For Translators : ', ending on' is part of the sentence of the form 'event recurring every day, ending on (date).'*/
 				   _(", ending on "), NULL, TRUE);
 	}
 
@@ -854,6 +872,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	e_cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
+		/* For Translators : 'starts' is starts:date implying a task starts on what date */
 		str = g_strdup_printf ("<b>%s:</b>", _("Starts"));
 		write_label_piece (itip, &datetime, buffer, 1024,
 				  str,
@@ -867,6 +886,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	e_cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
+		/* For Translators : 'ends' is ends:date implying a task ends on what date */
 		str = g_strdup_printf ("<b>%s:</b>", _("Ends"));
 		write_label_piece (itip, &datetime, buffer, 1024, str, "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));

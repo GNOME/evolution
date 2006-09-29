@@ -1,5 +1,12 @@
 2006-08-24 Ushveen Kaur <kushveen@novell.com>
 
+	** Fixes bug #261980, #325611
+
+	* gui/e-itip-control.c (write_recurrence_piece) (set_date_label) :
+	Translator comment added.
+
+2006-08-24 Ushveen Kaur <kushveen@novell.com>
+
 	** Fixes bug #325613
 
 	* gui/dialogs/recurrence-page.c (make_recur_month_menu) :
