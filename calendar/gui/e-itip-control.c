@@ -767,6 +767,9 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 
 	switch (r->freq) {
 	case ICAL_DAILY_RECURRENCE:
+                /* For Translators: In this can also be translated as "With the period of %d
+                 day/days", where %d is a number. The entire sentence is of the form "Recurring:
+                 Every %d day/days" */
 		/* For Translators : 'Every day' is event Recurring every day */
 		/* For Translators : 'Every %d days' is event Recurring every %d days. %d is a digit */
 		sprintf (buffer, ngettext("Every day", "Every %d days", r->interval), r->interval);
@@ -774,6 +777,9 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 
 	case ICAL_WEEKLY_RECURRENCE:
 		if (r->by_day[0] == ICAL_RECURRENCE_ARRAY_MAX) {
+                        /* For Translators: In this can also be translated as "With the period of %d
+                         week/weeks", where %d is a number. The entire sentence is of the form "Recurring:
+                         Every %d week/weeks" */			
 			/* For Translators : 'Every week' is event Recurring every week */
 			/* For Translators : 'Every %d weeks' is event Recurring every %d weeks. %d is a digit */
 			sprintf (buffer, ngettext("Every week", "Every %d weeks", r->interval), r->interval);
@@ -819,6 +825,9 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		len = strlen (buffer);
 		buffer += len;
 		size -= len;
+              /* For Translators: In this can also be translated as "With the period of %d
+                 month/months", where %d is a number. The entire sentence is of the form "Recurring:
+                 Every %d month/months" */		
 		/* For Translators : 'every month' is part of the sentence 'event recurring on the (nth) day of every month.' */
 		/* For Translators : 'every %d months' is part of the sentence 'event recurring on the (nth) day of every %d months.'
 		 %d is a digit */
@@ -826,6 +835,9 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		break;
 
 	case ICAL_YEARLY_RECURRENCE:
+              /* For Translators: In this can also be translated as "With the period of %d
+                 year/years", where %d is a number. The entire sentence is of the form "Recurring:
+                 Every %d year/years" */		
 		/* For Translators : 'Every year' is event Recurring every year */
 		/* For Translators : 'Every %d years' is event Recurring every %d years. %d is a digit */
 		sprintf (buffer, ngettext("Every year", "Every %d years", r->interval), r->interval);
