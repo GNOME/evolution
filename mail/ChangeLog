@@ -1,5 +1,12 @@
 2006-09-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #341932 Patch from Roozbeh Pournader
+	
+	* em-format-html.c: (efh_format_header): patch to enlarge
+	the buffer for printing date.
+
+2006-09-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fixes a lot of search issue.
 
 	* em-folder-browser.c: (emfb_init), (em_folder_browser_show_wide),

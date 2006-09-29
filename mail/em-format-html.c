@@ -1683,7 +1683,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		msg_offset -= local_tz / 60;
 		
 		if (msg_offset) {
-			char buf[32], *html;
+			char buf[256], *html;
 			
 			msg_offset += (local.tm_hour * 60) + local.tm_min;
 			if (msg_offset >= (24 * 60) || msg_offset < 0) {
