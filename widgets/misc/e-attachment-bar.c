@@ -89,31 +89,16 @@ static void update (EAttachmentBar *bar);
 
 
 static char *
-size_to_string (size_t size)
+size_to_string (gulong size)
 {
 	char *size_string;
 	
 	/* FIXME: The following should probably go into a separate module, as
            we might have to do the same thing in other places as well.  Also,
 	   I am not sure this will be OK for all the languages.  */
-	
-	if (size < 1e3L) {
-		size_string = NULL;
-	} else {
-		gdouble displayed_size;
-		
-		if (size < 1e6L) {
-			displayed_size = (gdouble) size / 1.0e3;
-			size_string = g_strdup_printf (_("%.0fK"), displayed_size);
-		} else if (size < 1e9L) {
-			displayed_size = (gdouble) size / 1.0e6;
-			size_string = g_strdup_printf (_("%.0fM"), displayed_size);
-		} else {
-			displayed_size = (gdouble) size / 1.0e9;
-			size_string = g_strdup_printf (_("%.0fG"), displayed_size);
-		}
-	}
-	
+
+	size_string = gnome_vfs_format_file_size_for_display (size);
+
 	return size_string;
 }
 

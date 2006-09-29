@@ -1,3 +1,10 @@
+2006-09-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #341474 patch from Ushveen
+	
+	* e-attachment-bar.c: (size_to_string): Use 
+	gnome_vfs_format_file_size_for_display instead of manual calculations.
+
 2006-09-12  Ushveen Kaur  <kushveen@novell.com>
 
 	** Fix for bug #325614
