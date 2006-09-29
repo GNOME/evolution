@@ -1,3 +1,8 @@
+2006-09-25  Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #324882
+	* filter.glade: Alignment corrected for the date filtering rule.
+	
 2006-07-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #341369
