@@ -1,3 +1,9 @@
+2006-08-23 Ushveen kaur <kushveen@novell.com>
+
+	** Fix for bug #329694
+
+	* e-charset-picker.c : Translator comment added for "logical".
+
 2006-09-28  Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #335814

@@ -86,6 +86,7 @@ typedef struct {
  * not a lot of point in using, say, ISO-8859-3, if anything that can
  * read that can read UTF8 too.
  */
+/* To Translators: Character set "Logical Hebrew" */
 static ECharset charsets[] = {
 	{ "ISO-8859-13", E_CHARSET_BALTIC, NULL },
 	{ "ISO-8859-4", E_CHARSET_BALTIC, NULL },
