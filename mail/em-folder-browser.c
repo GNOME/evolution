@@ -372,7 +372,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 	return menu;
 }
 
-
+#if 0
 static GArray *
 viewoption_menu_generator ()
 {
@@ -400,6 +400,7 @@ viewoption_menu_generator ()
 
 	return menu;
 }
+#endif
 
 static void
 emfb_realize (GtkWidget *widget)
@@ -417,7 +418,6 @@ emfb_init(GObject *o)
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
 	RuleContext *search_context = mail_component_peek_search_context (mail_component_peek ());
 	struct _EMFolderBrowserPrivate *p;
-	GtkWidget *menu;
 
 	p = emfb->priv = g_malloc0(sizeof(struct _EMFolderBrowserPrivate));
 
@@ -445,8 +445,12 @@ emfb_init(GObject *o)
 	if (search_context) {
 		const char *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
 		const char *userrules = g_object_get_data (G_OBJECT (search_context), "user");
-
+		EFilterBar *efb;
+		
 		emfb->search = e_filter_bar_new(search_context, systemrules, userrules, emfb_search_config_search, emfb);
+		efb = (EFilterBar *)emfb->search;
+		efb->account_search_vf = NULL;
+		efb->all_account_search_vf = NULL;		
 		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
 		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
@@ -456,7 +460,7 @@ emfb_init(GObject *o)
 
 		p->search_menu_activated_id = g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
 		p->search_activated_id = g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
-		p->search_query_changed_id = g_signal_connect(emfb->search, "query_changed", G_CALLBACK(emfb_search_query_changed), emfb);
+/* 		p->search_query_changed_id = g_signal_connect(emfb->search, "query_changed", G_CALLBACK(emfb_search_query_changed), emfb); */
 		g_signal_connect(emfb->search, "search_cleared", G_CALLBACK(emfb_search_search_cleared), NULL);
 		
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
@@ -681,7 +685,7 @@ void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 	gtk_widget_reparent((GtkWidget *)emfb->view.list, w);
 	gtk_widget_reparent((GtkWidget *)emfb->priv->preview, w);
 	gtk_widget_destroy(emfb->vpane);
-	gtk_container_resize_children (w);
+	gtk_container_resize_children ((GtkContainer *)w);
 	emfb->vpane = w;
 	gtk_widget_show(w);
 
@@ -847,8 +851,6 @@ struct _setup_msg {
 static char *
 vfolder_setup_desc(struct _mail_msg *mm, int done)
 {
-	struct _setup_msg *m = (struct _setup_msg *)mm;
-
 	return g_strdup(_("Searching"));
 }
 
@@ -958,7 +960,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	EFilterBar *efb = (EFilterBar *)esb;
-	char *search_state, *view_sexp, *folder_uri;
+	char *search_state, *view_sexp, *folder_uri=NULL;
 	char *word = NULL, *storeuri = NULL, *search_word = NULL;;
 	gint id, i;
 	CamelFolder *folder;
@@ -994,100 +996,130 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    word = e_search_bar_get_text (esb);
 		    if (!(word && *word)) {
 			    mail_cancel_all ();
+			    if (efb->account_search_vf) {
+				    camel_object_unref (efb->account_search_vf);
+				    efb->account_search_vf = NULL;
+			    }
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);
 			    break;
 		    }
 
+		    g_object_get (esb, "query", &search_word, NULL);		    
+		    if (efb->account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->account_search_vf)->expression) ) {
+			    break;
+		    }
 		    gtk_widget_set_sensitive (esb->scopeoption, FALSE);		    
 
 		    /* Disable the folder tree */
 		    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_ACTIVATED], 0);
 
-		    store = emfv->folder->parent_store;
-		    if (store->folders) {
-			    folders = camel_object_bag_list(store->folders);
-			    for (i=0;i<folders->len;i++) {
-				    folder = folders->pdata[i];
-				    folder_list_account = g_list_append(folder_list_account, folder);
+		    if (!efb->account_search_vf) {
+			    store = emfv->folder->parent_store;
+			    if (store->folders) {
+				    folders = camel_object_bag_list(store->folders);
+				    for (i=0;i<folders->len;i++) {
+					    folder = folders->pdata[i];
+					    folder_list_account = g_list_append(folder_list_account, folder);
+				    }
 			    }
+
+			    /* Create a camel vee folder */
+			    storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
+			    vfolder_store = camel_session_get_store (session, storeuri, NULL);
+			    efb->account_search_vf = (CamelVeeFolder *)camel_vee_folder_new (vfolder_store,_("Account Search"),CAMEL_STORE_VEE_FOLDER_AUTO);
+
+			    /* Set the search expression  */
+
+			    vfolder_setup ((CamelFolder *)efb->account_search_vf, search_word, NULL, folder_list_account);
+
+			    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->account_search_vf);
+			    emfb_set_search_folder (emfv, (CamelFolder *)efb->account_search_vf, folder_uri);
+			    g_free (folder_uri);
+			    g_free (storeuri);			    
+		    } else {
+			    /* Reuse the existing search folder */
+			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->account_search_vf, search_word);
 		    }
-
-		    /* Create a camel vee folder */
-		    storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
-		    vfolder_store = camel_session_get_store (session, storeuri, NULL);
-		    efb->account_search_vf = camel_vee_folder_new (vfolder_store, _("Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
-
-		    /* Set the search expression  */
-		    g_object_get (esb, "query", &search_word, NULL);
-
-		    vfolder_setup (efb->account_search_vf, search_word, NULL, folder_list_account);
-
-		    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->account_search_vf);
-		    emfb_set_search_folder (emfv, (CamelFolder *)efb->account_search_vf, folder_uri);
-
-/* 		    g_list_free (folder_list_account); */
-/* 		    g_free (folder_uri); */
-/* 		    g_free (storeuri); */
+		    
 		    break;
 
 	    case E_FILTERBAR_ALL_ACCOUNTS_ID:
 		    word = e_search_bar_get_text (esb);
 		    if (!(word && *word)) {
-			    mail_cancel_all ();			    
+			    mail_cancel_all ();
+			    if (efb->all_account_search_vf) {
+				    camel_object_unref (efb->all_account_search_vf);
+				    efb->all_account_search_vf=NULL;
+			    }
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);		    
+			    break;
+		    }
+
+		    g_object_get (esb, "query", &search_word, NULL);
+		    
+		    if (efb->all_account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->all_account_search_vf)->expression) )  {
+			    /* No real search apart from the existing one */
 			    break;
 		    }
 		    
 		    gtk_widget_set_sensitive (esb->scopeoption, FALSE);		    
 		    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_ACTIVATED], 0);
 
-		    /* Create a camel vee folder */
-		    storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
-		    vfolder_store = camel_session_get_store (session, storeuri, NULL);
-		    efb->all_account_search_vf = camel_vee_folder_new (vfolder_store, _("All Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
+		    if (!efb->all_account_search_vf) {
+			    /* Create a camel vee folder */
+			    storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
+			    vfolder_store = camel_session_get_store (session, storeuri, NULL);
+			    efb->all_account_search_vf = (CamelVeeFolder *)camel_vee_folder_new (vfolder_store,_("All Account Search"),CAMEL_STORE_VEE_FOLDER_AUTO);
 
-		    /* Set sexp  */
-		    g_object_get (esb, "query", &search_word, NULL);
+			    /* Set sexp  */
 
-		    /* FIXME: there got to be a better way :) */
+			    /* FIXME: there got to be a better way :) */
 
-		    /* Add the local folders */
-		    l = mail_vfolder_get_sources_local ();
-		    while (l) {
-			    folder = mail_tool_uri_to_folder ((const char *)l->data, 0,ex);
-			    if (folder)
-				    folder_list = g_list_append(folder_list, folder);
-			    else {
-				    g_warning("Could not open vfolder source: %s", (char *)l->data);
-				    camel_exception_clear(ex);
+			    /* Add the local folders */
+			    l = mail_vfolder_get_sources_local ();
+			    while (l) {
+				    folder = mail_tool_uri_to_folder ((const char *)l->data, 0,ex);
+				    if (folder)
+					    folder_list = g_list_append(folder_list, folder);
+				    else {
+					    g_warning("Could not open vfolder source: %s", (char *)l->data);
+					    camel_exception_clear(ex);
+				    }
+				    l = l->next;
 			    }
-			    l = l->next;
-		    }
 
-		    /* Add the remote source folder */
-		    l = mail_vfolder_get_sources_remote ();
-		    while (l) {
-			    folder = mail_tool_uri_to_folder ((const char *)l->data, 0,ex);
-			    if (folder)
-				    folder_list = g_list_append(folder_list, folder);
-			    else {
-				    g_warning("Could not open vfolder source: %s", (char *)l->data);
-				    camel_exception_clear(ex);
+			    /* Add the remote source folder */
+			    l = mail_vfolder_get_sources_remote ();
+			    while (l) {
+				    folder = mail_tool_uri_to_folder ((const char *)l->data, 0,ex);
+				    if (folder)
+					    folder_list = g_list_append(folder_list, folder);
+				    else {
+					    g_warning("Could not open vfolder source: %s", (char *)l->data);
+					    camel_exception_clear(ex);
+				    }
+				    l = l->next;
 			    }
-			    l = l->next;
+
+			    vfolder_setup ((CamelFolder *)efb->all_account_search_vf, search_word, NULL, folder_list);
+
+			    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->all_account_search_vf);
+			    emfb_set_search_folder (emfv, (CamelFolder *)efb->all_account_search_vf, folder_uri);
+			    g_free (folder_uri);
+			    g_free (storeuri);
+		    } else {
+			    /* Reuse the existing search folder */
+			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->all_account_search_vf, search_word);
 		    }
-
-		    vfolder_setup (efb->all_account_search_vf, search_word, NULL, folder_list);
-
-		    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->all_account_search_vf);
-		    emfb_set_search_folder (emfv, (CamelFolder *)efb->all_account_search_vf, folder_uri);
-
-		    g_list_free (l);
+		    
 		    break;
 	}
-
+	g_object_get (esb, "state", &search_state, NULL);
+	camel_object_meta_set (emfv->folder, "evolution:search_state", search_state);
+	camel_object_state_write (emfv->folder);
+	
 	/* Merge the view and search expresion*/
 	view_sexp = get_view_query (esb);
 	g_object_get (esb, "query", &search_word, NULL);
@@ -1099,10 +1131,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 	message_list_set_search(emfb->view.list, search_word);
 
-	/* Fixme */
-	g_object_get (esb, "state", &search_state, NULL);
-	camel_object_meta_set (emfv->folder, "evolution:search_state", search_state);
-	camel_object_state_write (emfv->folder);
+
 
 	camel_exception_free (ex);
 }
@@ -1188,12 +1217,12 @@ emfb_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
 
 	/* TODO: pity we can't sucblass this method, ugh, virtualise it? */
 
-/* 	if (GTK_HAS_FOCUS(((ESearchBar *)emfb->search)->entry)) */
-/* 		gtk_editable_cut_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry); */
-/* 	else if (GTK_WIDGET_HAS_FOCUS(emfb->view.preview->formathtml.html)) */
-/* 		em_format_html_display_cut(emfb->view.preview); */
-/* 	else */
-/* 		message_list_copy(emfb->view.list, TRUE); */
+	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
+		gtk_editable_cut_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
+	else if (GTK_WIDGET_HAS_FOCUS(emfb->view.preview->formathtml.html))
+		em_format_html_display_cut(emfb->view.preview);
+	else
+		message_list_copy(emfb->view.list, TRUE);
 }
 
 static void
@@ -1234,7 +1263,7 @@ emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
 	EMFolderView *emfv = data;
 	
 	message_list_select_all(emfv->list);
-	gtk_widget_grab_focus (emfv->list);
+	gtk_widget_grab_focus ((GtkWidget *)emfv->list);
 }
 
 static void
@@ -1850,14 +1879,11 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		}
 
 		/* Fixme */
-/* 		sstate = camel_object_meta_get(folder, "evolution:search_state"); */
-/* 		g_object_set(emfb->search, "state", sstate, NULL); */
-/* 		g_free(sstate); */
+		sstate = camel_object_meta_get(folder, "evolution:search_state");
+		g_object_set(emfb->search, "state", sstate, NULL);
+		g_free(sstate);
 		
 		/* set the query manually, so we dont pop up advanced or saved search stuff */
-		g_object_get(emfb->search, "query", &sstate, NULL);
-		message_list_set_search(emfb->view.list, sstate);
-		g_free(sstate);
 
 		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid"))) {
 			emfb->priv->select_uid = sstate;

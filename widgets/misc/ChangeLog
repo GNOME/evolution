@@ -1,5 +1,21 @@
 2006-09-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fixes a lot of search issues.
+
+	* e-filter-bar.c: (rule_advanced_response), (do_advanced),
+	(menubar_activated), (option_changed), (free_items),
+	(get_property), (set_property):
+	* e-search-bar.c: (clear_search), (clear_verb_cb),
+	(paint_search_text), (e_search_bar_paint), (viewitem_activated_cb),
+	(scopeitem_activated_cb), (option_activated_cb),
+	(clear_button_clicked_cb), (scopeoption_changed_cb), (set_option),
+	(init), (e_search_bar_construct), (e_search_bar_set_viewitem_id),
+	(e_search_bar_set_item_id), (e_search_bar_set_item_menu),
+	(e_search_bar_set_search_scope), (e_search_bar_set_ids):
+	* e-search-bar.h:
+
+2006-09-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fixes bug #341474 patch from Ushveen
 	
 	* e-attachment-bar.c: (size_to_string): Use 

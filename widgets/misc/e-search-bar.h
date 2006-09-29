@@ -101,6 +101,8 @@ struct _ESearchBar
 	int        viewitem_id; /* Current View Id */
 	int        scopeitem_id; /* Scope of search */
 	int        last_search_option;
+
+	gboolean block_search;
 };
 
 struct _ESearchBarClass
@@ -140,7 +142,7 @@ void  e_search_bar_add_menu  (ESearchBar     *search_bar,
 
 void  e_search_bar_set_option     (ESearchBar        *search_bar,
 				   ESearchBarItem    *option_items);
-
+void  e_search_bar_paint (ESearchBar *search_bar);
 void e_search_bar_set_viewoption (ESearchBar *search_bar, 
 				    int option_id, 
 				    ESearchBarItem *subitems);
@@ -151,6 +153,8 @@ void  e_search_bar_set_menu_sensitive  (ESearchBar *search_bar,
 
 void  e_search_bar_set_item_id  (ESearchBar *search_bar,
 				 int         id);
+void  e_search_bar_set_item_menu (ESearchBar *search_bar,
+				  int id);
 int   e_search_bar_get_item_id  (ESearchBar *search_bar);
 
 int   e_search_bar_get_viewitem_id (ESearchBar *search_bar);

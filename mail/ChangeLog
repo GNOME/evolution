@@ -1,3 +1,11 @@
+2006-09-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes a lot of search issue.
+
+	* em-folder-browser.c: (emfb_init), (em_folder_browser_show_wide),
+	(vfolder_setup_desc), (emfb_search_search_activated),
+	(emfb_edit_cut), (emfb_edit_select_all), (emfb_set_folder):
+
 2006-09-28  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Pushing a downstream fix in SUSE.
