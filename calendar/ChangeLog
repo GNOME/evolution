@@ -1,3 +1,9 @@
+2006-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #343369
+	* gui/dialogs/comp-editor.c: (attach_message), (drop_action):
+	Set the filename as email followed the number of the attachment.
+
 2006-09-28  Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #261082

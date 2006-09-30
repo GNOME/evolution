@@ -199,6 +199,8 @@ attach_message(CompEditor *editor, CamelMimeMessage *msg)
 {
 	CamelMimePart *mime_part;
 	const char *subject;
+	guint i;
+	char *filename = NULL;
 
 	mime_part = camel_mime_part_new();
 	camel_mime_part_set_disposition(mime_part, "inline");
@@ -210,11 +212,17 @@ attach_message(CompEditor *editor, CamelMimeMessage *msg)
 		g_free(desc);
 	} else
 		camel_mime_part_set_description(mime_part, _("Attached message"));
-
+	
+	i = e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR (editor->priv->attachment_bar));
+	i++;
+	filename = g_strdup_printf ("email%d",i);
+	camel_mime_part_set_filename (mime_part, filename);
+	
 	camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
 	camel_mime_part_set_content_type(mime_part, "message/rfc822");
 	e_attachment_bar_attach_mime_part(E_ATTACHMENT_BAR(editor->priv->attachment_bar), mime_part);
 	camel_object_unref(mime_part);
+	g_free (filename);
 }
 
 struct _drop_data {
@@ -358,10 +366,13 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 				} else {
 					CamelMultipart *mp = camel_multipart_new();
 					char *desc;
+					char *filename = NULL;
+					guint num;
 
 					camel_data_wrapper_set_mime_type((CamelDataWrapper *)mp, "multipart/digest");
 					camel_multipart_set_boundary(mp, NULL);
 					for (i=0;i<uids->len;i++) {
+
 						msg = camel_folder_get_message(folder, uids->pdata[i], &ex);
 						if (msg) {
 							mime_part = camel_mime_part_new();
@@ -382,10 +393,17 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 					desc = g_strdup_printf(ngettext("Attached message", "%d attached messages", uids->len), uids->len);
 					camel_mime_part_set_description(mime_part, desc);
 					g_free(desc);
+					
+					num = e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR (editor->priv->attachment_bar));
+					num++;
+					filename = g_strdup_printf ("email%d", num);
+					camel_mime_part_set_filename (mime_part, filename);
+
 					e_attachment_bar_attach_mime_part
 						(E_ATTACHMENT_BAR(editor->priv->attachment_bar), mime_part);
 					camel_object_unref(mime_part);
 					camel_object_unref(mp);
+					g_free (filename);
 				}
 				success = TRUE;
 				delete = action == GDK_ACTION_MOVE;
