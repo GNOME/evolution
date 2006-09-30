@@ -681,7 +681,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	gtk_widget_show (p->search_case_check);
 	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_case_check, FALSE, FALSE, 0);
 
-	p->search_matches_label = gtk_label_new (_(""));
+	p->search_matches_label = gtk_label_new ("");
 	gtk_widget_show (p->search_matches_label);
 	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_matches_label, TRUE, TRUE, 0);
 	p->search_dialog = (GtkWidget *)hbox2;

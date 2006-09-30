@@ -1,3 +1,8 @@
+2006-09-30  Harish Krishnaswamy  <kharish@novell.com>
+
+	* em-format-html-display.c: (em_format_html_get_search_dialog):
+	Do not mark empty strings for translation. Fixes #357422.
+	
 2006-09-29  Daniel Gryniewicz  <dang@gentoo.org>
 
 	* em-folder-view.c: ignore marked, empty selections when replying.
