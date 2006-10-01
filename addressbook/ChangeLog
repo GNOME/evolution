@@ -1,3 +1,20 @@
+2006-10-01  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/component/addressbook-component.c: Remove duplicate include.
+	* gui/contact-editor/e-contact-editor.c: (extract_simple_field):
+	Fix some compiler warnings.
+	* gui/contact-editor/e-contact-quick-add.c:
+	(build_quick_add_dialog): Cast away a compiler warning.
+	* gui/widgets/e-addressbook-view.c: (generate_viewoption_menu):
+	#if 0 out an unused array, fix 0 vs NULL initialization in some
+	other arrays and remove an unused GSList.
+	* gui/widgets/e-minicard.c: (add_email_field): Make a var const.
+	* gui/widgets/eab-gui-util.c: (eab_contact_save),
+	(eab_contact_list_save): Add some casts to fix compiler warnings
+	and #if 0 out an unused function.
+	* util/eab-book-util.c: (escape), (eab_contact_list_from_string):
+	Some GString fixes. All of this from bug #332101.
+
 2006-08-24  Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #261062

@@ -53,14 +53,14 @@ eab_get_config_database ()
 static char*
 escape (const char *str)
 {
-	GString *s = g_string_new ("");
+	GString *s = g_string_new (NULL);
 	const char *p = str;
 
 	while (*p) {
 		if (*p == '\\')
-			g_string_append (s, "\\\\");
+			g_string_append_len (s, "\\\\", 2);
 		else if (*p == '"')
-			g_string_append (s, "\\\"");
+			g_string_append_len (s, "\\\"", 2);
 		else
 			g_string_append_c (s, *p);
 
@@ -208,7 +208,7 @@ GList*
 eab_contact_list_from_string (const char *str)
 {
 	GList *contacts = NULL;
-	GString *gstr = g_string_new ("");
+	GString *gstr = g_string_new (NULL);
 	char *str_stripped;
 	char *p = (char*)str;
 	char *q;

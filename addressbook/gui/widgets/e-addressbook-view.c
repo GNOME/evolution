@@ -171,19 +171,21 @@ enum {
 	ESB_ANY,
 };
 
+#if 0
 static ESearchBarItem addressbook_search_option_items[] = {
 	{ N_("Name begins with"), ESB_FULL_NAME, ESB_ITEMTYPE_RADIO },
 	{ N_("Email begins with"), ESB_EMAIL, ESB_ITEMTYPE_RADIO },
 	{ N_("Any field contains"), ESB_ANY, ESB_ITEMTYPE_RADIO },
-	{ NULL, -1, NULL }
+	{ NULL, -1, 0 }
 };
+#endif
 
 static ESearchBarItem addressbook_search_items[] = {
 	E_FILTERBAR_ADVANCED,
-	{NULL, 0, NULL},
+	{NULL, 0, 0},
 	E_FILTERBAR_SAVE,
 	E_FILTERBAR_EDIT,
-	{NULL, -1, NULL}
+	{NULL, -1, 0}
 };
 
 GType
@@ -1623,7 +1625,6 @@ generate_viewoption_menu (EABSearchBarItem *subitems)
 {
 	GtkWidget *menu, *menu_item;
 	gint i = 0;
-	GSList *l;
 
 	menu = gtk_menu_new ();
 

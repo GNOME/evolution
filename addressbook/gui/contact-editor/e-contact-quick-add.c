@@ -325,7 +325,7 @@ build_quick_add_dialog (QuickAdd *qa)
 		qa->book = NULL;
 	}
 	qa->book = book ;
-	source_selected(qa->option_menu, e_source_option_menu_peek_selected (qa->option_menu), qa);
+	source_selected(qa->option_menu, e_source_option_menu_peek_selected ((ESourceOptionMenu *)qa->option_menu), qa);
 	g_signal_connect (qa->option_menu, "source_selected", G_CALLBACK (source_selected), qa);
 	
 	g_object_unref (source_list);	

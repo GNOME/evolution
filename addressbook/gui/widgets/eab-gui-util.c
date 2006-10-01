@@ -528,7 +528,7 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
-	gtk_file_chooser_set_local_only (filesel, FALSE);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
 	
 	info->filesel = filesel;
 	info->vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
@@ -581,7 +581,7 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_ACCEPT);
-	gtk_file_chooser_set_local_only (filesel, FALSE);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
 #else
 	filesel = gtk_file_selection_new(title);
 #endif
@@ -651,6 +651,7 @@ struct ContactCopyProcess_ {
 	ContactCopyDone done_cb;
 };
 
+#if 0
 static void
 contact_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
 {
@@ -658,6 +659,7 @@ contact_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
 		eab_error_dialog (_("Error removing contact"), status);
 	}
 }
+#endif
 
 static void
 do_delete (gpointer data, gpointer user_data)

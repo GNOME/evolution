@@ -838,7 +838,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 	GnomeCanvasItem *new_item;
 	GnomeCanvasGroup *group;
 	EMinicardField *minicard_field;
-	char *name;
+	const char *name;
 	char *string;
 	GList *l, *le;
 	int count =0;

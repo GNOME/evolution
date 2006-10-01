@@ -43,8 +43,6 @@
 
 #include "shell/e-component-view.h"
 
-#include "shell/e-component-view.h"
-
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkimage.h>

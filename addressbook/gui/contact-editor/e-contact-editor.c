@@ -2265,7 +2265,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		{
 			if (editor->image_set &&
 			    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
-							    &photo.data.inlined.data, &photo.data.inlined.length)) {
+							    (char **)&photo.data.inlined.data, &photo.data.inlined.length)) {
 				GdkPixbuf *pixbuf, *new;
 				GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 				
@@ -2294,7 +2294,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 						new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 						if (new) {
 							g_free(photo.data.inlined.data);
-							gdk_pixbuf_save_to_buffer (new, &photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
+							gdk_pixbuf_save_to_buffer (new, (gchar **)&photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
 							g_object_unref (new);
 						}
 						
