@@ -229,7 +229,7 @@ build_from_der (EASN1Object *parent, char *data, char *end)
 	PRInt32 len;
 	PRUint32 type;
 	unsigned char code, tagnum;
-	EASN1Object *asn1object;
+	EASN1Object *asn1object = NULL;
 
 	if (data >= end)
 		return TRUE;
@@ -254,7 +254,7 @@ build_from_der (EASN1Object *parent, char *data, char *end)
 			return FALSE;
 		}
 		data++;
-		len = get_der_item_length (data, end, &bytesUsed, &indefinite);
+		len = get_der_item_length ((unsigned char *)data, (unsigned char *)end, &bytesUsed, &indefinite);
 		data += bytesUsed;
 		if ((len < 0) || ((data+len) > end))
 			return FALSE;

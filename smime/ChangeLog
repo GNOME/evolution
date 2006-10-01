@@ -1,3 +1,10 @@
+2006-10-01  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* lib/e-asn1-object.c: (build_from_der): Initialize a pointer
+	to NULL and cast away a warning. bug #332101.
+	* lib/e-pkcs12.c: (prompt_for_password), (nickname_collision):
+	Fix some signed/unsigned warnings. bug #332101.
+
 2006-08-21  Andre Klapper  <a9016009@gmx.de>
 
 	* smime-ui.glade:

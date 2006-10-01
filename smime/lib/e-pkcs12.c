@@ -226,7 +226,7 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 	if (passwd) {
 		size_t len = strlen (passwd);
 		const char *inptr = passwd;
-		char *outptr;
+		unsigned char *outptr;
 		gunichar2 c;
 		
 		SECITEM_AllocItem(NULL, pwd, sizeof (gunichar2) * (len + 1));
@@ -414,7 +414,7 @@ nickname_collision(SECItem *oldNick, PRBool *cancel, void *wincx)
 
 	new_nick = PR_Malloc (sizeof (SECItem));
 	new_nick->type = siAsciiString;
-	new_nick->data = nickname;
+	new_nick->data = (unsigned char *)nickname;
 	new_nick->len  = strlen((char*)new_nick->data);
 	return new_nick;
 }
