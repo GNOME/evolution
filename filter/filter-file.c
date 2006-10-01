@@ -287,7 +287,10 @@ static GtkWidget *
 get_widget (FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
-	GtkWidget *filewidget, *entry;
+	GtkWidget *filewidget;
+#ifndef USE_GTKFILECHOOSER
+	GtkWidget *entry;
+#endif
 
 #ifdef USE_GTKFILECHOOSER
 	filewidget = (GtkWidget *) gtk_file_chooser_button_new (_("Choose a file"), GTK_FILE_CHOOSER_ACTION_OPEN);

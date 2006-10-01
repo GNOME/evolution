@@ -1,3 +1,8 @@
+2006-10-01  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-file.c: (get_widget): Move a var into #ifndef #USE_FILECOOSER
+	to get rid of a warning. bug #332101.
+
 2006-09-25  Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #324882
