@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-30 18:02+0200\n"
-"PO-Revision-Date: 2006-09-30 18:06+0200\n"
+"POT-Creation-Date: 2006-10-03 01:03+0200\n"
+"PO-Revision-Date: 2006-10-03 01:04+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,12 +30,12 @@ msgid "evolution addressbook"
 msgstr "libreta de direcciones de Evolution"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
-#: ../addressbook/gui/component/addressbook-component.c:226
+#: ../addressbook/gui/component/addressbook-component.c:224
 msgid "New Contact"
 msgstr "Contacto nuevo"
 
 #: ../a11y/addressbook/ea-minicard-view.c:35
-#: ../addressbook/gui/component/addressbook-component.c:234
+#: ../addressbook/gui/component/addressbook-component.c:232
 msgid "New Contact List"
 msgstr "Lista de contactos nueva"
 
@@ -412,7 +412,7 @@ msgstr "No es posible autenticar con el servidor LDAP."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
 msgid "Failed to delete contact"
 msgstr "Falló al borrar el contacto"
 
@@ -627,7 +627,7 @@ msgstr "Gestione sus certificados S/MIME aquí"
 
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
-#: ../addressbook/gui/component/addressbook-component.c:141
+#: ../addressbook/gui/component/addressbook-component.c:139
 #: ../addressbook/gui/component/addressbook-migrate.c:483
 #: ../calendar/gui/calendar-component.c:231
 #: ../calendar/gui/memos-component.c:195 ../calendar/gui/migration.c:477
@@ -643,7 +643,7 @@ msgstr "En este equipo"
 #. Create the default Person task list
 #. Create the default Person addressbook
 #. orange
-#: ../addressbook/gui/component/addressbook-component.c:149
+#: ../addressbook/gui/component/addressbook-component.c:147
 #: ../addressbook/gui/component/addressbook-migrate.c:491
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:602
@@ -656,41 +656,41 @@ msgid "Personal"
 msgstr "Privado"
 
 #. Create the LDAP source group
-#: ../addressbook/gui/component/addressbook-component.c:159
+#: ../addressbook/gui/component/addressbook-component.c:157
 #: ../addressbook/gui/component/addressbook-migrate.c:501
 msgid "On LDAP Servers"
 msgstr "En servidores LDAP"
 
-#: ../addressbook/gui/component/addressbook-component.c:227
+#: ../addressbook/gui/component/addressbook-component.c:225
 msgid "_Contact"
 msgstr "_Contacto"
 
-#: ../addressbook/gui/component/addressbook-component.c:228
+#: ../addressbook/gui/component/addressbook-component.c:226
 msgid "Create a new contact"
 msgstr "Crea un contacto nuevo"
 
-#: ../addressbook/gui/component/addressbook-component.c:235
+#: ../addressbook/gui/component/addressbook-component.c:233
 msgid "Contact _List"
 msgstr "_Lista de contactos"
 
-#: ../addressbook/gui/component/addressbook-component.c:236
+#: ../addressbook/gui/component/addressbook-component.c:234
 msgid "Create a new contact list"
 msgstr "Crea una lista de contactos nueva"
 
-#: ../addressbook/gui/component/addressbook-component.c:242
+#: ../addressbook/gui/component/addressbook-component.c:240
 #: ../addressbook/gui/component/addressbook-config.c:1205
 msgid "New Address Book"
 msgstr "Libreta de direcciones nueva"
 
-#: ../addressbook/gui/component/addressbook-component.c:243
+#: ../addressbook/gui/component/addressbook-component.c:241
 msgid "Address _Book"
 msgstr "Libreta de _direcciones"
 
-#: ../addressbook/gui/component/addressbook-component.c:244
+#: ../addressbook/gui/component/addressbook-component.c:242
 msgid "Create a new address book"
 msgstr "Crea una libreta de direcciones nueva"
 
-#: ../addressbook/gui/component/addressbook-component.c:407
+#: ../addressbook/gui/component/addressbook-component.c:405
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Falló al actualizar la configuración de la libreta o las carpetas."
 
@@ -721,7 +721,7 @@ msgid "General"
 msgstr "General"
 
 #: ../addressbook/gui/component/addressbook-config.c:985
-#: ../addressbook/gui/widgets/e-addressbook-view.c:568
+#: ../addressbook/gui/widgets/e-addressbook-view.c:570
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "Libreta de direcciones"
@@ -842,7 +842,7 @@ msgstr "Libreta de direcciones _nueva"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
-#: ../addressbook/gui/widgets/e-addressbook-view.c:984
+#: ../addressbook/gui/widgets/e-addressbook-view.c:986
 #: ../calendar/gui/calendar-component.c:584
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
@@ -2810,7 +2810,7 @@ msgstr ""
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:228
+#: ../addressbook/gui/widgets/e-addressbook-view.c:230
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
@@ -2866,18 +2866,18 @@ msgstr ""
 "en esta carpeta.  ¿Quiere añadirlo de todos modos?"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:177
+#: ../addressbook/gui/widgets/e-addressbook-view.c:178
 #: ../calendar/gui/cal-search-bar.c:59
 msgid "Any field contains"
 msgstr "Cualquier campo contiene"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:176
+#: ../addressbook/gui/widgets/e-addressbook-view.c:177
 msgid "Email begins with"
 msgstr "El correo-e empieza por"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:175
+#: ../addressbook/gui/widgets/e-addressbook-view.c:176
 msgid "Name begins with"
 msgstr "El nombre empieza por"
 
@@ -2894,7 +2894,7 @@ msgstr[1] "%d contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:242
+#: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
@@ -2918,11 +2918,11 @@ msgstr "Modelo"
 msgid "Error modifying card"
 msgstr "Error al modificar la tarjeta"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:235
+#: ../addressbook/gui/widgets/e-addressbook-view.c:237
 msgid "Source"
 msgstr "Fuente"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:249
+#: ../addressbook/gui/widgets/e-addressbook-view.c:251
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
 #: ../calendar/gui/e-meeting-list-view.c:487
@@ -2931,13 +2931,13 @@ msgstr "Fuente"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:839
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2150
+#: ../addressbook/gui/widgets/e-addressbook-view.c:841
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2151
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Guardar como VCard…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:962
+#: ../addressbook/gui/widgets/e-addressbook-view.c:964
 #: ../calendar/gui/dialogs/comp-editor.c:1119
 #: ../calendar/gui/e-calendar-table.c:1280
 #: ../calendar/gui/e-calendar-view.c:1698 ../calendar/gui/e-memo-table.c:901
@@ -2945,56 +2945,56 @@ msgstr "Guardar como VCard…"
 msgid "_Open"
 msgstr "_Abrir"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:964
+#: ../addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "_New Contact..."
 msgstr "Contacto _nuevo…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:965
+#: ../addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "New Contact _List..."
 msgstr "_Lista de contactos nueva…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:968
+#: ../addressbook/gui/widgets/e-addressbook-view.c:970
 msgid "_Save as VCard..."
 msgstr "G_uardar como vCard…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:969
+#: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:970
+#: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "_Forward Contacts"
 msgstr "_Reenviar contactos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:973
 msgid "Send _Message to Contact"
 msgstr "Enviar un _mensaje al contacto"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:972
+#: ../addressbook/gui/widgets/e-addressbook-view.c:974
 msgid "Send _Message to List"
 msgstr "Enviar un _mensaje a la lista"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:973
+#: ../addressbook/gui/widgets/e-addressbook-view.c:975
 msgid "Send _Message to Contacts"
 msgstr "Enviar un _mensaje a los contactos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:974
+#: ../addressbook/gui/widgets/e-addressbook-view.c:976
 msgid "_Print"
 msgstr "Im_primir"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:977
+#: ../addressbook/gui/widgets/e-addressbook-view.c:979
 msgid "Cop_y to Address Book..."
 msgstr "_Copiar a la libreta de direcciones…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:978
+#: ../addressbook/gui/widgets/e-addressbook-view.c:980
 msgid "Mo_ve to Address Book..."
 msgstr "Mo_ver a la libreta de direcciones…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:981
+#: ../addressbook/gui/widgets/e-addressbook-view.c:983
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:984
 #: ../calendar/gui/calendar-component.c:583
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1288
@@ -3009,23 +3009,23 @@ msgstr "Cor_tar"
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:983
+#: ../addressbook/gui/widgets/e-addressbook-view.c:985
 msgid "P_aste"
 msgstr "_Pegar"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1666
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1667
 #: ../calendar/gui/cal-search-bar.c:423
 msgid "Any Category"
 msgstr "Cualquier categoría"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1868
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1869
 msgid "Print cards"
 msgstr "Imprimir tarjetas"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
 msgstr "Otro error"
@@ -3633,7 +3633,7 @@ msgid "Error adding list"
 msgstr "Error al añadir la lista"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
-#: ../addressbook/gui/widgets/eab-gui-util.c:705
+#: ../addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Error adding contact"
 msgstr "Error al añadir el contacto"
 
@@ -3650,7 +3650,7 @@ msgid "Error removing list"
 msgstr "Error al eliminar la lista"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
-#: ../addressbook/gui/widgets/eab-gui-util.c:658
+#: ../addressbook/gui/widgets/eab-gui-util.c:659
 msgid "Error removing contact"
 msgstr "Error al eliminar el contacto"
 
@@ -3706,37 +3706,37 @@ msgstr "Seleccione la libreta de direcciones"
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:766
+#: ../addressbook/gui/widgets/eab-gui-util.c:768
 msgid "Move contact to"
 msgstr "Mover contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:768
+#: ../addressbook/gui/widgets/eab-gui-util.c:770
 msgid "Copy contact to"
 msgstr "Copiar contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:771
+#: ../addressbook/gui/widgets/eab-gui-util.c:773
 msgid "Move contacts to"
 msgstr "Mover contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:773
+#: ../addressbook/gui/widgets/eab-gui-util.c:775
 msgid "Copy contacts to"
 msgstr "Copiar contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:999
+#: ../addressbook/gui/widgets/eab-gui-util.c:1001
 msgid "Multiple VCards"
 msgstr "VCards múltiples"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1002
+#: ../addressbook/gui/widgets/eab-gui-util.c:1004
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard para %s"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1043
-#: ../addressbook/gui/widgets/eab-gui-util.c:1061
+#: ../addressbook/gui/widgets/eab-gui-util.c:1045
+#: ../addressbook/gui/widgets/eab-gui-util.c:1063
 msgid "Contact information"
 msgstr "Información de contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1063
+#: ../addressbook/gui/widgets/eab-gui-util.c:1065
 #, c-format
 msgid "Contact information for %s"
 msgstr "Información de contacto de %s"
@@ -10920,7 +10920,7 @@ msgstr "%e-%b-%Y"
 msgid "Select a time to compare against"
 msgstr "Seleccione una fecha con la que comparar"
 
-#: ../filter/filter-file.c:293 ../filter/filter-file.c:299
+#: ../filter/filter-file.c:296 ../filter/filter-file.c:302
 msgid "Choose a file"
 msgstr "Elija un archivo"
 
@@ -20880,8 +20880,8 @@ msgid "Ukrainian"
 msgstr "Ucraniano"
 
 #: ../widgets/misc/e-charset-picker.c:106
-msgid "Logical"
-msgstr "Lógico"
+msgid "Visual"
+msgstr "visual"
 
 #: ../widgets/misc/e-charset-picker.c:175
 #, c-format
@@ -20945,6 +20945,14 @@ msgstr "%H:%M"
 #: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
+
+#: ../widgets/misc/e-dateedit.c:1634
+msgid "Invalid Date Value"
+msgstr "Valor de fecha inválido"
+
+#: ../widgets/misc/e-dateedit.c:1660
+msgid "Invalid Time Value"
+msgstr "Valor de hora inválido"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
@@ -21833,5 +21841,5 @@ msgstr "Contexto IM"
 msgid "Handle Popup"
 msgstr "Tirador emergente"
 
-#~ msgid "Visual"
-#~ msgstr "visual"
+#~ msgid "Logical"
+#~ msgstr "Lógico"
