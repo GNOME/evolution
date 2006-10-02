@@ -1631,7 +1631,7 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 						    GTK_DIALOG_MODAL,
 						    GTK_MESSAGE_WARNING,
 						    GTK_BUTTONS_OK,
-						    "Invalid Date Value");
+						    _("Invalid Date Value"));
 		gtk_dialog_run (GTK_DIALOG(msg_dialog));
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday);
@@ -1657,7 +1657,7 @@ on_time_entry_focus_out			(GtkEntry	*entry,
 						  GTK_DIALOG_MODAL,
 						  GTK_MESSAGE_WARNING,
 						  GTK_BUTTONS_OK,
-						  "Invalid Time Value");
+						  _("Invalid Time Value"));
 		gtk_dialog_run (GTK_DIALOG(msg_dialog));
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_set_time (dedit,e_date_edit_get_time(dedit));
