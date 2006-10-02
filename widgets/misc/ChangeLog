@@ -1,3 +1,8 @@
+2006-10-02 Harish Krishnaswamy <kharish@novell.com>
+	
+	* Revert the previous patch as per rel-team
+	disapproval on the commit.
+
 2006-08-23 Ushveen kaur <kushveen@novell.com>
 
 	** Fix for bug #329694
