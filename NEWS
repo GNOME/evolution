@@ -1,3 +1,36 @@
+Evolution 2.8.1 2006-10-02
+--------------------------
+
+Updated Translations:
+
+Ignacio Casal Quinteiro (gl), Ilkka Tuohela (fi),
+Francisco Javier Fernandez Serrador (es),
+Daniel Nylander (sv), Jovan Naumovski (mk),
+Pema Geyleg (dz), Ivar Smolin (et), 
+Åsmund Skjæveland (nn), Hendrik Richter (de),
+Nickolay V. Shmyrev (ru), Daniel Nylander (sv),
+Changwoo Ryu (ko), Wouter Bolsterlee (nl),
+Luca Ferretti (it), Gabor Kelemen (hu),
+Cyprien Le Pannérer (fr), Subhransu Behera (or),
+Pawan Chitrakar (ne), Alexander Shopov (bg),
+David Lodge (en_GB), Ankit Patel (gu), 
+Vladimer Sichinava (ka), Kostas Papadimas (el),
+Jamil Ahmed (bn), Alessio Frusciante (it) 
+
+
+Bug fixes :
+356811, 351332, 353472, 357422, 354650, 352767, 341932, 353920,
+355294, 343331, 332101, 352450, 348419, 343369, 261082, 261980,
+325611, 325613, 334692, 354775, 352450, 344276, 343409, 261062,
+342882, 332101, 357811, 352353, 329694, 335814, 341474, 341099.
+351332, 352450,  343686.
+
+Contributors:
+Matthew Barnes, Harish Krishnaswamy, Daniel Gryniewicz, Nick Sukharev,
+Roozbeh Pournader, Srinivasa Ragavan, Wouter Bolsterlee, Kjartan Maraas,
+Tor Lillqvist, Chenthill, Ushveen Kaur, Arvind, Hiroyuki Ikezoe.
+Andre Klapper, Radhika Nair.
+
 Evolution 2.8.0 2006-09-04
 --------------------------
 Evolution 2.8 Stable Release for GNOME 2.16.0.
