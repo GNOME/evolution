@@ -84,7 +84,7 @@
    </listitem>
   </itemizedlist>
   <bridgehead id="bt4ckdr">Documentation Updates</bridgehead>
-  <para>For the most recent version of the<citetitle> Evolution 2.8 User Guide</citetitle>, see the <ulink url="http://www.novell.com/documentation/evolution26/index.html">Evolution Documentation Web site</ulink>.</para>
+  <para>For the most recent version of the<citetitle> Evolution 2.8 User Guide</citetitle>, see the <ulink url="http://www.novell.com/documentation/evolution28/index.html">Evolution Documentation Web site</ulink>.</para>
   <bridgehead id="bt4ckds">Documentation Conventions</bridgehead>
   <para>In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path.</para>
   <para>A trademark symbol (&reg;, &trade;, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark.</para>
@@ -94,7 +94,7 @@
 
  <chapter id="usage-mainwindow">
   <title>Getting Started</title>
-  <para>Evolution&trade; makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others. It&apos;s a highly evolved <link linkend="groupware">groupware</link> program, an integral part of the Internet-connected desktop.</para>
+  <para>Evolution&trade; makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others. It is a highly evolved <link linkend="groupware">groupware</link> program, an integral part of the Internet-connected desktop.</para>
   <para>Evolution can help you work in a group by handling e-mail, address, and other contact information, and one or more calendars. It can do that on one or several computers, connected directly or over a network, for one person or for large groups.</para>
   <para>With Evolution, you can accomplish your most common daily tasks quickly. For example, it takes only one or two clicks to enter appointment or contact information sent to you by e-mail, or to send e-mail to a contact or appointment. People who get lots of e-mail will appreciate advanced features like <link linkend="vfolder">search folders</link>, which let you save searches as though they were ordinary e-mail folders.</para>
   <itemizedlist>
@@ -224,10 +224,6 @@
         <title>IMAP:</title>
         <para> Keeps the e-mail on your server so you can access your e-mail from multiple systems. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
-       <formalpara id="bxmebc0">
-        <title>IMAP4rev1: </title>
-        <para>Keeps the e-mail on your server so you can access your e-mail from multiple systems. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
-       </formalpara>
        <formalpara id="bsj74du">
         <title>POP:</title>
         <para> Downloads your e-mail to your hard disk for permanent storage, freeing up space on the e-mail server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
@@ -309,7 +305,7 @@
        <para><link linkend="bstgjve">Microsoft Exchange Receiving Options</link></para>
       </listitem>
       <listitem>
-       <para><link linkend="bstggh0">IMAP and IMAP4rev1 Receiving Options</link></para>
+       <para><link linkend="bstggh0">IMAP Receiving Options</link></para>
       </listitem>
       <listitem>
        <para><link linkend="bspcfg3">POP Receiving Options</link></para>
@@ -349,7 +345,7 @@
        </listitem>
        <listitem id="bsthlvl">
         <para>Select if you want to check new messages for junk content.</para>
-        <para>For additional information on junk content, see <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
+        <para>For additional information on junk content, see  <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
        </listitem>
        <listitem id="bsthm9q">
         <para>Select if you want to only check for junk messages in the Inbox folder.</para>
@@ -400,8 +396,8 @@
      </section>
 
      <section id="bstggh0">
-      <title>IMAP and IMAP4rev1 Receiving Options</title>
-      <para>If you select IMAP or IMAP4rev1 as your receiving server type, you need to specify the following options:</para>
+      <title>IMAP Receiving Options</title>
+      <para>If you select IMAP as your receiving server type, you need to specify the following options:</para>
       <mediaobject id="bsu2dp4"><imageobject><imagedata format="PNG" fileref="figures/evo_imapreceive_a.png"/></imageobject></mediaobject>
       <orderedlist>
        <listitem id="bstggly">
@@ -663,8 +659,8 @@
    <para>The search tool lets you search your e-mail, contacts, calendar, and tasks to easily find what you&apos;re looking for.</para>
    <bridgehead id="bt4ckea">Message List</bridgehead>
    <para>The message list displays a list of e-mail that you have received. To view an e-mail in the preview pane, click the e-mail in the e-mail list.</para>
-   <bridgehead id="bt4ckeb">Shortcut Buttons</bridgehead>
-   <para>The shortcut bar lets you switch between folders and between Evolution tools. At the bottom of the shortcut bar there are buttons that let you switch tools, and above that is a list of all the available folders for the current tool. If you have the Evolution Connector for Microsoft Exchange installed, you have an Exchange button in addition to buttons for the other tools. For additional information, see <link linkend="usage-mainwindow-shortcutbar">The Shortcut Bar</link>.</para>
+   <bridgehead id="bt4ckeb">Switcher</bridgehead>
+   <para>The switcher lets you switch between folders and between Evolution tools. At the bottom of the switcher there are buttons that let you switch Evolution tools, and above that is a list of all the available folders for the current tool. If you have the Evolution Connector for Microsoft Exchange installed, you have an Exchange button in addition to buttons for the other tools. For additional information, see <link linkend="usage-mainwindow-shortcutbar">The Switcher</link>.</para>
    <bridgehead id="bt4ckec">Status Bar</bridgehead>
    <para>The status bar periodically displays a message, or tells you the progress of a task. This most often happens when you&apos;re checking or sending e-mail. These progress queues are shown in the previous figure. The Online/Offline indicator is here, too, in the lower left of the window.</para>
    <bridgehead id="bt4cked">Preview Pane</bridgehead>
@@ -704,8 +700,8 @@
    </section>
 
    <section id="usage-mainwindow-shortcutbar">
-    <title>The Shortcut Bar</title>
-    <para>The most important job for Evolutions is to give you access to your information and help you use it quickly. One way it does that is through the shortcut bar, which is the column on the left side of the main window. The buttons, such as Mail and Contacts, are the shortcuts. Above them is a list of folders for the current Evolution tool.</para>
+    <title>The Switcher</title>
+    <para>The most important job for Evolutions is to give you access to your information and help you use it quickly. One way it does that is through the switcher, which is the column on the left side of the main window. The buttons, such as Mail and Contacts, are the shortcuts. Above them is a list of folders for the current Evolution tool.</para>
     <para>The folder list organizes your e-mail, calendars, contact lists, and task lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one folder, called On This Computer, for local information. For example, the folder list for the e-mail tool shows any remote e-mail storage you have set up, plus local folders and search folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>. </para>
     <para>If you get large amounts of e-mail, you might want more folders than just your Inbox. You can create multiple calendar, task, or contacts folders. </para>
     <para>To create a new folder:</para>
@@ -723,6 +719,28 @@
       <para>Click OK.</para>
      </listitem>
     </orderedlist>
+    <bridgehead id="b13cehq7">Changing Switcher Appearance</bridgehead>
+    <para>To change the appearance of  your switcher click View &gt; Switcher Appearance from the Menu bar. Under Switcher Appearance you can select:</para>
+    <formalpara id="b13cep2o">
+     <title>Icons and text: </title>
+     <para>Displays buttons with the label and the icon corresponding to it.</para>
+    </formalpara>
+    <formalpara id="b13ceqsq">
+     <title>Icons only:</title>
+     <para> Shows only the icons.</para>
+    </formalpara>
+    <formalpara id="b13ceqv1">
+     <title>Texts only:</title>
+     <para> Displays buttons with the label, not the icons.</para>
+    </formalpara>
+    <formalpara id="b13cfibm">
+     <title>Toolbar style:</title>
+     <para> Shows buttons using the desktop toolbar settings.</para>
+    </formalpara>
+    <formalpara id="b13cfifx">
+     <title>Hide buttons:</title>
+     <para> This option hides all the shortcut buttons of switcher.</para>
+    </formalpara>
 
     <section id="subfolders">
      <title>Folder Management</title>
@@ -781,7 +799,7 @@
       <para>It lets you guard your privacy with encryption.</para>
      </listitem>
     </itemizedlist>
-    <para>However, Evolution has some important differences from other e-mail programs. First, it&apos;s built to handle very large amounts of e-mail. The <link linkend="usage-mail-organize-spam">junk e-mail</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There&apos;s also the <link linkend="usage-mail-organize-vfolders">search folder</link>, an advanced organizational feature not found in some e-mail clients. If you get a lot of e-mail, or if you keep every message you get in case you need to refer to it later, you&apos;ll find this feature especially useful. Here&apos;s a quick explanation of what&apos;s happening in your main Evolution e-mail window. </para>
+    <para>However, Evolution has some important differences from other e-mail programs. First, It is built to handle very large amounts of e-mail. The <link linkend="usage-mail-organize-spam">junk e-mail</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There&apos;s also the <link linkend="usage-mail-organize-vfolders">search folder</link>, an advanced organizational feature not found in some e-mail clients. If you get a lot of e-mail, or if you keep every message you get in case you need to refer to it later, you&apos;ll find this feature especially useful. Here&apos;s a quick explanation of what&apos;s happening in your main Evolution e-mail window. </para>
     <mediaobject id="b159qi3q"><imageobject><imagedata format="PNG" fileref="figures/evo_mail_a.png"/></imageobject></mediaobject>
     <bridgehead id="bt4ckee">Message List</bridgehead>
     <para>The message list displays all the e-mails that you have. This includes all your read and unread messages, and e-mail that is flagged to be deleted.</para>
@@ -789,28 +807,28 @@
     <para>This is where your e-mail is displayed.</para>
     <para>If you find the preview pane too small, you can resize the pane, enlarge the whole window, or double-click the message in the message list to have it open in a new window. To change the size of a pane, drag the divider between the two panes. </para>
     <para>As with folders, you can right-click messages in the message list and get a menu of possible actions, including moving or deleting them, creating filters or search folders based on them, and marking them as junk mail.</para>
-    <para>Most of the e-mail-related actions you want to perform are listed in the Actions menu in the menu bar. The most frequently used ones, like Reply and Forward, also appear as buttons in the toolbar. Most of them are also located in the right-click menu and as keyboard shortcuts.</para>
+    <para>Most of the e-mail-related actions you want to perform are listed in the Message Menu and Folder Menu in the menu bar. The most frequently used ones, like Reply and Forward, also appear as buttons in the toolbar. Most of them are also located in the right-click menu and as keyboard shortcuts.</para>
     <para>For an in-depth guide to the e-mail capabilities of Evolution, read <link linkend="usage-mail">Sending and Receiving E-Mail</link>.</para>
    </section>
 
    <section id="basics-calendar">
     <title>The Calendar</title>
-    <para>To begin using the calendar, click Calendar in the shortcut bar. By default, the calendar shows today&apos;s schedule on a ruled background. At the upper right, there&apos;s a monthly calendar you can use to switch days. Below that, there&apos;s a Task list, where you can keep a list of tasks separate from your calendar appointments.</para>
+    <para>To begin using the calendar, click Calendar in the switcher. By default, the calendar shows today&apos;s schedule on a ruled background. At the left bottom, there is a monthly calendar you can use to switch days. At the upper right ,there is a Task list, where you can keep a list of tasks separate from your calendar appointments.Below that, there is a Memo list.</para>
     <mediaobject id="usage-calendar-fig"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_callout_a.png"/></imageobject></mediaobject>
     <bridgehead id="bt4ckeg">Appointment List</bridgehead>
     <para>The appointment list displays all your scheduled appointments.</para>
     <bridgehead id="bt4ckeh">Month Pane</bridgehead>
-    <para>The month pane is a small view of a calendar month. To display additional months, drag the column border to the left. You can also select a range of days in the month pane to display a custom range of days in the appointment list.</para>
+    <para>The month pane is a small view of a calendar month. To display additional months, drag the column border to the right. You can also select a range of days in the month pane to display a custom range of days in the appointment list.</para>
     <bridgehead id="bt4ckei">Task List</bridgehead>
-    <para>Tasks are distinct from appointments because they generally don&apos;t have times associated with them. You can see a larger view of your task list by clicking Tasks in the shortcut bar.</para>
+    <para>Tasks are distinct from appointments because they generally don&apos;t have times associated with them. You can see a larger view of your task list by clicking Tasks in the switcher.</para>
     <para>For more information about the calendar, see <link linkend="usage-calendar">Evolution Calendar</link>.</para>
    </section>
 
    <section id="basics-contacts">
     <title>The Contacts Tool</title>
-    <para>The Evolution contacts tool can handle all of the functions of an address book or phone book. However, it&apos;s easier to update Evolution than it is to change an actual paper book, in part because Evolution can synchronize with Palm OS&z-3rdParty; devices and use <link linkend="ldap">LDAP</link> directories on a network.</para>
+    <para>The Evolution contacts tool can handle all of the functions of an address book or phone book. However, it is easier to update Evolution than it is to change an actual paper book, in part because Evolution can synchronize with Palm OS&z-3rdParty; devices and use <link linkend="ldap">LDAP</link> directories on a network.</para>
     <para>Another advantage of the Evolution contacts tool is its integration with the rest of the application. For example, you can right-click an e-mail address in Evolution mail to instantly create a contact entry.</para>
-    <para>To use the contacts tool, click Contacts in the shortcut bar. By default, the display shows all your contacts in alphabetical order, in a minicard view. You can select other views from the View menu, and adjust the width of the columns by clicking and dragging the gray column dividers.</para>
+    <para>To use the contacts tool, click Contacts in the switcher. By default, the display shows all your contacts in alphabetical order, in a minicard view. You can select other views from the View menu, and adjust the width of the columns by clicking and dragging the gray column dividers.</para>
     <para>The contacts tool looks like this:</para>
     <mediaobject id="usage-contact-fig"><imageobject><imagedata format="PNG" fileref="figures/contacts_mainwindow_a.png"/></imageobject></mediaobject>
     <para><emphasis>Contact list</emphasis></para>
@@ -940,7 +958,7 @@
     </formalpara>
     <orderedlist>
      <listitem id="b131nk3o">
-      <para>Click View &gt;Preview &gt;Vertical View</para>
+      <para>Click View &gt; Preview &gt; Vertical View</para>
      </listitem>
     </orderedlist>
     <para>Evolution differs from the major email clients in the way it displays messages. In Vertical view, default message list contains a double line compressed headers, which enables you to consume the  extra width in the preview column.The compressed columns have  Sender Name and Email, Attachment Icon, Date and Subject in the second line .</para>
@@ -951,7 +969,7 @@
     </formalpara>
     <orderedlist>
      <listitem id="b131nkhr">
-      <para>Click View &gt;Preview &gt;Classical View</para>
+      <para>Click View &gt;Preview &gt; Classical View</para>
      </listitem>
     </orderedlist>
    </section>
@@ -969,7 +987,7 @@
       <para>Select Mail Preferences</para>
      </listitem>
      <listitem id="b131onvr">
-      <para>Check the &ldquo;Shrink the To/CC/Bcc headers to&rdquo; column to limit the address</para>
+      <para>Check &ldquo;Shrink To/CC/Bcc headers to&rdquo; column to limit the address</para>
      </listitem>
      <listitem id="b131oo0c">
       <para>Enter the limit in the field.</para>
@@ -1014,7 +1032,7 @@
 
    <section id="usage-mail-getnsend-undelete">
     <title>Undeleting Messages</title>
-    <para>You can undelete a message that has been deleted but not expunged. To undelete a message, select the message, then press Ctrl+U, or click Edit &gt; Undelete.</para>
+    <para>You can undelete a message that has been deleted but not expunged. To undelete a message, select the message, click Edit &gt; Undelete.</para>
     <para>If you have marked a message for deletion, undeleting it unmarks it, and the message is removed from the Trash folder. You cannot undelete messages that have been expunged. </para>
    </section>
   </section>
@@ -1047,7 +1065,7 @@
 
    <section id="usage-mail-getnsend-get-news">
     <title>Using Evolution for News</title>
-    <para>USENET newsgroups are similar to mail, so it&apos;s often convenient to read news and mail side by side. You can add a news source, called an NNTP server, the same way you would a <link linkend="bse54o0">new e-mail account</link>, selecting USENET News as the source type. The news server appear as a remote mail server, and each news group works like an IMAP folder. When you click Send/Receive, Evolution also checks for news messages.</para>
+    <para>USENET newsgroups are similar to mail, so it is often convenient to read news and mail side by side. You can add a news source, called an NNTP server, the same way you would a <link linkend="bse54o0">new e-mail account</link>, selecting USENET News as the source type. The news server appear as a remote mail server, and each news group works like an IMAP folder. When you click Send/Receive, Evolution also checks for news messages.</para>
     <para>When you create a news group account, you are not subscribed to any groups. To subscribe to a news group:</para>
     <orderedlist>
      <listitem id="bsx1euy">
@@ -1064,7 +1082,7 @@
 
    <section id="usage-mail-getnsend-get-attach">
     <title>Working with Attachments and HTML Mail</title>
-    <para>If someone sends you an <link linkend="attachment">attachment</link>, Evolution displays a file icon at the end of the message to which it&apos;s attached. Text, including HTML formatting and embedded images, appears as part of the message, rather than as a separate attachment. Attachments are also listed on the top bar of the message. To view the attachments, click the arrow to expand the attachment window. To open an attachment, double-click the it. Click the Save All button save all the attachments.</para>
+    <para>If someone sends you an <link linkend="attachment">attachment</link>, Evolution displays a file icon at the end of the message to which it is attached. Text, including HTML formatting and embedded images, appears as part of the message, rather than as a separate attachment. Attachments are also listed on the top bar of the message. To view the attachments, click the arrow to expand the attachment window. To open an attachment, double-click the it. Click the Save All button save all the attachments.</para>
 
     <section id="usage-mail-getnsend-get-attach-actions">
      <title>Saving or Opening Attachments</title>
@@ -1161,7 +1179,7 @@
    <title>Composing New E-Mail Messages</title>
    <para>You can start writing a new e-mail message by clicking File &gt; New &gt; Mail Message, by pressing Ctrl+N when in the mailing tool, or by clicking New in the toolbar.</para>
    <mediaobject id="usage-mail-newmsg-fig"><imageobject><imagedata format="PNG" fileref="figures/evo_newmess_a.png"/></imageobject></mediaobject>
-   <para>Enter an address in the To field. If you want, enter a subject in the Subject field, and a message in the box at the bottom of the window. After you have written your message, click Send.</para>
+   <para>Enter an address in the To field. If you want to enter multiple email addresses, type in the addresses separated by coma. You can also use contact list to send mails to multiple recipients.Enter a subject in the Subject field, and a message in the box at the bottom of the window. After you have written your message, click Send.</para>
    <para>This section contains the following topics:</para>
    <itemizedlist>
     <listitem>
@@ -1297,13 +1315,67 @@
 
    <section id="usage-mail-getnsend-send-reply">
     <title>Replying to E-Mail Messages</title>
-    <para>To reply to a message, click the message to reply to in the e-mail list and click Reply, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it&apos;s part of the previous message.</para>
+    <para>To reply to a message, click the message to reply to in the e-mail list and click Reply, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it is part of the previous message.</para>
     <para>If you&apos;re reading a message with several recipients, you can use Reply to All instead of Reply. If there are large numbers of people in the Cc: or To: fields, this can save substantial amounts of time.</para>
 
     <section id="bsfo4jl">
      <title>Using the Reply To All Feature</title>
      <para>Susan sends an e-mail to a client and sends copies to Tim and to an internal company mailing list of co-workers. If Tim wants to make a comment for all of them to read, he uses Reply to All, but if he just wants to tell Susan that he agrees with her, he uses Reply. His reply does not reach anyone that Susan put on her Bcc list, because that list is not shared with anyone.</para>
      <para>If you subscribe to a mailing list, and want your reply to go just to the list, rather than to the sender, select Reply to List instead of Reply or Reply to All. </para>
+    </section>
+
+    <section id="b13e1i15">
+     <title>Keyboard shortcuts</title>
+     <informaltable>
+      <tgroup cols="2">
+       <colspec colwidth="2.844*" colname="1" colnum="1"/>
+       <colspec colwidth="2.844*" colname="2" colnum="2"/>
+       <thead valign="top">
+        <row id="b13e1iwr">
+         <entry colname="1">
+          <para>Tools</para>
+         </entry>
+         <entry colname="2">
+          <para>Shortcuts</para>
+         </entry>
+        </row>
+       </thead>
+       <tbody valign="top">
+        <row id="b13e1iws">
+         <entry colname="1">
+          <para>Reply to sender</para>
+         </entry>
+         <entry colname="2">
+          <para>Ctrl+R</para>
+         </entry>
+        </row>
+        <row id="b13e1l5y">
+         <entry colname="1">
+          <para>Reply to List</para>
+         </entry>
+         <entry colname="2">
+          <para>Clrl+L</para>
+         </entry>
+        </row>
+        <row id="b13e1kd3">
+         <entry colname="1">
+          <para>Reply to All</para>
+         </entry>
+         <entry colname="2">
+          <para>Shift+Ctrl+R</para>
+         </entry>
+        </row>
+        <row id="b13e1iwt">
+         <entry colname="1">
+          <para>Forward</para>
+         </entry>
+         <entry colname="2">
+          <para>Ctrl+F</para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </informaltable>
     </section>
    </section>
 
@@ -1433,7 +1505,7 @@
         <para>Select the text you want to link from.</para>
        </listitem>
        <listitem id="bsaimoh">
-        <para>Right-click in the text, then click Link.</para>
+        <para>Right-click in the text, then click Insert Link.</para>
        </listitem>
        <listitem id="bsaims2">
         <para>Type the URL in the URL field.</para>
@@ -1467,10 +1539,10 @@
         <para>Click Rule.</para>
        </listitem>
        <listitem id="bsaioxz">
-        <para>Select the length, thickness, and alignment.</para>
+        <para>Select the width, size, and alignment.</para>
        </listitem>
        <listitem id="bsaipio">
-        <para>Select Shaded if necessary.</para>
+        <para>Select Shade if necessary.</para>
        </listitem>
        <listitem id="bsaiplo">
         <para>Click Close.</para>
@@ -1514,6 +1586,9 @@
      <title>Prioritize Message: </title>
      <para>You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, click Insert &gt; Prioritize Message in the composer window. </para>
     </formalpara>
+    <note>
+     <para>Evolution will ignore the message priority,because it assumes that the recipient should decide whether the message is important or not.</para>
+    </note>
    </section>
 
    <section id="usage-mail-getnsend-fwd">
@@ -1686,7 +1761,7 @@
       <para>Enter the command <command>gpg --send-keys --keyserver wwwkeys.pgp.net <varname>32j38dk2</varname></command>. Substitute your key ID for <varname>32j38dk2</varname>. You need your password to do this.</para>
      </listitem>
     </orderedlist>
-    <para>Key servers store your public keys for you so that your friends can decrypt your messages. If you choose not to use a key server, you can manually send your public key, include it in your signature file, or put it on your own Web page. However, it&apos;s easier to publish a key once, and then let people download it from a central place when they want.</para>
+    <para>Key servers store your public keys for you so that your friends can decrypt your messages. If you choose not to use a key server, you can manually send your public key, include it in your signature file, or put it on your own Web page. However, it is easier to publish a key once, and then let people download it from a central place when they want.</para>
     <para>If you don&apos;t have a key to unlock or encrypt a message, you can set your encryption tool to look it up automatically. If it can&apos;t find the key, an error message appears.</para>
    </section>
 
@@ -1694,7 +1769,7 @@
     <title>Getting and Using GPG Public Keys</title>
     <para>To send an encrypted message, you need to use the recipient&apos;s public key in combination with your private key. Evolution handles the encryption, but you need to get the public key and add it to your keyring.</para>
     <para>To get public keys from a public key server, enter the command<command> gpg --recv-keys --keyserver wwwkeys.pgp.net <varname>keyid</varname></command>, substituting <varname>keyid</varname> for your recipient&apos;s ID. You need to enter your password, and the ID is automatically added to your keyring.</para>
-    <para>If someone sends you a public key directly, save it as a plain text file and enter the command <command>gpg <varname>filename</varname></command> to add it to your keyring.</para>
+    <para>If someone sends you a public key directly, save it as a plain text file and enter the command <command>gpg <varname>--filename</varname></command> to add it to your keyring.</para>
    </section>
 
    <section id="encrypt-evo-integ">
@@ -2012,7 +2087,7 @@
        <para>Recent Messages</para>
       </listitem>
       <listitem>
-       <para>Last 5 day&rsquo;s Messages</para>
+       <para>Last 5 Days&apos; Messages</para>
       </listitem>
       <listitem>
        <para>Messages with Attachments</para>
@@ -2021,7 +2096,7 @@
        <para>Important Messages</para>
       </listitem>
       <listitem>
-       <para>Messages not Junk</para>
+       <para>Messages Not Junk</para>
       </listitem>
      </itemizedlist>
     </listitem>
@@ -2030,7 +2105,24 @@
     </listitem>
    </orderedlist>
    <tip>
-    <para>You can even perform a quick search on a customized search results as it just filters and displays  the messages in the message list.</para>
+    <para>The following labels need not necessarily be the same as the default names listed here.You can change the name of these labels by selecting Edit &gt; Preferences &gt; Mail Preferences &gt; Colors.</para>
+    <itemizedlist>
+     <listitem>
+      <para>Important</para>
+     </listitem>
+     <listitem>
+      <para>Work</para>
+     </listitem>
+     <listitem>
+      <para>Personal</para>
+     </listitem>
+     <listitem>
+      <para>To do</para>
+     </listitem>
+     <listitem>
+      <para>Later</para>
+     </listitem>
+    </itemizedlist>
    </tip>
    <formalpara id="b131jgie">
     <title>Customized Search:</title>
@@ -2041,35 +2133,27 @@
      <para>Click search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to specify the search type</para>
      <formalpara id="b131lvi6">
       <title>Subject or Sender Contain:</title>
-      <para>Shows messages where the search text is in the subject line. It does not search in the message body.</para>
-     </formalpara>
-     <formalpara id="b131lvwy">
-      <title>Subject Does Not Contain:</title>
-      <para>Finds messages that do not contain the search text in the subject</para>
-     </formalpara>
-     <formalpara id="b131lwe2">
-      <title>Sender Contain:</title>
-      <para>Finds messages whose From: header contains a match for your search text.</para>
+      <para> Shows messages where the search text is in the subject line. It does not search in the message body.</para>
      </formalpara>
      <formalpara id="b131lx1i">
-      <title>Recpients Contain:</title>
-      <para>Finds messages with the search text in the To: and Cc: headers.</para>
-     </formalpara>
-     <formalpara id="b131lxie">
-      <title>Body Contains:</title>
-      <para>Searches only in message text, not the subject lines.</para>
-     </formalpara>
-     <formalpara id="b131lxul">
-      <title>Body Does Not Contain:</title>
-      <para>Finds every e-mail message that does not have the search text in the message body. It also show messages that have the search text in the subject line, if it is not also in the body.</para>
-     </formalpara>
-     <formalpara id="b131lyb1">
-      <title>Body or Subject Contain:</title>
-      <para>Searches message subjects and the messages themselves for the word or phrase you&apos;ve specified in the search field.</para>
+      <title>Recipients Contain:</title>
+      <para> Finds messages with the search text in the To: and Cc: headers.</para>
      </formalpara>
      <formalpara id="b131m01u">
       <title>Message Contains</title>
-      <para>:Searches the message body and all headers for the specified text.</para>
+      <para>: Searches the message body and all headers for the specified text.</para>
+     </formalpara>
+     <formalpara id="b131lvwy">
+      <title>Subject Contain: </title>
+      <para>Finds messages that contain the search text in the subject</para>
+     </formalpara>
+     <formalpara id="b131lwe2">
+      <title>Sender Contain: </title>
+      <para>Finds messages whose From: header contains a match for your search text.</para>
+     </formalpara>
+     <formalpara id="b131lxie">
+      <title>Body Contains:</title>
+      <para> Searches only in message text, not the subject lines.</para>
      </formalpara>
     </listitem>
     <listitem id="b131m0yx">
@@ -2091,18 +2175,27 @@
     </listitem>
     <listitem id="b131m1yz">
      <para>Type the search string in the search entry and press Enter.</para>
+     <note>
+      <para>The folder list will be disabled while you perform search on All Accounts or Current Account.</para>
+     </note>
     </listitem>
    </orderedlist>
    <para>Evolution shows your search results in the message list. You might want to create a search folder instead; see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link> for more detail.</para>
    <note>
-    <para>When you have finished searching, go back to seeing all your messages by clicking the Clear button, or by entering a blank search.</para>
+    <para>When you have finished searching, go back to see all your messages by clicking the Clear button, or by entering a blank search.</para>
    </note>
+   <tip>
+    <para>You can even perform a quick search on a customized search results as it just filters and displays  the messages in the message list.</para>
+   </tip>
   </section>
 
   <section id="usage-mail-organize-spam">
    <title>Stopping Junk Mail (Spam)</title>
    <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin&z-3rdParty; with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
    <para>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn&apos;t get flagged as junk mail. If good mail, is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk. If Evolution misses junk mail, right-click the message, then click Mark as Junk. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</para>
+   <note>
+    <para>You need to mark approximately 300 mails manually as junk so that SpamAssassin learn spam-filtering.</para>
+   </note>
    <para>To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences. In the mail preferences tool, click the Junk tab for the following options: </para>
    <formalpara id="bsaz9zd">
     <title>Checking Incoming Mail for Junk: </title>
@@ -2112,7 +2205,11 @@
     <title>Include Remote Tests: </title>
     <para>This option uses tests that require a network connection, such as checking to see if a message is in a list of known junk messages, or if the sender or gateway are blacklisted by anti-spam organizations. Remote tests add to the amount of time it takes to check for junk mail, but increase accuracy. When you select this option, you do not need to do any additional setup to make this work.</para>
    </formalpara>
-   <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
+   <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link> and <link linkend="mail-prefs-junk">Junk Mail Preferences</link></para>
+   <note>
+    <para>SpamAssasin* is an application that scan through the mail box to find junk mails. Evolution uses SpamAssassin as the default spam-filtering application. Before you really start using spam-filtering, ensure that SpamAssassin is installed to enable Evolution&apos;s junk mail filtering feature. If already installed, SpamAssassin plugin will be checked by default in Plugin Manager under the Edit menu.  If not, contact your distributor. You can also download the source from<ulink url="http://spamassassin.apache.org/"> The Apache SpamAssassin Project</ulink>. Once you set up SpamAssassin, the plugin is automatically enabled in the Plugin Manager. However, you need to enable it again if it in any case disabled. Refer <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> to train SpamAssassin to identify junk mails.</para>
+    <para>You can also make use of other spam-filtering solutions through other packagers. For example, Ubuntu Hoary, <ulink url="http://www.ubuntu.com/">Ubuntu</ulink> provides bogofilter instead of SpamAssassin. ( Ubuntu, the Ubuntu logo, Canonical and the Canonical logo are all registered trademarks of Canonical Ltd)</para>
+   </note>
   </section>
 
   <section id="usage-mail-organize-filters">
@@ -2507,7 +2604,7 @@
      <title>Mailing Address: </title>
      <para>Contains the individual&apos;s mailing address. </para>
     </formalpara>
-    <para>You can also use Actions menu to find Forward Contact, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact&apos;s e-mail address.</para>
+    <para>You can also use Message Menu to find Forward Contact, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact&apos;s e-mail address.</para>
     <para>From the Contact Editor toolbar, you can save and close, print, close, or delete the contact.</para>
     <para>You can add cards from within an e-mail message or calendar appointment. In an open e-mail, right-click any e-mail address or message, and click Create Card for this Address or Create Card for this Sender from the menu.</para>
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
@@ -2544,13 +2641,13 @@
      <para>specify the search criteria from any of the following:</para>
      <itemizedlist>
       <listitem>
-       <para>Name Begin With</para>
+       <para>Name begins With</para>
       </listitem>
       <listitem>
-       <para>Email Begin With</para>
+       <para>Email begins With</para>
       </listitem>
       <listitem>
-       <para>Any Field Contains</para>
+       <para>Any field contains</para>
       </listitem>
      </itemizedlist>
     </listitem>
@@ -2581,7 +2678,7 @@
    <para>To perform quick search, use the following procedure:</para>
    <orderedlist>
     <listitem id="b131mjuy">
-     <para>Click <emphasis>Show</emphasis> to expand the drop-down list.</para>
+     <para>Click show to expand the drop-down list.</para>
     </listitem>
     <listitem id="b131mkao">
      <para>Select the search criteria from any of the following:</para>
@@ -2772,7 +2869,7 @@
   <section id="usage-contact-sharing">
    <title>LDAP: Shared Contact Groups on a Network</title>
    <para>The <link linkend="ldap">LDAP</link> protocol was created to let users share contact information over a network by sharing access to a central directory. LDAP allows a company to maintain a shared set of contact information. Many companies keep a common LDAP address book for all their employees or for client contacts.</para>
-   <para>To learn how to add a remote LDAP directory to your available contact folders, see <link linkend="config-prefs-contact">Contact Management</link>. Remote groups of contacts appear under the On LDAP Servers item in the shortcut bar. They work like a local folder of contact cards, with the following exceptions: </para>
+   <para>To learn how to add a remote LDAP directory to your available contact folders, see <link linkend="config-prefs-contact">Contact Management</link>. Remote groups of contacts appear under the On LDAP Servers item in the switcher. They work like a local folder of contact cards, with the following exceptions: </para>
    <itemizedlist>
     <listitem>
      <para>Network folders are only available when you are connected to the network. If you use a laptop or have a modem connection, you might want to copy or cache some of the network directory. You do this by dragging and dropping your desired contacts into the local contacts list.</para>
@@ -2836,27 +2933,68 @@
 
   <section id="usage-calendar-view">
    <title>Ways of Looking at your Calendar</title>
-   <para>In Evolution, you can keep multiple calendars and overlay them one over the next. For example, you might have a schedule of events for work, one for home, and one for your favorite sports team. The shortcut bar lists those calendars, and you can select or deselect the boxes next to them to show and hide the appointments in your calendar view. By hiding and showing different sets of appointments, you can be sure to avoid conflicts, while keeping a minimum of clutter in your view.</para>
+   <para>In Evolution, you can keep multiple calendars and overlay them one over the next. For example, you might have a schedule of events for work, one for home, and one for your favorite sports team. The switcher lists those calendars, and you can select or deselect the boxes next to them to show and hide the appointments in your calendar view. By hiding and showing different sets of appointments, you can be sure to avoid conflicts, while keeping a minimum of clutter in your view.</para>
    <para>Appointments for each calendar appear as a different color.</para>
    <para>The toolbar offers you five different buttons that can show you different views of your calendar: </para>
-   <itemizedlist>
-    <listitem>
-     <para>Day </para>
-    </listitem>
-    <listitem>
-     <para>Work Week </para>
-    </listitem>
-    <listitem>
-     <para>Week </para>
-    </listitem>
-    <listitem>
-     <para>Month</para>
-    </listitem>
-    <listitem>
-     <para>List</para>
-    </listitem>
-   </itemizedlist>
-   <para>You can also select an arbitrary range of days in the small calendar at the upper right. To do this, click and drag on the days that you want to view in your calendar.</para>
+   <informaltable>
+    <tgroup cols="2">
+     <colspec colwidth="2.844*" colname="1" colnum="1"/>
+     <colspec colwidth="2.844*" colname="2" colnum="2"/>
+     <thead valign="top">
+      <row id="b13bu0pg">
+       <entry colname="1">
+        <para>Calendar View</para>
+       </entry>
+       <entry colname="2">
+        <para>Shortcut Keys</para>
+       </entry>
+      </row>
+     </thead>
+     <tbody valign="top">
+      <row id="b13bu0ph">
+       <entry colname="1">
+        <para>Day</para>
+       </entry>
+       <entry colname="2">
+        <para>control+y </para>
+       </entry>
+      </row>
+      <row id="b13bu0pi">
+       <entry colname="1">
+        <para>Work Week</para>
+       </entry>
+       <entry colname="2">
+        <para>control+j </para>
+       </entry>
+      </row>
+      <row id="b13bu0pj">
+       <entry colname="1">
+        <para>Week </para>
+       </entry>
+       <entry colname="2">
+        <para>control+k</para>
+       </entry>
+      </row>
+      <row id="b13bu0pk">
+       <entry colname="1">
+        <para>Month</para>
+       </entry>
+       <entry colname="2">
+        <para> control+m</para>
+       </entry>
+      </row>
+      <row id="b13bu0pm">
+       <entry colname="1">
+        <para>List</para>
+       </entry>
+       <entry colname="2">
+        <para> control+l </para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <para>You can also select an arbitrary range of days in the small calendar at the bottom left. To do this, click and drag on the days that you want to view in your calendar.</para>
    <para>The Prev and Next buttons move you forward and back in your calendar pages. If you are using a week or month view, you can move by week or month. To return to today&apos;s listing, click the Today button in the toolbar.</para>
    <para>To visit calendar entries for a specific date, click Go To and select the date in the dialog box that appears.</para>
   </section>
@@ -3034,7 +3172,7 @@
      <tip>
       <para>You can add a new category to your category list by clicking Edit Master Category List, then click Click Here To Add A Category.</para>
      </tip>
-     <para>After you&apos;ve selected your categories, click OK to assign these categories to the appointment. The categories you selected are now listed in the text box to the right of the Categories button.</para>
+     <para>After you have selected your categories, click OK to assign these categories to the appointment. The categories you selected are now listed in the text box to the right of the Categories button.</para>
      <para>Appointments with categories appear with icons in the calendar display, and you can also search for appointments by category. To display only the appointments in a particular category, select Category Is in the search bar at the top of the calendar, and select a category.</para>
     </section>
 
@@ -3125,7 +3263,7 @@
     </orderedlist>
     <para>An e-mail is sent out to all the recipients, inviting them to your event.</para>
     <note>
-     <para>A meeting can have only one organizer, and only the organizer can add participants. You can designate yourself the organizer of the meeting, but if you are not the original organizer, you can create confusion in the scheduling process. If you want to invite additional people to a meeting without changing the organizer, it&apos;s best to forward the first organizer&apos;s message to the additional participants.</para>
+     <para>A meeting can have only one organizer, and only the organizer can add participants. You can designate yourself the organizer of the meeting, but if you are not the original organizer, you can create confusion in the scheduling process. If you want to invite additional people to a meeting without changing the organizer, it is best to forward the first organizer&apos;s message to the additional participants.</para>
     </note>
    </section>
 
@@ -3236,19 +3374,19 @@ Accepting and Replying to a Meeting Request</title>
      <para>Select the search type</para>
      <itemizedlist>
       <listitem>
-       <para>Summary Contains</para>
+       <para>Summary contains</para>
       </listitem>
       <listitem>
-       <para>Description Contains</para>
+       <para>Description contains</para>
       </listitem>
       <listitem>
-       <para>Category Contains</para>
+       <para>Category contains</para>
       </listitem>
       <listitem>
-       <para>Location Contains</para>
+       <para>Location contains</para>
       </listitem>
       <listitem>
-       <para>Any Field Contains</para>
+       <para>Any field contains</para>
       </listitem>
      </itemizedlist>
     </listitem>
@@ -3263,7 +3401,7 @@ Accepting and Replying to a Meeting Request</title>
    <para>To perform quick search, perform the following procedure:</para>
    <orderedlist>
     <listitem id="b131n6zv">
-     <para>Click <emphasis>Show</emphasis> to expand the drop down list</para>
+     <para>Click show to expand the drop down list</para>
     </listitem>
     <listitem id="b131n7gu">
      <para>Select the search criteria</para>
@@ -3376,13 +3514,13 @@ Accepting and Replying to a Meeting Request</title>
    <title>Multiple Calendars, Web Calendars, and CalDAV</title>
    <para>To create a new calendar, click File &gt; New &gt; Calendar. If the calendar is one you plan to store locally, you need only provide a name and color. If it is a remote calendar, specify the name, color, URL, and a refresh frequency. The refresh frequency determines how often Evolution checks to see if the calendar has changed. If you are working with someone who publishes an online calendar, you might want to check for updates every thirty minutes. On the other hand, if you have displayed a sports team schedule in your calendar, you might not need to refresh it more than once a week.</para>
    <para>The <ulink url="http://icalshare.com">icalshare.com Web site</ulink> has an extensive list of shared online calendars, including national and religious holidays, phases of the moon, sports, and local and regional events.</para>
-   <para>Evolution 2.8 lets you view and manage calendars on remote CalDAV servers such as Hula&reg;. For more information about Hula, see the <ulink url="http://www.hula-project.org">Hula Project Web site</ulink>. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution.</para>
+   <para>Evolution lets you view and manage calendars on remote CalDAV servers such as Hula&reg;. For more information about Hula, see the <ulink url="http://www.hula-project.org">Hula Project Web site</ulink>. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution.</para>
   </section>
 
   <section id="usage-calendar-todo">
    <title>The Task List</title>
-   <para>The Task List, located in the lower-right corner of the calendar, lets you keep a list of tasks separate from your calendar appointments. You can use the list in a larger window by clicking the Tasks button in the shortcut bar or in the folder tree.</para>
-   <para>Task Lists are more easily organized in the dedicated Tasks tool. Each task list is assigned a color, and you can use the Tasks tool shortcut bar to hide and show task lists just like calendars. In the calendar display task pad, tasks from all visible task lists appear, color coded by list. </para>
+   <para>The Task List, located in the lower-right corner of the calendar, lets you keep a list of tasks separate from your calendar appointments. You can use the list in a larger window by clicking the Tasks button in the switcher or in the folder tree.</para>
+   <para>Task Lists are more easily organized in the dedicated Tasks tool. Each task list is assigned a color, and you can use the Tasks tool switcher to hide and show task lists just like calendars. In the calendar display task pad, tasks from all visible task lists appear, color coded by list. </para>
    <itemizedlist>
     <listitem>
      <para><link linkend="CHDEGEBJ">Creating a New Task List</link></para>
@@ -3411,7 +3549,7 @@ Accepting and Replying to a Meeting Request</title>
       <para>Click OK.</para>
      </listitem>
     </orderedlist>
-    <para>After you&apos;ve added a task to your to-do list, its summary appears in the Summary section of the task list. To view or edit a detailed description of an item, double-click it, or right-click it and select Open. You can delete items by selecting them, then clicking Delete.The list of tasks is sorted in a similar way to the list of e-mail messages in Evolution Mail. Click once on a message header to change the direction and type of sorting, or right-click to add or remove columns from the display.</para>
+    <para>After you have added a task to your to-do list, its summary appears in the Summary section of the task list. To view or edit a detailed description of an item, double-click it, or right-click it and select Open. You can delete items by selecting them, then clicking Delete.The list of tasks is sorted in a similar way to the list of e-mail messages in Evolution Mail. Click once on a message header to change the direction and type of sorting, or right-click to add or remove columns from the display.</para>
    </section>
 
    <section id="task-folders">
@@ -3541,7 +3679,7 @@ Accepting and Replying to a Meeting Request</title>
 
    <section id="b1012vdk">
     <title>The Memo list</title>
-    <para>As with calendars and tasks, you can create multiple memo lists. Each memo list is assigned a color, and you can use the Memos shortcut bar to hide and show memos.</para>
+    <para>As with calendars and tasks, you can create multiple memo lists. Each memo list is assigned a color, and you can use the Memos switcher to hide and show memos.</para>
     <para>To create a new memo list: </para>
     <orderedlist>
      <listitem id="b1012vdl">
@@ -3577,7 +3715,7 @@ Accepting and Replying to a Meeting Request</title>
 
   <section id="bxqaqja">
    <title>Marcus Bains Line</title>
-   <para>The Marcus Bains Line is a marker to show the current date and time. This feature is now available in the Evolution 2.8 calendar.</para>
+   <para>The Marcus Bains Line is a marker to show the current date and time. This feature is now available in the Evolution calendar.</para>
   </section>
  </chapter>
 
@@ -3776,7 +3914,7 @@ Accepting and Replying to a Meeting Request</title>
        <para>Click the Receiving Mail tab, then select Microsoft Exchange as your server type. </para>
       </listitem>
       <listitem id="bshnh8h">
-       <para>Type your user name, and the OWA URL. Click Authenticate, then enter the password at the prompt. The Exchange server authenticates your account. </para>
+       <para>Type your user name, and the Outlook Web Access (OWA) URL. Click Authenticate, then enter the password at the prompt. The Exchange server authenticates your account. </para>
       </listitem>
       <listitem id="bxpfgk7">
        <para>Select your authentication method.</para>
@@ -3883,7 +4021,7 @@ Accepting and Replying to a Meeting Request</title>
      <para>To access the folders delegated to you: </para>
      <orderedlist>
       <listitem id="bshok43">
-       <para>Click File &gt; Subscribe to Other User&apos;s Folder.</para>
+       <para>Click File &gt; Subscribe to Other User&apos;s Exchange Folder.</para>
        <mediaobject id="bxorvbj"><imageobject><imagedata format="PNG" fileref="figures/sub-others-folder.png"/></imageobject></mediaobject>
        
       </listitem>
@@ -3979,10 +4117,10 @@ Accepting and Replying to a Meeting Request</title>
 
  <chapter id="usage-groupwise">
   <title>Connecting to GroupWise</title>
-  <para>Evolution&trade; 2.8 can access accounts on Novell&reg; GroupWise&reg; 7 system. </para>
+  <para>Evolution&trade; can access accounts on Novell&reg; GroupWise&reg; 7 system. </para>
   <itemizedlist>
    <listitem>
-    <para><link linkend="features">Evolution Exchange Features</link></para>
+    <para><link linkend="bv7wchf">GroupWise Features</link></para>
    </listitem>
    <listitem>
     <para><link linkend="bv3rax2">GroupWise Terminology vs. Evolution Terminology</link></para>
@@ -4268,7 +4406,7 @@ Accepting and Replying to a Meeting Request</title>
    <title>Managing Sent Items</title>
    <itemizedlist>
     <listitem>
-     <para><link linkend="Aaez1x0">Confirming Delivery of Items You've Sent</link></para>
+     <para><link linkend="Aaez1x0">Confirming Delivery of Items You have Sent</link></para>
     </listitem>
     <listitem>
      <para><link linkend="Aal4xf4">Displaying Sent Items</link></para>
@@ -4288,10 +4426,10 @@ Accepting and Replying to a Meeting Request</title>
    </important>
 
    <section id="Aaez1x0">
-    <title>Confirming Delivery of Items You&apos;ve Sent</title>
+    <title>Confirming Delivery of Items You have Sent</title>
     <para>Evolution provides several ways for you to confirm that your item was delivered.</para>
     <bridgehead id="btafhoy">Track an Item You Sent</bridgehead>
-    <para>You can check the status in the Message Status window of an e-mail you&apos;ve sent. For information, see <link linkend="Aaezg4d">Checking the Status of Your Items</link>.</para>
+    <para>You can check the status in the Message Status window of an e-mail You have sent. For information, see <link linkend="Aaezg4d">Checking the Status of Your Items</link>.</para>
     <bridgehead id="btafhoz">Receive Notification When the Item is Opened or Deleted</bridgehead>
     <para>You can receive notification when the recipient opens or deletes a message. For information, see <link linkend="Ak05onj">Receiving Notification About Items You Send</link>.</para>
     <bridgehead id="btafhp0">Request a Reply</bridgehead>
@@ -4311,7 +4449,7 @@ Accepting and Replying to a Meeting Request</title>
 
    <section id="Aaezg4d">
     <title>Checking the Status of Your Items</title>
-    <para>Track Message Status lets you check the status of any e-mail you&apos;ve sent. For example, you can see when an e-mail was delivered and when the recipient opened or deleted the e-mail.</para>
+    <para>Track Message Status lets you check the status of any e-mail You have sent. For example, you can see when an e-mail was delivered and when the recipient opened or deleted the e-mail.</para>
 
     <section id="Aal54a9">
      <title>Checking the Status of an Item</title>
@@ -4584,7 +4722,7 @@ Accepting and Replying to a Meeting Request</title>
     <title>Marking a Message As Junk Mail</title>
     <orderedlist>
      <listitem id="bxqwgji">
-      <para>Select the message to mark as junk, then click the Junk icon.</para>
+      <para>Select the message to mark as junk, then click the Junk icon or press Ctrl+J.</para>
       <para>The message is moved to your Junk Mail folder and the user is added to your junk list.</para>
      </listitem>
     </orderedlist>
@@ -4598,6 +4736,7 @@ Accepting and Replying to a Meeting Request</title>
      </listitem>
      <listitem id="bxqwhsp">
       <para>Right-click the message, then click Mark as Not Junk.</para>
+      <para>Or select the message and press Shift+Ctrl+J</para>
       <para>The message is moved to your Mailbox folder and the name is removed from your junk list.</para>
      </listitem>
     </orderedlist>
@@ -4669,7 +4808,7 @@ Accepting and Replying to a Meeting Request</title>
 
  <chapter id="config-prefs">
   <title>Advanced Configuration</title>
-  <para>Perhaps your mail server has changed names. Perhaps you&apos;ve grown tired of a certain layout for your appointments. Whatever the reason, you can change your Evolution&trade; settings.</para>
+  <para>Perhaps your mail server has changed names. Perhaps you have grown tired of a certain layout for your appointments. Whatever the reason, you can change your Evolution&trade; settings.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="config-prefs-mail-identity">Working with Mail Accounts</link></para>
@@ -4693,7 +4832,7 @@ Accepting and Replying to a Meeting Request</title>
     <para><link linkend="bshoty0">Certificates</link></para>
    </listitem>
   </itemizedlist>
-  <para>You reach the Evolution settings window by clicking Edit &gt; Preferences. In the left part of the settings window is a column, similar to the Evolution shortcut bar, that lets you choose which portion of Evolution to customize. The right part of the window is where you make your actual changes.</para>
+  <para>You reach the Evolution settings window by clicking Edit &gt; Preferences. In the left part of the settings window is a column, similar to the Evolution switcher, that lets you choose which portion of Evolution to customize. The right part of the window is where you make your actual changes.</para>
   <mediaobject id="config-prefs-mail-fig"><imageobject><imagedata format="PNG" fileref="figures/mailer_preferences.png"/></imageobject></mediaobject>
   <para>There are six items you can customize.</para>
   <bridgehead id="bt4ckfo">Mail Accounts</bridgehead>
@@ -4708,7 +4847,7 @@ Accepting and Replying to a Meeting Request</title>
   <para>Use these settings to control how the calendar behaves, including your time zone and the length of your work week. For more information, see <link linkend="config-prefs-cal">Calendar and Tasks Settings</link>. </para>
   <bridgehead id="bt4ckft">Certificates</bridgehead>
   <para>Use these settings for certificate handling for S/MIME security systems. For more information, see <link linkend="bshoty0">Certificates</link>.</para>
-  <para>Previous versions of Evolution included directory servers, folder settings, and Exchange delegation in the settings tool. Directory servers can now be set up as contacts groups in the Contacts tool, you can change folder settings in the folder right-click menu, and Exchange delegation is available in the Actions menu of the Exchange tool. </para>
+  <para>Previous versions of Evolution included directory servers, folder settings, and Exchange delegation in the settings tool. Directory servers can now be set up as contacts groups in the Contacts tool, you can change folder settings in the folder right-click menu, and Exchange delegation is available in the Message Menu of the Exchange tool. </para>
 
   <section id="config-prefs-mail-identity">
    <title>Working with Mail Accounts</title>
@@ -4727,7 +4866,7 @@ Accepting and Replying to a Meeting Request</title>
    <para>Your system administrator might ask you to connect to a specific port on a mail server. To specify which port you use, just type a colon and the port number after the server name. For example, to connect to port 143 on the server smtp.example.com, specify smtp.example.com:143 as the server name.</para>
    <para>For additional information, see <link linkend="second-step">Receiving Mail</link>.</para>
    <formalpara id="bsbhezv">
-    <title>Receive Options: </title>
+    <title>Receiving Options: </title>
     <para>Decide if you want to check for mail automatically and how often, as well as setting other message retrieval options. </para>
    </formalpara>
    <para>For additional information, see <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
@@ -4809,7 +4948,7 @@ Accepting and Replying to a Meeting Request</title>
     <title>HTML Mail Preferences</title>
     <para>The HTML Mail page has the following options:</para>
     <formalpara id="bsbhqot">
-     <title>Show Animated Images: </title>
+     <title>Show Image Animations: </title>
      <para>Turns animation on or off. </para>
     </formalpara>
     <formalpara id="bsbhquu">
@@ -4836,7 +4975,11 @@ Accepting and Replying to a Meeting Request</title>
 
    <section id="mail-prefs-junk">
     <title>Junk Mail Preferences</title>
-    <para>There are only two items in this section: Check Incoming Mail for Junk and Include Remote Tests. Checking for junk mail uses the SpamAssassin tool with trainable Bayesian filters. It also includes online tests, like checking for blacklisted message senders and ISPs. Online tests can make filtering slower, but more accurate. Select the options here to choose your mail filtering method. </para>
+    <para>There are only two items in this section: Check Incoming Mail for Junk and Include Remote Tests. Checking for junk mail uses the SpamAssassin tool with trainable Bayesian filters.Note that you need to install SpamAssassin separately to enable junk filtering. </para>
+    <para>It also includes online tests, like checking for blacklisted message senders and ISPs. Online tests can make filtering slower, but more accurate. Select the options here to choose your mail filtering method. </para>
+    <note>
+     <para>Check new messages for junk contents option under Edit &gt; Preference &gt; Mail Accounts &gt; Edit &gt; Receiving option is enabled only for IMAP. Check incoming mail for junk option under Edit &gt;Prefernce &gt; Mail Preference &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
+    </note>
    </section>
 
    <section id="bxjnb81">
@@ -5277,7 +5420,7 @@ Accepting and Replying to a Meeting Request</title>
 
  <appendix id="menuref">
   <title>Quick Reference</title>
-  <para>You can print this section to use it as a quick reference for most of the things you want to do with Evolution&trade;.</para>
+  <para>You can print this section to use it as a quick reference for most of the things you want to do with Evolution&trade;. You can also find this information online by selecting Help &gt; Quich Reference in the Menubar.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="quickref-open">Opening or Creating Items</link></para>
@@ -5365,6 +5508,12 @@ Accepting and Replying to a Meeting Request</title>
   <para>This manual was written by:</para>
   <itemizedlist>
    <listitem>
+    <para>Radhika PC (pradhika@novell.com)</para>
+   </listitem>
+   <listitem>
+    <para>Srinivasa Ragavan (sragavan@novell.com)</para>
+   </listitem>
+   <listitem>
     <para>Mark Moulder (mmoulder@novell.com)</para>
    </listitem>
    <listitem>
@@ -5387,7 +5536,7 @@ Accepting and Replying to a Meeting Request</title>
    </listitem>
   </itemizedlist>
   <para>Please file comments and suggestions for this manual as bugs in the GNOME bug tracking system. If you contributed to this project but do not see your name here, please contact Mark Moulder (mmoulder@novell.com) and he&apos;ll list you.</para>
-  <para>Partial list of Documentation Translators (application translated to 36 additional languages): </para>
+  <para>Partial list of Documentation Translators (application translated to numerous additional languages): </para>
   <itemizedlist>
    <listitem>
     <para>Daniel Persson for Swedish (.se)</para>
@@ -5467,7 +5616,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="filter">
    <glossterm>filter</glossterm>
    <glossdef>
-    <para>Within Evolution, a filter is a method of sorting mail automatically when it&apos;s downloaded. You can create filters to perform one or more actions on a message that meets any (or all) of a wide range of criteria.</para>
+    <para>Within Evolution, a filter is a method of sorting mail automatically when it is downloaded. You can create filters to perform one or more actions on a message that meets any (or all) of a wide range of criteria.</para>
    </glossdef>
   </glossentry>
   <glossentry id="forward">
@@ -5573,7 +5722,7 @@ Accepting and Replying to a Meeting Request</title>
    </glossdef>
   </glossentry>
   <glossentry id="shortcut-bar">
-   <glossterm>shortcut bar</glossterm>
+   <glossterm>switcher</glossterm>
    <glossdef>
     <para>An area of Evolution that offers users fast access to the most frequently used features of the application.</para>
    </glossdef>
@@ -5605,7 +5754,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="vcard">
    <glossterm>vCard</glossterm>
    <glossdef>
-    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it&apos;s probably in vCard format. Contrast with <varname>search folder</varname>.</para>
+    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it is probably in vCard format. Contrast with <varname>search folder</varname>.</para>
    </glossdef>
   </glossentry>
  </glossary>
