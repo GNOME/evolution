@@ -12,14 +12,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.225 2006/09/30 15:50:48 dnylande Exp $
+# $Id: sv.po,v 1.226 2006/10/03 21:26:19 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-30 14:55+0200\n"
-"PO-Revision-Date: 2006-09-30 17:33+0100\n"
+"POT-Creation-Date: 2006-10-03 16:18+0200\n"
+"PO-Revision-Date: 2006-10-03 13:44-0700\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -34,12 +34,12 @@ msgid "evolution addressbook"
 msgstr "evolution-adressbok"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
-#: ../addressbook/gui/component/addressbook-component.c:226
+#: ../addressbook/gui/component/addressbook-component.c:224
 msgid "New Contact"
 msgstr "Ny kontakt"
 
 #: ../a11y/addressbook/ea-minicard-view.c:35
-#: ../addressbook/gui/component/addressbook-component.c:234
+#: ../addressbook/gui/component/addressbook-component.c:232
 msgid "New Contact List"
 msgstr "Ny kontaktlista"
 
@@ -400,7 +400,7 @@ msgstr "Misslyckades med att autentisera med LDAP-server."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
 msgid "Failed to delete contact"
 msgstr "Misslyckades med att ta bort kontakt"
 
@@ -588,7 +588,7 @@ msgstr "Hantera ditt S/MIME-certifikat här"
 
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
-#: ../addressbook/gui/component/addressbook-component.c:141
+#: ../addressbook/gui/component/addressbook-component.c:139
 #: ../addressbook/gui/component/addressbook-migrate.c:483
 #: ../calendar/gui/calendar-component.c:231
 #: ../calendar/gui/memos-component.c:195
@@ -608,7 +608,7 @@ msgstr "På denna dator"
 #. Create the default Person task list
 #. Create the default Person addressbook
 #. orange
-#: ../addressbook/gui/component/addressbook-component.c:149
+#: ../addressbook/gui/component/addressbook-component.c:147
 #: ../addressbook/gui/component/addressbook-migrate.c:491
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:602
@@ -625,41 +625,41 @@ msgid "Personal"
 msgstr "Personligt"
 
 #. Create the LDAP source group
-#: ../addressbook/gui/component/addressbook-component.c:159
+#: ../addressbook/gui/component/addressbook-component.c:157
 #: ../addressbook/gui/component/addressbook-migrate.c:501
 msgid "On LDAP Servers"
 msgstr "På LDAP-servrar"
 
-#: ../addressbook/gui/component/addressbook-component.c:227
+#: ../addressbook/gui/component/addressbook-component.c:225
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: ../addressbook/gui/component/addressbook-component.c:228
+#: ../addressbook/gui/component/addressbook-component.c:226
 msgid "Create a new contact"
 msgstr "Skapa en ny kontakt"
 
-#: ../addressbook/gui/component/addressbook-component.c:235
+#: ../addressbook/gui/component/addressbook-component.c:233
 msgid "Contact _List"
 msgstr "Kontakt_lista"
 
-#: ../addressbook/gui/component/addressbook-component.c:236
+#: ../addressbook/gui/component/addressbook-component.c:234
 msgid "Create a new contact list"
 msgstr "Skapa en ny kontaktlista"
 
-#: ../addressbook/gui/component/addressbook-component.c:242
+#: ../addressbook/gui/component/addressbook-component.c:240
 #: ../addressbook/gui/component/addressbook-config.c:1205
 msgid "New Address Book"
 msgstr "Ny adressbok"
 
-#: ../addressbook/gui/component/addressbook-component.c:243
+#: ../addressbook/gui/component/addressbook-component.c:241
 msgid "Address _Book"
 msgstr "Adress_bok"
 
-#: ../addressbook/gui/component/addressbook-component.c:244
+#: ../addressbook/gui/component/addressbook-component.c:242
 msgid "Create a new address book"
 msgstr "Skapa en ny adressbok"
 
-#: ../addressbook/gui/component/addressbook-component.c:407
+#: ../addressbook/gui/component/addressbook-component.c:405
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Misslyckades med att uppgradera adressboksinställningar eller mappar."
 
@@ -691,7 +691,7 @@ msgid "General"
 msgstr "Allmänt"
 
 #: ../addressbook/gui/component/addressbook-config.c:985
-#: ../addressbook/gui/widgets/e-addressbook-view.c:568
+#: ../addressbook/gui/widgets/e-addressbook-view.c:570
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "Adressbok"
@@ -812,7 +812,7 @@ msgstr "_Ny adressbok"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
-#: ../addressbook/gui/widgets/e-addressbook-view.c:984
+#: ../addressbook/gui/widgets/e-addressbook-view.c:986
 #: ../calendar/gui/calendar-component.c:584
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720
@@ -2719,7 +2719,7 @@ msgstr "_Ange en e-postadress eller dra en kontakt till listan nedan:"
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:228
+#: ../addressbook/gui/widgets/e-addressbook-view.c:230
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
@@ -2775,18 +2775,18 @@ msgstr ""
 "här mappen. Vill du lägga till den ändå?"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:177
+#: ../addressbook/gui/widgets/e-addressbook-view.c:178
 #: ../calendar/gui/cal-search-bar.c:59
 msgid "Any field contains"
 msgstr "Något fält innehåller"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:176
+#: ../addressbook/gui/widgets/e-addressbook-view.c:177
 msgid "Email begins with"
 msgstr "E-postadress börjar med"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:175
+#: ../addressbook/gui/widgets/e-addressbook-view.c:176
 msgid "Name begins with"
 msgstr "Namn börjar med"
 
@@ -2803,7 +2803,7 @@ msgstr[1] "%d kontakter"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:242
+#: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
@@ -2829,11 +2829,11 @@ msgstr "Modell"
 msgid "Error modifying card"
 msgstr "Fel vid ändring av kort"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:235
+#: ../addressbook/gui/widgets/e-addressbook-view.c:237
 msgid "Source"
 msgstr "Källkod"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:249
+#: ../addressbook/gui/widgets/e-addressbook-view.c:251
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
 #: ../calendar/gui/e-meeting-list-view.c:487
@@ -2842,13 +2842,13 @@ msgstr "Källkod"
 msgid "Type"
 msgstr "Typ"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:839
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2150
+#: ../addressbook/gui/widgets/e-addressbook-view.c:841
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2151
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Spara som VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:962
+#: ../addressbook/gui/widgets/e-addressbook-view.c:964
 #: ../calendar/gui/dialogs/comp-editor.c:1119
 #: ../calendar/gui/e-calendar-table.c:1280
 #: ../calendar/gui/e-calendar-view.c:1698
@@ -2857,57 +2857,57 @@ msgstr "Spara som VCard..."
 msgid "_Open"
 msgstr "_Öppna"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:964
+#: ../addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "_New Contact..."
 msgstr "_Ny kontakt..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:965
+#: ../addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "New Contact _List..."
 msgstr "Ny kontakt_lista..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:968
+#: ../addressbook/gui/widgets/e-addressbook-view.c:970
 msgid "_Save as VCard..."
 msgstr "_Spara som VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:969
+#: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "_Forward Contact"
 msgstr "_Vidarebefordra kontakt"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:970
+#: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "_Forward Contacts"
 msgstr "_Vidarebefordra kontakter"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:973
 msgid "Send _Message to Contact"
 msgstr "Skicka _meddelande till kontakt"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:972
+#: ../addressbook/gui/widgets/e-addressbook-view.c:974
 msgid "Send _Message to List"
 msgstr "Skicka _meddelande till lista"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:973
+#: ../addressbook/gui/widgets/e-addressbook-view.c:975
 msgid "Send _Message to Contacts"
 msgstr "Skicka _meddelande till kontakter"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:974
+#: ../addressbook/gui/widgets/e-addressbook-view.c:976
 msgid "_Print"
 msgstr "Skriv _ut"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:977
+#: ../addressbook/gui/widgets/e-addressbook-view.c:979
 msgid "Cop_y to Address Book..."
 msgstr "Ko_piera till adressbok..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:978
+#: ../addressbook/gui/widgets/e-addressbook-view.c:980
 msgid "Mo_ve to Address Book..."
 msgstr "Fly_tta till adressbok..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:981
+#: ../addressbook/gui/widgets/e-addressbook-view.c:983
 #: ../ui/evolution-composer-entries.xml.h:4
 #: ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "Klipp _ut"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:984
 #: ../calendar/gui/calendar-component.c:583
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1288
@@ -2929,23 +2929,23 @@ msgstr "Klipp _ut"
 msgid "_Copy"
 msgstr "_Kopiera"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:983
+#: ../addressbook/gui/widgets/e-addressbook-view.c:985
 msgid "P_aste"
 msgstr "Klistra _in"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1666
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1667
 #: ../calendar/gui/cal-search-bar.c:423
 msgid "Any Category"
 msgstr "Alla kategorier"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1868
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1869
 msgid "Print cards"
 msgstr "Skriv ut kort"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
 msgstr "Annat fel"
@@ -3538,7 +3538,7 @@ msgid "Error adding list"
 msgstr "Fel vid tillägg av lista"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
-#: ../addressbook/gui/widgets/eab-gui-util.c:705
+#: ../addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Error adding contact"
 msgstr "Fel vid tillägg av kontakt"
 
@@ -3555,7 +3555,7 @@ msgid "Error removing list"
 msgstr "Fel vid borttagning av lista"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
-#: ../addressbook/gui/widgets/eab-gui-util.c:658
+#: ../addressbook/gui/widgets/eab-gui-util.c:659
 msgid "Error removing contact"
 msgstr "Fel vid borttagning av kontakt"
 
@@ -3611,37 +3611,37 @@ msgstr "Välj adressbok"
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:766
+#: ../addressbook/gui/widgets/eab-gui-util.c:768
 msgid "Move contact to"
 msgstr "Flytta kontakt till"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:768
+#: ../addressbook/gui/widgets/eab-gui-util.c:770
 msgid "Copy contact to"
 msgstr "Kopiera kontakt till"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:771
+#: ../addressbook/gui/widgets/eab-gui-util.c:773
 msgid "Move contacts to"
 msgstr "Flytta kontakter till"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:773
+#: ../addressbook/gui/widgets/eab-gui-util.c:775
 msgid "Copy contacts to"
 msgstr "Kopiera kontakter till"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:999
+#: ../addressbook/gui/widgets/eab-gui-util.c:1001
 msgid "Multiple VCards"
 msgstr "Flera VCard"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1002
+#: ../addressbook/gui/widgets/eab-gui-util.c:1004
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard för %s"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1043
-#: ../addressbook/gui/widgets/eab-gui-util.c:1061
+#: ../addressbook/gui/widgets/eab-gui-util.c:1045
+#: ../addressbook/gui/widgets/eab-gui-util.c:1063
 msgid "Contact information"
 msgstr "Kontaktinformation"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1063
+#: ../addressbook/gui/widgets/eab-gui-util.c:1065
 #, c-format
 msgid "Contact information for %s"
 msgstr "Kontaktinformation för %s"
@@ -6455,6 +6455,22 @@ msgstr "den"
 #: ../calendar/gui/dialogs/recurrence-page.c:1415
 msgid "occurrences"
 msgstr "förekomster"
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2155
+msgid "Add exception"
+msgstr "Lägg till undantag"
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2198
+msgid "Could not get a selection to modify."
+msgstr "Kunde inte få ett val att ändra."
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2204
+msgid "Modify exception"
+msgstr "Ändra undantag"
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2250
+msgid "Could not get a selection to delete."
+msgstr "Kunde inte få ett val att ta bort."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2381
 msgid "Date/Time"
@@ -10778,8 +10794,8 @@ msgstr "%d %b %Y"
 msgid "Select a time to compare against"
 msgstr "Välj en tid att jämföra med"
 
-#: ../filter/filter-file.c:293
-#: ../filter/filter-file.c:299
+#: ../filter/filter-file.c:296
+#: ../filter/filter-file.c:302
 msgid "Choose a file"
 msgstr "Välj en fil"
 
@@ -20498,8 +20514,8 @@ msgid "Ukrainian"
 msgstr "Ukrainsk"
 
 #: ../widgets/misc/e-charset-picker.c:106
-msgid "Logical"
-msgstr "Logisk"
+msgid "Visual"
+msgstr "Visuell"
 
 #: ../widgets/misc/e-charset-picker.c:175
 #, c-format
@@ -20565,6 +20581,14 @@ msgstr "%H.%M"
 #: ../widgets/misc/e-dateedit.c:1768
 msgid "%I:%M %p"
 msgstr "%H.%M %p"
+
+#: ../widgets/misc/e-dateedit.c:1634
+msgid "Invalid Date Value"
+msgstr "Ogiltigt datumvärde"
+
+#: ../widgets/misc/e-dateedit.c:1660
+msgid "Invalid Time Value"
+msgstr "Ogiltigt tidsvärde"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
@@ -21517,8 +21541,8 @@ msgstr "IM-sammanhang"
 msgid "Handle Popup"
 msgstr "Handtagspopupfönster"
 
-#~ msgid "Visual"
-#~ msgstr "Visuell"
+#~ msgid "Logical"
+#~ msgstr "Logisk"
 #~ msgid " New "
 #~ msgstr " Ny "
 #~ msgid "*"
@@ -24945,8 +24969,6 @@ msgstr "Handtagspopupfönster"
 #~ msgid "Task List Options"
 #~ msgstr "Alternativ för uppgiftslista"
 #~ msgid "Exceptions"
-#~ msgstr "Undantag"
-#~ msgid "Exception"
 #~ msgstr "Undantag"
 #~ msgid "This appointment recurs"
 #~ msgstr "Detta möte upprepas"
