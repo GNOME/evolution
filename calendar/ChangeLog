@@ -1,3 +1,8 @@
+2006-10-03  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* gui/dialogs/recurrence-page.c: Fix to allow translate some
+	strings (Closes: #359271)
+
 2006-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #343369

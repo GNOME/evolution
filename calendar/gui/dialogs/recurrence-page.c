@@ -2152,7 +2152,7 @@ exception_add_cb (GtkWidget *widget, gpointer data)
 	
 	rpage = RECURRENCE_PAGE (data);
 
-	dialog = create_exception_dialog (rpage, "Add exception", &date_edit);
+	dialog = create_exception_dialog (rpage, _("Add exception"), &date_edit);
 	
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		ECalComponentDateTime dt;
@@ -2195,13 +2195,13 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		g_warning ("Could not get a selection to modify.");
+		g_warning (_("Could not get a selection to modify."));
 		return;
 	}
 
 	current_dt = e_date_time_list_get_date_time (priv->exception_list_store, &iter);
 	
-	dialog = create_exception_dialog (rpage, "Modify exception", &date_edit);
+	dialog = create_exception_dialog (rpage, _("Modify exception"), &date_edit);
 	e_date_edit_set_date (E_DATE_EDIT (date_edit), 
 			      current_dt->value->year, current_dt->value->month, current_dt->value->day);
 	
@@ -2247,7 +2247,7 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		g_warning ("Could not get a selection to delete.");
+		g_warning (_("Could not get a selection to delete."));
 		return;
 	}
 
