@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-04 09:15+0300\n"
+"PO-Revision-Date: 2006-10-04 21:51+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10551,10 +10551,14 @@ msgid ""
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
 msgstr ""
+"HTML-redaktori juhtimist pole võimalik aktiveerida.\n"
+"\n"
+"Palun veendu, et sul on paigaldatud korreksed gtkhtml'i ja libgtkhtml'i "
+"versioonid."
 
 #: ../composer/mail-composer.error.xml.h:22
 msgid "Unable to activate the address selector control."
-msgstr ""
+msgstr "Aadressi valimise juhtimist pole võimalik aktiveerida."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "Unfinished messages found"
@@ -11101,6 +11105,10 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"Palun loe hoolikalt %s litsentsitingimusi,\n"
+"mida kuvatakse allpool ja nendega nõustumise korral\n"
+"märgi märkeruut\n"
 
 #: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
 #: ../mail/em-vfolder-rule.c:511
@@ -12471,6 +12479,8 @@ msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
 msgstr ""
+"Kui \"Eelvaate\" paan on sisse lülitatud, siis näidatakse seda vertikaalse "
+"vaate asemel külg-külje kõrval."
 
 #: ../mail/evolution-mail.schemas.in.in.h:33
 msgid ""
@@ -20962,6 +20972,12 @@ msgid ""
 "Top Secret\n"
 "For Your Eyes Only"
 msgstr ""
+"Tavaline\n"
+"Siseinfo\n"
+"Konfidentsiaalne\n"
+"Salajane\n"
+"Täiesti salajane\n"
+"Ainult Sinu silmadele"
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
