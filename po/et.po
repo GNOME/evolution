@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-03 07:14+0200\n"
-"PO-Revision-Date: 2006-10-03 12:12+0300\n"
+"POT-Creation-Date: 2006-10-04 07:17+0200\n"
+"PO-Revision-Date: 2006-10-04 09:15+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -6577,6 +6577,22 @@ msgstr "iga"
 #: ../calendar/gui/dialogs/recurrence-page.c:1415
 msgid "occurrences"
 msgstr "kord(a)"
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2155
+msgid "Add exception"
+msgstr "Lisa erand"
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2198
+msgid "Could not get a selection to modify."
+msgstr "Muutmiseks pole võimalik valikut hankida."
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2204
+msgid "Modify exception"
+msgstr "Muuda erandit"
+
+#: ../calendar/gui/dialogs/recurrence-page.c:2250
+msgid "Could not get a selection to delete."
+msgstr "Kustutamiseks pole võimalik valikut hankida."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2381
 msgid "Date/Time"
