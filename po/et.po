@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-04 21:51+0300\n"
+"PO-Revision-Date: 2006-10-05 23:05+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "Kalendrisündmus: Kokkuvõte puudub."
 
 #: ../a11y/calendar/ea-cal-view-event.c:300
 msgid "calendar view event"
-msgstr "calendrivaate sündmus"
+msgstr "kalendrivaate sündmus"
 
 #: ../a11y/calendar/ea-cal-view-event.c:529
 msgid "Grab Focus"
