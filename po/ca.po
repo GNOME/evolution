@@ -16374,7 +16374,7 @@ msgstr "_Afegeix la signatura"
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
-msgstr "C_arrega sempre les imatges de la xarxa"
+msgstr "C_arrega sempre les imatges d'Internet"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:156
@@ -20542,7 +20542,7 @@ msgstr ""
 "SSH\n"
 "FTP públic\n"
 "FTP (amb entrada)\n"
-"Recurs compartit de Windows\n"
+"Recurs compartit del Windows\n"
 "WebDAV (HTTP)\n"
 "WebDAV Xifrat (HTTPS)\n"
 "Ubicació personalitzada"
@@ -24026,7 +24026,7 @@ msgstr "_Inverteix la selecció"
 
 #: ../ui/evolution-task-editor.xml.h:4
 msgid "Click change / view the status details of the task"
-msgstr "En prémer, es canvia / visualitza els detalls de l'estat de la tasca"
+msgstr "Feu clic per a canviar / visualitzar els detalls de l'estat de la tasca"
 
 # fitxer: calendar.ca.po.2
 #: ../ui/evolution-task-editor.xml.h:9
@@ -24342,7 +24342,7 @@ msgstr "Visua_lització de llista"
 # fitxer: views.ca.po
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr "Visualització de _més"
+msgstr "Visualització de _mes"
 
 # fitxer: views.ca.po
 #: ../views/calendar/galview.xml.h:5
@@ -24397,7 +24397,7 @@ msgstr "A_notacions"
 # fitxer: calendar.ca.po.3
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
-msgstr "Amb _data de venciment:"
+msgstr "Amb _data de venciment"
 
 # fitxer: filter.ca.po
 #: ../views/tasks/galview.xml.h:2
