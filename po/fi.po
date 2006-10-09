@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-05 16:02+0300\n"
-"PO-Revision-Date: 2006-10-05 16:03+0300\n"
+"PO-Revision-Date: 2006-10-09 14:13+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13713,7 +13713,7 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Tervetuloa Evolutionin sähköpostitilinn määrittelyn apulaiseen.\n"
+"Tervetuloa Evolutionin sähköpostitilin määrittelyn apulaiseen.\n"
 "\n"
 "Valitse \"Eteenpäin\" aloittaaksesi."
 
@@ -17504,7 +17504,7 @@ msgstr ""
 "Tervetuloa Evolutioniin. Seuraaviksi kysyttävien tietojen avulla Evolution "
 "voi ottaa yhteyttä sähköpostitileihisi ja tuoda tietoja muista ohjelmista.\n"
 "\n"
-"Valitse \"Jatka\" jatkaaksesi. "
+"Valitse \"Eteenpäin\" jatkaaksesi. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
@@ -20514,7 +20514,7 @@ msgstr "Kokoelma"
 #: ../widgets/menus/gal-define-views.glade.h:4
 #, no-c-format
 msgid "Define Views for %s"
-msgstr "Määrittele %s näkymät"
+msgstr "Määrittele näkymät - %s"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
