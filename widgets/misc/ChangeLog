@@ -1,3 +1,10 @@
+2006-10-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #360237 & bug #359236
+
+	* e-filter-bar.c: (rule_advanced_response), (set_property): Fix for a
+	crash while saving empty search.
+
 2006-10-03  Francisco Javier F. Serrador  <serrador@tecknolabs.com>
 
 	* e-dateedit.c: Make two strings translatable.

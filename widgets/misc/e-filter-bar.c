@@ -120,7 +120,7 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 			
 			efb->current_query = rule;
 			g_object_ref (rule);
-			g_signal_emit_by_name (efb, "query_changed");
+			g_signal_emit_by_name (efb, "search_activated");
 
 			gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
@@ -684,6 +684,8 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					view_id = xml_get_prop_int (node, "view_id");
 					scope = xml_get_prop_int (node, "searchscope");
 					item_id = xml_get_prop_int (node, "item_id");
+					if (item_id == -1)
+						item_id = 0;
 
 					if (scope == E_FILTERBAR_CURRENT_FOLDER_ID)
 						is_cur_folder = TRUE;
@@ -770,7 +772,9 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);		
 						gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, NULL);
 						e_search_bar_paint (esb);
-						efb->current_query = NULL;
+						efb->current_query = (FilterRule *)efb->option_rules->pdata[item_id - efb->option_base];
+						if (efb->config && efb->current_query)
+							efb->config (efb, efb->current_query, item_id, "", efb->config_data);						
 					}
 					
 					xmlFree (text);
