@@ -126,6 +126,7 @@ struct _EShellWindowPrivate {
 
 	/* The timeout for saving the window size */
 	guint      store_window_size_timer;
+	gboolean destroyed;
 };
 
 
@@ -838,6 +839,8 @@ impl_dispose (GObject *object)
 	EShellWindow *self = E_SHELL_WINDOW (object);
 	EShellWindowPrivate *priv = self->priv;
 
+	priv->destroyed = TRUE;
+	
 	if (priv->shell != NULL) {
 		g_object_remove_weak_pointer (G_OBJECT (priv->shell), (void **) &priv->shell);
 		priv->shell = NULL;
@@ -981,7 +984,8 @@ e_shell_window_init (EShellWindow *shell_window)
 
 	priv->tooltips = gtk_tooltips_new ();
 	priv->shell_view = e_shell_view_new(shell_window);
-
+	priv->destroyed = FALSE;
+	
 	shell_window->priv = priv;
 
 	/** @HookPoint: Shell Main Menu
@@ -1233,6 +1237,9 @@ e_shell_window_set_title(EShellWindow *window, const char *component_id, const c
 	EShellWindowPrivate *priv = window->priv;
 	ComponentView *view = NULL;
 	GSList *p;
+
+	if (priv->destroyed)
+		return;
 
 	for (p = priv->component_views; p != NULL; p = p->next) {
 		ComponentView *this_view = p->data;
