@@ -16,7 +16,7 @@
  <bookinfo id="Front">
   <productname>Evolution&trade;</productname>
   <productnumber>2.8</productnumber>
-  <invpartnumber>September 4, 2006</invpartnumber>
+  <invpartnumber>October 5, 2006</invpartnumber>
   <title>User Guide</title>
  </bookinfo>
 
@@ -382,7 +382,7 @@
         <para>The GAL contains a list of all e-mail addresses. If you select this option, you need to specify the maximum number of responses.</para>
        </listitem>
        <listitem id="bstgsrp">
-        <para>Select if you want use a password expire warning time period.</para>
+        <para>Select if you want to use a password expire warning time period.</para>
         <para>If you select this option, you need to specify how often Evolution should send the password expire message.</para>
        </listitem>
        <listitem id="bv6uqm7">
@@ -639,7 +639,7 @@
      <para>Before importing e-mail from Netscape&z-3rdParty;, make sure you have selected File &gt; Compact All Folders. If you don&apos;t, Evolution will import and undelete the messages in your Trash folders.</para>
      <tip>
       <para>Evolution uses standard file types for e-mail and calendar information, so you can copy those files from your <command>~/.evolution</command> directory. The file formats used are <command>mbox</command> for e-mail and iCal for calendar information.</para>
-      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export contact data, open your contacts tool and select the contacts you want to export (press Ctrl+A to select them all). Click File &gt; Save as VCard. </para>
+      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export contact data, open your contacts tool and select the contacts you want to export (press Ctrl+A to select them all). Click File &gt; Save Contact as VCard. </para>
      </tip>
     </section>
    </section>
@@ -701,7 +701,7 @@
 
    <section id="usage-mainwindow-shortcutbar">
     <title>The Switcher</title>
-    <para>The most important job for Evolutions is to give you access to your information and help you use it quickly. One way it does that is through the switcher, which is the column on the left side of the main window. The buttons, such as Mail and Contacts, are the shortcuts. Above them is a list of folders for the current Evolution tool.</para>
+    <para>The most important job for Evolution is to give you access to your information and help you use it quickly. One way it does that is through the switcher, which is the column on the left side of the main window. The buttons, such as Mail and Contacts, are the shortcuts. Above them is a list of folders for the current Evolution tool.</para>
     <para>The folder list organizes your e-mail, calendars, contact lists, and task lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one folder, called On This Computer, for local information. For example, the folder list for the e-mail tool shows any remote e-mail storage you have set up, plus local folders and search folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>. </para>
     <para>If you get large amounts of e-mail, you might want more folders than just your Inbox. You can create multiple calendar, task, or contacts folders. </para>
     <para>To create a new folder:</para>
@@ -1082,7 +1082,7 @@
 
    <section id="usage-mail-getnsend-get-attach">
     <title>Working with Attachments and HTML Mail</title>
-    <para>If someone sends you an <link linkend="attachment">attachment</link>, Evolution displays a file icon at the end of the message to which it is attached. Text, including HTML formatting and embedded images, appears as part of the message, rather than as a separate attachment. Attachments are also listed on the top bar of the message. To view the attachments, click the arrow to expand the attachment window. To open an attachment, double-click the it. Click the Save All button save all the attachments.</para>
+    <para>If someone sends you an <link linkend="attachment">attachment</link>, Evolution displays a file icon at the end of the message to which it is attached. Text, including HTML formatting and embedded images, appears as part of the message, rather than as a separate attachment. Attachments are also listed on the top bar of the message. To view the attachments, click the arrow to expand the attachment window. To open an attachment, double-click it. Click the Save All button to save all the attachments.</para>
 
     <section id="usage-mail-getnsend-get-attach-actions">
      <title>Saving or Opening Attachments</title>
@@ -1103,7 +1103,7 @@
      <para>To open an attachment using another application: </para>
      <orderedlist>
       <listitem id="bsen4ia">
-       <para>Click the down-arrow on the attachment icon or right-click the attachment icon in the attachment bar</para>
+       <para>Click the down-arrow on the attachment icon or right-click the attachment icon in the attachment bar.</para>
       </listitem>
       <listitem id="bsen4kb">
        <para>Select the application to open the attachment.</para>
@@ -1587,7 +1587,7 @@
      <para>You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, click Insert &gt; Prioritize Message in the composer window. </para>
     </formalpara>
     <note>
-     <para>Evolution will ignore the message priority,because it assumes that the recipient should decide whether the message is important or not.</para>
+     <para>Evolution will ignore the message priority, because it assumes that the recipient should decide whether the message is important or not.</para>
     </note>
    </section>
 
@@ -1599,7 +1599,7 @@
      <listitem id="b10fnnjq">
       <para>Click Forward on the toolbar.</para>
       <para>or</para>
-      <para>If you prefer to forward the message <link linkend="inline">inline</link> instead of attached, click Actions &gt; Forward Inline from the menu.</para>
+      <para>If you prefer to forward the message <link linkend="inline">inline</link> instead of attached, click Message &gt; Forward As &gt; Inline from the menu.</para>
      </listitem>
      <listitem id="b10fnnnk">
       <para>Select an addressee as you would when sending a new message; the subject is already entered, although you can alter it if you want.</para>
@@ -1980,7 +1980,7 @@
       <para>Use the Evolution import tool to import the files.</para>
      </listitem>
     </orderedlist>
-    <para>For POP mail, filters are applied as messages are downloaded. For IMAP mail, filters are applied to new messages when you open the Inbox folder. On Exchange servers, filters are not applied until you select your Inbox folder and click Actions &gt; Apply Filters, or press Ctrl+Y. To force your filters to act on all messages in the folder, select the entire folder by pressing Ctrl+A, then apply the filters by pressing Ctrl+Y. </para>
+    <para>For POP mail, filters are applied as messages are downloaded. For IMAP mail, filters are applied to new messages when you open the Inbox folder. On Exchange servers, filters are not applied until you select your Inbox folder and click Message &gt; Apply Filters, or press Ctrl+Y. To force your filters to act on all messages in the folder, select the entire folder by pressing Ctrl+A, then apply the filters by pressing Ctrl+Y. </para>
    </section>
   </section>
 
@@ -2194,7 +2194,7 @@
    <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin&z-3rdParty; with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
    <para>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn&apos;t get flagged as junk mail. If good mail, is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk. If Evolution misses junk mail, right-click the message, then click Mark as Junk. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</para>
    <note>
-    <para>You need to mark approximately 300 mails manually as junk so that SpamAssassin learn spam-filtering.</para>
+    <para>You need to mark approximately 300 mails manually as junk so that SpamAssassin learns spam-filtering.</para>
    </note>
    <para>To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences. In the mail preferences tool, click the Junk tab for the following options: </para>
    <formalpara id="bsaz9zd">
@@ -2207,7 +2207,7 @@
    </formalpara>
    <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link> and <link linkend="mail-prefs-junk">Junk Mail Preferences</link></para>
    <note>
-    <para>SpamAssasin* is an application that scan through the mail box to find junk mails. Evolution uses SpamAssassin as the default spam-filtering application. Before you really start using spam-filtering, ensure that SpamAssassin is installed to enable Evolution&apos;s junk mail filtering feature. If already installed, SpamAssassin plugin will be checked by default in Plugin Manager under the Edit menu.  If not, contact your distributor. You can also download the source from<ulink url="http://spamassassin.apache.org/"> The Apache SpamAssassin Project</ulink>. Once you set up SpamAssassin, the plugin is automatically enabled in the Plugin Manager. However, you need to enable it again if it in any case disabled. Refer <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> to train SpamAssassin to identify junk mails.</para>
+    <para>SpamAssasin* is an application that scan through the mail box to find junk mails. Evolution uses SpamAssassin as the default spam-filtering application. Before you really start using spam-filtering, ensure that SpamAssassin is installed to enable Evolution&apos;s junk mail filtering feature. If already installed, SpamAssassin plugin will be checked by default in Plugin Manager under the Edit menu.  If not, contact your distributor. You can also download the source from<ulink url="http://spamassassin.apache.org/"> The Apache SpamAssassin Project</ulink>. Once you set up SpamAssassin, the plugin is automatically enabled in the Plugin Manager. However, you need to enable it again if it in any case disabled. Refer to <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> to train SpamAssassin to identify junk mails.</para>
     <para>You can also make use of other spam-filtering solutions through other packagers. For example, Ubuntu Hoary, <ulink url="http://www.ubuntu.com/">Ubuntu</ulink> provides bogofilter instead of SpamAssassin. ( Ubuntu, the Ubuntu logo, Canonical and the Canonical logo are all registered trademarks of Canonical Ltd)</para>
    </note>
   </section>
@@ -2457,7 +2457,7 @@
    <para>As messages that meet the search folder criteria arrive or are deleted, Evolution automatically adjusts the search folder contents. When you delete a message, it is erased from the folder in which it actually exists, as well as any search folders that display it.</para>
    <para>The Unmatched Search Folder is the opposite of other search folders: it displays all messages that do not appear in other search folders.</para>
    <para>If you use remote e-mail storage like IMAP or Microsoft Exchange, and have created search folders to search through them, the Unmatched Search Folder also searches the remote folders. If you do not create any search folders that search remote mail stores, the Unmatched Search Folder does not search in them either.</para>
-   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a virtual folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the &ldquo;Anna&rdquo; search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the &ldquo;Anna&rdquo; search folder and in the &ldquo;Internal Evolution Discussion&rdquo; search folder. </para>
+   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the &ldquo;Anna&rdquo; search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the &ldquo;Anna&rdquo; search folder and in the &ldquo;Internal Evolution Discussion&rdquo; search folder. </para>
 
    <section id="vfolder-create">
     <title>Creating A Search Folder</title>
@@ -2670,7 +2670,7 @@
      <para>Click Search.</para>
     </listitem>
    </orderedlist>
-   <para>To show all your contacts, Click Clear in the search bar, press Shift+Ctrl+B, or search with an empty query.</para>
+   <para>To show all your contacts, Click Clear in the search bar or search with an empty query.</para>
    <formalpara id="b131mh80">
     <title>Quick Search:</title>
     <para>Displays all the contacts that match the in-built criteria you have selected from the drop-down list at the top left side, just above the Display pane.</para>
@@ -3137,7 +3137,7 @@
        </formalpara>
       </listitem>
      </itemizedlist>
-     <para>Apart from the above notifications, the Evolution alarm icon blink in the notification area. To pause the alarm or view the event, click the notification icon.</para>
+     <para>Apart from the above notifications, the Evolution alarm icon blinks in the notification area. To pause the alarm or view the event, click the notification icon.</para>
      <para>To create a reminder:</para>
      <orderedlist>
       <listitem id="bxmtait">
@@ -4978,7 +4978,7 @@ Accepting and Replying to a Meeting Request</title>
     <para>There are only two items in this section: Check Incoming Mail for Junk and Include Remote Tests. Checking for junk mail uses the SpamAssassin tool with trainable Bayesian filters.Note that you need to install SpamAssassin separately to enable junk filtering. </para>
     <para>It also includes online tests, like checking for blacklisted message senders and ISPs. Online tests can make filtering slower, but more accurate. Select the options here to choose your mail filtering method. </para>
     <note>
-     <para>Check new messages for junk contents option under Edit &gt; Preference &gt; Mail Accounts &gt; Edit &gt; Receiving option is enabled only for IMAP. Check incoming mail for junk option under Edit &gt;Prefernce &gt; Mail Preference &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
+     <para>Check new messages for junk contents option under Edit &gt; Preferences &gt; Mail Accounts &gt; Edit &gt; Receiving option is enabled only for IMAP. Check incoming mail for junk option under Edit &gt;Prefernce &gt; Mail Preference &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
     </note>
    </section>
 
@@ -5042,7 +5042,7 @@ Accepting and Replying to a Meeting Request</title>
 
    <section id="bshpjuj">
     <title>Spell Checking</title>
-    <para>To choose a spell-checking language, select it here. You must install the gnome-spell package, available through ZENworks&reg; Linux Management, for spell-checking to be available in Evolution. Additional dictionaries are also available through Red Carpet&reg; and are detected automatically if you have installed them. To have the composer automatically check your spelling while you type, select Check Spelling While I Type.</para>
+    <para>To choose a spell-checking language, select it here. You must install the gnome-spell package, available through ZENworks&reg; Linux Management, for spell-checking to be available in Evolution. Additional dictionaries are also available through Red Carpet&reg; and are detected automatically if you have installed them. You must also install the aspell package. If this is the case, please contact your packager. To have the composer automatically check your spelling while you type, select Check Spelling While I Type.</para>
     <para>Check the spelling in messages by clicking Edit &gt; Spell Check Document. </para>
    </section>
   </section>
@@ -5390,7 +5390,7 @@ Accepting and Replying to a Meeting Request</title>
      <para>Start Evolution.</para>
     </listitem>
     <listitem id="bshqejx">
-     <para>Press Shift+Ctrl+F or select File &gt; New Folder to create the folders you want.</para>
+     <para>Select File &gt; New Folder to create the folders you want.</para>
     </listitem>
    </orderedlist>
    <para>To import the data files:</para>
@@ -5441,19 +5441,19 @@ Accepting and Replying to a Meeting Request</title>
    <bridgehead id="bt4ckg2">New Item</bridgehead>
    <para>Press Ctrl+N to open a new item for whatever part of Evolution you&apos;re working in. In mail, this means you create a new message. If you&apos;re looking at your address book, Ctrl+N creates a new contact card, and in the calendar, a new appointment.</para>
    <bridgehead id="bt4ckg3">Creating a New E-Mail Message</bridgehead>
-   <para>Use File &gt; New &gt; Mail Message or Ctrl+Shift+M. </para>
+   <para>Use File &gt; New &gt; Mail Message or Shift+Ctrl+M. </para>
    <bridgehead id="bt4ckg4">Creating a New Appointment</bridgehead>
-   <para>Use File &gt; New Appointment or Ctrl+Shift+A.</para>
+   <para>Use File &gt; New Appointment or Shift+Ctrl+A.</para>
    <bridgehead id="bt4ckg5">Entering a New Contact </bridgehead>
-   <para> Double-click in any blank space in the contact manager to create a new address card. You can also use File &gt; New Contact or Ctrl+Shift+C. </para>
+   <para> Double-click in any blank space in the contact manager to create a new address card. You can also use File &gt; New Contact or Shift+Ctrl+C. </para>
    <bridgehead id="bt4ckg6">Creating a New Task</bridgehead>
-   <para> File &gt; New Task or Ctrl+Shift+T. </para>
+   <para> File &gt; New Task or Shift+Ctrl+T. </para>
   </section>
 
   <section id="quickref-mail">
    <title>Mail Tasks</title>
    <bridgehead id="bt4ckg7">Send and Receive Mail</bridgehead>
-   <para>Press F9, click the Send/Receive button in the toolbar, or click Actions &gt; Send/Receive.</para>
+   <para>Press F9, click the Send/Receive button in the toolbar, or click File &gt; Send/Receive.</para>
    <bridgehead id="bt4ckg8">Navigating the Message List with the Keyboard</bridgehead>
    <para>Press (]) or (.) to jump to the next unread message. ([) or (,) goes to the previous unread message. Use the arrow keys to move up and down in the list of all messages.</para>
    <bridgehead id="bt4ckg9">Moving the Display Up and Down in the Preview Pane</bridgehead>
@@ -5465,8 +5465,8 @@ Accepting and Replying to a Meeting Request</title>
    <para>Select the message or messages you want to forward, then click Forward in the toolbar, or press Ctrl+F.</para>
    <bridgehead id="bt4ckgc">Opening a Message In a New Window</bridgehead>
    <para>Double-click the message you want to view, or select it and press Enter or Ctrl+O. </para>
-   <bridgehead id="bt4ckgd">Creating Filters and Virtual Folders</bridgehead>
-   <para>Right-click a message and select Create Rule From Message. You can also create filters and virtual folders in the Tools menu. </para>
+   <bridgehead id="bt4ckgd">Creating Filters and Search Folders</bridgehead>
+   <para>Right-click a message and select Create Rule From Message. You can also create filters and Search folders in the Edit menu. </para>
    <bridgehead id="bt4ckge">Adding a Sender to the Address Book</bridgehead>
    <para>Right-click a message and select Add Sender to Address Book. You can also right-click on any e-mail address to add it to your address book. </para>
   </section>
@@ -5474,10 +5474,10 @@ Accepting and Replying to a Meeting Request</title>
   <section id="quickref-cal">
    <title>Calendar</title>
    <bridgehead id="bt4ckgf">Creating a New Appointment</bridgehead>
-   <para> Use File &gt; New Appointment or Ctrl+Shift+A. </para>
+   <para> Use File &gt; New Appointment or Shift+Ctrl+A. </para>
    <para>You can also click in any blank spot in the calendar and start typing to create a new appointment entry.</para>
    <bridgehead id="bt4ckgg">Creating a New Task</bridgehead>
-   <para> Use File &gt; New Task or Ctrl+Shift+T. </para>
+   <para> Use File &gt; New Task or Shift+Ctrl+T. </para>
   </section>
 
   <section id="quickref-contact">
@@ -5489,7 +5489,7 @@ Accepting and Replying to a Meeting Request</title>
    <bridgehead id="bt4ckgj">Sending E-Mail To a Contact</bridgehead>
    <para>Right-click a contact, then click Send Message to Contact.</para>
    <bridgehead id="bt4ckgk">Creating a New Contact </bridgehead>
-   <para>Double-click in any blank space in the contact manager to create a new address card, or right-click anywhere in the address book and select New Contact. You can also click File &gt; New Contact or press Ctrl+Shift+C. </para>
+   <para>Double-click in any blank space in the contact manager to create a new address card, or right-click anywhere in the address book and select New Contact. You can also click File &gt; New Contact or press Shift+Ctrl+C. </para>
   </section>
  </appendix>
 
@@ -5504,7 +5504,7 @@ Accepting and Replying to a Meeting Request</title>
   <title>Authors</title>
   <para>Evolution was written by the Evolution&trade; team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window.</para>
   <para>The Evolution code owes a great debt to the GNOME-pim and GNOME-Calendar applications, and to KHTMLW. The developers of Evolution acknowledge the efforts and contributions of all who worked on those projects.</para>
-  <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.ximian.com">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOME bug report tool, bug-buddy, to submit your defect reports.</para>
+  <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.gnome.com">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOME bug report tool, bug-buddy, to submit your defect reports.</para>
   <para>This manual was written by:</para>
   <itemizedlist>
    <listitem>
@@ -5512,6 +5512,9 @@ Accepting and Replying to a Meeting Request</title>
    </listitem>
    <listitem>
     <para>Srinivasa Ragavan (sragavan@novell.com)</para>
+   </listitem>
+   <listitem>
+    <para>Andre Klapper (ak-47@gmx.net)</para>
    </listitem>
    <listitem>
     <para>Mark Moulder (mmoulder@novell.com)</para>
@@ -5688,7 +5691,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="regular-expression">
    <glossterm>regular expression</glossterm>
    <glossdef>
-    <para>A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with &ldquo;fly&rdquo; and ending in &ldquo;oup&rdquo; or &ldquo;soap&rdquo;. If you searched for that expression, you&apos;d find both &ldquo;fly in my soup&rdquo; and &ldquo;fly in my soap.&rdquo; For more information, enter <command>man grep</command> from the command line.</para>
+    <para>A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with &ldquo;fly&rdquo; and ending in &ldquo;soup&rdquo; or &ldquo;soap&rdquo;. If you searched for that expression, you&apos;d find both &ldquo;fly in my soup&rdquo; and &ldquo;fly in my soap.&rdquo; For more information, enter <command>man grep</command> from the command line.</para>
    </glossdef>
   </glossentry>
   <glossentry id="script">
@@ -5706,7 +5709,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="vfolder">
    <glossterm>search folder</glossterm>
    <glossdef>
-    <para>An e-mail organization tool. Search folders allow you to create a folder that contains the results of a complex search. search folder contents are updated dynamically.</para>
+    <para>An e-mail organization tool. Search folders allow you to create a folder that contains the results of a complex search. Search folder contents are updated dynamically.</para>
    </glossdef>
   </glossentry>
   <glossentry id="search-scope">
@@ -5754,7 +5757,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="vcard">
    <glossterm>vCard</glossterm>
    <glossdef>
-    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it is probably in vCard format. Contrast with <varname>search folder</varname>.</para>
+    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it is probably in vCard format. </para>
    </glossdef>
   </glossentry>
  </glossary>
@@ -5779,7 +5782,7 @@ Accepting and Replying to a Meeting Request</title>
     <member>www.novell.com</member>
    </simplelist>
    <para id="Bktitle">Evolution User Guide</para>
-   <para>September 04, 2006</para>
+   <para>October 05, 2006</para>
    <simplelist>
     <member>Evolution is a trademark of Novell, Inc.</member>
     <member>GroupWise is a registered trademark of Novell, Inc. in the United States and other countries.</member>
