@@ -2937,7 +2937,7 @@ init_widgets (EventPage *epage)
 		
 	case CAL_MINUTES:
 		if (priv->alarm_interval != 15) {
-			menu_label = g_strdup_printf (ngettext("%d minute before appointement", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
+			menu_label = g_strdup_printf (ngettext("%d minute before appointment", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
 		} 
 		break;
 	}

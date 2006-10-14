@@ -1,3 +1,10 @@
+2006-10-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	Fixes bug #352546
+
+	* gui/dialogs/event-page.c: (init_widgets) Fix typo in a
+	translated string ("appointement").
+
 2006-10-03  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* gui/dialogs/recurrence-page.c: Fix to allow translate some
