@@ -5,21 +5,21 @@
 # Richard Hult <rhult@codefactory.se>, 2000, 2001.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002, 2003, 2004, 2005.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
-# Johan Dahlin <zilch.am@home.se>, 2001.
+# Johan Dahlin <johan@gnome.org>, 2001, 2006.
 #
 # Terminology
 # appointment = möte
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.226 2006/10/03 21:26:19 dnylande Exp $
+# $Id: sv.po,v 1.227 2006/10/14 17:23:07 johan Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-03 16:18+0200\n"
-"PO-Revision-Date: 2006-10-03 13:44-0700\n"
+"PO-Revision-Date: 2006-10-14 14:18-0300\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -1415,7 +1415,7 @@ msgstr "Algeriet"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "American Samoa"
-msgstr "Samoa"
+msgstr "Amerikanska Samoa"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Andorra"
@@ -2031,7 +2031,7 @@ msgstr "Nicaragua"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Niger"
-msgstr "Nigeria"
+msgstr "Niger"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Nigeria"
