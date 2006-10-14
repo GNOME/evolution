@@ -1,3 +1,7 @@
+2006-10-15  Satoru SATOH <ss@gnome.gr.jp>
+
+	* ja.po: Fixed plurals-related problem.
+
 2006-10-14  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated by Ivar Smolin.
