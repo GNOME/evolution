@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-05 23:05+0300\n"
+"PO-Revision-Date: 2006-10-13 21:10+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4478,7 +4478,7 @@ msgstr "_Saada"
 
 #: ../calendar/calendar.error.xml.h:74
 msgid "_Send Notice"
-msgstr "_Saada _teavitus"
+msgstr "Saada _teavitus"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "{0}."
@@ -13310,7 +13310,7 @@ msgstr "Balti (ISO-8859-4)"
 
 #: ../mail/mail-config.glade.h:48
 msgid "Beep w_hen new mail arrives"
-msgstr "Uue sõnumi saabumisel piiksutakse"
+msgstr "Uue sõnumi saabumisel _piiksutakse"
 
 #: ../mail/mail-config.glade.h:49
 msgid "C_haracter set:"
@@ -13558,7 +13558,7 @@ msgstr "_Vali..."
 
 #: ../mail/mail-config.glade.h:120
 msgid "S_end message receipts:"
-msgstr "Lugemiskinnitus saadetakse:"
+msgstr "_Lugemiskinnitus saadetakse:"
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
@@ -13739,7 +13739,7 @@ msgstr "_Pildianimatsioonide näitamine"
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "Kellele / Koopia / Pimekoopia välju vähendatakse"
+msgstr "Kellele / Koopia / Pimekoopia välju _vähendatakse"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
@@ -18050,6 +18050,9 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"Kuna sa usaldad selle sertifikaadi välja andnud sertifitseerimiskeskust, "
+"siis sa usaldad ka selle sertifikaadi autentsust kuni siin pole vastupidi "
+"määratud"
 
 #: ../smime/gui/cert-trust-dialog.c:158
 msgid ""
@@ -18057,6 +18060,9 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"Kuna sa ei usalda selle sertifikaadi välja andnud sertifitseerimiskeskust, "
+"siis sa ei usalda ka selle sertifikaadi autentsust kuni siin pole vastupidi "
+"määratud"
 
 #: ../smime/gui/certificate-manager.c:136
 #: ../smime/gui/certificate-manager.c:144
@@ -19194,7 +19200,7 @@ msgstr "Kausta omaduste muutmine"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
-msgstr "A_henda kõik _lõimed"
+msgstr "A_henda kõik lõimed"
 
 #: ../ui/evolution-mail-list.xml.h:4
 msgid "Collapse all message threads"
@@ -19608,11 +19614,11 @@ msgstr "Otsikaust adressaatide järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from S_ubject..."
-msgstr "Otsikaust teema järgi..."
+msgstr "Otsikaust _teema järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from Sen_der..."
-msgstr "Otsikaust saatja järgi..."
+msgstr "Otsikaust _saatja järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
