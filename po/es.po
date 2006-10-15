@@ -11,10 +11,10 @@
 # This file is distributed under the same license as the evolution package.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-terminal-doc\n"
+"Project-Id-Version: pan2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-03 16:12+0200\n"
-"PO-Revision-Date: 2006-10-03 16:14+0200\n"
+"POT-Creation-Date: 2006-10-15 15:17+0200\n"
+"PO-Revision-Date: 2006-10-15 15:27+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1216,7 +1216,7 @@ msgstr "_Puerto:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Search scope:"
-msgstr "_Ámbito de búsqueda:"
+msgstr "Á_mbito de búsqueda:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
 #: ../mail/mail-config.glade.h:170
@@ -4137,7 +4137,7 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
-"Toda la información en  estas entradas del diario se borrarán y no se podrán "
+"Toda la información en estas entradas del diario se borrarán y no se podrán "
 "recuperar."
 
 #: ../calendar/calendar.error.xml.h:4
@@ -4163,7 +4163,7 @@ msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
-"Toda la información en su entrada del diario se borrará y no se podrá "
+"Toda la información en esta entrada del diario se borrará y no se podrá "
 "recuperar."
 
 #: ../calendar/calendar.error.xml.h:9
@@ -5881,12 +5881,12 @@ msgstr "Esta entrada del diario ha sido borrada."
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  Ha hecho cambios. ¿Olvido los cambios y cierro el editor?"
+msgstr "%s  Ha hecho cambios. ¿Quiere olvidar esos cambios y cerrar el editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr "%s  No ha hecho cambios, ¿cerrar el editor?"
+msgstr "%s  No ha hecho cambios, ¿quiere cerrar el editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
@@ -5903,12 +5903,12 @@ msgstr "Esta entrada del diario ha cambiado."
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  Ha realizado cambios. ¿Olvido estos cambios y actualizo el editor?"
+msgstr "%s  Ha realizado cambios. ¿Quiere olvidar esos cambios y actualizar el editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr "%s  No ha realizado cambios, ¿actualizar el editor?"
+msgstr "%s  No ha realizado cambios, ¿quiere actualizar el editor?"
 
 #: ../calendar/gui/dialogs/comp-editor-page.c:515
 #, c-format
@@ -6195,7 +6195,7 @@ msgstr "La fecha de inicio está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1269
 msgid "End date is wrong"
-msgstr "La fecha de finalización  está equivocada"
+msgstr "La fecha de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1292
 msgid "Start time is wrong"
@@ -6203,7 +6203,7 @@ msgstr "La hora de inicio está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1299
 msgid "End time is wrong"
-msgstr "La  hora de finalización  está equivocada"
+msgstr "La hora de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1454
 #: ../calendar/gui/dialogs/memo-page.c:720
@@ -6248,10 +6248,10 @@ msgstr[1] "%d horas antes de la cita"
 
 #: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
-msgid "%d minute before appointement"
+msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuto antes de la cita"
-msgstr[1] "%d minutos antes de cada cita"
+msgstr[1] "%d minutos antes de la cita"
 
 #: ../calendar/gui/dialogs/event-page.c:2953
 msgid "Customize"
@@ -8056,7 +8056,7 @@ msgstr "_Borrar las notas seleccionadas"
 
 #: ../calendar/gui/e-memo-table.c:1070 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
-msgstr "Pulse para añadir una nota"
+msgstr "Pulse aquí para añadir una nota"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
 msgid "Memo sort"
@@ -8088,7 +8088,7 @@ msgstr "Borrando los objetos seleccionados…"
 #: ../calendar/gui/e-pub-utils.c:322
 #, c-format
 msgid "Enter the password for %s"
-msgstr "Introduzca su contraseña para %s"
+msgstr "Introduzca la contraseña para %s"
 
 #: ../calendar/gui/e-tasks.c:885
 msgid "Loading tasks"
@@ -11255,7 +11255,7 @@ msgstr "Idioma(s)"
 
 #: ../mail/em-composer-prefs.c:979
 msgid "Add signature script"
-msgstr "Añadir firma"
+msgstr "Añadir un script de firma"
 
 #: ../mail/em-composer-prefs.c:999
 msgid "Signature(s)"
@@ -12296,7 +12296,7 @@ msgstr "No es posible abrir los datos antiguos POP keep-on-server «%s»: %s"
 #: ../mail/em-migrate.c:2078
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "Fallo al crear directorio de datos POP3 keep-on-server  «%s»: %s"
+msgstr "Fallo al crear directorio de datos POP3 keep-on-server «%s»: %s"
 
 #: ../mail/em-migrate.c:2107
 #, c-format
@@ -12306,7 +12306,7 @@ msgstr "No es posible copiar los datos POP3 keep-on-server «%s»: %s"
 #: ../mail/em-migrate.c:2578 ../mail/em-migrate.c:2590
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "No es posible crear el almacén de correo local  «%s»: %s"
+msgstr "No es posible crear el almacén de correo local «%s»: %s"
 
 #: ../mail/em-migrate.c:2713
 #, c-format
@@ -15252,7 +15252,7 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Esta opción conectará con el servidor Exchange usando autenticación con  "
+"Esta opción conectará con el servidor Exchange usando autenticación con "
 "contraseña estándar de texto simple."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
@@ -15881,7 +15881,7 @@ msgstr "Inténtelo con una contraseña diferente."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 msgid "Unable to add user to access control list:"
-msgstr "No  puede añadirse el usuario a la lista de control de acceso:"
+msgstr "No puede añadirse el usuario a la lista de control de acceso:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
 msgid "Unable to edit delegates."
@@ -15947,7 +15947,7 @@ msgstr "Su contraseña ha caducado."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid "{0} cannot be added to an access control list"
-msgstr "{0} no  puede añadirse a la lista de control de acceso"
+msgstr "{0} no puede añadirse a la lista de control de acceso"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
 msgid "{0} is already a delegate"
@@ -15959,7 +15959,7 @@ msgstr "{0} ya está en la lista"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr "Subscribirse a las  tareas de otros usuarios"
+msgstr "Suscribirse a las tareas de otros usuarios"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
@@ -17048,7 +17048,7 @@ msgid ""
 "This message does not contain the header information required for this "
 "action."
 msgstr ""
-"Este mensaje no  contiene la información de cabecera requerida para esta "
+"Este mensaje no contiene la información de cabecera requerida para esta "
 "acción."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
@@ -17691,7 +17691,7 @@ msgid ""
 "by the GNOME toolbar setting."
 msgstr ""
 "El estilo de los botones de la ventana. Puede ser \"text\", \"icons\", \"both"
-"\", \"toolbar\". Si  se selecciona \"toolbar\", el estilo de los botones se "
+"\", \"toolbar\". Si se selecciona \"toolbar\", el estilo de los botones se "
 "determina por la configuración de la barra de herramientas de GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
@@ -17868,19 +17868,19 @@ msgstr "_Trabajar desconectado"
 msgid "Work Offline"
 msgstr "Trabajar desconectado"
 
-#: ../shell/e-shell-window.c:379
+#: ../shell/e-shell-window.c:380
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "Evolution está conectado. Pulse este botón para trabajar desconectado."
 
-#: ../shell/e-shell-window.c:387
+#: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution está en proceso de desconectarse."
 
-#: ../shell/e-shell-window.c:394
+#: ../shell/e-shell-window.c:395
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "Evolution está desconectado. Pulse este botón para trabajar conectado."
 
-#: ../shell/e-shell-window.c:794
+#: ../shell/e-shell-window.c:795
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
@@ -18265,7 +18265,7 @@ msgstr "Introduzca la contraseña para «%s»"
 #. we're setting the password initially
 #: ../smime/gui/component.c:70
 msgid "Enter new password for certificate database"
-msgstr "Introduzca una contraseña nueva para  la base de datos de certificados"
+msgstr "Introduzca una contraseña nueva para la base de datos de certificados"
 
 #: ../smime/gui/component.c:72
 msgid "Enter new password"
@@ -20932,7 +20932,7 @@ msgstr "Espaciado alrededor de la flecha del expansor"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:129 ../widgets/misc/e-filter-bar.c:170
-#: ../widgets/misc/e-filter-bar.c:715
+#: ../widgets/misc/e-filter-bar.c:717
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
@@ -21727,11 +21727,11 @@ msgstr "Ancla"
 
 #: ../widgets/text/e-text.c:3539 ../widgets/text/e-text.c:3540
 msgid "Clip Width"
-msgstr "Ancho del clip"
+msgstr "Anchura del clip"
 
 #: ../widgets/text/e-text.c:3546 ../widgets/text/e-text.c:3547
 msgid "Clip Height"
-msgstr "Alto del clip"
+msgstr "Altura del clip"
 
 #: ../widgets/text/e-text.c:3553 ../widgets/text/e-text.c:3554
 msgid "Clip"
