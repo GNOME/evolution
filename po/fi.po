@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-05 16:02+0300\n"
-"PO-Revision-Date: 2006-10-09 14:13+0300\n"
+"POT-Creation-Date: 2006-10-15 13:47+0300\n"
+"PO-Revision-Date: 2006-10-15 13:48+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -6207,10 +6207,10 @@ msgstr[1] "%d tuntia ennen tapaamista"
 
 #: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
-msgid "%d minute before appointement"
+msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuutti ennen tapaamista"
-msgstr[1] "%d minuuttia ennen apaamista"
+msgstr[1] "%d minuuttia ennen tapaamista"
 
 #: ../calendar/gui/dialogs/event-page.c:2953
 msgid "Customize"
@@ -17831,23 +17831,23 @@ msgstr "_Yhteydetön tila"
 msgid "Work Offline"
 msgstr "Valitse yhteydetön tila"
 
-#: ../shell/e-shell-window.c:379
+#: ../shell/e-shell-window.c:380
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr ""
 "Evolution on yhteydellisessä tilassa. Napsauta tästä siirtyäksesi "
 "yhteydettömään tilaan."
 
-#: ../shell/e-shell-window.c:387
+#: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution siirtyy yhteydettömään tilaan."
 
-#: ../shell/e-shell-window.c:394
+#: ../shell/e-shell-window.c:395
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
 "Evolution on yhteydettömässä tilassa. Napsauta tästä siirtyäksesi "
 "yhteydelliseen tilaan."
 
-#: ../shell/e-shell-window.c:794
+#: ../shell/e-shell-window.c:795
 #, c-format
 msgid "Switch to %s"
 msgstr "Avaa %s"
@@ -20889,7 +20889,7 @@ msgstr "Laajennusnuolen ympärillä oleva tila"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:129 ../widgets/misc/e-filter-bar.c:170
-#: ../widgets/misc/e-filter-bar.c:715
+#: ../widgets/misc/e-filter-bar.c:717
 msgid "Advanced Search"
 msgstr "Oma haku"
 
