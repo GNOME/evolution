@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-13 21:10+0300\n"
+"PO-Revision-Date: 2006-10-15 18:23+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -6210,7 +6210,7 @@ msgstr[1] "%d tundi enne sündmust"
 
 #: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
-msgid "%d minute before appointement"
+msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minut enne sündmust"
 msgstr[1] "%d minutit enne sündmust"
@@ -10468,7 +10468,7 @@ msgstr "Kõik kontod on kustutatud."
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Kas sa soovid hüljata sõnumit '{0}', mille koostamine on pooleli?"
+msgstr "Kas sa soovid hüljata pooleliolevat sõnumit '{0}'?"
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
@@ -14637,6 +14637,8 @@ msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
+"Selle konto mustandite kausta pole võimalik avada. Kas kasutada selle asemel "
+"süsteemset mustandite kasuta?"
 
 #: ../mail/mail.error.xml.h:114
 msgid "Unable to read license file."
@@ -14644,7 +14646,7 @@ msgstr "Litsentsifaili pole võimalik lugeda"
 
 #: ../mail/mail.error.xml.h:115
 msgid "Use _Default"
-msgstr "Kasuta _vaikekodeeringut"
+msgstr "Kasuta _vaikimisi valikut"
 
 #: ../mail/mail.error.xml.h:116
 msgid "Use default drafts folder?"
