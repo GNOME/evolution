@@ -7,7 +7,7 @@
 		location="@PLUGINDIR@/liborg-gnome-mailing-list-actions.so"
 		_name="Mailing List Actions">
 	    	<author name="Meilof Veeningen" email="meilof@wanadoo.nl"/>
-		<_description>Provide actions for common mailing list commands (subscribe, unsubscribe, ...).</_description>
+		<_description>Provide actions for common mailing list commands (subscribe, unsubscribe...).</_description>
 		<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
 			<menu id="org.gnome.evolution.mail.browser" target="select">
 				<ui file="@PLUGINDIR@/org-gnome-mailing-list-actions.xml"/>

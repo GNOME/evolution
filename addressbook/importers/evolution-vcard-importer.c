@@ -247,7 +247,7 @@ vcard_import_contacts(void *data)
 		vcard_import_done(gci);
 		return FALSE;
 	} else {
-		e_import_status(gci->import, gci->target, _("Importing ..."), gci->count * 100 / gci->total);
+		e_import_status(gci->import, gci->target, _("Importing..."), gci->count * 100 / gci->total);
 		return TRUE;
 	}
 }

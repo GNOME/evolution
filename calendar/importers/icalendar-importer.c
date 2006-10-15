@@ -309,7 +309,7 @@ static void
 ivcal_opened(ECal *ecal, ECalendarStatus status, ICalImporter *ici)
 {
 	if (!ici->cancelled && status == E_CALENDAR_STATUS_OK) {
-		e_import_status(ici->import, ici->target, _("Importing ..."), 0);
+		e_import_status(ici->import, ici->target, _("Importing..."), 0);
 		ici->idle_id = g_idle_add(ivcal_import_items, ici);
 	} else
 		ivcal_import_done(ici);
@@ -674,7 +674,7 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (t == IMPORTER_TIMEOUT_SECONDS)
 		goto out;
 
-	e_import_status(ei, target, _("Importing ..."), 0);
+	e_import_status(ei, target, _("Importing..."), 0);
 
 	/*
 	 * Import the calendar events into the default calendar folder.

@@ -2,7 +2,7 @@
 <error-list domain="shell">
 
  <error id="importing" type="info">
-    <_title>Importing ...</_title>
+    <_title>Importing...</_title>
     <secondary>{0}</secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
  </error>

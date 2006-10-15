@@ -580,7 +580,7 @@ ldif_import_contacts(void *d)
 		ldif_import_done(gci);
 		return FALSE;
 	} else {
-		e_import_status(gci->import, gci->target, _("Importing ..."), ftell(gci->file) * 100 / gci->size);
+		e_import_status(gci->import, gci->target, _("Importing..."), ftell(gci->file) * 100 / gci->size);
 		return TRUE;
 	}
 }

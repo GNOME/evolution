@@ -1,3 +1,16 @@
+2006-10-15  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* addressbook/gui/widgets/eab-contact-display.c,
+	addressbook/importers/evolution-ldif-importer.c 
+ 	addressbook/importers/evolution-vcard-importer.c 
+ 	calendar/importers/icalendar-importer.c 
+ 	plugins/groupwise-features/properties.glade 
+ 	plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml 
+ 	plugins/save-attachments/org-gnome-save-attachments.xml 
+ 	shell/shell.error.xml: Fixed some strings to improve gettext
+	compendia for translators.
+	
+
 2006-10-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in: Evolution 2.8.1 release
