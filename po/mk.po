@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-03 16:18+0200\n"
-"PO-Revision-Date: 2006-10-03 19:14+0200\n"
+"POT-Creation-Date: 2006-10-15 15:38+0200\n"
+"PO-Revision-Date: 2006-10-15 19:42+0200\n"
 "Last-Translator: Jovan Naumovski <jovan@lugola.net>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
@@ -6214,7 +6214,7 @@ msgstr[2] "%d часа пред состанокот"
 
 #: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
-msgid "%d minute before appointement"
+msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d минута пред состанокот"
 msgstr[1] "%d минути пред состанокот"
@@ -17802,19 +17802,19 @@ msgstr "_Работи офлајн"
 msgid "Work Offline"
 msgstr "Работи офлајн"
 
-#: ../shell/e-shell-window.c:379
+#: ../shell/e-shell-window.c:380
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "Evolution моментно е онлајн. Кликни на ова копче за работење офлајн."
 
-#: ../shell/e-shell-window.c:387
+#: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution е во тек да стане офлајн."
 
-#: ../shell/e-shell-window.c:394
+#: ../shell/e-shell-window.c:395
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "Evolution моментно е офлајн. Кликни на ова копче за работење онлајн."
 
-#: ../shell/e-shell-window.c:794
+#: ../shell/e-shell-window.c:795
 #, c-format
 msgid "Switch to %s"
 msgstr "Префрли на %s"
@@ -20851,7 +20851,7 @@ msgstr "Проред околу стрелката на проширувачот
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:129 ../widgets/misc/e-filter-bar.c:170
-#: ../widgets/misc/e-filter-bar.c:715
+#: ../widgets/misc/e-filter-bar.c:717
 msgid "Advanced Search"
 msgstr "Напредно пребарување"
 
