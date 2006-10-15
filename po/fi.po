@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-15 13:47+0300\n"
-"PO-Revision-Date: 2006-10-15 13:48+0300\n"
+"POT-Creation-Date: 2006-10-15 17:34+0300\n"
+"PO-Revision-Date: 2006-10-15 17:35+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3326,8 +3326,8 @@ msgstr "_Avaa linkki selaimessa"
 msgid "_Copy Link Location"
 msgstr "_Kopioi linkin sijainti"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:176
-msgid "_Send New Message To ..."
+#: ../addressbook/gui/widgets/eab-contact-display.c:176 ../mail/em-popup.c:621
+msgid "_Send New Message To..."
 msgstr "Lähetä uusi _viesti..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:177
@@ -3752,8 +3752,12 @@ msgid "GTK Tree View"
 msgstr "GTK puunäkymä"
 
 #: ../addressbook/importers/evolution-csv-importer.c:624
+#: ../addressbook/importers/evolution-ldif-importer.c:583
+#: ../addressbook/importers/evolution-vcard-importer.c:250
+#: ../calendar/importers/icalendar-importer.c:312
+#: ../calendar/importers/icalendar-importer.c:677
 #: ../mail/importers/evolution-outlook-importer.c:264
-#: ../mail/importers/netscape-importer.c:1252
+#: ../mail/importers/netscape-importer.c:1252 ../shell/shell.error.xml.h:6
 msgid "Importing..."
 msgstr "Tuodaan..."
 
@@ -3780,13 +3784,6 @@ msgstr "Evolutionin CSV tai Tab (.csv, .tab)"
 #: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
 msgstr "Evolutionin CSV- ja Tab-tuoja"
-
-#: ../addressbook/importers/evolution-ldif-importer.c:583
-#: ../addressbook/importers/evolution-vcard-importer.c:250
-#: ../calendar/importers/icalendar-importer.c:312
-#: ../calendar/importers/icalendar-importer.c:677 ../shell/shell.error.xml.h:6
-msgid "Importing ..."
-msgstr "Tuodaan..."
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -12295,10 +12292,6 @@ msgstr "_Vastaa lähettäjälle"
 msgid "Reply to _List"
 msgstr "Vastaa _listalle"
 
-#: ../mail/em-popup.c:621
-msgid "_Send New Message To..."
-msgstr "Lähetä uusi _viesti..."
-
 #: ../mail/em-popup.c:622
 msgid "_Add to Address Book"
 msgstr "_Lisää osoitekirjaan"
@@ -16051,7 +16044,7 @@ msgid "_Not Shared"
 msgstr "_Ei jaettu"
 
 #: ../plugins/groupwise-features/properties.glade.h:14
-msgid "_Shared With ..."
+msgid "_Shared With..."
 msgstr "_Jaettu henkilöille ..."
 
 #: ../plugins/groupwise-features/properties.glade.h:15
@@ -16927,11 +16920,9 @@ msgstr "Postitus_lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid ""
-"Provide actions for common mailing list commands (subscribe, "
-"unsubscribe, ...)."
+"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr ""
-"Tarjoaa toimintoja yleisille postituslistan komennoille (tilaa, "
-"perutilaus...)."
+"Tarjoa toimintoja yleisille postituslistan komennoille (tilaa, peru tilaus...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 msgid "_Post message to list"
@@ -17332,8 +17323,8 @@ msgid "Save attachments"
 msgstr "Tallenna liitteet"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-msgid "Save Attachments ..."
-msgstr "Tallenna liitteet ..."
+msgid "Save Attachments..."
+msgstr "Tallenna liitteet..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
 msgid "Save all attachments"
@@ -21720,6 +21711,12 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "_Send New Message To ..."
+#~ msgstr "Lähetä uusi _viesti..."
+
+#~ msgid "Importing ..."
+#~ msgstr "Tuodaan..."
 
 #~ msgid "Logical"
 #~ msgstr "Looginen"
