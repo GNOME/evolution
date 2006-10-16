@@ -1,3 +1,11 @@
+2006-10-16  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fix for bug #333864 and bug #351374 
+
+	* em-format-html-display.c: (efhd_image_resized),
+	(efhd_image_unallocate), (efhd_attachment_image): Make sure that the
+	callback is removed when the puri is destroyed.
+
 2006-09-30  Harish Krishnaswamy  <kharish@novell.com>
 
 	* em-format-html-display.c: (em_format_html_get_search_dialog):

@@ -171,6 +171,9 @@ struct _attach_puri {
 	CamelStream *output;
 	unsigned int shown:1;
 
+	/* Embedded Frame */
+	GtkHTMLEmbedded *html;
+	
 	/* Attachment */
 	EAttachment *attachment;
 	
@@ -1630,9 +1633,12 @@ efhd_image_resized(GtkWidget *w, GtkAllocation *event, struct _attach_puri *info
 	if (info->fit_width == width)
 		return;
 	info->fit_width = width;
+
 	pb = em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height);
-	gtk_image_set_from_pixbuf(info->image, pb);
-	g_object_unref(pb);
+	if (pb) {
+		gtk_image_set_from_pixbuf(info->image, pb);
+		g_object_unref(pb);
+	}
 }
 
 static void
@@ -1674,6 +1680,16 @@ efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_pu
 	gtk_image_set_from_pixbuf(info->image, em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height));
 }
 
+/* When the puri gets freed in the formatter thread and if the image is resized, crash will happen
+   See bug #333864 So while freeing the puri, we disconnect the image attach resize attached with
+   the puri */
+
+static void
+efhd_image_unallocate (struct _EMFormatPURI * puri)
+{
+	struct _attach_puri *info = (struct _attach_puri *) puri;
+	g_signal_handlers_disconnect_by_func(info->html, efhd_image_resized, info);
+}
 
 static gboolean
 efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
@@ -1691,6 +1707,9 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
 
 	info->image = (GtkImage *)gtk_image_new();
+	info->html = eb;
+	info->puri.free = efhd_image_unallocate;
+	
 	pixbuf = em_icon_stream_get_image(pobject->classid, info->fit_width, info->fit_height);
 	if (pixbuf) {
 		gtk_image_set_from_pixbuf(info->image, pixbuf);
