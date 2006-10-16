@@ -1,3 +1,8 @@
+2006-10-16  Chris Heath  <chris@heathens.co.nz>
+
+	* mail-component.c (create_local_item_cb): Fix memory leak.
+	Fixes bug #360815.
+
 2005-10-16  Sankar P  <psankar@novell.com>
 
 	* mail-ops.c: (em_filter_folder_element_describe)

@@ -144,16 +144,13 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 	EMsgComposer *comp = (struct _EMsgComposer *)menu.widget ;
 	EAccount *account = NULL; 
 	char *temp = NULL;
-	char *url;
 	
 	account = e_msg_composer_get_preferred_account (comp) ;
-	url = g_strdup (account->transport->url) ;
-	temp = strstr (url, "groupwise") ;
+	temp = strstr (account->transport->url, "groupwise") ;
 	if (!temp) {
 		g_print ("Sorry send options only available for a groupwise account\n") ;
 		return;
 	} 
-	g_free (temp) ;
 	/*disply the send options dialog*/
 	if (!dialog) {
 		g_print ("New dialog\n\n") ;

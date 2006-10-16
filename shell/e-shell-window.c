@@ -176,6 +176,7 @@ component_view_free (ComponentView *view)
 
 	g_free (view->component_id);
 	g_free (view->component_alias);
+	g_free (view->title);
 	g_free (view);
 }
 
