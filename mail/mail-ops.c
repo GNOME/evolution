@@ -102,7 +102,7 @@ struct _fetch_mail_msg {
 static char *
 em_filter_folder_element_describe (struct _mail_msg *mm, int complete)
 {
-	return g_strdup (_("Filtering Folder"));
+	return g_strdup (_("Filtering Selected Messages"));
 }
 
 /* filter a folder, or a subset thereof, uses source_folder/source_uids */
