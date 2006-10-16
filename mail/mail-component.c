@@ -876,8 +876,10 @@ static void
 create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
 {
 	EMFolderTree *tree = data;
+	char *uri = em_folder_tree_get_selected_uri(tree);
 	
-	create_item(item_type_name, em_folder_tree_get_model(tree), em_folder_tree_get_selected_uri(tree));
+	create_item(item_type_name, em_folder_tree_get_model(tree), uri);
+	g_free(uri);
 }
 
 static void
