@@ -1063,6 +1063,7 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->last_edited_comp_string = NULL;
 
+	
 	day_view->selection_start_row = -1;
 	day_view->selection_start_day = -1;
 	day_view->selection_end_row = -1;
@@ -1070,7 +1071,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->selection_is_being_dragged = FALSE;
 	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
 	day_view->selection_in_top_canvas = FALSE;
-
+	day_view->drag_event_day = -1;
+	day_view->drag_event_num = -1;
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
 	day_view->pressed_event_day = -1;
@@ -3366,6 +3368,12 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 	gint event_x, event_y, day, event_num;
 	ECalendarViewPosition pos;
 
+	if (day_view->resize_event_num != -1)
+		day_view->resize_event_num = -1;
+
+	if (day_view->drag_event_num != -1)
+		day_view->drag_event_num = -1;
+	
 	/* Convert the coords to the main canvas window, or return if the
 	   window is not found. */
 	if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -3492,6 +3500,12 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	g_print ("In e_day_view_on_main_canvas_button_press\n");
 #endif
 
+	if (day_view->resize_event_num != -1)
+		day_view->resize_event_num = -1;
+
+	if (day_view->drag_event_num != -1)
+		day_view->drag_event_num = -1;
+	
 	/* Convert the coords to the main canvas window, or return if the
 	   window is not found. */
 	if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -3627,9 +3641,6 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 
 		e = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 
-		if (!GTK_WIDGET_HAS_FOCUS (day_view))
-			gtk_widget_grab_focus (GTK_WIDGET (day_view));
-
 		e_day_view_set_selected_time_range_in_top_visible (day_view, e->start, e->end);
 			
 		e_day_view_on_event_right_click (day_view, event,
@@ -3669,9 +3680,6 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 		EDayViewEvent *e;
 
 		e = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
-
-		if (!GTK_WIDGET_HAS_FOCUS (day_view))
-			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 		e_day_view_set_selected_time_range_visible (day_view, e->start, e->end);
 	
@@ -7070,8 +7078,14 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 #endif
 		break;
 
-	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
+			if (day_view->resize_event_num != -1)
+				day_view->resize_event_num = -1;
+
+			if (day_view->drag_event_num != -1)
+				day_view->drag_event_num = -1;
+			
+	case GDK_BUTTON_PRESS:
 		tooltip_destroy (day_view, item);
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing)
@@ -7123,6 +7137,15 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
 				return FALSE;
 
+			if (day_view->editing_event_num != -1)
+				break;
+
+			if (day_view->resize_event_num != -1)
+				break;
+
+			if (day_view->drag_event_num != -1)
+				break;
+			
 			pevent = tooltip_get_view_event (day_view, day, event_num);
 			g_object_set_data (G_OBJECT (item), "event-num", GINT_TO_POINTER (event_num));
 			g_object_set_data (G_OBJECT (item), "event-day", GINT_TO_POINTER (day));

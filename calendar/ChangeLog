@@ -1,3 +1,14 @@
+2006-10-16  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/e-day-view.c: (e_day_view_init),
+	(e_day_view_on_top_canvas_button_press),
+	(e_day_view_on_main_canvas_button_press),
+	(e_day_view_on_long_event_button_press),
+	(e_day_view_on_event_button_press),
+	(e_day_view_on_text_item_event): Disable tooltips
+	on drag, resize and edit. Fixes #333224. Patch 
+	submitted by Srinivasa Ragavan.
+
 2006-10-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes bug #352546
