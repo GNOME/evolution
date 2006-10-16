@@ -1,3 +1,9 @@
+2006-10-16  Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #308276
+
+	* mail.error.xml : secondary for "vfolder-notunique" corrected.
+
 2006-10-16  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fix for bug #333864 and bug #351374 

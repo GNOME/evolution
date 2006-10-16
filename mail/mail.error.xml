@@ -287,7 +287,7 @@ go to the Search Folder editor to add it explicitly, if required.</_secondary>
 
   <error id="vfolder-notunique" type="error">
     <_primary>Cannot add Search Folder &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">A folder named &quot;{1}&quot; already exists. Please use a different name.</_secondary>
+    <_secondary xml:space="preserve">A folder named &quot;{0}&quot; already exists. Please use a different name.</_secondary>
   </error>
 
   <error id="vfolder-updated" type="info">
