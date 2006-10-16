@@ -1,3 +1,14 @@
+2006-10-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #333224 
+
+	* gui/e-day-view.c: (e_day_view_init),
+	(e_day_view_on_top_canvas_button_press),
+	(e_day_view_on_main_canvas_button_press),
+	(e_day_view_on_long_event_button_press),
+	(e_day_view_on_event_button_press),
+	(e_day_view_on_text_item_event): Dont show tooltip on edit/resize/DnD.
+
 2006-10-03  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* gui/dialogs/recurrence-page.c: Fix to allow translate some
