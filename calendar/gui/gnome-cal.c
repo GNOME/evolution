@@ -1427,7 +1427,7 @@ view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, Gno
 GtkWidget * 
 gnome_calendar_get_tag (GnomeCalendar *gcal)
 {
-	return gcal->priv->date_navigator;
+	return GTK_WIDGET (gcal->priv->date_navigator);
 }
 
 static void
@@ -3444,7 +3444,7 @@ gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_cut_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else if (location == FOCUS_MEMOPAD)
-		e_calendar_table_copy_clipboard (E_MEMO_TABLE (priv->memo));
+		e_memo_table_cut_clipboard (E_MEMO_TABLE (priv->memo));
 }
 
 void
@@ -3462,7 +3462,7 @@ gnome_calendar_copy_clipboard (GnomeCalendar *gcal)
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_copy_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else if (location == FOCUS_MEMOPAD)
-		e_calendar_table_copy_clipboard (E_MEMO_TABLE (priv->memo));
+		e_memo_table_copy_clipboard (E_MEMO_TABLE (priv->memo));
 }
 
 void

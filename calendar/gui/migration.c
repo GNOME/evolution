@@ -248,7 +248,7 @@ get_source_name (ESourceGroup *group, const char *path)
 	int i, j, starting_index;
 	int num_elements;
 	gboolean conflict;
-	GString *s = g_string_new ("");
+	GString *s = g_string_new (NULL);
 
 	for (i = 0; p[i]; i ++) ;
 
@@ -260,7 +260,6 @@ get_source_name (ESourceGroup *group, const char *path)
 	/* check if it conflicts */
 	starting_index = i;
 	do {
-		g_string_assign (s, "");
 		for (j = starting_index; j < num_elements; j += 2) {
 			if (j != starting_index)
 				g_string_append_c (s, '_');

@@ -1271,7 +1271,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint end_hour, end_display_hour, end_minute, end_suffix_width;
 	gboolean show_span = FALSE, format_time;
 	gint offset, interval;
-	char *text, *start_suffix, *end_suffix;
+	char *text = NULL, *start_suffix, *end_suffix;
 	int scroll_flag = 0;
 	gint row_y;
 	GConfClient *gconf;

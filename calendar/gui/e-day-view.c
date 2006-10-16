@@ -2475,11 +2475,11 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if ((interval/day_view->mins_per_row) >= 2) 
 		short_event = FALSE;
-	else if ((interval%day_view->mins_per_row)==0)
+	else if ((interval%day_view->mins_per_row)==0) {
 		if (((event->end_minute%day_view->mins_per_row)==0) || ((event->start_minute%day_view->mins_per_row)==0)){
 			short_event = TRUE;	
 		}
-	else
+	} else
 		short_event = FALSE;
 
 	if (!editing_event) {
@@ -7155,7 +7155,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			pevent->y = ((GdkEventCrossing *)event)->y_root;
 			pevent->tooltip = NULL;
 
-			data->cal_view = day_view;
+			data->cal_view = (ECalendarView *)day_view;
 			data->day = day;
 			data->event_num = event_num;
 			data->get_view_event = tooltip_get_view_event;

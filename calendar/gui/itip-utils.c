@@ -603,16 +603,18 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 		break;
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
 		if(users) {
+			GList *list;
+
 			len = g_list_length (users);
 			to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 			to_list->_maximum = len;
 			to_list->_length = 0;
 			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
 			
-			for (l = users; l != NULL; l = l->next) {
+			for (list = users; list != NULL; list = list->next) {
 				recipient = &(to_list->_buffer[to_list->_length]);
 				recipient->name = CORBA_string_dup ("");
-				recipient->address = CORBA_string_dup (l->data);
+				recipient->address = CORBA_string_dup (list->data);
 				to_list->_length++;
 			}
 

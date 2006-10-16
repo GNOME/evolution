@@ -2587,7 +2587,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			pevent->y = ((GdkEventCrossing *)event)->y_root;
 			pevent->tooltip = NULL;			
 
-			data->cal_view = view;
+			data->cal_view = (ECalendarView *)view;
 			data->day = -1;
 			data->event_num = event_num;
 			data->get_view_event = tooltip_get_view_event;
@@ -3160,7 +3160,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		pevent->y = ((GdkEventCrossing *)gdkevent)->y_root;
 		pevent->tooltip = NULL;
 
-		data->cal_view = week_view;
+		data->cal_view = (ECalendarView *)week_view;
 		data->day = -1;
 		data->event_num = nevent;
 		data->get_view_event = tooltip_get_view_event;

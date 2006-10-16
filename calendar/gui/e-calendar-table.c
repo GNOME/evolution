@@ -1255,7 +1255,7 @@ static void
 on_new_task (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarTable *cal_table = data;
-	ETasks *tasks = g_object_get_data (cal_table, "tasks");
+	ETasks *tasks = g_object_get_data (G_OBJECT (cal_table), "tasks");
 
 	if (!tasks)
 		return;

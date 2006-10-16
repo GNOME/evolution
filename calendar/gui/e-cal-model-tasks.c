@@ -1111,8 +1111,7 @@ void
 e_cal_model_tasks_mark_task_incomplete (ECalModelTasks *model, gint model_row)
 {
  	ECalModelComponent *comp_data; 
-	icalproperty *prop,*prop1,*prop2;
-	gboolean set_completed = TRUE;
+	icalproperty *prop,*prop1;
 
  	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model)); 
  	g_return_if_fail (model_row >= 0 && model_row < e_table_model_row_count (E_TABLE_MODEL (model))); 

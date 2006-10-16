@@ -559,7 +559,7 @@ setup_widgets (ETasks *tasks)
 
 	/* create the task list */
 	priv->tasks_view = e_calendar_table_new ();
-	g_object_set_data (priv->tasks_view, "tasks", tasks);
+	g_object_set_data (G_OBJECT (priv->tasks_view), "tasks", tasks);
 	priv->tasks_view_config = e_calendar_table_config_new (E_CALENDAR_TABLE (priv->tasks_view));
 	
 	g_signal_connect (priv->tasks_view, "user_created", G_CALLBACK (user_created_cb), tasks);

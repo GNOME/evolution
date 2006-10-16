@@ -272,16 +272,16 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		for (node = l; node != NULL; node = node->next) {
 			gint i;
-			GString *string = g_string_new ("");;
+			GString *string = g_string_new (NULL);;
 
 			text = * (ECalComponentText *) node->data;
 			for (i = 0; i < strlen (text.value ? text.value : 0); i++) {
 				if (text.value[i] == '\n')
-					string = g_string_append (string, "<BR>");
+					string = g_string_append_len (string, "<BR>", 4);
 				else if (text.value[i] == '<')
-					string = g_string_append (string, "&lt;");
+					string = g_string_append_len (string, "&lt;", 4);
 				else if (text.value[i] == '>')
-					string = g_string_append (string, "&gt;");
+					string = g_string_append_len (string, "&gt;", 4);
 				else
 					string = g_string_append_c (string, text.value[i]);
 			}
