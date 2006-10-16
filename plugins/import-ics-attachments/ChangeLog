@@ -1,3 +1,8 @@
+2006-08-28  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* org-gnome-evolution-mail-attachments-import-ics.eplug.xml: Mark
+	name and description for translation.
+
 2006-08-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #347248
