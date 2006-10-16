@@ -518,7 +518,7 @@ source_removed_cb (EMemos *memos, ESource *source, MemosComponentView *component
 static void
 set_info (MemosComponentView *component_view)
 {
-	GString *message = g_string_new ("");
+	GString *message = g_string_new (NULL);
 	int rows, selected_rows;
 	
 	rows = e_table_model_row_count (component_view->model);

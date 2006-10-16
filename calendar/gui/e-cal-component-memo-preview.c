@@ -158,7 +158,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	e_cal_component_get_categories_list (comp, &l);
 	if (l) {
 		GSList *node;
-		GString *string = g_string_new ("");
+		GString *string = g_string_new (NULL);
 		
 		
 		gtk_html_stream_printf(stream, "<H3>Categories: ");
@@ -186,7 +186,9 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		}
 		
 		gtk_html_stream_printf(stream, string->str);
-		
+
+		g_string_free (string, TRUE);
+	
 		gtk_html_stream_printf(stream, "</H3>");
 
 		e_cal_component_free_categories_list (l);
@@ -220,17 +222,17 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		for (node = l; node != NULL; node = node->next) {
 			gint i, j;
-			GString *string = g_string_new ("");
+			GString *string = g_string_new (NULL);
 
 			text = * (ECalComponentText *) node->data;
 			for (i = 0, j=0; i < strlen (text.value ? text.value : 0); i++, j++) {
 				if (text.value[i] == '\n'){
-					string = g_string_append (string, "<BR>");
+					string = g_string_append_len (string, "<BR>", 4);
 				}
 				else if (text.value[i] == '<')
-					string = g_string_append (string, "&lt;");
+					string = g_string_append_len (string, "&lt;", 4);
 				else if (text.value[i] == '>')
-					string = g_string_append (string, "&gt;");
+					string = g_string_append_len (string, "&gt;", 4);
 				else
 					string = g_string_append_c (string, text.value[i]);
 			}

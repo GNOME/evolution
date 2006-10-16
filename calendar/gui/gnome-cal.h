@@ -138,6 +138,7 @@ ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal); 
 GtkWidget *gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal);
+GtkWidget *gnome_calendar_get_tag (GnomeCalendar *gcal);
 
 struct _ECalMenu *gnome_calendar_get_taskpad_menu (GnomeCalendar *gcal);
 struct _ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);

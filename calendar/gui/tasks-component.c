@@ -508,7 +508,7 @@ source_removed_cb (ETasks *tasks, ESource *source, TasksComponentView *component
 static void
 set_info (TasksComponentView *component_view)
 {
-	GString *message = g_string_new ("");
+	GString *message = g_string_new (NULL);
 	int rows, selected_rows;
 	
 	rows = e_table_model_row_count (component_view->model);

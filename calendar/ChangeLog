@@ -1,3 +1,66 @@
+2006-10-16  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/cal-search-bar.c: (notify_e_cal_view_contains),
+	(regen_query), (generate_viewoption_menu), (make_suboptions):
+	Add missing header, #if 0 out some unused code, copy and free
+	some data to avoid warnings.
+	* gui/dialogs/cal-attachment-select-file.c: (run_selector):
+	* gui/dialogs/comp-editor.c: (fill_widgets):
+	* gui/dialogs/delete-comp.c: (prompt_retract_dialog):
+	Typecasting fixes.
+	* gui/dialogs/event-page.c: (init_widgets):
+	* gui/dialogs/memo-editor.c: (memo_editor_edit_comp):
+	Remove some unused code.
+	* gui/dialogs/memo-page.c: (fill_comp_with_recipients):
+	More GString changes.
+	* gui/e-cal-component-memo-preview.c: (write_html):
+	Micro-optimization of GString handling.
+	* gui/e-cal-component-preview.c: (write_html):
+	Same as above.
+	* gui/e-cal-model-tasks.c:
+	(e_cal_model_tasks_mark_task_incomplete):
+	Remove unused variables.
+	* gui/e-cal-model.c: (get_description),
+	(e_cal_model_set_instance_times):
+	More GString stuff and constification of the timezone arg.
+	* gui/e-cal-model.h:
+	Constify
+	* gui/e-cal-popup.c: (ecalp_standard_menu_factory):
+	Remove unused code.
+	* gui/e-day-view-config.c: (e_day_view_config_set_view):
+	Fix signedness warnings.
+	* gui/e-day-view-main-item.c:
+	(e_day_view_main_item_draw_day_event):
+	Init a variable to NULL to avoid a compiler warning.
+	* gui/e-day-view-time-item.c:
+	(e_day_view_time_item_get_column_width):
+	Remove unused var.
+	* gui/e-day-view.c: (e_day_view_update_event_label),
+	(e_day_view_on_text_item_event):
+	Add braces and a cast to get rid of compiler warnings.
+	* gui/e-meeting-list-view.c:
+	(e_meeting_list_view_remove_attendee_from_name_selector),
+	(attendee_edited_cb), (row_activated_cb), (add_to_list):
+	Add some typecasts to avoid compiler warnings and remove an unused var.
+	* gui/e-meeting-store.c: (e_meeting_store_get_num_queries):
+	Return a value when checking the arguments.
+	* gui/e-tasks.c: (setup_widgets):
+	Add a cast to fix a compiler warning.
+	* gui/e-week-view.c: (tooltip_event_cb),
+	(e_week_view_on_text_item_event):
+	More typecasting.
+	* gui/gnome-cal.c: (gnome_calendar_get_tag),
+	(gnome_calendar_cut_clipboard), (gnome_calendar_copy_clipboard):
+	More typecasting and fix cutting/copying memos.
+	* gui/gnome-cal.h:
+	Add a prototype for gnome_calendar_get_tag().
+	* gui/itip-utils.c: (comp_to_list):
+	Fix shadowed variable.
+	* gui/memos-component.c: (set_info):
+	* gui/migration.c: (get_source_name):
+	* gui/tasks-component.c: (set_info):
+	GString fixes.
+
 2006-10-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #333224 

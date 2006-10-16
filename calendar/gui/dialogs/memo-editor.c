@@ -244,9 +244,6 @@ memo_editor_set_e_cal (CompEditor *editor, ECal *client)
 static void
 memo_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
-	CompEditorFlags flags = comp_editor_get_flags (editor);
-	ECal *client = comp_editor_get_e_cal (editor);
-	
 	if (COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp (editor, comp);
 }

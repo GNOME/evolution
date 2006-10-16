@@ -201,7 +201,7 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 	
 	gtk_box_set_spacing ((GtkBox *) (GTK_DIALOG (dialog)->vbox), 12);
-	vbox = GTK_CONTAINER (GTK_DIALOG (dialog)->vbox);
+	vbox = GTK_WIDGET (GTK_DIALOG (dialog)->vbox);
 
 	cb = gtk_check_button_new_with_mnemonic (_("_Delete this item from all other recipient's mailboxes?"));
 	gtk_container_add (GTK_CONTAINER (vbox), cb);

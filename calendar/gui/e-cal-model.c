@@ -349,7 +349,7 @@ get_description (ECalModelComponent *comp_data)
 	
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
 	if (prop) {
-		str = g_string_new ("");
+		str = g_string_new (NULL);
 		do {
 			str = g_string_append (str, icalproperty_get_description (prop));
 		} while ((prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY)));
@@ -2098,7 +2098,7 @@ e_cal_model_get_object_array (ECalModel *model)
 }
 
 void
-e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
+e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icaltimezone *zone)
 {
 	struct icaltimetype start_time, end_time;
 

@@ -394,7 +394,8 @@ void
 e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view) 
 {
 	EDayViewConfigPrivate *priv;
-	guint not, not_1, not_2;
+	gint not_1, not_2, mbnot;
+	guint not;
 	GList *l;
 	
 	g_return_if_fail (view_config != NULL);
@@ -476,8 +477,8 @@ e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view)
 	/* Showing Marcus Bains Line */
 	set_marcus_bains (day_view);
 
-	calendar_config_add_notification_marcus_bains (marcus_bains_changed_cb, view_config, &not, &not_1, &not_2);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	calendar_config_add_notification_marcus_bains (marcus_bains_changed_cb, view_config, &mbnot, &not_1, &not_2);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (mbnot));
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not_1));
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not_2));
 

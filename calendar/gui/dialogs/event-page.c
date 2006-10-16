@@ -2746,6 +2746,7 @@ alarm_store_changed_cb (EAlarmList *alarm_list_store, GtkTreePath *path, GtkTree
 	field_changed_cb (NULL, data);
 }
 
+#if 0
 static void
 alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 {
@@ -2789,6 +2790,7 @@ alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 
 	sensitize_widgets (epage);
 }
+#endif
 
 /* Hooks the widget signals */
 static gboolean
@@ -2799,7 +2801,7 @@ init_widgets (EventPage *epage)
 	icaltimezone *zone;
 	char *menu_label = NULL;
 	GtkTreeSelection *selection;
-	GtkWidget *w, *cus_label, *cus_item, *menu;
+	GtkWidget *w, *cus_item, *menu;
 	
 	priv = epage->priv;
 

@@ -535,11 +535,11 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 				continue;
 		
 			if (!str) {
-				str = g_string_new ("");
+				str = g_string_new (NULL);
 				g_string_prepend (str, attendee);
 				continue;
 			}
-			g_string_prepend (str, ";");
+			g_string_prepend_c (str, ';');
 			g_string_prepend (str, attendee);
 		}
 	}

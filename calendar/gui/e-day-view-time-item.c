@@ -178,7 +178,6 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 	gint digit, large_digit_width, max_large_digit_width = 0;
 	gint max_suffix_width, max_minute_or_suffix_width;
 	gint column_width_default, column_width_60_min_rows;
-	cairo_t *cr;
 
 	day_view = dvtmitem->day_view;
 	g_return_val_if_fail (day_view != NULL, 0);

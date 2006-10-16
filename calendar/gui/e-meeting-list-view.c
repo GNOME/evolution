@@ -287,7 +287,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, 
 		if (e_destination_is_evolution_list (des)) {
 			GList *l, *dl;
 
-			dl = e_destination_list_get_dests (des);
+			dl = (GList *)e_destination_list_get_dests (des);
 
 			for (l = dl; l; l = l->next) {
 				attendee = e_destination_get_email (l->data);
@@ -335,7 +335,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				continue;
 			
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", l->data));
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (char *)l->data));
 			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
 			if (existing_attendee) {
 				/* FIXME Should we copy anything else? */
@@ -343,7 +343,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				e_meeting_attendee_set_role (attendee, e_meeting_attendee_get_role (existing_attendee));
 				e_meeting_attendee_set_rsvp (attendee, e_meeting_attendee_get_rsvp (existing_attendee));
 				e_meeting_attendee_set_status (attendee, e_meeting_attendee_get_status (existing_attendee));
-				e_meeting_attendee_set_delfrom (attendee, e_meeting_attendee_get_delfrom (existing_attendee));
+				e_meeting_attendee_set_delfrom (attendee, (gchar *)e_meeting_attendee_get_delfrom (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 		}
@@ -367,7 +367,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				e_meeting_store_remove_attendee (model, existing_attendee);
 			}
 		} else {
-			EMeetingAttendee *attendee = e_meeting_attendee_new ();
+			EMeetingAttendee *attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 
 			if (existing_attendee)
 				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
@@ -568,7 +568,6 @@ row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
 {
        EMeetingAttendee *existing_attendee;
        EMeetingListViewPrivate *priv;
-       GtkTreeIter iter;
        int row;
        EMeetingAttendeeEditLevel el;
        gint  edit_level;
@@ -804,7 +803,7 @@ add_to_list (gpointer data, gpointer u_data)
 {
 	GSList **user_data = u_data;
 
-	*user_data = g_slist_append (*user_data, itip_strip_mailto (e_meeting_attendee_get_address (data)));
+	*user_data = g_slist_append (*user_data, (gpointer)itip_strip_mailto (e_meeting_attendee_get_address (data)));
 }
 
 static void

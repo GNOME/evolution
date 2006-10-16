@@ -30,6 +30,7 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
+#include <libedataserver/e-categories.h>
 #include <e-util/e-icon-factory.h>
 #include <libedataserver/e-categories.h>
 #include "cal-search-bar.h"
@@ -252,7 +253,7 @@ notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const c
 	    sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
 	    g_free (text);
 	} else 
-	    sexp = g_strdup_printf ("(contains? \"summary\" \"\")", field, text); /* Show all */
+	    sexp = g_strdup ("(contains? \"summary\" \"\")"); /* Show all */
 
 
 	/* Apply the selected view on search */
@@ -264,6 +265,7 @@ notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const c
 	g_free (sexp);
 }
 
+#if 0
 /* Sets the query string to the appropriate match for categories */
 static void
 notify_category_is (CalSearchBar *cal_search)
@@ -280,13 +282,14 @@ notify_category_is (CalSearchBar *cal_search)
 	if (sexp)
 		g_free (sexp);
 }
+#endif
 
 /* Creates a new query from the values in the widgets and notifies upstream */
 static void
 regen_query (CalSearchBar *cal_search)
 {
 	int id;
-	const char *category_sexp, *category;
+	const char *category_sexp;
 
 	/* Fetch the data from the ESearchBar's entry widgets */
 	id = e_search_bar_get_item_id (E_SEARCH_BAR (cal_search));
@@ -321,6 +324,7 @@ regen_query (CalSearchBar *cal_search)
 	}
 }
 
+#if 0
 static void
 regen_view_query (CalSearchBar *cal_search)
 {
@@ -331,6 +335,8 @@ regen_view_query (CalSearchBar *cal_search)
 	gtk_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[CATEGORY_CHANGED],
 			 category);
 }
+#endif
+
 /* search_activated handler for the calendar search bar */
 static void
 cal_search_bar_search_activated (ESearchBar *search)
@@ -375,7 +381,6 @@ generate_viewoption_menu (CALSearchBarItem *subitems)
 {
 	GtkWidget *menu, *menu_item;
 	gint i = 0;
-	GSList *l;
 
 	menu = gtk_menu_new ();
 
@@ -444,7 +449,7 @@ make_suboptions (CalSearchBar *cal_search)
 
 			  subitems[i + CATEGORIES_OFFSET].search.text      = str;
 			  subitems[i + CATEGORIES_OFFSET].search.id        = i + CATEGORIES_OFFSET;
-			  subitems[i + CATEGORIES_OFFSET].image        = e_categories_get_icon_file_for(str);
+			  subitems[i + CATEGORIES_OFFSET].image        = g_strdup (e_categories_get_icon_file_for(str));
 		 }
 
 		 subitems[i + CATEGORIES_OFFSET].search.id = -1; /* terminator */
@@ -461,9 +466,10 @@ make_suboptions (CalSearchBar *cal_search)
 	e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
 	
 	/* Free the strings */
-	for (i = 0; i < priv->categories->len; i++)
+	for (i = 0; i < priv->categories->len; i++) {
 		g_free (subitems[i + CATEGORIES_OFFSET].search.text);
-
+		g_free (subitems[i + CATEGORIES_OFFSET].image);
+	}
 	g_free (subitems);
 }
 

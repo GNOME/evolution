@@ -381,7 +381,6 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 		g_free (mime_type);
 
 		if (apps) {
-			GString *label = g_string_new("");
 			GSList *open_menus = NULL;
 			GList *l;
 
@@ -407,7 +406,6 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 			if (open_menus)
 				e_popup_add_items(ecalp, open_menus, NULL, ecalp_apps_popup_free, NULL);
 
-			g_string_free(label, TRUE);
 			g_list_free(apps);
 		}
 	}

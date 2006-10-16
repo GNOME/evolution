@@ -1472,7 +1472,7 @@ e_meeting_store_refresh_busy_periods (EMeetingStore *store,
 guint
 e_meeting_store_get_num_queries (EMeetingStore *store)
 {
-	g_return_if_fail (E_IS_MEETING_STORE (store));
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), 0);
 
 	return store->priv->num_queries;
 }
