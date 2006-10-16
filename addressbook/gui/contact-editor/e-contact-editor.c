@@ -2274,15 +2274,14 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 				
 				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 				if (pixbuf) {
-					int width, height;
-					
+					int width, height, prompt_response;
+
 					g_object_ref (pixbuf);
 					
 					height = gdk_pixbuf_get_height (pixbuf);
 					width = gdk_pixbuf_get_width (pixbuf);
-					
-					if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
-						
+					prompt_response = e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL);
+					if ((height > 96 || width > 96) && prompt_response == GTK_RESPONSE_YES){
 						if ( width > height) {
 							height = height * 96 / width;
 							width = 96;
@@ -2297,9 +2296,12 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 							gdk_pixbuf_save_to_buffer (new, (gchar **)&photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
 							g_object_unref (new);
 						}
-						
 					}
-					
+					else if (prompt_response == GTK_RESPONSE_CANCEL) {
+						g_object_unref (pixbuf);
+						g_object_unref (loader);
+						return;
+					}
 					g_object_unref (pixbuf);
 				}
 				editor->image_changed = FALSE;

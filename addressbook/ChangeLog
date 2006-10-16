@@ -1,3 +1,11 @@
+2006-10-16  Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug#332908
+	* addressbook.error.xml :
+	* gui/contact-editor/e-contact-editor.c : Prompt-resize dialog
+	options changed. Three options given now, "Resize", "Use as it is"
+	and "Do not save".
+
 2006-10-01  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/component/addressbook-component.c: Remove duplicate include.
