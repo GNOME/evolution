@@ -1,3 +1,8 @@
+2006-10-16  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Evolution 2.9.1 release
+	updates.
+
 2006-10-16  Tor Lillqvist  <tml@novell.com>
 
 	* win32/libevolution-mail.def: List the function
