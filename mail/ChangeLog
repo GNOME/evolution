@@ -1,3 +1,15 @@
+2006-10-16  Tor Lillqvist  <tml@novell.com>
+
+	Fix for #348212:
+
+	* mail-mt.h: On Win32 we don't want to use the mail_thread_queued
+	variable outside the libevolution-mail DLL, but instead access its
+	value through a getter function.
+
+	* mail-mt.c: Make mail_thread_queued static on Win32.
+	(mail_win32_get_mail_thread_queued): New function that returns the
+	value of mail_thread_queued.
+
 2006-10-16  Chris Heath  <chris@heathens.co.nz>
 
 	* mail-component.c (create_local_item_cb): Fix memory leak.

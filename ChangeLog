@@ -1,3 +1,9 @@
+2006-10-16  Tor Lillqvist  <tml@novell.com>
+
+	* win32/libevolution-mail.def: List the function
+	mail_win32_get_mail_thread_queued() instead of the variable
+	mail_thread_queued.  (#348212)
+
 2006-10-15  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* addressbook/gui/widgets/eab-contact-display.c,
