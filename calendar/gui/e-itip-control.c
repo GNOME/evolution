@@ -1350,7 +1350,7 @@ show_current_event (EItipControl *itip)
 		break;
 	case ICAL_METHOD_ADD:
 		/* FIXME Whats going on here? */
-		itip_desc = _("<b>%s</b> wishes to add to an existing meeting.");
+		itip_desc = _("<b>%s</b> wishes to be added to an existing meeting.");
 		itip_title = _("Meeting Update");
 		options = get_publish_options ();
 		break;
@@ -1427,7 +1427,7 @@ show_current_todo (EItipControl *itip)
 		break;
 	case ICAL_METHOD_ADD:
 		/* FIXME Whats going on here? */
-		itip_desc = _("<b>%s</b> wishes to add to an existing task.");
+		itip_desc = _("<b>%s</b> wishes to be added to an existing task.");
 		itip_title = _("Task Update");
 		options = get_publish_options ();
 		break;
