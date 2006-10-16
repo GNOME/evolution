@@ -118,7 +118,12 @@ extern EMsgPort *mail_gui_port;
 extern EMsgPort *mail_gui_reply_port;
 
 /* some globally available threads */
+#ifndef G_OS_WIN32
 extern EThread *mail_thread_queued;	/* for operations that can (or should) be queued */
+#else
+EThread *mail_win32_get_mail_thread_queued (void);
+#define mail_thread_queued mail_win32_get_mail_thread_queued ()
+#endif
 extern EThread *mail_thread_new;	/* for operations that should run in a new thread each time */
 extern EThread *mail_thread_queued_slow;	/* for operations that can (or should) be queued, but take a long time */
 

@@ -11,4 +11,4 @@ EXPORTS
 	mail_msg_free
 	mail_msg_new
 	mail_tool_uri_to_folder
-	mail_thread_queued
+	mail_win32_get_mail_thread_queued

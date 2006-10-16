@@ -1,3 +1,9 @@
+2006-10-16  Tor Lillqvist  <tml@novell.com>
+
+	* win32/libevolution-mail.def: List the function
+	mail_win32_get_mail_thread_queued() instead of the variable
+	mail_thread_queued.  (#348212)
+
 2006-10-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in: Evolution 2.8.1 release

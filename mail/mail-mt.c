@@ -433,9 +433,21 @@ EMsgPort		*mail_gui_reply_port;
 static GIOChannel	*mail_gui_reply_channel;
 
 /* a couple of global threads available */
+#ifdef G_OS_WIN32
+#undef mail_thread_queued
+static
+#endif
 EThread *mail_thread_queued;	/* for operations that can (or should) be queued */
 EThread *mail_thread_queued_slow;	/* for operations that can (or should) be queued, but take a long time */
 EThread *mail_thread_new;	/* for operations that should run in a new thread each time */
+
+#ifdef G_OS_WIN32
+EThread *
+mail_win32_get_mail_thread_queued (void)
+{
+	return mail_thread_queued;
+}
+#endif
 
 static gboolean
 mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
