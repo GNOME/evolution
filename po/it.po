@@ -30,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-11 17:35+0200\n"
-"PO-Revision-Date: 2006-10-11 17:40+0200\n"
+"POT-Creation-Date: 2006-10-15 22:14+0200\n"
+"PO-Revision-Date: 2006-10-15 22:24+0200\n"
 "Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -5671,11 +5671,11 @@ msgstr "<span weight=\"bold\">Settimana lavorativa</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
-msgstr "Regola per ora le_gale"
+msgstr "_Regolare per l'ora legale"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
-msgstr "Fine _giornata:"
+msgstr "_Fine della giornata:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
@@ -5823,7 +5823,7 @@ msgstr "_Comprimere i fine settimana nella vista mensile"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Day begins:"
-msgstr "Inizio _giornata:"
+msgstr "Ini_zio della giornata:"
 
 #. Friday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
@@ -11081,7 +11081,7 @@ msgstr "Nessuna risposta o genitore"
 
 #: ../filter/filter-rule.c:891
 msgid "Include threads"
-msgstr "Includi discussioni"
+msgstr "Includi i thread"
 
 #: ../filter/filter-rule.c:986 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:328
@@ -12984,15 +12984,15 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Thread the message list."
-msgstr "Elenca per discussioni."
+msgstr "Elenca i messaggi per thread."
 
 #: ../mail/evolution-mail.schemas.in.in.h:97
 msgid "Thread the message-list"
-msgstr "Elenca per discussioni"
+msgstr "Thread nell'elenco messaggi"
 
 #: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "Thread the message-list based on Subject"
-msgstr "Elenca per discussioni basate sull'oggetto"
+msgstr "Raggruppa in thread l'elenco messaggi in base all'oggetto"
 
 #: ../mail/evolution-mail.schemas.in.in.h:99
 msgid "Timeout for marking message as Seen"
@@ -13083,8 +13083,8 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Reimposta l'elenco per discussione in base all'oggetto se i messaggi non "
-"contengono le intestazioni In-Risposta-A o Riferimenti."
+"Indica se ripiegare o meno sul raggruppamento in thread per oggetto quano i "
+"messaggi non contengolo le intestazioni In-Reply-Ro o Refereces."
 
 #: ../mail/evolution-mail.schemas.in.in.h:121
 msgid "Width of the message-list pane"
@@ -13187,7 +13187,7 @@ msgid ""
 "These filters will be dropped."
 msgstr ""
 "Alcuni dei filtri di posta di Netscape usano la caratteristica\n"
-" \"Ignora il Thread\" o \"Controlla il Thread\", non supportata da\n"
+" \"Ignora il thread\" o \"Controlla il thread\", non supportata da\n"
 "Evolution. Questi filtri saranno tralasciati."
 
 #: ../mail/importers/netscape-importer.c:704
@@ -13524,7 +13524,7 @@ msgstr "Allega messaggio originale"
 
 #: ../mail/mail-config.glade.h:45
 msgid "Automatically insert _smiley images"
-msgstr "_Inserire automaticamente immagini delle faccine"
+msgstr "Inserire automaticamente le immagini degli _smiley"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
@@ -13657,7 +13657,7 @@ msgstr "Proprietà caratteri"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Format messages in _HTML"
-msgstr "Formato messaggi in _HTML"
+msgstr "Formattare i messaggi in _HTML"
 
 #: ../mail/mail-config.glade.h:84
 msgid "Full Nam_e:"
@@ -13754,7 +13754,7 @@ msgstr "Selezionare una delle seguenti opzioni"
 
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Segnala l'invio di messaggi con solo destinatari _Bcc"
+msgstr "Confermare l'invio di messaggi con solo destinatari _BCC"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
@@ -13932,7 +13932,7 @@ msgstr "Impostare co_me account predefinito"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Mark messages as read after"
-msgstr "Segnare i _messaggi come letti dopo"
+msgstr "Contrassegnare i _messaggi come letti dopo"
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Never load images from the Internet"
@@ -16301,7 +16301,7 @@ msgstr "Modifica car_telle/opzioni/regole/"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr "Leggere gli oggetti segnati come _privati"
+msgstr "Leggere gli oggetti contrassegnati come _privati"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
@@ -17157,7 +17157,7 @@ msgstr "Converte il messaggio selezionato in un nuovo compito"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Contact list _owner"
-msgstr "Contatta _proprietario lista"
+msgstr "Contatta p_roprietario lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Get list _archive"
@@ -17322,15 +17322,15 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post Message to List"
-msgstr "_Pubblica messaggio sulla lista"
+msgstr "_Pubblica messaggio su lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
 msgid "_Subscribe to List"
-msgstr "_Sottoscrivi alla lista"
+msgstr "_Sottoscrivi a lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 msgid "_Unsubscribe from List"
-msgstr "__Annullamento sottoscrizione lista"
+msgstr "_Annulla sottoscrizione a lista"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -17794,20 +17794,23 @@ msgstr "Importazione dati."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr "Indica se il raggruppamento dei messaggi debba ripiegare sull'oggetto."
+msgstr ""
+"Indica se il raggruppamento per thread dei messaggi debba ripiegare "
+"sull'oggetto."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
-msgstr "Raggruppamento per oggetto"
+msgstr "Threading su oggetto"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
-msgstr "Raggruppa i messaggi per oggetto"
+msgstr "Thread dei messaggi su oggetto"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr "Ripiega su raggruppamento messaggi per o_ggetto"
+msgstr ""
+"Ripiegare su raggruppamento dei messaggi per t_hread in base all'oggetto"
 
 # Novell Translation
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
@@ -18136,25 +18139,25 @@ msgstr "Lavora non _in linea"
 msgid "Work Offline"
 msgstr "Lavora non in linea"
 
-#: ../shell/e-shell-window.c:379
+#: ../shell/e-shell-window.c:380
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr ""
 "Evolution è attualmente in rete. Fare clic su questo pulsante per lavorare "
 "fuori rete."
 
-#: ../shell/e-shell-window.c:387
+#: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution sta per passare alla modalità fuori rete."
 
 # Novell Translation
-#: ../shell/e-shell-window.c:394
+#: ../shell/e-shell-window.c:395
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
 "Evolution è attualmente fuori rete. Fare clic su questo pulsante per "
 "lavorare in rete."
 
 # Novell Translation
-#: ../shell/e-shell-window.c:794
+#: ../shell/e-shell-window.c:795
 #, c-format
 msgid "Switch to %s"
 msgstr "Passa a %s"
@@ -18981,8 +18984,7 @@ msgstr "Descrizione dell'allegato."
 
 #: ../tools/evolution-launch-composer.c:325
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
-"Segna allegato come da mostrare in linea come impostazione predefinita."
+msgstr "Contrassegna allegato come da mostrare in linea in modo predefinito."
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "Default subject for the message."
@@ -19665,11 +19667,11 @@ msgstr "Cambia le proprietà di questa cartella"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
-msgstr "Comprimi ogni _discussione"
+msgstr "Contrai tutti i _thread"
 
 #: ../ui/evolution-mail-list.xml.h:4
 msgid "Collapse all message threads"
-msgstr "Comprime tutti i messaggi nelle discussioni"
+msgstr "Contrae tutti i thread di messaggi"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
@@ -19682,7 +19684,7 @@ msgstr "Taglia i messaggi selezionati negli appunti"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
-msgstr "E_spandi ogni discussione"
+msgstr "E_spandi tutti i thread"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
@@ -19690,7 +19692,7 @@ msgstr "Ri_pulisci"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Expand all message threads"
-msgstr "Espande tutti i messaggi nelle discussioni"
+msgstr "Espande tutti i thread di messaggi"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
@@ -19727,21 +19729,21 @@ msgstr "Rimuove permanentemente questa cartella"
 
 #: ../ui/evolution-mail-list.xml.h:20
 msgid "Select Message _Thread"
-msgstr "Seleziona _discussione messaggio"
+msgstr "Seleziona _thread del messaggio"
 
 #: ../ui/evolution-mail-list.xml.h:21
 msgid "Select _All Messages"
-msgstr "Seleziona _tutti messaggi"
+msgstr "Seleziona _tutti i messaggi"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Select all and only the messages that are not currently selected"
-msgstr "Seleziona tutti e soli i messaggi che non sono al momento selezionati"
+msgstr ""
+"Seleziona tutti i messaggi che non sono al momento selezionati e solo quelli"
 
 #: ../ui/evolution-mail-list.xml.h:23
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
-"Seleziona tutti i messaggi della discussione a cui appartiene il messaggio "
-"selezionato"
+"Seleziona tutti i messaggi nello stesso thread del messaggio selezionato"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select all visible messages"
@@ -19765,11 +19767,11 @@ msgstr "Nasconde temporaneamente i messaggi selezionati"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Threaded Message list"
-msgstr "Elenca per discussioni"
+msgstr "Elenco messaggi per thread"
 
 #: ../ui/evolution-mail-list.xml.h:31
 msgid "_Group By Threads"
-msgstr "Raggruppa per _discussione"
+msgstr "Ra_ggruppa per thread"
 
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-mail-message.xml.h:116
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
@@ -19879,7 +19881,7 @@ msgstr "Mostra il prossimo messaggio"
 
 #: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next thread"
-msgstr "Mostra la prossima discussione"
+msgstr "Mostra il prossimo thread"
 
 #: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
@@ -19995,7 +19997,7 @@ msgstr "Messaggio _importante successivo"
 
 #: ../ui/evolution-mail-message.xml.h:60
 msgid "Next _Thread"
-msgstr "_Discussione successiva"
+msgstr "_Thread successivo"
 
 #: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Unread Message"
@@ -20541,11 +20543,11 @@ msgstr "Elimina i compiti selezionati"
 
 #: ../ui/evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
-msgstr "_Segna come completato"
+msgstr "Contras_segna come completato"
 
 #: ../ui/evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
-msgstr "Segna i compiti selezionati come completati"
+msgstr "Contrassenga i compiti selezionati come completati"
 
 #: ../ui/evolution-tasks.xml.h:12
 msgid "Paste tasks from the clipboard"
