@@ -1,3 +1,8 @@
+2006-10-17  Harish Krishnaswamy  <kharish@novell.com>
+
+	* main.c: (show_development_warning):  Update last
+	stable version.
+
 2006-10-16  Chris Heath  <chris@heathens.co.nz>
 
 	* e-shell-window.c (component_view_free): Fix memory leak.
