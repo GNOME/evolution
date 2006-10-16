@@ -30,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-15 22:14+0200\n"
-"PO-Revision-Date: 2006-10-15 22:24+0200\n"
+"POT-Creation-Date: 2006-10-16 17:48+0200\n"
+"PO-Revision-Date: 2006-10-16 17:50+0200\n"
 "Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -188,7 +188,7 @@ msgstr "%A %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:191
 #: ../calendar/gui/calendar-component.c:710
 #: ../calendar/gui/e-day-view-top-item.c:1315
-#: ../calendar/gui/e-day-view.c:2104
+#: ../calendar/gui/e-day-view.c:2106
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
@@ -222,7 +222,7 @@ msgstr "%d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:221
 #: ../calendar/gui/calendar-component.c:736
 #: ../calendar/gui/e-day-view-top-item.c:1319
-#: ../calendar/gui/e-day-view.c:2120
+#: ../calendar/gui/e-day-view.c:2122
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
@@ -6095,7 +6095,7 @@ msgid "_Add attachment..."
 msgstr "_Aggiungi allegato..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1510
-#: ../mail/em-format-html-display.c:2267
+#: ../mail/em-format-html-display.c:2286
 msgid "Show Attachments"
 msgstr "Mostra allegati"
 
@@ -7181,7 +7181,7 @@ msgstr "Assegnato"
 msgid "Save As..."
 msgstr "Salva come..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2113
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2132
 msgid "Select folder to save selected attachments..."
 msgstr "Selezionare una cartella per salvare gli allegati selezionati..."
 
@@ -7509,20 +7509,20 @@ msgstr "divisioni da %02i minuti"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:1311
-#: ../calendar/gui/e-day-view.c:2087
+#: ../calendar/gui/e-day-view.c:2089
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1538
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:746 ../calendar/gui/e-day-view.c:1087
+#: ../calendar/gui/e-day-view.c:746 ../calendar/gui/e-day-view.c:1089
 #: ../calendar/gui/e-week-view.c:503 ../calendar/gui/print.c:858
 msgid "am"
 msgstr "a.m."
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1090
+#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1092
 #: ../calendar/gui/e-week-view.c:506 ../calendar/gui/print.c:860
 msgid "pm"
 msgstr "p.m."
@@ -12070,28 +12070,28 @@ msgid "Click to hide/unhide addresses"
 msgstr "Fare clic per nascondere/mostrare gli indirizzi"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:504
+#: ../mail/em-format-html-display.c:507
 #, c-format
 msgid "Matches: %d"
 msgstr "Corrisponde: %d"
 
-#: ../mail/em-format-html-display.c:647
+#: ../mail/em-format-html-display.c:650
 msgid "Fi_nd:"
 msgstr "Tr_ova:"
 
-#: ../mail/em-format-html-display.c:675
+#: ../mail/em-format-html-display.c:678
 msgid "Fo_rward"
 msgstr "I_noltra"
 
-#: ../mail/em-format-html-display.c:680
+#: ../mail/em-format-html-display.c:683
 msgid "M_atch case"
 msgstr "Distingui M_aiucole/minuscole"
 
-#: ../mail/em-format-html-display.c:927 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:930 ../mail/em-format-html.c:618
 msgid "Unsigned"
 msgstr "Non firmato"
 
-#: ../mail/em-format-html-display.c:927
+#: ../mail/em-format-html-display.c:930
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -12099,11 +12099,11 @@ msgstr ""
 "Questo messaggio non è firmato. Non c'è garanzia che il messaggio sia "
 "autentico."
 
-#: ../mail/em-format-html-display.c:928 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:931 ../mail/em-format-html.c:619
 msgid "Valid signature"
 msgstr "Firma valida"
 
-#: ../mail/em-format-html-display.c:928
+#: ../mail/em-format-html-display.c:931
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -12111,11 +12111,11 @@ msgstr ""
 "Questo messaggio è firmato ed è valido. È molto probabile che il messaggio "
 "sia autentico."
 
-#: ../mail/em-format-html-display.c:929 ../mail/em-format-html.c:620
+#: ../mail/em-format-html-display.c:932 ../mail/em-format-html.c:620
 msgid "Invalid signature"
 msgstr "Firma non valida"
 
-#: ../mail/em-format-html-display.c:929
+#: ../mail/em-format-html-display.c:932
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -12123,11 +12123,11 @@ msgstr ""
 "La firma di questo messaggio non può essere verificata. Può essere stata "
 "alterata durante la trasmissione."
 
-#: ../mail/em-format-html-display.c:930
+#: ../mail/em-format-html-display.c:933
 msgid "Valid signature, cannot verify sender"
 msgstr "Firma valida, non è possibile verificare il mittente"
 
-#: ../mail/em-format-html-display.c:930
+#: ../mail/em-format-html-display.c:933
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -12135,11 +12135,11 @@ msgstr ""
 "Questo messaggio è firmato con una firma valida, ma non è possibile "
 "verificare chi ha spedito il messaggio."
 
-#: ../mail/em-format-html-display.c:936 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:627
 msgid "Unencrypted"
 msgstr "Non cifrato"
 
-#: ../mail/em-format-html-display.c:936
+#: ../mail/em-format-html-display.c:939
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -12147,11 +12147,11 @@ msgstr ""
 "Questo messaggio non è cifrato. Il suo contenuto può essere visualizzato "
 "durante la trasmissione attraverso Internet."
 
-#: ../mail/em-format-html-display.c:937 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:628
 msgid "Encrypted, weak"
 msgstr "Cifrato, crittografia debole"
 
-#: ../mail/em-format-html-display.c:937
+#: ../mail/em-format-html-display.c:940
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -12161,11 +12161,11 @@ msgstr ""
 "difficile, ma non impossibile, per un estraneo visualizzarne il contenuto in "
 "un tempo ragionevolmente breve."
 
-#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:941 ../mail/em-format-html.c:629
 msgid "Encrypted"
 msgstr "Cifrato"
 
-#: ../mail/em-format-html-display.c:938
+#: ../mail/em-format-html-display.c:941
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -12173,11 +12173,11 @@ msgstr ""
 "Questo messaggio è cifrato. È difficile per un estraneo visualizzarne il "
 "contenuto."
 
-#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:630
+#: ../mail/em-format-html-display.c:942 ../mail/em-format-html.c:630
 msgid "Encrypted, strong"
 msgstr "Cifrato, crittografia forte"
 
-#: ../mail/em-format-html-display.c:939
+#: ../mail/em-format-html-display.c:942
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -12187,72 +12187,72 @@ msgstr ""
 "essere molto difficile per un estraneo visualizzarne il contenuto in un "
 "tempo ragionevole."
 
-#: ../mail/em-format-html-display.c:1040 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1043 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Visualizza certificato"
 
-#: ../mail/em-format-html-display.c:1055
+#: ../mail/em-format-html-display.c:1058
 msgid "This certificate is not viewable"
 msgstr "Certificato non è visualizzabile"
 
-#: ../mail/em-format-html-display.c:1374
+#: ../mail/em-format-html-display.c:1377
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Completato il %d %B %Y alle %k.%M"
 
-#: ../mail/em-format-html-display.c:1382
+#: ../mail/em-format-html-display.c:1385
 msgid "Overdue:"
 msgstr "Scaduto:"
 
-#: ../mail/em-format-html-display.c:1385
+#: ../mail/em-format-html-display.c:1388
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "per il %d %b alle %k.%M"
 
-#: ../mail/em-format-html-display.c:1445
+#: ../mail/em-format-html-display.c:1448
 msgid "_View Inline"
 msgstr "_Visualizza inlinea"
 
-#: ../mail/em-format-html-display.c:1446
+#: ../mail/em-format-html-display.c:1449
 msgid "_Hide"
 msgstr "_Nascondi"
 
-#: ../mail/em-format-html-display.c:1447
+#: ../mail/em-format-html-display.c:1450
 msgid "_Fit to Width"
 msgstr "Adatta alla _larghezza"
 
-#: ../mail/em-format-html-display.c:1448
+#: ../mail/em-format-html-display.c:1451
 msgid "Show _Original Size"
 msgstr "Mostra dimensioni _originali"
 
-#: ../mail/em-format-html-display.c:1867 ../mail/mail-config.glade.h:44
+#: ../mail/em-format-html-display.c:1886 ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Allegato"
 
-#: ../mail/em-format-html-display.c:2074
+#: ../mail/em-format-html-display.c:2093
 msgid "Select folder to save all attachments..."
 msgstr "Selezionare una cartella per salvare tutti gli allegati..."
 
-#: ../mail/em-format-html-display.c:2121
+#: ../mail/em-format-html-display.c:2140
 msgid "_Save Selected..."
 msgstr "_Salva selezionati..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2188
+#: ../mail/em-format-html-display.c:2207
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
 msgstr[0] "%d alle_gato"
 msgstr[1] "%d alle_gati"
 
-#: ../mail/em-format-html-display.c:2195 ../mail/em-format-html-display.c:2273
+#: ../mail/em-format-html-display.c:2214 ../mail/em-format-html-display.c:2292
 msgid "S_ave"
 msgstr "S_alva"
 
-#: ../mail/em-format-html-display.c:2206
+#: ../mail/em-format-html-display.c:2225
 msgid "S_ave All"
 msgstr "S_alva tutti"
 
-#: ../mail/em-format-html-display.c:2269
+#: ../mail/em-format-html-display.c:2288
 msgid "No Attachment"
 msgstr "Nessun allegato"
 
@@ -13337,7 +13337,7 @@ msgstr "Cartella di _posta"
 msgid "Create a new mail folder"
 msgstr "Crea una nuova cartella di posta"
 
-#: ../mail/mail-component.c:995
+#: ../mail/mail-component.c:997
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Aggiornamento delle impostazioni o cartelle di posta fallito."
 
@@ -15257,6 +15257,14 @@ msgstr "CalDAV"
 msgid "Use _SSL"
 msgstr "Usare _SSL"
 
+#: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
+msgid "CalDAV Calendar sources"
+msgstr "Sorgenti calendario CalDAV"
+
+#: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
+msgid "CalDAV sources"
+msgstr "Sorgenti CalDAV"
+
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Local Calendars"
 msgstr "Calendari locali"
@@ -16418,6 +16426,15 @@ msgstr "Selezione calendario"
 #: ../shell/e-shell-importer.c:714
 msgid "_Import"
 msgstr "_Importa"
+
+#. the path to the shared library
+#: ../plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml.h:2
+msgid "Import to Calendar"
+msgstr "Importa nel calendario"
+
+#: ../plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml.h:3
+msgid "Imports ICS attachments to calendar."
+msgstr "Importa gli allegati ICS nel calendario."
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:149
@@ -18139,25 +18156,25 @@ msgstr "Lavora non _in linea"
 msgid "Work Offline"
 msgstr "Lavora non in linea"
 
-#: ../shell/e-shell-window.c:380
+#: ../shell/e-shell-window.c:381
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr ""
 "Evolution è attualmente in rete. Fare clic su questo pulsante per lavorare "
 "fuori rete."
 
-#: ../shell/e-shell-window.c:388
+#: ../shell/e-shell-window.c:389
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution sta per passare alla modalità fuori rete."
 
 # Novell Translation
-#: ../shell/e-shell-window.c:395
+#: ../shell/e-shell-window.c:396
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
 "Evolution è attualmente fuori rete. Fare clic su questo pulsante per "
 "lavorare in rete."
 
 # Novell Translation
-#: ../shell/e-shell-window.c:795
+#: ../shell/e-shell-window.c:796
 #, c-format
 msgid "Switch to %s"
 msgstr "Passa a %s"
