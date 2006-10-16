@@ -12,6 +12,7 @@
 
 #include <widgets/menus/gal-view.h>
 #include <e-minicard-view-widget.h>
+#include "e-addressbook-view.h"
 
 #define GAL_TYPE_VIEW_MINICARD        (gal_view_minicard_get_type ())
 #define GAL_VIEW_MINICARD(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_TYPE_VIEW_MINICARD, GalViewMinicard))
@@ -39,7 +40,7 @@ GalView *gal_view_minicard_new        (const gchar         *title);
 GalView *gal_view_minicard_construct  (GalViewMinicard     *view,
 				       const gchar         *title);
 void     gal_view_minicard_attach     (GalViewMinicard     *view,
-				       EMinicardViewWidget *emvw);
+				       EABView *address_view);
 void     gal_view_minicard_detach     (GalViewMinicard     *view);
 
 #endif /* _GAL_VIEW_MINICARD_H_ */

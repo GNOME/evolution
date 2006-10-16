@@ -1,3 +1,17 @@
+2005-10-16  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/widgets/e-addressbook-view.c (display_view): Changed the
+	parameter passed to gal_view_minicard_attach.
+	
+	* gui/widgets/gal-view-minicard.c (column_width_changed): Sets the
+	horizontal scroll amount for the addresss card view to the current
+	page size. 
+	
+	* gui/widgets/gal-view-minicard.h: Changed function prototype for
+	gal_view_minicard_attach. Passing EABView instead of
+	EMinicardViewWidget.
+	Fixes Bug#218273
+
 2006-10-16  Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug#332908

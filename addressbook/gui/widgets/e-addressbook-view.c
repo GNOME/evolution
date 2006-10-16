@@ -637,7 +637,7 @@ display_view(GalViewInstance *instance,
 	}
 	else if (GAL_IS_VIEW_MINICARD(view)) {
 		change_view_type (address_view, EAB_VIEW_MINICARD);
-		gal_view_minicard_attach (GAL_VIEW_MINICARD (view), E_MINICARD_VIEW_WIDGET (address_view->object));
+		gal_view_minicard_attach (GAL_VIEW_MINICARD (view), address_view);
 	}
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
 	else if (GAL_IS_VIEW_TREEVIEW (view)) {
