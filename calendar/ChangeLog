@@ -1,3 +1,10 @@
+2006-10-16  Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #347768
+	
+	* gui/dialogs/memo-page.glade : Label changed from "_Memo Content"
+	to "_Description".
+
 2006-10-16 Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #329696

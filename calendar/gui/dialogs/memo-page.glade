@@ -105,7 +105,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label18">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Memo Content:</property>
+		  <property name="label" translatable="yes">_Description:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -345,7 +345,7 @@
 	      <child>
 		<widget class="GtkLabel" id="sum-label">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Su_mmary</property>
+		  <property name="label" translatable="yes">Su_mmary:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
