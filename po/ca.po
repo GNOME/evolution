@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-19 01:15+0200\n"
-"PO-Revision-Date: 2006-10-19 01:19+0200\n"
+"PO-Revision-Date: 2006-10-19 01:27+0200\n"
 "Last-Translator: Xavier Conde Rueda <xavi.conde@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -9160,7 +9160,7 @@ msgstr "Cancel·lació de la reunió"
 #: ../calendar/gui/e-itip-control.c:1502
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr "En/na <b>%s</b> ha enviat un missatge inintel·ligible,"
+msgstr "En/na <b>%s</b> ha enviat un missatge inintel·ligible."
 
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/e-itip-control.c:1386
@@ -19784,7 +19784,7 @@ msgstr "En/na <b>%s</b> ha publicat la següent informació de la reunió:"
 #: ../plugins/itip-formatter/itip-view.c:355
 #, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "En/na <b>%s</b> us ha delgat la següent reunió:"
+msgstr "En/na <b>%s</b> us ha delegat la següent reunió:"
 
 # fitxer: calendar.ca.po.3
 #: ../plugins/itip-formatter/itip-view.c:358
@@ -19855,7 +19855,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:389
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "En/na <b>%s</b> ha rebutjat els següents canvis a la reunió:"
+msgstr "En/na <b>%s</b> ha rebutjat els següents canvis a la reunió."
 
 # fitxer: calendar.ca.po.3
 #: ../plugins/itip-formatter/itip-view.c:416
@@ -19935,7 +19935,7 @@ msgstr "En/na <b>%s</b> ha cancel·lat la següent tasca assignada:"
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr ""
-"En/na <b>%s</b> ha proposat els següents canvis d'assignació d'una tasca."
+"En/na <b>%s</b> ha proposat els següents canvis d'assignació d'una tasca:"
 
 #: ../plugins/itip-formatter/itip-view.c:455
 #, c-format
