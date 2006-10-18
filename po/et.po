@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-15 18:23+0300\n"
+"PO-Revision-Date: 2006-10-18 21:57+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -3317,7 +3317,7 @@ msgstr "Valitud"
 
 #: ../addressbook/gui/widgets/e-minicard.c:180
 msgid "Has Cursor"
-msgstr ""
+msgstr "On fookuses"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:620
 msgid "_Open Link in Browser"
@@ -4430,6 +4430,8 @@ msgid ""
 "You have a read-only calendar source selected. Change to Calendar View and "
 "highlight a calendar that can accept appointments."
 msgstr ""
+"Sul on valitud kirjutuskaitsega kalendriallikas. Kalendrivaates tuleks "
+"valida kalender, mis võimaldab muudatusi sisse viia."
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this appointment, but not yet saved it."
@@ -5548,7 +5550,7 @@ msgstr "<span weight=\"bold\">Töönädal</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
-msgstr ""
+msgstr "Arvestatakse s_uve- ja talveaja erinevustega"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
@@ -5621,7 +5623,7 @@ msgstr "Alarmmärguannetega kalendrite valimine"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Sh_ow a reminder"
-msgstr "_Meeldetuletuse näitamine"
+msgstr "_Meeldetuletusi näidatakse"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
@@ -17197,7 +17199,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
-msgstr "_Teenuse tüüp:"
+msgstr "_Teenuse liik:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
 msgid "_File:"
@@ -21295,7 +21297,7 @@ msgstr[1] "%s (%d kirjet)"
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 msgid "Alternating Row Colors"
-msgstr ""
+msgstr "Reavärvuste asendamine"
 
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-container.c:905
@@ -21607,3 +21609,20 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr ""
+
+#: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
+msgid "CalDAV Calendar sources"
+msgstr "CalDAV-i kalendriallikad"
+
+#: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
+msgid "CalDAV sources"
+msgstr "CalDAV-i allikad"
+
+#. the path to the shared library
+#: ../plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml.h:2
+msgid "Import to Calendar"
+msgstr "Kalendrisse importimine"
+
+#: ../plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml.h:3
+msgid "Imports ICS attachments to calendar."
+msgstr "ICS-manuste importimine kalendrisse."
