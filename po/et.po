@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-18 21:57+0300\n"
+"PO-Revision-Date: 2006-10-19 00:45+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4787,7 +4787,7 @@ msgstr "Täna tähtaja ületavate ülesannete värv, \"#rrggbb\" vorgmingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "Tähtaja ületanud ülesannete värv, \"#rrggbb\" vorgmingus."
+msgstr "Tähtaja ületanud ülesannete värvus, \"#rrggbb\" vorgmingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
@@ -5224,11 +5224,11 @@ msgid ""
 "events."
 msgstr ""
 "See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud "
-"päevade arv. Eemaldatud sõnumeid ei ole hiljem enam võimalik taastada."
+"päevade arv. Eemaldatud sõnumeid pole hiljem enam võimalik taastada."
 
 #: ../calendar/gui/calendar-commands.c:354
 msgid "Purge events older than"
-msgstr "Puhasta sündmustest, mis on vanemad kui"
+msgstr "Puhastada sündmused, mis on vanemad kui"
 
 #: ../calendar/gui/calendar-commands.c:359
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
@@ -5752,7 +5752,7 @@ msgstr "enne iga sündmuse algust"
 #: ../calendar/gui/dialogs/calendar-setup.c:288
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr ""
-"Kalendri sisu _kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
+"Kalendri sisu _kopeerimitakse kohapeale, tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
 msgid "Cop_y task list contents locally for offline operation"
@@ -6046,7 +6046,7 @@ msgstr "Sihtkoha avamine nurjus"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
-msgstr "Sihtkoht on kirjutuskaitstud"
+msgstr "Sihtkoht on kirjutuskaitsega"
 
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
@@ -7042,7 +7042,7 @@ msgstr "Määratud"
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
-msgstr "Salvestamine kui..."
+msgstr "Salvestamine teise nimega..."
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2113
 msgid "Select folder to save selected attachments..."
@@ -7131,7 +7131,7 @@ msgstr "Objektide uuendamine"
 #: ../calendar/gui/e-calendar-view.c:1248 ../calendar/gui/e-memo-table.c:798
 #: ../composer/e-msg-composer.c:1349
 msgid "Save as..."
-msgstr "Salvestamine kui..."
+msgstr "Salvestamine teise nimega..."
 
 #: ../calendar/gui/e-calendar-table.c:1277
 #: ../calendar/gui/e-calendar-view.c:1681
@@ -7247,7 +7247,7 @@ msgstr "Uus _sündmus..."
 
 #: ../calendar/gui/e-calendar-view.c:1679
 msgid "New All Day _Event"
-msgstr "Uus kogu päeva _sündmus"
+msgstr "_Uus kogu päeva sündmus"
 
 #: ../calendar/gui/e-calendar-view.c:1680
 msgid "New _Meeting"
@@ -10878,7 +10878,7 @@ msgstr "Kui üks tingimustest on täidetud"
 
 #: ../filter/filter-rule.c:868
 msgid "Find items:"
-msgstr "Kirjete otsimine:"
+msgstr "Kirjeid otsitakse:"
 
 #: ../filter/filter-rule.c:889
 msgid "All related"
@@ -10959,7 +10959,7 @@ msgstr "<b>_Filtri reeglid</b>"
 
 #: ../filter/filter.glade.h:2
 msgid "Compare against"
-msgstr "Võrdle"
+msgstr "Võrreldakse väärtusega"
 
 #: ../filter/filter.glade.h:4
 msgid "Show filters for mail:"
@@ -11307,7 +11307,7 @@ msgstr "ei alga stringiga"
 
 #: ../mail/em-filter-i18n.h:19
 msgid "Do Not Exist"
-msgstr "Ei ole olemas"
+msgstr "Puuduvad"
 
 #: ../mail/em-filter-i18n.h:20
 msgid "Draft"
@@ -11347,7 +11347,7 @@ msgstr "on enne"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "is Flagged"
-msgstr "on tähistatud"
+msgstr "on märgistatud"
 
 #: ../mail/em-filter-i18n.h:31
 msgid "is greater than"
@@ -11363,7 +11363,7 @@ msgstr "ei ole"
 
 #: ../mail/em-filter-i18n.h:34
 msgid "is not Flagged"
-msgstr "ei ole tähistatud"
+msgstr "on märgistamata"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
 #: ../ui/evolution-mail-message.xml.h:48
@@ -11416,7 +11416,7 @@ msgstr "Mängi heli"
 
 #: ../mail/em-filter-i18n.h:47 ../mail/message-tag-followup.c:81
 msgid "Read"
-msgstr "Loetud"
+msgstr "Loe läbi"
 
 #: ../mail/em-filter-i18n.h:48 ../mail/message-list.etspec.h:11
 msgid "Recipients"
@@ -11791,7 +11791,7 @@ msgstr "Märgista _mitterämpsuks"
 
 #: ../mail/em-folder-view.c:1138
 msgid "Mark for Follo_w Up..."
-msgstr ""
+msgstr "Märgi _järeltoiminguks..."
 
 #: ../mail/em-folder-view.c:1140
 msgid "_Label"
@@ -11809,7 +11809,7 @@ msgstr "Märgista kui _lõpetatud"
 
 #: ../mail/em-folder-view.c:1147
 msgid "Cl_ear Flag"
-msgstr "_Eemalda silt"
+msgstr "_Eemalda märgistus"
 
 #: ../mail/em-folder-view.c:1150
 msgid "Crea_te Rule From Message"
@@ -12004,7 +12004,7 @@ msgstr "_Vaata sertifikaati"
 
 #: ../mail/em-format-html-display.c:1055
 msgid "This certificate is not viewable"
-msgstr "See sertifikaat ei ole kuvatav"
+msgstr "See sertifikaat ei ole vaadatav"
 
 #: ../mail/em-format-html-display.c:1374
 msgid "Completed on %B %d, %Y, %l:%M %p"
@@ -12016,7 +12016,7 @@ msgstr "Tähtaja ületanud:"
 
 #: ../mail/em-format-html-display.c:1385
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "%B %d, %Y, %l:%M %p"
+msgstr "sellel ajal: %B %d, %Y, %l:%M %p"
 
 #: ../mail/em-format-html-display.c:1445
 msgid "_View Inline"
@@ -12937,7 +12937,7 @@ msgstr "Postkasti importimine"
 #: ../mail/importers/mail-importer.c:376
 #, c-format
 msgid "Scanning %s"
-msgstr "Kontrollin %s"
+msgstr "%s läbivaatamine"
 
 #: ../mail/importers/netscape-importer.c:74
 #, c-format
@@ -13797,7 +13797,7 @@ msgstr "_Tõstutundlik"
 
 #: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:1
 msgid "Co_mpleted"
-msgstr "_Lõpetatud"
+msgstr "_Valmis"
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
@@ -13810,7 +13810,7 @@ msgstr "Otsing sõnumist"
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:2
 msgid "Flag to Follow Up"
-msgstr "Märgi jälgimiseks"
+msgstr "Märgistamine järeltoiminguks"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "Folder Subscriptions"
@@ -13841,6 +13841,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"Allpool kuvatakse sõnumid, mida sa oled märkinud järeltoiminguteks.\n"
+"Palun vali järeltoiming menüüst \"Märgistus\"."
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
@@ -13852,7 +13854,7 @@ msgstr "_Tähtaeg:"
 
 #: ../mail/mail-dialogs.glade.h:25 ../mail/message-tags.glade.h:6
 msgid "_Flag:"
-msgstr "_Silt:"
+msgstr "_Märgistus:"
 
 #: ../mail/mail-dialogs.glade.h:26
 msgid "_Tick this to accept the license agreement"
@@ -13861,7 +13863,7 @@ msgstr ""
 #: ../mail/mail-folder-cache.c:858
 #, c-format
 msgid "Pinging %s"
-msgstr "Kontrollin %s"
+msgstr "%s pingimine"
 
 #: ../mail/mail-ops.c:105
 msgid "Filtering Folder"
@@ -14783,15 +14785,15 @@ msgstr "Tähtaeg"
 
 #: ../mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr "Sildi olek"
+msgstr "Märgistuse olek"
 
 #: ../mail/message-list.etspec.h:5
 msgid "Flagged"
-msgstr "Tähistatud"
+msgstr "Märgistatud"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Jälgimise silt"
+msgstr "Märgistatud järeltoiminguks"
 
 #: ../mail/message-list.etspec.h:10
 msgid "Received"
@@ -14816,11 +14818,11 @@ msgstr "Ära edasta"
 
 #: ../mail/message-tag-followup.c:77
 msgid "Follow-Up"
-msgstr "Jälgimine"
+msgstr "Jälgi"
 
 #: ../mail/message-tag-followup.c:78
 msgid "For Your Information"
-msgstr "Teadmiseks"
+msgstr "Võta teadmiseks"
 
 #: ../mail/message-tag-followup.c:79 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
@@ -14828,7 +14830,7 @@ msgstr "Edasta"
 
 #: ../mail/message-tag-followup.c:80
 msgid "No Response Necessary"
-msgstr "Vastus pole tarvilik"
+msgstr "Tagasiside pole tarvilik"
 
 #: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:80
 msgid "Reply"
@@ -14840,7 +14842,7 @@ msgstr "Vasta kõigile"
 
 #: ../mail/message-tag-followup.c:84
 msgid "Review"
-msgstr "Ülevaade"
+msgstr "Vaata üle"
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Body contains"
@@ -16133,11 +16135,11 @@ msgstr ""
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
-msgstr "Sünkroniseerimine iPod'iga"
+msgstr "Sünkroniseeri iPod'iga"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
-msgstr "iPod sünkroniseerimine"
+msgstr "iPod'iga sünkroniseerimine"
 
 #: ../plugins/ipod-sync/sync.c:158
 msgid "No output directory!"
@@ -18445,7 +18447,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:879
 msgid "Data Encipherment"
-msgstr "Andmete "
+msgstr ""
 
 #: ../smime/lib/e-cert.c:883
 msgid "Key Agreement"
@@ -19462,7 +19464,7 @@ msgstr "Valitud sõnumitest rämpsu filtreerimine"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
-msgstr "Valitud sõnumite märkimine jälgimiseks"
+msgstr "Valitud sõnumite märgistamine järeltoiminguks"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -19678,7 +19680,7 @@ msgstr "_Kursorirežiim"
 
 #: ../ui/evolution-mail-message.xml.h:103
 msgid "_Clear Flag"
-msgstr "_Eemalda silt"
+msgstr "_Eemalda märgistus"
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Delete Message"
@@ -20342,7 +20344,7 @@ msgstr "_Teema järgi"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
-msgstr "_Jälgimise sildi järgi"
+msgstr "_Järeltoimingu märgistuse järgi"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
