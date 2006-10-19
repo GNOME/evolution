@@ -1,3 +1,21 @@
+Evolution 2.8.1.1 2006-10-19
+----------------------------
+
+Bugs/Regressions fixed in this release :
+
+#348212, #360815, #333864, #351374, #360815, #334966,
+#333224, #359271, #360237, #359236. 
+
+Updated Translations:
+
+Ivar Smolin (et), Josep Puigdemont i Casamajó (ca),
+Clytie Siddal (vi), Ankit Patel (gu), Ilkka Tuohela (fi),
+Jovan Naumovski (mk), Luca Ferretti (it), Kjartan Maraas (nb),
+Zygimantas Beručka (lt), Cyprien Le Pannérer (fr),
+Jordi Mas (ca), Tino Meinen (nl), Daniel Nylander (sv),
+Francisco Javier F. Serrador (es).
+
+
 Evolution 2.8.1 2006-10-02
 --------------------------
 
