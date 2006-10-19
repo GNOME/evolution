@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-19 00:45+0300\n"
+"PO-Revision-Date: 2006-10-19 21:15+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -8316,7 +8316,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on peale Evolution 1.x. "
+"Evolutioni kontaktikaustade asukoht ja hierarhia on pärast Evolution 1.x. "
 "versiooni muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
@@ -8666,7 +8666,7 @@ msgid ""
 msgstr ""
 "See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui "
 "lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
-"Kas tõesti kustutada need ülesanded? "
+"Kas tõesti kustutada need ülesanded?"
 
 #: ../calendar/gui/tasks-control.c:449
 msgid "Do not ask me again."
@@ -11041,7 +11041,7 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr "Õigekirjakontrolli "
+msgstr "Õigekirjakontrolli, signatuuride ja sõnumikoostaja seadistamine"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -11775,7 +11775,7 @@ msgstr "Märgi kui l_ugemata"
 
 #: ../mail/em-folder-view.c:1134
 msgid "Mark as _Important"
-msgstr "Märgi _tähtsaks "
+msgstr "Märgi _tähtsaks"
 
 #: ../mail/em-folder-view.c:1135
 msgid "Mark as Un_important"
@@ -12577,11 +12577,11 @@ msgstr "Filtrite tegevuse logimise logifail."
 
 #: ../mail/evolution-mail.schemas.in.in.h:50
 msgid "Mark as Seen after specified timeout"
-msgstr "Sõnumi nähtuks märkimine peale määratud ajapiirangu ületamist"
+msgstr "Sõnumi nähtuks märkimine pärast määratud ajapiirangu ületamist"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Mark as Seen after specified timeout."
-msgstr "Sõnumi nähtuks märkimine peale määratud ajapiirangu ületamist."
+msgstr "Sõnumi nähtuks märkimine pärast määratud ajapiirangu ületamist."
 
 #: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Mark citations in the message \"Preview\""
@@ -12725,7 +12725,7 @@ msgstr "Helifail, mida esitatakse uute sõnumite saabumisel."
 
 #: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "Kasutaja poolt valitud uuest sõnumist teavitamise tüüp."
+msgstr "Kasutaja poolt valitud teavitamise liik uutele sõnumitele."
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Spell check inline"
@@ -13187,7 +13187,7 @@ msgstr "<span weight=\"bold\">Vaikimisi käitumine</span>"
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr "<span weight=\"bold\">Kirjade kustutamine</span>"
+msgstr "<span weight=\"bold\">Sõnumite kustutamine</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
@@ -13199,7 +13199,7 @@ msgstr "<span weight=\"bold\">Filtri valikud</span>"
 
 #: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr "<span weight=\"bold\">Sildid ja värvid</span>"
+msgstr "<span weight=\"bold\">Sildid ja värvused</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13219,7 +13219,7 @@ msgstr "<span weight=\"bold\">Sõnumi saajad</span>"
 
 #: ../mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr "<span weight=\"bold\">Uutest sõnumitest teatamine</span>"
+msgstr "<span weight=\"bold\">Uutest sõnumitest teavitamine</span>"
 
 #: ../mail/mail-config.glade.h:24
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
@@ -13296,11 +13296,11 @@ msgstr "Krüptitud sõnumi saatmisel krüptitakse alati ka _enda jaoks"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
-msgstr "Algupärane sõnum manustatakse"
+msgstr "Algupärane sõnum lisatakse manusena"
 
 #: ../mail/mail-config.glade.h:45
 msgid "Automatically insert _smiley images"
-msgstr "Automaatne _emotikonipiltide lisamine"
+msgstr "_Emotikonipildid lisatakse automaatselt"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
@@ -13324,11 +13324,11 @@ msgstr "_Toetatavate tüüpide tuvastus"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Check in_coming mail for junk"
-msgstr "Sissetuleva posti _rämpsukontroll"
+msgstr "Sissetulevale postile rakendatakse _rämpsukontrolli"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check spelling while I _type"
-msgstr "Õigekirja kon_trollimine sisestamise ajal"
+msgstr "Sisestamise käigus kon_trollitakse õigekirja"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Checks incoming mail messages to be Junk"
@@ -13348,7 +13348,7 @@ msgstr "_Värvus õigekirjakontrolli probleemsetele sõnade jaoks:"
 
 #: ../mail/mail-config.glade.h:57
 msgid "Colors"
-msgstr "Värvid"
+msgstr "Värvused"
 
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
@@ -13376,7 +13376,7 @@ msgstr "_Vaikimisi"
 
 #: ../mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
-msgstr "_Vaikekodeering:"
+msgstr "_Vaikimisi kooditabel:"
 
 #: ../mail/mail-config.glade.h:69
 msgid "Digitally _sign outgoing messages (by default)"
@@ -13433,7 +13433,7 @@ msgstr "Kirjatüübi omadused"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Format messages in _HTML"
-msgstr "Sõnumite vormindamine _HTML-is"
+msgstr "Sõnumid vormindatakse _HTML-is"
 
 #: ../mail/mail-config.glade.h:84
 msgid "Full Nam_e:"
@@ -13441,7 +13441,7 @@ msgstr "Täis_nimi:"
 
 #: ../mail/mail-config.glade.h:86
 msgid "HTML Mail"
-msgstr "HTML post"
+msgstr "HTML-sõnumid"
 
 #: ../mail/mail-config.glade.h:87
 msgid "Headers"
@@ -13453,7 +13453,7 @@ msgstr "_Tsitaate rõhutatakse"
 
 #: ../mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
-msgstr "Väliste testide _kaasamine"
+msgstr "_Kaasatakse ka välised testid"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Inline"
@@ -13531,8 +13531,8 @@ msgstr "Palun vali järgnevate valikute vahel"
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
-"Kinni_tuse küsimine ainult pimekoopias olevate adressaatidega varustatud "
-"sõnumi saatmise puhul"
+"Ainult _pimekoopias olevate adressaatidega varustatud sõnumi saatmise puhul "
+"küsitakse kinnitust"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
@@ -13707,11 +13707,11 @@ msgstr "See konto on _määratud minu vaikimisi kontoks"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Mark messages as read after"
-msgstr "Sõnum _märgitakse loetuks peale"
+msgstr "Sõnum _märgitakse loetuks pärast"
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Never load images from the Internet"
-msgstr "Internetist ei laadita _kunagi ühtegi pilti"
+msgstr "Internetist ei laadita kunagi ü_htegi pilti"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Path:"
@@ -13720,11 +13720,12 @@ msgstr "_Rada:"
 #: ../mail/mail-config.glade.h:166
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgstr ""
-"_Kinnituse küsimine HTML-sõnumi saatmisel kontakti(de)le, kes seda ei soovi"
+"HTML-sõnumi saatmisel seda mittesoovivatele kontakti(de)le _küsitakse "
+"kinnitust"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Kinnituse küsimine ilma _teemata sõnumi saatmise korral"
+msgstr "Ilma _teemata sõnumi saatmisel küsitakse kinnitust"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Reply style:"
@@ -13737,7 +13738,7 @@ msgstr "_Skript:"
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:172
 msgid "_Show image animations"
-msgstr "_Pildianimatsioonide näitamine"
+msgstr "_Pildianimatsioone näitatakse"
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Shrink To / Cc / Bcc headers to "
@@ -13749,7 +13750,7 @@ msgstr "Tu_rvalise ühenduse kasutamine:"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
-msgstr "Teiste rakendustega _kasutatakse sama kirjatüüpi"
+msgstr "_Kasutatakse teiste rakendustega sama kirjatüüpi"
 
 #: ../mail/mail-config.glade.h:176
 msgid "addresses"
@@ -14489,8 +14490,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Palun määra sõnumi saaja. Saajat saab kontaktide valida, kui sa vajutad "
-"nupule \"Kellele:\"."
+"Palun määra sõnumi saaja. Saajat saab kontaktide hulgast valida, kui sa "
+"klõpsad \"Kellele:\" nupul."
 
 #: ../mail/mail.error.xml.h:77
 msgid ""
@@ -15565,7 +15566,7 @@ msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
 msgstr ""
-"Exchange konto \"{0}\" sätete muudatused rakenduvad peale Evolutioni "
+"Exchange konto \"{0}\" sätete muudatused rakenduvad pärast Evolutioni "
 "taaskäivitamist."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
@@ -16314,7 +16315,7 @@ msgstr ""
 #. FIXME Need a schema for this
 #: ../plugins/itip-formatter/itip-formatter.c:2067
 msgid "_Delete message after acting"
-msgstr "Sõnumi _kustutamine peale tegevuse läbiviimist"
+msgstr "Pärast tegevuse läbiviimist sõnum _kustutatakse"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2077
 #: ../plugins/itip-formatter/itip-formatter.c:2109
@@ -17028,11 +17029,11 @@ msgstr "Uue kirja saabumisel D-BUS sõnumi genereerimine"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 msgid "New Mail Notification"
-msgstr "Uuest sõnumist teatamine"
+msgstr "Uuest sõnumist teavitamine"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
 msgid "New mail notify"
-msgstr "Uuest sõnumist teatamine"
+msgstr "Uuest sõnumist teavitamine"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
@@ -17064,7 +17065,7 @@ msgstr "Kirjeldus"
 
 #: ../plugins/plugin-manager/plugin-manager.c:193
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Märkus: mõningad muudatused rakenduvad alles peale taaskäivitamist"
+msgstr "Märkus: mõningad muudatused rakenduvad alles pärast taaskäivitamist"
 
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
@@ -17094,19 +17095,19 @@ msgstr "Lihtteksti eelistamine"
 
 #: ../plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
-msgstr ""
+msgstr "Kui sõnum sisaldab HTML-i, siis näidatakse HTML-ina"
 
 #: ../plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
-msgstr ""
+msgstr "Eelistatakse lihtteksti"
 
 #: ../plugins/prefer-plain/prefer-plain.c:107
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "Näidatakse alati lihttekstina"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
 msgid "HTML Mode"
-msgstr "HTML meetod"
+msgstr "HTML-režiim"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -20662,15 +20663,15 @@ msgstr "Visuaalne"
 #: ../widgets/misc/e-charset-picker.c:175
 #, c-format
 msgid "Unknown character set: %s"
-msgstr "Tundmatu märgistik: %s"
+msgstr "Tundmatu kooditabel: %s"
 
 #: ../widgets/misc/e-charset-picker.c:220
 msgid "Character Encoding"
-msgstr "Kodeering"
+msgstr "Kooditabel"
 
 #: ../widgets/misc/e-charset-picker.c:235
 msgid "Enter the character set to use"
-msgstr "Sisesta kasutatav märgistik"
+msgstr "Sisesta kasutatav kooditabel"
 
 #: ../widgets/misc/e-charset-picker.c:342
 msgid "Other..."
@@ -20943,7 +20944,7 @@ msgstr "<b>Vastused</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 msgid "<b>Return Notification</b>"
-msgstr "<b>Tagastusteated</b>"
+msgstr "<b>Tagastustest teavitamine</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
