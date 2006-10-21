@@ -6,7 +6,7 @@
      id="org.gnome.evolution.plugin.default-source"
      _name="Default Sources">
      <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
-     <_description>Provides functionallity for marking a calendar or addressbook as the default one.</_description>
+     <_description>Provides functionality for marking a calendar or an addressbook as the default one.</_description>
         <hook class="org.gnome.evolution.calendar.config:1.0">
             <group
 	     target="source"

@@ -1,3 +1,7 @@
+2006-10-21  Priit Laes  <amd@store20.com>
+
+	* org-gnome-default-source.eplug.xml: Fix typo. Fixes #363999.
+
 2006-02-11  Andre Klapper <a9016009@gmx.de>
 
 	* default-source.c: adding mnemonic. Fixes bug 328151.
