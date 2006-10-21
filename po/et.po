@@ -7,7 +7,7 @@
 # Ilmar Kerm <ikerm@hot.ee>, 2001.
 # Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005, 2006.
 # Kaarel Jõgi <kaarel@gg.ee>, 2002.
-# Priit Laes <amd@store20.com>, 2003-2005.
+# Priit Laes <amd@store20.com>, 2003-2006.
 #
 # Riigi- ja linnanimed: Marek Sepp <marek.sepp@ttu.ee>, 2001, 2002
 #
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-19 21:15+0300\n"
-"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
+"PO-Revision-Date: 2006-10-21 23:25+0300\n"
+"Last-Translator: Priit Laes <amd@store20.com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11502,7 +11502,7 @@ msgstr "<b>siis</b>"
 
 #: ../mail/em-folder-browser.c:170
 msgid "C_reate Search Folder From Search..."
-msgstr "Loo o_tsingu põhjal Otsikaust..."
+msgstr "Loo o_tsingu põhjal otsingukaust..."
 
 #: ../mail/em-folder-browser.c:192
 msgid "All Messages"
@@ -11583,7 +11583,7 @@ msgstr "_Kausta nimi:"
 #: ../mail/em-folder-tree-model.c:203 ../mail/em-folder-tree-model.c:205
 #: ../mail/mail-vfolder.c:911 ../mail/mail-vfolder.c:984
 msgid "Search Folders"
-msgstr "Otsikaustad"
+msgstr "Otsingukaustad"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:209 ../mail/em-folder-tree-model.c:211
@@ -11817,19 +11817,19 @@ msgstr "_Loo sõnumi põhjal reegel"
 
 #: ../mail/em-folder-view.c:1151
 msgid "Search Folder from _Subject"
-msgstr "Otsikaust _teema järgi"
+msgstr "Otsingukaust _teema järgi"
 
 #: ../mail/em-folder-view.c:1152
 msgid "Search Folder from Se_nder"
-msgstr "Otsikaust _saatja järgi"
+msgstr "Otsingukaust _saatja järgi"
 
 #: ../mail/em-folder-view.c:1153
 msgid "Search Folder from _Recipients"
-msgstr "Otsikaust _adressaatide järgi"
+msgstr "Otsingukaust _adressaatide järgi"
 
 #: ../mail/em-folder-view.c:1154
 msgid "Search Folder from Mailing _List"
-msgstr "Otsikaust _postiloendi järgi"
+msgstr "Otsingukaust _postiloendi järgi"
 
 #: ../mail/em-folder-view.c:1158
 msgid "Filter on Sub_ject"
@@ -11864,7 +11864,7 @@ msgstr "Sõnumit pole võimalik vastu võtta"
 
 #: ../mail/em-folder-view.c:2513
 msgid "Create _Search Folder"
-msgstr "Loo uus _otsikaust"
+msgstr "Loo uus _otsingukaust"
 
 #: ../mail/em-folder-view.c:2514
 msgid "_From this Address"
@@ -12334,11 +12334,11 @@ msgstr "Andmed %s-st"
 
 #: ../mail/em-vfolder-editor.c:112
 msgid "Search _Folders"
-msgstr "_Otsikaustad"
+msgstr "_Otsingukaustad"
 
 #: ../mail/em-vfolder-rule.c:591
 msgid "Search Folder source"
-msgstr "Otsikausta allikas"
+msgstr "Otsingukausta allikas"
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
@@ -13770,7 +13770,7 @@ msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
 msgid "<b>Search Folder Sources</b>"
-msgstr "<b>Otsikausta allikad</b>"
+msgstr "<b>Otsingukausta allikad</b>"
 
 #: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
@@ -13966,7 +13966,7 @@ msgstr "Kausta värskendamine"
 
 #: ../mail/mail-ops.c:1614 ../mail/mail-ops.c:1665
 msgid "Expunging folder"
-msgstr "Kataloogi puhtastamine"
+msgstr "Kataloogi puhastamine"
 
 #: ../mail/mail-ops.c:1662
 #, c-format
@@ -14124,25 +14124,25 @@ msgstr "Vigane kaust: `%s'"
 #: ../mail/mail-vfolder.c:91
 #, c-format
 msgid "Setting up Search Folder: %s"
-msgstr "Otsikausta ülesseadmine: %s"
+msgstr "Otsingukausta ülesseadmine: %s"
 
 #: ../mail/mail-vfolder.c:240
 #, c-format
 msgid "Updating Search Folders for '%s:%s'"
-msgstr "'%s:%s' otsikaustade uuendamine"
+msgstr "'%s:%s' otsingukaustade uuendamine"
 
 #: ../mail/mail-vfolder.c:247
 #, c-format
 msgid "Updating Search Folders for '%s'"
-msgstr "'%s' otsikaustade uuendamine"
+msgstr "'%s' otsingukaustade uuendamine"
 
 #: ../mail/mail-vfolder.c:1023
 msgid "Edit Search Folder"
-msgstr "Otsikausta redigeerimine"
+msgstr "Otsingukausta redigeerimine"
 
 #: ../mail/mail-vfolder.c:1107
 msgid "New Search Folder"
-msgstr "Uus otsikaust"
+msgstr "Uus otsingukaust"
 
 #: ../mail/mail.error.xml.h:1
 msgid ""
@@ -14246,7 +14246,7 @@ msgstr "Tühi allkiri"
 
 #: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
-msgstr "Otsikausta &quot;{0}&quot; pole võimalik lisada."
+msgstr "Otsingukausta &quot;{0}&quot; pole võimalik lisada."
 
 #: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -14275,7 +14275,7 @@ msgstr "Süsteemikausta &quot;{0}&quot; pole võimalik kustutada."
 #: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgstr ""
-"Otsikausta &quot;{0}&quot; pole võimalik redigeerida, kuna seda pole olemas."
+"Otsingukausta &quot;{0}&quot; pole võimalik redigeerida, kuna seda pole olemas."
 
 #: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -14535,7 +14535,7 @@ msgstr "Kas tõesti kustutada kaust &quot;{0}&quot; ja selle kõik alamkaustad?"
 
 #: ../mail/mail.error.xml.h:87
 msgid "Search Folders automatically updated."
-msgstr "Otsikaustad automaatselt uuendatud."
+msgstr "Otsingukaustad automaatselt uuendatud."
 
 #: ../mail/mail.error.xml.h:88
 msgid "Send Receipt"
@@ -14571,11 +14571,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"Järgnevad otsikaustad:\n"
+"Järgnevad otsingukaustad:\n"
 "{0}\n"
-"Kasutavad nüüdseks eemaldatatud kausta:\n"
+"Kasutasid nüüdseks eemaldatatud kausta:\n"
 "    &quot;{1}&quot;\n"
-"Otsikaustad on nüüd uuendatud."
+"Otsingukaustad on nüüd uuendatud."
 
 #: ../mail/mail.error.xml.h:99
 msgid ""
@@ -14600,6 +14600,9 @@ msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
+"See kaust on lisatud muu tegevuse tulemusel,\n"
+"kui vaja, saad selle lisamist Otsingukaustade redaktoris kinnitada."
+
 
 #: ../mail/mail.error.xml.h:107
 msgid ""
@@ -14965,11 +14968,11 @@ msgstr "Kiirsuhtluse kontaktid"
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
-"Kontaktandmete ja piltide perioodiline sünkroniseerimine gaim'i sõbraloendiga"
+"Kontaktandmete ja piltide perioodiline sünkroniseerimine Gaimi sõbraloendiga"
 
 #: ../plugins/bbdb/bbdb.c:513
 msgid "Select Address book for Gaim buddy list"
-msgstr "Vali GAIM-i sõbraloendile aadressiraamat"
+msgstr "Vali aadressiraamat Gaimi sõbraloendi jaoks"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:524
@@ -14982,8 +14985,8 @@ msgid ""
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Plugin, mis automaatselt täidab sinu aadressiraamatut sinu poolt vastatavate "
-"sõnumite adressaatide nimede ja e-posti aadressisega. Samuti täidetakse "
+"Plugin, mis automaatselt täiendab aadressiraamatut sinu poolt vastatud "
+"kirjade adressaatide nime ja e-posti aadressiga. Samuti täiendatakse "
 "aadressiraamatut välksõnumite sõbranimekirja kontaktide andmetega."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
@@ -15105,7 +15108,7 @@ msgstr "Vaikimisi postiklient"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "Kas sa soovid Evolutioni määrata e-posti vaikimisi kliendiks?"
+msgstr "Kas sa soovid Evolutioni määrata vaikimisi e-posti kliendiks?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
@@ -15120,7 +15123,7 @@ msgstr "Vaikimisi allikad"
 msgid ""
 "Provides functionallity for marking a calendar or addressbook as the default "
 "one."
-msgstr "."
+msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -15248,7 +15251,7 @@ msgid ""
 msgstr ""
 "Evolution on hetkel autonoomses režiimis.\n"
 "Sul pole võimalik praegu kaustu luua ega muuta.\n"
-"Nende toimingute teostamisel lülitu palun võrgurežiimi."
+"Nende toimingute teostamiseks lülitu palun võrgurežiimi."
 
 #. User entered a wrong existing
 #. * password. Prompt him again.
@@ -15267,7 +15270,7 @@ msgstr "Kaks parooli ei ole vastavuses. Palin sisesta paroolid uuesti."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Confirm Password:"
-msgstr "Parooli kontroll:"
+msgstr "Paroolikontroll:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Current Password:"
@@ -15284,7 +15287,7 @@ msgstr "Sinu käesolev parool on aegunud. Palun vaheta nüüd oma parool ära."
 #: ../plugins/exchange-operations/exchange-config-listener.c:663
 #, c-format
 msgid "Your password will expire in the next %d days"
-msgstr "Su parool aegub järgneva %d päeva jooksul"
+msgstr "Sinu parool aegub järgneva %d päeva jooksul"
 
 #. Custom
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
@@ -15296,7 +15299,7 @@ msgstr "Kohandatud"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
-msgstr "Delegaadid õigused"
+msgstr "Delegeeritud õigused"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:202
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
@@ -15368,7 +15371,7 @@ msgstr "Toimetaja (lugemine, loomine, muutmine)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid "Permissions for"
-msgstr ""
+msgstr "Õigused"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
@@ -15379,6 +15382,8 @@ msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
 msgstr ""
+"Järgnevad kasutajad saavat saata sinu nime all sõnumeid\n"
+"ja pääsevad ligi sinu kaustadele vastavalt sinu poolt antud õigustele."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Delegate can see private items"
@@ -15543,11 +15548,11 @@ msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
 msgstr ""
-"Plugin, mis käsitleb Exchange konto spetsiifilisi toiminguid ja võimalusi."
+"Plugin, mis käsitleb Exchange'i kontole spetsiifilisi toiminguid ja võimalusi."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
-msgstr "Exchange toimingud"
+msgstr "Exchange'i toimingud"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -15555,7 +15560,7 @@ msgstr "Seadistusprobleemide tõttu pole võimalik parooli muuta."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
-msgstr "Kaustu pole võimalik kuvada"
+msgstr "Kaustu pole võimalik kuvada."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid "Cannot perform the operation."
@@ -15566,7 +15571,7 @@ msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
 msgstr ""
-"Exchange konto \"{0}\" sätete muudatused rakenduvad pärast Evolutioni "
+"Exchange'i konto \"{0}\" sätete muudatused rakenduvad pärast Evolutioni "
 "taaskäivitamist."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
@@ -15583,12 +15588,12 @@ msgid ""
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
 msgstr ""
-"Tundmatu vea tõttu pole Exchange kontot võimalik seadistada. Kontrolli URL-"
+"Tundmatu vea tõttu pole Exchange'i kontot võimalik seadistada. Kontrolli URL-"
 "i, kasutajanime ning parooli ja proovi uuesti."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
 msgid "Could not connect to Exchange server."
-msgstr "Exchange serveriga pole võimalik ühenduda."
+msgstr "Exchange'i serveriga pole võimalik ühenduda."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not connect to server {0}."
@@ -15600,7 +15605,7 @@ msgstr "Kataloogi pääsuõiguseid delegaatidele pole võimalik tuvastada."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not find Exchange Web Storage System."
-msgstr "Exchange Web Storage System'i pole võimalik leida."
+msgstr "Exchange Web Storage System'it pole võimalik leida."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 msgid "Could not locate server {0}."
@@ -15632,7 +15637,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Exchange Account is offline."
-msgstr "Exchange konto on autonoomses režiimis."
+msgstr "Exchange'i konto on autonoomses režiimis."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid ""
@@ -15693,7 +15698,7 @@ msgstr "Veendu, et URL on õige ja proovi uuesti."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr ""
+msgstr "Kontrolli, et serveri nimi on õigesti kirjutatud ja proovi uuesti."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "Make sure the username and password are correct and try again."
@@ -15705,7 +15710,7 @@ msgstr "Selle konto jaoks pole globaalset kataloogiserverit seadistatud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "No mailbox for user {0} on {1}."
-msgstr ""
+msgstr "Kasutajal {0} serveris {1} postkasti ei ole."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "No such user {0}"
@@ -15733,22 +15738,22 @@ msgstr "Server lükkas parooli tagasi kuna see on liiga nõrk."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "Exchange konto keelatakse, kui sa sulged Evolutioni"
+msgstr "Exchange'i konto keelatakse, kui sa sulged Evolutioni"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr "Exchange konto eemaldatakse, kui sa sulged Evolutioni"
+msgstr "Exchange'i konto eemaldatakse, kui sa sulged Evolutioni"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
 msgid "The Exchange server is not compatible with Exchange Connector."
-msgstr "Exchange server pole Exchange Connector'iga ühilduv."
+msgstr "Exchange'i server pole Exchange Connector'iga ühilduv."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:57
 msgid ""
 "The server is running Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
 msgstr ""
-"Serveris töötab Exchange 5.5. Exchange Connector, mis\n"
+"Serveris töötab Exchange 5.5. Exchange Connector \n"
 "toetab ainult Microsoft Exchange versioone 2000 ja 2003."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:59
@@ -15811,7 +15816,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid "You may only configure a single Exchange account."
-msgstr "Sul on võimalik seadistada üksikut Exchange kontot."
+msgstr "Sul on võimalik seadistada üksikut Exchange'i kontot."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid ""
@@ -15885,7 +15890,7 @@ msgstr "Kontroll-loend"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Groupwise Account Setup"
-msgstr "Groupwise konto sätted"
+msgstr "Groupwise'i konto sätted"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
@@ -15934,7 +15939,7 @@ msgstr "E-posti tagasivõtmine"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr "Groupwise sõnumitele saatmisvalikute lisamine"
+msgstr "Groupwise'i sõnumitele saatmisvalikute lisamine"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
@@ -15948,7 +15953,7 @@ msgstr "Plugin Groupwise kontode võimaluste jaoks."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "Groupwise Features"
-msgstr "Groupwise võimalused"
+msgstr "Groupwise'i võimalused"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
@@ -16001,7 +16006,7 @@ msgstr "Ligipääsuõigused"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
 msgid "Add/Edit"
-msgstr "Lisa/Redigeermi"
+msgstr "Lisa/Redigeeri"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
 msgid "Con_tacts"
@@ -16009,11 +16014,11 @@ msgstr "Kon_taktid"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
-msgstr "Redigeeri _kaustu/valikuid/reegleid"
+msgstr "Luba muuta _kaustu/valikuid/reegleid"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr ""
+msgstr "Loetud kirjed märgitakse _privaatseks"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
@@ -16021,11 +16026,11 @@ msgstr "Meeldetuletaja märkmed"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
-msgstr ""
+msgstr "Minu _häirete saamine"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 msgid "Subscribe to my _notifications"
-msgstr ""
+msgstr "Minu _märguannete saamine"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
@@ -16038,15 +16043,16 @@ msgstr "_Kirjuta"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
-msgstr "Proksi"
+msgstr "Volinik"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
 msgstr "<b>Konto nimi</b>"
 
+# Proxy tähendab siin kedagi, kes on volitatud
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr "Proksi sisselogimine"
+msgstr "Volitatatu kasutajanimi"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:263
@@ -16056,20 +16062,23 @@ msgstr "Proksi sisselogimine"
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sPalun sisesta %s parool (kasutaja %s)"
 
+# Proxy tähendab siin kedagi, kes on volitatud
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
 #. * feature by which one person can send/read mails/appointments using another person's identity
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:517
 msgid "_Proxy Login..."
-msgstr "_Proksi sisselogimine..."
+msgstr "_Volitatu kasutajanimi..."
 
+# Proxy tähendab siin kedagi, kes on volitatud
 #: ../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
-msgstr "Proksi sakk on saadaval ainult juhul, kui konto on võrku ühendatud."
+msgstr "Voliniku sakk on saadaval ainult juhul, kui konto on võrku ühendatud."
 
+# Proxy tähendab siin kedagi, kes on volitatud
 #: ../plugins/groupwise-features/proxy.c:702
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "Proksi sakk on saadaval ainult juhul, kui konto on lubatud."
+msgstr "Voliniku sakk on saadaval ainult juhul, kui konto on lubatud."
 
 #: ../plugins/groupwise-features/share-folder-common.c:322
 msgid "Users"
@@ -16093,7 +16102,7 @@ msgstr "Jälgi sõnumi olekut..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr "Plugin hula kalendriallikate seadistamiseks."
+msgstr "Plugin Hula kalendriallikate seadistamiseks."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -16109,7 +16118,7 @@ msgstr "_Impordi ülesannetesse"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:198
 msgid "Import ICS"
-msgstr "Impordi ICS"
+msgstr "Impordi ICS-i"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:226
 msgid "Select Task List"
@@ -16144,7 +16153,7 @@ msgstr "iPod'iga sünkroniseerimine"
 
 #: ../plugins/ipod-sync/sync.c:158
 msgid "No output directory!"
-msgstr "Väljundkataloog puudub"
+msgstr "Väljundkataloog puudub!"
 
 #: ../plugins/ipod-sync/sync.c:159
 msgid ""
@@ -16156,15 +16165,15 @@ msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
-msgstr "Andmeid pole võimalik eksportida"
+msgstr "Andmeid pole võimalik eksportida!"
 
 #: ../plugins/ipod-sync/sync.c:203
 msgid "Exporting data failed."
-msgstr "Tõrge andmete eksportimisel"
+msgstr "Tõrge andmete eksportimisel."
 
 #: ../plugins/ipod-sync/sync.c:231
 msgid "Could not open addressbook!"
-msgstr "Aadressiraamatut pole võimalik avada"
+msgstr "Aadressiraamatut pole võimalik avada!"
 
 #: ../plugins/ipod-sync/sync.c:232
 msgid "Could not open the Evolution addressbook to export data."
@@ -16210,7 +16219,7 @@ msgstr "Ülesannete loendist pole võimalik ühtegi ülesannet leida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:532
 msgid "Unable to find this journal entry in any journal"
-msgstr ""
+msgstr "Seda sissekannet pole võimaliku ühestki päevikust leida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:605
 msgid "Searching for an existing version of this appointment"
@@ -16478,7 +16487,7 @@ msgstr "<b>%s</b> avaldas %s kaudu teabe järgneva koosoleku kohta:"
 #: ../plugins/itip-formatter/itip-view.c:350
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> avaldas järgneva koosoleku andmed:"
+msgstr "<b>%s</b> avaldas järgneva koosoleku teabe:"
 
 #: ../plugins/itip-formatter/itip-view.c:355
 #, c-format
@@ -16510,8 +16519,7 @@ msgstr "<b>%s</b> soovib lisada olemasolevale koosolekule:"
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr ""
-"<b>%s</b> soovib saada värskeimat infot ülesande kohta järgneva koosoleku "
-"kohta:"
+"<b>%s</b> soovib saada värskeimat teavet järgneva koosoleku kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:374
 #, c-format
@@ -19140,7 +19148,7 @@ msgstr "Eemaldab lõplikult kõikidest kaustadest kõik kustutatud sõnumid"
 
 #: ../ui/evolution-mail-global.xml.h:12
 msgid "Search F_olders"
-msgstr "Kaustade _otsimine"
+msgstr "_Otsingukaustad"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Show Message _Preview"
@@ -19371,19 +19379,19 @@ msgstr "Loo _reegel"
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
-msgstr "Otsikausta loomine nende adressaatide jaoks"
+msgstr "Otsingukausta loomine nende adressaatide jaoks"
 
 #: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for this mailing list"
-msgstr "Otsikausta loomine selle postiloendi jaoks"
+msgstr "Otsingukausta loomine selle postiloendi jaoks"
 
 #: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this sender"
-msgstr "Otsikausta loomine selle saatja jaoks"
+msgstr "Otsingukausta loomine selle saatja jaoks"
 
 #: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a Search Folder for this subject"
-msgstr "Otsikausta loomine selle teema jaoks"
+msgstr "Otsingukausta loomine selle teema jaoks"
 
 #: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
@@ -19613,19 +19621,19 @@ msgstr "Sõnumi salvestamine tekstifaili"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
-msgstr "Otsikaust posti_loendi järgi..."
+msgstr "Otsingukaust posti_loendi järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Recipients..."
-msgstr "Otsikaust adressaatide järgi..."
+msgstr "Otsingukaust adressaatide järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from S_ubject..."
-msgstr "Otsikaust _teema järgi..."
+msgstr "Otsingukaust _teema järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from Sen_der..."
-msgstr "Otsikaust _saatja järgi..."
+msgstr "Otsingukaust _saatja järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
