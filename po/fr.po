@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.6.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-30 18:38+0200\n"
-"PO-Revision-Date: 2006-08-30 18:38+0200\n"
+"POT-Creation-Date: 2006-10-22 18:59+0200\n"
+"PO-Revision-Date: 2006-10-22 18:59+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -2915,7 +2915,7 @@ msgstr "Source"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:486
+#: ../calendar/gui/e-meeting-list-view.c:487
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -3149,7 +3149,7 @@ msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:497
+#: ../calendar/gui/e-meeting-list-view.c:498
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -6335,14 +6335,14 @@ msgstr "Membre"
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:509
+#: ../calendar/gui/e-meeting-list-view.c:510
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:520
+#: ../calendar/gui/e-meeting-list-view.c:521
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -7862,7 +7862,7 @@ msgid "Delegated"
 msgstr "Délégué"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:470
+#: ../calendar/gui/e-meeting-list-view.c:471
 msgid "Attendee                          "
 msgstr "Participant                          "
 
@@ -15928,7 +15928,7 @@ msgstr "S'abonner à mes _notifications"
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
-msgstr "_Lire"
+msgstr "_Lu"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
