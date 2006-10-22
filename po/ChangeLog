@@ -4,7 +4,7 @@
 
 2006-10-22  Christophe Merlet  <redfox@redfoxcenter.org>
 
-	* fr.po: Updated French translation.
+	* fr.po: Updated French translation and closed #339097.
 
 2006-10-21  Clytie Siddall <clytie@riverland.net.au>
 
@@ -13,7 +13,7 @@
 2006-10-20  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
-	
+
 2006-10-20  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* es.po: Updated Spanish translation.

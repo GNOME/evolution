@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.8.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-22 11:14+0200\n"
+"POT-Creation-Date: 2006-10-22 18:47+0200\n"
 "PO-Revision-Date: 2006-10-22 11:11+0200\n"
 "Last-Translator: Cyprien Le Pannérer <cyprien@placenet.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -6727,7 +6727,7 @@ msgstr "Ajouter une exception"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2198
 msgid "Could not get a selection to modify."
-msgstr "Impossible d'obtenir une sélection à modifier"
+msgstr "Impossible d'obtenir une sélection à modifier."
 
 # idem add exception
 #: ../calendar/gui/dialogs/recurrence-page.c:2204
@@ -16359,7 +16359,7 @@ msgstr "S'abonner à mes _notifications"
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
-msgstr "_Lire"
+msgstr "_Lu"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
