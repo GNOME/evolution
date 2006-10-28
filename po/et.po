@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-18 15:06+0200\n"
-"PO-Revision-Date: 2006-10-21 23:25+0300\n"
+"PO-Revision-Date: 2006-10-28 00:42+0300\n"
 "Last-Translator: Priit Laes <amd@store20.com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -323,7 +323,7 @@ msgstr "Kalender: vahemikus %s kuni %s"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
-msgstr "evolution'i kalendrikirje"
+msgstr "evolutioni kalendrikirje"
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
@@ -5351,7 +5351,7 @@ msgstr "Viga kalendri avamisel"
 
 #: ../calendar/gui/comp-editor-factory.c:421
 msgid "Method not supported when opening the calendar"
-msgstr ""
+msgstr "Kalendri avamisel pole see meetod toetatud"
 
 #: ../calendar/gui/comp-editor-factory.c:427
 msgid "Permission denied to open the calendar"
@@ -10461,6 +10461,8 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
+" Mõned manused pole alla laaditud. Sõnumi saatmine tähendab, et sõnum "
+"saadetakse välja ilma nende manusteta "
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -10479,7 +10481,7 @@ msgstr "Sa pead sõnumile valima teised sätted, põhjus: &quot;{0}&quot;."
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
 #: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
-msgstr "Kuna &quot;{1}&quot;."
+msgstr "Põhjus: &quot;{1}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:6
 msgid ""
@@ -10504,7 +10506,7 @@ msgstr "Signatuurifaili &quot;{0}&quot; pole võimalik lugeda."
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid "Could not retrieve messages to attach from {0}."
-msgstr ""
+msgstr "Manustamiseks pole võimalik {0} allikast sõnumeid alla laadida."
 
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file &quot;{0}&quot;."
@@ -10536,7 +10538,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "Fail `{0}' ei ole tavafail ja seda pole võimalik sõnumis saata."
+msgstr "Fail `{0}' ei ole tavaline fail ja seda pole võimalik sõnumiga saata."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid ""
@@ -12968,7 +12970,7 @@ msgid ""
 msgstr ""
 "Mõned sinu Netscape e-posti filtrid kasutavad\n"
 "\"Eira lõime\" või \"Jälgi lõime\" funktsionaalsust,\n"
-"mis pole paraku Evolutioni poolt toetatud. Need\n"
+"mis paraku pole Evolutioni poolt toetatud. Need\n"
 "filtrid visatakse minema."
 
 #: ../mail/importers/netscape-importer.c:704
@@ -14234,11 +14236,11 @@ msgstr "Oled sa kindel, et soovid seda sõnumit saata ilma pealkirjata?"
 
 #: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
-msgstr "Kuna &quot;{0}&quot;."
+msgstr "Põhjus: &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
-msgstr "Kuna &quot;{2}&quot;."
+msgstr "Põhjus: &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:20
 msgid "Blank Signature"
@@ -18018,7 +18020,7 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
-"Sinu süsteemi seadistused ei vasta Sinu Evolution'i seadistustele.\n"
+"Sinu süsteemi seadistused ei vasta sinu Evolutioni seadistustele.\n"
 "\n"
 "Üksikasjade jaoks klõpsa nupule \"Abi\"."
 
@@ -18030,7 +18032,7 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"Sinu süsteemi seadistused ei vasta Sinu Evolution'i seadistustele.\n"
+"Sinu süsteemi seadistused ei vasta sinu Evolutioni seadistustele.\n"
 "\n"
 "{0}\n"
 "\n"
@@ -19949,27 +19951,27 @@ msgstr "Allkirjastab sõnumi sinu S/MIME allkirjasertifikaadi abil"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Pimekoopia välja näitamise sisse- või väljalülitamine"
+msgstr "Pimekoopia välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the CC field is displayed"
-msgstr "Koopiavälja näitamise sisse- või väljalülitamine"
+msgstr "Koopiavälja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the From chooser is displayed"
-msgstr ""
+msgstr "Saatja valija kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the Post-To field is displayed"
-msgstr ""
+msgstr "Postita-kuhu välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Kellele-vastata välja näitamise sisse- või väljalülitamine"
+msgstr "Kellele-vastata välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the To field is displayed"
-msgstr ""
+msgstr "Saaja välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:42
 msgid "_Bcc Field"
@@ -20772,6 +20774,8 @@ msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"Määramise korral tähendab tekstis olev alakriips, et sellest järgnevale "
+"märgile vastav klahv on menemooniline kiirendusklahv"
 
 #: ../widgets/misc/e-expander.c:207
 msgid "Space to put between the label and the child"
