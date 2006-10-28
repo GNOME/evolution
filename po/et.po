@@ -1,4 +1,4 @@
-# Evolution'i eesti keele tõlge.
+# Evolutioni eesti keele tõlge.
 # Estonian translation of Evolution.
 #
 # Copyright (C) 2001-2006 Free Software Foundation, Inc.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-24 10:39+0300\n"
+"PO-Revision-Date: 2006-10-28 00:42+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -323,7 +323,7 @@ msgstr "Kalender: vahemikus %s kuni %s"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
-msgstr "evolution'i kalendrikirje"
+msgstr "evolutioni kalendrikirje"
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
@@ -12970,7 +12970,7 @@ msgid ""
 msgstr ""
 "Mõned sinu Netscape e-posti filtrid kasutavad\n"
 "\"Eira lõime\" või \"Jälgi lõime\" funktsionaalsust,\n"
-"mis pole paraku Evolutioni poolt toetatud. Need\n"
+"mis paraku pole Evolutioni poolt toetatud. Need\n"
 "filtrid visatakse minema."
 
 #: ../mail/importers/netscape-importer.c:704
@@ -18008,7 +18008,7 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
-"Sinu süsteemi seadistused ei vasta Sinu Evolution'i seadistustele.\n"
+"Sinu süsteemi seadistused ei vasta sinu Evolutioni seadistustele.\n"
 "\n"
 "Üksikasjade jaoks klõpsa nupule \"Abi\"."
 
@@ -18020,7 +18020,7 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"Sinu süsteemi seadistused ei vasta Sinu Evolution'i seadistustele.\n"
+"Sinu süsteemi seadistused ei vasta sinu Evolutioni seadistustele.\n"
 "\n"
 "{0}\n"
 "\n"
@@ -19939,27 +19939,27 @@ msgstr "Allkirjastab sõnumi sinu S/MIME allkirjasertifikaadi abil"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Pimekoopia välja näitamise sisse- või väljalülitamine"
+msgstr "Pimekoopia välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the CC field is displayed"
-msgstr "Koopiavälja näitamise sisse- või väljalülitamine"
+msgstr "Koopiavälja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the From chooser is displayed"
-msgstr ""
+msgstr "Saatja valija kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the Post-To field is displayed"
-msgstr ""
+msgstr "Postita-kuhu välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Kellele-vastata välja näitamise sisse- või väljalülitamine"
+msgstr "Kellele-vastata välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the To field is displayed"
-msgstr ""
+msgstr "Saaja välja kuvamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:42
 msgid "_Bcc Field"
@@ -20762,6 +20762,8 @@ msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"Määramise korral tähendab tekstis olev alakriips, et sellest järgnevale "
+"märgile vastav klahv on menemooniline kiirendusklahv"
 
 #: ../widgets/misc/e-expander.c:207
 msgid "Space to put between the label and the child"
