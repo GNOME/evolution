@@ -1,3 +1,10 @@
+2006-11-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Committing for Ben Gamari <bgamari@gmail.com>
+
+	* recurrence-page.c: Correct recurrence editor default behavior.
+	Fixes #354875
+
 2006-10-16  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/cal-search-bar.c: (notify_e_cal_view_contains),
