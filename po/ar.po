@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-30 00:52+0000\n"
+"POT-Creation-Date: 2006-11-06 12:37+0000\n"
 "PO-Revision-Date: 2006-10-05 21:07-0000\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
@@ -6947,31 +6947,31 @@ msgstr "اليوم"
 msgid "on the"
 msgstr "عند"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1415
+#: ../calendar/gui/dialogs/recurrence-page.c:1419
 msgid "occurrences"
 msgstr "حادثات"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2155
+#: ../calendar/gui/dialogs/recurrence-page.c:2159
 #, fuzzy
 msgid "Add exception"
 msgstr "إرجاع إستثناء: %s"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2198
+#: ../calendar/gui/dialogs/recurrence-page.c:2202
 #, fuzzy
 msgid "Could not get a selection to modify."
 msgstr "قص النّص المنتقى للحافظة الوسيطة"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2204
+#: ../calendar/gui/dialogs/recurrence-page.c:2208
 #, fuzzy
 msgid "Modify exception"
 msgstr "إرجاع إستثناء: %s"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2250
+#: ../calendar/gui/dialogs/recurrence-page.c:2254
 #, fuzzy
 msgid "Could not get a selection to delete."
 msgstr "لم يمكن تحديث الجسم"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2381
+#: ../calendar/gui/dialogs/recurrence-page.c:2385
 msgid "Date/Time"
 msgstr "التّاريخ/الوقت"
 
