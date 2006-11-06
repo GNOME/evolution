@@ -1,3 +1,8 @@
+2006-11-06  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Move prefer-plain plugin to the 'standard'
+	list from 'experimental'.
+
 2006-11-02  Jules Colding  <colding@omesc.com>
 
 	* evolution-shell.pc.in (execversion): Added variable so that 
