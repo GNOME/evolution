@@ -1359,12 +1359,16 @@ make_ending_until_special (RecurrencePage *rpage)
 	gtk_widget_show_all (GTK_WIDGET (de));
 
 	/* Set the value */
-
-	e_cal_component_get_dtstart (priv->comp, &dt_start);
-	/* Setting the default until time to 2 weeks */
-	icaltime_adjust (dt_start.value, 14, 0, 0, 0); 
-	e_date_edit_set_date (de, dt_start.value->year, dt_start.value->month, dt_start.value->day);
-	e_cal_component_free_datetime (&dt_start);
+	
+  if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) {
+		e_cal_component_get_dtstart (priv->comp, &dt_start);
+		/* Setting the default until time to 2 weeks */
+		icaltime_adjust (dt_start.value, 14, 0, 0, 0); 
+		e_date_edit_set_date (de, dt_start.value->year, dt_start.value->month, dt_start.value->day);
+		e_cal_component_free_datetime (&dt_start);
+	} else {
+		e_date_edit_set_date (de, priv->ending_date_tt.year, priv->ending_date_tt.month, priv->ending_date_tt.day);
+	}
 
 	g_signal_connect((de), "changed",
 			    G_CALLBACK (ending_until_changed_cb), rpage);
