@@ -1,3 +1,11 @@
+2006-11-07  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/alarm-notify/alarm-notify.c: (list_changed_cb),
+	(load_calendars), (cal_opened_cb), (alarm_notify_add_calendar):
+	* gui/dialogs/cal-prefs-dialog.c: (alarms_selection_changed):
+	Disable alarms for subscribed exchange calendars.
+	Fixes #208318 (bugzilla.novell.com)
+
 2006-11-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Committing for Ben Gamari <bgamari@gmail.com>
