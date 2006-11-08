@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-10-31 13:03+0200\n"
+"PO-Revision-Date: 2006-11-08 20:14+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -18787,7 +18787,7 @@ msgstr "Kõikide korduste kustutamine"
 
 #: ../ui/evolution-calendar.xml.h:8
 msgid "Delete the appointment"
-msgstr "Kustuta sündmus"
+msgstr "Sündmuse kustutamine"
 
 #: ../ui/evolution-calendar.xml.h:10
 msgid "Delete this occurrence"
