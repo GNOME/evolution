@@ -1,6 +1,11 @@
 2006-11-09  Francisco Javier F. Serrador  <serrador@openshine.com>
 
-	* default/es/Inbox: Added Spanish presentation mail.
+	* default/Makefile.am: Added "es" to SUBDIRS
+	
+2006-11-09  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* default/es/Inbox: Added Spanish welcome mail.
+	* default/es/Makefile.am: Added Makefile
 
 2006-11-09  Sankar P  <psankar@novell.com>
 
