@@ -1,3 +1,10 @@
+2006-11-09  Sankar P  <psankar@novell.com>
+
+	* em-folder-browser.c: (emfb_view_hide_selected):
+	* em-folder-view.c: (emfv_popup_delete):
+	* mail.error.xml:
+	Disable mail delete for proxy when there are not enough rights
+
 2006-10-16  Tor Lillqvist  <tml@novell.com>
 
 	Fix for #348212:

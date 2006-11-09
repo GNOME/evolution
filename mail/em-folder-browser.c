@@ -1439,6 +1439,11 @@ emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
 
 	/* TODO: perhaps this should sit directly on message_list? */
 	/* is it worth it, it's so trivial */
+
+	/* A new flag CAMEL_MESSAGE_HIDDEN is added by Sankar
+	while extending the CAMEL_MESSAGE_FLAGS for proxy permissions.
+	This can be used to hide messages.  */
+
 	uids = message_list_get_selected(emfv->list);
 	message_list_hide_uids(emfv->list, uids);
 	message_list_free_uids(emfv->list, uids);

@@ -953,9 +953,32 @@ emfv_popup_delete(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
 	int count;
-	
-	count = em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
-	
+	GPtrArray *uids;
+
+	uids = message_list_get_selected(emfv->list);
+	camel_folder_freeze(emfv->folder);
+
+	for (count=0; count < uids->len; count++) {
+		if (camel_folder_get_message_flags (emfv->folder, uids->pdata[count]) & CAMEL_MESSAGE_USER_NOT_DELETABLE) {
+			if ((EMFormatHTML *)emfv->preview_active) {
+				GtkHTMLStream *hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
+
+				gtk_html_stream_printf(hstream, "<h2>%s</h2><p>%s</p>",
+						_("Mail Deletion Failed"),
+						_("You do not have sufficient permissions to delete this mail."));
+				gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
+			} else 
+				e_error_run (NULL, "mail:no-delete-permission", "", "");
+
+			count = -1;
+			break;
+		} else 
+			camel_folder_set_message_flags(emfv->folder, uids->pdata[count], CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED );
+	}
+
+	message_list_free_uids(emfv->list, uids);
+	camel_folder_thaw(emfv->folder);
+
 	if (count == 1) {
 		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
 			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);

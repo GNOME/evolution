@@ -391,5 +391,11 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
     <_secondary xml:space="preserve">Please enable the account or send using another account.</_secondary>
   </error>
 
+  <error id="no-delete-permission" type="warning">
+    <_primary>Mail Deletion Failed</_primary>
+    <_secondary xml:space="preserve">You do not have sufficient permissions to delete this mail.</_secondary>
+  </error>
+
+
 </error-list>
 
