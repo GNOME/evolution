@@ -1,3 +1,3 @@
-SUBDIRS = C de
+SUBDIRS = C de es
 
 EXTRA_DIST = evolution-logo.eps

@@ -1,3 +1,16 @@
+2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* quickref/es/Makefile.am:
+	* quickref/es/quickref.tex:
+	* quickref/es/quickref.pdf:
+	* quickref/Makefile.am:
+
+	Added localized (spanish) quick reference card. 
+	
+2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* es/es.po: Added initial revision for gnome-doc-tools.
+
 2006-10-14  Harish Krishnaswamy  <kharish@novell.com>
 
 	* C/evolution.xml: Documentation updates.
