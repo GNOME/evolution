@@ -1,3 +1,8 @@
+2006-11-11  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* gui/widgets/eab-contact-display.c: Fixed #358249
+	* gui/widgets/e-minicard.c: Fixed #358249
+
 2006-10-01  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/component/addressbook-component.c: Remove duplicate include.
