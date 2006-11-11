@@ -1,3 +1,8 @@
+2006-11-11  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* gui/widgets/e-minicard.c: Fixed #358249
+	* gui/widgets/eab-contact-display.c: Fixed #358249
+
 2005-10-16  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/widgets/e-addressbook-view.c (display_view): Changed the

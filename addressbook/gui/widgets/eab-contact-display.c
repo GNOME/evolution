@@ -489,7 +489,7 @@ get_email_location (EVCardAttribute *attr)
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
 		if (e_vcard_attribute_has_type (attr, common_location [i].name))
-			return common_location [i].pretty_name;
+			return _(common_location [i].pretty_name);
 	}
 
 	return NULL;
