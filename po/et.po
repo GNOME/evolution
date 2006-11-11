@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-11-08 20:14+0200\n"
+"PO-Revision-Date: 2006-11-11 10:00+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -12372,13 +12372,15 @@ msgstr "Redaktoriakna vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr ""
+msgstr "Saaja/Koopia/Pimekoopia väljadel olevate aadresside kokkusurumine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:9
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
+"Saaja/Koopia/Pimekoopia väljadel olevate aadresside kokkusurumine "
+"address_count võtmes määratud arvuni."
 
 #: ../mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to compose messages"
@@ -17970,6 +17972,14 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"Kogu &quot;evolution&quot; kataloogi sisu eemaldatakse jäädavalt.\n"
+"\n"
+"Sul on soovitatav kõik oma e-posti, kontaktide ja kalendrite andmed üle "
+"vaadata ning enne vanade andmete kustutamist veenduda, et see Evolutioni "
+"versioon käitub korrektselt.\n"
+"\n"
+"Pärast kustutamist pole sul võimalik ilma käsitsi sekkumiseta enam "
+"Evolutioni vanemat versiooni kasutada.\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
