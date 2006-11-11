@@ -5228,7 +5228,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-commands.c:354
 msgid "Purge events older than"
-msgstr "Puhastada sündmused, mis on vanemad kui"
+msgstr "Puhastada sündmustest, mis on vanemad kui"
 
 #: ../calendar/gui/calendar-commands.c:359
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
@@ -12372,13 +12372,15 @@ msgstr "Redaktoriakna vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr ""
+msgstr "Saaja/Koopia/Pimekoopia väljadel olevate aadresside kokkusurumine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:9
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
+"Saaja/Koopia/Pimekoopia väljadel olevate aadresside kokkusurumine "
+"address_count võtmes määratud arvuni."
 
 #: ../mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to compose messages"
@@ -12444,7 +12446,7 @@ msgstr "Evolutionist väljumisel kõigi prügikaustade tühjendamine."
 #: ../mail/evolution-mail.schemas.in.in.h:25
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
-"Kursorirežiimi lubamine - siis on kirja lugemisel kursori asukoht näha."
+"Kursorirežiimi lubamine - siis on sõnumi lugemisel kursori asukoht näha."
 
 #: ../mail/evolution-mail.schemas.in.in.h:26
 msgid "Enable or disable type ahead search feature"
@@ -12774,6 +12776,8 @@ msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
 msgstr ""
+"Selle võtmega määratakse sõnumite nimekirja vaikimisi vaates näidatavate "
+"aadresside arv enne '...' näitamist."
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Thread the message list."
@@ -13727,7 +13731,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Ilma _teemata sõnumi saatmisel küsitakse kinnitust"
+msgstr "Tühja _teemareaga sõnumi saatmisel küsitakse kinnitust"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Reply style:"
@@ -17980,6 +17984,14 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"Kogu &quot;evolution&quot; kataloogi sisu eemaldatakse jäädavalt.\n"
+"\n"
+"Sul on soovitatav kõik oma e-posti, kontaktide ja kalendrite andmed üle "
+"vaadata ning enne vanade andmete kustutamist veenduda, et see Evolutioni "
+"versioon käitub korrektselt.\n"
+"\n"
+"Pärast kustutamist pole sul võimalik ilma käsitsi sekkumiseta enam "
+"Evolutioni vanemat versiooni kasutada.\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
@@ -18797,7 +18809,7 @@ msgstr "Kõikide korduste kustutamine"
 
 #: ../ui/evolution-calendar.xml.h:8
 msgid "Delete the appointment"
-msgstr "Kustuta sündmus"
+msgstr "Sündmuse kustutamine"
 
 #: ../ui/evolution-calendar.xml.h:10
 msgid "Delete this occurrence"
@@ -18843,7 +18855,7 @@ msgstr "Kalendri printimine"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
-msgstr "_Puhasta"
+msgstr "Pu_hasta"
 
 #: ../ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
@@ -19144,7 +19156,7 @@ msgstr "Uute sõnumite filtreerimisreeglite loomine või muutmine"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
-msgstr "Puhasta _prügist"
+msgstr "Tühjenda _prügist"
 
 #: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:11
 #: ../ui/evolution-subscribe.xml.h:2
