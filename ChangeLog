@@ -3,8 +3,7 @@
 	* configure.in: Reverting the previous patch as it breaks
 	the HEAD build. Target Help/C/Makefile was removed from 
 	configure.in while Help/Makefile.am still refers to subdirectory
-	C. The port to gnome-doc-utils also needs to submitted for
-	review.
+	C. 
 
 2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
 
