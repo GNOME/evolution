@@ -466,7 +466,8 @@ e_attachment_bar_remove_selected (EAttachmentBar *bar)
 	EAttachment *attachment;
 	int id, left, nrem = 0;
 	GList *items;
-	
+	GPtrArray *temp_arr;
+
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
 	priv = bar->priv;
@@ -474,16 +475,20 @@ e_attachment_bar_remove_selected (EAttachmentBar *bar)
 	if (!(items = gnome_icon_list_get_selection ((GnomeIconList *) bar)))
 		return;
 	
+	temp_arr = g_ptr_array_new ();
 	while (items != NULL) {
 		if ((id = GPOINTER_TO_INT (items->data) - nrem) < priv->attachments->len) {
-			/* Note: this removes the item from the array due to the weak_ref callback */
-			attachment = priv->attachments->pdata[id];
-			g_object_unref (attachment);
+			attachment = E_ATTACHMENT(g_ptr_array_index (priv->attachments, id));
+			g_ptr_array_add (temp_arr, (gpointer)attachment);
+			g_ptr_array_remove_index (priv->attachments, id);
 			nrem++;
 		}
 		
 		items = items->next;
 	}
+
+	g_ptr_array_foreach (temp_arr, (GFunc)g_object_unref, NULL);
+	g_ptr_array_free (temp_arr, TRUE);
 	
 	update (bar);
 	
