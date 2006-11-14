@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: pan2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-14 20:04+0100\n"
-"PO-Revision-Date: 2006-11-14 20:11+0100\n"
+"PO-Revision-Date: 2006-11-14 20:36+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4159,8 +4159,7 @@ msgstr "Toda la información en este diario se borrará y no se podrá recuperar
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
-"Toda la información de estas citas se borrará y no puede se podrá recuperar."
+msgstr "Toda la información de estas citas se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:6
 msgid "All information on these tasks will be deleted and can not be restored."
@@ -4176,9 +4175,7 @@ msgstr "Toda la información de esta cita se borrará y no se podrá recuperar."
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
-"Toda la información en esta entrada del diario se borrará y no se podrá "
-"recuperar."
+msgstr "Toda la información en esta entrada del diario se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid ""
@@ -4189,9 +4186,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
-"Toda la información acerca de esta tarea será borrada y no puede ser "
-"restaurada."
+msgstr "Toda la información acerca de esta tarea se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -4242,7 +4237,7 @@ msgstr "¿Seguro que quiere enviar la cita sin un resumen?"
 
 #: ../calendar/calendar.error.xml.h:22
 msgid "Are you sure you want to send the task without a summary?"
-msgstr "¿Seguro que quiere enviar la tarea mensaje sin un resumen?"
+msgstr "¿Seguro que quiere enviar la tarea sin un resumen?"
 
 #: ../calendar/calendar.error.xml.h:23
 msgid "Cannot create a new event"
@@ -4287,9 +4282,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:32
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
-msgstr ""
-"Se enviarán invitaciones por correo-e a todos los participantes y les "
-"permitirá confirmarlas."
+msgstr "Se enviarán invitaciones por correo-e a todos los participantes y se les permitirá responder."
 
 #: ../calendar/calendar.error.xml.h:33
 msgid "Error loading calendar"
@@ -4339,31 +4332,23 @@ msgstr ""
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
-"Enviando información actualizada se permite que otros participantes "
-"mantengan su lista de tareas al día."
+msgstr "El envío de información actualizada permite que otros participantes mantengan su lista de tareas al día."
 
 #: ../calendar/calendar.error.xml.h:41
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
-msgstr ""
-"Hay algunos adjuntos descargándose. Guardar la cita hará que se guarde sin "
-"esos adjuntos pendientes."
+msgstr "Hay algunos adjuntos descargándose. Guardar la cita podría resultar en la pérdida de esos adjuntos."
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
-msgstr ""
-"Hay algunos adjuntos descargándose. Guardar la tarea hará que se guarde sin "
-"esos adjuntos pendientes."
+msgstr "Hay algunos adjuntos descargándose. Guardar la tarea podría resultar en la pérdida de esos adjuntos."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
-msgstr ""
-"Algunas características quizá no funcionen apropiadamente con su servidor "
-"actual."
+msgstr "Algunas características quizá no funcionen correctamente con su servidor actual."
 
 #: ../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
@@ -4395,23 +4380,23 @@ msgstr "Este calendario se eliminará permanentemente."
 
 #: ../calendar/calendar.error.xml.h:51
 msgid "This memo list will be removed permanently."
-msgstr "Esta lista de notas será eliminada permanentemente."
+msgstr "Esta lista de notas se eliminará permanentemente."
 
 #: ../calendar/calendar.error.xml.h:52
 msgid "This task list will be removed permanently."
-msgstr "Esta lista de tareas será eliminada permanentemente."
+msgstr "Esta lista de tareas se eliminará permanentemente."
 
 #: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to save your changes to this appointment?"
-msgstr "¿Desea guardar los cambios a esta cita?"
+msgstr "¿Desea guardar los cambios de esta cita?"
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this memo?"
-msgstr "¿Desea guardar los cambios a esta nota?"
+msgstr "¿Desea guardar los cambios de esta nota?"
 
 #: ../calendar/calendar.error.xml.h:55
 msgid "Would you like to save your changes to this task?"
-msgstr "¿Desea guardar los cambios a esta tarea?"
+msgstr "¿Desea guardar los cambios de esta tarea?"
 
 #: ../calendar/calendar.error.xml.h:56
 msgid "Would you like to send a cancelation notice for this journal entry?"
@@ -4439,7 +4424,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to send updated task information to participants?"
-msgstr "¿Quiere enviar información de tareas actualizada a los participantes?"
+msgstr "¿Quiere enviar información actualizada de las tareas a los participantes?"
 
 #: ../calendar/calendar.error.xml.h:62
 msgid ""
@@ -4455,9 +4440,7 @@ msgstr ""
 msgid ""
 "You have a read-only calendar source selected. Change to Calendar View and "
 "highlight a calendar that can accept appointments."
-msgstr ""
-"Tiene seleccionado un calendario de sólo lectura. Cambie a la vista de "
-"calendario y resalte un calendario que pueda aceptar citas."
+msgstr "Tiene seleccionado un calendario remoto de sólo lectura. Cambie a la vista de calendario y resalte un calendario que pueda aceptar citas."
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this appointment, but not yet saved it."
@@ -12898,7 +12881,7 @@ msgstr "Agrupar la lista de mensajes."
 
 #: ../mail/evolution-mail.schemas.in.in.h:97
 msgid "Thread the message-list"
-msgstr "Agrupar la lista de mensajes por conversaciones"
+msgstr "Agrupar la lista de mensajes"
 
 #: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "Thread the message-list based on Subject"
@@ -12966,11 +12949,11 @@ msgstr "El elemento del menú «Ver/Cc» está marcado."
 
 #: ../mail/evolution-mail.schemas.in.in.h:114
 msgid "View/From menu item is checked"
-msgstr "El elemento del menú «Ver/Desde» está marcado"
+msgstr "El elemento del menú «Ver/De» está marcado"
 
 #: ../mail/evolution-mail.schemas.in.in.h:115
 msgid "View/From menu item is checked."
-msgstr "El elemento del menú «Ver/Desde» está marcado."
+msgstr "El elemento del menú «Ver/De» está marcado."
 
 #: ../mail/evolution-mail.schemas.in.in.h:116
 msgid "View/PostTo menu item is checked"
@@ -15349,7 +15332,7 @@ msgid ""
 "each person who sends mail to you while you are out of the office."
 msgstr ""
 "El mensaje especificado abajo se enviará automáticamente a cada\n"
-" persona que le envíe correo mientras está fuera de la oficina."
+"persona que le envíe correo mientras está fuera de la oficina."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:276
 #: ../plugins/exchange-operations/exchange-account-setup.c:281
@@ -15364,12 +15347,12 @@ msgstr "Ahora estoy en la oficina"
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:328
 msgid "Change the password for Exchange account"
-msgstr "Cambia la contraseña para la cuenta de Exchange"
+msgstr "Cambie la contraseña para la cuenta de Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:330
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 msgid "Change Password"
-msgstr "Cambia la contraseña"
+msgstr "Cambiar contraseña"
 
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
@@ -15432,15 +15415,11 @@ msgstr ""
 msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
-msgstr ""
-"La contraseña actual no coincide con la contraseña existente para su cuenta. "
-"Por favor introduzca la contraseña correcta"
+msgstr "La contraseña actual no coincide con la contraseña existente para su cuenta. Introduzca la contraseña correcta"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
-msgstr ""
-"Las dos contraseñas no coinciden. Por favor, vuelva a introducir las "
-"contraseñas."
+msgstr "Las dos contraseñas no coinciden. Vuelva a introducir las contraseñas."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Confirm Password:"
@@ -15496,7 +15475,7 @@ msgstr "No es posible acceder al Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:692
 msgid "Could not find self in Active Directory"
-msgstr "No es posible encontrar a sí mismo en el Active Directory"
+msgstr "No es posible encontrarse a sí mismo en el Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:705
 #, c-format
@@ -15659,7 +15638,7 @@ msgstr "Crear subcarpetas"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
 msgid "Delete Any Items"
-msgstr "Delegar cualquier elemento"
+msgstr "Borrar cualquier elemento"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Own Items"
@@ -15679,11 +15658,11 @@ msgstr "Contacto de la carpeta"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 msgid "Folder owner"
-msgstr "Dueño de la carpeta"
+msgstr "Propietario de la carpeta"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 msgid "Folder visible"
-msgstr "Visibilidad de la carpeta"
+msgstr "Carpeta visible"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
 msgid "Read items"
@@ -15732,7 +15711,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
-msgstr "No es posiblen mostrar carpetas."
+msgstr "No es posible mostrar carpetas."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid "Cannot perform the operation."
@@ -15760,7 +15739,7 @@ msgid ""
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
 msgstr ""
-"No es posible configurar la cuenta de Exchange porque \n"
+"No es posible configurar la cuenta de Exchange porque\n"
 "ocurrió un error desconocido. Compruebe el URL,\n"
 "usuario y contraseña e inténtelo otra vez."
 
@@ -15988,8 +15967,7 @@ msgstr "Operación no soportada"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You are nearing your quota available for storing mail on this server."
-msgstr ""
-"Está cerca de su cuota disponible para almacenar correo en este servidor."
+msgstr "Está cerca de su cuota disponible para almacenar correo en este servidor."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "You cannot make yourself your own delegate"
