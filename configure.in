@@ -1704,6 +1704,7 @@ help/C/Makefile
 help/quickref/Makefile
 help/quickref/C/Makefile
 help/quickref/de/Makefile
+help/quickref/es/Makefile
 shell/Makefile
 shell/evolution-nognome
 ui/Makefile
@@ -1735,6 +1736,7 @@ mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
 mail/default/de/Makefile
+mail/default/es/Makefile
 mail/default/fi/Makefile
 mail/default/fr/Makefile
 mail/default/lt/Makefile

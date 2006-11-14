@@ -1,5 +1,10 @@
 2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
 
+	* configure.in: Add targets help/quickref/es/Makefile
+	and mail/default/es/Makefile.
+
+2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
+
 	* configure.in: Reverting the previous patch as it breaks
 	the HEAD build. Target Help/C/Makefile was removed from 
 	configure.in while Help/Makefile.am still refers to subdirectory
