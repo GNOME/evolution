@@ -3,10 +3,6 @@ AC_PREREQ(2.52)
 
 AC_INIT(evolution, 2.9.2, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
-# Port to GNOME Documentation
-#AC_CONFIG_MACRO_DIR([m4])
-GNOME_DOC_INIT
-
 
 # Gross hack to enable 'make dist' on automake 1.9+tar 1.14.
 # The extra brackets are to foil regex-based scans.
@@ -1704,10 +1700,10 @@ data/cde_app_root/dt/appconfig/types/C/Ximian.dt
 e-util/Makefile
 filter/Makefile
 help/Makefile
+help/C/Makefile
 help/quickref/Makefile
 help/quickref/C/Makefile
 help/quickref/de/Makefile
-help/quickref/es/Makefile
 shell/Makefile
 shell/evolution-nognome
 ui/Makefile
@@ -1739,7 +1735,6 @@ mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
 mail/default/de/Makefile
-mail/default/es/Makefile
 mail/default/fi/Makefile
 mail/default/fr/Makefile
 mail/default/lt/Makefile

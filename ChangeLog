@@ -1,10 +1,18 @@
+2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Reverting the previous patch as it breaks
+	the HEAD build. Target Help/C/Makefile was removed from 
+	configure.in while Help/Makefile.am still refers to subdirectory
+	C. The port to gnome-doc-utils also needs to submitted for
+	review.
+
 2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* configure.in: Fixes #76336 and add Spanish quickref.
 
 2006-11-07  Harish Krishnaswamy  <kharish@novell.com>
 
-	* NEWS, configure.in : Evolution 2.9.1 release
+	* NEWS, configure.in : Evolution 2.9.2 release
 	updates.
 
 2006-11-06  Harish Krishnaswamy  <kharish@novell.com>
