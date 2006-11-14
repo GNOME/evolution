@@ -45,11 +45,11 @@ SUBDIRS = cde_app_root
 install-data-local: install-kde-applnk $(desktop_file) $(keys_file) $(mime_file)
 	$(mkinstalldirs) $(DESTDIR)$(desktopdir);							\
 	$(INSTALL_DATA) $(desktop_file)									\
-			$(DESTDIR)$(desktopdir)/$(desktop_file:.desktop=-$(BASE_VERSION).desktop) ;	\
+			$(DESTDIR)$(desktopdir)/$(desktop_file:.desktop ;	\
 	$(mkinstalldirs) $(DESTDIR)$(keysdir);								\
-	$(INSTALL_DATA) $(keys_file) $(DESTDIR)$(keysdir)/$(keys_file:.keys=-$(BASE_VERSION).keys) ;	\
+	$(INSTALL_DATA) $(keys_file) $(DESTDIR)$(keysdir)/$(keys_file:.keys ;	\
 	$(mkinstalldirs) $(DESTDIR)$(mimedir);								\
-	$(INSTALL_DATA) $(srcdir)/$(mime_file) $(DESTDIR)$(mimedir)/$(mime_file:.mime=-$(BASE_VERSION).mime) ;
+	$(INSTALL_DATA) $(srcdir)/$(mime_file) $(DESTDIR)$(mimedir)/$(mime_file:.mime ;
 
 uninstall-local: uninstall-kde-applnk
 	rm -rf $(DESTDIR)$(desktopdir)/$(desktop_file:.desktop=-$(BASE_VERSION).desktop) ; 	\
