@@ -152,7 +152,8 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 			char *uri;
 			const char *completion = e_source_get_property (source, "alarm");
 			
-			if (completion  && !g_ascii_strcasecmp (completion, "false")) 
+			if (completion  && (!g_ascii_strcasecmp (completion, "false") || 
+						!g_ascii_strcasecmp (completion, "never")))
 				continue;
 			
 			uri = e_source_get_uri (source);
@@ -211,7 +212,8 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 			char *uri;
 			const char *completion = e_source_get_property (source, "alarm");
 			
-			if (completion  && !g_ascii_strcasecmp (completion, "false")) 
+			if (completion  && (!g_ascii_strcasecmp (completion, "false") ||
+						!g_ascii_strcasecmp (completion, "never"))) 
 				continue;
 			
 			uri = e_source_get_uri (source);
@@ -388,7 +390,7 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 
 	priv = an->priv;
 	
-	d (printf("%s:%d (cal_opened_cb) - Calendar Status %d\n", __FILE__, __LINE__, status==E_CALENDAR_STATUS_OK));
+	d (printf("%s:%d (cal_opened_cb) %s - Calendar Status %d\n", __FILE__, __LINE__, e_cal_get_uri (client), status));
 	
 	if (status == E_CALENDAR_STATUS_OK)
 		alarm_queue_add_client (client);
@@ -451,7 +453,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	client = auth_new_cal_from_source (source, source_type);
 
 	if (client) {
-		d (printf("%s:%d (alarm_notify_add_calendar) - Calendar Open Async... %p\n", __FILE__, __LINE__, client));	
+		d (printf("%s:%d (alarm_notify_add_calendar) %s - Calendar Open Async... %p\n", __FILE__, __LINE__, str_uri, client));	
 		g_hash_table_insert (priv->uri_client_hash[source_type], g_strdup (str_uri), client);
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
 		e_cal_open_async (client, FALSE);
