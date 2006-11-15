@@ -2587,6 +2587,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		g_object_unref (source);
 
+		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
+
 		return;
 	}
 
@@ -2688,6 +2690,8 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		g_object_unref (source);
+
+		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
 
 		return;
 	}

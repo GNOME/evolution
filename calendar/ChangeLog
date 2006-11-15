@@ -1,3 +1,9 @@
+2006-11-15  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/gnome-cal.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb): Diplay a warning
+	if calendar fails to open.
+
 2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/gnome-cal.c: (gnome_calendar_destroy):
