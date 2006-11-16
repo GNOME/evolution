@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-11-14 23:06+0200\n"
+"PO-Revision-Date: 2006-11-16 20:15+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -12972,7 +12972,7 @@ msgstr ""
 "\n"
 "Osalise lahendusena on loodud filtrite komplekt\n"
 "\"Tähtsusefilter\", mida saab kasutada Netscape\n"
-"prioriteetide teisensamiseks Evolutioni punktideks.\n"
+"prioriteetide teisendamiseks Evolutioni punktideks.\n"
 "Evolutioni punktisummad ja seonduvad filtrid kasutavad\n"
 "prioriteetide asemel punktisummasid. Kontrolli\n"
 "imporditud filtreid ja veendu, et kõik töötaks\n"
@@ -17063,7 +17063,7 @@ msgstr "_Märgi kalender kasutamiseks autonoomses režiimis"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
-msgstr ""
+msgstr "Plugin, mille abil teostatakse mono pluginaid."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Mono Loader"
@@ -17268,15 +17268,15 @@ msgstr ""
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:102
 msgid "Spamassassin (built-in)"
-msgstr "Spamassassin (sisseehitatud)"
+msgstr "SpamAssassin (sisseehitatud)"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
 msgstr ""
-"Rämpsposti filtreerimine Spamassassin'i abil. See plugin vajab töötamiseks "
-"Spamassassin'i."
+"Rämpsposti filtreerimine SpamAssassin'i abil. See plugin vajab töötamiseks "
+"SpamAssassin'i."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "Spamassassin junk plugin"
@@ -17301,7 +17301,7 @@ msgstr "Kõikide manuste salvestamine"
 
 #: ../plugins/save-attachments/save-attachments.c:340
 msgid "Select save base name"
-msgstr ""
+msgstr "Salvestamise alusnime valimine"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 msgid "MIME Type"
@@ -17374,7 +17374,7 @@ msgstr "Laiendatud valikus CSV vormingule"
 
 #: ../plugins/save-calendar/csv-format.c:559
 msgid "Prepend a header"
-msgstr ""
+msgstr "Päise lisamine"
 
 #: ../plugins/save-calendar/csv-format.c:568
 msgid "Value delimiter:"
@@ -17639,6 +17639,7 @@ msgstr "Millal tööriistariba peaks nähtav olema."
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
+"Kas Evolutioni arendusversioonis tuleb hoiatusdialoogist üle hüpata või mitte."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Whether the window buttons should be visible."
@@ -17917,7 +17918,7 @@ msgstr ""
 "\n"
 "See Evolutioni versioon ei ole veel valmis. Valmimisele ollakse,\n"
 "küll üpris lähedal, kuid mõnede võimaluste arendamine pole veel\n"
-"lõpetatud või ei tööta need võimalused veel korralikult.\n"
+"lõpetatud ja seetõttu ei tööta need võimalused veel korralikult.\n"
 "\n"
 "Kui sa soovid kasutada Evolutioni stabiilset versiooni, siis\n"
 "peaksid sa praeguse versiooni eemaldama ja selle asemel paigaldama\n"
@@ -17925,7 +17926,7 @@ msgstr ""
 "\n"
 "Kui sa leiad programmis vigu, siis palun anna nendest meile teada\n"
 "saidi bugzilla.gnome.org abil. See programm on ilma igasuguse\n"
-"garantiita pole soovitav kergesti ärrituvatele isikutele.\n"
+"garantiita ja pole soovitav kergesti ärrituvatele isikutele.\n"
 "\n"
 "Me loodame, et võid meie töö ja vaevaga valminud programmist\n"
 "rõõmu tunda ja me ootame programmi kohta tagasisidet!\n"
@@ -18602,7 +18603,7 @@ msgstr "Manuse kirjeldus."
 
 #: ../tools/evolution-launch-composer.c:325
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
+msgstr "Manuse vaikimisi märkimine jooksvalt kuvatavaks."
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "Default subject for the message."
