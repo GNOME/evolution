@@ -1,3 +1,12 @@
+2006-11-03  Parthasarathi Susarla <ajaysusarla@gmail.com>
+
+	** Fixes bug #357492
+	* e-attachment-bar.c: (e_attachment_bar_remove_selected):
+	put the attachment pointes into a temporary array. Free the
+	pointers and the array after going thru the entire list
+	This prevents a crash and also fixes the issue of only few 
+	attachments getting deleted.
+
 2006-10-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #360237 & bug #359236
