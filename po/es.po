@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: pan2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-14 20:04+0100\n"
-"PO-Revision-Date: 2006-11-14 20:36+0100\n"
+"PO-Revision-Date: 2006-11-16 01:14+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10912,7 +10912,7 @@ msgstr "ahora"
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../filter/filter-datespec.c:295
 msgid "%d-%b-%Y"
-msgstr "%e-%b-%Y"
+msgstr "%e/%b/%Y"
 
 # Aquí time se refiere a fecha
 #: ../filter/filter-datespec.c:415
@@ -10946,11 +10946,11 @@ msgstr "Prueba"
 
 #: ../filter/filter-rule.c:799
 msgid "_Search name:"
-msgstr "_Buscar nombre:"
+msgstr "_Nombre de la búsqueda:"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
-msgstr "buscar los elementos que cumplan con los siguientes criterios"
+msgstr "Buscar elementos que cumplen con estos criterios"
 
 #: ../filter/filter-rule.c:866
 msgid "If all criteria are met"
@@ -11894,7 +11894,7 @@ msgstr "_Etiqueta"
 #. is not permitted.
 #: ../mail/em-folder-view.c:1164 ../widgets/misc/e-dateedit.c:475
 msgid "_None"
-msgstr "_Ninguno"
+msgstr "_Ninguna"
 
 #: ../mail/em-folder-view.c:1169
 msgid "Fla_g Completed"
@@ -13456,7 +13456,7 @@ msgstr "Detecta si el correo entrante es spam"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Cle_ar"
-msgstr "_Vaciar"
+msgstr "Vacia_r"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Clea_r"
@@ -17653,7 +17653,7 @@ msgstr ""
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
-msgstr "Agrupar según el asunto"
+msgstr "Agrupación según el asunto"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
@@ -17790,7 +17790,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Whether or not the window should be maximized."
-msgstr "Indica si la ventana deberían o no maximizarse."
+msgstr "Indica si la ventana debe o no maximizarse."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the sidebar should be visible."
@@ -17798,11 +17798,11 @@ msgstr "Indica si la barra lateral debe ser visible."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid "Whether the status bar should be visible."
-msgstr "Indica si la barra de estado debería ser visible."
+msgstr "Indica si la barra de estado debe ser visible."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Whether the toolbar should be visible."
-msgstr "Indica si la barra de herramientas debería ser visible."
+msgstr "Indica si la barra de herramientas debe ser visible."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid ""
@@ -17813,7 +17813,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Whether the window buttons should be visible."
-msgstr "Indica si la los botones de la ventana deberían ser visibles."
+msgstr "Indica si la los botones de la ventana deben ser visibles."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:29
 msgid "Window button style"
@@ -21113,13 +21113,15 @@ msgstr "Anchura de columna"
 msgid "_Search"
 msgstr "_Buscar"
 
+# En conflicto con _Buscar del menu principal
 #: ../widgets/misc/e-search-bar.c:603
 msgid "_Find Now"
-msgstr "_Buscar ahora"
+msgstr "B_uscar ahora"
 
+# Conflicto con _Ver del menú principal
 #: ../widgets/misc/e-search-bar.c:604
 msgid "_Clear"
-msgstr "_Vaciar"
+msgstr "Vacia_r"
 
 #: ../widgets/misc/e-search-bar.c:855
 msgid "Item ID"
@@ -21131,11 +21133,12 @@ msgstr "ID de elemento"
 msgid "Text"
 msgstr "Texto"
 
+# #En conflicto con _Mensaje
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:996
 msgid "Sho_w: "
-msgstr "_Mostrar: "
+msgstr "M_ostrar: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
@@ -21505,7 +21508,7 @@ msgstr "Código DnD"
 #: ../widgets/table/e-table-field-chooser.c:84
 #: ../widgets/table/e-table-header-item.c:1906
 msgid "Full Header"
-msgstr "Encabezado completo"
+msgstr "Cabecera completa"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
