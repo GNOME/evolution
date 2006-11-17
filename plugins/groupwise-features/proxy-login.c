@@ -235,7 +235,6 @@ proxy_login_get_cnc (EAccount *account)
 {
 	EGwConnection *cnc;
 	CamelURL *url;
-	url = camel_url_new (account->source->url, NULL);
 	char *uri = NULL, *failed_auth = NULL, *key = NULL, *prompt = NULL, *password = NULL;
 	const char *use_ssl = NULL, *soap_port;
 	gboolean remember;
