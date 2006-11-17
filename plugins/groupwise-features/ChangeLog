@@ -1,3 +1,9 @@
+2006-11-17  Harish Krishnaswamy  <kharish@novell.com>
+
+	* proxy-login.c: (proxy_login_get_cnc): Remove
+	an extraneous initialization that leaks a CamelUrl on
+	each invocation.
+
 2006-10-16  Chris Heath  <chris@heathens.co.nz>
 
 	* mail-send-options.c (org_gnome_compose_send_options):
