@@ -8,11 +8,12 @@
 # Ossama M. Khayat <okhayat@yahoo.com>, 2004.
 # Abdulaziz Al-Arfaj <alarfaj0@yahoo.com>, 2004.
 # Khaled Hosny <khaledhosny@eglug.org>, 2006.
+# Djihed Afifi <djihed@gmail.com, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-16\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-15 08:20+0000\n"
+"POT-Creation-Date: 2006-11-17 08:31+0000\n"
 "PO-Revision-Date: 2006-11-15 06:04+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabic <support@eglug.org>\n"
@@ -7396,7 +7397,7 @@ msgstr "لا"
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1764
 #: ../plugins/plugin-manager/plugin-manager.c:68
-#: ../widgets/misc/e-attachment-bar.c:705
+#: ../widgets/misc/e-attachment-bar.c:710
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "مجهول"
@@ -10695,7 +10696,7 @@ msgid "%.0fG"
 msgstr "%.0fغ"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:1012
+#: ../widgets/misc/e-attachment-bar.c:1017
 #, fuzzy
 msgid "Attachment Bar"
 msgstr "بار هاربور"
