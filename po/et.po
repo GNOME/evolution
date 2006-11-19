@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-11-16 20:15+0200\n"
+"PO-Revision-Date: 2006-11-19 00:06+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -12059,7 +12059,7 @@ msgstr[1] "%d ma_nust"
 
 #: ../mail/em-format-html-display.c:2195 ../mail/em-format-html-display.c:2273
 msgid "S_ave"
-msgstr "_Salvesta"
+msgstr "Salves_ta"
 
 #: ../mail/em-format-html-display.c:2206
 msgid "S_ave All"
@@ -21070,7 +21070,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
-msgstr ""
+msgstr "_Vastuse soov"
 
 #: ../widgets/misc/e-send-options.glade.h:20
 msgid "Sta_tus Tracking"
