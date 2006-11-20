@@ -522,7 +522,7 @@ main (int argc, char **argv)
 				      GNOME_PARAM_GOPTION_CONTEXT, context,
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
 				      NULL);
-
+	g_option_context_free (context);
 	if (start_online && start_offline) {
 		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
 			 argv[0], argv[0]);
