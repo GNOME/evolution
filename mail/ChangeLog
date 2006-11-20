@@ -1,3 +1,14 @@
+2006-11-20  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	Fix for bnc #208396
+
+	* em-folder-tree.c (em_folder_tree_get_selected_folder_info): Do
+	not make camel calls, instead fetch the information from the tree
+	itself.
+	(emft_popup_new_folder): Free the CamelFolderInfo structure.
+	* em-folder-utils.c (emfu_copy_folder_selected): Free the
+	CamelFolderInfo structure.
+	
 2006-10-16  Tor Lillqvist  <tml@novell.com>
 
 	Fix for #348212:

@@ -321,6 +321,9 @@ fail:
 	if (tostore)
 		camel_object_unref(tostore);
 	camel_exception_clear (&ex);
+
+	/* Free the folder-info structure that was passed through data pointer */
+	camel_folder_info_free(cfd->fi);
 	g_free (cfd);
 }
 
