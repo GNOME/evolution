@@ -1,3 +1,10 @@
+2006-11-20  Carlos Garcia Campos  <carlosgc@gnome.org>
+	
+	Fixes bug #367183
+	* gui/e-cal-model.c: (e_cal_model_set_instance_times): Make end_time a
+	valid date for all day events when ical file doesn't provide neither
+	DTEND nor DURATION for such events. 
+
 2006-11-15  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/gnome-cal.c: (client_cal_opened_cb),

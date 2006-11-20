@@ -2105,7 +2105,16 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icaltimezon
 	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
 	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
 
-	if (start_time.is_date && end_time.is_date && (icaltime_compare_date_only (start_time, end_time) == 0)) {
+	if (icaltime_is_null_time (end_time)) {
+		/* If end_time is null and it's an all day event,
+		 * just make start_time = end_time so that end_time
+		 * will be a valid date
+		 */
+		end_time = start_time;
+		icaltime_adjust (&end_time, 1, 0, 0, 0);
+		icalcomponent_set_dtend (comp_data->icalcomp, end_time);
+	} else if (start_time.is_date && end_time.is_date &&
+		   (icaltime_compare_date_only (start_time, end_time) == 0)) {
 		/* If both DTSTART and DTEND are DATE values, and they are the
 		   same day, we add 1 day to DTEND. This means that most
 		   events created with the old Evolution behavior will still
