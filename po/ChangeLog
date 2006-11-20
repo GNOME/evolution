@@ -1,6 +1,22 @@
+2006-11-20  Yair Hershkovitz  <yairhr@gmail.com>
+
+	* he.po: Updated Hebrew translation.
+
+2006-11-19  Duarte Loreto <happyguy_pt@hotmail.com>
+
+	* pt.po: Updated Portuguese translation.
+
+2006-11-19  Yair Hershkovitz  <yairhr@gmail.com>
+
+	* he.po: Updated Hebrew translation.
+
 2006-11-19  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated by Ivar Smolin.
+
+2006-11-18  Djihed Afifi <djihed@gmail.com> 
+
+	* ar.po: Updated Arabic Translation.
 
 2006-11-17  Karsten Bräckelmann  <guenther@rudersport.de>
 
@@ -10,21 +26,17 @@
 
 	* et.po: Translation updated by Ivar Smolin.
 
-2006-11-16  Francisco Javier F. Serrador  <serrador@openshine.com>
+2006-11-16  Yair Hershkovitz  <yairhr@gmail.com>
 
-	* es.po: Updated Spanish translation.
+	* he.po: Updated Hebrew translation.
+
+2006-11-15  Djihed Afifi <djihed@gmail.com> 
+
+	* ar.po: Updated Arabic Translation.
 
 2006-11-15  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated by Ivar Smolin.
-
-2006-11-14  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* es.po: Updated Spanish translation.
-
-2006-11-14  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* es.po: Updated Spanish translation.
 
 2006-11-12  Priit Laes  <plaes@cvs.gnome.org>
 
@@ -32,19 +44,23 @@
 
 2006-11-11  Priit Laes  <plaes@cvs.gnome.org>
 
-	* et.po: Translation updated by Ivar Smolin.
+	* et.po: Translation updated.
 
-2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
+2006-11-10  Djihed Afifi <djihed@gmail.com> 
 
-	* es.po: Updated Spanish translation.
+	* ar.po: Updated Arabic Translation.
 
-2006-11-08  Priit Laes  <plaes@cvs.gnome.org>
+2006-11-09  Pema Geyleg  <pgeyleg@gmail.com>
 
-	* et.po: Translation updated by Ivar Smolin.
+	* dz.po: Updated Dzongkha Translation
+
+2006-11-6  Djihed Afifi <djihed@gmail.com> 
+
+	* ar.po: Updated Arabic Translation.
 
 2006-11-06  Christophe Merlet  <redfox@redfoxcenter.org>
 
-	* fr.po: Updated French translation and fixed #370232.
+	* fr.po: Updated French translation and closed #370232.
 
 2006-11-04  Alexander Shopov  <ash@contact.bg>
 
@@ -53,39 +69,55 @@
 
 2006-11-02  Francisco Javier F. Serrador  <serrador@openshine.com>
 
-	* es.po: Updated Spanish translation.
+	* es.po: Updated Spansih translation.
 
-2006-11-01  Priit Laes  <plaes@cvs.gnome.org>
+2006-11-03  Satoru SATOH <ss@gnome.gr.jp> 
 
-	* et.po: Translation updated by Ivar Smolin.
+	* ja.po: Fixed wrong plural header.
+
+2006-10-30  Djihed Afifi <djihed@gmail.com> 
+
+	* ar.po Updated Arabic Translation.
 
 2006-10-28  Priit Laes  <plaes@cvs.gnome.org>
 
-	* et.po: Translation updated by Ivar Smolin.
+	* et.po: Translation updated.
 
-2006-10-26  Ilkka Tuohela  <hile@iki.fi>
+2006-10-26  Luca Ferretti  <elle.uca@libero.it>
 
-	* fi.po: Updated Finnish translation.
+	* it.po: Updated Italian translation.
 
-2006-10-24  Priit Laes  <plaes@cvs.gnome.org>
+2006-10-25  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
 
-	* et.po: Translation updated by Ivar Smolin.
+	* gl.po: Updated Galician Translation.
 
-2006-10-24  Francisco Javier F. Serrador  <serrador@openshine.com>
+2006-10-24  Wouter Bolsterlee  <wbolster@cvs.gnome.org>
 
-	* es.po: Updated Spanish translation.
+	* nl.po: Dutch translation updated by Wouter Bolsterlee.
 
-2006-10-22  Christophe Merlet  <redfox@redfoxcenter.org>
-
-	* fr.po: Updated French translation.
-
-2006-10-21  Priit Laes  <plaes@cvs.gnome.org>
+2006-10-22  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated.
 
-2006-10-20  Pawan Chitrakar  <pchitrakar@gmail.com>
+2006-10-22  David Lodge <dave@cirt.net>
 
-	* ne.po: Updated Nepali Translation
+	* en_GB.po: Updated English (British) translation
+
+2006-10-22  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* fr.po: Updated French translation and closed #339097.
+
+2006-10-21  Clytie Siddall <clytie@riverland.net.au>
+
+	* vi.po: Updated Vietnamese translation.
+
+2006-10-20  Daniel Nylander <po@danielnylander.se>
+
+	* sv.po: Updated Swedish translation.
+
+2006-10-20  Francisco Javier F. Serrador  <serrador@openshine.com>
+
+	* es.po: Updated Spanish translation.
 
 2006-10-20  Gabor Kelemen  <kelemeng@gnome.hu>
 
@@ -107,51 +139,34 @@
 
 	* et.po: Translation updated by Ivar Smolin.
 
-2006-10-16  Ilkka Tuohela  <hile@iki.fi>
+2006-10-17  Clytie Siddall <clytie@riverland.net.au>
+
+	* vi.po: Updated Vietnamese translation.
+
+2006-10-17  Ankit Patel  <ankit644@yahoo.com>
+
+	* gu.po: Updated Gujarati Translation.
+
+2006-10-17  Ilkka Tuohela  <hile@iki.fi>
 
 	* fi.po: Updated Finnish translation.
+
+2006-10-17  Jovan Naumovski  <jovan@lugola.net>
+
+	* mk.po: Updated Macedonian translation.
+
+2006-10-16  Luca Ferretti  <elle.uca@libero.it>
+
+	* it.po: Updated Italian translation.
 
 2006-10-16  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* POTFILES.in: Add two files here.
-	* nb.po: Update the translation.
+	* POTFILES.in: Add two missing files.
+	* nb.po: Updated Norwegian bokmål translation.
 
-2006-10-15  Priit Laes  <plaes@cvs.gnome.org>
+2006-10-16  Luca Ferretti  <elle.uca@libero.it>
 
-	* et.po: Translation updated by Ivar Smolin.
-
-2006-10-15  Jovan Naumovski  <jovan@lugola.net>
-	
-	* mk.po: Updated Macedonian translation.
-
-2006-10-15  Ilkka Tuohela  <hile@iki.fi>
-
-	* fi.po: Updated Finnish translation.
-
-2006-10-15  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* es.po: Updated Spanish translation.
-
-2006-10-15  Ilkka Tuohela  <hile@iki.fi>
-
-	* fi.po: Updated Finnish translation.
-
-2006-10-14  Johan Dahlin  <jdahlin@async.com.br>
-
-	* sv.po: Updated swedish translation
-
-2006-10-15  Satoru SATOH <ss@gnome.gr.jp>
-
-	* ja.po: Fixed plurals-related problem.
-
-2006-10-14  Priit Laes  <plaes@cvs.gnome.org>
-
-	* et.po: Translation updated by Ivar Smolin.
- 
-2006-10-13  Alexander Shopov  <ash@contact.bg>
-
-	* bg.po: Updated Bulgarian translation by
-	Alexander Shopov <ash@contact.bg>
+	* it.po: Updated Italian translation.
 
 2006-10-11  Luca Ferretti  <elle.uca@libero.it>
 

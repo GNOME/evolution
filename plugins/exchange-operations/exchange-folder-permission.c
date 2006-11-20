@@ -32,6 +32,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <libedataserverui/e-source-selector.h>
+#include <camel/camel-url.h>
 #include <mail/em-popup.h>
 #include <mail/em-menu.h>
 #include <libebook/e-book.h>
@@ -42,6 +43,8 @@
 #include "calendar/gui/e-cal-menu.h"
 #include "calendar/gui/e-cal-model.h"
 #include "addressbook/gui/widgets/eab-menu.h"
+
+#define d(x) 
 
 static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data);
 void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
@@ -151,7 +154,10 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 	int i = 0, mode;
 	static int first =0;
 	gchar *path = NULL;
+	char *fixed_path = NULL;
 	ExchangeAccount *account = NULL;
+
+	d(g_print ("exchange-folder-permission.c: entry\n"));
 
 	if (!g_strrstr (target->uri, "exchange://"))
 		return;
@@ -164,9 +170,16 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 		return;
 
 	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
+	fixed_path = camel_url_decode_path (path);
+	d(g_print ("exchange-folder-permission.c: path=[%s], fixed_path=[%s]\n", path, fixed_path));
+
 	if (! g_strrstr (target->uri, "exchange://") ||
-		!exchange_account_get_folder (account, path))
+	    !exchange_account_get_folder (account, fixed_path)) {
+		g_free (fixed_path);
 		return ;
+	}
+
+	g_free (fixed_path);
 
 	selected_exchange_folder_uri = path;
 	/* for translation*/

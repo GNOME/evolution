@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-19 01:15+0200\n"
-"PO-Revision-Date: 2006-10-19 01:27+0200\n"
+"POT-Creation-Date: 2006-10-19 01:28+0200\n"
+"PO-Revision-Date: 2006-10-19 01:29+0200\n"
 "Last-Translator: Xavier Conde Rueda <xavi.conde@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -611,28 +611,14 @@ msgstr "_Afegeix"
 msgid "_Discard"
 msgstr "_Descarta"
 
-# fitxer: calendar.ca.po.5
-#: ../addressbook/addressbook.error.xml.h:37
-msgid "_Do not save"
-msgstr "No ho _desis"
-
-# fitxer: addressbook.gui.contact-editor.ca.po
-#: ../addressbook/addressbook.error.xml.h:38
-msgid "_Resize"
-msgstr "_Canvia de mida"
-
-#: ../addressbook/addressbook.error.xml.h:39
-msgid "_Use as it is"
-msgstr "_Utilitza tal i com és"
-
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
-#: ../addressbook/addressbook.error.xml.h:41
+#: ../addressbook/addressbook.error.xml.h:38
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
 msgstr "{0}"
 
 #. For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT")
-#: ../addressbook/addressbook.error.xml.h:43
+#: ../addressbook/addressbook.error.xml.h:40
 msgid "{1}"
 msgstr "{1}"
 
@@ -1525,7 +1511,7 @@ msgstr "Contacte"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:552
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:567
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2417
 msgid "Contact Editor"
 msgstr "Editor de contactes"
 
@@ -3081,22 +3067,22 @@ msgstr "Modificat"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:562
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2412
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor de contactes - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2794
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2792
 msgid "Please select an image for this contact"
 msgstr "Seleccioneu una imatge per a aquest contacte"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2795
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2793
 msgid "_No image"
 msgstr "Cap _imatge"
 
 # fitxer: calendar.ca.po.4
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3099
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -3104,24 +3090,24 @@ msgstr ""
 "La data de contacte no és vàlida:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3101
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' té un format invàlid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3108
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' té un format invàlid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3125
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3136
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3123
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3134
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' està buit"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3151
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3149
 msgid "Invalid contact."
 msgstr "Contacte invàlid."
 
@@ -4025,8 +4011,8 @@ msgid "_Copy Link Location"
 msgstr "_Copia la ubicació de l'enllaç"
 
 # fitxer: mail.ca.po.3
-#: ../addressbook/gui/widgets/eab-contact-display.c:176 ../mail/em-popup.c:621
-msgid "_Send New Message To..."
+#: ../addressbook/gui/widgets/eab-contact-display.c:176
+msgid "_Send New Message To ..."
 msgstr "Envia un mi_ssatge nou a..."
 
 # fitxer: mail.ca.po.2
@@ -4532,12 +4518,8 @@ msgstr "Visualització d'arbre del GTK"
 
 # fitxer: mail.ca.po.2
 #: ../addressbook/importers/evolution-csv-importer.c:624
-#: ../addressbook/importers/evolution-ldif-importer.c:583
-#: ../addressbook/importers/evolution-vcard-importer.c:250
-#: ../calendar/importers/icalendar-importer.c:312
-#: ../calendar/importers/icalendar-importer.c:677
 #: ../mail/importers/evolution-outlook-importer.c:264
-#: ../mail/importers/netscape-importer.c:1252 ../shell/shell.error.xml.h:6
+#: ../mail/importers/netscape-importer.c:1252
 msgid "Importing..."
 msgstr "S'està important..."
 
@@ -4566,6 +4548,14 @@ msgstr "Evolution CSV o Tab (.csv, .tab)"
 #: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
 msgstr "Importador CSV i Tab de l'Evolution"
+
+# fitxer: mail.ca.po.2
+#: ../addressbook/importers/evolution-ldif-importer.c:583
+#: ../addressbook/importers/evolution-vcard-importer.c:250
+#: ../calendar/importers/icalendar-importer.c:312
+#: ../calendar/importers/icalendar-importer.c:677 ../shell/shell.error.xml.h:6
+msgid "Importing ..."
+msgstr "S'està important..."
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -5389,7 +5379,7 @@ msgstr "De_sa els canvis"
 
 # fitxer: ui.evolution-message-composer.xml.h.ca.po
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:133
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:132
 msgid "_Send"
 msgstr "_Envia"
 
@@ -7487,7 +7477,7 @@ msgstr[1] "%d hores abans de la cita"
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/dialogs/event-page.c:2942
 #, c-format
-msgid "%d minute before appointment"
+msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minut abans de la cita"
 msgstr[1] "%d minuts abans de la cita"
@@ -7564,7 +7554,6 @@ msgstr "Descripció de l'esdeveniment"
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/event-page.glade.h:12
-#: ../calendar/gui/dialogs/memo-page.glade.h:4
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
 msgstr "Resu_m:"
@@ -7706,22 +7695,26 @@ msgstr "Per a"
 msgid "Sta_rt date:"
 msgstr "Data d'ini_ci:"
 
+# fitxer: calendar.ca.po.4
+#: ../calendar/gui/dialogs/memo-page.glade.h:4
+msgid "Su_mmary"
+msgstr "Resu_m"
+
 # fitxer: addressbook.printing.ca.po
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 msgid "T_o:"
 msgstr "_A:"
 
-# fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/memo-page.glade.h:6
-msgid "_Description:"
-msgstr "_Descripció:"
-
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/dialogs/memo-page.glade.h:7
+#: ../calendar/gui/dialogs/memo-page.glade.h:6
 #: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Grup:"
+
+#: ../calendar/gui/dialogs/memo-page.glade.h:7
+msgid "_Memo Content:"
+msgstr "_Contingut de les anotacions:"
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
@@ -9113,7 +9106,7 @@ msgstr "Proposició de reunió"
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1353
 #, c-format
-msgid "<b>%s</b> wishes to be added to an existing meeting."
+msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "En/na <b>%s</b> es voldria afegir a una reunió existent."
 
 # fitxer: calendar.ca.po.3
@@ -9199,7 +9192,7 @@ msgstr "Proposició de la tasca"
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1430
 #, c-format
-msgid "<b>%s</b> wishes to be added to an existing task."
+msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "En/na <b>%s</b> es voldria afegir a una tasca existent."
 
 # fitxer: calendar.ca.po.3
@@ -12688,7 +12681,7 @@ msgstr ""
 "Degut a &quot;{0}&quot;, hauríeu de seleccionar diferents opcions de correu."
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:19
+#: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
 msgstr "Degut a &quot;{1}&quot;."
 
@@ -13037,7 +13030,7 @@ msgid "File exists &quot;{0}&quot;."
 msgstr "El fitxer &quot;{0}&quot; ja existeix."
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:132
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:131
 msgid "_Overwrite"
 msgstr "S_obreescriu"
 
@@ -13237,7 +13230,7 @@ msgid "Missing file name."
 msgstr "Manca el nom de fitxer."
 
 # fitxer: calendar.ca.po.4
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:72
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:71
 msgid "Missing name."
 msgstr "Manca el nom."
 
@@ -14160,7 +14153,7 @@ msgid "_Rename..."
 msgstr "_Reanomena..."
 
 # fitxer: ui.evolution-mail-global.xml.h.ca.po
-#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:129
+#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:128
 msgid "_Empty Trash"
 msgstr "Buida la _paperera"
 
@@ -14826,6 +14819,11 @@ msgstr "_Respon al remitent"
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to _List"
 msgstr "Respon a _la llista"
+
+# fitxer: mail.ca.po.3
+#: ../mail/em-popup.c:621
+msgid "_Send New Message To..."
+msgstr "Envia un mi_ssatge nou a..."
 
 # fitxer: mail.ca.po.3
 #
@@ -16662,10 +16660,10 @@ msgstr "Habili_teu-lo per a acceptar l'acord de llicència"
 msgid "Pinging %s"
 msgstr "S'està enviant un ping a %s"
 
-# fitxer: ui.evolution-mail-list.xml.h.ca.po
+# fitxer: mail.ca.po.1
 #: ../mail/mail-ops.c:105
-msgid "Filtering Selected Messages"
-msgstr "S'estan filtrant els missatges seleccionats"
+msgid "Filtering Folder"
+msgstr "S'està filtrant la carpeta"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-ops.c:266
@@ -16998,20 +16996,12 @@ msgstr "Nova carpeta de cerca"
 # fitxer: mail.ca.po.3
 #: ../mail/mail.error.xml.h:1
 msgid ""
-"A folder named &quot;{0}&quot; already exists. Please use a different name."
-msgstr ""
-"Ja existeix una carpeta anomenada &quot;{1}&quot;. Feu servir un nom "
-"diferent."
-
-# fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:2
-msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr ""
 "Ja existeix una carpeta anomenada &quot;{1}&quot;. Feu servir un nom "
 "diferent."
 
-#: ../mail/mail.error.xml.h:3
+#: ../mail/mail.error.xml.h:2
 msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
@@ -17023,7 +17013,7 @@ msgstr ""
 "Podeu escollir ignorar aquesta carpeta, sobreescriure o afegir el seu "
 "contingut, o sortir."
 
-#: ../mail/mail.error.xml.h:6
+#: ../mail/mail.error.xml.h:5
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
@@ -17032,7 +17022,7 @@ msgstr ""
 "Voleu enviar la notificació de recepció a {0}?"
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:7
+#: ../mail/mail.error.xml.h:6
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
@@ -17040,7 +17030,7 @@ msgstr ""
 "Ja existeix una carpeta anomenada &quot;{1}&quot;. Feu servir un nom "
 "diferent."
 
-#: ../mail/mail.error.xml.h:8
+#: ../mail/mail.error.xml.h:7
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
@@ -17049,28 +17039,28 @@ msgstr ""
 "tema del vostre correu."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:9
+#: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
 msgstr "Esteu segur de voler suprimir aquest compte i tots els seus apoderats?"
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:10
+#: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
 msgstr "Esteu segur de voler suprimir aquest compte?"
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:11
+#: ../mail/mail.error.xml.h:10
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "Esteu segur de voler suprimir aquest compte i tots els seus apoderats?"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail.error.xml.h:12
+#: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
 msgstr "Esteu segur que voleu obrir {0} missatges a la vegada?"
 
 # fitxer: ui.evolution-mail-global.xml.h.ca.po
-#: ../mail/mail.error.xml.h:13
+#: ../mail/mail.error.xml.h:12
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
@@ -17079,7 +17069,7 @@ msgstr ""
 "carpetes?"
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
-#: ../mail/mail.error.xml.h:14
+#: ../mail/mail.error.xml.h:13
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
@@ -17088,92 +17078,92 @@ msgstr ""
 "{0}&quot;?"
 
 # fitxer: calendar.ca.po.5
-#: ../mail/mail.error.xml.h:15
+#: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Esteu segur de voler enviar un missatge HTML?"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail.error.xml.h:16
+#: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "Esteu segur que voleu enviar un missatge només amb destinataris BCC?"
 
-#: ../mail/mail.error.xml.h:17
+#: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "Esteu segur que voleu enviar un missatge sense assumpte?"
 
-#: ../mail/mail.error.xml.h:18
+#: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
 msgstr "Degut a &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:20
+#: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
 msgstr "Degut a &quot;{2}&quot;."
 
 # fitxer: mail.ca.po.1
 #
-#: ../mail/mail.error.xml.h:21
+#: ../mail/mail.error.xml.h:20
 msgid "Blank Signature"
 msgstr "Signatura buida"
 
-#: ../mail/mail.error.xml.h:22
+#: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
 msgstr "No es pot afegir la carpeta de cerca &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:23
+#: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "No es pot copiar la carpeta &quot;{0}&quot; a &quot;{1}'."
 
 # fitxer: camel.ca.po.2
-#: ../mail/mail.error.xml.h:24
+#: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
 msgstr "No s'ha pogut crear la carpeta &quot;{0}&quot;."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:25
+#: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
 msgstr "No s'ha pogut crear el directori temporal per desar."
 
 # fitxer: camel.ca.po.2
-#: ../mail/mail.error.xml.h:26
+#: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgstr "No s'ha pogut crear el directori per desar degut a &quot;{1}&quot;"
 
 # fitxer: camel.ca.po.3
-#: ../mail/mail.error.xml.h:27
+#: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
 msgstr "No s'ha pogut suprimir la carpeta &quot;{0}&quot;."
 
 # fitxer: camel.ca.po.3
-#: ../mail/mail.error.xml.h:28
+#: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "No es pot suprimir la carpeta de sistema &quot;{0}&quot;."
 
 # fitxer: camel.ca.po.2
-#: ../mail/mail.error.xml.h:29
+#: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgstr ""
 "No es pot editar la carpeta de cerca &quot;{0}&quot; perquè no existeix."
 
-#: ../mail/mail.error.xml.h:30
+#: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "No es pot moure la carpeta &quot;{0}&quot; a &quot;{1}&quot;."
 
 # fitxer: calendar.ca.po.3
-#: ../mail/mail.error.xml.h:31
+#: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
 msgstr "No s'ha pogut obrir la font &quot;{1}&quot;"
 
 # fitxer: calendar.ca.po.3
-#: ../mail/mail.error.xml.h:32
+#: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
 msgstr "No s'ha pogut obrir l'origen &quot;{2}&quot;."
 
 # fitxer: camel.ca.po.4
-#: ../mail/mail.error.xml.h:33
+#: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
 msgstr "No es pot obrir el destí &quot;{2}&quot;."
 
-#: ../mail/mail.error.xml.h:34
+#: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
@@ -17183,36 +17173,36 @@ msgstr ""
 "d'instal·lació. No podreu usar aquest proveïdor fins que no n'accepteu la "
 "llicència."
 
-#: ../mail/mail.error.xml.h:35
+#: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "No es pot reanomenar &quot;{0}&quot; com &quot;{1}&quot;."
 
 # fitxer: camel.ca.po.3
-#: ../mail/mail.error.xml.h:36
+#: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgstr ""
 "No s'ha pogut reanomenar o moure la carpeta de sistema &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:37
+#: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
 msgstr "No es poden desar els canvis al compte."
 
 # fitxer: camel.ca.po.2
-#: ../mail/mail.error.xml.h:38
+#: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
 msgstr "No s'ha pogut desar al directori &quot;{0}&quot;."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:39
+#: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
 msgstr "No es pot desar al fitxer {0}."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:40
+#: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "No s'ha pogut definir el fitxer de seqüència &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:41
+#: ../mail/mail.error.xml.h:40
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -17222,86 +17212,86 @@ msgstr ""
 "que la tecla de bloqueig de majúscules no estigui activada."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:42
+#: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
 msgstr "No s'ha pogut desar el fitxer de signatura."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:43
+#: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
 msgstr "Voleu suprimir &quot;{0}&quot;?"
 
 # fitxer: ui.evolution-addressbook.xml.h.ca.po
-#: ../mail/mail.error.xml.h:44
+#: ../mail/mail.error.xml.h:43
 msgid "Delete account?"
 msgstr "Voleu suprimir el compte?"
 
 # fitxer: mail.ca.po.1
 #
-#: ../mail/mail.error.xml.h:45
+#: ../mail/mail.error.xml.h:44
 msgid "Discard changes?"
 msgstr "Voleu descartar els canvis?"
 
 # fitxer: mail.ca.po.3
 #
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:45
 msgid "Do not delete"
 msgstr "No ho suprimeixis"
 
 # fitxer: calendar.ca.po.5
-#: ../mail/mail.error.xml.h:47
+#: ../mail/mail.error.xml.h:46
 msgid "Do not disable"
 msgstr "No ho inhabilitis"
 
-#: ../mail/mail.error.xml.h:48
+#: ../mail/mail.error.xml.h:47
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "Voleu que s'apliqui l'operació a les subcarpetes?"
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:48
 msgid "Do you want to mark all messages as read?"
 msgstr "Voleu marcar tots els missatges com a llegits?"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:49
 msgid "Do you wish to save your changes?"
 msgstr "Voleu desar els canvis?"
 
 # fitxer: calendar.ca.po.5
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:50
 msgid "Enter password."
 msgstr "Introduïu la contrasenya."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
 msgstr "S'ha produït un error en carregar les definicions del filtre."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:52
 msgid "Error while performing operation."
 msgstr "S'ha produït un error en realitzar l'operació."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
 msgstr "S'ha produït un error en {0}."
 
 # fitxer: composer.ca.po
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
 msgstr "El fitxer existeix però no es pot sobreescriure."
 
 # fitxer: filter.ca.po
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:55
 msgid "File exists but is not a regular file."
 msgstr "El fitxer existeix però no és un fitxer normal."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:56
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Si continueu, no podreu recuperar aquest missatge."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:57
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
@@ -17309,11 +17299,11 @@ msgstr ""
 "Si suprimiu la carpeta, tots els continguts i els de les subcarpetes "
 "s'esborraran permanentment."
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:58
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "Si continueu, els comptes apoderats se suprimiran permanentment."
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:59
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -17321,11 +17311,11 @@ msgstr ""
 "Si continueu, la informació dels comptes i\n"
 "i la informació de l'apoderat se suprimiran permanentment."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:61
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Si continueu, la informació dels comptes se suprimirà permanentment."
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:62
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -17333,20 +17323,20 @@ msgstr ""
 "Si sortiu, aquests missatges no s'enviaran fins que s'iniciï l'Evolution de "
 "nou."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:63
 msgid "Ignore"
 msgstr "Ignora"
 
 # fitxer: camel.ca.po.1
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:64
 msgid "Invalid authentication"
 msgstr "Autenticació invàlida"
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
 msgstr "S'han actualitzat automàticament els filtres de correu."
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:66
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -17360,43 +17350,43 @@ msgstr ""
 "'CC:'."
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
 msgstr "Marca com a llegits tots els missatges"
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:68
 msgid "Mark all messages in subfolders as read?"
 msgstr "Voleu marcar tots els missatges a les subcarpetes com a llegits?"
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:69
 msgid "Mark as _Read"
 msgstr "Ma_rca com a llegit"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:70
 msgid "Missing folder."
 msgstr "Manca la carpeta."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:72
 msgid "No sources selected."
 msgstr "No s'ha seleccionat cap font."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:73
 msgid "Opening too many messages at once may take a long time."
 msgstr "Es pot trigar molt de temps en obrir molts missatges a la vegada."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:74
 msgid "Please check your account settings and try again."
 msgstr "Comproveu la vostra configuració de comptes i proveu-ho de nou."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:75
 msgid "Please enable the account or send using another account."
 msgstr "Habiliteu el vostre compte o envieu amb un altre compte."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -17406,7 +17396,7 @@ msgstr ""
 "de text."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:77
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -17419,56 +17409,56 @@ msgstr ""
 "Voleu enviar-lo?"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:80
 msgid "Please provide an unique name to identify this signature."
 msgstr "Introduïu un nom únic per a aquesta signatura."
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:81
 msgid "Please wait."
 msgstr "Espereu."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:82
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr ""
 "Hi ha hagut un problema en migrar la carpeta de correu antiga &quot;{0}"
 "&quot;."
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:83
 msgid "Querying server"
 msgstr "S'està consultant el servidor"
 
 # fitxer: camel.ca.po.1
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:84
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "S'està consultant al servidor els mecanismes d'autenticació suportats."
 
 # fitxer: designs.ca.po
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:85
 msgid "Read receipt requested."
 msgstr "S'ha demanat un avís de lectura."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:86
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr ""
 "Voleu suprimir la carpeta &quot;{0}&quot; i totes les seves subcarpetes?"
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:87
 msgid "Search Folders automatically updated."
 msgstr "S'han actualitzat les carpetes de cerca automàticament."
 
 # fitxer: designs.ca.po
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:88
 msgid "Send Receipt"
 msgstr "Avís d'enviament"
 
 # fitxer: smime.ca.po
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:89
 msgid "Signature Already Exists"
 msgstr "La signatura ja existeix"
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
@@ -17476,7 +17466,7 @@ msgstr ""
 "L'Evolution necessita les carpetes del sistema per funcionar correctament i "
 "no es poden reanomenar, moure ni suprimir."
 
-#: ../mail/mail.error.xml.h:92
+#: ../mail/mail.error.xml.h:91
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -17494,7 +17484,7 @@ msgstr ""
 "'CC:'."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:95
+#: ../mail/mail.error.xml.h:94
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -17509,7 +17499,7 @@ msgstr ""
 "i s'han actualitzat."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:99
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -17523,11 +17513,11 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "i s'han actualitzat."
 
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:104
 msgid "The script file must exist and be executable."
 msgstr "El fitxer de seqüència ha de ser executable."
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:105
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -17536,7 +17526,7 @@ msgstr ""
 "aneu a l'editor de carpetes de cerca per a afegir-la explícitament, en cas "
 "que sigui necessari."
 
-#: ../mail/mail.error.xml.h:108
+#: ../mail/mail.error.xml.h:107
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -17545,14 +17535,14 @@ msgstr ""
 "està disponible"
 
 #
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:108
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 "Aquest missatge no es pot enviar perquè no se n'ha indicat cap destinatari"
 
 # fitxer: camel.ca.po.1
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:109
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -17561,12 +17551,12 @@ msgstr ""
 "no permeti cap autenticació."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:110
 msgid "This signature has been changed, but has not been saved."
 msgstr "Aquesta signatura s'ha modificat, però no s'ha desat."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:111
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
@@ -17574,12 +17564,12 @@ msgstr ""
 "Això marcarà tots els missatges com a llegits en el directori seleccionat i "
 "els seus subdirectoris."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:112
 msgid "Unable to connect to the GroupWise server."
 msgstr "No es pot connectar al servidor GroupWise."
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:113
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -17588,43 +17578,43 @@ msgstr ""
 "servir la carpeta d'esborranys del sistema?"
 
 # fitxer: camel.ca.po.2
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:114
 msgid "Unable to read license file."
 msgstr "No es pot llegir el fitxer de la llicència."
 
 # fitxer: camel.ca.po.3
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:115
 msgid "Use _Default"
 msgstr "Pre_determinat"
 
 # fitxer: shell.ca.po
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:116
 msgid "Use default drafts folder?"
 msgstr "Voleu usar la carpeta d'esborranys predeterminada?"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:117
 msgid "You have not filled in all of the required information."
 msgstr "No heu emplenat tota la informació necessària."
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:118
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Teniu missatges sense enviar. Voleu sortir igualment?"
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:119
 msgid "You may not create two accounts with the same name."
 msgstr "No hauríeu de crear dos comptes amb el mateix nom."
 
 # fitxer: filter.ca.po
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:120
 msgid "You must name this Search Folder."
 msgstr "Heu d'assignar un nom a aquesta carpeta de cerca."
 
 # fitxer: filter.ca.po
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:121
 msgid "You must specify a folder."
 msgstr "Heu d'especificar una carpeta."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:122
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -17634,32 +17624,32 @@ msgstr ""
 "Podeu seleccionar les carpetes individualment, i/o seleccionant totes les "
 "carpetes locals, totes les remotes, o ambdues."
 
-#: ../mail/mail.error.xml.h:125
+#: ../mail/mail.error.xml.h:124
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "Ha fallat l'entrada al servidor &quot;{0}&quot; com a &quot;{0}&quot;."
 
 # fitxer: calendar.ca.po.5
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:125
 msgid "_Append"
 msgstr "_Afegeix"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:126
 msgid "_Discard changes"
 msgstr "_Descarta els canvis"
 
 # fitxer: mail.ca.po.3
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:127
 msgid "_Do not Mark as Read"
 msgstr "No _marquis com a llegit"
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:129
 msgid "_Expunge"
 msgstr "Bui_da"
 
 # fitxer: ui.evolution-mail-message.xml.h.ca.po
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:130
 msgid "_Open Messages"
 msgstr "_Obre un missatge"
 
@@ -19183,7 +19173,7 @@ msgid "_Not Shared"
 msgstr "No e_s comparteix"
 
 #: ../plugins/groupwise-features/properties.glade.h:14
-msgid "_Shared With..."
+msgid "_Shared With ..."
 msgstr "E_s comparteix amb..."
 
 # fitxer: addressbook.printing.ca.po
@@ -20239,7 +20229,8 @@ msgstr "_Llista de correu"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid ""
-"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+"Provide actions for common mailing list commands (subscribe, "
+"unsubscribe, ...)."
 msgstr ""
 "Proporciona accions per a ordres habituals de les llistes de correu "
 "(subscriu, suprimeix la subscripió, ...)."
@@ -20702,7 +20693,7 @@ msgstr "Desa els fitxers adjunts"
 
 # fitxer: ui.evolution-message-composer.xml.h.ca.po
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-msgid "Save Attachments..."
+msgid "Save Attachments ..."
 msgstr "Desa els fitxers adjunts..."
 
 # fitxer: mail.ca.po.1
@@ -25929,24 +25920,40 @@ msgstr "Context de MI"
 msgid "Handle Popup"
 msgstr "Menú emergent de l'ansa"
 
-# fitxer: mail.ca.po.3
-#~ msgid "_Send New Message To ..."
-#~ msgstr "Envia un mi_ssatge nou a..."
+# fitxer: calendar.ca.po.5
+#~ msgid "_Do not save"
+#~ msgstr "No ho _desis"
 
-# fitxer: mail.ca.po.2
-#~ msgid "Importing ..."
-#~ msgstr "S'està important..."
+# fitxer: addressbook.gui.contact-editor.ca.po
+#~ msgid "_Resize"
+#~ msgstr "_Canvia de mida"
+
+#~ msgid "_Use as it is"
+#~ msgstr "_Utilitza tal i com és"
 
 # fitxer: calendar.ca.po.4
-#~ msgid "Su_mmary"
-#~ msgstr "Resu_m"
+#~ msgid "_Description:"
+#~ msgstr "_Descripció:"
 
-#~ msgid "_Memo Content:"
-#~ msgstr "_Contingut de les anotacions:"
+# fitxer: calendar.ca.po.3
+#~ msgid "<b>%s</b> wishes to be added to an existing meeting."
+#~ msgstr "En/na <b>%s</b> es voldria afegir a una reunió existent."
 
-# fitxer: mail.ca.po.1
-#~ msgid "Filtering Folder"
-#~ msgstr "S'està filtrant la carpeta"
+# fitxer: calendar.ca.po.3
+#~ msgid "<b>%s</b> wishes to be added to an existing task."
+#~ msgstr "En/na <b>%s</b> es voldria afegir a una tasca existent."
+
+# fitxer: ui.evolution-mail-list.xml.h.ca.po
+#~ msgid "Filtering Selected Messages"
+#~ msgstr "S'estan filtrant els missatges seleccionats"
+
+# fitxer: mail.ca.po.3
+#~ msgid ""
+#~ "A folder named &quot;{0}&quot; already exists. Please use a different "
+#~ "name."
+#~ msgstr ""
+#~ "Ja existeix una carpeta anomenada &quot;{1}&quot;. Feu servir un nom "
+#~ "diferent."
 
 # fitxer: shell.ca.po
 #~ msgid " New "

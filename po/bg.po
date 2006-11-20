@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-04 00:33+0200\n"
-"PO-Revision-Date: 2006-11-04 00:02+0200\n"
+"POT-Creation-Date: 2006-11-04 00:39+0200\n"
+"PO-Revision-Date: 2006-09-16 12:27+0300\n"
 "Last-Translator: Alexander Shopov <ash@contact.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -536,26 +536,14 @@ msgstr "Доб_авяне"
 msgid "_Discard"
 msgstr "_Отхвърляне"
 
-#: ../addressbook/addressbook.error.xml.h:37
-msgid "_Do not save"
-msgstr "_Да не се запазва"
-
-#: ../addressbook/addressbook.error.xml.h:38
-msgid "_Resize"
-msgstr "_Оразмеряване"
-
-#: ../addressbook/addressbook.error.xml.h:39
-msgid "_Use as it is"
-msgstr "_Ползване както е"
-
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
-#: ../addressbook/addressbook.error.xml.h:41
+#: ../addressbook/addressbook.error.xml.h:38
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
 msgstr "{0}"
 
 #. For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT")
-#: ../addressbook/addressbook.error.xml.h:43
+#: ../addressbook/addressbook.error.xml.h:40
 msgid "{1}"
 msgstr "{1}"
 
@@ -1301,7 +1289,7 @@ msgstr "Контакт"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:552
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:567
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2417
 msgid "Contact Editor"
 msgstr "Редактор на контакти"
 
@@ -2558,20 +2546,20 @@ msgid "Changed"
 msgstr "Променени"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:562
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2412
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Редактор на контакти - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2794
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2792
 msgid "Please select an image for this contact"
 msgstr "Изберете изображение за този контакт"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2795
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2793
 msgid "_No image"
 msgstr "_Няма изображение"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3099
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2579,23 +2567,23 @@ msgstr ""
 "Информацията на контакта е невалидна:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3101
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "„%s“ е с невалиден формат"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3108
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s„%s“ е с невалиден формат"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3125
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3136
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3123
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3134
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s„%s“ е празен"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3151
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3149
 msgid "Invalid contact."
 msgstr "Невалиден контакт."
 
@@ -3338,8 +3326,8 @@ msgstr "Отваряне на връзката в _браузър"
 msgid "_Copy Link Location"
 msgstr "Копиране на мес_тоположението на връзката"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:176 ../mail/em-popup.c:621
-msgid "_Send New Message To..."
+#: ../addressbook/gui/widgets/eab-contact-display.c:176
+msgid "_Send New Message To ..."
 msgstr "_Изпращане на ново писмо до..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:177
@@ -3764,12 +3752,8 @@ msgid "GTK Tree View"
 msgstr "Дървовиден изглед на GTK"
 
 #: ../addressbook/importers/evolution-csv-importer.c:624
-#: ../addressbook/importers/evolution-ldif-importer.c:583
-#: ../addressbook/importers/evolution-vcard-importer.c:250
-#: ../calendar/importers/icalendar-importer.c:312
-#: ../calendar/importers/icalendar-importer.c:677
 #: ../mail/importers/evolution-outlook-importer.c:264
-#: ../mail/importers/netscape-importer.c:1252 ../shell/shell.error.xml.h:6
+#: ../mail/importers/netscape-importer.c:1252
 msgid "Importing..."
 msgstr "Внасяне..."
 
@@ -3796,6 +3780,13 @@ msgstr "Приставка за внасяне от файлове (.cvs, .tab) 
 #: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
 msgstr "Приставка за внасяне от файлове (.cvs, .tab) на Evolution"
+
+#: ../addressbook/importers/evolution-ldif-importer.c:583
+#: ../addressbook/importers/evolution-vcard-importer.c:250
+#: ../calendar/importers/icalendar-importer.c:312
+#: ../calendar/importers/icalendar-importer.c:677 ../shell/shell.error.xml.h:6
+msgid "Importing ..."
+msgstr "Внасяне..."
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -4490,7 +4481,7 @@ msgid "_Save Changes"
 msgstr "_Запазване на промените"
 
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:133
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:132
 msgid "_Send"
 msgstr "Изпра_щане"
 
@@ -6245,7 +6236,7 @@ msgstr[1] "%d часа преди среща"
 
 #: ../calendar/gui/dialogs/event-page.c:2942
 #, c-format
-msgid "%d minute before appointment"
+msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d минута преди среща"
 msgstr[1] "%d минути преди среща"
@@ -6306,7 +6297,6 @@ msgid "Event Description"
 msgstr "Описание на събитие"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
-#: ../calendar/gui/dialogs/memo-page.glade.h:4
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
 msgstr "О_бобщение:"
@@ -6424,19 +6414,23 @@ msgstr "До"
 msgid "Sta_rt date:"
 msgstr "На_чална дата:"
 
+#: ../calendar/gui/dialogs/memo-page.glade.h:4
+msgid "Su_mmary"
+msgstr "О_бобщение"
+
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 msgid "T_o:"
 msgstr "_До:"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:6
-msgid "_Description:"
-msgstr "_Описание:"
-
-#: ../calendar/gui/dialogs/memo-page.glade.h:7
 #: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Група:"
+
+#: ../calendar/gui/dialogs/memo-page.glade.h:7
+msgid "_Memo Content:"
+msgstr "Съдържание на _бележката:"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 msgid "<b>Calendar options</b>"
@@ -7616,7 +7610,7 @@ msgstr "Предложение за събрание"
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1353
 #, c-format
-msgid "<b>%s</b> wishes to be added to an existing meeting."
+msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> иска да бъде добавен към съществуващо събрание."
 
 #: ../calendar/gui/e-itip-control.c:1354
@@ -7686,7 +7680,7 @@ msgstr "Предложение за задача"
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1430
 #, c-format
-msgid "<b>%s</b> wishes to be added to an existing task."
+msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> иска да бъде добавен към съществуваща задача."
 
 #: ../calendar/gui/e-itip-control.c:1431
@@ -10516,7 +10510,7 @@ msgid "Because &quot;{0}&quot;, you may need to select different mail options."
 msgstr "Заради „{0}“, може да се наложи да изберете други настройки на пощата."
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:19
+#: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
 msgstr "Защото „{1}“."
 
@@ -10809,7 +10803,7 @@ msgstr "Искате ли да се презапише?"
 msgid "File exists &quot;{0}&quot;."
 msgstr "Файлът съществува „{0}“."
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:132
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:131
 msgid "_Overwrite"
 msgstr "Пре_записване"
 
@@ -10977,7 +10971,7 @@ msgstr "Липсваща дата."
 msgid "Missing file name."
 msgstr "Липсващо име на файл."
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:72
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:71
 msgid "Missing name."
 msgstr "Липсващо име."
 
@@ -11751,7 +11745,7 @@ msgstr "_Нова папка..."
 msgid "_Rename..."
 msgstr "П_реименуване..."
 
-#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:129
+#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:128
 msgid "_Empty Trash"
 msgstr "Изчистване на _кошчето"
 
@@ -12329,6 +12323,10 @@ msgstr "_Отговор на подателя"
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to _List"
 msgstr "Отговор до _списъка"
+
+#: ../mail/em-popup.c:621
+msgid "_Send New Message To..."
+msgstr "_Изпращане на ново писмо до..."
 
 #: ../mail/em-popup.c:622
 msgid "_Add to Address Book"
@@ -13946,8 +13944,8 @@ msgid "Pinging %s"
 msgstr "Проверяване на %s"
 
 #: ../mail/mail-ops.c:105
-msgid "Filtering Selected Messages"
-msgstr "Филтриране на избраните писма"
+msgid "Filtering Folder"
+msgstr "Филтър върху папка"
 
 #: ../mail/mail-ops.c:266
 msgid "Fetching Mail"
@@ -14225,15 +14223,10 @@ msgstr "Нова папка за търсене"
 
 #: ../mail/mail.error.xml.h:1
 msgid ""
-"A folder named &quot;{0}&quot; already exists. Please use a different name."
-msgstr "Вече съществува папка с име „{1}“. Изберете друго име."
-
-#: ../mail/mail.error.xml.h:2
-msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr "Вече съществува папка с име „{1}“. Изберете друго име."
 
-#: ../mail/mail.error.xml.h:3
+#: ../mail/mail.error.xml.h:2
 msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
@@ -14245,7 +14238,7 @@ msgstr ""
 "Може да изберете да игнорирате тази папка, да я презапишете, да добавите "
 "съдържанието или да излезете."
 
-#: ../mail/mail.error.xml.h:6
+#: ../mail/mail.error.xml.h:5
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
@@ -14253,13 +14246,13 @@ msgstr ""
 "Било изискано уведомяване за прочитане за „{1}“. Да се изпрати ли "
 "уведомление до {0}?"
 
-#: ../mail/mail.error.xml.h:7
+#: ../mail/mail.error.xml.h:6
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
 msgstr "Подпис с име „{0}“ вече съществува. Изберете друго име."
 
-#: ../mail/mail.error.xml.h:8
+#: ../mail/mail.error.xml.h:7
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
@@ -14267,28 +14260,28 @@ msgstr ""
 "Добавянето на смислена тема на вашите писма ще даде на получателите някаква "
 "идея какво точно ще прочетат в писмо."
 
-#: ../mail/mail.error.xml.h:9
+#: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
 msgstr ""
 "Сигурни ли сте, че искате да изтриете този абонамент и всичките му сървъри-"
 "посредници?"
 
-#: ../mail/mail.error.xml.h:10
+#: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
 msgstr "Сигурни ли сте, че искате да изтриете този абонамент?"
 
-#: ../mail/mail.error.xml.h:11
+#: ../mail/mail.error.xml.h:10
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
 "Сигурни ли сте, че искате да изключите този абонамент и всичките му сървъри-"
 "посредници?"
 
-#: ../mail/mail.error.xml.h:12
+#: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
 msgstr "Сигурни ли сте, че искате да отворите едновременно {0} писма?"
 
-#: ../mail/mail.error.xml.h:13
+#: ../mail/mail.error.xml.h:12
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
@@ -14296,7 +14289,7 @@ msgstr ""
 "Сигурни ли сте, че искате да премахнете за постоянно всички изтрити писма от "
 "всички папки?"
 
-#: ../mail/mail.error.xml.h:14
+#: ../mail/mail.error.xml.h:13
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
@@ -14304,82 +14297,82 @@ msgstr ""
 "Сигурни ли сте, че искате да премахнете за постоянно всички изтрити писма в "
 "папката „{0}“?"
 
-#: ../mail/mail.error.xml.h:15
+#: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Сигурни ли сте, че искате да изпратите писмо в HTML формат?"
 
-#: ../mail/mail.error.xml.h:16
+#: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr ""
 "Сигурни ли сте, че искате да изпратите писмото само с получатели в полето "
 "„Скрито копие“?"
 
-#: ../mail/mail.error.xml.h:17
+#: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "Сигурни ли сте, че искате да изпратите писмото без тема?"
 
-#: ../mail/mail.error.xml.h:18
+#: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
 msgstr "Защото „{0}“."
 
-#: ../mail/mail.error.xml.h:20
+#: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
 msgstr "Защото „{2}“."
 
-#: ../mail/mail.error.xml.h:21
+#: ../mail/mail.error.xml.h:20
 msgid "Blank Signature"
 msgstr "Празен подпис"
 
-#: ../mail/mail.error.xml.h:22
+#: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
 msgstr "Неуспех при добавянето на папката за търсене „{0}“."
 
-#: ../mail/mail.error.xml.h:23
+#: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "Неуспех при копирането на папка „{0}“ в „{1}“."
 
-#: ../mail/mail.error.xml.h:24
+#: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
 msgstr "Неуспех при създаването на папка „{0}“."
 
-#: ../mail/mail.error.xml.h:25
+#: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
 msgstr "Не може да се създаде временна директория за запазвания."
 
-#: ../mail/mail.error.xml.h:26
+#: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgstr "Не може да се създаде директория за запазването, защото „{1}“"
 
-#: ../mail/mail.error.xml.h:27
+#: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
 msgstr "Неуспех при изтриването на папката „{0}“."
 
-#: ../mail/mail.error.xml.h:28
+#: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "Системната папка „{0}“ не може да бъде изтрита."
 
-#: ../mail/mail.error.xml.h:29
+#: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgstr ""
 "Не може да се редактира папката за търсене „{0}“, защото тя не съществува."
 
-#: ../mail/mail.error.xml.h:30
+#: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "Неуспех при преместването на папка „{0}“ в „{1}“."
 
-#: ../mail/mail.error.xml.h:31
+#: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
 msgstr "Неуспех при отварянето на източника „{1}“."
 
-#: ../mail/mail.error.xml.h:32
+#: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
 msgstr "Неуспех при отварянето на източника „{2}“."
 
-#: ../mail/mail.error.xml.h:33
+#: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
 msgstr "Неуспех при отварянето на целта „{2}“."
 
-#: ../mail/mail.error.xml.h:34
+#: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
@@ -14389,31 +14382,31 @@ msgstr ""
 "Няма да можете да използвате този доставчик, преди да приемете неговия "
 "лиценз."
 
-#: ../mail/mail.error.xml.h:35
+#: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "Неуспех при преименуването на „{0}“ в „{1}“."
 
-#: ../mail/mail.error.xml.h:36
+#: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgstr "Системната папка „{0}“ не може да бъде преименувана или преместена."
 
-#: ../mail/mail.error.xml.h:37
+#: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
 msgstr "Неуспех при запазването на промените в абонамента."
 
-#: ../mail/mail.error.xml.h:38
+#: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
 msgstr "Неуспех при запазването в папка „{0}“."
 
-#: ../mail/mail.error.xml.h:39
+#: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
 msgstr "Неуспех при запазването във файл „{0}“."
 
-#: ../mail/mail.error.xml.h:40
+#: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "Не може да се зададе скрипт за подписване „{0}“."
 
-#: ../mail/mail.error.xml.h:41
+#: ../mail/mail.error.xml.h:40
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -14422,72 +14415,72 @@ msgstr ""
 "големите и малките букви имат значение. Може би клавишът „Caps Lock“ е "
 "натиснат."
 
-#: ../mail/mail.error.xml.h:42
+#: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
 msgstr "Неуспех при запазването на файла с подписа."
 
-#: ../mail/mail.error.xml.h:43
+#: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
 msgstr "Изтриване на „{0}“?"
 
-#: ../mail/mail.error.xml.h:44
+#: ../mail/mail.error.xml.h:43
 msgid "Delete account?"
 msgstr "Изтриване на абонамента?"
 
-#: ../mail/mail.error.xml.h:45
+#: ../mail/mail.error.xml.h:44
 msgid "Discard changes?"
 msgstr "Игнориране на промените?"
 
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:45
 msgid "Do not delete"
 msgstr "Да не се изтрива"
 
-#: ../mail/mail.error.xml.h:47
+#: ../mail/mail.error.xml.h:46
 msgid "Do not disable"
 msgstr "Да не се изключва"
 
-#: ../mail/mail.error.xml.h:48
+#: ../mail/mail.error.xml.h:47
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "Искате ли операцията да се извърши и в подпапките?"
 
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:48
 msgid "Do you want to mark all messages as read?"
 msgstr "Искате ли да отбележите всички писма като прочетени?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:49
 msgid "Do you wish to save your changes?"
 msgstr "Искате ли да запазите направените промени?"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:50
 msgid "Enter password."
 msgstr "Въвеждане на парола."
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
 msgstr "Грешка при зареждането на дефинициите за филтрите."
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:52
 msgid "Error while performing operation."
 msgstr "Грешка при изпълнение на операцията."
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
 msgstr "Грешка по време на {0}."
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
 msgstr "Файлът съществува, но не може да бъде презаписан."
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:55
 msgid "File exists but is not a regular file."
 msgstr "Файлът съществува, но не е обикновен файл."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:56
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
 "Ако продължите, няма да имате втора възможност да възстановите тези писма."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:57
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
@@ -14495,13 +14488,13 @@ msgstr ""
 "Ако изтриете папката, цялото й съдържание, както и съдържанието на всички "
 "нейни подпапки, ще бъде изтрито за постоянно."
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:58
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr ""
 "Ако продължите, всички абонаменти към сървъри-посредници ще бъдат изтрити за "
 "постоянно."
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:59
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -14509,12 +14502,12 @@ msgstr ""
 "Ако продължите, информацията за абонамента\n"
 "и цялата информация за сървъри-посредници ще бъде изтрита за постоянно."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:61
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr ""
 "Ако продължите, информацията за абонамента ще бъде изтрита за постоянно."
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:62
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -14522,19 +14515,19 @@ msgstr ""
 "Ако спрете програмата, вашите писма няма да бъдат изпратени, докато не "
 "стартирате отново Evolution."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:63
 msgid "Ignore"
 msgstr "Игнориране"
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:64
 msgid "Invalid authentication"
 msgstr "Невалидно удостоверяване"
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
 msgstr "Филтрите на пощата автоматично се обновяват."
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:66
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -14546,39 +14539,39 @@ msgstr ""
 "всички получатели ще се покажат така или иначе. За да избегнете това, "
 "добавете поне един получател в полето „До“ или „Копие“."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
 msgstr "Отбелязване на всички писма като прочетени"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:68
 msgid "Mark all messages in subfolders as read?"
 msgstr "Отбелязване на всички писма в подпапката като прочетени?"
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:69
 msgid "Mark as _Read"
 msgstr "От_белязване като прочетено"
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:70
 msgid "Missing folder."
 msgstr "Липсваща папка."
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:72
 msgid "No sources selected."
 msgstr "Няма избрани източници."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:73
 msgid "Opening too many messages at once may take a long time."
 msgstr "Отварянето на много писма едновременно може да отнеме много време."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:74
 msgid "Please check your account settings and try again."
 msgstr "Проверете настройките на вашия абонамент и опитайте отново."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:75
 msgid "Please enable the account or send using another account."
 msgstr "Включете абонамента или изпратете през друг абонамент."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -14587,7 +14580,7 @@ msgstr ""
 "чрез натискане на бутона „До:“, който се намира до полето за въвеждане на "
 "адреси."
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:77
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -14599,47 +14592,47 @@ msgstr ""
 "{0}\n"
 "Изпращане въпреки това?"
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:80
 msgid "Please provide an unique name to identify this signature."
 msgstr "Въведете уникално име за идентификацията на този подпис."
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:81
 msgid "Please wait."
 msgstr "Изчакайте."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:82
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr "Проблем по време на мигрирането на папка със стара поща „{0}“."
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:83
 msgid "Querying server"
 msgstr "Обръщане към сървър"
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:84
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Сървърът се проверява за поддържаните методи на удостоверяване."
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:85
 msgid "Read receipt requested."
 msgstr "Изискано е известие за прочитане."
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:86
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "Наистина ли искате да изтриете папката „{0}“ и всички нейни подпапки?"
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:87
 msgid "Search Folders automatically updated."
 msgstr "Папките за търсене са автоматично обновени."
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:88
 msgid "Send Receipt"
 msgstr "Изпращане на известие за прочитане"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:89
 msgid "Signature Already Exists"
 msgstr "Подписът вече съществува"
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
@@ -14647,7 +14640,7 @@ msgstr ""
 "За да работи правилно Evolution, програмата се нуждае от системни папки, "
 "които не можете да преименувате, премествате или изтривате."
 
-#: ../mail/mail.error.xml.h:92
+#: ../mail/mail.error.xml.h:91
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -14663,7 +14656,7 @@ msgstr ""
 "всички получатели ще се покажат така или иначе. За да избегнете това, "
 "добавете поне един получател в полето „До“ или „Копие“. "
 
-#: ../mail/mail.error.xml.h:95
+#: ../mail/mail.error.xml.h:94
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -14677,7 +14670,7 @@ msgstr ""
 "    „{1}“\n"
 "и бяха обновени."
 
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:99
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -14691,11 +14684,11 @@ msgstr ""
 "    „{1}“\n"
 "и бяха обновени."
 
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:104
 msgid "The script file must exist and be executable."
 msgstr "Този скриптов файл трябва да съществува и да бъде изпълним."
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:105
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -14704,7 +14697,7 @@ msgstr ""
 "Отидете в редактора за папки за търсене и я добавете изрично, ако това се "
 "налага."
 
-#: ../mail/mail.error.xml.h:108
+#: ../mail/mail.error.xml.h:107
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -14712,13 +14705,13 @@ msgstr ""
 "Това писмо не може да бъде изпратено, защото абонаментът, през който искате "
 "да го пратите, е изключен"
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:108
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 "Това писмо не може да бъде изпратено, защото не сте посочили получател(и)"
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:109
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -14726,11 +14719,11 @@ msgstr ""
 "Сървърът не поддържа този тип удостоверяване и като цяло може да не поддържа "
 "изобщо какъвто и да е тип."
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:110
 msgid "This signature has been changed, but has not been saved."
 msgstr "Този подпис беше променен, но промените не бяха запазени."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:111
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
@@ -14738,11 +14731,11 @@ msgstr ""
 "Това ще отбележи всички писма като прочетени, в избраната папка и нейните "
 "подпапки."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:112
 msgid "Unable to connect to the GroupWise server."
 msgstr "Неуспех при свързването със сървър GroupWise."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:113
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -14750,39 +14743,39 @@ msgstr ""
 "Неуспех при отварянето на папката за чернови към този абонамент. Да се "
 "използва ли стандартната папка за чернови?"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:114
 msgid "Unable to read license file."
 msgstr "Неуспех при прочитането на файла с лицензното споразумение."
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:115
 msgid "Use _Default"
 msgstr "Използване на _стандартни"
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:116
 msgid "Use default drafts folder?"
 msgstr "Да бъде ли използвана стандартната папка за чернови?"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:117
 msgid "You have not filled in all of the required information."
 msgstr "Не сте подали цялата необходима информация."
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:118
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Имате неизпратени писма, искате ли да спрете програмата въпреки това?"
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:119
 msgid "You may not create two accounts with the same name."
 msgstr "Не може да имате два абонамента с едно и също име."
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:120
 msgid "You must name this Search Folder."
 msgstr "Трябва да дадете име на тази папка за търсене"
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:121
 msgid "You must specify a folder."
 msgstr "Трябва да определите папка."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:122
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -14792,27 +14785,27 @@ msgstr ""
 "избирайки папки поотделно, и/или всички локални папки, всички отдалечени "
 "папки, или и двете."
 
-#: ../mail/mail.error.xml.h:125
+#: ../mail/mail.error.xml.h:124
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "Влизането в сървъра „{0}“ като „{0}“ е неуспешно."
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:125
 msgid "_Append"
 msgstr "_Прикрепяне"
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:126
 msgid "_Discard changes"
 msgstr "_Игнориране на промените"
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:127
 msgid "_Do not Mark as Read"
 msgstr "Без отбелязване като _прочетено"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:129
 msgid "_Expunge"
 msgstr "_Изчистване"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:130
 msgid "_Open Messages"
 msgstr "Отваряне на _писма"
 
@@ -15237,8 +15230,8 @@ msgstr "Стандартни източници"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid ""
-"Provides functionality for marking a calendar or an addressbook as the "
-"default one."
+"Provides functionallity for marking a calendar or addressbook as the default "
+"one."
 msgstr ""
 "Предоставя функционалност за отбелязване на календар или адресник като "
 "стандартен."
@@ -15566,6 +15559,10 @@ msgstr "Паролата Ви ще изтече след 7 дни..."
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
 msgstr "_Смяна на паролата"
+
+#: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:4
+msgid "ok_button"
+msgstr "бутон_ОК"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
 msgid "(Permission denied.)"
@@ -16112,7 +16109,7 @@ msgid "_Not Shared"
 msgstr "_Не са споделени"
 
 #: ../plugins/groupwise-features/properties.glade.h:14
-msgid "_Shared With..."
+msgid "_Shared With ..."
 msgstr "_Споделено с ..."
 
 #: ../plugins/groupwise-features/properties.glade.h:15
@@ -16991,10 +16988,10 @@ msgstr "Пощенски _списък"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid ""
-"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+"Provide actions for common mailing list commands (subscribe, "
+"unsubscribe, ...)."
 msgstr ""
-"Осигурява действия за командите за пощенски списъци (абониране, "
-"отписване, ...)."
+"Осигурява общи действия при пощенски списъци (абониране, отписване, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 msgid "_Post message to list"
@@ -17399,7 +17396,7 @@ msgid "Save attachments"
 msgstr "Запазване на прикрепените файлове"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-msgid "Save Attachments..."
+msgid "Save Attachments ..."
 msgstr "Запазване на прикрепените файлове..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2

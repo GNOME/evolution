@@ -1,7 +1,6 @@
-2006-10-17  Harish Krishnaswamy  <kharish@novell.com>
+2006-11-20  Harish Krishnaswamy  <kharish@novell.com>
 
-	* main.c: (show_development_warning):  Update last
-	stable version.
+	* main.c: (main): Fix leak of g_option_context.
 
 2006-10-16  Chris Heath  <chris@heathens.co.nz>
 

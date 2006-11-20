@@ -1719,7 +1719,6 @@ gnome_calendar_destroy (GtkObject *object)
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	gchar *filename;
-	ECalModel *cal_model;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (object));
@@ -1775,7 +1774,7 @@ gnome_calendar_destroy (GtkObject *object)
 			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 		g_list_free (priv->notifications);
 		priv->notifications = NULL;
-	
+		
 		/* Save the TaskPad layout. */
 		filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
 					     "TaskPad", NULL);
@@ -1848,24 +1847,6 @@ gnome_calendar_destroy (GtkObject *object)
 			g_object_unref (priv->memopad_menu);
 			priv->memopad_menu = NULL;
 		}
-		/* Disconnect all handlers */
-		cal_model = e_calendar_view_get_model ((ECalendarView *)priv->week_view);
-		g_signal_handlers_disconnect_by_func (cal_model,
-				G_CALLBACK (view_progress_cb), gcal);
-		g_signal_handlers_disconnect_by_func (cal_model,
-				G_CALLBACK (view_done_cb), gcal);
-
-		cal_model = e_calendar_table_get_model ((ECalendarTable *) priv->todo);
-		g_signal_handlers_disconnect_by_func (cal_model,
-				G_CALLBACK (view_progress_cb), gcal);
-		g_signal_handlers_disconnect_by_func (cal_model,
-				G_CALLBACK (view_done_cb), gcal);
-
-		cal_model = e_memo_table_get_model ((EMemoTable *)priv->memo);
-		g_signal_handlers_disconnect_by_func (cal_model,
-				G_CALLBACK (view_progress_cb), gcal);
-		g_signal_handlers_disconnect_by_func (cal_model,
-				G_CALLBACK (view_done_cb), gcal);
 
 		g_free (priv);
 		gcal->priv = NULL;
@@ -2587,8 +2568,6 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		g_object_unref (source);
 
-		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
-
 		return;
 	}
 
@@ -2690,8 +2669,6 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		g_object_unref (source);
-
-		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
 
 		return;
 	}
