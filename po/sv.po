@@ -12,14 +12,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.226.2.1 2006/10/20 14:07:15 dnylande Exp $
+# $Id: sv.po,v 1.226.2.2 2006/11/20 19:53:51 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-20 06:34+0200\n"
-"PO-Revision-Date: 2006-10-20 13:49+0100\n"
+"PO-Revision-Date: 2006-11-20 20:51+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -11916,7 +11916,7 @@ msgstr "Sö_k:"
 
 #: ../mail/em-format-html-display.c:678
 msgid "Fo_rward"
-msgstr "Vida_rebefordra"
+msgstr "F_ramåt"
 
 #: ../mail/em-format-html-display.c:683
 msgid "M_atch case"
