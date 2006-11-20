@@ -4554,7 +4554,6 @@ msgstr[1] "דקות"
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
 #: ../plugins/calendar-http/calendar-http.c:287
 #: ../plugins/calendar-weather/calendar-weather.c:564
-#, fuzzy
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "שעות"
@@ -4695,8 +4694,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "שניה %d"
+msgstr[1] "%d שניות"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 #, fuzzy
@@ -5166,9 +5165,8 @@ msgstr ""
 #. Create the weather group
 #: ../calendar/gui/calendar-component.c:284
 #: ../plugins/calendar-weather/calendar-weather.c:100
-#, fuzzy
 msgid "Weather"
-msgstr "אחרי"
+msgstr "מזג אויר"
 
 #: ../calendar/gui/calendar-component.c:582
 #, fuzzy
@@ -5421,6 +5419,11 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
+"60 דקות\n"
+"30 דקות\n"
+"15 דקות\n"
+"10 דקות\n"
+"5 דקות"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
@@ -5442,7 +5445,7 @@ msgstr "<span weight=\"bold\">הגדרות</span>"
 #: ../mail/mail-config.glade.h:17
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">כללי</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 #, fuzzy
@@ -10706,8 +10709,8 @@ msgstr ""
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "לפני שנייה אחת"
+msgstr[1] "לפני %d שניות"
 
 #: ../filter/filter-datespec.c:79
 #, c-format
@@ -10931,7 +10934,7 @@ msgstr ""
 
 #: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:179
 msgid "seconds"
-msgstr ""
+msgstr "שניות"
 
 #: ../filter/filter.glade.h:19
 msgid "the current time"
@@ -10943,7 +10946,7 @@ msgstr ""
 
 #: ../filter/filter.glade.h:22
 msgid "years"
-msgstr ""
+msgstr "שנים"
 
 #: ../filter/rule-editor.c:378
 msgid "Add Rule"
@@ -11540,9 +11543,8 @@ msgid "Outbox"
 msgstr ""
 
 #: ../mail/em-folder-tree-model.c:492 ../mail/mail-component.c:154
-#, fuzzy
 msgid "Sent"
-msgstr "שלח"
+msgstr "דואר יוצא"
 
 #: ../mail/em-folder-tree-model.c:514 ../mail/em-folder-tree-model.c:818
 msgid "Loading..."
@@ -11641,7 +11643,7 @@ msgstr "_שנה שם..."
 
 #: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:128
 msgid "_Empty Trash"
-msgstr ""
+msgstr "_רוקן את האשפה"
 
 #: ../mail/em-folder-utils.c:104
 #, c-format
@@ -11696,7 +11698,7 @@ msgstr "_בטל מחיקה"
 
 #: ../mail/em-folder-view.c:1128
 msgid "_Move to Folder..."
-msgstr ""
+msgstr "_העבר לתיקייה..."
 
 #: ../mail/em-folder-view.c:1129
 msgid "_Copy to Folder..."
@@ -11990,9 +11992,8 @@ msgid "S_ave"
 msgstr "_שמור"
 
 #: ../mail/em-format-html-display.c:2225
-#, fuzzy
 msgid "S_ave All"
-msgstr "שמור בשם..."
+msgstr "שמור ה_כל"
 
 #: ../mail/em-format-html-display.c:2288
 msgid "No Attachment"
@@ -12001,7 +12002,7 @@ msgstr ""
 #: ../mail/em-format-html-print.c:130
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "עמוד %d מתוך %d"
 
 #: ../mail/em-format-html.c:483 ../mail/em-format-html.c:485
 #, c-format
@@ -12075,12 +12076,12 @@ msgstr ""
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1691
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: ../mail/em-format-html.c:1694
 msgid "<I> (%R %Z)</I>"
-msgstr ""
+msgstr "<I> (%R %Z)</I>"
 
 #: ../mail/em-format-html.c:1704 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:91
@@ -13011,21 +13012,18 @@ msgid "Failed upgrading Mail settings or folders."
 msgstr ""
 
 #: ../mail/mail-config.c:85
-#, fuzzy
 msgid "I_mportant"
-msgstr "_יבא"
+msgstr "_חשוב"
 
 #. red
 #: ../mail/mail-config.c:86
-#, fuzzy
 msgid "_Work"
-msgstr "עבודה"
+msgstr "_עבודה"
 
 #. orange
 #: ../mail/mail-config.c:87
-#, fuzzy
 msgid "_Personal"
-msgstr "אישי"
+msgstr "_אישי"
 
 #. forest green
 #: ../mail/mail-config.c:88
@@ -13048,13 +13046,12 @@ msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>Sig_natures</b>"
-msgstr "חתימות"
+msgstr "<b>_חתימות</b>"
 
 #: ../mail/mail-config.glade.h:5
 msgid "<b>_Languages</b>"
-msgstr ""
+msgstr "<b>_שפות</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<small>This will make the the filter more reliable, but slower</small>"
@@ -13086,15 +13083,15 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">מחיקת דואר</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">כותרות הודעה שמוצגות	</span>"
 
 #: ../mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">אפשרויות מסננים</span>"
 
 #: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels and Colors</span>"
@@ -13102,15 +13099,15 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">טעינת תמונות</span>"
 
 #: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">הצגת הודעות</span>"
 
 #: ../mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">גופני הודעות</span>"
 
 #: ../mail/mail-config.glade.h:22
 #, fuzzy
@@ -13128,7 +13125,7 @@ msgstr "<span weight=\"bold\">מידע לא הכרחי</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">אפשרויות</span>"
 
 #: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
@@ -13279,7 +13276,7 @@ msgstr "_ברירת מחדל"
 
 #: ../mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
-msgstr ""
+msgstr "קידוד תווים ברירת מחדל:"
 
 #: ../mail/mail-config.glade.h:69
 msgid "Digitally _sign outgoing messages (by default)"
@@ -13324,11 +13321,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:80
 msgid "Fi_xed width Font:"
-msgstr ""
+msgstr "גופן _רוחב קבוע"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Fi_xed-width:"
-msgstr ""
+msgstr "רוח_ב-קבוע:"
 
 #: ../mail/mail-config.glade.h:82
 msgid "Font Properties"
@@ -13339,7 +13336,6 @@ msgid "Format messages in _HTML"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:84
-#, fuzzy
 msgid "Full Nam_e:"
 msgstr "_שם מלא:"
 
@@ -13353,7 +13349,7 @@ msgstr "כותרות"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "ס_מן ציטטות בצבע"
 
 #: ../mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
@@ -13400,7 +13396,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:106
 msgid "Play sound file when new mail arri_ves"
-msgstr ""
+msgstr "השמע קובץ מו_סיקה כאשר מגיע דואר חדש"
 
 #: ../mail/mail-config.glade.h:107
 msgid ""
@@ -13454,9 +13450,8 @@ msgid "Remember _password"
 msgstr "זכור _סיסמה"
 
 #: ../mail/mail-config.glade.h:119
-#, fuzzy
 msgid "S_elect..."
-msgstr "בחר..."
+msgstr "ב_חר..."
 
 #: ../mail/mail-config.glade.h:120
 #, fuzzy
@@ -13468,9 +13463,8 @@ msgid "S_tandard Font:"
 msgstr "גופן _רגיל:"
 
 #: ../mail/mail-config.glade.h:122
-#, fuzzy
 msgid "Se_lect..."
-msgstr "בחר..."
+msgstr "ב_חר..."
 
 #: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font"
@@ -13489,13 +13483,12 @@ msgid "Select HTML variable width font for printing"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:128
-#, fuzzy
 msgid "Select sound file"
-msgstr "בחר קובץ"
+msgstr "בחר קוסץ מוסיקה"
 
 #: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
-msgstr "שליחת דואר"
+msgstr "שולח דואר"
 
 #: ../mail/mail-config.glade.h:131
 msgid "Sent _Messages Folder:"
@@ -13584,11 +13577,11 @@ msgstr "הו_סף חתימה"
 
 #: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
-msgstr ""
+msgstr "_תמיד טען תמונות מהאינטרנט"
 
 #: ../mail/mail-config.glade.h:156
 msgid "_Do not notify me when new mail arrives"
-msgstr ""
+msgstr "ללא ה_תרעה כאשר מגיע דואר חדש"
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
@@ -13600,7 +13593,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:160
 msgid "_Load images in mail from contacts"
-msgstr ""
+msgstr "_טען תמונות בהודעות מאנשי קשר"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Make this my default account"
@@ -13608,11 +13601,11 @@ msgstr "ה_פוך חשבון זה לחשבון ברירת המחדל"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Mark messages as read after"
-msgstr ""
+msgstr "_סמן הודעות כהודעות שנקראו לאחר"
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Never load images from the Internet"
-msgstr ""
+msgstr "_לעולם אל תטען תמונות מהאינטרנט"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Path:"
@@ -13620,11 +13613,11 @@ msgstr "_מסלול:"
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
-msgstr ""
+msgstr "ה_תרע כאשר הודעות HTML נשלחות לנמענים אשר אינם רוצים אותן"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr ""
+msgstr "התר_ע כאשר הודעות נשלחות הודעות ללא שורת נושא"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Reply style:"
@@ -13632,35 +13625,32 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Script:"
-msgstr ""
+msgstr "_תסריט:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Show image animations"
-msgstr "הראה אנימציות"
+msgstr "הראה _אנימציות"
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr ""
 
 #: ../mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Use Secure Connection:"
 msgstr "השתמש ב_תקשורת מאובטחת:"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "הש_תמש באותו גופן כמו יישומים אחרים"
 
 #: ../mail/mail-config.glade.h:176
-#, fuzzy
 msgid "addresses"
-msgstr "כתובת"
+msgstr "כתובות"
 
 #: ../mail/mail-config.glade.h:177
 msgid "color"
-msgstr "צבע"
+msgstr " "
 
 #: ../mail/mail-config.glade.h:178
 msgid "description"
@@ -13800,17 +13790,16 @@ msgstr ""
 #: ../mail/mail-ops.c:736
 #, c-format
 msgid "Sending message %d of %d"
-msgstr ""
+msgstr "שולח הודעה %d מתוך %d"
 
 #: ../mail/mail-ops.c:761
 #, c-format
 msgid "Failed to send %d of %d messages"
-msgstr ""
+msgstr "נכשל בשליחת %d מתוך %d הודעות"
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:652
-#, fuzzy
 msgid "Canceled."
-msgstr "בוטל"
+msgstr "בוטל."
 
 #: ../mail/mail-ops.c:765
 msgid "Complete."
@@ -13847,7 +13836,7 @@ msgstr ""
 #: ../mail/mail-ops.c:1363
 #, c-format
 msgid "Removing folder %s"
-msgstr ""
+msgstr "מסיר תיקייה %s"
 
 #: ../mail/mail-ops.c:1457
 #, c-format
@@ -13875,30 +13864,30 @@ msgstr ""
 #: ../mail/mail-ops.c:1662
 #, c-format
 msgid "Emptying trash in '%s'"
-msgstr ""
+msgstr "מרוקן את האשפה ב-'%s'"
 
 #: ../mail/mail-ops.c:1663
 msgid "Local Folders"
-msgstr ""
+msgstr "תיקיות מקומיות"
 
 #: ../mail/mail-ops.c:1746
 #, c-format
 msgid "Retrieving message %s"
-msgstr ""
+msgstr "מקבל הודעה %s"
 
 #: ../mail/mail-ops.c:1856
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "מקבל הודעה %d"
+msgstr[1] "מקבל %d הודעות"
 
 #: ../mail/mail-ops.c:1942
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "שומר הודעה %d"
+msgstr[1] "שומר %d הודעות"
 
 #: ../mail/mail-ops.c:2013
 #, c-format
@@ -14614,7 +14603,7 @@ msgstr "הכי גבוה"
 
 #: ../mail/message-list.c:1467 ../widgets/table/e-cell-date.c:57
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
@@ -14629,20 +14618,19 @@ msgstr "אתמול %l:%M %p"
 
 #: ../mail/message-list.c:1495 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: ../mail/message-list.c:1503 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: ../mail/message-list.c:1505 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2261 ../mail/message-list.etspec.h:9
-#, fuzzy
 msgid "Messages"
-msgstr "הו_דעה:"
+msgstr "הודעות"
 
 #: ../mail/message-list.c:3652
 msgid "Generating message list"
@@ -14907,37 +14895,35 @@ msgstr ""
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "מזג אויר: מעונן"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr ""
+msgstr "מזג אויר: ערפל"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "מזג אויר: מעונן חלקית"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Rain"
-msgstr "בחריין"
+msgstr "מזג אויר: גשם"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
 msgid "Weather: Snow"
-msgstr ""
+msgstr "מזג אויר: שלג"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "מזג אויר: שמש"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "מזג אויר: סופות ברקים"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
-#, fuzzy
 msgid "Select a location"
-msgstr "בחר פעולה"
+msgstr "בחר מיקום"
 
 #: ../plugins/calendar-weather/calendar-weather.c:654
 #, fuzzy
@@ -16296,136 +16282,121 @@ msgstr "היום %l:%M %p"
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:216
 msgid "Tomorrow"
-msgstr ""
+msgstr "מחר"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:221
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "מחר %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:225
 msgid "Tomorrow %H:%M:%S"
-msgstr ""
+msgstr "מחר %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:230
-#, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "היום %l:%M %p"
+msgstr "מחר %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:234
-#, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "היום %l:%M %p"
+msgstr "מחר %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:253
 #, c-format
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:258
-#, fuzzy
 msgid "%A %H:%M"
-msgstr "%A %d %B"
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:262
-#, fuzzy
 msgid "%A %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:267
-#, fuzzy
 msgid "%A %l:%M %p"
-msgstr "היום %l:%M %p"
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:271
-#, fuzzy
 msgid "%A %l:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:280
-#, fuzzy
 msgid "%A, %B %e"
-msgstr "%d %B %Y"
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:286
-#, fuzzy
 msgid "%A, %B %e %H:%M"
-msgstr "%A %d %B %Y"
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:290
-#, fuzzy
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:295
 msgid "%A, %B %e %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:299
-#, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:305
-#, fuzzy
 msgid "%A, %B %e, %Y"
-msgstr "%A %d %B %Y"
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:310
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:314
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:319
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:323
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:348
 #, c-format
@@ -17008,14 +16979,12 @@ msgid "Mono Loader"
 msgstr "העבר לתיקייה"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "השמע _צליל כאשר מגיע דואר חדש"
+msgstr "מייצר הודעת D-BUS כאשר מגיע דואר חדש."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
-#, fuzzy
 msgid "New Mail Notification"
-msgstr "הגדרות דואר"
+msgstr "הודעות דואר חדש"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
 #, fuzzy
@@ -17029,13 +16998,12 @@ msgstr ""
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 #: ../plugins/plugin-manager/plugin-manager.c:180
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "מנהל"
+msgstr "מנהל תוספים"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "אפשר וכבה תוספים"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
@@ -18141,7 +18109,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "רשויות"
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
@@ -18276,7 +18244,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr ""
+msgstr "התעודות שלי"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
@@ -18285,7 +18253,7 @@ msgstr ""
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:676
 msgid "Certificate already exists"
-msgstr ""
+msgstr "התעודה כבר קיימת"
 
 #: ../smime/lib/e-cert.c:239 ../smime/lib/e-cert.c:249
 msgid "%d/%m/%Y"
@@ -18347,11 +18315,11 @@ msgstr ""
 #: ../smime/lib/e-cert.c:688
 #, c-format
 msgid "Object Identifier (%s)"
-msgstr ""
+msgstr "מזהה אובייקט (%s)"
 
 #: ../smime/lib/e-cert.c:739
 msgid "Algorithm Identifier"
-msgstr ""
+msgstr "מזהה אלגוריתם"
 
 #: ../smime/lib/e-cert.c:747
 msgid "Algorithm Parameters"
@@ -18423,7 +18391,7 @@ msgstr "לא קריטי"
 
 #: ../smime/lib/e-cert.c:965
 msgid "Extensions"
-msgstr ""
+msgstr "הרחבות"
 
 #: ../smime/lib/e-cert.c:1036
 #, c-format
@@ -18436,7 +18404,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:1101
 msgid "Issuer"
-msgstr ""
+msgstr "מנפיק"
 
 #: ../smime/lib/e-cert.c:1155
 msgid "Issuer Unique ID"
@@ -18497,7 +18465,7 @@ msgstr "לא ניתן להריץ את `%s`: %s\n"
 #: ../tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr ""
+msgstr "מכבה %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
 msgid "Address _Book Properties"
@@ -21563,7 +21531,7 @@ msgstr ""
 #: ../widgets/text/e-entry-test.c:50
 #, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "כל הזכויות שמורות (C) 2000, Ximian, Inc."
+msgstr "כל הזכויות שמורות (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
 msgid "This should test the minicard canvas item"
@@ -21576,9 +21544,8 @@ msgid "Event Processor"
 msgstr "הכנס סיסמה"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
-#, fuzzy
 msgid "Font"
-msgstr "גופנים"
+msgstr "גופנן"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
 #, fuzzy
@@ -21639,9 +21606,8 @@ msgstr ""
 
 #: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
 #: ../widgets/text/e-text.c:3710 ../widgets/text/e-text.c:3711
-#, fuzzy
 msgid "Cursor position"
-msgstr "עמדה"
+msgstr "מיקום סמן"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
@@ -21692,13 +21658,12 @@ msgid "Y Offset"
 msgstr ""
 
 #: ../widgets/text/e-text.c:3610 ../widgets/text/e-text.c:3611
-#, fuzzy
 msgid "Text width"
-msgstr "מסתיים ב"
+msgstr "רוחב טקסט"
 
 #: ../widgets/text/e-text.c:3617 ../widgets/text/e-text.c:3618
 msgid "Text height"
-msgstr ""
+msgstr "גובה טקסט"
 
 #: ../widgets/text/e-text.c:3717 ../widgets/text/e-text.c:3718
 msgid "IM Context"
