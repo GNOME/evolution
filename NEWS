@@ -1,3 +1,30 @@
+Evolution 2.8.2 2006-11-20
+---------------------------
+
+Bug fixes :
+#354875, #358249, #357492. 
+Bugzilla.novell.com : #208396, #208318, #222605. 
+
+Contributors:
+Veerapuram Varadhan, Harish Krishnaswamy, Chenthill,
+Ben Gamari, Srinivasa Ragavan, Parthasarathi Susarla.
+
+
+Updated Translations:
+
+Yair Hershkovitz (he), Duarte Loreto (pt),
+Ivar Smolin (et), Djihed Afifi (ar),
+Karsten Brackelmann (nb), Priit Laes (et),
+Pema Geyleg (dz), Christophe Merlet (fr),
+Alexander Shopov (bg), Francisco Javier F. Serrador (es),
+Satoru SATOH (ja), Luca Ferretti (it), Ignacio Casal Quinteiro (gl),
+Wouter Bolsterlee (nl), David Lodge (en_GB), Clytie Siddal (vi),
+Daniel Nylander (sv), Gabor Kelemen (hu),
+Josep Puigdemont i Casamajó (ca), Ankit Patel (gu), Ilkka Tuohela (fi),
+Jovan Naumovski (mk), Kjartan Maraas (nb).
+
+
+
 Evolution 2.8.1.1 2006-10-19
 ----------------------------
 
