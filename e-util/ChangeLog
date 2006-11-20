@@ -1,3 +1,8 @@
+2006-11-20  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-icon-factory.c: (load_icon), (e_icon_factory_get_icon):
+	Remove unreachable code and fix the leak of basename.
+
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #352450

@@ -124,6 +124,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 							     dent,
 							     basename,
 							     NULL);
+				g_free (basename);
 				if ((unscaled = gdk_pixbuf_new_from_file (filename, NULL)))
 					break;
 			}
@@ -308,18 +309,8 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	pthread_mutex_lock (&lock);
 	
 	if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
-		if (!(icon = load_icon (icon_key, icon_name, size, TRUE))) {
-			g_warning ("Icon not found -- %s", icon_name);
-			
-			/* Create an empty icon so that we don't keep spitting
-			   out the same warning over and over, every time this
-			   icon is requested.  */
-			
-			icon = icon_new (icon_key, NULL);
-			g_hash_table_insert (name_to_icon, icon->name, icon);
-		} else {
-			g_hash_table_insert (name_to_icon, icon->name, icon);
-		}
+		icon = load_icon (icon_key, icon_name, size, TRUE);
+		g_hash_table_insert (name_to_icon, icon->name, icon);
 	}
 	
 	if ((pixbuf = icon->pixbuf)) {
