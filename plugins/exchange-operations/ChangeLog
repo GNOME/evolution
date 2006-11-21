@@ -1,8 +1,9 @@
-2006-10-23  Priit Laes  <amd@store20.com>
+2006-11-20  Veerapuram Varadhan  <vvaradhan@novell.com>
 
-	* org-gnome-default-source.eplug.xml: Fixed typo in plugin 
-	description. Fixes bug 363999.
-
+	* exchange-folder-permission.c
+	(org_gnome_exchange_folder_permissions): Decode folder path - in
+	case if it has any encoded characters.
+	
 2006-08-07  Sushma Rai  <rsushma@novell.com>
 
 	* org-gnome-exchange-operations.error.xml: Corrected a spelling 

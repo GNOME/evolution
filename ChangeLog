@@ -1,42 +1,26 @@
-2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
+2006-11-21  Harish Krishnaswamy  <kharish@novell.com>
 
-	* data/Makefile.am: Install evolution.desktop
-	instead of evolution-<version>.desktop.
+	* NEWS, configure.in: Revert a change that 
+	caused an ugly crasher on exit. Bug #377626.
 
-2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
+2006-11-20  Harish Krishnaswamy  <kharish@novell.com>
 
-	* configure.in: Add targets help/quickref/es/Makefile
-	and mail/default/es/Makefile.
-
-2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: Reverting the previous patch as it breaks
-	the HEAD build. Target Help/C/Makefile was removed from 
-	configure.in while Help/Makefile.am still refers to subdirectory
-	C. 
-
-2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* configure.in: Fixes #76336 and add Spanish quickref.
-
-2006-11-07  Harish Krishnaswamy  <kharish@novell.com>
-
-	* NEWS, configure.in : Evolution 2.9.2 release
+	* NEWS, configure.in: Evolution 2.8.2 release
 	updates.
 
-2006-11-06  Harish Krishnaswamy  <kharish@novell.com>
+2006-11-20  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: Move prefer-plain plugin to the 'standard'
 	list from 'experimental'.
 
-2006-11-02  Jules Colding  <colding@omesc.com>
+2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
 
-	* evolution-shell.pc.in (execversion): Added variable so that 
-	the Evolution version is easily deduced programmatically.
+	* data/Makefile.am: Install evolution.desktop 
+	instead of evolution-<version>.desktop.
 
-2006-10-16  Harish Krishnaswamy  <kharish@novell.com>
+2006-10-19  Harish Krishnaswamy  <kharish@novell.com>
 
-	* configure.in: Evolution 2.9.1 release
+	* NEWS, configure.in: Evolution 2.8.1.1 release
 	updates.
 
 2006-10-16  Tor Lillqvist  <tml@novell.com>
@@ -44,19 +28,6 @@
 	* win32/libevolution-mail.def: List the function
 	mail_win32_get_mail_thread_queued() instead of the variable
 	mail_thread_queued.  (#348212)
-
-2006-10-15  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* addressbook/gui/widgets/eab-contact-display.c,
-	addressbook/importers/evolution-ldif-importer.c 
- 	addressbook/importers/evolution-vcard-importer.c 
- 	calendar/importers/icalendar-importer.c 
- 	plugins/groupwise-features/properties.glade 
- 	plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml 
- 	plugins/save-attachments/org-gnome-save-attachments.xml 
- 	shell/shell.error.xml: Fixed some strings to improve gettext
-	compendia for translators.
-	
 
 2006-10-02  Harish Krishnaswamy  <kharish@novell.com>
 

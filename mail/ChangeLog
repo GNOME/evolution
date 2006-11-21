@@ -1,19 +1,14 @@
-2006-11-09  Francisco Javier F. Serrador  <serrador@openshine.com>
+2006-11-20  Veerapuram Varadhan  <vvaradhan@novell.com>
 
-	* default/Makefile.am: Added "es" to SUBDIRS
+	Fix for bnc #208396
+
+	* em-folder-tree.c (em_folder_tree_get_selected_folder_info): Do
+	not make camel calls, instead fetch the information from the tree
+	itself.
+	(emft_popup_new_folder): Free the CamelFolderInfo structure.
+	* em-folder-utils.c (emfu_copy_folder_selected): Free the
+	CamelFolderInfo structure.
 	
-2006-11-09  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* default/es/Inbox: Added Spanish welcome mail.
-	* default/es/Makefile.am: Added Makefile
-
-2006-11-09  Sankar P  <psankar@novell.com>
-
-	* em-folder-browser.c: (emfb_view_hide_selected):
-	* em-folder-view.c: (emfv_popup_delete):
-	* mail.error.xml:
-	Disable mail delete for proxy when there are not enough rights
-
 2006-10-16  Tor Lillqvist  <tml@novell.com>
 
 	Fix for #348212:
@@ -30,18 +25,6 @@
 
 	* mail-component.c (create_local_item_cb): Fix memory leak.
 	Fixes bug #360815.
-
-2005-10-16  Sankar P  <psankar@novell.com>
-
-	* mail-ops.c: (em_filter_folder_element_describe)
-	Changes the string displayed in the status bar.
-	Fixes #320615
-
-2006-10-16  Ushveen Kaur <kushveen@novell.com>
-
-	** Fixes bug #308276
-
-	* mail.error.xml : secondary for "vfolder-notunique" corrected.
 
 2006-10-16  Srinivasa Ragavan  <sragavan@novell.com>
 	

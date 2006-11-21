@@ -1,25 +1,6 @@
-2006-11-14  Francisco Javier F. Serrador  <serrador@openshine.com>
+2006-11-20  Daniel Nylander <po@danielnylander.se>
 
-	* C/figures/evo_cal_callout_a.gif: Deleted 
-	* C/figures/evo_cal_callout_a.png: Added (as indicated in evolution.xml)
-
-2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* quickref/es/Makefile.am:
-	* quickref/es/quickref.tex:
-	* quickref/es/quickref.pdf:
-	* quickref/Makefile.am:
-
-	Added localized (spanish) quick reference card. 
-	
-2006-11-10  Francisco Javier F. Serrador  <serrador@openshine.com>
-
-	* es/es.po: Added initial revision for gnome-doc-tools.
-
-2006-10-14  Harish Krishnaswamy  <kharish@novell.com>
-
-	* C/evolution.xml: Documentation updates.
-	Committing on behalf of Radhika Nair <pradhika@novell.com>
+	* sv/sv.po: Added initial Swedish translation.
 
 2006-09-04  Harish Krishnaswamy  <kharish@novell.com>
 
