@@ -1,3 +1,9 @@
+2006-11-21  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/gnome-cal.c: (gnome_calendar_destroy):
+	Disconnect signal handlers before gcal is destroyed.
+	Fixes #208959 (bugzilla.novell.com).
+
 2006-11-20  Carlos Garcia Campos  <carlosgc@gnome.org>
 	
 	Fixes bug #367183
