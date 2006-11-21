@@ -1,5 +1,11 @@
 2006-11-21  Harish Krishnaswamy  <kharish@novell.com>
 
+	* data/Makefile.am: Fix installation problems
+	on evolution.keys, evolution.desktop and
+	evolution.mime.
+
+2006-11-21  Harish Krishnaswamy  <kharish@novell.com>
+
 	* NEWS, configure.in: Revert a change that 
 	caused an ugly crasher on exit. Bug #377626.
 
