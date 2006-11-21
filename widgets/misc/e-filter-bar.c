@@ -933,7 +933,7 @@ e_filter_bar_new (RuleContext *context,
 		  void *data)
 {
 	EFilterBar *bar;
-	ESearchBarItem item = { NULL, -1, NULL };
+	ESearchBarItem item = { NULL, -1, 0 };
 	
 	bar = gtk_type_new (e_filter_bar_get_type ());
 

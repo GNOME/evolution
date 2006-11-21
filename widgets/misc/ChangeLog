@@ -1,3 +1,8 @@
+2006-11-21  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-filter-bar.c: (e_filter_bar_new): type should be
+	initialized to 0, not NULL.
+
 2006-11-03  Parthasarathi Susarla <ajaysusarla@gmail.com>
 
 	** Fixes bug #357492
