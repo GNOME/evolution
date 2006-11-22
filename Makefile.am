@@ -27,6 +27,7 @@ EXTRA_DIST = 			\
 	intltool-update.in	\
 	intltool-extract.in	\
 	evolution-zip.in	\
+	gnome-doc-utils.make    \
 	$(pkgconfig_DATA:-$(BASE_VERSION).pc=.pc.in)
 
 if ENABLE_SMIME
@@ -54,7 +55,14 @@ SUBDIRS = 			\
 	help			\
 	po
 
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update iconv-detect.h $(pkgconfig_DATA)
+DISTCLEANFILES = 		\
+	intltool-extract	\
+	intltool-merge 		\
+	intltool-update 	\
+	iconv-detect.h 		\
+	gnome-doc-utils.make 	\
+	$(pkgconfig_DATA)
+
 
 # CDE Stuff
 

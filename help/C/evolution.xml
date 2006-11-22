@@ -7,22 +7,63 @@
  <!ENTITY z-CLM "(CLM)" >
  <!ENTITY z-nbhyph "-" >
  <!ENTITY z-nbspace " " >
+ <!ENTITY appversion "2.10">
+ <!ENTITY appname "Evolution">
 ] >
 
-<?yelp:chunk-depth 3?>
+<!--<?yelp:chunk-depth 3?>-->
 <book lang="en">
 <title>Evolution User Guide</title>
 
- <bookinfo id="Front">
-  <productname>Evolution&trade;</productname>
-  <productnumber>2.8</productnumber>
+ <bookinfo id="Front">   
+<!-- Novell staff change this as you wish -->
+   <authorgroup>
+     <author role="maintainer">
+       <firstname>Novell, Inc</firstname>
+     </author> 
+   <corpauthor>
+     Novell, Inc
+   </corpauthor>
+   </authorgroup>
+   <title>
+   User's Guide to the Evolution Groupware Suite and Email Client
+   </title>
+   <date>
+     2002-2006
+   </date>
+   <revhistory>
+     <revision>
+       <revnumber>&appversion;</revnumber>
+       <date>November 20, 2006</date>
+       <revdescription>
+	 <para role="author">Francisco Serrador</para>
+	 <para role="publisher">Novell, Inc</para>
+       </revdescription>
+     </revision>
+     <revision>
+       <revnumber>2.8</revnumber>
+       <date>October 5, 2006</date>	 
+     </revision>
+   </revhistory>
+
+   <releaseinfo>
+     This manual describes version &appversion; of &appname; 
+   </releaseinfo>
+   <abstract role="description">
+     <para>
+       A user's guide to Evolution which explains how to use
+       its mail, calendar, addressbook, and task list features.
+     </para>
+   </abstract>
+  <productname>&appname;&trade;</productname>
+  <productnumber>&appversion;</productnumber>
   <invpartnumber>October 5, 2006</invpartnumber>
   <title>User Guide</title>
  </bookinfo>
 
  <preface id="preface">
   <title>About This Guide</title>
-  <para>This guide describes how to use and manage Evolution&trade; 2.8.<varname>x</varname> client software. This guide is intended for users and is divided into the following sections:</para>
+  <para>This guide describes how to use and manage Evolution&trade; &appversion;.<varname>x</varname> client software. This guide is intended for users and is divided into the following sections:</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mainwindow">Getting Started</link></para>
@@ -84,7 +125,7 @@
    </listitem>
   </itemizedlist>
   <bridgehead id="bt4ckdr">Documentation Updates</bridgehead>
-  <para>For the most recent version of the<citetitle> Evolution 2.8 User Guide</citetitle>, see the <ulink url="http://www.novell.com/documentation/evolution28/index.html">Evolution Documentation Web site</ulink>.</para>
+  <para>For the most recent version of the<citetitle> Evolution &appversion; User Guide</citetitle>, see the <ulink url="http://www.novell.com/documentation/evolution28/index.html">Evolution Documentation Web site</ulink>.</para>
   <bridgehead id="bt4ckds">Documentation Conventions</bridgehead>
   <para>In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path.</para>
   <para>A trademark symbol (&reg;, &trade;, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark.</para>
@@ -121,7 +162,7 @@
           <para>GNOME:</para>
          </entry>
          <entry colname="2">
-          <para>Click Programs &gt; Evolution.</para>
+          <para>Click Applications &gt; Office &gt; Evolution.</para>
          </entry>
         </row>
         <row id="bsptywg">
@@ -3010,7 +3051,7 @@
      <para><link linkend="usage-calendar-rsvp">Sending a Meeting Invitation</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="replying-to-rsvp"> <br />Accepting and Replying to a Meeting Request</link></para>
+     <para><link linkend="replying-to-rsvp">Accepting and Replying to a Meeting Request</link></para>
     </listitem>
     <listitem>
      <para><link linkend="receiving-rsvp-response">Reading Responses to Meeting Requests</link></para>
@@ -3874,7 +3915,7 @@ Accepting and Replying to a Meeting Request</title>
 
     <section id="config-easy">
      <title>Simple Configuration Tool for Evolution Exchange</title>
-     <para>Evolution Exchange 2.8 comes with a simple account creation tool for Exchange accounts.</para>
+     <para>Evolution Exchange &appversion; comes with a simple account creation tool for Exchange accounts.</para>
      <para>If you have no accounts configured, the simple account configuration assistant starts when you start Evolution. It asks only for the Outlook Web Access URL, and your username and password. Evolution Exchange determines the remaining information for you.</para>
      <para>If the simple account configuration tool does not run automatically, you need to create an account manually. For more information on how to do this, see <link linkend="config-exchange-new-account">Creating a New Exchange Account</link>.</para>
      <mediaobject id="bs4aw7j"><imageobject><imagedata format="PNG" fileref="figures/exchng-identity.png"/></imageobject></mediaobject>
@@ -5545,7 +5586,7 @@ Accepting and Replying to a Meeting Request</title>
     <para>Daniel Persson for Swedish (.se)</para>
    </listitem>
    <listitem>
-    <para>Hector Garcia Alvarez for Spanish (.es)</para>
+    <para>Hector Garcia Alvarez for Spanish and Francisco Javier F. Serrador (.es)</para>
    </listitem>
    <listitem>
     <para>Kjartan Maraas for Norwegian (.no)</para>

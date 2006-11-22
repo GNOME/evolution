@@ -28,3 +28,4 @@ xlibtool
 xltmain.sh
 intltool-*
 *.pc
+gnome-doc-utils.make
