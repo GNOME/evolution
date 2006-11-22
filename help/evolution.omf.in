@@ -1,0 +1,9 @@
+<?xml version="1.0" standalone="no"?>
+<omf>
+  <resource>
+    <subject category="GNOME|Internet"/>
+    <type>manual</type>
+    <relation seriesid="83434cc6-71d1-11d7-9b12-ef76b8cf7c8f" />
+    <rights type="GNU FDL" license.version="1.1" license="http://www.gnu.org/licenses/fdl.html" holder="Novell, Inc."/>
+  </resource>
+</omf>
