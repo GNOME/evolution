@@ -75,7 +75,9 @@ struct _EMMailerPrefs {
 	struct _GtkToggleButton *timeout_toggle;
 	struct _GtkSpinButton *timeout;
 	struct _GtkToggleButton *address_toggle;
-	struct _GtkSpinButton *address_count;	
+	struct _GtkSpinButton *address_count;
+	struct _GtkToggleButton *mlimit_toggle;
+	struct _GtkSpinButton *mlimit_count;
 	struct _GtkOptionMenu *charset;
 	struct _GtkToggleButton *citation_highlight;
 	struct _GnomeColorPicker *citation_color;
