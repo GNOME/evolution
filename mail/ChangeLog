@@ -1,3 +1,29 @@
+2006-11-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* Fix for bug #337439 DoS attach with large emails
+
+	* em-format-html-display.c: (efhd_class_init),
+	(efhd_attachment_popup), (efhd_format_attachment),
+	(efhd_optional_button_show), (efhd_resize),
+	(efhd_attachment_optional), (efhd_format_optional):
+	* em-format-html.c: (efh_text_plain), (efh_text_enriched),
+	(efh_write_text_html), (efh_message_deliverystatus):
+	* em-format-quote.c: (emfq_format_source), (emfq_text_plain),
+	(emfq_text_enriched), (emfq_text_html):
+	* em-format.c: (emf_init), (em_format_format_content),
+	(em_format_format_text), (emf_message_deliverystatus):
+	* em-format.h:
+	* em-mailer-prefs.c: (mlimit_count_changed),
+	(em_mailer_prefs_construct):
+	* em-mailer-prefs.h:
+	* em-utils.c: (em_utils_part_to_html), (em_utils_message_to_html):
+	* evolution-mail.schemas.in.in:
+	* mail-config.c: (gconf_mlimit_size_changed),
+	(gconf_mlimit_changed), (mail_config_init),
+	(mail_config_get_address_count), (mail_config_get_message_limit):
+	* mail-config.glade:
+	* mail-config.h:
+
 2006-11-09  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* default/Makefile.am: Added "es" to SUBDIRS

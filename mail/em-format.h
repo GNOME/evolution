@@ -226,6 +226,7 @@ struct _EMFormat {
 	em_format_mode_t mode;	/* source/headers/etc */
 	char *charset;		/* charset override */
 	char *default_charset;	/* charset fallback */
+	gboolean composer; /* Formatting from composer ?*/
 };
 
 struct _EMFormatClass {
@@ -257,6 +258,9 @@ struct _EMFormatClass {
 	/* returns true if the formatter is still busy with pending stuff */
 	gboolean (*busy)(EMFormat *);
 
+	/* Shows optional way to open messages  */
+	void (*format_optional)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *, struct _CamelStream* );
+	
 	/* signals */
 	/* complete, alternative to polling busy, for asynchronous work */
 	void (*complete)(EMFormat *);

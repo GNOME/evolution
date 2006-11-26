@@ -411,7 +411,7 @@ emfq_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 	
-	em_format_format_text(emf, (CamelStream *)filtered_stream, dw);
+	em_format_format_text(emf, (CamelStream *)filtered_stream, part);
 	camel_object_unref(filtered_stream);
 }
 
@@ -473,7 +473,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 	
-	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)part));
+	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, part);
 	camel_stream_flush((CamelStream *)filtered_stream);
 	camel_object_unref(filtered_stream);
 }
@@ -501,7 +501,7 @@ emfq_text_enriched(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part
 	camel_object_unref(enriched);
 
 	camel_stream_write_string(stream, "<br><hr><br>");
-	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, dw);
+	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, part);
 	camel_object_unref(filtered_stream);
 }
 
@@ -509,7 +509,7 @@ static void
 emfq_text_html(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	camel_stream_write_string(stream, "\n<!-- text/html -->\n");
-	em_format_format_text(emf, stream, camel_medium_get_content_object((CamelMedium *)part));
+	em_format_format_text(emf, stream, part);
 }
 
 static void

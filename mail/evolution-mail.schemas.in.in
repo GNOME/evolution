@@ -485,7 +485,36 @@
          </long>
       </locale>
     </schema>
-    
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/force_message_limit</key>
+      <applyto>/apps/evolution/mail/display/force_message_limit</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Allows evolution to display text part of limited size</short>
+         <long>
+		 Enable to render message text part of limited size.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/message_text_part_limit</key>
+      <applyto>/apps/evolution/mail/display/message_text_part_limit</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>4096</default>
+      <locale name="C">
+         <short>Text message part limit</short>
+         <long>
+		 This decides the max size of the text part that can be formatted under
+		 evolution. The default is 4MB / 4096 KB and is specified interms of KB.
+		 </long>
+      </locale>
+    </schema>
+
     <schema>
       <key>/schemas/apps/evolution/mail/display/address_count</key>
       <applyto>/apps/evolution/mail/display/address_count</applyto>

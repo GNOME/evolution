@@ -459,6 +459,16 @@ address_compress_count_changed (GtkSpinButton *spin, EMMailerPrefs *prefs)
 }
 
 static void
+mlimit_count_changed (GtkSpinButton *spin, EMMailerPrefs *prefs)
+{
+	int count;
+	
+	count = (int) gtk_spin_button_get_value (prefs->mlimit_count);
+	
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/message_text_part_limit", count, NULL);
+}
+
+static void
 spin_button_init (EMMailerPrefs *prefs, GtkSpinButton *spin, const char *key, float div, GCallback value_changed)
 {
 	GError *err = NULL;
@@ -772,6 +782,16 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 			  "/apps/evolution/mail/display/mark_seen_timeout",
 			  1000.0, G_CALLBACK (mark_seen_timeout_changed));
 
+	prefs->mlimit_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "mlimit_checkbutton"));
+	toggle_button_init (prefs, prefs->mlimit_toggle, FALSE,
+			    "/apps/evolution/mail/display/force_message_limit",
+			    G_CALLBACK (toggle_button_toggled));
+	
+	prefs->mlimit_count = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "mlimit_spin"));
+	spin_button_init (prefs, prefs->mlimit_count,
+			  "/apps/evolution/mail/display/message_text_part_limit",
+			  1, G_CALLBACK (mlimit_count_changed));
+	
 	prefs->address_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "address_checkbox"));
 	toggle_button_init (prefs, prefs->address_toggle, FALSE,
 			    "/apps/evolution/mail/display/address_compress",

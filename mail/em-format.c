@@ -47,6 +47,7 @@
 #include <camel/camel-string-utils.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-stream-null.h>
+#include <camel/camel-stream-mem.h>
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-mime-filter-windows.h>
 #include <camel/camel-mime-filter-pgp.h>
@@ -80,7 +81,6 @@ static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_t
 static void emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
 static void emf_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
 static gboolean emf_busy(EMFormat *emf);
-
 enum {
 	EMF_COMPLETE,
 	EMF_LAST_SIGNAL,
@@ -117,8 +117,10 @@ static void
 emf_init(GObject *o)
 {
 	EMFormat *emf = (EMFormat *)o;
-	
+	char * asize;
+		
 	emf->inline_table = g_hash_table_new(g_str_hash, g_str_equal);
+	emf->composer = FALSE;
 	e_dlist_init(&emf->header_list);
 	em_format_default_headers(emf);
 	emf->part_id = g_string_new("");
@@ -469,6 +471,7 @@ em_format_find_visible_puri(EMFormat *emf, const char *uri)
  * Return value: 
  **/
 EMFormatPURI *
+
 em_format_find_puri(EMFormat *emf, const char *uri)
 {
 	return g_hash_table_lookup(emf->pending_uri_table, uri);
@@ -1016,7 +1019,7 @@ em_format_format_content(EMFormat *emf, CamelStream *stream, CamelMimePart *part
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 
 	if (camel_content_type_is (dw->mime_type, "text", "*"))
-		em_format_format_text(emf, stream, dw);
+		em_format_format_text(emf, stream, part);
 	else
 		camel_data_wrapper_decode_to_stream(dw, stream);
 }
@@ -1036,6 +1039,9 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	CamelMimeFilterCharset *filter;
 	const char *charset = NULL;
 	CamelMimeFilterWindows *windows = NULL;
+	CamelStream *mem_stream = NULL;
+	size_t size;
+	size_t max;
 	
 	if (emf->charset) {
 		charset = emf->charset;
@@ -1064,17 +1070,27 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	} else if (charset == NULL) {
 		charset = emf->default_charset;
 	}
-	
-	filter_stream = camel_stream_filter_new_with_stream(stream);
+
+	mem_stream = (CamelStreamMem *)camel_stream_mem_new ();
+	filter_stream = camel_stream_filter_new_with_stream(mem_stream);
 	
 	if ((filter = camel_mime_filter_charset_new_convert(charset, "UTF-8"))) {
 		camel_stream_filter_add(filter_stream, (CamelMimeFilter *) filter);
 		camel_object_unref(filter);
 	}
-	
-	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filter_stream);
+
+	max = mail_config_get_message_limit();
+	size = camel_data_wrapper_decode_to_stream(emf->mode == EM_FORMAT_SOURCE ? (CamelDataWrapper *)dw: camel_medium_get_content_object((CamelMedium *)dw), (CamelStream *)filter_stream);
 	camel_stream_flush((CamelStream *)filter_stream);
 	camel_object_unref(filter_stream);
+	camel_stream_reset (mem_stream);
+
+	if (max == -1 || size < (max * 1024) || emf->composer) {
+		camel_stream_write_to_stream(mem_stream, (CamelStream *)stream);
+		camel_stream_flush((CamelStream *)stream);
+	} else {
+		((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_optional(emf, stream, (CamelMimePart *)dw, mem_stream);
+	}
 
 	if (windows)
 		camel_object_unref(windows);
@@ -1495,7 +1511,7 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 static void
 emf_message_deliverystatus(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
-	em_format_format_text(emf, stream, camel_medium_get_content_object((CamelMedium *)part));
+	em_format_format_text(emf, stream, part);
 }
 
 static void
