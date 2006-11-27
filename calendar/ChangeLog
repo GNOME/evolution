@@ -1,3 +1,10 @@
+2006-11-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Added support to print/preview from Calendar Editor.
+
+	* gui/dialogs/comp-editor.c: (menu_file_print_cb),
+	(menu_file_print_preview_cb):
+
 2006-11-28  Daniel Gryniewicz <dang@gentoo.org>
 
 	** Fix for bug #349966

@@ -1296,6 +1296,48 @@ menu_file_save_cb (BonoboUIComponent *uic,
 }
 
 static void
+menu_file_print_cb (BonoboUIComponent *uic,
+		   void *data,
+		   const char *path)
+{
+	CompEditor *editor = (CompEditor *) data;
+	CompEditorPrivate *priv = editor->priv;
+	ECalComponent *comp;
+	GList *l;
+	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+	
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+
+	for (l = priv->pages; l != NULL; l = l->next)
+		 comp_editor_page_fill_component (l->data, comp);
+	
+	print_comp (comp, priv->client, FALSE);
+
+	g_object_unref (comp);	
+}
+
+static void
+menu_file_print_preview_cb (BonoboUIComponent *uic,
+		   void *data,
+		   const char *path)
+{
+	CompEditor *editor = (CompEditor *) data;
+	CompEditorPrivate *priv = editor->priv;
+	ECalComponent *comp;
+	GList *l;
+	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+	
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+	for (l = priv->pages; l != NULL; l = l->next)
+		 comp_editor_page_fill_component (l->data, comp);	
+	print_comp (comp, priv->client, TRUE);
+
+	g_object_unref (comp);	
+}
+
+static void
 menu_file_close_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
@@ -1416,6 +1458,8 @@ menu_help_cb (BonoboUIComponent *uic,
 static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_VERB ("FileSave", menu_file_save_cb),
+	BONOBO_UI_VERB ("CalendarPrint", menu_file_print_cb),
+	BONOBO_UI_VERB ("CalendarPrintPreview", menu_file_print_preview_cb),		
 	BONOBO_UI_VERB ("FileClose", menu_file_close_cb),
 
 	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
