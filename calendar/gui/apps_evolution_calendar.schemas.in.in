@@ -577,5 +577,19 @@
         <long>The URL template to use as a free/busy data fallback, %u is replaced by the user part of the mail address and %d is replaced by the domain.</long>
       </locale>
     </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/audio_dir</key>
+      <applyto>/apps/evolution/calendar/audio_dir</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Save directory for alarm audio</short>
+         <long>
+           Directory for saving alarm audio files
+         </long>
+      </locale>
+    </schema>
+
   </schemalist>
 </gconfschemafile>

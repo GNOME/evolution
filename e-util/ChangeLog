@@ -1,3 +1,15 @@
+2006-11-28  Daniel Gryniewicz <dang@gentoo.org>
+
+	** Fix for bug #349966 
+
+	* e-dialog-utils.c: (save_ok), (filechooser_response),
+	(e_file_dialog_save), (save_folder_ok), (folderchooser_response),
+	(e_file_dialog_save_folder), (e_file_get_save_filesel),
+	(e_file_can_save), (e_file_check_local):
+	* e-dialog-utils.h:
+	* e-util.c: (e_file_update_save_path), (e_file_get_save_path):
+	* e-util.h:
+
 2006-11-20  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-icon-factory.c: (load_icon), (e_icon_factory_get_icon):

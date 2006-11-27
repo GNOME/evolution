@@ -217,6 +217,9 @@ gchar    *e_strdup_append_strings                                          (gcha
 									    ...);
 cairo_font_options_t * get_font_options ();
 
+void e_file_update_save_path(char *uri, gboolean free);
+char *e_file_get_save_path(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

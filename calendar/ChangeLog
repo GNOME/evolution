@@ -1,3 +1,11 @@
+2006-11-28  Daniel Gryniewicz <dang@gentoo.org>
+
+	** Fix for bug #349966
+
+	* gui/apps_evolution_calendar.schemas.in.in:
+	* gui/calendar-config-keys.h:
+	* gui/dialogs/alarm-dialog.c: (action_selection_done_cb):
+
 2006-11-20  Carlos Garcia Campos  <carlosgc@gnome.org>
 	
 	Fixes bug #367183

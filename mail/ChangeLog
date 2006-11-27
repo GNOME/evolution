@@ -1,3 +1,12 @@
+2006-11-28 Daniel Gryniewicz <dang@gentoo.org>
+
+	** Fix for bug #349966
+
+	* em-utils.c: (emu_save_part_response), (em_utils_save_part),
+	(emu_save_parts_response), (em_utils_save_parts),
+	(emu_save_messages_response), (em_utils_save_messages):
+	* evolution-mail.schemas.in.in:
+
 2006-11-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* Fix for bug #337439 DoS attach with large emails

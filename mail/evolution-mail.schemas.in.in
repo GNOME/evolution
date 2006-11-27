@@ -942,5 +942,20 @@
       </locale>
     </schema>
 
+    <!-- save directory settings -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/save_dir</key>
+      <applyto>/apps/evolution/mail/save_dir</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <locale name="C">
+         <short>Save directory</short>
+         <long>
+           Directory for saving mail component files
+         </long>
+      </locale>
+    </schema>
+
   </schemalist>
 </gconfschemafile>

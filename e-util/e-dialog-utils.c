@@ -28,6 +28,10 @@
 
 #include "e-dialog-utils.h"
 
+#include <unistd.h>
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <gdkconfig.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
@@ -37,17 +41,18 @@
 #include <gtk/gtkplug.h>
 #include <gtk/gtkversion.h>
 
-#ifdef USE_GTKFILECHOOSER
 #include <gtk/gtkfilechooser.h>
 #include <gtk/gtkfilechooserdialog.h>
 #include <gtk/gtkstock.h>
-#else
-#include <gtk/gtkfilesel.h>
-#endif
 
 #include <gconf/gconf-client.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+
+#include <libgnomevfs/gnome-vfs-utils.h>
+
+#include "e-util/e-util.h"
+#include "e-util/e-error.h"
 
 
 /**
@@ -261,104 +266,42 @@ save_ok (GtkWidget *widget, gpointer data)
 	GtkWidget *fs;
 	char **filename = data;
 	char *uri;
-	const char *path;
-	int btn = GTK_RESPONSE_YES;
-	GConfClient *gconf = gconf_client_get_default();
-	char *dir;
 	
 	fs = gtk_widget_get_toplevel (widget);
-#ifdef USE_GTKFILECHOOSER
-	path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (fs));
 	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (fs));
-#else
-	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
-#endif
-	
-	if (g_file_test (path, G_FILE_TEST_IS_REGULAR)) {
-		GtkWidget *dlg;
-		
-		dlg = gtk_message_dialog_new (GTK_WINDOW (fs), 0,
-					      GTK_MESSAGE_QUESTION,
-					      GTK_BUTTONS_YES_NO,
-					      _("A file by that name already exists.\n"
-						"Overwrite it?"));
-		gtk_window_set_title (GTK_WINDOW (dlg), _("Overwrite file?"));
-		gtk_dialog_set_has_separator (GTK_DIALOG (dlg), FALSE);
 
-		btn = gtk_dialog_run (GTK_DIALOG (dlg));
-		gtk_widget_destroy (dlg);
-	}
-
-	if (btn == GTK_RESPONSE_YES) {
-		dir = g_path_get_dirname (path);
-		gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", dir, NULL);
-		g_free (dir);
+	if (e_file_can_save((GtkWindow *)widget, uri)) {
+		e_file_update_save_path(gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER(fs)), TRUE);
 		*filename = uri;
 	}
-	g_object_unref(gconf);
 	
 	gtk_main_quit ();
 }
 
-#ifdef USE_GTKFILECHOOSER
 static void
 filechooser_response (GtkWidget *fc, gint response_id, gpointer data)
 {
-	if (response_id == GTK_RESPONSE_ACCEPT)
+	if (response_id == GTK_RESPONSE_OK)
 		save_ok (fc, data);
 	else
 		gtk_widget_destroy (fc);
 }
-#endif
 
 char *
 e_file_dialog_save (const char *title, const char *fname)
 {
 	GtkWidget *selection;
 	char *filename = NULL;
-        char *dir, *gdir = NULL;
-        GConfClient *gconf;
- 
-        gconf = gconf_client_get_default();
-        dir = gdir = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
-        g_object_unref(gconf);
 
-       if (dir == NULL)
-	       dir = (char *)g_get_home_dir();
-		    
-#ifdef USE_GTKFILECHOOSER
-	selection = gtk_file_chooser_dialog_new (title,
-						 NULL,
-						 GTK_FILE_CHOOSER_ACTION_SAVE,
-						 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-						 GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
-						 NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_ACCEPT);
-        gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), dir);
-	gtk_file_chooser_set_local_only (selection, FALSE);
-	
-        if (fname)
-	        gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (selection), fname);
-     
+	selection = e_file_get_save_filesel(NULL, title, fname, GTK_FILE_CHOOSER_ACTION_SAVE);
+
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (filechooser_response), &filename);
-#else
-	char *path;
-
-	selection = gtk_file_selection_new (title);
-	path = g_strdup_printf ("%s/", dir);	
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
-	g_free (path);
-
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->ok_button), "clicked", G_CALLBACK (save_ok), &filename);
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->cancel_button), "clicked", G_CALLBACK (gtk_main_quit), NULL);
-#endif
 	
 	gtk_widget_show (GTK_WIDGET (selection));
 	gtk_grab_add (GTK_WIDGET (selection));
 	gtk_main ();
 	
 	gtk_widget_destroy (GTK_WIDGET (selection));
-	g_free (gdir);
 	
 	return filename;
 }
@@ -369,83 +312,147 @@ save_folder_ok (GtkWidget *widget, gpointer data)
 	GtkWidget *fs;
 	char **filename = data;
 	char *uri;
-	const char *path;
-	GConfClient *gconf = gconf_client_get_default();
 	
 	fs = gtk_widget_get_toplevel (widget);
-#ifdef USE_GTKFILECHOOSER
-	path = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (fs));
 	uri = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (fs));
-#else
-	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
-#endif
 	
-	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", path, NULL);
-	g_object_unref(gconf);
+	e_file_update_save_path(uri, FALSE);
 	*filename = uri;
 	
 	gtk_main_quit ();
 }
 
-#ifdef USE_GTKFILECHOOSER
 static void
 folderchooser_response (GtkWidget *fc, gint response_id, gpointer data)
 {
-	if (response_id == GTK_RESPONSE_ACCEPT)
+	if (response_id == GTK_RESPONSE_OK)
 		save_folder_ok (fc, data);
 	else
 		gtk_widget_destroy (fc);
 }
-#endif
 
 char *
 e_file_dialog_save_folder (const char *title)
 {
 	GtkWidget *selection;
-#ifndef USE_GTKFILECHOOSER
-	char *path;
-#endif
 	char *filename = NULL;
-	char *dir, *gdir = NULL;
-	GConfClient *gconf;
 
-	gconf = gconf_client_get_default();
-	dir = gdir = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
-	g_object_unref(gconf);
-
-	if (dir == NULL)
-		dir = (char *)g_get_home_dir();
-
-#ifdef USE_GTKFILECHOOSER
-	selection = gtk_file_chooser_dialog_new (title,
-						 NULL,
-						 GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-						 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-						 GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
-						 NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_ACCEPT);
-	gtk_file_chooser_set_local_only (selection, FALSE);
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), dir);
-
+	selection = e_file_get_save_filesel(NULL, title, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (folderchooser_response), &filename);
-#else
-	selection = gtk_file_selection_new (title);
-	path = g_strdup_printf ("%s/", dir);
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
-	g_free (path);
-
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->ok_button), "clicked", G_CALLBACK (save_folder_ok), &filename);
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->cancel_button), "clicked", G_CALLBACK (gtk_main_quit), NULL);
-#endif
 	
 	gtk_widget_show (GTK_WIDGET (selection));
 	gtk_grab_add (GTK_WIDGET (selection));
 	gtk_main ();
 	
 	gtk_widget_destroy (GTK_WIDGET (selection));
-	g_free (gdir);
 	
 	return filename;
 }
 
+/**
+ * e_file_get_save_filesel:
+ * @parent: parent window
+ * @title: dialog title
+ * @name: filename
+ * @action: action for dialog
+ *
+ * Creates a save dialog, using the saved directory from gconf.   The dialog has
+ * no signals connected and is not shown.
+ **/
+GtkWidget *
+e_file_get_save_filesel (GtkWidget *parent, const char *title, const char *name, GtkFileChooserAction action)
+{
+	GtkWidget *filesel;
+	char *realname, *uri;
 
+	filesel = gtk_file_chooser_dialog_new (title,
+					       NULL,
+					       action,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					       NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
+
+	if (parent)
+		e_dialog_set_transient_for((GtkWindow *)filesel, parent);
+
+	uri = e_file_get_save_path();
+
+	if (name && name[0]) {
+		realname = gnome_vfs_escape_string (name);
+	} else {
+		realname = NULL;
+	}
+
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (filesel), uri);
+
+	if (realname)
+		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), realname);
+
+	g_free (realname);
+	g_free (uri);
+
+	return filesel;
+}
+
+/**
+ * e_file_can_save:
+ *
+ * Return TRUE if the URI can be saved to, FALSE otherwise.  It checks local
+ * files to see if they're regular and can be accessed.  If the file exists and
+ * is writable, it pops up a dialog asking the user if they want to overwrite
+ * it.  Returns the users choice.
+ **/
+gboolean
+e_file_can_save(GtkWindow *parent, const char *uri)
+{
+	struct stat st;
+	char *path;
+	gboolean res;
+
+	if (!uri || uri[0] == 0)
+		return FALSE;
+
+	/* Assume remote files are writable; too costly to check */
+	if (!e_file_check_local(uri))
+		return TRUE;
+
+	path = gnome_vfs_get_local_path_from_uri(uri);
+	if (!path)
+		return FALSE;
+
+	/* make sure we can actually save to it... */
+	if (g_stat (path, &st) != -1 && !S_ISREG (st.st_mode)) {
+		g_free(path);
+		return FALSE;
+	}
+
+	res = TRUE;
+	if (g_access (path, F_OK) == 0) {
+		if (g_access (path, W_OK) != 0) { e_error_run(parent, "mail:no-save-path", path, g_strerror(errno), NULL);
+			g_free(path);
+			return FALSE;
+		}
+
+		res = e_error_run(parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, path, NULL) == GTK_RESPONSE_OK;
+
+	}
+
+	g_free(path);
+	return res;
+}
+
+gboolean
+e_file_check_local (const char *name)
+{
+	char *uri;
+
+	uri = gnome_vfs_get_local_path_from_uri(name);
+	if (uri) {
+		g_free(uri);
+		return TRUE;
+	}
+
+	return FALSE;
+}

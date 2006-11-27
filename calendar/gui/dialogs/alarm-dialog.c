@@ -1080,6 +1080,7 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		dir = calendar_config_get_dir_path ();
 		if ( dir && *dir )
 			gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (dialog->aalarm_file_entry), dir);
+		g_free (dir);
 		check_custom_sound (dialog);
 		break;
 
