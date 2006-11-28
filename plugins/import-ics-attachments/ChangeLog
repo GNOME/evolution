@@ -1,3 +1,11 @@
+2006-11-28  Parthasarathi Susarla <ajaysusarla@gmail.com>
+	
+	** Fix bug #348679
+
+	* icsimporter.c: (org_gnome_evolution_import_ics_attachment):
+	Do not access structure elements directly. Use the methods of the
+	class in the CamelDataWrapper Class
+	  
 2006-08-28  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* org-gnome-evolution-mail-attachments-import-ics.eplug.xml: Mark

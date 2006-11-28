@@ -95,23 +95,28 @@ void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttac
 	icalcomponent_kind kind;
 	int len = 0;
 	int i = 0;
+	CamelContentType *type;
 
 	len = g_slist_length(t->attachments);
 	
-	if (len !=1 || !camel_content_type_is(((CamelDataWrapper *) ((EAttachment *) t->attachments->data)->body)->mime_type, "text", "calendar"))
+	if (len != 1)
 		return;
-	
+
+	type = camel_data_wrapper_get_mime_type_field (((CamelDataWrapper *) ((EAttachment *) t->attachments->data)->body));
+	if (type && camel_content_type_is(type, "text", "calendar")) {
+
 		kind = get_menu_type (t);
 
-	if (kind == ICAL_VTODO_COMPONENT ) {
-		for (i = 0; i < sizeof (popup_tasks_items) / sizeof (popup_tasks_items[0]); i++)
-			menus = g_slist_prepend (menus, &popup_tasks_items[i]);
-	} else if ( kind == ICAL_VEVENT_COMPONENT) {
-		for (i = 0; i < sizeof (popup_calendar_items) / sizeof (popup_calendar_items[0]); i++)
-			menus = g_slist_prepend (menus, &popup_calendar_items[i]);
-	}
+		if (kind == ICAL_VTODO_COMPONENT ) {
+			for (i = 0; i < sizeof (popup_tasks_items) / sizeof (popup_tasks_items[0]); i++)
+				menus = g_slist_prepend (menus, &popup_tasks_items[i]);
+		} else if ( kind == ICAL_VEVENT_COMPONENT) {
+			for (i = 0; i < sizeof (popup_calendar_items) / sizeof (popup_calendar_items[0]); i++)
+				menus = g_slist_prepend (menus, &popup_calendar_items[i]);
+		}
 
-	e_popup_add_items (t->target.popup, menus, NULL, popup_free, t);
+		e_popup_add_items (t->target.popup, menus, NULL, popup_free, t);
+	}
 }
 
 void org_gnome_evolution_import_ics_part (EPlugin*ep, EMPopupTargetPart *t) 
