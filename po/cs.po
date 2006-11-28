@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-28 07:49+0100\n"
-"PO-Revision-Date: 2006-11-28 08:01+0100\n"
+"PO-Revision-Date: 2006-11-28 08:19+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10420,15 +10420,15 @@ msgstr ""
 #.
 #: ../composer/e-msg-composer-hdrs.c:674
 msgid "_Post To:"
-msgstr "_Poslat komu:"
+msgstr "_Uložit do:"
 
 #: ../composer/e-msg-composer-hdrs.c:679
 msgid "Click here to select folders to post to"
-msgstr "Kliknutím sem vyberte složky, kam poslat"
+msgstr "Kliknutím sem vyberte složky, kam uložit"
 
 #: ../composer/e-msg-composer-hdrs.c:684
 msgid "Post To:"
-msgstr "Poslat komu:"
+msgstr "Uložit do:"
 
 #: ../composer/e-msg-composer-select-file.c:82
 msgid "A_ttach"
@@ -12974,7 +12974,7 @@ msgstr "Položka nabídky Zobrazit/Poslat komu je zaškrtnuta"
 
 #: ../mail/evolution-mail.schemas.in.in.h:123
 msgid "View/PostTo menu item is checked."
-msgstr "Položka nabídky Zobrazit/Poslat komu je zaškrtnuta."
+msgstr "Položka nabídky Zobrazit/Uložit do je zaškrtnuta."
 
 #: ../mail/evolution-mail.schemas.in.in.h:124
 msgid "View/ReplyTo menu item is checked"

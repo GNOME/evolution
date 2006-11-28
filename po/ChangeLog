@@ -1,5 +1,9 @@
 2006-11-27  Jakub Friedl  <jfriedl@suse.cz>
 
+	* cs.po: Fixed bug #373453.
+
+2006-11-27  Jakub Friedl  <jfriedl@suse.cz>
+
 	* cs.po: Fixed bug #356884.
 
 2006-11-19  Priit Laes  <plaes@cvs.gnome.org>
