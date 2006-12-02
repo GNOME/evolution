@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-18 15:06+0200\n"
-"PO-Revision-Date: 2006-11-19 00:06+0200\n"
+"PO-Revision-Date: 2006-11-29 19:34+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -21510,7 +21510,7 @@ msgstr "Kohanda käesolevat vaadet..."
 
 #: ../widgets/table/e-table-header-item.c:1554
 msgid "Sort By"
-msgstr ""
+msgstr "Sortimine"
 
 #: ../widgets/table/e-table-header-item.c:1899 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
