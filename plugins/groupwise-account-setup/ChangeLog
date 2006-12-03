@@ -1,3 +1,14 @@
+2006-12-03  Harish Krishnaswamy  <kharish@novell.com>
+
+	* plugins/groupwise-account-setup/camel-gw-listener.c:
+	(add_esource), (add_calendar_tasks_sources),
+	(get_addressbook_names_from_server), (add_proxy_sources),
+	(prune_proxies), (camel_gw_listener_construct):
+	Add code to prune dead proxy entries (so they are executed
+	regardless of which component gets loaded first). Clean up
+	the existing code, fix leaks and ensure new proxy calendars 
+	have their (different) color set.
+
 2006-09-19  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* org-gnome-gw-account-setup.eplug.xml: Mark description for

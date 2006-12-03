@@ -32,6 +32,7 @@
 #include <libedataserverui/e-passwords.h>
 #include "e-util/e-error.h"
 #include <libedataserver/e-account.h>
+#include <libecal/e-cal.h>
 
 /*stores some info about all currently existing groupwise accounts 
   list of GwAccountInfo structures */
@@ -167,7 +168,7 @@ lookup_account_info (const char *key)
 #define SELECTED_NOTES   "/apps/evolution/calendar/memos/selected_memos"
 
 static void
-add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url)
+add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url, const char* parent_id_name)
 {
 	ESourceList *source_list;
 	ESourceGroup *group;
@@ -181,10 +182,10 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	const char *poa_address;
 	const char *offline_sync;
 	
-	
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return;
+
 	soap_port = camel_url_get_param (url, "soap_port");
 
  	if (!soap_port || strlen (soap_port) == 0)
@@ -197,12 +198,12 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	
 	client = gconf_client_get_default();	
 	source_list = e_source_list_new_for_gconf (client, conf_key);
-
 	group = e_source_group_new (group_name,  GROUPWISE_URI_PREFIX);
+
 	if (!e_source_list_add_group (source_list, group, -1))
 		return;
+
 	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
-	
 	source = e_source_new (source_name, relative_uri);
 	e_source_set_property (source, "auth", "1");
 	e_source_set_property (source, "username", url->user);
@@ -210,9 +211,12 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
-
-
-	e_source_set_color (source, 0xEEBC60);
+	if (parent_id_name) {
+		e_source_set_property (source, "parent_id_name", parent_id_name);
+		e_source_set_color (source, 0xFF00FF);
+	}
+	else
+		e_source_set_color (source, 0xEEBC60);
 	e_source_group_add_source (group, source, -1);
 	e_source_list_sync (source_list, NULL);
 
@@ -220,14 +224,18 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 		source_selection_key = SELECTED_CALENDARS;
 	else if (!strcmp (conf_key, TASKS_SOURCES))
 		source_selection_key = SELECTED_TASKS;
-	else source_selection_key = NULL;
+	else 
+		source_selection_key = NULL;
+
 	if (source_selection_key) {
 		ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
 		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
 		gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
 		temp  = ids;
+
 		for (; temp != NULL; temp = g_slist_next (temp))
 			g_free (temp->data);
+
 		g_slist_free (ids);
 	}
 	
@@ -237,7 +245,6 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	g_object_unref (client);
 	g_free (relative_uri);
 }
-
 
 static void 
 remove_esource (const char *conf_key, const char *group_name, char* source_name, const char* relative_uri)
@@ -387,9 +394,9 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	CamelURL *url;
 	
 	url = camel_url_new (info->source_url, NULL);
-	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url);
-	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url);
-	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url);
+	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, NULL);
+	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, NULL);
+	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, NULL);
 	
 	camel_url_free (url);
 
@@ -516,80 +523,6 @@ get_addressbook_names_from_server (char *source_url)
 	e_error_run (NULL, "mail:gw-accountsetup-error", poa_address, NULL);
 	return NULL;
 }
-         
-static void
-add_proxy_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url, const char* parent_id_name)
-{
-	ESourceList *source_list;
-	ESourceGroup *group;
-	ESource *source;
-        GConfClient* client;
-	GSList *ids, *temp ;
-	char *source_selection_key;
-	char *relative_uri;
-	const char *soap_port;
-	const char * use_ssl;
-	const char *poa_address;
-	const char *offline_sync;
-	
-	poa_address = url->host;
-	if (!poa_address || strlen (poa_address) ==0)
-		return;
-
-	soap_port = camel_url_get_param (url, "soap_port");
-
- 	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7191";
-
-	use_ssl = camel_url_get_param (url, "use_ssl");
-
-
-	offline_sync = camel_url_get_param (url, "offline_sync");
-	
-	client = gconf_client_get_default();	
-	source_list = e_source_list_new_for_gconf (client, conf_key);
-	group = e_source_group_new (group_name,  GROUPWISE_URI_PREFIX);
-
-	if (!e_source_list_add_group (source_list, group, -1))
-		return;
-
-	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
-	source = e_source_new (source_name, relative_uri);
-	e_source_set_property (source, "auth", "1");
-	e_source_set_property (source, "username", url->user);
-	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
-	e_source_set_property (source, "auth-domain", "Groupwise");
-	e_source_set_property (source, "use_ssl", use_ssl);
-	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
-	e_source_set_property (source, "parent_id_name", parent_id_name);
-	e_source_group_add_source (group, source, -1);
-	e_source_list_sync (source_list, NULL);
-
-	if (!strcmp (conf_key, CALENDAR_SOURCES)) 
-		source_selection_key = SELECTED_CALENDARS;
-	else if (!strcmp (conf_key, TASKS_SOURCES))
-		source_selection_key = SELECTED_TASKS;
-	else 
-		source_selection_key = NULL;
-
-	if (source_selection_key) {
-		ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
-		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
-		gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
-		temp  = ids;
-
-		for (; temp != NULL; temp = g_slist_next (temp))
-			g_free (temp->data);
-
-		g_slist_free (ids);
-	}
-	
-	g_object_unref (source);
-	g_object_unref (group);
-	g_object_unref (source_list);
-	g_object_unref (client);
-	g_free (relative_uri);
-}
                                                                                 
 static void 
 add_proxy_sources (GwAccountInfo *info, const char *parent_name)
@@ -597,9 +530,9 @@ add_proxy_sources (GwAccountInfo *info, const char *parent_name)
 	CamelURL *url;
 	
 	url = camel_url_new (info->source_url, NULL);
-	add_proxy_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name);
-	add_proxy_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name);
-	add_proxy_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, parent_name);
+	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name);
+	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name);
+	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, parent_name);
 	
 	camel_url_free (url);
 }
@@ -972,11 +905,60 @@ account_changed (EAccountList *account_listener, EAccount *account)
 } 
 
 static void
+prune_proxies (void) {
+	
+	GConfClient *client = gconf_client_get_default ();
+	EAccountList *account_list;
+	ESourceList *sources;
+	ESourceGroup *group;
+	GSList *groups, *e_sources, *l, *p;
+	ESource *source;
+	GError *err = NULL;
+	const gchar *parent_id_name = NULL;
+	int i;
+	ECalSourceType types [] = { E_CAL_SOURCE_TYPE_EVENT, 
+				    E_CAL_SOURCE_TYPE_TODO,
+				    E_CAL_SOURCE_TYPE_JOURNAL
+				  };
+
+	account_list = e_account_list_new (client);
+	/* Is this being leaked */
+	g_object_unref (client);
+	
+	e_account_list_prune_proxies (account_list);
+
+	for (i=0; i<3; i++) {
+	if (e_cal_get_sources (&sources, types[i], &err)) {
+		/* peek groupwise id and prune for proxies. */
+		groups = e_source_list_peek_groups (sources);
+		for (l = groups; l != NULL;) {
+			group = (ESourceGroup *) l->data;
+			l = l->next;
+			if (!strcmp (e_source_group_peek_base_uri (group), "groupwise://")) {
+				e_sources = e_source_group_peek_sources (group);
+				for (p = e_sources; p != NULL; p = p->next) {
+					source = (ESource *)p->data;
+					parent_id_name = e_source_get_property (source, "parent_id_name");
+					if (parent_id_name) {
+						e_source_group_remove_source (group, source);
+						e_source_list_remove_group (sources, group);
+					}	
+				}	
+			}	
+		}
+		e_source_list_sync (sources, NULL);
+	}
+	}
+
+}	
+static void
 camel_gw_listener_construct (CamelGwListener *config_listener)
 {
 	EIterator *iter;
 	EAccount *account;
 	GwAccountInfo *info ;
+
+	prune_proxies ();
 	
        	config_listener->priv->account_list = e_account_list_new (config_listener->priv->gconf_client);
 
@@ -995,6 +977,7 @@ camel_gw_listener_construct (CamelGwListener *config_listener)
 		}
 			
 	}
+
 	g_signal_connect (config_listener->priv->account_list, "account_added", G_CALLBACK (account_added), NULL);
 	g_signal_connect (config_listener->priv->account_list, "account_changed", G_CALLBACK (account_changed), NULL);
 	g_signal_connect (config_listener->priv->account_list, "account_removed", G_CALLBACK (account_removed), NULL);    
