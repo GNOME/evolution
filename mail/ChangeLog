@@ -1,3 +1,9 @@
+2006-12-03  Harish Krishnaswamy  <kharish@novell.com>
+
+	* mail-component.c: (mc_startup): Do not attempt to
+	prune GW proxies on startup as this handled by the plugin
+	now.
+
 2006-11-28 Daniel Gryniewicz <dang@gentoo.org>
 
 	** Fix for bug #349966

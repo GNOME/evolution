@@ -369,7 +369,6 @@ mc_startup(MailComponent *mc)
 	started = 1;
 
 	mc_setup_local_store(mc);
-	mail_config_prune_proxies ();
 	load_accounts(mc, mail_config_get_accounts());
 	vfolder_load_storage();
 }
