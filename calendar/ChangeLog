@@ -1,3 +1,9 @@
+2006-12-03  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/calendar-config.c:
+	(calendar_config_get_icaltimezone): Fix leaks of
+	'location' at various exit points. 
+
 2006-11-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	Added support to print/preview from Calendar Editor.

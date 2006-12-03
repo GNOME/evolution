@@ -228,6 +228,7 @@ calendar_config_get_icaltimezone (void)
 
 		
 		if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) {
+			g_free (location);
 			return zone;
 		}	
 
@@ -245,7 +246,7 @@ calendar_config_get_icaltimezone (void)
 				custom_zones = g_hash_table_new (g_str_hash, g_str_equal);
 			} else if ((st_zone = g_hash_table_lookup (custom_zones, n_tzid))) {
 				g_free (n_tzid);
-
+				g_free (location);
 				return st_zone;
 			}
 
@@ -255,7 +256,7 @@ calendar_config_get_icaltimezone (void)
 			if (!s_comp) {
 				g_free (n_tzid);
 				icalcomponent_free (zone_comp);
-				
+				g_free (location);	
 				return zone;
 			}
 			
