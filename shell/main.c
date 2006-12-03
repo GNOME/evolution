@@ -75,6 +75,7 @@
 
 #include <misc/e-cursors.h>
 #include "e-util/e-error.h"
+#include "e-util/e-import.h"
 
 #include <fcntl.h>
 #include <signal.h>
@@ -597,6 +598,7 @@ main (int argc, char **argv)
 		e_plugin_hook_register_type(e_profile_event_hook_get_type());
 #endif
 		e_plugin_hook_register_type(e_plugin_type_hook_get_type());
+		e_plugin_hook_register_type(e_import_hook_get_type());
 		e_plugin_load_plugins();
 	}
 
