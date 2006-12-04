@@ -1135,6 +1135,10 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 static gboolean
 canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
 {
+	if (key->type != GDK_KEY_PRESS  &&
+		key->type != GDK_KEY_RELEASE) {
+		return FALSE;
+	}
 	switch (key->keyval) {
 		case GDK_Tab:
 		case GDK_KP_Tab:
@@ -1153,6 +1157,10 @@ canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
 static gboolean
 click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
 {
+	if (key->type != GDK_KEY_PRESS  &&
+		key->type != GDK_KEY_RELEASE) {
+		return FALSE;
+	}	
 	switch (key->keyval) {
 		case GDK_Tab:
 		case GDK_KP_Tab:
