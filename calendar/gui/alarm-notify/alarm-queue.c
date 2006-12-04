@@ -1696,6 +1696,10 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 
 	d(printf("%s:%d (mail_notification)\n",__FILE__, __LINE__));
 	
+	if (!e_cal_get_static_capability (cqa->parent_client->client,
+						CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS))
+		return;
+
 	dialog = gtk_dialog_new_with_buttons (_("Warning"),
 					      NULL, 0,
 					      GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
