@@ -325,13 +325,13 @@ generate_viewoption_menu (GtkWidget *emfv)
 			GtkImage *image;
 			
 			gdk_color_parse(label->colour, &colour);
-			gdk_color_alloc(gdk_colormap_get_system(), &colour);
+			gdk_colormap_alloc_color(gdk_colormap_get_system(), &colour, FALSE, TRUE);
 		
 			pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
 			gc = gdk_gc_new(((GtkWidget *)emfv)->window);
 			gdk_gc_set_foreground(gc, &colour);
 			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
-			gdk_gc_unref(gc); 
+			g_object_unref(gc); 
 			
 			image = gtk_image_new_from_pixmap(pixmap, NULL); */
 			str = string_without_underscores (label->name);

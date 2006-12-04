@@ -1249,13 +1249,13 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event, int on_display)
 			item->visible = EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY;
 
 			gdk_color_parse(label->colour, &colour);
-			gdk_color_alloc(gdk_colormap_get_system(), &colour);
+			gdk_colormap_alloc_color(gdk_colormap_get_system(), &colour, FALSE, TRUE);
 		
 			pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
 			gc = gdk_gc_new(((GtkWidget *)emfv)->window);
 			gdk_gc_set_foreground(gc, &colour);
 			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
-			gdk_gc_unref(gc);
+			g_object_unref(gc);
 
 			item->image = gtk_image_new_from_pixmap(pixmap, NULL);
 			gtk_widget_show(item->image);
