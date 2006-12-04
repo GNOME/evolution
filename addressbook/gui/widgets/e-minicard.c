@@ -423,7 +423,7 @@ e_minicard_dispose (GObject *object)
 	}
 
 	if (e_minicard->list_icon_pixbuf) {
-		gdk_pixbuf_unref (e_minicard->list_icon_pixbuf);
+		g_object_unref (e_minicard->list_icon_pixbuf);
 		e_minicard->list_icon_pixbuf = NULL;
 	}
 
