@@ -1787,11 +1787,11 @@ eti_unrealize (GnomeCanvasItem *item)
 		}
 	}
 
-	gdk_gc_unref (eti->fill_gc);
+	g_object_unref (eti->fill_gc);
 	eti->fill_gc = NULL;
-	gdk_gc_unref (eti->grid_gc);
+	g_object_unref (eti->grid_gc);
 	eti->grid_gc = NULL;
-	gdk_gc_unref (eti->focus_gc);
+	g_object_unref (eti->focus_gc);
 	eti->focus_gc = NULL;
 	g_object_unref (eti->stipple);
 	eti->stipple = NULL;

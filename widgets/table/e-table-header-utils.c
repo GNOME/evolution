@@ -187,7 +187,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 
 		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
 		if (!tmp) {
-			gdk_pixbuf_unref (fade);
+			g_object_unref (fade);
 			return NULL;
 		}
 
@@ -202,7 +202,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 					    16,
 					    color, color);
 
-		gdk_pixbuf_unref (fade);
+		g_object_unref (fade);
 	}
 
 	pixmap = gdk_pixmap_new (drawable, width, height, gdk_rgb_get_visual ()->depth);
@@ -213,7 +213,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 				      gdk_pixbuf_get_pixels (tmp),
 				      gdk_pixbuf_get_rowstride (tmp),
 				      dither_xofs, dither_yofs);
-	gdk_pixbuf_unref (tmp);
+	g_object_unref (tmp);
 
 	return pixmap;
 }

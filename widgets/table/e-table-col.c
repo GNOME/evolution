@@ -45,7 +45,7 @@ etc_dispose (GObject *object)
 	etc->ecell = NULL;
 
 	if (etc->pixbuf)
-		gdk_pixbuf_unref (etc->pixbuf);
+		g_object_unref (etc->pixbuf);
 	etc->pixbuf = NULL;
 
 	if (etc->text)
@@ -232,7 +232,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 	etc->resizable = resizable;
 
 	g_object_ref (etc->ecell);
-	gdk_pixbuf_ref (etc->pixbuf);
+	g_object_ref (etc->pixbuf);
 
 	return etc;
 }

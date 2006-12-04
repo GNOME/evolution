@@ -118,7 +118,7 @@ etog_unrealize (ECellView *ecv)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecv;
 
-	gdk_gc_unref (toggle_view->gc);
+	g_object_unref (toggle_view->gc);
 	toggle_view->gc = NULL;
 }
 
@@ -169,14 +169,15 @@ check_cache (ECellToggleView *toggle_view, int image_seq, int cache_seq)
 							  1,
 							  RGB_COLOR (color), RGB_COLOR (color));
 
-		gdk_pixbuf_render_to_drawable (flat, PIXMAP_CACHE (toggle_view, cache_seq, image_seq),
-					       toggle_view->gc,
-					       0, 0,
-					       0, 0,
-					       width, height,
-					       GDK_RGB_DITHER_NORMAL,
-					       0, 0);
-		gdk_pixbuf_unref (flat);
+		gdk_draw_pixbuf (PIXMAP_CACHE (toggle_view, cache_seq, image_seq),
+				 toggle_view->gc,
+				 flat,
+				 0, 0,
+				 0, 0,
+				 width, height,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
+		g_object_unref (flat);
 	}
 }
 
@@ -382,7 +383,7 @@ etog_finalize (GObject *object)
 	int i;
 	
 	for (i = 0; i < etog->n_states; i++)
-		gdk_pixbuf_unref (etog->images [i]);
+		g_object_unref (etog->images [i]);
 
 	g_free (etog->images);
 
@@ -451,7 +452,7 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
 
 	for (i = 0; i < n_states; i++){
 		etog->images [i] = images [i];
-		gdk_pixbuf_ref (images [i]);
+		g_object_ref (images [i]);
 
 		if (gdk_pixbuf_get_height (images [i]) > max_height)
 			max_height = gdk_pixbuf_get_height (images [i]);
