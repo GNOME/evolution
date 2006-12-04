@@ -1,3 +1,21 @@
+Evolution 2.9.3 2006-12-04
+--------------------------
+
+Updated Translations:
+Ivar Smolin (et), Jakub Friedl (cs),
+Karsten Bräckelmann (nb), Francisco Javier F. Serrador (es),
+Christophe Merlet (fr)
+
+Contributors :
+Francisco Javier F. Serrador (gnome-doc-tools integration, 358249)
+Harish Krishnaswamy (evolution.desktop install fixes, GW proxy pruning,
+memory leak fixes, 381642 (b.g.0), bug #208959 at bugzilla.novell.com)
+Nickolay V. Shmyrev (support for commandline uri in tasks),
+Daniel Gryniewicz (349966), Srinivasa Ragavan (Fix DoS by large emails)
+Sankar, Chris Halls (372528), Wang Xin (380064), Carlos Garcia (367183),
+Chenthill (208318 - b.n.c), Parthasarathi Susarla (348679).
+Matthew Barnes (357970).
+
 Evolution 2.9.2 2006-11-07
 --------------------------
 

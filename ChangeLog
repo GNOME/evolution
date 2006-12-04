@@ -1,3 +1,8 @@
+2006-12-04  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS, configure.in: Evolution 2.9.3 release
+	updates.
+
 2006-11-14  Harish Krishnaswamy  <kharish@novell.com>
 
 	* data/Makefile.am: Install evolution.desktop
