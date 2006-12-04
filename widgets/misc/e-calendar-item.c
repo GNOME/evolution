@@ -700,11 +700,7 @@ e_calendar_item_unrealize	(GnomeCanvasItem *item)
 
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
 
-	for (i = 0; i < E_CALENDAR_ITEM_COLOR_LAST; i++) {
-		/* FIXME: gdk_colors_free expects gulong* here but the pixel value in GdkColor
-		   is guint32.  GDK bug?  */
-		gdk_colors_free (colormap, (gulong *) &calitem->colors[i].pixel, 1, 0);
-	}
+	gdk_colormap_free_colors (colormap, calitem->colors, E_CALENDAR_ITEM_COLOR_LAST);
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unrealize)
 		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unrealize) (item);

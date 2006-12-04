@@ -610,7 +610,7 @@ gtk_combo_tearoff_bg_copy (GalComboBox *combo)
 		gdk_draw_drawable (GDK_DRAWABLE (pixmap), gc,
 				 widget->window,
 				 0, 0, 0, 0, -1, -1);
-		gdk_gc_unref (gc);
+		g_object_unref (gc);
       
 		gtk_widget_set_usize (combo->priv->tearoff_window,
 				      widget->allocation.width,

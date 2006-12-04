@@ -358,7 +358,7 @@ ecb_unrealize (GnomeCanvasItem *item)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
-	gdk_gc_unref (ecb->priv->gc);
+	g_object_unref (ecb->priv->gc);
 	ecb->priv->gc = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)
