@@ -1260,7 +1260,7 @@ e_text_unrealize (GnomeCanvasItem *item)
 
 	text = E_TEXT (item);
 
-	gdk_gc_unref (text->gc);
+	g_object_unref (text->gc);
 	text->gc = NULL;
 
 	gdk_cursor_unref (text->i_cursor);
