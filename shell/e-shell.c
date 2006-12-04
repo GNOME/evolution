@@ -461,6 +461,7 @@ impl_dispose (GObject *object)
 		priv->line_status_listener = NULL;
 	}
 
+	g_free (priv->iid);
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
