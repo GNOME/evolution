@@ -58,7 +58,7 @@ pixbuf_hash_free(gchar	*key,
 {
 	g_free(key);
 	if (pixbuf)
-		gdk_pixbuf_unref(pixbuf);
+		g_object_unref(pixbuf);
 }
 
 static void
@@ -281,11 +281,11 @@ e_table_extras_add_pixbuf     (ETableExtras *extras,
 		g_hash_table_remove (extras->cells, old_key);
 		g_free (old_key);
 		if (old_pixbuf)
-			gdk_pixbuf_unref (old_pixbuf);
+			g_object_unref (old_pixbuf);
 	}
 
 	if (pixbuf)
-		gdk_pixbuf_ref(pixbuf);
+		g_object_ref(pixbuf);
 	g_hash_table_insert (extras->pixbufs, g_strdup(id), pixbuf);
 }
 

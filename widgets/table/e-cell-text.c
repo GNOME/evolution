@@ -406,7 +406,7 @@ ect_unrealize (ECellView *ecv)
 	ECellText *ect = (ECellText*) ecv->ecell;
 	GdkColormap *colormap;
 
-	gdk_gc_unref (text_view->gc);
+	g_object_unref (text_view->gc);
 	text_view->gc = NULL;
 
 	if (text_view->edit){
@@ -441,7 +441,7 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 	if (color != (GdkColor*) 1) {
 		gulong pix = color->pixel;
 
-		gdk_colors_free (colormap, &pix, 1, 0);
+		gdk_colormap_free_colors (colormap, color, 1);
 
 		/* This frees the memory for the GdkColor. */
 		gdk_color_free (color);
@@ -2603,7 +2603,7 @@ e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec)
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (cell_view->canvas));
 
 		/* Try to allocate the color. */
-		if (gdk_color_alloc (colormap, &tmp_color))
+		if (gdk_colormap_alloc_color (colormap, &tmp_color, FALSE, TRUE))
 			color = gdk_color_copy (&tmp_color);
 	}
 

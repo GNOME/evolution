@@ -47,7 +47,7 @@ duplicate_value (ETableMemoryStore *etms, int col, const void *val)
 		return g_strdup (val);
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
 		if (val)
-			gdk_pixbuf_ref ((void *) val);
+			g_object_ref ((void *) val);
 		return (void *) val;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
 		if (val)
@@ -72,7 +72,7 @@ free_value (ETableMemoryStore *etms, int col, void *value)
 		break;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
 		if (value)
-			gdk_pixbuf_unref (value);
+			g_object_unref (value);
 		break;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
 		if (value)

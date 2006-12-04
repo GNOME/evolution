@@ -180,15 +180,14 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
     }
 
 
-    gdk_pixbuf_render_to_drawable_alpha (cell_pixbuf,
-					 drawable,
-					 0, 0,
-					 real_x, real_y, 
-					 real_w, real_h,
-					 GDK_PIXBUF_ALPHA_FULL,
-					 127,
-					 GDK_RGB_DITHER_NORMAL,
-					 0, 0);
+    gdk_draw_pixbuf (drawable,
+		     NULL,
+		     cell_pixbuf,
+		     0, 0,
+		     real_x, real_y,
+		     real_w, real_h,
+		     GDK_RGB_DITHER_NORMAL,
+		     0, 0);
 }
 
 static gint

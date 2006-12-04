@@ -489,7 +489,7 @@ make_shaped_window_from_xpm (const char **xpm)
 	
 	pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &bitmap, 128);
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 
 	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 	win = gtk_window_new (GTK_WINDOW_POPUP);

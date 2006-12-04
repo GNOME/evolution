@@ -190,7 +190,7 @@ ect_unrealize (ECellView *ecv)
 	/* unrealize our subcell view. */
 	e_cell_unrealize (tree_view->subcell_view);
 
-	gdk_gc_unref (tree_view->gc);
+	g_object_unref (tree_view->gc);
 	tree_view->gc = NULL;
 
 	if (parent_class->unrealize)
@@ -209,16 +209,15 @@ draw_retro_expander (ECellTreeView *ectv, GdkDrawable *drawable, gboolean expand
 	image_width = gdk_pixbuf_get_width(image);
 	image_height = gdk_pixbuf_get_height(image);
 
-	gdk_pixbuf_render_to_drawable_alpha (image,
-					     drawable,
-					     rect->x, rect->y,
-					     rect->width - image_width / 2, 
-					     rect->height - image_height / 2,
-					     image_width, image_height,
-					     GDK_PIXBUF_ALPHA_BILEVEL,
-					     128,
-					     GDK_RGB_DITHER_NORMAL,
-					     image_width, 0);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 image,
+			 rect->x, rect->y,
+			 rect->width - image_width / 2, 
+			 rect->height - image_height / 2,
+			 image_width, image_height,
+			 GDK_RGB_DITHER_NORMAL,
+			 image_width, 0);
 }
 
 static void
@@ -358,16 +357,15 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		}
 
 		if (node_image) {
-			gdk_pixbuf_render_to_drawable_alpha (node_image,
-							     drawable,
-							     0, 0,
-							     x1 + subcell_offset,
-							     y1 + (y2 - y1) / 2 - node_image_height / 2,
-							     node_image_width, node_image_height,
-							     GDK_PIXBUF_ALPHA_BILEVEL,
-							     128,
-							     GDK_RGB_DITHER_NORMAL,
-							     node_image_width, 0);
+			gdk_draw_pixbuf (drawable,
+					 NULL,
+					 node_image,
+					 0, 0,
+					 x1 + subcell_offset,
+					 y1 + (y2 - y1) / 2 - node_image_height / 2,
+					 node_image_width, node_image_height,
+					 GDK_RGB_DITHER_NORMAL,
+					 node_image_width, 0);
 			subcell_offset += node_image_width;
 		}
 	}
@@ -808,11 +806,11 @@ ect_dispose (GObject *object)
 	ect->subcell = NULL;
 
 	if (ect->open_pixbuf)
-		gdk_pixbuf_unref (ect->open_pixbuf);
+		g_object_unref (ect->open_pixbuf);
 	ect->open_pixbuf = NULL;
 
 	if (ect->closed_pixbuf)
-		gdk_pixbuf_unref (ect->closed_pixbuf);
+		g_object_unref (ect->closed_pixbuf);
 	ect->closed_pixbuf = NULL;
 
 	G_OBJECT_CLASS (parent_class)->dispose (object);

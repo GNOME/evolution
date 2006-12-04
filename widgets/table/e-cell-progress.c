@@ -97,7 +97,7 @@ eprog_unrealize (ECellView *ecv)
 {
 	ECellProgressView *progress_view = (ECellProgressView *) ecv;
 
-	gdk_gc_unref (progress_view->gc);
+	g_object_unref (progress_view->gc);
 	progress_view->gc = NULL;
 }
 
@@ -200,14 +200,14 @@ eprog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	eprog_draw_bar(progress, progress->red, progress->green, progress->blue, value);
 
-	gdk_pixbuf_render_to_drawable_alpha (progress->image, drawable,
-					     0, 0,
-					     x, y,
-					     progress->width, progress->height,
-					     GDK_PIXBUF_ALPHA_BILEVEL,
-					     128,
-					     GDK_RGB_DITHER_NORMAL,
-					     x, y);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 progress->image,
+			 0, 0,
+			 x, y,
+			 progress->width, progress->height,
+			 GDK_RGB_DITHER_NORMAL,
+			 x, y);
 }
 
 static void
@@ -285,7 +285,7 @@ eprog_dispose (GObject *object)
 {
 	ECellProgress *eprog = E_CELL_PROGRESS (object);
 	
-	gdk_pixbuf_unref (eprog->image);
+	g_object_unref (eprog->image);
 	g_free (eprog->image);
 	g_free (eprog->buffer);
 
