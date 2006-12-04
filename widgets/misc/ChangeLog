@@ -1,3 +1,8 @@
+2006-12-04  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-filter-bar.c: (build_items): Fix read of uninitialized
+	ESearchBarItems. Partially fixes #381642.
+
 2006-11-21  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-filter-bar.c: (e_filter_bar_new): type should be

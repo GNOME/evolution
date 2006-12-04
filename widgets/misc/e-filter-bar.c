@@ -351,7 +351,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	EFilterBar *efb = (EFilterBar *)esb;
 	int id = 0, i;
 	GArray *menu = g_array_new (FALSE, FALSE, sizeof (ESearchBarItem));
-	ESearchBarItem item;
+	ESearchBarItem item = { NULL, -1, 0 };
 	char *source;
 	GSList *gtksux = NULL;
 	int num;
@@ -365,7 +365,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 
 	/* find a unique starting point for the id's of our items */
 	for (i = 0; items[i].id != -1; i++) {
-		ESearchBarItem dup_item;
+		ESearchBarItem dup_item = { NULL, -1, 0 };
 
 		if (items[i].id >= id)
 			id = items[i].id + 1;
