@@ -492,7 +492,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	pixbuf = e_icon_factory_get_icon ("stock_check-filled", E_ICON_SIZE_LIST);
 	e_table_extras_add_pixbuf(extras, "complete", pixbuf);
-	gdk_pixbuf_unref(pixbuf);
+	g_object_unref(pixbuf);
 
 	/* Create the table */
 

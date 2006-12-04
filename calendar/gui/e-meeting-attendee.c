@@ -875,7 +875,7 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 	priv->has_calendar_info = TRUE;
 	priv->busy_periods_sorted = FALSE;
 
-	period_in_days = g_date_julian (&period.end.date) - g_date_julian (&period.start.date) + 1;
+	period_in_days = g_date_get_julian (&period.end.date) - g_date_get_julian (&period.start.date) + 1;
 	priv->longest_period_in_days = MAX (priv->longest_period_in_days, period_in_days);
 
 	return TRUE;

@@ -224,8 +224,8 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 
 	g_return_if_fail (gc != NULL);
 
-	month = g_date_month (date);
-	day_of_month = g_date_day (date);
+	month = g_date_get_month (date);
+	day_of_month = g_date_get_day (date);
 	line_y = y + E_WEEK_VIEW_DATE_T_PAD +
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
@@ -341,9 +341,9 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		/* Check if we are drawing today */		
 		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		if (g_date_year (date) == tt.year 
-		    && g_date_month (date) == tt.month
-		    && g_date_day (date) == tt.day) {
+		if (g_date_get_year (date) == tt.year 
+		    && g_date_get_month (date) == tt.month
+		    && g_date_get_day (date) == tt.day) {
 			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
 			today = TRUE;
 		}
@@ -428,8 +428,8 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 
 	g_return_if_fail (gc != NULL);
 
-	month = g_date_month (date);
-	day_of_month = g_date_day (date);
+	month = g_date_get_month (date);
+	day_of_month = g_date_get_day (date);
 	line_y = y + E_WEEK_VIEW_DATE_T_PAD +
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
@@ -556,9 +556,9 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		/* Check if we are drawing today */		
 		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		if (g_date_year (date) == tt.year 
-		    && g_date_month (date) == tt.month
-		    && g_date_day (date) == tt.day) {
+		if (g_date_get_year (date) == tt.year 
+		    && g_date_get_month (date) == tt.month
+		    && g_date_get_day (date) == tt.day) {
 			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
 			today = TRUE;
 		}

@@ -250,7 +250,7 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	/* Calculate the weekday of the given date, 0 = Mon. */
-	weekday = g_date_weekday (&date) - 1;
+	weekday = g_date_get_weekday (&date) - 1;
 	
 	/* Convert it to an offset from the start of the display. */
 	week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
@@ -432,9 +432,9 @@ timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
 
 	/* Recalculate the new start of the first week. We just use exactly
 	   the same time, but with the new timezone. */
-	tt.year = g_date_year (&week_view->first_day_shown);
-	tt.month = g_date_month (&week_view->first_day_shown);
-	tt.day = g_date_day (&week_view->first_day_shown);
+	tt.year = g_date_get_year (&week_view->first_day_shown);
+	tt.month = g_date_get_month (&week_view->first_day_shown);
+	tt.day = g_date_get_day (&week_view->first_day_shown);
 
 	lower = icaltime_as_timet_with_zone (tt, new_zone);
 
@@ -563,7 +563,7 @@ e_week_view_init (EWeekView *week_view)
 	}
 	week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
 
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 
 	/*
 	 * Scrollbar.
@@ -714,7 +714,7 @@ e_week_view_unrealize (GtkWidget *widget)
 
 	week_view = E_WEEK_VIEW (widget);
 
-	gdk_gc_unref (week_view->main_gc);
+	g_object_unref (week_view->main_gc);
 	week_view->main_gc = NULL;
 
 	colormap = gtk_widget_get_colormap (widget);
@@ -1364,16 +1364,16 @@ e_week_view_set_selected_time_range	(ECalendarView	*cal_view,
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	/* Set the selection to the given days. */
-	week_view->selection_start_day = g_date_julian (&date)
-		- g_date_julian (&week_view->base_date);
+	week_view->selection_start_day = g_date_get_julian (&date)
+		- g_date_get_julian (&week_view->base_date);
 	if (end_time == start_time
 	    || end_time <= time_add_day_with_zone (start_time, 1,
 						   e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view))))
 		week_view->selection_end_day = week_view->selection_start_day;
 	else {
 		time_to_gdate_with_zone (&end_date, end_time - 60, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		week_view->selection_end_day = g_date_julian (&end_date)
-			- g_date_julian (&week_view->base_date);
+		week_view->selection_end_day = g_date_get_julian (&end_date)
+			- g_date_get_julian (&week_view->base_date);
 	}
 
 	/* Make sure the selection is valid. */
@@ -1407,16 +1407,16 @@ e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 	
 	/* Set the selection to the given days. */
-	week_view->selection_start_day = g_date_julian (&date)
-		- g_date_julian (&week_view->first_day_shown);
+	week_view->selection_start_day = g_date_get_julian (&date)
+		- g_date_get_julian (&week_view->first_day_shown);
 	if (end_time == start_time
 	    || end_time <= time_add_day_with_zone (start_time, 1,
 						   e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view))))
 		week_view->selection_end_day = week_view->selection_start_day;
 	else {
 		time_to_gdate_with_zone (&end_date, end_time - 60, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		week_view->selection_end_day = g_date_julian (&end_date)
-			- g_date_julian (&week_view->first_day_shown);
+		week_view->selection_end_day = g_date_get_julian (&end_date)
+			- g_date_get_julian (&week_view->first_day_shown);
 	}
 
 	/* Make sure the selection is valid. */
@@ -1506,15 +1506,15 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	/* Calculate the old selection range. */
 	if (week_view->selection_start_day != -1) {
 		old_selection_start_julian =
-			g_date_julian (&week_view->base_date)
+			g_date_get_julian (&week_view->base_date)
 			+ week_view->selection_start_day;
 		old_selection_end_julian =
-			g_date_julian (&week_view->base_date)
+			g_date_get_julian (&week_view->base_date)
 			+ week_view->selection_end_day;
 	}
 
 	/* Calculate the weekday of the given date, 0 = Mon. */
-	weekday = g_date_weekday (date) - 1;
+	weekday = g_date_get_weekday (date) - 1;
 
 	/* Convert it to an offset from the start of the display. */
 	day_offset = (weekday + 7 - week_view->display_start_day) % 7;
@@ -1536,9 +1536,9 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
 		week_view->first_day_shown = base_date;
 
-		start_tt.year = g_date_year (&base_date);
-		start_tt.month = g_date_month (&base_date);
-		start_tt.day = g_date_day (&base_date);
+		start_tt.year = g_date_get_year (&base_date);
+		start_tt.month = g_date_get_month (&base_date);
+		start_tt.day = g_date_get_day (&base_date);
 
 		start_time = icaltime_as_timet_with_zone (start_tt,
 							  e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
@@ -1551,9 +1551,9 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	   just select the first day. */
 	if (week_view->selection_start_day != -1) {
 		week_view->selection_start_day = old_selection_start_julian
-			- g_date_julian (&base_date);
+			- g_date_get_julian (&base_date);
 		week_view->selection_end_day = old_selection_end_julian
-			- g_date_julian (&base_date);
+			- g_date_get_julian (&base_date);
 
 		/* Make sure the selection is valid. */
 		num_days = week_view->multi_week_view
@@ -4141,7 +4141,7 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 					       pixbuf, NULL);
 		}
 		if (pixbuf)
-			gdk_pixbuf_unref (pixbuf);
+			g_object_unref (pixbuf);
 	}
 
 	return FALSE;

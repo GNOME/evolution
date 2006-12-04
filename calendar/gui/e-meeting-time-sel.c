@@ -271,7 +271,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	GtkWidget *hbox, *vbox, *separator, *label, *table, *sw;
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GSList *group;
-	GdkColormap *colormap;
 	guint accel_key;
 	time_t meeting_start_time;
 	struct tm *meeting_start_tm;
@@ -284,7 +283,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	   future, in working hours. */
 	meeting_start_time = time (NULL);
 	g_date_clear (&mts->meeting_start_time.date, 1);
-	g_date_set_time (&mts->meeting_start_time.date, meeting_start_time);
+	g_date_set_time_t (&mts->meeting_start_time.date, meeting_start_time);
 	meeting_start_tm = localtime (&meeting_start_time);
 	mts->meeting_start_time.hour = meeting_start_tm->tm_hour;
 	mts->meeting_start_time.minute = meeting_start_tm->tm_min;
@@ -651,14 +650,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_table_set_row_spacing (GTK_TABLE (mts), 4, 12);
 
 	/* Allocate the colors. */
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (mts));
 	e_meeting_time_selector_alloc_named_color (mts, "snow", &mts->bg_color);
 	e_meeting_time_selector_alloc_named_color (mts, "snow3", &mts->all_attendees_bg_color);
-	gdk_color_black (colormap, &mts->grid_color);
-	gdk_color_white (colormap, &mts->grid_shadow_color);
+	e_meeting_time_selector_alloc_named_color (mts, "black", &mts->grid_color);
+	e_meeting_time_selector_alloc_named_color (mts, "white", &mts->grid_shadow_color);
 	e_meeting_time_selector_alloc_named_color (mts, "gray50", &mts->grid_unused_color);
-	gdk_color_white (colormap, &mts->stipple_bg_color);
-	gdk_color_white (colormap, &mts->attendee_list_bg_color);
+	e_meeting_time_selector_alloc_named_color (mts, "white", &mts->stipple_bg_color);
+	e_meeting_time_selector_alloc_named_color (mts, "white", &mts->attendee_list_bg_color);
 
 	e_meeting_time_selector_alloc_named_color (mts, "snow4", &mts->meeting_time_bg_color);
 	e_meeting_time_selector_alloc_named_color (mts, "yellow", &mts->busy_colors[E_MEETING_FREE_BUSY_TENTATIVE]);
@@ -866,7 +864,7 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
-	gdk_gc_unref (mts->color_key_gc);
+	g_object_unref (mts->color_key_gc);
 	mts->color_key_gc = NULL;
 
 	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)
@@ -1031,15 +1029,15 @@ e_meeting_time_selector_get_meeting_time (EMeetingTimeSelector *mts,
 					  gint *end_hour,
 					  gint *end_minute)
 {
-	*start_year = g_date_year (&mts->meeting_start_time.date);
-	*start_month = g_date_month (&mts->meeting_start_time.date);
-	*start_day = g_date_day (&mts->meeting_start_time.date);
+	*start_year = g_date_get_year (&mts->meeting_start_time.date);
+	*start_month = g_date_get_month (&mts->meeting_start_time.date);
+	*start_day = g_date_get_day (&mts->meeting_start_time.date);
 	*start_hour = mts->meeting_start_time.hour;
 	*start_minute = mts->meeting_start_time.minute;
 
-	*end_year = g_date_year (&mts->meeting_end_time.date);
-	*end_month = g_date_month (&mts->meeting_end_time.date);
-	*end_day = g_date_day (&mts->meeting_end_time.date);
+	*end_year = g_date_get_year (&mts->meeting_end_time.date);
+	*end_month = g_date_get_month (&mts->meeting_end_time.date);
+	*end_day = g_date_get_day (&mts->meeting_end_time.date);
 	*end_hour = mts->meeting_end_time.hour;
 	*end_minute = mts->meeting_end_time.minute;
 }
@@ -1667,7 +1665,7 @@ e_meeting_time_selector_calculate_time_difference (EMeetingTime*start,
 						   gint *hours,
 						   gint *minutes)
 {
-	*days = g_date_julian (&end->date) - g_date_julian (&start->date);
+	*days = g_date_get_julian (&end->date) - g_date_get_julian (&start->date);
 	*hours = end->hour - start->hour;
 	*minutes = end->minute - start->minute;
 	if (*minutes < 0) {
@@ -2188,7 +2186,7 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 	/* Date */
 	newtime = e_date_edit_get_time (E_DATE_EDIT (mts->start_date_edit));
 	g_date_clear (&mtstime.date, 1);
-	g_date_set_time (&mtstime.date, newtime);
+	g_date_set_time_t (&mtstime.date, newtime);
 
 	/* Time */
 	e_date_edit_get_time_of_day (E_DATE_EDIT (mts->start_date_edit), &hour, &minute);
@@ -2234,7 +2232,7 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 	/* Date */
 	newtime = e_date_edit_get_time (E_DATE_EDIT (mts->end_date_edit));
 	g_date_clear (&mtstime.date, 1);
-	g_date_set_time (&mtstime.date, newtime);
+	g_date_set_time_t (&mtstime.date, newtime);
 	if (mts->all_day)
 		g_date_add_days (&mtstime.date, 1);
 
@@ -2649,9 +2647,9 @@ static void
 e_meeting_time_selector_update_start_date_edit (EMeetingTimeSelector *mts)
 {
 	e_date_edit_set_date_and_time_of_day (E_DATE_EDIT (mts->start_date_edit),
-					      g_date_year (&mts->meeting_start_time.date),
-					      g_date_month (&mts->meeting_start_time.date),
-					      g_date_day (&mts->meeting_start_time.date),
+					      g_date_get_year (&mts->meeting_start_time.date),
+					      g_date_get_month (&mts->meeting_start_time.date),
+					      g_date_get_day (&mts->meeting_start_time.date),
 					      mts->meeting_start_time.hour,
 					      mts->meeting_start_time.minute);
 }
@@ -2668,9 +2666,9 @@ e_meeting_time_selector_update_end_date_edit (EMeetingTimeSelector *mts)
 		g_date_subtract_days (&date, 1);
 
 	e_date_edit_set_date_and_time_of_day (E_DATE_EDIT (mts->end_date_edit),
-					      g_date_year (&date),
-					      g_date_month (&date),
-					      g_date_day (&date),
+					      g_date_get_year (&date),
+					      g_date_get_month (&date),
+					      g_date_get_day (&date),
 					      mts->meeting_end_time.hour,
 					      mts->meeting_end_time.minute);
 }
@@ -2841,7 +2839,7 @@ e_meeting_time_selector_calculate_time_position (EMeetingTimeSelector *mts,
 
 	/* Calculate the number of days since the first date shown in the
 	   entire canvas scroll region. */
-	date_offset = g_date_julian (&mtstime->date) - g_date_julian (&mts->first_date_shown);
+	date_offset = g_date_get_julian (&mtstime->date) - g_date_get_julian (&mts->first_date_shown);
 
 	/* Calculate the x pixel coordinate of the start of the day. */
 	x = date_offset * mts->day_width;

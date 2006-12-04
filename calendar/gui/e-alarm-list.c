@@ -393,31 +393,31 @@ get_alarm_duration_string (struct icaldurationtype *duration)
 
 	if (duration->days >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d days before start of appointment" */
-		g_string_sprintf (string, ngettext("%d day", "%d days", duration->days), duration->days);
+		g_string_printf (string, ngettext("%d day", "%d days", duration->days), duration->days);
 		have_something = TRUE;
 	}
 
 	if (duration->weeks >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d weeks before start of appointment" */
-		g_string_sprintf (string, ngettext("%d week","%d weeks", duration->weeks), duration->weeks);
+		g_string_printf (string, ngettext("%d week","%d weeks", duration->weeks), duration->weeks);
 		have_something = TRUE;
 	}
 
 	if (duration->hours >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d hours before start of appointment" */
-		g_string_sprintf (string, ngettext("%d hour", "%d hours", duration->hours), duration->hours);
+		g_string_printf (string, ngettext("%d hour", "%d hours", duration->hours), duration->hours);
 		have_something = TRUE;
 	}
 
 	if (duration->minutes >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d minutes before start of appointment" */
-		g_string_sprintf (string, ngettext("%d minute", "%d minutes", duration->minutes), duration->minutes);
+		g_string_printf (string, ngettext("%d minute", "%d minutes", duration->minutes), duration->minutes);
 		have_something = TRUE;
 	}
 
 	if (duration->seconds >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d seconds before start of appointment" */
-		g_string_sprintf (string, ngettext("%d second", "%d seconds", duration->seconds), duration->seconds);
+		g_string_printf (string, ngettext("%d second", "%d seconds", duration->seconds), duration->seconds);
 		have_something = TRUE;
 	}
 
