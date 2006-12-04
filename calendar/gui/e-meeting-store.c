@@ -1276,17 +1276,17 @@ refresh_busy_periods (gpointer data)
 		struct icaltimetype itt;
 				
 		itt = icaltime_null_time ();
-		itt.year = g_date_year (&qdata->start.date);
-		itt.month = g_date_month (&qdata->start.date);
-		itt.day = g_date_day (&qdata->start.date);
+		itt.year = g_date_get_year (&qdata->start.date);
+		itt.month = g_date_get_month (&qdata->start.date);
+		itt.day = g_date_get_day (&qdata->start.date);
 		itt.hour = qdata->start.hour;
 		itt.minute = qdata->start.minute;
 		fbd->startt = icaltime_as_timet_with_zone (itt, priv->zone);
 
 		itt = icaltime_null_time ();
-		itt.year = g_date_year (&qdata->end.date);
-		itt.month = g_date_month (&qdata->end.date);
-		itt.day = g_date_day (&qdata->end.date);
+		itt.year = g_date_get_year (&qdata->end.date);
+		itt.month = g_date_get_month (&qdata->end.date);
+		itt.day = g_date_get_day (&qdata->end.date);
 		itt.hour = qdata->end.hour;
 		itt.minute = qdata->end.minute;
 		fbd->endt = icaltime_as_timet_with_zone (itt, priv->zone);

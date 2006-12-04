@@ -604,7 +604,7 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 		   week start day. */
 
 		/* Get the weekday corresponding to start_time, 0 (Sun) to 6 (Sat). */
-		weekday = g_date_weekday (&date) % 7;
+		weekday = g_date_get_weekday (&date) % 7;
 
 		/* Find the first working day in the week, 0 (Sun) to 6 (Sat). */
 		first_day = (E_DAY_VIEW (priv->views[view_type])->week_start_day + 1) % 7;
@@ -641,9 +641,9 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 			g_date_subtract_days (&date, offset);
 		}
 
-		tt.year = g_date_year (&date);
-		tt.month = g_date_month (&date);
-		tt.day = g_date_day (&date);
+		tt.year = g_date_get_year (&date);
+		tt.month = g_date_get_month (&date);
+		tt.day = g_date_get_day (&date);
 
 		*start_time = icaltime_as_timet_with_zone (tt, priv->zone);
 		*end_time = time_add_day_with_zone (*start_time, days_shown, priv->zone);
@@ -1342,17 +1342,17 @@ update_adjustment (GnomeCalendar *gcal, GtkAdjustment *adjustment, EWeekView *we
 	g_date_add_days (&date, week_offset * 7);
 
 	/* Convert the old & new first days shown to julian values. */
-	old_first_day_julian = g_date_julian (&week_view->first_day_shown);
-	new_first_day_julian = g_date_julian (&date);
+	old_first_day_julian = g_date_get_julian (&week_view->first_day_shown);
+	new_first_day_julian = g_date_get_julian (&date);
 
 	/* If we are already showing the date, just return. */
 	if (old_first_day_julian == new_first_day_julian)
 		return;
 
 	/* Convert it to a time_t. */
-	start_tt.year = g_date_year (&date);
-	start_tt.month = g_date_month (&date);
-	start_tt.day = g_date_day (&date);
+	start_tt.year = g_date_get_year (&date);
+	start_tt.month = g_date_get_month (&date);
+	start_tt.day = g_date_get_day (&date);
 
 	lower = icaltime_as_timet_with_zone (start_tt, gcal->priv->zone);
 
@@ -3300,20 +3300,20 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 	    && !g_date_compare (&end_date, &new_end_date))
 		return;
 	
-	new_days_shown = g_date_julian (&new_end_date) - g_date_julian (&new_start_date) + 1;
+	new_days_shown = g_date_get_julian (&new_end_date) - g_date_get_julian (&new_start_date) + 1;
 
 	/* If a complete week is selected we show the Week view.
 	   Note that if weekends are compressed and the week start day is set
 	   to Sunday we don't actually show complete weeks in the Week view,
 	   so this may need tweaking. */
-	if (g_date_weekday (&new_start_date) % 7 == priv->week_start)
+	if (g_date_get_weekday (&new_start_date) % 7 == priv->week_start)
 		starts_on_week_start_day = TRUE;
 
 	/* Update selection to be in the new time range */
 	tt = icaltime_null_time ();
-	tt.year = g_date_year (&new_start_date);
-	tt.month  = g_date_month (&new_start_date);
-	tt.day = g_date_day (&new_start_date);
+	tt.year = g_date_get_year (&new_start_date);
+	tt.month  = g_date_get_month (&new_start_date);
+	tt.day = g_date_get_day (&new_start_date);
 	new_time = icaltime_as_timet_with_zone (tt, priv->zone);
 	
 	/* Switch views as appropriate, and change the number of days or weeks

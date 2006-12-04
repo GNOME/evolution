@@ -1529,7 +1529,7 @@ e_day_view_unrealize (GtkWidget *widget)
 
 	day_view = E_DAY_VIEW (widget);
 
-	gdk_gc_unref (day_view->main_gc);
+	g_object_unref (day_view->main_gc);
 	day_view->main_gc = NULL;
 
 	colormap = gtk_widget_get_colormap (widget);
@@ -2752,7 +2752,7 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 	   week start day. */
 
 	/* Get the weekday corresponding to start_time, 0 (Sun) to 6 (Sat). */
-	weekday = g_date_weekday (&date) % 7;
+	weekday = g_date_get_weekday (&date) % 7;
 
 	/* Calculate the first working day of the week, 0 (Sun) to 6 (Sat).
 	   It will automatically default to the week start day if no days
@@ -2773,9 +2773,9 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 		g_date_subtract_days (&date, offset);
 	}
 
-	tt.year = g_date_year (&date);
-	tt.month = g_date_month (&date);
-	tt.day = g_date_day (&date);
+	tt.year = g_date_get_year (&date);
+	tt.month = g_date_get_month (&date);
+	tt.day = g_date_get_day (&date);
 
 	return icaltime_as_timet_with_zone (tt, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 }
@@ -3471,7 +3471,7 @@ e_day_view_convert_event_coords (EDayView *day_view,
 	}
 
 	while (event_window && event_window != window
-	       && event_window != GDK_ROOT_PARENT()) {
+	       && event_window != gdk_get_default_root_window ()) {
 		gdk_window_get_position (event_window, &win_x, &win_y);
 		event_x += win_x;
 		event_y += win_y;

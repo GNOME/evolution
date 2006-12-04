@@ -91,9 +91,9 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 	
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
 
-	tt.year = g_date_year (&start_date);
-	tt.month = g_date_month (&start_date);
-	tt.day = g_date_day (&start_date);
+	tt.year = g_date_get_year (&start_date);
+	tt.month = g_date_get_month (&start_date);
+	tt.day = g_date_get_day (&start_date);
 
 	et = icaltime_as_timet_with_zone (tt, gnome_calendar_get_timezone (dlg->gcal));
 

@@ -218,9 +218,9 @@ e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item)
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 
-	gdk_gc_unref (mts_item->main_gc);
+	g_object_unref (mts_item->main_gc);
 	mts_item->main_gc = NULL;
-	gdk_gc_unref (mts_item->stipple_gc);
+	g_object_unref (mts_item->stipple_gc);
 	mts_item->stipple_gc = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->unrealize)
@@ -891,14 +891,14 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 
 	/* Set the new meeting time. */
 	e_meeting_time_selector_set_meeting_time (mts_item->mts,
-						  g_date_year (start_date),
-						  g_date_month (start_date),
-						  g_date_day (start_date),
+						  g_date_get_year (start_date),
+						  g_date_get_month (start_date),
+						  g_date_get_day (start_date),
 						  start_time.hour,
 						  start_time.minute,
-						  g_date_year (end_date),
-						  g_date_month (end_date),
-						  g_date_day (end_date),
+						  g_date_get_year (end_date),
+						  g_date_get_month (end_date),
+						  g_date_get_day (end_date),
 						  end_time.hour,
 						  end_time.minute);
 
