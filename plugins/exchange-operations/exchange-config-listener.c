@@ -725,7 +725,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		}
 		g_free (title);
 	}
-	else if (remember_password && !g_strcasecmp (remember_password, "false")) {
+	else if (remember_password && !g_ascii_strcasecmp (remember_password, "false")) {
 		/* get_password returns the password cached but user has not
 		 * selected remember password option, forget this password
 		 * whis is stored temporarily by e2k_validate_user(), to avoid
