@@ -1415,6 +1415,43 @@ e_tasks_discard_view_menus (ETasks *tasks)
 	priv->view_menus = NULL;
 }
 
+void
+e_tasks_open_task_id (ETasks *tasks,
+		      const char *src_uid,
+		      const char *comp_uid,
+		      const char *comp_rid)
+{
+	ECal *client = NULL;
+	GList *l;
+	icalcomponent* icalcomp = NULL;
+	icalproperty *attendee_prop = NULL;
+
+	if (!src_uid || !comp_uid)
+		return;
+	
+	for (l = tasks->priv->clients_list; l != NULL; l = l->next) {
+		client = l->data;
+		ESource *client_src = e_cal_get_source (client);
+
+		if (!strcmp (src_uid, e_source_peek_uid (client_src)))
+			break;
+	}
+
+	if (!client) 
+		return;
+
+	e_cal_get_object (client, comp_uid, comp_rid, &icalcomp, NULL);
+
+	if (!icalcomp)
+		return;
+
+	attendee_prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+	e_calendar_table_open_task (E_CALENDAR_TABLE (tasks->priv->tasks_view), client, icalcomp, attendee_prop);
+	icalcomponent_free (icalcomp);
+
+	return;
+}
+
 /**
  * e_tasks_get_calendar_table:
  * @tasks: A tasks widget.

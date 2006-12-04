@@ -32,6 +32,7 @@
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-url.h>
 #include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
 #include <shell/e-component-view.h>
@@ -1154,6 +1155,79 @@ impl_createView (PortableServer_Servant servant,
 	return BONOBO_OBJREF(ecv);
 }
 
+static void
+impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
+{
+	TasksComponent *tasks_component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
+	TasksComponentPrivate *priv;
+	GList *l;
+	TasksComponentView *view = NULL;
+
+	char *src_uid = NULL;
+	char *uid = NULL;
+	char *rid = NULL;
+
+	priv = tasks_component->priv;
+
+	l = g_list_last (priv->views);
+	if (!l)
+		return;
+
+	view = l->data;
+
+	if (!strncmp (uri, "task:", 5)) {
+		EUri *euri = e_uri_new (uri);
+		const char *p;
+		char *header, *content;
+		size_t len, clen;
+
+		p = euri->query;
+		if (p) {
+			while (*p) {
+				len = strcspn (p, "=&");
+			
+				/* If it's malformed, give up. */
+				if (p[len] != '=')
+					break;
+			
+				header = (char *) p;
+				header[len] = '\0';
+				p += len + 1;
+			
+				clen = strcspn (p, "&");
+			
+				content = g_strndup (p, clen);
+				if (!g_ascii_strcasecmp (header, "source-uid")) {
+					src_uid = g_strdup (content);
+				} else if (!g_ascii_strcasecmp (header, "comp-uid")) {
+					uid = g_strdup (content);
+				} else if (!g_ascii_strcasecmp (header, "comp-rid")) {
+					rid = g_strdup (content);
+				}
+				g_free (content);
+
+				p += clen;
+				if (*p == '&') {
+					p++;
+					if (!strcmp (p, "amp;"))
+						p += 4;
+				}
+			}
+
+			if (uid && src_uid) {
+				e_tasks_open_task_id (view->tasks, src_uid, uid, rid);
+			}
+				
+			g_free (src_uid);
+			g_free (uid);
+			g_free (rid);
+		}
+		e_uri_free (euri);
+	}
+
+	return;
+}
+
 static GNOME_Evolution_CreatableItemTypeList *
 impl__get_userCreatableItems (PortableServer_Servant servant,
 			      CORBA_Environment *ev)
@@ -1285,6 +1359,7 @@ tasks_component_class_init (TasksComponentClass *klass)
 	epv->createView		     = impl_createView;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
+	epv->handleURI               = impl_handleURI;
 
 	object_class->dispose = impl_dispose;
 	object_class->finalize = impl_finalize;

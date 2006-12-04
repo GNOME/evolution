@@ -521,7 +521,7 @@ tasks_control_assign_cmd (BonoboUIComponent *uic,
               cal_table = e_tasks_get_calendar_table (tasks);
               comp_data = e_calendar_table_get_selected_comp (cal_table);
  	       if (comp_data)
-              e_calendar_table_open_task (cal_table, comp_data, TRUE);
+              e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, TRUE);
 }
 
 static void

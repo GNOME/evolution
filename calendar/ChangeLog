@@ -1,3 +1,19 @@
+2006-12-04 Nickolay V. Shmyrev <nshmyrev@yandex.ru>
+
+	Fixes #270751.
+	Adds support for command line uri in tasks.
+	* gui/GNOME_Evolution_Calendar.server.in.in: Added the specification
+	for task uri.
+	* gui/e-calendar-table.c: (e_calendar_table_open_selected),
+	(e_calendar_table_open_task), (open_task_by_row),
+	(e_calendar_table_on_open_task), (e_calendar_table_on_assign):
+	* gui/e-calendar-table.h:
+	* gui/tasks-control.c: (tasks_control_assign_cmd): 
+	* gui/e-tasks.c: (e_tasks_open_task_id):
+	* gui/e-tasks.h: Pass just the required arguments.
+	* gui/tasks-component.c: (impl_handleURI),
+	(tasks_component_class_init): Implement the uri interface
+
 2006-11-28  Wang Xin  <jedy.wang@sun.com>
 
 	Fix for bug #380064

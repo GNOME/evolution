@@ -604,7 +604,7 @@ e_calendar_table_open_selected (ECalendarTable *cal_table)
 	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	if (comp_data != NULL)
-		e_calendar_table_open_task (cal_table, comp_data, prop ? TRUE : FALSE);
+		e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
 }
 
 /**
@@ -1020,30 +1020,30 @@ e_calendar_table_paste_clipboard (ECalendarTable *cal_table)
 
 /* Opens a task in the task editor */
 void
-e_calendar_table_open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean assign)
+e_calendar_table_open_task (ECalendarTable *cal_table, ECal *client, icalcomponent *icalcomp, gboolean assign)
 {
 	CompEditor *tedit;
 	const char *uid;
 	guint32 flags = 0;
 	
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	uid = icalcomponent_get_uid (icalcomp);
 
 	tedit = e_comp_editor_registry_find (comp_editor_registry, uid);
 	if (tedit == NULL) {
 		ECalComponent *comp;
 
 		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 
 		if (assign) {
 			flags |= COMP_EDITOR_IS_ASSIGNED;
 
-			if (itip_organizer_is_user (comp, comp_data->client) || 
+			if (itip_organizer_is_user (comp, client) || 
 					!e_cal_component_has_attendees (comp))
 				flags |= COMP_EDITOR_USER_ORG;
 		}
 
-		tedit = COMP_EDITOR (task_editor_new (comp_data->client, flags));
+		tedit = COMP_EDITOR (task_editor_new (client, flags));
 		comp_editor_edit_comp (tedit, comp);
 	
 		if (flags & COMP_EDITOR_IS_ASSIGNED)
@@ -1063,7 +1063,7 @@ open_task_by_row (ECalendarTable *cal_table, int row)
 
 	comp_data = e_cal_model_get_component_at (cal_table->model, row);
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-	e_calendar_table_open_task (cal_table, comp_data, prop ? TRUE : FALSE);
+	e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
 }
 
 static void
@@ -1088,7 +1088,7 @@ e_calendar_table_on_open_task (EPopup *ep, EPopupItem *pitem, void *data)
 	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	if (comp_data)
-		e_calendar_table_open_task (cal_table, comp_data, prop ? TRUE : FALSE);
+		e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
 }
 
 static void
@@ -1168,7 +1168,7 @@ e_calendar_table_on_assign (EPopup *ep, EPopupItem *pitem, void *data)
 
 	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	if (comp_data)
-		e_calendar_table_open_task (cal_table, comp_data, TRUE);
+		e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, TRUE);
 }
 
 static void

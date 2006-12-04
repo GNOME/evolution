@@ -73,6 +73,10 @@ gboolean   e_tasks_set_default_source (ETasks *tasks, ESource *source);
 ECal      *e_tasks_get_default_client    (ETasks *tasks);
 
 void       e_tasks_open_task         (ETasks		*tasks);
+void       e_tasks_open_task_id      (ETasks		*tasks,
+				      const char *src_uid,
+				      const char *comp_uid,
+				      const char *comp_rid);
 void       e_tasks_new_task          (ETasks            *tasks);
 void       e_tasks_complete_selected (ETasks            *tasks);
 void       e_tasks_delete_selected   (ETasks            *tasks);
