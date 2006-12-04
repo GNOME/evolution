@@ -1,3 +1,11 @@
+2006-11-28  Wang Xin  <jedy.wang@sun.com>
+
+	Fix for bug #380064
+
+	* gui/alarm-notify/alarm-queue.c: (mail_notification): Only
+	popup the dialog if calendar backend does not support
+	email alarm.
+
 2006-12-03  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/calendar-config.c:
