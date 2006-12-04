@@ -1,3 +1,16 @@
+2006-12-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	Fixes bug #357970
+
+	* e-calendar-item.c:
+	* e-canvas-background.c:
+	* e-filter-bar.c:
+	* e-search-bar.c:
+	* gal-combo-box.c:
+	Don't call deprecated GLib / GDK functions.
+
+	* e-colors.c (e_color_alloc): Remove unused function.
+
 2006-12-04  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-filter-bar.c: (build_items): Fix read of uninitialized

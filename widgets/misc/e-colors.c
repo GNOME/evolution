@@ -33,19 +33,6 @@
 
 GdkColor e_white, e_dark_gray, e_black;
 
-gulong
-e_color_alloc (gushort red, gushort green, gushort blue)
-{
-	e_color_init ();
-
-	red >>= 8;
-	green >>= 8;
-	blue >>= 8;
-	return gdk_rgb_xpixel_from_rgb (
-		((red & 0xff) << 16) | ((green & 0xff) << 8) |
-		(blue & 0xff));
-}
-
 void
 e_color_alloc_gdk (GtkWidget *widget, GdkColor *c)
 {
