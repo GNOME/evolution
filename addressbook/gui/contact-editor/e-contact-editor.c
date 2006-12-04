@@ -2785,7 +2785,7 @@ update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
 	if (pixbuf)
-		gdk_pixbuf_unref (pixbuf);
+		g_object_unref (pixbuf);
 }
 
 static void

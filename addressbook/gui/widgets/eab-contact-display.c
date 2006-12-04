@@ -730,7 +730,7 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 				}
 			}
 
-			gdk_pixbuf_unref (pixbuf);
+			g_object_unref (pixbuf);
 			gtk_html_stream_printf (html_stream, "<img width=\"%d\" height=\"%d\" src=\"internal-contact-photo:\">",
 						calced_width, calced_height);
 			e_contact_photo_free (photo);
