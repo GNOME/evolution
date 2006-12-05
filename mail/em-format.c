@@ -54,6 +54,7 @@
 
 #include "em-format.h"
 #include "em-utils.h"
+#include "mail-config.h"
 
 #define d(x) 
 
