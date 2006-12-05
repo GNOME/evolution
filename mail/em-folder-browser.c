@@ -299,8 +299,8 @@ generate_viewoption_menu (GtkWidget *emfv)
 			char *str;
 			str = string_without_underscores (_(emfb_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
-/* 			if (emfb_view_items[i].image)
- 				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (emfb_view_items[i].image, E_ICON_SIZE_MENU)); */
+ 			if (emfb_view_items[i].image)
+ 				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (emfb_view_items[i].image, E_ICON_SIZE_MENU)); 
 			g_free (str);
 		} else {
 			menu_item = gtk_menu_item_new ();
@@ -319,10 +319,10 @@ generate_viewoption_menu (GtkWidget *emfv)
 		MailConfigLabel *label = l->data;
 		if (label->name && *(label->name)) {
 			char *str;
-/*			GdkPixmap *pixmap;
+			GdkPixmap *pixmap;
 			GdkColor colour;
 			GdkGC *gc;
-			GtkImage *image;
+			GtkWidget *image;
 			
 			gdk_color_parse(label->colour, &colour);
 			gdk_colormap_alloc_color(gdk_colormap_get_system(), &colour, FALSE, TRUE);
@@ -333,11 +333,11 @@ generate_viewoption_menu (GtkWidget *emfv)
 			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
 			g_object_unref(gc); 
 			
-			image = gtk_image_new_from_pixmap(pixmap, NULL); */
+			image = gtk_image_new_from_pixmap(pixmap, NULL); 
 			str = string_without_underscores (label->name);
 			menu_item = gtk_image_menu_item_new_with_label (str);
 			g_free (str);
-/* 			gtk_image_menu_item_set_image (menu_item, image); */
+			gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, image); 
 			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
 					   GINT_TO_POINTER (VIEW_LABEL));
 		
@@ -354,8 +354,8 @@ generate_viewoption_menu (GtkWidget *emfv)
 			char *str;
 			str = string_without_underscores (_(temp_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
-/*			if (temp_view_items[i].image)
-				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (temp_view_items[i].image, E_ICON_SIZE_MENU)); */
+			if (temp_view_items[i].image)
+				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (temp_view_items[i].image, E_ICON_SIZE_MENU)); 
 			g_free (str);
 		} else {
 			menu_item = gtk_menu_item_new ();

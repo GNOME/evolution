@@ -1,3 +1,8 @@
+2006-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-folder-browser.c: (generate_viewoption_menu): Added icon/image to
+	the quick search items.
+
 2006-12-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes bug #382431
