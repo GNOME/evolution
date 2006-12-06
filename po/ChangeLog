@@ -1,3 +1,7 @@
+2006-12-06  Jakub Friedl  <jfriedl@suse.cz>
+
+	* cs.po: Fixes bug #355772.
+
 2006-12-02  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated by Ivar Smolin.
