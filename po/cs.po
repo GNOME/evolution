@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-06 11:48+0100\n"
-"PO-Revision-Date: 2006-12-06 11:53+0100\n"
+"POT-Creation-Date: 2006-12-06 14:18+0100\n"
+"PO-Revision-Date: 2006-12-06 14:24+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team:  <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11840,7 +11840,6 @@ msgid "Mark as _Important"
 msgstr "Označit jako _důležité"
 
 #: ../mail/em-folder-view.c:1135
-#, fuzzy
 msgid "Mark as Un_important"
 msgstr "Označit jako nedů_ležité"
 
@@ -11953,14 +11952,12 @@ msgid "Matches: %d"
 msgstr "Nalezeno: %d"
 
 #: ../mail/em-format-html-display.c:650
-#, fuzzy
 msgid "Fi_nd:"
 msgstr "_Hledat:"
 
 #: ../mail/em-format-html-display.c:678
-#, fuzzy
 msgid "Fo_rward"
-msgstr "Přeposlat"
+msgstr "Pře_poslat"
 
 #: ../mail/em-format-html-display.c:683
 #, fuzzy
