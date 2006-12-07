@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2006-11-22 21:29+0100\n"
-"PO-Revision-Date: 2006-11-22 23:17+0100\n"
+"PO-Revision-Date: 2006-12-07 12:17+0100\n"
 "Last-Translator: \n"
-"Language-Team:  <es@li.org>\n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -578,7 +578,7 @@ msgstr ""
 msgid ""
 "The First-Run Assistant helps you provide the information Evolution needs to "
 "get started."
-msgstr ""
+msgstr "El asistente de primera ejecución le ayuda a proporcionar la información que necesita Evolution para empezar."
 
 #: ../C/evolution.xml:198(link) ../C/evolution.xml:218(title)
 msgid "Defining Your Identity"
@@ -617,17 +617,17 @@ msgid ""
 "Here, you enter some basic personal information. You can define multiple "
 "identities later by clicking Edit &gt; Preferences, then clicking Mail "
 "Accounts."
-msgstr ""
+msgstr "Aquí puede introducir alguna información personal básica. Puede definir varias identidades más adelante pulsando Editar &gt; Preferencias, después pulsando en «Cuentas de correo»."
 
 #: ../C/evolution.xml:222(para)
 msgid ""
 "When the First-Run Assistant starts, the Welcome page is displayed. Click "
 "Forward to proceed to the Identity window."
-msgstr ""
+msgstr "Cuando se inicia el «Asistente de primera ejecución», se muestra la página de «Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
 
 #: ../C/evolution.xml:225(para)
 msgid "Type your full name in the Full Name field."
-msgstr ""
+msgstr "Teclee su nombre completo en el campo «Nombre completo»."
 
 #: ../C/evolution.xml:228(para)
 msgid "Type your e-mail address in the E-Mail Address field."
@@ -645,20 +645,19 @@ msgstr ""
 
 #: ../C/evolution.xml:235(para)
 msgid "Use this field if you want replies to e-mails sent to a different address."
-msgstr ""
+msgstr "Use este campo si quiere que las respuestas a los correos-e se envíen a una dirección diferente."
 
 #: ../C/evolution.xml:238(para)
 msgid "(Optional) Type your organization name in the Organization field."
-msgstr ""
+msgstr "(Opcional) Teclee el nombre de su organización en el campo «Organización»."
 
 #: ../C/evolution.xml:239(para)
-#, fuzzy
 msgid ""
 "This is the company where you work, or the organization you represent when "
 "you send e-mail."
 msgstr ""
-"Organización: la compañía para la que trabaja o la organización a la que "
-"representa cuando escribe correo (opcional)."
+"Esta es la compañía para la que trabaja o la organización a la que "
+"representa cuando escribe correo-e."
 
 #: ../C/evolution.xml:242(para) ../C/evolution.xml:324(para)
 #: ../C/evolution.xml:402(para) ../C/evolution.xml:433(para)
@@ -667,35 +666,31 @@ msgstr ""
 #: ../C/evolution.xml:551(para) ../C/evolution.xml:570(para)
 #: ../C/evolution.xml:591(para) ../C/evolution.xml:645(para)
 #: ../C/evolution.xml:1982(para) ../C/evolution.xml:2004(para)
-#, fuzzy
 msgid "Click Forward."
-msgstr "Pinche en <guibutton>Aceptar</guibutton>."
+msgstr "Pulse «Adelante»."
 
 #: ../C/evolution.xml:249(para)
-#, fuzzy
 msgid "The Receiving E-mail option lets you determine where you get your e-mail."
-msgstr ""
-"La sección <guilabel>Recibiendo mensajes</guilabel> permite determinar de "
-"dónde obtendrá su correo."
+msgstr "La opción «Recepción de correo-e» permite determinar de dónde obtendrá su correo-e."
 
 #: ../C/evolution.xml:251(para)
 msgid ""
 "You need to specify the type of server you want to receive mail with. If you "
 "are unsure about the type of server to choose, ask your system administrator "
 "or ISP."
-msgstr ""
+msgstr "Necesita especificar el tipo de servidor con el que quiere recibir correo. Si no está seguro acerca de qué tipo de servidor elegir, pregunte a su administrador de sistemas o ISP."
 
 #: ../C/evolution.xml:254(para)
 msgid "Select a server type in the Server Type list."
-msgstr ""
+msgstr "Seleccione un tipo de servidor en la lista «Tipo de servidor»."
 
 #: ../C/evolution.xml:255(para)
 msgid "The following is a list of server types that are available:"
-msgstr ""
+msgstr "Lo siguiente es una lista de tipos de servidores que están disponibles:"
 
 #: ../C/evolution.xml:257(title)
 msgid "Novell GroupWise:"
-msgstr ""
+msgstr "Novell GroupWise:"
 
 #: ../C/evolution.xml:258(para)
 msgid ""
@@ -703,14 +698,13 @@ msgid ""
 "keeps e-mail, calendar, and contact information on the server. For "
 "configuration instructions, see <link linkend=\"bstfw13\">Remote "
 "Configuration Options</link>."
-msgstr ""
+msgstr "Seleccione esta opción si se conecta a Novell Groupwise&reg;. Novell Groupwise conserva la información de correo-e, calendario, y contactos en el servidor. Para las instrucciones de configuración, vea <link linkend=\"bstfw13\">Opciones de configuración remotas</link>."
 
 #: ../C/evolution.xml:261(title)
 msgid "Microsoft Exchange:"
 msgstr "Microsoft Exchange:"
 
 #: ../C/evolution.xml:262(para)
-#, fuzzy
 msgid ""
 "Available only if you have installed the Connector for Microsoft* Exchange. "
 "It allows you to connect to a Microsoft Exchange 2000 or 2003 server, which "
@@ -718,24 +712,23 @@ msgid ""
 "configuration instructions, see <link linkend=\"bstfw13\">Remote "
 "Configuration Options</link>."
 msgstr ""
-"Microsoft Exchange: sólo disponible si ha adquirido Ximian Connector para "
-"Microsoft Exchange, permite conectarse a un servidor Microsoft Exchange "
-"Server 2000, que almacena la información de calendario, contacto y correo "
-"electrónico en el servidor."
+"Sólo disponible si ha instalado el Conector para "
+"Microsoft Exchange, permite conectarse a un servidor Microsoft* Exchange "
+"Server 2000 o 2003, que almacena la información de calendario, contacto y correo "
+"electrónico en el servidor. Para las instrucciones de configuración, vea <link linkend=\"bstfw13\">Opciones de configuración remota</link>."
 
 #: ../C/evolution.xml:265(title)
 msgid "IMAP:"
 msgstr "IMAP:"
 
 #: ../C/evolution.xml:266(para)
-#, fuzzy
 msgid ""
 "Keeps the e-mail on your server so you can access your e-mail from multiple "
 "systems. For configuration instructions, see <link linkend=\"bstfw13"
 "\">Remote Configuration Options</link>."
 msgstr ""
-"IMAP: conserva su correo en el servidor para que pueda acceder a él con "
-"sistemas diferentes."
+"Conserva su correo-e en el servidor para que pueda acceder a él con "
+"sistemas diferentes. Para las instrucciones de configuración, vea <link linkend=\"bstfw13\">Opciones de configuración remotas</link>."
 
 #: ../C/evolution.xml:269(title)
 msgid "POP:"
@@ -746,7 +739,7 @@ msgid ""
 "Downloads your e-mail to your hard disk for permanent storage, freeing up "
 "space on the e-mail server. For configuration instructions, see <link "
 "linkend=\"bstfw13\">Remote Configuration Options</link>."
-msgstr ""
+msgstr "Descarga su correo-e en su disco duro para almacenarlo permanentemente, liberando espacio en el servidor de correo-e. Para las instrucciones de configuración, vea <link linkend=\"bstfw13\">Opciones de configuración remota.</link>"
 
 #: ../C/evolution.xml:273(title)
 msgid "USENET News:"
@@ -757,14 +750,13 @@ msgid ""
 "Connects to the news server and downloads a list of available news digests. "
 "For configuration instructions, see <link linkend=\"bstfw13\">Remote "
 "Configuration Options</link>."
-msgstr ""
+msgstr "Conecta con servidores de noticias y descarga una lista de los compendios de noticias disponibles. Para las opciones de configuración, vea <link linkend=\"bstfw13\">Opciones de configuración remota</link>."
 
 #: ../C/evolution.xml:277(title)
 msgid "Local Delivery:"
-msgstr ""
+msgstr "Entrega local:"
 
 #: ../C/evolution.xml:278(para)
-#, fuzzy
 msgid ""
 "Choose this option if you want to move e-mail from the spool (the location "
 "where mail waits for delivery) and store it in your home directory. You need "
@@ -773,118 +765,103 @@ msgid ""
 "option instead. For configuration instructions, see <link linkend=\"bstgbqn"
 "\">Local Configuration Options</link>."
 msgstr ""
-"Entrega local: si desea mover su correo desde el buzón local a su directorio "
-"de inicio. Si en cambio prefiere dejarlo donde está, opte por "
-"<guimenuitem>Mbox estándar de Unix</guimenuitem>. Debe escribir la ruta de "
-"acceso al buzón."
+"Elija esta opciones si quiere mover el correo desde el buzón local a su directorio "
+"de inicio. Necesita propocinar la ruta al buzón de correo que quiere usar, Si quiere dear el correo "
+"en los archivos de spools del sistema, elija la opción «Mbox estándar de UNIX»."
+"Para las instrucciones de configuración , vea <link linkend=\"bstgbqn\">Opciones de configuración local</link>."
 
 #: ../C/evolution.xml:281(title)
 msgid "MH Format Mail Directories:"
-msgstr "Directorios de correo en formato MH"
+msgstr "Directorios de correo en formato MH:"
 
 #: ../C/evolution.xml:282(para)
-#, fuzzy
 msgid ""
 "If you download your e-mail using mh or another MH-style program, you should "
 "use this option. You need to provide the path to the mail directory you want "
 "to use. For configuration instructions, see <link linkend=\"bstgbqn\">Local "
 "Configuration Options</link>."
 msgstr ""
-"Directorios de correo en formato MH: si descarga el correo utilizando "
-"<application>mh</application> u otro programa tipo MH querrá utiliza esta "
-"opción. Debe escribir la ruta de acceso al buzón."
+"Si descarga el correo utilizando «mh» u otro programa tipo MH querrá utilizar esta "
+"opción. Debe escribir la ruta de acceso al directorio de correo que quiere usar. Para las instrucciones "
+"de configuración, vea <link linkend=\"bstgbqn\">Opciones de configuración local</link>."
 
 #: ../C/evolution.xml:285(title)
 msgid "Maildir Format Mail Directories:"
-msgstr ""
+msgstr "Directorios de correo en formato Maildir:"
 
 #: ../C/evolution.xml:286(para)
-#, fuzzy
 msgid ""
 "If you download your e-mail using Qmail or another maildir-style program, "
 "you should use this option. You need to provide the path to the mail "
 "directory you want to use. For configuration instructions, see <link linkend="
 "\"bstgbqn\">Local Configuration Options</link>."
 msgstr ""
-"Directorios de correo en formato Maildir: si utiliza <application>qmail</"
-"application> para descargar su correo, u otro programa de tipo maildir, "
-"querrá usar esta opción. Debe escribir la ruta de acceso al buzón."
+"Si descarga su correo usando Qmail u otro programa tipo maildir, "
+"querrá usar esta opción. Debe escribir la ruta de acceso al directorio de correo que quiere usar. Para las instrucciones "
+"de configuración, vea <link linkend=\"bstgbqn\">Opciones de configuración local</link>."
 
 #: ../C/evolution.xml:289(title)
-#, fuzzy
 msgid "Standard Unix Mbox Spool or Directory:"
-msgstr "Herramienta estándar de configuración de Ximian Connector"
+msgstr "Directorio o Spool estándar de UNIX:"
 
 #: ../C/evolution.xml:290(para)
-#, fuzzy
 msgid ""
 "If you want to read and store e-mail in the mail spool on your local system, "
 "choose this option. You need to provide the path to the mail spool you want "
 "to use. For configuration instructions, see <link linkend=\"bstgbqn\">Local "
 "Configuration Options</link>."
-msgstr ""
-"Directorio o buzón mbox estándar de Unix: seleccione esta opción si desea "
-"leer y almacenar su correo en un buzón de correo local en su sistema. Debe "
-"proporcionar la ruta de acceso al buzón."
+msgstr "Si desea leer y almacenar su correo en un buzón de correo local en su sistema, elija esta opción. Necesita proporcionar la ruta de acceso al buzón que quiere usar. Para instrucciones de configuración, vea <link linkend=\"bstgbqn\">Opciones de configuración locales</link>."
 
 #: ../C/evolution.xml:293(title) ../C/evolution.xml:4038(title)
-#, fuzzy
 msgid "None:"
-msgstr "Ninguno"
+msgstr "Ninguno:"
 
 #: ../C/evolution.xml:294(para)
-#, fuzzy
 msgid ""
 "Select this if you do not plan to check e-mail with this account. If you "
 "select this, there are no configuration options."
 msgstr ""
-"Ninguno: elija esta opción si no planea consultar correo electrónico con "
-"esta cuenta."
+"Elija esta opción si no planea consultar correo electrónico con "
+"esta cuenta. Si selecciona esto, no hay opciones de configuración."
 
 #: ../C/evolution.xml:300(title)
-#, fuzzy
 msgid "Remote Configuration Options"
-msgstr "Opciones de configuración adicionales"
+msgstr "Opciones de configuración remotas"
 
 #: ../C/evolution.xml:301(para)
-#, fuzzy
 msgid ""
 "If you selected Novell GroupWise, IMAP, POP, or USENET News as your server, "
 "you need to specify additional information."
 msgstr ""
-"Si ha elegido un servidor de correo POP, Microsoft Exchange o IMAP, es "
-"necesario introducir la siguiente información:"
+"Si ha elegido un servidor de correo Novell GroupWise, IMAP, POP o Noticias USENET es "
+"necesario especificar información adicional:"
 
 #: ../C/evolution.xml:304(para)
-#, fuzzy
 msgid "Type the hostname of your e-mail server in the Hostname field."
-msgstr ""
-"El nombre del servidor de correo. Si tiene dudas pregunte a su administrador "
-"de sistemas."
+msgstr "Teclee el nombre del servidor de correo en el campo «Servidor»."
 
 #: ../C/evolution.xml:305(para)
 msgid "If you don't know the hostname, contact your administrator."
-msgstr ""
+msgstr "Si no sabe el nombre del host, contacte con su administrador."
 
 #: ../C/evolution.xml:308(para)
-#, fuzzy
 msgid "Type your username for the account in the Username field."
-msgstr "El nombre de usuario para su cuenta en ese sistema."
+msgstr "Teclee su nombre de usuario para el campo de su cuenta en el campo «Usuario»."
 
 #: ../C/evolution.xml:311(para)
 msgid "Select to use a secure (SSL) connection."
-msgstr ""
+msgstr "Marque para usar una conexión segura (SSL)."
 
 #: ../C/evolution.xml:312(para)
 msgid ""
 "If your server supports secure connections, you should enable this security "
 "option. If you are unsure if your server supports a secure connection, "
 "contact your system administrator."
-msgstr ""
+msgstr "Si su servidor soporta conexiones seguras, debe activar esta opción de seguridad. Si no está seguro de si su servidor soporta una conexión segura, contacte con su administrador de sistemas."
 
 #: ../C/evolution.xml:315(para) ../C/evolution.xml:629(para)
 msgid "Select your authentication type in the Authentication list."
-msgstr ""
+msgstr "Seleccione su tipo de autenticación en la lista «Autenticación»."
 
 #: ../C/evolution.xml:316(para) ../C/evolution.xml:630(para)
 #: ../C/evolution.xml:663(para) ../C/evolution.xml:1642(para)
@@ -901,9 +878,8 @@ msgstr ""
 #: ../C/evolution.xml:3667(para) ../C/evolution.xml:3680(para)
 #: ../C/evolution.xml:3713(para) ../C/evolution.xml:4734(para)
 #: ../C/evolution.xml:5266(para) ../C/evolution.xml:5332(para)
-#, fuzzy
 msgid "or"
-msgstr "Puerto"
+msgstr "o"
 
 #: ../C/evolution.xml:317(para) ../C/evolution.xml:631(para)
 msgid ""
@@ -920,9 +896,8 @@ msgid ""
 msgstr ""
 
 #: ../C/evolution.xml:321(para) ../C/evolution.xml:637(para)
-#, fuzzy
 msgid "Select if you want Evolution to remember your password."
-msgstr "Si quiere que Evolution recuerde su contraseña."
+msgstr "Marque si quiere que Evolution recuerde su contraseña."
 
 #: ../C/evolution.xml:327(para)
 msgid ""
@@ -941,9 +916,8 @@ msgid ""
 msgstr ""
 
 #: ../C/evolution.xml:333(title)
-#, fuzzy
 msgid "Local Configuration Options"
-msgstr "Opciones de configuración adicionales"
+msgstr "Opciones de configuración locales"
 
 #: ../C/evolution.xml:334(para)
 msgid ""
@@ -960,34 +934,28 @@ msgid ""
 msgstr ""
 
 #: ../C/evolution.xml:343(link) ../C/evolution.xml:372(title)
-#, fuzzy
 msgid "Novell GroupWise Receiving Options"
-msgstr "Opciones de recepción"
+msgstr "Opciones de recepción de Novell Groupwise"
 
 #: ../C/evolution.xml:346(link) ../C/evolution.xml:409(title)
-#, fuzzy
 msgid "Microsoft Exchange Receiving Options"
-msgstr "Opciones de recepción"
+msgstr "Opciones de recepción de Microsoft Exchange"
 
 #: ../C/evolution.xml:349(link) ../C/evolution.xml:440(title)
-#, fuzzy
 msgid "IMAP Receiving Options"
-msgstr "Opciones de recepción"
+msgstr "Opciones de recepción IMAP"
 
 #: ../C/evolution.xml:352(link) ../C/evolution.xml:482(title)
-#, fuzzy
 msgid "POP Receiving Options"
-msgstr "Opciones de recepción"
+msgstr "Opciones de recepción POP"
 
 #: ../C/evolution.xml:355(link) ../C/evolution.xml:503(title)
-#, fuzzy
 msgid "USENET News Receiving Options"
-msgstr "Opciones de recepción"
+msgstr "Opciones de recepción de Noticias USENET"
 
 #: ../C/evolution.xml:358(link) ../C/evolution.xml:526(title)
-#, fuzzy
 msgid "Local Delivery Receiving Options"
-msgstr "Opciones de recepción"
+msgstr "Opciones de recepción de entrega local"
 
 #: ../C/evolution.xml:361(link) ../C/evolution.xml:540(title)
 msgid "MH-Format Mail Directories Receiving Options"
@@ -1009,21 +977,19 @@ msgstr ""
 
 #: ../C/evolution.xml:377(para) ../C/evolution.xml:414(para)
 #: ../C/evolution.xml:445(para)
-#, fuzzy
 msgid "Select if you want Evolution to automatically check for new mail."
-msgstr "Especifique si quiere que su clave caduque, y en caso positivo, cuándo."
+msgstr "Marque si quiere que Evolution compruebe automáticamente si hay correo nuevo."
 
 #: ../C/evolution.xml:378(para) ../C/evolution.xml:415(para)
 #: ../C/evolution.xml:446(para) ../C/evolution.xml:4389(para)
-#, fuzzy
 msgid ""
 "If you select this option, you need to specify how often Evolution should "
 "check for new messages."
-msgstr "En este caso, es necesario especificar las carpetas en el campo inferior."
+msgstr "Si selecciona esta opción, necesita especificar con qué frecuencia Evolution debe comprobar si hay mensajes nuevos."
 
 #: ../C/evolution.xml:381(para) ../C/evolution.xml:4394(para)
 msgid "Select if you want to check for new messages in all folders."
-msgstr ""
+msgstr "Marque si quiere que compruebe si hay mensajes nuevos en todas las carpetas."
 
 #: ../C/evolution.xml:384(para) ../C/evolution.xml:4397(para)
 msgid ""
@@ -8273,9 +8239,8 @@ msgid "Mail"
 msgstr "Correo"
 
 #: ../C/evolution.xml:3819(title)
-#, fuzzy
 msgid "Viewing Mail in Exchange Folders:"
-msgstr "Leer correo en una carpeta <application>Exchange</application>"
+msgstr "Ver correo en carpetas Exchange:"
 
 #: ../C/evolution.xml:3820(para)
 msgid ""
@@ -8308,9 +8273,8 @@ msgid "Calendar"
 msgstr "Calendario"
 
 #: ../C/evolution.xml:3836(title)
-#, fuzzy
 msgid "Meeting Requests/Proposal:"
-msgstr "Solicitud y convocatoria de reunión"
+msgstr "Solicitud y convocatoria de reuniones"
 
 #: ../C/evolution.xml:3837(para)
 msgid ""
