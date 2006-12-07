@@ -1,5 +1,10 @@
 2006-12-07  Francisco Javier F. Serrador  <serrador@openshine.com>
 
+	* es/*.xml: removed old xml files
+	* es/.cvsignore: Added .cvsignore file
+	
+2006-12-07  Francisco Javier F. Serrador  <serrador@openshine.com>
+
 	* es/*.xml: Removed old XML files.
 	* es/es.po: Updated Spanish translation.
 
