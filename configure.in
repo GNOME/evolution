@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.9.3, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.9.4, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
 
@@ -1157,7 +1157,7 @@ dnl --- Required version numbers
 
 GTKHTML_REQUIRED=3.7.0
 GTKHTML_PACKAGE=3.8
-EDS_REQUIRED=1.7.90
+EDS_REQUIRED=1.9.4
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
 GNOME_VFS_REQUIRED=2.4

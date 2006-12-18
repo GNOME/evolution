@@ -1,3 +1,10 @@
+2006-12-18  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.9.4 release
+	updates.
+
+	* configure.in: Bump the required EDS version to 1.9.4
+
 2006-12-04  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in: Evolution 2.9.3 release

@@ -1,3 +1,18 @@
+Evolution 2.9.4 2006-12-18
+--------------------------
+
+Updated Translations:
+Kjartan Maraas(nb), Djihed Afifi (ar), Francisco Javier F. Serrador (es),
+Ilkka Tuohela (fi), Hendrik Richter (de), Jakub Friedl (cs), Ivar Smolin (et)
+
+Contributors:
+Sankar P (Evolution exchange shouldnt check mail in all folders by default)
+Srinivasa Ragavan (Icons in Quick Show)
+Matthew Barnes (382431)
+Hendrik Richter (358310)
+Francisco Javier F. Serrador (Updated translation for documentation)
+Veerapuram Varadhan (bugzilla.novell.com - 208395)
+
 Evolution 2.9.3 2006-12-04
 --------------------------
 
