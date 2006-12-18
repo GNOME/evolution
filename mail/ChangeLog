@@ -1,3 +1,9 @@
+2006-12-18  Sankar P  <psankar@novell.com>
+
+	* mail-send-recv.c: (get_folders):
+	Do not check for mails in all folders, for Exchange.
+	Will be more than useful when you have a lot of folders.
+
 2006-12-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-folder-browser.c: (generate_viewoption_menu): Added icon/image to
