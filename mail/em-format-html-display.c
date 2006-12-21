@@ -181,6 +181,7 @@ struct _attach_puri {
 	int fit_width;
 	int fit_height;
 	GtkImage *image;
+	GtkWidget *event_box;
 
 	/* Signed / Encrypted */
         camel_cipher_validity_sign_t sign;
@@ -1689,6 +1690,11 @@ efhd_image_unallocate (struct _EMFormatPURI * puri)
 {
 	struct _attach_puri *info = (struct _attach_puri *) puri;
 	g_signal_handlers_disconnect_by_func(info->html, efhd_image_resized, info);
+
+	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_popup, info);
+	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_change_cursor, info);
+	g_signal_handlers_disconnect_by_func(info->event_box, efhd_attachment_popup_menu, info);
+	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_fit_width, info);
 }
 
 static gboolean
@@ -1721,6 +1727,7 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	}
 
 	box = gtk_event_box_new();
+	info->event_box = box;
 	gtk_container_add((GtkContainer *)box, (GtkWidget *)info->image);
 	gtk_widget_show_all(box);
 	gtk_container_add((GtkContainer *)eb, box);
