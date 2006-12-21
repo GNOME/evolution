@@ -1,3 +1,11 @@
+2006-12-21  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* mail/em-format-html-display.c: (efhd_image_unallocate),
+	(efhd_attachment_image):
+	
+	Disconnect handlers on image destroy. Fixes bug
+	#340165.
+
 2006-12-18  Sankar P  <psankar@novell.com>
 
 	* mail-send-recv.c: (get_folders):
