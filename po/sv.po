@@ -12,14 +12,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.226.2.2 2006/11/20 19:53:51 dnylande Exp $
+# $Id: sv.po,v 1.226.2.3 2006/12/21 22:46:32 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-20 06:34+0200\n"
-"PO-Revision-Date: 2006-11-20 20:51+0100\n"
+"PO-Revision-Date: 2006-12-21 23:42+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -873,11 +873,11 @@ msgstr "EFolderList XML för listan över ifyllnings-URI:er"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "Position of the vertical pane, between the card and list views and the preview pane, in pixels."
-msgstr "Position för den vertikala panelen, mellan kort- och listvyerna och förhandsgranskningspanelen, i bildpunkter."
+msgstr "Position för den vertikala panelen, mellan kort- och listvyerna och förhandsvisningspanelen, i bildpunkter."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
-msgstr "Visa förhandsgranskningspanelen"
+msgstr "Visa förhandsvisningspanelen"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid "The number of characters that must be typed before Evolution will attempt to autocomplete."
@@ -898,7 +898,7 @@ msgstr "Vertikal panelposition"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr "Huruvida förhandsgranskningspanelen ska visas."
+msgstr "Huruvida förhandsvisningspanelen ska visas."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
@@ -3871,7 +3871,7 @@ msgstr "Stående"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
-msgstr "Förhandsgranska:"
+msgstr "Förhandsvisa:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
@@ -4808,7 +4808,7 @@ msgstr "Position för den vertikala panelen, mellan kalenderlistorna och datumna
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Position of the vertical pane, between the task list and the task preview pane, in pixels."
-msgstr "Position för den vertikala panelen, mellan uppgiftslistan och uppgiftsförhandsgranskningspanelen, i bildpunkter."
+msgstr "Position för den vertikala panelen, mellan uppgiftslistan och förhandsvisningspanelen för uppgifter, i bildpunkter."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Position of the vertical pane, between the view and the date navigator calendar and task list in the month view, in pixels."
@@ -8566,7 +8566,7 @@ msgstr "Kontakter: "
 #: ../calendar/gui/print.c:2820
 #: ../mail/em-format-html-print.c:178
 msgid "Print Preview"
-msgstr "Förhandsgranska"
+msgstr "Förhandsvisa"
 
 #: ../calendar/gui/print.c:2636
 msgid "Print Item"
@@ -10625,7 +10625,7 @@ msgstr "<b>Mottagande av e-post</b>"
 
 #: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Sending Email:</b>"
-msgstr "<b>Skickande av e-post:</b>"
+msgstr "<b>Sändning av e-post:</b>"
 
 #: ../designs/read_receipts/read.glade.h:3
 msgid ""
@@ -11109,7 +11109,7 @@ msgstr "Kontrollera automatiskt _ny e-post var"
 #: ../mail/em-account-editor.c:2227
 #: ../mail/mail-config.glade.h:129
 msgid "Sending Email"
-msgstr "Skickande av e-post"
+msgstr "Sändning av e-post"
 
 #: ../mail/em-account-editor.c:2286
 #: ../mail/mail-config.glade.h:67
@@ -12482,7 +12482,7 @@ msgstr "Om en användare försöker att öppna 10 eller fler meddelanden på sam
 
 #: ../mail/evolution-mail.schemas.in.in.h:32
 msgid "If the \"Preview\" pane is on, then show it side-by-side rather than vertically."
-msgstr "Om \"Förhandsgranskning\"-panelen är aktiv visas det sida vid sida istället för vertikalt."
+msgstr "Om \"Förhandsvisa\"-panelen är aktiv visas det sida vid sida istället för vertikalt."
 
 #: ../mail/evolution-mail.schemas.in.in.h:33
 msgid "If there isn't a builtin viewer for a particular mime-type inside Evolution, any mime-types appearing in this list which map to a bonobo-component viewer in GNOME's mime-type database may be used for displaying content."
@@ -12562,11 +12562,11 @@ msgstr "Markera som läst efter angiven time-out."
 
 #: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Mark citations in the message \"Preview\""
-msgstr "Markera citat i meddelandeförhandsgranskningen"
+msgstr "Markera citat i förhandsvisning av meddelande"
 
 #: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "Mark citations in the message \"Preview\"."
-msgstr "Markera citat i meddelandeförhandsgranskningen."
+msgstr "Markera citat i förhandsvisning av meddelande."
 
 #: ../mail/evolution-mail.schemas.in.in.h:54
 msgid "Message Window default height"
@@ -13544,7 +13544,7 @@ msgstr "Välj ljudfil"
 
 #: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
-msgstr "Skickande av post"
+msgstr "Sändning av post"
 
 #: ../mail/mail-config.glade.h:131
 msgid "Sent _Messages Folder:"
@@ -15801,14 +15801,14 @@ msgstr "Dra tillbaka e-post"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr "Lägger till alternativ för skickande till groupwise-meddelanden"
+msgstr "Lägger till alternativ för sändning till groupwise-meddelanden"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15
 #: ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
-msgstr "Alternativ för skickande"
+msgstr "Alternativ för sändning"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
@@ -18371,7 +18371,7 @@ msgstr "Ko_piera alla kontakter till..."
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
-msgstr "Förhandsgranskning av _kontakt"
+msgstr "Förhandsvisning av _kontakt"
 
 #: ../ui/evolution-addressbook.xml.h:6
 #: ../ui/evolution-composer-entries.xml.h:1
@@ -18459,7 +18459,7 @@ msgstr "Klistra in från urklipp"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
-msgstr "Förhandsgranskar kontakterna som ska skrivas ut"
+msgstr "Förhandsvisar kontakterna som ska skrivas ut"
 
 #: ../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
@@ -18513,7 +18513,7 @@ msgstr "Skicka markerade kontakter till en annan person."
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
-msgstr "Visa förhandsgranskningsfönster för kontakter"
+msgstr "Visa förhandsvisningsfönster för kontakter"
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
@@ -18630,7 +18630,7 @@ msgstr "Nästa"
 
 #: ../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
-msgstr "Förhandsgranskar kalendern som ska skrivas ut"
+msgstr "Förhandsvisar kalendern som ska skrivas ut"
 
 #: ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:74
@@ -19004,19 +19004,19 @@ msgstr "Sök_mappar"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Show Message _Preview"
-msgstr "Visa meddelande_förhandsgranskning"
+msgstr "Visa _förhandsvisning av meddelande"
 
 #: ../ui/evolution-mail-global.xml.h:14
 msgid "Show message preview below the message list"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa förhandsvisning av meddelanden nedan i meddelandelistan"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview side-by-side with the message list"
-msgstr "Visa förhandsgranskning av meddelanden sida vid sida i meddelandelistan"
+msgstr "Visa förhandsvisning av meddelanden sida vid sida i meddelandelistan"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview window"
-msgstr "Visa förhandsgranskningsfönster för meddelanden"
+msgstr "Visa förhandsvisningsfönster för meddelanden"
 
 #: ../ui/evolution-mail-global.xml.h:17
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -19044,7 +19044,7 @@ msgstr "_Ny..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Preview"
-msgstr "_Förhandsgranskning"
+msgstr "_Förhandsvisning"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -19447,7 +19447,7 @@ msgstr "Fö_regående viktiga meddelande"
 
 #: ../ui/evolution-mail-message.xml.h:73
 msgid "Preview the message to be printed"
-msgstr "Förhandsgranska meddelandet som ska skrivas ut"
+msgstr "Förhandsvisa meddelandet som ska skrivas ut"
 
 #: ../ui/evolution-mail-message.xml.h:77
 msgid "Print this message"
@@ -19649,7 +19649,7 @@ msgstr "Klistra in memo från urklipp"
 
 #: ../ui/evolution-memos.xml.h:10
 msgid "Previews the list of memos to be printed"
-msgstr "Förhandsgranskar memolistan som ska skrivas ut"
+msgstr "Förhandsvisar memolistan som ska skrivas ut"
 
 #: ../ui/evolution-memos.xml.h:13
 msgid "Print the list of memos"
@@ -19917,7 +19917,7 @@ msgstr "Tidszon"
 
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
-msgstr "Alternativ för _skickande"
+msgstr "Alternativ för _sändning"
 
 #: ../ui/evolution-task-editor.xml.h:24
 msgid "_Status Details"
@@ -19953,7 +19953,7 @@ msgstr "Klistra in uppgifter från urklipp"
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr "Förhandsgranskar listan med uppgifter som ska skrivas ut"
+msgstr "Förhandsvisar listan med uppgifter som ska skrivas ut"
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
@@ -19961,7 +19961,7 @@ msgstr "Skriv ut listan med uppgifter"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "Show task preview window"
-msgstr "Visa förhandsgranskningsfönster för uppgift"
+msgstr "Visa förhandsvisningsfönster för uppgift"
 
 #: ../ui/evolution-tasks.xml.h:19
 msgid "Task _Preview"
@@ -20138,7 +20138,7 @@ msgstr "_Avsluta"
 # Osäker.
 #: ../ui/evolution.xml.h:50
 msgid "_Switcher Appearance"
-msgstr "_Växlarutseende"
+msgstr "_Utseendeväxlare"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
