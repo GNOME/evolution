@@ -1692,7 +1692,7 @@ efhd_image_unallocate (struct _EMFormatPURI * puri)
 	g_signal_handlers_disconnect_by_func(info->html, efhd_image_resized, info);
 
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_popup, info);
-	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_change_cursor, info);
+	g_signal_handlers_disconnect_by_func(info->event_box, efhd_change_cursor, info);
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_attachment_popup_menu, info);
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_fit_width, info);
 }
