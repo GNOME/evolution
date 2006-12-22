@@ -1,3 +1,8 @@
+2006-12-22  Simon Zheng  <simon.zheng@sun.com>
+
+	* mail/em-account-editor.c: (emae_setup_service):
+	Fix the regression of bugzilla bug #352108.
+
 2006-12-21  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
 
 	* mail/em-format-html-display.c: (efhd_image_unallocate),
