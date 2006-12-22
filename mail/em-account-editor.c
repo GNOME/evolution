@@ -1666,7 +1666,7 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 	if (url->user)
 		gtk_entry_set_text(service->username, url->user);
 	if (service->pathentry && url->path)
-		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (service->path), url->path);
+		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (service->pathentry), url->path);
 
 	tmp = camel_url_get_param(url, "use_ssl");
 	if (tmp == NULL)
