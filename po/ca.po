@@ -14392,8 +14392,9 @@ msgid "Fi_nd:"
 msgstr "Ce_rca:"
 
 #: ../mail/em-format-html-display.c:678
+# Part de l'UI d'interfice de cerca
 msgid "Fo_rward"
-msgstr "_Reenvia"
+msgstr "E_ndavant"
 
 #: ../mail/em-format-html-display.c:683
 msgid "M_atch case"
