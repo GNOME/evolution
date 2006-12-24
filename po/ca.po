@@ -17543,7 +17543,7 @@ msgid ""
 "not enabled"
 msgstr ""
 "No es pot enviar el missatge perquè el compte que heu escollit per enviar no "
-"està disponible"
+"està habilitat"
 
 #
 #: ../mail/mail.error.xml.h:109
