@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-16.ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-22 09:57+0000\n"
-"PO-Revision-Date: 2006-12-21 13:35+0200\n"
+"POT-Creation-Date: 2006-12-24 20:59+0000\n"
+"PO-Revision-Date: 2006-12-24 21:11+0200\n"
 "Last-Translator: Ahmad Farghal <ahmad.farghal@gmail.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,7 @@ msgstr ""
 "n<=10 ? 2 : 3\n"
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-Country: EGYPT\n"
+"X-Poedit-Bookmarks: 4156,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -6039,7 +6040,7 @@ msgstr "الوِجهة قابلة للقراءة فقط."
 
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr "_حذف هذا العنصر من كل صناديق بريد المستقبلين؟"
+msgstr "_حذف هذا العنصر من كل صناديق بريد المستلمين؟"
 
 #: ../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -10701,11 +10702,11 @@ msgstr "عدم إرسال وصل قراءة أبداً"
 
 #: ../designs/read_receipts/read.glade.h:8
 msgid "Read Receipts"
-msgstr "وصل قراءة"
+msgstr "إخطار بالقراءة"
 
 #: ../designs/read_receipts/read.glade.h:9
 msgid "Request a read receipt for all messages I send"
-msgstr "طلب وصل قراءة لكل الرّسائل التي أُرسلها"
+msgstr "طلب إخطار بالقراءة لكل الرّسائل التي أُرسلها"
 
 #: ../designs/read_receipts/read.glade.h:10
 msgid "Unless the message is sent to a mailing list, and not to me personally"
@@ -10978,7 +10979,7 @@ msgstr "قارِن مع"
 
 #: ../filter/filter.glade.h:4
 msgid "Show filters for mail:"
-msgstr "اظهر مرشحات البريد:"
+msgstr "أظهر مرشحات للبريد:"
 
 #: ../filter/filter.glade.h:5
 msgid ""
@@ -11219,7 +11220,7 @@ msgstr "اللّغة (اللّغات)"
 
 #: ../mail/em-composer-prefs.c:979
 msgid "Add signature script"
-msgstr "أضِف مخطوطة توقيع"
+msgstr "أضِف برنامج توقيع نصي"
 
 #: ../mail/em-composer-prefs.c:999
 msgid "Signature(s)"
@@ -11601,7 +11602,7 @@ msgstr "ا_سم المجلّد:"
 #: ../mail/em-folder-tree-model.c:203 ../mail/em-folder-tree-model.c:205
 #: ../mail/mail-vfolder.c:911 ../mail/mail-vfolder.c:984
 msgid "Search Folders"
-msgstr "ابحث في المجلدات"
+msgstr "مجلدات البحث"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:209 ../mail/em-folder-tree-model.c:211
@@ -11845,19 +11846,19 @@ msgstr "أنشيء قاعدة من الرّسالة"
 
 #: ../mail/em-folder-view.c:1174
 msgid "Search Folder from _Subject"
-msgstr "ابحث في المجلد بالموضوع"
+msgstr "مجلد بحث للرسائل بهذا المو_ضوع"
 
 #: ../mail/em-folder-view.c:1175
 msgid "Search Folder from Se_nder"
-msgstr "ابحث في المجلد بالمرسٍل"
+msgstr "مجلد بحث للرسائل من هذا المر_سل"
 
 #: ../mail/em-folder-view.c:1176
 msgid "Search Folder from _Recipients"
-msgstr "ابحث في المجلد بالمتلقّي"
+msgstr "مجلد بحث للرسائل بهؤلاء المست_لمين"
 
 #: ../mail/em-folder-view.c:1177
 msgid "Search Folder from Mailing _List"
-msgstr "ابحث في المجلد بالقائمة البريدية"
+msgstr "مجلد بحث للرسائل من القائمة البريدية"
 
 #: ../mail/em-folder-view.c:1181
 msgid "Filter on Sub_ject"
@@ -12370,7 +12371,7 @@ msgstr "رسائِل من %s"
 
 #: ../mail/em-vfolder-editor.c:112
 msgid "Search _Folders"
-msgstr "ابحث في الم_جلدات"
+msgstr "_مجلدات البحث"
 
 #: ../mail/em-vfolder-rule.c:591
 msgid "Search Folder source"
@@ -12487,9 +12488,8 @@ msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "فعل طور المؤشّر، حتّى يمكنك رؤية مؤشّر عند قراءة البريد."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
-#, fuzzy
 msgid "Enable or disable type ahead search feature"
-msgstr "فعّل"
+msgstr "فعّل أو عطل ميزة البحث أثناء الكتابة"
 
 #: ../mail/evolution-mail.schemas.in.in.h:29
 #, fuzzy
@@ -12526,11 +12526,11 @@ msgstr ""
 "كان حقا يريد ذلك."
 
 #: ../mail/evolution-mail.schemas.in.in.h:35
-#, fuzzy
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
-msgstr "لمحة هو يعمل."
+msgstr ""
+"عرض لوح المعاينة إذا كان مفعلا جنباً إلى جنب مع قائمة الرسائل بدلا من تحتها."
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
 #, fuzzy
@@ -12577,7 +12577,9 @@ msgstr "قائمة بالترويسات المخصّصة وما إذا كانت 
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
-msgstr "قائمة من بريد من إيفُليوشن قائمة يحتوي اللّون اللّون HTML."
+msgstr ""
+"قائمة بالتسميات المعروفة لمكون البريد في إيفُليوشن. تحتوي القائمة على سطور "
+"بها الإسم:اللون واللون يكتب بترميز HTML."
 
 #: ../mail/evolution-mail.schemas.in.in.h:45
 msgid "List of mime types to check for bonobo component viewers"
@@ -12592,12 +12594,14 @@ msgid "Load images for HTML messages over http"
 msgstr "حمّل صور رسائل HTML عبر http"
 
 #: ../mail/evolution-mail.schemas.in.in.h:48
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
 "load images off the net"
-msgstr "تحميل لـ HTML أبداً تحميل بوصة بريد دائماً"
+msgstr ""
+"تحميل الصور لرسائل HTML عبر http(s). القيم الممكنة هي: 0 - منع تنزيل الصور "
+"عبر انترنت 1 - تنزيل الصور في البريد من المراسَلين 2 - تنزيل الصور من انترنت "
+"دوماً"
 
 #: ../mail/evolution-mail.schemas.in.in.h:49
 msgid "Log filter actions"
@@ -12640,9 +12644,8 @@ msgid "Message Window default width"
 msgstr "العرض الافتراضي لنافذة الرسالة"
 
 #: ../mail/evolution-mail.schemas.in.in.h:59
-#, fuzzy
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "رسالة عادي مصدر"
+msgstr "أسلوب عرض الرسائل (\"عادي\", \"ترويسات كاملة\", \"المصدر\")"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
 #, fuzzy
@@ -12688,9 +12691,8 @@ msgid "Prompt when user only fills Bcc"
 msgstr "المسائلة حين لا يملأ المستخدم سوى حقل النّسخة الكربونيّة المخفيّة"
 
 #: ../mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr "فتح عند"
+msgstr "السؤال عند محاولة المستخدم فتح ١٠ رسائل أو أكثر دفعة واحدة"
 
 #: ../mail/evolution-mail.schemas.in.in.h:71
 msgid ""
@@ -12711,9 +12713,8 @@ msgid "Prompt when user tries to send unwanted HTML"
 msgstr "المسائلة حين يحاول المستخدم إرسال HTML غير مرغوبٍ فيه"
 
 #: ../mail/evolution-mail.schemas.in.in.h:74
-#, fuzzy
 msgid "Prompt while marking multiple messages"
-msgstr "المسائلة حين يقوم المستخدم بالمحو"
+msgstr "السؤال عند تعليم رسائل متعددة"
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Recognize links in text and replace them."
@@ -12764,9 +12765,8 @@ msgid ""
 msgstr "اظهر الرّسائل المحذوفة في قائمة الرّسائل"
 
 #: ../mail/evolution-mail.schemas.in.in.h:88
-#, fuzzy
 msgid "Show the sender email in the messages column in the message list"
-msgstr "اظهر الرّسائل المحذوفة في قائمة الرّسائل"
+msgstr "اظهر عنوان بريد المرسل في عمود الرسائل في قائمة الرسائل"
 
 #: ../mail/evolution-mail.schemas.in.in.h:89
 msgid "Sound file to play when new mail arrives."
@@ -12781,14 +12781,12 @@ msgid "Spell check inline"
 msgstr "فحص تهجئة ضمن السّياق"
 
 #: ../mail/evolution-mail.schemas.in.in.h:92
-#, fuzzy
 msgid "Subscribe dialog default height"
-msgstr "إشتراك حوار افتراضات الارتفاع"
+msgstr "الإرتفاع الافتراضي لمربع حوار الاشتراك"
 
 #: ../mail/evolution-mail.schemas.in.in.h:93
-#, fuzzy
 msgid "Subscribe dialog default width"
-msgstr "إشتراك حوار افتراضات العرض"
+msgstr "العرض الافتراضي لمربع حوار الاشتراك"
 
 #: ../mail/evolution-mail.schemas.in.in.h:94
 msgid "Terminal font"
@@ -12859,14 +12857,12 @@ msgid "UID string of the default account."
 msgstr "سلسلة هويّة المستخدم للحساب الإفتراضي."
 
 #: ../mail/evolution-mail.schemas.in.in.h:108
-#, fuzzy
 msgid "Use Spamassassin daemon and client"
-msgstr "و"
+msgstr "استخدام رقيب وزبون سبامأساسين"
 
 #: ../mail/evolution-mail.schemas.in.in.h:109
-#, fuzzy
 msgid "Use Spamassassin daemon and client (spamc/spamd)"
-msgstr "و"
+msgstr "استخدام رقيب وزبون سبامأساسين (spamc/spamd)"
 
 #: ../mail/evolution-mail.schemas.in.in.h:110
 msgid "Use custom fonts"
@@ -12881,9 +12877,8 @@ msgid "Use only local spam tests."
 msgstr "استخدام اختبارات السخام المحلية فقط."
 
 #: ../mail/evolution-mail.schemas.in.in.h:113
-#, fuzzy
 msgid "Use only the local spam tests (no DNS)."
-msgstr "لا DNS."
+msgstr "استخدام اختبارات السخام المحلية فقط (لا DNS)."
 
 #: ../mail/evolution-mail.schemas.in.in.h:114
 msgid "Use side-by-side or wide layout"
@@ -12951,14 +12946,12 @@ msgid ""
 msgstr "ليس إلى الخلف يعمل ليس داخل رد إلى."
 
 #: ../mail/evolution-mail.schemas.in.in.h:127
-#, fuzzy
 msgid "Width of the message-list pane"
-msgstr "العرض من رسالة قائمة"
+msgstr "عرض لوح قائمة الرسائل"
 
 #: ../mail/evolution-mail.schemas.in.in.h:128
-#, fuzzy
 msgid "Width of the message-list pane."
-msgstr "العرض من رسالة قائمة."
+msgstr "عرض لوح قائمة الرسائل."
 
 #: ../mail/importers/elm-importer.c:192
 msgid "Importing Elm data"
@@ -12983,14 +12976,12 @@ msgid "Select folder to import into"
 msgstr "انتقاء مجلداً للاستيراد إليه"
 
 #: ../mail/importers/evolution-mbox-importer.c:223
-#, fuzzy
 msgid "Berkeley Mailbox (mbox)"
-msgstr "لا يمكن فتح صندوق البريد %s: %s\n"
+msgstr "صندوق بريد بيركلي (mbox)"
 
 #: ../mail/importers/evolution-mbox-importer.c:224
-#, fuzzy
 msgid "Importer Berkeley Mailbox format folders"
-msgstr "صندوق البريد بيركلي المستورد صيغة الملفات"
+msgstr "مستورد مجلدات هيئة صندوق بريد بيركلي"
 
 #: ../mail/importers/evolution-outlook-importer.c:262
 #: ../mail/importers/mail-importer.c:233 ../shell/e-shell-importer.c:529
@@ -13227,24 +13218,21 @@ msgid " Ch_eck for Supported Types "
 msgstr "فح_ص الأنواع المدعومة"
 
 #: ../mail/mail-config.glade.h:3
-#, fuzzy
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr "<b> هو ليس بوصة من إيفُليوشن</b>"
+msgstr ""
+"<b>الاتصال الآمن بواسطة SSL ليس مدعوماً بواسطة هذه النسخة من إيفُليوشن</b>"
 
 #: ../mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>Sig_natures</b>"
-msgstr "<b>الحالة:</b>"
+msgstr "<b>تو_قيعات</b>"
 
 #: ../mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>_Languages</b>"
-msgstr "<b> لغات</b>"
+msgstr "<b>لغات</b>"
 
 #: ../mail/mail-config.glade.h:6
-#, fuzzy
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<small>مما جعل المرشح اكثر موثوقيه ، لكن ابطأ </small>"
+msgstr "<small>هذا سيجعل المرشح اكثر موثوقية، لكن ابطأ</small>"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -13259,14 +13247,12 @@ msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\">التوثق</span>"
 
 #: ../mail/mail-config.glade.h:11
-#, fuzzy
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr "<span weight=\"bold\">اسم الملف</span>"
+msgstr "<span weight=\"bold\">تأليف الرسائل</span>"
 
 #: ../mail/mail-config.glade.h:12
-#, fuzzy
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr "<span weight=\"bold\"> إعدادات</span>"
+msgstr "<span weight=\"bold\">تشكيل</span>"
 
 #: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Default Behavior</span>"
@@ -13302,7 +13288,7 @@ msgstr "<span weight=\"bold\">خطوط الرسائل</span>"
 
 #: ../mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Receipts</span>"
-msgstr "<span weight=\"bold\">تنبيهات الوصول</span>"
+msgstr "<span weight=\"bold\">إخطارات الوصول</span>"
 
 #: ../mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">New Mail Notification</span>"
@@ -13331,9 +13317,8 @@ msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">معلومات مطلوبة</span>"
 
 #: ../mail/mail-config.glade.h:29
-#, fuzzy
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr "<span weight=\"bold\"> S</span>"
+msgstr "<span weight=\"bold\">مايم آمن (S/MIME)</span>"
 
 #: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
@@ -13356,47 +13341,40 @@ msgid "Add Ne_w Signature..."
 msgstr "أضِف تو_قيعاً جديداً..."
 
 #: ../mail/mail-config.glade.h:36
-#, fuzzy
 msgid "Add _Script"
-msgstr "أضِف الرمز"
+msgstr "أضِف _برنامجاً نصياً"
 
 #: ../mail/mail-config.glade.h:37
-#, fuzzy
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr "دائماً"
+msgstr "وقع الرسائل دائماً عند استخدام هذا الحساب"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted mail"
-msgstr "الشيء بريد"
+msgstr "شفر أيضاً لل_نفس عند إرسال بريد مشفر"
 
 #: ../mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "دائماً نسخ:"
+msgstr "أرسل نسخة كربونية (ن.ك) دوماً إلى:"
 
 #: ../mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "دائماً نسخ:"
+msgstr "أرسل نسخة كربونية مخفية (ن.ك.م) دوماً إلى:"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "وثوق دائم لمفاتيحي عند التشفير"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "دائماً بريد"
+msgstr "شفر الرسائل للنفس دائماً عند إرسال بريد مشفر"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
 msgstr "إرفاق الرّسالة الأصليّة"
 
 #: ../mail/mail-config.glade.h:45
-#, fuzzy
 msgid "Automatically insert _smiley images"
-msgstr "إدراج آ_لي للتعابير المرسومة"
+msgstr "أدرج التعابير المرسومة آلياً"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
@@ -13415,14 +13393,12 @@ msgid "C_haracter set:"
 msgstr "ال_محرف:"
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Ch_eck for Supported Types "
-msgstr "لـ أنواع "
+msgstr "فح_ص بحثاً عن الأنواع المدعومة"
 
 #: ../mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Check in_coming mail for junk"
-msgstr "بريد لـ"
+msgstr "فحص البريد ال_وارد بحثاً عن النفايات"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check spelling while I _type"
@@ -13603,31 +13579,33 @@ msgid "PGP/GPG _Key ID:"
 msgstr "هوية _مفتاح PGP/GPG:"
 
 #: ../mail/mail-config.glade.h:108
-#, fuzzy
 msgid "Play sound file when new mail arri_ves"
-msgstr "العب ملفّ جديد بريد"
+msgstr "شغل ملف صوت عند وصو_ل بريد جديد"
 
 #: ../mail/mail-config.glade.h:109
-#, fuzzy
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
-msgstr "رجاء أدخل أ لـ بوصة فراغ لـ."
+msgstr ""
+"رجاء أدخل اسماً لوصف هذا الحساب في المساحة أدناه.\n"
+"سيتم استعمال هذا الاسم لأغراض العرض فقط."
 
 #: ../mail/mail-config.glade.h:111
-#, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr "رجاء أدخل حول بريد ليس إنترنت خدمة."
+msgstr ""
+"رجاء أدخل معلومات حول الطريقة التي سترسل بواسطتها البريد. ان لم تكن متأكداً، "
+"اسأل مدير نظامك أو مزود خدمة انترنت."
 
 #: ../mail/mail-config.glade.h:112
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
-msgstr "رجاء أدخل و ليس بوصة بوصة."
+msgstr ""
+"رجاءً أدخل اسمك وبريدك الإلكتروني أدناه. أنت غير ملزم بملء الحقول \"الاختيارية"
+"\" أدناه، إلا إذا كنت ترغب في تضمين هذه المعلومات في الريد الذي ترسله."
 
 #: ../mail/mail-config.glade.h:113
 msgid "Please select among the following options"
@@ -13646,33 +13624,28 @@ msgid "Quoted"
 msgstr "مقتبس"
 
 #: ../mail/mail-config.glade.h:117
-#, fuzzy
 msgid "Re_member password"
-msgstr "كلمة مرور"
+msgstr "ت_ذكر كلمة المرور"
 
 #: ../mail/mail-config.glade.h:118
 msgid "Re_ply-To:"
 msgstr "رد على:"
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid "Remember _password"
-msgstr "كلمة مرور"
+msgstr "تذكر _كلمة المرور"
 
 #: ../mail/mail-config.glade.h:121
-#, fuzzy
 msgid "S_elect..."
-msgstr "انتقاء."
+msgstr "انت_قاء..."
 
 #: ../mail/mail-config.glade.h:122
-#, fuzzy
 msgid "S_end message receipts:"
-msgstr "أرسِل رسالة:"
+msgstr "أرسل إخطارات الو_صول:"
 
 #: ../mail/mail-config.glade.h:123
-#, fuzzy
 msgid "S_tandard Font:"
-msgstr "معيار الخط:"
+msgstr "الخط القيا_سي:"
 
 #: ../mail/mail-config.glade.h:124
 msgid "Se_lect..."
@@ -13703,9 +13676,8 @@ msgid "Sending Mail"
 msgstr "جاري إرسال البريد"
 
 #: ../mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Sent _Messages Folder:"
-msgstr "أَرسِل مجلّد:"
+msgstr "مجلد الرسا_ئل المرسلة:"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
@@ -13744,19 +13716,20 @@ msgid "T_ype: "
 msgstr "النو_ع "
 
 #: ../mail/mail-config.glade.h:143
-#, fuzzy
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr "قائمة من لـ أ."
+msgstr "قائمة اللغات الموجودة هنا لا تعكس إلا اللغات التي يوجد لها قاموس مركب."
 
 #: ../mail/mail-config.glade.h:144
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
-msgstr "من "
+msgstr ""
+"خرج هذا البرنامج النصي سيتم استخدامه\n"
+"كتوقيع لك. الاسم الذي تحدده سيتم استخدامه\n"
+"لأغراض العرض فقط."
 
 #: ../mail/mail-config.glade.h:148
 msgid ""
@@ -13789,27 +13762,24 @@ msgid "_Add Signature"
 msgstr "أضِف توقيع"
 
 #: ../mail/mail-config.glade.h:157
-#, fuzzy
 msgid "_Always load images from the Internet"
-msgstr "دائماً إنترنت"
+msgstr "حمل الصور من إنترنت دائماً"
 
 #: ../mail/mail-config.glade.h:158
 msgid "_Do not notify me when new mail arrives"
 msgstr "لا ت_بلغني عند مجيء بريد جديد"
 
 #: ../mail/mail-config.glade.h:159
-#, fuzzy
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr "ليس الطّلبات لـ"
+msgstr "لا توقع طلبات الاجتماع (للتوافق مع آوتلوك)"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Forward style:"
 msgstr "أسلوب الت_مرير:"
 
 #: ../mail/mail-config.glade.h:162
-#, fuzzy
 msgid "_Load images in mail from contacts"
-msgstr "تحميل بوصة بريد"
+msgstr "_حمل الصور المضمنة في البريد من المراسَلين"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Make this my default account"
@@ -13820,23 +13790,20 @@ msgid "_Mark messages as read after"
 msgstr "ت_عليم الرسائل على أنها قُرأت بعد"
 
 #: ../mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Never load images from the Internet"
-msgstr "أبداً إنترنت"
+msgstr "لا تحمل صورأ من إنترنت أبداً"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Path:"
 msgstr "ال_مسار:"
 
 #: ../mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
-msgstr "HTML ليس"
+msgstr "السؤال عند إرسال رسائل HTML للمراسَلين الذي لا يريدونها"
 
 #: ../mail/mail-config.glade.h:169
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "مع"
+msgstr "السؤال عند إرسال رسائل بحقل موضوع فارغ"
 
 #: ../mail/mail-config.glade.h:170
 msgid "_Reply style:"
@@ -13844,33 +13811,28 @@ msgstr "أسلوب ال_رد:"
 
 #: ../mail/mail-config.glade.h:171
 msgid "_Script:"
-msgstr "_مخطوط:"
+msgstr "_برنامج نصي:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Show image animations"
-msgstr "اظهر الصّور المتحرّكة كرسوم متحرّكة."
+msgstr "أ_ظهر الصور المتحركة"
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "تقليص إلى ن.ك ن.ك.م "
+msgstr "_قلص ترويسات إلى/ن.ك/ن.ك.م إلى"
 
 #: ../mail/mail-config.glade.h:176
-#, fuzzy
 msgid "_Use Secure Connection:"
-msgstr "ال_اسم المستخدم للاتصال:"
+msgstr "است_خدم الاتصال الآمن:"
 
 #: ../mail/mail-config.glade.h:177
-#, fuzzy
 msgid "_Use the same fonts as other applications"
-msgstr "غير ذلك"
+msgstr "است_خدم نفس الخطوط التي تستخدمها التطبيقات الأخرى"
 
 #: ../mail/mail-config.glade.h:178
-#, fuzzy
 msgid "addresses"
-msgstr "العنوان"
+msgstr "عناوين"
 
 #: ../mail/mail-config.glade.h:179
 msgid "color"
@@ -13881,24 +13843,20 @@ msgid "description"
 msgstr "الوصف"
 
 #: ../mail/mail-dialogs.glade.h:1
-#, fuzzy
 msgid "    "
 msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
-#, fuzzy
 msgid "<b>Search Folder Sources</b>"
-msgstr "<b> ابحث مجلّد المصادر</b>"
+msgstr "<b>مصادر مجلد البحث</b>"
 
 #: ../mail/mail-dialogs.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr "<span weight=\"bold\">اسم الملف</span>"
+msgstr "<span weight=\"bold\">توقيع رقمي</span>"
 
 #: ../mail/mail-dialogs.glade.h:4
-#, fuzzy
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr "<span weight=\"bold\">ألوان</span>"
+msgstr "<span weight=\"bold\">تشفير</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
 msgid "All active remote folders"
@@ -13913,9 +13871,8 @@ msgid "All local folders"
 msgstr "كل المجلدات المحلية"
 
 #: ../mail/mail-dialogs.glade.h:8
-#, fuzzy
 msgid "Case _sensitive"
-msgstr "حساس لل_حالة"
+msgstr "حساس ل_حالة الأحرف"
 
 #: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:1
 msgid "Co_mpleted"
@@ -13927,7 +13884,7 @@ msgstr "اي_جاد:"
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
-msgstr "إيجاد في رسالة"
+msgstr "أوجد في الرسالة"
 
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:2
@@ -13944,7 +13901,6 @@ msgid "License Agreement"
 msgstr "اتفاقية الترخيص"
 
 #: ../mail/mail-dialogs.glade.h:16
-#, fuzzy
 msgid "None Selected"
 msgstr "لا شيء منتقى"
 
@@ -13961,30 +13917,28 @@ msgid "Specific folders"
 msgstr "مجلدات محددة"
 
 #: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:3
-#, fuzzy
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
-msgstr "مُنتقى لـ متابعة up أ متابعة up قائمة."
+msgstr ""
+"الرسائل التي انتقيتها للمتابعة موجودة أدناه.\n"
+"رجاء جدد إجراء متابعة من قائمة \"علم\"."
 
 #: ../mail/mail-dialogs.glade.h:23
-#, fuzzy
 msgid "_Accept License"
-msgstr "إقبل الترخيص"
+msgstr "إ_قبل الترخيص"
 
 #: ../mail/mail-dialogs.glade.h:24 ../mail/message-tags.glade.h:5
-#, fuzzy
 msgid "_Due By:"
-msgstr "مُستحق :"
+msgstr "تاريخ الاستحقا_ق:"
 
 #: ../mail/mail-dialogs.glade.h:25 ../mail/message-tags.glade.h:6
 msgid "_Flag:"
 msgstr "ال_علم:"
 
 #: ../mail/mail-dialogs.glade.h:26
-#, fuzzy
 msgid "_Tick this to accept the license agreement"
-msgstr "_tick هذا قبول اتفاقيه الترخيص"
+msgstr "علم هذا لقبول اتفاقية الترخيص"
 
 #: ../mail/mail-folder-cache.c:858
 #, fuzzy, c-format
@@ -13994,7 +13948,7 @@ msgstr "او ازيز ٪"
 #: ../mail/mail-ops.c:105
 #, fuzzy
 msgid "Filtering Selected Messages"
-msgstr "إخفاء منتقى"
+msgstr "أخفي الرّسائل المنتقاه"
 
 #: ../mail/mail-ops.c:266
 msgid "Fetching Mail"
@@ -14125,22 +14079,26 @@ msgstr[2] "جاري الحفظ رسالة"
 msgstr[3] "جاري الحفظ رسالة"
 
 #: ../mail/mail-ops.c:2013
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
-msgstr "خطأ\n"
+msgstr ""
+"حدث خطأ أثناء حفظ الرسائل إلى: %s:\n"
+" %s"
 
 #: ../mail/mail-ops.c:2085
 msgid "Saving attachment"
 msgstr "جاري حفظ المُرفق"
 
 #: ../mail/mail-ops.c:2098 ../mail/mail-ops.c:2104
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
-msgstr "ملفّ\n"
+msgstr ""
+"غير قادر عل انشاء ملف الخرج: %s:\n"
+" %s"
 
 #: ../mail/mail-ops.c:2114
 #, c-format
@@ -14148,9 +14106,9 @@ msgid "Could not write data: %s"
 msgstr "لم يمكن كتابة البيانات: %s"
 
 #: ../mail/mail-ops.c:2263
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting from %s"
-msgstr "أخبار من %s"
+msgstr "جاري قطع الاتصال بـ%s"
 
 #: ../mail/mail-ops.c:2263
 #, c-format
@@ -14247,19 +14205,19 @@ msgid "Invalid folder: `%s'"
 msgstr "مجلد غير صالح: `%s'"
 
 #: ../mail/mail-vfolder.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "Setting up Search Folder: %s"
-msgstr "up ابحث مجلّد"
+msgstr "إعداد مجلد البحث: %s"
 
 #: ../mail/mail-vfolder.c:240
-#, fuzzy, c-format
+#, c-format
 msgid "Updating Search Folders for '%s:%s'"
-msgstr "ابحث المجلّدات لـ"
+msgstr "جاري تحديث مجلدات البحث لـ'%s:%s'"
 
 #: ../mail/mail-vfolder.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Updating Search Folders for '%s'"
-msgstr "ابحث المجلّدات لـ"
+msgstr "جاري تحديث مجلدات البحث لـ'%s'"
 
 #: ../mail/mail-vfolder.c:1023
 msgid "Edit Search Folder"
@@ -14273,13 +14231,12 @@ msgstr "مجلد بحث جديد"
 #, fuzzy
 msgid ""
 "A folder named &quot;{0}&quot; already exists. Please use a different name."
-msgstr "A&quot;&quot; موجود رجاء أ."
+msgstr "يوجد مجلد بالإسم &quot;{1}&quot; مسبقاً. رجاء حدد اسماً مختلفاً."
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr "A&quot;&quot; موجود رجاء أ."
+msgstr "يوجد مجلد بالإسم &quot;{1}&quot; مسبقاً. رجاء حدد اسماً مختلفاً."
 
 #: ../mail/mail.error.xml.h:3
 #, fuzzy
@@ -14305,11 +14262,11 @@ msgid ""
 msgstr "A موجود مع&quot;&quot; رجاء أ."
 
 #: ../mail/mail.error.xml.h:8
-#, fuzzy
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "أ الموضوع من بريد هو حول."
+msgstr ""
+"إضافة سطر موضوع ذو معنى لرسائلك سيعطي مستقبل الرسالة فكرة عن هدف رسالتك."
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -14325,9 +14282,8 @@ msgid ""
 msgstr "هل أنت متأكد من أنك تريد تعطيل هذا الحساب وحذف كل وكلائه؟"
 
 #: ../mail/mail.error.xml.h:12
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr "فتح عند?"
+msgstr "هل أنت متأكد أنك تريد فتح {0} رسالة دفعة واحدة؟"
 
 #: ../mail/mail.error.xml.h:13
 #, fuzzy
@@ -14344,142 +14300,122 @@ msgid ""
 msgstr "حذف الكل بوصة&quot;&quot;?"
 
 #: ../mail/mail.error.xml.h:15
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "أ رسالة بوصة HTML?"
+msgstr "هل أنت متأكد أنك تريد ارسال رسالة بتنسيق HTML؟"
 
 #: ../mail/mail.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "أ رسالة مع?"
+msgstr ""
+"هل انت متأكد أنك تريد إرسال رسالة لمستقبلي النسخة الكربونية المخفية فقط؟"
 
 #: ../mail/mail.error.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "أ رسالة أ?"
+msgstr "هل أنت متأكد أنك تريد إرسال رسالة بدون موضوع؟"
 
 #: ../mail/mail.error.xml.h:18
-#, fuzzy
 msgid "Because &quot;{0}&quot;."
-msgstr "لأن \"(0)\"."
+msgstr "لأن &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Because &quot;{2}&quot;."
-msgstr "لأن \"(2)\"."
+msgstr "لأن &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:21
 msgid "Blank Signature"
 msgstr "توقيع فارغ"
 
 #: ../mail/mail.error.xml.h:22
-#, fuzzy
 msgid "Cannot add Search Folder &quot;{0}&quot;."
-msgstr "إضافة ابحث مجلّد&quot;&quot;."
+msgstr "غير قادر على إضافة مجلد البحث &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "نسخ&quot;&quot;&quot;&quot;."
+msgstr "غير قادر على نسخ المجلد &quot;{0}&quot; إلى &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Cannot create folder &quot;{0}&quot;."
-msgstr "لا يمكن إنشاء قفل المجلّد على %s: %s"
+msgstr "غير قادر على إنشاء المجلد &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:25
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "حفظ دليل."
+msgstr "غير قادر على إنشاء دليل حفظ مؤقت."
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr "حفظ دليل&quot;&quot;"
+msgstr "غير قادر على إنشاء دليل الحفظ، لأن &quot;{1}&quot;"
 
 #: ../mail/mail.error.xml.h:27
-#, fuzzy
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr "حذف&quot;&quot;."
+msgstr "غير قادر على حذف المجلد &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "حذف&quot;&quot;."
+msgstr "غير قادر على حذف مجلد النظام &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
-msgstr "حرّر ابحث مجلّد&quot;&quot; ليس."
+msgstr "غير قادر على تحرير مجلد البحث &quot;{0}&quot; لأنه غير موجود."
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "لم يمكن إلحاق الرّسالة بدليل maildir: %s: %s"
+msgstr "غير قادر على نقل المجلد &quot;{0}&quot; إلى &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:31
-#, fuzzy
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "فتح مصدر&quot;&quot;"
+msgstr "غير قادر على فتح المصدر &quot;{1}&quot;"
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "فتح مصدر&quot;&quot;."
+msgstr "غير قادر على فتح المصدر &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:33
-#, fuzzy
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "فتح&quot;&quot;."
+msgstr "غير قادر على فتح الهدف &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:34
-#, fuzzy
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
 "license."
-msgstr "قراءة ملفّ&quot;&quot; أنت ليس حتّى."
+msgstr ""
+"غير قادر على قراءة ملف الترخيص &quot;{0}&quot;، نتيجة لمشكلة في التركيب. لن "
+"تستطيع استخدام هذا المزود قبل قبول ترخيصه."
 
 #: ../mail/mail.error.xml.h:35
-#, fuzzy
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "عفوا، لم يمكن إعادة تسمية \"%s\" إلى \"%s\"."
+msgstr "غير قادر على إعادة تسمية &quot;{0}&quot; إلى &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:36
-#, fuzzy
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr "لا يمكن إعادة تسمية الدّليل: %s: لا مجلّد بهذا الإسم"
+msgstr "غير قادر على إعادة تسمية أو نقل مجلد النظام &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot save changes to account."
 msgstr "غير قادر على حفظ التغييرات للحساب."
 
 #: ../mail/mail.error.xml.h:38
-#, fuzzy
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "حفظ دليل&quot;&quot;."
+msgstr "غير قادر على الحفظ للدليل &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:39
-#, fuzzy
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr "حفظ ملفّ&quot;&quot;."
+msgstr "غير قادر على الحفظ للملف &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:40
-#, fuzzy
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "لم يمكن فتح المجلّد المشترك: %s."
+msgstr "غير قادر على تعيين البرنامج النصي للتوقيع &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:41
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr "كلمة مرور هو يعمل."
+msgstr ""
+"تأكد من كلمة مرورك متهجأة بشكل صحيح. تذكر أن كثير من كلمات المرور حساسة "
+"للحالة، قد يكون زر Caps Lock مفعل."
 
 #: ../mail/mail.error.xml.h:42
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "ليس حفظ ملفّ."
+msgstr "غير قادر على حفظ ملف التوقيع."
 
 #: ../mail/mail.error.xml.h:43
 msgid "Delete &quot;{0}&quot;?"
@@ -14528,31 +14464,27 @@ msgid "Error while performing operation."
 msgstr "خطأ أثناء فتح التقويم"
 
 #: ../mail/mail.error.xml.h:54
-#, fuzzy
 msgid "Error while {0}."
-msgstr "خطأ."
+msgstr "حدث خطأ أثناء {0}."
 
 #: ../mail/mail.error.xml.h:55
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "ملف موجود."
+msgstr "الملف موجود لكن الكتابة فوقه غير ممكنة."
 
 #: ../mail/mail.error.xml.h:56
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "ملف موجود هو ليس أ ملفّ."
+msgstr "الملف موجود لكنه ليس ملفاً عادياً."
 
 #: ../mail/mail.error.xml.h:57
-#, fuzzy
 msgid "If you continue, you will not be able to recover these messages."
-msgstr "ليس."
+msgstr "لن تستطيع استعادة هذه الرسائل إن تابعت."
 
 #: ../mail/mail.error.xml.h:58
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr "حذف الكل من و."
+msgstr ""
+"إن ألغيت هذا المجلد فسيتم حذف كل محتوياته ومجلداته الفرعية بصورة دائمة."
 
 #: ../mail/mail.error.xml.h:59
 #, fuzzy
@@ -14572,11 +14504,11 @@ msgid "If you proceed, the account information will be deleted permanently."
 msgstr "اذا كنت تمضي والحساب المعلومات سوف تحذف نهائيا."
 
 #: ../mail/mail.error.xml.h:63
-#, fuzzy
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "إنهاء ليس حتّى إيفُليوشن هو."
+msgstr ""
+"إن أنهيت إيفُليوشن، لن يتم إرسال هذه الرسائل إلا بعد فتح إيفُليوشن مرة أخرى."
 
 #: ../mail/mail.error.xml.h:64
 msgid "Ignore"
@@ -14588,9 +14520,8 @@ msgid "Invalid authentication"
 msgstr "غير صحيح توثق"
 
 #: ../mail/mail.error.xml.h:67
-#, fuzzy
 msgid "Mail filters automatically updated."
-msgstr "بريد."
+msgstr "تم تحديث مرشحات البريد تلقائياً."
 
 #: ../mail/mail.error.xml.h:68
 #, fuzzy
@@ -14606,9 +14537,8 @@ msgid "Mark all messages as read"
 msgstr "علم كل الرسائل كمقروء"
 
 #: ../mail/mail.error.xml.h:70
-#, fuzzy
 msgid "Mark all messages in subfolders as read?"
-msgstr "الكل بوصة قراءة?"
+msgstr "تعليم كل الرسائل في المجلدات الفرعية كمقروءة؟"
 
 #: ../mail/mail.error.xml.h:71
 msgid "Mark as _Read"
@@ -14623,19 +14553,16 @@ msgid "No sources selected."
 msgstr "لم يتم انتقاء مصدر."
 
 #: ../mail/mail.error.xml.h:75
-#, fuzzy
 msgid "Opening too many messages at once may take a long time."
-msgstr "عند أ."
+msgstr "فتح عدد كبير من الرسائل دفعة واحدة قد يستغرق وقتاً كبيراً."
 
 #: ../mail/mail.error.xml.h:76
-#, fuzzy
 msgid "Please check your account settings and try again."
-msgstr "رجاء و."
+msgstr "رجاء افحص إعدادات الحساب ثم حاول مرة أخرى."
 
 #: ../mail/mail.error.xml.h:77
-#, fuzzy
 msgid "Please enable the account or send using another account."
-msgstr "رجاء."
+msgstr "رجاء فعل حسابك أو أرسل باستخدام حساب آخر."
 
 #: ../mail/mail.error.xml.h:78
 #, fuzzy
@@ -14654,14 +14581,12 @@ msgid ""
 msgstr "رجاء متابعة و HTML ل?"
 
 #: ../mail/mail.error.xml.h:82
-#, fuzzy
 msgid "Please provide an unique name to identify this signature."
-msgstr "رجاء."
+msgstr "رجاءً قدم اسماً فريداً لتعريف هذا التوقيع."
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid "Please wait."
-msgstr "رجاء."
+msgstr "رجاءً انتظر."
 
 #: ../mail/mail.error.xml.h:84
 #, fuzzy
@@ -14689,9 +14614,8 @@ msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "حذف&quot;&quot; و الكل من?"
 
 #: ../mail/mail.error.xml.h:89
-#, fuzzy
 msgid "Search Folders automatically updated."
-msgstr "ابحث المجلّدات."
+msgstr "تم تحديث مجلدات البحث تلقائياً."
 
 #: ../mail/mail.error.xml.h:90
 #, fuzzy
@@ -14699,9 +14623,8 @@ msgid "Send Receipt"
 msgstr "أرسِل"
 
 #: ../mail/mail.error.xml.h:91
-#, fuzzy
 msgid "Signature Already Exists"
-msgstr "الشهادة موجودة مسبقا."
+msgstr "التوقيع موجود مسبقا."
 
 #: ../mail/mail.error.xml.h:92
 #, fuzzy
@@ -14760,17 +14683,15 @@ msgid ""
 msgstr "ابحث مجلّد إضافة."
 
 #: ../mail/mail.error.xml.h:109
-#, fuzzy
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
-msgstr "رسالة مع هو ليس"
+msgstr "لا يمكن إرسال هذه الرسالة لأن الحساب الذي اخترت الإرسال به ليس مفعلاً"
 
 #: ../mail/mail.error.xml.h:110
-#, fuzzy
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
-msgstr "رسالة ليس"
+msgstr "لا يمكن إرسال هذه الرسالة لأنك لم تحدد أي مستلمين لها"
 
 #: ../mail/mail.error.xml.h:111
 #, fuzzy
@@ -14780,16 +14701,15 @@ msgid ""
 msgstr "ليس من توثق و ليس توثق عند الكل."
 
 #: ../mail/mail.error.xml.h:112
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr "ليس."
+msgstr "تم تغيير هذا التوقيع، لكن لم يتم حفظه."
 
 #: ../mail/mail.error.xml.h:113
-#, fuzzy
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr "الكل قراءة بوصة مُنتقى و."
+msgstr ""
+"هذا سيضع علامة مقروء لكل الرسائل في المجلد المنتقى وكل مجلداته الفرعية."
 
 #: ../mail/mail.error.xml.h:114
 #, fuzzy
@@ -14797,61 +14717,60 @@ msgid "Unable to connect to the GroupWise server."
 msgstr "GroupWise."
 
 #: ../mail/mail.error.xml.h:115
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr "فتح لـ?"
+msgstr ""
+"غير قادر على فتح مجلد المسودات لهذا الحساب. هل تريد استخدام مجلد مسودات "
+"النظام بدلاً منه؟"
 
 #: ../mail/mail.error.xml.h:116
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "قراءة ملفّ."
+msgstr "غير قادر على قراءة ملف الترخيص."
 
 #: ../mail/mail.error.xml.h:117
-#, fuzzy
 msgid "Use _Default"
-msgstr "الافتراضي"
+msgstr "استخدم الافترا_ضي"
 
 #: ../mail/mail.error.xml.h:118
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "افتراضات?"
+msgstr "استخدام مجلد المسودات الافتراضي؟"
 
 #: ../mail/mail.error.xml.h:120
 msgid "You have not filled in all of the required information."
 msgstr "لم تكتب جميع المعلومات المطلوبة."
 
 #: ../mail/mail.error.xml.h:121
-#, fuzzy
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "أنت إنهاء?"
+msgstr "توجد لديك رسائل غير مرسلة، هل ترغب في الإنهاء أياً كان؟"
 
 #: ../mail/mail.error.xml.h:122
 msgid "You may not create two accounts with the same name."
 msgstr "لا يمكنك إنشاء حسابين بالإسم ذاته."
 
 #: ../mail/mail.error.xml.h:123
-#, fuzzy
 msgid "You must name this Search Folder."
-msgstr "أنت ابحث مجلّد."
+msgstr "يجب أن تسمي مجلد البحث هذا."
 
 #: ../mail/mail.error.xml.h:124
 msgid "You must specify a folder."
 msgstr "يجب تحديد مجلّد."
 
 #: ../mail/mail.error.xml.h:125
-#, fuzzy
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
 "folders, all remote folders, or both."
-msgstr "أنت عند أ مصدر و الكل الكل."
+msgstr ""
+"عليك تحديد مجلداً واحداً على الأقل كمصدر.\n"
+"إما بانتقاء المجلدات بصورة فردية، و/أو بانتقاء كل المجلدات المحلية، أو كل "
+"المجلدات البعيدة، أو النوعين."
 
 #: ../mail/mail.error.xml.h:127
-#, fuzzy
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "لكم اتصال لخدمة بلدكم \"(0)\" \"(0)\" لا."
+msgstr ""
+"تسجيلك للدخول على الخادم &quot;{0}&quot; الخاص بك بالاسم &quot;{0}&quot; قد "
+"فشل."
 
 #: ../mail/mail.error.xml.h:128
 msgid "_Append"
@@ -14937,18 +14856,16 @@ msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2261 ../mail/message-list.etspec.h:9
-#, fuzzy
 msgid "Messages"
-msgstr "ال_رسائل"
+msgstr "رسائل"
 
 #: ../mail/message-list.c:3652
 msgid "Generating message list"
 msgstr "جاري إنشاء قائمة الرسائل"
 
 #: ../mail/message-list.etspec.h:3
-#, fuzzy
 msgid "Due By"
-msgstr "مُستحق "
+msgstr "تاريخ الاستحقاق"
 
 #: ../mail/message-list.etspec.h:4
 msgid "Flag Status"
@@ -14963,14 +14880,12 @@ msgid "Follow Up Flag"
 msgstr "علم المتابعة"
 
 #: ../mail/message-list.etspec.h:10
-#, fuzzy
 msgid "Received"
-msgstr "تلقى:"
+msgstr "تاريخ التلقي"
 
 #: ../mail/message-list.etspec.h:14
-#, fuzzy
 msgid "Sent Messages"
-msgstr "أَرسِل"
+msgstr "رسائل مرسلة"
 
 #: ../mail/message-list.etspec.h:15
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
@@ -15010,9 +14925,8 @@ msgid "Reply to All"
 msgstr "رد على الجميع"
 
 #: ../mail/message-tag-followup.c:84
-#, fuzzy
 msgid "Review"
-msgstr "معاينة بسيطة"
+msgstr "مراجعة"
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Body contains"
@@ -15060,19 +14974,16 @@ msgid "Audio inline plugin"
 msgstr "صوت"
 
 #: ../plugins/backup-restore/backup-restore.c:51
-#, fuzzy
 msgid "Select name of Evolution archive"
-msgstr "انتقاء من إيفُليوشن"
+msgstr "انتق إسما لأرشيف إيفُليوشن"
 
 #: ../plugins/backup-restore/backup-restore.c:61
-#, fuzzy
 msgid "_Restart Evolution after backup"
-msgstr "أعد التشغيل إيفُليوشن بعد"
+msgstr "أ_عد تشغيل إيفُليوشن بعد النسخ الاحتياطي"
 
 #: ../plugins/backup-restore/backup-restore.c:89
-#, fuzzy
 msgid "Select Evolution archive to restore"
-msgstr "انتقاء إيفُليوشن"
+msgstr "انتق أرشيف إيفُليوشن لاسترجاعه"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
@@ -15106,14 +15017,12 @@ msgid "Backup and restore plugin"
 msgstr "اظهر الملفّات المخفية و ملفّات الإسناد"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
-#, fuzzy
 msgid "Backup Settings..."
-msgstr "نسخ احتياطي التعيينات."
+msgstr "إعدادات النسخ الاحتياطي..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
-#, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "نسخ احتياطي و إيفُليوشن و"
+msgstr "النسخ الاحتياطي والاستعادة لبيانات وإعدادات إيفُليوشن"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "Restore Settings..."
@@ -15132,9 +15041,8 @@ msgid ""
 msgstr "بوصة بريد"
 
 #: ../plugins/bbdb/bbdb.c:477
-#, fuzzy
 msgid "Select Address book for Automatic Contacts"
-msgstr "انتقاء العنوان لـ تلقائي المراسَلون"
+msgstr "انتق دفتر عناوين للمراسَلين التلقائيين"
 
 #: ../plugins/bbdb/bbdb.c:492
 msgid "Instant Messaging Contacts"
@@ -15142,29 +15050,28 @@ msgstr "مراسَلي المراسلة الفورية"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:507
-#, fuzzy
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
-msgstr "مراسلين و قائمة"
+msgstr "زامِن معلومات المراسَلين وصورهم دورياً مع قائمة أصدقاء جايم"
 
 #: ../plugins/bbdb/bbdb.c:513
-#, fuzzy
 msgid "Select Address book for Gaim buddy list"
-msgstr "انتقاء العنوان لـ قائمة"
+msgstr "انتق دفتر عناوين لقائمة أصدقاء جايم"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:524
-#, fuzzy
 msgid "Synchronize with _buddy list now"
-msgstr "مع قائمة الآن"
+msgstr "الت_زامن مع قائمة الأصدقاء الآن"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
-msgstr "مع و بوصة مراسلين."
+msgstr ""
+"لملء دفتر عناوينك بالأسماء وعناوين البريد الإلكتروني عند ردك على الرسائل. "
+"ولملئه أيضاً بمعلومات الاتصال عن طريق المراسلة الفورية بمن هم في قائمة "
+"أصدقائك."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 #, fuzzy
@@ -15177,9 +15084,8 @@ msgid "CalDAV"
 msgstr "نداء"
 
 #: ../plugins/caldav/caldav-source.c:269
-#, fuzzy
 msgid "Use _SSL"
-msgstr "SSL غير متوفّر"
+msgstr "استخدم _SSL"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 #, fuzzy
@@ -15192,29 +15098,24 @@ msgid "CalDAV sources"
 msgstr "إفتراض الحروف"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Calendars"
-msgstr "محلًي التقويمات"
+msgstr "التقويمات المحلًية"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
-#, fuzzy
 msgid "Provides core functionality for local calendars."
-msgstr "لـ."
+msgstr "يوفر الوظائف الأساسية للتقويمات المحلية."
 
 #: ../plugins/calendar-http/calendar-http.c:339
-#, fuzzy
 msgid "_Secure connection"
-msgstr "تم إلغاء الإتّصال"
+msgstr "إتّ_صال آمن"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
-#, fuzzy
 msgid "HTTP Calendars"
-msgstr "التقويمات"
+msgstr "تقويمات HTTP"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
-#, fuzzy
 msgid "Provides core functionality for webcal and http calendars."
-msgstr "لـ و."
+msgstr "يوفر الوظائف الأساسية لتقويمات ويب وتقويمات http."
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
@@ -15286,24 +15187,21 @@ msgid "Check whether Evolution is the default mailer"
 msgstr "إفحص ما إذا كان إيفُليوشن هو مرسل البريد الافتراضي"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
-#, fuzzy
 msgid ""
 "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "كل إيفُليوشن ليس هو افتراضات."
+msgstr "تأكد دائماً من أن إيفُليوشن هو عميل البريد الافتراضي عند فتحه."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
-#, fuzzy
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "إيفُليوشن هو افتراضات بريد يعمل."
+msgstr "لفحص ما إذا كان إيفُليوشن هو عميل البريد الافتراضي عند بدء التشغيل."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
 msgstr "عميل البريد الافتراضي"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
-#, fuzzy
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "إيفُليوشن افتراضات e بريد?"
+msgstr "هل تريد جعل إيفُليوشن عميلاً افتراضياً لبريدك؟"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
@@ -15385,9 +15283,8 @@ msgstr "أنا داخل المكتب"
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:328
-#, fuzzy
 msgid "Change the password for Exchange account"
-msgstr "كلمة مرور لـ"
+msgstr "غير كلمة مرور حساب إكستشينج"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:330
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
@@ -15422,7 +15319,6 @@ msgstr "حجم المحلدات"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:368
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
-#, fuzzy
 msgid "Exchange Settings"
 msgstr "إعدادات إكستشينج"
 
@@ -15437,14 +15333,12 @@ msgid "A_uthenticate"
 msgstr "فشل التّوثيق"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:829
-#, fuzzy
 msgid "Authentication Type"
-msgstr "التوثق النوع"
+msgstr "نوع التوثق"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:843
-#, fuzzy
 msgid "Ch_eck for Supported Types"
-msgstr "لـ أنواع"
+msgstr "الفح_ص بحثاً عن الأنواع المدعومة"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
@@ -15459,12 +15353,11 @@ msgstr ""
 #. * password. Prompt him again.
 #.
 #: ../plugins/exchange-operations/exchange-change-password.c:115
-#, fuzzy
 msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
-"كلمة المرور الحالية لا تتطابق مع كلمة مرور حسابك الموجودة. الرجاء إدخال كلمة "
+"كلمة المرور الحالية لا تتطابق مع كلمة المرور الموجودة لحسابك. رجاءً أدخل كلمة "
 "المرور الصحيحة"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
@@ -15565,9 +15458,8 @@ msgstr "ال_تّقويم:"
 
 #. Translators: This is used for permissions for <user> for the folder Contacts.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "الاتّ_صالات:"
+msgstr "المرا_سَلين:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 msgid "Delegates"
@@ -15703,12 +15595,10 @@ msgid "Delete Own Items"
 msgstr "حذف عناصري"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
-#, fuzzy
 msgid "Edit Any Items"
 msgstr "تحرير أيّ عناصر"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
-#, fuzzy
 msgid "Edit Own Items"
 msgstr "تحرير عناصري"
 
@@ -15767,9 +15657,8 @@ msgid "Exchange Operations"
 msgstr "عمليات إكستشينج"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
-#, fuzzy
 msgid "Cannot change password due to configuration problems."
-msgstr "كلمة مرور."
+msgstr "غير قادر على تغيير كلمة المرور نتيجة لمشاكل في التكوين."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
@@ -15792,9 +15681,8 @@ msgid "Could not authenticate to server."
 msgstr "ليس."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
-#, fuzzy
 msgid "Could not change password."
-msgstr "ليس كلمة مرور."
+msgstr "غير قادر على تغيير كلمة المرور."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 #, fuzzy
@@ -15805,14 +15693,12 @@ msgid ""
 msgstr "ليس مجهول URL و كلمة مرور و."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
-#, fuzzy
 msgid "Could not connect to Exchange server."
-msgstr "ليس."
+msgstr "غير قادر على الاتصال بخادم إكستشينج."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
-#, fuzzy
 msgid "Could not connect to server {0}."
-msgstr "ليس."
+msgstr "غير قادر على الاتصال بالخادم {0}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 #, fuzzy
@@ -15835,34 +15721,28 @@ msgid "Could not make {0} a delegate"
 msgstr "ليس أ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
-#, fuzzy
 msgid "Could not read folder permissions"
-msgstr "ليس قراءة"
+msgstr "غير قادر على قراءة تصريحات المجلد"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
-#, fuzzy
 msgid "Could not read folder permissions."
-msgstr "ليس قراءة."
+msgstr "غير قادر على قراءة تصريحات المجلد"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
-#, fuzzy
 msgid "Could not read out-of-office state"
-msgstr "ليس قراءة من"
+msgstr "غير قادر على قراءة حالة خارج المكتب"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
-#, fuzzy
 msgid "Could not update folder permissions."
-msgstr "ليس."
+msgstr "غير قادر على تحديث تصريحات المجلد."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
-#, fuzzy
 msgid "Could not update out-of-office state"
-msgstr "ليس من"
+msgstr "غير قادر على تحديث حالة خارج المكتب"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
-#, fuzzy
 msgid "Exchange Account is offline."
-msgstr "الحساب هو."
+msgstr "حساب إكستشينج غير متصل."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 #, fuzzy
@@ -15887,19 +15767,16 @@ msgid "Failed to update delegates:"
 msgstr "فشل:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
-#, fuzzy
 msgid "Folder already exists"
-msgstr "المجلّد موجود أصلاً"
+msgstr "المجلّد موجود مسبقاً"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
-#, fuzzy
 msgid "Folder does not exist"
-msgstr "مجلّد ليس"
+msgstr "المجلّد ليس موجوداً"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
-#, fuzzy
 msgid "Folder offline"
-msgstr "مجلّد"
+msgstr "المجلّد غير متصل"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1271
@@ -15919,9 +15796,8 @@ msgid ""
 msgstr "هو يعمل أ بوصة حوار."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
-#, fuzzy
 msgid "Mailbox for {0} is not on this server."
-msgstr "لـ هو ليس يعمل."
+msgstr "صندوق البريد لـ{0} ليس موجوداً على هذا الخادم."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 #, fuzzy
@@ -15929,14 +15805,12 @@ msgid "Make sure the URL is correct and try again."
 msgstr "URL هو و."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
-#, fuzzy
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr "هو و."
+msgstr "تأكد من صحة كتابة اسم الخادم وحاول مرة أخرى."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
-#, fuzzy
 msgid "Make sure the username and password are correct and try again."
-msgstr "و كلمة مرور و."
+msgstr "تأكد من صحة اسم المستخدم وكلمة المرور وحاول مرة أخرى."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 #, fuzzy
@@ -15961,40 +15835,36 @@ msgid "Please make sure the Global Catalog Server name is correct."
 msgstr "رجاء شامل الخادم هو."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
-#, fuzzy
 msgid "Please restart Evolution for changes to take effect"
-msgstr "رجاء إيفُليوشن لـ تأثير"
+msgstr "رجاء أعد تشغيل إيفُليوشن لكي يظهر أثر التغييرات"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "Please select a user."
 msgstr "الرجاء انتقاء مستخدم."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
-#, fuzzy
 msgid "Server rejected password because it is too weak."
-msgstr "الخادم كلمة مرور هو."
+msgstr "رفض الخادم كلمة المرور لأنها ضعيفة جداً."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
-#, fuzzy
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "إنهاء إيفُليوشن"
+msgstr "سيتم تعطيل حساب إكستشينج عندما تنهي إيفُليوشن"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
-#, fuzzy
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr "إنهاء إيفُليوشن"
+msgstr "ستتم إزالة حساب إكستشينج عندما تنهي إيفُليوشن"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
-#, fuzzy
 msgid "The Exchange server is not compatible with Exchange Connector."
-msgstr "هو ليس مع."
+msgstr "خادم إكستشينج غير متوافق مع متصل إكستشينج."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:57
-#, fuzzy
 msgid ""
 "The server is running Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
-msgstr "هو و."
+msgstr ""
+"الخادم يقوم بتشغيل إكستشينج ٥.٥. متصل إكستشينج لا يدعم سوى مايكروسوفت "
+"إكستشينج ٢٠٠٠ و ٢٠٠٣ فقط."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:59
 #, fuzzy
@@ -16007,9 +15877,8 @@ msgid ""
 msgstr "النوافذ من&quot; النّطاق&quot; ل كلمة مرور."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
-#, fuzzy
 msgid "Try again with a different password."
-msgstr "مع أ كلمة مرور."
+msgstr "حاول مرة أخرى بكلمة مرور مختلفة."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 #, fuzzy
@@ -16017,9 +15886,8 @@ msgid "Unable to add user to access control list:"
 msgstr "إضافة وصول control قائمة:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
-#, fuzzy
 msgid "Unable to edit delegates."
-msgstr "حرّر."
+msgstr "غير قادر على تحرير المفوضين."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 #, fuzzy
@@ -16076,9 +15944,8 @@ msgid ""
 msgstr "هو أنت ليس بريد حتّى مسح up فراغ بريد."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
-#, fuzzy
 msgid "Your password has expired."
-msgstr "كلمة مرور."
+msgstr "نفدت صلاحية كلمة مرورك."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 #, fuzzy
@@ -16086,24 +15953,20 @@ msgid "{0} cannot be added to an access control list"
 msgstr "وصول control قائمة"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
-#, fuzzy
 msgid "{0} is already a delegate"
-msgstr "هو أ"
+msgstr "{0} مفوض مسبقاً"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:82
-#, fuzzy
 msgid "{0} is already in the list"
-msgstr "هو بوصة قائمة"
+msgstr "{0} موجود في القائمة مسبقاً"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
-#, fuzzy
 msgid "Subscribe to Other User's Tasks"
-msgstr "إشتراك أخرى المستخدم المهام"
+msgstr "اشترك في مهام مستخدم آخر"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
-#, fuzzy
 msgid "Check folder permissions"
-msgstr "لا يمكن تفقّد المجلّد: %s: %s"
+msgstr "فحص تصريحات المجلد"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, fuzzy, c-format
@@ -16113,9 +15976,9 @@ msgstr ""
 "  %s"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
-#, fuzzy
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr "من بريد بوصة شجرة قائمة."
+msgstr ""
+"للسماح بإلغاء الاشتراك في مجلدات البريد في قائمة السياق لشجرة المجلدات."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -16145,7 +16008,6 @@ msgid "Junk Settings"
 msgstr "إعدادت النفاية"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
-#, fuzzy
 msgid "<b>Junk Mail Settings</b>"
 msgstr "<b>إعدادات البريد النفاية</b>"
 
@@ -16214,9 +16076,8 @@ msgid "Accept Tentatively"
 msgstr "إقبل"
 
 #: ../plugins/groupwise-features/properties.glade.h:1
-#, fuzzy
 msgid "<b>Users:</b>"
-msgstr "<b> مستخدمون</b>"
+msgstr "<b>:المستخدمون</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
 #: ../widgets/table/e-table-click-to-add.c:509
@@ -16224,14 +16085,12 @@ msgid "Message"
 msgstr "رسالة"
 
 #: ../plugins/groupwise-features/properties.glade.h:5
-#, fuzzy
 msgid "Shared Folder Notification"
-msgstr "مشترك مجلّد اشعار "
+msgstr "اشعار مجلّد مشترك"
 
 #: ../plugins/groupwise-features/properties.glade.h:7
-#, fuzzy
 msgid "The participants will receive the following notification.\n"
-msgstr "متابعة ل"
+msgstr "سيستقبل المشاركون التنبيه الآتي.\n"
 
 #: ../plugins/groupwise-features/properties.glade.h:10
 msgid "_Contacts..."
@@ -16275,9 +16134,8 @@ msgid "Modify _folders/options/rules/"
 msgstr "تعديل الم_جلدات/الخيارات/القواعد/"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
-#, fuzzy
 msgid "Read items marked _private"
-msgstr "اقرأ عناصر"
+msgstr "اقرأ العناصر ذات علامة \"خاص\""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 #, fuzzy
@@ -16304,19 +16162,16 @@ msgid "_Write"
 msgstr "_كتابة"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
-#, fuzzy
 msgid "Proxy"
-msgstr "بروكسي الجهة الخارجية"
+msgstr "خادم وكيل"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "<b> الحساب الإسم</b>"
+msgstr "<b>اسم الحساب</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
-#, fuzzy
 msgid "Proxy Login"
-msgstr "إسم التسجيل"
+msgstr "تسجيل دخول وكيل"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:262
@@ -16330,9 +16185,8 @@ msgstr "%s أدخل كلمة السّر لـ %s (المستخدم %s)"
 #. * feature by which one person can send/read mails/appointments using another person's identity
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:516
-#, fuzzy
 msgid "_Proxy Login..."
-msgstr "إسم التسجيل."
+msgstr "تسجيل دخول بالو_كالة..."
 
 #: ../plugins/groupwise-features/proxy.c:697
 #, fuzzy
@@ -16349,14 +16203,12 @@ msgid "Users"
 msgstr "مستخدمون"
 
 #: ../plugins/groupwise-features/share-folder-common.c:323
-#, fuzzy
 msgid "Enter the users and set permissions"
-msgstr "إدخال و"
+msgstr "أدخل المستخدمين وعين التصاريح"
 
 #: ../plugins/groupwise-features/share-folder-common.c:342
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "جديد مشترك مجلّد."
+msgstr "مجلد م_شترك جديد..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:450
 msgid "Sharing"
@@ -16431,9 +16283,8 @@ msgid "iPod Synchronization"
 msgstr "تزامن iPod"
 
 #: ../plugins/ipod-sync/sync.c:158
-#, fuzzy
 msgid "No output directory!"
-msgstr "لا دليل!"
+msgstr "لا دليل خرج!"
 
 #: ../plugins/ipod-sync/sync.c:159
 #, fuzzy
@@ -16456,9 +16307,8 @@ msgid "Could not open addressbook!"
 msgstr "ليس فتح!"
 
 #: ../plugins/ipod-sync/sync.c:232
-#, fuzzy
 msgid "Could not open the Evolution addressbook to export data."
-msgstr "ليس فتح إيفُليوشن."
+msgstr "غير قادر على فتح دفتر عناوين إيفُليوشن لتصدير البيانات."
 
 #: ../plugins/ipod-sync/sync.c:291
 #, fuzzy
@@ -16477,14 +16327,14 @@ msgid "Failed to load the calendar '%s'"
 msgstr "فشل تحميل التقويم '%s'"
 
 #: ../plugins/itip-formatter/itip-formatter.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "لم يمكن فتح التقويم '%s' لإنشاء الأحداث و الإجتماعات"
+msgstr "موعد في التقويم '%s' يتضارب مع هذا الاجتماع"
 
 #: ../plugins/itip-formatter/itip-formatter.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "Found the appointment in the calendar '%s'"
-msgstr "اظهر أرقام الأسابيع في التقويم"
+msgstr "تم إيجاد الموعد في التقويم '%s'"
 
 #: ../plugins/itip-formatter/itip-formatter.c:517
 msgid "Unable to find any calendars"
@@ -16550,9 +16400,8 @@ msgid "Sent a cancelation notice to the delegate"
 msgstr "أَرسِل أ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:984
-#, fuzzy
 msgid "Could not send the cancelation notice to the delegate"
-msgstr "ليس"
+msgstr "غير قادر على إرسال إشعار الإلغاء للمفوض"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1069
 #, fuzzy
@@ -16570,9 +16419,8 @@ msgid "Attendee status updated"
 msgstr "الحاضر"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1227
-#, fuzzy
 msgid "The calendar attached is not valid"
-msgstr "رزنامة هو ليس"
+msgstr "التقويم المرفق غير صالح"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1228
 #, fuzzy
@@ -16584,9 +16432,8 @@ msgstr "رسالة أ رزنامة رزنامة هو ليس أ."
 #: ../plugins/itip-formatter/itip-formatter.c:1263
 #: ../plugins/itip-formatter/itip-formatter.c:1281
 #: ../plugins/itip-formatter/itip-formatter.c:1359
-#, fuzzy
 msgid "The item in the calendar is not valid"
-msgstr "المشهد الذي يُظهر متى تبدأ التقويم"
+msgstr "العنصر في التقويم غير صالح"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1264
 #: ../plugins/itip-formatter/itip-formatter.c:1282
@@ -16603,18 +16450,16 @@ msgid "The calendar attached contains multiple items"
 msgstr "رزنامة يحتوي عناصر"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1294
-#, fuzzy
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "إلى الكل من عناصر ملفّ و رزنامة"
+msgstr "لمعالجة كل هذه العناصر، يجب حفظ الملف واستيراد التقويم."
 
 #. Delete message after acting
 #. FIXME Need a schema for this
 #: ../plugins/itip-formatter/itip-formatter.c:2067
-#, fuzzy
 msgid "_Delete message after acting"
-msgstr "احذف رسالة بعد"
+msgstr "احذف رسالة بعد الت_عامل معها"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2077
 #: ../plugins/itip-formatter/itip-formatter.c:2109
@@ -16623,9 +16468,8 @@ msgstr "بحث عن تضارب"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:2092
-#, fuzzy
 msgid "Select the calendars to search for meeting conflicts"
-msgstr "انتقاء لـ"
+msgstr "انتق تقويمات للبحث في عن تضاربات المواعيد"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:188 ../ui/evolution-calendar.xml.h:34
@@ -16781,24 +16625,24 @@ msgid "<b>%s</b> has published the following meeting information:"
 msgstr "نشر <b>%s</b> معلومات متفرّغ/مشغول."
 
 #: ../plugins/itip-formatter/itip-view.c:355
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b></b> متابعة:"
+msgstr "<b>%s</b> قد فوضك لحضور الاجتماع الآتي:"
 
 #: ../plugins/itip-formatter/itip-view.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b></b> الطّلبات عند متابعة:"
+msgstr "<b>%s</b> يطلب حضورك الاجتماع الآتي عن طريق %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b></b> الطّلبات عند متابعة:"
+msgstr "<b>%s</b> يطلب حضورك الاجتماع الآتي:"
 
 #: ../plugins/itip-formatter/itip-view.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "<b></b> إضافة:"
+msgstr "<b>%s</b> %s يرغب في الإضافة لاجتماع موجود عن طريق:"
 
 #: ../plugins/itip-formatter/itip-view.c:368
 #, c-format
@@ -16806,10 +16650,10 @@ msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "يود <b>%s</b> الإضافة إلى إجتماع موجود."
 
 #: ../plugins/itip-formatter/itip-view.c:371
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b></b> لـ متابعة:"
+msgstr "<b>%s</b> يرغب في استقبال آخر المعلومات عن الاجتماع الآتي:"
 
 #: ../plugins/itip-formatter/itip-view.c:374
 #, fuzzy, c-format
@@ -16817,24 +16661,24 @@ msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b></b> إلى الخلف متابعة:"
 
 #: ../plugins/itip-formatter/itip-view.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
-msgstr "<b></b> متابعة:"
+msgstr "<b>%s</b> قد ألغى الاجتماع الآتي عن طريق %s."
 
 #: ../plugins/itip-formatter/itip-view.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has canceled the following meeting."
-msgstr "<b></b> متابعة."
+msgstr "<b>%s</b> قد ألغى الاجتماع الآتي."
 
 #: ../plugins/itip-formatter/itip-view.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b></b> متابعة."
+msgstr "<b>%s</b> قد اقترح تغييرات الاجتماع الآتية."
 
 #: ../plugins/itip-formatter/itip-view.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b></b> متابعة:"
+msgstr "<b>%s</b> قد رفض عن طريق %s تغيرات الاجتماع الآتية:"
 
 #: ../plugins/itip-formatter/itip-view.c:389
 #, fuzzy, c-format
@@ -16945,32 +16789,28 @@ msgstr "<b></b> متابعة:"
 
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:755
-#, fuzzy
 msgid "_Open Calendar"
-msgstr "تقويم جنوم"
+msgstr "_فتح التقويم"
 
 #: ../plugins/itip-formatter/itip-view.c:761
 #: ../plugins/itip-formatter/itip-view.c:765
 #: ../plugins/itip-formatter/itip-view.c:771
 #: ../plugins/itip-formatter/itip-view.c:788
 #: ../plugins/itip-formatter/itip-view.c:793
-#, fuzzy
 msgid "_Decline"
-msgstr "ارفض"
+msgstr "ارف_ض"
 
 #: ../plugins/itip-formatter/itip-view.c:762
 #: ../plugins/itip-formatter/itip-view.c:767
 #: ../plugins/itip-formatter/itip-view.c:774
 #: ../plugins/itip-formatter/itip-view.c:790
 #: ../plugins/itip-formatter/itip-view.c:795
-#, fuzzy
 msgid "_Accept"
 msgstr "ا_قبل"
 
 #: ../plugins/itip-formatter/itip-view.c:765
-#, fuzzy
 msgid "_Decline all"
-msgstr "ارفض الكل"
+msgstr "ارف_ض الكل"
 
 #: ../plugins/itip-formatter/itip-view.c:766
 #, fuzzy
@@ -17021,14 +16861,12 @@ msgid "Comment:"
 msgstr "تعليق:"
 
 #: ../plugins/itip-formatter/itip-view.c:1033
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "أرسِل"
+msgstr "أرسِل تحدي_ثات للحضور"
 
 #: ../plugins/itip-formatter/itip-view.c:1042
-#, fuzzy
 msgid "A_pply to all instances"
-msgstr "الكل"
+msgstr "_طبق على كل الحالات"
 
 #: ../plugins/itip-formatter/itip-view.c:1711
 msgid "_Tasks :"
@@ -17401,9 +17239,8 @@ msgid "Enable and disable plugins"
 msgstr "فعّل و"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "_Plugins"
-msgstr "ملحقات"
+msgstr "ملح_قات"
 
 #: ../plugins/plugin-manager/plugin-manager.c:43
 msgid "Author(s)"
@@ -17473,9 +17310,8 @@ msgid "Print Pre_view"
 msgstr "_معاينة قبل الطّباعة"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
-#, fuzzy
 msgid "Prints the message"
-msgstr "رسالة"
+msgstr "لطبع الرسالة"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 #, fuzzy
@@ -17493,9 +17329,8 @@ msgid "Allows calendars to be published to the web"
 msgstr "يسمح التقويمات ستنشر على الانترنت"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Calendar Publishing"
-msgstr "تقويم جنوم"
+msgstr "نشر التقويم"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
 msgid "Locations"
@@ -17530,9 +17365,8 @@ msgid ""
 msgstr "أفعال قائمة"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
-#, fuzzy
 msgid "P_ort:"
-msgstr "المَنْفذ:"
+msgstr "المَنْف_ذ:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
 msgid "Publishing Location"
@@ -17564,16 +17398,16 @@ msgid "_File:"
 msgstr "_ملف:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
-#, fuzzy
 msgid "_Publish as:"
-msgstr "ك_خلفية"
+msgstr "_نشر ك:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:28
-#, fuzzy
 msgid ""
 "iCal\n"
 "Free/Busy"
-msgstr "مشغول"
+msgstr ""
+"iCal\n"
+"متوفر/مشغول"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:102
 msgid "Spamassassin (built-in)"
@@ -17587,9 +17421,8 @@ msgid ""
 msgstr "مصفات."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "Spamassassin junk plugin"
-msgstr "إعداد الملحق المنتقى"
+msgstr "ملحق سبامأساسين للبريد النفاية"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 #, fuzzy
@@ -17735,15 +17568,13 @@ msgid "%FT%T"
 msgstr "T"
 
 #: ../plugins/save-calendar/rdf-format.c:397
-#, fuzzy
 msgid "RDF format (.rdf)"
-msgstr "تنسيق الفيديو"
+msgstr "تنسيق RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:169
 #: ../plugins/save-calendar/save-calendar.c:180
-#, fuzzy
 msgid "Select destination file"
-msgstr "انتقاء ملفّ"
+msgstr "انتق ملفّ الوجهة"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
@@ -17755,14 +17586,12 @@ msgid "Selects a single calendar or task source for viewing."
 msgstr "أ رزنامة مصدر لـ."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-#, fuzzy
 msgid "Show _only this Calendar"
-msgstr "اعرض التقويم"
+msgstr "لا تعرض _سوى هذا التقويم"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Task List"
-msgstr "اعرض مهمَّة قائمة"
+msgstr "لا تعرض _سوى قائمة المهام هذه"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 #, fuzzy
@@ -17782,19 +17611,21 @@ msgid "Welcome"
 msgstr "مرحبا"
 
 #: ../plugins/startup-wizard/startup-wizard.c:89
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
-msgstr "مرحبا إيفُليوشن إيفُليوشن و ملفات غير ذلك ل انقر تمرير زر "
+msgstr ""
+"مرحباً بك في إيفُليوشن. ستسمح لك الشاشات التالية بالاتصال بحسابات بريدك، "
+"واستيراد ملفات من تطبيقات أخرى. \n"
+"\n"
+"رجاءً اضغط رز  \"أمام\" للمتابعة. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
-#, fuzzy
 msgid "Please select the information that you would like to import:"
-msgstr "رجاء:"
+msgstr "رجاءً انتق المعلومات التي ترغب في استيرادها:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:153
 #: ../shell/e-shell-importer.c:411
@@ -18479,20 +18310,18 @@ msgid "Certificate Viewer: %s"
 msgstr "عارض الشهادات: %s"
 
 #: ../smime/gui/component.c:47
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for `%s'"
-msgstr "إدخال كلمة مرور لـ"
+msgstr "أدخل كلمة المرور لـ`%s'"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:70
-#, fuzzy
 msgid "Enter new password for certificate database"
-msgstr "إدخال جديد كلمة مرور لـ"
+msgstr "أدخل كلمة المرور الجديدة لقاعدة بيانات الشهادات"
 
 #: ../smime/gui/component.c:72
-#, fuzzy
 msgid "Enter new password"
-msgstr "إدخال جديد كلمة مرور"
+msgstr "أدخل كلمة المرور الجديدة"
 
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:121
@@ -18514,9 +18343,8 @@ msgstr ""
 "  الموضوع: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:174
-#, fuzzy
 msgid "Select certificate"
-msgstr "انتقاء"
+msgstr "انتقاء شهادة"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
@@ -18586,9 +18414,8 @@ msgid "Certificate details"
 msgstr "تفاصيل الشّهادات"
 
 #: ../smime/gui/smime-ui.glade.h:17
-#, fuzzy
 msgid "Certificates Table"
-msgstr "الشّهادات جدول"
+msgstr "جدول الشّهادات"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
@@ -19057,7 +18884,7 @@ msgstr "احفظ المراسَلين المنتقين كفيكارد."
 
 #: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2727
 msgid "Select All"
-msgstr "إنتقاء الكل"
+msgstr "إنتق الكل"
 
 #: ../ui/evolution-addressbook.xml.h:35
 #: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:13
@@ -19565,7 +19392,7 @@ msgstr "إزالة جميع الرّسائل المحذوفة من كل المج
 
 #: ../ui/evolution-mail-global.xml.h:12
 msgid "Search F_olders"
-msgstr "ابحث الم_جلّدات"
+msgstr "م_جلّدات البحث"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Show Message _Preview"
@@ -19596,9 +19423,8 @@ msgid "_Copy Folder To..."
 msgstr "نسخ مجلّد إلى..."
 
 #: ../ui/evolution-mail-global.xml.h:20
-#, fuzzy
 msgid "_Message Filters"
-msgstr "رسالة مصفات"
+msgstr "_مرشحات الرسائل"
 
 #: ../ui/evolution-mail-global.xml.h:21
 msgid "_Move Folder To..."
@@ -19652,41 +19478,37 @@ msgid "Cut selected message(s) to the clipboard"
 msgstr "قص الرّسائل المنتقاة إلى الحافظة الوسيطة"
 
 #: ../ui/evolution-mail-list.xml.h:8
-#, fuzzy
 msgid "E_xpand All Threads"
-msgstr "تمديد الكل"
+msgstr "وس_ع كل الخيوط"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
 msgstr "_شطب"
 
 #: ../ui/evolution-mail-list.xml.h:10
-#, fuzzy
 msgid "Expand all message threads"
-msgstr "علّم جميع الرسائل المرئيّة كمقروءة"
+msgstr "وسع كل خيوط الرسائل"
 
 #: ../ui/evolution-mail-list.xml.h:12
-#, fuzzy
 msgid "Hide S_elected Messages"
-msgstr "إخفاء منتقى"
+msgstr "أخفي الرّسائل المنتقاه"
 
 #: ../ui/evolution-mail-list.xml.h:13
 msgid "Hide _Deleted Messages"
-msgstr "إخفاء الرّسائل ال_محذوفة"
+msgstr "أخفي الرّسائل ال_محذوفة"
 
 #: ../ui/evolution-mail-list.xml.h:14
 msgid "Hide _Read Messages"
-msgstr "إخفاء الرّسائل المقر_وءة"
+msgstr "أخفي الرّسائل المقر_وءة"
 
 #: ../ui/evolution-mail-list.xml.h:15
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
-msgstr "إخفاء الرّسائل المحذوفة عوضاً عن إظهارها بخطٍّ يشطبها"
+msgstr "أخفي الرّسائل المحذوفة عوضاً عن إظهارها بخطٍّ يشطبها"
 
 #: ../ui/evolution-mail-list.xml.h:16
-#, fuzzy
 msgid "Mar_k All Messages as Read"
-msgstr "الكل اقرأ"
+msgstr "ع_لم كل الرسائل كمقروءة"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
@@ -19697,19 +19519,16 @@ msgid "Permanently remove all deleted messages from this folder"
 msgstr "إزالة جميع الرّسائل المحذوفة من هذا المجلّد نهائيّاً"
 
 #: ../ui/evolution-mail-list.xml.h:19
-#, fuzzy
 msgid "Permanently remove this folder"
-msgstr "حذف"
+msgstr "أزل هذا المجلد للأبد"
 
 #: ../ui/evolution-mail-list.xml.h:20
-#, fuzzy
 msgid "Select Message _Thread"
-msgstr "انتقاء رسالة"
+msgstr "انتق خي_ط الرسالة"
 
 #: ../ui/evolution-mail-list.xml.h:21
-#, fuzzy
 msgid "Select _All Messages"
-msgstr "انتقاء الكل"
+msgstr "انتق _كل الرسائل"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Select all and only the messages that are not currently selected"
@@ -19724,9 +19543,8 @@ msgid "Select all visible messages"
 msgstr "إنتقاء جميع الرّسائل المرئيّة"
 
 #: ../ui/evolution-mail-list.xml.h:25
-#, fuzzy
 msgid "Show Hidde_n Messages"
-msgstr "اعرض"
+msgstr "أظهر الرسائل الم_خفية"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Show messages that have been temporarily hidden"
@@ -19738,16 +19556,15 @@ msgstr "إخفاء جميع الرّسائل المقروءة مؤقّتاً"
 
 #: ../ui/evolution-mail-list.xml.h:28
 msgid "Temporarily hide the selected messages"
-msgstr "إخفاء الرسائل المنتقاة مؤقتاً"
+msgstr "أخفي الرّسائل المنتقاة مؤقتاً"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Threaded Message list"
 msgstr "قائمة رسائل مشعّبة"
 
 #: ../ui/evolution-mail-list.xml.h:31
-#, fuzzy
 msgid "_Group By Threads"
-msgstr "مجموعة"
+msgstr "جم_ع حسب الخيوط"
 
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-mail-message.xml.h:116
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
@@ -20064,29 +19881,24 @@ msgid "Reset the text to its original size"
 msgstr "أعِد ضبط النّص لحجمه الأصلي"
 
 #: ../ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Save the selected messages as a text file"
-msgstr "احفظ الرّسالة كملف نصّي"
+msgstr "احفظ الرسائل المنتقاه كملف نصّي"
 
 #: ../ui/evolution-mail-message.xml.h:86
-#, fuzzy
 msgid "Search Folder from Mailing _List..."
-msgstr "ابحث مجلّد قائمة."
+msgstr "مجلد بحث من قا_ئمة بريدية..."
 
 #: ../ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "Search Folder from Recipients..."
-msgstr "ابحث مجلّد المستلِمون."
+msgstr "مجلد بحث للرسائل بالمستلمين..."
 
 #: ../ui/evolution-mail-message.xml.h:88
-#, fuzzy
 msgid "Search Folder from S_ubject..."
-msgstr "ابحث مجلّد الموضوع."
+msgstr "مجلد بحث للرسائل بالمو_ضوع..."
 
 #: ../ui/evolution-mail-message.xml.h:89
-#, fuzzy
 msgid "Search Folder from Sen_der..."
-msgstr "ابحث مجلّد المرسِل."
+msgstr "مجلد بحث للرسائل من ال_مرسِل..."
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
@@ -20109,14 +19921,12 @@ msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "اظهر مؤشّر وامض في متن الرّسائل المعروضة"
 
 #: ../ui/evolution-mail-message.xml.h:95
-#, fuzzy
 msgid "Show messages in the normal style"
-msgstr "اظهر الرّسائل المحذوفة في قائمة الرّسائل"
+msgstr "اظهر الرّسائل بالأسلوب العادي"
 
 #: ../ui/evolution-mail-message.xml.h:96
-#, fuzzy
 msgid "Show messages with all email headers"
-msgstr "اظهر الرّسالة مع كل ترويسات البريد الإلكتروني"
+msgstr "اظهر الرّسائل مع كل ترويسات البريد الإلكتروني"
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Show the raw email source of the message"
@@ -20131,7 +19941,6 @@ msgid "Uni_mportant"
 msgstr "غ_ير مهم"
 
 #: ../ui/evolution-mail-message.xml.h:100
-#, fuzzy
 msgid "Zoom _Out"
 msgstr "ت_صغير"
 
@@ -20150,14 +19959,12 @@ msgid "_Clear Flag"
 msgstr "امسح "
 
 #: ../ui/evolution-mail-message.xml.h:106
-#, fuzzy
 msgid "_Delete Message"
-msgstr "احذف رسالة"
+msgstr "اح_ذف الرسالة"
 
 #: ../ui/evolution-mail-message.xml.h:108
-#, fuzzy
 msgid "_Find in Message..."
-msgstr "إيجاد بوصة رسالة."
+msgstr "أو_جد في الرسالة..."
 
 #: ../ui/evolution-mail-message.xml.h:109
 #, fuzzy
@@ -20183,28 +19990,24 @@ msgid "_Junk"
 msgstr "_نفاية"
 
 #: ../ui/evolution-mail-message.xml.h:115
-#, fuzzy
 msgid "_Load Images"
-msgstr "تحميل صور"
+msgstr "_حمل الصور"
 
 #: ../ui/evolution-mail-message.xml.h:117
-#, fuzzy
 msgid "_Message Source"
-msgstr "رسالة المصدر"
+msgstr "م_صدر الرسالة"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
 msgstr "الرّسالة ال_تّالية"
 
 #: ../ui/evolution-mail-message.xml.h:120
-#, fuzzy
 msgid "_Normal Size"
 msgstr "حجم _عادي"
 
 #: ../ui/evolution-mail-message.xml.h:121
-#, fuzzy
 msgid "_Not Junk"
-msgstr "لا نفاية"
+msgstr "_ليس نفاية"
 
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Open in New Window"
@@ -20247,44 +20050,36 @@ msgid "Main toolbar"
 msgstr "عمود الأدوات الرّئيسي"
 
 #: ../ui/evolution-memos.xml.h:3
-#, fuzzy
 msgid "Copy selected memo"
-msgstr "نسخ مُنتقى"
+msgstr "انسخ التذكير المُنتقى"
 
 #: ../ui/evolution-memos.xml.h:5
-#, fuzzy
 msgid "Cut selected memo"
-msgstr "قص مُنتقى"
+msgstr "قص التذكير المُنتقى"
 
 #: ../ui/evolution-memos.xml.h:7
-#, fuzzy
 msgid "Delete selected memos"
-msgstr "احذف مُنتقى"
+msgstr "احذف التذكيرات المُنتقاة"
 
 #: ../ui/evolution-memos.xml.h:9
-#, fuzzy
 msgid "Paste memo from the clipboard"
-msgstr "لصق"
+msgstr "الصق تذكير من الحافظة"
 
 #: ../ui/evolution-memos.xml.h:10
-#, fuzzy
 msgid "Previews the list of memos to be printed"
-msgstr "قائمة من"
+msgstr "معاينة قائمة التذكيرات التي ستتم طباعتها"
 
 #: ../ui/evolution-memos.xml.h:13
-#, fuzzy
 msgid "Print the list of memos"
-msgstr "اطبع قائمة من"
+msgstr "اطبع قائمة التذكيرات"
 
 #: ../ui/evolution-memos.xml.h:14
-#, fuzzy
 msgid "View the selected memo"
-msgstr "اعرض مُنتقى"
+msgstr "اعرض التذكير المنتقى"
 
 #: ../ui/evolution-memos.xml.h:18
-#, fuzzy
 msgid "_Open Memo"
-msgstr "افتح تذكير"
+msgstr "ا_فتح تذكير"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
@@ -20543,9 +20338,8 @@ msgid "Click change / view the status details of the task"
 msgstr "من"
 
 #: ../ui/evolution-task-editor.xml.h:9
-#, fuzzy
 msgid "Status Details"
-msgstr "الحالة تفاصيل"
+msgstr "تفاصيل الحالة"
 
 #: ../ui/evolution-task-editor.xml.h:10
 msgid "Time Zone"
@@ -20596,9 +20390,8 @@ msgid "Print the list of tasks"
 msgstr "طبع قائمة المهام"
 
 #: ../ui/evolution-tasks.xml.h:18
-#, fuzzy
 msgid "Show task preview window"
-msgstr "اظهر نافذة معاينة الرّسائل"
+msgstr "أظهر نافذة معاينة المهمة"
 
 #: ../ui/evolution-tasks.xml.h:19
 msgid "Task _Preview"
@@ -20677,28 +20470,24 @@ msgid "Import data from other programs"
 msgstr "استيراد بيانات من برامج أخرى"
 
 #: ../ui/evolution.xml.h:16
-#, fuzzy
 msgid "Lay_out"
-msgstr "التصميم"
+msgstr "ت_خطيط"
 
 #: ../ui/evolution.xml.h:18
-#, fuzzy
 msgid "New _Window"
-msgstr "جديد نافذة"
+msgstr "ناف_ذة جديدة"
 
 #: ../ui/evolution.xml.h:19
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "التّف_ضيلات"
+msgstr "تف_ضيلات"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / Receive"
 msgstr "ارسال / تلقي"
 
 #: ../ui/evolution.xml.h:21
-#, fuzzy
 msgid "Send / _Receive"
-msgstr "أرسِل"
+msgstr "ارسال / _تلقي"
 
 #: ../ui/evolution.xml.h:22
 msgid "Send queued items and retrieve new items"
@@ -20709,24 +20498,20 @@ msgid "Set up Pilot configuration"
 msgstr "ضبط إعدادات الحاسوب الكفّي"
 
 #: ../ui/evolution.xml.h:24
-#, fuzzy
 msgid "Show Side _Bar"
-msgstr "اعرض عمود"
+msgstr "أظهر ال_شريط الجانبي"
 
 #: ../ui/evolution.xml.h:25
-#, fuzzy
 msgid "Show _Status Bar"
-msgstr "اعرض الحالة عمود"
+msgstr "أظهر شريط ال_حالة"
 
 #: ../ui/evolution.xml.h:26
-#, fuzzy
 msgid "Show _Toolbar"
-msgstr "اعرض"
+msgstr "أظهر شريط الأ_دوات"
 
 #: ../ui/evolution.xml.h:27
-#, fuzzy
 msgid "Show information about Evolution"
-msgstr "اعرض حول إيفُليوشن"
+msgstr "أظهر معلومات حول إيفُليوشن"
 
 #: ../ui/evolution.xml.h:28
 msgid "Submit Bug Report"
@@ -20750,22 +20535,18 @@ msgid "Toggle whether we are working offline."
 msgstr "تحول."
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar style"
-msgstr "بدون عمود الأدوات"
+msgstr "مثل شري_ط أدوات نوتيلس"
 
 #: ../ui/evolution.xml.h:37
-#, fuzzy
 msgid "View/Hide the Side Bar"
-msgstr "اعرض إخفاء عمود"
+msgstr "عرض/إخفاء الشريط الجانبي"
 
 #: ../ui/evolution.xml.h:38
-#, fuzzy
 msgid "View/Hide the Status Bar"
-msgstr "اعرض إخفاء الحالة عمود"
+msgstr "عرض/إخفاء شريط الحالة"
 
 #: ../ui/evolution.xml.h:39
-#, fuzzy
 msgid "_About"
 msgstr "_حوْل"
 
@@ -20921,9 +20702,8 @@ msgstr ""
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:188
-#, fuzzy
 msgid "Collection"
-msgstr "م_جموعات صور"
+msgstr "مجموعة"
 
 #: ../widgets/menus/gal-define-views-dialog.c:325
 #: ../widgets/menus/gal-define-views.glade.h:4
@@ -21640,9 +21420,8 @@ msgid "_Available Categories:"
 msgstr "متوفر الفئات:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
-#, fuzzy
 msgid "categories"
-msgstr "الفئات"
+msgstr "فئات"
 
 #: ../widgets/table/e-cell-combo.c:177
 #, fuzzy
@@ -21686,9 +21465,8 @@ msgid "BG Color Column"
 msgstr "عمود لون الخلفيّة"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
-#, fuzzy
 msgid "<- _Remove"
-msgstr "احذف"
+msgstr "<- إ_زالة"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
@@ -21801,9 +21579,8 @@ msgid "_Group By..."
 msgstr "_جمع حسب..."
 
 #: ../widgets/table/e-table-config.glade.h:19
-#, fuzzy
 msgid "_Show these fields in order:"
-msgstr "اعرض بوصة:"
+msgstr "أ_ظهر هذه الحقول بترتيب:"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:635
@@ -21824,16 +21601,16 @@ msgid "Add a column..."
 msgstr "أضِف عمود..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
-#, fuzzy
 msgid "Field Chooser"
 msgstr "مختار الحقول"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
-#, fuzzy
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
-msgstr "إلى إضافة أ جدول بوصة."
+msgstr ""
+"لإضافة عمود إلى جدولك، اسحبه\n"
+"إلى الموقع الذي تريد أن يظهر فيه"
 
 #: ../widgets/table/e-table-group-container.c:345
 #, fuzzy, c-format
@@ -21980,9 +21757,8 @@ msgid "Customize Current View..."
 msgstr "تخصيص المعرض الحالي..."
 
 #: ../widgets/table/e-table-header-item.c:1554
-#, fuzzy
 msgid "Sort By"
-msgstr "رتّب"
+msgstr "رتّب حسب"
 
 #: ../widgets/table/e-table-header-item.c:1899 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
