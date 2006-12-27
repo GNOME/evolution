@@ -24448,7 +24448,7 @@ msgstr "Visualització de _mes"
 # fitxer: views.ca.po
 #: ../views/calendar/galview.xml.h:5
 msgid "_Work Week View"
-msgstr "Visualització de _setmana"
+msgstr "Visualització de _setmana laborable"
 
 # fitxer: views.ca.po
 #: ../views/mail/galview.xml.h:1
