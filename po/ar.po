@@ -16192,7 +16192,7 @@ msgstr "أُرسِلَ للتقويم '%s' كمرفوض"
 #: ../plugins/itip-formatter/itip-formatter.c:882
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
-msgstr "أُرسِلَ للتقويم '%s' كملغي"
+msgstr "أُرسِلَ للتقويم '%s' كمهجور"
 
 #: ../plugins/itip-formatter/itip-formatter.c:975
 #, c-format
