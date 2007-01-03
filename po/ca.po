@@ -1548,7 +1548,7 @@ msgstr "Missatgeria MSN"
 # fitxer: smime.ca.po
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Mailing Address"
-msgstr "Adreça de correu electrònic"
+msgstr "Adreça postal"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
@@ -4979,49 +4979,49 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
-"S'esborrarà tota la informació d'aquestes entrades al diari i no es podran "
+"Se suprimirà tota la informació d'aquestes entrades al diari i no es podrà "
 "recuperar."
 
 #: ../calendar/calendar.error.xml.h:4
 msgid ""
 "All information in this journal will be deleted and can not be restored."
 msgstr ""
-"S'esborrarà tota la informació d'aquesta entrada al diari i no es podrà "
+"Se suprimirà tota la informació d'aquesta entrada al diari i no es podrà "
 "recuperar."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr "S'esborrarà tota la informació d'aquestes cites i no es recuperarà."
+msgstr "Se suprimirà tota la informació d'aquestes cites i no es podrà recuperar."
 
 #: ../calendar/calendar.error.xml.h:6
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
-"S'esborrarà tota la informació sobre aquestes tasques i no es recuperarà."
+"Se suprimirà tota la informació sobre aquestes tasques i no es podrà recuperar."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr "S'esborrarà tota la informació d'aquesta cita i no es podrà recuperar."
+msgstr "Se suprimirà tota la informació d'aquesta cita i no es podrà recuperar."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
-"S'esborrarà tota la informació d'aquesta entrada al diari, i no es podrà "
+"Se suprimirà tota la informació d'aquesta entrada al diari, i no es podrà "
 "recuperar."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
-"S'esborrarà tota la informació sobre aquesta reunió i no es recuperarà."
+"Se suprimirà tota la informació sobre aquesta reunió i no es podrà recuperar."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
-msgstr "S'esborrarà tota la informació sobre aquesta tasca i no es recuperarà."
+msgstr "Se suprimirà tota la informació sobre aquesta tasca i no es podrà recuperar."
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../calendar/calendar.error.xml.h:11
@@ -5046,7 +5046,7 @@ msgstr "Esteu segur de voler suprimir aquestes {0} cites?"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Esteu segur que voleu esborrar aquestes {0} entrades al diari?"
+msgstr "Esteu segur que voleu suprimir aquestes {0} entrades al diari?"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../calendar/calendar.error.xml.h:16
@@ -5062,7 +5062,7 @@ msgstr "Esteu segur de voler suprimir aquesta cita?"
 #: ../calendar/calendar.error.xml.h:18
 #: ../calendar/gui/dialogs/delete-comp.c:189
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Esteu segur que voleu esborrar aquesta entrada al diari?"
+msgstr "Esteu segur que voleu suprimir aquesta entrada al diari?"
 
 # fitxer: mail.ca.po.3
 #: ../calendar/calendar.error.xml.h:19
@@ -16051,7 +16051,7 @@ msgstr "Colors"
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
-msgstr "Confirma _quan s'està suprimint una carpeta"
+msgstr  "Demana'm _confirmació per a suprimir una carpeta"
 
 # fitxer: mail.ca.po.2
 #: ../mail/mail-config.glade.h:59
@@ -17308,7 +17308,7 @@ msgid ""
 "will be deleted permanently."
 msgstr ""
 "Si suprimiu la carpeta, tots els continguts i els de les subcarpetes "
-"s'esborraran permanentment."
+"se suprimiran permanentment."
 
 #: ../mail/mail.error.xml.h:59
 msgid "If you proceed, all proxy accounts will be deleted permanently."
@@ -17447,7 +17447,7 @@ msgstr "S'està consultant al servidor els mecanismes d'autenticació suportats.
 # fitxer: designs.ca.po
 #: ../mail/mail.error.xml.h:86
 msgid "Read receipt requested."
-msgstr "S'ha demanat un avís de lectura."
+msgstr "S'ha sol·licitat la confirmació de lectura."
 
 # fitxer: mail.ca.po.3
 #: ../mail/mail.error.xml.h:87
@@ -17462,7 +17462,7 @@ msgstr "S'han actualitzat les carpetes de cerca automàticament."
 # fitxer: designs.ca.po
 #: ../mail/mail.error.xml.h:89
 msgid "Send Receipt"
-msgstr "Avís d'enviament"
+msgstr "Envia la confirmació"
 
 # fitxer: smime.ca.po
 #: ../mail/mail.error.xml.h:90
@@ -18409,7 +18409,7 @@ msgstr "No s'ha pogut trobar el delegat %s en l'Active Directory"
 #: ../plugins/exchange-operations/exchange-delegates.c:717
 #, c-format
 msgid "Could not remove delegate %s"
-msgstr "No s'ha pogut esborrar el delegat %s"
+msgstr "No s'ha pogut suprimir el delegat %s"
 
 # fitxer: calendar.ca.po.4
 #: ../plugins/exchange-operations/exchange-delegates.c:777
@@ -23485,7 +23485,7 @@ msgstr "Marca els missatges seleccionats com a no importants"
 # fitxer: ui.evolution-mail-message.xml.h.ca.po
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
-msgstr "Marca els missatges seleccionats per esborrar"
+msgstr "Marca els missatges seleccionats per a suprimir-los"
 
 # fitxer: ui.evolution-mail-message.xml.h.ca.po
 #: ../ui/evolution-mail-message.xml.h:57
