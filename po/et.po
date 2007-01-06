@@ -2,10 +2,11 @@
 # Estonian translation of Evolution.
 #
 # Copyright (C) 2001-2006 Free Software Foundation, Inc.
+# Copyright (C) 2007, The GNOME Project.
 # This file is distributed under the same license as the evolution package.
 #
 # Ilmar Kerm <ikerm@hot.ee>, 2001.
-# Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005, 2006.
+# Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2007.
 # Kaarel Jõgi <kaarel@gg.ee>, 2002.
 # Priit Laes <amd@store20.com>, 2003-2006.
 #
@@ -16,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-04 07:17+0200\n"
-"PO-Revision-Date: 2006-11-29 19:34+0200\n"
+"PO-Revision-Date: 2007-01-05 21:45+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -14795,7 +14796,7 @@ msgstr "%a, %d.%m.%Y %I:%M:%S %p"
 
 #: ../mail/message-list.c:1505 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
-msgstr "%a, %d. %Y"
+msgstr "%d. %b %Y"
 
 #: ../mail/message-list.c:2261 ../mail/message-list.etspec.h:9
 msgid "Messages"
@@ -17775,7 +17776,7 @@ msgstr "Bug buddy (veateatamisprogramm) ei saa käivitada."
 msgid "translator-credits"
 msgstr ""
 "Ilmar Kerm <ikerm@hot.ee>, 2001.\n"
-"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005, 2006.\n"
+"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2007.\n"
 "Kaarel Jõgi <kaarel@gg.ee>, 2002.\n"
 "Priit Laes <amd@store20.com>, 2003-2005."
 
@@ -18348,7 +18349,7 @@ msgstr "Organisatsioon (O)"
 
 #: ../smime/gui/smime-ui.glade.h:33
 msgid "Organizational Unit (OU)"
-msgstr "Organisatsiooniüksus (OU):"
+msgstr "Allüksus (OU):"
 
 #: ../smime/gui/smime-ui.glade.h:34
 msgid "SHA1 Fingerprint"
