@@ -1,3 +1,8 @@
+2007-01-07  Andre Klapper  <a9016009@gmx.de>
+
+	* configure.in: fix the build failure caused by 
+	SVN revision 33110 (swedish quickref addition).
+
 2006-12-18  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.9.4 release
