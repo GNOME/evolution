@@ -1,3 +1,11 @@
+2007-01-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	Fixes #377511
+	* gui/e-meeting-list-view.c: (get_index_from_role):
+	Return the default value 1.
+	(role_edited_cb): Move the attendee to the right section
+	in the name selector.			  
+
 2007-01-08  Wang Xin  <jedy.wang@sun.com>
 	
 	Fixes #389966
