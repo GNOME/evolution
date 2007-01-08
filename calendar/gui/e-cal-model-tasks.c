@@ -654,7 +654,7 @@ set_status (ECalModelComponent *comp_data, const char *value)
 
 	/* an empty string is the same as 'None' */
 	if (!value[0] || !e_util_utf8_strcasecmp (value, _("None")))
-		status = ICAL_STATUS_NONE;
+		return;
 	else if (!e_util_utf8_strcasecmp (value, _("Not Started")))
 		status = ICAL_STATUS_NEEDSACTION;
 	else if (!e_util_utf8_strcasecmp (value, _("In Progress")))
