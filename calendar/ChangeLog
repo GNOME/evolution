@@ -1,4 +1,10 @@
 2007-01-08  Matthew Barnes  <mbarnes@redhat.com>
+	
+	Fixes #383027
+	* gui/itip-utils.c: (itip_get_comp_attendee): Handle the case
+ 	when there is no default account.						      
+
+2007-01-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes #377511
 	* gui/e-meeting-list-view.c: (get_index_from_role):
