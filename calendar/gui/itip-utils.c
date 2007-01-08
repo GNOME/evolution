@@ -255,7 +255,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	account address if the email address is not set in the backend */
 	/* FIXME do we have a better way ? */
 	a = itip_addresses_get_default ();
-	address = g_strdup (a->id->address);
+	address = g_strdup ((a != NULL) ? a->id->address : "");
 	
 	e_cal_component_free_attendee_list (attendees);
 	return address;
