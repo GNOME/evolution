@@ -1,4 +1,4 @@
-2006-12-04  Harish Krishnaswamy  <kharish@novell.com>
+2007-01-08  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-filter-bar.c: (build_items): Initialize ESearchBarItem
 	type to ESB_ITEMTYPE_RADIO. Fixes #382860.
