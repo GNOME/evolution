@@ -1,3 +1,19 @@
+2006-01-08  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	** Fixes 346728, 268412
+	
+	* mail/em-subscribe-editor.c: (sub_fill_level): When a folderinfo
+	has no child but CAMEL_FOLDER_NOCHILDREN not set, create a place
+	holder node, such that, on-expanding it, folders will be loaded on
+	demand.  This saves quite-a-lot-of-memory and time when an account
+	has lots of public-folders - viz., exchange/IMAP
+	(sub_row_expanded): Check for the place-holder node and fire-up a
+	pending.
+	(sub_row_activated): Just expand and collapse the tree accordingly
+	- rest will be taken care by sub_row_expanded()
+	(sub_folderinfo_free): Once fillin is over, expand the node - iff
+	node is non-null.
+	
 2006-12-22  Simon Zheng  <simon.zheng@sun.com>
 
 	* mail/em-account-editor.c: (emae_setup_service):

@@ -59,7 +59,7 @@
 #include <gtk/gtkprogressbar.h>
 #include <gtk/gtkmenuitem.h>
 
-#define d(x) 
+#define d(x)
 
 typedef struct _EMSubscribeEditor EMSubscribeEditor;
 struct _EMSubscribeEditor {
@@ -308,17 +308,32 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			gtk_tree_model_get_iter(gtk_tree_view_get_model(sub->tree), &iter, node->path);
 		}
 
+		d(printf("flags & CAMEL_FOLDER_NOCHILDREN=%d, f & CAMEL_FOLDER_NOINFERIORS=%d\t fi->full_name=[%s], node->path=%p\n", 
+			 fi->flags & CAMEL_FOLDER_NOCHILDREN, fi->flags & CAMEL_FOLDER_NOINFERIORS, fi->full_name,
+			 node->path));
+
 		if ((fi->flags & CAMEL_FOLDER_NOINFERIORS) == 0
 		    && node->path) {
 			/* save time, if we have any children alread, dont re-scan */
 			if (fi->child) {
 				d(printf("scanning child '%s'\n", fi->child->full_name));
 				sub_fill_level(sub, fi->child, &iter, FALSE);
-			} else {
+			} else if (!(fi->flags & CAMEL_FOLDER_NOCHILDREN)) {
+				GtkTreeIter new_iter; 
+				d(printf("flags: CAMEL_FOLDER_NOCHILDREN is not set '%s'\n", fi->full_name));
+				gtk_tree_store_append(treestore, &new_iter, &iter);
+				gtk_tree_store_set(treestore, &new_iter, 0, 0, 1, "Loading...", 2, NULL, -1);
+			} 	
+			else {
 				if (pending)
 					e_dlist_addtail(&sub->pending, (EDListNode *)node);
 			}
+		} else {
+			d(printf("%s:%d:%s: fi->flags & CAMEL_FOLDER_NOINFERIORS=%d\t node->path=[%p]\n",
+				 __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__, fi->flags & CAMEL_FOLDER_NOINFERIORS,
+				 node->path));
 		}
+
 		fi = fi->next;
 	}
 }
@@ -339,10 +354,11 @@ static void
 sub_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
+	char *pub_full_name=NULL;
 
 	if (m->seq == m->sub->seq) {
 		camel_operation_register(mm->cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:"", CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
 		camel_operation_unregister(mm->cancel);
 	}
 }
@@ -390,6 +406,12 @@ sub_folderinfo_free(struct _mail_msg *mm)
 	if (!m->sub->cancel)
 		sub_editor_busy(m->sub->editor, -1);
 
+	/* Now we just load the children on demand, so set the 
+	   expand state to true if m->node is not NULL 
+	*/
+	if (m->node)
+		gtk_tree_view_expand_row(m->sub->tree, m->node->path, FALSE);
+
 	sub_unref(m->sub);
 }
 
@@ -406,7 +428,8 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 	struct _emse_folderinfo_msg *m;
 	int id;
 
-	d(printf("Starting get folderinfo of '%s'\n", node?node->info->full_name:"<root>"));
+	d(printf("%s:%d:%s: Starting get folderinfo of '%s'\n", __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__,
+		 node?node->info->full_name:"<root>"));
 
 	m = mail_msg_new (&sub_folderinfo_op, NULL, sizeof(*m));
 	sub_ref(sub);
@@ -480,26 +503,13 @@ sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
 }
 
 /* double-clicking causes a node item to be evaluated directly */
-static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub) {
-	EMSubscribeNode *node;
-	GtkTreeIter iter;
-	GtkTreeModel *model = gtk_tree_view_get_model(tree);
+static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub) 
+{
+	if (!gtk_tree_view_row_expanded(tree, path))
+		gtk_tree_view_expand_row(tree, path, FALSE);
+	else
+		gtk_tree_view_collapse_row(tree, path);
 
-	if (gtk_tree_model_get_iter(model, &iter, path) != TRUE) return;
-
-	gtk_tree_model_get(model, &iter, 2, &node, -1);
-
-	/* check whether the item is already processed */
-	if (node->path == NULL)
-		return;
-
-	/* remove it from wherever in the list it is, and place it in front instead */
-	e_dlist_remove((EDListNode *)node);
-	e_dlist_addhead(&sub->pending, (EDListNode *)node);
-
-	if (sub->pending_id == -1
-	    && (node = (EMSubscribeNode *)e_dlist_remtail(&sub->pending)))
-		sub_queue_fill_level(sub, node);
 }
 
 static void
@@ -508,29 +518,40 @@ sub_row_expanded(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, EMSubs
 	EMSubscribeNode *node;
 	GtkTreeIter child;
 	GtkTreeModel *model = (GtkTreeModel *)gtk_tree_view_get_model(tree);
-	EDList list;
+	char *row_name;
 
-	gtk_tree_model_get(model, iter, 2, &node, -1);
-	if (node->path == NULL) {
-		d(printf("path '%s' already processed\n", node->info->full_name));
+	gtk_tree_model_get(model, iter, 1, &row_name, -1);
+	d(printf("%s:%d:%s: row-expanded '%s'\n", __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__,
+		 row_name?row_name:"<root>"));
+
+	/* Do we really need to fetch the children for this row? */
+	if (gtk_tree_model_iter_n_children(model, iter) > 1) {
+		gtk_tree_model_get(model, iter, 2, &node, -1);
+		if (node->path) {
+			/* Mark it as already-processed path */
+			gtk_tree_path_free(node->path);
+			node->path=NULL;
+		}
 		return;
-	}
-	gtk_tree_path_free(node->path);
-	node->path = NULL;
-
-	e_dlist_init(&list);
-
-	/* add all children nodes to pending, and fire off a pending */
-	/* we add them to the head of the pending list, to make it more interactive */
-	gtk_tree_model_iter_children(model, &child, iter);
-	do {
+	} else {
+		gtk_tree_model_iter_children(model, &child, iter);
 		gtk_tree_model_get(model, &child, 2, &node, -1);
-		if (node->path)
-			e_dlist_addtail(&list, (EDListNode *)node);
-	} while (gtk_tree_model_iter_next(model, &child));
-
-	while ( (node = (EMSubscribeNode *)e_dlist_remtail(&list)) )
-		e_dlist_addhead(&sub->pending, (EDListNode *)node);
+		if (!node) {
+			/* This is the place holder node, delete it and fire-up a pending */
+			gtk_tree_store_remove((GtkTreeStore *)model, &child);
+			gtk_tree_model_get(model, iter, 2, &node, -1);
+		} else {
+			gtk_tree_model_get(model, iter, 2, &node, -1);
+			if (node->path) {
+				/* Mark it as already-processed path */
+				gtk_tree_path_free(node->path);
+				node->path=NULL;
+			}
+			return;
+		}
+	}
+	
+	e_dlist_addhead(&sub->pending, (EDListNode *)node);
 
 	if (sub->pending_id == -1
 	    && (node = (EMSubscribeNode *)e_dlist_remtail(&sub->pending)))
