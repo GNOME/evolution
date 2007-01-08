@@ -234,7 +234,7 @@ get_index_from_role (icalparameter_role role)
 		case ICAL_ROLE_NONPARTICIPANT:
 			return 3;
 		default:
-			return 4;
+			return 1;
 	}
 }
 
@@ -435,7 +435,20 @@ type_edited_cb (GtkCellRenderer *renderer, const gchar *path, const gchar *text,
 static void
 role_edited_cb (GtkCellRenderer *renderer, const gchar *path, const gchar *text, GtkTreeView *view)
 {
-	value_edited (view, E_MEETING_STORE_ROLE_COL, path, text);
+	/* This is a little more complex than the other callbacks because
+	 * we also need to update the "Required Participants" dialog. */
+
+	EMeetingStore *model = E_MEETING_STORE (gtk_tree_view_get_model (view));
+	GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
+	gint row = gtk_tree_path_get_indices (treepath)[0];
+	EMeetingAttendee *attendee;
+
+	attendee = e_meeting_store_find_attendee_at_row (model, row);
+	e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), attendee);
+	e_meeting_store_set_value (model, row, E_MEETING_STORE_ROLE_COL, text);
+	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
+
+	gtk_tree_path_free (treepath);
 }
 
 static void
