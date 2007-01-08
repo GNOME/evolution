@@ -331,6 +331,9 @@ static char *print_remote (GnomePilotRecord *remote)
 {
 	static char buff[ 64 ];
 	struct Memo memo;
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t *buffer;
+#endif
 
 	if (remote == NULL) {
 		sprintf (buff, "[NULL]");
@@ -338,8 +341,22 @@ static char *print_remote (GnomePilotRecord *remote)
 	}
 
 	memset (&memo, 0, sizeof (struct Memo));
-	unpack_Memo (&memo, remote->record, remote->length);
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+	unpack_Memo (&memo, buffer, memo_v1);
 
+	pi_buffer_free(buffer);
+#else
+	unpack_Memo (&memo, remote->record, remote->length);
+#endif
 	g_snprintf (buff, 64, "['%s']",
 		    memo.text ?
 		    memo.text : "");
@@ -452,6 +469,9 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 {
 	GnomePilotRecord p;
 	static char record[0xffff];
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 
 	g_assert (local->comp != NULL);
 	g_assert (local->memo != NULL );
@@ -465,9 +485,23 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 	p.secret = local->local.secret;
 
 	/* Generate pilot record structure */
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+		return p;
+	}
+
+	pack_Memo (local->memo, buffer, memo_v1);
+	p.record = g_new0(unsigned char, buffer->used);
+	p.length = buffer->used;
+	memcpy(p.record, buffer->data, buffer->used);
+
+	pi_buffer_free(buffer);
+#else
 	p.record = record;
 	p.length = pack_Memo (local->memo, p.record, 0xffff);
-
+#endif
 	return p;	
 }
 
@@ -568,16 +602,41 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 
 	/* Don't overwrite the category */
 	if (local->local.ID != 0) {
+#ifdef PILOT_LINK_0_12
+		struct Memo memo;
+		pi_buffer_t * record;
+#else
 		char record[0xffff];
+#endif
 		int cat = 0;
 		
+#ifdef PILOT_LINK_0_12
+		record = pi_buffer_new(DLP_BUF_SIZE);
+		if(record == NULL){
+			pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+			return;
+		}
+#endif
+
 		LOG(fprintf(stderr, "local_record_from_comp: calling dlp_ReadRecordById\n"));
 		if (dlp_ReadRecordById (ctxt->dbi->pilot_socket, 
 					ctxt->dbi->db_handle,
+#ifdef PILOT_LINK_0_12
+					local->local.ID, record, 
+					NULL, NULL, &cat) > 0) {
+			local->local.category = cat;
+			memset (&memo, 0, sizeof (struct Memo));
+			unpack_Memo (&memo, record, memo_v1);
+			local->memo->text = strdup (memo.text);
+			free_Memo (&memo);
+		}
+		pi_buffer_free (record);
+#else
 					local->local.ID, &record, 
 					NULL, NULL, NULL, &cat) > 0) {
 			local->local.category = cat;
-		}
+		}	
+#endif
 		LOG(fprintf(stderr, "local_record_from_comp: done calling dlp_ReadRecordById\n"));
 	}
 	
@@ -704,11 +763,27 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	char *txt, *txt2, *txt3;
 	char *category;
 	int i;
-	
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 	g_return_val_if_fail (remote != NULL, NULL);
 
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		return NULL;
+	}
+	
+	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+		return NULL;
+	}
+	
+	unpack_Memo (&memo, buffer, memo_v1);
+	pi_buffer_free(buffer);
+#else
 	memset (&memo, 0, sizeof (struct Memo));
 	unpack_Memo (&memo, remote->record, remote->length);
+#endif
 
 	utc_zone = icaltimezone_get_utc_timezone ();
 	now = icaltime_from_timet_with_zone (time (NULL), FALSE, 
@@ -840,6 +915,9 @@ pre_sync (GnomePilotConduit *conduit,
 	char *filename, *change_id;
 	icalcomponent *icalcomp;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
 
@@ -929,10 +1007,21 @@ pre_sync (GnomePilotConduit *conduit,
 	g_message("num_records: %d\nadd_records: %d\nmod_records: %d\ndel_records: %d\n",
 		num_records, add_records, mod_records, del_records);
 
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		pi_set_error(dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+		return -1;
+	}
+
+ 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
+				DLP_BUF_SIZE,
+				buffer);
+#else
 	buf = (unsigned char*)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
 			      (unsigned char *)buf, 0xffff);
-	
+#endif
 	if (len < 0) {
 		WARN (_("Could not read pilot's Memo application block"));
 		WARN ("dlp_ReadAppBlock(...) = %d", len);
@@ -940,7 +1029,15 @@ pre_sync (GnomePilotConduit *conduit,
 					   _("Could not read pilot's Memo application block"));
 		return -1;
 	}
+#ifdef PILOT_LINK_0_12
+	buf = g_new0 (unsigned char,buffer->used);
+	memcpy(buf, buffer->data, buffer->used);
+ 	unpack_MemoAppInfo (&(ctxt->ai), buf, len);
+	pi_buffer_free(buffer);
+#else
 	unpack_MemoAppInfo (&(ctxt->ai), buf, len);
+#endif
+
 	g_free (buf);
 	
 	lastDesktopUniqueID = 128;

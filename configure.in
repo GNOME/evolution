@@ -609,8 +609,22 @@ int main (int argc, char **argv)
 	fi
 fi
 AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, test "x$enable_pilot_conduits" = "xyes")
-if test x$enable_pilot_conduits = xyes; then
-   msg_pilot=yes
+dnl ******************************
+dnl If pilot conduits are enabled, check version of pilot-link
+dnl ******************************
+ if test x$enable_pilot_conduits = xyes; then
+    msg_pilot=yes
+
+   PILOT_LINK_CHECK(0.11.4)
+   AC_SUBST(PILOT_LINK_MAJOR)
+   AC_SUBST(PILOT_LINK_MINOR)
+   AC_SUBST(PILOT_LINK_MICRO)
+   AC_SUBST(PILOT_LINK_PATCH)
+   AC_SUBST(PILOT_LINK_VERSION)
+
+   if test $PILOT_LINK_MINOR -ge 12; then
+      AC_DEFINE(PILOT_LINK_0_12,,[Building against pilot-link 0.12.0 or greater])
+   fi
 else
    msg_pilot=no
 fi

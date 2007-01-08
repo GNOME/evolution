@@ -462,6 +462,9 @@ static char *print_remote (GnomePilotRecord *remote)
 {
 	static char buff[ 4096 ];
 	struct Address addr;
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 
 	if (remote == NULL) {
 		sprintf (buff, "[NULL]");
@@ -469,7 +472,21 @@ static char *print_remote (GnomePilotRecord *remote)
 	}
 
 	memset (&addr, 0, sizeof (struct Address));
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+	unpack_Address (&addr, buffer, address_v1);
+	pi_buffer_free(buffer);
+#else
 	unpack_Address (&addr, remote->record, remote->length);
+#endif
 
 	g_snprintf (buff, 4096, "['%s' '%s' '%s']",
 		    addr.entry[entryLastname] ?
@@ -792,6 +809,9 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 {
 	GnomePilotRecord p;
 	static char record[0xffff];
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 	
 	g_assert (local->addr != NULL );
 	
@@ -804,9 +824,25 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 	p.secret = local->local.secret;
 
 	/* Generate pilot record structure */
+
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+		return p;
+	}
+
+	pack_Address (local->addr, buffer, address_v1);
+
+	p.record = g_new0(unsigned char, buffer->used);
+	p.length = buffer->used;
+	memcpy(p.record, buffer->data, buffer->used);
+
+	pi_buffer_free(buffer);
+#else
 	p.record = record;
 	p.length = pack_Address (local->addr, p.record, 0xffff);
-
+#endif
 	return p;	
 }
 
@@ -834,16 +870,34 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 	 */
 	if (local->local.ID != 0) {
 		struct Address addr;
-		char record[0xffff];
 		int cat = 0;
+#ifdef PILOT_LINK_0_12
+		pi_buffer_t * record;
+		record = pi_buffer_new(DLP_BUF_SIZE);
+		if(record == NULL){
+			pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+			return;
+		}
+#else
+		char record[0xffff];
+#endif
 		
 		if (dlp_ReadRecordById (ctxt->dbi->pilot_socket, 
 					ctxt->dbi->db_handle,
+#ifdef PILOT_LINK_0_12
+					local->local.ID, record, 
+					NULL, NULL, &cat) > 0) {
+#else
 					local->local.ID, &record, 
 					NULL, NULL, NULL, &cat) > 0) {
+#endif
 			local->local.category = cat;
 			memset (&addr, 0, sizeof (struct Address));
+#ifdef PILOT_LINK_0_12
+			unpack_Address (&addr, record, address_v1);
+#else
 			unpack_Address (&addr, record, 0xffff);
+#endif
 			for (i = 0; i < 5; i++) {
 				if (addr.entry[entryPhone1 + i])
 					local->addr->entry[entryPhone1 + i] = 
@@ -858,6 +912,9 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 			}
 			free_Address (&addr);
 		}
+#ifdef PILOT_LINK_0_12
+		pi_buffer_free (record);
+#endif
 	}
 
 	local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_GIVEN_NAME));
@@ -1019,11 +1076,27 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	EContactField next_mail, next_home, next_work, next_fax;
 	EContactField next_other, next_main, next_pager, next_mobile;
 	int i;
-
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
-	unpack_Address (&address, remote->record, remote->length);
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+		return NULL;
+	}
 
+	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+		return NULL;
+	}
+	unpack_Address (&address, buffer, address_v1);
+	pi_buffer_free(buffer);
+#else
+	unpack_Address (&address, remote->record, remote->length);
+#endif
 	if (in_contact == NULL)
 		contact = e_contact_new ();
 	else
@@ -1217,6 +1290,9 @@ pre_sync (GnomePilotConduit *conduit,
 	char *change_id;
 	char *auth;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t *buffer;
+#endif
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
 
@@ -1302,10 +1378,19 @@ pre_sync (GnomePilotConduit *conduit,
   	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
   	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records);
 
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		return pi_set_error(dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+	}
+	
+	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
+			      DLP_BUF_SIZE, buffer);
+#else
 	buf = (unsigned char*)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
 			      (unsigned char *)buf, 0xffff);
-	
+#endif	
 	if (len < 0) {
 		WARN (_("Could not read pilot's Address application block"));
 		WARN ("dlp_ReadAppBlock(...) = %d", len);
@@ -1313,9 +1398,13 @@ pre_sync (GnomePilotConduit *conduit,
 					   _("Could not read pilot's Address application block"));
 		return -1;
 	}
+#ifdef PILOT_LINK_0_12
+	unpack_AddressAppInfo (&(ctxt->ai), buffer->data, len);
+	pi_buffer_free (buffer);
+#else
 	unpack_AddressAppInfo (&(ctxt->ai), buf, len);
 	g_free (buf);
-
+#endif
   	check_for_slow_setting (conduit, ctxt);
 	if (ctxt->cfg->sync_type == GnomePilotConduitSyncTypeCopyToPilot
 	    || ctxt->cfg->sync_type == GnomePilotConduitSyncTypeCopyFromPilot)

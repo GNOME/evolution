@@ -1,3 +1,13 @@
+2007-01-08  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	Patch submitted by Nathan Owens <pianocomp81@yahoo.com> and 
+	Jerry Yu <jijun.yu@sun.com>
+
+	* conduits/calendar/calendar-conduit.c: 
+	* conduits/todo/todo-conduit.c:
+	* conduits/memo/memo-conduit.c:Add pilot-link 0.12
+	compatibility
+	
 2007-01-08  Matthew Barnes  <mbarnes@redhat.com>
 	
 	Fixes #383027

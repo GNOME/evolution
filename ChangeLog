@@ -1,3 +1,11 @@
+2007-01-08  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	Patch submitted by Nathan Owens <pianocomp81@yahoo.com) and
+	Jerry Yu <jijun.yu@sun.com>
+	
+	* acinclude.m4: Define PILOT LINK version check macros
+	* configure.in: Check for PILOT LINK version 0.12
+	
 2007-01-07  Andre Klapper  <a9016009@gmx.de>
 
 	* configure.in: fix the build failure caused by 

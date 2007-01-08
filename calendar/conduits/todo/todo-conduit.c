@@ -402,15 +402,30 @@ static char *print_remote (GnomePilotRecord *remote)
 {
 	static char buff[ 4096 ];
 	struct ToDo todo;
-
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 	if (remote == NULL) {
 		sprintf (buff, "[NULL]");
 		return buff;
 	}
 
 	memset (&todo, 0, sizeof (struct ToDo));
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+	unpack_ToDo (&todo, buffer, todo_v1);
+	pi_buffer_free(buffer);
+#else
 	unpack_ToDo (&todo, remote->record, remote->length);
-
+#endif
 	g_snprintf (buff, 4096, "[%d %ld %d %d '%s' '%s' %d]",
 		    todo.indefinite,
 		    mktime (&todo.due),
@@ -594,7 +609,11 @@ local_record_to_pilot_record (EToDoLocalRecord *local,
 			      EToDoConduitContext *ctxt)
 {
 	GnomePilotRecord p;
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#else
 	static char record[0xffff];
+#endif
 
 	g_assert (local->comp != NULL);
 	g_assert (local->todo != NULL );
@@ -608,9 +627,23 @@ local_record_to_pilot_record (EToDoLocalRecord *local,
 	p.secret = local->local.secret;
 
 	/* Generate pilot record structure */
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+		return p;
+	}
+
+	pack_ToDo (local->todo, buffer, todo_v1);
+	p.record = g_new0(unsigned char, buffer->used);
+	p.length = buffer->used;
+	memcpy(p.record, buffer->data, buffer->used);
+
+	pi_buffer_free(buffer); 
+#else
 	p.record = record;
 	p.length = pack_ToDo (local->todo, p.record, 0xffff);
-
+#endif
 	return p;	
 }
 
@@ -696,15 +729,32 @@ local_record_from_comp (EToDoLocalRecord *local, ECalComponent *comp, EToDoCondu
 
 	/* Don't overwrite the category */
 	if (local->local.ID != 0) {
-		char record[0xffff];
 		int cat = 0;
+#ifdef PILOT_LINK_0_12
+		pi_buffer_t * record;
+		record = pi_buffer_new(DLP_BUF_SIZE);
+		if(record == NULL){
+			pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+			return;
+		}
+#else
+		char record[0xffff];
+#endif
 		
 		if (dlp_ReadRecordById (ctxt->dbi->pilot_socket, 
 					ctxt->dbi->db_handle,
+#ifdef PILOT_LINK_0_12
+					local->local.ID, record, 
+					NULL, NULL, &cat) > 0) {
+#else
 					local->local.ID, &record, 
 					NULL, NULL, NULL, &cat) > 0) {
+#endif
 			local->local.category = cat;
 		}
+#ifdef PILOT_LINK_0_12
+		pi_buffer_free(record);
+#endif
 	}
 	
 	/*
@@ -860,11 +910,28 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	int priority;
 	char *txt;
 	char *category;
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 	
 	g_return_val_if_fail (remote != NULL, NULL);
 
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		return NULL;
+	}
+
+	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+		return NULL;
+	}
+
+	unpack_ToDo (&todo, buffer, todo_v1);
+	pi_buffer_free(buffer);
+#else
 	memset (&todo, 0, sizeof (struct ToDo));
 	unpack_ToDo (&todo, remote->record, remote->length);
+#endif
 
 	utc_zone = icaltimezone_get_utc_timezone ();
 	now = icaltime_from_timet_with_zone (time (NULL), FALSE, 
@@ -1018,6 +1085,9 @@ pre_sync (GnomePilotConduit *conduit,
 	char *filename, *change_id;
 	icalcomponent *icalcomp;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
+#ifdef PILOT_LINK_0_12
+	pi_buffer_t * buffer;
+#endif
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
 
@@ -1104,10 +1174,20 @@ pre_sync (GnomePilotConduit *conduit,
 	g_message("num_records: %d\nadd_records: %d\nmod_records: %d\ndel_records: %d\n",
 			num_records, add_records, mod_records, del_records);
 
+#ifdef PILOT_LINK_0_12
+	buffer = pi_buffer_new(DLP_BUF_SIZE);
+	if(buffer == NULL){
+		pi_set_error(dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
+		return -1;
+	}
+ 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
+				DLP_BUF_SIZE,
+				buffer);
+#else
 	buf = (unsigned char*)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
 			      (unsigned char *)buf, 0xffff);
-	
+#endif	
 	if (len < 0) {
 		WARN (_("Could not read pilot's ToDo application block"));
 		WARN ("dlp_ReadAppBlock(...) = %d", len);
@@ -1115,6 +1195,12 @@ pre_sync (GnomePilotConduit *conduit,
 					   _("Could not read pilot's ToDo application block"));
 		return -1;
 	}
+
+#ifdef PILOT_LINK_0_12
+	buf = g_new0 (unsigned char,buffer->used);
+	memcpy(buf, buffer->data,buffer->used);
+	pi_buffer_free(buffer);
+#endif
 	unpack_ToDoAppInfo (&(ctxt->ai), buf, len);
 	g_free (buf);
 	
