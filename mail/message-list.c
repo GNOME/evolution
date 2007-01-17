@@ -65,6 +65,8 @@
 #include "table/e-cell-vbox.h"
 #include "table/e-tree-memory-callbacks.h"
 #include "table/e-tree-memory.h"
+#include "table/e-cell-vbox.h"
+#include "table/e-cell-hbox.h"
 
 #include "filter/filter-label.h"
 
