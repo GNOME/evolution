@@ -33,6 +33,7 @@
 
 #include "mail/em-menu.h"
 #include "mail/em-utils.h"
+#include "mail/em-event.h"
 
 #include "composer/e-msg-composer.h"
 #include "libedataserver/e-account.h"
@@ -41,7 +42,7 @@
 
 static ESendOptionsDialog * dialog = NULL ;
 
-void org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t);
+void org_gnome_compose_send_options (EPlugin *ep, EMEventTargetComposer *t);
 
 static time_t 
 add_day_to_time (time_t time, int days)
@@ -137,27 +138,25 @@ send_options_commit (EMsgComposer *comp, gpointer user_data)
 }
 
 void 
-org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
+org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 {
-	struct _EMenuTarget menu = t->target ;
 
-	EMsgComposer *comp = (struct _EMsgComposer *)menu.widget ;
+	EMsgComposer *comp = (struct _EMsgComposer *)t->composer ;
 	EAccount *account = NULL; 
 	char *temp = NULL;
 	
 	account = e_msg_composer_get_preferred_account (comp) ;
 	temp = strstr (account->transport->url, "groupwise") ;
 	if (!temp) {
-		g_print ("Sorry send options only available for a groupwise account\n") ;
 		return;
-	} 
+	}
+	e_msg_composer_set_send_options (comp, TRUE); 
 	/*disply the send options dialog*/
 	if (!dialog) {
 		g_print ("New dialog\n\n") ;
 		dialog = e_sendoptions_dialog_new () ;
 	}
-
-	e_sendoptions_dialog_run (dialog, menu.widget, E_ITEM_MAIL) ;
+	e_sendoptions_dialog_run (dialog, comp, E_ITEM_MAIL) ;
 	
 	g_signal_connect (dialog, "sod_response",
 				  G_CALLBACK (feed_input_data), comp);

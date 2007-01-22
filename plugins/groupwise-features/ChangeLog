@@ -1,3 +1,9 @@
+2007-01-18  Raghavendran <raghavguru7@gmail.com>
+	
+	* org-gnome-groupwise-features.xml: 
+  	* mail-send-options.c :
+	Added code for implementing Send options via
+	a data hook .
 2006-11-17  Harish Krishnaswamy  <kharish@novell.com>
 
 	* proxy-login.c: (proxy_login_get_cnc): Remove

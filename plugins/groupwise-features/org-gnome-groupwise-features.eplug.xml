@@ -8,6 +8,7 @@
 		<author name="Parthasarathi Susarla" email="sparthasarathi@novell.com"/>
 	    	<author name="Sankar P" email="psankar@novell.com"/>
     		<author name="Shreyas Srinivasan" email="sshreyas@novell.com"/>
+		<author name="Raghavendran R" email="raghavguru7@gmail.com"/>
 
 		<_description>A plugin for the features in Groupwise accounts.</_description>
 		<hook class="org.gnome.evolution.mail.config:1.0">
@@ -63,16 +64,13 @@
 					factory="e_book_groupwise_dummy"/>
 			</group>
 		</hook>
-		<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
-			<menu id="org.gnome.evolution.mail.composer" target="select">
-				<ui file="@PLUGINDIR@/org-gnome-compose-send-options.xml"/>
-				<item
-					type="item"
-					verb="EPSOSendOptions"
-					path="/commands/EPSOSendOptions"
-					enable="one"
-					activate="org_gnome_compose_send_options"/>
-			</menu>
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event
+			   id="composer.selectsendoption"
+			   handle="org_gnome_composer_send_options"
+			   target="composer"
+			   enable="sendoption"
+			/>
 		</hook>
 	
 		<hook class="org.gnome.evolution.mail.config:1.0">
