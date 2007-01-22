@@ -86,6 +86,7 @@
 #include "misc/e-expander.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include <mail/em-event.h> 
 
 #include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>
@@ -215,12 +216,13 @@ struct _EMsgComposerPrivate {
 	CamelMimeMessage *redirect;
 	
 	guint notify_id;
-	
+
+	gboolean send_invoked;	
 	EMMenu *menu;
 
 	GtkWidget *saveas;	/* saveas async file requester */
 	GtkWidget *load;	/* same for load - not used */
-	
+
 };
 
 enum {
@@ -1872,11 +1874,26 @@ menu_edit_paste_cb (BonoboUIComponent *uic, void *data, const char *path)
 }
 
 static void
+menu_send_options_cb (BonoboUIComponent *component, void *data, const char *path)
+{
+	EMEvent *e = em_event_peek();
+	EMEventTargetComposer  *target;
+	EMsgComposer *composer = data;
+
+	target = em_event_target_new_composer (e, composer, EM_EVENT_COMPOSER_SEND_OPTION);
+        e_msg_composer_set_send_options (composer, FALSE);	
+	e_event_emit((EEvent *)e, "composer.selectsendoption", (EEventTarget *)target);
+	if (!composer->priv->send_invoked) {
+		e_error_run ((GtkWindow *)composer, "mail-composer:send-options-support", NULL); 
+	}
+}
+
+static void
 menu_edit_select_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
 	EMsgComposer *composer = data;
 	EMsgComposerPrivate *p = composer->priv;
-	
+
 	g_return_if_fail (p->focused_entry != NULL);
 	
 	if (GTK_IS_ENTRY (p->focused_entry)) {
@@ -2128,6 +2145,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSend", menu_file_send_cb),
 	
 	BONOBO_UI_VERB ("DeleteAll", menu_edit_delete_all_cb),
+	BONOBO_UI_VERB ("InsertXSendOptions", menu_send_options_cb),
 	
 	BONOBO_UI_VERB_END
 };
@@ -2417,6 +2435,14 @@ setup_ui (EMsgComposer *composer)
 		p->uic, "RequestReceipt",
 		menu_insert_receipt_cb, composer);
 	
+	/* Insert/Exchange Send Options */
+/*	bonobo_ui_component_set_prop (
+		p->uic, "/commands/XSendOptions",
+		"state", "1", NULL);
+	bonobo_ui_component_add_listener (
+		p->uic, "XSendOptions",
+		menu_send_options_cb, composer);*/
+
 	/* Insert/Set Priority*/
 	bonobo_ui_component_set_prop (
 		p->uic, "/commands/SetPriority",
@@ -3317,7 +3343,7 @@ init (EMsgComposer *composer)
 	p->autosaved                = FALSE;
 	
 	p->redirect                 = FALSE;
-	
+	p->send_invoked		    = FALSE;	
 	p->charset                  = NULL;
 	
 	p->enable_autosave          = TRUE;
@@ -5044,8 +5070,53 @@ e_msg_composer_add_header (EMsgComposer *composer, const char *name,
 	g_ptr_array_add (p->extra_hdr_names, g_strdup (name));
 	g_ptr_array_add (p->extra_hdr_values, g_strdup (value));
 }
+/**
+ * e_msg_composer_modify_header :
+ * @composer : a composer object
+ * @name: the header name
+ * @change_value: the header value to put in place of the previous
+ *                value
+ *
+ * Searches for a header with name=@name ,if found it removes 
+ * that header and adds a new header with the @name and @change_value .	
+ * If not found then it creates a new header with @name and @change_value .
+ **/
+void 
+e_msg_composer_modify_header (EMsgComposer *composer, const char *name,
+			      const char *change_value)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (change_value != NULL);
+	
+	e_msg_composer_remove_header (composer, name);		
+	e_msg_composer_add_header (composer, name, change_value);
+}
 
+/**
+ * e_msg_composer_modify_header :
+ * @composer : a composer object
+ * @name: the header name
+ *
+ * Searches for the header and if found it removes it .
+ **/	  		
+void
+e_msg_composer_remove_header (EMsgComposer *composer, const char *name)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (name != NULL);
 
+	int i;
+	EMsgComposerPrivate *p = composer->priv;
+
+	for (i = 0; i < p->extra_hdr_names->len; i++) {
+		if (strcmp (p->extra_hdr_names->pdata[i], name) == 0) {
+			g_print ("Hit : %s",name);		
+			g_ptr_array_remove_index (p->extra_hdr_names, i);
+			g_ptr_array_remove_index (p->extra_hdr_values, i);
+		}
+	}
+}
 /**
  * e_msg_composer_attach:
  * @composer: a composer object
@@ -6408,3 +6479,12 @@ e_msg_composer_set_saved (EMsgComposer *composer)
 	GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "saved", &ev);
 	CORBA_exception_free (&ev);
 }
+
+void
+e_msg_composer_set_send_options (EMsgComposer *composer, gboolean send_enable)
+{
+	EMsgComposerPrivate *priv;
+	priv = composer->priv;
+	
+	priv->send_invoked = send_enable;	
+} 

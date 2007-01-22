@@ -88,6 +88,11 @@ void                     e_msg_composer_set_body                         (EMsgCo
 void                     e_msg_composer_add_header                       (EMsgComposer      *composer,
 									  const char        *name,
 									  const char        *value);
+void			 e_msg_composer_modify_header			 (EMsgComposer      *composer,
+									  const char 	    *name,
+									  const char        *value);
+void			 e_msg_composer_remove_header		          (EMsgComposer      *composer,
+									  const char        *name);
 void                     e_msg_composer_attach                           (EMsgComposer      *composer,
 									  CamelMimePart     *attachment);
 CamelMimePart           *e_msg_composer_add_inline_image_from_file       (EMsgComposer      *composer,
@@ -185,6 +190,8 @@ CamelMimePart*		 e_msg_composer_url_requested 			 (EMsgComposer *composer, gchar
 
 EMsgComposerHdrs*	 e_msg_composer_get_hdrs			 (EMsgComposer *composer);
 void			 e_msg_composer_set_saved			 (EMsgComposer *composer);
+void			 e_msg_composer_set_send_options		 (EMsgComposer *composer, 
+									  gboolean      send_enable);
 
 #ifdef __cplusplus
 }
