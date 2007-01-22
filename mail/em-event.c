@@ -77,6 +77,12 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 			camel_object_unref(s->message);
 		g_free(s->uid);
 		break; }
+	case EM_EVENT_TARGET_COMPOSER : {
+		EMEventTargetComposer *s = (EMEventTargetComposer *)t;
+		
+		if (s->composer)
+			g_object_unref (s->composer);
+		break; }
 	}
 
 	((EEventClass *)eme_parent)->target_free(ep, t);
@@ -139,6 +145,17 @@ em_event_target_new_folder (EMEvent *eme, const char *uri, guint32 flags)
 	return t;
 }
 
+EMEventTargetComposer *
+em_event_target_new_composer (EMEvent *eme, const EMsgComposer *composer, guint32 flags)
+{
+	EMEventTargetComposer *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_COMPOSER, sizeof(*t));
+
+	t->composer = g_object_ref(composer);
+	t->target.mask = ~flags;
+
+	return t;
+}
+
 EMEventTargetMessage *
 em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage *message, const char *uid, guint32 flags)
 {
@@ -167,6 +184,11 @@ static const EEventHookTargetMask emeh_folder_masks[] = {
 };
 
 
+static const EEventHookTargetMask emeh_composer_masks[] = {
+	{ "sendoption", EM_EVENT_COMPOSER_SEND_OPTION },
+	{ 0 }
+};
+
 static const EEventHookTargetMask emeh_message_masks[] = {
 	{ "replyall", EM_EVENT_MESSAGE_REPLY_ALL },
 	{ 0 }
@@ -175,6 +197,7 @@ static const EEventHookTargetMask emeh_message_masks[] = {
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "folder", EM_EVENT_TARGET_FOLDER, emeh_folder_masks },
 	{ "message", EM_EVENT_TARGET_MESSAGE, emeh_message_masks },
+	{ "composer", EM_EVENT_TARGET_COMPOSER, emeh_composer_masks},
 	{ 0 }
 };
 

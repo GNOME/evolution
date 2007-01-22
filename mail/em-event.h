@@ -26,6 +26,7 @@
 #include <glib-object.h>
 
 #include "e-util/e-event.h"
+#include "composer/e-msg-composer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,6 +43,7 @@ typedef struct _EMEventClass EMEventClass;
 enum _em_event_target_t {
 	EM_EVENT_TARGET_FOLDER,
 	EM_EVENT_TARGET_MESSAGE,
+	EM_EVENT_TARGET_COMPOSER,
 };
 
 /* Flags that describe TARGET_FOLDER */
@@ -52,6 +54,11 @@ enum {
 /* Flags that describe TARGET_MESSAGE */
 enum {
 	EM_EVENT_MESSAGE_REPLY_ALL = 1<< 0,
+};
+
+/* Flags that describe TARGET_COMPOSER */
+enum {
+	EM_EVENT_COMPOSER_SEND_OPTION = 1<< 0,
 };
 
 typedef struct _EMEventTargetFolder EMEventTargetFolder;
@@ -68,6 +75,14 @@ struct _EMEventTargetMessage {
 	struct _CamelFolder      *folder;
 	char                     *uid;
 	struct _CamelMimeMessage *message;
+};
+
+typedef struct _EMEventTargetComposer EMEventTargetComposer;
+
+struct _EMEventTargetComposer {
+	EEventTarget target;
+
+	EMsgComposer *composer;
 };
 
 typedef struct _EEventItem EMEventItem;
@@ -88,6 +103,7 @@ GType em_event_get_type(void);
 EMEvent *em_event_peek(void);
 
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, guint32 flags);
+EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
 
 /* ********************************************************************** */
