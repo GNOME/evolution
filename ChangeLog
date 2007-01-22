@@ -1,3 +1,8 @@
+2007-01-22  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.9.6 release
+	updates.
+	
 2007-01-22  Sankar P  <psankar@novell.com>
 
 	* configure.in: Added support for configuring the 
