@@ -9,6 +9,7 @@
     <author name="Sushma Rai" email="rsushma@novell.com"/>
     <author name="Praveen Kumar" email="kpraveen@novell.com"/>
     <author name="Shakti Sen" email="shprasad@novell.com"/>
+    <author name="Raghavendran R" email="raghavguru7@gmail.com"/>	
     <_description>A plugin that handles a collection of Exchange account specific operations and features.</_description>
 	
     <hook class="org.gnome.evolution.mail.config:1.0">
@@ -213,6 +214,13 @@
 			factory="org_gnome_exchange_show_folder_size_factory"/>
 		</group>
 	</hook>
-
+	<hook class="org.gnome.evolution.mail.events:1.0">
+			<event
+			   id="composer.selectsendoption"
+			   handle="org_gnome_exchange_send_options"
+			   target="composer"
+			   enable="sendoption"
+			/>
+	</hook>
   </e-plugin>
 </e-plugin-list>

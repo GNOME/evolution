@@ -41,7 +41,10 @@ liborg_gnome_exchange_operations_la_SOURCES = 		\
 	exchange-folder-permission.c			\
 	exchange-folder-subscription.c			\
 	exchange-folder-subscription.h			\
-	exchange-folder.c
+	exchange-folder.c				\
+	exchange-mail-send-options.c			\
+	exchange-send-options.c				\
+	exchange-send-options.h
 
 liborg_gnome_exchange_operations_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
@@ -60,7 +63,8 @@ glade_DATA =							\
 	exchange-permissions-dialog.glade			\
 	e-foreign-folder-dialog.glade				\
 	exchange-passwd-expiry.glade				\
-	exchange-oof.glade
+	exchange-oof.glade					\
+	exchange-send-options.glade
 
 error_DATA = org-gnome-exchange-operations.error
 errordir = $(privdatadir)/errors

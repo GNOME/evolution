@@ -1,3 +1,15 @@
+2006-01-18  Raghavendran R <raghavguru7@gmail.com>
+
+	* exchange-send-options.glade :Glade file for 
+	  exchange send options .
+	* org-gnome-exchange-operations.eplug.xml :Added a
+	  hook for implementing send options .
+	* exchange-mail-send-options.c :Contains code for invoking
+	  the dialog and processing the data received and destroying
+	  the dialog .
+	* exchange-send-options.[c,h] :Contains the GType for exchange
+	  send options dialog . 
+
 2006-12-18  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	Fixes bnc #208395
