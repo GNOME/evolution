@@ -1,3 +1,9 @@
+2007-01-18  Raghavendran R <raghavguru7@gmail.com>
+	
+	* evolution-message-composer.xml: Added Send options button 
+	  under Insert menu item in composer .
+	  Added toolitem for Send Options .
+
 2006-08-07  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* evolution-mail-list.xml:

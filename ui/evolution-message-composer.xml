@@ -83,6 +83,9 @@
                 <cmd name="SecuritySMimeEncrypt" _label="S/MIME Encrypt" 
                 _tip="Encrypt this message with your S/MIME Encryption Certificate"
 		type="toggle" state="0" hidden="1"/>
+		
+		<cmd name="InsertXSendOptions" _tip="Insert Send options"
+    		 accel="*Control*o" pixtype="pixbuf"/>
 
 	</commands>
 	
@@ -132,6 +135,9 @@
                 <submenu name="Insert" _label="I_nsert">
 	                <menuitem name="FileAttach" verb=""
 	                _label="_Attachment..." pixtype="pixbuf"/>
+			<separator/>
+			<menuitem name="InsertXSendOptions" verb="" _label="_Send Options"/>
+			<separator/>
                 	<placeholder name="Component"/>
 			<separator f="" name="emailcomposer"/>
 			<menuitem name="RequestReceipt" verb=""/>
@@ -161,7 +167,7 @@
 		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>	
 
 		<separator f="" name="emailcomposer"/>
-		
+		<toolitem name="InsertXSendOptions" verb=""  _label="Send Options" _tip="Send Options"/>
 	</dockitem>	
 </Root>
 
