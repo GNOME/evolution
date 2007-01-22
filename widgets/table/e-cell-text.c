@@ -60,7 +60,6 @@
 #include "e-cell-text.h"
 #include "e-table-item.h"
 #include "e-table-tooltip.h"
-
 #define d(x)
 #define DO_SELECTION 1
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
@@ -1322,45 +1321,45 @@ get_font_size (PangoLayout *layout, PangoFontDescription *font, const char *text
 }
 
 static void
-ect_print (ECellView *ecell_view, GnomePrintContext *context, 
+ect_print (ECellView *ecell_view, GtkPrintContext *context, 
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
-	PangoFontDescription *font_des = get_font_description_for_size (16);
+	PangoFontDescription *font_des = get_font_description_for_size (12);
 	PangoLayout *layout;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
-	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	double ty, ly, text_width, text_height;
 	ECellTextView *ectView = (ECellTextView *)ecell_view;
 	GtkWidget *canvas = GTK_WIDGET(ectView->canvas); 
 	PangoDirection dir;
 	gboolean strikeout, underline;
+	cairo_t *cr;
+	char *string;
+	double ty, ly, text_width, text_height;
 
+
+	cr = gtk_print_context_get_cairo_context (context);
 	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
-	layout = gnome_print_pango_create_layout (context);
+
+	cairo_save (cr);
+	layout = gtk_print_context_create_pango_layout (context);
+	font_des = pango_font_description_from_string ("sans 12"); /* fix me font hardcoded */
 	pango_layout_set_font_description (layout, font_des);
+	
 	pango_layout_set_text (layout, string, -1);
 	get_font_size (layout, font_des, string, &text_width, &text_height);
-	gnome_print_gsave(context);
-	if (gnome_print_moveto(context, 2, 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, width - 2, 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, width - 2, height - 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, 2, height - 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, 2, 2) == -1)
-				/* FIXME */;
-	if (gnome_print_clip(context) == -1)
-				/* FIXME */;
+	
+	cairo_move_to(cr, 2, 2);
+	cairo_rectangle (cr, 2, 2, width + 2, height + 2);
+	cairo_clip(cr);   
 
 	pango_context = gtk_widget_get_pango_context (canvas);
 	font_metrics = pango_context_get_metrics (pango_context,
-		canvas->style->font_desc, pango_context_get_language(pango_context));
-	ty =  (double)(text_height - pango_font_metrics_get_ascent (font_metrics) - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(double)PANGO_SCALE;
+	               canvas->style->font_desc, pango_context_get_language(pango_context));
+	ty =  (double)(text_height 
+		       - pango_font_metrics_get_ascent (font_metrics) 
+		       - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(double)PANGO_SCALE;
 
 	strikeout = ect->strikeout_column >= 0 && row >= 0 &&
 		e_table_model_value_at (ecell_view->e_table_model, ect->strikeout_column, row);
@@ -1368,47 +1367,50 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 		e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row);
 
 	dir = pango_find_base_dir (string, strlen(string));
+	
 	if (underline) {
 		ly = ty + (double)pango_font_metrics_get_underline_position (font_metrics)/(double)PANGO_SCALE;
-		gnome_print_newpath (context);
+		cairo_new_path (cr);
 		if (dir == PANGO_DIRECTION_RTL) {
-			gnome_print_moveto (context, width - 2, ly + text_height - 4);
-			gnome_print_lineto (context, MAX (width - 2 - text_width, 2), ly + text_height - 4);
+			cairo_move_to (cr, width - 2, ly + text_height + 6);
+			cairo_line_to (cr, MAX (width - 2 - text_width, 2), ly + text_height + 6);
 		}
 		else {
-			gnome_print_moveto (context, 2, ly + text_height - 4);
-			gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly + text_height - 4);
+			cairo_move_to (cr, 2, ly + text_height + 6);
+			cairo_line_to (cr, MIN (2 + text_width, width - 2), ly + text_height + 6);
 		}
-		gnome_print_setlinewidth (context, (double)pango_font_metrics_get_underline_thickness (font_metrics)/(double)PANGO_SCALE);
-		gnome_print_stroke (context);
+		cairo_set_line_width (cr, (double)pango_font_metrics_get_underline_thickness (font_metrics)/(double)PANGO_SCALE);
+ 				cairo_stroke (cr);
 	}
 
 	if (strikeout) {
 		ly = ty + (double)pango_font_metrics_get_strikethrough_position (font_metrics)/(double)PANGO_SCALE;
-		gnome_print_newpath (context);
+		cairo_new_path (cr);
 		if (dir == PANGO_DIRECTION_RTL) {
-			gnome_print_moveto (context, width - 2, ly + text_height - 4);
-			gnome_print_lineto (context, MAX (width - 2 - text_width, 2), ly + text_height - 4);
+			cairo_move_to (cr, width - 2, ly + text_height + 6);
+			cairo_line_to (cr, MAX (width - 2 - text_width, 2), ly + text_height + 6);
 		}
 		else {
-			gnome_print_moveto (context, 2, ly + text_height - 4);
-			gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly + text_height - 4);
+			cairo_move_to (cr, 2, ly + text_height + 6);
+			cairo_line_to (cr, MIN (2 + text_width, width - 2), ly + text_height + 6);
 		}
-		gnome_print_setlinewidth (context, (double)pango_font_metrics_get_strikethrough_thickness (font_metrics)/(double)PANGO_SCALE);
-		gnome_print_stroke (context);
-	}
+			cairo_set_line_width (cr,(double)pango_font_metrics_get_strikethrough_thickness (font_metrics)/(double)PANGO_SCALE);
 
-	gnome_print_moveto(context, 2, text_height + 2);
-	pango_layout_set_width (layout, (width - 4)*PANGO_SCALE);
-	gnome_print_pango_layout(context, layout);
+		        cairo_stroke (cr);
+	}   
+
+	cairo_move_to(cr, 2, text_height- 5);
+	pango_layout_set_width (layout, (width - 4)*PANGO_SCALE); 
+	pango_cairo_show_layout(cr, layout);
+	cairo_restore (cr);
+
 	pango_font_description_free (font_des);
 	g_object_unref (layout);
-	gnome_print_grestore(context);
 	e_cell_text_free_text(ect, string);
 }
 
 static gdouble
-ect_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+ect_print_height (ECellView *ecell_view, GtkPrintContext *context, 
 		  int model_col, int view_col, int row,
 		  double width)
 {

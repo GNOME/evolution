@@ -83,7 +83,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-print.h"
-#include "e-util/e-profile-event.h"
+#include "e-util/e-profile-event.h"  
 #include "e-util/e-util-private.h"
 
 #include "filter/filter-rule.h"
@@ -110,6 +110,7 @@
 #include "mail-vfolder.h"
 #include "mail-component.h"
 #include "mail-tools.h"
+#include <gtk/gtkprintunixdialog.h>
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
@@ -2115,7 +2116,7 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 struct _print_data {
 	EMFolderView *emfv;
 
-	GnomePrintConfig *config;
+	GtkPrintSettings *settings;
 	int preview;
 	CamelFolder *folder;
 	char *uid;
@@ -2125,28 +2126,32 @@ static void
 emfv_print_response(GtkWidget *w, int resp, struct _print_data *data)
 {
 	EMFormatHTMLPrint *print;
-
+	gboolean preview = FALSE;
+	
 	switch (resp) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		data->preview = TRUE;
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		print = em_format_html_print_new();
-		em_format_set_session((EMFormat *)print, ((EMFormat *)data->emfv->preview)->session);
-		em_format_html_print_message(print, (EMFormatHTML *)data->emfv->preview, data->config, data->folder, data->uid, data->preview);
-		g_object_unref(print);
-		break;
+	case GTK_RESPONSE_APPLY:
+               preview = TRUE;
+	case GTK_RESPONSE_OK:
+      	       print = em_format_html_print_new ();
+	       print->preview = preview;
+	       em_format_set_session ((EMFormat *)print, ((EMFormat *)data->emfv->preview)->session);
+	       em_format_html_print_message (print, 
+				      (EMFormatHTML *)data->emfv->preview, 
+				      data->settings,
+				      data->folder,
+				      data->uid, 
+				      data->preview);
+	       g_object_unref(print); 
+	       break;
 	}
-
-	if (w)
-		gtk_widget_destroy(w);
-
-	g_object_unref(data->emfv);
-	e_print_save_config (data->config);
-	g_object_unref(data->config);
-	camel_object_unref(data->folder);
-	g_free(data->uid);
-	g_free(data);
+	g_object_unref (data->emfv);
+	g_object_unref (data->settings);
+	camel_object_unref (data->folder);
+	g_free (data->uid);
+	g_free (data);
 }
+
+
 
 int em_folder_view_print(EMFolderView *emfv, int preview)
 {
@@ -2165,7 +2170,7 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	data = g_malloc0(sizeof(*data));
 	data->emfv = emfv;
 	g_object_ref(emfv);
-	data->config = e_print_load_config ();
+	data->settings = e_print_load_config ();
 	data->preview = preview;
 	data->folder = emfv->folder;
 	camel_object_ref(data->folder);
@@ -2173,14 +2178,17 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	message_list_free_uids(emfv->list, uids);
 
 	if (preview) {
-		emfv_print_response(NULL, GNOME_PRINT_DIALOG_RESPONSE_PREVIEW, data);
-	} else {
-		GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), GNOME_PRINT_DIALOG_COPIES, data->config);
-		
-		gtk_dialog_set_default_response(dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
+	        GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), 
+									 GNOME_PRINT_DIALOG_COPIES, data->settings);
+		gtk_dialog_set_default_response (dialog, GTK_RESPONSE_APPLY);
 		e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) emfv);
-		g_signal_connect(dialog, "response", G_CALLBACK(emfv_print_response), data);
-		gtk_widget_show((GtkWidget *)dialog);
+		emfv_print_response(dialog, GTK_RESPONSE_APPLY, data);
+	} else {
+		GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), 
+								         GNOME_PRINT_DIALOG_COPIES, data->settings);
+		gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
+		e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) emfv);
+		emfv_print_response (dialog, GTK_RESPONSE_OK, data);
 	}
 
 	return 0;

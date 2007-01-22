@@ -81,6 +81,7 @@
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <gtk/gtkprintunixdialog.h>
 
 #define SHOW_ALL_SEARCH "(contains \"x-evolution-any-field\" \"\")"
 
@@ -120,6 +121,7 @@ static void query_changed               (ESearchBar *esb, EABView *view);
 static void search_activated            (ESearchBar *esb, EABView *view);
 static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
 static GList *get_master_list (void);
+static void contact_print_button_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,EPrintable *printable);
 
 #define PARENT_TYPE GTK_TYPE_VBOX
 static GtkVBoxClass *parent_class = NULL;
@@ -872,9 +874,11 @@ print (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	EABPopupTargetSelect *t = (EABPopupTargetSelect *)ep->target;
+	GtkWidget *dialog;
 
 	if (t->cards->len == 1) {
-		gtk_widget_show(e_contact_print_contact_dialog_new(t->cards->pdata[0]));
+	       	dialog = e_contact_print_contact_dialog_new(t->cards->pdata[0]);
+		e_contact_print_response (dialog, GTK_RESPONSE_OK, NULL);
 	} else {
 		GList *contacts = get_contact_list(t);
 
@@ -1699,8 +1703,6 @@ get_master_list (void)
 	return category_list;
 }
 
-
-
 typedef struct {
 	GtkWidget *table;
 	GObject *printable;
@@ -1717,67 +1719,61 @@ e_contact_print_destroy(gpointer data, GObject *where_object_was)
 
 static void
 e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
-{
-	GnomePrintJob *master;
-	GnomePrintContext *pc;
-	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
+{	
 	GtkWidget *preview;
-	switch( response ) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		master = gnome_print_job_new(gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
-		pc = gnome_print_job_get_context( master );
-		e_printable_reset(printable);
+	GtkPrintOperation *print;
+	GtkPrintSettings *settings;
+	GtkPageSetup *page_setup;
+	GtkPaperSize *paper_size;
+
+	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
+	print = gtk_print_operation_new ();
+	page_setup = gtk_page_setup_new ();
+
+		/*get & set,the settings of the dialog */
+	settings = gtk_print_unix_dialog_get_settings (GTK_PRINT_UNIX_DIALOG (dialog));
+	paper_size = gtk_paper_size_new ("iso_a4"); /* FIXME paper size hardcoded */
+	gtk_page_setup_set_paper_size (page_setup, paper_size);
+	gtk_print_operation_set_print_settings (print, settings);
+
+	gtk_print_operation_set_n_pages (print, 1);
+	gtk_print_operation_set_default_page_setup (print, page_setup);
+		/* run the dialog */
+	g_signal_connect (print,"draw_page",G_CALLBACK(contact_print_button_draw_page), printable);
+ 	
+	if (response == GTK_RESPONSE_APPLY)
+		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
+	else
+		gtk_print_operation_run (print,GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL,NULL);
+		
+	gtk_widget_destroy(dialog);
+	g_object_unref (print);
+	g_object_unref (settings);
+	g_object_unref (page_setup);
+	g_object_unref (paper_size);
+}
+
+static void 
+contact_print_button_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,EPrintable *printable)
+
+{
+	cairo_t *cr;
+	GtkPageSetup *page_setup;
+	gdouble top_margin;
+       
+	cr = gtk_print_context_get_cairo_context (context);
+	page_setup = gtk_print_operation_get_default_page_setup (print);
+	top_margin = gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_POINTS);
+	e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
-			gnome_print_beginpage (pc, "Contacts");
-			if (gnome_print_gsave(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_translate(pc, 72, 72) == -1)
-				/* FIXME */;
-			e_printable_print_page(printable,
-					       pc,
-					       6.5 * 72,
-					       5 * 72,
-					       TRUE);
-			if (gnome_print_grestore(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_showpage(pc) == -1)
-				/* FIXME */;
+			cairo_save (cr);
+			e_printable_print_page (printable,
+						context,
+						6.5 * 72,
+						top_margin + 10,
+						TRUE);
+			cairo_restore (cr);
 		}
-		gnome_print_job_close(master);
-		gnome_print_job_print(master);
-		g_object_unref (master);
-		gtk_widget_destroy((GtkWidget *)dialog);
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		master = gnome_print_job_new (gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
-		pc = gnome_print_job_get_context( master );
-		e_printable_reset(printable);
-		while (e_printable_data_left(printable)) {
-			gnome_print_beginpage (pc, "Contacts");
-			if (gnome_print_gsave(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_translate(pc, 72, 72) == -1)
-				/* FIXME */;
-			e_printable_print_page(printable,
-					       pc,
-					       6.5 * 72,
-					       9 * 72,
-					       TRUE);
-			if (gnome_print_grestore(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_showpage(pc) == -1)
-				/* FIXME */;
-		}
-		gnome_print_job_close(master);
-		preview = GTK_WIDGET(gnome_print_job_preview_new(master, "Print Preview"));
-		gtk_widget_show_all(preview);
-		g_object_unref (master);
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
-	default:
-		gtk_widget_destroy((GtkWidget *)dialog);
-		break;
-	}
 }
 
 void
@@ -1842,7 +1838,7 @@ eab_view_discard_menus (EABView *view)
 }
 
 void
-eab_view_print(EABView *view)
+eab_view_print(EABView *view, int preview)
 {
 	if (view->view_type == EAB_VIEW_MINICARD) {
 		char *query;
@@ -1855,9 +1851,14 @@ eab_view_print(EABView *view)
 			      NULL);
 		GList *list = get_selected_contacts (view); 
 		print = e_contact_print_dialog_new (book, query, list);
-		g_free(query);
-		e_free_object_list(list);
-		gtk_widget_show(print);
+
+		if (!preview)
+			e_contact_print_response (print, GTK_RESPONSE_OK, NULL);
+		else
+			e_contact_print_response (print, GTK_RESPONSE_APPLY, NULL);
+
+		g_free (query);
+		e_free_object_list (list);
 	}
 	else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
@@ -1878,17 +1879,14 @@ eab_view_print(EABView *view)
 		g_object_set_data (G_OBJECT (dialog), "table", view->widget);
 		g_object_set_data (G_OBJECT (dialog), "printable", printable);
 		
-		g_signal_connect(dialog,
-				 "response", G_CALLBACK(e_contact_print_button), NULL);
-
 		weak_data = g_new (EContactPrintDialogWeakData, 1);
-
 		weak_data->table = view->widget;
 		weak_data->printable = G_OBJECT (printable);
-
 		g_object_weak_ref (G_OBJECT (dialog), e_contact_print_destroy, weak_data);
-
-		gtk_widget_show(dialog);
+		if (preview)
+			e_contact_print_button (dialog, GTK_RESPONSE_APPLY, NULL);
+		else
+			e_contact_print_button (dialog, GTK_RESPONSE_OK, NULL);
 	}
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
 	else if (view->view_type == EAB_VIEW_TREEVIEW) {
@@ -1903,60 +1901,40 @@ eab_view_print_preview(EABView *view)
 	if (view->view_type == EAB_VIEW_MINICARD) {
 		char *query;
 		EBook *book;
+		GtkWidget *print;
 
 		g_object_get (view->model,
 			      "query", &query,
 			      "book", &book,
 			      NULL);
-		GList *list = get_selected_contacts (view);
+		GList *list = get_selected_contacts (view); 
 		e_contact_print_preview (book, query, list);
 		e_free_object_list (list);
-		g_free (query);
-	} else if (view->view_type == EAB_VIEW_TABLE) {
+	}else if (view->view_type == EAB_VIEW_TABLE) {
+		GtkWidget *dialog;
 		EPrintable *printable;
 		ETable *etable;
-		GnomePrintJob *master;
-		GnomePrintContext *pc;
-		GnomePrintConfig *config;
-		GtkWidget *preview;
+		EContactPrintDialogWeakData *weak_data;
+
+		/* FIXME: Allow range selection in table views, as in minicard view */
+		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_COPIES);
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
-		g_object_unref(etable);
 		g_object_ref (printable);
 		gtk_object_sink (GTK_OBJECT (printable));
+		g_object_unref(etable);
+		g_object_ref (view->widget);
 
-		config = e_print_load_config ();
-		master = gnome_print_job_new (config);
-		pc = gnome_print_job_get_context( master );
-		e_printable_reset(printable);
-		while (e_printable_data_left(printable)) {
-			gnome_print_beginpage (pc, "Contacts");
-			if (gnome_print_gsave(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_translate(pc, 72, 72) == -1)
-				/* FIXME */;
-			e_printable_print_page(printable,
-					       pc,
-					       6.5 * 72,
-					       9 * 72,
-					       TRUE);
-			if (gnome_print_grestore(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_showpage(pc) == -1)
-				/* FIXME */;
-		}
-		gnome_print_job_close(master);
-		preview = GTK_WIDGET(gnome_print_job_preview_new(master, "Print Preview"));
-		gtk_widget_show_all(preview);
-		g_object_unref (master);
-		g_object_unref (printable);
+		g_object_set_data (G_OBJECT (dialog), "table", view->widget);
+		g_object_set_data (G_OBJECT (dialog), "printable", printable);
+		
+		weak_data = g_new (EContactPrintDialogWeakData, 1);
+		weak_data->table = view->widget;
+		weak_data->printable = G_OBJECT (printable);
+		g_object_weak_ref (G_OBJECT (dialog), e_contact_print_destroy, weak_data);
+		e_contact_print_button (dialog, GTK_RESPONSE_OK, NULL);
 	}
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-	else if (view->view_type == EAB_VIEW_TREEVIEW) {
-		/* XXX */
-	}
-#endif
 }
 
 /* callback function to handle removal of contacts for 

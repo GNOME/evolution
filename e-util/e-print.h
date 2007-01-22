@@ -28,11 +28,11 @@
 
 G_BEGIN_DECLS
 
-GnomePrintConfig *e_print_load_config (void);
-void e_print_save_config (GnomePrintConfig *config);
+GtkPrintSettings *e_print_load_config (void);
+void e_print_save_config (GtkPrintSettings *settings);
 
 GtkWidget *e_print_get_dialog (const char *title, int flags);
-GtkWidget *e_print_get_dialog_with_config (const char *title, int flags, GnomePrintConfig *config);
+GtkWidget *e_print_get_dialog_with_config (const char *title, int flags, GtkPrintSettings *settings);
 
 G_END_DECLS
 

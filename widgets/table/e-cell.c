@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+ /*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-cell.c - base class for cell renderers in e-table
  * Copyright 1999, 2000, 2001, Ximian, Inc.
@@ -23,7 +23,7 @@
  */
 
 #include <config.h>
-
+#include <gtk/gtk.h>
 #include "e-util/e-util.h"
 
 #include "e-cell.h"
@@ -280,7 +280,7 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 /**
  * e_cell_print:
  * @ecell_view: the ECellView to redraw
- * @context: The GnomePrintContext where we output our printed data.
+ * @context: The GtkPrintContext where we output our printed data.
  * @model_col: the column in the model being drawn.
  * @view_col: the column in the view being drawn (what the model maps to).
  * @row: the row being drawn
@@ -290,7 +290,7 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
  * FIXME:
  */
 void
-e_cell_print (ECellView *ecell_view, GnomePrintContext *context, 
+e_cell_print (ECellView *ecell_view, GtkPrintContext *context, 
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
@@ -304,7 +304,7 @@ e_cell_print (ECellView *ecell_view, GnomePrintContext *context,
  * FIXME:
  */
 gdouble
-e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+e_cell_print_height (ECellView *ecell_view, GtkPrintContext *context, 
 		     int model_col, int view_col, int row,
 		     double width)
 {

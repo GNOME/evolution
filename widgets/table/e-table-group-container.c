@@ -1063,7 +1063,7 @@ etgc_init (GtkObject *object)
 {
 	ETableGroupContainer *container = E_TABLE_GROUP_CONTAINER(object);
 	container->children = FALSE;
-	
+
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgc_reflow);
 
 	container->alternating_row_colors = 1;
@@ -1110,32 +1110,18 @@ typedef struct {
 	EPrintable *child_printable;
 } ETGCPrintContext;
 
-#if 0
-#define CHECK(x) if((x) == -1) return -1;
 
-static gint
-gp_draw_rect (GnomePrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height, gdouble r, gdouble g, gdouble b)
-{
-	CHECK(gnome_print_moveto(context, x, y));
-	CHECK(gnome_print_lineto(context, x + width, y));
-	CHECK(gnome_print_lineto(context, x + width, y - height));
-	CHECK(gnome_print_lineto(context, x, y - height));
-	CHECK(gnome_print_lineto(context, x, y));
-	return gnome_print_fill(context);
-}
-#endif
 
 #define CHECK(x) if((x) == -1) return -1;
 
 static gint
-gp_draw_rect (GnomePrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height)
+gp_draw_rect (GtkPrintContext *context, double x, double y, double width, double height)
 {
-	CHECK(gnome_print_moveto(context, x, y));
-	CHECK(gnome_print_lineto(context, x + width, y));
-	CHECK(gnome_print_lineto(context, x + width, y - height));
-	CHECK(gnome_print_lineto(context, x, y - height));
-	CHECK(gnome_print_lineto(context, x, y));
-	return gnome_print_fill(context);
+	cairo_t *cr;
+	cr = gtk_print_context_get_cairo_context (context);
+	cairo_move_to (cr, x, y);
+	cairo_rectangle (cr, x, y, x + width, y + height);
+	cairo_fill (cr);
 }
 
 #define TEXT_HEIGHT (12)
@@ -1143,12 +1129,13 @@ gp_draw_rect (GnomePrintContext *context, gdouble x, gdouble y, gdouble width, g
 
 static void
 e_table_group_container_print_page  (EPrintable *ep,
-				     GnomePrintContext *context,
+				     GtkPrintContext *context,
 				     gdouble width,
 				     gdouble height,
 				     gboolean quantize,
 				     ETGCPrintContext *groupcontext)
-{
+{	
+	cairo_t *cr;
 	gdouble yd = height;
 	gdouble child_height;
 	ETableGroupContainerChildNode *child_node;
@@ -1159,6 +1146,8 @@ e_table_group_container_print_page  (EPrintable *ep,
 
 	child_printable = groupcontext->child_printable;
 	child = groupcontext->child;
+	yd = 6.5 * 72;
+	height = 5 * 72; 
 
 	if (child_printable) {
 		if (child)
@@ -1179,50 +1168,21 @@ e_table_group_container_print_page  (EPrintable *ep,
 	}
 
 	while (1) {
-		child_height = e_printable_height(child_printable, context, width - 36, yd - TEXT_AREA_HEIGHT, quantize);
+  		    child_height = e_printable_height(child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);		    
+		    cr = gtk_print_context_get_cairo_context (context);
+		    cairo_save (cr);
+		    cairo_rectangle (cr, 0, 0, width,TEXT_AREA_HEIGHT);
+		    cairo_rectangle (cr, 0, 0, 2 * TEXT_AREA_HEIGHT, child_height + TEXT_AREA_HEIGHT);
+		    cairo_set_source_rgb (cr, .7, .7, .7) ;
+		    cairo_fill(cr) ;
+		    cairo_restore (cr);
 
-		if (gnome_print_gsave(context) == -1)
-			/* FIXME */;
-		if (gnome_print_moveto(context, 0, yd - child_height - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 36, yd - child_height - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 36, yd - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, width, yd - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, width, yd) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 0, yd) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 0, yd - child_height - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_setrgbcolor(context, .7, .7, .7) == -1)
-			/* FIXME */;
-		if (gnome_print_fill(context) == -1)
-			/* FIXME */;
-		if (gnome_print_grestore(context) == -1)
-			/* FIXME */;
-
-		if (gnome_print_gsave(context) == -1)
-			/* FIXME */;
-		if (gnome_print_moveto(context, 0, yd - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, width, yd - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, width, yd) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 0, yd) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 0, yd - TEXT_AREA_HEIGHT) == -1)
-			/* FIXME */;
-		if (gnome_print_clip(context) == -1)
-			/* FIXME */;
-
-		if (gnome_print_moveto(context, 2, yd - (TEXT_AREA_HEIGHT + gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2) == -1)
-			/* FIXME */;
-		if (gnome_print_setfont(context, font))
-			/* FIXME */;
+		    cairo_save (cr);
+		    cairo_rectangle (cr, 0, 0, width, TEXT_AREA_HEIGHT);
+		    cairo_clip (cr);
+		    cairo_restore (cr);
+								   
+	            cairo_move_to(cr, 0, (gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2);
 		if (groupcontext->etgc->ecol->text)
 			string = g_strdup_printf ("%s : %s (%d item%s)",
 						  groupcontext->etgc->ecol->text,
@@ -1234,63 +1194,38 @@ e_table_group_container_print_page  (EPrintable *ep,
 						  child_node->string,
 						  (gint) child_node->count,
 						  child_node->count == 1 ? "" : "s");
-		if (gnome_print_show(context, string))
-			/* FIXME */;
-		g_free(string);
-		if (gnome_print_grestore(context) == -1)
-			/* FIXME */;
-
-		if (gnome_print_gsave(context) == -1)
-			/* FIXME */;
-		if (gnome_print_translate(context, 36, yd - TEXT_AREA_HEIGHT - child_height) == -1)
-			/* FIXME */;
-		if (gnome_print_moveto(context, 0, 0) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, width - 36, 0) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, width - 36, child_height) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 0, child_height) == -1)
-			/* FIXME */;
-		if (gnome_print_lineto(context, 0, 0) == -1)
-			/* FIXME */;
-		if (gnome_print_clip(context) == -1)
-			/* FIXME */;
-		e_printable_print_page(child_printable, context, width - 36, child_height, quantize);
-		if (gnome_print_grestore(context) == -1)
-			/* FIXME */;
-
-		gp_draw_rect(context, 0, yd - child_height - TEXT_AREA_HEIGHT + 1, width, 1);
-		gp_draw_rect(context, width - 1, yd, 1, yd - child_height - TEXT_AREA_HEIGHT);
-		gp_draw_rect(context, 0, yd, 1, yd - child_height - TEXT_AREA_HEIGHT);
-
-		yd -= child_height + TEXT_AREA_HEIGHT;
+		    cairo_show_text (cr, string);
+            	    g_free(string);
+               				 
+                    cairo_translate(cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT) ;
+                    cairo_move_to(cr, 0, 0);
+                    cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
+		    cairo_clip(cr);
+		    		
+		    e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, 0, quantize); 
+		    yd += child_height + TEXT_AREA_HEIGHT;
 
 		if (e_printable_data_left(child_printable))
 			break;
 
-		child = child->next;
+		    child = child->next;
 		if (!child) {
 			child_printable = NULL;
 			break;
 		}
 
-		child_node = child->data;
+		    child_node = child->data;
 		if (child_printable)
 			g_object_unref (child_printable);
-		child_printable = e_table_group_get_printable(child_node->child);
+		    child_printable = e_table_group_get_printable(child_node->child);
 		if (child_printable)
 			g_object_ref (child_printable);
-		e_printable_reset(child_printable);
+		 e_printable_reset(child_printable);
 	}
-
-	gp_draw_rect(context, 0, height, width, 1);
-
 	if (groupcontext->child_printable)
 		g_object_unref (groupcontext->child_printable);
 	groupcontext->child_printable = child_printable;
 	groupcontext->child = child;
-			
 }
 
 static gboolean
@@ -1313,7 +1248,7 @@ e_table_group_container_reset       (EPrintable *ep,
 
 static gdouble
 e_table_group_container_height      (EPrintable *ep,
-				     GnomePrintContext *context,
+				     GtkPrintContext *context,
 				     gdouble width,
 				     gdouble max_height,
 				     gboolean quantize,
@@ -1350,14 +1285,14 @@ e_table_group_container_height      (EPrintable *ep,
 	while (1) {
 		child_height = e_printable_height(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize);
 
-		height += child_height + TEXT_AREA_HEIGHT;
+		height -= child_height + TEXT_AREA_HEIGHT;
 
 		if (yd != -1) {
 			if (!e_printable_will_fit(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize)) {
 				break;
 			}
 
-			yd -= child_height + TEXT_AREA_HEIGHT;
+			yd += child_height + TEXT_AREA_HEIGHT;
 		}
 
 		child = child->next;
@@ -1381,7 +1316,7 @@ e_table_group_container_height      (EPrintable *ep,
 
 static gboolean
 e_table_group_container_will_fit      (EPrintable *ep,
-				       GnomePrintContext *context,
+				       GtkPrintContext *context,
 				       gdouble width,
 				       gdouble max_height,
 				       gboolean quantize,
@@ -1424,7 +1359,7 @@ e_table_group_container_will_fit      (EPrintable *ep,
 					break;
 				}
 				
-				yd -= child_height + TEXT_AREA_HEIGHT;
+				yd += child_height + TEXT_AREA_HEIGHT;
 			}
 			
 			child = child->next;

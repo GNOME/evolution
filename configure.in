@@ -1240,7 +1240,7 @@ EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIR
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libgnomeprintui-2.2 libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 gtk+-unix-print-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libgnomeprintui-2.2 libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1290,7 +1290,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-$EDS_PACKAGE"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gtk+-unix-print-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-$EDS_PACKAGE"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1328,7 +1328,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, $LIBSOUP >= $LIBSOUP_REQUIRED)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $HAL_REQUIREMENT $libnotify)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 gtk+-unix-print-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $HAL_REQUIREMENT $libnotify)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1340,7 +1340,7 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 gtk+-unix-print-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 

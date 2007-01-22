@@ -98,7 +98,7 @@ enum {
 	PROP_LENGTH_THRESHOLD,
 	PROP_CURSOR_ROW,
 	PROP_UNIFORM_ROW_HEIGHT,
-	
+
 	PROP_MINIMUM_WIDTH,
 	PROP_WIDTH,
 	PROP_HEIGHT
@@ -334,7 +334,7 @@ eti_free_save_state (ETableItem *eti)
  * we might want to avoid realizing each e-cell.
  */
 static void
-eti_realize_cell_views (ETableItem *eti)
+eti_realize_cell_views ( ETableItem *eti)
 {
 	int i;
 
@@ -1939,7 +1939,6 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		height = ETI_ROW_HEIGHT (eti, row);
 
 		xd = x_offset;
-/*		printf ("paint: %d %d\n", yd, yd + height); */
 		
 		selected = e_selection_model_is_row_selected(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti,row));
 		
@@ -2084,7 +2083,7 @@ find_cell (ETableItem *eti, double x, double y, int *view_col_res, int *view_row
 	int col, row;
 
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
-	
+
 	/* FIXME: this routine is inneficient, fix later */
 
 	if (eti->grabbed_col >= 0 && eti->grabbed_row >= 0) {
@@ -2447,6 +2446,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			}
 #endif
 
+  
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 
@@ -2654,6 +2654,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				break;
 			}
 			
+  
 			g_signal_emit (eti, eti_signals [KEY_PRESS], 0,
 				       model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
 			if ((!return_val) &&
@@ -2686,6 +2687,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if ((e->key.state & GDK_MOD1_MASK)
 			    && ((e->key.keyval == GDK_Down ) || (e->key.keyval == GDK_KP_Down))) {
 				gint view_col = model_to_view_col(eti, cursor_col);				
+ 
 				if ((view_col >= 0) && (view_col < eti->cols))
 					if (eti_e_cell_event (eti, eti->cell_views [view_col], e, ((GdkEventKey *)e)->time, cursor_col, view_col, model_to_view_row(eti, cursor_row),  E_CELL_CURSOR))
 						return TRUE;
@@ -3450,7 +3452,7 @@ e_table_item_calculate_print_widths (ETableHeader *eth, gdouble width)
 }
 
 static gdouble
-eti_printed_row_height (ETableItem *eti, gdouble *widths, GnomePrintContext *context, gint row)
+eti_printed_row_height (ETableItem *eti, gdouble *widths, GtkPrintContext *context, gint row)
 {
 	int col;
 	int cols = eti->cols;
@@ -3468,105 +3470,105 @@ eti_printed_row_height (ETableItem *eti, gdouble *widths, GnomePrintContext *con
 #define CHECK(x) if((x) == -1) return -1;
 
 static gint
-gp_draw_rect (GnomePrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height)
+gp_draw_rect (GtkPrintContext *context, double x, double y, double width, double height)
 {
-	CHECK(gnome_print_moveto(context, x, y));
-	CHECK(gnome_print_lineto(context, x + width, y));
-	CHECK(gnome_print_lineto(context, x + width, y - height));
-	CHECK(gnome_print_lineto(context, x, y - height));
-	CHECK(gnome_print_lineto(context, x, y));
-	return gnome_print_fill(context);
+	cairo_t *cr;
+	cr = gtk_print_context_get_cairo_context (context);	
+	cairo_save (cr);
+	cairo_rectangle (cr, x, y, width, height); 
+	cairo_set_line_width (cr, 0.5);
+	cairo_stroke (cr);
+	cairo_restore (cr); 
+	return 0;
 }
 
 static void
 e_table_item_print_page  (EPrintable *ep,
-			  GnomePrintContext *context,
-			  gdouble width,
-			  gdouble height,
+			  GtkPrintContext *context,
+			  double width,
+			  double height,
 			  gboolean quantize,
 			  ETableItemPrintContext *itemcontext)
 {
 	ETableItem *eti = itemcontext->item;
 	const int rows = eti->rows;
 	const int cols = eti->cols;
+	gdouble max_height;
 	int rows_printed = itemcontext->rows_printed;
+	int row, col, next_page = 0;
+	double yd = height;   
+	cairo_t *cr;
 	gdouble *widths;
-	int row, col;
-	gdouble yd = height;
-	
+
+	cr = gtk_print_context_get_cairo_context (context);	
+	max_height = gtk_print_context_get_height (context);
 	widths = e_table_item_calculate_print_widths (itemcontext->item->header, width);
 
 	/*
 	 * Draw cells
 	 */
+	
 	if (eti->horizontal_draw_grid){
 		gp_draw_rect(context, 0, yd, width, 1);
 	}
-	yd--;
-	
-	for (row = rows_printed; row < rows; row++){
+	yd++;
+
+	for (row = rows_printed; row < rows ; row++){
 		gdouble xd = 1, row_height;
-		
 		row_height = eti_printed_row_height(eti, widths, context, row);
+  	
 		if (quantize) {
-			if (yd - row_height - 1 < 0 && row != rows_printed) {
+			if (yd + row_height + 1 > max_height && row != rows_printed) {
+				next_page = 1;
 				break;
 			}
 		} else {
-			if (yd < 0) {
+			if (yd > max_height) {
+				next_page = 1;   
 				break;
-			}
-		}
-
+			} 
+		}  
+				
 		for (col = 0; col < cols; col++){
 			ECellView *ecell_view = eti->cell_views [col];
-
-			if (gnome_print_gsave(context) == -1)
-				/* FIXME */;
-			if (gnome_print_translate(context, xd, yd - row_height) == -1)
-				/* FIXME */;
-
-			if (gnome_print_moveto(context, 0, 0) == -1)
-				/* FIXME */;
-			if (gnome_print_lineto(context, widths[col] - 1, 0) == -1)
-				/* FIXME */;
-			if (gnome_print_lineto(context, widths[col] - 1, row_height) == -1)
-				/* FIXME */;
-			if (gnome_print_lineto(context, 0, row_height) == -1)
-				/* FIXME */;
-			if (gnome_print_lineto(context, 0, 0) == -1)
-				/* FIXME */;
-			if (gnome_print_clip(context) == -1)
-				/* FIXME */;
-
-			e_cell_print (ecell_view, context, view_to_model_col(eti, col), col, row, 
-				      widths[col] - 1, row_height);
-
-			if (gnome_print_grestore(context) == -1)
-				/* FIXME */;
 			
+			cairo_save(cr); 
+			cairo_translate(cr, xd, yd);
+			cairo_rectangle (cr, 0, 0, widths[col] - 1, row_height);
+			cairo_clip(cr); 
+
+			e_cell_print (ecell_view, context, 
+				      view_to_model_col(eti, col), 
+				      col, 
+				      row, 
+				      widths[col] - 1, 
+				      row_height + 2 ); 
+			
+			cairo_restore (cr);
 			xd += widths[col];
 		}
-		yd -= row_height;
-
+		
+	yd += row_height;
 		if (eti->horizontal_draw_grid){
 			gp_draw_rect(context, 0, yd, width, 1);
 		}
-		yd--;
-	}
+		yd ++;
+	} 
 
 	itemcontext->rows_printed = row;
-
 	if (eti->vertical_draw_grid){
 		gdouble xd = 0;
-		
 		for (col = 0; col < cols; col++){
-			gp_draw_rect(context, xd, height, 1, height - yd);
-			
+			gp_draw_rect(context, xd, height, 1, yd - height);
 			xd += widths[col];
 		}
-		gp_draw_rect(context, xd, height, 1, height - yd);
+		gp_draw_rect(context, xd, height, 1, yd - height);
 	}
+
+	if (next_page) {
+		cairo_show_page (cr);
+		next_page = 0;
+	}	
 
 	g_free (widths);
 }
@@ -3591,7 +3593,7 @@ e_table_item_reset       (EPrintable *ep,
 
 static gdouble
 e_table_item_height      (EPrintable *ep,
-			  GnomePrintContext *context,
+			  GtkPrintContext *context,
 			  gdouble width,
 			  gdouble max_height,
 			  gboolean quantize,
@@ -3641,7 +3643,7 @@ e_table_item_height      (EPrintable *ep,
 
 static gboolean
 e_table_item_will_fit     (EPrintable *ep,
-			   GnomePrintContext *context,
+			   GtkPrintContext *context,
 			   gdouble width,
 			   gdouble max_height,
 			   gboolean quantize,

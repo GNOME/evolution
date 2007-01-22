@@ -37,6 +37,7 @@
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "em-format-html-print.h"
+#include <gtk/gtk.h>
 
 static void efhp_builtin_init(EMFormatHTMLPrintClass *efhc);
 
@@ -65,8 +66,8 @@ efhp_finalise(GObject *o)
 	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *)o;
 
 	gtk_widget_destroy(efhp->window);
-	if (efhp->config)
-		g_object_unref(efhp->config);
+	if (efhp->settings)
+		g_object_unref(efhp->settings);
 	if (efhp->source)
 		g_object_unref(efhp->source);
 
@@ -119,28 +120,39 @@ struct footer_info {
 	GnomeFont *local_font;
 	gint page_num, pages;
 };
+typedef struct MailDraw MailDraw;
 
+struct MailDraw {
+	EMFormatHTMLPrint *efhp;
+	struct footer_info info;
+	void *data;
+	gint res;
+	gdouble line;
+};
+
+static void mail_draw_page(GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, MailDraw *mdi);
 static void
-efhp_footer_cb(GtkHTML *html, GnomePrintContext *print_context, double x, double y, double width, double height, void *data)
+efhp_footer_cb(GtkHTML *html, GtkPrintContext *print_context, double x, double y, double width, double height, void *data)
 {
 	struct footer_info *info = data;
-
+	cairo_t *cr;
+     
 	/* do we want anything nicer here, like who its from, etc? */
 	if (info->local_font) {
 		char *text = g_strdup_printf (_("Page %d of %d"), info->page_num, info->pages);
 		/*gdouble tw = gnome_font_get_width_string (info->local_font, text);*/
 		/* FIXME: work out how to measure this */
 		gdouble tw = strlen(text) * 8;
-		
-		gnome_print_gsave(print_context);
-		gnome_print_newpath(print_context);
-		gnome_print_setrgbcolor(print_context, .0, .0, .0);
-		gnome_print_moveto(print_context, x + width - tw, y - gnome_font_get_ascender(info->local_font));
-		gnome_print_setfont(print_context, info->local_font);
-		gnome_print_show(print_context, text);
-		gnome_print_grestore(print_context);
-		
-		g_free(text);
+		cr = gtk_print_context_get_cairo_context (print_context);
+		cairo_save (cr);
+		cairo_set_source_rgb (cr, .0, .0, .0);
+		cairo_move_to (cr, x + width - tw, y - gnome_font_get_ascender(info->local_font));
+		cairo_set_font_face (cr, NULL);
+		cairo_set_font_size (cr, 6);
+		cairo_show_text (cr, text);
+		cairo_restore(cr);
+		cairo_show_page (cr);
+		g_free(text); 
 		info->page_num++;
 	}
 }
@@ -150,48 +162,73 @@ efhp_footer_cb(GtkHTML *html, GnomePrintContext *print_context, double x, double
 static void
 emfhp_complete(EMFormatHTMLPrint *efhp, void *data)
 {
-	GnomePrintContext *print_context;
-	GnomePrintJob *print_job;
-	gdouble line = 0.0;
+	GtkPaperSize *paper_size;
+	GtkPrintOperation *print;
+	GtkPrintSettings *settings;
+	GtkPageSetup *page_setup;
+	struct MailDraw *mdi;
 	struct footer_info info;
-	int res = GNOME_PRINT_OK;
 
-	print_job = gnome_print_job_new(efhp->config);
-	print_context = gnome_print_job_get_context(print_job);
+	page_setup = gtk_page_setup_new ();
+	paper_size = gtk_paper_size_new ("iso_a4");/*FIXME paper size hard coded */
+	print = gtk_print_operation_new ();
+	gtk_page_setup_set_paper_size (page_setup, paper_size);	 
 
-	gtk_html_print_set_master(efhp->formathtml.html, print_job);
-	info.local_font = gnome_font_find_closest("Sans Regular", 10.0);
-	if (info.local_font) {
-		line = gnome_font_get_ascender(info.local_font) - gnome_font_get_descender(info.local_font);	
-		info.page_num = 1;
-		info.pages = gtk_html_print_get_pages_num(efhp->formathtml.html, print_context, 0.0, line);
-		gtk_html_print_with_header_footer(efhp->formathtml.html, print_context, 0.0, line, NULL, efhp_footer_cb, &info);
-		gnome_font_unref(info.local_font);
-	} else {
-		gtk_html_print(efhp->formathtml.html, print_context);
-	}
-	gtk_html_print_set_master(efhp->formathtml.html, NULL);
+	settings = e_print_load_config ();
+	/* running the dialog */
+	gtk_print_operation_set_default_page_setup (print, page_setup);
+	gtk_print_operation_set_n_pages (print, 1); 
 
-	gnome_print_job_close(print_job);
-
-	if (efhp->preview)
-		gtk_widget_show(gnome_print_job_preview_new(print_job, _("Print Preview")));
+	/*initialise the struct */
+	mdi = g_new0 (MailDraw, 1);
+	mdi->efhp = efhp;
+	mdi->line = 0.0;
+	mdi->res = GNOME_PRINT_OK;
+	mdi->info = info;
+			
+        /* connect */
+	g_signal_connect (print,"draw_page", G_CALLBACK (mail_draw_page), mdi);
+	if (!efhp->preview)
+		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL); 
 	else
-		res = gnome_print_job_print(print_job);
-
-	g_object_unref(print_job);
-	g_object_unref(efhp);
+		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
+	g_object_unref (print);
+	g_object_unref (settings);
+	g_object_unref (paper_size);
+	g_object_unref (page_setup);
+	g_object_unref (efhp);
 }
 
-int em_format_html_print_print(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct _GnomePrintConfig *print_config, int preview)
+static void 
+mail_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, MailDraw *mdi)
+{
+	mdi->info.local_font = gnome_font_find_closest("Sans Regular", 10.0);
+	if (mdi->info.local_font) {
+		mdi->line = gnome_font_get_ascender(mdi->info.local_font) - gnome_font_get_descender(mdi->info.local_font);                
+		mdi->info.page_num = 1;
+		mdi->info.pages = gtk_html_print_page_get_pages_num(mdi->efhp->formathtml.html, context, 0.0, mdi->line );
+		gtk_html_print_page_with_header_footer(mdi->efhp->formathtml.html,
+						  context, 
+						  0.0, 
+					          mdi->line,
+					          NULL,
+						  efhp_footer_cb, 
+						  &(mdi->info));
+	} else {
+		gtk_html_print_page (mdi->efhp->formathtml.html, context);
+	}
+	g_object_unref(mdi->efhp);
+}
+
+int em_format_html_print_print(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct GtkPrintSettings *settings, int preview)
 {
 	EMFormat *emfs = (EMFormat *)source;
 
-	efhp->config = print_config;
-	if (print_config)
-		g_object_ref(print_config);
-	efhp->preview = preview;
+	efhp->settings = settings;
+	if (settings)
+		g_object_ref(settings);
 
+	efhp->preview = preview;
 	((EMFormatHTML *)efhp)->load_http = source->load_http_now;
 
 	g_signal_connect(efhp, "complete", G_CALLBACK(emfhp_complete), efhp);
@@ -217,11 +254,12 @@ emfhp_got_message(struct _CamelFolder *folder, const char *uid, struct _CamelMim
 	}
 }
 
-int em_format_html_print_message(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct _GnomePrintConfig *print_config, struct _CamelFolder *folder, const char *uid, int preview)
+int em_format_html_print_message(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct GtkPrintSettings *settings, struct _CamelFolder *folder, const char *uid, int preview)
 {
-	efhp->config = print_config;
-	if (print_config)
-		g_object_ref(print_config);
+	efhp->settings = settings;
+
+	if (settings)
+		g_object_ref(settings);
 	efhp->preview = preview;
 	efhp->source = source;
 	if (source)
@@ -233,11 +271,12 @@ int em_format_html_print_message(EMFormatHTMLPrint *efhp, EMFormatHTML *source, 
 	return 0;		/* damn async ... */
 }
 
-int em_format_html_print_raw_message(EMFormatHTMLPrint *efhp, struct _GnomePrintConfig *print_config, struct _CamelMimeMessage *msg, int preview)
+int em_format_html_print_raw_message(EMFormatHTMLPrint *efhp, GtkPrintSettings *settings, struct _CamelMimeMessage *msg, int preview)
 {
-	efhp->config = print_config;
-	if (print_config)
-		g_object_ref(print_config);
+	efhp->settings = settings;
+
+	if (settings)
+		g_object_ref(settings);
 	efhp->source = NULL;
 	efhp->preview = preview;
 	g_object_ref(efhp);

@@ -28,7 +28,7 @@
 #include <libgnomecanvas/gnome-canvas.h>
 
 #include "e-util/e-i18n.h"
-
+#include <gtk/gtk.h>
 #include "e-cell-pixbuf.h"
 
 #define PARENT_TYPE E_CELL_TYPE
@@ -51,20 +51,14 @@ enum {
 };
 
 static int
-gnome_print_pixbuf (GnomePrintContext *pc, GdkPixbuf *pixbuf)
+gnome_print_pixbuf (GtkPrintContext *pc, GdkPixbuf *pixbuf)
 {
-       if (gdk_pixbuf_get_has_alpha (pixbuf))
-               return gnome_print_rgbaimage  (pc,
-					      gdk_pixbuf_get_pixels    (pixbuf),
-					      gdk_pixbuf_get_width     (pixbuf),
-					      gdk_pixbuf_get_height    (pixbuf),
-					      gdk_pixbuf_get_rowstride (pixbuf));
-       else
-               return gnome_print_rgbimage  (pc,
-					     gdk_pixbuf_get_pixels    (pixbuf),
-					     gdk_pixbuf_get_width     (pixbuf),
-					     gdk_pixbuf_get_height    (pixbuf),
-					     gdk_pixbuf_get_rowstride (pixbuf));
+	cairo_t *cr = gtk_print_context_get_cairo_context (pc);
+
+        gdk_cairo_set_source_pixbuf (cr, pixbuf, 
+					      (double)gdk_pixbuf_get_width     (pixbuf),
+					      (double)gdk_pixbuf_get_height    (pixbuf));
+	return TRUE;
 }
 
 /*
@@ -224,29 +218,28 @@ pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECell::print method
  */
 static void
-pixbuf_print (ECellView *ecell_view, GnomePrintContext *context, 
+pixbuf_print (ECellView *ecell_view, GtkPrintContext *context, 
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
 	GdkPixbuf *pixbuf;
 	int scale;
-
+	cairo_t *cr = gtk_print_context_get_cairo_context (context);
+	
 	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	if (pixbuf == NULL)
 		return;
-	scale = gdk_pixbuf_get_height (pixbuf);
-	
-	gnome_print_gsave(context);
 
-	gnome_print_translate (context, 0, (height - scale) / 2);
-	gnome_print_scale (context, scale, scale);
-	gnome_print_pixbuf (context, pixbuf);
-	
-	gnome_print_grestore(context);
+	scale = gdk_pixbuf_get_height (pixbuf);
+	cairo_save (cr);
+	cairo_translate (cr, 0, (double)(height - scale) / (double)2);
+	gdk_cairo_set_source_pixbuf (cr, pixbuf, (double)scale, (double)scale);
+	cairo_paint (cr);	
+	cairo_restore (cr);
 }
 
 static gdouble
-pixbuf_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context, 
 		     int model_col, int view_col, int row,
 		     double width)
 {

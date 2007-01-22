@@ -39,8 +39,32 @@
 static GdkPixbuf *checks [2];
 
 static void
+ecc_print (ECellView *ecell_view, GtkPrintContext *context, 
+	    int model_col, int view_col, int row,
+	    double width, double height) 
+{
+	cairo_t *cr;
+	cr = gtk_print_context_get_cairo_context (context);
+	const int value = GPOINTER_TO_INT (
+			  e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+	cairo_save (cr); 
+	
+	if ( value == 1) {
+
+		cairo_set_line_width (cr, 2);
+		cairo_move_to (cr, 3, 11);
+		cairo_line_to (cr, 7, 14);
+		cairo_line_to (cr, 11, 5);
+		cairo_stroke (cr);
+	}	
+	cairo_restore (cr);	
+}
+
+static void
 e_cell_checkbox_class_init (GtkObjectClass *object_class)
 {
+	ECellClass *ecc = (ECellClass *) object_class;
+	ecc->print = ecc_print;
 	checks [0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
 	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
 }

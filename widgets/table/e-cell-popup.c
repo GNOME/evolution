@@ -38,6 +38,7 @@
 
 #include "e-cell-popup.h"
 #include "e-table-item.h"
+#include <gtk/gtk.h>
 
 #define E_CELL_POPUP_ARROW_WIDTH	16
 #define E_CELL_POPUP_ARROW_XPAD		3
@@ -86,14 +87,14 @@ static void	ecp_leave_edit		(ECellView	*ecv,
 					 int		 row,
 					 void		*edit_context);
 static void	ecp_print		(ECellView	*ecv,
-					 GnomePrintContext *context, 
+					 GtkPrintContext *context, 
 					 int		 model_col,
 					 int		 view_col,
 					 int		 row,
 					 double		 width,
 					 double		 height);
 static gdouble	ecp_print_height	(ECellView	*ecv,
-					 GnomePrintContext *context, 
+					 GtkPrintContext *context, 
 					 int		 model_col,
 					 int		 view_col,
 					 int		 row,
@@ -402,7 +403,7 @@ ecp_leave_edit (ECellView *ecv, int model_col, int view_col, int row,
 
 
 static void
-ecp_print (ECellView *ecv, GnomePrintContext *context, 
+ecp_print (ECellView *ecv, GtkPrintContext *context, 
 	   int model_col, int view_col, int row, double width, double height)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
@@ -413,7 +414,7 @@ ecp_print (ECellView *ecv, GnomePrintContext *context,
 
 
 static gdouble
-ecp_print_height (ECellView *ecv, GnomePrintContext *context, 
+ecp_print_height (ECellView *ecv, GtkPrintContext *context, 
 		  int model_col, int view_col, int row,
 		  double width)
 {

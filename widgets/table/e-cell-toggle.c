@@ -48,23 +48,6 @@ static ECellClass *parent_class;
 
 #define CACHE_SEQ_COUNT 6
 
-static int
-gnome_print_pixbuf (GnomePrintContext *pc, GdkPixbuf *pixbuf)
-{
-       if (gdk_pixbuf_get_has_alpha (pixbuf))
-               return gnome_print_rgbaimage  (pc,
-					      gdk_pixbuf_get_pixels    (pixbuf),
-					      gdk_pixbuf_get_width     (pixbuf),
-					      gdk_pixbuf_get_height    (pixbuf),
-					      gdk_pixbuf_get_rowstride (pixbuf));
-       else
-               return gnome_print_rgbimage  (pc,
-					     gdk_pixbuf_get_pixels    (pixbuf),
-					     gdk_pixbuf_get_width     (pixbuf),
-					     gdk_pixbuf_get_height    (pixbuf),
-					     gdk_pixbuf_get_rowstride (pixbuf));
-}
-
 /*
  * ECell::realize method
  */
@@ -145,7 +128,7 @@ check_cache (ECellToggleView *toggle_view, int image_seq, int cache_seq)
 			gdk_pixmap_new (toggle_view->canvas->layout.bin_window, width, height,
 					gtk_widget_get_visual (GTK_WIDGET (toggle_view->canvas))->depth);
 
-		
+			
 		switch (cache_seq % 3) {
 		case 0:
 			color = GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_SELECTED];
@@ -195,7 +178,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkPixbuf *image;
 	int x, y, width, height;
 	int cache_seq;
-	
+
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	
@@ -272,7 +255,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
 		return FALSE;
 #endif
 
-	switch (event->type){
+	switch (event->type){ 
 	case GDK_KEY_PRESS:
 		if (event->key.keyval != GDK_space)
 			return FALSE;
@@ -280,7 +263,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
 	case GDK_BUTTON_PRESS:
 		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
 			return FALSE;
-		
+			
 		etog_set_value (toggle_view, model_col, view_col, row, value + 1);
 		return TRUE;
 
@@ -304,34 +287,41 @@ etog_height (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECell::print method
  */
 static void
-etog_print (ECellView *ecell_view, GnomePrintContext *context, 
+etog_print (ECellView *ecell_view, GtkPrintContext *context, 
 	    int model_col, int view_col, int row,
 	    double width, double height)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE(ecell_view->ecell);
 	GdkPixbuf *image;
+	double image_width, image_height;
 	const int value = GPOINTER_TO_INT (
 		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
-	if (value >= toggle->n_states){
+	cairo_t *cr;	
+		if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
 			   value, toggle->n_states);
 		return;
 	}
 
-	gnome_print_gsave(context);
-
-	image = toggle->images[value];
-
-	gnome_print_translate (context, 0, (height - toggle->height) / 2);
-	gnome_print_scale (context, toggle->height, toggle->height);
-	gnome_print_pixbuf (context, image);
-	
-	gnome_print_grestore(context);
+	cr = gtk_print_context_get_cairo_context (context);
+	cairo_save(cr);
+		image = toggle->images[value];
+	cairo_translate (cr, 0 , 0);	
+	image = gdk_pixbuf_add_alpha (image, TRUE, 255, 255, 255);
+		image_width = (double)gdk_pixbuf_get_width (image);
+	image_height = (double)gdk_pixbuf_get_height (image);
+	cairo_rectangle (cr, image_width / 7, image_height / 3, 
+				 image_width - image_width / 4, 
+				 image_width - image_height / 7); 
+	cairo_clip (cr);
+	gdk_cairo_set_source_pixbuf (cr, image, 0, image_height / 4);
+	cairo_paint (cr);
+	cairo_restore(cr);
 }
 
 static gdouble
-etog_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+etog_print_height (ECellView *ecell_view, GtkPrintContext *context, 
 		   int model_col, int view_col, int row,
 		   double width)
 {
@@ -414,7 +404,7 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 	gal_a11y_e_cell_registry_add_cell_type (NULL,
-                                                E_CELL_TOGGLE_TYPE,
+					         E_CELL_TOGGLE_TYPE,
                                                 gal_a11y_e_cell_toggle_new);
 }
 

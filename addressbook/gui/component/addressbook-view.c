@@ -193,7 +193,7 @@ print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
 	if (v)
-		eab_view_print(v);
+		eab_view_print(v, 1);
 }
 
 static void

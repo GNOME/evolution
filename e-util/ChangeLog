@@ -1,3 +1,12 @@
+2007-01-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** GtkPrint API migration from Ebby Wiselyn.
+
+	* e-print.c: (e_print_load_config), (e_print_save_config),
+	(print_dialog_response), (e_print_get_dialog),
+	(e_print_get_dialog_with_config):
+	* e-print.h:
+
 2006-11-28  Daniel Gryniewicz <dang@gentoo.org>
 
 	** Fix for bug #349966 

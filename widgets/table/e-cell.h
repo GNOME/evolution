@@ -26,6 +26,7 @@
 #define _E_CELL_H_
 
 #include <gdk/gdktypes.h>
+#include <gtk/gtk.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-font.h>
 #include <table/e-table-model.h>
@@ -107,10 +108,10 @@ typedef struct {
 	void      *(*save_state)       (ECellView *ecell_view, int model_col, int view_col, int row, void *context);
 	void       (*load_state)       (ECellView *ecell_view, int model_col, int view_col, int row, void *context, void *save_state);
 	void       (*free_state)       (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state);
-	void       (*print)            (ECellView *ecell_view, GnomePrintContext *context,
+	void       (*print)            (ECellView *ecell_view, GtkPrintContext *context,
 				       	int model_col, int view_col, int row,
 				       	gdouble width, gdouble height);
-	gdouble    (*print_height)     (ECellView *ecell_view, GnomePrintContext *context,
+	gdouble    (*print_height)     (ECellView *ecell_view,GtkPrintContext *context,
 				       	int model_col, int view_col, int row, gdouble width);
 	int        (*max_width)        (ECellView *ecell_view, int model_col, int view_col);
 	int        (*max_width_by_row) (ECellView *ecell_view, int model_col, int view_col, int row);
@@ -149,14 +150,14 @@ void       e_cell_draw                          (ECellView         *ecell_view,
 						 int                x2,
 						 int                y2);
 void       e_cell_print                         (ECellView         *ecell_view,
-						 GnomePrintContext *context,
+						 GtkPrintContext *context,
 						 int                model_col,
 						 int                view_col,
 						 int                row,
 						 double             width,
 						 double             height);
 gdouble    e_cell_print_height                  (ECellView         *ecell_view,
-						 GnomePrintContext *context,
+						 GtkPrintContext *context,
 						 int                model_col,
 						 int                view_col,
 						 int                row,

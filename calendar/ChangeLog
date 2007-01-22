@@ -1,3 +1,23 @@
+2007-01-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Committing GtkPrint migration from Ebby Wiselyn.
+
+	* gui/print.c: (evo_calendar_print_cal_data_new),
+	(evo_calendar_print_data_new),
+	(evo_calendar_print_renderer_get_width),
+	(print_border_with_triangles), (print_border_rgb), (print_border),
+	(print_rectangle), (print_text), (print_text_size),
+	(print_text_size_bold), (titled_box), (print_month_small),
+	(bound_text), (print_day_background), (print_day_add_event),
+	(print_day_long_event), (print_day_event), (print_day_details),
+	(print_week_long_event), (print_week_day_event),
+	(print_week_event), (print_week_view_background),
+	(print_week_summary), (print_month_summary), (print_todo_details),
+	(print_day_view), (print_week_view), (print_month_view),
+	(print_year_view), (print_comp_item), (print_calendar),
+	(print_comp), (print_title), (print_table), (comp_draw_page),
+	(cal_draw_page), (table_draw_page):
+
 2007-01-08  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	Patch submitted by Nathan Owens <pianocomp81@yahoo.com> and 

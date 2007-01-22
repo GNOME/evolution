@@ -217,5 +217,289 @@
       </locale>
     </schema>
 
+
+        <schema>
+      <key>/schemas/apps/evolution/shell/printer</key>
+      <applyto>/apps/evolution/shell/printer</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <default>printer</default>
+      <locale name="C">
+        <short></short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/orientation</key>
+      <applyto>/apps/evolution/shell/orientation</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <default>2</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/paper_size</key>
+      <applyto>/apps/evolution/shell/paper_size</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <default>GTK_PAPER_NAME_A3</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/paper_width</key>
+      <applyto>/apps/evolution/shell/paper_width</applyto>
+      <owner>evolution</owner>
+      <type>double</type>
+      <default>5</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/paper_height</key>
+      <applyto>/apps/evolution/shell/paper_height</applyto>
+      <owner>evolution</owner>
+      <type>double</type>
+      <default>5</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/duplex</key>
+      <applyto>/apps/evolution/shell/duplex</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <default>1</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/quality</key>
+      <applyto>/apps/evolution/shell/quality</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+	<default>1</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/n_copies</key>
+      <applyto>/apps/evolution/shell/n_copies</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+   <default>10</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/number_up</key>_
+      <applyto>/apps/evolution/shell/number_up</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+     <default>10</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/resolution</key>
+      <applyto>/apps/evolution/shell/resolution</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+     <default>50</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/scale</key>
+      <applyto>/apps/evolution/shell/scale</applyto>
+      <owner>evolution</owner>
+      <type>double</type>
+     <default>50.0</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/print_pages</key>
+      <applyto>/apps/evolution/shell/print_pages</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <default>3</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/page_ranges</key>
+      <applyto>/apps/evolution/shell/page_ranges</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+     <default>5</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/page_set</key>
+      <applyto>/apps/evolution/shell/page_set</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <default>5</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/default_source</key>
+      <applyto>/apps/evolution/shell/default_source</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <default>"/home/ebby/Desktop/"</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/media_type</key>
+      <applyto>/apps/evolution/shell/media_type</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <default>"iso_a3"</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/dither</key>
+      <applyto>/apps/evolution/shell/dither</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <default>"dither"</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/finishings</key>
+      <applyto>/apps/evolution/shell/finishings</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <default>"finish"</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/output_bin</key>
+      <applyto>/apps/evolution/shell/output_bin</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <default>"/home/ebby/Desktop"</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/reverse</key>
+      <applyto>/apps/evolution/shell/reverse</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>TRUE</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/collate</key>
+      <applyto>/apps/evolution/shell/collate</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+     <default>TRUE</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/use_color</key>
+      <applyto>/apps/evolution/shell/use_color</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+     <default>TRUE</default>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</long>
+      </locale>
+    </schema>
+
   </schemalist>  
 </gconfschemafile>
