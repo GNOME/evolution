@@ -1,0 +1,9 @@
+2007-01-22  Sankar P  <psankar@novell.com>
+
+	* ChangeLog
+	* imap-headers.c
+	* imap-headers.glade
+	* Makefile.am
+	* org-gnome-imap-features.eplug.xml:
+
+	Initial list of files for the imap-features plugin
