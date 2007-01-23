@@ -308,6 +308,7 @@ plugins/exchange-operations/exchange-passwd-expiry.glade
 plugins/exchange-operations/exchange-permissions-dialog.c
 plugins/exchange-operations/exchange-permissions-dialog.glade
 plugins/exchange-operations/exchange-oof.glade
+plugins/exchange-operations/exchange-send-options.glade
 plugins/exchange-operations/exchange-user-dialog.c
 plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml
 plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml
@@ -341,6 +342,9 @@ plugins/groupwise-features/share-folder-common.c
 plugins/groupwise-features/status-track.c
 plugins/hula-account-setup/camel-hula-listener.c
 plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml
+plugins/imap-features/imap-headers.c
+plugins/imap-features/imap-headers.glade
+plugins/imap-features/org-gnome-imap-features.eplug.xml
 plugins/import-ics-attachments/icsimporter.c
 plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml
 plugins/ipod-sync/ical-format.c

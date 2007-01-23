@@ -1,6 +1,6 @@
 # Swedish messages for Evolution.
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
-# Daniel Nylander <po@danielnylander.se>, 2006.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Richard Hult <rhult@codefactory.se>, 2000, 2001.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002, 2003, 2004, 2005.
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-02 02:40+0000\n"
-"PO-Revision-Date: 2007-01-09 16:07+0100\n"
+"POT-Creation-Date: 2007-01-23 12:25+0100\n"
+"PO-Revision-Date: 2007-01-23 13:08+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr[0] "aktuella adressboksmappen %s har %d kort"
 msgstr[1] "aktuella adressboksmappen %s har %d kort"
 
 #: ../a11y/addressbook/ea-minicard.c:31
-#: ../ui/evolution-message-composer.xml.h:12
+#: ../ui/evolution-message-composer.xml.h:13
 msgid "Open"
 msgstr "Öppna"
 
@@ -400,7 +400,7 @@ msgstr "Misslyckades med att autentisera med LDAP-server."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1954
 msgid "Failed to delete contact"
 msgstr "Misslyckades med att ta bort kontakt"
 
@@ -531,13 +531,13 @@ msgstr "{1}"
 msgid "Default Sync Address:"
 msgstr "Standardsynkroniseringsadress:"
 
-#: ../addressbook/conduit/address-conduit.c:1241
-#: ../addressbook/conduit/address-conduit.c:1242
+#: ../addressbook/conduit/address-conduit.c:1317
+#: ../addressbook/conduit/address-conduit.c:1318
 msgid "Could not load addressbook"
 msgstr "Kunde inte läsa in adressboken"
 
-#: ../addressbook/conduit/address-conduit.c:1310
-#: ../addressbook/conduit/address-conduit.c:1313
+#: ../addressbook/conduit/address-conduit.c:1395
+#: ../addressbook/conduit/address-conduit.c:1398
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
@@ -703,7 +703,7 @@ msgid "General"
 msgstr "Allmänt"
 
 #: ../addressbook/gui/component/addressbook-config.c:985
-#: ../addressbook/gui/widgets/e-addressbook-view.c:570
+#: ../addressbook/gui/widgets/e-addressbook-view.c:572
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "Adressbok"
@@ -824,7 +824,7 @@ msgstr "_Ny adressbok"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
-#: ../addressbook/gui/widgets/e-addressbook-view.c:986
+#: ../addressbook/gui/widgets/e-addressbook-view.c:990
 #: ../calendar/gui/calendar-component.c:584
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720
@@ -832,7 +832,7 @@ msgstr "_Ny adressbok"
 #: ../calendar/gui/memos-component.c:453
 #: ../calendar/gui/tasks-component.c:444
 #: ../mail/em-folder-tree.c:2077
-#: ../mail/em-folder-view.c:1149
+#: ../mail/em-folder-view.c:1150
 #: ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30
@@ -1401,7 +1401,7 @@ msgstr "Adress"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1821
+#: ../widgets/table/e-cell-text.c:1823
 #: ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313
 #: ../widgets/text/e-text.c:3625
@@ -2731,7 +2731,7 @@ msgstr "_Ange en e-postadress eller dra en kontakt till listan nedan:"
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:230
+#: ../addressbook/gui/widgets/e-addressbook-view.c:232
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
@@ -2787,18 +2787,18 @@ msgstr ""
 "här mappen. Vill du lägga till den ändå?"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:178
+#: ../addressbook/gui/widgets/e-addressbook-view.c:180
 #: ../calendar/gui/cal-search-bar.c:60
 msgid "Any field contains"
 msgstr "Något fält innehåller"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:177
+#: ../addressbook/gui/widgets/e-addressbook-view.c:179
 msgid "Email begins with"
 msgstr "E-postadress börjar med"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:176
+#: ../addressbook/gui/widgets/e-addressbook-view.c:178
 msgid "Name begins with"
 msgstr "Namn börjar med"
 
@@ -2815,7 +2815,7 @@ msgstr[1] "%d kontakter"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:244
+#: ../addressbook/gui/widgets/e-addressbook-view.c:246
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
@@ -2841,26 +2841,26 @@ msgstr "Modell"
 msgid "Error modifying card"
 msgstr "Fel vid ändring av kort"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:237
+#: ../addressbook/gui/widgets/e-addressbook-view.c:239
 msgid "Source"
 msgstr "Källkod"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:251
+#: ../addressbook/gui/widgets/e-addressbook-view.c:253
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:487
+#: ../calendar/gui/e-meeting-list-view.c:500
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:6
 msgid "Type"
 msgstr "Typ"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:841
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2151
+#: ../addressbook/gui/widgets/e-addressbook-view.c:843
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2129
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Spara som VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:964
+#: ../addressbook/gui/widgets/e-addressbook-view.c:968
 #: ../calendar/gui/dialogs/comp-editor.c:1119
 #: ../calendar/gui/e-calendar-table.c:1280
 #: ../calendar/gui/e-calendar-view.c:1698
@@ -2869,57 +2869,57 @@ msgstr "Spara som VCard..."
 msgid "_Open"
 msgstr "_Öppna"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:966
+#: ../addressbook/gui/widgets/e-addressbook-view.c:970
 msgid "_New Contact..."
 msgstr "_Ny kontakt..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:967
+#: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "New Contact _List..."
 msgstr "Ny kontakt_lista..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:970
+#: ../addressbook/gui/widgets/e-addressbook-view.c:974
 msgid "_Save as VCard..."
 msgstr "_Spara som VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:975
 msgid "_Forward Contact"
 msgstr "_Vidarebefordra kontakt"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:972
+#: ../addressbook/gui/widgets/e-addressbook-view.c:976
 msgid "_Forward Contacts"
 msgstr "_Vidarebefordra kontakter"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:973
+#: ../addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "Send _Message to Contact"
 msgstr "Skicka _meddelande till kontakt"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:974
+#: ../addressbook/gui/widgets/e-addressbook-view.c:978
 msgid "Send _Message to List"
 msgstr "Skicka _meddelande till lista"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:979
 msgid "Send _Message to Contacts"
 msgstr "Skicka _meddelande till kontakter"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:976
+#: ../addressbook/gui/widgets/e-addressbook-view.c:980
 msgid "_Print"
 msgstr "Skriv _ut"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../addressbook/gui/widgets/e-addressbook-view.c:983
 msgid "Cop_y to Address Book..."
 msgstr "Ko_piera till adressbok..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:980
+#: ../addressbook/gui/widgets/e-addressbook-view.c:984
 msgid "Mo_ve to Address Book..."
 msgstr "Fly_tta till adressbok..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:983
+#: ../addressbook/gui/widgets/e-addressbook-view.c:987
 #: ../ui/evolution-composer-entries.xml.h:4
 #: ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "Klipp _ut"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:984
+#: ../addressbook/gui/widgets/e-addressbook-view.c:988
 #: ../calendar/gui/calendar-component.c:583
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1288
@@ -2927,10 +2927,10 @@ msgstr "Klipp _ut"
 #: ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3153
+#: ../composer/e-msg-composer.c:3179
 #: ../mail/em-folder-tree.c:1002
-#: ../mail/em-folder-view.c:1135
-#: ../mail/message-list.c:1920
+#: ../mail/em-folder-view.c:1136
+#: ../mail/message-list.c:1922
 #: ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13
@@ -2941,23 +2941,24 @@ msgstr "Klipp _ut"
 msgid "_Copy"
 msgstr "_Kopiera"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:985
+#: ../addressbook/gui/widgets/e-addressbook-view.c:989
 msgid "P_aste"
 msgstr "Klistra _in"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1667
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1671
 #: ../calendar/gui/cal-search-bar.c:428
 msgid "Any Category"
 msgstr "Alla kategorier"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1869
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1870
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1920
 msgid "Print cards"
 msgstr "Skriv ut kort"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1976
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1954
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
 msgstr "Annat fel"
@@ -3100,7 +3101,7 @@ msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:498
+#: ../calendar/gui/e-meeting-list-view.c:511
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -3151,8 +3152,8 @@ msgstr "Webbplats"
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3022
-#: ../widgets/table/e-table-item.c:3023
+#: ../widgets/table/e-table-item.c:3024
+#: ../widgets/table/e-table-item.c:3025
 #: ../widgets/text/e-text.c:3667
 #: ../widgets/text/e-text.c:3668
 msgid "Width"
@@ -3170,8 +3171,8 @@ msgstr "Bredd"
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3028
-#: ../widgets/table/e-table-item.c:3029
+#: ../widgets/table/e-table-item.c:3030
+#: ../widgets/table/e-table-item.c:3031
 #: ../widgets/text/e-text.c:3675
 #: ../widgets/text/e-text.c:3676
 msgid "Height"
@@ -3280,7 +3281,7 @@ msgid "_Open Link in Browser"
 msgstr "_Öppna länk i webbläsare"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2534
+#: ../mail/em-folder-view.c:2542
 msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
@@ -3448,7 +3449,7 @@ msgstr "Protokollet stöds inte"
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:664
 #: ../calendar/gui/e-calendar-table.c:463
-#: ../calendar/gui/print.c:2385
+#: ../calendar/gui/print.c:2519
 msgid "Canceled"
 msgstr "Avbruten"
 
@@ -3747,12 +3748,12 @@ msgstr "Evolutions VCard-importör"
 msgid "Print envelope"
 msgstr "Skriv ut kuvert"
 
-#: ../addressbook/printing/e-contact-print.c:849
+#: ../addressbook/printing/e-contact-print.c:826
 msgid "Print contacts"
 msgstr "Skriv ut kontakter"
 
-#: ../addressbook/printing/e-contact-print.c:939
-#: ../addressbook/printing/e-contact-print.c:967
+#: ../addressbook/printing/e-contact-print.c:852
+#: ../addressbook/printing/e-contact-print.c:879
 msgid "Print contact"
 msgstr "Skriv ut kontakt"
 
@@ -4325,7 +4326,7 @@ msgstr "_Förkasta ändringar"
 
 #: ../calendar/calendar.error.xml.h:71
 #: ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Save"
 msgstr "_Spara"
 
@@ -4359,27 +4360,27 @@ msgstr "Ange lösenord"
 msgid "Split Multi-Day Events:"
 msgstr "Delade flerdagsevenemang:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1432
-#: ../calendar/conduits/calendar/calendar-conduit.c:1433
-#: ../calendar/conduits/memo/memo-conduit.c:854
-#: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:1038
-#: ../calendar/conduits/todo/todo-conduit.c:1039
+#: ../calendar/conduits/calendar/calendar-conduit.c:1506
+#: ../calendar/conduits/calendar/calendar-conduit.c:1507
+#: ../calendar/conduits/memo/memo-conduit.c:932
+#: ../calendar/conduits/memo/memo-conduit.c:933
+#: ../calendar/conduits/todo/todo-conduit.c:1108
+#: ../calendar/conduits/todo/todo-conduit.c:1109
 msgid "Could not start evolution-data-server"
 msgstr "Kunde inte starta evolution-data-server"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1529
-#: ../calendar/conduits/calendar/calendar-conduit.c:1532
+#: ../calendar/conduits/calendar/calendar-conduit.c:1614
+#: ../calendar/conduits/calendar/calendar-conduit.c:1617
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunde inte läsa pilotens kalenderprogramblock"
 
-#: ../calendar/conduits/memo/memo-conduit.c:937
-#: ../calendar/conduits/memo/memo-conduit.c:940
+#: ../calendar/conduits/memo/memo-conduit.c:1026
+#: ../calendar/conduits/memo/memo-conduit.c:1029
 msgid "Could not read pilot's Memo application block"
 msgstr "Kunde inte läsa pilotens memo-programblock"
 
-#: ../calendar/conduits/memo/memo-conduit.c:976
-#: ../calendar/conduits/memo/memo-conduit.c:979
+#: ../calendar/conduits/memo/memo-conduit.c:1073
+#: ../calendar/conduits/memo/memo-conduit.c:1076
 msgid "Could not write pilot's Memo application block"
 msgstr "Kunde inte skriva pilotens memo-programblock"
 
@@ -4387,13 +4388,13 @@ msgstr "Kunde inte skriva pilotens memo-programblock"
 msgid "Default Priority:"
 msgstr "Standardprioritet:"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1112
-#: ../calendar/conduits/todo/todo-conduit.c:1115
+#: ../calendar/conduits/todo/todo-conduit.c:1192
+#: ../calendar/conduits/todo/todo-conduit.c:1195
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunde inte läsa pilotens att-göra-programblock"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1151
-#: ../calendar/conduits/todo/todo-conduit.c:1154
+#: ../calendar/conduits/todo/todo-conduit.c:1237
+#: ../calendar/conduits/todo/todo-conduit.c:1240
 msgid "Could not write pilot's ToDo application block"
 msgstr "Kunde inte skriva pilotens att-göra-programblock"
 
@@ -4457,7 +4458,7 @@ msgstr "Memo"
 #: ../calendar/gui/e-calendar-table.c:526
 #: ../calendar/gui/e-tasks.c:1348
 #: ../calendar/gui/gnome-cal.c:1509
-#: ../calendar/gui/print.c:1840
+#: ../calendar/gui/print.c:1950
 #: ../calendar/gui/tasks-component.c:522
 #: ../calendar/gui/tasks-component.c:1013
 #: ../calendar/gui/tasks-control.c:483
@@ -4536,7 +4537,7 @@ msgstr "Slumringsti_d:"
 #: ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10
 #: ../ui/evolution-tasks.xml.h:25
@@ -5081,7 +5082,6 @@ msgid "Unmatched"
 msgstr "Omatchade"
 
 #: ../calendar/gui/calendar-commands.c:119
-#: ../calendar/gui/print.c:2522
 #: ../ui/evolution-addressbook.xml.h:26
 #: ../ui/evolution-calendar.xml.h:20
 #: ../ui/evolution-mail-message.xml.h:75
@@ -5747,32 +5747,32 @@ msgid "Validation error: %s"
 msgstr "Valideringsfel: %s"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:187
-#: ../calendar/gui/print.c:2280
+#: ../calendar/gui/print.c:2395
 msgid " to "
 msgstr " till "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:191
-#: ../calendar/gui/print.c:2284
+#: ../calendar/gui/print.c:2399
 msgid " (Completed "
 msgstr " (Färdigt "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:193
-#: ../calendar/gui/print.c:2286
+#: ../calendar/gui/print.c:2401
 msgid "Completed "
 msgstr "Färdigt "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:198
-#: ../calendar/gui/print.c:2291
+#: ../calendar/gui/print.c:2406
 msgid " (Due "
 msgstr " (Ska utföras "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:200
-#: ../calendar/gui/print.c:2293
+#: ../calendar/gui/print.c:2408
 msgid "Due "
 msgstr "Ska utföras "
 
 #: ../calendar/gui/dialogs/comp-editor.c:209
-#: ../composer/e-msg-composer.c:2889
+#: ../composer/e-msg-composer.c:2915
 #, c-format
 msgid "Attached message - %s"
 msgstr "Bifogat meddelande - %s"
@@ -5780,8 +5780,8 @@ msgstr "Bifogat meddelande - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
 #: ../calendar/gui/dialogs/comp-editor.c:393
-#: ../composer/e-msg-composer.c:2894
-#: ../composer/e-msg-composer.c:3090
+#: ../composer/e-msg-composer.c:2920
+#: ../composer/e-msg-composer.c:3116
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5789,18 +5789,18 @@ msgstr[0] "Bifogat meddelande"
 msgstr[1] "%d bifogade meddelanden"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464
-#: ../composer/e-msg-composer.c:3154
+#: ../composer/e-msg-composer.c:3180
 #: ../mail/em-folder-tree.c:1003
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1031
-#: ../mail/message-list.c:1921
+#: ../mail/em-folder-view.c:1032
+#: ../mail/message-list.c:1923
 msgid "_Move"
 msgstr "_Flytta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466
-#: ../composer/e-msg-composer.c:3156
+#: ../composer/e-msg-composer.c:3182
 #: ../mail/em-folder-tree.c:1005
-#: ../mail/message-list.c:1923
+#: ../mail/message-list.c:1925
 msgid "Cancel _Drag"
 msgstr "Avbryt _dragning"
 
@@ -5809,7 +5809,7 @@ msgid "Could not update object"
 msgstr "Kunde inte uppdatera objekt"
 
 #: ../calendar/gui/dialogs/comp-editor.c:966
-#: ../composer/e-msg-composer.c:2502
+#: ../composer/e-msg-composer.c:2528
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5829,7 +5829,7 @@ msgstr "Visa _bilageraden"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3652
+#: ../composer/e-msg-composer.c:3678
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5838,7 +5838,7 @@ msgstr "_Ta bort"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3653
+#: ../composer/e-msg-composer.c:3679
 #: ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:33
@@ -5847,7 +5847,7 @@ msgstr "_Egenskaper"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3655
+#: ../composer/e-msg-composer.c:3681
 msgid "_Add attachment..."
 msgstr "_Lägg till bilaga..."
 
@@ -6108,7 +6108,7 @@ msgstr "Anpassa"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
-#: ../composer/e-msg-composer.c:2294
+#: ../composer/e-msg-composer.c:2312
 #: ../filter/filter-rule.c:889
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
@@ -6225,14 +6225,14 @@ msgstr "Medlem"
 # http://bugzilla.ximian.com/show_bug.cgi?id=61071
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:510
+#: ../calendar/gui/e-meeting-list-view.c:523
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "OSA"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:521
+#: ../calendar/gui/e-meeting-list-view.c:534
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 #: ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:16
@@ -6261,7 +6261,7 @@ msgid "Organizer:"
 msgstr "Organisatör:"
 
 #: ../calendar/gui/dialogs/memo-editor.c:220
-#: ../calendar/gui/print.c:2321
+#: ../calendar/gui/print.c:2455
 msgid "Memo"
 msgstr "Memo"
 
@@ -6565,7 +6565,7 @@ msgstr "<span weight=\"bold\">Status</span>"
 #: ../calendar/gui/e-itip-control.c:923
 #: ../calendar/gui/e-meeting-store.c:194
 #: ../calendar/gui/e-meeting-store.c:217
-#: ../calendar/gui/print.c:2382
+#: ../calendar/gui/print.c:2516
 #: ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "Färdigt"
@@ -6573,7 +6573,7 @@ msgstr "Färdigt"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:250
 #: ../calendar/gui/e-calendar-table.c:387
-#: ../mail/message-list.c:1032
+#: ../mail/message-list.c:1034
 msgid "High"
 msgstr "Hög"
 
@@ -6583,14 +6583,14 @@ msgstr "Hög"
 #: ../calendar/gui/e-cal-model-tasks.c:660
 #: ../calendar/gui/e-cal-model-tasks.c:735
 #: ../calendar/gui/e-calendar-table.c:461
-#: ../calendar/gui/print.c:2379
+#: ../calendar/gui/print.c:2513
 msgid "In Progress"
 msgstr "Pågår"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:254
 #: ../calendar/gui/e-calendar-table.c:389
-#: ../mail/message-list.c:1030
+#: ../mail/message-list.c:1032
 msgid "Low"
 msgstr "Låg"
 
@@ -6598,7 +6598,7 @@ msgstr "Låg"
 #: ../calendar/gui/e-cal-component-preview.c:252
 #: ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-calendar-table.c:388
-#: ../mail/message-list.c:1031
+#: ../mail/message-list.c:1033
 msgid "Normal"
 msgstr "Normal"
 
@@ -6607,7 +6607,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:460
-#: ../calendar/gui/print.c:2376
+#: ../calendar/gui/print.c:2510
 msgid "Not Started"
 msgstr "Inte startad"
 
@@ -6798,7 +6798,7 @@ msgstr "%s för en okänd triggertyp"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2902
+#: ../mail/em-folder-view.c:2910
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicka för att öppna %s"
@@ -6977,7 +6977,7 @@ msgstr "namnlös_bild.%s"
 #: ../calendar/gui/e-calendar-table.c:1282
 #: ../calendar/gui/e-calendar-view.c:1699
 #: ../calendar/gui/e-memo-table.c:903
-#: ../mail/em-folder-view.c:1145
+#: ../mail/em-folder-view.c:1146
 #: ../mail/em-popup.c:554
 #: ../mail/em-popup.c:565
 msgid "_Save As..."
@@ -7058,7 +7058,7 @@ msgstr "Uppdaterar objekt"
 #: ../calendar/gui/e-calendar-table.c:1106
 #: ../calendar/gui/e-calendar-view.c:1248
 #: ../calendar/gui/e-memo-table.c:798
-#: ../composer/e-msg-composer.c:1349
+#: ../composer/e-msg-composer.c:1351
 msgid "Save as..."
 msgstr "Spara som..."
 
@@ -7076,7 +7076,7 @@ msgstr "Öppna _webbsida"
 #: ../calendar/gui/e-calendar-view.c:1684
 #: ../calendar/gui/e-calendar-view.c:1700
 #: ../calendar/gui/e-memo-table.c:904
-#: ../mail/em-folder-view.c:1146
+#: ../mail/em-folder-view.c:1147
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58
 #: ../ui/evolution-calendar.xml.h:44
@@ -7234,7 +7234,7 @@ msgid "_Reply"
 msgstr "_Svara"
 
 #: ../calendar/gui/e-calendar-view.c:1716
-#: ../mail/em-folder-view.c:1140
+#: ../mail/em-folder-view.c:1141
 #: ../mail/em-popup.c:559
 #: ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
@@ -7268,7 +7268,7 @@ msgstr "Organisatör: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2195
-#: ../calendar/gui/print.c:2349
+#: ../calendar/gui/print.c:2484
 #, c-format
 msgid "Location: %s"
 msgstr "Plats: %s"
@@ -7319,7 +7319,7 @@ msgstr "%02i minutdivisioner"
 #: ../calendar/gui/e-day-view.c:2089
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524
-#: ../calendar/gui/print.c:1538
+#: ../calendar/gui/print.c:1644
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -7327,7 +7327,7 @@ msgstr "%A %d %B"
 #: ../calendar/gui/e-day-view.c:746
 #: ../calendar/gui/e-day-view.c:1089
 #: ../calendar/gui/e-week-view.c:503
-#: ../calendar/gui/print.c:858
+#: ../calendar/gui/print.c:953
 msgid "am"
 msgstr "fm"
 
@@ -7335,7 +7335,7 @@ msgstr "fm"
 #: ../calendar/gui/e-day-view.c:749
 #: ../calendar/gui/e-day-view.c:1092
 #: ../calendar/gui/e-week-view.c:506
-#: ../calendar/gui/print.c:860
+#: ../calendar/gui/print.c:955
 msgid "pm"
 msgstr "em"
 
@@ -7899,7 +7899,7 @@ msgid "Delegated"
 msgstr "Delegerat"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:471
+#: ../calendar/gui/e-meeting-list-view.c:484
 msgid "Attendee                          "
 msgstr "Deltagare                         "
 
@@ -8064,7 +8064,7 @@ msgstr "Välj tidszon"
 #. change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:327
 #: ../calendar/gui/e-week-view-main-item.c:541
-#: ../calendar/gui/print.c:1522
+#: ../calendar/gui/print.c:1625
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -8346,244 +8346,245 @@ msgstr "Kan inte migrera uppgifterna \"%s\""
 msgid "Notes"
 msgstr "Anteckningar"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "1st"
 msgstr "1:a"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "2nd"
 msgstr "2:a"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "3rd"
 msgstr "3:e"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "4th"
 msgstr "4:e"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:655
 msgid "5th"
 msgstr "5:e"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "6th"
 msgstr "6:e"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "7th"
 msgstr "7:e"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "8th"
 msgstr "8:e"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "9th"
 msgstr "9:e"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:656
 msgid "10th"
 msgstr "10:e"
 
-#: ../calendar/gui/print.c:576
+#: ../calendar/gui/print.c:657
 msgid "11th"
 msgstr "11:e"
 
-#: ../calendar/gui/print.c:576
+#: ../calendar/gui/print.c:657
 msgid "12th"
 msgstr "12:e"
 
-#: ../calendar/gui/print.c:576
+#: ../calendar/gui/print.c:657
 msgid "13th"
 msgstr "13:e"
 
-#: ../calendar/gui/print.c:576
+#: ../calendar/gui/print.c:657
 msgid "14th"
 msgstr "14:e"
 
-#: ../calendar/gui/print.c:576
+#: ../calendar/gui/print.c:657
 msgid "15th"
 msgstr "15:e"
 
-#: ../calendar/gui/print.c:577
+#: ../calendar/gui/print.c:658
 msgid "16th"
 msgstr "16:e"
 
-#: ../calendar/gui/print.c:577
+#: ../calendar/gui/print.c:658
 msgid "17th"
 msgstr "17:e"
 
-#: ../calendar/gui/print.c:577
+#: ../calendar/gui/print.c:658
 msgid "18th"
 msgstr "18:e"
 
-#: ../calendar/gui/print.c:577
+#: ../calendar/gui/print.c:658
 msgid "19th"
 msgstr "19:e"
 
-#: ../calendar/gui/print.c:577
+#: ../calendar/gui/print.c:658
 msgid "20th"
 msgstr "20:e"
 
-#: ../calendar/gui/print.c:578
+#: ../calendar/gui/print.c:659
 msgid "21st"
 msgstr "21:a"
 
-#: ../calendar/gui/print.c:578
+#: ../calendar/gui/print.c:659
 msgid "22nd"
 msgstr "22:a"
 
-#: ../calendar/gui/print.c:578
+#: ../calendar/gui/print.c:659
 msgid "23rd"
 msgstr "23:e"
 
-#: ../calendar/gui/print.c:578
+#: ../calendar/gui/print.c:659
 msgid "24th"
 msgstr "24:e"
 
-#: ../calendar/gui/print.c:578
+#: ../calendar/gui/print.c:659
 msgid "25th"
 msgstr "25:e"
 
-#: ../calendar/gui/print.c:579
+#: ../calendar/gui/print.c:660
 msgid "26th"
 msgstr "26:e"
 
-#: ../calendar/gui/print.c:579
+#: ../calendar/gui/print.c:660
 msgid "27th"
 msgstr "27:e"
 
-#: ../calendar/gui/print.c:579
+#: ../calendar/gui/print.c:660
 msgid "28th"
 msgstr "28:e"
 
-#: ../calendar/gui/print.c:579
+#: ../calendar/gui/print.c:660
 msgid "29th"
 msgstr "29:e"
 
-#: ../calendar/gui/print.c:579
+#: ../calendar/gui/print.c:660
 msgid "30th"
 msgstr "30:e"
 
-#: ../calendar/gui/print.c:580
+#: ../calendar/gui/print.c:661
 msgid "31st"
 msgstr "31:a"
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday
-#: ../calendar/gui/print.c:655
+#: ../calendar/gui/print.c:736
 msgid "Su"
 msgstr "Sö"
 
-#: ../calendar/gui/print.c:655
+#: ../calendar/gui/print.c:736
 msgid "Mo"
 msgstr "Må"
 
-#: ../calendar/gui/print.c:655
+#: ../calendar/gui/print.c:736
 msgid "Tu"
 msgstr "Ti"
 
-#: ../calendar/gui/print.c:655
+#: ../calendar/gui/print.c:736
 msgid "We"
 msgstr "On"
 
-#: ../calendar/gui/print.c:656
+#: ../calendar/gui/print.c:737
 msgid "Th"
 msgstr "To"
 
-#: ../calendar/gui/print.c:656
+#: ../calendar/gui/print.c:737
 msgid "Fr"
 msgstr "Fr"
 
-#: ../calendar/gui/print.c:656
+#: ../calendar/gui/print.c:737
 msgid "Sa"
 msgstr "Lö"
 
 #. Day
-#: ../calendar/gui/print.c:1936
+#: ../calendar/gui/print.c:2048
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Markerad dag (%a %d %b %Y)"
 
-#: ../calendar/gui/print.c:1961
-#: ../calendar/gui/print.c:1965
+#: ../calendar/gui/print.c:2073
+#: ../calendar/gui/print.c:2077
 msgid "%a %b %d"
 msgstr "%a %d %b"
 
-#: ../calendar/gui/print.c:1962
+#: ../calendar/gui/print.c:2074
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: ../calendar/gui/print.c:1966
-#: ../calendar/gui/print.c:1968
-#: ../calendar/gui/print.c:1969
+#: ../calendar/gui/print.c:2078
+#: ../calendar/gui/print.c:2080
+#: ../calendar/gui/print.c:2081
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
-#: ../calendar/gui/print.c:1973
+#: ../calendar/gui/print.c:2085
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Markerad vecka (%s - %s)"
 
 #. Month
-#: ../calendar/gui/print.c:1981
+#: ../calendar/gui/print.c:2093
 msgid "Selected month (%b %Y)"
 msgstr "Markerad månad (%b %Y)"
 
 #. Year
-#: ../calendar/gui/print.c:1988
+#: ../calendar/gui/print.c:2100
 msgid "Selected year (%Y)"
 msgstr "Markerat år (%Y)"
 
-#: ../calendar/gui/print.c:2317
+#: ../calendar/gui/print.c:2451
 msgid "Appointment"
 msgstr "Möte"
 
-#: ../calendar/gui/print.c:2319
+#: ../calendar/gui/print.c:2453
 msgid "Task"
 msgstr "Uppgift"
 
-#: ../calendar/gui/print.c:2341
+#: ../calendar/gui/print.c:2475
 #, c-format
 msgid "Summary: %s"
 msgstr "Sammanfattning: %s"
 
-#: ../calendar/gui/print.c:2392
+#: ../calendar/gui/print.c:2526
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: ../calendar/gui/print.c:2409
+#: ../calendar/gui/print.c:2543
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritet: %s"
 
-#: ../calendar/gui/print.c:2421
+#: ../calendar/gui/print.c:2555
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Procent klar: %i"
 
-#: ../calendar/gui/print.c:2433
+#: ../calendar/gui/print.c:2567
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2447
+#: ../calendar/gui/print.c:2580
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategorier: %s"
 
-#: ../calendar/gui/print.c:2458
+#: ../calendar/gui/print.c:2591
 msgid "Contacts: "
 msgstr "Kontakter: "
 
-#: ../calendar/gui/print.c:2601
-#: ../calendar/gui/print.c:2691
-#: ../calendar/gui/print.c:2820
-#: ../mail/em-format-html-print.c:178
-msgid "Print Preview"
-msgstr "Förhandsgranska"
+#: ../calendar/gui/print.c:2657
+msgid "ebby"
+msgstr "ebby"
 
-#: ../calendar/gui/print.c:2636
+#: ../calendar/gui/print.c:2658
+msgid "range"
+msgstr "intervall"
+
+#: ../calendar/gui/print.c:2730
 msgid "Print Item"
 msgstr "Skriv ut objekt"
 
@@ -10376,66 +10377,66 @@ msgstr "_Bifoga"
 msgid "Insert Attachment"
 msgstr "Infoga bilaga"
 
-#: ../composer/e-msg-composer.c:828
+#: ../composer/e-msg-composer.c:830
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "Kan inte signera utgående meddelande: Inget signeringscertifikat angivet för detta konto"
 
-#: ../composer/e-msg-composer.c:835
+#: ../composer/e-msg-composer.c:837
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
 msgstr "Kan inte kryptera utgående meddelande: Inget krypteringscertifikat angivet för detta konto"
 
-#: ../composer/e-msg-composer.c:1295
-#: ../composer/e-msg-composer.c:2531
+#: ../composer/e-msg-composer.c:1297
+#: ../composer/e-msg-composer.c:2557
 msgid "Hide _Attachment Bar"
 msgstr "Dölj _bilageraden"
 
-#: ../composer/e-msg-composer.c:1298
-#: ../composer/e-msg-composer.c:2534
-#: ../composer/e-msg-composer.c:3898
+#: ../composer/e-msg-composer.c:1300
+#: ../composer/e-msg-composer.c:2560
+#: ../composer/e-msg-composer.c:3924
 msgid "Show _Attachment Bar"
 msgstr "Visa _bilageraden"
 
-#: ../composer/e-msg-composer.c:1330
-#: ../composer/e-msg-composer.c:1364
+#: ../composer/e-msg-composer.c:1332
+#: ../composer/e-msg-composer.c:1366
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Okänd anledning"
 
-#: ../composer/e-msg-composer.c:1402
+#: ../composer/e-msg-composer.c:1404
 msgid "Could not open file"
 msgstr "Kunde inte öppna fil"
 
-#: ../composer/e-msg-composer.c:1410
+#: ../composer/e-msg-composer.c:1412
 msgid "Unable to retrieve message from editor"
 msgstr "Kunde inte hämta meddelande från redigeraren"
 
-#: ../composer/e-msg-composer.c:1689
+#: ../composer/e-msg-composer.c:1691
 msgid "Untitled Message"
 msgstr "Namnlöst meddelande"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1724
+#: ../composer/e-msg-composer.c:1726
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: ../composer/e-msg-composer.c:2174
+#: ../composer/e-msg-composer.c:2192
 #: ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651
 #: ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Automatiskt genererad"
 
-#: ../composer/e-msg-composer.c:2277
+#: ../composer/e-msg-composer.c:2295
 msgid "Si_gnature:"
 msgstr "Si_gnatur:"
 
-#: ../composer/e-msg-composer.c:2545
-#: ../composer/e-msg-composer.c:3780
-#: ../composer/e-msg-composer.c:3783
+#: ../composer/e-msg-composer.c:2571
+#: ../composer/e-msg-composer.c:3806
+#: ../composer/e-msg-composer.c:3809
 msgid "Compose Message"
 msgstr "Skriv ett meddelande"
 
-#: ../composer/e-msg-composer.c:5007
+#: ../composer/e-msg-composer.c:5033
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(Redigeraren innehåller ett meddelande som inte är text och som inte kan redigeras.)</b>"
 
@@ -11046,7 +11047,7 @@ msgid "Evolution Mail preferences control"
 msgstr "Evolutions e-postinställningskontroll"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11
-#: ../mail/em-folder-view.c:524
+#: ../mail/em-folder-view.c:525
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
 #: ../mail/importers/pine-importer.c:387
@@ -11656,13 +11657,13 @@ msgid "Copying folder %s"
 msgstr "Kopierar mappen %s"
 
 #: ../mail/em-folder-tree.c:886
-#: ../mail/message-list.c:1825
+#: ../mail/message-list.c:1827
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Flyttar meddelanden till mappen %s"
 
 #: ../mail/em-folder-tree.c:888
-#: ../mail/message-list.c:1827
+#: ../mail/message-list.c:1829
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopierar meddelanden till mappen %s"
@@ -11692,7 +11693,7 @@ msgstr "Genomsöker mappar i \"%s\""
 #: ../ui/evolution-editor.xml.h:24
 #: ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:59
 #: ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
@@ -11731,15 +11732,15 @@ msgid "Copying `%s' to `%s'"
 msgstr "Kopierar \"%s\" till \"%s\""
 
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1031
-#: ../mail/em-folder-view.c:1046
+#: ../mail/em-folder-view.c:1032
+#: ../mail/em-folder-view.c:1047
 #: ../mail/importers/evolution-mbox-importer.c:86
 #: ../mail/importers/evolution-outlook-importer.c:139
 msgid "Select folder"
 msgstr "Välj mapp"
 
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1046
+#: ../mail/em-folder-view.c:1047
 msgid "C_opy"
 msgstr "_Kopiera"
 
@@ -11761,162 +11762,163 @@ msgstr "Skapa mapp"
 msgid "Specify where to create the folder:"
 msgstr "Ange var mappen ska skapas:"
 
-#: ../mail/em-folder-view.c:967
+#: ../mail/em-folder-view.c:968
 #: ../mail/mail.error.xml.h:66
 msgid "Mail Deletion Failed"
 msgstr "Misslyckades att ta bort post"
 
-#: ../mail/em-folder-view.c:968
+#: ../mail/em-folder-view.c:969
 #: ../mail/mail.error.xml.h:119
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Du har inte tillräckliga rättigheter för att ta bort den här posten. "
 
-#: ../mail/em-folder-view.c:1139
+#: ../mail/em-folder-view.c:1140
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "Sva_ra till avsändaren"
 
-#: ../mail/em-folder-view.c:1141
+#: ../mail/em-folder-view.c:1142
 #: ../mail/em-popup.c:561
 #: ../mail/em-popup.c:572
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "Vidare_befordra"
 
-#: ../mail/em-folder-view.c:1144
+#: ../mail/em-folder-view.c:1145
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "_Redigera som nytt meddelande..."
 
-#: ../mail/em-folder-view.c:1150
+#: ../mail/em-folder-view.c:1151
 msgid "U_ndelete"
 msgstr "_Ångra borttagning"
 
-#: ../mail/em-folder-view.c:1151
+#: ../mail/em-folder-view.c:1152
 msgid "_Move to Folder..."
 msgstr "_Flytta till mapp..."
 
-#: ../mail/em-folder-view.c:1152
+#: ../mail/em-folder-view.c:1153
 msgid "_Copy to Folder..."
 msgstr "_Kopiera till mapp..."
 
-#: ../mail/em-folder-view.c:1155
+#: ../mail/em-folder-view.c:1156
 msgid "Mar_k as Read"
 msgstr "_Markera som läst"
 
-#: ../mail/em-folder-view.c:1156
+#: ../mail/em-folder-view.c:1157
 msgid "Mark as _Unread"
 msgstr "Markera som _oläst"
 
-#: ../mail/em-folder-view.c:1157
+#: ../mail/em-folder-view.c:1158
 msgid "Mark as _Important"
 msgstr "Markera som _viktigt"
 
-#: ../mail/em-folder-view.c:1158
+#: ../mail/em-folder-view.c:1159
 msgid "Mark as Un_important"
 msgstr "Markera som ovikt_igt"
 
-#: ../mail/em-folder-view.c:1159
+#: ../mail/em-folder-view.c:1160
 msgid "Mark as _Junk"
 msgstr "Markera som _skräp"
 
-#: ../mail/em-folder-view.c:1160
+#: ../mail/em-folder-view.c:1161
 msgid "Mark as _Not Junk"
 msgstr "Markera som _inte skräp"
 
-#: ../mail/em-folder-view.c:1161
+#: ../mail/em-folder-view.c:1162
 msgid "Mark for Follo_w Up..."
 msgstr "Markera för _uppföljning..."
 
-#: ../mail/em-folder-view.c:1163
+#: ../mail/em-folder-view.c:1164
 msgid "_Label"
 msgstr "E_tikett"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1164
+#: ../mail/em-folder-view.c:1165
 #: ../widgets/misc/e-dateedit.c:475
 msgid "_None"
 msgstr "_Ingen"
 
-#: ../mail/em-folder-view.c:1169
+#: ../mail/em-folder-view.c:1170
 msgid "Fla_g Completed"
 msgstr "Fla_gga färdig"
 
-#: ../mail/em-folder-view.c:1170
+#: ../mail/em-folder-view.c:1171
 msgid "Cl_ear Flag"
 msgstr "T_öm flagga"
 
-#: ../mail/em-folder-view.c:1173
+#: ../mail/em-folder-view.c:1174
 msgid "Crea_te Rule From Message"
 msgstr "Ska_pa regel från meddelande"
 
-#: ../mail/em-folder-view.c:1174
+#: ../mail/em-folder-view.c:1175
 msgid "Search Folder from _Subject"
 msgstr "Sökmapp på _ämne"
 
-#: ../mail/em-folder-view.c:1175
+#: ../mail/em-folder-view.c:1176
 msgid "Search Folder from Se_nder"
 msgstr "Sökmapp på _avsändare"
 
-#: ../mail/em-folder-view.c:1176
+#: ../mail/em-folder-view.c:1177
 msgid "Search Folder from _Recipients"
 msgstr "Sökmapp på _mottagare"
 
-#: ../mail/em-folder-view.c:1177
+#: ../mail/em-folder-view.c:1178
 msgid "Search Folder from Mailing _List"
 msgstr "Sökmapp på sänd_lista"
 
-#: ../mail/em-folder-view.c:1181
+#: ../mail/em-folder-view.c:1182
 msgid "Filter on Sub_ject"
 msgstr "Filtrera på _ämne"
 
-#: ../mail/em-folder-view.c:1182
+#: ../mail/em-folder-view.c:1183
 msgid "Filter on Sen_der"
 msgstr "Filtrera på _avsändare"
 
-#: ../mail/em-folder-view.c:1183
+#: ../mail/em-folder-view.c:1184
 msgid "Filter on Re_cipients"
 msgstr "Filtrera på _mottagare"
 
-#: ../mail/em-folder-view.c:1184
+#: ../mail/em-folder-view.c:1185
 msgid "Filter on _Mailing List"
 msgstr "Filtrera på sä_ndlista"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2035
-#: ../mail/em-folder-view.c:2079
+#: ../mail/em-folder-view.c:2036
+#: ../mail/em-folder-view.c:2080
 msgid "Default"
 msgstr "Standard"
 
-#: ../mail/em-folder-view.c:2178
+#: ../mail/em-folder-view.c:2181
+#: ../mail/em-folder-view.c:2187
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: ../mail/em-folder-view.c:2338
+#: ../mail/em-folder-view.c:2346
 msgid "Unable to retrieve message"
 msgstr "Kan inte hämta meddelande"
 
-#: ../mail/em-folder-view.c:2536
+#: ../mail/em-folder-view.c:2544
 msgid "Create _Search Folder"
 msgstr "Skapa ny _sökmapp"
 
-#: ../mail/em-folder-view.c:2537
+#: ../mail/em-folder-view.c:2545
 msgid "_From this Address"
 msgstr "_Från denna adress"
 
-#: ../mail/em-folder-view.c:2538
+#: ../mail/em-folder-view.c:2546
 msgid "_To this Address"
 msgstr "_Till denna adress"
 
-#: ../mail/em-folder-view.c:2895
+#: ../mail/em-folder-view.c:2903
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicka för att skicka e-post till %s"
 
-#: ../mail/em-folder-view.c:2900
+#: ../mail/em-folder-view.c:2908
 msgid "Click to hide/unhide addresses"
 msgstr "Klicka för att dölja/visa adresser"
 
@@ -12099,7 +12101,7 @@ msgstr "Ö_ppna med"
 msgid "Evolution cannot render this email as it is too large to handle. You can view it unformatted or with an external text editor."
 msgstr "Evolution kan inte rita upp det här e-postmeddelandet eftersom det är för stort för att hantera. Du kan visa det oformaterat eller med en extern textredigerare."
 
-#: ../mail/em-format-html-print.c:130
+#: ../mail/em-format-html-print.c:142
 #, c-format
 msgid "Page %d of %d"
 msgstr "Sida %d av %d"
@@ -12330,24 +12332,24 @@ msgstr "Svara till _lista"
 msgid "_Add to Address Book"
 msgstr "_Lägg till i adressbok"
 
-#: ../mail/em-subscribe-editor.c:582
+#: ../mail/em-subscribe-editor.c:603
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Detta lager stöder inte prenumerationer, eller så är de inte aktiverade."
 
-#: ../mail/em-subscribe-editor.c:612
+#: ../mail/em-subscribe-editor.c:633
 msgid "Subscribed"
 msgstr "Prenumererar"
 
-#: ../mail/em-subscribe-editor.c:616
+#: ../mail/em-subscribe-editor.c:637
 msgid "Folder"
 msgstr "Mapp"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:814
+#: ../mail/em-subscribe-editor.c:835
 msgid "Please select a server."
 msgstr "Välj en server."
 
-#: ../mail/em-subscribe-editor.c:835
+#: ../mail/em-subscribe-editor.c:856
 msgid "No server has been selected"
 msgstr "Ingen server har valts"
 
@@ -14662,81 +14664,81 @@ msgstr "_Töm"
 msgid "_Open Messages"
 msgstr "_Öppna meddelanden"
 
-#: ../mail/message-list.c:1020
+#: ../mail/message-list.c:1022
 msgid "Unseen"
 msgstr "Oläst"
 
-#: ../mail/message-list.c:1021
+#: ../mail/message-list.c:1023
 msgid "Seen"
 msgstr "Läst"
 
-#: ../mail/message-list.c:1022
+#: ../mail/message-list.c:1024
 msgid "Answered"
 msgstr "Besvarad"
 
-#: ../mail/message-list.c:1023
+#: ../mail/message-list.c:1025
 msgid "Multiple Unseen Messages"
 msgstr "Flera olästa meddelanden"
 
-#: ../mail/message-list.c:1024
+#: ../mail/message-list.c:1026
 msgid "Multiple Messages"
 msgstr "Flera meddelanden"
 
-#: ../mail/message-list.c:1028
+#: ../mail/message-list.c:1030
 msgid "Lowest"
 msgstr "Lägsta"
 
-#: ../mail/message-list.c:1029
+#: ../mail/message-list.c:1031
 msgid "Lower"
 msgstr "Lägre"
 
-#: ../mail/message-list.c:1033
+#: ../mail/message-list.c:1035
 msgid "Higher"
 msgstr "Högre"
 
-#: ../mail/message-list.c:1034
+#: ../mail/message-list.c:1036
 msgid "Highest"
 msgstr "Högsta"
 
-#: ../mail/message-list.c:1467
+#: ../mail/message-list.c:1469
 #: ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1474
+#: ../mail/message-list.c:1476
 #: ../plugins/itip-formatter/itip-view.c:202
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Idag %l.%M"
 
-#: ../mail/message-list.c:1483
+#: ../mail/message-list.c:1485
 #: ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "Igår %H.%M"
 
-#: ../mail/message-list.c:1495
+#: ../mail/message-list.c:1497
 #: ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %H.%M"
 
-#: ../mail/message-list.c:1503
+#: ../mail/message-list.c:1505
 #: ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %H.%M"
 
-#: ../mail/message-list.c:1505
+#: ../mail/message-list.c:1507
 #: ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2261
+#: ../mail/message-list.c:2263
 #: ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Meddelanden"
 
-#: ../mail/message-list.c:3652
+#: ../mail/message-list.c:3654
 msgid "Generating message list"
 msgstr "Genererar meddelandelista"
 
@@ -15463,6 +15465,58 @@ msgstr "Roll: "
 msgid "No, Don't Change Status"
 msgstr "Nej, ändra inte status"
 
+# FIXME. This abuse of markup should be bug reported.
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:1
+msgid "<b>Message Settings</b>"
+msgstr "<b>Meddelandeinställningar</b>"
+
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:2
+msgid "<b>Tracking Options</b>"
+msgstr "<b>Spårningsalternativ</b>"
+
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:3
+msgid "Exchange - Send Options"
+msgstr "Exchange - Sändalternativ"
+
+# Outlook kallar det för Prioritet (Låg, Normal, Hög)
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:4
+msgid "I_mportance: "
+msgstr "P_rioritet: "
+
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:5
+msgid ""
+"Normal\n"
+"High\n"
+"Low"
+msgstr ""
+"Normal\n"
+"Hög\n"
+"Låg"
+
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:8
+msgid ""
+"Normal\n"
+"Personal\n"
+"Private\n"
+"Confidential"
+msgstr ""
+"Normalt\n"
+"Personligt\n"
+"Privat\n"
+"Konfidentiellt"
+
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:12
+msgid "Request a _delivery receipt for this message"
+msgstr "Begär en leveransrap_port för det här meddelandet"
+
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:13
+msgid "Request a _read receipt for this message"
+msgstr "Begär ett _läskvitto för det här meddelandet"
+
+#: ../plugins/exchange-operations/exchange-send-options.glade.h:14
+msgid "_Sensitivity: "
+msgstr "_Känslighet: "
+
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
 msgid "Select User"
 msgstr "Välj användare"
@@ -15871,6 +15925,7 @@ msgstr "Lägger till alternativ för skickande till groupwise-meddelanden"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15
+#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
@@ -16033,6 +16088,62 @@ msgstr "En insticksmodul för att ställa in Hula-kalenderresurser."
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Konfiiguration av Hula-konto"
+
+#: ../plugins/imap-features/imap-headers.c:129
+msgid "Custom Header"
+msgstr "Anpassad rubrik"
+
+#: ../plugins/imap-features/imap-headers.c:241
+msgid "Custom Headers"
+msgstr "Anpassade rubriker"
+
+#: ../plugins/imap-features/imap-headers.glade.h:1
+msgid "<b>Custom Headers</b>"
+msgstr "<b>Anpassade rubriker</b>"
+
+#: ../plugins/imap-features/imap-headers.glade.h:2
+msgid "<b>IMAP Headers </b>"
+msgstr "<b>IMAP-rubriker </b>"
+
+#: ../plugins/imap-features/imap-headers.glade.h:3
+msgid "Basic and _Mailing List Headers (Default)"
+msgstr "Grundläggande och _sändlisterubriker (Standard)"
+
+#: ../plugins/imap-features/imap-headers.glade.h:4
+msgid "Fetch A_ll Headers"
+msgstr "Hämta a_lla rubriker"
+
+#: ../plugins/imap-features/imap-headers.glade.h:5
+msgid ""
+"Give the extra headers that you need to fetch in addition to the above standard headers. \n"
+"You can ignore this if you choose \"All Headers\"."
+msgstr ""
+"Ge extrarubrikerna som du behöver hämta i tillägg till ovanstånde standardrubriker. \n"
+"Du kan ignorera det här om du väljer \"Alla rubriker\"."
+
+#: ../plugins/imap-features/imap-headers.glade.h:7
+msgid ""
+"Select your IMAP Header Preferences. \n"
+"The more headers you have the more time it will take to download."
+msgstr ""
+"Välj rubrikinställningar för ditt IMAP-konto. \n"
+"Ju fler rubriker som du har, desto mer tid går åt att hämta dem."
+
+#: ../plugins/imap-features/imap-headers.glade.h:9
+msgid ""
+"_Basic Headers - (Fastest) \n"
+"Use this if you do not have filters based on mailing lists"
+msgstr ""
+"Gr_undläggande rubriker - (Snabbast) \n"
+"Använd det här om du inte ha filter baserade på sändlistor"
+
+#: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
+msgid "A plugin for the features in the IMAP accounts."
+msgstr "En insticksmodul för funktionerna i IMAP-konton."
+
+#: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
+msgid "IMAP Features"
+msgstr "IMAP-funktioner"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Calendar"
@@ -17164,7 +17275,7 @@ msgstr "MIME-typ"
 
 #: ../plugins/save-attachments/save-attachments.c:367
 #: ../ui/evolution-editor.xml.h:12
-#: ../ui/evolution-message-composer.xml.h:19
+#: ../ui/evolution-message-composer.xml.h:20
 msgid "Save"
 msgstr "Spara"
 
@@ -18841,20 +18952,20 @@ msgid "I_nsert"
 msgstr "I_nfoga"
 
 #: ../ui/evolution-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Attachment..."
 msgstr "_Bilaga..."
 
 #: ../ui/evolution-editor.xml.h:16
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "S_täng"
 
 #: ../ui/evolution-editor.xml.h:19
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:49
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11
 #: ../ui/evolution.xml.h:42
@@ -19768,152 +19879,161 @@ msgstr "Få en leveransavisering när ditt meddelande läses"
 msgid "HT_ML"
 msgstr "HT_ML"
 
-#: ../ui/evolution-message-composer.xml.h:13
+#: ../ui/evolution-message-composer.xml.h:12
+msgid "Insert Send options"
+msgstr "Infoga sändalternativ"
+
+#: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
 msgstr "Öppna en fil"
 
-#: ../ui/evolution-message-composer.xml.h:14
+#: ../ui/evolution-message-composer.xml.h:15
 msgid "PGP Encrypt"
 msgstr "PGP-kryptera"
 
-#: ../ui/evolution-message-composer.xml.h:15
+#: ../ui/evolution-message-composer.xml.h:16
 msgid "PGP Sign"
 msgstr "PGP-signera"
 
-#: ../ui/evolution-message-composer.xml.h:16
+#: ../ui/evolution-message-composer.xml.h:17
 msgid "R_equest Read Receipt"
 msgstr "_Begär läskvitto"
 
-#: ../ui/evolution-message-composer.xml.h:17
+#: ../ui/evolution-message-composer.xml.h:18
 msgid "S/MIME Encrypt"
 msgstr "S/MIME-kryptera"
 
-#: ../ui/evolution-message-composer.xml.h:18
+#: ../ui/evolution-message-composer.xml.h:19
 msgid "S/MIME Sign"
 msgstr "S/MIME-signera"
 
-#: ../ui/evolution-message-composer.xml.h:20
+#: ../ui/evolution-message-composer.xml.h:21
 msgid "Save As"
 msgstr "Spara som"
 
-#: ../ui/evolution-message-composer.xml.h:21
+#: ../ui/evolution-message-composer.xml.h:22
 msgid "Save Draft"
 msgstr "Spara utkast"
 
-#: ../ui/evolution-message-composer.xml.h:22
+#: ../ui/evolution-message-composer.xml.h:23
 msgid "Save _As..."
 msgstr "Spara so_m..."
 
-#: ../ui/evolution-message-composer.xml.h:23
+#: ../ui/evolution-message-composer.xml.h:24
 msgid "Save _Draft"
 msgstr "Spara _utkast"
 
-#: ../ui/evolution-message-composer.xml.h:24
+#: ../ui/evolution-message-composer.xml.h:25
 msgid "Save as draft"
 msgstr "Spara som utkast"
 
-#: ../ui/evolution-message-composer.xml.h:25
+#: ../ui/evolution-message-composer.xml.h:26
 msgid "Save in folder..."
 msgstr "Spara i mapp..."
 
-#: ../ui/evolution-message-composer.xml.h:26
+#: ../ui/evolution-message-composer.xml.h:27
 msgid "Save the current file"
 msgstr "Spara aktuell fil"
 
-#: ../ui/evolution-message-composer.xml.h:27
+#: ../ui/evolution-message-composer.xml.h:28
 msgid "Save the current file with a different name"
 msgstr "Spara aktuell fil med ett annat namn"
 
-#: ../ui/evolution-message-composer.xml.h:28
+#: ../ui/evolution-message-composer.xml.h:29
 msgid "Save the message in a specified folder"
 msgstr "Spara meddelandet i angiven mapp"
 
-#: ../ui/evolution-message-composer.xml.h:29
+#: ../ui/evolution-message-composer.xml.h:30
 msgid "Send"
 msgstr "Skicka"
 
-#: ../ui/evolution-message-composer.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:32
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "Skicka brevet i HTML-format"
 
-#: ../ui/evolution-message-composer.xml.h:31
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Send this message"
 msgstr "Skicka detta meddelande"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Set the message priority to high"
 msgstr "Ställ in meddelandeprioritet till hög"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your PGP key"
 msgstr "Signera detta meddelande med din PGP-nyckel"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Signera detta meddelande med ditt S/MIME-signaturcertifikat"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Växlar huruvida blindkopiefältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the CC field is displayed"
 msgstr "Växlar huruvida kopiefältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Växlar huruvida frånväljaren ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Växlar huruvida svara till-fältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Växlar huruvida svara till-fältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "Toggles whether the To field is displayed"
 msgstr "Växlar huruvida kopiefältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Bcc Field"
 msgstr "_Blindkopiefältet"
 
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:45
 msgid "_Cc Field"
 msgstr "_Kopiefältet"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:47
 msgid "_Delete all"
 msgstr "_Ta bort alla"
 
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_From Field"
 msgstr "_Frånfältet"
 
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Open..."
 msgstr "_Öppna..."
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Post-To Field"
 msgstr "_Posta till-fältet"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Prioritize Message"
 msgstr "_Prioritera meddelande"
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Reply-To Field"
 msgstr "_Svara till-fältet"
 
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:56
 msgid "_Security"
 msgstr "_Säkerhet"
 
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-task-editor.xml.h:23
+msgid "_Send Options"
+msgstr "Alternativ för _skickande"
+
+#: ../ui/evolution-message-composer.xml.h:58
 msgid "_To Field"
 msgstr "_Tillfältet"
 
@@ -19980,10 +20100,6 @@ msgstr "Statusdetaljer"
 #: ../ui/evolution-task-editor.xml.h:10
 msgid "Time Zone"
 msgstr "Tidszon"
-
-#: ../ui/evolution-task-editor.xml.h:23
-msgid "_Send Options"
-msgstr "Alternativ för _skickande"
 
 #: ../ui/evolution-task-editor.xml.h:24
 msgid "_Status Details"
@@ -20496,7 +20612,7 @@ msgstr "Y2"
 #: ../widgets/misc/e-reflow.c:1429
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3017
 msgid "Minimum width"
 msgstr "Minsta bredd"
 
@@ -20504,7 +20620,7 @@ msgstr "Minsta bredd"
 #: ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3016
+#: ../widgets/table/e-table-item.c:3018
 msgid "Minimum Width"
 msgstr "Minsta bredd"
 
@@ -21051,35 +21167,35 @@ msgstr "popuplista"
 msgid "%l:%M %p"
 msgstr "%H.%M"
 
-#: ../widgets/table/e-cell-pixbuf.c:396
+#: ../widgets/table/e-cell-pixbuf.c:389
 msgid "Selected Column"
 msgstr "Markerad kolumn"
 
-#: ../widgets/table/e-cell-pixbuf.c:403
+#: ../widgets/table/e-cell-pixbuf.c:396
 msgid "Focused Column"
 msgstr "Fokuserad kolumn"
 
-#: ../widgets/table/e-cell-pixbuf.c:410
+#: ../widgets/table/e-cell-pixbuf.c:403
 msgid "Unselected Column"
 msgstr "Omarkerad kolumn"
 
-#: ../widgets/table/e-cell-text.c:1793
+#: ../widgets/table/e-cell-text.c:1795
 msgid "Strikeout Column"
 msgstr "Genomstryk kolumn"
 
-#: ../widgets/table/e-cell-text.c:1800
+#: ../widgets/table/e-cell-text.c:1802
 msgid "Underline Column"
 msgstr "Understryk kolumn"
 
-#: ../widgets/table/e-cell-text.c:1807
+#: ../widgets/table/e-cell-text.c:1809
 msgid "Bold Column"
 msgstr "Gör kolumn fet"
 
-#: ../widgets/table/e-cell-text.c:1814
+#: ../widgets/table/e-cell-text.c:1816
 msgid "Color Column"
 msgstr "Färglägg kolumn"
 
-#: ../widgets/table/e-cell-text.c:1828
+#: ../widgets/table/e-cell-text.c:1830
 msgid "BG Color Column"
 msgstr "Bakgrundsfärga kolumn"
 
@@ -21250,8 +21366,8 @@ msgstr[1] "%s (%d objekt)"
 #: ../widgets/table/e-table-group-container.c:898
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2973
-#: ../widgets/table/e-table-item.c:2974
+#: ../widgets/table/e-table-item.c:2975
+#: ../widgets/table/e-table-item.c:2976
 msgid "Alternating Row Colors"
 msgstr "Färger för alternerande rader"
 
@@ -21259,8 +21375,8 @@ msgstr "Färger för alternerande rader"
 #: ../widgets/table/e-table-group-container.c:905
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2980
-#: ../widgets/table/e-table-item.c:2981
+#: ../widgets/table/e-table-item.c:2982
+#: ../widgets/table/e-table-item.c:2983
 #: ../widgets/table/e-tree.c:3265
 #: ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
@@ -21270,8 +21386,8 @@ msgstr "Rutnät för horisontell ritning"
 #: ../widgets/table/e-table-group-container.c:912
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2987
-#: ../widgets/table/e-table-item.c:2988
+#: ../widgets/table/e-table-item.c:2989
+#: ../widgets/table/e-table-item.c:2990
 #: ../widgets/table/e-tree.c:3271
 #: ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
@@ -21281,8 +21397,8 @@ msgstr "Rutnät för vertikal ritning"
 #: ../widgets/table/e-table-group-container.c:919
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2994
-#: ../widgets/table/e-table-item.c:2995
+#: ../widgets/table/e-table-item.c:2996
+#: ../widgets/table/e-table-item.c:2997
 #: ../widgets/table/e-tree.c:3277
 #: ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
@@ -21292,8 +21408,8 @@ msgstr "Rita fokus"
 #: ../widgets/table/e-table-group-container.c:926
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:3001
-#: ../widgets/table/e-table-item.c:3002
+#: ../widgets/table/e-table-item.c:3003
+#: ../widgets/table/e-table-item.c:3004
 msgid "Cursor mode"
 msgstr "Markörläge"
 
@@ -21301,8 +21417,8 @@ msgstr "Markörläge"
 #: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2966
-#: ../widgets/table/e-table-item.c:2967
+#: ../widgets/table/e-table-item.c:2968
+#: ../widgets/table/e-table-item.c:2969
 msgid "Selection model"
 msgstr "Markeringsmodell"
 
@@ -21310,8 +21426,8 @@ msgstr "Markeringsmodell"
 #: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3008
-#: ../widgets/table/e-table-item.c:3009
+#: ../widgets/table/e-table-item.c:3010
+#: ../widgets/table/e-table-item.c:3011
 #: ../widgets/table/e-table.c:3309
 #: ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
@@ -21322,8 +21438,8 @@ msgstr "Längdtröskelvärde"
 #: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3042
-#: ../widgets/table/e-table-item.c:3043
+#: ../widgets/table/e-table-item.c:3044
+#: ../widgets/table/e-table-item.c:3045
 #: ../widgets/table/e-table.c:3316
 #: ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
@@ -21406,18 +21522,18 @@ msgstr "Sorteringsinformation"
 msgid "Tree"
 msgstr "Träd"
 
-#: ../widgets/table/e-table-item.c:2952
-#: ../widgets/table/e-table-item.c:2953
+#: ../widgets/table/e-table-item.c:2954
+#: ../widgets/table/e-table-item.c:2955
 msgid "Table header"
 msgstr "Tabellhuvud"
 
-#: ../widgets/table/e-table-item.c:2959
-#: ../widgets/table/e-table-item.c:2960
+#: ../widgets/table/e-table-item.c:2961
+#: ../widgets/table/e-table-item.c:2962
 msgid "Table model"
 msgstr "Tabellmodell"
 
-#: ../widgets/table/e-table-item.c:3035
-#: ../widgets/table/e-table-item.c:3036
+#: ../widgets/table/e-table-item.c:3037
+#: ../widgets/table/e-table-item.c:3038
 msgid "Cursor row"
 msgstr "Markörrad"
 
@@ -21624,6 +21740,8 @@ msgstr "IM-sammanhang"
 msgid "Handle Popup"
 msgstr "Handtagspopupfönster"
 
+#~ msgid "Print Preview"
+#~ msgstr "Förhandsgranska"
 #~ msgid "_Send New Message To ..."
 #~ msgstr "_Skicka nytt meddelande till ..."
 #~ msgid "Importing ..."
@@ -21668,14 +21786,6 @@ msgstr "Handtagspopupfönster"
 #~ msgstr "Markera alla meddelanden som lästa i den markerade mappen"
 #~ msgid "C_lassification"
 #~ msgstr "K_lassifikation"
-#~ msgid ""
-#~ "Public\n"
-#~ "Private\n"
-#~ "Confidential\n"
-#~ msgstr ""
-#~ "Publikt\n"
-#~ "Privat\n"
-#~ "Konfidentiellt\n"
 #~ msgid "%s : %s (%d items)"
 #~ msgstr "%s: %s (%d objekt)"
 #~ msgid "%s (%d items)"
@@ -21822,8 +21932,6 @@ msgstr "Handtagspopupfönster"
 #~ msgstr "30 minuter"
 #~ msgid "60 minutes"
 #~ msgstr "60 minuter"
-#~ msgid "<b>Alerts</b>"
-#~ msgstr "<b>Varningar</b>"
 #~ msgid "<b>Default Free/Busy Server</b>"
 #~ msgstr "<b>Standardserver för ledig-/upptagen</b>"
 #~ msgid "<b>General</b>"
@@ -22736,8 +22844,6 @@ msgstr "Handtagspopupfönster"
 #~ msgstr "Månadsvy"
 #~ msgid "Week view"
 #~ msgstr "Veckovy"
-#~ msgid "Send options"
-#~ msgstr "Alternativ för skickande"
 #~ msgid "Advanced  send options"
 #~ msgstr "Avancerade alternativ för skickande"
 #~ msgid "Web page:"
@@ -23762,8 +23868,6 @@ msgstr "Handtagspopupfönster"
 #~ msgstr "S_ynkronisera automatiskt fjärrpost lokalt"
 #~ msgid "IMAP"
 #~ msgstr "IMAP"
-#~ msgid "IMAP server %s"
-#~ msgstr "IMAP-server %s"
 #~ msgid "IMAP service for %s on %s"
 #~ msgstr "IMAP-tjänst för %s på %s"
 #~ msgid "Could not connect to %s: %s"
@@ -24849,8 +24953,6 @@ msgstr "Handtagspopupfönster"
 #~ msgstr "Adressbok:"
 #~ msgid "Att_endees"
 #~ msgstr "D_eltagare"
-#~ msgid "<b>Attendees</b>"
-#~ msgstr "<b>Deltagare</b>"
 #~ msgid "Free/Busy C_alendars"
 #~ msgstr "Ledig-/upptagenk_alendrar"
 #~ msgid "Free/Busy Calendars"
@@ -26499,8 +26601,6 @@ msgstr "Handtagspopupfönster"
 #~ msgstr "_Autentiseringstyp: "
 #~ msgid "_Default signature:"
 #~ msgstr "_Standardsignatur:"
-#~ msgid "_Identity"
-#~ msgstr "_Identitet"
 #~ msgid "_Receiving Mail"
 #~ msgstr "_Mottagande av post"
 #~ msgid "_Restore defaults"
