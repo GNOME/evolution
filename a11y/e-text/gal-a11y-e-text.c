@@ -1026,8 +1026,9 @@ et_real_initialize (AtkObject *obj,
 	g_signal_connect (etext->model, "reposition",
 		G_CALLBACK (_et_reposition_cb), obj);
 
-	g_signal_connect_after (etext->tep, "command",
-		(GCallback) _et_command_cb, obj);
+	if (etext->tep)
+		g_signal_connect_after (etext->tep, "command",
+			(GCallback) _et_command_cb, obj);
                                                                               
 	obj->role = ATK_ROLE_TEXT;
 }

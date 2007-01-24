@@ -1,3 +1,7 @@
+2007-01-24  Wang Xin  <jedy.wang@sun.com>
+
+	* e-text/gal-a11y-e-text.c: Fixes #400121.
+
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes #351332
