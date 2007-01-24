@@ -1,3 +1,7 @@
+2007-01-24  Wang Xin <jedy.wang@sun.com>
+
+	* em-folder-browser.c: Fixes 397195.
+
 2007-01-22  Raghavendran R <raghavguru7@gmail.com>
 
        * em-event.[c,h]: (em_event_target_new_composer):

@@ -1836,7 +1836,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		emfb->priv->idle_scroll_id = 0;
 	}
 
-	if (emfb->view.folder) {
+	if (emfb->view.folder && emfb->priv->folder_changed_id) {
 		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
 		emfb->priv->folder_changed_id = 0;
 	}
