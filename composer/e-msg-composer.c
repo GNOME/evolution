@@ -3511,12 +3511,19 @@ msg_composer_destroy_notify (void *data)
 static int
 composer_key_pressed (EMsgComposer *composer, GdkEventKey *event, void *user_data)
 {
+	GtkWidget *widget;
+	EMsgComposerPrivate *p = composer->priv;
+	widget = e_msg_composer_hdrs_get_subject_entry (E_MSG_COMPOSER_HDRS (p->hdrs));
 	if (event->keyval == GDK_Escape) {
 		do_exit (composer);
 		g_signal_stop_emission_by_name (composer, "key-press-event");
 		return TRUE;
+	} else if ((event->keyval == GDK_Tab) && (gtk_widget_is_focus(widget))) {
+		CORBA_Environment ev;
+		CORBA_exception_init (&ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "grab-focus", &ev);
+		CORBA_exception_free (&ev);
 	}
-	
 	return FALSE;
 }
 

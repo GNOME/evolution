@@ -1,3 +1,9 @@
+2007-01-25 Raghavendran <raghavguru7@gmail.com>
+
+	**Fixes bug #343943
+	* e-msg-composer.c:Added code for tab sequence to go from
+	  BCC into Body.
+
 2007-01-18  Raghavendran R<raghavguru7@gmail.com>
 	* e-msg-composer.[c,h]:
 	  (e_msg_composer_modify_header): ,
