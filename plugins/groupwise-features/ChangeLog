@@ -1,3 +1,9 @@
+2007-01-25  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* send-options.c: (get_cnc): Fix a crash when setting up
+	a GroupWise account. Closes bug #330969. Patch from
+	Parthasarathi Susarla.
+
 2007-01-18  Raghavendran <raghavguru7@gmail.com>
 	
 	* org-gnome-groupwise-features.xml: 
