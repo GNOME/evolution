@@ -107,7 +107,7 @@ startup_wizard_timezone_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	etd = e_timezone_dialog_new ();
 	g_object_set_data (G_OBJECT (hook_data->config), IMPORT_TIMEZONE_DIALOG, etd);
 	
-	page = gnome_druid_page_standard_new_with_vals ("Timezone", NULL, NULL);
+	page = gnome_druid_page_standard_new_with_vals (_("Timezone"), NULL, NULL);
 	e_timezone_dialog_reparent (etd, GNOME_DRUID_PAGE_STANDARD (page)->vbox);
 
 	e_timezone_dialog_set_timezone (etd, NULL);
@@ -133,7 +133,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	if (import_importers == NULL)
 		return NULL;
 
-	page = gnome_druid_page_standard_new_with_vals ("Importing files", NULL, NULL);
+	page = gnome_druid_page_standard_new_with_vals (_("Importing files"), NULL, NULL);
 
 	label = gtk_label_new (_("Please select the information that you would like to import:"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (page)->vbox), label, FALSE, FALSE, 3);

@@ -1,3 +1,11 @@
+2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* install-shared.c: (org_gnome_popup_wizard):
+	* junk-settings.c: (junk_settings_construct):
+	* share-folder.c: (share_folder_construct):
+	* status-track.c: (track_status):
+	mark strings as translatable. See bug #399381 for details.
+
 2007-01-25  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* send-options.c: (get_cnc): Fix a crash when setting up

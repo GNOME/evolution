@@ -421,7 +421,7 @@ junk_settings_construct (JunkSettings *js)
 	gtk_widget_show (GTK_WIDGET (js->entry_list));
 
 	js->cell = gtk_cell_renderer_text_new ();
-	js->column = gtk_tree_view_column_new_with_attributes ("Email", js->cell, "text", 0, NULL);
+	js->column = gtk_tree_view_column_new_with_attributes (_("Email"), js->cell, "text", 0, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (js->entry_list),
 			GTK_TREE_VIEW_COLUMN (js->column));
 

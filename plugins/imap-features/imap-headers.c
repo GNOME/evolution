@@ -245,7 +245,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_signal_connect (add_header, "clicked", G_CALLBACK(add_header_clicked), NULL);
 	g_signal_connect (remove_header, "clicked", G_CALLBACK(remove_header_clicked), NULL);
 
-	gtk_notebook_append_page ((GtkNotebook *)(data->parent), vbox, gtk_label_new("IMAP Headers"));
+	gtk_notebook_append_page ((GtkNotebook *)(data->parent), vbox, gtk_label_new(_("IMAP Headers")));
 	gtk_widget_show_all (vbox);
 	return NULL;
 }

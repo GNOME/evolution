@@ -1,3 +1,10 @@
+2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* exchange-account-setup.c:
+	(org_gnome_exchange_show_folder_size_factory):
+	* exchange-contacts.c: (e_exchange_contacts_pcontacts):
+	mark strings as translatable. See bug #399381 for details.
+
 2006-01-18  Raghavendran R <raghavguru7@gmail.com>
 
 	* exchange-send-options.glade :Glade file for 

@@ -1,3 +1,8 @@
+2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* imap-headers.c: (org_gnome_imap_headers):
+	mark strings as translatable. See bug #399381 for details.
+
 2007-01-22  Sankar P  <psankar@novell.com>
 
 	* ChangeLog

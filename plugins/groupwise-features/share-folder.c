@@ -25,6 +25,7 @@
 #include <glade/glade.h>
 #include "share-folder.h"
 #include <glib/gmain.h>
+#include <glib/gi18n-lib.h>
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
@@ -756,24 +757,24 @@ share_folder_construct (ShareFolder *sf)
 	gtk_widget_show (GTK_WIDGET (sf->user_list));
 
 	sf->cell = gtk_cell_renderer_text_new ();
-	sf->column = gtk_tree_view_column_new_with_attributes ("Users", sf->cell, "text", 0, NULL);
+	sf->column = gtk_tree_view_column_new_with_attributes (_("Users"), sf->cell, "text", 0, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (sf->user_list),
 			GTK_TREE_VIEW_COLUMN (sf->column));
 
 	sf->cell = gtk_cell_renderer_toggle_new ();
-	sf->column = gtk_tree_view_column_new_with_attributes ("Add   ", sf->cell, "active" , 1, NULL);
+	sf->column = gtk_tree_view_column_new_with_attributes (_("Add   "), sf->cell, "active" , 1, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (sf->user_list),
 			GTK_TREE_VIEW_COLUMN (sf->column));
 	g_signal_connect (sf->cell, "toggled", G_CALLBACK (add_right_clicked), sf);
 	
 	sf->cell = gtk_cell_renderer_toggle_new ();
-	sf->column = gtk_tree_view_column_new_with_attributes ("Modify", sf->cell, "active", 2, NULL);
+	sf->column = gtk_tree_view_column_new_with_attributes (_("Modify"), sf->cell, "active", 2, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (sf->user_list),
 			GTK_TREE_VIEW_COLUMN (sf->column));
 	g_signal_connect (sf->cell, "toggled", G_CALLBACK (edit_right_clicked), sf);
 
 	sf->cell = gtk_cell_renderer_toggle_new ();
-	sf->column = gtk_tree_view_column_new_with_attributes ("Delete", sf->cell, "active", 3, NULL);
+	sf->column = gtk_tree_view_column_new_with_attributes (_("Delete"), sf->cell, "active", 3, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (sf->user_list),
 			GTK_TREE_VIEW_COLUMN (sf->column));
 	g_signal_connect (sf->cell, "toggled", G_CALLBACK (delete_right_clicked), sf);

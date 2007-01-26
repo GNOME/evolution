@@ -946,9 +946,9 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	account = exchange_operations_get_exchange_account ();
 	model = exchange_account_folder_size_get_model (account);
 	if (model)
-		folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, folder_name));
+		folder_size = g_strdup_printf (_("%s KB"), exchange_folder_size_get_val (model, folder_name));
 	else
-		folder_size = g_strdup ("0 KB");
+		folder_size = g_strdup (_("0 KB"));
 
 	hbx_size = (GtkHBox*) gtk_hbox_new (FALSE, 0);
 	vbx = (GtkVBox *)gtk_notebook_get_nth_page (GTK_NOTEBOOK (data->parent), 0);

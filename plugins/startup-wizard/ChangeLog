@@ -1,3 +1,9 @@
+2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* startup-wizard.c: (startup_wizard_timezone_page),
+	(startup_wizard_importer_page):
+	mark strings as translatable. See bug #399381 for details.
+
 2006-06-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* startup-wizard.c: (startup_wizard_timezone_page): Pass the default
