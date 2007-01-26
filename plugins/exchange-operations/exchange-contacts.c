@@ -210,9 +210,9 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		abook_name = (char*)e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
 		if (model)
-			folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, abook_name));
+			folder_size = g_strdup_printf (_("%s KB"), exchange_folder_size_get_val (model, abook_name));
 		else
-			folder_size = g_strdup_printf ("0 KB");
+			folder_size = g_strdup_printf (_("0 KB"));
 
 		/* FIXME: Take care of i18n */
 		lbl_size = gtk_label_new_with_mnemonic (_("Size:"));

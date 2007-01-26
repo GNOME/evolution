@@ -11,6 +11,7 @@
 #include "evolution-ipod-sync.h"
 
 #include <gnome.h>
+#include <glib/gi18n-lib.h>
 #include <glade/glade.h>
 #include <libhal.h>
 
@@ -57,14 +58,13 @@ ipod_check_status (gboolean silent)
 		 * it wasn't plugged in. Either way, we want to umount
 		 * the iPod when we finish syncing. */
 		if (!silent) {
-			GtkWidget *message = gtk_message_dialog_new_with_markup (
-											NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-											"<span weight=\"bold\" size=\"larger\">"
-											"Search for a iPod failed"
-											"</span>\n\n"
-											"Evolution could not find a iPod to synchronize with."
-											"Either it is not connected to the system or it is "
-											"not powered on.");
+			GtkWidget *message = gtk_message_dialog_new_with_markup (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+										_("<span weight=\"bold\" size=\"larger\">"
+										  "Search for a iPod failed"
+										  "</span>\n\n"
+										  "Evolution could not find a iPod to synchronize with."
+										  "Either it is not connected to the system or it is "
+										  "not powered on."));
 
 			gtk_dialog_run (GTK_DIALOG (message));
 			gtk_widget_destroy (message);

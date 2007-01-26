@@ -115,7 +115,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	/*Create the dialog*/
 	d = (GtkDialog *) gtk_dialog_new ();
 	gtk_dialog_add_button (d, GTK_STOCK_OK, GTK_RESPONSE_OK);
-	gtk_window_set_title (GTK_WINDOW (d), "Message Status");
+	gtk_window_set_title (GTK_WINDOW (d), _("Message Status"));
 
 	table = (GtkTable *) gtk_table_new (1, 2, FALSE);
 	win = (GtkScrolledWindow *) gtk_scrolled_window_new (NULL, NULL);
@@ -129,7 +129,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	gtk_table_set_row_spacings (table, 6);
 
 	/*Subject*/
-	widget = gtk_label_new ("<b>Subject</b> :");
+	widget = gtk_label_new (_("<b>Subject</b> :"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);
@@ -141,7 +141,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	/*From*/
 	from = camel_mime_message_get_from (msg) ;
 	camel_internet_address_get (from, 0, &namep, &addp) ;
-	widget = gtk_label_new ("<b>From</b> :");
+	widget = gtk_label_new (_("<b>From</b> :"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1,  row,  row + 1, GTK_FILL, 0, 0, 0);
@@ -154,7 +154,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	time = camel_mime_message_get_date (msg, NULL) ;
 	time_str = ctime (&time) ;
 	time_str[strlen(time_str)-1] = '\0' ;
-	widget = gtk_label_new ("<b>Creation date</b> :");
+	widget = gtk_label_new (_("<b>Creation date</b> :"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);
@@ -174,15 +174,15 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	gtk_table_set_col_spacings (table ,12);
 	gtk_table_set_row_spacings (table, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (table), FALSE, TRUE, 0);
-	widget = gtk_label_new ("<b>Recipients </b>");
+	widget = gtk_label_new (_("<b>Recipients </b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);
-	widget = gtk_label_new ("<b>Action</b>");
+	widget = gtk_label_new (_("<b>Action</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 1, 2, row,  row + 1, GTK_FILL, 0, 0, 0);
-	widget = gtk_label_new ("<b>Date and Time</b>");
+	widget = gtk_label_new (_("<b>Date and Time</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 2, 3,  row,  row + 1, GTK_FILL, 0, 0, 0);

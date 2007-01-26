@@ -212,12 +212,11 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (from_addr && camel_internet_address_get(from_addr, 0, &name, &email)) {
-			/* FIXME: this needs translating ... */
-			start_message = g_strconcat (" The User ", "'", name, "'" ," has shared a folder with you\n\n",
-						     " Message from ", "'" , name, "'\n\n\n", content->buffer->data, "\n\n\n", "Click 'Forward' to install the shared folder\n\n",NULL);
-			title_page = GNOME_DRUID_PAGE_EDGE (gnome_druid_page_edge_new_with_vals(GNOME_EDGE_START, TRUE, "Install the shared folder", start_message, NULL, NULL, NULL));
+			start_message = g_strconcat (_(" The User "), "'", name, "' " , _("has shared a folder with you\n\n"), " ",
+						     _(" Message from "), "'" , name, "'\n\n\n", content->buffer->data, "\n\n\n", _("Click 'Forward' to install the shared folder\n\n"), NULL);
+			title_page = GNOME_DRUID_PAGE_EDGE (gnome_druid_page_edge_new_with_vals(GNOME_EDGE_START, TRUE, _("Install the shared folder"), start_message, NULL, NULL, NULL));
 			g_free(start_message);
-			wizard = GNOME_DRUID (gnome_druid_new_with_window ("Shared Folder Installation", NULL, TRUE, (GtkWidget**)(&window)));
+			wizard = GNOME_DRUID (gnome_druid_new_with_window (_("Shared Folder Installation"), NULL, TRUE, (GtkWidget**)(&window)));
 			gtk_window_set_position (GTK_WINDOW (window) , GTK_WIN_POS_CENTER_ALWAYS);
 			gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(title_page));	
 			gtk_widget_show_all (GTK_WIDGET (title_page));

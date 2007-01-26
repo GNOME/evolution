@@ -331,7 +331,7 @@ save_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, vo
 	data->msg = msg;
 	camel_object_ref(msg);
 
-	dialog = (GtkDialog *)gtk_dialog_new_with_buttons("Save attachments",
+	dialog = (GtkDialog *)gtk_dialog_new_with_buttons(_("Save attachments"),
 							  NULL, /* target->parent? */
 							  0,
 							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
