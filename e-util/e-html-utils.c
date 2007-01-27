@@ -273,6 +273,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			    !g_ascii_strncasecmp (cur, "file:", 5) ||
 			    !g_ascii_strncasecmp (cur, "callto:", 7) ||
 			    !g_ascii_strncasecmp (cur, "h323:", 5) ||
+			    !g_ascii_strncasecmp (cur, "sip:", 4) ||
 			    !g_ascii_strncasecmp (cur, "webcal:", 7)) {
 				tmpurl = url_extract (&cur, TRUE);
 				if (tmpurl) {

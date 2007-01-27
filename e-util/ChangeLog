@@ -1,3 +1,8 @@
+2007-01-27  Andre Klapper  <a9016009@gmx.de>
+
+	* e-html-utils.c: (e_text_to_html_full):
+	identify "sip:" URL's. Fixes bug #396543.
+
 2007-01-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** GtkPrint API migration from Ebby Wiselyn.
