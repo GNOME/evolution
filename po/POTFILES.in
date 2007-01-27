@@ -323,6 +323,7 @@ plugins/groupwise-account-setup/camel-gw-listener.c
 plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml
 plugins/groupwise-features/install-shared.c
 plugins/groupwise-features/junk-mail-settings.c
+plugins/groupwise-features/junk-settings.c
 plugins/groupwise-features/junk-settings.glade
 plugins/groupwise-features/mail-retract.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
@@ -348,6 +349,7 @@ plugins/imap-features/imap-headers.glade
 plugins/imap-features/org-gnome-imap-features.eplug.xml
 plugins/import-ics-attachments/icsimporter.c
 plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml
+plugins/ipod-sync/evolution-ipod-sync.c
 plugins/ipod-sync/ical-format.c
 plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml
 plugins/ipod-sync/sync.c
