@@ -1,3 +1,8 @@
+2007-01-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* send-options.c: (get_cnc): NULL check to avoid a crash
+	Closes bug #330969.
+
 2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
 
 	* install-shared.c: (org_gnome_popup_wizard):
