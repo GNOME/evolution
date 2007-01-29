@@ -1,3 +1,7 @@
+2007-01-29  Harish Krishnaswamy <kharish@novell.com>
+
+	* junk-settings.c: Include glib/gi18n.h.
+
 2007-01-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* send-options.c: (get_cnc): NULL check to avoid a crash

@@ -23,6 +23,7 @@
 #  include <config.h>
 #endif
 #include <glade/glade.h>
+#include <glib/gi18n.h>
 #include "junk-settings.h"
 #include <glib/gmain.h>
 #include <gtk/gtktreemodel.h>
