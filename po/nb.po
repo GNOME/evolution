@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.7.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-24 10:47+0100\n"
-"PO-Revision-Date: 2007-01-24 10:51+0100\n"
+"POT-Creation-Date: 2007-01-29 11:22+0100\n"
+"PO-Revision-Date: 2007-01-29 11:28+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian Bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -3060,7 +3060,7 @@ msgstr "Firmatelefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: ../addressbook/gui/widgets/eab-contact-display.c:785
-#: ../smime/lib/e-cert.c:827
+#: ../plugins/groupwise-features/junk-settings.c:424 ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "E-post"
 
@@ -5058,6 +5058,7 @@ msgid "Time the last alarm ran, in time_t."
 msgstr "Tid for forrige alarm, som time_t."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+#: ../plugins/startup-wizard/startup-wizard.c:110
 msgid "Timezone"
 msgstr "Tidssone"
 
@@ -5953,7 +5954,7 @@ msgstr "Vis ve_dleggsfelt"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3678
+#: ../composer/e-msg-composer.c:3685
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5962,14 +5963,14 @@ msgstr "Fje_rn"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3679 ../mail/em-folder-tree.c:2081
+#: ../composer/e-msg-composer.c:3686 ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "Egenska_per..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3681
+#: ../composer/e-msg-composer.c:3688
 msgid "_Add attachment..."
 msgstr "_Legg til vedlegg..."
 
@@ -10408,7 +10409,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Skjul ve_dleggsfelt"
 
 #: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3924
+#: ../composer/e-msg-composer.c:3931
 msgid "Show _Attachment Bar"
 msgstr "Vis ve_dleggsfelt"
 
@@ -10443,12 +10444,12 @@ msgstr "Generert automatisk"
 msgid "Si_gnature:"
 msgstr "Si_gnatur:"
 
-#: ../composer/e-msg-composer.c:2571 ../composer/e-msg-composer.c:3806
-#: ../composer/e-msg-composer.c:3809
+#: ../composer/e-msg-composer.c:2571 ../composer/e-msg-composer.c:3813
+#: ../composer/e-msg-composer.c:3816
 msgid "Compose Message"
 msgstr "Skriv melding"
 
-#: ../composer/e-msg-composer.c:5033
+#: ../composer/e-msg-composer.c:5040
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11277,9 +11278,11 @@ msgstr "Dato mottatt"
 msgid "Date sent"
 msgstr "Dato sendt"
 
-#: ../mail/em-filter-i18n.h:11 ../ui/evolution-addressbook.xml.h:15
-#: ../ui/evolution-calendar.xml.h:5 ../ui/evolution-mail-message.xml.h:25
-#: ../ui/evolution-memos.xml.h:6 ../ui/evolution-tasks.xml.h:6
+#: ../mail/em-filter-i18n.h:11
+#: ../plugins/groupwise-features/share-folder.c:777
+#: ../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
+#: ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Slett"
 
@@ -15358,6 +15361,17 @@ msgstr "Autentiseringstype"
 msgid "Ch_eck for Supported Types"
 msgstr "Sj_ekk støttede typer"
 
+#: ../plugins/exchange-operations/exchange-account-setup.c:949
+#: ../plugins/exchange-operations/exchange-contacts.c:213
+#, c-format
+msgid "%s KB"
+msgstr "%s KB"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:951
+#: ../plugins/exchange-operations/exchange-contacts.c:215
+msgid "0 KB"
+msgstr "0 KB"
+
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
@@ -16067,6 +16081,39 @@ msgstr "Et tillegg for å sette opp kalenderressurser i Groupwise."
 msgid "Groupwise Account Setup"
 msgstr "Oppsett av konto for GroupWise"
 
+#: ../plugins/groupwise-features/install-shared.c:215
+#, c-format
+msgid ""
+"The user '%s' has shared a folder with you\n"
+"\n"
+"Message from '%s'\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Click 'Forward' to install the shared folder\n"
+"\n"
+msgstr ""
+"Bruker «%s» har delt en mappe med deg\n"
+"\n"
+"Melding fra «%s»\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Klikk «Framover» for å installere den delte mappen\n"
+"\n"
+
+#: ../plugins/groupwise-features/install-shared.c:220
+msgid "Install the shared folder"
+msgstr "Installer delt mappe"
+
+#: ../plugins/groupwise-features/install-shared.c:222
+msgid "Shared Folder Installation"
+msgstr "Installering av delt mappe"
+
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
 msgstr "Innstillinger for uønsket e-post"
@@ -16254,6 +16301,7 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Proxyfanen vil kun være tilgjengelig når kontoen er aktivert."
 
 #: ../plugins/groupwise-features/share-folder-common.c:322
+#: ../plugins/groupwise-features/share-folder.c:760
 msgid "Users"
 msgstr "Brukere"
 
@@ -16268,6 +16316,43 @@ msgstr "Ny _delt mappe..."
 #: ../plugins/groupwise-features/share-folder-common.c:450
 msgid "Sharing"
 msgstr "Deling"
+
+#: ../plugins/groupwise-features/share-folder.c:765
+msgid "Add   "
+msgstr "Legg til"
+
+#: ../plugins/groupwise-features/share-folder.c:771
+msgid "Modify"
+msgstr "Endre"
+
+#: ../plugins/groupwise-features/status-track.c:118
+msgid "Message Status"
+msgstr "Meldingsstatus"
+
+#. Subject
+#: ../plugins/groupwise-features/status-track.c:132
+msgid "<b>Subject</b> :"
+msgstr "<b>Emne</b>:"
+
+#: ../plugins/groupwise-features/status-track.c:144
+msgid "<b>From</b> :"
+msgstr "<b>Fra</b>:"
+
+#: ../plugins/groupwise-features/status-track.c:157
+msgid "<b>Creation date</b> :"
+msgstr "<b>Dato for opprettelse</b>:"
+
+#: ../plugins/groupwise-features/status-track.c:177
+msgid "<b>Recipients </b>"
+msgstr "<b>Mottakere</b> "
+
+#: ../plugins/groupwise-features/status-track.c:181
+msgid "<b>Action</b>"
+msgstr "<b>Handling</b>"
+
+#: ../plugins/groupwise-features/status-track.c:185
+msgid "<b>Date and Time</b>"
+msgstr "<b>Dato og klokkeslett</b>"
 
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
@@ -16289,6 +16374,10 @@ msgstr "Egendefinert meldingshode"
 msgid "Custom Headers"
 msgstr "Egendefinerte meldingshoder"
 
+#: ../plugins/imap-features/imap-headers.c:248
+msgid "IMAP Headers"
+msgstr "IMAP-meldingshoder"
+
 #: ../plugins/imap-features/imap-headers.glade.h:1
 msgid "<b>Custom Headers</b>"
 msgstr "<b>Egendefinerte meldingshoder</b> "
@@ -16299,7 +16388,8 @@ msgstr "<b>IMAP-meldingshoder </b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr "Grunnleggende meldingshoder og meldingshoder for e-postlister (Forvalg)"
+msgstr ""
+"Grunnleggende meldingshoder og meldingshoder for e-postlister (Forvalg)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 msgid "Fetch A_ll Headers"
@@ -16365,6 +16455,17 @@ msgstr "Importer til kalenderen"
 #: ../plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml.h:3
 msgid "Imports ICS attachments to calendar."
 msgstr "Importer ICS-vedlegg til kalenderen."
+
+#: ../plugins/ipod-sync/evolution-ipod-sync.c:62
+msgid ""
+"<span weight=\"bold\" size=\"larger\">Search for a iPod failed</span>\n"
+"\n"
+"Evolution could not find a iPod to synchronize with.Either it is not "
+"connected to the system or it is not powered on."
+msgstr ""
+"<span weight=\"bold\" size=\"larger\">Søk etter iPod feilet</span>\n"
+"\n"
+"Evolution kunne ikke finne en iPod å synkronisere med. Enten er den ikke koblet til systemet eller så er den ikke slått på."
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:149
@@ -17500,6 +17601,7 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
+#: ../plugins/save-attachments/save-attachments.c:334
 msgid "Save attachments"
 msgstr "Lagre vedlegg"
 
@@ -17678,6 +17780,10 @@ msgstr ""
 "programmer. \n"
 "\n"
 "Vennligst klikk «Fremover» for å fortsette. "
+
+#: ../plugins/startup-wizard/startup-wizard.c:136
+msgid "Importing files"
+msgstr "Importerer filer"
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
