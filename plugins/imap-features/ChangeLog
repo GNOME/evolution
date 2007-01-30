@@ -1,3 +1,11 @@
+2007-01-30  Sankar P  <psankar@novell.com>
+
+	* imap-headers.c: (imap_headers_commit):
+	Fixes a memory leak and a scenario where,
+	some IMAP servers doesnt return headers if 
+	the string contains more than one consecutive 
+	embedded spaces in the HEADER.
+
 2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
 
 	* imap-headers.c: (org_gnome_imap_headers):

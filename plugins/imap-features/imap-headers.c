@@ -78,6 +78,7 @@ imap_headers_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 		GtkTreeModel *model;
 		GtkTreeIter iter;
 		GString *str;
+		gchar *header = NULL;
 
 		str = g_string_new("");
 
@@ -87,16 +88,19 @@ imap_headers_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 
 		model = gtk_tree_view_get_model (custom_headers_tree);
 		if (gtk_tree_model_get_iter_first(model, &iter)) {
-			gchar *header;
 			do
 			{
+				header = NULL;
 				gtk_tree_model_get (model, &iter, 0, &header, -1);
 				str = g_string_append (str, g_strstrip(header));
 				str = g_string_append (str, " ");
+				g_free (header);
 			} while (gtk_tree_model_iter_next(model, &iter));
 		}
 
-		camel_url_set_param (url, "imap_custom_headers", str->str);
+		header = g_strstrip(g_strdup(str->str));
+		camel_url_set_param (url, "imap_custom_headers", header);
+		g_free (header);
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(all_headers))) {
 			camel_url_set_param (url, "all_headers", "1");
