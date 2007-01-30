@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-27 03:26+0000\n"
-"PO-Revision-Date: 2007-01-27 17:41+0200\n"
+"PO-Revision-Date: 2007-01-30 17:21+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -15664,6 +15664,9 @@ msgid ""
 "High\n"
 "Low"
 msgstr ""
+"Tavaline\n"
+"Kõrge\n"
+"Madal"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:8
 msgid ""
@@ -16404,7 +16407,7 @@ msgstr "Plugin IMAP kontode võimaluste jaoks."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
-msgstr ""
+msgstr "IMAP-i võimalused"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Calendar"
@@ -17168,11 +17171,10 @@ msgid "Mailing _List"
 msgstr "_Postiloend"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-#, fuzzy
 msgid ""
 "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr ""
-"Üldiste postiloendikäskude (tellimine, tellimusest loobumine) tagamine."
+"Üldiste postiloendikäskude (tellimine, tellimusest loobumine, ...) tagamine."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 msgid "_Post message to list"
@@ -20193,9 +20195,8 @@ msgid "HT_ML"
 msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
-#, fuzzy
 msgid "Insert Send options"
-msgstr "Laiendatud saatmisvalikute lisamine"
+msgstr "Saatmisvalikute lisamine"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
