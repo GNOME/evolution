@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-27 03:26+0000\n"
-"PO-Revision-Date: 2007-01-30 17:21+0200\n"
+"PO-Revision-Date: 2007-01-31 08:32+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -15125,7 +15125,7 @@ msgstr "HTTP-kalendrid"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
-msgstr "Veebi- ja http kalendrite põhitalitluse tagamine."
+msgstr "Veebi- ja http-kalendrite põhitalitluse tagamine."
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
@@ -15709,8 +15709,8 @@ msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
 msgstr ""
-"Plugin, mis käsitleb Exchange'i kontole spetsiifilisi toiminguid ja "
-"võimalusi."
+"Exchange'i kontole spetsiifiliste toimingute ja võimaluste käsitlemise "
+"plugin."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -17452,7 +17452,7 @@ msgstr "Profileerimisandmete kirjutamine logisse."
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
-msgstr "Plugin kalendrite veebis avalikustamiseks"
+msgstr "Plugin kalendrite avalikustamiseks veebis"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Calendar Publishing"
@@ -17762,6 +17762,8 @@ msgstr "Andmete importimine."
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
 msgstr ""
+"Lõimede koostamine teema järgi juhuks, kui sõnumeid pole võimalik muul "
+"viisil lõimedesse jaotada."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
