@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-27 21:07+0100\n"
-"PO-Revision-Date: 2007-01-27 21:07+0100\n"
+"POT-Creation-Date: 2007-01-31 12:16+0100\n"
+"PO-Revision-Date: 2007-01-31 12:12+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -7436,7 +7436,7 @@ msgstr "%a %Y-%m-%d %H.%M.%S"
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:119
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %Y-%m-%d %H.%M.%S %p"
+msgstr "%a %Y-%m-%d %H.%M.%S"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:124
 #, c-format
@@ -15009,7 +15009,7 @@ msgstr "?"
 #: ../mail/message-list.c:1476 ../plugins/itip-formatter/itip-view.c:202
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
-msgstr "Idag %l.%M"
+msgstr "Idag %H.%M"
 
 #: ../mail/message-list.c:1485 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
@@ -16529,15 +16529,15 @@ msgstr "En insticksmodul för att ställa in Hula-kalenderresurser."
 msgid "Hula Account Setup"
 msgstr "Konfiiguration av Hula-konto"
 
-#: ../plugins/imap-features/imap-headers.c:129
+#: ../plugins/imap-features/imap-headers.c:133
 msgid "Custom Header"
 msgstr "Anpassad rubrik"
 
-#: ../plugins/imap-features/imap-headers.c:241
+#: ../plugins/imap-features/imap-headers.c:245
 msgid "Custom Headers"
 msgstr "Anpassade rubriker"
 
-#: ../plugins/imap-features/imap-headers.c:248
+#: ../plugins/imap-features/imap-headers.c:252
 msgid "IMAP Headers"
 msgstr "IMAP-rubriker"
 
@@ -16862,7 +16862,7 @@ msgstr "Idag %H.%M.%S"
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:206
 msgid "Today %l:%M:%S %p"
-msgstr "Idag %l.%M.%S %p"
+msgstr "Idag %H.%M.%S"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:216
@@ -16885,13 +16885,13 @@ msgstr "Imorgon %H.%M.%S"
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:230
 msgid "Tomorrow %l:%M %p"
-msgstr "Imorgon %l.%M %p"
+msgstr "Imorgon %H.%M"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:234
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Imorgon %l.%M.%S %p"
+msgstr "Imorgon %H.%M.%S"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:253
@@ -16915,13 +16915,13 @@ msgstr "%A %H.%M.%S"
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:267
 msgid "%A %l:%M %p"
-msgstr "%a %l.%M %p"
+msgstr "%a %H.%M"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:271
 msgid "%A %l:%M:%S %p"
-msgstr "%A %l.%M.%S %p"
+msgstr "%A %H.%M.%S"
 
 #. strftime format of a weekday and a date
 #. without a year.
@@ -16946,13 +16946,13 @@ msgstr "%A %e %B %H.%M.%S"
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:295
 msgid "%A, %B %e %l:%M %p"
-msgstr "%A %e %B %l.%M %p"
+msgstr "%A %e %B %H.%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:299
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%A %e %B %l.%M.%S %p"
+msgstr "%A %e %B %H.%M.%S"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:305
@@ -16975,13 +16975,13 @@ msgstr "%A %e %B %Y %H.%M.%S"
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:319
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%A %e %B %Y %l.%M %p"
+msgstr "%A %e %B %Y %H.%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:323
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%A %e %B %Y %l.%M.%S %p"
+msgstr "%A %e %B %Y %H.%M.%S"
 
 #: ../plugins/itip-formatter/itip-view.c:348
 #, c-format
@@ -21310,7 +21310,7 @@ msgstr "%H.%M"
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
 msgid "%I:%M %p"
-msgstr "%H.%M %p"
+msgstr "%H.%M"
 
 #: ../widgets/misc/e-dateedit.c:1634
 msgid "Invalid Date Value"
