@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-29 20:19+0800\n"
-"PO-Revision-Date: 2007-01-27 11:03+0800\n"
+"POT-Creation-Date: 2007-02-01 19:56+0800\n"
+"PO-Revision-Date: 2007-01-31 20:21+0800\n"
 "Last-Translator: Chao-Hsiung Liao <pesder.liao@msa.hinet.net>\n"
 "Language-Team: Chinese (Taiwan) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
@@ -3851,11 +3851,11 @@ msgstr "頁首/頁尾"
 
 #: ../addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr "標頭"
+msgstr "檔頭"
 
 #: ../addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr "每封信的標頭"
+msgstr "每封信的檔頭"
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
@@ -8507,12 +8507,11 @@ msgstr "連絡人: "
 
 #: ../calendar/gui/print.c:2657
 msgid "ebby"
-msgstr ""
+msgstr "ebby"
 
 #: ../calendar/gui/print.c:2658
-#, fuzzy
 msgid "range"
-msgstr "法國"
+msgstr "範圍"
 
 # zh_HK: msgstr "打印項目"
 #: ../calendar/gui/print.c:2730
@@ -12456,7 +12455,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:43
 msgid "List of custom headers and whether they are enabled."
-msgstr "自訂標頭以及它們是否啟用的清單"
+msgstr "自訂檔頭以及它們是否啟用的清單"
 
 #: ../mail/evolution-mail.schemas.in.in.h:44
 msgid ""
@@ -12531,7 +12530,7 @@ msgstr "郵件視窗預設寬度"
 
 #: ../mail/evolution-mail.schemas.in.in.h:59
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "訊息顯示樣式 (「一般」、「完整標頭」、「來源」)"
+msgstr "訊息顯示樣式 (「一般」、「完整檔頭」、「來源」)"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Minimum days between emptying the trash on exit"
@@ -12701,8 +12700,8 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
-"此金鑰應該包含 XML 清單，它會指定自訂標頭，以及是否顯示它們。XML 結構的格式"
-"是 &lt;header enabled&gt; - 如果標頭會顯示在郵件檢視，則設定成 enabled。"
+"此金鑰應該包含 XML 清單，它會指定自訂檔頭，以及是否顯示它們。XML 結構的格式"
+"是 &lt;header enabled&gt; - 如果檔頭會顯示在郵件檢視，則設定成 enabled。"
 
 #: ../mail/evolution-mail.schemas.in.in.h:101
 msgid ""
@@ -12810,7 +12809,7 @@ msgstr "檢視/回覆功能表項目已選取。"
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr "當郵件不包含 In-Reply-To 或 References 標頭時，是否按照主旨放回線串。"
+msgstr "當郵件不包含 In-Reply-To 或 References 檔頭時，是否按照主旨放回線串。"
 
 #: ../mail/evolution-mail.schemas.in.in.h:127
 msgid "Width of the message-list pane"
@@ -13141,7 +13140,7 @@ msgstr "<span weight=\"bold\">刪除郵件</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr "<span weight=\"bold\">顯示的郵件標頭(_H)</span>"
+msgstr "<span weight=\"bold\">顯示的郵件檔頭(_H)</span>"
 
 #: ../mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Filter Options</span>"
@@ -13400,7 +13399,7 @@ msgstr "HTML 郵件"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Headers"
-msgstr "標頭"
+msgstr "檔頭"
 
 #: ../mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
@@ -13428,7 +13427,7 @@ msgstr "郵件組態"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Mail Headers Table"
-msgstr "郵件標頭表"
+msgstr "郵件檔頭表"
 
 #: ../mail/mail-config.glade.h:101
 msgid "Mailbox location"
@@ -13694,7 +13693,7 @@ msgstr "顯示動畫影像(_S)"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "縮短 _To / Cc / Bcc 標頭為"
+msgstr "縮短 _To / Cc / Bcc 檔頭為"
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Use Secure Connection:"
@@ -14388,8 +14387,8 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"很多電子郵件系統會新增 Apparently-To 標頭至只有密件副本收件者的郵件。如果加入"
-"了此標頭，會永遠列示郵件中所有的收件者。要避免此情況，應該至少新增一個「收件"
+"很多電子郵件系統會新增 Apparently-To 檔頭至只有密件副本收件者的郵件。如果加入"
+"了此檔頭，會永遠列示郵件中所有的收件者。要避免此情況，應該至少新增一個「收件"
 "者：」或「副本：」收件者。"
 
 #: ../mail/mail.error.xml.h:69
@@ -14502,8 +14501,8 @@ msgid ""
 msgstr ""
 "傳送的連絡人清單是設定成隱藏清單收件者。\n"
 "\n"
-"很多電子郵件系統會新增 Apparently-To 標頭至只有密件副本收件者的郵件。如果新增"
-"此標頭，會列示郵件中所有的收件者。要避免此情況，您應該至少新增一個「收件"
+"很多電子郵件系統會新增 Apparently-To 檔頭至只有密件副本收件者的郵件。如果新增"
+"此檔頭，會列示郵件中所有的收件者。要避免此情況，您應該至少新增一個「收件"
 "者：」或「副本：」收件者。 "
 
 #: ../mail/mail.error.xml.h:96
@@ -15180,15 +15179,14 @@ msgstr "檢查支援的類型(_E) "
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:949
 #: ../plugins/exchange-operations/exchange-contacts.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "%s KB"
-msgstr "%ld KB"
+msgstr "%s KB"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:951
 #: ../plugins/exchange-operations/exchange-contacts.c:215
-#, fuzzy
 msgid "0 KB"
-msgstr "KB"
+msgstr "0 KB"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
@@ -15468,24 +15466,20 @@ msgid "No, Don't Change Status"
 msgstr "否，請不要變更狀態"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Message Settings</b>"
-msgstr "<b>垃圾郵件設定值</b>"
+msgstr "<b>郵件設定值</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Tracking Options</b>"
-msgstr "<b>工作清單選項</b>"
+msgstr "<b>追蹤選項</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
-#, fuzzy
 msgid "Exchange - Send Options"
-msgstr "Exchange 操作"
+msgstr "Exchange - 傳送選項"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
-#, fuzzy
 msgid "I_mportance: "
-msgstr "重要(_M)"
+msgstr "重要性(_M):"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:5
 msgid ""
@@ -15493,6 +15487,9 @@ msgid ""
 "High\n"
 "Low"
 msgstr ""
+"一般\n"
+"高\n"
+"低"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:8
 msgid ""
@@ -15501,20 +15498,22 @@ msgid ""
 "Private\n"
 "Confidential"
 msgstr ""
+"一般\n"
+"個人\n"
+"私人\n"
+"機密"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
-#, fuzzy
 msgid "Request a _delivery receipt for this message"
-msgstr "要求所有我傳送的郵件都索取讀信回條"
+msgstr "要求這封郵件索取遞送回條(_D)"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:13
-#, fuzzy
 msgid "Request a _read receipt for this message"
-msgstr "要求所有我傳送的郵件都索取讀信回條"
+msgstr "要求這封郵件索取讀信回條(_R)"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:14
 msgid "_Sensitivity: "
-msgstr ""
+msgstr "敏感度(_S):"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
 msgid "Select User"
@@ -15898,16 +15897,24 @@ msgid ""
 "Click 'Forward' to install the shared folder\n"
 "\n"
 msgstr ""
+"使用者「%s」分享了一個資料夾給您\n"
+"\n"
+"來自「%s」的訊息\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"按「繼續」以安裝分享資料夾\n"
+"\n"
 
 #: ../plugins/groupwise-features/install-shared.c:220
-#, fuzzy
 msgid "Install the shared folder"
-msgstr "重新命名選定的資料夾"
+msgstr "安裝分享資料夾"
 
 #: ../plugins/groupwise-features/install-shared.c:222
-#, fuzzy
 msgid "Shared Folder Installation"
-msgstr "分享資料夾通知"
+msgstr "分享資料夾安裝"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
@@ -16113,50 +16120,41 @@ msgid "Sharing"
 msgstr "分享"
 
 #: ../plugins/groupwise-features/share-folder.c:765
-#, fuzzy
 msgid "Add   "
-msgstr "新增(_A)"
+msgstr "新增"
 
 #: ../plugins/groupwise-features/share-folder.c:771
-#, fuzzy
 msgid "Modify"
-msgstr "已修改"
+msgstr "修改"
 
 #: ../plugins/groupwise-features/status-track.c:118
-#, fuzzy
 msgid "Message Status"
-msgstr "追蹤郵件狀態..."
+msgstr "郵件狀態"
 
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:132
-#, fuzzy
 msgid "<b>Subject</b> :"
-msgstr "<b>選擇(_S)</b>"
+msgstr "<b>主旨</b>:"
 
 #: ../plugins/groupwise-features/status-track.c:144
-#, fuzzy
 msgid "<b>From</b> :"
-msgstr "<b>住家</b>"
+msgstr "<b>寄件者</b>:"
 
 #: ../plugins/groupwise-features/status-track.c:157
-#, fuzzy
 msgid "<b>Creation date</b> :"
-msgstr "<b>行事曆選項</b>"
+msgstr "<b>建立日期</b>:"
 
 #: ../plugins/groupwise-features/status-track.c:177
-#, fuzzy
 msgid "<b>Recipients </b>"
-msgstr "<b>回覆</b>"
+msgstr "<b>收件者</b>"
 
 #: ../plugins/groupwise-features/status-track.c:181
-#, fuzzy
 msgid "<b>Action</b>"
-msgstr "<b>選項</b>"
+msgstr "<b>動作</b>"
 
 #: ../plugins/groupwise-features/status-track.c:185
-#, fuzzy
 msgid "<b>Date and Time</b>"
-msgstr "日期與時刻"
+msgstr "<b>日期與時刻</b>"
 
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
@@ -16170,39 +16168,33 @@ msgstr "用來設定 hula 行事曆來源的外掛程式。"
 msgid "Hula Account Setup"
 msgstr "Hula 帳號設定"
 
-#: ../plugins/imap-features/imap-headers.c:129
-#, fuzzy
+#: ../plugins/imap-features/imap-headers.c:133
 msgid "Custom Header"
-msgstr "自訂訊息(_M)"
+msgstr "自訂檔頭"
 
-#: ../plugins/imap-features/imap-headers.c:241
-#, fuzzy
+#: ../plugins/imap-features/imap-headers.c:245
 msgid "Custom Headers"
-msgstr "自訂訊息(_M)"
+msgstr "自訂檔頭"
 
-#: ../plugins/imap-features/imap-headers.c:248
-#, fuzzy
+#: ../plugins/imap-features/imap-headers.c:252
 msgid "IMAP Headers"
-msgstr "標頭"
+msgstr "IMAP 檔頭"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
-#, fuzzy
 msgid "<b>Custom Headers</b>"
-msgstr "<b>使用者：</b>"
+msgstr "<b>自訂檔頭</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
-#, fuzzy
 msgid "<b>IMAP Headers </b>"
-msgstr "<b>到會者(_E)</b>"
+msgstr "<b>IMAP 檔頭</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr ""
+msgstr "基本與通信論壇檔頭(預設值)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
-#, fuzzy
 msgid "Fetch A_ll Headers"
-msgstr "完整檔頭"
+msgstr "取得完整檔頭(_L)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:5
 msgid ""
@@ -16210,27 +16202,32 @@ msgid ""
 "standard headers. \n"
 "You can ignore this if you choose \"All Headers\"."
 msgstr ""
+"提供在上列標準檔頭以外您想要接收的額外檔頭。\n"
+"如果您選擇了「完整檔頭」則可以忽略此項。"
 
 #: ../plugins/imap-features/imap-headers.glade.h:7
 msgid ""
 "Select your IMAP Header Preferences. \n"
 "The more headers you have the more time it will take to download."
 msgstr ""
+"選擇想要的 IMAP 檔頭偏好設定。\n"
+"愈多檔頭會花愈多的時間下載它。"
 
 #: ../plugins/imap-features/imap-headers.glade.h:9
 msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
+"基本檔頭(_B) - (最快)\n"
+"若沒有通信論壇過濾器則可使用此項"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for the features in the IMAP accounts."
-msgstr "提供 Groupwise 帳號功能的外掛程式。"
+msgstr "提供 IMAP 帳號功能的外掛程式。"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
-msgstr ""
+msgstr "IMAP 功能"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Calendar"
@@ -16273,6 +16270,9 @@ msgid ""
 "Evolution could not find a iPod to synchronize with.Either it is not "
 "connected to the system or it is not powered on."
 msgstr ""
+"<span weight=\"bold\" size=\"larger\">搜尋 iPod 失敗</span>\n"
+"\n"
+"Evolution 無法找到要同步化的 iPod。可能是它尚未連接到系統或者沒有打開電源。"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:149
@@ -17021,7 +17021,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
-msgstr "格式錯誤的標頭"
+msgstr "格式錯誤的檔頭"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid "No e-mail action"
@@ -17560,9 +17560,8 @@ msgstr ""
 "請按一下「下一步」按鈕繼續。 "
 
 #: ../plugins/startup-wizard/startup-wizard.c:136
-#, fuzzy
 msgid "Importing files"
-msgstr "匯入單一檔案(_S)"
+msgstr "匯入檔案"
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
@@ -20001,9 +20000,8 @@ msgid "HT_ML"
 msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
-#, fuzzy
 msgid "Insert Send options"
-msgstr "插入進階傳送選項"
+msgstr "插入傳送選項"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
