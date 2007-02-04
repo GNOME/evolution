@@ -865,7 +865,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	if (f->flags & RULE_CONTEXT_GROUPING) {
 		const char *thread_types[] = { N_("If all criteria are met"), N_("If any criteria are met") };
 
-		label = gtk_label_new (_("Find items:"));
+		label = gtk_label_new_with_mnemonic (_("_Find items:"));
 		menu = gtk_menu_new ();
 	
 		for (i=0;i<2;i++) {
@@ -875,6 +875,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 		}
 	
 		omenu = gtk_option_menu_new ();
+		gtk_label_set_mnemonic_widget ((GtkLabel *)label, omenu);
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), fr->grouping);
 		gtk_widget_show (omenu);
