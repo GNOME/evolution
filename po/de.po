@@ -21318,7 +21318,7 @@ msgstr "Polsterung um Aufklapppfeil"
 #: ../widgets/misc/e-filter-bar.c:129 ../widgets/misc/e-filter-bar.c:170
 #: ../widgets/misc/e-filter-bar.c:717
 msgid "Advanced Search"
-msgstr "Komplexe Suche"
+msgstr "Erweiterte Suche"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:218
