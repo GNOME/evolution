@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 19:56+0000\n"
-"PO-Revision-Date: 2007-01-23 19:56-0000\n"
+"POT-Creation-Date: 2007-02-05 21:53+0000\n"
+"PO-Revision-Date: 2007-02-05 21:59-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2991,6 +2991,7 @@ msgstr "Company Phone"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: ../addressbook/gui/widgets/eab-contact-display.c:785
+#: ../plugins/groupwise-features/junk-settings.c:425
 #: ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "Email"
@@ -4887,6 +4888,7 @@ msgid "Time the last alarm ran, in time_t."
 msgstr "Time the last alarm ran, in time_t."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+#: ../plugins/startup-wizard/startup-wizard.c:110
 msgid "Timezone"
 msgstr "Timezone"
 
@@ -5776,7 +5778,7 @@ msgstr "Show Attachment _Bar"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3678
+#: ../composer/e-msg-composer.c:3685
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5785,7 +5787,7 @@ msgstr "_Remove"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3679
+#: ../composer/e-msg-composer.c:3686
 #: ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:33
@@ -5794,7 +5796,7 @@ msgstr "_Properties"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3681
+#: ../composer/e-msg-composer.c:3688
 msgid "_Add attachment..."
 msgstr "_Add attachment..."
 
@@ -6056,7 +6058,7 @@ msgstr "Customise"
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
 #: ../composer/e-msg-composer.c:2312
-#: ../filter/filter-rule.c:889
+#: ../filter/filter-rule.c:890
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
 #: ../mail/em-account-prefs.c:475
@@ -10317,7 +10319,7 @@ msgstr "Hide _Attachment Bar"
 
 #: ../composer/e-msg-composer.c:1300
 #: ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3924
+#: ../composer/e-msg-composer.c:3931
 msgid "Show _Attachment Bar"
 msgstr "Show _Attachment Bar"
 
@@ -10356,12 +10358,12 @@ msgid "Si_gnature:"
 msgstr "Si_gnature:"
 
 #: ../composer/e-msg-composer.c:2571
-#: ../composer/e-msg-composer.c:3806
-#: ../composer/e-msg-composer.c:3809
+#: ../composer/e-msg-composer.c:3813
+#: ../composer/e-msg-composer.c:3816
 msgid "Compose Message"
 msgstr "Compose Message"
 
-#: ../composer/e-msg-composer.c:5033
+#: ../composer/e-msg-composer.c:5040
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 
@@ -10772,36 +10774,36 @@ msgid "If any criteria are met"
 msgstr "If any criteria are met"
 
 #: ../filter/filter-rule.c:868
-msgid "Find items:"
-msgstr "Find items:"
+msgid "_Find items:"
+msgstr "_Find items:"
 
-#: ../filter/filter-rule.c:889
+#: ../filter/filter-rule.c:890
 msgid "All related"
 msgstr "All related"
 
-#: ../filter/filter-rule.c:889
+#: ../filter/filter-rule.c:890
 msgid "Replies"
 msgstr "Replies"
 
-#: ../filter/filter-rule.c:889
+#: ../filter/filter-rule.c:890
 msgid "Replies and parents"
 msgstr "Replies and parents"
 
-#: ../filter/filter-rule.c:889
+#: ../filter/filter-rule.c:890
 msgid "No reply or parent"
 msgstr "No reply or parent"
 
-#: ../filter/filter-rule.c:891
+#: ../filter/filter-rule.c:892
 msgid "Include threads"
 msgstr "Include threads"
 
-#: ../filter/filter-rule.c:986
+#: ../filter/filter-rule.c:987
 #: ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:311
 msgid "Incoming"
 msgstr "Incoming"
 
-#: ../filter/filter-rule.c:986
+#: ../filter/filter-rule.c:987
 #: ../mail/em-utils.c:312
 msgid "Outgoing"
 msgstr "Outgoing"
@@ -11183,6 +11185,7 @@ msgid "Date sent"
 msgstr "Date sent"
 
 #: ../mail/em-filter-i18n.h:11
+#: ../plugins/groupwise-features/share-folder.c:777
 #: ../ui/evolution-addressbook.xml.h:15
 #: ../ui/evolution-calendar.xml.h:5
 #: ../ui/evolution-mail-message.xml.h:25
@@ -15106,6 +15109,17 @@ msgstr "Authentication Type"
 msgid "Ch_eck for Supported Types"
 msgstr "Ch_eck for Supported Types"
 
+#: ../plugins/exchange-operations/exchange-account-setup.c:949
+#: ../plugins/exchange-operations/exchange-contacts.c:213
+#, c-format
+msgid "%s KB"
+msgstr "%s KB"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:951
+#: ../plugins/exchange-operations/exchange-contacts.c:215
+msgid "0 KB"
+msgstr "0 KB"
+
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
@@ -15785,6 +15799,39 @@ msgstr "A plugin to setup groupwise calendar and contacts sources."
 msgid "Groupwise Account Setup"
 msgstr "Groupwise Account Setup"
 
+#: ../plugins/groupwise-features/install-shared.c:215
+#, c-format
+msgid ""
+"The user '%s' has shared a folder with you\n"
+"\n"
+"Message from '%s'\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Click 'Forward' to install the shared folder\n"
+"\n"
+msgstr ""
+"The user '%s' has shared a folder with you\n"
+"\n"
+"Message from '%s'\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Click 'Forward' to install the shared folder\n"
+"\n"
+
+#: ../plugins/groupwise-features/install-shared.c:220
+msgid "Install the shared folder"
+msgstr "Install the shared folder"
+
+#: ../plugins/groupwise-features/install-shared.c:222
+msgid "Shared Folder Installation"
+msgstr "Shared Folder Installation"
+
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
 msgstr "Junk Settings"
@@ -15972,6 +16019,7 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "The Proxy tab will be available only when the account is enabled."
 
 #: ../plugins/groupwise-features/share-folder-common.c:322
+#: ../plugins/groupwise-features/share-folder.c:760
 msgid "Users"
 msgstr "Users"
 
@@ -15987,6 +16035,43 @@ msgstr "New _Shared Folder..."
 msgid "Sharing"
 msgstr "Sharing"
 
+#: ../plugins/groupwise-features/share-folder.c:765
+msgid "Add   "
+msgstr "Add   "
+
+#: ../plugins/groupwise-features/share-folder.c:771
+msgid "Modify"
+msgstr "Modify"
+
+#: ../plugins/groupwise-features/status-track.c:118
+msgid "Message Status"
+msgstr "Message Status"
+
+#. Subject
+#: ../plugins/groupwise-features/status-track.c:132
+msgid "<b>Subject</b> :"
+msgstr "<b>Subject</b> :"
+
+#: ../plugins/groupwise-features/status-track.c:144
+msgid "<b>From</b> :"
+msgstr "<b>From</b> :"
+
+#: ../plugins/groupwise-features/status-track.c:157
+msgid "<b>Creation date</b> :"
+msgstr "<b>Creation date</b> :"
+
+#: ../plugins/groupwise-features/status-track.c:177
+msgid "<b>Recipients </b>"
+msgstr "<b>Recipients </b>"
+
+#: ../plugins/groupwise-features/status-track.c:181
+msgid "<b>Action</b>"
+msgstr "<b>Action</b>"
+
+#: ../plugins/groupwise-features/status-track.c:185
+msgid "<b>Date and Time</b>"
+msgstr "<b>Date and Time</b>"
+
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
 msgstr "Track Message Status..."
@@ -15999,13 +16084,17 @@ msgstr "A plugin to setup hula calendar sources."
 msgid "Hula Account Setup"
 msgstr "Hula Account Setup"
 
-#: ../plugins/imap-features/imap-headers.c:129
+#: ../plugins/imap-features/imap-headers.c:133
 msgid "Custom Header"
 msgstr "Custom Header"
 
-#: ../plugins/imap-features/imap-headers.c:241
+#: ../plugins/imap-features/imap-headers.c:245
 msgid "Custom Headers"
 msgstr "Custom Headers"
+
+#: ../plugins/imap-features/imap-headers.c:252
+msgid "IMAP Headers"
+msgstr "IMAP Headers"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
 msgid "<b>Custom Headers</b>"
@@ -16088,6 +16177,16 @@ msgstr "Import to Calendar"
 #: ../plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml.h:3
 msgid "Imports ICS attachments to calendar."
 msgstr "Imports ICS attachments to calendar."
+
+#: ../plugins/ipod-sync/evolution-ipod-sync.c:62
+msgid ""
+"<span weight=\"bold\" size=\"larger\">Search for a iPod failed</span>\n"
+"\n"
+"Evolution could not find a iPod to synchronize with.Either it is not connected to the system or it is not powered on."
+msgstr ""
+"<span weight=\"bold\" size=\"larger\">Search for an iPod failed</span>\n"
+"\n"
+"Evolution could not find an iPod to synchronise with; either the iPod is not connected to the system or it is not powered on."
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:149
@@ -17163,6 +17262,7 @@ msgstr "A plugin for saving all attachments or parts of a message at once."
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
+#: ../plugins/save-attachments/save-attachments.c:334
 msgid "Save attachments"
 msgstr "Save attachments"
 
@@ -17340,6 +17440,10 @@ msgstr ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
+
+#: ../plugins/startup-wizard/startup-wizard.c:136
+msgid "Importing files"
+msgstr "Importing files"
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
@@ -20225,7 +20329,7 @@ msgstr "_Switcher Appearance"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
-msgstr "_Synchronization Options..."
+msgstr "_Synchronisation Options..."
 
 #: ../ui/evolution.xml.h:52
 msgid "_Text only"
@@ -21781,8 +21885,6 @@ msgstr "Handle Popup"
 #~ msgstr "Invitations"
 #~ msgid "<b>Basics</b>"
 #~ msgstr "<b>Basics</b>"
-#~ msgid "<b>Date and Time</b>"
-#~ msgstr "<b>Date and Time</b>"
 #~ msgid "<b>Send Options</b>"
 #~ msgstr "<b>Send Options</b>"
 #~ msgid "A_ll day event"
@@ -21797,8 +21899,6 @@ msgstr "Handle Popup"
 #~ msgstr "This appointment has customized alarms"
 #~ msgid "<b>Dele_gatees</b>"
 #~ msgstr "<b>Dele_gatees</b>"
-#~ msgid "<b>From:</b>"
-#~ msgstr "<b>From:</b>"
 #~ msgid "_Delegate To..."
 #~ msgstr "_Delegate To..."
 #~ msgid "Con_tacts..."
