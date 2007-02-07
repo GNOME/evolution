@@ -179,6 +179,7 @@ static void
 sync_op(EMCamelStream *estream, enum _write_msg_t op, const char *data, size_t n)
 {
 	struct _write_msg msg;
+	EMsg *reply_msg;
 
 	d(printf("%p: launching sync op %d\n", estream, op));
 	/* we do everything synchronous, we should never have any locks, and
@@ -188,8 +189,8 @@ sync_op(EMCamelStream *estream, enum _write_msg_t op, const char *data, size_t n
 	msg.data = data;
 	msg.n = n;
 	e_msgport_put(estream->data_port, &msg.msg);
-	e_msgport_wait(estream->reply_port);
-	g_assert(e_msgport_get(msg.msg.reply_port) == &msg.msg);
+	reply_msg = e_msgport_wait(estream->reply_port);
+	g_assert(reply_msg == &msg.msg);
 	d(printf("%p: returned sync op %d\n", estream, op));
 }
 

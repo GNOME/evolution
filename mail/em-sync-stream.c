@@ -214,6 +214,7 @@ sync_op(EMSyncStream *emss, enum _write_msg_t op, const char *data, size_t n)
 {
 	struct _EMSyncStreamPrivate *p = emss->priv;
 	struct _write_msg msg;
+	EMsg *reply_msg;
 
 	d(printf("%p: launching sync op %d\n", emss, op));
 
@@ -226,9 +227,9 @@ sync_op(EMSyncStream *emss, enum _write_msg_t op, const char *data, size_t n)
 	msg.n = n;
 
 	e_msgport_put(p->data_port, &msg.msg);
-	e_msgport_wait(p->reply_port);
+	reply_msg = e_msgport_wait(p->reply_port);
+	g_assert(reply_msg == &msg.msg);
 
-	g_assert(e_msgport_get(msg.msg.reply_port) == &msg.msg);
 	d(printf("%p: returned sync op %d\n", emss, op));
 }
 

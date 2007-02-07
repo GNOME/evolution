@@ -395,8 +395,7 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 	}
 
 	if (cancel) {
-		e_msgport_wait(user_message_reply);
-		r = (struct _user_message_msg *)e_msgport_get(user_message_reply);
+		r = (struct _user_message_msg *)e_msgport_wait(user_message_reply);
 		g_assert(m == r);
 
 		ret = m->result;
