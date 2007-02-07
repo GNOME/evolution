@@ -678,11 +678,12 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, FALSE, FALSE, 5);
 //	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
 
-	button3 = gtk_button_new_from_stock ("gtk-go-back");
+	button3 = gtk_button_new_with_mnemonic (_("_Previous"));
+	gtk_button_set_image (button3, gtk_image_new_from_stock(GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON));
 	gtk_widget_show (button3);
 	gtk_box_pack_start ((GtkBox *)(hbox2), button3, FALSE, FALSE, 5);
 
-	button2 = gtk_button_new_with_mnemonic (_("Fo_rward"));
+	button2 = gtk_button_new_with_mnemonic (_("_Next"));
 	gtk_button_set_image (button2, gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
 	gtk_widget_show (button2);
 	gtk_box_pack_start ((GtkBox *)(hbox2), button2, FALSE, FALSE, 5);

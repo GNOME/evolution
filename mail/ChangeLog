@@ -1,3 +1,11 @@
+2006-09-12  Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #353921
+
+	* em-format-html.c: (em_format_html_get_search_dialog): "Back"
+	and "Forward" buttons changed to "Previous" and "Next"
+	respectively.
+
 2007-01-24  Wang Xin <jedy.wang@sun.com>
 
 	* em-folder-browser.c: Fixes 397195.
