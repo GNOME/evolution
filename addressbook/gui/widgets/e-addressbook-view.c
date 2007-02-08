@@ -1908,7 +1908,6 @@ eab_view_print_preview(EABView *view)
 			      "book", &book,
 			      NULL);
 		GList *list = get_selected_contacts (view); 
-		e_contact_print_preview (book, query, list);
 		e_free_object_list (list);
 	}else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
