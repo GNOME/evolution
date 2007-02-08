@@ -38,6 +38,7 @@
 #include "mail-mt.h"
 #include "em-format-html-print.h"
 #include <gtk/gtk.h>
+#include <e-util/e-print.h>
 
 static void efhp_builtin_init(EMFormatHTMLPrintClass *efhc);
 

@@ -1,3 +1,9 @@
+2007-02-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #400726
+
+	* em-format-html-print.c: #include <e-util.e-print.h>
+
 2007-02-07  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #359979, #384183
