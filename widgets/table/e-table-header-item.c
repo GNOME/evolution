@@ -101,7 +101,7 @@ enum {
 	PROP_TABLE_HEADER,
 	PROP_FULL_HEADER,
 	PROP_DND_CODE,
-	PROP_TABLE_FONTSET,
+	PROP_TABLE_FONT_DESC,
 	PROP_SORT_INFO,
 	PROP_TABLE,
 	PROP_TREE
@@ -232,33 +232,15 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 }
 
 static void
-ethi_font_set (ETableHeaderItem *ethi, GdkFont *font)
+ethi_font_set (ETableHeaderItem *ethi, PangoFontDescription *font_desc)
 {
-	if (ethi->font)
-		gdk_font_unref (ethi->font);
+	if (ethi->font_desc)
+		pango_font_description_free (ethi->font_desc);
 
-	ethi->font = font;
-	gdk_font_ref (font);
-	
+	ethi->font_desc = pango_font_description_copy (font_desc);
+
 	ethi->height = e_table_header_item_get_height (ethi);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(ethi));
-}
-
-static void
-ethi_font_load (ETableHeaderItem *ethi, const char *fontname)
-{
-	GdkFont *font = NULL;
-
-	if (fontname != NULL)
-		font = gdk_fontset_load (fontname);
-
-	if (font == NULL) {
-		font = gtk_style_get_font (GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->style);
-		gdk_font_ref (font);
-	}
-	
-	ethi_font_set (ethi, font);
-	gdk_font_unref (font);
 }
 
 static void
@@ -345,8 +327,8 @@ ethi_set_property (GObject *object,
 		ethi->dnd_code = g_strdup (g_value_get_string (value));
 		break;
 
-	case PROP_TABLE_FONTSET:
-		ethi_font_load (ethi, g_value_get_string (value));
+	case PROP_TABLE_FONT_DESC:
+		ethi_font_set (ethi, g_value_get_boxed (value));
 		break;
 
 	case PROP_SORT_INFO:
@@ -902,8 +884,8 @@ ethi_realize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)-> realize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->realize)(item);
 
-	if (!ethi->font)
-		ethi_font_set (ethi, gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
+	if (!ethi->font_desc)
+		ethi_font_set (ethi, GTK_WIDGET (item->canvas)->style->font_desc);
 
 	/*
 	 * Now, configure DnD
@@ -937,7 +919,7 @@ ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 
-	gdk_font_unref (ethi->font);
+	pango_font_description_free (ethi->font_desc);
 
 	g_signal_handler_disconnect (item->canvas, ethi->drag_motion_id);
 	g_signal_handler_disconnect (item->canvas, ethi->drag_leave_id);
@@ -1894,12 +1876,12 @@ ethi_class_init (GObjectClass *object_class)
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_FONTSET,
-					 g_param_spec_string ("fontset",
-							      _("Fontset"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class, PROP_TABLE_FONT_DESC,
+					 g_param_spec_boxed ("font-desc",
+							     _("Font Description"),
+							     /*_( */"XXX blurb" /*)*/,
+							     PANGO_TYPE_FONT_DESCRIPTION,
+							     G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_FULL_HEADER,
 					 g_param_spec_object ("full_header",

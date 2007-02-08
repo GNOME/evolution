@@ -84,9 +84,9 @@ etfci_dispose (GObject *object)
 		g_object_unref (etfci->combined_header);
 	etfci->combined_header = NULL;
 
-	if (etfci->font)
-		gdk_font_unref(etfci->font);
-	etfci->font = NULL;
+	if (etfci->font_desc)
+		pango_font_description_free (etfci->font_desc);
+	etfci->font_desc = NULL;
 
 	if (G_OBJECT_CLASS (etfci_parent_class)->dispose)
 		(*G_OBJECT_CLASS (etfci_parent_class)->dispose) (object);
@@ -219,11 +219,13 @@ etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flag
 static void
 etfci_font_load (ETableFieldChooserItem *etfci)
 {
-	if (etfci->font)
-		gdk_font_unref (etfci->font);
+	GtkStyle *style;
 
-	etfci->font = gtk_style_get_font (GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style);
-	gdk_font_ref(etfci->font);
+	if (etfci->font_desc)
+		pango_font_description_free (etfci->font_desc);
+
+	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
+	etfci->font_desc = pango_font_description_copy (style->font_desc);
 }
 
 static void
@@ -419,7 +421,7 @@ etfci_realize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)-> realize)
 		(*GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->realize)(item);
 
-	if (!etfci->font)
+	if (!etfci->font_desc)
 		etfci_font_load (etfci);
 
 	etfci->drag_end_id = g_signal_connect (
@@ -436,9 +438,9 @@ etfci_unrealize (GnomeCanvasItem *item)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 
-	if (etfci->font)
-		gdk_font_unref (etfci->font);
-	etfci->font = NULL;
+	if (etfci->font_desc)
+		pango_font_description_free (etfci->font_desc);
+	etfci->font_desc = NULL;
 
 	g_signal_handler_disconnect (item->canvas, etfci->drag_end_id);
 	etfci->drag_end_id = 0;
@@ -677,7 +679,7 @@ etfci_init (GnomeCanvasItem *item)
 	
 	etfci->height = etfci->width = 0;
 
-	etfci->font = NULL;
+	etfci->font_desc = NULL;
 
 	etfci->full_header_structure_change_id = 0;
 	etfci->full_header_dimension_change_id = 0;

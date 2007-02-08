@@ -105,9 +105,9 @@ etgc_dispose (GObject *object)
 	if (etgc->children)
 		e_table_group_container_list_free (etgc);
 
-	if (etgc->font)
-		gdk_font_unref (etgc->font);
-	etgc->font = NULL;
+	if (etgc->font_desc)
+		pango_font_description_free (etgc->font_desc);
+	etgc->font_desc = NULL;
 
 	if (etgc->ecol)
 		g_object_unref (etgc->ecol);
@@ -148,6 +148,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 {
 	ETableCol *col;
 	ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, n);
+	GtkStyle *style;
 
 	col = e_table_header_get_column_by_col_idx(full_header, column.column);
 	if (col == NULL)
@@ -161,9 +162,8 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	etgc->n = n;
 	etgc->ascending = column.ascending;
 
-	etgc->font = gtk_style_get_font (GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style);
-	
-	gdk_font_ref (etgc->font);
+	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style;
+	etgc->font_desc = pango_font_description_copy (style->font_desc);
 
 	etgc->open = TRUE;
 }
@@ -1006,8 +1006,18 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 			gdouble item_height = 0;
 			gdouble item_width = 0;
 			
-			if (etgc->font)
-				extra_height += etgc->font->ascent + etgc->font->descent + BUTTON_PADDING * 2;
+			if (etgc->font_desc) {
+				PangoContext *context;
+				PangoFontMetrics *metrics;
+
+				context = gtk_widget_get_pango_context (GTK_WIDGET (etgc));
+				metrics = pango_context_get_metrics (context, etgc->font_desc, NULL);
+				extra_height +=
+					pango_font_metrics_get_ascent (metrics) +
+					pango_font_metrics_get_descent (metrics) +
+					BUTTON_PADDING * 2;
+				pango_font_metrics_unref (metrics);
+			}
 			
 			extra_height = MAX(extra_height, BUTTON_HEIGHT + BUTTON_PADDING * 2);
 				

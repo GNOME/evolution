@@ -70,9 +70,6 @@ enum {
 	PROP_MODEL,
 	PROP_EVENT_PROCESSOR,
 	PROP_TEXT,
-	PROP_FONT,
-        PROP_FONTSET,
-	PROP_FONT_GDK,
 	PROP_ANCHOR,
 	PROP_JUSTIFICATION,
 	PROP_X_OFFSET,
@@ -880,10 +877,6 @@ et_get_property (GObject *object,
 		g_object_get_property (G_OBJECT (item), "text", value);
 		break;
 
-	case PROP_FONT_GDK:
-		g_object_get_property (G_OBJECT (item), "font_gdk", value);
-		break;
-
 	case PROP_JUSTIFICATION:
 		g_object_get_property (G_OBJECT (item), "justification", value);
 		break;
@@ -982,25 +975,6 @@ et_set_property (GObject *object,
 	case PROP_TEXT:
 		g_object_set_property (G_OBJECT (item), "text", value);
 		d(g_print("%s: text: %s\n", __FUNCTION__, g_value_get_string (value)));
-		if (entry->priv->emulate_label_resize)
-			gtk_widget_queue_resize (widget);
-		break;
-
-	case PROP_FONT:
-		g_object_set_property (G_OBJECT (item), "font", value);
-		d(g_print("%s: font: %s\n", __FUNCTION__, g_value_get_string (value)));
-		if (entry->priv->emulate_label_resize)
-			gtk_widget_queue_resize (widget);
-		break;
-
-	case PROP_FONTSET:
-		g_object_set_property (G_OBJECT (item), "fontset", value);
-		if (entry->priv->emulate_label_resize)
-			gtk_widget_queue_resize (widget);
-		break;
-
-	case PROP_FONT_GDK:
-		g_object_set_property (G_OBJECT (item), "font_gdk", value);
 		if (entry->priv->emulate_label_resize)
 			gtk_widget_queue_resize (widget);
 		break;
@@ -1250,27 +1224,6 @@ e_entry_class_init (GObjectClass *object_class)
 							      _( "Text" ),
 							      NULL,
 							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_FONT,
-					 g_param_spec_string ("font",
-							      _( "Font" ),
-							      _( "Font" ),
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_FONTSET,
-					 g_param_spec_string ("fontset",
-							      _( "Fontset" ),
-							      _( "Fontset" ),
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_FONT_GDK,
-					 g_param_spec_boxed ("font_gdk",
-							     _( "GDKFont" ),
-							     _( "GDKFont" ),
-							     GDK_TYPE_FONT,
-							     G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_JUSTIFICATION,
 					 g_param_spec_enum ("justification",

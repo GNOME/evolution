@@ -1,3 +1,19 @@
+2007-02-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #357216
+
+	* e-table-field-chooser-item.c:
+	* e-table-field-chooser-item.h:
+	* e-table-group-container.c:
+	* e-table-group-container.h:
+	Replace deprecated GdkFont with PangoFontDescription.
+
+	* e-table-header-item.c:
+	* e-table-header-item.h:
+	Replace deprecated GdkFont with PangoFontDescription.
+	Rename "fontset" property to "font-desc", and change the property
+	type to a boxed PangoFontDescription.
+
 2007-01-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** GtkPrint api migration from Ebby Wiselyn.

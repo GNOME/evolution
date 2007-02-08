@@ -44,7 +44,7 @@ typedef struct {
 
 	double           height, width;
 
-	GdkFont         *font;
+	PangoFontDescription *font_desc;
 
 	/*
 	 * Ids

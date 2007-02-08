@@ -57,7 +57,7 @@ typedef struct {
 	 */
 	GnomeCanvasItem *rect;
 
-	GdkFont *font;
+	PangoFontDescription *font_desc;
 
 	gdouble width, height, minimum_width;
 

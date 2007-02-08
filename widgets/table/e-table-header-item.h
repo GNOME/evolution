@@ -47,7 +47,7 @@ typedef struct {
 	GdkCursor       *change_cursor;
 
 	short            height, width;
-	GdkFont         *font;
+	PangoFontDescription *font_desc;
 
 	/*
 	 * Used during resizing;  Could be shorts

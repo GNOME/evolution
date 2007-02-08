@@ -1,3 +1,11 @@
+2006-02-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #357216
+
+	* text/e-entry.c: Remove "font", "fontset", and "gdk_font"
+	properties, since they forward gets and sets to non-existant
+	properties in entry->item.
+
 2006-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes bug #357970
