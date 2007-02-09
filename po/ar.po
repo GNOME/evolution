@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-07 03:20+0000\n"
-"PO-Revision-Date: 2007-02-07 19:20+0200\n"
+"POT-Creation-Date: 2007-02-09 07:53-0800\n"
+"PO-Revision-Date: 2007-02-09 18:51+0200\n"
 "Last-Translator: Ahmad Farghal <ahmad.farghal@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
@@ -404,7 +404,7 @@ msgstr "فشل التّوثيق مع خادم LDAP."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1954
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1953
 msgid "Failed to delete contact"
 msgstr "فشل حذف المرَاسل"
 
@@ -697,7 +697,7 @@ msgstr "انسخ محتويات الدفتر محليا للتعامل معه د
 #: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:222
 #: ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2051
+#: ../plugins/itip-formatter/itip-formatter.c:2087
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "عام"
@@ -861,12 +861,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "النّفاذ إلى خادم LDAP كشخص مجهول"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:508
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:513
 msgid "Failed to authenticate.\n"
 msgstr "فشل التّوثيق.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:488
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:493
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "أدخل كلمة السّر لـ %s (المستخدم %s)"
@@ -1221,7 +1221,7 @@ msgstr "المراسَل"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:552
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:567
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2423
 msgid "Contact Editor"
 msgstr "محرّر المراسَلين"
 
@@ -1401,8 +1401,8 @@ msgstr "العنوان"
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1823
-#: ../widgets/text/e-entry.c:1312
-#: ../widgets/text/e-entry.c:1313
+#: ../widgets/text/e-entry.c:1265
+#: ../widgets/text/e-entry.c:1266
 #: ../widgets/text/e-text.c:3625
 #: ../widgets/text/e-text.c:3626
 msgid "Editable"
@@ -2482,20 +2482,20 @@ msgid "Changed"
 msgstr "غُيِّر"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:562
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2418
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "محرّر المراسَلين - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2794
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2798
 msgid "Please select an image for this contact"
 msgstr "رجاء اختر صورة لهذا المراسل"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2795
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2799
 msgid "_No image"
 msgstr "_لا صورة"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3099
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2503,23 +2503,23 @@ msgstr ""
 "بيانات المراسل غير صحيحة:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3107
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "تنسيق '%s' غير صحيح"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3114
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "تنسيق %s'%s' غير صحيح"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3125
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3136
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3129
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3140
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' فارغ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3151
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3155
 msgid "Invalid contact."
 msgstr "مراسل غير صحيح."
 
@@ -2831,8 +2831,8 @@ msgstr "خطأ أثناء الحصول على مشهد الدفتر"
 #: ../widgets/table/e-table-selection-model.c:311
 #: ../widgets/table/e-table.c:3337
 #: ../widgets/table/e-tree-selection-model.c:825
-#: ../widgets/text/e-entry.c:1235
-#: ../widgets/text/e-entry.c:1236
+#: ../widgets/text/e-entry.c:1209
+#: ../widgets/text/e-entry.c:1210
 #: ../widgets/text/e-text.c:3489
 #: ../widgets/text/e-text.c:3490
 msgid "Model"
@@ -2856,7 +2856,7 @@ msgid "Type"
 msgstr "النّوع"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:843
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2129
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2128
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "احفظ كـ VCard..."
@@ -2954,12 +2954,12 @@ msgstr "أيّ فئة"
 
 #. FIXME: Allow range selection in table views, as in minicard view
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1870
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1920
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1919
 msgid "Print cards"
 msgstr "اطبع البطاقات"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1954
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1953
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
 msgstr "خطأ آخر"
@@ -3148,7 +3148,7 @@ msgstr "موقع الويب"
 #: ../widgets/misc/e-reflow.c:1437
 #: ../widgets/table/e-table-click-to-add.c:516
 #: ../widgets/table/e-table-col.c:98
-#: ../widgets/table/e-table-field-chooser-item.c:656
+#: ../widgets/table/e-table-field-chooser-item.c:658
 #: ../widgets/table/e-table-group-container.c:967
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
@@ -3167,7 +3167,7 @@ msgstr "العرض"
 #: ../widgets/misc/e-reflow.c:1444
 #: ../widgets/misc/e-reflow.c:1445
 #: ../widgets/table/e-table-click-to-add.c:523
-#: ../widgets/table/e-table-field-chooser-item.c:663
+#: ../widgets/table/e-table-field-chooser-item.c:665
 #: ../widgets/table/e-table-group-container.c:960
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
@@ -3338,9 +3338,9 @@ msgstr "محادثة بالفيديو"
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2305
 #: ../plugins/exchange-operations/exchange-folder.c:569
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:397
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:428
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:533
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:402
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:433
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:546
 #: ../plugins/hula-account-setup/camel-hula-listener.c:381
 #: ../plugins/hula-account-setup/camel-hula-listener.c:410
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
@@ -3810,9 +3810,9 @@ msgstr "التهيئة"
 #: ../addressbook/printing/e-contact-print.glade.h:11
 #: ../widgets/table/e-table-click-to-add.c:495
 #: ../widgets/table/e-table-field-chooser-dialog.c:91
-#: ../widgets/table/e-table-field-chooser-item.c:649
+#: ../widgets/table/e-table-field-chooser-item.c:651
 #: ../widgets/table/e-table-field-chooser.c:91
-#: ../widgets/table/e-table-header-item.c:1913
+#: ../widgets/table/e-table-header-item.c:1895
 #: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
 msgstr "التّرويسة"
@@ -4403,7 +4403,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "لم يمكن كتابة قالب تطبيقات المهام للحاسوب الكفّي"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2042
+#: ../plugins/itip-formatter/itip-formatter.c:2078
 msgid "Calendar and Tasks"
 msgstr "التقويم و المهام"
 
@@ -4469,8 +4469,8 @@ msgstr "التذكيرات"
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
 #: ../plugins/exchange-operations/exchange-folder.c:581
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:398
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:534
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:403
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:547
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "المهام"
@@ -5839,7 +5839,7 @@ msgid "_Add attachment..."
 msgstr "أ_ضف مُرفق..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1554
-#: ../mail/em-format-html-display.c:2299
+#: ../mail/em-format-html-display.c:2300
 msgid "Show Attachments"
 msgstr "اظهر المُرفقات"
 
@@ -6110,7 +6110,7 @@ msgstr "خصّص"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1739
+#: ../plugins/itip-formatter/itip-formatter.c:1775
 #: ../widgets/misc/e-cell-date-edit.c:249
 #: ../widgets/misc/e-dateedit.c:1507
 #: ../widgets/misc/e-dateedit.c:1721
@@ -6933,7 +6933,7 @@ msgstr "لا"
 #: ../calendar/gui/e-meeting-store.c:222
 #: ../mail/em-utils.c:1213
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1764
+#: ../plugins/itip-formatter/itip-formatter.c:1800
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:710
 #: ../widgets/misc/e-charset-picker.c:63
@@ -6954,7 +6954,7 @@ msgid "Save As..."
 msgstr "احفظ كـ..."
 
 #: ../calendar/gui/e-cal-popup.c:193
-#: ../mail/em-format-html-display.c:2145
+#: ../mail/em-format-html-display.c:2146
 msgid "Select folder to save selected attachments..."
 msgstr "اختر مجلّد لحِفظ المُرفق المحدّد..."
 
@@ -7484,13 +7484,13 @@ msgstr "<br> رجاء راجِع المعلومات التّالية ثم اخت
 #: ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:687
-#: ../plugins/itip-formatter/itip-formatter.c:1752
+#: ../plugins/itip-formatter/itip-formatter.c:1788
 msgid "Accepted"
 msgstr "مقبول"
 
 #: ../calendar/gui/e-itip-control.c:1168
 #: ../calendar/gui/itip-utils.c:690
-#: ../plugins/itip-formatter/itip-formatter.c:1755
+#: ../plugins/itip-formatter/itip-formatter.c:1791
 msgid "Tentatively Accepted"
 msgstr "مقبول مبدئيّاً"
 
@@ -7500,7 +7500,7 @@ msgstr "مقبول مبدئيّاً"
 #: ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:693
 #: ../calendar/gui/itip-utils.c:722
-#: ../plugins/itip-formatter/itip-formatter.c:1758
+#: ../plugins/itip-formatter/itip-formatter.c:1794
 msgid "Declined"
 msgstr "مرفوض"
 
@@ -7715,7 +7715,7 @@ msgid "Attendee status updated\n"
 msgstr "تم تحديث حالة الحاضر\n"
 
 #: ../calendar/gui/e-itip-control.c:2006
-#: ../plugins/itip-formatter/itip-formatter.c:1104
+#: ../plugins/itip-formatter/itip-formatter.c:1108
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "لا يمكن تحديث حالة الحاضر لأنّ العنصر لم يعد موجوداً"
 
@@ -7882,7 +7882,7 @@ msgstr "مبدئي"
 #: ../calendar/gui/e-meeting-store.c:192
 #: ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:696
-#: ../plugins/itip-formatter/itip-formatter.c:1761
+#: ../plugins/itip-formatter/itip-formatter.c:1797
 msgid "Delegated"
 msgstr "مفوّض"
 
@@ -8331,9 +8331,9 @@ msgid "Unable to migrate tasks `%s'"
 msgstr "لم أستطع تهجير المهام `%s'"
 
 #: ../calendar/gui/migration.c:1211
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:399
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:430
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:535
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:404
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:435
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:548
 msgid "Notes"
 msgstr "ملاحظات"
 
@@ -11940,139 +11940,144 @@ msgstr "المطابقات: %d"
 msgid "Fi_nd:"
 msgstr "ا_عثر:"
 
-#: ../mail/em-format-html-display.c:685
-msgid "Fo_rward"
-msgstr "مرّ_ر"
+#. gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
+#: ../mail/em-format-html-display.c:681
+msgid "_Previous"
+msgstr "ال_سابق"
 
-#: ../mail/em-format-html-display.c:690
+#: ../mail/em-format-html-display.c:686
+msgid "_Next"
+msgstr "ال_تّالي"
+
+#: ../mail/em-format-html-display.c:691
 msgid "M_atch case"
 msgstr "_طابِق حالة الأحرف"
 
-#: ../mail/em-format-html-display.c:937
+#: ../mail/em-format-html-display.c:938
 #: ../mail/em-format-html.c:618
 msgid "Unsigned"
 msgstr "غير موقّعة"
 
-#: ../mail/em-format-html-display.c:937
+#: ../mail/em-format-html-display.c:938
 msgid "This message is not signed. There is no guarantee that this message is authentic."
 msgstr "هذه الرّسالة غير موقّعة. لا ضمان بأن هذه الرسالة أصليّة."
 
-#: ../mail/em-format-html-display.c:938
+#: ../mail/em-format-html-display.c:939
 #: ../mail/em-format-html.c:619
 msgid "Valid signature"
 msgstr "توقيع سليم"
 
-#: ../mail/em-format-html-display.c:938
+#: ../mail/em-format-html-display.c:939
 msgid "This message is signed and is valid meaning that it is very likely that this message is authentic."
 msgstr "هذه الرّسالة موقّعة و سليمة مما يعني أنها في الغالب أصليّة."
 
-#: ../mail/em-format-html-display.c:939
+#: ../mail/em-format-html-display.c:940
 #: ../mail/em-format-html.c:620
 msgid "Invalid signature"
 msgstr "توقيع غير سليم"
 
-#: ../mail/em-format-html-display.c:939
+#: ../mail/em-format-html-display.c:940
 msgid "The signature of this message cannot be verified, it may have been altered in transit."
 msgstr "لا يمكن التّحقّق من توقيع هذه الرّسالة، ربّما غُيّرت أثناء النّقل."
 
-#: ../mail/em-format-html-display.c:940
+#: ../mail/em-format-html-display.c:941
 msgid "Valid signature, cannot verify sender"
 msgstr "توقيع سليم، تعذّر التّحقّق من المرسِل"
 
-#: ../mail/em-format-html-display.c:940
+#: ../mail/em-format-html-display.c:941
 msgid "This message is signed with a valid signature, but the sender of the message cannot be verified."
 msgstr "هذه الرّسالة موقّعة بتوقيعٍ سليم، و لكن تعذّر التّحقّق من مرسِل الرّسالة."
 
-#: ../mail/em-format-html-display.c:946
+#: ../mail/em-format-html-display.c:947
 #: ../mail/em-format-html.c:627
 msgid "Unencrypted"
 msgstr "غير مشفّرة"
 
-#: ../mail/em-format-html-display.c:946
+#: ../mail/em-format-html-display.c:947
 msgid "This message is not encrypted. Its content may be viewed in transit across the Internet."
 msgstr "هذه الرّسالة ليست مشفّرة. من الممكن مشاهدة محتواها أثناء نقلها عبر الإنترنت."
 
-#: ../mail/em-format-html-display.c:947
+#: ../mail/em-format-html-display.c:948
 #: ../mail/em-format-html.c:628
 msgid "Encrypted, weak"
 msgstr "مشفّرة، ضعيفة"
 
-#: ../mail/em-format-html-display.c:947
+#: ../mail/em-format-html-display.c:948
 msgid "This message is encrypted, but with a weak encryption algorithm. It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time."
 msgstr "هذه الرّسالة مشفّرة، و لكن بخوارزمية تشفير ضعيفة. سيصعب و لكن لن يستحيل على شخص خارجي مشاهدة محتوى هذه الرّسالة ضمن فترةٍ زمنيّة معقولة."
 
-#: ../mail/em-format-html-display.c:948
+#: ../mail/em-format-html-display.c:949
 #: ../mail/em-format-html.c:629
 msgid "Encrypted"
 msgstr "مشفّرة"
 
-#: ../mail/em-format-html-display.c:948
+#: ../mail/em-format-html-display.c:949
 msgid "This message is encrypted.  It would be difficult for an outsider to view the content of this message."
 msgstr "هذه الرّسالة مشفّرة. من الصعب على شخص خارجي مشاهدة محتواها."
 
-#: ../mail/em-format-html-display.c:949
+#: ../mail/em-format-html-display.c:950
 #: ../mail/em-format-html.c:630
 msgid "Encrypted, strong"
 msgstr "مشفّرة، بقوّة"
 
-#: ../mail/em-format-html-display.c:949
+#: ../mail/em-format-html-display.c:950
 msgid "This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time."
 msgstr "هذه الرّسالة مشفّرة بخوارزمية تشفير قويّة. سيكون من الصّعب جدّاً على أيّ شخص خارجي أن يشاهد محتوى هذه الرّسالة ضمن فترةٍ زمنيّة معقولة."
 
-#: ../mail/em-format-html-display.c:1050
+#: ../mail/em-format-html-display.c:1051
 #: ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "ا_عرض الشهادة"
 
-#: ../mail/em-format-html-display.c:1065
+#: ../mail/em-format-html-display.c:1066
 msgid "This certificate is not viewable"
 msgstr "هذه الشهادة ليست قابلة للعرض"
 
-#: ../mail/em-format-html-display.c:1384
+#: ../mail/em-format-html-display.c:1385
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "اكتمل في %B %d، %Y، %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1392
+#: ../mail/em-format-html-display.c:1393
 msgid "Overdue:"
 msgstr "_فائت موعدها:"
 
-#: ../mail/em-format-html-display.c:1395
+#: ../mail/em-format-html-display.c:1396
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "قبل يوم %B %d، %Y، %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1455
+#: ../mail/em-format-html-display.c:1456
 msgid "_View Inline"
 msgstr "ا_عرض ضمن السّياق"
 
-#: ../mail/em-format-html-display.c:1456
+#: ../mail/em-format-html-display.c:1457
 msgid "_Hide"
 msgstr "ا_خفي"
 
-#: ../mail/em-format-html-display.c:1457
+#: ../mail/em-format-html-display.c:1458
 msgid "_Fit to Width"
 msgstr "_لائم العرض"
 
-#: ../mail/em-format-html-display.c:1458
+#: ../mail/em-format-html-display.c:1459
 msgid "Show _Original Size"
 msgstr "اظهر ال_حجم الأصلي"
 
-#: ../mail/em-format-html-display.c:1899
-#: ../mail/em-format-html-display.c:2504
+#: ../mail/em-format-html-display.c:1900
+#: ../mail/em-format-html-display.c:2505
 #: ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "مُرفق"
 
-#: ../mail/em-format-html-display.c:2106
+#: ../mail/em-format-html-display.c:2107
 msgid "Select folder to save all attachments..."
 msgstr "اختر مجلّدا لحفظ كل المرفقات..."
 
-#: ../mail/em-format-html-display.c:2153
+#: ../mail/em-format-html-display.c:2154
 msgid "_Save Selected..."
 msgstr "ا_حفظ المنتقَى..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2220
+#: ../mail/em-format-html-display.c:2221
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
@@ -12081,37 +12086,37 @@ msgstr[1] "مُرفقان"
 msgstr[2] "%d مُرفقات"
 msgstr[3] "%d مُرفقا"
 
-#: ../mail/em-format-html-display.c:2227
-#: ../mail/em-format-html-display.c:2305
+#: ../mail/em-format-html-display.c:2228
+#: ../mail/em-format-html-display.c:2306
 msgid "S_ave"
 msgstr "اح_فظ"
 
-#: ../mail/em-format-html-display.c:2238
+#: ../mail/em-format-html-display.c:2239
 msgid "S_ave All"
 msgstr "اح_فظ الكل"
 
-#: ../mail/em-format-html-display.c:2301
+#: ../mail/em-format-html-display.c:2302
 msgid "No Attachment"
 msgstr "بلا مُرفق"
 
-#: ../mail/em-format-html-display.c:2432
-#: ../mail/em-format-html-display.c:2477
+#: ../mail/em-format-html-display.c:2433
+#: ../mail/em-format-html-display.c:2478
 msgid "View _Unformatted"
 msgstr "اعرض _غير المهيأ"
 
-#: ../mail/em-format-html-display.c:2434
+#: ../mail/em-format-html-display.c:2435
 msgid "Hide _Unformatted"
 msgstr "أخفي _غير المهيأ"
 
-#: ../mail/em-format-html-display.c:2496
+#: ../mail/em-format-html-display.c:2497
 msgid "O_pen With"
 msgstr "فت_ح باستخدام"
 
-#: ../mail/em-format-html-display.c:2565
+#: ../mail/em-format-html-display.c:2566
 msgid "Evolution cannot render this email as it is too large to handle. You can view it unformatted or with an external text editor."
 msgstr "إيفُليوشن غير قادر على رسم هذه الرسالة ﻷنها أكبر من أن يتعامل معها. يمكنك عرضها دون تهيئة أو بمحرر نص خارجي."
 
-#: ../mail/em-format-html-print.c:142
+#: ../mail/em-format-html-print.c:143
 #, c-format
 msgid "Page %d of %d"
 msgstr "الصّفحة %d من %d"
@@ -15265,7 +15270,7 @@ msgstr "كلمة مرورك ستنتهي صلاحيتها خلال ال%d يوم
 #. Custom
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
-#: ../widgets/table/e-table-header-item.c:1572
+#: ../widgets/table/e-table-header-item.c:1554
 msgid "Custom"
 msgstr "مخصص"
 
@@ -15886,7 +15891,7 @@ msgstr "ألغاء الإشتراك في المجلّدات"
 msgid "_Unsubscribe"
 msgstr "إل_غاء الإشتراك"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:429
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:434
 msgid "Checklist"
 msgstr "قائمة سرد"
 
@@ -16373,102 +16378,102 @@ msgstr "غير قادر على إيجاد مدخل اليومية هذا في أ
 msgid "Searching for an existing version of this appointment"
 msgstr "جاري البحث عن إصدار موجود من هذا الموعد"
 
-#: ../plugins/itip-formatter/itip-formatter.c:800
+#: ../plugins/itip-formatter/itip-formatter.c:801
 msgid "Unable to parse item"
 msgstr "غير قادر على تحليل العنصر"
 
-#: ../plugins/itip-formatter/itip-formatter.c:857
+#: ../plugins/itip-formatter/itip-formatter.c:859
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "غير قادر على إرسال العنصر إلى التقويم '%s'.  %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:868
+#: ../plugins/itip-formatter/itip-formatter.c:871
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "أُرسِلَ للتقويم '%s' كمقبول"
 
-#: ../plugins/itip-formatter/itip-formatter.c:872
+#: ../plugins/itip-formatter/itip-formatter.c:875
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "أُرسِلَ للتقويم '%s' كغير نهائي"
 
-#: ../plugins/itip-formatter/itip-formatter.c:877
+#: ../plugins/itip-formatter/itip-formatter.c:880
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "أُرسِلَ للتقويم '%s' كمرفوض"
 
-#: ../plugins/itip-formatter/itip-formatter.c:882
+#: ../plugins/itip-formatter/itip-formatter.c:885
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "أُرسِلَ للتقويم '%s' كمهجور"
 
-#: ../plugins/itip-formatter/itip-formatter.c:975
+#: ../plugins/itip-formatter/itip-formatter.c:979
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "المنظّم قد أزال المُفَوَّضْ %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:982
+#: ../plugins/itip-formatter/itip-formatter.c:986
 msgid "Sent a cancelation notice to the delegate"
 msgstr "أُرسِلَت مذكرة بالإلغاء للمُفَوَّضْ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:984
+#: ../plugins/itip-formatter/itip-formatter.c:988
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "غير قادر على إرسال مذكرة بالإلغاء للمُفَوَّضْ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1069
+#: ../plugins/itip-formatter/itip-formatter.c:1073
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "لا يمكن تحديث حالة الحاضر لأن الحالة غير صالحة"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1096
+#: ../plugins/itip-formatter/itip-formatter.c:1100
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "غير قادر على تحديث الحاضر. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1100
+#: ../plugins/itip-formatter/itip-formatter.c:1104
 msgid "Attendee status updated"
 msgstr "تم تحديث معلومات الحاضر"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1227
+#: ../plugins/itip-formatter/itip-formatter.c:1231
 msgid "The calendar attached is not valid"
 msgstr "التقويم المرفق غير صالح"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1228
+#: ../plugins/itip-formatter/itip-formatter.c:1232
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "تدعي الرسالة أنها تحتوي تقويماً، لكن التقويم ليس بهيئة iCalendar صالحة."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1263
-#: ../plugins/itip-formatter/itip-formatter.c:1281
-#: ../plugins/itip-formatter/itip-formatter.c:1359
+#: ../plugins/itip-formatter/itip-formatter.c:1267
+#: ../plugins/itip-formatter/itip-formatter.c:1285
+#: ../plugins/itip-formatter/itip-formatter.c:1363
 msgid "The item in the calendar is not valid"
 msgstr "العنصر في التقويم غير صالح"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1264
-#: ../plugins/itip-formatter/itip-formatter.c:1282
-#: ../plugins/itip-formatter/itip-formatter.c:1360
+#: ../plugins/itip-formatter/itip-formatter.c:1268
+#: ../plugins/itip-formatter/itip-formatter.c:1286
+#: ../plugins/itip-formatter/itip-formatter.c:1364
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "الرسالة تحتوي على تقويم، لكن هذا التقويم لا يحتوي على أي أحداث أو مهام أو معلومات متوفر/مشغول"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1293
+#: ../plugins/itip-formatter/itip-formatter.c:1297
 msgid "The calendar attached contains multiple items"
 msgstr "التقويم المرفق يحتوي على عدة عناصر"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1294
+#: ../plugins/itip-formatter/itip-formatter.c:1298
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "لمعالجة كل هذه العناصر، يجب حفظ الملف واستيراد التقويم."
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2067
+#: ../plugins/itip-formatter/itip-formatter.c:2103
 msgid "_Delete message after acting"
 msgstr "احذف رسالة بعد الت_عامل معها"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2077
-#: ../plugins/itip-formatter/itip-formatter.c:2109
+#: ../plugins/itip-formatter/itip-formatter.c:2113
+#: ../plugins/itip-formatter/itip-formatter.c:2145
 msgid "Conflict Search"
 msgstr "بحث عن تضارب"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2092
+#: ../plugins/itip-formatter/itip-formatter.c:2128
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "انتق تقويمات للبحث في عن تضاربات المواعيد"
 
@@ -20566,7 +20571,7 @@ msgid "_Edit..."
 msgstr "ت_حرير..."
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1927
+#: ../widgets/table/e-table-header-item.c:1909
 #: ../widgets/table/e-table-scrolled.c:222
 #: ../widgets/table/e-table-scrolled.c:223
 msgid "Table"
@@ -20653,8 +20658,8 @@ msgstr "تقويم شهري"
 
 #: ../widgets/misc/e-canvas-background.c:457
 #: ../widgets/misc/e-canvas-background.c:458
-#: ../widgets/text/e-entry.c:1284
-#: ../widgets/text/e-entry.c:1285
+#: ../widgets/text/e-entry.c:1237
+#: ../widgets/text/e-entry.c:1238
 #: ../widgets/text/e-text.c:3581
 #: ../widgets/text/e-text.c:3582
 msgid "Fill color"
@@ -20664,10 +20669,10 @@ msgstr "لون التّعبئة"
 #: ../widgets/misc/e-canvas-background.c:465
 #: ../widgets/misc/e-canvas-background.c:471
 #: ../widgets/misc/e-canvas-background.c:472
-#: ../widgets/text/e-entry.c:1291
-#: ../widgets/text/e-entry.c:1292
-#: ../widgets/text/e-entry.c:1298
-#: ../widgets/text/e-entry.c:1299
+#: ../widgets/text/e-entry.c:1244
+#: ../widgets/text/e-entry.c:1245
+#: ../widgets/text/e-entry.c:1251
+#: ../widgets/text/e-entry.c:1252
 #: ../widgets/text/e-text.c:3588
 #: ../widgets/text/e-text.c:3589
 #: ../widgets/text/e-text.c:3596
@@ -20677,8 +20682,8 @@ msgstr "لون GDK fill"
 
 #: ../widgets/misc/e-canvas-background.c:478
 #: ../widgets/misc/e-canvas-background.c:479
-#: ../widgets/text/e-entry.c:1305
-#: ../widgets/text/e-entry.c:1306
+#: ../widgets/text/e-entry.c:1258
+#: ../widgets/text/e-entry.c:1259
 #: ../widgets/text/e-text.c:3603
 #: ../widgets/text/e-text.c:3604
 msgid "Fill stipple"
@@ -21042,8 +21047,8 @@ msgid "Item ID"
 msgstr "هوية العنصر"
 
 #: ../widgets/misc/e-search-bar.c:862
-#: ../widgets/text/e-entry.c:1249
-#: ../widgets/text/e-entry.c:1250
+#: ../widgets/text/e-entry.c:1223
+#: ../widgets/text/e-entry.c:1224
 #: ../widgets/text/e-text.c:3503
 #: ../widgets/text/e-text.c:3504
 msgid "Text"
@@ -21305,7 +21310,7 @@ msgstr "الحقول المتو_فرة:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
-#: ../widgets/table/e-table-header-item.c:1593
+#: ../widgets/table/e-table-header-item.c:1575
 msgid "Ascending"
 msgstr "تصاعدي"
 
@@ -21316,7 +21321,7 @@ msgstr "امسح الكل"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:4
-#: ../widgets/table/e-table-header-item.c:1593
+#: ../widgets/table/e-table-header-item.c:1575
 msgid "Descending"
 msgstr "تنازلي"
 
@@ -21414,16 +21419,16 @@ msgid "_Show these fields in order:"
 msgstr "أ_ظهر هذه الحقول بترتيب:"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
-#: ../widgets/table/e-table-field-chooser-item.c:635
+#: ../widgets/table/e-table-field-chooser-item.c:637
 #: ../widgets/table/e-table-field-chooser.c:77
-#: ../widgets/table/e-table-header-item.c:1892
+#: ../widgets/table/e-table-header-item.c:1874
 msgid "DnD code"
 msgstr "رمز DnD"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
-#: ../widgets/table/e-table-field-chooser-item.c:642
+#: ../widgets/table/e-table-field-chooser-item.c:644
 #: ../widgets/table/e-table-field-chooser.c:84
-#: ../widgets/table/e-table-header-item.c:1906
+#: ../widgets/table/e-table-header-item.c:1888
 msgid "Full Header"
 msgstr "ترويسة كاملة"
 
@@ -21552,70 +21557,68 @@ msgstr "ارتفاع صفوف منتظم"
 msgid "Frozen"
 msgstr "مجمّد"
 
-#: ../widgets/table/e-table-header-item.c:1471
+#: ../widgets/table/e-table-header-item.c:1453
 msgid "Customize Current View"
 msgstr "خصّص المشهد الحالي"
 
-#: ../widgets/table/e-table-header-item.c:1491
+#: ../widgets/table/e-table-header-item.c:1473
 msgid "Sort Ascending"
 msgstr "رتّب تصاعدياً"
 
-#: ../widgets/table/e-table-header-item.c:1492
+#: ../widgets/table/e-table-header-item.c:1474
 msgid "Sort Descending"
 msgstr "رتّب تنازلياً"
 
-#: ../widgets/table/e-table-header-item.c:1493
+#: ../widgets/table/e-table-header-item.c:1475
 msgid "Unsort"
 msgstr "بعثِر"
 
-#: ../widgets/table/e-table-header-item.c:1495
+#: ../widgets/table/e-table-header-item.c:1477
 msgid "Group By This Field"
 msgstr "جمِّع حسب هذا الحقل"
 
-#: ../widgets/table/e-table-header-item.c:1496
+#: ../widgets/table/e-table-header-item.c:1478
 msgid "Group By Box"
 msgstr "جمِّع حسب الصّندوق"
 
-#: ../widgets/table/e-table-header-item.c:1498
+#: ../widgets/table/e-table-header-item.c:1480
 msgid "Remove This Column"
 msgstr "أزل هذا العمود"
 
-#: ../widgets/table/e-table-header-item.c:1499
+#: ../widgets/table/e-table-header-item.c:1481
 msgid "Add a Column..."
 msgstr "أضِف عمود..."
 
-#: ../widgets/table/e-table-header-item.c:1501
+#: ../widgets/table/e-table-header-item.c:1483
 msgid "Alignment"
 msgstr "محاذاة"
 
-#: ../widgets/table/e-table-header-item.c:1502
+#: ../widgets/table/e-table-header-item.c:1484
 msgid "Best Fit"
 msgstr "أفضل ملاءمة"
 
-#: ../widgets/table/e-table-header-item.c:1503
+#: ../widgets/table/e-table-header-item.c:1485
 msgid "Format Columns..."
 msgstr "نسّق الأعمدة..."
 
-#: ../widgets/table/e-table-header-item.c:1505
+#: ../widgets/table/e-table-header-item.c:1487
 msgid "Customize Current View..."
 msgstr "خصّص المشهد الحالي..."
 
-#: ../widgets/table/e-table-header-item.c:1554
+#: ../widgets/table/e-table-header-item.c:1536
 msgid "Sort By"
 msgstr "رتّب حسب"
 
-#: ../widgets/table/e-table-header-item.c:1899
-#: ../widgets/text/e-entry.c:1263
-#: ../widgets/text/e-entry.c:1264
-msgid "Fontset"
-msgstr "مجموعة الخط"
+#: ../widgets/table/e-table-header-item.c:1881
+msgid "Font Description"
+msgstr "وصف الخط"
 
-#: ../widgets/table/e-table-header-item.c:1920
+#: ../widgets/table/e-table-header-item.c:1902
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
 msgstr "معلومات التّرتيب"
 
-#: ../widgets/table/e-table-header-item.c:1934
+#: ../widgets/table/e-table-header-item.c:1916
 #: ../widgets/table/e-tree-scrolled.c:221
 #: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
@@ -21671,102 +21674,92 @@ msgstr "حقوق النسخ (C) 2000, Helix Code, المحدودة."
 msgid "This should test the minicard canvas item"
 msgstr "يُفترض أن يختبر هذا عنصر شبكة تصميم البطاقة"
 
-#: ../widgets/text/e-entry.c:1242
-#: ../widgets/text/e-entry.c:1243
+#: ../widgets/text/e-entry.c:1216
+#: ../widgets/text/e-entry.c:1217
 #: ../widgets/text/e-text.c:3496
 #: ../widgets/text/e-text.c:3497
 msgid "Event Processor"
 msgstr "معالج الأحداث"
 
-#: ../widgets/text/e-entry.c:1256
-#: ../widgets/text/e-entry.c:1257
-msgid "Font"
-msgstr "خط"
-
-#: ../widgets/text/e-entry.c:1270
-#: ../widgets/text/e-entry.c:1271
-msgid "GDKFont"
-msgstr "GDKFont"
-
-#: ../widgets/text/e-entry.c:1277
-#: ../widgets/text/e-entry.c:1278
+#: ../widgets/text/e-entry.c:1230
+#: ../widgets/text/e-entry.c:1231
 #: ../widgets/text/e-text.c:3532
 #: ../widgets/text/e-text.c:3533
 msgid "Justification"
 msgstr "المحاذاة"
 
-#: ../widgets/text/e-entry.c:1319
-#: ../widgets/text/e-entry.c:1320
+#: ../widgets/text/e-entry.c:1272
+#: ../widgets/text/e-entry.c:1273
 #: ../widgets/text/e-text.c:3632
 #: ../widgets/text/e-text.c:3633
 msgid "Use ellipsis"
 msgstr "استخدم الثّلاث نقاط"
 
-#: ../widgets/text/e-entry.c:1326
-#: ../widgets/text/e-entry.c:1327
+#: ../widgets/text/e-entry.c:1279
+#: ../widgets/text/e-entry.c:1280
 #: ../widgets/text/e-text.c:3639
 #: ../widgets/text/e-text.c:3640
 msgid "Ellipsis"
 msgstr "ثلاث نقاط"
 
-#: ../widgets/text/e-entry.c:1333
-#: ../widgets/text/e-entry.c:1334
+#: ../widgets/text/e-entry.c:1286
+#: ../widgets/text/e-entry.c:1287
 #: ../widgets/text/e-text.c:3646
 #: ../widgets/text/e-text.c:3647
 msgid "Line wrap"
 msgstr "لف السّطور"
 
-#: ../widgets/text/e-entry.c:1340
-#: ../widgets/text/e-entry.c:1341
+#: ../widgets/text/e-entry.c:1293
+#: ../widgets/text/e-entry.c:1294
 #: ../widgets/text/e-text.c:3653
 #: ../widgets/text/e-text.c:3654
 msgid "Break characters"
 msgstr "محارف التّوقّف"
 
-#: ../widgets/text/e-entry.c:1347
-#: ../widgets/text/e-entry.c:1348
+#: ../widgets/text/e-entry.c:1300
+#: ../widgets/text/e-entry.c:1301
 #: ../widgets/text/e-text.c:3660
 #: ../widgets/text/e-text.c:3661
 msgid "Max lines"
 msgstr "أقصى عدد من السّطور"
 
-#: ../widgets/text/e-entry.c:1354
-#: ../widgets/text/e-entry.c:1355
+#: ../widgets/text/e-entry.c:1307
+#: ../widgets/text/e-entry.c:1308
 #: ../widgets/text/e-text.c:3689
 #: ../widgets/text/e-text.c:3690
 msgid "Allow newlines"
 msgstr "اسمح بالأسطر الجديدة"
 
-#: ../widgets/text/e-entry.c:1361
-#: ../widgets/text/e-entry.c:1362
+#: ../widgets/text/e-entry.c:1314
+#: ../widgets/text/e-entry.c:1315
 #: ../widgets/text/e-text.c:3682
 #: ../widgets/text/e-text.c:3683
 msgid "Draw borders"
 msgstr "ارسم الحدود"
 
-#: ../widgets/text/e-entry.c:1368
-#: ../widgets/text/e-entry.c:1369
+#: ../widgets/text/e-entry.c:1321
+#: ../widgets/text/e-entry.c:1322
 #: ../widgets/text/e-text.c:3696
 #: ../widgets/text/e-text.c:3697
 msgid "Draw background"
 msgstr "ارسم الخلفيّة"
 
-#: ../widgets/text/e-entry.c:1375
-#: ../widgets/text/e-entry.c:1376
+#: ../widgets/text/e-entry.c:1328
+#: ../widgets/text/e-entry.c:1329
 #: ../widgets/text/e-text.c:3703
 #: ../widgets/text/e-text.c:3704
 msgid "Draw button"
 msgstr "ارسم الزّر"
 
-#: ../widgets/text/e-entry.c:1382
-#: ../widgets/text/e-entry.c:1383
+#: ../widgets/text/e-entry.c:1335
+#: ../widgets/text/e-entry.c:1336
 #: ../widgets/text/e-text.c:3710
 #: ../widgets/text/e-text.c:3711
 msgid "Cursor position"
 msgstr "موقع المؤشّر"
 
-#: ../widgets/text/e-entry.c:1389
-#: ../widgets/text/e-entry.c:1390
+#: ../widgets/text/e-entry.c:1342
+#: ../widgets/text/e-entry.c:1343
 msgid "Emulate label resize"
 msgstr "حاكي تحجيم العنوان"
 
@@ -21839,6 +21832,14 @@ msgstr "سياق مراسِل فوري"
 msgid "Handle Popup"
 msgstr "معالجة القافزة"
 
+#~ msgid "Fo_rward"
+#~ msgstr "مرّ_ر"
+#~ msgid "Fontset"
+#~ msgstr "مجموعة الخط"
+#~ msgid "Font"
+#~ msgstr "خط"
+#~ msgid "GDKFont"
+#~ msgstr "GDKFont"
 #~ msgid "Print Preview"
 #~ msgstr "معاينة للطّباعة"
 
