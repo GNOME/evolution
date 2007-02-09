@@ -212,10 +212,11 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
 	if (parent_id_name) {
+		guint32 color;
 		e_source_set_property (source, "parent_id_name", parent_id_name);
-		e_source_set_color (source, 0xFF00FF);
-	}
-	else
+		color = (guint32) atoi((char *)(camel_url_get_param (url, "color")));
+		e_source_set_color (source, color);
+	} else
 		e_source_set_color (source, 0xEEBC60);
 	e_source_group_add_source (group, source, -1);
 	e_source_list_sync (source_list, NULL);
@@ -224,6 +225,8 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 		source_selection_key = SELECTED_CALENDARS;
 	else if (!strcmp (conf_key, TASKS_SOURCES))
 		source_selection_key = SELECTED_TASKS;
+	else if (!strcmp (conf_key, NOTES_SOURCES))
+		source_selection_key = SELECTED_NOTES;
 	else 
 		source_selection_key = NULL;
 
@@ -285,6 +288,8 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 						source_selection_key = SELECTED_CALENDARS;
 					else if (!strcmp (conf_key, TASKS_SOURCES))
 						source_selection_key = SELECTED_TASKS;
+					else if (!strcmp (conf_key, NOTES_SOURCES))
+						source_selection_key = SELECTED_NOTES;
 					else source_selection_key = NULL;
 					if (source_selection_key) {
 						ids = gconf_client_get_list (client, source_selection_key , 
@@ -528,12 +533,21 @@ static void
 add_proxy_sources (GwAccountInfo *info, const char *parent_name)
 {
 	CamelURL *url;
-	
+	char *color;
+
 	url = camel_url_new (info->source_url, NULL);
+
+	color = g_strdup_printf ("%u",  g_random_int_range (0x100000, 0xffffaa));
+	/* The above range is chosen so that the colors are neither too light nor too dark
+	and appealing in all the themes */
+
+	camel_url_set_param (url, "color", color);
+
 	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name);
 	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name);
 	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, parent_name);
-	
+
+	g_free (color);
 	camel_url_free (url);
 }
 

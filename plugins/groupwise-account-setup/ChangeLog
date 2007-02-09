@@ -1,3 +1,9 @@
+2007-02-09  Sankar P  <psankar@novell.com>
+
+	* camel-gw-listener.c: (add_esource), (remove_esource),
+	(add_proxy_sources): Picks a random color for proxy calendars,
+	Checks the Memo/Notes component for proxies
+
 2006-12-03  Harish Krishnaswamy  <kharish@novell.com>
 
 	* plugins/groupwise-account-setup/camel-gw-listener.c:
