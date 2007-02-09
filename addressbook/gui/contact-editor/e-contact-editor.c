@@ -2280,27 +2280,31 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 					
 					height = gdk_pixbuf_get_height (pixbuf);
 					width = gdk_pixbuf_get_width (pixbuf);
-					prompt_response = e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL);
-					if ((height > 96 || width > 96) && prompt_response == GTK_RESPONSE_YES){
-						if ( width > height) {
-							height = height * 96 / width;
-							width = 96;
-						} else {
-							width = width *96 / height;
-							height = 96;
-						}
+					if ((height > 96 || width > 96)) {
+					
+						prompt_response = e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL);
+
+						if (prompt_response == GTK_RESPONSE_YES){
+							if ( width > height) {
+								height = height * 96 / width;
+								width = 96;
+							} else {
+								width = width *96 / height;
+								height = 96;
+							}
 						
-						new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
-						if (new) {
-							g_free(photo.data.inlined.data);
-							gdk_pixbuf_save_to_buffer (new, (gchar **)&photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
-							g_object_unref (new);
+							new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+							if (new) {
+								g_free(photo.data.inlined.data);
+								gdk_pixbuf_save_to_buffer (new, (gchar **)&photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
+								g_object_unref (new);
+							}
 						}
-					}
-					else if (prompt_response == GTK_RESPONSE_CANCEL) {
-						g_object_unref (pixbuf);
-						g_object_unref (loader);
-						return;
+						else if (prompt_response == GTK_RESPONSE_CANCEL) {
+							g_object_unref (pixbuf);
+							g_object_unref (loader);
+							return;
+						}
 					}
 					g_object_unref (pixbuf);
 				}
