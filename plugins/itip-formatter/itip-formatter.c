@@ -767,7 +767,7 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 	}
 }
 
-static void
+static gboolean 
 update_item (FormatItipPObject *pitip, ItipViewResponse response)
 {
 	struct icaltimetype stamp;
@@ -776,6 +776,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	ECalComponent *clone_comp;
 	ESource *source;
 	GError *error = NULL;
+	gboolean result = TRUE;
 
 	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
 	 * the user accepted/declined the request. (Outlook ignores
@@ -798,6 +799,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	clone_comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (clone_comp, clone)) {
 		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to parse item"));
+		result = FALSE;
 		goto cleanup;
 	}
 	source = e_cal_get_source (pitip->current_ecal);
@@ -857,6 +859,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 						      _("Unable to send item to calendar '%s'.  %s"), 
 						      e_source_peek_name (source), error->message);
 		g_error_free (error);
+		result = FALSE;
 	} else {
 		itip_view_set_source_list (ITIP_VIEW (pitip->view), NULL);
 
@@ -892,6 +895,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
  cleanup:
 	icalcomponent_remove_component (pitip->top_level, clone);
 	g_object_unref (clone_comp);
+	return result;
 }
 
 /* TODO These operations should be available in e-cal-component.c */
@@ -1429,6 +1433,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	gboolean status = FALSE, delete_invitation_from_cache = FALSE;
 	icalproperty *prop;
 	ECalComponentTransparency trans;
+	gboolean flag;
 
 	e_cal_component_get_transparency (pitip->comp, &trans);
 	/* FIXME we should be providing an option to accept as free or busy */
@@ -1456,8 +1461,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				status = TRUE;
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
-				update_item (pitip, response);
-				if (e_cal_get_save_schedules (pitip->current_ecal))
+				flag = update_item (pitip, response);
+				if (e_cal_get_save_schedules (pitip->current_ecal) && flag)
 					delete_invitation_from_cache = TRUE;
 			}
 			break;
@@ -1466,8 +1471,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 					ICAL_PARTSTAT_TENTATIVE);
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
-				update_item (pitip, response);
-				if (e_cal_get_save_schedules (pitip->current_ecal))
+				flag = update_item (pitip, response);
+				if (e_cal_get_save_schedules (pitip->current_ecal) && flag)
 					delete_invitation_from_cache = TRUE;
 
 			}
@@ -1485,8 +1490,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
-				update_item (pitip, response);
-				if (e_cal_get_save_schedules (pitip->current_ecal))
+				flag = update_item (pitip, response);
+				if (e_cal_get_save_schedules (pitip->current_ecal) && flag)
 					delete_invitation_from_cache = TRUE;
 			}
 			break;
@@ -1508,11 +1513,42 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
 	if (delete_invitation_from_cache) {
 		CamelFolderChangeInfo *changes = NULL;
-		camel_folder_summary_remove_uid(((EMFormat *) pitip->pobject.format)->folder->summary, ((EMFormat *) pitip->pobject.format)->uid);
-		changes = camel_folder_change_info_new ();
-		camel_folder_change_info_remove_uid (changes, (char *)((EMFormat *) pitip->pobject.format)->uid);
-		camel_object_trigger_event (((EMFormat *) pitip->pobject.format)->folder, "folder_changed", changes);
-		camel_folder_change_info_free (changes);
+		const char *tag = NULL;
+		CamelMessageInfo *mi;
+		mi = camel_folder_summary_uid (((EMFormat *) pitip->pobject.format)->folder->summary, ((EMFormat *) pitip->pobject.format)->uid);
+		if (mi) {
+			changes = camel_folder_change_info_new ();
+
+			if (itip_view_get_recur_check_state (ITIP_VIEW (pitip->view))) {
+				/* Recurring appointment and "apply-to-all" is selected */
+				camel_message_info_ref (mi);
+				tag = camel_message_info_user_tag (mi, "recurrence-key");
+				camel_message_info_free (mi);
+				if (tag) {
+					GPtrArray *summary_array;
+					int i=0;
+
+					summary_array = camel_folder_summary_array (((EMFormat *) pitip->pobject.format)->folder->summary);
+					for (i=0; i<summary_array->len; i++) {
+						mi = (CamelMessageInfo *)g_ptr_array_index (summary_array, i);
+						camel_message_info_ref (mi);
+						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
+
+							camel_folder_summary_remove_uid(((EMFormat *) pitip->pobject.format)->folder->summary, (char *)(mi->uid));
+							camel_folder_change_info_remove_uid (changes, (char *)(mi->uid));
+						}
+						camel_message_info_free (mi);
+					}
+					camel_folder_summary_array_free (((EMFormat *) pitip->pobject.format)->folder->summary, summary_array);
+				} 
+			} else {
+				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
+				camel_folder_summary_remove_uid(((EMFormat *) pitip->pobject.format)->folder->summary, ((EMFormat *) pitip->pobject.format)->uid);
+				camel_folder_change_info_remove_uid (changes, (char *)((EMFormat *) pitip->pobject.format)->uid);
+			}
+			camel_object_trigger_event (((EMFormat *) pitip->pobject.format)->folder, "folder_changed", changes);
+			camel_folder_change_info_free (changes);
+		} 
 	}
 
 	if (!delete_invitation_from_cache && pitip->delete_message) {
