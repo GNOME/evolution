@@ -1,3 +1,10 @@
+2007-02-09  Sankar P  <psankar@novell.com>
+
+	* itip-formatter.c: (update_item), (view_response_cb):
+	Deletes all instances of a recurrence appointment as soon as the 
+	invitation is accepted/declined adn applied-to-all.
+	Fixes #312301
+
 2006-09-14  Andre Klapper  <a9016009@gmx.de>
 
 	* itip-view.c: correct display of time. Fixes bug #343686.
