@@ -1,28 +1,28 @@
-From evolution@ximian.com Tue Sep 25 07:45:12 2001
-Return-Path: <evolution@ximian.com>
-Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
+From evolution@novell.com Wed Sep 06 07:45:12 2006
+Return-Path: <evolution@novell.com>
+Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
 	07:45:12 -0400
-Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
-Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
-	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: "A Equipa do Evolution" <evolution@ximian.com>
-To: Os Utilizadores do Evolution <evolution@ximian.com>
+Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
+Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
+	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
+From: "A Equipa do Evolution" <evolution@novell.com>
+To: Utilizadores do Evolution <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution/1.1.99 (Preview Release)
-Date: 25 June 2002 14:45:00 +0300
+X-Mailer: Evolution 2.8.0
+Date: 06 September 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Bem Vindo ao Evolution!
-Sender: evolution@ximian.com
-Errors-To: evolution@ximian.com
+Sender: evolution@novell.com
+Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
-X-Evolution: 00000ddd-0030
+X-Evolution-Source: pop://rupert@pop.novell.com/inbox
+X-Evolution: 00000002-0000
 
 
 --=-t4dRE6cqcdSBHOrMdTQ1
@@ -34,45 +34,48 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
-A Equipa do Evolution orgulha-se em lhe dar as boas vindas ao Evolution, uma
-solução completa para a gestão das suas comunicações e informação pessoal.
+A Equipa do Evolution orgulha-se em lhe dar as boas vindas ao Evolution, um sistema completo
+para gerir as suas comunicações e informação pessoal.
 
 
-Iniciar-se
+Os Primeiros Passos
 
-	Na zona esquerda da janela do Evolution está a barra lateral, com
-	atalhos para todas as suas pastas de e-mail.  Por baixo, irá
-	encontrar botões para os seus calendários, contactos, tarefas e e-mail.
+	À esquerda da janela do Evolution encontra-se a barra lateral, com
+	atalhos para todas as pastas de correio. Abaixo desta, encontrará
+	botões para os seus calendários, contactos, tarefas, correio e memos.
 
-	Para obter um guia completo do Evolution, seleccione "Conteúdo" no 
-	menu "Ajuda", ou prima a tecla F1. 
+	Para obter um guia completo sobre o Evolution, seleccione "Tabela de
+	Conteúdos" no menu "Ajuda", ou prima a tecla F1. 
 
 Novas Funcionalidades
 
-	Evolution 2.0 adiciona suporte para ligações a servidores Novell
-	GroupWise (6.5.3 ou mais recentes) e suporte para Exchange 2000/2003.  
-	Outras novas funcionalidades no Evolution 2.0 incluem filtragem de 
-	mensagens não solicitadas, segurança S/MIME, suporte melhorado para 
-	improved IMAP, NNTP (notícias), apresentação de calendário web, 
-	calendários sobrepostos e novas APIs para programadores acederem aos 
-	dados de contactos, calendários e tarefas.
+	O Evolution 2.8 tem
+	
+	# Um novo Interface de Procura e Procura Global no Correio
+	# Um modo de Ecrã Largo (Wide Screen), Antevisão Vertical no Correio
+	# Melhor Aparência (integração "Cairo")
+	# Melhor Desempenho, várias Correcções e Reduções na utilização de Memória
+	# Suporte para Notas de Lembrete e Anular-Envio de Correio para GroupWise
+	# Notas Partilháveis no Diário (sistema de ficheiros)
+	# Suporte para o GNOME Keyring Manager
+	# Imensas correcções de Erros e outras Melhorias
 
-Relatório de Erros
+Relatar Erros
 
-	Os erros deverão ser relatados (em inglês) em http://bugzilla.ximian.com
+	Erros deverão ser relatados em http://bugzilla.gnome.org (em inglês).
 
 Mais Informações
 
-	Pode subscrever a lista de e-mail de utilizadores do Evolution em
-	http://lists.ximian.com/mailman/listinfo/evolution.
+	Poderá subscrever a lista de distribuição de utilizadores do Evolution em
+	http://mail.gnome.org/mailman/listinfo/evolution-list.
 
-	Encontra-se disponível informação sobre o projecto Evolution em
+	Informação sobreo o projecto Evolution encontra-se disponível em
 	http://www.gnome.org/projects/evolution.
 
 
 Com os nossos melhores cumprimentos,
 A Equipa do Evolution
-evolution@ximian.com
+evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -84,100 +87,105 @@ Content-Type: text/html; charset=utf-8
   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
   <META NAME="GENERATOR" CONTENT="GtkHTML/0.13.99">
 </HEAD>
-<BODY BGCOLOR="#f8fcf8"><TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
-<TR>
-<TD ALIGN="left" VALIGN="top">
+<BODY BGCOLOR="#f8fcf8">
+<TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<TR><TD ALIGN="left" VALIGN="top">
 <IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
+<TD></TD><TD></TD><TD></TD><TD></TD><TD></TD>
 <TD ALIGN="right" VALIGN="top">
 <IMG SRC="cid:1001417929.27019.7.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-</TR>
-<TR>
-<TD>
-</TD>
-<TD>
+</TR><TR><TD></TD><TD>
 <IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
-<TD>
-</TD>
-<TD>
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>A Equipa do Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> orgulha-se em lhe dar as boas vindas ao </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">, uma solução completa para a gestão das suas comunicações e informação pessoal.</FONT></FONT SIZE="4"></TD>
-<TD>
-</TD>
-<TD>
-<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
-<TD>
-</TD>
-</TR>
-<TR>
-<TD ALIGN="left" VALIGN="bottom">
-<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD ALIGN="right" VALIGN="bottom">
-<div align=right>
-<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></div>
-</TD>
-</TR>
-</TABLE>
-<h2>Iniciar-se</h2>
+<TD></TD><TD>
+<FONT COLOR="#f8fcf8"><FONT SIZE="4">
+
+
+<B>A Equipa do Evolution</B> orgulha-se em lhe dar as boas vindas ao <B>Evolution</B>, um sistema completo
+para gerir as suas comunicações e informação pessoal.
+
+
+</FONT SIZE="4"></FONT>
+</TD><TD></TD><TD>
+<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48">
+</TD><TD></TD></TR><TR><TD ALIGN="left" VALIGN="bottom">
+<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8">
+</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD>
+<TD ALIGN="right" VALIGN="bottom"><div align=right>
+<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8">
+</div></TD></TR></TABLE>
+
+
+<h2>
+Os Primeiros Passos
+</h2>
 
 <blockquote>
-	Na zona esquerda da janela do Evolution está a barra lateral, com
-        atalhos para todas as suas pastas de e-mail.  Por baixo, irá
-        encontrar botões para os seus calendários, contactos, tarefas e e-mail.
+
+	À esquerda da janela do Evolution encontra-se a barra lateral, com
+	atalhos para todas as pastas de correio. Abaixo desta, encontrará
+	botões para os seus calendários, contactos, tarefas, correio e memos.
+
 <br><br>
-    Para obter um guia completo do Evolution, seleccione "Conteúdo" no
-    menu "Ajuda", ou prima a tecla <b>F1</b>.
 
+	Para obter um guia completo sobre o Evolution, seleccione <b>Tabela de
+	Conteúdos</b> no menu <b>Ajuda</b>, ou prima a tecla <b>F1</b>.
+
+<br><br>
 </blockquote>
 
-<h2>Novas Funcionalidades</h2>
+<h2>
+Novas Funcionalidades
+</h2>
+
 <blockquote>
-	Evolution 2.0 adiciona suporte para ligações a servidores Novell
-        GroupWise (6.5.3 ou mais recentes) e suporte para Exchange 2000/2003.
-        Outras novas funcionalidades no Evolution 2.0 incluem filtragem de
-        mensagens não solicitadas, segurança S/MIME, suporte melhorado para
-        improved IMAP, NNTP (notícias), apresentação de calendário web,
-        calendários sobrepostos e novas APIs para programadores acederem aos
-        dados de contactos, calendários e tarefas.
+	O Evolution 2.8 tem 
+	<ul>
+	<li>
+	Um novo Interface de Procura e Procura Global no Correio
+	</li><li>
+	Um modo de Ecrã Largo (Wide Screen), Antevisão Vertical no Correio
+	</li><li>
+	Melhor Aparência (integração "Cairo")
+	</li><li>
+	Melhor Desempenho, várias Correcções e Reduções na utilização de Memória
+	</li><li>
+	Suporte para Notas de Lembrete e Anular-Envio de Correio para GroupWise
+	</li><li>
+	Notas Partilháveis no Diário (sistema de ficheiros)
+	</li><li>
+	Suporte para o GNOME Keyring Manager
+	</li><li>
+	Imensas correcções de Erros e outras Melhorias
+	</li>
+	</ul>
+<br>
 </blockquote>
 
-<h2>Relatório de Erros</h2>
+<h2>
+Relatar Erros
+</h2>
 <blockquote>
-	Os erros deverão ser relatados (em inglês) em <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
+	Erros deverão ser relatados em <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a> (em inglês).
+<br><br>
 </blockquote> 
 
-<h2>Mais Informações</h2>
+<h2>
+Mais Informações
+</h2>
 
 <blockquote>
-	Pode subscrever a lista de e-mail de utilizadores do Evolution em
-	<a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
+	Poderá subscrever a lista de distribuição de utilizadores do Evolution em
+	<a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
-	Encontra-se disponível informação sobre o projecto Evolution em
+	Informação sobreo o projecto Evolution encontra-se disponível em
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
- </blockquote>
+<br><br>	
+</blockquote>
 
-
-Com os nossos melhores cumprimentos,<br>
-A Equipa do Evolution<br>
-<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
+Com os nossos melhores cumprimentos,
+<br>
+A Equipa do Evolution
+<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
@@ -337,5 +345,9 @@ AP8A/wD/oL2nkwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9EJGQsLBap83esAAACESURB
 VHja7dRBDcAgEADBgwDBEj4wUvdN+2h1kJvVMNmy9vVF4mokr93PGwRkFjBHJ8ADCPAAAjyAAA8g
 wAMI8AACPIAADyDAAwjwAAI8gAAPIMADCPAAAjyAAA8gwAMI8AACPIAADyDAAwjwAAI8gAAPIMAD
 CPAAAjyAAA8gwAMIOL8fcegyqOBdwTkAAAAASUVORK5CYII=
+
+
+--=-t4dRE6cqcdSBHOrMdTQ1
+Content-Transfer-Encoding: 8bit
 
 --=-t4dRE6cqcdSBHOrMdTQ1
