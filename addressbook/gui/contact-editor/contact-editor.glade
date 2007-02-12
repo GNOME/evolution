@@ -3468,7 +3468,7 @@
 					  <property name="column_spacing">6</property>
 
 					  <child>
-					    <widget class="GtkLabel" id="label-work-country">
+					    <widget class="GtkLabel" id="label-work-zip">
 					      <property name="visible">True</property>
 					      <property name="label" translatable="yes">_Zip/Postal Code:</property>
 					      <property name="use_underline">True</property>
@@ -3590,7 +3590,7 @@
 					  </child>
 
 					  <child>
-					    <widget class="GtkLabel" id="label-work-country">
+					    <widget class="GtkLabel" id="label-work-city">
 					      <property name="visible">True</property>
 					      <property name="label" translatable="yes">_City:</property>
 					      <property name="use_underline">True</property>
@@ -3787,7 +3787,7 @@
 					      </child>
 
 					      <child>
-						<widget class="GtkLabel" id="label472">
+						<widget class="GtkLabel" id="label-work-country">
 						  <property name="visible">True</property>
 						  <property name="label" translatable="yes">_Country:</property>
 						  <property name="use_underline">True</property>

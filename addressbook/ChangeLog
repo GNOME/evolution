@@ -1,3 +1,9 @@
+2007-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/contact-editor/contact-editor.glade: Fix critical warnings
+	from typos in the glade file. Closes bug #397893. Patch
+	from Wang Xin.
+
 2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Print migration updates from Ebby Wiselyn.
