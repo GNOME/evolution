@@ -1,3 +1,9 @@
+2007-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* em-folder-browser.c: (emfb_search_search_activated):
+	Add NULL check before calling strcmp(). Fixes a crash
+	reported in bug #382155.
+
 2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Print migration updates from Ebby Wiselyn

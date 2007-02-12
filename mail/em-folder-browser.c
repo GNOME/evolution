@@ -1057,7 +1057,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 		    g_object_get (esb, "query", &search_word, NULL);
 		    
-		    if (efb->all_account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->all_account_search_vf)->expression) )  {
+		    if (search_word && efb->all_account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->all_account_search_vf)->expression) )  {
 			    /* No real search apart from the existing one */
 			    break;
 		    }
