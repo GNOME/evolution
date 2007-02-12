@@ -1390,7 +1390,7 @@ AC_SUBST(privincludedir)
 componentdir="$privlibdir/components"
 AC_SUBST(componentdir)
 
-idldir="$datadir/idl/evolution-$BASE_VERSION"
+idldir='${datadir}'/idl/evolution-$BASE_VERSION
 AC_SUBST(idldir)
 
 serverdir="$libdir/bonobo/servers"

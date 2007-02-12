@@ -1,3 +1,9 @@
+2007-02-12  Srinivasa Ragavan <sragavan@novell.com>
+
+	** Fixes bug #373497 
+	* configure.in: Patch from Priit Laes for following $prefix settings
+	while installing.
+
 2007-01-22  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.9.6 release
