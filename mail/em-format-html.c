@@ -32,6 +32,7 @@
 #include <ctype.h>
 
 #include <glib.h>
+#include <gtk/gtk.h>
 #ifdef G_OS_WIN32
 /* Work around 'DATADIR' and 'interface' lossage in <windows.h> */
 #define DATADIR crap_DATADIR
@@ -156,7 +157,7 @@ efh_init(GObject *o)
 	efh->content_colour = 0xffffff;
 	efh->text_html_flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 		| CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
-	efh->show_rupert = TRUE;
+	efh->show_icon = TRUE;
 }
 
 static void
@@ -1747,7 +1748,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	const char *charset;
 	CamelContentType *ct;
 	struct _camel_header_raw *header;
-	int rupert = FALSE;
+	gboolean have_icon = FALSE;
 			
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
@@ -1788,7 +1789,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					
 					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
 					if (strstr(header->value, "Evolution"))
-						rupert = TRUE;
+						have_icon = TRUE;
 				} else if (!g_ascii_strcasecmp (header->name, h->name)) {
 					efh_format_header(emf, stream, part, header, h->flags, charset);
 				}
@@ -1801,19 +1802,23 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	if (!efh->simple_headers) {
 		camel_stream_printf(stream, "</table></td>");
 
-		if (rupert && efh->show_rupert) {
+		if (have_icon && efh->show_icon) {
+			GtkIconInfo *icon_info;
 			char *classid;
-			CamelMimePart *iconpart;
-			char *pngfile;
+			CamelMimePart *iconpart = NULL;
 
 			classid = g_strdup_printf("icon:///em-format-html/%s/icon/header", emf->part_id->str);
 			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=16 height=16 src=\"%s\"></td>", classid);
 
-			pngfile = g_build_filename (EVOLUTION_ICONSDIR,
-						    "monkey-16.png",
-						    NULL);
-			iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", pngfile);
-			g_free (pngfile);
+			icon_info = gtk_icon_theme_lookup_icon (
+				gtk_icon_theme_get_default (),
+				"evolution", 16, GTK_ICON_LOOKUP_NO_SVG);
+			if (icon_info != NULL) {
+				iconpart = em_format_html_file_part (
+					(EMFormatHTML *) emf, "image/png",
+					gtk_icon_info_get_filename (icon_info));
+				gtk_icon_info_free (icon_info);
+			}
 
 			if (iconpart) {
 				em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);

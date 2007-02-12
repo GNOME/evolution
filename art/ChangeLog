@@ -1,3 +1,22 @@
+2007-02-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #350253
+
+	* Add new evolution icons:
+		16x16/evolution.png
+		22x22/evolution.png
+		24x24/evolution.png
+		32x32/evolution.png
+		scalable/evolution.svg
+
+	* Remove obsolete icons:
+		about-box.png
+		bcg.png
+		evolution.png
+		monkey-16.png
+
+	* Makefile.am: Ship our own named icons.
+
 2006-09-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	Fixes bug #356811

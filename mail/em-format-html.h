@@ -162,7 +162,7 @@ struct _EMFormatHTMLPObject {
  * @mark_citations:1: 
  * @simple_headers:1: 
  * @hide_headers:1: 
- * @show_rupert:1: 
+ * @show_icon:1: 
  * 
  * Most of these fields are private or read-only.
  *
@@ -192,7 +192,7 @@ struct _EMFormatHTML {
 	unsigned int mark_citations:1;
 	unsigned int simple_headers:1; /* simple header format, no box/table */
 	unsigned int hide_headers:1; /* no headers at all */
-	unsigned int show_rupert:1; /* whether we print rupert or not */
+	unsigned int show_icon:1; /* show an icon when the sender used Evo */
 	guint32 header_wrap_flags; 
 };
 
