@@ -504,7 +504,6 @@ main (int argc, char **argv)
 	GSList *uri_list;
 	GnomeProgram *program;
 	GOptionContext *context;
-	GList *icon_list;
 	char *filename;
 
 	/* Make ElectricFence work.  */
@@ -568,12 +567,7 @@ main (int argc, char **argv)
 	e_icon_factory_init ();
 	e_passwords_init();
 
-	icon_list = e_icon_factory_get_icon_list ("stock_mail");
-	if (icon_list) {
-		gtk_window_set_default_icon_list (icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	gtk_window_set_default_icon_name ("evolution");
 
 	if (setup_only)
 		exit (0);

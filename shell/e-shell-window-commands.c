@@ -24,13 +24,12 @@
 
 #include <string.h>
 
+#include <gtk/gtk.h>
 #include <glib/gprintf.h>
 
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-url.h>
-
-#include <libgnomeui/gnome-about.h>
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
@@ -52,6 +51,12 @@
 #include "evolution-shell-component-utils.h"
 
 #include "e-shell-importer.h"
+
+#define EVOLUTION_COPYRIGHT \
+	"Copyright \xC2\xA9 1999 - 2006 Novell, Inc. and Others"
+
+#define EVOLUTION_WEBSITE \
+	"http://www.gnome.org/projects/evolution/"
 
 /* Utility functions.  */
 
@@ -547,62 +552,33 @@ static const char *documentors[] = {
 	NULL
 };
 
-static GtkWidget *
-about_box_new (void)
+static void
+command_about (BonoboUIComponent *uih,
+               EShellWindow *window,
+               const char *path)
 {
-	GtkWidget *about_box = NULL;
-	GdkPixbuf *pixbuf = NULL;
-	char copyright[1024];
-	char *filename = NULL;
+	gchar *translator_credits;
 
 	/* The translator-credits string is for translators to list
-	 * per language credits for translation, displayed in the
-	 * about box*/
-	char *translator_credits = _("translator-credits");
-	
-	g_sprintf (copyright, "Copyright \xC2\xA9 1999 - 2006 Novell, Inc. and Others");
-                                                                                
-	filename = g_build_filename (EVOLUTION_DATADIR, "pixmaps",
-				     "evolution-1.5.png", NULL);
-	if (filename != NULL) {
-		pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
-		g_free (filename);
-	}
-                                                                                
-	about_box = gnome_about_new ("Evolution",
-				     VERSION,
-				     copyright,
-				     _("Groupware Suite"),
-				     authors, documentors,
-				     strcmp (translator_credits, "translator-credits") ? translator_credits : NULL,
-				     pixbuf);
-	
-        if (pixbuf != NULL)
-                g_object_unref (pixbuf);
+	 * per-language credits for translation, displayed in the
+	 * about dialog. */
+	translator_credits = _("translator-credits");
+	if (strcmp (translator_credits, "translator-credits") == 0)
+		translator_credits = NULL;
 
-	return GTK_WIDGET (about_box);
-}
-
-static void
-command_about_box (BonoboUIComponent *uih,
-		   EShellWindow *window,
-		   const char *path)
-{
-	static GtkWidget *about_box_window = NULL;
-
-	if (about_box_window != NULL) {
-		gdk_window_raise (about_box_window->window);
-		return;
-	}
-
-	about_box_window = about_box_new ();
-	
-	g_signal_connect (G_OBJECT (about_box_window), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &about_box_window);
-
-	gtk_window_set_transient_for (GTK_WINDOW (about_box_window), GTK_WINDOW (window));
-
-	gtk_widget_show (about_box_window);
+	gtk_show_about_dialog (
+		GTK_WINDOW (window),
+		"name", "Evolution",
+		"version", VERSION,
+		"copyright", EVOLUTION_COPYRIGHT,
+		"comments", _("Groupware Suite"),
+		"website", EVOLUTION_WEBSITE,
+		"website-label", _("Evolution Website"),
+		"authors", authors,
+		"documenters", documentors,
+		"translator-credits", translator_credits,
+		"logo-icon-name", "evolution",
+		NULL);
 }
 
 #if 0
@@ -762,7 +738,7 @@ static BonoboUIVerb tools_verbs[] = {
 static BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB ("QuickReference", (BonoboUIVerbFn) command_quick_reference),
 	BONOBO_UI_VERB ("HelpSubmitBug", (BonoboUIVerbFn) command_submit_bug),
-	BONOBO_UI_VERB ("HelpAbout", (BonoboUIVerbFn) command_about_box),
+	BONOBO_UI_VERB ("HelpAbout", (BonoboUIVerbFn) command_about),
 
 	BONOBO_UI_VERB_END
 };
