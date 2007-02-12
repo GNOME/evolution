@@ -280,7 +280,17 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			efb->setquery = TRUE;
 			e_search_bar_set_item_id (esb, E_FILTERBAR_ADVANCED_ID);
 			efb->setquery = FALSE;
-			
+
+			/* saved searches activated */
+			GtkStyle *style = gtk_widget_get_default_style ();
+			efb->setquery = TRUE;
+			gtk_widget_modify_base (esb->entry , GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED] ));
+			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text [GTK_STATE_SELECTED] ));
+			gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, &(style->base [GTK_STATE_SELECTED] ));
+			gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base [GTK_STATE_SELECTED] ));
+			e_search_bar_set_text (esb,_("Advanced Search"));	
+			g_signal_emit_by_name (efb, "search_activated", NULL);
+			efb->setquery = FALSE;
 		} else {
 			return;
 		}
