@@ -881,8 +881,8 @@ print (EPopup *ep, EPopupItem *pitem, void *data)
 		e_contact_print_response (dialog, GTK_RESPONSE_OK, NULL);
 	} else {
 		GList *contacts = get_contact_list(t);
-
-		gtk_widget_show(e_contact_print_contact_list_dialog_new(contacts));
+		dialog = e_contact_print_contact_list_dialog_new (contacts);
+		e_contact_print_response (dialog, GTK_RESPONSE_OK, NULL);
 		g_list_free(contacts);
 	}
 }
@@ -1748,9 +1748,6 @@ e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 		
 	gtk_widget_destroy(dialog);
 	g_object_unref (print);
-	g_object_unref (settings);
-	g_object_unref (page_setup);
-	g_object_unref (paper_size);
 }
 
 static void 
@@ -1867,7 +1864,7 @@ eab_view_print(EABView *view, int preview)
 		EContactPrintDialogWeakData *weak_data;
 
 		/* FIXME: Allow range selection in table views, as in minicard view */
-		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_COPIES);
+		dialog = e_print_get_dialog (_("Print cards"), 0);
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
@@ -1901,14 +1898,21 @@ eab_view_print_preview(EABView *view)
 	if (view->view_type == EAB_VIEW_MINICARD) {
 		char *query;
 		EBook *book;
-		GtkWidget *print;
+		GtkWidget *dialog;
 
 		g_object_get (view->model,
 			      "query", &query,
 			      "book", &book,
 			      NULL);
-		GList *list = get_selected_contacts (view); 
+
+		GList *list = get_selected_contacts (view);
+		if (list != NULL)
+			dialog = e_contact_print_contact_list_dialog_new (list);
+		else
+			dialog = e_contact_print_dialog_new (book, query, list);
+		e_contact_print_response (dialog, GTK_RESPONSE_APPLY, NULL);
 		e_free_object_list (list);
+		g_free (query);
 	}else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
 		EPrintable *printable;
@@ -1916,7 +1920,7 @@ eab_view_print_preview(EABView *view)
 		EContactPrintDialogWeakData *weak_data;
 
 		/* FIXME: Allow range selection in table views, as in minicard view */
-		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_COPIES);
+		dialog = e_print_get_dialog (_("Print cards"), 0);
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
@@ -1932,7 +1936,7 @@ eab_view_print_preview(EABView *view)
 		weak_data->table = view->widget;
 		weak_data->printable = G_OBJECT (printable);
 		g_object_weak_ref (G_OBJECT (dialog), e_contact_print_destroy, weak_data);
-		e_contact_print_button (dialog, GTK_RESPONSE_OK, NULL);
+		e_contact_print_button (dialog, GTK_RESPONSE_APPLY, NULL);
 	}
 }
 

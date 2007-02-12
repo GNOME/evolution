@@ -112,9 +112,6 @@ static PrintCompItem *
 evo_calendar_print_data_new (GtkPrintContext *pc, PrintCompItem *pci);
 
 static void 
-evo_calendar_print_data_free (EvoCalendarPrintRenderer *pr);
-
-static void 
 comp_draw_page (GtkPrintOperation *print, 
 		GtkPrintContext *context,
 		gint page_nr, 
@@ -135,6 +132,8 @@ evo_calendar_print_renderer_get_width (EvoCalendarPrintRenderer *pr,
 				       PangoFontDescription *font, 
 				       const char *text);
 
+GObject* create_custom_widget (GtkPrintOperation *print, GtkWidget *range);
+static void apply_custom_widget (GtkPrintOperation *print, GtkWidget *dialog, PrintCalItem *cpi);
 static PrintCalItem *
 evo_calendar_print_cal_data_new (GtkPrintContext *pc, PrintCalItem *pcali)
 {
@@ -2169,8 +2168,6 @@ print_day_view (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t date,
 		print_text_size_bold (pr, buf, ALIGN_LEFT,
 				 left + 4, todo, top + 32, top + 32 + 18);
 
-		cr = gtk_print_context_get_cairo_context (pr->pc);
-		
 		date = time_add_day_with_zone (date, 1, zone);
 	 }
 }
@@ -2642,7 +2639,6 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	
 	view = (int) default_view;
-	range = range_selector_new (gpd, date, &view);
 
 	pcali = g_new0 (PrintCalItem, 1);
 	pcali->gcal = g_new0 (GnomeCalendar, 1);
@@ -2651,17 +2647,17 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	paper_size = gtk_paper_size_new ("iso_a4");
 	page_setup = gtk_page_setup_new();
 	gtk_page_setup_set_paper_size(page_setup, paper_size);
+	range = range_selector_new (gpd, date, &view);
 
 	settings = gtk_print_settings_new ();
-	settings = e_print_load_config ();
-	gpd = e_print_get_dialog_with_config (_("ebby"),GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES, settings );
-	gtk_print_unix_dialog_add_custom_tab (GTK_PRINT_UNIX_DIALOG (gpd), range,gtk_label_new (_("range")));
+	settings = e_print_load_settings ();
+	gpd = e_print_get_dialog_with_config (_("Print Item"), 0, settings);
 
 	t = gtk_paper_size_get_default_top_margin (paper_size, GTK_UNIT_POINTS);
 	r = gtk_paper_size_get_default_right_margin (paper_size, GTK_UNIT_POINTS);
 	w = gtk_paper_size_get_width (paper_size, GTK_UNIT_POINTS);
 	h = gtk_paper_size_get_height (paper_size, GTK_UNIT_POINTS);
-
+	
 	pcali->b = h * (1.0 - TEMP_MARGIN);  
         pcali->l = r * TEMP_MARGIN;
         pcali->t = t * (1.0 - TEMP_MARGIN); 
@@ -2670,31 +2666,28 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	pcali->gcal = gcal;
 	pcali->date = date;
 
-	settings = gtk_print_unix_dialog_get_settings (GTK_PRINT_UNIX_DIALOG (gpd));
 	gtk_print_operation_set_default_page_setup (print, page_setup);
 	gtk_print_operation_set_n_pages (print, 1);
-	
+        	
 	/* FIX ME ,Allow it to use the default settings for the first time */
-        /* gtk_print_operation_set_print_settings (print, settings); */
+        gtk_print_operation_set_print_settings (print, settings); 
 
-	/* Runs the print dialog, recursively, emitting signals */
+	g_signal_connect (print, "create-custom-widget", G_CALLBACK (create_custom_widget), range);
+	g_signal_connect (print, "custom-widget-apply", G_CALLBACK (apply_custom_widget), NULL);
         g_signal_connect (print, "draw_page", G_CALLBACK (cal_draw_page), pcali);
+
+		/* Runs the print dialog, recursively, emitting signals */
 	if (preview)
 		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
 	else
-		res = gtk_print_operation_run (print,GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);   
+		res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);   
     
 	/* Save the user configured settings back to the gconf */
 	settings = gtk_print_operation_get_print_settings (print);
-	e_print_save_config (settings);
+	e_print_save_settings (settings); 
 	
 	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-                     g_object_unref (settings);
-		     g_object_unref (page_setup);
-		     g_object_unref (paper_size);
-		     g_object_unref (print);
-		     g_object_unref (paper_size);
-		     g_object_unref (page_setup);
+		   g_object_unref (print); 
 	}
 	else if (res == GTK_PRINT_OPERATION_RESULT_ERROR) {
 		/* FIX ME */
@@ -2726,8 +2719,8 @@ print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 	gtk_page_setup_set_paper_size(page_setup, paper_size);
 
 	settings = gtk_print_settings_new ();
-	settings = e_print_load_config ();
-	gpd = e_print_get_dialog_with_config (_("Print Item"), GNOME_PRINT_DIALOG_COPIES, settings);
+	settings = e_print_load_settings ();
+	gpd = e_print_get_dialog_with_config (_("Print Item"), 0, settings);
 	
 	/* Values using the print context , used in comp_draw_page */
 	t = gtk_paper_size_get_default_top_margin (paper_size, GTK_UNIT_POINTS);
@@ -2745,7 +2738,7 @@ print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 	gtk_print_operation_set_n_pages (print, 1);
 	
         /* FIX ME ,Allow it to use the default settings for the first time */
-        /* gtk_print_operation_set_print_settings (print, settings); */
+        gtk_print_operation_set_print_settings (print, settings); 
 
         g_signal_connect (print, "draw_page", G_CALLBACK (comp_draw_page), pci);
 	
@@ -2759,13 +2752,10 @@ print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 
 	/* Saves the user configuration in gconf */
 	settings = gtk_print_operation_get_print_settings (print);
-	e_print_save_config (settings);
+	e_print_save_settings (settings);
 
 	 if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-                  g_object_unref (settings);
 		  g_object_unref (print);
-		  g_object_unref (page_setup);
-		  g_object_unref (paper_size);
 	      }
 	 else if ( res == GTK_PRINT_OPERATION_RESULT_ERROR) {
 		 /* FIX ME */
@@ -2836,9 +2826,8 @@ print_table (ETable *etable, const char *dialog_title, const char *print_header,
 	pti->paper_width = r - l;
 	pti->paper_height= t + 10;
 
-	settings = e_print_load_config ();
-	gpd = e_print_get_dialog_with_config (dialog_title, GNOME_PRINT_DIALOG_COPIES, settings);
-	settings = gtk_print_settings_new ();
+	settings = e_print_load_settings ();
+	gpd = e_print_get_dialog_with_config (dialog_title, 0, settings);
 	printable = e_table_get_printable (etable);
 
 	g_object_ref (printable);
@@ -2850,11 +2839,11 @@ print_table (ETable *etable, const char *dialog_title, const char *print_header,
 	gtk_print_operation_set_n_pages (print, 1);
 
 	/* FIX ME ,Allow it to use the default settings for the first time */
-        /* gtk_print_operation_set_print_settings (print, settings); */
+        gtk_print_operation_set_print_settings (print, settings); 
 
 	/* runs the dialog emitting the signals based on user response */
 	g_signal_connect (print, "draw_page", G_CALLBACK (table_draw_page), pti);
-	if (preview)
+	if (!preview)
 		res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);
 	else
 		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);     
@@ -2862,27 +2851,25 @@ print_table (ETable *etable, const char *dialog_title, const char *print_header,
 
 	/* Saves the user configuration in gconf */
 	settings = gtk_print_operation_get_print_settings (print);
-	e_print_save_config (settings);
+	e_print_save_settings (settings);
 
 	 if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-                  g_object_unref (settings);
 		  g_object_unref (print);
-		  g_object_unref (page_setup);
-		  g_object_unref (paper_size);
 	      }
 	 else if ( res == GTK_PRINT_OPERATION_RESULT_ERROR) {
 		 /* FIX ME */
 	 }	  
 }
 
-
-void comp_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, PrintCompItem *pci)
+static void
+comp_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, PrintCompItem *pci)
 {
 	pci = evo_calendar_print_data_new (context, pci);
 	print_comp_item (pci);
 }
 
-void cal_draw_page (GtkPrintOperation *print1, GtkPrintContext *context, gint page_nr1, PrintCalItem *pcali)
+static void
+cal_draw_page(GtkPrintOperation *print1, GtkPrintContext *context, gint page_nr1, PrintCalItem *pcali)
 {
 	pcali = evo_calendar_print_cal_data_new (context, pcali);
 		
@@ -2901,12 +2888,11 @@ void cal_draw_page (GtkPrintOperation *print1, GtkPrintContext *context, gint pa
 		break;
 	default:
 		g_assert_not_reached ();
-	}
- 
-
+	}  
 }
 
-void table_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, PrintTableItem *pti)
+static void
+table_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, PrintTableItem *pti)
 {
 		pti->context = context;
 	
@@ -2920,7 +2906,27 @@ void table_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint p
           } while (e_printable_data_left (pti->printable));
 }
 
+/*
+ * This callback creates a custom widget that gets inserted into the
+ * print operation dialog, the custom widget contains the range,
+ * day, view, month, or year
+ */
 
+GObject* create_custom_widget (GtkPrintOperation *print,GtkWidget *range)
+{
+	return range;
+}
 
+/*
+ * Read the information from the custom widget and print day, view, or 
+ * month based on user selection 
+ */
 
+static void
+apply_custom_widget (GtkPrintOperation *print, GtkWidget *dialog, PrintCalItem *cpi)
+{
+	gchar str;
+	str = e_dialog_editable_get (dialog);	
+	printf("%sValue of Radio Button \n", str);
+}
 

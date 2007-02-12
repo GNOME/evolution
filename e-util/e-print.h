@@ -19,17 +19,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <gtk/gtk.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-
 #ifndef __E_PRINT__
 #define __E_PRINT__
 
+#include <gtk/gtk.h>
+
 G_BEGIN_DECLS
 
-GtkPrintSettings *e_print_load_config (void);
-void e_print_save_config (GtkPrintSettings *settings);
+GtkPrintSettings *e_print_load_settings (void);
+void e_print_save_settings (GtkPrintSettings *settings);
 
 GtkWidget *e_print_get_dialog (const char *title, int flags);
 GtkWidget *e_print_get_dialog_with_config (const char *title, int flags, GtkPrintSettings *settings);

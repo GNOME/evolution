@@ -44,8 +44,6 @@
 
 #include <libgnome/gnome-url.h>
 
-#include <libgnomeprintui/gnome-print-dialog.h>
-
 #include <gconf/gconf-client.h>
 
 #include <camel/camel-mime-message.h>
@@ -2144,8 +2142,12 @@ emfv_print_response(GtkWidget *w, int resp, struct _print_data *data)
 	       g_object_unref(print); 
 	       break;
 	}
-	g_object_unref (data->emfv);
-	g_object_unref (data->settings);
+
+	if (w)
+		gtk_widget_destroy (w);
+
+	g_object_unref (data->emfv); 
+	g_object_unref (data->settings); 
 	camel_object_unref (data->folder);
 	g_free (data->uid);
 	g_free (data);
@@ -2170,7 +2172,7 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	data = g_malloc0(sizeof(*data));
 	data->emfv = emfv;
 	g_object_ref(emfv);
-	data->settings = e_print_load_config ();
+	data->settings = e_print_load_settings ();
 	data->preview = preview;
 	data->folder = emfv->folder;
 	camel_object_ref(data->folder);
@@ -2179,13 +2181,13 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 
 	if (preview) {
 	        GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), 
-									 GNOME_PRINT_DIALOG_COPIES, data->settings);
+									 0, data->settings);
 		gtk_dialog_set_default_response (dialog, GTK_RESPONSE_APPLY);
 		e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) emfv);
 		emfv_print_response(dialog, GTK_RESPONSE_APPLY, data);
 	} else {
 		GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), 
-								         GNOME_PRINT_DIALOG_COPIES, data->settings);
+								         0, data->settings);
 		gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 		e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) emfv);
 		emfv_print_response (dialog, GTK_RESPONSE_OK, data);

@@ -295,25 +295,25 @@ etog_print (ECellView *ecell_view, GtkPrintContext *context,
 	GdkPixbuf *image;
 	double image_width, image_height;
 	const int value = GPOINTER_TO_INT (
-		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+			e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	cairo_t *cr;	
-		if (value >= toggle->n_states){
+	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
-			   value, toggle->n_states);
+				value, toggle->n_states);
 		return;
 	}
 
 	cr = gtk_print_context_get_cairo_context (context);
 	cairo_save(cr);
-		image = toggle->images[value];
+	image = toggle->images[value];
 	cairo_translate (cr, 0 , 0);	
 	image = gdk_pixbuf_add_alpha (image, TRUE, 255, 255, 255);
-		image_width = (double)gdk_pixbuf_get_width (image);
+	image_width = (double)gdk_pixbuf_get_width (image);
 	image_height = (double)gdk_pixbuf_get_height (image);
 	cairo_rectangle (cr, image_width / 7, image_height / 3, 
-				 image_width - image_width / 4, 
-				 image_width - image_height / 7); 
+			image_width - image_width / 4, 
+			image_width - image_height / 7); 
 	cairo_clip (cr);
 	gdk_cairo_set_source_pixbuf (cr, image, 0, image_height / 4);
 	cairo_paint (cr);

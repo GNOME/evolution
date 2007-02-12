@@ -1380,7 +1380,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 			cairo_line_to (cr, MIN (2 + text_width, width - 2), ly + text_height + 6);
 		}
 		cairo_set_line_width (cr, (double)pango_font_metrics_get_underline_thickness (font_metrics)/(double)PANGO_SCALE);
- 				cairo_stroke (cr);
+		cairo_stroke (cr);
 	}
 
 	if (strikeout) {

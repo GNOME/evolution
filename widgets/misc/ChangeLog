@@ -1,3 +1,11 @@
+2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Print migration updates from Ebby Wiselyn
+
+	* e-printable.c: (e_printable_print_page), (e_printable_height),
+	(e_printable_will_fit):
+	* e-printable.h:
+
 2007-01-08  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-filter-bar.c: (build_items): Initialize ESearchBarItem

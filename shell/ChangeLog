@@ -1,3 +1,9 @@
+2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Rewrite of print settings schema from Matthew Barnes
+
+	* apps_evolution_shell.schemas.in.in:
+
 2007-02-09  William Jon McCann  <mccann@jhu.edu>
 
 	* e-shell-nm-glib.c: Fix the build.  Fixes #403744

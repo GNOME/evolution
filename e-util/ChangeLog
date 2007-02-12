@@ -1,3 +1,12 @@
+2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Print settings revamp from Matthew Barnes
+
+	* e-print.c: (pack_settings), (unpack_settings),
+	(e_print_load_settings), (e_print_save_settings),
+	(print_dialog_response), (e_print_get_dialog):
+	* e-print.h:
+
 2007-01-27  Andre Klapper  <a9016009@gmx.de>
 
 	* e-html-utils.c: (e_text_to_html_full):

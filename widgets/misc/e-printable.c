@@ -31,6 +31,7 @@
 
 #include "e-printable.h"
 
+
 #define EP_CLASS(e) ((EPrintableClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
@@ -126,7 +127,7 @@ e_printable_new(void)
 
 void
 e_printable_print_page          (EPrintable        *e_printable,
-				 GnomePrintContext *context,
+				 GtkPrintContext *context,
 				 gdouble            width,
 				 gdouble            height,
 				 gboolean           quantized)
@@ -169,7 +170,7 @@ e_printable_reset               (EPrintable        *e_printable)
 
 gdouble
 e_printable_height              (EPrintable        *e_printable,
-				 GnomePrintContext *context,
+				 GtkPrintContext *context,
 				 gdouble            width,
 				 gdouble            max_height,
 				 gboolean           quantized)
@@ -192,7 +193,7 @@ e_printable_height              (EPrintable        *e_printable,
 
 gboolean
 e_printable_will_fit            (EPrintable        *e_printable,
-				 GnomePrintContext *context,
+				 GtkPrintContext *context,
 				 gdouble            width,
 				 gdouble            max_height,
 				 gboolean           quantized)

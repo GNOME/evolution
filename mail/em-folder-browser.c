@@ -48,8 +48,6 @@
 #undef interface
 #endif
 
-#include <libgnomeprintui/gnome-print-dialog.h>
-
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"

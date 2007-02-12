@@ -19,7 +19,7 @@
  *
  */
 
-
+#include <gtk/gtk.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -40,7 +40,7 @@
 void org_gnome_compose_print_message (EPlugin *ep, EMMenuTargetWidget *t);
 
 struct _print_data {
-	GnomePrintConfig *config;
+	GtkPrintSettings *config;
 	CamelMimeMessage *msg;
 	int preview;
 };
@@ -51,9 +51,9 @@ print_response (GtkWidget *w, int resp, struct _print_data *data)
 	EMFormatHTMLPrint *print;
 
 	switch (resp) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+	case GTK_RESPONSE_APPLY:
 		data->preview = TRUE;
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
+	case GTK_RESPONSE_OK:
 		print = em_format_html_print_new();
 	   	em_format_html_print_raw_message(print, data->config, data->msg, data->preview);
 		g_object_unref(print);
@@ -63,7 +63,7 @@ print_response (GtkWidget *w, int resp, struct _print_data *data)
 	if (w)
 		gtk_widget_destroy(w);
 	
-	e_print_save_config (data->config);
+	e_print_save_settings (data->config);
 	g_object_unref(data->config);
 	g_free(data);
 
@@ -80,16 +80,14 @@ org_gnome_print_message (EPlugin *ep, EMMenuTargetWidget *t)
 	GtkDialog *dialog;
 	
 	data = g_malloc0(sizeof(*data));
-	data->config = e_print_load_config ();
+	data->config = e_print_load_settings ();
 	data->preview = 0;
 	
 	data->msg = e_msg_composer_get_message (composer, 1);
-	dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), GNOME_PRINT_DIALOG_COPIES, data->config);
-	gtk_dialog_set_default_response(dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
+	dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), 0, data->config);
+	gtk_dialog_set_default_response(dialog, GTK_RESPONSE_OK);
 	e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) composer);
-	g_signal_connect(dialog, "response", G_CALLBACK(print_response), data);
-	gtk_widget_show((GtkWidget *)dialog);
-	
+	print_response (dialog, GTK_RESPONSE_OK, data);	
 }
 
 void org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t);
@@ -101,12 +99,12 @@ org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t)
 	struct _print_data *data;
 	
 	data = g_malloc0(sizeof(*data));
-	data->config = e_print_load_config ();
+	data->config = e_print_load_settings ();
 	data->preview = 0;
 	
 	data->msg = e_msg_composer_get_message (composer, 1);
 
-	print_response(NULL, GNOME_PRINT_DIALOG_RESPONSE_PREVIEW, data);
+	print_response(NULL, GTK_RESPONSE_APPLY, data);
 }
 
 

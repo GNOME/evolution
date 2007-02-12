@@ -64,6 +64,7 @@ typedef struct _ContactPrintItem ContactPrintItem;
 struct _EContactPrintContext
 {
 	GtkPrintContext *pc;
+	GtkPrintOperation *print;
 	GnomePrintJob     *master;
 	PangoLayout *pl;
 	gdouble x;
@@ -78,6 +79,7 @@ struct _EContactPrintContext
 
 	gboolean uses_book;
 	int type;
+	gint response_id;
 	EBook *book;
 	EBookQuery *query;
 
@@ -97,6 +99,9 @@ struct _ContactPrintItem
 
 static void 
 contact_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, ContactPrintItem *cpi);
+
+static void
+print_func (EBookView *book_view, const GList *contacts, EContactPrintContext *ctxt);
 
 static double
 get_font_height (PangoFontDescription *font)
@@ -360,7 +365,7 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 				 e_contact_pretty_name (field));
 
 			xoff += get_font_width(ctxt, ctxt->style->body_font, e_contact_pretty_name (field));
-			e_contact_output(ctxt, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, ":  ");
+			e_contact_output(ctxt, ctxt->style->body_font, ctxt->x + xoff, ctxt->y + 5, -1, ":  ");
 			xoff += get_font_width(ctxt, ctxt->style->body_font, ":  ");
 
 		e_contact_output(ctxt, 
@@ -448,13 +453,13 @@ complete_sequence (EBookView *book_view, EBookViewStatus status, EContactPrintCo
 
         g_object_unref(ctxt->pc);
 	g_object_unref(ctxt->pl);
-	if (ctxt->book)
+	if (ctxt->book) 
 		g_object_unref(ctxt->book);
-
+	
 	g_free(ctxt->character);
 	if (ctxt->query)
 		e_book_query_unref (ctxt->query);
-	g_list_foreach(ctxt->contacts, (GFunc) g_object_unref, NULL);
+      	g_list_foreach(ctxt->contacts, (GFunc) g_object_unref, NULL);
 	g_list_free(ctxt->contacts);
 	pango_font_description_free(ctxt->style->headings_font);
 	pango_font_description_free(ctxt->style->body_font);
@@ -462,7 +467,6 @@ complete_sequence (EBookView *book_view, EBookViewStatus status, EContactPrintCo
 	pango_font_description_free(ctxt->style->footer_font);
 	pango_font_description_free(ctxt->letter_heading_font);
 	g_free(ctxt->style);
-	g_free(ctxt);
 }
 
 static int
@@ -504,8 +508,25 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, EContac
 			 "contacts_added",
 			 G_CALLBACK(create_contact),
 			 ctxt);
-
+	g_signal_connect(book_view,
+			 "sequence_complete",
+			 G_CALLBACK(print_func),
+			 ctxt);
 	e_book_view_start (book_view);
+}
+
+static void 
+print_func (EBookView *book_view, const GList *contacts, EContactPrintContext *ctxt)
+{
+        GtkPrintSettings *settings;
+	settings = gtk_print_settings_new ();
+	/* runs a print dialog, emittings signals */
+	if(ctxt->response_id == GTK_RESPONSE_APPLY)
+		gtk_print_operation_run (ctxt->print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
+	else
+		gtk_print_operation_run (ctxt->print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);
+	settings = gtk_print_operation_get_print_settings (ctxt->print);
+	e_print_save_settings (settings); 
 }
 
 static void
@@ -725,7 +746,6 @@ void
 e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
 	GtkPrintSettings *settings;
-	GtkPrintOperation *print;
 	GtkPrintOperationResult res;
 	GtkPaperSize *paper_size;
 	GtkPageSetup *page_setup;
@@ -770,10 +790,10 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	page_setup = gtk_page_setup_new ();
 	paper_size = gtk_paper_size_new ("iso_a4"); /* FIXME paper size hardcoded */
 	gtk_page_setup_set_paper_size (page_setup, paper_size);	
-	print = gtk_print_operation_new ();
-	gtk_print_operation_set_default_page_setup (print, page_setup);
-	gtk_print_operation_set_n_pages (print, 1);
-	gtk_print_settings_set_print_pages (settings, GTK_PRINT_PAGES_ALL);
+	ctxt->print = gtk_print_operation_new ();
+	gtk_print_operation_set_default_page_setup (ctxt->print, page_setup);
+	gtk_print_operation_set_n_pages (ctxt->print, 1);
+	gtk_print_settings_set_print_pages (settings, GTK_PRINT_PAGES_ALL); 
 
 	/* style information */
 	e_contact_build_style(style, settings);
@@ -790,6 +810,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 					       get_font_height (ctxt->style->headings_font)*1.5);
 	ctxt->book = book;
 	ctxt->query = query;
+	ctxt->response_id = response_id;
 	cpi->uses_book = uses_book;
 	cpi->uses_list = uses_list;
 	cpi->settings = settings;
@@ -798,20 +819,25 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	cpi->ctxt->contacts = NULL;
 	cpi->contact_list= contact_list;
 	cpi->book = book; 
-	e_contact_do_print_contacts (book, query, ctxt);
+	gtk_print_operation_set_print_settings (ctxt->print, settings);
+	g_signal_connect (ctxt->print, "draw_page",G_CALLBACK (contact_draw_page), cpi);
 
-        /* runs the print dialog , emitting signals */
-	g_signal_connect (print, "draw_page",G_CALLBACK (contact_draw_page), cpi);
-	if (response_id == GTK_RESPONSE_APPLY) { 
-		res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
+	if (!uses_book) {
+	        if(ctxt->response_id == GTK_RESPONSE_APPLY) 
+		        gtk_print_operation_run (ctxt->print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
+		else
+			gtk_print_operation_run (ctxt->print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);
+		settings = gtk_print_operation_get_print_settings (ctxt->print);
+		e_print_save_settings (settings); 
 	}
 	else
-		res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL); 
-	g_object_unref (settings);
-	g_object_unref (print);
-	g_object_unref (paper_size);
-	g_object_unref (page_setup); 
-	g_object_unref (cpi);
+		e_contact_do_print_contacts (book, query, ctxt);
+
+	g_object_unref (cpi); 
+	if (!uses_book) {
+			g_object_unref (ctxt->print); 
+			g_free (ctxt);
+	}	
 	gtk_widget_destroy (dialog); 
 }
 
@@ -823,7 +849,7 @@ e_contact_print_dialog_new(EBook *book, char *query, GList *list)
 	GList *copied_list = NULL;
 	GList *l;
 	
-	dialog = e_print_get_dialog(_("Print contacts"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES); 
+	dialog = e_print_get_dialog(_("Print contacts"), 0); 
 
 	if (list != NULL) {
 		copied_list = g_list_copy (list);
@@ -849,7 +875,7 @@ e_contact_print_contact_dialog_new(EContact *contact)
 {
 	GtkWidget *dialog;
 
-	dialog = e_print_get_dialog(_("Print contact"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = e_print_get_dialog(_("Print contact"), 0);
         contact = e_contact_duplicate(contact);
 	g_object_set_data(G_OBJECT(dialog), "contact", contact);
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (FALSE));
@@ -870,13 +896,13 @@ e_contact_print_contact_list_dialog_new(GList *list)
 	GList *l;
 
 	if (list == NULL)
-		return NULL;
+		return NULL; 
 
 	copied_list = g_list_copy (list);
 	for (l = copied_list; l; l = l->next)
 		l->data = e_contact_duplicate (E_CONTACT (l->data));
 
-	dialog = e_print_get_dialog(_("Print contact"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = e_print_get_dialog(_("Print contact"), 0);
 
 	g_object_set_data(G_OBJECT(dialog), "contact_list", copied_list);
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (TRUE));
@@ -892,7 +918,6 @@ e_contact_print_contact_list_dialog_new(GList *list)
 static void
 contact_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, ContactPrintItem *cpi)
 {
- cairo_t *cr;    
  EBookView *view;
  EBookViewStatus status;
  
@@ -905,6 +930,7 @@ contact_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page
 			} 
 			
 			else if (cpi->uses_list) {
+				cpi->ctxt->contacts = cpi->contact_list;
 				complete_sequence(NULL, E_BOOK_VIEW_STATUS_OK, cpi->ctxt);
 			}
 			else {

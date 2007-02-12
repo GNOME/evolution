@@ -1,3 +1,10 @@
+2007-02-12  Srinivasa Ragavan <sragavan@novell.com>
+
+	** Print migration updates from Ebby Wiselyn
+
+	* e-cell-toggle.c:
+	* e-cell-text.c:
+
 2007-02-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #357216

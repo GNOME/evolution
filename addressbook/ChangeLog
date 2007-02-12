@@ -1,3 +1,17 @@
+2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Print migration updates from Ebby Wiselyn.
+
+	* gui/component/addressbook-view.c: (print_cb), (print_preview_cb):
+	* gui/widgets/e-addressbook-view.c: (print),
+	(e_contact_print_button), (eab_view_print),
+	(eab_view_print_preview):
+	* printing/e-contact-print.c: (e_contact_print_contact),
+	(complete_sequence), (book_view_loaded), (print_func),
+	(e_contact_print_response), (e_contact_print_dialog_new),
+	(e_contact_print_contact_dialog_new),
+	(e_contact_print_contact_list_dialog_new), (contact_draw_page):
+
 2007-02-08  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #332908

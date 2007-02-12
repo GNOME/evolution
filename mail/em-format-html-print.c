@@ -26,10 +26,8 @@
 #endif
 
 #include <string.h>
-
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
-
 #include <gtkhtml/gtkhtml.h>
 #include <gtk/gtkwindow.h>
 
@@ -152,9 +150,8 @@ efhp_footer_cb(GtkHTML *html, GtkPrintContext *print_context, double x, double y
 		cairo_set_font_size (cr, 6);
 		cairo_show_text (cr, text);
 		cairo_restore(cr);
-		cairo_show_page (cr);
 		g_free(text); 
-		info->page_num++;
+		info->page_num++;   
 	}
 }
 
@@ -171,11 +168,12 @@ emfhp_complete(EMFormatHTMLPrint *efhp, void *data)
 	struct footer_info info;
 
 	page_setup = gtk_page_setup_new ();
-	paper_size = gtk_paper_size_new ("iso_a4");/*FIXME paper size hard coded */
+	paper_size = gtk_paper_size_new ("iso_a4");/*FIXME paper size hardcoded */
 	print = gtk_print_operation_new ();
 	gtk_page_setup_set_paper_size (page_setup, paper_size);	 
 
-	settings = e_print_load_config ();
+	settings = e_print_load_settings ();
+	gtk_print_operation_set_print_settings (print, settings);
 	/* running the dialog */
 	gtk_print_operation_set_default_page_setup (print, page_setup);
 	gtk_print_operation_set_n_pages (print, 1); 
@@ -193,11 +191,9 @@ emfhp_complete(EMFormatHTMLPrint *efhp, void *data)
 		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL); 
 	else
 		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
+	settings = gtk_print_operation_get_print_settings (print);
+	e_print_save_settings (settings);
 	g_object_unref (print);
-	g_object_unref (settings);
-	g_object_unref (paper_size);
-	g_object_unref (page_setup);
-	g_object_unref (efhp);
 }
 
 static void 
@@ -218,7 +214,6 @@ mail_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr
 	} else {
 		gtk_html_print_page (mdi->efhp->formathtml.html, context);
 	}
-	g_object_unref(mdi->efhp);
 }
 
 int em_format_html_print_print(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct GtkPrintSettings *settings, int preview)
