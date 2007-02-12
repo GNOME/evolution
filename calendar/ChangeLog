@@ -1,3 +1,9 @@
+2007-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/e-meeting-list-view.c: (e_meeting_list_view_init):
+	Fix window title. Patch from Matthias Clasen. Closes
+	bug #381498.
+
 2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Print migration updates from Ebby Wiselyn

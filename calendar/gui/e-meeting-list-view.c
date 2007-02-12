@@ -151,7 +151,7 @@ e_meeting_list_view_init (EMeetingListView *view)
 		add_section (priv->name_selector, sections [i]);
 
 	name_selector_dialog = e_name_selector_peek_dialog (view->priv->name_selector);
-	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Required Participants"));
+	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Attendees"));
  	g_signal_connect (name_selector_dialog, "response",
 			  G_CALLBACK (name_selector_dialog_close_cb), view);
 
