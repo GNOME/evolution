@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-12 19:35+0300\n"
-"PO-Revision-Date: 2007-02-12 19:48+0300\n"
+"POT-Creation-Date: 2007-02-14 06:04+0300\n"
+"PO-Revision-Date: 2007-02-14 06:09+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -6394,7 +6394,7 @@ msgstr "Muistilappu"
 msgid "Unable to open memos in '%s'."
 msgstr "Muistilappuja kohteesta '%s' ei voi avata."
 
-#: ../calendar/gui/dialogs/memo-page.c:1021 ../mail/em-format-html.c:1489
+#: ../calendar/gui/dialogs/memo-page.c:1021 ../mail/em-format-html.c:1490
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
 msgid "To"
@@ -10606,11 +10606,11 @@ msgstr "_Tallenna viesti"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:524
+#: ../shell/main.c:523
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:575
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:574
 msgid "Groupware Suite"
 msgstr "Ryhmätyöohjelmisto"
 
@@ -11504,7 +11504,7 @@ msgstr "alkaa"
 msgid "Stop Processing"
 msgstr "Pysäytä käsittely"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1660
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1661
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:853
 #: ../mail/em-mailer-prefs.c:90 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
@@ -11936,7 +11936,7 @@ msgstr "_Seuraava"
 msgid "M_atch case"
 msgstr "Täsmää _kirjainkoko"
 
-#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:619
 msgid "Unsigned"
 msgstr "Allekirjoittamaton"
 
@@ -11948,7 +11948,7 @@ msgstr ""
 "Viesti ei ole allekirjoitettu. Ei ole varmaa, että viestin lähettäjä on "
 "varmasti se, jolta viesti näyttää olevan."
 
-#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:620
 msgid "Valid signature"
 msgstr "Hyväksytty allekirjoitus"
 
@@ -11960,7 +11960,7 @@ msgstr ""
 "Tämä viesti on allekirjoitettu ja varmennettu. Viesti on "
 "hyvintodennäköisesti aito."
 
-#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:620
+#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:621
 msgid "Invalid signature"
 msgstr "Hylätty allekirjoitus"
 
@@ -11984,7 +11984,7 @@ msgstr ""
 "Tämä viesti on allekirjoitettu kelvollisella allekirjoituksella, mutta "
 "viestin lähettäjää ei voida varmistaa."
 
-#: ../mail/em-format-html-display.c:947 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:947 ../mail/em-format-html.c:628
 msgid "Unencrypted"
 msgstr "Salaamaton"
 
@@ -11996,7 +11996,7 @@ msgstr ""
 "Viesti ei ole salattu. Viestin sisältöä voidaan tutkia sen kulkiessa "
 "Internetin läpi."
 
-#: ../mail/em-format-html-display.c:948 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:948 ../mail/em-format-html.c:629
 msgid "Encrypted, weak"
 msgstr "Heikosti salattu"
 
@@ -12010,7 +12010,7 @@ msgstr ""
 "mahdotonta, että ulkopuolinen pystyy purkamaan ja katsomaan viestin sisällön "
 "melko lyhyessä ajassa."
 
-#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:630
 msgid "Encrypted"
 msgstr "Salattu"
 
@@ -12022,7 +12022,7 @@ msgstr ""
 "Viesti on salattu. Ulkopuolisen on vaikea avata viestin sisältö "
 "luettavakseen."
 
-#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:630
+#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:631
 msgid "Encrypted, strong"
 msgstr "Salattu vahvalla algoritmilla"
 
@@ -12130,94 +12130,94 @@ msgstr ""
 msgid "Page %d of %d"
 msgstr "Sivu  %d / %d"
 
-#: ../mail/em-format-html.c:483 ../mail/em-format-html.c:485
+#: ../mail/em-format-html.c:484 ../mail/em-format-html.c:486
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "Haetaan %s"
 
-#: ../mail/em-format-html.c:621
+#: ../mail/em-format-html.c:622
 msgid "Valid signature but cannot verify sender"
 msgstr "Allekirjoitus on kelvollinen, mutta lähettäjää ei voida varmistaa"
 
-#: ../mail/em-format-html.c:892
+#: ../mail/em-format-html.c:893
 msgid "Malformed external-body part."
 msgstr "Väärin muotoilut rungon ulkopuolinen viestin osa."
 
-#: ../mail/em-format-html.c:922
+#: ../mail/em-format-html.c:923
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Osoitin FTP-palvelimelle (%s)"
 
-#: ../mail/em-format-html.c:933
+#: ../mail/em-format-html.c:934
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Osoitin paikalliseen tiedostoon (%s) palvelimella \"%s\""
 
-#: ../mail/em-format-html.c:935
+#: ../mail/em-format-html.c:936
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Osoitin paikalliseen tiedostoon (%s)"
 
-#: ../mail/em-format-html.c:956
+#: ../mail/em-format-html.c:957
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Osoitin muulla palvelimella olevaan tietoon (%s)"
 
-#: ../mail/em-format-html.c:967
+#: ../mail/em-format-html.c:968
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 "Osoitin tuntemattomaan muulla palvelimella olevaan tietoon (tyyppiä \"%s\")"
 
-#: ../mail/em-format-html.c:1194
+#: ../mail/em-format-html.c:1195
 msgid "Formatting message"
 msgstr "Muotoillaan viestiä"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "Lähettäjä"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:86
 msgid "Reply-To"
 msgstr "Vastausosoite"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:88
 msgid "Cc"
 msgstr "Kopiot"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
 msgid "Bcc"
 msgstr "Piilokopiot"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1664 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1665 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1045
 msgid "Mailer"
 msgstr "Postittaja"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1691
+#: ../mail/em-format-html.c:1692
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1694
+#: ../mail/em-format-html.c:1695
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1704 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1705 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:854 ../mail/em-mailer-prefs.c:91
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Päiväys"
 
-#: ../mail/em-format-html.c:1727 ../mail/em-format.c:855
+#: ../mail/em-format-html.c:1728 ../mail/em-format.c:855
 #: ../mail/em-mailer-prefs.c:92
 msgid "Newsgroups"
 msgstr "Uutisryhmät"
@@ -18093,44 +18093,48 @@ msgstr "Kansion nimi ei voi sisältää merkkiä \"#\""
 msgid "'.' and '..' are reserved folder names."
 msgstr "'.' ja '..' ovat varattuja kansion nimiä"
 
-#: ../shell/e-shell-window-commands.c:71
+#: ../shell/e-shell-window-commands.c:76
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr "Gnomen Pilot-työkalut eivät ole asennetuina tähän järjestelmään."
 
-#: ../shell/e-shell-window-commands.c:79
+#: ../shell/e-shell-window-commands.c:84
 #, c-format
 msgid "Error executing %s."
 msgstr "Virhe suoritettaessa %s."
 
-#: ../shell/e-shell-window-commands.c:127
+#: ../shell/e-shell-window-commands.c:132
 msgid "Bug buddy is not installed."
 msgstr "Bug buddya ei ole asennettu."
 
-#: ../shell/e-shell-window-commands.c:130
+#: ../shell/e-shell-window-commands.c:135
 msgid "Bug buddy could not be run."
 msgstr "Bug buddya ei voi suorittaa."
 
 #. The translator-credits string is for translators to list
-#. * per language credits for translation, displayed in the
-#. * about box
-#: ../shell/e-shell-window-commands.c:561
+#. * per-language credits for translation, displayed in the
+#. * about dialog.
+#: ../shell/e-shell-window-commands.c:565
 msgid "translator-credits"
 msgstr ""
 "Jarkko Ranta, 2000-2001\n"
 "Sami Pesonen, 2001-2003\n"
-"Hile Tuohela, 2002-2004\n"
+"Hile Tuohela, 2002-2007\n"
 "\n"
 "http://gnome.fi/"
 
-#: ../shell/e-shell-window-commands.c:806
+#: ../shell/e-shell-window-commands.c:576
+msgid "Evolution Website"
+msgstr "Evolutionin www-sivut"
+
+#: ../shell/e-shell-window-commands.c:782
 msgid "_Work Online"
 msgstr "_Yhtedellinen tila"
 
-#: ../shell/e-shell-window-commands.c:819 ../ui/evolution.xml.h:55
+#: ../shell/e-shell-window-commands.c:795 ../ui/evolution.xml.h:55
 msgid "_Work Offline"
 msgstr "_Yhteydetön tila"
 
-#: ../shell/e-shell-window-commands.c:832
+#: ../shell/e-shell-window-commands.c:808
 msgid "Work Offline"
 msgstr "Valitse yhteydetön tila"
 
@@ -18309,11 +18313,11 @@ msgstr "Lähetä testitulosteet kaikista komponenteista tiedostoon."
 msgid "Disable loading of any plugins."
 msgstr "Älä lataa mitään liitännäisiä."
 
-#: ../shell/main.c:517
+#: ../shell/main.c:516
 msgid "- The Evolution PIM and Email Client"
 msgstr "Evolution-sähköpostiohjelma"
 
-#: ../shell/main.c:528
+#: ../shell/main.c:527
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
