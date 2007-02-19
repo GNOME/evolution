@@ -282,8 +282,12 @@ set_from_uri (UrlEditorDialog *dialog)
 	if (euri->host)	
 		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), euri->host);
 
-	if (euri->port)
-		gtk_entry_set_text (GTK_ENTRY (dialog->port_entry), euri->port);
+	if (euri->port) {
+		char *port;
+		port = g_strdup_printf ("%d", euri->port);
+		gtk_entry_set_text (GTK_ENTRY (dialog->port_entry), port);
+		g_free (port);
+	}
 
 	if (euri->path)
 		gtk_entry_set_text (GTK_ENTRY (dialog->file_entry), euri->path);
