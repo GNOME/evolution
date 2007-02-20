@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-14 02:10-0200\n"
-"PO-Revision-Date: 2007-02-17 18:21-0200\n"
+"POT-Creation-Date: 2007-02-20 19:27-0300\n"
+"PO-Revision-Date: 2007-02-20 19:27-0300\n"
 "Last-Translator: Washington Lins <washington-lins@uol.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -13103,7 +13103,7 @@ msgid ""
 "accordingly.\n"
 "\n"
 "As a workaround, a set of filters called \"Priority Filter\"\n"
-"was added that converts Netscape's e-mail priorities into\n"
+"was added that converts Netscape's email priorities into\n"
 "Evolution's scores, and the affected filters use scores instead\n"
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
@@ -16597,7 +16597,7 @@ msgstr ""
 "esta conectado ao sistema ou não esta ligado"
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:149
+#: ../plugins/save-calendar/ical-format.c:194
 msgid "iCalendar format (.ics)"
 msgstr "Formato iCalendar (.ics)"
 
