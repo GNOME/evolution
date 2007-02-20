@@ -29,6 +29,41 @@
 #include <calendar/common/authentication.h>
 #include "publish-format-ical.h"
 
+typedef struct {
+	GHashTable *zones;
+	ECal *ecal;
+} CompTzData;
+ 
+ static void
+insert_tz_comps (icalparameter *param, void *cb_data)
+{
+	const char *tzid;
+	CompTzData *tdata = cb_data;
+	icaltimezone *zone = NULL;
+	icalcomponent *tzcomp;
+	GError *error = NULL;
+
+	tzid = icalparameter_get_tzid (param);
+	
+	if (g_hash_table_lookup (tdata->zones, tzid))
+		return;
+	
+	if (!e_cal_get_timezone (tdata->ecal, tzid, &zone, &error)) {
+		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
+		g_error_free (error);
+		return;
+	}
+	
+	tzcomp = icalcomponent_new_clone (icaltimezone_get_component (zone));
+	g_hash_table_insert (tdata->zones, (gpointer) tzid, (gpointer) tzcomp);
+}
+
+static void
+append_tz_to_comp (gpointer key, gpointer value, icalcomponent *toplevel)
+{
+	icalcomponent_add_component (toplevel, (icalcomponent *) value);
+}
+
 static gboolean
 write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 {
@@ -60,12 +95,22 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		char *ical_string;
 		GnomeVFSFileSize bytes_written = 0;
 		GnomeVFSResult result;
+		CompTzData tdata;
+ 
+		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
+		tdata.ecal = client;
 
 		while (objects) {
 			icalcomponent *icalcomp = objects->data;
+			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
 			icalcomponent_add_component (top_level, icalcomp);
 			objects = g_list_remove (objects, icalcomp);
 		}
+
+		g_hash_table_foreach (tdata.zones, (GHFunc) append_tz_to_comp, top_level);
+
+		g_hash_table_destroy (tdata.zones);
+		tdata.zones = NULL;
 
 		ical_string = icalcomponent_as_ical_string (top_level);
 		if ((result = gnome_vfs_write (handle, (gconstpointer) ical_string, strlen (ical_string), &bytes_written)) != GNOME_VFS_OK) {
