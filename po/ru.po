@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-12 19:01+0200\n"
-"PO-Revision-Date: 2007-02-15 14:25+0200\n"
+"POT-Creation-Date: 2007-02-22 13:23+0200\n"
+"PO-Revision-Date: 2007-02-22 13:24+0200\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -6382,7 +6382,7 @@ msgstr "Заметка"
 msgid "Unable to open memos in '%s'."
 msgstr "Не удается открыть заметки в '%s'."
 
-#: ../calendar/gui/dialogs/memo-page.c:1021 ../mail/em-format-html.c:1489
+#: ../calendar/gui/dialogs/memo-page.c:1021 ../mail/em-format-html.c:1490
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
 msgid "To"
@@ -10600,11 +10600,11 @@ msgstr "_Сохранить сообщение"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:524
+#: ../shell/main.c:523
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:575
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:574
 msgid "Groupware Suite"
 msgstr "Пакет для групповой работы"
 
@@ -11500,7 +11500,7 @@ msgstr "начинается с"
 msgid "Stop Processing"
 msgstr "Остановить обработку"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1660
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1661
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:853
 #: ../mail/em-mailer-prefs.c:90 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
@@ -11936,7 +11936,7 @@ msgstr "_Следующее"
 msgid "M_atch case"
 msgstr "_Учитывать регистр"
 
-#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:619
 msgid "Unsigned"
 msgstr "Не подписано"
 
@@ -11946,7 +11946,7 @@ msgid ""
 "authentic."
 msgstr "Это сообщение не подписано. Отправитель не может быть аутентифицирован."
 
-#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:620
 msgid "Valid signature"
 msgstr "Подпись действительна"
 
@@ -11958,7 +11958,7 @@ msgstr ""
 "Это сообщение подписано действительной подписью, что удостоверяет "
 "подлинность отправителя."
 
-#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:620
+#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:621
 msgid "Invalid signature"
 msgstr "Подпись недействительна"
 
@@ -11982,7 +11982,7 @@ msgstr ""
 "Это сообщение подписано действительной подписью, но отправитель сообщения не "
 "может быть проверен."
 
-#: ../mail/em-format-html-display.c:947 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:947 ../mail/em-format-html.c:628
 msgid "Unencrypted"
 msgstr "Не зашифровано"
 
@@ -11994,7 +11994,7 @@ msgstr ""
 "Это сообщение не зашифровано. Его содержимое может быть просмотрено в "
 "процессе передачи по Интернету."
 
-#: ../mail/em-format-html-display.c:948 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:948 ../mail/em-format-html.c:629
 msgid "Encrypted, weak"
 msgstr "Зашифровано, уязвимый шифр"
 
@@ -12008,7 +12008,7 @@ msgstr ""
 "Посторонние лица могут, хотя и с определенными трудностями, получить доступ "
 "к содержимому письма за разумное время."
 
-#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:630
 msgid "Encrypted"
 msgstr "Зашифровано"
 
@@ -12020,7 +12020,7 @@ msgstr ""
 "Это сообщение зашифровано. Посторонним лицам будет очень сложно просмотреть "
 "содержимое этого сообщения."
 
-#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:630
+#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:631
 msgid "Encrypted, strong"
 msgstr "Зашифровано, стойкий шифр"
 
@@ -12120,100 +12120,103 @@ msgstr "О_ткрыть с помощью"
 msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
-msgstr "Программа Evolution не может растеризовать это сообщение, так как его размер слишком велик. Вы можете просмотреть его в неформатированном виде или использовать внешний текстовый редактор."
+msgstr ""
+"Программа Evolution не может растеризовать это сообщение, так как его размер "
+"слишком велик. Вы можете просмотреть его в неформатированном виде или "
+"использовать внешний текстовый редактор."
 
 #: ../mail/em-format-html-print.c:141
 #, c-format
 msgid "Page %d of %d"
 msgstr "Страница %d из %d"
 
-#: ../mail/em-format-html.c:483 ../mail/em-format-html.c:485
+#: ../mail/em-format-html.c:484 ../mail/em-format-html.c:486
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "Получение '%s'"
 
-#: ../mail/em-format-html.c:621
+#: ../mail/em-format-html.c:622
 msgid "Valid signature but cannot verify sender"
 msgstr "Подпись действительна, но проверить отправителя не удается"
 
-#: ../mail/em-format-html.c:892
+#: ../mail/em-format-html.c:893
 msgid "Malformed external-body part."
 msgstr "Часть external-body неверно сформирована"
 
-#: ../mail/em-format-html.c:922
+#: ../mail/em-format-html.c:923
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Указатель на FTP сайт (%s)"
 
-#: ../mail/em-format-html.c:933
+#: ../mail/em-format-html.c:934
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Указатель на локальный файл (%s), доступный на сайте \"%s\""
 
-#: ../mail/em-format-html.c:935
+#: ../mail/em-format-html.c:936
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Указатель на локальный файл (%s)"
 
-#: ../mail/em-format-html.c:956
+#: ../mail/em-format-html.c:957
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Указатель на удаленные данные (%s)"
 
-#: ../mail/em-format-html.c:967
+#: ../mail/em-format-html.c:968
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Указатель на неизвестные внешние данные (типа \"%s\")"
 
-#: ../mail/em-format-html.c:1194
+#: ../mail/em-format-html.c:1195
 msgid "Formatting message"
 msgstr "Форматирование сообщения"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "От"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:86
 msgid "Reply-To"
 msgstr "Обратный адрес"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:88
 msgid "Cc"
 msgstr "Копия"
 
-#: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
 msgid "Bcc"
 msgstr "Скр.копия"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1664 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1665 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1045
 msgid "Mailer"
 msgstr "Почтовый клиент"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1691
+#: ../mail/em-format-html.c:1692
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1694
+#: ../mail/em-format-html.c:1695
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1704 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1705 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:854 ../mail/em-mailer-prefs.c:91
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Дата"
 
-#: ../mail/em-format-html.c:1727 ../mail/em-format.c:855
+#: ../mail/em-format-html.c:1728 ../mail/em-format.c:855
 #: ../mail/em-mailer-prefs.c:92
 msgid "Newsgroups"
 msgstr "Группы новостей"
@@ -12393,7 +12396,9 @@ msgstr "Источник папок поиска"
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Allows evolution to display text part of limited size"
-msgstr "Позволяет программе evolution отображать текстовые вложения ограниченного размера"
+msgstr ""
+"Позволяет программе evolution отображать текстовые вложения ограниченного "
+"размера"
 
 #: ../mail/evolution-mail.schemas.in.in.h:2
 msgid "Automatic link recognition"
@@ -12831,7 +12836,10 @@ msgstr "Пропорциональный шрифт для отображени�
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
-msgstr "Определяет максимельный размер текстового вложения, которое может быть отформатировано в программе Evolution. Размер по умолчанию 4MB / 4096 KB и указывается в КБ."
+msgstr ""
+"Определяет максимельный размер текстового вложения, которое может быть "
+"отформатировано в программе Evolution. Размер по умолчанию 4MB / 4096 KB и "
+"указывается в КБ."
 
 #: ../mail/evolution-mail.schemas.in.in.h:100
 msgid ""
@@ -16419,7 +16427,8 @@ msgid ""
 "standard headers. \n"
 "You can ignore this if you choose \"All Headers\"."
 msgstr ""
-"Укажите дополнительные заголовки, которые вы хотите обрабатывать в дополнение к перечисленным выше стандартным заголовкам.\n"
+"Укажите дополнительные заголовки, которые вы хотите обрабатывать в "
+"дополнение к перечисленным выше стандартным заголовкам.\n"
 "Этот пункт игнорируется, если выбран параметр \"Все заголовки\"."
 
 #: ../plugins/imap-features/imap-headers.glade.h:7
@@ -16428,7 +16437,8 @@ msgid ""
 "The more headers you have the more time it will take to download."
 msgstr ""
 "Выберите параметры заголовков IMAP. \n"
-"Чем больше будет выбрано заголовков, тем больше времени потребуется для их загрузки."
+"Чем больше будет выбрано заголовков, тем больше времени потребуется для их "
+"загрузки."
 
 #: ../plugins/imap-features/imap-headers.glade.h:9
 msgid ""
@@ -16489,10 +16499,11 @@ msgid ""
 msgstr ""
 "<span weight=\"bold\" size=\"larger\">Сбой поиска iPod</span>\n"
 "\n"
-"Не удаётся обнаружить iPod для синхронизации. Либо iPod не подключен к системе, либо его питание выключено."
+"Не удаётся обнаружить iPod для синхронизации. Либо iPod не подключен к "
+"системе, либо его питание выключено."
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:149
+#: ../plugins/save-calendar/ical-format.c:194
 msgid "iCalendar format (.ics)"
 msgstr "Формат iCalendar (.ics)"
 
@@ -18083,27 +18094,27 @@ msgstr "Имя папки не может содержать символ \"#\".
 msgid "'.' and '..' are reserved folder names."
 msgstr "\".\" и \"..\" -- зарезервированные имена папок."
 
-#: ../shell/e-shell-window-commands.c:71
+#: ../shell/e-shell-window-commands.c:76
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr "Похоже, утилита GNOME Pilot не установлена в этой системе"
 
-#: ../shell/e-shell-window-commands.c:79
+#: ../shell/e-shell-window-commands.c:84
 #, c-format
 msgid "Error executing %s."
 msgstr "Ошибка выполнения %s."
 
-#: ../shell/e-shell-window-commands.c:127
+#: ../shell/e-shell-window-commands.c:132
 msgid "Bug buddy is not installed."
 msgstr "Bug buddy не установлен."
 
-#: ../shell/e-shell-window-commands.c:130
+#: ../shell/e-shell-window-commands.c:135
 msgid "Bug buddy could not be run."
 msgstr "Не удается запустить Bug buddy."
 
 #. The translator-credits string is for translators to list
-#. * per language credits for translation, displayed in the
-#. * about box
-#: ../shell/e-shell-window-commands.c:561
+#. * per-language credits for translation, displayed in the
+#. * about dialog.
+#: ../shell/e-shell-window-commands.c:565
 msgid "translator-credits"
 msgstr ""
 "Valek Filippov <frob@df.ru>\n"
@@ -18111,15 +18122,19 @@ msgstr ""
 "Leonid Kanter <leon@asplinux.ru>\n"
 "Michael Yakhontov <mvy@asplinux.ru>"
 
-#: ../shell/e-shell-window-commands.c:806
+#: ../shell/e-shell-window-commands.c:576
+msgid "Evolution Website"
+msgstr "Веб-сайт Evolution"
+
+#: ../shell/e-shell-window-commands.c:782
 msgid "_Work Online"
 msgstr "Перейти в сетевой режим"
 
-#: ../shell/e-shell-window-commands.c:819 ../ui/evolution.xml.h:55
+#: ../shell/e-shell-window-commands.c:795 ../ui/evolution.xml.h:55
 msgid "_Work Offline"
 msgstr "Ав_тономная работа"
 
-#: ../shell/e-shell-window-commands.c:832
+#: ../shell/e-shell-window-commands.c:808
 msgid "Work Offline"
 msgstr "Перейти в режим работы вне сети"
 
@@ -18298,11 +18313,11 @@ msgstr "Записывать отладочный вывод всех компо
 msgid "Disable loading of any plugins."
 msgstr "Запретить загрузку любых модулей."
 
-#: ../shell/main.c:517
+#: ../shell/main.c:516
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Почтовый клиент и ежедневник Evolution"
 
-#: ../shell/main.c:528
+#: ../shell/main.c:527
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
