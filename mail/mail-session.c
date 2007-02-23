@@ -63,16 +63,11 @@ static int session_check_junk_notify_id = -1;
 #define MAIL_SESSION_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_SESSION_TYPE, MailSessionClass))
 #define MAIL_IS_SESSION(o)    (CAMEL_CHECK_TYPE((o), MAIL_SESSION_TYPE))
 
-#define MAIL_SESSION_LOCK(s, l) (e_mutex_lock(((MailSession *)s)->l))
-#define MAIL_SESSION_UNLOCK(s, l) (e_mutex_unlock(((MailSession *)s)->l))
-
 typedef struct _MailSession {
 	CamelSession parent_object;
 
 	gboolean interactive;
 	FILE *filter_logfile;
-
-	EMutex *lock;
 
 	MailAsyncEvent *async;
 } MailSession;
@@ -96,7 +91,6 @@ static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m);
 static void
 init (MailSession *session)
 {
-	session->lock = e_mutex_new(E_MUTEX_REC);
 	session->async = mail_async_event_new();
 }
 
@@ -107,7 +101,6 @@ finalise (MailSession *session)
 		gconf_client_notify_remove (mail_config_get_gconf_client (), session_check_junk_notify_id);
 
 	mail_async_event_destroy(session->async);
-	e_mutex_destroy(session->lock);
 }
 
 static void
