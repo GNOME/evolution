@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-13 03:18+0000\n"
-"PO-Revision-Date: 2007-02-17 22:48+0200\n"
+"PO-Revision-Date: 2007-02-22 12:00+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -12820,6 +12820,9 @@ msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
 msgstr ""
+"Selle alusel otsustatakse Evolution'i abil vormindatava sõnumi tekstiosa "
+"suurim suurus. Vaikimisi väärtus on 4MB / 4096 KB, väärtus määratakse "
+"kilobaitides."
 
 #: ../mail/evolution-mail.schemas.in.in.h:100
 msgid ""
@@ -21967,31 +21970,3 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid "Fo_rward"
-#~ msgstr "_Edasta"
-
-#~ msgid "Printer settings"
-#~ msgstr "Printeri sätted"
-
-#~ msgid "Font"
-#~ msgstr "Kirjatüüp"
-
-#~ msgid "Print Preview"
-#~ msgstr "Printimise eelvaade"
-
-#~ msgid "_Send New Message To ..."
-#~ msgstr "_Saada uus sõnum aadressile..."
-
-#~ msgid "Su_mmary"
-#~ msgstr "Kokkuvõt_e"
-
-#~ msgid ""
-#~ "A file by that name already exists.\n"
-#~ "Overwrite it?"
-#~ msgstr ""
-#~ "Selle nimega fail on juba olemas.\n"
-#~ "Kirjutada üle?"
-
-#~ msgid "Filtering Folder"
-#~ msgstr "Kausta filtreerimine"
