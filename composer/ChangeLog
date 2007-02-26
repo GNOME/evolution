@@ -1,3 +1,10 @@
+2007-02-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #343943
+
+	* e-msg-composer.c: (composer_key_pressed): Removes the extra tab in
+	the composer window.
+
 2007-01-25 Raghavendran <raghavguru7@gmail.com>
 
 	**Fixes bug #343943

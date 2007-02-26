@@ -3523,6 +3523,8 @@ composer_key_pressed (EMsgComposer *composer, GdkEventKey *event, void *user_dat
 		CORBA_exception_init (&ev);
 		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "grab-focus", &ev);
 		CORBA_exception_free (&ev);
+		g_signal_stop_emission_by_name (composer, "key-press-event");
+		return TRUE;		
 	}
 	return FALSE;
 }
