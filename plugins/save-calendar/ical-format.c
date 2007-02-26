@@ -57,6 +57,41 @@ display_error_message (GtkWidget *parent, const char *message)
 	gtk_widget_destroy (dialog);
 }
 
+typedef struct {
+	GHashTable *zones;
+	ECal *ecal;
+} CompTzData;
+
+static void
+insert_tz_comps (icalparameter *param, void *cb_data)
+{
+	const char *tzid;
+	CompTzData *tdata = cb_data;
+	icaltimezone *zone = NULL;
+	icalcomponent *tzcomp;
+	GError *error = NULL;
+
+	tzid = icalparameter_get_tzid (param);
+	
+	if (g_hash_table_lookup (tdata->zones, tzid))
+		return;
+	
+	if (!e_cal_get_timezone (tdata->ecal, tzid, &zone, &error)) {
+		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
+		g_error_free (error);
+		return;
+	}
+	
+	tzcomp = icalcomponent_new_clone (icaltimezone_get_component (zone));
+	g_hash_table_insert (tdata->zones, (gpointer) tzid, (gpointer) tzcomp);
+}
+
+static void
+append_tz_to_comp (gpointer key, gpointer value, icalcomponent *toplevel)
+{
+	icalcomponent_add_component (toplevel, (icalcomponent *) value);
+}
+
 static void
 do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, char *dest_uri)
 {
@@ -89,15 +124,25 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 	if (e_cal_get_object_list (source_client, "#t", &objects, &error)) {
 		GnomeVFSResult result;
 		GnomeVFSHandle *handle;
+		CompTzData tdata;
+
+		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
+		tdata.ecal = source_client;
 
 		while (objects != NULL) {
 			icalcomponent *icalcomp = objects->data;
-			
+		
+			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
 			icalcomponent_add_component (top_level, icalcomp);
 
 			/* remove item from the list */
 			objects = g_list_remove (objects, icalcomp);
 		}
+
+		g_hash_table_foreach (tdata.zones, (GHFunc) append_tz_to_comp, top_level);
+
+		g_hash_table_destroy (tdata.zones);
+		tdata.zones = NULL;
 
 		/* save the file */
 		uri = gnome_vfs_uri_new (dest_uri);

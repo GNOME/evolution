@@ -1,3 +1,10 @@
+2007-02-26  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #238093 (bnc)
+	* ical-format.c: (insert_tz_comps), (append_tz_to_comp),
+	(do_save_calendar_ical): Add the timezone information while
+	exporting the calendars.				 
+
 2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* rdf-format.c: (add_time_to_rdf): Plug a leak.
