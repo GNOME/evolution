@@ -9,30 +9,30 @@
 # Alessio Dessi <alessio.dessi@libero.it>, 2003
 # Monica Badia <Monica.Badia@Sun.COM>, 2003
 # Craig Jeffares <cjeffares@novell.com>, 2004.
-# Luca Ferretti <elle.uca@infinito.it>, 2003-2006.
+# Luca Ferretti <elle.uca@libero.it>, 2003-2007.
 #
 # Convenzioni adottate:
 #
 # task		-> compito
-# meeting		-> riunione
+# meeting	-> riunione
 # appointment	-> appuntamento
-# summary		-> indice
+# summary	-> indice
 # location	-> ubicazione (geografica), posizione (nel file system)
 # card		-> tessera
 # alarm		-> allarme
 # reminder	-> promemoria
 # junk		-> indesiderato
 # not junk	-> attendibile
-# offline		-> fuori rete
+# offline	-> fuori rete
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-24 16:43+0100\n"
-"PO-Revision-Date: 2007-02-24 16:44+0100\n"
-"Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
+"POT-Creation-Date: 2007-02-26 10:35+0100\n"
+"PO-Revision-Date: 2007-02-26 12:32+0100\n"
+"Last-Translator: Luca Ferretti <elle.uca@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10528,7 +10528,7 @@ msgstr "Inserire i destinatari del messaggio"
 
 #: ../composer/e-msg-composer-hdrs.c:662
 msgid "_Cc:"
-msgstr "_Cc:"
+msgstr "_CC:"
 
 #: ../composer/e-msg-composer-hdrs.c:663
 msgid "Enter the addresses that will receive a carbon copy of the message"
@@ -10537,7 +10537,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer-hdrs.c:666
 msgid "_Bcc:"
-msgstr "_Bcc:"
+msgstr "_CCN:"
 
 #: ../composer/e-msg-composer-hdrs.c:667
 msgid ""
@@ -12377,12 +12377,12 @@ msgstr "Rispondi-a"
 #: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:88
 msgid "Cc"
-msgstr "Cc"
+msgstr "CC"
 
 #: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
 msgid "Bcc"
-msgstr "Bcc"
+msgstr "CCN"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1665 ../mail/em-format-quote.c:322
@@ -12920,7 +12920,7 @@ msgstr "Avverte l'utente quando elimina qualcosa"
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Prompt when user only fills Bcc"
-msgstr "Avverte l'utente quando si compila solo il campo Bcc"
+msgstr "Avverte l'utente quando si compila solo il campo CCN"
 
 #: ../mail/evolution-mail.schemas.in.in.h:70
 msgid "Prompt when user tries to open 10 or more messages at once"
@@ -13135,43 +13135,43 @@ msgstr "Carattere a larghezza variabile"
 
 #: ../mail/evolution-mail.schemas.in.in.h:116
 msgid "View/Bcc menu item is checked"
-msgstr "La voce di menu Mostra/Bcc è selezionata"
+msgstr "La voce di menu Visualizza/CCN è selezionata"
 
 #: ../mail/evolution-mail.schemas.in.in.h:117
 msgid "View/Bcc menu item is checked."
-msgstr "La voce di menu Mostra/Bcc è selezionata."
+msgstr "La voce di Visualizza/CCN è selezionata."
 
 #: ../mail/evolution-mail.schemas.in.in.h:118
 msgid "View/Cc menu item is checked"
-msgstr "La voce di menu Mostra/Cc è selezionata"
+msgstr "La voce di menu Visualizza/CC è selezionata"
 
 #: ../mail/evolution-mail.schemas.in.in.h:119
 msgid "View/Cc menu item is checked."
-msgstr "La voce di menu Mostra/Cc è selezionata."
+msgstr "La voce di menu Visualizza/CC è selezionata."
 
 #: ../mail/evolution-mail.schemas.in.in.h:120
 msgid "View/From menu item is checked"
-msgstr "La voce di menu Mostra/Da è selezionata"
+msgstr "La voce di menu Visualizza/Da è selezionata"
 
 #: ../mail/evolution-mail.schemas.in.in.h:121
 msgid "View/From menu item is checked."
-msgstr "La voce di menu Mostra/Da è selezionata."
+msgstr "La voce di menu Visualizza/Da è selezionata."
 
 #: ../mail/evolution-mail.schemas.in.in.h:122
 msgid "View/PostTo menu item is checked"
-msgstr "La voce di menu Mostra/Posta a è selezionata"
+msgstr "La voce di menu Visualizza/Pubblica-su a è selezionata"
 
 #: ../mail/evolution-mail.schemas.in.in.h:123
 msgid "View/PostTo menu item is checked."
-msgstr "La voce di menu Mostra/Posta a è selezionata."
+msgstr "La voce di menu Visualizza/Pubblica-su a è selezionata."
 
 #: ../mail/evolution-mail.schemas.in.in.h:124
 msgid "View/ReplyTo menu item is checked"
-msgstr "La voce di menu Mostra/Rispondi a è selezionata"
+msgstr "La voce di menu Visualizza/Rispondi-a è selezionata"
 
 #: ../mail/evolution-mail.schemas.in.in.h:125
 msgid "View/ReplyTo menu item is checked."
-msgstr "La voce di menu Mostra/Rispondi a è selezionata."
+msgstr "La voce di menu Visualizza/Rispondi-a è selezionata."
 
 #: ../mail/evolution-mail.schemas.in.in.h:126
 msgid ""
@@ -13863,7 +13863,7 @@ msgstr "Selezionare una delle seguenti opzioni"
 
 #: ../mail/mail-config.glade.h:114
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Segnala l'invio di messaggi con solo destinatari _Bcc"
+msgstr "Segnala l'invio di messaggi con solo destinatari _CCN"
 
 #: ../mail/mail-config.glade.h:115
 msgid "Quote original message"
