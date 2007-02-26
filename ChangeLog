@@ -1,3 +1,7 @@
+2007-02-26 Harish Krishnaswamy <kharish@novell.com>
+
+	* configure.in : Update intltool version.
+
 2007-02-12  Srinivasa Ragavan <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.9.91 release updates
