@@ -1,3 +1,14 @@
+2007-02-26  Sankar P  <psankar@novell.com>
+
+	* e-msg-composer.c: (autosave_manager_query_load_orphans),
+	(autosave_init_file): 
+	Use ~/.evolution as the auto-save location.
+	
+	* Patch pushed upstream from Red Hat 
+	by Matthew Barnes <mbarnes@redhat.com>	
+
+	* Fixes #336612
+
 2007-02-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #343943

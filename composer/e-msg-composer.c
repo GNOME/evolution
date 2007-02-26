@@ -1494,8 +1494,10 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 	GSList *match = NULL;
 	gint len = strlen (AUTOSAVE_SEED);
 	gint load = FALSE;
-	
-	dir = g_dir_open (g_get_home_dir(), 0, NULL);
+	gchar *dirname;
+
+	dirname = g_build_filename (g_get_home_dir (), ".evolution", NULL);
+	dir = g_dir_open (dirname, 0, NULL);
 	if (!dir) {
 		return;
 	}
@@ -1504,8 +1506,10 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 		if ((!strncmp (dname, AUTOSAVE_SEED, len - 6))
 		    && (strlen (dname) == len)
 		    && (!autosave_is_owned (am, dname))) {
-			char *filename =  g_strdup_printf ("%s/%s", g_get_home_dir(), dname);
+			gchar *filename;
 			struct stat st;
+
+			filename = g_build_filename (dirname, dname, NULL);
 		
 			/*
 			 * check if the file has any length,  It is a valid case if it doesn't 
@@ -1521,6 +1525,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 	}
 	
 	g_dir_close (dir);
+	g_free (dirname);
 	
 	if (match != NULL)
 		load = e_error_run(parent, "mail-composer:recover-autosave", NULL) == GTK_RESPONSE_YES;
@@ -1571,7 +1576,8 @@ autosave_init_file (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *p = composer->priv;
 	if (p->autosave_file == NULL) {
-		p->autosave_file = g_strdup_printf ("%s/%s", g_get_home_dir(), AUTOSAVE_SEED);
+		p->autosave_file = g_build_filename (
+			g_get_home_dir (), ".evolution", AUTOSAVE_SEED, NULL);
 		p->autosave_fd = g_mkstemp (p->autosave_file);
 		return TRUE;
 	}
