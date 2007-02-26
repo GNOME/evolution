@@ -85,7 +85,7 @@
 		type="toggle" state="0" hidden="1"/>
 		
 		<cmd name="InsertXSendOptions" _tip="Insert Send options"
-    		 accel="*Control*o" pixtype="pixbuf"/>
+    		 pixtype="pixbuf"/>
 
 	</commands>
 	
@@ -167,7 +167,6 @@
 		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>	
 
 		<separator f="" name="emailcomposer"/>
-		<toolitem name="InsertXSendOptions" verb=""  _label="Send Options" _tip="Send Options"/>
 	</dockitem>	
 </Root>
 
