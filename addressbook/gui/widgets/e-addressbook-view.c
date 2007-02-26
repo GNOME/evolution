@@ -1965,8 +1965,12 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	GList *list, *l;
 	gboolean plural = FALSE, is_list = FALSE;
 	EContact *contact;
+	ETable *etable;
+	EMinicardView *card_view;
+	ESelectionModel *selection_model; 
 	char *name = NULL;
-
+	gint row, select;
+	
 	list = get_selected_contacts (view);
 	contact = list->data;
 
@@ -1977,6 +1981,17 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		is_list = TRUE;
+
+	if (view->view_type == EAB_VIEW_MINICARD) {
+		card_view = e_minicard_view_widget_get_view (E_MINICARD_VIEW_WIDGET(view->object));
+		selection_model = get_selection_model (view);
+		row = e_selection_model_cursor_row (selection_model);
+	}
+
+	else if (view->view_type == EAB_VIEW_TABLE) {
+		etable = e_table_scrolled_get_table(E_TABLE_SCROLLED(view->widget));
+		row = e_table_get_cursor_row (E_TABLE (etable)); 
+	}
 
 	/* confirm delete */
 	if (is_delete && 
@@ -2014,7 +2029,34 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 						     NULL);
 		}
 	}
+	
+	/* Sets the cursor, at the row after the deleted row */
+	if (view->view_type == EAB_VIEW_MINICARD && row!=0) { 
+		select = e_sorter_model_to_sorted (selection_model->sorter, row);
 
+	/* Sets the cursor, before the deleted row if its the last row */
+		if (select == e_selection_model_row_count (selection_model) - 1)
+			select = select - 1; 
+		else
+			select = select + 1;
+
+		row = e_sorter_sorted_to_model (selection_model->sorter, select);
+		e_selection_model_cursor_changed (selection_model, row, 0);
+	}
+
+	/* Sets the cursor, at the row after the deleted row */
+	else if (view->view_type == EAB_VIEW_TABLE && row!=0) {
+		select = e_table_model_to_view_row (E_TABLE (etable), row); 
+		
+	/* Sets the cursor, before the deleted row if its the last row */
+		if (select == e_table_model_row_count (E_TABLE(etable)->model) - 1)
+			select = select - 1;
+		else 
+			select = select + 1;
+
+		row = e_table_view_to_model_row (E_TABLE (etable), select);
+		e_table_set_cursor_row (E_TABLE (etable), row);
+	}
 	e_free_object_list(list);
 }
 

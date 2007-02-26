@@ -1,3 +1,10 @@
+2007-02-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #232065
+
+	* gui/widgets/e-addressbook-view.c: (eab_view_delete_selection): Fix
+	for selection jump on delete from Ebby Wiselyn.
+
 2007-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/contact-editor/contact-editor.glade: Fix critical warnings
