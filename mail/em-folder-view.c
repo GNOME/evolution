@@ -1387,6 +1387,7 @@ emfv_mail_next_unread(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
+	gtk_widget_grab_focus((GtkWidget *) emfv->list);
 	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
 }
 
@@ -1419,6 +1420,7 @@ emfv_mail_previous_unread(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
+	gtk_widget_grab_focus((GtkWidget *) emfv->list);
 	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
 }
 

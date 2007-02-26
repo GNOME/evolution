@@ -1,3 +1,15 @@
+2007-02-26  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of 
+	Raghavendran R <raghavguru7@gmail.com>
+
+	* Fixes #256382
+
+	* em-folder-view.c: (emfv_mail_next_unread),
+	(emfv_mail_previous_unread):
+	Mail grabs the focus when keyboard-shortcut 
+	to move to next (un)read mail is used.
+
 2007-02-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #356177
