@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-22 13:23+0200\n"
-"PO-Revision-Date: 2007-02-22 13:24+0200\n"
+"POT-Creation-Date: 2007-02-27 14:02+0200\n"
+"PO-Revision-Date: 2007-02-27 14:06+0200\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2920,7 +2920,7 @@ msgid "Type"
 msgstr "Тип"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:843
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2132
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2174
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Сохранить как VCard..."
@@ -2988,7 +2988,7 @@ msgstr "_Вырезать"
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3179 ../mail/em-folder-tree.c:1002
+#: ../composer/e-msg-composer.c:3185 ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1134 ../mail/message-list.c:1922
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3327,7 +3327,7 @@ msgid "_Open Link in Browser"
 msgstr "_Открыть ссылку в браузере"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2544
+#: ../mail/em-folder-view.c:2545
 msgid "_Copy Link Location"
 msgstr "_Копировать ссылку"
 
@@ -4450,12 +4450,12 @@ msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Ваши задачи будут недоступны до перезапуска Evolution."
 
 #: ../calendar/calendar.error.xml.h:70
-#: ../composer/mail-composer.error.xml.h:27
+#: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "_Отклонить изменения"
 
 #: ../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Save"
 msgstr "_Сохранить"
 
@@ -4464,7 +4464,7 @@ msgid "_Save Changes"
 msgstr "_Сохранить изменения"
 
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:135
+#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:135
 msgid "_Send"
 msgstr "_Отправить"
 
@@ -4653,7 +4653,7 @@ msgstr "Напомнить _через:"
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:41
@@ -5896,15 +5896,15 @@ msgstr " (к дате"
 msgid "Due "
 msgstr "К дате"
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2915
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2921
 #, c-format
 msgid "Attached message - %s"
 msgstr "Вложенное сообщение - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2920
-#: ../composer/e-msg-composer.c:3116
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2926
+#: ../composer/e-msg-composer.c:3122
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5912,13 +5912,13 @@ msgstr[0] "%d вложенное сообщение"
 msgstr[1] "%d вложенных сообщения"
 msgstr[2] "%d вложенных сообщений"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3180
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3186
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1030 ../mail/message-list.c:1923
 msgid "_Move"
 msgstr "Пере_местить"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3182
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3188
 #: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1925
 msgid "Cancel _Drag"
 msgstr "Отменить _перенос"
@@ -5927,7 +5927,7 @@ msgstr "Отменить _перенос"
 msgid "Could not update object"
 msgstr "Не удается обновить объект"
 
-#: ../calendar/gui/dialogs/comp-editor.c:966 ../composer/e-msg-composer.c:2528
+#: ../calendar/gui/dialogs/comp-editor.c:966 ../composer/e-msg-composer.c:2534
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5948,7 +5948,7 @@ msgstr "Показать _панель вложений"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3685
+#: ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5957,14 +5957,14 @@ msgstr "_Удалить"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3686 ../mail/em-folder-tree.c:2081
+#: ../composer/e-msg-composer.c:3694 ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Свойства"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3688
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "_Добавить вложение..."
 
@@ -6227,7 +6227,7 @@ msgstr "Настроить"
 #: ../calendar/gui/dialogs/event-page.c:2960
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2312
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2318
 #: ../filter/filter-rule.c:890 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:475
 #: ../mail/em-junk-hook.c:78
@@ -6896,7 +6896,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s для неизвестного типа переключателя"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2912
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2913
 #, c-format
 msgid "Click to open %s"
 msgstr "Нажмите, чтобы открыть %s"
@@ -10404,12 +10404,12 @@ msgstr ""
 "Не удается зашифровать исходящее сообщение: нет сертификата шифрования для "
 "этой учетной записи"
 
-#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2557
+#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2563
 msgid "Hide _Attachment Bar"
 msgstr "Скрыть панель _вложений"
 
-#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3931
+#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2566
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "Показать панель _вложений"
 
@@ -10426,30 +10426,30 @@ msgstr "Не удается открыть файл"
 msgid "Unable to retrieve message from editor"
 msgstr "Не удается получить сообщение из редактора"
 
-#: ../composer/e-msg-composer.c:1691
+#: ../composer/e-msg-composer.c:1697
 msgid "Untitled Message"
 msgstr "Неозаглавленное сообщение"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1726
+#: ../composer/e-msg-composer.c:1732
 msgid "Open File"
 msgstr "Открыть файл"
 
-#: ../composer/e-msg-composer.c:2192 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2198 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Создана автоматически"
 
-#: ../composer/e-msg-composer.c:2295
+#: ../composer/e-msg-composer.c:2301
 msgid "Si_gnature:"
 msgstr "По_дпись:"
 
-#: ../composer/e-msg-composer.c:2571 ../composer/e-msg-composer.c:3813
-#: ../composer/e-msg-composer.c:3816
+#: ../composer/e-msg-composer.c:2577 ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "Новое сообщение"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5048
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10542,10 +10542,20 @@ msgstr ""
 "последнего изменения."
 
 #: ../composer/mail-composer.error.xml.h:17
+msgid ""
+"Send options available only for Novell Groupwise and Microsoft Exchange "
+"accounts."
+msgstr "Параметры отправки доступны только для учетных записей Novell Groupwise и Microsoft Exchange."
+
+#: ../composer/mail-composer.error.xml.h:18
+msgid "Send options not available."
+msgstr "Параметры отправки недоступны."
+
+#: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr "Файл `{0}' не является обычным файлом и не может быть отправлен в сообщении."
 
-#: ../composer/mail-composer.error.xml.h:18
+#: ../composer/mail-composer.error.xml.h:20
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
@@ -10554,7 +10564,7 @@ msgstr ""
 "отдельности, либо создайте архив, включающий все файлы из каталога, и "
 "вложите этот архив."
 
-#: ../composer/mail-composer.error.xml.h:19
+#: ../composer/mail-composer.error.xml.h:21
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
@@ -10566,35 +10576,35 @@ msgstr ""
 "Убедитесь, что у вас установлены необходимые\n"
 "версии пакетов gtkhtml и libgtkhtml."
 
-#: ../composer/mail-composer.error.xml.h:22
+#: ../composer/mail-composer.error.xml.h:24
 msgid "Unable to activate the address selector control."
 msgstr "Не удается активировать управляющий элемент выбора адреса."
 
-#: ../composer/mail-composer.error.xml.h:23
+#: ../composer/mail-composer.error.xml.h:25
 msgid "Unfinished messages found"
 msgstr "Найдены незавершенные сообщения"
 
-#: ../composer/mail-composer.error.xml.h:24
+#: ../composer/mail-composer.error.xml.h:26
 msgid "Warning: Modified Message"
 msgstr "Внимание: Изменено сообщение"
 
-#: ../composer/mail-composer.error.xml.h:25
+#: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
 msgstr "Вы не можете вложить файл `{0}' в это сообщение."
 
-#: ../composer/mail-composer.error.xml.h:26
+#: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
 msgstr "Перед созданием нового письма необходимо настроить учетную запись."
 
-#: ../composer/mail-composer.error.xml.h:28
+#: ../composer/mail-composer.error.xml.h:30
 msgid "_Do not Recover"
 msgstr "_Не восстанавливать"
 
-#: ../composer/mail-composer.error.xml.h:29
+#: ../composer/mail-composer.error.xml.h:31
 msgid "_Recover"
 msgstr "_Восстановить"
 
-#: ../composer/mail-composer.error.xml.h:30
+#: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
 msgstr "_Сохранить сообщение"
 
@@ -11698,7 +11708,7 @@ msgstr "Сканирование папок на \"%s\""
 #: ../mail/em-folder-tree.c:2065 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:59 ../ui/evolution-tasks.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:58 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
 msgstr "_Вид"
@@ -11878,38 +11888,38 @@ msgid "Filter on _Mailing List"
 msgstr "Фильтр по списку рассылки"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2034 ../mail/em-folder-view.c:2078
+#: ../mail/em-folder-view.c:2036 ../mail/em-folder-view.c:2080
 msgid "Default"
 msgstr "По умолчанию"
 
-#: ../mail/em-folder-view.c:2183 ../mail/em-folder-view.c:2189
+#: ../mail/em-folder-view.c:2185 ../mail/em-folder-view.c:2190
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Напечатать сообщение"
 
-#: ../mail/em-folder-view.c:2348
+#: ../mail/em-folder-view.c:2349
 msgid "Unable to retrieve message"
 msgstr "Не удается получить сообщение"
 
-#: ../mail/em-folder-view.c:2546
+#: ../mail/em-folder-view.c:2547
 msgid "Create _Search Folder"
 msgstr "Создать папку поиска"
 
-#: ../mail/em-folder-view.c:2547
+#: ../mail/em-folder-view.c:2548
 msgid "_From this Address"
 msgstr "_ этого адреса"
 
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2549
 msgid "_To this Address"
 msgstr "_По этому адресу"
 
-#: ../mail/em-folder-view.c:2905
+#: ../mail/em-folder-view.c:2906
 #, c-format
 msgid "Click to mail %s"
 msgstr "Нажмите, чтобы написать письмо %s"
 
-#: ../mail/em-folder-view.c:2910
+#: ../mail/em-folder-view.c:2911
 msgid "Click to hide/unhide addresses"
 msgstr "Нажмите, чтобы показать/скрыть адреса"
 
@@ -14181,26 +14191,26 @@ msgstr "Ожидание..."
 msgid "Checking for new mail"
 msgstr "Проверка новой почты"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:198
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Введите ключевую фразу для %s"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:200
 msgid "Enter Passphrase"
 msgstr "Введите ключевую фразу"
 
-#: ../mail/mail-session.c:210
+#: ../mail/mail-session.c:203
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Введите ключевую фразу для %s"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:205
 msgid "Enter Password"
 msgstr "Введите пароль"
 
-#: ../mail/mail-session.c:250
+#: ../mail/mail-session.c:243
 msgid "User canceled operation."
 msgstr "Операция отменена пользователем."
 
@@ -16187,9 +16197,7 @@ msgid "Add Send Options to groupwise messages"
 msgstr "Добавить Параметры Отправки к сообщениям groupwise"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
-#: ../ui/evolution-event-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:31
-#: ../ui/evolution-task-editor.xml.h:8
+#: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
 msgstr "Параметры отправки"
@@ -19359,17 +19367,17 @@ msgstr "Закрыть"
 msgid "I_nsert"
 msgstr "_Вставить"
 
-#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
 msgstr "_Вложение..."
 
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:46 ../ui/evolution-subscribe.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:45 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_Закрыть"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:42
 msgid "_File"
@@ -20325,93 +20333,93 @@ msgstr "Сохранить сообщение в указанной папке"
 msgid "Send"
 msgstr "Отправить"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "Отправить почту в формате HTML"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Set the message priority to high"
 msgstr "Установить высокий приоритет сообщения"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your PGP key"
 msgstr "Подписать это сообщение вашим PGP-ключом"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Подписать это сообщение вашим сертификатом шифрования S/MIME"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Переключить отображение поля скрытой копии"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the CC field is displayed"
 msgstr "Переключить отображение поля копии"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Переключить отображение выбора для поля \"От\""
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Переключить отображение поля \"Post-To\""
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Переключить отображение поля \"Обратный адрес\""
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the To field is displayed"
 msgstr "Переключить отображение поля \"Кому\""
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
 msgstr "Поле скрытой копии"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Cc Field"
 msgstr "Поле копии"
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
 msgstr "Удалить все"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
 msgstr "Поле \"От\""
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
 msgstr "_Открыть..."
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
 msgstr "Поле \"Post-To\""
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Prioritize Message"
 msgstr "Изменить _приоритет сообщения"
 
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Reply-To Field"
 msgstr "Поле \"Об_ратный адрес\""
 
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Security"
 msgstr "_Безопасность"
 
-#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-message-composer.xml.h:56
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "Параметры _отправки"
 
-#: ../ui/evolution-message-composer.xml.h:58
+#: ../ui/evolution-message-composer.xml.h:57
 msgid "_To Field"
 msgstr "Поле \"_Кому\""
 
