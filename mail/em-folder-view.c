@@ -2184,7 +2184,6 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	if (preview) {
 	        GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), 
 									 0, data->settings);
-		gtk_dialog_set_default_response (dialog, GTK_RESPONSE_APPLY);
 		e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) emfv);
 		emfv_print_response(dialog, GTK_RESPONSE_APPLY, data);
 	} else {
