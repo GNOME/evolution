@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-19 12:00+0000\n"
-"PO-Revision-Date: 2007-02-22 14:36+0100\n"
+"POT-Creation-Date: 2007-02-27 03:18+0000\n"
+"PO-Revision-Date: 2007-02-27 23:42+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -2855,7 +2855,7 @@ msgid "Type"
 msgstr "Typ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:843
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2132
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2174
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Spara som VCard..."
@@ -2927,7 +2927,7 @@ msgstr "Klipp _ut"
 #: ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3179
+#: ../composer/e-msg-composer.c:3185
 #: ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1134
 #: ../mail/message-list.c:1922
@@ -3282,7 +3282,7 @@ msgid "_Open Link in Browser"
 msgstr "_Öppna länk i webbläsare"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2544
+#: ../mail/em-folder-view.c:2546
 msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
@@ -4321,13 +4321,13 @@ msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Dina uppgifter kommer inte att vara tillgängliga förrän Evolution har startats om."
 
 #: ../calendar/calendar.error.xml.h:70
-#: ../composer/mail-composer.error.xml.h:27
+#: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "_Förkasta ändringar"
 
 #: ../calendar/calendar.error.xml.h:71
 #: ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Save"
 msgstr "_Spara"
 
@@ -4336,7 +4336,7 @@ msgid "_Save Changes"
 msgstr "_Spara ändringar"
 
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31
+#: ../composer/mail-composer.error.xml.h:33
 #: ../mail/mail.error.xml.h:135
 msgid "_Send"
 msgstr "_Skicka"
@@ -4538,7 +4538,7 @@ msgstr "Slumringsti_d:"
 #: ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10
 #: ../ui/evolution-tasks.xml.h:25
@@ -5774,7 +5774,7 @@ msgid "Due "
 msgstr "Ska utföras "
 
 #: ../calendar/gui/dialogs/comp-editor.c:209
-#: ../composer/e-msg-composer.c:2915
+#: ../composer/e-msg-composer.c:2921
 #, c-format
 msgid "Attached message - %s"
 msgstr "Bifogat meddelande - %s"
@@ -5782,8 +5782,8 @@ msgstr "Bifogat meddelande - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
 #: ../calendar/gui/dialogs/comp-editor.c:393
-#: ../composer/e-msg-composer.c:2920
-#: ../composer/e-msg-composer.c:3116
+#: ../composer/e-msg-composer.c:2926
+#: ../composer/e-msg-composer.c:3122
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5791,7 +5791,7 @@ msgstr[0] "Bifogat meddelande"
 msgstr[1] "%d bifogade meddelanden"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464
-#: ../composer/e-msg-composer.c:3180
+#: ../composer/e-msg-composer.c:3186
 #: ../mail/em-folder-tree.c:1003
 #: ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1030
@@ -5800,7 +5800,7 @@ msgid "_Move"
 msgstr "_Flytta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466
-#: ../composer/e-msg-composer.c:3182
+#: ../composer/e-msg-composer.c:3188
 #: ../mail/em-folder-tree.c:1005
 #: ../mail/message-list.c:1925
 msgid "Cancel _Drag"
@@ -5811,7 +5811,7 @@ msgid "Could not update object"
 msgstr "Kunde inte uppdatera objekt"
 
 #: ../calendar/gui/dialogs/comp-editor.c:966
-#: ../composer/e-msg-composer.c:2528
+#: ../composer/e-msg-composer.c:2534
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5831,7 +5831,7 @@ msgstr "Visa _bilageraden"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3685
+#: ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5840,7 +5840,7 @@ msgstr "_Ta bort"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3686
+#: ../composer/e-msg-composer.c:3694
 #: ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:33
@@ -5849,7 +5849,7 @@ msgstr "_Egenskaper"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3688
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "_Lägg till bilaga..."
 
@@ -6110,7 +6110,7 @@ msgstr "Anpassa"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
-#: ../composer/e-msg-composer.c:2312
+#: ../composer/e-msg-composer.c:2318
 #: ../filter/filter-rule.c:890
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
@@ -6800,7 +6800,7 @@ msgstr "%s för en okänd triggertyp"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2912
+#: ../mail/em-folder-view.c:2914
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicka för att öppna %s"
@@ -10384,13 +10384,13 @@ msgid "Cannot encrypt outgoing message: No encryption certificate set for this a
 msgstr "Kan inte kryptera utgående meddelande: Inget krypteringscertifikat angivet för detta konto"
 
 #: ../composer/e-msg-composer.c:1297
-#: ../composer/e-msg-composer.c:2557
+#: ../composer/e-msg-composer.c:2563
 msgid "Hide _Attachment Bar"
 msgstr "Dölj _bilageraden"
 
 #: ../composer/e-msg-composer.c:1300
-#: ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3931
+#: ../composer/e-msg-composer.c:2566
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "Visa _bilageraden"
 
@@ -10408,33 +10408,33 @@ msgstr "Kunde inte öppna fil"
 msgid "Unable to retrieve message from editor"
 msgstr "Kunde inte hämta meddelande från redigeraren"
 
-#: ../composer/e-msg-composer.c:1691
+#: ../composer/e-msg-composer.c:1697
 msgid "Untitled Message"
 msgstr "Namnlöst meddelande"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1726
+#: ../composer/e-msg-composer.c:1732
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: ../composer/e-msg-composer.c:2192
+#: ../composer/e-msg-composer.c:2198
 #: ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651
 #: ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Automatiskt genererad"
 
-#: ../composer/e-msg-composer.c:2295
+#: ../composer/e-msg-composer.c:2301
 msgid "Si_gnature:"
 msgstr "Si_gnatur:"
 
-#: ../composer/e-msg-composer.c:2571
-#: ../composer/e-msg-composer.c:3813
-#: ../composer/e-msg-composer.c:3816
+#: ../composer/e-msg-composer.c:2577
+#: ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "Skriv ett meddelande"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5048
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(Redigeraren innehåller ett meddelande som inte är text och som inte kan redigeras.)</b>"
 
@@ -10507,14 +10507,22 @@ msgid "Evolution quit unexpectedly while you were composing a new message. Recov
 msgstr "Evolution avslutades oväntat under tiden du höll på att skapa ett nytt meddelande. Att återställa meddelandet kommer att låta dig fortsätta där du slutade."
 
 #: ../composer/mail-composer.error.xml.h:17
+msgid "Send options available only for Novell Groupwise and Microsoft Exchange accounts."
+msgstr "Sändalternativ tillgängliga endast för Novell Groupwise och Microsoft Exchange-konton."
+
+#: ../composer/mail-composer.error.xml.h:18
+msgid "Send options not available."
+msgstr "Sändalternativ är inte tillgängliga."
+
+#: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr "Filen \"{0}\" är ingen vanlig fil och kan inte skickas i ett meddelande."
 
-#: ../composer/mail-composer.error.xml.h:18
+#: ../composer/mail-composer.error.xml.h:20
 msgid "To attach the contents of this directory, either attach the files in this directory individually, or create an archive of the directory and attach it."
 msgstr "För att bifoga innehållet i denna katalog kan du antingen bifoga filerna i katalogen en och en, eller skapa ett arkiv av katalogen och bifoga den."
 
-#: ../composer/mail-composer.error.xml.h:19
+#: ../composer/mail-composer.error.xml.h:21
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
@@ -10524,35 +10532,35 @@ msgstr ""
 "\n"
 "Försäkra dig om att du har rätt versioner av gtkhtml och libgtkhtml installerade."
 
-#: ../composer/mail-composer.error.xml.h:22
+#: ../composer/mail-composer.error.xml.h:24
 msgid "Unable to activate the address selector control."
 msgstr "Kan inte aktivera adressväljarkontrollen."
 
-#: ../composer/mail-composer.error.xml.h:23
+#: ../composer/mail-composer.error.xml.h:25
 msgid "Unfinished messages found"
 msgstr "Ofärdiga meddelanden hittades"
 
-#: ../composer/mail-composer.error.xml.h:24
+#: ../composer/mail-composer.error.xml.h:26
 msgid "Warning: Modified Message"
 msgstr "Varning: Ändrat meddelande"
 
-#: ../composer/mail-composer.error.xml.h:25
+#: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
 msgstr "Du kan inte bifoga filen \"{0}\" till detta meddelande."
 
-#: ../composer/mail-composer.error.xml.h:26
+#: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
 msgstr "Du måste konfigurera ett konto innan du kan skriva meddelanden."
 
-#: ../composer/mail-composer.error.xml.h:28
+#: ../composer/mail-composer.error.xml.h:30
 msgid "_Do not Recover"
 msgstr "Återställ _inte"
 
-#: ../composer/mail-composer.error.xml.h:29
+#: ../composer/mail-composer.error.xml.h:31
 msgid "_Recover"
 msgstr "_Återställ"
 
-#: ../composer/mail-composer.error.xml.h:30
+#: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
 msgstr "_Spara meddelande"
 
@@ -11692,7 +11700,7 @@ msgstr "Genomsöker mappar i \"%s\""
 #: ../ui/evolution-editor.xml.h:24
 #: ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:59
+#: ../ui/evolution-message-composer.xml.h:58
 #: ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
@@ -11884,40 +11892,40 @@ msgid "Filter on _Mailing List"
 msgstr "Filtrera på sä_ndlista"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2034
-#: ../mail/em-folder-view.c:2078
+#: ../mail/em-folder-view.c:2036
+#: ../mail/em-folder-view.c:2080
 msgid "Default"
 msgstr "Standard"
 
-#: ../mail/em-folder-view.c:2183
-#: ../mail/em-folder-view.c:2189
+#: ../mail/em-folder-view.c:2185
+#: ../mail/em-folder-view.c:2191
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: ../mail/em-folder-view.c:2348
+#: ../mail/em-folder-view.c:2350
 msgid "Unable to retrieve message"
 msgstr "Kan inte hämta meddelande"
 
-#: ../mail/em-folder-view.c:2546
+#: ../mail/em-folder-view.c:2548
 msgid "Create _Search Folder"
 msgstr "Skapa ny _sökmapp"
 
-#: ../mail/em-folder-view.c:2547
+#: ../mail/em-folder-view.c:2549
 msgid "_From this Address"
 msgstr "_Från denna adress"
 
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2550
 msgid "_To this Address"
 msgstr "_Till denna adress"
 
-#: ../mail/em-folder-view.c:2905
+#: ../mail/em-folder-view.c:2907
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicka för att skicka e-post till %s"
 
-#: ../mail/em-folder-view.c:2910
+#: ../mail/em-folder-view.c:2912
 msgid "Click to hide/unhide addresses"
 msgstr "Klicka för att dölja/visa adresser"
 
@@ -14087,26 +14095,26 @@ msgstr "Väntar..."
 msgid "Checking for new mail"
 msgstr "Kontrollerar ny e-post"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:198
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Ange lösenfras för %s"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:200
 msgid "Enter Passphrase"
 msgstr "Ange lösenfras"
 
-#: ../mail/mail-session.c:210
+#: ../mail/mail-session.c:203
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Ange lösenord för %s"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:205
 msgid "Enter Password"
 msgstr "Ange lösenord"
 
-#: ../mail/mail-session.c:250
+#: ../mail/mail-session.c:243
 msgid "User canceled operation."
 msgstr "Användaren avbröt åtgärden."
 
@@ -15973,7 +15981,6 @@ msgstr "Lägger till alternativ för sändning till groupwise-meddelanden"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
@@ -16280,7 +16287,7 @@ msgstr ""
 "Evolution kunde inte hitta en iPod att synkronisera med. Antingen är den inte ansluten till systemet eller så är den inte påslagen."
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:149
+#: ../plugins/save-calendar/ical-format.c:194
 msgid "iCalendar format (.ics)"
 msgstr "iCalendar-format (.ics)"
 
@@ -19057,20 +19064,20 @@ msgid "I_nsert"
 msgstr "I_nfoga"
 
 #: ../ui/evolution-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
 msgstr "_Bilaga..."
 
 #: ../ui/evolution-editor.xml.h:16
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:45
 #: ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "S_täng"
 
 #: ../ui/evolution-editor.xml.h:19
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11
 #: ../ui/evolution.xml.h:42
@@ -20052,93 +20059,93 @@ msgstr "Spara meddelandet i angiven mapp"
 msgid "Send"
 msgstr "Skicka"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "Skicka brevet i HTML-format"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
 msgstr "Skicka detta meddelande"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Set the message priority to high"
 msgstr "Ställ in meddelandeprioritet till hög"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your PGP key"
 msgstr "Signera detta meddelande med din PGP-nyckel"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Signera detta meddelande med ditt S/MIME-signaturcertifikat"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Växlar huruvida blindkopiefältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the CC field is displayed"
 msgstr "Växlar huruvida kopiefältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Växlar huruvida frånväljaren ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Växlar huruvida svara till-fältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Växlar huruvida svara till-fältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the To field is displayed"
 msgstr "Växlar huruvida kopiefältet ska visas"
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
 msgstr "_Blindkopiefältet"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Cc Field"
 msgstr "_Kopiefältet"
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
 msgstr "_Ta bort alla"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
 msgstr "_Frånfältet"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
 msgstr "_Öppna..."
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
 msgstr "_Posta till-fältet"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Prioritize Message"
 msgstr "_Prioritera meddelande"
 
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Reply-To Field"
 msgstr "_Svara till-fältet"
 
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Security"
 msgstr "_Säkerhet"
 
-#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-message-composer.xml.h:56
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "Alternativ för _sändning"
 
-#: ../ui/evolution-message-composer.xml.h:58
+#: ../ui/evolution-message-composer.xml.h:57
 msgid "_To Field"
 msgstr "_Tillfältet"
 
