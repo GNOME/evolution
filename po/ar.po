@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-14 09:25-0800\n"
-"PO-Revision-Date: 2007-02-16 11:32-0000\n"
+"POT-Creation-Date: 2007-02-28 11:34+0000\n"
+"PO-Revision-Date: 2007-02-28 16:14+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
@@ -2856,7 +2856,7 @@ msgid "Type"
 msgstr "النّوع"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:843
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2132
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2174
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "احفظ كـ VCard..."
@@ -2928,7 +2928,7 @@ msgstr "_قص"
 #: ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3179
+#: ../composer/e-msg-composer.c:3185
 #: ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1134
 #: ../mail/message-list.c:1922
@@ -3282,7 +3282,7 @@ msgid "_Open Link in Browser"
 msgstr "ا_فتح الوصلة في المتصفّح"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2544
+#: ../mail/em-folder-view.c:2545
 msgid "_Copy Link Location"
 msgstr "ا_نسخ موقع الوصلة"
 
@@ -4326,13 +4326,13 @@ msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "لو تتوفّر مهامك حتى يُعاد تشغيل إيفوليوشن."
 
 #: ../calendar/calendar.error.xml.h:70
-#: ../composer/mail-composer.error.xml.h:27
+#: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "أ_همل التغييرات"
 
 #: ../calendar/calendar.error.xml.h:71
 #: ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Save"
 msgstr "ا_حفظ"
 
@@ -4341,7 +4341,7 @@ msgid "_Save Changes"
 msgstr "ا_حفظ التغييرات"
 
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31
+#: ../composer/mail-composer.error.xml.h:33
 #: ../mail/mail.error.xml.h:135
 msgid "_Send"
 msgstr "أر_سل"
@@ -4545,7 +4545,7 @@ msgstr "_وقت الغفوة:"
 #: ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10
 #: ../ui/evolution-tasks.xml.h:25
@@ -5755,7 +5755,7 @@ msgid "Due "
 msgstr "مُستحق "
 
 #: ../calendar/gui/dialogs/comp-editor.c:209
-#: ../composer/e-msg-composer.c:2915
+#: ../composer/e-msg-composer.c:2921
 #, c-format
 msgid "Attached message - %s"
 msgstr "رسالة مُرفقة - %s"
@@ -5763,8 +5763,8 @@ msgstr "رسالة مُرفقة - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
 #: ../calendar/gui/dialogs/comp-editor.c:393
-#: ../composer/e-msg-composer.c:2920
-#: ../composer/e-msg-composer.c:3116
+#: ../composer/e-msg-composer.c:2926
+#: ../composer/e-msg-composer.c:3122
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5774,7 +5774,7 @@ msgstr[2] "%d رسائل مرفقة"
 msgstr[3] "%d رسالة مرفقة"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464
-#: ../composer/e-msg-composer.c:3180
+#: ../composer/e-msg-composer.c:3186
 #: ../mail/em-folder-tree.c:1003
 #: ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1030
@@ -5783,7 +5783,7 @@ msgid "_Move"
 msgstr "ا_نقل"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466
-#: ../composer/e-msg-composer.c:3182
+#: ../composer/e-msg-composer.c:3188
 #: ../mail/em-folder-tree.c:1005
 #: ../mail/message-list.c:1925
 msgid "Cancel _Drag"
@@ -5794,7 +5794,7 @@ msgid "Could not update object"
 msgstr "لم يمكن تحديث الكائن"
 
 #: ../calendar/gui/dialogs/comp-editor.c:966
-#: ../composer/e-msg-composer.c:2528
+#: ../composer/e-msg-composer.c:2534
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5816,7 +5816,7 @@ msgstr "اظهر _شريط المُرفقات"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3685
+#: ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5825,7 +5825,7 @@ msgstr "أ_زل"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3686
+#: ../composer/e-msg-composer.c:3694
 #: ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:33
@@ -5834,7 +5834,7 @@ msgstr "ال_خصائص"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3688
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "أ_ضف مُرفق..."
 
@@ -6101,7 +6101,7 @@ msgstr "خصّص"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
-#: ../composer/e-msg-composer.c:2312
+#: ../composer/e-msg-composer.c:2318
 #: ../filter/filter-rule.c:890
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
@@ -6789,7 +6789,7 @@ msgstr "%s لنوعيّة محفّز مجهولة"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2912
+#: ../mail/em-folder-view.c:2913
 #, c-format
 msgid "Click to open %s"
 msgstr "انقر لفتح %s"
@@ -10375,13 +10375,13 @@ msgid "Cannot encrypt outgoing message: No encryption certificate set for this a
 msgstr "لا يمكن تشفير الرّسالة الخارجة: لم تعيّن شهادة تشفير لهذا الحساب"
 
 #: ../composer/e-msg-composer.c:1297
-#: ../composer/e-msg-composer.c:2557
+#: ../composer/e-msg-composer.c:2563
 msgid "Hide _Attachment Bar"
 msgstr "اخفي شريط ال_مرفقات"
 
 #: ../composer/e-msg-composer.c:1300
-#: ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3931
+#: ../composer/e-msg-composer.c:2566
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "اظهر شريط ال_مرفقات"
 
@@ -10399,33 +10399,33 @@ msgstr "لم يمكن فتح ملف"
 msgid "Unable to retrieve message from editor"
 msgstr "لا يمكن جلب الرّسالة من المحرّر"
 
-#: ../composer/e-msg-composer.c:1691
+#: ../composer/e-msg-composer.c:1697
 msgid "Untitled Message"
 msgstr "رسالة بدون عنوان"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1726
+#: ../composer/e-msg-composer.c:1732
 msgid "Open File"
 msgstr "افتح ملف"
 
-#: ../composer/e-msg-composer.c:2192
+#: ../composer/e-msg-composer.c:2198
 #: ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651
 #: ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "مولّد آليّاً"
 
-#: ../composer/e-msg-composer.c:2295
+#: ../composer/e-msg-composer.c:2301
 msgid "Si_gnature:"
 msgstr "تو_قيع:"
 
-#: ../composer/e-msg-composer.c:2571
-#: ../composer/e-msg-composer.c:3813
-#: ../composer/e-msg-composer.c:3816
+#: ../composer/e-msg-composer.c:2577
+#: ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "اكتب رسالة"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5048
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(يحتوي المؤلف متن رسالة غير نصّي، ولا يمكن تحريره.)</b>"
 
@@ -10496,14 +10496,22 @@ msgid "Evolution quit unexpectedly while you were composing a new message. Recov
 msgstr "انتهي إيفوليوشن بشكل غير متوقّع أثناء تأليفِك لرسالة جديدة. استرجاع هذه الرسالة سيسمح لك بالإكمال من حيث كنت."
 
 #: ../composer/mail-composer.error.xml.h:17
+msgid "Send options available only for Novell Groupwise and Microsoft Exchange accounts."
+msgstr "خيارات الإرسال متوفرة لنوفال جروبوايز و ميكروسوفت اكسشانج."
+
+#: ../composer/mail-composer.error.xml.h:18
+msgid "Send options not available."
+msgstr "خيارات الإرسال غير متوفرة."
+
+#: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr "الملف `{0}' ليس ملفا اعتياديا ولا يمكن إرساله في رسالة."
 
-#: ../composer/mail-composer.error.xml.h:18
+#: ../composer/mail-composer.error.xml.h:20
 msgid "To attach the contents of this directory, either attach the files in this directory individually, or create an archive of the directory and attach it."
 msgstr "لإرفاق محتويات هذا الدليل، إما أرفقهم ملفا ملفاً أو انشيئ محفوظة من الديل وأرفقها."
 
-#: ../composer/mail-composer.error.xml.h:19
+#: ../composer/mail-composer.error.xml.h:21
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
@@ -10513,35 +10521,35 @@ msgstr ""
 "\n"
 "رجاء تأكّد من أن النسخة الصحيحة من gtkhtml أو libgtkhtml مثبّتة لديك."
 
-#: ../composer/mail-composer.error.xml.h:22
+#: ../composer/mail-composer.error.xml.h:24
 msgid "Unable to activate the address selector control."
 msgstr "لم أستطع تنشيط تحكّم منتقي العنوان."
 
-#: ../composer/mail-composer.error.xml.h:23
+#: ../composer/mail-composer.error.xml.h:25
 msgid "Unfinished messages found"
 msgstr "وُجِدت رسالة غير مكتملة"
 
-#: ../composer/mail-composer.error.xml.h:24
+#: ../composer/mail-composer.error.xml.h:26
 msgid "Warning: Modified Message"
 msgstr "تحذير: رسالة معدّلة"
 
-#: ../composer/mail-composer.error.xml.h:25
+#: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
 msgstr "لا يمكنك إرفاق الملف `{0}' بهِذه الرسالة."
 
-#: ../composer/mail-composer.error.xml.h:26
+#: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
 msgstr "يجب أن تُعدّ حساباً قبل أن تتمكّن من كتابة بريد."
 
-#: ../composer/mail-composer.error.xml.h:28
+#: ../composer/mail-composer.error.xml.h:30
 msgid "_Do not Recover"
 msgstr "_لا تستعِد"
 
-#: ../composer/mail-composer.error.xml.h:29
+#: ../composer/mail-composer.error.xml.h:31
 msgid "_Recover"
 msgstr "ا_ستعِد"
 
-#: ../composer/mail-composer.error.xml.h:30
+#: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
 msgstr "احف_ظ الرّسالة"
 
@@ -11697,7 +11705,7 @@ msgstr "مسح الرسائل في \"%s\""
 #: ../ui/evolution-editor.xml.h:24
 #: ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:59
+#: ../ui/evolution-message-composer.xml.h:58
 #: ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
@@ -11889,40 +11897,40 @@ msgid "Filter on _Mailing List"
 msgstr "رشّح باعتبار ال_قائمة البريديّة"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2034
-#: ../mail/em-folder-view.c:2078
+#: ../mail/em-folder-view.c:2036
+#: ../mail/em-folder-view.c:2080
 msgid "Default"
 msgstr "الإفتراض"
 
-#: ../mail/em-folder-view.c:2183
-#: ../mail/em-folder-view.c:2189
+#: ../mail/em-folder-view.c:2185
+#: ../mail/em-folder-view.c:2190
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "اطبع الرّسالة"
 
-#: ../mail/em-folder-view.c:2348
+#: ../mail/em-folder-view.c:2349
 msgid "Unable to retrieve message"
 msgstr "لم أستطِع جلب الرسالة"
 
-#: ../mail/em-folder-view.c:2546
+#: ../mail/em-folder-view.c:2547
 msgid "Create _Search Folder"
 msgstr "انشيء مجلّد _بحث"
 
-#: ../mail/em-folder-view.c:2547
+#: ../mail/em-folder-view.c:2548
 msgid "_From this Address"
 msgstr "_من هذا العنوان"
 
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2549
 msgid "_To this Address"
 msgstr "إ_لى هذا العنوان"
 
-#: ../mail/em-folder-view.c:2905
+#: ../mail/em-folder-view.c:2906
 #, c-format
 msgid "Click to mail %s"
 msgstr "انقر لمراسلة %s"
 
-#: ../mail/em-folder-view.c:2910
+#: ../mail/em-folder-view.c:2911
 msgid "Click to hide/unhide addresses"
 msgstr "انقر لإخفاء/إظهار العناوين"
 
@@ -14113,26 +14121,26 @@ msgstr "جاري الإنتظار..."
 msgid "Checking for new mail"
 msgstr "جاري تّفقّد وصول بريد جديد"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:198
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "أدخل جملة السر لـ%s"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:200
 msgid "Enter Passphrase"
 msgstr "أدخل جملة السر"
 
-#: ../mail/mail-session.c:210
+#: ../mail/mail-session.c:203
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
 msgstr "ادخل كلمة السر لـ %s"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:205
 msgid "Enter Password"
 msgstr "أدخل كلمة السّر"
 
-#: ../mail/mail-session.c:250
+#: ../mail/mail-session.c:243
 msgid "User canceled operation."
 msgstr "عملية ألغاها المستخدم."
 
@@ -15983,7 +15991,6 @@ msgstr "أضِف خيارات الإرسال لرسائل جروبوايز"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
@@ -16289,7 +16296,7 @@ msgstr ""
 "إيفُليوشن غير قادر على إيجاد iPod للتزامن معه. قد يكون السبب أن iPod غير متصل بالنظام أو أنه مطفأ."
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:149
+#: ../plugins/save-calendar/ical-format.c:194
 msgid "iCalendar format (.ics)"
 msgstr "هيئة آي-كلندر (.ics)"
 
@@ -19054,20 +19061,20 @@ msgid "I_nsert"
 msgstr "أ_درج"
 
 #: ../ui/evolution-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
 msgstr "_مُرفق..."
 
 #: ../ui/evolution-editor.xml.h:16
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:45
 #: ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_غلق"
 
 #: ../ui/evolution-editor.xml.h:19
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11
 #: ../ui/evolution.xml.h:42
@@ -20047,93 +20054,93 @@ msgstr "احفظ الرسالة في مجلّد محدد"
 msgid "Send"
 msgstr "أرسِل"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "أرسِل البريد بتهيئة HTML"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
 msgstr "أرسِل هذه الرسالة"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Set the message priority to high"
 msgstr "عين أهمية الرسالة إلى عالي"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your PGP key"
 msgstr "توقيع الرسالة بمفتاح PGP الخاص بك"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "توقيع الرسالة بتوقيع شهادة S/MIME خاصة بك"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the BCC field is displayed"
 msgstr "تحديد ما إذا كان حقل \"ن.ك.م\" ظاهراً"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the CC field is displayed"
 msgstr "تحديد ما إذا كان حقل \"ن.ك\" ظاهراً"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the From chooser is displayed"
 msgstr "تحديد ما إذا كان مختار حقل \"مِن\" ظاهراً"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "تحديد ما إذا كان حقل \"نشر إلى\" ظاهراً"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "تحديد ما إذا كان حقل \"رد إلى\" ظاهراً"
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the To field is displayed"
 msgstr "تحديد ما إذا كان حقل \"إلى\" ظاهراً"
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
 msgstr "حقل النّسخة الكربونيّة ال_مخفيّة"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Cc Field"
 msgstr "حقل ال_نسخة الكربونية"
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
 msgstr "ا_حذف الكل"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
 msgstr "حقل _مِن"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
 msgstr "ا_فتح..."
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
 msgstr "حقل ا_نشر إلى"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Prioritize Message"
 msgstr "إعطاء أول_وية للرسالة"
 
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Reply-To Field"
 msgstr "حقل ال_رّد إلى"
 
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Security"
 msgstr "أ_من"
 
-#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-message-composer.xml.h:56
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "خيارات الإر_سال"
 
-#: ../ui/evolution-message-composer.xml.h:58
+#: ../ui/evolution-message-composer.xml.h:57
 msgid "_To Field"
 msgstr "حقل إ_لى"
 
