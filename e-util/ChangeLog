@@ -1,3 +1,9 @@
+2007-02-27  Jeff Cai <jeff.cai@sun.com>
+
+	* e-mktemp.c: (get_dir):
+	Use g_build_filename to get the tempoary directory name.
+	Fix #399307
+
 2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Print settings revamp from Matthew Barnes

@@ -109,12 +109,15 @@ get_dir (gboolean make)
 	static time_t last = 0;
 	
 #ifdef TEMP_HOME
-	path = g_string_new (g_get_home_dir());
-	g_string_append_printf(path, "/.evolution/cache/tmp");
-	if (make && e_util_mkdir_hier(path->str, 0777) == -1) {
+	char *tmpdir = NULL;
+	tmpdir = g_build_filename(g_get_home_dir(), ".evolution", 
+		"cache", "tmp", NULL);
+	path = g_string_new(tmpdir);
+	if (make && e_util_mkdir_hier(tmpdir, 0777) == -1) {
 		g_string_free(path, TRUE);
 		path = NULL;
 	}
+	g_free(tmpdir);
 #else
 	path = g_string_new("/tmp/evolution-");
 	g_string_append_printf (path, "%d", (int) getuid ());
