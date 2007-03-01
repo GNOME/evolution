@@ -1,3 +1,10 @@
+2007-03-01  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-table/gal-a11y-e-cell-tree.c: (kill_view_cb),
+	(ectr_subcell_weak_ref), (gal_a11y_e_cell_tree_new):
+	Workaround for crash in bug #330728. Patch from
+	Caolan McNamara.
+
 2007-01-24  Wang Xin  <jedy.wang@sun.com>
 
 	* e-text/gal-a11y-e-text.c: Fixes #400121.
