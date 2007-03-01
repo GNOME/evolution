@@ -209,6 +209,8 @@ ecp_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	ecp_view->cell_view.ecell = ecell;
 	ecp_view->cell_view.e_table_model = table_model;
 	ecp_view->cell_view.e_table_item_view = e_table_item_view;
+        ecp_view->cell_view.kill_view_cb = NULL;
+        ecp_view->cell_view.kill_view_cb_data = NULL;
 
 	ecp_view->child_view = e_cell_new_view (ecp->child, table_model,
 						e_table_item_view);
@@ -224,6 +226,12 @@ static void
 ecp_kill_view (ECellView *ecv)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
+
+        if (ecp_view->cell_view.kill_view_cb)
+            (ecp_view->cell_view.kill_view_cb)(ecv, ecp_view->cell_view.kill_view_cb_data);
+
+        if (ecp_view->cell_view.kill_view_cb_data)
+            g_list_free(ecp_view->cell_view.kill_view_cb_data);
 
 	if (ecp_view->child_view)
 		e_cell_kill_view (ecp_view->child_view);

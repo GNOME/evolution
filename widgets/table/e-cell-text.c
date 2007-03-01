@@ -359,12 +359,16 @@ ect_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	text_view->cell_view.ecell = ecell;
 	text_view->cell_view.e_table_model = table_model;
 	text_view->cell_view.e_table_item_view = e_table_item_view;
+	text_view->cell_view.kill_view_cb = NULL;
+        text_view->cell_view.kill_view_cb_data = NULL;
+	
 
 	text_view->canvas = canvas;
 
 	text_view->xofs = 0.0;
 	text_view->yofs = 0.0;
-	
+
+       
 	return (ECellView *)text_view;
 }
 
@@ -375,6 +379,12 @@ static void
 ect_kill_view (ECellView *ecv)
 {
 	ECellTextView *text_view = (ECellTextView *) ecv;
+
+	if (text_view->cell_view.kill_view_cb)
+            (text_view->cell_view.kill_view_cb)(ecv, text_view->cell_view.kill_view_cb_data);
+
+	if (text_view->cell_view.kill_view_cb_data)
+	    g_list_free(text_view->cell_view.kill_view_cb_data);
 
 	g_free (text_view);
 }

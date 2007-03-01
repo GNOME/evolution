@@ -63,6 +63,8 @@ etog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	toggle_view->cell_view.ecell = ecell;
 	toggle_view->cell_view.e_table_model = table_model;
 	toggle_view->cell_view.e_table_item_view = e_table_item_view;
+        toggle_view->cell_view.kill_view_cb = NULL;
+        toggle_view->cell_view.kill_view_cb_data = NULL;
 	toggle_view->canvas = canvas;
 	toggle_view->pixmap_cache = g_new (GdkPixmap *, etog->n_states * CACHE_SEQ_COUNT);
 	for (i = 0; i < etog->n_states * CACHE_SEQ_COUNT; i++)
@@ -77,6 +79,12 @@ etog_kill_view (ECellView *ecell_view)
 	ECellToggle *etog = E_CELL_TOGGLE (ecell_view->ecell);
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	int i;
+
+        if (toggle_view->cell_view.kill_view_cb)
+            (toggle_view->cell_view.kill_view_cb)(ecell_view, toggle_view->cell_view.kill_view_cb_data);
+
+        if (toggle_view->cell_view.kill_view_cb_data)
+            g_list_free(toggle_view->cell_view.kill_view_cb_data);
 
 	for (i = 0; i < etog->n_states * CACHE_SEQ_COUNT; i++)
 		if (toggle_view->pixmap_cache[i])

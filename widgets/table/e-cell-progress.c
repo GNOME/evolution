@@ -70,6 +70,8 @@ eprog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	progress_view->cell_view.ecell = ecell;
 	progress_view->cell_view.e_table_model = table_model;
 	progress_view->cell_view.e_table_item_view = e_table_item_view;
+        progress_view->cell_view.kill_view_cb = NULL;
+        progress_view->cell_view.kill_view_cb_data = NULL;
 	progress_view->canvas = canvas;
 	
 	return (ECellView *) progress_view;
@@ -78,6 +80,14 @@ eprog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 static void
 eprog_kill_view (ECellView *ecell_view)
 {
+        ECellProgressView *progress_view = (ECellProgressView*) ecell_view;
+
+        if (progress_view->cell_view.kill_view_cb)
+            (progress_view->cell_view.kill_view_cb)(ecell_view, progress_view->cell_view.kill_view_cb_data);
+
+        if (progress_view->cell_view.kill_view_cb_data)
+            g_list_free(progress_view->cell_view.kill_view_cb_data);
+
 	g_free (ecell_view);
 }	
 

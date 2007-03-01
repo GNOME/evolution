@@ -74,13 +74,16 @@ typedef struct {
 	GtkObject       object;
 } ECell;
 
-typedef struct {
+typedef struct _ECellView {
 	ECell *ecell;
 	ETableModel *e_table_model;
 	void        *e_table_item_view;
 	
 	gint   focus_x1, focus_y1, focus_x2, focus_y2;
 	gint   focus_col, focus_row;
+
+	void  (*kill_view_cb) (struct _ECellView*, gpointer );
+	GList *kill_view_cb_data;
 } ECellView;
 
 #define E_CELL_IS_FOCUSED(ecell_view) (ecell_view->focus_x1 != -1)

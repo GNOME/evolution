@@ -1,3 +1,17 @@
+2007-03-01  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-cell-hbox.c: (ecv_new_view), (ecv_kill_view):
+	* e-cell-pixbuf.c: (pixbuf_new_view), (pixbuf_kill_view):
+	* e-cell-popup.c: (ecp_new_view), (ecp_kill_view):
+	* e-cell-progress.c: (eprog_new_view), (eprog_kill_view):
+	* e-cell-spin-button.c: (ecsb_new_view):
+	* e-cell-text.c: (ect_new_view), (ect_kill_view):
+	* e-cell-toggle.c: (etog_new_view), (etog_kill_view):
+	* e-cell-tree.c: (ect_new_view), (ect_kill_view):
+	* e-cell-vbox.c: (ecv_new_view), (ecv_kill_view):
+	* e-cell.h: Rest of the workaround patch for the crash
+	in bug #330728. Patch from Caolan McNamara.
+
 2007-02-12  Srinivasa Ragavan <sragavan@novell.com>
 
 	** Print migration updates from Ebby Wiselyn

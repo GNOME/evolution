@@ -97,6 +97,9 @@ pixbuf_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view
     pixbuf_view->cell_view.ecell = ecell;
     pixbuf_view->cell_view.e_table_model = table_model;
     pixbuf_view->cell_view.e_table_item_view = e_table_item_view;
+    pixbuf_view->cell_view.kill_view_cb = NULL;
+    pixbuf_view->cell_view.kill_view_cb_data = NULL;
+
     pixbuf_view->canvas = canvas;
 
     return (ECellView *) pixbuf_view;
@@ -106,6 +109,12 @@ static void
 pixbuf_kill_view (ECellView *ecell_view)
 {
     ECellPixbufView *pixbuf_view = (ECellPixbufView *) ecell_view;
+
+    if (pixbuf_view->cell_view.kill_view_cb)
+        (pixbuf_view->cell_view.kill_view_cb)(ecell_view, pixbuf_view->cell_view.kill_view_cb_data);
+
+    if (pixbuf_view->cell_view.kill_view_cb_data)
+        g_list_free(pixbuf_view->cell_view.kill_view_cb_data);
 
     g_free (pixbuf_view);
 }

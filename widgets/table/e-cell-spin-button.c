@@ -187,6 +187,8 @@ ecsb_new_view     (ECell            *ecell,
 	ecsb_view->cell_view.ecell = ecell;
 	ecsb_view->cell_view.e_table_model = etm;
 	ecsb_view->cell_view.e_table_item_view = eti_view;
+        ecsb_view->cell_view.kill_view_cb = NULL;
+        ecsb_view->cell_view.kill_view_cb_data = NULL;
 
 	ecsb_view->child_view = e_cell_new_view (ecsb->child, etm, eti_view);
 

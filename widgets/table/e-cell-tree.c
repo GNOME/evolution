@@ -133,6 +133,8 @@ ect_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	tree_view->cell_view.ecell = ecell;
 	tree_view->cell_view.e_table_model = table_model;
 	tree_view->cell_view.e_table_item_view = e_table_item_view;
+        tree_view->cell_view.kill_view_cb = NULL;
+        tree_view->cell_view.kill_view_cb_data = NULL;
 	
 	/* create our subcell view */
 	tree_view->subcell_view = e_cell_new_view (ect->subcell, table_model, e_table_item_view /* XXX */);
@@ -149,6 +151,12 @@ static void
 ect_kill_view (ECellView *ecv)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecv;
+
+        if (tree_view->cell_view.kill_view_cb)
+            (tree_view->cell_view.kill_view_cb)(ecv, tree_view->cell_view.kill_view_cb_data);
+
+        if (tree_view->cell_view.kill_view_cb_data)
+            g_list_free(tree_view->cell_view.kill_view_cb_data);
 
 	/* kill our subcell view */
 	e_cell_kill_view (tree_view->subcell_view);
