@@ -1720,6 +1720,7 @@ e_contact_print_destroy(gpointer data, GObject *where_object_was)
 static void
 e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 {	
+#ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
 	GtkWidget *preview;
 	GtkPrintOperation *print;
 	GtkPrintSettings *settings;
@@ -1748,6 +1749,9 @@ e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 		
 	gtk_widget_destroy(dialog);
 	g_object_unref (print);
+#else
+	g_warning ("Not implemented currently on Windows");
+#endif
 }
 
 static void 

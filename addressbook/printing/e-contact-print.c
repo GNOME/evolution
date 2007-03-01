@@ -745,6 +745,7 @@ e_contact_print_close(GnomeDialog *dialog, gpointer data)
 void
 e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
+#ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
 	GtkPrintSettings *settings;
 	GtkPrintOperationResult res;
 	GtkPaperSize *paper_size;
@@ -839,6 +840,9 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 			g_free (ctxt);
 	}	
 	gtk_widget_destroy (dialog); 
+#else
+	g_warning ("Not implemented currently on Windows");
+#endif
 }
 
 
