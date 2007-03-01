@@ -100,9 +100,11 @@ e_print_save_settings (GtkPrintSettings *settings)
 static void
 print_dialog_response(GtkWidget *widget, int resp, gpointer data)
 {
+#ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
 	if (resp == GTK_RESPONSE_OK) {
 	    e_print_save_settings (gtk_print_unix_dialog_get_settings(GTK_PRINT_UNIX_DIALOG (widget)));	
 	}
+#endif
 }
 
 /* Creates a dialog with the print settings */
@@ -122,10 +124,12 @@ e_print_get_dialog (const char *title, int flags)
 GtkWidget *
 e_print_get_dialog_with_config (const char *title, int flags, GtkPrintSettings *settings)
 {
-	GtkWidget *dialog;
+	GtkWidget *dialog = NULL;
 	
+#ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
 	dialog = gtk_print_unix_dialog_new (title, NULL);
 	gtk_print_unix_dialog_set_settings (GTK_PRINT_UNIX_DIALOG(dialog), settings);
 	g_signal_connect(dialog, "response", G_CALLBACK(print_dialog_response), NULL); 
+#endif
 	return dialog;
 }

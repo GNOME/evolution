@@ -1,3 +1,11 @@
+2007-03-01  Tor Lillqvist  <tml@novell.com>
+
+	* e-print.c (print_dialog_response)
+	(e_print_get_dialog_with_config): Bypass the body of these
+	functions on non-G_OS_UNIX for now as they use
+	gtk_print_unix_dialog_get_settings(). Gtk printing on Win32 needs
+	work.
+
 2007-02-27  Jeff Cai <jeff.cai@sun.com>
 
 	* e-mktemp.c: (get_dir):
