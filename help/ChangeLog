@@ -1,3 +1,7 @@
+2007-03-02  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* C/evolution.xml: Corrected copyright statement as per bug 395566.
+
 2006-04-25  Andre Klapper  <a9016009@gmx.de>
 
  	* C/evolution.xml: fixing 3 bugs. Fixes bug 339094.
