@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-16 23:58+0000\n"
-"PO-Revision-Date: 2007-02-16 23:59-0000\n"
+"POT-Creation-Date: 2007-03-02 07:31+0000\n"
+"PO-Revision-Date: 2007-03-02 07:31-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -271,19 +271,19 @@ msgstr "toggle"
 msgid "toggle the cell"
 msgstr "toggle the cell"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:192
 msgid "expand"
 msgstr "expand"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:193
 msgid "expands the row in the ETree containing this cell"
 msgstr "expands the row in the ETree containing this cell"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:198
 msgid "collapse"
 msgstr "collapse"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:199
 msgid "collapses the row in the ETree containing this cell"
 msgstr "collapses the row in the ETree containing this cell"
 
@@ -389,7 +389,7 @@ msgstr "Failed to authenticate with LDAP server."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1957
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1961
 msgid "Failed to delete contact"
 msgstr "Failed to delete contact"
 
@@ -1386,7 +1386,7 @@ msgstr "Address"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1823
+#: ../widgets/table/e-cell-text.c:1833
 #: ../widgets/text/e-entry.c:1265
 #: ../widgets/text/e-entry.c:1266
 #: ../widgets/text/e-text.c:3625
@@ -2840,7 +2840,7 @@ msgid "Type"
 msgstr "Type"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:843
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2132
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2178
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Save as VCard..."
@@ -2912,7 +2912,7 @@ msgstr "Cu_t"
 #: ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3179
+#: ../composer/e-msg-composer.c:3185
 #: ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1134
 #: ../mail/message-list.c:1922
@@ -2937,13 +2937,13 @@ msgid "Any Category"
 msgstr "Any Category"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1867
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1923
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1871
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1927
 msgid "Print cards"
 msgstr "Print cards"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1957
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1961
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
 msgstr "Other error"
@@ -3266,7 +3266,7 @@ msgid "_Open Link in Browser"
 msgstr "_Open Link in Browser"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2544
+#: ../mail/em-folder-view.c:2545
 msgid "_Copy Link Location"
 msgstr "_Copy Link Location"
 
@@ -3730,12 +3730,12 @@ msgstr "Evolution VCard Importer"
 msgid "Print envelope"
 msgstr "Print envelope"
 
-#: ../addressbook/printing/e-contact-print.c:852
+#: ../addressbook/printing/e-contact-print.c:856
 msgid "Print contacts"
 msgstr "Print contacts"
 
-#: ../addressbook/printing/e-contact-print.c:878
-#: ../addressbook/printing/e-contact-print.c:905
+#: ../addressbook/printing/e-contact-print.c:882
+#: ../addressbook/printing/e-contact-print.c:909
 msgid "Print contact"
 msgstr "Print contact"
 
@@ -4302,13 +4302,13 @@ msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Your tasks will not be available until Evolution is restarted."
 
 #: ../calendar/calendar.error.xml.h:70
-#: ../composer/mail-composer.error.xml.h:27
+#: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "_Discard Changes"
 
 #: ../calendar/calendar.error.xml.h:71
 #: ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Save"
 msgstr "_Save"
 
@@ -4317,7 +4317,7 @@ msgid "_Save Changes"
 msgstr "_Save Changes"
 
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31
+#: ../composer/mail-composer.error.xml.h:33
 #: ../mail/mail.error.xml.h:135
 msgid "_Send"
 msgstr "_Send"
@@ -4517,7 +4517,7 @@ msgstr "Snooze _time:"
 #: ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10
 #: ../ui/evolution-tasks.xml.h:25
@@ -5721,7 +5721,7 @@ msgid "Due "
 msgstr "Due "
 
 #: ../calendar/gui/dialogs/comp-editor.c:209
-#: ../composer/e-msg-composer.c:2915
+#: ../composer/e-msg-composer.c:2921
 #, c-format
 msgid "Attached message - %s"
 msgstr "Attached message - %s"
@@ -5729,8 +5729,8 @@ msgstr "Attached message - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
 #: ../calendar/gui/dialogs/comp-editor.c:393
-#: ../composer/e-msg-composer.c:2920
-#: ../composer/e-msg-composer.c:3116
+#: ../composer/e-msg-composer.c:2926
+#: ../composer/e-msg-composer.c:3122
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5738,7 +5738,7 @@ msgstr[0] "Attached message"
 msgstr[1] "%d attached messages"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464
-#: ../composer/e-msg-composer.c:3180
+#: ../composer/e-msg-composer.c:3186
 #: ../mail/em-folder-tree.c:1003
 #: ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1030
@@ -5747,7 +5747,7 @@ msgid "_Move"
 msgstr "_Move"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466
-#: ../composer/e-msg-composer.c:3182
+#: ../composer/e-msg-composer.c:3188
 #: ../mail/em-folder-tree.c:1005
 #: ../mail/message-list.c:1925
 msgid "Cancel _Drag"
@@ -5758,7 +5758,7 @@ msgid "Could not update object"
 msgstr "Could not update object"
 
 #: ../calendar/gui/dialogs/comp-editor.c:966
-#: ../composer/e-msg-composer.c:2528
+#: ../composer/e-msg-composer.c:2534
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5778,7 +5778,7 @@ msgstr "Show Attachment _Bar"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3685
+#: ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5787,7 +5787,7 @@ msgstr "_Remove"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3686
+#: ../composer/e-msg-composer.c:3694
 #: ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:33
@@ -5796,7 +5796,7 @@ msgstr "_Properties"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3688
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "_Add attachment..."
 
@@ -6057,7 +6057,7 @@ msgstr "Customise"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
-#: ../composer/e-msg-composer.c:2312
+#: ../composer/e-msg-composer.c:2318
 #: ../filter/filter-rule.c:890
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
@@ -6741,7 +6741,7 @@ msgstr "%s for an unknown trigger type"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2912
+#: ../mail/em-folder-view.c:2913
 #, c-format
 msgid "Click to open %s"
 msgstr "Click to open %s"
@@ -10309,13 +10309,13 @@ msgid "Cannot encrypt outgoing message: No encryption certificate set for this a
 msgstr "Cannot encrypt outgoing message: No encryption certificate set for this account"
 
 #: ../composer/e-msg-composer.c:1297
-#: ../composer/e-msg-composer.c:2557
+#: ../composer/e-msg-composer.c:2563
 msgid "Hide _Attachment Bar"
 msgstr "Hide _Attachment Bar"
 
 #: ../composer/e-msg-composer.c:1300
-#: ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3931
+#: ../composer/e-msg-composer.c:2566
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "Show _Attachment Bar"
 
@@ -10333,33 +10333,33 @@ msgstr "Could not open file"
 msgid "Unable to retrieve message from editor"
 msgstr "Unable to retrieve message from editor"
 
-#: ../composer/e-msg-composer.c:1691
+#: ../composer/e-msg-composer.c:1697
 msgid "Untitled Message"
 msgstr "Untitled Message"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1726
+#: ../composer/e-msg-composer.c:1732
 msgid "Open File"
 msgstr "Open File"
 
-#: ../composer/e-msg-composer.c:2192
+#: ../composer/e-msg-composer.c:2198
 #: ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651
 #: ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Autogenerated"
 
-#: ../composer/e-msg-composer.c:2295
+#: ../composer/e-msg-composer.c:2301
 msgid "Si_gnature:"
 msgstr "Si_gnature:"
 
-#: ../composer/e-msg-composer.c:2571
-#: ../composer/e-msg-composer.c:3813
-#: ../composer/e-msg-composer.c:3816
+#: ../composer/e-msg-composer.c:2577
+#: ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "Compose Message"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5048
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 
@@ -10430,14 +10430,22 @@ msgid "Evolution quit unexpectedly while you were composing a new message. Recov
 msgstr "Evolution quit unexpectedly while you were composing a new message. Recovering the message will allow you to continue where you left off."
 
 #: ../composer/mail-composer.error.xml.h:17
+msgid "Send options available only for Novell Groupwise and Microsoft Exchange accounts."
+msgstr "Send options available only for Novell Groupwise and Microsoft Exchange accounts."
+
+#: ../composer/mail-composer.error.xml.h:18
+msgid "Send options not available."
+msgstr "Send options not available."
+
+#: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr "The file `{0}' is not a regular file and cannot be sent in a message."
 
-#: ../composer/mail-composer.error.xml.h:18
+#: ../composer/mail-composer.error.xml.h:20
 msgid "To attach the contents of this directory, either attach the files in this directory individually, or create an archive of the directory and attach it."
 msgstr "To attach the contents of this directory, either attach the files in this directory individually, or create an archive of the directory and attach it."
 
-#: ../composer/mail-composer.error.xml.h:19
+#: ../composer/mail-composer.error.xml.h:21
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
@@ -10447,35 +10455,35 @@ msgstr ""
 "\n"
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml installed."
 
-#: ../composer/mail-composer.error.xml.h:22
+#: ../composer/mail-composer.error.xml.h:24
 msgid "Unable to activate the address selector control."
 msgstr "Unable to activate the address selector control."
 
-#: ../composer/mail-composer.error.xml.h:23
+#: ../composer/mail-composer.error.xml.h:25
 msgid "Unfinished messages found"
 msgstr "Unfinished messages found"
 
-#: ../composer/mail-composer.error.xml.h:24
+#: ../composer/mail-composer.error.xml.h:26
 msgid "Warning: Modified Message"
 msgstr "Warning: Modified Message"
 
-#: ../composer/mail-composer.error.xml.h:25
+#: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
 msgstr "You cannot attach the file `{0}' to this message."
 
-#: ../composer/mail-composer.error.xml.h:26
+#: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
 msgstr "You need to configure an account before you can compose mail."
 
-#: ../composer/mail-composer.error.xml.h:28
+#: ../composer/mail-composer.error.xml.h:30
 msgid "_Do not Recover"
 msgstr "_Do not Recover"
 
-#: ../composer/mail-composer.error.xml.h:29
+#: ../composer/mail-composer.error.xml.h:31
 msgid "_Recover"
 msgstr "_Recover"
 
-#: ../composer/mail-composer.error.xml.h:30
+#: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
 msgstr "_Save Message"
 
@@ -11613,7 +11621,7 @@ msgstr "Scanning folders in \"%s\""
 #: ../ui/evolution-editor.xml.h:24
 #: ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:59
+#: ../ui/evolution-message-composer.xml.h:58
 #: ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
@@ -11805,40 +11813,40 @@ msgid "Filter on _Mailing List"
 msgstr "Filter on _Mailing List"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2034
-#: ../mail/em-folder-view.c:2078
+#: ../mail/em-folder-view.c:2036
+#: ../mail/em-folder-view.c:2080
 msgid "Default"
 msgstr "Default"
 
-#: ../mail/em-folder-view.c:2183
-#: ../mail/em-folder-view.c:2189
+#: ../mail/em-folder-view.c:2185
+#: ../mail/em-folder-view.c:2190
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Print Message"
 
-#: ../mail/em-folder-view.c:2348
+#: ../mail/em-folder-view.c:2349
 msgid "Unable to retrieve message"
 msgstr "Unable to retrieve message"
 
-#: ../mail/em-folder-view.c:2546
+#: ../mail/em-folder-view.c:2547
 msgid "Create _Search Folder"
 msgstr "Create _Search Folder"
 
-#: ../mail/em-folder-view.c:2547
+#: ../mail/em-folder-view.c:2548
 msgid "_From this Address"
 msgstr "_From this Address"
 
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2549
 msgid "_To this Address"
 msgstr "_To this Address"
 
-#: ../mail/em-folder-view.c:2905
+#: ../mail/em-folder-view.c:2906
 #, c-format
 msgid "Click to mail %s"
 msgstr "Click to mail %s"
 
-#: ../mail/em-folder-view.c:2910
+#: ../mail/em-folder-view.c:2911
 msgid "Click to hide/unhide addresses"
 msgstr "Click to hide/unhide addresses"
 
@@ -14009,26 +14017,26 @@ msgstr "Waiting..."
 msgid "Checking for new mail"
 msgstr "Checking for new mail"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:198
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Enter Passphrase for %s"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:200
 msgid "Enter Passphrase"
 msgstr "Enter Passphrase"
 
-#: ../mail/mail-session.c:210
+#: ../mail/mail-session.c:203
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Enter Password for %s"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:205
 msgid "Enter Password"
 msgstr "Enter Password"
 
-#: ../mail/mail-session.c:250
+#: ../mail/mail-session.c:243
 msgid "User canceled operation."
 msgstr "User cancelled operation."
 
@@ -15884,7 +15892,6 @@ msgstr "Add Send Options to groupwise messages"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
@@ -16190,7 +16197,7 @@ msgstr ""
 "Evolution could not find an iPod to synchronise with; either the iPod is not connected to the system or it is not powered on."
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:149
+#: ../plugins/save-calendar/ical-format.c:194
 msgid "iCalendar format (.ics)"
 msgstr "iCalendar format (.ics)"
 
@@ -18962,20 +18969,20 @@ msgid "I_nsert"
 msgstr "I_nsert"
 
 #: ../ui/evolution-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
 msgstr "_Attachment..."
 
 #: ../ui/evolution-editor.xml.h:16
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:45
 #: ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_Close"
 
 #: ../ui/evolution-editor.xml.h:19
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11
 #: ../ui/evolution.xml.h:42
@@ -19955,93 +19962,93 @@ msgstr "Save the message in a specified folder"
 msgid "Send"
 msgstr "Send"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "Send the mail in HTML format"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
 msgstr "Send this message"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Set the message priority to high"
 msgstr "Set the message priority to high"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your PGP key"
 msgstr "Sign this message with your PGP key"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Sign this message with your S/MIME Signature Certificate"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Toggles whether the BCC field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the CC field is displayed"
 msgstr "Toggles whether the CC field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Toggles whether the From chooser is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Toggles whether the Post-To field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Toggles whether the Reply-To field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the To field is displayed"
 msgstr "Toggles whether the To field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
 msgstr "_Bcc Field"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Cc Field"
 msgstr "_Cc Field"
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
 msgstr "_Delete all"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
 msgstr "_From Field"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
 msgstr "_Open..."
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
 msgstr "_Post-To Field"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Prioritize Message"
 msgstr "_Prioritise Message"
 
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Reply-To Field"
 msgstr "_Reply-To Field"
 
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Security"
 msgstr "_Security"
 
-#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-message-composer.xml.h:56
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "_Send Options"
 
-#: ../ui/evolution-message-composer.xml.h:58
+#: ../ui/evolution-message-composer.xml.h:57
 msgid "_To Field"
 msgstr "_To Field"
 
@@ -21172,35 +21179,35 @@ msgstr "popup list"
 msgid "%l:%M %p"
 msgstr "%l:%M %p"
 
-#: ../widgets/table/e-cell-pixbuf.c:389
+#: ../widgets/table/e-cell-pixbuf.c:398
 msgid "Selected Column"
 msgstr "Selected Column"
 
-#: ../widgets/table/e-cell-pixbuf.c:396
+#: ../widgets/table/e-cell-pixbuf.c:405
 msgid "Focused Column"
 msgstr "Focused Column"
 
-#: ../widgets/table/e-cell-pixbuf.c:403
+#: ../widgets/table/e-cell-pixbuf.c:412
 msgid "Unselected Column"
 msgstr "Unselected Column"
 
-#: ../widgets/table/e-cell-text.c:1795
+#: ../widgets/table/e-cell-text.c:1805
 msgid "Strikeout Column"
 msgstr "Strikeout Column"
 
-#: ../widgets/table/e-cell-text.c:1802
+#: ../widgets/table/e-cell-text.c:1812
 msgid "Underline Column"
 msgstr "Underline Column"
 
-#: ../widgets/table/e-cell-text.c:1809
+#: ../widgets/table/e-cell-text.c:1819
 msgid "Bold Column"
 msgstr "Bold Column"
 
-#: ../widgets/table/e-cell-text.c:1816
+#: ../widgets/table/e-cell-text.c:1826
 msgid "Color Column"
 msgstr "Colour Column"
 
-#: ../widgets/table/e-cell-text.c:1830
+#: ../widgets/table/e-cell-text.c:1840
 msgid "BG Color Column"
 msgstr "BG Colour Column"
 

@@ -57,7 +57,7 @@ DOC_FIGURES =  \
 	figures/Screenshot-Free-Busy.png	\
 	figures/vfolder-createrule-fig.png
 
-DOC_LINGUAS = es sv
+DOC_LINGUAS = en_GB es sv
 
 
 
