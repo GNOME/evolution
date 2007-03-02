@@ -1,3 +1,7 @@
+2007-03-02  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* C/evolution.xml: Corrected copyright statement as per bug 395566.
+
 2006-11-20  Daniel Nylander <po@danielnylander.se>
 
 	* sv/sv.po: Added initial Swedish translation.
