@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-14 06:04+0300\n"
-"PO-Revision-Date: 2007-02-14 06:09+0300\n"
+"POT-Creation-Date: 2007-03-05 17:03+0300\n"
+"PO-Revision-Date: 2007-03-05 17:08+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -273,19 +273,19 @@ msgstr "vaihtele"
 msgid "toggle the cell"
 msgstr "Vaihtele solun näkyvyyttä"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:192
 msgid "expand"
 msgstr "laajenna"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:193
 msgid "expands the row in the ETree containing this cell"
 msgstr "laajentaa tämän solun sisältävän rivin ETreessä"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:198
 msgid "collapse"
 msgstr "piilota"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:199
 msgid "collapses the row in the ETree containing this cell"
 msgstr "piilota tämän solun sisältävä ETreen rivi"
 
@@ -408,7 +408,7 @@ msgstr "LDAP-palvelimelle tunnistautuminen epäonnistui."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1957
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1961
 msgid "Failed to delete contact"
 msgstr "Yhteystiedon poisto epäonnistui"
 
@@ -1479,7 +1479,7 @@ msgstr "Osoite"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1823 ../widgets/text/e-entry.c:1265
+#: ../widgets/table/e-cell-text.c:1833 ../widgets/text/e-entry.c:1265
 #: ../widgets/text/e-entry.c:1266 ../widgets/text/e-text.c:3625
 #: ../widgets/text/e-text.c:3626
 msgid "Editable"
@@ -2928,7 +2928,7 @@ msgid "Type"
 msgstr "Tyyppi"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:843
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2132
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2178
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Tallenna VCardina..."
@@ -2996,7 +2996,7 @@ msgstr "_Leikkaa"
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3179 ../mail/em-folder-tree.c:1002
+#: ../composer/e-msg-composer.c:3185 ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1134 ../mail/message-list.c:1922
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3016,13 +3016,13 @@ msgid "Any Category"
 msgstr "Mikä tahansa luokka"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1867
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1923
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1871
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1927
 msgid "Print cards"
 msgstr "Tulosta kortit"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1957
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1961
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Other error"
 msgstr "Muu virhe"
@@ -3335,7 +3335,7 @@ msgid "_Open Link in Browser"
 msgstr "_Avaa linkki selaimessa"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2544
+#: ../mail/em-folder-view.c:2545
 msgid "_Copy Link Location"
 msgstr "_Kopioi linkin sijainti"
 
@@ -3819,12 +3819,12 @@ msgstr "Evolutionin VCard-tuoja"
 msgid "Print envelope"
 msgstr "Tulosta kirjekuori"
 
-#: ../addressbook/printing/e-contact-print.c:852
+#: ../addressbook/printing/e-contact-print.c:856
 msgid "Print contacts"
 msgstr "Tulosta yhteystiedot"
 
-#: ../addressbook/printing/e-contact-print.c:878
-#: ../addressbook/printing/e-contact-print.c:905
+#: ../addressbook/printing/e-contact-print.c:882
+#: ../addressbook/printing/e-contact-print.c:909
 msgid "Print contact"
 msgstr "Tulosta yhteystieto"
 
@@ -4465,12 +4465,12 @@ msgstr ""
 "uudestaan."
 
 #: ../calendar/calendar.error.xml.h:70
-#: ../composer/mail-composer.error.xml.h:27
+#: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "_Hylkää muutokset"
 
 #: ../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Save"
 msgstr "_Tallenna"
 
@@ -4479,7 +4479,7 @@ msgid "_Save Changes"
 msgstr "_Tallenna muutokset"
 
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:135
+#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:135
 msgid "_Send"
 msgstr "_Lähetä"
 
@@ -4667,7 +4667,7 @@ msgstr "Torkkumisaika:"
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:41
@@ -5914,28 +5914,28 @@ msgstr "(erääntyy "
 msgid "Due "
 msgstr "Erääntyy "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2915
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2921
 #, c-format
 msgid "Attached message - %s"
 msgstr "Liitetty viesti - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2920
-#: ../composer/e-msg-composer.c:3116
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2926
+#: ../composer/e-msg-composer.c:3122
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Liitetty viesti"
 msgstr[1] "%d liitettyä viestiä"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3180
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3186
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1030 ../mail/message-list.c:1923
 msgid "_Move"
 msgstr "_Siirrä"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3182
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3188
 #: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1925
 msgid "Cancel _Drag"
 msgstr "Peruuta _raahaus"
@@ -5944,7 +5944,7 @@ msgstr "Peruuta _raahaus"
 msgid "Could not update object"
 msgstr "Kohdetta ei voi päivittää"
 
-#: ../calendar/gui/dialogs/comp-editor.c:966 ../composer/e-msg-composer.c:2528
+#: ../calendar/gui/dialogs/comp-editor.c:966 ../composer/e-msg-composer.c:2534
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5964,7 +5964,7 @@ msgstr "Näytä _liitepalkki"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3685
+#: ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5973,14 +5973,14 @@ msgstr "_Poista"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3686 ../mail/em-folder-tree.c:2081
+#: ../composer/e-msg-composer.c:3694 ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Ominaisuudet..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3688
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "_Lisää liite..."
 
@@ -6239,7 +6239,7 @@ msgstr "Muokkaa"
 #: ../calendar/gui/dialogs/event-page.c:2960
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2312
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2318
 #: ../filter/filter-rule.c:890 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:475
 #: ../mail/em-junk-hook.c:78
@@ -6908,7 +6908,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s tuntemattomalle liipasintyypille"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2912
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2913
 #, c-format
 msgid "Click to open %s"
 msgstr "Napsauta avataksesi %s"
@@ -10412,12 +10412,12 @@ msgstr ""
 "Lähtevää viestiä ei voida salata: Salausvarmennetta ei ole asetettu tälle "
 "tilille"
 
-#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2557
+#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2563
 msgid "Hide _Attachment Bar"
 msgstr "Piilota _liitepalkki"
 
-#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3931
+#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2566
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "Näytä _liitepalkki"
 
@@ -10434,30 +10434,30 @@ msgstr "Tiedostoa ei voi avata"
 msgid "Unable to retrieve message from editor"
 msgstr "Viestiä ei voida hakea muokkaimelta"
 
-#: ../composer/e-msg-composer.c:1691
+#: ../composer/e-msg-composer.c:1697
 msgid "Untitled Message"
 msgstr "Nimeämätön viesti"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1726
+#: ../composer/e-msg-composer.c:1732
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: ../composer/e-msg-composer.c:2192 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2198 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Automaattisesti luotu"
 
-#: ../composer/e-msg-composer.c:2295
+#: ../composer/e-msg-composer.c:2301
 msgid "Si_gnature:"
 msgstr "_Allekirjoitus:"
 
-#: ../composer/e-msg-composer.c:2571 ../composer/e-msg-composer.c:3813
-#: ../composer/e-msg-composer.c:3816
+#: ../composer/e-msg-composer.c:2577 ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "Uusi viesti"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5048
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10548,11 +10548,23 @@ msgstr ""
 "Viestin palautuksen avulla voit jatkaa siitä, mihin jäit."
 
 #: ../composer/mail-composer.error.xml.h:17
+msgid ""
+"Send options available only for Novell Groupwise and Microsoft Exchange "
+"accounts."
+msgstr ""
+"Lähetysvalinnat ovat käytettävissä vain Novell Groupwise- ja Microsoft "
+"Exchange -tileillä."
+
+#: ../composer/mail-composer.error.xml.h:18
+msgid "Send options not available."
+msgstr "Lähetysvalinnat eivät ole saatavilla."
+
+#: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
 "Tiedosto `{0}' ei ole tavallinen tiedosto eikä sitä voida lähettää viestissä."
 
-#: ../composer/mail-composer.error.xml.h:18
+#: ../composer/mail-composer.error.xml.h:20
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
@@ -10560,7 +10572,7 @@ msgstr ""
 "Jos haluat lisätä hakemiston sisällön, liitä joko jokainen tiedosto "
 "hakemistossa erikseen tai luo arkisto hakemistosta ja liitä arkisto."
 
-#: ../composer/mail-composer.error.xml.h:19
+#: ../composer/mail-composer.error.xml.h:21
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
@@ -10571,36 +10583,36 @@ msgstr ""
 "\n"
 "Tarkista, että oikeat versiot ohjelmista gtkhtml ja libgtkhtml on asennettu."
 
-#: ../composer/mail-composer.error.xml.h:22
+#: ../composer/mail-composer.error.xml.h:24
 msgid "Unable to activate the address selector control."
 msgstr "Osoitteen valinnan ohjainta ei voi aktivoida"
 
-#: ../composer/mail-composer.error.xml.h:23
+#: ../composer/mail-composer.error.xml.h:25
 msgid "Unfinished messages found"
 msgstr "Viimeistelemätön viesti löytyi"
 
-#: ../composer/mail-composer.error.xml.h:24
+#: ../composer/mail-composer.error.xml.h:26
 msgid "Warning: Modified Message"
 msgstr "Varoitus: Muutettu viesti"
 
-#: ../composer/mail-composer.error.xml.h:25
+#: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
 msgstr "Et voi lisätä tiedostoa '{0}' tähän viestiin."
 
-#: ../composer/mail-composer.error.xml.h:26
+#: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
 msgstr ""
 "Käyttäjätili täytyy määritellä ennen kuin sähköpostia voidaan lähettää."
 
-#: ../composer/mail-composer.error.xml.h:28
+#: ../composer/mail-composer.error.xml.h:30
 msgid "_Do not Recover"
 msgstr "Ä_lä palauta"
 
-#: ../composer/mail-composer.error.xml.h:29
+#: ../composer/mail-composer.error.xml.h:31
 msgid "_Recover"
 msgstr "_Palauta"
 
-#: ../composer/mail-composer.error.xml.h:30
+#: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
 msgstr "_Tallenna viesti"
 
@@ -10616,7 +10628,7 @@ msgstr "Ryhmätyöohjelmisto"
 
 #: ../data/evolution.desktop.in.in.h:3
 msgid "The Evolution PIM and Email Client"
-msgstr "Evolution-sähköpostiohjelma"
+msgstr "Evolution, sähköposti- ja ajanhallintaohjelma"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -11069,7 +11081,7 @@ msgstr "Määrittele sähköpostitilisi tästä"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
-msgstr "Evolution sähköposti"
+msgstr "Evolution-sähköposti"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail accounts configuration control"
@@ -11085,11 +11097,11 @@ msgstr "Evolutionin sähköpostin muokkain"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer configuration control"
-msgstr "Evolution sähköpostin muokkaimen asetukset"
+msgstr "Evolutionin viestimuokkaimen asetukset"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail preferences control"
-msgstr "Evolution sähköpostin asetukset"
+msgstr "Evolutionin sähköpostin asetukset"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:523
 #: ../mail/importers/elm-importer.c:341
@@ -11698,7 +11710,7 @@ msgstr "Etsitään kansioita kohteessa \"%s\""
 #: ../mail/em-folder-tree.c:2065 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:59 ../ui/evolution-tasks.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:58 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
 msgstr "_Näytä"
@@ -11878,38 +11890,38 @@ msgid "Filter on _Mailing List"
 msgstr "Suodata _postituslistan mukaan"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2034 ../mail/em-folder-view.c:2078
+#: ../mail/em-folder-view.c:2036 ../mail/em-folder-view.c:2080
 msgid "Default"
 msgstr "Oletukset"
 
-#: ../mail/em-folder-view.c:2183 ../mail/em-folder-view.c:2189
+#: ../mail/em-folder-view.c:2185 ../mail/em-folder-view.c:2190
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Tulosta viesti"
 
-#: ../mail/em-folder-view.c:2348
+#: ../mail/em-folder-view.c:2349
 msgid "Unable to retrieve message"
 msgstr "Viestiä ei voida hakea"
 
-#: ../mail/em-folder-view.c:2546
+#: ../mail/em-folder-view.c:2547
 msgid "Create _Search Folder"
 msgstr "Luo uusi hakunäkymä"
 
-#: ../mail/em-folder-view.c:2547
+#: ../mail/em-folder-view.c:2548
 msgid "_From this Address"
 msgstr "_Tästä osoitteesta"
 
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2549
 msgid "_To this Address"
 msgstr "_Osoitteeseen:"
 
-#: ../mail/em-folder-view.c:2905
+#: ../mail/em-folder-view.c:2906
 #, c-format
 msgid "Click to mail %s"
 msgstr "Napsauta lähettääksesi %s"
 
-#: ../mail/em-folder-view.c:2910
+#: ../mail/em-folder-view.c:2911
 msgid "Click to hide/unhide addresses"
 msgstr "Napsauta piilottaaksesi tai näyttääksesi osoitteet"
 
@@ -14174,26 +14186,26 @@ msgstr "Odotetaan..."
 msgid "Checking for new mail"
 msgstr "Tarkistetaan onko uusia viestejä"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:198
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Anna salasana tunnukselle %s"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:200
 msgid "Enter Passphrase"
 msgstr "Anna salasana"
 
-#: ../mail/mail-session.c:210
+#: ../mail/mail-session.c:203
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Anna salasana tunnukselle %s"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:205
 msgid "Enter Password"
 msgstr "Anna salasana"
 
-#: ../mail/mail-session.c:250
+#: ../mail/mail-session.c:243
 msgid "User canceled operation."
 msgstr "Käyttäjä perui toimenpiteen."
 
@@ -16184,9 +16196,7 @@ msgid "Add Send Options to groupwise messages"
 msgstr "Lisää lähetysoptioita groupwise-viesteihin"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
-#: ../ui/evolution-event-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:31
-#: ../ui/evolution-task-editor.xml.h:8
+#: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
 msgstr "Lähetyksen asetukset"
@@ -16497,7 +16507,7 @@ msgstr ""
 "ole liitetty tietokoneseen tai se ei ole päällä."
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:149
+#: ../plugins/save-calendar/ical-format.c:194
 msgid "iCalendar format (.ics)"
 msgstr "iCalendar muoto (.ics)"
 
@@ -18315,7 +18325,7 @@ msgstr "Älä lataa mitään liitännäisiä."
 
 #: ../shell/main.c:516
 msgid "- The Evolution PIM and Email Client"
-msgstr "Evolution-sähköpostiohjelma"
+msgstr ", sähköposti- ja ajanhallintaohjelma"
 
 #: ../shell/main.c:527
 #, c-format
@@ -19352,17 +19362,17 @@ msgstr "Sulje"
 msgid "I_nsert"
 msgstr "Li_sää"
 
-#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
 msgstr "_Liite..."
 
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:46 ../ui/evolution-subscribe.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:45 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_Sulje"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:42
 msgid "_File"
@@ -20320,93 +20330,93 @@ msgstr "Tallenna viesti johonkin tiettyyn kansioon"
 msgid "Send"
 msgstr "Lähetä"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "Lähetä viesti HTML-muodossa"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
 msgstr "Lähetä viesti heti"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Set the message priority to high"
 msgstr "Aseta viestille korkea prioriteetti"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your PGP key"
 msgstr "Allekirjoita viesti PGP-avaimellasi"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Allekirjoita tämä viesti S/MIME allekirjoitusvarmenteellasi"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Vaihtelee näytetäänkö BCC-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the CC field is displayed"
 msgstr "Määrittää näytetäänkö Kopio-kenttä (CC)."
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Määrittää näytetäänkö Lähettäjä-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Määrittää näytetäänkö Postitusosoite-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Määrittää näytetäänkö Vastausosoite-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the To field is displayed"
 msgstr "Määrittää näytetäänkö Vastaanottaja-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
 msgstr "_BCC-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Cc Field"
 msgstr "_Kopio-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
 msgstr "_Poista kaikki"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
 msgstr "_Lähettäjä-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
 msgstr "_Avaa..."
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
 msgstr "_Postitusosoite-kenttä (Post-To)"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Prioritize Message"
 msgstr "_Aseta viestin prioriteetti"
 
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Reply-To Field"
 msgstr "_Vastausosoite-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Security"
 msgstr "Turvalli_suus"
 
-#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-message-composer.xml.h:56
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "_Lähetyksen vaihtoehdot"
 
-#: ../ui/evolution-message-composer.xml.h:58
+#: ../ui/evolution-message-composer.xml.h:57
 msgid "_To Field"
 msgstr "_Vastaanottaja-kenttä"
 
@@ -21521,35 +21531,35 @@ msgstr "ponnahduslista"
 msgid "%l:%M %p"
 msgstr "%l.%M %p"
 
-#: ../widgets/table/e-cell-pixbuf.c:389
+#: ../widgets/table/e-cell-pixbuf.c:398
 msgid "Selected Column"
 msgstr "Valittu sarake"
 
-#: ../widgets/table/e-cell-pixbuf.c:396
+#: ../widgets/table/e-cell-pixbuf.c:405
 msgid "Focused Column"
 msgstr "Kohdistettu sarake"
 
-#: ../widgets/table/e-cell-pixbuf.c:403
+#: ../widgets/table/e-cell-pixbuf.c:412
 msgid "Unselected Column"
 msgstr "Valitsematon sarake"
 
-#: ../widgets/table/e-cell-text.c:1795
+#: ../widgets/table/e-cell-text.c:1805
 msgid "Strikeout Column"
 msgstr "Yliviivattu sarake"
 
-#: ../widgets/table/e-cell-text.c:1802
+#: ../widgets/table/e-cell-text.c:1812
 msgid "Underline Column"
 msgstr "Alleviivaa sarake"
 
-#: ../widgets/table/e-cell-text.c:1809
+#: ../widgets/table/e-cell-text.c:1819
 msgid "Bold Column"
 msgstr "Vahva sarake"
 
-#: ../widgets/table/e-cell-text.c:1816
+#: ../widgets/table/e-cell-text.c:1826
 msgid "Color Column"
 msgstr "Värillinen sarake"
 
-#: ../widgets/table/e-cell-text.c:1830
+#: ../widgets/table/e-cell-text.c:1840
 msgid "BG Color Column"
 msgstr "Taustan värinen sarake"
 
