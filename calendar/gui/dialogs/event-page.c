@@ -1391,7 +1391,9 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			ca = e_cal_component_alarm_new ();
 			
 			e_cal_component_get_summary (comp, &summary);
-			e_cal_component_alarm_set_description (ca, &summary);
+			
+			if (summary.value)
+				e_cal_component_alarm_set_description (ca, &summary);
 		
 			e_cal_component_alarm_set_action (ca, E_CAL_COMPONENT_ALARM_DISPLAY);
 

@@ -491,6 +491,19 @@ schedule_page_new (EMeetingStore *ems)
 }
 
 void
+schedule_page_update_free_busy (SchedulePage *spage)
+{
+	SchedulePagePrivate *priv;
+	
+	g_return_if_fail (spage != NULL);
+	g_return_if_fail (IS_SCHEDULE_PAGE (spage));
+	
+	priv = spage->priv;
+	
+	e_meeting_time_selector_refresh_free_busy (priv->sel, 0, TRUE);
+}
+
+void
 schedule_page_set_name_selector (SchedulePage *spage, ENameSelector *name_selector)
 {
 	SchedulePagePrivate *priv;

@@ -63,6 +63,8 @@ static void event_editor_finalize (GObject *object);
 
 static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
+static gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+static void create_schedule_page (EventEditor *ee);
 
 
 G_DEFINE_TYPE (EventEditor, event_editor, TYPE_COMP_EDITOR)
@@ -307,7 +309,10 @@ menu_action_freebusy_cb	(BonoboUIComponent           *ui_component,
 {
 	EventEditor *ee = (EventEditor *) user_data;
 	
-	gtk_widget_show (ee->priv->sched_window);
+	if (!ee->priv->sched_window) 
+		create_schedule_page (ee);
+	else	
+		gtk_widget_show (ee->priv->sched_window);
 }
 
 static void
@@ -354,13 +359,48 @@ menu_action_recurrence_cmd (BonoboUIComponent *uic,
 }
 
 static void
+create_schedule_page (EventEditor *ee)
+{
+	ENameSelector *name_selector;
+	EventEditorPrivate *priv;
+	ECal *ecal = NULL;
+
+	priv = ee->priv;
+
+	priv->sched_window = gtk_dialog_new_with_buttons (_("Free/Busy"),
+			(GtkWindow *) ee, GTK_DIALOG_MODAL,
+			"gtk-close", GTK_RESPONSE_CLOSE,
+			NULL);
+	priv->sched_page = schedule_page_new (priv->model);
+	g_object_ref (priv->sched_page);
+	gtk_object_sink (GTK_OBJECT (priv->sched_page));
+	gtk_container_add (GTK_CONTAINER (GTK_DIALOG(priv->sched_window)->vbox), comp_editor_page_get_widget (COMP_EDITOR_PAGE (priv->sched_page)));
+
+	g_signal_connect (priv->sched_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
+	g_signal_connect ((GtkWidget *) priv->sched_window, "delete-event", G_CALLBACK(window_delete_event), NULL);
+	name_selector = event_page_get_name_selector (priv->event_page);
+	schedule_page_set_name_selector (priv->sched_page, name_selector);
+
+	ecal = comp_editor_get_e_cal (COMP_EDITOR (ee));
+	comp_editor_page_set_e_cal (COMP_EDITOR_PAGE (priv->sched_page), ecal);
+	comp_editor_append_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->sched_page), NULL, FALSE);
+	schedule_page_update_free_busy (priv->sched_page);
+
+	gtk_widget_show_all (priv->sched_window);
+
+}
+
+static void
 menu_action_freebusy_cmd (BonoboUIComponent *uic,
 		   	 void *data,
 		   	 const char *path)
 {
 	EventEditor *ee = (EventEditor *) data;
 
-	gtk_widget_show (ee->priv->sched_window);
+	if (!ee->priv->sched_window) 
+		create_schedule_page (ee);
+	else	
+		gtk_widget_show (ee->priv->sched_window);
 }
 
 static void
@@ -585,27 +625,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
-		if ((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM)) {
-			ENameSelector *name_selector;
-
-			priv->sched_window = gtk_dialog_new_with_buttons (_("Free/Busy"),
-					                                  (GtkWindow *) ee, GTK_DIALOG_MODAL,
-				   					  "gtk-close", GTK_RESPONSE_CLOSE,
-									  NULL);
-			priv->sched_page = schedule_page_new (priv->model);
-			g_object_ref (priv->sched_page);
-			gtk_object_sink (GTK_OBJECT (priv->sched_page));
-			gtk_container_add (GTK_CONTAINER (GTK_DIALOG(priv->sched_window)->vbox), comp_editor_page_get_widget (COMP_EDITOR_PAGE (priv->sched_page)));
-			gtk_widget_show_all (priv->sched_window);
-			gtk_widget_hide (priv->sched_window);
-
-			g_signal_connect (priv->sched_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
-			g_signal_connect ((GtkWidget *) priv->sched_window, "delete-event", G_CALLBACK(window_delete_event), NULL);
-			name_selector = event_page_get_name_selector (priv->event_page);
-			schedule_page_set_name_selector (priv->sched_page, name_selector);
-			comp_editor_append_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->sched_page), NULL, FALSE);
-
-		} else	
+		if (!((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM))) 
 			bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "1", NULL);
 		
 		event_page_set_meeting (priv->event_page, TRUE);

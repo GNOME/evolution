@@ -1206,8 +1206,8 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 		mts->last_cursor_set = GDK_LEFT_PTR;
 		e_meeting_time_selector_item_set_normal_cursor (E_MEETING_TIME_SELECTOR_ITEM (mts->item_top));
 		e_meeting_time_selector_item_set_normal_cursor (E_MEETING_TIME_SELECTOR_ITEM (mts->item_main));
-	}
-			
+	} 
+
 	if (mts->display_top != NULL)
 		gtk_widget_queue_draw (mts->display_top);
 	if (mts->display_main != NULL)
@@ -1218,7 +1218,7 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 	return FALSE;
 }
 
-static void
+void
 e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, gboolean all)
 {
 	EMeetingTime start, end;

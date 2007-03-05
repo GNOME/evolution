@@ -1,3 +1,17 @@
+2007-03-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/event-page.c: (event_page_fill_component): Set the
+	description only if summary has some value.								
+	* gui/dialogs/schedule-page.c: (schedule_page_update_free_busy):
+	* gui/dialogs/schedule-page.h:
+	* gui/e-meeting-time-sel.[ch]: exposed e_meeting_time_selector_refresh_free_busy.
+	* gui/dialogs/event-editor.c: (menu_action_freebusy_cb),
+	(create_schedule_page), (menu_action_freebusy_cmd),
+	(event_editor_construct): Form the FreeBusy dialog only when the button is
+	clicked. The FreeBusy queries would not start until the button is clicked. So
+	the users can choose the appropriate dates in the editor before the clicking 
+	the button.
+
 2007-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/e-meeting-list-view.c: (e_meeting_list_view_init):
