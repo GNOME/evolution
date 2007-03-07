@@ -1,3 +1,7 @@
+2007-03-07  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* Makefile.am: Added new doc images to Makefile.am.
+
 2007-03-02  David Lodge <dave@cirt.net>
 
 	* en_GB/en_GB.po: Added English (British) translation
