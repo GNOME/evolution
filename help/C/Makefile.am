@@ -48,7 +48,46 @@ figs = \
 	figures/replymsg.png			\
 	figures/schedule.png			\
 	figures/summary.png			\
-	figures/vfolder-createrule-fig.png
+	figures/vfolder-createrule-fig.png	\
+	figures/account_editor_a.png		\
+	figures/categories_a.png		\
+	figures/delgt-add.png			\
+	figures/evo_account_editor_a.png	\
+	figures/evo_adv_search_a.png		\
+	figures/evo_advsearch_a.png		\
+	figures/evo_allday_a.png		\
+	figures/evo_cal_a.gif			\
+	figures/evo_calender_appointmnt.png	\
+	figures/evo_cal_ prop_a.png		\
+	figures/evo_edit_rule_a.png		\
+	figures/evo_edit_search.png		\
+	figures/evo_flag_follow_up_a.png	\
+	figures/evo_gwreceiveedit_a.png		\
+	figures/evo_gwreceiveoptedit_a.png	\
+	figures/evo_identityedit_a.png		\
+	figures/evo_import_asst_a.png		\
+	figures/evo_mail_a.png			\
+	figures/evo_message_filters_a.png	\
+	figures/evo_proxyadd_a.png		\
+	figures/evo_select_add_folder.png	\
+	figures/evo_select_folder.png		\
+	figures/evo_sendstatus_a.png		\
+	figures/exchg-identity.png		\
+	figures/exchng-identity.png		\
+	figures/exchng-rec-mail.png		\
+	figures/exchng-rec-mails.png		\
+	figures/exchng-rec-option.png		\
+	figures/exchng-rec-options.png		\
+	figures/exchng-settings.png		\
+	figures/free_busy.png			\
+	figures/free-busy.png			\
+	figures/mailer_preferences.png		\
+	figures/proxy-cal.png			\
+	figures/proxy-login.png			\
+	figures/quick_add_a.png			\
+	figures/sub-others-folder.png		\
+	figures/sub-pub-fold.png
+
 figdir = figures
 
 all: $(docname).xml $(omffile)

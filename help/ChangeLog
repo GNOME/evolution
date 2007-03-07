@@ -1,3 +1,8 @@
+2007-03-07  Srinivasa Ragavan <sragavan@novell.com>
+
+	* C/evolution.xml: Updated docs from Radhika
+	* C/Makefile.am: Updated new images from figures/
+
 2007-03-02  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* C/evolution.xml: Corrected copyright statement as per bug 395566.
