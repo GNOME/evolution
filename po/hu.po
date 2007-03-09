@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-13 03:18+0000\n"
-"PO-Revision-Date: 2007-02-24 08:23+0100\n"
+"POT-Creation-Date: 2007-02-27 03:18+0000\n"
+"PO-Revision-Date: 2007-03-09 17:35+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -2933,7 +2933,7 @@ msgid "Type"
 msgstr "Típus"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:843
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2132
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2174
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Mentés VCardként..."
@@ -3001,7 +3001,7 @@ msgstr "_Kivágás"
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3179 ../mail/em-folder-tree.c:1002
+#: ../composer/e-msg-composer.c:3185 ../mail/em-folder-tree.c:1002
 #: ../mail/em-folder-view.c:1134 ../mail/message-list.c:1922
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3340,7 +3340,7 @@ msgid "_Open Link in Browser"
 msgstr "Hivatkozás _megnyitása böngészőben"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
-#: ../mail/em-folder-view.c:2544
+#: ../mail/em-folder-view.c:2546
 msgid "_Copy Link Location"
 msgstr "Hivatkozás _címének másolása"
 
@@ -3568,8 +3568,8 @@ msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"Nem nyitható meg ez a címjegyzék. Ez vagy azt jelenti, hogy helytelen URI címet "
-"adott meg, vagy az LDAP-kiszolgáló elérhetetlen."
+"Nem nyitható meg ez a címjegyzék. Ez vagy azt jelenti, hogy helytelen URI "
+"címet adott meg, vagy az LDAP-kiszolgáló elérhetetlen."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:117
 msgid ""
@@ -3586,8 +3586,8 @@ msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr ""
-"Nem nyitható meg ez a címjegyzék. Ez vagy azt jelenti, hogy helytelen URI címet "
-"adott meg, vagy a kiszolgáló elérhetetlen."
+"Nem nyitható meg ez a címjegyzék. Ez vagy azt jelenti, hogy helytelen URI "
+"címet adott meg, vagy a kiszolgáló elérhetetlen."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:147
 msgid ""
@@ -4462,12 +4462,12 @@ msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "A feladatok nem lesznek elérhetők az Evolution újraindításáig."
 
 #: ../calendar/calendar.error.xml.h:70
-#: ../composer/mail-composer.error.xml.h:27
+#: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "_Változtatások eldobása"
 
 #: ../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Save"
 msgstr "M_entés"
 
@@ -4476,7 +4476,7 @@ msgid "_Save Changes"
 msgstr "_Változtatások mentése"
 
 #: ../calendar/calendar.error.xml.h:73
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:135
+#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:135
 msgid "_Send"
 msgstr "_Küldés"
 
@@ -4663,7 +4663,7 @@ msgstr "_Szundi idő:"
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:41
@@ -5913,28 +5913,28 @@ msgstr " (Esedékes "
 msgid "Due "
 msgstr "Esedékes "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2915
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2921
 #, c-format
 msgid "Attached message - %s"
 msgstr "Mellékelt üzenet - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2920
-#: ../composer/e-msg-composer.c:3116
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2926
+#: ../composer/e-msg-composer.c:3122
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Mellékelt üzenet"
 msgstr[1] "%d mellékelt üzenet"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3180
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3186
 #: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1030 ../mail/message-list.c:1923
 msgid "_Move"
 msgstr "Á_thelyezés"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3182
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3188
 #: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1925
 msgid "Cancel _Drag"
 msgstr "_Mégsem mozgatom"
@@ -5943,7 +5943,7 @@ msgstr "_Mégsem mozgatom"
 msgid "Could not update object"
 msgstr "Nem frissíthető az objektum"
 
-#: ../calendar/gui/dialogs/comp-editor.c:966 ../composer/e-msg-composer.c:2528
+#: ../calendar/gui/dialogs/comp-editor.c:966 ../composer/e-msg-composer.c:2534
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5963,7 +5963,7 @@ msgstr "_Mellékletsáv megjelenítése"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3685
+#: ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5972,14 +5972,14 @@ msgstr "E_ltávolítás"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3686 ../mail/em-folder-tree.c:2081
+#: ../composer/e-msg-composer.c:3694 ../mail/em-folder-tree.c:2081
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "T_ulajdonságok"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3688
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "Melléklet hozzá_adása..."
 
@@ -6239,7 +6239,7 @@ msgstr "Testreszabás"
 #: ../calendar/gui/dialogs/event-page.c:2960
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2312
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2318
 #: ../filter/filter-rule.c:890 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:475
 #: ../mail/em-junk-hook.c:78
@@ -6908,7 +6908,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s ismeretlen kiváltó okra"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2912
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2914
 #, c-format
 msgid "Click to open %s"
 msgstr "Kattintson a(z) %s megnyitásához"
@@ -10405,12 +10405,12 @@ msgstr ""
 "Nem titkosítható a kimenő üzenet: Nincs beállítva tanúsítvány a "
 "titkosításhoz ehhez a postafiókhoz"
 
-#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2557
+#: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2563
 msgid "Hide _Attachment Bar"
 msgstr "_Mellékletsáv elrejtése"
 
-#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2560
-#: ../composer/e-msg-composer.c:3931
+#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2566
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "_Mellékletsáv megjelenítése"
 
@@ -10427,30 +10427,30 @@ msgstr "Nem nyitható meg a fájl"
 msgid "Unable to retrieve message from editor"
 msgstr "Nem tölthető le az üzenet a szerkesztőből"
 
-#: ../composer/e-msg-composer.c:1691
+#: ../composer/e-msg-composer.c:1697
 msgid "Untitled Message"
 msgstr "Névtelen üzenet"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1726
+#: ../composer/e-msg-composer.c:1732
 msgid "Open File"
 msgstr "Fájl megnyitása"
 
-#: ../composer/e-msg-composer.c:2192 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2198 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Automatikusan létrehozott"
 
-#: ../composer/e-msg-composer.c:2295
+#: ../composer/e-msg-composer.c:2301
 msgid "Si_gnature:"
 msgstr "_Aláírás:"
 
-#: ../composer/e-msg-composer.c:2571 ../composer/e-msg-composer.c:3813
-#: ../composer/e-msg-composer.c:3816
+#: ../composer/e-msg-composer.c:2577 ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "Üzenet írása"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5048
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10543,10 +10543,20 @@ msgstr ""
 "félbeszakadt."
 
 #: ../composer/mail-composer.error.xml.h:17
+msgid ""
+"Send options available only for Novell Groupwise and Microsoft Exchange "
+"accounts."
+msgstr "A küldési beállítások csak Novell Groupwise és Microsoft Exchange fiókokhoz érhetők el."
+
+#: ../composer/mail-composer.error.xml.h:18
+msgid "Send options not available."
+msgstr "A küldési beállítások nem érhetők el."
+
+#: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr "A(z) \"{0}\" fájl nem szabályos fájl, ezért nem küldhető el levélben."
 
-#: ../composer/mail-composer.error.xml.h:18
+#: ../composer/mail-composer.error.xml.h:20
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
@@ -10554,7 +10564,7 @@ msgstr ""
 "Ezen könyvtár tartalmának csatolásához vagy egyenként csatolja a benne lévő "
 "fájlokat vagy tömörítse a könyvtárat és azt csatolja."
 
-#: ../composer/mail-composer.error.xml.h:19
+#: ../composer/mail-composer.error.xml.h:21
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
@@ -10565,35 +10575,35 @@ msgstr ""
 "\n"
 "Ellenőrizze, hogy a megfelelő verziójú gtkhtml és libgtkhtml van-e telepítve."
 
-#: ../composer/mail-composer.error.xml.h:22
+#: ../composer/mail-composer.error.xml.h:24
 msgid "Unable to activate the address selector control."
 msgstr "Nem aktiválható a címkiválasztás vezérlése."
 
-#: ../composer/mail-composer.error.xml.h:23
+#: ../composer/mail-composer.error.xml.h:25
 msgid "Unfinished messages found"
 msgstr "Befejezetlen üzeneteket találtam"
 
-#: ../composer/mail-composer.error.xml.h:24
+#: ../composer/mail-composer.error.xml.h:26
 msgid "Warning: Modified Message"
 msgstr "Figyelmeztetés: Módosított üzenet"
 
-#: ../composer/mail-composer.error.xml.h:25
+#: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
 msgstr "Nem csatolhatja a(z) \"{0}\" fájlt ehhez az üzenethez."
 
-#: ../composer/mail-composer.error.xml.h:26
+#: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
 msgstr "Be kell állítania egy postafiókot, mielőtt levelet küldhetne."
 
-#: ../composer/mail-composer.error.xml.h:28
+#: ../composer/mail-composer.error.xml.h:30
 msgid "_Do not Recover"
 msgstr "_Ne állítsa helyre"
 
-#: ../composer/mail-composer.error.xml.h:29
+#: ../composer/mail-composer.error.xml.h:31
 msgid "_Recover"
 msgstr "_Helyreállítás"
 
-#: ../composer/mail-composer.error.xml.h:30
+#: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
 msgstr "Üzenet m_entése"
 
@@ -11125,7 +11135,7 @@ msgstr ""
 #: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
 #: ../mail/em-vfolder-rule.c:511
 msgid "Select Folder"
-msgstr "Mappa kiválasztása"
+msgstr "Válasszon mappát"
 
 #: ../mail/em-account-editor.c:778
 msgid "Ask for each message"
@@ -11688,7 +11698,7 @@ msgstr "Mappák pásztázása a következőn: \"%s\""
 #: ../mail/em-folder-tree.c:2065 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:59 ../ui/evolution-tasks.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:58 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
 msgstr "_Nézet"
@@ -11868,38 +11878,38 @@ msgid "Filter on _Mailing List"
 msgstr "Szűrő a _levelezőlistára"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2034 ../mail/em-folder-view.c:2078
+#: ../mail/em-folder-view.c:2036 ../mail/em-folder-view.c:2080
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: ../mail/em-folder-view.c:2183 ../mail/em-folder-view.c:2189
+#: ../mail/em-folder-view.c:2185 ../mail/em-folder-view.c:2191
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Üzenet nyomtatása"
 
-#: ../mail/em-folder-view.c:2348
+#: ../mail/em-folder-view.c:2350
 msgid "Unable to retrieve message"
 msgstr "Nem kérhető le az üzenet"
 
-#: ../mail/em-folder-view.c:2546
+#: ../mail/em-folder-view.c:2548
 msgid "Create _Search Folder"
 msgstr "_Keresőmappa létrehozása"
 
-#: ../mail/em-folder-view.c:2547
+#: ../mail/em-folder-view.c:2549
 msgid "_From this Address"
 msgstr "Erről a _címről"
 
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2550
 msgid "_To this Address"
 msgstr "E_rre a címre"
 
-#: ../mail/em-folder-view.c:2905
+#: ../mail/em-folder-view.c:2907
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kattintson a(z) %s elküldéséhez"
 
-#: ../mail/em-folder-view.c:2910
+#: ../mail/em-folder-view.c:2912
 msgid "Click to hide/unhide addresses"
 msgstr "Kattintson ide a címek megjelenítéséhez/rejtéséhez"
 
@@ -13790,7 +13800,9 @@ msgstr "_Ne értesítsen, ha új levél érkezik"
 
 #: ../mail/mail-config.glade.h:159
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr "_Ne írja alá a találkozó-összehívási kérést (Outlook-kompatibilitás érdekében)"
+msgstr ""
+"_Ne írja alá a találkozó-összehívási kérést (Outlook-kompatibilitás "
+"érdekében)"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Forward style:"
@@ -13985,12 +13997,12 @@ msgid ""
 "Appending to local `Sent' folder instead."
 msgstr ""
 "Nem sikerült hozzáfűzni a következőhöz: %s: %s\n"
-"A helyi \"Elküldött elemek\" mappához lesz hozzáfűzve."
+"A helyi \"Elküldött\" mappához lesz hozzáfűzve."
 
 #: ../mail/mail-ops.c:624
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "Nem sikerült hozzáfűzni a helyi \"Elküldött elemek\" mappához: %s"
+msgstr "Nem sikerült hozzáfűzni a helyi \"Elküldött\" mappához: %s"
 
 #: ../mail/mail-ops.c:736
 #, c-format
@@ -14159,26 +14171,26 @@ msgstr "Várakozás..."
 msgid "Checking for new mail"
 msgstr "Új levelek keresése"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:198
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Adja meg %s jelmondatát"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:200
 msgid "Enter Passphrase"
 msgstr "Adja meg a jelmondatot"
 
-#: ../mail/mail-session.c:210
+#: ../mail/mail-session.c:203
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Adja meg %s jelszavát"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:205
 msgid "Enter Password"
 msgstr "Adja meg a jelszót"
 
-#: ../mail/mail-session.c:250
+#: ../mail/mail-session.c:243
 msgid "User canceled operation."
 msgstr "A felhasználó megszakította a műveletet."
 
@@ -15658,7 +15670,7 @@ msgstr "<b>Követés beállításai</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
 msgid "Exchange - Send Options"
-msgstr "Exchange - Küldés beállításai"
+msgstr "Exchange - Küldési beállítások"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
@@ -16157,15 +16169,13 @@ msgstr "Levelek visszavonása"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr "Küldési opciók hozzáadása a groupwise üzenetekhez"
+msgstr "Küldési beállítások hozzáadása a groupwise üzenetekhez"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
-#: ../ui/evolution-event-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:31
-#: ../ui/evolution-task-editor.xml.h:8
+#: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
-msgstr "Küldési opciók"
+msgstr "Küldési beállítások"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
@@ -16471,7 +16481,7 @@ msgstr ""
 "csatlakoztatva a rendszerhez, vagy nincs bekapcsolva. "
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:149
+#: ../plugins/save-calendar/ical-format.c:194
 msgid "iCalendar format (.ics)"
 msgstr "iCalendar-formátum (.ics)"
 
@@ -16571,12 +16581,12 @@ msgstr "Nem küldhető el az elem a(z) \"%s\" naptárnak: %s"
 #: ../plugins/itip-formatter/itip-formatter.c:871
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "Elküldve \"%s\" naptárnak elfogadottként"
+msgstr "\"%s\" naptárnak elküldve elfogadottként"
 
 #: ../plugins/itip-formatter/itip-formatter.c:875
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr "Elküldve \"%s\" naptárnak feltételesként"
+msgstr "\"%s\" naptárnak elküldve feltételesként"
 
 #: ../plugins/itip-formatter/itip-formatter.c:880
 #, c-format
@@ -19342,17 +19352,17 @@ msgstr "Bezárás"
 msgid "I_nsert"
 msgstr "_Beszúrás"
 
-#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
 msgstr "_Melléklet..."
 
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:46 ../ui/evolution-subscribe.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:45 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_Bezárás"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:42
 msgid "_File"
@@ -20308,93 +20318,93 @@ msgstr "Az üzenet mentése a megadott mappába"
 msgid "Send"
 msgstr "Küldés"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "Levél küldése HTML formátumban"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
 msgstr "Az üzenet elküldése"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Set the message priority to high"
 msgstr "Üzenet fontosságának beállítása magasra"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your PGP key"
 msgstr "Az üzenet aláírása az Ön PGP-kulcsával"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Az üzenet aláírása az Ön S/MIME-aláírástanúsítványával"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Megjelenjen-e a Rejtett másolat mező"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the CC field is displayed"
 msgstr "Megjelenjen-e a Másolat mező"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Megjelenjen-e a Feladó kiválasztómező"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Megjelenjen-e a Közlés helye mező"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Megjelenjen-e a Válaszcím mező"
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the To field is displayed"
 msgstr "Megjelenjen-e a Címzett mező"
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
 msgstr "_Rejtett másolat mező"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Cc Field"
 msgstr "Má_solat mező"
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
 msgstr "_Mindet törli"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
 msgstr "_Feladó mező"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
 msgstr "_Megnyitás..."
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
 msgstr "_Közlés helye mező"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Prioritize Message"
 msgstr "Az ü_zenet fontos"
 
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Reply-To Field"
 msgstr "_Válaszcím mező"
 
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Security"
 msgstr "_Biztonság"
 
-#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-message-composer.xml.h:56
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
-msgstr "Kül_dési opciók"
+msgstr "Kül_dési beállítások"
 
-#: ../ui/evolution-message-composer.xml.h:58
+#: ../ui/evolution-message-composer.xml.h:57
 msgid "_To Field"
 msgstr "_Címzett mező"
 
@@ -20727,11 +20737,11 @@ msgstr "_Munkahét-nézet"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
-msgstr "Mint Elküldve mappa a _széles nézethez"
+msgstr "Mint Elküldött mappa a _széles nézethez"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
-msgstr "Mint _Elküldve mappa"
+msgstr "Mint _Elküldött mappa"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By S_tatus"
