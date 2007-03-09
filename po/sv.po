@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-27 03:18+0000\n"
-"PO-Revision-Date: 2007-02-27 23:42+0100\n"
+"PO-Revision-Date: 2007-03-09 11:57+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -11392,7 +11392,7 @@ msgstr "meddelandetext"
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Message Header"
-msgstr "meddelandehuvud"
+msgstr "meddelanderubrik"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Message is Junk"
@@ -11478,7 +11478,7 @@ msgstr "Källkonto"
 
 #: ../mail/em-filter-i18n.h:61
 msgid "Specific header"
-msgstr "Specifikt huvud"
+msgstr "Specifik rubrik"
 
 #: ../mail/em-filter-i18n.h:62
 msgid "starts with"
@@ -12570,7 +12570,7 @@ msgstr "Lista med konton som är kända för Evolutions e-postkomponent. Listan 
 
 #: ../mail/evolution-mail.schemas.in.in.h:43
 msgid "List of custom headers and whether they are enabled."
-msgstr "Lista med anpassade huvuden och huruvida de är aktiverade."
+msgstr "Lista med anpassade rubriker och huruvida de är aktiverade."
 
 #: ../mail/evolution-mail.schemas.in.in.h:44
 msgid "List of labels known to the mail component of Evolution. The list contains strings containing name:color where color uses the HTML hex encoding."
@@ -12634,7 +12634,7 @@ msgstr "Standardbredd för meddelandefönstret"
 
 #: ../mail/evolution-mail.schemas.in.in.h:59
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "Stil på meddelandevisning (normal, \"full headers\" (fullständiga huvuden), \"source\" (källa))"
+msgstr "Stil på meddelandevisning (normal, \"full headers\" (fullständiga rubriker), \"source\" (källkod))"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Minimum days between emptying the trash on exit"
@@ -12790,7 +12790,7 @@ msgstr "Det här bestämmer maximal storlek på textdelen som kan formateras und
 
 #: ../mail/evolution-mail.schemas.in.in.h:100
 msgid "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
-msgstr "Denna nyckel bör innehålla en lista med XML-strukturer som anger anpassade huvuden, och huruvida de ska visas. Formatet på XML-strukturen är &lt;huvud enabled&gt; - ställ detta till \"enabled\" om huvudet ska visas i e-postvyn."
+msgstr "Denna nyckel bör innehålla en lista med XML-strukturer som anger anpassade rubriker, och huruvida de ska visas. Formatet på XML-strukturen är &lt;header enabled&gt; - ställ detta till \"enabled\" om rubriken ska visas i e-postvyn."
 
 #: ../mail/evolution-mail.schemas.in.in.h:101
 msgid "This sets the number of addresses to show in default message list view, beyond which a '...' is shown."
@@ -13227,7 +13227,7 @@ msgstr "<span weight=\"bold\">Ta bort e-post</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr "<span weight=\"bold\">Visade e-post_huvuden</span>"
+msgstr "<span weight=\"bold\">Visade e-post_rubriker</span>"
 
 #: ../mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Filter Options</span>"
@@ -13512,7 +13512,7 @@ msgstr "E-postkonfiguration"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Mail Headers Table"
-msgstr "E-posthuvudtabell"
+msgstr "Tabell över e-postrubriker"
 
 #: ../mail/mail-config.glade.h:101
 msgid "Mailbox location"
@@ -13766,7 +13766,7 @@ msgstr "_Visa bildanimeringar"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "_Minska huvuden för Till / Kopia / Blindkopia till "
+msgstr "_Minska rubriker för Till / Kopia / Blindkopia till "
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Use Secure Connection:"
@@ -14442,7 +14442,7 @@ msgstr "E-postfilter har automatiskt blivit uppdaterade."
 
 #: ../mail/mail.error.xml.h:68
 msgid "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
-msgstr "Många e-postsystem lägger till ett \"Apparently-To\"-huvud till meddelanden som endast har blindkopiemottagare. Detta huvud kommer, om det läggs till, att ändå lista alla dina mottagare i ditt brev. För att undvika detta bör du lägga till åtminstone en Till:- eller Kopia:-mottagare."
+msgstr "Många e-postsystem lägger till en \"Apparently-To\"-rubrik till meddelanden som endast har blindkopiemottagare. Denna rubrik kommer, om det läggs till, att ändå lista alla dina mottagare i ditt brev. För att undvika detta bör du lägga till åtminstone en Till:- eller Kopia:-mottagare."
 
 #: ../mail/mail.error.xml.h:69
 msgid "Mark all messages as read"
@@ -14542,7 +14542,7 @@ msgid ""
 msgstr ""
 "Kontaktlistan som du skickar till är konfigurerad att dölja listmottagare.\n"
 "\n"
-"Många e-postsystem lägger till ett \"Apparently-To\"-huvud till meddelanden som endast har blindkopiemottagare. Detta huvud kommer, om det läggs till, att lista alla dina mottagare i ditt brev. För att undvika detta bör du lägga till åtminstone en Till:- eller Kopia:-mottagare."
+"Många e-postsystem lägger till en \"Apparently-To\"-rubrik till meddelanden som endast har blindkopiemottagare. Denna rubrik kommer, om det läggs till, att lista alla dina mottagare i ditt brev. För att undvika detta bör du lägga till åtminstone en Till:- eller Kopia:-mottagare."
 
 #: ../mail/mail.error.xml.h:96
 msgid ""
@@ -17012,7 +17012,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
-msgstr "Felaktigt huvud"
+msgstr "Felaktig rubrik"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid "No e-mail action"
@@ -17036,9 +17036,9 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
-"Åtgärden kunde inte utföras. Detta betyder att huvudet för denna åtgärd inte innehöll någon åtgärd som vi kan hantera.\n"
+"Åtgärden kunde inte utföras. Detta betyder att rubriken för denna åtgärd inte innehöll någon åtgärd som vi kan hantera.\n"
 "\n"
-"Huvud: {0}"
+"Rubrik: {0}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:13
 msgid ""
@@ -17046,13 +17046,13 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"Huvudet {0} i detta meddelande är felaktigt och kunde inte behandlas.\n"
+"Rubriken {0} i detta meddelande är felaktigt och kunde inte behandlas.\n"
 "\n"
-"Huvud: {1}"
+"Rubrik: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid "This message does not contain the header information required for this action."
-msgstr "Detta meddelande innehåller inte den huvudinformation som krävs för denna åtgärd."
+msgstr "Detta meddelande innehåller inte den rubrikinformation som krävs för denna åtgärd."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -17449,7 +17449,7 @@ msgstr "Avancerade alternativ för CVS-formatet"
 
 #: ../plugins/save-calendar/csv-format.c:559
 msgid "Prepend a header"
-msgstr "Lägg till ett huvud först"
+msgstr "Lägg till en rubrik före"
 
 #: ../plugins/save-calendar/csv-format.c:568
 msgid "Value delimiter:"
@@ -19480,7 +19480,7 @@ msgstr "Lägg till avsändaren i adressboken"
 
 #: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
-msgstr "Alla meddelande_huvuden"
+msgstr "Alla meddelande_rubriker"
 
 #: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
@@ -19800,7 +19800,7 @@ msgstr "Visa meddelanden i normal stil"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "Show messages with all email headers"
-msgstr "Visa meddelanden med alla e-posthuvuden"
+msgstr "Visa meddelanden med alla e-postrubriker"
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Show the raw email source of the message"
@@ -20432,7 +20432,7 @@ msgstr "_Avsluta"
 # Osäker.
 #: ../ui/evolution.xml.h:50
 msgid "_Switcher Appearance"
-msgstr "_Växlarutseende"
+msgstr "_Växla utseende"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
@@ -21443,7 +21443,7 @@ msgstr "Drag- och släppkod"
 #: ../widgets/table/e-table-field-chooser.c:84
 #: ../widgets/table/e-table-header-item.c:1888
 msgid "Full Header"
-msgstr "Fullständigt huvud"
+msgstr "Fullständiga rubriker"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
