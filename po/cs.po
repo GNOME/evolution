@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-08 14:42+0100\n"
-"PO-Revision-Date: 2007-03-08 14:41+0100\n"
+"POT-Creation-Date: 2007-03-09 21:55+0100\n"
+"PO-Revision-Date: 2007-03-09 21:19+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2630,7 +2630,7 @@ msgid "_Select Address Book"
 msgstr "Vybrat nový adre_sář"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:322
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s)?"
@@ -2647,7 +2647,7 @@ msgstr ""
 "tyto seznamy kontaktů?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:330
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact (%s)?"
@@ -3322,19 +3322,16 @@ msgid "Adapter"
 msgstr "Adaptér"
 
 #: ../addressbook/gui/widgets/e-minicard.c:102
-#, fuzzy
 msgid "Work Email"
-msgstr "E-mail"
+msgstr "Pracovní e-mail"
 
 #: ../addressbook/gui/widgets/e-minicard.c:103
-#, fuzzy
 msgid "Home Email"
-msgstr "Fax - domů"
+msgstr "Domácí e-mail"
 
 #: ../addressbook/gui/widgets/e-minicard.c:104
-#, fuzzy
 msgid "Other Email"
-msgstr "Další fax"
+msgstr "Další e-mail"
 
 #: ../addressbook/gui/widgets/e-minicard.c:173
 msgid "Selected"
@@ -3383,23 +3380,20 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:572
-#, fuzzy
 msgid "Department"
-msgstr "_Oddělení:"
+msgstr "Oddělení"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:573
-#, fuzzy
 msgid "Profession"
-msgstr "_Povolání:"
+msgstr "Povolání"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:574
 msgid "Position"
 msgstr "Pozice"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:577
-#, fuzzy
 msgid "Video Chat"
-msgstr "_Video chat:"
+msgstr "Video chat"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:578
 #: ../calendar/gui/calendar-commands.c:119
@@ -3433,24 +3427,20 @@ msgid "Fax"
 msgstr "Fax"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:592
-#, fuzzy
 msgid "Home Page"
-msgstr "_Domovská stránka:"
+msgstr "Domovská stránka"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:593
-#, fuzzy
 msgid "Web Log"
-msgstr "_Web log:"
+msgstr "Weblog"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:598
-#, fuzzy
 msgid "Birthday"
-msgstr "Na_rozeniny:"
+msgstr "Narozeniny"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:599
-#, fuzzy
 msgid "Anniversary"
-msgstr "_Výročí:"
+msgstr "Výročí"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:781
 msgid "Job Title"
@@ -5243,7 +5233,7 @@ msgstr "Minuta začátku pracovního dne"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:95
 msgid "daylight savings time"
-msgstr ""
+msgstr "letní čas"
 
 #: ../calendar/gui/cal-search-bar.c:55
 msgid "Summary contains"
@@ -5829,12 +5819,10 @@ msgid "C_olor:"
 msgstr "_Barva:"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:380
-#, fuzzy
 msgid "Task List"
 msgstr "Seznam úkolů"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:391
-#, fuzzy
 msgid "Memo List"
 msgstr "Seznam poznámek"
 
@@ -6313,7 +6301,6 @@ msgid "15 minutes before appointment"
 msgstr "15 minut před událostí"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Attendee_s..."
 msgstr "Úč_astníci..."
 
@@ -8367,16 +8354,14 @@ msgid "_Shared memo"
 msgstr "_Sdílená poznámka"
 
 #: ../calendar/gui/memos-component.c:1176
-#, fuzzy
 msgid "Create a shared new memo"
-msgstr "Vytvořit·novou·poznámku"
+msgstr "Vytvořit·novou·sdílenou poznámku"
 
 #: ../calendar/gui/memos-component.c:1182
 msgid "New memo list"
 msgstr "Nový seznam poznámek"
 
 #: ../calendar/gui/memos-component.c:1183
-#, fuzzy
 msgid "Memo li_st"
 msgstr "Sez_nam poznámek"
 
@@ -8721,9 +8706,8 @@ msgid "New task list"
 msgstr "Nový seznam úkolů"
 
 #: ../calendar/gui/tasks-component.c:1261
-#, fuzzy
 msgid "Tas_k list"
-msgstr "_Seznam úkolů"
+msgstr "Seznam ú_kolů"
 
 #: ../calendar/gui/tasks-component.c:1262
 msgid "Create a new task list"
@@ -11613,9 +11597,8 @@ msgid "No Label"
 msgstr "Štítek"
 
 #: ../mail/em-folder-browser.c:200
-#, fuzzy
 msgid "Read Messages"
-msgstr "_Nepřečtené zprávy"
+msgstr "Přečtené zprávy"
 
 #: ../mail/em-folder-browser.c:201
 #, fuzzy
@@ -13645,7 +13628,7 @@ msgstr "Vložené"
 
 #: ../mail/mail-config.glade.h:95
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Languages Table"
@@ -13942,9 +13925,8 @@ msgid "_Use the same fonts as other applications"
 msgstr "Používat _stejná písma jako jiné aplikace"
 
 #: ../mail/mail-config.glade.h:178
-#, fuzzy
 msgid "addresses"
-msgstr "Adresa"
+msgstr "adresy"
 
 #: ../mail/mail-config.glade.h:179
 msgid "color"
@@ -14027,9 +14009,8 @@ msgid "Security Information"
 msgstr "Informace o zabezpečení"
 
 #: ../mail/mail-dialogs.glade.h:19
-#, fuzzy
 msgid "Specific folders"
-msgstr "pouze zvláštní složky"
+msgstr "Určité složky"
 
 #: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:3
 msgid ""
@@ -14061,9 +14042,8 @@ msgid "Pinging %s"
 msgstr "Kontaktuji %s"
 
 #: ../mail/mail-ops.c:105
-#, fuzzy
 msgid "Filtering Selected Messages"
-msgstr "Skrýt _vybrané zprávy"
+msgstr "Filtrování vybraných zpráv"
 
 #: ../mail/mail-ops.c:266
 msgid "Fetching Mail"
@@ -14259,14 +14239,13 @@ msgid "Checking for new mail"
 msgstr "Kontroluji novou poštu"
 
 #: ../mail/mail-session.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Zadat heslo pro %s"
 
 #: ../mail/mail-session.c:200
-#, fuzzy
 msgid "Enter Passphrase"
-msgstr "Zadat heslo"
+msgstr "Zadejte heslo"
 
 #: ../mail/mail-session.c:203
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
@@ -14661,9 +14640,8 @@ msgid "Mark all messages as read"
 msgstr "Označit všechny zprávy jako přečtené"
 
 #: ../mail/mail.error.xml.h:70
-#, fuzzy
 msgid "Mark all messages in subfolders as read?"
-msgstr "Označit všechny zprávy jako přečtené"
+msgstr "Označit všechny zprávy v podsložkách jako přečtené?"
 
 #: ../mail/mail.error.xml.h:71
 #, fuzzy
@@ -15019,9 +14997,8 @@ msgid "Received"
 msgstr "Přijato"
 
 #: ../mail/message-list.etspec.h:14
-#, fuzzy
 msgid "Sent Messages"
-msgstr "_Otevřít zprávy"
+msgstr "Odeslané zprávy"
 
 #: ../mail/message-list.etspec.h:15
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
@@ -15226,9 +15203,8 @@ msgid "CalDAV Calendar sources"
 msgstr "Místní kalendáře"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
-#, fuzzy
 msgid "CalDAV sources"
-msgstr "Implicitní zdroje"
+msgstr "Zdroje CalDAV"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Local Calendars"
@@ -15474,15 +15450,14 @@ msgstr "Zjistit podporované _typy"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:949
 #: ../plugins/exchange-operations/exchange-contacts.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "%s KB"
-msgstr "%ld KB"
+msgstr "%s KB"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:951
 #: ../plugins/exchange-operations/exchange-contacts.c:215
-#, fuzzy
 msgid "0 KB"
-msgstr "%ld KB"
+msgstr "0 KB"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
