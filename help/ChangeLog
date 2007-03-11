@@ -1,3 +1,7 @@
+2007-03-11  Daniel Nylander <po@danielnylander.se>
+
+	* sv/sv.po: Updated Swedish translation.
+
 2007-03-07  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* Makefile.am: Added new doc images to Makefile.am.
