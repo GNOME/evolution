@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-09 21:55+0100\n"
-"PO-Revision-Date: 2007-03-09 21:19+0100\n"
+"POT-Creation-Date: 2007-03-12 12:17+0100\n"
+"PO-Revision-Date: 2007-03-12 12:16+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2603,7 +2603,7 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3140
 #, c-format
 msgid "%s'%s' is empty"
-msgstr ""
+msgstr "%s'%s' je prázdný"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3155
 msgid "Invalid contact."
@@ -5209,7 +5209,7 @@ msgstr "Jestli zobrazovat čísla týdnů v navigátoru data."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
 msgid "Whether to use daylight savings time while displaying events."
-msgstr ""
+msgstr "Zda pro zobrazování událostí používat letní čas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
 msgid "Work days"
@@ -5537,9 +5537,8 @@ msgstr "Alarmy"
 #: ../composer/e-msg-composer-attachment.glade.h:5
 #: ../composer/e-msg-composer-select-file.c:98
 #: ../composer/e-msg-composer-select-file.c:118
-#, fuzzy
 msgid "_Suggest automatic display of attachment"
-msgstr "Navrhnout automatické zobrazovaní příloh"
+msgstr "_Navrhnout automatické zobrazovaní příloh"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
@@ -6260,7 +6259,7 @@ msgstr[1] "%d hodiny před událostí"
 msgstr[2] "%d hodin před událostí"
 
 #: ../calendar/gui/dialogs/event-page.c:2944
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minutu před událostí"
@@ -11592,9 +11591,8 @@ msgid "Unread Messages"
 msgstr "Nepřečtené zprávy"
 
 #: ../mail/em-folder-browser.c:193
-#, fuzzy
 msgid "No Label"
-msgstr "Štítek"
+msgstr "Bez štítku"
 
 #: ../mail/em-folder-browser.c:200
 msgid "Read Messages"
@@ -11606,9 +11604,8 @@ msgid "Recent Messages"
 msgstr "_Otevřít zprávy"
 
 #: ../mail/em-folder-browser.c:202
-#, fuzzy
 msgid "Last 5 Days' Messages"
-msgstr "Zpráva o špatném úkolu"
+msgstr "Zpráva za posledních 5 dní"
 
 #: ../mail/em-folder-browser.c:203
 msgid "Messages with Attachments"
@@ -11985,7 +11982,6 @@ msgid "Matches: %d"
 msgstr "Nalezeno: %d"
 
 #: ../mail/em-format-html-display.c:657
-#, fuzzy
 msgid "Fi_nd:"
 msgstr "_Hledat:"
 
@@ -12148,7 +12144,7 @@ msgstr "Uložit _vybrané..."
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:2221
-#, fuzzy, c-format
+#, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
 msgstr[0] "%d přílo_ha"
@@ -13953,19 +13949,16 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Šifrování</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "All active remote folders"
-msgstr "se všemi aktivními vzdálenými složkami"
+msgstr "Všechny aktivní vzdálené složky"
 
 #: ../mail/mail-dialogs.glade.h:6
-#, fuzzy
 msgid "All local and active remote folders"
-msgstr "se všemi místními a aktivními vzdálenými složkami"
+msgstr "Všechny místní a aktivní vzdálené složky"
 
 #: ../mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "All local folders"
-msgstr "se všemi místními složkami"
+msgstr "Všechny lokální složky"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
@@ -14322,11 +14315,10 @@ msgid "New Search Folder"
 msgstr "Nová složka hledání"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid ""
 "A folder named &quot;{0}&quot; already exists. Please use a different name."
 msgstr ""
-"Složka nazvaná &quot;{1}&quot; již existuje. Použijte prosím jiný název."
+"Složka nazvaná &quot;{0}&quot; již existuje. Použijte prosím jiný název."
 
 #: ../mail/mail.error.xml.h:2
 msgid ""
@@ -14644,7 +14636,6 @@ msgid "Mark all messages in subfolders as read?"
 msgstr "Označit všechny zprávy v podsložkách jako přečtené?"
 
 #: ../mail/mail.error.xml.h:71
-#, fuzzy
 msgid "Mark as _Read"
 msgstr "Označit jako _přečtené"
 
@@ -15737,14 +15728,12 @@ msgid "Role: "
 msgstr "Funkce: "
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:10
-#, fuzzy
 msgid "No, Don't Change Status"
 msgstr "Ne, neměnit stav"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Message Settings</b>"
-msgstr "<b>Nastavení nevyžádané pošty</b>"
+msgstr "<b>Nastavení zpráv</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:2
 #, fuzzy
@@ -15775,6 +15764,10 @@ msgid ""
 "Private\n"
 "Confidential"
 msgstr ""
+"Normální\n"
+"Osobní\n"
+"Soukromé\n"
+"Důvěrné"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 #, fuzzy
@@ -15788,7 +15781,7 @@ msgstr "Vyžádat si doručenku všech zpráv, které pošlu"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:14
 msgid "_Sensitivity: "
-msgstr ""
+msgstr "_Citlivost: "
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
 msgid "Select User"
@@ -16517,7 +16510,7 @@ msgstr "Zásuvný modul pro funkce účtů GroupWise."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
-msgstr ""
+msgstr "Vlastnosti IMAP"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Calendar"
@@ -21217,14 +21210,12 @@ msgid "Time"
 msgstr "Čas"
 
 #: ../widgets/misc/e-dateedit.c:461
-#, fuzzy
 msgid "No_w"
-msgstr "Nyní"
+msgstr "_Nyní"
 
 #: ../widgets/misc/e-dateedit.c:467
-#, fuzzy
 msgid "_Today"
-msgstr "Dnes"
+msgstr "_Dnes"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
@@ -21237,14 +21228,12 @@ msgid "%I:%M %p"
 msgstr "%H:%M, %x"
 
 #: ../widgets/misc/e-dateedit.c:1634
-#, fuzzy
 msgid "Invalid Date Value"
-msgstr "Neplatný podpis"
+msgstr "Neplatná hodnota data"
 
 #: ../widgets/misc/e-dateedit.c:1660
-#, fuzzy
 msgid "Invalid Time Value"
-msgstr "Neplatný podpis"
+msgstr "Neplatná hodnota času"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
@@ -21330,9 +21319,8 @@ msgid "_Advanced Search..."
 msgstr "_Pokročilé hledání..."
 
 #: ../widgets/misc/e-filter-bar.h:103
-#, fuzzy
 msgid "All Accounts"
-msgstr "Účty e-mailu"
+msgstr "Všechny účty"
 
 #: ../widgets/misc/e-filter-bar.h:104
 #, fuzzy
@@ -21478,9 +21466,8 @@ msgid "A_uto-delete sent item"
 msgstr "_Automaticky odstranit odeslanou položku"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "Classification"
-msgstr "Klasi_fikace"
+msgstr "Klasifikace"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
@@ -21503,6 +21490,7 @@ msgstr ""
 "Doručenka"
 
 #: ../widgets/misc/e-send-options.glade.h:12
+#, fuzzy
 msgid ""
 "Normal\n"
 "Proprietary\n"
@@ -21511,6 +21499,12 @@ msgid ""
 "Top Secret\n"
 "For Your Eyes Only"
 msgstr ""
+"Normální\n"
+"Proprietary\n"
+"Confidential\n"
+"Secret\n"
+"Top Secret\n"
+"For Your Eyes Only"
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
@@ -21801,20 +21795,20 @@ msgstr ""
 "na místo, kde chcete, aby se objevil."
 
 #: ../widgets/table/e-table-group-container.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
 msgstr[0] "%s : %s (%d položka)"
-msgstr[1] "%s : %s (%d položka)"
-msgstr[2] "%s : %s (%d položka)"
+msgstr[1] "%s : %s (%d položky)"
+msgstr[2] "%s : %s (%d položek)"
 
 #: ../widgets/table/e-table-group-container.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d položka)"
-msgstr[1] "%s (%d položka)"
-msgstr[2] "%s (%d položka)"
+msgstr[1] "%s (%d položky)"
+msgstr[2] "%s (%d položek)"
 
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-container.c:898
