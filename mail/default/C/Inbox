@@ -1,19 +1,19 @@
 From evolution@novell.com Wed Sep 06 07:45:12 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 14 Mar 2007
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
+	<evolution@novell.com>; Wed, 14 Mar 2007 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 14 Mar 2007 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
+	pop.novell.com with SMTP; 14 Mar 2007 12:00:00 -0000
 From: "The Evolution Team" <evolution@novell.com>
 To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.8.0
-Date: 06 September 2006 12:00:00 +0000
+X-Mailer: Evolution 2.10.0
+Date: 14 March 2007 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Welcome to Evolution!
@@ -49,15 +49,11 @@ Getting Started
 
 New Features
 
-	Evolution 2.8 has
+	Evolution 2.10 brings you
 	
-	# A New Search Interface and Global Search in Mailer
-	# A Wide Screen Mode, Vertical Preview in Mailer
-	# Better Look and Feel ("Cairo" integration)
+	# Integration with gtk-print
+	# Customizable fetching of IMAP headers.
 	# Faster Performance, lots of Memory Fixes and Memory Reduction
-	# Support for GroupWise Reminder Notes and Mail Retract
-	# Sharable Notes in the Journal (filesystem)
-	# GNOME Keyring Manager Support
 	# Lots of Bug fixes and lots of other Improvements
 
 Bug Reporting
@@ -137,22 +133,14 @@ New Features
 </h2>
 
 <blockquote>
-	Evolution 2.8 has 
+	Evolution 2.10 brings you 
 	<ul>
 	<li>
-	A New Search Interface and Global Search in Mailer
+	Integration with gtk-print
 	</li><li>
-	A Wide Screen Mode, Vertical Preview in Mailer
-	</li><li>
-	Better Look and Feel ("Cairo" integration)
+	Customizable fetching of IMAP headers
 	</li><li>
 	Faster Performance, lots of Memory Fixes and Memory Reduction
-	</li><li>
-	Support for GroupWise Reminder Notes and Mail Retract
-	</li><li>
-	Sharable Notes in the Journal (filesystem)
-	</li><li>
-	GNOME Keyring Manager Support
 	</li><li>
 	Lots of Bug fixes and lots of other Improvements
 	</li>
