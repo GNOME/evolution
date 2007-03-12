@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-27 03:18+0000\n"
-"PO-Revision-Date: 2007-03-12 08:47+0530\n"
+"PO-Revision-Date: 2007-03-12 09:25+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi <punjabi-l10n@lists.sf.net>\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "ਨਵਾਂ ਸੰਪਰਕ"
 #: ../a11y/addressbook/ea-minicard-view.c:35
 #: ../addressbook/gui/component/addressbook-component.c:232
 msgid "New Contact List"
-msgstr "ਨਵੀ ਸੰਪਰਕ ਸੂਚੀ"
+msgstr "ਨਵੀਂ ਸੰਪਰਕ ਲਿਸਟ"
 
 #: ../a11y/addressbook/ea-minicard-view.c:163
 #, c-format
@@ -57,7 +57,7 @@ msgstr "ਖੋਲ੍ਹੋ"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
-msgstr "ਸੰਪਰਕ ਸੂਚੀ: "
+msgstr "ਸੰਪਰਕ ਲਿਸਟ: "
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
@@ -65,7 +65,7 @@ msgstr "ਸੰਪਰਕ:  "
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
-msgstr "ਈਵੇਲੂਸ਼ਨ ਛੋਟਾ-ਕਾਰਡ"
+msgstr "ਈਵੇਲੂਸ਼ਨ ਮਿੰਨੀ-ਕਾਰਡ"
 
 #: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
@@ -94,15 +94,15 @@ msgstr "ਕੈਲੰਡਰ ਵੇਖਣ ਘਟਨਾ"
 
 #: ../a11y/calendar/ea-cal-view-event.c:529
 msgid "Grab Focus"
-msgstr "ਕੇਂਦਰਿਤ ਹੋਵੇ"
+msgstr "ਫੋਕਸ ਲਵੋ"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
-msgstr "ਨਵਾਂ ਰੁਝੇਵਾਂ"
+msgstr "ਨਵੀਂ ਮੁਲਾਕਾਤ"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "New All Day Event"
-msgstr "ਨਵੇਂ ਸਾਰੇ ਦਿਨ ਦੇ ਰੁਝੇਵੇਂ"
+msgstr "ਨਵੇਂ ਸਾਰਾ ਦਿਨ ਘਟਨਾਵਾਂ"
 
 #: ../a11y/calendar/ea-cal-view.c:304
 msgid "New Meeting"
@@ -110,11 +110,11 @@ msgstr "ਨਵੀਂ ਮੀਟਿੰਗ"
 
 #: ../a11y/calendar/ea-cal-view.c:305
 msgid "Go to Today"
-msgstr "ਅੱਜ ਤੇ ਜਾਓ"
+msgstr "ਅੱਜ 'ਤੇ ਜਾਓ"
 
 #: ../a11y/calendar/ea-cal-view.c:306
 msgid "Go to Date"
-msgstr "ਮਿਤੀ ਤੇ ਜਾਓ"
+msgstr "ਤਾਰੀਖ 'ਤੇ ਜਾਓ"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
@@ -142,7 +142,7 @@ msgstr "ਇਸ ਵਿੱਚ ਕੋਈ ਘਟਨਾ ਨਹੀਂ ਹੈ।"
 #: ../a11y/calendar/ea-day-view.c:162
 #, c-format
 msgid "Work Week View: %s. %s"
-msgstr "ਕੰਮ ਹਫਤਾ ਦਰਿਸ਼: %s. %s"
+msgstr "ਕੰਮ ਹਫਤਾ ਝਲਕ: %s. %s"
 
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
@@ -158,7 +158,7 @@ msgstr "ਕੰਮ ਹਫਤੇ ਲਈ ਕੈਲੰਡਰ ਦਿੱਖ"
 
 #: ../a11y/calendar/ea-day-view.c:201
 msgid "calendar view for one or more days"
-msgstr "ਇੱਕ ਜਾਂ ਵਧੇਰੇ ਦਿਨਾਂ ਲ਼ਈ ਕੈਲੰਡਰ ਦਿੱਖ"
+msgstr "ਇੱਕ ਜਾਂ ਵਧੇਰੇ ਦਿਨਾਂ ਲਈ ਕੈਲੰਡਰ ਦਿੱਖ"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:188
 #: ../calendar/gui/calendar-component.c:707
@@ -234,7 +234,7 @@ msgstr "ਜੰਪ ਬਟਨ"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr "ਹੋਰ ਘਟਨਾਵਾਂ ਵੇਖਣ ਲ਼ਈ ਇਸ ਨੂੰ ਦਬਾਓ।"
+msgstr "ਹੋਰ ਘਟਨਾਵਾਂ ਵੇਖਣ ਲਈ ਇਸ ਨੂੰ ਦਬਾਓ।"
 
 #: ../a11y/calendar/ea-week-view.c:157
 #, c-format
@@ -252,7 +252,7 @@ msgstr "ਮਹੀਨੇ ਦੀ ਕੈਲੰਡਰ ਦਿੱਖ"
 
 #: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
-msgstr "ਇੱਕ ਜਾਂ ਵਧੇਰੇ ਹਫਤਿਆਂ ਲ਼ਈ ਕੈਲੰਡਰ ਦਰਿਸ਼"
+msgstr "ਇੱਕ ਜਾਂ ਵਧੇਰੇ ਹਫਤਿਆਂ ਲਈ ਕੈਲੰਡਰ ਦਰਿਸ਼"
 
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
 msgid "popup"
@@ -460,7 +460,7 @@ msgstr "ਇਸ ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਨੂੰ ਹਮੇਸ਼�
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
-msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
+msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
@@ -686,12 +686,12 @@ msgstr "ਸੰਪਰਕ ਸੂਚੀ(_L)"
 
 #: ../addressbook/gui/component/addressbook-component.c:234
 msgid "Create a new contact list"
-msgstr "ਨਵੀ ਸੰਪਰਕ ਸੂਚੀ ਬਣਾਉ"
+msgstr "ਨਵੀਂ ਸੰਪਰਕ ਸੂਚੀ ਬਣਾਉ"
 
 #: ../addressbook/gui/component/addressbook-component.c:240
 #: ../addressbook/gui/component/addressbook-config.c:1205
 msgid "New Address Book"
-msgstr "ਨਵੀ ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ"
+msgstr "ਨਵੀਂ ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ"
 
 #: ../addressbook/gui/component/addressbook-component.c:241
 msgid "Address _Book"
@@ -763,7 +763,7 @@ msgstr "ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 #: ../addressbook/gui/component/addressbook-config.c:1203
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
-msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਵਿਸ਼ੇਸਤਾਵਾਂ"
+msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਵਿਸ਼ੇਸ਼ਤਾ"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:73
 #: ../calendar/gui/migration.c:155 ../mail/em-migrate.c:1202
@@ -782,7 +782,7 @@ msgstr "LDAP ਸਰਵਰ"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:744
 msgid "Autocompletion Settings"
-msgstr "ਸਵੈ-ਪੂਰਤੀ ਸੈਟਿੰਗ"
+msgstr "ਆਟੋ-ਪੂਰਤੀ ਸੈਟਿੰਗ"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1119
 msgid ""
@@ -793,7 +793,7 @@ msgid ""
 msgstr ""
 "ਈਵੇਲੂਸ਼ਨ ਸੰਪਰਕ ਫੋਲਡਰ ਦੀ ਸਥਿਤੀ ਤੇ ਲੜੀ ਵਿੱਚ ਈਵੇਲੂਸ਼ਨ 1.x ਤੋਂ ਬਾਅਦ ਤਬਦੀਲੀ ਆ ਗਈ ਹੈ।\n"
 "\n"
-"ਕਿਰਪਾ ਕਰਕੇ ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ, ਜਦੋਂ ਤੱਕ ਕਿ ਫੋਲਡਰ ਤਬਦੀਲ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ।"
+"ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ ਜੀ, ਜਦੋਂ ਤੱਕ ਕਿ ਫੋਲਡਰ ਤਬਦੀਲ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ।"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1133
 msgid ""
@@ -803,7 +803,7 @@ msgid ""
 msgstr ""
 "ਮੇਲਿੰਗ ਸੂਚੀ ਸੰਪਰਕ ਦਾ ਫਾਰਮੈਟ ਤਬਦੀਲ ਹੋ ਗਿਆ ਹੈ।\n"
 "\n"
-"ਕਿਰਪਾ ਕਰਕੇ ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ ਜਦੋਂ ਕਿ ਈਵੇਲੂਸ਼ਨ ਤੁਹਾਡੇ ਫੋਲਡਰਾਂ ਨੂੰ ਤਬਦੀਲ ਕਰ ਰਹੀ ਹੈ"
+"ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ ਜੀ, ਜਦੋਂ ਤੱਕ ਕਿ ਫੋਲਡਰ ਤਬਦੀਲ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ।"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1142
 msgid ""
@@ -813,7 +813,7 @@ msgid ""
 msgstr ""
 "ਈਵੇਲੂਸ਼ਨ ਦਾ ਫੋਨ ਨੰਬਰ ਸੰਭਾਲਣਾ ਦਾ ਢੰਗ ਤਬਦੀਲ ਹੋ ਗਿਆ ਹੈ\n"
 "\n"
-"ਕਿਰਪਾ ਕਰਕੇ ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ ਜਦੋਂ ਕਿ ਈਵੇਲੂਸ਼ਨ ਤੁਹਾਡੇ ਫੋਲਡਰਾਂ ਨੂੰ ਤਬਦੀਲ ਕਰ ਰਹੀ ਹੈ"
+"ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ ਜੀ, ਜਦੋਂ ਤੱਕ ਕਿ ਫੋਲਡਰ ਤਬਦੀਲ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ।"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1152
 msgid ""
@@ -823,18 +823,18 @@ msgid ""
 msgstr ""
 "ਈਵੇਲੂਸ਼ਨ ਦੇ ਪਾਲਮ ਸਮਕਾਲੀ ਤਬਦੀਲ ਲਾਗ ਤੇ ਫਾਇਲ਼ ਖਾਕਾ ਤਬਦੀਲ ਹੋ ਗਿਆ ਹੈ।\n"
 "\n"
-"ਕਿਰਪਾ ਕਰਕੇ ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ ਜਦੋਂ ਕਿ ਈਵੇਲੂਸ਼ਨ ਤੁਹਾਡੇ ਫੋਲਡਰਾਂ ਨੂੰ ਤਬਦੀਲ ਕਰ ਰਹੀ ਹੈ"
+"ਥਰੰਮੇ ਨਾਲ ਉਡੀਕ ਕਰੋ ਜੀ, ਜਦੋਂ ਤੱਕ ਕਿ ਫੋਲਡਰ ਤਬਦੀਲ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ।"
 
 #: ../addressbook/gui/component/addressbook-view.c:434
 #: ../mail/em-folder-utils.c:503
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "ਫੋਲਡਰ \"%s\" ਦਾ ਨਾਂ-ਤਬਦੀਲ ਕਰੋ:"
+msgstr "ਫੋਲਡਰ \"%s\" ਦਾ ਨਾਂ ਬਦਲੋ:"
 
 #: ../addressbook/gui/component/addressbook-view.c:437
 #: ../mail/em-folder-utils.c:505
 msgid "Rename Folder"
-msgstr "ਫੋਲਡਰ ਨਾਂ ਤਬਦੀਲ"
+msgstr "ਫੋਲਡਰ ਨਾਂ ਬਦਲੋ"
 
 #: ../addressbook/gui/component/addressbook-view.c:442
 #: ../mail/em-folder-utils.c:511
@@ -872,7 +872,7 @@ msgstr "Vcard ਇੰਝ ਸੰਭਾਲੋ..."
 #: ../calendar/gui/calendar-component.c:585
 #: ../calendar/gui/memos-component.c:454 ../calendar/gui/tasks-component.c:445
 msgid "_Properties..."
-msgstr "ਵਿਸ਼ੇਸਤਾ(_P)..."
+msgstr "ਵਿਸ਼ੇਸ਼ਤਾ(_P)..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1343
 msgid "Contact Source Selector"
@@ -880,7 +880,7 @@ msgstr "ਸੰਪਰਕ ਸਰੋਤ ਚੋਣਕਾਰੀ"
 
 #: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
-msgstr "LDAP ਸਰਵਰ ਨੂੰ ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "LDAP ਸਰਵਰ ਨੂੰ ਖੋਲ੍ਹਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:513
@@ -891,7 +891,7 @@ msgstr "ਪ੍ਰਮਾਣਿਤ ਹੋਣ ਵਿੱਚ ਅਸਫਲ ।\n"
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:493
 #, c-format
 msgid "Enter password for %s (user %s)"
-msgstr "%s (ਉਪਭੋਗਤਾ %s) ਲਈ ਗੁਪਤ ਕੋਡ ਭਰੋ"
+msgstr "%s (ਉਪਭੋਗੀ %s) ਲਈ ਗੁਪਤ ਕੋਡ ਭਰੋ"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "Autocomplete length"
@@ -1008,11 +1008,11 @@ msgstr "ਵੱਖਰਾ ਨਾਂ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Email address"
-msgstr "ਈ-ਪੱਤਰ ਸਿਰਨਾਵਾਂ"
+msgstr "ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "ਈਵੇਲੂਸ਼ਨ ਇਹ ਈਪੱਤਰ ਸਿਰਨਾਵਾਂ ਸਰਵਰ ਤੇ ਤੁਹਾਡੀ ਪ੍ਰਮਾਣਕਿਤਾ ਲਈ ਵਰਤੇਗਾ।"
+msgstr "ਈਵੇਲੂਸ਼ਨ ਇਹ ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਸਰਵਰ ਤੇ ਤੁਹਾਡੀ ਪ੍ਰਮਾਣਕਿਤਾ ਲਈ ਵਰਤੇਗਾ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
@@ -1169,7 +1169,7 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"ਇਹ LDAP ਸਰਵਰ ਦੀ ਉਹ ਪੋਰਟ ਹੈ, ਜਿਸ ਤੇ ਈਵੇਲੂਸ਼ਨ ਜੁੜਨ ਦੀ ਕੋਸ਼ਿਸ ਕਰ ਰਿਹਾ ਹੈ। ਇੱਕ ਮਿਆਰੀ ਪੋਰਟਾਂ "
+"ਇਹ LDAP ਸਰਵਰ ਦੀ ਉਹ ਪੋਰਟ ਹੈ, ਜਿਸ ਤੇ ਈਵੇਲੂਸ਼ਨ ਜੁੜਨ ਦੀ ਕੋਸ਼ਿਸ ਕਰ ਰਿਹਾ ਹੈ। ਇੱਕ ਸਟੈਂਡਰਡ ਪੋਰਟਾਂ "
 "ਦੀ ਸੂਚੀ ਉਪਲੱਬਧ ਹੈ। ਆਪਣੇ ਸਿਸਟਮ ਪ੍ਰਬੰਧਕ ਨੂੰ ਪੁੱਛੋ ਕਿ ਕਿਹੜੀ ਪੋਰਟ ਨਿਰਧਾਰਿਤ ਕਰਨੀ ਹੈ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
@@ -1178,15 +1178,15 @@ msgstr "ਵੱਖਰਾ ਨਾਂ ਵਰਤੋਂ (DN)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "Using email address"
-msgstr "ਈ-ਪੱਤਰ ਸਿਰਨਾਵੇ ਦੀ ਵਰਤੋ ਕਰਕੇ"
+msgstr "ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਵਰਤੋਂ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "Whenever Possible"
-msgstr "ਜਦੋ ਵੀ ਸੰਭਵ ਹੋਵੇ"
+msgstr "ਜਦੋਂ ਵੀ ਸੰਭਵ ਹੋਵੇ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Add Address Book"
-msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਸ਼ਾਮਿਲ(_A)"
+msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਸ਼ਾਮਲ(_A)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
@@ -1198,7 +1198,7 @@ msgstr "ਸੰਭਵ ਖੋਜ ਆਧਾਰ ਲੱਭੋ(_F)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
-msgstr "ਲਾਗਿੰਨ ਢੰਗ(_L):"
+msgstr "ਲਾਗਇਨ ਢੰਗ(_L):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:245
@@ -1247,7 +1247,7 @@ msgstr "ਮਿੰਟ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "<b>Email</b>"
-msgstr "<b>ਈ-ਪੱਤਰ:</b>"
+msgstr "<b>ਈ-ਮੇਲ:</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Home</b>"
@@ -1443,7 +1443,7 @@ msgstr "ਵੀਡਿਓ ਗੱਲਬਾਤ(_V):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Wants to receive HTML mail"
-msgstr "HTML ਪੱਤਰ ਪ੍ਰਾਪਤ ਕਰਨੇ(_W)"
+msgstr "HTML ਪੱਤਰ ਮਨਜ਼ੂਰ ਹਨ(_W)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Web Log:"
@@ -2496,7 +2496,7 @@ msgstr "ਟਿਕਾਣਾ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:137
 msgid "Username"
-msgstr "ਉਪਭੋਗਤਾ ਨਾਂ"
+msgstr "ਉਪਭੋਗੀ ਨਾਂ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:205
@@ -2765,7 +2765,7 @@ msgstr "\n"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Add an email to the List"
-msgstr "ਈਪੱਤਰ ਸੂਚੀ ਵਿੱਚ ਸ਼ਾਮਿਲ ਕਰੋ"
+msgstr "ਈ-ਮੇਲ ਸੂਚੀ ਵਿੱਚ ਸ਼ਾਮਿਲ ਕਰੋ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:938
@@ -2774,7 +2774,7 @@ msgstr "ਸੰਪਰਕ ਸੂਚੀ ਸੰਪਾਦਕ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Insert email addresses from Address Book"
-msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਵਿੱਚੋਂ ਈ-ਪੱਤਰ ਸਿਰਨਾਵਾਂ ਸ਼ਾਮਿਲ"
+msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਵਿੱਚੋਂ ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਸ਼ਾਮਿਲ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "Members"
@@ -2782,7 +2782,7 @@ msgstr "ਮੈਂਬਰ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "Remove an email address from the List"
-msgstr "ਈਪੱਤਰ ਸਿਰਨਾਵਾਂ ਸੂਚੀ ਵਿੱਚੋਂ ਹਟਾਓ"
+msgstr "ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਸੂਚੀ ਵਿੱਚੋਂ ਹਟਾਓ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "_Hide addresses when sending mail to this list"
@@ -2798,7 +2798,7 @@ msgstr "ਚੁਣੋ(_S)"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "ਸੂਚੀ ਵਿੱਚ ਹੇਠਾਂ ਸੰਪਰਕ ਤੋਂ ਈ-ਪੱਤਰ ਲਿਖੋ ਜਾਂ ਸੁੱਟੋ।(_T)"
+msgstr "ਸੂਚੀ ਵਿੱਚ ਹੇਠਾਂ ਸੰਪਰਕ ਤੋਂ ਈ-ਮੇਲ ਲਿਖੋ ਜਾਂ ਸੁੱਟੋ।(_T)"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
@@ -2839,7 +2839,7 @@ msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
-"ਸੰਪਰਕ ਦਾ ਤਬਦੀਲ ਈ-ਪੱਤਰ ਜਾਂ ਨਾਂ ਮੌਜੂਦਾ ਫੋਲਡਰ ਵਿੱਚ ਪਹਿਲਾਂ ਹੀ\n"
+"ਸੰਪਰਕ ਦਾ ਤਬਦੀਲ ਈ-ਮੇਲ ਜਾਂ ਨਾਂ ਮੌਜੂਦਾ ਫੋਲਡਰ ਵਿੱਚ ਪਹਿਲਾਂ ਹੀ\n"
 "ਸ਼ਾਮਿਲ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਕਿਸੇ ਵੀ ਤਰਾਂ ਸ਼ਾਮਿਲ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
@@ -2855,7 +2855,7 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"ਸੰਪਰਕ ਦਾ ਤਬਦੀਲ ਨਾਂ ਜਾਂ ਈ-ਪੱਤਰ ਮੌਜੂਦਾ ਫੋਲਡਰ ਵਿੱਚ ਪਹਿਲਾਂ ਹੀ\n"
+"ਸੰਪਰਕ ਦਾ ਤਬਦੀਲ ਨਾਂ ਜਾਂ ਈ-ਮੇਲ ਮੌਜੂਦਾ ਫੋਲਡਰ ਵਿੱਚ ਪਹਿਲਾਂ ਹੀ\n"
 "ਸ਼ਾਮਿਲ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਕਿਸੇ ਵੀ ਤਰਾਂ ਸ਼ਾਮਿਲ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
@@ -2867,7 +2867,7 @@ msgstr "ਕੋਈ ਖੇਤਰ ਸ਼ਾਮਿਲ"
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:179
 msgid "Email begins with"
-msgstr "ਈ-ਪੱਤਰ ਇਸ ਨਾਲ ਆਰੰਭ ਕਰੋ"
+msgstr "ਈ-ਮੇਲ ਇਸ ਨਾਲ ਆਰੰਭ ਕਰੋ"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.c:178
@@ -2948,7 +2948,7 @@ msgstr "ਨਵੀਂ ਸੰਪਰਕ ਸੂਚੀ(_L)..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:974
 msgid "_Save as VCard..."
-msgstr "VCard ਇਸਤਰਾਂ ਸੰਭਾਲੋ(_S)...."
+msgstr "VCard ਇੰਝ ਸੰਭਾਲੋ(_S)...."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:975
 msgid "_Forward Contact"
@@ -3069,15 +3069,15 @@ msgstr "ਕੰਪਨੀ ਫੋਨ"
 #: ../addressbook/gui/widgets/eab-contact-display.c:785
 #: ../plugins/groupwise-features/junk-settings.c:425 ../smime/lib/e-cert.c:827
 msgid "Email"
-msgstr "ਈ-ਪੱਤਰ"
+msgstr "ਈ-ਮੇਲ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 msgid "Email 2"
-msgstr "ਈ-ਪੱਤਰ 2"
+msgstr "ਈ-ਮੇਲ 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 3"
-msgstr "ਈ-ਪੱਤਰ 3"
+msgstr "ਈ-ਮੇਲ 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Family Name"
@@ -3329,12 +3329,12 @@ msgstr "ਕਰਸਰ ਹੈ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:620
 msgid "_Open Link in Browser"
-msgstr "ਹਮੇਸ਼ਾ ਝਲਾਕਾਰੇ ਵਿੱਚ ਖੋਲੋ(_O)"
+msgstr "ਹਮੇਸ਼ਾ ਝਲਾਕਾਰੇ ਵਿੱਚ ਖੋਲ੍ਹੋ(_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
 #: ../mail/em-folder-view.c:2546
 msgid "_Copy Link Location"
-msgstr "ਸਬੰਧ ਟਿਕਾਣੇ ਦੀ ਨਕਲ(_C)"
+msgstr "ਲਿੰਕ ਟਿਕਾਣੇ ਦੀ ਨਕਲ(_C)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:176 ../mail/em-popup.c:621
 msgid "_Send New Message To..."
@@ -3343,7 +3343,7 @@ msgstr "ਇਸ ਨੂੰ ਨਵਾਂ ਸੁਨੇਹਾ ਭੇਜੋ(_S)..."
 #: ../addressbook/gui/widgets/eab-contact-display.c:177
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
-msgstr "ਈ-ਪੱਤਰ ਸਿਰਨਾਵਾਂ ਨਕਲ(_E)"
+msgstr "ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਨਕਲ(_E)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:301
 #: ../addressbook/gui/widgets/eab-contact-display.c:364
@@ -3363,7 +3363,7 @@ msgstr "ਸੂਚੀ ਮੈਂਬਰ"
 #: ../addressbook/gui/widgets/eab-contact-display.c:540
 #: ../addressbook/gui/widgets/eab-contact-display.c:542
 msgid "E-mail"
-msgstr "ਈ-ਪੱਤਰ"
+msgstr "ਈ-ਮੇਲ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Department"
@@ -3607,11 +3607,11 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "ਇਸ ਸਿਰਨਾਵਾਂ-ਕਿਤਾਬ ਲਈ ਪਿੱਠਭੂਮੀ ਇਸ ਸਵਾਲ ਨੂੰ ਪਾਰਸ ਕਰਨ ਤੋਂ ਅਸਫਲ"
+msgstr "ਇਸ ਸਿਰਨਾਵਾਂ-ਕਿਤਾਬ ਲਈ ਬੈਕਗਰਾਊਂਡ ਇਸ ਸਵਾਲ ਨੂੰ ਪਾਰਸ ਕਰਨ ਤੋਂ ਅਸਫਲ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:162
 msgid "The backend for this addressbook refused to perform this query."
-msgstr "ਇਸ ਸਿਰਨਾਵਾਂ-ਕਿਤਾਬ ਲਈ ਪਿੱਠਭੂਮੀ ਨੇ ਇਸ ਸਵਾਲ ਨੂੰ ਪਾਰਸ ਕਰਨ ਤੋਂ ਇਨਕਾਰੀ ਹੈ"
+msgstr "ਇਸ ਸਿਰਨਾਵਾਂ-ਕਿਤਾਬ ਲਈ ਬੈਕਗਰਾਊਂਡ ਨੇ ਇਸ ਸਵਾਲ ਨੂੰ ਪਾਰਸ ਕਰਨ ਤੋਂ ਇਨਕਾਰੀ ਹੈ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:165
 msgid "This query did not complete successfully."
@@ -4043,7 +4043,7 @@ msgstr "ਕਿਤਾਬ ਨੂੰ ਖੋਲਣ ਵਿੱਚ ਅਸਫਲ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr "ਮਿਆਰੀ ਆਉਟਪੁੱਟ ਫਾਇਲ ਦੀ ਬਜਾਏ ਆਉਟਪੁੱਟ ਫਾਇਲ ਨਿਰਧਾਰਿਤ ਕਰੋ"
+msgstr "ਸਟੈਂਡਰਡ ਆਉਟਪੁੱਟ ਫਾਇਲ ਦੀ ਬਜਾਏ ਆਉਟਪੁੱਟ ਫਾਇਲ ਨਿਰਧਾਰਿਤ ਕਰੋ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
@@ -4051,7 +4051,7 @@ msgstr "OUTPUTFILE"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local addressbook folders"
-msgstr "ਸਥਾਨਕ ਸਿਰਨਾਵਾਂ ਫੋਲਡਰਾਂ ਦੀ ਸੂਚੀ"
+msgstr "ਲੋਕਲ ਸਿਰਨਾਵਾਂ ਫੋਲਡਰਾਂ ਦੀ ਸੂਚੀ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
@@ -4685,8 +4685,8 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
-"ਈਵੇਲੂਸ਼ਨ ਈਪੱਤਰ ਰਾਹੀ ਯਾਦਪੱਤਰ ਭੇਜਣ ਲਈ ਅਜੇ ਤੱਕ ਸਹਾਈ ਨਹੀਂ\n"
-"ਹੈ, ਪਰ ਇਹ ਯਾਦਪੱਤਰ ਈ-ਪੱਤਰ ਭੇਜਣ ਲਈ ਸੰਰਚਿਤ ਹੈ। ਇਸ ਕਰਕੇ\n"
+"ਈਵੇਲੂਸ਼ਨ ਈ-ਮੇਲ ਰਾਹੀ ਯਾਦਪੱਤਰ ਭੇਜਣ ਲਈ ਅਜੇ ਤੱਕ ਸਹਾਈ ਨਹੀਂ\n"
+"ਹੈ, ਪਰ ਇਹ ਯਾਦਪੱਤਰ ਈ-ਮੇਲ ਭੇਜਣ ਲਈ ਸੰਰਚਿਤ ਹੈ। ਇਸ ਕਰਕੇ\n"
 "ਈਵੇਲੂਸ਼ਨ ਇੱਕ ਸਧਾਰਨ ਯਾਦ-ਪੱਤਰ ਪੁੱਛਗਿੱਛ ਬਕਸਾ ਹੀ\n"
 "ਵੇਖਾ ਸਕੇਗੀ।"
 
@@ -4700,7 +4700,7 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"ਈਵੇਲੂਸ਼ਨ ਕੈਲੰਡਰ ਯਾਦ ਪੱਤਰ ਚੱਲਣ ਲ਼ਈ ਤਿਆਰ ਹੈ। ਇਹ ਯਾਦਪੱਤਰ ਹੇਠ ਲਿਖੇ ਕਾਰਜ ਨੂੰ ਚਲਾਉਣ ਲਈ ਸੰਰਚਿਤ ਹੈ:\n"
+"ਈਵੇਲੂਸ਼ਨ ਕੈਲੰਡਰ ਯਾਦ ਪੱਤਰ ਚੱਲਣ ਲਈ ਤਿਆਰ ਹੈ। ਇਹ ਯਾਦਪੱਤਰ ਹੇਠ ਲਿਖੇ ਕਾਰਜ ਨੂੰ ਚਲਾਉਣ ਲਈ ਸੰਰਚਿਤ ਹੈ:\n"
 "\n"
 "        %s\n"
 "\n"
@@ -4761,7 +4761,7 @@ msgstr "ਇਕਾਈਆਂ ਹਟਾਉਣ ਸਮੇਂ ਪੁਸ਼ਟੀ ਕਰ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "ਅੱਜ ਦੇ ਕੰਮਾਂ ਲਈ ਪਿੱਠਭੂਮੀ ਰੰਗ, \"#rrggbb\" ਫਾਰਮੈਟ ਵਿੱਚ।"
+msgstr "ਅੱਜ ਦੇ ਕੰਮਾਂ ਲਈ ਬੈਕਗਰਾਊਂਡ ਰੰਗ, \"#rrggbb\" ਫਾਰਮੈਟ ਵਿੱਚ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
@@ -5262,7 +5262,7 @@ msgstr "ਨਵਾਂ ਰੁਝੇਵਾਂ"
 
 #: ../calendar/gui/calendar-component.c:1545
 msgid "_Appointment"
-msgstr "ਰੁਝੇਵਾਂ(_A)"
+msgstr "ਮੁਲਾਕਾਤ(_A)"
 
 #: ../calendar/gui/calendar-component.c:1546
 msgid "Create a new appointment"
@@ -5390,7 +5390,7 @@ msgstr "ਨੂੰ ਭੇਜੋ:"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
 #: ../calendar/gui/e-alarm-list.c:454
 msgid "Send an email"
-msgstr "ਇੱਕ ਈ-ਪੱਤਰ ਭੇਜੋ"
+msgstr "ਇੱਕ ਈ-ਮੇਲ ਭੇਜੋ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Arguments:"
@@ -5449,7 +5449,7 @@ msgstr "ਕਾਰਵਾਈ/ਤਬਦੀਲ"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr "ਜੋੜ੍ਹੋ(_d)"
+msgstr "ਸ਼ਾਮਲ(_d)"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
@@ -5464,7 +5464,7 @@ msgstr "ਅਲਾਰਮ"
 #: ../composer/e-msg-composer-select-file.c:98
 #: ../composer/e-msg-composer-select-file.c:118
 msgid "_Suggest automatic display of attachment"
-msgstr "ਨੱਥੀ ਦਾ ਆਟੋਮੈਟਿਕ ਦਰਿਸ਼ ਲਈ ਸੁਝਾਅ(_S)"
+msgstr "ਨੱਥੀ ਦਾ ਆਟੋਮੈਟਿਕ ਝਲਕ ਲਈ ਸੁਝਾਅ(_S)"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
@@ -5491,7 +5491,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u ਅਤੇ %d ਨੂੰ ਈ-ਪੱਤਰ ਸਿਰਨਾਵੇਂ ਵਿੱਚੋਂ ਉਪਭੋਗਤਾ ਅਤੇ ਡੋਮੇਨ ਨਾਲ ਤਬਦੀਲ ਕੀਤਾ ਜਾਵੇਗਾ।<i>"
+msgstr "<i>%u ਅਤੇ %d ਨੂੰ ਈ-ਮੇਲ ਸਿਰਨਾਵੇਂ ਵਿੱਚੋਂ ਉਪਭੋਗੀ ਅਤੇ ਡੋਮੇਨ ਨਾਲ ਤਬਦੀਲ ਕੀਤਾ ਜਾਵੇਗਾ।<i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:8
@@ -5587,7 +5587,7 @@ msgstr "ਐਤ(_u)"
 #: ../calendar/gui/dialogs/recurrence-page.c:1092
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
-msgstr "ਸ਼ਨਿਚੱਰਵਾਰ"
+msgstr "ਸ਼ਨਿੱਚਰਵਾਰ"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Select the calendars for alarm notification"
@@ -5670,7 +5670,7 @@ msgstr "ਇਕਾਈਆਂ ਹਟਾਉਣ ਸਮੇਂ ਪੁਸ਼ਟੀ ਕਰ�
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Compress weekends in month view"
-msgstr "ਮਹੀਨਾ ਦਰਿਸ਼ ਵਿੱਚ ਹਫਤਾ-ਅੰਤ ਸਮੇਟੋ(_C)"
+msgstr "ਮਹੀਨਾ ਝਲਕ ਵਿੱਚ ਹਫਤਾ-ਅੰਤ ਸਮੇਟੋ(_C)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Day begins:"
@@ -5697,7 +5697,7 @@ msgstr "ਮਿਆਦ ਪੁੱਗੇ ਕੰਮ(_O):"
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Sat"
-msgstr "ਸ਼ਨਿਚੱਰ(_S)"
+msgstr "ਸ਼ਨਿੱ(_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
@@ -5727,11 +5727,11 @@ msgstr "ਬੰਦ ਕਾਰਵਾਈ ਦੌਰਾਨ ਕੈਲੰਡਰ ਭਾ�
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
 msgid "Cop_y task list contents locally for offline operation"
-msgstr "ਆਫਲਾਇਨ ਕਾਰਵਾਈ ਲਈ ਕੰਮ-ਸੂਚੀ ਭਾਗਾਂ ਨੂੰ ਸਥਾਨਕ ਨਕਲ ਕਰੋ(_y)"
+msgstr "ਆਫਲਾਇਨ ਕਾਰਵਾਈ ਲਈ ਕੰਮ-ਸੂਚੀ ਭਾਗਾਂ ਨੂੰ ਲੋਕਲ ਨਕਲ ਕਰੋ(_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:292
 msgid "Cop_y memo list contents locally for offline operation"
-msgstr "ਆਫਲਾਇਨ ਕਾਰਵਾਈ ਲਈ ਮੀਮੋ ਸੂਚੀ ਭਾਗਾਂ ਨੂੰ ਸਥਾਨਕ ਨਕਲ ਕਰੋ(_y)"
+msgstr "ਆਫਲਾਇਨ ਕਾਰਵਾਈ ਲਈ ਮੀਮੋ ਸੂਚੀ ਭਾਗਾਂ ਨੂੰ ਲੋਕਲ ਨਕਲ ਕਰੋ(_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:3
@@ -6002,11 +6002,11 @@ msgstr "ਮੌਜੂਦਾ ਵਰਜਨ ਵਰਤਣ ਵਿੱਚ ਅਸਫਲ!"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
-msgstr "ਸਰੋਤ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ"
+msgstr "ਸਰੋਤ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:69
 msgid "Could not open destination"
-msgstr "ਨਿਯਤ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ"
+msgstr "ਨਿਯਤ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
@@ -6079,7 +6079,7 @@ msgstr "ਪ੍ਰਤੀਨਿਧ ਦਿਓ"
 
 #: ../calendar/gui/dialogs/event-editor.c:564
 msgid "Appoint_ment"
-msgstr "ਰੁਝੇਵੇਂ(_m)"
+msgstr "ਮੁਲਾਕਾਤ(_m)"
 
 #: ../calendar/gui/dialogs/event-editor.c:568
 #: ../ui/evolution-event-editor.xml.h:14
@@ -6367,7 +6367,7 @@ msgstr "ਵੇਰਵਾ(_D):"
 #: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
-msgstr "ਸਮੂਹ(_G):"
+msgstr "ਗਰੁੱਪ(_G):"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 msgid "<b>Calendar options</b>"
@@ -6674,11 +6674,11 @@ msgstr "ਸ਼ੁਰੂ ਨਹੀਂ ਹੈ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "P_ercent complete:"
-msgstr "ਪ੍ਰਤੀਸ਼ਤ ਪੂਰਾ(_e):"
+msgstr "ਫੀ-ਸਦੀ ਪੂਰਾ(_e):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Stat_us:"
-msgstr "ਸਥਿਤੀ(_U):"
+msgstr "ਹਾਲਤ(_U):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 #: ../calendar/gui/e-calendar-table.c:390
@@ -6773,7 +6773,7 @@ msgstr "ਗੁਪਤ-ਕੋਡ ਯਾਦ ਰੱਖੋ(_R)"
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
 msgid "_Username:"
-msgstr "ਉਪਭੋਗਤਾ ਨਾਂ(_U):"
+msgstr "ਉਪਭੋਗੀ ਨਾਂ(_U):"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Weekly"
@@ -7011,18 +7011,18 @@ msgstr "ਨੱਥੀ ਸੰਭਾਲਣ ਲਈ ਫੋਲਡਰ ਚੁਣੋ..."
 #: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, c-format
 msgid "untitled_image.%s"
-msgstr "ਬਿਨਾਂ ਸਿਰਲੇਖ ਚਿੱਤਰ %s"
+msgstr "ਬਿਨ_ਨਾਂ_ਚਿੱਤਰ.%s"
 
 #: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1282
 #: ../calendar/gui/e-calendar-view.c:1699 ../calendar/gui/e-memo-table.c:903
 #: ../mail/em-folder-view.c:1144 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
-msgstr "ਇਸ ਤਰਾਂ ਸੰਭਾਲੋ(_S)..."
+msgstr "ਇੰਝ ਸੰਭਾਲੋ(_S)..."
 
 #: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
 msgid "Set as _Background"
-msgstr "ਪਿੱਠਭੂਮੀ ਬਣਾਉ(_B)"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਬਣਾਉ(_B)"
 
 #: ../calendar/gui/e-cal-popup.c:278
 msgid "_Save Selected"
@@ -7031,7 +7031,7 @@ msgstr "ਚੁਣੇ ਸੰਭਾਲੋ(_S)"
 #: ../calendar/gui/e-cal-popup.c:399 ../mail/em-popup.c:776
 #, c-format
 msgid "Open in %s..."
-msgstr "%s ਨਾਲ ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ..."
+msgstr "%s ਨਾਲ ਖੋਲ੍ਹਿਆ ਜਾ ਰਿਹਾ ਹੈ..."
 
 #: ../calendar/gui/e-calendar-table.c:409
 msgid "0%"
@@ -7216,7 +7216,7 @@ msgstr "ਨਵੀਂ ਮੀਟਿੰਗ(_M)"
 #. FIXME: hook in this somehow
 #: ../calendar/gui/e-calendar-view.c:1691
 msgid "_Current View"
-msgstr "ਪ੍ਰਚਲਿਤ ਦਰਿਸ਼(_C)"
+msgstr "ਮੌਜੂਦਾ ਝਲਕ(_C)"
 
 #: ../calendar/gui/e-calendar-view.c:1693
 msgid "Select T_oday"
@@ -7309,7 +7309,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"ਮਿਤੀ ਦਾ ਪ੍ਰਤੀਰੂਪ ਇਸ ਤਰਾਂ ਦਾ ਹੋਣਾ ਲਾਜਮੀ ਹੈ: \n"
+"ਮਿਤੀ ਦਾ ਫਾਰਮੈਟ ਇਸ ਤਰਾਂ ਦਾ ਹੋਣਾ ਲਾਜਮੀ ਹੈ: \n"
 "\n"
 "%s"
 
@@ -8050,7 +8050,7 @@ msgstr "ਨਵੀਵੀਕਰਨ ਸਵਾਲ"
 
 #: ../calendar/gui/gnome-cal.c:2428
 msgid "_Custom View"
-msgstr "ਦਰਿਸ਼ ਸੋਧ(_C)"
+msgstr "ਝਲਕ ਸੋਧ(_C)"
 
 #: ../calendar/gui/gnome-cal.c:2429
 msgid "_Save Custom View"
@@ -8078,7 +8078,7 @@ msgstr "%s ਉੱਤੇ ਮੀਮੋ ਲੋਡ ਕਰ ਰਿਹਾ ਹੈ"
 #: ../calendar/gui/gnome-cal.c:2736
 #, c-format
 msgid "Opening %s"
-msgstr "%s ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "%s ਖੋਲ੍ਹਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../calendar/gui/gnome-cal.c:3664
 msgid "Purging"
@@ -8610,7 +8610,7 @@ msgstr "ਕੰਮ ਸੂਚੀ(_k)"
 
 #: ../calendar/gui/tasks-component.c:1262
 msgid "Create a new task list"
-msgstr "ਨਵੀ ਕੰਮ ਸੂਚੀ ਬਣਾਉ"
+msgstr "ਨਵੀਂ ਕੰਮ ਸੂਚੀ ਬਣਾਉ"
 
 #: ../calendar/gui/tasks-control.c:446
 msgid ""
@@ -8644,7 +8644,7 @@ msgstr "ਰੁਝੇਵੇ ਅਤੇ ਮੀਟਿੰਗ"
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
 msgid "Opening calendar"
-msgstr "ਕੈਲੰਡਰ ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "ਕੈਲੰਡਰ ਖੋਲ੍ਹਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../calendar/importers/icalendar-importer.c:444
 msgid "iCalendar files (.ics)"
@@ -10261,7 +10261,7 @@ msgstr "MIME ਕਿਸਮ:"
 
 #: ../composer/e-msg-composer-hdrs.c:570
 msgid "Posting destination"
-msgstr "ਭੇਜਣ ਲ਼ਈ ਨਿਯਤ"
+msgstr "ਭੇਜਣ ਲਈ ਨਿਯਤ"
 
 #: ../composer/e-msg-composer-hdrs.c:571
 msgid "Choose folders to post the message to."
@@ -10374,7 +10374,7 @@ msgstr "ਅਣਪਛਾਤਾ ਕਾਰਨ"
 
 #: ../composer/e-msg-composer.c:1404
 msgid "Could not open file"
-msgstr "ਫਾਇਲ਼ ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ"
+msgstr "ਫਾਇਲ਼ ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ"
 
 #: ../composer/e-msg-composer.c:1412
 msgid "Unable to retrieve message from editor"
@@ -10470,7 +10470,7 @@ msgstr "{0} ਨਾਲ ਨੱਥੀ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹ�
 
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr "ਸਵੈ-ਚਾਲਿਤ ਫਾਇਲ &quot;{0}&quot; ਨੂੰ ਸੰਭਾਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ"
+msgstr "ਆਟੋਮੈਟਿਕ ਫਾਇਲ &quot;{0}&quot; ਨੂੰ ਸੰਭਾਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ"
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid "Directories can not be attached to Messages."
@@ -10486,7 +10486,7 @@ msgstr "ਡਾਊਨਲੋਡ ਜਾਰੀ ਹੈ। ਕੀ ਤੁਸੀਂ ਪ�
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid "Error saving to autosave because &quot;{1}&quot;."
-msgstr "ਸਵੈ-ਚਾਲਿਤ ਸੰਭਾਲਣ ਵਿੱਚ ਗਲਤੀ ਕਿਉਕਿ &quot;{1}&quot;"
+msgstr "ਆਟੋਮੈਟਿਕ ਸੰਭਾਲਣ ਵਿੱਚ ਗਲਤੀ ਕਿਉਕਿ &quot;{1}&quot;"
 
 #: ../composer/mail-composer.error.xml.h:16
 msgid ""
@@ -10518,7 +10518,7 @@ msgid ""
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
 "ਇਸ ਡਾਇਰੈਕਟਰੀ ਦੇ ਭਾਗ ਸ਼ਾਮਿਲ ਕਰਨ ਲਈ ਜਾਂ ਤਾਂ ਸਾਰੀਆਂ ਫਾਇਲਾਂ ਇੱਕ ਇੱਕ ਕਰਕੇ ਸ਼ਾਮਿਲ ਕਰੋ ਜਾਂ "
-"ਡਾਇਰੈਕਟਰੀ ਦਾ ਇੱਕ ਸੁਕੰਚਿਤ ਬਣਾਉ ਤੇ ਇਹਨਾਂ ਨੂੰ ਨੱਥੀ ਕਰ ਦਿਓ।"
+"ਡਾਇਰੈਕਟਰੀ ਦਾ ਇੱਕ ਆਕਾਇਵ ਬਣਾਉ ਤੇ ਇਹਨਾਂ ਨੂੰ ਨੱਥੀ ਕਰ ਦਿਓ।"
 
 #: ../composer/mail-composer.error.xml.h:21
 msgid ""
@@ -10616,7 +10616,7 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
-"<small> ਹੇਠਾਂ ਨਿਰਧਾਰਿਤ ਕੀਤਾ ਸੁਨੇਹਾ ਸਵੈ-ਚਾਲਿਤ ਹੀ ਉਹਨਾਂ ਸਾਰੇ ਪੱਤਰ ਭੇਜਣ ਵਾਲਿਆਂ ਨੂੰ ਭੇਜ ਦਿੱਤਾ "
+"<small> ਹੇਠਾਂ ਨਿਰਧਾਰਿਤ ਕੀਤਾ ਸੁਨੇਹਾ ਆਟੋਮੈਟਿਕ ਹੀ ਉਹਨਾਂ ਸਾਰੇ ਪੱਤਰ ਭੇਜਣ ਵਾਲਿਆਂ ਨੂੰ ਭੇਜ ਦਿੱਤਾ "
 "ਜਾਵੇਗਾ,\n"
 "ਜੋ ਕਿ ਤੁਹਾਡੇ ਦਫਤਰੋਂ ਬਾਹਰ ਹੋਣ ਦੀ ਸੂਰਤ ਵਿੱਚ ਪੱਤਰ ਭੇਜਣ।</small> "
 
@@ -10646,11 +10646,11 @@ msgstr "ਹਾਂ, ਸਥਿਤੀ ਤਬਦੀਲ"
 
 #: ../designs/read_receipts/read.glade.h:1
 msgid "<b>Receiving Email</b>"
-msgstr "<b>ਈ-ਪੱਤਰ ਪ੍ਰਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</b>"
+msgstr "<b>ਈ-ਮੇਲ ਪ੍ਰਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</b>"
 
 #: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Sending Email:</b>"
-msgstr "<b>ਈ-ਪੱਤਰ ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ:</b>"
+msgstr "<b>ਈ-ਮੇਲ ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ:</b>"
 
 #: ../designs/read_receipts/read.glade.h:3
 msgid ""
@@ -10719,7 +10719,7 @@ msgstr "ਅੰਦਰੂਨੀ ਗਲਤੀ, ਅਣਜਾਣ ਗਲਤੀ '%s' �
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
-msgstr "ਫਾਇਲ਼ &quot;{0}&quot; ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
+msgstr "ਫਾਇਲ਼ &quot;{0}&quot; ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
 #: ../e-util/e-system.error.xml.h:3
 msgid "Cannot save file &quot;{0}&quot;."
@@ -10739,7 +10739,7 @@ msgstr "ਉੱਪਰ ਲ਼ਿਖੋ?"
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:134
 msgid "_Overwrite"
-msgstr "ਉੱਪਰ ਲਿਖੋ(_O)"
+msgstr "ਉੱਤੇ ਲਿਖੋ(_O)"
 
 #: ../e-util/eggtrayicon.c:121
 msgid "The orientation of the tray."
@@ -11024,7 +11024,7 @@ msgstr "ਸ਼ਬਦ-ਜੋੜ, ਦਸਤਖਤ ਅਤੇ ਸੁਨੇਹ ਲੇਖ
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
-msgstr "ਆਪਣਾ ਈ-ਪੱਤਰ ਖਾਤਾ ਇੱਥੇ ਸੰਰਚਿਤ ਕਰੋ"
+msgstr "ਆਪਣਾ ਈ-ਮੇਲ ਖਾਤਾ ਇੱਥੇ ਸੰਰਚਿਤ ਕਰੋ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
@@ -11106,7 +11106,7 @@ msgstr "ਪਛਾਣ"
 
 #: ../mail/em-account-editor.c:1861 ../mail/mail-config.glade.h:119
 msgid "Receiving Email"
-msgstr "ਈ-ਪੱਤਰ ਪ੍ਰਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "ਈ-ਮੇਲ ਪ੍ਰਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/em-account-editor.c:2046
 msgid "Automatically check for _new mail every"
@@ -11114,7 +11114,7 @@ msgstr "ਇੰਨੇ ਅੰਤਰਾਲ ਬਾਅਦ ਪੱਤਰ ਦੀ ਜਾ�
 
 #: ../mail/em-account-editor.c:2227 ../mail/mail-config.glade.h:131
 msgid "Sending Email"
-msgstr "ਈ-ਪੱਤਰ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "ਈ-ਮੇਲ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/em-account-editor.c:2286 ../mail/mail-config.glade.h:67
 msgid "Defaults"
@@ -12007,7 +12007,7 @@ msgstr "ਵੱਲੋਂ %B %d, %Y, %l:%M %p"
 
 #: ../mail/em-format-html-display.c:1456
 msgid "_View Inline"
-msgstr "ਕਤਾਰ ਵਿੱਚ ਦਰਿਸ਼(_V)"
+msgstr "ਲਾਇਨ 'ਚ ਵੇਖੋ(_V)"
 
 #: ../mail/em-format-html-display.c:1457
 msgid "_Hide"
@@ -12100,12 +12100,12 @@ msgstr "FTP ਸਾਇਟ (%s) ਲਈ ਸੰਕੇਤਕ"
 #: ../mail/em-format-html.c:934
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "ਸਥਾਨਕ ਫਾਇਲ (%s) ਲਈ ਸਾਇਟ %s ਦੇ ਲਈ ਸੰਕੇਤਕ"
+msgstr "ਲੋਕਲ ਫਾਇਲ (%s) ਲਈ ਸਾਇਟ %s ਦੇ ਲਈ ਸੰਕੇਤਕ"
 
 #: ../mail/em-format-html.c:936
 #, c-format
 msgid "Pointer to local file (%s)"
-msgstr "ਸਥਾਨਕ ਫਾਇਲ (%s) ਲਈ ਸੰਕੇਤਕ"
+msgstr "ਲੋਕਲ ਫਾਇਲ (%s) ਲਈ ਸੰਕੇਤਕ"
 
 #: ../mail/em-format-html.c:957
 #, c-format
@@ -12115,11 +12115,11 @@ msgstr "ਰਿਮੋਟ ਡਾਟਾ(%s) ਲਈ ਸੰਕੇਤਕ"
 #: ../mail/em-format-html.c:968
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "ਅਣਜਾਣੇ ਬਾਹਰੀ ਡਾਟਾ (\"%s\" ਕਿਸਮ) ਲ਼ਈ ਸੰਕੇਤਕ"
+msgstr "ਅਣਜਾਣੇ ਬਾਹਰੀ ਡਾਟਾ (\"%s\" ਕਿਸਮ) ਲਈ ਸੰਕੇਤਕ"
 
 #: ../mail/em-format-html.c:1195
 msgid "Formatting message"
-msgstr "ਸੁਨੇਹੇ ਨੂੰ ਪ੍ਰਤੀਰੂਪ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "ਸੁਨੇਹੇ ਨੂੰ ਫਾਰਮੈਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:85
@@ -12261,12 +12261,12 @@ msgstr "POP3 ਸਰਵਰ ਤੇ ਰੱਖਿਆ ਡਾਟਾ `%s' ਦੀ ਨਕ
 #: ../mail/em-migrate.c:2578 ../mail/em-migrate.c:2590
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "ਸਥਾਨਕ ਪੱਤਰ ਸੰਭਾਲ`%s' ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s"
+msgstr "ਲੋਕਲ ਪੱਤਰ ਸੰਭਾਲ`%s' ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s"
 
 #: ../mail/em-migrate.c:2713
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr "`%s' ਤੇ ਸਥਾਨਕ ਫੋਲਡਰ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s"
+msgstr "`%s' ਤੇ ਲੋਕਲ ਫੋਲਡਰ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ: %s"
 
 #: ../mail/em-migrate.c:2732
 msgid ""
@@ -12351,11 +12351,11 @@ msgstr "ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਸੀਮਿਤ ਆਕਾਰ ਦਾ �
 
 #: ../mail/evolution-mail.schemas.in.in.h:2
 msgid "Automatic link recognition"
-msgstr "ਸਵੈ-ਚਾਲਿਤ ਸੰਬੰਧ ਪਛਾਣ"
+msgstr "ਆਟੋਮੈਟਿਕ ਸੰਬੰਧ ਪਛਾਣ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:3
 msgid "Automatic smiley recognition"
-msgstr "ਸਵੈ-ਚਾਲਿਤ ਖੁਸ਼ ਪਛਾਣ"
+msgstr "ਆਟੋਮੈਟਿਕ ਖੁਸ਼ ਪਛਾਣ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:4
 msgid "Check incoming mail being junk"
@@ -12401,7 +12401,7 @@ msgstr "ਸਨੇਹਾ ਵੇਖਾਉਣ ਲਈ ਮੂਲ ਅੱਖਰ ਸਮ�
 
 #: ../mail/evolution-mail.schemas.in.in.h:14
 msgid "Default charset in which to display messages."
-msgstr "ਸੁਨੇਹਾ ਵੇਖਾਉਣ ਲ਼ਈ ਮੂਲ ਅੱਖਰ ਇਕੋਡਿੰਗ।"
+msgstr "ਸੁਨੇਹਾ ਵੇਖਾਉਣ ਲਈ ਮੂਲ ਅੱਖਰ ਇਕੋਡਿੰਗ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:15
 msgid "Default forward style"
@@ -12490,7 +12490,7 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
-"ਜੇਕਰ ਉਪਭੋਗਤਾ ਨੇ 10 ਜਾਂ ਵਧੇਰੇ ਸੁਨੇਹੇ ਇੱਕੋ ਸਮੇਂ ਖੋਲਣ ਦੀ ਕੋਸ਼ਿਸ ਕੀਤੀ ਤਾਂ, ਉਪਭੋਗਤਾ ਨੂੰ ਪੁੱਛੋ ਕਿ ਕੀ ਉਹ "
+"ਜੇਕਰ ਉਪਭੋਗੀ ਨੇ 10 ਜਾਂ ਵਧੇਰੇ ਸੁਨੇਹੇ ਇੱਕੋ ਸਮੇਂ ਖੋਲਣ ਦੀ ਕੋਸ਼ਿਸ ਕੀਤੀ ਤਾਂ, ਉਪਭੋਗੀ ਨੂੰ ਪੁੱਛੋ ਕਿ ਕੀ ਉਹ "
 "ਇਸਤਰਾਂ ਕਰਨਾ ਚਾਹੁੰਦਾ ਹੈ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:35
@@ -12640,15 +12640,15 @@ msgstr "ਖਾਲੀ ਵਿਸ਼ੇ ਤੇ ਪੁੱਛੋ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "ਜਦੋਂ ਉਪਭੋਗਤਾ ਫੋਲਡਰ ਨੂੰ ਹਟਾਉਣ ਜਾ ਰਿਹਾ ਹੋਵੇ ਪੁੱਛੋ।"
+msgstr "ਜਦੋਂ ਉਪਭੋਗੀ ਫੋਲਡਰ ਨੂੰ ਹਟਾਉਣ ਜਾ ਰਿਹਾ ਹੋਵੇ ਪੁੱਛੋ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Prompt the user when he or she tries to send a message without a Subject."
-msgstr "ਜਦੋਂ ਉਪਭੋਗਤਾ ਬਿਨਾਂ ਵਿਸ਼ੇ ਤੋਂ ਸੁਨੇਹਾ ਭੇਜਣ ਜਾ ਰਿਹਾ ਹੋਵੇ ਤਾਂ ਪੁੱਛੋ।"
+msgstr "ਜਦੋਂ ਉਪਭੋਗੀ ਬਿਨਾਂ ਵਿਸ਼ੇ ਤੋਂ ਸੁਨੇਹਾ ਭੇਜਣ ਜਾ ਰਿਹਾ ਹੋਵੇ ਤਾਂ ਪੁੱਛੋ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "Prompt when user expunges"
-msgstr "ਜਦੋਂ ਉਪਭੋਗਤਾ ਹਟਾਏ ਤਾਂ ਪੁੱਛੋ"
+msgstr "ਜਦੋਂ ਉਪਭੋਗੀ ਹਟਾਏ ਤਾਂ ਪੁੱਛੋ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Prompt when user only fills Bcc"
@@ -12656,23 +12656,23 @@ msgstr "ਜੇਕਰ ਸਿਰਫ Bcc ਖੇਤਰ ਹੀ ਭਰਿਆ ਹੋਵ
 
 #: ../mail/evolution-mail.schemas.in.in.h:70
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr "ਜਦੋਂ ਉਪਭੋਗਤਾ ਇੱਕੋ ਸਮੇਂ 10 ਸੁਨੇਹੇ ਖੋਲਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ ਤਾਂ ਪੁੱਛੋ"
+msgstr "ਜਦੋਂ ਉਪਭੋਗੀ ਇੱਕੋ ਸਮੇਂ 10 ਸੁਨੇਹੇ ਖੋਲਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ ਤਾਂ ਪੁੱਛੋ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:71
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
-"ਜਦੋਂ ਉਪਭੋਗਤਾ HTML ਸੁਨੇਹੇ, ਉਹਨਾਂ ਉਪਭੋਗਤਾ ਨੂੰ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ, ਜੋ ਕਿ ਇਹ ਪ੍ਰਾਪਤ ਹੀ ਨਹੀਂ ਕਰਨਾ "
+"ਜਦੋਂ ਉਪਭੋਗੀ HTML ਸੁਨੇਹੇ, ਉਹਨਾਂ ਉਪਭੋਗੀ ਨੂੰ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ, ਜੋ ਕਿ ਇਹ ਪ੍ਰਾਪਤ ਹੀ ਨਹੀਂ ਕਰਨਾ "
 "ਚਾਹੁੰਦੇ ਹਨ, ਤਾਂ ਪੁੱਛੋ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "ਜਦੋਂ ਉਪਭੋਗਤਾ ਬਿਨਾਂ ਵੱਲ ਜਾਂ Cc ਪ੍ਰਾਪਤਕਰਤਾ ਦੇ ਸੁਨੇਹੇ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ ਤਾਂ ਪੁੱਛੋ।"
+msgstr "ਜਦੋਂ ਉਪਭੋਗੀ ਬਿਨਾਂ ਵੱਲ ਜਾਂ Cc ਪ੍ਰਾਪਤਕਰਤਾ ਦੇ ਸੁਨੇਹੇ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ ਤਾਂ ਪੁੱਛੋ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr "ਜਦੋਂ ਉਪਭੋਗਤਾ ਨਾ-ਚਾਹਿਆਂ HTML ਸੁਨੇਹੇ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ ਤਾਂ ਪੁੱਛੋ"
+msgstr "ਜਦੋਂ ਉਪਭੋਗੀ ਨਾ-ਚਾਹਿਆਂ HTML ਸੁਨੇਹੇ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੇ ਤਾਂ ਪੁੱਛੋ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Prompt while marking multiple messages"
@@ -12734,7 +12734,7 @@ msgstr "ਨਵਾਂ ਪੱਤਰ ਆਉਣ ਤੇ ਆਵਾਜ਼ ਫਾਇਲ ਨ
 
 #: ../mail/evolution-mail.schemas.in.in.h:90
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "ਨਵਾਂ ਪੱਤਰ ਸੂਚਨਾ ਲਈ ਉਪਭੋਗਤਾ ਕੀ ਵਰਤਣੀ ਚਾਹੁੰਦਾ ਹੈ, ਨਿਰਧਾਰਿਤ ਕਰੋ।"
+msgstr "ਨਵਾਂ ਪੱਤਰ ਸੂਚਨਾ ਲਈ ਉਪਭੋਗੀ ਕੀ ਵਰਤਣੀ ਚਾਹੁੰਦਾ ਹੈ, ਨਿਰਧਾਰਿਤ ਕਰੋ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:91
 msgid "Spell check inline"
@@ -12833,15 +12833,15 @@ msgstr "ਪਸੰਦੀਦਾ ਫੋਂਟ ਵਰਤੋਂ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:111
 msgid "Use custom fonts for displaying mail"
-msgstr "ਪੱਤਰ ਵੇਖਾਉਣ ਲ਼ਈ ਪਸੰਦੀਦਾ ਫੋਂਟ ਵਰਤੋਂ"
+msgstr "ਪੱਤਰ ਵੇਖਾਉਣ ਲਈ ਪਸੰਦੀਦਾ ਫੋਂਟ ਵਰਤੋਂ"
 
 #: ../mail/evolution-mail.schemas.in.in.h:112
 msgid "Use only local spam tests."
-msgstr "ਸਿਰਫ ਸਥਾਨਕ ਫਰਜ਼ੀ ਜਾਂਚ ਹੀ ਵਰਤੋਂ।"
+msgstr "ਸਿਰਫ ਲੋਕਲ ਫਰਜ਼ੀ ਜਾਂਚ ਹੀ ਵਰਤੋਂ।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:113
 msgid "Use only the local spam tests (no DNS)."
-msgstr "ਸਿਰਫ ਸਥਾਨਿਕ ਫਰਜ਼ੀ ਜਾਂਚ ਹੀ ਵਰਤੋਂ (DNS ਨਹੀਂ)।"
+msgstr "ਸਿਰਫ ਲੋਕਲ ਫਰਜ਼ੀ ਜਾਂਚ ਹੀ ਵਰਤੋਂ (DNS ਨਹੀਂ)।"
 
 #: ../mail/evolution-mail.schemas.in.in.h:114
 msgid "Use side-by-side or wide layout"
@@ -12979,14 +12979,14 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
-"ਤੁਹਾਡੇ ਨੈੱਟਸਕੇਪ ਫਿਲਟਰ, ਜੋ ਕਿ ਈ-ਪੱਤਰ ਦੇ ਦਰਜੇ ਤੇ ਅਧਾਰਿਤ ਹਨ,\n"
+"ਤੁਹਾਡੇ ਨੈੱਟਸਕੇਪ ਫਿਲਟਰ, ਜੋ ਕਿ ਈ-ਮੇਲ ਦੇ ਦਰਜੇ ਤੇ ਅਧਾਰਿਤ ਹਨ,\n"
 "ਜੋ ਕਿ ਈਵੇਲੂਸ਼ਨ ਵਿੱਚ ਨਹੀਂ ਵਰਤੇ ਜਾਦੇ ਹਨ।\n"
 "ਇਸ ਦੀ ਬਜਾਏ ਈਵੇਲੂਸ਼ਨ ਇੱਕ ਦਰਜਾ -੩ ਤੋਂ ੩ ਤੱਕ ਉਪਲੱਬਧ \n"
-"ਕਰਵਾਉਦੀ ਹੈ, ਜੋ ਕਿ ਈਪੱਤਰ ਅਤੇ ਫਿਲਟਰਾਂ ਦੇ ਅਨੁਸਾਰ ਦਿੱਤਾ \n"
+"ਕਰਵਾਉਦੀ ਹੈ, ਜੋ ਕਿ ਈ-ਮੇਲ ਅਤੇ ਫਿਲਟਰਾਂ ਦੇ ਅਨੁਸਾਰ ਦਿੱਤਾ \n"
 "ਜਾ ਸਕਦਾ ਹੈ।\n"
 "\n"
 "ਇੱਕ ਕਾਰਜ ਲਈ, ਇੱਕ ਫਿਲਟਰ, ਜੋ ਕਿ \"ਦਰਜਾ ਫਿਲਟਰ\"ਸੀ, \n"
-"ਨੈੱਟਸਕੇਪ ਦੇ ਈ-ਪੱਤਰ ਦਰਜੇ ਨੂੰ ਈਵੇਲੂਸ਼ਨ ਦੇ ਦਰਜੇ ਵਿੱਚ ਤਬਦੀਲ\n"
+"ਨੈੱਟਸਕੇਪ ਦੇ ਈ-ਮੇਲ ਦਰਜੇ ਨੂੰ ਈਵੇਲੂਸ਼ਨ ਦੇ ਦਰਜੇ ਵਿੱਚ ਤਬਦੀਲ\n"
 "ਕਰਦਾ ਹੈ ਅਤੇ ਪ੍ਰਭਾਵਿਤ ਫਿਲਟਰ ਦਾ ਦਰਜਾ ਤਬਦੀਲ ਹੋ ਜਾਦਾ ਹੈ।\n"
 "ਕਿਰਪਾ ਕਰਕੇ ਆਯਾਤ ਫਿਲਟਰਾਂ ਦੀ ਜਾਂਚ ਕਰੋ, ਤਾਂ ਕਿ ਇਹ ਵੇਖਿਆ ਜਾਵੇ\n"
 "ਕਿ ਇਹ ਠੀਕ ਤਰਾਂ ਕੰਮ ਕਰਦੇ ਹਨ।"
@@ -13011,7 +13011,7 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
-"ਤੁਹਾਡੇ ਕੁਝ ਨੈੱਟਸਕੇਪ ਫਿਲਟਰ ਈਪੱਤਰ ਦੇ ਮੁੱਖ ਭਾਗ ਨੂੰ ਦਿੱਤੀ \n"
+"ਤੁਹਾਡੇ ਕੁਝ ਨੈੱਟਸਕੇਪ ਫਿਲਟਰ ਈ-ਮੇਲ ਦੇ ਮੁੱਖ ਭਾਗ ਨੂੰ ਦਿੱਤੀ \n"
 "ਸਤਰ ਨਾਲ ਮਿਲਾਉਦੇ ਹਨ, ਜੋ ਕਿ ਈਵੇਲੂਸ਼ਨ ਤੇ ਸਹਾਈ ਨਹੀਂ\n"
 "ਹੈ, ਉਹ ਸਾਰੇ ਫਿਲਟਰ ਇਸਤਰਾਂ ਸੋਧੇ ਗਏ ਹਨ ਤਾਂ ਕਿ ਉਹ\n"
 "ਦਿੱਤੀ ਸਤਰ ਨੂੰ ਸੁਨੇਹੇ ਦੇ ਮੁੱਖ ਭਾਗ ਵਿੱਚ ਵੇਖ ਸਕਣ ਕਿ ਇਹ\n"
@@ -13338,7 +13338,7 @@ msgstr "ਅਸਲੀ ਸੁਨੇਹਾ ਸ਼ਾਮਿਲ ਕਰੋ"
 
 #: ../mail/mail-config.glade.h:45
 msgid "Automatically insert _smiley images"
-msgstr "ਖੁਸ਼ ਚਿੱਤਰ ਸਵੈ-ਚਾਲਿਤ ਸ਼ਾਮਿਲ ਕਰੋ(_s)"
+msgstr "ਖੁਸ਼ ਚਿੱਤਰ ਆਟੋਮੈਟਿਕ ਸ਼ਾਮਿਲ ਕਰੋ(_s)"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
@@ -13443,11 +13443,11 @@ msgstr "ਯੋਗ(_n)"
 
 #: ../mail/mail-config.glade.h:75
 msgid "Email Accounts"
-msgstr "ਈ-ਪੱਤਰ ਖਾਤਾ"
+msgstr "ਈ-ਮੇਲ ਖਾਤਾ"
 
 #: ../mail/mail-config.glade.h:76
 msgid "Email _Address:"
-msgstr "ਈ-ਪੱਤਰ ਸਿਰਨਾਵਾਂ(_A):"
+msgstr "ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ(_A):"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
@@ -13455,7 +13455,7 @@ msgstr "ਬੰਦ ਕਰਨ ਤੇ ਰੱਦੀ ਫੋਲਡਰ ਬੰਦ ਕਰ
 
 #: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
-msgstr "ਇਕ੍ਰਿਪਸ਼ਨ ਸਰਟੀਫਿਕੇਟ:"
+msgstr "ਇਕ੍ਰਿਪਸ਼ਨ ਸਰਟੀਫਿਕੇਟ(_p):"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Encrypt out_going messages (by default)"
@@ -13467,15 +13467,15 @@ msgstr "ਸਥਿਰ ਚੌੜਾਈ ਫੋਂਟ(_x):"
 
 #: ../mail/mail-config.glade.h:82
 msgid "Fi_xed-width:"
-msgstr "ਸਥਿਰ ਚੌੜਾਈ:"
+msgstr "ਸਥਿਰ ਚੌੜਾਈ(_x):"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Font Properties"
-msgstr "ਫੋਂਟ ਵਿਸ਼ੇਸਤਾ"
+msgstr "ਫੋਂਟ ਵਿਸ਼ੇਸ਼ਤਾ"
 
 #: ../mail/mail-config.glade.h:84
 msgid "Format messages in _HTML"
-msgstr "_HTML ਵਿੱਚ ਪ੍ਰਤੀਰੂਪ ਸੁਨੇਹਾ"
+msgstr "_HTML ਵਿੱਚ ਫਾਰਮੈਟ ਸੁਨੇਹਾ"
 
 #: ../mail/mail-config.glade.h:85
 msgid "Full Nam_e:"
@@ -13483,7 +13483,7 @@ msgstr "ਪੂਰਾ ਨਾਂ(_E):"
 
 #: ../mail/mail-config.glade.h:87
 msgid "HTML Mail"
-msgstr "HTML ਪੱਤਰ"
+msgstr "HTML ਮੇਲ"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Headers"
@@ -13491,11 +13491,11 @@ msgstr "ਸਿਰਲੇਖ"
 
 #: ../mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
-msgstr "ਹਵਾਲੇ ਨੂੰ ਉਭਾਰੋ"
+msgstr "ਹਵਾਲੇ ਨੂੰ ਉਭਾਰੋ(_q)"
 
 #: ../mail/mail-config.glade.h:90
 msgid "I_nclude remote tests"
-msgstr "ਰਿਮੋਟ ਜਾਂਚ ਸ਼ਾਮਿਲ ਕਰੋ"
+msgstr "ਰਿਮੋਟ ਜਾਂਚ ਸ਼ਾਮਿਲ ਕਰੋ(_n)"
 
 #: ../mail/mail-config.glade.h:93
 msgid "Inline"
@@ -13511,15 +13511,15 @@ msgstr "ਭਾਸ਼ਾ ਸਾਰਣੀ"
 
 #: ../mail/mail-config.glade.h:98
 msgid "Mail Configuration"
-msgstr "ਪੱਤਰ ਸੰਰਚਨਾ"
+msgstr "ਮੇਲ ਸੰਰਚਨਾ"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Mail Headers Table"
-msgstr "ਪੱਤਰ ਸਿਰਲੇਖ ਸਾਰਣੀ"
+msgstr "ਮੇਲ ਸਿਰਲੇਖ ਸਾਰਣੀ"
 
 #: ../mail/mail-config.glade.h:101
 msgid "Mailbox location"
-msgstr "ਪੱਤਰ-ਬਕਸਾ ਟਿਕਾਣਾ"
+msgstr "ਮੇਲ-ਬਾਕਸ ਟਿਕਾਣਾ"
 
 #: ../mail/mail-config.glade.h:102
 msgid "Message Composer"
@@ -13529,7 +13529,7 @@ msgstr "ਸੁਨੇਹਾ ਲੇਖਕ"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "ਸੂਚਨਾ: ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਸੀਂ ਪਹਿਲੀਂ ਵਾਰ ਲਾਗਆਨ ਨਹੀਂ ਕਰਦੇ, ਤੁਹਾਡੇ ਕੋਲੋਂ ਗੁਪਤ-ਕੋਡ ਪੁਛਿਆ ਨਹੀਂ ਜਾਵੇਗਾ"
+msgstr "ਸੂਚਨਾ: ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਸੀਂ ਪਹਿਲੀਂ ਵਾਰ ਲਾਗਇਨ ਨਹੀਂ ਕਰਦੇ, ਤੁਹਾਡੇ ਕੋਲੋਂ ਗੁਪਤ-ਕੋਡ ਪੁਛਿਆ ਨਹੀਂ ਜਾਵੇਗਾ"
 
 #: ../mail/mail-config.glade.h:104
 msgid "Or_ganization:"
@@ -13541,14 +13541,14 @@ msgstr "PGP/GPG _Key ID:"
 
 #: ../mail/mail-config.glade.h:108
 msgid "Play sound file when new mail arri_ves"
-msgstr "ਨਵੇਂ ਪੱਤਰ ਆਉਣ ਤੇ ਆਵਾਜ਼ ਚਲਾਓ(_v)"
+msgstr "ਨਵੇਂ ਪੱਤਰ ਆਉਣ ਉੱਤੇ ਆਵਾਜ਼ ਚਲਾਓ(_v)"
 
 #: ../mail/mail-config.glade.h:109
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"ਕਿਰਪਾ ਕਰਕੇ ਅੱਗੇ ਦਿੱਤੀ ਥਾਂ ਵਿੱਚ ਇਸ ਖਾਤੇ ਬਾਰੇ ਵਰਣਨ ਕਰਦੀ ਜਾਣਕਾਰੀ ਦਿਓ।\n"
+"ਅੱਗੇ ਦਿੱਤੀ ਥਾਂ ਵਿੱਚ ਇਸ ਖਾਤੇ ਬਾਰੇ ਵਰਣਨ ਕਰਦੀ ਜਾਣਕਾਰੀ ਦਿਓ ਜੀ।\n"
 "ਇਹ ਨਾਂ ਸਿਰਫ਼ ਵੇਖਾਉਣ ਲਈ ਹੀ ਵਰਤੀ ਜਾਵੇਗੀ।"
 
 #: ../mail/mail-config.glade.h:111
@@ -13556,8 +13556,8 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"ਕਿਰਪਾ ਕਰਕੇ ਉਸ ਢੰਗ ਦੀ ਜਾਣਕਾਰੀ ਦਿਓ, ਜਿਸ ਰਾਹੀਂ ਤੁਸੀਂ ਪੱਤਰ ਭੇਜਣਾ ਚਾਹੁੰਦੇ ਹੋ। ਜੇਕਰ ਤੁਸੀਂ ਯਕੀਨੀ "
-"ਨਹੀਂ ਹੋ ਤਾਂ ਆਪਣੇ ਸਿਸਟਮ ਪ੍ਰਬੰਧਕ ਜਾਂ ਇੰਟਰਨੈੱਟ ਪ੍ਰਬੰਧਕ ਨਾਲ ਸੰਬੰਧਕ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"
+"ਉਸ ਢੰਗ ਦੀ ਜਾਣਕਾਰੀ ਦਿਓ ਜੀ, ਜਿਸ ਰਾਹੀਂ ਤੁਸੀਂ ਪੱਤਰ ਭੇਜਣਾ ਚਾਹੁੰਦੇ ਹੋ। ਜੇਕਰ ਤੁਸੀਂ ਯਕੀਨੀ "
+"ਨਹੀਂ ਹੋ ਤਾਂ ਆਪਣੇ ਸਿਸਟਮ ਪਰਸ਼ਾਸ਼ਕ ਜਾਂ ਇੰਟਰਨੈੱਟ ਸੇਵਾ ਪ੍ਰਬੰਧਕ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"
 
 #: ../mail/mail-config.glade.h:112
 msgid ""
@@ -13565,12 +13565,12 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"ਕਿਰਪਾ ਕਰਕੇ ਹੇਠਾਂ ਆਪਣਾ ਨਾਂ ਅਤੇ ਈਪੱਤਰ ਸਿਰਨਾਵਾਂ ਦਿਓ। ਹੇਠਾਂ \"ਚੋਣਵਾਂ\" ਖੇਤਰ ਭਰਨ ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ, "
-"ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਸੀਂ ਈਪੱਤਰ ਰਾਹੀ ਭੇਜੀ ਜਾਣ ਵਾਲੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸ਼ਾਮਿਲ ਨਾ ਕਰ ਚਾਹੋ।"
+"ਹੇਠਾਂ ਆਪਣਾ ਨਾਂ ਅਤੇ ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਦਿਓ ਜੀ। ਹੇਠਾਂ \"ਚੋਣਵਾਂ\" ਖੇਤਰ ਭਰਨ ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ, "
+"ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਸੀਂ ਈ-ਮੇਲ ਰਾਹੀ ਭੇਜੀ ਜਾਣ ਵਾਲੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸ਼ਾਮਿਲ ਨਾ ਕਰ ਚਾਹੋ।"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Please select among the following options"
-msgstr "ਕਿਰਪਾ ਕਰਕੇ ਹੇਠ ਲਿਖੀਆਂ ਚੋਣਾਂ ਵਿੱਚੋਂ ਚੁਣੋ"
+msgstr "ਹੇਠ ਲਿਖੀਆਂ ਚੋਣਾਂ ਵਿੱਚੋਂ ਚੁਣੋ ਜੀ"
 
 #: ../mail/mail-config.glade.h:114
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -13578,7 +13578,7 @@ msgstr "ਸੂਚਿਤ ਕਰੋ, ਜਦੋਂ ਵੀ ਸੁਨੇਹੇ ਭੇ
 
 #: ../mail/mail-config.glade.h:115
 msgid "Quote original message"
-msgstr "ਅਸਲੀ ਸੁਨੇਹੇ ਦਾ ਵੇਰਵਾ"
+msgstr "ਅਸਲੀ ਸੁਨੇਹਾ ਵੇਰਵਾ"
 
 #: ../mail/mail-config.glade.h:116
 msgid "Quoted"
@@ -13606,7 +13606,7 @@ msgstr "ਸੁਨੇਹਾ ਰਸੀਦ ਭੇਜੋ(_e):"
 
 #: ../mail/mail-config.glade.h:123
 msgid "S_tandard Font:"
-msgstr "ਮਿਆਰੀ ਫੋਂਟ(_t):"
+msgstr "ਸਟੈਂਡਰਡ ਫੋਂਟ(_t):"
 
 #: ../mail/mail-config.glade.h:124
 msgid "Se_lect..."
@@ -13702,7 +13702,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:150 ../plugins/caldav/caldav-source.c:282
 msgid "User_name:"
-msgstr "ਉਪਭੋਗਤਾ ਨਾਂ(_n):"
+msgstr "ਉਪਭੋਗੀ ਨਾਂ(_n):"
 
 #: ../mail/mail-config.glade.h:151
 msgid "V_ariable-width:"
@@ -13789,7 +13789,7 @@ msgstr "ਸੁਰੱਖਿਅਤ ਕੁਨੈਕਸ਼ਨ ਵਰਤੋਂ(_U):"
 
 #: ../mail/mail-config.glade.h:177
 msgid "_Use the same fonts as other applications"
-msgstr "ਹੋਰ ਕਾਰਜ ਵਾਂਗ ਉਹੀ ਫੋਂਟ ਵਰਤੋਂ"
+msgstr "ਹੋਰ ਕਾਰਜ ਵਾਂਗ ਉਹੀ ਫੋਂਟ ਵਰਤੋਂ(_U)"
 
 #: ../mail/mail-config.glade.h:178
 msgid "addresses"
@@ -13854,7 +13854,7 @@ msgstr "ਨਿਸ਼ਾਨ ਦੇ ਪਿੱਛੇ"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "Folder Subscriptions"
-msgstr "ਫੋਲਡਰ ਸਵੀਕਾਰ"
+msgstr "ਫੋਲਡਰ ਮੈਂਬਰੀ"
 
 #: ../mail/mail-dialogs.glade.h:15
 msgid "License Agreement"
@@ -13911,7 +13911,7 @@ msgstr "ਚੁਣੇ ਸੁਨੇਹੇ ਫਿਲਟਰ"
 
 #: ../mail/mail-ops.c:266
 msgid "Fetching Mail"
-msgstr "ਪੱਤਰ ਪ੍ਰਾਪਤ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
+msgstr "ਪੱਤਰ ਲਏ ਜਾ ਰਹੇ ਹਨ"
 
 #. sending mail, filtering failed
 #: ../mail/mail-ops.c:566
@@ -13926,22 +13926,22 @@ msgid ""
 "Appending to local `Sent' folder instead."
 msgstr ""
 "%s ਵਿੱਚ ਸ਼ਾਮਿਲ ਕਰਨ ਵਿੱਚ ਅਸਫਲ: %s\n"
-"ਸਥਾਨਿਕ`Sent' ਫੋਲਡਰ ਸ਼ਾਮਿਲ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।"
+"ਲੋਕਲ`Sent' ਫੋਲਡਰ ਸ਼ਾਮਿਲ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।"
 
 #: ../mail/mail-ops.c:624
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "ਸਥਾਨਿਕ `Sent' ਫੋਲਡਰ ਸ਼ਾਮਿਲ ਕਰਨ ਵਿੱਚ ਅਸਫਲ: %s"
+msgstr "ਲੋਕਲ `Sent' ਫੋਲਡਰ ਸ਼ਾਮਿਲ ਕਰਨ ਵਿੱਚ ਅਸਫਲ: %s"
 
 #: ../mail/mail-ops.c:736
 #, c-format
 msgid "Sending message %d of %d"
-msgstr "%2d ਵਿੱਚੋਂ %1d ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "%2$d ਵਿੱਚੋਂ %1$d ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/mail-ops.c:761
 #, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "ਸੁਨੇਹੇ %2d ਵਿੱਚੋਂ %1d ਭੇਜਣ ਵਿੱਚ ਅਸਫਲ"
+msgstr "ਸੁਨੇਹੇ %2$d ਵਿੱਚੋਂ %1$d ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ"
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:652
 msgid "Canceled."
@@ -13972,12 +13972,12 @@ msgstr "ਅੱਗੇ ਭੇਜੇ ਸੁਨੇਹੇ"
 #: ../mail/mail-ops.c:1213
 #, c-format
 msgid "Opening folder %s"
-msgstr "ਫੋਲਡਰ %s ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "ਫੋਲਡਰ %s ਖੋਲ੍ਹਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/mail-ops.c:1285
 #, c-format
 msgid "Opening store %s"
-msgstr "ਸੰਭਾਲ %s ਖੋਲੀ ਜਾ ਰਹੀ ਹੈ"
+msgstr "ਸਟੋਰ %s ਖੋਲ੍ਹਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/mail-ops.c:1363
 #, c-format
@@ -13992,7 +13992,7 @@ msgstr "ਫੋਲਡਰ '%s' ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 #: ../mail/mail-ops.c:1522
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr "ਖਾਤਾ '%s' ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ ਅਤੇ ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "ਖਾਤਾ '%s' ਸੁੰਘੜਿਆ ਜਾ ਰਿਹਾ ਹੈ ਅਤੇ ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/mail-ops.c:1523
 #, c-format
@@ -14001,7 +14001,7 @@ msgstr "ਖਾਤਾ '%s' ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/mail-ops.c:1578
 msgid "Refreshing folder"
-msgstr "ਤਾਜ਼ਾ ਫੋਲਡਰ"
+msgstr "ਫੋਲਡਰ ਤਾਜ਼ਾ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/mail-ops.c:1614 ../mail/mail-ops.c:1665
 msgid "Expunging folder"
@@ -14014,7 +14014,7 @@ msgstr "'%s' ਵਿੱਚ ਰੱਦੀ ਖਾਲੀ ਕੀਤਾ ਜਾ ਰਿ�
 
 #: ../mail/mail-ops.c:1663
 msgid "Local Folders"
-msgstr "ਸਥਾਨਕ ਫੋਲਡਰ"
+msgstr "ਲੋਕਲ ਫੋਲਡਰ"
 
 #: ../mail/mail-ops.c:1746
 #, c-format
@@ -14065,7 +14065,7 @@ msgstr "ਡਾਟਾ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ: %s
 #: ../mail/mail-ops.c:2263
 #, c-format
 msgid "Disconnecting from %s"
-msgstr "%s ਨਾਲੋਂ ਵੱਖ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "%s ਨਾਲੋਂ ਕੁਨੈਕਸ਼ਨ ਖਤਮ ਕੀਤਾ ਜਾਂਦਾ ਹੈ"
 
 #: ../mail/mail-ops.c:2263
 #, c-format
@@ -14082,7 +14082,7 @@ msgstr "ਰੱਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
 #: ../mail/mail-send-recv.c:349
 msgid "Send & Receive Mail"
-msgstr "ਭੇਜੋ ਤੇ ਪ੍ਰਾਪਤ ਕਰੋ"
+msgstr "ਪੱਤਰ ਭੇਜੋ ਅਤੇ ਲਵੋ"
 
 #: ../mail/mail-send-recv.c:356
 msgid "Cancel _All"
@@ -14094,7 +14094,7 @@ msgstr "ਅੱਪਡੇਟ ਜਾਰੀ..."
 
 #: ../mail/mail-send-recv.c:453 ../mail/mail-send-recv.c:506
 msgid "Waiting..."
-msgstr "ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ..."
+msgstr "ਉਡੀਕ ਜਾਰੀ..."
 
 #: ../mail/mail-send-recv.c:738
 msgid "Checking for new mail"
@@ -14121,7 +14121,7 @@ msgstr "ਗੁਪਤ-ਕੋਡ ਭਰੋ"
 
 #: ../mail/mail-session.c:243
 msgid "User canceled operation."
-msgstr "ਉਪਭੋਗਤਾ ਨੇ ਕਾਰਵਾਈ ਰੱਦ ਕੀਤੀ।"
+msgstr "ਉਪਭੋਗੀ ਨੇ ਕਾਰਵਾਈ ਰੱਦ ਕੀਤੀ।"
 
 #: ../mail/mail-signature-editor.c:384
 msgid "Edit signature"
@@ -14168,7 +14168,7 @@ msgstr "ਖੋਜ ਫੋਲਡਰ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ 
 #: ../mail/mail-vfolder.c:240
 #, c-format
 msgid "Updating Search Folders for '%s:%s'"
-msgstr "'%s :%s' ਲਈ ਖੋਜ ਫੋਲਡਰ ਅੱਪਡੇਟ ਕਰਨਾ ਜਾਰੀ"
+msgstr "'%s:%s' ਲਈ ਖੋਜ ਫੋਲਡਰ ਅੱਪਡੇਟ ਕਰਨਾ ਜਾਰੀ"
 
 #: ../mail/mail-vfolder.c:247
 #, c-format
@@ -14193,7 +14193,7 @@ msgstr "ਫੋਲਡਰ ਨਾਂ &quot;{0}&quot; ਪਹਿਲਾਂ ਹੀ ਮ�
 #  mail:vfolder-notunique secondary
 #: ../mail/mail.error.xml.h:2
 msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr "ਫੋਲਡਰ ਨਾਂ &quot;{1}&quot; ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਵੱਖਰਾ ਨਾਂ ਵਰਤੋਂ।"
+msgstr "ਫੋਲਡਰ ਨਾਂ &quot;{1}&quot; ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਇੱਕ ਵੱਖਰਾ ਨਾਂ ਵਰਤੋਂ ਜੀ।"
 
 #  mail:ask-migrate-existing secondary
 #: ../mail/mail.error.xml.h:3
@@ -14256,7 +14256,7 @@ msgstr "ਕੀ ਤੁਸੀਂ ਸਭ ਹਟਾਏ ਸੁਨੇਹਿਆਂ ਨ�
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
-msgstr "ਕੀ ਤੁਸੀਂ ਫੋਲਡਰ &quot;{0}&quot; ਵਿੱਚੋਂ ਸਾਰੇ ਹਟਾਏ ਸੁਨੇਹੇ ਹਮੇਸ਼ਾ ਲਈ ਹਟਾਉਣ ਲ਼ਈ ਸਹਿਮਤ ਹੋ?"
+msgstr "ਕੀ ਤੁਸੀਂ ਫੋਲਡਰ &quot;{0}&quot; ਵਿੱਚੋਂ ਸਾਰੇ ਹਟਾਏ ਸੁਨੇਹੇ ਹਮੇਸ਼ਾ ਲਈ ਹਟਾਉਣ ਲਈ ਸਹਿਮਤ ਹੋ?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message in HTML format?"
@@ -14321,15 +14321,15 @@ msgstr "ਫੋਲਡਰ &quot;{0}&quot; ਨੂੰ &quot;{1}&quot; ਵਿੱਚ �
 
 #: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "ਸਰੋਤ &quot;{1}&quot; ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
+msgstr "ਸਰੋਤ &quot;{1}&quot; ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
 #: ../mail/mail.error.xml.h:32
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "ਸਰੋਤ &quot;{2}&quot; ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
+msgstr "ਸਰੋਤ &quot;{2}&quot; ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "ਨਿਯਤ &quot;{2}&quot; ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
+msgstr "ਨਿਯਤ &quot;{2}&quot; ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
 #: ../mail/mail.error.xml.h:34
 msgid ""
@@ -14362,14 +14362,14 @@ msgstr "ਫਾਇਲ &quot;{0}&quot; ਨੂੰ ਸੰਭਾਲਿਆ ਨਹੀ�
 
 #: ../mail/mail.error.xml.h:40
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "ਦਸਤਖਤ ਸਕ੍ਰਿਪਟ&quot;{0}&quot; ਸੈਟ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ।"
+msgstr "ਦਸਤਖਤ ਸਕ੍ਰਿਪਟ &quot;{0}&quot; ਸੈਟ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ।"
 
 #: ../mail/mail.error.xml.h:41
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"ਕਿਰਪਾ ਕਰਕੇ ਜਾਂਚ ਕਰੋ ਕਿ ਤੁਹਾਡੇ ਗੁਪਤ-ਕੋਡ ਸਹੀਂ ਤਰਾਂ ਭਰਿਆ ਹੈ। ਇਹ ਯਾਦ ਰੱਖੋ ਕਿ ਗੁਪਤ-ਕੋਡ ਅੱਖਰ ਪ੍ਰਤੀ "
+"ਜਾਂਚ ਕਰੋ ਕਿ ਤੁਹਾਡੇ ਗੁਪਤ-ਕੋਡ ਸਹੀਂ ਤਰਾਂ ਭਰਿਆ ਹੈ। ਇਹ ਯਾਦ ਰੱਖੋ ਕਿ ਗੁਪਤ-ਕੋਡ ਅੱਖਰ ਪ੍ਰਤੀ "
 "ਸੰਵੇਦਨਸ਼ੀਲ ਹੈ, ਤੁਸੀਂ ਸ਼ਾਇਦ ਆਪਣਾ ਕੈਪਸ ਲਾੱਕ ਚਾਲੂ ਕੀਤਾ ਹੈ।"
 
 #: ../mail/mail.error.xml.h:42
@@ -14480,7 +14480,7 @@ msgstr "ਪ੍ਰਮਾਣਕਿਤਾ ਗਲਤ"
 
 #: ../mail/mail.error.xml.h:67
 msgid "Mail filters automatically updated."
-msgstr "ਪੱਤਰ-ਫਿਲਟਰ ਸਵੈ-ਚਾਲਿਤ ਹੀ ਨਵੀਨੀਕ੍ਰਿਤ ਕੀਤੇ ਗਏ ਹਨ।"
+msgstr "ਪੱਤਰ-ਫਿਲਟਰ ਆਟੋਮੈਟਿਕ ਹੀ ਅੱਪਡੇਟ ਕੀਤੇ ਗਏ ਹਨ।"
 
 #: ../mail/mail.error.xml.h:68
 msgid ""
@@ -14489,7 +14489,7 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"ਕਈ ਈ-ਪੱਤਰ ਸਿਸਟਮ ਤੇ ਸਿਰਫ BCC ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ ਓਹਲੇ ਕਰਨ ਲਈ ਹੀ ਸਹਾਇਤਾ ਸ਼ਾਮਿਲ ਹੁੰਦੀ ਹੈ। ਇਹ "
+"ਕਈ ਈ-ਮੇਲ ਸਿਸਟਮ ਤੇ ਸਿਰਫ BCC ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ ਓਹਲੇ ਕਰਨ ਲਈ ਹੀ ਸਹਾਇਤਾ ਸ਼ਾਮਿਲ ਹੁੰਦੀ ਹੈ। ਇਹ "
 "ਸਿਰਲੇਖ, ਜੇਕਰ ਸ਼ਾਮਿਲ ਕੀਤਾ ਹੈ, ਤਾਂ ਸਾਰੇ ਪ੍ਰਾਪਤ ਕਰਤਾ ਜ਼ਾਹਿਰ ਹੋ ਜਾਣਗੇ। ਇਸ ਤੋਂ ਬੱਚਣ ਲਈ ਤੁਹਾਨੂੰ ਘੱਟੋ-"
 "ਘੱਟ ਇੱਕ ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ To: ਜਾਂ CC: ਵਿੱਚ ਸ਼ਾਮਿਲ ਕਰੋ।"
 
@@ -14515,7 +14515,7 @@ msgstr "ਕੋਈ ਸਰੋਤ ਨਹੀਂ ਚੁਣਿਆ।"
 
 #: ../mail/mail.error.xml.h:75
 msgid "Opening too many messages at once may take a long time."
-msgstr "ਇੱਕੋ ਸਮੇਂ ਇੰਨੇ ਸੁਨੇਹੇ ਖੋਲਣ ਲ਼ਈ ਲੰਮਾ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ।"
+msgstr "ਇੱਕੋ ਸਮੇਂ ਇੰਨੇ ਸੁਨੇਹੇ ਖੋਲਣ ਲਈ ਲੰਮਾ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ।"
 
 #: ../mail/mail.error.xml.h:76
 msgid "Please check your account settings and try again."
@@ -14530,7 +14530,7 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"ਕਿਰਪਾ ਕਰਕੇ ਵੱਲ ਲਈ ਜਾਇਜ ਈ-ਪੱਤਰ ਸਿਰਨਾਵਾਂ ਦਿਓ। ਤੁਸੀਂ ਵੱਲ ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਈਪੱਤਰ ਸਿਰਨਾਵਾਂ ਖੋਜ "
+"ਕਿਰਪਾ ਕਰਕੇ ਵੱਲ ਲਈ ਜਾਇਜ ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਦਿਓ। ਤੁਸੀਂ ਵੱਲ ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ ਖੋਜ "
 "ਸਕਦੇ ਹੋ।"
 
 #: ../mail/mail.error.xml.h:79
@@ -14540,7 +14540,7 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਯਕੀਨੀ ਬਣਾ ਲਵੋ ਕਿ ਇਹ ਪ੍ਰਾਪਤ ਕਰਤਾ HTML ਈ-ਪੱਤਰ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਸਹਿਮਤ ਹਨ "
+"ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਯਕੀਨੀ ਬਣਾ ਲਵੋ ਕਿ ਇਹ ਪ੍ਰਾਪਤ ਕਰਤਾ HTML ਈ-ਮੇਲ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਸਹਿਮਤ ਹਨ "
 "ਅਤੇ ਇਹ ਉਹਨਾਂ ਲਈ ਸੰਭਵ ਵੀ ਹੈ:\n"
 "{0}\n"
 "ਕਿਸੇ ਤਰਾਂ ਭੇਜੋ?"
@@ -14575,7 +14575,7 @@ msgstr "ਕੀ ਤੁਸੀਂ ਫੋਲਡਰ &quot;{0}&quot; ਅਤੇ ਇਸ 
 
 #: ../mail/mail.error.xml.h:89
 msgid "Search Folders automatically updated."
-msgstr "ਖੋਜ ਫੋਲਡਰਾਂ ਨੂੰ ਸਵੈ-ਚਾਲਤ ਹੀ ਅੱਪਡੇਟ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
+msgstr "ਖੋਜ ਫੋਲਡਰਾਂ ਨੂੰ ਆਟੋਮੈਟਿਕ ਹੀ ਅੱਪਡੇਟ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
 
 #: ../mail/mail.error.xml.h:90
 msgid "Send Receipt"
@@ -14605,7 +14605,7 @@ msgid ""
 msgstr ""
 "ਸੰਪਰਕ ਸੂਚੀ, ਜੋ ਤੁਸੀਂ ਭੇਜ ਰਹੇ ਹੋ, ਲੁਕਵੇਂ ਪ੍ਰਾਪਤ ਕਰਤਾ ਨਾਲ ਸੰਰਚਿਤ ਹੈ।\n"
 "\n"
-"ਕਈ ਈ-ਪੱਤਰ ਸਿਸਟਮ ਤੇ ਸਿਰਫ BCC ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ ਓਹਲੇ ਕਰਨ ਲਈ ਹੀ ਸਹਾਇਤਾ ਸ਼ਾਮਿਲ ਹੁੰਦੀ ਹੈ। ਇਹ "
+"ਕਈ ਈ-ਮੇਲ ਸਿਸਟਮ ਤੇ ਸਿਰਫ BCC ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ ਓਹਲੇ ਕਰਨ ਲਈ ਹੀ ਸਹਾਇਤਾ ਸ਼ਾਮਿਲ ਹੁੰਦੀ ਹੈ। ਇਹ "
 "ਸਿਰਲੇਖ, ਜੇਕਰ ਸ਼ਾਮਿਲ ਕੀਤਾ ਹੈ, ਤਾਂ ਸਾਰੇ ਪ੍ਰਾਪਤ ਕਰਤਾ ਜ਼ਾਹਿਰ ਹੋ ਜਾਣਗੇ। ਇਸ ਤੋਂ ਬੱਚਣ ਲਈ ਤੁਹਾਨੂੰ ਘੱਟੋ-"
 "ਘੱਟ ਇੱਕ ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ To: ਜਾਂ CC: ਵਿੱਚ ਸ਼ਾਮਿਲ ਕਰੋ।"
 
@@ -14688,7 +14688,7 @@ msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
-"ਇਸ ਖਾਤੇ ਲਈ ਡਰਾਫਟ ਫੋਲਡਰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ। ਕੀ ਇਸ ਦੀ ਬਜਾਏ ਸਿਸਟਮ ਡਰਾਫਟ ਫੋਲਡਰ "
+"ਇਸ ਖਾਤੇ ਲਈ ਡਰਾਫਟ ਫੋਲਡਰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ। ਕੀ ਇਸ ਦੀ ਬਜਾਏ ਸਿਸਟਮ ਡਰਾਫਟ ਫੋਲਡਰ "
 "ਵਰਤਿਆ ਜਾਵੇ?"
 
 #: ../mail/mail.error.xml.h:116
@@ -14731,11 +14731,11 @@ msgid ""
 "folders, all remote folders, or both."
 msgstr ""
 "ਤੁਹਾਨੂੰ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਸਰੋਤ ਨਿਰਧਾਰਿਤ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।\n"
-"ਜਾਂ ਇੱਕਲਾ-ਇੱਕਲਾ ਫੋਲਡਰ ਚੁਣ ਕੇ ਅਤੇ/ਜਾਂ ਸਾਰੇ ਸਥਾਨਿਕ, ਸਾਰੇ ਰਿਮੋਟ ਫੋਲਡਰ ਜਾਂ ਦੋਵੇਂ ਚੁਣ ਕੇ।"
+"ਜਾਂ ਇੱਕਲਾ-ਇੱਕਲਾ ਫੋਲਡਰ ਚੁਣ ਕੇ ਅਤੇ/ਜਾਂ ਸਾਰੇ ਲੋਕਲ, ਸਾਰੇ ਰਿਮੋਟ ਫੋਲਡਰ ਜਾਂ ਦੋਵੇਂ ਚੁਣ ਕੇ।"
 
 #: ../mail/mail.error.xml.h:127
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "ਤੁਹਾਡਾ ਸਰਵਰ &quot;{0}&quot; 'ਤੇ &quot;{0}&quot; ਦੇ ਤੌਰ ਤੇ ਲਾਗਿੰਨ ਅਸਫਲ"
+msgstr "ਤੁਹਾਡਾ ਸਰਵਰ &quot;{0}&quot; 'ਤੇ &quot;{0}&quot; ਦੇ ਤੌਰ ਤੇ ਲਾਗਇਨ ਅਸਫਲ"
 
 #: ../mail/mail.error.xml.h:128
 msgid "_Append"
@@ -14751,11 +14751,11 @@ msgstr "ਪੜ੍ਹਿਆ ਨਾ ਬਣਾਓ(_D)"
 
 #: ../mail/mail.error.xml.h:132
 msgid "_Expunge"
-msgstr "ਨਿਕਾਰਾ(_E)"
+msgstr "ਸੁੰਘੜੋ(_E)"
 
 #: ../mail/mail.error.xml.h:133
 msgid "_Open Messages"
-msgstr "ਸੁਨੇਹੇ ਖੋਲੋ(_O)"
+msgstr "ਸੁਨੇਹੇ ਖੋਲ੍ਹੋ(_O)"
 
 #: ../mail/message-list.c:1022
 msgid "Unseen"
@@ -14787,11 +14787,11 @@ msgstr "ਘੱਟ"
 
 #: ../mail/message-list.c:1035
 msgid "Higher"
-msgstr "ਜਿਆਦਾ"
+msgstr "ਵੱਧ"
 
 #: ../mail/message-list.c:1036
 msgid "Highest"
-msgstr "ਅਧਿਕਤਮ"
+msgstr "ਸਭ ਤੋਂ ਵੱਧ"
 
 #: ../mail/message-list.c:1469 ../widgets/table/e-cell-date.c:57
 msgid "?"
@@ -14814,11 +14814,11 @@ msgstr "%a %l:%M %p"
 
 #: ../mail/message-list.c:1505 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%d %b %l:%M %p"
 
 #: ../mail/message-list.c:1507 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
-msgstr "%b %d %Y"
+msgstr "%d %b %Y"
 
 #: ../mail/message-list.c:2263 ../mail/message-list.etspec.h:9
 msgid "Messages"
@@ -14834,7 +14834,7 @@ msgstr "ਮਿਆਦ ਨਾਲ"
 
 #: ../mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr "ਨਿਸ਼ਾਨ ਸਥਿਤੀ"
+msgstr "ਨਿਸ਼ਾਨ ਹਾਲਤ"
 
 #: ../mail/message-list.etspec.h:5
 msgid "Flagged"
@@ -14846,7 +14846,7 @@ msgstr "ਸਹਾਇਕ ਨਿਸ਼ਾਨ"
 
 #: ../mail/message-list.etspec.h:10
 msgid "Received"
-msgstr "ਪ੍ਰਾਪਤ"
+msgstr "ਮਿਲੇ"
 
 #: ../mail/message-list.etspec.h:14
 msgid "Sent Messages"
@@ -14935,11 +14935,11 @@ msgstr ""
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
-msgstr "ਆਡੀਓ ਇੰਲਾਇਨ ਪਲੱਗ-ਇਨ"
+msgstr "ਆਡੀਓ ਇਨ-ਲਾਇਨ ਪਲੱਗ-ਇਨ"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
-msgstr "ਈਵੂਲੇਸਨ ਸੁਕੰਚਿਤ ਦਾ ਨਾਂ ਚੁਣੋ"
+msgstr "ਈਵੂਲੇਸਨ ਆਕਾਇਵ ਦਾ ਨਾਂ ਚੁਣੋ"
 
 #: ../plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
@@ -14947,7 +14947,7 @@ msgstr "ਬੈਕਅੱਪ ਉਪਰੰਤ ਈਵੂਲੇਸ਼ਨ ਮੁੜ-ਚ�
 
 #: ../plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr "ਮੁੜ-ਪ੍ਰਾਪਤ ਕਰਨ ਲ਼ਈ ਈਵੂਲੇਸ਼ਨ ਸੁਕੰਚਿਤ ਚੁਣੋ"
+msgstr "ਮੁੜ-ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਈਵੂਲੇਸ਼ਨ ਆਕਾਇਵ ਚੁਣੋ"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
@@ -14963,7 +14963,7 @@ msgstr "ਮੁੜ-ਪ੍ਰਾਪਤੀ ਈਵੇਲੂਸ਼ਨ ਡਾਇਰੈ
 
 #: ../plugins/backup-restore/backup.c:113
 msgid "Check Evolution archive"
-msgstr "ਈਵੇਲੂਸ਼ਨ ਸੁਕੰਚਿਤ ਜਾਂਚ"
+msgstr "ਈਵੇਲੂਸ਼ਨ ਆਕਾਇਵ ਜਾਂਚ"
 
 #: ../plugins/backup-restore/backup.c:115
 msgid "Restart Evolution"
@@ -14993,7 +14993,7 @@ msgstr "ਮੁੜ-ਪ੍ਰਾਪਤ ਸੈਟਿੰਗ..."
 #: ../plugins/bbdb/bbdb.c:447 ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
-msgstr "ਸਵੈ-ਚਾਲਤ ਸੰਪਰਕ"
+msgstr "ਆਟੋਮੈਟਿਕ ਸੰਪਰਕ"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:471
@@ -15054,7 +15054,7 @@ msgstr "CalDAV ਸਰੋਤ"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Local Calendars"
-msgstr "ਸਥਾਨਕ ਕੈਲੰਡਰ"
+msgstr "ਲੋਕਲ ਕੈਲੰਡਰ"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Provides core functionality for local calendars."
@@ -15155,7 +15155,7 @@ msgstr "ਮੂਲ ਪੱਤਰ ਕਲਾਂਈਟ "
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "ਕੀ ਤੁਸੀਂ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਆਪਣਾ ਮੂਲ ਈ-ਪੱਤਰ ਕਲਾਂਈਟ ਬਣਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
+msgstr "ਕੀ ਤੁਸੀਂ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਆਪਣਾ ਮੂਲ ਈ-ਮੇਲ ਕਲਾਂਈਟ ਬਣਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
@@ -15219,7 +15219,7 @@ msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"ਹੇਠਾਂ ਨਿਰਧਾਰਿਤ ਕੀਤਾ ਸੁਨੇਹਾ ਸਵੈ-ਚਾਲਿਤ ਹੀ ਉਹਨਾਂ ਸਾਰੇ ਪੱਤਰ ਭੇਜਣ ਵਾਲਿਆਂ ਨੂੰ ਭੇਜ ਦਿੱਤਾ\n"
+"ਹੇਠਾਂ ਨਿਰਧਾਰਿਤ ਕੀਤਾ ਸੁਨੇਹਾ ਆਟੋਮੈਟਿਕ ਹੀ ਉਹਨਾਂ ਸਾਰੇ ਪੱਤਰ ਭੇਜਣ ਵਾਲਿਆਂ ਨੂੰ ਭੇਜ ਦਿੱਤਾ\n"
 "ਜਾਵੇਗਾ, ਜੋ ਕਿ ਤੁਹਾਡੇ ਦਫਤਰੋਂ ਬਾਹਰ ਹੋਣ ਦੀ ਸੂਰਤ ਵਿੱਚ ਪੱਤਰ ਭੇਜਣ।"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:276
@@ -15502,7 +15502,7 @@ msgstr "ਤੁਹਾਡੇ ਗੁਪਤ-ਕੋਡ ਦੀ ਮਿਆਦ 7 ਦਿ�
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
-msgstr "ਗੁਪਤ-ਕੋਡ ਤਬਦੀਲ(_C)"
+msgstr "ਗੁਪਤ-ਕੋਡ ਬਦਲੋ(_C)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
 msgid "(Permission denied.)"
@@ -16051,7 +16051,7 @@ msgstr "<b>ਕੂੜਾ ਸੂਚੀ:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
-msgstr "ਈ-ਪੱਤਰ:"
+msgstr "ਈ-ਮੇਲ:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
@@ -16068,7 +16068,7 @@ msgstr "ਯੋਗ(_E)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
-msgstr "ਕੂੜਾ ਸੂਚੀ(_J)"
+msgstr "ਕੂੜਾ ਲਿਸਟ(_J)"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message retracted successfully"
@@ -16176,11 +16176,11 @@ msgstr "ਮੇਰੀਆਂ ਸੂਚਨਾਵਾਂ ਲਈ ਮੈਂਬਰੀ(_n
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
-msgstr "ਪੜਿਆ(_R)"
+msgstr "ਪੜ੍ਹਨ(_R)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
-msgstr "ਲਿਖੋ(_W)"
+msgstr "ਲਿਖਣ(_W)"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -16192,7 +16192,7 @@ msgstr "<b>ਖਾਤਾ ਨਾਂ</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr "ਪਰਾਕਸੀ ਲਾਗਿੰਨ"
+msgstr "ਪਰਾਕਸੀ ਲਾਗਇਨ"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:262
@@ -16200,14 +16200,14 @@ msgstr "ਪਰਾਕਸੀ ਲਾਗਿੰਨ"
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "%s ਗੁਪਤ ਕੋਡ ਭਰੋ %s ਲਈ(ਉਪਭੋਗਤਾ %s)"
+msgstr "%1$s %2$s (ਉਪਭੋਗੀ %3$s) ਲਈ ਗੁਪਤ-ਕੋਡ ਦਿਓ"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
 #. * feature by which one person can send/read mails/appointments using another person's identity
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:516
 msgid "_Proxy Login..."
-msgstr "ਪਰਾਕਸੀ ਲਾਗਿੰਨ(_P)..."
+msgstr "ਪਰਾਕਸੀ ਲਾਗਇਨ(_P)..."
 
 #: ../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
@@ -16220,11 +16220,11 @@ msgstr "ਜੇਕਰ ਖਾਤਾ ਯੋਗ ਹੋਇਆ ਤਾਂ ਹੀ ਪਰ
 #: ../plugins/groupwise-features/share-folder-common.c:322
 #: ../plugins/groupwise-features/share-folder.c:760
 msgid "Users"
-msgstr "ਉਪਭੋਗਤਾ"
+msgstr "ਉਪਭੋਗੀ"
 
 #: ../plugins/groupwise-features/share-folder-common.c:323
 msgid "Enter the users and set permissions"
-msgstr "ਉਪਭੋਗਤਾ ਦਿਓ ਅਤੇ ਅਧਿਕਾਰ ਨਿਰਧਾਨ"
+msgstr "ਉਪਭੋਗੀ ਦਿਓ ਅਤੇ ਅਧਿਕਾਰ ਨਿਰਧਾਨ"
 
 #: ../plugins/groupwise-features/share-folder-common.c:342
 msgid "New _Shared Folder..."
@@ -16332,7 +16332,9 @@ msgstr ""
 msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
-msgstr "ਇਹ ਚੁਣੋ, ਜੇ ਤੁਹਾਡੇ ਕੋਲ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਅਧਾਰਿਤ ਫਿਲਟਰ ਨਹੀਂ ਹਨ"
+msgstr ""
+"ਮੂਲ ਸਿਰਲੇਖ - (ਸਭ ਤੋਂ ਤੇਜ਼) (_B)\n"
+"ਇਹ ਚੁਣੋ, ਜੇ ਤੁਹਾਡੇ ਕੋਲ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਅਧਾਰਿਤ ਫਿਲਟਰ ਨਹੀਂ ਹਨ"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "A plugin for the features in the IMAP accounts."
@@ -16427,15 +16429,15 @@ msgstr "ਡਾਟਾ ਨਿਰਯਾਤ ਕਰਨ ਅਸਫ਼ਲ ਹੈ।"
 
 #: ../plugins/ipod-sync/sync.c:231
 msgid "Could not open addressbook!"
-msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ!"
+msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ!"
 
 #: ../plugins/ipod-sync/sync.c:232
 msgid "Could not open the Evolution addressbook to export data."
-msgstr "ਈਵੇਲੂਸ਼ਨ ਸਿਰਨਾਵਾਂ-ਕਿਤਾਬ ਨੂੰ ਡਾਟਾ ਨਿਰਯਾਤ ਕਰਨ ਲਈ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
+msgstr "ਈਵੇਲੂਸ਼ਨ ਸਿਰਨਾਵਾਂ-ਕਿਤਾਬ ਨੂੰ ਡਾਟਾ ਨਿਰਯਾਤ ਕਰਨ ਲਈ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
 #: ../plugins/ipod-sync/sync.c:291
 msgid "Could not open calendar/todo!"
-msgstr "ਕੈਲੰਡਰ/ਕਰਨ ਲਈ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ!"
+msgstr "ਕੈਲੰਡਰ/ਕਰਨ ਲਈ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ!"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
@@ -16902,7 +16904,7 @@ msgstr "<b>%s</b> ਨੇ ਅੱਗੇ ਦਿੱਤਾ ਸਾਂਝਾ ਮੀਮ�
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:755
 msgid "_Open Calendar"
-msgstr "ਕੈਲੰਡਰ ਖੋਲੋ(_O))"
+msgstr "ਕੈਲੰਡਰ ਖੋਲ੍ਹੋ(_O))"
 
 #: ../plugins/itip-formatter/itip-view.c:761
 #: ../plugins/itip-formatter/itip-view.c:765
@@ -17032,7 +17034,7 @@ msgstr "ਨਾ-ਮੰਨਣਯੋਗ ਗਲਤੀ: %s"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:476
 msgid "Account cannot send e-mail"
-msgstr "ਖਾਤਾ ਈ-ਪੱਤਰ ਨਹੀਂ ਭੇਜ ਸਕਦਾ ਹੈ"
+msgstr "ਖਾਤਾ ਈ-ਮੇਲ ਨਹੀਂ ਭੇਜ ਸਕਦਾ ਹੈ"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
 msgid "No store available"
@@ -17085,11 +17087,11 @@ msgstr "ਸੰਪਰਕ ਸੂਚੀ ਮਾਲਕ(_o)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Get list _archive"
-msgstr "ਸੂਚੀ ਆਰਚੀਵ ਲਵੋ(_a)"
+msgstr "ਲਿਸਟ ਆਰਚੀਵ ਲਵੋ(_a)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
 msgid "Get list _usage information"
-msgstr "ਵਰਤੋਂ ਸੂਚੀ ਜਾਣਕਾਰੀ ਲਵੋਂ(_u)"
+msgstr "ਵਰਤੋਂ ਲਿਸਟ ਜਾਣਕਾਰੀ ਲਵੋਂ(_u)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
 msgid "Mailing List Actions"
@@ -17128,7 +17130,7 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"URL \"{0}\" ਨੂੰ ਈ-ਪੱਤਰ ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਾਵੇਗਾ, ਤੁਸੀਂ ਸਵੈ-ਚਾਲਤ ਸੁਨੇਹਾ ਭੇਜ ਸਕਦੇ ਹੋ, ਜਾਂ ਇਸ ਨੂੰ "
+"URL \"{0}\" ਨੂੰ ਈ-ਮੇਲ ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਾਵੇਗਾ, ਤੁਸੀਂ ਆਟੋਮੈਟਿਕ ਸੁਨੇਹਾ ਭੇਜ ਸਕਦੇ ਹੋ, ਜਾਂ ਇਸ ਨੂੰ "
 "ਪਹਿਲਾਂ ਵੇਖ ਅਤੇ ਤਬਦੀਲ ਕਰ ਸਕਦੇ ਹੋ।\n"
 "\n"
 "ਤੁਸੀਂ ਮੇਲਿੰਗ ਸੂਚੀ ਤੇ ਭੇਜਣ ਬਾਅਦ ਤਰੁੰਤ ਜਵਾਬ ਪ੍ਰਾਪਤ ਕਰ ਲਵੋਗੇ।"
@@ -17139,7 +17141,7 @@ msgstr "ਨਿਕਾਰਾ ਸਿਰਲੇਖ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid "No e-mail action"
-msgstr "ਕੋਈ ਈ-ਪੱਤਰ ਕਾਰਵਾਈ ਨਹੀਂ"
+msgstr "ਕੋਈ ਈ-ਮੇਲ ਕਾਰਵਾਈ ਨਹੀਂ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:7
 msgid "Posting not allowed"
@@ -17155,7 +17157,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "Send e-mail message to mailing list?"
-msgstr "ਕੀ ਈ-ਪੱਥਰ ਮੇਲਿੰਗ ਸੂਚੀ ਨੂੰ ਭੇਜਣਾ ਹੈ?"
+msgstr "ਕੀ ਈ-ਮੇਲ ਮੇਲਿੰਗ ਸੂਚੀ ਨੂੰ ਭੇਜਣਾ ਹੈ?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
 msgid ""
@@ -17195,7 +17197,7 @@ msgstr "ਸੁਨੇਹਾ ਭੇਜੋ(_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact List _Owner"
-msgstr "ਸੰਪਰਕ ਸੂਚੀ ਮਾਲਕ(_O)"
+msgstr "ਸੰਪਰਕ ਲਿਸਟ ਮਾਲਕ(_O)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
@@ -17203,7 +17205,7 @@ msgstr "ਚੁਣੇ ਸੁਨੇਹੇ ਦੀ ਮੇਲਿੰਗ ਲਿਸਟ �
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get List _Archive"
-msgstr "ਸੂਚੀ ਆਰਚੀਵ ਲਵੋ(_A)"
+msgstr "ਲਿਸਟ ਆਰਚੀਵ ਲਵੋ(_A)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 msgid "Get List _Usage Information"
@@ -17239,7 +17241,7 @@ msgstr "ਸੂਚੀ ਲਈ ਮੈਂਬਰ(_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 msgid "_Unsubscribe from List"
-msgstr "ਸੂਚੀ ਤੋਂ ਮੈਂਬਰੀ ਹਟਾਓ(_U)"
+msgstr "ਲਿਸਟ ਤੋਂ ਮੈਂਬਰੀ ਹਟਾਓ(_U)"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -17372,7 +17374,7 @@ msgstr "ਲੇਖਕ ਤੋਂ ਪੱਤਰ ਛਾਪਣ ਲਈ ਇੱਕ ਚੋ
 #: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "ਛਾਪਣ ਦਰਿਸ਼(_v)"
+msgstr "ਛਪਾਈ ਝਲਕ(_v)"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
 msgid "Prints the message"
@@ -17448,7 +17450,7 @@ msgid ""
 msgstr ""
 "SSH\n"
 "ਪਬਲਿਕ FTP\n"
-"FTP (ਬਿਨਾਂ ਲਾਗਿੰਨ ਦੇ)\n"
+"FTP (ਬਿਨਾਂ ਲਾਗਇਨ ਦੇ)\n"
 "Windows ਸਾਂਝ\n"
 "WebDAV (HTTP)\n"
 "ਸੁਰੱਖਿਅਤ WebDAV (HTTPS)\n"
@@ -17670,7 +17672,7 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"ਈਵੇਲੂਸ਼ਨ ਤੇ ਸਵਾਗਤ ਹੈ, ਅਗਲੇ ਕੁਝ ਪਰਦੇ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਤੁਹਾਡੇ ਈ-ਪੱਤਰ ਖਾਤਿਆਂ ਨਾਲ ਜੋੜਨ ਵਿੱਚ\n"
+"ਈਵੇਲੂਸ਼ਨ ਤੇ ਸਵਾਗਤ ਹੈ, ਅਗਲੇ ਕੁਝ ਪਰਦੇ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਤੁਹਾਡੇ ਈ-ਮੇਲ ਖਾਤਿਆਂ ਨਾਲ ਜੋੜਨ ਵਿੱਚ\n"
 "ਸਹਾਇਕ ਹੋਣਗੇ ਅਤੇ ਹੋਰ ਕਾਰਜਾਂ ਤੋਂ ਫਾਇਲਾਂ ਆਯਾਤ ਕਰਨ ਵਿੱਚ ਸਹਾਇਤਾ ਕਰਨਗੇ।\n"
 "\n"
 "ਕਿਰਪਾ ਕਰਕੇ ਜਾਰੀ ਰਹਿਣ ਲਈ \"ਅੱਗੇ\" ਬਟਨ ਦਬਾਓ।"
@@ -17874,7 +17876,7 @@ msgstr "(ਬਿਨਾਂ ਸਿਰਲੇਖ)"
 
 #: ../shell/e-shell-importer.c:137
 msgid "Choose the type of importer to run:"
-msgstr "ਚਲਾਉਣ ਲ਼ਈ ਆਯਾਤਕਾਰ ਦੀ ਕਿਸਮ ਚੁਣੋ:"
+msgstr "ਚਲਾਉਣ ਲਈ ਆਯਾਤਕਾਰ ਦੀ ਕਿਸਮ ਚੁਣੋ:"
 
 #: ../shell/e-shell-importer.c:140
 msgid ""
@@ -17886,7 +17888,7 @@ msgid ""
 msgstr ""
 "ਫਾਇਲ, ਜੋ ਵੀ ਤੁਸੀਂ ਈਵੇਲੂਸ਼ਨ ਵਿੱਚ ਆਯਾਤ ਕਰਨੀ ਹੈ ਅਤੇ ਇਸ ਦੀ ਕਿਸਮ ਸੂਚੀ ਵਿੱਚੋਂ ਚੁਣੋ।\n"
 "\n"
-"ਜੇਕਰ ਤੁਸੀਂ ਨਹੀਂ ਜਾਣਦੇ ਹੋ ਤਾਂ ਤੁਸੀਂ \"ਸਵੈ-ਚਾਲਿਤ\" ਨੂੰ ਚੁਣੋ ਅਤੇ ਈਵੇਲੂਸ਼ਨ ਖੁਦ ਕੋਸ਼ਿਸ ਕਰੇਗਾ।"
+"ਜੇਕਰ ਤੁਸੀਂ ਨਹੀਂ ਜਾਣਦੇ ਹੋ ਤਾਂ ਤੁਸੀਂ \"ਆਟੋਮੈਟਿਕ\" ਨੂੰ ਚੁਣੋ ਅਤੇ ਈਵੇਲੂਸ਼ਨ ਖੁਦ ਕੋਸ਼ਿਸ ਕਰੇਗਾ।"
 
 #: ../shell/e-shell-importer.c:146
 msgid "Choose the destination for this import"
@@ -17971,8 +17973,9 @@ msgstr "ਬੱਗ-ਬੱਡੀ ਨੂੰ ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸ
 #: ../shell/e-shell-window-commands.c:565
 msgid "translator-credits"
 msgstr ""
-"ਅਮਨਪ੍ਰੀਤ ਸਿੰਘ ਆਲਮ (amanpreetalam@yahoo.com)\n"
-"ਪੰਜਾਬ ਲੀਨਕਸ ਤਕਨਾਲੋਜੀ (http://punlinux.sf.net)"
+"ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ\n"
+"Punjabi OpenSource Team\n"
+"http://www.satluj.org/"
 
 #: ../shell/e-shell-window-commands.c:576
 msgid "Evolution Website"
@@ -17980,15 +17983,15 @@ msgstr "ਈਵੇਲੂਸ਼ਨ ਵੈੱਬਸਾਇਟ"
 
 #: ../shell/e-shell-window-commands.c:782
 msgid "_Work Online"
-msgstr "ਆਨਲਾਇਨ(_W)"
+msgstr "ਆਨ-ਲਾਇਨ ਜਾਓ(_W)"
 
 #: ../shell/e-shell-window-commands.c:795 ../ui/evolution.xml.h:55
 msgid "_Work Offline"
-msgstr "ਆਫਲਾਇਨ(_W)"
+msgstr "ਆਫ਼-ਲਾਇਨ ਜਾਓ(_W)"
 
 #: ../shell/e-shell-window-commands.c:808
 msgid "Work Offline"
-msgstr "ਆਫਲਾਇਨ"
+msgstr "ਆਫ-ਲਾਇਨ ਜਾਓ"
 
 #: ../shell/e-shell-window.c:381
 msgid "Evolution is currently online. Click on this button to work offline."
@@ -18040,7 +18043,7 @@ msgstr "ਨਵਾਂ"
 
 #: ../shell/evolution-test-component.c:140
 msgid "New Test"
-msgstr "ਨਵੀ ਜਾਂਚ"
+msgstr "ਨਵੀਂ ਜਾਂਚ"
 
 #: ../shell/evolution-test-component.c:141
 msgid "_Test"
@@ -18366,7 +18369,7 @@ msgstr "ਮਿਆਦ"
 
 #: ../smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
-msgstr "ਈ-ਪੱਤਰ ਸਿਰਨਾਵਾਂ"
+msgstr "ਈ-ਮੇਲ ਸਿਰਨਾਵਾਂ"
 
 #: ../smime/gui/certificate-viewer.c:341
 #, c-format
@@ -18505,15 +18508,15 @@ msgstr "ਸੋਧ"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
-msgstr "ਈ-ਪੱਤਰ ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਮਾਣਕਿਤਾ ਸੈਟਿੰਗ"
+msgstr "ਈ-ਮੇਲ ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਮਾਣਕਿਤਾ ਸੈਟਿੰਗ"
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
-msgstr "ਈ-ਪੱਤਰ ਪ੍ਰਾਪਤੀ ਸਰਟੀਫਿਕੇਟ"
+msgstr "ਈ-ਮੇਲ ਪ੍ਰਾਪਤੀ ਸਰਟੀਫਿਕੇਟ"
 
 #: ../smime/gui/smime-ui.glade.h:26
 msgid "Email Signer Certificate"
-msgstr "ਈ-ਪੱਤਰ ਦਸਤਖਤੀ ਸਰਟੀਫਿਕੇਟ"
+msgstr "ਈ-ਮੇਲ ਦਸਤਖਤੀ ਸਰਟੀਫਿਕੇਟ"
 
 #: ../smime/gui/smime-ui.glade.h:27
 msgid "Expires On"
@@ -18557,11 +18560,11 @@ msgstr "ਇਸ ਸਰਟੀਫਿਕੇਟ ਦੀ ਪ੍ਰਮਾਣਕਿਤਾ
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr "ਇਸ CA ਤੇ ਈ-ਪੱਤਰ ਉਪਭੋਗਤਾਵਾਂ ਦੀ ਪਛਾਣ ਲਈ ਭਰੋਸਾ ਰੱਖੋ।"
+msgstr "ਇਸ CA ਤੇ ਈ-ਮੇਲ ਉਪਭੋਗੀਵਾਂ ਦੀ ਪਛਾਣ ਲਈ ਭਰੋਸਾ ਰੱਖੋ।"
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
-msgstr "ਇਸ CA ਤੇ ਸਾਫਟਵੇਅਰ ਵਿਕਾਸਵਾਦੀਆਂ ਦੀ ਪਛਾਣ ਲ਼ਈ ਭਰੋਸਾ ਕਰੋ।"
+msgstr "ਇਸ CA ਤੇ ਸਾਫਟਵੇਅਰ ਵਿਕਾਸਵਾਦੀਆਂ ਦੀ ਪਛਾਣ ਲਈ ਭਰੋਸਾ ਕਰੋ।"
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
@@ -18693,7 +18696,7 @@ msgstr "SSL ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਮਾਣਕਿਤਾ"
 
 #: ../smime/lib/e-cert.c:839
 msgid "Email Certificate Authority"
-msgstr "ਈ-ਪੱਤਰ ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਮਾਣਕਿਤਾ"
+msgstr "ਈ-ਮੇਲ ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਮਾਣਕਿਤਾ"
 
 #: ../smime/lib/e-cert.c:867
 msgid "Signing"
@@ -19008,7 +19011,7 @@ msgstr "ਨਵਾਂ(_N)"
 
 #: ../ui/evolution-addressbook.xml.h:60
 msgid "_Rename"
-msgstr "ਨਾਂ ਤਬਦੀਲ(_R)"
+msgstr "ਨਾਂ ਬਦਲੋ(_R)"
 
 #: ../ui/evolution-addressbook.xml.h:61
 msgid "_Save Contact as VCard..."
@@ -19703,7 +19706,7 @@ msgstr "ਅੱਗੇ ਭੇਜੇ ਇਸ ਵਾਂਗ(_O)..."
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "ਮੇਲਿੰਗ ਲਿਸਟ ਤੇ _ਫਿਲਟਰ..."
+msgstr "ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਫਿਲਟਰ(_L)..."
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
@@ -19727,7 +19730,7 @@ msgstr "ਧਿਆਨ ਰੱਖਣ ਲਈ ਚੁਣੇ ਸੁਨੇਹੇ ਨਿ�
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "ਮੁੱਢ ਖੋਲੋ(_U)..."
+msgstr "ਅੱਗੇ ਖੋਲ੍ਹੋ(_U)..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -19915,7 +19918,7 @@ msgstr "ਸੁਨੇਹੇ ਸਭ ਈ-ਮੇਲ ਸਿਰਲੇਖਾਂ ਨਾ�
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Show the raw email source of the message"
-msgstr "ਸੁਨੇਹੇ ਦੇ ਕੱਚੇ ਈਪੱਤਰ ਸਰੋਤ ਵੇਖਾਓ"
+msgstr "ਸੁਨੇਹੇ ਦੇ ਕੱਚੇ ਈ-ਮੇਲ ਸਰੋਤ ਵੇਖਾਓ"
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Undelete the selected messages"
@@ -19987,11 +19990,11 @@ msgstr "ਆਮ ਅਕਾਰ(_N)"
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Not Junk"
-msgstr "ਰੱਦੀ ਨਹੀਂ(_N)"
+msgstr "ਕੂੜਾ ਨਹੀਂ(_N)"
 
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Open in New Window"
-msgstr "ਨਵੇਂ ਝਰੋਖੇ 'ਚ ਖੋਲੋ(_O)"
+msgstr "ਨਵੇਂ ਝਰੋਖੇ 'ਚ ਖੋਲ੍ਹੋ(_O)"
 
 #: ../ui/evolution-mail-message.xml.h:123
 msgid "_Previous Message"
@@ -20059,7 +20062,7 @@ msgstr "ਚੁਣੇ ਮੀਮੋ ਵੇਖੋ"
 
 #: ../ui/evolution-memos.xml.h:18
 msgid "_Open Memo"
-msgstr "ਮੀਮੋ ਖੋਲੋ(_O)"
+msgstr "ਮੀਮੋ ਖੋਲ੍ਹੋ(_O)"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
@@ -20106,15 +20109,15 @@ msgstr "ਭੇਜਣ ਚੋਣਾਂ ਸ਼ਾਮਲ"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
-msgstr "ਫਾਇਲ ਖੋਲ੍ਹੋ"
+msgstr "ਇੱਕ ਫਾਇਲ ਖੋਲ੍ਹੋ"
 
 #: ../ui/evolution-message-composer.xml.h:15
 msgid "PGP Encrypt"
-msgstr "PGP ਇਕਰਿਪਟ"
+msgstr "PGP ਇਕ੍ਰਿਪਟ"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "PGP Sign"
-msgstr "PGP ਸਾਇਨ"
+msgstr "PGP ਦਸਤਖਤ"
 
 #: ../ui/evolution-message-composer.xml.h:17
 msgid "R_equest Read Receipt"
@@ -20122,11 +20125,11 @@ msgstr "ਪੜਨ ਰਸੀਦ ਦੀ ਮੰਗ(_E)"
 
 #: ../ui/evolution-message-composer.xml.h:18
 msgid "S/MIME Encrypt"
-msgstr "S/MIME ਇਕਰਿਪਟ"
+msgstr "S/MIME ਇਕ੍ਰਿਪਟ"
 
 #: ../ui/evolution-message-composer.xml.h:19
 msgid "S/MIME Sign"
-msgstr "S/MIME ਸਾਇਨ"
+msgstr "S/MIME ਦਸਤਖਤ"
 
 #: ../ui/evolution-message-composer.xml.h:21
 msgid "Save As"
@@ -20138,7 +20141,7 @@ msgstr "ਡਰਾਫਟ ਸੰਭਾਲੋ"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "Save _As..."
-msgstr "ਇੰਞ ਸੰਭਾਲੋ(_A)..."
+msgstr "ਇੰਝ ਸੰਭਾਲੋ(_A)..."
 
 #: ../ui/evolution-message-composer.xml.h:24
 msgid "Save _Draft"
@@ -20171,7 +20174,7 @@ msgstr "ਭੇਜੋ"
 #: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
-msgstr "ਪੱਤਰ HTML ਪ੍ਰਤੀਰੂਪ ਵਿੱਚ ਭੇਜੋ"
+msgstr "ਪੱਤਰ HTML ਫਾਰਮੈਟ ਵਿੱਚ ਭੇਜੋ"
 
 #: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
@@ -20227,11 +20230,11 @@ msgstr "ਸਭ ਹਟਾਉ(_D)"
 
 #: ../ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
-msgstr "ਵੱਲੋਂ(_F)"
+msgstr "ਵੱਲੋਂ ਖੇਤਰ(_F)"
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
-msgstr "ਖੋਲੋ(_O)..."
+msgstr "ਖੋਲ੍ਹੋ(_O)..."
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
@@ -20395,7 +20398,7 @@ msgstr "ਇਸ ਫੋਲਡਰ ਨੂੰ ਵੇਖਾਉਣ ਲਈ ਨਵਾਂ 
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr "ਝਰੋਖਾ ਬਟਨ ਵਿਹੜਾ ਸੰਦਪੱਟੀ ਸੈਟਿੰਗ ਨਾਲ ਵੇਖਾਓ"
+msgstr "ਝਰੋਖਾ ਬਟਨ ਡੈਸਕਟਾਪ ਸੰਦਪੱਟੀ ਸੈਟਿੰਗ ਨਾਲ ਵੇਖਾਓ"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
@@ -20575,7 +20578,7 @@ msgstr "ਦਿਨ ਝਲਕ(_D)"
 
 #: ../views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr "ਸੂਚੀ ਝਲਕ(_L)"
+msgstr "ਲਿਸਟ ਝਲਕ(_L)"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
@@ -20595,7 +20598,7 @@ msgstr "ਭੇਜੇ ਫੋਲਡਰ ਨਾਲ(_S)"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By S_tatus"
-msgstr "ਸਥਿਤੀ ਨਾਲ(_t)"
+msgstr "ਹਾਲਤ ਨਾਲ(_t)"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
@@ -20627,7 +20630,7 @@ msgstr "ਮਿਆਦ ਨਾਲ(_D)"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Status"
-msgstr "ਸਥਿਤੀ ਨਾਲ(_S)"
+msgstr "ਹਾਲਤ ਨਾਲ(_S)"
 
 #. Put the ""UTC" entry at the top of the combo's list.
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:211
@@ -20756,7 +20759,7 @@ msgstr "ਝਲਕ ਦੀ ਕਿਸਮ:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
-msgstr "ਨੱਥੀ ਦਾ ਸਵੈ-ਚਾਲਿਤ ਦਰਿਸ਼ ਲਈ ਸੁਝਾਅ"
+msgstr "ਨੱਥੀ ਦਾ ਆਟੋਮੈਟਿਕ ਦਰਿਸ਼ ਲਈ ਸੁਝਾਅ"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -20845,7 +20848,7 @@ msgstr "ਹੁਣ"
 #: ../widgets/misc/e-cell-date-edit.c:793
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr "ਸਮੇਂ ਦਾ ਪ੍ਰਤੀਰੂਪ ਇਸਤਰਾਂ ਦਾ ਹੋਣਾ ਲਾਜ਼ਮੀ ਹੈ: %s"
+msgstr "ਸਮੇਂ ਦਾ ਫਾਰਮੈਟ ਇਸਤਰਾਂ ਦਾ ਹੋਣਾ ਲਾਜ਼ਮੀ ਹੈ: %s"
 
 #: ../widgets/misc/e-cell-percent.c:76
 msgid "The percent value must be between 0 and 100, inclusive"
@@ -20953,7 +20956,7 @@ msgstr "ਮਿਤੀ ਅਤੇ ਸਮਾਂ"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
-msgstr "ਮਿਤੀ ਦੇਣ ਲ਼ਈ ਪਾਠ ਇੰਦਰਾਜ਼"
+msgstr "ਮਿਤੀ ਦੇਣ ਲਈ ਪਾਠ ਇੰਦਰਾਜ਼"
 
 #: ../widgets/misc/e-dateedit.c:362
 msgid "Click this button to show a calendar"
@@ -21322,7 +21325,7 @@ msgstr "ਜਦੋਂ ਠੀਕ ਲੱਗੇ(_W)"
 
 #: ../widgets/misc/e-send-options.glade.h:37
 msgid "_When opened:"
-msgstr "ਜਦੋਂ ਖੋਲਿਆ ਜਾਵੇ(_W):"
+msgstr "ਜਦੋਂ ਖੋਲ੍ਹਿਆ ਜਾਵੇ(_W):"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
 #: ../widgets/misc/e-task-widget.c:209
@@ -21796,7 +21799,7 @@ msgstr "ਹਾਸ਼ੀਆਂ ਖਿੱਚੋ"
 #: ../widgets/text/e-entry.c:1321 ../widgets/text/e-entry.c:1322
 #: ../widgets/text/e-text.c:3696 ../widgets/text/e-text.c:3697
 msgid "Draw background"
-msgstr "ਪਿੱਠਭੂਮੀ ਬਣਾਓ"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਬਣਾਓ"
 
 #: ../widgets/text/e-entry.c:1328 ../widgets/text/e-entry.c:1329
 #: ../widgets/text/e-text.c:3703 ../widgets/text/e-text.c:3704
