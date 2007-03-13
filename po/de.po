@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-12 07:22+0100\n"
-"PO-Revision-Date: 2007-03-12 07:30+0100\n"
-"Last-Translator: Christian Kintner <mail@christian-kintner.de>\n"
+"POT-Creation-Date: 2007-03-13 12:45+0100\n"
+"PO-Revision-Date: 2007-03-13 13:04+0100\n"
+"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10770,7 +10770,7 @@ msgstr "Nachricht _speichern"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:574
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:584
 msgid "Groupware Suite"
 msgstr "Groupware-Suite"
 
@@ -12093,11 +12093,11 @@ msgstr "_Suchen:"
 #. gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
 #: ../mail/em-format-html-display.c:681
 msgid "_Previous"
-msgstr "_Vorherige"
+msgstr "_Rückwärts suchen"
 
 #: ../mail/em-format-html-display.c:686
 msgid "_Next"
-msgstr "_Weiter"
+msgstr "_Weitersuchen"
 
 #: ../mail/em-format-html-display.c:691
 msgid "M_atch case"
@@ -16679,7 +16679,7 @@ msgstr "<b>IMAP-Kopfzeilen </b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr "Gewöhnliche und _Mailinglisten Kopfzeilen (Vorgabe)"
+msgstr "Gewöhnliche und _Mailinglisten-Kopfzeilen (Vorgabe)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 msgid "Fetch A_ll Headers"
@@ -16700,7 +16700,7 @@ msgid ""
 "The more headers you have the more time it will take to download."
 msgstr ""
 "Wählen Sie Ihre IMAP-Kopfzeilen Einstellungen aus. \n"
-"Je mehr Kopfzeilen Sie haben, desdo mehr Zeit wird es dauern sie "
+"Je mehr Kopfzeilen Sie haben, desto mehr Zeit wird es dauern sie "
 "herunterzuladen."
 
 #: ../plugins/imap-features/imap-headers.glade.h:9
@@ -18157,7 +18157,7 @@ msgstr "Evolution-Testkomponente"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A string description of the current printer settings"
-msgstr "Eine Serien-Beschreibung der derzeitigen Druckereinstellungen"
+msgstr "Eine Beschreibung der derzeitigen Druckereinstellungen"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Configuration version"
@@ -18411,7 +18411,7 @@ msgstr "Bug-Buddy konnte nicht gestartet werden."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:565
+#: ../shell/e-shell-window-commands.c:575
 msgid "translator-credits"
 msgstr ""
 "Kai Lahmann <kl@linuxfaqs.de>\n"
@@ -18422,19 +18422,19 @@ msgstr ""
 "Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Christian Kintner <mail@christian-kintner.de>"
 
-#: ../shell/e-shell-window-commands.c:576
+#: ../shell/e-shell-window-commands.c:586
 msgid "Evolution Website"
 msgstr "Evolution-Webseite"
 
-#: ../shell/e-shell-window-commands.c:782
+#: ../shell/e-shell-window-commands.c:792
 msgid "_Work Online"
 msgstr "_Online arbeiten"
 
-#: ../shell/e-shell-window-commands.c:795 ../ui/evolution.xml.h:55
+#: ../shell/e-shell-window-commands.c:805 ../ui/evolution.xml.h:55
 msgid "_Work Offline"
 msgstr "_Offline arbeiten"
 
-#: ../shell/e-shell-window-commands.c:808
+#: ../shell/e-shell-window-commands.c:818
 msgid "Work Offline"
 msgstr "Offline arbeiten"
 
