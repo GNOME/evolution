@@ -1,0 +1,54 @@
+2006-08-22  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* em-junk-filter.c: (em_junk_sa_init): #if 0 out unused function and
+	plug a leak.
+
+2006-01-09  Kjartan Maraas <kmaraas@gnome.org>
+
+	* em-junk-filter.c: (em_junk_sa_run_spamd): Remove unused var.
+
+2006-01-11  Andre Klapper <a9016009@gmx.de>
+	* org-gnome-sa-junk-plugin.eplug.xml: Changing strings to be more precise.
+	Fixes bug 325132.
+
+2005-01-04  Shi Pu  <shi.pu@sun.com>
+
+	See bug **  325210
+
+	* em-junk-filter.c:
+	(get_spamassassin_version): gets the spamassassin version which evolution used
+	(em_junk_sa_report_junk),
+	(em_junk_sa_report_non_junk),
+	(em_junk_sa_commit_reports): judge spamassassin version to decide
+	which sync option should be used
+
+2005-10-06  Vivek Jain <jvivek@novell.com>
+	
+	** See Bug #268852
+	* em-junk-filter.c : (em_junk_sa_run_spamd)
+	allow max one chid to be spawned for 
+	spamd. 
+
+2005-10-03  Vivek Jain <jvivek@novell.com>
+
+	* em-junk-filter.c: added (e_plugin_lib_enable)
+	calls init here to initialize all settings
+	**Fixes #317792
+	unref GConfClient in finalize
+	
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_report_non_junk): pre-define.
+
+2005-07-06  Vivek Jain <jvivek@novell.com>
+	
+	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.
+
+2005-07-06  Vivek Jain <jvivek@novell.com>
+
+	 sa-junk-plugin : plugin that uses spam assasin for junk mail
+	 handling
+	 moved em-junk-filter.c from mail/ to here and modified it to listen
+	 to the callbacks from the plugin.
+	 
+

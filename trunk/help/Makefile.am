@@ -1,0 +1,111 @@
+SUBDIRS = quickref
+
+include $(top_srcdir)/gnome-doc-utils.make
+dist-hook: doc-dist-hook
+
+DOC_MODULE = evolution
+DOC_ENTITIES =
+DOC_INCLUDES =
+DOC_FIGURES =  \
+	figures/account_editor_a.png 		\
+	figures/calendar.png 			\
+	figures/categories_a.png 		\
+	figures/collap_head_a.png 		\
+	figures/config-cal.png 			\
+	figures/config-mail.png 		\
+	figures/contact-editor.png 		\
+	figures/contact.png 			\
+	figures/contacts_mainwindow_a.png 	\
+	figures/delgt-add.png 			\
+	figures/evo_account_editor_a.png 	\
+	figures/evo_account_info_a.png 		\
+	figures/evo_add_rule_a.png 		\
+	figures/evo_adv_search_a.png 		\
+	figures/evo_allday_a.png 		\
+	figures/evo_cal_a.png 			\
+	figures/evo_cal_callout_a.png 		\
+	figures/evo_calender_appointmnt.png 	\
+	figures/evo_cal_ prop_a.png		\
+	figures/evo_contacteditor_a.png 	\
+	figures/evo_edit_rule_a.png 		\
+	figures/evo_edit_search.png 		\
+	figures/evo_email_a.png 		\
+	figures/evo_flag_follow_up_a.png 	\
+	figures/evo_gwreceive_a.png 		\
+	figures/evo_gwreceiveedit_a.png 	\
+	figures/evo_gwreceiveoptedit_a.png 	\
+	figures/evo_identity_a.png 		\
+	figures/evo_identityedit_a.png 		\
+	figures/evo_imapheader_a.png 		\
+	figures/evo_imapreceive_a.png 		\
+	figures/evo_import_asst_a.png 		\
+	figures/evo_mail_a.png 			\
+	figures/evo_mail_callout_a.png 		\
+	figures/evo_maildirreceive_a.png 	\
+	figures/evo_mboxreceive_a.png 		\
+	figures/evo_memo_a.png 			\
+	figures/evo_mereceive_a.png 		\
+	figures/evo_message_filters_a.png 	\
+	figures/evo_mhreceive_a.png 		\
+	figures/evo_newmess_a.png 		\
+	figures/evo_popreceive_a.png 		\
+	figures/evo_proxyadd_a.png 		\
+	figures/evo_receive_setup2_a.png 	\
+	figures/evo_receive_setup_a.png 	\
+	figures/evo_rmdrnotes_a.png 		\
+	figures/evo_rule_a.png 			\
+	figures/evo_select_add_folder.png 	\
+	figures/evo_select_folder.png 		\
+	figures/evo_send_option_a.png 		\
+	figures/evo_send_setup_a.png 		\
+	figures/evo_sendstatus_a.png 		\
+	figures/evo_shd_memo_a.png 		\
+	figures/evo_timezone_a.png 		\
+	figures/evo_usereceive_a.png 		\
+	figures/exchange-delegation.png 	\
+	figures/exchange-identity.png 		\
+	figures/exchange-receive-options.png 	\
+	figures/exchange-receive.png 		\
+	figures/exchg-identity.png 		\
+	figures/exchng-identity.png 		\
+	figures/exchng-rec-mail.png 		\
+	figures/exchng-rec-mails.png 		\
+	figures/exchng-rec-option.png 		\
+	figures/exchng-rec-options.png 		\
+	figures/exchng-settings.png 		\
+	figures/filter-new-fig.png 		\
+	figures/free_busy.png 			\
+	figures/full-1.png 			\
+	figures/full-2.png 			\
+	figures/full-3.png 			\
+	figures/full-4.png 			\
+	figures/full-5.png 			\
+	figures/full-6.png 			\
+	figures/full-7.png 			\
+	figures/mail-druid-pic.png 		\
+	figures/mailer_preferences.png 		\
+	figures/mail-inbox.png 			\
+	figures/mail_mainwindow_a.png 		\
+	figures/mail-threaded.png 		\
+	figures/mainwindow-pic.png 		\
+	figures/minus.png 			\
+	figures/newmsg.png 			\
+	figures/plus.png 			\
+	figures/proxy-cal.png 			\
+	figures/proxy-login.png 		\
+	figures/quick_add_a.png 		\
+	figures/replymsg.png 			\
+	figures/schedule.png 			\
+	figures/Screenshot-Evolution -mailer-Preferences.png 	\
+	figures/Screenshot-Free-Busy.png 	\
+	figures/stock_search.png 		\
+	figures/sub-others-folder.png 		\
+	figures/sub-pub-fold.png 		\
+	figures/ver_view_a.png 			\
+	figures/vfolder-createrule-fig.png 	
+
+DOC_LINGUAS = en_GB es sv
+
+
+
+

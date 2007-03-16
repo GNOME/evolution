@@ -1,0 +1,14 @@
+<ETableSpecification draw-grid="true" alternating-row-colors="true">
+  <ETableColumn model_col="5" _title="Start Date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
+  <ETableColumn model_col="10" _title="End Date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
+  <ETableColumn model_col="8" _title="Summary" expansion="3.0" minimum_width="10" resizable="true" cell="calstring" compare="string" priority="10"/>
+  <ETableColumn model_col="11" _title="Location" expansion="3.0" minimum_width="10" resizable="true" cell="calstring" compare="string" priority="10"/>
+  <ETableColumn model_col="0" _title="Categories" cell="calstring" compare="string" expansion="1.0" minimum_width="10" resizable="true" priority="-2"/>
+
+  <ETableState>
+    <column source="2"/>
+    <column source="0"/>
+    <column source="1"/>
+    <grouping></grouping>
+  </ETableState>
+</ETableSpecification>

@@ -1,0 +1,15 @@
+.deps
+.libs
+.pure
+Makefile
+Makefile.in
+*.bb
+*.bbg
+*.da
+*.gcov
+*.server
+*.server.in
+*.lo
+*.la
+Mailer.h
+Mailer-*.c

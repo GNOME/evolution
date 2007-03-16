@@ -1,0 +1,10 @@
+.deps
+Makefile
+Makefile.in
+.libs
+*.lo
+*.la
+e-error-tool
+e-util-marshal.c
+e-util-marshal.h
+test-source-list

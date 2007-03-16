@@ -1,0 +1,15 @@
+EXPORTS
+	filter_rule_build_code
+	filter_rule_clone
+	filter_rule_get_widget
+	filter_rule_new
+	filter_rule_set_name
+	filter_rule_set_source
+	filter_rule_validate
+	filter_rule_xml_decode
+	filter_rule_xml_encode
+	rule_context_add_rule
+	rule_context_find_rule
+	rule_context_next_rule
+	rule_context_save
+	rule_editor_new

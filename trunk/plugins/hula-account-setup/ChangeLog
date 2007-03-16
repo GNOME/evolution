@@ -1,0 +1,33 @@
+2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* camel-hula-listener.c: (finalize)
+	Chain up to parent's finalize() method.
+
+2006-01-09  Kjartan Maraas <kmaraas@gnome.org>
+
+	* camel-hula-listener.c: (is_hula_caldav_account), (add_esource),
+	(modify_esource), (account_added), (account_removed),
+	(account_changed): Try to fix caldav and normal account setup. This
+	definitely needs review.
+
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* camel-hula-listener.c:
+	* camel-hula-listener.h:
+	use libedataserver/e-account-list.h instead of e-util/e-account-list.h.
+	use libedataserver/e-account.h instead of e-util/e-account.h.
+
+2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am: Fix make-clean issues.
+
+2005-12-07  Funda Wang  <fundawang@linux.net.cn>
+
+	* org-gnome-evolution-hula-account-setup.eplug.xml: i18nlized.
+
+2005-11-14  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am, camel-hula-listener.[ch], hula-account-setup.c,
+	org-gnome-evolution-hula-account-setup.eplug.xml: Hula Account
+	setup - initial commits.
+

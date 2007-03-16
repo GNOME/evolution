@@ -1,0 +1,56 @@
+<Root>
+  <commands>
+    <cmd name="MemosOpenMemo" _tip="View the selected memo" accel="*Control*o"/>
+    <cmd name="MemosPrint" _tip="Print the list of memos" pixtype="stock" pixname="gtk-print"
+	 accel="*Control*p"/>
+    <cmd name="MemosPrintPreview" _tip="Previews the list of memos to be printed" pixtype="stock" pixname="gtk-print-preview"/>
+
+    <cmd name="MemosCut" _tip="Cut selected memo" accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
+    <cmd name="MemosCopy" _tip="Copy selected memo" accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
+    <cmd name="MemosPaste" _tip="Paste memo from the clipboard" accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
+    <cmd name="MemosDelete" _tip="Delete selected memos" accel="*Control*d" sensitive="0"
+         pixtype="stock" pixname="gtk-delete"/>
+
+  </commands>
+  
+  <menu>
+    <submenu name="File">
+      <placeholder name="FileOps">
+        <menuitem name="OpenMemo" verb="MemosOpenMemo" _label="_Open Memo"/>
+      </placeholder>
+      <placeholder name="Print">
+	<menuitem name="PrintPreview" verb="MemosPrintPreview" _label="Print Pre_view"/>
+
+	<menuitem name="Print" verb="MemosPrint" accel="*Control*p" _label="_Print..."/>
+      </placeholder>
+
+    </submenu>
+
+    <submenu name="Edit" _label="_Edit">
+      <placeholder name="EditPlaceholder">
+        <menuitem name="MemosCut" verb="" _label="C_ut"/>
+        <menuitem name="MemosCopy" verb="" _label="_Copy"/>
+        <menuitem name="MemosPaste" verb="" _label="_Paste"/>
+        
+		<separator/>
+        
+		<menuitem name="MemosDelete" verb="" _label="_Delete"/>
+      </placeholder>
+    </submenu>
+
+  </menu>
+
+  <dockitem name="Toolbar">
+    <toolitem name="Cut" _label="Cut" verb="MemosCut"/>
+    <toolitem name="Copy" _label="Copy" verb="MemosCopy"/>
+    <toolitem name="Paste" _label="Paste" verb="MemosPaste"/>
+
+    <separator/>
+
+    <toolitem name="Print" _label="Print" verb="MemosPrint"/>
+
+    <toolitem name="Delete" _label="Delete" verb="MemosDelete"/>
+
+  </dockitem>
+
+</Root>

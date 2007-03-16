@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.plugin.mailRemote"
+    location="@PLUGINDIR@/liborg-gnome-evolution-mail-remote.so"
+    _name="Mail Remote">
+    <_description>A plugin which implements a CORBA
+      interface for accessing mail data remotely.</_description>
+    <author name="Michael Zucchi" email="notzed@novell.com"/>
+
+    <!-- hacky way to find out if the system has started up -->
+    <hook class="org.gnome.evolution.shell.events:1.0">
+      <event target="upgrade" id="upgrade.done" handle="org_gnome_evolution_mail_remote_startup"/>
+    </hook>    
+
+  </e-plugin>
+</e-plugin-list>

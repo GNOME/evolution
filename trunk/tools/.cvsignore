@@ -1,0 +1,11 @@
+.deps
+.libs
+Evolution-Composer*
+Makefile
+Makefile.in
+evolution-addressbook-abuse
+evolution-addressbook-clean
+evolution-addressbook-export
+evolution-addressbook-import
+evolution-launch-composer
+killev

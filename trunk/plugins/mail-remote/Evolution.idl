@@ -1,0 +1,6 @@
+
+/* All external interfaces should go here, so we only create a single skels file */
+
+#include <Bonobo.idl>
+#include <shell/Evolution.idl>
+#include <mail/Evolution-Mail.idl>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<GalViewCollection default-view="Day_View">
+  <GalView id="Day_View" _title="_Day View" filename="Day_View.galview" 
+    type="day_view"/>
+  <GalView id="Work_Week_View" _title="_Work Week View" filename="Work_Week_View.galview" 
+    type="work_week_view"/>
+  <GalView id="Week_View" _title="W_eek View" filename="Week_View.galview"
+    type="week_view"/>
+  <GalView id="Month_View" _title="_Month View" filename="Month_View.galview"
+    type="month_view"/>
+  <GalView id="List_View" _title="_List View" filename="List_View.galview"
+    type="etable"/>
+</GalViewCollection>

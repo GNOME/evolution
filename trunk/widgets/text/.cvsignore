@@ -1,0 +1,11 @@
+.deps
+.libs
+.pure
+Makefile
+Makefile.in
+*.lo
+*.la
+e-text-test
+e-entry-test
+e-text-model-test
+e-completion-test

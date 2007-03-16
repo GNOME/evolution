@@ -1,0 +1,9 @@
+.deps
+.libs
+.pure
+Makefile
+Makefile.in
+*.lo
+*.la
+contact-print-test
+contact-print-style-editor-test

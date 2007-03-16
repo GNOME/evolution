@@ -1,0 +1,6 @@
+.deps
+.libs
+Makefile
+Makefile.in
+evolution-calendar-importer
+GNOME_Evolution_Calendar_Importer*.server

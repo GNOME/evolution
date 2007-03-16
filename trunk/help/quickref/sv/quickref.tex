@@ -1,0 +1,116 @@
+% To rebuild the .pdf from this source, use something like the following
+%	latex quickref.tex
+%	dvips -t letter -f -Pcmz < quickref.dvi >| quickref.ps
+%	ps2pdf -sPAPERSIZE=letter quickref.ps
+\documentclass[12pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{lscape}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{hyperref}
+
+\textheight=9in
+\textwidth=7.5in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\oddsidemargin=-0.4in
+\evensidemargin=-0.6in
+\parindent=0pt
+\parsep=1pt
+\pagestyle{empty}
+
+\date {}
+
+\makeatother
+
+\begin{document}
+	\begin{landscape}
+
+%	\textit{Dan Kuester's all-leather}
+
+	\begin{center}
+	\begin{minipage}[m]
+		{1in}\includegraphics[height=0.9in]{../evolution-logo.eps}\hspace{5mm}
+	\end{minipage}
+	\hspace{5mm}
+	\textbf{\Huge{Snabbreferens för Evolution}}
+	\end{center}
+
+	\begin{center}
+	\begin{multicols}{2}
+	\section*{Allmänna snabbtangenter}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Komponenter}}		&					\\
+		E-post					& \textbf{Ctrl+1}			\\
+		Kontakter				& \textbf{Ctrl+2}			\\
+		Kalender				& \textbf{Ctrl+3}			\\
+		Uppgifter				& \textbf{Ctrl+4}			\\
+		\vspace{1.5mm}
+		Memo					& \textbf{Ctrl+5}			\\
+		\textit{\textbf{Kontroller}}		&					\\
+		Ny post i aktuellt läge 		& \textbf{Ctrl+N}			\\
+		Växla fokus mellan paneler		& \textbf{F6}				\\
+		Töm sökraden				& \textbf{Skift+Ctrl+Q}			\\
+		Stäng fönster				& \textbf{Ctrl+W}			\\
+		Öppna nytt fönster			& \textbf{Skift+Ctrl+W}			\\
+		\vspace{1.5mm}
+		Avsluta evolution			& \textbf{Ctrl+Q}			\\
+		\textit{\textbf{Markering}}		&					\\
+		Skriv ut markering			& \textbf{Ctrl+P}			\\
+		Spara markering			& \textbf{Ctrl+S}			\\
+		Ta bort markering			& \textbf{Del} eller \textbf{Backsteg}	\\
+		Flytta brev/kontakter till mapp	& \textbf{Skift+Ctrl+V}			\\
+		Kopiera brev/kontakter till mapp	& \textbf{Skift+Ctrl+Y}			\\
+	\end{tabular*}
+	\section*{Kontakter/Memo}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Allmänna kommandon}}	&					\\
+		Ny kontakt				& \textbf{Skift+Ctrl+C}			\\
+		Ny kontaktlista				& \textbf{Skift+Ctrl+L}			\\
+		Nytt memo				& \textbf{Skift+Ctrl+O}			\\
+	\end{tabular*}
+%	{\\ \vspace{5mm} \footnotesize \textit{* denotes the feature may not be implemented yet}}
+	\section*{E-post}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Allmänna kommandon}}	&					\\
+		Nytt meddelande			& \textbf{Skift+Ctrl+M}			\\
+		\vspace{1.5mm}
+		Skicka/Ta emot meddelanden		& \textbf{F9}				\\
+		\textit{\textbf{Markering}}		&					\\
+		Tillämpa filter			& \textbf{Ctrl+Y}			\\
+		Öppna i nytt fönster 		& \textbf{Retur} eller \textbf{Ctrl+O}   	\\
+		\vspace{2.5mm}
+		Vidarebefordra markering		& \textbf{Ctrl+F}			\\
+		\textit{\textbf{Meddelandelistpanel}}	&					\\
+		Nästa olästa meddelande		& \textbf{.} eller \textbf{]}		\\
+		\vspace{1.5mm}
+		Föregående olästa meddelande		& \textbf{,} eller \textbf{[}		\\
+		\textit{\textbf{Förhandsvisningspanel}}		&					\\
+		Svara till avsändare			& \textbf{Ctrl+R}			\\
+		Svara till lista			& \textbf{Ctrl+L}			\\
+		Svara till alla mottagare 		& \textbf{Skift+Ctrl+R}			\\
+		Rulla upp				& \textbf{Backsteg}			\\
+		Rulla ned				& \textbf{Blanksteg}			\\
+	\end{tabular*}
+	\section*{Kalender/Uppgift}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Allmänna kommandon}}	&					\\
+		Nytt möte				& \textbf{Skift+Ctrl+A}			\\
+		Nytt sammanträde			& \textbf{Skift+Ctrl+E}			\\
+		\vspace{1.5mm}
+		Ny uppgift				& \textbf{Skift+Ctrl+T}			\\
+%		\vspace{1.5mm}
+%		Expunge/Purge old schedules		& \textbf{Ctrl+E}			\\
+		\textit{\textbf{Navigering}}		&					\\
+		Gå till idag				& \textbf{Ctrl+T}			\\
+		Gå till datum				& \textbf{Ctrl+G}			\\
+	\end{tabular*}
+	\end{multicols}
+	\end{center}
+	\end{landscape}
+ \end{document}

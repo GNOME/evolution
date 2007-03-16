@@ -1,0 +1,61 @@
+
+.PS 5
+space=0.7
+down
+define item {
+	[ right
+		box ht 0.25 wid 0 $1 ljust invis
+		box ht 0.25 wid 3 "" invis ]
+	[ right
+		box ht 0.25 wid 0 $3 ljust invis
+		box ht 0.25 wid 3 $2 ljust invis ]
+	box ht 0.5 wid 3 at last [].n
+}
+
+define link {
+	line -> from $1.e + (0.1,0) to $2.w - (0.1,0)
+}
+
+define title {
+	box ht 0.5 wid 3 $1 invis
+}
+
+A: [
+	title("Core Menu")
+
+	Copy: item("Copy", "many", "00.copy")
+	Paste: item("Paste", "", "01.paste")
+	Bar1: item("-----", "one", "20.")
+	Open: item("Open", "one", "21.open")
+	Save: item("Save...", "one", "22.save")
+	Bar2: item("-----", "", "40.")
+	Read: item("Mark as Read", "mark_read", "41.markread")
+	Unread: item("Mark as Unread", "mark_unread", "42.markunread")
+]
+
+move
+B: [
+	title("Additional Items")
+
+	ReplyList: item("Reply To List", "one", "02.replylist")
+	Forward: item("Forward", "any", "03.forward")
+]
+
+C: [
+	title("Merged Menu")
+
+	Copy: item("Copy", "", "00.copy")
+	Paste: item("Paste", "", "01.paste")
+	Forward: item("Forward", "", "03.forward")
+	Bar2: item("-----", "", "40.")
+	Unread: item("Mark as Unread", "", "42.markunread")
+] with .nw at A.ne + ( 2,-1)
+
+link(A.Copy, C.Copy)
+link(A.Paste, C.Paste)
+link(B.Forward, C.Forward)
+link(A.Bar2, C.Bar2)
+link(A.Unread, C.Unread)
+
+.PE
+

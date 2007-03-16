@@ -1,0 +1,26 @@
+/* -*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Additional interfaces for the Controls used in configuration dialogs.
+ *
+ * Authors:
+ *   Ettore Perazzoli <ettore@ximian.com>
+ *
+ * Copyright (C) 2002 Ximian, Inc.
+ */
+
+#ifndef _GNOME_EVOLUTION_CONFIGCONTROL_IDL
+#define _GNOME_EVOLUTION_CONFIGCONTROL_IDL
+
+module GNOME {
+module Evolution {
+	interface ConfigControl : Bonobo::Unknown {
+		/* The actual Control.  */
+		readonly attribute Bonobo::Control control;
+
+		/* Get the event source for this control.  */
+		readonly attribute Bonobo::EventSource eventSource;
+	};
+}; /* module Evolution */
+}; /* module GNOME */
+
+#endif
