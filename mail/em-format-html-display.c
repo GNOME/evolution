@@ -649,7 +649,7 @@ GtkWidget *
 em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
-	GtkWidget *hbox3, *hbox2, *button3, *button2, *button1, *label1, *alignment, *image1, *label2;
+	GtkWidget *hbox2, *button3, *button2, *label1;
 	GtkWidget *icon_entry, *clear_button;
 
 	p->search_entry_box = gtk_hbox_new (FALSE, 0);
@@ -761,7 +761,6 @@ em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word)
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
 	if (p->search_dialog){
-               GtkWidget *toplevel;
                gtk_widget_show ( (GtkWidget *)(p->search_dialog));
 	       
 	       /* Set the query */
@@ -2447,20 +2446,11 @@ efhd_resize (GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 static gboolean
 efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
-	EAttachment *new;
 	struct _attach_puri *info;
-	GtkWidget *hbox, *vbox, *w, *button, *mainbox, *scroll, *label, *img;
-	char *simple_type, *tmp, *new_file = NULL;
-	const char *file;
-	GdkPixbuf *pixbuf, *mini;
+	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
 	AtkObject *a11y;
 	GtkTextView *view;
 	GtkTextBuffer *buffer;
-	GtkTargetEntry drag_types[] = {
-		{ NULL, 0, 0 },
-		{ "text/uri-list", 0, 1 },
-	};
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content for optional rendering\n"));
@@ -2542,7 +2532,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 static void
 efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, CamelStream *mstream)
 {
-	char *classid, *text, *html;
+	char *classid, *html;
 	struct _attach_puri *info;
 	CamelStream *stream = ((CamelStreamFilter *) fstream)->source;
 	

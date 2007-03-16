@@ -118,7 +118,6 @@ static void
 emf_init(GObject *o)
 {
 	EMFormat *emf = (EMFormat *)o;
-	char * asize;
 		
 	emf->inline_table = g_hash_table_new(g_str_hash, g_str_equal);
 	emf->composer = FALSE;

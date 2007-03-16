@@ -1,3 +1,13 @@
+2007-03-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #360240
+
+	* gui/widgets/e-addressbook-view.c (e_contact_print_button):
+	* printing/e-contact-print.c (complete_sequence),
+	(e_contact_build_style), (e_contact_print_response),
+	(e_contact_print_contact_list_dialog_new):
+	Remove unused variables.
+
 2007-03-01  Tor Lillqvist  <tml@novell.com>
 
 	* gui/widgets/e-addressbook-view.c (e_contact_print_button):

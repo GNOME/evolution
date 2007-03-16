@@ -589,7 +589,6 @@ static EMsgComposerHdrPair
 header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 {
 	EMsgComposerHdrPair ret;
-	GtkWidget *pixmap;
 
 	ret.label = gtk_button_new_with_mnemonic (name);
 	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);

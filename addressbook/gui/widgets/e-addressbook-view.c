@@ -1721,7 +1721,6 @@ static void
 e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 {	
 #ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
-	GtkWidget *preview;
 	GtkPrintOperation *print;
 	GtkPrintSettings *settings;
 	GtkPageSetup *page_setup;

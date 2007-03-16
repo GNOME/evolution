@@ -334,7 +334,6 @@ e_icon_entry_pack_widget (EIconEntry *entry,
 			     gboolean start)
 {
 	EIconEntryPrivate *priv;
-	GtkWidget *box;
 
 	g_return_if_fail (E_IS_ICON_ENTRY (entry));
 

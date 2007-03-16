@@ -188,7 +188,6 @@ emfv_init(GObject *o)
 	EMFolderView *emfv = (EMFolderView *)o;
 	struct _EMFolderViewPrivate *p;
 	extern CamelSession *session;
-	GtkWidget *search_bar;
 	
 	gtk_box_set_homogeneous (GTK_BOX (emfv), FALSE);
 

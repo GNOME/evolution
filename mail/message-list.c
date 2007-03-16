@@ -1402,7 +1402,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	}
 	case COL_MIXED_RECIPIENTS:				
 	case COL_RECIPIENTS:{
-		char **sender_name;
         	str = camel_message_info_to (msg_info);
 		
 		return sanitize_recipients(str);

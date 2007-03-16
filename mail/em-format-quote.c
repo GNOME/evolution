@@ -402,7 +402,6 @@ emfq_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 {
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *html_filter;
-	CamelDataWrapper *dw = (CamelDataWrapper *)part;
 
 	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
 	html_filter = camel_mime_filter_tohtml_new (CAMEL_MIME_FILTER_TOHTML_CONVERT_NL

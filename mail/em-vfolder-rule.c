@@ -415,7 +415,6 @@ select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 {
 	em_vfolder_rule_with_t with;
 	GList *group = NULL;
-	gboolean sensitive = FALSE;
 	gint i = 0;	
 
 	if ( !gtk_toggle_button_get_active (widget) )
@@ -614,7 +613,6 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	GtkWidget *widget, *frame, *list;
 	struct _source_data *data;
 	GtkRadioButton *rb;
-	GList *group;
 	const char *source;
 	GtkTreeIter iter;
 	GladeXML *gui;

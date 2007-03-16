@@ -275,7 +275,7 @@ static ImportDialogFilePage *
 importer_file_page_new (ImportData *data)
 {
 	ImportDialogFilePage *page;
-	GtkWidget *table, *label, *entry;
+	GtkWidget *table, *label;
 	int row = 0;
 
 	page = g_new0 (ImportDialogFilePage, 1);

@@ -102,7 +102,6 @@ startup_wizard_timezone_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 {
 	ETimezoneDialog *etd;
 	GtkWidget *page;
-	icaltimezone *zone;
 	
 	etd = e_timezone_dialog_new ();
 	g_object_set_data (G_OBJECT (hook_data->config), IMPORT_TIMEZONE_DIALOG, etd);

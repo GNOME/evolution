@@ -406,8 +406,6 @@ static void
 complete_sequence (EBookView *book_view, EBookViewStatus status, EContactPrintContext *ctxt)
 {
 	GList *contacts = ctxt->contacts;
-	cairo_t *cr;
-	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
 
 	ctxt->first_contact = TRUE;
 	ctxt->character = NULL;
@@ -608,7 +606,6 @@ e_contact_build_style(EContactPrintStyle *style, GtkPrintSettings *config)
 {
 	xmlDocPtr styledoc;
 	gchar *filename;
-	gdouble page_height, page_width;
 
 	style->title = g_strdup("");
 	style->type = E_CONTACT_PRINT_TYPE_CARDS;
@@ -747,10 +744,8 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
 #ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
 	GtkPrintSettings *settings;
-	GtkPrintOperationResult res;
 	GtkPaperSize *paper_size;
 	GtkPageSetup *page_setup;
-	GtkPrintPages print_pages;
 	GList *contact_list = NULL;
 	EBook *book = NULL;
 	EBookQuery *query = NULL;
@@ -922,9 +917,6 @@ e_contact_print_contact_list_dialog_new(GList *list)
 static void
 contact_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, ContactPrintItem *cpi)
 {
- EBookView *view;
- EBookViewStatus status;
- 
 		cpi->ctxt->pc = context;
 		g_object_ref (cpi->ctxt->pc);
 		cpi->ctxt->pl =gtk_print_context_create_pango_layout (context);

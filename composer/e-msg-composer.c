@@ -2884,7 +2884,6 @@ static void
 e_msg_composer_show_help (EMsgComposer *composer)
 {
 	GError *error = NULL;
-	EMsgComposerPrivate *p = composer->priv;
 
 	gnome_help_display_desktop (NULL,
 				    "evolution-" BASE_VERSION,
@@ -2986,7 +2985,6 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 	char *content_type;
 	int i, success = FALSE, delete = FALSE;
 	EMsgComposerPrivate *p = composer->priv;
-	gboolean is_image;
 	
 	switch (info) {
 	case DND_TYPE_MESSAGE_RFC822:

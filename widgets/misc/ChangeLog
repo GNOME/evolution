@@ -1,3 +1,11 @@
+2007-03-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #360240
+
+	* e-calendar-item.c (e_calendar_item_unrealize):
+	* e-icon-entry.c (e_icon_entry_pack_widget):
+	Remove unused variables.
+
 2007-02-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #368983 from Ebby Wiselyn

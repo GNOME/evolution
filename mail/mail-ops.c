@@ -1983,7 +1983,7 @@ save_messages_save (struct _mail_msg *mm)
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilterFrom *from_filter;
 	CamelStream *stream;
-	int fd, i;
+	int i;
 	char *from;
 	
 	stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);

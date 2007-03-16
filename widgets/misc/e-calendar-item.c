@@ -694,7 +694,6 @@ e_calendar_item_unrealize	(GnomeCanvasItem *item)
 {
 	ECalendarItem *calitem;
 	GdkColormap *colormap;
-	gint i;
 
 	calitem = E_CALENDAR_ITEM (item);
 

@@ -1,3 +1,18 @@
+2007-03-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #360240
+
+	* em-vfolder-rule.c (select_source_with_changed), (get_widget):
+	* em-format-quote.c (emfq_format_source):
+	* mail-ops.c (save_messages_save):
+	* em-format.c (emf_init):
+	* em-format-html-display (em_format_html_get_search_dialog),
+	(em_format_html_display_seearch_with), (ehhd_resize),
+	(efhd_attachment_optional), (efhd_format_optional):
+	* em-folder-view.c (emfv_init):
+	* message-list.c (ml_tree_value_at):
+	Remove unused variables.
+
 2007-03-12  Harish Krishnaswamy <kharish@novell.com>
 
 	*default/C : Update Welcome mail. 

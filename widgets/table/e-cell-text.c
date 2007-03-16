@@ -448,8 +448,6 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 	/* This frees the color. Note we don't free it if it is the special
 	   value. */
 	if (color != (GdkColor*) 1) {
-		gulong pix = color->pixel;
-
 		gdk_colormap_free_colors (colormap, color, 1);
 
 		/* This frees the memory for the GdkColor. */
