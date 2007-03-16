@@ -1,9 +1,0 @@
-#include <gtk/gtk.h>
-#include <camel/camel-data-wrapper.h>
-camel_data_wrapper_get_type
-camel_folder_get_type
-camel_mime_message_get_type
-camel_mime_part_get_type
-camel_service_get_type
-camel_store_get_type
-camel_stream_get_type
