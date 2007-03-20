@@ -88,6 +88,9 @@
 
 #include "e-util/e-plugin.h"
 
+#define SKIP_WARNING_DIALOG_KEY \
+	"/apps/evolution/shell/skip_warning_dialog"
+
 static EShell *shell = NULL;
 
 /* Command-line options.  */
@@ -100,7 +103,7 @@ static gboolean force_migrate = FALSE;
 #endif
 static gboolean disable_eplugin = FALSE;
 
-static gint idle_cb (void *data);
+static gboolean idle_cb (gchar **uris);
 
 static char *default_component_id = NULL;
 static char *evolution_debug_log = NULL;
@@ -133,6 +136,7 @@ kill_dataserver (void)
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.2 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.4 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.6 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.8 2> /dev/null");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
@@ -182,35 +186,15 @@ kill_old_dataserver (void)
 
 /* Warning dialog to scare people off a little bit.  */
 
-static void
-warning_dialog_response_callback (GtkDialog *dialog,
-				 int button_number,
-				 void *data)
-{
-	GtkCheckButton *dont_bother_me_again_checkbox;
-	GConfClient *client;
-
-	dont_bother_me_again_checkbox = GTK_CHECK_BUTTON (data);
-
-	client = gconf_client_get_default ();
-	gconf_client_set_bool (client, "/apps/evolution/shell/skip_warning_dialog",
-			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_bother_me_again_checkbox)),
-			       NULL);
-	g_object_unref (client);
-
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-
-	idle_cb(NULL);
-}
-
-static void
+static gboolean
 show_development_warning(void)
 {
 	GtkWidget *vbox;
 	GtkWidget *label;
 	GtkWidget *warning_dialog;
-	GtkWidget *dont_bother_me_again_checkbox;
+	GtkWidget *checkbox;
 	GtkWidget *alignment;
+	gboolean skip;
 	char *text;
 
 	warning_dialog = gtk_dialog_new ();
@@ -262,59 +246,58 @@ show_development_warning(void)
 
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
-	dont_bother_me_again_checkbox = gtk_check_button_new_with_label (_("Do not tell me again"));
+	checkbox = gtk_check_button_new_with_label (_("Do not tell me again"));
 
 	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
 
-	gtk_container_add (GTK_CONTAINER (alignment), dont_bother_me_again_checkbox);
+	gtk_container_add (GTK_CONTAINER (alignment), checkbox);
 	gtk_box_pack_start (GTK_BOX (vbox), alignment, TRUE, TRUE, 0);
 
 	gtk_widget_show_all (warning_dialog);
 
-	g_signal_connect (warning_dialog, "response",
-			  G_CALLBACK (warning_dialog_response_callback),
-			  dont_bother_me_again_checkbox);
+	gtk_dialog_run (GTK_DIALOG (warning_dialog));
+
+	skip = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
+
+	gtk_widget_destroy (warning_dialog);
+
+	idle_cb (NULL);
+
+	return skip;
 }
 
 static void
-destroy_config (void)
+destroy_config (GConfClient *client)
 {
-	GConfClient *gconf;
-	
-	gconf = gconf_client_get_default ();
-
 	/* Unset the source stuff */
-	gconf_client_unset (gconf, "/apps/evolution/calendar/sources", NULL);
-	gconf_client_unset (gconf, "/apps/evolution/tasks/sources", NULL);
-	gconf_client_unset (gconf, "/apps/evolution/addressbook/sources", NULL);
-	gconf_client_unset (gconf, "/apps/evolution/addressbook/sources", NULL);
+	gconf_client_unset (client, "/apps/evolution/calendar/sources", NULL);
+	gconf_client_unset (client, "/apps/evolution/tasks/sources", NULL);
+	gconf_client_unset (client, "/apps/evolution/addressbook/sources", NULL);
 
 	/* Reset the version */
-	gconf_client_set_string (gconf, "/apps/evolution/version", "1.4.0", NULL);
+	gconf_client_set_string (client, "/apps/evolution/version", "1.4.0", NULL);
 
 	/* Clear the dir */
 	system ("rm -Rf ~/.evolution");
-	
-	g_object_unref (gconf);
 }
 
 #endif /* DEVELOPMENT */
 
 static void
-open_uris (GNOME_Evolution_Shell corba_shell, GSList *uri_list)
+open_uris (GNOME_Evolution_Shell corba_shell, gchar **uris)
 {
-	GSList *p;
 	CORBA_Environment ev;
+	guint n_uris, ii;
+
+	g_assert (uris != NULL);
+	n_uris = g_strv_length (uris);
 
 	CORBA_exception_init (&ev);
 
-	for (p = uri_list; p != NULL; p = p->next) {
-		const char *uri;
-
-		uri = (const char *) p->data;
-		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+	for (ii = 0; ii < n_uris; ii++) {
+		GNOME_Evolution_Shell_handleURI (corba_shell, uris[ii], &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Invalid URI: %s", uri);
+			g_warning ("Invalid URI: %s", uris[ii]);
 			CORBA_exception_free (&ev);
 		}
 	}
@@ -324,22 +307,21 @@ open_uris (GNOME_Evolution_Shell corba_shell, GSList *uri_list)
 
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
-static gint
-idle_cb (void *data)
+static gboolean
+idle_cb (gchar **uris)
 {
-	GSList *uri_list;
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
 	EShellConstructResult result;
 	EShellStartupLineMode startup_line_mode;
+
+	g_assert (uris == NULL || g_strv_length (uris) > 0);
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();
 #endif
 
 	CORBA_exception_init (&ev);
-
-	uri_list = (GSList *) data;
 
 	if (! start_online && ! start_offline)
 		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_CONFIG;
@@ -378,15 +360,16 @@ idle_cb (void *data)
 	}
 
 	if (shell != NULL) {
-		if (g_slist_length (uri_list) == 0)
+		if (uris != NULL)
+			open_uris (corba_shell, uris);
+		else
 			e_shell_create_window (shell, default_component_id, NULL);
-		open_uris (corba_shell, uri_list);
 	} else {
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		if (uri_list != NULL)
-			open_uris (corba_shell, uri_list);
+		if (uris != NULL)
+			open_uris (corba_shell, uris);
 		else
 			if (default_component_id == NULL)
 				GNOME_Evolution_Shell_createNewWindow (corba_shell, "", &ev);
@@ -395,8 +378,6 @@ idle_cb (void *data)
 
 		CORBA_exception_free (&ev);
 	}
-
-	g_slist_free (uri_list);
 
 	CORBA_Object_release (corba_shell, &ev);
 
@@ -501,7 +482,6 @@ main (int argc, char **argv)
 	GConfClient *client;
 	gboolean skip_warning_dialog;
 #endif
-	GSList *uri_list;
 	GnomeProgram *program;
 	GOptionContext *context;
 	char *filename;
@@ -543,8 +523,10 @@ main (int argc, char **argv)
 #endif
 
 #if DEVELOPMENT
+	client = g_conf_client_get_default ();
+
 	if (force_migrate) {
-		destroy_config ();
+		destroy_config (client);
 	}
 #endif
 	
@@ -572,17 +554,6 @@ main (int argc, char **argv)
 	if (setup_only)
 		exit (0);
 
-	uri_list = NULL;
-
-	if (remaining_args != NULL) {
-		const char **p;
-
-		for (p = (const char**)remaining_args; *p != NULL; p++)
-			uri_list = g_slist_prepend (uri_list, (char *) *p);
-	}
-	uri_list = g_slist_reverse (uri_list);
-	
-
 	gnome_sound_init ("localhost");
 
 	if (!disable_eplugin) {
@@ -598,15 +569,20 @@ main (int argc, char **argv)
 	}
 
 #if DEVELOPMENT
-	client = gconf_client_get_default ();
-	skip_warning_dialog = gconf_client_get_bool (client, "/apps/evolution/shell/skip_warning_dialog", NULL);
-	g_object_unref (client);
+	skip_warning_dialog = gconf_client_get_bool (
+		client, SKIP_WARNING_DIALOG_KEY, NULL);
 
 	if (!skip_warning_dialog && !getenv ("EVOLVE_ME_HARDER"))
-		show_development_warning();
+		gconf_client_set_bool (
+			client, SKIP_WARNING_DIALOG_KEY,
+			show_development_warning (), NULL);
 	else
+		g_idle_add ((GSourceFunc) idle_cb, remaining_args);
+
+	g_object_unref (client);
+#else
+	g_idle_add ((GSourceFunc) idle_cb, remaining_args);	
 #endif
-		g_idle_add (idle_cb, uri_list);	
 	
 	bonobo_main ();
 	
