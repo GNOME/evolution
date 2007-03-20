@@ -14,7 +14,7 @@
 #include "table/e-cell-tree.h"
 #include "table/e-table.h"
 #include "table/e-tree-table-adapter.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 
 #include "gal-a11y-e-cell-tree.h"
 #include "gal-a11y-e-cell-registry.h"

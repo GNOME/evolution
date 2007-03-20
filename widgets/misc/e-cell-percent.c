@@ -36,7 +36,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "e-cell-percent.h"
 

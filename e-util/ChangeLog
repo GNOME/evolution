@@ -1,3 +1,16 @@
+2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #419524
+
+	* Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>.
+
+	* e-util.c: Remove e_gettext().
+
+	* e-xml-utils.c (e_xml_get_child_by_name_by_lang_list): Use
+	g_get_language_names() instead of gnome_i18n_get_language_list().
+
+	* Makefile.am: Remove e-i18n.h.
+
 2007-03-01  Tor Lillqvist  <tml@novell.com>
 
 	* e-print.c (print_dialog_response)

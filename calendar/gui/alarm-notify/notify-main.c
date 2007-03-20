@@ -27,7 +27,7 @@
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtkmain.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-init.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-client.h>

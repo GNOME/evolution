@@ -35,7 +35,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
@@ -1531,7 +1531,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 						 ((ethi->table || ethi->tree) ? 0 : 4) + 
 						 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-						 128, info, E_I18N_DOMAIN);
+						 128, info, GETTEXT_PACKAGE);
 	
 	menu_item = gtk_menu_item_new_with_label (_("Sort By"));
 	gtk_widget_show (menu_item);
@@ -1813,7 +1813,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 								 ((ethi->table || ethi->tree) ? 0 : 4) + 
 								 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 								 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-								 128, info, E_I18N_DOMAIN);
+								 128, info, GETTEXT_PACKAGE);
 			g_object_ref (popup);
 			gtk_object_sink (GTK_OBJECT (popup));
 			g_signal_connect (popup, "selection-done",

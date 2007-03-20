@@ -23,7 +23,7 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "calendar-view-factory.h"
 #include "calendar-view.h"
 

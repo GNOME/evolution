@@ -27,7 +27,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 
 #include "gal-define-views-model.h"

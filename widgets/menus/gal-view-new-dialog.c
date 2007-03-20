@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 
 #include "table/e-table-scrolled.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "misc/e-unicode.h"
@@ -92,7 +92,7 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 					    "gal-view-new-dialog.glade",
 					    NULL);
 
-	gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+	gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
 	g_free (filename);
 	dialog->gui = gui;
 

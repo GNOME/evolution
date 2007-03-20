@@ -44,7 +44,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-folder.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "em-folder-properties.h"
 #include "em-config.h"

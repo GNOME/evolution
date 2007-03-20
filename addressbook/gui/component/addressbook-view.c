@@ -31,7 +31,7 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkmessagedialog.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-href.h>
 #include <libgnomeui/gnome-uidefs.h>

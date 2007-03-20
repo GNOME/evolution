@@ -28,7 +28,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 
 #include "e-util/e-util-private.h"

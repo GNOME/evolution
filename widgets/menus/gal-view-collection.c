@@ -32,7 +32,7 @@
 #include <libgnome/gnome-util.h>
 #include <libedataserver/e-xml-utils.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "misc/e-unicode.h"

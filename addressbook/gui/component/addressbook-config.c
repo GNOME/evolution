@@ -30,7 +30,7 @@
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <bonobo/bonobo-generic-factory.h>
 

@@ -30,7 +30,7 @@
 
 #include <string.h>
 #include <glade/glade.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <evolution-shell-component-utils.h>
 #include <e-util/e-util-private.h>

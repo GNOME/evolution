@@ -36,7 +36,7 @@
 #include <libxml/parser.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"
 #include "misc/e-canvas-utils.h"

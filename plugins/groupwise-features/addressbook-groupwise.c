@@ -29,7 +29,7 @@
 #include <e-util/e-config.h>
 #include <addressbook/gui/widgets/eab-config.h>
 #include <libedataserver/e-source.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 void commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target);

@@ -27,7 +27,7 @@
 #include <libebook/e-book.h>
 #include <libecal/e-cal.h>
 #include <libedataserver/e-source.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 GtkWidget* org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data);
 void commit_default_calendar (EPlugin *epl, EConfigTarget *target);

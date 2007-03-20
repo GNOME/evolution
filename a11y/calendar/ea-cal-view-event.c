@@ -26,7 +26,7 @@
 #include "ea-day-view.h"
 #include "ea-week-view.h"
 #include <text/e-text.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 static void ea_cal_view_event_class_init (EaCalViewEventClass *klass);
 static void ea_cal_view_event_init (EaCalViewEvent *a11y);

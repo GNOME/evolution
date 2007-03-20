@@ -33,7 +33,7 @@
 
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkwidget.h>

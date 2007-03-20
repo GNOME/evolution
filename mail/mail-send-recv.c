@@ -39,7 +39,7 @@
 #include <gtk/gtkbox.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <libgnomeui/gnome-window-icon.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "e-util/e-gtk-utils.h"
 #include "libedataserver/e-account-list.h"

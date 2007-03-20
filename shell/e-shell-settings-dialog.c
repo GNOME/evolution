@@ -148,9 +148,9 @@ load_pages (EShellSettingsDialog *dialog)
 {
 	EShellSettingsDialogPrivate *priv;
 	Bonobo_ServerInfoList *control_list;
+	const gchar * const *language_names;
 	CORBA_Environment ev;
-	const GList *l;
-	GSList *language_list;
+	GSList *languages = NULL;
 	GList *page_list;
 	GList *p;
 	int i, j;
@@ -168,10 +168,9 @@ load_pages (EShellSettingsDialog *dialog)
 
 	CORBA_exception_free (&ev);
 
-	/* Great, one uses GList the other GSList (!) */
-	l = gnome_i18n_get_language_list("LC_MESSAGES");
-	for (language_list=NULL;l;l=l->next)
-		language_list = g_slist_append(language_list, l->data);
+	language_names = g_get_language_names ();
+	while (*language_names != NULL)
+		languages = g_list_append (languages, *language_names++);
 
 	page_list = NULL;
 	for (i = 0; i < control_list->_length; i ++) {
@@ -189,8 +188,8 @@ load_pages (EShellSettingsDialog *dialog)
 
 		info = & control_list->_buffer[i];
 
-		title       	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:title", language_list);
-		description 	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:description", language_list);
+		title       	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:title", languages);
+		description 	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:description", languages);
 		icon_path   	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:icon_name", NULL);
 		type            = bonobo_server_info_prop_find   (info, "evolution2:config_item:type");
 		priority_string = bonobo_server_info_prop_lookup (info, "evolution2:config_item:priority", NULL);
@@ -232,7 +231,7 @@ load_pages (EShellSettingsDialog *dialog)
 
 		CORBA_exception_free (&ev);
 	}
-	g_slist_free(language_list);
+	g_slist_free(languages);
 
 	page_list = sort_page_list (page_list);
 	for (p = page_list, i = 0; p != NULL; p = p->next, i++) {

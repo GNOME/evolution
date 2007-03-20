@@ -10,7 +10,7 @@
 
 #include <string.h>
 #include <gtk/gtkdialog.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserverui/e-categories-dialog.h>

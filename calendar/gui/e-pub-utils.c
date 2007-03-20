@@ -28,7 +28,7 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-passwords.h>
 #include <libecal/e-cal-time-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "calendar-config.h"
 #include "common/authentication.h"
 #include "itip-utils.h"

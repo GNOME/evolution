@@ -25,7 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <gtk/gtkmessagedialog.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"

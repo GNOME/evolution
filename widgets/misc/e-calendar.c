@@ -43,7 +43,7 @@
 #include <gtk/gtkpixmap.h>
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #define E_CALENDAR_SMALL_FONT_PTSIZE 6
 

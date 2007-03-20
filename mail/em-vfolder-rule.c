@@ -28,7 +28,7 @@
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "camel/camel-url.h"
 #include "em-vfolder-context.h"

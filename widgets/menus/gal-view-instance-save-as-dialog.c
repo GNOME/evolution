@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 
 #include "table/e-table-scrolled.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util-private.h"
 
 #include "gal-define-views-model.h"
@@ -197,7 +197,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 
 	dialog->instance = NULL;
 
-	gui = glade_xml_new_with_domain (filename , NULL, E_I18N_DOMAIN);
+	gui = glade_xml_new_with_domain (filename , NULL, GETTEXT_PACKAGE);
 	g_free (filename);
 	dialog->gui = gui;
 
@@ -235,7 +235,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 
 /* For use from libglade. */
 /* ETable creation */
-#define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" selection-mode=\"single\" gettext-domain=\"" E_I18N_DOMAIN "\">" \
+#define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" selection-mode=\"single\" gettext-domain=\"" GETTEXT_PACKAGE "\">" \
 	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
              "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
 	     "</ETableSpecification>"

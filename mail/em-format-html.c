@@ -51,7 +51,7 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>

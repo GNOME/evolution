@@ -24,7 +24,7 @@
 
 #include <gtk/gtkstock.h>
 #include <gtk/gtkmessagedialog.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "eab-editor.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"

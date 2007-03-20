@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-file-entry.h>

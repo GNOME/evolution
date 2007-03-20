@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"
 

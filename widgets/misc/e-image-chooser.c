@@ -30,7 +30,7 @@
 #include <gtk/gtkdnd.h>
 
 #include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "e-image-chooser.h"
 #include "e-util/e-util-marshal.h"

@@ -25,7 +25,7 @@
 #include <string.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-text.h>
 #include "weekday-picker.h"

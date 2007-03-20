@@ -51,7 +51,7 @@
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkvscrollbar.h>
 #include <libgnomeui/gnome-dateedit.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 
 #include <misc/e-canvas.h>

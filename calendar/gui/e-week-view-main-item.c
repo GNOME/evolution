@@ -32,7 +32,7 @@
 
 #include <string.h>
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "e-week-view-main-item.h"
 #include "ea-calendar.h"
 

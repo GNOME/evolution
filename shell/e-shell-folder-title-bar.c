@@ -31,7 +31,7 @@
 #include <gtk/gtkrc.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "misc/e-clipped-label.h"

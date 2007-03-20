@@ -23,7 +23,7 @@
 #endif
 
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include "mail/em-account-editor.h"

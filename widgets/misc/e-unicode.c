@@ -42,7 +42,7 @@
 
 #include <libedataserver/e-iconv.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-unicode.h"
 
 #define d(x) x

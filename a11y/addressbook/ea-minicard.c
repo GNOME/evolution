@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "ea-minicard.h"
 #include "ea-minicard-view.h"
 #include "e-minicard.h"

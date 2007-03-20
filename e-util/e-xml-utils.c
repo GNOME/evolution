@@ -40,7 +40,6 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include "e-i18n.h"
 #include "e-util.h"
 #include "e-xml-utils.h"
 
@@ -149,7 +148,12 @@ e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
 	g_return_val_if_fail (name != NULL, NULL);
 
 	if (lang_list == NULL) {
-		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+		const gchar * const *language_names;
+
+		language_names = g_get_language_names ();
+		while (*language_names != NULL)
+			lang_list = g_list_append (
+				lang_list, *language_names++);
 	}
 	return e_xml_get_child_by_name_by_lang_list_with_score
 		(parent,name,

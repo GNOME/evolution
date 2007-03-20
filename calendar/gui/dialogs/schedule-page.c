@@ -30,7 +30,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>

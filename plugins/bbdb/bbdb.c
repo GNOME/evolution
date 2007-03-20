@@ -36,7 +36,7 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 #include <libebook/e-book.h>

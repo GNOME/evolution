@@ -29,7 +29,7 @@
 #include <gtk/gtknotebook.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);
 

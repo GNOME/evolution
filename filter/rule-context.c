@@ -34,7 +34,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <libedataserver/e-xml-hash-utils.h>
 #include <libedataserver/e-xml-utils.h>

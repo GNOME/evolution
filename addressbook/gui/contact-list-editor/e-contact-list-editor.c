@@ -27,7 +27,7 @@
 
 #include <string.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtktogglebutton.h>

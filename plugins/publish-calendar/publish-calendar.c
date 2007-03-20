@@ -23,7 +23,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libedataserverui/e-passwords.h>
 #include <calendar/gui/e-cal-popup.h>

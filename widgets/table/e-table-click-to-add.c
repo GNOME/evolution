@@ -32,7 +32,7 @@
 
 #include "a11y/e-table/gal-a11y-e-table-click-to-add.h"
 #include "text/e-text.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 #include "misc/e-canvas-utils.h"

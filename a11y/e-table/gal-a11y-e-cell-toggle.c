@@ -2,7 +2,7 @@
 
 #include "table/e-cell-toggle.h"
 #include "table/e-table-model.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 
 #include "gal-a11y-e-cell-toggle.h"
 

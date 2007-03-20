@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "shell/es-menu.h"
 
 void org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target);

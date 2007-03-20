@@ -25,7 +25,7 @@
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <e-util/e-config.h>
 #include <mail/em-popup.h>
 #include <mail/mail-ops.h>

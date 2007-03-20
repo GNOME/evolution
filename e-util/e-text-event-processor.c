@@ -23,7 +23,8 @@
 
 #include <config.h>
 
-#include "e-i18n.h"
+#include <glib/gi18n.h>
+
 #include "e-util-marshal.h"
 #include "e-text-event-processor.h"
 #include "e-util.h"

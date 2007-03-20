@@ -29,7 +29,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-popup-menu.h>
 
 #include <misc/e-popup-menu.h>

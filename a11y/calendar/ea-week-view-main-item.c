@@ -28,7 +28,7 @@
 #include "ea-week-view.h"
 #include "ea-week-view-cell.h"
 #include "ea-cell-table.h"
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 /* EaWeekViewMainItem */
 static void ea_week_view_main_item_class_init (EaWeekViewMainItemClass *klass);

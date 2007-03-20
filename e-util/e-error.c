@@ -37,7 +37,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkwindow.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-url.h>
 
 #include <libedataserver/e-xml-utils.h>

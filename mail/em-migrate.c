@@ -54,7 +54,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <e-util/e-util.h>
 #include <libedataserver/e-data-server-util.h>
@@ -2645,38 +2645,33 @@ emm_setup_initial(const char *evolution_dir)
 {
 	GDir *dir;
 	const char *d;
-	struct stat st;
-	const GList *l;
 	char *local, *base;
+	const gchar * const *language_names;
 
 	/* special-case - this means brand new install of evolution */
 	/* FIXME: create default folders and stuff... */
 
 	d(printf("Setting up initial mail tree\n"));
 	
-	base = g_build_filename(evolution_dir, "mail/local", NULL);
+	base = g_build_filename(evolution_dir, "mail", "local", NULL);
 	if (e_util_mkdir_hier(base, 0777) == -1 && errno != EEXIST) {
 		g_free(base);
 		return -1;
 	}
 
 	/* e.g. try en-AU then en, etc */
-	for (l = gnome_i18n_get_language_list("LC_MESSAGES");
-	     l != NULL;
-	     l = g_list_next(l)) {
-		local = g_build_filename(EVOLUTION_PRIVDATADIR,
-					 "default",
-					 (char *)l->data,
-					 "mail/local", NULL);
-		if (g_stat(local, &st) == 0)
-			goto gotlocal;
-
-		g_free(local);
+	language_names = g_get_language_names ();
+	while (*language_names != NULL) {
+		local = g_build_filename (
+			EVOLUTION_PRIVDATADIR, "default",
+			*language_names++, "mail", "local", NULL);
+		if (g_file_test (local, G_FILE_TEST_EXISTS))
+			break;
+		g_free (local);
 	}
 
-	local = g_build_filename(EVOLUTION_PRIVDATADIR,
-				 "default/C/mail/local", NULL);
-gotlocal:
+	/* Make sure we found one. */
+	g_assert (*language_names != NULL);
 
 	dir = g_dir_open(local, 0, NULL);
 	if (dir) {

@@ -27,7 +27,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libart_lgpl/art_filterlevel.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"

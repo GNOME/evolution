@@ -36,7 +36,7 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 
 #include "e-util/e-util-private.h"

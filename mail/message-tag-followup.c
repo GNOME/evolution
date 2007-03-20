@@ -52,7 +52,7 @@
 #include <gconf/gconf-client.h>
 
 #include <libgnomeui/gnome-pixmap.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"

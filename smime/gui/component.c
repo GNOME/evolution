@@ -29,7 +29,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserverui/e-passwords.h>
 
 #include "ca-trust-dialog.h"

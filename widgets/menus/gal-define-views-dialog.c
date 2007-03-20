@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 
 #include "table/e-table-scrolled.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
@@ -80,7 +80,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 }
 
 /* ETable creation */
-#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\" selection-mode=\"single\" gettext-domain=\"" E_I18N_DOMAIN "\">" \
+#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\" selection-mode=\"single\" gettext-domain=\"" GETTEXT_PACKAGE "\">" \
 	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
              "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
 	     "</ETableSpecification>"
@@ -250,7 +250,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+	gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
 	g_free (filename);
 	dialog->gui = gui;
 

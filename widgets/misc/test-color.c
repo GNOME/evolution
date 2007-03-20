@@ -24,7 +24,7 @@
 
 #include <gnome.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 
 #include "color-palette.h"
 #include "e-colors.h"

@@ -27,7 +27,7 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <misc/e-dateedit.h>
 #include <misc/e-url-entry.h>

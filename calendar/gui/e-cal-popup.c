@@ -39,7 +39,7 @@
 #include <camel/camel-mime-part.h>
 #include <camel/camel-stream-vfs.h>
 #include "e-util/e-util.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-mktemp.h"
 #include "e-util/e-dialog-utils.h"
 

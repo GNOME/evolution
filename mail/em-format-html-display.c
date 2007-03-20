@@ -67,7 +67,7 @@
 #include <glade/glade.h>
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <bonobo/bonobo-control-frame.h>
 #include <bonobo/bonobo-stream-memory.h>

@@ -25,7 +25,7 @@
 #include <config.h>
 
 #include "table/e-tree-table-adapter.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 
 #include "e-tree-selection-model.h"

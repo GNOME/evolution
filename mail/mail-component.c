@@ -78,7 +78,7 @@
 
 #include <table/e-tree.h>
 #include <table/e-tree-memory.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <camel/camel-file-utils.h>
 #include <camel/camel-vtrash-folder.h>

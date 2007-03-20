@@ -28,7 +28,7 @@
 
 #include <e-util/e-icon-factory.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
@@ -146,8 +146,9 @@ static void
 query_components (EComponentRegistry *registry)
 {
 	Bonobo_ServerInfoList *info_list;
+	const gchar * const *language_names;
 	CORBA_Environment ev;
-	GSList *language_list;
+	GSList *languages = NULL;
 	const GList *l;
 	char *query;
 	int i;
@@ -170,9 +171,9 @@ query_components (EComponentRegistry *registry)
 		return;
 	}
 
-	l = gnome_i18n_get_language_list("LC_MESSAGES");
-	for (language_list=NULL;l;l=l->next)
-		language_list = g_slist_append(language_list, l->data);
+	language_names = g_get_language_names ();
+	while (*language_names != NULL)
+		languages = g_slist_append (languages, *language_names++);
 
 	for (i = 0; i < info_list->_length; i++) {
 		const char *id;
@@ -200,13 +201,13 @@ query_components (EComponentRegistry *registry)
 			continue;
 		}
 
-		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", language_list);
+		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", languages);
 		
-		tooltips = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_tooltips", language_list);
+		tooltips = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_tooltips", languages);
 
-		menu_label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_label", language_list);
+		menu_label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_label", languages);
 
-		menu_accelerator = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_accelerator", language_list);
+		menu_accelerator = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_accelerator", languages);
 
 		alias = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:component_alias", NULL);
 
@@ -235,7 +236,7 @@ query_components (EComponentRegistry *registry)
 			g_object_unref (menuicon);
 		bonobo_object_release_unref(iface, NULL);
 	}
-	g_slist_free(language_list);
+	g_slist_free(languages);
 
 	CORBA_free (info_list);
 	CORBA_exception_free (&ev);

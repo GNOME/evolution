@@ -36,7 +36,7 @@
 #include <glib/gstdio.h>
 
 #include <libgnome/gnome-exec.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-stream-filter.h>

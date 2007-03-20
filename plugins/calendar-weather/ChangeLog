@@ -1,3 +1,9 @@
+2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #419524
+
+	* Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>.
+
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
 	* calendar-weather.c (e_calendar_weather_migrate): Don't return a

@@ -28,7 +28,7 @@
 #include <gnome.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/libgnomeui.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>
 #include <mail/em-config.h>

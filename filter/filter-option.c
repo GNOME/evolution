@@ -28,7 +28,7 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "filter-option.h"
 #include "filter-part.h"

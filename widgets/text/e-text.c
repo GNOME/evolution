@@ -52,7 +52,7 @@
 #include "misc/e-canvas.h"
 #include "misc/e-canvas-utils.h"
 #include "misc/e-unicode.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-text-event-processor-emacs-like.h"
 #include "e-util/e-util.h"
 

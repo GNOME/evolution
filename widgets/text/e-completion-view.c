@@ -30,7 +30,7 @@
 
 #include "table/e-table-scrolled.h"
 #include "table/e-table-simple.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util-marshal.h"
 
 #include "e-completion-view.h"
@@ -623,7 +623,7 @@ end_completion_cb (ECompletion *completion, gpointer user_data)
 /* XXX toshok - we need to add sorting to this etable, through the use
    of undisplayed fields of all the sort keys we want to use */
 static char *simple_spec = 
-"<ETableSpecification no-headers=\"true\" draw-grid=\"false\" cursor-mode=\"line\" alternating-row-colors=\"false\" gettext-domain=\"" E_I18N_DOMAIN "\">"
+"<ETableSpecification no-headers=\"true\" draw-grid=\"false\" cursor-mode=\"line\" alternating-row-colors=\"false\" gettext-domain=\"" GETTEXT_PACKAGE "\">"
 "  <ETableColumn model_col=\"0\" _title=\"Node\" expansion=\"1.0\" "
 "         minimum_width=\"16\" resizable=\"true\" cell=\"string\" "
 "         compare=\"string\"/> "

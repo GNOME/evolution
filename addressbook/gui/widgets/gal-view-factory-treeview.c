@@ -14,7 +14,7 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "gal-view-factory-treeview.h"
 #include "gal-view-treeview.h"
 

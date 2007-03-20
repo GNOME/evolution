@@ -25,7 +25,7 @@
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <text/e-text.h>

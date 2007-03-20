@@ -29,7 +29,7 @@
 #include "ea-gnome-calendar.h"
 #include "calendar-commands.h"
 #include <text/e-text.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 

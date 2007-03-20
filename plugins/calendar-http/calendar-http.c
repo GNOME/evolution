@@ -33,7 +33,7 @@
 #include <calendar/gui/e-cal-config.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-url.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 GtkWidget *e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data);

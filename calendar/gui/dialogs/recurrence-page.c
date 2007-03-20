@@ -39,7 +39,7 @@
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>

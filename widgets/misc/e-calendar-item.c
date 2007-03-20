@@ -43,7 +43,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 

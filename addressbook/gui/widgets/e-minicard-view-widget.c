@@ -24,7 +24,7 @@
 #include <gtk/gtksignal.h>
 #include <misc/e-canvas-background.h>
 #include <misc/e-canvas.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "eab-marshal.h"
 #include "e-minicard-view-widget.h"

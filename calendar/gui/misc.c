@@ -26,7 +26,7 @@
 #include <ctype.h>
 #include <time.h>
 #include <libedataserver/e-url.h>
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 
 #include "misc.h"
 

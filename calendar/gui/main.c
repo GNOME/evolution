@@ -25,7 +25,7 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-init.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>

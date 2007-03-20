@@ -30,7 +30,7 @@
 
 #include "a11y/gal-a11y-util.h"
 #include "table/e-cell-popup.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 
 #include "gal-a11y-e-cell-popup.h"
 #include "gal-a11y-e-cell-registry.h"

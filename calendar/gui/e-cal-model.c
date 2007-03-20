@@ -24,7 +24,7 @@
 
 #include <string.h>
 #include <glib/garray.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "comp-util.h"

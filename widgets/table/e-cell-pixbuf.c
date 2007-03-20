@@ -27,7 +27,7 @@
 
 #include <libgnomecanvas/gnome-canvas.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include "e-cell-pixbuf.h"
 

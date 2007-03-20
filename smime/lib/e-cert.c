@@ -62,7 +62,7 @@
 
 #include <time.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 

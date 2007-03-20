@@ -37,7 +37,7 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnome/gnome-init.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <e-util/e-error.h>
 #include <e-util/e-util-private.h>
 #include <e-gw-connection.h>

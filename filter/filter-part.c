@@ -30,7 +30,7 @@
 
 #include <gtk/gtkbox.h>
 #include <gtk/gtkhbox.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "filter-part.h"
 #include "rule-context.h"

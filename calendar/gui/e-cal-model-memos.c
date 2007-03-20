@@ -25,7 +25,7 @@
 #endif
 
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "e-cal-model-memos.h"
 #include "e-cell-date-edit-text.h"
 #include "misc.h"

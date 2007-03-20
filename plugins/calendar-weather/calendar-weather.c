@@ -27,7 +27,7 @@
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <string.h>

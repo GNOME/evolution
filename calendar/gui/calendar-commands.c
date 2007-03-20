@@ -47,7 +47,7 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <libecal/e-cal-time-util.h>

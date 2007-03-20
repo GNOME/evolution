@@ -38,7 +38,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <camel/camel-exception.h>
 #include <camel/camel-file-utils.h>

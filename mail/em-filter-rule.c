@@ -27,7 +27,7 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "em-filter-rule.h"
 #include "em-filter-context.h"

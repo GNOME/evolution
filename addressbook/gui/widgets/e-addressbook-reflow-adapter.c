@@ -4,7 +4,7 @@
 #include <config.h>
 #include <string.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "eab-marshal.h"
 #include "e-addressbook-reflow-adapter.h"
 #include "e-addressbook-model.h"

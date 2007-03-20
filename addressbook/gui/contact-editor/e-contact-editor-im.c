@@ -22,7 +22,7 @@
 #include <config.h>
 #include "e-contact-editor-im.h"
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkhbox.h>

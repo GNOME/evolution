@@ -33,7 +33,7 @@
 
 #include <glade/glade.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-edge.h>

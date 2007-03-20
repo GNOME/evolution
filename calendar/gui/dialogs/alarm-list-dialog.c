@@ -36,7 +36,7 @@
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkoptionmenu.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
 #include "e-util/e-dialog-widgets.h"

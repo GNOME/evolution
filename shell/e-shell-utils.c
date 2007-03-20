@@ -29,7 +29,7 @@
 #include <glib.h>
 
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"
 

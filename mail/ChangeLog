@@ -1,3 +1,12 @@
+2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #419524
+
+	* Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>.
+
+	* em-migrate.c (emm_setup_initial): Use g_get_language_names()
+	instead of gnome_i18n_get_language_list().
+
 2007-03-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #360240

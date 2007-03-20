@@ -41,7 +41,7 @@
 #include <libgnome/gnome-url.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "em-popup.h"
 #include "libedataserver/e-msgport.h"

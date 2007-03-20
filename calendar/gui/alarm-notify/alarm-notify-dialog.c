@@ -33,7 +33,7 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #if 0 
 #  include <libgnomeui/gnome-winhints.h>
 #endif

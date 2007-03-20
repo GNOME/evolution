@@ -37,7 +37,7 @@
 #include <glib/gstdio.h>
 
 #include <libgnome/gnome-sound.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>

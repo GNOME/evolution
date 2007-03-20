@@ -50,7 +50,7 @@
 #include "a11y/e-table/gal-a11y-e-cell-registry.h"
 #include "a11y/e-table/gal-a11y-e-cell-text.h"
 #include "text/e-text.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-text-event-processor.h"
 #include "e-util/e-text-event-processor-emacs-like.h"
 #include "e-util/e-util.h"

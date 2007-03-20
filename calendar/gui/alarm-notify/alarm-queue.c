@@ -43,7 +43,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtktooltips.h>
 #include <gtk/gtkversion.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-dialog-util.h>

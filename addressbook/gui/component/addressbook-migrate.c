@@ -35,7 +35,7 @@
 
 #include <libebook/e-destination.h>
 #include <libebook/e-book.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <libedataserver/e-xml-utils.h>
 

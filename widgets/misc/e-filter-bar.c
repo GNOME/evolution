@@ -32,7 +32,7 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "e-dropdown-button.h"
 #include "e-filter-bar.h"

@@ -28,7 +28,7 @@
 #include "ea-day-view.h"
 #include "ea-day-view-cell.h"
 #include "ea-cell-table.h"
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 /* EaDayViewMainItem */
 static void ea_day_view_main_item_class_init (EaDayViewMainItemClass *klass);

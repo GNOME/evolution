@@ -45,7 +45,7 @@
 
 #include <e-util/e-icon-factory.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #define d(x) 
 

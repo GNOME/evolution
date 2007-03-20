@@ -24,7 +24,7 @@
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkentry.h>

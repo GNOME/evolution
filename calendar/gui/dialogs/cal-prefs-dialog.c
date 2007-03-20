@@ -35,7 +35,7 @@
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 static const int week_start_day_map[] = {

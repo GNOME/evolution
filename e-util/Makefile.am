@@ -108,7 +108,6 @@ libeutil_la_SOURCES =				\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
 	e-bit-array.c				\
-	e-i18n.h				\
 	e-sorter.c				\
 	e-sorter-array.c			\
 	e-text-event-processor-emacs-like.c     \

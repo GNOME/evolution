@@ -51,7 +51,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-widget.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-gconf.h>
 
 #include <gconf/gconf-client.h>

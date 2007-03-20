@@ -13,7 +13,7 @@
 #include "table/e-table-click-to-add.h"
 #include "table/e-table-group.h"
 #include "table/e-table-group-leaf.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 
 #include "gal-a11y-e-table-click-to-add.h"
 #include "gal-a11y-e-table-click-to-add-factory.h"

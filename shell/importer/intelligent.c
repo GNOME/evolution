@@ -49,7 +49,7 @@
 
 #include <libgnome/gnome-config.h>
 /*#include <libgnome/gnome-util.h>*/
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-widget.h>

@@ -25,7 +25,7 @@
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreednd.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glib.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-time-utils.h>

@@ -34,7 +34,7 @@
 
 #include <time.h>
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "calendar-config.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel.h"

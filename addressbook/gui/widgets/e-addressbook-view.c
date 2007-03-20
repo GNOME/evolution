@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <table/e-table-scrolled.h>

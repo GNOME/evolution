@@ -15,7 +15,7 @@
 #include "a11y/gal-a11y-util.h"
 #include "table/e-table.h"
 #include "table/e-tree.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-e-cell-vbox.h"

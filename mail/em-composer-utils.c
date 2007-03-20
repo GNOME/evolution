@@ -29,7 +29,7 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"

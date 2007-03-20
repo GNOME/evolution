@@ -1,5 +1,16 @@
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #419524
+
+	* Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>.
+
+	* e-component-registry.c (query_components):
+	* e-shell-settings-dialog.c (load_pages):
+	* e-shell-window-commands.c (command_quick_reference):
+	Use g_get_language_names() instead of gnome_i18n_get_language_list().
+
+2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #419469 - Miscellaneous main.c cleanups
 
 	* main.c (kill_dataserver): Kill evolution-data-server-1.8.

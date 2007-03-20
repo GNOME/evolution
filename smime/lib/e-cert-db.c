@@ -90,7 +90,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-util-private.h"
 #include <gtk/gtkmessagedialog.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserverui/e-passwords.h>
 #include <sys/types.h>
 #include <sys/stat.h>

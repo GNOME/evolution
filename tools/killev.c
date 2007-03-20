@@ -31,7 +31,7 @@
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo-activation/bonobo-activation.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 
 typedef struct {
@@ -39,7 +39,7 @@ typedef struct {
 	GPtrArray *names;
 } KillevComponent;
 
-static GSList *languages;
+static GSList *languages = NULL;
 static GHashTable *components;
 
 static gboolean
@@ -186,7 +186,7 @@ add_matching_iid (const char *iid)
 int
 main (int argc, char **argv)
 {
-	const GList *l;
+	const gchar * const *language_names;
 
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -196,9 +196,9 @@ main (int argc, char **argv)
 			    GNOME_PROGRAM_STANDARD_PROPERTIES,
 			    NULL);
 
-	l = gnome_i18n_get_language_list("LC_MESSAGES");
-	for (languages=NULL;l;l=l->next)
-		languages = g_slist_append(languages, l->data);
+	language_names = g_get_language_names ();
+	while (*language_names != NULL)
+		languages = g_slist_append (languages, *language_names++);
 
 	components = g_hash_table_new (g_str_hash, g_str_equal);
 

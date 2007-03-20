@@ -32,7 +32,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-unit.h>

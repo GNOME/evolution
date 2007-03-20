@@ -41,7 +41,7 @@
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkmain.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>

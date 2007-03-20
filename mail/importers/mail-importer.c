@@ -38,7 +38,7 @@
 
 #include <gmodule.h>
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-store.h>
 #include <camel/camel-mime-message.h>

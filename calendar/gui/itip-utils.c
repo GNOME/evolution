@@ -27,7 +27,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>

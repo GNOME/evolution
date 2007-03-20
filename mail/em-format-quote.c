@@ -35,7 +35,7 @@
 #include <camel/camel-url.h>
 
 #include <libedataserver/e-iconv.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "em-stripsig-filter.h"
 #include "em-format-quote.h"

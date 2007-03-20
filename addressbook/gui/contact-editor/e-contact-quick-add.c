@@ -33,7 +33,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>

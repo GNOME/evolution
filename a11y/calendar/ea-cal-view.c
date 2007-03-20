@@ -30,7 +30,7 @@
 #include "calendar-commands.h"
 #include "goto.h"
 #include <glib/gstrfuncs.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 static void ea_cal_view_class_init (EaCalViewClass *klass);
 

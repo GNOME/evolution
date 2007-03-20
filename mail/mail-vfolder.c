@@ -26,7 +26,7 @@
 
 #include <glib.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-vee-store.h>

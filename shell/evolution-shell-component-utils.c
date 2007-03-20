@@ -28,7 +28,7 @@
 #include "e-util/e-dialog-utils.h"
 
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-moniker-util.h>

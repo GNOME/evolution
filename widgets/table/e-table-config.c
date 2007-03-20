@@ -36,7 +36,7 @@
 #include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 #include "misc/e-unicode.h"
@@ -539,7 +539,7 @@ create_global_store (ETableConfig *config)
 	}
 }
 
-char *spec = "<ETableSpecification gettext-domain=\"" E_I18N_DOMAIN "\" no-headers=\"true\" cursor-mode=\"line\" " 	 
+char *spec = "<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" " 	 
 " draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">" 	 
 "<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" 	 
 "<ETableState> <column source=\"0\"/>" 	 
@@ -1093,14 +1093,14 @@ setup_gui (ETableConfig *config)
 			g_build_filename (EVOLUTION_GLADEDIR,
 					  "e-table-config.glade",
 					  NULL);
-		gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+		gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
 		g_free (filename);
 	} else {
 		gchar *filename =
 			g_build_filename (EVOLUTION_GLADEDIR,
 					  "e-table-config-no-group.glade",
 					  NULL);
-		gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+		gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
 		g_free (filename);
 	}
 

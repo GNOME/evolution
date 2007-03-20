@@ -32,7 +32,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtktooltips.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 
 #define SPACING 2

@@ -33,7 +33,7 @@
 
 #include <e-util/e-icon-factory.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 
 /* class name -> klass map for EMFormat and subclasses */

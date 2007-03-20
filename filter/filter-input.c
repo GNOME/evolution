@@ -30,7 +30,7 @@
 #include <regex.h>
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 #include "filter-input.h"
 #include "libedataserver/e-sexp.h"

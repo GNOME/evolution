@@ -31,7 +31,7 @@
 #include <gtk/gtkdnd.h>
 #include <gdk/gdkkeysyms.h>
 #include <misc/e-canvas.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include "a11y/addressbook/ea-addressbook.h"
 

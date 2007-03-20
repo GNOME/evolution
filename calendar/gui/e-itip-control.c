@@ -32,7 +32,7 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include <gtk/gtkmisc.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeui/gnome-uidefs.h>

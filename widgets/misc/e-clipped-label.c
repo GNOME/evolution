@@ -40,7 +40,7 @@
 
 #include <glib.h>
 #include <gdk/gdki18n.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 
 static void e_clipped_label_class_init (EClippedLabelClass *class);

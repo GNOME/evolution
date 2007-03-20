@@ -58,7 +58,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>

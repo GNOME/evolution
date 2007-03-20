@@ -25,7 +25,7 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 

@@ -29,7 +29,7 @@
 
 #include <string.h>
 #include <glade/glade.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <misc/e-dateedit.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>

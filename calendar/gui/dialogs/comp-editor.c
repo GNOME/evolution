@@ -34,7 +34,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-widget.h>
 #include <libgnome/libgnome.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomeui/gnome-uidefs.h>

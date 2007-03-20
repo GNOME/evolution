@@ -28,7 +28,7 @@
 #include "ea-week-view.h"
 #include "e-week-view.h"
 #include <libgnomecanvas/gnome-canvas.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 static void ea_jump_button_class_init (EaJumpButtonClass *klass);
 

@@ -22,7 +22,7 @@
 
 #include <config.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "ea-addressbook-view.h"
 
 static G_CONST_RETURN gchar* ea_ab_view_get_name (AtkObject *accessible);

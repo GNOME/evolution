@@ -28,7 +28,7 @@
 #include <glib/gprintf.h>
 
 #include <libgnome/gnome-exec.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-url.h>
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
@@ -611,10 +611,11 @@ command_quick_reference (BonoboUIComponent *uih,
 {
 	char *quickref;
 	GnomeVFSMimeApplication *app;
-	const GList *lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+	const gchar * const *language_names;
 
-	for (; lang_list != NULL; lang_list = lang_list->next) {
-		const char *lang = lang_list->data;
+	language_names = g_get_language_names ();
+	while (*language_names != NULL) {
+		const gchar *lang = *language_names++;
 
 		/* This has to be a valid language AND a language with
 		 * no encoding postfix.  The language will come up without

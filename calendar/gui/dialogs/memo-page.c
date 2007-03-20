@@ -33,7 +33,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmessagedialog.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <libedataserverui/e-source-option-menu.h>
 #include <libedataserverui/e-name-selector.h>

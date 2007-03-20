@@ -37,7 +37,7 @@
 #include <gtk/gtkbox.h>
 #include <gtk/gtkcontainer.h>
 #include <gtk/gtkwindow.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-error.h>
 #include <e-util/e-dialog-utils.h>

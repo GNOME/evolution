@@ -1,3 +1,9 @@
+2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #419524
+
+	* Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>.
+
 2007-03-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #360240

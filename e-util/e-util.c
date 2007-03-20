@@ -46,7 +46,6 @@
 #endif
 
 #include <libedataserver/e-data-server-util.h>
-#include "e-i18n.h"
 #include "e-util.h"
 #include "e-util-private.h"
 
@@ -1110,20 +1109,6 @@ e_strdupv (const gchar **str_array)
 	} else {
 		return NULL;
 	}
-}
-
-char *
-e_gettext (const char *msgid)
-{
-	static gboolean initialized = FALSE;
-
-	if (!initialized) {
-		bindtextdomain (E_I18N_DOMAIN, EVOLUTION_LOCALEDIR);
-		bind_textdomain_codeset (E_I18N_DOMAIN, "UTF-8");
-		initialized = TRUE;
-	}        
-
-	return dgettext (E_I18N_DOMAIN, msgid);
 }
 
 cairo_font_options_t *

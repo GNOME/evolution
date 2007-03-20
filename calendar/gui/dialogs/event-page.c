@@ -31,7 +31,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <libedataserverui/e-source-option-menu.h>
 #include "common/authentication.h"

@@ -33,7 +33,7 @@
 #include <gconf/gconf-client.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/libgnome.h>
 
 #include "e-attachment.h"

@@ -27,7 +27,7 @@
 #include <libical/ical.h>
 #include <glib.h>
 #include <gtk/gtklabel.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>

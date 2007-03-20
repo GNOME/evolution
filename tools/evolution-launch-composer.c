@@ -32,7 +32,7 @@
 
 #include <bonobo/bonobo-main.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-ui-init.h>
 
 #include <libgnomevfs/gnome-vfs-ops.h>

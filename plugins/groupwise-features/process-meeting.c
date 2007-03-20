@@ -23,7 +23,7 @@
 #endif
 
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <calendar/gui/e-calendar-view.h>

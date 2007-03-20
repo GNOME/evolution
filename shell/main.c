@@ -55,7 +55,7 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-ui-init.h>

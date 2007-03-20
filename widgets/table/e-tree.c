@@ -32,7 +32,7 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
 #include "a11y/e-table/gal-a11y-e-tree.h"
-#include "e-util/e-i18n.h"
+#include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-marshal.h"
 #include "misc/e-canvas.h"

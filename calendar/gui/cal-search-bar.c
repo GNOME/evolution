@@ -29,7 +29,7 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-categories.h>
 #include <e-util/e-icon-factory.h>
 #include <libedataserver/e-categories.h>

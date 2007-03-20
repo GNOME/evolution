@@ -35,7 +35,7 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktooltips.h>
 #include <libgnomeui/gnome-uidefs.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserverui/e-name-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
 #include <libedataserverui/e-name-selector-list.h>

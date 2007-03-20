@@ -20,11 +20,10 @@
  */
 
 #include <config.h>
-#include <libgnome/gnome-i18n.h>
 #include <string.h>
 #include <gtk/gtkaccessible.h>
 #include <glib/gstrfuncs.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include "ea-minicard.h"
 #include "ea-minicard-view.h"
 #include "eab-gui-util.h"
