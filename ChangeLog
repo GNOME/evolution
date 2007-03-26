@@ -1,3 +1,7 @@
+2007-03-26  Harish Krishnaswamy <harish.krishnaswamy@gmail.com>
+	
+	* MAINTAINERS : Updates on the new guards.
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524
