@@ -1,5 +1,10 @@
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
+	* e-filter-bar.c (menubar_activated): Fix build breakage due to
+	poorly placed preprocessor condition.
+
+2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
+
 	* e-filter-bar.c:
 	* e-multi-config-dialog.c:
 	Don't mix declarations and code (#405495).

@@ -242,6 +242,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
 	GtkWidget *dialog;
+	GtkStyle *style;
 	
 	d(printf ("menubar activated!\n"));
 
@@ -269,7 +270,6 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		if (id >= efb->menu_base && id < efb->menu_base + efb->menu_rules->len) {
 #if d(!)0
 			GString *out = g_string_new ("");
-			GtkStyle *style;
 			
 			printf("Selected rule: %s\n", ((FilterRule *)efb->menu_rules->pdata[id - efb->menu_base])->name);
 			filter_rule_build_code (efb->menu_rules->pdata[id - efb->menu_base], out);
