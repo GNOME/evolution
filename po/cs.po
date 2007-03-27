@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-27 13:24+0200\n"
-"PO-Revision-Date: 2007-03-27 13:30+0200\n"
+"POT-Creation-Date: 2007-03-27 14:10+0200\n"
+"PO-Revision-Date: 2007-03-27 14:12+0200\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team:  <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17365,7 +17365,6 @@ msgid "Mark All Read"
 msgstr "Označit vše jako přečtené"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-#, fuzzy
 msgid "Mark Me_ssages as Read"
 msgstr "Označit zprávy _jako přečtené"
 

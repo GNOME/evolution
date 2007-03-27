@@ -1,5 +1,9 @@
 2007-03-27  Jakub Friedl  <jfriedl@suse.cz>
 
+	* cs.po: Fixed bug #421241.
+
+2007-03-27  Jakub Friedl  <jfriedl@suse.cz>
+
 	* cs.po: Fixed some Czech strings.
 
 2007-03-17  Laurent Dhima  <laurenti@alblinux.net>
