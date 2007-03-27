@@ -1,10 +1,14 @@
+2007-03-27  Jakub Friedl  <jfriedl@suse.cz>
+
+	* cs.po: Fixed bug #421241.
+
 2007-03-26  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
 
 	* gl.po: Updated Galician Translation.
 
 2006-03-13 Kostas Papadimas <pkst@gnome.org>
 
-	* el.po Updated Greek Translation
+	* el.po: Updated Greek Translation
 
 2007-03-13  Hendrik Richter  <hendrikr@gnome.org>
 
