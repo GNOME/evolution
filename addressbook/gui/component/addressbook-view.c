@@ -1169,6 +1169,8 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	EBook *source_book, *target_book;
 	MergeContext *merge_context;
 	GList *contactlist;
+	AddressbookView *view;
+	EABView *v;
 
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
@@ -1193,8 +1195,8 @@ selector_tree_drag_data_received (GtkWidget *widget,
 
 	eab_book_and_contact_list_from_string (data->data, &source_book, &contactlist);
 
-	AddressbookView *view = (AddressbookView *) user_data;
-	EABView *v = get_current_view (view);
+	view = (AddressbookView *) user_data;
+	v = get_current_view (view);
 	g_object_get (v->model, "book",&source_book, NULL);
 
 	/* Set up merge context */

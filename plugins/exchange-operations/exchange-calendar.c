@@ -309,6 +309,11 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	const char *base_uri;
 	const char *rel_uri;
 	gint offline_status;
+	ExchangeAccount *account;
+	EUri *euri;
+	int uri_len;
+	gchar *uri_text, *uri_string, *path, *folder_name;
+	gboolean is_personal;
 
 	rel_uri = e_source_peek_relative_uri (t->source);
 	group = e_source_peek_group (t->source);
@@ -329,12 +334,6 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		/* new folder */
                 return TRUE;
         }
-
-	ExchangeAccount *account;
-	EUri *euri;
-	int uri_len;
-	gchar *uri_text, *uri_string, *path, *folder_name;
-	gboolean is_personal;
 
 	account = exchange_operations_get_exchange_account ();
 	uri_text = e_source_get_uri (t->source);

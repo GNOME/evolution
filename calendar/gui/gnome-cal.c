@@ -3795,8 +3795,10 @@ gnome_calendar_edit_appointment (GnomeCalendar *gcal,
 		return;
 	
 	for (l = gcal->priv->clients_list[E_CAL_SOURCE_TYPE_EVENT]; l != NULL; l = l->next) {
+		ESource *client_src;
+
 		client = l->data;
-		ESource *client_src = e_cal_get_source (client);
+		client_src = e_cal_get_source (client);
 
 		if (!strcmp (src_uid, e_source_peek_uid (client_src)))
 			break;

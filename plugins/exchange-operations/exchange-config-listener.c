@@ -793,6 +793,10 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 	}
 	if (result == EXCHANGE_ACCOUNT_CONNECT_SUCCESS) {
 		int max_pwd_age_days;
+		GladeXML *xml;
+		GtkWidget *dialog;
+		GtkResponseType response;
+		gboolean oof;
 
 		/* check for password expiry warning */
 		max_pwd_age_days = exchange_account_check_password_expiry (account);
@@ -801,12 +805,6 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		}
 
 		/* check for oof state */
-
-		GladeXML *xml;
-		GtkWidget *dialog;
-		GtkResponseType response;
-		gboolean oof;
-
 		if (exchange_oof_get (account, &oof, NULL)) {
 			if (oof) {
 				/* OOF state is set, check if user wants to set it back to in-office */

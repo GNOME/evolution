@@ -104,14 +104,13 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 	GtkTreeIter       iter;
 	ExchangeAccount *account;
 	gchar *es_ruri;
+	gchar *ruri;
 
 	account = exchange_operations_get_exchange_account ();
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	gtk_tree_selection_get_selected(selection, &model, &iter);
 
-	gchar *ruri;
-	
 	gtk_tree_model_get (model, &iter, CONTACTSRURI_COL, &ruri, -1);
 	es_ruri = g_strconcat (account->account_filename, "/;", ruri, NULL);
 	e_source_set_relative_uri (source, es_ruri);
@@ -307,6 +306,7 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	const char *base_uri;
 	const char *rel_uri;
 	gint offline_status;
+	ExchangeAccount *account;
 
 	rel_uri = e_source_peek_relative_uri (t->source);
 	group = e_source_peek_group (t->source);
@@ -327,7 +327,6 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		return TRUE;
 	}
 
-	ExchangeAccount *account;
 	account = exchange_operations_get_exchange_account ();
 
 	if (!rel_uri) {

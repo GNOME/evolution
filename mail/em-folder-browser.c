@@ -959,7 +959,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	EFilterBar *efb = (EFilterBar *)esb;
 	char *search_state, *view_sexp, *folder_uri=NULL;
-	char *word = NULL, *storeuri = NULL, *search_word = NULL;;
+	char *word = NULL, *storeuri = NULL, *search_word = NULL;
 	gint id, i;
 	CamelFolder *folder;
 	CamelStore *store;
@@ -1784,6 +1784,7 @@ static void
 emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
+	char *state;
 	
 	message_list_freeze(emfv->list);
 	
@@ -1805,11 +1806,11 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	emfb_parent->set_folder(emfv, folder, uri);
 
 	/* etspec for search results */
-	char *state = "<ETableState>"
-			"<column source=\"0\"/> <column source=\"3\"/> <column source=\"1\"/>"
-			"<column source=\"14\"/> <column source=\"5\"/>"
-			"<column source=\"7\"/> <column source=\"13\"/> "
-                        "<grouping><leaf column=\"7\" ascending=\"false\"/> </grouping> </ETableState>";
+	state = "<ETableState>"
+		"<column source=\"0\"/> <column source=\"3\"/> <column source=\"1\"/>"
+		"<column source=\"14\"/> <column source=\"5\"/>"
+		"<column source=\"7\"/> <column source=\"13\"/> "
+		"<grouping><leaf column=\"7\" ascending=\"false\"/> </grouping> </ETableState>";
 	e_tree_set_state (((MessageList *)emfv->list)->tree, state);
 	
 	message_list_thaw(emfv->list);

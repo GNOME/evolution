@@ -43,8 +43,7 @@ ecc_print (ECellView *ecell_view, GtkPrintContext *context,
 	    int model_col, int view_col, int row,
 	    double width, double height) 
 {
-	cairo_t *cr;
-	cr = gtk_print_context_get_cairo_context (context);
+	cairo_t *cr = gtk_print_context_get_cairo_context (context);
 	const int value = GPOINTER_TO_INT (
 			  e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	cairo_save (cr); 

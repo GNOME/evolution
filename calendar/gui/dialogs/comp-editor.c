@@ -2340,6 +2340,7 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 		CamelStream *stream;
 		struct stat statbuf;
 		char *mime_type, *file_name;		
+		char *ptr;
 
 		attach_filename = (char *) p->data;
 		/* should we assert if g_str_has_prefix (attach_filename, "file://")) 
@@ -2394,7 +2395,7 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 	
 		camel_mime_part_set_disposition (part, "attachment");
 
-		char *ptr = strstr (file_name, comp_uid);
+		ptr = strstr (file_name, comp_uid);
 		if (ptr) {
 			ptr += strlen(comp_uid);
 			if (*ptr++ == '-')

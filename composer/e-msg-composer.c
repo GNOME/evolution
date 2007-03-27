@@ -1737,12 +1737,10 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
 {
-	EMsgComposer *composer;
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+	EMsgComposerPrivate *p = composer->priv;
 	CORBA_char *file_name;
 	CORBA_Environment ev;
-	
-	composer = E_MSG_COMPOSER (data);
-	EMsgComposerPrivate *p = composer->priv;
 	
 	CORBA_exception_init (&ev);
 	
@@ -1914,11 +1912,9 @@ menu_edit_select_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 static void
 menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
-	CORBA_Environment ev;
-	EMsgComposer *composer;
-
-	composer = E_MSG_COMPOSER (data);
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
 	EMsgComposerPrivate *p = composer->priv;
+	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	
@@ -2696,9 +2692,7 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 static void
 from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 {
-	EMsgComposer *composer;
-	
-	composer = E_MSG_COMPOSER (data);
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
 	EMsgComposerPrivate *p = composer->priv;
 	
 	if (hdrs->account) {
@@ -3812,7 +3806,7 @@ create_composer (int visible_mask)
 	GList *icon_list;
 	BonoboControlFrame *control_frame;
 	GtkWidget *html_widget = NULL;
-	gpointer servant;;
+	gpointer servant;
 	BonoboObject *impl;	
 	EMsgComposerPrivate *p;
 	
@@ -4746,12 +4740,13 @@ EMsgComposer *
 e_msg_composer_new_redirect (CamelMimeMessage *message, const char *resent_from)
 {
 	EMsgComposer *composer;
+	EMsgComposerPrivate *p;
 	const char *subject;
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 	
 	composer = e_msg_composer_new_with_message (message);
-	EMsgComposerPrivate *p = composer->priv;
+	p = composer->priv;
 	
 	subject = camel_mime_message_get_subject (message);
 	
@@ -5116,11 +5111,13 @@ e_msg_composer_modify_header (EMsgComposer *composer, const char *name,
 void
 e_msg_composer_remove_header (EMsgComposer *composer, const char *name)
 {
+	EMsgComposerPrivate *p;
+	int i;
+
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (name != NULL);
 
-	int i;
-	EMsgComposerPrivate *p = composer->priv;
+	p = composer->priv;
 
 	for (i = 0; i < p->extra_hdr_names->len; i++) {
 		if (strcmp (p->extra_hdr_names->pdata[i], name) == 0) {

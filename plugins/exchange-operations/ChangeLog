@@ -1,3 +1,11 @@
+2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* exchange-account-setup.c:
+	* exchange-calendar.c:
+	* exchange-config-listener.c:
+	* exchange-contacts.c:
+	Don't mix declarations and code (#405495).
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

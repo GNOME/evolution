@@ -633,11 +633,11 @@ static EPopupItem emp_standard_uri_popups[] = {
 static void
 emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 {
-	printf("in emp_apps_open_in\n");
 	char *path;
 	EPopupTarget *target = ep->target;
 	CamelMimePart *part;
 
+	printf("in emp_apps_open_in\n");
 	if (target->type == EM_POPUP_TARGET_ATTACHMENTS) 
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
 	else

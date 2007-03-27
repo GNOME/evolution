@@ -269,6 +269,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		if (id >= efb->menu_base && id < efb->menu_base + efb->menu_rules->len) {
 #if d(!)0
 			GString *out = g_string_new ("");
+			GtkStyle *style;
 			
 			printf("Selected rule: %s\n", ((FilterRule *)efb->menu_rules->pdata[id - efb->menu_base])->name);
 			filter_rule_build_code (efb->menu_rules->pdata[id - efb->menu_base], out);
@@ -282,7 +283,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			efb->setquery = FALSE;
 
 			/* saved searches activated */
-			GtkStyle *style = gtk_widget_get_default_style ();
+			style = gtk_widget_get_default_style ();
 			efb->setquery = TRUE;
 			gtk_widget_modify_base (esb->entry , GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED] ));
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text [GTK_STATE_SELECTED] ));

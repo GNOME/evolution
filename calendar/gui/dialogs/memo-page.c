@@ -1072,9 +1072,9 @@ memo_page_construct (MemoPage *mpage)
 		for (it = e_list_get_iterator((EList *)priv->accounts);
 				e_iterator_is_valid(it);
 				e_iterator_next(it)) {
-			a = (EAccount *)e_iterator_get(it);
 			char *full;
 
+			a = (EAccount *)e_iterator_get(it);
 			full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 			address_strings = g_list_append(address_strings, full);

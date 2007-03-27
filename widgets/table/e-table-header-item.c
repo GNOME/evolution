@@ -1514,7 +1514,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
 	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
 	ETableCol *col;
-	GtkMenu *popup, *sub_menu;;
+	GtkMenu *popup, *sub_menu;
 	int ncol, sort_count, sort_col;
 	GtkWidget *menu_item;
 	GSList *group = NULL;

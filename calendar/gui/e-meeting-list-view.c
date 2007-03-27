@@ -877,9 +877,7 @@ e_meeting_list_view_invite_others_dialog (EMeetingListView *view)
 void 
 e_meeting_list_view_set_editable (EMeetingListView *lview, gboolean set)
 {
-	EMeetingListViewPrivate *priv;
-
-	priv = lview->priv;
+	EMeetingListViewPrivate *priv = lview->priv;
 
 	gint edit_level = set;
 

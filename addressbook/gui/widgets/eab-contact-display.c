@@ -95,11 +95,10 @@ eab_uri_popup_email_address_copy(EPopup *ep, EPopupItem *item, void *data)
 	EABContactDisplay *display = data;
 	struct _EABContactDisplayPrivate *p = display->priv;
         EABPopupTargetURI *t = (EABPopupTargetURI *)ep->target;
-        const char *url;
+        const char *url = t->uri;
         char *html=NULL; 
         int i=0; 
         GList *email_list, *l;
-	url = t->uri; 
         int email_num = atoi (url + strlen ("internal-mailto:"));
 	
 	email_list = e_contact_get (p->contact, E_CONTACT_EMAIL);
@@ -134,11 +133,10 @@ static void
 eab_uri_popup_address_send(EPopup *ep, EPopupItem *item, void *data)
 {
          EABPopupTargetURI *t = (EABPopupTargetURI *)ep->target;
-         const char *url;
+         const char *url = t->uri;
          EABContactDisplay *display = data;
   	 struct _EABContactDisplayPrivate *p = display->priv;
  
-         url = t->uri; 
 	 int mail_num = atoi (url + strlen ("internal-mailto:"));
          
          if (mail_num == -1)
@@ -199,22 +197,19 @@ eab_uri_popup_event(EABContactDisplay *display, GdkEvent *event, const char *uri
 	EABPopup *emp;
 	EABPopupTargetURI *t ;
 	GtkMenu *menu;
-  
-        
-      	        emp = eab_popup_new("org.gnome.evolution.addressbook.contactdisplay.popup");
-	
-		GSList *menus = NULL;
-		int i;
+	GSList *menus = NULL;
+	int i;
 		
-                t = eab_popup_target_new_uri(emp, uri);
-	        t->target.widget = (GtkWidget *)display;
+	emp = eab_popup_new("org.gnome.evolution.addressbook.contactdisplay.popup");
 
-		for (i=0;i<sizeof(eab_uri_popups)/sizeof(eab_uri_popups[0]);i++) {
-			eab_uri_popups[i].user_data = g_strdup(t->uri);
-			menus = g_slist_prepend(menus, &eab_uri_popups[i]);
-		}
-		e_popup_add_items((EPopup *)emp, menus, NULL, eab_uri_popup_free, display);
-	
+	t = eab_popup_target_new_uri(emp, uri);
+	t->target.widget = (GtkWidget *)display;
+
+	for (i=0;i<sizeof(eab_uri_popups)/sizeof(eab_uri_popups[0]);i++) {
+		eab_uri_popups[i].user_data = g_strdup(t->uri);
+		menus = g_slist_prepend(menus, &eab_uri_popups[i]);
+	}
+	e_popup_add_items((EPopup *)emp, menus, NULL, eab_uri_popup_free, display);
 
         menu = e_popup_create_menu_once((EPopup *)emp,(EPopupTarget*)t, 0);
 	
@@ -867,9 +862,9 @@ eab_contact_display_new (void)
 {
 	EABContactDisplay *display;
 
-	display = g_object_new (EAB_TYPE_CONTACT_DISPLAY, NULL);
-	
 	struct _EABContactDisplayPrivate *p;
+
+	display = g_object_new (EAB_TYPE_CONTACT_DISPLAY, NULL);
 	p=display->priv = g_new0 (EABContactDisplayPrivate, 1);
 
 	gtk_html_set_default_content_type (GTK_HTML (display), "text/html; charset=utf-8");

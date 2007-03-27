@@ -188,24 +188,28 @@ static void
 column_width_changed (EMinicardViewWidget *w, double width, EABView *address_view)
 {
 	GalViewMinicard *view = GAL_VIEW_MINICARD (gal_view_instance_get_current_view (address_view->view_instance));
+	GtkScrolledWindow *scrolled_window;
+	GtkAdjustment *adj;
+	GtkAdjustment *adj_new;
+
 	d(g_print("%s: Old width = %f, New width = %f\n", G_GNUC_FUNCTION, view->column_width, width));
 	if (view->column_width != width) {
 		view->column_width = width;
 		gal_view_changed(GAL_VIEW(view));
 	}
 
-	GtkScrolledWindow * scrolled_window = GTK_SCROLLED_WINDOW(address_view->widget);
-	GtkAdjustment *adj = gtk_scrolled_window_get_hadjustment (scrolled_window);
-	GtkAdjustment *adj_new = gtk_adjustment_new(adj->value, adj->lower, adj->upper, adj->page_size, adj->page_increment,adj->page_size);
+	scrolled_window = GTK_SCROLLED_WINDOW(address_view->widget);
+	adj = gtk_scrolled_window_get_hadjustment (scrolled_window);
+	adj_new = gtk_adjustment_new(adj->value, adj->lower, adj->upper, adj->page_size, adj->page_increment,adj->page_size);
 	gtk_scrolled_window_set_hadjustment(scrolled_window, adj_new);
 }
 
 void
 gal_view_minicard_attach (GalViewMinicard *view, EABView *address_view)
 {
+	EMinicardViewWidget *emvw = E_MINICARD_VIEW_WIDGET (address_view->object);
 	gal_view_minicard_detach (view);
 
-	EMinicardViewWidget *emvw = E_MINICARD_VIEW_WIDGET (address_view->object);
 	view->emvw = emvw;
 
 	g_object_ref (view->emvw);

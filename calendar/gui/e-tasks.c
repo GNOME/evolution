@@ -1430,8 +1430,10 @@ e_tasks_open_task_id (ETasks *tasks,
 		return;
 	
 	for (l = tasks->priv->clients_list; l != NULL; l = l->next) {
+		ESource *client_src;
+
 		client = l->data;
-		ESource *client_src = e_cal_get_source (client);
+		client_src = e_cal_get_source (client);
 
 		if (!strcmp (src_uid, e_source_peek_uid (client_src)))
 			break;

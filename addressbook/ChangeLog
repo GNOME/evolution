@@ -1,3 +1,14 @@
+2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-editor/e-contact-quick-add.c:
+	* gui/component/addressbook-component.c:
+	* gui/component/addressbook-view.c:
+	* gui/widgets/eab-contact-display.c:
+	* gui/widgets/gal-view-minicard.c:
+	* gui/widgets/e-addressbook-view.c:
+	Don't mix declarations and code (#405495).
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

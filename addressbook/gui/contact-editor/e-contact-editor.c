@@ -606,12 +606,9 @@ sensitize_ok (EContactEditor *ce)
 {
 	GtkWidget *widget;
 	gboolean   allow_save;
-	GtkWidget *entry_fullname;
-	GtkWidget *entry_file_as;
-	GtkWidget *company_name;
-	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
-	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
-	company_name = glade_xml_get_widget (ce->gui, "entry-company");
+	GtkWidget *entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
+	GtkWidget *entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	GtkWidget *company_name = glade_xml_get_widget (ce->gui, "entry-company");
 	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
 	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
 	const char *company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));
@@ -3003,12 +3000,9 @@ save_contact (EContactEditor *ce, gboolean should_close)
 			return;
 	}
 
-	GtkWidget *entry_fullname;
-	GtkWidget *entry_file_as;
-	GtkWidget *company_name;
-	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
-	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
-	company_name = glade_xml_get_widget (ce->gui, "entry-company");
+	GtkWidget *entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
+	GtkWidget *entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	GtkWidget *company_name = glade_xml_get_widget (ce->gui, "entry-company");
 	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
 	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
 	const char *company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));

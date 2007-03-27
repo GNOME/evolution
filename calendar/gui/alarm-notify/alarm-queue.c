@@ -1082,8 +1082,10 @@ tray_list_remove_cqa_async(EThread *e, AlarmMsg *msg, void *data)
 		} else {
 			GtkTreeIter iter;
 			GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+			GtkTreeSelection *sel;
+
 			gtk_tree_model_get_iter_first (model, &iter);
-			GtkTreeSelection *sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+			sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 			gtk_tree_selection_select_iter (sel, &iter);
 		}
 	}
@@ -1579,6 +1581,7 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	char *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
+	NotifyNotification *n;
 	char *body;
 
 	d(printf("%s:%d (popup_notification)\n",__FILE__, __LINE__));
@@ -1627,7 +1630,7 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 			body = g_strdup_printf ("%s %s", start_str, time_str);			
 	}
 
-	NotifyNotification *n = notify_notification_new (summary, body, "stock_appointment-reminder", NULL);
+	n = notify_notification_new (summary, body, "stock_appointment-reminder", NULL);
 	if (!notify_notification_show(n, NULL))
 	    g_warning ("Could not send notification to daemon\n");	
 

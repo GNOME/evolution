@@ -279,6 +279,8 @@ source_selected (GtkWidget *source_option_menu, ESource *source, QuickAdd *qa)
 static GtkWidget *
 build_quick_add_dialog (QuickAdd *qa)
 {
+	ESourceList *source_list;
+	GConfClient *gconf_client;
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkTable *table;
@@ -311,9 +313,6 @@ build_quick_add_dialog (QuickAdd *qa)
 	qa->email_entry = gtk_entry_new ();
 	if (qa->email)
 		gtk_entry_set_text (GTK_ENTRY (qa->email_entry), qa->email);
-
-	ESourceList *source_list;
-	GConfClient *gconf_client;
 
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");

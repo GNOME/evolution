@@ -1,5 +1,11 @@
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
+	* e-cell-checkbox.c:
+	* e-table-header-item.c:
+	Don't mix declarations and code (#405495).
+
+2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #419524
 
 	* Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>.

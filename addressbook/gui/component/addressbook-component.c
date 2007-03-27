@@ -193,11 +193,10 @@ impl_createView (PortableServer_Servant servant,
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
 	AddressbookComponentPrivate *priv = addressbook_component->priv;
 	AddressbookView *view = addressbook_view_new ();
+	EComponentView *component_view;
 
 	g_object_weak_ref (G_OBJECT (view), view_destroyed_cb, addressbook_component);
 	priv->views = g_list_append (priv->views, view);
-
-	EComponentView *component_view;
 
 	component_view = e_component_view_new_controls (parent, "contacts",
 							bonobo_control_new (addressbook_view_peek_sidebar (view)),

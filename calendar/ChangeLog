@@ -1,3 +1,16 @@
+2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/comp-editor.c:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/memo-page.c:
+	* gui/dialogs/task-page.c:
+	* gui/e-cal-popup.c:
+	* gui/e-meeting-list-view.c:
+	* gui/e-tasks.c:
+	* gui/gnome-cal.c:
+	Don't mix declarations and code (#405495).
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

@@ -198,6 +198,9 @@ init_widgets(char *path)
 	ESource *primary;
 	GtkWidget *scrolled;
 	ICalImporterData *icidata = g_malloc0(sizeof(*icidata));
+	GtkWidget *icon, *button;
+	char *label_str = NULL;
+	char *markup;
 
 	g_return_if_fail ( path != NULL);
 	dialog = gtk_dialog_new_with_buttons (_("Import ICS"), 
@@ -225,7 +228,6 @@ init_widgets(char *path)
 	subcomp = icalcomponent_get_inner(icidata->icalcomp);
 	kind = icalcomponent_isa (subcomp);
 
-	char *label_str = NULL;
 	if (kind == ICAL_VTODO_COMPONENT ) {
 		e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_TODO, NULL);
 		label_str = _("Select Task List");
@@ -236,7 +238,6 @@ init_widgets(char *path)
 		icidata->source_type = E_CAL_SOURCE_TYPE_EVENT;
 	}
 
-	char *markup;
 	markup = g_markup_printf_escaped ("<b>%s</b>", label_str);
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	hbox = gtk_hbox_new (FALSE, FALSE);
@@ -261,12 +262,12 @@ init_widgets(char *path)
 
 	g_object_unref (source_list);
 	hbox = gtk_hbox_new (FALSE, FALSE);
-	GtkWidget *icon = e_icon_factory_get_image ("stock_mail-import", E_ICON_SIZE_MENU);
+	icon = e_icon_factory_get_image ("stock_mail-import", E_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX(hbox), icon, FALSE, FALSE, 6);
 	label = gtk_label_new_with_mnemonic (_("_Import"));
 	gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_widget_show(label);
-	GtkWidget *button = gtk_button_new ();
+	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), hbox);
 	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
 	gtk_widget_grab_focus (button); 

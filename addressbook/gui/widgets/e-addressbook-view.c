@@ -1844,12 +1844,13 @@ eab_view_print(EABView *view, int preview)
 		char *query;
 		EBook *book;
 		GtkWidget *print;
+		GList *list;
 
 		g_object_get (view->model,
 			      "query", &query,
 			      "book", &book,
 			      NULL);
-		GList *list = get_selected_contacts (view); 
+		list = get_selected_contacts (view); 
 		print = e_contact_print_dialog_new (book, query, list);
 
 		if (!preview)
@@ -1902,13 +1903,14 @@ eab_view_print_preview(EABView *view)
 		char *query;
 		EBook *book;
 		GtkWidget *dialog;
+		GList *list;
 
 		g_object_get (view->model,
 			      "query", &query,
 			      "book", &book,
 			      NULL);
 
-		GList *list = get_selected_contacts (view);
+		list = get_selected_contacts (view);
 		if (list != NULL)
 			dialog = e_contact_print_contact_list_dialog_new (list);
 		else
