@@ -1,3 +1,9 @@
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/e-cal-component-memo-preview.c (write_html):
+	Use a format string ("%s") when passing uncontrolled data to a
+	printf-style function (CVE-2007-1002).
+
 2007-03-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/event-page.c: (event_page_fill_component): Set the
