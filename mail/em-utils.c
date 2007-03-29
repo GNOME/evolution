@@ -42,10 +42,6 @@
 #undef interface
 #endif
 
-#if !GLIB_CHECK_VERSION (2, 8, 0)
-#define g_access access
-#endif
-
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-url-scanner.h>
 #include <camel/camel-file-utils.h>

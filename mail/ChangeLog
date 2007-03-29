@@ -1,5 +1,12 @@
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
+	* em-utils.c:
+	* mail-config.c:
+	Evolution requires GLib 2.10 now; remove dead backward-compatibility
+	code for GLib < 2.8 (#418971).
+
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
 	* em-account-editor.c:
 	* em-folder-view.c:
 	* em-format-html-display.c:

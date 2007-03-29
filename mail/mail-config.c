@@ -76,10 +76,6 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 
-#if !GLIB_CHECK_VERSION (2, 8, 0)
-#define g_creat creat
-#endif
-
 /* Note, the first element of each MailConfigLabel must NOT be translated */
 MailConfigLabel label_defaults[5] = {
 	{ "important", N_("I_mportant"), "#ff0000" },  /* red */

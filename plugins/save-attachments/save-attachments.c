@@ -32,10 +32,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#if !GLIB_CHECK_VERSION (2, 8, 0)
-#define g_access access
-#endif
-
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkmessagedialog.h>
