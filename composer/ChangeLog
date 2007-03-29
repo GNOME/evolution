@@ -1,3 +1,8 @@
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-msg-composer-select-file.c:
+	Fix "incompatible pointer type" warnings (#360619).
+
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-msg-composer.c: Don't mix declarations and code (#405495).

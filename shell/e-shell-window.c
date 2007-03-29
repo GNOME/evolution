@@ -862,7 +862,7 @@ impl_dispose (GObject *object)
 		self->priv->store_window_size_timer = 0;
 		
 		/* There was a timer. Let us store the settings.*/
-		store_window_size (self);		
+		store_window_size (GTK_WIDGET (self));		
 	}
 	
 	#ifdef NM_SUPPORT_GLIB

@@ -370,13 +370,13 @@ e_icon_entry_create_button (const char *stock)
 
 	eventbox = gtk_event_box_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (eventbox), 2);
-	gtk_event_box_set_visible_window ((eventbox), FALSE);
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (eventbox), FALSE);
 
 	image = gtk_image_new_from_stock (stock, GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (eventbox), image);
 
-	g_signal_connect_after (eventbox, "enter-notify-event", set_cursor, NULL);
-	g_signal_connect_after (eventbox, "leave-notify-event", set_cursor, NULL);
+	g_signal_connect_after (eventbox, "enter-notify-event", (GCallback) set_cursor, NULL);
+	g_signal_connect_after (eventbox, "leave-notify-event", (GCallback) set_cursor, NULL);
 
 	return eventbox;
 }

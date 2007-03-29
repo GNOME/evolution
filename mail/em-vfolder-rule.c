@@ -414,16 +414,16 @@ static void
 select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 {
 	em_vfolder_rule_with_t with;
-	GList *group = NULL;
+	GSList *group = NULL;
 	gint i = 0;	
 
-	if ( !gtk_toggle_button_get_active (widget) )
+	if ( !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)) )
 		return;
 
-	group = gtk_radio_button_get_group (widget);
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
-	for (i=0; i< g_list_length(group); i++) {
-		if ( g_list_nth_data (group, with = i) == widget ) 
+	for (i=0; i< g_slist_length(group); i++) {
+		if ( g_slist_nth_data (group, with = i) == widget ) 
 			break;
 	}
 
@@ -669,9 +669,9 @@ get_widget(FilterRule *fr, RuleContext *rc)
 
 	data->source_selector = (GtkWidget *)glade_xml_get_widget (gui, "source_selector");
 
-	rb = g_list_nth_data(gtk_radio_button_get_group (rb), vr->with);
-	gtk_toggle_button_set_active (rb, TRUE);
-	gtk_signal_emit_by_name (rb, "toggled");
+	rb = g_slist_nth_data(gtk_radio_button_get_group (rb), vr->with);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb), TRUE);
+	gtk_signal_emit_by_name (GTK_OBJECT (rb), "toggled");
 	
 	set_sensitive(data);
 		

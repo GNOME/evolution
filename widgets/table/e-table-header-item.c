@@ -1491,10 +1491,10 @@ static EPopupMenu ethi_context_menu [] = {
 static void
 sort_by_id (GtkWidget *menu_item, ETableHeaderItem *ethi)
 {
-	int col = GPOINTER_TO_INT (g_object_get_data(menu_item, "col-number"));
+	int col = GPOINTER_TO_INT (g_object_get_data(G_OBJECT (menu_item), "col-number"));
 	ETableCol *ecol;
 
-	if (!gtk_check_menu_item_get_active(menu_item))
+	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (menu_item)))
 		return;
 	
 	ecol = e_table_header_get_column (ethi->full_header, col);
@@ -1504,7 +1504,7 @@ sort_by_id (GtkWidget *menu_item, ETableHeaderItem *ethi)
 static void
 popup_custom (GtkWidget *menu_item, EthiHeaderInfo *info)
 {
-	if (!gtk_check_menu_item_get_active(menu_item))
+	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (menu_item)))
 		return;
 
 	ethi_popup_customize_view(menu_item, info);
@@ -1514,9 +1514,9 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
 	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
 	ETableCol *col;
-	GtkMenu *popup, *sub_menu;
+	GtkMenu *popup;
 	int ncol, sort_count, sort_col;
-	GtkWidget *menu_item;
+	GtkWidget *menu_item, *sub_menu;
 	GSList *group = NULL;
 	ETableSortColumn column;
 	gboolean ascending;
@@ -1537,7 +1537,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	gtk_widget_show (menu_item);
 	sub_menu = gtk_menu_new ();
 	gtk_widget_show (sub_menu);
-	gtk_menu_item_set_submenu (menu_item, sub_menu);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item), sub_menu);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (popup), menu_item);
 
 	sort_count = e_table_sort_info_sorting_get_count(ethi->sort_info);
@@ -1583,7 +1583,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 		
 		if (ncol == sort_col)
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-		g_object_set_data (menu_item, "col-number", GINT_TO_POINTER (ncol));
+		g_object_set_data (G_OBJECT (menu_item), "col-number", GINT_TO_POINTER (ncol));
 		g_signal_connect (menu_item, "activate", G_CALLBACK (sort_by_id), ethi);
 	}
 	

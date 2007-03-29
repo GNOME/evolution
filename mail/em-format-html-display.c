@@ -475,7 +475,7 @@ void em_format_html_display_set_caret_mode(EMFormatHTMLDisplay *efhd, gboolean s
 EAttachmentBar *
 em_format_html_display_get_bar (EMFormatHTMLDisplay *efhd)
 {
-	return efhd->priv->attachment_bar;
+	return E_ATTACHMENT_BAR (efhd->priv->attachment_bar);
 }
 
 void
@@ -628,16 +628,16 @@ clear_button_clicked_cb (GtkWidget *widget, gpointer dummy, EMFormatHTMLDisplay 
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
-	gtk_entry_set_text (p->search_entry, "");
+	gtk_entry_set_text (GTK_ENTRY (p->search_entry), "");
 
-	gtk_signal_emit_by_name (p->search_entry, "activate", efhd);
+	gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
 }
 
 /* Controlls the visibility of icon_entry's visibility */
 static void
 icon_entry_changed_cb (GtkWidget *widget, GtkWidget *clear_button)
 {
-	const char *text = gtk_entry_get_text (widget);
+	const char *text = gtk_entry_get_text (GTK_ENTRY (widget));
 
 	if (text && *text)
 		gtk_widget_show (clear_button);
@@ -661,15 +661,15 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	/* Icon entry */
 	icon_entry = e_icon_entry_new ();
 	p->search_entry = e_icon_entry_get_entry (E_ICON_ENTRY (icon_entry));
-	gtk_label_set_mnemonic_widget (label1, p->search_entry);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label1), p->search_entry);
 	gtk_widget_show (p->search_entry);
 	clear_button = e_icon_entry_create_button ("gtk-clear");
 	e_icon_entry_pack_widget (E_ICON_ENTRY (icon_entry), clear_button, FALSE);
 	gtk_widget_show_all (icon_entry);
 	gtk_widget_hide (clear_button);
 
-	g_signal_connect (G_OBJECT (clear_button), "button-press-event", clear_button_clicked_cb, efhd);
-	g_signal_connect (G_OBJECT (p->search_entry), "changed", icon_entry_changed_cb, clear_button);
+	g_signal_connect (G_OBJECT (clear_button), "button-press-event", (GCallback) clear_button_clicked_cb, efhd);
+	g_signal_connect (G_OBJECT (p->search_entry), "changed", (GCallback) icon_entry_changed_cb, clear_button);
 
 	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), icon_entry, FALSE, FALSE, 0);
 //	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), icon_entry, TRUE, TRUE, 0);
@@ -684,7 +684,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	gtk_box_pack_start ((GtkBox *)(hbox2), button3, FALSE, FALSE, 5);
 
 	button2 = gtk_button_new_with_mnemonic (_("_Next"));
-	gtk_button_set_image (button2, gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
+	gtk_button_set_image (GTK_BUTTON (button2), gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
 	gtk_widget_show (button2);
 	gtk_box_pack_start ((GtkBox *)(hbox2), button2, FALSE, FALSE, 5);
 
@@ -695,7 +695,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	p->search_matches_label = gtk_label_new ("");
 	gtk_widget_show (p->search_matches_label);
 	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_matches_label, TRUE, TRUE, 0);
-	p->search_dialog = (GtkWidget *)hbox2;
+	p->search_dialog = GTK_H_BOX (hbox2);
 	
 	p->search_wrap = FALSE;
 
@@ -715,7 +715,7 @@ static void
 set_focus_cb (GtkWidget *window, GtkWidget *widget, EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
-	GtkWidget *sbar = p->search_dialog;
+	GtkWidget *sbar = GTK_WIDGET (p->search_dialog);
 	
 	while (widget != NULL && widget != sbar) {
 		widget = widget->parent;
@@ -764,11 +764,11 @@ em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word)
                gtk_widget_show ( (GtkWidget *)(p->search_dialog));
 	       
 	       /* Set the query */
-	       gtk_entry_set_text ( (GtkWidget *) p->search_entry, word);
+	       gtk_entry_set_text (GTK_ENTRY (p->search_entry), word);
 	       gtk_widget_hide ( (GtkWidget *) p->search_entry_box);
 
 	       /* Trigger the search */
-	       gtk_signal_emit_by_name (p->search_entry, "activate", efhd);
+	       gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
 	}
 }
 
@@ -778,7 +778,7 @@ em_format_html_display_search_close (EMFormatHTMLDisplay *efhd)
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
 	if (p->search_dialog)
-		efhd_search_destroy(p->search_dialog, efhd);
+		efhd_search_destroy(GTK_WIDGET (p->search_dialog), efhd);
 }
 
 void

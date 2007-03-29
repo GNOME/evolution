@@ -388,7 +388,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), table);
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), GTK_WIDGET (table));
 	gtk_box_pack_start (GTK_BOX (gd->vbox), scrolled_window,TRUE, TRUE, 0); 
 	gtk_widget_set_usize (gd->vbox, 600,200);
 	gtk_widget_show (GTK_WIDGET (scrolled_window));	

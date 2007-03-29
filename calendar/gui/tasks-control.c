@@ -252,7 +252,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
 	BONOBO_UI_VERB ("TasksAssign", tasks_control_assign_cmd),
         BONOBO_UI_VERB ("TasksForward", tasks_control_forward_cmd),
-     	BONOBO_UI_VERB ("ViewPreview", tasks_control_view_preview),
 	BONOBO_UI_VERB_END
 };
 

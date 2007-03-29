@@ -7158,7 +7158,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			data->cal_view = (ECalendarView *)day_view;
 			data->day = day;
 			data->event_num = event_num;
-			data->get_view_event = tooltip_get_view_event;
+			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, int)) tooltip_get_view_event;
 			pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);
 			
 		return TRUE;

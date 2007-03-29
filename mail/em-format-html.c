@@ -1642,7 +1642,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		label = _(name);
 		
 		html = g_string_new("");
-		img = efh_format_address(emf, html, addrs, label);
+		img = efh_format_address(efh, html, addrs, label);
 		
 		if (img) {
 //			str_field = g_strdup_printf ("<table><tr><td valign=top>%s</td><td valign=top><b>%s:</b></td></tr></table>", img, label);

@@ -83,7 +83,7 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 							 NULL);
 	
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_OK);
-	gtk_file_chooser_set_local_only (selection, FALSE);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (selection), FALSE);
 	
 	if ((flags & SELECTOR_MODE_SAVE) == 0)
 		gtk_file_chooser_set_select_multiple ((GtkFileChooser *) selection, (flags & SELECTOR_MODE_MULTI));

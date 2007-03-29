@@ -1,3 +1,11 @@
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-table-header-utils.c:
+	* e-table-item.c:
+	* e-tree-header-item.c:
+	* e-tree-table-adapter.c:
+	Fix "incompatible pointer type" warnings (#360619).
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-cell-checkbox.c:

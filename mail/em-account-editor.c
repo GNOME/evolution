@@ -1777,7 +1777,7 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "management_default"));
 	if (!mail_config_get_default_account ()
 		|| (account == mail_config_get_default_account ())
-		|| (GPOINTER_TO_INT(g_object_get_data (emae->account, "default_flagged"))) )
+		|| (GPOINTER_TO_INT(g_object_get_data (G_OBJECT (emae->account), "default_flagged"))) )
 			gtk_toggle_button_set_active (gui->default_account, TRUE);
 
 	if (emae->do_signature) {
@@ -2625,7 +2625,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 	   editing multiple accounts at a time 
 	 */
 	if (gtk_toggle_button_get_active(emae->priv->default_account))
-		g_object_set_data (emae->account, "default_flagged", GINT_TO_POINTER(1));
+		g_object_set_data (G_OBJECT (emae->account), "default_flagged", GINT_TO_POINTER(1));
 
 	if (pageid == NULL || !strcmp(pageid, "00.identity")) {
 		/* TODO: check the account name is set, and unique in the account list */

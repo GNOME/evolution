@@ -1792,7 +1792,7 @@ mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder
 	camel_object_ref(folder);
 	m->uid = g_strdup(uid);
 	m->data = data;
-	m->done = done;
+	m->done = (void (*) (CamelFolder *, const char *, CamelMimeMessage *, void *)) done;
 	m->cancel = camel_operation_new(NULL, NULL);
 	
 	e_thread_put(thread, (EMsg *)m);
@@ -1830,7 +1830,7 @@ mail_get_messagex(CamelFolder *folder, const char *uid, void (*done) (CamelFolde
 	camel_object_ref(folder);
 	m->uid = g_strdup(uid);
 	m->data = data;
-	m->done = done;
+	m->done = (void (*) (CamelFolder *, const char *, CamelMimeMessage *, void *)) done;
 	m->cancel = camel_operation_new(NULL, NULL);
 	
 	e_thread_put(thread, (EMsg *)m);

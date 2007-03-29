@@ -559,7 +559,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	id = mail_config_folder_to_safe_url (emfv->folder);
 	p->view_instance = gal_view_instance_new (collection, id);
 	
-	show_wide = em_folder_browser_get_wide (emfv);
+	show_wide = em_folder_browser_get_wide ((EMFolderBrowser *) emfv);
 	if (show_wide) {
 		char *safe_id, *filename;
 		
@@ -1538,7 +1538,7 @@ emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
 	else  {
                 /* We are in top level. Just grab focus to Search Bar */
 		gtk_widget_grab_focus (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->entry);
-		gtk_option_menu_set_history (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->scopeoption, 3);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->scopeoption), 3);
 	}
 }
 
@@ -1943,7 +1943,7 @@ emfv_enable_menus(EMFolderView *emfv)
 			EMMenuTargetSelect *t;
 
 			t = em_menu_target_new_select(emfv->menu, emfv->folder, emfv->folder_uri, message_list_get_selected(emfv->list));
-			t->target.widget = emfv;
+			t->target.widget = GTK_WIDGET (emfv);
 			e_menu_update_target((EMenu *)emfv->menu, t);
 		}
 	}

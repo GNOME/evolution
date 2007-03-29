@@ -746,7 +746,8 @@ etta_proxy_no_change (ETreeModel *etm, ETreeTableAdapter *etta)
 	e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
-guint resort_model (ETreeTableAdapter *etta)
+static gboolean
+resort_model (ETreeTableAdapter *etta)
 {
 	etta_sort_info_changed (NULL, etta);
 	return FALSE;
@@ -761,7 +762,7 @@ etta_proxy_node_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter *ett
 	/* FIXME: Really it shouldnt be required. But a lot of thread
 	 * which were supposed to be present in the list is way below
 	 */
-	g_idle_add (resort_model, etta);
+	g_idle_add ((GSourceFunc) resort_model, etta);
 }
 
 static void

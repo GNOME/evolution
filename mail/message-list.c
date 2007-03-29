@@ -1551,9 +1551,9 @@ static ECell * create_composite_cell (int col)
 		      "color_column", COL_COLOUR,
 		      NULL);
 	
-	e_cell_hbox_append (cell_hbox, cell_from, show_email ? col : alt_col, 68);
-	e_cell_hbox_append (cell_hbox, cell_attach, COL_ATTACHMENT, 5);
-	e_cell_hbox_append (cell_hbox, cell_date, COL_SENT, 27);
+	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_from, show_email ? col : alt_col, 68);
+	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_attach, COL_ATTACHMENT, 5);
+	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_date, COL_SENT, 27);
 	
 	cell_sub = e_cell_text_new(fixed_name? fixed_name:NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell_sub),
@@ -1561,12 +1561,12 @@ static ECell * create_composite_cell (int col)
 		      "color_column", COL_COLOUR,
 		      NULL);	
 	cell_tree = e_cell_tree_new (NULL, NULL, TRUE, cell_sub);
-	e_cell_vbox_append (cell_vbox, cell_hbox, COL_FROM);
-	e_cell_vbox_append (cell_vbox, cell_tree, COL_SUBJECT);
+	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_hbox, COL_FROM);
+	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_tree, COL_SUBJECT);
 
-	g_object_set_data (cell_vbox, "cell_date", cell_date);
-	g_object_set_data (cell_vbox, "cell_sub", cell_sub);
-	g_object_set_data (cell_vbox, "cell_from", cell_from);
+	g_object_set_data (G_OBJECT (cell_vbox), "cell_date", cell_date);
+	g_object_set_data (G_OBJECT (cell_vbox), "cell_sub", cell_sub);
+	g_object_set_data (G_OBJECT (cell_vbox), "cell_from", cell_from);
 
 	g_free (fixed_name);
 
@@ -1576,8 +1576,8 @@ static ECell * create_composite_cell (int col)
 static void
 composite_cell_set_strike_col (ECell *cell, int col)
 {
-	g_object_set (g_object_get_data(cell, "cell_date"),  "strikeout_column", col, NULL);
-	g_object_set (g_object_get_data(cell, "cell_from"),  "strikeout_column", col, NULL);	
+	g_object_set (G_OBJECT (g_object_get_data(G_OBJECT (cell), "cell_date")),  "strikeout_column", col, NULL);
+	g_object_set (G_OBJECT (g_object_get_data(G_OBJECT (cell), "cell_from")),  "strikeout_column", col, NULL);	
 }
 	
 static ETableExtras *
@@ -1720,7 +1720,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		d(printf ("folder name is '%s'\n", name));
 		
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
-		g_object_set_data (((GnomeCanvasItem *) item)->canvas, "freeze-cursor", 1);
+		g_object_set_data (G_OBJECT (((GnomeCanvasItem *) item)->canvas), "freeze-cursor", 1);
 
 		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */

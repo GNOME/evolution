@@ -1,3 +1,8 @@
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-icon-entry.c:
+	Fix "incompatible pointer type" warnings (#360619).
+
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-filter-bar.c (menubar_activated): Fix build breakage due to

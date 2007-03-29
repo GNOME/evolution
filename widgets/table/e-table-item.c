@@ -1672,7 +1672,7 @@ eti_tree_unfreeze (GtkWidget *widget,  GdkEvent *event, ETableItem *eti)
 {
 
 	if (widget)
-		g_object_set_data (widget, "freeze-cursor", 0);
+		g_object_set_data (G_OBJECT (widget), "freeze-cursor", 0);
 
 	return FALSE;
 }

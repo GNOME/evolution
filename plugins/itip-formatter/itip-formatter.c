@@ -848,7 +848,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 			}
 		}
 
-		g_slist_foreach (attachments, g_free, NULL);
+		g_slist_foreach (attachments, (GFunc) g_free, NULL);
 		g_slist_free (attachments);
 				
 		e_cal_component_set_attachment_list (clone_comp, new_attachments);

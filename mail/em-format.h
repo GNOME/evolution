@@ -307,11 +307,11 @@ void em_format_pull_level(EMFormat *emf);
 #define em_format_format_clone(emf, folder, uid, msg, src) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), (src))
 /* formats a new message */
 #define em_format_format(emf, folder, uid, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), NULL)
-#define em_format_redraw(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf),				\
+#define em_format_redraw(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((EMFormat *)(emf),				\
 										       ((EMFormat *)(emf))->folder,	\
 										       ((EMFormat *)(emf))->uid,	\
 										       ((EMFormat *)(emf))->message,	\
-										       (emf))
+										       (EMFormat *)(emf))
 void em_format_format_error(EMFormat *emf, struct _CamelStream *stream, const char *fmt, ...);
 #define em_format_format_attachment(emf, stream, msg, type, info) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment((emf), (stream), (msg), (type), (info))
 #define em_format_format_source(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_source((emf), (stream), (msg))

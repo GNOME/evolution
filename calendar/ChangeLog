@@ -1,3 +1,10 @@
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/e-day-view.c:
+	* gui/e-week-view.c:
+	* gui/tasks-control.c:
+	Fix "incompatible pointer type" warnings (#360619).
+
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/alarm-notify/alarm-queue.c:

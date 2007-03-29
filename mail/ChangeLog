@@ -1,3 +1,17 @@
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-account-editor.c:
+	* em-folder-view.c:
+	* em-format-html-display.c:
+	* em-format-html.c:
+	* em-format.h:
+	* em-mailer-prefs.c:
+	* em-vfolder-rule.c:
+	* mail-ops.c:
+	* mail-send-recv.c:
+	* message-list.c:
+	Fix "incompatible pointer type" warnings (#360619).
+
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-mailer-prefs.c:
