@@ -36,8 +36,8 @@
 #include <bonobo/bonobo-generic-factory.h>
 
 #include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-font-picker.h>
 #include <gtk/gtkfilechooserbutton.h>
+#include <gtk/gtkfontbutton.h>
 
 #include <glade/glade.h>
 
@@ -545,12 +545,14 @@ custom_font_changed (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 }
 
 static void
-font_changed (GnomeFontPicker *fontpicker, const char *arg1, EMMailerPrefs *prefs)
+font_changed (GtkFontButton *font_button, EMMailerPrefs *prefs)
 {
-	const char *key;
+	const gchar *key;
+	const gchar *font_name;
 	
-	key = g_object_get_data ((GObject *) fontpicker, "key");
-	gconf_client_set_string (prefs->gconf, key, gnome_font_picker_get_font_name (fontpicker), NULL);
+	key = g_object_get_data (G_OBJECT (font_button), "key");
+	font_name = gtk_font_button_get_font_name (font_button);
+	gconf_client_set_string (prefs->gconf, key, font_name, NULL);
 }
 
 static void
@@ -861,8 +863,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	
 	/* Mail  Fonts */
 	font = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
-	prefs->font_fixed = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "FontFixed"));
-	gnome_font_picker_set_font_name (prefs->font_fixed, font);
+	prefs->font_fixed = GTK_FONT_BUTTON (glade_xml_get_widget (gui, "FontFixed"));
+	gtk_font_button_set_font_name (prefs->font_fixed, font);
 	g_free (font);
 	g_object_set_data ((GObject *) prefs->font_fixed, "key", "/apps/evolution/mail/display/fonts/monospace");
 	g_signal_connect (prefs->font_fixed, "font-set", G_CALLBACK (font_changed), prefs);
@@ -870,8 +872,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->font_fixed, FALSE);
 	
 	font = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
-	prefs->font_variable = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "FontVariable"));
-	gnome_font_picker_set_font_name (prefs->font_variable, font);
+	prefs->font_variable = GTK_FONT_BUTTON (glade_xml_get_widget (gui, "FontVariable"));
+	gtk_font_button_set_font_name (prefs->font_variable, font);
 	g_free (font);
 	g_object_set_data ((GObject *) prefs->font_variable, "key", "/apps/evolution/mail/display/fonts/variable");
 	g_signal_connect (prefs->font_variable, "font-set", G_CALLBACK (font_changed), prefs);

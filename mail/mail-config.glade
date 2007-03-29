@@ -4700,14 +4700,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GnomeFontPicker" id="FontFixed">
+				<widget class="GtkFontButton" id="FontFixed">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="title" translatable="yes">Select HTML fixed width font</property>
-				  <property name="mode">GNOME_FONT_PICKER_MODE_FONT_INFO</property>
+				  <property name="show_style">True</property>
 				  <property name="show_size">True</property>
-				  <property name="use_font_in_label">False</property>
-				  <property name="label_font_size">14</property>
+				  <property name="use_font">False</property>
+				  <property name="use_size">False</property>
 				  <property name="focus_on_click">True</property>
 				  <signal name="font_set" handler="changed"/>
 				</widget>
@@ -4722,14 +4722,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GnomeFontPicker" id="FontVariable">
+				<widget class="GtkFontButton" id="FontVariable">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="title" translatable="yes">Select HTML variable width font</property>
-				  <property name="mode">GNOME_FONT_PICKER_MODE_FONT_INFO</property>
+				  <property name="show_style">True</property>
 				  <property name="show_size">True</property>
-				  <property name="use_font_in_label">False</property>
-				  <property name="label_font_size">14</property>
+				  <property name="use_font">False</property>
+				  <property name="use_size">False</property>
 				  <property name="focus_on_click">True</property>
 				  <signal name="font_set" handler="changed"/>
 				</widget>
@@ -8560,14 +8560,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="GnomeFontPicker" id="print_fixed">
+		    <widget class="GtkFontButton" id="print_fixed">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="title" translatable="yes">Select HTML fixed width font for printing</property>
-		      <property name="mode">GNOME_FONT_PICKER_MODE_FONT_INFO</property>
+		      <property name="show_style">True</property>
 		      <property name="show_size">True</property>
-		      <property name="use_font_in_label">False</property>
-		      <property name="label_font_size">14</property>
+		      <property name="use_font">False</property>
+		      <property name="use_size">False</property>
 		      <property name="focus_on_click">True</property>
 		      <signal name="font_set" handler="changed"/>
 		    </widget>
@@ -8582,14 +8582,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="GnomeFontPicker" id="print_variable">
+		    <widget class="GtkFontButton" id="print_variable">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="title" translatable="yes">Select HTML variable width font for printing</property>
-		      <property name="mode">GNOME_FONT_PICKER_MODE_FONT_INFO</property>
+		      <property name="show_style">True</property>
 		      <property name="show_size">True</property>
-		      <property name="use_font_in_label">False</property>
-		      <property name="label_font_size">14</property>
+		      <property name="use_font">False</property>
+		      <property name="use_size">False</property>
 		      <property name="focus_on_click">True</property>
 		      <signal name="font_set" handler="changed"/>
 		    </widget>

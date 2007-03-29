@@ -1,5 +1,12 @@
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
+	* em-mailer-prefs.c:
+	* em-mailer-prefs.h:
+	* mail-config.glade:
+	Migrate from GnomeFontPicker to GtkFontButton (#373837).
+
+2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
+
 	* em-folder-browser.c:
 	* em-format.c:
 	* em-popup.c:
