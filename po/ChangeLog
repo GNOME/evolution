@@ -1,3 +1,7 @@
+2007-03-29  Stéphane Raimbault  <stephane.raimbault@gmail.com>
+
+	* fr.po: Fixed bug #419482 and an other string.
+
 2007-03-29  Peter Bach  <bach.peter@gmail.com>
 
 	* da.po: Updated Danish translation.
