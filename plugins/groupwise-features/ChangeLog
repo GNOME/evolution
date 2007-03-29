@@ -1,5 +1,9 @@
 2007-03-29  Sankar P  <psankar@novell.com>
 
+	Reverted the previous commit
+
+2007-03-29  Sankar P  <psankar@novell.com>
+
 	* status-track.c: (format_date), (track_status):
 	Rewritten GroupWise Status Tracking
 
