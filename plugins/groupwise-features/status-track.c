@@ -3,6 +3,7 @@
  *
  * Author(s): Chenthill Palanisamy <pchenthill@novell.com>
  *	      Parthasarathi Susarla <sparthasarathi@novell.com>
+ *	      Sankar P <psankar@novell.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -37,26 +38,14 @@
 #include <mail/em-folder-view.h>
 
 #include <e-gw-connection.h>
+#include "share-folder.h"
 
 
-void org_gnome_track_status (void *ep, EMPopupTargetSelect *t) ;
-void add_recipient (GtkTable *table, char *recp, int row) ;
-int add_detail (GtkTable *table, char *label, char *value, int row) ;
+void org_gnome_track_status (void *ep, EMPopupTargetSelect *t);
 
-void
-add_recipient (GtkTable *table, char *recp, int row)
+static char *
+format_date (const char * value)
 {
-	GtkWidget *widget ;
-
-	widget = gtk_label_new (recp) ;
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);
-}
-
-int
-add_detail (GtkTable *table, char *label, char *value, int row)
-{
-	GtkWidget *widget;
 	time_t time;
 	time_t actual_time;
 	char *str;
@@ -66,15 +55,7 @@ add_detail (GtkTable *table, char *label, char *value, int row)
 	str = ctime (&actual_time);
 
 	str [strlen(str)-1] = '\0';
-
-	widget = gtk_label_new (label);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_table_attach (table, widget , 1, 2, row,  row + 1, GTK_FILL, 0, 0, 0);
-	widget = gtk_label_new (str);
-	gtk_table_attach (table, widget , 2, 3, row,  row + 1, GTK_FILL, 0, 0, 0);
-	row++;
-
-	return row ;
+	return str;
 }
 
 static void 
@@ -84,34 +65,38 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *msg = NULL ;
 	const CamelInternetAddress *from ;
 	const char *namep, *addp ;
-	
+
 	GtkDialog *d ;
 	GtkTable *table ;
 	GtkWidget *widget;
 	GtkScrolledWindow *win;
 	GtkVBox *vbox;
-	
+
 	time_t time ;
 	char *time_str ;
-	
+
 	const char *status = NULL ;
-	char **temp1 = NULL, **temp2 = NULL , **ptr = NULL, *str = NULL ;
 
 	int row = 0;
 
-	/*check if it is a groupwise account*/
+	EGwConnection *cnc;
+	EGwItem *gwitem;
+
 	/*Get message*/
 	msg = camel_folder_get_message (t->folder, g_ptr_array_index (t->uids, 0), NULL);
 	if (!msg) {
 		g_print ("Error!! No message\n") ;
 		return ;
 	}
+
 	status = camel_medium_get_header ( CAMEL_MEDIUM(msg), "X-gw-status-opt") ;
 	if (!status) {
-		g_print ("Error!! No header\n") ;
+		g_print ("Error!! No header\n");
+		/* No need to make any call if this header is not available.
+		This is the server side identifier for sent-items */
 		return ;
 	} 
-	
+
 	/*Create the dialog*/
 	d = (GtkDialog *) gtk_dialog_new ();
 	gtk_dialog_add_button (d, GTK_STOCK_OK, GTK_RESPONSE_OK);
@@ -149,7 +134,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_table_attach (table, widget , 1, 2, row,  row + 1, GTK_FILL, 0, 0, 0);
 	row++;
-	
+
 	/*creation date*/
 	time = camel_mime_message_get_date (msg, NULL) ;
 	time_str = ctime (&time) ;
@@ -174,49 +159,73 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	gtk_table_set_col_spacings (table ,12);
 	gtk_table_set_row_spacings (table, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (table), FALSE, TRUE, 0);
-	widget = gtk_label_new (_("<b>Recipients </b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);
-	widget = gtk_label_new (_("<b>Action</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_table_attach (table, widget , 1, 2, row,  row + 1, GTK_FILL, 0, 0, 0);
-	widget = gtk_label_new (_("<b>Date and Time</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_table_attach (table, widget , 2, 3,  row,  row + 1, GTK_FILL, 0, 0, 0);
-	row++;
+	cnc = get_cnc (t->folder->parent_store);
 
-	
-	temp1 = g_strsplit (status, "::", -1) ;
-	ptr = temp1 ;
-	str = *ptr ;
-	while (str) {
-		temp2 = g_strsplit (str, ";", -1) ;
-		if (*temp2) {
-			if (strlen(temp2[0]));
-			if (strlen(temp2[1]))
-				add_recipient (table, temp2[1], row++);
-			/*we will decrement the row if there is info to be displayed in the same line*/
-			if (strlen(temp2[2]));
-			if (strlen(temp2[3]))
-				row = add_detail (table,"delivered" , temp2[3], --row);
-			if (strlen(temp2[4]))
-				row = add_detail (table,"opened" , temp2[3], row) ;
-			if (strlen(temp2[5]))
-				row = add_detail (table,"accepted" , temp2[3], row) ;
-			if (strlen(temp2[6]))
-				row = add_detail (table,"deleted" , temp2[3], row) ;
-			if (strlen(temp2[7]))
-				row = add_detail (table,"declined" , temp2[3], row) ;
-			if (strlen(temp2[8]))
-				row = add_detail (table,"completed" , temp2[3], row) ;
-			if (strlen(temp2[9]))
-				row = add_detail (table,"undelivered" , temp2[3], --row);
+	if (E_IS_GW_CONNECTION(cnc)) {
+		GSList *recipient_list;
+		e_gw_connection_get_item (cnc, get_container_id (cnc, "Sent Items"), g_ptr_array_index (t->uids, 0), "distribution recipientStatus", &gwitem);
+		recipient_list = e_gw_item_get_recipient_list (gwitem);
+		for (;recipient_list != NULL;  recipient_list = recipient_list->next)
+		{
+			EGwItemRecipient *recipient;
+			GString *label = NULL;
+
+			label = g_string_new("");
+			recipient = recipient_list->data;
+
+			if (recipient->display_name) {
+				label = g_string_append (label, "<b>");
+				label = g_string_append (label, _("Recipient: "));
+				label = g_string_append (label, recipient->display_name);
+				label = g_string_append (label, "</b>");
+				label = g_string_append_c (label, '\n');
+			}
+
+			if (recipient->delivered_date) {
+				label = g_string_append (label, _("Delivered: "));
+				label = g_string_append (label, format_date(recipient->delivered_date));
+				label = g_string_append_c (label, '\n');
+			}
+
+			if (recipient->opened_date) {
+				label = g_string_append (label, _("Opened: "));
+				label = g_string_append (label, format_date(recipient->opened_date));
+				label = g_string_append_c (label, '\n');
+			}
+			if (recipient->accepted_date) {
+				label = g_string_append (label, _("Accepted: "));
+				label = g_string_append (label, format_date(recipient->accepted_date));
+				label = g_string_append_c (label, '\n');
+			}
+			if (recipient->deleted_date) {
+				label = g_string_append (label, _("Deleted: "));
+				label = g_string_append (label, format_date(recipient->deleted_date));
+				label = g_string_append_c (label, '\n');
+			}
+			if (recipient->declined_date) {
+				label = g_string_append (label, _("Declined: "));
+				label = g_string_append (label, format_date(recipient->declined_date));
+				label = g_string_append_c (label, '\n');
+			}
+			if (recipient->completed_date) {
+				label = g_string_append (label, _("Completed: "));
+				label = g_string_append (label, format_date(recipient->completed_date));
+				label = g_string_append_c (label, '\n');
+			}
+			if (recipient->undelivered_date) {
+				label = g_string_append (label, _("Un-delivered: "));
+				label = g_string_append (label, format_date(recipient->undelivered_date));
+				label = g_string_append_c (label, '\n');
+			}
+
+			GtkLabel *detail;
+			detail = GTK_LABEL(gtk_label_new (label->str));
+			g_string_free (label, TRUE);
+			gtk_label_set_selectable (detail, TRUE);
+			gtk_label_set_use_markup (detail, TRUE);
+			gtk_table_attach (table, GTK_WIDGET(detail) , 1, 2, row,  row+1, GTK_FILL, 0, 0, 0);
+			row++;
 		}
-		str = *(++ptr) ;
-		g_strfreev (temp2) ;
 	}
 
 	/*set size and display the dialog*/
@@ -226,17 +235,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 		gtk_widget_destroy (GTK_WIDGET (d));
 	else
 		gtk_widget_destroy (GTK_WIDGET (d));
-
-	
-	g_strfreev (temp1) ;
-	
 }
-
-/*
- * The format for the options is:
- *			    0        1   2      3          4     5         6      7         8         9
- *     X-gw-status-opt: /TO/CC/BCC;name;email;delivered;opened;accepted;deleted;declined;completed;undelivered::
- */
 
 static EPopupItem popup_items[] = {
 { E_POPUP_ITEM, "20.emfv.02", N_("Track Message Status..."), track_status, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
