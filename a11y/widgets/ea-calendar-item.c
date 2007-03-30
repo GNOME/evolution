@@ -282,6 +282,8 @@ ea_calendar_item_get_name (AtkObject *accessible)
 	g_return_val_if_fail (EA_IS_CALENDAR_ITEM (accessible), NULL);
 
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+	if (!g_obj)
+ 		return NULL;
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (g_obj), NULL);
 
 	calitem = E_CALENDAR_ITEM (g_obj);
@@ -637,7 +639,8 @@ table_interface_is_row_selected (AtkTable *table,
 	row_index_end = row_index_start + EA_CALENDAR_COLUMN_NUM - 1;
 
 	calitem = E_CALENDAR_ITEM (g_obj);
-	e_calendar_item_get_selection (calitem, &start_date, &end_date);
+	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
+		return FALSE;
 
 	e_calendar_item_get_offset_for_date (calitem,
 					     g_date_get_year (&start_date),
@@ -689,7 +692,8 @@ table_interface_is_selected (AtkTable *table,
 	index = table_interface_get_index_at (table, row, column);
 
 	calitem = E_CALENDAR_ITEM (g_obj);
-	e_calendar_item_get_selection (calitem, &start_date, &end_date);
+	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
+		return FALSE;
 
 	e_calendar_item_get_offset_for_date (calitem,
 					     g_date_get_year (&start_date),
@@ -932,7 +936,8 @@ selection_interface_ref_selection (AtkSelection *selection, gint i)
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (ea_calitem));
 
 	calitem = E_CALENDAR_ITEM (g_obj);
-	e_calendar_item_get_selection (calitem, &start_date, &end_date);
+	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
+		return NULL;
 	if (!e_calendar_item_get_offset_for_date (calitem,
 						  g_date_get_year (&start_date),
 						  g_date_get_month (&start_date) - 1,
@@ -958,9 +963,10 @@ selection_interface_get_selection_count (AtkSelection *selection)
 		return 0;
 
 	calitem = E_CALENDAR_ITEM (g_obj);
-	e_calendar_item_get_selection (calitem, &start_date, &end_date);
-
-	return g_date_days_between (&start_date, &end_date) + 1;
+	if (e_calendar_item_get_selection (calitem, &start_date, &end_date))
+		return g_date_days_between (&start_date, &end_date) + 1;
+	else
+		return 0;
 }
 
 static gboolean

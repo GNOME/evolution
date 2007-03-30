@@ -1,3 +1,7 @@
+2007-03-30  Wang Xin  <jedy.wang@sun.com>
+
+	* widgets/ea-calendar-item.c: Fixes #415985 and #416028.
+
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-table/gal-a11y-e-cell-text.c:
