@@ -695,7 +695,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	p->search_matches_label = gtk_label_new ("");
 	gtk_widget_show (p->search_matches_label);
 	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_matches_label, TRUE, TRUE, 0);
-	p->search_dialog = GTK_H_BOX (hbox2);
+	p->search_dialog = GTK_HBOX (hbox2);
 	
 	p->search_wrap = FALSE;
 

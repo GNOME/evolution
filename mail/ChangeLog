@@ -1,3 +1,7 @@
+2007-03-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-format-html-display.c (icon_entry_changed_cb): Fix a typo.
+
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-utils.c:
