@@ -3,8 +3,8 @@
 	<e-plugin
 		type="shlib"
 		id="org.gnome.plugin.mailing-list.actions"
-		domain="eplug-mailing-list-actions"
-		location="@PLUGINDIR@/liborg-gnome-mailing-list-actions.so"
+		domain="@GETTEXT_PACKAGE@"
+		location="@PLUGINDIR@/liborg-gnome-mailing-list-actions@SOEXT@"
 		_name="Mailing List Actions">
 	    	<author name="Meilof Veeningen" email="meilof@wanadoo.nl"/>
 		<_description>Provide actions for common mailing list commands (subscribe, unsubscribe...).</_description>
