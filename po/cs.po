@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-30 16:04+0200\n"
-"PO-Revision-Date: 2007-03-30 16:03+0200\n"
+"POT-Creation-Date: 2007-04-02 11:17+0200\n"
+"PO-Revision-Date: 2007-04-02 11:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -710,7 +710,7 @@ msgid "Base"
 msgstr "Základ"
 
 #: ../addressbook/gui/component/addressbook-config.c:533
-#: ../calendar/gui/dialogs/calendar-setup.c:192
+#: ../calendar/gui/dialogs/calendar-setup.c:170
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Type:"
 msgstr "_Typ:"
@@ -722,9 +722,9 @@ msgstr "Zkopírovat obsah adresáře lokálně pro práci při odpojení"
 #: ../addressbook/gui/component/addressbook-config.c:984
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: ../calendar/gui/dialogs/calendar-setup.c:368
-#: ../calendar/gui/dialogs/calendar-setup.c:379
-#: ../calendar/gui/dialogs/calendar-setup.c:390
+#: ../calendar/gui/dialogs/calendar-setup.c:363
+#: ../calendar/gui/dialogs/calendar-setup.c:374
+#: ../calendar/gui/dialogs/calendar-setup.c:385
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
 #: ../plugins/itip-formatter/itip-formatter.c:2087
 #: ../smime/gui/smime-ui.glade.h:28
@@ -883,12 +883,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "K serveru LDAP se přistupuje anonymně"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:513
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:511
 msgid "Failed to authenticate.\n"
 msgstr "Nemohu se autentizovat.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:493
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:491
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Zadejte heslo pro %s (uživatel %s)"
@@ -1212,7 +1212,7 @@ msgid "_Login method:"
 msgstr "_Metoda přihlašování:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
-#: ../calendar/gui/dialogs/calendar-setup.c:245
+#: ../calendar/gui/dialogs/calendar-setup.c:223
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:7
 #: ../mail/mail-config.glade.h:165
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
@@ -2576,9 +2576,8 @@ msgid "Please select an image for this contact"
 msgstr "Zvolte prosím obrázek pro tento kontakt"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2796
-#, fuzzy
 msgid "_No image"
-msgstr "Žádný obrázek"
+msgstr "Žád_ný obrázek"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
 msgid ""
@@ -3397,12 +3396,12 @@ msgstr "Video chat"
 #: ../addressbook/gui/widgets/eab-contact-display.c:573
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:755
-#: ../calendar/gui/dialogs/calendar-setup.c:369
+#: ../calendar/gui/dialogs/calendar-setup.c:364
 #: ../calendar/gui/gnome-cal.c:2305
 #: ../plugins/exchange-operations/exchange-folder.c:569
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:402
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:433
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:546
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:400
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:431
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:544
 #: ../plugins/hula-account-setup/camel-hula-listener.c:381
 #: ../plugins/hula-account-setup/camel-hula-listener.c:410
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
@@ -4014,7 +4013,7 @@ msgid "Top:"
 msgstr "Nahoře:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
-#: ../calendar/gui/dialogs/calendar-setup.c:176
+#: ../calendar/gui/dialogs/calendar-setup.c:154
 msgid "Type:"
 msgstr "Typ:"
 
@@ -4620,8 +4619,8 @@ msgstr "Poznámky"
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
 #: ../plugins/exchange-operations/exchange-folder.c:581
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:403
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:547
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:401
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:545
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Úkoly"
@@ -4864,7 +4863,7 @@ msgstr "Implicitní hodnota připomínky"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Directory for saving alarm audio files"
-msgstr ""
+msgstr "Adresář pro ukládání zvukových souborů alarmů"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Event Gradient"
@@ -5544,7 +5543,7 @@ msgstr "_Navrhnout automatické zobrazovaní příloh"
 msgid "Attach file(s)"
 msgstr "Připojit soubory"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:498
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:479
 msgid "Selected Calendars for Alarms"
 msgstr "Vyberte kalendáře pro alarmy"
 
@@ -5797,47 +5796,47 @@ msgstr "_st"
 msgid "before every appointment"
 msgstr "před každou událostí"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:288
+#: ../calendar/gui/dialogs/calendar-setup.c:266
 #, fuzzy
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr "Zkopírovat obsah kalendáře lokálně pro práci při odpojení"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:290
+#: ../calendar/gui/dialogs/calendar-setup.c:268
 #, fuzzy
 msgid "Cop_y task list contents locally for offline operation"
 msgstr "Zkopírovat obsah seznamu úkolů lokálně pro práci při odpojení"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:292
+#: ../calendar/gui/dialogs/calendar-setup.c:270
 #, fuzzy
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr "Zkopírovat obsah seznamu poznámek lokálně pro práci při odpojení"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:343
+#: ../calendar/gui/dialogs/calendar-setup.c:340
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "C_olor:"
 msgstr "_Barva:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:380
+#: ../calendar/gui/dialogs/calendar-setup.c:375
 msgid "Task List"
 msgstr "Seznam úkolů"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:391
+#: ../calendar/gui/dialogs/calendar-setup.c:386
 msgid "Memo List"
 msgstr "Seznam poznámek"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:479
+#: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "Calendar Properties"
 msgstr "Vlastnosti kalendáře"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:481
+#: ../calendar/gui/dialogs/calendar-setup.c:477
 msgid "New Calendar"
 msgstr "Nový kalendář"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:566
+#: ../calendar/gui/dialogs/calendar-setup.c:562
 msgid "Task List Properties"
 msgstr "Vlastnosti seznamů úkolů"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:632
+#: ../calendar/gui/dialogs/calendar-setup.c:628
 msgid "New Memo List"
 msgstr "Nový seznam poznámek"
 
@@ -8413,9 +8412,9 @@ msgid "Unable to migrate tasks `%s'"
 msgstr "Nemohu převést úkoly `%s'"
 
 #: ../calendar/gui/migration.c:1211
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:404
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:435
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:548
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:402
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:433
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:546
 msgid "Notes"
 msgstr "Poznámky"
 
@@ -11256,7 +11255,7 @@ msgid "[Default]"
 msgstr "[Implicitní]"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:930
+#: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:941
 #: ../plugins/plugin-manager/plugin-manager.c:205
 #: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
@@ -11270,20 +11269,20 @@ msgstr "Název účtu"
 msgid "Protocol"
 msgstr "Protokol"
 
-#: ../mail/em-composer-prefs.c:311 ../mail/em-composer-prefs.c:437
+#: ../mail/em-composer-prefs.c:310 ../mail/em-composer-prefs.c:436
 #: ../mail/mail-config.c:1029
 msgid "Unnamed"
 msgstr "Beze jména"
 
-#: ../mail/em-composer-prefs.c:936
+#: ../mail/em-composer-prefs.c:947
 msgid "Language(s)"
 msgstr "Jazyky"
 
-#: ../mail/em-composer-prefs.c:979
+#: ../mail/em-composer-prefs.c:990
 msgid "Add signature script"
 msgstr "Přidat skript podpisu"
 
-#: ../mail/em-composer-prefs.c:999
+#: ../mail/em-composer-prefs.c:1010
 msgid "Signature(s)"
 msgstr "Podpisy"
 
@@ -12252,7 +12251,7 @@ msgstr "Skrytá kopie"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1665 ../mail/em-format-quote.c:322
-#: ../mail/em-mailer-prefs.c:1047
+#: ../mail/em-mailer-prefs.c:1028
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
@@ -13540,7 +13539,7 @@ msgstr "Digitálně _podepisovat odchozí zprávy (implicitně)"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Do not format text contents in mails if the text si_ze exceeds"
-msgstr ""
+msgstr "Neformátovat textový obsah zpráv, pokud _velikost textu překročí"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not quote original message"
@@ -15734,9 +15733,8 @@ msgid "<b>Tracking Options</b>"
 msgstr "<b>Možnosti sledování</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
-#, fuzzy
 msgid "Exchange - Send Options"
-msgstr "Činnosti pro Exchange"
+msgstr "Exchange - Volby odesílání"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
@@ -16144,7 +16142,7 @@ msgstr "Odhlásit složky"
 msgid "_Unsubscribe"
 msgstr "_Odhlásit se"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:434
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:432
 msgid "Checklist"
 msgstr "Seznam"
 
@@ -16177,9 +16175,8 @@ msgid "Install the shared folder"
 msgstr "Nainstalovat sdílenou složku"
 
 #: ../plugins/groupwise-features/install-shared.c:222
-#, fuzzy
 msgid "Shared Folder Installation"
-msgstr "Upozornění na sdílenou složku"
+msgstr "Instalace sdílené složky"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
@@ -16279,9 +16276,8 @@ msgid "_Not Shared"
 msgstr "_Nesdílena"
 
 #: ../plugins/groupwise-features/properties.glade.h:14
-#, fuzzy
 msgid "_Shared With..."
-msgstr "_Sdílena s ..."
+msgstr "_Sdíleno s ..."
 
 #: ../plugins/groupwise-features/properties.glade.h:15
 msgid "_Sharing"
@@ -16385,9 +16381,8 @@ msgid "Sharing"
 msgstr "Sdílení"
 
 #: ../plugins/groupwise-features/share-folder.c:765
-#, fuzzy
 msgid "Add   "
-msgstr "Př_idat "
+msgstr "Přidat   "
 
 #: ../plugins/groupwise-features/share-folder.c:771
 #, fuzzy
@@ -16395,9 +16390,8 @@ msgid "Modify"
 msgstr "Změněno"
 
 #: ../plugins/groupwise-features/status-track.c:103
-#, fuzzy
 msgid "Message Status"
-msgstr "Sledovat stav zprávy..."
+msgstr "Stav zprávy"
 
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:117
@@ -16406,54 +16400,44 @@ msgid "<b>Subject</b> :"
 msgstr "<b>_Výběr</b>"
 
 #: ../plugins/groupwise-features/status-track.c:129
-#, fuzzy
 msgid "<b>From</b> :"
-msgstr "<b>Doma</b>"
+msgstr "<b>Od</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:142
-#, fuzzy
 msgid "<b>Creation date</b> :"
-msgstr "<b>Možnosti kalendáře</b>"
+msgstr "<b>Datum vytvoření</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:178
-#, fuzzy
 msgid "Recipient: "
-msgstr "Příjemce"
+msgstr "Příjemce: "
 
 #: ../plugins/groupwise-features/status-track.c:185
-#, fuzzy
 msgid "Delivered: "
-msgstr "_Doručeno"
+msgstr "Doručeno: "
 
 #: ../plugins/groupwise-features/status-track.c:191
-#, fuzzy
 msgid "Opened: "
-msgstr "Otevřít"
+msgstr "Otevřeno: "
 
 #: ../plugins/groupwise-features/status-track.c:196
-#, fuzzy
 msgid "Accepted: "
-msgstr "Akceptováno"
+msgstr "Akceptováno: "
 
 #: ../plugins/groupwise-features/status-track.c:201
-#, fuzzy
 msgid "Deleted: "
-msgstr "Odstraněno"
+msgstr "Odstraněno: "
 
 #: ../plugins/groupwise-features/status-track.c:206
-#, fuzzy
 msgid "Declined: "
-msgstr "Zamítnuto"
+msgstr "Zamítnuto: "
 
 #: ../plugins/groupwise-features/status-track.c:211
-#, fuzzy
 msgid "Completed: "
-msgstr "Dokončený "
+msgstr "Dokončeno: "
 
 #: ../plugins/groupwise-features/status-track.c:216
-#, fuzzy
 msgid "Un-delivered: "
-msgstr "_Doručeno"
+msgstr "Nedoručeno: "
 
 #: ../plugins/groupwise-features/status-track.c:241
 msgid "Track Message Status..."
@@ -16478,9 +16462,8 @@ msgid "Custom Headers"
 msgstr "_Vlastní zpráva"
 
 #: ../plugins/imap-features/imap-headers.c:252
-#, fuzzy
 msgid "IMAP Headers"
-msgstr "Hlavičky"
+msgstr "Hlavičky IMAP"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
 #, fuzzy
@@ -16488,9 +16471,8 @@ msgid "<b>Custom Headers</b>"
 msgstr "<b>Uživatelé:</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
-#, fuzzy
 msgid "<b>IMAP Headers </b>"
-msgstr "<b>_Účastníci</b>"
+msgstr "<b>Hlavičky IMAP</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
@@ -21419,21 +21401,19 @@ msgstr "Text"
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:996
 msgid "Sho_w: "
-msgstr ""
+msgstr "_Zobrazit: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:1013
-#, fuzzy
 msgid "Sear_ch: "
-msgstr "Hledat"
+msgstr "_Hledat: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:1025
-#, fuzzy
 msgid " i_n "
-msgstr " a "
+msgstr " v "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -21957,9 +21937,8 @@ msgid "Sort By"
 msgstr "Řadit podle"
 
 #: ../widgets/table/e-table-header-item.c:1881
-#, fuzzy
 msgid "Font Description"
-msgstr "Popis události"
+msgstr "Popis písma"
 
 #: ../widgets/table/e-table-header-item.c:1902
 #: ../widgets/table/e-table-sorter.c:175
