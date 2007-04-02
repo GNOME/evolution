@@ -1,3 +1,4 @@
+# translation of cs.po to Czech
 # translation of cs.po to
 # Czech translation.
 # Copyright (C) 2002,2003, 2006, 2007 Free Software Foundation, Inc.
@@ -14,10 +15,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-27 14:27+0200\n"
-"PO-Revision-Date: 2007-03-27 14:30+0200\n"
-"Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
-"Language-Team:  <cs@li.org>\n"
+"POT-Creation-Date: 2007-04-02 17:10+0200\n"
+"PO-Revision-Date: 2007-04-02 17:11+0200\n"
+"Last-Translator: \n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17794,7 +17795,7 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Víta vás Evolution. Následujících několik obrazovek umožní Evolution "
+"Vítá vás Evolution. Následujících několik obrazovek umožní Evolution "
 "připojit se k vašim poštovním účtům a importovat soubory z jiných "
 "aplikací. \n"
 "\n"
