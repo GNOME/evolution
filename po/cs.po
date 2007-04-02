@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-02 11:17+0200\n"
-"PO-Revision-Date: 2007-04-02 11:15+0200\n"
+"POT-Creation-Date: 2007-04-02 16:55+0200\n"
+"PO-Revision-Date: 2007-04-02 16:57+0200\n"
 "Last-Translator: \n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -437,16 +437,14 @@ msgstr "Verze serveru"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
-msgstr ""
-"Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem"
+msgstr "Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "Adresář Evolution neočekávaně skončil."
 
 #: ../addressbook/addressbook.error.xml.h:20
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
+msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 "Obráze, který jse vybrali, je velký. Chcete změnit jeho velikost a uložit "
 "jej?"
@@ -526,8 +524,7 @@ msgid ""
 msgstr "V tomto kontaktu jste provedli změny. Chcete je uložit?"
 
 #: ../addressbook/addressbook.error.xml.h:34
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Vaše kontakty pro {0} nebudou k dispozici, dokud nebude Evolution znovu "
 "spuštěna."
@@ -1013,10 +1010,8 @@ msgid "Email address"
 msgstr "E-mailová adresa"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
-msgstr ""
-"Evolution bude používat tuto e-mailovou adresu k vaší autentizaci u serveru."
+msgid "Evolution will use this email address to authenticate you with the server."
+msgstr "Evolution bude používat tuto e-mailovou adresu k vaší autentizaci u serveru."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
@@ -1144,8 +1139,7 @@ msgstr ""
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr ""
-"Toto je plný název vašeho LDAP serveru. Například  \"ldap.mycompany.com\"."
+msgstr "Toto je plný název vašeho LDAP serveru. Například  \"ldap.mycompany.com\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
@@ -4085,8 +4079,7 @@ msgid "Export in asynchronous mode"
 msgstr "Exportovat v asynchronním režimu"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode, default size 100."
+msgid "The number of cards in one output file in asychronous mode, default size 100."
 msgstr ""
 "Počet karet v jednom souboru výstupu v asynchronním režimu, implicitní "
 "velikost 100."
@@ -4096,8 +4089,7 @@ msgid "NUMBER"
 msgstr "POČET"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Chyba v argumentech na příkazovém řádku, pro zobrazení použití prosím "
 "použijte přepínač --help."
@@ -4155,10 +4147,8 @@ msgstr ""
 "je obnovit."
 
 #: ../calendar/calendar.error.xml.h:4
-msgid ""
-"All information in this journal will be deleted and can not be restored."
-msgstr ""
-"Všechny informace o tomto deníku budou odstraněny a nebude možné je obnovit."
+msgid "All information in this journal will be deleted and can not be restored."
+msgstr "Všechny informace o tomto deníku budou odstraněny a nebude možné je obnovit."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
@@ -4175,10 +4165,8 @@ msgstr ""
 "obnovit."
 
 #: ../calendar/calendar.error.xml.h:7
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
-msgstr ""
-"Všechny informace o této události budou odstraněny a nebude možné je obnovit."
+msgid "All information on this appointment will be deleted and can not be restored."
+msgstr "Všechny informace o této události budou odstraněny a nebude možné je obnovit."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
@@ -4189,15 +4177,12 @@ msgstr ""
 "obnovit."
 
 #: ../calendar/calendar.error.xml.h:9
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
-msgstr ""
-"Všechny informace o této schůzce budou odstraněny a nebude je možné obnovit."
+msgid "All information on this meeting will be deleted and can not be restored."
+msgstr "Všechny informace o této schůzce budou odstraněny a nebude je možné obnovit."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
-"Všechny informace o tomto úkolu budou odstraněny a nebude možné je obnovit."
+msgstr "Všechny informace o tomto úkolu budou odstraněny a nebude možné je obnovit."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -4291,10 +4276,8 @@ msgstr ""
 "přijmout."
 
 #: ../calendar/calendar.error.xml.h:32
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
-msgstr ""
-"E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
+msgid "Email invitations will be sent to all participants and allow them to reply."
+msgstr "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
 
 #: ../calendar/calendar.error.xml.h:33
 msgid "Error loading calendar"
@@ -4366,8 +4349,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
-msgstr ""
-"Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem."
+msgstr "Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem."
 
 #: ../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
@@ -4472,13 +4454,11 @@ msgstr "Provedli jste změny této poznámky, ale ještě jste je neuložili."
 
 #: ../calendar/calendar.error.xml.h:67
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
-"Vaše kalendáře nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
+msgstr "Vaše kalendáře nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
 
 #: ../calendar/calendar.error.xml.h:68
 msgid "Your memos will not be available until Evolution is restarted."
-msgstr ""
-"Vaše poznámky nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
+msgstr "Vaše poznámky nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
 
 #: ../calendar/calendar.error.xml.h:69
 msgid "Your tasks will not be available until Evolution is restarted."
@@ -4814,21 +4794,18 @@ msgstr "Vyžadovat potvrzení před odstraňováním položek"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr ""
-"Barva pozadí úkolů, které mají být splněny dnes, ve formátu \"#rrggbb\"."
+msgstr "Barva pozadí úkolů, které mají být splněny dnes, ve formátu \"#rrggbb\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr ""
-"Barva pozadí úkolů, které již měly být splněny, ve formátu \"#rrggbb\"."
+msgstr "Barva pozadí úkolů, které již měly být splněny, ve formátu \"#rrggbb\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
 msgstr "Kalendáře, pro které spouštět alarmy"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr ""
 "Barva, kterou kreslit čáru Marca Bainse v liště času (prázdné pro "
 "implicitní)."
@@ -4903,13 +4880,11 @@ msgstr "Umístění vodorovného panelu"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr ""
-"Hodina, kdy končí pracovní den, ve dvacetičtyřhodinovém formátu, 0 až 23."
+msgstr "Hodina, kdy končí pracovní den, ve dvacetičtyřhodinovém formátu, 0 až 23."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr ""
-"Hodina, kdy začíná pracovní den, ve dvacetičtyřhodinovém formátu, 0 až 23."
+msgstr "Hodina, kdy začíná pracovní den, ve dvacetičtyřhodinovém formátu, 0 až 23."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Intervals shown in Day and Work Week views, in minutes."
@@ -5122,10 +5097,8 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "Jednotky implicitní připomínky, \"minutes\", \"hours\" nebo \"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"Jednotky pro určení, kdy skrývat úkoly, \"minutes\", \"hours\" nebo \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgstr "Jednotky pro určení, kdy skrývat úkoly, \"minutes\", \"hours\" nebo \"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid "Week start"
@@ -5160,8 +5133,7 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr "Jestli zobrazovat časy konců událostí v zobrazení týdne a měsíce."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr "Jestli v kalendáři kreslit čáru Marca Bainse (čáru v aktuální čas)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
@@ -5189,10 +5161,8 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole stav v editoru událost/úkol/schůzka"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:85
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Jestli zobrazovat časy ve dvacetičtyřhodinovém formátu místo používání am/pm."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
+msgstr "Jestli zobrazovat časy ve dvacetičtyřhodinovém formátu místo používání am/pm."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
 msgid "Whether to show timezone field in the event/meeting editor"
@@ -5563,10 +5533,8 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid ""
-"<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr ""
-"<i>%u a %d budou nahrazeny uživatelem a doménou z e-mailové adresy.</i>"
+msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgstr "<i>%u a %d budou nahrazeny uživatelem a doménou z e-mailové adresy.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:8
@@ -6074,8 +6042,7 @@ msgstr "příloha"
 #: ../calendar/gui/dialogs/comp-editor.c:2921
 #: ../calendar/gui/dialogs/comp-editor.c:2945
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
-"Změny provedené v této položce mohou být ztraceny, pokud dorazí aktualizace"
+msgstr "Změny provedené v této položce mohou být ztraceny, pokud dorazí aktualizace"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2969
 msgid "Unable to use current version!"
@@ -6503,8 +6470,7 @@ msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Měníte opakující se úkol. Co chcete změnit?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid ""
-"You are modifying a recurring journal entry. What would you like to modify?"
+msgid "You are modifying a recurring journal entry. What would you like to modify?"
 msgstr "Měníte opakující se zápis v deníku. Co chcete změnit?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
@@ -6525,8 +6491,7 @@ msgstr "Všechny instance"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:498
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
-"Tato událost obsahuje taková opakování, která Evolution nemůže editovat."
+msgstr "Tato událost obsahuje taková opakování, která Evolution nemůže editovat."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:819
 msgid "Recurrence date is invalid"
@@ -7612,8 +7577,7 @@ msgid ""
 msgstr "Schůzka byla zrušena, ale nedala se najít ve vašich kalendářích"
 
 #: ../calendar/gui/e-itip-control.c:1258
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr "Úkol byl zrušen, ale nedal se najít ve vašich seznamech úkolů"
 
 #: ../calendar/gui/e-itip-control.c:1337
@@ -7771,8 +7735,7 @@ msgstr "Požadavek na informace o volném/obsazeném čase"
 #: ../calendar/gui/e-itip-control.c:1497
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
-"<b>%s</b> odpověděl(-a) na požadavek na informace o volném/obsazeném čase."
+msgstr "<b>%s</b> odpověděl(-a) na požadavek na informace o volném/obsazeném čase."
 
 #: ../calendar/gui/e-itip-control.c:1498
 msgid "Free/Busy Reply"
@@ -7812,8 +7775,7 @@ msgstr "Tato reakce není od stávajícího účastníka. Přidat jako účastn�
 
 #: ../calendar/gui/e-itip-control.c:1986
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Stav účastníka nemůže být aktualizován, protože jeho stav není platný!\n"
+msgstr "Stav účastníka nemůže být aktualizován, protože jeho stav není platný!\n"
 
 #: ../calendar/gui/e-itip-control.c:2003
 msgid "Attendee status updated\n"
@@ -10444,8 +10406,7 @@ msgid "Insert Attachment"
 msgstr "Vložit přílohu"
 
 #: ../composer/e-msg-composer.c:830
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Nemohu podepsat odchozí zprávu: Pro tento účet nebyl nastaven podpisový "
 "certifikát"
@@ -10508,8 +10469,7 @@ msgstr "Napsat zprávu"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
-msgstr ""
-"<b>(Editor zpráv obsahuje netextové tělo zprávy, které nelze upravovat.)<b>"
+msgstr "<b>(Editor zpráv obsahuje netextové tělo zprávy, které nelze upravovat.)<b>"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
@@ -10531,8 +10491,7 @@ msgstr "Opravdu chcete zahodit zprávu s předmětem '{0}', kterou píšete?"
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr ""
-"Protože &quot;{0}&quot;, možná budete muset zvolit jiná nastavení pošty."
+msgstr "Protože &quot;{0}&quot;, možná budete muset zvolit jiná nastavení pošty."
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
 #: ../mail/mail.error.xml.h:19
@@ -10785,8 +10744,7 @@ msgstr "Pokud je zpráva poslána do elektronické konference, a ne mně osobně
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
-msgstr ""
-"Pokud je obdržena pošta s vyžádanou doručenkou, co má Evolution udělat?"
+msgstr "Pokud je obdržena pošta s vyžádanou doručenkou, co má Evolution udělat?"
 
 #: ../e-util/e-error.c:86 ../e-util/e-error.c:87 ../e-util/e-error.c:129
 msgid "Evolution Error"
@@ -11110,8 +11068,7 @@ msgid "Composer Preferences"
 msgstr "Nastavení editoru"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr "Zde nastavte možnosti pošty včetně zabezpečení a zobrazování zpráv"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -12015,8 +11972,7 @@ msgstr "Platný podpis"
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
-msgstr ""
-"Tato zpráva je podepsána a je platná, takže je velmi pravděpodobně pravá."
+msgstr "Tato zpráva je podepsána a je platná, takže je velmi pravděpodobně pravá."
 
 #: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:621
 msgid "Invalid signature"
@@ -12748,8 +12704,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Upozorňovat uživatele, když se pokusí vyčistit složku"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Upozorňovat uživatele, když se pokusí odeslat zprávu bez předmětu."
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
@@ -12762,8 +12717,7 @@ msgstr "Upozorňovat, když uživatel vyplní jen Bcc"
 
 #: ../mail/evolution-mail.schemas.in.in.h:70
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr ""
-"Upozorňovat, když se uživatel pokusí otevřít najednou 10 nebo více zpráv"
+msgstr "Upozorňovat, když se uživatel pokusí otevřít najednou 10 nebo více zpráv"
 
 #: ../mail/evolution-mail.schemas.in.in.h:71
 msgid ""
@@ -12870,8 +12824,7 @@ msgstr "_Poslat zprávu do konference"
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr ""
-"Datum, kdy bylo naposledy spuštěno vyprázdňování koše ve dnech od epoch."
+msgstr "Datum, kdy bylo naposledy spuštěno vyprázdňování koše ve dnech od epoch."
 
 #: ../mail/evolution-mail.schemas.in.in.h:97
 msgid "The terminal font for mail display"
@@ -13646,8 +13599,7 @@ msgstr "Editor zpráv"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr ""
-"Poznámka: na heslo budete dotázáni, až když se pokusíte poprvé připojit"
+msgstr "Poznámka: na heslo budete dotázáni, až když se pokusíte poprvé připojit"
 
 #: ../mail/mail-config.glade.h:104
 msgid "Or_ganization:"
@@ -13801,8 +13753,7 @@ msgstr "_Typ:"
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
-"Seznam jazyků zde obsahuje jen jazyky, pro které máte nainstalován slovník."
+msgstr "Seznam jazyků zde obsahuje jen jazyky, pro které máte nainstalován slovník."
 
 #: ../mail/mail-config.glade.h:144
 msgid ""
@@ -14310,16 +14261,12 @@ msgid "New Search Folder"
 msgstr "Nová složka hledání"
 
 #: ../mail/mail.error.xml.h:1
-msgid ""
-"A folder named &quot;{0}&quot; already exists. Please use a different name."
-msgstr ""
-"Složka nazvaná &quot;{0}&quot; již existuje. Použijte prosím jiný název."
+msgid "A folder named &quot;{0}&quot; already exists. Please use a different name."
+msgstr "Složka nazvaná &quot;{0}&quot; již existuje. Použijte prosím jiný název."
 
 #: ../mail/mail.error.xml.h:2
-msgid ""
-"A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr ""
-"Složka nazvaná &quot;{1}&quot; již existuje. Použijte prosím jiný název."
+msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgstr "Složka nazvaná &quot;{1}&quot; již existuje. Použijte prosím jiný název."
 
 #: ../mail/mail.error.xml.h:3
 msgid ""
@@ -14337,15 +14284,13 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
-msgstr ""
-"Bylo žádáno o doručenku o čtení &quot;{1}&quot;. Odeslat doručenku {0}?"
+msgstr "Bylo žádáno o doručenku o čtení &quot;{1}&quot;. Odeslat doručenku {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
-msgstr ""
-"Podpis nazvaný &quot;{1}&quot; již existuje. Použijte prosím jiný název."
+msgstr "Podpis nazvaný &quot;{1}&quot; již existuje. Použijte prosím jiný název."
 
 #: ../mail/mail.error.xml.h:8
 msgid ""
@@ -14364,8 +14309,7 @@ msgid "Are you sure you want to delete this account?"
 msgstr "Opravdu chcete odstranit tento účet?"
 
 #: ../mail/mail.error.xml.h:11
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
+msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "Opravdu chcete zakázat tento účet a odstranit všechny jeho proxy?"
 
 #: ../mail/mail.error.xml.h:12
@@ -14376,8 +14320,7 @@ msgstr "Opravdu chcete otevřít {0} zpráv najednou?"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr ""
-"Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze všech složek?"
+msgstr "Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze všech složek?"
 
 #: ../mail/mail.error.xml.h:14
 msgid ""
@@ -14789,8 +14732,7 @@ msgstr ""
 "povolen"
 
 #: ../mail/mail.error.xml.h:110
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "Tato zpráva nemůže být odeslána, protože jste nezadali žádné příjemce"
 
 #: ../mail/mail.error.xml.h:111
@@ -14867,8 +14809,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:127
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr ""
-"Vaše přihlašování k serveru &quot;{0}&quot; jako &quot;{0}&quot; selhalo."
+msgstr "Vaše přihlašování k serveru &quot;{0}&quot; jako &quot;{0}&quot; selhalo."
 
 #: ../mail/mail.error.xml.h:128
 msgid "_Append"
@@ -15130,8 +15071,7 @@ msgstr "Automatické kontakty"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:471
-msgid ""
-"_Automatically create entries in the addressbook when responding to mail"
+msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr "_Automaticky vytvářen položky v adresáři při odpovídání na poštu"
 
 #: ../plugins/bbdb/bbdb.c:477
@@ -15145,8 +15085,7 @@ msgstr "Kontakty·instant·messaging"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:507
-msgid ""
-"Periodically synchronize contact information and images from gaim buddy list"
+msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 "Pravidelně synchronizovat informace o kontaktech a obrázky z seznamu "
 "kamarádů aplikace gaim"
@@ -15280,8 +15219,7 @@ msgid "Check whether Evolution is the default mailer"
 msgstr "Kontrolovat, jestli je Evolution implicitní poštovní program"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 "Při každém startu Evolution kontrolovat, jestli je to implicitní poštovní "
 "program."
@@ -15482,8 +15420,7 @@ msgstr "Nové heslo:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
 msgid "Your current password has expired. Please change your password now."
-msgstr ""
-"Vašemu současnému heslu vypršela platnost. Teď prosím změňte vaše heslo."
+msgstr "Vašemu současnému heslu vypršela platnost. Teď prosím změňte vaše heslo."
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:663
 #, c-format
@@ -15795,8 +15732,7 @@ msgstr "Přihlásit se ke kalendáři jiného uživatele"
 msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
-msgstr ""
-"Zásuvný modul, jenž zpracuje kolekci činností a funkcí pro Exchange účet."
+msgstr "Zásuvný modul, jenž zpracuje kolekci činností a funkcí pro Exchange účet."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -15947,8 +15883,7 @@ msgstr "Pro tento účet není nastaven server Global Catalog."
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr ""
-"Pokud OWA běží na jiné cestě, musíte ji zadat v dialogu nastavení účtu."
+msgstr "Pokud OWA běží na jiné cestě, musíte ji zadat v dialogu nastavení účtu."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Mailbox for {0} is not on this server."
@@ -15964,8 +15899,7 @@ msgstr "Zkontrolute, že název serveru je zadán správně, a zkuste to znovu."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "Make sure the username and password are correct and try again."
-msgstr ""
-"Zkontrolute, že jméno uživatele a heslo jsou správné, a zkuste to znovu."
+msgstr "Zkontrolute, že jméno uživatele a heslo jsou správné, a zkuste to znovu."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 msgid "No Global Catalog server configured for this account."
@@ -16090,8 +16024,7 @@ msgstr ""
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr ""
-"Momentálně používáte: {0} KB. Teď nebudete moci odesílat ani přijímat poštu."
+msgstr "Momentálně používáte: {0} KB. Teď nebudete moci odesílat ani přijímat poštu."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid ""
@@ -16606,8 +16539,7 @@ msgstr "Nemohu otevřít kalendář/pracovní úkoly!"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
-msgstr ""
-"Nemohu otevřít pro export dat Evolution kalendář/seznam pracovních úkolů."
+msgstr "Nemohu otevřít pro export dat Evolution kalendář/seznam pracovních úkolů."
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
 #: ../plugins/itip-formatter/itip-formatter.c:395
@@ -16708,8 +16640,7 @@ msgstr "Připojený kalendář není platný"
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
-msgstr ""
-"Tato zpráva tvrdí, že obsahuje kalendář, ale kalendář není platný iCalendar."
+msgstr "Tato zpráva tvrdí, že obsahuje kalendář, ale kalendář není platný iCalendar."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1267
 #: ../plugins/itip-formatter/itip-formatter.c:1285
@@ -16935,8 +16866,7 @@ msgstr "<b>%s</b> si přeje být přidán(-a) na existující schůzku:"
 
 #: ../plugins/itip-formatter/itip-view.c:371
 #, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> si přeje získat nejnovější informace o následující schůzce:"
 
 #: ../plugins/itip-formatter/itip-view.c:374
@@ -17174,16 +17104,14 @@ msgstr "Formátovač itip"
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot;?"
-msgstr ""
-"&quot;{0}&quot; delegoval zchůzku. Chcete přidat delegáta &quot;{1}&quot;?"
+msgstr "&quot;{0}&quot; delegoval zchůzku. Chcete přidat delegáta &quot;{1}&quot;?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
 msgstr "Tato schůzka byla delegována"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 "Tato odpověď není od stávajícího účastníka. Přidat odesílatele jako "
 "účastníka?"
@@ -17219,8 +17147,7 @@ msgid "No store available"
 msgstr "Není k dispozici úložiště."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid ""
-"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
 "Zásuvný modul, který implementuje rozhraní CORBA pro vzdálený přístup k "
 "datům pošty."
@@ -17285,8 +17212,7 @@ msgstr "_Poštovní konference"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 #, fuzzy
-msgid ""
-"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr ""
 "Poskytovat akce pro běžné příkazy poštovních konferencí (přihlásit se, "
 "odhlásit se, ...)."
@@ -17867,11 +17793,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Víta vás Evolution. Následujících několik obrazovek umožní Evolution "
+"Vítá vás Evolution. Následujících několik obrazovek umožní Evolution "
 "připojit se k vašim poštovním účtům a importovat soubory z jiných "
 "aplikací. \n"
 "\n"
-"Pokračujte prosím kliknutím na tlačítko \"Vpřed\". "
+"Pokračujte prosím kliknutím na tlačítko Vpřed. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:135
 #, fuzzy
@@ -17961,8 +17887,7 @@ msgid "Last upgraded configuration version"
 msgstr "Verze posledního aktualizovaného nastavení"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Seznam cest ke složkám, které synchronizovat na disk pro použití v režimu "
 "odpojení"
@@ -18048,8 +17973,7 @@ msgid "Whether the toolbar should be visible."
 msgstr "Jestli má být lišta nástrojů viditelná."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:26
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "Jestli se přeskakuje dialog varování ve vývojových verzích Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:27
@@ -18795,10 +18719,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Máte certifikáty od těchto organizací, které vás identifikují:"
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
-msgstr ""
-"Máte uloženy certifikáty, které identifikují tyto certifikační autority:"
+msgid "You have certificates on file that identify these certificate authorities:"
+msgstr "Máte uloženy certifikáty, které identifikují tyto certifikační autority:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
@@ -19734,8 +19656,7 @@ msgid "Hide _Read Messages"
 msgstr "Skrýt _přečtené zprávy"
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Skrýt odstraněné zprávy místo zobrazování přeškrtnutě"
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -20647,8 +20568,7 @@ msgstr "Ukončit program"
 
 #: ../ui/evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr ""
-"Zapomenout zapamatovaná hesla, takže budete znovu vyzváni k jejich zadání"
+msgstr "Zapomenout zapamatovaná hesla, takže budete znovu vyzváni k jejich zadání"
 
 #: ../ui/evolution.xml.h:12
 msgid "Hide window buttons"
@@ -22115,3 +22035,4 @@ msgstr "Kontext IM"
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr "Obsloužit kontextovou nabídku"
+
