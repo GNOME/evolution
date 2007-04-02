@@ -17,14 +17,15 @@
 # Stéphane Raimbault <stephane.raimbault@gmail.com>, 2005-2007.
 # Robert-André Mauchin <zebob.m@gmail.com>, 2006-2007.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006-2007.
+# Claude Paroz <claude@2xlibre.net>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-28 23:06+0100\n"
-"PO-Revision-Date: 2007-03-29 20:14+0200\n"
-"Last-Translator: Stéphane Raimbault <stephane.raimbault@gmail.com>\n"
+"PO-Revision-Date: 2007-04-02 21:35+0200\n"
+"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18914,11 +18915,11 @@ msgstr "<b>Empreintes numériques</b>"
 
 #: ../smime/gui/smime-ui.glade.h:6
 msgid "<b>Issued By</b>"
-msgstr "<b>Émis Par</b>"
+msgstr "<b>Émis par</b>"
 
 #: ../smime/gui/smime-ui.glade.h:7
 msgid "<b>Issued To</b>"
-msgstr "<b>Émis Pour</b>"
+msgstr "<b>Émis pour</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
@@ -18955,7 +18956,7 @@ msgstr "Certificat"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
-msgstr "Autorité de certification non autorisée"
+msgstr "Approbation d'autorité de certification"
 
 #: ../smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
@@ -18971,7 +18972,7 @@ msgstr "Nom courant (NC)"
 
 #: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
-msgstr "Contact des certificats"
+msgstr "Certificats des contacts"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
@@ -18987,15 +18988,15 @@ msgstr "Éditer"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
-msgstr "Paramètres d'approbation du certificat du message électronique"
+msgstr "Paramètres d'approbation du certificat de courriel"
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
-msgstr "Certificat du destinataire du courriel"
+msgstr "Certificat de destinataire de courriel"
 
 #: ../smime/gui/smime-ui.glade.h:26
 msgid "Email Signer Certificate"
-msgstr "Certificat de signataire du courriel"
+msgstr "Certificat de signataire de courriel"
 
 #: ../smime/gui/smime-ui.glade.h:27
 msgid "Expires On"
@@ -19027,11 +19028,11 @@ msgstr "Empreinte numérique SHA1"
 
 #: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:819
 msgid "SSL Client Certificate"
-msgstr "Certificat SSL du client"
+msgstr "Certificat de client SSL"
 
 #: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:823
 msgid "SSL Server Certificate"
-msgstr "Certificat SSL du serveur"
+msgstr "Certificat de serveur SSL"
 
 #: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
