@@ -213,7 +213,7 @@ ensure_sources (MemosComponent *component)
 			calendar_config_set_memos_selected (&selected);
 		}
 
-		e_source_set_color (source, 0xBECEDD);
+		e_source_set_color_spec (source, "#BECEDD");
 		personal_source = source;
 	}
 

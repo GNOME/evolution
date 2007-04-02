@@ -26,7 +26,7 @@
 #endif
 
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-color-picker.h>
+#include <gtk/gtkcolorbutton.h>
 
 #include "libedataserver/e-sexp.h"
 #include "filter-colour.h"
@@ -120,13 +120,11 @@ filter_colour_new (void)
 static int
 colour_eq (FilterElement *fe, FilterElement *cm)
 {
-	FilterColour *fc = (FilterColour *)fe, *cc = (FilterColour *)cm;
-	
-        return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
-		&& fc->r == cc->r
-		&& fc->g == cc->g
-		&& fc->b == cc->b
-		&& fc->a == cc->a;
+	FilterColour *fc = (FilterColour *) fe;
+	FilterColour *cc = (FilterColour *) cm;
+
+	return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
+		&& gdk_color_equal (&fc->color, &cc->color);
 }
 
 static void
@@ -139,76 +137,70 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 static xmlNodePtr
 xml_encode (FilterElement *fe)
 {
-	xmlNodePtr value;
 	FilterColour *fc = (FilterColour *)fe;
-	char hex[16];
-	
-	d(printf("Encoding colour as xml\n"));
+	xmlNodePtr value;
+	gchar spec[16];
+
+	g_snprintf (spec, sizeof (spec), "#%04x%04x%04x",
+		fc->color.red, fc->color.green, fc->color.blue);
+
 	value = xmlNewNode(NULL, "value");
 	xmlSetProp(value, "name", fe->name);
 	xmlSetProp(value, "type", "colour");
-	
-	sprintf(hex, "%04x", fc->r);
-	xmlSetProp(value, "red", hex);
-	sprintf(hex, "%04x", fc->g);
-	xmlSetProp(value, "green", hex);
-	sprintf(hex, "%04x", fc->b);
-	xmlSetProp(value, "blue", hex);
-	sprintf(hex, "%04x", fc->a);
-	xmlSetProp(value, "alpha", hex);
-	
+	xmlSetProp(value, "spec", spec);
+
 	return value;
 }
-
-static guint16
-get_value (xmlNodePtr node, char *name)
-{
-	unsigned int ret;
-	char *value;
-	
-	value = xmlGetProp(node, name);
-	sscanf(value, "%04x", &ret);
-	xmlFree(value);
-	return ret;
-}
-
 
 static int
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterColour *fc = (FilterColour *)fe;
-	
+	xmlChar *prop;
+
 	xmlFree (fe->name);
 	fe->name = xmlGetProp(node, "name");
-	fc->r = get_value(node, "red");
-	fc->g = get_value(node, "green");
-	fc->b = get_value(node, "blue");
-	fc->a = get_value(node, "alpha");
-	
+
+	prop = xmlGetProp(node, "spec");
+	if (prop != NULL) {
+		gdk_color_parse(prop, &fc->color);
+		xmlFree (prop);
+	} else {
+		/* try reading the old RGB properties */
+		prop = xmlGetProp(node, "red");
+		sscanf(prop, "%" G_GINT16_MODIFIER "x", &fc->color.red);
+		xmlFree (prop);
+		prop = xmlGetProp(node, "green");
+		sscanf(prop, "%" G_GINT16_MODIFIER "x", &fc->color.green);
+		xmlFree (prop);
+		prop = xmlGetProp(node, "blue");
+		sscanf(prop, "%" G_GINT16_MODIFIER "x", &fc->color.blue);
+		xmlFree (prop);
+	}
+
 	return 0;
 }
 
 static void
-set_colour (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, FilterColour *fc)
+set_color (GtkColorButton *color_button, FilterColour *fc)
 {
-	fc->r = r;
-	fc->g = g;
-	fc->b = b;
-	fc->a = a;
+	gtk_color_button_get_color (color_button, &fc->color);
 }
 
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
 	FilterColour *fc = (FilterColour *) fe;
-	GnomeColorPicker *cp;
+	GtkWidget *color_button;
+
+	color_button = gtk_color_button_new_with_color (&fc->color);
+	gtk_widget_show (color_button);
+
+	g_signal_connect (
+		G_OBJECT (color_button), "color_set",
+		G_CALLBACK (set_color), fe);
 	
-	cp = (GnomeColorPicker *) gnome_color_picker_new ();
-	gnome_color_picker_set_i16 (cp, fc->r, fc->g, fc->b, fc->a);
-	gtk_widget_show ((GtkWidget *) cp);
-	g_signal_connect (cp, "color_set", G_CALLBACK (set_colour), fe);
-	
-	return (GtkWidget *) cp;
+	return color_button;
 }
 
 static void
@@ -221,9 +213,9 @@ static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterColour *fc = (FilterColour *)fe;
-	char *str;
-	
-	str = g_strdup_printf ("#%02x%02x%02x", (fc->r >> 8) & 0xff, (fc->g >> 8) & 0xff, (fc->b >> 8) & 0xff);
-	e_sexp_encode_string (out, str);
-	g_free (str);
+	gchar spec[16];
+
+	g_snprintf (spec, sizeof (spec), "#%04x%04x%04x",
+		fc->color.red, fc->color.green, fc->color.blue);
+	e_sexp_encode_string (out, spec);
 }

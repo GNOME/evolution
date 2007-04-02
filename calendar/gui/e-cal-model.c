@@ -947,7 +947,7 @@ static const char *
 ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 {
 	ESource *source;
-	guint32 source_color;
+	const gchar *color_spec;
 	gint i, first_empty = 0;
 	static AssignedColorData assigned_colors[] = {
 		{ "#BECEDD", NULL }, /* 190 206 221     Blue */
@@ -965,9 +965,10 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
 	source = e_cal_get_source (comp_data->client);
-	if (e_source_get_color (source, &source_color)) {
+	color_spec = e_source_peek_color_spec (source);
+	if (color_spec != NULL) {
 		g_free (comp_data->color);
-		comp_data->color = g_strdup_printf ("#%06x", source_color & 0xffffff);
+		comp_data->color = g_strdup (color_spec);
 		return comp_data->color;
 	}
                                                                    

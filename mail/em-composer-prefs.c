@@ -56,9 +56,8 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
-
+#include <gtk/gtkcolorbutton.h>
 #include <gtk/gtkfilechooserbutton.h>
-#include <libgnomeui/gnome-color-picker.h>
 
 #include <gtkhtml/gtkhtml.h>
 
@@ -545,7 +544,7 @@ spell_set_ui (EMComposerPrefs *prefs)
 	GtkTreeIter iter;
 	GError *err = NULL;
 	char **strv = NULL;
-	guint r, g, b;
+	GdkColor color;
 	gboolean go;
 	char *lang;
 	int i;
@@ -580,21 +579,33 @@ spell_set_ui (EMComposerPrefs *prefs)
 	if (strv != NULL)
 		g_strfreev (strv);
 	
-	r = gconf_client_get_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_red", NULL);
-	g = gconf_client_get_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_green", NULL);
-	b = gconf_client_get_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_blue", NULL);
-	
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (prefs->colour), r, g, b, 0xffff);
+	color.red = gconf_client_get_int (prefs->gconf,
+		GNOME_SPELL_GCONF_DIR "/spell_error_color_red", NULL);
+	color.green = gconf_client_get_int (prefs->gconf,
+		GNOME_SPELL_GCONF_DIR "/spell_error_color_green", NULL);
+	color.blue = gconf_client_get_int (prefs->gconf,
+		GNOME_SPELL_GCONF_DIR "/spell_error_color_blue", NULL);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (prefs->color), &color);
 	
 	prefs->spell_active = TRUE;
 }
 
 static void
-spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, EMComposerPrefs *prefs)
+spell_color_set (GtkColorButton *color_button, EMComposerPrefs *prefs)
 {
-	gconf_client_set_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_red", r, NULL);
-	gconf_client_set_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_green", g, NULL);
-	gconf_client_set_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_blue", b, NULL);
+	GdkColor color;
+
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (color_button), &color);
+
+	gconf_client_set_int (prefs->gconf,
+		GNOME_SPELL_GCONF_DIR "/spell_error_color_red",
+		color.red, NULL);
+	gconf_client_set_int (prefs->gconf,
+		GNOME_SPELL_GCONF_DIR "/spell_error_color_green",
+		color.green, NULL);
+	gconf_client_set_int (prefs->gconf,
+		GNOME_SPELL_GCONF_DIR "/spell_error_color_blue",
+		color.blue, NULL);
 }
 
 static char *
@@ -676,7 +687,7 @@ spell_setup (EMComposerPrefs *prefs)
 	
 	spell_set_ui (prefs);
 	
-	widget = glade_xml_get_widget (prefs->gui, "colorpickerSpellCheckColor");
+	widget = glade_xml_get_widget (prefs->gui, "colorButtonSpellCheckColor");
 	g_signal_connect (widget, "color_set", G_CALLBACK (spell_color_set), prefs);
 }
 
@@ -922,7 +933,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	g_free (buf);
 	
 	/* Spell Checking: GNOME Spell part */
-	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
+	prefs->color = GTK_COLOR_BUTTON (glade_xml_get_widget (gui, "colorButtonSpellCheckColor"));
 	prefs->language = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSpellCheckLanguage"));
 	model = gtk_list_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 	gtk_tree_view_set_model (prefs->language, (GtkTreeModel *) model);
@@ -942,7 +953,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
 	gtk_image_set_from_stock (GTK_IMAGE (info_pixmap), GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
 	if (!spell_setup_check_options (prefs)) {
-		gtk_widget_hide (GTK_WIDGET (prefs->colour));
+		gtk_widget_hide (GTK_WIDGET (prefs->color));
 		gtk_widget_hide (GTK_WIDGET (prefs->language));
 	}
 	

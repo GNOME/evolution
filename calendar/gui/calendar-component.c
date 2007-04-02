@@ -252,7 +252,7 @@ ensure_sources (CalendarComponent *component)
 		}
 
 		g_free (primary_calendar);
-		e_source_set_color (personal_source, 0xBECEDD);
+		e_source_set_color_spec (personal_source, "#BECEDD");
 	}
 
 	if (!on_the_web) {

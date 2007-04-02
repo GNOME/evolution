@@ -406,7 +406,7 @@ create_calendar_contact_source (ESourceList *source_list)
 	e_source_group_add_source (group, source, -1);
 	g_object_unref (source);
 
-	e_source_set_color (source, 0xFED4D3);
+	e_source_set_color_spec (source, "#FED4D3");
 	e_source_group_set_readonly (group, TRUE);
 
 	return group;
@@ -497,7 +497,7 @@ create_calendar_sources (CalendarComponent *component,
 		}
 
 		g_free (primary_calendar);		
-		e_source_set_color (source, 0xBECEDD);
+		e_source_set_color_spec (source, "#BECEDD");
 		*personal_source = source;
 	}
 
@@ -590,7 +590,7 @@ create_task_sources (TasksComponent *component,
 			calendar_config_set_tasks_selected (&selected);
 		}
 
-		e_source_set_color (source, 0xBECEDD);
+		e_source_set_color_spec (source, "#BECEDD");
 		*personal_source = source;
 	}
 
@@ -1098,7 +1098,7 @@ create_memo_sources (MemosComponent *component,
 			calendar_config_set_memos_selected (&selected);
 		}
 
-		e_source_set_color (source, 0xBECEDD);
+		e_source_set_color_spec (source, "#BECEDD");
 		*personal_source = source;
 	}
 
@@ -1161,7 +1161,7 @@ add_gw_esource (ESourceList *source_list, const char *group_name,  const char *s
 	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
 
-	e_source_set_color (source, 0xEEBC60);
+	e_source_set_color_spec (source, "#EEBC60");
 	e_source_group_add_source (group, source, -1);
 
 	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);

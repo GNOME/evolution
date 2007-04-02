@@ -37,7 +37,6 @@ struct _GtkOptionMenu;
 struct _GdkPixbuf;
 struct _GtkWidget;
 struct _GladeXML;
-struct _GnomeColorPicker;
 struct _GtkFileChooserbutton;
 struct _GtkFontButton;
 struct _GConfClient;
@@ -80,7 +79,7 @@ struct _EMMailerPrefs {
 	struct _GtkSpinButton *mlimit_count;
 	struct _GtkOptionMenu *charset;
 	struct _GtkToggleButton *citation_highlight;
-	struct _GnomeColorPicker *citation_color;
+	struct _GtkColorButton *citation_color;
 	
 	/* Deleting Mail */
 	struct _GtkToggleButton *empty_trash;
@@ -110,7 +109,7 @@ struct _EMMailerPrefs {
 	/* Labels and Colours tab */
 	struct {
 		struct _GtkEntry *name;
-		struct _GnomeColorPicker *color;
+		struct _GtkColorButton *color;
 	} labels[5];
 	struct _GtkButton *restore_labels;
 

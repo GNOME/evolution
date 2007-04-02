@@ -293,12 +293,10 @@ copy_value(FilterElement *de, FilterElement *se)
 		}
 	} else if (IS_FILTER_COLOUR(se)) {
 		if (IS_FILTER_COLOUR(de)) {
-			FilterColour *s = (FilterColour *)se, *d = (FilterColour *)de;
+			FilterColour *s = (FilterColour *)se;
+			FilterColour *d = (FilterColour *)de;
 
-			d->r = s->r;
-			d->g = s->g;
-			d->b = s->b;
-			d->a = s->a;
+			d->color = s->color;
 		}
 	} else if (IS_FILTER_DATESPEC(se)) {
 		if (IS_FILTER_DATESPEC(de)) {

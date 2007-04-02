@@ -5139,10 +5139,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GnomeColorPicker" id="colorpickerHighlightCitations">
+				<widget class="GtkColorButton" id="colorButtonHighlightCitations">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="dither">True</property>
 				  <property name="use_alpha">False</property>
 				  <property name="title" translatable="yes">Pick a color</property>
 				  <property name="focus_on_click">True</property>
@@ -6080,10 +6079,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <property name="column_spacing">6</property>
 
 		  <child>
-		    <widget class="GnomeColorPicker" id="colorLabel0">
+		    <widget class="GtkColorButton" id="colorLabel0">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
 		      <property name="focus_on_click">True</property>
@@ -6099,10 +6097,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="GnomeColorPicker" id="colorLabel1">
+		    <widget class="GtkColorButton" id="colorLabel1">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
 		      <property name="focus_on_click">True</property>
@@ -6118,10 +6115,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="GnomeColorPicker" id="colorLabel2">
+		    <widget class="GtkColorButton" id="colorLabel2">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
 		      <property name="focus_on_click">True</property>
@@ -6137,10 +6133,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="GnomeColorPicker" id="colorLabel3">
+		    <widget class="GtkColorButton" id="colorLabel3">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
 		      <property name="focus_on_click">True</property>
@@ -6156,10 +6151,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="GnomeColorPicker" id="colorLabel4">
+		    <widget class="GtkColorButton" id="colorLabel4">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
 		      <property name="focus_on_click">True</property>
@@ -8316,7 +8310,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="yalign">0.5</property>
 			      <property name="xpad">0</property>
 			      <property name="ypad">0</property>
-			      <property name="mnemonic_widget">colorpickerSpellCheckColor</property>
+			      <property name="mnemonic_widget">colorButtonSpellCheckColor</property>
 			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 			      <property name="width_chars">-1</property>
 			      <property name="single_line_mode">False</property>
@@ -8330,10 +8324,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  </child>
 
 			  <child>
-			    <widget class="GnomeColorPicker" id="colorpickerSpellCheckColor">
+			    <widget class="GtkColorButton" id="colorButtonSpellCheckColor">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
 			      <property name="title" translatable="yes">Pick a color</property>
 			      <property name="focus_on_click">True</property>

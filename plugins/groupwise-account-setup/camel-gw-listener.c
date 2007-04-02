@@ -212,12 +212,10 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
 	if (parent_id_name) {
-		guint32 color;
 		e_source_set_property (source, "parent_id_name", parent_id_name);
-		color = (guint32) atoi((char *)(camel_url_get_param (url, "color")));
-		e_source_set_color (source, color);
+		e_source_set_color_spec (source, camel_url_get_param (url, "color"));
 	} else
-		e_source_set_color (source, 0xEEBC60);
+		e_source_set_color_spec (source, "#EEBC60");
 	e_source_group_add_source (group, source, -1);
 	e_source_list_sync (source_list, NULL);
 

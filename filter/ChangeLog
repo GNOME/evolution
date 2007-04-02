@@ -1,3 +1,23 @@
+2007-04-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #373116
+
+	* filter-colour.h:
+	Store color as a GdkColor instead of separate RGBA components.
+
+	* filter-colour.c (color_eq):
+	Use gdk_color_equal() to compare colors.
+
+	* filter-colour.c (xml_encode):
+	Encode color as a single property ("spec").
+
+	* filter-colour.c (xml_decode):
+	Read the color from a single property ("spec").
+	Provide a migration path for old XML files.
+
+	* filter-colour.c (get_widget):
+	Migrate from GnomeColorPicker to GtkColorButton.
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

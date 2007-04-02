@@ -1,3 +1,37 @@
+2007-04-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #373116
+
+	* gui/calendar-component.c (ensure_sources):
+	* gui/e-cal-model.c (ecm_get_color_for_component):
+	* gui/memos-component.c (ensure_sources):
+	* gui/migration.c (create_calendar_contact_source),
+	(create_calendar_sources), (create_task_sources),
+	(create_memo_sources), (add_gw_esource):
+	* gui/tasks-component.c (ensure_sources):
+	Use the new ESource color API.
+
+	* gui/calendar-component.c
+	(calendar_config_get_tasks_due_today_color),
+	(calendar_config_get_tasks_overdue_color):
+	Return a GdkColor instead of an X color specification.
+
+	* gui/calendar-component.c
+	(calendar_config_set_tasks_due_today_color),
+	(calendar_config_set_tasks_overdue_color):
+	Accept a GdkColor instead of an X color specification.
+
+	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component):
+	Adapt to modified color API in calendar-component.c by converting
+	the GdkColor to an X color specification.  This is an ugly hack to
+	be fixed later.
+
+	* gui/dialogs/cal-prefs-dialog.c:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/calendar-setup.c:
+	* gui/dialogs/calendar-setup.glade:
+	Migrate from GnomeColorPicker to GtkColorButton.
+
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/e-cal-component-memo-preview.c (write_html):

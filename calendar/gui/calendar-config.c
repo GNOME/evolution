@@ -1219,68 +1219,104 @@ on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
 
 /**
  * calendar_config_get_tasks_due_today_color:
+ * @color: the location to store the color
  *
  * Queries the color to be used to display tasks that are due today.
- *
- * Return value: An X color specification.
  **/
-const char *
-calendar_config_get_tasks_due_today_color (void)
+void
+calendar_config_get_tasks_due_today_color (GdkColor *color)
 {
-	static char *color = NULL;
+	const gchar *key = CALENDAR_CONFIG_TASKS_DUE_TODAY_COLOR;
+	GError *error = NULL;
+	gchar *color_spec;
 
-	if (color)
-		g_free (color);
+	g_return_if_fail (color != NULL);
 
-	color = gconf_client_get_string (config, CALENDAR_CONFIG_TASKS_DUE_TODAY_COLOR, NULL);
-	return color;
+	color_spec = gconf_client_get_string (config, key, &error);
+
+	if (color_spec != NULL && !gdk_color_parse (color_spec, color))
+		g_warning ("Unknown color \"%s\"", color_spec);
+	else if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_free (color_spec);
 }
 
 /**
  * calendar_config_set_tasks_due_today_color:
- * @color: X color specification
+ * @color: a #GdkColor
  *
  * Sets the color to be used to display tasks that are due today.
  **/
 void
-calendar_config_set_tasks_due_today_color (const char *color)
+calendar_config_set_tasks_due_today_color (GdkColor *color)
 {
+	const gchar *key = CALENDAR_CONFIG_TASKS_DUE_TODAY_COLOR;
+	GError *error = NULL;
+	gchar color_spec[16];
+
 	g_return_if_fail (color != NULL);
 
-	gconf_client_set_string (config, CALENDAR_CONFIG_TASKS_DUE_TODAY_COLOR, color, NULL);
+	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
+		color->red, color->green, color->blue);
+
+	if (!gconf_client_set_string (config, key, color_spec, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 /**
  * calendar_config_get_tasks_overdue_color:
+ * @color: the location to store the color
  *
  * Queries the color to be used to display overdue tasks.
- *
- * Return value: An X color specification.
  **/
-const char *
-calendar_config_get_tasks_overdue_color (void)
+void
+calendar_config_get_tasks_overdue_color (GdkColor *color)
 {
-	static char *color = NULL;
+	const gchar *key = CALENDAR_CONFIG_TASKS_OVERDUE_COLOR;
+	GError *error = NULL;
+	gchar *color_spec;
 
-	if (color)
-		g_free (color);
+	g_return_if_fail (color != NULL);
 
-	color = gconf_client_get_string (config, CALENDAR_CONFIG_TASKS_OVERDUE_COLOR, NULL);
-	return color;
+	color_spec = gconf_client_get_string (config, key, &error);
+
+	if (color_spec != NULL && !gdk_color_parse (color_spec, color))
+		g_warning ("Unknown color \"%s\"", color_spec);
+	else if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_free (color_spec);
 }
 
 /**
  * calendar_config_set_tasks_overdue_color:
- * @color: X color specification
+ * @color: a #GdkColor
  *
  * Sets the color to be used to display overdue tasks.
  **/
 void
-calendar_config_set_tasks_overdue_color (const char *color)
+calendar_config_set_tasks_overdue_color (GdkColor *color)
 {
+	const gchar *key = CALENDAR_CONFIG_TASKS_OVERDUE_COLOR;
+	GError *error = NULL;
+	gchar color_spec[16];
+
 	g_return_if_fail (color != NULL);
 
-	gconf_client_set_string (config, CALENDAR_CONFIG_TASKS_OVERDUE_COLOR, color, NULL);
+	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
+		color->red, color->green, color->blue);
+
+	if (!gconf_client_set_string (config, key, color_spec, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 /**

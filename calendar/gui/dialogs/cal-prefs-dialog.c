@@ -31,7 +31,6 @@
 #include "../e-timezone-entry.h"
 #include "../calendar-config.h"
 #include "cal-prefs-dialog.h"
-#include <libgnomeui/gnome-color-picker.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>
@@ -93,21 +92,6 @@ eccp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	CalendarPrefsDialog *prefs = data;
 
 	return glade_xml_get_widget (prefs->gui, item->label);
-}
-
-/* Returns a pointer to a static string with an X color spec for the current
- * value of a color picker.
- */
-static const char *
-spec_from_picker (GtkWidget *picker)
-{
-	static char spec[8];
-	guint8 r, g, b;
-
-	gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (picker), &r, &g, &b, NULL);
-	g_snprintf (spec, sizeof (spec), "#%02x%02x%02x", r, g, b);
-
-	return spec;
 }
 
 static void
@@ -276,15 +260,21 @@ hide_completed_tasks_units_changed (GtkWidget *widget, CalendarPrefsDialog *pref
 }
 
 static void
-tasks_due_today_set_color (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, CalendarPrefsDialog *prefs)
+tasks_due_today_set_color (GtkColorButton *color_button, CalendarPrefsDialog *prefs)
 {
-	calendar_config_set_tasks_due_today_color (spec_from_picker (prefs->tasks_due_today_color));
+	GdkColor color;
+
+	gtk_color_button_get_color (color_button, &color);
+	calendar_config_set_tasks_due_today_color (&color);
 }
 
 static void
-tasks_overdue_set_color (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, CalendarPrefsDialog *prefs)
+tasks_overdue_set_color (GtkColorButton *color_button, CalendarPrefsDialog *prefs)
 {
-	calendar_config_set_tasks_overdue_color (spec_from_picker (prefs->tasks_overdue_color));
+	GdkColor color;
+
+	gtk_color_button_get_color (color_button, &color);
+	calendar_config_set_tasks_overdue_color (&color);
 }
 
 static void
@@ -416,22 +406,6 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->template_url), "changed", G_CALLBACK (template_url_changed), prefs);
 }
 
-/* Sets the color in a color picker from an X color spec */
-static void
-set_color_picker (GtkWidget *picker, const char *spec)
-{
-	GdkColor color;
-
-	if (!spec || !gdk_color_parse (spec, &color))
-		color.red = color.green = color.blue = 0;
-
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (picker),
-				    color.red,
-				    color.green,
-				    color.blue,
-				    65535);
-}
-
 /* Shows the current Free/Busy settings in the dialog */
 static void
 show_fb_config (CalendarPrefsDialog *prefs)
@@ -448,11 +422,18 @@ show_fb_config (CalendarPrefsDialog *prefs)
 static void
 show_task_list_config (CalendarPrefsDialog *prefs)
 {
+	GtkColorButton *color_button;
+	GdkColor color;
 	CalUnits units;
 	gboolean hide_completed_tasks = FALSE;
 
-	set_color_picker (prefs->tasks_due_today_color, calendar_config_get_tasks_due_today_color ());
-	set_color_picker (prefs->tasks_overdue_color, calendar_config_get_tasks_overdue_color ());
+	color_button = GTK_COLOR_BUTTON (prefs->tasks_due_today_color);
+	calendar_config_get_tasks_due_today_color (&color);
+	gtk_color_button_set_color (color_button, &color);
+
+	color_button = GTK_COLOR_BUTTON (prefs->tasks_overdue_color);
+	calendar_config_get_tasks_overdue_color (&color);
+	gtk_color_button_set_color (color_button, &color);
 
 	/* Hide Completed Tasks. */
 	e_dialog_toggle_set (prefs->tasks_hide_completed, calendar_config_get_hide_completed_tasks ());

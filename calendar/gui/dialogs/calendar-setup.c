@@ -73,44 +73,22 @@ eccp_check_complete (EConfig *ec, const char *pageid, void *data)
 }
 
 static void
-colorpicker_set_color (GnomeColorPicker *color, guint32 rgb)
-{
-	gnome_color_picker_set_i8 (color, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
-}
-
-static guint32
-colorpicker_get_color (GnomeColorPicker *color)
-{
-	guint8 r, g, b, a;
-	guint32 rgb = 0;
-
-	gnome_color_picker_get_i8 (color, &r, &g, &b, &a);
-
-	rgb = r;
-	rgb <<= 8;
-	rgb |= g;
-	rgb <<= 8;
-	rgb |= b;
-
-	return rgb;
-}
-
-static void
 eccp_commit (EConfig *ec, GSList *items, void *data)
 {
 	CalendarSourceDialog *sdialog = data;
 	xmlNodePtr xml;
 
 	if (sdialog->original_source) {
-		guint32 color;
+		const gchar *color_spec;
 
 		xml = xmlNewNode (NULL, "dummy");
 		e_source_dump_to_xml_node (sdialog->source, xml);
 		e_source_update_from_xml_node (sdialog->original_source, xml->children, NULL);
 		xmlFreeNode (xml);
 
-		if (e_source_get_color (sdialog->source, &color))
-			e_source_set_color (sdialog->original_source, color);
+		color_spec = e_source_peek_color_spec (sdialog->source);
+		if (color_spec != NULL)
+			e_source_set_color_spec (sdialog->original_source, color_spec);
 	} else {
 		e_source_group_add_source (sdialog->source_group, sdialog->source, -1);
 		e_source_list_sync (sdialog->source_list, NULL);
@@ -304,63 +282,80 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 }
 
 static void
-color_changed (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, ECalConfigTargetSource *t)
+color_changed (GtkColorButton *color_button, ECalConfigTargetSource *target)
 {
-	ESource *source = t->source;
-	e_source_set_color (source, colorpicker_get_color (picker));
+	ESource *source = target->source;
+	gchar color_spec[16];
+	GdkColor color;
+
+	gtk_color_button_get_color (color_button, &color);
+	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
+		color.red, color.green, color.blue);
+	e_source_set_color_spec (source, color_spec);
+}
+
+static const gchar *
+choose_initial_color (void)
+{
+	static const gchar *colors[] = {
+		"#BECEDD", /* 190 206 221     Blue */
+		"#E2F0EF", /* 226 240 239     Light Blue */
+		"#C6E2B7", /* 198 226 183     Green */
+		"#E2F0D3", /* 226 240 211     Light Green */
+		"#E2D4B7", /* 226 212 183     Khaki */
+		"#EAEAC1", /* 234 234 193     Light Khaki */
+		"#F0B8B7", /* 240 184 183     Pink */
+		"#FED4D3", /* 254 212 211     Light Pink */
+		"#E2C6E1", /* 226 198 225     Purple */
+		"#F0E2EF"  /* 240 226 239     Light Purple */
+	};
+
+	return colors[g_random_int_range (0, G_N_ELEMENTS (colors))];
 }
 
 static GtkWidget *
 eccp_get_source_color (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
 	CalendarSourceDialog *sdialog = data;
-	static GtkWidget *label, *picker;
-	int row;
-	ECalConfigTargetSource *t = (ECalConfigTargetSource *) ec->target;
-	static guint32 assigned_colors[] = {
-		0xBECEDD, /* 190 206 221     Blue */
-		0xE2F0EF, /* 226 240 239     Light Blue */
-		0xC6E2B7, /* 198 226 183     Green */
-		0xE2F0D3, /* 226 240 211     Light Green */
-		0xE2D4B7, /* 226 212 183     Khaki */
-		0xEAEAC1, /* 234 234 193     Light Khaki */
-		0xF0B8B7, /* 240 184 183     Pink */
-		0xFED4D3, /* 254 212 211     Light Pink */
-		0xE2C6E1, /* 226 198 225     Purple */
-		0xF0E2EF  /* 240 226 239     Light Purple */
-	};
-	GRand *rand = g_rand_new ();
-	guint32 color;
+	static GtkWidget *label, *color_button;
+	guint row = GTK_TABLE (parent)->nrows;
+	const gchar *color_spec = NULL;
+	GdkColor color;
 
 	if (old)
 		gtk_widget_destroy (label);
 
-	row = ((GtkTable*)parent)->nrows;
+	if (sdialog->original_source)
+		color_spec = e_source_peek_color_spec (sdialog->original_source);
 
-	color = assigned_colors[g_rand_int_range (rand, 0, 9)];
-	g_rand_free (rand);
+	if (color_spec == NULL) {
+		color_spec = choose_initial_color ();
+		e_source_set_color_spec (sdialog->source, color_spec);
+	}
+
+	if (!gdk_color_parse (color_spec, &color))
+		g_warning ("Unknown color \"%s\" in calendar \"%s\"",
+			color_spec, e_source_peek_name (sdialog->source));
 
 	label = gtk_label_new_with_mnemonic (_("C_olor:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_table_attach (
+		GTK_TABLE (parent), label,
+		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (label);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 
-	picker = gnome_color_picker_new ();
-	gtk_widget_show (picker);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), picker);
-	gtk_table_attach (GTK_TABLE (parent), picker, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	g_signal_connect (G_OBJECT (picker), "color-set", G_CALLBACK (color_changed), t);
+	color_button = gtk_color_button_new_with_color (&color);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), color_button);
+	gtk_table_attach (
+		GTK_TABLE (parent), color_button,
+		1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show (color_button);
 
-	if (sdialog->original_source)
-		e_source_get_color (sdialog->original_source, &color);
-	else
-		/* since we don't have an original source here, we want to set
-		 * the initial color */
-		e_source_set_color (sdialog->source, color);
+	g_signal_connect (
+		G_OBJECT (color_button), "color-set",
+		G_CALLBACK (color_changed), ec->target);
 
-	colorpicker_set_color (GNOME_COLOR_PICKER (picker), color);
-
-	return picker;
+	return color_button;
 }
 
 static ECalConfigItem eccp_items[] = {
@@ -414,7 +409,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 	ECalConfigTargetSource *target;
 
 	if (source) {
-		guint32 color;
+		const gchar *color_spec;
 
 		sdialog->original_source = source;
 		g_object_ref (source);
@@ -423,8 +418,9 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 		sdialog->source = e_source_new_from_standalone_xml (xml);
 		g_free (xml);
 
-		if (e_source_get_color (source, &color))
-			e_source_set_color (sdialog->source, color);
+		color_spec = e_source_peek_color_spec (source);
+		if (color_spec != NULL)
+			e_source_set_color_spec (sdialog->source, color_spec);
 	} else {
 		GConfClient *gconf;
 		GSList *l, *ptr, *temp = NULL;
@@ -504,7 +500,7 @@ calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 	ECalConfigTargetSource *target;
 
 	if (source) {
-		guint32 color;
+		const gchar *color_spec;
 
 		sdialog->original_source = source;
 		g_object_ref (source);
@@ -513,8 +509,8 @@ calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 		sdialog->source = e_source_new_from_standalone_xml (xml);
 		g_free (xml);
 
-		e_source_get_color (source, &color);
-		e_source_set_color (sdialog->source, color);
+		color_spec = e_source_peek_color_spec (source);
+		e_source_set_color_spec (sdialog->source, color_spec);
 	} else {
 		GConfClient *gconf;
 		GSList *l, *ptr, *temp = NULL;
@@ -589,7 +585,7 @@ calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
 	ECalConfigTargetSource *target;
 
 	if (source) {
-		guint32 color;
+		const gchar *color_spec;
 
 		sdialog->original_source = source;
 		g_object_ref (source);
@@ -598,8 +594,8 @@ calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
 		sdialog->source = e_source_new_from_standalone_xml (xml);
 		g_free (xml);
 
-		e_source_get_color (source, &color);
-		e_source_set_color (sdialog->source, color);
+		color_spec = e_source_peek_color_spec (source);
+		e_source_set_color_spec (sdialog->source, color_spec);
 	} else {
 		GConfClient *gconf;
 		GSList *l;

@@ -31,6 +31,7 @@
 #define _CALENDAR_CONFIG_H_
 
 #include <glib.h>
+#include <gdk/gdk.h>
 #include <libecal/e-cal.h>
 #include <gconf/gconf-client.h>
 
@@ -201,11 +202,11 @@ void	  calendar_config_set_primary_memos (const char *primary_uid);
 guint	  calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data);
 
 /* Colors for the task list */
-const char *calendar_config_get_tasks_due_today_color	(void);
-void	    calendar_config_set_tasks_due_today_color	(const char *color);
+void      calendar_config_get_tasks_due_today_color (GdkColor *color);
+void	  calendar_config_set_tasks_due_today_color (GdkColor *color);
 
-const char *calendar_config_get_tasks_overdue_color	(void);
-void	    calendar_config_set_tasks_overdue_color	(const char *color);
+void      calendar_config_get_tasks_overdue_color (GdkColor *color);
+void	  calendar_config_set_tasks_overdue_color (GdkColor *color);
 
 /* Settings to hide completed tasks. */
 gboolean  calendar_config_get_hide_completed_tasks	(void);

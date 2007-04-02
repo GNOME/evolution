@@ -39,7 +39,7 @@ typedef struct _FilterColourClass FilterColourClass;
 struct _FilterColour {
 	FilterElement parent_object;
 	
-	guint16 r, g, b, a;
+	GdkColor color;
 };
 
 struct _FilterColourClass {

@@ -48,7 +48,6 @@ struct _GtkOptionMenu;
 struct _GdkPixbuf;
 struct _GtkWidget;
 struct _GladeXML;
-struct _GnomeColorPicker;
 struct _GConfClient;
 struct _GtkButton;
 struct _GtkTreeView;
@@ -71,7 +70,7 @@ struct _EMComposerPrefs {
 	struct _GtkOptionMenu *charset;
 	
 	struct _GtkToggleButton *spell_check;
-	struct _GnomeColorPicker *colour;
+	struct _GtkColorButton *color;
 	struct _GtkTreeView *language;
 	CORBA_sequence_GNOME_Spell_Language *language_seq;
 	gboolean spell_active;

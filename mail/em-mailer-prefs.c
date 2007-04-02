@@ -35,7 +35,7 @@
 #include "misc/e-charset-picker.h"
 #include <bonobo/bonobo-generic-factory.h>
 
-#include <libgnomeui/gnome-color-picker.h>
+#include <gtk/gtkcolorbutton.h>
 #include <gtk/gtkfilechooserbutton.h>
 #include <gtk/gtkfontbutton.h>
 
@@ -157,49 +157,27 @@ em_mailer_prefs_finalise (GObject *obj)
 
 
 static void
-colorpicker_set_color (GnomeColorPicker *color, const char *str)
+color_button_set_color (GtkColorButton *color_button, const gchar *spec)
 {
-	GdkColor colour;
-	guint32 rgb;
-	
-	gdk_color_parse (str, &colour);
-	rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
-	
-	gnome_color_picker_set_i8 (color, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
-}
+	GdkColor color;
 
-static guint32
-colorpicker_get_color (GnomeColorPicker *color)
-{
-	guint8 r, g, b, a;
-	guint32 rgb = 0;
-	
-	gnome_color_picker_get_i8 (color, &r, &g, &b, &a);
-	
-	rgb   = r;
-	rgb <<= 8;
-	rgb  |= g;
-	rgb <<= 8;
-	rgb  |= b;
-	
-	return rgb;
+	if (gdk_color_parse (spec, &color))
+		gtk_color_button_set_color (color_button, &color);
 }
 
 static void
-citation_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, EMMailerPrefs *prefs)
+citation_color_set (GtkColorButton *color_button, EMMailerPrefs *prefs)
 {
-	guint32 rgb = 0;
-	char buf[20];
-	
-	rgb   = r & 0xff;
-	rgb <<= 8;
-	rgb  |= g & 0xff;
-	rgb <<= 8;
-	rgb  |= b & 0xff;
-	
-	sprintf (buf, "#%06x", rgb & 0xffffff);
-	
-	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", buf, NULL);
+	GdkColor color;
+	gchar spec[16];
+
+	gtk_color_button_get_color (color_button, &color);
+	g_snprintf (spec, sizeof (spec), "#%04x%04x%04x",
+		color.red, color.green, color.blue);
+
+	gconf_client_set_string (prefs->gconf,
+		"/apps/evolution/mail/display/citation_colour",
+		spec, NULL);
 }
 
 static void
@@ -212,9 +190,12 @@ labels_changed (EMMailerPrefs *prefs)
 	int i;
 	
 	for (i = 4; i >= 0; i--) {
+		GdkColor color;
+
 		cstring = gtk_entry_get_text (prefs->labels[i].name);
-		rgb = colorpicker_get_color (prefs->labels[i].color);
-		string = g_strdup_printf ("%s:#%06x", cstring, rgb & 0xffffff);
+		gtk_color_button_get_color (prefs->labels[i].color, &color);
+		string = g_strdup_printf ("%s:#%04x%04x%04x", cstring,
+			color.red, color.green, color.blue);
 		list = g_slist_prepend (list, string);
 	}
 	
@@ -249,7 +230,7 @@ restore_labels_clicked (GtkWidget *widget, gpointer user_data)
 	
 	for (i = 0; i < 5; i++) {
 		gtk_entry_set_text (prefs->labels[i].name, _(label_defaults[i].name));
-		colorpicker_set_color (prefs->labels[i].color, label_defaults[i].colour);
+		color_button_set_color (prefs->labels[i].color, label_defaults[i].colour);
 		atk_object_set_name(gtk_widget_get_accessible((GtkWidget *)prefs->labels[i].color), _(label_defaults[i].name));
 	}
 }
@@ -812,9 +793,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 			    "/apps/evolution/mail/display/mark_citations",
 			    G_CALLBACK (toggle_button_toggled));
 	
-	prefs->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerHighlightCitations"));
+	prefs->citation_color = GTK_COLOR_BUTTON (glade_xml_get_widget (gui, "colorButtonHighlightCitations"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
-	colorpicker_set_color (prefs->citation_color, buf ? buf : "#737373");
+	color_button_set_color (prefs->citation_color, buf ? buf : "#737373");
 	g_signal_connect (prefs->citation_color, "color-set", G_CALLBACK (citation_color_set), prefs);
 	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->citation_color, FALSE);
@@ -935,14 +916,14 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		g_free (widget_name);
 		
 		widget_name = g_strdup_printf ("colorLabel%d", i);
-		prefs->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
+		prefs->labels[i].color = GTK_COLOR_BUTTON (glade_xml_get_widget (gui, widget_name));
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->labels[i].color, !locked);
 		g_free (widget_name);
 		
 		gtk_entry_set_text (prefs->labels[i].name, label->name);
 		g_signal_connect (prefs->labels[i].name, "changed", G_CALLBACK (label_entry_changed), prefs);
 		
-		colorpicker_set_color (prefs->labels[i].color, label->colour);
+		color_button_set_color (prefs->labels[i].color, label->colour);
 		g_signal_connect (prefs->labels[i].color, "color-set", G_CALLBACK (label_color_set), prefs);
 		
 		atk_object_set_name(gtk_widget_get_accessible((GtkWidget *)prefs->labels[i].color), label->name);

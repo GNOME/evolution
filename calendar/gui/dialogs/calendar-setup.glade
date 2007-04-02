@@ -338,10 +338,9 @@
 	  </child>
 
 	  <child>
-	    <widget class="GnomeColorPicker" id="source-color">
+	    <widget class="GtkColorButton" id="source-color">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="dither">True</property>
 	      <property name="use_alpha">False</property>
 	      <property name="title" translatable="yes">Pick a color</property>
 	      <property name="focus_on_click">True</property>
@@ -587,10 +586,9 @@
 	  </child>
 
 	  <child>
-	    <widget class="GnomeColorPicker" id="source-color">
+	    <widget class="GtkColorButton" id="source-color">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="dither">True</property>
 	      <property name="use_alpha">False</property>
 	      <property name="title" translatable="yes">Pick a color</property>
 	      <property name="focus_on_click">True</property>

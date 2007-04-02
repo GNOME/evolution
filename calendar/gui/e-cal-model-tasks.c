@@ -1025,14 +1025,28 @@ ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 static const char *
 ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 {
+	static gchar color_spec[16];
+	GdkColor color;
+
 	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
 	g_return_val_if_fail (comp_data != NULL, NULL);
 
+	/* XXX ECalModel's get_color_for_component() method should really
+	 *     get a GdkColor instead of a color specification string. */
+
 	switch (get_due_status ((ECalModelTasks *) model, comp_data)) {
 	case E_CAL_MODEL_TASKS_DUE_TODAY:
-		return calendar_config_get_tasks_due_today_color ();
+		/* XXX ugly hack */
+		calendar_config_get_tasks_due_today_color (&color);
+		g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
+			color.red, color.green, color.blue);
+		return color_spec;
 	case E_CAL_MODEL_TASKS_DUE_OVERDUE:
-		return calendar_config_get_tasks_overdue_color ();
+		/* XXX ugly hack */
+		calendar_config_get_tasks_overdue_color (&color);
+		g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
+			color.red, color.green, color.blue);
+		return color_spec;
 	case E_CAL_MODEL_TASKS_DUE_NEVER:
 	case E_CAL_MODEL_TASKS_DUE_FUTURE:
 	case E_CAL_MODEL_TASKS_DUE_COMPLETE:

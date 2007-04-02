@@ -1231,10 +1231,9 @@ Days</property>
 		      </child>
 
 		      <child>
-			<widget class="GnomeColorPicker" id="tasks_due_today_color">
+			<widget class="GtkColorButton" id="tasks_due_today_color">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="dither">True</property>
 			  <property name="use_alpha">False</property>
 			  <property name="title" translatable="yes">Pick a color</property>
 			  <property name="focus_on_click">True</property>
@@ -1250,10 +1249,9 @@ Days</property>
 		      </child>
 
 		      <child>
-			<widget class="GnomeColorPicker" id="tasks_overdue_color">
+			<widget class="GtkColorButton" id="tasks_overdue_color">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="dither">True</property>
 			  <property name="use_alpha">False</property>
 			  <property name="title" translatable="yes">Pick a color</property>
 			  <property name="focus_on_click">True</property>
