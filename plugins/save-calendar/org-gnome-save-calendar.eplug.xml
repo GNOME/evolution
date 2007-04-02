@@ -2,7 +2,7 @@
 <e-plugin-list>
     <e-plugin id="org.gnome.evolution.save_calendar" type="shlib" 
 	_name="Save Selected"
-	    location="@PLUGINDIR@/liborg-gnome-save-calendar.so"> 
+	    location="@PLUGINDIR@/liborg-gnome-save-calendar@SOEXT@"> 
 	    <author name="Rodrigo Moya" email="rodrigo@novell.com"/>
 		<_description>Saves selected calendar or tasks list to disk.</_description>
 	

@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.mailRemote"
-    location="@PLUGINDIR@/liborg-gnome-evolution-mail-remote.so"
+    location="@PLUGINDIR@/liborg-gnome-evolution-mail-remote@SOEXT@"
     _name="Mail Remote">
     <_description>A plugin which implements a CORBA
       interface for accessing mail data remotely.</_description>

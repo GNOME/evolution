@@ -2,7 +2,7 @@
 <e-plugin-list>
     <e-plugin id="org.gnome.evolution.select_one_source" type="shlib" 
 	_name="Select one source" 
-		location="@PLUGINDIR@/liborg-gnome-select-one-source.so">
+		location="@PLUGINDIR@/liborg-gnome-select-one-source@SOEXT@">
 		<author name="JP Rosevear" email="jpr@novell.com"/>
 	       	<_description>Selects a single calendar or task source for viewing.</_description>
 	

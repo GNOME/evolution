@@ -1,3 +1,11 @@
+2007-04-02  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* org-gnome-new-mail-notify.eplug.xml:
+	Cleanup. 
+	Fixes part of #301149
+
 2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #308271 Patch by Johannes Berg

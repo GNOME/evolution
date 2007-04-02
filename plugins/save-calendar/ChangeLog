@@ -1,3 +1,11 @@
+2007-04-02  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+	
+	* org-gnome-save-calendar.eplug.xml:
+	Cleanup. 
+	Fixes part of #301149
+
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* save-calendar.c:

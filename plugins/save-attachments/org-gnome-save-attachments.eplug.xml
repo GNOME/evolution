@@ -4,7 +4,7 @@
   <e-plugin
     id="org.gnome.plugin.attachments.save"
     type="shlib"
-    location="@PLUGINDIR@/liborg-gnome-save-attachments.so"
+    location="@PLUGINDIR@/liborg-gnome-save-attachments@SOEXT@"
     _name="Save attachments">
     
     <author name="Not Zed" email="NotZed@Ximian.com"/>

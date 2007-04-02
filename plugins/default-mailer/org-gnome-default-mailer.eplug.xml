@@ -4,7 +4,7 @@
 	id="org.gnome.evolution.default.mailer" 
 	type="shlib" 
 	_name="Default Mail Client " 
-	location="@PLUGINDIR@/liborg-gnome-default-mailer.so">
+	location="@PLUGINDIR@/liborg-gnome-default-mailer@SOEXT@">
 
 		<_description>Checks whether Evolution is the default mail client on startup.</_description>
 		<author name="Jonathan Dieter" email="jdieter99@gmx.net"/>
