@@ -1,3 +1,9 @@
+2007-04-03  Srinivasa Ragavan <sragavan@novell.com>
+
+	** Added bogofilter plugin part of the junk plugins.
+
+	* configure.in:
+
 2007-03-26  Harish Krishnaswamy <harish.krishnaswamy@gmail.com>
 	
 	* MAINTAINERS : Updates on the new guards.
