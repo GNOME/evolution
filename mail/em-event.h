@@ -26,7 +26,6 @@
 #include <glib-object.h>
 
 #include "e-util/e-event.h"
-#include "composer/e-msg-composer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +34,7 @@ extern "C" {
 
 struct _CamelFolder;
 struct _CamelMimeMessage;
+struct _EMsgComposer;
 
 typedef struct _EMEvent EMEvent;
 typedef struct _EMEventClass EMEventClass;
@@ -82,7 +82,7 @@ typedef struct _EMEventTargetComposer EMEventTargetComposer;
 struct _EMEventTargetComposer {
 	EEventTarget target;
 
-	EMsgComposer *composer;
+	struct _EMsgComposer *composer;
 };
 
 typedef struct _EEventItem EMEventItem;
@@ -103,7 +103,7 @@ GType em_event_get_type(void);
 EMEvent *em_event_peek(void);
 
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, guint32 flags);
-EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const EMsgComposer *composer, guint32 flags);
+EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const struct _EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
 
 /* ********************************************************************** */
