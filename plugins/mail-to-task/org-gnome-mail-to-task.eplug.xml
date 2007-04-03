@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.mailToTask"
-    location="@PLUGINDIR@/liborg-gnome-mail-to-task.so"
+    location="@PLUGINDIR@/liborg-gnome-mail-to-task@SOEXT@"
     _name="Mail to task">
     <_description>A plugin which allows the creation of tasks from the contents of a mail message.</_description>
     <author name="Rodrigo Moya" email="rodrigo@novell.com"/>

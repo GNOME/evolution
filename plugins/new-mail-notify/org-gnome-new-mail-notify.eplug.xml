@@ -3,7 +3,7 @@
 	id="org.gnome.evolution.new_mail_notify" 
 	type="shlib" 
 	_name="New Mail Notification" 
-	location="@PLUGINDIR@/liborg-gnome-new-mail-notify.so">
+	location="@PLUGINDIR@/liborg-gnome-new-mail-notify@SOEXT@">
 
 		<_description>Generates a D-BUS message when new mail arrives.</_description>
 		<author name="Miguel Angel López Hernández" email="miguel@gulev.org.mx"/>

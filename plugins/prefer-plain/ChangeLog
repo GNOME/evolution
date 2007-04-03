@@ -1,3 +1,11 @@
+2007-04-03  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* (org-gnome-prefer-plain.eplug.xml):
+	Code Cleanup. 
+	Fixes part of #301149
+
 2006-08-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* prefer-plain.c: (e_plugin_lib_enable): Don't leak the key.

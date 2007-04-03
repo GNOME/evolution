@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.preferPlain"
-    location="@PLUGINDIR@/liborg-gnome-prefer-plain.so"
+    location="@PLUGINDIR@/liborg-gnome-prefer-plain@SOEXT@"
     _name="Prefer plain-text">
 
 

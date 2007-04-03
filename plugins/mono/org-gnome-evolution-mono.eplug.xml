@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.mono"
-    location="@PLUGINDIR@/liborg-gnome-evolution-mono.so"
+    location="@PLUGINDIR@/liborg-gnome-evolution-mono@SOEXT@"
     _name="Mono Loader">
     <_description>A plugin which implements mono plugins.</_description>
     <author name="Michael Zucchi" email="notzed@ximian.com"/>

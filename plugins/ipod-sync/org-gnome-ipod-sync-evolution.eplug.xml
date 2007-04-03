@@ -2,7 +2,7 @@
 <e-plugin-list>
     <e-plugin id="org.gnome.evolution.ipod_sync" type="shlib" 
 	_name="iPod Synchronization"
-	    location="@PLUGINDIR@/liborg-gnome-ipod-sync-evolution.so"> 
+	    location="@PLUGINDIR@/liborg-gnome-ipod-sync-evolution@SOEXT@"> 
 	    <author name="Srinivasa Ragavan" email="sragavan@novell.com"/>
 	    <_description>Synchronize the selected task/calendar/addressbook with Apple iPod</_description>
 	

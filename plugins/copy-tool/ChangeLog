@@ -1,3 +1,11 @@
+2007-04-03  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* (org-gnome-copy-tool.eplug.xml):
+	Code Cleanup. 
+	Fixes part of #301149
+
 2006-05-19  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #322771

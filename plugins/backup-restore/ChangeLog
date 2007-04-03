@@ -1,3 +1,11 @@
+2007-04-03  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* (org-gnome-backup-restore.eplug.xml):
+	Code Cleanup. 
+	Fixes part of #301149
+
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: setup built_sources & cleanfiles.

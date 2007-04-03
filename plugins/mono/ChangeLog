@@ -1,3 +1,11 @@
+2007-04-03  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* (org-gnome-evolution-mono.eplug.xml):
+	Code Cleanup. 
+	Fixes part of #301149
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* mono-plugin.c: Drop unused inclusion of <dirent.h>.

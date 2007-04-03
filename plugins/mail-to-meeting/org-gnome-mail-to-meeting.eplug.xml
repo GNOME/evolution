@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.mailToMeeting"
-    location="@PLUGINDIR@/liborg-gnome-mail-to-meeting.so"
+    location="@PLUGINDIR@/liborg-gnome-mail-to-meeting@SOEXT@"
     _name="Mail to meeting">
     <_description>A plugin which allows the creation of meetings from the contents of a mail message.</_description>
     <author name="Rodrigo Moya" email="rodrigo@novell.com"/>

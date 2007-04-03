@@ -1,3 +1,11 @@
+2007-04-03  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* (org-gnome-select-one-source.eplug.xml):
+	Code Cleanup. 
+	Fixes part of #301149
+
 2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* org-gnome-select-one-source.eplug.xml: 
