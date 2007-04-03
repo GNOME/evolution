@@ -1,3 +1,9 @@
+2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-event.h: Don't #include <composer/e-msg-composer.h> since we
+	don't install that file.  Doing so prevents third-party applications
+	like mail-notification from building. (#400241)
+
 2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	Reworked the SPAM plugins with more UI options and support for
