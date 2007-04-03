@@ -54,6 +54,8 @@ struct _EMJunkHookItem {
 	char *report_junk;
 	char *report_non_junk;
 	char *commit_reports;
+	char *validate_binary;
+	char *plugin_name;
 };
 
 struct _EMJunkHookGroup {

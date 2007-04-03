@@ -57,11 +57,15 @@
 #include "e-util/e-util-private.h"
 
 #include "mail-config.h"
+#include "em-junk-hook.h"
 #include "em-config.h"
+#include "mail-session.h"
 
 static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
 static void em_mailer_prefs_init       (EMMailerPrefs *dialog);
 static void em_mailer_prefs_finalise   (GObject *obj);
+
+GtkWidget * create_combo_text_widget ();
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -632,6 +636,47 @@ emmp_empty_trash_init (EMMailerPrefs *prefs)
 }
 
 static void
+junk_days_activate (GtkWidget *item, EMMailerPrefs *prefs)
+{
+	int days;
+	
+	days = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "days"));
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/junk/empty_on_exit_days", days, NULL);
+}
+
+static void
+emmp_empty_junk_init (EMMailerPrefs *prefs)
+{
+	int locked, days, hist = 0, i;
+	GtkWidget *menu, *item;
+	
+	toggle_button_init (prefs, prefs->empty_junk, FALSE,
+			    "/apps/evolution/mail/junk/empty_on_exit",
+			    G_CALLBACK (toggle_button_toggled));
+	
+	days = gconf_client_get_int(prefs->gconf, "/apps/evolution/mail/junk/empty_on_exit_days", NULL);
+	menu = gtk_menu_new();
+	for (i = 0; i < G_N_ELEMENTS (empty_trash_frequency); i++) {
+		if (days >= empty_trash_frequency[i].days)
+			hist = i;
+		
+		item = gtk_menu_item_new_with_label (_(empty_trash_frequency[i].label));
+		g_object_set_data ((GObject *) item, "days", GINT_TO_POINTER (empty_trash_frequency[i].days));
+		g_signal_connect (item, "activate", G_CALLBACK (junk_days_activate), prefs);
+		
+		gtk_widget_show (item);
+		gtk_menu_shell_append((GtkMenuShell *)menu, item);
+	}
+	
+	gtk_widget_show(menu);
+	gtk_option_menu_set_menu((GtkOptionMenu *)prefs->empty_junk_days, menu);
+	gtk_option_menu_set_history((GtkOptionMenu *)prefs->empty_junk_days, hist);
+	
+	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/junk/empty_on_exit_days", NULL);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->empty_junk_days, !locked);
+}
+
+static void
 http_images_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 {
 	int when;
@@ -645,6 +690,7 @@ http_images_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 	
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", when, NULL);
 }
+
 
 static void
 notify_type_changed (GtkWidget *widget, EMMailerPrefs *prefs)
@@ -713,6 +759,106 @@ emmp_free(EConfig *ec, GSList *items, void *data)
 }
 
 static void
+junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
+{
+	char *def_plugin = gtk_combo_box_get_active_text(combo);
+	const GList *plugins = mail_session_get_junk_plugins();
+	
+	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
+	while (plugins) {
+		struct _EMJunkHookItem *item = plugins->data;;
+
+		if (item->plugin_name && def_plugin && !strcmp (item->plugin_name, def_plugin)) {
+			gboolean status;
+			session->junk_plugin = CAMEL_JUNK_PLUGIN (&(item->csp));
+			status = e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
+			if (status) {
+				char *text, *html;
+				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
+				text = g_strdup_printf ("%s plugin is available and the binary is installed.", item->plugin_name);
+				html = g_strdup_printf ("<i>%s</i>", text);
+				gtk_label_set_markup (prefs->plugin_status, html);
+				g_free (html);
+				g_free (text);
+			} else {
+				char *text, *html;
+				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-warning", GTK_ICON_SIZE_MENU);
+				text = g_strdup_printf ("%s plugin is not available. Please check whether the package is installed.", item->plugin_name);
+				html = g_strdup_printf ("<i>%s</i>", text);
+				gtk_label_set_markup (prefs->plugin_status, html);
+				g_free (html);
+				g_free (text);				
+			}			
+			break;
+		}
+		plugins = plugins->next;
+	}
+}
+
+static void
+junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
+{
+	int index = 0;
+	gboolean def_set = FALSE;
+	const GList *plugins = mail_session_get_junk_plugins();
+	char *pdefault = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
+
+	if (!plugins || !g_list_length (plugins)) {
+		gtk_combo_box_append_text (combo, _("No Junk plugin available"));
+		gtk_combo_box_set_active (combo, 0);		
+		gtk_widget_set_sensitive ((GtkWidget *) combo, FALSE);
+		gtk_widget_hide (prefs->plugin_image);
+		gtk_widget_hide (prefs->plugin_status);
+		gtk_image_set_from_stock (prefs->plugin_image, NULL, 0);
+		g_free (pdefault);
+		
+		return;
+	}
+	
+	while (plugins) {
+		struct _EMJunkHookItem *item = plugins->data;;
+		
+		gtk_combo_box_append_text (combo, item->plugin_name);
+		if (!def_set && pdefault && item->plugin_name && !strcmp(pdefault, item->plugin_name)) {
+			gboolean status;
+			
+			def_set = TRUE;
+			gtk_combo_box_set_active (combo, index);
+			status = e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
+			if (status) {
+				char *text, *html;
+				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
+				/* May be a better text */				
+				text = g_strdup_printf ("%s plugin is available and the binary is installed.", item->plugin_name);
+				html = g_strdup_printf ("<i>%s</i>", text);
+				gtk_label_set_markup (prefs->plugin_status, html);
+				g_free (html);
+				g_free (text);
+			} else {
+				char *text, *html;
+				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-warning", GTK_ICON_SIZE_MENU);
+				/* May be a better text */
+				text = g_strdup_printf ("%s plugin is not available. Please check whether the package is installed.", item->plugin_name);
+				html = g_strdup_printf ("<i>%s</i>", text);
+				gtk_label_set_markup (prefs->plugin_status, html);
+				g_free (html);
+				g_free (text);				
+			}
+		}
+		plugins = plugins->next;
+		index++;
+	}
+
+	g_signal_connect (combo, "changed", G_CALLBACK(junk_plugin_changed), prefs);
+	g_free (pdefault);
+}
+
+GtkWidget *
+create_combo_text_widget () {
+	return gtk_combo_box_new_text ();
+}
+	
+static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs)
 {
 	GSList *list, *header_config_list, *header_add_list, *p;
@@ -729,7 +875,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	EMConfigTargetPrefs *target;
 	GSList *l;
 	char *gladefile;
-
+	
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
@@ -1048,12 +1194,16 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	toggle_button_init (prefs, prefs->check_incoming, FALSE,
 			    "/apps/evolution/mail/junk/check_incoming",
 			    G_CALLBACK (toggle_button_toggled));
-	
-	prefs->sa_local_tests_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSALocalTestsOnly"));
-	toggle_button_init (prefs, prefs->sa_local_tests_only, TRUE,
-			    "/apps/evolution/mail/junk/sa/local_only",
-			    G_CALLBACK (toggle_button_toggled_not));
 
+	prefs->empty_junk = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "junk_empty_check"));
+	prefs->empty_junk_days = GTK_OPTION_MENU (glade_xml_get_widget (gui, "junk_empty_combo"));
+	emmp_empty_junk_init (prefs);
+	
+	prefs->default_junk_plugin = GTK_COMBO_BOX (glade_xml_get_widget (gui, "default_junk_plugin"));
+	prefs->plugin_status = GTK_LABEL (glade_xml_get_widget (gui, "plugin_status"));
+	prefs->plugin_image = GTK_IMAGE (glade_xml_get_widget (gui, "plugin_image"));	
+	junk_plugin_setup (prefs->default_junk_plugin, prefs);
+	
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs(ec, prefs->gconf);
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);

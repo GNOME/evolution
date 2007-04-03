@@ -702,6 +702,7 @@ impl_createView (PortableServer_Servant servant,
 	
 	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
 		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri);
+		em_folder_view_set_folder_uri (view_widget, uri);				
 		g_free (uri);
 	}
 	
@@ -784,6 +785,24 @@ mc_quit_sync(CamelStore *store, struct _store_info *si, MailComponent *mc)
 	mail_sync_store(store, mc->priv->quit_expunge, mc_quit_sync_done, mc);
 }
 
+static void
+mc_quit_delete (CamelStore *store, struct _store_info *si, MailComponent *mc)
+{
+	CamelFolder *folder = camel_store_get_junk (store, NULL);
+
+	if (folder) {
+		GPtrArray *uids;
+		int i;
+
+		uids =  camel_folder_get_uids (folder); 
+		camel_folder_freeze(folder);
+		for (i=0;i<uids->len;i++)
+			camel_folder_set_message_flags(folder, uids->pdata[i], CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN);
+		camel_folder_thaw(folder);
+		camel_folder_free_uids (folder, uids);
+	}
+}
+
 static CORBA_boolean
 impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 {
@@ -793,6 +812,8 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
 		int now = time(NULL)/60/60/24, days;
+		gboolean empty_junk;
+		
 		GConfClient *gconf = mail_config_get_gconf_client();
 
 		mail_vfolder_shutdown();
@@ -801,6 +822,15 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 			&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL)) == 0
 			    || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_date", NULL)) <= now);
 
+		empty_junk = gconf_client_get_bool(gconf, "/apps/evolution/mail/junk/empty_on_exit", NULL)
+			&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/junk/empty_on_exit_days", NULL)) == 0
+			    || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/junk/empty_date", NULL)) <= now);
+
+		if (empty_junk) {
+			g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_delete, mc);
+			gconf_client_set_int(gconf, "/apps/evolution/mail/junk/empty_date", now, NULL);
+		}
+		
 		g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_sync, mc);
 
 		if (mc->priv->quit_expunge)

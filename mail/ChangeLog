@@ -1,3 +1,30 @@
+2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Reworked the SPAM plugins with more UI options and support for
+	multiple plugins.
+
+	* em-folder-view.c:
+	* em-junk-hook.c: (emjh_construct_item), (emjh_construct):
+	* em-junk-hook.h:
+	* em-mailer-prefs.c: (junk_days_activate), (emmp_empty_junk_init),
+	(junk_plugin_changed), (junk_plugin_setup),
+	(create_combo_text_widget), (em_mailer_prefs_construct):
+	* em-mailer-prefs.h:
+	* evolution-mail.schemas.in.in:
+	* mail-component.c: (impl_createView), (mc_quit_delete),
+	(impl_quit):
+	* mail-config.glade:
+	* mail-session.c: (init), (mail_session_add_junk_plugin),
+	(mail_session_get_junk_plugins):
+	* mail-session.h:
+
+2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #411331
+
+	* em-folder-browser.c: (emfb_gui_folder_changed): Fix the message
+	selection.
+
 2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution-mail.schemas.in.in:

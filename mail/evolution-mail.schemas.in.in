@@ -870,6 +870,64 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/junk/empty_on_exit</key>
+      <applyto>/apps/evolution/mail/junk/empty_on_exit</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Empty Junk folders on exit</short>
+         <long>
+          Empty all Junk folders when exiting Evolution.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/empty_on_exit_days</key>
+      <applyto>/apps/evolution/mail/junk/empty_on_exit_days</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+         <short>Minimum days between emptying the junk on exit</short>
+         <long>
+	Minimum time between emptying the junk on exit, in days.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/empty_date</key>
+      <applyto>/apps/evolution/mail/junk/empty_date</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+         <short>Last time empty junk was run</short>
+         <long>
+	The last time empty junk was run, in days since the epoch.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/default_plugin</key>
+      <applyto>/apps/evolution/mail/junk/default_plugin</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default>Spamassasin</default>
+      <locale name="C">
+         <short>The default plugin for Junk hook</short>
+         <long>
+          This is the default junk plugin, even though there are multiple plugins
+	  enabled. If the default listed plugin is disabled, then it wont fall back
+	  to the other available plugins.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/junk/sa/local_only</key>
       <applyto>/apps/evolution/mail/junk/sa/local_only</applyto>
       <owner>evolution-mail</owner>

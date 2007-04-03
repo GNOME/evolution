@@ -1709,7 +1709,7 @@ emfb_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderBrowser *emfb)
 		mi = camel_folder_get_message_info(emfb->view.folder, emfb->priv->select_uid);
 		if (mi) {
 			camel_folder_free_message_info(emfb->view.folder, mi);
-			em_folder_view_set_message(&emfb->view, emfb->priv->select_uid, TRUE);
+			em_folder_view_set_message(&emfb->view, emfb->priv->select_uid, FALSE);
 			g_free (emfb->priv->select_uid);
 			emfb->priv->select_uid = NULL;
 		}

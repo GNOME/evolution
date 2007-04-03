@@ -68,6 +68,7 @@ typedef struct _MailSession {
 
 	gboolean interactive;
 	FILE *filter_logfile;
+	GList *junk_plugins;
 
 	MailAsyncEvent *async;
 } MailSession;
@@ -92,6 +93,7 @@ static void
 init (MailSession *session)
 {
 	session->async = mail_async_event_new();
+	session->junk_plugins = NULL;
 }
 
 static void
@@ -711,4 +713,32 @@ mail_session_flush_filter_log (void)
 	
 	if (ms->filter_logfile)
 		fflush (ms->filter_logfile);
+}
+
+void
+mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plugin)
+{
+	MailSession *ms = (MailSession *) session;
+	GConfClient *gconf;
+	char *def_plugin;
+	
+	gconf = mail_config_get_gconf_client ();
+	def_plugin = gconf_client_get_string (gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
+	
+	ms->junk_plugins = g_list_append(ms->junk_plugins, junk_plugin);
+	if (def_plugin &&  plugin_name) {
+		if (!strcmp(def_plugin, plugin_name)) {
+			printf("Loading %s as the default junk plugin\n");
+			session->junk_plugin = junk_plugin;
+		}
+	}
+
+	g_free (def_plugin);
+}
+
+const GList *
+mail_session_get_junk_plugins ()
+{
+	MailSession *ms = (MailSession *) session;	
+	return ms->junk_plugins;
 }

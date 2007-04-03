@@ -187,13 +187,16 @@ emjh_construct_item(EPluginHook *eph, EMJunkHookGroup *group, xmlNodePtr root)
 	item->report_junk = e_plugin_xml_prop(root, "report_junk");
 	item->report_non_junk = e_plugin_xml_prop(root, "report_non_junk");
 	item->commit_reports = e_plugin_xml_prop(root, "commit_reports");
+	item->validate_binary = e_plugin_xml_prop(root, "validate_binary");
+	
+	item->plugin_name = e_plugin_xml_prop(root, "name");
 	item->hook = emjh;
 	
 	if (item->check_junk == NULL || item->report_junk == NULL || item->report_non_junk == NULL || item->commit_reports == NULL)
 		goto error;
 	
-	/* assign the plugin to the session*/
-	session->junk_plugin = CAMEL_JUNK_PLUGIN (&(item->csp));
+	/* Add the plugin to the session plugin list*/
+	mail_session_add_junk_plugin (item->plugin_name, CAMEL_JUNK_PLUGIN (&(item->csp)));
 	
 	return item;
 error:
@@ -242,15 +245,14 @@ static int
 emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
-	static gboolean loaded = FALSE;
 		
 	d(printf("loading junk hook\n"));
 
 	if (((EPluginHookClass *)emjh_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
 
-	if (!ep->enabled || loaded) {
-		g_warning ("ignored this junk plugin: not enabled or we have already loaded one");
+	if (!ep->enabled) {
+		g_warning ("ignored this junk plugin: not enabled");
 		return -1;
 	}
 
@@ -268,7 +270,6 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	}
 	
 	eph->plugin = ep;
-	loaded = TRUE;
 
 	return 0;
 }
