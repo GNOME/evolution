@@ -224,7 +224,7 @@ static struct {
 	{ "stock_mail-open-multiple",          NULL },
 	{ NULL,                                NULL },
 	{ "stock_attach",                      NULL },
-	{ "stock_mail-priority-high",          NULL },
+	{ "emblem-important",                  NULL },
 	{ "stock_score-lowest",                NULL },
 	{ "stock_score-lower",                 NULL },
 	{ "stock_score-low",                   NULL },

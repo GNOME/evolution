@@ -1,3 +1,12 @@
+2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-browser.c:
+	* em-folder-view.c:
+	* message-list.c:
+	Load "emblem-important" instead of deprecated
+	"stock_mail-priority-high" icon.  (#387619)
+	Patch from Rodney Dawes.
+
 2007-04-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #373117
