@@ -1,3 +1,7 @@
+2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* Makefile.am: Committing the right Makefile.am
+
 2007-04-03  Srinivasa Ragavan <sragavan@novell.com>
 
 	** Added bogofilter part of Evolution source.
