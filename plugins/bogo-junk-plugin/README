@@ -1,0 +1,35 @@
+Bogofilter plugin for Evolution
+
+This plugin implements junk filtering for the Evolution mailer,
+provided by the bogofilter utility. Bogofilter (http://www.bogofilter.org)
+if a fast and nimble mail filter using a so-called Bayesian technique to
+classify junk and non-junk email.
+
+CAVEATS:
+
+For Evolution versions before 2.5.2, the definition file for the stock
+junk filter plugin, 'org-gnome-sa-junk-plugin.eplug', must be removed
+from the plugin directory to avoid conflict with any alternate junk plugin.
+Simply disabling the SA plugin in the configuration won't help.
+This is due to a flaw in the loading code for this hook type
+(see GNOME bug #313096).
+
+To be able to classify emails as spam, bogofilter needs to have some
+messages in its ham (non-spam) wordlist. This presents something of a
+chicken-and-egg problem for Evolution, because it can feed messages
+to the junk filter for learning as non-junk only after these messages have been
+classified as junk and moved into a junk folder (GNOME bug #322105).
+Thus, if you haven't got a pre-existing bogofilter database, you may need
+to feed it some messages known to be non-junk, using its
+command line utility:
+
+bogofilter -n < saved-ham-message
+
+Alternatively, you may use Spam Trainer, which is a GUI tool that supports
+drag-and-drop from Evolution:
+
+http://spamtrainer.sourceforge.net/
+
+Set it up to use bogofilter commands for training:
+  Ham command: bogofilter -n < %f
+  Spam command: bogofilter -s < %f

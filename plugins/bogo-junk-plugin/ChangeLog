@@ -1,0 +1,21 @@
+2007-04-03  Srinivasa Ragavan <sragavan@novell.com>
+
+	** Added bogofilter part of Evolution source.
+
+2006-02-19  Mikhail Zabaluev <mhz@altlinux.org>
+
+* configure.ac: Switched to evolution-plugin-2.6 for plugin configuration.
+Bumped version to 0.2.0.
+
+* org-altlinux-bf-junk-plugin.eplug.in: Templatized the plugin manifesto,
+with plugin install directory substituted.
+* configure.ac: Added org-altlinux-bf-junk-plugin.eplug to AC_CONFIG_FILES.
+* Makefile.am: Added org-altlinux-bf-junk-plugin.eplug.in to EXTRA_DIST.
+
+* README: Added bug reference to the initial ham training problem.
+
+2005-11-22  Mikhail Zabaluev <mhz@altlinux.org>
+
+* README: Added reference to Spam Trainer.
+
+* README: Reflect on the fix for bug #313096 that made it to Evolution 2.5.2.
