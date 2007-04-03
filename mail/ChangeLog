@@ -1,5 +1,11 @@
 2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
 
+	* evolution-mail.schemas.in.in:
+	Correctly capitalize SpamAssassin.  (#375577)
+	Patch from Priit Laes.
+
+2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
+
 	* em-folder-browser.c:
 	* em-folder-view.c:
 	* message-list.c:

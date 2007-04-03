@@ -890,9 +890,9 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Use Spamassassin daemon and client</short>
+         <short>Use SpamAssassin daemon and client</short>
          <long>
-          Use Spamassassin daemon and client (spamc/spamd)
+          Use SpamAssassin daemon and client (spamc/spamd)
          </long>
       </locale>
     </schema>

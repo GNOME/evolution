@@ -1,3 +1,10 @@
+2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-junk-filter.c (em_junk_sa_get_name):
+	* org-gnome-sa-junk-plugin.eplug.xml:
+	Correctly capitalize SpamAssassin.  (#375577)
+	Patch from Priit Laes.
+
 2006-08-22  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* em-junk-filter.c: (em_junk_sa_init): #if 0 out unused function and

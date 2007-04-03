@@ -99,7 +99,7 @@ char *em_junk_sa_spamd_gconf_binary = NULL;
 static const char *
 em_junk_sa_get_name (void)
 {
-	return _("Spamassassin (built-in)");
+	return _("SpamAssassin (built-in)");
 }
 #endif
 
