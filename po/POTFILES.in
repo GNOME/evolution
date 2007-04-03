@@ -389,6 +389,8 @@ plugins/publish-calendar/publish-calendar.c
 plugins/publish-calendar/publish-calendar.glade
 plugins/sa-junk-plugin/em-junk-filter.c
 plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml
+plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.in
+plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.in
 plugins/save-attachments/org-gnome-save-attachments.eplug.xml
 plugins/save-attachments/org-gnome-save-attachments.xml
 plugins/save-attachments/save-attachments.c

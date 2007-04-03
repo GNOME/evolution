@@ -1,3 +1,7 @@
+2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* POTFILES.in: Add bogofilter files part of translation.
+
 2007-04-02  Jakub Friedl  <jfriedl@suse.cz>
 
 	* cs.po: Fixed a Czech typo.
