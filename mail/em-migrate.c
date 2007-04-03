@@ -2664,10 +2664,11 @@ emm_setup_initial(const char *evolution_dir)
 	while (*language_names != NULL) {
 		local = g_build_filename (
 			EVOLUTION_PRIVDATADIR, "default",
-			*language_names++, "mail", "local", NULL);
+			*language_names, "mail", "local", NULL);
 		if (g_file_test (local, G_FILE_TEST_EXISTS))
 			break;
 		g_free (local);
+		language_names++;
 	}
 
 	/* Make sure we found one. */

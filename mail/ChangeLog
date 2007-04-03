@@ -1,3 +1,8 @@
+2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-migrate.c: (emm_setup_initial): Fix for evolution on crashing
+	while setting up the first account.
+
 2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-event.h: Don't #include <composer/e-msg-composer.h> since we
