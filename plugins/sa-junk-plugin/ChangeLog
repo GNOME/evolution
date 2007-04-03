@@ -1,3 +1,12 @@
+2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Added few more plugin callbacks and moved the UI options from core
+	mail to plugin.
+
+	* em-junk-filter.c: (em_junk_sa_validate_binary),
+	(use_remote_tests_cb), (org_gnome_sa_use_remote_tests):
+	* org-gnome-sa-junk-plugin.eplug.xml:
+
 2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-junk-filter.c (em_junk_sa_get_name):

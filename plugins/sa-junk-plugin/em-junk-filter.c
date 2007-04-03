@@ -47,6 +47,9 @@
 #include <mail/em-utils.h>
 #include <e-util/e-mktemp.h>
 
+#include <gtk/gtk.h>
+#include "mail/em-config.h"
+
 #include <gconf/gconf-client.h>
 
 #define d(x) (camel_debug("junk")?(x):0)
@@ -62,6 +65,8 @@ gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
+gboolean em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
+
 static void em_junk_sa_init (void);
 static void em_junk_sa_finalize (void);
 static void em_junk_sa_kill_spamd (void);
@@ -709,6 +714,12 @@ em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 	}
 }
 
+gboolean
+em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target)
+{
+	return em_junk_sa_is_available ();
+}
+
 static void
 em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, void *data)
 {
@@ -815,3 +826,37 @@ em_junk_sa_finalize (void)
 	g_object_unref(em_junk_sa_gconf);
 	em_junk_sa_kill_spamd ();
 }
+
+static void
+use_remote_tests_cb (GtkWidget *widget, gpointer data)
+{
+	gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+   	gconf_client_set_bool (em_junk_sa_gconf, data, active, NULL);
+}
+
+GtkWidget *
+org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+{
+   	GtkWidget *check, *vbox, *label;
+	char *text = g_strdup_printf ("    <small>%s</small>", _("This will make Spamassasin more reliable, but slower"));
+	guint i = ((GtkTable *)data->parent)->nrows;
+    
+	if (data->old)
+                return data->old;
+		
+	check = gtk_check_button_new_with_mnemonic (_("I_nclude remote tests"));
+	label = gtk_label_new (NULL);
+	gtk_label_set_markup (label, text);
+	g_free (text);
+	vbox = gtk_vbox_new (FALSE, 2);
+	gtk_box_pack_start (vbox, check, FALSE, FALSE, 0);
+	gtk_box_pack_start (vbox, label, FALSE, FALSE, 0);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), em_junk_sa_local_only);
+	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (use_remote_tests_cb), "/apps/evolution/mail/junk/sa/local_only");
+	gtk_table_attach((GtkTable *)data->parent, vbox, 0, 1, i, i+1, 0, 0, 0, 0);
+	gtk_widget_show_all (vbox);
+	return (GtkWidget *)vbox;
+}
+
+
