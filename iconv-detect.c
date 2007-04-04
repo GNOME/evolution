@@ -22,6 +22,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.n>
 #include <iconv.h>
 
 enum {

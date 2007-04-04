@@ -1,5 +1,12 @@
 2007-04-04  Matthew Barnes  <mbarnes@redhat.com>
 
+	* configure.in: Use AC_TRY_RUN instead of AC_TRY_LINK when checking
+	for iconv() in -liconv (#388789).  Patch from Elijah Newren.
+
+	* iconv-detect.c: Fix an implicit function declaration.
+
+2007-04-04  Matthew Barnes  <mbarnes@redhat.com>
+
 	* evolution-plugin.pc.in: Require libxml-2.0.
 
 2007-03-27  Harish Krishnaswamy <harish.krishnaswamy@gmail.com>
