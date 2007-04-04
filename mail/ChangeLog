@@ -1,3 +1,9 @@
+2007-04-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-tree.c (emft_model_row_changed):
+	Update parent rows when a child row changes.  (#352713)
+	Patch by René Stadler.
+
 2007-04-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-migrate.c: (emm_setup_initial): Fix for evolution on crashing
