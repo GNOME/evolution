@@ -15,6 +15,6 @@ errordir=@privdatadir@/errors
 Name: evolution-plugin
 Description: libraries needed for Evolution plugin development
 Version: @VERSION@
-Requires: libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= @BONOBOUI_REQUIRED@ camel-provider-1.2
+Requires: libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= @BONOBOUI_REQUIRED@ camel-provider-1.2 libxml-2.0
 Libs: -L${privlibdir} -leutil -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}

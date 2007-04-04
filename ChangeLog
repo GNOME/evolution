@@ -1,3 +1,7 @@
+2007-04-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution-plugin.pc.in: Require libxml-2.0.
+
 2007-03-27  Harish Krishnaswamy <harish.krishnaswamy@gmail.com>
 	
 	* MAINTAINERS : Updates on the new guards.
