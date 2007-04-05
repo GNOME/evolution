@@ -1,3 +1,9 @@
+2007-04-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/component/addressbook-config.c (addressbook_config_edit_source):
+	Call gettext() on the EConfigItem labels.  (#406933)
+	Patch from Jeff Cai.
+
 2007-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/contact-editor/e-contact-editor.c:
