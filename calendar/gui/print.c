@@ -2647,11 +2647,11 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	paper_size = gtk_paper_size_new ("iso_a4");
 	page_setup = gtk_page_setup_new();
 	gtk_page_setup_set_paper_size(page_setup, paper_size);
-	range = range_selector_new (gpd, date, &view);
 
 	settings = gtk_print_settings_new ();
 	settings = e_print_load_settings ();
 	gpd = e_print_get_dialog_with_config (_("Print Item"), 0, settings);
+	range = range_selector_new (gpd, date, &view);
 
 	t = gtk_paper_size_get_default_top_margin (paper_size, GTK_UNIT_POINTS);
 	r = gtk_paper_size_get_default_right_margin (paper_size, GTK_UNIT_POINTS);
