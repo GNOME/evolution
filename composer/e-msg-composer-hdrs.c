@@ -384,7 +384,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
-		if (account->id->address && account_can_send (account))
+		if (account->id->address && account_can_send (account) && account->enabled)
 			g_ptr_array_add (addresses, account->id->address);
 		
 		e_iterator_next (iter);
@@ -402,8 +402,8 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			g_assert_not_reached ();
 			continue;
 		}
-		
-		if (account->id->address && *account->id->address && account_can_send (account)) {
+	
+		if (account->id->address && *account->id->address && account_can_send (account) && account->enabled) {
 			/* If the account has a unique email address, just
 			 * show that. Otherwise include the account name.
 			 */
