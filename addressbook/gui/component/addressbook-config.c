@@ -1190,8 +1190,11 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 
 	sdialog->config = ec = eab_config_new(E_CONFIG_BOOK, "com.novell.evolution.addressbook.config.accountEditor");
 
-	for (i=0;eabc_items[i].path;i++)
+	for (i=0;eabc_items[i].path;i++) {
+		if (eabc_items[i].label)
+			eabc_items[i].label = gettext(eabc_items[i].label);
 		items = g_slist_prepend(items, &eabc_items[i]);
+	}
 
 	e_config_add_items((EConfig *)ec, items, eabc_commit, NULL, eabc_free, sdialog);
 	e_config_add_page_check((EConfig *)ec, NULL, eabc_check_complete, sdialog);
