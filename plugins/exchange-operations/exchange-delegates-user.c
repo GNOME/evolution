@@ -114,7 +114,7 @@ class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ExchangeDelegatesUserClass, edited),
 			      NULL, NULL,
-			      e2k_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 }
 

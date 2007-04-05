@@ -123,7 +123,7 @@ class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ExchangeConfigListenerClass, exchange_account_created),
 			      NULL, NULL,
-			      e2k_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 	signals[EXCHANGE_ACCOUNT_REMOVED] =
@@ -132,7 +132,7 @@ class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ExchangeConfigListenerClass, exchange_account_removed),
 			      NULL, NULL,
-			      e2k_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 }
