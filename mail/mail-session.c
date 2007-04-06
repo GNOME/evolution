@@ -435,6 +435,7 @@ static void
 main_system_beep (CamelFilterDriver *driver, gpointer user_data)
 {
 	gdk_beep ();
+	camel_object_unref (session);
 }
 
 static void
