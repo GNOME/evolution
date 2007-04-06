@@ -1370,7 +1370,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		CamelFolder *folder;
 		CamelURL *curl;
 		EAccount *account;
-		char *location, *euri, *url;
+		char *location = NULL;
+		char *euri, *url;
 		
 		if (CAMEL_IS_VEE_FOLDER(message_list->folder)) {
 			folder = camel_vee_folder_get_location((CamelVeeFolder *)message_list->folder, (CamelVeeMessageInfo *)msg_info, NULL);
@@ -2356,47 +2357,102 @@ clear_tree (MessageList *ml)
 
 }
 
-/* we try and find something that isn't deleted in our tree
-   there is actually no assurance that we'll find somethign that will
-   still be there next time, but its probably going to work most of the time */
+/* Check if the given node is selectable in the current message list,
+ * which depends on the type of the folder (normal, junk, trash). */
+static gboolean
+is_node_selectable (MessageList *ml, CamelMessageInfo *info)
+{
+	gboolean is_junk_folder;
+	gboolean is_trash_folder;
+	guint32 flags;
+	gboolean flag_junk;
+	gboolean flag_deleted;
+
+	g_return_val_if_fail (ml != NULL, FALSE);
+	g_return_val_if_fail (ml->folder != NULL, FALSE);
+	g_return_val_if_fail (info != NULL, FALSE);
+
+	/* check folder type */
+	is_junk_folder = ml->folder->folder_flags & CAMEL_FOLDER_IS_JUNK;
+	is_trash_folder = ml->folder->folder_flags & CAMEL_FOLDER_IS_TRASH;
+
+	/* check flags set on current message */
+	flags = camel_message_info_flags (info);
+	flag_junk = flags & CAMEL_MESSAGE_JUNK;
+	flag_deleted = flags & CAMEL_MESSAGE_DELETED;
+
+	/* perform actions depending on folder type */	
+	if (is_junk_folder) {
+		/* messages in a junk folder are selectable only if 
+		 * the message is marked as junk and if not deleted
+		 * when hidedeleted is set */
+		if (flag_junk && !(flag_deleted && ml->hidedeleted))
+			return TRUE;
+
+	} else if (is_trash_folder) {
+		/* messages in a trash folder are selectable unless
+		 * not deleted any more */
+		if (flag_deleted)
+			return TRUE;
+	} else {
+		/* in normal folders it depends on hidedeleted,
+		 * hidejunk and the message flags */
+		if (!(flag_junk && ml->hidejunk)
+		    && !(flag_deleted && ml->hidedeleted))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+	
+
+/* We try and find something that is selectable in our tree.  There is
+ * actually no assurance that we'll find something that will still be
+ * there next time, but its probably going to work most of the time. */
 static char *
-find_next_undeleted (MessageList *ml)
+find_next_selectable (MessageList *ml)
 {
 	ETreePath node;
 	int last;
+	int vrow_orig;
 	int vrow;
 	ETree *et = ml->tree;
 	CamelMessageInfo *info;
-	guint32 check;
 
 	node = g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid);
 	if (node == NULL)
 		return NULL;
 
-	check = CAMEL_MESSAGE_JUNK;
-	if (ml->hidedeleted)
-		check |= CAMEL_MESSAGE_DELETED;
-
 	info = get_message_info (ml, node);
-	if (info && (camel_message_info_flags(info) & check) == 0) {
+	if (is_node_selectable (ml, info))
 		return NULL;
-	}
 
 	last = e_tree_row_count (ml->tree);
 
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
-	vrow = e_tree_row_of_node (et, node);
+	vrow_orig = e_tree_row_of_node (et, node);
 
 	/* We already checked this node. */
-	vrow ++;
+	vrow = vrow_orig + 1;
 
 	while (vrow < last) {
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
-		if (info && (camel_message_info_flags(info) & check) == 0) {
+		if (is_node_selectable (ml, info))
 			return g_strdup (camel_message_info_uid (info));
-		}
 		vrow ++;
+	}
+
+	/* We didn't find any undeleted entries _below_ the currently selected one
+         * so let's try to find one _above_ */
+	vrow = vrow_orig - 1;
+
+	while (vrow >= 0) {
+		node = e_tree_node_at_row (et, vrow);
+		info = get_message_info (ml, node);
+		if (is_node_selectable (ml, info))
+			return g_strdup (camel_message_info_uid (info));
+		vrow --;
 	}
 
 	return NULL;
@@ -2443,7 +2499,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	}
 
 	if (ml->cursor_uid)
-		saveuid = find_next_undeleted(ml);
+		saveuid = find_next_selectable (ml);
 
 #ifndef BROKEN_ETREE
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
@@ -2759,7 +2815,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 #endif
 
 	if (ml->cursor_uid)
-		saveuid = find_next_undeleted(ml);
+		saveuid = find_next_selectable (ml);
 
 #ifndef BROKEN_ETREE
 	if (changes) {
