@@ -1,3 +1,9 @@
+2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/memos-component.c (impl__get_userCreatableItems):
+	Fix a duplicate keyboard shortcut.  (#353922)
+	Patch from Diego Escalante Urrelo
+
 2007-04-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/print.c (print_calendar): Fix a crasher. (#401539)

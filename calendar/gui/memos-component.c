@@ -1174,7 +1174,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].description = _("New shared memo");
 	list->_buffer[1].menuDescription = _("_Shared memo");
 	list->_buffer[1].tooltip = _("Create a shared new memo");
-	list->_buffer[1].menuShortcut = 's';
+	list->_buffer[1].menuShortcut = 'h';
 	list->_buffer[1].iconName = "stock_insert-note";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
