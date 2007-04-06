@@ -1,5 +1,10 @@
 2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
 
+	* message-list.c: More intelligent message selection.  (#332765)
+	Patch from Christof Krüger
+
+2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
+
 	* mail-session.c (main_system_beep): Unref 'session'.  (#424795)
 	Patch from Karl Relton
 
