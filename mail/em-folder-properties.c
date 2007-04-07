@@ -145,6 +145,19 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	gtk_widget_show (table);
 	gtk_box_pack_start ((GtkBox *) parent, table, TRUE, TRUE, 0);
 
+	/* to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567 */
+	label = gtk_label_new (ngettext ("Unread messages:", "Unread messages:", prop_data->unread));
+	gtk_widget_show (label);
+	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+	
+	sprintf(countstr, "%d", prop_data->unread);
+	label = gtk_label_new (countstr);
+	gtk_widget_show (label);
+	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	row++;
+
 	/* TODO: can this be done in a loop? */
 	/* to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567 */
 	label = gtk_label_new (ngettext ("Total messages:", "Total messages:", prop_data->total));
@@ -153,19 +166,6 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 	
 	sprintf(countstr, "%d", prop_data->total);
-	label = gtk_label_new (countstr);
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	row++;
-
-	/* to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567 */
-	label = gtk_label_new (ngettext ("Unread messages:", "Unread messages:", prop_data->unread));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-	
-	sprintf(countstr, "%d", prop_data->unread);
 	label = gtk_label_new (countstr);
 	gtk_widget_show (label);
 	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);

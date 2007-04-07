@@ -544,6 +544,9 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 			    || g_ascii_strcasecmp(emfv->folder->full_name, ".") == 0)
 				bits |= 8;
 
+			if (selected->len > 1)
+				g_string_append_printf(tmp, ngettext ("%d selected, ", "%d selected, ", selected->len), selected->len);
+
 			if (bits == 1)
 				g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
 			else if (bits == 2)
@@ -553,13 +556,11 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 			else {
 				if (!emfv->hide_deleted)
 					visible += deleted;
+				if (unread && selected->len <= 1)
+					g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
 				g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
-				if (unread && selected->len <=1)
-					g_string_append_printf(tmp, ngettext (", %d unread", ", %d unread", unread), unread);
 			}
 
-			if (selected->len > 1)
-				g_string_append_printf(tmp, ngettext (", %d selected", ", %d selected", selected->len), selected->len);
 			message_list_free_uids(emfv->list, selected);
 		}
 

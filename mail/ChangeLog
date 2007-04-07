@@ -1,5 +1,15 @@
 2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #383953
+
+	* em-folder-properties.c (emfp_get_folder_item):
+	Show unread messages before total messages.
+
+	* mail-component.c (view_changed):
+	Show unread or selected messages before total messages.
+
+2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
+
 	* message-list.c: More intelligent message selection.  (#332765)
 	Patch from Christof Krüger
 
