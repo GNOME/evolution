@@ -1411,12 +1411,12 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT){
 		
-		char *body = NULL; 
-		char *orig_from = (char *) malloc (sizeof (char) * 100);
+		GString *body;
+		char *orig_from = NULL;
 		char *description = NULL;
-		char *subject = (char *) malloc (sizeof (char) * 100);
-		char *location = (char *) malloc (sizeof (char) * 100);
-		char *time = (char *) malloc (sizeof (char) * 64);
+		char *subject = NULL;
+		const char *location = NULL;
+		char *time = NULL;
 		char *html_description = NULL;
 		GSList *text_list = NULL;
 		ECalComponentOrganizer organizer;
@@ -1448,11 +1448,9 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value)
 			orig_from = g_strdup (itip_strip_mailto (organizer.value));
-		else
-			orig_from = "";
 
 		
-		e_cal_component_get_location (comp, (const char **)&location);
+		e_cal_component_get_location (comp, &location);
 		if (!location)
 			location = "Unspecified";
 
@@ -1469,46 +1467,43 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 				start_zone = calendar_config_get_icaltimezone ();
 
 			start = icaltime_as_timet_with_zone (*dtstart.value, start_zone);
-			strcpy (time, ctime (&start));
+			time = g_strdup (ctime (&start));
 		}
 		
 	
-		body = "<br><br><hr><br><b>______ Original Appointment ______ </b><br><br><table>";
+		body = g_string_new ("<br><br><hr><br><b>______ Original Appointment ______ </b><br><br><table>");
 
-		if (orig_from && *orig_from){
-			char *part1 = (char *) malloc (sizeof (char) * 200);
-			sprintf (part1, "<tr><td><b>From</b></td><td>:</td><td>%s</td></tr>", orig_from);
-			body = g_strconcat (body, (gchar *)part1, NULL);
-			g_free (part1);
-		}
+		if (orig_from && *orig_from)
+			g_string_append_printf (body,
+				"<tr><td><b>From</b></td>"
+				"<td>:</td><td>%s</td></tr>", orig_from);
+		g_free (orig_from);
 
-		if (subject){
-			char *part2 = (char *) malloc (sizeof (char) * 100);
-			sprintf (part2, "<tr><td><b>Subject</b></td><td>:</td><td>%s</td></tr>", subject);
-			body = g_strconcat (body, (gchar *)part2, NULL);
-			g_free (part2);
-		}
-			
-		{
-			char *part3 = (char *) malloc (sizeof (char) * 100);
-			sprintf (part3, "<tr><td><b>Location</b></td><td>:</td><td>%s</td></tr>", location);
-			body = g_strconcat (body, (gchar *)part3, NULL);
-			g_free (part3);
-		}
+		if (subject)
+			g_string_append_printf (body,
+				"<tr><td><b>Subject</b></td>"
+				"<td>:</td><td>%s</td></tr>", subject);
+		g_free (subject);
 
-		if (time){
-			char *part4 = (char *) malloc (sizeof (char) * 100);
-			sprintf (part4, "<tr><td><b>Time</b></td><td>:</td><td>%s</td></tr></table><br>", time);
-			body = g_strconcat (body, (gchar *)part4, NULL);
-			g_free (part4);
-		}	
+		g_string_append_printf (body,
+			"<tr><td><b>Location</b></td>"
+			"<td>:</td><td>%s</td></tr>", location);
+
+		if (time)
+			g_string_append_printf (body,
+				"<tr><td><b>Time</b></td>"
+				"<td>:</td><td>%s</td></tr>", time);
+		g_free (time);
+
+		g_string_append_printf (body, "</table><br>");
 
 		html_description = html_new_lines_for (description);
-		body = g_strconcat (body, (gchar *)html_description, NULL);
-
+		g_string_append (body, html_description);
 		g_free (html_description);
-				
-		GNOME_Evolution_Composer_setBody (composer_server, body, "text/html", &ev);
+
+		GNOME_Evolution_Composer_setBody (composer_server, body->str, "text/html", &ev);
+		g_string_free (body, TRUE);
+
                 if (BONOBO_EX (&ev)) {
                         g_warning ("Unable to set body text while sending iTip message");
                         goto cleanup;

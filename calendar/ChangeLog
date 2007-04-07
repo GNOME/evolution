@@ -1,5 +1,11 @@
 2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
 
+	* gui/itip-utils.c (reply_to_calendar_comp):
+	Use a GString to construct the body contents and also fix several
+	memory leaks.  (#408423)  Based on a patch from Daniel Gryniewicz.
+
+2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
+
 	* gui/memos-component.c (impl__get_userCreatableItems):
 	Fix a duplicate keyboard shortcut.  (#353922)
 	Patch from Diego Escalante Urrelo
