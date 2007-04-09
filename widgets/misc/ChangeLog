@@ -1,3 +1,10 @@
+2007-04-09  Jeff Cai<jeff.cai@sun.com>
+
+	* e-dateedit.c: (rebuild_time_popup):
+	Use e_time_format_time to ensure evolution and evolution-
+	data-server use same translations.
+	Fix #380843.
+
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-icon-entry.c:
