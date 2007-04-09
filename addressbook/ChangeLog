@@ -1,3 +1,12 @@
+2007-04-09  simon.zheng  <simon.zheng@sun.com>
+
+	** Fix for bug #426829.
+
+	* gui/contact-editor/eab-editor.c: (eab_editor_confirm_delete):
+	* gui/widgets/eab-contact-display.c: (render_contact):
+	To avoid printing a NULL char point, adding statements to
+	check the return result of et_email_location() and e_contact_get().
+
 2007-04-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/component/addressbook-config.c (addressbook_config_edit_source):
