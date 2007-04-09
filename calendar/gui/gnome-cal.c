@@ -1188,7 +1188,7 @@ update_todo_view (GnomeCalendar *gcal)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 		
 	if ((sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE)) != NULL) {
-		priv->todo_sexp = g_strdup_printf ("(and %s %s)", sexp, priv->sexp);
+		priv->todo_sexp = g_strdup_printf ("(and %s %s)", sexp, priv->sexp ? priv->sexp : "");
 		e_cal_model_set_search_query (model, priv->todo_sexp);
 		g_free (sexp);
 	} else {

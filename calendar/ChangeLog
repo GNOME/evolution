@@ -1,3 +1,10 @@
+2007-04-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #415562 from Wang Xin
+
+	* gui/gnome-cal.c: (update_todo_view): Fix for a critical warning
+	crasher.
+
 2007-04-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/print.c (print_calendar): Fix a crasher. (#401539)
