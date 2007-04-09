@@ -1,3 +1,31 @@
+Evolution 2.10.1 2007-04-09
+---------------------------
+
+Bug fixes:
+	#343195 - Hiroyuki Ikezoe
+	#332765 - Christof Krüger
+	#424795 - Karl Relton
+	#352713 - René Stadler
+	#400241 - Matthew Barnes
+	#415562 - Wang Xin
+	#401539 - Ebby Wiselyn
+	#356523 - Martin Olsson
+	#426487 - Simon Zheng
+	#426829 - Simon Zheng
+	#406933 - Jeff Cai
+	#380843 - Jeff Cai
+	#388789 - Elijah Newren
+	#301149 - Gilles Dartiguelongue	
+	
+Updated translations:
+	Inaki Larranaga Murgoitio (eu)
+	Claude Paroz & Stéphane Raimbault (fr)
+	Jakub Friedl (cs)
+	Pema Geyleg (dz)
+	Claudio Saavedra (es)
+	Peter Bach (da)
+	Ignacio Casal Quinteiro (gl)
+
 Evolution 2.10.0 2007-03-12
 ---------------------------
 

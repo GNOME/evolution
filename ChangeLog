@@ -1,3 +1,7 @@
+2007-04-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.10.1 release updates.
+
 2007-04-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in: Use AC_TRY_RUN instead of AC_TRY_LINK when checking
