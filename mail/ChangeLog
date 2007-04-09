@@ -1,3 +1,10 @@
+2007-04-09  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #343195
+
+	* em-folder-properties.c: (emfp_dialog_got_folder): Get total number
+	of mails with CAMEL_FOLDER_TOTAL if the folder is junk folder.
+
 2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	* message-list.c: More intelligent message selection.  (#332765)
