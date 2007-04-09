@@ -5170,18 +5170,21 @@ CamelMimePart *
 e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 					   const char *file_name)
 {
-	char *mime_type, *cid, *url, *name;
+	char *mime_type, *cid, *url, *name, *dec_file_name;
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
 	CamelMimePart *part;
 	struct stat statbuf;
 	EMsgComposerPrivate *p = composer->priv;
+
+	dec_file_name = g_strdup(file_name);
+	camel_url_decode(dec_file_name);
 	
 	/* check for regular file */
-	if (g_stat (file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
+	if (g_stat (dec_file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
 		return NULL;
 	
-	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
+	stream = camel_stream_fs_new_with_name (dec_file_name, O_RDONLY, 0);
 	if (!stream)
 		return NULL;
 	
@@ -5189,7 +5192,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
 	
-	mime_type = e_msg_composer_guess_mime_type (file_name);
+	mime_type = e_msg_composer_guess_mime_type (dec_file_name);
 	camel_data_wrapper_set_mime_type (wrapper, mime_type ? mime_type : "application/octet-stream");
 	g_free (mime_type);
 	
@@ -5199,17 +5202,19 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	
 	cid = camel_header_msgid_generate ();
 	camel_mime_part_set_content_id (part, cid);
-	name = g_path_get_basename(file_name);
+	name = g_path_get_basename(dec_file_name);
 	camel_mime_part_set_filename (part, name);
 	g_free(name);
 	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
 	
-	url = g_strdup_printf ("file:%s", file_name);
+	url = g_strdup_printf ("file:%s", dec_file_name);
 	g_hash_table_insert (p->inline_images_by_url, url, part);
 	
 	url = g_strdup_printf ("cid:%s", cid);
 	g_hash_table_insert (p->inline_images, url, part);
 	g_free (cid);
+
+	g_free(dec_file_name);
 	
 	return part;
 }	

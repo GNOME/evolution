@@ -1,3 +1,10 @@
+2007-04-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #356523 from Martin Olsson
+
+	* e-msg-composer.c: (e_msg_composer_add_inline_image_from_file): Copies 
+	the file uri and decodes it before trying to attach the image.
+
 2007-02-26  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	** Fixes #401546
