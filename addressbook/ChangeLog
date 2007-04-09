@@ -1,5 +1,14 @@
 2007-04-09  simon.zheng  <simon.zheng@sun.com>
 
+	** Fix for bug #426487
+
+	* gui/widgets/eab-contact-display.c: (accum_time_attribute):
+	strftime() supplied by OS is subject to locale encoding, i.e. 
+	ja_JP.PCK. Using g_date_strftime() instead, which works on a 
+	UTF-8 format string and store a UTF-8 result.
+
+2007-04-09  simon.zheng  <simon.zheng@sun.com>
+
 	** Fix for bug #426829.
 
 	* gui/contact-editor/eab-editor.c: (eab_editor_confirm_delete):

@@ -415,17 +415,16 @@ static void
 accum_time_attribute (GString *gstr, EContact *contact, const char *html_label, EContactField field, const char *icon, unsigned int html_flags)
 {
 	EContactDate *date;
-	struct tm tdate;
+	GDate *gdate = NULL;
 	char sdate[100];
 	
 	date = e_contact_get (contact, field);
-	memset (&tdate, 0, sizeof (struct tm));
-
 	if (date) {
-		tdate.tm_year = date->year-1900;
-		tdate.tm_mday = date->day;
-		tdate.tm_mon = date->month-1;
-		strftime (sdate, 100, "%x", &tdate);
+		gdate = g_date_new_dmy ( date->day,
+					 date->month,
+					 date->year );
+		g_date_strftime (sdate, 100, "%x", gdate);
+		g_date_free (gdate);
 		accum_name_value (gstr, html_label, sdate, icon, html_flags);
 		e_contact_date_free (date);
 	}
