@@ -269,6 +269,13 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 			prop_data->total += deleted;
 	}
 
+	/*
+	 * If the ffolder is junk folder, get total number of mails.
+	 */
+	if (store->flags & CAMEL_STORE_VJUNK) {
+		camel_object_get (folder, NULL, CAMEL_FOLDER_TOTAL, &prop_data->total, NULL);
+	}
+
 	if (store == mail_component_peek_local_store(NULL)
 	    && (!strcmp(prop_data->name, "Drafts")
 		|| !strcmp(prop_data->name, "Inbox")
