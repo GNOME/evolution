@@ -1435,12 +1435,10 @@ rebuild_time_popup			(EDateEdit	*dedit)
 
 			if (priv->use_24_hour_format)
 				/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-				format = _("%H:%M");
+				e_time_format_time (&tmp_tm, 1, 0, buffer, sizeof (buffer));
 			else
 				/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-				format = _("%I:%M %p");
-
-			e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
+				e_time_format_time (&tmp_tm, 0, 0, buffer, sizeof (buffer));
 
 			/* For 12-hour am/pm format, we want space padding, not zero padding. This
 			 * can be done with strftime's %l, but it's a potentially unportable extension. */
@@ -1762,12 +1760,11 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 
 		if (priv->use_24_hour_format)
 			/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-			format = _("%H:%M");
+			e_time_format_time (&tmp_tm, 1, 0, buffer, sizeof (buffer));
 		else
 			/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-			format = _("%I:%M %p");
+			e_time_format_time (&tmp_tm, 0, 0, buffer, sizeof (buffer));
 
-		e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
 		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
 				    buffer);
 	}
