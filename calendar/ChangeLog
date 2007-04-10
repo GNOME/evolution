@@ -1,3 +1,8 @@
+2007-04-10  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/dialogs/cal-prefs-dialog.glade: add missing mnemonic widgets. 
+	Fixes bug #329168.
+
 2007-04-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/itip-utils.c (reply_to_calendar_comp):
