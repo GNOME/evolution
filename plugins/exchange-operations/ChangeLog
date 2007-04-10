@@ -1,3 +1,8 @@
+2007-04-10  Elizabeth Greene <nerdygirl_ellie@yahoo.com>
+
+	** Fixes #426481
+	* exchange-account-setup.c: Fix Typo Assitant
+
 2007-04-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* exchange-config-listener.c (class_init):
