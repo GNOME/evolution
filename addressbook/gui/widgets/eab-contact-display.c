@@ -532,9 +532,9 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 		gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
 		gtk_html_stream_printf (html_stream,
 					"</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>",
-					_("E-mail"), accum->str);
+					_("Email"), accum->str);
 #else
-		render_name_value (html_stream, _("E-mail"), accum->str, NULL,
+		render_name_value (html_stream, _("Email"), accum->str, NULL,
 				   E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_NL);
 #endif
 	}
