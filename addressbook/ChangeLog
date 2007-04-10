@@ -1,3 +1,9 @@
+2007-04-10  Elizabeth Greene <nerdygirl_ellie@yahoo.com>
+
+        ** Fix for bug #426743.
+	* addressbook/tools/evolution-addressbook-export.c:
+	Corrected typo "asychronous".
+
 2006-04-10  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/widgets/eab-contact-display.c: 
