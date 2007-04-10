@@ -1,3 +1,9 @@
+2007-04-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #329168 from Andre Klapper
+
+	* gui/dialogs/cal-prefs-dialog.glade: Set the mnemonics for widgets.
+
 2007-04-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #415562 from Wang Xin
