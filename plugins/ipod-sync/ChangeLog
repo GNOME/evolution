@@ -1,3 +1,8 @@
+2007-04-10  Andre Klapper  <a9016009@gmx.de>
+
+	* plugins/ipod-sync/evolution-ipod-sync.c:
+	fix typos and reword a string. Fixes bug #404764.
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

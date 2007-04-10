@@ -60,11 +60,11 @@ ipod_check_status (gboolean silent)
 		if (!silent) {
 			GtkWidget *message = gtk_message_dialog_new_with_markup (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 										_("<span weight=\"bold\" size=\"larger\">"
-										  "Search for a iPod failed"
+										  "Search for an iPod failed"
 										  "</span>\n\n"
-										  "Evolution could not find a iPod to synchronize with."
-										  "Either it is not connected to the system or it is "
-										  "not powered on."));
+										  "Evolution could not find an iPod to synchronize with. "
+										  "Either the iPod is not connected to the system or it "
+										  "is not powered on."));
 
 			gtk_dialog_run (GTK_DIALOG (message));
 			gtk_widget_destroy (message);
