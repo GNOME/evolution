@@ -19598,8 +19598,8 @@ msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
 msgstr ""
-"No s'ha trobat el directori de sortida a l'iPod. Assegureu-ovs que l'iPod "
-"s'ha configurat correctament i proveu de nou."
+"No s'ha trobat el directori de sortida a l'iPod. Assegureu-vos que l'iPod "
+"s'ha configurat correctament i torneu-ho a provar."
 
 # fitxer: mail.ca.po.1
 #
