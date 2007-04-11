@@ -65,6 +65,7 @@
 #include <bonobo/bonobo-ui-util.h>
 
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
 #include <libedataserver/e-data-server-util.h>
@@ -76,6 +77,7 @@
 
 #include "misc/e-charset-picker.h"
 #include <misc/e-filter-bar.h>
+#include <misc/e-spinner.h>
 
 #include "e-util/e-error.h"
 #include "e-util/e-dialog-utils.h"
@@ -2356,6 +2358,35 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	g_object_unref (emfv);
 }
 
+
+static gboolean
+emfv_spin(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+{
+	GtkWidget *ep;
+
+	if (!strcmp(eb->classid, "spinner")) {
+		GtkWidget *box, *label;
+
+		label = gtk_label_new (NULL);
+		gtk_label_set_markup ((GtkLabel *)label, _("<b>Retrieving Message...</b>"));
+		box = gtk_hbox_new (FALSE, 0);
+		
+		ep = e_spinner_new ();
+		e_spinner_set_size ((ESpinner *)ep, GTK_ICON_SIZE_SMALL_TOOLBAR);
+		e_spinner_start ((ESpinner *)ep);
+
+		gtk_box_pack_start ((GtkBox *)box, ep, FALSE, FALSE, 0);
+		gtk_box_pack_start ((GtkBox *)box, label, FALSE, FALSE, 0);
+
+		gtk_container_add ((GtkContainer *)eb, box);
+		gtk_widget_show_all ((GtkWidget *)eb);
+		
+		g_signal_handlers_disconnect_by_func(efh, emfv_spin, NULL);
+	}
+
+	return TRUE;
+}
+
 static gboolean
 emfv_message_selected_timeout(void *data)
 {
@@ -2363,12 +2394,23 @@ emfv_message_selected_timeout(void *data)
 
 	if (emfv->priv->selected_uid) {
 		if (emfv->displayed_uid == NULL || strcmp(emfv->displayed_uid, emfv->priv->selected_uid) != 0) {
+			GtkHTMLStream *hstream;
+
 			g_free(emfv->displayed_uid);
 			emfv->displayed_uid = emfv->priv->selected_uid;
 			emfv->priv->selected_uid = NULL;
 			g_object_ref (emfv);
 			/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
 			e_profile_event_emit("goto.load", emfv->displayed_uid, 0);
+			hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
+
+			g_signal_connect(((EMFormatHTML *)emfv->preview)->html, "object_requested", G_CALLBACK(emfv_spin), NULL);
+
+			gtk_html_stream_printf(hstream, "<object classid=\"spinner\"><h2>%s</h2><p>%s</p></object>",
+						       _("Retrieving Message"),
+						       emfv->priv->selected_uid);
+			gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
+
 			mail_get_messagex(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
 		} else {
 			e_profile_event_emit("goto.empty", "", 0);

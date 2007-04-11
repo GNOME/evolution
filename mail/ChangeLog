@@ -1,3 +1,8 @@
+2007-04-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-folder-view.c: (emfv_spin), (emfv_message_selected_timeout): Add
+	a progress spinner widget in the preview while fetching messages.
+
 2007-04-09  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #343195 
