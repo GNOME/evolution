@@ -37,6 +37,8 @@ widgetsinclude_HEADERS =			\
 	e-activity-handler.h			\
 	e-attachment.h				\
 	e-attachment-bar.h			\
+	e-spinner.c				\
+	e-spinner.h				\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-cell-date-edit.h			\
