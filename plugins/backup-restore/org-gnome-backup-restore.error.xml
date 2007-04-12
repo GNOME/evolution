@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org.gnome.backup-restore">
+
+ <error id="invalid-archive" type="warning">
+  <_title>Invalid Evolution archive</_title>
+  <_secondary>Please select a valid archive file to restore.</_secondary>
+ </error>
+   <error id="backup-confirm" type="warning" default="GTK_RESPONSE_NO">
+    <_primary>Are you sure you want to close Evolution?</_primary>
+    <_secondary xml:space="preserve">Evolution backup can start only when Evolution is not running. Please make sure that you save and close all your unsaved windows before proceeding.  If you want Evolution to restart automatically after backup, please enable the toggle button.</_secondary>
+    <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+  </error>
+   <error id="restore-confirm" type="warning" default="GTK_RESPONSE_NO">
+    <_primary>Are you sure you want to restore Evolution from the selected archive?</_primary>
+    <_secondary xml:space="preserve">This will delete all your current Evolution data and settings and restore them from your backup. Evolution restore can start only when Evolution is not running. Please make sure that you close all your unsaved windows before you proceed. If you want Evolution to restart automatically restart after restore, please enable the toggle button.</_secondary>
+    <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+  </error>  
+</error-list>

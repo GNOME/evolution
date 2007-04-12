@@ -1,3 +1,21 @@
+2007-04-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Reworked Backup/Restore plugin. It comes in File menu for
+	backup/restore. It also provides a option to restore, while setting up
+	a new account. Option added to show GUI progress for backup/restore.
+
+	* Makefile.am: Added error file to build.
+	* backup-restore.c: (backup), (restore), (sanity_check),
+	(dialog_prompt_user), (org_gnome_backup_restore_backup),
+	(org_gnome_backup_restore_restore), (check_toggled),
+	(restore_wizard), (file_changed), (backup_restore_page),
+	(backup_restore_commit), (backup_restore_abort):
+	* backup.c: (backup), (restore), (check), (pbar_update),
+	(thread_start), (idle_cb), (dlg_response), (main):
+	* org-gnome-backup-restore.eplug.xml:
+	* org-gnome-backup-restore.error.xml:
+	* org-gnome-backup-restore.xml:
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

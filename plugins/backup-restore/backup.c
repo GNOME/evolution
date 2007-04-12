@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 
 #include <glib/gi18n.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-util.h>
 
 #define EVOLUTION "evolution-" BASE_VERSION
@@ -20,35 +21,63 @@
 #define ARCHIVE_NAME "evolution-backup.tar.gz"
 
 static gboolean backup_op = FALSE;
+static char *bk_file;
 static gboolean restore_op = FALSE;
+static char *res_file;
 static gboolean check_op = FALSE;
+static char *chk_file;
 static gboolean restart_arg = FALSE;
+static gboolean gui_arg = FALSE;
+static int result=0;
+static GtkWidget *progress_dialog;
+static GtkWidget *pbar;
+static char *txt = NULL;
+gboolean complete = FALSE;
 
 #define d(x) x
 
 /* #define s(x) system (x) */
 #define s(x) G_STMT_START { g_message (x); system (x); } G_STMT_END
 
+#define CANCEL(x) if (x) return;
+
 static void
 backup (const char *filename) 
 {
 	char *command;
-	
+
+	CANCEL (complete);
+	txt = _("Shutting down Evolution");
 	/* FIXME Will the versioned setting always work? */
 	s (EVOLUTION " --force-shutdown");
 
+	CANCEL (complete);
+	txt = _("Backing Evolution accounts and settings");
 	s ("gconftool-2 --dump " GCONF_DIR " > " GCONF_DUMP_PATH);
+
+
+	CANCEL (complete);
+	txt = _("Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)");
 
 	/* FIXME stay on this file system ,other options?" */
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
 	/* FIXME archive location?" */
-	command = g_strdup_printf ("cd ~ && tar zpcf %s .evolution", filename);
+	command = g_strdup_printf ("cd ~ && tar zpcf %s .evolution .camel_certs", filename);
 	s (command);
 	g_free (command);
 
-	if (restart_arg)
+	txt = _("Backup complete");
+
+	if (restart_arg) {
+
+		CANCEL (complete);
+		txt = _("Restarting Evolution");
+		complete=TRUE;
+		
 		s (EVOLUTION);
+	}
+
 }
 
 static void
@@ -57,32 +86,49 @@ restore (const char *filename)
 	char *command;
 	
 	/* FIXME Will the versioned setting always work? */
+	CANCEL (complete);
+	txt = _("Shutting down Evolution");
 	s (EVOLUTION " --force-shutdown");
 
+	CANCEL (complete);
+	txt = _("Backup current Evolution data");
 	s ("mv " EVOLUTION_DIR " " EVOLUTION_DIR_BACKUP);
+	s ("mv ~/.camel_certs ~/.camel_certs_old");
 
+	CANCEL (complete);
+	txt = _("Extracting files from the archive");
 	command = g_strdup_printf ("cd ~ && tar zxf %s", filename);
 	s (command);
 	g_free (command);
 
+	CANCEL (complete);
+	txt = _("Loading Evolution settings");
 	s ("gconftool-2 --load " GCONF_DUMP_PATH);
+
+	CANCEL (complete);
+	txt = _("Removing temporary backup files");
 	s ("rm -rf " GCONF_DUMP_PATH);
 	s ("rm -rf " EVOLUTION_DIR_BACKUP);
-
-	if (restart_arg)
+	s ("rm -rf ~/.camel_certs_old");
+	
+	if (restart_arg) {
+		CANCEL (complete);
+		txt = _("Restarting Evolution");
+		complete=TRUE;
 		s (EVOLUTION);
+	}
+
 }
 
 static void
 check (const char *filename) 
 {
 	char *command;
-	int result;
 
 	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", filename);
 	result = system (command);
 	g_free (command);
-
+	
 	g_message ("First result %d", result);
 	if (result)
 		exit (result);
@@ -93,9 +139,67 @@ check (const char *filename)
 
 	g_message ("Second result %d", result);
 
-	exit (result);
 }
 
+static gboolean 
+pbar_update()
+{
+	if (!complete) {
+		 gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
+		 gtk_progress_bar_set_text ((GtkProgressBar *)pbar, txt);
+		return TRUE;
+	}
+
+	gtk_main_quit ();
+	return FALSE;
+}
+
+static gpointer 
+thread_start (gpointer data)
+{
+	if (backup_op)
+		backup (bk_file);
+	else if (restore_op)
+		restore (res_file);
+	else if (check_op)
+		check (chk_file);
+
+	complete = TRUE;
+	
+	return GINT_TO_POINTER(result);
+}
+
+static gboolean 
+idle_cb(gpointer data)
+{
+	GThread *t;
+
+	if (gui_arg) {
+		/* Show progress dialog */
+		 gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
+		g_timeout_add (50, pbar_update, NULL);
+	}
+
+	t = g_thread_create (thread_start, NULL, FALSE, NULL);
+
+	return FALSE;
+}
+
+static void
+dlg_response (GtkWidget *dlg, gint response, gpointer data)
+{
+	/* We will cancel only backup/restore operations and not the check operation */
+	complete = TRUE;
+	
+	/* If the response is not of delete_event then destroy the event */
+	if (response != GTK_RESPONSE_NONE)
+		gtk_widget_destroy (dlg);
+	
+	/* We will kill just the tar operation. Rest of the them will be just a second of microseconds.*/
+	s ("pkill tar");
+
+	gtk_main_quit ();
+}
 int
 main (int argc, char **argv)
 {
@@ -103,6 +207,7 @@ main (int argc, char **argv)
 	GnomeProgram *program;
 	poptContext popt_context;
 	const char **args;
+	char *file = NULL, *oper = NULL;
 
 	struct poptOption options[] = {
 		{ "backup", '\0', POPT_ARG_NONE, &backup_op, 0, 
@@ -113,9 +218,12 @@ main (int argc, char **argv)
 		  N_("Check Evolution archive"), NULL },
 		{ "restart", '\0', POPT_ARG_NONE, &restart_arg, 0, 
 		  N_("Restart Evolution"), NULL },
+		{ "gui", '\0', POPT_ARG_NONE, &gui_arg, 0, 
+		  N_("With GUI"), NULL },
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
 
+	gtk_init (&argc, &argv);
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
@@ -130,24 +238,72 @@ main (int argc, char **argv)
 	popt_context = g_value_get_pointer (&popt_context_value);
 	args = poptGetArgs (popt_context);
 
+
 	if (args != NULL) {
 		const char **p;
 		
 		for (p = args; *p != NULL; p++) {
 			if (backup_op) {
+				oper = _("Backing up to %s");
 				d(g_message ("Backing up to %s", (char *) *p));
-				backup ((char *) *p);
+				bk_file = g_strdup ((char *) *p);
+				file = bk_file;
 			} else if (restore_op) {
+				oper = _("Restoring from %s");
 				d(g_message ("Restoring from %s", (char *) *p));
-				restore ((char *) *p);
+				res_file = g_strdup ((char *) *p);
+				file = res_file;
 			} else if (check_op) {
 				d(g_message ("Checking %s", (char *) *p));
-				check ((char *) *p);			
+				chk_file = g_strdup ((char *) *p);
 			}
 		}
 	}
 
+	if (gui_arg) {
+		GtkWidget *vbox, *hbox, *label;
+		char *str=NULL;
+
+		/* Backup / Restore only can have GUI. We should restrict the rest */
+	 	progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Backup"): _("Evolution Restore"),
+        	                                          NULL,
+                	                                  GTK_DIALOG_MODAL,
+                        	                          GTK_STOCK_CANCEL,
+                                	                  GTK_RESPONSE_REJECT,
+                                        	          NULL);
+		if (oper && file) 
+			str = g_strdup_printf(oper, file);
+	
+		vbox = gtk_vbox_new (FALSE, 6);
+		if (str) {
+			hbox = gtk_hbox_new (FALSE, 12);
+			label = gtk_label_new (str);
+			g_free (str);
+			gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
+			gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
+		}
+		hbox = gtk_hbox_new (FALSE, 12);
+		pbar = gtk_progress_bar_new ();
+		gtk_box_pack_start ((GtkBox *)hbox, pbar, TRUE, TRUE, 6);
+
+
+
+		gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 0);
+		
+		gtk_container_add (GTK_CONTAINER (GTK_DIALOG(progress_dialog)->vbox), vbox);
+		gtk_window_set_default_size ((GtkWindow *) progress_dialog,450, 120);
+		g_signal_connect (progress_dialog, "response", G_CALLBACK(dlg_response), NULL);
+		gtk_widget_show_all (progress_dialog);
+	} else if (check_op) {
+		 /* For sanity we don't need gui */
+		 check (chk_file);
+		 exit (result);
+	}
+
+	g_idle_add (idle_cb, NULL);
+	gtk_main ();
+
 	g_value_unset (&popt_context_value);
 	
-	return 0;
+	return result;
 }

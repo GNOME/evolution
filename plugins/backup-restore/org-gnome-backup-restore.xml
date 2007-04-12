@@ -1,10 +1,10 @@
 <Root>
   <commands>
-    <cmd name="EPBRBackup" _label="Backup Settings..."
+    <cmd name="EPBRBackup" _label="_Backup Settings..."
       _tip="Backup and restore Evolution data and settings"
       pixtype="pixmap"/>
 
-    <cmd name="EPBRRestore" _label="Restore Settings..."
+    <cmd name="EPBRRestore" _label="R_estore Settings..."
       _tip="Backup and restore Evolution data and settings"
       pixtype="pixmap"/>
 

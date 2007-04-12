@@ -29,6 +29,11 @@
       </menu>
 
     </hook>
+	    <hook class="org.gnome.evolution.mail.config:1.0">
+		      <group target="account" id="org.gnome.evolution.mail.config.accountWizard" commit="backup_restore_commit" abort="backup_restore_abort">
+			<item type="page" path="0.startup_page.10" factory="backup_restore_page"/>
+		      </group>
+	    </hook>
 
   </e-plugin>
 </e-plugin-list>
