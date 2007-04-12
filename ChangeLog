@@ -1,3 +1,8 @@
+2007-04-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Make the libiconv test program return a value. (#388789)
+
 2007-04-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution-plugin.pc.in: Require libxml-2.0.
