@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-28 23:06+0100\n"
-"PO-Revision-Date: 2007-04-02 21:35+0200\n"
+"PO-Revision-Date: 2007-04-14 12:35+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -14149,7 +14149,7 @@ msgstr "Rechercher dans le message"
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:2
 msgid "Flag to Follow Up"
-msgstr "Marquer à donner suite"
+msgstr "Marquer pour donner suite"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "Folder Subscriptions"
@@ -20224,7 +20224,7 @@ msgstr "Marquer les messages sélectionnés pour suivi"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "Faire s_uivre..."
+msgstr "Donner _suite..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -21475,7 +21475,7 @@ msgstr "_Maintenant"
 
 #: ../widgets/misc/e-dateedit.c:467
 msgid "_Today"
-msgstr "_Aujourd'hui"
+msgstr "A_ujourd'hui"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
