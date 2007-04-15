@@ -273,9 +273,13 @@ plugins/audio-inline/org-gnome-audio-inline.eplug.xml
 plugins/backup-restore/backup-restore.c
 plugins/backup-restore/backup.c
 plugins/backup-restore/org-gnome-backup-restore.eplug.xml
+plugins/backup-restore/org-gnome-backup-restore.error.xml
 plugins/backup-restore/org-gnome-backup-restore.xml
 plugins/bbdb/bbdb.c
 plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml
+plugins/bogo-junk-plugin/bf-junk-filter.c
+plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.in
+plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.in
 plugins/caldav/caldav-source.c
 plugins/caldav/org-gnome-evolution-caldav.eplug.xml
 plugins/calendar-file/org-gnome-calendar-file.eplug.xml
@@ -304,10 +308,10 @@ plugins/exchange-operations/exchange-folder-size-display.c
 plugins/exchange-operations/exchange-folder-subscription.c
 plugins/exchange-operations/exchange-folder-tree.glade
 plugins/exchange-operations/exchange-folder.c
+plugins/exchange-operations/exchange-oof.glade
 plugins/exchange-operations/exchange-passwd-expiry.glade
 plugins/exchange-operations/exchange-permissions-dialog.c
 plugins/exchange-operations/exchange-permissions-dialog.glade
-plugins/exchange-operations/exchange-oof.glade
 plugins/exchange-operations/exchange-send-options.glade
 plugins/exchange-operations/exchange-user-dialog.c
 plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml
@@ -389,8 +393,6 @@ plugins/publish-calendar/publish-calendar.c
 plugins/publish-calendar/publish-calendar.glade
 plugins/sa-junk-plugin/em-junk-filter.c
 plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml
-plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.in
-plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.in
 plugins/save-attachments/org-gnome-save-attachments.eplug.xml
 plugins/save-attachments/org-gnome-save-attachments.xml
 plugins/save-attachments/save-attachments.c
