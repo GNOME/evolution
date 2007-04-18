@@ -1,3 +1,13 @@
+2007-04-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Committed Contact Merging patch from Ebby Wiselyn
+
+	* gui/merging/eab-contact-duplicate-detected.glade:
+	* gui/merging/eab-contact-merging.c: (free_lookup), (dialog_map),
+	(dropdown_changed), (mergeit), (check_if_same), (response),
+	(match_query_callback), (eab_merging_book_add_contact),
+	(eab_merging_book_commit_contact): 
+
 2007-04-10  Elizabeth Greene <nerdygirl_ellie@yahoo.com>
 
         ** Fix for bug #426743.
