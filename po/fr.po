@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-28 23:06+0100\n"
-"PO-Revision-Date: 2007-04-14 12:35+0200\n"
+"PO-Revision-Date: 2007-04-18 15:58+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -6144,7 +6144,7 @@ msgstr "Rendez-vous - %s"
 #: ../calendar/gui/dialogs/comp-editor.c:2217
 #, c-format
 msgid "Assigned Task - %s"
-msgstr "Tâche assignée - %s"
+msgstr "Tâche attribuée - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2176
 #: ../calendar/gui/dialogs/comp-editor.c:2219
@@ -7330,7 +7330,7 @@ msgstr "C_oller"
 
 #: ../calendar/gui/e-calendar-table.c:1293 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
-msgstr "_Assigner une tâche"
+msgstr "_Attribuer une tâche"
 
 #: ../calendar/gui/e-calendar-table.c:1294 ../calendar/gui/e-memo-table.c:914
 #: ../ui/evolution-tasks.xml.h:26
@@ -7835,7 +7835,7 @@ msgstr "Demande de mise à jour de tâche"
 #: ../calendar/gui/e-itip-control.c:1443
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
-msgstr "<b>%s</b> a répondu à une assignation de tâche."
+msgstr "<b>%s</b> a répondu à une attribution de tâche."
 
 #: ../calendar/gui/e-itip-control.c:1444
 msgid "Task Reply"
@@ -8464,11 +8464,11 @@ msgstr "Crée un nouveau mémo partagé"
 
 #: ../calendar/gui/memos-component.c:1182
 msgid "New memo list"
-msgstr "Nouvelle liste des mémos"
+msgstr "Nouvelle liste de mémos"
 
 #: ../calendar/gui/memos-component.c:1183
 msgid "Memo li_st"
-msgstr "L_iste des mémos"
+msgstr "L_iste de mémos"
 
 #: ../calendar/gui/memos-component.c:1184
 msgid "Create a new memo list"
@@ -8800,19 +8800,19 @@ msgstr "Crée une nouvelle tâche"
 
 #: ../calendar/gui/tasks-component.c:1252
 msgid "New assigned task"
-msgstr "Tâche nouvellement assignée"
+msgstr "Nouvelle tâche attribuée"
 
 #: ../calendar/gui/tasks-component.c:1253
 msgid "Assigne_d Task"
-msgstr "_Assigner une tâche"
+msgstr "Tâche _attribuée"
 
 #: ../calendar/gui/tasks-component.c:1254
 msgid "Create a new assigned task"
-msgstr "Crée une tâche nouvellement assignée"
+msgstr "Crée une nouvelle tâche attribuée"
 
 #: ../calendar/gui/tasks-component.c:1260
 msgid "New task list"
-msgstr "Nouvelle liste des tâches"
+msgstr "Nouvelle liste de tâches"
 
 #: ../calendar/gui/tasks-component.c:1261
 msgid "Tas_k list"
@@ -8820,7 +8820,7 @@ msgstr "_Liste de tâches"
 
 #: ../calendar/gui/tasks-component.c:1262
 msgid "Create a new task list"
-msgstr "Crée une nouvelle liste des tâches"
+msgstr "Crée une nouvelle liste de tâches"
 
 #: ../calendar/gui/tasks-control.c:446
 msgid ""
@@ -17215,17 +17215,17 @@ msgstr "<b>%s</b> a publié la tâche suivante :"
 #: ../plugins/itip-formatter/itip-view.c:423
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> demande l'assignation de %s à la tâche suivante :"
+msgstr "<b>%s</b> demande l'attribution à %s de la tâche suivante :"
 
 #: ../plugins/itip-formatter/itip-view.c:426
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> par l'intermédiaire de %s vous a assigné une tâche :"
+msgstr "<b>%s</b> par l'intermédiaire de %s vous a attribué une tâche :"
 
 #: ../plugins/itip-formatter/itip-view.c:428
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr "<b>%s</b> vous a assigné une tâche :"
+msgstr "<b>%s</b> vous a attribué une tâche :"
 
 #: ../plugins/itip-formatter/itip-view.c:434
 #, c-format
@@ -17245,41 +17245,41 @@ msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
-"<b>%s</b> souhaite recevoir les dernières informations pour l'assignation de "
+"<b>%s</b> souhaite recevoir les dernières informations pour l'attribution de "
 "tâche suivante :"
 
 #: ../plugins/itip-formatter/itip-view.c:442
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> a renvoyé une réponse à la tâche assignée suivante :"
+msgstr "<b>%s</b> a renvoyé une réponse à la tâche attribuée suivante :"
 
 #: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgstr ""
-"<b>%s</b> par l'intermédiaire de %s a annulé la tâche assignée suivante :"
+"<b>%s</b> par l'intermédiaire de %s a annulé la tâche attribuée suivante :"
 
 #: ../plugins/itip-formatter/itip-view.c:448
 #, c-format
 msgid "<b>%s</b> has canceled the following assigned task:"
-msgstr "<b>%s</b> a annulé la tâche assignée suivante :"
+msgstr "<b>%s</b> a annulé la tâche attribuée suivante :"
 
 #: ../plugins/itip-formatter/itip-view.c:451
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr ""
-"<b>%s</b> a proposé les changements suivants à l'assignation de tâche :"
+"<b>%s</b> a proposé les changements suivants à l'attribution de tâche :"
 
 #: ../plugins/itip-formatter/itip-view.c:455
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr ""
-"<b>%s</b> par l'intermédiaire de %s a refusé la tâche assignée suivante :"
+"<b>%s</b> par l'intermédiaire de %s a refusé la tâche attribuée suivante :"
 
 #: ../plugins/itip-formatter/itip-view.c:457
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> a refusé la tâche assignée suivante :"
+msgstr "<b>%s</b> a refusé la tâche attribuée suivante :"
 
 #: ../plugins/itip-formatter/itip-view.c:484
 #, c-format
@@ -17702,15 +17702,15 @@ msgstr "_Ne pas rendre ceci accessible hors-ligne"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
 msgid "_Mark Calendar for offline use"
-msgstr "_Marquer le calendrier accessible hors-ligne."
+msgstr "_Marquer le calendrier accessible hors-ligne"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
-msgstr "Un greffon qui implémente les greffons mono."
+msgstr "Un greffon qui implémente les greffons Mono."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Mono Loader"
-msgstr "Chargeur mono"
+msgstr "Chargeur Mono"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
@@ -19767,7 +19767,7 @@ msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:13 ../ui/evolution-task-editor.xml.h:7
 msgid "R_ole Field"
-msgstr "Champ de _rôle"
+msgstr "Champ _Rôle"
 
 #: ../ui/evolution-event-editor.xml.h:16
 msgid "Show time as _busy"
