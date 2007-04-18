@@ -1,3 +1,17 @@
+2007-04-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #423766
+
+	* em-format-html-display.c (attachments_save_all_clicked):
+	Call em_utils_save_part() if there's only one attachment to save.
+
+	* em-utils.c (em_utils_save_part):
+	Refactor to use gtk_dialog_run() instead of a "response" callback.
+
+	* em-utils.c (em_utils_save_parts):
+	Refactor to use gtk_dialog_run() instead of a "response" callback.
+	Use gtk_file_chooser_get_uri() to fetch the selected folder.
+
 2007-04-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-folder-view.c: (emfv_spin), (emfv_message_selected_timeout): Add

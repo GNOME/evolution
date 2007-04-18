@@ -2098,12 +2098,26 @@ attachment_bar_arrow_clicked(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 }
 
 static void
-attachments_save_all_clicked(GtkWidget *w, EMFormatHTMLDisplay *efhd)
+attachments_save_all_clicked (GtkWidget *widget, EMFormatHTMLDisplay *efhd)
 {
 	GSList *attachment_parts;
+	guint n_attachment_parts;
 
-	attachment_parts = e_attachment_bar_get_parts(E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
-	em_utils_save_parts(w, _("Select folder to save all attachments..."), attachment_parts);
+	attachment_parts = e_attachment_bar_get_parts (
+		E_ATTACHMENT_BAR (efhd->priv->attachment_bar));
+	n_attachment_parts = g_slist_length (attachment_parts);
+	g_return_if_fail (n_attachment_parts > 0);
+
+	if (n_attachment_parts == 1)
+		em_utils_save_part (
+			widget, _("Save attachment as"),
+			attachment_parts->data);
+	else
+		em_utils_save_parts (
+			widget, _("Select folder to save all attachments"),
+			attachment_parts);
+
+        g_slist_free (attachment_parts);
 }
 
 static void
@@ -2143,6 +2157,7 @@ efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
 
 	parts = g_slist_reverse(parts);
 	em_utils_save_parts(efhd->priv->attachment_bar, _("Select folder to save selected attachments..."), parts);
+        g_slist_free (parts);
 
 	g_slist_foreach(attachment_parts, (GFunc)g_object_unref, NULL);
 	g_slist_free (attachment_parts);
