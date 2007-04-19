@@ -32,6 +32,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkeventbox.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkradiomenuitem.h>
@@ -1255,7 +1256,7 @@ e_search_bar_new (ESearchBarItem *menu_items,
 
 	g_return_val_if_fail (option_items != NULL, NULL);
 	
-	widget = GTK_WIDGET (gtk_type_new (e_search_bar_get_type ()));
+	widget = g_object_new (e_search_bar_get_type (), NULL);
 	
 	e_search_bar_construct (E_SEARCH_BAR (widget), menu_items, option_items);
 	

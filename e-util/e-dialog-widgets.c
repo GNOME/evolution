@@ -33,7 +33,6 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
 #include <libgnomeui/gnome-dateedit.h>
-#include <libgnomeui/gnome-propertybox.h>
 
 #include "e-dialog-widgets.h"
 
@@ -116,31 +115,12 @@ index_to_value (const int *value_map, int index)
 	return -1;
 }
 
-/* Callback for the "toggled" signal of toggle buttons */
-static void
-toggled_cb (GtkToggleButton *toggle, gpointer data)
-{
-	GnomePropertyBox *pbox;
-	
-	pbox = GNOME_PROPERTY_BOX (data);
-	
-	/* For radio buttons, we only notify the property box if the button is
-	 * active, because we'll get one call for each of the changed buttons in
-	 * the radio group.
-	 */
-	if (!GTK_IS_RADIO_BUTTON (toggle) || toggle->active)
-		gnome_property_box_changed (pbox);
-}
-
 /* Hooks a radio button group */
 static void
 hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpointer info)
 {
 	const int *value_map;
-	GSList *group, *l;
 	int *value;
-	
-	group = gtk_radio_button_get_group (radio);
 	
 	/* Set the value */
 	
@@ -148,12 +128,6 @@ hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpoint
 	value_map = (const int *) info;
 	
 	e_dialog_radio_set (GTK_WIDGET (radio), *value, value_map);
-	
-	/* Hook to changed */
-	
-	if (GNOME_IS_PROPERTY_BOX (dialog))
-		for (l = group; l; l = l->next)
-			g_signal_connect (l->data, "toggled", G_CALLBACK (toggled_cb), dialog);
 }
 
 /* Gets the value of a radio button group */
@@ -169,16 +143,6 @@ get_radio_value (GtkRadioButton *radio, gpointer value_var, gpointer info)
 	*value = e_dialog_radio_get (GTK_WIDGET (radio), value_map);
 }
 
-/* Callback for the "activate" signal of menu items */
-static void
-activate_cb (GtkMenuItem *item, gpointer data)
-{
-	GnomePropertyBox *pbox;
-	
-	pbox = GNOME_PROPERTY_BOX (data);
-	gnome_property_box_changed (pbox);
-}
-
 /* Hooks an option menu */
 static void
 hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, gpointer info)
@@ -192,18 +156,6 @@ hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, g
 	value_map = (const int *) info;
 	
 	e_dialog_option_menu_set (GTK_WIDGET (omenu), *value, value_map);
-	
-	/* Hook to changed */
-	
-	if (GNOME_IS_PROPERTY_BOX (dialog)) {
-		GtkMenu *menu;
-		GList *l;
-		
-		menu = GTK_MENU (gtk_option_menu_get_menu (omenu));
-		
-		for (l = GTK_MENU_SHELL (menu)->children; l; l = l->next)
-			g_signal_connect (l->data, "activate", G_CALLBACK (activate_cb), dialog);
-	}
 }
 
 /* Gets the value of an option menu */
@@ -229,11 +181,6 @@ hook_toggle (GtkWidget *dialog, GtkToggleButton *toggle, gpointer value_var, gpo
 	
 	value = (gboolean *) value_var;
 	e_dialog_toggle_set (GTK_WIDGET (toggle), *value);
-	
-	/* Hook to changed */
-	
-	if (GNOME_IS_PROPERTY_BOX (dialog))
-		g_signal_connect (toggle, "toggled", G_CALLBACK (toggled_cb), dialog);
 }
 
 /* Gets the value of a toggle button */
@@ -244,16 +191,6 @@ get_toggle_value (GtkToggleButton *toggle, gpointer value_var, gpointer info)
 	
 	value = (gboolean *) value_var;
 	*value = e_dialog_toggle_get (GTK_WIDGET (toggle));
-}
-
-/* Callback for the "value_changed" signal of the adjustment of a spin button */
-static void
-value_changed_cb (GtkAdjustment *adj, gpointer data)
-{
-	GnomePropertyBox *pbox;
-	
-	pbox = GNOME_PROPERTY_BOX (data);
-	gnome_property_box_changed (pbox);
 }
 
 /* Hooks a spin button */
@@ -271,9 +208,6 @@ hook_spin_button (GtkWidget *dialog, GtkSpinButton *spin, gpointer value_var, gp
 	/* Hook to changed */
 	
 	adj = gtk_spin_button_get_adjustment (spin);
-	
-	if (GNOME_IS_PROPERTY_BOX (dialog))
-		g_signal_connect (adj, "value_changed", G_CALLBACK (value_changed_cb), dialog);
 }
 
 /* Gets the value of a spin button */
@@ -284,16 +218,6 @@ get_spin_button_value (GtkSpinButton *spin, gpointer value_var, gpointer info)
 	
 	value = (double *) value_var;
 	*value = e_dialog_spin_get_double (GTK_WIDGET (spin));
-}
-
-/* Callback for the "changed" signal of a GtkEditable widget */
-static void
-changed_cb (GtkEditable *editable, gpointer data)
-{
-	GnomePropertyBox *pbox;
-	
-	pbox = GNOME_PROPERTY_BOX (data);
-	gnome_property_box_changed (pbox);
 }
 
 /* Hooks a GtkEditable widget */
@@ -307,11 +231,6 @@ hook_editable (GtkWidget *dialog, GtkEditable *editable, gpointer value_var, gpo
 	value = (char **) value_var;
 	
 	e_dialog_editable_set (GTK_WIDGET (editable), *value);
-	
-	/* Hook to changed */
-	
-	if (GNOME_IS_PROPERTY_BOX (dialog))
-		g_signal_connect (editable, "changed", G_CALLBACK (changed_cb), dialog);
 }
 
 /* Gets the value of a GtkEditable widget */
@@ -718,7 +637,7 @@ e_dialog_dateedit_get (GtkWidget *widget)
 	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GNOME_IS_DATE_EDIT (widget), -1);
 	
-	return gnome_date_edit_get_date (GNOME_DATE_EDIT (widget));
+	return gnome_date_edit_get_time (GNOME_DATE_EDIT (widget));
 }
 
 /**
@@ -743,10 +662,6 @@ e_dialog_dateedit_get (GtkWidget *widget)
  * use is to call that function in the handler for the "OK" button of a dialog
  * box.
  *
- * In addition, if the specified @dialog is a #GnomePropertyBox, the widgets wil
- * automatically turn on the "Apply" button of the property box when they are
- * modified by the user.
- * 
  * Return value: TRUE if the type of the specified @widget is supported, FALSE
  * otherwise.
  **/

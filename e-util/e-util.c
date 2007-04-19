@@ -49,8 +49,8 @@
 #include "e-util.h"
 #include "e-util-private.h"
 
-int
-e_str_compare (const void *x, const void *y)
+gint
+e_str_compare (gconstpointer x, gconstpointer y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -62,8 +62,8 @@ e_str_compare (const void *x, const void *y)
 	return strcmp (x, y);
 }
 
-int
-e_str_case_compare (const void *x, const void *y)
+gint
+e_str_case_compare (gconstpointer x, gconstpointer y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -75,8 +75,8 @@ e_str_case_compare (const void *x, const void *y)
 	return g_utf8_collate (g_utf8_casefold (x, -1), g_utf8_casefold (y, -1));
 }
 
-int
-e_collate_compare (const void *x, const void *y)
+gint
+e_collate_compare (gconstpointer x, gconstpointer y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -88,158 +88,17 @@ e_collate_compare (const void *x, const void *y)
 	return g_utf8_collate (x, y);
 }
 
-int
-e_int_compare (const void *x, const void *y)
+gint
+e_int_compare (gconstpointer x, gconstpointer y)
 {
-	if (GPOINTER_TO_INT (x) < GPOINTER_TO_INT (y))
-		return -1;
-	else if (GPOINTER_TO_INT (x) == GPOINTER_TO_INT (y))
-		return 0;
-	else
-		return 1;
-}
+	gint nx = GPOINTER_TO_INT (x);
+	gint ny = GPOINTER_TO_INT (y);
 
-char *
-e_strdup_strip(const char *string)
-{
-	int i;
-	int length = 0;
-	int initial = 0;
-	for ( i = 0; string[i]; i++ ) {
-		if (initial == i && isspace((unsigned char) string[i])) {
-			initial ++;
-		}
-		if (!isspace((unsigned char) string[i])) {
-			length = i - initial + 1;
-		}
-	}
-	return g_strndup(string + initial, length);
-}
-
-void
-e_free_object_list (GList *list)
-{
-	GList *p;
-
-	for (p = list; p != NULL; p = p->next)
-		g_object_unref (p->data);
-
-	g_list_free (list);
-}
-
-void
-e_free_object_slist (GSList *list)
-{
-	GSList *p;
-
-	for (p = list; p != NULL; p = p->next)
-		g_object_unref (p->data);
-
-	g_slist_free (list);
-}
-
-void
-e_free_string_list (GList *list)
-{
-	GList *p;
-
-	for (p = list; p != NULL; p = p->next)
-		g_free (p->data);
-
-	g_list_free (list);
-}
-
-void
-e_free_string_slist (GSList *list)
-{
-	GSList *p;
-
-	for (p = list; p != NULL; p = p->next)
-		g_free (p->data);
-	g_slist_free (list);
-}
-
-#define BUFF_SIZE 1024
-
-char *
-e_read_file(const char *filename)
-{
-	int fd;
-	char buffer[BUFF_SIZE];
-	GList *list = NULL, *list_iterator;
-	GList *lengths = NULL, *lengths_iterator;
-	int length = 0;
-	int bytes;
-	char *ret_val;
-
-	fd = g_open(filename, O_RDONLY, 0);
-	if (fd == -1)
-		return NULL;
-	bytes = read(fd, buffer, BUFF_SIZE);
-	while (bytes) {
-		if (bytes > 0) {
-			char *temp = g_malloc(bytes);
-			memcpy (temp, buffer, bytes);
-			list = g_list_prepend(list, temp);
-			lengths = g_list_prepend(lengths, GINT_TO_POINTER(bytes));
-			length += bytes;
-		} else {
-			if (errno != EINTR) {
-				close(fd);
-				g_list_foreach(list, (GFunc) g_free, NULL);
-				g_list_free(list);
-				g_list_free(lengths);
-				return NULL;
-			}
-		}
-		bytes = read(fd, buffer, BUFF_SIZE);
-	}
-	ret_val = g_new(char, length + 1);
-	ret_val[length] = 0;
-	lengths_iterator = lengths;
-	list_iterator = list;
-	for ( ; list_iterator; list_iterator = list_iterator->next, lengths_iterator = lengths_iterator->next) {
-		int this_length = GPOINTER_TO_INT(lengths_iterator->data);
-		length -= this_length;
-		memcpy(ret_val + length, list_iterator->data, this_length);
-	}
-	close(fd);
-	g_list_foreach(list, (GFunc) g_free, NULL);
-	g_list_free(list);
-	g_list_free(lengths);
-	return ret_val;
+	return (nx == ny) ? 0 : (nx < ny) ? -1 : 1;
 }
 
 gint
-e_write_file(const char *filename, const char *data, int flags)
-{
-	int fd;
-	int length = strlen(data);
-	int bytes;
-	fd = g_open(filename, flags | O_WRONLY, 0666);
-	if (fd == -1)
-		return errno;
-	while (length > 0) {
-		bytes = write(fd, data, length);
-		if (bytes > 0) {
-			length -= bytes;
-			data += bytes;
-		} else {
-			if (errno != EINTR && errno != EAGAIN) {
-				int save_errno = errno;
-				close(fd);
-				return save_errno;
-			}
-		}
-	}
-	if (close(fd) != 0) {
-		return errno;
-	}
-	return 0;
-}
-
-gint
-e_write_file_uri (const char *filename, const char *data)
+e_write_file_uri (const gchar *filename, const gchar *data)
 {
 	guint64 length = strlen(data);
 	guint64 bytes;
@@ -267,141 +126,18 @@ e_write_file_uri (const char *filename, const char *data)
 	return 0;
 }
 
-gint
-e_write_file_mkstemp(char *filename, const char *data)
-{
-	int fd;
-	int length = strlen(data);
-	int bytes;
-	fd = g_mkstemp (filename);
-	if (fd == -1)
-		return errno;
-	while (length > 0) {
-		bytes = write(fd, data, length);
-		if (bytes > 0) {
-			length -= bytes;
-			data += bytes;
-		} else {
-			if (errno != EINTR && errno != EAGAIN) {
-				int save_errno = errno;
-				close(fd);
-				return save_errno;
-			}
-		}
-	}
-	if (close(fd) != 0) {
-		return errno;
-	}
-	return 0;
-}
-
-#if 0
-char *
-e_read_uri(const char *uri)
-{
-	GnomeVFSHandle *handle;
-	GList *list = NULL, *list_iterator;
-	GList *lengths = NULL, *lengths_iterator;
-	gchar buffer[1025];
-	gchar *ret_val;
-	int length = 0;
-	GnomeVFSFileSize bytes;
-
-	gnome_vfs_open(&handle, uri, GNOME_VFS_OPEN_READ);
-	
-	gnome_vfs_read(handle, buffer, 1024, &bytes);
-	while (bytes) {
-		if (bytes) {
-			char *temp = g_malloc(bytes);
-			memcpy (temp, buffer, bytes);
-			list = g_list_prepend(list, temp);
-			lengths = g_list_prepend(lengths, GINT_TO_POINTER((gint) bytes));
-			length += bytes;
-		}
-		gnome_vfs_read(handle, buffer, 1024, &bytes);
-	}
-
-	ret_val = g_new(char, length + 1);
-	ret_val[length] = 0;
-	lengths_iterator = lengths;
-	list_iterator = list;
-	for ( ; list_iterator; list_iterator = list_iterator->next, lengths_iterator = lengths_iterator->next) {
-		int this_length = GPOINTER_TO_INT(lengths_iterator->data);
-		length -= this_length;
-		memcpy(ret_val + length, list_iterator->data, this_length);
-	}
-	gnome_vfs_close(handle);
-	g_list_foreach(list, (GFunc) g_free, NULL);
-	g_list_free(list);
-	g_list_free(lengths);
-	return ret_val;
-}
-#endif
-
 /* Include build marshalers */
 
 #include "e-util-marshal.h"
 
-gchar**
-e_strsplit (const gchar *string,
-	    const gchar *delimiter,
-	    gint         max_tokens)
-{
-  GSList *string_list = NULL, *slist;
-  gchar **str_array, *s;
-  guint i, n = 1;
-
-  g_return_val_if_fail (string != NULL, NULL);
-  g_return_val_if_fail (delimiter != NULL, NULL);
-
-  if (max_tokens < 1)
-    max_tokens = G_MAXINT;
-
-  s = strstr (string, delimiter);
-  if (s)
-    {
-      guint delimiter_len = strlen (delimiter);
-
-      do
-	{
-	  guint len;
-	  gchar *new_string;
-
-	  len = s - string;
-	  new_string = g_new (gchar, len + 1);
-	  strncpy (new_string, string, len);
-	  new_string[len] = 0;
-	  string_list = g_slist_prepend (string_list, new_string);
-	  n++;
-	  string = s + delimiter_len;
-	  s = strstr (string, delimiter);
-	}
-      while (--max_tokens && s);
-    }
-
-  n++;
-  string_list = g_slist_prepend (string_list, g_strdup (string));
-
-  str_array = g_new (gchar*, n);
-
-  i = n - 1;
-
-  str_array[i--] = NULL;
-  for (slist = string_list; slist; slist = slist->next)
-    str_array[i--] = slist->data;
-
-  g_slist_free (string_list);
-
-  return str_array;
-}
-
 static gint
-epow10 (gint number) {
-	gint value;
+epow10 (gint number)
+{
+	gint value = 1;
 
-	for (value = 1; number > 0; number --) {
+	while (number-- > 0)
 		value *= 10;
-	}
+
 	return value;
 }
 
@@ -412,16 +148,16 @@ e_format_number (gint number)
 	struct lconv *locality;
 	gint char_length = 0;
 	gint group_count = 0;
-	guchar *grouping;
-	int last_count = 3;
-	int divider;
-	char *value;
-	char *value_iterator;
+	gchar *grouping;
+	gint last_count = 3;
+	gint divider;
+	gchar *value;
+	gchar *value_iterator;
 
 	locality = localeconv();
 	grouping = locality->grouping;
 	while (number) {
-		char *group;
+		gchar *group;
 		switch (*grouping) {
 		default:
 			last_count = *grouping;
@@ -446,7 +182,7 @@ e_format_number (gint number)
 	}
 
 	if (list) {
-		value = g_new(char, 1 + char_length + (group_count - 1) * strlen(locality->thousands_sep));
+		value = g_new(gchar, 1 + char_length + (group_count - 1) * strlen(locality->thousands_sep));
 
 		iterator = list;
 		value_iterator = value;
@@ -460,7 +196,8 @@ e_format_number (gint number)
 			strcpy(value_iterator, iterator->data);
 			value_iterator += strlen(iterator->data);
 		}
-		e_free_string_list (list);
+		g_list_foreach (list, (GFunc) g_free, NULL);
+		g_list_free (list);
 		return value;
 	} else {
 		return g_strdup("0");
@@ -468,23 +205,23 @@ e_format_number (gint number)
 }
 
 static gchar *
-do_format_number_as_float (double number)
+do_format_number_as_float (gdouble number)
 {
 	GList *iterator, *list = NULL;
 	struct lconv *locality;
 	gint char_length = 0;
 	gint group_count = 0;
-	guchar *grouping;
-	int last_count = 3;
-	int divider;
-	char *value;
-	char *value_iterator;
-	double fractional;
+	gchar *grouping;
+	gint last_count = 3;
+	gint divider;
+	gchar *value;
+	gchar *value_iterator;
+	gdouble fractional;
 
 	locality = localeconv();
 	grouping = locality->grouping;
 	while (number >= 1.0) {
-		char *group;
+		gchar *group;
 		switch (*grouping) {
 		default:
 			last_count = *grouping;
@@ -500,7 +237,7 @@ do_format_number_as_float (double number)
 			if (number >= 1.0) {
 				group = g_strdup_printf("%0*d", last_count, (int) fractional);
 			} else {
-				group = g_strdup_printf("%d", (int) fractional);
+				group = g_strdup_printf("%d", (gint) fractional);
 			}
 			break;
 		case CHAR_MAX:
@@ -511,7 +248,7 @@ do_format_number_as_float (double number)
 			fractional = floor (fractional);
 
 			while (number >= 1.0) {
-				group = g_strdup_printf("%0*d", last_count, (int) fractional);
+				group = g_strdup_printf("%0*d", last_count, (gint) fractional);
 
 				char_length += strlen(group);
 				list = g_list_prepend(list, group);
@@ -524,7 +261,7 @@ do_format_number_as_float (double number)
 				fractional = floor (fractional);
 			}
 
-			group = g_strdup_printf("%d", (int) fractional);
+			group = g_strdup_printf("%d", (gint) fractional);
 			break;
 		}
 		char_length += strlen(group);
@@ -533,7 +270,7 @@ do_format_number_as_float (double number)
 	}
 
 	if (list) {
-		value = g_new(char, 1 + char_length + (group_count - 1) * strlen(locality->thousands_sep));
+		value = g_new(gchar, 1 + char_length + (group_count - 1) * strlen(locality->thousands_sep));
 
 		iterator = list;
 		value_iterator = value;
@@ -547,7 +284,8 @@ do_format_number_as_float (double number)
 			strcpy(value_iterator, iterator->data);
 			value_iterator += strlen(iterator->data);
 		}
-		e_free_string_list (list);
+		g_list_foreach (list, (GFunc) g_free, NULL);
+		g_list_free (list);
 		return value;
 	} else {
 		return g_strdup("0");
@@ -568,7 +306,7 @@ e_format_number_float (gfloat number)
 	locality = localeconv();
 	
 	int_part = floor (number);
-	str_intpart = do_format_number_as_float ((double) int_part);
+	str_intpart = do_format_number_as_float ((gdouble) int_part);
 
 	if (!strcmp(locality->mon_decimal_point, "")) {
 		decimal_point = ".";
@@ -577,7 +315,7 @@ e_format_number_float (gfloat number)
 		decimal_point = locality->mon_decimal_point;
 	}
 
-	fraction = (int) ((number - int_part) * 100);
+	fraction = (gint) ((number - int_part) * 100);
 
 	if (fraction == 0) {
 		str_fraction = g_strdup ("00");
@@ -593,31 +331,21 @@ e_format_number_float (gfloat number)
 	return value;
 }
 
-gboolean
-e_create_directory (gchar *directory)
-{
-	gint ret_val = e_util_mkdir_hier (directory, 0777);
-	if (ret_val == -1)
-		return FALSE;
-	else
-		return TRUE;
-}
-
-
 /* Perform a binary search for key in base which has nmemb elements
    of size bytes each.  The comparisons are done by (*compare)().  */
-void      e_bsearch                                                        (const void       *key,
-									    const void       *base,
-									    size_t            nmemb,
-									    size_t            size,
-									    ESortCompareFunc  compare,
-									    gpointer          closure,
-									    size_t	     *start,
-									    size_t	     *end)
+void
+e_bsearch (gconstpointer key,
+           gconstpointer base,
+           gsize nmemb,
+           gsize size,
+	   ESortCompareFunc compare,
+           gpointer closure,
+           gsize *start,
+           gsize *end)
 {
-	size_t l, u, idx;
-	const void *p;
-	int comparison;
+	gsize l, u, idx;
+	gconstpointer p;
+	gint comparison;
 	if (!(start || end))
 		return;
 
@@ -625,20 +353,20 @@ void      e_bsearch                                                        (cons
 	u = nmemb;
 	while (l < u) {
 		idx = (l + u) / 2;
-		p = (void *) (((const char *) base) + (idx * size));
+		p = (((const gchar *) base) + (idx * size));
 		comparison = (*compare) (key, p, closure);
 		if (comparison < 0)
 			u = idx;
 		else if (comparison > 0)
 			l = idx + 1;
 		else {
-			size_t lsave, usave;
+			gsize lsave, usave;
 			lsave = l;
 			usave = u;
 			if (start) {
 				while (l < u) {
 					idx = (l + u) / 2;
-					p = (void *) (((const char *) base) + (idx * size));
+					p = (((const gchar *) base) + (idx * size));
 					comparison = (*compare) (key, p, closure);
 					if (comparison <= 0)
 						u = idx;
@@ -653,7 +381,7 @@ void      e_bsearch                                                        (cons
 			if (end) {
 				while (l < u) {
 					idx = (l + u) / 2;
-					p = (void *) (((const char *) base) + (idx * size));
+					p = (((const gchar *) base) + (idx * size));
 					comparison = (*compare) (key, p, closure);
 					if (comparison < 0)
 						u = idx;
@@ -670,42 +398,6 @@ void      e_bsearch                                                        (cons
 		*start = l;
 	if (end)
 		*end = l;
-}
-
-static gpointer closure_closure;
-static ESortCompareFunc compare_closure;
-
-static int
-qsort_callback(const void *data1, const void *data2)
-{
-	return (*compare_closure) (data1, data2, closure_closure);
-}
-
-/* Forget it.  We're just going to use qsort.  I lost the need for a stable sort. */
-void
-e_sort (void             *base,
-	size_t            nmemb,
-	size_t            size,
-	ESortCompareFunc  compare,
-	gpointer          closure)
-{
-	closure_closure = closure;
-	compare_closure = compare;
-	qsort(base, nmemb, size, qsort_callback);
-#if 0
-	void *base_copy;
-	int i;
-	base_copy = g_malloc(nmemb * size);
-
-	for (i = 0; i < nmemb; i++) {
-		int position;
-		e_bsearch(base + (i * size), base_copy, i, size, compare, closure, NULL, &position);
-		memmove(base_copy + (position + 1) * size, base_copy + position * size, (i - position) * size);
-		memcpy(base_copy + position * size, base + i * size, size);
-	}
-	memcpy(base, base_copy, nmemb * size);
-	g_free(base_copy);
-#endif
 }
 
 /**
@@ -726,16 +418,18 @@ e_sort (void             *base,
  * there isn't a stray space.
  **/
 
-size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct tm *tm)
+gsize
+e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
+                      const struct tm *tm)
 {
-	char buf[10];
-	char *sp;
-	char *ffmt;
-	size_t ret;
+	gchar buf[10];
+	gchar *sp;
+	gchar *ffmt;
+	gsize ret;
 
 	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
 		/* No AM/PM involved - can use the fmt string directly */
-		ret=e_strftime(s, max, fmt, tm);
+		ret=e_strftime(str, max, fmt, tm);
 	} else {
 		/* Get the AM/PM symbol from the locale */
 		e_strftime (buf, 10, "%p", tm);
@@ -745,7 +439,7 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 			 * AM/PM have been defined in the locale
 			 * so we can use the fmt string directly
 			 **/
-			ret=e_strftime(s, max, fmt, tm);
+			ret=e_strftime(str, max, fmt, tm);
 		} else {
 			/**
 			 * No AM/PM defined by locale
@@ -762,7 +456,7 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {
 				sp[1]='H';
 			}
-			ret=e_strftime(s, max, ffmt, tm);
+			ret=e_strftime(str, max, ffmt, tm);
 			g_free(ffmt);
 		}
 	}
@@ -770,38 +464,39 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 	return(ret);
 }
 
-size_t 
-e_utf8_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct tm *tm)
+gsize 
+e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
+                           const struct tm *tm)
 {
-	size_t sz, ret;
-	char *locale_fmt, *buf;
+	gsize sz, ret;
+	gchar *locale_fmt, *buf;
 
 	locale_fmt = g_locale_from_utf8(fmt, -1, NULL, &sz, NULL);
 	if (!locale_fmt)
 		return 0;
 
-	ret = e_strftime_fix_am_pm(s, max, locale_fmt, tm);
+	ret = e_strftime_fix_am_pm(str, max, locale_fmt, tm);
 	if (!ret) {
 		g_free (locale_fmt);
 		return 0;
 	}
 
-	buf = g_locale_to_utf8(s, ret, NULL, &sz, NULL);
+	buf = g_locale_to_utf8(str, ret, NULL, &sz, NULL);
 	if (!buf) {
 		g_free (locale_fmt);
 		return 0;
 	}
 
 	if (sz >= max) {
-		char *tmp = buf + max - 1;
+		gchar *tmp = buf + max - 1;
 		tmp = g_utf8_find_prev_char(buf, tmp);
 		if (tmp)
 			sz = tmp - buf;
 		else
 			sz = 0;
 	}
-	memcpy(s, buf, sz);
-	s[sz] = '\0';
+	memcpy(str, buf, sz);
+	str[sz] = '\0';
 	g_free(locale_fmt);
 	g_free(buf);
 	return sz;
@@ -827,17 +522,16 @@ e_utf8_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct tm 
  * Return value: the gdouble value.
  **/
 gdouble
-e_flexible_strtod (const gchar *nptr,
-		   gchar      **endptr)
+e_flexible_strtod (const gchar *nptr, gchar **endptr)
 {
 	gchar *fail_pos;
 	gdouble val;
 	struct lconv *locale_data;
-	const char *decimal_point;
-	int decimal_point_len;
-	const char *p, *decimal_point_pos;
-	const char *end = NULL; /* Silence gcc */
-	char *copy, *c;
+	const gchar *decimal_point;
+	gint decimal_point_len;
+	const gchar *p, *decimal_point_pos;
+	const gchar *end = NULL; /* Silence gcc */
+	gchar *copy, *c;
 
 	g_return_val_if_fail (nptr != NULL, 0);
 
@@ -929,9 +623,9 @@ e_flexible_strtod (const gchar *nptr,
 
 	if (fail_pos) {
 		if (fail_pos > decimal_point_pos)
-			fail_pos = (char *)nptr + (fail_pos - copy) - (decimal_point_len - 1);
+			fail_pos = (gchar *)nptr + (fail_pos - copy) - (decimal_point_len - 1);
 		else
-			fail_pos = (char *)nptr + (fail_pos - copy);
+			fail_pos = (gchar *)nptr + (fail_pos - copy);
 	}
 
 	g_free (copy);
@@ -965,16 +659,13 @@ e_flexible_strtod (const gchar *nptr,
  * Return value: The pointer to the buffer with the converted string.
  **/
 gchar *
-e_ascii_dtostr (gchar       *buffer,
-		gint         buf_len,
-		const gchar *format,
-		gdouble      d)
+e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 {
 	struct lconv *locale_data;
-	const char *decimal_point;
-	int decimal_point_len;
+	const gchar *decimal_point;
+	gint decimal_point_len;
 	gchar *p;
-	int rest_len;
+	gint rest_len;
 	gchar format_char;
 
 	g_return_val_if_fail (buffer != NULL, NULL);
@@ -1040,8 +731,8 @@ e_strdup_append_strings (gchar *first_string, ...)
 	gint length;
 	va_list args1;
 	va_list args2;
-	char *v_string;
-	int v_int;
+	gchar *v_string;
+	gint v_int;
 
 	va_start (args1, first_string);
 	G_VA_COPY (args2, args1);
@@ -1050,32 +741,32 @@ e_strdup_append_strings (gchar *first_string, ...)
 
 	v_string = first_string;
 	while (v_string) {
-		v_int = va_arg (args1, int);
+		v_int = va_arg (args1, gint);
 		if (v_int >= 0)
 			length += v_int;
 		else
 			length += strlen (v_string);
-		v_string = va_arg (args1, char *);
+		v_string = va_arg (args1, gchar *);
 	}
 
-	buffer  = g_new (char, length + 1);
+	buffer  = g_new (gchar, length + 1);
 	current = buffer;
 
 	v_string = first_string;
 	while (v_string) {
-		v_int = va_arg (args2, int);
+		v_int = va_arg (args2, gint);
 		if (v_int < 0) {
-			int i;
+			gint i;
 			for (i = 0; v_string[i]; i++) {
 				*(current++) = v_string[i];
 			}
 		} else {
-			int i;
+			gint i;
 			for (i = 0; v_string[i] && i < v_int; i++) {
 				*(current++) = v_string[i];
 			}
 		}
-		v_string = va_arg (args2, char *);
+		v_string = va_arg (args2, gchar *);
 	}
 	*(current++) = 0;
 
@@ -1085,36 +776,10 @@ e_strdup_append_strings (gchar *first_string, ...)
 	return buffer;
 }
 
-gchar **
-e_strdupv (const gchar **str_array)
-{
-	if (str_array) {
-		gint i;
-		gchar **retval;
-
-		i = 0;
-		while (str_array[i])
-			i++;
-          
-		retval = g_new (gchar*, i + 1);
-
-		i = 0;
-		while (str_array[i]) {
-			retval[i] = g_strdup (str_array[i]);
-			i++;
-		}
-		retval[i] = NULL;
-
-		return retval;
-	} else {
-		return NULL;
-	}
-}
-
 cairo_font_options_t *
 get_font_options ()
 {
-	char *antialiasing, *hinting, *subpixel_order;
+	gchar *antialiasing, *hinting, *subpixel_order;
 	GConfClient *gconf = gconf_client_get_default ();
 	cairo_font_options_t *font_options = cairo_font_options_create ();
 
@@ -1183,7 +848,7 @@ get_font_options ()
  * file URI.
  **/
 void
-e_file_update_save_path(char *uri, gboolean free)
+e_file_update_save_path (gchar *uri, gboolean free)
 {
 	GConfClient *gconf = gconf_client_get_default();
 
@@ -1200,11 +865,11 @@ e_file_update_save_path(char *uri, gboolean free)
  * the users home directory.  Returns an allocated URI that should be freed by
  * the caller.
  **/
-char *
-e_file_get_save_path(void)
+gchar *
+e_file_get_save_path (void)
 {
 	GConfClient *gconf = gconf_client_get_default();
-	char *uri;
+	gchar *uri;
 
 	uri = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
 	g_object_unref(gconf);

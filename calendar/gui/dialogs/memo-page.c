@@ -180,7 +180,7 @@ memo_page_finalize (GObject *object)
 	priv = mpage->priv;
 	
 	if (priv->main)
-		gtk_widget_unref (priv->main);
+		g_object_unref (priv->main);
 
 	if (priv->xml) {
 		g_object_unref (priv->xml);
@@ -306,14 +306,14 @@ sensitize_widgets (MemoPage *mpage)
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->memo_content), sensitize);
 	gtk_widget_set_sensitive (priv->start_date, sensitize);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (priv->summary_entry), sensitize);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->categories), !read_only);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->summary_entry), sensitize);
 	
 	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_IS_SHARED) {
-		gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), sensitize);
+		gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->org_combo)->entry), sensitize);
 	
 		if (priv->to_entry) {
-			gtk_entry_set_editable (GTK_ENTRY (priv->to_entry), !read_only);
+			gtk_editable_set_editable (GTK_EDITABLE (priv->to_entry), !read_only);
 			gtk_widget_grab_focus (priv->to_entry);
 		}
 	}
@@ -424,7 +424,7 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			} else {
 				list = g_list_append (list, string);
 				gtk_combo_set_popdown_strings (GTK_COMBO (priv->org_combo), list);
-				gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), FALSE);
+				gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->org_combo)->entry), FALSE);
 			}
 			g_free (string);
 			g_list_free (list);
@@ -777,12 +777,10 @@ get_widgets (MemoPage *mpage)
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
-	if (accel_groups) {
-		page->accel_group = accel_groups->data;
-		gtk_accel_group_ref (page->accel_group);
-	}
+	if (accel_groups)
+		page->accel_group = g_object_ref (accel_groups->data);
 
-	gtk_widget_ref (priv->main);
+	g_object_ref (priv->main);
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 	priv->org_label = GW ("org-label");
@@ -1141,7 +1139,7 @@ memo_page_new (BonoboUIComponent *uic, CompEditorPageFlags flags)
 {
 	MemoPage *mpage;
 
-	mpage = gtk_type_new (TYPE_MEMO_PAGE);
+	mpage = g_object_new (TYPE_MEMO_PAGE, NULL);
 	mpage->priv->uic = uic;
 	COMP_EDITOR_PAGE (mpage)->flags = flags;
 

@@ -1623,8 +1623,8 @@ ect_show_tooltip (ECellView *ecell_view,
 			       "x2", (double) tooltip_width + 6,
 			       "y2", (double) tooltip->row_height + 1,
 			       NULL);
-	gtk_widget_set_usize (window, tooltip_width + 6,
-			      tooltip->row_height + 1);
+	gtk_widget_set_size_request (window, tooltip_width + 6,
+				     tooltip->row_height + 1);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0.0, 0.0,
 					(double) tooltip_width + 6,
 					(double) tooltip_height);

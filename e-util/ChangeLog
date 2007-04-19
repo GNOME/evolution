@@ -1,3 +1,63 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* Makefile.am:
+	Remove e-gtk-utils.h and e-gtk-utils.c.
+
+	* e-mktemp.c (get_dir):
+	Use g_mkdir_with_parents() instead of e_util_mkdir_hier().
+
+	* e-gui-utils.[ch]:
+	Remove e_create_image_widget() and e_button_new_with_stock_icon()
+
+	* e-gui-utils.c (e_icon_for_mime_type):
+	Use GtkIconTheme instead of GnomeIconTheme.
+
+	* eggtrayicon.c (gtk_status_icon_init):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* e-sorter-array.c (esa_sort):
+	Use g_qsort_with_data() instead of e_sort().
+
+	* e-util.[ch]:
+	Some cosmetic cleanups.
+	Remove some unused or redundant symbols:
+		E_MAKE_X_TYPE
+		GET_STRING_ARRAY_FROM_ELLIPSIS
+		GET_DUPLICATED_STRING_ARRAY_FROM_ELLIPSIS
+		E_OBJECT_CLASS_ADD_SIGNALS
+		E_OBJECT_CLASS_TYPE
+		e_strdup_strip()
+		e_free_object_list()
+		e_free_object_slist()
+		e_free_string_list()
+		e_free_string_slist()
+		e_read_file()
+		e_write_file_mkstemp()
+		e_read_uri()
+		e_strsplit()
+		e_create_directory()
+		e_sort()
+		e_strdupv()
+
+	* e-util.c (e_format_number), (e_format_number_as_float):
+	e_free_string_list() is dead; just do it manually.
+
+	* e-icon-factory.c:
+	Use GtkIconTheme instead of GnomeIconTheme.
+	Use GStaticMutex instead of pthread_mutex_t.
+	Allocate icons with GSlice.
+
+	* e-xml-utils.c:
+	Include missing header file(s).
+
+	* e-dialog-widget.c:
+	Drop support for GnomePropertyBox; nothing uses it.
+
+	* e-dialog-widget.c (e_dialog_dateedit_get):
+	Use gnome_date_edit_get_time() instead of gnome_date_edit_get_date().
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

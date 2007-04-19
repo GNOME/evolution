@@ -1,3 +1,38 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* mail-tools.c (mail_tool_get_local_movemail_path):
+	* em-utils.c (em_utils_save_part_to_file):
+	* em-migrate.c (cp_r), (em_migrate_folder),
+	(em_migrate_pop_uid_caches_1_4), (em_migrate_folder_expand_state_1_4),
+	(em_migrate_folder_view_settings), (em_migrate_imap_cmeta_1_4),
+	(em_migrate_1_4), (emm_setup_initial), (em_migrate):
+	* em-folder-tree-model.c (em_folder_tree_model_save_state):
+	* mail-component.c (mail_component_init):
+	Use g_mkdir_with_parents() instead of e_util_mkdir_hier().
+
+	* mail-send-recv.c:
+	Some cosmetic refactoring.
+
+	* mail-send-recv.c (dialog_map):
+	Use gtk_widget_set_size_request() instead of gtk_widget_set_usize().
+
+	* mail-send-recv.c (build_dialog):
+	e_gtk_button_new_with_icon() is dead; just do it manually.
+
+	* em-format-html-display.c (efhd_bonobo_object):
+	* em-format-html.c (efh_init):
+	* message-list.c (message_list_init):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* em-account-prefs.c (em_account_prefs_construct):
+	Use g_object_ref() instead of gtk_widget_ref().
+	Use g_object_unref() instead of gtk_widget_unref().
+
+	* em-folder-view.c (emfv_setup_view):
+	Use g_build_filename() instead of g_concat_dir_and_file().
+
 2007-04-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #423766

@@ -52,7 +52,6 @@ eutilinclude_HEADERS = 				\
 	e-event.h				\
 	e-folder-map.h				\
 	e-fsutils.h				\
-	e-gtk-utils.h				\
 	e-gui-utils.h				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
@@ -91,7 +90,6 @@ libeutil_la_SOURCES =				\
 	e-event.c				\
 	e-folder-map.c				\
 	e-fsutils.c				\
-	e-gtk-utils.c				\
 	e-gui-utils.c				\
 	e-html-utils.c				\
 	e-icon-factory.c			\

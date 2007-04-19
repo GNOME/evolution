@@ -446,7 +446,7 @@ compare=\"string\"/>\n", i, column_labels[i]);
 	gtk_box_pack_start (GTK_BOX (vbox), bhide, FALSE, FALSE, 0);
 #endif
 
-	gtk_widget_set_usize (window, 400, 200);
+	gtk_widget_set_size_request (window, 400, 200);
 	gtk_widget_show_all (window);
 
 #ifdef BIT_ROT

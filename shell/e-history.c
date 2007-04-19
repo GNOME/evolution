@@ -79,7 +79,10 @@ e_history_init (EHistory *history)
 
 	history->priv = priv;
 
-	GTK_OBJECT_UNSET_FLAGS (history, GTK_FLOATING);
+	/* XXX I guess just clear the floating flag. */
+	/* GTK_OBJECT_UNSET_FLAGS (history, GTK_FLOATING); */
+	g_object_ref_sink (history);
+	g_object_unref (history);
 }
 
 

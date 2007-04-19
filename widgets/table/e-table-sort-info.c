@@ -82,7 +82,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 
 	e_table_sort_info_signals [SORT_INFO_CHANGED] =
 		g_signal_new ("sort_info_changed",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableSortInfoClass, sort_info_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -91,7 +91,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 
 	e_table_sort_info_signals [GROUP_INFO_CHANGED] =
 		g_signal_new ("group_info_changed",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableSortInfoClass, group_info_changed),
 			      (GSignalAccumulator) NULL, NULL,

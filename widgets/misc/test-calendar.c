@@ -67,7 +67,9 @@ main (int argc, char **argv)
 	GtkWidget *vbox;
 	ECalendarItem *calitem;
 
-	gnome_init ("test-calendar", "0.0", argc, argv);
+	gnome_program_init (
+		"test-calendar", "0.0", LIBGNOMEUI_MODULE,
+		argc, argv, GNOME_PARAM_NONE);
 
 	app = gnome_app_new ("Test", "Test");
 	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);

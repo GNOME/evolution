@@ -1718,7 +1718,7 @@ calendar_component_peek (void)
 	if (component == NULL) {
 		component = g_object_new (calendar_component_get_type (), NULL);
 
-		if (e_util_mkdir_hier (calendar_component_peek_config_directory (component), 0777) != 0) {
+		if (g_mkdir_with_parents (calendar_component_peek_config_directory (component), 0777) != 0) {
 			g_warning (G_STRLOC ": Cannot create directory %s: %s",
 				   calendar_component_peek_config_directory (component),
 				   g_strerror (errno));

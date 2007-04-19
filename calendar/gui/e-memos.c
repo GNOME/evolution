@@ -27,7 +27,9 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <gnome.h>
+#include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libedataserver/e-time-utils.h>
 #include <table/e-table-scrolled.h>
@@ -501,7 +503,7 @@ e_memos_class_init (EMemosClass *klass)
 				GTK_RUN_LAST,
 				G_TYPE_FROM_CLASS (object_class), 
 				GTK_SIGNAL_OFFSET (EMemosClass, selection_changed),
-				gtk_marshal_NONE__INT,
+				g_cclosure_marshal_VOID__INT,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_INT);
 
@@ -715,15 +717,23 @@ static void
 backend_error_cb (ECal *client, const char *message, gpointer data)
 {
 	EMemos *memos;
+	GtkWidget *dialog;
 	char *errmsg;
 	char *urinopwd;
 
 	memos = E_MEMOS (data);
 
 	urinopwd = get_uri_without_password (e_cal_get_uri (client));
-	errmsg = g_strdup_printf (_("Error on %s:\n %s"), urinopwd, message);
-	gnome_error_dialog_parented (errmsg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (memos))));
-	g_free (errmsg);
+
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (memos))),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_ERROR,
+		GTK_BUTTONS_OK,
+		_("Error on %s:\n %s"), urinopwd, message);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
 	g_free (urinopwd);
 }
 

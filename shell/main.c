@@ -26,7 +26,6 @@
 #include <glib/gstdio.h>
 
 #include "e-util/e-dialog-utils.h"
-#include "e-util/e-gtk-utils.h"
 #include "e-util/e-bconf-map.h"
 
 #include <e-util/e-icon-factory.h>

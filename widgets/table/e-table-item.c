@@ -1446,7 +1446,7 @@ eti_dispose (GObject *object)
 		eti->tooltip->foreground = NULL;
 
 		if (eti->tooltip->timer) {
-			gtk_timeout_remove (eti->tooltip->timer);
+			g_source_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
 		g_free (eti->tooltip);
@@ -1782,7 +1782,7 @@ eti_unrealize (GnomeCanvasItem *item)
 			eti->tooltip->foreground = NULL;
 		}
 		if (eti->tooltip->timer) {
-			gtk_timeout_remove (eti->tooltip->timer);
+			g_source_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
 	}
@@ -2288,7 +2288,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		d(g_print("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
 
 		if (eti->tooltip->timer) {
-			gtk_timeout_remove (eti->tooltip->timer);
+			g_source_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
 
@@ -2429,7 +2429,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 
 		if (eti->tooltip->timer) {
-			gtk_timeout_remove (eti->tooltip->timer);
+			g_source_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
@@ -2597,12 +2597,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #ifdef DO_TOOLTIPS
 		if (!g_getenv ("GAL_DONT_DO_TOOLTIPS")) {
 			if (eti->tooltip->timer)
-				gtk_timeout_remove (eti->tooltip->timer);
+				g_source_remove (eti->tooltip->timer);
 			eti->tooltip->col = col;
 			eti->tooltip->row = row;
 			eti->tooltip->cx = e->motion.x;
 			eti->tooltip->cy = e->motion.y;
-			eti->tooltip->timer = gtk_timeout_add (100, (GSourceFunc)_do_tooltip, eti);
+			eti->tooltip->timer = g_timeout_add (100, (GSourceFunc)_do_tooltip, eti);
 		}
 #endif
 
@@ -2636,7 +2636,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			     NULL);
 
 		if (eti->tooltip->timer) {
-			gtk_timeout_remove (eti->tooltip->timer);
+			g_source_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
@@ -2850,7 +2850,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_ENTER_NOTIFY:
 		d(g_print("%s: %s received\n", __FUNCTION__, leave ? "GDK_LEAVE_NOTIFY" : "GDK_ENTER_NOTIFY"));
 		if (eti->tooltip->timer)
-			gtk_timeout_remove (eti->tooltip->timer);
+			g_source_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
 		if (eti->motion_row != -1 && eti->motion_col != -1)
 			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],

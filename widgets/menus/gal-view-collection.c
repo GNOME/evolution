@@ -166,7 +166,10 @@ gal_view_collection_dispose (GObject *object)
 	collection->view_data = NULL;
 	collection->view_count = 0;
 
-	e_free_object_list (collection->factory_list);
+	g_list_foreach (
+		collection->factory_list,
+		(GFunc) g_object_unref, NULL);
+	g_list_free (collection->factory_list);
 	collection->factory_list = NULL;
 
 	for (i = 0; i < collection->removed_view_count; i++) {
@@ -375,7 +378,7 @@ load_single_file (GalViewCollection *collection,
 
 	if (item->filename) {
 		char *fullpath;
-		fullpath = g_concat_dir_and_file(dir, item->filename);
+		fullpath = g_build_filename(dir, item->filename, NULL);
 		item->view = gal_view_collection_real_load_view_from_file (collection, item->type, item->title, dir, fullpath);
 		g_free(fullpath);
 		if (item->view) {
@@ -395,7 +398,7 @@ load_single_dir (GalViewCollection *collection,
 	xmlDoc *doc = NULL;
 	xmlNode *root;
 	xmlNode *child;
-	char *filename = g_concat_dir_and_file(dir, "galview.xml");
+	char *filename = g_build_filename(dir, "galview.xml", NULL);
 	char *default_view;
 	
 	if (g_file_test (filename, G_FILE_TEST_IS_REGULAR)) {
@@ -488,7 +491,7 @@ gal_view_collection_load              (GalViewCollection *collection)
 	g_return_if_fail (collection->system_dir != NULL);
 	g_return_if_fail (!collection->loaded);
 
-	if ((e_create_directory(collection->local_dir) == -1) && (errno != EEXIST))
+	if ((g_mkdir_with_parents (collection->local_dir, 0777) == -1) && (errno != EEXIST))
 		g_warning ("Unable to create dir %s: %s", collection->local_dir, g_strerror(errno));
 
 	load_single_dir(collection, collection->local_dir, TRUE);
@@ -539,7 +542,7 @@ gal_view_collection_save              (GalViewCollection *collection)
 			e_xml_set_string_prop_by_name(child, "type", item->type);
 
 			if (item->changed) {
-				filename = g_concat_dir_and_file(collection->local_dir, item->filename);
+				filename = g_build_filename(collection->local_dir, item->filename, NULL);
 				gal_view_save(item->view, filename);
 				g_free(filename);
 			}
@@ -556,7 +559,7 @@ gal_view_collection_save              (GalViewCollection *collection)
 		e_xml_set_string_prop_by_name(child, "title", item->title);
 		e_xml_set_string_prop_by_name(child, "type", item->type);
 	}
-	filename = g_concat_dir_and_file(collection->local_dir, "galview.xml");
+	filename = g_build_filename(collection->local_dir, "galview.xml", NULL);
 	if (e_xml_save_file (filename, doc) == -1)
 		g_warning ("Unable to save view to %s - %s", filename, g_strerror(errno));
 	xmlFreeDoc(doc);

@@ -32,7 +32,6 @@
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-gtk-utils.h>
 #include <glade/glade.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkdialog.h>

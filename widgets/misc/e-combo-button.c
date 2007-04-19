@@ -399,7 +399,11 @@ impl_released (GtkButton *button)
 
 			/* We _draw () instead of queue_draw so that if the
 			   operation blocks, the label doesn't vanish.  */
-			gtk_widget_draw (GTK_WIDGET (button), NULL);
+			/* XXX gtk_widget_draw() is deprecated.
+			 *     Replace it with GTK's implementation. */
+			gtk_widget_queue_draw (GTK_WIDGET (button));
+			gdk_window_process_updates (
+				GTK_WIDGET (button)->window, TRUE);
 		}
 	}
 }
@@ -542,7 +546,7 @@ e_combo_button_new (void)
 {
 	EComboButton *new;
 
-	new = gtk_type_new (e_combo_button_get_type ());
+	new = g_object_new (e_combo_button_get_type (), NULL);
 	e_combo_button_construct (new);
 
 	return GTK_WIDGET (new);

@@ -1,3 +1,25 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* e-shell.c (impl_finalize):
+	e_free_string_list() is dead; just do it manually.
+
+	* e-user-creatable-items-handler.c (setup_toolbar_button):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* e-shell-importer.c:
+	Drop support for GnomeFileEntry.
+
+	* importer/intelligent.c (create_gui):
+	Use g_object_ref() instead of gtk_widget_ref().
+
+	* e-history.c (e_history_init):
+	Clear the floating flag without using GTK_OBJECT_UNSET_FLAGS().
+
+	* e-shell-settings-dialog.c:
+	Include missing header file(s).
+
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-window.c:

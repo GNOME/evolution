@@ -1391,7 +1391,7 @@ tasks_component_peek (void)
 	if (component == NULL) {
 		component = g_object_new (tasks_component_get_type (), NULL);
 
-		if (e_util_mkdir_hier (component->priv->config_directory, 0777) != 0) {
+		if (g_mkdir_with_parents (component->priv->config_directory, 0777) != 0) {
 			g_warning (G_STRLOC ": Cannot create directory %s: %s",
 				   component->priv->config_directory, g_strerror (errno));
 			g_object_unref (component);

@@ -92,7 +92,7 @@ e_completion_callbacks_new (ECompletionCallbacksRequestCompletionFn request_comp
   g_return_val_if_fail (request_completion != NULL, NULL);
   g_return_val_if_fail (end_completion != NULL, NULL);
 
-  cc = gtk_type_new (E_COMPLETION_CALLBACKS_TYPE);
+  cc = g_object_new (E_COMPLETION_CALLBACKS_TYPE, NULL);
 
   cc->request_completion = request_completion;
   cc->end_completion = end_completion;

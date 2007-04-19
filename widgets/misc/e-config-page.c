@@ -44,7 +44,7 @@ e_config_page_init (EConfigPage *page)
 GtkWidget *
 e_config_page_new (void)
 {
-	return gtk_type_new (e_config_page_get_type ());
+	return g_object_new (e_config_page_get_type (), NULL);
 }
 
 

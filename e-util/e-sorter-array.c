@@ -85,7 +85,9 @@ esa_sort(ESorterArray *esa)
 		esa->sorted[i] = i;
 
 	if (esa->compare)
-		e_sort (esa->sorted, rows, sizeof(int), esort_callback, esa);
+		g_qsort_with_data (
+			esa->sorted, rows, sizeof(int),
+			esort_callback, esa);
 }
 
 static void

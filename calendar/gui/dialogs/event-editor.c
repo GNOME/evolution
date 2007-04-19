@@ -372,8 +372,7 @@ create_schedule_page (EventEditor *ee)
 			"gtk-close", GTK_RESPONSE_CLOSE,
 			NULL);
 	priv->sched_page = schedule_page_new (priv->model);
-	g_object_ref (priv->sched_page);
-	gtk_object_sink (GTK_OBJECT (priv->sched_page));
+	g_object_ref_sink (priv->sched_page);
 	gtk_container_add (GTK_CONTAINER (GTK_DIALOG(priv->sched_window)->vbox), comp_editor_page_get_widget (COMP_EDITOR_PAGE (priv->sched_page)));
 
 	g_signal_connect (priv->sched_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
@@ -597,8 +596,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	priv = ee->priv;
 
 	priv->event_page = event_page_new (priv->model, client, COMP_EDITOR(ee)->uic);
-	g_object_ref (priv->event_page);
-	gtk_object_sink (GTK_OBJECT (priv->event_page));
+	g_object_ref_sink (priv->event_page);
 	comp_editor_append_page (COMP_EDITOR (ee), 
 				 COMP_EDITOR_PAGE (priv->event_page),
 				 _("Appoint_ment"), TRUE);
@@ -612,8 +610,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	g_signal_connect (priv->recur_window, "response", G_CALLBACK (gtk_widget_hide), NULL);
 	g_signal_connect ((GtkWidget *) priv->recur_window, "delete-event", G_CALLBACK(window_delete_event), NULL);
 	priv->recur_page = recurrence_page_new ();
-	g_object_ref (priv->recur_page);
-	gtk_object_sink (GTK_OBJECT (priv->recur_page));
+	g_object_ref_sink (priv->recur_page);
 	gtk_container_add ((GtkContainer *) (GTK_DIALOG (priv->recur_window)->vbox), 
 			comp_editor_page_get_widget (COMP_EDITOR_PAGE (priv->recur_page)));
 	gtk_widget_show_all (priv->recur_window);

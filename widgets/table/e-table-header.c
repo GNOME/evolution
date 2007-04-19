@@ -277,7 +277,7 @@ e_table_header_class_init (GObjectClass *object_class)
 
 	eth_signals [STRUCTURE_CHANGE] =
 		g_signal_new ("structure_change",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, structure_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -285,7 +285,7 @@ e_table_header_class_init (GObjectClass *object_class)
 			      G_TYPE_NONE, 0);
 	eth_signals [DIMENSION_CHANGE] = 
 		g_signal_new ("dimension_change", 
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, dimension_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -293,7 +293,7 @@ e_table_header_class_init (GObjectClass *object_class)
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 	eth_signals [EXPANSION_CHANGE] = 
 		g_signal_new ("expansion_change", 
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, expansion_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -301,7 +301,7 @@ e_table_header_class_init (GObjectClass *object_class)
 			      G_TYPE_NONE, 0);
 	eth_signals [REQUEST_WIDTH] = 
 		g_signal_new ("request_width",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, request_width),
 			      (GSignalAccumulator) NULL, NULL,

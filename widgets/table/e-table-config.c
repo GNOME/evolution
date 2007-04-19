@@ -33,7 +33,6 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
 
 #include <glib/gi18n.h>
@@ -138,7 +137,7 @@ config_class_init (GObjectClass *object_class)
 
 	e_table_config_signals [CHANGED] =
 		g_signal_new ("changed",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableConfigClass, changed),
 			      (GSignalAccumulator) NULL, NULL,

@@ -24,6 +24,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+#include <glib/gi18n.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkentry.h>
@@ -277,7 +279,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 			       | GDK_LEAVE_NOTIFY_MASK
 			       | GDK_VISIBILITY_NOTIFY_MASK);
 
-	gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry), FALSE);
+	gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->timezone_combo)->entry), FALSE);
 
 	e_timezone_dialog_add_timezones (etd);
 
@@ -547,7 +549,7 @@ on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 		/* Map is visible, at least partly, so make sure we flash the
 		   selected point. */
 		if (!priv->timeout_id)
-			priv->timeout_id = gtk_timeout_add (100, on_map_timeout, etd);
+			priv->timeout_id = g_timeout_add (100, on_map_timeout, etd);
 	} else {
 		/* Map is invisible, so don't waste resources on the timeout.*/
 		if (priv->timeout_id) {

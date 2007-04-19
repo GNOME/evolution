@@ -281,7 +281,7 @@ create_table (void)
 	gtk_container_add (GTK_CONTAINER (window), frame);
 
 	/* Size the initial window. */
-	gtk_widget_set_usize (window, 200, 200);
+	gtk_widget_set_size_request (window, 200, 200);
 
 	/* Show it all. */
 	gtk_widget_show_all (window);

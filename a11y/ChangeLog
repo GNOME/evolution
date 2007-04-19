@@ -1,3 +1,14 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* e-text/gal-a11y-e-text.c (et_get_extents), (et_get_full_text),
+	(et_set_full_text), (et_get_caret_offset):
+	Use g_object_get() instead of gtk_object_get().
+
+	* e-text/gal-a11y-e-text.c (et_paste_text):
+	Use g_object_set() instead of gtk_object_set().
+
 2007-03-30  Wang Xin  <jedy.wang@sun.com>
 
 	* widgets/ea-calendar-item.c: Fixes #415985 and #416028.

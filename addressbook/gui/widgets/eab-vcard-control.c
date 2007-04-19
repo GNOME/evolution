@@ -125,7 +125,11 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	e_free_object_list (vcard_control->card_list);
+	g_list_foreach (
+		vcard_control->card_list,
+		(GFunc) g_object_unref, NULL);
+	g_list_free (vcard_control->card_list);
+
 	list = eab_contact_list_from_string (vcard);
 	g_free(vcard);
 	vcard_control->card_list = list;
@@ -192,7 +196,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 	}
 	if (book)
 		g_object_unref (book);
-	e_free_object_list (list);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -236,7 +241,11 @@ static void
 free_struct (gpointer data, GObject *where_object_was)
 {
 	EABVCardControl *vcard_control = data;
-	e_free_object_list (vcard_control->card_list);
+
+	g_list_foreach (
+		vcard_control->card_list,
+		(GFunc) g_object_unref, NULL);
+	g_list_free (vcard_control->card_list);
 	g_free (vcard_control);
 }
 

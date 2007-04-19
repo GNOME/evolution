@@ -168,11 +168,9 @@ addrconduit_load_configuration (guint32 pilot_id)
 
 	c->pilot_id = pilot_id;
 	management = gnome_pilot_conduit_management_new ("e_address_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
-	gtk_object_ref (GTK_OBJECT (management));
-	gtk_object_sink (GTK_OBJECT (management));
+	g_object_ref_sink (management);
 	config = gnome_pilot_conduit_config_new (management, pilot_id);
-	gtk_object_ref (GTK_OBJECT (config));
-	gtk_object_sink (GTK_OBJECT (config));
+	g_object_ref_sink (config);
 	if (!gnome_pilot_conduit_config_is_enabled (config, &c->sync_type))
 		c->sync_type = GnomePilotConduitSyncTypeNotSet;
 	gtk_object_unref (GTK_OBJECT (config));
@@ -307,7 +305,7 @@ e_addr_gui_new (EPilotSettings *ps)
 		item = gtk_menu_item_new_with_label (items[i]);
 		gtk_widget_show (item);
 		
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	}
 	gtk_widget_show (menu);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (gui->default_address), menu);

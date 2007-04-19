@@ -1680,7 +1680,7 @@ e_day_view_style_set (GtkWidget *widget,
 	   number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
 	top_rows = MAX (1, day_view->rows_in_top_display);
 	top_canvas_height = (top_rows + 2) * day_view->top_row_height;
-	gtk_widget_set_usize (day_view->top_canvas, -1, top_canvas_height);
+	gtk_widget_set_size_request (day_view->top_canvas, -1, top_canvas_height);
 
 	/* Find the longest full & abbreviated month names. */
 	memset (&date_tm, 0, sizeof (date_tm));
@@ -1778,7 +1778,7 @@ e_day_view_style_set (GtkWidget *widget,
 
 	/* Calculate the width of the time column. */
 	times_width = e_day_view_time_item_get_column_width (E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item));
-	gtk_widget_set_usize (day_view->time_canvas, times_width, -1);
+	gtk_widget_set_size_request (day_view->time_canvas, times_width, -1);
 
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
@@ -1877,7 +1877,7 @@ e_day_view_style_set (GtkWidget *widget,
 	   number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
 	top_rows = MAX (1, day_view->rows_in_top_display);
 	top_canvas_height = (top_rows + 2) * day_view->top_row_height;
-	gtk_widget_set_usize (day_view->top_canvas, -1, top_canvas_height);
+	gtk_widget_set_size_request (day_view->top_canvas, -1, top_canvas_height);
 
 	/* Find the longest full & abbreviated month names. */
 	memset (&date_tm, 0, sizeof (date_tm));
@@ -1975,7 +1975,7 @@ e_day_view_style_set (GtkWidget *widget,
 
 	/* Calculate the width of the time column. */
 	times_width = e_day_view_time_item_get_column_width (E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item));
-	gtk_widget_set_usize (day_view->time_canvas, times_width, -1);
+	gtk_widget_set_size_request (day_view->time_canvas, times_width, -1);
 
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
@@ -5499,8 +5499,8 @@ e_day_view_check_layout (EDayView *day_view)
 			top_rows = MAX (1, rows_in_top_display);
 			top_canvas_height = (top_rows + 2)
 				* day_view->top_row_height;
-			gtk_widget_set_usize (day_view->top_canvas, -1,
-					      top_canvas_height);
+			gtk_widget_set_size_request (
+				day_view->top_canvas, -1, top_canvas_height);
 		}
 	}
 
@@ -7962,7 +7962,7 @@ void
 e_day_view_stop_auto_scroll (EDayView *day_view)
 {
 	if (day_view->auto_scroll_timeout_id != 0) {
-		gtk_timeout_remove (day_view->auto_scroll_timeout_id);
+		g_source_remove (day_view->auto_scroll_timeout_id);
 		day_view->auto_scroll_timeout_id = 0;
 	}
 }
@@ -9307,7 +9307,7 @@ static void
 e_day_view_cancel_layout (EDayView *day_view)
 {
 	if (day_view->layout_timeout_id != 0) {
-		gtk_timeout_remove (day_view->layout_timeout_id);
+		g_source_remove (day_view->layout_timeout_id);
 		day_view->layout_timeout_id = 0;
 	}
 }

@@ -69,7 +69,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [PRE_CHANGE] =
 		g_signal_new ("pre_change",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, pre_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -78,7 +78,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NO_CHANGE] =
 		g_signal_new ("no_change",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, no_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -87,7 +87,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_CHANGED] =
 		g_signal_new ("node_changed",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -96,7 +96,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_DATA_CHANGED] =
 		g_signal_new ("node_data_changed",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_data_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -105,7 +105,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_COL_CHANGED] =
 		g_signal_new ("node_col_changed",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_col_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -114,7 +114,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_INSERTED] =
 		g_signal_new ("node_inserted",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_inserted),
 			      (GSignalAccumulator) NULL, NULL,
@@ -123,7 +123,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_REMOVED] =
 		g_signal_new ("node_removed",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_removed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -132,7 +132,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_DELETED] =
 		g_signal_new ("node_deleted",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_deleted),
 			      (GSignalAccumulator) NULL, NULL,
@@ -141,7 +141,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_REQUEST_COLLAPSE] =
 		g_signal_new ("node_request_collapse",
-			      E_OBJECT_CLASS_TYPE (klass),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_request_collapse),
 			      (GSignalAccumulator) NULL, NULL,

@@ -34,7 +34,6 @@
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-file-entry.h>
 
 #include "filter-label.h"
 #include <libedataserver/e-sexp.h>

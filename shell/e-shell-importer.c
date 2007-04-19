@@ -38,7 +38,6 @@
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-edge.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
-#include <libgnomeui/gnome-file-entry.h>
 
 #include <gtk/gtkfilechooserbutton.h>
 
@@ -46,7 +45,6 @@
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
-#include "e-util/e-gtk-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util-private.h"
@@ -188,11 +186,7 @@ filename_changed (GtkWidget *widget,
 
 	page = data->filepage;
 
-#ifdef USE_GTKFILECHOOSER
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
-#else
-	filename = gtk_entry_get_text ((GtkEntry *) gnome_file_entry_get_entry ((GnomeFileEntry *)widget));
-#endif
 
 	fileok = filename && filename[0] && g_file_test(filename, G_FILE_TEST_IS_REGULAR);
 	if (fileok) {
@@ -293,16 +287,8 @@ importer_file_page_new (ImportData *data)
 			  GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
-#ifdef USE_GTKFILECHOOSER
 	page->filename = gtk_file_chooser_button_new (_("Select a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (page->filename), "selection-changed", G_CALLBACK (filename_changed), data);
-#else
-	page->filename = gnome_file_entry_new ("Evolution_Importer_FileName", _("Select a file"));
-	g_object_set (G_OBJECT (page->filename), "use_filechooser", TRUE, NULL);
-	entry = gnome_file_entry_gtk_entry((GnomeFileEntry *)page->filename);
-	g_signal_connect (entry, "changed", G_CALLBACK (filename_changed), data);
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-#endif
 
 	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);

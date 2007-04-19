@@ -1008,7 +1008,7 @@ certificate_manager_config_control_new (void)
 	populate_ui (cfm_data);
 
 	control_widget = glade_xml_get_widget (cfm_data->gui, "cert-manager-notebook");
-	gtk_widget_ref (control_widget);
+	g_object_ref (control_widget);
 
 	gtk_container_remove (GTK_CONTAINER (control_widget->parent), control_widget);
 

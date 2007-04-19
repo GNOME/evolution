@@ -22,8 +22,9 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
 #include <glib/gi18n.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include "comp-editor-page.h"
@@ -200,7 +201,7 @@ comp_editor_page_destroy (GtkObject *object)
 	}
 
 	if (page->accel_group) {
-		gtk_accel_group_unref (page->accel_group);
+		g_object_unref (page->accel_group);
 		page->accel_group = NULL;
 	}
 
@@ -506,17 +507,18 @@ comp_editor_page_display_validation_error (CompEditorPage *page,
 					   GtkWidget *field)
 {
 	GtkWidget *dialog;
-	char *real_msg;
 
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 	g_return_if_fail (msg != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (field));
 
-	real_msg = g_strdup_printf (_("Validation error: %s"), msg);
-	dialog = gnome_error_dialog (real_msg);
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	dialog = gtk_message_dialog_new (
+		NULL, 0,
+		GTK_MESSAGE_ERROR,
+		GTK_BUTTONS_CLOSE,
+		_("Validation error: %s"), msg);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
 	gtk_widget_grab_focus (field);
-
-	g_free (real_msg);
 }

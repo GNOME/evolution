@@ -52,25 +52,25 @@ item_activated (GtkWidget *widget,
 
 static GnomeUIInfo ui_info[] = {
 	{ GNOME_APP_UI_ITEM, "_New", "Create a new file", item_activated, "file/new", NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 'n', GDK_CONTROL_MASK, NULL },
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_NEW, 'n', GDK_CONTROL_MASK, NULL },
 	{ GNOME_APP_UI_ITEM, "_Open...", "Open an existing file", item_activated, "file/open", NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN, 'o', GDK_CONTROL_MASK, NULL },
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_OPEN, 'o', GDK_CONTROL_MASK, NULL },
 	{ GNOME_APP_UI_ITEM, "_Save", "Save the current file", item_activated, "file/save", NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE, 's', GDK_CONTROL_MASK, NULL },
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_SAVE, 's', GDK_CONTROL_MASK, NULL },
 	{ GNOME_APP_UI_ITEM, "Save _as...", "Save the current file with a new name", item_activated, "file/save as", NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE_AS, 0, 0, NULL },
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_SAVE_AS, 0, 0, NULL },
 
 	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_ITEM, "_Print...", "Print the current file", item_activated, "file/print", NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PRINT, 'p', GDK_CONTROL_MASK, NULL },
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_PRINT, 'p', GDK_CONTROL_MASK, NULL },
 
 	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_ITEM, "_Close", "Close the current file", item_activated, "file/close", NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CLOSE, 0, 0, NULL },
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_CLOSE, 0, 0, NULL },
 	{ GNOME_APP_UI_ITEM, "E_xit", "Exit the program", item_activated, "file/exit", NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, 'q', GDK_CONTROL_MASK, NULL },
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_QUIT, 'q', GDK_CONTROL_MASK, NULL },
 	GNOMEUIINFO_END
 };
 
@@ -82,7 +82,9 @@ main (int argc, char **argv)
 	GtkWidget *menu;
 	GtkWidget *dropdown_button;
 
-	gnome_init ("test-dropdown-button", "0.0", argc, argv);
+	gnome_program_init (
+		"test-dropdown-button", "0.0", LIBGNOMEUI_MODULE,
+		argc, argv, GNOME_PARAM_NONE);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (window), 1, 1);

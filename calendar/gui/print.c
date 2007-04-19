@@ -2046,7 +2046,7 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 
 	e_utf8_strftime (text, sizeof (text), _("Selected day (%a %b %d %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (NULL, text);
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Week */
@@ -2084,21 +2084,21 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	g_snprintf (text, sizeof (text), _("Selected week (%s - %s)"), str1, str2);
 
 	radio = gtk_radio_button_new_with_label (group, text);
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Month */
 
 	e_utf8_strftime (text, sizeof (text), _("Selected month (%b %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Year */
 
 	e_utf8_strftime (text, sizeof (text), _("Selected year (%Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Select default */
@@ -2830,8 +2830,7 @@ print_table (ETable *etable, const char *dialog_title, const char *print_header,
 	gpd = e_print_get_dialog_with_config (dialog_title, 0, settings);
 	printable = e_table_get_printable (etable);
 
-	g_object_ref (printable);
-	gtk_object_sink (GTK_OBJECT (printable));
+	g_object_ref_sink (printable);
 	e_printable_reset (printable);
 	pti->printable = printable;
 

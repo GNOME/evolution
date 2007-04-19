@@ -209,10 +209,8 @@ e_table_extras_add_cell     (ETableExtras *extras,
 			g_object_unref (old_cell);
 	}
 
-	if (cell) {
-		g_object_ref (cell);
-		gtk_object_sink (GTK_OBJECT (cell));
-	}
+	if (cell)
+		g_object_ref_sink (cell);
 	g_hash_table_insert (extras->cells, g_strdup(id), cell);
 }
 

@@ -224,9 +224,7 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 
 	bbox = gtk_hbutton_box_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
-	gtk_button_box_set_spacing (GTK_BUTTON_BOX (bbox), 2);
-	gtk_button_box_set_child_ipadding (GTK_BUTTON_BOX (bbox), 2, 0);
-	gtk_button_box_set_child_size (GTK_BUTTON_BOX (bbox), 0, 0);
+	gtk_box_set_spacing (GTK_BOX (bbox), 2);
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
         gtk_widget_show (bbox);
 
@@ -283,9 +281,7 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 ECell *
 e_cell_date_edit_new			(void)
 {
-	ECellDateEdit *ecde = gtk_type_new (e_cell_date_edit_get_type ());
-
-	return (ECell*) ecde;
+	return g_object_new (e_cell_date_edit_get_type (), NULL);
 }
 
 
@@ -513,14 +509,14 @@ e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
 	GtkWidget *listitem, *label;
 	GList *elem;
 	gboolean found = FALSE;
-	char *list_item_text;
+	const gchar *list_item_text;
 
 	list = GTK_LIST (ecde->time_list);
 	elem = list->children;
 	while (elem) {
 		listitem = GTK_WIDGET (elem->data);
 		label = GTK_BIN (listitem)->child;
-		gtk_label_get (GTK_LABEL (label), &list_item_text);
+		list_item_text = gtk_label_get_text (GTK_LABEL (label));
 
 		if (!strcmp (list_item_text, time)) {
 			found = TRUE;
@@ -777,7 +773,7 @@ e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
 {
 	GtkWidget *dialog;
 	struct tm date_tm;
-	char buffer[64], *message;
+	char buffer[64];
 
 	/* Create a useful error message showing the correct format. */
 	date_tm.tm_year = 100;
@@ -790,18 +786,16 @@ e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
 	e_time_format_time (&date_tm, ecde->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
 
-	message = g_strdup_printf (_("The time must be in the format: %s"),
-				   buffer);
-
-	dialog = gnome_message_box_new (message, GNOME_MESSAGE_BOX_ERROR,
-					GNOME_STOCK_BUTTON_OK, NULL);
 	/* FIXME: Fix transient settings - I'm not sure it works with popup
 	   windows. Maybe we need to use a normal window without decorations.*/
-	gtk_window_set_transient_for (GTK_WINDOW (dialog),
-				      GTK_WINDOW (ecde->popup_window));
-	gnome_dialog_run (GNOME_DIALOG (dialog));
-
-	g_free (message);
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (ecde->popup_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		_("The time must be in the format: %s"),
+		buffer);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 
@@ -899,14 +893,14 @@ e_cell_date_edit_on_time_selected	(GtkList	*list,
 					 ECellDateEdit	*ecde)
 {
 	GtkWidget *listitem, *label;
-	char *list_item_text;
+	const gchar *list_item_text;
 
 	if (!list->selection)
 		return;
 
 	listitem = list->selection->data;
 	label = GTK_BIN (listitem)->child;
-	gtk_label_get (GTK_LABEL (label), &list_item_text);
+	list_item_text = gtk_label_get_text (GTK_LABEL (label));
 	gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), list_item_text);
 }
 

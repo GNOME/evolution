@@ -43,7 +43,6 @@
 #include <mail/em-format-html.h>
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-gtk-utils.h>
 #include <e-util/e-util.h>
 #include <calendar/gui/itip-utils.h>
 #include "itip-view.h"
@@ -729,15 +728,23 @@ set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse re
 {
 	ItipViewPrivate *priv;
 	GtkWidget *button;
+	GtkWidget *image;
+	gpointer data;
 	
 	priv = view->priv;
 
-	button = e_gtk_button_new_with_icon (label, stock_id);
-	g_object_set_data (G_OBJECT (button), DATA_RESPONSE_KEY, GINT_TO_POINTER (response));
+	button = gtk_button_new_with_mnemonic (label);
+	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
+	gtk_button_set_image (button, image);
+
+	data = GINT_TO_POINTER (response);
+	g_object_set_data (button, DATA_RESPONSE_KEY, data);
+
 	gtk_widget_show (button);
 	gtk_container_add (GTK_CONTAINER (priv->button_box), button);
 
-	g_signal_connect (button, "clicked", G_CALLBACK (button_clicked_cb), view);
+	g_signal_connect (
+		button, "clicked", G_CALLBACK (button_clicked_cb), view);
 }
 
 static void
@@ -852,7 +859,7 @@ itip_view_class_init (ItipViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ItipViewClass, response),
 			      NULL, NULL,
-			      gtk_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 

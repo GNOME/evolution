@@ -141,8 +141,7 @@ efh_init(GObject *o)
 
 	efh->html = (GtkHTML *)gtk_html_new();
 	gtk_html_set_blocking(efh->html, FALSE);
-	g_object_ref(efh->html);
-	gtk_object_sink((GtkObject *)efh->html);
+	g_object_ref_sink(efh->html);
 
 	gtk_html_set_default_content_type(efh->html, "text/html; charset=utf-8");
 	gtk_html_set_editable(efh->html, FALSE);

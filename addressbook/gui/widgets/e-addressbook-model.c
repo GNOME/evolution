@@ -8,6 +8,8 @@
  */
 
 #include <config.h>
+#include <string.h>
+#include <glib/gi18n.h>
 #include "eab-marshal.h"
 #include "e-addressbook-model.h"
 #include <libxml/tree.h>

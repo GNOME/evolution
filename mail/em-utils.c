@@ -479,7 +479,7 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 		return FALSE;
 	
 	dirname = g_path_get_dirname(filename);
-	if (e_util_mkdir_hier(dirname, 0777) == -1) {
+	if (g_mkdir_with_parents(dirname, 0777) == -1) {
 		e_error_run((GtkWindow *)parent, "mail:no-create-path", filename, g_strerror(errno), NULL);
 		g_free(dirname);
 		return FALSE;

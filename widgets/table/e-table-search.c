@@ -127,7 +127,7 @@ e_table_search_class_init (GObjectClass *object_class)
 
 	e_table_search_signals [SEARCH_SEARCH] =
 		g_signal_new ("search",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableSearchClass, search),
 			      (GSignalAccumulator) NULL, NULL,
@@ -136,7 +136,7 @@ e_table_search_class_init (GObjectClass *object_class)
 
 	e_table_search_signals [SEARCH_ACCEPT] =
 		g_signal_new ("accept",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableSearchClass, accept),
 			      (GSignalAccumulator) NULL, NULL,

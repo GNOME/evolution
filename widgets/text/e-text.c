@@ -244,17 +244,17 @@ e_text_dispose (GObject *object)
 	}
 				
 	if ( text->tooltip_timeout ) {
-		gtk_timeout_remove (text->tooltip_timeout);
+		g_source_remove (text->tooltip_timeout);
 		text->tooltip_timeout = 0;
 	}
 
 	if ( text->dbl_timeout ) {
-		gtk_timeout_remove (text->dbl_timeout);
+		g_source_remove (text->dbl_timeout);
 		text->dbl_timeout = 0;
 	}
 
 	if ( text->tpl_timeout ) {
-		gtk_timeout_remove (text->tpl_timeout);
+		g_source_remove (text->tpl_timeout);
 		text->tpl_timeout = 0;
 	}
 
@@ -2093,9 +2093,9 @@ _do_tooltip (gpointer data)
 	gtk_widget_show (canvas);
 	gtk_widget_realize (tooltip_window);
 
-	gtk_widget_set_usize (tooltip_window,
-			      tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
-			      tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0));
+	gtk_widget_set_size_request (tooltip_window,
+				     tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
+				     tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0,
 					tooltip_width + (text->draw_borders ? BORDER_INDENT * 2 : 0), 
 					(double)tooltip_height + (text->draw_borders ? BORDER_INDENT * 2 : 0));
@@ -2295,7 +2295,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			text->tooltip_count --;
 		if ( text->tooltip_count == 0 && text->clip) {
 			if ( text->tooltip_timeout ) {
-				gtk_timeout_remove (text->tooltip_timeout);
+				g_source_remove (text->tooltip_timeout);
 				text->tooltip_timeout = 0;
 			}
 		}
@@ -2344,7 +2344,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
 		if (text->tooltip_timeout) {
-			gtk_timeout_remove (text->tooltip_timeout);
+			g_source_remove (text->tooltip_timeout);
 			text->tooltip_timeout = 0;
 		}
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
@@ -2394,13 +2394,13 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->type == GDK_BUTTON_PRESS) {
 			if (text->dbl_timeout == 0 && 
 			    text->tpl_timeout == 0) {
-				text->dbl_timeout = gtk_timeout_add (200,
-								     _click,
-								     &(text->dbl_timeout));
+				text->dbl_timeout = g_timeout_add (200,
+								   _click,
+								   &(text->dbl_timeout));
 			} else {
 				if (text->tpl_timeout == 0) {
 					e_tep_event.type = GDK_2BUTTON_PRESS;
-					text->tpl_timeout = gtk_timeout_add (200, _click, &(text->tpl_timeout));
+					text->tpl_timeout = g_timeout_add (200, _click, &(text->tpl_timeout));
 				} else {
 					e_tep_event.type = GDK_3BUTTON_PRESS;
 				}				     
@@ -2445,7 +2445,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		{
 				if ( text->tooltip_count == 0 && text->clip) {
 					if (!text->tooltip_timeout)
-						text->tooltip_timeout = gtk_timeout_add (2000, _do_tooltip, text);
+						text->tooltip_timeout = g_timeout_add (2000, _do_tooltip, text);
 				}
 				text->tooltip_count ++;
 		}
@@ -2463,7 +2463,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			text->tooltip_count --;
 		if ( text->tooltip_count == 0 && text->clip) {
 			if ( text->tooltip_timeout ) {
-				gtk_timeout_remove (text->tooltip_timeout);
+				g_source_remove (text->tooltip_timeout);
 				text->tooltip_timeout = 0;
 			}
 		}

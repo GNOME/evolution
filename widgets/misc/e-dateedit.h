@@ -76,7 +76,7 @@ struct _EDateEditClass {
 GType      e_date_edit_get_type			(void);
 GtkWidget* e_date_edit_new			(void);
 
-/* Analogous to gtk_entry_set_editable.  disable editing, while still
+/* Analogous to gtk_editable_set_editable.  disable editing, while still
    allowing selection. */
 void       e_date_edit_set_editable             (EDateEdit      *dedit, gboolean editable);
 

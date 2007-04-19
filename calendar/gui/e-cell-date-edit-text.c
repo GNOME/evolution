@@ -102,7 +102,7 @@ static void
 show_date_warning (ECellDateEditText *ecd)
 {
 	GtkWidget *dialog;
-	char buffer[64], message[256], *format;
+	char buffer[64], *format;
 	time_t t;
 	struct tm *tmp_tm;
 
@@ -120,14 +120,14 @@ show_date_warning (ECellDateEditText *ecd)
 
 	e_utf8_strftime (buffer, sizeof (buffer), format, tmp_tm);
 
-	g_snprintf (message, 256,
-		    _("The date must be entered in the format: \n\n%s"),
-		    buffer);
-
-	dialog = gnome_message_box_new (message,
-					GNOME_MESSAGE_BOX_ERROR,
-					GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_widget_show (dialog);
+	dialog = gtk_message_dialog_new (
+		NULL, 0,
+		GTK_MESSAGE_ERROR,
+		GTK_BUTTONS_OK,
+		_("The date must be entered in the format: \n%s"),
+		buffer);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 

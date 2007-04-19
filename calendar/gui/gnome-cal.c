@@ -2211,7 +2211,8 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 
 	priv->current_view_type = view_type;
 
-	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), (int) view_type);
+	gtk_notebook_set_current_page (
+		GTK_NOTEBOOK (priv->notebook), (int) view_type);
 
 	if (grab_focus)
 		focus_current_view (gcal);
@@ -2762,15 +2763,23 @@ static void
 backend_error_cb (ECal *client, const char *message, gpointer data)
 {
 	GnomeCalendar *gcal;
-	char *errmsg;
+	GtkDialog *dialog;
 	char *uristr;
 
 	gcal = GNOME_CALENDAR (data);
 
 	uristr = get_uri_without_password (e_cal_get_uri (client));
-	errmsg = g_strdup_printf (_("Error on %s:\n %s"), uristr, message);
-	gnome_error_dialog_parented (errmsg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
-	g_free (errmsg);
+
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_ERROR,
+		GTK_BUTTONS_OK,
+		_("Error on %s:\n %s"),
+		uristr, message);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
 	g_free (uristr);
 }
 
@@ -3413,9 +3422,9 @@ gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 	times_width = e_day_view_time_item_get_column_width (
 		E_DAY_VIEW_TIME_ITEM (E_DAY_VIEW (priv->day_view)->time_canvas_item));
 	if (times_width < priv->hpane_pos - 20)
-		gtk_widget_set_usize (E_DAY_VIEW (priv->day_view)->time_canvas, times_width, -1);
+		gtk_widget_set_size_request (E_DAY_VIEW (priv->day_view)->time_canvas, times_width, -1);
 	else
-		gtk_widget_set_usize (E_DAY_VIEW (priv->day_view)->time_canvas, priv->hpane_pos - 20, -1);
+		gtk_widget_set_size_request (E_DAY_VIEW (priv->day_view)->time_canvas, priv->hpane_pos - 20, -1);
 	
 	
 	return FALSE;

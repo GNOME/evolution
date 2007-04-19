@@ -243,7 +243,7 @@ static void
 e_entry_text_keypress (EText *text, guint keyval, guint state, EEntry *entry)
 {
 	if (entry->priv->changed_since_keypress_tag) {
-		gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
+		g_source_remove (entry->priv->changed_since_keypress_tag);
 		entry->priv->changed_since_keypress_tag = 0;
 	}
 	
@@ -276,9 +276,9 @@ static void
 proxy_changed (EText *text, EEntry *entry)
 {
 	if (entry->priv->changed_since_keypress_tag)
-		gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
+		g_source_remove (entry->priv->changed_since_keypress_tag);
 	entry->priv->changed_since_keypress = TRUE;
-	entry->priv->changed_since_keypress_tag = gtk_timeout_add (20, changed_since_keypress_timeout_fn, entry);
+	entry->priv->changed_since_keypress_tag = g_timeout_add (20, changed_since_keypress_timeout_fn, entry);
 	
 	g_signal_emit (entry, e_entry_signals [E_ENTRY_CHANGED], 0);
 }
@@ -599,7 +599,7 @@ e_entry_start_delayed_completion (EEntry *entry, gint delay)
 		return;
 
 	e_entry_cancel_delayed_completion (entry);
-	entry->priv->completion_delay_tag = gtk_timeout_add (MAX (delay, 1), start_delayed_cb, entry);
+	entry->priv->completion_delay_tag = g_timeout_add (MAX (delay, 1), start_delayed_cb, entry);
 }
 
 static void
@@ -609,7 +609,7 @@ e_entry_cancel_delayed_completion (EEntry *entry)
 		return;
 
 	if (entry->priv->completion_delay_tag) {
-		gtk_timeout_remove (entry->priv->completion_delay_tag);
+		g_source_remove (entry->priv->completion_delay_tag);
 		entry->priv->completion_delay_tag = 0;
 	}
 }
@@ -778,8 +778,7 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 	g_return_if_fail (entry->priv->completion == NULL);
 
 	entry->priv->completion = completion;
-	g_object_ref (completion);
-	gtk_object_sink (GTK_OBJECT (completion));
+	g_object_ref_sink (completion);
 	
 	entry->priv->completion_delay = delay;
 	entry->priv->handler = handler;
@@ -840,8 +839,7 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view),
 					GTK_WIDGET (entry->canvas));
 
-	g_object_ref (entry->priv->completion_view_popup);
-	gtk_object_sink (GTK_OBJECT (entry->priv->completion_view_popup));
+	g_object_ref_sink (entry->priv->completion_view_popup);
 	gtk_window_set_policy (GTK_WINDOW (entry->priv->completion_view_popup), TRUE, TRUE, TRUE);
 	gtk_container_add (GTK_CONTAINER (entry->priv->completion_view_popup), entry->priv->completion_view);
 	gtk_widget_show (entry->priv->completion_view);
@@ -1106,7 +1104,7 @@ e_entry_dispose (GObject *object)
 
 	if (entry->priv) {
 		if (entry->priv->completion_delay_tag)
-			gtk_timeout_remove (entry->priv->completion_delay_tag);
+			g_source_remove (entry->priv->completion_delay_tag);
 
 		if (entry->priv->completion)
 			g_object_unref (entry->priv->completion);
@@ -1123,7 +1121,7 @@ e_entry_dispose (GObject *object)
 		g_free (entry->priv->pre_browse_text);
 
 		if (entry->priv->changed_since_keypress_tag)
-			gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
+			g_source_remove (entry->priv->changed_since_keypress_tag);
 
 		g_free (entry->priv);
 		entry->priv = NULL;
@@ -1201,7 +1199,7 @@ e_entry_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EEntryClass, completion_popup),
 			      NULL, NULL,
-			      gtk_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	g_object_class_install_property (object_class, PROP_MODEL,

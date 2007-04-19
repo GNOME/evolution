@@ -1,3 +1,10 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* e-msg-composer-hdrs.c (init), (e_msg_composer_hdrs_new):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
 2007-04-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #356523 from Martin Olsson

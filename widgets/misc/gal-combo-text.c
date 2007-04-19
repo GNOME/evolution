@@ -392,7 +392,7 @@ gal_combo_text_construct (GalComboText *ct, gboolean const is_scrolled)
 			GTK_CONTAINER (list),
 			gtk_scrolled_window_get_vadjustment (
 				GTK_SCROLLED_WINDOW (scroll)));
-		gtk_widget_set_usize (scroll, 0, 200); /* MAGIC NUMBER */
+		gtk_widget_set_size_request (scroll, 0, 200); /* MAGIC NUMBER */
 	} else
 		display_widget = list;
 

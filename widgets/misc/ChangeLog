@@ -1,3 +1,76 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* e-combo-cell-editable.c (ecce_init):
+	* e-dateedit.c (e_date_edit_set_editable):
+	Use gtk_editable_set_editable() instead of gtk_entry_set_editable().
+
+	* e-dateedit.c (create_children):
+	* e-cell-date-edit.c (e_cell_date_edit_init):
+	Use gtk_box_set_spacing() instead of gtk_button_box_set_spacing().
+	Remove gtk_button_box_set_child_ipadding() and
+	gtk_button_box_set_child_size().  Use style properties instead.
+
+	* e-clipped-label.c (e_clipped_label_new):
+	* e-combo-button.c (e_combo_button_new):
+	* e-config-page.c (e_config_page_init):
+	* e-multi-config-dialog.c (e_multi_config_dialog_init):
+	* e-dropdown-button.c (e_dropdown_button_new):
+	* e-cell-date-edit.c (e_cell_date_edit_new):
+	* e-filter-bar.c (e_filter_bar_new):
+	* e-url-entry.c (mnemonic_activate):
+	* e-map.c (e_map_new):
+	* e-search-bar.c (e_search_bar_new):
+	* e-calendar.c (e_calendar_new):
+	Use g_object_new() instead of gtk_type_new().
+
+	* test-calendar.c (main):
+	* test-info-label.c (main):
+	* test-multi-config-dialog.c (main):
+	* test-dropdown-button.c (main):
+	Use gnome_program_init() instead of gnome_init().
+
+	* e-combo-button.c (impl_released):
+	Replace gtk_widget_draw() with GTK's 2-line implementation.
+
+	* e-multi-config-dialog.c (set_page_timeout_callback),
+	(e_multi_config_dialog_show_page):
+	Use gtk_notebook_set_current_page() instead of
+	gtk_notebook_set_page().
+
+	* e-dropdown-button.c (impl_destroy):
+	Use g_object_unref() instead of gtk_accel_group_unref().
+
+	* e-cell-percent.c (show_percent_warning):
+	* e-cell-date-edit.c (e_cell_date_edit_show_time_invalid_warning):
+	Use GtkMessageDialog instead of GnomeMessageDialog.
+
+	* e-cell-date-edit.c (e_cell_date_edit_select_matching_time),
+	(e_cell_date_edit_on_time_selected):
+	Use gtk_label_get_text() instead of gtk_label_get().
+
+	* e-filter-bar.c (class_init):
+	* gal-combo-box.c (gal_combo_box_init), (gtk_combo_popup_tear_off),
+	(gtk_combo_popup_reparent):
+	* e-map.c (e_map_set_scroll_adjustments):
+	* e-task-widget.c (e_task_widget_construct):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* gal-combo-box.c (gtk_combo_tearoff_bg_copy),
+	(gtk_combo_popup_reparent):
+	* gal-combo-text.c (gal_combo_text_construct):
+	Use gtk_widget_set_size_request() instead of gtk_widget_set_usize().
+
+	* test-dropdown-button.c:
+	Use GTK_STOCK_* constants instead of GNOME_STOCK_*.
+
+	* e-calendar.c (e_calendar_init):
+	Use g_signal_connect_swapped() instead of gtk_signal_connect_object().
+
+	* e-calendar.c (e_calendar_destroy), (e_calendar_stop_auto_move):
+	Use g_source_remove() instead of gtk_timeout_remove().
+
 2007-04-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added spinner widgets.

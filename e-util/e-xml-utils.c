@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>

@@ -229,7 +229,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	}
 
 	/*set size and display the dialog*/
-	gtk_widget_set_usize (GTK_WIDGET (win), 400, 300);
+	gtk_widget_set_size_request (GTK_WIDGET (win), 400, 300);
 	gtk_widget_show_all (GTK_WIDGET (d));
 	if (gtk_dialog_run (d) == GTK_RESPONSE_OK)
 		gtk_widget_destroy (GTK_WIDGET (d));

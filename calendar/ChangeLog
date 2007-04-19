@@ -1,3 +1,129 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* gui/e-select-names-renderer.c
+	(e_select_names_renderer_editing_done):
+	Use gtk_cell_renderer_stop_editing() instead of
+	gtk_cell_renderer_editing_canceled().
+
+	* gui/dialogs/task-details-page.c (get_widgets):
+	* gui/dialogs/schedule-page.c (get_widgets):
+	* gui/dialogs/task-page.c (get_widgets):
+	* gui/dialogs/recurrence-page.c (get_widgets):
+	* gui/dialogs/event-page.c (get_widgets):
+	* gui/dialogs/memo-page.c (get_widgets):
+	Use g_object_ref() instead of gtk_widget_ref().
+
+	* gui/dialogs/task-details-page.c (task_details_page_finalize):
+	* gui/dialogs/schedule-page.c (schedule_page_finalize):
+	* gui/dialogs/task-page.c (task_page_finalize):
+	* gui/dialogs/recurrence-page.c (recurrence_page_finalize):
+	* gui/dialogs/event-page.c (event_page_finalize):
+	* gui/dialogs/memo-page.c (memo_page_finalize):
+	Use g_object_unref() instead of gtk_widget_unref().
+
+	* gui/dialogs/event-editor.c (create_schedule_page):
+	* gui/dialogs/memo-editor.c (memo_editor_construct):
+	* gui/dialogs/task-editor.c (task_editor_construct):
+	* gui/print.c (print_table):
+	* conduits/todo/todo-conduit.c (todoconduit_load_configuration):
+	* conduits/calendar/calendar-conduit.c
+	(calconduit_load_configuration):
+	* conduits/memo/memo-conduit.c (memoconduit_load_configuration):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* gui/dialogs/task-details-page.c (sensitize_widgets):
+	* gui/dialogs/task-page.c (sensitize_widgets):
+	* gui/dialogs/event-page.c (sensitize_widgets),
+	(event_page_fill_widgets):
+	* gui/dialogs/memo-page.c (sensitize_widgets),
+	(memo_page_fill_widgets):
+	* gui/e-timezone-entry.c (e_timezone_entry_init):
+	Use gtk_editable_set_editable() instead of gtk_entry_set_editable().
+
+	* gui/dialogs/task-details-page.c (get_widgets):
+	* gui/dialogs/schedule-page.c (get_widgets):
+	* gui/dialogs/task-page.c (get_widgets):
+	* gui/dialogs/recurrence-page.c (get_widgets):
+	* gui/dialogs/event-page.c (get_widgets):
+	* gui/dialogs/memo-page.c (get_widgets):
+	Use g_object_ref() instead of gtk_accel_group_ref().
+
+	* gui/dialogs/comp-editor-page.c (comp_editor_page_destroy):
+	Use g_object_unref() instead of gtk_accel_group_unref().
+
+	* gui/dialogs/task-page.c (task_page_new):
+	* gui/dialogs/memo-page.c (memo_page_new):
+	Use g_object_new() instead of gtk_type_new().
+
+	* gui/dialogs/comp-editor.c (save_comp), (obj_modified_cb):
+	* gui/dialogs/comp-editor-page.c
+	(comp_editor_page_display_validation_error):
+	* gui/e-memos.c (backend_error_cb):
+	* gui/e-itip-control.c (update_item), (update_attendee_status),
+	(send_item), (send_freebusy):
+	* gui/gnome-cal.c (backend_error_cb):
+	* gui/e-tasks.c (backend_error_cb):
+	* gui/e-cell-date-edit-text.c (show_date_warning):
+	Use gtk_message_dialog_new() instead of gnome_error_dialog(),
+	gnome_warning_dialog(), gnome_question_dialog(), or gnome_ok_dialog().
+
+	* gui/dialogs/comp-editor.c (comp_editor_show_page):
+	* gui/dialogs/alarm-dialog.c (action_selection_done_cb):
+	* gui/gnome-cal.c (display_view):
+	* importers/icalendar-importer.c (button_toggled_cb):
+	Use gtk_notebook_set_current_page() instead of
+	gtk_notebook_set_page().
+
+	* gui/dialogs/alarm-dialog.glade:
+	* gui/dialogs/alarm-dialog.c:
+	Use GtkFileChooserButton instead of GnomeFileEntry.
+
+	* gui/e-memos.c (e_memos_class_init):
+	* gui/e-tasks.c (e_tasks_class_init):
+	Use g_cclosure_marshal_VOID__INT instead of gtk_marshal_NONE__INT.
+
+	* gui/e-day-view.c (e_day_view_style_set), (e_day_view_check_layout):
+	* gui/e-itip-control.c (e_itip_control_init):
+	* gui/gnome-cal.c (gnome_calendar_hpane_resized):
+	* gui/e-week-view.c (e_week_view_style_set):
+	* gui/e-meeting-time-sel (e_meeting_time_selector_construct),
+	(e_meeting_time_selector_style_set):
+	Use gtk_widget_set_size_request() instead of gtk_widget_set_usize().
+
+	* gui/e-day-view.c (e_day_view_stop_auto_scroll),
+	(e_day_view_cancel_layout):
+	* gui/e-week-view.c (e_week_view_cancel_layout):
+	Use g_source_remove() instead of gtk_timeout_remove().
+
+	* gui/tasks-component.c (task_component_peek):
+	* gui/calendar-component.c (calendar_component_peek):
+	* gui/memos-component.c (memos_component_peek):
+	Use g_mkdir_with_parents() instead of e_util_mkdir_hier().
+
+	* gui/print.c (range_selector_new):
+	* gui/e-day-view-time-item.c (e_day_view_time_item_show_popup_menu):
+	Use gtk_radio_button_get_group() instead of gtk_radio_button_group().
+
+	* gui/e-day-view-time-item.c (e_day_view_time_item_show_popup_menu):
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Use gtk_menu_shell_append() instead of gtk_menu_append().
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	e_button_new_with_stock_icon() is dead; just do it manually.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Use gtk_radio_menu_item_get_group() instead of
+	gtk_radio_menu_item_group().
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct),
+	(e_meeting_time_selector_draw_shadow):
+	Use gtk_paint_shadow() instead of gtk_draw_shadow().
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_timeout_handler):
+	Remove gtk_layout_freeze() and gtk_layout_thaw().
+
 2007-04-10  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/dialogs/cal-prefs-dialog.glade: add missing mnemonic widgets. 

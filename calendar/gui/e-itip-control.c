@@ -427,7 +427,7 @@ e_itip_control_init (EItipControl *itip)
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->html);
 	g_object_weak_ref (G_OBJECT (priv->html), (GWeakNotify)html_destroyed, itip);
-	gtk_widget_set_usize (scrolled_window, 600, 400);
+	gtk_widget_set_size_request (scrolled_window, 600, 400);
 	gtk_box_pack_start (GTK_BOX (itip), scrolled_window, FALSE, FALSE, 6);
 
 	g_signal_connect (priv->html, "url_requested", G_CALLBACK (url_requested_cb), itip);
@@ -1930,12 +1930,21 @@ update_item (EItipControl *itip)
 	icalcomponent_set_method (priv->top_level, priv->method);
 
 	if (!e_cal_receive_objects (priv->current_ecal, priv->top_level, &error)) {
-		dialog = gnome_warning_dialog (error->message);
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_ERROR,
+			GTK_BUTTONS_OK,
+			"%s", error->message);
 		g_error_free (error);
 	} else {
-		dialog = gnome_ok_dialog (_("Update complete\n"));
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_INFO,
+			GTK_BUTTONS_OK,
+			_("Update complete\n"));
 	}
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
 	icalcomponent_remove_component (priv->top_level, clone);
 }
@@ -1961,7 +1970,12 @@ update_attendee_status (EItipControl *itip)
 		if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 			icalcomponent_free (icalcomp);
 
-			dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
+			dialog = gtk_message_dialog_new (
+				NULL, 0,
+				GTK_MESSAGE_WARNING,
+				GTK_BUTTONS_OK,
+				"%s", _("Object is invalid and "
+				"cannot be updated\n"));
 		} else {
 			e_cal_component_get_attendee_list (priv->comp, &attendees);
 			if (attendees != NULL) {
@@ -1971,10 +1985,18 @@ update_attendee_status (EItipControl *itip)
 				prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
 
 				if (prop == NULL) {
-					dialog = gnome_question_dialog_modal (_("This response is not from a current "
-										"attendee.  Add as an attendee?"),
-									      NULL, NULL);
-					if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == GNOME_YES) {
+					gint response;
+
+					dialog = gtk_message_dialog_new (
+						NULL, GTK_DIALOG_MODAL,
+						GTK_MESSAGE_QUESTION,
+						GTK_BUTTONS_YES_NO,
+						"%s", _("This response is not from a "
+						"current attendee.  Add as an attendee?"));
+					response = gtk_dialog_run (GTK_DIALOG (dialog));
+					gtk_widget_destroy (dialog);
+
+					if (response == GTK_RESPONSE_YES) {
 						change_status (icalcomp,
 							       itip_strip_mailto (a->value),
 							       a->status);
@@ -1983,10 +2005,13 @@ update_attendee_status (EItipControl *itip)
 						goto cleanup;
 					}
 				} else if (a->status == ICAL_PARTSTAT_NONE || a->status == ICAL_PARTSTAT_X) {
-					dialog = gnome_warning_dialog (_("Attendee status could "
-									 "not be updated because "
-									 "of an invalid status!\n"));
-					goto cleanup;
+					dialog = gtk_message_dialog_new (
+						NULL, 0,
+						GTK_MESSAGE_WARNING,
+						GTK_BUTTONS_OK,
+						"%s", _("Attendee status could not be "
+						"updated because of an invalid status!\n"));
+					goto run;
 				} else {
 					change_status (icalcomp,
 						       itip_strip_mailto (a->value),
@@ -1997,20 +2022,35 @@ update_attendee_status (EItipControl *itip)
 		}
 
 		if (!e_cal_modify_object (priv->current_ecal, icalcomp, CALOBJ_MOD_ALL, &error)) {
-			dialog = gnome_warning_dialog (error->message);
+			dialog = gtk_message_dialog_new (
+				NULL, 0,
+				GTK_MESSAGE_WARNING,
+				GTK_BUTTONS_OK,
+				"%s", error->message);
 			g_error_free (error);
 		} else {
-			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
+			dialog = gtk_message_dialog_new (
+				NULL, 0,
+				GTK_MESSAGE_INFO,
+				GTK_BUTTONS_OK,
+				"%s", _("Attendee status updated\n"));
 		}
 	} else {
-		dialog = gnome_warning_dialog (_("Attendee status can not be updated "
-						 "because the item no longer exists"));
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_WARNING,
+			GTK_BUTTONS_OK,
+			"%s", _("Attendee status can not be updated "
+			"because the item no longer exists"));
 	}
+
+ run:
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
  cleanup:
 	if (comp != NULL)
 		g_object_unref (comp);
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
 static void
@@ -2027,11 +2067,20 @@ send_item (EItipControl *itip)
 	if (comp != NULL) {
 		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->current_ecal, NULL, NULL, NULL);
 		g_object_unref (comp);
-		dialog = gnome_ok_dialog (_("Item sent!\n"));
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_INFO,
+			GTK_BUTTONS_OK,
+			"%s", _("Item sent!\n"));
 	} else {
-		dialog = gnome_warning_dialog (_("The item could not be sent!\n"));
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_WARNING,
+			GTK_BUTTONS_OK,
+			"%s", _("The item could not be sent!\n"));
 	}
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -2075,13 +2124,22 @@ send_freebusy (EItipControl *itip)
 
 			g_object_unref (comp);
 		}
-		dialog = gnome_ok_dialog (_("Item sent!\n"));
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_INFO,
+			GTK_BUTTONS_OK,
+			"%s", _("Item sent!\n"));
 
 		g_list_free (comp_list);
 	} else {
-		dialog = gnome_warning_dialog (_("The item could not be sent!\n"));
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_WARNING,
+			GTK_BUTTONS_OK,
+			"%s", _("The item could not be sent!\n"));
 	}
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void

@@ -1196,7 +1196,7 @@ e_tree_sorted_class_init (ETreeSortedClass *klass)
 
 	signals [NODE_RESORTED] =
 		g_signal_new ("node_resorted",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeSortedClass, node_resorted),
 			      (GSignalAccumulator) NULL, NULL,

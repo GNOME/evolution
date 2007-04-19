@@ -61,164 +61,74 @@ GType l##_get_type(void)\
 	return type;					\
 }
 
-
-#define E_MAKE_X_TYPE(l,str,t,ci,i,parent,poa_init,offset)	\
-GtkType l##_get_type(void)					\
-{								\
-	static GtkType type = 0;				\
-	if (!type){						\
-		GTypeInfo info = {				\
-			sizeof (t##Class),			\
-								\
-			(GBaseInitFunc) NULL,			\
-			(GBaseFinalizeFunc) NULL,		\
-								\
-			(GClassInitFunc) ci,			\
-			(GClassFinalizeFunc) NULL,		\
-								\
-                        NULL, 	/* class_data */		\
-								\
-			sizeof (t),				\
-			0, 	/* n_preallocs */		\
-			(GInstanceInitFunc) i,			\
-		};						\
-                type = bonobo_x_type_unique (			\
-			parent, poa_init, NULL,			\
-			offset, &info, str);			\
-	}							\
-	return type;						\
-}
-
-#define GET_STRING_ARRAY_FROM_ELLIPSIS(labels, first_string) \
-        { \
-		va_list args; \
-		int i; \
-		char *s; \
- \
-		va_start (args, (first_string)); \
- \
-		i = 0; \
-		for (s = (first_string); s; s = va_arg (args, char *)) \
-			i++; \
-		va_end (args); \
- \
-		(labels) = g_new (char *, i + 1); \
- \
-		va_start (args, (first_string)); \
-		i = 0; \
-		for (s = (first_string); s; s = va_arg (args, char *)) \
-		        (labels)[i++] = s; \
- \
-		va_end (args); \
-		(labels)[i] = NULL; \
-	}
-
-
-#define GET_DUPLICATED_STRING_ARRAY_FROM_ELLIPSIS(labels, first_string) \
-        { \
-                int i; \
-                GET_STRING_ARRAY_FROM_ELLIPSIS ((labels), (first_string)); \
-                for (i = 0; labels[i]; i++) \
-			labels[i] = g_strdup (labels[i]); \
-        }
-
-
-#if 0
-#  define E_OBJECT_CLASS_ADD_SIGNALS(oc,sigs,last) \
-	gtk_object_class_add_signals (oc, sigs, last)
-#  define E_OBJECT_CLASS_TYPE(oc) (oc)->type
-#else
-#  define E_OBJECT_CLASS_ADD_SIGNALS(oc,sigs,last)
-#  define E_OBJECT_CLASS_TYPE(oc) G_TYPE_FROM_CLASS (oc)
-#endif
-
-
 typedef enum {
 	E_FOCUS_NONE,
 	E_FOCUS_CURRENT,
 	E_FOCUS_START,
 	E_FOCUS_END
 } EFocus;
-int       e_str_compare                                                    (const void        *x,
-									    const void        *y);
-int       e_str_case_compare                                               (const void        *x,
-									    const void        *y);
-int       e_collate_compare                                                (const void        *x,
-									    const void        *y);
-int       e_int_compare                                                    (const void        *x,
-									    const void        *y);
-char     *e_strdup_strip                                                   (const char        *string);
-void      e_free_object_list                                               (GList             *list);
-void      e_free_object_slist                                              (GSList            *list);
-void      e_free_string_list                                               (GList             *list);
-void      e_free_string_slist                                              (GSList            *list);
-char     *e_read_file                                                      (const char        *filename);
-int       e_write_file                                                     (const char        *filename,
-									    const char        *data,
-									    int                flags);
-int       e_write_file_uri                                                 (const char        *filename,
-									    const char        *data);
-int       e_write_file_mkstemp                                             (char              *filename,
-									    const char        *data);
 
-gchar   **e_strsplit                                                	   (const gchar      *string,
-								    	    const gchar      *delimiter,
-								    	    gint              max_tokens);
-/* This only makes a filename safe for usage as a filename.  It still may have shell meta-characters in it. */
-gchar    *e_format_number                                                  (gint               number);
-gchar    *e_format_number_float                                            (gfloat             number);
-gboolean  e_create_directory                                               (gchar             *directory);
-gchar   **e_strdupv                                                        (const gchar      **str_array);
+gint		e_str_compare			(gconstpointer x,
+						 gconstpointer y);
+gint		e_str_case_compare		(gconstpointer x,
+						 gconstpointer y);
+gint		e_collate_compare		(gconstpointer x,
+						 gconstpointer y);
+gint		e_int_compare                   (gconstpointer x,
+						 gconstpointer y);
+gint		e_write_file_uri		(const gchar *filename,
+						 const gchar *data);
 
+/* This only makes a filename safe for usage as a filename.
+ * It still may have shell meta-characters in it. */
+gchar *		e_format_number			(gint number);
+gchar *		e_format_number_float		(gfloat number);
 
-typedef int (*ESortCompareFunc) (const void *first,
-				 const void *second,
-				 gpointer    closure);
-void     e_sort                (void             *base,
-				size_t            nmemb,
-				size_t            size,
-				ESortCompareFunc  compare,
-				gpointer          closure);
-void     e_bsearch             (const void       *key,
-				const void       *base,
-				size_t            nmemb,
-				size_t            size,
-				ESortCompareFunc  compare,
-				gpointer          closure,
-				size_t           *start,
-				size_t           *end);
-size_t   e_strftime_fix_am_pm  (char             *s,
-				size_t            max,
-				const char       *fmt,
-				const struct tm  *tm);
+typedef gint	(*ESortCompareFunc)		(gconstpointer first,
+				  		 gconstpointer second,
+				  		 gpointer closure);
 
-size_t   e_utf8_strftime_fix_am_pm  (char             *s,
-				     size_t            max,
-				     const char       *fmt,
-				     const struct tm  *tm);
+void		e_bsearch			(gconstpointer key,
+						 gconstpointer base,
+						 gsize nmemb,
+						 gsize size,
+						 ESortCompareFunc compare,
+						 gpointer closure,
+						 gsize *start,
+						 gsize *end);
 
+gsize		e_strftime_fix_am_pm		(gchar *str,
+						 gsize max,
+						 const gchar *fmt,
+						 const struct tm *tm);
+gsize		e_utf8_strftime_fix_am_pm	(gchar *str,
+						 gsize max,
+						 const gchar *fmt,
+						 const struct tm *tm);
 
 /* String to/from double conversion functions */
-gdouble   e_flexible_strtod     (const gchar       *nptr,
-				 gchar            **endptr);
+gdouble		e_flexible_strtod		(const gchar *nptr,
+						 gchar **endptr);
 
 /* 29 bytes should enough for all possible values that
  * g_ascii_dtostr can produce with the %.17g format.
  * Then add 10 for good measure */
 #define E_ASCII_DTOSTR_BUF_SIZE (DBL_DIG + 12 + 10)
-gchar    *e_ascii_dtostr                                                   (gchar             *buffer,
-									    gint               buf_len,
-									    const gchar       *format,
-									    gdouble            d);
+gchar *		e_ascii_dtostr			(gchar *buffer,
+						 gint buf_len,
+						 const gchar *format,
+						 gdouble d);
 
 /* Alternating char * and int arguments with a NULL char * to end.
    Less than 0 for the int means copy the whole string. */
-gchar    *e_strdup_append_strings                                          (gchar             *first_string,
-									    ...);
-cairo_font_options_t * get_font_options ();
+gchar    *	e_strdup_append_strings		(gchar *first_string,
+						 ...);
 
-void e_file_update_save_path(char *uri, gboolean free);
-char *e_file_get_save_path(void);
+cairo_font_options_t * get_font_options		(void);
+
+void		e_file_update_save_path		(gchar *uri,
+						 gboolean free);
+gchar *		e_file_get_save_path		(void);
 
 #ifdef __cplusplus
 }

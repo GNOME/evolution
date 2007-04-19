@@ -24,7 +24,6 @@
 #include <libgnomeui/libgnomeui.h>
 #include "widgets/e-timezone-dialog/e-timezone-dialog.h"
 #include "e-util/e-icon-factory.h"
-#include "e-util/e-gtk-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-import.h"
 #include "shell/es-event.h"

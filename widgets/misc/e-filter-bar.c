@@ -915,7 +915,7 @@ class_init (EFilterBarClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				G_STRUCT_OFFSET (EFilterBarClass, menu_activated),
-				gtk_marshal_NONE__INT,
+				g_cclosure_marshal_VOID__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 	
 	gtk_object_class_add_signals (object_class, esb_signals, LAST_SIGNAL);
@@ -946,7 +946,7 @@ e_filter_bar_new (RuleContext *context,
 	EFilterBar *bar;
 	ESearchBarItem item = { NULL, -1, 0 };
 	
-	bar = gtk_type_new (e_filter_bar_get_type ());
+	bar = g_object_new (e_filter_bar_get_type (), NULL);
 
 	bar->context = context;
 	g_object_ref (context);

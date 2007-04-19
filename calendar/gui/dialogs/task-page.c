@@ -233,7 +233,7 @@ task_page_finalize (GObject *object)
 	priv = tpage->priv;
 
 	if (priv->main)
-		gtk_widget_unref (priv->main);
+		g_object_unref (priv->main);
 
 	if (priv->xml) {
 		g_object_unref (priv->xml);
@@ -391,13 +391,13 @@ sensitize_widgets (TaskPage *tpage)
 
 	sensitize = (!read_only && sens);
 
-	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->summary), !read_only);
 	gtk_widget_set_sensitive (priv->due_date, !read_only);
 	gtk_widget_set_sensitive (priv->start_date, !read_only);
 	gtk_widget_set_sensitive (priv->timezone, !read_only);
 	gtk_widget_set_sensitive (priv->description, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->categories), !read_only);
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->add, (!read_only &&  sens));
@@ -1398,12 +1398,10 @@ get_widgets (TaskPage *tpage)
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
-	if (accel_groups) {
-		page->accel_group = accel_groups->data;
-		gtk_accel_group_ref (page->accel_group);
-	}
+	if (accel_groups)
+		page->accel_group = g_object_ref (accel_groups->data);
 
-	gtk_widget_ref (priv->main);
+	g_object_ref (priv->main);
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 	priv->summary = GW ("summary");
@@ -1913,7 +1911,7 @@ task_page_new (EMeetingStore *model, ECal *client, BonoboUIComponent *uic)
 {
 	TaskPage *tpage;
 
-	tpage = gtk_type_new (TYPE_TASK_PAGE);
+	tpage = g_object_new (TYPE_TASK_PAGE, NULL);
 	if (!task_page_construct (tpage, model, client)) {
 		g_object_unref (tpage);
 		return NULL;

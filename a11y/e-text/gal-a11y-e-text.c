@@ -64,10 +64,10 @@ et_get_extents (AtkComponent *component,
 						     &fake_height,
 						     coord_type);
 
-	gtk_object_get (GTK_OBJECT (item),
-			"text_width", &real_width,
-			"text_height", &real_height,
-			NULL);
+	g_object_get (item,
+		      "text_width", &real_width,
+		      "text_height", &real_height,
+		      NULL);
 
 	if (width)
 		*width = real_width;
@@ -82,9 +82,7 @@ et_get_full_text (AtkText *text)
 	ETextModel *model;
 	const char *full_text;
 
-	gtk_object_get (GTK_OBJECT (etext),
-			"model", &model,
-			NULL);
+	g_object_get (etext, "model", &model, NULL);
 
 	full_text = e_text_model_get_text (model);
 
@@ -98,9 +96,7 @@ et_set_full_text (AtkEditableText *text,
 	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
 	ETextModel *model;
 
-	gtk_object_get (GTK_OBJECT (etext),
-			"model", &model,
-			NULL);
+	g_object_get (etext, "model", &model, NULL);
 
 	e_text_model_set_text (model, full_text);
 }
@@ -478,9 +474,7 @@ et_get_caret_offset (AtkText *text)
 	g_return_val_if_fail (E_IS_TEXT (obj), -1);
 	etext = E_TEXT (obj);
 
-	gtk_object_get (GTK_OBJECT (etext),
-			"cursor_pos", &offset,
-			NULL);
+	g_object_get (etext, "cursor_pos", &offset, NULL);
 	return offset;
 }
 
@@ -918,9 +912,7 @@ et_paste_text (AtkEditableText *text,
 	g_return_if_fail (E_IS_TEXT (obj));
 	etext = E_TEXT (obj);
 
-	gtk_object_set (GTK_OBJECT (etext),
-			"cursor_pos", position,
-			NULL);
+	g_object_set (etext, "cursor_pos", position, NULL);
 	e_text_paste_clipboard (etext);
 }
 

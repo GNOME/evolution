@@ -1552,7 +1552,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	
 	/* Custom */
 	menu_item = gtk_radio_menu_item_new_with_label (group, _("Custom"));
-	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
+	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menu_item));
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
 	if (sort_col == -1)
@@ -1587,8 +1587,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 		g_signal_connect (menu_item, "activate", G_CALLBACK (sort_by_id), ethi);
 	}
 	
-	g_object_ref (popup);
-	gtk_object_sink (GTK_OBJECT (popup));
+	g_object_ref_sink (popup);
 	g_signal_connect (popup, "selection-done",
 			  G_CALLBACK (free_popup_info), info);
 	e_popup_menu (popup, (GdkEvent *) event);
@@ -1814,8 +1813,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 								 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 								 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
 								 128, info, GETTEXT_PACKAGE);
-			g_object_ref (popup);
-			gtk_object_sink (GTK_OBJECT (popup));
+			g_object_ref_sink (popup);
 			g_signal_connect (popup, "selection-done",
 					  G_CALLBACK (free_popup_info), info);
 			e_popup_menu (popup, NULL);

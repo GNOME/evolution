@@ -198,7 +198,7 @@ button_toggled_cb (GtkWidget *widget, struct _selector_data *sd)
 				 g_object_ref(e_source_selector_peek_primary_selection((ESourceSelector *)sd->selector)),
 				 g_object_unref);
 	g_datalist_set_data(&sd->target->data, "primary-type", GINT_TO_POINTER(import_type_map[sd->page]));
-	gtk_notebook_set_page((GtkNotebook *)sd->notebook, sd->page);
+	gtk_notebook_set_current_page((GtkNotebook *)sd->notebook, sd->page);
 }
 
 static void

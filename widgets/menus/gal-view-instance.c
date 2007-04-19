@@ -349,11 +349,11 @@ gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *colle
 	e_filename_make_safe (safe_id);
 
 	filename = g_strdup_printf ("custom_view-%s.xml", safe_id);
-	instance->custom_filename = g_concat_dir_and_file (instance->collection->local_dir, filename);
+	instance->custom_filename = g_build_filename (instance->collection->local_dir, filename, NULL);
 	g_free (filename);
 
 	filename = g_strdup_printf ("current_view-%s.xml", safe_id);
-	instance->current_view_filename = g_concat_dir_and_file (instance->collection->local_dir, filename);
+	instance->current_view_filename = g_build_filename (instance->collection->local_dir, filename, NULL);
 	g_free (filename);
 
 	g_free (safe_id);

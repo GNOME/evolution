@@ -357,7 +357,7 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 	
 	signals [FILL_IN_CHILDREN] =
 		g_signal_new ("fill_in_children",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeMemoryClass, fill_in_children),
 			      (GSignalAccumulator) NULL, NULL,
@@ -679,7 +679,9 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 	mac.closure = user_data;
 	mac.callback = callback;
 
-	e_sort (children, count, sizeof (ETreeMemoryPath *), sort_callback, &mac);
+	g_qsort_with_data (
+		children, count, sizeof (ETreeMemoryPath *),
+		sort_callback, &mac);
 
 	path->first_child = NULL;
 	last = NULL;

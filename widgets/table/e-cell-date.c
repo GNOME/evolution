@@ -108,8 +108,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	while ((temp = strstr (temp, "  "))) {
 		memmove (temp, temp + 1, strlen (temp));
 	}
-	temp = e_strdup_strip (buf);
-	return temp;
+	return g_strstrip (g_strdup (buf));
 }
 
 static void

@@ -142,7 +142,8 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 		closure.ascending[j] = column.ascending;
 	}
 
-	e_sort(map_table, rows, sizeof(int), e_sort_callback, &closure);
+	g_qsort_with_data (
+		map_table, rows, sizeof(int), e_sort_callback, &closure);
 
 	g_free(closure.vals);
 	g_free(closure.ascending);
@@ -295,7 +296,8 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 		map[i] = i;
 	}
 
-	e_sort(map, count, sizeof(int), e_sort_callback, &closure);
+	g_qsort_with_data (
+		map, count, sizeof(int), e_sort_callback, &closure);
 
 	map_copy = g_new(ETreePath, count);
 	for (i = 0; i < count; i++) {

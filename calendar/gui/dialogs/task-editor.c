@@ -418,8 +418,7 @@ task_editor_construct (TaskEditor *te, ECal *client)
 	priv = te->priv;
 
 	priv->task_page = task_page_new (priv->model, client, editor->uic);
-	g_object_ref (priv->task_page);
-	gtk_object_sink (GTK_OBJECT (priv->task_page));
+	g_object_ref_sink (priv->task_page);
 	comp_editor_append_page (COMP_EDITOR (te), 
 				 COMP_EDITOR_PAGE (priv->task_page),
 				 _("_Task"), TRUE);
@@ -434,8 +433,7 @@ task_editor_construct (TaskEditor *te, ECal *client)
 	g_signal_connect (priv->task_details_window, "delete-event", G_CALLBACK(gtk_widget_hide), NULL);
 	
 	priv->task_details_page = task_details_page_new ();
-	g_object_ref (priv->task_details_page);
-	gtk_object_sink (GTK_OBJECT (priv->task_details_page));
+	g_object_ref_sink (priv->task_details_page);
 	gtk_container_add ((GtkContainer *) GTK_DIALOG(priv->task_details_window)->vbox, 
 		           comp_editor_page_get_widget ((CompEditorPage *)priv->task_details_page));
 	gtk_widget_show_all (priv->task_details_window);

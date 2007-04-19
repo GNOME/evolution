@@ -1,3 +1,53 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* e-table-size-test.c (create_table):
+	* test-table.c (main):
+	* e-cell-combo.c (e_cell_combo_show_popup):
+	* e-table-example-1.c (create_table):
+	* e-tree.c (header_canvas_size_allocate), (e_tree_setup_header):
+	* e-cell-text.c (ect_show_tooltip):
+	* e-table-example-2.c (create_table):
+	* e-table.c (header_canvas_size_allocate):
+	Use gtk_widget_set_size_request() or g_object_set() instead of
+	gtk_widget_set_usize().
+
+	* e-cell-tree.c (e_cell_tree_construct):
+	* e-table-header-item.c (ethi_header_context_menu), (ethi_event):
+	* e-table-extras.c (e_table_extras_add_cell):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* e-cell-date.c (ecd_get_text):
+	e_strdup_strip() is dead; just do it manually.
+
+	* e-table-header-item.c (ethi_header_context_menu):
+	Use gtk_radio_menu_item_get_group() instead of
+	gtk_radio_menu_item_group().
+
+	* e-table-search.c (e_table_search_class_init):
+	* e-table-sort-info.c (e_table_sort_info_class_init):
+	* e-tree-model.c (e_tree_model_class_init):
+	* e-tree-memory.c (e_tree_memory_class_init):
+	* e-table-header.c (e_table_header_class_init):
+	* e-table-model.c (e_table_model_class_init):
+	* e-table-config.c (config_class_init):
+	* e-tree-sorted.c (e_tree_sorted_class_init):
+	Use G_TYPE_FROM_CLASS() instead of E_OBJECT_CLASS_TYPE().
+
+	* e-table-item.c (eti_dispose), (eti_unrealize), (eti_event):
+	Use g_source_remove() instead of gtk_timeout_remove().
+
+	* e-table-item.c (eti_event):
+	Use g_timeout_add() instead of gtk_timeout_add().
+
+	* e-tree.c (et_dispose):
+	e_free_string_list() is dead; just do it manually.
+
+	* e-tree-memory.c (e_tree_memory_sort_node):
+	* e-table-sorting-utils.c (e_table_sorting_utils_sort):
+	Use g_qsort_with_data() instead of e_sort().
+
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-table-header-utils.c:

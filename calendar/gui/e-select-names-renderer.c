@@ -61,7 +61,7 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRen
 	g_signal_handlers_disconnect_matched (editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
 
 	if (GTK_ENTRY (editable)->editing_canceled) {
-		gtk_cell_renderer_editing_canceled (GTK_CELL_RENDERER (cell));		
+		gtk_cell_renderer_stop_editing (GTK_CELL_RENDERER (cell), TRUE);		
 		goto cleanup;
 	}
 	

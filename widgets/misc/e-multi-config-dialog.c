@@ -119,7 +119,8 @@ set_page_timeout_callback (void *data)
 	multi_config_dialog = E_MULTI_CONFIG_DIALOG (data);
 	priv = multi_config_dialog->priv;
 
-	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), priv->set_page_timeout_page);
+	gtk_notebook_set_current_page (
+		GTK_NOTEBOOK (priv->notebook), priv->set_page_timeout_page);
 
 	priv->set_page_timeout_id = 0;
 	gtk_widget_grab_focus(priv->list_e_table);
@@ -372,11 +373,7 @@ e_multi_config_dialog_init (EMultiConfigDialog *multi_config_dialog)
 GtkWidget *
 e_multi_config_dialog_new (void)
 {
-	EMultiConfigDialog *dialog;
-
-	dialog = gtk_type_new (e_multi_config_dialog_get_type ());
-
-	return GTK_WIDGET (dialog);
+	return g_object_new (e_multi_config_dialog_get_type (), NULL);
 }
 
 
@@ -440,6 +437,6 @@ e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, int page)
 	priv = dialog->priv;
 
 	e_table_set_cursor_row (e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->list_e_table)), page);
-	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), page);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), page);
 }
 

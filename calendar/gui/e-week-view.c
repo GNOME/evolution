@@ -857,9 +857,10 @@ e_week_view_style_set (GtkWidget *widget,
 	}
 
 	/* Set the height of the top canvas. */
-	gtk_widget_set_usize (week_view->titles_canvas, -1,
-			      PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
-			      PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) + 5);
+	gtk_widget_set_size_request (
+		week_view->titles_canvas, -1,
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) + 5);
 
 	/* Save the sizes of various strings in the font, so we can quickly
 	   decide which date formats to use. */
@@ -4214,7 +4215,7 @@ static void
 e_week_view_cancel_layout (EWeekView *week_view)
 {
 	if (week_view->layout_timeout_id != 0) {
-		gtk_timeout_remove (week_view->layout_timeout_id);
+		g_source_remove (week_view->layout_timeout_id);
 		week_view->layout_timeout_id = 0;
 	}
 }

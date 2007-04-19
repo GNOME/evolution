@@ -286,7 +286,7 @@ event_page_finalize (GObject *object)
 	g_ptr_array_free (priv->deleted_attendees, TRUE);
 	
 	if (priv->main)
-		gtk_widget_unref (priv->main);
+		g_object_unref (priv->main);
 
 	if (priv->xml) {
 		g_object_unref (priv->xml);
@@ -811,8 +811,8 @@ sensitize_widgets (EventPage *epage)
 		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 	}
 	
-	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (priv->location), sensitize);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->summary), !read_only);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->location), sensitize);
 	gtk_widget_set_sensitive (priv->alarm_box, custom);	
 	gtk_widget_set_sensitive (priv->start_time, sensitize);
 	gtk_widget_set_sensitive (priv->start_timezone, sensitize);
@@ -833,7 +833,7 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->hour_selector, sensitize);
 	gtk_widget_set_sensitive (priv->minute_selector, sensitize);
 
-	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->categories), !read_only);
 
 	if (delegate) {
 		gtk_widget_set_sensitive (priv->source_selector, FALSE);
@@ -1052,7 +1052,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				if (!priv->user_org) {
 					list = g_list_append (list, string);
 					gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), list);
-					gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), FALSE);
+					gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->organizer)->entry), FALSE);
 				}
 
 				g_free (string);
@@ -2176,10 +2176,8 @@ get_widgets (EventPage *epage)
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
-	if (accel_groups) {
-		page->accel_group = accel_groups->data;
-		gtk_accel_group_ref (page->accel_group);
-	}
+	if (accel_groups)
+		page->accel_group = g_object_ref (accel_groups->data);
 	priv->alarm_dialog = GW ("alarm-dialog");
 	priv->alarm_box = GW ("custom_box");
 	priv->alarm_time = GW ("alarm-time");
@@ -2200,7 +2198,7 @@ get_widgets (EventPage *epage)
 	}
 	priv->attendees_label = GW ("attendees-label");
 
-	gtk_widget_ref (priv->main);
+	g_object_ref (priv->main);
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 	priv->categories = GW ("categories");	

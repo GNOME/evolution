@@ -351,7 +351,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	/* The free/busy information */
 	mts->display_top = gnome_canvas_new ();
-	gtk_widget_set_usize (mts->display_top, -1, mts->row_height * 3);
+	gtk_widget_set_size_request (mts->display_top, -1, mts->row_height * 3);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (mts->display_top),
 					0, 0,
 					mts->day_width * E_MEETING_TIME_SELECTOR_DAYS_SHOWN,
@@ -424,7 +424,12 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 			  0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (hbox);
 
-	mts->add_attendees_button = e_button_new_with_stock_icon (_("A_ttendees..."), "gtk-jump-to");
+	mts->add_attendees_button =
+		gtk_button_new_with_mnemonic (_("A_ttendees..."));
+	gtk_button_set_image (
+		mts->add_attendees_button,
+		gtk_image_new_from_stock (
+			GTK_STOCK_JUMP_TO, GTK_ICON_SIZE_BUTTON));
 	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 6);
 	gtk_widget_show (mts->add_attendees_button);
 	g_signal_connect (mts->add_attendees_button, "clicked",
@@ -459,7 +464,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _only working hours"));
-	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
 					mts->working_hours_only);
 
@@ -469,7 +474,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _zoomed out"));
-	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
 					mts->zoomed_out);
 
@@ -478,13 +483,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_menu_item_new ();
-	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
 	gtk_widget_set_sensitive (menuitem, FALSE);
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_menu_item_new_with_label ("");
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Update free/busy"));
-	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
 
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_update_free_busy), mts);
@@ -547,36 +552,36 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	menuitem = gtk_radio_menu_item_new_with_label (NULL, "");
 	mts->autopick_all_item = menuitem;
-	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
+	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_All people and resources"));
-	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_all_people_one_resource_item = menuitem;
-	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
+	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("All _people and one resource"));
-	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_required_people_item = menuitem;
-	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
+	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Required people"));
-	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_required_people_one_resource_item = menuitem;
-	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
+	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Required people and _one resource"));
-	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
@@ -701,7 +706,7 @@ e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 	darea = gtk_drawing_area_new ();
 	gtk_box_pack_start (GTK_BOX (child_hbox), darea, FALSE, FALSE, 0);
 	gtk_object_set_user_data (GTK_OBJECT (darea), mts);
-	gtk_widget_set_usize (darea, 14, 14);
+	gtk_widget_set_size_request (darea, 14, 14);
 	gtk_widget_show (darea);
 
 	label = gtk_label_new (label_text);
@@ -728,8 +733,8 @@ e_meeting_time_selector_expose_key_color (GtkWidget *darea,
 	width = darea->allocation.width;
 	height = darea->allocation.height;
 
-	gtk_draw_shadow (darea->style, darea->window, GTK_STATE_NORMAL,
-			 GTK_SHADOW_IN, 0, 0, width, height);
+	gtk_paint_shadow (darea->style, darea->window, GTK_STATE_NORMAL,
+			  GTK_SHADOW_IN, NULL, NULL, NULL, 0, 0, width, height);
 
 	if (color) {
 		gdk_gc_set_foreground (gc, color);
@@ -929,7 +934,7 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	e_meeting_time_selector_recalc_grid (mts);
 	e_meeting_time_selector_restore_position (mts, &saved_time);
               
-	gtk_widget_set_usize (mts->display_top, -1, mts->row_height * 3 + 4);
+	gtk_widget_set_size_request (mts->display_top, -1, mts->row_height * 3 + 4);
  
 	/*
 	 * FIXME: I can't find a way to get the treeview header heights
@@ -939,11 +944,11 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	gtk_widget_realize (mts->list_view);
 	gdk_window_get_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (mts->list_view)),
 				 NULL, &maxheight);
-	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 3 - maxheight);
+	gtk_widget_set_size_request (mts->attendees_vbox_spacer, 1, mts->row_height * 3 - maxheight);
 
 	*/	
 
-	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 2 - 6);
+	gtk_widget_set_size_request (mts->attendees_vbox_spacer, 1, mts->row_height * 2 - 6);
 
 	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->day_width;
 	GTK_LAYOUT (mts->display_main)->vadjustment->step_increment = mts->row_height;
@@ -983,8 +988,8 @@ e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts)
 	w = mts->display_top->allocation.width + 4;
 	h = mts->display_top->allocation.height + mts->display_main->allocation.height + 4;
 
-	gtk_draw_shadow (widget->style, widget->window, GTK_STATE_NORMAL,
-			 GTK_SHADOW_IN, x, y, w, h);
+	gtk_paint_shadow (widget->style, widget->window, GTK_STATE_NORMAL,
+			  GTK_SHADOW_IN, NULL, NULL, NULL, x, y, w, h);
 }
 
 
@@ -2617,14 +2622,10 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	   get redrawn completely. Otherwise the pixels get scrolled left or
 	   right which is not good for us (since our vertical bars have been
 	   moved) and causes flicker. */
-	gtk_layout_freeze (GTK_LAYOUT (mts->display_main));
-	gtk_layout_freeze (GTK_LAYOUT (mts->display_top));
 	gnome_canvas_scroll_to (GNOME_CANVAS (mts->display_main),
 				scroll_x, scroll_y);
 	gnome_canvas_scroll_to (GNOME_CANVAS (mts->display_top),
 				scroll_x, scroll_y);
-	gtk_layout_thaw (GTK_LAYOUT (mts->display_main));
-	gtk_layout_thaw (GTK_LAYOUT (mts->display_top));
 
 	GDK_THREADS_LEAVE ();
 	return TRUE;

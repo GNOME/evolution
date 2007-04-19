@@ -474,7 +474,8 @@ impl_finalize (GObject *object)
 	shell = E_SHELL (object);
 	priv = shell->priv;
 
-	e_free_string_list (priv->crash_type_names);
+	g_list_foreach (priv->crash_type_names, (GFunc) g_free, NULL);
+	g_list_free (priv->crash_type_names);
 
 	g_free (priv);
 

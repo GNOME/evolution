@@ -873,10 +873,8 @@ e_cell_tree_construct (ECellTree *ect,
 		       ECell *subcell)
 {		       
 	ect->subcell = subcell;
-	if (subcell) {
-		g_object_ref (subcell);
-		gtk_object_sink (GTK_OBJECT (subcell));
-	}
+	if (subcell)
+		g_object_ref_sink (subcell);
 	if (open_pixbuf)
 		ect->open_pixbuf = open_pixbuf;
 	else

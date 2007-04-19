@@ -1054,7 +1054,7 @@ em_folder_tree_model_save_state (EMFolderTreeModel *model)
 		return;
 	
 	dirname = g_path_get_dirname (model->filename);
-	if (e_util_mkdir_hier (dirname, 0777) == -1 && errno != EEXIST) {
+	if (g_mkdir_with_parents (dirname, 0777) == -1 && errno != EEXIST) {
 		g_free (dirname);
 		return;
 	}

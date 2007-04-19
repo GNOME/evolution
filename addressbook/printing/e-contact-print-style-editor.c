@@ -128,8 +128,7 @@ e_contact_print_style_editor_destroy (GtkObject *object)
 GtkWidget*
 e_contact_print_style_editor_new (char *filename)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_contact_print_style_editor_get_type ()));
-	return widget;
+	return g_object_new (e_contact_print_style_editor_get_type (), NULL);
 }
 
 static void

@@ -205,10 +205,10 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	if (!widget) {
 		return;
 	}
-	gtk_widget_ref(widget);
+	g_object_ref(widget);
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
-	gtk_widget_unref(widget);
+	g_object_unref(widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

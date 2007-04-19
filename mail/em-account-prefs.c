@@ -566,10 +566,10 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	toplevel = glade_xml_get_widget (gui, "toplevel");
 	
 	/* reparent */
-	gtk_widget_ref (toplevel);
+	g_object_ref (toplevel);
 	gtk_container_remove (GTK_CONTAINER (toplevel->parent), toplevel);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
-	gtk_widget_unref (toplevel);
+	g_object_unref (toplevel);
 	
 	widget = glade_xml_get_widget (gui, "etableMailAccounts");
 	

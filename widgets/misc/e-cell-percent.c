@@ -73,10 +73,12 @@ show_percent_warning (void)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new (_("The percent value must be between 0 and 100, inclusive"),
-					GNOME_MESSAGE_BOX_ERROR,
-					GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_widget_show (dialog);
+	dialog = gtk_message_dialog_new (
+		NULL, 0,
+		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		_("The percent value must be between 0 and 100, inclusive"));
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void

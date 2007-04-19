@@ -1,3 +1,13 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* itip-view.c (set_one_button):
+	e_gtk_button_new_with_icon() is dead; just do it manually.
+
+	* itip-view.c (itip_view_class_init):
+	Use g_cclosure_marshal_VOID__INT instead of gtk_marshal_NONE__INT.
+
 2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* itip-formatter.c:

@@ -30,7 +30,9 @@
 
 #include <stdio.h>
 #include <gtk/gtkarrow.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtksignal.h>
 #include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-popup-menu.h>
 
@@ -99,7 +101,7 @@ impl_destroy (GtkObject *object)
 	dropdown_button = E_DROPDOWN_BUTTON (object);
 	priv = dropdown_button->priv;
 
-	gtk_accel_group_unref (priv->accel_group);
+	g_object_unref (priv->accel_group);
 	gtk_widget_destroy (priv->menu);
 
 	g_free (priv);
@@ -230,7 +232,7 @@ e_dropdown_button_new (const char *label_text,
 	g_return_val_if_fail (menu != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
-	widget = gtk_type_new (e_dropdown_button_get_type ());
+	widget = g_object_new (e_dropdown_button_get_type (), NULL);
 
 	e_dropdown_button_construct (E_DROPDOWN_BUTTON (widget), label_text, menu);
 	return widget;

@@ -1,3 +1,43 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* tools/evolution-address-export.c:
+	Migrate from popt to GOption.
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
+	Use gtk_window_set_icon_from_file() instead of
+	gnome_window_icon_set_from_file().
+
+	* gui/widgets/e-addressbook-table-adapter.c:
+	* gui/widgets/e-addressbook-model.c:
+	* gui/widgets/eab-gui-util.c:
+	Include missing header file(s).
+
+	* gui/widgets/eab-vcard-control.c (pstream_load), (book_open_cb),
+	(free_struct):
+	* gui/widgets/eab-gui-util.c (process_unref):
+	* gui/widgets/e-addressbook-view.c (eab_view_print),
+	(eab_view_print_preview), (eab_view_delete_selection),
+	(eab_view_save_as), (eab_view_view), (eab_view_send),
+	(eab_view_send_to):
+	e_free_object_list() is dead; just do it manually.
+
+	* gui/widgets/e-addressbook-view.c (eab_view_print),
+	(eab_view_print_preview):
+	* conduit/address-conduit.c (addrconduit_load_configuration):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* conduit/address-conduit.c (e_addr_gui_new):
+	Use gtk_menu_shell_append() instead of gtk_menu_append().
+
+	* printing/e-contact-print.c (e_contact_build_style):
+	Use g_build_filename() instead of g_concat_dir_and_file().
+
+	* printing/e-contact-print-style-editor.c
+	(e_contact_print_style_editor_new):
+	Use g_object_new() instead of gtk_type_new().
+
 2007-04-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Committed Contact Merging patch from Ebby Wiselyn

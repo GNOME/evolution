@@ -327,7 +327,7 @@ ecce_init (EComboCellEditable *ecce)
 	entry = gtk_entry_new ();
 	ecce->priv->entry = GTK_ENTRY (entry);
 	gtk_entry_set_has_frame (ecce->priv->entry, FALSE);
-	gtk_entry_set_editable (ecce->priv->entry, FALSE);
+	gtk_editable_set_editable (GTK_EDITABLE (ecce->priv->entry), FALSE);
 	g_signal_connect (entry, "activate", G_CALLBACK (entry_activated_cb), ecce);
 	g_signal_connect (entry, "key_press_event", G_CALLBACK (entry_key_press_event_cb), ecce);
 	gtk_widget_show (entry);

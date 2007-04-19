@@ -452,9 +452,7 @@ create_children			(EDateEdit	*dedit)
 
 	bbox = gtk_hbutton_box_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
-	gtk_button_box_set_spacing (GTK_BUTTON_BOX (bbox), 2);
-	gtk_button_box_set_child_ipadding (GTK_BUTTON_BOX (bbox), 2, 0);
-	gtk_button_box_set_child_size (GTK_BUTTON_BOX (bbox), 0, 0);
+	gtk_box_set_spacing (GTK_BOX (bbox), 2);
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
         gtk_widget_show (bbox);
 
@@ -547,7 +545,7 @@ e_date_edit_set_editable (EDateEdit *dedit, gboolean editable)
 
 	priv = dedit->priv;
 
-	gtk_entry_set_editable (GTK_ENTRY (priv->date_entry), editable);
+	gtk_editable_set_editable (GTK_EDITABLE (priv->date_entry), editable);
 	gtk_widget_set_sensitive (priv->date_button, editable);
 }
 

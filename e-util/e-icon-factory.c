@@ -30,8 +30,8 @@
 
 #include <pthread.h>
 
+#include <gtk/gtkicontheme.h>
 #include <gtk/gtkimage.h>
-#include <libgnomeui/gnome-icon-theme.h>
 
 #include "e-icon-factory.h"
 #include "e-util-private.h"
@@ -58,8 +58,8 @@ static GdkPixbuf *broken16_pixbuf = NULL;
 static GdkPixbuf *broken24_pixbuf = NULL;
 
 static GHashTable *name_to_icon = NULL;
-static GnomeIconTheme *icon_theme = NULL;
-static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+static GtkIconTheme *icon_theme = NULL;
+static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 
 
 /* Note: takes ownership of the pixbufs (eg. does not ref them) */
@@ -67,11 +67,11 @@ static Icon *
 icon_new (const char *name, GdkPixbuf *pixbuf)
 {
 	Icon *icon;
-	
-	icon = g_malloc0 (sizeof (Icon));
+
+	icon = g_slice_new (Icon);
 	icon->name = g_strdup (name);
 	icon->pixbuf = pixbuf;
-	
+
 	return icon;
 }
 
@@ -81,7 +81,7 @@ icon_free (Icon *icon)
 	g_free (icon->name);
 	if (icon->pixbuf)
 		g_object_unref (icon->pixbuf);
-	g_free (icon);
+	g_slice_free (Icon, icon);
 }
 
 static Icon *
@@ -89,11 +89,20 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 {
 	GdkPixbuf *pixbuf, *unscaled = NULL;
 	char *basename, *filename = NULL;
-	
+
 	if (g_path_is_absolute (icon_name))
 		filename = g_strdup (icon_name);
-	else
-		filename = gnome_icon_theme_lookup_icon (icon_theme, icon_name, size, NULL, NULL);
+	else {
+		GtkIconInfo *icon_info;
+
+		icon_info = gtk_icon_theme_lookup_icon (
+			icon_theme, icon_name, size, 0);
+		if (icon_info != NULL) {
+			filename = g_strdup (
+				gtk_icon_info_get_filename (icon_info));
+			gtk_icon_info_free (icon_info);
+		}
+	}
 
 	if (!filename || !(unscaled = gdk_pixbuf_new_from_file (filename, NULL))) {
 		if (scale) {
@@ -145,9 +154,9 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 			unscaled = gdk_pixbuf_new_from_file (filename, NULL);
 		}
 	}
-	
+
  done:
-	
+
 	g_free (filename);
 	if (unscaled != NULL) {
 		pixbuf = gdk_pixbuf_scale_simple (unscaled, size, size, GDK_INTERP_BILINEAR);
@@ -155,7 +164,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 	} else {
 		pixbuf = NULL;
 	}
-	
+
 	return icon_new (icon_key, pixbuf);
 }
 
@@ -165,29 +174,21 @@ static int
 pixel_size_to_icon_size (int pixel_size)
 {
 	int i, icon_size = -1;
-	
+
 	for (i = 0; i < E_ICON_NUM_SIZES; i++) {
 		if (pixel_size == sizes[i]) {
 			icon_size = i;
 			break;
 		}
 	}
-	
+
 	return icon_size;
 }
 
-static gboolean
-icon_foreach_remove (gpointer key, gpointer value, gpointer user_data)
-{
-	icon_free (value);
-
-	return TRUE;
-}
-
 static void
-icon_theme_changed_cb (GnomeIconTheme *object, gpointer user_data)
+icon_theme_changed_cb (GtkIconTheme *icon_theme, gpointer user_data)
 {
-	g_hash_table_foreach_remove (name_to_icon, (GHRFunc) icon_foreach_remove, NULL);
+	g_hash_table_remove_all (name_to_icon);
 }
 
 /**
@@ -200,20 +201,22 @@ e_icon_factory_init (void)
 {
 	if (name_to_icon != NULL)
 		return;
-	
-	icon_theme = gnome_icon_theme_new ();
-	gnome_icon_theme_set_allow_svg (icon_theme, TRUE);
-	name_to_icon = g_hash_table_new (g_str_hash, g_str_equal);
-	g_signal_connect (G_OBJECT (icon_theme), "changed", G_CALLBACK (icon_theme_changed_cb), NULL);
-	
-	broken16_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_16_xpm);
-	broken24_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_24_xpm);
-}
 
-static void
-icon_foreach_free (gpointer key, gpointer value, gpointer user_data)
-{
-	icon_free (value);
+	name_to_icon = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) icon_free);
+
+	icon_theme = gtk_icon_theme_get_default ();
+
+	g_signal_connect (
+		icon_theme, "changed",
+		G_CALLBACK (icon_theme_changed_cb), NULL);
+
+	broken16_pixbuf = gdk_pixbuf_new_from_xpm_data (
+		(const char **) broken_image_16_xpm);
+	broken24_pixbuf = gdk_pixbuf_new_from_xpm_data (
+		(const char **) broken_image_24_xpm);
 }
 
 /**
@@ -226,12 +229,10 @@ e_icon_factory_shutdown (void)
 {
 	if (name_to_icon == NULL)
 		return;
-	
-	g_hash_table_foreach (name_to_icon, (GHFunc) icon_foreach_free, NULL);
+
 	g_hash_table_destroy (name_to_icon);
 	g_object_unref (broken16_pixbuf);
 	g_object_unref (broken24_pixbuf);
-	g_object_unref (icon_theme);
 	name_to_icon = NULL;
 }
 
@@ -248,21 +249,31 @@ e_icon_factory_shutdown (void)
 char *
 e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
 {
+	GtkIconInfo *icon_info;
 	char *filename;
-	
+
 	g_return_val_if_fail (icon_name != NULL, NULL);
 	g_return_val_if_fail (strcmp (icon_name, ""), NULL);
-	
+
 	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_warning ("calling e_icon_factory_get_icon_filename with unknown icon_size value (%d)", icon_size);
+		g_warning (
+			"calling %s with unknown icon_size value (%d)",
+			G_STRFUNC, icon_size);
 		if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)
 			return NULL;
 	}
-	
-	pthread_mutex_lock (&lock);
-	filename = gnome_icon_theme_lookup_icon (icon_theme, icon_name, sizes[icon_size], NULL, NULL);
-	pthread_mutex_unlock (&lock);
-	
+
+	g_static_mutex_lock (&mutex);
+	icon_info = gtk_icon_theme_lookup_icon (
+		icon_theme, icon_name, sizes[icon_size], 0);
+	if (icon_info != NULL) {
+		filename = g_strdup (
+			gtk_icon_info_get_filename (icon_info));
+		gtk_icon_info_free (icon_info);
+	} else
+		filename = NULL;
+	g_static_mutex_unlock (&mutex);
+
 	return filename;
 }
 
@@ -287,32 +298,34 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	char *icon_key;
 	Icon *icon;
 	int size;
-	
+
 	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_warning ("calling e_icon_factory_get_icon with unknown icon_size value (%d)", icon_size);
+		g_warning (
+			"calling %s with unknown icon_size value (%d)",
+			G_STRFUNC, icon_size);
 		if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)
 			return NULL;
 	}
-	
+
 	size = sizes[icon_size];
-	
+
 	if (icon_name == NULL || !strcmp (icon_name, "")) {
 		if (size >= 24)
 			return gdk_pixbuf_scale_simple (broken24_pixbuf, size, size, GDK_INTERP_NEAREST);
 		else
 			return gdk_pixbuf_scale_simple (broken16_pixbuf, size, size, GDK_INTERP_NEAREST);
 	}
-	
+
 	icon_key = g_alloca (strlen (icon_name) + 7);
 	sprintf (icon_key, "%dx%d/%s", size, size, icon_name);
-	
-	pthread_mutex_lock (&lock);
-	
+
+	g_static_mutex_lock (&mutex);
+
 	if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
 		icon = load_icon (icon_key, icon_name, size, TRUE);
 		g_hash_table_insert (name_to_icon, icon->name, icon);
 	}
-	
+
 	if ((pixbuf = icon->pixbuf)) {
 		g_object_ref (pixbuf);
 	} else {
@@ -321,9 +334,9 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 		else
 			pixbuf = gdk_pixbuf_scale_simple (broken16_pixbuf, size, size, GDK_INTERP_NEAREST);
 	}
-	
-	pthread_mutex_unlock (&lock);
-	
+
+	g_static_mutex_unlock (&mutex);
+
 	return pixbuf;
 }
 
@@ -332,7 +345,7 @@ e_icon_factory_get_image (const char *icon_name, int icon_size)
 {
 	GdkPixbuf *pixbuf;
 	GtkWidget *image;
-	
+
 	pixbuf = e_icon_factory_get_icon  (icon_name, icon_size);
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	g_object_unref (pixbuf);
@@ -355,14 +368,14 @@ e_icon_factory_get_icon_list (const char *icon_name)
 	char *icon_key;
 	Icon *icon;
 	int size, i;
-	
+
 	if (!icon_name || !strcmp (icon_name, ""))
 		return NULL;
-	
-	pthread_mutex_lock (&lock);
-	
+
+	g_static_mutex_lock (&mutex);
+
 	icon_key = g_alloca (strlen (icon_name) + 9);
-	
+
 	for (i = 0; i < G_N_ELEMENTS (icon_list_sizes); i++) {
 		size = icon_list_sizes[i];
 		sprintf (icon_key, "%dx%d/%s", size, size, icon_name);
@@ -377,8 +390,8 @@ e_icon_factory_get_icon_list (const char *icon_name)
 			g_object_ref (icon->pixbuf);
 		}
 	}
-	
-	pthread_mutex_unlock (&lock);
-	
+
+	g_static_mutex_unlock (&mutex);
+
 	return list;
 }

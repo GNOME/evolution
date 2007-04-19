@@ -113,7 +113,7 @@ get_dir (gboolean make)
 	tmpdir = g_build_filename(g_get_home_dir(), ".evolution", 
 		"cache", "tmp", NULL);
 	path = g_string_new(tmpdir);
-	if (make && e_util_mkdir_hier(tmpdir, 0777) == -1) {
+	if (make && g_mkdir_with_parents(tmpdir, 0777) == -1) {
 		g_string_free(path, TRUE);
 		path = NULL;
 	}

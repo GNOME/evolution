@@ -365,7 +365,7 @@ e_cell_combo_show_popup			(ECellCombo	*ecc, int row, int view_col)
 	}
 
 	gtk_widget_set_uposition (ecc->popup_window, x, y);
-	gtk_widget_set_usize (ecc->popup_window, width, height);
+	gtk_widget_set_size_request (ecc->popup_window, width, height);
 	gtk_widget_realize (ecc->popup_window);
 	gdk_window_resize (ecc->popup_window->window, width, height);
 	gtk_widget_show (ecc->popup_window);

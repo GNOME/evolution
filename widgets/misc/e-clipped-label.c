@@ -138,7 +138,7 @@ e_clipped_label_new (const gchar *text,
 	GtkWidget *label;
 	EClippedLabel *clipped;
 
-	label = GTK_WIDGET (gtk_type_new (e_clipped_label_get_type ()));
+	label = g_object_new (e_clipped_label_get_type (), NULL);
 
 	clipped = E_CLIPPED_LABEL (label);
 

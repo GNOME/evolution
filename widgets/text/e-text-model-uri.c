@@ -96,7 +96,7 @@ e_text_model_uri_dispose (GObject *object)
 	GList *iter;
 
 	if (model_uri->objectify_idle) {
-		gtk_idle_remove (model_uri->objectify_idle);
+		g_source_remove (model_uri->objectify_idle);
 		model_uri->objectify_idle = 0;
 	}
 
@@ -252,7 +252,7 @@ e_text_model_uri_objectify (ETextModel *model)
 	ETextModelURI *model_uri = E_TEXT_MODEL_URI (model);
 
 	if (model_uri->objectify_idle == 0)
-		model_uri->objectify_idle = gtk_idle_add (objectify_idle_cb, model);
+		model_uri->objectify_idle = g_idle_add (objectify_idle_cb, model);
 
 	if (E_TEXT_MODEL_CLASS(parent_class)->objectify)
 		E_TEXT_MODEL_CLASS(parent_class)->objectify (model);
@@ -262,7 +262,7 @@ static void
 objectify_idle_flush (ETextModelURI *model_uri)
 {
 	if (model_uri->objectify_idle) {
-		gtk_idle_remove (model_uri->objectify_idle);
+		g_source_remove (model_uri->objectify_idle);
 		model_uri->objectify_idle = 0;
 		objectify_uris (model_uri);
 	}

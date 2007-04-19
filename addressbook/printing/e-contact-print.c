@@ -651,7 +651,7 @@ e_contact_build_style(EContactPrintStyle *style, GtkPrintSettings *config)
 	style->center_footer = g_strdup("");
 	style->right_footer = g_strdup("");
 	style->reverse_on_even_pages = FALSE;
-	filename = g_concat_dir_and_file(EVOLUTION_ECPSDIR, "medbook.ecps");
+	filename = g_build_filename(EVOLUTION_ECPSDIR, "medbook.ecps", NULL);
 	styledoc = e_xml_parse_file (filename);
 	g_free(filename);
 	if (styledoc) {

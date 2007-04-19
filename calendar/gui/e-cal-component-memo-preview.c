@@ -27,8 +27,10 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <gnome.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>

@@ -33,6 +33,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkfilechooserbutton.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreeview.h>
@@ -41,7 +42,6 @@
 #include <gtk/gtktextbuffer.h>
 #include <gtk/gtktextview.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnomeui/gnome-file-entry.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
@@ -99,7 +99,7 @@ typedef struct {
 	GtkWidget *aalarm_group;
 	GtkWidget *aalarm_sound;
 	GtkWidget *aalarm_attach;
-	GtkWidget *aalarm_file_entry;
+	GtkWidget *aalarm_file_chooser;
 
 	/* Mail alarm widgets */
 	const char *email;
@@ -779,7 +779,7 @@ get_widgets (Dialog *dialog)
 	dialog->aalarm_group = GW ("aalarm-group");
 	dialog->aalarm_sound = GW ("aalarm-sound");
 	dialog->aalarm_attach = GW ("aalarm-attach");
-	dialog->aalarm_file_entry = GW ("aalarm-file-entry");
+	dialog->aalarm_file_chooser = GW ("aalarm-file-chooser");
 
 	dialog->malarm_group = GW ("malarm-group");
 	dialog->malarm_address_group = GW ("malarm-address-group");
@@ -810,7 +810,7 @@ get_widgets (Dialog *dialog)
 		&& dialog->aalarm_group
 		&& dialog->aalarm_sound
 		&& dialog->aalarm_attach
-		&& dialog->aalarm_file_entry
+		&& dialog->aalarm_file_chooser
 		&& dialog->malarm_group
 		&& dialog->malarm_address_group
 		&& dialog->malarm_addressbook
@@ -1073,13 +1073,16 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		}
 	}
 	
-	gtk_notebook_set_page (GTK_NOTEBOOK (dialog->option_notebook), page);
+	gtk_notebook_set_current_page (
+		GTK_NOTEBOOK (dialog->option_notebook), page);
 
 	switch (action) {	
 	case E_CAL_COMPONENT_ALARM_AUDIO:
 		dir = calendar_config_get_dir_path ();
 		if ( dir && *dir )
-			gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (dialog->aalarm_file_entry), dir);
+			gtk_file_chooser_set_current_folder (
+				GTK_FILE_CHOOSER (dialog->aalarm_file_chooser),
+				dir);
 		g_free (dir);
 		check_custom_sound (dialog);
 		break;

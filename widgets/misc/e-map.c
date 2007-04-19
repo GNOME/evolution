@@ -507,8 +507,7 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	if (priv->hadj != hadj)
 	{
 		priv->hadj = hadj;
-		g_object_ref (priv->hadj);
-		gtk_object_sink (GTK_OBJECT (priv->hadj));
+		g_object_ref_sink (priv->hadj);
 
 		g_signal_connect (priv->hadj, "value_changed",
 				  G_CALLBACK (adjustment_changed_cb), view);
@@ -519,8 +518,7 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	if (priv->vadj != vadj)
 	{
 		priv->vadj = vadj;
-		g_object_ref (priv->vadj);
-		gtk_object_sink (GTK_OBJECT (priv->vadj));
+		g_object_ref_sink (priv->vadj);
 
 		g_signal_connect (priv->vadj, "value_changed",
 				  G_CALLBACK (adjustment_changed_cb), view);
@@ -624,7 +622,7 @@ e_map_new ()
 	GtkWidget *widget;
 	AtkObject *a11y;
 
-	widget = GTK_WIDGET (gtk_type_new (TYPE_E_MAP));
+	widget = g_object_new (TYPE_E_MAP, NULL);
 	a11y = gtk_widget_get_accessible (widget);
 	atk_object_set_name (a11y, _("World Map"));
 	atk_object_set_role (a11y, ATK_ROLE_IMAGE);

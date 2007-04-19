@@ -76,7 +76,9 @@ main (int argc, char **argv)
 {
 	GtkWidget *dialog;
 
-	gnome_init ("test-multi-config-dialog", "0.0", argc, argv);
+	gnome_program_init (
+		"test-multi-config-dialog", "0.0", LIBGNOMEUI_MODULE,
+		argc, argv, GNOME_PARAM_NONE);
 
 	dialog = e_multi_config_dialog_new ();
 

@@ -571,10 +571,10 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		safe_id = g_strdup (id);
 		e_filename_make_safe (safe_id);
 		filename = g_strdup_printf ("custom_wide_view-%s.xml", safe_id);
-		p->view_instance->custom_filename = g_concat_dir_and_file (collection->local_dir, filename);
+		p->view_instance->custom_filename = g_build_filename (collection->local_dir, filename, NULL);
 		g_free (filename);
 		filename = g_strdup_printf ("current_wide_view-%s.xml", safe_id);
-		p->view_instance->current_view_filename = g_concat_dir_and_file (collection->local_dir, filename);
+		p->view_instance->current_view_filename = g_build_filename (collection->local_dir, filename, NULL);
 		g_free (safe_id);
 	}
 	g_free (id);

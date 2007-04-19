@@ -1859,7 +1859,8 @@ eab_view_print(EABView *view, int preview)
 			e_contact_print_response (print, GTK_RESPONSE_APPLY, NULL);
 
 		g_free (query);
-		e_free_object_list (list);
+		g_list_foreach (list, (GFunc) g_object_unref, NULL);
+		g_list_free (list);
 	}
 	else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
@@ -1872,8 +1873,7 @@ eab_view_print(EABView *view, int preview)
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
-		g_object_ref (printable);
-		gtk_object_sink (GTK_OBJECT (printable));
+		g_object_ref_sink (printable);
 		g_object_unref(etable);
 		g_object_ref (view->widget);
 
@@ -1916,7 +1916,8 @@ eab_view_print_preview(EABView *view)
 		else
 			dialog = e_contact_print_dialog_new (book, query, list);
 		e_contact_print_response (dialog, GTK_RESPONSE_APPLY, NULL);
-		e_free_object_list (list);
+		g_list_foreach (list, (GFunc) g_object_unref, NULL);
+		g_list_free (list);
 		g_free (query);
 	}else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
@@ -1929,8 +1930,7 @@ eab_view_print_preview(EABView *view)
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
-		g_object_ref (printable);
-		gtk_object_sink (GTK_OBJECT (printable));
+		g_object_ref_sink (printable);
 		g_object_unref(etable);
 		g_object_ref (view->widget);
 
@@ -2003,7 +2003,8 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	    !eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget)),
 				       plural, is_list, name)) {
 		g_free (name);
-		e_free_object_list(list);
+		g_list_foreach (list, (GFunc) g_object_unref, NULL);
+		g_list_free (list);
 		return;
 	}
 
@@ -2062,7 +2063,8 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 		row = e_table_view_to_model_row (E_TABLE (etable), select);
 		e_table_set_cursor_row (E_TABLE (etable), row);
 	}
-	e_free_object_list(list);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -2177,7 +2179,8 @@ eab_view_save_as (EABView *view, gboolean all)
 	}
 	if (list)
 		eab_contact_list_save (_("Save as VCard..."), list, NULL);
-	e_free_object_list(list);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 void
@@ -2185,7 +2188,8 @@ eab_view_view (EABView *view)
 {
 	GList *list = get_selected_contacts (view);
 	eab_show_multiple_contacts (view->book, list, view->editable);
-	e_free_object_list(list);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 void
@@ -2194,7 +2198,8 @@ eab_view_send (EABView *view)
 	GList *list = get_selected_contacts (view);
 	if (list)
 		eab_send_contact_list (list, EAB_DISPOSITION_AS_ATTACHMENT);
-	e_free_object_list(list);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 void
@@ -2203,7 +2208,8 @@ eab_view_send_to (EABView *view)
 	GList *list = get_selected_contacts (view);
 	if (list)
 		eab_send_contact_list (list, EAB_DISPOSITION_AS_TO);
-	e_free_object_list(list);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 void

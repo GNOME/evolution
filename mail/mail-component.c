@@ -1181,7 +1181,7 @@ mail_component_init (MailComponent *component)
 			*p++ = '/';
 	}
 #endif
-	if (e_util_mkdir_hier (priv->base_directory, 0777) == -1 && errno != EEXIST)
+	if (g_mkdir_with_parents (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
 	
 	priv->model = em_folder_tree_model_new (priv->base_directory);

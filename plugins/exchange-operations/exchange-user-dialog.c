@@ -27,7 +27,6 @@
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
-#include <e-util/e-gtk-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkhbox.h>

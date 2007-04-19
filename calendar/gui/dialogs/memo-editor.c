@@ -213,8 +213,7 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 	priv = me->priv;
 
 	priv->memo_page = memo_page_new (editor->uic, flags);
-	g_object_ref (priv->memo_page);
-	gtk_object_sink (GTK_OBJECT (priv->memo_page));
+	g_object_ref_sink (priv->memo_page);
 	comp_editor_append_page (COMP_EDITOR (me), 
 				 COMP_EDITOR_PAGE (priv->memo_page),
 				 _("Memo"), TRUE);

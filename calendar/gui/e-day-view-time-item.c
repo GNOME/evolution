@@ -806,9 +806,9 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 		 */
 			    _("%02i minute divisions"), divisions[i]);
 		item = gtk_radio_menu_item_new_with_label (group, buffer);
-		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
+		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 		gtk_widget_show (item);
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 		if (current_divisions == divisions[i])
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);

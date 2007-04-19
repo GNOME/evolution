@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 #include <config.h>
+#include <glib/gi18n.h>
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"
 #include "eab-contact-merging.h"

@@ -1,3 +1,58 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* text/e-text-model-uri.c (e_text_model_uri_dispose),
+	(objectify_idle_flush):
+	Use g_source_remove() instead of gtk_idle_remove().
+
+	* text/e-text-model-uri.c (e_text_model_uri_objectify):
+	Use g_idle_add() instead of gtk_idle_add().
+
+	* text/e-text.c (e_text_dispose), (e_text_event):
+	* text/e-entry.c (e_entry_text_keypress), (proxy_changed),
+	(e_entry_cancel_delayed_completion), (e_entry_dispose):
+	Use g_source_remove() instead of gtk_timeout_remove().
+
+	* text/e-text.c (e_text_event):
+	* text/e-entry.c (proxy_changed), (e_entry_start_delayed_completion):
+	* e-timezone-dialog/e-timezone-dialog.c (on_map_visibility_changed):
+	Use g_timeout_add() instead of gtk_timeout_add().
+
+	* text/e-completion-view.c (e_completion_view_set_width):
+	* text/e-text.c (_do_tooltip):
+	Use gtk_widget_set_size_request() instead of gtk_widget_set_usize().
+
+	* text/e-completion-callbacks.c (e_completion_callbacks_new):
+	Use g_object_new() instead of gtk_type_new().
+
+	* text/e-entry.c (e_entry_enable_completion_full):
+	Use g_object_ref_sink() instead of gtk_object_sink().
+
+	* text/e-entry.c (e_entry_class_init):
+	Use g_cclosure_marshal_VOID__INT instead of gtk_marshal_NONE__INT.
+
+	* menus/gal-view-new-dialog.c (gal_view_new_dialog_init):
+	* menus/gal-view-instance-save-as-dialog.c
+	(gal_view_instance_save_as_dialog_init):
+	* menus/gal-define-views-dialog.c (gal_define_views_dialog_init):
+	Use g_object_ref() instead of gtk_widget_ref().
+	Use g_object_unref() instead of gtk_widget_unref().
+
+	* menus/gal-view-collection.c (gal_view_collection_dispose):
+	e_free_object_list() is dead; just do it manually.
+
+	* menus/gal-view-collection.c (load_single_file), (load_single_dir),
+	(gal_view_collection_save):
+	* menus/gal-view-instance.c (gal_view_instance_construct):
+	Use g_build_filename() instead of g_concat_dir_and_file().
+
+	* menus/gal-view-collection.c (gal_view_collection_load):
+	Use g_mkdir_with_parents() instead of e_create_directory().
+
+	* e-timezone-dialog/e-timezone-dialog.c (e_timezone_dialog_construct):
+	Use gtk_editable_set_editable() instead of gtk_entry_set_editable().
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

@@ -814,15 +814,17 @@ save_comp (CompEditor *editor)
 	}
 	
 	if (!result) {
-		GtkWidget *dlg;
-		char *msg;
+		GtkWidget *dialog;
 
-		msg = g_strdup (error ? error->message : _("Could not update object"));
+		dialog = gtk_message_dialog_new (
+			NULL, 0,
+			GTK_MESSAGE_ERROR,
+			GTK_BUTTONS_OK,
+			"%s", (error != NULL) ? error->message :
+			_("Could not update object"));
+		gtk_dialog_run (GTK_DIALOG(dialog));
+		gtk_widget_destroy (dialog);
 
-		dlg = gnome_error_dialog (msg);
-		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-
-		g_free (msg);
 		if (error)
 			g_error_free (error);
 
@@ -2093,7 +2095,7 @@ comp_editor_show_page (CompEditor *editor, CompEditorPage *page)
 
 	page_widget = comp_editor_page_get_widget (page);
 	page_num = gtk_notebook_page_num (priv->notebook, page_widget);
-	gtk_notebook_set_page (priv->notebook, page_num);
+	gtk_notebook_set_current_page (priv->notebook, page_num);
 }
 
 /**
@@ -2964,10 +2966,17 @@ obj_modified_cb (ECal *client, GList *objects, gpointer data)
 		if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
 			comp_editor_edit_comp (editor, comp);
 		} else {
-			GtkWidget *dlg;
+			GtkWidget *dialog;
+
+			dialog = gtk_message_dialog_new (
+				NULL, 0,
+				GTK_MESSAGE_ERROR,
+				GTK_BUTTONS_OK,
+				"%s",
+				_("Unable to use current version!"));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
 			
-			dlg = gnome_error_dialog (_("Unable to use current version!"));
-			gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 			icalcomponent_free (icalcomp);
 		}
 

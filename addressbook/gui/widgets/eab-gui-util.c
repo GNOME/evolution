@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-util.h>
@@ -687,10 +688,12 @@ process_unref (ContactCopyProcess *process)
 {
 	process->count --;
 	if (process->count == 0) {
-		if (process->done_cb) {
+		if (process->done_cb)
 			process->done_cb (process);
-		}
-		e_free_object_list(process->contacts);
+		g_list_foreach (
+			process->contacts,
+			(GFunc) g_object_unref, NULL);
+		g_list_free (process->contacts);
 		g_object_unref (process->source);
 		g_object_unref (process->destination);
 		g_free (process);

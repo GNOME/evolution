@@ -150,7 +150,7 @@ mnemonic_activate (GtkWidget *widget, gboolean group_cycling)
 GtkWidget *
 e_url_entry_new (void)
 {
-	return gtk_type_new (E_TYPE_URL_ENTRY);
+	return g_object_new (E_TYPE_URL_ENTRY, NULL);
 }
 
 

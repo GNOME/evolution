@@ -621,8 +621,10 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 	   header is correct */
 	if (GTK_WIDGET (e_table->header_canvas)->allocation.height !=
 	    E_TABLE_HEADER_ITEM (e_table->header_item)->height)
-		gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -2,
-				      E_TABLE_HEADER_ITEM (e_table->header_item)->height);
+		g_object_set (
+			e_table->header_canvas, "height-request",
+			E_TABLE_HEADER_ITEM (e_table->header_item)->height,
+			NULL);
 }
 
 static void
@@ -674,8 +676,9 @@ e_table_setup_header (ETable *e_table)
 		G_OBJECT (e_table->header_canvas), "size_allocate",
 		G_CALLBACK (header_canvas_size_allocate), e_table);
 
-	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -2,
-			      E_TABLE_HEADER_ITEM (e_table->header_item)->height);
+	g_object_set (
+		e_table->header_canvas, "height-request",
+		E_TABLE_HEADER_ITEM (e_table->header_item)->height, NULL);
 }
 
 static gboolean

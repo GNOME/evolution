@@ -908,8 +908,7 @@ init (EMsgComposerHdrs *hdrs)
 	priv = g_new0 (EMsgComposerHdrsPrivate, 1);
 	
 	priv->tooltips = gtk_tooltips_new ();
-	g_object_ref (priv->tooltips);
-	gtk_object_sink ((GtkObject *) priv->tooltips);
+	g_object_ref_sink (priv->tooltips);
 	
 	priv->accounts = mail_config_get_accounts ();
 	g_object_ref (priv->accounts);
@@ -954,8 +953,7 @@ e_msg_composer_hdrs_new (BonoboUIComponent *uic, int visible_mask, int visible_f
 	priv = new->priv;
 	priv->uic = uic;
 
-	g_object_ref (new);
-	gtk_object_sink (GTK_OBJECT (new));
+	g_object_ref_sink (new);
 
 	setup_name_selector (new);
 	

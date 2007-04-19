@@ -1523,7 +1523,7 @@ cp_r (const char *src, const char *dest, const char *pattern, int mode)
 	struct stat st;
 	DIR *dir;
 	
-	if (e_util_mkdir_hier (dest, 0777) == -1)
+	if (g_mkdir_with_parents (dest, 0777) == -1)
 		return -1;
 	
 	if (!(dir = opendir (src)))
@@ -1644,7 +1644,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		slen = src->len;
 		dlen = dest->len;
 		
-		if (e_util_mkdir_hier (dest->str, 0777) == -1 && errno != EEXIST) {
+		if (g_mkdir_with_parents (dest->str, 0777) == -1 && errno != EEXIST) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Unable to create new folder `%s': %s"),
 					     dest->str, g_strerror(errno));
@@ -2073,7 +2073,7 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	g_free (cache_dir);
 	
 	cache_dir = g_build_filename (evolution_dir, "mail", "pop", NULL);
-	if (e_util_mkdir_hier (cache_dir, 0777) == -1) {
+	if (g_mkdir_with_parents (cache_dir, 0777) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Unable to create POP3 keep-on-server data directory `%s': %s"),
 				      cache_dir, g_strerror(errno));
@@ -2101,7 +2101,7 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 		/* strip the trailing '_' */
 		g_string_truncate (newpath, newpath->len - 1);
 		
-		if (e_util_mkdir_hier (newpath->str, 0777) == -1
+		if (g_mkdir_with_parents (newpath->str, 0777) == -1
 		    || cp(oldpath->str, (g_string_append(newpath, "/uid-cache"))->str, FALSE, CP_UNIQUE)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Unable to copy POP3 keep-on-server data `%s': %s"),
@@ -2161,7 +2161,7 @@ em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *e
 	
 	destpath = g_string_new (evolution_dir);
 	g_string_append (destpath, "/mail/config");
-	if (e_util_mkdir_hier (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
+	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
 		g_string_free (destpath, TRUE);
 		g_string_free (srcpath, TRUE);
 		return 0;
@@ -2259,7 +2259,7 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 	
 	destpath = g_string_new (evolution_dir);
 	g_string_append (destpath, "/mail/views");
-	if (e_util_mkdir_hier (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
+	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
 		g_string_free (destpath, TRUE);
 		g_string_free (srcpath, TRUE);
 		return 0;
@@ -2475,7 +2475,7 @@ em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
 							       url->host?url->host:"");
 
 					dir = e_path_to_physical(base, path);
-					if (e_util_mkdir_hier(dir, 0777) == 0) {
+					if (g_mkdir_with_parents(dir, 0777) == 0) {
 						char *cmeta;
 						FILE *fp;
 
@@ -2573,7 +2573,7 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	
 	path = g_strdup_printf ("mbox:%s/.evolution/mail/local", g_get_home_dir ());
 	if (stat (path + 5, &st) == -1) {
-		if (errno != ENOENT || e_util_mkdir_hier (path + 5, 0777) == -1) {
+		if (errno != ENOENT || g_mkdir_with_parents (path + 5, 0777) == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Failed to create local mail storage `%s': %s"),
 					      path + 5, g_strerror (errno));
@@ -2654,7 +2654,7 @@ emm_setup_initial(const char *evolution_dir)
 	d(printf("Setting up initial mail tree\n"));
 	
 	base = g_build_filename(evolution_dir, "mail", "local", NULL);
-	if (e_util_mkdir_hier(base, 0777) == -1 && errno != EEXIST) {
+	if (g_mkdir_with_parents(base, 0777) == -1 && errno != EEXIST) {
 		g_free(base);
 		return -1;
 	}
@@ -2704,7 +2704,7 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 	/* make sure ~/.evolution/mail exists */
 	path = g_build_filename (evolution_dir, "mail", NULL);
 	if (g_stat (path, &st) == -1) {
-		if (errno != ENOENT || e_util_mkdir_hier (path, 0777) == -1) {
+		if (errno != ENOENT || g_mkdir_with_parents (path, 0777) == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, 
 					      _("Unable to create local mail folders at `%s': %s"),
 					      path, g_strerror (errno));

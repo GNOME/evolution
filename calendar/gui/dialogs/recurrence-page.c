@@ -286,7 +286,7 @@ recurrence_page_finalize (GObject *object)
 			    0, 0, NULL, preview_date_range_changed_cb, NULL);
 
 	if (priv->main)
-		gtk_widget_unref (priv->main);
+		g_object_unref (priv->main);
 
 	if (priv->xml) {
 		g_object_unref (priv->xml);
@@ -2000,12 +2000,10 @@ get_widgets (RecurrencePage *rpage)
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
-	if (accel_groups) {
-		page->accel_group = accel_groups->data;
-		gtk_accel_group_ref (page->accel_group);
-	}
+	if (accel_groups)
+		page->accel_group = g_object_ref (accel_groups->data);
 
-	gtk_widget_ref (priv->main);
+	g_object_ref (priv->main);
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 	      
 	priv->recurs = GW ("recurs");

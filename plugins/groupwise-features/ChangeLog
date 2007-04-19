@@ -1,3 +1,10 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #429422
+
+	* status-track.c (track_status):
+	Use gtk_widget_set_size_request() instead of gtk_widget_set_usize().
+
 2007-03-30  Sankar P  <psankar@novell.com>
 
 	* status-track.c: (format_date), (track_status):

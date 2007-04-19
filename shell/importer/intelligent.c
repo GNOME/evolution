@@ -343,7 +343,7 @@ create_gui (GList *importers)
 			/* Ref this widget so even if we remove it from the
 			   containers it will always have an extra ref. */
 			gtk_widget_show (data->widget);
-			gtk_widget_ref (data->widget);
+			g_object_ref (data->widget);
 		} else {
 			data->widget = gtk_label_new ("");
 		}

@@ -51,7 +51,9 @@ main (int argc, char **argv)
 	GtkWidget *label;
 	GtkWidget *vbox;
 
-	gnome_init ("test-title-bar", "0.0", argc, argv);
+	gnome_program_init (
+		"test-title-bar", "0.0", LIBGNOMEUI_MODULE,
+		argc, argv, GNOME_PARAM_NONE);
 	e_icon_factory_init ();
 
 	app = gnome_app_new ("Test", "Test");

@@ -29,19 +29,18 @@
 
 /* for the dialog stuff */
 #include <glib.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkprogressbar.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <libgnomeui/gnome-window-icon.h>
 #include <glib/gi18n.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkprogressbar.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtktable.h>
 
-#include "e-util/e-gtk-utils.h"
 #include "libedataserver/e-account-list.h"
 
 #include "misc/e-clipped-label.h"
@@ -116,9 +115,9 @@ struct _send_info {
 	char *uri;
 	int keep;
 	send_state_t state;
-	GtkProgressBar *bar;
-	GtkButton *stop;
-	EClippedLabel *status;
+	GtkWidget *progress_bar;
+	GtkWidget *cancel_button;
+	GtkWidget *status_label;
 
 	int again;		/* need to run send again */
 
@@ -135,7 +134,8 @@ static CamelFolder *receive_get_folder(CamelFilterDriver *d, const char *uri, vo
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
 
-static struct _send_data *setup_send_data(void)
+static struct _send_data *
+setup_send_data(void)
 {
 	struct _send_data *data;
 	
@@ -155,12 +155,14 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 {
 	if (info->state == SEND_ACTIVE) {
 		camel_operation_cancel(info->cancel);
-		if (info->status)
-			e_clipped_label_set_text(info->status, _("Canceling..."));
+		if (info->status_label)
+			e_clipped_label_set_text (
+				E_CLIPPED_LABEL (info->status_label),
+				_("Canceling..."));
 		info->state = SEND_CANCELLED;
 	}
-	if (info->stop)
-		gtk_widget_set_sensitive((GtkWidget *)info->stop, FALSE);
+	if (info->cancel_button)
+		gtk_widget_set_sensitive(info->cancel_button, FALSE);
 }
 
 static void
@@ -173,7 +175,8 @@ free_folder_info(void *key, struct _folder_info *info, void *data)
 	g_free(info);
 }
 
-static void free_send_info(void *key, struct _send_info *info, void *data)
+static void
+free_send_info(void *key, struct _send_info *info, void *data)
 {
 	g_free(info->uri);
 	camel_operation_unref(info->cancel);
@@ -206,16 +209,18 @@ free_send_data(void)
 	send_data = NULL;
 }
 
-static void cancel_send_info(void *key, struct _send_info *info, void *data)
+static void
+cancel_send_info(void *key, struct _send_info *info, void *data)
 {
-	receive_cancel(info->stop, info);
+	receive_cancel (GTK_BUTTON (info->cancel_button), info);
 }
 
-static void hide_send_info(void *key, struct _send_info *info, void *data)
+static void
+hide_send_info(void *key, struct _send_info *info, void *data)
 {
-	info->stop = NULL;
-	info->bar = NULL;
-	info->status = NULL;
+	info->cancel_button = NULL;
+	info->progress_bar = NULL;
+	info->status_label = NULL;
 
 	if (info->timeout_id != 0) {
 		g_source_remove (info->timeout_id);
@@ -252,8 +257,52 @@ dialog_response(GtkDialog *gd, int button, struct _send_data *data)
 	}
 }
 
-static void operation_status(CamelOperation *op, const char *what, int pc, void *data);
-static int operation_status_timeout(void *data);
+static int
+operation_status_timeout(void *data)
+{
+	struct _send_info *info = data;
+
+	if (info->progress_bar) {
+		gtk_progress_bar_set_fraction (
+			GTK_PROGRESS_BAR (info->progress_bar),
+			info->pc / 100.0);
+		if (info->what)
+			e_clipped_label_set_text (
+				E_CLIPPED_LABEL (info->status_label),
+				info->what);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+set_send_status(struct _send_info *info, const char *desc, int pc)
+{
+	/* FIXME: LOCK */
+	g_free(info->what);
+	info->what = g_strdup(desc);
+	info->pc = pc;
+}
+
+/* for camel operation status */
+static void
+operation_status(CamelOperation *op, const char *what, int pc, void *data)
+{
+	struct _send_info *info = data;
+
+	/*printf("Operation '%s', percent %d\n");*/
+	switch (pc) {
+	case CAMEL_OPERATION_START:
+		pc = 0;
+		break;
+	case CAMEL_OPERATION_END:
+		pc = 100;
+		break;
+	}
+
+	set_send_status(info, what, pc);
+}
 
 static char *
 format_url(const char *internal_url, const char *account_name)
@@ -283,7 +332,8 @@ format_url(const char *internal_url, const char *account_name)
         return pretty_url;
 }
 
-static send_info_t get_receive_type(const char *url)
+static send_info_t
+get_receive_type(const char *url)
 {
 	CamelProvider *provider;
 	CamelException ex;
@@ -312,7 +362,7 @@ static send_info_t get_receive_type(const char *url)
 	return SEND_INVALID;
 }
 
-gboolean
+static gboolean
 dialog_map (GtkWidget *window, GdkEvent  *event, GtkWidget *table)
 {
 	int h, w;
@@ -324,22 +374,26 @@ dialog_map (GtkWidget *window, GdkEvent  *event, GtkWidget *table)
 		w = 750;
 	if (h > 400)
 		h = 400;
-	gtk_widget_set_usize (window, w, h);
+	gtk_widget_set_size_request (window, w, h);
+
+	return FALSE;
 }
 
 static struct _send_data *
 build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destination)
 {
 	GtkDialog *gd;
-	GtkTable *table;
+	GtkWidget *table;
 	int row, num_sources;
 	GList *list = NULL;
 	struct _send_data *data;
-        GtkWidget *send_icon, *recv_icon,*scrolled_window; 
-	GtkLabel *label;
-	EClippedLabel *status_label;
-	GtkProgressBar *bar;
-	GtkButton *stop;
+        GtkWidget *send_icon;
+	GtkWidget *recv_icon;
+	GtkWidget *scrolled_window; 
+	GtkWidget *label;
+	GtkWidget *status_label;
+	GtkWidget *progress_bar;
+	GtkWidget *cancel_button;
 	struct _send_info *info;
 	char *pretty_url;
 	EAccount *account;
@@ -353,9 +407,13 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gtk_container_set_border_width ((GtkContainer *)gd->vbox, 0);
 	gtk_container_set_border_width ((GtkContainer *)gd->action_area, 6);
 
-	stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel _All"), GTK_STOCK_CANCEL);
-	gtk_widget_show((GtkWidget *)stop);
-	gtk_dialog_add_action_widget(gd, (GtkWidget *)stop, GTK_RESPONSE_CANCEL);
+	cancel_button = gtk_button_new_with_mnemonic (_("Cancel _All"));
+	gtk_button_set_image (
+		GTK_BUTTON (cancel_button),
+		gtk_image_new_from_stock (
+			GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON));
+	gtk_widget_show (cancel_button);
+	gtk_dialog_add_action_widget (gd, cancel_button, GTK_RESPONSE_CANCEL);
 	
 	icon_list = e_icon_factory_get_icon_list ("stock_mail-send-receive");
 	if (icon_list) {
@@ -378,20 +436,22 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	
 	g_object_unref (iter);
 	
-	table = (GtkTable *) gtk_table_new (num_sources, 4, FALSE);
-	gtk_container_set_border_width ((GtkContainer *) table, 6);
-	gtk_table_set_row_spacings (table, 6);
-	gtk_table_set_col_spacings (table, 6);
+	table = gtk_table_new (num_sources, 4, FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (table), 6);
+	gtk_table_set_row_spacings (GTK_TABLE (table), 6);
+	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);	
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolled_window),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), GTK_WIDGET (table));
-	gtk_box_pack_start (GTK_BOX (gd->vbox), scrolled_window,TRUE, TRUE, 0); 
-	gtk_widget_set_usize (gd->vbox, 600,200);
-	gtk_widget_show (GTK_WIDGET (scrolled_window));	
+	gtk_scrolled_window_add_with_viewport (
+		GTK_SCROLLED_WINDOW (scrolled_window), table);
+	gtk_box_pack_start (
+		GTK_BOX (gd->vbox), scrolled_window, TRUE, TRUE, 0); 
+	gtk_widget_set_size_request (gd->vbox, 600, 200);
+	gtk_widget_show (scrolled_window);	
 
 	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
 	data = setup_send_data ();
@@ -433,42 +493,57 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			
 			g_hash_table_insert (data->active, info->uri, info);
 			list = g_list_prepend (list, info);
-		} else if (info->bar != NULL) {
+		} else if (info->progress_bar != NULL) {
 			/* incase we get the same source pop up again */
 			e_iterator_next (iter);
 			continue;
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		recv_icon = e_icon_factory_get_image ("stock_mail-receive", E_ICON_SIZE_LARGE_TOOLBAR);
+		recv_icon = e_icon_factory_get_image (
+			"stock_mail-receive", E_ICON_SIZE_LARGE_TOOLBAR);
 	       	pretty_url = format_url (source->url, account->name);
-		label = (GtkLabel *)gtk_label_new (NULL);
-		gtk_label_set_markup (label, pretty_url);
+		label = gtk_label_new (NULL);
+		gtk_label_set_markup (GTK_LABEL (label), pretty_url);
 		g_free (pretty_url);
 		
-		bar = (GtkProgressBar *)gtk_progress_bar_new ();
+		progress_bar = gtk_progress_bar_new ();
 		
-		stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel"), GTK_STOCK_CANCEL);
+		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 
-		status_label = (EClippedLabel *)e_clipped_label_new((info->type == SEND_UPDATE)?_("Updating..."):_("Waiting..."),
-								    PANGO_WEIGHT_NORMAL, 1.0);
+		status_label = e_clipped_label_new (
+			(info->type == SEND_UPDATE) ?
+			_("Updating...") : _("Waiting..."),
+			PANGO_WEIGHT_NORMAL, 1.0);
 
 		/* g_object_set(data->label, "bold", TRUE, NULL); */
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 		
-	        gtk_table_attach (table, (GtkWidget *)recv_icon, 0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, (GtkWidget *)label, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, (GtkWidget *)bar, 2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, (GtkWidget *)stop, 3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, (GtkWidget *)status_label, 1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	        gtk_table_attach (
+			GTK_TABLE (table), recv_icon,
+			0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), label,
+			1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), progress_bar,
+			2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), cancel_button,
+			3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), status_label,
+			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		
-		info->bar = bar;
-		info->status = status_label;
-		info->stop = stop;
+		info->progress_bar = progress_bar;
+		info->status_label = status_label;
+		info->cancel_button = cancel_button;
 		info->data = data;
                 
-		g_signal_connect (stop, "clicked", G_CALLBACK(receive_cancel), info);
+		g_signal_connect (
+			cancel_button, "clicked",
+			G_CALLBACK (receive_cancel), info);
 		e_iterator_next (iter);
 		row = row + 2;
 	}
@@ -493,34 +568,48 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		send_icon = e_icon_factory_get_image ("stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
+		send_icon = e_icon_factory_get_image (
+			"stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
 		pretty_url = format_url (destination, NULL);
-		label = (GtkLabel *)gtk_label_new (NULL);
-		gtk_label_set_markup (label, pretty_url);
+		label = gtk_label_new (NULL);
+		gtk_label_set_markup (GTK_LABEL (label), pretty_url);
 
 		g_free (pretty_url);
 		
-		bar = (GtkProgressBar *)gtk_progress_bar_new ();
-		stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel"), GTK_STOCK_CANCEL);
+		progress_bar = gtk_progress_bar_new ();
+		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 
-		status_label = (EClippedLabel *)e_clipped_label_new(_("Waiting..."), PANGO_WEIGHT_NORMAL, 1.0);
+		status_label = e_clipped_label_new (
+			_("Waiting..."), PANGO_WEIGHT_NORMAL, 1.0);
 
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 		
-		gtk_table_attach (table, GTK_WIDGET (send_icon), 0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, GTK_WIDGET (label), 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, GTK_WIDGET (bar), 2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, GTK_WIDGET (stop), 3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (table, GTK_WIDGET (status_label), 1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), send_icon,
+			0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), label,
+			1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), progress_bar,
+			2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), cancel_button,
+			3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (table), status_label,
+			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		
-		info->bar = bar;
-		info->stop = stop;
+		info->progress_bar = progress_bar;
+		info->cancel_button = cancel_button;
 		info->data = data;
-		info->status = status_label;
+		info->status_label = status_label;
 		
-		g_signal_connect(stop, "clicked", G_CALLBACK(receive_cancel), info);
-		gtk_widget_show_all (GTK_WIDGET (table));
+		g_signal_connect (
+			cancel_button, "clicked",
+			G_CALLBACK (receive_cancel), info);
+		gtk_widget_show_all (table);
 	}
 	
 	gtk_widget_show (GTK_WIDGET (gd));
@@ -554,14 +643,6 @@ update_folders(char *uri, struct _folder_info *info, void *data)
 	}
 }
 
-static void set_send_status(struct _send_info *info, const char *desc, int pc)
-{
-	/* FIXME: LOCK */
-	g_free(info->what);
-	info->what = g_strdup(desc);
-	info->pc = pc;
-}
-
 static void
 receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data)
 {
@@ -593,38 +674,6 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, in
 	}
 }
 
-static int operation_status_timeout(void *data)
-{
-	struct _send_info *info = data;
-
-	if (info->bar) {
-		gtk_progress_bar_set_fraction((GtkProgressBar *)info->bar, (gfloat)(info->pc/100.0));
-		if (info->what)
-			e_clipped_label_set_text(info->status, info->what);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-/* for camel operation status */
-static void operation_status(CamelOperation *op, const char *what, int pc, void *data)
-{
-	struct _send_info *info = data;
-
-	/*printf("Operation '%s', percent %d\n");*/
-	switch (pc) {
-	case CAMEL_OPERATION_START:
-		pc = 0;
-		break;
-	case CAMEL_OPERATION_END:
-		pc = 100;
-		break;
-	}
-
-	set_send_status(info, what, pc);
-}
-
 /* when receive/send is complete */
 static void
 receive_done (char *uri, void *data)
@@ -644,21 +693,25 @@ receive_done (char *uri, void *data)
 		return;
 	}
 
-	if (info->bar) {
-		gtk_progress_bar_set_fraction((GtkProgressBar *)info->bar, (gfloat)1.0);
+	if (info->progress_bar) {
+		const gchar *text;
 
-		switch(info->state) {
-		case SEND_CANCELLED:
-			e_clipped_label_set_text(info->status, _("Canceled."));
-			break;
-		default:
+		gtk_progress_bar_set_fraction(
+			GTK_PROGRESS_BAR (info->progress_bar), 1.0);
+
+		if (info->state == SEND_CANCELLED)
+			text = _("Canceled.");
+		else {
+			text = _("Complete");
 			info->state = SEND_COMPLETE;
-			e_clipped_label_set_text(info->status, _("Complete"));
 		}
+
+		e_clipped_label_set_text (
+			E_CLIPPED_LABEL (info->status_label), text);
 	}
 
-	if (info->stop)
-		gtk_widget_set_sensitive((GtkWidget *)info->stop, FALSE);
+	if (info->cancel_button)
+		gtk_widget_set_sensitive (info->cancel_button, FALSE);
 
 	/* remove/free this active download */
 	d(printf("%s: freeing info %p\n", G_GNUC_FUNCTION, info));
@@ -687,7 +740,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	struct _send_info *info = data;
 	CamelFolder *folder;
 	struct _folder_info *oldinfo;
-	char *oldkey;
+	gpointer oldkey;
 
 	g_mutex_lock(info->data->lock);
 	oldinfo = g_hash_table_lookup(info->data->folders, uri);
@@ -704,7 +757,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	/* and we assume the newer one is the same, but unref the old one anyway */
 	g_mutex_lock(info->data->lock);
 	
-	if (g_hash_table_lookup_extended(info->data->folders, uri, (void **)&oldkey, (void **)&oldinfo)) {
+	if (g_hash_table_lookup_extended(info->data->folders, uri, &oldkey, (void **)&oldinfo)) {
 		camel_object_unref(oldinfo->folder);
 		oldinfo->folder = folder;
 	} else {
@@ -839,7 +892,8 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	}
 }
 
-GtkWidget *mail_send_receive (void)
+GtkWidget *
+mail_send_receive (void)
 {
 	CamelFolder *outbox_folder;
 	struct _send_data *data;
@@ -1056,12 +1110,12 @@ mail_receive_uri (const char *uri, int keep)
 	
 	info = g_malloc0 (sizeof (*info));
 	info->type = type;
-	info->bar = NULL;
-	info->status = NULL;
+	info->progress_bar = NULL;
+	info->status_label = NULL;
 	info->uri = g_strdup (uri);
 	info->keep = keep;
 	info->cancel = camel_operation_new (operation_status, info);
-	info->stop = NULL;
+	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
 	info->timeout_id = 0;
@@ -1128,12 +1182,12 @@ mail_send (void)
 	
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
-	info->bar = NULL;
-	info->status = NULL;
+	info->progress_bar = NULL;
+	info->status_label = NULL;
 	info->uri = g_strdup (transport->url);
 	info->keep = FALSE;
 	info->cancel = camel_operation_new (operation_status, info);
-	info->stop = NULL;
+	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
 	info->timeout_id = 0;

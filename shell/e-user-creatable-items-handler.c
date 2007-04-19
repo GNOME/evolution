@@ -753,8 +753,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 
 	gtk_widget_show (priv->new_button);
 	priv->tooltips = gtk_tooltips_new ();
-	gtk_object_ref (GTK_OBJECT (priv->tooltips));
-	gtk_object_sink (GTK_OBJECT (priv->tooltips));
+	g_object_ref_sink (priv->tooltips);
 	gtk_tooltips_set_tip (priv->tooltips, priv->new_button,
 			      priv->default_menu_item->tooltip, NULL);
 	g_free (val);

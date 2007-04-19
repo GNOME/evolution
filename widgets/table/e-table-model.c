@@ -284,7 +284,7 @@ e_table_model_class_init (GObjectClass *object_class)
 
 	e_table_model_signals [MODEL_NO_CHANGE] =
 		g_signal_new ("model_no_change",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_no_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -294,7 +294,7 @@ e_table_model_class_init (GObjectClass *object_class)
 
 	e_table_model_signals [MODEL_CHANGED] =
 		g_signal_new ("model_changed",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -303,7 +303,7 @@ e_table_model_class_init (GObjectClass *object_class)
 
 	e_table_model_signals [MODEL_PRE_CHANGE] =
 		g_signal_new ("model_pre_change",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_pre_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -312,7 +312,7 @@ e_table_model_class_init (GObjectClass *object_class)
 
 	e_table_model_signals [MODEL_ROW_CHANGED] =
 		g_signal_new ("model_row_changed",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_row_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -321,7 +321,7 @@ e_table_model_class_init (GObjectClass *object_class)
 
 	e_table_model_signals [MODEL_CELL_CHANGED] =
 		g_signal_new ("model_cell_changed",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_cell_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -330,7 +330,7 @@ e_table_model_class_init (GObjectClass *object_class)
 
 	e_table_model_signals [MODEL_ROWS_INSERTED] =
 		g_signal_new ("model_rows_inserted",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_rows_inserted),
 			      (GSignalAccumulator) NULL, NULL,
@@ -339,7 +339,7 @@ e_table_model_class_init (GObjectClass *object_class)
 
 	e_table_model_signals [MODEL_ROWS_DELETED] =
 		g_signal_new ("model_rows_deleted",
-			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_rows_deleted),
 			      (GSignalAccumulator) NULL, NULL,

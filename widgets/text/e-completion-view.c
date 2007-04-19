@@ -810,7 +810,7 @@ e_completion_view_set_width (ECompletionView *cv, gint width)
 	w = GTK_WIDGET (cv);
 
 	if (! GTK_WIDGET_REALIZED (w)) {
-		gtk_widget_set_usize (w, width, -1);
+		gtk_widget_set_size_request (w, width, -1);
 		return;
 	}
 
@@ -841,7 +841,7 @@ e_completion_view_set_width (ECompletionView *cv, gint width)
 
 	/* We reduce the total height by a bit; in practice, this seems to work out well. */
 	final_height = (gint) floor (line_height * (0.5 + (float)lines) * 0.97);
-	gtk_widget_set_usize (w, width, final_height);
+	gtk_widget_set_size_request (w, width, final_height);
 }
 
 void

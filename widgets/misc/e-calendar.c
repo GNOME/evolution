@@ -155,15 +155,15 @@ e_calendar_init (ECalendar *cal)
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
-	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
-				   G_CALLBACK (e_calendar_on_prev_pressed),
-				   GTK_OBJECT (cal));
-	gtk_signal_connect_object (GTK_OBJECT (button), "released",
-				   G_CALLBACK (e_calendar_on_prev_released),
-				   GTK_OBJECT (cal));
-	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
-				   G_CALLBACK (e_calendar_on_prev_clicked),
-				   GTK_OBJECT (cal));
+	g_signal_connect_swapped (
+		button, "pressed",
+		G_CALLBACK (e_calendar_on_prev_pressed), cal);
+	g_signal_connect_swapped (
+		button, "released",
+		G_CALLBACK (e_calendar_on_prev_released), cal);
+	g_signal_connect_swapped (
+		button, "clicked",
+		G_CALLBACK (e_calendar_on_prev_clicked), cal);
 
 	pixmap = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE);
 	gtk_widget_show (pixmap);
@@ -179,15 +179,15 @@ e_calendar_init (ECalendar *cal)
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
-	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
-				   G_CALLBACK (e_calendar_on_next_pressed),
-				   GTK_OBJECT (cal));
-	gtk_signal_connect_object (GTK_OBJECT (button), "released",
-				   G_CALLBACK (e_calendar_on_next_released),
-				   GTK_OBJECT (cal));
-	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
-				   G_CALLBACK (e_calendar_on_next_clicked),
-				   GTK_OBJECT (cal));
+	g_signal_connect_swapped (
+		button, "pressed",
+		G_CALLBACK (e_calendar_on_next_pressed), cal);
+	g_signal_connect_swapped (
+		button, "released",
+		G_CALLBACK (e_calendar_on_next_released), cal);
+	g_signal_connect_swapped (
+		button, "clicked",
+		G_CALLBACK (e_calendar_on_next_clicked), cal);
 
 	pixmap = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
 	gtk_widget_show (pixmap);
@@ -221,7 +221,7 @@ e_calendar_new			(void)
 	GtkWidget *cal;
 	AtkObject *a11y;
 
-	cal = gtk_type_new (e_calendar_get_type ());
+	cal = g_object_new (e_calendar_get_type (), NULL);
 	a11y = gtk_widget_get_accessible (cal);
 	atk_object_set_name (a11y, _("Month Calendar"));
 
@@ -240,7 +240,7 @@ e_calendar_destroy		(GtkObject *object)
 	cal = E_CALENDAR (object);
 
 	if (cal->timeout_id != 0) {
-		gtk_timeout_remove (cal->timeout_id);
+		g_source_remove (cal->timeout_id);
 		cal->timeout_id = 0;
 	}
 
@@ -514,7 +514,7 @@ static void
 e_calendar_stop_auto_move	(ECalendar	*cal)
 {
 	if (cal->timeout_id != 0) {
-		gtk_timeout_remove (cal->timeout_id);
+		g_source_remove (cal->timeout_id);
 		cal->timeout_id = 0;
 	}
 }

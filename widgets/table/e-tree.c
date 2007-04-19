@@ -387,7 +387,10 @@ et_dispose (GObject *object)
 
 		scroll_off (et);
 		hover_off (et);
-		e_free_string_list (et->priv->expanded_list);
+		g_list_foreach (
+			et->priv->expanded_list,
+			(GFunc) g_free, NULL);
+		g_list_free (et->priv->expanded_list);
 
 		et_disconnect_from_etta (et);
 
@@ -674,7 +677,7 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *e_t
 	   header is correct */
 	if (GTK_WIDGET (e_tree->priv->header_canvas)->allocation.height !=
 	    E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height)
-		gtk_widget_set_usize (GTK_WIDGET (e_tree->priv->header_canvas), -1,
+		gtk_widget_set_size_request (GTK_WIDGET (e_tree->priv->header_canvas), -1,
 				      E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height);
 }
 
@@ -705,8 +708,9 @@ e_tree_setup_header (ETree *e_tree)
 		e_tree->priv->header_canvas, "size_allocate",
 		G_CALLBACK (header_canvas_size_allocate), e_tree);
 
-	gtk_widget_set_usize (GTK_WIDGET (e_tree->priv->header_canvas), -1,
-			      E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height);
+	gtk_widget_set_size_request (
+		GTK_WIDGET (e_tree->priv->header_canvas), -1,
+		E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height);
 }
 
 static gboolean

@@ -2043,8 +2043,7 @@ message_list_init (MessageList *message_list)
 	p = message_list->priv = g_malloc0(sizeof(*message_list->priv));
 	p->invisible = gtk_invisible_new();
 	p->destroyed = FALSE;
-	g_object_ref(p->invisible);
-	gtk_object_sink((GtkObject *)p->invisible);
+	g_object_ref_sink(p->invisible);
 
 	matom = gdk_atom_intern ("x-uid-list", FALSE);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, matom, 0);
