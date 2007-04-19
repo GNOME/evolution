@@ -1,3 +1,9 @@
+2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-utils.c (emu_save_parts_response):
+	Use gtk_file_chooser_get_uri() instead of
+	gtk_file_chooser_get_current_folder_uri(). (#423766)
+
 2007-04-09  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #343195

@@ -419,7 +419,7 @@ emu_save_parts_response (GtkWidget *filesel, int response, GSList *parts)
         GSList *selected;
 		char *uri = NULL;
         if (response == GTK_RESPONSE_OK) {
-		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (filesel));
+		uri = gtk_file_chooser_get_uri(GTK_FILE_CHOOSER (filesel));
                 e_file_update_save_path(uri, FALSE);
 
                 for ( selected = parts; selected != NULL; selected = selected->next) {
