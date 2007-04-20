@@ -826,14 +826,18 @@ emcp_free(EConfig *ec, GSList *items, void *data)
 	g_slist_free(items);
 }
 
-static void 
+static gboolean
 signature_key_press (GtkTreeView *tree_view, GdkEventKey *event, EMComposerPrefs *prefs) 
-{
-	/* No need to care about anything other than DEL key */
-	if (event->keyval == GDK_Delete) 
-		sig_delete_cb ((GtkWidget *)tree_view, prefs);
+{	
+	gboolean ret = FALSE;
 
-	return ;
+	/* No need to care about anything other than DEL key */
+	if (event->keyval == GDK_Delete) {
+		sig_delete_cb ((GtkWidget *)tree_view, prefs);
+		ret = TRUE;
+	}
+
+	return ret;
 }
 
 static gboolean 
