@@ -1,3 +1,8 @@
+2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Evolution no longer depends on libgnomeprint[ui]. (#426816)
+
 2007-04-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

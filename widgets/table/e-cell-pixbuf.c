@@ -50,17 +50,6 @@ enum {
 	PROP_UNSELECTED_COLUMN
 };
 
-static int
-gnome_print_pixbuf (GtkPrintContext *pc, GdkPixbuf *pixbuf)
-{
-	cairo_t *cr = gtk_print_context_get_cairo_context (pc);
-
-        gdk_cairo_set_source_pixbuf (cr, pixbuf, 
-					      (double)gdk_pixbuf_get_width     (pixbuf),
-					      (double)gdk_pixbuf_get_height    (pixbuf));
-	return TRUE;
-}
-
 /*
  * ECellPixbuf functions
  */

@@ -22,8 +22,6 @@ noinst_LTLIBRARIES =				\
 	libecontactprint.la
 
 libecontactprint_la_SOURCES = 			\
-	e-contact-print-envelope.c		\
-	e-contact-print-envelope.h		\
 	e-contact-print-style-editor.c		\
 	e-contact-print-style-editor.h		\
 	e-contact-print-types.h			\

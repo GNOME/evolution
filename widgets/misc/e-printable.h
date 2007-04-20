@@ -25,7 +25,6 @@
 #define _E_PRINTABLE_H_
 
 #include <gtk/gtkobject.h>
-#include <libgnomeprint/gnome-print.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

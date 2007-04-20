@@ -193,7 +193,7 @@ print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
 	if (v)
-		eab_view_print (v, 0);
+		eab_view_print (v, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
@@ -202,7 +202,7 @@ print_preview_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
 	if (v)
-		eab_view_print_preview (v);
+		eab_view_print (v, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void

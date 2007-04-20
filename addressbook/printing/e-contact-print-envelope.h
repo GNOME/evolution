@@ -22,11 +22,6 @@
 #ifndef E_CONTACT_PRINT_ENVELOPE_H
 #define E_CONTACT_PRINT_ENVELOPE_H
 
-#include <gtk/gtkwidget.h>
-#include <libebook/e-contact.h>
-#include "e-contact-print-types.h"
-
-GtkWidget *e_contact_print_envelope_dialog_new(EContact *contact);
-GtkWidget *e_contact_print_envelope_list_dialog_new(GList *list);
+/* XXX Currently unused */
 
 #endif /* E_CONTACT_PRINT_ENVELOPE_H */

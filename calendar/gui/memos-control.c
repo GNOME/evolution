@@ -35,13 +35,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock-icons.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-paper.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
-#include <libgnomeprintui/gnome-print-paper-selector.h>
-#include <libgnomeprintui/gnome-print-preview.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
@@ -327,30 +320,21 @@ memos_control_delete_cmd		(BonoboUIComponent	*uic,
 	e_memos_delete_selected (memos);
 }
 
-
-static void
-print_memos (EMemos *memos, gboolean preview)
-{
-	EMemoTable *cal_table;
-	ETable *etable;
-
-	cal_table = e_memos_get_calendar_table (memos);
-	etable = e_memo_table_get_table (E_MEMO_TABLE (cal_table));
-
-	print_table (etable, _("Print Memos"), _("Memos"), preview);
-}
-
 /* File/Print callback */
 static void
 memos_control_print_cmd (BonoboUIComponent *uic,
 			 gpointer data,
 			 const char *path)
 {
-	EMemos *memos;
+	EMemos *memos = E_MEMOS (data);
+	ETable *table;
 
-	memos = E_MEMOS (data);
+	table = e_memo_table_get_table (
+		E_MEMO_TABLE (e_memos_get_calendar_table (memos)));
 
-	print_memos (memos, FALSE);
+	print_table (
+		table, _("Print Memos"), _("Memos"),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
@@ -358,10 +342,13 @@ memos_control_print_preview_cmd (BonoboUIComponent *uic,
 				 gpointer data,
 				 const char *path)
 {
-	EMemos *memos;
+	EMemos *memos = E_MEMOS (data);
+	ETable *table;
 
-	memos = E_MEMOS (data);
+	table = e_memo_table_get_table (
+		E_MEMO_TABLE (e_memos_get_calendar_table (memos)));
 
-	print_memos (memos, TRUE);
+	print_table (
+		table, _("Print Memos"), _("Memos"),
+		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
-

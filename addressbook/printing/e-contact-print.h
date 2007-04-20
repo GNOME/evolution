@@ -23,14 +23,13 @@
 #define E_CONTACT_PRINT_H
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkprintoperation.h>
 #include <libebook/e-book.h>
-#include <libebook/e-contact.h>
 #include "e-contact-print-types.h"
 
-GtkWidget *e_contact_print_dialog_new (EBook *book, char *query, GList *list);
-GtkWidget *e_contact_print_contact_dialog_new (EContact *card);
-GtkWidget *e_contact_print_contact_list_dialog_new(GList *list);
-void e_contact_print_response (GtkWidget *dialog, gint response_id, gpointer data);
+void            e_contact_print               (EBook *book,
+					       EBookQuery *query,
+					       GList *contact_list,
+					       GtkPrintOperationAction action);
 
 #endif /* E_CONTACT_PRINT_H */

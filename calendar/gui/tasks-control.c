@@ -34,13 +34,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock-icons.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-paper.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
-#include <libgnomeprintui/gnome-print-paper-selector.h>
-#include <libgnomeprintui/gnome-print-preview.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
@@ -469,30 +462,21 @@ tasks_control_purge_cmd	(BonoboUIComponent	*uic,
 	    e_tasks_delete_completed (tasks);
 }
 
-
-static void
-print_tasks (ETasks *tasks, gboolean preview)
-{
-	ECalendarTable *cal_table;
-	ETable *etable;
-
-	cal_table = e_tasks_get_calendar_table (tasks);
-	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
-
-	print_table (etable, _("Print Tasks"), _("Tasks"), preview);
-}
-
 /* File/Print callback */
 static void
 tasks_control_print_cmd (BonoboUIComponent *uic,
 			 gpointer data,
 			 const char *path)
 {
-	ETasks *tasks;
+	ETasks *tasks = E_TASKS (data);
+	ETable *table;
 
-	tasks = E_TASKS (data);
+	table = e_calendar_table_get_table (
+		E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)));
 
-	print_tasks (tasks, FALSE);
+	print_table (
+		table, _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
@@ -500,11 +484,15 @@ tasks_control_print_preview_cmd (BonoboUIComponent *uic,
 				 gpointer data,
 				 const char *path)
 {
-	ETasks *tasks;
+	ETasks *tasks = E_TASKS (data);
+	ETable *table;
 
-	tasks = E_TASKS (data);
+	table = e_calendar_table_get_table (
+		E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)));
 
-	print_tasks (tasks, TRUE);
+	print_table (
+		table, _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void

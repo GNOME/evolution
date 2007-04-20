@@ -27,8 +27,6 @@
 
 #include <gdk/gdktypes.h>
 #include <gtk/gtk.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-font.h>
 #include <table/e-table-model.h>
 #include <table/e-table-tooltip.h>
 

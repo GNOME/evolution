@@ -1132,7 +1132,7 @@ e_calendar_table_on_print_task (EPopup *ep, EPopupItem *pitem, void *data)
 	
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-	print_comp (comp, comp_data->client, FALSE);
+	print_comp (comp, comp_data->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	g_object_unref (comp);
 }

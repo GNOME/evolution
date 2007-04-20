@@ -1204,32 +1204,13 @@ on_print (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
 	time_t start, end;
-	GnomeCalendarViewType view_type;
-	PrintView print_view;
 
 	e_calendar_view_get_visible_time_range (cal_view, &start, &end);
-	view_type = gnome_calendar_get_view (cal_view->priv->calendar);
 
-	switch (view_type) {
-	case GNOME_CAL_DAY_VIEW :
-		print_view = PRINT_VIEW_DAY;
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW :
-	case GNOME_CAL_WEEK_VIEW:
-		print_view = PRINT_VIEW_WEEK;
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		print_view = PRINT_VIEW_MONTH;
-		break;
-
-	default:
-		g_assert_not_reached ();
-		return;
-	}
-
-	print_calendar (cal_view->priv->calendar, FALSE, start, print_view);
+	print_calendar (
+		cal_view->priv->calendar,
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+		start);
 }
 
 static void
@@ -1278,7 +1259,7 @@ on_print_event (EPopup *ep, EPopupItem *pitem, void *data)
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	print_comp (comp, event->comp_data->client, FALSE);
+	print_comp (comp, event->comp_data->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	g_object_unref (comp);
 	g_list_free (selected);

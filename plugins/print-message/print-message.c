@@ -30,7 +30,6 @@
 #include "mail/em-format-html-print.h"
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
 #include "mail/em-menu.h"
 #include "mail/em-utils.h"
 #include "e-util/e-print.h"
@@ -39,72 +38,34 @@
 
 void org_gnome_compose_print_message (EPlugin *ep, EMMenuTargetWidget *t);
 
-struct _print_data {
-	GtkPrintSettings *config;
-	CamelMimeMessage *msg;
-	int preview;
-};
-
-static void
-print_response (GtkWidget *w, int resp, struct _print_data *data)
-{
-	EMFormatHTMLPrint *print;
-
-	switch (resp) {
-	case GTK_RESPONSE_APPLY:
-		data->preview = TRUE;
-	case GTK_RESPONSE_OK:
-		print = em_format_html_print_new();
-	   	em_format_html_print_raw_message(print, data->config, data->msg, data->preview);
-		g_object_unref(print);
-		break;
-	}
-
-	if (w)
-		gtk_widget_destroy(w);
-	
-	e_print_save_settings (data->config);
-	g_object_unref(data->config);
-	g_free(data);
-
-}
-
-void  org_gnome_print_message (EPlugin *ep, EMMenuTargetWidget *t);
-
 void 
 org_gnome_print_message (EPlugin *ep, EMMenuTargetWidget *t)
 {
-
        	EMsgComposer *composer = (EMsgComposer *)t->target.widget;
-	struct _print_data *data;
-	GtkDialog *dialog;
-	
-	data = g_malloc0(sizeof(*data));
-	data->config = e_print_load_settings ();
-	data->preview = 0;
-	
-	data->msg = e_msg_composer_get_message (composer, 1);
-	dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), 0, data->config);
-	gtk_dialog_set_default_response(dialog, GTK_RESPONSE_OK);
-	e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) composer);
-	print_response (dialog, GTK_RESPONSE_OK, data);	
-}
+	GtkPrintOperationAction action;
+	CamelMimeMessage *message;
+	EMFormatHTMLPrint *efhp;
 
-void org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t);
+	action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	message = e_msg_composer_get_message (composer, 1);
+
+	efhp = em_format_html_print_new (NULL, action);
+	em_format_html_print_raw_message (efhp, message);
+	g_object_unref (efhp);
+}
 
 void
 org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t)
 {
   	EMsgComposer *composer = (EMsgComposer *)t->target.widget;
-	struct _print_data *data;
-	
-	data = g_malloc0(sizeof(*data));
-	data->config = e_print_load_settings ();
-	data->preview = 0;
-	
-	data->msg = e_msg_composer_get_message (composer, 1);
+	GtkPrintOperationAction action;
+	CamelMimeMessage *message;
+	EMFormatHTMLPrint *efhp;
 
-	print_response(NULL, GTK_RESPONSE_APPLY, data);
+	action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+	message = e_msg_composer_get_message (composer, 1);
+
+	efhp = em_format_html_print_new (NULL, action);
+	em_format_html_print_raw_message (efhp, message);
+	g_object_unref (efhp);
 }
-
-

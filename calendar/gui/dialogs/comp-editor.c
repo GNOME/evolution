@@ -1314,7 +1314,7 @@ menu_file_print_cb (BonoboUIComponent *uic,
 	for (l = priv->pages; l != NULL; l = l->next)
 		 comp_editor_page_fill_component (l->data, comp);
 	
-	print_comp (comp, priv->client, FALSE);
+	print_comp (comp, priv->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	g_object_unref (comp);	
 }

@@ -695,11 +695,14 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 }
 
 static void
-ect_print (ECellView *ecell_view, GnomePrintContext *context, 
+ect_print (ECellView *ecell_view, GtkPrintContext *context, 
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
+	cairo_t *cr = gtk_print_context_get_cairo_context (context);
+
+	cairo_save (cr);
 
 	if (/* XXX only if we're the active sort */ TRUE) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
@@ -716,24 +719,20 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 
 			if (!e_tree_model_node_is_root (tree_model, node)
 			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0) {
-				gnome_print_moveto (context,
-						    offset - INDENT_AMOUNT / 2,
-						    height / 2);
-
-				gnome_print_lineto (context,
-						    offset,
-						    height / 2);
+				cairo_move_to (cr,
+					offset - INDENT_AMOUNT / 2,
+					height / 2);
+				cairo_line_to (cr, offset, height / 2);
 			}
 
 			if (visible_depth_of_node (ecell_view->e_table_model, row) != 0) {
-				gnome_print_moveto (context,
-						    offset - INDENT_AMOUNT / 2,
-						    height);
-				gnome_print_lineto (context,
-						    offset - INDENT_AMOUNT / 2,
-						    (e_tree_table_adapter_node_get_next (tree_table_adapter, node)
-						     ? 0
-						     : height / 2));
+				cairo_move_to (cr,
+					offset - INDENT_AMOUNT / 2, height);
+				cairo_line_to (cr,
+					offset - INDENT_AMOUNT / 2,
+					e_tree_table_adapter_node_get_next
+					(tree_table_adapter, node) ? 0 :
+					height / 2);
 			}
 
 			/* now traverse back up to the root of the tree, checking at
@@ -744,12 +743,11 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 			offset -= INDENT_AMOUNT;
 			while (node && depth != 0) {
 				if (e_tree_table_adapter_node_get_next(tree_table_adapter, node)) {
-					gnome_print_moveto (context,
-							    offset - INDENT_AMOUNT / 2,
-							    height);
-					gnome_print_lineto (context,
-							    offset - INDENT_AMOUNT / 2,
-							    0);
+					cairo_move_to (cr,
+						offset - INDENT_AMOUNT / 2,
+						height);
+					cairo_line_to (cr,
+						offset - INDENT_AMOUNT / 2, 0);
 				}
 				node = e_tree_model_node_get_parent (tree_model, node);
 				depth --;
@@ -759,41 +757,40 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 
 		/* now draw our icon if we're expandable */
 		if (expandable) {
-			double image_matrix [6] = {16, 0, 0, 16, 0, 0};
-			GdkPixbuf *image = (expanded 
-					    ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
-					    : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
-			int image_width, image_height, image_rowstride;
-			guchar *image_pixels;
+			ECellTree *tree;
+			GdkPixbuf *pixbuf;
+			gint image_width;
+			gint image_height;
 
-			image_width = gdk_pixbuf_get_width(image);
-			image_height = gdk_pixbuf_get_height(image);
-			image_pixels = gdk_pixbuf_get_pixels(image);
-			image_rowstride = gdk_pixbuf_get_rowstride(image);
+			tree = E_CELL_TREE (tree_view->cell_view.ecell);
 
-			image_matrix [4] = subcell_offset - INDENT_AMOUNT / 2 - image_width / 2;
-			image_matrix [5] = height / 2 - image_height / 2;
+			if (expanded)
+				pixbuf = tree->open_pixbuf;
+			else
+				pixbuf = tree->closed_pixbuf;
 
-			gnome_print_gsave (context);
-			gnome_print_concat (context, image_matrix);
+			image_width = gdk_pixbuf_get_width (pixbuf);
+			image_height = gdk_pixbuf_get_height (pixbuf);
 
-			gnome_print_rgbaimage (context, image_pixels, image_width, image_height, image_rowstride);
-			gnome_print_grestore (context);
+			gdk_cairo_set_source_pixbuf (
+				cr, pixbuf, subcell_offset -
+				INDENT_AMOUNT / 2 - image_width - 2,
+				height / 2 - image_height / 2);
 		}
 
-		gnome_print_stroke (context);
+		cairo_stroke (cr);
 
-		if (gnome_print_translate(context, subcell_offset, 0) == -1)
-				/* FIXME */;
+		cairo_translate (cr, subcell_offset, 0);
 		width -= subcell_offset;
 	}
 
+	cairo_restore (cr);
 
 	e_cell_print (tree_view->subcell_view, context, model_col, view_col, row, width, height);
 }
 
 static gdouble
-ect_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+ect_print_height (ECellView *ecell_view, GtkPrintContext *context, 
 		  int model_col, int view_col, int row,
 		  double width)
 {

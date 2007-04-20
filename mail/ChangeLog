@@ -1,3 +1,13 @@
+2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #426812
+
+	* em-format-html-print.c:
+	* em-format-html-print.h:
+	* em-folder-view.c:
+	* em-folder-view.h:
+	Refactor the printing infrastructure.
+
 2007-04-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-composer-prefs.c: (signature_key_press): Fix for bug #353662

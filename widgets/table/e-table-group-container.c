@@ -1152,7 +1152,8 @@ e_table_group_container_print_page  (EPrintable *ep,
 	GList *child;
 	EPrintable *child_printable;
 	gchar *string;
-	GnomeFont *font = gnome_font_find_closest ("Helvetica", TEXT_HEIGHT);
+	PangoLayout *layout;
+	PangoFontDescription *desc;
 
 	child_printable = groupcontext->child_printable;
 	child = groupcontext->child;
@@ -1177,22 +1178,30 @@ e_table_group_container_print_page  (EPrintable *ep,
 		}
 	}
 
-	while (1) {
-  		    child_height = e_printable_height(child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);		    
-		    cr = gtk_print_context_get_cairo_context (context);
-		    cairo_save (cr);
-		    cairo_rectangle (cr, 0, 0, width,TEXT_AREA_HEIGHT);
-		    cairo_rectangle (cr, 0, 0, 2 * TEXT_AREA_HEIGHT, child_height + TEXT_AREA_HEIGHT);
-		    cairo_set_source_rgb (cr, .7, .7, .7) ;
-		    cairo_fill(cr) ;
-		    cairo_restore (cr);
+	layout = gtk_print_context_create_pango_layout (context);
 
-		    cairo_save (cr);
-		    cairo_rectangle (cr, 0, 0, width, TEXT_AREA_HEIGHT);
-		    cairo_clip (cr);
-		    cairo_restore (cr);
+	desc = pango_font_description_new ();
+	pango_font_description_set_family_static (desc, "Helvetica");
+	pango_font_description_set_size (desc, TEXT_HEIGHT);
+	pango_layout_set_font_description (layout, desc);
+	pango_font_description_free (desc);
+
+	while (1) {
+		child_height = e_printable_height(child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);		    
+		cr = gtk_print_context_get_cairo_context (context);
+		cairo_save (cr);
+		cairo_rectangle (cr, 0, 0, width,TEXT_AREA_HEIGHT);
+		cairo_rectangle (cr, 0, 0, 2 * TEXT_AREA_HEIGHT, child_height + TEXT_AREA_HEIGHT);
+		cairo_set_source_rgb (cr, .7, .7, .7) ;
+		cairo_fill(cr) ;
+		cairo_restore (cr);
+
+		cairo_save (cr);
+		cairo_rectangle (cr, 0, 0, width, TEXT_AREA_HEIGHT);
+		cairo_clip (cr);
+		cairo_restore (cr);
 								   
-	            cairo_move_to(cr, 0, (gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2);
+		cairo_move_to(cr, 0, 0);
 		if (groupcontext->etgc->ecol->text)
 			string = g_strdup_printf ("%s : %s (%d item%s)",
 						  groupcontext->etgc->ecol->text,
@@ -1204,16 +1213,17 @@ e_table_group_container_print_page  (EPrintable *ep,
 						  child_node->string,
 						  (gint) child_node->count,
 						  child_node->count == 1 ? "" : "s");
-		    cairo_show_text (cr, string);
-            	    g_free(string);
-               				 
-                    cairo_translate(cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT) ;
-                    cairo_move_to(cr, 0, 0);
-                    cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
-		    cairo_clip(cr);
+		pango_layout_set_text (layout, string, -1);
+		pango_cairo_show_layout (cr, layout);
+		g_free(string);
+ 
+		cairo_translate(cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT) ;
+		cairo_move_to(cr, 0, 0);
+		cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
+		cairo_clip(cr);
 		    		
-		    e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, 0, quantize); 
-		    yd += child_height + TEXT_AREA_HEIGHT;
+		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, 0, quantize); 
+		yd += child_height + TEXT_AREA_HEIGHT;
 
 		if (e_printable_data_left(child_printable))
 			break;
@@ -1236,6 +1246,8 @@ e_table_group_container_print_page  (EPrintable *ep,
 		g_object_unref (groupcontext->child_printable);
 	groupcontext->child_printable = child_printable;
 	groupcontext->child = child;
+
+	g_object_unref (layout);
 }
 
 static gboolean

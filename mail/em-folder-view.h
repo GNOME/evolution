@@ -25,6 +25,7 @@
 #define _EM_FOLDER_VIEW_H
 
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkprintoperation.h>
 #include "mail/em-popup.h"
 
 #ifdef __cplusplus
@@ -132,7 +133,7 @@ EMPopupTargetSelect *em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup
 int em_folder_view_mark_selected(EMFolderView *emfv, guint32 mask, guint32 set);
 int em_folder_view_open_selected(EMFolderView *emfv);
 
-int em_folder_view_print(EMFolderView *emfv, int preview);
+int em_folder_view_print(EMFolderView *emfv, GtkPrintOperationAction action);
 
 /* this could be on message-list */
 guint32 em_folder_view_disable_mask(EMFolderView *emfv);

@@ -32,19 +32,11 @@
 #include <string.h>
 #include <time.h>
 #include <glib.h>
-#include <gtk/gtkradiobutton.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-stock-icons.h>
-#include <libgnomeprint/gnome-print.h>  
-#include <libgnomeprint/gnome-print-paper.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
-#include <libgnomeprintui/gnome-print-paper-selector.h>
-#include <libgnomeprintui/gnome-print-preview.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
@@ -62,135 +54,47 @@
 #include "gnome-cal.h"
 #include "print.h"
 
-#include <libgnomeprint/gnome-print-pango.h>
 #include <glade/glade-xml.h>
-#include <gtk/gtkprintunixdialog.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkpagesetupunixdialog.h>
-#include <gtk/gtkprinter.h>
 
-
-typedef struct EvoCalendarPrintRenderer EvoCalendarPrintRenderer;
 typedef struct PrintCompItem PrintCompItem;
-typedef struct PrintTableItem PrintTableItem;
 typedef struct PrintCalItem PrintCalItem;
 
-struct EvoCalendarPrintRenderer
-{
-	GtkPrintContext *pc;
-
-	/* keep one of these around: */
-	PangoLayout *pl;
+struct PrintCompItem {
+	struct ECal *client;
+	struct ECalComponent *comp;
 };
 
-struct PrintCompItem
-{
-   EvoCalendarPrintRenderer *pr;
-   struct ECal *client;
-   struct ECalComponent *comp;
-   double r,l,b,t;
+struct PrintCalItem {
+	struct GnomeCalendar *gcal; 
+	time_t start;
 };
-
-struct PrintCalItem
-{
-   EvoCalendarPrintRenderer *pr;
-   struct GnomeCalendar *gcal; 
-   PrintView default_view; 
-   double r,l,b,t;	
-   time_t date;
-};
-
-struct PrintTableItem
-{
-	struct  EPrintable *printable;
-	double left_margin,bottom_margin,paper_width,paper_height;
-	GtkPrintContext *context;
-};
-
-static PrintCompItem *
-evo_calendar_print_data_new (GtkPrintContext *pc, PrintCompItem *pci);
-
-static void 
-comp_draw_page (GtkPrintOperation *print, 
-		GtkPrintContext *context,
-		gint page_nr, 
-		PrintCompItem *pci);
-static void
-cal_draw_page (GtkPrintOperation *print,
-	       GtkPrintContext *context,
-	       gint page_nr,
-	       PrintCalItem *pcali);
-static void 
-table_draw_page (GtkPrintOperation *print,
-		 GtkPrintContext *context,
-		 gint page_nr1,
-		 PrintTableItem *pti); 
 
 static double
-evo_calendar_print_renderer_get_width (EvoCalendarPrintRenderer *pr,
-				       PangoFontDescription *font, 
-				       const char *text);
-
-GObject* create_custom_widget (GtkPrintOperation *print, GtkWidget *range);
-static void apply_custom_widget (GtkPrintOperation *print, GtkWidget *dialog, PrintCalItem *cpi);
-static PrintCalItem *
-evo_calendar_print_cal_data_new (GtkPrintContext *pc, PrintCalItem *pcali)
-{
-	g_return_val_if_fail (pc, NULL);
-	
-	pcali->pr = g_new0 (EvoCalendarPrintRenderer, 1);
-	pcali->pr->pc = pc;	
-	pcali->pr->pl = gtk_print_context_create_pango_layout (pc);	
-	
-	return pcali;
-}
-static PrintCompItem *
-evo_calendar_print_data_new (GtkPrintContext *pc,PrintCompItem *pci)
-{
-	g_return_val_if_fail (pc, NULL);
-	
-	pci->pr = g_new0 (EvoCalendarPrintRenderer, 1);
-	pci->pr->pc = pc; 
-	pci->pr->pl = gtk_print_context_create_pango_layout (pc);
-
-	return pci;
-}
-
-static void 
-evo_calendar_print_data_free (EvoCalendarPrintRenderer *pr)
-{
-	g_return_if_fail (pr);
-
-	g_assert (pr->pl);
-	g_object_unref (G_OBJECT (pr->pl));
-
-	g_free (pr);
-}
-
-
-static double
-evo_calendar_print_renderer_get_width (EvoCalendarPrintRenderer *pr,
+evo_calendar_print_renderer_get_width (GtkPrintContext *context,
 				       PangoFontDescription *font, 
 				       const char *text)
 {
-	int w, h;
+	PangoLayout *layout;
+	gint layout_width, layout_height;
 
-	pango_layout_set_font_description (pr->pl, font);
-	pango_layout_set_text (pr->pl, text, -1);
-	pango_layout_set_indent (pr->pl, 0);
-	pango_layout_get_size (pr->pl, &w, &h);
+	layout = gtk_print_context_create_pango_layout (context);
 
-	return w/(double)PANGO_SCALE;
+	pango_layout_set_font_description (layout, font);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_indent (layout, 0);
+	pango_layout_get_size (layout, &layout_width, &layout_height);
+
+	g_object_unref (layout);
+
+	return pango_units_to_double (layout_width);
 }
-
 
 static double
 get_font_size (PangoFontDescription *font)
 {
 	g_return_val_if_fail (font, 0.0);
 
-	return ((double)pango_font_description_get_size (font)/(double)PANGO_SCALE);
+	return pango_units_to_double (pango_font_description_get_size (font));
 }
 
 
@@ -208,8 +112,7 @@ get_font_size (PangoFontDescription *font)
 #define TEMP_MARGIN .05
 
 /* The fonts to use */
-#define REGULAR_FONT "Sans Regular"
-#define BOLD_FONT    "Sans Bold"
+#define FONT_FAMILY "Sans"
 
 /* The font size to use for normal text. */
 #define DAY_NORMAL_FONT_SIZE	12
@@ -298,19 +201,6 @@ struct psinfo
 	double header_row_height;
 };
 
-struct ptinfo
-{
-	GList *todos;
-};
-
-struct einfo
-{
-	char *text;
-	time_t start;
-	time_t end;
-	int count;
-};
-
 /* Convenience function to help the transition to timezone functions.
    It converts a time_t to a struct tm. */
 static struct tm*
@@ -386,38 +276,21 @@ build_month (int month, int year, int *days, int *start, int *end)
 }
 
 static PangoFontDescription *
-get_font_for_size (EvoCalendarPrintRenderer *pr, double h, GnomeFontWeight weight, gboolean italic)
+get_font_for_size (double height, PangoWeight weight)
 {
-	PangoFontDescription *font_desc;
-	gchar *font_name;
-
-	if (weight <= GNOME_FONT_BOOK)
-		font_name = REGULAR_FONT;
-	else
-		font_name = BOLD_FONT;
-
-	if (italic)
-		font_name = g_strconcat (font_name, " Italic", NULL);
-
-	font_desc = pango_font_description_from_string (font_name);
+	PangoFontDescription *desc;
+	gint size;
 
 	#define MAGIC_SCALE_FACTOR (0.86)
-	pango_font_description_set_size (font_desc,
-					 h * MAGIC_SCALE_FACTOR * PANGO_SCALE );
+	size = pango_units_from_double (height * MAGIC_SCALE_FACTOR);
 
-	if (italic)
-		g_free (font_name);
+	desc = pango_font_description_new ();
+	pango_font_description_set_size (desc, size);
+	pango_font_description_set_weight (desc, weight);
+	pango_font_description_set_family_static (desc, FONT_FAMILY);
 
-	return font_desc;
+	return desc;
 }
-
-enum align_box {
-	ALIGN_LEFT=1,
-	ALIGN_RIGHT,
-	ALIGN_CENTER,
-	ALIGN_BORDER= 1<<8
-};
-
 
 /* Prints a rectangle, with or without a border, filled or outline, and
    possibly with triangular arrows at one or both horizontal edges.
@@ -427,32 +300,33 @@ enum align_box {
           point of triangle, or -ve for no triangle. */
 static void
 print_border_with_triangles (GtkPrintContext *pc,
-			     double l, double r, double t, double b,
-			     double width, double red, double green, double blue,
-			     double left_triangle_width,
-			     double right_triangle_width)
+			     gdouble x1, gdouble x2,
+			     gdouble y1, gdouble y2,
+			     gdouble line_width,
+			     gdouble red, gdouble green, gdouble blue,
+			     gdouble left_triangle_width,
+			     gdouble right_triangle_width)
 {
-	cairo_t *cr;
+	cairo_t *cr = gtk_print_context_get_cairo_context (pc);
 
-	cr = gtk_print_context_get_cairo_context (pc);
 	cairo_save (cr);
 
 	/* Fill in the interior of the rectangle, if desired. */
 	if (red >= -EPSILON && green >= -EPSILON && blue >= -EPSILON) {
 		
-		cairo_move_to (cr, l, t);
+		cairo_move_to (cr, x1, y1);
 		
 		if (left_triangle_width > 0.0)
-			cairo_line_to (cr, l - left_triangle_width,
-				      (t + b) / 2);
+			cairo_line_to (cr, x1 - left_triangle_width,
+				      (y1 + y2) / 2);
 
-		cairo_line_to (cr, l, b);
-		cairo_line_to (cr, r, b);
+		cairo_line_to (cr, x1, y2);
+		cairo_line_to (cr, x2, y2);
 		
 		if (right_triangle_width > 0.0)
-			cairo_line_to (cr, r + right_triangle_width, (t + b) / 2);
+			cairo_line_to (cr, x2 + right_triangle_width, (y1 + y2) / 2);
 
-		cairo_line_to (cr, r, t);
+		cairo_line_to (cr, x2, y1);
 		cairo_close_path (cr);
 		cairo_set_source_rgb (cr, red, green, blue);
 		cairo_fill (cr);
@@ -461,28 +335,27 @@ print_border_with_triangles (GtkPrintContext *pc,
 	}
 
 	/* Draw the outline, if desired. */
-	if (width >= -EPSILON) {
+	if (line_width >= -EPSILON) {
 
 		cr = gtk_print_context_get_cairo_context (pc);
-		cairo_move_to (cr, l, t);
+		cairo_move_to (cr, x1, y1);
 
 		if (left_triangle_width > 0.0)
-			cairo_line_to (cr, l - left_triangle_width,
-					    (t + b) / 2);
+			cairo_line_to (cr, x1 - left_triangle_width,
+					    (y1 + y2) / 2);
 
-		cairo_line_to (cr, l, b);
-		cairo_line_to (cr, r, b);
+		cairo_line_to (cr, x1, y2);
+		cairo_line_to (cr, x2, y2);
 
 		if (right_triangle_width > 0.0)
-			cairo_line_to (cr, r + right_triangle_width,
-					    (t + b) / 2);
+			cairo_line_to (cr, x2 + right_triangle_width,
+					    (y1 + y2) / 2);
 
-		cairo_line_to (cr, r, t);
+		cairo_line_to (cr, x2, y1);
 		cairo_close_path (cr);
 		cairo_set_source_rgb (cr, 0, 0, 0);
-		cairo_set_line_width (cr, width);
+		cairo_set_line_width (cr, line_width);
 		cairo_stroke (cr);	
-		
 	}
 
 	cairo_restore (cr);
@@ -494,35 +367,39 @@ print_border_with_triangles (GtkPrintContext *pc,
    fillcolor = shade of fill,   -ve means no fill. */
 static void
 print_border_rgb (GtkPrintContext *pc,
-	      double l, double r, double t, double b,
-	      double width, double red, double green, double blue)
+		  gdouble x1, gdouble x2,
+		  gdouble y1, gdouble y2,
+		  gdouble line_width,
+		  gdouble red, gdouble green, gdouble blue)
 {
-	print_border_with_triangles (pc, l, r, t, b, width, red, green, blue, -1.0, -1.0);
+	print_border_with_triangles (
+		pc, x1, x2, y1, y2, line_width,
+		red, green, blue, -1.0, -1.0);
 }
 
 static void
 print_border (GtkPrintContext *pc,
-	      double l, double r, double t, double b,
-	      double width, double fillcolor)
+	      gdouble x1, gdouble x2,
+	      gdouble y1, gdouble y2,
+	      gdouble line_width,
+	      gdouble fillcolor)
 {
-	print_border_rgb (pc, l, r, t, b, width, fillcolor, fillcolor, fillcolor);
+	print_border_rgb (
+		pc, x1, x2, y1, y2, line_width,
+		fillcolor, fillcolor, fillcolor);
 }
 
 static void
-print_rectangle (GtkPrintContext *pc,
-		 double l, double r, double t, double b,
-		 double red, double green, double blue)
+print_rectangle (GtkPrintContext *context,
+		 gdouble x, gdouble y,
+		 gdouble width, gdouble height,
+		 gdouble red, gdouble green, gdouble blue)
 {
-	cairo_t *cr;
-	
-	cr = gtk_print_context_get_cairo_context (pc);
+	cairo_t *cr = gtk_print_context_get_cairo_context (context);
+
 	cairo_save (cr);
 
-	cairo_move_to (cr, l, t);
-	cairo_line_to (cr, l, b);
-	cairo_line_to (cr, r, b);
-	cairo_line_to (cr, r, t);
-	cairo_close_path (cr);
+	cairo_rectangle (cr, x, y, width, height);
 	cairo_set_source_rgb (cr, red, green, blue);
 	cairo_fill (cr);
 
@@ -530,74 +407,62 @@ print_rectangle (GtkPrintContext *pc,
 }
 
 /* Prints 1 line of aligned text in a box. It is centered vertically, and
-   the horizontal alignment can be either ALIGN_LEFT, ALIGN_RIGHT, or
-   ALIGN_CENTER. */
+   the horizontal alignment can be either PANGO_ALIGN_LEFT, PANGO_ALIGN_RIGHT,
+   or PANGO_ALIGN_CENTER. */
 static double
-print_text (EvoCalendarPrintRenderer *pr, PangoFontDescription *font, const char *text,
-	   enum align_box align, double l, double r, double t, double b)
+print_text (GtkPrintContext *context, PangoFontDescription *desc,
+            const char *text, PangoAlignment alignment,
+            gdouble x1, gdouble x2, gdouble y1, gdouble y2)
 {
-	double w, x;
-	int pw, ph;
+	PangoLayout *layout;
+	gint layout_width, layout_height;
 	cairo_t *cr;
 
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+	cr = gtk_print_context_get_cairo_context (context);
+	layout = gtk_print_context_create_pango_layout (context);
+
+	pango_layout_set_font_description (layout, desc);
+	pango_layout_set_alignment (layout, alignment);
+	pango_layout_set_text (layout, text, -1);
+
+	/* Grab the width before expanding the layout. */
+	pango_layout_get_size (layout, &layout_width, &layout_height);
+
+	pango_layout_set_width (layout, pango_units_from_double (x2 - x1));
+
 	cairo_save (cr);
 
-	pango_layout_set_font_description (pr->pl, font);
-	pango_layout_set_text (pr->pl, text, -1);
-	pango_layout_set_width (pr->pl, -1); /* ensure no line-wrapping occurs */
-	pango_layout_set_indent (pr->pl, 0);
-	pango_layout_get_size (pr->pl, &pw, &ph);
-	w = pw/(double)PANGO_SCALE;
-
-	switch (align & 3) {
-	case ALIGN_LEFT:
-	default:
-		x = l;
-		break;
-	case ALIGN_RIGHT:
-		x = r - w;
-		break;
-	case ALIGN_CENTER:
-		x = l + ((r - l) - w) / 2;
-		break;
-	}
-
-	/* Make sure we don't go off the left edge. */
-	x = MAX (l, x);
-
 	/* Set a clipping rectangle. */
-	cairo_move_to (cr, l, t);	
-	cairo_rectangle (cr, l, t, r, b);
+	cairo_move_to (cr, x1, y1);	
+	cairo_rectangle (cr, x1, y1, x2, y2);
 	cairo_clip (cr);
 
 	cairo_new_path (cr);
 	cairo_set_source_rgb (cr, 0, 0, 0);
 
-	cairo_move_to (cr, x, t);
-	pango_cairo_show_layout (cr, pr->pl);
+	cairo_move_to (cr, x1, y1);
+	pango_cairo_show_layout (cr, layout);
 
 	cairo_stroke(cr);
+
 	cairo_restore (cr);
 
-	return w;
+	g_object_unref (layout);
+
+	return pango_units_to_double (layout_width);
 }
 
-/* gets/frees the font for you, as a book font */
+/* gets/frees the font for you, as a normal font */
 static double
-print_text_size(EvoCalendarPrintRenderer *pr, const char *text,
-		     enum align_box align, double l, double r, double t, double b)
+print_text_size (GtkPrintContext *context, const char *text,
+                 PangoAlignment alignment, gdouble x1, gdouble x2,
+                 gdouble y1, gdouble y2)
 {
 	PangoFontDescription *font;
 	double w;
-	
-	if(t > b)
-	font = get_font_for_size (pr,t - b, GNOME_FONT_BOOK, FALSE);
-	else
-		{
-	font = get_font_for_size (pr, b - t , GNOME_FONT_BOOK, FALSE);	
-	}
-	w = print_text(pr, font, text, align, l, r, t, b);
+
+	font = get_font_for_size (ABS (y2 - y1), PANGO_WEIGHT_NORMAL);
+	w = print_text (context, font, text, alignment, x1, x2, y1, y2);
 	pango_font_description_free (font);
 
 	return w;
@@ -605,42 +470,36 @@ print_text_size(EvoCalendarPrintRenderer *pr, const char *text,
 
 /* gets/frees the font for you, as a bold font */
 static double
-print_text_size_bold(EvoCalendarPrintRenderer *pr, const char *text,
-		     enum align_box align, double l, double r, double t, double b)
+print_text_size_bold (GtkPrintContext *context, const char *text,
+                      PangoAlignment alignment, gdouble x1, gdouble x2,
+                      gdouble y1, gdouble y2)
 {
 	PangoFontDescription *font;
 	double w;
 
-	if (t > b)	
-		font = get_font_for_size (pr, t - b , GNOME_FONT_BOLD, FALSE);
-	else
-		font = get_font_for_size (pr, b - t, GNOME_FONT_BOLD, FALSE);
-
-	w = print_text(pr, font, text, align, l, r, t, b);
+	font = get_font_for_size (ABS (y2 - y1), PANGO_WEIGHT_BOLD);
+	w = print_text (context, font, text, alignment, x1, x2, y1, y2);
 	pango_font_description_free (font);
 
 	return w;
 }
 
 static void
-titled_box (EvoCalendarPrintRenderer *pr, const char *text, PangoFontDescription *font,
-	    enum align_box align, double *l, double *r, double *t, double *b,
-	    double linewidth)
+titled_box (GtkPrintContext *context, const char *text,
+            PangoFontDescription *font, PangoAlignment alignment,
+            gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2,
+	    gdouble linewidth)
 {
 	double size;
 
 	size = get_font_size (font);
-	if (align & ALIGN_BORDER) {
-		print_border (pr->pc, *l, *r, *t, *t + size * 1.4,
-			      linewidth, 0.9);
-		print_border (pr->pc, *l, *r, *t + size * 1.4, *b,
-			      linewidth, -1.0);
-		*l += 2;
-		*r -= 2;
-		*b += 2;
-	}
-	print_text (pr, font, text, align, *l, *r, *t, *t + size * 1.4);
-	*t += size * 1.4;
+	print_border (context, *x1, *x2, *y1, *y1 + size * 1.4, linewidth, 0.9);
+	print_border (context, *x1, *x2, *y1 + size * 1.4, *y2, linewidth, -1.0);
+	*x1 += 2;
+	*x2 -= 2;
+	*y2 += 2;
+	print_text (context, font, text, alignment, *x1, *x2, *y1, *y1 + size * 1.4);
+	*y1 += size * 1.4;
 }
 
 enum datefmt {
@@ -714,8 +573,8 @@ instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end, gp
   print out the month small, embolden any days with events.
 */
 static void
-print_month_small (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t month,
-		   double left, double right, double top, double bottom,
+print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
+		   gdouble x1, gdouble y1, gdouble x2, gdouble y2,
 		   int titleflags, time_t greystart, time_t greyend,
 		   int bordertitle)
 {
@@ -731,7 +590,7 @@ print_month_small (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t mon
 	double header_size, col_width, row_height, text_xpad, w;
 	double cell_top, cell_bottom, cell_left, cell_right, text_right;
 
-	/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday */
+	/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
 	char *daynames[] = { N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
 			     N_("Th"), N_("Fr"), N_("Sa") };
 	cairo_t *cr;
@@ -739,29 +598,21 @@ print_month_small (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t mon
 	/* Print the title, e.g. 'June 2001', in the top 16% of the area. */
 	format_date (month, titleflags, buf, 100);
 
-	if(top < bottom)
-		header_size = (bottom - top) * 0.16;
-	else
-		header_size = (top - bottom) * 0.16;
+	header_size = ABS (y2 - y1) * 0.16;
 
-	font = get_font_for_size (pr, header_size, GNOME_FONT_BOLD, FALSE);
-	if (bordertitle) {
-		print_border (pr->pc, left, right, top, top + header_size,
-			      1.0, 0.9);
-	}
-	print_text (pr, font, buf, ALIGN_CENTER, left, right,
-		    top, top + header_size);
+	font = get_font_for_size (header_size, PANGO_WEIGHT_BOLD);
+	if (bordertitle)
+		print_border (context, x1, x2, y1, y1 + header_size, 1.0, 0.9);
+	print_text (context, font, buf, PANGO_ALIGN_CENTER, x1, x2,
+		    y1, y1 + header_size);
 	pango_font_description_free (font);
 
-	top += header_size;
-	col_width = (right - left) / 7;
+	y1 += header_size;
+	col_width = (x2 - x1) / 7;
 
 	/* The top row with the day abbreviations gets an extra bit of
 	   vertical space around it. */
-	if (bottom > top )
-		row_height = (bottom - top) / 7.4; 
-	else
-		row_height = (top - bottom ) / 7.4;
+	row_height = ABS (y2 - y1) / 7.4;
 
 	/* First we need to calculate a reasonable font size. We start with a
 	   rough guess of just under the height of each row. */
@@ -779,39 +630,41 @@ print_month_small (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t mon
 	tm = *convert_timet_to_struct_tm (month, zone);
 	build_month (tm.tm_mon, tm.tm_year + 1900, days, 0, 0);
 
-	font_normal = get_font_for_size (pr, font_size, GNOME_FONT_BOOK, FALSE);
-	font_bold = get_font_for_size (pr, font_size, GNOME_FONT_BOLD, FALSE);
+	font_normal = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
+	font_bold = get_font_for_size (font_size, PANGO_WEIGHT_BOLD);
 
 	/* Get a reasonable estimate of the largest number we will need,
 	   and use it to calculate the offset from the right edge of the
 	   cell that we should put the numbers. */
-	w = evo_calendar_print_renderer_get_width (pr, font_bold, "23");
+	w = evo_calendar_print_renderer_get_width (context, font_bold, "23");
 	text_xpad = (col_width - w) / 2;
 
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+	cr = gtk_print_context_get_cairo_context (context);
 	cairo_set_source_rgb (cr, 0, 0, 0);
 
 	/* Print the abbreviated day names across the top in bold. */
 	week_start_day = calendar_config_get_week_start_day ();
 	weekday = week_start_day;
 	for (x = 0; x < 7; x++) {
-		print_text (pr, font_bold, _(daynames[weekday]), ALIGN_CENTER,
-			    left + x * col_width, left + (x + 1) * col_width,
-			    top, top + row_height * 1.4);
+		print_text (
+			context, font_bold,
+			_(daynames[weekday]), PANGO_ALIGN_RIGHT,
+			x1 + x * col_width, x1 + (x + 1) * col_width,
+			y1, y1 + row_height * 1.4);
 		weekday = (weekday + 1) % 7;
 	}
 
-	top += row_height * 1.4;
+	y1 += row_height * 1.4;
 
 	now = time_month_begin_with_zone (month, zone);
 	for (y = 0; y < 6; y++) {
 
-		cell_top = top + y * row_height;
+		cell_top = y1 + y * row_height;
 		cell_bottom = cell_top + row_height;
 
 		for (x = 0; x < 7; x++) {
 
-			cell_left = left + x * col_width;
+			cell_left = x1 + x * col_width;
 			/* We add a 0.05 to make sure the cells meet up with
 			   each other. Otherwise you sometimes get lines
 			   between them which looks bad. Maybe I'm not using
@@ -834,12 +687,12 @@ print_month_small (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t mon
 				next = time_add_day_with_zone (now, 1, zone);
 				if ((now >= greystart && now < greyend) 
 				    || (greystart >= now && greystart < next)) {
-					print_border (pr->pc,
+					print_border (context,
 						      cell_left, cell_right,
 						      cell_top, cell_bottom,
 						      -1.0, 0.75); 
 				}
-				print_text (pr, font, buf, ALIGN_RIGHT,
+				print_text (context, font, buf, PANGO_ALIGN_RIGHT,
 					    cell_left, text_right,
 					    cell_top, cell_bottom);
 
@@ -851,43 +704,49 @@ print_month_small (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t mon
 	pango_font_description_free (font_bold);
 }
 
-
 /* wraps text into the print context, not taking up more than its allowed space */
 static double
-bound_text (EvoCalendarPrintRenderer *pr, PangoFontDescription *font, const char *text,
-	   double left, double right, double top, double bottom, double indent)
+bound_text (GtkPrintContext *context,
+            PangoFontDescription *font,
+            const gchar *text,
+	    gdouble x1, gdouble y1,
+	    gdouble x2, gdouble y2)
 {
-	/* Let Pango do all the work: */
-	int w=0, h=0;
+	PangoLayout *layout;
+	gint layout_width, layout_height;
 	cairo_t *cr;
-	
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+
+	cr = gtk_print_context_get_cairo_context (context);
+	layout = gtk_print_context_create_pango_layout (context);
+
+	pango_layout_set_font_description (layout, font);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_width (layout, pango_units_from_double (x2 - x1));
+	pango_layout_get_size (layout, &layout_width, &layout_height);
+
 	cairo_save (cr);
 
 	/* Set a clipping rectangle. */
-	cairo_move_to (cr, left, top);
-	cairo_rectangle (cr, left, top, right, bottom);
+	cairo_move_to (cr, x1, y1);
+	cairo_rectangle (cr, x1, y1, x2, y2);
 	cairo_clip (cr);   
 	cairo_new_path (cr); 
 
-	pango_layout_set_font_description (pr->pl, font);
-	pango_layout_set_text (pr->pl, text, -1);
-	pango_layout_set_indent (pr->pl, indent * PANGO_SCALE);
-	pango_layout_set_width (pr->pl, (right-left)*PANGO_SCALE);
-
-	cairo_move_to (cr, left, top);
-	pango_cairo_show_layout (cr, pr->pl);
+	cairo_move_to (cr, x1, y1);
+	pango_cairo_show_layout (cr, layout);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
-	pango_layout_get_size (pr->pl, &w, &h);
-	return top + ((double)h/(double)PANGO_SCALE);
+
+	g_object_unref (layout);
+
+	return y1 + pango_units_to_double (layout_height);
 }
 
 
 /* Draw the borders, lines, and times down the left of the day view. */
 static void
-print_day_background (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
+print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 		      time_t whence, struct pdinfo *pdi,
 		      double left, double right, double top, double bottom)
 {
@@ -903,16 +762,16 @@ print_day_background (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 	cairo_t *cr;
 	
 	/* Fill the time column in light-gray. */
-	print_border (pr->pc, left, left + width, top, bottom, -1.0, 0.9);
+	print_border (context, left, left + width, top, bottom, -1.0, 0.9);
 
 	/* Draw the border around the entire view. */
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+	cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
-	print_border (pr->pc, left, right, top, bottom, 1.0, -1.0);   
+	print_border (context, left, right, top, bottom, 1.0, -1.0);   
 
 	/* Draw the vertical line on the right of the time column. */
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+	cr = gtk_print_context_get_cairo_context (context);
 	cairo_set_line_width (cr, 0.0);
 	cairo_move_to (cr, left + width, bottom);
 	cairo_line_to (cr, left + width, top);
@@ -928,12 +787,12 @@ print_day_background (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 	font_size = yinc * 0.6;
 	max_font_size = width * 0.5;
 	hour_font_size = MIN (font_size, max_font_size);
-	font_hour = get_font_for_size (pr, hour_font_size, GNOME_FONT_BOLD, FALSE);
+	font_hour = get_font_for_size (hour_font_size, PANGO_WEIGHT_BOLD);
 
 	font_size = yinc * 0.33;
 	max_font_size = width * 0.25;
 	minute_font_size = MIN (font_size, max_font_size);
-	font_minute = get_font_for_size (pr, minute_font_size, GNOME_FONT_BOLD, FALSE);
+	font_minute = get_font_for_size (minute_font_size, PANGO_WEIGHT_BOLD);
 
 	use_24_hour = calendar_config_get_24_hour_format ();
 
@@ -941,7 +800,7 @@ print_day_background (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 	hour_minute_x = left + width * 0.58;
 	for (i = pdi->start_hour; i < pdi->end_hour; i++) {
 		y = top + yinc * (row + 1) ; 
-		cr = gtk_print_context_get_cairo_context (pr->pc);
+		cr = gtk_print_context_get_cairo_context (context);
 		cairo_set_source_rgb (cr, 0, 0, 0);
 
 		if (use_24_hour) {
@@ -960,16 +819,16 @@ print_day_background (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 
 		/* the hour label/minute */
 		sprintf (buf, "%d", hour);
-		print_text (pr, font_hour, buf, ALIGN_RIGHT,
+		print_text (context, font_hour, buf, PANGO_ALIGN_RIGHT,
 			    left, hour_minute_x,
 			    y - yinc + yinc / 2, y - yinc + yinc / 2 + hour_font_size);
-		print_text (pr, font_minute, minute, ALIGN_LEFT,
+		print_text (context, font_minute, minute, PANGO_ALIGN_LEFT,
 			    hour_minute_x, left + width - 3,
 			    y - yinc + yinc / 2, y - yinc + yinc / 2 + minute_font_size);
 		
                 /* Draw the horizontal line between hours, across the entire
 		   width of the day view. */
-		cr = gtk_print_context_get_cairo_context (pr->pc);
+		cr = gtk_print_context_get_cairo_context (context);
 		cairo_move_to (cr, left, y);
 		cairo_line_to (cr, right, y);
 		cairo_set_line_width (cr, 1);
@@ -1096,7 +955,7 @@ free_event_array (GArray *array)
 
 
 static void
-print_day_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
+print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
 		      double left, double right, double top, double bottom,
 		      double row_height, EDayViewEvent *event,
 		      struct pdinfo *pdi, ECalModel *model)
@@ -1126,7 +985,7 @@ print_day_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 	y2 = y1 + row_height-7;
 	red = green = blue = 0.95;
 	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
-	print_border_with_triangles (pr->pc, x1, x2, y1, y2, 0.5, red, green, blue,
+	print_border_with_triangles (context, x1, x2, y1, y2, 0.5, red, green, blue,
 				     left_triangle_width,
 				     right_triangle_width);
 
@@ -1145,7 +1004,7 @@ print_day_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x1 += 4;
-		x1 += print_text (pr, font, buffer, ALIGN_LEFT, x1, x2, y1, y2);
+		x1 += print_text (context, font, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -1163,7 +1022,7 @@ print_day_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x2 -= 4;
-		x2 -= print_text (pr, font, buffer, ALIGN_RIGHT, x1, x2, y1, y2);
+		x2 -= print_text (context, font, buffer, PANGO_ALIGN_RIGHT, x1, x2, y1, y2);
 	}
 
 	/* Print the text. */
@@ -1172,12 +1031,12 @@ print_day_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 
 	x1 += 4;
 	x2 -= 4;
-	print_text (pr, font, text, ALIGN_CENTER, x1, x2, y1, y2);
+	print_text (context, font, text, PANGO_ALIGN_CENTER, x1, x2, y1, y2);
 }
 
 
 static void
-print_day_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
+print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		 double left, double right, double top, double bottom,
 		 EDayViewEvent *event, struct pdinfo *pdi, ECalModel *model)
 {
@@ -1219,7 +1078,7 @@ print_day_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 
 	red = green = blue = 0.95;
 	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
-	print_border_rgb (pr->pc, x1, x2, y1, y2, 1.0, red, green, blue);
+	print_border_rgb (context, x1, x2, y1, y2, 1.0, red, green, blue);
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 	text = summary ? (char*) summary : "";
@@ -1249,7 +1108,7 @@ print_day_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 		free_text = TRUE;
 	}
 
-	bound_text (pr, font, text, x1 + 2, x2 - 2, y1, y2, 0);
+	bound_text (context, font, text, x1 + 2, y1, x2 - 2, y2);
 
 	if (free_text)
 		g_free (text);
@@ -1257,7 +1116,7 @@ print_day_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 
 
 static void
-print_day_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t whence,
+print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
@@ -1323,10 +1182,10 @@ print_day_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t whe
 				       pdi.day_starts, &rows_in_top_display);
 
 	 /*Print the long events. */
-	font = get_font_for_size (pr, 12, GNOME_FONT_BOOK, FALSE);
+	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 	for (i = 0; i < pdi.long_events->len; i++) {
 		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
-		print_day_long_event (pr, font, left, right, top, bottom,
+		print_day_long_event (context, font, left, right, top, bottom,
 				      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 	}
 	
@@ -1337,10 +1196,10 @@ print_day_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t whe
 				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY);
 
 	/* Draw the border around the long events. */
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+	cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
-		print_border (pr->pc, left, right,
+		print_border (context, left, right,
 		      top, top + rows_in_top_display * DAY_VIEW_ROW_HEIGHT - 4,
 		      1.0, -1.0); 
 		
@@ -1348,7 +1207,7 @@ print_day_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t whe
 	top += rows_in_top_display * DAY_VIEW_ROW_HEIGHT - 2;
 	
 	/* Draw the borders, lines, and times down the left. */
-	print_day_background (pr, gcal, whence, &pdi,
+	print_day_background (context, gcal, whence, &pdi,
 			      left, right, top, bottom);
 	/* Now adjust to get rid of the time column. */
 	left += DAY_VIEW_TIME_COLUMN_WIDTH;
@@ -1364,11 +1223,11 @@ print_day_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t whe
 	else
 		max_font_size = ((bottom - top ) / pdi.rows) - 4;
  	font_size = MIN(DAY_NORMAL_FONT_SIZE, max_font_size);
-	font = get_font_for_size (pr, font_size, GNOME_FONT_BOOK, FALSE);
+	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 
 	for (i = 0; i < pdi.events[0]->len; i++) {
 		event = &g_array_index (pdi.events[0], EDayViewEvent, i);
-		print_day_event (pr, font, left, right, top, bottom,
+		print_day_event (context, font, left, right, top, bottom,
 				 event, &pdi, model);
 	}
 	
@@ -1400,7 +1259,7 @@ print_is_one_day_week_event (EWeekViewEvent *event,
 
 
 static void
-print_week_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
+print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 		       struct psinfo *psi,
 		       double x1, double x2, double y1, double y2,
 		       EWeekViewEvent *event, EWeekViewEventSpan *span,
@@ -1420,7 +1279,7 @@ print_week_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 	if (event->end > psi->day_starts[span->start_day + span->num_days])
 		right_triangle_width = 4;
 
-	 print_border_with_triangles (pr->pc, x1, x2, y1, y2 + 4, 0.5, red, green, blue,
+	 print_border_with_triangles (context, x1, x2, y1, y2 + 4, 0.5, red, green, blue,
 				     left_triangle_width,
 				     right_triangle_width);
 
@@ -1439,7 +1298,7 @@ print_week_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x1 += 4;
-		x1 += print_text_size (pr, buffer, ALIGN_LEFT, x1, x2, y1, y2);
+		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -1457,17 +1316,17 @@ print_week_long_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x2 -= 4;
-		x2 -= print_text_size (pr, buffer, ALIGN_RIGHT, x1, x2, y1, y2);
+		x2 -= print_text_size (context, buffer, PANGO_ALIGN_RIGHT, x1, x2, y1, y2);
 	}
 
 	x1 += 4;
 	x2 -= 4;
-	print_text_size (pr, text, ALIGN_CENTER, x1, x2, y1, y2);
+	print_text_size (context, text, PANGO_ALIGN_CENTER, x1, x2, y1, y2);
 }
 
 
 static void
-print_week_day_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
+print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		      struct psinfo *psi,
 		      double x1, double x2, double y1, double y2,
 		      EWeekViewEvent *event, EWeekViewEventSpan *span,
@@ -1486,24 +1345,24 @@ print_week_day_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 
 	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
-	print_rectangle (pr->pc, x1, x2 + 6, y1, y2 + 4, red, green, blue);
-	x1 += print_text_size (pr, buffer, ALIGN_LEFT, x1, x2, y1, y2 + 3 ) + 4;
-	print_text_size (pr, text, ALIGN_LEFT, x1, x2, y1, y2 + 3);    
-		
+	print_rectangle (context, x1, y1, (x2 + 6) - x1, (y2 + 4) - y1, red, green, blue);
+	x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3 ) + 4;
+	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3);    
+
 	date_tm.tm_hour = event->end_minute / 60;
 	date_tm.tm_min = event->end_minute % 60;
 
 	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
 
-	print_rectangle (pr->pc, x1, x2 + 6, y1, y2 + 4, red, green, blue); 
-	x1 += print_text_size (pr, buffer, ALIGN_LEFT, x1, x2, y1, y2 + 3) + 4;
-	print_text_size (pr, text, ALIGN_LEFT, x1, x2, y1, y2 + 3);  
+	print_rectangle (context, x1, y1, (x2 + 6) - x1, (y2 + 4) - y1, red, green, blue); 
+	x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3) + 4;
+	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3);  
 }
 
 
 static void
-print_week_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
+print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 		  struct psinfo *psi,
 		  double left, double top,
 		  double cell_width, double cell_height,
@@ -1570,11 +1429,11 @@ print_week_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 			e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
 			if (print_is_one_day_week_event (event, span,
 							 psi->day_starts)) {
-				print_week_day_event (pr, font, psi,
+				print_week_day_event (context, font, psi,
 						      x1, x2, y1, y2,
 						      event, span, text, red, green, blue); 
 			} else {
-				print_week_long_event (pr, font, psi,
+				print_week_long_event (context, font, psi,
 						       x1, x2, y1, y2,
 						       event, span, text, red, green, blue);
 			} 
@@ -1584,7 +1443,8 @@ print_week_event (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
 
 
 static void
-print_week_view_background (EvoCalendarPrintRenderer *pr, PangoFontDescription *font,
+print_week_view_background (GtkPrintContext *context,
+                            PangoFontDescription *font,
 			    struct psinfo *psi,
 			    double left, double top,
 			    double cell_width, double cell_height)
@@ -1617,7 +1477,7 @@ print_week_view_background (EvoCalendarPrintRenderer *pr, PangoFontDescription *
 		if (psi->multi_week_view && (tm.tm_mon != psi->month))
 			fillcolor = 0.9;
 
-		print_border (pr->pc, x1, x2, y1, y2, 1.0, fillcolor);
+		print_border (context, x1, x2, y1, y2, 1.0, fillcolor);
 
 		if (psi->multi_week_view) {
 			if (tm.tm_mday == 1)
@@ -1625,7 +1485,7 @@ print_week_view_background (EvoCalendarPrintRenderer *pr, PangoFontDescription *
 			else
 				format_string = "%d";
 		} else {
-			cr = gtk_print_context_get_cairo_context (pr->pc);
+			cr = gtk_print_context_get_cairo_context (context);
 
 			cairo_move_to (cr, x1 + 0.1 * cell_width,
 					    y1 + psi->header_row_height - 4);
@@ -1646,7 +1506,7 @@ print_week_view_background (EvoCalendarPrintRenderer *pr, PangoFontDescription *
 
 		e_utf8_strftime (buffer, sizeof (buffer), format_string, &tm);
 		
-		 print_text_size (pr, buffer, ALIGN_RIGHT,
+		 print_text_size (context, buffer, PANGO_ALIGN_RIGHT,
 				 x1, x2 - 4, y1 + 2, y1 + 2 + font_size); 
 	}
 }
@@ -1698,7 +1558,7 @@ print_week_summary_cb (ECalComponent *comp,
 }
 
 static void
-print_week_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
+print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 		    time_t whence, gboolean multi_week_view, int weeks_shown,
 		    int month, double font_size,
 		    double left, double right, double top, double bottom)
@@ -1776,14 +1636,14 @@ print_week_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 	psi.rows_per_compressed_cell = (cell_height - psi.header_row_height)
 		/ psi.row_height;
 
-	font = get_font_for_size (pr, font_size, GNOME_FONT_BOOK, FALSE);
+	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 	/* Draw the grid and the day names/numbers. */
-	print_week_view_background (pr, font, &psi, left, top,
+	print_week_view_background (context, font, &psi, left, top,
 				    cell_width, cell_height);
 	/* Print the events. */
 	for (event_num = 0; event_num < psi.events->len; event_num++) {
 		event = &g_array_index (psi.events, EWeekViewEvent, event_num);
-		print_week_event (pr, font, &psi, left, top,
+		print_week_event (context, font, &psi, left, top,
 				  cell_width, cell_height, model, event, spans);
 	}
 
@@ -1799,7 +1659,7 @@ print_week_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 
 
 static void
-print_year_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t whence,
+print_year_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		    double left, double right, double top, double bottom,
 		    int morerows)
 {
@@ -1833,8 +1693,8 @@ print_year_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t wh
 		for (col = 0; col < cols; col++) {
 			l = left + col_width * col;
 			r = l + col_width;
-			print_month_small (pr, gcal, now,
-					   l + 8, r - 8, t - 8, b + 8,
+			print_month_small (context, gcal, now,
+					   l + 8, t - 8, r - 8, b + 8,
 					   DATE_MONTH, 0, 0, TRUE);
 			now = time_add_month_with_zone (now, 1, zone);
 		}
@@ -1842,7 +1702,7 @@ print_year_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t wh
 }
 
 static void
-print_month_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t whence,
+print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		     double left, double right, double top, double bottom)
 {
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
@@ -1880,7 +1740,7 @@ print_month_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t w
 	tm = *convert_timet_to_struct_tm (date, zone);
 	tm.tm_mday = (tm.tm_mday % 7) + 7;
 
-	font = get_font_for_size (pr, MONTH_NORMAL_FONT_SIZE, GNOME_FONT_BOLD, FALSE);
+	font = get_font_for_size (MONTH_NORMAL_FONT_SIZE, PANGO_WEIGHT_BOLD);
 	font_size = get_font_size (font);
 
 	columns = compress_weekend ? 6 : 7;
@@ -1903,8 +1763,8 @@ print_month_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t w
 		x1 = left + cell_width * col;
 		x2 = x1 + cell_width;
 
-		print_border (pr->pc, x1, x2, y1, y2, 1.0, -1.0);
-		print_text_size (pr, buffer, ALIGN_CENTER, x1, x2, y1, y2);
+		print_border (context, x1, x2, y1, y2, 1.0, -1.0);
+		print_text_size (context, buffer, PANGO_ALIGN_CENTER, x1, x2, y1, y2);
 
 		tm.tm_mday++;
 		tm.tm_wday = (tm.tm_wday + 1) % 7;
@@ -1912,14 +1772,14 @@ print_month_summary (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t w
 	pango_font_description_free (font);
 
 	top = y2;
-	print_week_summary (pr, gcal, date, TRUE, 6, month,
+	print_week_summary (context, gcal, date, TRUE, 6, month,
 			    MONTH_NORMAL_FONT_SIZE,
 			    left, right, top, bottom);
 }
 
 
 static void
-print_todo_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
+print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 		    time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
@@ -1938,16 +1798,16 @@ print_todo_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 	table = e_calendar_table_get_table (task_pad);
 	model = e_calendar_table_get_model (task_pad);
 
-	font_summary = get_font_for_size (pr, 12, GNOME_FONT_BOOK, FALSE);
+	font_summary = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+	cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
 	cairo_set_line_width (cr, 0.0);
 	top +=2;
 
-	titled_box (pr, _("Tasks"), font_summary, ALIGN_CENTER | ALIGN_BORDER,
-		    &left, &right, &top, &bottom, 1.0);
+	titled_box (context, _("Tasks"), font_summary, PANGO_ALIGN_CENTER,
+		    &left, &top, &right, &bottom, 1.0);
 
 	y = top;
 	yend = bottom - 2;
@@ -1979,14 +1839,14 @@ print_todo_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 			break;
 
 		/* Print the box to put the tick in. */
-		print_border (pr->pc, x + 2, x + 8, y + 6, y + 15, 0.1, -1.0);
+		print_border (context, x + 2, x + 8, y + 6, y + 15, 0.1, -1.0);
 
 		/* If the task is complete, print a tick in the box. */
 		e_cal_component_get_completed (comp, &tt);
 		if (tt) {
 			e_cal_component_free_icaltimetype (tt);
 
-			cr = gtk_print_context_get_cairo_context (pr->pc);
+			cr = gtk_print_context_get_cairo_context (context);
 			cairo_set_source_rgb (cr, 0, 0, 0);
 			cairo_move_to (cr, x + 3, y + 11);
 			cairo_line_to (cr, x + 5, y + 14);
@@ -1995,12 +1855,12 @@ print_todo_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 			cairo_stroke (cr);
 		}
 
-		y = bound_text (pr, font_summary, summary.value,
-				x + 14, xend, y+4, yend, 0);
+		y = bound_text (context, font_summary, summary.value,
+				x + 14, y + 4, xend, yend);
 
 
 		y += get_font_size (font_summary)-5;
-		cr = gtk_print_context_get_cairo_context (pr->pc);
+		cr = gtk_print_context_get_cairo_context (context);
 		cairo_move_to (cr, x, y);
 		cairo_line_to (cr, xend, y);
 		cairo_set_line_width (cr, 1);
@@ -2012,146 +1872,53 @@ print_todo_details (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal,
 	pango_font_description_free (font_summary);
 }
 
-
-/* Value for the PrintView enum */
-static const int print_view_map[] = {
-	PRINT_VIEW_DAY,
-	PRINT_VIEW_WEEK,
-	PRINT_VIEW_MONTH,
-	PRINT_VIEW_YEAR,
-	-1
-};
-
-/* Creates the range selector widget for printing a calendar */
-static GtkWidget *
-range_selector_new (GtkWidget *dialog, time_t at, int *view)
-{
-	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	GtkWidget *box;
-	GtkWidget *radio;
-	GSList *group;
-	char text[1024];
-	char str1[512];
-	char str2[512];
-	struct tm tm;
-	time_t week_begin, week_end;
-	struct tm week_begin_tm, week_end_tm;
-	gint week_start_day;
-
-	box = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
-
-	tm = *convert_timet_to_struct_tm (at, zone);
-
-	/* Day */
-
-	e_utf8_strftime (text, sizeof (text), _("Selected day (%a %b %d %Y)"), &tm);
-	radio = gtk_radio_button_new_with_label (NULL, text);
-	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
-	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
-
-	/* Week */
-
-	week_start_day = calendar_config_get_week_start_day ();
-	week_begin = time_week_begin_with_zone (at, week_start_day, zone);
-	/* If the week starts on a Sunday, we have to show the Saturday first,
-	   since the weekend is compressed. If the original date passed in was
-	   a Saturday, we need to move on to the next Saturday, else we move
-	   back to the last one. */
-	if (week_start_day == 0) {
-		if (tm.tm_wday == 6)
-			week_begin = time_add_day_with_zone (week_begin, 6, zone);
-		else
-			week_begin = time_add_day_with_zone (week_begin, -1, zone);
-	}
-	week_end = time_add_day_with_zone (week_begin, 6, zone);
-
-	week_begin_tm = *convert_timet_to_struct_tm (week_begin, zone);
-	week_end_tm = *convert_timet_to_struct_tm (week_end, zone);
-
-	if (week_begin_tm.tm_mon == week_end_tm.tm_mon) {
-		e_utf8_strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
-		e_utf8_strftime (str2, sizeof (str2), _("%a %d %Y"), &week_end_tm);
-	} else {
-		if (week_begin_tm.tm_year == week_end_tm.tm_year) {
-			e_utf8_strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
-			e_utf8_strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
-		} else {
-			e_utf8_strftime (str1, sizeof (str1), _("%a %b %d %Y"), &week_begin_tm);
-			e_utf8_strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
-		}
-	}
-
-	g_snprintf (text, sizeof (text), _("Selected week (%s - %s)"), str1, str2);
-
-	radio = gtk_radio_button_new_with_label (group, text);
-	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
-	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
-
-	/* Month */
-
-	e_utf8_strftime (text, sizeof (text), _("Selected month (%b %Y)"), &tm);
-	radio = gtk_radio_button_new_with_label (group, text);
-	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
-	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
-
-	/* Year */
-
-	e_utf8_strftime (text, sizeof (text), _("Selected year (%Y)"), &tm);
-	radio = gtk_radio_button_new_with_label (group, text);
-	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio));
-	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
-
-	/* Select default */
-
-	e_dialog_widget_hook_value (dialog, radio, view, (gpointer) print_view_map);
-
-	gtk_widget_show_all (box);
-	return box;
-}
-
-
 static void
-print_day_view (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t date,
-		double left, double right, double top, double bottom)
+print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
+	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	int i, days = 1;
-	double todo, header, l;
+	double todo, l;
 	char buf[100];
 	cairo_t *cr;
+	gdouble width, height;
+
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
 
 	for (i = 0; i < days; i++) {
-		todo = (right - left) * 0.75 + left;
- 	/*		header = top - HEADER_HEIGHT;*/
-		header = HEADER_HEIGHT + top;
+		todo = width * 0.75;
 
-		cr = gtk_print_context_get_cairo_context (pr->pc);
+		cr = gtk_print_context_get_cairo_context (context);
 
 		/* Print the main view with all the events in. */
-		print_day_details (pr, gcal, date,
-				   left, todo - 2.0, header, bottom);
+		print_day_details (context, gcal, date,
+				   0.0, todo - 2.0, HEADER_HEIGHT,
+				   height);
 		
 		 /* Print the TaskPad down the right. */
-		print_todo_details (pr, gcal, 0, INT_MAX,
-				    todo, right, header, bottom);
+		print_todo_details (context, gcal, 0, INT_MAX,
+				    todo, width, HEADER_HEIGHT,
+				    height);
 	
 		/* Print the filled border around the header. */
-		print_border (pr->pc, left, right, top, header + 2.0, 1.0, 0.9);
+		print_border (context, 0.0, width,
+			      0.0, HEADER_HEIGHT + 2.0, 1.0, 0.9);
 		
 		/* Print the 2 mini calendar-months. */
-		l = right - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2  - SMALL_MONTH_SPACING;
+		l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2  - SMALL_MONTH_SPACING;
 
-		 print_month_small (pr, gcal, date,
-				   l, l + SMALL_MONTH_WIDTH,
-				   top + 4, header + 4,
+		 print_month_small (context, gcal, date,
+				   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
 				   DATE_MONTH | DATE_YEAR, date, date, FALSE);
 		
 
 		l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
-		print_month_small (pr, gcal,
+		print_month_small (context, gcal,
 				   time_add_month_with_zone (date, 1, zone),
-				   l, l + SMALL_MONTH_WIDTH,
-				   top + 4, header + 4,
+				   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
 				   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 	  
 	 
@@ -2159,32 +1926,38 @@ print_day_view (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t date,
 		format_date (date, DATE_DAY | DATE_MONTH | DATE_YEAR,
 			     buf, 100);
 
-		print_text_size_bold (pr, buf, ALIGN_LEFT,
-				      left + 4, todo, top + 4, top + 4 + 24);
+		print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
+				      4, todo, 4,
+                                      4 + 24);
 
 		/* Print the day, e.g. 'Tuesday'. */
 		format_date (date, DATE_DAYNAME, buf, 100);
 
-		print_text_size_bold (pr, buf, ALIGN_LEFT,
-				 left + 4, todo, top + 32, top + 32 + 18);
+		print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
+				 4, todo, 32,
+                                 32 + 18);
 
 		date = time_add_day_with_zone (date, 1, zone);
 	 }
 }
 
-
 static void
-print_week_view (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t date,
-		 double left, double right, double top, double bottom)
+print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
+	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	double header, l;
+	double l;
 	char buf[100];
 	time_t when;
 	gint week_start_day;
 	struct tm tm;
+	gdouble width, height;
 
-	header = HEADER_HEIGHT - top;
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
 	tm = *convert_timet_to_struct_tm (date, zone);
 	week_start_day = calendar_config_get_week_start_day ();
 	when = time_week_begin_with_zone (date, week_start_day, zone);
@@ -2199,101 +1972,115 @@ print_week_view (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t date,
 	}
 
 	/* Print the main week view. */
-	print_week_summary (pr, gcal, when, FALSE, 1, 0,
+	print_week_summary (context, gcal, when, FALSE, 1, 0,
 			    WEEK_NORMAL_FONT_SIZE,
-			    left, right, header + 20, bottom);
+			    0.0, width,
+			    HEADER_HEIGHT + 20, height);
 	
 	
 	/* Print the border around the main view. */
-	print_border (pr->pc, left, right, header , bottom, 1.0, -1.0);
+	print_border (context, 0.0, width, HEADER_HEIGHT ,
+		      height, 1.0, -1.0);
 
 	/* Print the border around the header area. */
-	print_border (pr->pc, left, right, top, header + 2.0 + 20, 1.0, 0.9);
+	print_border (context, 0.0, width,
+                      0.0, HEADER_HEIGHT + 2.0 + 20, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
-	l = right - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2
+	l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2
 		- SMALL_MONTH_SPACING;
-	print_month_small (pr, gcal, when,
-			   l, l + SMALL_MONTH_WIDTH,
-			   top + 4, header + 30,
+	print_month_small (context, gcal, when,
+			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 30,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
 	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
-	print_month_small (pr, gcal,
+	print_month_small (context, gcal,
 			   time_add_month_with_zone (when, 1, zone),
-			   l, l + SMALL_MONTH_WIDTH,
-			   top + 4, header + 30,
+			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 30,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
 	/* Print the start day of the week, e.g. '7th May 2001'. */
 	format_date (when, DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
-	print_text_size_bold (pr, buf, ALIGN_LEFT,
-			      left + 3, right, top + 4, top + 4 + 24);
+	print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
+			      3, width,
+			      4, 4 + 24);
 
 	/* Print the end day of the week, e.g. '13th May 2001'. */
 	when = time_add_day_with_zone (when, 6, zone);
 	format_date (when, DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
-	print_text_size_bold (pr, buf, ALIGN_LEFT,
-			      left + 3, right, top + 24 + 3, top + 24 + 3 + 24);
+	print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
+			      3, width,
+			      24 + 3, 24 + 3 + 24);
 }
 
 
 static void
-print_month_view (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t date,
-		  double left, double right, double top, double bottom)
+print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
+	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	double header;
 	char buf[100];
+	gdouble width, height;
 
-	header = top + HEADER_HEIGHT;
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
 
 	/* Print the main month view. */
-	print_month_summary (pr, gcal, date, left, right, header, bottom);
+	print_month_summary (context, gcal, date, 0.0, width, HEADER_HEIGHT, height);
 
 	/* Print the border around the header. */
-	print_border (pr->pc, left, right, top, header, 1.0, 0.9);
+	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
-	print_month_small (pr, gcal,
+	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, 1, zone),
-			   right - (right - left) / 7 + 2, right - 8,
-			   top + 4, header,
+			   width - width / 7 + 2, 4,
+			   width - 8, HEADER_HEIGHT,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
-	print_month_small (pr, gcal,
+	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, -1, zone),
-			   left + 8, left + (right - left) / 7 - 2,
-			   top + 4, header,
+			   8, 4, width / 7 - 2, HEADER_HEIGHT,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 	/* Print the month, e.g. 'May 2001'. */
 	format_date (date, DATE_MONTH | DATE_YEAR, buf, 100);
-	print_text_size_bold (pr, buf, ALIGN_CENTER,
-			      left + 3, right - 3, top + 3, top + 3 + 24);
+	print_text_size_bold (context, buf, PANGO_ALIGN_CENTER,
+			      3, width - 3,
+                              3, 3 + 24);
 
 }
 
-
+/* XXX Evolution doesn't have a "year" view. */
 static void
-print_year_view (EvoCalendarPrintRenderer *pr, GnomeCalendar *gcal, time_t date,
-		 double left, double right, double top, double bottom)
+print_year_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
+	GtkPageSetup *setup;
 	char buf[100];
 	cairo_t *cr;
+	gdouble width, height;
 
-	cr = gtk_print_context_get_cairo_context (pr->pc); 
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
+	cr = gtk_print_context_get_cairo_context (context); 
 
 	cairo_show_page (cr);
-	print_year_summary (pr, gcal, date, left, right, top + 50, bottom,
-			    TRUE);
+	print_year_summary (context, gcal, date, 0.0,
+			    width, 50,
+			    height, TRUE);
 
 	/* centered title */
 	format_date (date, DATE_YEAR, buf, 100);
-	print_text_size_bold (pr, buf, ALIGN_CENTER,
-			      left+3, right, top+3, top + 27);
-	cr=gtk_print_context_get_cairo_context (pr->pc);
+	print_text_size_bold (context, buf, PANGO_ALIGN_CENTER,
+			      3, width,
+			      3, 27);
+	cr=gtk_print_context_get_cairo_context (context);
 	cairo_show_page (cr);
 }
 
@@ -2337,7 +2124,7 @@ get_zone_from_tzid (ECal *client, const char *tzid)
 }
 
 static void
-print_date_label (EvoCalendarPrintRenderer *pr, ECalComponent *comp, ECal *client,
+print_date_label (GtkPrintContext *context, ECalComponent *comp, ECal *client,
 		  double left, double right, double top, double bottom)
 {
 	icaltimezone *start_zone, *end_zone, *due_zone, *completed_zone;
@@ -2405,16 +2192,65 @@ print_date_label (EvoCalendarPrintRenderer *pr, ECalComponent *comp, ECal *clien
 			write_label_piece (due, buffer, 1024, _("Due "), NULL);
 	}
 
-	print_text_size_bold (pr, buffer, ALIGN_LEFT,
+	print_text_size_bold (context, buffer, PANGO_ALIGN_LEFT,
 			      left, right, top, top - 15);
 }
 
 static void
-print_comp_item (PrintCompItem *pci)
-		 
+print_calendar_draw_page (GtkPrintOperation *operation,
+                          GtkPrintContext *context,
+                          gint page_nr,
+                          PrintCalItem *pcali)
 {
+	switch (gnome_calendar_get_view (pcali->gcal)) {
+		case GNOME_CAL_DAY_VIEW:
+			print_day_view (context, pcali->gcal, pcali->start);
+			break;
+		case GNOME_CAL_WORK_WEEK_VIEW:
+		case GNOME_CAL_WEEK_VIEW:
+			print_week_view (context, pcali->gcal, pcali->start);
+			break;
+		case GNOME_CAL_MONTH_VIEW:
+			print_month_view (context, pcali->gcal, pcali->start);
+			break;
+		default:
+			g_assert_not_reached ();
+	}  
+}
+
+void
+print_calendar (GnomeCalendar *gcal, GtkPrintOperationAction action,
+                time_t start)
+{
+	GtkPrintOperation *operation;
+	PrintCalItem pcali;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	pcali.gcal = gcal;
+	pcali.start = start;
+
+	operation = e_print_operation_new ();
+	gtk_print_operation_set_n_pages (operation, 1);
+
+        g_signal_connect (
+		operation, "draw_page",
+		G_CALLBACK (print_calendar_draw_page), &pcali);
+
+	gtk_print_operation_run (operation, action, NULL, NULL);
+
+	g_object_unref (operation);
+}
+
+static void
+print_comp_draw_page (GtkPrintOperation *operation,
+                      GtkPrintContext *context,
+                      gint page_nr,
+                      PrintCompItem *pci)
+{
+	GtkPageSetup *setup;
 	PangoFontDescription *font;
-	EvoCalendarPrintRenderer *pr;
 	ECal *client;
 	ECalComponent *comp;
 	ECalComponentVType vtype;
@@ -2426,20 +2262,19 @@ print_comp_item (PrintCompItem *pci)
 	char *categories_string, *location_string, *summary_string;
 	double header_size;
 	cairo_t *cr;
-	double left, right, top, bottom;
+	gdouble width, height;
+	double top;
+
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
 
         /* PrintCompItem structure contains elements to be used 
          * with the Print Context , obtained in comp_draw_page
          */    
-	comp = g_new0 (ECalComponent, 1);
-	client = g_new0 (ECal, 1);
-	pr = pci->pr;
 	client = pci->client;
 	comp = pci->comp;
-	left = pci->l;
-	right = pci->r;
-	top = pci->t;
-	bottom = pci->b;
 
 	vtype = e_cal_component_get_vtype (comp);
 
@@ -2453,25 +2288,25 @@ print_comp_item (PrintCompItem *pci)
 	else
 		return;
 
-	cr = gtk_print_context_get_cairo_context (pr->pc);
+	cr = gtk_print_context_get_cairo_context (context);
 	    
 	/* Print the title in a box at the top of the page. */
-	font = get_font_for_size (pr, 18, GNOME_FONT_BOLD, FALSE);
+	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
 	header_size = 40;
-	print_border (pr->pc, left, right, top, top+header_size,
+	print_border (context, 0.0, width, 0.0, header_size,
 		      1.0, 0.9);
-	print_text (pr, font, title, ALIGN_CENTER, left, right,
-		    top + 0.1, top +header_size - 0.1);
+	print_text (context, font, title, PANGO_ALIGN_CENTER, 0.0, width,
+		    0.1, header_size - 0.1);
 	pango_font_description_free (font);
 
-	top += header_size + 30;
+	top = header_size + 30;
 	
 	/* Summary */
-	font = get_font_for_size (pr, 18, GNOME_FONT_BOLD, FALSE);
+	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
 	e_cal_component_get_summary (comp, &text);
 	summary_string = g_strdup_printf (_("Summary: %s"), text.value);
-	top = bound_text (pr, font, summary_string, left, right,
-			  top, bottom, 0);
+	top = bound_text (context, font, summary_string, 0.0, top, width,
+			  height);
 	
 	g_free (summary_string);
 
@@ -2480,16 +2315,16 @@ print_comp_item (PrintCompItem *pci)
 	if (location && location[0]) {
 		location_string = g_strdup_printf (_("Location: %s"),
 						   location);
-		top = bound_text (pr, font, location_string, left, right,
-				  top + 3, bottom, 0);
+		top = bound_text (context, font, location_string, 0.0,
+				  top + 3, width, height);
 		g_free (location_string);
 	}
 	pango_font_description_free (font);
 	
 	/* Date information */
-	print_date_label (pr, comp, client, left, right, top + 3, top + 15);
+	print_date_label (context, comp, client, 0.0, width, top + 3, top + 15);
 	top += 20;
-	font = get_font_for_size (pr, 12, GNOME_FONT_BOOK, FALSE);
+	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 	
 	/* For a VTODO we print the Status, Priority, % Complete and URL. */
 	if (vtype == E_CAL_COMPONENT_TODO) {
@@ -2522,8 +2357,8 @@ print_comp_item (PrintCompItem *pci)
 			if (status_string) {
 				char *status_text = g_strdup_printf (_("Status: %s"),
 							      status_string);
-				top = bound_text (pr, font, status_text,
-						  left, right, top, bottom, 0);
+				top = bound_text (context, font, status_text,
+						  0.0, top, width, height);
 				top += get_font_size (font) - 6;
 				g_free (status_text);
 			}
@@ -2538,8 +2373,8 @@ print_comp_item (PrintCompItem *pci)
 			e_cal_component_free_priority (priority);
 
 			pri_text = g_strdup_printf (_("Priority: %s"), priority_string);
-			top = bound_text (pr, font, pri_text,
-					  left, right, top, bottom, 0);
+			top = bound_text (context, font, pri_text,
+					  0.0, top, width, height);
 			top += get_font_size (font) - 6;
 			g_free (pri_text);
 		}
@@ -2552,8 +2387,8 @@ print_comp_item (PrintCompItem *pci)
 			percent_string = g_strdup_printf (_("Percent Complete: %i"), *percent);
 			e_cal_component_free_percent (percent);
 
-			top = bound_text (pr, font, percent_string,
-					  left, right, top, bottom, 0);
+			top = bound_text (context, font, percent_string,
+					  0.0, top, width, height);
 			top += get_font_size (font) - 6;
 		}
 
@@ -2564,8 +2399,8 @@ print_comp_item (PrintCompItem *pci)
 			char *url_string = g_strdup_printf (_("URL: %s"),
 							    url);
 
-			top = bound_text (pr, font, url_string,
-					  left, right, top, bottom, 0);
+			top = bound_text (context, font, url_string,
+					  0.0, top, width, height);
 			top += get_font_size (font) - 6;
 			g_free (url_string);
 		}
@@ -2576,8 +2411,8 @@ print_comp_item (PrintCompItem *pci)
 	if (categories && categories[0]) {
 		categories_string = g_strdup_printf (_("Categories: %s"),
 						     categories);
-		top = bound_text (pr, font, categories_string,
-				  left, right, top, bottom, 0);
+		top = bound_text (context, font, categories_string,
+				  0.0, top, width, height);
 		top += get_font_size (font) - 6 ;
 		g_free (categories_string);
 	}
@@ -2595,8 +2430,8 @@ print_comp_item (PrintCompItem *pci)
 		}
 		e_cal_component_free_text_list (contact_list);
 
-		top = bound_text (pr, font, contacts->str,
-				  left, right, top, bottom, 0);
+		top = bound_text (context, font, contacts->str,
+				  0.0, top, width, height);
 		top += get_font_size (font) - 6;
 		g_string_free (contacts, TRUE);
 	}
@@ -2606,12 +2441,12 @@ print_comp_item (PrintCompItem *pci)
 	e_cal_component_get_description_list (comp, &desc);
 	for (l = desc; l != NULL; l = l->next) {
 		ECalComponentText *text = l->data;
-		if (top > bottom) {
+		if (top > height) {
 		top = 10; //FIXME
 		cairo_show_page (cr);
 		}
 		if (text->value != NULL) 
-			top = bound_text (pr, font, text->value, left, right, top + 3, bottom, 0) + 30;
+			top = bound_text (context, font, text->value, 0.0, top + 3, width, height) + 30;
 
 	}
 
@@ -2621,311 +2456,99 @@ print_comp_item (PrintCompItem *pci)
 }
 
 void
-print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
-		PrintView default_view)
+print_comp (ECalComponent *comp, ECal *client, GtkPrintOperationAction action)
 {
-	GtkPrintSettings *settings;
-	GtkPrintOperationResult res;
-	GtkPrintOperation *print;
-	GtkPaperSize *paper_size;
-	GtkPageSetup *page_setup;
-	GtkWidget *gpd;
-	GtkWidget *range;
-	PrintCalItem *pcali;
-	int view;
-	double  r, t, w, h;
+	GtkPrintOperation *operation;
+	PrintCompItem pci;
 
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	
-	view = (int) default_view;
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	pcali = g_new0 (PrintCalItem, 1);
-	pcali->gcal = g_new0 (GnomeCalendar, 1);
+	pci.comp = comp;
+	pci.client = client;
 
-	print = gtk_print_operation_new ();
-	paper_size = gtk_paper_size_new ("iso_a4");
-	page_setup = gtk_page_setup_new();
-	gtk_page_setup_set_paper_size(page_setup, paper_size);
+	operation = e_print_operation_new ();
 
-	settings = gtk_print_settings_new ();
-	settings = e_print_load_settings ();
-	gpd = e_print_get_dialog_with_config (_("Print Item"), 0, settings);
-	range = range_selector_new (gpd, date, &view);
+	g_signal_connect (
+		operation, "draw-page",
+		G_CALLBACK (print_comp_draw_page), &pci);
 
-	t = gtk_paper_size_get_default_top_margin (paper_size, GTK_UNIT_POINTS);
-	r = gtk_paper_size_get_default_right_margin (paper_size, GTK_UNIT_POINTS);
-	w = gtk_paper_size_get_width (paper_size, GTK_UNIT_POINTS);
-	h = gtk_paper_size_get_height (paper_size, GTK_UNIT_POINTS);
-	
-	pcali->b = h * (1.0 - TEMP_MARGIN);  
-        pcali->l = r * TEMP_MARGIN;
-        pcali->t = t * (1.0 - TEMP_MARGIN); 
-        pcali->r = w * (1.0 - TEMP_MARGIN);
-	pcali->default_view = default_view;
-	pcali->gcal = gcal;
-	pcali->date = date;
+	gtk_print_operation_run (operation, action, NULL, NULL);
 
-	gtk_print_operation_set_default_page_setup (print, page_setup);
-	gtk_print_operation_set_n_pages (print, 1);
-        	
-	/* FIX ME ,Allow it to use the default settings for the first time */
-        gtk_print_operation_set_print_settings (print, settings); 
-
-	g_signal_connect (print, "create-custom-widget", G_CALLBACK (create_custom_widget), range);
-	g_signal_connect (print, "custom-widget-apply", G_CALLBACK (apply_custom_widget), NULL);
-        g_signal_connect (print, "draw_page", G_CALLBACK (cal_draw_page), pcali);
-
-		/* Runs the print dialog, recursively, emitting signals */
-	if (preview)
-		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
-	else
-		res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);   
-    
-	/* Save the user configured settings back to the gconf */
-	settings = gtk_print_operation_get_print_settings (print);
-	e_print_save_settings (settings); 
-	
-	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-		   g_object_unref (print); 
-	}
-	else if (res == GTK_PRINT_OPERATION_RESULT_ERROR) {
-		/* FIX ME */
-		     
-	}
-
-}
-
-void
-print_comp (ECalComponent *comp, ECal *client, gboolean preview)
-{
-        GtkPrintOperation *print;
-	GtkPrintSettings *settings;
-	GtkPaperSize *paper_size;
-        PrintCompItem *pci;
-	GtkPrintOperationResult res;
-	GtkPageSetup *page_setup;
-        gdouble t, r, w,h;
-        GtkWidget *gpd;
-
-        g_return_if_fail (comp != NULL);
-        g_return_if_fail (E_IS_CAL_COMPONENT (comp));
-
-	pci = g_new0 (PrintCompItem, 1);
-
-	print = gtk_print_operation_new ();
-	paper_size = gtk_paper_size_new ("iso_a4");
-	page_setup = gtk_page_setup_new();
-	gtk_page_setup_set_paper_size(page_setup, paper_size);
-
-	settings = gtk_print_settings_new ();
-	settings = e_print_load_settings ();
-	gpd = e_print_get_dialog_with_config (_("Print Item"), 0, settings);
-	
-	/* Values using the print context , used in comp_draw_page */
-	t = gtk_paper_size_get_default_top_margin (paper_size, GTK_UNIT_POINTS);
-	r = gtk_paper_size_get_default_right_margin (paper_size, GTK_UNIT_POINTS);
-	w = gtk_paper_size_get_width (paper_size, GTK_UNIT_POINTS);
-	h = gtk_paper_size_get_height (paper_size, GTK_UNIT_POINTS);
-	pci->b = h * (1.0 - TEMP_MARGIN);
-        pci->l = r * TEMP_MARGIN;
-        pci->t = t * (1.0 - TEMP_MARGIN);
-        pci->r = w * (1.0 - TEMP_MARGIN);
-        pci->comp = comp;
-        pci->client = client;
-
-	gtk_print_operation_set_default_page_setup (print, page_setup);
-	gtk_print_operation_set_n_pages (print, 1);
-	
-        /* FIX ME ,Allow it to use the default settings for the first time */
-        gtk_print_operation_set_print_settings (print, settings); 
-
-        g_signal_connect (print, "draw_page", G_CALLBACK (comp_draw_page), pci);
-	
-	gtk_print_operation_set_print_settings (print, settings);
-	
-	/* Runs a dialog , emitting various signals based on user response */
-	if (preview)
-		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);
-	else
-		res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG , NULL, NULL); 
-
-	/* Saves the user configuration in gconf */
-	settings = gtk_print_operation_get_print_settings (print);
-	e_print_save_settings (settings);
-
-	 if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-		  g_object_unref (print);
-	      }
-	 else if ( res == GTK_PRINT_OPERATION_RESULT_ERROR) {
-		 /* FIX ME */
-	 }	  
+	g_object_unref (operation);
 }
 
 static void
-print_title (GtkPrintContext *context, const char *title,
-	     double page_width, double page_height, double left_margin, double bottom_margin)
+print_title (GtkPrintContext *context, const gchar *text, gdouble page_width)
 {
-	PangoFontDescription *font;
-	PangoLayout *pl;
-	double w, x, y;
+	PangoFontDescription *desc;
+	PangoLayout *layout;
 	cairo_t *cr;
 
 	cr = gtk_print_context_get_cairo_context (context);
+
+	desc = pango_font_description_from_string (FONT_FAMILY " Bold 18");
+
+	layout = gtk_print_context_create_pango_layout (context);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_font_description (layout, desc);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_width (layout, pango_units_from_double (page_width));
+
 	cairo_save (cr);
 
-	pl = gtk_print_context_create_pango_layout (context);
-	font = pango_font_description_from_string("Sans Bold 18");
-	pango_layout_set_font_description (pl, font);
-	pango_layout_set_text (pl, title, -1);
-	
-	w = pango_layout_get_width (pl)/(double)PANGO_SCALE;
-	y = page_height ;
-	x = (page_width - w) / 2;
-
-	cairo_move_to (cr, x, y );
-	pango_cairo_show_layout (cr, pl);
+	cairo_move_to (cr, 0.0, 0.0);
+	pango_cairo_show_layout (cr, layout);
 
 	cairo_restore (cr);
-	pango_font_description_free (font); 
 
+	g_object_unref (layout);
+
+	pango_font_description_free (desc);
+}
+
+static void
+print_table_draw_page (GtkPrintOperation *operation,
+                       GtkPrintContext *context,
+                       gint page_nr,
+                       EPrintable *printable)
+{
+	GtkPageSetup *setup;
+	gdouble width, height;
+
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+
+	do {
+		/* TODO Allow the user to customize the title. */
+		print_title (context, _("Upcoming Appointments"), width);
+
+		if (e_printable_data_left (printable))
+			e_printable_print_page (
+				printable, context, width, 24, TRUE);
+
+	} while (e_printable_data_left (printable));
 }
 
 void
-print_table (ETable *etable, const char *dialog_title, const char *print_header, gboolean preview)
+print_table (ETable *table, const gchar *dialog_title,
+             const gchar *print_header, GtkPrintOperationAction action)
 {
+	GtkPrintOperation *operation;
 	EPrintable *printable;
-	GtkPrintOperationResult res;
-	GtkPrintSettings *settings;
-	GtkPrintOperation *print;
-	GtkPageSetup *page_setup;
-	GtkPaperSize *paper_size;
-	GtkWidget *gpd;
-	PrintTableItem *pti;
-	double w, h, t, r, l, b;
 
-	pti = g_new0 (PrintTableItem, 1);
-
-	print = gtk_print_operation_new ();
- 	paper_size = gtk_paper_size_new ("iso_a4");
-	page_setup = gtk_page_setup_new();
-	gtk_page_setup_set_paper_size(page_setup, paper_size);
-
-	w = gtk_paper_size_get_width (paper_size, GTK_UNIT_POINTS);
-	h = gtk_paper_size_get_height (paper_size, GTK_UNIT_POINTS);
-	t = gtk_paper_size_get_default_top_margin (paper_size, GTK_UNIT_POINTS);
-	r = gtk_paper_size_get_default_right_margin (paper_size, GTK_UNIT_POINTS);
-
-	b =h * (1.0 - TEMP_MARGIN);  
-        l =r * TEMP_MARGIN;
-        t =t * (1.0 - TEMP_MARGIN); 
-        r =w * (1.0 - TEMP_MARGIN);
-	
-	pti->left_margin = l;
-	pti->bottom_margin = b;
-	pti->paper_width = r - l;
-	pti->paper_height= t + 10;
-
-	settings = e_print_load_settings ();
-	gpd = e_print_get_dialog_with_config (dialog_title, 0, settings);
-	printable = e_table_get_printable (etable);
-
+	printable = e_table_get_printable (table);
 	g_object_ref_sink (printable);
 	e_printable_reset (printable);
-	pti->printable = printable;
 
-	gtk_print_operation_set_default_page_setup (print, page_setup);
-	gtk_print_operation_set_n_pages (print, 1);
+	operation = e_print_operation_new ();
+	gtk_print_operation_set_n_pages (operation, 1);
 
-	/* FIX ME ,Allow it to use the default settings for the first time */
-        gtk_print_operation_set_print_settings (print, settings); 
+	g_signal_connect (
+		operation, "draw_page",
+		G_CALLBACK (print_table_draw_page), printable);
 
-	/* runs the dialog emitting the signals based on user response */
-	g_signal_connect (print, "draw_page", G_CALLBACK (table_draw_page), pti);
-	if (!preview)
-		res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL, NULL);
-	else
-		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);     
-	
+	gtk_print_operation_run (operation, action, NULL, NULL);
 
-	/* Saves the user configuration in gconf */
-	settings = gtk_print_operation_get_print_settings (print);
-	e_print_save_settings (settings);
-
-	 if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-		  g_object_unref (print);
-	      }
-	 else if ( res == GTK_PRINT_OPERATION_RESULT_ERROR) {
-		 /* FIX ME */
-	 }	  
+	g_object_unref (operation);
 }
-
-static void
-comp_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, PrintCompItem *pci)
-{
-	pci = evo_calendar_print_data_new (context, pci);
-	print_comp_item (pci);
-}
-
-static void
-cal_draw_page(GtkPrintOperation *print1, GtkPrintContext *context, gint page_nr1, PrintCalItem *pcali)
-{
-	pcali = evo_calendar_print_cal_data_new (context, pcali);
-		
-	switch (pcali->default_view) {
-	case PRINT_VIEW_DAY:
-		print_day_view (pcali->pr, pcali->gcal, pcali->date, pcali->l, pcali->r, pcali->t, pcali->b);
-		break;
-	case PRINT_VIEW_WEEK:
-		print_week_view (pcali->pr, pcali->gcal, pcali->date, pcali->l, pcali->r, pcali->t, pcali->b);
-		break;
-	case PRINT_VIEW_MONTH:
-		print_month_view (pcali->pr, pcali->gcal, pcali->date, pcali->l, pcali->r, pcali->t, pcali->b);
-		break;
-	case PRINT_VIEW_YEAR:
-		print_year_view (pcali->pr, pcali->gcal, pcali->date, pcali->l, pcali->r, pcali->t, pcali->b);
-		break;
-	default:
-		g_assert_not_reached ();
-	}  
-}
-
-static void
-table_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, PrintTableItem *pti)
-{
-		pti->context = context;
-	
-	do {
-		print_title (context,"Table", pti->paper_width, pti->paper_height, pti->left_margin, pti->bottom_margin);
-		
-		if (e_printable_data_left (pti->printable))
-			e_printable_print_page (pti->printable, pti->context,
-						pti->paper_width, pti->paper_height + 24, TRUE);
-
-          } while (e_printable_data_left (pti->printable));
-}
-
-/*
- * This callback creates a custom widget that gets inserted into the
- * print operation dialog, the custom widget contains the range,
- * day, view, month, or year
- */
-
-GObject* create_custom_widget (GtkPrintOperation *print,GtkWidget *range)
-{
-	return range;
-}
-
-/*
- * Read the information from the custom widget and print day, view, or 
- * month based on user selection 
- */
-
-static void
-apply_custom_widget (GtkPrintOperation *print, GtkWidget *dialog, PrintCalItem *cpi)
-{
-	gchar str;
-	str = e_dialog_editable_get (dialog);	
-	printf("%sValue of Radio Button \n", str);
-}
-

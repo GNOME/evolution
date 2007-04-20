@@ -1,3 +1,12 @@
+2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-cell.h:
+	* e-cell-pixbuf.c:
+	* e-cell-text.c:
+	* e-printable.h:
+	* e-table-group-container.c:
+	Refactor the printing infrastructure. (#426816)
+
 2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #429422

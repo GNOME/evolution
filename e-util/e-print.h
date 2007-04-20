@@ -26,11 +26,7 @@
 
 G_BEGIN_DECLS
 
-GtkPrintSettings *e_print_load_settings (void);
-void e_print_save_settings (GtkPrintSettings *settings);
-
-GtkWidget *e_print_get_dialog (const char *title, int flags);
-GtkWidget *e_print_get_dialog_with_config (const char *title, int flags, GtkPrintSettings *settings);
+GtkPrintOperation *	e_print_operation_new		(void);
 
 G_END_DECLS
 

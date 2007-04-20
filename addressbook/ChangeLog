@@ -1,3 +1,27 @@
+2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #426816
+
+	* gui/component/addressbook-view.c:
+	* gui/widgets/e-addressbook-view.c:
+	* gui/widgets/e-addressbook-view.h:
+	* printing/e-contact-print.c:
+	* printing/e-contact-print.h:
+	* printing/e-contact-print-types.h:
+	Refactor the printing infrastructure.
+	Migrate off of libgnomeprint[ui] once and for all.
+
+	* printing/test-print.c:
+	Migrate off of libgnomeprint[ui] once and for all.
+
+	* printing/e-contact-print-envelope.c:
+	* printing/e-contact-print-envelope.h:
+	This module is unused.  Disable it, but keep the logic around for
+	future reference.
+
+	* printing/Makefile.am:
+	Remove e-contact-print-envelope.[ch].
+
 2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #429422

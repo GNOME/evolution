@@ -88,62 +88,38 @@ file_open_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 
 /* Prints the calendar at its current view and time range */
 static void
-print (GnomeCalendar *gcal, gboolean preview)
+print (GnomeCalendar *gcal, GtkPrintOperationAction action)
 {
-	time_t start;
-	GnomeCalendarViewType view_type;
-	PrintView print_view;
-	ECalListView *list_view;
-	ETable *etable;
-	
-	gnome_calendar_get_current_time_range (gcal, &start, NULL);
-	view_type = gnome_calendar_get_view (gcal);
+	if (gnome_calendar_get_view (gcal) == GNOME_CAL_LIST_VIEW) {
+		ECalListView *list_view;
+		ETable *table;
 
-	switch (view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		print_view = PRINT_VIEW_DAY;
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-	case GNOME_CAL_WEEK_VIEW:
-		print_view = PRINT_VIEW_WEEK;
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		print_view = PRINT_VIEW_MONTH;
-		break;
-
-	case GNOME_CAL_LIST_VIEW:
 		list_view = E_CAL_LIST_VIEW (gnome_calendar_get_current_view_widget (gcal));
-		etable = e_table_scrolled_get_table (list_view->table_scrolled);
-		print_table (etable, _("Print"), _("Calendar"), preview);
-		return;
+		table = e_table_scrolled_get_table (list_view->table_scrolled);
+		print_table (table, _("Print"), _("Calendar"), action);
+	} else {
+		time_t start;
 
-	default:
-		g_assert_not_reached ();
-		return;
+		gnome_calendar_get_current_time_range (gcal, &start, NULL);
+		print_calendar (gcal, action, start);
 	}
-
-	print_calendar (gcal, preview, start, print_view);
 }
 
 /* File/Print callback */
 static void
 file_print_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal;
+	GnomeCalendar *gcal = GNOME_CALENDAR (data);
 
-	gcal = GNOME_CALENDAR (data);
-	print (gcal, FALSE);
+	print (gcal, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
 file_print_preview_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal;
+	GnomeCalendar *gcal = GNOME_CALENDAR (data);
 
-	gcal = GNOME_CALENDAR (data);
-	print (gcal, TRUE);
+	print (gcal, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 /* Sets a clock cursor for the specified calendar window */

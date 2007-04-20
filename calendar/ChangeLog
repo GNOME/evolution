@@ -1,3 +1,16 @@
+2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/calendar-commands.c:
+	* gui/dialogs/comp-editor.c:
+	* gui/e-calendar-table.c:
+	* gui/e-calendar-view.c:
+	* gui/e-memo-table.c:
+	* gui/memos-control.c:
+	* gui/print.c:
+	* gui/print.h:
+	* gui/tasks-control.c:
+	Refactor the printing infrastructure. (#426816)
+
 2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #429422

@@ -32,12 +32,6 @@
 /* This is a horrible thing to do, but it is just a test. */
 GtkWidget *print;
 
-static gint test_close(GnomeDialog *dialog, gpointer data)
-{
-	exit(0);
-	return 1;
-}
-
 #if 0
 static void about_callback( GtkWidget *widget, gpointer data )
 {
@@ -77,9 +71,8 @@ int main( int argc, char *argv[] )
   shown_fields = g_list_append(shown_fields, "Third field");
   shown_fields = g_list_append(shown_fields, "Fourth field");
 
-  print = e_contact_print_dialog_new(NULL, NULL, NULL);
-  gtk_widget_show_all(print);
-  g_signal_connect(print, "close", G_CALLBACK(test_close), NULL);
+  /* does nothing */
+  e_contact_print (NULL, NULL, NULL, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
   bonobo_main(); 
 

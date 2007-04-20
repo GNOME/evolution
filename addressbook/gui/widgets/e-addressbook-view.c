@@ -37,11 +37,6 @@
 #include <e-util/e-icon-factory.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
-
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
 #include "addressbook/gui/widgets/eab-popup.h"
@@ -81,7 +76,6 @@
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
-#include <gtk/gtkprintunixdialog.h>
 
 #define SHOW_ALL_SEARCH "(contains \"x-evolution-any-field\" \"\")"
 
@@ -121,7 +115,6 @@ static void query_changed               (ESearchBar *esb, EABView *view);
 static void search_activated            (ESearchBar *esb, EABView *view);
 static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
 static GList *get_master_list (void);
-static void contact_print_button_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,EPrintable *printable);
 
 #define PARENT_TYPE GTK_TYPE_VBOX
 static GtkVBoxClass *parent_class = NULL;
@@ -874,17 +867,13 @@ print (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	EABPopupTargetSelect *t = (EABPopupTargetSelect *)ep->target;
-	GtkWidget *dialog;
+	GList *contact_list;
 
-	if (t->cards->len == 1) {
-	       	dialog = e_contact_print_contact_dialog_new(t->cards->pdata[0]);
-		e_contact_print_response (dialog, GTK_RESPONSE_OK, NULL);
-	} else {
-		GList *contacts = get_contact_list(t);
-		dialog = e_contact_print_contact_list_dialog_new (contacts);
-		e_contact_print_response (dialog, GTK_RESPONSE_OK, NULL);
-		g_list_free(contacts);
-	}
+	contact_list = get_contact_list (t);
+	e_contact_print (
+		NULL, NULL, contact_list,
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	g_list_free (contact_list);
 }
 
 static void
@@ -1703,77 +1692,46 @@ get_master_list (void)
 	return category_list;
 }
 
-typedef struct {
-	GtkWidget *table;
-	GObject *printable;
-} EContactPrintDialogWeakData;
-
 static void
-e_contact_print_destroy(gpointer data, GObject *where_object_was)
+contact_print_button_draw_page (GtkPrintOperation *operation,
+                                GtkPrintContext *context,
+                                gint page_nr,
+                                EPrintable *printable)
 {
-	EContactPrintDialogWeakData *weak_data = data;
-	g_object_unref (weak_data->printable);
-	g_object_unref (weak_data->table);
-	g_free (weak_data);
-}
-
-static void
-e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
-{	
-#ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
-	GtkPrintOperation *print;
-	GtkPrintSettings *settings;
-	GtkPageSetup *page_setup;
-	GtkPaperSize *paper_size;
-
-	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
-	print = gtk_print_operation_new ();
-	page_setup = gtk_page_setup_new ();
-
-		/*get & set,the settings of the dialog */
-	settings = gtk_print_unix_dialog_get_settings (GTK_PRINT_UNIX_DIALOG (dialog));
-	paper_size = gtk_paper_size_new ("iso_a4"); /* FIXME paper size hardcoded */
-	gtk_page_setup_set_paper_size (page_setup, paper_size);
-	gtk_print_operation_set_print_settings (print, settings);
-
-	gtk_print_operation_set_n_pages (print, 1);
-	gtk_print_operation_set_default_page_setup (print, page_setup);
-		/* run the dialog */
-	g_signal_connect (print,"draw_page",G_CALLBACK(contact_print_button_draw_page), printable);
- 	
-	if (response == GTK_RESPONSE_APPLY)
-		gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PREVIEW, NULL, NULL);
-	else
-		gtk_print_operation_run (print,GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL,NULL);
-		
-	gtk_widget_destroy(dialog);
-	g_object_unref (print);
-#else
-	g_warning ("Not implemented currently on Windows");
-#endif
-}
-
-static void 
-contact_print_button_draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,EPrintable *printable)
-
-{
-	cairo_t *cr;
-	GtkPageSetup *page_setup;
+	GtkPageSetup *setup;
 	gdouble top_margin;
-       
+	cairo_t *cr;
+
+	setup = gtk_print_context_get_page_setup (context);
+	top_margin = gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS);
+
 	cr = gtk_print_context_get_cairo_context (context);
-	page_setup = gtk_print_operation_get_default_page_setup (print);
-	top_margin = gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_POINTS);
-	e_printable_reset(printable);
-		while (e_printable_data_left(printable)) {
-			cairo_save (cr);
-			e_printable_print_page (printable,
-						context,
-						6.5 * 72,
-						top_margin + 10,
-						TRUE);
-			cairo_restore (cr);
-		}
+
+	e_printable_reset (printable);
+
+	while (e_printable_data_left (printable)) {
+		cairo_save (cr);
+		e_printable_print_page (
+			printable, context, 6.5 * 72, top_margin + 10, TRUE);
+		cairo_restore (cr);
+	}
+}
+
+static void
+e_contact_print_button (EPrintable *printable, GtkPrintOperationAction action)
+{
+	GtkPrintOperation *operation;
+
+	operation = e_print_operation_new ();
+	gtk_print_operation_set_n_pages (operation, 1);
+
+	g_signal_connect (
+		operation, "draw_page",
+		G_CALLBACK (contact_print_button_draw_page), printable);
+
+	gtk_print_operation_run (operation, action, NULL, NULL);
+
+	g_object_unref (operation);
 }
 
 void
@@ -1838,110 +1796,44 @@ eab_view_discard_menus (EABView *view)
 }
 
 void
-eab_view_print(EABView *view, int preview)
+eab_view_print (EABView *view, GtkPrintOperationAction action)
 {
 	if (view->view_type == EAB_VIEW_MINICARD) {
-		char *query;
 		EBook *book;
-		GtkWidget *print;
-		GList *list;
+		EBookQuery *query;
+		gchar *query_string;
+		GList *contact_list;
 
-		g_object_get (view->model,
-			      "query", &query,
-			      "book", &book,
-			      NULL);
-		list = get_selected_contacts (view); 
-		print = e_contact_print_dialog_new (book, query, list);
+		g_object_get (
+			view->model, "query", &query_string,
+			"book", &book, NULL);
 
-		if (!preview)
-			e_contact_print_response (print, GTK_RESPONSE_OK, NULL);
+		if (query_string != NULL)
+			query = e_book_query_from_string (query_string);
 		else
-			e_contact_print_response (print, GTK_RESPONSE_APPLY, NULL);
+			query = NULL;
+		g_free (query_string);
 
-		g_free (query);
-		g_list_foreach (list, (GFunc) g_object_unref, NULL);
-		g_list_free (list);
-	}
-	else if (view->view_type == EAB_VIEW_TABLE) {
-		GtkWidget *dialog;
+		contact_list = get_selected_contacts (view);
+		e_contact_print (book, query, contact_list, action);
+		g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
+		g_list_free (contact_list);
+
+		if (query != NULL)
+			e_book_query_unref (query);
+
+	} else if (view->view_type == EAB_VIEW_TABLE) {
 		EPrintable *printable;
-		ETable *etable;
-		EContactPrintDialogWeakData *weak_data;
+		ETable *table;
 
-		/* FIXME: Allow range selection in table views, as in minicard view */
-		dialog = e_print_get_dialog (_("Print cards"), 0);
-
-		g_object_get(view->widget, "table", &etable, NULL);
-		printable = e_table_get_printable(etable);
+		g_object_get (view->widget, "table", &table, NULL);
+		printable = e_table_get_printable (table);
 		g_object_ref_sink (printable);
-		g_object_unref(etable);
-		g_object_ref (view->widget);
+		g_object_unref (table);
 
-		g_object_set_data (G_OBJECT (dialog), "table", view->widget);
-		g_object_set_data (G_OBJECT (dialog), "printable", printable);
-		
-		weak_data = g_new (EContactPrintDialogWeakData, 1);
-		weak_data->table = view->widget;
-		weak_data->printable = G_OBJECT (printable);
-		g_object_weak_ref (G_OBJECT (dialog), e_contact_print_destroy, weak_data);
-		if (preview)
-			e_contact_print_button (dialog, GTK_RESPONSE_APPLY, NULL);
-		else
-			e_contact_print_button (dialog, GTK_RESPONSE_OK, NULL);
-	}
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-	else if (view->view_type == EAB_VIEW_TREEVIEW) {
-		/* XXX */
-	}
-#endif
-}
+		e_contact_print_button (printable, action);
 
-void
-eab_view_print_preview(EABView *view)
-{
-	if (view->view_type == EAB_VIEW_MINICARD) {
-		char *query;
-		EBook *book;
-		GtkWidget *dialog;
-		GList *list;
-
-		g_object_get (view->model,
-			      "query", &query,
-			      "book", &book,
-			      NULL);
-
-		list = get_selected_contacts (view);
-		if (list != NULL)
-			dialog = e_contact_print_contact_list_dialog_new (list);
-		else
-			dialog = e_contact_print_dialog_new (book, query, list);
-		e_contact_print_response (dialog, GTK_RESPONSE_APPLY, NULL);
-		g_list_foreach (list, (GFunc) g_object_unref, NULL);
-		g_list_free (list);
-		g_free (query);
-	}else if (view->view_type == EAB_VIEW_TABLE) {
-		GtkWidget *dialog;
-		EPrintable *printable;
-		ETable *etable;
-		EContactPrintDialogWeakData *weak_data;
-
-		/* FIXME: Allow range selection in table views, as in minicard view */
-		dialog = e_print_get_dialog (_("Print cards"), 0);
-
-		g_object_get(view->widget, "table", &etable, NULL);
-		printable = e_table_get_printable(etable);
-		g_object_ref_sink (printable);
-		g_object_unref(etable);
-		g_object_ref (view->widget);
-
-		g_object_set_data (G_OBJECT (dialog), "table", view->widget);
-		g_object_set_data (G_OBJECT (dialog), "printable", printable);
-		
-		weak_data = g_new (EContactPrintDialogWeakData, 1);
-		weak_data->table = view->widget;
-		weak_data->printable = G_OBJECT (printable);
-		g_object_weak_ref (G_OBJECT (dialog), e_contact_print_destroy, weak_data);
-		e_contact_print_button (dialog, GTK_RESPONSE_APPLY, NULL);
+		g_object_unref (printable);
 	}
 }
 

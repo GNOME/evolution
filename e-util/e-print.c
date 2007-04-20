@@ -24,8 +24,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkprintunixdialog.h>
+#include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
+
 #define PRINTING "/apps/evolution/shell/printing"
 
 static void
@@ -35,21 +36,23 @@ pack_settings (const gchar *key, const gchar *value, GSList **p_list)
 	item = g_strdup_printf ("%s=%s", key, value);
 	*p_list = g_slist_prepend (*p_list, item);
 }
+
 static void
 unpack_settings (gchar *item, GtkPrintSettings *settings)
 {
 	gchar *cp, *key, *value;
 	cp = strchr (item, '=');
 	if (cp == NULL)
-	return;	
+		return;	
 	*cp ++ = '\0';
 	key = g_strstrip (item);
 	value = g_strstrip (cp);
 	gtk_print_settings_set (settings, key, value);
 	g_free (item);
 }
-GtkPrintSettings *
-e_print_load_settings (void)
+
+static GtkPrintSettings *
+load_settings (void)
 {
 	GConfClient *client;
 	GtkPrintSettings *settings;
@@ -68,19 +71,22 @@ e_print_load_settings (void)
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
+
 	g_object_unref (client);
+
 	return settings;
 }
 
-/* Saves the print settings */
- 
-void
-e_print_save_settings (GtkPrintSettings *settings)
+static void
+save_settings (GtkPrintOperation *operation)
 {
+	GtkPrintSettings *settings;
 	GConfClient *client;
 	GSList *list = NULL;
 	GError *error = NULL;
 	
+	settings = gtk_print_operation_get_print_settings (operation);
+
 	client = gconf_client_get_default ();
 	
 	gtk_print_settings_foreach (
@@ -98,38 +104,60 @@ e_print_save_settings (GtkPrintSettings *settings)
 }
 
 static void
-print_dialog_response(GtkWidget *widget, int resp, gpointer data)
+handle_error (GtkPrintOperation *operation)
 {
-#ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
-	if (resp == GTK_RESPONSE_OK) {
-	    e_print_save_settings (gtk_print_unix_dialog_get_settings(GTK_PRINT_UNIX_DIALOG (widget)));	
-	}
-#endif
-}
-
-/* Creates a dialog with the print settings */
-GtkWidget *
-e_print_get_dialog (const char *title, int flags)
-{
-	GtkPrintSettings *settings;
 	GtkWidget *dialog;
-	
-	settings = gtk_print_settings_new ();
-	settings = e_print_load_settings ();
-	dialog = e_print_get_dialog_with_config (title, flags, settings);
-	g_object_unref (settings);
-	return dialog;
+	GError *error = NULL;
+
+	dialog = gtk_message_dialog_new_with_markup (
+		NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		"<span weight=\"bold\" size=\"larger\">%s</span>",
+		_("An error occurred while printing"));
+
+	gtk_print_operation_get_error (operation, &error);
+
+	if (error != NULL && error->message != NULL)
+		gtk_message_dialog_format_secondary_text (
+			GTK_MESSAGE_DIALOG (dialog), "%s\n\n%s",
+			_("The printing system reported the "
+			"following details about the error:"),
+			error->message);
+	else
+		gtk_message_dialog_format_secondary_text (
+			GTK_MESSAGE_DIALOG (dialog), "%s",
+			_("The printing system did not report "
+			"any additional details about the error."));
+
+	if (error != NULL)
+		g_error_free (error);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
 }
 
-GtkWidget *
-e_print_get_dialog_with_config (const char *title, int flags, GtkPrintSettings *settings)
+static void
+print_done_cb (GtkPrintOperation *operation, GtkPrintOperationResult result)
 {
-	GtkWidget *dialog = NULL;
-	
-#ifdef G_OS_UNIX		/* Just to get it to build on Win32 */
-	dialog = gtk_print_unix_dialog_new (title, NULL);
-	gtk_print_unix_dialog_set_settings (GTK_PRINT_UNIX_DIALOG(dialog), settings);
-	g_signal_connect(dialog, "response", G_CALLBACK(print_dialog_response), NULL); 
-#endif
-	return dialog;
+	if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
+		save_settings (operation);
+	if (result == GTK_PRINT_OPERATION_RESULT_ERROR)
+		handle_error (operation);
+}
+
+GtkPrintOperation *
+e_print_operation_new (void)
+{
+	GtkPrintOperation *operation;
+	GtkPrintSettings *settings;
+
+	operation = gtk_print_operation_new ();
+
+	settings = load_settings ();
+	gtk_print_operation_set_print_settings (operation, settings);
+	g_object_unref (settings);
+
+	g_signal_connect (operation, "done", G_CALLBACK (print_done_cb), NULL);
+
+	return operation;
 }

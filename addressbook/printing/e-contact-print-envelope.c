@@ -19,16 +19,17 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/* XXX Keeping the rendering code around for future reference,
+ *     but it needs a lot of work to make it usable again. */
+
+#if 0
+
 #include <config.h>
 #include "addressbook/printing/e-contact-print-envelope.h"
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <time.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <e-util/e-print.h>
 
 #define ENVELOPE_HEIGHT (72.0 * 4.0)
@@ -123,12 +124,6 @@ ecpe_linelist_print(GnomePrintContext *pc, GnomeFont *font, char *address, EcpeL
 	}
 }
 
-static gint
-e_contact_print_envelope_close(GnomeDialog *dialog, gpointer data)
-{
-	return FALSE;
-}
-
 static void
 ecpe_print(GnomePrintContext *pc, EContact *contact, gboolean as_return)
 {
@@ -166,78 +161,4 @@ ecpe_print(GnomePrintContext *pc, EContact *contact, gboolean as_return)
 	gnome_print_context_close(pc);
 }
 
-static void
-e_contact_print_envelope_button(GnomeDialog *dialog, gint button, gpointer data)
-{
-	GnomePrintJob *master;
-	GnomePrintContext *pc;
-	GnomePrintConfig *config;
-	EContact *contact = NULL;
-	GtkWidget *preview;
-
-	contact = g_object_get_data(G_OBJECT(dialog), "contact");
-
-	switch( button ) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (dialog));
-		master = gnome_print_job_new (config);
-		pc = gnome_print_job_get_context( master );
-
-		ecpe_print(pc, contact, FALSE);
-		
-		gnome_print_job_print(master);
-		gnome_dialog_close(dialog);
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (dialog));
-		master = gnome_print_job_new (config);
-		pc = gnome_print_job_get_context( master );
-
-		ecpe_print(pc, contact, FALSE);
-		
-		preview = GTK_WIDGET(gnome_print_job_preview_new(master, "Print Preview"));
-		gtk_widget_show_all(preview);
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
-		g_object_unref(contact);
-		gnome_dialog_close(dialog);
-		break;
-	}
-}
-
-GtkWidget *
-e_contact_print_envelope_dialog_new(EContact *contact)
-{
-	GtkWidget *dialog;
-	
-	dialog = e_print_get_dialog (_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
-
-	contact = e_contact_duplicate(contact);
-	g_object_set_data(G_OBJECT(dialog), "contact", contact);
-	g_signal_connect(dialog,
-			 "clicked", G_CALLBACK(e_contact_print_envelope_button), NULL);
-	g_signal_connect(dialog,
-			 "close", G_CALLBACK(e_contact_print_envelope_close), NULL);
-	return dialog;
-}
-
-/* FIXME: Print all the contacts selected. */
-GtkWidget *
-e_contact_print_envelope_list_dialog_new(GList *list)
-{
-	GtkWidget *dialog;
-	EContact *contact;
-
-	if (list == NULL)
-		return NULL;
-
-	dialog = e_print_get_dialog(_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
-
-	contact = e_contact_duplicate(list->data);
-	g_object_set_data(G_OBJECT(dialog), "contact", contact);
-	g_signal_connect(dialog,
-			 "clicked", G_CALLBACK(e_contact_print_envelope_button), NULL);
-	g_signal_connect(dialog,
-			 "close", G_CALLBACK(e_contact_print_envelope_close), NULL);
-	return dialog;
-}
+#endif
