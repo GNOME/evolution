@@ -52,7 +52,9 @@ struct _ESidebar {
 struct _ESidebarClass {
 	GtkContainerClass parent_class;
 
+	/* signals */
 	void (* button_selected) (ESidebar *sidebar, int id);
+	void (* button_pressed)  (ESidebar *sidebar, GdkEventButton *event, int id);
 };
 
 

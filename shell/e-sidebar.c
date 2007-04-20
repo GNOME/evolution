@@ -63,6 +63,7 @@ struct _ESidebarPrivate {
 
 enum {
 	BUTTON_SELECTED,
+	BUTTON_PRESSED,
 	NUM_SIGNALS
 };
 
@@ -162,6 +163,25 @@ button_toggled_callback (GtkToggleButton *toggle_button,
 
 	if (is_active)
 		g_signal_emit (sidebar, signals[BUTTON_SELECTED], 0, id);
+}
+
+static gboolean
+button_pressed_callback (GtkToggleButton *toggle_button,
+			 GdkEventButton  *event,
+			 ESidebar        *sidebar)
+{
+	gboolean return_val = FALSE;
+	GSList *p;
+
+	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
+		Button *button = p->data;
+
+		if (button->button_widget == GTK_WIDGET (toggle_button))
+			g_signal_emit (sidebar, signals [BUTTON_PRESSED],
+				       0, event, button->id, &return_val);
+	}
+
+	return return_val;
 }
 
 
@@ -400,6 +420,20 @@ impl_dispose (GObject *object)
 	(* G_OBJECT_CLASS (e_sidebar_parent_class)->dispose) (object);
 }
 
+static gboolean
+boolean_handled_accumulator (GSignalInvocationHint *ihint,
+			     GValue                *return_accu,
+			     const GValue          *handler_return,
+			     gpointer               dummy)
+{
+	gboolean handled;
+	
+	handled = g_value_get_boolean (handler_return);
+	g_value_set_boolean (return_accu, handled);
+
+	return !handled;
+}
+
 static void
 impl_finalize (GObject *object)
 {
@@ -438,6 +472,15 @@ e_sidebar_class_init (ESidebarClass *klass)
 				e_shell_marshal_NONE__INT,
 				G_TYPE_NONE, 1,
 				G_TYPE_INT);
+	signals[BUTTON_PRESSED]
+		= g_signal_new ("button_pressed",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (ESidebarClass, button_pressed),
+				boolean_handled_accumulator, NULL,
+				e_shell_marshal_NONE__POINTER_INT,
+				G_TYPE_BOOLEAN, 2,
+				G_TYPE_POINTER, G_TYPE_INT);
 }
 
 static void
@@ -494,6 +537,8 @@ e_sidebar_add_button (ESidebar *sidebar,
 	if (sidebar->priv->show)
 		gtk_widget_show (button_widget);
 	g_signal_connect (button_widget, "toggled", G_CALLBACK (button_toggled_callback), sidebar);
+ 	g_signal_connect (button_widget, "button_press_event",
+ 			  G_CALLBACK (button_pressed_callback), sidebar);
 
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);

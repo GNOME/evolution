@@ -428,28 +428,50 @@ update_send_receive_sensitivity (EShellWindow *window)
 
 /* Callbacks.  */
 
+static ComponentView *
+get_component_view (EShellWindow *window, int id)
+{
+	GSList *p;
+
+	for (p = window->priv->component_views; p; p = p->next) {
+		if (((ComponentView *) p->data)->button_id == id)
+			return p->data;
+	}
+
+	g_warning ("Unknown component button id %d", id);
+	return NULL;
+}
+
 static void
 sidebar_button_selected_callback (ESidebar *sidebar,
 				  int button_id,
 				  EShellWindow *window)
 {
-	EShellWindowPrivate *priv = window->priv;
-	ComponentView *component_view = NULL;
-	GSList *p;
+	ComponentView *component_view;
 
-	for (p = priv->component_views; p != NULL; p = p->next) {
-		if (((ComponentView *) p->data)->button_id == button_id) {
-			component_view = p->data;
-			break;
+	if ((component_view = get_component_view (window, button_id)))
+		switch_view (window, component_view);
+}
+
+static gboolean
+sidebar_button_pressed_callback (ESidebar       *sidebar,
+				 GdkEventButton *event,
+				 int             button_id,
+				 EShellWindow   *window)
+{
+	if (event->type == GDK_BUTTON_PRESS &&
+	    event->button == 2) {
+		/* open it in a new window */
+		ComponentView *component_view;
+
+		if ((component_view = get_component_view (window, button_id))) {
+			e_shell_create_window (window->priv->shell, 
+					       component_view->component_id,
+					       window);
 		}
+		return TRUE;
 	}
-
-	if (component_view == NULL) {
-		g_warning ("Unknown component button id %d", button_id);
-		return;
-	}
-
-	switch_view (window, component_view);
+	return FALSE;
 }
 
 static void
@@ -668,6 +690,8 @@ setup_widgets (EShellWindow *window)
 	priv->sidebar = e_sidebar_new ();
 	g_signal_connect (priv->sidebar, "button_selected",
 			  G_CALLBACK (sidebar_button_selected_callback), window);
+	g_signal_connect (priv->sidebar, "button_pressed",
+			  G_CALLBACK (sidebar_button_pressed_callback), window);
 	gtk_paned_pack1 (GTK_PANED (priv->paned), priv->sidebar, FALSE, FALSE);
 	gtk_widget_show (priv->sidebar);
 

@@ -1,3 +1,18 @@
+2007-04-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #259606 from Michael Meeks
+
+	* e-shell-marshal.list:
+	* e-shell-window.c: (get_component_view),
+	(sidebar_button_selected_callback),
+	(sidebar_button_pressed_callback), (setup_widgets): Added support for
+	middle click to open the component in new window.
+	* e-shell.c:
+	* e-sidebar.c: (button_pressed_callback),
+	(boolean_handled_accumulator), (e_sidebar_class_init),
+	(e_sidebar_add_button):
+	* e-sidebar.h:
+
 2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #429422
