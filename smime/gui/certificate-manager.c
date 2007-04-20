@@ -133,6 +133,8 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 	const char *filename;
 
 #ifdef USE_GTKFILECHOOSER
+	GtkFileFilter* filter;
+
 	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
 					       NULL,
 					       GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -140,6 +142,16 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name (filter, _("All PKCS12 files"));
+	gtk_file_filter_add_mime_type (filter, "application/x-pkcs12");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("All files"));
+	gtk_file_filter_add_pattern (filter, "*");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 #else
 	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
 #endif
@@ -372,6 +384,8 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 	const char *filename;
 
 #ifdef USE_GTKFILECHOOSER
+	GtkFileFilter *filter;
+
 	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
 					       NULL,
 					       GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -379,6 +393,16 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name (filter, _("All email certificate files"));
+	gtk_file_filter_add_mime_type (filter, "application/x-x509-email-cert");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("All files"));
+	gtk_file_filter_add_pattern (filter, "*");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 #else
 	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
 #endif
@@ -592,6 +616,8 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 	const char *filename;
 
 #ifdef USE_GTKFILECHOOSER
+	GtkFileFilter *filter;
+
 	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
 					       NULL,
 					       GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -599,6 +625,16 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name (filter, _("All CA certificate files"));
+	gtk_file_filter_add_mime_type (filter, "application/x-x509-ca-cert");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("All files"));
+	gtk_file_filter_add_pattern (filter, "*");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 #else
 	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
 #endif
