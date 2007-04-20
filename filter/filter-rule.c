@@ -889,7 +889,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	if (f->flags & RULE_CONTEXT_THREADING) {
 		const char *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents"), N_("No reply or parent") };
 
-		label = gtk_label_new (_("Include threads"));
+		label = gtk_label_new_with_mnemonic (_("I_nclude threads"));
 		menu = gtk_menu_new ();
 	
 		for (i=0;i<5;i++) {
@@ -899,6 +899,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 		}
 	
 		omenu = gtk_option_menu_new ();
+		gtk_label_set_mnemonic_widget ((GtkLabel *)label, omenu);
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), fr->threading);
 		gtk_widget_show (omenu);
