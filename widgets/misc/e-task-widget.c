@@ -148,12 +148,16 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_widget_show (box);
 
 	gtk_widget_set_size_request (box, 1, -1);
+	
+	/* FIXME: Experimenting Spinner widget instead of an image. REWORK THIS */
+	/* priv->icon_pixbuf = g_object_ref (icon_pixbuf); */
 
-	priv->icon_pixbuf = g_object_ref (icon_pixbuf);
+	/* gdk_pixbuf_render_pixmap_and_mask (icon_pixbuf, &pixmap, &mask, 128); */
 
-	gdk_pixbuf_render_pixmap_and_mask (icon_pixbuf, &pixmap, &mask, 128);
-
-	priv->image = gtk_image_new_from_pixmap (pixmap, mask);
+	priv->image = e_spinner_new ();
+	e_spinner_set_size (priv->image, GTK_ICON_SIZE_SMALL_TOOLBAR);
+	e_spinner_start (priv->image);
+	/* gtk_image_new_from_pixmap (pixmap, mask); */
 	gtk_widget_show (priv->image);
 	gtk_box_pack_start (GTK_BOX (box), priv->image, FALSE, TRUE, 0);
 
@@ -162,9 +166,9 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_widget_show (priv->label);
 	gtk_box_pack_start (GTK_BOX (box), priv->label, TRUE, TRUE, 0);
 
-	g_object_unref (pixmap);
+	/* g_object_unref (pixmap);
 	if (mask)
-		g_object_unref (mask);
+		g_object_unref (mask); */
 
 	priv->tooltips = gtk_tooltips_new ();
 	g_object_ref_sink (priv->tooltips);
