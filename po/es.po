@@ -1,4 +1,4 @@
-# translation of es.po to
+# Copyright © 2000-2002, 2006, 2007 Free Software Foundation, Inc.
 # Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001.
 # Héctor García Álvarez <hector@scouts-es.org>, 2000-2002.
 # Ismael Olea <ismael@olea.org>, 2001, (revisiones) 2003.
@@ -6,17 +6,16 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Francisco Javier F. Serrador <serrador@tecknolabs.com>, 2006.
-# Copyright © 2000-2002, 2006 Free Software Foundation, Inc.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007.
 # This file is distributed under the same license as the evolution package.
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: evolution.gnome-2-16.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-14 11:30+0100\n"
-"PO-Revision-Date: 2006-12-14 11:33+0100\n"
-"Last-Translator: \n"
-"Language-Team:  <en@li.org>\n"
+"POT-Creation-Date: 2007-01-27 21:22+0000\n"
+"PO-Revision-Date: 2007-04-21 17:53+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2685,7 +2684,7 @@ msgid "Esq."
 msgstr "Esq."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "Full Name"
 msgstr "Nombre completo"
 
@@ -2920,7 +2919,7 @@ msgstr "Fuente"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:251
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:487
+#: ../calendar/gui/e-meeting-list-view.c:500
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:6
 msgid "Type"
@@ -3063,83 +3062,83 @@ msgid "Categories"
 msgstr "Categorías"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-#: ../addressbook/gui/widgets/eab-contact-display.c:571
-msgid "Company"
-msgstr "Empresa"
-
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
 msgstr "Teléfono de empresa"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: ../addressbook/gui/widgets/eab-contact-display.c:785
 #: ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "Correo-e"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 msgid "Email 2"
 msgstr "Correo-e 2"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 3"
 msgstr "Correo-e 3"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Family Name"
 msgstr "Apellidos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "File As"
 msgstr "Archivar como"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Given Name"
 msgstr "Nombre dado"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Fax"
 msgstr "Fax de casa"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Phone"
 msgstr "Teléfono de casa"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone 2"
 msgstr "Teléfono de casa 2"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "ISDN Phone"
 msgstr "Teléfono RDSI"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Journal"
 msgstr "Diario"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 #: ../addressbook/gui/widgets/eab-contact-display.c:575
 msgid "Manager"
 msgstr "Jefe"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:596
 msgid "Mobile Phone"
 msgstr "Teléfono móvil"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 #: ../addressbook/gui/widgets/eab-contact-display.c:550
 msgid "Nickname"
 msgstr "Apodo"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 #: ../addressbook/gui/widgets/eab-contact-display.c:609
 msgid "Note"
 msgstr "Nota"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Office"
 msgstr "Oficina"
+
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
+#: ../addressbook/gui/widgets/eab-contact-display.c:571
+msgid "Organization"
+msgstr "Organización"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:28
 msgid "Other Fax"
@@ -3163,7 +3162,7 @@ msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:498
+#: ../calendar/gui/e-meeting-list-view.c:511
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -5075,6 +5074,7 @@ msgid "Time the last alarm ran, in time_t."
 msgstr "La hora en que la última alarma sonó, en time_t."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+#: ../plugins/startup-wizard/startup-wizard.c:110
 msgid "Timezone"
 msgstr "Zona horaria "
 
@@ -5987,7 +5987,7 @@ msgstr "Mostrar _barra de adjuntos"
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3652
+#: ../composer/e-msg-composer.c:3659
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5996,19 +5996,19 @@ msgstr "_Quitar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3653 ../mail/em-folder-tree.c:2082
+#: ../composer/e-msg-composer.c:3660 ../mail/em-folder-tree.c:2082
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Propiedades"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3655
+#: ../composer/e-msg-composer.c:3662
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1510
-#: ../mail/em-format-html-display.c:2286
+#: ../mail/em-format-html-display.c:2293
 msgid "Show Attachments"
 msgstr "Mostrar adjuntos"
 
@@ -6374,14 +6374,14 @@ msgstr "Miembro"
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:510
+#: ../calendar/gui/e-meeting-list-view.c:523
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "Confirmar"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:521
+#: ../calendar/gui/e-meeting-list-view.c:534
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:16
 msgid "Status"
@@ -7081,7 +7081,7 @@ msgstr "Asignado"
 msgid "Save As..."
 msgstr "Guardar como…"
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2132
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2139
 msgid "Select folder to save selected attachments..."
 msgstr "Seleccione la carpeta donde guardar los adjuntos seleccionados…"
 
@@ -7958,7 +7958,7 @@ msgid "Delegated"
 msgstr "Delegado"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:471
+#: ../calendar/gui/e-meeting-list-view.c:484
 msgid "Attendee                          "
 msgstr "Participante                          "
 
@@ -10447,7 +10447,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Ocultar _barra de adjuntos"
 
 #: ../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2534
-#: ../composer/e-msg-composer.c:3898
+#: ../composer/e-msg-composer.c:3905
 msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
@@ -10482,12 +10482,12 @@ msgstr "Autogenerado"
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
-#: ../composer/e-msg-composer.c:2545 ../composer/e-msg-composer.c:3780
-#: ../composer/e-msg-composer.c:3783
+#: ../composer/e-msg-composer.c:2545 ../composer/e-msg-composer.c:3787
+#: ../composer/e-msg-composer.c:3790
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:5007
+#: ../composer/e-msg-composer.c:5014
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11323,9 +11323,11 @@ msgstr "Fecha de recepción"
 msgid "Date sent"
 msgstr "Fecha de envío"
 
-#: ../mail/em-filter-i18n.h:11 ../ui/evolution-addressbook.xml.h:15
-#: ../ui/evolution-calendar.xml.h:5 ../ui/evolution-mail-message.xml.h:25
-#: ../ui/evolution-memos.xml.h:6 ../ui/evolution-tasks.xml.h:6
+#: ../mail/em-filter-i18n.h:11
+#: ../plugins/groupwise-features/share-folder.c:777
+#: ../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
+#: ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Borrar"
 
@@ -11937,28 +11939,28 @@ msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:507
+#: ../mail/em-format-html-display.c:508
 #, c-format
 msgid "Matches: %d"
 msgstr "Coincide con: %d"
 
-#: ../mail/em-format-html-display.c:650
+#: ../mail/em-format-html-display.c:651
 msgid "Fi_nd:"
 msgstr "_Buscar:"
 
-#: ../mail/em-format-html-display.c:678
+#: ../mail/em-format-html-display.c:679
 msgid "Fo_rward"
 msgstr "_Reenviar"
 
-#: ../mail/em-format-html-display.c:683
+#: ../mail/em-format-html-display.c:684
 msgid "M_atch case"
 msgstr "_Coincidir con capitalización"
 
-#: ../mail/em-format-html-display.c:930 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:931 ../mail/em-format-html.c:618
 msgid "Unsigned"
 msgstr "No firmado"
 
-#: ../mail/em-format-html-display.c:930
+#: ../mail/em-format-html-display.c:931
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11966,11 +11968,11 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:931 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:932 ../mail/em-format-html.c:619
 msgid "Valid signature"
 msgstr "Firma válida"
 
-#: ../mail/em-format-html-display.c:931
+#: ../mail/em-format-html-display.c:932
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11978,11 +11980,11 @@ msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
 
-#: ../mail/em-format-html-display.c:932 ../mail/em-format-html.c:620
+#: ../mail/em-format-html-display.c:933 ../mail/em-format-html.c:620
 msgid "Invalid signature"
 msgstr "Firma no válida"
 
-#: ../mail/em-format-html-display.c:932
+#: ../mail/em-format-html-display.c:933
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11990,11 +11992,11 @@ msgstr ""
 "La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:933
+#: ../mail/em-format-html-display.c:934
 msgid "Valid signature, cannot verify sender"
 msgstr "Firma válida, no se puede verificar el remitente"
 
-#: ../mail/em-format-html-display.c:933
+#: ../mail/em-format-html-display.c:934
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -12002,11 +12004,11 @@ msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no se pudo verificar."
 
-#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:627
+#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:627
 msgid "Unencrypted"
 msgstr "Desencriptado"
 
-#: ../mail/em-format-html-display.c:939
+#: ../mail/em-format-html-display.c:940
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -12014,11 +12016,11 @@ msgstr ""
 "Este mensaje no está encriptado. Su contenido puede verse en tránsito a "
 "través de Internet."
 
-#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:628
+#: ../mail/em-format-html-display.c:941 ../mail/em-format-html.c:628
 msgid "Encrypted, weak"
 msgstr "Encriptado, débil"
 
-#: ../mail/em-format-html-display.c:940
+#: ../mail/em-format-html-display.c:941
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -12028,11 +12030,11 @@ msgstr ""
 "Debería ser difícil, pero no imposible para un espía ver el contenido de "
 "este mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:941 ../mail/em-format-html.c:629
+#: ../mail/em-format-html-display.c:942 ../mail/em-format-html.c:629
 msgid "Encrypted"
 msgstr "Encriptado"
 
-#: ../mail/em-format-html-display.c:941
+#: ../mail/em-format-html-display.c:942
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -12040,11 +12042,11 @@ msgstr ""
 "Este mensaje está encriptado. Sería difícil para un espía ver el contenido "
 "de este mensaje."
 
-#: ../mail/em-format-html-display.c:942 ../mail/em-format-html.c:630
+#: ../mail/em-format-html-display.c:943 ../mail/em-format-html.c:630
 msgid "Encrypted, strong"
 msgstr "Cifrado, fuerte"
 
-#: ../mail/em-format-html-display.c:942
+#: ../mail/em-format-html-display.c:943
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -12054,72 +12056,72 @@ msgstr ""
 "muy difícil que un espía vea el contenido de este mensaje en empleando un "
 "tiempo razonable."
 
-#: ../mail/em-format-html-display.c:1043 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1044 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Ver certificado"
 
-#: ../mail/em-format-html-display.c:1058
+#: ../mail/em-format-html-display.c:1059
 msgid "This certificate is not viewable"
 msgstr "Certificado no es visible"
 
-#: ../mail/em-format-html-display.c:1377
+#: ../mail/em-format-html-display.c:1378
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Terminado el %e de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1385
+#: ../mail/em-format-html-display.c:1386
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#: ../mail/em-format-html-display.c:1388
+#: ../mail/em-format-html-display.c:1389
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "antes del %e de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1448
+#: ../mail/em-format-html-display.c:1449
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../mail/em-format-html-display.c:1449
+#: ../mail/em-format-html-display.c:1450
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../mail/em-format-html-display.c:1450
+#: ../mail/em-format-html-display.c:1451
 msgid "_Fit to Width"
 msgstr "_Ajustar al ancho"
 
-#: ../mail/em-format-html-display.c:1451
+#: ../mail/em-format-html-display.c:1452
 msgid "Show _Original Size"
 msgstr "Mostrar tamaño _original"
 
-#: ../mail/em-format-html-display.c:1886 ../mail/mail-config.glade.h:44
+#: ../mail/em-format-html-display.c:1893 ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Adjunto"
 
-#: ../mail/em-format-html-display.c:2093
+#: ../mail/em-format-html-display.c:2100
 msgid "Select folder to save all attachments..."
 msgstr "Seleccione la carpeta donde guardar todos los adjuntos…"
 
-#: ../mail/em-format-html-display.c:2140
+#: ../mail/em-format-html-display.c:2147
 msgid "_Save Selected..."
 msgstr "_Guardar seleccionados…"
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2207
+#: ../mail/em-format-html-display.c:2214
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
 msgstr[0] "%d a_djunto"
 msgstr[1] "%d a_djuntos"
 
-#: ../mail/em-format-html-display.c:2214 ../mail/em-format-html-display.c:2292
+#: ../mail/em-format-html-display.c:2221 ../mail/em-format-html-display.c:2299
 msgid "S_ave"
 msgstr "_Guardar"
 
-#: ../mail/em-format-html-display.c:2225
+#: ../mail/em-format-html-display.c:2232
 msgid "S_ave All"
 msgstr "Guardar _todo"
 
-#: ../mail/em-format-html-display.c:2288
+#: ../mail/em-format-html-display.c:2295
 msgid "No Attachment"
 msgstr "Sin adjunto"
 
@@ -15342,6 +15344,17 @@ msgstr "Tipo de autenticación"
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados "
 
+#: ../plugins/exchange-operations/exchange-account-setup.c:949
+#: ../plugins/exchange-operations/exchange-contacts.c:213
+#, c-format
+msgid "%s KB"
+msgstr "%s KiB"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:951
+#: ../plugins/exchange-operations/exchange-contacts.c:215
+msgid "0 KB"
+msgstr "0 KiB"
+
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
@@ -16003,6 +16016,39 @@ msgstr "Lista de comprobación"
 msgid "Groupwise Account Setup"
 msgstr "Configuración de la cuenta Groupwise"
 
+#: ../plugins/groupwise-features/install-shared.c:215
+#, c-format
+msgid ""
+"The user '%s' has shared a folder with you\n"
+"\n"
+"Message from '%s'\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Click 'Forward' to install the shared folder\n"
+"\n"
+msgstr ""
+"El usuario «%s» ha compartido una capeta con usted\n"
+"\n"
+"Mensaje de «%s»\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Pulse «Reenviar» para instalar la carpeta compartida\n"
+"\n"
+
+#: ../plugins/groupwise-features/install-shared.c:220
+msgid "Install the shared folder"
+msgstr "Instalar la carpeta compartida"
+
+#: ../plugins/groupwise-features/install-shared.c:222
+msgid "Shared Folder Installation"
+msgstr "Instalación de carpeta compartida"
+
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
 msgstr "Opciones de spam"
@@ -16188,6 +16234,7 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "La solapa del Proxy estará disponible sólo cuando la cuenta esté activada."
 
 #: ../plugins/groupwise-features/share-folder-common.c:322
+#: ../plugins/groupwise-features/share-folder.c:760
 msgid "Users"
 msgstr "Usuarios"
 
@@ -16202,6 +16249,43 @@ msgstr "Carpeta compartida _nueva…"
 #: ../plugins/groupwise-features/share-folder-common.c:450
 msgid "Sharing"
 msgstr "Compartir"
+
+#: ../plugins/groupwise-features/share-folder.c:765
+msgid "Add   "
+msgstr "Añadir   "
+
+#: ../plugins/groupwise-features/share-folder.c:771
+msgid "Modify"
+msgstr "Modificar"
+
+#: ../plugins/groupwise-features/status-track.c:118
+msgid "Message Status"
+msgstr "Estado del mensaje"
+
+#. Subject
+#: ../plugins/groupwise-features/status-track.c:132
+msgid "<b>Subject</b> :"
+msgstr "<b>Asunto</b> :"
+
+#: ../plugins/groupwise-features/status-track.c:144
+msgid "<b>From</b> :"
+msgstr "<b>De</b> :"
+
+#: ../plugins/groupwise-features/status-track.c:157
+msgid "<b>Creation date</b> :"
+msgstr "<b>Fecha de creación</b> :"
+
+#: ../plugins/groupwise-features/status-track.c:177
+msgid "<b>Recipients </b>"
+msgstr "<b>Destinatarios </b>"
+
+#: ../plugins/groupwise-features/status-track.c:181
+msgid "<b>Action</b>"
+msgstr "<b>Acción</b>"
+
+#: ../plugins/groupwise-features/status-track.c:185
+msgid "<b>Date and Time</b>"
+msgstr "<b>Fecha y hora</b>"
 
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
@@ -17388,6 +17472,7 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
+#: ../plugins/save-attachments/save-attachments.c:334
 msgid "Save attachments"
 msgstr "Guarda los adjuntos"
 
@@ -17566,6 +17651,10 @@ msgstr ""
 "aplicaciones. \n"
 "\n"
 "Por favor pulse el botón «Adelante» para continuar. "
+
+#: ../plugins/startup-wizard/startup-wizard.c:136
+msgid "Importing files"
+msgstr "Importando archivos"
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
 #: ../shell/e-shell-importer.c:149
@@ -19132,7 +19221,7 @@ msgstr "Ay_uda"
 msgid "_Options"
 msgstr "_Opciones"
 
-#'Acontecimiento para todo el día' es demasiado largo
+# 'Acontecimiento para todo el día' es demasiado largo
 #: ../ui/evolution-event-editor.xml.h:2
 msgid "All Day Event"
 msgstr "Todo el día"
