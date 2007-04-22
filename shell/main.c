@@ -382,8 +382,12 @@ idle_cb (gchar **uris)
 
 	CORBA_exception_free (&ev);
 	
-	if (shell == NULL)
+	if (shell == NULL) {
+		/*there is another instance but because we don't open any windows
+		we must notify the startup was complete manually*/
+		gdk_notify_startup_complete ();
 		bonobo_main_quit ();
+	}
 
 	return FALSE;
 }
