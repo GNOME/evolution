@@ -53,6 +53,7 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtktogglebutton.h>
 
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
@@ -526,7 +527,7 @@ main (int argc, char **argv)
 #endif
 
 #if DEVELOPMENT
-	client = g_conf_client_get_default ();
+	client = gconf_client_get_default ();
 
 	if (force_migrate) {
 		destroy_config (client);
