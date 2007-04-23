@@ -1,3 +1,8 @@
+2007-04-23  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* configure.in: Fix configure for LDFLAGS=-Wl,--as-needed. Fixes
+	bug #319504.
+
 2007-04-23  Srinivasa Ragavan <sragavan@novell.com>
 
 	** NEWS, configure.in: Evolution 2.11.1 release
