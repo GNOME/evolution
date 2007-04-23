@@ -52,7 +52,6 @@
 
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"
-#include "addressbook/printing/e-contact-print-envelope.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-error.h"

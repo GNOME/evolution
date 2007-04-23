@@ -1,3 +1,10 @@
+2007-04-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/widgets/e-addresbook-reflow-adapter.c:
+	* gui/widgets/e-addresbook-view.c:
+	Don't include e-contact-print-envelope.h.
+
 2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #426816
