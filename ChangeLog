@@ -1,3 +1,8 @@
+2007-04-23  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* configure.in: Fix configure for LDFLAGS=-Wl,--as-needed. Fixes
+	bug #319504.
+
 2007-04-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

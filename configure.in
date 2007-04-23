@@ -585,7 +585,7 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 	CFLAGS_save="$CFLAGS"
 	CFLAGS="$CFLAGS $GNOME_PILOT_CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
-	LDFLAGS="$LDFLAGS $GNOME_PILOT_LIBS"
+	LDFLAGS="$GNOME_PILOT_LIBS $LDFLAGS"
 
 	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions], ac_cv_pilot_link_utf8, AC_TRY_RUN([
 
