@@ -1,3 +1,70 @@
+Evolution 2.11.1 2007-04-23
+---------------------------
+
+New in 2.11.1:
+	Improved SPAM support (Srinivasa Ragavan)
+	Bogofilter plugin (Mikhail Zabaluev)
+	Spinner for progress indication (Srinivasa Ragavan)
+	Improved Backup/restore plugin  (Srinivasa Ragavan)
+	Improved Groupwise status tracking (Sankar)
+	Improved GtkPrint support (Matthew Barnes)
+
+Bug fixes:
+	#211082: Contact merging support on creation (Ebby Wiselyn)
+	#429422 and #419469: Code cleanups (Matthew Barnes)
+	#415985 and #416028: Fix crash in calendar (Wang Xin)
+	#419524: Fix incorrect includes (Matthew Barnes)
+	#426812: Refactor the printing infrastructure (Matthew Barnes)
+	#353662: Signature list now scrollable using keyboard (Baris Cicek)
+	#423766: Fix saving of mail attachments (Matthew Barnes)
+	#343195: Get total number of mails with CAMEL_FOLDER_TOTAL if the folder
+	 is junk folder. (Hiroyuki Ikezoe)
+	#383953: Fix message count display (Matthew Barnes)
+	#332765: More intelligent message selection (Christof Krüger)
+	#424795: Fix system beep (Karl Relton)
+	#352713: Update parent rows when a child row changes (René Stadler)
+	#400241: Don't #include <composer/e-msg-composer.h> since we don't
+	 install that file (Matthew Barnes)
+	#411331: Fix the message selection (Srinivasa Ragavan)
+	#375577: Correctly capitalize SpamAssassin (Priit Laes)
+	#387619: Remove use of deprecated icon names (Rodney Dawes)
+	#373116: Migrate from GnomeColorPicker to GtkColorButton (Matthew
+	 Barnes)
+	#373837: Migrate from GnomeFontPicker to GtkFontButton (Matthew Barnes)
+	#271851: fix startup notification problem (Stephen Cook)
+	#259606: Added support for middle click to open the component in new
+	 window (Michael Meeks)
+	#396645: Show only cert files in filechooser (Gilles Dartiguelongue)
+	#426816: Refactor the printing infrastructure (Matthew Barnes)
+	#329168: Add missing mnemonic widgets (Andre Klapper)
+	#408423: Code cleanups and several memory leaks (Daniel Gryniewicz)
+	#353922: Fix a duplicate keyboard shortcut (Diego Escalante Urrelo)
+	#401539: Fix a crasher (Matthew Barnes)
+	#356523: Copies the file uri and decodes it before trying to attach the
+	 image (Martin Olsson)
+	#243241: Show only enabled accounts on composer (Paul Iadonisi)
+	#430559: Added mnemonics. (Vinod)
+	#426743: Corrected typo "asychronous" (Elizabeth Greene)
+	#404233: change "E-Mail" to "Email" (Andre Klapper)
+	#426487: Date is garbled in contacts preview pane on locale "ja_JP.PCK"
+	 (Xiurong Simon Zheng)
+	#426829: Code cleanups (Xiurong Simon Zheng)
+	#406933: Call gettext() on the EConfigItem labels (Jeff Cai)
+	#380843: Fix time format translations (Jeff Cai & takao.fujiwara)
+	#426481: Fix Typo Assitant (Elizabeth Greene)
+	#404764: Fix typos and reword a string (Andre Klapper)
+
+
+Updated Translations:
+	David Lodge (en_GB)
+	Yair Hershkovitz (he)
+	Daniel Nylander (sv)
+	Djihed Afifi (ar)
+	Jakub Friedl (cs)
+	Duarte Loreto (pt)
+	Laurent Dhima (sq)
+	Hendrik Richter (de)
+
 Evolution 2.10.0 2007-03-12
 ---------------------------
 
