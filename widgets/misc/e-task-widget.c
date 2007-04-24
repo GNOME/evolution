@@ -25,6 +25,7 @@
 #endif
 
 #include "e-task-widget.h"
+#include "e-spinner.h"
 
 #include <gtk/gtkframe.h>
 #include <gtk/gtkhbox.h>

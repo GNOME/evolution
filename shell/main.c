@@ -54,6 +54,7 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtkcheckbutton.h>
 
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
