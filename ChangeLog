@@ -1,3 +1,7 @@
+2007-04-25  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* configure.in: Added "oc" (Occitan) to ALL_LINGUAS
+
 2006-08-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* evolution-plugin.pc.in, evolution-shell.pc.in:
