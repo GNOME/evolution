@@ -2,6 +2,7 @@ INCLUDES = -I .						\
 	-I$(top_srcdir)	                                \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/calendar			\
+	-I$(top_builddir)/composer			\
 	$(CAMEL_EXCHANGE_CFLAGS)                        \
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
 	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
