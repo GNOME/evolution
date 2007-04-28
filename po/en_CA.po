@@ -10992,7 +10992,7 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
-"On ${AbbrevWeekdayName}, ${Year}-${Day}-${Month} at ${24Hour}:${Minute} "
+"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 
 #: ../mail/em-filter-editor.c:155
