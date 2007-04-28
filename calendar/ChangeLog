@@ -1,3 +1,8 @@
+2007-04-28  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/dialogs/task-page.glade: Fix a mnemonic conflict.
+	Patch from Jens Knutson. Closes bug #397463.
+
 2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/calendar-commands.c:
