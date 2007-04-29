@@ -1,3 +1,8 @@
+2007-04-29  Leonardo Ferreira Fontenelle  <leonardof@svn.gnome.org>
+
+	* pt_BR.po: Fixed typo in Brazilian Portuguese translatin. Closes bug
+	#432702, by Washington Lins <washington-lins@uol.com.br>.
+
 2007-04-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	* en_CA.po: Do not swap month and day in attribution format.

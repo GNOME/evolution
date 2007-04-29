@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-28 03:01-0300\n"
-"PO-Revision-Date: 2007-02-27 23:07-0400\n"
+"PO-Revision-Date: 2007-04-29 10:11-0300\n"
 "Last-Translator: Washington Lins <washington-lins@uol.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -20226,7 +20226,7 @@ msgstr "Lim_par Marca"
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Delete Message"
-msgstr "E_xcuir Mensagem"
+msgstr "E_xcluir Mensagem"
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Find in Message..."
