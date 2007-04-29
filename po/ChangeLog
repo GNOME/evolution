@@ -1,3 +1,8 @@
+2007-04-29  Leonardo Ferreira Fontenelle  <leonardof@svn.gnome.org>
+
+	* pt_BR.po: Fixed typo in Brazilian Portuguese translation. Closes bug
+	#432702, by Washington Lins <washington-lins@uol.com.br>.
+
 2007-04-25  Christophe Merlet  <redfox@redfoxcenter.org>
 
 	* oc.po: Added Occitan translation from
