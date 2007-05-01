@@ -1,3 +1,8 @@
+2007-05-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* main.c (show_development_warning):
+	Bump stable version recommendation from 2.8.1 to 2.10.1.
+
 2007-04-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	* main.c: #include <gtk/gtkcheckbutton.h>  (#433005)
