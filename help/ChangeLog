@@ -1,3 +1,9 @@
+2007-05-02  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* Makefile.am:
+	* ru/ru.po: Added Russian translation by
+	Sergey Mironov <sergo@bk.ru>
+
 2007-04-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* C/evolution.xml: Fix a typo (<br />).
