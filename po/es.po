@@ -1,4 +1,7 @@
-# translation of es.po to
+# Translation of evolution to Spanish
+# Copyright © 2000-2002, 2006, 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the evolution package.
+#
 # Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001.
 # Héctor García Álvarez <hector@scouts-es.org>, 2000-2002.
 # Ismael Olea <ismael@olea.org>, 2001, (revisiones) 2003.
@@ -6,16 +9,13 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Francisco Javier F. Serrador <serrador@tecknolabs.com>, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007.
-# Copyright © 2000-2002, 2006, 2007 Free Software Foundation, Inc.
-# This file is distributed under the same license as the evolution package.
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-21 12:57+0100\n"
-"PO-Revision-Date: 2007-04-23 22:04+0200\n"
+"POT-Creation-Date: 2007-04-28 16:28+0100\n"
+"PO-Revision-Date: 2007-05-03 20:27+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -411,7 +411,7 @@ msgstr "No es posible autenticar con el servidor LDAP."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1854
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1853
 msgid "Failed to delete contact"
 msgstr "Falló al borrar el contacto"
 
@@ -689,7 +689,7 @@ msgid "General"
 msgstr "General"
 
 #: ../addressbook/gui/component/addressbook-config.c:985
-#: ../addressbook/gui/widgets/e-addressbook-view.c:565
+#: ../addressbook/gui/widgets/e-addressbook-view.c:564
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "Libreta de direcciones"
@@ -810,7 +810,7 @@ msgstr "Libreta de direcciones _nueva"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
-#: ../addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../addressbook/gui/widgets/e-addressbook-view.c:978
 #: ../calendar/gui/calendar-component.c:584
 #: ../calendar/gui/e-calendar-table.c:1303
 #: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:919
@@ -1295,13 +1295,13 @@ msgid "<b>Work</b>"
 msgstr "<b>Trabajo</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:185
 #: ../addressbook/gui/widgets/eab-contact-display.c:551
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:275
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:274
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:174
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:194
@@ -1309,9 +1309,9 @@ msgid "Contact"
 msgstr "Contacto"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:552
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:567
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2420
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:551
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:566
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
 msgid "Contact Editor"
 msgstr "Editor de contactos"
 
@@ -1351,7 +1351,7 @@ msgstr "Teléfono"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:204
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:203
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:238
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
@@ -1512,12 +1512,12 @@ msgid "Address"
 msgstr "Dirección"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:104
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:303
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:302
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:96
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:144
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:188
 #: ../addressbook/gui/widgets/e-addressbook-model.c:312
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:397
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
@@ -2497,89 +2497,89 @@ msgstr "Zambia"
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/widgets/eab-contact-display.c:554
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:556
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:189
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:557
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:190
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:555
 msgid "MSN"
 msgstr "MSN"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:191
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:69
 #: ../addressbook/gui/widgets/eab-contact-display.c:553
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:192
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:191
 #: ../addressbook/gui/widgets/eab-contact-display.c:552
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:205
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:204
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/widgets/eab-contact-display.c:58
 msgid "Home"
 msgstr "Domicilio"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:206
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:205
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:242
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
 msgid "Other"
 msgstr "Otro"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:261
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:260
 msgid "Source Book"
 msgstr "Libro origen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:268
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:267
 msgid "Target Book"
 msgstr "Libro destino"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:282
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:281
 msgid "Is New Contact"
 msgstr "Es un contacto nuevo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:289
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:288
 msgid "Writable Fields"
 msgstr "Campos editables"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:296
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:295
 msgid "Required Fields"
 msgstr "Campos requeridos"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:310
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:309
 msgid "Changed"
 msgstr "Modificados"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:562
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2415
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:561
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor de contactos: %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2795
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2794
 msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2796
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2795
 msgid "_No image"
 msgstr "_Sin imagen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3096
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2587,23 +2587,23 @@ msgstr ""
 "Los datos del contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3101
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3100
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3108
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3107
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3123
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3134
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3122
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3133
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» está vacío"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3149
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3148
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2815,8 +2815,8 @@ msgstr "_Teclee una dirección de correo o arrastre un contacto a la lista infer
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:225
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:383
+#: ../addressbook/gui/widgets/e-addressbook-view.c:224
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 msgid "Book"
@@ -2889,18 +2889,18 @@ msgid "Email"
 msgstr "Correo-e"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:173
+#: ../addressbook/gui/widgets/e-addressbook-view.c:172
 #: ../calendar/gui/cal-search-bar.c:60
 msgid "Any field contains"
 msgstr "Cualquier campo contiene"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#: ../addressbook/gui/widgets/e-addressbook-view.c:171
 msgid "Email begins with"
 msgstr "El correo-e empieza por"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:171
+#: ../addressbook/gui/widgets/e-addressbook-view.c:170
 msgid "Name begins with"
 msgstr "El nombre empieza por"
 
@@ -3140,7 +3140,7 @@ msgstr "No disponible en modo desconectado"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1854
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1853
 msgid "Other error"
 msgstr "Otro error"
 
@@ -3382,8 +3382,8 @@ msgstr[0] "%d contacto"
 msgstr[1] "%d contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:239
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
+#: ../addressbook/gui/widgets/e-addressbook-view.c:238
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 msgid "Query"
@@ -3393,7 +3393,7 @@ msgstr "Consulta"
 msgid "Error getting book view"
 msgstr "Error al obtener la vista de libro"
 
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
 #: ../widgets/table/e-table.c:3340 ../widgets/table/e-table-click-to-add.c:502
 #: ../widgets/table/e-table-selection-model.c:311
 #: ../widgets/table/e-tree-selection-model.c:825
@@ -3406,11 +3406,11 @@ msgstr "Modelo"
 msgid "Error modifying card"
 msgstr "Error al modificar la tarjeta"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:232
+#: ../addressbook/gui/widgets/e-addressbook-view.c:231
 msgid "Source"
 msgstr "Fuente"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:246
+#: ../addressbook/gui/widgets/e-addressbook-view.c:245
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
 #: ../calendar/gui/e-meeting-list-view.c:500
@@ -3419,13 +3419,13 @@ msgstr "Fuente"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:836
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2073
+#: ../addressbook/gui/widgets/e-addressbook-view.c:835
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2072
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Guardar como VCard…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:957
+#: ../addressbook/gui/widgets/e-addressbook-view.c:956
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../calendar/gui/e-calendar-table.c:1281
 #: ../calendar/gui/e-calendar-view.c:1679 ../calendar/gui/e-memo-table.c:902
@@ -3433,56 +3433,56 @@ msgstr "Guardar como VCard…"
 msgid "_Open"
 msgstr "_Abrir"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:959
+#: ../addressbook/gui/widgets/e-addressbook-view.c:958
 msgid "_New Contact..."
 msgstr "Contacto _nuevo…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:960
+#: ../addressbook/gui/widgets/e-addressbook-view.c:959
 msgid "New Contact _List..."
 msgstr "_Lista de contactos nueva…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:963
+#: ../addressbook/gui/widgets/e-addressbook-view.c:962
 msgid "_Save as VCard..."
 msgstr "G_uardar como vCard…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:964
+#: ../addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:965
+#: ../addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "_Forward Contacts"
 msgstr "_Reenviar contactos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:966
+#: ../addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "Send _Message to Contact"
 msgstr "Enviar un _mensaje al contacto"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:967
+#: ../addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "Send _Message to List"
 msgstr "Enviar un _mensaje a la lista"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:968
+#: ../addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "Send _Message to Contacts"
 msgstr "Enviar un _mensaje a los contactos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:969
+#: ../addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "_Print"
 msgstr "Im_primir"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:972
+#: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "Cop_y to Address Book..."
 msgstr "_Copiar a la libreta de direcciones…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:973
+#: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Mo_ve to Address Book..."
 msgstr "Mo_ver a la libreta de direcciones…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:976
+#: ../addressbook/gui/widgets/e-addressbook-view.c:975
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:977
+#: ../addressbook/gui/widgets/e-addressbook-view.c:976
 #: ../calendar/gui/calendar-component.c:583
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1289
@@ -3497,12 +3497,12 @@ msgstr "Cor_tar"
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:978
+#: ../addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "P_aste"
 msgstr "_Pegar"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1660
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1659
 #: ../calendar/gui/cal-search-bar.c:428
 msgid "Any Category"
 msgstr "Cualquier categoría"
@@ -4056,7 +4056,9 @@ msgstr "Exportar en modo asíncrono"
 msgid ""
 "The number of cards in out output file in asynchronous mode, default size "
 "100."
-msgstr "El número de tarjetas en un archivo de salida en modo asíncrono, tamaño predeterminado 100."
+msgstr ""
+"El número de tarjetas en un archivo de salida en modo asíncrono, tamaño "
+"predeterminado 100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:65
 msgid "NUMBER"
@@ -6235,7 +6237,6 @@ msgid "Custom Alarm:"
 msgstr "Alarma personalizada:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
-#: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "D_escription:"
 msgstr "_Descripción:"
 
@@ -6731,6 +6732,10 @@ msgstr "_Participantes…"
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
 msgstr "_Categorías…"
+
+#: ../calendar/gui/dialogs/task-page.glade.h:3
+msgid "De_scription:"
+msgstr "De_scripción:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
@@ -10549,7 +10554,9 @@ msgstr ""
 msgid ""
 "Send options available only for Novell Groupwise and Microsoft Exchange "
 "accounts."
-msgstr "Opciones de envío sólo disponibles para cuentas Novell Groupwise y Microsoft Exchange."
+msgstr ""
+"Opciones de envío sólo disponibles para cuentas Novell Groupwise y Microsoft "
+"Exchange."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid "Send options not available."
@@ -10612,7 +10619,7 @@ msgstr "_Guardar mensaje"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:502
+#: ../shell/main.c:508
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10777,7 +10784,9 @@ msgstr "El sistema de impresión informó de los siguientes detalles sobre el er
 
 #: ../e-util/e-print.c:128
 msgid "The printing system did not report any additional details about the error."
-msgstr "El sistema de impresión no proporcionó ningún detalle adicional acerca del error."
+msgstr ""
+"El sistema de impresión no proporcionó ningún detalle adicional acerca del "
+"error."
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
@@ -12851,7 +12860,10 @@ msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it wont fall back to "
 "the other available plugins."
-msgstr "Este es el complemento predeterminado para spain, aunque hay varios complementos activados. Si el complemento predeterminado listado está desactivado, entonces no usará los otros complementos disponibles."
+msgstr ""
+"Este es el complemento predeterminado para spain, aunque hay varios "
+"complementos activados. Si el complemento predeterminado listado está "
+"desactivado, entonces no usará los otros complementos disponibles."
 
 #: ../mail/evolution-mail.schemas.in.in.h:108
 msgid ""
@@ -15093,7 +15105,9 @@ msgstr "Respaldar las cuentas y la configuración de Evolution"
 
 #: ../plugins/backup-restore/backup.c:60
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr "Respaldar los datos de Evolution (correos, contactos, calendario, tareas, notas)"
+msgstr ""
+"Respaldar los datos de Evolution (correos, contactos, calendario, tareas, "
+"notas)"
 
 #: ../plugins/backup-restore/backup.c:70
 msgid "Backup complete"
@@ -15185,7 +15199,8 @@ msgid ""
 "Calendars/Tasks/Memos/Addressbook. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Puede restaurar Evolution desde un archivador. Puede restaurar todos los correos/calendarios/tareas/notas/libreta de direcciones.\n"
+"Puede restaurar Evolution desde un archivador. Puede restaurar todos los "
+"correos/calendarios/tareas/notas/libreta de direcciones.\n"
 "También restaura su configuración personal, filtros de correo, etc."
 
 #: ../plugins/backup-restore/backup-restore.c:244
@@ -15225,7 +15240,11 @@ msgid ""
 "sure that you save and close all your unsaved windows before proceeding.  If "
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
-msgstr "El respaldo de Evolution sólo puede iniciarse cuando Evolution no se está ejecutando. Por favor, asegúrese de que guarda y cierra todas sus ventanas no guardadas antes de proceder. Si quiere que Evolution se reinicie automáticamente después del respaldo, active el botón conmutador."
+msgstr ""
+"El respaldo de Evolution sólo puede iniciarse cuando Evolution no se está "
+"ejecutando. Por favor, asegúrese de que guarda y cierra todas sus ventanas "
+"no guardadas antes de proceder. Si quiere que Evolution se reinicie "
+"automáticamente después del respaldo, active el botón conmutador."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Invalid Evolution archive"
@@ -15242,7 +15261,12 @@ msgid ""
 "not running. Please make sure that you close all your unsaved windows before "
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
-msgstr "Esto borrará todos sus datos actuales de Evolution y los restaurará desde su respaldo. El restaurador de Evolution sólo puede iniciarse cuando Evolution no se está ejecutando. Por favor, asegúrese de cerrar todas sus ventanas no guardadas antes de proceder. Si quiere que Evolution se reinicie automáticamente después del restaurado, active el botón conmutador."
+msgstr ""
+"Esto borrará todos sus datos actuales de Evolution y los restaurará desde su "
+"respaldo. El restaurador de Evolution sólo puede iniciarse cuando Evolution "
+"no se está ejecutando. Por favor, asegúrese de cerrar todas sus ventanas no "
+"guardadas antes de proceder. Si quiere que Evolution se reinicie "
+"automáticamente después del restaurado, active el botón conmutador."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
@@ -15318,7 +15342,9 @@ msgstr "Convertir el texto del correo a Unicode"
 msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
-msgstr "Convertir el mensaje de texto a Unicode UTF-8 para unificar los tokens spam/correo normal provenientes de diferentes juegos de caracteres."
+msgstr ""
+"Convertir el mensaje de texto a Unicode UTF-8 para unificar los tokens spam/"
+"correo normal provenientes de diferentes juegos de caracteres."
 
 #: ../plugins/caldav/caldav-source.c:64 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
@@ -16637,7 +16663,8 @@ msgid ""
 "standard headers. \n"
 "You can ignore this if you choose \"All Headers\"."
 msgstr ""
-"Proporcione las cabeceras extra que necesite obtener además de las cabeceras estándar anteriores.\n"
+"Proporcione las cabeceras extra que necesite obtener además de las cabeceras "
+"estándar anteriores.\n"
 "Puede ignorar esto si elige «Todas las cabeceras»"
 
 #: ../plugins/imap-features/imap-headers.glade.h:7
@@ -16707,8 +16734,8 @@ msgid ""
 msgstr ""
 "<span weight=\"bold\" size=\"larger\">Falló la búsqueda de un iPod</span>\n"
 "\n"
-"Evolution no pudo encontrar un iPod con el que sincronizarse. O no está conectado "
-"al sistema o no está encendido."
+"Evolution no pudo encontrar un iPod con el que sincronizarse. O no está "
+"conectado al sistema o no está encendido."
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:194
@@ -17843,7 +17870,9 @@ msgstr "I_ncluir tests remotos"
 msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
-msgstr "Filtra mensajes de spam usando SpamAssassin. Este complemento requiere que se instale Spamassassin."
+msgstr ""
+"Filtra mensajes de spam usando SpamAssassin. Este complemento requiere que "
+"se instale Spamassassin."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin junk plugin"
@@ -18122,7 +18151,7 @@ msgstr "La barra lateral es visible"
 msgid "Skip development warning dialog"
 msgstr "Saltar el diálogo de advertencia de desarrollo"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:452
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:458
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
@@ -18461,7 +18490,7 @@ msgstr ""
 "importación de archivos externos dentro de Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:217
+#: ../shell/main.c:219
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -18497,7 +18526,7 @@ msgstr ""
 "Esperamos que disfrute del resultado de nuestro duro trabajo y \n"
 "esperamos su contribución.\n"
 
-#: ../shell/main.c:241
+#: ../shell/main.c:243
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -18505,39 +18534,39 @@ msgstr ""
 "Gracias\n"
 "El equipo de Evolution\n"
 
-#: ../shell/main.c:248
+#: ../shell/main.c:250
 msgid "Do not tell me again"
 msgstr "No preguntarme más veces"
 
-#: ../shell/main.c:450
+#: ../shell/main.c:456
 msgid "Start Evolution activating the specified component"
 msgstr "Iniciar Evolution activando el componente especificado"
 
-#: ../shell/main.c:454
+#: ../shell/main.c:460
 msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
-#: ../shell/main.c:457
+#: ../shell/main.c:463
 msgid "Forcibly shut down all Evolution components"
 msgstr "Forzar el cierre de todos los componentes de Evolution"
 
-#: ../shell/main.c:461
+#: ../shell/main.c:467
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Fuerza la reemigración desde Evolution 1.4"
 
-#: ../shell/main.c:464
+#: ../shell/main.c:470
 msgid "Send the debugging output of all components to a file."
 msgstr "Envía la salida de depuración de todos los componentes a un archivo."
 
-#: ../shell/main.c:466
+#: ../shell/main.c:472
 msgid "Disable loading of any plugins."
 msgstr "Desactiva la carga de cualquier complemento."
 
-#: ../shell/main.c:495
+#: ../shell/main.c:501
 msgid "- The Evolution PIM and Email Client"
 msgstr "El cliente de correo-e y GIP Evolution"
 
-#: ../shell/main.c:506
+#: ../shell/main.c:512
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -21649,14 +21678,14 @@ msgid "_When opened:"
 msgstr "_Al abrir:"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
-#: ../widgets/misc/e-task-widget.c:212
+#: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (...)"
 msgstr "%s (…)"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 #. %d is a number between 0 and 100, describing the percentage of operation complete
-#: ../widgets/misc/e-task-widget.c:218
+#: ../widgets/misc/e-task-widget.c:219
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completado)"
