@@ -1,0 +1,34 @@
+<e-plugin-list>
+	<e-plugin
+	id="org.gnome.evolution.mail_notification" 
+	type="shlib" 
+	_name="Mail Notification" 
+	location="@PLUGINDIR@/liborg-gnome-mail-notification@SOEXT@">
+
+		<_description>Notifies the user with tray icon and a notify message whenever a new message is arrived.</_description>
+		<author name="Srinivasa Ragavan" email="sragavan@novell.com"/>
+
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event id="folder.changed"
+			enable="newmail"
+			handle="org_gnome_mail_new_notify"
+			target="folder"/>
+		</hook>
+
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event id="message.reading"
+			handle="org_gnome_mail_read_notify"
+			target="message"/>
+		</hook>
+		<!--
+		<hook class="org.gnome.evolution.mail.config:1.0">
+			<group id="org.gnome.evolution.mail.prefs" target="prefs">
+				<item type="item" 
+				path="00.general/30.notify/00.new_mail_notify" 
+				_label="New mail notify" 
+				factory="org_gnome_new_mail_config"/>
+			</group>
+		</hook>
+		-->
+	</e-plugin>
+</e-plugin-list>

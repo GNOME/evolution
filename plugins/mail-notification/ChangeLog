@@ -1,0 +1,7 @@
+2006-08-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Initial commit for Mail notification plugin.
+
+	* mail-notification.c: 
+	* Makefile.am:
+	* org-gnome-mail-notification.eplug.xml:
