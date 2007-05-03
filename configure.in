@@ -1497,7 +1497,7 @@ plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer import-ics-attachments prefer-plain" 
+plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer import-ics-attachments prefer-plain mail-notification" 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
@@ -1779,6 +1779,7 @@ plugins/calendar-weather/Makefile
 plugins/plugin-manager/Makefile
 plugins/bbdb/Makefile
 plugins/audio-inline/Makefile
+plugins/mail-notification/Makefile
 plugins/mail-to-meeting/Makefile
 plugins/mail-to-task/Makefile
 plugins/mail-remote/Makefile
