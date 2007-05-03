@@ -1,3 +1,14 @@
+2007-05-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added code to improve the new mail hook to provide the number of
+	new mails received and if the folder is an INBOX.
+
+	* em-event.c: (em_event_target_new_folder):
+	* em-event.h:
+	* em-folder-tree-model.c: (em_folder_tree_model_is_type_inbox):
+	* em-folder-tree-model.h:
+	* mail-folder-cache.c: (real_flush_updates), (update_1folder):
+
 2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #426812

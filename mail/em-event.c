@@ -136,12 +136,14 @@ EMEvent *em_event_peek(void)
 }
 
 EMEventTargetFolder *
-em_event_target_new_folder (EMEvent *eme, const char *uri, guint32 flags)
+em_event_target_new_folder (EMEvent *eme, const char *uri, unsigned int new)
 {
 	EMEventTargetFolder *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_FOLDER, sizeof(*t));
+	guint32 flags = new ? EM_EVENT_FOLDER_NEWMAIL : 0;
 
 	t->uri = g_strdup(uri);
 	t->target.mask = ~flags;
+	t->new = new;
 
 	return t;
 }

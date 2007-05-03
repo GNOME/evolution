@@ -143,6 +143,7 @@ typedef void (* EMFTModelExpandFunc) (EMFolderTreeModel *model, const char *path
 void em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFunc func, void *user_data);
 
 void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread);
+gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const char *full);
 
 #ifdef __cplusplus
 }

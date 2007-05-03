@@ -1108,6 +1108,47 @@ em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFu
 	expand_foreach_r (model, root, NULL, func, user_data);
 }
 
+gboolean
+em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const char *full)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeRowReference *row;
+	GtkTreePath *tree_path;
+	GtkTreeIter iter;
+	guint32 flags;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (full != NULL);
+
+	u(printf("Checking if the folder is an INBOX type %p '%s' %d\n", store, full, unread));
+
+	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
+		u(printf("  can't find store\n"));
+		return;
+	}
+	
+	if (!(row = g_hash_table_lookup (si->full_hash, full))) {
+		u(printf("  can't find row\n"));
+		return;
+	}
+	
+	tree_path = gtk_tree_row_reference_get_path (row);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, tree_path)) {
+		gtk_tree_path_free (tree_path);
+		return;
+	}
+
+	gtk_tree_path_free (tree_path);
+	
+	gtk_tree_model_get (model, &iter, COL_UINT_FLAGS, &flags, -1);
+
+	if ((flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
+		return TRUE;
+
+	return FALSE;
+}
+
 void
 em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *full, int unread)
 {

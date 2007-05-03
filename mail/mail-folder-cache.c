@@ -95,7 +95,7 @@ struct _folder_update {
 	unsigned int delete:1;	/* deleting as well? */
 	unsigned int add:1;	/* add to vfolder */
 	unsigned int unsub:1;   /* unsubcribing? */
-	unsigned int new:1;     /* new mail arrived? */
+	unsigned int new;     /* new mail arrived? */
 
 	char *full_name;
 	char *uri;
@@ -230,7 +230,6 @@ real_flush_updates(void *o, void *event_data, void *data)
 		
 		/* update unread counts */
 		em_folder_tree_model_set_unread_count (model, up->store, up->full_name, up->unread);
-		
 		/* new mail notification */
 		if (notify_type == -1) {
 			/* need to track the user's new-mail-notification settings... */
@@ -250,13 +249,15 @@ real_flush_updates(void *o, void *event_data, void *data)
 		
 		if (up->uri) {
 			EMEvent *e = em_event_peek();
-			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new?EM_EVENT_FOLDER_NEWMAIL:0);
+			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new);
 
+			t->is_inbox = em_folder_tree_model_is_type_inbox (model, up->store, up->full_name);
 			/** @Event: folder.changed
 			 * @Title: Folder changed
 			 * @Target: EMEventTargetFolder
 			 * 
 			 * folder.changed is emitted whenever a folder changes.  There is no detail on how the folder has changed.
+			 * UPDATE: We tell the number of new UIDs added rather than the new mails received
 			 */
 			e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
 		}
@@ -377,7 +378,7 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 	up = g_malloc0(sizeof(*up));
 	up->full_name = g_strdup(mfi->full_name);
 	up->unread = unread;
-	up->new = new ? 1 : 0;
+	up->new = new;
 	up->store = mfi->store_info->store;
 	up->uri = g_strdup(mfi->uri);
 	camel_object_ref(up->store);

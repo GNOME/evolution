@@ -66,6 +66,8 @@ typedef struct _EMEventTargetFolder EMEventTargetFolder;
 struct _EMEventTargetFolder {
 	EEventTarget target;
 	char *uri;
+	guint  new;
+	gboolean is_inbox;
 };
 
 typedef struct _EMEventTargetMessage EMEventTargetMessage;
