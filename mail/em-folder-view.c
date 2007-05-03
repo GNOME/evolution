@@ -1140,7 +1140,8 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_ITEM, "10.emfv.02", N_("_Forward"), emfv_popup_forward, NULL, "stock_mail-forward", EM_POPUP_SELECT_MANY },
 
 	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL },
-	{ E_POPUP_ITEM, "20.emfv.00", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_EDIT },
+	/* EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone */
+	{ E_POPUP_ITEM, "20.emfv.00", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "20.emfv.01", N_("_Save As..."), emfv_popup_saveas, NULL, "stock_save-as", EM_POPUP_SELECT_MANY },
 	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print..."), emfv_popup_print, NULL, "stock_print", EM_POPUP_SELECT_ONE },
 
@@ -1893,7 +1894,7 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageReplyAll",          EM_POPUP_SELECT_ONE },
 	{ "MessageReplyList",         EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
 	{ "MessageReplySender",       EM_POPUP_SELECT_ONE },
-	{ "MessageEdit",              EM_POPUP_SELECT_EDIT },
+	{ "MessageEdit",              EM_POPUP_SELECT_ONE },
 	{ "MessageSaveAs",            EM_POPUP_SELECT_MANY },
 	{ "MessageSearch",            EM_POPUP_SELECT_ONE| EM_FOLDER_VIEW_PREVIEW_PRESENT },
 	{ "MessageUndelete",          EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_UNDELETE },
@@ -2073,7 +2074,7 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		/*		bonobo_ui_component_add_listener(uic, "ViewSource", emfv_view_mode, emfv); */
 		em_format_set_mode((EMFormat *)emfv->preview, style);
 		
-		if (emfv->folder && !em_utils_folder_is_sent(emfv->folder, emfv->folder_uri))
+		if (emfv->folder)
 			bonobo_ui_component_set_prop(uic, "/commands/MessageEdit", "sensitive", "0", NULL);
 		
 		/* default charset used in mail view */

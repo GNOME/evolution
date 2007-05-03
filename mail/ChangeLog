@@ -1,3 +1,10 @@
+2007-05-03  Sankar P  <psankar@novell.com>
+
+	* em-folder-view.c: (emfv_activate):
+	Do not restrict "Edit as New Message" to 
+	Sent Folder alone.
+	Fixes #205728
+
 2007-05-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added code to improve the new mail hook to provide the number of
