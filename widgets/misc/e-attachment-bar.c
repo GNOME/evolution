@@ -491,6 +491,8 @@ e_attachment_bar_remove_selected (EAttachmentBar *bar)
 	g_ptr_array_free (temp_arr, TRUE);
 	
 	update (bar);
+
+	g_signal_emit (bar, signals[CHANGED], 0);
 	
 	id++;
 	
