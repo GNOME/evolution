@@ -99,6 +99,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	gtk_status_icon_set_tooltip (status_icon, msg);
 	gtk_status_icon_set_visible (status_icon, TRUE);
 
+#ifdef HAVE_LIBNOTIFY	
 	if (!notify_init("notify-send"))
        		fprintf(stderr,"notify init error");
 
@@ -113,6 +114,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 		notify_notification_set_timeout(notify, expire_timeout);
 		notify_notification_show(notify, NULL);
 	}
+#endif
 
 	g_free (folder);
 	g_free (msg);
