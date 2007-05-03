@@ -1,3 +1,9 @@
+2007-05-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* new-mail-notify.c (send_dbus_message),
+	(org_gnome_message_reading_notify), (org_gnome_new_mail_notify): Send
+	the number of new mails via the dbus message.
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

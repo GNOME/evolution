@@ -46,7 +46,7 @@ static DBusConnection *bus = NULL;
 static gboolean enabled = FALSE;
 
 static void
-send_dbus_message (const char *name, const char *data, gboolean resolve)
+send_dbus_message (const char *name, const char *data, guint new)
 {
 	DBusMessage *message;
 	
@@ -63,13 +63,13 @@ send_dbus_message (const char *name, const char *data, gboolean resolve)
 #endif	
 				  DBUS_TYPE_INVALID);
 
-	if (resolve) {
+	if (new) {
 		char * display_name = em_utils_folder_name_from_uri(data);
 		dbus_message_append_args (message,
 #if DBUS_VERSION >= 310
-					  DBUS_TYPE_STRING, &display_name,
+					  DBUS_TYPE_STRING, &display_name, DBUS_TYPE_UINT32, &new,
 #else
-					  DBUS_TYPE_STRING, display_name,
+					  DBUS_TYPE_STRING, display_name, DBUS_TYPE_UINT32, new,
 #endif	
 					  DBUS_TYPE_INVALID);
 		
@@ -86,14 +86,14 @@ void
 org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("MessageReading", t->folder->name, FALSE);
+		send_dbus_message ("MessageReading", t->folder->name, 0);
 }
 
 void
 org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("Newmail", t->uri, TRUE);
+		send_dbus_message ("Newmail", t->uri, t->new);
 }
 
 
