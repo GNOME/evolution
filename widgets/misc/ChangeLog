@@ -1,4 +1,9 @@
-2004-04-24  Matthew Barnes  <mbarnes@redhat.com>
+2007-05-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-attachment-bar.c (e_attachment_bar_remove_selected):
+	Emit "changed" signal.  (#434981)
+
+2007-04-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-task-widget.c: #include "e-spinner.h"  (#433005)
 	Patch from Daniel Gryniewicz.
