@@ -439,8 +439,8 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 {
 	EventPagePrivate *priv;
 	struct icaltimetype *start_tt, *end_tt, implied_tt;
-	icaltimezone *start_zone = NULL;
-	gboolean all_day_event;
+	icaltimezone *start_zone = NULL, *def_zone = NULL;
+	gboolean all_day_event, homezone=TRUE;
 
 	priv = epage->priv;
 
@@ -509,16 +509,20 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 					  epage);
 	g_signal_handlers_block_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	
-	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
-				       start_zone);
-	event_page_set_show_timezone (epage, calendar_config_get_show_timezone() & !all_day_event);
-
+	if (start_zone)
+		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
+					       start_zone);
+	def_zone = calendar_config_get_icaltimezone ();
+	if (!def_zone || !start_zone || strcmp (icaltimezone_get_tzid(def_zone), icaltimezone_get_tzid (start_zone)))
+		 homezone = FALSE;
+	
+	event_page_set_show_timezone (epage, (calendar_config_get_show_timezone()|| !homezone) & !all_day_event);
+	
 	/*unblock the endtimezone widget*/
 	g_signal_handlers_unblock_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_timezone),
 					    epage);
-
 	priv->sync_timezones = TRUE; 
 }
 

@@ -622,7 +622,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
-		if (!((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM))) 
+  		if (!((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM))) 
 			bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "1", NULL);
 		
 		event_page_set_meeting (priv->event_page, TRUE);

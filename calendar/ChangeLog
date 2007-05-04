@@ -1,5 +1,12 @@
 2007-05-04  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Downstream fixes from OpenSUSE
+
+	* gui/dialogs/event-page.c: (update_time):
+	* gui/e-cal-component-preview.c: (write_html):
+
+2007-05-04  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #415562
 
 	* gui/alarm-notify/alarm-queue.c: (tray_icon_clicked_cb),
