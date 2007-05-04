@@ -1,3 +1,7 @@
+2007-05-04  Jakub Friedl  <jfriedl@suse.cz>
+
+	* cs.po: Fixed a bug in Czech translation.
+
 2007-04-29  Leonardo Ferreira Fontenelle  <leonardof@svn.gnome.org>
 
 	* pt_BR.po: Fixed typo in Brazilian Portuguese translation. Closes bug
