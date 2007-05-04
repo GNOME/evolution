@@ -1,4 +1,3 @@
-# translation of cs.po to Czech
 # translation of cs.po to
 # Czech translation.
 # Copyright (C) 2002,2003, 2006, 2007 Free Software Foundation, Inc.
@@ -15,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-02 16:55+0200\n"
-"PO-Revision-Date: 2007-04-02 16:57+0200\n"
+"POT-Creation-Date: 2007-04-19 14:48+0200\n"
+"PO-Revision-Date: 2007-05-04 17:00+0200\n"
 "Last-Translator: \n"
-"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language-Team:  <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -659,7 +658,7 @@ msgstr "V tomto počítači"
 #: ../calendar/gui/memos-component.c:203 ../calendar/gui/migration.c:486
 #: ../calendar/gui/migration.c:580 ../calendar/gui/migration.c:1088
 #: ../calendar/gui/tasks-component.c:199 ../filter/filter-label.c:123
-#: ../mail/em-migrate.c:1055 ../mail/mail-config.glade.h:106
+#: ../mail/em-migrate.c:1055 ../mail/mail-config.glade.h:104
 msgid "Personal"
 msgstr "Osobní"
 
@@ -686,7 +685,7 @@ msgid "Create a new contact list"
 msgstr "Vytvořit nový seznam kontaktů"
 
 #: ../addressbook/gui/component/addressbook-component.c:239
-#: ../addressbook/gui/component/addressbook-config.c:1205
+#: ../addressbook/gui/component/addressbook-config.c:1208
 msgid "New Address Book"
 msgstr "Nový adresář"
 
@@ -722,7 +721,7 @@ msgstr "Zkopírovat obsah adresáře lokálně pro práci při odpojení"
 #: ../calendar/gui/dialogs/calendar-setup.c:363
 #: ../calendar/gui/dialogs/calendar-setup.c:374
 #: ../calendar/gui/dialogs/calendar-setup.c:385
-#: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
+#: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:85
 #: ../plugins/itip-formatter/itip-formatter.c:2087
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -757,7 +756,7 @@ msgstr "Vyhledávání"
 msgid "Downloading"
 msgstr "Stahování"
 
-#: ../addressbook/gui/component/addressbook-config.c:1203
+#: ../addressbook/gui/component/addressbook-config.c:1206
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "Vlastnosti adresáře"
@@ -854,7 +853,7 @@ msgstr "_Nový adresář"
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:444
-#: ../mail/em-folder-tree.c:2077 ../mail/em-folder-view.c:1147
+#: ../mail/em-folder-tree.c:2103 ../mail/em-folder-view.c:1149
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -1208,7 +1207,7 @@ msgstr "_Metoda přihlašování:"
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:223
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:7
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:164
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Name:"
 msgstr "_Název:"
@@ -1222,7 +1221,7 @@ msgid "_Search scope:"
 msgstr "_Rozsah vyhledávání:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
-#: ../mail/mail-config.glade.h:172
+#: ../mail/mail-config.glade.h:171
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "S_erver:"
@@ -1348,7 +1347,7 @@ msgstr "Telefon"
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1054
-#: ../mail/mail-config.glade.h:155
+#: ../mail/mail-config.glade.h:153
 msgid "Work"
 msgstr "Pracovní"
 
@@ -2999,8 +2998,8 @@ msgstr "_Vyjmout"
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3177 ../mail/em-folder-tree.c:1002
-#: ../mail/em-folder-view.c:1133 ../mail/message-list.c:1921
+#: ../composer/e-msg-composer.c:3177 ../mail/em-folder-tree.c:1004
+#: ../mail/em-folder-view.c:1135 ../mail/message-list.c:1922
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -3072,6 +3071,8 @@ msgid "Company Phone"
 msgstr "Firemní telefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
+#: ../addressbook/gui/widgets/eab-contact-display.c:535
+#: ../addressbook/gui/widgets/eab-contact-display.c:537
 #: ../addressbook/gui/widgets/eab-contact-display.c:780
 #: ../plugins/groupwise-features/junk-settings.c:425 ../smime/lib/e-cert.c:827
 msgid "Email"
@@ -3338,7 +3339,7 @@ msgid "_Open Link in Browser"
 msgstr "_Otevřít odkaz v prohlížeči"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2544
+#: ../mail/em-folder-view.c:2586
 msgid "_Copy Link Location"
 msgstr "_Kopírovat umístění odkazu"
 
@@ -3361,15 +3362,10 @@ msgstr "(mapa)"
 msgid "map"
 msgstr "mapa"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:457
+#: ../addressbook/gui/widgets/eab-contact-display.c:456
 #: ../addressbook/gui/widgets/eab-contact-display.c:758
 msgid "List Members"
 msgstr "Členové seznamu"
-
-#: ../addressbook/gui/widgets/eab-contact-display.c:535
-#: ../addressbook/gui/widgets/eab-contact-display.c:537
-msgid "E-mail"
-msgstr "E-mail"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:567
 msgid "Department"
@@ -4079,7 +4075,10 @@ msgid "Export in asynchronous mode"
 msgstr "Exportovat v asynchronním režimu"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode, default size 100."
+#, fuzzy
+msgid ""
+"The number of cards in one output file in asynchronous mode, default size "
+"100."
 msgstr ""
 "Počet karet v jednom souboru výstupu v asynchronním režimu, implicitní "
 "velikost 100."
@@ -4662,7 +4661,7 @@ msgstr "_Doba odložení:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:160
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
@@ -5020,12 +5019,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Zobrazovat·pole·stavu·v·editoru·události/úkolu/schůzky"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
-#: ../mail/evolution-mail.schemas.in.in.h:85
+#: ../mail/evolution-mail.schemas.in.in.h:90
 msgid "Show the \"Preview\" pane"
 msgstr "Zobrazovat panel \"Náhled\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
-#: ../mail/evolution-mail.schemas.in.in.h:86
+#: ../mail/evolution-mail.schemas.in.in.h:91
 msgid "Show the \"Preview\" pane."
 msgstr "Zobrazovat panel \"Náhled\"."
 
@@ -5537,7 +5536,7 @@ msgid "<i>%u and %d will be replaced by user and domain from the email address.<
 msgstr "<i>%u a %d budou nahrazeny uživatelem a doménou z e-mailové adresy.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#: ../mail/mail-config.glade.h:8
+#: ../mail/mail-config.glade.h:7
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Výstrahy</span>"
 
@@ -5546,7 +5545,7 @@ msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgstr "<span weight=\"bold\">Implicitní volný/obsazený server</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#: ../mail/mail-config.glade.h:17
+#: ../mail/mail-config.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Obecné</span>"
@@ -5617,7 +5616,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
-#: ../mail/mail-config.glade.h:107
+#: ../mail/mail-config.glade.h:105
 msgid "Pick a color"
 msgstr "Vyberte barvu"
 
@@ -5928,13 +5927,13 @@ msgstr[1] "%d připojené zprávy"
 msgstr[2] "%d připojených zpráv"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3178
-#: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1029 ../mail/message-list.c:1922
+#: ../mail/em-folder-tree.c:1005 ../mail/em-folder-utils.c:368
+#: ../mail/em-folder-view.c:1031 ../mail/message-list.c:1923
 msgid "_Move"
 msgstr "_Přesunout"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3180
-#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1924
+#: ../mail/em-folder-tree.c:1007 ../mail/message-list.c:1925
 msgid "Cancel _Drag"
 msgstr "Zrušit _tažení"
 
@@ -5972,7 +5971,7 @@ msgstr "_Odstranit"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3686 ../mail/em-folder-tree.c:2081
+#: ../composer/e-msg-composer.c:3686 ../mail/em-folder-tree.c:2107
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Vlastnosti"
@@ -5984,7 +5983,7 @@ msgid "_Add attachment..."
 msgstr "_Přidat přílohu..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1554
-#: ../mail/em-format-html-display.c:2299
+#: ../mail/em-format-html-display.c:2314
 msgid "Show Attachments"
 msgstr "Zobrazit přílohy"
 
@@ -6033,8 +6032,8 @@ msgid "No summary"
 msgstr "Není shrnutí"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2778
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:402
-#: ../mail/em-utils.c:434 ../widgets/misc/e-attachment-bar.c:350
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:370
+#: ../widgets/misc/e-attachment-bar.c:350
 msgid "attachment"
 msgstr "příloha"
 
@@ -6248,8 +6247,8 @@ msgstr "Přizpůsobit"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1775
-#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:1507
-#: ../widgets/misc/e-dateedit.c:1721
+#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:1505
+#: ../widgets/misc/e-dateedit.c:1719
 msgid "None"
 msgstr "žádný"
 
@@ -6397,7 +6396,7 @@ msgstr "Nemohu otevřít poznámky v '%s'."
 
 #: ../calendar/gui/dialogs/memo-page.c:1021 ../mail/em-format-html.c:1490
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:849
-#: ../mail/em-mailer-prefs.c:87 ../mail/message-list.etspec.h:18
+#: ../mail/em-mailer-prefs.c:91 ../mail/message-list.etspec.h:18
 msgid "To"
 msgstr "Komu"
 
@@ -6912,7 +6911,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s pro neznámý typ spouštění"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2912
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2954
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
@@ -6933,7 +6932,7 @@ msgstr "Datum začátku:"
 #: ../calendar/gui/e-itip-control.c:1191
 #: ../calendar/gui/e-itip-control.glade.h:4
 #: ../composer/e-msg-composer-attachment.glade.h:2
-#: ../mail/mail-config.glade.h:68 ../widgets/misc/e-attachment.glade.h:2
+#: ../mail/mail-config.glade.h:67 ../widgets/misc/e-attachment.glade.h:2
 msgid "Description:"
 msgstr "Popis:"
 
@@ -7039,7 +7038,7 @@ msgstr "Ne"
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
-#: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1209
+#: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1199
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1800
 #: ../plugins/plugin-manager/plugin-manager.c:68
@@ -7060,7 +7059,7 @@ msgstr "Přiřazeno"
 msgid "Save As..."
 msgstr "Uložit jako..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2145
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2159
 msgid "Select folder to save selected attachments..."
 msgstr "Zvolte adresář pro uložení vybraných příloh..."
 
@@ -7071,7 +7070,7 @@ msgstr "nepojmenovany_obrazek.%s"
 
 #: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1282
 #: ../calendar/gui/e-calendar-view.c:1699 ../calendar/gui/e-memo-table.c:903
-#: ../mail/em-folder-view.c:1143 ../mail/em-popup.c:554 ../mail/em-popup.c:565
+#: ../mail/em-folder-view.c:1145 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
 msgstr "_Uložit jako..."
 
@@ -7161,7 +7160,7 @@ msgstr "Otevřít _WWW stránku"
 #: ../calendar/gui/e-calendar-table.c:1283
 #: ../calendar/gui/e-calendar-view.c:1684
 #: ../calendar/gui/e-calendar-view.c:1700 ../calendar/gui/e-memo-table.c:904
-#: ../mail/em-folder-view.c:1144
+#: ../mail/em-folder-view.c:1146
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
@@ -7308,7 +7307,7 @@ msgstr "_Odeslat jako iCalendar..."
 msgid "_Reply"
 msgstr "_Odpovědět"
 
-#: ../calendar/gui/e-calendar-view.c:1716 ../mail/em-folder-view.c:1138
+#: ../calendar/gui/e-calendar-view.c:1716 ../mail/em-folder-view.c:1140
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
@@ -8268,7 +8267,6 @@ msgstr[1] "%d poznámky"
 msgstr[2] "%d poznámek"
 
 #: ../calendar/gui/memos-component.c:529 ../calendar/gui/tasks-component.c:520
-#: ../mail/mail-component.c:562
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -8608,7 +8606,7 @@ msgstr "Kategorie: %s"
 msgid "Contacts: "
 msgstr "Kontakty: "
 
-#: ../calendar/gui/print.c:2654 ../calendar/gui/print.c:2723
+#: ../calendar/gui/print.c:2653 ../calendar/gui/print.c:2723
 msgid "Print Item"
 msgstr "Tisknout položku"
 
@@ -10115,7 +10113,7 @@ msgstr "Tichý oceán/Apia"
 
 #: ../calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr "Tichý oceán/Auklandy"
+msgstr "Tichý oceán/Auckland"
 
 #: ../calendar/zones.h:351
 msgid "Pacific/Chatham"
@@ -10874,19 +10872,19 @@ msgid "Choose a file"
 msgstr "Vybrat soubor"
 
 #: ../filter/filter-label.c:121 ../mail/em-filter-i18n.h:26
-#: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:92
+#: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:90
 msgid "Important"
 msgstr "Důležité"
 
 #. forest green
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1056
-#: ../mail/mail-config.glade.h:147
+#: ../mail/mail-config.glade.h:145
 msgid "To Do"
 msgstr "Udělat"
 
 #. blue
 #: ../filter/filter-label.c:125 ../mail/em-migrate.c:1057
-#: ../mail/mail-config.glade.h:97
+#: ../mail/mail-config.glade.h:95
 msgid "Later"
 msgstr "Později"
 
@@ -11035,7 +11033,7 @@ msgstr "nazpět"
 msgid "months"
 msgstr "měsíců"
 
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:181
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:180
 msgid "seconds"
 msgstr "sekundách"
 
@@ -11103,11 +11101,11 @@ msgstr "Ovládací prvek nastavení editoru zpráv pošty Evolution"
 msgid "Evolution Mail preferences control"
 msgstr "Ovládací prvek nastavení pošty Evolution."
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:522
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:524
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
-#: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:580
-#: ../mail/mail-component.c:581 ../mail/mail-component.c:722
+#: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:581
+#: ../mail/mail-component.c:582 ../mail/mail-component.c:724
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Pošta"
@@ -11118,7 +11116,7 @@ msgid "Mail Accounts"
 msgstr "Účty e-mailu"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
-#: ../mail/mail-config.glade.h:100
+#: ../mail/mail-config.glade.h:98
 msgid "Mail Preferences"
 msgstr "Nastavení pošty"
 
@@ -11153,11 +11151,11 @@ msgstr "Vybrat složku"
 msgid "Ask for each message"
 msgstr "Ptát se u každé zprávy"
 
-#: ../mail/em-account-editor.c:1812 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1812 ../mail/mail-config.glade.h:89
 msgid "Identity"
 msgstr "Identita"
 
-#: ../mail/em-account-editor.c:1861 ../mail/mail-config.glade.h:119
+#: ../mail/em-account-editor.c:1861 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
 msgstr "Příjem pošty"
 
@@ -11165,16 +11163,16 @@ msgstr "Příjem pošty"
 msgid "Automatically check for _new mail every"
 msgstr "_Automaticky kontrolovat novou poštu každých"
 
-#: ../mail/em-account-editor.c:2227 ../mail/mail-config.glade.h:131
+#: ../mail/em-account-editor.c:2227 ../mail/mail-config.glade.h:129
 msgid "Sending Email"
 msgstr "Posílání pošty"
 
-#: ../mail/em-account-editor.c:2286 ../mail/mail-config.glade.h:67
+#: ../mail/em-account-editor.c:2286 ../mail/mail-config.glade.h:65
 msgid "Defaults"
 msgstr "Implicitní hodnoty"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2352 ../mail/mail-config.glade.h:125
+#: ../mail/em-account-editor.c:2352 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Zabezpečení"
@@ -11188,11 +11186,11 @@ msgstr "Možnosti příjmu"
 msgid "Checking for New Mail"
 msgstr "Kontrola nové pošty"
 
-#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:33
+#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:31
 msgid "Account Editor"
 msgstr "Editor účtu"
 
-#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Asistent pro účet Evolution"
 
@@ -11399,7 +11397,7 @@ msgstr "není"
 msgid "is not Flagged"
 msgstr "není označený"
 
-#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:94
+#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:92
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Nevyžádaná pošta"
@@ -11518,7 +11516,7 @@ msgstr "Zastavit zpracování"
 
 #: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1661
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:852
-#: ../mail/em-mailer-prefs.c:90 ../mail/message-list.etspec.h:17
+#: ../mail/em-mailer-prefs.c:94 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
 #: ../plugins/groupwise-features/properties.glade.h:6
 #: ../smime/lib/e-cert.c:1132
@@ -11585,24 +11583,24 @@ msgstr "Název účtu"
 msgid "All Account Search"
 msgstr "Nastavení účtu Hula"
 
-#. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:150
-msgid "Total messages:"
-msgid_plural "Total messages:"
-msgstr[0] "Celkem zpráva:"
-msgstr[1] "Celkem zprávy:"
-msgstr[2] "Celkem zpráv:"
-
-#. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:163
+#: ../mail/em-folder-properties.c:149
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Nepřečtená zpráva:"
 msgstr[1] "Nepřečtené zprávy:"
 msgstr[2] "Nepřečtených zpráv:"
 
-#: ../mail/em-folder-properties.c:316
+#. TODO: can this be done in a loop?
+#. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
+#: ../mail/em-folder-properties.c:163
+msgid "Total messages:"
+msgid_plural "Total messages:"
+msgstr[0] "Celkem zpráva:"
+msgstr[1] "Celkem zprávy:"
+msgstr[2] "Celkem zpráv:"
+
+#: ../mail/em-folder-properties.c:323
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "Folder Properties"
 msgstr "Vlastnosti složky"
@@ -11666,53 +11664,53 @@ msgstr "Načítám..."
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:366
+#: ../mail/em-folder-tree.c:367
 #, c-format
 msgid "folder-display|%s (%u)"
 msgstr "%s (%u)"
 
-#: ../mail/em-folder-tree.c:717
+#: ../mail/em-folder-tree.c:719
 msgid "Mail Folder Tree"
 msgstr "Strom složek pošty"
 
-#: ../mail/em-folder-tree.c:877
+#: ../mail/em-folder-tree.c:879
 #, c-format
 msgid "Moving folder %s"
 msgstr "Přesouvám složku %s"
 
-#: ../mail/em-folder-tree.c:879
+#: ../mail/em-folder-tree.c:881
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopíruji složku %s"
 
-#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1826
+#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1827
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Přesouvám zprávy do složky %s"
 
-#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1828
+#: ../mail/em-folder-tree.c:890 ../mail/message-list.c:1829
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopíruji zprávy do složky %s"
 
-#: ../mail/em-folder-tree.c:904
+#: ../mail/em-folder-tree.c:906
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nelze upustit zprávy do úložiště nejvyšší úrovně"
 
-#: ../mail/em-folder-tree.c:1000 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:1002 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Kopírovat do složky"
 
-#: ../mail/em-folder-tree.c:1001 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:1003 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Přesunout do složky"
 
-#: ../mail/em-folder-tree.c:1706 ../mail/mail-ops.c:1060
+#: ../mail/em-folder-tree.c:1708 ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Procházím složky v \"%s\""
 
-#: ../mail/em-folder-tree.c:2065 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2091 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:58 ../ui/evolution-tasks.xml.h:30
@@ -11720,28 +11718,28 @@ msgstr "Procházím složky v \"%s\""
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../mail/em-folder-tree.c:2066
+#: ../mail/em-folder-tree.c:2092
 msgid "Open in _New Window"
 msgstr "Otevřít v _novém okně"
 
-#: ../mail/em-folder-tree.c:2070
+#: ../mail/em-folder-tree.c:2096
 msgid "_Copy..."
 msgstr "_Kopírovat..."
 
-#: ../mail/em-folder-tree.c:2071
+#: ../mail/em-folder-tree.c:2097
 msgid "_Move..."
 msgstr "_Přesunout..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2075
+#: ../mail/em-folder-tree.c:2101
 msgid "_New Folder..."
 msgstr "_Nová složka..."
 
-#: ../mail/em-folder-tree.c:2078 ../ui/evolution-mail-list.xml.h:34
+#: ../mail/em-folder-tree.c:2104 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
 msgstr "_Přejmenovat..."
 
-#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:131
+#: ../mail/em-folder-tree.c:2109 ../mail/mail.error.xml.h:131
 msgid "_Empty Trash"
 msgstr "Vyprázdnit _koš"
 
@@ -11750,14 +11748,14 @@ msgstr "Vyprázdnit _koš"
 msgid "Copying `%s' to `%s'"
 msgstr "Kopíruji `%s' do `%s'"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1029
-#: ../mail/em-folder-view.c:1044
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1031
+#: ../mail/em-folder-view.c:1046
 #: ../mail/importers/evolution-mbox-importer.c:86
 #: ../mail/importers/evolution-outlook-importer.c:139
 msgid "Select folder"
 msgstr "Vyberte složku"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1044
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1046
 msgid "C_opy"
 msgstr "_Kopírovat"
 
@@ -11779,154 +11777,164 @@ msgstr "Vytvořit složku"
 msgid "Specify where to create the folder:"
 msgstr "Upřesněte, kde chcete vytvořit složku:"
 
-#: ../mail/em-folder-view.c:965 ../mail/mail.error.xml.h:66
+#: ../mail/em-folder-view.c:967 ../mail/mail.error.xml.h:66
 msgid "Mail Deletion Failed"
 msgstr "Selhalo mazání pošty"
 
-#: ../mail/em-folder-view.c:966 ../mail/mail.error.xml.h:119
+#: ../mail/em-folder-view.c:968 ../mail/mail.error.xml.h:119
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Nemáte dostatečná oprávnění pro smazání této pošty."
 
-#: ../mail/em-folder-view.c:1137 ../ui/evolution-mail-message.xml.h:127
+#: ../mail/em-folder-view.c:1139 ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_Odpovědět odesílateli"
 
-#: ../mail/em-folder-view.c:1139 ../mail/em-popup.c:561 ../mail/em-popup.c:572
+#: ../mail/em-folder-view.c:1141 ../mail/em-popup.c:561 ../mail/em-popup.c:572
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "_Přeposlat"
 
-#: ../mail/em-folder-view.c:1142 ../ui/evolution-mail-message.xml.h:107
+#: ../mail/em-folder-view.c:1144 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "_Upravit jako novou zprávu..."
 
-#: ../mail/em-folder-view.c:1148
+#: ../mail/em-folder-view.c:1150
 msgid "U_ndelete"
 msgstr "Obnovit _odstraněné"
 
-#: ../mail/em-folder-view.c:1149
+#: ../mail/em-folder-view.c:1151
 msgid "_Move to Folder..."
 msgstr "Pře_sunout do složky..."
 
-#: ../mail/em-folder-view.c:1150
+#: ../mail/em-folder-view.c:1152
 msgid "_Copy to Folder..."
 msgstr "_Kopírovat do složky..."
 
-#: ../mail/em-folder-view.c:1153
+#: ../mail/em-folder-view.c:1155
 msgid "Mar_k as Read"
 msgstr "Označit jako _přečtené"
 
-#: ../mail/em-folder-view.c:1154
+#: ../mail/em-folder-view.c:1156
 msgid "Mark as _Unread"
 msgstr "Označit jako _nepřečtené"
 
-#: ../mail/em-folder-view.c:1155
+#: ../mail/em-folder-view.c:1157
 msgid "Mark as _Important"
 msgstr "Označit jako _důležité"
 
-#: ../mail/em-folder-view.c:1156
+#: ../mail/em-folder-view.c:1158
 msgid "Mark as Un_important"
 msgstr "Označit jako nedůlež_ité"
 
-#: ../mail/em-folder-view.c:1157
+#: ../mail/em-folder-view.c:1159
 msgid "Mark as _Junk"
 msgstr "Označit jako n_evyžádaná"
 
-#: ../mail/em-folder-view.c:1158
+#: ../mail/em-folder-view.c:1160
 msgid "Mark as _Not Junk"
 msgstr "Označit že není _nevyžádaná"
 
-#: ../mail/em-folder-view.c:1159
+#: ../mail/em-folder-view.c:1161
 msgid "Mark for Follo_w Up..."
 msgstr "Označit pro follo_w up..."
 
-#: ../mail/em-folder-view.c:1161
+#: ../mail/em-folder-view.c:1163
 msgid "_Label"
 msgstr "Š_títek"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1162 ../widgets/misc/e-dateedit.c:475
+#: ../mail/em-folder-view.c:1164 ../widgets/misc/e-dateedit.c:475
 msgid "_None"
 msgstr "Žá_dný"
 
-#: ../mail/em-folder-view.c:1167
+#: ../mail/em-folder-view.c:1169
 msgid "Fla_g Completed"
 msgstr "Označit jako _dokončeno"
 
-#: ../mail/em-folder-view.c:1168
+#: ../mail/em-folder-view.c:1170
 msgid "Cl_ear Flag"
 msgstr "Zrušit _značku"
 
-#: ../mail/em-folder-view.c:1171
+#: ../mail/em-folder-view.c:1173
 msgid "Crea_te Rule From Message"
 msgstr "Vy_tvořit pravidlo ze zprávy"
 
-#: ../mail/em-folder-view.c:1172
+#: ../mail/em-folder-view.c:1174
 msgid "Search Folder from _Subject"
 msgstr "Složka hledání podle _předmětu"
 
-#: ../mail/em-folder-view.c:1173
+#: ../mail/em-folder-view.c:1175
 msgid "Search Folder from Se_nder"
 msgstr "Složka hledání podle _odesílatele"
 
-#: ../mail/em-folder-view.c:1174
+#: ../mail/em-folder-view.c:1176
 msgid "Search Folder from _Recipients"
 msgstr "Složka hledání podle příje_mců"
 
-#: ../mail/em-folder-view.c:1175
+#: ../mail/em-folder-view.c:1177
 msgid "Search Folder from Mailing _List"
 msgstr "Složka hledání podle poštovní _konference"
 
-#: ../mail/em-folder-view.c:1179
+#: ../mail/em-folder-view.c:1181
 msgid "Filter on Sub_ject"
 msgstr "Filtr podle _předmětu"
 
-#: ../mail/em-folder-view.c:1180
+#: ../mail/em-folder-view.c:1182
 msgid "Filter on Sen_der"
 msgstr "Filtr podle _odesílatele"
 
-#: ../mail/em-folder-view.c:1181
+#: ../mail/em-folder-view.c:1183
 msgid "Filter on Re_cipients"
 msgstr "Filtr podle příje_mců"
 
-#: ../mail/em-folder-view.c:1182
+#: ../mail/em-folder-view.c:1184
 msgid "Filter on _Mailing List"
 msgstr "Filtr podle poštovní _konference"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2035 ../mail/em-folder-view.c:2079
+#: ../mail/em-folder-view.c:2037 ../mail/em-folder-view.c:2081
 msgid "Default"
 msgstr "Implicitní"
 
-#: ../mail/em-folder-view.c:2184 ../mail/em-folder-view.c:2189
+#: ../mail/em-folder-view.c:2186 ../mail/em-folder-view.c:2191
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Tisknout zprávu"
 
-#: ../mail/em-folder-view.c:2348
+#: ../mail/em-folder-view.c:2350
 msgid "Unable to retrieve message"
 msgstr "Nemohu získat zprávu"
 
-#: ../mail/em-folder-view.c:2546
+#: ../mail/em-folder-view.c:2371
+#, fuzzy
+msgid "<b>Retrieving Message...</b>"
+msgstr "Získávám zprávu %s"
+
+#: ../mail/em-folder-view.c:2410
+#, fuzzy
+msgid "Retrieving Message"
+msgstr "Získávám zprávu %s"
+
+#: ../mail/em-folder-view.c:2588
 msgid "Create _Search Folder"
 msgstr "Vytvořit složku _hledání"
 
-#: ../mail/em-folder-view.c:2547
+#: ../mail/em-folder-view.c:2589
 msgid "_From this Address"
 msgstr "_Z této adresy"
 
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2590
 msgid "_To this Address"
 msgstr "_Na tuto adresu"
 
-#: ../mail/em-folder-view.c:2905
+#: ../mail/em-folder-view.c:2947
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknutím sem pošlete e-mail %s"
 
-#: ../mail/em-folder-view.c:2910
+#: ../mail/em-folder-view.c:2952
 msgid "Click to hide/unhide addresses"
 msgstr ""
 
@@ -12083,21 +12091,27 @@ msgstr "_Přizpůsobit šířku"
 msgid "Show _Original Size"
 msgstr "Zobrazit _původní velikost"
 
-#: ../mail/em-format-html-display.c:1899 ../mail/em-format-html-display.c:2495
-#: ../mail/mail-config.glade.h:44 ../mail/message-list.etspec.h:1
+#: ../mail/em-format-html-display.c:1899 ../mail/em-format-html-display.c:2510
+#: ../mail/mail-config.glade.h:42 ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Příloha"
 
-#: ../mail/em-format-html-display.c:2106
-msgid "Select folder to save all attachments..."
+#: ../mail/em-format-html-display.c:2113
+#, fuzzy
+msgid "Save attachment as"
+msgstr "Uložit přílohy"
+
+#: ../mail/em-format-html-display.c:2117
+#, fuzzy
+msgid "Select folder to save all attachments"
 msgstr "Zvolte adresář, kam uložit všechny přílohy..."
 
-#: ../mail/em-format-html-display.c:2153
+#: ../mail/em-format-html-display.c:2168
 msgid "_Save Selected..."
 msgstr "Uložit _vybrané..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2220
+#: ../mail/em-format-html-display.c:2235
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
@@ -12105,31 +12119,31 @@ msgstr[0] "%d přílo_ha"
 msgstr[1] "%d přílo_hy"
 msgstr[2] "%d přílo_h"
 
-#: ../mail/em-format-html-display.c:2227 ../mail/em-format-html-display.c:2305
+#: ../mail/em-format-html-display.c:2242 ../mail/em-format-html-display.c:2320
 msgid "S_ave"
 msgstr "_Uložit"
 
-#: ../mail/em-format-html-display.c:2238
+#: ../mail/em-format-html-display.c:2253
 msgid "S_ave All"
 msgstr "Uložit _vše"
 
-#: ../mail/em-format-html-display.c:2301
+#: ../mail/em-format-html-display.c:2316
 msgid "No Attachment"
 msgstr "Žádná příloha"
 
-#: ../mail/em-format-html-display.c:2432 ../mail/em-format-html-display.c:2468
+#: ../mail/em-format-html-display.c:2447 ../mail/em-format-html-display.c:2483
 msgid "View _Unformatted"
 msgstr "Zobrazit _nezformátované"
 
-#: ../mail/em-format-html-display.c:2434
+#: ../mail/em-format-html-display.c:2449
 msgid "Hide _Unformatted"
 msgstr "Skrýt _nezformátované"
 
-#: ../mail/em-format-html-display.c:2487
+#: ../mail/em-format-html-display.c:2502
 msgid "O_pen With"
 msgstr "_Otevřít pomocí"
 
-#: ../mail/em-format-html-display.c:2556
+#: ../mail/em-format-html-display.c:2571
 msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
@@ -12185,29 +12199,29 @@ msgid "Formatting message"
 msgstr "Formátuji zprávu"
 
 #: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:85
+#: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "Od"
 
 #: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:86
+#: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:90
 msgid "Reply-To"
 msgstr "Odpovědět-komu"
 
 #: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:88
+#: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:92
 msgid "Cc"
 msgstr "Kopie"
 
 #: ../mail/em-format-html.c:1490 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:89
+#: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:93
 msgid "Bcc"
 msgstr "Skrytá kopie"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1665 ../mail/em-format-quote.c:322
-#: ../mail/em-mailer-prefs.c:1028
+#: ../mail/em-mailer-prefs.c:1174
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
@@ -12222,14 +12236,14 @@ msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
 #: ../mail/em-format-html.c:1705 ../mail/em-format-quote.c:329
-#: ../mail/em-format.c:853 ../mail/em-mailer-prefs.c:91
+#: ../mail/em-format.c:853 ../mail/em-mailer-prefs.c:95
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Datum"
 
 #: ../mail/em-format-html.c:1728 ../mail/em-format.c:854
-#: ../mail/em-mailer-prefs.c:92
+#: ../mail/em-mailer-prefs.c:96
 msgid "Newsgroups"
 msgstr "Diskusní skupiny"
 
@@ -12262,21 +12276,26 @@ msgstr "Chyba při ověřování podpisu"
 msgid "Unknown error verifying signature"
 msgstr "Neznámá chyba při ověřování podpisu"
 
-#: ../mail/em-mailer-prefs.c:103
+#: ../mail/em-mailer-prefs.c:107
 msgid "Every time"
 msgstr "Pokaždé"
 
-#: ../mail/em-mailer-prefs.c:104
+#: ../mail/em-mailer-prefs.c:108
 msgid "Once per day"
 msgstr "Jednou za den"
 
-#: ../mail/em-mailer-prefs.c:105
+#: ../mail/em-mailer-prefs.c:109
 msgid "Once per week"
 msgstr "Jednou za týden"
 
-#: ../mail/em-mailer-prefs.c:106
+#: ../mail/em-mailer-prefs.c:110
 msgid "Once per month"
 msgstr "Jednou za měsíc"
+
+#: ../mail/em-mailer-prefs.c:807
+#, fuzzy
+msgid "No Junk plugin available"
+msgstr "Popis není dostupný."
 
 #: ../mail/em-migrate.c:1210
 msgid ""
@@ -12325,12 +12344,12 @@ msgstr "Nemohu zkopírovat data POP3 ponechávaná na serveru `%s': %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "Nemohu vytvořit místní úložiště pošty `%s': %s"
 
-#: ../mail/em-migrate.c:2708
+#: ../mail/em-migrate.c:2709
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "Nemohu vytvořit místní složky pošty v `%s': %s"
 
-#: ../mail/em-migrate.c:2727
+#: ../mail/em-migrate.c:2728
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -12380,20 +12399,20 @@ msgstr "Příště tuto zprávu nezobrazovat."
 msgid "Message Filters"
 msgstr "Filtry zpráv"
 
-#: ../mail/em-utils.c:400 ../mail/em-utils.c:432
+#: ../mail/em-utils.c:368
 msgid "message"
 msgstr "zpráva"
 
-#: ../mail/em-utils.c:567
+#: ../mail/em-utils.c:557
 msgid "Save Message..."
 msgstr "Uložit zprávu..."
 
-#: ../mail/em-utils.c:616
+#: ../mail/em-utils.c:606
 msgid "Add address"
 msgstr "Přidat adresu"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1100
+#: ../mail/em-utils.c:1090
 #, c-format
 msgid "Messages from %s"
 msgstr "Zprávy z %s"
@@ -12505,22 +12524,32 @@ msgid "Draw spelling error indicators on words as you type."
 msgstr "Kreslit indikaci překlepů ve slovech, když píšete."
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
-msgid "Empty Trash folders on exit"
+#, fuzzy
+msgid "Empty Junk folders on exit"
 msgstr "Vyprazdňovat složky Koš při ukončení"
 
 #: ../mail/evolution-mail.schemas.in.in.h:26
+msgid "Empty Trash folders on exit"
+msgstr "Vyprazdňovat složky Koš při ukončení"
+
+#: ../mail/evolution-mail.schemas.in.in.h:27
+#, fuzzy
+msgid "Empty all Junk folders when exiting Evolution."
+msgstr "Vyprazdňovat všechny složky Koš při ukončování Evolution."
+
+#: ../mail/evolution-mail.schemas.in.in.h:28
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Vyprazdňovat všechny složky Koš při ukončování Evolution."
 
-#: ../mail/evolution-mail.schemas.in.in.h:27
+#: ../mail/evolution-mail.schemas.in.in.h:29
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Povolit režim kurzoru, takže při čtení pošty vidíte kurzor."
 
-#: ../mail/evolution-mail.schemas.in.in.h:28
+#: ../mail/evolution-mail.schemas.in.in.h:30
 msgid "Enable or disable type ahead search feature"
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.in.h:29
+#: ../mail/evolution-mail.schemas.in.in.h:31
 msgid ""
 "Enable side bar search feature so that you can start interactive searching "
 "by typing in the text. Use is that you can easily find a folder in that side "
@@ -12528,24 +12557,24 @@ msgid ""
 "that folder."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.in.h:30
+#: ../mail/evolution-mail.schemas.in.in.h:32
 #, fuzzy
 msgid "Enable to render message text part of limited size."
 msgstr "Nemohu získat z editoru"
 
-#: ../mail/evolution-mail.schemas.in.in.h:31
+#: ../mail/evolution-mail.schemas.in.in.h:33
 msgid "Enable/disable caret mode"
 msgstr "Povolit/zakázat režim kurzoru"
 
-#: ../mail/evolution-mail.schemas.in.in.h:32
+#: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "Height of the message-list pane"
 msgstr "Výška panelu seznamu zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:33
+#: ../mail/evolution-mail.schemas.in.in.h:35
 msgid "Height of the message-list pane."
 msgstr "Výška panelu seznamu zpráv."
 
-#: ../mail/evolution-mail.schemas.in.in.h:34
+#: ../mail/evolution-mail.schemas.in.in.h:36
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -12553,13 +12582,13 @@ msgstr ""
 "Pokud se uživatel pokusí otevřít 10 nebo více zpráv najednou, zeptat se "
 "uživatele, jestli to opravdu chce udělat."
 
-#: ../mail/evolution-mail.schemas.in.in.h:35
+#: ../mail/evolution-mail.schemas.in.in.h:37
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.in.h:36
+#: ../mail/evolution-mail.schemas.in.in.h:38
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
@@ -12569,27 +12598,32 @@ msgstr ""
 "pro zobrazení obsahu použity všechny typy mime, které jsou v tomto seznamu a "
 "v databázi typů mime GNOME jim odpovídá komponenta bonobo prohlížeče."
 
-#: ../mail/evolution-mail.schemas.in.in.h:37
+#: ../mail/evolution-mail.schemas.in.in.h:39
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.in.h:38
+#: ../mail/evolution-mail.schemas.in.in.h:40
+#, fuzzy
+msgid "Last time empty junk was run"
+msgstr "Datum, kdy bylo naposledy spuštěno vyprázdnění koše"
+
+#: ../mail/evolution-mail.schemas.in.in.h:41
 msgid "Last time empty trash was run"
 msgstr "Datum, kdy bylo naposledy spuštěno vyprázdnění koše"
 
-#: ../mail/evolution-mail.schemas.in.in.h:39
+#: ../mail/evolution-mail.schemas.in.in.h:42
 msgid "List of Labels and their associated colors"
 msgstr "Seznam štítků a jim přiřazených barev"
 
-#: ../mail/evolution-mail.schemas.in.in.h:40
+#: ../mail/evolution-mail.schemas.in.in.h:43
 msgid "List of accepted licenses"
 msgstr "Seznam přijatých licencí"
 
-#: ../mail/evolution-mail.schemas.in.in.h:41
+#: ../mail/evolution-mail.schemas.in.in.h:44
 msgid "List of accounts"
 msgstr "Seznam účtů"
 
-#: ../mail/evolution-mail.schemas.in.in.h:42
+#: ../mail/evolution-mail.schemas.in.in.h:45
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -12597,11 +12631,11 @@ msgstr ""
 "Seznam účtů, které zná komponenta pošty Evolution. Seznam obsahuje řetězce "
 "určující podadresáře relativně k /apps/evolution/mail/accounts."
 
-#: ../mail/evolution-mail.schemas.in.in.h:43
+#: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "List of custom headers and whether they are enabled."
 msgstr "Seznam vlastních hlaviček a toho, jestli jsou povoleny."
 
-#: ../mail/evolution-mail.schemas.in.in.h:44
+#: ../mail/evolution-mail.schemas.in.in.h:47
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -12609,19 +12643,19 @@ msgstr ""
 "Seznam štítků, které zná komponenta pošty Evolution. Seznam obsahuje řetězce "
 "tvaru název:barva, kde barva používá kódování HTML hex."
 
-#: ../mail/evolution-mail.schemas.in.in.h:45
+#: ../mail/evolution-mail.schemas.in.in.h:48
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "Seznam typů mime, pro které hledat komponenty bonobo prohlížečů"
 
-#: ../mail/evolution-mail.schemas.in.in.h:46
+#: ../mail/evolution-mail.schemas.in.in.h:49
 msgid "List of protocol names whose license has been accepted."
 msgstr "Seznam názvů protokolů, jejichž licence byla přijata."
 
-#: ../mail/evolution-mail.schemas.in.in.h:47
+#: ../mail/evolution-mail.schemas.in.in.h:50
 msgid "Load images for HTML messages over http"
 msgstr "Načítat obrázky pro zprávy v HTML přes http"
 
-#: ../mail/evolution-mail.schemas.in.in.h:48
+#: ../mail/evolution-mail.schemas.in.in.h:51
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
@@ -12631,95 +12665,105 @@ msgstr ""
 "Nikdy nenačítat obrázky ze sítě 1 - načítat obrázky ve zprávách od kontaktů "
 "2 - vždy načítat obrázky ze sítě"
 
-#: ../mail/evolution-mail.schemas.in.in.h:49
+#: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Log filter actions"
 msgstr "Zaznamenávat akce filtrů"
 
-#: ../mail/evolution-mail.schemas.in.in.h:50
+#: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "Log filter actions to the specified log file."
 msgstr "Zaznamenávat akce filtrů do určeného souboru záznamů."
 
-#: ../mail/evolution-mail.schemas.in.in.h:51
+#: ../mail/evolution-mail.schemas.in.in.h:54
 msgid "Logfile to log filter actions"
 msgstr "Soubor, kam zaznamenávat akce filtrů"
 
-#: ../mail/evolution-mail.schemas.in.in.h:52
+#: ../mail/evolution-mail.schemas.in.in.h:55
 msgid "Logfile to log filter actions."
 msgstr "Soubor, kam zaznamenávat akce filtrů."
 
-#: ../mail/evolution-mail.schemas.in.in.h:53
+#: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Mark as Seen after specified timeout"
 msgstr "Označit jako přečtené po určeném čase"
 
-#: ../mail/evolution-mail.schemas.in.in.h:54
+#: ../mail/evolution-mail.schemas.in.in.h:57
 msgid "Mark as Seen after specified timeout."
 msgstr "Označit jako přečtené po určeném čase."
 
-#: ../mail/evolution-mail.schemas.in.in.h:55
+#: ../mail/evolution-mail.schemas.in.in.h:58
 msgid "Mark citations in the message \"Preview\""
 msgstr "Označit citace v \"náhledu\" zprávy"
 
-#: ../mail/evolution-mail.schemas.in.in.h:56
+#: ../mail/evolution-mail.schemas.in.in.h:59
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Označit citace v \"náhledu\" zprávy."
 
-#: ../mail/evolution-mail.schemas.in.in.h:57
+#: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Message Window default height"
 msgstr "Implicitní výška okna zprávy"
 
-#: ../mail/evolution-mail.schemas.in.in.h:58
+#: ../mail/evolution-mail.schemas.in.in.h:61
 msgid "Message Window default width"
 msgstr "Implicitní šířka okna zprávy"
 
-#: ../mail/evolution-mail.schemas.in.in.h:59
+#: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr "Styl zobrazování zprávy (\"normal\", \"full headers\", \"source\")"
 
-#: ../mail/evolution-mail.schemas.in.in.h:60
+#: ../mail/evolution-mail.schemas.in.in.h:63
+#, fuzzy
+msgid "Minimum days between emptying the junk on exit"
+msgstr "Minimum dní mezi vyprázdňováním koše při ukončení"
+
+#: ../mail/evolution-mail.schemas.in.in.h:64
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Minimum dní mezi vyprázdňováním koše při ukončení"
 
-#: ../mail/evolution-mail.schemas.in.in.h:61
+#: ../mail/evolution-mail.schemas.in.in.h:65
+#, fuzzy
+msgid "Minimum time between emptying the junk on exit, in days."
+msgstr "Minimum dní mezi vyprázdňováním koše při ukončení ve dnech."
+
+#: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Minimum dní mezi vyprázdňováním koše při ukončení ve dnech."
 
-#: ../mail/evolution-mail.schemas.in.in.h:62
+#: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "New Mail Notify sound file"
 msgstr "Soubor zvuku upozornění na novou poštu"
 
-#: ../mail/evolution-mail.schemas.in.in.h:63
+#: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "New Mail Notify type"
 msgstr "Typ upozornění na novou poštu"
 
-#: ../mail/evolution-mail.schemas.in.in.h:64
+#: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Počet adres zobrazených v polích TO/CC/BCC"
 
-#: ../mail/evolution-mail.schemas.in.in.h:65
+#: ../mail/evolution-mail.schemas.in.in.h:70
 msgid "Prompt on empty subject"
 msgstr "Upozorňovat při prázdném předmětu"
 
-#: ../mail/evolution-mail.schemas.in.in.h:66
+#: ../mail/evolution-mail.schemas.in.in.h:71
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Upozorňovat uživatele, když se pokusí vyčistit složku"
 
-#: ../mail/evolution-mail.schemas.in.in.h:67
+#: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Upozorňovat uživatele, když se pokusí odeslat zprávu bez předmětu."
 
-#: ../mail/evolution-mail.schemas.in.in.h:68
+#: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Prompt when user expunges"
 msgstr "Upozorňovat, když uživatel čistí"
 
-#: ../mail/evolution-mail.schemas.in.in.h:69
+#: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Prompt when user only fills Bcc"
 msgstr "Upozorňovat, když uživatel vyplní jen Bcc"
 
-#: ../mail/evolution-mail.schemas.in.in.h:70
+#: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Upozorňovat, když se uživatel pokusí otevřít najednou 10 nebo více zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:71
+#: ../mail/evolution-mail.schemas.in.in.h:76
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -12727,120 +12771,136 @@ msgstr ""
 "Upozorňovat, když se uživatel pokusí poslat zprávu v HTML příjemcům, kteří "
 "možná nechtějí přijímat poštu v HTML."
 
-#: ../mail/evolution-mail.schemas.in.in.h:72
+#: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Upozorňovat, když se uživatel pokusí odeslat zprávu bez příjemců Komu a "
 "Kopie."
 
-#: ../mail/evolution-mail.schemas.in.in.h:73
+#: ../mail/evolution-mail.schemas.in.in.h:78
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Upozorňovat, když se uživatel pokusí odeslat nechtěné HTML"
 
-#: ../mail/evolution-mail.schemas.in.in.h:74
+#: ../mail/evolution-mail.schemas.in.in.h:79
 msgid "Prompt while marking multiple messages"
 msgstr "Upozorňovat na označení více zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:75
+#: ../mail/evolution-mail.schemas.in.in.h:80
 msgid "Recognize links in text and replace them."
 msgstr "Rozpoznávat v textu odkazy a nahrazovat je."
 
-#: ../mail/evolution-mail.schemas.in.in.h:76
+#: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Rozpoznávat v textu úsměvy a nahrazovat je obrázky."
 
-#: ../mail/evolution-mail.schemas.in.in.h:77
+#: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "Run junk test on incoming mail"
 msgstr "Spouštět na příchozí e-maily test na nevyžádanou poštu"
 
-#: ../mail/evolution-mail.schemas.in.in.h:78
+#: ../mail/evolution-mail.schemas.in.in.h:83
 msgid "Save directory"
 msgstr "Uložit adresář"
 
-#: ../mail/evolution-mail.schemas.in.in.h:79
+#: ../mail/evolution-mail.schemas.in.in.h:84
 msgid "Send HTML mail by default"
 msgstr "Odesílat poštu implicitně v HTML"
 
-#: ../mail/evolution-mail.schemas.in.in.h:80
+#: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Send HTML mail by default."
 msgstr "Odesílat poštu implicitně v HTML."
 
-#: ../mail/evolution-mail.schemas.in.in.h:81
+#: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Show Animations"
 msgstr "Zobrazovat animace"
 
-#: ../mail/evolution-mail.schemas.in.in.h:82
+#: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Show animated images as animations."
 msgstr "Zobrazovat animované obrázky jako animace."
 
-#: ../mail/evolution-mail.schemas.in.in.h:83
+#: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Zobrazovat odstraněné zprávy v seznamu zpráv (přeškrtnutě)."
 
-#: ../mail/evolution-mail.schemas.in.in.h:84
+#: ../mail/evolution-mail.schemas.in.in.h:89
 msgid "Show deleted messages in the message-list"
 msgstr "Zobrazovat odstraněné zprávy v seznamu zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:87
+#: ../mail/evolution-mail.schemas.in.in.h:92
 #, fuzzy
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
 msgstr "Zobrazovat odstraněné zprávy v seznamu zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:88
+#: ../mail/evolution-mail.schemas.in.in.h:93
 #, fuzzy
 msgid "Show the sender email in the messages column in the message list"
 msgstr "Zobrazovat odstraněné zprávy v seznamu zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:89
+#: ../mail/evolution-mail.schemas.in.in.h:94
 msgid "Sound file to play when new mail arrives."
 msgstr "Souboru zvuku, který přehrát, když přijde nová pošta."
 
-#: ../mail/evolution-mail.schemas.in.in.h:90
+#: ../mail/evolution-mail.schemas.in.in.h:95
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr "Určuje typ upozornění na novou poštu, které chce uživatel používat."
 
-#: ../mail/evolution-mail.schemas.in.in.h:91
+#: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Spell check inline"
 msgstr "Hledat překlepy průběžně"
 
-#: ../mail/evolution-mail.schemas.in.in.h:92
+#: ../mail/evolution-mail.schemas.in.in.h:97
 msgid "Subscribe dialog default height"
 msgstr "Implicitní výška dialogu přihlašování"
 
-#: ../mail/evolution-mail.schemas.in.in.h:93
+#: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "Subscribe dialog default width"
 msgstr "Implicitní šířka dialogu přihlašování"
 
-#: ../mail/evolution-mail.schemas.in.in.h:94
+#: ../mail/evolution-mail.schemas.in.in.h:99
 msgid "Terminal font"
 msgstr "Písmo terminálu"
 
-#: ../mail/evolution-mail.schemas.in.in.h:95
+#: ../mail/evolution-mail.schemas.in.in.h:100
 #, fuzzy
 msgid "Text message part limit"
 msgstr "_Poslat zprávu do konference"
 
-#: ../mail/evolution-mail.schemas.in.in.h:96
+#: ../mail/evolution-mail.schemas.in.in.h:101
+msgid "The default plugin for Junk hook"
+msgstr ""
+
+#: ../mail/evolution-mail.schemas.in.in.h:102
+#, fuzzy
+msgid "The last time empty junk was run, in days since the epoch."
+msgstr "Datum, kdy bylo naposledy spuštěno vyprázdňování koše ve dnech od epoch."
+
+#: ../mail/evolution-mail.schemas.in.in.h:103
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "Datum, kdy bylo naposledy spuštěno vyprázdňování koše ve dnech od epoch."
 
-#: ../mail/evolution-mail.schemas.in.in.h:97
+#: ../mail/evolution-mail.schemas.in.in.h:104
 msgid "The terminal font for mail display"
 msgstr "Písmo terminálu pro zobrazování pošty"
 
-#: ../mail/evolution-mail.schemas.in.in.h:98
+#: ../mail/evolution-mail.schemas.in.in.h:105
 msgid "The variable width font for mail display"
 msgstr "Písmo s proměnnou šířkou pro zobrazování pošty"
 
-#: ../mail/evolution-mail.schemas.in.in.h:99
+#: ../mail/evolution-mail.schemas.in.in.h:106
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.in.h:100
+#: ../mail/evolution-mail.schemas.in.in.h:107
+msgid ""
+"This is the default junk plugin, even though there are multiple plugins "
+"enabled. If the default listed plugin is disabled, then it wont fall back to "
+"the other available plugins."
+msgstr ""
+
+#: ../mail/evolution-mail.schemas.in.in.h:108
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -12852,109 +12912,111 @@ msgstr ""
 "enabled&gt; - nastavte enabled, pokud se má hlavička zobrazovat v pohledu na "
 "poštu."
 
-#: ../mail/evolution-mail.schemas.in.in.h:101
+#: ../mail/evolution-mail.schemas.in.in.h:109
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.in.h:102
+#: ../mail/evolution-mail.schemas.in.in.h:110
 msgid "Thread the message list."
 msgstr "Seskupovat vlákna v seznamu zpráv."
 
-#: ../mail/evolution-mail.schemas.in.in.h:103
+#: ../mail/evolution-mail.schemas.in.in.h:111
 msgid "Thread the message-list"
 msgstr "Seskupovat vlákna v seznamu zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:104
+#: ../mail/evolution-mail.schemas.in.in.h:112
 msgid "Thread the message-list based on Subject"
 msgstr "Seskupovat vlákna v seznamu zpráv podle předmětu"
 
-#: ../mail/evolution-mail.schemas.in.in.h:105
+#: ../mail/evolution-mail.schemas.in.in.h:113
 msgid "Timeout for marking message as Seen"
 msgstr "Čas pro označení zprávy jako přečtené"
 
-#: ../mail/evolution-mail.schemas.in.in.h:106
+#: ../mail/evolution-mail.schemas.in.in.h:114
 msgid "Timeout for marking message as Seen."
 msgstr "Čas pro označení zprávy jako přečtené."
 
-#: ../mail/evolution-mail.schemas.in.in.h:107
+#: ../mail/evolution-mail.schemas.in.in.h:115
 msgid "UID string of the default account."
 msgstr "Řetězec UID implicitního účtu."
 
-#: ../mail/evolution-mail.schemas.in.in.h:108
-msgid "Use Spamassassin daemon and client"
+#: ../mail/evolution-mail.schemas.in.in.h:116
+#, fuzzy
+msgid "Use SpamAssassin daemon and client"
 msgstr "Používat démona a klienta Spamassassin"
 
-#: ../mail/evolution-mail.schemas.in.in.h:109
-msgid "Use Spamassassin daemon and client (spamc/spamd)"
+#: ../mail/evolution-mail.schemas.in.in.h:117
+#, fuzzy
+msgid "Use SpamAssassin daemon and client (spamc/spamd)"
 msgstr "Používat démona a klienta Spamassassin (spamc/spamd)"
 
-#: ../mail/evolution-mail.schemas.in.in.h:110
+#: ../mail/evolution-mail.schemas.in.in.h:118
 msgid "Use custom fonts"
 msgstr "Používat vlastní písma"
 
-#: ../mail/evolution-mail.schemas.in.in.h:111
+#: ../mail/evolution-mail.schemas.in.in.h:119
 msgid "Use custom fonts for displaying mail"
 msgstr "Používat pro zobrazování pošty vlastní písma"
 
-#: ../mail/evolution-mail.schemas.in.in.h:112
+#: ../mail/evolution-mail.schemas.in.in.h:120
 msgid "Use only local spam tests."
 msgstr "Používat jen místní testy spamu."
 
-#: ../mail/evolution-mail.schemas.in.in.h:113
+#: ../mail/evolution-mail.schemas.in.in.h:121
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Používat jen místní testy spamu (bez DNS)."
 
-#: ../mail/evolution-mail.schemas.in.in.h:114
+#: ../mail/evolution-mail.schemas.in.in.h:122
 msgid "Use side-by-side or wide layout"
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.in.h:115
+#: ../mail/evolution-mail.schemas.in.in.h:123
 msgid "Variable width font"
 msgstr "Písmo s proměnlivou šířkou:"
 
-#: ../mail/evolution-mail.schemas.in.in.h:116
+#: ../mail/evolution-mail.schemas.in.in.h:124
 msgid "View/Bcc menu item is checked"
 msgstr "Položka nabídky Zobrazit/Skrytá kopie je zaškrtnuta"
 
-#: ../mail/evolution-mail.schemas.in.in.h:117
+#: ../mail/evolution-mail.schemas.in.in.h:125
 msgid "View/Bcc menu item is checked."
 msgstr "Položka nabídky Zobrazit/Skrytá kopie je zaškrtnuta."
 
-#: ../mail/evolution-mail.schemas.in.in.h:118
+#: ../mail/evolution-mail.schemas.in.in.h:126
 msgid "View/Cc menu item is checked"
 msgstr "Položka nabídky Zobrazit/Kopie je zaškrtnuta."
 
-#: ../mail/evolution-mail.schemas.in.in.h:119
+#: ../mail/evolution-mail.schemas.in.in.h:127
 msgid "View/Cc menu item is checked."
 msgstr "Položka nabídky Zobrazit/Kopie je zaškrtnuta"
 
-#: ../mail/evolution-mail.schemas.in.in.h:120
+#: ../mail/evolution-mail.schemas.in.in.h:128
 msgid "View/From menu item is checked"
 msgstr "Položka nabídky Zobrazit/Od je zaškrtnuta"
 
-#: ../mail/evolution-mail.schemas.in.in.h:121
+#: ../mail/evolution-mail.schemas.in.in.h:129
 msgid "View/From menu item is checked."
 msgstr "Položka nabídky Zobrazit/Od je zaškrtnuta."
 
-#: ../mail/evolution-mail.schemas.in.in.h:122
+#: ../mail/evolution-mail.schemas.in.in.h:130
 msgid "View/PostTo menu item is checked"
 msgstr "Položka nabídky Zobrazit/Poslat komu je zaškrtnuta"
 
-#: ../mail/evolution-mail.schemas.in.in.h:123
+#: ../mail/evolution-mail.schemas.in.in.h:131
 msgid "View/PostTo menu item is checked."
 msgstr "Položka nabídky Zobrazit/Uložit do je zaškrtnuta."
 
-#: ../mail/evolution-mail.schemas.in.in.h:124
+#: ../mail/evolution-mail.schemas.in.in.h:132
 msgid "View/ReplyTo menu item is checked"
 msgstr "Položka nabídky Zobrazit/Odpovědět komu je zaškrtnuta"
 
-#: ../mail/evolution-mail.schemas.in.in.h:125
+#: ../mail/evolution-mail.schemas.in.in.h:133
 msgid "View/ReplyTo menu item is checked."
 msgstr "Položka nabídky Zobrazit/Odpovědět komu je zaškrtnuta."
 
-#: ../mail/evolution-mail.schemas.in.in.h:126
+#: ../mail/evolution-mail.schemas.in.in.h:134
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -12962,12 +13024,12 @@ msgstr ""
 "Jestli seskupovat zprávy podle předmětů, když zprávy neobsahují hlavičky In-"
 "Reply-To ani References."
 
-#: ../mail/evolution-mail.schemas.in.in.h:127
+#: ../mail/evolution-mail.schemas.in.in.h:135
 #, fuzzy
 msgid "Width of the message-list pane"
 msgstr "Výška panelu seznamu zpráv"
 
-#: ../mail/evolution-mail.schemas.in.in.h:128
+#: ../mail/evolution-mail.schemas.in.in.h:136
 #, fuzzy
 msgid "Width of the message-list pane."
 msgstr "Výška panelu seznamu zpráv."
@@ -13158,6 +13220,14 @@ msgstr[1] "%d nevyžádaný pošty"
 msgstr[2] "%d nevyžádaných pošt"
 
 #: ../mail/mail-component.c:548
+#, fuzzy, c-format
+msgid "%d selected, "
+msgid_plural "%d selected, "
+msgstr[0] ", %d vybráno"
+msgstr[1] ", %d vybráno"
+msgstr[2] ", %d vybráno"
+
+#: ../mail/mail-component.c:551
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -13165,7 +13235,7 @@ msgstr[0] "%d koncept"
 msgstr[1] "%d koncepty"
 msgstr[2] "%d konceptů"
 
-#: ../mail/mail-component.c:550
+#: ../mail/mail-component.c:553
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -13173,7 +13243,7 @@ msgstr[0] "%d odeslána"
 msgstr[1] "%d odeslány"
 msgstr[2] "%d odesláno"
 
-#: ../mail/mail-component.c:552
+#: ../mail/mail-component.c:555
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -13181,7 +13251,15 @@ msgstr[0] "%d neodeslána"
 msgstr[1] "%d neodeslány"
 msgstr[2] "%d neodesláno"
 
-#: ../mail/mail-component.c:556
+#: ../mail/mail-component.c:560
+#, fuzzy, c-format
+msgid "%d unread, "
+msgid_plural "%d unread, "
+msgstr[0] ", %d nepřečtena"
+msgstr[1] ", %d nepřečteny"
+msgstr[2] ", %d nepřečteno"
+
+#: ../mail/mail-component.c:561
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -13189,39 +13267,31 @@ msgstr[0] "%d celkem"
 msgstr[1] "%d celkem"
 msgstr[2] "%d celkem"
 
-#: ../mail/mail-component.c:558
-#, c-format
-msgid ", %d unread"
-msgid_plural ", %d unread"
-msgstr[0] ", %d nepřečtena"
-msgstr[1] ", %d nepřečteny"
-msgstr[2] ", %d nepřečteno"
-
-#: ../mail/mail-component.c:840
+#: ../mail/mail-component.c:871
 msgid "New Mail Message"
 msgstr "Nová zpráva"
 
-#: ../mail/mail-component.c:841
+#: ../mail/mail-component.c:872
 msgid "_Mail Message"
 msgstr "_Zpráva"
 
-#: ../mail/mail-component.c:842
+#: ../mail/mail-component.c:873
 msgid "Compose a new mail message"
 msgstr "Napsat novou zprávu"
 
-#: ../mail/mail-component.c:848
+#: ../mail/mail-component.c:879
 msgid "New Mail Folder"
 msgstr "Nová složka pošty"
 
-#: ../mail/mail-component.c:849
+#: ../mail/mail-component.c:880
 msgid "Mail _Folder"
 msgstr "_Složka pošty"
 
-#: ../mail/mail-component.c:850
+#: ../mail/mail-component.c:881
 msgid "Create a new mail folder"
 msgstr "Vytvořit novou složku pošty"
 
-#: ../mail/mail-component.c:996
+#: ../mail/mail-component.c:1027
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Nemohu aktualizovat nastavení nebo složky pošty."
 
@@ -13266,203 +13336,195 @@ msgid "<b>_Languages</b>"
 msgstr "<b>_Jazyky</b>"
 
 #: ../mail/mail-config.glade.h:6
-msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<small>Filtr pak bude spolehlivější, ale pomalejší</small>"
-
-#: ../mail/mail-config.glade.h:7
 msgid "<span weight=\"bold\">Account Information</span>"
 msgstr "<span weight=\"bold\">Informace o účtu</span>"
 
-#: ../mail/mail-config.glade.h:9
+#: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Authentication Type</span>"
 msgstr "<span weight=\"bold\">Typ autentizace</span>"
 
-#: ../mail/mail-config.glade.h:10
+#: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\">Autentizace</span>"
 
-#: ../mail/mail-config.glade.h:11
+#: ../mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Composing Messages</span>"
 msgstr "<span weight=\"bold\">Psaní zpráv</span>"
 
-#: ../mail/mail-config.glade.h:12
+#: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Configuration</span>"
 msgstr "<span weight=\"bold\">Nastavení</span>"
 
-#: ../mail/mail-config.glade.h:13
+#: ../mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Default Behavior</span>"
 msgstr "<span weight=\"bold\">Implicitní chování</span>"
 
-#: ../mail/mail-config.glade.h:14
+#: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Odstraňování pošty</span>"
 
-#: ../mail/mail-config.glade.h:15
+#: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
 msgstr "<span weight=\"bold\">_Zobrazované hlavičky pošty</span>"
 
 #: ../mail/mail-config.glade.h:16
-msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr "<span weight=\"bold\">Možnosti filtru</span>"
-
-#: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels and Colors</span>"
 msgstr "<span weight=\"bold\">Popisky a barvy</span>"
 
-#: ../mail/mail-config.glade.h:19
+#: ../mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Loading Images</span>"
 msgstr "<span weight=\"bold\">Načítání obrázků</span>"
 
-#: ../mail/mail-config.glade.h:20
+#: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Message Display</span>"
 msgstr "<span weight=\"bold\">Zobrazování zpráv</span>"
 
-#: ../mail/mail-config.glade.h:21
+#: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\">Písma zpráv</span>"
 
-#: ../mail/mail-config.glade.h:22
+#: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Message Receipts</span>"
 msgstr "<span weight=\"bold\">Doručeny zpráv</span>"
 
-#: ../mail/mail-config.glade.h:23
+#: ../mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">New Mail Notification</span>"
 msgstr "<span weight=\"bold\">Upozornění na novou poštu</span>"
 
-#: ../mail/mail-config.glade.h:24
+#: ../mail/mail-config.glade.h:22
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
 msgid "<span weight=\"bold\">Optional Information</span>"
 msgstr "<span weight=\"bold\">Nepovinné informace</span>"
 
-#: ../mail/mail-config.glade.h:25
+#: ../mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">Možnosti</span>"
 
-#: ../mail/mail-config.glade.h:26
+#: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
-#: ../mail/mail-config.glade.h:27
+#: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">Písma pro tisk</span>"
 
-#: ../mail/mail-config.glade.h:28
+#: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">Povinné informace</span>"
 
-#: ../mail/mail-config.glade.h:29
+#: ../mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\">Bezpečné MIME (S/MIME)</span>"
 
-#: ../mail/mail-config.glade.h:30
+#: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">Zabezpečení</span>"
 
-#: ../mail/mail-config.glade.h:31
+#: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr "<span weight=\"bold\">Odeslané zprávy a koncepty</span>"
 
-#: ../mail/mail-config.glade.h:32
+#: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Nastavení serveru</span>"
 
-#: ../mail/mail-config.glade.h:34
+#: ../mail/mail-config.glade.h:32
 msgid "Account Management"
 msgstr "Správa účtu"
 
-#: ../mail/mail-config.glade.h:35
+#: ../mail/mail-config.glade.h:33
 msgid "Add Ne_w Signature..."
 msgstr "Přidat _nový podpis..."
 
-#: ../mail/mail-config.glade.h:36
+#: ../mail/mail-config.glade.h:34
 msgid "Add _Script"
 msgstr "Přidat _skript"
 
-#: ../mail/mail-config.glade.h:37
+#: ../mail/mail-config.glade.h:35
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "_Vždy podepisovat odchozí zprávy, když se používá tento účet"
 
-#: ../mail/mail-config.glade.h:38
+#: ../mail/mail-config.glade.h:36
 msgid "Also encrypt to sel_f when sending encrypted mail"
 msgstr "_Také šifrovat sobě při odesílání šifrované zprávy"
 
-#: ../mail/mail-config.glade.h:39
+#: ../mail/mail-config.glade.h:37
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "Vždy posílat _kopii (cc) na:"
 
-#: ../mail/mail-config.glade.h:40
+#: ../mail/mail-config.glade.h:38
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Vždy posílat _slepou kopii (bcc) na:"
 
-#: ../mail/mail-config.glade.h:41
+#: ../mail/mail-config.glade.h:39
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Při šifrování vždy _důvěřovat klíčům na mém svazku"
 
-#: ../mail/mail-config.glade.h:42
+#: ../mail/mail-config.glade.h:40
 msgid "Always encrypt to _myself when sending encrypted mail"
 msgstr "Vždy _šifrovat kopii sobě při odesílání šifrované zprávy"
 
-#: ../mail/mail-config.glade.h:43
+#: ../mail/mail-config.glade.h:41
 msgid "Attach original message"
 msgstr "Přiložit původní zprávu"
 
-#: ../mail/mail-config.glade.h:45
+#: ../mail/mail-config.glade.h:43
 msgid "Automatically insert _smiley images"
 msgstr "_Automaticky vkládat smajlíky"
 
-#: ../mail/mail-config.glade.h:46
+#: ../mail/mail-config.glade.h:44
 msgid "Baltic (ISO-8859-13)"
 msgstr "Pobaltské (ISO-8859-13)"
 
-#: ../mail/mail-config.glade.h:47
+#: ../mail/mail-config.glade.h:45
 msgid "Baltic (ISO-8859-4)"
 msgstr "Pobaltské (ISO-8859-4)"
 
-#: ../mail/mail-config.glade.h:48
+#: ../mail/mail-config.glade.h:46
 msgid "Beep w_hen new mail arrives"
 msgstr "_Pípnout, když přijde nová pošta"
 
-#: ../mail/mail-config.glade.h:49
+#: ../mail/mail-config.glade.h:47
 msgid "C_haracter set:"
 msgstr "Z_naková sada:"
 
-#: ../mail/mail-config.glade.h:50
+#: ../mail/mail-config.glade.h:48
 msgid "Ch_eck for Supported Types "
 msgstr "Zjistit podporované _typy "
 
-#: ../mail/mail-config.glade.h:51
+#: ../mail/mail-config.glade.h:49
 msgid "Check in_coming mail for junk"
 msgstr "Kontrolovat, jestli je _příchozí pošta nevyžádaná"
 
-#: ../mail/mail-config.glade.h:52
+#: ../mail/mail-config.glade.h:50
 msgid "Check spelling while I _type"
 msgstr "Hledat překlepy během _psaní"
 
-#: ../mail/mail-config.glade.h:53
+#: ../mail/mail-config.glade.h:51
 msgid "Checks incoming mail messages to be Junk"
 msgstr "Kontroluje, jestli jsou příchozí zprávy nevyžádané"
 
-#: ../mail/mail-config.glade.h:54
+#: ../mail/mail-config.glade.h:52
 msgid "Cle_ar"
 msgstr "Vy_mazat"
 
-#: ../mail/mail-config.glade.h:55
+#: ../mail/mail-config.glade.h:53
 msgid "Clea_r"
 msgstr "Vy_mazat"
 
-#: ../mail/mail-config.glade.h:56
+#: ../mail/mail-config.glade.h:54
 msgid "Color for _misspelled words:"
 msgstr "_Barva pro špatně napsaná slova:"
 
-#: ../mail/mail-config.glade.h:57
+#: ../mail/mail-config.glade.h:55
 msgid "Colors"
 msgstr "Barvy"
 
-#: ../mail/mail-config.glade.h:58
+#: ../mail/mail-config.glade.h:56
 msgid "Confirm _when expunging a folder"
 msgstr "_Vyžadovat potvrzení před vyčištěním složky"
 
-#: ../mail/mail-config.glade.h:59
+#: ../mail/mail-config.glade.h:57
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -13478,142 +13540,142 @@ msgstr ""
 "\n"
 "Kliknutím na \"Použít\" své nastavení uložíte."
 
-#: ../mail/mail-config.glade.h:65
+#: ../mail/mail-config.glade.h:63
 msgid "De_fault"
 msgstr "_Implicitní"
 
-#: ../mail/mail-config.glade.h:66
+#: ../mail/mail-config.glade.h:64
 msgid "Default character e_ncoding:"
 msgstr "Implicitní kódování _znaků:"
 
-#: ../mail/mail-config.glade.h:69
+#: ../mail/mail-config.glade.h:66
+msgid "Delete junk mails on e_xit"
+msgstr ""
+
+#: ../mail/mail-config.glade.h:68
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "Digitálně _podepisovat odchozí zprávy (implicitně)"
 
-#: ../mail/mail-config.glade.h:70
+#: ../mail/mail-config.glade.h:69
 msgid "Do not format text contents in mails if the text si_ze exceeds"
 msgstr "Neformátovat textový obsah zpráv, pokud _velikost textu překročí"
 
-#: ../mail/mail-config.glade.h:71
+#: ../mail/mail-config.glade.h:70
 msgid "Do not quote original message"
 msgstr "Necitovat původní zprávu"
 
-#: ../mail/mail-config.glade.h:72
+#: ../mail/mail-config.glade.h:71
 msgid "Done"
 msgstr "Hotovo"
 
-#: ../mail/mail-config.glade.h:73
+#: ../mail/mail-config.glade.h:72
 msgid "Drafts _Folder:"
 msgstr "_Složka konceptů:"
 
-#: ../mail/mail-config.glade.h:74
+#: ../mail/mail-config.glade.h:73
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
 msgid "E_nable"
 msgstr "Po_volit"
 
-#: ../mail/mail-config.glade.h:75
+#: ../mail/mail-config.glade.h:74
 msgid "Email Accounts"
 msgstr "Účty e-mailu"
 
-#: ../mail/mail-config.glade.h:76
+#: ../mail/mail-config.glade.h:75
 msgid "Email _Address:"
 msgstr "E-mailová _adresa:"
 
-#: ../mail/mail-config.glade.h:77
+#: ../mail/mail-config.glade.h:76
 msgid "Empty trash folders on e_xit"
 msgstr "Při ukončení vyprázdnit _koš"
 
-#: ../mail/mail-config.glade.h:78
+#: ../mail/mail-config.glade.h:77
 msgid "Encry_ption certificate:"
 msgstr "_Šifrovací certifikát:"
 
-#: ../mail/mail-config.glade.h:79
+#: ../mail/mail-config.glade.h:78
 msgid "Encrypt out_going messages (by default)"
 msgstr "_Šifrovat odchozí zprávy (implicitně)"
 
-#: ../mail/mail-config.glade.h:81
+#: ../mail/mail-config.glade.h:80
 msgid "Fi_xed width Font:"
 msgstr "Pís_mo·s·pevnou·šířkou:"
 
-#: ../mail/mail-config.glade.h:82
+#: ../mail/mail-config.glade.h:81
 msgid "Fi_xed-width:"
 msgstr "Pe_vná šířka:"
 
-#: ../mail/mail-config.glade.h:83
+#: ../mail/mail-config.glade.h:82
 msgid "Font Properties"
 msgstr "Vlastnosti písma"
 
-#: ../mail/mail-config.glade.h:84
+#: ../mail/mail-config.glade.h:83
 msgid "Format messages in _HTML"
 msgstr "Psát zprávy ve formátu _HTML"
 
-#: ../mail/mail-config.glade.h:85
+#: ../mail/mail-config.glade.h:84
 msgid "Full Nam_e:"
 msgstr "_Celé jméno:"
 
-#: ../mail/mail-config.glade.h:87
+#: ../mail/mail-config.glade.h:86
 msgid "HTML Mail"
 msgstr "Pošta v HTML"
 
-#: ../mail/mail-config.glade.h:88
+#: ../mail/mail-config.glade.h:87
 msgid "Headers"
 msgstr "Hlavičky"
 
-#: ../mail/mail-config.glade.h:89
+#: ../mail/mail-config.glade.h:88
 msgid "Highlight _quotations with"
 msgstr "_Zvýrazňovat citace pomocí"
 
-#: ../mail/mail-config.glade.h:90
-msgid "I_nclude remote tests"
-msgstr "_Včetně vzdálených testů"
-
-#: ../mail/mail-config.glade.h:93
+#: ../mail/mail-config.glade.h:91
 msgid "Inline"
 msgstr "Vložené"
 
-#: ../mail/mail-config.glade.h:95
+#: ../mail/mail-config.glade.h:93
 msgid "KB"
 msgstr "KB"
 
-#: ../mail/mail-config.glade.h:96
+#: ../mail/mail-config.glade.h:94
 msgid "Languages Table"
 msgstr "Tabulka jazyků"
 
-#: ../mail/mail-config.glade.h:98
+#: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
 msgstr "Nastavení pošty"
 
-#: ../mail/mail-config.glade.h:99
+#: ../mail/mail-config.glade.h:97
 msgid "Mail Headers Table"
 msgstr "Tabulka hlaviček pošty"
 
-#: ../mail/mail-config.glade.h:101
+#: ../mail/mail-config.glade.h:99
 msgid "Mailbox location"
 msgstr "Umístění poštovní schránky"
 
-#: ../mail/mail-config.glade.h:102
+#: ../mail/mail-config.glade.h:100
 msgid "Message Composer"
 msgstr "Editor zpráv"
 
-#: ../mail/mail-config.glade.h:103
+#: ../mail/mail-config.glade.h:101
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr "Poznámka: na heslo budete dotázáni, až když se pokusíte poprvé připojit"
 
-#: ../mail/mail-config.glade.h:104
+#: ../mail/mail-config.glade.h:102
 msgid "Or_ganization:"
 msgstr "Or_ganizace:"
 
-#: ../mail/mail-config.glade.h:105
+#: ../mail/mail-config.glade.h:103
 msgid "PGP/GPG _Key ID:"
 msgstr "ID PGP/GPG _klíče:"
 
-#: ../mail/mail-config.glade.h:108
+#: ../mail/mail-config.glade.h:106
 msgid "Play sound file when new mail arri_ves"
 msgstr "Za_hrát zvuk, když přijde nová pošta"
 
-#: ../mail/mail-config.glade.h:109
+#: ../mail/mail-config.glade.h:107
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -13621,7 +13683,7 @@ msgstr ""
 "Zadejte prosím popisný název tohoto účtu do místa níže.\n"
 "Tento název se bude používat jen pro zobrazování."
 
-#: ../mail/mail-config.glade.h:111
+#: ../mail/mail-config.glade.h:109
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -13629,7 +13691,7 @@ msgstr ""
 "Zadejte prosím informace o způsobu odesílání pošty. Pokud si nejste jisti, "
 "kontaktujte svého správce nebo poskytovatele připojení k Internetu."
 
-#: ../mail/mail-config.glade.h:112
+#: ../mail/mail-config.glade.h:110
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -13639,123 +13701,123 @@ msgstr ""
 "být vyplněna, ledaže byste si přáli, aby byly tyto informace obsaženy v "
 "odesílaných e-mailech."
 
-#: ../mail/mail-config.glade.h:113
+#: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
 msgstr "Vyberte si prosím z následujících možností"
 
-#: ../mail/mail-config.glade.h:114
+#: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
 "Up_ozorňovat, když posílám zprávu, kde jsou uvedeni jen příjemci ve skryté "
 "kopii"
 
-#: ../mail/mail-config.glade.h:115
+#: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
 msgstr "Citovat původní zprávu"
 
-#: ../mail/mail-config.glade.h:116
+#: ../mail/mail-config.glade.h:114
 msgid "Quoted"
 msgstr "Citace"
 
-#: ../mail/mail-config.glade.h:117
+#: ../mail/mail-config.glade.h:115
 msgid "Re_member password"
 msgstr "Za_pamatovat si heslo"
 
-#: ../mail/mail-config.glade.h:118
+#: ../mail/mail-config.glade.h:116
 msgid "Re_ply-To:"
 msgstr "O_dpovědět-komu:"
 
-#: ../mail/mail-config.glade.h:120
+#: ../mail/mail-config.glade.h:118
 msgid "Remember _password"
 msgstr "Za_pamatovat si heslo"
 
-#: ../mail/mail-config.glade.h:121
+#: ../mail/mail-config.glade.h:119
 msgid "S_elect..."
 msgstr "_Vybrat..."
 
-#: ../mail/mail-config.glade.h:122
+#: ../mail/mail-config.glade.h:120
 msgid "S_end message receipts:"
 msgstr "Od_eslat doručenky zpráv:"
 
-#: ../mail/mail-config.glade.h:123
+#: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
 msgstr "_Standardní písmo:"
 
-#: ../mail/mail-config.glade.h:124
+#: ../mail/mail-config.glade.h:122
 msgid "Se_lect..."
 msgstr "V_ybrat..."
 
-#: ../mail/mail-config.glade.h:126
+#: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font"
 msgstr "Vyberte písmo s pevnou šířkou pro HTML"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font for printing"
 msgstr "Vyberte písmo s pevnou šířkou pro tisk HTML"
 
-#: ../mail/mail-config.glade.h:128
+#: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font"
 msgstr "Vyberte písmo s proměnlivou šířkou pro HTML"
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:127
 msgid "Select HTML variable width font for printing"
 msgstr "Vyberte písmo s proměnlivou šířkou pro tisk HTML"
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:128
 msgid "Select sound file"
 msgstr "Vyberte zvukový soubor"
 
-#: ../mail/mail-config.glade.h:132
+#: ../mail/mail-config.glade.h:130
 msgid "Sending Mail"
 msgstr "Odesílání pošty"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:131
 msgid "Sent _Messages Folder:"
 msgstr "Složka pro _odeslané zprávy:"
 
-#: ../mail/mail-config.glade.h:134
+#: ../mail/mail-config.glade.h:132
 msgid "Ser_ver requires authentication"
 msgstr "Server _vyžaduje autentizaci"
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:133
 msgid "Server _Type: "
 msgstr "_Typ serveru: "
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:134
 msgid "Sig_ning certificate:"
 msgstr "_Podpisový certifikát:"
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:135
 msgid "Signat_ure:"
 msgstr "_Podpis:"
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:136
 msgid "Signatures"
 msgstr "Podpisy"
 
-#: ../mail/mail-config.glade.h:139
+#: ../mail/mail-config.glade.h:137
 msgid "Signatures Table"
 msgstr "Tabulka podpisů"
 
-#: ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.glade.h:138
 msgid "Specify _filename:"
 msgstr "Zvolte _název souboru:"
 
-#: ../mail/mail-config.glade.h:141
+#: ../mail/mail-config.glade.h:139
 msgid "Spell Checking"
 msgstr "Hledání překlepů"
 
-#: ../mail/mail-config.glade.h:142
+#: ../mail/mail-config.glade.h:140
 msgid "T_ype: "
 msgstr "_Typ:"
 
-#: ../mail/mail-config.glade.h:143
+#: ../mail/mail-config.glade.h:141
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr "Seznam jazyků zde obsahuje jen jazyky, pro které máte nainstalován slovník."
 
-#: ../mail/mail-config.glade.h:144
+#: ../mail/mail-config.glade.h:142
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -13765,7 +13827,7 @@ msgstr ""
 "váš podpis. Název, který zadáte, bude použit\n"
 "pouze pro zobrazení."
 
-#: ../mail/mail-config.glade.h:148
+#: ../mail/mail-config.glade.h:146
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -13773,15 +13835,15 @@ msgstr ""
 "Napište název, který má odkazovat na tento účet.\n"
 "Například \"Práce\" nebo \"Osobní\""
 
-#: ../mail/mail-config.glade.h:150 ../plugins/caldav/caldav-source.c:282
+#: ../mail/mail-config.glade.h:148 ../plugins/caldav/caldav-source.c:282
 msgid "User_name:"
 msgstr "_Jméno uživatele:"
 
-#: ../mail/mail-config.glade.h:151
+#: ../mail/mail-config.glade.h:149
 msgid "V_ariable-width:"
 msgstr "P_roměnlivá šířka:"
 
-#: ../mail/mail-config.glade.h:152
+#: ../mail/mail-config.glade.h:150
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13791,90 +13853,94 @@ msgstr ""
 "\n"
 "Začněte kliknutím na \"Vpřed\"."
 
-#: ../mail/mail-config.glade.h:156
+#: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
 msgstr "Přid_at podpis"
 
-#: ../mail/mail-config.glade.h:157
+#: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
 msgstr "_Vždy načítat obrázky z Internetu"
 
-#: ../mail/mail-config.glade.h:158
+#: ../mail/mail-config.glade.h:156
+msgid "_Default junk plugin:"
+msgstr ""
+
+#: ../mail/mail-config.glade.h:157
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Neupozorňovat, když přijde nová pošta"
 
-#: ../mail/mail-config.glade.h:159
+#: ../mail/mail-config.glade.h:158
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Nepodepisovat požadavky na _schůzku (pro kompatibilitu s Outlookem)"
 
-#: ../mail/mail-config.glade.h:161
+#: ../mail/mail-config.glade.h:160
 msgid "_Forward style:"
 msgstr "_Styl přeposílání:"
 
-#: ../mail/mail-config.glade.h:162
+#: ../mail/mail-config.glade.h:161
 msgid "_Load images in mail from contacts"
 msgstr "_Načítat obrázky ve zprávách od kontaktů"
 
-#: ../mail/mail-config.glade.h:163
+#: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
 msgstr "Používat tento účet jako _implicitní"
 
-#: ../mail/mail-config.glade.h:164
+#: ../mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
 msgstr "_Označit zprávy jako přečtené po"
 
-#: ../mail/mail-config.glade.h:166
+#: ../mail/mail-config.glade.h:165
 msgid "_Never load images from the Internet"
 msgstr "_Nikdy nenačítat obrázky z Internetu"
 
-#: ../mail/mail-config.glade.h:167
+#: ../mail/mail-config.glade.h:166
 msgid "_Path:"
 msgstr "_Cesta:"
 
-#: ../mail/mail-config.glade.h:168
+#: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgstr ""
 "_Upozorňovat, když posílám zprávu v HTML formátu kontaktům, které si to "
 "nepřejí"
 
-#: ../mail/mail-config.glade.h:169
+#: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Upozorňovat, když posílám zprávu s prázdným políčkem \"Předmět\""
 
-#: ../mail/mail-config.glade.h:170
+#: ../mail/mail-config.glade.h:169
 msgid "_Reply style:"
 msgstr "Styl _odpovědí:"
 
-#: ../mail/mail-config.glade.h:171
+#: ../mail/mail-config.glade.h:170
 msgid "_Script:"
 msgstr "_Skript:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:173
 msgid "_Show image animations"
 msgstr "_Zobrazovat animace obrázku"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:174
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr ""
 
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:175
 msgid "_Use Secure Connection:"
 msgstr "Používat za_bezpečené připojení:"
 
-#: ../mail/mail-config.glade.h:177
+#: ../mail/mail-config.glade.h:176
 msgid "_Use the same fonts as other applications"
 msgstr "Používat _stejná písma jako jiné aplikace"
 
-#: ../mail/mail-config.glade.h:178
+#: ../mail/mail-config.glade.h:177
 msgid "addresses"
 msgstr "adresy"
 
-#: ../mail/mail-config.glade.h:179
+#: ../mail/mail-config.glade.h:178
 msgid "color"
 msgstr "barva"
 
-#: ../mail/mail-config.glade.h:180
+#: ../mail/mail-config.glade.h:179
 msgid "description"
 msgstr "popis"
 
@@ -14177,26 +14243,26 @@ msgstr "Čekám..."
 msgid "Checking for new mail"
 msgstr "Kontroluji novou poštu"
 
-#: ../mail/mail-session.c:198
+#: ../mail/mail-session.c:200
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Zadat heslo pro %s"
 
-#: ../mail/mail-session.c:200
+#: ../mail/mail-session.c:202
 msgid "Enter Passphrase"
 msgstr "Zadejte heslo"
 
-#: ../mail/mail-session.c:203
+#: ../mail/mail-session.c:205
 #: ../plugins/exchange-operations/exchange-config-listener.c:711
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Zadat heslo pro %s"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:207
 msgid "Enter Password"
 msgstr "Zadat heslo"
 
-#: ../mail/mail-session.c:243
+#: ../mail/mail-session.c:245
 msgid "User canceled operation."
 msgstr "Uživatel zrušil operaci."
 
@@ -14867,38 +14933,38 @@ msgstr "Vyšší"
 msgid "Highest"
 msgstr "Nejvyšší"
 
-#: ../mail/message-list.c:1468 ../widgets/table/e-cell-date.c:57
+#: ../mail/message-list.c:1469 ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1475 ../plugins/itip-formatter/itip-view.c:202
+#: ../mail/message-list.c:1476 ../plugins/itip-formatter/itip-view.c:202
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Dnes %k:%M"
 
-#: ../mail/message-list.c:1484 ../widgets/table/e-cell-date.c:82
+#: ../mail/message-list.c:1485 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "Včera %k:%M"
 
-#: ../mail/message-list.c:1496 ../widgets/table/e-cell-date.c:94
+#: ../mail/message-list.c:1497 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %k:%M"
 
-#: ../mail/message-list.c:1504 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1505 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %k:%M"
 
-#: ../mail/message-list.c:1506 ../widgets/table/e-cell-date.c:104
+#: ../mail/message-list.c:1507 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2262 ../mail/message-list.etspec.h:9
+#: ../mail/message-list.c:2263 ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Zprávy"
 
-#: ../mail/message-list.c:3653
+#: ../mail/message-list.c:3709
 msgid "Generating message list"
 msgstr "Generuji seznam zpráv"
 
@@ -15011,37 +15077,135 @@ msgstr ""
 msgid "Audio inline plugin"
 msgstr "Zásuvný modul zvuku v textu"
 
-#: ../plugins/backup-restore/backup-restore.c:51
-msgid "Select name of Evolution archive"
+#: ../plugins/backup-restore/backup-restore.c:96
+#, fuzzy
+msgid "Select name of the Evolution archive"
 msgstr "Zvolte název archivu Evolution"
 
-#: ../plugins/backup-restore/backup-restore.c:61
+#: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
 msgstr "_Restartovat Evolution po záloze"
 
-#: ../plugins/backup-restore/backup-restore.c:89
-msgid "Select Evolution archive to restore"
+#: ../plugins/backup-restore/backup-restore.c:139
+#, fuzzy
+msgid "Select name of the Evolution archive to restore"
 msgstr "Zvolte archiv Evolution, který obnovit"
 
-#: ../plugins/backup-restore/backup-restore.c:97
+#: ../plugins/backup-restore/backup-restore.c:163
 msgid "_Restart Evolution after restore"
 msgstr "_Restartovat Evolution po obnovení"
 
+#: ../plugins/backup-restore/backup-restore.c:236
+#, fuzzy
+msgid "Restore from backup"
+msgstr "_Restartovat Evolution po záloze"
+
+#: ../plugins/backup-restore/backup-restore.c:238
+msgid ""
+"You can restore Evolution from your archive. It can restore all the Mails/"
+"Calendars/Tasks/Memos/Addressbook. \n"
+"It also restores all your personal settings, mail filters etc."
+msgstr ""
+
+#: ../plugins/backup-restore/backup-restore.c:244
+#, fuzzy
+msgid "_Restore Evolution from the backup archive"
+msgstr "_Restartovat Evolution po záloze"
+
+#: ../plugins/backup-restore/backup-restore.c:251
+#, fuzzy
+msgid "Please select an Evolution Archive to restore:"
+msgstr "Zvolte archiv Evolution, který obnovit"
+
+#: ../plugins/backup-restore/backup-restore.c:254
+#, fuzzy
+msgid "Choose a file to restore"
+msgstr "Vybrat soubor"
+
+#: ../plugins/backup-restore/backup.c:50 ../plugins/backup-restore/backup.c:90
+#, fuzzy
+msgid "Shutting down Evolution"
+msgstr "Ukončuji %s (%s)\n"
+
+#: ../plugins/backup-restore/backup.c:55
+#, fuzzy
+msgid "Backing Evolution accounts and settings"
+msgstr "Zazálohovat a obnovit data a nastavení Evolution"
+
+#: ../plugins/backup-restore/backup.c:60
+msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
+msgstr ""
+
+#: ../plugins/backup-restore/backup.c:70
+#, fuzzy
+msgid "Backup complete"
+msgstr "Označit jako _dokončené"
+
+#: ../plugins/backup-restore/backup.c:75
+#: ../plugins/backup-restore/backup.c:116
+#, fuzzy
+msgid "Restarting Evolution"
+msgstr "Restartovat Evolution"
+
+#: ../plugins/backup-restore/backup.c:94
+#, fuzzy
+msgid "Backup current Evolution data"
+msgstr "Zazálohovat adresář Evolution"
+
+#: ../plugins/backup-restore/backup.c:99
+msgid "Extracting files from the archive"
+msgstr ""
+
+#: ../plugins/backup-restore/backup.c:105
+#, fuzzy
+msgid "Loading Evolution settings"
+msgstr "Změnit nastavení Evolution"
+
 #: ../plugins/backup-restore/backup.c:109
+msgid "Removing temporary backup files"
+msgstr ""
+
+#: ../plugins/backup-restore/backup.c:214
 msgid "Backup Evolution directory"
 msgstr "Zazálohovat adresář Evolution"
 
-#: ../plugins/backup-restore/backup.c:111
+#: ../plugins/backup-restore/backup.c:216
 msgid "Restore Evolution directory"
 msgstr "Obnovit adresář Evolution"
 
-#: ../plugins/backup-restore/backup.c:113
+#: ../plugins/backup-restore/backup.c:218
 msgid "Check Evolution archive"
 msgstr "Zkontrolovat archiv Evolution"
 
-#: ../plugins/backup-restore/backup.c:115
+#: ../plugins/backup-restore/backup.c:220
 msgid "Restart Evolution"
 msgstr "Restartovat Evolution"
+
+#: ../plugins/backup-restore/backup.c:222
+#, fuzzy
+msgid "With GUI"
+msgstr "Šířka"
+
+#: ../plugins/backup-restore/backup.c:247
+#, fuzzy, c-format
+msgid "Backing up to %s"
+msgstr "Poslat %s"
+
+#: ../plugins/backup-restore/backup.c:252
+#, fuzzy, c-format
+msgid "Restoring from %s"
+msgstr "Odstraňuji složku %s"
+
+#. Backup / Restore only can have GUI. We should restrict the rest
+#: ../plugins/backup-restore/backup.c:268
+#, fuzzy
+msgid "Evolution Backup"
+msgstr "Evolution Pošta"
+
+#: ../plugins/backup-restore/backup.c:268
+#, fuzzy
+msgid "Evolution Restore"
+msgstr "Test Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
@@ -15052,17 +15216,56 @@ msgstr "Zásuvný modul pro zálohování a obnovu dat a nastavení Evolution."
 msgid "Backup and restore plugin"
 msgstr "Zásuvný modul zálohování a obnovy"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
-msgid "Backup Settings..."
-msgstr "Nastavení zálohování..."
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
+#, fuzzy
+msgid "Are you sure you want to close Evolution?"
+msgstr "Opravdu chcete odstranit tento účet?"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
+#, fuzzy
+msgid "Are you sure you want to restore Evolution from the selected archive?"
+msgstr "Opravdu chcete odstranit tuto schůzku?"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
+msgid ""
+"Evolution backup can start only when Evolution is not running. Please make "
+"sure that you save and close all your unsaved windows before proceeding.  If "
+"you want Evolution to restart automatically after backup, please enable the "
+"toggle button."
+msgstr ""
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
+#, fuzzy
+msgid "Invalid Evolution archive"
+msgstr "Zkontrolovat archiv Evolution"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
+#, fuzzy
+msgid "Please select a valid archive file to restore."
+msgstr "Zvolte archiv Evolution, který obnovit"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
+msgid ""
+"This will delete all your current Evolution data and settings and restore "
+"them from your backup. Evolution restore can start only when Evolution is "
+"not running. Please make sure that you close all your unsaved windows before "
+"you proceed. If you want Evolution to restart automatically restart after "
+"restore, please enable the toggle button."
+msgstr ""
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
 msgstr "Zazálohovat a obnovit data a nastavení Evolution"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
-msgid "Restore Settings..."
+#: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
+#, fuzzy
+msgid "R_estore Settings..."
 msgstr "Nastavení obnovování..."
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
+#, fuzzy
+msgid "_Backup Settings..."
+msgstr "Nastavení zálohování..."
 
 #: ../plugins/bbdb/bbdb.c:447 ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -15112,6 +15315,20 @@ msgstr ""
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
 msgstr "BBDB"
+
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:292
+msgid "Convert mail text to _Unicode"
+msgstr ""
+
+#: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.in.h:1
+msgid "Convert mail text to Unicode"
+msgstr ""
+
+#: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.in.h:2
+msgid ""
+"Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
+"different character sets."
+msgstr ""
 
 #: ../plugins/caldav/caldav-source.c:64 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
@@ -15332,7 +15549,8 @@ msgid "Manage the delegate settings for Exchange account"
 msgstr "Spravovat nastavení delegátů pro účet Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:337
-msgid "Delegation Assitant"
+#, fuzzy
+msgid "Delegation Assistant"
 msgstr "Asistent pro delegování"
 
 #. Miscelleneous settings
@@ -15577,6 +15795,10 @@ msgstr "Opravdu se odhlásit od složky \"%s\"?"
 msgid "Unsubscribe from \"%s\""
 msgstr "Odhlásit se od \"%s\""
 
+#: ../plugins/exchange-operations/exchange-oof.glade.h:10
+msgid "No, Don't Change Status"
+msgstr "Ne, neměnit stav"
+
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
 msgstr "Varování, platnost hesla vypršelo..."
@@ -15656,10 +15878,6 @@ msgstr "Číst položky"
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Role: "
 msgstr "Funkce: "
-
-#: ../plugins/exchange-operations/exchange-oof.glade.h:10
-msgid "No, Don't Change Status"
-msgstr "Ne, neměnit stav"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
 msgid "<b>Message Settings</b>"
@@ -16482,9 +16700,9 @@ msgstr "Příloha, kterou přidat."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:62
 msgid ""
-"<span weight=\"bold\" size=\"larger\">Search for a iPod failed</span>\n"
+"<span weight=\"bold\" size=\"larger\">Search for an iPod failed</span>\n"
 "\n"
-"Evolution could not find a iPod to synchronize with.Either it is not "
+"Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
 
@@ -17595,20 +17813,32 @@ msgstr ""
 "iCal\n"
 "volné/obsazené"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:102
-msgid "Spamassassin (built-in)"
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:107
+#, fuzzy
+msgid "SpamAssassin (built-in)"
 msgstr "Spamassassin (vestavěn)"
 
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:841
+#, fuzzy
+msgid "This will make Spamassasin more reliable, but slower"
+msgstr "<small>Filtr pak bude spolehlivější, ale pomalejší</small>"
+
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:847
+msgid "I_nclude remote tests"
+msgstr "_Včetně vzdálených testů"
+
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
+#, fuzzy
 msgid ""
-"Filters junk messages using Spamassassin. This plugin requires Spamassassin "
+"Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
 msgstr ""
 "Filtry nevyžádané pošty používají program Spamassassin. Tento zásuvný modul "
 "vyžaduje, aby byl Spamassassin nainstalován."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-msgid "Spamassassin junk plugin"
+#, fuzzy
+msgid "SpamAssassin junk plugin"
 msgstr "Spamassassin zásuvný modul pro nevyžádanou poštu"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
@@ -21135,21 +21365,11 @@ msgstr "_Nyní"
 msgid "_Today"
 msgstr "_Dnes"
 
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
-msgid "%I:%M %p"
-msgstr "%H:%M, %x"
-
-#: ../widgets/misc/e-dateedit.c:1634
+#: ../widgets/misc/e-dateedit.c:1632
 msgid "Invalid Date Value"
 msgstr "Neplatná hodnota data"
 
-#: ../widgets/misc/e-dateedit.c:1660
+#: ../widgets/misc/e-dateedit.c:1658
 msgid "Invalid Time Value"
 msgstr "Neplatná hodnota času"
 
