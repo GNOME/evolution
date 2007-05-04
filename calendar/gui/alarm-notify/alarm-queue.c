@@ -1344,6 +1344,7 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 			gtk_widget_destroy (GTK_WIDGET (tray_icon));			
 			tray_image = NULL;
 #else
+			gtk_status_icon_set_visible (tray_icon, FALSE);
 			g_object_unref (tray_icon);
 #endif
 			tray_icon = NULL;			
@@ -1365,6 +1366,21 @@ icon_activated (GtkStatusIcon *icon)
   event.time = gtk_get_current_event_time ();
 
   tray_icon_clicked_cb (NULL, &event, NULL);
+}
+
+static void
+popup_menu (GtkStatusIcon *icon, guint button, guint activate_time)
+{
+	if (button == 3) {
+		/* right click */
+		GdkEventButton event;
+
+		event.type = GDK_BUTTON_PRESS;
+		event.button = 3;
+		event.time = gtk_get_current_event_time ();
+
+		tray_icon_clicked_cb (NULL, &event, NULL);
+	}
 }
 #endif
 
@@ -1495,6 +1511,9 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		gtk_status_icon_set_from_pixbuf (tray_icon, e_icon_factory_get_icon ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR));
 		g_signal_connect (G_OBJECT (tray_icon), "activate",
 				  G_CALLBACK (icon_activated), NULL);
+		g_signal_connect (G_OBJECT (tray_icon), "popup-menu",
+				  G_CALLBACK (popup_menu), NULL);
+
 	}
 #endif
 	

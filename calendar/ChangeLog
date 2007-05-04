@@ -1,3 +1,10 @@
+2007-05-04  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #415562
+
+	* gui/alarm-notify/alarm-queue.c: (tray_icon_clicked_cb),
+	(popup_menu), (display_notification):
+
 2007-04-28  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/dialogs/task-page.glade: Fix a mnemonic conflict.
