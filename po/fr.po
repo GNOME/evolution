@@ -5685,7 +5685,7 @@ msgstr "Ajuster pour l'_heure d'été"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
-msgstr "La journée se _termine :"
+msgstr "La journée se _termine à :"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
@@ -13508,7 +13508,7 @@ msgstr "<span weight=\"bold\">Options de filtrage</span>"
 
 #: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr "<span weight=\"bold\">Étiquettes and couleurs</span>"
+msgstr "<span weight=\"bold\">Étiquettes et couleurs</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13663,7 +13663,7 @@ msgstr "Couleurs"
 
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
-msgstr "_Confirmer avant le nettoyage du dossier"
+msgstr "_Confirmer avant le nettoyage d'un dossier"
 
 #: ../mail/mail-config.glade.h:59
 msgid ""
@@ -13846,7 +13846,7 @@ msgstr "Sélectionnez une option parmi les suivantes"
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
 "_Demander lors de l'envoi de messages où seuls des destinataires Cci sont "
-"définis."
+"définis"
 
 #: ../mail/mail-config.glade.h:115
 msgid "Quote original message"
@@ -13914,7 +13914,7 @@ msgstr "Dossier des _messages envoyés :"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
-msgstr "Le _serveur requiert une authentification."
+msgstr "Le _serveur requiert une authentification"
 
 #: ../mail/mail-config.glade.h:135
 msgid "Server _Type: "
@@ -14040,7 +14040,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "_Demander l'autorisation lors de l'envoi de messages dépourvu de sujet"
+msgstr "_Demander lors de l'envoi de messages dépourvus de sujet"
 
 #: ../mail/mail-config.glade.h:170
 msgid "_Reply style:"
@@ -18313,10 +18313,10 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"Evolution a vérifié les réglages à importer depuis les applications\n"
-"suivantes : Pine, Netscape, Elm, iCalendar. Aucun réglage pouvant\n"
-"être importé n'a été trouvé. Si vous voulez essayer de nouveau,\n"
-"veuillez cliquer le bouton « Retour ».\n"
+"Evolution a vérifié les réglages à importer depuis les\n"
+"applications suivantes : Pine, Netscape, Elm, iCalendar.\n"
+"Aucun réglage pouvant être importé n'a été trouvé. Si vous\n"
+"voulez essayer de nouveau, cliquez sur le bouton « Retour ».\n"
 
 #: ../shell/e-shell-importer.c:291
 msgid "F_ilename:"
@@ -21106,11 +21106,11 @@ msgstr "<b>Fuseaux horaires</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "<b>_Selection</b>"
-msgstr "<b>_Sélection :</b>"
+msgstr "<b>_Sélection</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
-msgstr "Sélectionner un fuseau Horaire"
+msgstr "Sélectionner un fuseau horaire"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "TimeZone Combobox"
