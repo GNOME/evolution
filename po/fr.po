@@ -10887,7 +10887,7 @@ msgstr "Accusés de réception"
 
 #: ../designs/read_receipts/read.glade.h:9
 msgid "Request a read receipt for all messages I send"
-msgstr "Demander un accusé de réception pour tous les messages envoyés."
+msgstr "Demander un accusé de réception pour tous les messages envoyés"
 
 #: ../designs/read_receipts/read.glade.h:10
 msgid "Unless the message is sent to a mailing list, and not to me personally"
@@ -12926,7 +12926,7 @@ msgstr ""
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Demander lors de l'envoi de messages où seuls des destinataires sans À ou Cc "
-"définis."
+"définis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Prompt when user tries to send unwanted HTML"
@@ -13599,11 +13599,11 @@ msgstr "Toujours envoyer une copie cachée (Cc_i) à :"
 #: ../mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
-"Toujours faire _confiance aux clés de mon trousseau lors du chiffrement."
+"Toujours faire _confiance aux clés de mon trousseau lors du chiffrement"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "Toujours chiffrer pour _moi-même lors de l'envoi de courriel chiffré."
+msgstr "Toujours chiffrer pour _moi-même lors de l'envoi de courriel chiffré"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
@@ -15787,7 +15787,7 @@ msgstr "Taille du dossier"
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:310
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr "Souscrire à la tâche d'un autre utilisateur"
+msgstr "S'abonner à un dossier d'un autre utilisateur"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
@@ -15935,11 +15935,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 msgid "Request a _delivery receipt for this message"
-msgstr "Demander un accusé de _réception pour ce message."
+msgstr "Demander un accusé de _réception pour ce message"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:13
 msgid "Request a _read receipt for this message"
-msgstr "Demander un accusé de _lecture pour ce message."
+msgstr "Demander un accusé de _lecture pour ce message"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:14
 msgid "_Sensitivity: "
@@ -16302,7 +16302,7 @@ msgstr "{0} est déjà dans la liste"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr "Souscrire à la tâche d'un autre utilisateur"
+msgstr "S'abonner aux tâches d'un autre utilisateur"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
