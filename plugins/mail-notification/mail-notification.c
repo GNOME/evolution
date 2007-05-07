@@ -36,7 +36,9 @@
 #include <mail/em-folder-tree-model.h>
 #include <camel/camel-folder.h>
 
+#ifdef HAVE_LIBNOTIFY	
 #include <libnotify/notify.h>
+#endif
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
