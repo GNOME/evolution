@@ -652,7 +652,8 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 	length = g_list_length (contacts);
 
 	if (length <= 0) {
-		g_warning ("Couldn't load addressbook correctly!!!! %s####", p_actctx->action_list_cards.addressbook_folder_uri);
+		g_warning ("Couldn't load addressbook correctly!!!! %s####", p_actctx->action_list_cards.addressbook_folder_uri ?
+				p_actctx->action_list_cards.addressbook_folder_uri : "NULL");
 		exit (-1);
 	}
 
@@ -799,7 +800,8 @@ action_list_cards_init (ActionContext * p_actctx)
 
 	if (!book
 	    || !e_book_open (book, TRUE, NULL)) {
-		g_warning ("Couldn't load addressbook %s", p_actctx->action_list_cards.addressbook_folder_uri);
+		g_warning ("Couldn't load addressbook %s", p_actctx->action_list_cards.addressbook_folder_uri ?
+					p_actctx->action_list_cards.addressbook_folder_uri : "NULL");
 		exit (-1);
 	}
 

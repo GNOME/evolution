@@ -1,3 +1,8 @@
+2007-05-08  Wang Xin  <jedy.wang@sun.com>
+
+	*tools/evolution-addressbook-export-list-cards.c:
+	Fixes 394932.
+
 2007-04-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/contact-editor/e-contact-editor.c:
