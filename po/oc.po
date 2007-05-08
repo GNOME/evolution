@@ -1,21 +1,20 @@
 # Occitan translation of evolution.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
-#
-# Yannig MARCHEGAY (Kokoyaya)  <yannig@marchegay.org>, 2007.
+# Yannig MARCHEGAY (yannig@marchegay.org) - 2006-2007
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.11.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-25 22:41+0200\n"
-"PO-Revision-Date: 2007-04-18 10:39+0200\n"
+"PO-Revision-Date: 2007-05-08 15:28+0200\n"
 "Last-Translator: Yannig MARCHEGAY <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -53,9 +52,7 @@ msgstr "Novèla tièra de contactes"
 #: ../a11y/addressbook/ea-minicard-view.c:162
 #, c-format
 msgid "current address book folder %s has %d card"
-msgid_plural "current address book folder %s has %d cards"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
@@ -109,11 +106,9 @@ msgstr ""
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "It has %d event."
-msgid_plural "It has %d events."
-msgstr[0] "A %d eveniments."
-msgstr[1] "A %d eveniments."
+msgstr "A %d eveniments."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
@@ -2782,14 +2777,12 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:189
-#, fuzzy
 msgid "Merge Contact"
-msgstr "Novèl contacte"
+msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:204
-#, fuzzy
 msgid "Merge"
-msgstr "Messatge"
+msgstr "Fusionar"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:257
 #: ../addressbook/gui/widgets/eab-contact-display.c:535
@@ -3153,11 +3146,9 @@ msgstr ""
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. For Translators only: "it" refers to the filename %s.
 #: ../addressbook/gui/widgets/eab-gui-util.c:325
@@ -3177,9 +3168,7 @@ msgstr "Remplaçar"
 #: ../addressbook/gui/widgets/eab-gui-util.c:376
 #: ../addressbook/gui/widgets/eab-gui-util.c:379
 msgid "contact"
-msgid_plural "contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:427
@@ -3236,9 +3225,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-vcard-control.c:143
 #, c-format
 msgid "There is one other contact."
-msgid_plural "There are %d other contacts."
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:281
@@ -3260,9 +3247,7 @@ msgstr "Pas cap de contacte"
 #: ../addressbook/gui/widgets/e-addressbook-model.c:153
 #, c-format
 msgid "%d contact"
-msgid_plural "%d contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
@@ -4365,11 +4350,8 @@ msgid "Could not write pilot's ToDo application block"
 msgstr ""
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
-#, fuzzy
 msgid "minute"
-msgid_plural "minutes"
-msgstr[0] "minuta"
-msgstr[1] "minuta"
+msgstr "minuta"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:131
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
@@ -4378,11 +4360,8 @@ msgstr[1] "minuta"
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
 #: ../plugins/calendar-http/calendar-http.c:287
 #: ../plugins/calendar-weather/calendar-weather.c:564
-#, fuzzy
 msgid "hours"
-msgid_plural "hours"
-msgstr[0] "oras"
-msgstr[1] "oras"
+msgstr "oras"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
 msgid "Start time"
@@ -4495,31 +4474,25 @@ msgstr ""
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
 #: ../calendar/gui/misc.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "%d ora"
-msgstr[1] "%d ora"
+msgstr "%d ora"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
 #: ../calendar/gui/misc.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d minuta"
-msgstr[1] "%d minuta"
+msgstr "%d minuta"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:420
 #: ../calendar/gui/misc.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "%d segonda"
-msgstr[1] "%d segonda"
+msgstr "%d segonda"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
@@ -5147,9 +5120,8 @@ msgid "Run a program"
 msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
-#, fuzzy
 msgid "Select A File"
-msgstr "Seleccionar un fichièr"
+msgstr "Causissètz un fichièr"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
@@ -5620,9 +5592,7 @@ msgstr ""
 #: ../composer/e-msg-composer.c:3114
 #, c-format
 msgid "Attached message"
-msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3178
 #: ../mail/em-folder-tree.c:1005 ../mail/em-folder-utils.c:368
@@ -5642,9 +5612,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:968 ../composer/e-msg-composer.c:2530
 #, c-format
 msgid "<b>%d</b> Attachment"
-msgid_plural "<b>%d</b> Attachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:1000
 msgid "Hide Attachment _Bar"
@@ -5932,23 +5900,17 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.c:2930
 #, c-format
 msgid "%d day before appointment"
-msgid_plural "%d days before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:2936
 #, c-format
 msgid "%d hour before appointment"
-msgid_plural "%d hours before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:2942
 #, c-format
 msgid "%d minute before appointment"
-msgid_plural "%d minutes before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:2955
 msgid "Customize"
@@ -6554,19 +6516,15 @@ msgstr ""
 
 #. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] "%d jorn"
-msgstr[1] "%d jorn"
+msgstr "%d jorn"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
@@ -7140,11 +7098,9 @@ msgstr ""
 #. For Translators : 'Every day' is event Recurring every day
 #. For Translators : 'Every %d days' is event Recurring every %d days. %d is a digit
 #: ../calendar/gui/e-itip-control.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "Every day"
-msgid_plural "Every %d days"
-msgstr[0] "Cada jorn"
-msgstr[1] "Cada jorn"
+msgstr "Cada jorn"
 
 #. For Translators: In this can also be translated as "With the period of %d
 #. week/weeks", where %d is a number. The entire sentence is of the form "Recurring:
@@ -7152,20 +7108,16 @@ msgstr[1] "Cada jorn"
 #. For Translators : 'Every week' is event Recurring every week
 #. For Translators : 'Every %d weeks' is event Recurring every %d weeks. %d is a digit
 #: ../calendar/gui/e-itip-control.c:785
-#, fuzzy, c-format
+#, c-format
 msgid "Every week"
-msgid_plural "Every %d weeks"
-msgstr[0] "Cada setmana"
-msgstr[1] "Cada setmana"
+msgstr "Cada setmana"
 
 #. For Translators : 'Every week on' is event Recurring every week on (dayname) and (dayname) and (dayname)
 #. For Translators : 'Every %d weeks on' is event Recurring: every %d weeks on (dayname) and (dayname). %d is a digit
 #: ../calendar/gui/e-itip-control.c:789
-#, fuzzy, c-format
+#, c-format
 msgid "Every week on "
-msgid_plural "Every %d weeks on "
-msgstr[0] "Cada setmana, lo "
-msgstr[1] "Cada setmana, lo "
+msgstr "Cada setmana, lo "
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
 #: ../calendar/gui/e-itip-control.c:798
@@ -7192,11 +7144,9 @@ msgstr ""
 #. For Translators : 'every %d months' is part of the sentence 'event recurring on the (nth) day of every %d months.'
 #. %d is a digit
 #: ../calendar/gui/e-itip-control.c:834
-#, fuzzy, c-format
+#, c-format
 msgid "every month"
-msgid_plural "every %d months"
-msgstr[0] "cada mes"
-msgstr[1] "cada mes"
+msgstr "cada mes"
 
 #. For Translators: In this can also be translated as "With the period of %d
 #. year/years", where %d is a number. The entire sentence is of the form "Recurring:
@@ -7204,20 +7154,16 @@ msgstr[1] "cada mes"
 #. For Translators : 'Every year' is event Recurring every year
 #. For Translators : 'Every %d years' is event Recurring every %d years. %d is a digit
 #: ../calendar/gui/e-itip-control.c:843
-#, fuzzy, c-format
+#, c-format
 msgid "Every year"
-msgid_plural "Every %d years"
-msgstr[0] "Cada an"
-msgstr[1] "Cada an"
+msgstr "Cada an"
 
 #. For Translators:'a total of %d time' is part of the sentence of the form 'event recurring every day,a total of % time.' %d is a digit
 #. For Translators:'a total of %d times' is part of the sentence of the form 'event recurring every day,a total of % times.' %d is a digit
 #: ../calendar/gui/e-itip-control.c:856
 #, c-format
 msgid "a total of %d time"
-msgid_plural " a total of %d times"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. For Translators : ', ending on' is part of the sentence of the form 'event recurring every day, ending on (date).'
 #: ../calendar/gui/e-itip-control.c:866
@@ -7592,9 +7538,8 @@ msgid "Resources"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-list-view.c:154
-#, fuzzy
 msgid "Attendees"
-msgstr "Estacaments"
+msgstr ""
 
 #: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:99 ../calendar/gui/e-meeting-store.c:116
@@ -8037,16 +7982,12 @@ msgstr ""
 #: ../calendar/gui/memos-component.c:527
 #, c-format
 msgid "%d memo"
-msgid_plural "%d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/memos-component.c:529 ../calendar/gui/tasks-component.c:520
 #, c-format
 msgid ", %d selected"
-msgid_plural ", %d selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/memos-component.c:576
 msgid "Failed upgrading memos."
@@ -8342,9 +8283,8 @@ msgstr "Contactes: "
 
 #. TODO Allow the user to customize the title.
 #: ../calendar/gui/print.c:2524
-#, fuzzy
 msgid "Upcoming Appointments"
-msgstr "Rendètz-vos"
+msgstr ""
 
 #: ../calendar/gui/tasks-component.c:442
 msgid "_New Task List"
@@ -8353,9 +8293,7 @@ msgstr ""
 #: ../calendar/gui/tasks-component.c:518
 #, c-format
 msgid "%d task"
-msgid_plural "%d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/tasks-component.c:567
 msgid "Failed upgrading tasks."
@@ -10275,9 +10213,8 @@ msgid ""
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:18
-#, fuzzy
 msgid "Send options not available."
-msgstr "Accion pas disponibla"
+msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
@@ -10475,7 +10412,7 @@ msgstr "L'orientacion de la zòna de notificacion."
 
 #: ../e-util/e-print.c:115
 msgid "An error occurred while printing"
-msgstr ""
+msgstr "I a agut una error al moment d'estampar"
 
 #: ../e-util/e-print.c:122
 msgid "The printing system reported the following details about the error:"
@@ -10511,53 +10448,39 @@ msgid "_Overwrite"
 msgstr "_Remplaçar"
 
 #: ../filter/filter-datespec.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "1 second ago"
-msgid_plural "%d seconds ago"
-msgstr[0] "1 segonda abans"
-msgstr[1] "1 segonda abans"
+msgstr "1 segonda abans"
 
 #: ../filter/filter-datespec.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute ago"
-msgid_plural "%d minutes ago"
-msgstr[0] "1 minuta abans"
-msgstr[1] "1 minuta abans"
+msgstr "1 minuta abans"
 
 #: ../filter/filter-datespec.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "1 hour ago"
-msgid_plural "%d hours ago"
-msgstr[0] "1 ora abans"
-msgstr[1] "1 ora abans"
+msgstr "1 ora abans"
 
 #: ../filter/filter-datespec.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "1 day ago"
-msgid_plural "%d days ago"
-msgstr[0] "1 jorn abans"
-msgstr[1] "1 jorn abans"
+msgstr "1 jorn abans"
 
 #: ../filter/filter-datespec.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "1 week ago"
-msgid_plural "%d weeks ago"
-msgstr[0] "1 setmana abans"
-msgstr[1] "1 setmana abans"
+msgstr "1 setmana abans"
 
 #: ../filter/filter-datespec.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "1 month ago"
-msgid_plural "%d months ago"
-msgstr[0] "1 mes abans"
-msgstr[1] "1 mes abans"
+msgstr "1 mes abans"
 
 #: ../filter/filter-datespec.c:84
-#, fuzzy, c-format
+#, c-format
 msgid "1 year ago"
-msgid_plural "%d years ago"
-msgstr[0] "1 annada abans"
-msgstr[1] "1 annada abans"
+msgstr "1 annada abans"
 
 #: ../filter/filter-datespec.c:285
 msgid "<click here to select a date>"
@@ -11226,17 +11149,13 @@ msgstr ""
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:149
 msgid "Unread messages:"
-msgid_plural "Unread messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:163
 msgid "Total messages:"
-msgid_plural "Total messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/em-folder-properties.c:323
 #: ../plugins/groupwise-features/properties.glade.h:2
@@ -11549,14 +11468,12 @@ msgid "Unable to retrieve message"
 msgstr ""
 
 #: ../mail/em-folder-view.c:2314
-#, fuzzy
 msgid "<b>Retrieving Message...</b>"
-msgstr "<b>Messatjariá instantanèa</b>"
+msgstr ""
 
 #: ../mail/em-folder-view.c:2353
-#, fuzzy
 msgid "Retrieving Message"
-msgstr "Messatge actiu"
+msgstr ""
 
 #: ../mail/em-folder-view.c:2531
 msgid "Create _Search Folder"
@@ -11846,9 +11763,8 @@ msgid "Attachment"
 msgstr ""
 
 #: ../mail/em-format-html-display.c:2113
-#, fuzzy
 msgid "Save attachment as"
-msgstr "Estacaments"
+msgstr ""
 
 #: ../mail/em-format-html-display.c:2117
 msgid "Select folder to save all attachments"
@@ -11862,9 +11778,7 @@ msgstr ""
 #: ../mail/em-format-html-display.c:2235
 #, c-format
 msgid "%d at_tachment"
-msgid_plural "%d at_tachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/em-format-html-display.c:2242 ../mail/em-format-html-display.c:2320
 msgid "S_ave"
@@ -11918,9 +11832,8 @@ msgid "Once per month"
 msgstr "Un còp per mes"
 
 #: ../mail/em-mailer-prefs.c:807
-#, fuzzy
 msgid "No Junk plugin available"
-msgstr "Accion pas disponibla"
+msgstr ""
 
 #: ../mail/em-migrate.c:1210
 msgid ""
@@ -12819,58 +12732,42 @@ msgstr ""
 #: ../mail/mail-component.c:523
 #, c-format
 msgid "%d deleted"
-msgid_plural "%d deleted"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-component.c:525
 #, c-format
 msgid "%d junk"
-msgid_plural "%d junk"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-component.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
-msgid_plural "%d selected, "
-msgstr[0] "Seleccionat"
-msgstr[1] "Seleccionat"
+msgstr ""
 
 #: ../mail/mail-component.c:551
 #, c-format
 msgid "%d draft"
-msgid_plural "%d drafts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-component.c:553
 #, c-format
 msgid "%d sent"
-msgid_plural "%d sent"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-component.c:555
 #, c-format
 msgid "%d unsent"
-msgid_plural "%d unsent"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-component.c:560
 #, c-format
 msgid "%d unread, "
-msgid_plural "%d unread, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-component.c:561
 #, c-format
 msgid "%d total"
-msgid_plural "%d total"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-component.c:871
 msgid "New Mail Message"
@@ -14255,16 +14152,12 @@ msgstr ""
 #: ../mail/mail-ops.c:1856
 #, c-format
 msgid "Retrieving %d message"
-msgid_plural "Retrieving %d messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-ops.c:1942
 #, c-format
 msgid "Saving %d message"
-msgid_plural "Saving %d messsages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../mail/mail-ops.c:2013
 #, c-format
@@ -14601,15 +14494,13 @@ msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 
 #: ../plugins/backup-restore/backup.c:70
-#, fuzzy
 msgid "Backup complete"
-msgstr "Complet"
+msgstr ""
 
 #: ../plugins/backup-restore/backup.c:75
 #: ../plugins/backup-restore/backup.c:116
-#, fuzzy
 msgid "Restarting Evolution"
-msgstr "Evolution"
+msgstr ""
 
 #: ../plugins/backup-restore/backup.c:94
 msgid "Backup current Evolution data"
@@ -14644,9 +14535,8 @@ msgid "Restart Evolution"
 msgstr ""
 
 #: ../plugins/backup-restore/backup.c:222
-#, fuzzy
 msgid "With GUI"
-msgstr "Largor"
+msgstr ""
 
 #: ../plugins/backup-restore/backup.c:247
 #, c-format
@@ -14654,20 +14544,18 @@ msgid "Backing up to %s"
 msgstr ""
 
 #: ../plugins/backup-restore/backup.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "Restoring from %s"
-msgstr "Messatges de %s"
+msgstr ""
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:268
-#, fuzzy
 msgid "Evolution Backup"
-msgstr "Corrièls Evolution"
+msgstr ""
 
 #: ../plugins/backup-restore/backup.c:268
-#, fuzzy
 msgid "Evolution Restore"
-msgstr "Error Evolution"
+msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:96
 msgid "Select name of the Evolution archive"
@@ -14705,9 +14593,8 @@ msgid "Please select an Evolution Archive to restore:"
 msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:254
-#, fuzzy
 msgid "Choose a file to restore"
-msgstr "Causissètz un fichièr"
+msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
@@ -14719,14 +14606,12 @@ msgid "Backup and restore plugin"
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
-#, fuzzy
 msgid "Are you sure you want to close Evolution?"
-msgstr "Sètz segur que volètz suprimir aqueste compte ?"
+msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid "Are you sure you want to restore Evolution from the selected archive?"
-msgstr "Sètz segur que volètz suprimir aquesta reünion ?"
+msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid ""
@@ -14737,9 +14622,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
 msgid "Invalid Evolution archive"
-msgstr "Corrièls Evolution"
+msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Please select a valid archive file to restore."
@@ -15994,39 +15878,32 @@ msgid "<b>Creation date</b> :"
 msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:178
-#, fuzzy
 msgid "Recipient: "
-msgstr "Descripcion :"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:185
-#, fuzzy
 msgid "Delivered: "
-msgstr "Suprimit"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:191
-#, fuzzy
 msgid "Opened: "
-msgstr "Dubrir"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:196
-#, fuzzy
 msgid "Accepted: "
-msgstr "Acceptat"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:201
-#, fuzzy
 msgid "Deleted: "
-msgstr "Suprimit"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:206
-#, fuzzy
 msgid "Declined: "
-msgstr "~Refusar"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:211
-#, fuzzy
 msgid "Completed: "
-msgstr "Terminat"
+msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:216
 msgid "Un-delivered: "
@@ -17717,13 +17594,12 @@ msgstr ""
 #: ../shell/e-shell-window-commands.c:575
 msgid "translator-credits"
 msgstr ""
-"La còla occitana de revirada d'Ubuntu, 2006 - ubuntu-l10n-oci@lists.ubuntu."
-"com"
+"La còla occitana de revirada d'Ubuntu, 2006 - ubuntu-l10n-"
+"oci@lists.ubuntu.com"
 
 #: ../shell/e-shell-window-commands.c:586
-#, fuzzy
 msgid "Evolution Website"
-msgstr "Corrièls Evolution"
+msgstr ""
 
 #: ../shell/e-shell-window-commands.c:793
 msgid "_Work Online"
@@ -17998,9 +17874,8 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:152
 #: ../smime/gui/certificate-manager.c:403
 #: ../smime/gui/certificate-manager.c:635
-#, fuzzy
 msgid "All files"
-msgstr "Totes los repertòris locals"
+msgstr "Totes los fichièrs"
 
 #: ../smime/gui/certificate-manager.c:279
 #: ../smime/gui/certificate-manager.c:496
@@ -21147,16 +21022,12 @@ msgstr ""
 #: ../widgets/table/e-table-group-container.c:345
 #, c-format
 msgid "%s : %s (%d item)"
-msgid_plural "%s : %s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s (%d item)"
-msgid_plural "%s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-container.c:898
