@@ -1,3 +1,8 @@
+2007-05-08  Parthasarathi Susarla <ajaysusarla@gmail.com>
+	
+	* e-shell-importer.c : remove the removed included file e-gtk-utils.h
+	  This is in sync with changes made my mathew barnes
+	 
 2007-03-12 Harish Krishnaswamy <kharish@novell.com>
 	
 	* e-shell-window-commands.c : Update contributors' list for
