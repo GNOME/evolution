@@ -2875,9 +2875,8 @@ msgstr "ש_לח הודעה ל..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
-#, fuzzy
 msgid "Copy _Email Address"
-msgstr "_כתובת דוא\"ל:"
+msgstr "העתק _כתובת דוא\"ל"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:296
 #: ../addressbook/gui/widgets/eab-contact-display.c:359
@@ -4476,7 +4475,7 @@ msgstr "פגישות"
 #: ../calendar/gui/e-itip-control.c:1145
 #: ../plugins/itip-formatter/itip-view.c:943
 msgid "Location:"
-msgstr ""
+msgstr "מיקום:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
@@ -4576,8 +4575,8 @@ msgstr ""
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "שעה אחת"
+msgstr[1] "%d שעות"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
@@ -4585,8 +4584,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "דקה אחת"
+msgstr[1] "%d דקות"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
@@ -4596,8 +4595,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "שניה אחת"
+msgstr[1] "%d שניות"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
@@ -5067,14 +5066,12 @@ msgstr ""
 #. Create the weather group
 #: ../calendar/gui/calendar-component.c:284
 #: ../plugins/calendar-weather/calendar-weather.c:100
-#, fuzzy
 msgid "Weather"
-msgstr "אחרי"
+msgstr "מזג אויר"
 
 #: ../calendar/gui/calendar-component.c:582
-#, fuzzy
 msgid "_New Calendar"
-msgstr "לוח שנה חדש"
+msgstr "לוח שנה _חדש"
 
 #: ../calendar/gui/calendar-component.c:899
 msgid "Failed upgrading calendars."
@@ -5464,7 +5461,7 @@ msgstr "<span weight=\"bold\">הגדרות</span>"
 #: ../mail/mail-config.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">כללי</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 #, fuzzy
@@ -5477,9 +5474,8 @@ msgid "<span weight=\"bold\">Time</span>"
 msgstr "<span weight=\"bold\">אבטחה</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Work Week</span>"
-msgstr "<span weight=\"bold\">אבטחה</span>"
+msgstr "<span weight=\"bold\">שבוע עבודה</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
@@ -10838,11 +10834,11 @@ msgstr ""
 
 #: ../filter/filter.glade.h:17
 msgid "months"
-msgstr ""
+msgstr "חודשים"
 
 #: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:180
 msgid "seconds"
-msgstr ""
+msgstr "שניות"
 
 #: ../filter/filter.glade.h:19
 msgid "the current time"
@@ -10854,7 +10850,7 @@ msgstr ""
 
 #: ../filter/filter.glade.h:22
 msgid "years"
-msgstr ""
+msgstr "שנים"
 
 #: ../filter/filter-label.c:120 ../mail/em-filter-i18n.h:26
 #: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:90
@@ -13202,11 +13198,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">תצוגת הודעה</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">גופני הודעה</span>"
 
 #: ../mail/mail-config.glade.h:20
 #, fuzzy
@@ -13426,11 +13422,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:80
 msgid "Fi_xed width Font:"
-msgstr ""
+msgstr "גופן _רוחב קבוע:"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Fi_xed-width:"
-msgstr ""
+msgstr "רו_חב-קבוע:"
 
 #: ../mail/mail-config.glade.h:82
 msgid "Font Properties"
@@ -13711,7 +13707,7 @@ msgstr "ה_פוך חשבון זה לחשבון ברירת המחדל"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
-msgstr ""
+msgstr "_סמן הודעות כאילו שנ_קראו לאחר"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Never load images from the Internet"
@@ -13752,7 +13748,7 @@ msgstr "השתמש ב_תקשורת מאובטחת:"
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "השתמש באותם _גופנים כמו יישומים אחרים"
 
 #: ../mail/mail-config.glade.h:177
 msgid "addresses"
@@ -17465,7 +17461,7 @@ msgstr ""
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
-msgstr ""
+msgstr "_תוספים"
 
 #: ../plugins/plugin-manager/plugin-manager.c:43
 #, fuzzy
@@ -17475,9 +17471,8 @@ msgstr "שעה (שעות)"
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-config-no-group.glade.h:6
-#, fuzzy
 msgid "Description"
-msgstr "תיאור:"
+msgstr "תיאור"
 
 #: ../plugins/plugin-manager/plugin-manager.c:193
 msgid "Note: Some changes will not take effect until restart"
@@ -17486,7 +17481,7 @@ msgstr ""
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
 msgid "Plugin"
-msgstr ""
+msgstr "תוסף"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
@@ -17562,9 +17557,8 @@ msgid "Calendar Publishing"
 msgstr "לוחות שנה"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Locations"
-msgstr "מיקום"
+msgstr "מיקומים"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
 #, fuzzy
@@ -17576,14 +17570,12 @@ msgid "Are you sure you want to remove this URL?"
 msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Location</span>"
-msgstr "<span weight=\"bold\">הגדרות</span>"
+msgstr "<span weight=\"bold\">מיקום</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
-#, fuzzy
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr "<span weight=\"bold\">אבטחה</span>"
+msgstr "<span weight=\"bold\">מקורות</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
 msgid ""
@@ -17593,9 +17585,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
-#, fuzzy
 msgid "P_ort:"
-msgstr "_שער:"
+msgstr "_פתחה:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
 #, fuzzy
@@ -17623,9 +17614,8 @@ msgid "Service _type:"
 msgstr "_סוג השרת: "
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
-#, fuzzy
 msgid "_File:"
-msgstr "_קובץ"
+msgstr "_קובץ:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
 msgid "_Publish as:"
@@ -20135,14 +20125,12 @@ msgid "Search for text in the body of the displayed message"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:91
-#, fuzzy
 msgid "Select _All Text"
-msgstr "בחר את כל המלל"
+msgstr "בחר את כל ה_טקסט"
 
 #: ../ui/evolution-mail-message.xml.h:92
-#, fuzzy
 msgid "Select all the text in a message"
-msgstr "בחר את כל המלל"
+msgstr "בחר את כל הטקסט בהודעה"
 
 #: ../ui/evolution-mail-message.xml.h:93
 msgid "Set up the page settings for your current printer"
@@ -20708,9 +20696,8 @@ msgid "New _Window"
 msgstr "ח_לון חדש"
 
 #: ../ui/evolution.xml.h:19
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "העדפות דואר"
+msgstr "_העדפות"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / Receive"
@@ -20811,7 +20798,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "אפשרויות _סנכרון..."
 
 #: ../ui/evolution.xml.h:52
 msgid "_Text only"
