@@ -11163,7 +11163,7 @@ msgstr "לא קיים"
 
 #: ../mail/em-filter-i18n.h:20
 msgid "Draft"
-msgstr ""
+msgstr "טיוטה"
 
 #: ../mail/em-filter-i18n.h:21
 msgid "ends with"
@@ -11405,7 +11405,6 @@ msgstr ""
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:149
-#, fuzzy
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "הודעה שלא נקראה:"
@@ -11533,9 +11532,8 @@ msgstr "_רוקן את האשפה"
 
 #: ../mail/em-folder-tree-model.c:203 ../mail/em-folder-tree-model.c:205
 #: ../mail/mail-vfolder.c:911 ../mail/mail-vfolder.c:984
-#, fuzzy
 msgid "Search Folders"
-msgstr "בחר תיקייה"
+msgstr "תיקיות חיפוש"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:209 ../mail/em-folder-tree-model.c:211
@@ -11543,9 +11541,8 @@ msgid "UNMATCHED"
 msgstr ""
 
 #: ../mail/em-folder-tree-model.c:484 ../mail/mail-component.c:152
-#, fuzzy
 msgid "Drafts"
-msgstr "תאריך"
+msgstr "טיוטות"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:151
@@ -13076,8 +13073,8 @@ msgstr[1] "%d נמחק"
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "טיוטה %d"
+msgstr[1] "%d טיוטות"
 
 #: ../mail/mail-component.c:553
 #, c-format
@@ -13094,11 +13091,11 @@ msgstr[0] "%d לא נשלח"
 msgstr[1] "%d לא נשלח"
 
 #: ../mail/mail-component.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] ", %d לא נקראו"
-msgstr[1] ", %d לא נקראו"
+msgstr[0] "%d לא נקראה, "
+msgstr[1] "%d לא נקראו, "
 
 #: ../mail/mail-component.c:561
 #, c-format
@@ -13265,7 +13262,7 @@ msgstr "<span weight=\"bold\">אבטחה</span>"
 
 #: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">הודעות שנשלחו וטיוטות</span>"
 
 #: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Server Configuration</span>"
@@ -13414,7 +13411,7 @@ msgstr "סיום"
 
 #: ../mail/mail-config.glade.h:72
 msgid "Drafts _Folder:"
-msgstr ""
+msgstr "תיקיית _טיוטות:"
 
 #: ../mail/mail-config.glade.h:73
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
@@ -20470,12 +20467,11 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:21
 msgid "Save As"
-msgstr ""
+msgstr "שמור בשם"
 
 #: ../ui/evolution-message-composer.xml.h:22
-#, fuzzy
 msgid "Save Draft"
-msgstr "שמירה בשם..."
+msgstr "שמור טיוטה"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "Save _As..."
@@ -20483,24 +20479,23 @@ msgstr "שמור _בשם..."
 
 #: ../ui/evolution-message-composer.xml.h:24
 msgid "Save _Draft"
-msgstr ""
+msgstr "שמור _טיוטה"
 
 #: ../ui/evolution-message-composer.xml.h:25
-#, fuzzy
 msgid "Save as draft"
-msgstr "שמירה בשם..."
+msgstr "שמור כטיוטה"
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save in folder..."
-msgstr ""
+msgstr "שמור בתיקייה..."
 
 #: ../ui/evolution-message-composer.xml.h:27
 msgid "Save the current file"
-msgstr ""
+msgstr "שמור את הקובץ הנוכחי"
 
 #: ../ui/evolution-message-composer.xml.h:28
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "שמור את הקובץ הנוכחי בשם אחר"
 
 #: ../ui/evolution-message-composer.xml.h:29
 msgid "Save the message in a specified folder"
@@ -20517,7 +20512,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
-msgstr ""
+msgstr "שלח את ההודעה"
 
 #: ../ui/evolution-message-composer.xml.h:33
 #, fuzzy
@@ -21357,9 +21352,8 @@ msgid "_Edit Saved Searches..."
 msgstr ""
 
 #: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
-#, fuzzy
 msgid "_Advanced Search..."
-msgstr "חיפוש מתקדם"
+msgstr "חיפוש _מתקדם..."
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
