@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-08 10:21+0300\n"
+"POT-Creation-Date: 2007-05-09 07:05+0100\n"
 "PO-Revision-Date: 2004-07-25 21:05+0300\n"
 "Last-Translator: Gil Osher <dolfin@rpg.org.il>\n"
 "Language-Team: Hebrew <he@li.org>\n"
@@ -4006,8 +4006,8 @@ msgstr ""
 msgid "Unhandled error"
 msgstr "תקלה אחרת"
 
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:668
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:704
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
 msgstr "לא ניתן לפתוח קובץ"
@@ -5755,8 +5755,8 @@ msgstr ""
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "תצריף <b>%d</b>"
+msgstr[1] "<b>%d</b> תצריפים"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1000
 #, fuzzy
@@ -5790,15 +5790,13 @@ msgstr "_מאפיינים"
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3688
-#, fuzzy
 msgid "_Add attachment..."
-msgstr "מתקדם..."
+msgstr "הוסף _תצריף"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1556
 #: ../mail/em-format-html-display.c:2314
-#, fuzzy
 msgid "Show Attachments"
-msgstr "שמור פגישה"
+msgstr "הצג תצריפים"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1557
 msgid "Press space key to toggle attachment bar"
@@ -5848,7 +5846,7 @@ msgstr "אין סיכום"
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:370
 #: ../widgets/misc/e-attachment-bar.c:350
 msgid "attachment"
-msgstr ""
+msgstr "תצריף"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2869
 #: ../calendar/gui/dialogs/comp-editor.c:2923
@@ -6697,16 +6695,16 @@ msgstr "_שבועי"
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "יום אחד"
+msgstr[1] "%d ימים"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "שבוע אחד"
+msgstr[1] "%d שבועות"
 
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
@@ -6783,7 +6781,7 @@ msgstr "ללא-שם"
 #: ../calendar/gui/e-cal-component-preview.c:197
 #: ../calendar/gui/e-cal-component-preview.c:208
 msgid "Start Date:"
-msgstr ""
+msgstr "תאריך התחלה:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:221
 #: ../calendar/gui/e-cal-component-preview.c:271
@@ -6820,23 +6818,23 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-component-preview.c:250
 msgid "Priority:"
-msgstr ""
+msgstr "עדיפות:"
 
 #: ../calendar/gui/e-calendar-table.c:366
 #: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:314
 #: ../calendar/gui/e-cal-model.c:321
 msgid "Public"
-msgstr ""
+msgstr "ציבורי"
 
 #: ../calendar/gui/e-calendar-table.c:367
 #: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
 msgid "Private"
-msgstr ""
+msgstr "פרטי"
 
 #: ../calendar/gui/e-calendar-table.c:368
 #: ../calendar/gui/e-cal-list-view.c:257 ../calendar/gui/e-cal-model.c:325
 msgid "Confidential"
-msgstr ""
+msgstr "חסוי"
 
 #: ../calendar/gui/e-calendar-table.c:410
 msgid "0%"
@@ -7002,8 +7000,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.c:1537
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr ""
-"‏לחץ כאן כדי להוסיף משימה"
+msgstr "‏לחץ כאן כדי להוסיף משימה"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -7012,7 +7009,7 @@ msgstr "% השלמה"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:5 ../mail/mail-send-recv.c:705
 msgid "Complete"
-msgstr ""
+msgstr "הסתיים"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
@@ -7025,11 +7022,11 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.etspec.h:8
 #: ../plugins/save-calendar/csv-format.c:397
 msgid "Priority"
-msgstr ""
+msgstr "עדיפות"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
-msgstr ""
+msgstr "תאריך התחלה"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:11
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
@@ -7048,7 +7045,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1350
 msgid "Copying items"
-msgstr ""
+msgstr "מעתיק פריטים"
 
 #: ../calendar/gui/e-calendar-view.c:1659
 msgid "New _Appointment..."
@@ -7075,7 +7072,7 @@ msgstr "בחר תיקייה"
 
 #: ../calendar/gui/e-calendar-view.c:1675
 msgid "_Select Date..."
-msgstr ""
+msgstr "בחר _תאריך..."
 
 #: ../calendar/gui/e-calendar-view.c:1691
 msgid "Cop_y to Calendar..."
@@ -7147,12 +7144,12 @@ msgstr "תצוגת יום"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
-msgstr ""
+msgstr "תאריך סיום"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:4
 msgid "Start Date"
-msgstr ""
+msgstr "תאריך התחלה"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-cal-popup.c:107
@@ -7226,7 +7223,7 @@ msgstr "נבחר"
 #: ../calendar/gui/e-cal-popup.c:399 ../mail/em-popup.c:776
 #, c-format
 msgid "Open in %s..."
-msgstr ""
+msgstr "פתח ב-%s..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:116
@@ -7712,7 +7709,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.glade.h:3
 msgid "Date:"
-msgstr ""
+msgstr "תאריך:"
 
 #: ../calendar/gui/e-itip-control.glade.h:5
 msgid "Loading Calendar"
@@ -8234,14 +8231,12 @@ msgid "Create a new memo"
 msgstr "צור תזכורת חדשה"
 
 #: ../calendar/gui/memos-component.c:1174
-#, fuzzy
 msgid "New shared memo"
-msgstr "תיקייה _חדשה..."
+msgstr "תזכורת משותפת חדשה"
 
 #: ../calendar/gui/memos-component.c:1175
-#, fuzzy
 msgid "_Shared memo"
-msgstr "לא התחיל"
+msgstr "תזכורת _משותפת"
 
 #: ../calendar/gui/memos-component.c:1176
 #, fuzzy
@@ -8249,13 +8244,12 @@ msgid "Create a shared new memo"
 msgstr "צור פריט מבחן חדש"
 
 #: ../calendar/gui/memos-component.c:1182
-#, fuzzy
 msgid "New memo list"
-msgstr "רשימת תפוצה חדשה"
+msgstr "רשימת תזכורות חדשה"
 
 #: ../calendar/gui/memos-component.c:1183
 msgid "Memo li_st"
-msgstr ""
+msgstr "_רשימת תזכורות"
 
 #: ../calendar/gui/memos-component.c:1184
 #, fuzzy
@@ -8263,9 +8257,8 @@ msgid "Create a new memo list"
 msgstr "הוסף משימה חדשה"
 
 #: ../calendar/gui/memos-control.c:336 ../calendar/gui/memos-control.c:352
-#, fuzzy
 msgid "Print Memos"
-msgstr "הדפס פריט"
+msgstr "הדפס תזכורות"
 
 #: ../calendar/gui/migration.c:164
 msgid ""
@@ -8501,7 +8494,7 @@ msgstr ""
 
 #: ../calendar/gui/print.c:2423
 msgid "Contacts: "
-msgstr ""
+msgstr "אנשי קשר: "
 
 #. TODO Allow the user to customize the title.
 #: ../calendar/gui/print.c:2524
@@ -8805,7 +8798,7 @@ msgstr ""
 
 #: ../calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "אפריקה/ניירובי"
 
 #: ../calendar/zones.h:49
 msgid "Africa/Ndjamena"
@@ -8837,11 +8830,11 @@ msgstr ""
 
 #: ../calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "אפריקה/טריפולי"
 
 #: ../calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "אפריקה/טוניס"
 
 #: ../calendar/zones.h:58
 msgid "Africa/Windhoek"
@@ -10192,7 +10185,7 @@ msgstr ""
 #: ../widgets/misc/e-attachment.c:439 ../widgets/misc/e-attachment.c:456
 #, c-format
 msgid "Cannot attach file %s: %s"
-msgstr ""
+msgstr "לא ניתן לצרף את הקובץ %s: %s"
 
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
@@ -10204,7 +10197,7 @@ msgstr ""
 #: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../widgets/misc/e-attachment.glade.h:1
 msgid "Attachment Properties"
-msgstr ""
+msgstr "מאפייני תצריף"
 
 #: ../composer/e-msg-composer-attachment.glade.h:3
 #: ../widgets/misc/e-attachment.glade.h:3
@@ -10245,7 +10238,7 @@ msgstr "סיבה לא ידועה"
 
 #: ../composer/e-msg-composer.c:1404
 msgid "Could not open file"
-msgstr ""
+msgstr "לא ניתן לפתוח קובץ"
 
 #: ../composer/e-msg-composer.c:1412
 msgid "Unable to retrieve message from editor"
@@ -10327,7 +10320,7 @@ msgstr "הכנס את הנמענים של ההודעה"
 
 #: ../composer/e-msg-composer-hdrs.c:661
 msgid "_Cc:"
-msgstr ""
+msgstr "_Cc:"
 
 #: ../composer/e-msg-composer-hdrs.c:662
 msgid "Enter the addresses that will receive a carbon copy of the message"
@@ -10335,7 +10328,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer-hdrs.c:665
 msgid "_Bcc:"
-msgstr ""
+msgstr "_Bcc:"
 
 #: ../composer/e-msg-composer-hdrs.c:666
 msgid ""
@@ -10364,9 +10357,8 @@ msgid "A_ttach"
 msgstr "צ_רף"
 
 #: ../composer/e-msg-composer-select-file.c:243
-#, fuzzy
 msgid "Insert Attachment"
-msgstr "איש קשר אחד"
+msgstr "הוסף תצריף"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
@@ -10676,17 +10668,16 @@ msgid "Do you wish to overwrite it?"
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:5
-#, fuzzy
 msgid "File exists &quot;{0}&quot;."
-msgstr "הקובץ קיים \"}0{\"."
+msgstr "הקובץ קיים &quot;{0}&quot;."
 
 #: ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
-msgstr ""
+msgstr "להחליף קובץ?"
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:134
 msgid "_Overwrite"
-msgstr ""
+msgstr "ה_חלף"
 
 #: ../filter/filter-datespec.c:78
 #, c-format
@@ -11228,7 +11219,7 @@ msgstr "מבחן דואר זבל"
 
 #: ../mail/em-filter-i18n.h:37 ../widgets/misc/e-expander.c:190
 msgid "Label"
-msgstr ""
+msgstr "תוית"
 
 #: ../mail/em-filter-i18n.h:38
 msgid "Mailing list"
@@ -11395,9 +11386,8 @@ msgid "Messages Not Junk"
 msgstr "הודעות שאינן זבל"
 
 #: ../mail/em-folder-browser.c:1028
-#, fuzzy
 msgid "Account Search"
-msgstr "שם החשבון"
+msgstr "חיפוש חשבון"
 
 #: ../mail/em-folder-browser.c:1072
 msgid "All Account Search"
@@ -11729,22 +11719,19 @@ msgstr "ברירת מחדל"
 
 #: ../mail/em-folder-view.c:2294
 msgid "Unable to retrieve message"
-msgstr ""
+msgstr "לא ניתן לקבל הודעה"
 
 #: ../mail/em-folder-view.c:2315
-#, fuzzy
 msgid "<b>Retrieving Message...</b>"
-msgstr "<b>הודעות מידיות</b>"
+msgstr "<b>מקבל הודעה...</b>"
 
 #: ../mail/em-folder-view.c:2354
-#, fuzzy
 msgid "Retrieving Message"
-msgstr "הדפס הודעה"
+msgstr "מקבל הודעות"
 
 #: ../mail/em-folder-view.c:2532
-#, fuzzy
 msgid "Create _Search Folder"
-msgstr "צור תיקייה חדשה"
+msgstr "צור תיקיית _חיפוש"
 
 #: ../mail/em-folder-view.c:2533
 #, fuzzy
@@ -11830,7 +11817,7 @@ msgstr ""
 #: ../mail/em-format-html.c:483 ../mail/em-format-html.c:485
 #, c-format
 msgid "Retrieving `%s'"
-msgstr ""
+msgstr "מקבל `%s'"
 
 #: ../mail/em-format-html.c:618 ../mail/em-format-html-display.c:937
 msgid "Unsigned"
@@ -12231,9 +12218,8 @@ msgid "Messages from %s"
 msgstr ""
 
 #: ../mail/em-vfolder-editor.c:112
-#, fuzzy
 msgid "Search _Folders"
-msgstr "בחר תיקייה"
+msgstr "תיקיות _חיפוש"
 
 #: ../mail/em-vfolder-rule.c:590
 #, fuzzy
@@ -13569,9 +13555,8 @@ msgid "Remember _password"
 msgstr "זכור _סיסמה"
 
 #: ../mail/mail-config.glade.h:119
-#, fuzzy
 msgid "S_elect..."
-msgstr "בחר..."
+msgstr "ב_חר..."
 
 #: ../mail/mail-config.glade.h:120
 #, fuzzy
@@ -13583,9 +13568,8 @@ msgid "S_tandard Font:"
 msgstr "גופן _רגיל:"
 
 #: ../mail/mail-config.glade.h:122
-#, fuzzy
 msgid "Se_lect..."
-msgstr "בחר..."
+msgstr "_בחר..."
 
 #: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font"
@@ -13755,16 +13739,14 @@ msgstr ""
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Show image animations"
-msgstr "הראה אנימציות"
+msgstr "הצג _אנימציות"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr ""
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Use Secure Connection:"
 msgstr "השתמש ב_תקשורת מאובטחת:"
 
@@ -13773,9 +13755,8 @@ msgid "_Use the same fonts as other applications"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:177
-#, fuzzy
 msgid "addresses"
-msgstr "כתובת"
+msgstr "כתובות"
 
 #: ../mail/mail-config.glade.h:178
 msgid "color"
@@ -13787,7 +13768,7 @@ msgstr "תיאור"
 
 #: ../mail/mail-dialogs.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
 msgid "<b>Search Folder Sources</b>"
@@ -13815,21 +13796,19 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
-msgstr ""
+msgstr "תלוי _רשיות"
 
 #: ../mail/mail-dialogs.glade.h:9 ../mail/message-tags.glade.h:1
-#, fuzzy
 msgid "Co_mpleted"
-msgstr "הסתיים"
+msgstr "הס_תיים"
 
 #: ../mail/mail-dialogs.glade.h:11
-#, fuzzy
 msgid "F_ind:"
-msgstr "מצא:"
+msgstr "_חפש:"
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
-msgstr "מצא בהודעה"
+msgstr "חפש בהודעה"
 
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:2
@@ -14076,9 +14055,8 @@ msgid "Delete account?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Discard changes?"
-msgstr "התעלם משינויים"
+msgstr "להתעלם משינויים?"
 
 #: ../mail/mail.error.xml.h:46
 #, fuzzy
@@ -14105,7 +14083,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:51
 msgid "Enter password."
-msgstr ""
+msgstr "הכנס סיסמה."
 
 #: ../mail/mail.error.xml.h:52
 msgid "Error loading filter definitions."
@@ -14188,7 +14166,6 @@ msgid "Mark all messages in subfolders as read?"
 msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
 
 #: ../mail/mail.error.xml.h:71
-#, fuzzy
 msgid "Mark as _Read"
 msgstr "_סמן כנקרא"
 
@@ -14412,9 +14389,8 @@ msgid "_Expunge"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:133
-#, fuzzy
 msgid "_Open Messages"
-msgstr "_פתח הודעה"
+msgstr "_פתח הודעות"
 
 #: ../mail/mail-folder-cache.c:859
 #, c-format
@@ -14451,7 +14427,7 @@ msgstr ""
 #: ../mail/mail-ops.c:736
 #, c-format
 msgid "Sending message %d of %d"
-msgstr ""
+msgstr "שולח הודעה %d מתןך %d"
 
 #: ../mail/mail-ops.c:761
 #, c-format
@@ -14459,9 +14435,8 @@ msgid "Failed to send %d of %d messages"
 msgstr ""
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:703
-#, fuzzy
 msgid "Canceled."
-msgstr "בוטל"
+msgstr "בוטל."
 
 #: ../mail/mail-ops.c:765
 msgid "Complete."
@@ -14535,21 +14510,21 @@ msgstr ""
 #: ../mail/mail-ops.c:1746
 #, c-format
 msgid "Retrieving message %s"
-msgstr ""
+msgstr "מקבל הודעה %s"
 
 #: ../mail/mail-ops.c:1856
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "מקבל הודעה %d"
+msgstr[1] "מקבל %d הודעות"
 
 #: ../mail/mail-ops.c:1942
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "שומר הודעה %d"
+msgstr[1] "שומר %d הודעות"
 
 #: ../mail/mail-ops.c:2013
 #, c-format
@@ -14560,7 +14535,7 @@ msgstr ""
 
 #: ../mail/mail-ops.c:2085
 msgid "Saving attachment"
-msgstr ""
+msgstr "שומר תצריף"
 
 #: ../mail/mail-ops.c:2098 ../mail/mail-ops.c:2104
 #, c-format
@@ -15280,12 +15255,10 @@ msgid "Open Other User's Folder"
 msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "שם _חשבון:"
+msgstr "_חשבון:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
 msgstr "_שם תיקייה:"
 
@@ -15319,9 +15292,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
-#, fuzzy
 msgid "Out Of Office"
-msgstr "משרד"
+msgstr "מחוץ למשרד"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:264
 msgid ""
@@ -15440,14 +15412,12 @@ msgid "Confirm Password:"
 msgstr "הכנס סיסמה"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
-#, fuzzy
 msgid "Current Password:"
-msgstr "הכנס סיסמה"
+msgstr "סיסמה נוכחית:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:4
-#, fuzzy
 msgid "New Password:"
-msgstr "_סיסמה:"
+msgstr "סיסמה חדשה:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
 msgid "Your current password has expired. Please change your password now."
@@ -15512,9 +15482,8 @@ msgstr "לוח שנה:"
 
 #. Translators: This is used for permissions for <user> for the folder Contacts.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "אנשי קשר"
+msgstr "אנשי _קשר:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 #: ../plugins/exchange-operations/exchange-delegates-user.c:190
@@ -15597,14 +15566,12 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-folder-permission.c:61
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
-#, fuzzy
 msgid "Permissions..."
-msgstr "אין הרשאות"
+msgstr "הרשאות..."
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:135
-#, fuzzy
 msgid "Folder Name"
-msgstr "_שם תיקייה:"
+msgstr "שם תיקייה"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:139
 #, fuzzy
@@ -15644,17 +15611,15 @@ msgstr "אין הרשאות"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User:"
-msgstr ""
+msgstr "הוסף משתמש:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
-#, fuzzy
 msgid "Add User"
-msgstr "_הוסף כתובת"
+msgstr "הוסף משתמש"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Permissions</b>"
-msgstr "<b>אפשרויות</b>"
+msgstr "<b>הרשאות</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 #, fuzzy
@@ -15765,14 +15730,12 @@ msgid "_Sensitivity: "
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:143
-#, fuzzy
 msgid "Select User"
-msgstr "בחר תיקייה"
+msgstr "בחר משתמש"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:181
-#, fuzzy
 msgid "Address Book..."
-msgstr "ספר כתובות"
+msgstr "ספר כתובות..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
@@ -16024,9 +15987,8 @@ msgid "Unknown error looking up {0}"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-#, fuzzy
 msgid "Unknown error."
-msgstr "שגיאת מערכת לא ידועה."
+msgstr "שגיאה לא ידועה."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 #, fuzzy
@@ -16149,18 +16111,16 @@ msgid "Shared Folder Installation"
 msgstr ""
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
-#, fuzzy
 msgid "Junk Settings"
-msgstr "הגדרות Evolution"
+msgstr "הגדרות דואר זבל"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
 msgid "<b>Junk Mail Settings</b>"
-msgstr ""
+msgstr "<b>הגדרות דואר זבל</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
-#, fuzzy
 msgid "Junk Mail Settings..."
-msgstr "הגדרות מחשב כף יד..."
+msgstr "הגדרות דואר זבל..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 #, fuzzy
@@ -16168,20 +16128,17 @@ msgid "<b>Junk List:</b>"
 msgstr "<b>רשימת מטלות</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
-#, fuzzy
 msgid "Email:"
-msgstr "דוא\"ל"
+msgstr "דוא\"ל:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
-#, fuzzy
 msgid "Junk Mail Settings"
-msgstr "הגדרות מחשב כף יד..."
+msgstr "הגדרות דואר זבל"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
-#, fuzzy
 msgid "_Disable"
-msgstr "כבה"
+msgstr "_כבה"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:6
 msgid "_Enable"
@@ -16224,15 +16181,13 @@ msgid "Accept Tentatively"
 msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:1
-#, fuzzy
 msgid "<b>Users:</b>"
-msgstr "<b>התרעות</b>"
+msgstr "<b>המשתמשים:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
 #: ../widgets/table/e-table-click-to-add.c:509
-#, fuzzy
 msgid "Message"
-msgstr "הו_דעה:"
+msgstr "הודעה"
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 msgid "Shared Folder Notification"
@@ -16243,9 +16198,8 @@ msgid "The participants will receive the following notification.\n"
 msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:10
-#, fuzzy
 msgid "_Contacts..."
-msgstr "אנשי קשר..."
+msgstr "אנשי _קשר..."
 
 #: ../plugins/groupwise-features/properties.glade.h:11
 msgid "_Customize notification message"
@@ -16267,9 +16221,8 @@ msgid "_Sharing"
 msgstr "מתחיל:"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Name</b>"
-msgstr "<b>בית</b>"
+msgstr "<b>שם</b>"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
@@ -16281,9 +16234,8 @@ msgid "Add/Edit"
 msgstr "_עריכה"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
-#, fuzzy
 msgid "Con_tacts"
-msgstr "אנשי קשר"
+msgstr "אנשי _קשר"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
@@ -16308,9 +16260,8 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
-#, fuzzy
 msgid "_Read"
-msgstr "קרא"
+msgstr "_קרא"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 #, fuzzy
@@ -16346,9 +16297,8 @@ msgid "_Proxy Login..."
 msgstr "ה_דפס..."
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "שם החשבון"
+msgstr"<b>שם חשבון</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
@@ -16356,14 +16306,12 @@ msgstr ""
 
 #: ../plugins/groupwise-features/share-folder.c:760
 #: ../plugins/groupwise-features/share-folder-common.c:322
-#, fuzzy
 msgid "Users"
-msgstr "שם משתמש"
+msgstr "משתמשים"
 
 #: ../plugins/groupwise-features/share-folder.c:765
-#, fuzzy
 msgid "Add   "
-msgstr "_הוסף"
+msgstr "הוסף   "
 
 #: ../plugins/groupwise-features/share-folder.c:771
 #, fuzzy
@@ -16393,7 +16341,7 @@ msgstr "של_ח הודעה לאיש קשר..."
 #: ../plugins/groupwise-features/status-track.c:117
 #, fuzzy
 msgid "<b>Subject</b> :"
-msgstr "נושא:"
+msgstr "<b>נושא</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:129
 #, fuzzy
@@ -16436,9 +16384,8 @@ msgid "Declined: "
 msgstr "סרב"
 
 #: ../plugins/groupwise-features/status-track.c:211
-#, fuzzy
 msgid "Completed: "
-msgstr "הסתיים "
+msgstr "הסתיים: "
 
 #: ../plugins/groupwise-features/status-track.c:216
 #, fuzzy
@@ -16773,157 +16720,139 @@ msgstr ""
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:192
-#, fuzzy
 msgid "Today %H:%M"
-msgstr "היום %l:%M %p"
+msgstr "היום %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:196
-#, fuzzy
 msgid "Today %H:%M:%S"
-msgstr "היום %l:%M %p"
+msgstr "היום %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:205
-#, fuzzy
 msgid "Today %l:%M:%S %p"
-msgstr "היום %l:%M %p"
+msgstr "היום %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:215
 msgid "Tomorrow"
-msgstr ""
+msgstr "מחר"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:220
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "מחר %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:224
 msgid "Tomorrow %H:%M:%S"
-msgstr ""
+msgstr "מחר %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:229
-#, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "היום %l:%M %p"
+msgstr "מחר %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:233
-#, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "היום %l:%M %p"
+msgstr "מחר %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:252
 #, c-format
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:257
-#, fuzzy
 msgid "%A %H:%M"
-msgstr "%A %d %B"
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:261
-#, fuzzy
 msgid "%A %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:266
-#, fuzzy
 msgid "%A %l:%M %p"
-msgstr "היום %l:%M %p"
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:270
-#, fuzzy
 msgid "%A %l:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:279
-#, fuzzy
 msgid "%A, %B %e"
-msgstr "%d %B %Y"
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:285
-#, fuzzy
 msgid "%A, %B %e %H:%M"
-msgstr "%A %d %B %Y"
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:289
-#, fuzzy
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:294
 msgid "%A, %B %e %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:298
-#, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:304
-#, fuzzy
 msgid "%A, %B %e, %Y"
-msgstr "%A %d %B %Y"
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:309
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:313
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:318
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:322
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:347
 #, c-format
@@ -19450,7 +19379,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:3
 #: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
-msgstr ""
+msgstr "סגור"
 
 #: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
@@ -19668,9 +19597,8 @@ msgid "Permanently remove all deleted messages from all folders"
 msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Search F_olders"
-msgstr "בחר תיקייה"
+msgstr "תיקיות _חיפוש"
 
 #: ../ui/evolution-mail-global.xml.h:13
 #, fuzzy
@@ -20266,14 +20194,12 @@ msgid "_Clear Flag"
 msgstr "_נקה"
 
 #: ../ui/evolution-mail-message.xml.h:106
-#, fuzzy
 msgid "_Delete Message"
-msgstr "ההודעה ה_באה"
+msgstr "_מחק הודעה"
 
 #: ../ui/evolution-mail-message.xml.h:108
-#, fuzzy
 msgid "_Find in Message..."
-msgstr "מצא בהודעה"
+msgstr "חפש _בהודעה..."
 
 #: ../ui/evolution-mail-message.xml.h:109
 #, fuzzy
@@ -20295,19 +20221,16 @@ msgid "_Inline"
 msgstr "עבודה במצב מ_קוון"
 
 #: ../ui/evolution-mail-message.xml.h:114
-#, fuzzy
 msgid "_Junk"
-msgstr "דואר זבל"
+msgstr "דואר ז_בל"
 
 #: ../ui/evolution-mail-message.xml.h:115
-#, fuzzy
 msgid "_Load Images"
 msgstr "טען _תמונות"
 
 #: ../ui/evolution-mail-message.xml.h:117
-#, fuzzy
 msgid "_Message Source"
-msgstr "שמירת הודעות"
+msgstr "מ_קור ההודעה"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
@@ -20319,12 +20242,10 @@ msgid "_Normal Size"
 msgstr "רגיל"
 
 #: ../ui/evolution-mail-message.xml.h:121
-#, fuzzy
 msgid "_Not Junk"
-msgstr "לא דואר זבל"
+msgstr "לא דואר _זבל"
 
 #: ../ui/evolution-mail-message.xml.h:122
-#, fuzzy
 msgid "_Open in New Window"
 msgstr "פתח ב_חלון חדש"
 
@@ -20338,9 +20259,8 @@ msgid "_Quoted"
 msgstr "_צוטט"
 
 #: ../ui/evolution-mail-message.xml.h:128
-#, fuzzy
 msgid "_Save Message..."
-msgstr "_שמירה בשם..."
+msgstr "_שמור הודעה..."
 
 #: ../ui/evolution-mail-message.xml.h:129
 #, fuzzy
@@ -20398,7 +20318,7 @@ msgstr "_פתח תזכורת"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr ""
+msgstr "צרף קובץ"
 
 #.
 #. <cmd name="FileSave" _label="Save"
@@ -20433,7 +20353,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
-msgstr ""
+msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
 #, fuzzy
@@ -20600,15 +20520,15 @@ msgstr ""
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
-msgstr ""
+msgstr "_סגור"
 
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
-msgstr ""
+msgstr "H_TML"
 
 #: ../ui/evolution-signature-editor.xml.h:17
 msgid "Save and Close"
-msgstr ""
+msgstr "שמור וסגור"
 
 #.
 #. <menuitem name="FileSave" verb="" _label="_Save"/>
@@ -20768,7 +20688,6 @@ msgid "Hide window buttons"
 msgstr ""
 
 #: ../ui/evolution.xml.h:13
-#, fuzzy
 msgid "I_mport..."
 msgstr "_יבא..."
 
@@ -20778,7 +20697,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr ""
+msgstr "יבא נתונים מתוכניות אחרות"
 
 #: ../ui/evolution.xml.h:16
 msgid "Lay_out"
@@ -20872,11 +20791,11 @@ msgstr "הכנס סיסמה"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Hide buttons"
-msgstr ""
+msgstr "ה_סתר כפתורים"
 
 #: ../ui/evolution.xml.h:46
 msgid "_Icons only"
-msgstr ""
+msgstr "_סמלים בלבד"
 
 #: ../ui/evolution.xml.h:48
 msgid "_Quick Reference"
@@ -20895,9 +20814,8 @@ msgid "_Synchronization Options..."
 msgstr ""
 
 #: ../ui/evolution.xml.h:52
-#, fuzzy
 msgid "_Text only"
-msgstr "מודל טקסט"
+msgstr "טקסט _בלבד"
 
 #: ../ui/evolution.xml.h:54
 msgid "_Window"
@@ -20910,7 +20828,7 @@ msgstr "_חלון"
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:408
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:759
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "<b>Time Zones</b>"
@@ -21051,7 +20969,7 @@ msgstr "בגדהושא"
 #: ../widgets/misc/e-calendar-item.c:1088
 #: ../widgets/misc/e-calendar-item.c:1742
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: ../widgets/misc/e-canvas-background.c:457
 #: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1235
@@ -21230,11 +21148,11 @@ msgstr "קידוד _תווים"
 
 #: ../widgets/misc/e-clipped-label.c:111
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:321
 msgid "Date and Time"
-msgstr ""
+msgstr "תאריך ושעה"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
@@ -21332,20 +21250,19 @@ msgstr "חיפוש מתקדם"
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:218
 msgid "Save Search"
-msgstr ""
+msgstr "שמור חיפוש"
 
 #: ../widgets/misc/e-filter-bar.c:252
 msgid "_Searches"
-msgstr ""
+msgstr "_חיפושים"
 
 #: ../widgets/misc/e-filter-bar.c:254
-#, fuzzy
 msgid "Searches"
-msgstr "_חיפוש"
+msgstr "חיפושים"
 
 #: ../widgets/misc/e-filter-bar.h:100 ../widgets/misc/e-filter-bar.h:111
 msgid "_Save Search..."
-msgstr ""
+msgstr "שמור _חיפוש..."
 
 #: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
 msgid "_Edit Saved Searches..."
