@@ -1,3 +1,8 @@
+2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-icon-factory.c: (e_icon_factory_init): Add support for themable
+	application support icons.
+
 2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-print.c:
