@@ -10,6 +10,15 @@ icon24_DATA = 24x24/evolution.png
 icon32dir = $(datadir)/icons/hicolor/32x32/apps
 icon32_DATA = 32x32/evolution.png
 
+icon48dir =  $(datadir)/icons/hicolor/48x48/apps
+icon48_DATA = \
+	48x48/preferences-autocompletion.png		\  
+	48x48/preferences-calendar-and-tasks.png  	\
+	48x48/preferences-certificates.png  		\
+	48x48/preferences-composer.png  		\
+	48x48/preferences-mail-accounts.png  		\
+	48x48/preferences-mail.png
+
 svgicondir = $(datadir)/icons/hicolor/scalable/apps
 svgicon_DATA = scalable/evolution.svg
 
@@ -45,5 +54,6 @@ EXTRA_DIST = 				\
 	$(icon22_DATA)			\
 	$(icon24_DATA)			\
 	$(icon32_DATA)			\
+	$(icon48_DATA)			\
 	$(svgicon_DATA)			\
 	$(images_DATA)
