@@ -735,10 +735,10 @@ set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse re
 
 	button = gtk_button_new_with_mnemonic (label);
 	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
-	gtk_button_set_image (button, image);
+	gtk_button_set_image (GTK_BUTTON (button), image);
 
 	data = GINT_TO_POINTER (response);
-	g_object_set_data (button, DATA_RESPONSE_KEY, data);
+	g_object_set_data (G_OBJECT (button), DATA_RESPONSE_KEY, data);
 
 	gtk_widget_show (button);
 	gtk_container_add (GTK_CONTAINER (priv->button_box), button);

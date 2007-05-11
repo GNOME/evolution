@@ -60,12 +60,13 @@ static pthread_mutex_t em_junk_sa_preferred_socket_path_lock = PTHREAD_MUTEX_INI
 static pthread_mutex_t em_junk_sa_spamd_restart_lock = PTHREAD_MUTEX_INITIALIZER;
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
-static const char *em_junk_sa_get_name (void);
+//static const char *em_junk_sa_get_name (void);
 gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
 gboolean em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
+GtkWidget *org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 static void em_junk_sa_init (void);
 static void em_junk_sa_finalize (void);
@@ -206,7 +207,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 		
 		camel_stream_write_to_stream (stream, (CamelStream *) memstream);
 		camel_object_unref (stream);
-		g_byte_array_append (output_buffer, "", 1);
+		g_byte_array_append (output_buffer, (unsigned char *)"", 1);
 
 		d(printf ("child process output: %s len: %d\n", output_buffer->data, output_buffer->len));
 	}
@@ -570,7 +571,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 
 	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out) != 0;
 
-	if (!rv && out && !strcmp (out->data, "0/0\n")) {
+	if (!rv && out && !strcmp ((const char *)out->data, "0/0\n")) {
 		/* an error occurred */
 		if (em_junk_sa_respawn_spamd ()) {
 			g_byte_array_set_size (out, 0);
@@ -846,11 +847,11 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
 		
 	check = gtk_check_button_new_with_mnemonic (_("I_nclude remote tests"));
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup (label, text);
+	gtk_label_set_markup (GTK_LABEL (label), text);
 	g_free (text);
 	vbox = gtk_vbox_new (FALSE, 2);
-	gtk_box_pack_start (vbox, check, FALSE, FALSE, 0);
-	gtk_box_pack_start (vbox, label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (check), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (label), FALSE, FALSE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), em_junk_sa_local_only);
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (use_remote_tests_cb), "/apps/evolution/mail/junk/sa/local_only");

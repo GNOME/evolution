@@ -1,3 +1,11 @@
+2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* calendar-weather.c: (e_plugin_lib_enable), (parse_subtree),
+	(location_clicked), (e_calendar_weather_location),
+	(e_calendar_weather_refresh), (set_units),
+	(e_calendar_weather_units): fix casts in strcmp,
+	fixes part of bug #437584.
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

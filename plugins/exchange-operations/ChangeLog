@@ -1,3 +1,8 @@
+2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* exchange-folder.c: (org_gnome_exchange_folder_inbox_unsubscribe):
+	Fixes unhandled cases in switch, fixes part of bug #437584.
+
 2007-05-25  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* Makefile.am: Distcheck fixes.

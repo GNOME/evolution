@@ -1,3 +1,8 @@
+2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* print-message.c: fix prototypes,
+	fixes part of bug #437584.
+
 2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	* print-message.c:

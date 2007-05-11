@@ -1,3 +1,8 @@
+2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* mail-send-options.c: (org_gnome_composer_send_options):
+	Fixes typo and casts, fixes part of bug #437584
+
 2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #429422

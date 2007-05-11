@@ -57,6 +57,16 @@ static gchar em_junk_bf_binary[] = BOGOFILTER_BINARY;
 static const gchar em_junk_bf_gconf_dir[] = EM_JUNK_BF_GCONF_DIR;
 GtkWidget * org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
+/* plugin fonction prototypes */
+gboolean em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target);
+gboolean em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
+void em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target);
+void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
+void em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
+
+/* eplugin stuff */
+int e_plugin_lib_enable (EPluginLib *ep, int enable);
+
 #define EM_JUNK_BF_GCONF_DIR_LENGTH (G_N_ELEMENTS (em_junk_bf_gconf_dir) - 1)
 
 

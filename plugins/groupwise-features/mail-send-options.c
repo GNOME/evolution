@@ -42,7 +42,7 @@
 
 static ESendOptionsDialog * dialog = NULL ;
 
-void org_gnome_compose_send_options (EPlugin *ep, EMEventTargetComposer *t);
+void org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t);
 
 static time_t 
 add_day_to_time (time_t time, int days)
@@ -151,12 +151,12 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 		return;
 	}
 	e_msg_composer_set_send_options (comp, TRUE); 
-	/*disply the send options dialog*/
+	/* display the send options dialog */
 	if (!dialog) {
 		g_print ("New dialog\n\n") ;
 		dialog = e_sendoptions_dialog_new () ;
 	}
-	e_sendoptions_dialog_run (dialog, comp, E_ITEM_MAIL) ;
+	e_sendoptions_dialog_run (dialog, GTK_WIDGET (comp), E_ITEM_MAIL) ;
 	
 	g_signal_connect (dialog, "sod_response",
 				  G_CALLBACK (feed_input_data), comp);
