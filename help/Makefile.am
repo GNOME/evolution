@@ -104,7 +104,7 @@ DOC_FIGURES =  \
 	figures/ver_view_a.png 			\
 	figures/vfolder-createrule-fig.png 	
 
-DOC_LINGUAS = en_GB es fr sv
+DOC_LINGUAS = en_GB es fr ru sv
 
 
 
