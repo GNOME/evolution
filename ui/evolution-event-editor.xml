@@ -68,7 +68,7 @@
       </placeholder>
     </submenu>
     <submenu  name="Insert">
-	    <menuitem name="InsertSendOptions" verb="" _label="Send Options"/>	    
+	    <menuitem name="InsertSendOptions" verb="" _label="Send _Options"/>	    
     </submenu>
     <submenu name="Options">
 	    <menuitem name="ActionAlarm" verb="" _label="_Alarms" pixtype="pixbuf"/>

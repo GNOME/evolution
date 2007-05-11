@@ -1,3 +1,12 @@
+2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #378438 from Ebby Wiselyn
+
+	* evolution-event-editor.xml:
+	* evolution-mail-list.xml:
+	* evolution-mail-message.xml:
+	* evolution-message-composer.xml:
+
 2007-02-26  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	** Fixes #401546

@@ -39,6 +39,10 @@
 
     <cmd name="FolderRename"
      _tip="Change the name of this folder"/>
+     
+     <cmd name="FolderRefresh"
+     _tip="Refresh the folder"/>
+
 
     <cmd name="HideDeleted" _tip="Hide deleted messages rather than displaying them with a line through them"
      type="toggle" />
@@ -115,6 +119,7 @@
 
  	<placeholder name="FolderOps">
 	  <menuitem name="FolderRename" verb="" _label="_Rename..."/>
+          <menuitem name="FolderRefresh" verb="" _label="Re_fresh..." pixtype="stock" pixname="stock_refresh"/>
 	  <menuitem name="FolderDelete" verb="" _label="_Delete" pixtype="stock" pixname="gtk-delete"/>
 
  	  <separator f="" name="FolderOps1"/>

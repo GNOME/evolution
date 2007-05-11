@@ -97,7 +97,7 @@
 		<submenu name="File" _label="_File">
 			<menuitem name="FileOpen" verb="" _label="_Open..."/>
 			<placeholder name="FileOps"/>
-			<menuitem name="FileSend" verb="" _label="Send"/>
+			<menuitem name="FileSend" verb="" _label="S_end"/>
 
 			<separator f="" name="emailcomposer1"/>
 
@@ -152,10 +152,10 @@
 		</submenu>
 		
                 <submenu name="Security" _label="_Security">
-                        <menuitem name="SecurityPGPSign" verb="" _label="PGP Sign"/>
-                        <menuitem name="SecurityPGPEncrypt" verb="" _label="PGP Encrypt"/>
-                        <menuitem name="SecuritySMimeSign" verb="" _label="S/MIME Sign"/>
-                        <menuitem name="SecuritySMimeEncrypt" verb="" _label="S/MIME Encrypt"/>
+                        <menuitem name="SecurityPGPSign" verb="" _label="PGP _Sign"/>
+                        <menuitem name="SecurityPGPEncrypt" verb="" _label="PGP _Encrypt"/>
+                        <menuitem name="SecuritySMimeSign" verb="" _label="S/MIME Sig_n"/>
+                        <menuitem name="SecuritySMimeEncrypt" verb="" _label="S/MIME En_crypt"/>
                 </submenu>
 		
 	</menu>

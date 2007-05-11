@@ -388,7 +388,7 @@
 
             <menuitem name="ToolsVFolderSubject" verb="" _label="Search Folder from S_ubject..."/>
             <menuitem name="ToolsVFolderSender" verb="" _label="Search Folder from Sen_der..."/>
-            <menuitem name="ToolsVFolderRecipient" verb="" _label="Search Folder from Recipients..."/>
+            <menuitem name="ToolsVFolderRecipient" verb="" _label="Search Folder from Recipien_ts..."/>
             <menuitem name="ToolsVFolderMailingList" verb="" _label="Search Folder from Mailing _List..."/>
 
           </submenu>
