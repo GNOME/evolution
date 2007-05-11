@@ -61,8 +61,10 @@ static void filter_datespec_finalise (GObject *obj);
 
 typedef struct _timespan {
 	guint32 seconds;
-	const char *singular;
-	const char *plural;
+	const char *past_singular;
+	const char *past_plural;
+	const char *future_singular;
+	const char *future_plural;
 	float max;
 } timespan;
 
@@ -75,13 +77,13 @@ typedef struct _timespan {
 #define ngettext(a, b)  a, b
 
 static const timespan timespans[] = {
-	{ 1, ngettext("1 second ago", "%d seconds ago"), 59.0 },
-	{ 60, ngettext("1 minute ago", "%d minutes ago"), 59.0 },
-	{ 3600, ngettext("1 hour ago", "%d hours ago"), 23.0 },
-	{ 86400, ngettext("1 day ago", "%d days ago"), 31.0 },
-	{ 604800, ngettext("1 week ago", "%d weeks ago"), 52.0 },
-	{ 2419200, ngettext("1 month ago", "%d months ago"), 12.0 },
-	{ 31557600, ngettext("1 year ago", "%d years ago"), 1000.0 },
+	{ 1, ngettext("1 second ago", "%d seconds ago"), ngettext("1 second in the future", "%d seconds in the future"), 59.0 },
+	{ 60, ngettext("1 minute ago", "%d minutes ago"), ngettext("1 minute in the future", "%d minutes in the future"), 59.0 },
+	{ 3600, ngettext("1 hour ago", "%d hours ago"), ngettext("1 hour in the future", "%d hours in the future"), 23.0 },
+	{ 86400, ngettext("1 day ago", "%d days ago"), ngettext("1 day in the future", "%d days in the future"), 31.0 },
+	{ 604800, ngettext("1 week ago", "%d weeks ago"), ngettext("1 week in the future", "%d weeks in the future"), 52.0 },
+	{ 2419200, ngettext("1 month ago", "%d months ago"), ngettext("1 month in the future", "%d months in the future"), 12.0 },
+	{ 31557600, ngettext("1 year ago", "%d years ago"), ngettext("1 year in the future", "%d years in the future"), 1000.0 },
 };
 
 /* now we let the compiler see the real function call */
@@ -92,7 +94,7 @@ static const timespan timespans[] = {
 
 struct _FilterDatespecPrivate {
 	GtkWidget *label_button;
-	GtkWidget *notebook_type, *option_type, *calendar_specify, *spin_relative, *option_relative;
+	GtkWidget *notebook_type, *option_type, *calendar_specify, *spin_relative, *option_relative, *option_past_future;
 	FilterDatespec_type type;
 	int span;
 };
@@ -264,7 +266,7 @@ static int
 get_best_span (time_t val)
 {
 	int i;
-	
+
 	for (i=N_TIMESPANS-1;i>=0;i--) {
 		if (val % timespans[i].seconds == 0)
 			return i;
@@ -302,8 +304,18 @@ set_button (FilterDatespec *fds)
 			
 			span = get_best_span(fds->value);
 			count = fds->value / timespans[span].seconds;
+			sprintf(buf, ngettext(timespans[span].past_singular, timespans[span].past_plural, count), count);
+		}
+		break;
+	case FDST_X_FUTURE:
+		if (fds->value == 0)
+			label = _("now");
+		else {
+			int span, count;
 			
-			sprintf(buf, ngettext(timespans[span].singular, timespans[span].plural, count), count);
+			span = get_best_span(fds->value);
+			count = fds->value / timespans[span].seconds;
+			sprintf(buf, ngettext(timespans[span].future_singular, timespans[span].future_plural, count), count);
 		}
 		break;
 	}
@@ -329,6 +341,7 @@ get_values (FilterDatespec *fds)
 		fds->value = mktime(&tm);
 		/* what about timezone? */
 		break; }
+	case FDST_X_FUTURE:
 	case FDST_X_AGO: {
 		int val;
 		
@@ -349,6 +362,8 @@ set_values (FilterDatespec *fds)
 	struct _FilterDatespecPrivate *p = PRIV(fds);
 	
 	p->type = fds->type==FDST_UNKNOWN ? FDST_NOW : fds->type;
+
+	int note_type = fds->type==FDST_X_FUTURE ? FDST_X_AGO : fds->type; // FUTURE and AGO use the same notebook pages/etc.
 	
 	switch (p->type) {
 	case FDST_NOW:
@@ -368,11 +383,18 @@ set_values (FilterDatespec *fds)
 		p->span = get_best_span(fds->value);
 		gtk_spin_button_set_value((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
 		gtk_option_menu_set_history((GtkOptionMenu*)p->option_relative, p->span);
+		gtk_option_menu_set_history((GtkOptionMenu*)p->option_past_future, 0);
+		break;
+	case FDST_X_FUTURE:
+		p->span = get_best_span(fds->value);
+		gtk_spin_button_set_value((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
+		gtk_option_menu_set_history((GtkOptionMenu*)p->option_relative, p->span);
+		gtk_option_menu_set_history((GtkOptionMenu*)p->option_past_future, 1);
 		break;
 	}
 	
-	gtk_notebook_set_current_page ((GtkNotebook*) p->notebook_type, p->type);
-	gtk_option_menu_set_history ((GtkOptionMenu*) p->option_type, p->type);
+	gtk_notebook_set_current_page ((GtkNotebook*) p->notebook_type, note_type);
+	gtk_option_menu_set_history ((GtkOptionMenu*) p->option_type, note_type);
 }
 
 
@@ -394,6 +416,18 @@ set_option_relative (GtkMenu *menu, FilterDatespec *fds)
 	
 	w = gtk_menu_get_active (menu);
 	fds->priv->span = g_list_index (GTK_MENU_SHELL (menu)->children, w);
+}
+
+static void
+set_option_past_future (GtkMenu *menu, FilterDatespec *fds)
+{
+	GtkWidget *w;
+	
+	w = gtk_menu_get_active (menu);
+	if(g_list_index (GTK_MENU_SHELL (menu)->children, w) == 0)
+		fds->type = fds->priv->type = FDST_X_AGO;
+	else
+		fds->type = fds->priv->type = FDST_X_FUTURE;
 }
 
 static void
@@ -424,6 +458,7 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	p->calendar_specify = glade_xml_get_widget (gui, "calendar_specify");
 	p->spin_relative = glade_xml_get_widget (gui, "spin_relative");
 	p->option_relative = glade_xml_get_widget (gui, "option_relative");
+	p->option_past_future = glade_xml_get_widget (gui, "option_past_future");
 	
 	set_values (fds);
 	
@@ -431,6 +466,8 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 			  G_CALLBACK (set_option_type), fds);
 	g_signal_connect (GTK_OPTION_MENU (p->option_relative)->menu, "deactivate",
 			  G_CALLBACK (set_option_relative), fds);
+	g_signal_connect (GTK_OPTION_MENU (p->option_past_future)->menu, "deactivate",
+			  G_CALLBACK (set_option_past_future), fds);
 	
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, toplevel, TRUE, TRUE, 3);
 	
@@ -485,6 +522,9 @@ format_sexp (FilterElement *fe, GString *out)
 		break;
 	case FDST_X_AGO:
 		g_string_append_printf (out, "(- (get-current-date) %d)", (int) fds->value);
+		break;
+	case FDST_X_FUTURE:
+		g_string_append_printf (out, "(+ (get-current-date) %d)", (int) fds->value);
 		break;
 	}
 }

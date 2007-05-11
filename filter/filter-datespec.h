@@ -42,6 +42,7 @@ typedef enum _FilterDatespec_type {
 	FDST_NOW,
 	FDST_SPECIFIED,
 	FDST_X_AGO,
+	FDST_X_FUTURE,
 } FilterDatespec_type;
 
 struct _FilterDatespec {
@@ -52,7 +53,7 @@ struct _FilterDatespec {
 	
 	/* either a timespan, an absolute time, or 0
 	 * depending on type -- the above mapping to
-	 * (X_AGO, SPECIFIED, NOW)
+	 * (X_FUTURE, X_AGO, SPECIFIED, NOW)
 	 */
 	
 	time_t value;
