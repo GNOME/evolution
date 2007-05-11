@@ -61,6 +61,7 @@
 #include "mail-tools.h"
 #include "mail-config.h"
 #include "mail-component.h"
+#include "mail-send-recv.h"
 #include "mail-vfolder.h"
 
 #include "em-utils.h"
@@ -2062,6 +2063,22 @@ emft_popup_rename_folder (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+emft_popup_refresh_folder (EPopup *ep, EPopupItem *pitem, void *data)
+{
+        EMFolderTree *emft = data;
+        CamelFolder *folder;
+
+        if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL)
+                mail_refresh_folder(folder, NULL, NULL);
+}
+
+static void
+emft_popup_flush_outbox (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	mail_send ();
+}
+
+static void
 emft_popup_empty_trash (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	em_utils_empty_trash (data);
@@ -2102,6 +2119,9 @@ static EPopupItem emft_popup_items[] = {
 	/* FIXME: need to disable for undeletable folders */
 	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "stock_delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	{ E_POPUP_ITEM, "20.emc.02", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, "20.emc.03", N_("Re_fresh"), emft_popup_refresh_folder, NULL, "stock_refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
+	{ E_POPUP_ITEM, "20.emc.04", N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, "stock_mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
+
 	
 	{ E_POPUP_BAR, "80.emc" },
 	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "stock_folder-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
@@ -2131,6 +2151,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	char *uri, *full_name;
 	GtkMenu *menu;
 	EMPopup *emp;
+	CamelFolder *selfolder = NULL;
 	int i;
 
 	treeview = emft->priv->treeview;
@@ -2169,6 +2190,10 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 		/* hack for vTrash/vJunk */
 		if (!strcmp (full_name, CAMEL_VTRASH_NAME) || !strcmp (full_name, CAMEL_VJUNK_NAME))
 			info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
+
+		selfolder = em_folder_tree_get_selected_folder (emft);
+		if (em_utils_folder_is_outbox (selfolder, NULL))
+			info_flags |= CAMEL_FOLDER_TYPE_OUTBOX;
 	}
 
 	/** @HookPoint-EMPopup: Folder Tree Context Menu

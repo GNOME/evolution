@@ -72,6 +72,7 @@
 #include <libedataserver/e-sexp.h>
 #include "mail-vfolder.h"
 #include "em-vfolder-rule.h"
+#include "em-folder-tree.h"
 #include <misc/e-filter-bar.h>
 #include <camel/camel-search-private.h>
 #include <camel/camel-store.h>
@@ -1356,6 +1357,18 @@ emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
+emfb_folder_refresh(BonoboUIComponent *uid, void *data, const char *path)
+{
+        EMFolderBrowser *emfb = data;
+	EMFolderTree *tree = g_object_get_data (emfb, "foldertree");
+        CamelFolder *folder;
+
+        if ((folder = em_folder_tree_get_selected_folder (tree)) != NULL)
+                mail_refresh_folder(folder, NULL, NULL);
+}
+
+
+static void
 emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
@@ -1537,6 +1550,7 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
 	BONOBO_UI_UNSAFE_VERB ("FolderMove", emfb_folder_move),
 	BONOBO_UI_UNSAFE_VERB ("FolderDelete", emfb_folder_delete),
+	BONOBO_UI_UNSAFE_VERB ("FolderRefresh", emfb_folder_refresh),
 	BONOBO_UI_UNSAFE_VERB ("FolderRename", emfb_folder_rename),
 	BONOBO_UI_UNSAFE_VERB ("FolderCreate", emfb_folder_create),
 

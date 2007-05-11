@@ -338,7 +338,12 @@ em_popup_target_new_folder (EMPopup *emp, const char *uri, guint32 info_flags, g
 		
 		if (!(info_flags & CAMEL_FOLDER_NOINFERIORS))
 			mask &= ~EM_POPUP_FOLDER_INFERIORS;
-		
+	
+		if (info_flags & CAMEL_FOLDER_TYPE_OUTBOX)
+			mask &= ~EM_POPUP_FOLDER_OUTBOX;
+		else
+			mask &= ~EM_POPUP_FOLDER_NONSTATIC;
+
 		if (!(info_flags & CAMEL_FOLDER_NOSELECT))
 			mask &= ~EM_POPUP_FOLDER_SELECT;
 		
@@ -868,6 +873,8 @@ static const EPopupHookTargetMask emph_folder_masks[] = {
 	{ "inferiors", EM_POPUP_FOLDER_INFERIORS },
 	{ "delete", EM_POPUP_FOLDER_DELETE },
 	{ "select", EM_POPUP_FOLDER_SELECT },
+	{ "outbox", EM_POPUP_FOLDER_OUTBOX },
+	{ "nonstatic", EM_POPUP_FOLDER_NONSTATIC },
 	{ 0 }
 };
 

@@ -151,6 +151,8 @@ enum _em_popup_target_folder_t {
 	EM_POPUP_FOLDER_INFERIORS = 1<<2, /* folder can have children */
 	EM_POPUP_FOLDER_DELETE = 1<<3, /* folder can be deleted/renamed */
 	EM_POPUP_FOLDER_SELECT = 1<<4, /* folder can be selected/opened */
+	EM_POPUP_FOLDER_OUTBOX = 1<<5, /* Outbox folder */
+	EM_POPUP_FOLDER_NONSTATIC = 1<<6, /* Except static folders like Outbox.*/
 };
 
 /**
