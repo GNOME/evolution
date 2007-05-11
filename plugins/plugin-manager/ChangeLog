@@ -1,3 +1,12 @@
+2007-05-11  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* plugin-manager.c: (eppm_show_plugin), (eppm_selection_changed),
+	(eppm_enable_toggled), (eppm_free),
+	(org_gnome_plugin_manager_manage):
+	Sort the list of plugins based on name so that it is easy to use
+
 2006-01-25  Rajeev ramanathan  <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes Bug #314913
