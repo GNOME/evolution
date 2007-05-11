@@ -1,5 +1,10 @@
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* GNOME_Evolution_Mail.server.in.in: Add Tango icons to preference
+	window.
+
+2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Added support for Refresh folder and Flush Outbox functions.
 
 	* em-folder-browser.c: (emfb_folder_refresh):

@@ -1,3 +1,8 @@
+2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Add Tango
+	icons to preference window.
+
 2007-05-08  Wang Xin  <jedy.wang@sun.com>
 
 	*tools/evolution-addressbook-export-list-cards.c:

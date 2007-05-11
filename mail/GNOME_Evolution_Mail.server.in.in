@@ -98,7 +98,7 @@
 		   _value="Configure your email accounts here"/>
 
     <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		   value="stock_people"/>
+		   value="preferences-mail-accounts"/>
 
     <oaf_attribute name="evolution2:config_item:type" type="stringv">
 	<item value="mail"/>
@@ -127,7 +127,7 @@
 		   _value="Configure mail preferences, including security and message display, here"/>
 
     <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		   value="stock_mail"/>
+		   value="preferences-mail"/>
     
     <oaf_attribute name="evolution2:config_item:priority" type="string" value="-9"/>
     
@@ -152,7 +152,7 @@
 		   _value="Configure spell-checking, signatures, and the message composer here"/>
 
     <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		   value="stock_mail-compose"/>
+		   value="preferences-composer"/>
     
     <oaf_attribute name="evolution2:config_item:priority" type="string" value="-8"/>
     

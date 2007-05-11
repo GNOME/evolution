@@ -1,3 +1,8 @@
+2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Add tango icon to
+	preference window.
+
 2007-05-04  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Downstream fixes from OpenSUSE
