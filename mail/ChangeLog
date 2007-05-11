@@ -1,3 +1,7 @@
+2007-05-11  Jules Colding  <colding@omesc.com>
+
+	* mail-config.c (mail_config_signature_run_script): file descriptor leaks fixed
+
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Add Tango icons to preference
