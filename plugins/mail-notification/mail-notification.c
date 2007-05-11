@@ -79,10 +79,11 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 {
 	char *msg = NULL;
 	char *folder;
+#ifdef HAVE_LIBNOTIFY	
 	NotifyUrgency urgency = NOTIFY_URGENCY_NORMAL;
 	long expire_timeout = NOTIFY_EXPIRES_DEFAULT;
 	NotifyNotification *notify;
-
+#endif
 	/* FIXME: Should this is_inbox be configurable? */
 	if (!t->new || !t->is_inbox)
 		return;

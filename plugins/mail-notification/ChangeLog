@@ -1,3 +1,7 @@
+2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail-notification.c: (org_gnome_mail_new_notify): Build error.
+
 2007-05-07  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-notification.c: Fix for a build error.
