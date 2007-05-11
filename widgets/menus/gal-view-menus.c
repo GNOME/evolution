@@ -301,6 +301,7 @@ build_menus(GalViewMenus *menus)
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
 		ListenerClosure *closure;
 		char *label;
+		char *tip;
 		
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
@@ -311,6 +312,9 @@ build_menus(GalViewMenus *menus)
 		command = bonobo_ui_node_new_child (commands, "cmd");
 		bonobo_ui_node_set_attr(command, "name", item->id);
                 bonobo_ui_node_set_attr(command, "group", "GalViewMenus");
+		tip = g_strdup_printf (_("Select View: %s"), item->id);
+                bonobo_ui_node_set_attr(command, "_tip", tip);
+		g_free (tip);
 
 		label = bonobo_ui_util_encode_str (item->title);
 		bonobo_ui_node_set_attr(menuitem, "label", label);
@@ -352,6 +356,7 @@ build_menus(GalViewMenus *menus)
 			command = bonobo_ui_node_new_child (commands, "cmd");
 			bonobo_ui_node_set_attr(command, "name", "custom_view");
 			bonobo_ui_node_set_attr(command, "group", "GalViewMenus");
+			bonobo_ui_node_set_attr(command, "_tip", N_("Current view is a customized view"));
 
 
 			menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
@@ -361,6 +366,7 @@ build_menus(GalViewMenus *menus)
 
 			command = bonobo_ui_node_new_child(commands, "cmd");
 			bonobo_ui_node_set_attr(command, "name", "SaveCurrentView");
+			bonobo_ui_node_set_attr(command, "_tip", N_("Save current custom view"));			
 		}
 
 		menuitem = bonobo_ui_node_new_child(submenu, "separator");
@@ -374,6 +380,7 @@ build_menus(GalViewMenus *menus)
 
 		command = bonobo_ui_node_new_child(commands, "cmd");
 		bonobo_ui_node_set_attr(command, "name", "DefineViews");
+		bonobo_ui_node_set_attr(command, "_tip", N_("Create or edit views"));			
 	}
 
 	xml = bonobo_ui_node_to_string(root, TRUE);
