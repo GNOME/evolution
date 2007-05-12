@@ -1101,9 +1101,9 @@ mail_config_signature_run_script (const char *script)
 		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));
 		_exit (255);
 	} else if (pid < 0) {
+		g_warning ("Failed to create create child process '%s': %s", script, g_strerror (errno));
 		close (in_fds [0]);
 		close (in_fds [1]);
-		g_warning ("Failed to create create child process '%s': %s", script, g_strerror (errno));
 		return NULL;
 	} else {
 		CamelStreamFilter *filtered_stream;

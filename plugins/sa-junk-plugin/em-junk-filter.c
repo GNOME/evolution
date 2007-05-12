@@ -143,10 +143,10 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 	}
 	
 	if (output_buffer && pipe (out_fds) == -1) {
-		close (fds [0]);
-		close (fds [1]);
 		errnosav = errno;
 		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
+		close (fds [0]);
+		close (fds [1]);
 		errno = errnosav;
 		return rv_err;
 	}
