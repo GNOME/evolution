@@ -1,3 +1,10 @@
+2007-05-12  Sankar P  <psankar@novell.com>
+
+	Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* url-editor-dialog.c: (set_from_uri):
+	Fixes compilation Warnings. See #437584
+
 2007-02-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #238093 (bnc)

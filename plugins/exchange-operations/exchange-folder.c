@@ -123,9 +123,15 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, void *da
 		case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
 			e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
 			return;
-		case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
+		case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:
 			e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
-			return;		
+			return;	
+		case EXCHANGE_ACCOUNT_FOLDER_GC_NOTREACHABLE:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-no-gc-error", NULL);
+			return;	
+		case EXCHANGE_ACCOUNT_FOLDER_NO_SUCH_USER:
+			e_error_run (NULL, ERROR_DOMAIN ":no-user-error", NULL);
+			return;	
 	}
 
 	/* We need to get the physical uri for the Inbox */

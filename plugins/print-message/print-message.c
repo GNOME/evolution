@@ -38,6 +38,8 @@
 #include "composer/e-msg-composer.h"
 
 void org_gnome_compose_print_message (EPlugin *ep, EMMenuTargetWidget *t);
+void org_gnome_print_message (EPlugin *ep, EMMenuTargetWidget *t);
+void org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t);
 
 struct _print_data {
 	GtkPrintSettings *config;

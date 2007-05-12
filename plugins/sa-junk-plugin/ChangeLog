@@ -1,3 +1,10 @@
+2007-05-12  Sankar P  <psankar@novell.com>
+
+	Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* em-junk-filter.c: (pipe_to_sa_full), (em_junk_sa_check_junk):
+	Fixes compilation Warnings. See #437584
+
 2006-08-22  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* em-junk-filter.c: (em_junk_sa_init): #if 0 out unused function and

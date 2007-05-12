@@ -261,17 +261,17 @@ set_from_uri (UrlEditorDialog *dialog)
 	euri = e_uri_new (uri->location);
 	/* determine our method */
 	method = euri->protocol;
-	if (strcmp (method, "smb") == 0)
+	if (strcmp ((const char *)method, "smb") == 0)
 		uri->service_type = TYPE_SMB;
-	else if (strcmp (method, "sftp") == 0)
+	else if (strcmp ((const char *)method, "sftp") == 0)
 		uri->service_type = TYPE_SSH;
-	else if (strcmp (method, "ftp") == 0)
+	else if (strcmp ((const char *)method, "ftp") == 0)
 		/* we set TYPE_FTP here for now. if we don't find a
 		 * username later, we'll change it to TYPE_ANON_FTP */
 		uri->service_type = TYPE_FTP;
-	else if (strcmp (method, "dav") == 0)
+	else if (strcmp ((const char *)method, "dav") == 0)
 		uri->service_type = TYPE_DAV;
-	else if (strcmp (method, "davs") == 0)
+	else if (strcmp ((const char *)method, "davs") == 0)
 		uri->service_type = TYPE_DAVS;
 	else
 		uri->service_type = TYPE_URI;
