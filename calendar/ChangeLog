@@ -1,3 +1,9 @@
+2007-05-12  simon.zheng  <simon.zheng@sun.com>
+
+	* gui/e-calendar-view.c: (e_calendar_view_copy_clipboard):
+	The last arguments in API gtk_clipboard_set_text() should be 
+	the length of string in bytes rather than in characters.
+
 2007-04-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #329168 from Andre Klapper
