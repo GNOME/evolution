@@ -765,7 +765,7 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 	comp_str = icalcomponent_as_ical_string (vcal_comp);
 	gtk_clipboard_set_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_view), clipboard_atom),
 				(const gchar *) comp_str,
-				g_utf8_strlen (comp_str, -1));
+				strlen (comp_str));
 
 	/* free memory */
 	icalcomponent_free (vcal_comp);
