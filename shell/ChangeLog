@@ -1,3 +1,11 @@
+2007-05-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell.c (impl_Shell_handleURI):
+	Create a shell window if the schema or an alias was found.
+	Previously this only opened a window if an alias was found
+	but not the schema.  Makes the GNOME Clock applet able to
+	correctly start Evolution once again.  (#407104)
+
 2007-05-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* main.c (show_development_warning):

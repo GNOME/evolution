@@ -257,8 +257,8 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 {
 	EShell *shell = E_SHELL (bonobo_object_from_servant (servant));
 	EComponentInfo *component_info;
+	GtkWidget *shell_window;
 	char *schema, *p;
-	int show = FALSE;
 
 	schema = g_alloca(strlen(uri)+1);
 	strcpy(schema, uri);
@@ -267,26 +267,20 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 		*p = 0;
 
  	component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_SCHEMA, schema);
-	if (component_info == NULL) {
-		show = TRUE;
+	if (component_info == NULL)
 		component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_ALIAS, schema);
-	}
 
 	if (component_info == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_UnsupportedSchema, NULL);
 		return;
 	}
 
-	if (show) {
-		GtkWidget *shell_window;
-		
-		shell_window = (GtkWidget *)e_shell_create_window (shell, component_info->id, NULL);
-		if (shell_window == NULL) {
-			CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
-			return;
-		}
+	shell_window = (GtkWidget *)e_shell_create_window (shell, component_info->id, NULL);
+	if (shell_window == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
+		return;
 	}
-	
+
 	GNOME_Evolution_Component_handleURI (component_info->iface, uri, ev);
 	/* not an error not to implement it */
 	if (ev->_id != NULL && strcmp(ev->_id, ex_CORBA_NO_IMPLEMENT) == 0)
