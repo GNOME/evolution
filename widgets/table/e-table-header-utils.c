@@ -205,7 +205,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 		g_object_unref (fade);
 	}
 
-	pixmap = gdk_pixmap_new (drawable, width, height, gdk_rgb_get_visual ()->depth);
+	pixmap = gdk_pixmap_new (drawable, width, height, -1);
 	gdk_draw_rgb_image_dithalign (pixmap, gc,
 				      0, 0,
 				      width, height,

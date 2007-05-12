@@ -1,3 +1,14 @@
+2007-05-12  simon.zheng  <simon.zheng@sun.com>
+
+	* Fix for bug #355919
+
+	* e-table-header-utils.c: (make_composite_pixmap): 
+	gdk_rgb_get_visual()->depth always returns preferred visual 
+	depth, which isn't always equal to the that of current
+	window. Whereas, using -1 will match the depth of the pixmap window 
+	to what we have in drawable window, which is the first
+	argument of gdk_pixmap_new(). So use -1 instead.
+
 2007-04-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-cell.h:
