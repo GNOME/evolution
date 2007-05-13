@@ -1,3 +1,10 @@
+2007-05-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #334966 
+	* mail-component.c: (view_changed), (view_changed_cb),
+	(impl_createView), (impl_quit), (mail_component_init): When the quit
+	is happening, never try to set the title.
+
 2007-05-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #337616
