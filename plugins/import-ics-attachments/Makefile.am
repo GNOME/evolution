@@ -27,3 +27,5 @@ liborg_gnome_evolution_mail_attachments_import_ics_la_LIBADD = 			\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-mail-attachments-import-ics.eplug.xml
+
+CLEANFILES = org-gnome-evolution-mail-attachments-import-ics.eplug

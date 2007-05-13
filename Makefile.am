@@ -63,6 +63,9 @@ DISTCLEANFILES = 		\
 	gnome-doc-utils.make 	\
 	$(pkgconfig_DATA)
 
+# Scrollkeeper must be disabled for distcheck to work because
+# distcheck uses a custom prefix.  See GNOME bug #354357.
+DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper
 
 # CDE Stuff
 

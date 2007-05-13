@@ -1,3 +1,9 @@
+2007-05-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #337616
+
+	* POTFILES.in: Don't translate files we no longer ship.
+
 2007-05-12  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation

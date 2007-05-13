@@ -289,6 +289,8 @@ endif
 BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
+DISTCLEANFILES = $(schema_DATA)
+
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 

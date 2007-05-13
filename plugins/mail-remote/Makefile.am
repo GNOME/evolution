@@ -84,10 +84,11 @@ $(EVO_GENERATED): $(srcdir)/Evolution.idl
 MARSHAL_GENERATED = evolution-mail-marshal.c evolution-mail-marshal.h
 @EVO_MARSHAL_RULE@
 
-EXTRA_DIST = 				\
-	$(IDL)				\
-	Evolution.idl			\
-	evolution-mail-marshal.list
+EXTRA_DIST = \
+	$(IDL)						\
+	Evolution.idl					\
+	evolution-mail-marshal.list			\
+	org-gnome-evolution-mail-remote.eplug.xml
 
 BUILT_SOURCES = $(IDL_GENERATED_H) $(IDL_GENERATED_C) $(MARSHAL_GENERATED) $(SHELL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

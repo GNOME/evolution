@@ -102,6 +102,8 @@ glade_DATA =			\
 BUILT_SOURCES = $(server_DATA)
 CLEANFILES    = $(BUILT_SOURCES)
 
+DISTCLEANFILES = $(schema_DATA)
+
 EXTRA_DIST =			\
 	$(glade_DATA)		\
 	$(schema_in_files)	\

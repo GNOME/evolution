@@ -33,3 +33,5 @@ EXTRA_DIST =					\
 	org-gnome-publish-calendar.eplug.xml	\
 	publish-calendar.glade			\
 	org-gnome-publish-calendar.xml
+
+CLEANFILES = org-gnome-publish-calendar.eplug

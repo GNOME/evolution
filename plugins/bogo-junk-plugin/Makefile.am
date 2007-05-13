@@ -31,7 +31,9 @@ BUILT_SOURCES = $(plugin_DATA) $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
 
+DISTCLEANFILES = $(schema_DATA)
+
 EXTRA_DIST = \
-	org-gnome-bogo-junk-plugin.eplug.in	\
+	org-gnome-bogo-junk-plugin.eplug.xml	\
 	$(schema_in_files)
 

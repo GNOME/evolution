@@ -20,3 +20,5 @@ liborg_gnome_evolution_caldav_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED
 
 EXTRA_DIST =				\
 	org-gnome-evolution-caldav.eplug.xml
+
+CLEANFILES = org-gnome-evolution-caldav.eplug

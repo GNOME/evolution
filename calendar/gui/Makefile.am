@@ -268,6 +268,8 @@ EXTRA_DIST =	 			\
 BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
+DISTCLEANFILES = $(schema_DATA)
+
 if OS_WIN32
 install-data-local:
 	if test -z "$(DESTDIR)"; then \

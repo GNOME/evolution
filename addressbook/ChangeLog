@@ -1,3 +1,9 @@
+2007-05-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #337616
+
+	* Makefile.am: Add $(schema_DATA) to DISTCLEANFILES.
+
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Add Tango

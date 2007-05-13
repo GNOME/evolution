@@ -1,3 +1,7 @@
+2007-05-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am: Add "eplug" file to CLEANFILES.
+
 2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* url-editor-dialog.c: (set_from_uri): fixes casts in strcmp,
