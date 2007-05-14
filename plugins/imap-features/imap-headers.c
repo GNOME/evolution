@@ -45,7 +45,7 @@
 GtkWidget *all_headers, *basic_headers, *mailing_list_headers;
 GtkWidget *custom_headers_box = NULL;
 GtkTreeView *custom_headers_tree;
-GtkTreeStore *store ;
+static GtkTreeStore *store ;
 GtkTreeIter iter;
 
 GtkButton *add_header, *remove_header;
