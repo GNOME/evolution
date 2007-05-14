@@ -1,3 +1,48 @@
+Evolution 2.11.2 2007-05-14
+---------------------------
+
+New in 2.11.2:
+	Mail notification plugin with libnotify and panel
+	tray support (Srinivasa Ragavan)
+
+Bug fixes:
+	#407104: Makes the GNOME Clock applet able to correctly start 
+	Evolution. (Matthew Barnes)
+	#355919: Fixes evolution crash when display depth set to 8 on
+	 sparc machine (Xiurong Simon Zheng)
+	#427789: Allow cut/copy and paste an appointment/meeting/task
+	 with localized characters (Xiurong Simon Zheng)
+	#337616: Fix "make distcheck" errors. (Matthew Barnes)
+	#334966: Fix for crash on close. (Srinivasa Ragavan)
+	#325966: Clicking folder tree submenu title now opens/closes the
+	 tree (Christian Neumair)
+	#435610: Run gtk-update-icon-cache in uninstall-hook (David Farning)
+	#330098: Selecting Copy on Right-clicking any memo list now works
+	 (Naresh)
+	#424055: Fixed resizing of contact list dialog. (Øystein Gisnås)
+	#417797: Copy and move of contacts between address books now works
+	 correctly (Øystein Gisnås)
+	#404239: Included a missing row columns in contacts minicard view
+	 (Øystein Gisnås)
+	#358250: Change field Organization to Company in AddressBook (Javier
+	 F. Serrador)
+	#325118: Add translator comments for a string (Andre Klapper)
+	#378441: Mnemonics added for FROM/SUBJECT/TO headers in message pane
+	 (Ebby Wiselyn)
+	#380750: Make force-shutdown work in Solaris (Wang Xin)
+	#414195: Fix build break (Loïc Minier)
+	#425506: Fix a crash when clicking the Edit button (Xiurong Simon
+	 Zheng)
+	#324982: Fix warnings at program startup (Hiroyuki Ikezoe)
+	#375234: Fix a crash when syncing with iPod (Vitaliy Ischenko)
+	#325965: Fix a crash when selecting "mark messages as read" on a
+	 Maildir subfolder (Ilkka Tuohela)
+	#432867: Changed default attribute for file from 0755 to 0644 (Milan Crha)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+
+
 Evolution 2.11.1 2007-04-23
 ---------------------------
 
