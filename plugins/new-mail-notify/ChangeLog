@@ -1,3 +1,9 @@
+2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #414195 from Loïc Minier
+
+	* Makefile.am:
+
 2007-05-14  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fixes bug #324982

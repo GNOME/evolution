@@ -1,9 +1,10 @@
 INCLUDES =						\
+	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
-	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
-	-DDBUS_VERSION=$(DBUS_VERSION)          \
-	$(EVOLUTION_MAIL_CFLAGS)				\
-	$(NMN_CFLAGS)						
+	-DDBUS_API_SUBJECT_TO_CHANGE=1			\
+	-DDBUS_VERSION=$(DBUS_VERSION)			\
+	$(EVOLUTION_MAIL_CFLAGS)			\
+	$(NMN_CFLAGS)
 
 LIBS =							\
 	$(NMN_LIBS)
