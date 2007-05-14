@@ -22,7 +22,7 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:179
 msgid "evolution addressbook"
-msgstr "ספר הכתובות של אבולוציה"
+msgstr "ספר הכתובות של Evolution"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:13
@@ -307,7 +307,7 @@ msgstr "לחץ כאן כדי להוסיף משימה"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
-msgstr ""
+msgstr "לחץ"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 #, fuzzy
@@ -340,7 +340,7 @@ msgstr "הש_תמש בברירת מחדל"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "תפריט קופץ"
 
 #: ../a11y/widgets/ea-expander.c:40
 #, fuzzy
@@ -697,10 +697,8 @@ msgid "Details"
 msgstr "פרטים"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
-#: ../mail/em-folder-browser.c:852
-#, fuzzy
 msgid "Searching"
-msgstr "_חיפוש"
+msgstr "מחפש"
 
 #: ../addressbook/gui/component/addressbook-config.c:997
 msgid "Downloading"
@@ -5450,7 +5448,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:7
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">התרעות</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 #, fuzzy
@@ -5483,7 +5481,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
-msgstr ""
+msgstr "היום _מסתיים:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
@@ -5532,7 +5530,7 @@ msgstr ""
 #. Sunday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "S_un"
-msgstr ""
+msgstr "_א"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1092
@@ -5565,7 +5563,7 @@ msgstr ""
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "T_hu"
-msgstr ""
+msgstr "_ה"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #, fuzzy
@@ -5602,7 +5600,7 @@ msgstr "יום רביעי"
 #. A weekday like "Monday" follows
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "Wee_k starts on:"
-msgstr ""
+msgstr "ה_שבוע מתחיל ביום:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "Work days:"
@@ -5626,12 +5624,12 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Day begins:"
-msgstr "_יום מתחיל:"
+msgstr "_היום מתחיל:"
 
 #. Friday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Fri"
-msgstr ""
+msgstr "_ו:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Hide completed tasks after"
@@ -5640,7 +5638,7 @@ msgstr ""
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Mon"
-msgstr ""
+msgstr "_ב"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
@@ -5649,7 +5647,7 @@ msgstr ""
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Sat"
-msgstr ""
+msgstr "_ש"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
@@ -5662,16 +5660,16 @@ msgstr "חלוקות _זמן:"
 #. Tuesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
 msgid "_Tue"
-msgstr ""
+msgstr "_ג"
 
 #. Wednesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "_Wed"
-msgstr ""
+msgstr "_ד"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
-msgstr ""
+msgstr "לפני כל פגישה"
 
 #: ../calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
@@ -5957,9 +5955,8 @@ msgid "Enter Delegate"
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:602
-#, fuzzy
 msgid "Appoint_ment"
-msgstr "פגישה"
+msgstr "_פגישה"
 
 #: ../calendar/gui/dialogs/event-editor.c:606
 #: ../ui/evolution-event-editor.xml.h:14
@@ -6088,25 +6085,24 @@ msgstr "ללא"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
-msgstr ""
+msgstr "יום אחד לפני הפגישה"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
-msgstr ""
+msgstr "שעה אחת לפני הפגישה"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
-msgstr ""
+msgstr "15 דקות לפני הפגישה"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Attendee_s..."
-msgstr "<b>מוזמנים</b>"
+msgstr "משת_תפים..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "_קטגוריות..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
 #, fuzzy
@@ -6114,9 +6110,8 @@ msgid "Custom Alarm:"
 msgstr "צליל התרעה מותאם אישית"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
-#, fuzzy
 msgid "D_escription:"
-msgstr "תיאור:"
+msgstr "תי_אור:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 #, fuzzy
@@ -6127,7 +6122,7 @@ msgstr "תיאור:"
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr ""
+msgstr "_סיכום:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
@@ -6203,9 +6198,8 @@ msgid "Status"
 msgstr "מצב"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
-#, fuzzy
 msgid "<b>Att_endees</b>"
-msgstr "<b>מוזמנים</b>"
+msgstr "<b>מ_שתתפים</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "C_hange Organizer"
@@ -6244,7 +6238,7 @@ msgstr "אל"
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Sta_rt date:"
-msgstr ""
+msgstr "תאריך _התחלה:"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 #, fuzzy
@@ -6263,7 +6257,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 msgid "<b>Calendar options</b>"
-msgstr ""
+msgstr "<b>אפשרויות לוח שנה</b>"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "Add New Calendar"
@@ -6462,11 +6456,11 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
 msgid "<b>Preview</b>"
-msgstr ""
+msgstr "<b>תצוגה מקדימה</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "<b>Recurrence</b>"
-msgstr ""
+msgstr "<b>מופעים חוזרים</b>"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6616,18 +6610,16 @@ msgid "Unable to open tasks in '%s'."
 msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.glade.h:1
-#, fuzzy
 msgid "Atte_ndees..."
-msgstr "<b>מוזמנים</b>"
+msgstr "מש_תתפים..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
 msgstr "_קטגוריות..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "De_scription:"
-msgstr "תיאור:"
+msgstr "תיאו_ר:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 #, fuzzy
@@ -6661,7 +6653,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "_Daily"
-msgstr ""
+msgstr "_יומי"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Manual"
@@ -7128,9 +7120,9 @@ msgstr "_ארגון:"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2176 ../calendar/gui/print.c:2316
-#, fuzzy, c-format
+#, c-format
 msgid "Location: %s"
-msgstr "_מיקום:"
+msgstr "_מיקום: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../calendar/gui/e-calendar-view.c:2207
@@ -7713,11 +7705,11 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.glade.h:6
 msgid "Loading calendar..."
-msgstr ""
+msgstr "טוען לוח שנה..."
 
 #: ../calendar/gui/e-itip-control.glade.h:8
 msgid "Server Message:"
-msgstr ""
+msgstr "הודעת שרת:"
 
 #: ../calendar/gui/e-meeting-list-view.c:70
 msgid "Chair Persons"
@@ -7733,7 +7725,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-list-view.c:73
 msgid "Resources"
-msgstr ""
+msgstr "משאבים"
 
 #: ../calendar/gui/e-meeting-list-view.c:154
 #, fuzzy
@@ -7814,7 +7806,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:412 ../designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
-msgstr ""
+msgstr "מחוץ למשרד"
 
 #: ../calendar/gui/e-meeting-time-sel.c:413
 msgid "No Information"
@@ -7827,7 +7819,7 @@ msgstr "<b>מוזמנים</b>"
 
 #: ../calendar/gui/e-meeting-time-sel.c:449
 msgid "O_ptions"
-msgstr ""
+msgstr "_אפשרויות"
 
 #: ../calendar/gui/e-meeting-time-sel.c:466
 msgid "Show _only working hours"
@@ -8187,8 +8179,8 @@ msgstr "רשימת ת_זכורות חדשה"
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "תזכורת אחת"
+msgstr[1] "%d תזכורות"
 
 #: ../calendar/gui/memos-component.c:529 ../calendar/gui/tasks-component.c:520
 #, c-format
@@ -8235,9 +8227,8 @@ msgid "_Shared memo"
 msgstr "תזכורת _משותפת"
 
 #: ../calendar/gui/memos-component.c:1176
-#, fuzzy
 msgid "Create a shared new memo"
-msgstr "צור פריט מבחן חדש"
+msgstr "צור תזכורת משותפת חדשה"
 
 #: ../calendar/gui/memos-component.c:1182
 msgid "New memo list"
@@ -8248,9 +8239,8 @@ msgid "Memo li_st"
 msgstr "_רשימת תזכורות"
 
 #: ../calendar/gui/memos-component.c:1184
-#, fuzzy
 msgid "Create a new memo list"
-msgstr "הוסף משימה חדשה"
+msgstr "צור רשימת תזכורות חדשה"
 
 #: ../calendar/gui/memos-control.c:336 ../calendar/gui/memos-control.c:352
 msgid "Print Memos"
@@ -8486,7 +8476,7 @@ msgstr "כתובת: %s"
 #: ../calendar/gui/print.c:2412
 #, c-format
 msgid "Categories: %s"
-msgstr ""
+msgstr "קטגוריות: %s"
 
 #: ../calendar/gui/print.c:2423
 msgid "Contacts: "
@@ -8499,16 +8489,15 @@ msgid "Upcoming Appointments"
 msgstr "פגישה"
 
 #: ../calendar/gui/tasks-component.c:442
-#, fuzzy
 msgid "_New Task List"
-msgstr "רשימת תפוצה חדשה"
+msgstr "רשימת משימות _חדשה"
 
 #: ../calendar/gui/tasks-component.c:518
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "משימה אחת"
+msgstr[1] "%d משימות"
 
 #: ../calendar/gui/tasks-component.c:567
 msgid "Failed upgrading tasks."
@@ -8529,11 +8518,11 @@ msgstr ""
 
 #: ../calendar/gui/tasks-component.c:1244
 msgid "New task"
-msgstr ""
+msgstr "משימה חדשה"
 
 #: ../calendar/gui/tasks-component.c:1246
 msgid "Create a new task"
-msgstr "הוסף משימה חדשה"
+msgstr "צור משימה חדשה"
 
 #: ../calendar/gui/tasks-component.c:1252
 msgid "New assigned task"
@@ -8549,19 +8538,16 @@ msgid "Create a new assigned task"
 msgstr "הוסף משימה חדשה"
 
 #: ../calendar/gui/tasks-component.c:1260
-#, fuzzy
 msgid "New task list"
-msgstr "רשימת תפוצה חדשה"
+msgstr "רשימת משימות חדשה"
 
 #: ../calendar/gui/tasks-component.c:1261
-#, fuzzy
 msgid "Tas_k list"
-msgstr "משימות"
+msgstr "רשימת _משימות"
 
 #: ../calendar/gui/tasks-component.c:1262
-#, fuzzy
 msgid "Create a new task list"
-msgstr "הוסף משימה חדשה"
+msgstr "צור רשימת משימות _חדשה"
 
 #: ../calendar/gui/tasks-control.c:438
 msgid ""
@@ -8577,7 +8563,7 @@ msgstr ""
 
 #: ../calendar/gui/tasks-control.c:478 ../calendar/gui/tasks-control.c:494
 msgid "Print Tasks"
-msgstr ""
+msgstr "הדפס משימות"
 
 #. The first letter of each day of the week starting with Sunday
 #: ../calendar/gui/weekday-picker.c:319
@@ -8870,7 +8856,7 @@ msgstr ""
 
 #: ../calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "אמריקה/בלם"
 
 #: ../calendar/zones.h:68
 msgid "America/Belize"
@@ -10988,15 +10974,15 @@ msgstr ""
 
 #: ../mail/em-account-editor.c:2390 ../mail/em-account-editor.c:2481
 msgid "Checking for New Mail"
-msgstr ""
+msgstr "בודק עבור דואר חדש"
 
 #: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:31
 msgid "Account Editor"
-msgstr ""
+msgstr "עורך חשבונות"
 
 #: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
-msgstr ""
+msgstr "עוזר החשבונות של Evolution"
 
 #: ../mail/em-account-prefs.c:331 ../mail/em-account-prefs.c:376
 #: ../mail/em-account-prefs.c:409
@@ -11011,7 +10997,7 @@ msgstr "אפשר"
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:466
 msgid "[Default]"
-msgstr ""
+msgstr "[ברירת מחדל]"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:945
@@ -11654,9 +11640,8 @@ msgid "Mark for Follo_w Up..."
 msgstr ""
 
 #: ../mail/em-folder-view.c:1163
-#, fuzzy
 msgid "_Label"
-msgstr "א_פשר"
+msgstr "_תוית"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
@@ -11975,7 +11960,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:1050 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
-msgstr ""
+msgstr "_הצג תעודה"
 
 #: ../mail/em-format-html-display.c:1065
 msgid "This certificate is not viewable"
@@ -11983,7 +11968,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:1384
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "הסתיים ב-%B %d, %Y, %l:%M %p"
 
 #: ../mail/em-format-html-display.c:1392
 msgid "Overdue:"
@@ -12013,12 +11998,11 @@ msgstr "הגודל המקורי"
 #: ../mail/em-format-html-display.c:1899 ../mail/em-format-html-display.c:2510
 #: ../mail/mail-config.glade.h:42 ../mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr ""
+msgstr "תצריף"
 
 #: ../mail/em-format-html-display.c:2113
-#, fuzzy
 msgid "Save attachment as"
-msgstr "שמור פגישה"
+msgstr "שמור תצריף בשם"
 
 #: ../mail/em-format-html-display.c:2117
 #, fuzzy
@@ -12048,7 +12032,7 @@ msgstr "שמור ה_כל"
 
 #: ../mail/em-format-html-display.c:2316
 msgid "No Attachment"
-msgstr ""
+msgstr "ללא תצריף"
 
 #: ../mail/em-format-html-display.c:2447 ../mail/em-format-html-display.c:2483
 #, fuzzy
@@ -12108,7 +12092,7 @@ msgstr ""
 #: ../mail/em-migrate.c:1649
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr ""
+msgstr "נכשל ביצירת תיקייה חדשה `%s': %s"
 
 #: ../mail/em-migrate.c:1675
 #, c-format
@@ -12180,15 +12164,15 @@ msgstr "תיקייה"
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:835
 msgid "Please select a server."
-msgstr ""
+msgstr "נא לבחור שרת."
 
 #: ../mail/em-subscribe-editor.c:856
 msgid "No server has been selected"
-msgstr ""
+msgstr "לא נבחר שרת"
 
 #: ../mail/em-utils.c:120
 msgid "Do not show this message again."
-msgstr ""
+msgstr "אל תציג הודעה זאת שוב."
 
 #: ../mail/em-utils.c:315
 #, fuzzy
@@ -12211,7 +12195,7 @@ msgstr "הוסף כתובת"
 #: ../mail/em-utils.c:1090
 #, c-format
 msgid "Messages from %s"
-msgstr ""
+msgstr "הודעה מ-%s"
 
 #: ../mail/em-vfolder-editor.c:112
 msgid "Search _Folders"
@@ -13002,9 +12986,8 @@ msgid "Evolution Pine importer"
 msgstr ""
 
 #: ../mail/importers/pine-importer.c:434
-#, fuzzy
 msgid "Import mail from Pine."
-msgstr "יבא _קובץ יחיד"
+msgstr "יבא דואר מ-Pine."
 
 #: ../mail/mail-autofilter.c:79
 #, c-format
@@ -13019,12 +13002,12 @@ msgstr ""
 #: ../mail/mail-autofilter.c:266
 #, c-format
 msgid "Subject is %s"
-msgstr ""
+msgstr "הנושא הוא %s"
 
 #: ../mail/mail-autofilter.c:301
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "רשימת תפוצה %s"
 
 #: ../mail/mail-autofilter.c:372
 msgid "Add Filter Rule"
@@ -13045,11 +13028,11 @@ msgstr[0] "%d דואר זבל"
 msgstr[1] "%d דואר זבל"
 
 #: ../mail/mail-component.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] "%d נמחק"
-msgstr[1] "%d נמחק"
+msgstr[0] "אחד נבחר, "
+msgstr[1] "%d נבחרו, "
 
 #: ../mail/mail-component.c:551
 #, c-format
@@ -13136,9 +13119,8 @@ msgstr "_לך אל"
 
 #. blue
 #: ../mail/mail-config.c:85
-#, fuzzy
 msgid "_Later"
-msgstr "אחרי"
+msgstr "_מאוחר יותר"
 
 #: ../mail/mail-config.glade.h:1
 msgid " Ch_eck for Supported Types "
@@ -13146,7 +13128,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:3
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr ""
+msgstr "<b>SSL אינו נתמך בבנייה זאת של Evolution</b>"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>Sig_natures</b>"
@@ -13220,11 +13202,11 @@ msgstr "<span weight=\"bold\">מידע לא הכרחי</span>"
 
 #: ../mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">אפשרויות</span>"
 
 #: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">פרטיות טובה מאוד (PGP/GPG)</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Printed Fonts</span>"
@@ -13236,7 +13218,7 @@ msgstr "<span weight=\"bold\">מידע הכרחי</span>"
 
 #: ../mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">MIME מאובטח(S/MIME)</span>"
 
 #: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Security</span>"
@@ -13256,11 +13238,11 @@ msgstr "ניהול חשבון"
 
 #: ../mail/mail-config.glade.h:33
 msgid "Add Ne_w Signature..."
-msgstr ""
+msgstr "הוסף חתימה _חדשה..."
 
 #: ../mail/mail-config.glade.h:34
 msgid "Add _Script"
-msgstr ""
+msgstr "הוסף _תסריט"
 
 #: ../mail/mail-config.glade.h:35
 msgid "Al_ways sign outgoing messages when using this account"
@@ -13297,11 +13279,11 @@ msgstr "בדוק אם קיים _דואר חדש כל"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "בלטי (ISO-8859-13)"
 
 #: ../mail/mail-config.glade.h:45
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "בלטי (ISO-8859-4)"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Beep w_hen new mail arrives"
@@ -13316,13 +13298,12 @@ msgid "Ch_eck for Supported Types "
 msgstr "ב_דוק סוגי הזדהות נתמכים"
 
 #: ../mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Check in_coming mail for junk"
 msgstr "בדוק האם דואר נכנס מכיל דואר זבל"
 
 #: ../mail/mail-config.glade.h:50
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "בדוק איות ב_זמן ההקלדה"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Checks incoming mail messages to be Junk"
@@ -13461,9 +13442,8 @@ msgid "KB"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:94
-#, fuzzy
 msgid "Languages Table"
-msgstr "שפה"
+msgstr "טבלת שפות"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
@@ -13671,7 +13651,7 @@ msgid ""
 msgstr ""
 "ברוך הבא לאשף הגדרות הדואר.\n"
 "\n"
-"הקלק \"קדימה\" להתחיל. "
+"לחץ \"קדימה\" להתחיל. "
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -13949,9 +13929,8 @@ msgid "Because &quot;{2}&quot;."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:21
-#, fuzzy
 msgid "Blank Signature"
-msgstr "חתימות"
+msgstr "חתימה ריקה"
 
 #: ../mail/mail.error.xml.h:22
 msgid "Cannot add Search Folder &quot;{0}&quot;."
@@ -14152,9 +14131,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:69
-#, fuzzy
 msgid "Mark all messages as read"
-msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
+msgstr "סמן את כל ההודעות כאילו נקראו"
 
 #: ../mail/mail.error.xml.h:70
 #, fuzzy
@@ -14205,9 +14183,8 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "הכנס שם לחתימה זו."
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid "Please wait."
-msgstr "המתן בבקשה"
+msgstr "נא להמתין"
 
 #: ../mail/mail.error.xml.h:84
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
@@ -14560,7 +14537,6 @@ msgid "Checking Service"
 msgstr ""
 
 #: ../mail/mail-send-recv.c:161
-#, fuzzy
 msgid "Canceling..."
 msgstr "מבטל..."
 
@@ -14585,12 +14561,11 @@ msgid "Checking for new mail"
 msgstr "בדיקת דואר חדש"
 
 #: ../mail/mail-session.c:200
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Passphrase for %s"
 msgstr "הכנס סיסמה עבור %s"
 
 #: ../mail/mail-session.c:202
-#, fuzzy
 msgid "Enter Passphrase"
 msgstr "הכנס סיסמה"
 
@@ -14661,14 +14636,12 @@ msgid "Updating Search Folders for '%s'"
 msgstr ""
 
 #: ../mail/mail-vfolder.c:1023
-#, fuzzy
 msgid "Edit Search Folder"
-msgstr "בחר תיקייה"
+msgstr "ערוך תיקיית חיפוש"
 
 #: ../mail/mail-vfolder.c:1107
-#, fuzzy
 msgid "New Search Folder"
-msgstr "תיקיית דואר חדשה"
+msgstr "תיקיית חיפוש חדשה"
 
 #: ../mail/message-list.c:1022
 msgid "Unseen"
@@ -14723,20 +14696,19 @@ msgstr "אתמול %l:%M %p"
 
 #: ../mail/message-list.c:1497 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: ../mail/message-list.c:1505 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: ../mail/message-list.c:1507 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2262 ../mail/message-list.etspec.h:9
-#, fuzzy
 msgid "Messages"
-msgstr "הו_דעה:"
+msgstr "הודעות"
 
 #: ../mail/message-list.c:3708
 msgid "Generating message list"
@@ -14869,9 +14841,8 @@ msgstr "% השלמה"
 
 #: ../plugins/backup-restore/backup.c:75
 #: ../plugins/backup-restore/backup.c:116
-#, fuzzy
 msgid "Restarting Evolution"
-msgstr "תקלת Evolution"
+msgstr "מאתחל את Evolution"
 
 #: ../plugins/backup-restore/backup.c:94
 #, fuzzy
@@ -15032,9 +15003,8 @@ msgid "R_estore Settings..."
 msgstr "הגדרות מחשב כף יד..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
-#, fuzzy
 msgid "_Backup Settings..."
-msgstr "_הגדרות..."
+msgstr "_הגדרות גיבוי..."
 
 #: ../plugins/bbdb/bbdb.c:447 ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -15142,42 +15112,39 @@ msgstr ""
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "מזג אויר: מעונן"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr ""
+msgstr "מזג אויר: ערפל"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "מזג אויר: מעונן חלקית"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Rain"
-msgstr "בחריין"
+msgstr "מזג אויר: גשם"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
 msgid "Weather: Snow"
-msgstr ""
+msgstr "מזג אויר: שלג"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "מזג אויר: שמש"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "מזג אויר: סופות רעמים"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
-#, fuzzy
 msgid "Select a location"
-msgstr "בחר פעולה"
+msgstr "בחר מיקום"
 
 #: ../plugins/calendar-weather/calendar-weather.c:654
-#, fuzzy
 msgid "_Units:"
-msgstr "יחידה"
+msgstr "_יחידות:"
 
 #: ../plugins/calendar-weather/calendar-weather.c:661
 msgid "Metric (Celsius, cm, etc)"
@@ -15259,9 +15226,8 @@ msgid "_Folder Name:"
 msgstr "_שם תיקייה:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
-msgstr "_שם משתמש:"
+msgstr "_משתמש:"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
@@ -15315,9 +15281,8 @@ msgstr "הכנס סיסמה עבור %s"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:330
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
-#, fuzzy
 msgid "Change Password"
-msgstr "הכנס סיסמה"
+msgstr "החלף סיסמה"
 
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
@@ -15331,9 +15296,8 @@ msgstr "אשף ההגדרות של Evolution"
 
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:349
-#, fuzzy
 msgid "Miscelleneous"
-msgstr "<b>כללי</b>"
+msgstr "כללי"
 
 #. Folder Size
 #: ../plugins/exchange-operations/exchange-account-setup.c:359
@@ -15474,7 +15438,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
 #, fuzzy
 msgid "C_alendar:"
-msgstr "לוח שנה:"
+msgstr "לוח _שנה:"
 
 #. Translators: This is used for permissions for <user> for the folder Contacts.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
@@ -15517,9 +15481,8 @@ msgstr "צור פריט מבחן חדש"
 
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
-#, fuzzy
 msgid "_Inbox:"
-msgstr "דואר נכנס"
+msgstr "דואר _נכנס:"
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:19
@@ -15596,9 +15559,8 @@ msgid "Your password will expire in 7 days..."
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
-#, fuzzy
 msgid "_Change Password"
-msgstr "הכנס סיסמה"
+msgstr "ה_חלף סיסמה"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
 #, fuzzy
@@ -15673,9 +15635,8 @@ msgid "Read items"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
-#, fuzzy
 msgid "Role: "
-msgstr "תפקיד"
+msgstr "תפקיד: "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
 #, fuzzy
@@ -15693,9 +15654,8 @@ msgid "Exchange - Send Options"
 msgstr "הגדרות Evolution"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
-#, fuzzy
 msgid "I_mportance: "
-msgstr "_יבא"
+msgstr "_חשיבות: "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:5
 msgid ""
@@ -15703,6 +15663,9 @@ msgid ""
 "High\n"
 "Low"
 msgstr ""
+"רגילה\n"
+"גבוהה\n"
+"נמוכה"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:8
 msgid ""
@@ -15865,14 +15828,12 @@ msgid "Folder already exists"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
-#, fuzzy
 msgid "Folder does not exist"
-msgstr "הקובץ %s לא קיים"
+msgstr "התיקייה אינה קיימת"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
-#, fuzzy
 msgid "Folder offline"
-msgstr "עבודה במצב לא מקוון"
+msgstr "התיקייה אינה מקוונת"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1272
@@ -15914,9 +15875,8 @@ msgid "No mailbox for user {0} on {1}."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
-#, fuzzy
 msgid "No such user {0}"
-msgstr "אין מקור כזה"
+msgstr "אין משתמש כזה {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "Password successfully changed."
@@ -15987,9 +15947,8 @@ msgid "Unknown error."
 msgstr "שגיאה לא ידועה."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
-#, fuzzy
 msgid "Unknown type"
-msgstr "לא ידוע"
+msgstr "סוג לא ידוע"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 #, fuzzy
@@ -16160,9 +16119,8 @@ msgstr ""
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "Send Options"
-msgstr "אפשרויות"
+msgstr "אפשרויות שליחה"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
@@ -16319,14 +16277,12 @@ msgid "Enter the users and set permissions"
 msgstr ""
 
 #: ../plugins/groupwise-features/share-folder-common.c:342
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "תיקייה _חדשה..."
+msgstr "תיקייה משותפת _חדשה..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:450
-#, fuzzy
 msgid "Sharing"
-msgstr "מתחיל:"
+msgstr "משתף"
 
 #: ../plugins/groupwise-features/status-track.c:103
 #, fuzzy
@@ -16335,24 +16291,20 @@ msgstr "של_ח הודעה לאיש קשר..."
 
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:117
-#, fuzzy
 msgid "<b>Subject</b> :"
 msgstr "<b>נושא</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:129
-#, fuzzy
 msgid "<b>From</b> :"
-msgstr "<b>בית</b>"
+msgstr "<b>מאת</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:142
-#, fuzzy
 msgid "<b>Creation date</b> :"
-msgstr "<b>אפשרויות</b>"
+msgstr "<b>תאריך יצירה</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:178
-#, fuzzy
 msgid "Recipient: "
-msgstr "נמענים"
+msgstr "נמענים:"
 
 #: ../plugins/groupwise-features/status-track.c:185
 #, fuzzy
@@ -16370,9 +16322,8 @@ msgid "Accepted: "
 msgstr "קבל"
 
 #: ../plugins/groupwise-features/status-track.c:201
-#, fuzzy
 msgid "Deleted: "
-msgstr "נמחק"
+msgstr "נמחק: "
 
 #: ../plugins/groupwise-features/status-track.c:206
 #, fuzzy
@@ -16711,7 +16662,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:187 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:239
 msgid "Today"
-msgstr ""
+msgstr "היום"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
@@ -17025,27 +16976,24 @@ msgstr ""
 
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:762
-#, fuzzy
 msgid "_Open Calendar"
-msgstr "לוח שנה חדש"
+msgstr "פתח _לוח שנה"
 
 #: ../plugins/itip-formatter/itip-view.c:768
 #: ../plugins/itip-formatter/itip-view.c:772
 #: ../plugins/itip-formatter/itip-view.c:778
 #: ../plugins/itip-formatter/itip-view.c:795
 #: ../plugins/itip-formatter/itip-view.c:800
-#, fuzzy
 msgid "_Decline"
-msgstr "סרב"
+msgstr "_סרב"
 
 #: ../plugins/itip-formatter/itip-view.c:769
 #: ../plugins/itip-formatter/itip-view.c:774
 #: ../plugins/itip-formatter/itip-view.c:781
 #: ../plugins/itip-formatter/itip-view.c:797
 #: ../plugins/itip-formatter/itip-view.c:802
-#, fuzzy
 msgid "_Accept"
-msgstr "קבל"
+msgstr "ק_בל"
 
 #: ../plugins/itip-formatter/itip-view.c:772
 #, fuzzy
@@ -17101,9 +17049,8 @@ msgstr "כל פעם"
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:976
 #: ../plugins/itip-formatter/itip-view.c:1026
-#, fuzzy
 msgid "Comment:"
-msgstr "חברה:"
+msgstr "הערה:"
 
 #: ../plugins/itip-formatter/itip-view.c:1040
 msgid "Send u_pdates to attendees"
@@ -17261,14 +17208,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
-#, fuzzy
 msgid "_Edit message"
-msgstr "ההודעה ה_באה"
+msgstr "_ערוך את ההודעה"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
-#, fuzzy
 msgid "_Send message"
-msgstr "_פתח הודעה"
+msgstr "_שלח את ההודעה"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 #, fuzzy
@@ -17324,9 +17269,9 @@ msgid "_Unsubscribe from List"
 msgstr "תיקייה _חדשה..."
 
 #: ../plugins/mail-remote/client.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "System error: %s"
-msgstr "שגיאת מערכת לא ידועה."
+msgstr "שגיאת מערכת: %s"
 
 #: ../plugins/mail-remote/client.c:32
 #, c-format
@@ -17430,9 +17375,8 @@ msgid "Mono Loader"
 msgstr "העבר לתיקייה"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "השמע _צליל כאשר מגיע דואר חדש"
+msgstr "צור הודעת D-BUS כאשר מגיע דואר חדש."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 #, fuzzy
@@ -17451,13 +17395,12 @@ msgstr ""
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 #: ../plugins/plugin-manager/plugin-manager.c:180
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "מנהל"
+msgstr "מנהל תוספים"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "הפעל וכה תוספים"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
@@ -17476,7 +17419,7 @@ msgstr "תיאור"
 
 #: ../plugins/plugin-manager/plugin-manager.c:193
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
+msgstr "הערה: חלק מהשינויים יכנסו לפעולה רק לאחר הפעלה מחדש"
 
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
@@ -17534,9 +17477,8 @@ msgid "Print Pre_view"
 msgstr "_תצוגה לפני הדפסה"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
-#, fuzzy
 msgid "Prints the message"
-msgstr "הדפס הודעה"
+msgstr "הדפס את ההודעה"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 #, fuzzy
@@ -17607,11 +17549,17 @@ msgid ""
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
 msgstr ""
+"SSH\n"
+"FTP ציבורי\n"
+"FTP (עם כניסה)\n"
+"שיתוף Windows\n"
+"WebDAV (HTTP)\n"
+"WebDAV מאובטח (HTTP)\n"
+"מיקום מותאם"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
-#, fuzzy
 msgid "Service _type:"
-msgstr "_סוג השרת: "
+msgstr "_סוג שירות:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
 msgid "_File:"
@@ -17638,7 +17586,7 @@ msgstr ""
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:847
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "כלול בדיקות מ_רוחקות"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid ""
@@ -17657,18 +17605,16 @@ msgstr ""
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 #: ../plugins/save-attachments/save-attachments.c:330
-#, fuzzy
 msgid "Save attachments"
-msgstr "שמור פגישה"
+msgstr "שמור תצריפים"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments..."
-msgstr "שמור בשם..."
+msgstr "שמור תצריפים..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
 msgid "Save all attachments"
-msgstr ""
+msgstr "שמור את כל התצריפים"
 
 #: ../plugins/save-attachments/save-attachments.c:336
 #, fuzzy
@@ -17676,14 +17622,13 @@ msgid "Select save base name"
 msgstr "בחר אזור זמן"
 
 #: ../plugins/save-attachments/save-attachments.c:355
-#, fuzzy
 msgid "MIME Type"
-msgstr "סוג"
+msgstr "סוג MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:363
 #: ../ui/evolution-editor.xml.h:12 ../ui/evolution-message-composer.xml.h:20
 msgid "Save"
-msgstr ""
+msgstr "שמור"
 
 #.
 #. * Translator: the %F %T is the thirth argument for a strftime function.
@@ -17695,7 +17640,7 @@ msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:385
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
 #: ../plugins/save-calendar/csv-format.c:387
 #, fuzzy
@@ -17842,27 +17787,25 @@ msgid "Welcome"
 msgstr "ברוכים הבאים"
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"ברוכים הבאים לאבולוציה. במסכים הבאים תאפשרו לאבולוציה\n"
-"להתחבר לחשבונות הדוא\"ל שלכם, ולייבא נתונים מתוכניות אחרות.\n"
+"ברוכים הבאים ל-Evolution. במסכים הבאים תאפשרו ל-Evolution\n"
+"להתחבר לחשבונות הדוא\"ל שלכם, ולייבא קבצים מתוכניות אחרות. \n"
 "\n"
-"לחץ/י \"קדימה\" כדי להמשך. "
+"לחצו \"קדימה\" כדי להמשך. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:134
-#, fuzzy
 msgid "Importing files"
-msgstr "יבא _קובץ יחיד"
+msgstr "מייבא קבצים"
 
 #: ../plugins/startup-wizard/startup-wizard.c:136
 #: ../shell/e-shell-importer.c:147
 msgid "Please select the information that you would like to import:"
-msgstr ""
+msgstr "אנא בחר את המידע שברצומך לייבא:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:151
 #: ../shell/e-shell-importer.c:397
@@ -17871,10 +17814,9 @@ msgid "From %s:"
 msgstr "מ %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:231
-#: ../shell/e-shell-importer.c:508
-#, fuzzy
+#: ../shell/e-shell-importer.c:508	
 msgid "Importing data."
-msgstr "מייבא %s. \n"
+msgstr "מייבא נתונים."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
@@ -18118,9 +18060,8 @@ msgid "Import a _single file"
 msgstr "יבא _קובץ יחיד"
 
 #: ../shell/e-shell-settings-dialog.c:319
-#, fuzzy
 msgid "Evolution Preferences"
-msgstr "העדפות דואר"
+msgstr "העדפות Evolution"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
@@ -18143,23 +18084,21 @@ msgid "'.' and '..' are reserved folder names."
 msgstr "'.' ו '..' הם שמות תיקיות שמורים."
 
 #: ../shell/e-shell-window.c:381
-#, fuzzy
 msgid "Evolution is currently online. Click on this button to work offline."
-msgstr "עבודה במצב מקוון. לחץ כאן כדי לעבור למצב לא מקוון."
+msgstr "Evolution נמצאת במצב מקוון. לחץ כאן כדי לעבור למצב לא מקוון."
 
 #: ../shell/e-shell-window.c:389
 msgid "Evolution is in the process of going offline."
 msgstr "אבולוציה במהלך העברה למצב לא מקוון."
 
 #: ../shell/e-shell-window.c:396
-#, fuzzy
 msgid "Evolution is currently offline. Click on this button to work online."
-msgstr "עבודה במצב לא מקוון. לחץ כאן כדי לעבור למצב מקוון."
+msgstr "Evolution נמצאת במצב לא מקוון. לחץ כאן כדי לעבור למצב מקוון."
 
 #: ../shell/e-shell-window.c:820
 #, c-format
 msgid "Switch to %s"
-msgstr "החלף ל %s"
+msgstr "החלף ל-%s"
 
 #: ../shell/e-shell-window-commands.c:76
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -18186,9 +18125,8 @@ msgid "translator-credits"
 msgstr ""
 
 #: ../shell/e-shell-window-commands.c:586
-#, fuzzy
 msgid "Evolution Website"
-msgstr "אזהרת Evolution"
+msgstr "אתר Evolution"
 
 #: ../shell/e-shell-window-commands.c:793
 msgid "_Work Online"
@@ -18301,7 +18239,6 @@ msgstr ""
 "צוות Evolution\n"
 
 #: ../shell/main.c:250
-#, fuzzy
 msgid "Do not tell me again"
 msgstr "אל תודיע לי שוב"
 
@@ -18460,9 +18397,8 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:407
 #: ../smime/gui/certificate-manager.c:621
 #: ../smime/gui/certificate-manager.c:639
-#, fuzzy
 msgid "Select a certificate to import..."
-msgstr "בחר תיקייה לייבא אליה"
+msgstr "בחר תעודה לייבוא..."
 
 #: ../smime/gui/certificate-manager.c:147
 msgid "All PKCS12 files"
@@ -18472,13 +18408,13 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:403
 #: ../smime/gui/certificate-manager.c:635
 msgid "All files"
-msgstr ""
+msgstr "כל הקבצים"
 
 #: ../smime/gui/certificate-manager.c:279
 #: ../smime/gui/certificate-manager.c:496
 #: ../smime/gui/certificate-manager.c:726
 msgid "Certificate Name"
-msgstr ""
+msgstr "שם תעודה"
 
 #: ../smime/gui/certificate-manager.c:288
 #: ../smime/gui/certificate-manager.c:514
@@ -18510,7 +18446,7 @@ msgstr "תעודות"
 #: ../smime/gui/certificate-viewer.c:341
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr ""
+msgstr "מציג תעודות: %s"
 
 #: ../smime/gui/cert-trust-dialog.c:154
 msgid ""
@@ -18557,7 +18493,7 @@ msgstr ""
 
 #: ../smime/gui/e-cert-selector.c:174
 msgid "Select certificate"
-msgstr ""
+msgstr "cjr ,gusv"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
@@ -18585,7 +18521,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:7
 msgid "<b>Issued To</b>"
-msgstr ""
+msgstr "<b>הונפק עבור</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
@@ -18597,7 +18533,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "רשויות"
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
@@ -18615,7 +18551,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1077
 msgid "Certificate"
-msgstr ""
+msgstr "תעודה"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
@@ -18623,16 +18559,15 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr ""
+msgstr "פרטי תעודה"
 
 #: ../smime/gui/smime-ui.glade.h:17
-#, fuzzy
 msgid "Certificates Table"
-msgstr "תעודות"
+msgstr "טבלת תעודות"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
-msgstr ""
+msgstr "שם נפוץ (CN)"
 
 #: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
@@ -18676,7 +18611,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:31
 msgid "MD5 Fingerprint"
-msgstr ""
+msgstr "חתימת MD5"
 
 #: ../smime/gui/smime-ui.glade.h:32
 msgid "Organization (O)"
@@ -18688,15 +18623,15 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:34
 msgid "SHA1 Fingerprint"
-msgstr ""
+msgstr "חתימת SHA1"
 
 #: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:819
 msgid "SSL Client Certificate"
-msgstr ""
+msgstr "תעודת לקוח SSL"
 
 #: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:823
 msgid "SSL Server Certificate"
-msgstr ""
+msgstr "תעודת שרת SSL"
 
 #: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
@@ -18733,7 +18668,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr ""
+msgstr "התעודות שלך"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
@@ -18741,7 +18676,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:239 ../smime/lib/e-cert.c:249
 msgid "%d/%m/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:425
@@ -18758,15 +18693,15 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:546
 msgid "Version 1"
-msgstr ""
+msgstr "גירסה 1"
 
 #: ../smime/lib/e-cert.c:549
 msgid "Version 2"
-msgstr ""
+msgstr "גירסה 2"
 
 #: ../smime/lib/e-cert.c:552
 msgid "Version 3"
-msgstr ""
+msgstr "גירסה 3"
 
 #: ../smime/lib/e-cert.c:634
 msgid "PKCS #1 MD2 With RSA Encryption"
@@ -18880,7 +18815,7 @@ msgstr ""
 #: ../smime/lib/e-cert.c:1036
 #, c-format
 msgid "%s = %s"
-msgstr ""
+msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1092 ../smime/lib/e-cert.c:1212
 msgid "Certificate Signature Algorithm"
@@ -18949,22 +18884,20 @@ msgstr ""
 #: ../tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr ""
+msgstr "לא ניתן להריץ את '%s': %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr ""
+msgstr "מכבה את %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
-#, fuzzy
 msgid "Address _Book Properties"
-msgstr "מאפייני ספר הכתובות"
+msgstr "מאפייני _ספר הכתובות"
 
 #: ../ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Change the properties of the selected folder"
-msgstr "שנה את המאפיינים של תיקייה זו"
+msgstr "שנה את המאפיינים של התיקייה הנבחרת"
 
 #: ../ui/evolution-addressbook.xml.h:4
 #, fuzzy
@@ -18998,7 +18931,7 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
-msgstr ""
+msgstr "העתק לתיקייה..."
 
 #: ../ui/evolution-addressbook.xml.h:11
 #, fuzzy
@@ -19016,18 +18949,16 @@ msgid "Cut the selection"
 msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:14
-#, fuzzy
 msgid "Del_ete Address Book"
-msgstr "פנקס כתובות חדש"
+msgstr "_מחק את ספר הכתובות"
 
 #: ../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
-msgstr ""
+msgstr "מחק את איש הקשר הנבחר"
 
 #: ../ui/evolution-addressbook.xml.h:17
-#, fuzzy
 msgid "Delete the selected folder"
-msgstr "מוחק את האובייקטים שנבחרו..."
+msgstr "מחק את התיקייה הנבחרת"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Forward Contact"
@@ -19050,7 +18981,7 @@ msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
-msgstr ""
+msgstr "העבר לתיקייה..."
 
 #: ../ui/evolution-addressbook.xml.h:23
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
@@ -19140,9 +19071,8 @@ msgid "_Actions"
 msgstr "_פעולות"
 
 #: ../ui/evolution-addressbook.xml.h:47
-#, fuzzy
 msgid "_Copy Contact to..."
-msgstr "העתק איש קשר ל"
+msgstr "העתק _איש קשר ל..."
 
 #: ../ui/evolution-addressbook.xml.h:48
 #, fuzzy
@@ -19150,9 +19080,8 @@ msgid "_Copy Folder Contacts To"
 msgstr "ה_עתק לתיקייה..."
 
 #: ../ui/evolution-addressbook.xml.h:50
-#, fuzzy
 msgid "_Delete Contact"
-msgstr "איש _קשר"
+msgstr "_מחק איש קשר"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
@@ -19191,7 +19120,7 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr ""
+msgstr "יום"
 
 #: ../ui/evolution-calendar.xml.h:6
 #, fuzzy
@@ -19299,11 +19228,11 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:36
 msgid "Week"
-msgstr ""
+msgstr "שבוע"
 
 #: ../ui/evolution-calendar.xml.h:37
 msgid "Work Week"
-msgstr ""
+msgstr "שבוע עבודה"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
@@ -19337,7 +19266,7 @@ msgstr ""
 
 #: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:14
 msgid "Select all text"
-msgstr "בחר את כל המלל"
+msgstr "בחר את כל הטקסט"
 
 #: ../ui/evolution-editor.xml.h:1 ../ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -19458,9 +19387,8 @@ msgid "Show time as _busy"
 msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:11
-#, fuzzy
 msgid "Time _Zone"
-msgstr "אזור _זמן:"
+msgstr "אזור _זמן"
 
 #: ../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:12
 msgid "Toggles whether the Attendee Type field is displayed"
@@ -19496,9 +19424,8 @@ msgid "Toggles whether to show time as busy"
 msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:26
-#, fuzzy
 msgid "_Alarms"
-msgstr "התרעות"
+msgstr "ה_תרעות"
 
 #: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
 #: ../ui/evolution-task-editor.xml.h:18
@@ -19513,27 +19440,24 @@ msgstr ""
 #: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-memo-editor.xml.h:8
 #: ../ui/evolution-task-editor.xml.h:20
 msgid "_Confidential"
-msgstr ""
+msgstr "_חסוי"
 
 #: ../ui/evolution-event-editor.xml.h:30
-#, fuzzy
 msgid "_Free/Busy"
-msgstr "פנוי/עסוק:"
+msgstr "פנוי/_עסוק:"
 
 #: ../ui/evolution-event-editor.xml.h:31 ../ui/evolution-memo-editor.xml.h:9
 #: ../ui/evolution-task-editor.xml.h:21
-#, fuzzy
 msgid "_Private"
-msgstr "ה_דבק"
+msgstr "_פרטי"
 
 #: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:22
 msgid "_RSVP"
-msgstr ""
+msgstr "_RSVP"
 
 #: ../ui/evolution-event-editor.xml.h:33
-#, fuzzy
 msgid "_Recurrence"
-msgstr "מופע חוזר"
+msgstr "מופע _חוזר"
 
 #: ../ui/evolution-event-editor.xml.h:34 ../ui/evolution-task-editor.xml.h:25
 #, fuzzy
@@ -19569,7 +19493,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
-msgstr ""
+msgstr "רוקן את האשפה"
 
 #: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:11
 #: ../ui/evolution-subscribe.xml.h:2
@@ -19631,14 +19555,12 @@ msgid "_Move Folder To..."
 msgstr "העב_ר לתיקייה..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_New..."
-msgstr "_חדש"
+msgstr "_חדש..."
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Preview"
-msgstr "ת_צוגה מקדימה:"
+msgstr "ת_צוגה מקדימה"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -19749,9 +19671,8 @@ msgid "Select all visible messages"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:25
-#, fuzzy
 msgid "Show Hidde_n Messages"
-msgstr "_פתח הודעה"
+msgstr "הצג הודעות _נסתרות"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Show messages that have been temporarily hidden"
@@ -19786,7 +19707,7 @@ msgstr "סגור חלון זה"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
 msgid "Main toolbar"
-msgstr ""
+msgstr "סרגל כלים ראשי"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -19886,7 +19807,7 @@ msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
 
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
-msgstr "הקטן את גודל המלל"
+msgstr "הקטן את גודל הטקסט"
 
 #: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
@@ -19975,9 +19896,8 @@ msgid "Increase the text size"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:49
-#, fuzzy
 msgid "Mar_k as"
-msgstr "_סמן כנקרא"
+msgstr "_סמן כ"
 
 #: ../ui/evolution-mail-message.xml.h:50
 #, fuzzy
@@ -20098,9 +20018,8 @@ msgid "Reset the text to its original size"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Save the selected messages as a text file"
-msgstr "שמור את ההודעה כקובץ מלל"
+msgstr "שמור את ההודעה הנבחרת כקובץ טקסט"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -20159,9 +20078,8 @@ msgid "Undelete the selected messages"
 msgstr "סמן את ההודעות שנבחרו כדואר זבל"
 
 #: ../ui/evolution-mail-message.xml.h:99
-#, fuzzy
 msgid "Uni_mportant"
-msgstr "סמן כל_א חשוב"
+msgstr "ל_א חשוב"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
@@ -20199,9 +20117,8 @@ msgid "_Go To"
 msgstr "_לך אל"
 
 #: ../ui/evolution-mail-message.xml.h:112
-#, fuzzy
 msgid "_Important"
-msgstr "_יבא"
+msgstr "_חשוב"
 
 #: ../ui/evolution-mail-message.xml.h:113
 #, fuzzy
@@ -20225,9 +20142,8 @@ msgid "_Next Message"
 msgstr "ההודעה ה_באה"
 
 #: ../ui/evolution-mail-message.xml.h:120
-#, fuzzy
 msgid "_Normal Size"
-msgstr "רגיל"
+msgstr "גודל רגיל"
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Not Junk"
@@ -20242,7 +20158,6 @@ msgid "_Previous Message"
 msgstr "ההודעה ה_קודמת"
 
 #: ../ui/evolution-mail-message.xml.h:125
-#, fuzzy
 msgid "_Quoted"
 msgstr "_צוטט"
 
@@ -20416,7 +20331,7 @@ msgstr "שלח"
 #: ../ui/evolution-message-composer.xml.h:31
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
-msgstr ""
+msgstr "שלח את הדואר בתצורת HTML"
 
 #: ../ui/evolution-message-composer.xml.h:32
 msgid "Send this message"
@@ -20461,11 +20376,11 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
-msgstr ""
+msgstr "שדה _Bcc"
 
 #: ../ui/evolution-message-composer.xml.h:44
 msgid "_Cc Field"
-msgstr ""
+msgstr "שדה _Cc"
 
 #: ../ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
@@ -20498,9 +20413,8 @@ msgstr "_אבטחה"
 
 #: ../ui/evolution-message-composer.xml.h:56
 #: ../ui/evolution-task-editor.xml.h:23
-#, fuzzy
 msgid "_Send Options"
-msgstr "אפשרויות"
+msgstr " _אפשרויות שליחה"
 
 #: ../ui/evolution-message-composer.xml.h:57
 msgid "_To Field"
@@ -20587,7 +20501,7 @@ msgstr "גזור את ההודעה המסומנת"
 
 #: ../ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
-msgstr ""
+msgstr "מחק משימות שהסתיימו"
 
 #: ../ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
@@ -20629,15 +20543,15 @@ msgstr ""
 
 #: ../ui/evolution-tasks.xml.h:27
 msgid "_Open Task"
-msgstr ""
+msgstr "_פתח משימה"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr ""
+msgstr "אודות Evolution..."
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr ""
+msgstr "שנה את הגדרות Evolution"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
@@ -20681,7 +20595,7 @@ msgstr "_יבא..."
 
 #: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
-msgstr ""
+msgstr "סמלים ו_טקסט"
 
 #: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
@@ -20772,9 +20686,8 @@ msgid "_Close Window"
 msgstr "_סגור חלון"
 
 #: ../ui/evolution.xml.h:43
-#, fuzzy
 msgid "_Forget Passwords"
-msgstr "הכנס סיסמה"
+msgstr "_שכח סיסמאות"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Hide buttons"
@@ -20794,7 +20707,7 @@ msgstr "_יציאה"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "החלף _מראה"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
@@ -20823,7 +20736,7 @@ msgstr "<b>אזורי זמן</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "<b>_Selection</b>"
-msgstr ""
+msgstr "<b>_בחירה</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
@@ -20839,6 +20752,8 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
+"לחץ על הכפתור השמאלי בעכבר כדי להתקרב לאזור במפה ולבחור אזור זמן.\n"
+"לחץ על הפתור הימני בעכבר כדי להתרחק."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:188
@@ -20894,9 +20809,8 @@ msgid "Instance"
 msgstr ""
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
-#, fuzzy
 msgid "Save Current View"
-msgstr "תצוגה נוכחית"
+msgstr "שמור תצוגה נוכחית"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 #, fuzzy
@@ -20908,9 +20822,8 @@ msgid "_Replace existing view"
 msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:291
-#, fuzzy
 msgid "C_urrent View"
-msgstr "תצוגה נוכחית"
+msgstr "תצוגה _נוכחית"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
@@ -20935,7 +20848,7 @@ msgstr "תצוגת יום"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of view:"
-msgstr ""
+msgstr "סוג תצוגה:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
@@ -20987,40 +20900,37 @@ msgstr "_סוג הקובץ:"
 
 #: ../widgets/misc/e-canvas-background.c:485
 #: ../widgets/misc/e-canvas-background.c:486
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:492
 #: ../widgets/misc/e-canvas-background.c:493
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:499
 #: ../widgets/misc/e-canvas-background.c:500
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:506
 #: ../widgets/misc/e-canvas-background.c:507
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1429
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3017
 msgid "Minimum width"
-msgstr ""
+msgstr "רוחב מינימלי"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-item.c:3018
-#, fuzzy
 msgid "Minimum Width"
-msgstr "רוחב עמודה"
+msgstr "רוחב מינימלי"
 
 #: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
 #: ../widgets/misc/e-expander.c:206
@@ -21073,9 +20983,8 @@ msgid "Korean"
 msgstr "קוראנית"
 
 #: ../widgets/misc/e-charset-picker.c:72
-#, fuzzy
 msgid "Thai"
-msgstr "תאילנד"
+msgstr "תאילנדית"
 
 #: ../widgets/misc/e-charset-picker.c:73
 msgid "Turkish"
@@ -21159,14 +21068,12 @@ msgid "Time"
 msgstr "כותרת"
 
 #: ../widgets/misc/e-dateedit.c:459
-#, fuzzy
 msgid "No_w"
-msgstr "עכשיו"
+msgstr "ע_כשיו"
 
 #: ../widgets/misc/e-dateedit.c:465
-#, fuzzy
 msgid "_Today"
-msgstr "יום שני"
+msgstr "ה_יום"
 
 #: ../widgets/misc/e-dateedit.c:1630
 #, fuzzy
@@ -21303,16 +21210,14 @@ msgid "Sync Categories:"
 msgstr ""
 
 #: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
-#, fuzzy
 msgid "Empty message"
-msgstr "סה\"כ הודעות:"
+msgstr "הודעה ריקה"
 
 #: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
 msgstr ""
 
 #: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
-#, fuzzy
 msgid "Column width"
 msgstr "רוחב עמודה"
 
@@ -21423,9 +21328,8 @@ msgid "Deli_vered and opened"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "כללי"
+msgstr "אפשרויות _כלליות"
 
 #: ../widgets/misc/e-send-options.glade.h:10
 msgid ""
@@ -21483,9 +21387,8 @@ msgid "_After:"
 msgstr "אחרי"
 
 #: ../widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_All information"
-msgstr "מידע אישי"
+msgstr "כל ה_מידע"
 
 #: ../widgets/misc/e-send-options.glade.h:31
 #, fuzzy
@@ -21547,7 +21450,6 @@ msgid "_Available Categories:"
 msgstr "_קטגוריות"
 
 #: ../widgets/misc/gal-categories.glade.h:4
-#, fuzzy
 msgid "categories"
 msgstr "קטגוריות"
 
@@ -21664,22 +21566,19 @@ msgstr ""
 #: ../widgets/table/e-table-config.glade.h:2
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-header-item.c:1575
-#, fuzzy
 msgid "Ascending"
-msgstr "תזמון"
+msgstr "עולה"
 
 #: ../widgets/table/e-table-config.glade.h:3
 #: ../widgets/table/e-table-config-no-group.glade.h:4
-#, fuzzy
 msgid "Clear All"
-msgstr "_נקה"
+msgstr "_נקה הכל"
 
 #: ../widgets/table/e-table-config.glade.h:4
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1575
-#, fuzzy
 msgid "Descending"
-msgstr "תזמון"
+msgstr "יורד"
 
 #: ../widgets/table/e-table-config.glade.h:7
 #: ../widgets/table/e-table-config-no-group.glade.h:8
@@ -21689,13 +21588,12 @@ msgstr ""
 #: ../widgets/table/e-table-config.glade.h:8
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 msgid "Move _Down"
-msgstr ""
+msgstr "הזז למ_טה"
 
 #: ../widgets/table/e-table-config.glade.h:9
 #: ../widgets/table/e-table-config-no-group.glade.h:10
-#, fuzzy
 msgid "Move _Up"
-msgstr "העבר לתיקייה"
+msgstr "הזז ל_מעלה"
 
 #: ../widgets/table/e-table-config.glade.h:11
 #: ../widgets/table/e-table-config-no-group.glade.h:13
@@ -21739,18 +21637,18 @@ msgid "_Sort..."
 msgstr "_מיין..."
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
-#, fuzzy
 msgid "<- _Remove"
-msgstr "ה_סר"
+msgstr ""
+"ה_סר <-"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
 msgstr ""
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
-#, fuzzy
 msgid "_Add ->"
-msgstr "_הוסף"
+msgstr ""
+"_הוסף ->"
 
 #: ../widgets/table/e-table-field-chooser.c:77
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
@@ -21764,13 +21662,12 @@ msgstr "יוניקוד"
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
 #: ../widgets/table/e-table-field-chooser-item.c:644
 #: ../widgets/table/e-table-header-item.c:1886
-#, fuzzy
 msgid "Full Header"
-msgstr "כותרת"
+msgstr "כותרת מלאה"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
-msgstr ""
+msgstr "הוסף עמודה..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 #, fuzzy
@@ -21787,15 +21684,15 @@ msgstr ""
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s : %s (פריט אחד)"
+msgstr[1] "%s : %s (%d פריטים)"
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s (פריט אחד)"
+msgstr[1] "%s (%d פריטים)"
 
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-container.c:898
@@ -21890,7 +21787,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1481
 msgid "Add a Column..."
-msgstr ""
+msgstr "הוסף _עמודה..."
 
 #: ../widgets/table/e-table-header-item.c:1483
 #, fuzzy
@@ -22041,7 +21938,7 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:2739
 msgid "Input Methods"
-msgstr ""
+msgstr "שיטות קלט"
 
 #: ../widgets/text/e-text.c:3510 ../widgets/text/e-text.c:3511
 #, fuzzy
