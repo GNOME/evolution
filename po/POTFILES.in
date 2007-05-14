@@ -62,6 +62,7 @@ addressbook/gui/widgets/e-minicard-label.c
 addressbook/gui/widgets/e-minicard-view.c
 addressbook/gui/widgets/e-minicard-view-widget.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
+addressbook/gui/widgets/gal-view-factory-treeview.c
 addressbook/importers/evolution-csv-importer.c
 addressbook/importers/evolution-ldif-importer.c
 addressbook/importers/evolution-vcard-importer.c
@@ -72,6 +73,7 @@ addressbook/printing/test-print.c
 addressbook/tools/evolution-addressbook-export.c
 addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
+addressbook/tools/evolution-addressbook-import.c
 calendar/calendar.error.xml
 calendar/common/authentication.c
 calendar/conduits/calendar/calendar-conduit.c
@@ -96,6 +98,7 @@ calendar/gui/dialogs/alarm-list-dialog.c
 calendar/gui/dialogs/alarm-list-dialog.glade
 calendar/gui/dialogs/cal-attachment-select-file.c
 calendar/gui/dialogs/calendar-setup.c
+calendar/gui/dialogs/calendar-setup.glade
 calendar/gui/dialogs/cal-prefs-dialog.c
 calendar/gui/dialogs/cal-prefs-dialog.glade
 calendar/gui/dialogs/cancel-comp.c
@@ -110,10 +113,13 @@ calendar/gui/dialogs/e-delegate-dialog.glade
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.c
 calendar/gui/dialogs/event-page.glade
+calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
 calendar/gui/dialogs/memo-editor.c
 calendar/gui/dialogs/memo-page.c
 calendar/gui/dialogs/memo-page.glade
+calendar/gui/dialogs/new-calendar.glade
+calendar/gui/dialogs/new-task-list.glade
 calendar/gui/dialogs/recur-comp.c
 calendar/gui/dialogs/recurrence-page.c
 calendar/gui/dialogs/recurrence-page.glade
@@ -127,6 +133,7 @@ calendar/gui/dialogs/task-details-page.glade
 calendar/gui/dialogs/task-editor.c
 calendar/gui/dialogs/task-page.c
 calendar/gui/dialogs/task-page.glade
+calendar/gui/dialogs/url-editor-dialog.glade
 calendar/gui/e-alarm-list.c
 calendar/gui/e-cal-component-memo-preview.c
 calendar/gui/e-cal-component-preview.c
@@ -153,6 +160,7 @@ calendar/gui/e-meeting-time-sel-item.c
 calendar/gui/e-memos.c
 calendar/gui/e-memo-table.c
 calendar/gui/e-memo-table.etspec
+calendar/gui/e-pub-utils.c
 calendar/gui/e-tasks.c
 calendar/gui/e-timezone-entry.c
 calendar/gui/e-week-view.c
@@ -172,6 +180,9 @@ calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
 calendar/importers/icalendar-importer.c
 calendar/zones.h
+composer/e-msg-composer-attachment-bar.c
+composer/e-msg-composer-attachment.c
+composer/e-msg-composer-attachment.glade
 composer/e-msg-composer.c
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer-select-file.c
@@ -229,7 +240,9 @@ mail/evolution-mail.schemas.in.in
 mail/GNOME_Evolution_Mail.server.in.in
 mail/importers/elm-importer.c
 mail/importers/evolution-mbox-importer.c
+mail/importers/evolution-outlook-importer.c
 mail/importers/mail-importer.c
+mail/importers/netscape-importer.c
 mail/importers/pine-importer.c
 mail/mail-autofilter.c
 mail/mail-component.c
@@ -250,6 +263,7 @@ mail/message-list.c
 mail/message-list.etspec
 mail/message-tag-editor.c
 mail/message-tag-followup.c
+mail/message-tags.glade
 mail/searchtypes.xml
 plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
 plugins/audio-inline/org-gnome-audio-inline.eplug.xml
@@ -339,6 +353,7 @@ plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.e
 plugins/ipod-sync/evolution-ipod-sync.c
 plugins/ipod-sync/ical-format.c
 plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml
+plugins/ipod-sync/sync.c
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
 plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml
@@ -348,6 +363,8 @@ plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
+plugins/mail-notification/mail-notification.c
+plugins/mail-notification/org-gnome-mail-notification.eplug.xml
 plugins/mail-remote/client.c
 plugins/mail-remote/e-corba-utils.c
 plugins/mail-remote/evolution-mail-store.c
@@ -417,6 +434,7 @@ smime/gui/smime-ui.glade
 smime/lib/e-cert.c
 smime/lib/e-cert-db.c
 smime/lib/e-pkcs12.c
+tools/evolution-launch-composer.c
 tools/killev.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
