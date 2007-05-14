@@ -20,14 +20,5 @@
 			handle="org_gnome_message_reading_notify"
 			target="message"/>
 		</hook>
-
-		<hook class="org.gnome.evolution.mail.config:1.0">
-			<group id="org.gnome.evolution.mail.prefs" target="prefs">
-				<item type="item" 
-				path="00.general/30.notify/00.new_mail_notify" 
-				_label="New mail notify" 
-				factory="org_gnome_new_mail_config"/>
-			</group>
-		</hook>
 	</e-plugin>
 </e-plugin-list>
