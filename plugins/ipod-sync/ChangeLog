@@ -1,3 +1,9 @@
+2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #375234 from Vitaliy Ischenko  
+
+	* ipod.c: (find_ipod_mount_point):
+
 2007-04-10  Andre Klapper  <a9016009@gmx.de>
 
 	* plugins/ipod-sync/evolution-ipod-sync.c:

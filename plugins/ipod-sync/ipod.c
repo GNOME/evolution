@@ -173,6 +173,9 @@ find_ipod_mount_point (LibHalContext *ctx)
 			fsusage = libhal_device_get_property_string (ctx, udi2,
 				 				"volume.fsusage", NULL);
 
+			if (fsusage == NULL)
+				continue;
+
 			if (strncmp (fsusage, "filesystem", 10) == 0)
 			{
 				has_fs = 1;
