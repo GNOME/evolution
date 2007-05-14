@@ -38,7 +38,7 @@
      _tip="Permanently remove this folder"/>
 
     <cmd name="FolderRename"
-     _tip="Change the name of this folder"/>
+     _tip="Change the name of this folder" accel="F2"/>
      
      <cmd name="FolderRefresh"
      _tip="Refresh the folder"/>

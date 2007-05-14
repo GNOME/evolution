@@ -83,7 +83,8 @@
 	 pixtype="pixbuf"/>   
     <cmd name="FolderRename" _label="_Rename"
 	 _tip="Rename the selected folder"
-	 pixtype="pixbuf"/>   
+	 pixtype="pixbuf"
+	 accel="F2"/>   
     <cmd name="ChangeFolderProperties" _label="_Properties"
 	 _tip="Change the properties of the selected folder"
 	 pixtype="pixbuf"/>   

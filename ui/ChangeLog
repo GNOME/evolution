@@ -1,3 +1,10 @@
+2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #325966 from Christian Neumair  
+
+	* evolution-addressbook.xml:
+	* evolution-mail-list.xml:
+
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #378438 from Ebby Wiselyn
