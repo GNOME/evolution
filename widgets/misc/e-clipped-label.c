@@ -108,6 +108,9 @@ e_clipped_label_class_init (EClippedLabelClass *class)
 
 	object_class->finalize          = e_clipped_label_finalize;
 
+	/* Translators: This is the string to draw when the label 
+	 * of a fixed-size button is clipped, e.g. '...'.
+	 */
 	e_clipped_label_ellipsis = _("...");
 }
 

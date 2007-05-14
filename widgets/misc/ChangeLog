@@ -1,3 +1,8 @@
+2006-02-28  Andre Klapper  <a9016009@gmx.de>
+
+	* e-clipped-label.c: add translator comments for a string.
+	Fixes bug #325118.
+
 2007-05-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-attachment-bar.c (e_attachment_bar_remove_selected):
