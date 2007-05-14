@@ -1470,21 +1470,21 @@ free_popup_info (GtkWidget *w, EthiHeaderInfo *info)
 /* Bit 2 is disabled if not "sortable". */
 /* Bit 4 is disabled if we don't have a pointer to our table object. */
 static EPopupMenu ethi_context_menu [] = {
-	E_POPUP_ITEM (N_("Sort Ascending"),            G_CALLBACK(ethi_popup_sort_ascending),  2),
-	E_POPUP_ITEM (N_("Sort Descending"),           G_CALLBACK(ethi_popup_sort_descending), 2),
-	E_POPUP_ITEM (N_("Unsort"),                    G_CALLBACK(ethi_popup_unsort),          0),
+	E_POPUP_ITEM (N_("Sort _Ascending"),            G_CALLBACK(ethi_popup_sort_ascending),  2),
+	E_POPUP_ITEM (N_("Sort _Descending"),           G_CALLBACK(ethi_popup_sort_descending), 2),
+	E_POPUP_ITEM (N_("_Unsort"),                    G_CALLBACK(ethi_popup_unsort),          0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Group By This Field"),       G_CALLBACK(ethi_popup_group_field),     16),
-	E_POPUP_ITEM (N_("Group By Box"),              G_CALLBACK(ethi_popup_group_box),       128),
+	E_POPUP_ITEM (N_("Group By This _Field"),       G_CALLBACK(ethi_popup_group_field),     16),
+	E_POPUP_ITEM (N_("Group By _Box"),              G_CALLBACK(ethi_popup_group_box),       128),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Remove This Column"),        G_CALLBACK(ethi_popup_remove_column),   8),
-	E_POPUP_ITEM (N_("Add a Column..."),           G_CALLBACK(ethi_popup_field_chooser),   0),
+	E_POPUP_ITEM (N_("Remove This _Column"),        G_CALLBACK(ethi_popup_remove_column),   8),
+	E_POPUP_ITEM (N_("Add a C_olumn..."),           G_CALLBACK(ethi_popup_field_chooser),   0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Alignment"),                 G_CALLBACK(ethi_popup_alignment),       128),
-	E_POPUP_ITEM (N_("Best Fit"),                  G_CALLBACK(ethi_popup_best_fit),        2),
-	E_POPUP_ITEM (N_("Format Columns..."),         G_CALLBACK(ethi_popup_format_columns),  128),
+	E_POPUP_ITEM (N_("A_lignment"),                 G_CALLBACK(ethi_popup_alignment),       128),
+	E_POPUP_ITEM (N_("B_est Fit"),                  G_CALLBACK(ethi_popup_best_fit),        2),
+	E_POPUP_ITEM (N_("Format Column_s..."),         G_CALLBACK(ethi_popup_format_columns),  128),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Customize Current View..."), G_CALLBACK(ethi_popup_customize_view),  4),
+	E_POPUP_ITEM (N_("Custo_mize Current View..."), G_CALLBACK(ethi_popup_customize_view),  4),
 	E_POPUP_TERMINATOR
 };
 

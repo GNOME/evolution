@@ -1,3 +1,9 @@
+2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #378441 from Ebby Wiselyn
+
+	* e-table-header-item.c: Added mnemonics
+
 2007-05-12  simon.zheng  <simon.zheng@sun.com>
 
 	* Fix for bug #355919
