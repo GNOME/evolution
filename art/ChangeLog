@@ -1,3 +1,10 @@
+2007-05-03  David Farning <dfarning@gmail.com>
+
+	** Fix for bug #435610
+
+	* art/Makefile.am (update-icon-cache): fix gtk-update-icon-cache
+	for uninstall-hook.
+
 2007-05-11  Jakub Steiner <jimmac@ximian.com>
 
 	** Fix for bug #398145
