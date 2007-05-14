@@ -51,7 +51,7 @@ e_plugin_lib_enable (EPluginLib *epl, int enable)
 
 	/* Add the categories icons if we don't have them. */
 	for (l = e_categories_get_list (); l; l = g_list_next (l)) {
-		if (!strcmp (l->data, _("Weather: Cloudy"))) {
+		if (!strcmp ((const char *)l->data, _("Weather: Cloudy"))) {
 			found = TRUE;
 			break;
 		}
@@ -117,7 +117,7 @@ parse_subtree (GtkTreeIter *parent, xmlNode *node)
 
 	if (node->type == XML_ELEMENT_NODE) {
 		gtk_tree_store_append (store, &iter, parent);
-		if (strcmp (node->name, "location") == 0) {
+		if (strcmp ((const char *)node->name, "location") == 0) {
 			xmlAttr *attr;
 
 			child = node->children;
@@ -125,11 +125,11 @@ parse_subtree (GtkTreeIter *parent, xmlNode *node)
 			gtk_tree_store_set (store, &iter, 0, child->content, -1);
 
 			for (attr = node->properties; attr; attr = attr->next) {
-				if (strcmp (attr->name, "code") == 0)
+				if (strcmp ((const char *)attr->name, "code") == 0)
 					gtk_tree_store_set (store, &iter, 1, attr->children->content, -1);
-				else if (strcmp (attr->name, "url") == 0)
+				else if (strcmp ((const char *)attr->name, "url") == 0)
 					gtk_tree_store_set (store, &iter, 2, attr->children->content, -1);
-				else if (strcmp (attr->name, "type") == 0)
+				else if (strcmp ((const char *)attr->name, "type") == 0)
 					gtk_tree_store_set (store, &iter, 3, attr->children->content, -1);
 			}
 		} else {
@@ -139,7 +139,7 @@ parse_subtree (GtkTreeIter *parent, xmlNode *node)
 				parse_subtree (&iter, child);
 
 			for (attr = node->properties; attr; attr = attr->next)
-				if (strcmp (attr->name, "name") == 0)
+				if (strcmp ((const char *)attr->name, "name") == 0)
 					gtk_tree_store_set (store, &iter, 0, attr->children->content, -1);
 		}
 	}
@@ -367,7 +367,7 @@ location_clicked (GtkButton *button, ESource *source)
 
 		label = GTK_WIDGET (gtk_bin_get_child (GTK_BIN (button)));
 		text = gtk_label_get_text (GTK_LABEL (label));
-		if (strcmp (text, _("None")) == 0)
+		if (strcmp ((const char *)text, _("None")) == 0)
 			e_source_set_relative_uri (source, "");
 	}
 
@@ -397,7 +397,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
-	if (strcmp (uri->protocol, "weather")) {
+	if (strcmp ((const char *)uri->protocol, "weather")) {
 		e_uri_free (uri);
 		return hidden;
 	}
@@ -535,7 +535,7 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
 	g_free (uri_text);
-	if (strcmp (uri->protocol, "weather")) {
+	if (strcmp ((const char *)uri->protocol, "weather")) {
 		e_uri_free (uri);
 		return hidden;
 	}
@@ -593,7 +593,7 @@ set_units (ESource *source, GtkWidget *option)
 		if (format == NULL) {
 			e_source_set_property (source, "units", "metric");
 			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
-		} else if (strcmp (format, "fahrenheit") == 0) {
+		} else if (strcmp ((const char *)format, "fahrenheit") == 0) {
 			/* old format, convert */
 			e_source_set_property (source, "units", "imperial");
 			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 1);
@@ -602,7 +602,7 @@ set_units (ESource *source, GtkWidget *option)
 			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
 		}
 	} else {
-		if (strcmp (format, "metric") == 0)
+		if (strcmp ((const char *)format, "metric") == 0)
 			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
 		else
 			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 1);
@@ -641,7 +641,7 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
 	g_free (uri_text);
-	if (strcmp (uri->protocol, "weather")) {
+	if (strcmp ((const char *)uri->protocol, "weather")) {
 		e_uri_free (uri);
 		return hidden;
 	}
