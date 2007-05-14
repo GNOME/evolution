@@ -1,3 +1,10 @@
+2007-05-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fixes bug #432867
+
+	* e-util/e-util.c (e_write_file_uri) changed default
+	attribute for file from 0755 to 0644
+
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-icon-factory.c: (e_icon_factory_init): Add support for themable
