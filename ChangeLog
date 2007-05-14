@@ -7,6 +7,12 @@
 
 2007-05-08  Wang Xin <jedy.wang@sun.com>
 
+	** Fix for bug #380750
+
+	* configure.in: Make force-shutdown work in Solaris
+
+2007-05-08  Wang Xin <jedy.wang@sun.com>
+
 	* configure.in: Fixes 394579:incompatible awk on Solaris cause
 	evolution can not recognize the dbus whose version is newer than
 	1.0.0.
