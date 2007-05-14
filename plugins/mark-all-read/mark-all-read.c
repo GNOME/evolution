@@ -71,12 +71,13 @@ mar_got_folder (char *uri, CamelFolder *folder, void *data)
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST;
 
 	camel_exception_init (&ex);
-	store = folder->parent_store;
-	info = camel_store_get_folder_info (store, folder->full_name, flags, &ex); 
 
 	/* FIXME we have to disable the menu item */
 	if (!folder)
 		return;
+
+	store = folder->parent_store;
+	info = camel_store_get_folder_info (store, folder->full_name, flags, &ex); 
 
 	if (camel_exception_is_set (&ex)) { 
 		camel_exception_clear (&ex);
