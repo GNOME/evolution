@@ -1049,7 +1049,14 @@ dnl *****************
 dnl killall or pkill?
 dnl *****************
 
-AC_PATH_PROGS(KILL_PROCESS_CMD, killall pkill)
+case "$host" in
+*solaris*)
+	AC_PATH_PROGS(KILL_PROCESS_CMD, pkill)
+	;;
+*)
+	AC_PATH_PROGS(KILL_PROCESS_CMD, killall pkill)
+	;;
+esac
 if test -z "$KILL_PROCESS_CMD"; then
 	AC_MSG_WARN([Could not find a command to kill a process by name])
 else
