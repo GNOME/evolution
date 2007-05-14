@@ -1,5 +1,9 @@
 2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* gui/GNOME_Evolution_Calendar.server.in.in: Fix for bug #407104
+
+2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #330098 from Naresh
 
 	* gui/dialogs/select-source-dialog.c: (select_source_dialog):

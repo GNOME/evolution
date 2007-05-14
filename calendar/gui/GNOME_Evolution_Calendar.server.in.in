@@ -50,9 +50,11 @@
         <oaf_attribute name="evolution:button_icon" type="string" value="stock_calendar"/>
 	<oaf_attribute name="evolution:button_sort_order" type="string" value="-8"/>
 
+<!-- FIXME: See bug 407104: Write a interface to launch without shell.
         <oaf_attribute name="evolution:uri_schemas" type="stringv">
           <item value="calendar"/>
         </oaf_attribute>
+-->
 
 </oaf_server>
 
