@@ -563,7 +563,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 
 	g_string_assign (accum, "");
 
-	accum_attribute (accum, contact, _("Organization"), E_CONTACT_ORG, NULL, 0);
+	accum_attribute (accum, contact, _("Company"), E_CONTACT_ORG, NULL, 0);
 	accum_attribute (accum, contact, _("Department"), E_CONTACT_ORG_UNIT, NULL, 0);
 	accum_attribute (accum, contact, _("Profession"), E_CONTACT_ROLE, NULL, 0);
 	accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);

@@ -1,3 +1,16 @@
+2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #404239 from Øystein Gisnås
+
+	* /addressbook/gui/widgets/e-minicard.c: 
+
+2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #358250 from Javier F. Serrador
+
+	* gui/widgets/e-addressbook-view.etspec:
+	* gui/widgets/eab-contact-display.c: (render_contact):
+
 2007-05-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #337616

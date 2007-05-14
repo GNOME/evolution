@@ -847,7 +847,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 
 	for (l=email_list, le=emails; l!=NULL && count < limit && le!=NULL; l = l->next, le=le->next) {
 		
-		name = get_email_location ((EVCardAttribute *) l->data);
+		name = g_strdup_printf("%s:", get_email_location ((EVCardAttribute *) l->data));
 		string = e_text_to_html (le->data, 0);
 
 		new_item = e_minicard_label_new(group);
@@ -877,6 +877,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		e_minicard->fields = g_list_append( e_minicard->fields, minicard_field);
 		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 		count++;
+		g_free(name);
 		g_free(string);
 	}
 	g_list_free (emails);
