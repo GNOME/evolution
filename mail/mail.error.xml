@@ -368,6 +368,13 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
     <button stock="gtk-yes" _label="Mark as _Read" response="GTK_RESPONSE_YES"/>
   </error>
 
+  <error id="ask-quick-offline" type="question" default="GTK_RESPONSE_NO">
+    <_primary>Synchronize folders locally for offline usage?</_primary>
+    <_secondary xml:space="preserve">Do you want to locally synchronize the folders that are marked for offline usage?</_secondary>
+    <button stock="gtk-no" _label="_Do not Synchronize" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-yes" _label="Synchronize" response="GTK_RESPONSE_YES"/>
+  </error>
+
   <error id="ask-mark-all-read" type="question" default="GTK_RESPONSE_NO">
     <_title>Mark all messages as read</_title>
     <_primary>Do you want to mark all messages as read?</_primary>

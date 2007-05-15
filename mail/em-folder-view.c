@@ -56,6 +56,8 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-url.h>
 #include <camel/camel-vee-folder.h>
+#include <camel/camel-disco-store.h>
+#include <camel/camel-offline-store.h>
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
@@ -1322,6 +1324,22 @@ emfv_empty_trash(BonoboUIComponent *uid, void *data, const char *path)
 	em_utils_empty_trash (gtk_widget_get_toplevel ((GtkWidget *) emfv));
 }
 
+static void
+prepare_offline(void *key, void *value, void *data)
+{
+	CamelService *service = key;
+
+	if (CAMEL_IS_DISCO_STORE(service)
+	    || CAMEL_IS_OFFLINE_STORE(service)) {
+		mail_store_prepare_offline((CamelStore *)service);
+	}
+}
+
+static void
+emfv_prepare_offline(BonoboUIComponent *uid, void *data, const char *path)
+{
+	mail_component_stores_foreach(mail_component_peek(), prepare_offline, NULL);
+}
 
 static void
 emfv_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
@@ -1737,7 +1755,7 @@ EMFV_MAP_CALLBACK(emfv_tools_vfolder_mlist, emfv_popup_vfolder_mlist)
 
 static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", emfv_empty_trash),
-
+	BONOBO_UI_UNSAFE_VERB ("PrepareForOffline", emfv_prepare_offline),
 	BONOBO_UI_UNSAFE_VERB ("EditCut", emfv_edit_cut),
 	BONOBO_UI_UNSAFE_VERB ("EditCopy", emfv_edit_copy),
 	BONOBO_UI_UNSAFE_VERB ("EditPaste", emfv_edit_paste),

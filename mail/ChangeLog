@@ -1,3 +1,17 @@
+2007-05-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Improved options for offline support.
+
+	* em-folder-view.c: (prepare_offline), (emfv_prepare_offline): Adds
+	option for downloading for offline.
+	* evolution-mail.schemas.in.in:
+	* mail-component.c: (status_check): Adds a option for non-sync while
+	going offline.
+	* mail-ops.c: (prepare_offline_desc), (prepare_offline_do),
+	(prepare_offline_done), (prepare_offline_free),
+	(mail_store_prepare_offline):
+	* mail.error.xml:
+
 2007-05-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #334966 

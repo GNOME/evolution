@@ -2350,6 +2350,71 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 	return id;
 }
 
+/* ** Prepare OFFLINE ***************************************************** */
+
+static char *prepare_offline_desc(struct _mail_msg *mm, int done)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	char *msg;
+
+	msg = g_strdup_printf(_("Preparing account '%s' for offline"), service_name);
+	g_free(service_name);
+
+	return msg;
+}
+
+static void prepare_offline_do(struct _mail_msg *mm)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+
+	camel_disco_store_prepare_for_offline (CAMEL_DISCO_STORE (m->store),
+				      	       &mm->ex);
+}
+
+static void prepare_offline_done(struct _mail_msg *mm)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+
+	if (m->done)
+		m->done(m->store, m->data);
+}
+
+static void prepare_offline_free(struct _mail_msg *mm)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+
+	camel_object_unref(m->store);
+}
+
+static struct _mail_msg_op prepare_offline_op = {
+	prepare_offline_desc,
+	prepare_offline_do,
+	prepare_offline_done,
+	prepare_offline_free,
+};
+
+int
+mail_store_prepare_offline (CamelStore *store)
+{
+	struct _set_offline_msg *m;
+	int id;
+
+	/* Cancel any pending connect first so the set_offline_op
+	 * thread won't get queued behind a hung connect op.
+	 */
+
+	m = mail_msg_new(&prepare_offline_op, NULL, sizeof(*m));
+	m->store = store;
+	camel_object_ref(store);
+	m->data = NULL;
+	m->done = NULL;
+
+	id = m->msg.seq;
+	e_thread_put(mail_thread_new, (EMsg *)m);
+
+	return id;
+}
 /* ** Execute Shell Command ***************************************************** */
 
 void

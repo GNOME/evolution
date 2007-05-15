@@ -1099,7 +1099,8 @@ status_check (GNOME_Evolution_ShellState shell_state)
 	{
 	    case GNOME_Evolution_USER_OFFLINE:
 		    status = OFFLINE;
-		    break;
+		    if (em_utils_prompt_user (NULL, "/apps/evolution/mail/prompts/quick_offline", "mail:ask-quick-offline", NULL))
+		    	break;
 	    case GNOME_Evolution_FORCED_OFFLINE: 
 		    /*Network is down so change network state on the camel session*/
 		    status = OFFLINE;
