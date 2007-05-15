@@ -1,4 +1,3 @@
-# English (Commonwealth) translation
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Robert Brady <rwb197@zepler.org>, 2000.
 # Gareth Owen <gowen72@yahoo.com>, David Lodge <dave@cirt.net>, 2004.
@@ -7,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-22 20:24+0100\n"
-"PO-Revision-Date: 2007-04-22 20:25-0000\n"
+"POT-Creation-Date: 2007-05-15 22:18+0100\n"
+"PO-Revision-Date: 2007-05-15 22:21-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -389,7 +388,7 @@ msgstr "Failed to authenticate with LDAP server."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1854
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1853
 msgid "Failed to delete contact"
 msgstr "Failed to delete contact"
 
@@ -647,7 +646,7 @@ msgid "General"
 msgstr "General"
 
 #: ../addressbook/gui/component/addressbook-config.c:985
-#: ../addressbook/gui/widgets/e-addressbook-view.c:565
+#: ../addressbook/gui/widgets/e-addressbook-view.c:564
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "Address Book"
@@ -668,7 +667,7 @@ msgid "Details"
 msgstr "Details"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
-#: ../mail/em-folder-browser.c:852
+#: ../mail/em-folder-browser.c:853
 msgid "Searching"
 msgstr "Searching"
 
@@ -768,18 +767,18 @@ msgstr "_New Address Book"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
-#: ../addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../addressbook/gui/widgets/e-addressbook-view.c:978
 #: ../calendar/gui/calendar-component.c:584
 #: ../calendar/gui/e-calendar-table.c:1303
 #: ../calendar/gui/e-calendar-view.c:1701
 #: ../calendar/gui/e-memo-table.c:919
 #: ../calendar/gui/memos-component.c:453
 #: ../calendar/gui/tasks-component.c:444
-#: ../mail/em-folder-tree.c:2103
-#: ../mail/em-folder-view.c:1148
+#: ../mail/em-folder-tree.c:2120
+#: ../mail/em-folder-view.c:1151
 #: ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:40
-#: ../ui/evolution-mail-list.xml.h:30
+#: ../ui/evolution-mail-list.xml.h:32
 #: ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
@@ -797,15 +796,15 @@ msgid "_Properties..."
 msgstr "_Properties..."
 
 #. Create the contacts group
-#: ../addressbook/gui/component/addressbook-view.c:1334
+#: ../addressbook/gui/component/addressbook-view.c:1338
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../calendar/gui/calendar-component.c:272
 #: ../calendar/gui/migration.c:402
-#: ../plugins/exchange-operations/exchange-folder.c:575
+#: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
 msgstr "Contacts"
 
-#: ../addressbook/gui/component/addressbook-view.c:1345
+#: ../addressbook/gui/component/addressbook-view.c:1349
 msgid "Contact Source Selector"
 msgstr "Contact Source Selector"
 
@@ -1147,7 +1146,7 @@ msgstr "cards"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:13
 #: ../calendar/gui/dialogs/event-page.glade.h:20
-#: ../filter/filter.glade.h:16
+#: ../filter/filter.glade.h:17
 #: ../mail/em-account-editor.c:2054
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
@@ -1191,13 +1190,13 @@ msgid "<b>Work</b>"
 msgstr "<b>Work</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:185
 #: ../addressbook/gui/widgets/eab-contact-display.c:551
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:275
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:274
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:174
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:194
@@ -1205,9 +1204,9 @@ msgid "Contact"
 msgstr "Contact"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:552
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:567
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2420
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:551
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:566
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
 msgid "Contact Editor"
 msgstr "Contact Editor"
 
@@ -1247,7 +1246,7 @@ msgstr "Telephone"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:204
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:203
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:238
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
@@ -1274,7 +1273,7 @@ msgid "_Birthday:"
 msgstr "_Birthday:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:879
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1716
 msgid "_Calendar:"
@@ -1409,12 +1408,12 @@ msgid "Address"
 msgstr "Address"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:104
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:303
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:302
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:96
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:144
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:188
 #: ../addressbook/gui/widgets/e-addressbook-model.c:312
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:397
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
@@ -2396,89 +2395,89 @@ msgstr "Zambia"
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/widgets/eab-contact-display.c:554
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:556
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:189
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:557
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:190
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:555
 msgid "MSN"
 msgstr "MSN"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:191
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:69
 #: ../addressbook/gui/widgets/eab-contact-display.c:553
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:192
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:191
 #: ../addressbook/gui/widgets/eab-contact-display.c:552
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:205
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:204
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/widgets/eab-contact-display.c:58
 msgid "Home"
 msgstr "Home"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:206
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:205
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:242
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
 msgid "Other"
 msgstr "Other"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:261
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:260
 msgid "Source Book"
 msgstr "Source Book"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:268
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:267
 msgid "Target Book"
 msgstr "Target Book"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:282
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:281
 msgid "Is New Contact"
 msgstr "Is New Contact"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:289
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:288
 msgid "Writable Fields"
 msgstr "Writable Fields"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:296
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:295
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:310
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:309
 msgid "Changed"
 msgstr "Changed"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:562
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2415
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:561
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Contact Editor - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2795
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2794
 msgid "Please select an image for this contact"
 msgstr "Please select an image for this contact"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2796
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2795
 msgid "_No image"
 msgstr "_No image"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3096
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2486,30 +2485,30 @@ msgstr ""
 "The contact data is invalid:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3101
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3100
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' has an invalid format"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3108
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3107
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' has an invalid format"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3123
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3134
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3122
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3133
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' is empty"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3149
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3148
 msgid "Invalid contact."
 msgstr "Invalid contact."
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:90
 #: ../plugins/exchange-operations/exchange-delegates.c:934
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
-#: ../plugins/plugin-manager/plugin-manager.c:42
+#: ../plugins/plugin-manager/plugin-manager.c:52
 #: ../plugins/save-attachments/save-attachments.c:366
 #: ../widgets/menus/gal-view-new-dialog.c:73
 msgid "Name"
@@ -2596,7 +2595,7 @@ msgid "Esq."
 msgstr "Esq."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Full Name"
 msgstr "Full Name"
 
@@ -2715,8 +2714,8 @@ msgstr "_Type an email address or drag a contact into the list below:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:225
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:383
+#: ../addressbook/gui/widgets/e-addressbook-view.c:224
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 msgid "Book"
@@ -2783,40 +2782,40 @@ msgstr "Merge"
 #: ../addressbook/gui/widgets/eab-contact-display.c:535
 #: ../addressbook/gui/widgets/eab-contact-display.c:537
 #: ../addressbook/gui/widgets/eab-contact-display.c:780
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 #: ../plugins/groupwise-features/junk-settings.c:425
 #: ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "Email"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:173
+#: ../addressbook/gui/widgets/e-addressbook-view.c:172
 #: ../calendar/gui/cal-search-bar.c:60
 msgid "Any field contains"
 msgstr "Any field contains"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#: ../addressbook/gui/widgets/e-addressbook-view.c:171
 msgid "Email begins with"
 msgstr "Email begins with"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:171
+#: ../addressbook/gui/widgets/e-addressbook-view.c:170
 msgid "Name begins with"
 msgstr "Name begins with"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:172
-#: ../mail/em-popup.c:620
+#: ../mail/em-popup.c:625
 msgid "_Open Link in Browser"
 msgstr "_Open Link in Browser"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2529
+#: ../mail/em-folder-view.c:2548
 msgid "_Copy Link Location"
 msgstr "_Copy Link Location"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174
-#: ../mail/em-popup.c:621
+#: ../mail/em-popup.c:626
 msgid "_Send New Message To..."
 msgstr "_Send New Message To..."
 
@@ -2841,14 +2840,14 @@ msgid "List Members"
 msgstr "List Members"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Nickname"
 msgstr "Nickname"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:566
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-msgid "Organization"
-msgstr "Organisation"
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
+msgid "Company"
+msgstr "Company"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:567
 msgid "Department"
@@ -2863,7 +2862,7 @@ msgid "Position"
 msgstr "Position"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:570
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Manager"
 msgstr "Manager"
 
@@ -2881,7 +2880,7 @@ msgstr "Video Chat"
 #: ../calendar/gui/calendar-component.c:755
 #: ../calendar/gui/dialogs/calendar-setup.c:366
 #: ../calendar/gui/gnome-cal.c:2306
-#: ../plugins/exchange-operations/exchange-folder.c:569
+#: ../plugins/exchange-operations/exchange-folder.c:575
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:400
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:431
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:544
@@ -2916,7 +2915,7 @@ msgid "Web Log"
 msgstr "Web Log"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:591
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Mobile Phone"
 msgstr "Mobile Phone"
 
@@ -2934,7 +2933,7 @@ msgid "Spouse"
 msgstr "Spouse"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:604
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Note"
 msgstr "Note"
 
@@ -3044,7 +3043,7 @@ msgstr "Not available in offline mode"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1854
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1853
 msgid "Other error"
 msgstr "Other error"
 
@@ -3259,8 +3258,8 @@ msgstr[0] "%d contact"
 msgstr[1] "%d contacts"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:239
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
+#: ../addressbook/gui/widgets/e-addressbook-view.c:238
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 msgid "Query"
@@ -3270,7 +3269,7 @@ msgstr "Query"
 msgid "Error getting book view"
 msgstr "Error getting book view"
 
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
 #: ../widgets/table/e-table.c:3340
 #: ../widgets/table/e-table-click-to-add.c:502
 #: ../widgets/table/e-table-selection-model.c:311
@@ -3286,11 +3285,11 @@ msgstr "Model"
 msgid "Error modifying card"
 msgstr "Error modifying card"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:232
+#: ../addressbook/gui/widgets/e-addressbook-view.c:231
 msgid "Source"
 msgstr "Source"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:246
+#: ../addressbook/gui/widgets/e-addressbook-view.c:245
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
 #: ../calendar/gui/e-meeting-list-view.c:500
@@ -3299,13 +3298,13 @@ msgstr "Source"
 msgid "Type"
 msgstr "Type"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:836
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2073
+#: ../addressbook/gui/widgets/e-addressbook-view.c:835
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2072
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Save as VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:957
+#: ../addressbook/gui/widgets/e-addressbook-view.c:956
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../calendar/gui/e-calendar-table.c:1281
 #: ../calendar/gui/e-calendar-view.c:1679
@@ -3314,57 +3313,57 @@ msgstr "Save as VCard..."
 msgid "_Open"
 msgstr "_Open"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:959
+#: ../addressbook/gui/widgets/e-addressbook-view.c:958
 msgid "_New Contact..."
 msgstr "_New Contact..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:960
+#: ../addressbook/gui/widgets/e-addressbook-view.c:959
 msgid "New Contact _List..."
 msgstr "New Contact _List..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:963
+#: ../addressbook/gui/widgets/e-addressbook-view.c:962
 msgid "_Save as VCard..."
 msgstr "_Save as VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:964
+#: ../addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "_Forward Contact"
 msgstr "_Forward Contact"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:965
+#: ../addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "_Forward Contacts"
 msgstr "_Forward Contacts"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:966
+#: ../addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "Send _Message to Contact"
 msgstr "Send _Message to Contact"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:967
+#: ../addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "Send _Message to List"
 msgstr "Send _Message to List"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:968
+#: ../addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "Send _Message to Contacts"
 msgstr "Send _Message to Contacts"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:969
+#: ../addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "_Print"
 msgstr "_Print"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:972
+#: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "Cop_y to Address Book..."
 msgstr "Cop_y to Address Book..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:973
+#: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Mo_ve to Address Book..."
 msgstr "Mo_ve to Address Book..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:976
+#: ../addressbook/gui/widgets/e-addressbook-view.c:975
 #: ../ui/evolution-composer-entries.xml.h:4
 #: ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "Cu_t"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:977
+#: ../addressbook/gui/widgets/e-addressbook-view.c:976
 #: ../calendar/gui/calendar-component.c:583
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1289
@@ -3373,8 +3372,8 @@ msgstr "Cu_t"
 #: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:443
 #: ../composer/e-msg-composer.c:3177
-#: ../mail/em-folder-tree.c:1004
-#: ../mail/em-folder-view.c:1134
+#: ../mail/em-folder-tree.c:1005
+#: ../mail/em-folder-view.c:1136
 #: ../mail/message-list.c:1922
 #: ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39
@@ -3386,12 +3385,12 @@ msgstr "Cu_t"
 msgid "_Copy"
 msgstr "_Copy"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:978
+#: ../addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "P_aste"
 msgstr "P_aste"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1660
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1659
 #: ../calendar/gui/cal-search-bar.c:428
 msgid "Any Category"
 msgstr "Any Category"
@@ -3428,51 +3427,51 @@ msgstr "Car Phone"
 msgid "Categories"
 msgstr "Categories"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
 msgstr "Company Phone"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 2"
 msgstr "Email 2"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 3"
 msgstr "Email 3"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Family Name"
 msgstr "Surname"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "File As"
 msgstr "File As"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Given Name"
 msgstr "Forename"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
 msgstr "Home Fax"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone"
 msgstr "Home Phone"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Home Phone 2"
 msgstr "Home Phone 2"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "ISDN Phone"
 msgstr "ISDN Phone"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Journal"
 msgstr "Journal"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Office"
 msgstr "Office"
 
@@ -3978,8 +3977,8 @@ msgstr "In normal mode, there is no need for the size option."
 msgid "Unhandled error"
 msgstr "Unhandled error"
 
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:668
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:704
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
 msgstr "Can not open file"
@@ -4294,7 +4293,7 @@ msgstr "_Discard Changes"
 
 #: ../calendar/calendar.error.xml.h:71
 #: ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:54
+#: ../ui/evolution-message-composer.xml.h:59
 msgid "_Save"
 msgstr "_Save"
 
@@ -4304,7 +4303,7 @@ msgstr "_Save Changes"
 
 #: ../calendar/calendar.error.xml.h:73
 #: ../composer/mail-composer.error.xml.h:33
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:139
 msgid "_Send"
 msgstr "_Send"
 
@@ -4394,8 +4393,8 @@ msgstr "Appointments"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1622
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1628
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1641
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1647
 #: ../calendar/gui/e-itip-control.c:1145
 #: ../plugins/itip-formatter/itip-view.c:943
 msgid "Location:"
@@ -4417,7 +4416,7 @@ msgstr "Snooze _time:"
 #: ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:52
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10
 #: ../ui/evolution-tasks.xml.h:25
@@ -4433,31 +4432,31 @@ msgstr "_Snooze"
 msgid "location of appointment"
 msgstr "location of appointment"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1457
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1604
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1473
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1623
 msgid "No summary available."
 msgstr "No summary available."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1466
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1468
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1482
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1484
 msgid "No description available."
 msgstr "No description available."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1476
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1492
 msgid "No location information available."
 msgstr "No location information available."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1535
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1554
 #, c-format
 msgid "You have %d alarms"
 msgstr "You have %d alarms"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1706
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1734
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1725
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1753
 msgid "Warning"
 msgstr "Warning"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1710
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1729
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4469,7 +4468,7 @@ msgstr ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialogue box instead."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1740
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1759
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is configured to run the following program:\n"
@@ -4484,7 +4483,7 @@ msgstr ""
 "\n"
 "Are you sure you want to run this program?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1754
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1773
 msgid "Do not ask me about this program again."
 msgstr "Do not ask me about this program again."
 
@@ -4745,12 +4744,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Show status field in the event/task/meeting editor"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
-#: ../mail/evolution-mail.schemas.in.in.h:90
+#: ../mail/evolution-mail.schemas.in.in.h:92
 msgid "Show the \"Preview\" pane"
 msgstr "Show the \"Preview\" pane"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
-#: ../mail/evolution-mail.schemas.in.in.h:91
+#: ../mail/evolution-mail.schemas.in.in.h:93
 msgid "Show the \"Preview\" pane."
 msgstr "Show the \"Preview\" pane."
 
@@ -5308,7 +5307,7 @@ msgid "_URL:"
 msgstr "_URL:"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../filter/filter.glade.h:21
+#: ../filter/filter.glade.h:22
 #: ../plugins/calendar-http/calendar-http.c:289
 #: ../plugins/calendar-weather/calendar-weather.c:566
 msgid "weeks"
@@ -5622,16 +5621,16 @@ msgstr[1] "%d attached messages"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464
 #: ../composer/e-msg-composer.c:3178
-#: ../mail/em-folder-tree.c:1005
+#: ../mail/em-folder-tree.c:1006
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1030
+#: ../mail/em-folder-view.c:1032
 #: ../mail/message-list.c:1923
 msgid "_Move"
 msgstr "_Move"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466
 #: ../composer/e-msg-composer.c:3180
-#: ../mail/em-folder-tree.c:1007
+#: ../mail/em-folder-tree.c:1008
 #: ../mail/message-list.c:1925
 msgid "Cancel _Drag"
 msgstr "Cancel _Drag"
@@ -5658,7 +5657,7 @@ msgid "Show Attachment _Bar"
 msgstr "Show Attachment _Bar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1122
-#: ../calendar/gui/dialogs/event-page.c:1898
+#: ../calendar/gui/dialogs/event-page.c:1902
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3685
@@ -5671,9 +5670,9 @@ msgstr "_Remove"
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:471
 #: ../composer/e-msg-composer.c:3686
-#: ../mail/em-folder-tree.c:2107
+#: ../mail/em-folder-tree.c:2127
 #: ../ui/evolution-addressbook.xml.h:59
-#: ../ui/evolution-mail-list.xml.h:33
+#: ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Properties"
 
@@ -5865,12 +5864,12 @@ msgstr "Appoint_ment"
 msgid "Recurrence"
 msgstr "Recurrence"
 
-#: ../calendar/gui/dialogs/event-page.c:810
-#: ../calendar/gui/dialogs/event-page.c:2717
+#: ../calendar/gui/dialogs/event-page.c:814
+#: ../calendar/gui/dialogs/event-page.c:2721
 msgid "This event has alarms"
 msgstr "This event has alarms"
 
-#: ../calendar/gui/dialogs/event-page.c:882
+#: ../calendar/gui/dialogs/event-page.c:886
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
@@ -5878,94 +5877,94 @@ msgstr "This event has alarms"
 msgid "Or_ganizer:"
 msgstr "Or_ganiser:"
 
-#: ../calendar/gui/dialogs/event-page.c:920
+#: ../calendar/gui/dialogs/event-page.c:924
 msgid "_Delegatees"
 msgstr "_Delegatees"
 
-#: ../calendar/gui/dialogs/event-page.c:922
+#: ../calendar/gui/dialogs/event-page.c:926
 msgid "Atte_ndees"
 msgstr "Atte_ndees"
 
-#: ../calendar/gui/dialogs/event-page.c:1087
+#: ../calendar/gui/dialogs/event-page.c:1091
 msgid "Event with no start date"
 msgstr "Event with no start date"
 
-#: ../calendar/gui/dialogs/event-page.c:1090
+#: ../calendar/gui/dialogs/event-page.c:1094
 msgid "Event with no end date"
 msgstr "Event with no end date"
 
-#: ../calendar/gui/dialogs/event-page.c:1259
+#: ../calendar/gui/dialogs/event-page.c:1263
 #: ../calendar/gui/dialogs/memo-page.c:685
 #: ../calendar/gui/dialogs/task-page.c:849
 msgid "Start date is wrong"
 msgstr "Start date is wrong"
 
-#: ../calendar/gui/dialogs/event-page.c:1269
+#: ../calendar/gui/dialogs/event-page.c:1273
 msgid "End date is wrong"
 msgstr "End date is wrong"
 
-#: ../calendar/gui/dialogs/event-page.c:1292
+#: ../calendar/gui/dialogs/event-page.c:1296
 msgid "Start time is wrong"
 msgstr "Start time is wrong"
 
-#: ../calendar/gui/dialogs/event-page.c:1299
+#: ../calendar/gui/dialogs/event-page.c:1303
 msgid "End time is wrong"
 msgstr "End time is wrong"
 
-#: ../calendar/gui/dialogs/event-page.c:1456
+#: ../calendar/gui/dialogs/event-page.c:1460
 #: ../calendar/gui/dialogs/memo-page.c:720
 #: ../calendar/gui/dialogs/task-page.c:906
 msgid "The organizer selected no longer has an account."
 msgstr "The organiser selected no longer has an account."
 
-#: ../calendar/gui/dialogs/event-page.c:1462
+#: ../calendar/gui/dialogs/event-page.c:1466
 #: ../calendar/gui/dialogs/memo-page.c:726
 #: ../calendar/gui/dialogs/task-page.c:912
 msgid "An organizer is required."
 msgstr "An organiser is required."
 
-#: ../calendar/gui/dialogs/event-page.c:1477
+#: ../calendar/gui/dialogs/event-page.c:1481
 #: ../calendar/gui/dialogs/task-page.c:927
 msgid "At least one attendee is required."
 msgstr "At least one attendee is required."
 
-#: ../calendar/gui/dialogs/event-page.c:1899
+#: ../calendar/gui/dialogs/event-page.c:1903
 #: ../calendar/gui/dialogs/task-page.c:1200
 msgid "_Add "
 msgstr "_Add "
 
-#: ../calendar/gui/dialogs/event-page.c:2624
+#: ../calendar/gui/dialogs/event-page.c:2628
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Unable to open the calendar '%s'."
 
-#: ../calendar/gui/dialogs/event-page.c:2930
+#: ../calendar/gui/dialogs/event-page.c:2934
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d day before appointment"
 msgstr[1] "%d days before appointment"
 
-#: ../calendar/gui/dialogs/event-page.c:2936
+#: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hour before appointment"
 msgstr[1] "%d hours before appointment"
 
-#: ../calendar/gui/dialogs/event-page.c:2942
+#: ../calendar/gui/dialogs/event-page.c:2946
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minute before appointment"
 msgstr[1] "%d minutes before appointment"
 
-#: ../calendar/gui/dialogs/event-page.c:2955
+#: ../calendar/gui/dialogs/event-page.c:2959
 msgid "Customize"
 msgstr "Customise"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:2960
+#: ../calendar/gui/dialogs/event-page.c:2964
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
@@ -6011,7 +6010,6 @@ msgid "Custom Alarm:"
 msgstr "Custom Alarm:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
-#: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "D_escription:"
 msgstr "D_escription:"
 
@@ -6520,6 +6518,10 @@ msgstr "Atte_ndees..."
 msgid "Categor_ies..."
 msgstr "Categor_ies..."
 
+#: ../calendar/gui/dialogs/task-page.glade.h:3
+msgid "De_scription:"
+msgstr "De_scription:"
+
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
 msgstr "Or_ganiser:"
@@ -6653,7 +6655,7 @@ msgstr "%s for an unknown trigger type"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
 #: ../calendar/gui/e-cal-component-preview.c:72
-#: ../mail/em-folder-view.c:2897
+#: ../mail/em-folder-view.c:2916
 #, c-format
 msgid "Click to open %s"
 msgstr "Click to open %s"
@@ -6681,7 +6683,7 @@ msgid "Description:"
 msgstr "Description:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:254
-#: ../calendar/gui/e-cal-component-preview.c:303
+#: ../calendar/gui/e-cal-component-preview.c:304
 msgid "Web Page:"
 msgstr "Web Page:"
 
@@ -6793,7 +6795,7 @@ msgstr "Busy"
 #: ../calendar/gui/tasks-control.c:494
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:581
+#: ../plugins/exchange-operations/exchange-folder.c:587
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:401
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:545
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -6833,9 +6835,9 @@ msgstr "Open _Web Page"
 #: ../calendar/gui/e-calendar-view.c:1680
 #: ../calendar/gui/e-cal-popup.c:276
 #: ../calendar/gui/e-memo-table.c:904
-#: ../mail/em-folder-view.c:1144
-#: ../mail/em-popup.c:554
-#: ../mail/em-popup.c:565
+#: ../mail/em-folder-view.c:1147
+#: ../mail/em-popup.c:559
+#: ../mail/em-popup.c:570
 msgid "_Save As..."
 msgstr "_Save As..."
 
@@ -6843,7 +6845,7 @@ msgstr "_Save As..."
 #: ../calendar/gui/e-calendar-view.c:1665
 #: ../calendar/gui/e-calendar-view.c:1681
 #: ../calendar/gui/e-memo-table.c:905
-#: ../mail/em-folder-view.c:1145
+#: ../mail/em-folder-view.c:1148
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58
 #: ../ui/evolution-calendar.xml.h:44
@@ -7009,9 +7011,9 @@ msgid "_Reply"
 msgstr "_Reply"
 
 #: ../calendar/gui/e-calendar-view.c:1697
-#: ../mail/em-folder-view.c:1139
-#: ../mail/em-popup.c:559
-#: ../mail/em-popup.c:570
+#: ../mail/em-folder-view.c:1141
+#: ../mail/em-popup.c:564
+#: ../mail/em-popup.c:575
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
 msgstr "Reply to _All"
@@ -7078,8 +7080,8 @@ msgstr "Start Date"
 #: ../mail/em-utils.c:1199
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1800
-#: ../plugins/plugin-manager/plugin-manager.c:68
-#: ../widgets/misc/e-attachment-bar.c:710
+#: ../plugins/plugin-manager/plugin-manager.c:77
+#: ../widgets/misc/e-attachment-bar.c:712
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "Unknown"
@@ -7121,7 +7123,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #: ../calendar/gui/e-cal-popup.c:177
-#: ../mail/em-popup.c:412
+#: ../mail/em-popup.c:417
 msgid "Save As..."
 msgstr "Save As..."
 
@@ -7131,14 +7133,14 @@ msgid "Select folder to save selected attachments..."
 msgstr "Select folder to save selected attachments..."
 
 #: ../calendar/gui/e-cal-popup.c:222
-#: ../mail/em-popup.c:437
+#: ../mail/em-popup.c:442
 #, c-format
 msgid "untitled_image.%s"
 msgstr "untitled_image.%s"
 
 #: ../calendar/gui/e-cal-popup.c:277
-#: ../mail/em-popup.c:555
-#: ../mail/em-popup.c:566
+#: ../mail/em-popup.c:560
+#: ../mail/em-popup.c:571
 msgid "Set as _Background"
 msgstr "Set as _Background"
 
@@ -7147,7 +7149,7 @@ msgid "_Save Selected"
 msgstr "_Save Selected"
 
 #: ../calendar/gui/e-cal-popup.c:399
-#: ../mail/em-popup.c:776
+#: ../mail/em-popup.c:781
 #, c-format
 msgid "Open in %s..."
 msgstr "Open in %s..."
@@ -7766,7 +7768,6 @@ msgid "In Process"
 msgstr "In Process"
 
 #: ../calendar/gui/e-meeting-time-sel.c:412
-#: ../designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "Out of Office"
 
@@ -10130,7 +10131,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:1017
+#: ../widgets/misc/e-attachment-bar.c:1019
 msgid "Attachment Bar"
 msgstr "Attachment Bar"
 
@@ -10442,7 +10443,7 @@ msgstr "_Save Message"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:506
+#: ../shell/main.c:508
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10462,104 +10463,6 @@ msgstr "address card"
 #: ../data/evolution.keys.in.in.h:2
 msgid "calendar information"
 msgstr "calendar information"
-
-#: ../designs/OOA/ooa.glade.h:1
-#: ../plugins/exchange-operations/exchange-oof.glade.h:1
-msgid ""
-"<b>Currently, your status is \"Out of the Office\". </b>\n"
-"\n"
-"Would you like to change your status to \"In the Office\"? "
-msgstr ""
-"<b>Currently, your status is \"Out of the Office\". </b>\n"
-"\n"
-"Would you like to change your status to \"In the Office\"? "
-
-#: ../designs/OOA/ooa.glade.h:4
-#: ../plugins/exchange-operations/exchange-oof.glade.h:4
-msgid "<b>Out of Office Message:</b>"
-msgstr "<b>Out of Office Message:</b>"
-
-#: ../designs/OOA/ooa.glade.h:5
-#: ../plugins/exchange-operations/exchange-oof.glade.h:5
-msgid "<b>Status:</b>"
-msgstr "<b>Status:</b>"
-
-#: ../designs/OOA/ooa.glade.h:6
-#: ../plugins/exchange-operations/exchange-oof.glade.h:6
-msgid ""
-"<small>The message specified below will be automatically sent to each person who sends\n"
-"mail to you while you are out of the office.</small>"
-msgstr ""
-"<small>The message specified below will be automatically sent to each person who sends\n"
-"mail to you while you are out of the office.</small>"
-
-#: ../designs/OOA/ooa.glade.h:8
-#: ../plugins/exchange-operations/exchange-oof.glade.h:8
-msgid "I am currently in the office"
-msgstr "I am currently in the office"
-
-#: ../designs/OOA/ooa.glade.h:9
-#: ../plugins/exchange-operations/exchange-oof.glade.h:9
-msgid "I am currently out of the office"
-msgstr "I am currently out of the office"
-
-#: ../designs/OOA/ooa.glade.h:10
-msgid "No, Do not Change Status"
-msgstr "No, Do not Change Status"
-
-#: ../designs/OOA/ooa.glade.h:12
-#: ../plugins/exchange-operations/exchange-oof.glade.h:11
-msgid "Out of Office Assistant"
-msgstr "Out of Office Assistant"
-
-#: ../designs/OOA/ooa.glade.h:13
-#: ../plugins/exchange-operations/exchange-oof.glade.h:12
-msgid "Yes, Change Status"
-msgstr "Yes, Change Status"
-
-#: ../designs/read_receipts/read.glade.h:1
-msgid "<b>Receiving Email</b>"
-msgstr "<b>Receiving Email</b>"
-
-#: ../designs/read_receipts/read.glade.h:2
-msgid "<b>Sending Email:</b>"
-msgstr "<b>Sending Email:</b>"
-
-#: ../designs/read_receipts/read.glade.h:3
-msgid ""
-"<small>This page allows you to choose if you want to be notified via a read receipt when a message you\n"
-"sent is read, and to specify what Evolution should do when someone requests a receipt from you.</small>"
-msgstr ""
-"<small>This page allows you to choose if you want to be notified via a read receipt when a message you\n"
-"sent is read, and to specify what Evolution should do when someone requests a receipt from you.</small>"
-
-#: ../designs/read_receipts/read.glade.h:5
-msgid "Always send back a read receipt"
-msgstr "Always send back a read receipt"
-
-#: ../designs/read_receipts/read.glade.h:6
-msgid "Ask me if I want to send back a read receipt"
-msgstr "Ask me if I want to send back a read receipt"
-
-#: ../designs/read_receipts/read.glade.h:7
-msgid "Never send back a read receipt"
-msgstr "Never send back a read receipt"
-
-#: ../designs/read_receipts/read.glade.h:8
-msgid "Read Receipts"
-msgstr "Read Receipts"
-
-#: ../designs/read_receipts/read.glade.h:9
-msgid "Request a read receipt for all messages I send"
-msgstr "Request a read receipt for all messages I send"
-
-#: ../designs/read_receipts/read.glade.h:10
-msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr "Unless the message is sent to a mailing list, and not to me personally"
-
-#: ../designs/read_receipts/read.glade.h:11
-msgid "When you receive an email with a read receipt request, what should Evolution do?"
-msgstr "When you receive an email with a read receipt request, what should Evolution do?"
 
 #: ../e-util/e-error.c:86
 #: ../e-util/e-error.c:87
@@ -10624,74 +10527,124 @@ msgid "Overwrite file?"
 msgstr "Overwrite file?"
 
 #: ../e-util/e-system.error.xml.h:7
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:138
 msgid "_Overwrite"
 msgstr "_Overwrite"
 
-#: ../filter/filter-datespec.c:78
+#: ../filter/filter-datespec.c:80
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "1 second ago"
 msgstr[1] "%d seconds ago"
 
-#: ../filter/filter-datespec.c:79
+#: ../filter/filter-datespec.c:80
+#, c-format
+msgid "1 second in the future"
+msgid_plural "%d seconds in the future"
+msgstr[0] "1 second in the future"
+msgstr[1] "%d seconds in the future"
+
+#: ../filter/filter-datespec.c:81
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 minute ago"
 msgstr[1] "%d minutes ago"
 
-#: ../filter/filter-datespec.c:80
+#: ../filter/filter-datespec.c:81
+#, c-format
+msgid "1 minute in the future"
+msgid_plural "%d minutes in the future"
+msgstr[0] "1 minute in the future"
+msgstr[1] "%d minutes in the future"
+
+#: ../filter/filter-datespec.c:82
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "1 hour ago"
 msgstr[1] "%d hours ago"
 
-#: ../filter/filter-datespec.c:81
+#: ../filter/filter-datespec.c:82
+#, c-format
+msgid "1 hour in the future"
+msgid_plural "%d hours in the future"
+msgstr[0] "1 hour in the future"
+msgstr[1] "%d hours in the future"
+
+#: ../filter/filter-datespec.c:83
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "1 day ago"
 msgstr[1] "%d days ago"
 
-#: ../filter/filter-datespec.c:82
+#: ../filter/filter-datespec.c:83
+#, c-format
+msgid "1 day in the future"
+msgid_plural "%d days in the future"
+msgstr[0] "1 day in the future"
+msgstr[1] "%d days in the future"
+
+#: ../filter/filter-datespec.c:84
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "1 week ago"
 msgstr[1] "%d weeks ago"
 
-#: ../filter/filter-datespec.c:83
+#: ../filter/filter-datespec.c:84
+#, c-format
+msgid "1 week in the future"
+msgid_plural "%d weeks in the future"
+msgstr[0] "1 week in the future"
+msgstr[1] "%d weeks in the future"
+
+#: ../filter/filter-datespec.c:85
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 month ago"
 msgstr[1] "%d months ago"
 
-#: ../filter/filter-datespec.c:84
+#: ../filter/filter-datespec.c:85
+#, c-format
+msgid "1 month in the future"
+msgid_plural "%d months in the future"
+msgstr[0] "1 month in the future"
+msgstr[1] "%d months in the future"
+
+#: ../filter/filter-datespec.c:86
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "1 year ago"
 msgstr[1] "%d years ago"
 
-#: ../filter/filter-datespec.c:285
+#: ../filter/filter-datespec.c:86
+#, c-format
+msgid "1 year in the future"
+msgid_plural "%d years in the future"
+msgstr[0] "1 year in the future"
+msgstr[1] "%d years in the future"
+
+#: ../filter/filter-datespec.c:287
 msgid "<click here to select a date>"
 msgstr "<click here to select a date>"
 
-#: ../filter/filter-datespec.c:288
-#: ../filter/filter-datespec.c:299
+#: ../filter/filter-datespec.c:290
+#: ../filter/filter-datespec.c:301
+#: ../filter/filter-datespec.c:312
 msgid "now"
 msgstr "now"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
-#: ../filter/filter-datespec.c:295
+#: ../filter/filter-datespec.c:297
 msgid "%d-%b-%Y"
 msgstr "%d-%b-%Y"
 
-#: ../filter/filter-datespec.c:415
+#: ../filter/filter-datespec.c:449
 msgid "Select a time to compare against"
 msgstr "Select a time to compare against"
 
@@ -10716,7 +10669,7 @@ msgid "Missing file name."
 msgstr "Missing file name."
 
 #: ../filter/filter.error.xml.h:6
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:74
 msgid "Missing name."
 msgstr "Missing name."
 
@@ -10795,24 +10748,28 @@ msgstr "a time relative to the current time"
 msgid "ago"
 msgstr "ago"
 
-#: ../filter/filter.glade.h:17
+#: ../filter/filter.glade.h:16
+msgid "in the future"
+msgstr "in the future"
+
+#: ../filter/filter.glade.h:18
 msgid "months"
 msgstr "months"
 
-#: ../filter/filter.glade.h:18
+#: ../filter/filter.glade.h:19
 #: ../mail/mail-config.glade.h:180
 msgid "seconds"
 msgstr "seconds"
 
-#: ../filter/filter.glade.h:19
+#: ../filter/filter.glade.h:20
 msgid "the current time"
 msgstr "the current time"
 
-#: ../filter/filter.glade.h:20
+#: ../filter/filter.glade.h:21
 msgid "the time you specify"
 msgstr "the time you specify"
 
-#: ../filter/filter.glade.h:22
+#: ../filter/filter.glade.h:23
 msgid "years"
 msgstr "years"
 
@@ -10996,10 +10953,9 @@ msgstr "Enable"
 msgid "[Default]"
 msgstr "[Default]"
 
-#. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:519
 #: ../mail/em-composer-prefs.c:945
-#: ../plugins/plugin-manager/plugin-manager.c:205
+#: ../plugins/plugin-manager/plugin-manager.c:261
 #: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
 msgstr "Enabled"
@@ -11334,51 +11290,51 @@ msgstr "Unset Status"
 msgid "<b>Then</b>"
 msgstr "<b>Then</b>"
 
-#: ../mail/em-folder-browser.c:168
+#: ../mail/em-folder-browser.c:169
 msgid "C_reate Search Folder From Search..."
 msgstr "C_reate Search Folder From Search..."
 
-#: ../mail/em-folder-browser.c:190
+#: ../mail/em-folder-browser.c:191
 msgid "All Messages"
 msgstr "All Messages"
 
-#: ../mail/em-folder-browser.c:191
+#: ../mail/em-folder-browser.c:192
 msgid "Unread Messages"
 msgstr "Unread Messages"
 
-#: ../mail/em-folder-browser.c:193
+#: ../mail/em-folder-browser.c:194
 msgid "No Label"
 msgstr "No Label"
 
-#: ../mail/em-folder-browser.c:200
+#: ../mail/em-folder-browser.c:201
 msgid "Read Messages"
 msgstr "Read Messages"
 
-#: ../mail/em-folder-browser.c:201
+#: ../mail/em-folder-browser.c:202
 msgid "Recent Messages"
 msgstr "Recent Messages"
 
-#: ../mail/em-folder-browser.c:202
+#: ../mail/em-folder-browser.c:203
 msgid "Last 5 Days' Messages"
 msgstr "Last 5 Days' Messages"
 
-#: ../mail/em-folder-browser.c:203
+#: ../mail/em-folder-browser.c:204
 msgid "Messages with Attachments"
 msgstr "Messages with Attachments"
 
-#: ../mail/em-folder-browser.c:204
+#: ../mail/em-folder-browser.c:205
 msgid "Important Messages"
 msgstr "Important Messages"
 
-#: ../mail/em-folder-browser.c:205
+#: ../mail/em-folder-browser.c:206
 msgid "Messages Not Junk"
 msgstr "Messages Not Junk"
 
-#: ../mail/em-folder-browser.c:1028
+#: ../mail/em-folder-browser.c:1029
 msgid "Account Search"
 msgstr "Account Search"
 
-#: ../mail/em-folder-browser.c:1072
+#: ../mail/em-folder-browser.c:1073
 msgid "All Account Search"
 msgstr "All Account Search"
 
@@ -11429,92 +11385,100 @@ msgstr "Folder _name:"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:367
+#: ../mail/em-folder-tree.c:368
 #, c-format
 msgid "folder-display|%s (%u)"
 msgstr "%s (%u)"
 
-#: ../mail/em-folder-tree.c:719
+#: ../mail/em-folder-tree.c:720
 msgid "Mail Folder Tree"
 msgstr "Mail Folder Tree"
 
-#: ../mail/em-folder-tree.c:879
+#: ../mail/em-folder-tree.c:880
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moving folder %s"
 
-#: ../mail/em-folder-tree.c:881
+#: ../mail/em-folder-tree.c:882
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copying folder %s"
 
-#: ../mail/em-folder-tree.c:888
+#: ../mail/em-folder-tree.c:889
 #: ../mail/message-list.c:1827
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moving messages into folder %s"
 
-#: ../mail/em-folder-tree.c:890
+#: ../mail/em-folder-tree.c:891
 #: ../mail/message-list.c:1829
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copying messages into folder %s"
 
-#: ../mail/em-folder-tree.c:906
+#: ../mail/em-folder-tree.c:907
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Cannot drop message(s) into toplevel store"
 
-#: ../mail/em-folder-tree.c:1002
+#: ../mail/em-folder-tree.c:1003
 #: ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Copy to Folder"
 
-#: ../mail/em-folder-tree.c:1003
+#: ../mail/em-folder-tree.c:1004
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Move to Folder"
 
-#: ../mail/em-folder-tree.c:1708
+#: ../mail/em-folder-tree.c:1709
 #: ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Scanning folders in \"%s\""
 
-#: ../mail/em-folder-tree.c:2091
+#: ../mail/em-folder-tree.c:2108
 #: ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24
-#: ../ui/evolution-mail-global.xml.h:29
+#: ../ui/evolution-mail-global.xml.h:32
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:58
+#: ../ui/evolution-message-composer.xml.h:63
 #: ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
 msgstr "_View"
 
-#: ../mail/em-folder-tree.c:2092
+#: ../mail/em-folder-tree.c:2109
 msgid "Open in _New Window"
 msgstr "Open in _New Window"
 
-#: ../mail/em-folder-tree.c:2096
+#: ../mail/em-folder-tree.c:2113
 msgid "_Copy..."
 msgstr "_Copy..."
 
-#: ../mail/em-folder-tree.c:2097
+#: ../mail/em-folder-tree.c:2114
 msgid "_Move..."
 msgstr "_Move..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2101
+#: ../mail/em-folder-tree.c:2118
 msgid "_New Folder..."
 msgstr "_New Folder..."
 
-#: ../mail/em-folder-tree.c:2104
-#: ../ui/evolution-mail-list.xml.h:34
+#: ../mail/em-folder-tree.c:2121
+#: ../ui/evolution-mail-list.xml.h:36
 msgid "_Rename..."
 msgstr "_Rename..."
 
-#: ../mail/em-folder-tree.c:2109
-#: ../mail/mail.error.xml.h:131
+#: ../mail/em-folder-tree.c:2122
+msgid "Re_fresh"
+msgstr "Re_fresh"
+
+#: ../mail/em-folder-tree.c:2123
+msgid "Fl_ush Outbox"
+msgstr "Fl_ush Outbox"
+
+#: ../mail/em-folder-tree.c:2129
+#: ../mail/mail.error.xml.h:135
 msgid "_Empty Trash"
 msgstr "_Empty Wastebasket"
 
@@ -11539,7 +11503,7 @@ msgstr "Drafts"
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487
 #: ../mail/mail-component.c:151
-#: ../plugins/exchange-operations/exchange-folder.c:587
+#: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Inbox"
 
@@ -11564,15 +11528,15 @@ msgid "Copying `%s' to `%s'"
 msgstr "Copying `%s' to `%s'"
 
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1030
-#: ../mail/em-folder-view.c:1045
+#: ../mail/em-folder-view.c:1032
+#: ../mail/em-folder-view.c:1047
 #: ../mail/importers/evolution-mbox-importer.c:86
 #: ../mail/importers/evolution-outlook-importer.c:139
 msgid "Select folder"
 msgstr "Select folder"
 
 #: ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1045
+#: ../mail/em-folder-view.c:1047
 msgid "C_opy"
 msgstr "C_opy"
 
@@ -11594,176 +11558,177 @@ msgstr "Create folder"
 msgid "Specify where to create the folder:"
 msgstr "Specify where to create the folder:"
 
-#: ../mail/em-folder-view.c:523
+#: ../mail/em-folder-view.c:525
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
 #: ../mail/importers/pine-importer.c:387
-#: ../mail/mail-component.c:581
 #: ../mail/mail-component.c:582
-#: ../mail/mail-component.c:724
+#: ../mail/mail-component.c:583
+#: ../mail/mail-component.c:738
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Mail"
 
-#: ../mail/em-folder-view.c:966
-#: ../mail/mail.error.xml.h:66
+#: ../mail/em-folder-view.c:968
+#: ../mail/mail.error.xml.h:67
 msgid "Mail Deletion Failed"
 msgstr "Mail Deletion Failed"
 
-#: ../mail/em-folder-view.c:967
-#: ../mail/mail.error.xml.h:119
+#: ../mail/em-folder-view.c:969
+#: ../mail/mail.error.xml.h:122
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "You do not have sufficient permission to delete this mail."
 
-#: ../mail/em-folder-view.c:1138
+#: ../mail/em-folder-view.c:1140
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_Reply to Sender"
 
-#: ../mail/em-folder-view.c:1140
-#: ../mail/em-popup.c:561
-#: ../mail/em-popup.c:572
+#: ../mail/em-folder-view.c:1142
+#: ../mail/em-popup.c:566
+#: ../mail/em-popup.c:577
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "_Forward"
 
-#: ../mail/em-folder-view.c:1143
+#. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
+#: ../mail/em-folder-view.c:1146
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "_Edit as New Message..."
 
-#: ../mail/em-folder-view.c:1149
+#: ../mail/em-folder-view.c:1152
 msgid "U_ndelete"
 msgstr "U_ndelete"
 
-#: ../mail/em-folder-view.c:1150
+#: ../mail/em-folder-view.c:1153
 msgid "_Move to Folder..."
 msgstr "_Move to Folder..."
 
-#: ../mail/em-folder-view.c:1151
+#: ../mail/em-folder-view.c:1154
 msgid "_Copy to Folder..."
 msgstr "_Copy to Folder..."
 
-#: ../mail/em-folder-view.c:1154
+#: ../mail/em-folder-view.c:1157
 msgid "Mar_k as Read"
 msgstr "Mar_k as Read"
 
-#: ../mail/em-folder-view.c:1155
+#: ../mail/em-folder-view.c:1158
 msgid "Mark as _Unread"
 msgstr "Mark as _Unread"
 
-#: ../mail/em-folder-view.c:1156
+#: ../mail/em-folder-view.c:1159
 msgid "Mark as _Important"
 msgstr "Mark as _Important"
 
-#: ../mail/em-folder-view.c:1157
+#: ../mail/em-folder-view.c:1160
 msgid "Mark as Un_important"
 msgstr "Mark as Un_important"
 
-#: ../mail/em-folder-view.c:1158
+#: ../mail/em-folder-view.c:1161
 msgid "Mark as _Junk"
 msgstr "Mark as _Junk"
 
-#: ../mail/em-folder-view.c:1159
+#: ../mail/em-folder-view.c:1162
 msgid "Mark as _Not Junk"
 msgstr "Mark as _Not Junk"
 
-#: ../mail/em-folder-view.c:1160
+#: ../mail/em-folder-view.c:1163
 msgid "Mark for Follo_w Up..."
 msgstr "Mark for Follo_w Up..."
 
-#: ../mail/em-folder-view.c:1162
+#: ../mail/em-folder-view.c:1165
 msgid "_Label"
 msgstr "_Label"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1163
+#: ../mail/em-folder-view.c:1166
 #: ../widgets/misc/e-dateedit.c:473
 msgid "_None"
 msgstr "_None"
 
-#: ../mail/em-folder-view.c:1168
+#: ../mail/em-folder-view.c:1171
 msgid "Fla_g Completed"
 msgstr "Fla_g Completed"
 
-#: ../mail/em-folder-view.c:1169
+#: ../mail/em-folder-view.c:1172
 msgid "Cl_ear Flag"
 msgstr "Cl_ear Flag"
 
-#: ../mail/em-folder-view.c:1172
+#: ../mail/em-folder-view.c:1175
 msgid "Crea_te Rule From Message"
 msgstr "Crea_te Rule From Message"
 
-#: ../mail/em-folder-view.c:1173
+#: ../mail/em-folder-view.c:1176
 msgid "Search Folder from _Subject"
 msgstr "Search Folder from _Subject"
 
-#: ../mail/em-folder-view.c:1174
+#: ../mail/em-folder-view.c:1177
 msgid "Search Folder from Se_nder"
 msgstr "Search Folder from Se_nder"
 
-#: ../mail/em-folder-view.c:1175
+#: ../mail/em-folder-view.c:1178
 msgid "Search Folder from _Recipients"
 msgstr "Search Folder from _Recipients"
 
-#: ../mail/em-folder-view.c:1176
+#: ../mail/em-folder-view.c:1179
 msgid "Search Folder from Mailing _List"
 msgstr "Search Folder from Mailing _List"
 
-#: ../mail/em-folder-view.c:1180
+#: ../mail/em-folder-view.c:1183
 msgid "Filter on Sub_ject"
 msgstr "Filter on Sub_ject"
 
-#: ../mail/em-folder-view.c:1181
+#: ../mail/em-folder-view.c:1184
 msgid "Filter on Sen_der"
 msgstr "Filter on Sen_der"
 
-#: ../mail/em-folder-view.c:1182
+#: ../mail/em-folder-view.c:1185
 msgid "Filter on Re_cipients"
 msgstr "Filter on Re_cipients"
 
-#: ../mail/em-folder-view.c:1183
+#: ../mail/em-folder-view.c:1186
 msgid "Filter on _Mailing List"
 msgstr "Filter on _Mailing List"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2036
-#: ../mail/em-folder-view.c:2080
+#: ../mail/em-folder-view.c:2055
+#: ../mail/em-folder-view.c:2099
 msgid "Default"
 msgstr "Default"
 
-#: ../mail/em-folder-view.c:2293
+#: ../mail/em-folder-view.c:2312
 msgid "Unable to retrieve message"
 msgstr "Unable to retrieve message"
 
-#: ../mail/em-folder-view.c:2314
+#: ../mail/em-folder-view.c:2333
 msgid "<b>Retrieving Message...</b>"
 msgstr "<b>Retrieving Message...</b>"
 
-#: ../mail/em-folder-view.c:2353
+#: ../mail/em-folder-view.c:2372
 msgid "Retrieving Message"
 msgstr "Retrieving Message"
 
-#: ../mail/em-folder-view.c:2531
+#: ../mail/em-folder-view.c:2550
 msgid "Create _Search Folder"
 msgstr "Create _Search Folder"
 
-#: ../mail/em-folder-view.c:2532
+#: ../mail/em-folder-view.c:2551
 msgid "_From this Address"
 msgstr "_From this Address"
 
-#: ../mail/em-folder-view.c:2533
+#: ../mail/em-folder-view.c:2552
 msgid "_To this Address"
 msgstr "_To this Address"
 
-#: ../mail/em-folder-view.c:2890
+#: ../mail/em-folder-view.c:2909
 #, c-format
 msgid "Click to mail %s"
 msgstr "Click to mail %s"
 
-#: ../mail/em-folder-view.c:2895
+#: ../mail/em-folder-view.c:2914
 msgid "Click to hide/unhide addresses"
 msgstr "Click to hide/unhide addresses"
 
@@ -12175,18 +12140,18 @@ msgstr "Unable to create local mail folders at `%s': %s"
 msgid "Unable to read settings from previous Evolution install, `evolution/config.xmldb' does not exist or is corrupt."
 msgstr "Unable to read settings from previous Evolution install, `evolution/config.xmldb' does not exist or is corrupt."
 
-#: ../mail/em-popup.c:557
-#: ../mail/em-popup.c:568
+#: ../mail/em-popup.c:562
+#: ../mail/em-popup.c:573
 msgid "_Reply to sender"
 msgstr "_Reply to sender"
 
-#: ../mail/em-popup.c:558
-#: ../mail/em-popup.c:569
+#: ../mail/em-popup.c:563
+#: ../mail/em-popup.c:574
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to _List"
 msgstr "Reply to _List"
 
-#: ../mail/em-popup.c:622
+#: ../mail/em-popup.c:627
 msgid "_Add to Address Book"
 msgstr "_Add to Address Book"
 
@@ -12398,386 +12363,394 @@ msgid "If there isn't a builtin viewer for a particular mime-type inside Evoluti
 msgstr "If there isn't a builtin viewer for a particular mime-type inside Evolution, any mime-types appearing in this list which map to a bonobo-component viewer in GNOME's mime-type database may be used for displaying content."
 
 #: ../mail/evolution-mail.schemas.in.in.h:39
+msgid "It disables the feature where repeated prompts to ask if offline sync is required."
+msgstr "It disables the feature where repeated prompts to ask if offline sync is required."
+
+#: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr "Enable or disable the prompt whilst marking multiple messages."
 
-#: ../mail/evolution-mail.schemas.in.in.h:40
+#: ../mail/evolution-mail.schemas.in.in.h:41
 msgid "Last time empty junk was run"
 msgstr "Last time empty junk was run"
 
-#: ../mail/evolution-mail.schemas.in.in.h:41
+#: ../mail/evolution-mail.schemas.in.in.h:42
 msgid "Last time empty trash was run"
 msgstr "Last time empty trash was run"
 
-#: ../mail/evolution-mail.schemas.in.in.h:42
+#: ../mail/evolution-mail.schemas.in.in.h:43
 msgid "List of Labels and their associated colors"
 msgstr "List of Labels and their associated colours"
 
-#: ../mail/evolution-mail.schemas.in.in.h:43
+#: ../mail/evolution-mail.schemas.in.in.h:44
 msgid "List of accepted licenses"
 msgstr "List of accepted licences"
 
-#: ../mail/evolution-mail.schemas.in.in.h:44
+#: ../mail/evolution-mail.schemas.in.in.h:45
 msgid "List of accounts"
 msgstr "List of accounts"
 
-#: ../mail/evolution-mail.schemas.in.in.h:45
+#: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "List of accounts known to the mail component of Evolution. The list contains strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr "List of accounts known to the mail component of Evolution. The list contains strings naming subdirectories relative to /apps/evolution/mail/accounts."
 
-#: ../mail/evolution-mail.schemas.in.in.h:46
+#: ../mail/evolution-mail.schemas.in.in.h:47
 msgid "List of custom headers and whether they are enabled."
 msgstr "List of custom headers and whether they are enabled."
 
-#: ../mail/evolution-mail.schemas.in.in.h:47
+#: ../mail/evolution-mail.schemas.in.in.h:48
 msgid "List of labels known to the mail component of Evolution. The list contains strings containing name:color where color uses the HTML hex encoding."
 msgstr "List of labels known to the mail component of Evolution. The list contains strings containing name:colour where colour uses the HTML hex encoding."
 
-#: ../mail/evolution-mail.schemas.in.in.h:48
+#: ../mail/evolution-mail.schemas.in.in.h:49
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "List of mime types to check for bonobo component viewers"
 
-#: ../mail/evolution-mail.schemas.in.in.h:49
+#: ../mail/evolution-mail.schemas.in.in.h:50
 msgid "List of protocol names whose license has been accepted."
 msgstr "List of protocol names whose license has been accepted."
 
-#: ../mail/evolution-mail.schemas.in.in.h:50
+#: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Load images for HTML messages over http"
 msgstr "Load images for HTML messages over http"
 
-#: ../mail/evolution-mail.schemas.in.in.h:51
+#: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Load images for HTML messages over http(s). Possible values are: 0 - Never load images off the net 1 - Load images in mail from contacts 2 - Always load images off the net"
 msgstr "Load images for HTML messages over http(s). Possible values are: 0 - Never load images off the net 1 - Load images in mail from contacts 2 - Always load images off the net"
 
-#: ../mail/evolution-mail.schemas.in.in.h:52
+#: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "Log filter actions"
 msgstr "Log filter actions"
 
-#: ../mail/evolution-mail.schemas.in.in.h:53
+#: ../mail/evolution-mail.schemas.in.in.h:54
 msgid "Log filter actions to the specified log file."
 msgstr "Log filter actions to the specified log file."
 
-#: ../mail/evolution-mail.schemas.in.in.h:54
+#: ../mail/evolution-mail.schemas.in.in.h:55
 msgid "Logfile to log filter actions"
 msgstr "Logfile to log filter actions"
 
-#: ../mail/evolution-mail.schemas.in.in.h:55
+#: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Logfile to log filter actions."
 msgstr "Logfile to log filter actions."
 
-#: ../mail/evolution-mail.schemas.in.in.h:56
+#: ../mail/evolution-mail.schemas.in.in.h:57
 msgid "Mark as Seen after specified timeout"
 msgstr "Mark as Seen after specified timeout"
 
-#: ../mail/evolution-mail.schemas.in.in.h:57
+#: ../mail/evolution-mail.schemas.in.in.h:58
 msgid "Mark as Seen after specified timeout."
 msgstr "Mark as Seen after specified timeout."
 
-#: ../mail/evolution-mail.schemas.in.in.h:58
+#: ../mail/evolution-mail.schemas.in.in.h:59
 msgid "Mark citations in the message \"Preview\""
 msgstr "Mark citations in the message \"Preview\""
 
-#: ../mail/evolution-mail.schemas.in.in.h:59
+#: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Mark citations in the message \"Preview\"."
 
-#: ../mail/evolution-mail.schemas.in.in.h:60
+#: ../mail/evolution-mail.schemas.in.in.h:61
 msgid "Message Window default height"
 msgstr "Message Window default height"
 
-#: ../mail/evolution-mail.schemas.in.in.h:61
+#: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Message Window default width"
 msgstr "Message Window default width"
 
-#: ../mail/evolution-mail.schemas.in.in.h:62
+#: ../mail/evolution-mail.schemas.in.in.h:63
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr "Message-display style (\"normal\", \"full headers\", \"source\")"
 
-#: ../mail/evolution-mail.schemas.in.in.h:63
+#: ../mail/evolution-mail.schemas.in.in.h:64
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Minimum days between emptying the junk on exit"
 
-#: ../mail/evolution-mail.schemas.in.in.h:64
+#: ../mail/evolution-mail.schemas.in.in.h:65
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Minimum days between emptying the trash on exit"
 
-#: ../mail/evolution-mail.schemas.in.in.h:65
+#: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "Minimum time between emptying the junk on exit, in days."
 
-#: ../mail/evolution-mail.schemas.in.in.h:66
+#: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Minimum time between emptying the trash on exit, in days."
 
-#: ../mail/evolution-mail.schemas.in.in.h:67
+#: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "New Mail Notify sound file"
 msgstr "New Mail Notify sound file"
 
-#: ../mail/evolution-mail.schemas.in.in.h:68
+#: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "New Mail Notify type"
 msgstr "New Mail Notify type"
 
-#: ../mail/evolution-mail.schemas.in.in.h:69
+#: ../mail/evolution-mail.schemas.in.in.h:70
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Number of addresses to display in TO/CC/BCC"
 
-#: ../mail/evolution-mail.schemas.in.in.h:70
+#: ../mail/evolution-mail.schemas.in.in.h:71
 msgid "Prompt on empty subject"
 msgstr "Prompt on empty subject"
 
-#: ../mail/evolution-mail.schemas.in.in.h:71
+#: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Prompt the user when he or she tries to expunge a folder."
 
-#: ../mail/evolution-mail.schemas.in.in.h:72
+#: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Prompt the user when he or she tries to send a message without a Subject."
 
-#: ../mail/evolution-mail.schemas.in.in.h:73
+#: ../mail/evolution-mail.schemas.in.in.h:74
+msgid "Prompt to check if the user wants to go offline immediately"
+msgstr "Prompt to check if the user wants to go offline immediately"
+
+#: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Prompt when user expunges"
 msgstr "Prompt when user expunges"
 
-#: ../mail/evolution-mail.schemas.in.in.h:74
+#: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Prompt when user only fills Bcc"
 msgstr "Prompt when user only fills Bcc"
 
-#: ../mail/evolution-mail.schemas.in.in.h:75
+#: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Prompt when user tries to open 10 or more messages at once"
 
-#: ../mail/evolution-mail.schemas.in.in.h:76
+#: ../mail/evolution-mail.schemas.in.in.h:78
 msgid "Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail."
 msgstr "Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail."
 
-#: ../mail/evolution-mail.schemas.in.in.h:77
+#: ../mail/evolution-mail.schemas.in.in.h:79
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "Prompt when user tries to send a message with no To or Cc recipients."
 
-#: ../mail/evolution-mail.schemas.in.in.h:78
+#: ../mail/evolution-mail.schemas.in.in.h:80
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Prompt when user tries to send unwanted HTML"
 
-#: ../mail/evolution-mail.schemas.in.in.h:79
+#: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "Prompt while marking multiple messages"
 msgstr "Prompt while marking multiple messages"
 
-#: ../mail/evolution-mail.schemas.in.in.h:80
+#: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "Recognize links in text and replace them."
 msgstr "Recognise links in text and replace them."
 
-#: ../mail/evolution-mail.schemas.in.in.h:81
+#: ../mail/evolution-mail.schemas.in.in.h:83
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Recognise smileys in text and replace them with images."
 
-#: ../mail/evolution-mail.schemas.in.in.h:82
+#: ../mail/evolution-mail.schemas.in.in.h:84
 msgid "Run junk test on incoming mail"
 msgstr "Run junk test on incoming mail"
 
-#: ../mail/evolution-mail.schemas.in.in.h:83
+#: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Save directory"
 msgstr "Save directory"
 
-#: ../mail/evolution-mail.schemas.in.in.h:84
+#: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Send HTML mail by default"
 msgstr "Send HTML mail by default"
 
-#: ../mail/evolution-mail.schemas.in.in.h:85
+#: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Send HTML mail by default."
 msgstr "Send HTML mail by default."
 
-#: ../mail/evolution-mail.schemas.in.in.h:86
+#: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "Show Animations"
 msgstr "Show Animations"
 
-#: ../mail/evolution-mail.schemas.in.in.h:87
+#: ../mail/evolution-mail.schemas.in.in.h:89
 msgid "Show animated images as animations."
 msgstr "Show animated images as animations."
 
-#: ../mail/evolution-mail.schemas.in.in.h:88
+#: ../mail/evolution-mail.schemas.in.in.h:90
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Show deleted messages (with a strike-through) in the message-list."
 
-#: ../mail/evolution-mail.schemas.in.in.h:89
+#: ../mail/evolution-mail.schemas.in.in.h:91
 msgid "Show deleted messages in the message-list"
 msgstr "Show deleted messages in the message-list"
 
-#: ../mail/evolution-mail.schemas.in.in.h:92
+#: ../mail/evolution-mail.schemas.in.in.h:94
 msgid "Show the email of the sender in the messages composite column in the message list"
 msgstr "Show the email of the sender in the messages composite column in the message list"
 
-#: ../mail/evolution-mail.schemas.in.in.h:93
+#: ../mail/evolution-mail.schemas.in.in.h:95
 msgid "Show the sender email in the messages column in the message list"
 msgstr "Show the sender email in the messages column in the message list"
 
-#: ../mail/evolution-mail.schemas.in.in.h:94
+#: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Sound file to play when new mail arrives."
 msgstr "Sound file to play when new mail arrives."
 
-#: ../mail/evolution-mail.schemas.in.in.h:95
+#: ../mail/evolution-mail.schemas.in.in.h:97
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr "Specifies the type of New Mail Notification the user wishes to use."
 
-#: ../mail/evolution-mail.schemas.in.in.h:96
+#: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "Spell check inline"
 msgstr "Spell check inline"
 
-#: ../mail/evolution-mail.schemas.in.in.h:97
+#: ../mail/evolution-mail.schemas.in.in.h:99
 msgid "Subscribe dialog default height"
 msgstr "Subscribe dialogue default height"
 
-#: ../mail/evolution-mail.schemas.in.in.h:98
+#: ../mail/evolution-mail.schemas.in.in.h:100
 msgid "Subscribe dialog default width"
 msgstr "Subscribe dialogue default width"
 
-#: ../mail/evolution-mail.schemas.in.in.h:99
+#: ../mail/evolution-mail.schemas.in.in.h:101
 msgid "Terminal font"
 msgstr "Terminal font"
 
-#: ../mail/evolution-mail.schemas.in.in.h:100
+#: ../mail/evolution-mail.schemas.in.in.h:102
 msgid "Text message part limit"
 msgstr "Text message part limit"
 
-#: ../mail/evolution-mail.schemas.in.in.h:101
+#: ../mail/evolution-mail.schemas.in.in.h:103
 msgid "The default plugin for Junk hook"
 msgstr "The default plugin for Junk hook"
 
-#: ../mail/evolution-mail.schemas.in.in.h:102
+#: ../mail/evolution-mail.schemas.in.in.h:104
 msgid "The last time empty junk was run, in days since the epoch."
 msgstr "The last time empty junk was run, in days since the epoch."
 
-#: ../mail/evolution-mail.schemas.in.in.h:103
+#: ../mail/evolution-mail.schemas.in.in.h:105
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "The last time empty trash was run, in days since the epoch."
 
-#: ../mail/evolution-mail.schemas.in.in.h:104
+#: ../mail/evolution-mail.schemas.in.in.h:106
 msgid "The terminal font for mail display"
 msgstr "The terminal font for mail display"
 
-#: ../mail/evolution-mail.schemas.in.in.h:105
+#: ../mail/evolution-mail.schemas.in.in.h:107
 msgid "The variable width font for mail display"
 msgstr "The variable width font for mail display"
 
-#: ../mail/evolution-mail.schemas.in.in.h:106
+#: ../mail/evolution-mail.schemas.in.in.h:108
 msgid "This decides the max size of the text part that can be formatted under evolution. The default is 4MB / 4096 KB and is specified interms of KB."
 msgstr "This decides the max size of the text part that can be formatted under evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 
-#: ../mail/evolution-mail.schemas.in.in.h:107
+#: ../mail/evolution-mail.schemas.in.in.h:109
 msgid "This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it wont fall back to the other available plugins."
 msgstr "This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it wont fall back to the other available plugins."
 
-#: ../mail/evolution-mail.schemas.in.in.h:108
+#: ../mail/evolution-mail.schemas.in.in.h:110
 msgid "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
 msgstr "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
 
-#: ../mail/evolution-mail.schemas.in.in.h:109
+#: ../mail/evolution-mail.schemas.in.in.h:111
 msgid "This sets the number of addresses to show in default message list view, beyond which a '...' is shown."
 msgstr "This sets the number of addresses to show in default message list view, beyond which a '...' is shown."
 
-#: ../mail/evolution-mail.schemas.in.in.h:110
+#: ../mail/evolution-mail.schemas.in.in.h:112
 msgid "Thread the message list."
 msgstr "Thread the message list."
 
-#: ../mail/evolution-mail.schemas.in.in.h:111
+#: ../mail/evolution-mail.schemas.in.in.h:113
 msgid "Thread the message-list"
 msgstr "Thread the message-list"
 
-#: ../mail/evolution-mail.schemas.in.in.h:112
+#: ../mail/evolution-mail.schemas.in.in.h:114
 msgid "Thread the message-list based on Subject"
 msgstr "Thread the message-list based on Subject"
 
-#: ../mail/evolution-mail.schemas.in.in.h:113
+#: ../mail/evolution-mail.schemas.in.in.h:115
 msgid "Timeout for marking message as Seen"
 msgstr "Timeout for marking message as Seen"
 
-#: ../mail/evolution-mail.schemas.in.in.h:114
+#: ../mail/evolution-mail.schemas.in.in.h:116
 msgid "Timeout for marking message as Seen."
 msgstr "Timeout for marking message as Seen."
 
-#: ../mail/evolution-mail.schemas.in.in.h:115
+#: ../mail/evolution-mail.schemas.in.in.h:117
 msgid "UID string of the default account."
 msgstr "UID string of the default account."
 
-#: ../mail/evolution-mail.schemas.in.in.h:116
+#: ../mail/evolution-mail.schemas.in.in.h:118
 msgid "Use SpamAssassin daemon and client"
 msgstr "Use SpamAssassin daemon and client"
 
-#: ../mail/evolution-mail.schemas.in.in.h:117
+#: ../mail/evolution-mail.schemas.in.in.h:119
 msgid "Use SpamAssassin daemon and client (spamc/spamd)"
 msgstr "Use SpamAssassin daemon and client (spamc/spamd)"
 
-#: ../mail/evolution-mail.schemas.in.in.h:118
+#: ../mail/evolution-mail.schemas.in.in.h:120
 msgid "Use custom fonts"
 msgstr "Use custom fonts"
 
-#: ../mail/evolution-mail.schemas.in.in.h:119
+#: ../mail/evolution-mail.schemas.in.in.h:121
 msgid "Use custom fonts for displaying mail"
 msgstr "Use custom fonts for displaying mail"
 
-#: ../mail/evolution-mail.schemas.in.in.h:120
+#: ../mail/evolution-mail.schemas.in.in.h:122
 msgid "Use only local spam tests."
 msgstr "Use only local spam tests."
 
-#: ../mail/evolution-mail.schemas.in.in.h:121
+#: ../mail/evolution-mail.schemas.in.in.h:123
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Use only the local spam tests (no DNS)."
 
-#: ../mail/evolution-mail.schemas.in.in.h:122
+#: ../mail/evolution-mail.schemas.in.in.h:124
 msgid "Use side-by-side or wide layout"
 msgstr "Use side-by-side or wide layout"
 
-#: ../mail/evolution-mail.schemas.in.in.h:123
+#: ../mail/evolution-mail.schemas.in.in.h:125
 msgid "Variable width font"
 msgstr "Variable width font"
 
-#: ../mail/evolution-mail.schemas.in.in.h:124
+#: ../mail/evolution-mail.schemas.in.in.h:126
 msgid "View/Bcc menu item is checked"
 msgstr "View/Bcc menu item is checked"
 
-#: ../mail/evolution-mail.schemas.in.in.h:125
+#: ../mail/evolution-mail.schemas.in.in.h:127
 msgid "View/Bcc menu item is checked."
 msgstr "View/Bcc menu item is checked."
 
-#: ../mail/evolution-mail.schemas.in.in.h:126
+#: ../mail/evolution-mail.schemas.in.in.h:128
 msgid "View/Cc menu item is checked"
 msgstr "View/Cc menu item is checked"
 
-#: ../mail/evolution-mail.schemas.in.in.h:127
+#: ../mail/evolution-mail.schemas.in.in.h:129
 msgid "View/Cc menu item is checked."
 msgstr "View/Cc menu item is checked."
 
-#: ../mail/evolution-mail.schemas.in.in.h:128
+#: ../mail/evolution-mail.schemas.in.in.h:130
 msgid "View/From menu item is checked"
 msgstr "View/From menu item is checked"
 
-#: ../mail/evolution-mail.schemas.in.in.h:129
+#: ../mail/evolution-mail.schemas.in.in.h:131
 msgid "View/From menu item is checked."
 msgstr "View/From menu item is checked."
 
-#: ../mail/evolution-mail.schemas.in.in.h:130
+#: ../mail/evolution-mail.schemas.in.in.h:132
 msgid "View/PostTo menu item is checked"
 msgstr "View/PostTo menu item is checked"
 
-#: ../mail/evolution-mail.schemas.in.in.h:131
+#: ../mail/evolution-mail.schemas.in.in.h:133
 msgid "View/PostTo menu item is checked."
 msgstr "View/PostTo menu item is checked."
 
-#: ../mail/evolution-mail.schemas.in.in.h:132
+#: ../mail/evolution-mail.schemas.in.in.h:134
 msgid "View/ReplyTo menu item is checked"
 msgstr "View/ReplyTo menu item is checked"
 
-#: ../mail/evolution-mail.schemas.in.in.h:133
+#: ../mail/evolution-mail.schemas.in.in.h:135
 msgid "View/ReplyTo menu item is checked."
 msgstr "View/ReplyTo menu item is checked."
 
-#: ../mail/evolution-mail.schemas.in.in.h:134
+#: ../mail/evolution-mail.schemas.in.in.h:136
 msgid "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
 msgstr "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
 
-#: ../mail/evolution-mail.schemas.in.in.h:135
+#: ../mail/evolution-mail.schemas.in.in.h:137
 msgid "Width of the message-list pane"
 msgstr "Width of the message-list pane"
 
-#: ../mail/evolution-mail.schemas.in.in.h:136
+#: ../mail/evolution-mail.schemas.in.in.h:138
 msgid "Width of the message-list pane."
 msgstr "Width of the message-list pane."
 
@@ -13002,87 +12975,87 @@ msgstr "%s mailing list"
 msgid "Add Filter Rule"
 msgstr "Add Filter Rule"
 
-#: ../mail/mail-component.c:523
+#: ../mail/mail-component.c:524
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d deleted"
 msgstr[1] "%d deleted"
 
-#: ../mail/mail-component.c:525
+#: ../mail/mail-component.c:526
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d junk"
 msgstr[1] "%d junk"
 
-#: ../mail/mail-component.c:548
+#: ../mail/mail-component.c:549
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d selected, "
 msgstr[1] "%d selected, "
 
-#: ../mail/mail-component.c:551
+#: ../mail/mail-component.c:552
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d draft"
 msgstr[1] "%d drafts"
 
-#: ../mail/mail-component.c:553
+#: ../mail/mail-component.c:554
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d sent"
 msgstr[1] "%d sent"
 
-#: ../mail/mail-component.c:555
+#: ../mail/mail-component.c:556
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d unsent"
 msgstr[1] "%d unsent"
 
-#: ../mail/mail-component.c:560
+#: ../mail/mail-component.c:561
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d unread, "
 msgstr[1] "%d unread, "
 
-#: ../mail/mail-component.c:561
+#: ../mail/mail-component.c:562
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d total"
 msgstr[1] "%d total"
 
-#: ../mail/mail-component.c:871
+#: ../mail/mail-component.c:889
 msgid "New Mail Message"
 msgstr "New Mail Message"
 
-#: ../mail/mail-component.c:872
+#: ../mail/mail-component.c:890
 msgid "_Mail Message"
 msgstr "_Mail Message"
 
-#: ../mail/mail-component.c:873
+#: ../mail/mail-component.c:891
 msgid "Compose a new mail message"
 msgstr "Compose a new mail message"
 
-#: ../mail/mail-component.c:879
+#: ../mail/mail-component.c:897
 msgid "New Mail Folder"
 msgstr "New Mail Folder"
 
-#: ../mail/mail-component.c:880
+#: ../mail/mail-component.c:898
 msgid "Mail _Folder"
 msgstr "Mail _Folder"
 
-#: ../mail/mail-component.c:881
+#: ../mail/mail-component.c:899
 msgid "Create a new mail folder"
 msgstr "Create a new mail folder"
 
-#: ../mail/mail-component.c:1027
+#: ../mail/mail-component.c:1045
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Failed upgrading Mail settings or folders."
 
@@ -14007,50 +13980,54 @@ msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "Do you want the operation to be performed in the subfolders?"
 
 #: ../mail/mail.error.xml.h:49
+msgid "Do you want to locally synchronize the folders that are marked for offline usage?"
+msgstr "Do you want to locally synchronise the folders that are marked for offline usage?"
+
+#: ../mail/mail.error.xml.h:50
 msgid "Do you want to mark all messages as read?"
 msgstr "Do you want to mark all messages as read?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:51
 msgid "Do you wish to save your changes?"
 msgstr "Do you wish to save your changes?"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:52
 msgid "Enter password."
 msgstr "Enter password."
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:53
 msgid "Error loading filter definitions."
 msgstr "Error loading filter definitions."
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:54
 msgid "Error while performing operation."
 msgstr "Error while performing operation."
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:55
 msgid "Error while {0}."
 msgstr "Error while {0}."
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:56
 msgid "File exists but cannot overwrite it."
 msgstr "File exists but cannot overwrite it."
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:57
 msgid "File exists but is not a regular file."
 msgstr "File exists but is not a regular file."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:58
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "If you continue, you will not be able to recover these messages."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:59
 msgid "If you delete the folder, all of its contents and its subfolders contents will be deleted permanently."
 msgstr "If you delete the folder, all of its contents and its subfolders contents will be deleted permanently."
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:60
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "If you proceed, all proxy accounts will be deleted permanently."
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:61
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -14058,69 +14035,69 @@ msgstr ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:63
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "If you proceed, the account information will be deleted permanently."
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:64
 msgid "If you quit, these messages will not be sent until Evolution is started again."
 msgstr "If you quit, these messages will not be sent until Evolution is started again."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:65
 msgid "Ignore"
 msgstr "Ignore"
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:66
 msgid "Invalid authentication"
 msgstr "Invalid authentication"
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:68
 msgid "Mail filters automatically updated."
 msgstr "Mail filters automatically updated."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:69
 msgid "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
 msgstr "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:70
 msgid "Mark all messages as read"
 msgstr "Mark all messages as read"
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:71
 msgid "Mark all messages in subfolders as read?"
 msgstr "Mark all messages in subfolders as read?"
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:72
 msgid "Mark as _Read"
 msgstr "Mark as _Read"
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:73
 msgid "Missing folder."
 msgstr "Missing folder."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:75
 msgid "No sources selected."
 msgstr "No sources selected."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:76
 msgid "Opening too many messages at once may take a long time."
 msgstr "Opening too many messages at once may take a long time."
 
 #  mail:gw-accountsetup-error secondary
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:77
 msgid "Please check your account settings and try again."
 msgstr "Please check your account settings and try again."
 
 #  mail:gw-accountsetup-error secondary
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:78
 msgid "Please enable the account or send using another account."
 msgstr "Please enable the account or send using another account."
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:79
 msgid "Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box."
 msgstr "Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box."
 
-#: ../mail/mail.error.xml.h:79
+#: ../mail/mail.error.xml.h:80
 msgid ""
 "Please make sure the following recipients are willing and able to receive HTML email:\n"
 "{0}\n"
@@ -14130,62 +14107,70 @@ msgstr ""
 "{0}\n"
 "Send anyway?"
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:83
 msgid "Please provide an unique name to identify this signature."
 msgstr "Please provide an unique name to identify this signature."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:84
 msgid "Please wait."
 msgstr "Please wait."
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr "Problem migrating old mail folder &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:86
 msgid "Querying server"
 msgstr "Querying server"
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:87
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Querying server for a list of supported authentication mechanisms."
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:88
 msgid "Read receipt requested."
 msgstr "Read receipt requested."
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:89
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:90
 msgid "Search Folders automatically updated."
 msgstr "Search Folders automatically updated."
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:91
 msgid "Send Receipt"
 msgstr "Send Receipt"
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:92
 msgid "Signature Already Exists"
 msgstr "Signature Already Exists"
 
-#: ../mail/mail.error.xml.h:92
+#: ../mail/mail.error.xml.h:93
+msgid "Synchronize"
+msgstr "Synchronise"
+
+#: ../mail/mail.error.xml.h:94
+msgid "Synchronize folders locally for offline usage?"
+msgstr "Synchronise folders locally for offline usage?"
+
+#: ../mail/mail.error.xml.h:95
 msgid "System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted."
 msgstr "System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted."
 
-#: ../mail/mail.error.xml.h:93
-msgid ""
-"The contact list you are sending to is configured to hide list recipients.\n"
-"\n"
-"Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients in your message. To avoid this, you should add at least one To: or CC: recipient. "
-msgstr ""
-"The contact list you are sending to is configured to hide list recipients.\n"
-"\n"
-"Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients in your message. To avoid this, you should add at least one To: or CC: recipient. "
-
 #: ../mail/mail.error.xml.h:96
 msgid ""
+"The contact list you are sending to is configured to hide list recipients.\n"
+"\n"
+"Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients in your message. To avoid this, you should add at least one To: or CC: recipient. "
+msgstr ""
+"The contact list you are sending to is configured to hide list recipients.\n"
+"\n"
+"Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients in your message. To avoid this, you should add at least one To: or CC: recipient. "
+
+#: ../mail/mail.error.xml.h:99
+msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
 "Used the now removed folder:\n"
@@ -14198,7 +14183,7 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 
-#: ../mail/mail.error.xml.h:101
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -14212,11 +14197,11 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:109
 msgid "The script file must exist and be executable."
 msgstr "The script file must exist and be executable."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:110
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -14224,68 +14209,68 @@ msgstr ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:112
 msgid "This message cannot be sent because the account you chose to send with is not enabled"
 msgstr "This message cannot be sent because the account you chose to send with is not enabled"
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:113
 msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "This message cannot be sent because you have not specified any recipients"
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:114
 msgid "This server does not support this type of authentication and may not support authentication at all."
 msgstr "This server does not support this type of authentication and may not support authentication at all."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:115
 msgid "This signature has been changed, but has not been saved."
 msgstr "This signature has been changed, but has not been saved."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:116
 msgid "This will mark all messages as read in the selected folder and its subfolders."
 msgstr "This will mark all messages as read in the selected folder and its subfolders."
 
 #  mail:gw-accountsetup-error primary
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:117
 msgid "Unable to connect to the GroupWise server."
 msgstr "Unable to connect to the GroupWise server."
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:118
 msgid "Unable to open the drafts folder for this account. Use the system drafts folder instead?"
 msgstr "Unable to open the drafts folder for this account. Use the system drafts folder instead?"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:119
 msgid "Unable to read license file."
 msgstr "Unable to read licence file."
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:120
 msgid "Use _Default"
 msgstr "Use _Default"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:121
 msgid "Use default drafts folder?"
 msgstr "Use default drafts folder?"
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:123
 msgid "You have not filled in all of the required information."
 msgstr "You have not filled in all of the required information."
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:124
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "You have unsent messages, do you wish to quit anyway?"
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:125
 msgid "You may not create two accounts with the same name."
 msgstr "You may not create two accounts with the same name."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:126
 msgid "You must name this Search Folder."
 msgstr "You must name this Search Folder."
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:127
 msgid "You must specify a folder."
 msgstr "You must specify a folder."
 
-#: ../mail/mail.error.xml.h:125
+#: ../mail/mail.error.xml.h:128
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local folders, all remote folders, or both."
@@ -14293,31 +14278,35 @@ msgstr ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local folders, all remote folders, or both."
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:130
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:131
 msgid "_Append"
 msgstr "_Append"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:132
 msgid "_Discard changes"
 msgstr "_Discard changes"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:133
 msgid "_Do not Mark as Read"
 msgstr "_Do not Mark as Read"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:134
+msgid "_Do not Synchronize"
+msgstr "_Do not Synchronise"
+
+#: ../mail/mail.error.xml.h:136
 msgid "_Expunge"
 msgstr "_Expunge"
 
-#: ../mail/mail.error.xml.h:133
+#: ../mail/mail.error.xml.h:137
 msgid "_Open Messages"
 msgstr "_Open Messages"
 
-#: ../mail/mail-folder-cache.c:858
+#: ../mail/mail-folder-cache.c:859
 #, c-format
 msgid "Pinging %s"
 msgstr "Pinging %s"
@@ -14493,7 +14482,12 @@ msgstr "Disconnecting from %s"
 msgid "Reconnecting to %s"
 msgstr "Reconnecting to %s"
 
-#: ../mail/mail-ops.c:2379
+#: ../mail/mail-ops.c:2361
+#, c-format
+msgid "Preparing account '%s' for offline"
+msgstr "Preparing account '%s' for offline"
+
+#: ../mail/mail-ops.c:2444
 msgid "Checking Service"
 msgstr "Checking Service"
 
@@ -14994,7 +14988,7 @@ msgstr "Automatically fills your addressbook with names and email addresses as y
 msgid "BBDB"
 msgstr "BBDB"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:292
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:302
 msgid "Convert mail text to _Unicode"
 msgstr "Convert mail text to _Unicode"
 
@@ -15410,19 +15404,19 @@ msgid "Permissions for %s"
 msgstr "Permissions for %s"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
-#: ../plugins/exchange-operations/exchange-folder.c:229
-#: ../plugins/exchange-operations/exchange-folder.c:239
+#: ../plugins/exchange-operations/exchange-folder.c:235
+#: ../plugins/exchange-operations/exchange-folder.c:245
 msgid "Unsubscribe Folder..."
 msgstr "Unsubscribe Folder..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:459
-#: ../plugins/exchange-operations/exchange-folder.c:514
+#: ../plugins/exchange-operations/exchange-folder.c:465
+#: ../plugins/exchange-operations/exchange-folder.c:520
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Really unsubscribe from folder \"%s\"?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:471
-#: ../plugins/exchange-operations/exchange-folder.c:526
+#: ../plugins/exchange-operations/exchange-folder.c:477
+#: ../plugins/exchange-operations/exchange-folder.c:532
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Unsubscribe from \"%s\""
@@ -15449,9 +15443,51 @@ msgstr "Subscribe to Other User's Folder"
 msgid "Exchange Folder Tree"
 msgstr "Exchange Folder Tree"
 
+#: ../plugins/exchange-operations/exchange-oof.glade.h:1
+msgid ""
+"<b>Currently, your status is \"Out of the Office\". </b>\n"
+"\n"
+"Would you like to change your status to \"In the Office\"? "
+msgstr ""
+"<b>Currently, your status is \"Out of the Office\". </b>\n"
+"\n"
+"Would you like to change your status to \"In the Office\"? "
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:4
+msgid "<b>Out of Office Message:</b>"
+msgstr "<b>Out of Office Message:</b>"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:5
+msgid "<b>Status:</b>"
+msgstr "<b>Status:</b>"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:6
+msgid ""
+"<small>The message specified below will be automatically sent to each person who sends\n"
+"mail to you while you are out of the office.</small>"
+msgstr ""
+"<small>The message specified below will be automatically sent to each person who sends\n"
+"mail to you while you are out of the office.</small>"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:8
+msgid "I am currently in the office"
+msgstr "I am currently in the office"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:9
+msgid "I am currently out of the office"
+msgstr "I am currently out of the office"
+
 #: ../plugins/exchange-operations/exchange-oof.glade.h:10
 msgid "No, Don't Change Status"
 msgstr "No, Don't Change Status"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:11
+msgid "Out of Office Assistant"
+msgstr "Out of Office Assistant"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:12
+msgid "Yes, Change Status"
+msgstr "Yes, Change Status"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
@@ -17113,6 +17149,19 @@ msgstr "_Subscribe to List"
 msgid "_Unsubscribe from List"
 msgstr "_Unsubscribe from List"
 
+#: ../plugins/mail-notification/mail-notification.c:100
+#, c-format
+msgid "You have received %d new messages in %s."
+msgstr "You have received %d new messages in %s."
+
+#: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
+msgid "Mail Notification"
+msgstr "Mail Notification"
+
+#: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
+msgid "Notifies the user with tray icon and a notify message whenever a new message is arrived."
+msgstr "Notifies the user with tray icon and a notify message whenever a new message is arrived."
+
 #: ../plugins/mail-remote/client.c:30
 #, c-format
 msgid "System error: %s"
@@ -17212,17 +17261,13 @@ msgstr "Generates a D-BUS message when new mail arrives."
 msgid "New Mail Notification"
 msgstr "New Mail Notification"
 
-#: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
-msgid "New mail notify"
-msgstr "New mail notify"
-
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
 msgstr "A plugin for managing which plugins are enabled or disabled."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:180
+#: ../plugins/plugin-manager/plugin-manager.c:202
 msgid "Plugin Manager"
 msgstr "Plugin Manager"
 
@@ -17234,22 +17279,22 @@ msgstr "Enable and disable plugins"
 msgid "_Plugins"
 msgstr "_Plugins"
 
-#: ../plugins/plugin-manager/plugin-manager.c:43
+#: ../plugins/plugin-manager/plugin-manager.c:53
 msgid "Author(s)"
 msgstr "Author(s)"
 
-#: ../plugins/plugin-manager/plugin-manager.c:44
+#: ../plugins/plugin-manager/plugin-manager.c:54
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-config-no-group.glade.h:6
 msgid "Description"
 msgstr "Description"
 
-#: ../plugins/plugin-manager/plugin-manager.c:193
+#: ../plugins/plugin-manager/plugin-manager.c:215
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Note: Some changes will not take effect until restart"
 
-#: ../plugins/plugin-manager/plugin-manager.c:202
-#: ../plugins/plugin-manager/plugin-manager.c:262
+#: ../plugins/plugin-manager/plugin-manager.c:268
+#: ../plugins/plugin-manager/plugin-manager.c:327
 msgid "Plugin"
 msgstr "Plugin"
 
@@ -17405,15 +17450,15 @@ msgstr ""
 "iCal\n"
 "Free/Busy"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:107
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:108
 msgid "SpamAssassin (built-in)"
 msgstr "SpamAssassin (built-in)"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:841
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:848
 msgid "This will make Spamassasin more reliable, but slower"
 msgstr "This will make Spamassasin more reliable, but slower"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:847
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:854
 msgid "I_nclude remote tests"
 msgstr "I_nclude remote tests"
 
@@ -17453,7 +17498,7 @@ msgstr "MIME Type"
 
 #: ../plugins/save-attachments/save-attachments.c:363
 #: ../ui/evolution-editor.xml.h:12
-#: ../ui/evolution-message-composer.xml.h:20
+#: ../ui/evolution-message-composer.xml.h:25
 msgid "Save"
 msgstr "Save"
 
@@ -17692,7 +17737,7 @@ msgid "Skip development warning dialog"
 msgstr "Skip development warning dialogue"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
-#: ../shell/main.c:456
+#: ../shell/main.c:458
 msgid "Start in offline mode"
 msgstr "Start in offline mode"
 
@@ -18015,7 +18060,7 @@ msgstr ""
 "importing external files into Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:217
+#: ../shell/main.c:219
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -18050,7 +18095,7 @@ msgstr ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 
-#: ../shell/main.c:241
+#: ../shell/main.c:243
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -18058,39 +18103,39 @@ msgstr ""
 "Thanks\n"
 "The Evolution Team\n"
 
-#: ../shell/main.c:248
+#: ../shell/main.c:250
 msgid "Do not tell me again"
 msgstr "Do not tell me again"
 
-#: ../shell/main.c:454
+#: ../shell/main.c:456
 msgid "Start Evolution activating the specified component"
 msgstr "Start Evolution activating the specified component"
 
-#: ../shell/main.c:458
+#: ../shell/main.c:460
 msgid "Start in online mode"
 msgstr "Start in online mode"
 
-#: ../shell/main.c:461
+#: ../shell/main.c:463
 msgid "Forcibly shut down all Evolution components"
 msgstr "Forcibly shut down all Evolution components"
 
-#: ../shell/main.c:465
+#: ../shell/main.c:467
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Forcibly re-migrate from Evolution 1.4"
 
-#: ../shell/main.c:468
+#: ../shell/main.c:470
 msgid "Send the debugging output of all components to a file."
 msgstr "Send the debugging output of all components to a file."
 
-#: ../shell/main.c:470
+#: ../shell/main.c:472
 msgid "Disable loading of any plugins."
 msgstr "Disable loading of any plugins."
 
-#: ../shell/main.c:499
+#: ../shell/main.c:501
 msgid "- The Evolution PIM and Email Client"
 msgstr "- The Evolution PIM and Email Client"
 
-#: ../shell/main.c:510
+#: ../shell/main.c:512
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19147,20 +19192,20 @@ msgid "I_nsert"
 msgstr "I_nsert"
 
 #: ../ui/evolution-editor.xml.h:15
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:47
 msgid "_Attachment..."
 msgstr "_Attachment..."
 
 #: ../ui/evolution-editor.xml.h:16
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:50
 #: ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_Close"
 
 #: ../ui/evolution-editor.xml.h:19
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:53
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11
 #: ../ui/evolution.xml.h:42
@@ -19231,100 +19276,104 @@ msgid "R_ole Field"
 msgstr "R_ole Field"
 
 #: ../ui/evolution-event-editor.xml.h:16
+msgid "Send _Options"
+msgstr "Send _Options"
+
+#: ../ui/evolution-event-editor.xml.h:17
 msgid "Show time as _busy"
 msgstr "Show time as _busy"
 
-#: ../ui/evolution-event-editor.xml.h:17
+#: ../ui/evolution-event-editor.xml.h:18
 #: ../ui/evolution-task-editor.xml.h:11
 msgid "Time _Zone"
 msgstr "Time _Zone"
 
-#: ../ui/evolution-event-editor.xml.h:18
+#: ../ui/evolution-event-editor.xml.h:19
 #: ../ui/evolution-task-editor.xml.h:12
 msgid "Toggles whether the Attendee Type field is displayed"
 msgstr "Toggles whether the Attendee Type field is displayed"
 
-#: ../ui/evolution-event-editor.xml.h:19
+#: ../ui/evolution-event-editor.xml.h:20
 #: ../ui/evolution-task-editor.xml.h:13
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Toggles whether the RSVP field is displayed"
 
-#: ../ui/evolution-event-editor.xml.h:20
+#: ../ui/evolution-event-editor.xml.h:21
 #: ../ui/evolution-task-editor.xml.h:14
 msgid "Toggles whether the Role field is displayed"
 msgstr "Toggles whether the Role field is displayed"
 
-#: ../ui/evolution-event-editor.xml.h:21
+#: ../ui/evolution-event-editor.xml.h:22
 #: ../ui/evolution-task-editor.xml.h:15
 msgid "Toggles whether the Status field is displayed"
 msgstr "Toggles whether the Status field is displayed"
 
-#: ../ui/evolution-event-editor.xml.h:22
+#: ../ui/evolution-event-editor.xml.h:23
 #: ../ui/evolution-task-editor.xml.h:16
 msgid "Toggles whether the time zone is displayed"
 msgstr "Toggles whether the time zone is displayed"
 
-#: ../ui/evolution-event-editor.xml.h:23
+#: ../ui/evolution-event-editor.xml.h:24
 #: ../ui/evolution-memo-editor.xml.h:5
 #: ../ui/evolution-task-editor.xml.h:17
 msgid "Toggles whether to display categories"
 msgstr "Toggles whether to display categories"
 
-#: ../ui/evolution-event-editor.xml.h:24
+#: ../ui/evolution-event-editor.xml.h:25
 msgid "Toggles whether to have All Day Event"
 msgstr "Toggles whether to have All Day Event"
 
-#: ../ui/evolution-event-editor.xml.h:25
+#: ../ui/evolution-event-editor.xml.h:26
 msgid "Toggles whether to show time as busy"
 msgstr "Toggles whether to show time as busy"
 
-#: ../ui/evolution-event-editor.xml.h:26
+#: ../ui/evolution-event-editor.xml.h:27
 msgid "_Alarms"
 msgstr "_Alarms"
 
-#: ../ui/evolution-event-editor.xml.h:27
+#: ../ui/evolution-event-editor.xml.h:28
 #: ../ui/evolution-memo-editor.xml.h:6
 #: ../ui/evolution-task-editor.xml.h:18
 msgid "_Categories"
 msgstr "_Categories"
 
-#: ../ui/evolution-event-editor.xml.h:28
+#: ../ui/evolution-event-editor.xml.h:29
 #: ../ui/evolution-memo-editor.xml.h:7
 #: ../ui/evolution-task-editor.xml.h:19
 msgid "_Classification"
 msgstr "_Classification"
 
-#: ../ui/evolution-event-editor.xml.h:29
+#: ../ui/evolution-event-editor.xml.h:30
 #: ../ui/evolution-memo-editor.xml.h:8
 #: ../ui/evolution-task-editor.xml.h:20
 msgid "_Confidential"
 msgstr "_Confidential"
 
-#: ../ui/evolution-event-editor.xml.h:30
+#: ../ui/evolution-event-editor.xml.h:31
 msgid "_Free/Busy"
 msgstr "_Free/Busy"
 
-#: ../ui/evolution-event-editor.xml.h:31
+#: ../ui/evolution-event-editor.xml.h:32
 #: ../ui/evolution-memo-editor.xml.h:9
 #: ../ui/evolution-task-editor.xml.h:21
 msgid "_Private"
 msgstr "_Private"
 
-#: ../ui/evolution-event-editor.xml.h:32
+#: ../ui/evolution-event-editor.xml.h:33
 #: ../ui/evolution-task-editor.xml.h:22
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../ui/evolution-event-editor.xml.h:33
+#: ../ui/evolution-event-editor.xml.h:34
 msgid "_Recurrence"
 msgstr "_Recurrence"
 
-#: ../ui/evolution-event-editor.xml.h:34
+#: ../ui/evolution-event-editor.xml.h:35
 #: ../ui/evolution-task-editor.xml.h:25
 msgid "_Status Field"
 msgstr "_Status Field"
 
-#: ../ui/evolution-event-editor.xml.h:35
+#: ../ui/evolution-event-editor.xml.h:36
 #: ../ui/evolution-task-editor.xml.h:26
 msgid "_Type Field"
 msgstr "_Type Field"
@@ -19350,80 +19399,92 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Create or edit rules for filtering new mail"
 
 #: ../ui/evolution-mail-global.xml.h:7
+msgid "Download messages for Offline"
+msgstr "Download messages for Offline"
+
+#: ../ui/evolution-mail-global.xml.h:8
+msgid "Download messages for offline"
+msgstr "Download messages for offline"
+
+#: ../ui/evolution-mail-global.xml.h:9
+msgid "Download messages of accounts/folders marked for offline"
+msgstr "Download messages of accounts/folders marked for offline"
+
+#: ../ui/evolution-mail-global.xml.h:10
 msgid "Empty _Trash"
 msgstr "Empty _Trash"
 
-#: ../ui/evolution-mail-global.xml.h:8
+#: ../ui/evolution-mail-global.xml.h:11
 #: ../ui/evolution-mail-list.xml.h:11
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "F_older"
 
-#: ../ui/evolution-mail-global.xml.h:9
+#: ../ui/evolution-mail-global.xml.h:12
 msgid "Move the selected folder into another folder"
 msgstr "Move the selected folder into another folder"
 
 #. Alphabetical by name, yo
-#: ../ui/evolution-mail-global.xml.h:11
+#: ../ui/evolution-mail-global.xml.h:14
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Permanently remove all deleted messages from all folders"
 
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:15
 msgid "Search F_olders"
 msgstr "Search F_olders"
 
-#: ../ui/evolution-mail-global.xml.h:13
+#: ../ui/evolution-mail-global.xml.h:16
 msgid "Show Message _Preview"
 msgstr "Show Message _Preview"
 
-#: ../ui/evolution-mail-global.xml.h:14
+#: ../ui/evolution-mail-global.xml.h:17
 msgid "Show message preview below the message list"
 msgstr "Show message preview below the message list"
 
-#: ../ui/evolution-mail-global.xml.h:15
+#: ../ui/evolution-mail-global.xml.h:18
 msgid "Show message preview side-by-side with the message list"
 msgstr "Show message preview side-by-side with the message list"
 
-#: ../ui/evolution-mail-global.xml.h:16
+#: ../ui/evolution-mail-global.xml.h:19
 msgid "Show message preview window"
 msgstr "Show message preview window"
 
-#: ../ui/evolution-mail-global.xml.h:17
+#: ../ui/evolution-mail-global.xml.h:20
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Subscribe or unsubscribe to folders on remote servers"
 
-#: ../ui/evolution-mail-global.xml.h:18
+#: ../ui/evolution-mail-global.xml.h:21
 msgid "_Classic View"
 msgstr "_Classic View"
 
-#: ../ui/evolution-mail-global.xml.h:19
+#: ../ui/evolution-mail-global.xml.h:22
 msgid "_Copy Folder To..."
 msgstr "_Copy Folder To..."
 
-#: ../ui/evolution-mail-global.xml.h:20
+#: ../ui/evolution-mail-global.xml.h:23
 msgid "_Message Filters"
 msgstr "_Message Filters"
 
-#: ../ui/evolution-mail-global.xml.h:21
+#: ../ui/evolution-mail-global.xml.h:24
 msgid "_Move Folder To..."
 msgstr "_Move Folder To..."
 
-#: ../ui/evolution-mail-global.xml.h:22
+#: ../ui/evolution-mail-global.xml.h:25
 msgid "_New..."
 msgstr "_New..."
 
-#: ../ui/evolution-mail-global.xml.h:23
+#: ../ui/evolution-mail-global.xml.h:26
 msgid "_Preview"
 msgstr "_Preview"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 #.
-#: ../ui/evolution-mail-global.xml.h:27
+#: ../ui/evolution-mail-global.xml.h:30
 msgid "_Subscriptions"
 msgstr "_Subscriptions"
 
-#: ../ui/evolution-mail-global.xml.h:28
+#: ../ui/evolution-mail-global.xml.h:31
 msgid "_Vertical View"
 msgstr "_Vertical View"
 
@@ -19497,50 +19558,58 @@ msgid "Permanently remove this folder"
 msgstr "Permanently remove this folder"
 
 #: ../ui/evolution-mail-list.xml.h:20
+msgid "Re_fresh..."
+msgstr "Re_fresh..."
+
+#: ../ui/evolution-mail-list.xml.h:21
+msgid "Refresh the folder"
+msgstr "Refresh the folder"
+
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Select Message _Thread"
 msgstr "Select Message _Thread"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Select _All Messages"
 msgstr "Select _All Messages"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Select all and only the messages that are not currently selected"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Select all messages in the same thread as the selected message"
 
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:26
 msgid "Select all visible messages"
 msgstr "Select all visible messages"
 
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:27
 msgid "Show Hidde_n Messages"
 msgstr "Show Hidde_n Messages"
 
-#: ../ui/evolution-mail-list.xml.h:26
+#: ../ui/evolution-mail-list.xml.h:28
 msgid "Show messages that have been temporarily hidden"
 msgstr "Show messages that have been temporarily hidden"
 
-#: ../ui/evolution-mail-list.xml.h:27
+#: ../ui/evolution-mail-list.xml.h:29
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Temporarily hide all messages that have already been read"
 
-#: ../ui/evolution-mail-list.xml.h:28
+#: ../ui/evolution-mail-list.xml.h:30
 msgid "Temporarily hide the selected messages"
 msgstr "Temporarily hide the selected messages"
 
-#: ../ui/evolution-mail-list.xml.h:29
+#: ../ui/evolution-mail-list.xml.h:31
 msgid "Threaded Message list"
 msgstr "Threaded Message list"
 
-#: ../ui/evolution-mail-list.xml.h:31
+#: ../ui/evolution-mail-list.xml.h:33
 msgid "_Group By Threads"
 msgstr "_Group By Threads"
 
-#: ../ui/evolution-mail-list.xml.h:32
+#: ../ui/evolution-mail-list.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Message"
@@ -19854,8 +19923,8 @@ msgid "Search Folder from Mailing _List..."
 msgstr "Search Folder from Mailing _List..."
 
 #: ../ui/evolution-mail-message.xml.h:87
-msgid "Search Folder from Recipients..."
-msgstr "Search Folder from Recipients..."
+msgid "Search Folder from Recipien_ts..."
+msgstr "Search Folder from Recipien_ts..."
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from S_ubject..."
@@ -20089,144 +20158,164 @@ msgid "PGP Sign"
 msgstr "PGP Sign"
 
 #: ../ui/evolution-message-composer.xml.h:17
+msgid "PGP _Encrypt"
+msgstr "PGP _Encrypt"
+
+#: ../ui/evolution-message-composer.xml.h:18
+msgid "PGP _Sign"
+msgstr "PGP _Sign"
+
+#: ../ui/evolution-message-composer.xml.h:19
 msgid "R_equest Read Receipt"
 msgstr "R_equest Read Receipt"
 
-#: ../ui/evolution-message-composer.xml.h:18
+#: ../ui/evolution-message-composer.xml.h:20
+msgid "S/MIME En_crypt"
+msgstr "S/MIME En_crypt"
+
+#: ../ui/evolution-message-composer.xml.h:21
 msgid "S/MIME Encrypt"
 msgstr "S/MIME Encrypt"
 
-#: ../ui/evolution-message-composer.xml.h:19
+#: ../ui/evolution-message-composer.xml.h:22
+msgid "S/MIME Sig_n"
+msgstr "S/MIME Sig_n"
+
+#: ../ui/evolution-message-composer.xml.h:23
 msgid "S/MIME Sign"
 msgstr "S/MIME Sign"
 
-#: ../ui/evolution-message-composer.xml.h:21
+#: ../ui/evolution-message-composer.xml.h:24
+msgid "S_end"
+msgstr "S_end"
+
+#: ../ui/evolution-message-composer.xml.h:26
 msgid "Save As"
 msgstr "Save As"
 
-#: ../ui/evolution-message-composer.xml.h:22
+#: ../ui/evolution-message-composer.xml.h:27
 msgid "Save Draft"
 msgstr "Save Draft"
 
-#: ../ui/evolution-message-composer.xml.h:23
+#: ../ui/evolution-message-composer.xml.h:28
 msgid "Save _As..."
 msgstr "Save _As..."
 
-#: ../ui/evolution-message-composer.xml.h:24
+#: ../ui/evolution-message-composer.xml.h:29
 msgid "Save _Draft"
 msgstr "Save _Draft"
 
-#: ../ui/evolution-message-composer.xml.h:25
+#: ../ui/evolution-message-composer.xml.h:30
 msgid "Save as draft"
 msgstr "Save as draft"
 
-#: ../ui/evolution-message-composer.xml.h:26
+#: ../ui/evolution-message-composer.xml.h:31
 msgid "Save in folder..."
 msgstr "Save in folder..."
 
-#: ../ui/evolution-message-composer.xml.h:27
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Save the current file"
 msgstr "Save the current file"
 
-#: ../ui/evolution-message-composer.xml.h:28
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Save the current file with a different name"
 msgstr "Save the current file with a different name"
 
-#: ../ui/evolution-message-composer.xml.h:29
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Save the message in a specified folder"
 msgstr "Save the message in a specified folder"
 
-#: ../ui/evolution-message-composer.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Send"
 msgstr "Send"
 
-#: ../ui/evolution-message-composer.xml.h:31
+#: ../ui/evolution-message-composer.xml.h:36
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
 msgstr "Send the mail in HTML format"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Send this message"
 msgstr "Send this message"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Set the message priority to high"
 msgstr "Set the message priority to high"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Sign this message with your PGP key"
 msgstr "Sign this message with your PGP key"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Sign this message with your S/MIME Signature Certificate"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Toggles whether the BCC field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "Toggles whether the CC field is displayed"
 msgstr "Toggles whether the CC field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Toggles whether the From chooser is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Toggles whether the Post-To field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:45
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Toggles whether the Reply-To field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "Toggles whether the To field is displayed"
 msgstr "Toggles whether the To field is displayed"
 
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:48
 msgid "_Bcc Field"
 msgstr "_Bcc Field"
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_Cc Field"
 msgstr "_Cc Field"
 
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Delete all"
 msgstr "_Delete all"
 
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_From Field"
 msgstr "_From Field"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_Open..."
 msgstr "_Open..."
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:56
 msgid "_Post-To Field"
 msgstr "_Post-To Field"
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:57
 msgid "_Prioritize Message"
 msgstr "_Prioritise Message"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:58
 msgid "_Reply-To Field"
 msgstr "_Reply-To Field"
 
-#: ../ui/evolution-message-composer.xml.h:55
+#: ../ui/evolution-message-composer.xml.h:60
 msgid "_Security"
 msgstr "_Security"
 
-#: ../ui/evolution-message-composer.xml.h:56
+#: ../ui/evolution-message-composer.xml.h:61
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "_Send Options"
 
-#: ../ui/evolution-message-composer.xml.h:57
+#: ../ui/evolution-message-composer.xml.h:62
 msgid "_To Field"
 msgstr "_To Field"
 
@@ -20592,7 +20681,7 @@ msgstr "Table"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:587
-#: ../widgets/menus/gal-view-menus.c:350
+#: ../widgets/menus/gal-view-menus.c:354
 msgid "Custom View"
 msgstr "Custom View"
 
@@ -20601,7 +20690,7 @@ msgid "Save Custom View"
 msgstr "Save Custom View"
 
 #: ../widgets/menus/gal-view-instance.c:592
-#: ../widgets/menus/gal-view-menus.c:372
+#: ../widgets/menus/gal-view-menus.c:378
 msgid "Define Views..."
 msgstr "Define Views..."
 
@@ -20625,9 +20714,26 @@ msgstr "_Replace existing view"
 msgid "C_urrent View"
 msgstr "C_urrent View"
 
+#: ../widgets/menus/gal-view-menus.c:315
+#, c-format
+msgid "Select View: %s"
+msgstr "Select View: %s"
+
 #: ../widgets/menus/gal-view-menus.c:359
+msgid "Current view is a customized view"
+msgstr "Current view is a customised view"
+
+#: ../widgets/menus/gal-view-menus.c:364
 msgid "Save Custom View..."
 msgstr "Save Custom View..."
+
+#: ../widgets/menus/gal-view-menus.c:369
+msgid "Save current custom view"
+msgstr "Save current custom view"
+
+#: ../widgets/menus/gal-view-menus.c:383
+msgid "Create or edit views"
+msgstr "Create or edit views"
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
@@ -20851,7 +20957,10 @@ msgstr "Other..."
 msgid "Ch_aracter Encoding"
 msgstr "Ch_aracter Encoding"
 
-#: ../widgets/misc/e-clipped-label.c:111
+#. Translators: This is the string to draw when the label
+#. * of a fixed-size button is clipped, e.g. '...'.
+#.
+#: ../widgets/misc/e-clipped-label.c:114
 msgid "..."
 msgstr "..."
 
@@ -21229,14 +21338,14 @@ msgid "_When opened:"
 msgstr "_When opened:"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
-#: ../widgets/misc/e-task-widget.c:212
+#: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (...)"
 msgstr "%s (...)"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 #. %d is a number between 0 and 100, describing the percentage of operation complete
-#: ../widgets/misc/e-task-widget.c:218
+#: ../widgets/misc/e-task-widget.c:219
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complete)"
@@ -21570,48 +21679,48 @@ msgid "Customize Current View"
 msgstr "Customise Current View"
 
 #: ../widgets/table/e-table-header-item.c:1473
-msgid "Sort Ascending"
-msgstr "Sort Ascending"
+msgid "Sort _Ascending"
+msgstr "Sort _Ascending"
 
 #: ../widgets/table/e-table-header-item.c:1474
-msgid "Sort Descending"
-msgstr "Sort Descending"
+msgid "Sort _Descending"
+msgstr "Sort _Descending"
 
 #: ../widgets/table/e-table-header-item.c:1475
-msgid "Unsort"
-msgstr "Unsort"
+msgid "_Unsort"
+msgstr "_Unsort"
 
 #: ../widgets/table/e-table-header-item.c:1477
-msgid "Group By This Field"
-msgstr "Group By This Field"
+msgid "Group By This _Field"
+msgstr "Group By This _Field"
 
 #: ../widgets/table/e-table-header-item.c:1478
-msgid "Group By Box"
-msgstr "Group By Box"
+msgid "Group By _Box"
+msgstr "Group By _Box"
 
 #: ../widgets/table/e-table-header-item.c:1480
-msgid "Remove This Column"
-msgstr "Remove This Column"
+msgid "Remove This _Column"
+msgstr "Remove This _Column"
 
 #: ../widgets/table/e-table-header-item.c:1481
-msgid "Add a Column..."
-msgstr "Add a Column..."
+msgid "Add a C_olumn..."
+msgstr "Add a C_olumn..."
 
 #: ../widgets/table/e-table-header-item.c:1483
-msgid "Alignment"
-msgstr "Alignment"
+msgid "A_lignment"
+msgstr "A_lignment"
 
 #: ../widgets/table/e-table-header-item.c:1484
-msgid "Best Fit"
-msgstr "Best Fit"
+msgid "B_est Fit"
+msgstr "B_est Fit"
 
 #: ../widgets/table/e-table-header-item.c:1485
-msgid "Format Columns..."
-msgstr "Format Columns..."
+msgid "Format Column_s..."
+msgstr "Format Column_s..."
 
 #: ../widgets/table/e-table-header-item.c:1487
-msgid "Customize Current View..."
-msgstr "Customise Current View..."
+msgid "Custo_mize Current View..."
+msgstr "Custo_mise Current View..."
 
 #: ../widgets/table/e-table-header-item.c:1536
 msgid "Sort By"
@@ -21748,18 +21857,6 @@ msgstr "Cursor position"
 #: ../widgets/text/e-entry.c:1341
 msgid "Emulate label resize"
 msgstr "Emulate label resize"
-
-#: ../widgets/text/e-entry-test.c:49
-msgid "Minicard Test"
-msgstr "Minicard Test"
-
-#: ../widgets/text/e-entry-test.c:50
-msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Copyright (C) 2000, Helix Code, Inc."
-
-#: ../widgets/text/e-entry-test.c:52
-msgid "This should test the minicard canvas item"
-msgstr "This should test the minicard canvas item"
 
 #: ../widgets/text/e-text.c:2739
 msgid "Input Methods"
@@ -21906,6 +22003,52 @@ msgstr "With _Due Date"
 msgid "With _Status"
 msgstr "With _Status"
 
+#~ msgid "Organization"
+#~ msgstr "Organisation"
+#~ msgid "No, Do not Change Status"
+#~ msgstr "No, Do not Change Status"
+#~ msgid "<b>Receiving Email</b>"
+#~ msgstr "<b>Receiving Email</b>"
+#~ msgid "<b>Sending Email:</b>"
+#~ msgstr "<b>Sending Email:</b>"
+#~ msgid ""
+#~ "<small>This page allows you to choose if you want to be notified via a "
+#~ "read receipt when a message you\n"
+#~ "sent is read, and to specify what Evolution should do when someone "
+#~ "requests a receipt from you.</small>"
+#~ msgstr ""
+#~ "<small>This page allows you to choose if you want to be notified via a "
+#~ "read receipt when a message you\n"
+#~ "sent is read, and to specify what Evolution should do when someone "
+#~ "requests a receipt from you.</small>"
+#~ msgid "Always send back a read receipt"
+#~ msgstr "Always send back a read receipt"
+#~ msgid "Ask me if I want to send back a read receipt"
+#~ msgstr "Ask me if I want to send back a read receipt"
+#~ msgid "Never send back a read receipt"
+#~ msgstr "Never send back a read receipt"
+#~ msgid "Read Receipts"
+#~ msgstr "Read Receipts"
+#~ msgid "Request a read receipt for all messages I send"
+#~ msgstr "Request a read receipt for all messages I send"
+#~ msgid ""
+#~ "Unless the message is sent to a mailing list, and not to me personally"
+#~ msgstr ""
+#~ "Unless the message is sent to a mailing list, and not to me personally"
+#~ msgid ""
+#~ "When you receive an email with a read receipt request, what should "
+#~ "Evolution do?"
+#~ msgstr ""
+#~ "When you receive an email with a read receipt request, what should "
+#~ "Evolution do?"
+#~ msgid "New mail notify"
+#~ msgstr "New mail notify"
+#~ msgid "Minicard Test"
+#~ msgstr "Minicard Test"
+#~ msgid "Copyright (C) 2000, Helix Code, Inc."
+#~ msgstr "Copyright (C) 2000, Helix Code, Inc."
+#~ msgid "This should test the minicard canvas item"
+#~ msgstr "This should test the minicard canvas item"
 #~ msgid "Print cards"
 #~ msgstr "Print cards"
 #~ msgid "E-mail"
