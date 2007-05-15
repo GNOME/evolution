@@ -1,3 +1,4 @@
+# translation of evolution.HEAD.es.po to Spanish
 # Translation of evolution to Spanish
 # Copyright © 2000-2002, 2006, 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-12 03:18+0100\n"
-"PO-Revision-Date: 2007-05-12 21:17+0200\n"
+"POT-Creation-Date: 2007-05-14 16:55+0100\n"
+"PO-Revision-Date: 2007-05-15 10:10+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -833,14 +834,14 @@ msgid "_Properties..."
 msgstr "_Propiedades…"
 
 #. Create the contacts group
-#: ../addressbook/gui/component/addressbook-view.c:1334
+#: ../addressbook/gui/component/addressbook-view.c:1338
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../calendar/gui/calendar-component.c:272 ../calendar/gui/migration.c:402
 #: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
 msgstr "Contactos"
 
-#: ../addressbook/gui/component/addressbook-view.c:1345
+#: ../addressbook/gui/component/addressbook-view.c:1349
 msgid "Contact Source Selector"
 msgstr "Selector de origen de contactos"
 
@@ -2696,7 +2697,7 @@ msgid "Esq."
 msgstr "Esq."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Full Name"
 msgstr "Nombre completo"
 
@@ -2883,7 +2884,7 @@ msgstr "Combinar"
 #: ../addressbook/gui/widgets/eab-contact-display.c:535
 #: ../addressbook/gui/widgets/eab-contact-display.c:537
 #: ../addressbook/gui/widgets/eab-contact-display.c:780
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 #: ../plugins/groupwise-features/junk-settings.c:425 ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "Correo-e"
@@ -2938,14 +2939,14 @@ msgid "List Members"
 msgstr "Listar miembros"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Nickname"
 msgstr "Apodo"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:566
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-msgid "Organization"
-msgstr "Organización"
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
+msgid "Company"
+msgstr "Empresa"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:567
 msgid "Department"
@@ -2960,7 +2961,7 @@ msgid "Position"
 msgstr "Posición"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:570
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Manager"
 msgstr "Jefe"
 
@@ -3013,7 +3014,7 @@ msgid "Web Log"
 msgstr "Diario web"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:591
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Mobile Phone"
 msgstr "Teléfono móvil"
 
@@ -3031,7 +3032,7 @@ msgid "Spouse"
 msgstr "Cónyuge"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:604
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Note"
 msgstr "Nota"
 
@@ -3539,51 +3540,51 @@ msgstr "Teléfono del coche"
 msgid "Categories"
 msgstr "Categorías"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
 msgstr "Teléfono de empresa"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 2"
 msgstr "Correo-e 2"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 3"
 msgstr "Correo-e 3"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Family Name"
 msgstr "Apellidos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "File As"
 msgstr "Archivar como"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Given Name"
 msgstr "Nombre dado"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
 msgstr "Fax de casa"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone"
 msgstr "Teléfono de casa"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Home Phone 2"
 msgstr "Teléfono de casa 2"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "ISDN Phone"
 msgstr "Teléfono RDSI"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Journal"
 msgstr "Diario"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Office"
 msgstr "Oficina"
 
@@ -5327,7 +5328,7 @@ msgstr "Método no soportado al abrir el calendario"
 msgid "Permission denied to open the calendar"
 msgstr "Permiso denegado para abrir el calendario"
 
-#: ../calendar/gui/comp-editor-factory.c:439 ../shell/e-shell.c:1268
+#: ../calendar/gui/comp-editor-factory.c:439 ../shell/e-shell.c:1274
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -7919,7 +7920,7 @@ msgstr "Participante                          "
 msgid "In Process"
 msgstr "En proceso"
 
-#: ../calendar/gui/e-meeting-time-sel.c:412 ../designs/OOA/ooa.glade.h:11
+#: ../calendar/gui/e-meeting-time-sel.c:412
 msgid "Out of Office"
 msgstr "Fuera de la oficina"
 
@@ -10325,8 +10326,8 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"No es posible cifrar el mensaje saliente: no hay establecido un "
-"certificado de cifrado para esta cuenta"
+"No es posible cifrar el mensaje saliente: no hay establecido un certificado "
+"de cifrado para esta cuenta"
 
 #: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2559
 msgid "Hide _Attachment Bar"
@@ -10638,115 +10639,6 @@ msgstr "tarjeta de dirección"
 #: ../data/evolution.keys.in.in.h:2
 msgid "calendar information"
 msgstr "información de calendario"
-
-#: ../designs/OOA/ooa.glade.h:1
-#: ../plugins/exchange-operations/exchange-oof.glade.h:1
-msgid ""
-"<b>Currently, your status is \"Out of the Office\". </b>\n"
-"\n"
-"Would you like to change your status to \"In the Office\"? "
-msgstr ""
-"<b>Actualmente, su estado es «Fuera de la oficina».</b>\n"
-"\n"
-"¿Quiere cambiar su estado a «En la oficina»? "
-
-#: ../designs/OOA/ooa.glade.h:4
-#: ../plugins/exchange-operations/exchange-oof.glade.h:4
-msgid "<b>Out of Office Message:</b>"
-msgstr "<b>Mensaje para cuando esté fuera de la oficina</b>"
-
-#: ../designs/OOA/ooa.glade.h:5
-#: ../plugins/exchange-operations/exchange-oof.glade.h:5
-msgid "<b>Status:</b>"
-msgstr "<b>Estado:</b>"
-
-#: ../designs/OOA/ooa.glade.h:6
-#: ../plugins/exchange-operations/exchange-oof.glade.h:6
-msgid ""
-"<small>The message specified below will be automatically sent to each person "
-"who sends\n"
-"mail to you while you are out of the office.</small>"
-msgstr ""
-"<small>El mensaje especificado abajo se enviará automáticamente a cada "
-"persona que le envíe correo mientras esté fuera de la oficina. </small>"
-
-#: ../designs/OOA/ooa.glade.h:8
-#: ../plugins/exchange-operations/exchange-oof.glade.h:8
-msgid "I am currently in the office"
-msgstr "Ahora estoy en la oficina"
-
-#: ../designs/OOA/ooa.glade.h:9
-#: ../plugins/exchange-operations/exchange-oof.glade.h:9
-msgid "I am currently out of the office"
-msgstr "Ahora no estoy en la oficina"
-
-#: ../designs/OOA/ooa.glade.h:10
-msgid "No, Do not Change Status"
-msgstr "No, no cambiar el estado"
-
-#: ../designs/OOA/ooa.glade.h:12
-#: ../plugins/exchange-operations/exchange-oof.glade.h:11
-msgid "Out of Office Assistant"
-msgstr "Asistente para fuera de la oficina"
-
-#: ../designs/OOA/ooa.glade.h:13
-#: ../plugins/exchange-operations/exchange-oof.glade.h:12
-msgid "Yes, Change Status"
-msgstr "Sí, cambiar estado"
-
-#: ../designs/read_receipts/read.glade.h:1
-msgid "<b>Receiving Email</b>"
-msgstr "<b>Recepción de correo</b>"
-
-#: ../designs/read_receipts/read.glade.h:2
-msgid "<b>Sending Email:</b>"
-msgstr "<b>Envío de correo:</b>"
-
-#: ../designs/read_receipts/read.glade.h:3
-msgid ""
-"<small>This page allows you to choose if you want to be notified via a read "
-"receipt when a message you\n"
-"sent is read, and to specify what Evolution should do when someone requests "
-"a receipt from you.</small>"
-msgstr ""
-"<small>Esta página permite elegir si quiere que se le notifique por medio de "
-"un recibo que el mensaje que envió se ha leído y para especificar qué debe "
-"hacer Evolution cuando a usted le solicite alguien un acuse de recibo.</"
-"small>"
-
-#: ../designs/read_receipts/read.glade.h:5
-msgid "Always send back a read receipt"
-msgstr "Siempre devolver una confirmación de lectura"
-
-#: ../designs/read_receipts/read.glade.h:6
-msgid "Ask me if I want to send back a read receipt"
-msgstr "Preguntarme si deseo devolver una confirmación de lectura"
-
-#: ../designs/read_receipts/read.glade.h:7
-msgid "Never send back a read receipt"
-msgstr "Nunca devolver una confirmación de lectura"
-
-#: ../designs/read_receipts/read.glade.h:8
-msgid "Read Receipts"
-msgstr "Confirmación de lectura"
-
-#: ../designs/read_receipts/read.glade.h:9
-msgid "Request a read receipt for all messages I send"
-msgstr "Pedir una confirmación de lectura para todos los mensajes que envíe"
-
-#: ../designs/read_receipts/read.glade.h:10
-msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr ""
-"A no ser que el mensaje se envíe a una lista de correo y no a mí "
-"personalmente"
-
-#: ../designs/read_receipts/read.glade.h:11
-msgid ""
-"When you receive an email with a read receipt request, what should Evolution "
-"do?"
-msgstr ""
-"Cuando reciba un correo con una solicitud de notificación de lectura, ¿qué "
-"debería hacer Evolution?"
 
 #: ../e-util/e-error.c:86 ../e-util/e-error.c:87 ../e-util/e-error.c:129
 msgid "Evolution Error"
@@ -11790,8 +11682,8 @@ msgstr "Especifique donde crear la carpeta:"
 #: ../mail/em-folder-view.c:523 ../mail/GNOME_Evolution_Mail.server.in.in.h:11
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
-#: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:581
-#: ../mail/mail-component.c:582 ../mail/mail-component.c:724
+#: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:582
+#: ../mail/mail-component.c:583 ../mail/mail-component.c:738
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Correo"
@@ -13282,87 +13174,87 @@ msgstr "Lista de correo %s"
 msgid "Add Filter Rule"
 msgstr "Añadir regla de filtrado"
 
-#: ../mail/mail-component.c:523
+#: ../mail/mail-component.c:524
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d borrado"
 msgstr[1] "%d borrados"
 
-#: ../mail/mail-component.c:525
+#: ../mail/mail-component.c:526
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d spam"
 msgstr[1] "%d spams"
 
-#: ../mail/mail-component.c:548
+#: ../mail/mail-component.c:549
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d seleccionado, "
 msgstr[1] "%d seleccionados, "
 
-#: ../mail/mail-component.c:551
+#: ../mail/mail-component.c:552
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d borrador"
 msgstr[1] "%d borradores"
 
-#: ../mail/mail-component.c:553
+#: ../mail/mail-component.c:554
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d enviado"
 msgstr[1] "%d enviados"
 
-#: ../mail/mail-component.c:555
+#: ../mail/mail-component.c:556
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d sin enviar"
 msgstr[1] "%d sin enviar"
 
-#: ../mail/mail-component.c:560
+#: ../mail/mail-component.c:561
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d no leído, "
 msgstr[1] "%d no leídos, "
 
-#: ../mail/mail-component.c:561
+#: ../mail/mail-component.c:562
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d en total"
 msgstr[1] "%d en total"
 
-#: ../mail/mail-component.c:871
+#: ../mail/mail-component.c:889
 msgid "New Mail Message"
 msgstr "Mensaje de correo nuevo"
 
-#: ../mail/mail-component.c:872
+#: ../mail/mail-component.c:890
 msgid "_Mail Message"
 msgstr "_Mensaje de correo"
 
-#: ../mail/mail-component.c:873
+#: ../mail/mail-component.c:891
 msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
-#: ../mail/mail-component.c:879
+#: ../mail/mail-component.c:897
 msgid "New Mail Folder"
 msgstr "Carpeta de correo nueva"
 
-#: ../mail/mail-component.c:880
+#: ../mail/mail-component.c:898
 msgid "Mail _Folder"
 msgstr "_Carpeta de correo"
 
-#: ../mail/mail-component.c:881
+#: ../mail/mail-component.c:899
 msgid "Create a new mail folder"
 msgstr "Crea una carpeta de correo nueva"
 
-#: ../mail/mail-component.c:1027
+#: ../mail/mail-component.c:1045
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Falló al actualizar la configuración de correo o carpetas."
 
@@ -15873,9 +15765,52 @@ msgstr "Subscribirse a la carpeta de otro usuario"
 msgid "Exchange Folder Tree"
 msgstr "Árbol de carpetas de Exchange"
 
+#: ../plugins/exchange-operations/exchange-oof.glade.h:1
+msgid ""
+"<b>Currently, your status is \"Out of the Office\". </b>\n"
+"\n"
+"Would you like to change your status to \"In the Office\"? "
+msgstr ""
+"<b>Actualmente, su estado es «Fuera de la oficina».</b>\n"
+"\n"
+"¿Quiere cambiar su estado a «En la oficina»? "
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:4
+msgid "<b>Out of Office Message:</b>"
+msgstr "<b>Mensaje para cuando esté fuera de la oficina</b>"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:5
+msgid "<b>Status:</b>"
+msgstr "<b>Estado:</b>"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:6
+msgid ""
+"<small>The message specified below will be automatically sent to each person "
+"who sends\n"
+"mail to you while you are out of the office.</small>"
+msgstr ""
+"<small>El mensaje especificado abajo se enviará automáticamente a cada "
+"persona que le envíe correo mientras esté fuera de la oficina. </small>"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:8
+msgid "I am currently in the office"
+msgstr "Ahora estoy en la oficina"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:9
+msgid "I am currently out of the office"
+msgstr "Ahora no estoy en la oficina"
+
 #: ../plugins/exchange-operations/exchange-oof.glade.h:10
 msgid "No, Don't Change Status"
 msgstr "No, no cambiar el estado"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:11
+msgid "Out of Office Assistant"
+msgstr "Asistente para fuera de la oficina"
+
+#: ../plugins/exchange-operations/exchange-oof.glade.h:12
+msgid "Yes, Change Status"
+msgstr "Sí, cambiar estado"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
@@ -16165,7 +16100,7 @@ msgid "Folder offline"
 msgstr "Carpeta desconectada"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
-#: ../shell/e-shell.c:1266
+#: ../shell/e-shell.c:1272
 msgid "Generic error"
 msgstr "Error genérico"
 
@@ -17612,6 +17547,21 @@ msgstr "_Suscribirse a la lista"
 msgid "_Unsubscribe from List"
 msgstr "_Desuscribirse de la lista"
 
+#: ../plugins/mail-notification/mail-notification.c:100
+#, c-format
+msgid "You have received %d new messages in %s."
+msgstr "Ha recibido %d nuevos mensajes en %s."
+
+#: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
+msgid "Mail Notification"
+msgstr "Notificación de correo"
+
+#: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
+msgid ""
+"Notifies the user with tray icon and a notify message whenever a new message "
+"is arrived."
+msgstr "Notifica al usuario con un icono en el área de notificación y un mensaje cuando llega un mensaje nuevo."
+
 #: ../plugins/mail-remote/client.c:30
 #, c-format
 msgid "System error: %s"
@@ -17720,10 +17670,6 @@ msgstr "Genera un mensaje D-BUS cuando llega correo nuevo."
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 msgid "New Mail Notification"
 msgstr "Notificación de correo nuevo"
-
-#: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
-msgid "New mail notify"
-msgstr "Notificar correo nuevo"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
@@ -18315,28 +18261,28 @@ msgstr "Conexiones activas"
 msgid "Click OK to close these connections and go offline"
 msgstr "Pulse «Aceptar» para cerrar estas conexiones y desconectarse"
 
-#: ../shell/e-shell.c:630
+#: ../shell/e-shell.c:636
 msgid "Uknown system error."
 msgstr "Error de sistema desconocido."
 
-#: ../shell/e-shell.c:826 ../shell/e-shell.c:827
+#: ../shell/e-shell.c:832 ../shell/e-shell.c:833
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KiB"
 
-#: ../shell/e-shell.c:1258 ../widgets/misc/e-cell-date-edit.c:255
+#: ../shell/e-shell.c:1264 ../widgets/misc/e-cell-date-edit.c:255
 msgid "OK"
 msgstr "Aceptar"
 
-#: ../shell/e-shell.c:1260
+#: ../shell/e-shell.c:1266
 msgid "Invalid arguments"
 msgstr "Argumentos inválidos"
 
-#: ../shell/e-shell.c:1262
+#: ../shell/e-shell.c:1268
 msgid "Cannot register on OAF"
 msgstr "No es posible registrar en OAF"
 
-#: ../shell/e-shell.c:1264
+#: ../shell/e-shell.c:1270
 msgid "Configuration Database not found"
 msgstr "No se encontró la base de datos de configuración"
 
@@ -21411,7 +21357,10 @@ msgstr "Otro…"
 msgid "Ch_aracter Encoding"
 msgstr "C_odificación de caracteres"
 
-#: ../widgets/misc/e-clipped-label.c:111
+#. Translators: This is the string to draw when the label
+#. * of a fixed-size button is clipped, e.g. '...'.
+#.
+#: ../widgets/misc/e-clipped-label.c:114
 msgid "..."
 msgstr "…"
 
@@ -22114,48 +22063,48 @@ msgid "Customize Current View"
 msgstr "Personalizar vista actual"
 
 #: ../widgets/table/e-table-header-item.c:1473
-msgid "Sort Ascending"
-msgstr "Ordenar ascendentemente"
+msgid "Sort _Ascending"
+msgstr "Ordenar _ascendentemente"
 
 #: ../widgets/table/e-table-header-item.c:1474
-msgid "Sort Descending"
-msgstr "Ordenar descendentemente"
+msgid "Sort _Descending"
+msgstr "Ordenar _descendentemente"
 
 #: ../widgets/table/e-table-header-item.c:1475
-msgid "Unsort"
-msgstr "Desordenar"
+msgid "_Unsort"
+msgstr "_Desordenar"
 
 #: ../widgets/table/e-table-header-item.c:1477
-msgid "Group By This Field"
-msgstr "Agrupar por este campo"
+msgid "Group By This _Field"
+msgstr "Agrupar por _este campo"
 
 #: ../widgets/table/e-table-header-item.c:1478
-msgid "Group By Box"
-msgstr "Agrupar por caja"
+msgid "Group By _Box"
+msgstr "Agrupar por _caja"
 
 #: ../widgets/table/e-table-header-item.c:1480
-msgid "Remove This Column"
-msgstr "Quitar esta columna"
+msgid "Remove This _Column"
+msgstr "Quitar esta c_olumna"
 
 #: ../widgets/table/e-table-header-item.c:1481
-msgid "Add a Column..."
-msgstr "Añadir una columna…"
+msgid "Add a C_olumn..."
+msgstr "Añadir una c_olumna…"
 
 #: ../widgets/table/e-table-header-item.c:1483
-msgid "Alignment"
-msgstr "Alineación"
+msgid "A_lignment"
+msgstr "A_lineación"
 
 #: ../widgets/table/e-table-header-item.c:1484
-msgid "Best Fit"
-msgstr "Ajuste automático"
+msgid "B_est Fit"
+msgstr "Ajust_e automático"
 
 #: ../widgets/table/e-table-header-item.c:1485
-msgid "Format Columns..."
-msgstr "Formatear columnas…"
+msgid "Format Column_s..."
+msgstr "Formatear columna_s…"
 
 #: ../widgets/table/e-table-header-item.c:1487
-msgid "Customize Current View..."
-msgstr "Personalizar vista actual…"
+msgid "Custo_mize Current View..."
+msgstr "Perso_nalizar vista actual…"
 
 #: ../widgets/table/e-table-header-item.c:1536
 msgid "Sort By"
@@ -22263,18 +22212,6 @@ msgstr "Posición del cursor"
 #: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
 msgid "Emulate label resize"
 msgstr "Emular redimensionado de etiqueta"
-
-#: ../widgets/text/e-entry-test.c:49
-msgid "Minicard Test"
-msgstr "Prueba de minitarjetas"
-
-#: ../widgets/text/e-entry-test.c:50
-msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Copyright © 2000, Helix Code, Inc."
-
-#: ../widgets/text/e-entry-test.c:52
-msgid "This should test the minicard canvas item"
-msgstr "Esto debería probar el elemento de lienzo de minitarjetas"
 
 #: ../widgets/text/e-text.c:2739
 msgid "Input Methods"
