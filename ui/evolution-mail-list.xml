@@ -41,7 +41,7 @@
      _tip="Change the name of this folder" accel="F2"/>
      
      <cmd name="FolderRefresh"
-     _tip="Refresh the folder"/>
+     _tip="Refresh the folder" accel="F5"/>
 
 
     <cmd name="HideDeleted" _tip="Hide deleted messages rather than displaying them with a line through them"

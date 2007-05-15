@@ -1,3 +1,8 @@
+2007-05-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail-global.xml: Menu for sync for offline
+	* evolution-mail-list.xml: F5 as shortcut for folder refresh.
+
 2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #325966 from Christian Neumair  

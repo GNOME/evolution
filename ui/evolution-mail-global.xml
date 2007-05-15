@@ -41,6 +41,7 @@
     <cmd name="ViewAfter" _label="_Vertical View" 
      type="radio" group="preview_display" _tip="Show message preview side-by-side with the message list"/>
 
+    <cmd name="PrepareForOffline" _label="Download messages for Offline" _tip="Download messages of accounts/folders marked for offline"/>
   </commands>
 
   <keybindings>
@@ -52,7 +53,8 @@
     <submenu name="File">
       <placeholder name="EmptyTrashPlaceholder">
       <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"/>
-      </placeholder>
+      <menuitem name="PrepareForOffline" verb="" _label="Download messages for offline"/>
+     </placeholder>
     </submenu>
 
     <submenu name="View" _label="_View">
