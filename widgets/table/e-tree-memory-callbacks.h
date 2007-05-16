@@ -71,6 +71,7 @@ typedef struct {
 	ETreeMemoryCallbacksHasGetNodeByIdFn  has_get_node_by_id;
 	ETreeMemoryCallbacksGetNodeByIdFn     get_node_by_id;
 
+	ETreeMemoryCallbacksValueAtFn	      sort_value_at;	
 	ETreeMemoryCallbacksValueAtFn         value_at;
 	ETreeMemoryCallbacksSetValueAtFn      set_value_at;
 	ETreeMemoryCallbacksIsEditableFn      is_editable;
@@ -100,6 +101,7 @@ ETreeModel *e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 					  ETreeMemoryCallbacksHasGetNodeByIdFn     has_get_node_by_id,
 					  ETreeMemoryCallbacksGetNodeByIdFn        get_node_by_id,
 
+					  ETreeMemoryCallbacksValueAtFn		   sort_value_at,
 					  ETreeMemoryCallbacksValueAtFn            value_at,
 					  ETreeMemoryCallbacksSetValueAtFn         set_value_at,
 					  ETreeMemoryCallbacksIsEditableFn         is_editable,

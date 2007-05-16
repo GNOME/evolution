@@ -95,6 +95,16 @@ etmc_get_node_by_id (ETreeModel *etm, const char *save_id)
 		return NULL;
 }
 
+static void *
+etmc_sort_value_at (ETreeModel *etm, ETreePath node, int col)
+{
+	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);
+
+	if (etmc->sort_value_at)
+		return etmc->sort_value_at (etm, node, col, etmc->model_data);
+	else 
+		return etmc->value_at (etm, node, col, etmc->model_data);
+}
 
 static void *
 etmc_value_at (ETreeModel *etm, ETreePath node, int col)
@@ -190,6 +200,7 @@ e_tree_memory_callbacks_class_init (GtkObjectClass *object_class)
 	model_class->has_get_node_by_id = etmc_has_get_node_by_id;
 	model_class->get_node_by_id     = etmc_get_node_by_id;
 
+	model_class->sort_value_at	= etmc_sort_value_at;
 	model_class->value_at           = etmc_value_at;
 	model_class->set_value_at       = etmc_set_value_at;
 	model_class->is_editable        = etmc_is_editable;
@@ -235,6 +246,7 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 			      ETreeMemoryCallbacksHasGetNodeByIdFn     has_get_node_by_id,
 			      ETreeMemoryCallbacksGetNodeByIdFn        get_node_by_id,
 
+			      ETreeMemoryCallbacksValueAtFn	       sort_value_at,
 			      ETreeMemoryCallbacksValueAtFn            value_at,
 			      ETreeMemoryCallbacksSetValueAtFn         set_value_at,
 			      ETreeMemoryCallbacksIsEditableFn         is_editable,
@@ -261,6 +273,7 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 	etmc->has_get_node_by_id = has_get_node_by_id;
 	etmc->get_node_by_id     = get_node_by_id;
 
+	etmc->sort_value_at 	 = sort_value_at;
 	etmc->value_at           = value_at;
 	etmc->set_value_at       = set_value_at;
 	etmc->is_editable        = is_editable;

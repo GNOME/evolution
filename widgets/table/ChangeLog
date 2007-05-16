@@ -1,3 +1,16 @@
+2007-05-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Add more support for GMail like sorting.
+
+	* e-table-sorting-utils.c: (e_table_sorting_utils_tree_sort):
+	* e-tree-memory-callbacks.c: (etmc_sort_value_at),
+	(e_tree_memory_callbacks_class_init),
+	(e_tree_memory_callbacks_new):
+	* e-tree-memory-callbacks.h:
+	* e-tree-model.c: (e_tree_model_class_init),
+	(e_tree_model_sort_value_at):
+	* e-tree-model.h:
+
 2007-05-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-tree-table-adapter.c:

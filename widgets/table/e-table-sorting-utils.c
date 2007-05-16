@@ -285,7 +285,7 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 
 		for (i = 0; i < count; i++) {
-			closure.vals[i * cols + j] = e_tree_model_value_at (source, map_table[i], col->compare_col);
+			closure.vals[i * cols + j] = e_tree_model_sort_value_at (source, map_table[i], col->compare_col);
 		}
 		closure.ascending[j] = column.ascending;
 		closure.compare[j] = col->compare;

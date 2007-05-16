@@ -84,6 +84,7 @@ struct ETreeModelClass {
 	/*
 	 * ETable analogs
 	 */
+	void      *(*sort_value_at)              (ETreeModel *etm, ETreePath node, int col);
 	void      *(*value_at)              (ETreeModel *etm, ETreePath node, int col);
 	void       (*set_value_at)          (ETreeModel *etm, ETreePath node, int col, const void *val);
 	gboolean   (*is_editable)           (ETreeModel *etm, ETreePath node, int col);
@@ -156,6 +157,9 @@ gboolean    e_tree_model_has_get_node_by_id      (ETreeModel     *model);
 ETreePath   e_tree_model_get_node_by_id          (ETreeModel     *model,
 						  const char     *save_id);
 gboolean    e_tree_model_has_change_pending      (ETreeModel     *model);
+void       *e_tree_model_sort_value_at                (ETreeModel     *etree,
+						  ETreePath       node,
+						  int             col);
 void       *e_tree_model_value_at                (ETreeModel     *etree,
 						  ETreePath       node,
 						  int             col);

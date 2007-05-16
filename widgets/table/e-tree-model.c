@@ -173,6 +173,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	tree_class->has_change_pending    = NULL;
 
+	tree_class->sort_value_at 	  = NULL;
 	tree_class->value_at              = NULL;
 	tree_class->set_value_at          = NULL;
 	tree_class->is_editable           = NULL;
@@ -752,6 +753,38 @@ e_tree_model_has_change_pending (ETreeModel *etree)
 		return ETM_CLASS(etree)->has_change_pending (etree);
 	else
 		return FALSE;
+}
+
+/**
+ * e_tree_model_sort_value_at:
+ * @etree: The ETreeModel.
+ * @node: The ETreePath to the node we're getting the data from.
+ * @col: the column to retrieve data from
+ * 
+ * Return value: This function returns the value that is stored by the
+ * @etree in column @col and node @node.  The data returned can be a
+ * pointer or any data value that can be stored inside a pointer.
+ *
+ * The data returned is typically used by an sort renderer if it wants 
+ * to proxy the data of cell value_at at a better sorting order.
+ *
+ * The data returned must be valid until the model sends a signal that
+ * affect that piece of data.  node_changed and node_deleted affect
+ * all data in tha t node and all nodes under that node.
+ * node_data_changed affects the data in that node.  node_col_changed
+ * affects the data in that node for that column.  node_inserted,
+ * node_removed, and no_change don't affect any data in this way.
+ **/
+void *
+e_tree_model_sort_value_at (ETreeModel *etree, ETreePath node, int col)
+{
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
+	if (ETM_CLASS(etree)->sort_value_at)
+		return ETM_CLASS(etree)->sort_value_at (etree, node, col);
+	else
+		return NULL;
 }
 
 /**
