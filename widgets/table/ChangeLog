@@ -1,3 +1,9 @@
+2007-05-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-tree-table-adapter.c:
+	(e_tree_table_adapter_load_expanded_state): Add support for retaining
+	default tree expand state
+
 2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #378441 from Ebby Wiselyn

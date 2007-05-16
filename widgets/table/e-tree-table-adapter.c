@@ -1020,6 +1020,7 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 	xmlDoc *doc;
 	xmlNode *root, *child;
 	gboolean model_default;
+	gboolean file_default = FALSE;
 
 	g_return_if_fail(etta != NULL);
 
@@ -1030,8 +1031,26 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 	root = xmlDocGetRootElement (doc);
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
-
+	
 	model_default = e_tree_model_get_expanded_default(etta->priv->source);
+
+	if (!strcmp (root->name, "expanded_state")) {
+		char *state;
+
+		state = e_xml_get_string_prop_by_name_with_default (root, "default", "");
+
+		if (state[0] == 't')
+			file_default = TRUE;
+		else 
+			file_default = FALSE; /* Even unspecified we'll consider as false */
+	}
+	
+	/* Incase the default is changed, lets forget the changes and stick to default */
+
+	if (file_default != model_default) {
+		xmlFreeDoc (doc);
+		return;
+	}
 
 	for (child = root->xmlChildrenNode; child; child = child->next) {
 		char *id;
