@@ -2236,8 +2236,11 @@ message_list_construct (MessageList *message_list)
 					     ml_value_to_string,
 					     
 					     message_list);
-	
-	e_tree_memory_set_expanded_default(E_TREE_MEMORY(message_list->model), TRUE);
+
+	e_tree_memory_set_expanded_default(E_TREE_MEMORY(message_list->model), 
+					   gconf_client_get_bool (mail_config_get_gconf_client(),
+					   			  "/apps/evolution/mail/display/thread_expand",
+								  NULL));
 	
 	/*
 	 * The etree

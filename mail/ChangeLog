@@ -1,3 +1,10 @@
+2007-05-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added support to specify the default thread state for messages.
+
+	* evolution-mail.schemas.in.in:
+	* message-list.c: (message_list_construct):
+
 2007-05-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Improved options for offline support.
