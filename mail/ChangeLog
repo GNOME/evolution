@@ -1,3 +1,13 @@
+2007-05-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Improved GMail like thread sorting. Even expanded threads are
+	promoted up the list.
+
+	* message-list.c: (ml_tree_sort_value_at),
+	(message_list_construct): Add a provision to sort mails based on the
+	lastest date of the thread with out substituting the value for
+	display. 
+
 2007-05-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added support to specify the default thread state for messages.

@@ -1424,6 +1424,45 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	}
 }
 
+static void *
+ml_tree_sort_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
+{
+	MessageList *message_list = model_data;
+	CamelMessageInfo *msg_info;
+
+	if (!(col == COL_SENT || col == COL_RECEIVED))
+		return ml_tree_value_at (etm, path, col, model_data);
+
+	if (e_tree_model_node_is_root (etm, path))
+		return NULL;
+
+	/* retrieve the message information array */
+	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
+	g_assert (msg_info != NULL);
+
+	if (col == COL_SENT) {
+		ETreePath child;
+
+		child = e_tree_model_node_get_first_child(etm, path);
+		if (child) {
+			return GINT_TO_POINTER (subtree_latest (message_list, child, 1));
+		}
+		
+		return GINT_TO_POINTER (camel_message_info_date_sent(msg_info));
+	} else if (col == COL_RECEIVED) {
+		ETreePath child;
+
+		child = e_tree_model_node_get_first_child(etm, path);
+		if (child) {
+			return GINT_TO_POINTER (subtree_latest (message_list, child, 0));
+		}
+		return GINT_TO_POINTER (camel_message_info_date_received(msg_info));
+	}	
+
+	return ml_tree_value_at (etm, path, col, model_data);
+
+}
+
 static void
 ml_tree_set_value_at (ETreeModel *etm, ETreePath path, int col,
 		      const void *val, void *model_data)
@@ -2225,6 +2264,7 @@ message_list_construct (MessageList *message_list)
 					     ml_has_get_node_by_id,
 					     ml_get_node_by_id,
 					     
+					     ml_tree_sort_value_at,
 					     ml_tree_value_at,
 					     ml_tree_set_value_at,
 					     ml_tree_is_cell_editable,
