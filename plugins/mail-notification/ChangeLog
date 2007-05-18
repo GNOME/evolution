@@ -1,5 +1,12 @@
 2007-05-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #439316
+
+	* mail-notification.c: (org_gnome_mail_new_notify): Fixes translation
+	issues and some fixes around broken gtk.
+
+2007-05-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #439146 and #438711 from Ross Burton and Daniel Gryniewicz
 
 	* Makefile.am:

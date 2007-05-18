@@ -96,13 +96,16 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	is_key = gconf_client_get (client, GCONF_KEY_BLINK, NULL);
 	if (!is_key)
 		gconf_client_set_bool (client, GCONF_KEY_BLINK, TRUE, NULL);
+	else 
+		gconf_value_free (is_key);
 
-	gconf_value_free (is_key);
-	if (!status_icon)
-		status_icon = gtk_status_icon_new_from_pixbuf (e_icon_factory_get_icon ("stock_mail", E_ICON_SIZE_LARGE_TOOLBAR));
-	
+	if (!status_icon) {
+		status_icon = gtk_status_icon_new ();
+		gtk_status_icon_set_from_pixbuf (status_icon, e_icon_factory_get_icon ("stock_mail", E_ICON_SIZE_LARGE_TOOLBAR));
+	}
+
 	folder = em_utils_folder_name_from_uri (t->uri);
-	msg = g_strdup_printf (_("You have received %d new messages in %s."), t->new, folder);
+	msg = g_strdup_printf (ngettext(_("You have received %d new message in %s."), _("You have received %d new messages in %s."), t->new), t->new, folder);
 
 	gtk_status_icon_set_tooltip (status_icon, msg);
 	gtk_status_icon_set_visible (status_icon, TRUE);
@@ -114,18 +117,22 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	is_key = gconf_client_get (client, GCONF_KEY_NOTIFICATION, NULL);
 	if (!is_key)
 		gconf_client_set_bool (client, GCONF_KEY_NOTIFICATION, TRUE, NULL);
-	gconf_value_free (is_key);
+	else
+		gconf_value_free (is_key);
 
 	/* Now check whether we're supposed to send notifications */
 	if (gconf_client_get_bool (client, GCONF_KEY_NOTIFICATION, NULL)) {
 		if (!notify_init ("evolution-mail-notification"))
 			fprintf(stderr,"notify init error");
+		printf("creating %d\n", status_icon);
 
-		notify  = notify_notification_new_with_status_icon (
-				"New email", 
+		notify  = notify_notification_new (
+				_("New email"), 
 				msg, 
-				"stock_mail", 
-				status_icon);
+				"stock_mail",
+				NULL);
+		notify_notification_attach_to_status_icon (notify, status_icon);
+
 		notify_notification_set_urgency(notify, NOTIFY_URGENCY_NORMAL);
 		notify_notification_set_timeout(notify, NOTIFY_EXPIRES_DEFAULT);
 		notify_notification_show(notify, NULL);
