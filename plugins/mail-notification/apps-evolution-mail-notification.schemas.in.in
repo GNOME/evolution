@@ -1,0 +1,27 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/evolution/mail/notification/notification</key>
+      <applyto>/apps/evolution/mail/notification/notification</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Enable libnotify notifications of new mail</short>
+        <long>Every time a new mail arrives, pop up a libnotify notification.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/mail/notification/blink-status-icon</key>
+      <applyto>/apps/evolution/mail/notification/blink-status-icon</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Make the status icon blink</short>
+        <long>When the new-mail status icon is visible, make it blink.</long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>
+

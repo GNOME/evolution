@@ -1,3 +1,13 @@
+2007-05-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #439146 and #438711 from Ross Burton and Daniel Gryniewicz
+
+	* Makefile.am:
+	* apps-evolution-mail-notification.schemas.in.in: Schema to control
+	blink and notification.
+	* mail-notification.c: (org_gnome_mail_read_notify),
+	(org_gnome_mail_new_notify): More cleanups
+
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-notification.c: (org_gnome_mail_new_notify): Build error.

@@ -40,6 +40,9 @@
 #include <libnotify/notify.h>
 #endif
 
+#define GCONF_KEY_NOTIFICATION "/apps/evolution/mail/notification/notification"
+#define GCONF_KEY_BLINK "/apps/evolution/mail/notification/blink-status-icon"
+
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
 void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
@@ -62,7 +65,6 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 	gtk_status_icon_set_visible (status_icon, FALSE);
 
 	g_static_mutex_unlock (&mlock);
-
 }
 
 static void
@@ -79,9 +81,9 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 {
 	char *msg = NULL;
 	char *folder;
+	GConfClient *client;
+	GConfValue  *is_key;
 #ifdef HAVE_LIBNOTIFY	
-	NotifyUrgency urgency = NOTIFY_URGENCY_NORMAL;
-	long expire_timeout = NOTIFY_EXPIRES_DEFAULT;
 	NotifyNotification *notify;
 #endif
 	/* FIXME: Should this is_inbox be configurable? */
@@ -89,38 +91,50 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 		return;
 
 	g_static_mutex_lock (&mlock);
+	client = gconf_client_get_default ();
 
-	if (!status_icon) {
-		status_icon = gtk_status_icon_new ();
-		gtk_status_icon_set_from_pixbuf (status_icon, e_icon_factory_get_icon ("stock_mail", E_ICON_SIZE_LARGE_TOOLBAR));
-		gtk_status_icon_set_blinking (status_icon, TRUE);
-	}
+	is_key = gconf_client_get (client, GCONF_KEY_BLINK, NULL);
+	if (!is_key)
+		gconf_client_set_bool (client, GCONF_KEY_BLINK, TRUE, NULL);
+
+	gconf_value_free (is_key);
+	if (!status_icon)
+		status_icon = gtk_status_icon_new_from_pixbuf (e_icon_factory_get_icon ("stock_mail", E_ICON_SIZE_LARGE_TOOLBAR));
 	
 	folder = em_utils_folder_name_from_uri (t->uri);
 	msg = g_strdup_printf (_("You have received %d new messages in %s."), t->new, folder);
 
 	gtk_status_icon_set_tooltip (status_icon, msg);
 	gtk_status_icon_set_visible (status_icon, TRUE);
+	gtk_status_icon_set_blinking (status_icon, 
+			gconf_client_get_bool (client, GCONF_KEY_BLINK, NULL));
 
 #ifdef HAVE_LIBNOTIFY	
-	if (!notify_init("notify-send"))
-       		fprintf(stderr,"notify init error");
+	/* See whether the notification key has already been set */
+	is_key = gconf_client_get (client, GCONF_KEY_NOTIFICATION, NULL);
+	if (!is_key)
+		gconf_client_set_bool (client, GCONF_KEY_NOTIFICATION, TRUE, NULL);
+	gconf_value_free (is_key);
 
-	notify  = notify_notification_new("New email in Evolution", 
-					msg, 
-					"stock_mail", 
-					NULL);
-	if(notify==NULL) 
-		fprintf(stderr,"notify = NULL !!\n");
-	else {
-		notify_notification_set_urgency(notify, urgency);
-		notify_notification_set_timeout(notify, expire_timeout);
+	/* Now check whether we're supposed to send notifications */
+	if (gconf_client_get_bool (client, GCONF_KEY_NOTIFICATION, NULL)) {
+		if (!notify_init ("evolution-mail-notification"))
+			fprintf(stderr,"notify init error");
+
+		notify  = notify_notification_new_with_status_icon (
+				"New email", 
+				msg, 
+				"stock_mail", 
+				status_icon);
+		notify_notification_set_urgency(notify, NOTIFY_URGENCY_NORMAL);
+		notify_notification_set_timeout(notify, NOTIFY_EXPIRES_DEFAULT);
 		notify_notification_show(notify, NULL);
 	}
 #endif
 
 	g_free (folder);
 	g_free (msg);
+	g_object_unref (client);
 	g_signal_connect (G_OBJECT (status_icon), "activate",
 			  G_CALLBACK (icon_activated), NULL);
 	g_static_mutex_unlock (&mlock);
