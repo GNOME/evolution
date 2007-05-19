@@ -775,7 +775,7 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 			if (status) {
 				char *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
-				text = g_strdup_printf ("%s plugin is available and the binary is installed.", item->plugin_name);
+				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), item->plugin_name);
 				html = g_strdup_printf ("<i>%s</i>", text);
 				gtk_label_set_markup (prefs->plugin_status, html);
 				g_free (html);
@@ -783,7 +783,7 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 			} else {
 				char *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-warning", GTK_ICON_SIZE_MENU);
-				text = g_strdup_printf ("%s plugin is not available. Please check whether the package is installed.", item->plugin_name);
+				text = g_strdup_printf (_("%s plugin is not available. Please check whether the package is installed."), item->plugin_name);
 				html = g_strdup_printf ("<i>%s</i>", text);
 				gtk_label_set_markup (prefs->plugin_status, html);
 				g_free (html);
