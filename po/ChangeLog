@@ -1,3 +1,10 @@
+2007-05-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	* POTFILES.in:
+	* POTFILES.skip:
+	Move files that have translations but are not shipped to
+	POTFILES.skip.  Patch from Philip Withnall.  (#436985)
+
 2007-05-17  Priit Laes  <plaes@svn.gnome.org>
 
 	* et.po: Updated Estonian translation by Ivar Smolin <okul@linux.ee>.

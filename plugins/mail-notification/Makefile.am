@@ -34,7 +34,12 @@ install-data-local:
 		done                                                                                                            \
 	fi
 
-EXTRA_DIST = org-gnome-mail-notification.eplug.xml
-
 BUILT_SOURCES = $(plugin_DATA)
+
 CLEANFILES = $(BUILT_SOURCES)
+
+DISTCLEANFILES = $(schema_DATA)
+
+EXTRA_DIST = \
+	org-gnome-mail-notification.eplug.xml	\
+	$(schema_in_files)
