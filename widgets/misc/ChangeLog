@@ -1,3 +1,7 @@
+2007-05-21  Wang Xin  <jedy.wang@sun.com>
+
+	* e-dateedit.c: Fixes #439049.
+
 2006-02-28  Andre Klapper  <a9016009@gmx.de>
 
 	* e-clipped-label.c: add translator comments for a string.

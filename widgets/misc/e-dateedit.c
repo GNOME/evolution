@@ -1495,9 +1495,10 @@ field_set_to_none (const char *text)
 {
 	const char *pos;
 	const char *none_string;
+	int n;
 
 	pos = text;
-	while (isspace (*pos))
+	while (n = (int)((unsigned char)*pos), isspace (n))
 		pos++;
 
 	none_string = _("None");
