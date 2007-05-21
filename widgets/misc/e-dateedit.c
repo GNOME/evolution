@@ -1497,9 +1497,10 @@ field_set_to_none (const char *text)
 {
 	const char *pos;
 	const char *none_string;
+	int n;
 
 	pos = text;
-	while (isspace (*pos))
+	while (n = (int)((unsigned char)*pos), isspace (n))
 		pos++;
 
 	none_string = _("None");
@@ -1882,6 +1883,7 @@ e_date_edit_check_time_changed		(EDateEdit	*dedit)
 	tmp_tm.tm_min = 0;
 
 	time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
+	g_warning ("time_text:%s", time_text);
 	if (field_set_to_none (time_text))
 		none = TRUE;
 	else if (!e_date_edit_parse_time (dedit, time_text, &tmp_tm))
