@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-13 12:45+0100\n"
-"PO-Revision-Date: 2007-03-13 13:04+0100\n"
+"POT-Creation-Date: 2007-05-23 12:51+0200\n"
+"PO-Revision-Date: 2007-05-23 12:51+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -607,7 +607,7 @@ msgstr "Hier können Sie die Auto-Vervollständigung konfigurieren"
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1332
 #: ../calendar/gui/calendar-component.c:272 ../calendar/gui/migration.c:402
-#: ../plugins/exchange-operations/exchange-folder.c:575
+#: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
 msgstr "Kontakte"
 
@@ -696,7 +696,7 @@ msgid "Create a new contact list"
 msgstr "Eine neue Kontaktliste anlegen"
 
 #: ../addressbook/gui/component/addressbook-component.c:240
-#: ../addressbook/gui/component/addressbook-config.c:1205
+#: ../addressbook/gui/component/addressbook-config.c:1208
 msgid "New Address Book"
 msgstr "Neues Adressbuch"
 
@@ -767,7 +767,7 @@ msgstr "Suchen"
 msgid "Downloading"
 msgstr "Herunterladen"
 
-#: ../addressbook/gui/component/addressbook-config.c:1203
+#: ../addressbook/gui/component/addressbook-config.c:1206
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "Adressbucheigenschaften"
@@ -865,7 +865,7 @@ msgstr "_Neues Adressbuch"
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:444
-#: ../mail/em-folder-tree.c:2077 ../mail/em-folder-view.c:1148
+#: ../mail/em-folder-tree.c:2101 ../mail/em-folder-view.c:1148
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -3017,8 +3017,8 @@ msgstr "_Ausschneiden"
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3185 ../mail/em-folder-tree.c:1002
-#: ../mail/em-folder-view.c:1134 ../mail/message-list.c:1922
+#: ../composer/e-msg-composer.c:3185 ../mail/em-folder-tree.c:1005
+#: ../mail/em-folder-view.c:1134 ../mail/message-list.c:1923
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -3380,7 +3380,7 @@ msgstr "(Karte)"
 msgid "map"
 msgstr "Karte"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:462
+#: ../addressbook/gui/widgets/eab-contact-display.c:461
 #: ../addressbook/gui/widgets/eab-contact-display.c:763
 msgid "List Members"
 msgstr "Listenmitglieder"
@@ -3411,7 +3411,7 @@ msgstr "Video-Chat"
 #: ../calendar/gui/calendar-component.c:755
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2305
-#: ../plugins/exchange-operations/exchange-folder.c:569
+#: ../plugins/exchange-operations/exchange-folder.c:575
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:402
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:433
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:546
@@ -4664,7 +4664,7 @@ msgstr "Notizen"
 #: ../calendar/gui/tasks-component.c:1013 ../calendar/gui/tasks-control.c:483
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:581
+#: ../plugins/exchange-operations/exchange-folder.c:587
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:403
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:547
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -6034,13 +6034,13 @@ msgstr[0] "Beigelegte Nachricht"
 msgstr[1] "%d beigelegte Nachrichten"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3186
-#: ../mail/em-folder-tree.c:1003 ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:1030 ../mail/message-list.c:1923
+#: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:368
+#: ../mail/em-folder-view.c:1030 ../mail/message-list.c:1924
 msgid "_Move"
 msgstr "_Verschieben"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3188
-#: ../mail/em-folder-tree.c:1005 ../mail/message-list.c:1925
+#: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:1926
 msgid "Cancel _Drag"
 msgstr "_Ziehen abbrechen"
 
@@ -6077,7 +6077,7 @@ msgstr "_Entfernen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3694 ../mail/em-folder-tree.c:2081
+#: ../composer/e-msg-composer.c:3694 ../mail/em-folder-tree.c:2105
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "Ei_genschaften"
@@ -6363,8 +6363,8 @@ msgstr "Anpassen"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1775
-#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:1507
-#: ../widgets/misc/e-dateedit.c:1721
+#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:1506
+#: ../widgets/misc/e-dateedit.c:1720
 msgid "None"
 msgstr "Keine"
 
@@ -6624,7 +6624,7 @@ msgstr "Das Wiederholungsdatum ist ungültig"
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:932
 msgid "on"
-msgstr "bei"
+msgstr "am"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -7162,7 +7162,7 @@ msgstr "Nein"
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1800
 #: ../plugins/plugin-manager/plugin-manager.c:68
-#: ../widgets/misc/e-attachment-bar.c:710
+#: ../widgets/misc/e-attachment-bar.c:712
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "Unbekannt"
@@ -8736,7 +8736,7 @@ msgstr "Kategorien: %s"
 msgid "Contacts: "
 msgstr "Kontakte: "
 
-#: ../calendar/gui/print.c:2654 ../calendar/gui/print.c:2723
+#: ../calendar/gui/print.c:2653 ../calendar/gui/print.c:2723
 msgid "Print Item"
 msgstr "Eintrag drucken"
 
@@ -10411,7 +10411,7 @@ msgid "%.0fG"
 msgstr "%.0f GB"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:1017
+#: ../widgets/misc/e-attachment-bar.c:1019
 msgid "Attachment Bar"
 msgstr "Anlagenleiste"
 
@@ -11365,7 +11365,7 @@ msgid "[Default]"
 msgstr "[Vorgabe]"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:930
+#: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:934
 #: ../plugins/plugin-manager/plugin-manager.c:205
 #: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
@@ -11384,15 +11384,15 @@ msgstr "Protokoll"
 msgid "Unnamed"
 msgstr "Namenlose"
 
-#: ../mail/em-composer-prefs.c:936
+#: ../mail/em-composer-prefs.c:940
 msgid "Language(s)"
 msgstr "Sprache(n)"
 
-#: ../mail/em-composer-prefs.c:979
+#: ../mail/em-composer-prefs.c:983
 msgid "Add signature script"
 msgstr "Signaturskript hinzufügen"
 
-#: ../mail/em-composer-prefs.c:999
+#: ../mail/em-composer-prefs.c:1003
 msgid "Signature(s)"
 msgstr "Signatur(en)"
 
@@ -11750,7 +11750,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "Ungelesene Nachrichten:"
 msgstr[1] "Ungelesene Nachrichten:"
 
-#: ../mail/em-folder-properties.c:316
+#: ../mail/em-folder-properties.c:323
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "Folder Properties"
 msgstr "Ordnereigenschaften"
@@ -11784,7 +11784,7 @@ msgstr "Entwürfe"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:151
-#: ../plugins/exchange-operations/exchange-folder.c:587
+#: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Eingang"
 
@@ -11815,54 +11815,54 @@ msgstr "Ladevorgang …"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:366
+#: ../mail/em-folder-tree.c:367
 #, c-format
 msgid "folder-display|%s (%u)"
 msgstr "%s (%u)"
 
-#: ../mail/em-folder-tree.c:717
+#: ../mail/em-folder-tree.c:720
 msgid "Mail Folder Tree"
 msgstr "E-Mail-Ordnerbaum"
 
-#: ../mail/em-folder-tree.c:877
+#: ../mail/em-folder-tree.c:880
 #, c-format
 msgid "Moving folder %s"
 msgstr "Ordner %s wird verschoben"
 
-#: ../mail/em-folder-tree.c:879
+#: ../mail/em-folder-tree.c:882
 #, c-format
 msgid "Copying folder %s"
 msgstr "Ordner %s wird kopiert"
 
-#: ../mail/em-folder-tree.c:886 ../mail/message-list.c:1827
+#: ../mail/em-folder-tree.c:889 ../mail/message-list.c:1828
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Nachrichten werden in den Ordner %s verschoben"
 
-#: ../mail/em-folder-tree.c:888 ../mail/message-list.c:1829
+#: ../mail/em-folder-tree.c:891 ../mail/message-list.c:1830
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Nachrichten werden in den Ordner %s kopiert"
 
-#: ../mail/em-folder-tree.c:904
+#: ../mail/em-folder-tree.c:907
 msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
 "Sie können Nachrichten nicht im Speicher auf der obersten Ebene abgelegen"
 
-#: ../mail/em-folder-tree.c:1000 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:1003 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "In Ordner _kopieren"
 
-#: ../mail/em-folder-tree.c:1001 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:1004 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "In Ordner _verschieben"
 
-#: ../mail/em-folder-tree.c:1706 ../mail/mail-ops.c:1060
+#: ../mail/em-folder-tree.c:1709 ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Ordner in »%s« werden eingelesen"
 
-#: ../mail/em-folder-tree.c:2065 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2089 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:58 ../ui/evolution-tasks.xml.h:30
@@ -11870,28 +11870,28 @@ msgstr "Ordner in »%s« werden eingelesen"
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../mail/em-folder-tree.c:2066
+#: ../mail/em-folder-tree.c:2090
 msgid "Open in _New Window"
 msgstr "In _neuem Fenster öffnen"
 
-#: ../mail/em-folder-tree.c:2070
+#: ../mail/em-folder-tree.c:2094
 msgid "_Copy..."
 msgstr "_Kopieren …"
 
-#: ../mail/em-folder-tree.c:2071
+#: ../mail/em-folder-tree.c:2095
 msgid "_Move..."
 msgstr "_Verschieben …"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2075
+#: ../mail/em-folder-tree.c:2099
 msgid "_New Folder..."
 msgstr "Ordner a_nlegen …"
 
-#: ../mail/em-folder-tree.c:2078 ../ui/evolution-mail-list.xml.h:34
+#: ../mail/em-folder-tree.c:2102 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
 msgstr "_Umbenennen …"
 
-#: ../mail/em-folder-tree.c:2083 ../mail/mail.error.xml.h:131
+#: ../mail/em-folder-tree.c:2107 ../mail/mail.error.xml.h:131
 msgid "_Empty Trash"
 msgstr "_Müll leeren"
 
@@ -12051,7 +12051,7 @@ msgstr "Vorgabe"
 
 #: ../mail/em-folder-view.c:2185 ../mail/em-folder-view.c:2190
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
-#: ../plugins/print-message/print-message.c:87
+#: ../plugins/print-message/print-message.c:89
 msgid "Print Message"
 msgstr "Nachricht drucken"
 
@@ -13199,7 +13199,7 @@ msgid "Importer Berkeley Mailbox format folders"
 msgstr "Importeur für Ordner im Berkeley-Mailbox-Format"
 
 #: ../mail/importers/evolution-outlook-importer.c:262
-#: ../mail/importers/mail-importer.c:233 ../shell/e-shell-importer.c:529
+#: ../mail/importers/mail-importer.c:233 ../shell/e-shell-importer.c:528
 #, c-format
 msgid "Importing `%s'"
 msgstr "»%s« wird importiert"
@@ -13207,7 +13207,7 @@ msgstr "»%s« wird importiert"
 #: ../mail/importers/evolution-outlook-importer.c:266
 #: ../mail/importers/netscape-importer.c:1254
 #: ../plugins/startup-wizard/startup-wizard.c:235
-#: ../shell/e-shell-importer.c:536
+#: ../shell/e-shell-importer.c:535
 msgid "Please wait"
 msgstr "Bitte warten"
 
@@ -15119,38 +15119,38 @@ msgstr "Höher"
 msgid "Highest"
 msgstr "Am höchsten"
 
-#: ../mail/message-list.c:1469 ../widgets/table/e-cell-date.c:57
+#: ../mail/message-list.c:1470 ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1476 ../plugins/itip-formatter/itip-view.c:202
+#: ../mail/message-list.c:1477 ../plugins/itip-formatter/itip-view.c:202
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Heute %I:%M %p"
 
-#: ../mail/message-list.c:1485 ../widgets/table/e-cell-date.c:82
+#: ../mail/message-list.c:1486 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "Gestern %l:%M %p"
 
-#: ../mail/message-list.c:1497 ../widgets/table/e-cell-date.c:94
+#: ../mail/message-list.c:1498 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %I:%M %p"
 
-#: ../mail/message-list.c:1505 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1506 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%d. %b, %k:%M"
 
-#: ../mail/message-list.c:1507 ../widgets/table/e-cell-date.c:104
+#: ../mail/message-list.c:1508 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:2263 ../mail/message-list.etspec.h:9
+#: ../mail/message-list.c:2264 ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Nachrichten"
 
-#: ../mail/message-list.c:3654
+#: ../mail/message-list.c:3710
 msgid "Generating message list"
 msgstr "Nachrichtenliste wird erzeugt"
 
@@ -15823,19 +15823,19 @@ msgid "Exchange Folder Tree"
 msgstr "Exchange-Ordnerbaum"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
-#: ../plugins/exchange-operations/exchange-folder.c:229
-#: ../plugins/exchange-operations/exchange-folder.c:239
+#: ../plugins/exchange-operations/exchange-folder.c:235
+#: ../plugins/exchange-operations/exchange-folder.c:245
 msgid "Unsubscribe Folder..."
 msgstr "Ordner abbestellen …"
 
-#: ../plugins/exchange-operations/exchange-folder.c:459
-#: ../plugins/exchange-operations/exchange-folder.c:514
+#: ../plugins/exchange-operations/exchange-folder.c:465
+#: ../plugins/exchange-operations/exchange-folder.c:520
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Den Ordner »%s« wirklich abbestellen?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:471
-#: ../plugins/exchange-operations/exchange-folder.c:526
+#: ../plugins/exchange-operations/exchange-folder.c:477
+#: ../plugins/exchange-operations/exchange-folder.c:532
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Abbestellen von »%s«"
@@ -16740,7 +16740,7 @@ msgid "Select Calendar"
 msgstr "Kalender auswählen"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:266
-#: ../shell/e-shell-importer.c:714
+#: ../shell/e-shell-importer.c:713
 msgid "_Import"
 msgstr "_Importieren"
 
@@ -18105,18 +18105,18 @@ msgid "Importing files"
 msgstr "Dateien werden importiert"
 
 #: ../plugins/startup-wizard/startup-wizard.c:138
-#: ../shell/e-shell-importer.c:149
+#: ../shell/e-shell-importer.c:148
 msgid "Please select the information that you would like to import:"
 msgstr "Bitte wählen Sie die Informationen, die Sie importieren wollen:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:153
-#: ../shell/e-shell-importer.c:411
+#: ../shell/e-shell-importer.c:410
 #, c-format
 msgid "From %s:"
 msgstr "Von %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:233
-#: ../shell/e-shell-importer.c:522
+#: ../shell/e-shell-importer.c:521
 msgid "Importing data."
 msgstr "Daten werden importiert."
 
@@ -18310,11 +18310,11 @@ msgstr ""
 msgid "(Untitled)"
 msgstr "(Namenlos)"
 
-#: ../shell/e-shell-importer.c:137
+#: ../shell/e-shell-importer.c:136
 msgid "Choose the type of importer to run:"
 msgstr "Wählen Sie den auszuführenden Importeur:"
 
-#: ../shell/e-shell-importer.c:140
+#: ../shell/e-shell-importer.c:139
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list.\n"
@@ -18328,11 +18328,11 @@ msgstr ""
 "Falls er Ihnen unbekannt ist, können Sie »Automatisch« wählen. Evolution "
 "wird dann versuchen, ihn selbst zu bestimmen."
 
-#: ../shell/e-shell-importer.c:146
+#: ../shell/e-shell-importer.c:145
 msgid "Choose the destination for this import"
 msgstr "Wählen Sie das Ziel dieses Imports"
 
-#: ../shell/e-shell-importer.c:152
+#: ../shell/e-shell-importer.c:151
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -18345,23 +18345,23 @@ msgstr ""
 "gefunden. Klicken Sie bitte den »Zurück«-Knopf an, falls\n"
 "Sie es noch einmal versuchen wollen.\n"
 
-#: ../shell/e-shell-importer.c:291
+#: ../shell/e-shell-importer.c:290
 msgid "F_ilename:"
 msgstr "Datei_name:"
 
-#: ../shell/e-shell-importer.c:297 ../shell/e-shell-importer.c:300
+#: ../shell/e-shell-importer.c:296 ../shell/e-shell-importer.c:299
 msgid "Select a file"
 msgstr "Eine Datei wählen"
 
-#: ../shell/e-shell-importer.c:313
+#: ../shell/e-shell-importer.c:312
 msgid "File _type:"
 msgstr "Datei_typ:"
 
-#: ../shell/e-shell-importer.c:349
+#: ../shell/e-shell-importer.c:348
 msgid "Import data and settings from _older programs"
 msgstr "Daten und Einstellungen aus ä_lteren Programmen importieren"
 
-#: ../shell/e-shell-importer.c:352
+#: ../shell/e-shell-importer.c:351
 msgid "Import a _single file"
 msgstr "Eine _einzelne Datei importieren"
 
@@ -21461,21 +21461,11 @@ msgstr "_Jetzt"
 msgid "_Today"
 msgstr "_Heute"
 
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1765
-msgid "%H:%M"
-msgstr "%k:%M"
-
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
-msgid "%I:%M %p"
-msgstr "%I:%M %p"
-
-#: ../widgets/misc/e-dateedit.c:1634
+#: ../widgets/misc/e-dateedit.c:1633
 msgid "Invalid Date Value"
 msgstr "Ungültiges Datum"
 
-#: ../widgets/misc/e-dateedit.c:1660
+#: ../widgets/misc/e-dateedit.c:1659
 msgid "Invalid Time Value"
 msgstr "Ungültige Zeitangabe"
 
@@ -22360,6 +22350,12 @@ msgstr "EM-Kontext"
 #: ../widgets/text/e-text.c:3724 ../widgets/text/e-text.c:3725
 msgid "Handle Popup"
 msgstr "Handle-Popup"
+
+#~ msgid "%H:%M"
+#~ msgstr "%k:%M"
+
+#~ msgid "%I:%M %p"
+#~ msgstr "%I:%M %p"
 
 #, fuzzy
 #~ msgid "range"
