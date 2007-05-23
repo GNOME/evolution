@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-05-23 12:34+0200\n"
-"PO-Revision-Date: 2007-05-23 12:47+0200\n"
+"PO-Revision-Date: 2007-05-23 12:58+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -719,7 +719,7 @@ msgstr "Basis"
 #: ../addressbook/gui/component/addressbook-config.c:533
 #: ../calendar/gui/dialogs/calendar-setup.c:172
 msgid "_Type:"
-msgstr "_Typ:"
+msgstr "A_rt:"
 
 #: ../addressbook/gui/component/addressbook-config.c:635
 msgid "Copy book content locally for offline operation"
@@ -991,7 +991,7 @@ msgstr "<b>Server-Informationen</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "<b>Type:</b>"
-msgstr "<b>Typ:</b>"
+msgstr "<b>Art:</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:12
 msgid "Add Address Book"
@@ -1080,7 +1080,7 @@ msgid ""
 msgstr ""
 "Der Suchfilter legt die Art der Objekte fest, nach denen gesucht werden "
 "soll. Wird der Suchfilter nicht verändert, wird nach die Suche per Vorgabe "
-"in der Objektklasse des Typs »Person« durchgeführt."
+"in der Objektklasse der Art »Person« durchgeführt."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
@@ -2960,7 +2960,7 @@ msgstr "Quelle"
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:6
 msgid "Type"
-msgstr "Typ"
+msgstr "Art"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:835
 #: ../addressbook/gui/widgets/e-addressbook-view.c:2072
@@ -4008,7 +4008,7 @@ msgstr "Oben:"
 #: ../addressbook/printing/e-contact-print.glade.h:40
 #: ../calendar/gui/dialogs/calendar-setup.c:156
 msgid "Type:"
-msgstr "Typ:"
+msgstr "Art:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:41
 msgid "Width:"
@@ -5078,7 +5078,7 @@ msgstr "Zeitzonenfeld im Ereignis-/Besprechungseditor anzeigen"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Show type field in the event/task/meeting editor"
-msgstr "Typenfeld im Ereignis-/Aufgaben-/Besprechungseditor anzeigen"
+msgstr "Artenfeld im Ereignis-/Aufgaben-/Besprechungseditor anzeigen"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Show week numbers in date navigator"
@@ -5234,7 +5234,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Soll das Typenfeld im Ereignis-/Aufgaben-/Besprechungseditor angezeigt "
+"Soll das Artenfeld im Ereignis-/Aufgaben-/Besprechungseditor angezeigt "
 "werden?"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
@@ -12779,7 +12779,7 @@ msgstr "Beim Eintreffen neuer E-Mails wiederzugebende Klangdatei."
 #: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
-"Legt den Typ der Benachrichtigung bei neuen E-Mails fest, den der Benutzer "
+"Legt die Art der Benachrichtigung bei neuen E-Mails fest, die der Benutzer "
 "verwenden möchte."
 
 #: ../mail/evolution-mail.schemas.in.in.h:99
@@ -13168,7 +13168,7 @@ msgstr "S_päter"
 
 #: ../mail/mail-config.glade.h:1
 msgid " Ch_eck for Supported Types "
-msgstr " _Prüfen, welche Typen unterstützt werden "
+msgstr " _Prüfen, welche Arten unterstützt werden "
 
 #: ../mail/mail-config.glade.h:3
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13339,7 +13339,7 @@ msgstr "_Zeichensatz:"
 
 #: ../mail/mail-config.glade.h:48
 msgid "Ch_eck for Supported Types "
-msgstr "_Prüfen, welche Typen unterstützt werden "
+msgstr "_Prüfen, welche Arten unterstützt werden "
 
 #: ../mail/mail-config.glade.h:49
 msgid "Check in_coming mail for junk"
@@ -13638,7 +13638,7 @@ msgstr "Server erfordert _Legitimation"
 
 #: ../mail/mail-config.glade.h:133
 msgid "Server _Type: "
-msgstr "_Server-Typ: "
+msgstr "_Server-Art: "
 
 #: ../mail/mail-config.glade.h:134
 msgid "Sig_ning certificate:"
@@ -16213,7 +16213,7 @@ msgstr "Unbekannter Fehler."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "Unknown type"
-msgstr "Unbekannter Typ"
+msgstr "Unbekannte Art"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "Unsupported operation"
@@ -19135,7 +19135,7 @@ msgstr "Verwendungszweck des Zertifikatsschlüssels"
 
 #: ../smime/lib/e-cert.c:673
 msgid "Netscape Certificate Type"
-msgstr "Netscape-Zertifikattyp"
+msgstr "Netscape-Zertifikatart"
 
 #: ../smime/lib/e-cert.c:676
 msgid "Certificate Authority Key Identifier"
