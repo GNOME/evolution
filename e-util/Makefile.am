@@ -103,8 +103,6 @@ libeutil_la_SOURCES =				\
 	e-request.c				\
 	e-signature.c				\
 	e-signature-list.c			\
-	eggtrayicon.c				\
-	eggtrayicon.h				\
 	e-bit-array.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\

@@ -1,3 +1,8 @@
+2007-05-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* calendar-weather.c (e_calendar_weather_location):
+	Remove check for obsolete GTK+ version (#424562).
+
 2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* calendar-weather.c: (e_plugin_lib_enable), (parse_subtree),

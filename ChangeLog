@@ -1,3 +1,17 @@
+2007-05-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #424562
+
+	* e-util/e-dialog-utils.c (e_notice):
+	Remove check for obsolete GTK+ version.
+
+	* e-util/eggtrayicon.c:
+	* e-util/eggtrayicon.h:
+	Evolution requires GTK+ 2.10 now so kill this widget.
+
+	* e-util/Makefile.am:
+	Remove eggtrayicon.c and eggtrayicon.h.
+
 2007-05-14  Srinivasa Ragavan <sragavan@novell.com>
 
 	** NEWS, configure.in: Evolution 2.11.2 release

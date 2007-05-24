@@ -40,6 +40,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkstatusicon.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtktooltips.h>
 #include <gtk/gtkversion.h>
@@ -48,19 +49,6 @@
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
-
-#if GTK_CHECK_VERSION (2, 9, 0)
-#include <gtk/gtkstatusicon.h>
-#else
-#include <e-util/eggtrayicon.h>
-#endif
-
-/* Evo's copy of eggtrayicon, for Win32, contains the gtkstatusicon
- * API.
- */
-#if GTK_CHECK_VERSION (2, 9, 0) || defined (GDK_WINDOWING_WIN32)
-#define USE_GTK_STATUS_ICON
-#endif
 
 #include <e-util/e-icon-factory.h>
 #include <libecal/e-cal-time-util.h>
@@ -104,13 +92,7 @@ static GHashTable *client_alarms_hash = NULL;
 static GList *tray_icons_list = NULL;
 
 /* Top Tray Image */
-#ifndef USE_GTK_STATUS_ICON
-static GtkWidget *tray_icon = NULL;
-static GtkWidget *tray_image = NULL;
-static GtkWidget *tray_event_box = NULL;
-#else
 static GtkStatusIcon *tray_icon = NULL;
-#endif
 static int tray_blink_id = -1;
 static int tray_blink_state = FALSE;
 static AlarmNotify *an;
@@ -939,13 +921,8 @@ typedef struct {
 	ECalComponent *comp;
 	ECal *client;
 	ECalView *query;
-#ifndef USE_GTK_STATUS_ICON
-	GtkWidget *tray_icon;
-	GtkWidget *image;
-#else
         GtkStatusIcon *tray_icon;
 	GdkPixbuf *image;
-#endif
 	GtkTreeIter iter;
 } TrayIconData;
 
@@ -1282,12 +1259,7 @@ open_alarm_dialog (TrayIconData *tray_data)
 			g_source_remove (tray_blink_id);
 		tray_blink_id = -1;
 
-#ifndef USE_GTK_STATUS_ICON
-		gtk_widget_destroy (GTK_WIDGET (tray_icon));			
-		tray_image = NULL;
-#else
 		g_object_unref (tray_icon);
-#endif
 		tray_icon = NULL;
 
 		if (!alarm_notifications_dialog)
@@ -1340,13 +1312,8 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 			
 			
 
-#ifndef USE_GTK_STATUS_ICON
-			gtk_widget_destroy (GTK_WIDGET (tray_icon));			
-			tray_image = NULL;
-#else
 			gtk_status_icon_set_visible (tray_icon, FALSE);
 			g_object_unref (tray_icon);
-#endif
 			tray_icon = NULL;			
 			return TRUE;
 		}
@@ -1355,7 +1322,6 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 	return FALSE;
 }
 
-#ifdef USE_GTK_STATUS_ICON
 static void
 icon_activated (GtkStatusIcon *icon)
 {
@@ -1382,7 +1348,6 @@ popup_menu (GtkStatusIcon *icon, guint button, guint activate_time)
 		tray_icon_clicked_cb (NULL, &event, NULL);
 	}
 }
-#endif
 
 static gboolean
 tray_icon_blink_cb (gpointer data)
@@ -1396,13 +1361,8 @@ tray_icon_blink_cb (gpointer data)
 					   "stock_appointment-reminder",
 					   E_ICON_SIZE_LARGE_TOOLBAR);
 
-#ifndef USE_GTK_STATUS_ICON
-	if (tray_icon && tray_image)
-		gtk_image_set_from_pixbuf (GTK_IMAGE (tray_image), pixbuf);
-#else
 	if (tray_icon)
 		gtk_status_icon_set_from_pixbuf (tray_icon, pixbuf);
-#endif
 	g_object_unref (pixbuf);
 
 	return TRUE;
@@ -1445,10 +1405,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	QueuedAlarm *qa;
 	ECalComponent *comp;
 	const char *summary, *description, *location;
-#ifndef USE_GTK_STATUS_ICON
-	GtkWidget *image=NULL;
-	GtkTooltips *tooltips;
-#endif
 	TrayIconData *tray_data;
 	ECalComponentText text;
 	GSList *text_list;
@@ -1492,20 +1448,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	        location = _("No location information available.");
 
 	/* create the tray icon */
-#ifndef USE_GTK_STATUS_ICON
-	if (tray_icon == NULL) {
-		tray_icon = GTK_WIDGET (egg_tray_icon_new ("Evolution Alarm"));
-		tray_image = e_icon_factory_get_image  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
-		tray_event_box = gtk_event_box_new ();
-		gtk_container_add (GTK_CONTAINER (tray_event_box), tray_image);
-		gtk_container_add (GTK_CONTAINER (tray_icon), tray_event_box);
-		g_signal_connect (G_OBJECT (tray_event_box), "button_press_event",
-				  G_CALLBACK (tray_icon_clicked_cb), NULL);
-		gtk_widget_show_all (tray_icon);
-	}
-	tooltips = gtk_tooltips_new ();
-	
-#else
 	if (tray_icon == NULL) {
 		tray_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_from_pixbuf (tray_icon, e_icon_factory_get_icon ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR));
@@ -1515,7 +1457,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 				  G_CALLBACK (popup_menu), NULL);
 
 	}
-#endif
 	
 	current_zone = config_data_get_timezone ();
 	alarm_str = timet_to_str_with_zone (trigger, current_zone);
@@ -1537,9 +1478,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->comp = g_object_ref (e_cal_component_clone (comp));
 	tray_data->client = cqa->parent_client->client;
 	tray_data->query = g_object_ref (cqa->parent_client->query);
-#ifndef USE_GTK_STATUS_ICON
-	tray_data->image = image;
-#endif
 	tray_data->blink_state = FALSE;
 	tray_data->snooze_set = FALSE;
 	g_object_ref (tray_data->client);
@@ -1552,19 +1490,10 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		char *tip;
 
 		tip =  g_strdup_printf (_("You have %d alarms"), g_list_length (tray_icons_list));
-#ifndef USE_GTK_STATUS_ICON
-		gtk_tooltips_set_tip (GTK_TOOLTIPS (tooltips), tray_event_box, tip, NULL);
-		g_free (tip);
-#else
 		gtk_status_icon_set_tooltip (tray_icon, tip);
-#endif
 	}
 	else {
-#ifndef USE_GTK_STATUS_ICON
-		gtk_tooltips_set_tip (GTK_TOOLTIPS (tooltips), tray_event_box, str, NULL);
-#else
 		gtk_status_icon_set_tooltip (tray_icon, str);
-#endif
 	}
 
 	g_free (start_str);

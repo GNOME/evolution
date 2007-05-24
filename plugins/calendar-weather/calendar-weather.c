@@ -423,9 +423,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 	} else
 		text = gtk_label_new (_("None"));
 	gtk_widget_show (text);
-#if (GTK_CHECK_VERSION(2, 6, 0))
 	gtk_label_set_ellipsize (GTK_LABEL (text), PANGO_ELLIPSIZE_START);
-#endif
 	gtk_container_add (GTK_CONTAINER (button), text);
 	e_uri_free (uri);
 	g_free (uri_text);

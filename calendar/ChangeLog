@@ -1,3 +1,13 @@
+2007-05-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #424562
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog):
+	Remove check for obsolete GTK+ version.
+
+	* gui/alarm-notify/alarm-queue.c:
+	EggTrayIcon is dead; always use GtkStatusIcon.
+
 2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in: Fix for bug #407104

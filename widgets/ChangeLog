@@ -1,3 +1,9 @@
+2007-05-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* text/e-text.c (e_text_copy_clipboard),
+	(e_text_update_primary_selection), (e_text_paste), (e_text_do_popup):
+	Remove check for obsolete GTK+ version (#424562).
+
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* menus/gal-view-menus.c: (build_menus): Add tooltips for user defined
