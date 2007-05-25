@@ -362,23 +362,6 @@ get_receive_type(const char *url)
 	return SEND_INVALID;
 }
 
-static gboolean
-dialog_map (GtkWidget *window, GdkEvent  *event, GtkWidget *table)
-{
-	int h, w;
-
-	w = table->allocation.width + 30 /* Spacing around the table */;
-	h = table->allocation.height + 60 /* Cancell All button and Seperator and outer spacing */;
-
-	if (w > 750)
-		w = 750;
-	if (h > 400)
-		h = 400;
-	gtk_widget_set_size_request (window, w, h);
-
-	return FALSE;
-}
-
 static struct _send_data *
 build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destination)
 {
@@ -444,7 +427,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);	
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolled_window),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
 	gtk_scrolled_window_add_with_viewport (
 		GTK_SCROLLED_WINDOW (scrolled_window), table);
@@ -504,6 +487,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			"stock_mail-receive", E_ICON_SIZE_LARGE_TOOLBAR);
 	       	pretty_url = format_url (source->url, account->name);
 		label = gtk_label_new (NULL);
+		gtk_label_set_ellipsize (
+			GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 		gtk_label_set_markup (GTK_LABEL (label), pretty_url);
 		g_free (pretty_url);
 		
@@ -522,16 +507,16 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		
 	        gtk_table_attach (
 			GTK_TABLE (table), recv_icon,
-			0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			0, 1, row, row+2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), label,
 			1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), progress_bar,
-			2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			2, 3, row, row+2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), cancel_button,
-			3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			3, 4, row, row+2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), status_label,
 			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -572,6 +557,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			"stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
 		pretty_url = format_url (destination, NULL);
 		label = gtk_label_new (NULL);
+		gtk_label_set_ellipsize (
+			GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 		gtk_label_set_markup (GTK_LABEL (label), pretty_url);
 
 		g_free (pretty_url);
@@ -587,16 +574,16 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		
 		gtk_table_attach (
 			GTK_TABLE (table), send_icon,
-			0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			0, 1, row, row+2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), label,
 			1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), progress_bar,
-			2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			2, 3, row, row+2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), cancel_button,
-			3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			3, 4, row, row+2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), status_label,
 			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -615,7 +602,6 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gtk_widget_show (GTK_WIDGET (gd));
 	
 	g_signal_connect (gd, "response", G_CALLBACK (dialog_response), data);
-	g_signal_connect (gd, "map-event", G_CALLBACK (dialog_map), table);
 	
 	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 	

@@ -1,3 +1,10 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-send-recv.c:
+	Revert the dialog_map() solution and use ellipsized labels.
+	Also, only the label column in the GtkTable should expand and fill,
+	and never show a horizontal scrollbar.  (#335241)
+
 2007-05-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #439512
