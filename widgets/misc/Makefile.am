@@ -77,9 +77,7 @@ widgetsinclude_HEADERS =			\
 	e-selection-model-simple.h		\
 	e-selection-model.h			\
 	e-unicode.h				\
-	e-colors.h				\
-	gal-combo-box.h				\
-	gal-combo-text.h
+	e-colors.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -125,9 +123,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-selection-model-simple.c		\
 	e-selection-model.c			\
 	e-unicode.c				\
-	e-colors.c				\
-	gal-combo-box.c				\
-	gal-combo-text.c
+	e-colors.c
 
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)

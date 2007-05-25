@@ -1,3 +1,16 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #441010
+
+	* gal-combo-box.c:
+	* gal-combo-box.h:
+	* gal-combo-text.c:
+	* gal-combo-text.h:
+	Bye bye old widgets, go back to Motif!
+
+	* Makefile.am:
+	Remove the aforementioned files.
+
 2007-05-21  Wang Xin  <jedy.wang@sun.com>
 
 	* e-dateedit.c: Fixes #439049.

@@ -57,6 +57,11 @@ enum {
 	PROP_STATE,
 };
 
+enum {
+	COLUMN_ITEM,
+	COLUMN_VALUE
+};
+
 static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
 
 static void
@@ -154,6 +159,81 @@ config_class_init (GObjectClass *object_class)
 	glade_init ();
 }
 
+static void
+configure_combo_box_add (GtkComboBox *combo_box, const gchar *item,
+                         const gchar *value)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GHashTable *index;
+	GtkTreeIter iter;
+
+	model = gtk_combo_box_get_model (combo_box);
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		COLUMN_ITEM, item, COLUMN_VALUE, value, -1);
+
+	index = g_object_get_data (G_OBJECT (combo_box), "index");
+	g_assert (index != NULL);
+
+	/* Add an entry to the tree model index. */
+	path = gtk_tree_model_get_path (model, &iter);
+	reference = gtk_tree_row_reference_new (model, path);
+	g_assert (reference != NULL);
+	g_hash_table_insert (index, g_strdup (value), reference);
+	gtk_tree_path_free (path);
+}
+
+static gchar *
+configure_combo_box_get_active (GtkComboBox *combo_box)
+{
+	GtkTreeIter iter;
+	gchar *value = NULL;
+
+	if (gtk_combo_box_get_active_iter (combo_box, &iter))
+		gtk_tree_model_get (
+			gtk_combo_box_get_model (combo_box), &iter,
+			COLUMN_VALUE, &value, -1);
+
+	if (value != NULL && *value == '\0') {
+		g_free (value);
+		value = NULL;
+	}
+
+	return value;
+}
+
+static void
+configure_combo_box_set_active (GtkComboBox *combo_box, const gchar *value)
+{
+	GtkTreeRowReference *reference;
+	GHashTable *index;
+
+	index = g_object_get_data (G_OBJECT (combo_box), "index");
+	g_assert (index != NULL);
+
+	reference = g_hash_table_lookup (index, value);
+	if (reference != NULL) {
+		GtkTreeModel *model;
+		GtkTreePath *path;
+		GtkTreeIter iter;
+
+		model = gtk_tree_row_reference_get_model (reference);
+		path = gtk_tree_row_reference_get_path (reference);
+
+		if (path == NULL)
+			return;
+
+		if (gtk_tree_model_get_iter (model, &iter, path))
+			gtk_combo_box_set_active_iter (combo_box, &iter);
+
+		gtk_tree_path_free (path);
+	}
+}
+
 static ETableColumnSpecification *
 find_column_in_spec (ETableSpecification *spec, int model_col)
 {
@@ -215,7 +295,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			widgets [i].radio_ascending,
 			widgets [i].toggled_id);
 		g_signal_handler_block (
-			widgets [i].combo->entry,
+			widgets [i].combo,
 			widgets [i].changed_id);
 		
 		if (i < count){
@@ -242,7 +322,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 				continue;
 			}
 
-			text = dgettext (config->domain, column->title);
+			text = column->title;
 
 			/*
 			 * Update radio buttons
@@ -267,13 +347,14 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		}
 
 		/* Set the text */
-		gal_combo_text_set_text (widgets [i].combo, text);
+		configure_combo_box_set_active (
+			GTK_COMBO_BOX (widgets[i].combo), text);
 
 		g_signal_handler_unblock (
 			widgets [i].radio_ascending,
 			widgets [i].toggled_id);
 		g_signal_handler_unblock (
-			widgets [i].combo->entry,
+			widgets [i].combo,
 			widgets [i].changed_id);
 	}
 }
@@ -631,7 +712,30 @@ GtkWidget *e_table_proxy_gtk_combo_text_new (void);
 GtkWidget *
 e_table_proxy_gtk_combo_text_new (void)
 {
-	return gal_combo_text_new (TRUE);
+	GtkCellRenderer *renderer;
+	GtkListStore *store;
+	GtkWidget *combo_box;
+	GHashTable *index;
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (
+		GTK_CELL_LAYOUT (combo_box), renderer, FALSE);
+	gtk_cell_layout_add_attribute (
+		GTK_CELL_LAYOUT (combo_box), renderer, "text", COLUMN_ITEM);
+
+	/* Embed a reverse-lookup index into the widget. */
+	index = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gtk_tree_row_reference_free);
+	g_object_set_data_full (
+		G_OBJECT (combo_box), "index", index,
+		(GDestroyNotify) g_hash_table_destroy);
+
+	return combo_box;
 }
 
 #if 0
@@ -669,22 +773,24 @@ get_source_model_col_index (ETableConfig *config, gint idx)
 }
 
 static void
-sort_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *sort)
+sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 {
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->sort[0];
 	int idx = sort - base;
-	
-	const char *s = gtk_entry_get_text (entry);
+	gchar *s;
 
-	if (s && s [0] && g_hash_table_lookup (sort->combo->elements, s)){
+	s = configure_combo_box_get_active (combo_box);
+
+	if (s != NULL) {
 		ETableSortColumn c;
 		int col;
 		
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
 			g_warning ("sort: This should not happen (%s)", s);
+			g_free (s);
 			return;
 		}
 
@@ -698,6 +804,8 @@ sort_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *sort)
 		e_table_sort_info_sorting_truncate (sort_info, idx);
 		update_sort_and_group_config_dialog (config, TRUE);
 	}
+
+	g_free (s);
 }
 
 static void
@@ -724,10 +832,10 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		char buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
-		config->sort [i].combo = GAL_COMBO_TEXT (
-			glade_xml_get_widget (gui, buffer));
+		config->sort [i].combo = glade_xml_get_widget (gui, buffer);
 		gtk_widget_show (GTK_WIDGET (config->sort [i].combo));
-		gal_combo_text_add_item (config->sort [i].combo, "", "");
+		configure_combo_box_add (
+			GTK_COMBO_BOX (config->sort[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-sort-%d", i + 1);
 		config->sort [i].frames = 
@@ -752,8 +860,9 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		char *label = l->data;
 
 		for (i = 0; i < 4; i++){
-			gal_combo_text_add_item (config->sort [i].combo,
-						 dgettext (config->domain, label), label);
+			configure_combo_box_add (
+				GTK_COMBO_BOX (config->sort[i].combo),
+				dgettext (config->domain, label), label);
 		}
 	}
 
@@ -762,8 +871,8 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 	 */
 	for (i = 0; i < 4; i++){
 		config->sort [i].changed_id = g_signal_connect (
-			config->sort [i].combo->entry,
-			"changed", G_CALLBACK (sort_entry_changed),
+			config->sort [i].combo,
+			"changed", G_CALLBACK (sort_combo_changed),
 			&config->sort [i]);
 
 		config->sort [i].toggled_id = g_signal_connect (
@@ -774,21 +883,24 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 }
 
 static void
-group_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *group)
+group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 {
 	ETableConfig *config = group->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->group[0];
 	int idx = group - base;
-	const char *s = gtk_entry_get_text (entry);
+	gchar *s;
 
-	if (s && s [0] && g_hash_table_lookup (group->combo->elements, s)){
+	s = configure_combo_box_get_active (combo_box);
+
+	if (s != NULL) {
 		ETableSortColumn c;
 		int col;
 		
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
 			g_warning ("grouping: this should not happen, %s", s);
+			g_free (s);
 			return;
 		}
 
@@ -802,6 +914,8 @@ group_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *group)
 		e_table_sort_info_grouping_truncate (sort_info, idx);
 		update_sort_and_group_config_dialog (config, FALSE);
 	}
+
+	g_free (s);
 }
 
 static void
@@ -828,11 +942,11 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		char buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
-		config->group [i].combo = GAL_COMBO_TEXT (
-			glade_xml_get_widget (gui, buffer));
+		config->group [i].combo = glade_xml_get_widget (gui, buffer);
 		gtk_widget_show (GTK_WIDGET (config->group [i].combo));
 
-		gal_combo_text_add_item (config->group [i].combo, "", "");
+		configure_combo_box_add (
+			GTK_COMBO_BOX (config->group[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-group-%d", i + 1);
 		config->group [i].frames = 
@@ -864,8 +978,8 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		char *label = l->data;
 
 		for (i = 0; i < 4; i++){
-			gal_combo_text_add_item (
-				config->group [i].combo,
+			configure_combo_box_add (
+				GTK_COMBO_BOX (config->group[i].combo),
 				dgettext (config->domain, label), label);
 		}
 	}
@@ -875,8 +989,8 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 	 */
 	for (i = 0; i < 4; i++){
 		config->group [i].changed_id = g_signal_connect (
-			config->group [i].combo->entry,
-			"changed", G_CALLBACK (group_entry_changed),
+			config->group [i].combo,
+			"changed", G_CALLBACK (group_combo_changed),
 			&config->group [i]);
 
 		config->group [i].toggled_id = g_signal_connect (

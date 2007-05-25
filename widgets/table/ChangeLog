@@ -1,3 +1,9 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-table-config.c:
+	* e-table-config.h:
+	Replace GalComboText with a GtkComboBox/GtkListStore (#441010).
+
 2007-05-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Add more support for GMail like sorting.

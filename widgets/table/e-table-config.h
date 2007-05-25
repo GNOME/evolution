@@ -27,7 +27,6 @@
 
 #include <table/e-table-sort-info.h>
 #include <table/e-table-specification.h>
-#include <misc/gal-combo-text.h>
 #include <table/e-table-without.h>
 #include <table/e-table-subset-variable.h>
 #include <table/e-table.h>
@@ -43,7 +42,7 @@ G_BEGIN_DECLS
 #define E_TABLE_CONFIG_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_CONFIG_TYPE, ETableConfigClass))
 
 typedef struct {
-	GalComboText *combo;
+	GtkWidget    *combo;
 	GtkWidget    *frames;
 	GtkWidget    *radio_ascending;
 	GtkWidget    *radio_descending;
