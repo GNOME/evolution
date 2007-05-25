@@ -1,3 +1,9 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-msg-compoer.c (e_msg_composer_show_help):
+	Call gnome_help_display() instead of gnome_help_display_desktop(),
+	and remove BASE_VERSION from the filename.  (#386503)
+
 2007-04-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #356523 from Martin Olsson

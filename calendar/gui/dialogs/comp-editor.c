@@ -1693,13 +1693,12 @@ comp_editor_show_help (CompEditor *editor)
 
 	priv = editor->priv;
 
-	gnome_help_display_desktop (NULL,
-				    "evolution-" BASE_VERSION,
-				    "evolution-" BASE_VERSION ".xml",
-				    priv->help_section,
-				    &error);
-	if (error != NULL)
+	gnome_help_display (
+		"evolution.xml", priv->help_section, &error);
+	if (error != NULL) {
 		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 

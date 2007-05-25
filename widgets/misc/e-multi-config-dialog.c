@@ -192,13 +192,12 @@ impl_response (GtkDialog *dialog, int response_id)
 
 	switch (response_id) {
 	case GTK_RESPONSE_HELP:
-		gnome_help_display_desktop (NULL,
-					    "evolution-" BASE_VERSION,
-					    "evolution-" BASE_VERSION ".xml", 
-					    "config-prefs",
-					    &error);
-		if (error != NULL)
+		gnome_help_display (
+			"evolution.xml", "config-prefs", &error);
+		if (error != NULL) {
 			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
 		break;
 	case GTK_RESPONSE_CLOSE:
 	default:

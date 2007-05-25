@@ -1,3 +1,12 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window.c (e_shell_window_new):
+	Remove BASE_VERSION from help argument in call to
+	bonobo_ui_util_set_ui().  (#386503)
+
+	* main.c (main):
+	Remove BASE_VERSION from call to gnome_program_init().
+
 2007-05-08  Parthasarathi Susarla <ajaysusarla@gmail.com>
 	
 	* e-shell-importer.c : remove the removed included file e-gtk-utils.h

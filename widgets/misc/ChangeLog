@@ -1,3 +1,10 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-multi-config-dialog.c (impl_response):
+	* e-send-options.c (e_send_options_cb):
+	Call gnome_help_display() instead of gnome_help_display_desktop(),
+	and remove BASE_VERSION from the filename.  (#386503)
+
 2007-05-21  Wang Xin  <jedy.wang@sun.com>
 
 	* e-dateedit.c: Fixes #439049.

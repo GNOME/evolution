@@ -1,3 +1,9 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/contact-editor/e-contact-editor.c (show_help_cb):
+	Call gnome_help_display() instead of gnome_help_display_desktop(),
+	and remove BASE_VERSION from the filename.  (#386503)
+
 2007-04-09  simon.zheng  <simon.zheng@sun.com>
 
         ** Fix for bug #426487

@@ -1,3 +1,9 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/dialogs/comp-editor.c (comp_editor_show_help):
+	Call gnome_help_display() instead of gnome_help_display_desktop(),
+	and remove BASE_VERSION from the filename.  (#386503)
+
 2007-05-12  simon.zheng  <simon.zheng@sun.com>
 
 	* gui/e-calendar-view.c: (e_calendar_view_copy_clipboard):
