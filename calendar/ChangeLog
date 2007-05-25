@@ -1,3 +1,12 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/migration.c (create_calendar_sources), (create_task_sources),
+	(create_memo_sources):
+	* gui/tasks-component.c (ensure_sources):
+	* gui/calendar-component.c (ensure_sources):
+	* gui/memos-component.c (ensure_sources):
+	Don't assume the relative URI is non-NULL (#427232).
+
 2007-05-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #424562

@@ -1,3 +1,8 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* camel-hula-listener.c (remove_esource), (modify_esource):
+	Don't assume the relative URI is non-NULL (#427232).
+
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	* camel-hula-listener.c: (finalize)

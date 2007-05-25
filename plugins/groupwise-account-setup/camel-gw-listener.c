@@ -251,10 +251,7 @@ static void
 remove_esource (const char *conf_key, const char *group_name, char* source_name, const char* relative_uri)
 {
 	ESourceList *list;
-        ESourceGroup *group;
-        ESource *source;
         GSList *groups;
-        GSList *sources;
 	gboolean found_group;
 	GConfClient* client;
 	GSList *ids;
@@ -268,19 +265,20 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 	found_group = FALSE;
 	
 	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
-
-		group = E_SOURCE_GROUP (groups->data);
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 		
 		if (strcmp (e_source_group_peek_name (group), group_name) == 0 && 
 		   strcmp (e_source_group_peek_base_uri (group), GROUPWISE_URI_PREFIX ) == 0) {
-
-			sources = e_source_group_peek_sources (group);
+			GSList *sources = e_source_group_peek_sources (group);
 			
 			for( ; sources != NULL; sources = g_slist_next (sources)) {
-				
-				source = E_SOURCE (sources->data);
-				
-				if (strcmp (e_source_peek_relative_uri (source), relative_uri) == 0) {
+				ESource *source = E_SOURCE (sources->data);
+				const gchar *source_relative_uri;
+
+				source_relative_uri = e_source_peek_relative_uri (source);
+				if (source_relative_uri == NULL)
+					continue;
+				if (strcmp (source_relative_uri, relative_uri) == 0) {
 				
 					if (!strcmp (conf_key, CALENDAR_SOURCES)) 
 						source_selection_key = SELECTED_CALENDARS;
@@ -325,16 +323,12 @@ static void
 modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const char* new_group_name, CamelURL *new_url)
 {
 	ESourceList *list;
-        ESourceGroup *group;
-        ESource *source;
         GSList *groups;
-	GSList *sources;
 	char *old_relative_uri;
 	CamelURL *url;
 	gboolean found_group;
       	GConfClient* client;
 	const char *poa_address;
-	char *new_relative_uri;
 	const char *new_poa_address;
 	
 	url = camel_url_new (old_account_info->source_url, NULL);
@@ -351,20 +345,22 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 	found_group = FALSE;
 
 	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
-
-		group = E_SOURCE_GROUP (groups->data);
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 		
 		if (strcmp (e_source_group_peek_name (group), old_account_info->name) == 0 && 
 		    strcmp (e_source_group_peek_base_uri (group), GROUPWISE_URI_PREFIX) == 0) {
-
-			sources = e_source_group_peek_sources (group);
+			GSList *sources = e_source_group_peek_sources (group);
 			
 			for ( ; sources != NULL; sources = g_slist_next (sources)) {
-				
-				source = E_SOURCE (sources->data);
-				
-				if (strcmp (e_source_peek_relative_uri (source), old_relative_uri) == 0) {
-					
+				ESource *source = E_SOURCE (sources->data);
+				const gchar *source_relative_uri;
+
+				source_relative_uri = e_source_peek_relative_uri (source);
+				if (source_relative_uri == NULL)
+					continue;
+				if (strcmp (source_relative_uri, old_relative_uri) == 0) {
+					gchar *new_relative_uri;
+
 					new_relative_uri = g_strdup_printf ("%s@%s/", new_url->user, new_poa_address); 
 					e_source_group_set_name (group, new_group_name);
 					e_source_set_relative_uri (source, new_relative_uri);

@@ -1,3 +1,9 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/component/addressbook-component.c (ensure_sources):
+	* gui/component/addressbook-migrate.c (ensure_sources):
+	Don't assume the relative URI is non-NULL (#427232).
+
 2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #424055 from Øystein Gisnås

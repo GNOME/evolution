@@ -174,7 +174,12 @@ ensure_sources (MemosComponent *component)
 		GSList *s;
 		for (s = sources; s; s = s->next) {
 			ESource *source = E_SOURCE (s->data);
-			if (!strcmp (PERSONAL_RELATIVE_URI, e_source_peek_relative_uri (source))) {
+			const gchar *relative_uri;
+
+			relative_uri = e_source_peek_relative_uri (source);
+			if (relative_uri == NULL)
+				continue;
+			if (!strcmp (PERSONAL_RELATIVE_URI, relative_uri)) {
 				personal_source = source;
 				break;
 			}

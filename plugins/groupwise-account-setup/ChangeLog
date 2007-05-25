@@ -1,3 +1,8 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* camel-gw-listener.c (remove_esource), (modify_esource):
+	Don't assume the relative URI is non-NULL (#427232).
+
 2007-04-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #373116

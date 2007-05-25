@@ -1,3 +1,8 @@
+2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	* exchange-config-listener.c (exchange_add_autocompletion_folders):
+	Don't assume the absolute URI is non-NULL (#427232).
+
 2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* exchange-folder.c: (org_gnome_exchange_folder_inbox_unsubscribe):

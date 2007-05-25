@@ -1248,26 +1248,29 @@ static void
 exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *account)
 {
 	ESourceList *sl=NULL;
-	ESourceGroup *group;
 	ESource *source;
-	GSList *groups, *sources;
+	GSList *groups;
 	gboolean found_group=FALSE;
 
 	sl = e_source_list_new_for_gconf (gc_client, CONF_KEY_CONTACTS);
 	groups = e_source_list_peek_groups (sl);
 
 	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
-		group = E_SOURCE_GROUP (groups->data);		
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
+
 		if (strcmp (e_source_group_peek_name (group), account->account_name) == 0
                     &&
 		    strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
-			
-			sources = e_source_group_peek_sources (group);
+			GSList *sources = e_source_group_peek_sources (group);
 			
 			for( ; sources != NULL; sources = g_slist_next (sources)) {
-				source = E_SOURCE (sources->data);
-				if (g_str_has_prefix (e_source_peek_absolute_uri (source),
-						      "gal://")) {
+				ESource *source = E_SOURCE (sources->data);
+				const gchar *absolute_uri;
+
+				absolute_uri = e_source_peek_absolute_uri (source);
+				if (absolute_uri == NULL)
+					continue;
+				if (g_str_has_prefix (absolute_uri, "gal://")) {
 					/* Set autocompletion on GAL alone by default */
 					e_source_set_property (source, "completion", "true");
 					break;
