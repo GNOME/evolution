@@ -1,5 +1,11 @@
 2007-05-27  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #330098 from Naresh
+
+	* gui/dialogs/select-source-dialog.c: (select_source_dialog):
+
+2007-05-27  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #351729 from Milan Crha
 
 	* gui/dialogs/event-editor.c: (event_editor_construct):
