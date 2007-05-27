@@ -1,3 +1,10 @@
+2007-05-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #417797 from Øystein Gisnås
+
+	* gui/component/addressbook-view.c: (selector_tree_drag_motion),
+	(selector_tree_drag_data_received):
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/contact-editor/e-contact-editor.c (show_help_cb):

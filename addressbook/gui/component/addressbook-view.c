@@ -1065,7 +1065,11 @@ selector_tree_drag_motion (GtkWidget *widget,
 		goto finish;
 	
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	action = context->suggested_action;
+	// Make default action move, not copy
+	if (context->actions & GDK_ACTION_MOVE)
+		action = GDK_ACTION_MOVE;
+	else
+		action = context->suggested_action;
 
  finish:
 	if (path)
@@ -1207,7 +1211,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	merge_context->current_contact = contactlist->data;
 	merge_context->remaining_contacts = g_list_delete_link (contactlist, contactlist);
 
-	merge_context->remove_from_source = context->suggested_action == GDK_ACTION_MOVE ? FALSE : TRUE;
+	merge_context->remove_from_source = context->action == GDK_ACTION_MOVE ? TRUE : FALSE;
 
 	/* Start merge */
 
@@ -1220,7 +1224,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	if (target)
 		g_object_unref (target);
 		       
-	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
+	gtk_drag_finish (context, success, merge_context->remove_from_source, time);
 
 	return TRUE;
 }	
