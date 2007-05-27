@@ -616,8 +616,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->recur_page));
 	gtk_container_add ((GtkContainer *) (GTK_DIALOG (priv->recur_window)->vbox), 
 			comp_editor_page_get_widget (COMP_EDITOR_PAGE (priv->recur_page)));
-	gtk_widget_show_all (priv->recur_window);
-	gtk_widget_hide (priv->recur_window);
+	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->recur_window)));
 	comp_editor_append_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->recur_page), NULL, FALSE);
 	if (priv->is_meeting) {
 

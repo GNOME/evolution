@@ -16,6 +16,7 @@
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
 
   <child>
     <widget class="GtkVBox" id="event-page">
@@ -145,11 +146,11 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">organizer-entry</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
 		  <property name="angle">0</property>
-		  <property name="mnemonic_widget">organizer-entry</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -174,11 +175,11 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">start-time</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
 		  <property name="angle">0</property>
-		  <property name="mnemonic_widget">start-time</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -958,7 +959,6 @@
 
 <widget class="GtkDialog" id="alarm-dialog">
   <property name="border_width">4</property>
-  <property name="visible">True</property>
   <property name="title" translatable="yes">Alarms</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
