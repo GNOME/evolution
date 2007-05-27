@@ -344,6 +344,7 @@ plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml
 plugins/itip-formatter/org-gnome-itip-formatter.error.xml
 plugins/mail-account-disable/mail-account-disable.c
 plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
+plugins/mail-notification/apps-evolution-mail-notification.schemas.in.in
 plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
 plugins/mail-remote/client.c
