@@ -247,7 +247,7 @@ e_write_file_uri (const char *filename, const char *data)
 	GnomeVFSResult result;
 	GnomeVFSHandle *handle = NULL;
 
-	result = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, FALSE, 0755);
+	result = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, FALSE, 0644);
 	if (result != GNOME_VFS_OK) {
 		g_warning ("Couldn't save item");
 		return 1;
