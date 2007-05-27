@@ -436,8 +436,8 @@ task_editor_construct (TaskEditor *te, ECal *client)
 	g_object_ref_sink (priv->task_details_page);
 	gtk_container_add ((GtkContainer *) GTK_DIALOG(priv->task_details_window)->vbox, 
 		           comp_editor_page_get_widget ((CompEditorPage *)priv->task_details_page));
-	gtk_widget_show_all (priv->task_details_window);
-	gtk_widget_hide (priv->task_details_window);
+	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->task_details_window) ) );
+	/* gtk_widget_hide (priv->task_details_window); */
 	comp_editor_append_page (editor, COMP_EDITOR_PAGE (priv->task_details_page), NULL, FALSE);
 	
 	if (!e_cal_is_read_only (client, &read_only, NULL))
