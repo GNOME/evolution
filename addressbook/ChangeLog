@@ -1,6 +1,11 @@
 2007-05-27  Srinivasa Ragavan  <sragavan@novell.com>
 
-	** Fix for bug #417797 from Øystein Gisnås
+	** Fix for bug #424055 from Øystein Gisnås
+
+	* gui/contact-list-editor/contact-list-editor.glade:
+
+2007-05-27  Srinivasa Ragavan  <sragavan@novell.com>
+
 
 	* gui/component/addressbook-view.c: (selector_tree_drag_motion),
 	(selector_tree_drag_data_received):
