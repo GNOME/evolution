@@ -1,3 +1,12 @@
+2007-05-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #326388 from Raghavendaran
+
+	* gui/calendar-component.c: (ensure_sources): Create a popup key for
+	readonly calendar.
+	* gui/e-cal-popup.c: (e_cal_popup_target_new_source):
+	* gui/e-cal-popup.h:
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/migration.c (create_calendar_sources), (create_task_sources),

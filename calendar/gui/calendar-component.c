@@ -282,6 +282,7 @@ ensure_sources (CalendarComponent *component)
 	if (!birthdays_source) {
 		birthdays_source = e_source_new (_("Birthdays & Anniversaries"), "/");
 		e_source_group_add_source (contacts, birthdays_source, -1);
+		e_source_set_property(birthdays_source, "delete", "no");
 	}
 		
 	if (!weather) {
@@ -586,7 +587,7 @@ edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem ecc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy"), copy_calendar_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "stock_delete", 0,E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
 	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_calendar_cb, NULL, "stock_folder-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
@@ -604,7 +605,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	GSList *menus = NULL;
 	int i;
 	GtkMenu *menu;
-
+	
 	/** @HookPoint-ECalPopup: Calendar Source Selector Context Menu
 	 * @Id: org.gnome.evolution.calendar.source.popup
 	 * @Class: org.gnome.evolution.calendar.popup:1.0
@@ -615,10 +616,10 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	ep = e_cal_popup_new("org.gnome.evolution.calendar.source.popup");
 	t = e_cal_popup_target_new_source(ep, selector);
 	t->target.widget = (GtkWidget *)component_view->calendar;
-
+	
 	for (i=0;i<sizeof(ecc_source_popups)/sizeof(ecc_source_popups[0]);i++)
 		menus = g_slist_prepend(menus, &ecc_source_popups[i]);
-
+	
 	e_popup_add_items((EPopup *)ep, menus, NULL, ecc_source_popup_free, component_view);
 
 	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);

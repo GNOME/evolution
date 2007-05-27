@@ -668,6 +668,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 	const char *source_uri;
 	ESource *source;
 	const char *offline = NULL;
+	const char *delete = NULL;
 
 	/* TODO: this is duplicated for addressbook too */
 
@@ -698,6 +699,19 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 	else {
 		mask &= ~E_CAL_POPUP_SOURCE_OFFLINE;
 	}
+	
+	source = e_source_selector_peek_primary_selection (selector);
+	/*check for delete_status property here*/
+	delete = e_source_get_property (source, "delete");
+
+	if (delete && strcmp (delete,"no") == 0) {
+		/*set the menu item to non deletable */
+		mask &= ~E_CAL_POPUP_SOURCE_NO_DELETE;
+	}
+	else {
+		mask &= ~E_CAL_POPUP_SOURCE_DELETE;
+	}
+
 
 	t->target.mask = mask;
 
