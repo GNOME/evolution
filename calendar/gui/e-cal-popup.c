@@ -825,6 +825,9 @@ static const EPopupHookTargetMask ecalph_source_masks[] = {
 	{ "user", E_CAL_POPUP_SOURCE_USER },
 	{ "offline", E_CAL_POPUP_SOURCE_OFFLINE},
 	{ "no-offline", E_CAL_POPUP_SOURCE_NO_OFFLINE},	
+	{ "delete", E_CAL_POPUP_SOURCE_DELETE},
+	{ "no-delete", E_CAL_POPUP_SOURCE_NO_DELETE},	
+
 	{ 0 }
 };
 
