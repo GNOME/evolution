@@ -550,7 +550,7 @@
       <applyto>/apps/evolution/mail/display/thread_expand</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>false</default>
+      <default>true</default>
       <locale name="C">
          <short>Default value for thread expand state</short>
          <long>

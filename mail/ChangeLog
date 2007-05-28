@@ -1,3 +1,8 @@
+2007-05-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail.schemas.in.in: Make thread expand default to true.
+	The threads should be expanded by default. Bug in previous commit.
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-send-recv.c:
