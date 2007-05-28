@@ -1,3 +1,65 @@
+Evolution 2.10.2 2007-05-28
+---------------------------
+
+Bug fixes:
+	#322105: Allows non-junk training on non-junk messages (Srinivasa Ragavan)
+	#386503: Help Menu or F1 now works (Matthew Barnes, Götz Waschk)
+	#329168: Calendar Preferences Mnemonics now work (Andre Klapper)
+	#353662: Signature list now scrollable using keyboard (Baris
+	 Cicek)
+	#423766: Fix saving of mail attachments (Matthew Barnes)
+	#437584: Fix compilation warnings (Gilles Dartiguelongue)
+	#425506: Fix a crash when clicking the Edit button (Xiurong
+	 Simon Zheng)
+	#440493, #440566: Fixed a German typo (Hendrik Richter)
+	#432702: Fixed typo in Brazilian Portuguese translation
+	 (Washington Lins)
+	#439049: Fixed "Invliad Time..." error dialog in "ja" locale
+	 (Wang Xin)
+	#434981: Attachment bar now shows the correct number of
+	 attachments (Matthew Barnes)
+	#380750: evolution --force-shutdown now works on Solaris (Wang
+	 Xin)
+	#319504: Fix configure for LDFLAGS=-Wl,--as-needed. (Karsten
+	 Bräckelmann)
+	#388789 : Fixed a subtle bug in autotools checks for iconv
+	 (Matthew Barnes)
+	#112166: (bugs.launchpad.net) Fixed french translation (Stéphane
+	 Raimbault)
+	#334966: Fix for crash on close. (Srinivasa Ragavan)
+	#432867: Changed default attribute for file from 0755 to 0644
+	 (Milan Crha)
+	#330098: Selecting Copy on Right-clicking any memo list now works 
+	 (Naresh)
+	#351729: Removed unnecessary/broken windows (Milan Crha)
+	#424055: Fixed resizing of contact list dialog. (Øystein
+	 Gisnås)
+	#325965: Fix a crash when selecting "mark messages as read" on a
+	 Maildir subfolder (Ilkka Tuohela)
+
+Other Contributors:
+	Exchange Folder loading performance improvement (Varadhan)
+	Corrected arguments in API gtk_clipboard_set_text() (Xiurong
+	 Simon Zheng)
+	Added Russian help files translations (Sergey Mironov)
+	Updated Spanish help files translations and screenshots (Jorge
+	 Gonzalez)
+	Updated French help files translations and screenshots (Claude
+	 Paroz)
+	Remove included file (Parthasarathi Susarla)
+
+Updated Translations:
+	Hendrik Richter (de)
+	Jakub Friedl (cs)
+	Ivar Smolin (et)
+	Claude Paroz (fr)
+	Yannig MARCHEGAY (oc)
+	Gabor Kelemen (hu)
+	Jorge Gonzalez (es)
+	Peter Bach (da)
+	Djihed Afifi (ar)
+	Washington Lins (pt_BR)
+
 Evolution 2.10.1 2007-04-09
 ---------------------------
 

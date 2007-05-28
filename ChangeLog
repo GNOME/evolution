@@ -1,3 +1,7 @@
+2007-05-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.10.2 release updates.
+
 2007-05-14  Wang Xin  <jedy.wang@sun.com>
 
 	* configure.in: Fixes 380750, do not use killall on Solaris.
