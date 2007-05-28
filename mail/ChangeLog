@@ -1,5 +1,11 @@
 2007-05-28  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #322105
+
+	* em-folder-view.c: Allow mails to be learnt as not junk.
+
+2007-05-28  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #334966
 
 	* mail-component.c: (view_changed), (view_changed_cb), (impl_quit),
