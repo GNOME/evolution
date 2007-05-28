@@ -1,3 +1,10 @@
+2007-05-28  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	* em-folder-tree.c: (emft_popup_new_folder),
+	(em_folder_tree_get_selected_folder_info): Do not fetch
+	folder-info from backend - just use the data from the current
+	folder tree.
+
 2007-05-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #322105
