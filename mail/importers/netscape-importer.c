@@ -1238,7 +1238,7 @@ netscape_import_filters (NsImporter *importer)
  exit:
 	g_free(user);
 	g_object_unref((fc));
-
+	fclose (mailrule_handle);
 }
 
 /* Email folder & accounts stuff ----------------------------------------------- */
@@ -1444,6 +1444,7 @@ netscape_init_prefs (void)
 		g_hash_table_insert (user_prefs, key, value);
 	}
 
+	fclose (prefs_handle);
 	return;
 }
 

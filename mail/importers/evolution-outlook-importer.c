@@ -316,6 +316,7 @@ import_outlook_import(struct _mail_msg *mm)
 	struct _import_outlook_msg *m = (struct _import_outlook_msg *) mm;
 	struct stat st;
 	CamelFolder *folder;
+	int fd = -1;
 
 	if (stat(m->path, &st) == -1) {
 		g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
@@ -334,7 +335,6 @@ import_outlook_import(struct _mail_msg *mm)
 		CamelOperation *oldcancel = NULL;
 		CamelMessageInfo *info;
 		GByteArray *buffer;
-		int fd;
 		off_t pos;
 
 		fd = g_open(m->path, O_RDONLY|O_BINARY, 0);
@@ -413,6 +413,8 @@ import_outlook_import(struct _mail_msg *mm)
 		g_byte_array_free(buffer, TRUE);
 	}
 fail:
+	if (fd != -1)
+		close(fd);
 	camel_object_unref(folder);
 }
 

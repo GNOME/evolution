@@ -541,7 +541,7 @@ main (int argc, char **argv)
 		int fd;
 
 		fd = g_open (evolution_debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-		if (fd) {
+		if (fd != -1) {
 			dup2 (fd, STDOUT_FILENO);
 			dup2 (fd, STDERR_FILENO);
 			close (fd);

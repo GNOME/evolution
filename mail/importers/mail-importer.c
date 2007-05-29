@@ -223,7 +223,7 @@ import_mbox_import(struct _mail_msg *mm)
 
 		mp = camel_mime_parser_new();
 		camel_mime_parser_scan_from(mp, TRUE);
-		if (camel_mime_parser_init_with_fd(mp, fd) == -1) {
+		if (camel_mime_parser_init_with_fd(mp, fd) == -1) { /* will never happen - 0 is unconditionally returned */
 			goto fail2;
 		}
 

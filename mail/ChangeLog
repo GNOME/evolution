@@ -1,3 +1,15 @@
+2007-05-28  Jules Colding  <colding@omesc.com>
+
+	* em-utils.c (em_utils_selection_set_urilist): Fix file leak
+	(em_utils_selection_get_urilist): Fix file leak
+
+	* importers/evolution-outlook-importer.c (import_outlook_import): Fix file leak
+
+	* importers/mail-importer.c (import_mbox_import): Impossible code branch commented
+
+	* importers/netscape-importer.c (netscape_import_filters): Fix file leak
+	(netscape_init_prefs): Fix file leak
+
 2007-05-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* evolution-mail.schemas.in.in: Make thread expand default to true.

@@ -1,3 +1,7 @@
+2007-05-28  Jules Colding  <colding@omesc.com>
+
+	* main.c (main): Prevent dup2() and close() on -1
+
 2007-05-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell.c (impl_Shell_handleURI):

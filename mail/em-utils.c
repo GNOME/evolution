@@ -1115,7 +1115,9 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 		}
 
 		camel_object_unref(fstream);
-	}
+	} else
+		close(fd);
+
 	g_free(uri);
 }
 
@@ -1154,8 +1156,11 @@ em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
 		if (strcmp(url->protocol, "file") == 0
 		    && (fd = g_open(url->path, O_RDONLY | O_BINARY, 0)) != -1) {
 			stream = camel_stream_fs_new_with_fd(fd);
-			res = em_utils_read_messages_from_stream(folder, stream);
-			camel_object_unref(stream);
+			if (stream) {
+				res = em_utils_read_messages_from_stream(folder, stream);
+				camel_object_unref(stream);
+			} else
+				close(fd);
 		}
 		camel_url_free(url);
 	}
