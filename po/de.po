@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-23 12:51+0200\n"
-"PO-Revision-Date: 2007-05-23 12:56+0200\n"
+"POT-Creation-Date: 2007-05-29 11:24+0200\n"
+"PO-Revision-Date: 2007-05-29 11:24+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -605,7 +605,7 @@ msgstr "Hier können Sie die Auto-Vervollständigung konfigurieren"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1332
+#: ../addressbook/gui/component/addressbook-view.c:1336
 #: ../calendar/gui/calendar-component.c:272 ../calendar/gui/migration.c:402
 #: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
@@ -865,7 +865,7 @@ msgstr "_Neues Adressbuch"
 #: ../calendar/gui/e-calendar-table.c:1302
 #: ../calendar/gui/e-calendar-view.c:1720 ../calendar/gui/e-memo-table.c:918
 #: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:444
-#: ../mail/em-folder-tree.c:2101 ../mail/em-folder-view.c:1148
+#: ../mail/em-folder-tree.c:2102 ../mail/em-folder-view.c:1148
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -882,7 +882,7 @@ msgstr "Als VCard speichern …"
 msgid "_Properties..."
 msgstr "Ei_genschaften …"
 
-#: ../addressbook/gui/component/addressbook-view.c:1343
+#: ../addressbook/gui/component/addressbook-view.c:1347
 msgid "Contact Source Selector"
 msgstr "Kontaktquellenauswahl"
 
@@ -3017,7 +3017,7 @@ msgstr "_Ausschneiden"
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:909
 #: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
-#: ../composer/e-msg-composer.c:3185 ../mail/em-folder-tree.c:1005
+#: ../composer/e-msg-composer.c:3184 ../mail/em-folder-tree.c:1005
 #: ../mail/em-folder-view.c:1134 ../mail/message-list.c:1923
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -6018,28 +6018,28 @@ msgstr " (Fällig am "
 msgid "Due "
 msgstr "Fällig am "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2921
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2920
 #, c-format
 msgid "Attached message - %s"
 msgstr "Beigelegte Nachricht - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2926
-#: ../composer/e-msg-composer.c:3122
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2925
+#: ../composer/e-msg-composer.c:3121
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Beigelegte Nachricht"
 msgstr[1] "%d beigelegte Nachrichten"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3186
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3185
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1030 ../mail/message-list.c:1924
 msgid "_Move"
 msgstr "_Verschieben"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3188
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3187
 #: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:1926
 msgid "Cancel _Drag"
 msgstr "_Ziehen abbrechen"
@@ -6068,7 +6068,7 @@ msgstr "Anla_genleiste anzeigen"
 #: ../calendar/gui/dialogs/event-page.c:1898
 #: ../calendar/gui/dialogs/task-page.c:1199
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3693
+#: ../composer/e-msg-composer.c:3692
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -6077,14 +6077,14 @@ msgstr "_Entfernen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3694 ../mail/em-folder-tree.c:2105
+#: ../composer/e-msg-composer.c:3693 ../mail/em-folder-tree.c:2106
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "Ei_genschaften"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3696
+#: ../composer/e-msg-composer.c:3695
 msgid "_Add attachment..."
 msgstr "Anlage _hinzufügen …"
 
@@ -6098,61 +6098,61 @@ msgid "Press space key to toggle attachment bar"
 msgstr ""
 "Durch Drücken der Leertaste wird die Anlagenleiste ein bzw. ausgeblendet"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2162
-#: ../calendar/gui/dialogs/comp-editor.c:2205
+#: ../calendar/gui/dialogs/comp-editor.c:2161
+#: ../calendar/gui/dialogs/comp-editor.c:2204
 msgid "Edit Appointment"
 msgstr "Termin bearbeiten"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2168
-#: ../calendar/gui/dialogs/comp-editor.c:2211
+#: ../calendar/gui/dialogs/comp-editor.c:2167
+#: ../calendar/gui/dialogs/comp-editor.c:2210
 #, c-format
 msgid "Meeting - %s"
 msgstr "Besprechung - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2170
-#: ../calendar/gui/dialogs/comp-editor.c:2213
+#: ../calendar/gui/dialogs/comp-editor.c:2169
+#: ../calendar/gui/dialogs/comp-editor.c:2212
 #, c-format
 msgid "Appointment - %s"
 msgstr "Termin - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2174
-#: ../calendar/gui/dialogs/comp-editor.c:2217
+#: ../calendar/gui/dialogs/comp-editor.c:2173
+#: ../calendar/gui/dialogs/comp-editor.c:2216
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Zugewiesene Aufgabe - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2176
-#: ../calendar/gui/dialogs/comp-editor.c:2219
+#: ../calendar/gui/dialogs/comp-editor.c:2175
+#: ../calendar/gui/dialogs/comp-editor.c:2218
 #, c-format
 msgid "Task - %s"
 msgstr "Aufgabe - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2179
-#: ../calendar/gui/dialogs/comp-editor.c:2222
+#: ../calendar/gui/dialogs/comp-editor.c:2178
+#: ../calendar/gui/dialogs/comp-editor.c:2221
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Journaleintrag - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2190
-#: ../calendar/gui/dialogs/comp-editor.c:2232
+#: ../calendar/gui/dialogs/comp-editor.c:2189
+#: ../calendar/gui/dialogs/comp-editor.c:2231
 msgid "No summary"
 msgstr "Keine Zusammenfassung"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2777
+#: ../calendar/gui/dialogs/comp-editor.c:2776
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:406
 #: ../mail/em-utils.c:438 ../widgets/misc/e-attachment-bar.c:350
 msgid "attachment"
 msgstr "Anlage"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2866
-#: ../calendar/gui/dialogs/comp-editor.c:2920
-#: ../calendar/gui/dialogs/comp-editor.c:2944
+#: ../calendar/gui/dialogs/comp-editor.c:2865
+#: ../calendar/gui/dialogs/comp-editor.c:2919
+#: ../calendar/gui/dialogs/comp-editor.c:2943
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "An diesem Objekt vorgenommene Änderungen verfallen möglicherweise, sobald "
 "Aktualisierungen eintreffen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2968
+#: ../calendar/gui/dialogs/comp-editor.c:2967
 msgid "Unable to use current version!"
 msgstr "Aktuelle Version konnte nicht verwendet werden!"
 
@@ -8393,7 +8393,7 @@ msgstr[0] "%d Notiz"
 msgstr[1] "%d Notizen"
 
 #: ../calendar/gui/memos-component.c:529 ../calendar/gui/tasks-component.c:520
-#: ../mail/mail-component.c:562
+#: ../mail/mail-component.c:563
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -10556,7 +10556,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Anla_genleiste verbergen"
 
 #: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2566
-#: ../composer/e-msg-composer.c:3939
+#: ../composer/e-msg-composer.c:3938
 msgid "Show _Attachment Bar"
 msgstr "Anla_genleiste anzeigen"
 
@@ -10591,12 +10591,12 @@ msgstr "Automatisch erzeugt"
 msgid "Si_gnature:"
 msgstr "Si_gnatur:"
 
-#: ../composer/e-msg-composer.c:2577 ../composer/e-msg-composer.c:3821
-#: ../composer/e-msg-composer.c:3824
+#: ../composer/e-msg-composer.c:2577 ../composer/e-msg-composer.c:3820
+#: ../composer/e-msg-composer.c:3823
 msgid "Compose Message"
 msgstr "Nachricht verfassen"
 
-#: ../composer/e-msg-composer.c:5048
+#: ../composer/e-msg-composer.c:5047
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11258,8 +11258,8 @@ msgstr "Evolution-E-Mail-Einstellungsbedienelement"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:523
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
-#: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:580
-#: ../mail/mail-component.c:581 ../mail/mail-component.c:722
+#: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:581
+#: ../mail/mail-component.c:582 ../mail/mail-component.c:736
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "E-Mail"
@@ -11783,7 +11783,8 @@ msgid "Drafts"
 msgstr "Entwürfe"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:151
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2388
+#: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Eingang"
@@ -11862,7 +11863,7 @@ msgstr "In Ordner _verschieben"
 msgid "Scanning folders in \"%s\""
 msgstr "Ordner in »%s« werden eingelesen"
 
-#: ../mail/em-folder-tree.c:2089 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2090 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:29
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:58 ../ui/evolution-tasks.xml.h:30
@@ -11870,28 +11871,28 @@ msgstr "Ordner in »%s« werden eingelesen"
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../mail/em-folder-tree.c:2090
+#: ../mail/em-folder-tree.c:2091
 msgid "Open in _New Window"
 msgstr "In _neuem Fenster öffnen"
 
-#: ../mail/em-folder-tree.c:2094
+#: ../mail/em-folder-tree.c:2095
 msgid "_Copy..."
 msgstr "_Kopieren …"
 
-#: ../mail/em-folder-tree.c:2095
+#: ../mail/em-folder-tree.c:2096
 msgid "_Move..."
 msgstr "_Verschieben …"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2099
+#: ../mail/em-folder-tree.c:2100
 msgid "_New Folder..."
 msgstr "Ordner a_nlegen …"
 
-#: ../mail/em-folder-tree.c:2102 ../ui/evolution-mail-list.xml.h:34
+#: ../mail/em-folder-tree.c:2103 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
 msgstr "_Umbenennen …"
 
-#: ../mail/em-folder-tree.c:2107 ../mail/mail.error.xml.h:131
+#: ../mail/em-folder-tree.c:2108 ../mail/mail.error.xml.h:131
 msgid "_Empty Trash"
 msgstr "_Müll leeren"
 
@@ -13343,80 +13344,80 @@ msgstr "Mailingliste %s"
 msgid "Add Filter Rule"
 msgstr "Filterregel hinzufügen"
 
-#: ../mail/mail-component.c:523
+#: ../mail/mail-component.c:524
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d gelöscht"
 msgstr[1] "%d gelöscht"
 
-#: ../mail/mail-component.c:525
+#: ../mail/mail-component.c:526
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d unerwünscht"
 msgstr[1] "%d unerwünscht"
 
-#: ../mail/mail-component.c:548
+#: ../mail/mail-component.c:549
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d Entwurf"
 msgstr[1] "%d Entwürfe"
 
-#: ../mail/mail-component.c:550
+#: ../mail/mail-component.c:551
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d verschickt"
 msgstr[1] "%d verschickt"
 
-#: ../mail/mail-component.c:552
+#: ../mail/mail-component.c:553
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d nicht verschickt"
 msgstr[1] "%d nicht verschickt"
 
-#: ../mail/mail-component.c:556
+#: ../mail/mail-component.c:557
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d insgesamt"
 msgstr[1] "%d insgesamt"
 
-#: ../mail/mail-component.c:558
+#: ../mail/mail-component.c:559
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d ungelesen"
 msgstr[1] ", %d ungelesen"
 
-#: ../mail/mail-component.c:840
+#: ../mail/mail-component.c:857
 msgid "New Mail Message"
 msgstr "Neue E-Mail-Nachricht"
 
-#: ../mail/mail-component.c:841
+#: ../mail/mail-component.c:858
 msgid "_Mail Message"
 msgstr "_E-Mail-Nachricht"
 
-#: ../mail/mail-component.c:842
+#: ../mail/mail-component.c:859
 msgid "Compose a new mail message"
 msgstr "Eine neue E-Mail-Nachricht verfassen"
 
-#: ../mail/mail-component.c:848
+#: ../mail/mail-component.c:865
 msgid "New Mail Folder"
 msgstr "Neuer E-Mail-Ordner"
 
-#: ../mail/mail-component.c:849
+#: ../mail/mail-component.c:866
 msgid "Mail _Folder"
 msgstr "E-Mail-_Ordner"
 
-#: ../mail/mail-component.c:850
+#: ../mail/mail-component.c:867
 msgid "Create a new mail folder"
 msgstr "Einen neuen E-Mail-Ordner anlegen"
 
-#: ../mail/mail-component.c:996
+#: ../mail/mail-component.c:1013
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Auffrischen der E-Mail-Einstellungen oder -Ordner fehlgeschlagen."
 
@@ -14231,7 +14232,7 @@ msgstr "%d von %d Nachrichten konnten nicht verschickt werden"
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:652
 msgid "Canceled."
-msgstr "Abgesagt."
+msgstr "Abgebrochen."
 
 #: ../mail/mail-ops.c:765
 msgid "Complete."
