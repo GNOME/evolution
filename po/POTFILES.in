@@ -347,6 +347,7 @@ plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
 plugins/mail-notification/apps-evolution-mail-notification.schemas.in.in
 plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
+plugins/mail-notification/apps-evolution-mail-notification.schemas.in.in
 plugins/mail-remote/client.c
 plugins/mail-remote/e-corba-utils.c
 plugins/mail-remote/evolution-mail-store.c

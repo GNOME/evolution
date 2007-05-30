@@ -1,3 +1,10 @@
+2007-05-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #440741
+
+	* POTFILES.in: Added apps-evolution-mail-notification.schemas.in.in to
+	the translation.
+
 2007-05-29  Hendrik Richter  <hendrikr@gnome.org>
 
 	* de.po: Updated German translation.
