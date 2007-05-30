@@ -101,6 +101,8 @@ struct _EContactEditor
 
 	/* signal ids for "writable_status" */
 	int target_editable_id;
+
+	GtkWidget *categories_dialog;
 };
 
 struct _EContactEditorClass

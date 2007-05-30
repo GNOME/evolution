@@ -1,3 +1,12 @@
+2007-05-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #333858 from Milan Crha
+
+	* gui/contact-editor/e-contact-editor.c: (categories_response),
+	(categories_clicked), (e_contact_editor_init):
+	* gui/contact-editor/e-contact-editor.h:
+	* importers/evolution-vcard-importer.c: (vcard_import_contacts),
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/component/addressbook-component.c (ensure_sources):

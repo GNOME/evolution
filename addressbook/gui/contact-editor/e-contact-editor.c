@@ -2652,7 +2652,8 @@ categories_response (GtkDialog *dialog, int response, EContactEditor *editor)
 		else
 			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, (char *)categories);
 	}
-	gtk_widget_hide(GTK_WIDGET(dialog));
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+	editor->categories_dialog = NULL;
 }
 
 static gint
@@ -2677,7 +2678,11 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	else if (editor->contact)
 		categories = e_contact_get (editor->contact, E_CONTACT_CATEGORIES);
 
-	if (!(dialog = GTK_DIALOG (e_categories_dialog_new (categories)))) {
+	if (editor->categories_dialog != NULL){
+		gtk_window_present (GTK_WINDOW(editor->categories_dialog));
+		g_free (categories);
+		return;
+	}else if (!(dialog = GTK_DIALOG (e_categories_dialog_new (categories)))) {
 		e_error_run (NULL, "addressbook:edit-categories", NULL);
 		g_free (categories);
 		return;
@@ -2692,6 +2697,8 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	
 	gtk_widget_show(GTK_WIDGET(dialog));
 	g_free (categories);
+
+	editor->categories_dialog = GTK_WIDGET (dialog);
 }
 
 static void
@@ -3292,6 +3299,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->image_changed = FALSE;
 	e_contact_editor->in_async_call = FALSE;
 	e_contact_editor->target_editable = TRUE;
+	e_contact_editor->categories_dialog = NULL;
 
 	e_contact_editor->load_source_id = 0;
 	e_contact_editor->load_book = NULL;
