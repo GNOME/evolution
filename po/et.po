@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-05-21 03:19+0100\n"
-"PO-Revision-Date: 2007-05-22 12:17+0300\n"
+"PO-Revision-Date: 2007-05-28 10:44+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -3077,9 +3077,8 @@ msgstr "Kategooriad"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 #: ../addressbook/gui/widgets/eab-contact-display.c:566
-#, fuzzy
 msgid "Company"
-msgstr "_Firma:"
+msgstr "Firma"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
@@ -3532,7 +3531,7 @@ msgstr "Sellist allikat ei ole olemas"
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Not available in offline mode"
-msgstr "Autonoomses režiimis pole seda saadaval"
+msgstr "Autonoomses olekus pole seda saadaval"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:72
@@ -3546,8 +3545,8 @@ msgid ""
 "load the addressbook once in online mode to download its contents"
 msgstr ""
 "Seda aadressiraamatut pole võimalik avada. See võib tähendada, et see raamat "
-"pole märgitud kasutamiseks autonoomses olekus või pole selle raamatu sisu "
-"veel autonoomses olekus kasutamiseks alla laaditud. Palun laadi korraks "
+"pole märgitud kasutamiseks võrguvabas olekus või pole selle raamatu sisu "
+"veel võrguvabas olekus kasutamiseks alla laaditud. Palun laadi korraks "
 "aadressiraamat võrgurežiimis, et selle sisu oleks võimalik alla laadida."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:104
@@ -4335,15 +4334,15 @@ msgstr "Evolutioni ülesanded lõpetasid ootamatult."
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The calendar is not marked for offline usage."
-msgstr "Kalender pole märgitud autonoomses režiimis kasutamiseks."
+msgstr "Kalender pole märgitud võrguvabas olekus kasutamiseks."
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
-msgstr "Märkmeloend pole märgitud autonoomses režiimis kasutamiseks"
+msgstr "Märkmeloend pole märgitud võrguvabas olekus kasutamiseks"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
-msgstr "Ülesandeloend pole märgitud autonoomses režiimis kasutamiseks."
+msgstr "Ülesandeloend pole märgitud võrguvabas olekus kasutamiseks."
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "This calendar will be removed permanently."
@@ -5394,9 +5393,8 @@ msgid "Run a program"
 msgstr "Programmi käivitamine"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
-#, fuzzy
 msgid "Select A File"
-msgstr "Vali fail"
+msgstr "Faili valimine"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
@@ -5615,7 +5613,7 @@ msgstr "_Meeldetuletusi näidatakse"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
-msgstr "_Kuupäeva valikul kuvatakse nädalate numbreid"
+msgstr "_Kuupäeva valimisel kuvatakse nädalate numbreid"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1093
@@ -6623,9 +6621,8 @@ msgid "Categor_ies..."
 msgstr "Kate_gooriad..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "De_scription:"
-msgstr "Kirjeldus:"
+msgstr "_Kirjeldus:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
@@ -10476,11 +10473,11 @@ msgstr[0] "1 minut tagasi"
 msgstr[1] "%d minutit tagasi"
 
 #: ../filter/filter-datespec.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
-msgstr[0] "Olen praegu tööl"
-msgstr[1] "Olen praegu tööl"
+msgstr[0] "1 minuti pärast"
+msgstr[1] "%d minuti pärast"
 
 #: ../filter/filter-datespec.c:82
 #, c-format
@@ -10504,11 +10501,11 @@ msgstr[0] "1 päev tagasi"
 msgstr[1] "%d päeva tagasi"
 
 #: ../filter/filter-datespec.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
-msgstr[0] "Olen praegu tööl"
-msgstr[1] "Olen praegu tööl"
+msgstr[0] "1 päeva pärast"
+msgstr[1] "%d päeva pärast"
 
 #: ../filter/filter-datespec.c:84
 #, c-format
@@ -10521,8 +10518,8 @@ msgstr[1] "%d päeva tagasi"
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 nädala pärast"
+msgstr[1] "%d nädala pärast"
 
 #: ../filter/filter-datespec.c:85
 #, c-format
@@ -10532,11 +10529,11 @@ msgstr[0] "1 kuu tagasi"
 msgstr[1] "%d kuud tagasi"
 
 #: ../filter/filter-datespec.c:85
-#, fuzzy, c-format
+#, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
-msgstr[0] "Olen praegu tööl"
-msgstr[1] "Olen praegu tööl"
+msgstr[0] "1 kuu pärast"
+msgstr[1] "%d kuu pärast"
 
 #: ../filter/filter-datespec.c:86
 #, c-format
@@ -10546,11 +10543,11 @@ msgstr[0] "1 aasta tagasi"
 msgstr[1] "%d aastat tagasi"
 
 #: ../filter/filter-datespec.c:86
-#, fuzzy, c-format
+#, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
-msgstr[0] "Olen praegu tööl"
-msgstr[1] "Olen praegu tööl"
+msgstr[0] "1 aasta pärast"
+msgstr[1] "%d aasta pärast"
 
 #: ../filter/filter-datespec.c:287
 msgid "<click here to select a date>"
@@ -11620,14 +11617,12 @@ msgid "Unable to retrieve message"
 msgstr "Sõnumit pole võimalik vastu võtta"
 
 #: ../mail/em-folder-view.c:2333
-#, fuzzy
 msgid "<b>Retrieving Message...</b>"
-msgstr "Sõnumi %s vastuvõtmine"
+msgstr "<b>Sõnumi vastuvõtmine...</b>"
 
 #: ../mail/em-folder-view.c:2372
-#, fuzzy
 msgid "Retrieving Message"
-msgstr "Sõnumi %s vastuvõtmine"
+msgstr "Sõnumi vastuvõtmine"
 
 #: ../mail/em-folder-view.c:2550
 msgid "Create _Search Folder"
@@ -12885,11 +12880,11 @@ msgstr[0] "%d rämpssõnum"
 msgstr[1] "%d rämpssõnumit"
 
 #: ../mail/mail-component.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] ", %d valitud"
-msgstr[1] ", %d valitud"
+msgstr[0] "%d valitud, "
+msgstr[1] "%d valitud, "
 
 #: ../mail/mail-component.c:552
 #, c-format
@@ -12913,11 +12908,11 @@ msgstr[0] "%d saatmata"
 msgstr[1] "%d saatmata"
 
 #: ../mail/mail-component.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] ", %d lugemata"
-msgstr[1] ", %d lugemata"
+msgstr[0] "%d lugemata, "
+msgstr[1] "%d lugemata, "
 
 #: ../mail/mail-component.c:562
 #, c-format
@@ -13874,9 +13869,9 @@ msgid "Reconnecting to %s"
 msgstr "Taasühendamine %s"
 
 #: ../mail/mail-ops.c:2361
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing account '%s' for offline"
-msgstr "Exchange'i konto on autonoomses režiimis."
+msgstr "Konto '%s' ettevalmistamine võrguvabaks režiimiks"
 
 #: ../mail/mail-ops.c:2444
 msgid "Checking Service"
@@ -14404,14 +14399,13 @@ msgid "Signature Already Exists"
 msgstr "Allkiri on juba olemas"
 
 #: ../mail/mail.error.xml.h:93
-#, fuzzy
 msgid "Synchronize"
-msgstr "Sünkroniseeri iPod'iga"
+msgstr "Sünkroniseerimine"
 
 #: ../mail/mail.error.xml.h:94
 #, fuzzy
 msgid "Synchronize folders locally for offline usage?"
-msgstr "Kalender pole märgitud autonoomses režiimis kasutamiseks."
+msgstr "Kalender pole märgitud võrguvabas olekus kasutamiseks."
 
 #: ../mail/mail.error.xml.h:95
 msgid ""
@@ -14924,14 +14918,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
 msgid "Invalid Evolution archive"
-msgstr "Evolutioni arhiivi kontrollimine"
+msgstr "Vigane Evolutioni arhiiv"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
-#, fuzzy
 msgid "Please select a valid archive file to restore."
-msgstr "Evolutioni arhiivi valimine taastamiseks"
+msgstr "Taastamiseks vali palun korrektne arhiiv."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -15063,7 +15055,7 @@ msgstr "HTTP-kalendrid"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
-msgstr "Veebi- ja http-kalendrite põhitalitluse tagamine."
+msgstr "Webcal- ja http-kalendrite põhitalitluse tagamine."
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
@@ -15307,7 +15299,7 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
-"Evolution on hetkel autonoomses režiimis.\n"
+"Evolution on hetkel võrguvabas olekus.\n"
 "Sul pole võimalik praegu kaustu luua ega muuta.\n"
 "Nende toimingute teostamiseks lülitu palun võrgurežiimi."
 
@@ -15778,7 +15770,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Exchange Account is offline."
-msgstr "Exchange'i konto on autonoomses režiimis."
+msgstr "Exchange'i konto on võrguvabas olekus."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid ""
@@ -16031,7 +16023,7 @@ msgstr "Sõnumikaustade tellimise lubamine kaustapuu kontekstimenüüst."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
-msgstr "Lõpeta kausta tellimus"
+msgstr "Kausta tellimuse lõpetamine"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
@@ -17066,14 +17058,12 @@ msgid "You have received %d new messages in %s."
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:130
-#, fuzzy
 msgid "New email"
-msgstr "Uus märge"
+msgstr "Uus e-sõnum"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
 msgid "Mail Notification"
-msgstr "Uuest sõnumist teavitamine"
+msgstr "Sõnumist teavitamine"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid ""
@@ -17315,19 +17305,19 @@ msgstr "Kasutatakse kõigi kaustas olevate sõnumite loetuks määramiseks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr "Kalendri märkimine autonoomse režiimi jaoks"
+msgstr "Kalendri märkimine võrguvaba režiimi jaoks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
 msgid "Marks the selected calendar for offline viewing."
-msgstr "Kalendri märkimine autonoomses režiimis vaatamiseks."
+msgstr "Kalendri märkimine võrguvabas olekus vaatamiseks."
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
-msgstr "_Märgi kalender autonoomses režiimis mittekasutatavaks"
+msgstr "_Märgi kalender võrguvabas olekus mittekasutatavaks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
 msgid "_Mark Calendar for offline use"
-msgstr "_Märgi kalender kasutamiseks autonoomses režiimis"
+msgstr "_Märgi kalender kasutamiseks võrguvabas olekus"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -17854,7 +17844,7 @@ msgstr "Viimati uuendatud seadistuste versioon"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr "Autonoomses režiimis kettale sünkroniseeritavate kaustade radade loend"
+msgstr "Autonoomses olekus kettale sünkroniseeritavate kaustade radade loend"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Sidebar is visible"
@@ -17866,7 +17856,7 @@ msgstr "Arendushoiatuse dialoogi jäetakse vahele"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:458
 msgid "Start in offline mode"
-msgstr "Alustamine autonoomses režiimis"
+msgstr "Alustamine võrguvabas olekus"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Statusbar is visible"
@@ -17917,7 +17907,7 @@ msgstr "Tööriistariba on nähtav"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "Millal Evolution alustab võrgurežiimi asemel autonoomses režiimis."
+msgstr "Millal Evolution alustab võrgurežiimi asemel võrguvabas režiimis."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether or not the window should be maximized."
@@ -17965,7 +17955,7 @@ msgstr "Aktiivsed ühendused"
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
 msgstr ""
-"Kui soovid neid ühendusi sulgeda ja autonoomsesse\n"
+"Kui soovid neid ühendusi sulgeda ja võrguvabasse\n"
 "olekusse siirduda, vajuta \"Olgu\""
 
 #: ../shell/e-shell-folder-title-bar.c:584
@@ -18094,7 +18084,7 @@ msgstr "Siirdu aut_onoomsesse olekusse"
 
 #: ../shell/e-shell-window-commands.c:819
 msgid "Work Offline"
-msgstr "Siirdumine autonoomsesse olekusse"
+msgstr "Siirdumine võrguvabasse olekusse"
 
 #: ../shell/e-shell-window.c:381
 msgid "Evolution is currently online. Click on this button to work offline."
@@ -18104,12 +18094,12 @@ msgstr ""
 
 #: ../shell/e-shell-window.c:389
 msgid "Evolution is in the process of going offline."
-msgstr "Evolution siirdub autonoomsesse olekusse."
+msgstr "Evolution siirdub võrguvabasse olekusse."
 
 #: ../shell/e-shell-window.c:396
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
-"Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks klõpsa seda "
+"Evolution on hetkel võrguvabas olekus. Võrku ühendumiseks klõpsa seda "
 "nuppu."
 
 #: ../shell/e-shell-window.c:820
@@ -18460,16 +18450,14 @@ msgid "Select a certificate to import..."
 msgstr "Imporditava sertifikaadi valimine..."
 
 #: ../smime/gui/certificate-manager.c:147
-#, fuzzy
 msgid "All PKCS12 files"
-msgstr "PKCS12 faili parool"
+msgstr "Kõik PKCS12-failid"
 
 #: ../smime/gui/certificate-manager.c:152
 #: ../smime/gui/certificate-manager.c:403
 #: ../smime/gui/certificate-manager.c:635
-#, fuzzy
 msgid "All files"
-msgstr "Kõik kohalikud kaustad"
+msgstr "Kõik failid"
 
 #: ../smime/gui/certificate-manager.c:279
 #: ../smime/gui/certificate-manager.c:496
@@ -18492,18 +18480,16 @@ msgid "Expires"
 msgstr "Aegub"
 
 #: ../smime/gui/certificate-manager.c:398
-#, fuzzy
 msgid "All email certificate files"
-msgstr "E-posti sertifikaadi atesteerimisorgan"
+msgstr "Kõik e-posti sertifikaadifailid"
 
 #: ../smime/gui/certificate-manager.c:505
 msgid "E-Mail Address"
 msgstr "E-posti aadress"
 
 #: ../smime/gui/certificate-manager.c:630
-#, fuzzy
 msgid "All CA certificate files"
-msgstr "Sertifikaadi üksikasjad"
+msgstr "Kõik sertifitseerimiskeskuse failid"
 
 #: ../smime/gui/certificate-viewer.c:341
 #, c-format
@@ -18730,7 +18716,7 @@ msgstr "Sinu sertifikaadid"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_Redigeeri SK usaldust"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:676
@@ -18902,11 +18888,11 @@ msgstr "Sertifikaadi signatuuri väärtus"
 
 #: ../smime/lib/e-pkcs12.c:266
 msgid "PKCS12 File Password"
-msgstr "PKCS12 faili parool"
+msgstr "PKCS12-faili parool"
 
 #: ../smime/lib/e-pkcs12.c:266
 msgid "Enter password for PKCS12 file:"
-msgstr "Sisesta PKCS12 faili jaoks parool:"
+msgstr "Sisesta PKCS12-faili jaoks parool:"
 
 #: ../smime/lib/e-pkcs12.c:365
 msgid "Imported Certificate"
@@ -19663,12 +19649,10 @@ msgid "Permanently remove this folder"
 msgstr "Kausta lõplik eemaldamine"
 
 #: ../ui/evolution-mail-list.xml.h:20
-#, fuzzy
 msgid "Re_fresh..."
-msgstr "Värskenda"
+msgstr "_Värskenda..."
 
 #: ../ui/evolution-mail-list.xml.h:21
-#, fuzzy
 msgid "Refresh the folder"
 msgstr "Kausta värskendamine"
 
@@ -20669,7 +20653,7 @@ msgstr "Veateate saatmine Bug Buddy abil"
 
 #: ../ui/evolution.xml.h:35
 msgid "Toggle whether we are working offline."
-msgstr "Autonoomse režiimi sisse- või väljalülitamine"
+msgstr "Võrguvaba oleku sisse- või väljalülitamine"
 
 #: ../ui/evolution.xml.h:36
 msgid "Tool_bar style"
@@ -21884,19 +21868,16 @@ msgid "Remove This _Column"
 msgstr "Eemalda see veerg"
 
 #: ../widgets/table/e-table-header-item.c:1481
-#, fuzzy
 msgid "Add a C_olumn..."
-msgstr "Lisa veerg..."
+msgstr "Lisa _veerg..."
 
 #: ../widgets/table/e-table-header-item.c:1483
-#, fuzzy
 msgid "A_lignment"
-msgstr "Joondus"
+msgstr "_Joondus"
 
 #: ../widgets/table/e-table-header-item.c:1484
-#, fuzzy
 msgid "B_est Fit"
-msgstr "Parim suurus"
+msgstr "_Parim sobitus"
 
 #: ../widgets/table/e-table-header-item.c:1485
 #, fuzzy
