@@ -2370,7 +2370,7 @@ emfv_message_selected_timeout(void *data)
 
 			gtk_html_stream_printf(hstream, "<object classid=\"spinner\"><h2>%s</h2><p>%s</p></object>",
 						       _("Retrieving Message"),
-						       emfv->priv->selected_uid);
+						       emfv->displayed_uid);
 			gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
 
 			mail_get_messagex(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
