@@ -139,6 +139,7 @@ struct ETreePriv {
 	int table_model_change_id;
 	int table_row_change_id;
 	int table_cell_change_id;
+	int table_rows_delete_id;
 
 	GnomeCanvas *header_canvas, *table_canvas;
 
@@ -256,10 +257,14 @@ et_disconnect_from_etta (ETree *et)
 	if (et->priv->table_cell_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
 				             et->priv->table_cell_change_id);
+	if (et->priv->table_rows_delete_id != 0)
+		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
+				             et->priv->table_rows_delete_id);
 
 	et->priv->table_model_change_id = 0;
 	et->priv->table_row_change_id = 0;
 	et->priv->table_cell_change_id = 0;
+	et->priv->table_rows_delete_id = 0;
 }
 
 static void
@@ -552,6 +557,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->table_model_change_id  = 0;
 	e_tree->priv->table_row_change_id    = 0;
 	e_tree->priv->table_cell_change_id   = 0;
+	e_tree->priv->table_rows_delete_id   = 0;
 
 	e_tree->priv->alternating_row_colors = 1;
 	e_tree->priv->horizontal_draw_grid   = 1;
@@ -1338,6 +1344,32 @@ et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETree *e
 }
 
 static void
+et_table_rows_deleted (ETableModel *table_model, int row, int count, ETree *et)
+{
+	ETreePath * node, * prev_node;
+
+	/* If the cursor is still valid after this deletion, we're done */
+	if (e_selection_model_cursor_row (et->priv->selection) >= 0
+			|| row == 0)
+		return;
+
+	prev_node = e_tree_node_at_row (et, row-1);
+	node = e_tree_get_cursor (et);
+	
+	/* Check if the cursor is a child of the node directly before the
+	 * deleted region (implying that an expander was collapsed with
+	 * the cursor inside it) */
+	while (node) {
+		node = e_tree_model_node_get_parent (et->priv->model, node);
+		if (node == prev_node) {
+			/* Set the cursor to the still-visible parent */
+			e_tree_set_cursor (et, prev_node);
+			return;
+		}
+	}
+}
+
+static void
 et_connect_to_etta (ETree *et)
 {
 	et->priv->table_model_change_id = g_signal_connect (et->priv->etta, "model_changed",
@@ -1348,6 +1380,9 @@ et_connect_to_etta (ETree *et)
 
 	et->priv->table_cell_change_id = g_signal_connect (et->priv->etta, "model_cell_changed",
 							   G_CALLBACK (et_table_cell_changed), et);
+	
+	et->priv->table_rows_delete_id = g_signal_connect (et->priv->etta, "model_rows_deleted",
+							   G_CALLBACK (et_table_rows_deleted), et);
 
 }
 

@@ -1,3 +1,11 @@
+2007-05-31  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #333707 from David Moore
+
+	* e-tree.c: (et_disconnect_from_etta), (e_tree_init),
+	(et_table_rows_deleted), (et_connect_to_etta): Thread message
+	selection improvements, while deleting messages in thread.
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-table-config.c:
