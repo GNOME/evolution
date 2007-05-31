@@ -41,10 +41,10 @@ för att hantera dina kommunikationer och personlig information.
 Komma igång
 
 	På vänster sida av Evolution-fönstret finns det en sidopanel med
-	genvägar till alla dina e-postmappar. Under den hittar du knappar
+	genvägar till alla dina e-postmappar. I sidopanelen hittar du knappar
 	för dina kalendrar, kontakter, uppgifter, e-post och memon.
 
-	För en komplett guide för Evolution kan du välja "Innehåll"
+	För en komplett användarguide för Evolution kan du välja "Innehåll"
 	från "Hjälp"-menyn eller trycka på F1-tangenten. 
 
 Nya funktioner
@@ -53,7 +53,7 @@ Nya funktioner
 	
 	# Integration med gtk-print
 	# Anpassningsbar hämtning av IMAP-rubriker.
-	# Ökad prestanda, en mängd av felrättningar för minnesanvändningen
+	# Ökad prestanda, en mängd av felrättningar för minnesanvändning
 	# En mängd andra felrättningar och andra förbättringar
 
 Felrapportering
@@ -117,12 +117,12 @@ Komma igång
 <blockquote>
 
 	På vänster sida av Evolution-fönstret finns det en sidopanel med
-	genvägar till alla dina e-postmappar. Under den hittar du knappar
+	genvägar till alla dina e-postmappar. I sidopanelen hittar du knappar
 	för dina kalendrar, kontakter, uppgifter, e-post och memon.
 
 <br><br>
 
-	För en komplett guide för Evolution kan du välja <b>Innehåll</b> 
+	För en komplett användarguide för Evolution kan du välja <b>Innehåll</b> 
 	från <b>Hjälp</b>-menyn eller trycka på <B>F1</B>-tangenten. 
 
 <br><br>
@@ -140,7 +140,7 @@ Nya funktioner
 	</li><li>
 	Anpassningsbar hämtning av IMAP-rubriker
 	</li><li>
-	Ökad prestanda, en mängd av felrättningar för minnesanvändningen
+	Ökad prestanda, en mängd av felrättningar för minnesanvändning
 	</li><li>
 	En mängd andra felrättningar och andra förbättringar
 	</li>
