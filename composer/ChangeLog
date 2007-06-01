@@ -1,3 +1,12 @@
+2007-06-01  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #315012 from Pascal Terjan
+
+	* e-msg-composer.c: (handle_multipart_signed),
+	(handle_multipart_encrypted), (handle_multipart_alternative),
+	(handle_multipart), (e_msg_composer_new_with_message): Pass mime part
+	instead of multipart to camel_cipher_decryp
+
 2007-04-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #429422
