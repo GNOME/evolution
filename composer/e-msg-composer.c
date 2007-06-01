@@ -288,7 +288,7 @@ static void add_attachments_from_multipart (EMsgComposer *composer, CamelMultipa
 /* used by e_msg_composer_new_with_message() */
 static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth);
 static void handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, int depth);
-static void handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+static void handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, int depth);
 static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int depth);
 
 static void set_editor_signature (EMsgComposer *composer);
@@ -4232,7 +4232,7 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 			handle_multipart_signed (composer, multipart, depth);
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-			handle_multipart_encrypted (composer, multipart, depth);
+			handle_multipart_encrypted (composer, mime_part, depth);
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
 			handle_multipart_alternative (composer, multipart, depth);
@@ -4252,7 +4252,7 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 }
 
 static void
-handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, int depth)
+handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, int depth)
 {
 	CamelContentType *content_type;
 	CamelCipherContext *cipher;
@@ -4267,7 +4267,7 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, i
 	camel_exception_init (&ex);
 	cipher = mail_crypto_get_pgp_cipher_context (NULL);
 	mime_part = camel_mime_part_new();
-	valid = camel_cipher_decrypt(cipher, (CamelMimePart *)multipart, mime_part, &ex);
+	valid = camel_cipher_decrypt(cipher, multipart, mime_part, &ex);
 	camel_object_unref(cipher);
 	camel_exception_clear (&ex);
 	if (valid == NULL)
@@ -4340,7 +4340,7 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 				handle_multipart_signed (composer, mp, depth + 1);
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, mp, depth + 1);
+				handle_multipart_encrypted (composer, mime_part, depth + 1);
 			} else {
 				/* depth doesn't matter so long as we don't pass 0 */
 				handle_multipart (composer, mp, depth + 1);
@@ -4394,7 +4394,7 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 				handle_multipart_signed (composer, mp, depth + 1);
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, mp, depth + 1);
+				handle_multipart_encrypted (composer, mime_part, depth + 1);
 			} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 				handle_multipart_alternative (composer, mp, depth + 1);
 			} else {
@@ -4692,7 +4692,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			handle_multipart_signed (new, multipart, 0);
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-			handle_multipart_encrypted (new, multipart, 0);
+			handle_multipart_encrypted (new, message, 0);
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
 			handle_multipart_alternative (new, multipart, 0);
