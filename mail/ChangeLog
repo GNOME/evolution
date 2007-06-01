@@ -1,3 +1,12 @@
+2007-06-01  Karl Relton  <karllinuxtest.relton@ntlworld.com>
+
+        ** Fix for bug #311512
+
+	* mail-folder-cache.c (folder_changed): Check the added uids for
+	messages which are not seen/deleted/junk and compare their
+	received date with the timestamp of the last new-mail notification
+	- if any are more recent than that, notify the user.
+
 2007-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Adds support for Contact Image in the preview pane

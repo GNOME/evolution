@@ -25,6 +25,9 @@
 #ifndef _MAIL_FOLDER_CACHE_H
 #define _MAIL_FOLDER_CACHE_H
 
+/* min no. seconds between newmail notifications */
+#define NOTIFY_THROTTLE 30
+
 #include <camel/camel-store.h>
 
 /* Add a store whose folders should appear in the shell

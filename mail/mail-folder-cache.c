@@ -127,6 +127,7 @@ static guint notify_id = 0;
 static int notify_type = -1;
 
 static time_t last_notify = 0;
+static time_t last_newmail = 0;
 static guint notify_idle_id = 0;
 static gboolean notify_idle_cb (gpointer user_data);
 
@@ -197,7 +198,6 @@ real_flush_updates(void *o, void *event_data, void *data)
 	struct _MailComponent *component;
 	struct _EMFolderTreeModel *model;
 	struct _folder_update *up;
-	time_t now;
 	
 	component = mail_component_peek ();
 	model = mail_component_peek_tree_model (component);
@@ -243,8 +243,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 			notify_type = gconf_client_get_int (gconf, "/apps/evolution/mail/notify/type", NULL);
 		}
 		
-		time (&now);
-		if (notify_type != 0 && up->new && notify_idle_id == 0 && (now - last_notify >= 5))
+		if (notify_type != 0 && up->new && notify_idle_id == 0 && (last_newmail - last_notify >= NOTIFY_THROTTLE))
 			notify_idle_id = g_idle_add_full (G_PRIORITY_LOW, notify_idle_cb, NULL, NULL);
 		
 		if (up->uri) {
@@ -442,9 +441,12 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelFolderChangeInfo *changes = event_data;
 	CamelFolder *folder = (CamelFolder *)o;
 	CamelStore *store = folder->parent_store;
+	CamelMessageInfo *info;
 	struct _store_info *si;
 	struct _folder_info *mfi;
 	int new = 0;
+	int i;
+	guint32 flags;
 	
 	d(printf("folder '%s' changed\n", folder->full_name));
 
@@ -452,8 +454,22 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT)
-	    && changes && changes->uid_added)
-		new = changes->uid_added->len;
+	    && changes && (changes->uid_added->len > 0)) {
+		/* for each added message, check to see that it is
+		   brand new, not junk and not already deleted */
+		for (i = 0; i < changes->uid_added->len; i++) {
+			info = camel_folder_get_message_info (folder, changes->uid_added->pdata[i]);
+			flags = camel_message_info_flags (info);
+			if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
+			    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
+			    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
+			    (camel_message_info_date_received (info) > last_newmail))
+				new++;
+		}
+	}
+	
+	if (new > 0)
+		time (&last_newmail);
 	
 	LOCK(info_lock);
 	if (stores != NULL
