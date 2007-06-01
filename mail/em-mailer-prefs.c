@@ -1084,6 +1084,15 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	
 	/* headers */
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);
+
+	prefs->photo_show= GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "photo_show"));
+	toggle_button_init (prefs, prefs->photo_show, FALSE,
+			    "/apps/evolution/mail/display/sender_photo",
+			    G_CALLBACK (toggle_button_toggled));
+	prefs->photo_local = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "photo_local"));
+	toggle_button_init (prefs, prefs->photo_local, FALSE,
+			    "/apps/evolution/mail/display/photo_local",
+			    G_CALLBACK (toggle_button_toggled));
 	
 	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersAdd"));

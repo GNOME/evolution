@@ -288,6 +288,33 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/sender_photo</key>
+      <applyto>/apps/evolution/mail/display/sender_photo</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Show photo of the sender</short>
+         <long>
+          Show the photo of the sender in the message reading pane.
+         </long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/photo_local</key>
+      <applyto>/apps/evolution/mail/display/photo_local</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Search for the sender photo in local addressbooks </short>
+         <long>
+          This option would help in improving the speed of fetching.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/mime_types</key>
       <applyto>/apps/evolution/mail/display/mime_types</applyto>
       <owner>evolution-mail</owner>

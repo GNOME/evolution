@@ -2364,7 +2364,7 @@ emfv_message_selected_timeout(void *data)
 			g_object_ref (emfv);
 			/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
 			e_profile_event_emit("goto.load", emfv->displayed_uid, 0);
-			hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
+/*			hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
 
 			g_signal_connect(((EMFormatHTML *)emfv->preview)->html, "object_requested", G_CALLBACK(emfv_spin), NULL);
 
@@ -2372,7 +2372,7 @@ emfv_message_selected_timeout(void *data)
 						       _("Retrieving Message"),
 						       emfv->displayed_uid);
 			gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
-
+*/
 			mail_get_messagex(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
 		} else {
 			e_profile_event_emit("goto.empty", "", 0);
@@ -2661,6 +2661,8 @@ enum {
 	EMFV_SHOW_DELETED,
 	EMFV_THREAD_LIST,
 	EMFV_PANED_SIZE,
+	EMFV_SENDER_PHOTO,
+	EMFV_PHOTO_LOCAL,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
@@ -2680,6 +2682,8 @@ static const char * const emfv_display_keys[] = {
 	"show_deleted",
 	"thread_list",
 	"paned_size",
+	"sender_photo",
+	"photo_local",
 };
 
 static GHashTable *emfv_setting_key;
@@ -2770,6 +2774,20 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		if (emf->message)
 			em_format_redraw(emf);
 		break; }
+	case EMFV_SENDER_PHOTO: {
+		EMFormat *emf = (EMFormat *)emfv->preview;
+
+		emf->show_photo = gconf_value_get_bool (value);
+		if (emf->message)
+			em_format_redraw(emf);
+
+		break; }		
+	case EMFV_PHOTO_LOCAL: {
+		EMFormat *emf = (EMFormat *)emfv->preview;
+
+		emf->photo_local = gconf_value_get_bool (value);
+
+		break; }		
         case EMFV_SHOW_PREVIEW: {
 		gboolean state_gconf, state_camel;
 		char *ret;

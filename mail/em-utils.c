@@ -1927,7 +1927,7 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 			stop = err->domain == E_BOOK_ERROR && err->code == E_BOOK_ERROR_CANCELLED;
 			mail_cancel_hook_remove(hook);
 			g_object_unref(book);
-			g_warning("Can't get contacts: %s", err->message);
+			d(g_warning("Can't get contacts: %s", err->message));
 			g_clear_error(&err);
 			continue;
 		}
@@ -1957,6 +1957,98 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 	pthread_mutex_unlock(&emu_addr_lock);
 
 	return found;
+}
+
+struct _CamelMimePart *
+em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
+{
+	const char *addr;
+	int stop = FALSE, found = FALSE;
+	GSList *s, *g, *addr_sources = NULL;
+	GError *err = NULL;
+        EBookQuery *query = NULL;
+	ESource *source = NULL;
+	GList *contacts = NULL;
+	EContact *contact = NULL;
+	EContactPhoto *photo = NULL;
+	EBook *book = NULL;
+	CamelMimePart *part;
+
+	if (cia == NULL || !camel_internet_address_get(cia, 0, NULL, &addr)){
+		return NULL;
+	}
+
+	if (!emu_addr_list){
+		if (!e_book_get_addressbooks(&emu_addr_list, &err)){
+			g_error_free(err);
+			return NULL;
+		}
+	}
+
+    	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
+	for (g = e_source_list_peek_groups(emu_addr_list); g; g = g_slist_next(g)) {
+		if (local && strcmp (e_source_group_peek_name ((ESourceGroup *)g->data), "On This Computer"))
+			continue;
+		printf("%d %s\n", local, e_source_group_peek_name ((ESourceGroup *)g->data));
+		for (s = e_source_group_peek_sources((ESourceGroup *)g->data); s; s=g_slist_next(s)) {
+			ESource *src = s->data;
+			const char *completion = e_source_get_property (src, "completion");
+
+			if (completion && !g_ascii_strcasecmp (completion, "true")) {
+				addr_sources = g_slist_prepend(addr_sources, src);
+				g_object_ref(src);
+			}
+		}
+	}
+
+	for (s = addr_sources;!stop && !found && s;s=g_slist_next(s)) {
+		source = s->data;
+
+		book = e_book_new(source, &err);
+		if (!e_book_open(book, TRUE, &err)
+		    || !e_book_get_contacts(book, query, &contacts, &err)) {
+			stop = err->domain == E_BOOK_ERROR && err->code == E_BOOK_ERROR_CANCELLED;
+			g_object_unref(book);
+			d(g_warning("Can't get contacts: %s", err->message));
+			g_clear_error(&err);
+			continue;
+		}
+
+		if (contacts != NULL) {
+			found = TRUE;
+
+			/* Doesn't matter, we consider the first contact only*/
+			contact = contacts->data;
+			photo = e_contact_get (contact, E_CONTACT_PHOTO);
+			if (!photo)
+				photo = e_contact_get (contact, E_CONTACT_LOGO);
+			g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+			g_list_free (contacts);
+		} 
+		g_object_unref (source); /* Is it? */
+		g_object_unref(book);
+	}
+
+	g_slist_free(addr_sources);
+	e_book_query_unref(query);
+
+	if (!photo)
+		return NULL;
+
+	if (photo->type != E_CONTACT_PHOTO_TYPE_INLINED) {
+		e_contact_photo_free (photo);
+		return NULL;
+	}
+
+	/* Form a mime part out of the photo */
+	part = camel_mime_part_new();
+	camel_mime_part_set_content(part, 
+	                            (const char *) photo->data.inlined.data, 
+	                            photo->data.inlined.length, "image/jpeg");
+
+	e_contact_photo_free (photo);
+
+	return part;
 }
 
 /**

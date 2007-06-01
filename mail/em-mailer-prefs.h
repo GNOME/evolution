@@ -119,6 +119,8 @@ struct _EMMailerPrefs {
 	struct _GtkEntry *entry_header;
 	struct _GtkTreeView *header_list;
 	struct _GtkListStore *header_list_store;
+	struct _GtkToggleButton *photo_show;
+	struct _GtkToggleButton *photo_local;
 
 	/* Junk prefs */
 	struct _GtkToggleButton *check_incoming;

@@ -227,6 +227,8 @@ struct _EMFormat {
 	char *charset;		/* charset override */
 	char *default_charset;	/* charset fallback */
 	gboolean composer; /* Formatting from composer ?*/
+	gboolean show_photo; /* Want to show the photo of the sender ?*/
+	gboolean photo_local; /* Photos only from local addressbooks */
 };
 
 struct _EMFormatClass {

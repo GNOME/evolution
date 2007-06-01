@@ -1748,7 +1748,9 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	CamelContentType *ct;
 	struct _camel_header_raw *header;
 	gboolean have_icon = FALSE;
-			
+	const char *photo_name = NULL;
+	CamelInternetAddress *cia = NULL;
+		
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = e_iconv_charset_name(charset);	
@@ -1777,6 +1779,10 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
 			
 			while (header) {
+
+				if (emf->show_photo && !photo_name && !g_ascii_strcasecmp (header->name, "From"))
+					photo_name = header->value;
+									
 				if (!mailer_shown && mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
 					       !g_ascii_strcasecmp (header->name, "User-Agent") ||
 					       !g_ascii_strcasecmp (header->name, "X-Newsreader"))) {
@@ -1800,6 +1806,29 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	
 	if (!efh->simple_headers) {
 		camel_stream_printf(stream, "</table></td>");
+
+		if (photo_name) {
+			char *classid;
+			CamelMimePart *photopart;
+		
+			cia = camel_internet_address_new();
+			camel_address_decode((CamelAddress *) cia, (const char *) photo_name);
+			photopart = em_utils_contact_photo (cia, emf->photo_local);
+
+			if (photopart) {
+				classid = g_strdup_printf("icon:///em-format-html/%s/photo/header",
+				emf->part_id->str);
+				camel_stream_printf(stream,
+					"<td align=\"right\" valign=\"top\"><img width=64 src=\"%s\"></td>",
+					classid);
+				em_format_add_puri(emf, sizeof(EMFormatPURI), classid,
+					photopart, efh_write_image);
+				camel_object_unref(photopart);
+
+				g_free(classid);
+			}
+			camel_object_unref(cia);
+		}
 
 		if (have_icon && efh->show_icon) {
 			GtkIconInfo *icon_info;

@@ -1,3 +1,19 @@
+2007-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Adds support for Contact Image in the preview pane
+
+	* em-folder-view.c: (emfv_message_selected_timeout),
+	(emfv_setting_notify):
+	* em-format-html.c: (efh_format_headers):
+	* em-format.c: (emf_init):
+	* em-format.h:
+	* em-mailer-prefs.c: (em_mailer_prefs_construct):
+	* em-mailer-prefs.h:
+	* em-utils.c: (em_utils_in_addressbook), (em_utils_contact_photo):
+	* em-utils.h:
+	* evolution-mail.schemas.in.in:
+	* mail-config.glade:
+
 2007-05-31  Daniel Nylander <po@danielnylander.se>
 
 	*default/sv : Added Swedish Welcome mail. 
