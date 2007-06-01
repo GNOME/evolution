@@ -7220,6 +7220,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 						  <property name="use_underline">True</property>
 						</widget>
 					      </child>
+                                              <child>
+						<widget class="GtkMenuItem" id="convertwidget50">
+						  <property name="visible">True</property>
+						  <property name="label" translatable="yes">Inline original message (Outlook style)</property>
+						  <property name="use_underline">True</property>
+						</widget>
+					      </child>
+
 					    </widget>
 					  </child>
 					</widget>

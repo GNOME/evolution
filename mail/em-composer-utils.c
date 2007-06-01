@@ -1849,6 +1849,12 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 		e_msg_composer_attach (composer, part);
 		camel_object_unref (part);
 		break;
+	case MAIL_CONFIG_REPLY_OUTLOOK:
+		text = em_utils_message_to_html(message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source);
+		e_msg_composer_set_body_text(composer, text, len);
+		g_free (text);
+		break;
+
 	case MAIL_CONFIG_REPLY_QUOTED:
 	default:
 		/* do what any sane user would want when replying... */

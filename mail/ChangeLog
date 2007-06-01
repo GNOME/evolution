@@ -1,3 +1,11 @@
+2007-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Outlook style reply option for bug #415770 from gicmo
+
+	* em-composer-utils.c: (composer_set_body):
+	* mail-config.glade:
+	* mail-config.h:
+
 2007-06-01  Karl Relton  <karllinuxtest.relton@ntlworld.com>
 
         ** Fix for bug #311512
