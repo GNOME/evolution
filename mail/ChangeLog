@@ -1,3 +1,9 @@
+2007-06-02  Ross Burton  <ross@openedhand.com>
+
+	* mail-send-recv.c:
+	Pass a CamelException when refreshing folders, removing the spew
+	of warnings (#439957).
+
 2007-05-28  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* em-folder-tree.c: (emft_popup_new_folder),
@@ -3807,7 +3813,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	(emfb_folder_changed, emfb_gui_folder_changed): if a select_uid is
 	set, and the message is now available, then select it.
 
-2004-11-28	S.ÃaÄlar Onur <caglar@uludag.org.tr>
+2004-11-28	S.Ã?aÄ?lar Onur <caglar@uludag.org.tr>
 
 	** See bug #69446.
 

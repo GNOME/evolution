@@ -744,12 +744,16 @@ refresh_folders_get (struct _mail_msg *mm)
 	struct _refresh_folders_msg *m = (struct _refresh_folders_msg *)mm;
 	int i;
 	CamelFolder *folder;
+	CamelException ex = CAMEL_EXCEPTION_INITIALISER;
 
 	for (i=0;i<m->folders->len;i++) {
-		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, NULL);
+		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, &ex);
 		if (folder) {
 			camel_folder_refresh_info(folder, NULL);
 			camel_object_unref(folder);
+		} else if (camel_exception_is_set (&ex)) {
+			g_warning ("Failed to refresh folders: %s", camel_exception_get_description (&ex));
+			camel_exception_clear (&ex);
 		}
 		if (camel_operation_cancel_check(m->info->cancel))
 			break;
