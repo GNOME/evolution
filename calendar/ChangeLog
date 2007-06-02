@@ -1,3 +1,12 @@
+2007-06-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #321741
+
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_full):
+	Default first date for appointment or meeting is changed on actual
+	date if have selected start date in past. (This doesn't affect
+	double click in calendar view.)
+
 2007-05-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #330098 from Naresh

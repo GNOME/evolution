@@ -1910,7 +1910,8 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
  *
  * Opens an event editor dialog for a new appointment. The appointment's
  * start and end times are set to the currently selected time range in
- * the calendar view.
+ * the calendar view, with exception when this time is in past, then
+ * current date is used too.
  */
 void
 e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day, gboolean meeting)
@@ -1919,7 +1920,8 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	if (!e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend)) {
+	if (!e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend) ||
+	    dtstart / (60 * 60 * 24) < time (NULL) / (60 * 60 * 24)) {
 		dtstart = time (NULL);
 		dtend = dtstart + 3600;
 	}
