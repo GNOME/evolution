@@ -1,5 +1,9 @@
 2007-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* em-utils.c: (em_utils_contact_photo): Removing few debug statements.
+
+2007-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Outlook style reply option for bug #415770 from gicmo
 
 	* em-composer-utils.c: (composer_set_body):

@@ -1989,7 +1989,7 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 	for (g = e_source_list_peek_groups(emu_addr_list); g; g = g_slist_next(g)) {
 		if (local && strcmp (e_source_group_peek_name ((ESourceGroup *)g->data), "On This Computer"))
 			continue;
-		printf("%d %s\n", local, e_source_group_peek_name ((ESourceGroup *)g->data));
+
 		for (s = e_source_group_peek_sources((ESourceGroup *)g->data); s; s=g_slist_next(s)) {
 			ESource *src = s->data;
 			const char *completion = e_source_get_property (src, "completion");
