@@ -240,7 +240,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <_primary>Are you sure you want to delete this account?</_primary>
     <_secondary xml:space="preserve">If you proceed, the account information will be deleted permanently.</_secondary>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
-    <button stock="gtk-no" _label="Do not delete" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-no" _label="Do not d_elete" response="GTK_RESPONSE_NO"/>
   </error>
 
   <error id="ask-delete-account-with-proxies" type="question" default="GTK_RESPONSE_NO" modal="true">

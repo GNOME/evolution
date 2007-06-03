@@ -1,5 +1,11 @@
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #443140 from Vinod
+
+	* mail.error.xml:
+
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #3355396 from Muktha  
 
 	* em-account-editor.c:
