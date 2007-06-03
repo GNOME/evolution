@@ -2789,6 +2789,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="creation_function">em_account_editor_folder_selector_button_new</property>
 				  <property name="int1">0</property>
 				  <property name="int2">0</property>
+				  <property name="string1" translatable="yes">Select Sent Folder</property>
 				  <property name="last_modification_time">Tue, 14 Dec 2004 17:07:09 GMT</property>
 				</widget>
 				<packing>
@@ -2807,6 +2808,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="creation_function">em_account_editor_folder_selector_button_new</property>
 				  <property name="int1">0</property>
 				  <property name="int2">0</property>
+				  <property name="string1" translatable="yes">Select Drafts Folder</property>
 				  <property name="last_modification_time">Tue, 14 Dec 2004 17:07:02 GMT</property>
 				</widget>
 				<packing>

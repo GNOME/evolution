@@ -1,5 +1,13 @@
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #3355396 from Muktha  
+
+	* em-account-editor.c:
+	(em_account_editor_folder_selector_button_new):
+	* mail-config.glade:
+
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* evolution-mail.schemas.in.in: Default for photo to be false.
 
 2007-05-12  Gilles Dartiguelongue  <dartigug@esiee.fr>

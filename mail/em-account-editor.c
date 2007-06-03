@@ -479,7 +479,7 @@ GtkWidget *em_account_editor_folder_selector_button_new (char *widget_name, char
 GtkWidget *
 em_account_editor_folder_selector_button_new (char *widget_name, char *string1, char *string2, int int1, int int2)
 {
-	return (GtkWidget *)em_folder_selection_button_new(_("Select Folder"), NULL);
+	return (GtkWidget *)em_folder_selection_button_new(string1 ? string1 : _("Select Folder"), NULL);
 }
 
 GtkWidget *em_account_editor_dropdown_new(char *widget_name, char *string1, char *string2, int int1, int int2);
