@@ -807,7 +807,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	menu = g_malloc0(sizeof(*menu));
 	menu->hook = (EPopupHook *)eph;
 
-	tmp = xmlGetProp(root, "target");
+	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -827,7 +827,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (0 == strcmp(node->name, "item")) {
+		if (0 == strcmp((char *)node->name, "item")) {
 			struct _EPopupItem *item;
 
 			item = emph_construct_item(eph, menu, node, map);
@@ -858,7 +858,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp(node->name, "menu") == 0) {
+		if (strcmp((char *)node->name, "menu") == 0) {
 			struct _EPopupHookMenu *menu;
 
 			menu = emph_construct_menu(eph, node);

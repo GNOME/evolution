@@ -60,7 +60,7 @@ e_bconf_hex_decode (const char *val)
 	char *o, *res;
 	
 	o = res = g_malloc (strlen (val) / 2 + 1);
-	for (p = val; (p[0] && p[1]); p += 2)
+	for (p = (const unsigned char *)val; (p[0] && p[1]); p += 2)
 		*o++ = (hexnib[p[0]] << 4) | hexnib[p[1]];
 	*o = 0;
 	
@@ -97,15 +97,15 @@ e_bconf_get_path (xmlDocPtr doc, const char *path)
 	int found;
 	
 	root = doc->children;
-	if (strcmp (root->name, "bonobo-config") != 0) {
+	if (strcmp ((char *)root->name, "bonobo-config") != 0) {
 		g_warning ("not bonobo-config xml file");
 		return NULL;
 	}
 	
 	root = root->children;
 	while (root) {
-		if (!strcmp (root->name, "section")) {
-			val = xmlGetProp (root, "path");
+		if (!strcmp ((char *)root->name, "section")) {
+			val = (char *)xmlGetProp (root, (const unsigned char *)"path");
 			found = val && strcmp (val, path) == 0;
 			xmlFree (val);
 			if (found)
@@ -125,8 +125,8 @@ e_bconf_get_entry (xmlNodePtr root, const char *name)
 	char *val;
 	
 	while (node) {
-		if (!strcmp (node->name, "entry")) {
-			val = xmlGetProp (node, "name");
+		if (!strcmp ((char *)node->name, "entry")) {
+			val = (char *)xmlGetProp (node, (const unsigned char *)"name");
 			found = val && strcmp (val, name) == 0;
 			xmlFree (val);
 			if (found)
@@ -144,7 +144,7 @@ e_bconf_get_value (xmlNodePtr root, const char *name)
 	xmlNodePtr node = e_bconf_get_entry (root, name);
 	char *prop, *val = NULL;
 	
-	if (node && (prop = xmlGetProp (node, "value"))) {
+	if (node && (prop = (char *)xmlGetProp (node, (const unsigned char *)"value"))) {
 		val = g_strdup (prop);
 		xmlFree (prop);
 	}
@@ -276,7 +276,7 @@ build_xml (xmlNodePtr root, e_bconf_map_t *map, int index, xmlNodePtr source)
 	
 	while (map->type != E_BCONF_MAP_END) {
 		if ((map->type & E_BCONF_MAP_MASK) == E_BCONF_MAP_CHILD) {
-			node = xmlNewChild (root, NULL, map->to, NULL);
+			node = xmlNewChild (root, NULL, (unsigned char *)map->to, NULL);
 			build_xml (node, map->child, index, source);
 		} else {
 			name = get_name (map->from, index);
@@ -286,9 +286,9 @@ build_xml (xmlNodePtr root, e_bconf_map_t *map, int index, xmlNodePtr source)
 			
 			if (map->type & E_BCONF_MAP_CONTENT) {
 				if (value && value[0])
-					xmlNewTextChild (root, NULL, map->to, value);
+					xmlNewTextChild (root, NULL, (unsigned char *)map->to, (unsigned char *)value);
 			} else {
-				xmlSetProp (root, map->to, value);
+				xmlSetProp (root, (unsigned char *)map->to, (unsigned char *)value);
 			}
 			
 			g_free (value);
@@ -325,8 +325,8 @@ e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map
 			xmlChar *xmlbuf;
 			int n;
 			
-			doc = xmlNewDoc ("1.0");
-			root = xmlNewDocNode (doc, NULL, name, NULL);
+			doc = xmlNewDoc ((const unsigned char *)"1.0");
+			root = xmlNewDocNode (doc, NULL, (unsigned char *)name, NULL);
 			xmlDocSetRootElement (doc, root);
 			
 			/* This could be set with a MAP_UID type ... */
@@ -334,7 +334,7 @@ e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map
 				char buf[16];
 				
 				sprintf (buf, "%d", i);
-				xmlSetProp (root, idparam, buf);
+				xmlSetProp (root, (unsigned char *)idparam, (unsigned char *)buf);
 			}
 			
 			build_xml (root, map, i, source);
@@ -454,7 +454,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 				break;
 			case E_GCONF_MAP_STRLIST: {
 				char *v = e_bconf_hex_decode (val);
-				char **t = g_strsplit (v, " !<-->! ", 8196);
+				char **t = g_strsplit (v, " !<-->!", 8196);
 				
 				list = NULL;
 				for (k = 0; t[k]; k++) {
@@ -473,11 +473,11 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 				
 				/* find the entry node */
 				while (node) {
-					if (!strcmp (node->name, "entry")) {
+					if (!strcmp ((char *)node->name, "entry")) {
 						int found;
 						
-						if ((tmp = xmlGetProp (node, "name"))) {
-							found = strcmp (tmp, map[j].from) == 0;
+						if ((tmp = (char *)xmlGetProp (node, (const unsigned char *)"name"))) {
+							found = strcmp ((char *)tmp, map[j].from) == 0;
 							xmlFree (tmp);
 							if (found)
 								break;
@@ -491,7 +491,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 				if (node) {
 					node = node->children;
 					while (node) {
-						if (strcmp (node->name, "any") == 0)
+						if (strcmp ((char *)node->name, "any") == 0)
 							break;
 						node = node->next;
 					}
@@ -501,7 +501,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 				if (node) {
 					node = node->children;
 					while (node) {
-						if (strcmp (node->name, "value") == 0)
+						if (strcmp ((char *)node->name, "value") == 0)
 							break;
 						node = node->next;
 					}
@@ -510,7 +510,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 				if (node) {
 					node = node->children;
 					while (node) {
-						if (strcmp (node->name, "value") == 0)
+						if (strcmp ((char *)node->name, "value") == 0)
 							list = g_slist_append (list, xmlNodeGetContent (node));
 						node = node->next;
 					}

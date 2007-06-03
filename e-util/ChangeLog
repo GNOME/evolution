@@ -1,3 +1,47 @@
+2007-06-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #438467 (Patch from Gilles Dartiguelongue)
+
+	* e-bconf-map.c: (e_bconf_hex_decode), (e_bconf_get_path),
+	(e_bconf_get_entry), (e_bconf_get_value), (build_xml),
+	(e_bconf_import_xml_blob), (e_bconf_import):
+	* e-config.c: (emph_construct_menu), (emph_construct):
+	* e-error.c: (ee_load):
+	* e-event.c: (emph_construct_item), (emph_construct):
+	* e-folder-map.c: (is_type_folder):
+	* e-html-utils.c: (url_extract), (email_address_extract),
+	(is_citation), (e_text_to_html_full):
+	* e-import.c: (emph_construct_importer), (emph_construct):
+	* e-menu.c: (emph_construct_menu), (emph_construct):
+	* e-pilot-map.c: (map_set_node_timet), (map_sax_start_element),
+	(map_write_foreach), (e_pilot_map_write):
+	* e-plugin.c: (ep_construct), (ep_load_plugin), (ep_load),
+	(ep_load_pending), (e_plugin_register_type), (e_plugin_xml_prop),
+	(e_plugin_xml_prop_domain), (e_plugin_xml_int),
+	(e_plugin_xml_content), (e_plugin_xml_content_domain),
+	(epl_construct), (e_plugin_hook_mask), (e_plugin_hook_id),
+	(epth_construct):
+	* e-popup.c: (emph_construct_menu), (emph_construct):
+	* e-signature.c: (xml_set_bool), (xml_set_prop), (xml_set_content),
+	(e_signature_uid_from_xml), (e_signature_set_from_xml),
+	(e_signature_to_xml):
+	* e-xml-utils.c: (e_xml_get_child_by_name_by_lang),
+	(e_xml_get_child_by_name_by_lang_list_with_score),
+	(e_xml_get_child_by_name_by_lang_list),
+	(e_xml_get_child_by_name_no_lang),
+	(e_xml_get_integer_prop_by_name_with_default),
+	(e_xml_set_integer_prop_by_name),
+	(e_xml_get_uint_prop_by_name_with_default),
+	(e_xml_set_uint_prop_by_name),
+	(e_xml_get_bool_prop_by_name_with_default),
+	(e_xml_set_bool_prop_by_name),
+	(e_xml_get_double_prop_by_name_with_default),
+	(e_xml_set_double_prop_by_name),
+	(e_xml_get_string_prop_by_name_with_default),
+	(e_xml_set_string_prop_by_name),
+	(e_xml_get_translated_string_prop_by_name): cast fixes and
+	compilation warning cleanups.
+
 2007-05-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fixes bug #432867

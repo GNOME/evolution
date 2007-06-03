@@ -94,7 +94,7 @@ url_extract (const unsigned char **text, gboolean full_url)
 			return NULL;
 	}
 
-	out = g_strndup (*text, end - *text);
+	out = g_strndup ((char *)*text, end - *text);
 	*text = end;
 	return out;
 }
@@ -128,7 +128,7 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 	if (dot > end)
 		return NULL;
 
-	addr = g_strndup (start, end - start);
+	addr = g_strndup ((char *)start, end - start);
 	*out -= *cur - start;
 	*cur = end;
 
@@ -146,7 +146,7 @@ is_citation (const unsigned char *c, gboolean saw_citation)
 	/* A line that starts with a ">" is a citation, unless it's
 	 * just mbox From-mangling...
 	 */
-	if (strncmp (c, ">From ", 6) != 0)
+	if (strncmp ((const char *)c, ">From ", 6) != 0)
 		return TRUE;
 
 	/* If the previous line was a citation, then say this
@@ -228,7 +228,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 	col = 0;
 
-	for (cur = linestart = input; cur && *cur; cur = next) {
+	for (cur = linestart = (const unsigned char *)input; cur && *cur; cur = next) {
 		gunichar u;
 
 		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
@@ -259,28 +259,28 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			out += sprintf (out, "&gt; ");
 		}
 
-		u = g_utf8_get_char (cur);
+		u = g_utf8_get_char ((char *)cur);
 		if (g_unichar_isalpha (u) &&
 		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
 
-			if (!g_ascii_strncasecmp (cur, "http://", 7) ||
-			    !g_ascii_strncasecmp (cur, "https://", 8) ||
-			    !g_ascii_strncasecmp (cur, "ftp://", 6) ||
-			    !g_ascii_strncasecmp (cur, "nntp://", 7) ||
-			    !g_ascii_strncasecmp (cur, "mailto:", 7) ||
-			    !g_ascii_strncasecmp (cur, "news:", 5) ||
-			    !g_ascii_strncasecmp (cur, "file:", 5) ||
-			    !g_ascii_strncasecmp (cur, "callto:", 7) ||
-			    !g_ascii_strncasecmp (cur, "h323:", 5) ||
-			    !g_ascii_strncasecmp (cur, "sip:", 4) ||
-			    !g_ascii_strncasecmp (cur, "webcal:", 7)) {
+			if (!g_ascii_strncasecmp ((char *)cur, "http://", 7) ||
+			    !g_ascii_strncasecmp ((char *)cur, "https://", 8) ||
+			    !g_ascii_strncasecmp ((char *)cur, "ftp://", 6) ||
+			    !g_ascii_strncasecmp ((char *)cur, "nntp://", 7) ||
+			    !g_ascii_strncasecmp ((char *)cur, "mailto:", 7) ||
+			    !g_ascii_strncasecmp ((char *)cur, "news:", 5) ||
+			    !g_ascii_strncasecmp ((char *)cur, "file:", 5) ||
+			    !g_ascii_strncasecmp ((char *)cur, "callto:", 7) ||
+			    !g_ascii_strncasecmp ((char *)cur, "h323:", 5) ||
+			    !g_ascii_strncasecmp ((char *)cur, "sip:", 4) ||
+			    !g_ascii_strncasecmp ((char *)cur, "webcal:", 7)) {
 				tmpurl = url_extract (&cur, TRUE);
 				if (tmpurl) {
 					refurl = e_text_to_html (tmpurl, 0);
 					dispurl = g_strdup (refurl);
 				}
-			} else if (!g_ascii_strncasecmp (cur, "www.", 4) &&
+			} else if (!g_ascii_strncasecmp ((char *)cur, "www.", 4) &&
 				   is_url_char (*(cur + 4))) {
 				tmpurl = url_extract (&cur, FALSE);
 				if (tmpurl) {
@@ -305,7 +305,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 			if (!*cur)
 				break;
-			u = g_utf8_get_char (cur);
+			u = g_utf8_get_char ((char *)cur);
 		}
 
 		if (u == '@' && (flags & E_TEXT_TO_HTML_CONVERT_ADDRESSES)) {
@@ -325,7 +325,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 				if (!*cur)
 					break;
-				u = g_utf8_get_char (cur);
+				u = g_utf8_get_char ((char *)cur);
 			}
 		}
 
@@ -336,7 +336,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			u = *cur;
 			next = cur + 1;
 		} else
-			next = g_utf8_next_char (cur);
+			next = (const unsigned char *)g_utf8_next_char (cur);
 
 		out = check_size (&buffer, &buffer_size, out, 10);
 

@@ -1396,7 +1396,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	d(printf(" loading menu\n"));
 	menu = g_malloc0(sizeof(*menu));
 
-	tmp = xmlGetProp(root, "target");
+	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -1417,7 +1417,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	menu->hook = (EConfigHook *)eph;
 	node = root->children;
 	while (node) {
-		if (0 == strcmp(node->name, "item")) {
+		if (0 == strcmp((char *)node->name, "item")) {
 			struct _EConfigItem *item;
 
 			item = emph_construct_item(eph, menu, node, map);
@@ -1448,7 +1448,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp(node->name, "group") == 0) {
+		if (strcmp((char *)node->name, "group") == 0) {
 			struct _EConfigHookGroup *group;
 
 			group = emph_construct_menu(eph, node);

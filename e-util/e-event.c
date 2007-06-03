@@ -433,7 +433,7 @@ emph_construct_item(EPluginHook *eph, xmlNodePtr root, EEventHookClass *klass)
 
 	item = g_malloc0(sizeof(*item));
 
-	tmp = xmlGetProp(root, "target");
+	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -478,7 +478,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp(node->name, "event") == 0) {
+		if (strcmp((char *)node->name, "event") == 0) {
 			struct _EEventItem *item;
 
 			item = emph_construct_item(eph, node, klass);

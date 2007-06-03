@@ -58,7 +58,7 @@ is_type_folder (const char *metadata, const char *search_type)
 		return FALSE;
 	}
 	
-	if (!node->name || strcmp (node->name, "efolder") != 0) {
+	if (!node->name || strcmp ((char *)node->name, "efolder") != 0) {
 		g_warning ("`%s' corrupt: root node is not 'efolder'", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
@@ -66,8 +66,8 @@ is_type_folder (const char *metadata, const char *search_type)
 	
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp (node->name, "type")) {
-			type = xmlNodeGetContent (node);
+		if (node->name && !strcmp ((char *)node->name, "type")) {
+			type = (char *)xmlNodeGetContent (node);
 			if (!strcmp (type, search_type)) {
 				xmlFreeDoc (doc);
 				xmlFree (type);

@@ -491,7 +491,7 @@ emph_construct_importer(EPluginHook *eph, xmlNodePtr root)
 	d(printf("  loading import item\n"));
 	item = g_malloc0(sizeof(*item));
 
-	tmp = xmlGetProp(root, "target");
+	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -542,7 +542,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp(node->name, "importer") == 0) {
+		if (strcmp((char *)node->name, "importer") == 0) {
 			struct _EImportHookImporter *ihook;
 
 			ihook = emph_construct_importer(eph, node);

@@ -757,7 +757,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	menu = g_malloc0(sizeof(*menu));
 	menu->hook = (EMenuHook *)eph;
 
-	tmp = xmlGetProp(root, "target");
+	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -774,14 +774,14 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	}
 	node = root->children;
 	while (node) {
-		if (0 == strcmp(node->name, "item")) {
+		if (0 == strcmp((char *)node->name, "item")) {
 			struct _EMenuItem *item;
 
 			item = emph_construct_item(eph, menu, node, map);
 			if (item)
 				menu->items = g_slist_append(menu->items, item);
-		} else if (0 == strcmp(node->name, "ui")) {
-			tmp = xmlGetProp(node, "file");
+		} else if (0 == strcmp((char *)node->name, "ui")) {
+			tmp = (char *)xmlGetProp(node, (const unsigned char *)"file");
 			if (tmp) {
 				EMenuUIFile *ui = g_malloc0(sizeof(*ui));
 
@@ -801,7 +801,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 				ui->appname = g_strdup("Evolution");
 				menu->uis = g_slist_append(menu->uis, ui);
 			}
-		} else if (0 == strcmp(node->name, "pixmap")) {
+		} else if (0 == strcmp((char *)node->name, "pixmap")) {
 			struct _EMenuPixmap *pixmap;
 
 			pixmap = emph_construct_pixmap(eph, menu, node);
@@ -836,7 +836,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp(node->name, "menu") == 0) {
+		if (strcmp((char *)node->name, "menu") == 0) {
 			struct _EMenuHookMenu *menu;
 
 			menu = emph_construct_menu(eph, node);

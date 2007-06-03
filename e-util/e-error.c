@@ -178,8 +178,8 @@ ee_load(const char *path)
 
 	root = xmlDocGetRootElement(doc);
 	if (root == NULL
-	    || strcmp(root->name, "error-list") != 0
-	    || (tmp = xmlGetProp(root, "domain")) == NULL) {
+	    || strcmp((char *)root->name, "error-list") != 0
+	    || (tmp = (char *)xmlGetProp(root, (const unsigned char *)"domain")) == NULL) {
 		g_warning("Error file '%s' invalid format", path);
 		xmlFreeDoc(doc);
 		return;
@@ -194,12 +194,12 @@ ee_load(const char *path)
 		table->errors = g_hash_table_new(g_str_hash, g_str_equal);
 		g_hash_table_insert(error_table, table->domain, table);
 
-		tmp2 = xmlGetProp(root, "translation-domain");
+		tmp2 = (char *)xmlGetProp(root, (const unsigned char *)"translation-domain");
 		if (tmp2) {
 			table->translation_domain = g_strdup(tmp2);
 			xmlFree(tmp2);
 
-			tmp2 = xmlGetProp(root, "translation-localedir");
+			tmp2 = (char *)xmlGetProp(root, (const unsigned char *)"translation-localedir");
 			if (tmp2) {
 				bindtextdomain(table->translation_domain, tmp2);
 				xmlFree(tmp2);
@@ -210,8 +210,8 @@ ee_load(const char *path)
 	xmlFree(tmp);
 
 	for (error = root->children;error;error = error->next) {
-		if (!strcmp(error->name, "error")) {
-			tmp = xmlGetProp(error, "id");
+		if (!strcmp((char *)error->name, "error")) {
+			tmp = (char *)xmlGetProp(error, (const unsigned char *)"id");
 			if (tmp == NULL)
 				continue;
 
@@ -222,25 +222,25 @@ ee_load(const char *path)
 			xmlFree(tmp);
 			lastbutton = (struct _e_error_button *)&e->buttons;
 
-			tmp = xmlGetProp(error, "modal");
+			tmp = (char *)xmlGetProp(error, (const unsigned char *)"modal");
 			if (tmp) {
 				if (!strcmp(tmp, "true"))
 					e->flags |= GTK_DIALOG_MODAL;
 				xmlFree(tmp);
 			}
 
-			tmp = xmlGetProp(error, "type");
+			tmp = (char *)xmlGetProp(error, (const unsigned char *)"type");
 			e->type = map_type(tmp);
 			if (tmp)
 				xmlFree(tmp);
 
-			tmp = xmlGetProp(error, "default");
+			tmp = (char *)xmlGetProp(error, (const unsigned char *)"default");
 			if (tmp) {
 				e->default_response = map_response(tmp);
 				xmlFree(tmp);
 			}
 			
-			tmp = xmlGetProp(error, "scroll");
+			tmp = (char *)xmlGetProp(error, (const unsigned char *)"scroll");
 			if (tmp) {
 				if (!strcmp(tmp, "yes"))
 					e->scroll = TRUE;
@@ -248,42 +248,42 @@ ee_load(const char *path)
 			}
 
 			for (scan = error->children;scan;scan=scan->next) {
-				if (!strcmp(scan->name, "primary")) {
-					if ((tmp = xmlNodeGetContent(scan))) {
+				if (!strcmp((char *)scan->name, "primary")) {
+					if ((tmp = (char *)xmlNodeGetContent(scan))) {
 						e->primary = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
-				} else if (!strcmp(scan->name, "secondary")) {
-					if ((tmp = xmlNodeGetContent(scan))) {
+				} else if (!strcmp((char *)scan->name, "secondary")) {
+					if ((tmp = (char *)xmlNodeGetContent(scan))) {
 						e->secondary = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
-				} else if (!strcmp(scan->name, "title")) {
-					if ((tmp = xmlNodeGetContent(scan))) {
+				} else if (!strcmp((char *)scan->name, "title")) {
+					if ((tmp = (char *)xmlNodeGetContent(scan))) {
 						e->title = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
-				} else if (!strcmp(scan->name, "help")) {
-					tmp = xmlGetProp(scan, "uri");
+				} else if (!strcmp((char *)scan->name, "help")) {
+					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"uri");
 					if (tmp) {
 						e->help_uri = g_strdup(tmp);
 						xmlFree(tmp);
 					}
-				} else if (!strcmp(scan->name, "button")) {
+				} else if (!strcmp((char *)scan->name, "button")) {
 					struct _e_error_button *b;
 
 					b = g_malloc0(sizeof(*b));
-					tmp = xmlGetProp(scan, "stock");
+					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"stock");
 					if (tmp) {
 						b->stock = g_strdup(tmp);
 						xmlFree(tmp);
 					}
-					tmp = xmlGetProp(scan, "label");
+					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"label");
 					if (tmp) {
 						b->label = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
-					tmp = xmlGetProp(scan, "response");
+					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"response");
 					if (tmp) {
 						b->response = map_response(tmp);
 						xmlFree(tmp);

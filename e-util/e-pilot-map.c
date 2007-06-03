@@ -95,7 +95,7 @@ map_set_node_timet (xmlNodePtr node, const char *name, time_t t)
 	char *tstring;
 	
 	tstring = g_strdup_printf ("%ld", t);
-	xmlSetProp (node, name, tstring);
+	xmlSetProp (node, (unsigned char *)name, (unsigned char *)tstring);
 	g_free (tstring);
 }
 
@@ -105,19 +105,19 @@ map_sax_start_element (void *data, const xmlChar *name,
 {
 	EPilotMap *map = (EPilotMap *)data;
 
-	if (!strcmp (name, "PilotMap")) {
+	if (!strcmp ((char *)name, "PilotMap")) {
 		while (attrs && *attrs != NULL) {
 			const xmlChar **val = attrs;
 			
 			val++;
-			if (!strcmp (*attrs, "timestamp")) 
-				map->since = (time_t)strtoul (*val, NULL, 0);
+			if (!strcmp ((char *)*attrs, "timestamp")) 
+				map->since = (time_t)strtoul ((char *)*val, NULL, 0);
 
 			attrs = ++val;
 		}
 	}
 	 
-	if (!strcmp (name, "map")) {
+	if (!strcmp ((char *)name, "map")) {
 		const char *uid = NULL;
 		guint32 pid = 0;
 		gboolean archived = FALSE;
@@ -126,14 +126,14 @@ map_sax_start_element (void *data, const xmlChar *name,
 			const xmlChar **val = attrs;
 			
 			val++;
-			if (!strcmp (*attrs, "uid")) 
-				uid = *val;
+			if (!strcmp ((char *)*attrs, "uid")) 
+				uid = (char *)*val;
 			
-			if (!strcmp (*attrs, "pilot_id"))
-				pid = strtoul (*val, NULL, 0);
+			if (!strcmp ((char *)*attrs, "pilot_id"))
+				pid = strtoul ((char *)*val, NULL, 0);
 
-			if (!strcmp (*attrs, "archived"))
-				archived = strtoul (*val, NULL, 0)== 1 ? TRUE : FALSE;
+			if (!strcmp ((char *)*attrs, "archived"))
+				archived = strtoul ((char *)*val, NULL, 0)== 1 ? TRUE : FALSE;
 				
 			attrs = ++val;
 		}
@@ -157,18 +157,18 @@ map_write_foreach (gpointer key, gpointer value, gpointer data)
 	if (wd->touched_only && !unode->touched)
 		return;
 	
-	mnode = xmlNewChild (root, NULL, "map", NULL);
-	xmlSetProp (mnode, "uid", uid);
+	mnode = xmlNewChild (root, NULL, (const unsigned char *)"map", NULL);
+	xmlSetProp (mnode, (const unsigned char *)"uid", (unsigned char *)uid);
 
 	if (unode->archived) {
-		xmlSetProp (mnode, "archived", "1");
+		xmlSetProp (mnode, (const unsigned char *)"archived", (const unsigned char *)"1");
 	} else {
 		char *pidstr;
 
 		pidstr = g_strdup_printf ("%d", unode->pid);
-		xmlSetProp (mnode, "pilot_id", pidstr);
+		xmlSetProp (mnode, (const unsigned char *)"pilot_id", (unsigned char *)pidstr);
 		g_free (pidstr);
-		xmlSetProp (mnode, "archived", "0");
+		xmlSetProp (mnode, (const unsigned char *)"archived", (const unsigned char *)"0");
 	}
 }
 
@@ -390,12 +390,12 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (map != NULL, -1);
 	
-	doc = xmlNewDoc ("1.0");
+	doc = xmlNewDoc ((const unsigned char *)"1.0");
 	if (doc == NULL) {
 		g_warning ("Pilot map file could not be created\n");
 		return -1;
 	}
-	xmlDocSetRootElement (doc, xmlNewDocNode(doc, NULL, "PilotMap", NULL));
+	xmlDocSetRootElement (doc, xmlNewDocNode(doc, NULL, (const unsigned char *)"PilotMap", NULL));
 	map->since = time (NULL);
 	map_set_node_timet (xmlDocGetRootElement (doc), "timestamp", map->since);
 
