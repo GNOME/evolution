@@ -216,6 +216,12 @@
   <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="prompt-send-no-subject-memo" type="question" default="GTK_RESPONSE_CANCEL">
+  <_primary>Are you sure you want to save the memo without a summary?</_primary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="_Save" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="prompt-no-contents-offline-calendar" type="error" default="GTK_RESPONSE_YES">
   <_primary>Error loading calendar</_primary>
   <_secondary>The calendar is not marked for offline usage.</_secondary>

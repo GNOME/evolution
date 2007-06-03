@@ -1,3 +1,14 @@
+2006-09-08  Ushveen Kaur <kushveen@novell.com>
+
+	** Fixes bug #347767
+	
+	* gui/dialogs/send-comp.c : (send_component_prompt_subject):
+	error id "calendar:prompt-send-no-subject-memo" or
+	"calendar:prompt-send-no-subject-memo-to-recipients" is called
+	when memo is saved without a summary.
+	* calendar.error.xml : error id "prompt-send-no-subject-memo" is
+	added.
+	
 2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	** Fixes bug #439122

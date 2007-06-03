@@ -92,7 +92,9 @@ send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *c
 			id = "calendar:prompt-send-no-subject-task";
 		break;
 	case E_CAL_COMPONENT_JOURNAL:
-			return TRUE; /* we don't do summaries directly */
+			id = "calendar:prompt-send-no-subject-memo";
+		break;
+
 	default:
 		g_message ("send_component_prompt_subject(): "
 			   "Cannot handle object of type %d", vtype);
