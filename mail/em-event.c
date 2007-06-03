@@ -153,7 +153,7 @@ em_event_target_new_composer (EMEvent *eme, const EMsgComposer *composer, guint3
 {
 	EMEventTargetComposer *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_COMPOSER, sizeof(*t));
 
-	t->composer = g_object_ref(composer);
+	t->composer = g_object_ref(G_OBJECT(composer));
 	t->target.mask = ~flags;
 
 	return t;

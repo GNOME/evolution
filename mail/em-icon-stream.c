@@ -143,7 +143,7 @@ emis_sync_write(CamelStream *stream, const char *buffer, size_t n)
 	if (emis->loader == NULL)
 		return -1;
 
-	if (!gdk_pixbuf_loader_write(emis->loader, buffer, n, NULL)) {
+	if (!gdk_pixbuf_loader_write(emis->loader, (const unsigned char *)buffer, n, NULL)) {
 		emis_cleanup(emis);
 		return -1;
 	}

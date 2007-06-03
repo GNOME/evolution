@@ -118,7 +118,7 @@ xml_find_node (xmlNodePtr parent, const char *name)
 	
 	node = parent->children;
 	while (node != NULL) {
-		if (node->name && !strcmp (node->name, name))
+		if (node->name && !strcmp ((char *)node->name, name))
 			return node;
 		
 		node = node->next;
@@ -136,7 +136,7 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
 		return;
 	
-	if (!root->name || strcmp (root->name, "filteroptions") != 0) {
+	if (!root->name || strcmp ((char *)root->name, "filteroptions") != 0) {
 		/* root node is not <filteroptions>, nothing to upgrade */
 		return;
 	}
@@ -148,27 +148,27 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 	
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp (node->name, "rule")) {
+		if (node->name && !strcmp ((char *)node->name, "rule")) {
 			xmlNodePtr actionset, part, val, n;
 			
 			if ((actionset = xml_find_node (node, "actionset"))) {
 				/* filters.xml */
 				part = actionset->children;
 				while (part != NULL) {
-					if (part->name && !strcmp (part->name, "part")) {
+					if (part->name && !strcmp ((char *)part->name, "part")) {
 						val = part->children;
 						while (val != NULL) {
-							if (val->name && !strcmp (val->name, "value")) {
+							if (val->name && !strcmp ((char *)val->name, "value")) {
 								char *type;
 								
-								type = xmlGetProp (val, "type");
-								if (type && !strcmp (type, "folder")) {
+								type = (char *)xmlGetProp (val, (const unsigned char *)"type");
+								if (type && !strcmp ((char *)type, "folder")) {
 									if ((n = xml_find_node (val, "folder"))) {
-										uri = xmlGetProp (n, "uri");
+										uri = (char *)xmlGetProp (n, (const unsigned char *)"uri");
 										new = upgrade_uri (uri);
 										xmlFree (uri);
 										
-										xmlSetProp (n, "uri", new);
+										xmlSetProp (n, (const unsigned char *)"uri", (unsigned char *)new);
 										g_free (new);
 									}
 								}
@@ -186,12 +186,12 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 				/* vfolders.xml */
 				n = actionset->children;
 				while (n != NULL) {
-					if (n->name && !strcmp (n->name, "folder")) {
-						uri = xmlGetProp (n, "uri");
+					if (n->name && !strcmp ((char *)n->name, "folder")) {
+						uri = (char *)xmlGetProp (n, (const unsigned char *)"uri");
 						new = upgrade_uri (uri);
 						xmlFree (uri);
 						
-						xmlSetProp (n, "uri", new);
+						xmlSetProp (n, (const unsigned char *)"uri", (unsigned char *)new);
 						g_free (new);
 					}
 					
@@ -324,7 +324,7 @@ upgrade_xml_uris_1_0 (const char *uri)
 		folder = g_strdup (uri + strlen (base_uri) + 1);
 		
 		/* Add the namespace before the mailbox name, unless the mailbox is INBOX */
-		if (ai->u.imap.namespace && strcmp (folder, "INBOX") != 0)
+		if (ai->u.imap.namespace && strcmp ((char *)folder, "INBOX") != 0)
 			out = g_strdup_printf ("%s/%s/%s", base_uri, ai->u.imap.namespace, folder);
 		else
 			out = g_strdup_printf ("%s/%s", base_uri, folder);
@@ -522,11 +522,11 @@ load_accounts_1_0 (xmlDocPtr doc)
 			   - this will be picked up later in the conversion */
 			sprintf (key, "transport_url_%d", i);
 			node = e_bconf_get_entry (source, key);
-			if (node && (val = xmlGetProp (node, "value"))) {
+			if (node && (val = (char *)xmlGetProp (node, (const unsigned char *)"value"))) {
 				tmp = e_bconf_hex_decode (val);
 				xmlFree (val);
 				if (strncmp (tmp, "exchanget:", 10) == 0)
-					xmlSetProp (node, "value", rawuri);
+					xmlSetProp (node, (const unsigned char *)"value", (unsigned char *)rawuri);
 				g_free (tmp);
 			} else {
 				d(printf (" couldn't find transport uri?\n"));
@@ -631,17 +631,17 @@ static char *
 utf8_reencode (const char *txt)
 {
 	GString *out = g_string_new ("");
-	const unsigned char *p;
+	gchar *p;
 	char *res;
 	
 	/* convert:
         libxml1  8 bit utf8 converted to xml entities byte-by-byte chars -> utf8 */
 	
-	p =  (const unsigned char *) txt;
+	p =  (gchar *)txt;
 	
 	while (*p) {
-		g_string_append_c (out,(char) g_utf8_get_char (p));
-		p = g_utf8_next_char (p);
+		g_string_append_c (out, (gchar)g_utf8_get_char ((const gchar *)p));
+		p = (gchar *)g_utf8_next_char (p);
 	}
 	
 	res = out->str;
@@ -677,18 +677,18 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 	/* upgrades the content of a node, if the node has a specific parent/node name */
 	
 	for (i = 0; tags[i].name; i++) {
-		if (!strcmp (node->name, tags[i].name)) {
+		if (!strcmp ((char *)node->name, tags[i].name)) {
 			if (tags[i].tags != NULL) {
 				work = node->children;
 				while (work) {
 					for (j = 0; tags[i].tags[j]; j++) {
-						if (!strcmp (work->name, tags[i].tags[j])) {
-							txt = xmlNodeGetContent (work);
+						if (!strcmp ((char *)work->name, tags[i].tags[j])) {
+							txt = (char *)xmlNodeGetContent (work);
 							if (is_xml1encoded (txt)) {
 								tmp = decode_xml1 (txt);
 								d(printf ("upgrading xml node %s/%s '%s' -> '%s'\n",
 									  tags[i].name, tags[i].tags[j], txt, tmp));
-								xmlNodeSetContent (work, tmp);
+								xmlNodeSetContent (work, (unsigned char *)tmp);
 								g_free (tmp);
 							}
 							xmlFree (txt);
@@ -701,11 +701,11 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 			
 			if (tags[i].props != NULL) {
 				for (j = 0; tags[i].props[j]; j++) {
-					txt = xmlGetProp (node, tags[i].props[j]);
+					txt = (char *)xmlGetProp (node, (unsigned char *)tags[i].props[j]);
 					tmp = utf8_reencode (txt);
 					d(printf ("upgrading xml property %s on node %s '%s' -> '%s'\n",
 						  tags[i].props[j], tags[i].name, txt, tmp));
-					xmlSetProp (node, tags[i].props[j], tmp);
+					xmlSetProp (node, (const unsigned char *)tags[i].props[j], (unsigned char *)tmp);
 					g_free (tmp);
 					xmlFree (txt);
 				}
@@ -752,15 +752,15 @@ upgrade_passwords_1_2(void)
 		return 0;
 
 	root = priv_doc->children;
-	if (strcmp(root->name, "bonobo-config") != 0) {
+	if (strcmp((char *)root->name, "bonobo-config") != 0) {
 		xmlFreeDoc(priv_doc);
 		return 0;
 	}
 
 	root = root->children;
 	while (root) {
-		if (!strcmp(root->name, "section")) {
-			char *path = xmlGetProp(root, "path");
+		if (!strcmp((char *)root->name, "section")) {
+			char *path = (char *)xmlGetProp(root, (const unsigned char *)"path");
 
 			/* All sections of form
 			   <section path="/Passwords/COMPONENT">
@@ -772,8 +772,9 @@ upgrade_passwords_1_2(void)
 			if (path && !strncmp(path, "/Passwords/", 11)) {
 				entry = root->children;
 				while (entry) {
-					if (!strcmp(entry->name, "entry")) {
-						char *namep = xmlGetProp(entry, "name"), *valuep = xmlGetProp(entry, "value");
+					if (!strcmp((char *)entry->name, "entry")) {
+						char *namep = (char *)xmlGetProp(entry, (const unsigned char *)"name"),
+						     *valuep = (char *)xmlGetProp(entry, (const unsigned char *)"value");
 						
 						if (namep && valuep) {
 							char *value = e_bconf_hex_decode(valuep);
@@ -1282,7 +1283,7 @@ is_mail_folder (const char *metadata)
 		return FALSE;
 	}
 	
-	if (!node->name || strcmp (node->name, "efolder") != 0) {
+	if (!node->name || strcmp ((char *)node->name, "efolder") != 0) {
 		g_warning ("`%s' corrupt: root node is not 'efolder'", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
@@ -1290,9 +1291,9 @@ is_mail_folder (const char *metadata)
 	
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp (node->name, "type")) {
-			type = xmlNodeGetContent (node);
-			if (!strcmp (type, "mail")) {
+		if (node->name && !strcmp ((char *)node->name, "type")) {
+			type = (char *)xmlNodeGetContent (node);
+			if (!strcmp ((char *)type, "mail")) {
 				xmlFreeDoc (doc);
 				xmlFree (type);
 				
@@ -1337,12 +1338,12 @@ get_local_et_expanded (const char *dirname)
 	
 	g_free (buf);
 	
-	if (!(node = xmlDocGetRootElement (doc)) || strcmp (node->name, "expanded_state") != 0) {
+	if (!(node = xmlDocGetRootElement (doc)) || strcmp ((char *)node->name, "expanded_state") != 0) {
 		xmlFreeDoc (doc);
 		return -1;
 	}
 	
-	if (!(buf = xmlGetProp (node, "default"))) {
+	if (!(buf = (char *)xmlGetProp (node, (const unsigned char *)"default"))) {
 		xmlFreeDoc (doc);
 		return -1;
 	}
@@ -1381,24 +1382,24 @@ get_local_store_uri (const char *dirname, char **namep, int *indexp)
 		goto nofile;
 
 	node = doc->children;
-	if (strcmp(node->name, "folderinfo"))
+	if (strcmp((char *)node->name, "folderinfo"))
 		goto dodefault;
 	
 	for (node = node->children; node; node = node->next) {
-		if (node->name && !strcmp (node->name, "folder")) {
-			tmp = xmlGetProp (node, "type");
+		if (node->name && !strcmp ((char *)node->name, "folder")) {
+			tmp = (char *)xmlGetProp (node, (const unsigned char *)"type");
 			if (tmp) {
 				protocol = alloca(strlen(tmp)+1);
 				strcpy(protocol, tmp);
 				xmlFree(tmp);
 			}
-			tmp = xmlGetProp (node, "name");
+			tmp = (char *)xmlGetProp (node, (const unsigned char *)"name");
 			if (tmp) {
 				name = alloca(strlen(tmp)+1);
 				strcpy(name, tmp);
 				xmlFree(tmp);
 			}
-			tmp = xmlGetProp (node, "index");
+			tmp = (char *)xmlGetProp (node, (const unsigned char *)"index");
 			if (tmp) {
 				index = atoi(tmp);
 				xmlFree(tmp);
@@ -1939,7 +1940,7 @@ upgrade_vfolder_sources_1_4 (xmlDocPtr doc)
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
 		return;
 	
-	if (!root->name || strcmp (root->name, "filteroptions") != 0) {
+	if (!root->name || strcmp ((char *)root->name, "filteroptions") != 0) {
 		/* root node is not <filteroptions>, nothing to upgrade */
 		return;
 	}
@@ -1951,19 +1952,19 @@ upgrade_vfolder_sources_1_4 (xmlDocPtr doc)
 	
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp (node->name, "rule")) {
+		if (node->name && !strcmp ((char *)node->name, "rule")) {
 			xmlNodePtr sources;
 			char *src;
 			
-			if (!(src = xmlGetProp (node, "source")))
-				src = xmlStrdup ("local");  /* default to all local folders? */
+			if (!(src = (char *)xmlGetProp (node, (const unsigned char *)"source")))
+				src = (char *)xmlStrdup ((const unsigned char *)"local");  /* default to all local folders? */
 			
-			xmlSetProp (node, "source", "incoming");
+			xmlSetProp (node, (const unsigned char *)"source", (const unsigned char *)"incoming");
 			
 			if (!(sources = xml_find_node (node, "sources")))
-				sources = xmlNewChild (node, NULL, "sources", NULL);
+				sources = xmlNewChild (node, NULL, (const unsigned char *)"sources", NULL);
 			
-			xmlSetProp (sources, "with", src);
+			xmlSetProp (sources, (const unsigned char *)"with", (unsigned char *)src);
 			xmlFree (src);
 		}
 		
@@ -2289,7 +2290,7 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 		if (!(ext = strrchr (dent->d_name, '.')))
 			continue;
 		
-		if (!strcmp (ext, ".galview") || !strcmp (dent->d_name, "galview.xml")) {
+		if (!strcmp (ext, ".galview") || !strcmp ((char *)dent->d_name, "galview.xml")) {
 			/* just copy the file */
 			filename = dent->d_name;
 			goto copy;
@@ -2297,9 +2298,9 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 			continue;
 		}
 		
-		if (!strncmp (dent->d_name, "current_view-", 13)) {
+		if (!strncmp ((const char *)dent->d_name, "current_view-", 13)) {
 			prelen = 13;
-		} else if (!strncmp (dent->d_name, "custom_view-", 12)) {
+		} else if (!strncmp ((const char *)dent->d_name, "custom_view-", 12)) {
 			prelen = 12;
 		} else {
 			/* huh? wtf is this file? */
@@ -2528,7 +2529,7 @@ remove_system_searches(xmlDocPtr searches)
 	 * searchtypes.xml file instead */
 
 	node = xmlDocGetRootElement(searches);
-	if (!node->name || strcmp(node->name, "filteroptions"))
+	if (!node->name || strcmp((char *)node->name, "filteroptions"))
 		return;
 
 	if (!(node = xml_find_node(node, "ruleset")))
@@ -2538,11 +2539,11 @@ remove_system_searches(xmlDocPtr searches)
 	while (node != NULL) {
 		xmlNodePtr nnode = node->next;
 
-		if (node->name && !strcmp (node->name, "rule")) {
+		if (node->name && !strcmp ((char *)node->name, "rule")) {
 			char *src;
 
-			src = xmlGetProp(node, "source");
-			if (src && !strcmp(src, "demand")) {
+			src = (char *)xmlGetProp(node, (unsigned char *)"source");
+			if (src && !strcmp((char *)src, "demand")) {
 				xmlUnlinkNode(node);
 				xmlFreeNodeList(node);
 			}
@@ -2645,7 +2646,7 @@ emm_setup_initial(const char *evolution_dir)
 {
 	GDir *dir;
 	const char *d;
-	char *local, *base;
+	char *local = NULL, *base;
 	const gchar * const *language_names;
 
 	/* special-case - this means brand new install of evolution */

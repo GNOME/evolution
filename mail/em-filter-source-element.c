@@ -177,12 +177,12 @@ xml_encode(FilterElement *fe)
 	
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	
-	value = xmlNewNode(NULL, "value");
-	xmlSetProp(value, "name", fe->name);
-	xmlSetProp(value, "type", "uri");
+	value = xmlNewNode(NULL, (const unsigned char *)"value");
+	xmlSetProp(value, (const unsigned char *)"name", (unsigned char *)fe->name);
+	xmlSetProp(value, (const unsigned char *)"type", (const unsigned char *)"uri");
 	
 	if (fs->priv->current_url)
-		xmlNewTextChild(value, NULL, "uri", fs->priv->current_url);
+		xmlNewTextChild(value, NULL, (const unsigned char *)"uri", (unsigned char *)fs->priv->current_url);
 	
 	return value;
 }
@@ -196,8 +196,8 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 	
 	node = node->children;
 	while (node != NULL) {
-		if (!strcmp(node->name, "uri")) {
-			uri = xmlNodeGetContent(node);
+		if (!strcmp((char *)node->name, "uri")) {
+			uri = (char *)xmlNodeGetContent(node);
 			url = camel_url_new(uri, NULL);
 			xmlFree(uri);
 			
@@ -220,7 +220,7 @@ clone(FilterElement *fe)
 	EMFilterSourceElement *cpy = em_filter_source_element_new();
 	GList *i;
 	
-	((FilterElement *)cpy)->name = xmlStrdup(fe->name);
+	((FilterElement *)cpy)->name = (char *)xmlStrdup((unsigned char *)fe->name);
 	
 	cpy->priv->current_url = g_strdup(fs->priv->current_url);
 	

@@ -720,7 +720,7 @@ emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint 
 	if (p->selection_uri == NULL)
 		return;
 
-	gtk_selection_data_set(data, data->target, 8, p->selection_uri, strlen(p->selection_uri));
+	gtk_selection_data_set(data, data->target, 8, (unsigned char *)p->selection_uri, strlen(p->selection_uri));
 }
 
 static void
@@ -961,7 +961,7 @@ emfv_popup_delete(EPopup *ep, EPopupItem *pitem, void *data)
 
 	for (count=0; count < uids->len; count++) {
 		if (camel_folder_get_message_flags (emfv->folder, uids->pdata[count]) & CAMEL_MESSAGE_USER_NOT_DELETABLE) {
-			if ((EMFormatHTML *)emfv->preview_active) {
+			if (emfv->preview_active) {
 				GtkHTMLStream *hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
 
 				gtk_html_stream_printf(hstream, "<h2>%s</h2><p>%s</p>",
@@ -1514,7 +1514,7 @@ static void
 emfv_message_reply(EMFolderView *emfv, int mode)
 {
 	char *html;
-	guint len;
+	gint len;
 	
 	if (emfv->list->cursor_uid == NULL)
 		return;
@@ -2929,7 +2929,7 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 			camel_url_free(curl);
 			camel_object_unref(cia);
 		} else if (!strncmp (url, "##", 2)) {
-			nice_url = g_strdup_printf (_("Click to hide/unhide addresses"), url);
+			nice_url = _("Click to hide/unhide addresses");
 		} else
 			nice_url = g_strdup_printf (_("Click to open %s"), url);
 	}

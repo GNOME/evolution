@@ -361,7 +361,7 @@ address_compare (gconstpointer address1, gconstpointer address2)
 	e_mail_address_free (addr1);
 	e_mail_address_free (addr2);
 #else
-	retval = strcmp ((const char *) address1, (const char *) address2);
+	retval = strcmp ((char *) address1, (char *) address2);
 #endif /* SMART_ADDRESS_COMPARE */
 	
 	return retval;
@@ -459,7 +459,7 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 		const unsigned char *subject;
 		
 		subject = (const unsigned char *) string;
-		while (!g_ascii_strncasecmp (subject, "Re:", 3)) {
+		while (!g_ascii_strncasecmp ((char *)subject, "Re:", 3)) {
 			subject += 3;
 			
 			/* jump over any spaces */
@@ -1749,6 +1749,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 	if (message_list->folder) {
 		char *path;
 		char *name;
+		int data = 1;
 		struct stat st;
 		ETableItem *item = e_tree_get_item (message_list->tree);
 
@@ -1760,7 +1761,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		d(printf ("folder name is '%s'\n", name));
 		
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
-		g_object_set_data (G_OBJECT (((GnomeCanvasItem *) item)->canvas), "freeze-cursor", 1);
+		g_object_set_data (G_OBJECT (((GnomeCanvasItem *) item)->canvas), "freeze-cursor", &data);
 
 		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
@@ -3640,7 +3641,7 @@ load_hide_state (MessageList *ml)
 {
 	char *filename;
 	FILE *in;
-	guint32 version, lower, upper;
+	gint32 version, lower, upper;
 
 	MESSAGE_LIST_LOCK(ml, hide_lock);
 	if (ml->hidden) {

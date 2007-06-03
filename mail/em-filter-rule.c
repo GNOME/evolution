@@ -221,7 +221,7 @@ xml_encode(FilterRule *fr)
 	
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
 	g_assert(node != NULL);
-	set = xmlNewNode(NULL, "actionset");
+	set = xmlNewNode(NULL, (const unsigned char *)"actionset");
 	xmlAddChild(node, set);
 	l = ff->actions;
 	while (l) {
@@ -243,8 +243,8 @@ load_set(xmlNodePtr node, EMFilterRule *ff, RuleContext *rc)
 	
 	work = node->children;
 	while (work) {
-		if (!strcmp(work->name, "part")) {
-			rulename = xmlGetProp(work, "name");
+		if (!strcmp((char *)work->name, "part")) {
+			rulename = (char *)xmlGetProp(work, (const unsigned char *)"name");
 			part = em_filter_context_find_action((EMFilterContext *)rc, rulename);
 			if (part) {
 				part = filter_part_clone(part);
@@ -274,7 +274,7 @@ xml_decode(FilterRule *fr, xmlNodePtr node, RuleContext *rc)
 	
 	work = node->children;
 	while (work) {
-		if (!strcmp(work->name, "actionset")) {
+		if (!strcmp((char *)work->name, "actionset")) {
 			load_set(work, ff, rc);
 		}
 		work = work->next;

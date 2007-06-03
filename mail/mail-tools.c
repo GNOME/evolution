@@ -110,7 +110,7 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 	char *path, *full;
 	struct stat st;
 
-	safe_uri = g_strdup (uri);
+	safe_uri = (unsigned char *)g_strdup ((const gchar *)uri);
 	for (c = safe_uri; *c; c++)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((int) *c))
 			*c = '_';
@@ -154,7 +154,7 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 	}
 	
 	/* Set up our destination. */
-	dest_path = mail_tool_get_local_movemail_path (source_url, ex);
+	dest_path = mail_tool_get_local_movemail_path ((unsigned char *)source_url, ex);
 	if (dest_path == NULL)
 		return NULL;
 

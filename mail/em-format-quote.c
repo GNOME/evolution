@@ -56,7 +56,7 @@ static EMFormatClass *emfq_parent;
 
 static void
 emfq_init(GObject *o)
-{
+{ 
 	EMFormatQuote *emfq =(EMFormatQuote *) o;
 	
 	emfq->priv = g_malloc0(sizeof(*emfq->priv));
@@ -220,7 +220,7 @@ emfq_format_address (GString *out, struct _camel_header_address *a)
 				
 				g_string_append_printf (out, "%s &lt;", name);
 				/* rfc2368 for mailto syntax and url encoding extras */
-				if ((real = camel_header_encode_phrase (a->name))) {
+				if ((real = camel_header_encode_phrase ((unsigned char *)a->name))) {
 					mailaddr = g_strdup_printf ("%s <%s>", real, a->v.addr);
 					g_free (real);
 					mailto = camel_url_encode (mailaddr, "?=&()");
@@ -410,7 +410,7 @@ emfq_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 	
-	em_format_format_text(emf, (CamelStream *)filtered_stream, part);
+	em_format_format_text(emf, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 	camel_object_unref(filtered_stream);
 }
 
@@ -472,7 +472,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 	
-	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, part);
+	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 	camel_stream_flush((CamelStream *)filtered_stream);
 	camel_object_unref(filtered_stream);
 }
@@ -500,7 +500,7 @@ emfq_text_enriched(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part
 	camel_object_unref(enriched);
 
 	camel_stream_write_string(stream, "<br><hr><br>");
-	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, part);
+	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 	camel_object_unref(filtered_stream);
 }
 
@@ -508,7 +508,7 @@ static void
 emfq_text_html(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	camel_stream_write_string(stream, "\n<!-- text/html -->\n");
-	em_format_format_text(emf, stream, part);
+	em_format_format_text(emf, stream, (CamelDataWrapper *)part);
 }
 
 static void

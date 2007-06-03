@@ -235,7 +235,7 @@ import_mbox_import(struct _mail_msg *mm)
 		while (camel_mime_parser_step(mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
 			CamelMimeMessage *msg;
 			const char *tmp;
-			int pc;
+			int pc = 0;
 			guint32 flags = 0;
 
 			if (st.st_size > 0)

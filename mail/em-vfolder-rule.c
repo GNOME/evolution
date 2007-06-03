@@ -259,13 +259,13 @@ xml_encode(FilterRule *fr)
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
 	g_assert(node != NULL);
 	g_assert(vr->with >= 0 && vr->with < sizeof(with_names)/sizeof(with_names[0]));
-	set = xmlNewNode(NULL, "sources");
+	set = xmlNewNode(NULL, (const unsigned char *)"sources");
 	xmlAddChild(node, set);
-	xmlSetProp(set, "with", with_names[vr->with]);
+	xmlSetProp(set, (const unsigned char *)"with", (unsigned char *)with_names[vr->with]);
 	l = vr->sources;
 	while (l) {
-		work = xmlNewNode(NULL, "folder");
-		xmlSetProp(work, "uri", l->data);
+		work = xmlNewNode(NULL, (const unsigned char *)"folder");
+		xmlSetProp(work, (const unsigned char *)"uri", (unsigned char *)l->data);
 		xmlAddChild(set, work);
 		l = l->next;
 	}
@@ -309,16 +309,16 @@ xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 
 	set = node->children;
 	while (set) {
-		if (!strcmp(set->name, "sources")) {
-			tmp = xmlGetProp(set, "with");
+		if (!strcmp((char *)set->name, "sources")) {
+			tmp = (char *)xmlGetProp(set, (const unsigned char *)"with");
 			if (tmp) {
 				set_with(vr, tmp);
 				xmlFree(tmp);
 			}
 			work = set->children;
 			while (work) {
-				if (!strcmp(work->name, "folder")) {
-					tmp = xmlGetProp(work, "uri");
+				if (!strcmp((char *)work->name, "folder")) {
+					tmp = (char *)xmlGetProp(work, (const unsigned char *)"uri");
 					if (tmp) {
 						vr->sources = g_list_append(vr->sources, g_strdup(tmp));
 						xmlFree(tmp);
@@ -413,7 +413,7 @@ select_source(GtkWidget *list, struct _source_data *data)
 static void
 select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 {
-	em_vfolder_rule_with_t with;
+	em_vfolder_rule_with_t with = 0;
 	GSList *group = NULL;
 	gint i = 0;	
 

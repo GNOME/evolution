@@ -565,7 +565,7 @@ efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMForma
 		job = em_format_html_job_new(efh, emfh_gethttp, g_strdup(url));
 	} else if  (g_ascii_strncasecmp(url, "/", 1) == 0) {
 		char *data = NULL;
-		int length = 0;
+		guint length = 0;
 		gboolean status;
 		
 		status = g_file_get_contents (url, &data, &length, NULL);
@@ -767,7 +767,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
    					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
    					efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 			camel_stream_write_string(stream, "<tt>\n");
-			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, newpart);
+			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)newpart);
 			camel_stream_flush((CamelStream *)filtered_stream);
 			camel_stream_write_string(stream, "</tt>\n");
 			camel_stream_write_string(stream, "</div>\n");
@@ -807,7 +807,7 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
-	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, part);
+	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 	
 	camel_object_unref(filtered_stream);
 	camel_stream_write_string(stream, "</div>");
@@ -829,7 +829,7 @@ efh_write_text_html(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 		camel_data_wrapper_write_to_stream(dw, out);
 	camel_object_unref(out);
 #endif
-	em_format_format_text(emf, stream, puri->part);
+	em_format_format_text(emf, stream, (CamelDataWrapper *)puri->part);
 }
 
 static void
@@ -985,7 +985,7 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 	camel_object_unref(html_filter);
 
 	camel_stream_write_string(stream, "<tt>\n");
-	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, part);
+	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 	camel_stream_flush((CamelStream *)filtered_stream);
 	camel_stream_write_string(stream, "</tt>\n");
 
@@ -1519,7 +1519,7 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 				
 				g_string_append_printf (out, "%s &lt;", name);
 				/* rfc2368 for mailto syntax and url encoding extras */
-				if ((real = camel_header_encode_phrase (a->name))) {
+				if ((real = camel_header_encode_phrase ((unsigned char *)a->name))) {
 					mailaddr = g_strdup_printf("%s <%s>", real, a->v.addr);
 					g_free (real);
 					mailto = camel_url_encode (mailaddr, "?=&()");
@@ -1641,7 +1641,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		label = _(name);
 		
 		html = g_string_new("");
-		img = efh_format_address(efh, html, addrs, label);
+		img = efh_format_address(efh, html, addrs, (char *)label);
 		
 		if (img) {
 //			str_field = g_strdup_printf ("<table><tr><td valign=top>%s</td><td valign=top><b>%s:</b></td></tr></table>", img, label);

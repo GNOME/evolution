@@ -108,7 +108,7 @@ get_text (Bonobo_PersistStream persist, const char *format, CORBA_Environment *e
 	stream_mem = BONOBO_STREAM_MEM (stream);
 	
 	text = g_byte_array_new ();
-	g_byte_array_append (text, stream_mem->buffer, stream_mem->pos);
+	g_byte_array_append (text, (unsigned char *)stream_mem->buffer, stream_mem->pos);
 	bonobo_object_unref (BONOBO_OBJECT (stream));
 	
 	return text;
@@ -172,7 +172,7 @@ menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 		goto exception;
 	}
 
-	if (write_all (fd, text->data, text->len) == -1) {
+	if (write_all (fd, (char *)text->data, text->len) == -1) {
 		g_byte_array_free (text, TRUE);
 		close (fd);
 		goto exception;

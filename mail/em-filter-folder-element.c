@@ -176,12 +176,12 @@ xml_encode(FilterElement *fe)
 	
 	d(printf("Encoding folder as xml\n"));
 	
-	value = xmlNewNode(NULL, "value");
-	xmlSetProp(value, "name", fe->name);
-	xmlSetProp(value, "type", "folder");
+	value = xmlNewNode(NULL, (unsigned const char *)"value");
+	xmlSetProp(value, (unsigned const char *)"name", (unsigned char *)fe->name);
+	xmlSetProp(value, (unsigned const char *)"type", (unsigned const char *)"folder");
 	
-	work = xmlNewChild(value, NULL, "folder", NULL);
-	xmlSetProp(work, "uri", ff->uri);
+	work = xmlNewChild(value, NULL, (unsigned const char *)"folder", NULL);
+	xmlSetProp(work, (unsigned const char *)"uri", (unsigned const char *)ff->uri);
 	
 	return value;
 }
@@ -195,14 +195,14 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 	d(printf("Decoding folder from xml %p\n", fe));
 	
 	xmlFree(fe->name);
-	fe->name = xmlGetProp(node, "name");
+	fe->name = (char *)xmlGetProp(node, (unsigned const char *)"name");
 	
 	n = node->children;
 	while(n) {
-		if (!strcmp(n->name, "folder")) {
+		if (!strcmp((char *)n->name, "folder")) {
 			char *uri;
 			
-			uri = xmlGetProp(n, "uri");
+			uri = (char *)xmlGetProp(n, (unsigned const char *)"uri");
 			g_free(ff->uri);
 			ff->uri = g_strdup(uri);
 			xmlFree(uri);

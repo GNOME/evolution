@@ -142,6 +142,7 @@ struct _EMMailerPrefsClass {
 };
 
 GtkType em_mailer_prefs_get_type (void);
+GtkWidget * create_combo_text_widget ();
 
 struct _GtkWidget *em_mailer_prefs_new (void);
 

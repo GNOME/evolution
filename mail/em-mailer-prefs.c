@@ -65,8 +65,6 @@ static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
 static void em_mailer_prefs_init       (EMMailerPrefs *dialog);
 static void em_mailer_prefs_finalise   (GObject *obj);
 
-GtkWidget * create_combo_text_widget ();
-
 static GtkVBoxClass *parent_class = NULL;
 
 enum {
@@ -190,7 +188,6 @@ labels_changed (EMMailerPrefs *prefs)
 	GSList *l, *n, *list = NULL;
 	const char *cstring;
 	char *string;
-	guint32 rgb;
 	int i;
 	
 	for (i = 4; i >= 0; i--) {
@@ -373,7 +370,7 @@ emmp_header_add_header (GtkWidget *widget, EMMailerPrefs *prefs)
 	GtkTreeIter iter;
 	const gchar *text = gtk_entry_get_text (prefs->entry_header);
 	
-	g_strstrip (text);
+	g_strstrip ((gchar *)text);
 
 	if (text && (strlen (text)>0)) {
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
@@ -507,6 +504,8 @@ toggle_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
 }
 
+#if 0
+// not used at the moment, commenting out
 static void
 toggle_button_toggled_not (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 {
@@ -515,6 +514,7 @@ toggle_button_toggled_not (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 	key = g_object_get_data ((GObject *) toggle, "key");
 	gconf_client_set_bool (prefs->gconf, key, !gtk_toggle_button_get_active (toggle), NULL);
 }
+#endif
 
 static void
 custom_font_changed (GtkToggleButton *toggle, EMMailerPrefs *prefs)
@@ -761,7 +761,7 @@ emmp_free(EConfig *ec, GSList *items, void *data)
 static void
 junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 {
-	char *def_plugin = gtk_combo_box_get_active_text(combo);
+	char *def_plugin = gtk_combo_box_get_active_text(GTK_COMBO_BOX (combo));
 	const GList *plugins = mail_session_get_junk_plugins();
 	
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
@@ -769,10 +769,9 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 		struct _EMJunkHookItem *item = plugins->data;;
 
 		if (item->plugin_name && def_plugin && !strcmp (item->plugin_name, def_plugin)) {
-			gboolean status;
 			session->junk_plugin = CAMEL_JUNK_PLUGIN (&(item->csp));
-			status = e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
-			if (status) {
+			void *status = e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
+			if ((gboolean)status == TRUE) {
 				char *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
 				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), item->plugin_name);
@@ -803,12 +802,12 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 	const GList *plugins = mail_session_get_junk_plugins();
 	char *pdefault = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
 
-	if (!plugins || !g_list_length (plugins)) {
-		gtk_combo_box_append_text (combo, _("No Junk plugin available"));
-		gtk_combo_box_set_active (combo, 0);		
-		gtk_widget_set_sensitive ((GtkWidget *) combo, FALSE);
-		gtk_widget_hide (prefs->plugin_image);
-		gtk_widget_hide (prefs->plugin_status);
+	if (!plugins || !g_list_length ((GList *)plugins)) {
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _("No Junk plugin available"));
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);		
+		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+		gtk_widget_hide (GTK_WIDGET (prefs->plugin_image));
+		gtk_widget_hide (GTK_WIDGET (prefs->plugin_status));
 		gtk_image_set_from_stock (prefs->plugin_image, NULL, 0);
 		g_free (pdefault);
 		
@@ -818,13 +817,13 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 	while (plugins) {
 		struct _EMJunkHookItem *item = plugins->data;;
 		
-		gtk_combo_box_append_text (combo, item->plugin_name);
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), item->plugin_name);
 		if (!def_set && pdefault && item->plugin_name && !strcmp(pdefault, item->plugin_name)) {
 			gboolean status;
 			
 			def_set = TRUE;
-			gtk_combo_box_set_active (combo, index);
-			status = e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
+			status = (gboolean)e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
 			if (status) {
 				char *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
@@ -1143,7 +1142,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		h = g_malloc (sizeof (struct _EMMailerPrefsHeader));
 		h->is_default = TRUE;
 		h->name = g_strdup (default_headers[i]);
-		h->enabled = strcmp (default_headers[i], "x-evolution-mailer") != 0;
+		h->enabled = strcmp ((char *)default_headers[i], "x-evolution-mailer") != 0;
 		g_hash_table_insert (default_header_hash, (gpointer) default_headers[i], h);
 		header_add_list = g_slist_append (header_add_list, h);
 	}
@@ -1211,7 +1210,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->default_junk_plugin = GTK_COMBO_BOX (glade_xml_get_widget (gui, "default_junk_plugin"));
 	prefs->plugin_status = GTK_LABEL (glade_xml_get_widget (gui, "plugin_status"));
 	prefs->plugin_image = GTK_IMAGE (glade_xml_get_widget (gui, "plugin_image"));	
-	junk_plugin_setup (prefs->default_junk_plugin, prefs);
+	junk_plugin_setup (GTK_WIDGET (prefs->default_junk_plugin), prefs);
 	
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs(ec, prefs->gconf);
@@ -1243,18 +1242,18 @@ emmp_header_from_xmldoc (xmlDocPtr doc)
 		return NULL;
 	
 	root = doc->children;
-	if (strcmp (root->name, "header") != 0)
+	if (strcmp ((char *)root->name, "header") != 0)
 		return NULL;
 	
-	name = xmlGetProp (root, "name");
+	name = xmlGetProp (root, (const unsigned char *)"name");
 	if (name == NULL)
 		return NULL;
 	
 	h = g_malloc0 (sizeof (struct _EMMailerPrefsHeader));
-	h->name = g_strdup (name);
+	h->name = g_strdup ((gchar *)name);
 	xmlFree (name);
 	
-	if (xmlHasProp (root, "enabled"))
+	if (xmlHasProp (root, (const unsigned char *)"enabled"))
 		h->enabled = 1;
 	else
 		h->enabled = 0;
@@ -1277,7 +1276,7 @@ em_mailer_prefs_header_from_xml (const char *xml)
 	struct _EMMailerPrefsHeader *header;
 	xmlDocPtr doc;
 	
-	if (!(doc = xmlParseDoc ((char *) xml)))
+	if (!(doc = xmlParseDoc ((unsigned char *) xml)))
 		return NULL;
 	
 	header = emmp_header_from_xmldoc (doc);
@@ -1322,12 +1321,12 @@ em_mailer_prefs_header_to_xml (struct _EMMailerPrefsHeader *header)
 	g_return_val_if_fail (header != NULL, NULL);
 	g_return_val_if_fail (header->name != NULL, NULL);
 	
-	doc = xmlNewDoc ("1.0");
+	doc = xmlNewDoc ((const unsigned char *)"1.0");
 	
-	root = xmlNewDocNode (doc, NULL, "header", NULL);
-	xmlSetProp (root, "name", header->name);
+	root = xmlNewDocNode (doc, NULL, (const unsigned char *)"header", NULL);
+	xmlSetProp (root, (const unsigned char *)"name", (unsigned char *)header->name);
 	if (header->enabled)
-		xmlSetProp (root, "enabled", NULL);
+		xmlSetProp (root, (const unsigned char *)"enabled", NULL);
 	
 	xmlDocSetRootElement (doc, root);
 	xmlDocDumpMemory (doc, &xml, &size);

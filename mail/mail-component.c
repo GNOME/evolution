@@ -717,7 +717,7 @@ impl_createView (PortableServer_Servant servant,
 	
 	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
 		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri);
-		em_folder_view_set_folder_uri (view_widget, uri);				
+		em_folder_view_set_folder_uri ((EMFolderView *) view_widget, uri);
 		g_free (uri);
 	}
 	
@@ -1093,7 +1093,7 @@ setline_check(void *key, void *value, void *data)
 int 
 status_check (GNOME_Evolution_ShellState shell_state)
 {
-	int status;
+	int status = 0;
 
 	switch (shell_state)
 	{

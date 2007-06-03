@@ -143,7 +143,7 @@ emfh_construct_group(EPluginHook *eph, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (0 == strcmp(node->name, "item")) {
+		if (0 == strcmp((char *)node->name, "item")) {
 			struct _EMFormatHookItem *item;
 
 			item = emfh_construct_item(eph, group, node);
@@ -171,7 +171,7 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp(node->name, "group") == 0) {
+		if (strcmp((char *)node->name, "group") == 0) {
 			struct _EMFormatHookGroup *group;
 
 			group = emfh_construct_group(eph, node);

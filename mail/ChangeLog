@@ -1,3 +1,72 @@
+2007-05-12  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	** Compilation warnings cleanup
+
+	* em-composer-utils.c: (composer_get_message):
+	* em-event.c: (em_event_target_new_composer):
+	* em-filter-folder-element.c: (xml_encode), (xml_decode):
+	* em-filter-rule.c: (xml_encode), (load_set), (xml_decode):
+	* em-filter-source-element.c: (xml_encode), (xml_decode), (clone):
+	* em-folder-browser.c: (emfb_search_config_search),
+	(emfb_folder_refresh):
+	* em-folder-tree-model.c: (em_folder_tree_model_load_state),
+	(find_xml_node), (em_folder_tree_model_get_expanded),
+	(em_folder_tree_model_set_expanded), (expand_foreach_r),
+	(em_folder_tree_model_expand_foreach),
+	(em_folder_tree_model_is_type_inbox),
+	(em_folder_tree_model_get_selected),
+	(em_folder_tree_model_set_selected):
+	* em-folder-tree.c: (tree_drag_data_get), (emft_drop_folder),
+	(emft_drop_async_desc):
+	* em-folder-view.c: (emfv_selection_get), (emfv_popup_delete),
+	(emfv_message_reply), (emfv_on_url_cb):
+	* em-format-hook.c: (emfh_construct_group), (emfh_construct):
+	* em-format-html-display.c: (em_format_html_get_search_dialog),
+	(efhd_html_link_clicked), (efhd_drag_data_get),
+	(efhd_bonobo_object), (efhd_optional_button_show),
+	(efhd_attachment_optional), (efhd_format_optional):
+	* em-format-html.c: (efh_url_requested), (efh_text_plain),
+	(efh_text_enriched), (efh_write_text_html),
+	(efh_message_deliverystatus), (efh_format_address),
+	(efh_format_header):
+	* em-format-quote.c: (emfq_format_address), (emfq_format_source),
+	(emfq_text_plain), (emfq_text_enriched), (emfq_text_html):
+	* em-format.c: (em_format_format_content), (em_format_format_text),
+	(emf_multipart_alternative), (emf_message_deliverystatus):
+	* em-icon-stream.c: (emis_sync_write):
+	* em-inline-filter.c: (emif_add_part), (emif_scan):
+	* em-junk-hook.c: (emjh_construct_group), (emjh_construct):
+	* em-mailer-prefs.c: (labels_changed), (emmp_header_add_header),
+	(junk_plugin_changed), (junk_plugin_setup),
+	(em_mailer_prefs_construct), (emmp_header_from_xmldoc),
+	(em_mailer_prefs_header_from_xml), (em_mailer_prefs_header_to_xml):
+	* em-mailer-prefs.h:
+	* em-migrate.c: (xml_find_node), (upgrade_xml_uris),
+	(upgrade_xml_uris_1_0), (load_accounts_1_0), (utf8_reencode),
+	(upgrade_xml_1_2_rec), (upgrade_passwords_1_2), (is_mail_folder),
+	(get_local_et_expanded), (get_local_store_uri),
+	(upgrade_vfolder_sources_1_4),
+	(em_migrate_folder_view_settings_1_4), (remove_system_searches),
+	(emm_setup_initial):
+	* em-utils.c: (em_utils_selection_get_mailbox),
+	(em_utils_selection_get_message), (em_utils_selection_set_uidlist),
+	(em_utils_selection_get_uidlist), (em_utils_selection_set_urilist),
+	(em_utils_selection_get_urilist), (em_utils_part_to_html),
+	(em_utils_message_to_html):
+	* em-utils.h:
+	* em-vfolder-rule.c: (xml_encode), (xml_decode),
+	(select_source_with_changed):
+	* importers/mail-importer.c: (import_mbox_import):
+	* mail-component.c: (impl_createView), (status_check):
+	* mail-config.c: (mail_config_signature_run_script):
+	* mail-session.c: (mail_session_add_junk_plugin):
+	* mail-signature-editor.c: (get_text), (menu_file_save_cb):
+	* mail-tools.c: (mail_tool_get_local_movemail_path),
+	(mail_tool_do_movemail):
+	* message-list.c: (address_compare), (get_normalised_string),
+	(message_list_setup_etree), (load_hide_state):
+	* message-list.h:
+
 2007-06-02  Ross Burton  <ross@openedhand.com>
 
 	* mail-send-recv.c:

@@ -333,17 +333,17 @@ em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
 		return;
 	
 	/* setup some defaults - expand "Local Folders" and "Search Folders" */
-	model->state = xmlNewDoc ("1.0");
-	root = xmlNewDocNode (model->state, NULL, "tree-state", NULL);
+	model->state = xmlNewDoc ((const unsigned char *)"1.0");
+	root = xmlNewDocNode (model->state, NULL, (const unsigned char *)"tree-state", NULL);
 	xmlDocSetRootElement (model->state, root);
 	
-	node = xmlNewChild (root, NULL, "node", NULL);
-	xmlSetProp (node, "name", "local");
-	xmlSetProp (node, "expand", "true");
+	node = xmlNewChild (root, NULL, (const unsigned char *)"node", NULL);
+	xmlSetProp (node, (const unsigned char *)"name", (const unsigned char *)"local");
+	xmlSetProp (node, (const unsigned char *)"expand", (const unsigned char *)"true");
 	
-	node = xmlNewChild (root, NULL, "node", NULL);
-	xmlSetProp (node, "name", "vfolder");
-	xmlSetProp (node, "expand", "true");
+	node = xmlNewChild (root, NULL, (const unsigned char *)"node", NULL);
+	xmlSetProp (node, (const unsigned char *)"name", (const unsigned char *)"vfolder");
+	xmlSetProp (node, (const unsigned char *)"expand", (const unsigned char *)"true");
 }
 
 
@@ -941,8 +941,8 @@ find_xml_node (xmlNodePtr root, const char *name)
 	
 	node = root->children;
 	while (node != NULL) {
-		if (!strcmp (node->name, "node")) {
-			nname = xmlGetProp (node, "name");
+		if (!strcmp ((char *)node->name, "node")) {
+			nname = (char *)xmlGetProp (node, (const unsigned char *)"name");
 			if (nname && !strcmp (nname, name)) {
 				xmlFree (nname);
 				return node;
@@ -969,7 +969,7 @@ em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
 	   Second, it shouldn't use an xml tree to store a bit table in memory! */
 
 	node = model->state ? model->state->children : NULL;
-	if (!node || strcmp (node->name, "tree-state") != 0)
+	if (!node || strcmp ((char *)node->name, "tree-state") != 0)
 		return FALSE;
 	
 	name = buf = g_alloca (strlen (key) + 1);
@@ -985,8 +985,8 @@ em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
 		if ((node = find_xml_node (node, name))) {
 			gboolean expanded;
 			
-			buf = xmlGetProp (node, "expand");
-			expanded = buf && !strcmp (buf, "true");
+			buf = (char *)xmlGetProp (node, (const unsigned char *)"expand");
+			expanded = buf && !strcmp ((char *)buf, "true");
 			xmlFree (buf);
 			
 			if (!expanded || p == NULL)
@@ -1008,10 +1008,10 @@ em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gb
 	char *buf, *p;
 	
 	if (model->state == NULL)
-		model->state = xmlNewDoc ("1.0");
+		model->state = xmlNewDoc ((const unsigned char *)"1.0");
 	
 	if (!model->state->children) {
-		node = xmlNewDocNode (model->state, NULL, "tree-state", NULL);
+		node = xmlNewDocNode (model->state, NULL, (const unsigned char *)"tree-state", NULL);
 		xmlDocSetRootElement (model->state, node);
 	} else {
 		node = model->state->children;
@@ -1035,11 +1035,11 @@ em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gb
 			}
 			
 			/* node (or parent node) doesn't exist, need to add it */
-			node = xmlNewChild (parent, NULL, "node", NULL);
-			xmlSetProp (node, "name", name);
+			node = xmlNewChild (parent, NULL, (const unsigned char *)"node", NULL);
+			xmlSetProp (node, (const unsigned char *)"name", (unsigned char *)name);
 		}
 		
-		xmlSetProp (node, "expand", expanded || p ? "true" : "false");
+		xmlSetProp (node, (const unsigned char *)"expand", (const unsigned char *)(expanded || p ? "true" : "false"));
 		
 		name = p ? p + 1 : NULL;
 	} while (name);
@@ -1072,11 +1072,11 @@ expand_foreach_r (EMFolderTreeModel *model, xmlNodePtr parent, const char *dirna
 	char *path, *name, *expand;
 	
 	while (node != NULL) {
-		if (!strcmp (node->name, "node")) {
-			name = xmlGetProp (node, "name");
-			expand = xmlGetProp (node, "expand");
+		if (!strcmp ((char *)node->name, "node")) {
+			name = (char *)xmlGetProp (node, (const unsigned char *)"name");
+			expand = (char *)xmlGetProp (node, (const unsigned char *)"expand");
 			
-			if (expand && name && !strcmp (expand, "true")) {
+			if (expand && name && !strcmp ((char *)expand, "true")) {
 				if (dirname)
 					path = g_strdup_printf ("%s/%s", dirname, name);
 				else
@@ -1102,7 +1102,7 @@ em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFu
 	xmlNodePtr root;
 	
 	root = model->state ? model->state->children : NULL;
-	if (!root || !root->children || strcmp (root->name, "tree-state") != 0)
+	if (!root || !root->children || strcmp ((char *)root->name, "tree-state") != 0)
 		return;
 	
 	expand_foreach_r (model, root, NULL, func, user_data);
@@ -1141,7 +1141,7 @@ em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store,
 
 	gtk_tree_path_free (tree_path);
 	
-	gtk_tree_model_get (model, &iter, COL_UINT_FLAGS, &flags, -1);
+	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, COL_UINT_FLAGS, &flags, -1);
 
 	if ((flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
 		return TRUE;
@@ -1195,12 +1195,12 @@ em_folder_tree_model_get_selected (EMFolderTreeModel *model)
 	char *buf, *uri;
 	
 	node = model->state ? model->state->children : NULL;
-	if (!node || strcmp (node->name, "tree-state") != 0)
+	if (!node || strcmp ((char *)node->name, "tree-state") != 0)
 		return NULL;
 	
 	node = node->children;
 	while (node != NULL) {
-		if (!strcmp (node->name, "selected"))
+		if (!strcmp ((char *)node->name, "selected"))
 			break;
 		node = node->next;
 	}
@@ -1208,7 +1208,7 @@ em_folder_tree_model_get_selected (EMFolderTreeModel *model)
 	if (node == NULL)
 		return NULL;
 	
-	buf = xmlGetProp (node, "uri");
+	buf = (char *)xmlGetProp (node, (unsigned char *)"uri");
 	uri = g_strdup (buf);
 	xmlFree (buf);
 	
@@ -1222,10 +1222,10 @@ em_folder_tree_model_set_selected (EMFolderTreeModel *model, const char *uri)
 	xmlNodePtr root, node;
 	
 	if (model->state == NULL)
-		model->state = xmlNewDoc ("1.0");
+		model->state = xmlNewDoc ((unsigned char *)"1.0");
 	
 	if (!model->state->children) {
-		root = xmlNewDocNode (model->state, NULL, "tree-state", NULL);
+		root = xmlNewDocNode (model->state, NULL, (const unsigned char *)"tree-state", NULL);
 		xmlDocSetRootElement (model->state, root);
 	} else {
 		root = model->state->children;
@@ -1233,13 +1233,13 @@ em_folder_tree_model_set_selected (EMFolderTreeModel *model, const char *uri)
 	
 	node = root->children;
 	while (node != NULL) {
-		if (!strcmp (node->name, "selected"))
+		if (!strcmp ((char *)node->name, "selected"))
 			break;
 		node = node->next;
 	}
 	
 	if (node == NULL)
-		node = xmlNewChild (root, NULL, "selected", NULL);
+		node = xmlNewChild (root, NULL, (const unsigned char *)"selected", NULL);
 	
-	xmlSetProp (node, "uri", uri);
+	xmlSetProp (node, (const unsigned char *)"uri", (unsigned char *)uri);
 }

@@ -135,7 +135,7 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	else
 		encoding = emif_types[emif->state].encoding;
 
-	g_byte_array_append(emif->data, data, len);
+	g_byte_array_append(emif->data, (unsigned char *)data, len);
 	/* check the part will actually have content */
 	if (emif->data->len <= 0) {
 		return;
@@ -327,7 +327,7 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 	if (final) {
 		emif_add_part(emif, data_start, inend-data_start);
 	} else {
-		g_byte_array_append(emif->data, data_start, inend-data_start);
+		g_byte_array_append(emif->data, (unsigned char *)data_start, inend-data_start);
 	}
 
 	return 0;

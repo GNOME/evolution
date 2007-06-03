@@ -53,6 +53,7 @@ gboolean em_utils_configure_account (struct _GtkWidget *parent);
 gboolean em_utils_check_user_can_send_mail (struct _GtkWidget *parent);
 
 void em_utils_edit_filters (struct _GtkWidget *parent);
+void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (struct _GtkWidget *parent);
 
 void em_utils_save_part(struct _GtkWidget *parent, const char *prompt, struct _CamelMimePart *part);

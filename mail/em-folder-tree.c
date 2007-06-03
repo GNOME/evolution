@@ -807,7 +807,7 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
-		gtk_selection_data_set(selection, drag_atoms[info], 8, uri, strlen (uri) + 1);
+		gtk_selection_data_set(selection, drag_atoms[info], 8, (unsigned char *)uri, strlen (uri) + 1);
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
@@ -859,7 +859,7 @@ emft_drop_folder(struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", m->selection->data, m->full_name));
 
-	if (!(src = mail_tool_uri_to_folder(m->selection->data, 0, &m->msg.ex)))
+	if (!(src = mail_tool_uri_to_folder((char *)m->selection->data, 0, &m->msg.ex)))
 		return;
 
 	em_folder_utils_copy_folders(src->parent_store, src->full_name, m->store, m->full_name?m->full_name:"", m->move);
@@ -874,7 +874,7 @@ emft_drop_async_desc (struct _mail_msg *mm, int done)
 	char *buf;
 	
 	if (m->info == DND_DROP_TYPE_FOLDER) {
-		url = camel_url_new (m->selection->data, NULL);
+		url = camel_url_new ((char *)m->selection->data, NULL);
 		
 		if (m->move)
 			buf = g_strdup_printf (_("Moving folder %s"), url->fragment ? url->fragment : url->path + 1);

@@ -943,7 +943,7 @@ em_utils_selection_get_mailbox(GtkSelectionData *data, CamelFolder *folder)
 
 	/* TODO: a stream mem with read-only access to existing data? */
 	/* NB: Although copying would let us run this async ... which it should */
-	stream = camel_stream_mem_new_with_buffer(data->data, data->length);
+	stream = (CamelStream *)camel_stream_mem_new_with_buffer((char *)data->data, data->length);
 	em_utils_read_messages_from_stream(folder, stream);
 	camel_object_unref(stream);
 }
@@ -966,7 +966,7 @@ em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder)
 		return;
 
 	ex = camel_exception_new();
-	stream = camel_stream_mem_new_with_buffer(data->data, data->length);
+	stream = (CamelStream *)camel_stream_mem_new_with_buffer((char *)data->data, data->length);
 	msg = camel_mime_message_new();
 	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) == 0)
 		camel_folder_append_message(folder, msg, NULL, NULL, ex);
@@ -993,7 +993,7 @@ em_utils_selection_set_uidlist(GtkSelectionData *data, const char *uri, GPtrArra
 
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn\0" */
 	
-	g_byte_array_append(array, uri, strlen(uri)+1);
+	g_byte_array_append(array, (unsigned char *)uri, strlen(uri)+1);
 
 	for (i=0; i<uids->len; i++)
 		g_byte_array_append(array, uids->pdata[i], strlen(uids->pdata[i])+1);
@@ -1024,8 +1024,8 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int mo
 	
 	uids = g_ptr_array_new();
 
-	inptr = data->data;
-	inend = data->data + data->length;
+	inptr = (char *)data->data;
+	inend = (char *)(data->data + data->length);
 	while (inptr < inend) {
 		char *start = inptr;
 
@@ -1043,7 +1043,7 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int mo
 		return;
 	}
 
-	folder = mail_tool_uri_to_folder(data->data, 0, ex);
+	folder = mail_tool_uri_to_folder((char *)data->data, 0, ex);
 	if (folder) {
 		camel_folder_transfer_messages_to(folder, uids, dest, NULL, move, ex);
 		camel_object_unref(folder);
@@ -1110,7 +1110,7 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 			/* terminate with \r\n to be compliant with the spec */
 			char *uri_crlf = g_strconcat(uri, "\r\n", NULL);
 
-			gtk_selection_data_set(data, data->target, 8, uri_crlf, strlen(uri_crlf));
+			gtk_selection_data_set(data, data->target, 8, (unsigned char *)uri_crlf, strlen(uri_crlf));
 			g_free(uri_crlf);
 		}
 
@@ -1141,7 +1141,7 @@ em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
 
 	d(printf(" * drop uri list\n"));
 
-	tmp = g_strndup(data->data, data->length);
+	tmp = g_strndup((char *)data->data, data->length);
 	uris = g_strsplit(tmp, "\n", 0);
 	g_free(tmp);
 	for (i=0;res == 0 && uris[i];i++) {
@@ -1494,7 +1494,7 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 	camel_stream_write((CamelStream *) mem, "", 1);
 	camel_object_unref(mem);
 
-	text = buf->data;
+	text = (char *)buf->data;
 	if (len)
 		*len = buf->len-1;
 	g_byte_array_free (buf, FALSE);
@@ -1549,7 +1549,7 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 	camel_stream_write((CamelStream *)mem, "", 1);
 	camel_object_unref(mem);
 
-	text = buf->data;
+	text = (char *)buf->data;
 	if (len)
 		*len = buf->len-1;
 	g_byte_array_free(buf, FALSE);

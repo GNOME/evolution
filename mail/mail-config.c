@@ -1130,7 +1130,7 @@ mail_config_signature_run_script (const char *script)
 		   are known to not ever read the manual... we try to do our best if the
                    content isn't valid UTF-8 by assuming that the content is in the user's
 		   preferred charset. */
-		if (!g_utf8_validate (buffer->data, buffer->len, NULL)) {
+		if (!g_utf8_validate ((char *)buffer->data, buffer->len, NULL)) {
 			stream = (CamelStream *) memstream;
 			memstream = (CamelStreamMem *) camel_stream_mem_new ();
 			camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
@@ -1156,8 +1156,8 @@ mail_config_signature_run_script (const char *script)
 		
 		camel_object_unref (memstream);
 		
-		g_byte_array_append (buffer, "", 1);
-		content = buffer->data;
+		g_byte_array_append (buffer, (const unsigned char *)"", 1);
+		content = (char *)buffer->data;
 		g_byte_array_free (buffer, FALSE);
 		
 		/* wait for the script process to terminate */

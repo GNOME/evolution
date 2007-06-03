@@ -222,7 +222,7 @@ emjh_construct_group(EPluginHook *eph, xmlNodePtr root)
 	
 	/* We'll processs only  the first item from xml file*/
 	while (node) {
-		if (0 == strcmp(node->name, "item")) {
+		if (0 == strcmp((char *)node->name, "item")) {
 			struct _EMJunkHookItem *item;
 
 			item = emjh_construct_item(eph, group, node);
@@ -258,7 +258,7 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp(node->name, "group") == 0) {
+		if (strcmp((char *)node->name, "group") == 0) {
 			struct _EMJunkHookGroup *group;
 
 			group = emjh_construct_group(eph, node);

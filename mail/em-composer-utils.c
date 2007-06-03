@@ -371,7 +371,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 		if (account->id->organization && *account->id->organization) {
 			char *org;
 			
-			org = camel_header_encode_string (account->id->organization);
+			org = camel_header_encode_string ((const unsigned char *)account->id->organization);
 			camel_medium_set_header (CAMEL_MEDIUM (message), "Organization", org);
 			g_free (org);
 		}

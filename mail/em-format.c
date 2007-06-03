@@ -1021,7 +1021,7 @@ em_format_format_content(EMFormat *emf, CamelStream *stream, CamelMimePart *part
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 
 	if (camel_content_type_is (dw->mime_type, "text", "*"))
-		em_format_format_text(emf, stream, part);
+		em_format_format_text(emf, stream, (CamelDataWrapper *)part);
 	else
 		camel_data_wrapper_decode_to_stream(dw, stream);
 }
@@ -1073,7 +1073,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		charset = emf->default_charset;
 	}
 
-	mem_stream = (CamelStreamMem *)camel_stream_mem_new ();
+	mem_stream = (CamelStream *)camel_stream_mem_new ();
 	filter_stream = camel_stream_filter_new_with_stream(mem_stream);
 	
 	if ((filter = camel_mime_filter_charset_new_convert(charset, "UTF-8"))) {
@@ -1226,7 +1226,7 @@ static void
 emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
-	int i, nparts, bestid;
+	int i, nparts, bestid = 0;
 	CamelMimePart *best = NULL;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
@@ -1516,7 +1516,7 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 static void
 emf_message_deliverystatus(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
-	em_format_format_text(emf, stream, part);
+	em_format_format_text(emf, stream, (CamelDataWrapper *)part);
 }
 
 static void

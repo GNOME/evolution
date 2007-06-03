@@ -751,7 +751,7 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 			if (input)
 				filter_input_set_value(input, query);
 			
-			words = camel_search_words_split(query);
+			words = camel_search_words_split((unsigned char *)query);
 			for (i=0;i<words->len;i++)
 				strings = g_slist_prepend(strings, g_strdup(words->words[i]->word));
 			camel_search_words_free (words);
@@ -1360,7 +1360,7 @@ static void
 emfb_folder_refresh(BonoboUIComponent *uid, void *data, const char *path)
 {
         EMFolderBrowser *emfb = data;
-	EMFolderTree *tree = g_object_get_data (emfb, "foldertree");
+	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
         CamelFolder *folder;
 
         if ((folder = em_folder_tree_get_selected_folder (tree)) != NULL)
