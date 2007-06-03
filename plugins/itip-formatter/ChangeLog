@@ -1,3 +1,8 @@
+2007-06-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* itip-formatter.c: Fix a compilation warning.  (#437584)
+	Patch from Gilles Dartiguelongue.
+
 2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* itip-view.c: (set_one_button): Fixes casts,

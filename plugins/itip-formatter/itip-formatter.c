@@ -1219,7 +1219,7 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (content, mem);
 
-	pitip->vcalendar = g_strndup (((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+	pitip->vcalendar = g_strndup ((char *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 
 	camel_object_unref (mem);	
 
