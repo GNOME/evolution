@@ -172,7 +172,7 @@ load_pages (EShellSettingsDialog *dialog)
 
 	language_names = g_get_language_names ();
 	while (*language_names != NULL)
-		languages = g_slist_append (languages, *language_names++);
+		languages = g_slist_append (languages, (gpointer)(*language_names++));
 
 	page_list = NULL;
 	for (i = 0; i < control_list->_length; i ++) {

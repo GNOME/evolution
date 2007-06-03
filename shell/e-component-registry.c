@@ -149,7 +149,6 @@ query_components (EComponentRegistry *registry)
 	const gchar * const *language_names;
 	CORBA_Environment ev;
 	GSList *languages = NULL;
-	const GList *l;
 	char *query;
 	int i;
 
@@ -173,7 +172,7 @@ query_components (EComponentRegistry *registry)
 
 	language_names = g_get_language_names ();
 	while (*language_names != NULL)
-		languages = g_slist_append (languages, *language_names++);
+		languages = g_slist_append (languages, (gpointer)(*language_names++));
 
 	for (i = 0; i < info_list->_length; i++) {
 		const char *id;

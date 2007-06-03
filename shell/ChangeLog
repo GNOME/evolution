@@ -1,3 +1,13 @@
+2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* Fix bug #441055
+
+	* e-component-registry.c: (query_components):
+	* e-shell-nm-glib.c: (e_shell_nm_glib_initialise),
+	(e_shell_nm_glib_dispose):
+	* e-shell-settings-dialog.c: (load_pages):
+	various compilation warning cleanup
+
 2007-05-28  Jules Colding  <colding@omesc.com>
 
 	* main.c (main): Prevent dup2() and close() on -1

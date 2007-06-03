@@ -55,8 +55,10 @@ static void e_shell_glib_network_monitor (libnm_glib_ctx *ctx, gpointer user_dat
 	}
 }
 
+int e_shell_nm_glib_initialise (EShellWindow *window);
+void e_shell_nm_glib_dispose (EShellWindow *window);
 
-int e_shell_nm_glib_initialise (EShellWindow *window )
+int e_shell_nm_glib_initialise (EShellWindow *window)
 {
 	if (!nm_ctx)
 	{
@@ -72,7 +74,7 @@ int e_shell_nm_glib_initialise (EShellWindow *window )
 	return TRUE;
 }
 
-void e_shell_nm_glib_dispose (EShellWindow *window )
+void e_shell_nm_glib_dispose (EShellWindow *window)
 {
 	if (id != 0 && nm_ctx != NULL) {
 		libnm_glib_unregister_callback (nm_ctx, id);
