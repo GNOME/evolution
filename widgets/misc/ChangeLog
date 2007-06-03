@@ -1,3 +1,9 @@
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #416031 from Martin Jürgens
+
+	* e-charset-picker.c:
+
 2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	** Fixes part of bug #441014

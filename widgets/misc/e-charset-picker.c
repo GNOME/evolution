@@ -44,6 +44,7 @@
 
 typedef enum {
 	E_CHARSET_UNKNOWN,
+	E_CHARSET_ARABIC,
 	E_CHARSET_BALTIC,
 	E_CHARSET_CENTRAL_EUROPEAN,
 	E_CHARSET_CHINESE,
@@ -61,6 +62,7 @@ typedef enum {
 
 static const char *classnames[] = {
 	N_("Unknown"),
+	N_("Arabic"),
 	N_("Baltic"),
 	N_("Central European"),
 	N_("Chinese"),
@@ -88,6 +90,7 @@ typedef struct {
  */
 /* To Translators: Character set "Logical Hebrew" */
 static ECharset charsets[] = {
+	{ "ISO-8859-6", E_CHARSET_ARABIC, NULL },
 	{ "ISO-8859-13", E_CHARSET_BALTIC, NULL },
 	{ "ISO-8859-4", E_CHARSET_BALTIC, NULL },
 	{ "ISO-8859-2", E_CHARSET_CENTRAL_EUROPEAN, NULL },
