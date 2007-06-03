@@ -317,7 +317,7 @@ load(RuleContext *rc, const char *system, const char *user)
 	}
 
 	root = xmlDocGetRootElement(systemdoc);
-	if (root == NULL || strcmp(root->name, "filterdescription")) {
+	if (root == NULL || strcmp((char *)root->name, "filterdescription")) {
 		rule_context_set_error(rc, g_strdup_printf("Unable to load system rules '%s': Invalid format", system));
 		xmlFreeDoc(systemdoc);
 		return -1;
@@ -337,7 +337,7 @@ load(RuleContext *rc, const char *system, const char *user)
 			d(printf("loading parts ...\n"));
 			rule = set->children;
 			while (rule) {
-				if (!strcmp(rule->name, "part")) {
+				if (!strcmp((char *)rule->name, "part")) {
 					FilterPart *part = FILTER_PART(g_object_new(part_map->type, NULL, NULL));
 					
 					if (filter_part_xml_create(part, rule, rc) == 0) {
@@ -354,7 +354,7 @@ load(RuleContext *rc, const char *system, const char *user)
 			rule = set->children;
 			while (rule) {
 				d(printf("checking node: %s\n", rule->name));
-				if (!strcmp(rule->name, "rule")) {
+				if (!strcmp((char *)rule->name, "rule")) {
 					FilterRule *part = FILTER_RULE(g_object_new(rule_map->type, NULL, NULL));
 					
 					if (filter_rule_xml_decode(part, rule, rc) == 0) {
@@ -383,7 +383,7 @@ load(RuleContext *rc, const char *system, const char *user)
 				rule = set->children;
 				while (rule) {
 					d(printf("checking node: %s\n", rule->name));
-					if (!strcmp(rule->name, "rule")) {
+					if (!strcmp((char *)rule->name, "rule")) {
 						FilterRule *part = FILTER_RULE(g_object_new(rule_map->type, NULL, NULL));
 						
 						if (filter_rule_xml_decode(part, rule, rc) == 0) {
@@ -434,14 +434,14 @@ save(RuleContext *rc, const char *user)
 	struct _rule_set_map *map;
 	int ret;
 	
-	doc = xmlNewDoc("1.0");
+	doc = xmlNewDoc((const unsigned char *)"1.0");
 	/* FIXME: set character encoding to UTF-8? */
-	root = xmlNewDocNode(doc, NULL, "filteroptions", NULL);
+	root = xmlNewDocNode(doc, NULL, (const unsigned char *)"filteroptions", NULL);
 	xmlDocSetRootElement(doc, root);
 	l = rc->rule_set_list;
 	while (l) {
 		map = l->data;
-		rules = xmlNewDocNode(doc, NULL, map->name, NULL);
+		rules = xmlNewDocNode(doc, NULL, (unsigned char *)map->name, NULL);
 		xmlAddChild(root, rules);
 		rule = NULL;
 		while ((rule = map->next(rc, rule, NULL))) {
@@ -563,7 +563,7 @@ revert(RuleContext *rc, const char *user)
 			rule = set->children;
 			while (rule) {
 				d(printf("checking node: %s\n", rule->name));
-				if (!strcmp(rule->name, "rule")) {
+				if (!strcmp((char *)rule->name, "rule")) {
 					FilterRule *part = FILTER_RULE(g_object_new(rule_map->type, NULL, NULL));
 					
 					if (filter_rule_xml_decode(part, rule, rc) == 0) {

@@ -137,7 +137,7 @@ filter_input_new_type_name (const char *type)
 	FilterInput *fi;
 	
 	fi = filter_input_new ();
-	fi->type = xmlStrdup (type);
+	fi->type = (char *)xmlStrdup ((xmlChar *)type);
 	
 	d(printf("new type %s = %p\n", type, fi));
 	
@@ -243,15 +243,15 @@ xml_encode (FilterElement *fe)
 	
 	d(printf ("Encoding %s as xml\n", type));
 	
-	value = xmlNewNode (NULL, "value");
-	xmlSetProp (value, "name", fe->name);
-	xmlSetProp (value, "type", type);
+	value = xmlNewNode (NULL, (const unsigned char *)"value");
+	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
+	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)type);
 	l = fi->values;
 	while (l) {
 		xmlNodePtr cur;
-		char *str = l->data;
+		xmlChar *str = l->data;
 		
-                cur = xmlNewChild (value, NULL, type, NULL);
+                cur = xmlNewChild (value, NULL, (unsigned char *)type, NULL);
 		
 		str = xmlEncodeEntitiesReentrant (NULL, str);
 		xmlNodeSetContent (cur, str);
@@ -279,8 +279,8 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	g_list_free (fi->values);
 	fi->values = NULL;
 
-	name = xmlGetProp (node, "name");
-	type = xmlGetProp (node, "type");
+	name = (char *)xmlGetProp (node, (const unsigned char *)"name");
+	type = (char *)xmlGetProp (node, (const unsigned char *)"type");
 	
 	d(printf("Decoding %s from xml %p\n", type, fe));
 	d(printf ("Name = %s\n", name));
@@ -290,9 +290,9 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	fi->type = type;
 	n = node->children;
 	while (n) {
-		if (!strcmp (n->name, type)) {
-			if (!(str = xmlNodeGetContent (n)))
-				str = xmlStrdup ("");
+		if (!strcmp ((char *)n->name, type)) {
+			if (!(str = (char *)xmlNodeGetContent (n)))
+				str = (char *)xmlStrdup ((const unsigned char *)"");
 			
 			d(printf ("  '%s'\n", str));
 			fi->values = g_list_append (fi->values, g_strdup (str));

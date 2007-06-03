@@ -204,24 +204,24 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	
 	n = node->children;
 	while (n) {
-		if (!strcmp (n->name, "option")) {
+		if (!strcmp ((char *)n->name, "option")) {
 			char *tmp, *value, *title = NULL, *code = NULL;
 			
-			value = xmlGetProp (n, "value");
+			value = (char *)xmlGetProp (n, (const unsigned char *)"value");
 			work = n->children;
 			while (work) {
-				if (!strcmp (work->name, "title")) {
+				if (!strcmp ((char *)work->name, "title")) {
 					if (!title) {
-						if (!(tmp = xmlNodeGetContent (work)))
-							tmp = xmlStrdup ("");
+						if (!(tmp = (char *)xmlNodeGetContent (work)))
+							tmp = (char *)xmlStrdup ((const unsigned char *)"");
 						
 						title = g_strdup (tmp);
 						xmlFree (tmp);
 					}
-				} else if (!strcmp (work->name, "code")) {
+				} else if (!strcmp ((char *)work->name, "code")) {
 					if (!code) {
-						if (!(tmp = xmlNodeGetContent (work)))
-							tmp = xmlStrdup ("");
+						if (!(tmp = (char*)xmlNodeGetContent (work)))
+							tmp = (char *)xmlStrdup ((const unsigned char *)"");
 						
 						code = g_strdup (tmp);
 						xmlFree (tmp);
@@ -248,11 +248,11 @@ xml_encode (FilterElement *fe)
 	FilterOption *fo = (FilterOption *)fe;
 	
 	d(printf ("Encoding option as xml\n"));
-	value = xmlNewNode (NULL, "value");
-	xmlSetProp (value, "name", fe->name);
-	xmlSetProp (value, "type", fo->type);
+	value = xmlNewNode (NULL, (const unsigned char *)"value");
+	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
+	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)fo->type);
 	if (fo->current)
-		xmlSetProp (value, "value", fo->current->value);
+		xmlSetProp (value, (const unsigned char *)"value", (unsigned char *)fo->current->value);
 	
 	return value;
 }
@@ -265,8 +265,8 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	
 	d(printf ("Decoding option from xml\n"));
 	xmlFree (fe->name);
-	fe->name = xmlGetProp (node, "name");
-	value = xmlGetProp (node, "value");
+	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
+	value = (char *)xmlGetProp (node, (const unsigned char *)"value");
 	if (value) {
 		fo->current = find_option (fo, value);
 		xmlFree (value);

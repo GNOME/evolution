@@ -280,13 +280,13 @@ xml_encode (FilterRule *fr)
 	xmlNodePtr node, set, work;
 	GList *l;
 	
-	node = xmlNewNode (NULL, "rule");
+	node = xmlNewNode (NULL, (const unsigned char *)"rule");
 	switch (fr->grouping) {
 	case FILTER_GROUP_ALL:
-		xmlSetProp (node, "grouping", "all");
+		xmlSetProp (node, (const unsigned char *)"grouping", (const unsigned char *)"all");
 		break;
 	case FILTER_GROUP_ANY:
-		xmlSetProp (node, "grouping", "any");
+		xmlSetProp (node, (const unsigned char *)"grouping", (const unsigned char *)"any");
 		break;
 	}
 
@@ -294,33 +294,33 @@ xml_encode (FilterRule *fr)
 	case FILTER_THREAD_NONE:
 		break;
 	case FILTER_THREAD_ALL:
-		xmlSetProp(node, "threading", "all");
+		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"all");
 		break;
 	case FILTER_THREAD_REPLIES:
-		xmlSetProp(node, "threading", "replies");
+		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"replies");
 		break;
 	case FILTER_THREAD_REPLIES_PARENTS:
-		xmlSetProp(node, "threading", "replies_parents");
+		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"replies_parents");
 		break;
 	case FILTER_THREAD_SINGLE:
-		xmlSetProp(node, "threading", "single");
+		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"single");
 		break;
 	}
 
 	if (fr->source) {
-		xmlSetProp (node, "source", fr->source);
+		xmlSetProp (node, (const unsigned char *)"source", (unsigned char *)fr->source);
 	} else {
 		/* set to the default filter type */
-		xmlSetProp (node, "source", "incoming");
+		xmlSetProp (node, (const unsigned char *)"source", (const unsigned char *)"incoming");
 	}
 	
 	if (fr->name) {
-		work = xmlNewNode (NULL, "title");
-		xmlNodeSetContent (work, fr->name);
+		work = xmlNewNode (NULL, (const unsigned char *)"title");
+		xmlNodeSetContent (work, (unsigned char *)fr->name);
 		xmlAddChild (node, work);
 	}
 	
-	set = xmlNewNode (NULL, "partset");
+	set = xmlNewNode (NULL, (const unsigned char *)"partset");
 	xmlAddChild (node, set);
 	l = fr->parts;
 	while (l) {
@@ -341,8 +341,8 @@ load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 	
 	work = node->children;
 	while (work) {
-		if (!strcmp (work->name, "part")) {
-			rulename = xmlGetProp (work, "name");
+		if (!strcmp ((char *)work->name, "part")) {
+			rulename = (char *)xmlGetProp (work, (const unsigned char *)"name");
 			part = rule_context_find_part (f, rulename);
 			if (part) {
 				part = filter_part_clone (part);
@@ -389,7 +389,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 		fr->name = NULL;
 	}
 	
-	grouping = xmlGetProp (node, "grouping");
+	grouping = (char *)xmlGetProp (node, (const unsigned char *)"grouping");
 	if (!strcmp (grouping, "any"))
 		fr->grouping = FILTER_GROUP_ANY;
 	else
@@ -398,7 +398,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 
 	fr->threading = FILTER_THREAD_NONE;
 	if (f->flags & RULE_CONTEXT_THREADING
-	    && (grouping = xmlGetProp (node, "threading"))) {
+	    && (grouping = (char *)xmlGetProp (node, (const unsigned char *)"threading"))) {
 		if (!strcmp(grouping, "all"))
 			fr->threading = FILTER_THREAD_ALL;
 		else if (!strcmp(grouping, "replies"))
@@ -411,7 +411,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 	}
 	
 	g_free (fr->source);
-	source = xmlGetProp (node, "source");
+	source = (char *)xmlGetProp (node, (const unsigned char *)"source");
 	if (source) {
 		fr->source = g_strdup (source);
 		xmlFree (source);
@@ -422,13 +422,13 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 	
 	work = node->children;
 	while (work) {
-		if (!strcmp (work->name, "partset")) {
+		if (!strcmp ((char *)work->name, "partset")) {
 			load_set (work, fr, f);
-		} else if (!strcmp (work->name, "title") || !strcmp (work->name, "_title")) {
+		} else if (!strcmp ((char *)work->name, "title") || !strcmp ((char *)work->name, "_title")) {
 			if (!fr->name) {
 				char *str, *decstr;
 				
-				str = xmlNodeGetContent (work);
+				str = (char *)xmlNodeGetContent (work);
 				decstr = g_strdup (str);
 				if (str)
 					xmlFree (str);

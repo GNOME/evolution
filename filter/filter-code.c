@@ -80,7 +80,7 @@ filter_code_class_init (FilterCodeClass *klass)
 static void
 filter_code_init (FilterCode *fc)
 {
-	((FilterInput *) fc)->type = xmlStrdup ("code");
+	((FilterInput *) fc)->type = (char *)xmlStrdup ((const unsigned char *)"code");
 }
 
 static void

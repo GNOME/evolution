@@ -254,7 +254,7 @@ element_eq (FilterElement *fe, FilterElement *cm)
 static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	fe->name = xmlGetProp (node, "name");
+	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
 }
 
 static FilterElement *

@@ -1,3 +1,22 @@
+2007-05-17  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	** Fixes bug #439118
+
+	* filter-code.c: (filter_code_init):
+	* filter-colour.c: (xml_encode), (xml_decode):
+	* filter-datespec.c: (xml_encode), (xml_decode):
+	* filter-element.c: (xml_create):
+	* filter-file.c: (filter_file_new_type_name), (xml_encode),
+	(xml_decode):
+	* filter-input.c: (filter_input_new_type_name), (xml_encode),
+	(xml_decode):
+	* filter-int.c: (xml_encode), (xml_decode):
+	* filter-option.c: (xml_create), (xml_encode), (xml_decode):
+	* filter-part.c: (filter_part_xml_create),
+	(filter_part_xml_encode), (filter_part_xml_decode):
+	* filter-rule.c: (xml_encode), (load_set), (xml_decode):
+	* rule-context.c: (load), (save), (revert): fix compilation warnings
+
 2007-05-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Patch from Trever Adams for bug #211058

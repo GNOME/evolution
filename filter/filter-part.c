@@ -170,15 +170,15 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 	char *type, *str;
 	FilterElement *el;
 	
-	str = xmlGetProp (node, "name");
+	str = (char *)xmlGetProp (node, (const unsigned char *)"name");
 	ff->name = g_strdup (str);
 	if (str)
 		xmlFree (str);
 	
 	n = node->children;
 	while (n) {
-		if (!strcmp (n->name, "input")) {
-			type = xmlGetProp (n, "type");
+		if (!strcmp ((char *)n->name, "input")) {
+			type = (char *)xmlGetProp (n, (const unsigned char *)"type");
 			d(printf ("creating new element type input '%s'\n", type));
 			if (type != NULL
 			    && (el = rule_context_new_element(rc, type)) != NULL) {
@@ -189,16 +189,16 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp (n->name, "title")) {
+		} else if (!strcmp ((char *)n->name, "title")) {
 			if (!ff->title) {
-				str = xmlNodeGetContent (n);
+				str = (char *)xmlNodeGetContent (n);
 				ff->title = g_strdup (str);
 				if (str)
 					xmlFree (str);
 			}
-		} else if (!strcmp (n->name, "code")) {
+		} else if (!strcmp ((char *)n->name, "code")) {
 			if (!ff->code) {
-				str = xmlNodeGetContent (n);
+				str = (char *)xmlNodeGetContent (n);
 				ff->code = g_strdup (str);
 				if (str)
 					xmlFree (str);
@@ -221,8 +221,8 @@ filter_part_xml_encode (FilterPart *fp)
 	
 	g_return_val_if_fail (fp != NULL, NULL);
 	
-	part = xmlNewNode (NULL, "part");
-	xmlSetProp (part, "name", fp->name);
+	part = xmlNewNode (NULL, (const unsigned char *)"part");
+	xmlSetProp (part, (const unsigned char *)"name", (unsigned char *)fp->name);
 	l = fp->elements;
 	while (l) {
 		fe = l->data;
@@ -247,8 +247,8 @@ filter_part_xml_decode (FilterPart *fp, xmlNodePtr node)
 	
 	n = node->children;
 	while (n) {
-		if (!strcmp (n->name, "value")) {
-			name = xmlGetProp (n, "name");
+		if (!strcmp ((char *)n->name, "value")) {
+			name = (char *)xmlGetProp (n, (const unsigned char *)"name");
 			d(printf ("finding element part %p %s = %p\n", name, name, fe));
 			fe = filter_part_find_element (fp, name);
 			d(printf ("finding element part %p %s = %p\n", name, name, fe));

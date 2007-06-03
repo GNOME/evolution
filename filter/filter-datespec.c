@@ -220,15 +220,15 @@ xml_encode (FilterElement *fe)
 	
 	d(printf ("Encoding datespec as xml\n"));
 	
-	value = xmlNewNode (NULL, "value");
-	xmlSetProp (value, "name", fe->name);
-	xmlSetProp (value, "type", "datespec");
+	value = xmlNewNode (NULL, (const unsigned char *)"value");
+	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
+	xmlSetProp (value, (const unsigned char *)"type", (const unsigned char *)"datespec");
 	
-	work = xmlNewChild (value, NULL, "datespec", NULL);
+	work = xmlNewChild (value, NULL, (const unsigned char *)"datespec", NULL);
 	sprintf (str, "%d", fds->type);
-	xmlSetProp (work, "type", str);
+	xmlSetProp (work, (const unsigned char *)"type", (unsigned char *)str);
 	sprintf (str, "%d", (int)fds->value);
-	xmlSetProp (work, "value", str);
+	xmlSetProp (work, (const unsigned char *)"value", (unsigned char *)str);
 	
 	return value;
 }
@@ -238,21 +238,21 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterDatespec *fds = (FilterDatespec *)fe;
 	xmlNodePtr n;
-	char *val;
+	xmlChar *val;
 	
 	d(printf ("Decoding datespec from xml %p\n", fe));
 	
 	xmlFree (fe->name);
-	fe->name = xmlGetProp (node, "name");
+	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
 	
 	n = node->children;
 	while (n) {
-		if (!strcmp (n->name, "datespec")) {
-			val = xmlGetProp (n, "type");
-			fds->type = atoi (val);
+		if (!strcmp ((char *)n->name, "datespec")) {
+			val = xmlGetProp (n, (const unsigned char *)"type");
+			fds->type = atoi ((char *)val);
 			xmlFree (val);
-			val = xmlGetProp (n, "value");
-			fds->value = atoi (val);
+			val = xmlGetProp (n, (const unsigned char *)"value");
+			fds->value = atoi ((char *)val);
 			xmlFree (val);
 			break;
 		}
