@@ -586,15 +586,16 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 		break;
 	case PROP_STATE: {
 		/* FIXME: we should have ESearchBar save its own state to the xmlDocPtr */
-		char *xmlbuf, *text, buf[12];
+		xmlChar *xmlbuf;
+		char *text, buf[12];
 		int searchscope, item_id, n, view_id;
 		xmlNodePtr root, node;
 		xmlDocPtr doc;
 		
 		item_id = e_search_bar_get_item_id ((ESearchBar *) efb);
 		
-		doc = xmlNewDoc ("1.0");
-		root = xmlNewDocNode (doc, NULL, "state", NULL);
+		doc = xmlNewDoc ((const unsigned char *)"1.0");
+		root = xmlNewDocNode (doc, NULL, (const unsigned char *)"state", NULL);
 		xmlDocSetRootElement (doc, root);
 		searchscope = e_search_bar_get_search_scope ((ESearchBar *) efb);
 		view_id = e_search_bar_get_viewitem_id ((ESearchBar *) efb);
@@ -604,37 +605,37 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 		
 		if (item_id == E_FILTERBAR_ADVANCED_ID) {
 			/* advanced query, save the filterbar state */
-			node = xmlNewChild (root, NULL, "filter-bar", NULL);
+			node = xmlNewChild (root, NULL, (const unsigned char *)"filter-bar", NULL);
 
 			sprintf (buf, "%d", esb->last_search_option);
-			xmlSetProp (node, "item_id", buf);
+			xmlSetProp (node, (const unsigned char *)"item_id", (unsigned char *)buf);
 			sprintf (buf, "%d", searchscope);
-			xmlSetProp (node, "searchscope", buf);
+			xmlSetProp (node, (const unsigned char *)"searchscope", (unsigned char *)buf);
 			sprintf (buf, "%d", view_id);
-			xmlSetProp (node, "view_id", buf);
+			xmlSetProp (node, (const unsigned char *)"view_id", (unsigned char *)buf);
 			
 			xmlAddChild (node, filter_rule_xml_encode (efb->current_query));			
 		} else {
 			/* simple query, save the searchbar state */
 			text = e_search_bar_get_text ((ESearchBar *) efb);
 			
-			node = xmlNewChild (root, NULL, "search-bar", NULL);
-			xmlSetProp (node, "text", text ? text : "");
+			node = xmlNewChild (root, NULL, (const unsigned char *)"search-bar", NULL);
+			xmlSetProp (node, (const unsigned char *)"text", (unsigned char *)(text ? text : ""));
 			sprintf (buf, "%d", item_id);
-			xmlSetProp (node, "item_id", buf);
+			xmlSetProp (node, (const unsigned char *)"item_id", (unsigned char *)buf);
 			sprintf (buf, "%d", searchscope);
-			xmlSetProp (node, "searchscope", buf);
+			xmlSetProp (node, (const unsigned char *)"searchscope", (unsigned char *)buf);
 			sprintf (buf, "%d", view_id);
-			xmlSetProp (node, "view_id", buf);			
+			xmlSetProp (node, (const unsigned char *)"view_id", (unsigned char *)buf);
 			g_free (text);
 		}
 		
-		xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &n);
+		xmlDocDumpMemory (doc, &xmlbuf, &n);
 		xmlFreeDoc (doc);
 		
 		/* remap to glib memory */
 		text = g_malloc (n + 1);
-		memcpy (text, xmlbuf, n);
+		memcpy (text, (char *)xmlbuf, n);
 		text[n] = '\0';
 		xmlFree (xmlbuf);
 		
@@ -653,7 +654,7 @@ xml_get_prop_int (xmlNodePtr node, const char *prop)
 	char *buf;
 	int ret;
 	
-	if ((buf = xmlGetProp (node, prop))) {
+	if ((buf = (char *)xmlGetProp (node, (unsigned char *)prop))) {
 		ret = strtol (buf, NULL, 10);
 		xmlFree (buf);
 	} else {
@@ -677,18 +678,18 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 	switch (property_id) {
 	case PROP_STATE:
 		if ((state = g_value_get_string (value))) {
-			if (!(doc = xmlParseDoc ((char *) state)))
+			if (!(doc = xmlParseDoc ((unsigned char *) state)))
 				return;
 			
 			root = doc->children;
-			if (strcmp (root->name, "state") != 0) {
+			if (strcmp ((char *)root->name, "state") != 0) {
 				xmlFreeDoc (doc);
 				return;
 			}
 			
 			node = root->children;
 			while (node != NULL) {
-				if (!strcmp (node->name, "filter-bar")) {
+				if (!strcmp ((char *)node->name, "filter-bar")) {
 					FilterRule *rule = NULL;
 
 					
@@ -706,7 +707,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 						
 						rule = filter_rule_new ();
 						if (filter_rule_xml_decode (rule, node, efb->context) != 0) {			
-							gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
+							gtk_widget_modify_base (E_SEARCH_BAR (efb)->entry, GTK_STATE_NORMAL, NULL);
 							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
 							gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, NULL);
 							g_object_unref (rule);
@@ -744,7 +745,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					efb->setquery = FALSE;
 					
 					break;
-				} else if (!strcmp (node->name, "search-bar")) {
+				} else if (!strcmp ((char *)node->name, "search-bar")) {
 					int subitem_id, item_id, scope, view_id;
 					char *text;
 					GtkStyle *style = gtk_widget_get_default_style ();
@@ -758,17 +759,17 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 
 					esb->block_search = TRUE;
 					if (subitem_id >= 0)
-						e_search_bar_set_ids ((ESearchBar *) efb, item_id, subitem_id);
+						e_search_bar_set_ids (E_SEARCH_BAR (efb), item_id, subitem_id);
 					else
-						e_search_bar_set_item_menu ((ESearchBar *) efb, item_id);
+						e_search_bar_set_item_menu (E_SEARCH_BAR (efb), item_id);
 					esb->block_search = FALSE;
 					view_id = xml_get_prop_int (node, "view_id");
-					e_search_bar_set_viewitem_id ((ESearchBar *) efb, view_id);
+					e_search_bar_set_viewitem_id (E_SEARCH_BAR (efb), view_id);
 					scope = xml_get_prop_int (node, "searchscope");
-					e_search_bar_set_search_scope ((ESearchBar *) efb, scope);
+					e_search_bar_set_search_scope (E_SEARCH_BAR (efb), scope);
 
-					text = xmlGetProp (node, "text");
-					e_search_bar_set_text ((ESearchBar *) efb, text);
+					text = (char *)xmlGetProp (node, (const unsigned char *)"text");
+					e_search_bar_set_text (E_SEARCH_BAR (efb), text);
 					if (text && *text) {
 						efb->current_query = (FilterRule *)efb->option_rules->pdata[item_id - efb->option_base];
 						if (efb->config && efb->current_query)

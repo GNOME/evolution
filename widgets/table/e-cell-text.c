@@ -590,11 +590,11 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	{
 		PangoFontDescription *desc = NULL, *fixed_desc = NULL;
 		char *fixed_family = NULL;
-		gint fixed_size;
+		gint fixed_size = 0;
 		
 		fixed_desc = pango_font_description_from_string (ect->font_name);
 		if (fixed_desc) {
-			fixed_family = pango_font_description_get_family (fixed_desc);
+			fixed_family = (char *)pango_font_description_get_family (fixed_desc);
 			fixed_size = pango_font_description_get_size (fixed_desc);
 		} 
 		
@@ -1343,7 +1343,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	gboolean strikeout, underline;
 	cairo_t *cr;
 	char *string;
-	double ty, ly, text_width, text_height;
+	double ty, ly, text_width = 0.0, text_height = 0.0;
 
 
 	cr = gtk_print_context_get_cairo_context (context);

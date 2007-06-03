@@ -367,17 +367,17 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 
 	if (state_version <= 0.05) {
 		i = 0;
-		for (grouping = node->xmlChildrenNode; grouping && !strcmp (grouping->name, "group"); grouping = grouping->xmlChildrenNode) {
+		for (grouping = node->xmlChildrenNode; grouping && !strcmp ((char *)grouping->name, "group"); grouping = grouping->xmlChildrenNode) {
 			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
+			column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
+			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
 			e_table_sort_info_grouping_set_nth(info, i++, column);
 		}
 		i = 0;
-		for (; grouping && !strcmp (grouping->name, "leaf"); grouping = grouping->xmlChildrenNode) {
+		for (; grouping && !strcmp ((char *)grouping->name, "leaf"); grouping = grouping->xmlChildrenNode) {
 			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
+			column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
+			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
 			e_table_sort_info_sorting_set_nth(info, i++, column);
 		}
 	} else {
@@ -389,13 +389,13 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			if (grouping->type != XML_ELEMENT_NODE)
 				continue;
 
-			if (!strcmp (grouping->name, "group")) {
-				column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-				column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
+			if (!strcmp ((char *)grouping->name, "group")) {
+				column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
+				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
 				e_table_sort_info_grouping_set_nth(info, gcnt++, column);
-			} else if (!strcmp (grouping->name, "leaf")) {
-				column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-				column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
+			} else if (!strcmp ((char *)grouping->name, "leaf")) {
+				column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
+				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
 				e_table_sort_info_sorting_set_nth(info, scnt++, column);
 			}
 		}
@@ -422,22 +422,22 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 	const int sort_count = e_table_sort_info_sorting_get_count (info);
 	const int group_count = e_table_sort_info_grouping_get_count (info);
 	
-	grouping = xmlNewChild (parent, NULL, "grouping", NULL);
+	grouping = xmlNewChild (parent, NULL, (const unsigned char *)"grouping", NULL);
 
 	for (i = 0; i < group_count; i++) {
 		ETableSortColumn column = e_table_sort_info_grouping_get_nth(info, i);
-		xmlNode *new_node = xmlNewChild(grouping, NULL, "group", NULL);
+		xmlNode *new_node = xmlNewChild(grouping, NULL, (const unsigned char *)"group", NULL);
 
-		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
-		e_xml_set_bool_prop_by_name (new_node, "ascending", column.ascending);
+		e_xml_set_integer_prop_by_name (new_node, (const unsigned char *)"column", column.column);
+		e_xml_set_bool_prop_by_name (new_node, (const unsigned char *)"ascending", column.ascending);
 	}
 
 	for (i = 0; i < sort_count; i++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(info, i);
-		xmlNode *new_node = xmlNewChild(grouping, NULL, "leaf", NULL);
+		xmlNode *new_node = xmlNewChild(grouping, NULL, (const unsigned char *)"leaf", NULL);
 		
-		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
-		e_xml_set_bool_prop_by_name (new_node, "ascending", column.ascending);
+		e_xml_set_integer_prop_by_name (new_node, (const unsigned char *)"column", column.column);
+		e_xml_set_bool_prop_by_name (new_node, (const unsigned char *)"ascending", column.ascending);
 	}
 
 	return grouping;

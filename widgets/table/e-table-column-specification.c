@@ -103,21 +103,21 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 {
 	free_strings(etcs);
 
-	etcs->model_col     = e_xml_get_integer_prop_by_name (node, "model_col");
-	etcs->compare_col   = e_xml_get_integer_prop_by_name_with_default (node, "compare_col", etcs->model_col);
-	etcs->title         = e_xml_get_string_prop_by_name (node, "_title");
-	etcs->pixbuf        = e_xml_get_string_prop_by_name (node, "pixbuf");
+	etcs->model_col     = e_xml_get_integer_prop_by_name (node, (const unsigned char *)"model_col");
+	etcs->compare_col   = e_xml_get_integer_prop_by_name_with_default (node, (const unsigned char *)"compare_col", etcs->model_col);
+	etcs->title         = e_xml_get_string_prop_by_name (node, (const unsigned char *)"_title");
+	etcs->pixbuf        = e_xml_get_string_prop_by_name (node, (const unsigned char *)"pixbuf");
 
-	etcs->expansion     = e_xml_get_double_prop_by_name (node, "expansion");
-	etcs->minimum_width = e_xml_get_integer_prop_by_name (node, "minimum_width");
-	etcs->resizable     = e_xml_get_bool_prop_by_name (node, "resizable");
-	etcs->disabled      = e_xml_get_bool_prop_by_name (node, "disabled");
+	etcs->expansion     = e_xml_get_double_prop_by_name (node, (const unsigned char *)"expansion");
+	etcs->minimum_width = e_xml_get_integer_prop_by_name (node, (const unsigned char *)"minimum_width");
+	etcs->resizable     = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"resizable");
+	etcs->disabled      = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"disabled");
 
-	etcs->cell          = e_xml_get_string_prop_by_name (node, "cell");
-	etcs->compare       = e_xml_get_string_prop_by_name (node, "compare");
-	etcs->search        = e_xml_get_string_prop_by_name (node, "search");
-	etcs->sortable	    = e_xml_get_string_prop_by_name (node, "sortable");
-	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, "priority", 0);
+	etcs->cell          = e_xml_get_string_prop_by_name (node, (const unsigned char *)"cell");
+	etcs->compare       = e_xml_get_string_prop_by_name (node, (const unsigned char *)"compare");
+	etcs->search        = e_xml_get_string_prop_by_name (node, (const unsigned char *)"search");
+	etcs->sortable	    = e_xml_get_string_prop_by_name (node, (const unsigned char *)"sortable");
+	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, (const unsigned char *)"priority", 0);
 
 	if (etcs->title == NULL)
 		etcs->title = g_strdup("");
@@ -129,26 +129,26 @@ e_table_column_specification_save_to_node (ETableColumnSpecification *specificat
 {
 	xmlNode *node;
 	if (parent)
-		node = xmlNewChild(parent, NULL, "ETableColumn", NULL);
+		node = xmlNewChild(parent, NULL, (const unsigned char *)"ETableColumn", NULL);
 	else
-		node = xmlNewNode(NULL, "ETableColumn");
+		node = xmlNewNode(NULL, (const unsigned char *)"ETableColumn");
 
-	e_xml_set_integer_prop_by_name(node, "model_col", specification->model_col);
+	e_xml_set_integer_prop_by_name(node, (const unsigned char *)"model_col", specification->model_col);
 	if (specification->compare_col != specification->model_col)
-		e_xml_set_integer_prop_by_name(node, "compare_col", specification->compare_col);
-	e_xml_set_string_prop_by_name(node, "_title", specification->title);
-	e_xml_set_string_prop_by_name(node, "pixbuf", specification->pixbuf);
+		e_xml_set_integer_prop_by_name(node, (const unsigned char *)"compare_col", specification->compare_col);
+	e_xml_set_string_prop_by_name(node, (const unsigned char *)"_title", specification->title);
+	e_xml_set_string_prop_by_name(node, (const unsigned char *)"pixbuf", specification->pixbuf);
 
-	e_xml_set_double_prop_by_name(node, "expansion", specification->expansion);
-	e_xml_set_integer_prop_by_name(node, "minimum_width", specification->minimum_width);
-	e_xml_set_bool_prop_by_name(node, "resizable", specification->resizable);
-	e_xml_set_bool_prop_by_name(node, "disabled", specification->disabled);
+	e_xml_set_double_prop_by_name(node, (const unsigned char *)"expansion", specification->expansion);
+	e_xml_set_integer_prop_by_name(node, (const unsigned char *)"minimum_width", specification->minimum_width);
+	e_xml_set_bool_prop_by_name(node, (const unsigned char *)"resizable", specification->resizable);
+	e_xml_set_bool_prop_by_name(node, (const unsigned char *)"disabled", specification->disabled);
 
-	e_xml_set_string_prop_by_name(node, "cell", specification->cell);
-	e_xml_set_string_prop_by_name(node, "compare", specification->compare);
-	e_xml_set_string_prop_by_name(node, "search", specification->search);
+	e_xml_set_string_prop_by_name(node, (const unsigned char *)"cell", specification->cell);
+	e_xml_set_string_prop_by_name(node, (const unsigned char *)"compare", specification->compare);
+	e_xml_set_string_prop_by_name(node, (const unsigned char *)"search", specification->search);
 	if (specification->priority != 0)
-		e_xml_set_integer_prop_by_name (node, "priority", specification->priority);
+		e_xml_set_integer_prop_by_name (node, (const unsigned char *)"priority", specification->priority);
 
 	return node;
 }

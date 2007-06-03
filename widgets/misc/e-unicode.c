@@ -71,7 +71,7 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 	gunichar *nuni;
 	gunichar unival;
 	gint nlen;
-	const guchar *o, *p;
+	const gchar *o, *p;
 
 	if (haystack == NULL) return NULL;
 	if (needle == NULL) return NULL;
@@ -126,7 +126,7 @@ e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 	gunichar *nuni;
 	gunichar unival;
 	gint nlen;
-	const guchar *o, *p;
+	const gchar *o, *p;
 
 	if (haystack == NULL) return NULL;
 	if (needle == NULL) return NULL;
@@ -248,7 +248,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		gint i;
 		/* iso-8859-1 */
 		ib = (char *) string;
-		new = ob = g_new (unsigned char, bytes * 2 + 1);
+		new = ob = (char *)g_new (unsigned char, bytes * 2 + 1);
 		for (i = 0; i < (bytes); i ++) {
 			ob += e_unichar_to_utf8 (ib[i], ob);
 		}
@@ -307,7 +307,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		const gchar *u;
 		gunichar uc;
 
-		new = g_new (unsigned char, bytes * 4 + 1);
+		new = (char *)g_new (unsigned char, bytes * 4 + 1);
 		u = string;
 		len = 0;
 
@@ -512,7 +512,7 @@ gchar *
 e_utf8_xml1_decode (const gchar *text)
 {
 	const guchar *c;
-	guchar *u, *d;
+	gchar *u, *d;
 	int len, s;
 
 	g_return_val_if_fail (text != NULL, NULL);
@@ -521,7 +521,7 @@ e_utf8_xml1_decode (const gchar *text)
 	/* len * 2 is absolute maximum */
 	u = d = g_malloc (len * 2);
 
-	c = text;
+	c = (guchar *)text;
 	s = 0;
 	while (s < len) {
 		if ((s <= (len - 8)) &&
@@ -534,8 +534,8 @@ e_utf8_xml1_decode (const gchar *text)
 		    isxdigit (c[s + 6]) &&
 		    (c[s + 7] == '\\')) {
 			/* Valid \U+XXXX\ sequence */
-			unsigned int unival;
-			unival = strtol (c + s + 3, NULL, 16);
+			int unival;
+			unival = strtol ((char *)(c + s + 3), NULL, 16);
 			d += e_unichar_to_utf8 (unival, d);
 			s += 8;
 		} else if (c[s] > 127) {
@@ -555,8 +555,8 @@ e_utf8_xml1_decode (const gchar *text)
 gchar *
 e_utf8_xml1_encode (const gchar *text)
 {
-	guchar *u, *d, *c;
-	int unival;
+	gchar *u, *d, *c;
+	unsigned int unival;
 	int len;
 
 	g_return_val_if_fail (text != NULL, NULL);
@@ -569,7 +569,7 @@ e_utf8_xml1_encode (const gchar *text)
 			len += 1;
 		}
 	}
-	d = c = g_new (guchar, len + 1);
+	d = c = (char *)g_new (guchar, len + 1);
 
 	for (u = e_unicode_get_utf8 (text, &unival); u && unival; u = e_unicode_get_utf8 (u, &unival)) {
 		if ((unival >= 0x80) || (unival == '\\')) {
@@ -667,7 +667,7 @@ e_unicode_get_utf8 (const gchar *text, gunichar *out)
 typedef struct
 {
   unsigned short ch;
-  unsigned char *expansion;
+  char *expansion;
 } e_decomposition;
 
 static e_decomposition e_decomp_table[] =
@@ -2036,15 +2036,15 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlC
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		ret_val = g_strdup (prop);
+		ret_val = g_strdup ((char *)prop);
 		xmlFree (prop);
 		return ret_val;
 	}
 
 	combined_name = g_strdup_printf("_%s", prop_name);
-	prop = xmlGetProp ((xmlNode *) parent, combined_name);
+	prop = xmlGetProp ((xmlNode *) parent, (unsigned char *)combined_name);
 	if (prop != NULL) {
-		ret_val = g_strdup (gettext (prop));
+		ret_val = g_strdup (gettext ((char *)prop));
 		xmlFree (prop);
 	}
 	g_free(combined_name);

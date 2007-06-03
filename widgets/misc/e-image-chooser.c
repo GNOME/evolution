@@ -232,7 +232,7 @@ set_image_from_data (EImageChooser *chooser,
 	GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
 	GdkPixbuf *pixbuf;
 
-	gdk_pixbuf_loader_write (loader, data, length, NULL);
+	gdk_pixbuf_loader_write (loader, (unsigned char *)data, length, NULL);
 	gdk_pixbuf_loader_close (loader, NULL);
 	
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
@@ -413,15 +413,15 @@ image_drag_data_received_cb (GtkWidget *widget,
 		GnomeVFSResult result;
 		GnomeVFSHandle *handle;
 		char *uri;
-		char *nl = strstr (selection_data->data, "\r\n");
+		char *nl = strstr ((char *)selection_data->data, "\r\n");
 		char *buf = NULL;
 		/* Why can't we change the info parameter to a GnomeVFSFileInfo and use that? */
 		GnomeVFSFileInfo info;
 
 		if (nl)
-			uri = g_strndup (selection_data->data, nl - (char*)selection_data->data);
+			uri = g_strndup ((char *)selection_data->data, nl - (char*)selection_data->data);
 		else
-			uri = g_strdup (selection_data->data);
+			uri = g_strdup ((char *)selection_data->data);
 
 		result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
 		if (result == GNOME_VFS_OK) {

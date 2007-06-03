@@ -124,8 +124,8 @@ e_task_widget_construct (ETaskWidget *task_widget,
 			 const char *information)
 {
 	ETaskWidgetPrivate *priv;
-	GdkPixmap *pixmap;
-	GdkBitmap *mask;
+	/*GdkPixmap *pixmap;
+	GdkBitmap *mask;*/
 	GtkWidget *box;
 	GtkWidget *frame;
 
@@ -156,8 +156,8 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	/* gdk_pixbuf_render_pixmap_and_mask (icon_pixbuf, &pixmap, &mask, 128); */
 
 	priv->image = e_spinner_new ();
-	e_spinner_set_size (priv->image, GTK_ICON_SIZE_SMALL_TOOLBAR);
-	e_spinner_start (priv->image);
+	e_spinner_set_size (E_SPINNER (priv->image), GTK_ICON_SIZE_SMALL_TOOLBAR);
+	e_spinner_start (E_SPINNER (priv->image));
 	/* gtk_image_new_from_pixmap (pixmap, mask); */
 	gtk_widget_show (priv->image);
 	gtk_box_pack_start (GTK_BOX (box), priv->image, FALSE, TRUE, 0);

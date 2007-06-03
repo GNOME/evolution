@@ -369,10 +369,10 @@ load_single_file (GalViewCollection *collection,
 	item->ever_changed = local;
 	item->changed = FALSE;
 	item->built_in = !local;
-	item->id = e_xml_get_string_prop_by_name(node, "id");
-	item->filename = e_xml_get_string_prop_by_name(node, "filename");
-	item->title = e_xml_get_translated_utf8_string_prop_by_name(node, "title");
-	item->type = e_xml_get_string_prop_by_name(node, "type");
+	item->id = e_xml_get_string_prop_by_name(node, (const unsigned char *)"id");
+	item->filename = e_xml_get_string_prop_by_name(node, (const unsigned char *)"filename");
+	item->title = e_xml_get_translated_utf8_string_prop_by_name(node, (const unsigned char *)"title");
+	item->type = e_xml_get_string_prop_by_name(node, (const unsigned char *)"type");
 	item->collection = collection;
 	item->view_changed_id = 0;
 
@@ -422,10 +422,10 @@ load_single_dir (GalViewCollection *collection,
 		gboolean found = FALSE;
 		int i;
 
-		if (!strcmp (child->name, "text"))
+		if (!strcmp ((char *)child->name, "text"))
 			continue;
 
-		id = e_xml_get_string_prop_by_name(child, "id");
+		id = e_xml_get_string_prop_by_name(child, (const unsigned char *)"id");
 		for (i = 0; i < collection->view_count; i++) {
 			if (!strcmp(id, collection->view_data[i]->id)) {
 				if (!local)
@@ -460,7 +460,7 @@ load_single_dir (GalViewCollection *collection,
 		g_free(id);
 	}
 
-	default_view = e_xml_get_string_prop_by_name (root, "default-view");
+	default_view = e_xml_get_string_prop_by_name (root, (const unsigned char *)"default-view");
 	if (default_view) {
 		if (local)
 			collection->default_view_built_in = FALSE;
@@ -521,12 +521,12 @@ gal_view_collection_save              (GalViewCollection *collection)
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
 	g_return_if_fail (collection->local_dir != NULL);
 
-	doc = xmlNewDoc("1.0");
-	root = xmlNewNode(NULL, "GalViewCollection");
+	doc = xmlNewDoc((const unsigned char *)"1.0");
+	root = xmlNewNode(NULL, (const unsigned char *)"GalViewCollection");
 	xmlDocSetRootElement(doc, root);
 
 	if (collection->default_view && !collection->default_view_built_in) {
-		e_xml_set_string_prop_by_name(root, "default-view", collection->default_view);
+		e_xml_set_string_prop_by_name(root, (const unsigned char *)"default-view", collection->default_view);
 	}
 
 	for (i = 0; i < collection->view_count; i++) {
@@ -535,11 +535,11 @@ gal_view_collection_save              (GalViewCollection *collection)
 
 		item = collection->view_data[i];
 		if (item->ever_changed) {
-			child = xmlNewChild(root, NULL, "GalView", NULL);
-			e_xml_set_string_prop_by_name(child, "id", item->id);
-			e_xml_set_string_prop_by_name(child, "title", item->title);
-			e_xml_set_string_prop_by_name(child, "filename", item->filename);
-			e_xml_set_string_prop_by_name(child, "type", item->type);
+			child = xmlNewChild(root, NULL, (const unsigned char *)"GalView", NULL);
+			e_xml_set_string_prop_by_name(child, (const unsigned char *)"id", item->id);
+			e_xml_set_string_prop_by_name(child, (const unsigned char *)"title", item->title);
+			e_xml_set_string_prop_by_name(child, (const unsigned char *)"filename", item->filename);
+			e_xml_set_string_prop_by_name(child, (const unsigned char *)"type", item->type);
 
 			if (item->changed) {
 				filename = g_build_filename(collection->local_dir, item->filename, NULL);
@@ -554,10 +554,10 @@ gal_view_collection_save              (GalViewCollection *collection)
 
 		item = collection->removed_view_data[i];
 
-		child = xmlNewChild(root, NULL, "GalView", NULL);
-		e_xml_set_string_prop_by_name(child, "id", item->id);
-		e_xml_set_string_prop_by_name(child, "title", item->title);
-		e_xml_set_string_prop_by_name(child, "type", item->type);
+		child = xmlNewChild(root, NULL, (const unsigned char *)"GalView", NULL);
+		e_xml_set_string_prop_by_name(child, (const unsigned char *)"id", item->id);
+		e_xml_set_string_prop_by_name(child, (const unsigned char *)"title", item->title);
+		e_xml_set_string_prop_by_name(child, (const unsigned char *)"type", item->type);
 	}
 	filename = g_build_filename(collection->local_dir, "galview.xml", NULL);
 	if (e_xml_save_file (filename, doc) == -1)

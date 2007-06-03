@@ -782,7 +782,7 @@ ethi_drag_data_received (GtkWidget *canvas,
 
 	if (data->data) {
 		count = e_table_header_count(ethi->eth);
-		column = atoi(data->data);
+		column = atoi((char *)data->data);
 		drop_col = ethi->drop_col;
 		ethi->drop_col = -1;
 
@@ -826,7 +826,7 @@ ethi_drag_data_get (GtkWidget *canvas,
 		gtk_selection_data_set(selection_data,
 				       GDK_SELECTION_TYPE_STRING,
 				       sizeof(string[0]),
-				       string,
+				       (unsigned char *)string,
 				       strlen(string));
 		g_free(string);
 	}
@@ -1364,22 +1364,26 @@ ethi_popup_remove_column(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 {
-	if (info->ethi->etfcd) {
-		gtk_window_present (GTK_WINDOW (info->ethi->etfcd));
+	gpointer etfcd = (gpointer)info->ethi->etfcd;
+
+	if (etfcd) {
+		gtk_window_present (GTK_WINDOW (etfcd));
 		
 		return;
 	}
 	
-	info->ethi->etfcd = e_table_field_chooser_dialog_new();	
-	g_object_add_weak_pointer (G_OBJECT (info->ethi->etfcd), (gpointer *)&info->ethi->etfcd);
+	info->ethi->etfcd = e_table_field_chooser_dialog_new ();
+	etfcd = (gpointer)info->ethi->etfcd;
+
+	g_object_add_weak_pointer (G_OBJECT (info->ethi->etfcd), &etfcd);
 	
-	g_object_set(info->ethi->etfcd,
+	g_object_set (info->ethi->etfcd,
 		     "full_header", info->ethi->full_header,
 		     "header", info->ethi->eth,
 		     "dnd_code", info->ethi->dnd_code,
 		     NULL);
 
-	gtk_widget_show(info->ethi->etfcd);
+	gtk_widget_show (etfcd);
 }
 
 static void
@@ -1509,17 +1513,18 @@ popup_custom (GtkWidget *menu_item, EthiHeaderInfo *info)
 
 	ethi_popup_customize_view(menu_item, info);
 }
+
 static void
 ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
-	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
+	EthiHeaderInfo *info = g_new (EthiHeaderInfo, 1);
 	ETableCol *col;
 	GtkMenu *popup;
 	int ncol, sort_count, sort_col;
 	GtkWidget *menu_item, *sub_menu;
 	GSList *group = NULL;
 	ETableSortColumn column;
-	gboolean ascending;
+	gboolean ascending = TRUE;
 	
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);

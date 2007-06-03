@@ -899,8 +899,8 @@ save_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
 
 	if (node->expanded != tar->expanded_default) {
 		gchar *save_id = e_tree_model_get_save_id(tar->model, path);
-		xmlnode = xmlNewChild (tar->root, NULL, "node", NULL);
-		e_xml_set_string_prop_by_name(xmlnode, "id", save_id);
+		xmlnode = xmlNewChild (tar->root, NULL, (const unsigned char *)"node", NULL);
+		e_xml_set_string_prop_by_name(xmlnode, (const unsigned char *)"id", save_id);
 		g_free(save_id);
 	}
 }
@@ -914,16 +914,16 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 	
 	g_return_if_fail(etta != NULL);
 
-	doc = xmlNewDoc ("1.0");
-	root = xmlNewDocNode (doc, NULL, (xmlChar *) "expanded_state", NULL);
+	doc = xmlNewDoc ((const unsigned char *)"1.0");
+	root = xmlNewDocNode (doc, NULL, (const unsigned char *)"expanded_state", NULL);
 	xmlDocSetRootElement (doc, root);
 
 	tar.model = etta->priv->source;
 	tar.root = root;
 	tar.expanded_default = e_tree_model_get_expanded_default(etta->priv->source);
 	
-	e_xml_set_integer_prop_by_name (root, "vers", 2);
-	e_xml_set_bool_prop_by_name (root, "default", tar.expanded_default);
+	e_xml_set_integer_prop_by_name (root, (const unsigned char *)"vers", 2);
+	e_xml_set_bool_prop_by_name (root, (const unsigned char *)"default", tar.expanded_default);
 
 	g_hash_table_foreach (etta->priv->nodes, save_expanded_state_func, &tar);
 
@@ -956,18 +956,18 @@ open_file (ETreeTableAdapter *etta, const char *filename)
 		return NULL;
 
 	root = xmlDocGetRootElement (doc);
-	if (root == NULL || strcmp (root->name, "expanded_state")) {
+	if (root == NULL || strcmp ((char *)root->name, "expanded_state")) {
 		xmlFreeDoc (doc);
 		return NULL;
 	}
 
-	vers = e_xml_get_integer_prop_by_name_with_default (root, "vers", 0);
+	vers = e_xml_get_integer_prop_by_name_with_default (root, (const unsigned char *)"vers", 0);
 	if (vers > 2) {
 		xmlFreeDoc (doc);
 		return NULL;
 	}
 	model_default = e_tree_model_get_expanded_default (etta->priv->source);
-	saved_default = e_xml_get_bool_prop_by_name_with_default (root, "default", !model_default);
+	saved_default = e_xml_get_bool_prop_by_name_with_default (root, (const unsigned char *)"default", !model_default);
 	if (saved_default != model_default) {
 		xmlFreeDoc (doc);
 		return NULL;
@@ -1034,10 +1034,10 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 	
 	model_default = e_tree_model_get_expanded_default(etta->priv->source);
 
-	if (!strcmp (root->name, "expanded_state")) {
+	if (!strcmp ((char *)root->name, "expanded_state")) {
 		char *state;
 
-		state = e_xml_get_string_prop_by_name_with_default (root, "default", "");
+		state = e_xml_get_string_prop_by_name_with_default (root, (const unsigned char *)"default", "");
 
 		if (state[0] == 't')
 			file_default = TRUE;
@@ -1056,12 +1056,12 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 		char *id;
 		ETreePath path;
 
-		if (strcmp (child->name, "node")) {
+		if (strcmp ((char *)child->name, "node")) {
 			d(g_warning ("unknown node '%s' in %s", child->name, filename));
 			continue;
 		}
 
-		id = e_xml_get_string_prop_by_name_with_default (child, "id", "");
+		id = e_xml_get_string_prop_by_name_with_default (child, (const unsigned char *)"id", "");
 
 		if (!strcmp(id, "")) {
 			g_free(id);

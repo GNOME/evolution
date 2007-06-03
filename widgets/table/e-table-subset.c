@@ -401,7 +401,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 			return NULL;
 	} else
 		buffer = NULL;
-	etss->map_table = buffer;
+	etss->map_table = (int *)buffer;
 	etss->n_map = nvals;
 	etss->source = source;
 	g_object_ref (source);

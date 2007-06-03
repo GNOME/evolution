@@ -304,6 +304,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 	return NULL;
 }
 
+#if 0
 static int
 get_local_offset ()
 {
@@ -319,6 +320,7 @@ get_local_offset ()
 
 	return diff;
 }
+#endif
 
 static const icaltimezone*
 get_local_timezone()
@@ -677,7 +679,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
  	if (!zone) {
-		zone=get_local_timezone();
+		zone = (icaltimezone *)get_local_timezone();
 		if (!zone)
 			zone = icaltimezone_get_utc_timezone();
 	}

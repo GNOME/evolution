@@ -161,7 +161,7 @@ e_table_state_load_from_node (ETableState *state,
 	int i;
 
 	state_version = e_xml_get_double_prop_by_name_with_default (
-		node, "state-version", STATE_VERSION);
+		node, (const unsigned char *)"state-version", STATE_VERSION);
 
 	if (state->sort_info)
 		g_object_unref (state->sort_info);
@@ -169,18 +169,18 @@ e_table_state_load_from_node (ETableState *state,
 	state->sort_info = NULL;
 	children = node->xmlChildrenNode;
 	for (; children; children = children->next) {
-		if (!strcmp (children->name, "column")) {
+		if (!strcmp ((char *)children->name, "column")) {
 			int_and_double *column_info = g_new(int_and_double, 1);
 
 			column_info->column = e_xml_get_integer_prop_by_name(
-				children, "source");
+				children, (const unsigned char *)"source");
 			column_info->expansion =
 				e_xml_get_double_prop_by_name_with_default(
-					children, "expansion", 1);
+					children, (const unsigned char *)"expansion", 1);
 
 			list = g_list_append (list, column_info);
 		} else if (state->sort_info == NULL &&
-			   !strcmp (children->name, "grouping")) {
+			   !strcmp ((char *)children->name, "grouping")) {
 			state->sort_info = e_table_sort_info_new();
 			e_table_sort_info_load_from_node(
 				state->sort_info, children, state_version);
@@ -209,7 +209,7 @@ e_table_state_save_to_file      (ETableState *state,
 {
 	xmlDoc *doc;
 	
-	if ((doc = xmlNewDoc ("1.0")) == NULL)
+	if ((doc = xmlNewDoc ((const unsigned char *)"1.0")) == NULL)
 		return;
 	
 	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
@@ -227,12 +227,12 @@ e_table_state_save_to_string    (ETableState *state)
 	int length;
 	xmlDoc *doc;
 
-	doc = xmlNewDoc("1.0");
+	doc = xmlNewDoc((const unsigned char *)"1.0");
 	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
 	xmlDocDumpMemory(doc, &string, &length);
 	xmlFreeDoc(doc);
 
-	ret_val = g_strdup(string);
+	ret_val = g_strdup((gchar *)string);
 	xmlFree(string);
 	return ret_val;
 }
@@ -245,21 +245,21 @@ e_table_state_save_to_node      (ETableState *state,
 	xmlNode *node;
 
 	if (parent)
-		node = xmlNewChild (parent, NULL, "ETableState", NULL);
+		node = xmlNewChild (parent, NULL, (const unsigned char *)"ETableState", NULL);
 	else
-		node = xmlNewNode (NULL, "ETableState");
+		node = xmlNewNode (NULL, (const unsigned char *)"ETableState");
 
-	e_xml_set_double_prop_by_name(node, "state-version", STATE_VERSION);
+	e_xml_set_double_prop_by_name(node, (const unsigned char *)"state-version", STATE_VERSION);
 
 	for (i = 0; i < state->col_count; i++) {
 		int column = state->columns[i];
 		double expansion = state->expansions[i];
 		xmlNode *new_node;
 
-		new_node = xmlNewChild(node, NULL, "column", NULL);
-		e_xml_set_integer_prop_by_name (new_node, "source", column);
+		new_node = xmlNewChild(node, NULL, (const unsigned char *)"column", NULL);
+		e_xml_set_integer_prop_by_name (new_node, (const unsigned char *)"source", column);
 		if (expansion >= -1)
-			e_xml_set_double_prop_by_name(new_node, "expansion", expansion);
+			e_xml_set_double_prop_by_name(new_node, (const unsigned char *)"expansion", expansion);
 	}
 
 

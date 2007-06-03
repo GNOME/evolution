@@ -181,7 +181,7 @@ ect_realize (ECellView *ecell_view)
 				    GDK_LINE_ON_OFF_DASH,
 				    GDK_CAP_NOT_LAST,
 				    GDK_JOIN_MITER);
-	gdk_gc_set_dashes (tree_view->gc, 0, "\1\1", 2);
+	gdk_gc_set_dashes (tree_view->gc, 0, (gint8 *)"\1\1", 2);
 
 	if (parent_class->realize)
 		(* parent_class->realize) (ecell_view);

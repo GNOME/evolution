@@ -187,24 +187,24 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	GList *list = NULL, *list2;
 	int i;
 
-	specification->no_headers = e_xml_get_bool_prop_by_name (node, "no-headers");
-	specification->click_to_add = e_xml_get_bool_prop_by_name (node, "click-to-add");
-	specification->click_to_add_end = e_xml_get_bool_prop_by_name (node, "click-to-add-end") && specification->click_to_add;
-	specification->alternating_row_colors = e_xml_get_bool_prop_by_name_with_default (node, "alternating-row-colors", TRUE);
-	specification->horizontal_draw_grid = e_xml_get_bool_prop_by_name (node, "horizontal-draw-grid");
-	specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, "vertical-draw-grid");
-	if (e_xml_get_bool_prop_by_name_with_default(node, "draw-grid", TRUE) ==
-	    e_xml_get_bool_prop_by_name_with_default(node, "draw-grid", FALSE)) {
+	specification->no_headers = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"no-headers");
+	specification->click_to_add = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"click-to-add");
+	specification->click_to_add_end = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"click-to-add-end") && specification->click_to_add;
+	specification->alternating_row_colors = e_xml_get_bool_prop_by_name_with_default (node, (const unsigned char *)"alternating-row-colors", TRUE);
+	specification->horizontal_draw_grid = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"horizontal-draw-grid");
+	specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"vertical-draw-grid");
+	if (e_xml_get_bool_prop_by_name_with_default(node, (const unsigned char *)"draw-grid", TRUE) ==
+	    e_xml_get_bool_prop_by_name_with_default(node, (const unsigned char *)"draw-grid", FALSE)) {
 		specification->horizontal_draw_grid =
-			specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, "draw-grid");
+			specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, (const unsigned char *)"draw-grid");
 	}
-	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, "draw-focus", TRUE);
-	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-scrolling", FALSE);
-	specification->horizontal_resize = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-resize", FALSE);
-	specification->allow_grouping = e_xml_get_bool_prop_by_name_with_default (node, "allow-grouping", TRUE);
+	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, (const unsigned char *)"draw-focus", TRUE);
+	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, (const unsigned char *)"horizontal-scrolling", FALSE);
+	specification->horizontal_resize = e_xml_get_bool_prop_by_name_with_default (node, (const unsigned char *)"horizontal-resize", FALSE);
+	specification->allow_grouping = e_xml_get_bool_prop_by_name_with_default (node, (const unsigned char *)"allow-grouping", TRUE);
 
 	specification->selection_mode = GTK_SELECTION_MULTIPLE;
-	temp = e_xml_get_string_prop_by_name (node, "selection-mode");
+	temp = e_xml_get_string_prop_by_name (node, (const unsigned char *)"selection-mode");
 	if (temp && !g_ascii_strcasecmp (temp, "single")) {
 		specification->selection_mode = GTK_SELECTION_SINGLE;
 	} else if (temp && !g_ascii_strcasecmp (temp, "browse")) {
@@ -215,7 +215,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	g_free (temp);
 
 	specification->cursor_mode = E_CURSOR_SIMPLE;
-	temp = e_xml_get_string_prop_by_name (node, "cursor-mode");
+	temp = e_xml_get_string_prop_by_name (node, (const unsigned char *)"cursor-mode");
 	if (temp && !g_ascii_strcasecmp (temp, "line")) {
 		specification->cursor_mode = E_CURSOR_LINE;
 	} else 	if (temp && !g_ascii_strcasecmp (temp, "spreadsheet")) {
@@ -226,12 +226,12 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	g_free (specification->click_to_add_message);
 	specification->click_to_add_message =
 		e_xml_get_string_prop_by_name (
-			node, "_click-to-add-message");
+			node, (const unsigned char *)"_click-to-add-message");
 
 	g_free (specification->domain);
 	specification->domain =
 		e_xml_get_string_prop_by_name (
-			node, "gettext-domain");
+			node, (const unsigned char *)"gettext-domain");
 	if (specification->domain && !*specification->domain) {
 		g_free (specification->domain);
 		specification->domain = NULL;
@@ -249,12 +249,12 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	specification->columns = NULL;
 
 	for (children = node->xmlChildrenNode; children; children = children->next) {
-		if (!strcmp (children->name, "ETableColumn")) {
+		if (!strcmp ((char *)children->name, "ETableColumn")) {
 			ETableColumnSpecification *col_spec = e_table_column_specification_new ();
 
 			e_table_column_specification_load_from_node (col_spec, children);
 			list = g_list_append (list, col_spec);
-		} else if (specification->state == NULL && !strcmp (children->name, "ETableState")) {
+		} else if (specification->state == NULL && !strcmp ((char *)children->name, "ETableState")) {
 			specification->state = e_table_state_new ();
 			e_table_state_load_from_node (specification->state, children);
 			e_table_sort_info_set_can_group (specification->state->sort_info, specification->allow_grouping);
@@ -294,7 +294,7 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
 	
-	if ((doc = xmlNewDoc ("1.0")) == NULL)
+	if ((doc = xmlNewDoc ((const unsigned char *)"1.0")) == NULL)
 		return -1;
 	
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
@@ -327,11 +327,11 @@ e_table_specification_save_to_string (ETableSpecification *specification)
 	g_return_val_if_fail (specification != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 	
-	doc = xmlNewDoc ("1.0");
+	doc = xmlNewDoc ((const unsigned char *)"1.0");
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	xmlDocDumpMemory (doc, &string, &length);
 
-	ret_val = g_strdup (string);
+	ret_val = g_strdup ((gchar *)string);
 	xmlFree (string);
 	return ret_val;
 }
@@ -358,17 +358,17 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	g_return_val_if_fail (specification != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
-	node = xmlNewNode (NULL, "ETableSpecification");
-	e_xml_set_bool_prop_by_name (node, "no-headers", specification->no_headers);
-	e_xml_set_bool_prop_by_name (node, "click-to-add", specification->click_to_add);
-	e_xml_set_bool_prop_by_name (node, "click-to-add-end", specification->click_to_add_end && specification->click_to_add);
-	e_xml_set_bool_prop_by_name (node, "alternating-row-colors", specification->alternating_row_colors);
-	e_xml_set_bool_prop_by_name (node, "horizontal-draw-grid", specification->horizontal_draw_grid);
-	e_xml_set_bool_prop_by_name (node, "vertical-draw-grid", specification->vertical_draw_grid);
-	e_xml_set_bool_prop_by_name (node, "draw-focus", specification->draw_focus);
-	e_xml_set_bool_prop_by_name (node, "horizontal-scrolling", specification->horizontal_scrolling);
-	e_xml_set_bool_prop_by_name (node, "horizontal-resize", specification->horizontal_resize);
-	e_xml_set_bool_prop_by_name (node, "allow-grouping", specification->allow_grouping);
+	node = xmlNewNode (NULL, (const unsigned char *)"ETableSpecification");
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"no-headers", specification->no_headers);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"click-to-add", specification->click_to_add);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"click-to-add-end", specification->click_to_add_end && specification->click_to_add);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"alternating-row-colors", specification->alternating_row_colors);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"horizontal-draw-grid", specification->horizontal_draw_grid);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"vertical-draw-grid", specification->vertical_draw_grid);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"draw-focus", specification->draw_focus);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"horizontal-scrolling", specification->horizontal_scrolling);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"horizontal-resize", specification->horizontal_resize);
+	e_xml_set_bool_prop_by_name (node, (const unsigned char *)"allow-grouping", specification->allow_grouping);
 
 	switch (specification->selection_mode){
 	case GTK_SELECTION_SINGLE:
@@ -381,15 +381,15 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	case GTK_SELECTION_EXTENDED:
 		s = "extended";
 	}
-	xmlSetProp (node, "selection-mode", s);
+	xmlSetProp (node, (const unsigned char *)"selection-mode", (unsigned char *)s);
 	if (specification->cursor_mode == E_CURSOR_LINE)
 		s = "line";
 	else
 		s = "cell";
-	xmlSetProp (node, "cursor-mode", s);
+	xmlSetProp (node, (const unsigned char *)"cursor-mode", (unsigned char *)s);
 
-	xmlSetProp (node, "_click-to-add-message", specification->click_to_add_message);
-	xmlSetProp (node, "gettext-domain", specification->domain);
+	xmlSetProp (node, (const unsigned char *)"_click-to-add-message", (unsigned char *)specification->click_to_add_message);
+	xmlSetProp (node, (const unsigned char *)"gettext-domain", (unsigned char *)specification->domain);
 
 	if (specification->columns){
 		int i;

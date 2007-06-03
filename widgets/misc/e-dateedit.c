@@ -1400,7 +1400,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 	EDateEditPrivate *priv;
 	GtkList *list;
 	GtkWidget *listitem, *label;
-	char buffer[40], *format;
+	char buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 
@@ -1738,7 +1738,7 @@ static void
 e_date_edit_update_time_entry		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	char buffer[40], *format;
+	char buffer[40];
 	struct tm tmp_tm = { 0 };
 
 	priv = dedit->priv;

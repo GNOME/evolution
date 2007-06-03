@@ -1124,6 +1124,7 @@ typedef struct {
 
 #define CHECK(x) if((x) == -1) return -1;
 
+#if 0
 static gint
 gp_draw_rect (GtkPrintContext *context, double x, double y, double width, double height)
 {
@@ -1133,6 +1134,7 @@ gp_draw_rect (GtkPrintContext *context, double x, double y, double width, double
 	cairo_rectangle (cr, x, y, x + width, y + height);
 	cairo_fill (cr);
 }
+#endif
 
 #define TEXT_HEIGHT (12)
 #define TEXT_AREA_HEIGHT (TEXT_HEIGHT + 4)

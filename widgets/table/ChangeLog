@@ -1,3 +1,33 @@
+2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	** Fixes part of bug #441014
+
+	* e-cell-text.c: (build_layout), (ect_print):
+	* e-cell-tree.c: (ect_realize):
+	* e-table-column-specification.c:
+	(e_table_column_specification_load_from_node),
+	(e_table_column_specification_save_to_node):
+	* e-table-field-chooser-item.c: (etfci_drag_data_get):
+	* e-table-group-container.c:
+	* e-table-header-item.c: (ethi_drag_data_received),
+	(ethi_drag_data_get), (ethi_popup_field_chooser),
+	(ethi_header_context_menu):
+	* e-table-sort-info.c: (e_table_sort_info_load_from_node),
+	(e_table_sort_info_save_to_node):
+	* e-table-specification.c: (e_table_specification_load_from_node),
+	(e_table_specification_save_to_file),
+	(e_table_specification_save_to_string),
+	(e_table_specification_save_to_node):
+	* e-table-state.c: (e_table_state_load_from_node),
+	(e_table_state_save_to_file), (e_table_state_save_to_string),
+	(e_table_state_save_to_node):
+	* e-table-subset-variable.c: (e_table_subset_variable_clear):
+	* e-table-subset.c: (e_table_subset_construct):
+	* e-tree-table-adapter.c: (save_expanded_state_func),
+	(e_tree_table_adapter_save_expanded_state), (open_file),
+	(e_tree_table_adapter_load_expanded_state): various
+	compilation warning cleanups
+
 2007-05-31  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #333707 from David Moore

@@ -1,3 +1,14 @@
+2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	** Fixes part of bug #441014
+
+	* e-timezone-dialog/e-timezone-dialog.c:
+	(e_timezone_dialog_set_timezone):
+	* menus/gal-view-collection.c: (load_single_file),
+	(load_single_dir), (gal_view_collection_save):
+	* menus/gal-view-instance.c: (save_current_view),
+	(load_current_view): various compilation warning cleanups
+
 2007-05-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	* text/e-text.c (e_text_copy_clipboard),

@@ -1,4 +1,20 @@
-2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
+2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	** Fixes part of bug #441014
+
+	* e-dateedit.c: (rebuild_time_popup):
+	* e-filter-bar.c: (get_property), (xml_get_prop_int),
+	(set_property):
+	* e-image-chooser.c: (set_image_from_data),
+	(image_drag_data_received_cb):
+	* e-task-widget.c: (e_task_widget_construct):
+	* e-unicode.c: (e_utf8_strstrcasedecomp), (e_utf8_strstrcase),
+	(e_utf8_from_iconv_string_sized), (e_utf8_to_iconv_string_sized),
+	(e_utf8_xml1_decode), (e_utf8_xml1_encode),
+	(e_xml_get_translated_utf8_string_prop_by_name): various
+	compilation cleanups.
+
++2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #441010
 

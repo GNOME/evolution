@@ -399,7 +399,7 @@ etfci_drag_data_get (GtkWidget          *widget,
 		gtk_selection_data_set(selection_data,
 				       GDK_SELECTION_TYPE_STRING,
 				       sizeof(string[0]),
-				       string,
+				       (unsigned char *)string,
 				       strlen(string));
 		g_free(string);
 	}
