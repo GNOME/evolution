@@ -1,5 +1,12 @@
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #386503 from Matthew Barnes
+
+	* e-multi-config-dialog.c: (impl_response):
+	* e-send-options.c: (e_send_options_cb):
+
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #416031 from Martin Jürgens
 
 	* e-charset-picker.c:

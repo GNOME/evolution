@@ -1,5 +1,11 @@
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #386503 from Matthew Barnes
+
+	* gui/contact-editor/e-contact-editor.c: (show_help_cb):
+
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
         ** Fix for version removal from Installed files from Gilles Dartiguelongue 
 
 	* Makefile.am:

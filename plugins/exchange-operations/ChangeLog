@@ -1,3 +1,9 @@
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #386503 from Matthew Barnes
+	
+	* exchange-send-options.c: (exchange_send_options_cb):
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* exchange-config-listener.c (exchange_add_autocompletion_folders):

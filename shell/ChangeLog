@@ -1,5 +1,12 @@
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #386503 from Matthew Barnes
+	
+	* e-shell-window.c: (e_shell_window_new):
+	* main.c: (main):
+
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
         ** Fix for version removal from Installed files from Gilles Dartiguelongue 
 	
 	* Makefile.am:

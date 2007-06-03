@@ -1066,7 +1066,7 @@ e_shell_window_new (EShell *shell,
 	bonobo_ui_util_set_ui (priv->ui_component,
 			       PREFIX,
 			       xmlfile,
-			       "evolution-" BASE_VERSION, NULL);
+			       "evolution", NULL);
 	g_free (xmlfile);
 
 	e_shell_window_commands_setup (window);

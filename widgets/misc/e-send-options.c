@@ -588,34 +588,32 @@ e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set)
 
 static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 {
+	ESendOptionsDialogPrivate *priv;
+	ESendOptionsDialog *sod;
+	GError *error = NULL;     
 
-    ESendOptionsDialogPrivate *priv;
-    ESendOptionsDialog *sod;
-    GError *error = NULL;     
+	sod = func_data;
+	priv = sod->priv;
 
-    sod = func_data;
-    priv = sod->priv;
-	
-    switch (state) {
-	case GTK_RESPONSE_OK:
-	    e_send_options_get_widgets_data (sod);
-	case GTK_RESPONSE_CANCEL:
-	    gtk_widget_hide (priv->main);
-	    gtk_widget_destroy (priv->main);
-	    g_object_unref (priv->xml);
-	    break;
-	case GTK_RESPONSE_HELP:
-	gnome_help_display_desktop (NULL,
-				    "evolution-" BASE_VERSION,
-				    "evolution-" BASE_VERSION ".xml",
-				    priv->help_section,
-				    &error);
-	    if (error != NULL)
-		g_warning ("%s", error->message);
-	    break;
-    }
-    g_signal_emit (G_OBJECT (func_data), signals[SOD_RESPONSE], 0, state);
+	switch (state) {
+		case GTK_RESPONSE_OK:
+			e_send_options_get_widgets_data (sod);
+		case GTK_RESPONSE_CANCEL:
+			gtk_widget_hide (priv->main);
+			gtk_widget_destroy (priv->main);
+			g_object_unref (priv->xml);
+			break;
+		case GTK_RESPONSE_HELP:
+			gnome_help_display (
+				"evolution.xml", priv->help_section, &error);
+			if (error != NULL) {
+				g_warning ("%s", error->message);
+				g_error_free (error);
+			}
+    			break;
+	}
 
+	g_signal_emit (G_OBJECT (func_data), signals[SOD_RESPONSE], 0, state);
 }
 
 gboolean 

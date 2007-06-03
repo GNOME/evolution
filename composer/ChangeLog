@@ -1,3 +1,9 @@
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #386503 from Matthew Barnes
+	
+	* e-msg-composer.c: (e_msg_composer_show_help):
+
 2007-06-01  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #315012 from Pascal Terjan

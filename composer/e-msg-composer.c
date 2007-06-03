@@ -2879,13 +2879,12 @@ e_msg_composer_show_help (EMsgComposer *composer)
 {
 	GError *error = NULL;
 
-	gnome_help_display_desktop (NULL,
-				    "evolution-" BASE_VERSION,
-				    "evolution-" BASE_VERSION ".xml",
-				    "usage-composer",
-				    &error);
-	if (error != NULL)
+	gnome_help_display (
+		"evolution.xml", "usage-composer", &error);
+	if (error != NULL) {
 		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 
