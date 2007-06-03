@@ -169,7 +169,7 @@ edit_clicked_cb (GtkButton *button, gpointer data)
 		return;
 	}
 
-	alarm = e_alarm_list_get_alarm (dialog->list_store, &iter);
+	alarm = (ECalComponentAlarm *)e_alarm_list_get_alarm (dialog->list_store, &iter);
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (dialog->list_store), &iter);
 
 	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm)) {

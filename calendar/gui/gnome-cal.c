@@ -2770,15 +2770,15 @@ backend_error_cb (ECal *client, const char *message, gpointer data)
 
 	uristr = get_uri_without_password (e_cal_get_uri (client));
 
-	dialog = gtk_message_dialog_new (
+	dialog = GTK_DIALOG (gtk_message_dialog_new (
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_ERROR,
 		GTK_BUTTONS_OK,
 		_("Error on %s:\n %s"),
-		uristr, message);
+		uristr, message));
 	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 	g_free (uristr);
 }

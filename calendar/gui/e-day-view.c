@@ -8816,7 +8816,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		comp_str = icalcomponent_as_ical_string (vcal);
 		if (comp_str) {
 			gtk_selection_data_set (selection_data, selection_data->target,
-						8, comp_str, strlen (comp_str));
+						8, (unsigned char *)comp_str, strlen (comp_str));
 		}
 
 		icalcomponent_free (vcal);

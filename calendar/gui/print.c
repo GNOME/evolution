@@ -2228,7 +2228,7 @@ print_calendar (GnomeCalendar *gcal, GtkPrintOperationAction action,
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	pcali.gcal = gcal;
+	pcali.gcal = (GnomeCalendar *)gcal;
 	pcali.start = start;
 
 	operation = e_print_operation_new ();

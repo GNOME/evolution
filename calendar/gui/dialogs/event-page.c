@@ -1783,13 +1783,15 @@ remove_clicked_cb (GtkButton *btn, EventPage *epage)
 	GList *paths = NULL, *tmp;
 	GtkTreeIter iter;
 	GtkTreePath *path = NULL;
+	GtkTreeModel *model = NULL;
 	gboolean valid_iter;
 	char *address;
 	
 	priv = epage->priv;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
-	if (!(paths = gtk_tree_selection_get_selected_rows (selection, (GtkTreeModel **) &(priv->model)))) {
+	model = GTK_TREE_MODEL (priv->model);
+	if (!(paths = gtk_tree_selection_get_selected_rows (selection, &model ))) {
 		g_warning ("Could not get a selection to delete.");
 		return;
 	}

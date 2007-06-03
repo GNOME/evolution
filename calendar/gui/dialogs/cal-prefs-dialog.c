@@ -326,7 +326,7 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			source = E_SOURCE (sources->data);
 
-			alarm = e_source_get_property (source, "alarm");
+			alarm = (gchar *)e_source_get_property (source, "alarm");
 			if (alarm && !g_ascii_strcasecmp (alarm, "never"))
 				continue;
 				
@@ -341,7 +341,7 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 	for (l = selection; l; l = l->next) {
 		source = E_SOURCE (l->data);
 
-		alarm = e_source_get_property (source, "alarm");
+		alarm = (gchar *)e_source_get_property (source, "alarm");
 		if (alarm && !g_ascii_strcasecmp (alarm, "never"))
 			continue;
 

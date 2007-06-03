@@ -798,7 +798,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	GdkGC *gc;
 	gint x1, y1, x2, y2, time_x, time_y;
 	gint icon_x, icon_y, time_width, min_end_time_x, max_icon_x;
-	gint rect_x, rect_w, rect_x2;
+	gint rect_x, rect_w, rect_x2 = 0;
 	gboolean one_day_event, editing_span = FALSE;
 	gint start_hour, start_minute, end_hour, end_minute;
 	gboolean draw_start, draw_end;

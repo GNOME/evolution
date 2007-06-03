@@ -83,7 +83,7 @@ eccp_commit (EConfig *ec, GSList *items, void *data)
 	if (sdialog->original_source) {
 		const gchar *color_spec;
 
-		xml = xmlNewNode (NULL, "dummy");
+		xml = xmlNewNode (NULL, (const unsigned char *)"dummy");
 		e_source_dump_to_xml_node (sdialog->source, xml);
 		e_source_update_from_xml_node (sdialog->original_source, xml->children, NULL);
 		xmlFreeNode (xml);

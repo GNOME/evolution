@@ -862,7 +862,7 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 	
 	pi_buffer_free(buffer); 
 #else
-	p.record = record;
+	p.record = (unsigned char *)record;
 	p.length = pack_Appointment (local->appt, p.record, 0xffff);
 #endif
 	return p;	
@@ -927,7 +927,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 #ifdef PILOT_LINK_0_12
 			unpack_Appointment (&appt, record, datebook_v1);
 #else
-			unpack_Appointment (&appt, record, 0xffff);
+			unpack_Appointment (&appt, (unsigned char *)record, 0xffff);
 #endif
 			local->appt->alarm = appt.alarm;
 			local->appt->advance = appt.advance;
@@ -1547,7 +1547,7 @@ pre_sync (GnomePilotConduit *conduit,
 	}
 
 	/* Remove the events that were split up */
-	g_list_concat (ctxt->changed, added);
+	ctxt->changed = g_list_concat (ctxt->changed, added);
 	for (l = removed; l != NULL; l = l->next) {
 		ECalChange *ccc = l->data;
 		const char *uid;
@@ -1714,7 +1714,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, comps->data, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 
 			iterator = comps;
 		} else {
@@ -1729,7 +1729,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, iterator->data, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
@@ -1768,7 +1768,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, ccc->comp, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
 
@@ -1782,7 +1782,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, ccc->comp, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 

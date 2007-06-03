@@ -257,7 +257,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 		d(printf ("dropping a message/rfc822\n"));
 		/* write the message(s) out to a CamelStream so we can use it */
 		stream = camel_stream_mem_new ();
-		camel_stream_write (stream, selection->data, selection->length);
+		camel_stream_write (stream, (char *)selection->data, selection->length);
 		camel_stream_reset (stream);
 		
 		msg = camel_mime_message_new ();
@@ -273,7 +273,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 	case DND_TYPE_TEXT_URI_LIST:
 	case DND_TYPE_NETSCAPE_URL:
 		d(printf ("dropping a text/uri-list\n"));
-		tmp = g_strndup (selection->data, selection->length);
+		tmp = g_strndup ((char *)selection->data, selection->length);
 		urls = g_strsplit (tmp, "\n", 0);
 		g_free (tmp);
 		
@@ -319,7 +319,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 		d(printf ("dropping a %s\n", content_type));
 		
 		mime_part = camel_mime_part_new ();
-		camel_mime_part_set_content (mime_part, selection->data, selection->length, content_type);
+		camel_mime_part_set_content (mime_part, (char *)selection->data, selection->length, content_type);
 		camel_mime_part_set_disposition (mime_part, "inline");
 		
 		e_attachment_bar_attach_mime_part
@@ -341,8 +341,8 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 
 		uids = g_ptr_array_new();
 
-		inptr = selection->data;
-		inend = selection->data + selection->length;
+		inptr = (char *)selection->data;
+		inend = (char *)(selection->data + selection->length);
 		while (inptr < inend) {
 			char *start = inptr;
 
@@ -356,7 +356,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 		}
 
 		if (uids->len > 0) {
-			folder = mail_tool_uri_to_folder(selection->data, 0, &ex);
+			folder = mail_tool_uri_to_folder((char *)selection->data, 0, &ex);
 			if (folder) {
 				if (uids->len == 1) {
 					msg = camel_folder_get_message(folder, uids->pdata[0], &ex);
@@ -419,7 +419,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 				camel_object_unref(folder);
 			} else {
 				e_error_run((GtkWindow *)editor, "mail-editor:attach-nomessages",
-					    selection->data, camel_exception_get_description(&ex), NULL);
+					    (char *)selection->data, camel_exception_get_description(&ex), NULL);
 			}
 
 			camel_exception_clear(&ex);
@@ -2771,7 +2771,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
 		buffer = g_memdup (mstream->buffer->data, mstream->buffer->len);
 		
-		cal_mime_attach->encoded_data = buffer;
+		cal_mime_attach->encoded_data = (char *)buffer;
 		cal_mime_attach->length = mstream->buffer->len;
 		cal_mime_attach->filename = g_strdup (camel_mime_part_get_filename
 			((CamelMimePart *) l->data));

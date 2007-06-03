@@ -457,7 +457,7 @@ table_drag_data_get (ETable             *table,
 			comp_str = icalcomponent_as_ical_string (vcal);
 			if (comp_str) {
 				gtk_selection_data_set (selection_data, selection_data->target,
-							8, comp_str, strlen (comp_str));
+							8, (unsigned char *)comp_str, strlen (comp_str));
 			}
 			icalcomponent_free (vcal);
 		}
@@ -1457,7 +1457,7 @@ e_tasks_open_task_id (ETasks *tasks,
 		return;
 
 	attendee_prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-	e_calendar_table_open_task (E_CALENDAR_TABLE (tasks->priv->tasks_view), client, icalcomp, attendee_prop);
+	e_calendar_table_open_task (E_CALENDAR_TABLE (tasks->priv->tasks_view), client, icalcomp, (gboolean)attendee_prop);
 	icalcomponent_free (icalcomp);
 
 	return;

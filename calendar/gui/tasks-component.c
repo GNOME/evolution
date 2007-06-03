@@ -750,7 +750,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source))
 		goto finish;
 
-	icalcomp = icalparser_parse_string (data->data);
+	icalcomp = icalparser_parse_string ((char *)data->data);
 
 	if (icalcomp) {
 		const char * uid;

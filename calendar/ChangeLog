@@ -1,3 +1,32 @@
+2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	** Fixes bug #439122
+
+	* conduits/calendar/calendar-conduit.c:
+	(local_record_to_pilot_record):
+	* conduits/memo/memo-conduit.c: (local_record_to_pilot_record):
+	* conduits/todo/todo-conduit.c: (local_record_to_pilot_record):
+	* gui/calendar-component.c: (selector_tree_drag_data_received):
+	* gui/dialogs/alarm-list-dialog.c: (edit_clicked_cb):
+	* gui/dialogs/cal-prefs-dialog.c: (alarms_selection_changed):
+	* gui/dialogs/calendar-setup.c: (eccp_commit):
+	* gui/dialogs/comp-editor.c: (drop_action),
+	(comp_editor_get_mime_attach_list):
+	* gui/dialogs/event-page.c: (remove_clicked_cb):
+	* gui/dialogs/task-page.c: (remove_clicked_cb):
+	* gui/e-day-view.c: (e_day_view_on_drag_data_get):
+	* gui/e-itip-control.c: (url_requested_cb), (insert_boxes),
+	(insert_ok):
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_construct):
+	* gui/e-memos.c: (table_drag_data_get), (backend_error_cb):
+	* gui/e-tasks.c: (table_drag_data_get), (e_tasks_open_task_id):
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw):
+	* gui/gnome-cal.c: (backend_error_cb):
+	* gui/memos-component.c: (selector_tree_drag_data_received):
+	* gui/print.c: (print_calendar):
+	* gui/tasks-component.c: (selector_tree_drag_data_received):
+	compilation warnings cleanup
+
 2007-06-01  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #321741

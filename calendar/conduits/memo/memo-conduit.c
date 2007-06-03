@@ -497,7 +497,7 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 
 	pi_buffer_free(buffer);
 #else
-	p.record = record;
+	p.record = (unsigned char *)record;
 	p.length = pack_Memo (local->memo, p.record, 0xffff);
 #endif
 	return p;	
@@ -1153,7 +1153,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			LOG(fprintf(stderr, "for_each: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, comps->data, ctxt);
 			LOG(fprintf(stderr, "for_each: calling g_list_prepend\n"));
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 			LOG(fprintf(stderr, "for_each: setting iterator = comps\n"));
 			iterator = comps;
 		} else {
@@ -1171,7 +1171,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			LOG(fprintf(stderr, "for_each: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, iterator->data, ctxt);
 			LOG(fprintf(stderr, "for_each: calling g_list_prepend\n"));
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
@@ -1212,7 +1212,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			LOG(fprintf(stderr, "for_each_modified: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, ccc->comp, ctxt);
 			LOG(fprintf(stderr, "for_each_modified: calling g_list_prepend\n"));
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
 
@@ -1230,7 +1230,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			LOG(fprintf(stderr, "for_each_modified: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, ccc->comp, ctxt);
 			LOG(fprintf(stderr, "for_each_modified: calling g_list_prepend\n"));
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 
