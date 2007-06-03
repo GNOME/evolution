@@ -29,7 +29,7 @@ addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/addressbook-migrate.c
 addressbook/gui/component/addressbook-view.c
 addressbook/gui/component/addressbook.c
-addressbook/gui/component/apps_evolution_addressbook.schemas.in.in
+addressbook/gui/component/apps_evolution_addressbook.schemas.in
 addressbook/gui/component/ldap-config.glade
 addressbook/gui/contact-editor/contact-editor.glade
 addressbook/gui/contact-editor/e-contact-editor-address.c
@@ -84,7 +84,7 @@ calendar/gui/alarm-notify/alarm-notify.glade
 calendar/gui/alarm-notify/alarm-queue.c
 calendar/gui/alarm-notify/notify-main.c
 calendar/gui/alarm-notify/util.c
-calendar/gui/apps_evolution_calendar.schemas.in.in
+calendar/gui/apps_evolution_calendar.schemas.in
 calendar/gui/cal-search-bar.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-component.c
@@ -225,7 +225,7 @@ mail/em-subscribe-editor.c
 mail/em-utils.c
 mail/em-vfolder-editor.c
 mail/em-vfolder-rule.c
-mail/evolution-mail.schemas.in.in
+mail/evolution-mail.schemas.in
 mail/importers/elm-importer.c
 mail/importers/evolution-mbox-importer.c
 mail/importers/mail-importer.c
@@ -260,7 +260,7 @@ plugins/backup-restore/org-gnome-backup-restore.xml
 plugins/bbdb/bbdb.c
 plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml
 plugins/bogo-junk-plugin/bf-junk-filter.c
-plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.in
+plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in
 plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml
 plugins/caldav/caldav-source.c
 plugins/caldav/org-gnome-evolution-caldav.eplug.xml
@@ -270,7 +270,7 @@ plugins/calendar-http/org-gnome-calendar-http.eplug.xml
 plugins/calendar-weather/calendar-weather.c
 plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
 plugins/copy-tool/org-gnome-copy-tool.eplug.xml
-plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in
+plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in
 plugins/default-mailer/org-gnome-default-mailer.eplug.xml
 plugins/default-mailer/org-gnome-default-mailer.error.xml
 plugins/default-source/default-source.c
@@ -344,10 +344,9 @@ plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml
 plugins/itip-formatter/org-gnome-itip-formatter.error.xml
 plugins/mail-account-disable/mail-account-disable.c
 plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
-plugins/mail-notification/apps-evolution-mail-notification.schemas.in.in
+plugins/mail-notification/apps-evolution-mail-notification.schemas.in
 plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
-plugins/mail-notification/apps-evolution-mail-notification.schemas.in.in
 plugins/mail-remote/client.c
 plugins/mail-remote/e-corba-utils.c
 plugins/mail-remote/evolution-mail-store.c
@@ -393,7 +392,7 @@ plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
 shell/GNOME_Evolution_Shell.server.in.in
 shell/GNOME_Evolution_Test.server.in.in
-shell/apps_evolution_shell.schemas.in.in
+shell/apps_evolution_shell.schemas.in
 shell/e-active-connection-dialog.glade
 shell/e-component-registry.c
 shell/e-config-upgrade.c

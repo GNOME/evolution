@@ -37,9 +37,9 @@ component_LTLIBRARIES = libevolution-mail.la
 
 SPELL_IDL = Spell.idl
 
-SPELL_IDL_GENERATED_H = 		\
+SPELL_IDL_GENERATED_H = \
 	Spell.h
-SPELL_IDL_GENERATED_C = 		\
+SPELL_IDL_GENERATED_C = \
 	Spell-common.c		\
 	Spell-skels.c		\
 	Spell-stubs.c
@@ -53,9 +53,9 @@ Spell-impl.o: Spell.h
 
 # Mail.idl
 MAIL_IDL = Evolution-Mail.idl
-MAIL_IDL_GENERATED_H = 		\
+MAIL_IDL_GENERATED_H = \
 	Evolution-Mail.h
-MAIL_IDL_GENERATED_C = 		\
+MAIL_IDL_GENERATED_C = \
 	Evolution-Mail-common.c		\
 	Evolution-Mail-skels.c		\
 	Evolution-Mail-stubs.c
@@ -206,13 +206,12 @@ libevolution_mail_la_SOURCES =			\
 	message-tag-followup.h
 
 if ENABLE_SMIME
-SMIME_LIBS =						\
+SMIME_LIBS = 				\
 	$(top_builddir)/smime/lib/libessmime.la		\
 	$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
 libevolution_mail_la_LIBADD =					\
-	$(top_builddir)/mail/importers/libevolution-mail-importers.la\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/composer/libcomposer.la			\
@@ -225,14 +224,14 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-	$(top_builddir)/mail/importers/libevolution-mail-importers.la\
-	$(SMIME_LIBS)						\
+	$(top_builddir)/mail/importers/libevolution-mail-importers.la	\
+	$(SMIME_LIBS)
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(REGEX_LIBS)						\
 	$(THREADS_LIBS)
 
-libevolution_mail_la_LDFLAGS =				\
+libevolution_mail_la_LDFLAGS = 			\
 	-avoid-version -module $(NO_UNDEFINED)
 
 libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
@@ -240,7 +239,8 @@ libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
 # .server files
 
 server_in_files = GNOME_Evolution_Mail.server.in.in
-server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+server_DATA = $(server_in_files:.server.in.in=.server)
+
 @EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
@@ -297,11 +297,8 @@ endif
 # GConf
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = evolution-mail.schemas.in.in
-schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
-
+schema_in_files = evolution-mail.schemas.in
+schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
 if OS_WIN32

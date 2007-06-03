@@ -12,7 +12,7 @@ icon32_DATA = 32x32/evolution.png
 
 icon48dir =  $(datadir)/icons/hicolor/48x48/apps
 icon48_DATA = \
-	48x48/preferences-autocompletion.png		\  
+	48x48/preferences-autocompletion.png		\
 	48x48/preferences-calendar-and-tasks.png  	\
 	48x48/preferences-certificates.png  		\
 	48x48/preferences-composer.png  		\

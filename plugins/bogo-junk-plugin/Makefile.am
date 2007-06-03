@@ -11,11 +11,8 @@ liborg_gnome_bogo_junk_plugin_la_SOURCES = bf-junk-filter.c
 liborg_gnome_bogo_junk_plugin_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = bogo-junk-plugin.schemas.in.in
-schema_DATA     = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
+schema_in_files = bogo-junk-plugin.schemas.in
+schema_DATA     = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 

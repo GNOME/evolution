@@ -7,6 +7,3 @@
 	-e 's|\@SOEXT\@|$(SOEXT)|'				\
 	-e 's|\@INTERFACE_VERSION\@|$(INTERFACE_VERSION)|' $< > $@
 
-%_$(BASE_VERSION).server: %.server
-	mv $< $@
-

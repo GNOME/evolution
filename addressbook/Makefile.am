@@ -1,12 +1,13 @@
-if ENABLE_PILOT_CONDUITS
-CONDUIT_SUBDIR=conduit
-endif
 
-SUBDIRS =	\
-	util printing importers gui tools $(CONDUIT_SUBDIR)
+SUBDIRS = util printing importers gui tools
+
+if ENABLE_PILOT_CONDUITS
+SUBDIRS += conduit
+endif
 
 error_DATA = addressbook.error
 errordir = $(privdatadir)/errors
+
 @EVO_PLUGIN_RULE@
 
 EXTRA_DIST =			\

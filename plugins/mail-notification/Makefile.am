@@ -1,14 +1,10 @@
-INCLUDES =						\
-	-I$(top_srcdir)					\
+INCLUDES =					\
+	-I$(top_srcdir)				\
 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
 	-DDBUS_VERSION=$(DBUS_VERSION)          \
-	$(EVOLUTION_MAIL_CFLAGS)				\
-	$(LIBNOTIFY_CFLAGS)
-	$(NMN_CFLAGS)						
-
-LIBS =							\
-	$(LIBNOTIFY_LIBS)				\
-	$(NMN_LIBS)
+	$(EVOLUTION_MAIL_CFLAGS)		\
+	$(LIBNOTIFY_CFLAGS)			\
+	$(NMN_CFLAGS)
 
 @EVO_PLUGIN_RULE@
 
@@ -16,14 +12,14 @@ plugin_DATA = org-gnome-mail-notification.eplug
 plugin_LTLIBRARIES = liborg-gnome-mail-notification.la
 
 liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
-liborg_gnome_mail_notification_la_LDFLAGS = -module -avoid-version
+liborg_gnome_mail_notification_la_LDFLAGS = 	\
+	-module -avoid-version			\
+	$(LIBNOTIFY_LIBS)			\
+	$(NMN_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps-evolution-mail-notification.schemas.in.in
-schema_DATA     = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
+schema_in_files = apps-evolution-mail-notification.schemas.in
+schema_DATA     = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
@@ -40,6 +36,6 @@ CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
 
-EXTRA_DIST = \
+EXTRA_DIST = 					\
 	org-gnome-mail-notification.eplug.xml	\
 	$(schema_in_files)

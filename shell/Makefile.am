@@ -96,10 +96,10 @@ eshellinclude_HEADERS = 			\
 	es-event.h				\
 	es-menu.h
 
-libeshell_la_SOURCES = 				\
+libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
-	e-component-view.c		\
+	e-component-view.c			\
 	evolution-component.c			\
 	evolution-listener.c			\
 	e-shell-utils.c				\
@@ -176,14 +176,14 @@ libevolution_test_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
 
 if ENABLE_TEST_COMPONENT
 testserver_in_files = GNOME_Evolution_Test.server.in.in
-testserver_DATA = $(testserver_in_files:.server.in.in=_$(BASE_VERSION).server)
+testserver_DATA = $(testserver_in_files:.server.in.in=.server)
 testserverdir = $(serverdir)
 endif
 
 # Misc stuff
 
 server_in_files = GNOME_Evolution_Shell.server.in.in
-server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+server_DATA = $(server_in_files:.server.in.in=.server)
 @EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
@@ -198,10 +198,8 @@ glade_DATA =						\
 # GConf schemas
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps_evolution_shell.schemas.in.in
-schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
+schema_in_files = apps_evolution_shell.schemas.in
+schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
@@ -227,16 +225,10 @@ endif
 
 install-evolution:
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution$(EXEEXT) $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)$(EXEEXT)
-if DEFAULT_BINARY
-	cd $(DESTDIR)$(bindir) && rm -f evolution$(EXEEXT) && $(LN_S) evolution-$(BASE_VERSION)$(EXEEXT) evolution$(EXEEXT)
-endif
+	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution$(EXEEXT) $(DESTDIR)$(bindir)/evolution$(EXEEXT)
 
 uninstall-evolution:
-	$(LIBTOOL) --mode=uninstall rm -rf $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)$(EXEEXT)
-if DEFAULT_BINARY
-	rm -f $(DESTDIR)$(bindir)/evolution$(EXEEXT)
-endif
+	$(LIBTOOL) --mode=uninstall rm -rf $(DESTDIR)$(bindir)/evolution$(EXEEXT)
 
 if HAVE_DTAPPINTEGRATE
 

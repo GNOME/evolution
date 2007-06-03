@@ -1,4 +1,4 @@
-INCLUDES =									\
+INCLUDES =							\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\
@@ -60,16 +60,13 @@ libevolution_addressbook_la_LIBADD =							\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 
-
 libevolution_addressbook_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 # GConf schemas
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps_evolution_addressbook.schemas.in.in
-schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
+schema_in_files = apps_evolution_addressbook.schemas.in
+schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
@@ -92,7 +89,7 @@ install-data-local:
 endif
 
 server_in_files = GNOME_Evolution_Addressbook.server.in.in
-server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+server_DATA = $(server_in_files:.server.in.in=.server)
 @EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 

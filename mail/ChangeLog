@@ -1,5 +1,11 @@
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+        ** Fix for version removal from Installed files from Gilles Dartiguelongue 
+
+	* Makefile.am:
+
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #438461 from Gilles Dartiguelongue  
 
 	* mail-config.glade:

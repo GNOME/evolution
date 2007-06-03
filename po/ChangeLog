@@ -1,3 +1,9 @@
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+        ** Fix for version removal from Installed files from Gilles Dartiguelongue 
+
+	* POTFILES.in:
+
 2007-06-02  Jorge Gonzalez <jorgegonz@svn.gnome.org> 
 
         * es.po: Updated Spanish translation

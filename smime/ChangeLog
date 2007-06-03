@@ -1,3 +1,9 @@
+2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+        ** Fix for version removal from Installed files from Gilles Dartiguelongue 
+
+	* Makefile.am:
+
 2007-04-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #396645 from Gilles Dartiguelongue

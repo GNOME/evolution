@@ -244,17 +244,15 @@ libevolution_calendar_la_LIBADD =					\
 libevolution_calendar_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
 
 server_in_files = GNOME_Evolution_Calendar.server.in.in
-server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+server_DATA = $(server_in_files:.server.in.in=.server)
 @EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
 # GConf schemas
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps_evolution_calendar.schemas.in.in
-schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
+schema_in_files = apps_evolution_calendar.schemas.in
+schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 

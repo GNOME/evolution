@@ -54,7 +54,7 @@ evolution_alarm_notify_LDADD =						\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = GNOME_Evolution_Calendar_AlarmNotify.server.in.in
-server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+server_DATA = $(server_in_files:.server.in.in=.server)
 @EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 

@@ -2,13 +2,10 @@ changelogs =				\
 	ChangeLog			\
 	ChangeLog.pre-1-4
 
-%-$(BASE_VERSION).pc: %.pc
-	 cp $< $@
-
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = 				\
-	evolution-shell-$(BASE_VERSION).pc	\
-	evolution-plugin-$(BASE_VERSION).pc
+	evolution-shell.pc	\
+	evolution-plugin.pc
 
 EXTRA_DIST = 			\
 	AUTHORS			\
@@ -28,7 +25,7 @@ EXTRA_DIST = 			\
 	intltool-extract.in	\
 	evolution-zip.in	\
 	gnome-doc-utils.make    \
-	$(pkgconfig_DATA:-$(BASE_VERSION).pc=.pc.in)
+	$(pkgconfig_DATA:.pc=.pc.in)
 
 if ENABLE_SMIME
 SMIME_DIR=smime

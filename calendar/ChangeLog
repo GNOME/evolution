@@ -1,3 +1,14 @@
+2007-06-03  Srinivasa Ragavan <sragavan@novell.com>
+
+        ** Fix for version removal from Installed files from Gilles Dartiguelongue 
+
+	* Makefile.am:
+	* conduits/calendar/Makefile.am:
+	* conduits/memo/Makefile.am:
+	* conduits/todo/Makefile.am:
+	* gui/Makefile.am:
+	* gui/alarm-notify/Makefile.am:
+
 2006-09-08  Ushveen Kaur <kushveen@novell.com>
 
 	** Fixes bug #347767

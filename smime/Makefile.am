@@ -1,1 +1,1 @@
-SUBDIRS= lib gui
+SUBDIRS = lib gui

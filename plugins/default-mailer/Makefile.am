@@ -14,22 +14,19 @@ liborg_gnome_default_mailer_la_SOURCES = default-mailer.c
 liborg_gnome_default_mailer_la_LDFLAGS = -module -avoid-version
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps-evolution-mail-prompts-checkdefault.schemas.in.in
-schema_DATA     = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
+schema_in_files = apps-evolution-mail-prompts-checkdefault.schemas.in
+schema_DATA     = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
 install-data-local:
-	if test -z "$(DESTDIR)" ; then                                                                                          \
-		for p in $(schema_DATA) ; do                                                                                    \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p;             \
-		done                                                                                                            \
+	if test -z "$(DESTDIR)" ; then											\
+		for p in $(schema_DATA) ; do										\
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p;	\
+		done													\
 	fi
 
-EXTRA_DIST = \
+EXTRA_DIST =					\
 	org-gnome-default-mailer.eplug.xml	\
 	org-gnome-default-mailer.error.xml	\
 	$(schema_in_files)
