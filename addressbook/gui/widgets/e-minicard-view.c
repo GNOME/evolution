@@ -94,7 +94,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
 					8,
-					value, strlen (value));
+					(unsigned char *)value, strlen (value));
 		g_free (value);
 		break;
 	}
@@ -108,7 +108,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
 					8,
-					value, strlen (value));
+					(unsigned char *)value, strlen (value));
 		g_free (value);
 		break;
 	}

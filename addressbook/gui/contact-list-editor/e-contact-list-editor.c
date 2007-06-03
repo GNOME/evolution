@@ -1072,7 +1072,7 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 
 	if (!strcmp (target_type, VCARD_TYPE)) {
 
-		GList *contact_list = eab_contact_list_from_string (selection_data->data);
+		GList *contact_list = eab_contact_list_from_string ((char *)selection_data->data);
 		GList *c;
 
 		if (contact_list)
@@ -1166,7 +1166,7 @@ extract_info(EContactListEditor *editor)
 
 			photo.type = E_CONTACT_PHOTO_TYPE_INLINED;
 			photo.data.inlined.mime_type = NULL;
-			photo.data.inlined.data = image_data;
+			photo.data.inlined.data = (unsigned char *)image_data;
 			photo.data.inlined.length = image_data_len;
 
 			e_contact_set (contact, E_CONTACT_LOGO, &photo);
@@ -1256,7 +1256,7 @@ fill_in_info(EContactListEditor *editor)
 
 		photo = e_contact_get (editor->contact, E_CONTACT_LOGO);
 		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
-			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (editor->list_image), photo->data.inlined.data, photo->data.inlined.length);
+			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (editor->list_image), (char *)photo->data.inlined.data, photo->data.inlined.length);
 			e_contact_photo_free (photo);
 		}
 	}

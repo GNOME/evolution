@@ -1171,7 +1171,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	GtkTreeIter iter;
 	gboolean success = FALSE;
 	EBook *source_book, *target_book;
-	MergeContext *merge_context;
+	MergeContext *merge_context = NULL;
 	GList *contactlist;
 	AddressbookView *view;
 	EABView *v;
@@ -1197,7 +1197,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	}
 	e_book_open (target_book, FALSE, NULL);
 
-	eab_book_and_contact_list_from_string (data->data, &source_book, &contactlist);
+	eab_book_and_contact_list_from_string ((char *)data->data, &source_book, &contactlist);
 
 	view = (AddressbookView *) user_data;
 	v = get_current_view (view);

@@ -436,70 +436,70 @@ e_contact_build_style (EContactPrintStyle *style)
 		xmlNodePtr stylenode = xmlDocGetRootElement(styledoc);
 		xmlNodePtr node;
 		for (node = stylenode->children; node; node = node->next) {
-			char *data = xmlNodeGetContent ( node );
-			if ( !strcmp( node->name, "title" ) ) {
+			char *data = (char *)xmlNodeGetContent ( node );
+			if ( !strcmp( (char *)node->name, "title" ) ) {
 				get_string(data, &(style->title));
-			} else if ( !strcmp( node->name, "type" ) ) {
+			} else if ( !strcmp( (char *)node->name, "type" ) ) {
 				if (g_ascii_strcasecmp (data, "cards") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_CARDS;
 				else if (g_ascii_strcasecmp (data, "memo_style") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_MEMO_STYLE;
 				else if (g_ascii_strcasecmp (data, "phone_list") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_PHONE_LIST;
-			} else if ( !strcmp( node->name, "sections_start_new_page" ) ) {
+			} else if ( !strcmp( (char *)node->name, "sections_start_new_page" ) ) {
 				style->sections_start_new_page = get_bool(data);
-			} else if ( !strcmp( node->name, "num_columns" ) ) {
+			} else if ( !strcmp( (char *)node->name, "num_columns" ) ) {
 				style->num_columns = get_integer(data);
-			} else if ( !strcmp( node->name, "blank_forms" ) ) {
+			} else if ( !strcmp( (char *)node->name, "blank_forms" ) ) {
 				style->blank_forms = get_integer(data);
-			} else if ( !strcmp( node->name, "letter_headings" ) ) {
+			} else if ( !strcmp( (char *)node->name, "letter_headings" ) ) {
 				style->letter_headings = get_bool(data);
-			} else if ( !strcmp( node->name, "headings_font" ) ) {
+			} else if ( !strcmp( (char *)node->name, "headings_font" ) ) {
 				get_font( data, &(style->headings_font) );
-			} else if ( !strcmp( node->name, "body_font" ) ) {
+			} else if ( !strcmp( (char *)node->name, "body_font" ) ) {
 				get_font( data, &(style->body_font) );
-			} else if ( !strcmp( node->name, "print_using_grey" ) ) {
+			} else if ( !strcmp( (char *)node->name, "print_using_grey" ) ) {
 				style->print_using_grey = get_bool(data);
-			} else if ( !strcmp( node->name, "paper_width" ) ) {
+			} else if ( !strcmp( (char *)node->name, "paper_width" ) ) {
 				style->paper_width = get_float(data);
-			} else if ( !strcmp( node->name, "paper_height" ) ) {
+			} else if ( !strcmp( (char *)node->name, "paper_height" ) ) {
 				style->paper_height = get_float(data);
-			} else if ( !strcmp( node->name, "top_margin" ) ) {
+			} else if ( !strcmp( (char *)node->name, "top_margin" ) ) {
 				style->top_margin = get_float(data);
-			} else if ( !strcmp( node->name, "left_margin" ) ) {
+			} else if ( !strcmp( (char *)node->name, "left_margin" ) ) {
 				style->left_margin = get_float(data);
-			} else if ( !strcmp( node->name, "bottom_margin" ) ) {
+			} else if ( !strcmp( (char *)node->name, "bottom_margin" ) ) {
 				style->bottom_margin = get_float(data);
-			} else if ( !strcmp( node->name, "right_margin" ) ) {
+			} else if ( !strcmp( (char *)node->name, "right_margin" ) ) {
 				style->right_margin = get_float(data);
-			} else if ( !strcmp( node->name, "page_width" ) ) {
+			} else if ( !strcmp( (char *)node->name, "page_width" ) ) {
 				style->page_width = get_float(data);
-			} else if ( !strcmp( node->name, "page_height" ) ) {
+			} else if ( !strcmp( (char *)node->name, "page_height" ) ) {
 				style->page_height = get_float(data);
-			} else if ( !strcmp( node->name, "orientation" ) ) {
+			} else if ( !strcmp( (char *)node->name, "orientation" ) ) {
 				if ( data ) {
 					style->orientation_portrait =
 						(g_ascii_strcasecmp (data, "landscape") != 0);
 				} else {
 					style->orientation_portrait = TRUE;
 				}
-			} else if ( !strcmp( node->name, "header_font" ) ) {
+			} else if ( !strcmp( (char *)node->name, "header_font" ) ) {
 				get_font( data, &(style->header_font) );
-			} else if ( !strcmp( node->name, "left_header" ) ) {
+			} else if ( !strcmp( (char *)node->name, "left_header" ) ) {
 				get_string(data, &(style->left_header));
-			} else if ( !strcmp( node->name, "center_header" ) ) {
+			} else if ( !strcmp( (char *)node->name, "center_header" ) ) {
 				get_string(data, &(style->center_header));
-			} else if ( !strcmp( node->name, "right_header" ) ) {
+			} else if ( !strcmp( (char *)node->name, "right_header" ) ) {
 				get_string(data, &(style->right_header));
-			} else if ( !strcmp( node->name, "footer_font" ) ) {
+			} else if ( !strcmp( (char *)node->name, "footer_font" ) ) {
 				get_font( data, &(style->footer_font) );
-			} else if ( !strcmp( node->name, "left_footer" ) ) {
+			} else if ( !strcmp( (char *)node->name, "left_footer" ) ) {
 				get_string(data, &(style->left_footer));
-			} else if ( !strcmp( node->name, "center_footer" ) ) {
+			} else if ( !strcmp( (char *)node->name, "center_footer" ) ) {
 				get_string(data, &(style->center_footer));
-			} else if ( !strcmp( node->name, "right_footer" ) ) {
+			} else if ( !strcmp( (char *)node->name, "right_footer" ) ) {
 				get_string(data, &(style->right_footer));
-			} else if ( !strcmp( node->name, "reverse_on_even_pages" ) ) {
+			} else if ( !strcmp( (char *)node->name, "reverse_on_even_pages" ) ) {
 				style->reverse_on_even_pages = get_bool(data);
 			}
 			if ( data )

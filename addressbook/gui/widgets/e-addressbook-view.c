@@ -1148,7 +1148,7 @@ table_drag_data_get (ETable             *table,
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
 					8,
-					value, strlen (value));
+					(guchar *)value, strlen (value));
 		g_free (value);
 		break;
 	}
@@ -1160,7 +1160,7 @@ table_drag_data_get (ETable             *table,
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
 					8,
-					value, strlen (value));
+					(guchar *)value, strlen (value));
 		g_free (value);
 		break;
 	}
@@ -1663,7 +1663,7 @@ make_suboptions (EABView *view)
 		const char *category = g_list_nth_data (master_list, i);
 		subitems[i+1].search.id = i+1;
 		subitems[i+1].search.text = g_strdup (category);
-		subitems[i+1].image = e_categories_get_icon_file_for (category);
+		subitems[i+1].image = (char *)e_categories_get_icon_file_for (category);
 	}
 
 	subitems[N+1].search.id = -1;
@@ -1861,11 +1861,11 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	GList *list, *l;
 	gboolean plural = FALSE, is_list = FALSE;
 	EContact *contact;
-	ETable *etable;
+	ETable *etable = NULL;
 	EMinicardView *card_view;
-	ESelectionModel *selection_model; 
+	ESelectionModel *selection_model = NULL; 
 	char *name = NULL;
-	gint row, select;
+	gint row = 0, select;
 	
 	list = get_selected_contacts (view);
 	contact = list->data;
@@ -1977,7 +1977,7 @@ selection_get (GtkWidget *invisible,
 	value = eab_contact_list_to_string (view->clipboard_contacts);
 
 	gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-				8, value, strlen (value));
+				8, (guchar *)value, strlen (value));
 	g_free (value);
 }
 
@@ -2011,7 +2011,7 @@ selection_received (GtkWidget *invisible,
 			memcpy (str, selection_data->data, selection_data->length);
 			contact_list = eab_contact_list_from_string (str);
 		} else
-			contact_list = eab_contact_list_from_string (selection_data->data);
+			contact_list = eab_contact_list_from_string ((char *)selection_data->data);
 		
 		for (l = contact_list; l; l = l->next) {
 			EContact *contact = l->data;

@@ -72,6 +72,7 @@ quick_add_new (void)
 	return qa;
 }
 
+#if 0
 static void
 quick_add_ref (QuickAdd *qa)
 {
@@ -79,6 +80,7 @@ quick_add_ref (QuickAdd *qa)
 		++qa->refs;
 	}
 }
+#endif
 
 static void
 quick_add_unref (QuickAdd *qa)

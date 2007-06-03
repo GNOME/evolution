@@ -592,7 +592,7 @@ get_integer_child (xmlNode *node,
 		return defval;
 
 	xml_string = xmlNodeListGetString (node->doc, p, 1);
-	retval = atoi (xml_string);
+	retval = atoi ((char *)xml_string);
 	xmlFree (xml_string);
 
 	return retval;
@@ -617,7 +617,7 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 			return FALSE;
 
 		root = xmlDocGetRootElement (doc);
-		if (root == NULL || strcmp (root->name, "addressbooks") != 0) {
+		if (root == NULL || strcmp ((const char *)root->name, "addressbooks") != 0) {
 			xmlFreeDoc (doc);
 			return FALSE;
 		}
@@ -625,7 +625,7 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 		/* count the number of servers, so we can give progress */
 		num_contactservers = 0;
 		for (child = root->children; child; child = child->next) {
-			if (!strcmp (child->name, "contactserver")) {
+			if (!strcmp ((const char *)child->name, "contactserver")) {
 				num_contactservers++;
 			}
 		}
@@ -635,7 +635,7 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 
 		servernum = 0;
 		for (child = root->children; child; child = child->next) {
-			if (!strcmp (child->name, "contactserver")) {
+			if (!strcmp ((const char *)child->name, "contactserver")) {
 				char *port, *host, *rootdn, *scope, *authmethod, *ssl;
 				char *emailaddr, *binddn, *limitstr;
 				int limit;
@@ -749,14 +749,14 @@ migrate_completion_folders (MigrationContext *context)
 		dialog_set_folder_name (context, _("Autocompletion Settings"));
 
 		root = xmlDocGetRootElement (doc);
-		if (root == NULL || strcmp (root->name, "EvolutionFolderList") != 0) {
+		if (root == NULL || strcmp ((const char *)root->name, "EvolutionFolderList") != 0) {
 			xmlFreeDoc (doc);
 			return FALSE;
 		}
 
 		for (child = root->children; child; child = child->next) {
-			if (!strcmp (child->name, "folder")) {
-				char *physical_uri = e_xml_get_string_prop_by_name (child, "physical-uri");
+			if (!strcmp ((const char *)child->name, "folder")) {
+				char *physical_uri = e_xml_get_string_prop_by_name (child, (const unsigned char *)"physical-uri");
 				ESource *source = NULL;
 
 				/* if the physical uri is file://...
@@ -782,7 +782,7 @@ migrate_completion_folders (MigrationContext *context)
 						source = e_source_list_peek_source_by_uid (context->source_list, uid);
 				}
 				else {
-					char *name = e_xml_get_string_prop_by_name (child, "display-name");
+					char *name = e_xml_get_string_prop_by_name (child, (const unsigned char *)"display-name");
 
 					source = get_source_by_name (context->source_list, name);
 

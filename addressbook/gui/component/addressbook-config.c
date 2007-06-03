@@ -425,8 +425,8 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	supported_bases_table = glade_xml_get_widget (gui, "supported-bases-table");
 	gtk_widget_show_all (supported_bases_table);
 
-	table = g_object_get_data((GObject *)supported_bases_table, "table");
-	model = (GtkListStore *)gtk_tree_view_get_model(table);
+	table = g_object_get_data (G_OBJECT (supported_bases_table), "table");
+	model = GTK_LIST_STORE (gtk_tree_view_get_model(table));
 	selection = gtk_tree_view_get_selection (table);
 	g_signal_connect (selection, "changed", G_CALLBACK (search_base_selection_model_changed), dialog);
 	search_base_selection_model_changed (selection, dialog);
@@ -1018,7 +1018,7 @@ eabc_commit(EConfig *ec, GSList *items, void *data)
 		d(printf("committing addressbook changes\n"));
 
 		/* these api's kinda suck */
-		xml = xmlNewNode(NULL, "dummy");
+		xml = xmlNewNode(NULL, (const unsigned char *)"dummy");
 		e_source_dump_to_xml_node(sdialog->source, xml);
 		e_source_update_from_xml_node(sdialog->original_source, xml->children, NULL);
 		xmlFreeNode(xml);

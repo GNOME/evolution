@@ -2191,7 +2191,7 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		EContactPhoto *photo = e_contact_get (contact, field_id);
 		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
 			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (widget),
-							photo->data.inlined.data,
+							(char *)photo->data.inlined.data,
 							photo->data.inlined.length);
 			editor->image_set = TRUE;
 		}
@@ -2247,9 +2247,9 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	else if (E_IS_DATE_EDIT (widget)) {
 		EContactDate date;
 		if (e_date_edit_get_date (E_DATE_EDIT (widget),
-					  &date.year,
-					  &date.month,
-					  &date.day))
+					  (int *)&date.year,
+					  (int *)&date.month,
+					  (int *)&date.day))
 			e_contact_set (contact, field_id, &date);
 		else
 			e_contact_set (contact, field_id, NULL);

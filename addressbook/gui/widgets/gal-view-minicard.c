@@ -31,7 +31,7 @@ gal_view_minicard_load (GalView *view,
 	doc = e_xml_parse_file (filename);
 	if (doc) {
 		xmlNode *root = xmlDocGetRootElement(doc);
-		GAL_VIEW_MINICARD (view)->column_width = e_xml_get_double_prop_by_name_with_default (root, "column_width", 150);
+		GAL_VIEW_MINICARD (view)->column_width = e_xml_get_double_prop_by_name_with_default (root, (const unsigned char *)"column_width", 150);
 		xmlFreeDoc(doc);
 	}
 }
@@ -43,9 +43,9 @@ gal_view_minicard_save (GalView *view,
 	xmlDoc *doc;
 	xmlNode *root;
 
-	doc = xmlNewDoc("1.0");
-	root = xmlNewNode (NULL, "EMinicardViewState");
-	e_xml_set_double_prop_by_name (root, "column_width", GAL_VIEW_MINICARD (view)->column_width);
+	doc = xmlNewDoc((const unsigned char *)"1.0");
+	root = xmlNewNode (NULL, (const unsigned char *)"EMinicardViewState");
+	e_xml_set_double_prop_by_name (root, (const unsigned char *)"column_width", GAL_VIEW_MINICARD (view)->column_width);
 	xmlDocSetRootElement(doc, root);
 	e_xml_save_file (filename, doc);
 	xmlFreeDoc(doc);
@@ -198,10 +198,12 @@ column_width_changed (EMinicardViewWidget *w, double width, EABView *address_vie
 		gal_view_changed(GAL_VIEW(view));
 	}
 
-	scrolled_window = GTK_SCROLLED_WINDOW(address_view->widget);
+	scrolled_window = GTK_SCROLLED_WINDOW (address_view->widget);
 	adj = gtk_scrolled_window_get_hadjustment (scrolled_window);
-	adj_new = gtk_adjustment_new(adj->value, adj->lower, adj->upper, adj->page_size, adj->page_increment,adj->page_size);
-	gtk_scrolled_window_set_hadjustment(scrolled_window, adj_new);
+	adj_new = GTK_ADJUSTMENT (gtk_adjustment_new (adj->value, adj->lower, adj->upper,
+						     adj->page_size, adj->page_increment,
+						     adj->page_size));
+	gtk_scrolled_window_set_hadjustment (scrolled_window, adj_new);
 }
 
 void

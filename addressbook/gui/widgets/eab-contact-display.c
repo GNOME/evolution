@@ -154,7 +154,7 @@ eab_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint t
 	if (p->selection_uri == NULL)
 		return;
 
-	gtk_selection_data_set(data, data->target, 8, p->selection_uri, strlen(p->selection_uri));
+	gtk_selection_data_set(data, data->target, 8, (guchar *)p->selection_uri, strlen(p->selection_uri));
 }
 
 static void
@@ -233,7 +233,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		if (!photo)
 			photo = e_contact_get (display->priv->contact, E_CONTACT_LOGO);
 
-		gtk_html_stream_write (handle, photo->data.inlined.data, photo->data.inlined.length);
+		gtk_html_stream_write (handle, (char *)photo->data.inlined.data, photo->data.inlined.length);
 
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 
@@ -512,7 +512,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	for (l = email_list, al=email_attr_list; l && al; l = l->next, al = al->next) {
 #ifdef HANDLE_MAILTO_INTERNALLY
 		char *html = e_text_to_html (l->data, 0);
-		char *attr_str = get_email_location ((EVCardAttribute *) al->data);
+		char *attr_str = (char *)get_email_location ((EVCardAttribute *) al->data);
 		g_string_append_printf (accum, "%s<a href=\"internal-mailto:%d\">%s</a> <font color=" HEADER_COLOR ">(%s)</font>", nl, email_num, html, attr_str?attr_str:"");
 		email_num ++;
 		g_free (html);

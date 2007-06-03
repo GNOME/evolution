@@ -1,3 +1,35 @@
+2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	reviewed by: <delete if not using a buddy>
+
+	* conduit/address-conduit.c: (local_record_to_pilot_record):
+	* gui/component/addressbook-config.c: (query_for_supported_bases),
+	(eabc_commit):
+	* gui/component/addressbook-migrate.c: (get_integer_child),
+	(migrate_ldap_servers), (migrate_completion_folders):
+	* gui/component/addressbook-view.c:
+	(selector_tree_drag_data_received):
+	* gui/contact-editor/e-contact-editor.c: (fill_in_simple_field),
+	(extract_simple_field):
+	* gui/contact-editor/e-contact-quick-add.c:
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(table_drag_data_received_cb), (extract_info), (fill_in_info):
+	* gui/merging/eab-contact-merging.c: (dialog_map),
+	(dropdown_changed), (mergeit), (check_if_same), (response),
+	(match_query_callback):
+	* gui/merging/eab-contact-merging.h:
+	* gui/widgets/e-addressbook-view.c: (table_drag_data_get),
+	(make_suboptions), (eab_view_delete_selection), (selection_get),
+	(selection_received):
+	* gui/widgets/e-minicard-view.c: (e_minicard_view_drag_data_get):
+	* gui/widgets/e-minicard.c: (add_email_field):
+	* gui/widgets/eab-contact-display.c: (eab_selection_get),
+	(on_url_requested), (render_contact):
+	* gui/widgets/gal-view-minicard.c: (gal_view_minicard_load),
+	(gal_view_minicard_save), (column_width_changed):
+	* printing/e-contact-print.c: (e_contact_build_style):
+	fixing casts and other compilation warnings
+
 2007-05-30  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #333858 from Milan Crha

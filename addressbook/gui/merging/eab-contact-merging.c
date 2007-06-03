@@ -144,7 +144,7 @@ cancelit (EContactMergingLookup *lookup)
 	}
 }
 
-gboolean
+static void
 dialog_map (GtkWidget *window, GdkEvent *event, GtkWidget *table)
 {
 	int h, w;
@@ -157,14 +157,15 @@ dialog_map (GtkWidget *window, GdkEvent *event, GtkWidget *table)
 		w = 400;
 	if (h > 450)
 		h = 450;
-	gtk_widget_set_usize (window, w, h);
+
+	gtk_widget_set_size_request (window, w, h);
 }
 
 static void
 dropdown_changed (GtkWidget *dropdown, dropdown_data *data)
 {
 	char *str;
-	str = gtk_combo_box_get_active_text (dropdown);
+	str = gtk_combo_box_get_active_text (GTK_COMBO_BOX (dropdown));
 
 	if (g_ascii_strcasecmp(str, ""))
 		e_contact_set (data->match, data->field, str);
@@ -210,8 +211,8 @@ mergeit (EContactMergingLookup *lookup)
 	/*we match all the string fields of the already existing contact and the new contact.*/
 	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) ; field++) {
 		dropdown_data *data = NULL;
-		string = e_contact_get_const (lookup->contact, field);
-		string1 = e_contact_get_const (lookup->match, field);
+		string = (char *)e_contact_get_const (lookup->contact, field);
+		string1 = (char *)e_contact_get_const (lookup->match, field);
 
 		/*the field must exist in the new as well as the duplicate contact*/
 		if (string && *string) {
@@ -220,7 +221,7 @@ mergeit (EContactMergingLookup *lookup)
 			if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2 
 			    || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
 				row++;
-				str = e_contact_get_const (lookup->contact, field);
+				str = (char *)e_contact_get_const (lookup->contact, field);
 				switch(num_of_email)
 				{
 				case 0:
@@ -260,13 +261,13 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
 
 				dropdown = gtk_combo_box_new_text();	
-				gtk_combo_box_append_text (dropdown, string);
+				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string);
 
 				data = g_new0 (dropdown_data, 1);
 				
-				gtk_combo_box_append_text (dropdown, "");
+				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), "");
 
-				gtk_combo_box_set_active (dropdown, 0);
+				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
 				data->field = field;
 				data->match = lookup->match;
 				e_contact_set (lookup->match, field, string);
@@ -301,15 +302,15 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1); 
 				data = g_new0 (dropdown_data, 1);
 				dropdown = gtk_combo_box_new_text();	
-				gtk_combo_box_append_text (dropdown, string);
+				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string);
 				e_contact_set (lookup->match, field, string);
 
 				if (string1 && *string1)
-					gtk_combo_box_append_text (dropdown, string1);
+					gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string1);
 				else 
-					gtk_combo_box_append_text (dropdown, "");
+					gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), "");
 
-				gtk_combo_box_set_active (dropdown, 0); 
+				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0); 
 				data->field = field;
 				data->match = lookup->match;
 
@@ -345,7 +346,7 @@ mergeit (EContactMergingLookup *lookup)
 	             value = 0;
 		     break;  
 	}
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	g_list_free (email_attr_list);
 	return value;
 }
@@ -364,7 +365,7 @@ check_if_same (EContact *contact, EContact *match)
 
 		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2 
 		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email<4)) {
-			str = e_contact_get_const (contact, field);
+			str = (char *)e_contact_get_const (contact, field);
 			switch(num_of_email)
 			{
 			case 0:
@@ -384,8 +385,8 @@ check_if_same (EContact *contact, EContact *match)
 			}
 		}
 		else {			
-			string = e_contact_get_const (contact, field);
-			string1 = e_contact_get_const (match, field);
+			string = (char *)e_contact_get_const (contact, field);
+			string1 = (char *)e_contact_get_const (match, field);
 			if ((string && *string) && (string1 && *string1) && (g_ascii_strcasecmp(string1,string)))
 				return FALSE;
 			/*if the field entry exist in either of the contacts,we'll have to give the choice and thus merge button should be sensitive*/
@@ -401,6 +402,7 @@ static void
 response (GtkWidget *dialog, int response, EContactMergingLookup *lookup)
 {
 	static int merge_response;
+
 	switch (response) {
 	case 0:
 		doit (lookup);
@@ -417,6 +419,7 @@ response (GtkWidget *dialog, int response, EContactMergingLookup *lookup)
 		cancelit (lookup);
 		break;
 	}
+
 	gtk_widget_destroy (dialog);
 }
 
@@ -442,10 +445,10 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 						      "eab-contact-duplicate-detected.glade",
 						      NULL);
 			ui = glade_xml_new (gladefile, NULL, NULL);
-			merge_button = GTK_BUTTON (glade_xml_get_widget (ui, "button5"));
+			merge_button = glade_xml_get_widget (ui, "button5");
 			/* Merge Button not sensitive when all values are same */
 			if (flag)
-				gtk_widget_set_sensitive ((GtkWidget *)merge_button, FALSE);
+				gtk_widget_set_sensitive (GTK_WIDGET (merge_button), FALSE);
 			g_free (gladefile);
 		} else if (lookup->op == E_CONTACT_MERGING_COMMIT) {
 			gladefile = g_build_filename (EVOLUTION_GLADEDIR,
@@ -481,7 +484,7 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 
 gboolean
 eab_merging_book_add_contact (EBook           *book,
-			      EContact           *contact,
+			      EContact        *contact,
 			      EBookIdCallback  cb,
 			      gpointer         closure)
 {
@@ -504,7 +507,7 @@ eab_merging_book_add_contact (EBook           *book,
 
 gboolean
 eab_merging_book_commit_contact (EBook                 *book,
-				 EContact                 *contact,
+				 EContact              *contact,
 				 EBookCallback          cb,
 				 gpointer               closure)
 {

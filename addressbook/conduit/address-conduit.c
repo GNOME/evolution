@@ -838,7 +838,7 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 
 	pi_buffer_free(buffer);
 #else
-	p.record = record;
+	p.record = (unsigned char *)record;
 	p.length = pack_Address (local->addr, p.record, 0xffff);
 #endif
 	return p;	
@@ -894,7 +894,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 #ifdef PILOT_LINK_0_12
 			unpack_Address (&addr, record, address_v1);
 #else
-			unpack_Address (&addr, record, 0xffff);
+			unpack_Address (&addr, (unsigned char *)record, 0xffff);
 #endif
 			for (i = 0; i < 5; i++) {
 				if (addr.entry[entryPhone1 + i])
@@ -1244,14 +1244,14 @@ addressbook_authenticate (EBook *book,
 
 	ESource *source = (ESource *)data;
 
-	auth = e_source_get_property (source, "auth");
-	auth_domain = e_source_get_property (source, "auth-domain");
+	auth = (gchar *)e_source_get_property (source, "auth");
+	auth_domain = (gchar *)e_source_get_property (source, "auth-domain");
 	component_name = auth_domain ? auth_domain : "Addressbook";
 
 	if (auth && !strcmp ("plain/password", auth))
-		user = e_source_get_property (source, "user");
+		user = (gchar *)e_source_get_property (source, "user");
 	else 
-		user = e_source_get_property (source, "email_addr");
+		user = (gchar *)e_source_get_property (source, "email_addr");
 	if (!user)
 		user = "";	
 
@@ -1305,7 +1305,7 @@ pre_sync (GnomePilotConduit *conduit,
 	} else {
 		ctxt->ebook = e_book_new_default_addressbook (NULL);
 	}
-	auth = e_source_get_property (ctxt->cfg->source, "auth");
+	auth = (gchar *)e_source_get_property (ctxt->cfg->source, "auth");
 	if (auth) {
 		LOG (g_message ("contacts needs authentication\n"));
 		g_signal_connect (ctxt->ebook, "auth_required", 
@@ -1491,7 +1491,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (EAddrLocalRecord, 1);
   			local_record_from_ecard (*local, cards->data, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 
 			iterator = cards;
 		} else {
@@ -1506,7 +1506,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (EAddrLocalRecord, 1);
 			local_record_from_ecard (*local, iterator->data, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
@@ -1545,7 +1545,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			 
 			*local = g_new0 (EAddrLocalRecord, 1);
 			local_record_from_ecard (*local, ebc->contact, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
 
@@ -1559,7 +1559,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (EAddrLocalRecord, 1);
 			local_record_from_ecard (*local, ebc->contact, ctxt);
-			g_list_prepend (ctxt->locals, *local);
+			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 
