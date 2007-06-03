@@ -7,9 +7,9 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution-trunk_manual.es\n"
-"POT-Creation-Date: 2007-05-06 18:25+0100\n"
-"PO-Revision-Date: 2007-05-10 22:25+0200\n"
+"Project-Id-Version: evolution_manual\n"
+"POT-Creation-Date: 2007-05-10 21:27+0100\n"
+"PO-Revision-Date: 2007-06-03 13:13+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1023,7 +1023,11 @@ msgid ""
 "connectivity to Hula&reg; servers through IMAP and calendaring support "
 "through CalDAV. For more information refer <link linkend=\"b1012tkg"
 "\">Connecting to Hula</link>"
-msgstr "Seleccione esta opción si quiere una cuenta Hula. Evolution le proporciona conectividad con servidores Hula&reg; a través de IMAP y a través de soporte CalDAV. Para obtener más información vea <link linkend=\"b1012tkg\">Concetar con Hula</link>."
+msgstr ""
+"Seleccione esta opción si quiere una cuenta Hula. Evolution le proporciona "
+"conectividad con servidores Hula&reg; a través de IMAP y a través de soporte "
+"CalDAV. Para obtener más información vea <link linkend=\"b1012tkg\">Concetar "
+"con Hula</link>."
 
 #: C/evolution.xml:283(title)
 msgid "IMAP4rev1:"
@@ -1034,7 +1038,10 @@ msgid ""
 "Allows you to to resynchronize with the server during offline mode. You are "
 "able to access remote message folders and perform mutiple actions on it like "
 "creating,deleting,renaming."
-msgstr "Le permite resincronizar con el servidor durante el modo desconectado. Será capaz de acceder a carpetas de mensajes remotos y realizar múltiples acciones sobre ellas como crear, borrar y renombrar."
+msgstr ""
+"Le permite resincronizar con el servidor durante el modo desconectado. Será "
+"capaz de acceder a carpetas de mensajes remotos y realizar múltiples "
+"acciones sobre ellas como crear, borrar y renombrar."
 
 #: C/evolution.xml:287(title)
 msgid "USENET News:"
@@ -1144,7 +1151,9 @@ msgstr ""
 
 #: C/evolution.xml:318(para)
 msgid "Type the server name of your e-mail server in the Server field."
-msgstr "Teclee el nombre del servidor de su correo electrónico en el campo «Servidor»."
+msgstr ""
+"Teclee el nombre del servidor de su correo electrónico en el campo "
+"«Servidor»."
 
 #: C/evolution.xml:319(para)
 msgid "If you don't know the Server, contact your administrator."
@@ -1250,7 +1259,11 @@ msgid ""
 "Mail Directories, or Standard Unix Mbox Spool or Directory, you must specify "
 "the path to the local files in the path field. Continue with<link linkend="
 "\"more-mail-options\">Receiving Mail Options</link> ."
-msgstr "Si seleccionó Entrega local, Directorios de correo en formato MH, Formato Maildir, o cola de correo estándar de Unix, debe especificar la ruta a los archivos locales en el campo de ruta. Continúe con <link linkend=\"more-mail-options\">Opciones de recepción de correo</link>."
+msgstr ""
+"Si seleccionó Entrega local, Directorios de correo en formato MH, Formato "
+"Maildir, o cola de correo estándar de Unix, debe especificar la ruta a los "
+"archivos locales en el campo de ruta. Continúe con <link linkend=\"more-mail-"
+"options\">Opciones de recepción de correo</link>."
 
 #: C/evolution.xml:354(para)
 msgid ""
@@ -1449,25 +1462,33 @@ msgstr ""
 msgid ""
 "Select automatically synchronize remote mail locally to download the mails "
 "to your local system."
-msgstr "Marque si quiere sincronizar automáticamente el correo remoto localmente para descargar los correos a su sistema local."
+msgstr ""
+"Marque si quiere sincronizar automáticamente el correo remoto localmente "
+"para descargar los correos a su sistema local."
 
 #: C/evolution.xml:451(para)
 msgid ""
 "Select apply filters to new messages in inbox on this server to apply "
 "filters."
-msgstr "Marque si quiere aplicar los filtros a los mensajes nuevos en la Bandeja de entrada en este servidor para aplicar los filtros."
+msgstr ""
+"Marque si quiere aplicar los filtros a los mensajes nuevos en la Bandeja de "
+"entrada en este servidor para aplicar los filtros."
 
 #: C/evolution.xml:454(para)
 msgid ""
 "Select check new messages for junk contents to filter new mails for spam "
 "mails."
-msgstr "Marque si quiere comprobar si los mensajes nuevos contienen spam para filtrar los nuevos mensajes como correos spam."
+msgstr ""
+"Marque si quiere comprobar si los mensajes nuevos contienen spam para "
+"filtrar los nuevos mensajes como correos spam."
 
 #: C/evolution.xml:455(para)
 msgid ""
 "For more information refer <link linkend=\"usage-mail-organize-spam"
 "\">Stopping Junk Mail (Spam)</link>"
-msgstr "Para información adicional  vea <link linkend=\"usage-mail-organize-spam\">Parar el correo basura (Spam)</link>"
+msgstr ""
+"Para información adicional  vea <link linkend=\"usage-mail-organize-spam"
+"\">Parar el correo basura (Spam)</link>"
 
 #: C/evolution.xml:466(para)
 msgid ""
@@ -1705,7 +1726,9 @@ msgstr "Tecle la dirección del servidor en el campo «Servidor»."
 msgid ""
 "If you are unsure what your Server address is, contact your system "
 "administrator."
-msgstr "Si no está seguro de cuál es la dirección de su servidor, contacte con su administrador."
+msgstr ""
+"Si no está seguro de cuál es la dirección de su servidor, contacte con su "
+"administrador."
 
 #: C/evolution.xml:653(para)
 msgid "Select if your server requires authentication."
@@ -1746,8 +1769,8 @@ msgid ""
 "Continue with <link linkend=\"step-three-b\">Time Zone</link><link linkend="
 "\"step-three-b\"/>."
 msgstr ""
-"Continue con la <link linkend=\"step-three-b\">Zona horaria</link><link linkend="
-"\"step-three-b\"/>."
+"Continue con la <link linkend=\"step-three-b\">Zona horaria</link><link "
+"linkend=\"step-three-b\"/>."
 
 #: C/evolution.xml:690(para)
 msgid "Select your time zone on the map."
@@ -1770,7 +1793,10 @@ msgid ""
 "If you want to import e-mail from another e-mail client, continue with <link "
 "linkend=\"fourth-step\">Importing Mail (Optional)</link>. If not, skip to "
 "<link linkend=\"ui-intro\">Using Evolution: An Overview</link>."
-msgstr "Si quiere importar correo-e desde otro cliente de correo, continúe con <link linkend=\"fourth-step\">Importar de correo (opcional)</link>. Si no, salte a <link linkend=\"ui-intro\">Uso de Evolution: Una vista general</link>."
+msgstr ""
+"Si quiere importar correo-e desde otro cliente de correo, continúe con <link "
+"linkend=\"fourth-step\">Importar de correo (opcional)</link>. Si no, salte a "
+"<link linkend=\"ui-intro\">Uso de Evolution: Una vista general</link>."
 
 #: C/evolution.xml:705(title)
 msgid "Importing Mail (Optional)"
@@ -1929,8 +1955,8 @@ msgstr ""
 "El selector le permite cambiar entre las carpetas y entre las herramientas "
 "de Evolution. Debajo del selector hay botones que le permiten cambiar las "
 "herramientas de Evolution, y encima hay una lista de las carpetas "
-"disponibles para la herramienta actual. Para información adicional, vea <link "
-"linkend=\"usage-mainwindow-shortcutbar\">El selector</link>."
+"disponibles para la herramienta actual. Para información adicional, vea "
+"<link linkend=\"usage-mainwindow-shortcutbar\">El selector</link>."
 
 #: C/evolution.xml:733(bridgehead)
 msgid "Status Bar"
@@ -2511,9 +2537,11 @@ msgid ""
 "OS* devices and use <link linkend=\"ldap\">LDAP</link> directories on a "
 "network."
 msgstr ""
-"Los contactos de Evolution pueden manejar todas las funciones de una libreta de direcciones o listín telefónico. Sin embargo, es mucho más "
-"fácil actualizar Evolution que hacerlo en un libro de papel de verdad, en parte porque Evolution puede sincronizarse con dispositivos Palm "
-"OS* y usar directorios <link linkend=\"ldap\">LDAP</link> conectados a una red."
+"Los contactos de Evolution pueden manejar todas las funciones de una libreta "
+"de direcciones o listín telefónico. Sin embargo, es mucho más fácil "
+"actualizar Evolution que hacerlo en un libro de papel de verdad, en parte "
+"porque Evolution puede sincronizarse con dispositivos Palm OS* y usar "
+"directorios <link linkend=\"ldap\">LDAP</link> conectados a una red."
 
 #: C/evolution.xml:899(para)
 msgid ""
@@ -2534,8 +2562,10 @@ msgid ""
 "of the application. For example, you can right-click an e-mail address in "
 "Evolution mail to instantly create a contact entry."
 msgstr ""
-"Otra ventaja de los contactos de Evolution es su integración con el resto de la aplicación. Por ejemplo puede crear una entrada de "
-"contacto a partir de un mensaje de correo sólo pulsando con el botón derecho sobre la dirección del remitente del mensaje."
+"Otra ventaja de los contactos de Evolution es su integración con el resto de "
+"la aplicación. Por ejemplo puede crear una entrada de contacto a partir de "
+"un mensaje de correo sólo pulsando con el botón derecho sobre la dirección "
+"del remitente del mensaje."
 
 #: C/evolution.xml:902(emphasis)
 msgid "Contact list"
@@ -2705,8 +2735,10 @@ msgid ""
 "press Backspace to page up while reading an e-mail. Ensure that you use the "
 "keys when message list is enabled."
 msgstr ""
-"Para leer correo con el teclado, puede pulsar la barra espaciadora para avanzar una página mientras lee y pulsar Retroceso para retroceder una "
-"página. Asegúrese de que usa las teclas cuando la lista de mensajes está activada."
+"Para leer correo con el teclado, puede pulsar la barra espaciadora para "
+"avanzar una página mientras lee y pulsar Retroceso para retroceder una "
+"página. Asegúrese de que usa las teclas cuando la lista de mensajes está "
+"activada."
 
 #: C/evolution.xml:1014(para)
 msgid ""
@@ -2717,10 +2749,7 @@ msgid ""
 "and backward in your message list. You can also use the right square bracket "
 "(]) for the next unread message, and the left square bracket ([) for the "
 "previous unread message."
-msgstr ""
-"Navegue por la lista de mensajes usando las teclas de flechas en el teclado. "
-"Para ir al siguiente mensaje no leído o al anterior, pulse el punto (.) o la "
-"coma (,) respectivamente."
+msgstr "Navegue por la lista de mensajes usando las teclas de flechas en el teclado. Para ir al siguiente mensaje no leído o al anterior, pulse el punto (.) o la coma (,) respectivamente. En muchos teclados estas teclas también están marcadas con los símbolos &gt; y &lt;, una manera conveniente de recordarle que se mueve adelante y atrás en la lista de mensajes. También puede usar el corchete derecho (]) para el siguiente mensaje no leído y el corchete izquierdo ([) para el mensaje anterior no leído."
 
 #: C/evolution.xml:1018(title)
 msgid "Checking for New Mail"
@@ -2744,7 +2773,7 @@ msgstr ""
 msgid ""
 "&lsquo;Get Mail' in the Evolution toolbar replaced with Send/Receive tool in "
 "SLED."
-msgstr ""
+msgstr "Se ha sustituido «Obtener correo» en la barra de herramientas de Evolution por «Enviar/Recibir»."
 
 #: C/evolution.xml:1023(para)
 msgid ""
@@ -2761,7 +2790,10 @@ msgid ""
 "If you get an error message instead of mail, you probably need to check your "
 "network settings. To learn how to do that, see <link linkend=\"bt4ckfq\"/>, "
 "or ask your system administrator."
-msgstr "Si recibe un mensaje de error en lugar de correo, puede que tenga que revisar su configuración de red. Para saber cómo hacerlo vea <link linkend=\"bt4ckfq\"/>, o pregunte a su administrador del sistema."
+msgstr ""
+"Si recibe un mensaje de error en lugar de correo, puede que tenga que "
+"revisar su configuración de red. Para saber cómo hacerlo vea <link linkend="
+"\"bt4ckfq\"/>, o pregunte a su administrador del sistema."
 
 #: C/evolution.xml:1028(title)
 msgid "Vertical View Vs Classical View"
@@ -2775,8 +2807,12 @@ msgid ""
 "pane is placed below the message listmessage list. Vertical View enables you "
 "to use the extra width of the wide screen monitors."
 msgstr ""
-"Evolution proporciona una vista vertical además de la vista clásica. En la vista vertical, el panel de vista previa se encuentra situado en el lado "
-"derecho del panel de mensajes en comparación con la vista clásica, donde el panel de vista previa de mensajes se encuentra bajo el panel de mensajes. La vista vertical le permite usar la anchura extra en los monitores de pantalla panorámica."
+"Evolution proporciona una vista vertical además de la vista clásica. En la "
+"vista vertical, el panel de vista previa se encuentra situado en el lado "
+"derecho del panel de mensajes en comparación con la vista clásica, donde el "
+"panel de vista previa de mensajes se encuentra bajo el panel de mensajes. La "
+"vista vertical le permite usar la anchura extra en los monitores de pantalla "
+"panorámica."
 
 #: C/evolution.xml:1031(title)
 msgid "Vertical View:"
@@ -2796,7 +2832,12 @@ msgid ""
 "headers, which enables you to consume the extra width in the preview column."
 "The compressed columns have Sender Name and Email, Attachment Icon, Date and "
 "Subject in the second line ."
-msgstr "En la vista vertical, la lista de mensajes predeterminada contiene una línea doble de cabeceras comprimida, que le permite consumir la anchura extra en la columna de vista previa. Las columnas comprimidas tienen el nombre y el correo electrónico del remitente, el icono de adjuntos, la fecha y el asunto en la segunda línea."
+msgstr ""
+"En la vista vertical, la lista de mensajes predeterminada contiene una línea "
+"doble de cabeceras comprimida, que le permite consumir la anchura extra en "
+"la columna de vista previa. Las columnas comprimidas tienen el nombre y el "
+"correo electrónico del remitente, el icono de adjuntos, la fecha y el asunto "
+"en la segunda línea."
 
 #: C/evolution.xml:1042(title)
 msgid "Classical View:"
@@ -2819,7 +2860,10 @@ msgid ""
 "Evolution compresses the TO, CC, BCC headers of received mails and shows "
 "only limited addresses. You can set the limit of the number of addresses to "
 "be displayed in the preview pane."
-msgstr "Evolution comprime las cabeceras Para, CC, BCC recibidas en los correos y muestra sólo el primer límite predefinido. Puede establecer un límite en el número de direcciones a mostrar en el panel de vista previa."
+msgstr ""
+"Evolution comprime las cabeceras Para, CC, BCC recibidas en los correos y "
+"muestra sólo el primer límite predefinido. Puede establecer un límite en el "
+"número de direcciones a mostrar en el panel de vista previa."
 
 #: C/evolution.xml:1056(para)
 msgid "Use the following procedure to set the limit of addresses to be displayed:"
@@ -2837,7 +2881,9 @@ msgstr "Seleccione Opciones de correo"
 
 #: C/evolution.xml:1065(para)
 msgid "Check &ldquo;Shrink To/CC/Bcc headers to column&rdquo; to limit the address"
-msgstr "Marque la columna &ldquo;Reducir las cabeceras Para/CC/Cco a&rdquo; para limitar las direcciones"
+msgstr ""
+"Marque la columna &ldquo;Reducir las cabeceras Para/CC/Cco a&rdquo; para "
+"limitar las direcciones"
 
 #: C/evolution.xml:1068(para)
 msgid "Enter the limit in the field."
@@ -2918,7 +2964,15 @@ msgid ""
 "also listed under the address list. To view the attachments, click the arrow "
 "to expand the attachment window. To open an attachment, double-click it. "
 "Click the Save All button to save all the attachments."
-msgstr "Si alguien le envía un fichero <link linkend=\"attachment\">adjunto</link>, Evolution mostrará un icono de archivo al pie del mensaje al cual está anexado. Lo que sea texto, incluido formateo HTML e imágenes empotradas, aparecerá como parte del mensaje, y no en en el pie del mismo como un adjunto separado. Los adjuntos se muestran además en la barra superior del mensaje. Para ver los adjuntos pulse en la flecha para expandir la ventana de adjuntos. Para abrir un adjunto, pulse dos veces en él. pulse el botón Guardar todo para guardar todos los adjuntos."
+msgstr ""
+"Si alguien le envía un fichero <link linkend=\"attachment\">adjunto</link>, "
+"Evolution mostrará un icono de archivo al pie del mensaje al cual está "
+"anexado. Lo que sea texto, incluido formateo HTML e imágenes empotradas, "
+"aparecerá como parte del mensaje, y no en en el pie del mismo como un "
+"adjunto separado. Los adjuntos se muestran además en la barra superior del "
+"mensaje. Para ver los adjuntos pulse en la flecha para expandir la ventana "
+"de adjuntos. Para abrir un adjunto, pulse dos veces en él. pulse el botón "
+"Guardar todo para guardar todos los adjuntos."
 
 #: C/evolution.xml:1099(title)
 msgid "Saving or Opening Attachments"
@@ -2967,7 +3021,9 @@ msgstr "Para abrir un adjunto usando otra aplicación:"
 msgid ""
 "Click the down-arrow on the attachment icon or right-click the attachment "
 "icon in the attachment bar."
-msgstr "Pulse la flecha hacia abajo en el icono de adjunto o pulse con el botón derecho sobre el icono del adjunto en la barra de adjuntos."
+msgstr ""
+"Pulse la flecha hacia abajo en el icono de adjunto o pulse con el botón "
+"derecho sobre el icono del adjunto en la barra de adjuntos."
 
 #: C/evolution.xml:1120(para)
 msgid "Select the application to open the attachment."
@@ -2980,7 +3036,7 @@ msgid ""
 "attached word processor files can be opened in OpenOffice.org or another "
 "word processor, and compressed archive files can be opened in the File "
 "Roller application."
-msgstr ""
+msgstr "Las opciones disponibles para los adjuntos varían dependiendo del tipo de adjunto y de las aplicaciones instaladas en su sistema. Por ejemplo, los archivos adjuntos de procesadores de texto se pueden abrir con OpenOffice.org y cualquier otro procesador de textos, y archivos comprimidos se pueden abrir con la aplicación File Roller."
 
 #: C/evolution.xml:1130(title)
 msgid "Inline Images in HTML Mail"
@@ -2993,7 +3049,13 @@ msgid ""
 "the image inside the message. You can create messages like this by using the "
 "Insert Image tool in the message composer. Alternately, just drag an image "
 "into the message composition area."
-msgstr "Cuando alguien le envía un mensaje HTML que una imagen en su interior (por ejemplo el mensaje de bienvenida que encontrará en la Bandeja de entrada) Evolution mostrará la imagen dentro del mensaje. También puede crear mensajes como este usando la herramienta de insertar imágenes del compositor. Alternativamente, sólo arrastre una imagen dentro del área de composición del mensaje."
+msgstr ""
+"Cuando alguien le envía un mensaje HTML que una imagen en su interior (por "
+"ejemplo el mensaje de bienvenida que encontrará en la Bandeja de entrada) "
+"Evolution mostrará la imagen dentro del mensaje. También puede crear "
+"mensajes como este usando la herramienta de insertar imágenes del "
+"compositor. Alternativamente, sólo arrastre una imagen dentro del área de "
+"composición del mensaje."
 
 #: C/evolution.xml:1132(para)
 msgid ""
@@ -3054,31 +3116,31 @@ msgstr "Para establecer su proxy en KDE:"
 
 #: C/evolution.xml:1157(para)
 msgid "Click the menu icon &gt; System &gt; Configuration &gt; Yast."
-msgstr ""
+msgstr "Pulse el icono de menú &gt; Sistema &gt; Configuración &gt; Yast."
 
 #: C/evolution.xml:1160(para) C/evolution.xml:1175(para)
 msgid "Click Network Services, then click Proxy."
-msgstr ""
+msgstr "Pulse Servicios de red, después Proxy."
 
 #: C/evolution.xml:1163(para) C/evolution.xml:1178(para)
 msgid ""
 "Specify your proxy settings (if you don't know your proxy settings, contact "
 "your ISP or system administrator)."
-msgstr ""
+msgstr "Especifique la configuración de su proxy (si no conoce los ajustes de su proxy, contacte con su ISP o el administrador de su sistema)."
 
 #: C/evolution.xml:1166(para) C/evolution.xml:1181(para)
 msgid "Click Finish, then click Close."
-msgstr ""
+msgstr "Pulse Finalizar, después Cerrar."
 
 #: C/evolution.xml:1169(para)
 msgid "To set your proxy in GNOME:"
-msgstr ""
+msgstr "Para establecer su proxy en GNOME:"
 
 #: C/evolution.xml:1172(para)
 msgid ""
 "Click System &gt; Administrative Settings (enter your root password if "
 "needed)."
-msgstr ""
+msgstr "Pulse Sistema &gt; Preferencias &gt; Proxy de la red (si es necesario introduzca su contraseña de superusuario)."
 
 #: C/evolution.xml:1188(title)
 msgid "Using Evolution for News"
@@ -3092,7 +3154,7 @@ msgid ""
 "account</link>, selecting USENET News as the source type. The news server "
 "appear as a remote mail server, and each news group works like an IMAP "
 "folder. When you click Send/Receive, Evolution also checks for news messages."
-msgstr ""
+msgstr "Los grupos de USENET son similares al correo, así que a menudo es conveniente leer las noticias y el correo a la vez. Puede añadir una fuente de noticias, llamados servidores NNTP, de la misma manera que añadiría una <link linkend=\"bse54o0\">nueva cuenta de correo-e</link>, seleccionando Noticias USENET como el tipo servidor. Los servidores de noticias aparecerán como servidores de correo remotos, y cada grupo de noticias funciona como una carpeta IMAP. Cuando pulse Enviar/Recibir, Evolution también comprueba mensajes de noticias."
 
 #: C/evolution.xml:1190(para)
 msgid ""
@@ -3138,7 +3200,14 @@ msgid ""
 "Deleted Messages option from the View menu. You can view the messages "
 "striken off for later deletion. You can also find deleted messages in your "
 "Trash folder."
-msgstr "Cuando pulsa «Borrar» o pulsa en el la carpeta de la papelera, su correo no se borra realmente sino que se marca para ser eliminado. Su correo es recuperable hasta que no lo haya purgado. Cuando «Purga» una carpeta realmente está eliminando todo el correo marcado como borrado. Para mostrar los mensajes borrados, desmarque la casilla «Ocultar mensajes borrados» del menú Ver. Puede ver los correos marcados para ser borrados posteriormente. Puede además encontrar los mensajes borrados en la carpeta Papelera."
+msgstr ""
+"Cuando pulsa «Borrar» o pulsa en el la carpeta de la papelera, su correo no "
+"se borra realmente sino que se marca para ser eliminado. Su correo es "
+"recuperable hasta que no lo haya purgado. Cuando «Purga» una carpeta "
+"realmente está eliminando todo el correo marcado como borrado. Para mostrar "
+"los mensajes borrados, desmarque la casilla «Ocultar mensajes borrados» del "
+"menú Ver. Puede ver los correos marcados para ser borrados posteriormente. "
+"Puede además encontrar los mensajes borrados en la carpeta Papelera."
 
 #: C/evolution.xml:1208(para)
 msgid ""
@@ -3163,8 +3232,11 @@ msgid ""
 "actual messages in it. For more information about search folders, see <link "
 "linkend=\"usage-mail-organize-vfolders\">Using Search Folders</link>."
 msgstr ""
-"Sin embargo esto no es cierto para la carpeta Papelera situada en servidores Exchange, que se comporta exactamente igual que lo haría en Outlook. Es una carpeta normal con verdaderos mensajes dentro. Para obtener más información acerca de carpetas de búsquedas, vea <link "
-"linkend=\"usage-mail-organize-vfolders\">Uso de carpetas de búsqueda</link>."
+"Sin embargo esto no es cierto para la carpeta Papelera situada en servidores "
+"Exchange, que se comporta exactamente igual que lo haría en Outlook. Es una "
+"carpeta normal con verdaderos mensajes dentro. Para obtener más información "
+"acerca de carpetas de búsquedas, vea <link linkend=\"usage-mail-organize-"
+"vfolders\">Uso de carpetas de búsqueda</link>."
 
 #: C/evolution.xml:1214(title)
 msgid "Undeleting Messages"
@@ -3200,7 +3272,13 @@ msgid ""
 "contact list to send mails to multiple recipients.Enter a subject in the "
 "Subject field, and a message in the box at the bottom of the window. After "
 "you have written your message, click Send."
-msgstr "Escriba una dirección en el campo «Para». Si quiere introducir varias direcciones de correo electrónico, escriba las direcciones separadas por una coma. También puede usar la lista de contactos para enviar correos a varios destinatarios. Escriba el asunto en campo «Asunto», y en la caja que hay en la parte inferior, el texto del mensaje. Una vez que haya escrito su mensaje pulse «Enviar»."
+msgstr ""
+"Escriba una dirección en el campo «Para». Si quiere introducir varias "
+"direcciones de correo electrónico, escriba las direcciones separadas por una "
+"coma. También puede usar la lista de contactos para enviar correos a varios "
+"destinatarios. Escriba el asunto en campo «Asunto», y en la caja que hay en "
+"la parte inferior, el texto del mensaje. Una vez que haya escrito su mensaje "
+"pulse «Enviar»."
 
 #: C/evolution.xml:1224(para)
 msgid "New mail message window look like this:"
@@ -3317,7 +3395,10 @@ msgstr ""
 msgid ""
 "Evolution normally sends mail as soon as you click Send. However, can save a "
 "message to be sent later:"
-msgstr "En general Evolution enviará los correos en cuanto pulse el botón «Enviar». Sin embargo hay unas cuantas maneras de guardar un mensaje para enviarlo más tarde:"
+msgstr ""
+"En general Evolution enviará los correos en cuanto pulse el botón «Enviar». "
+"Sin embargo hay unas cuantas maneras de guardar un mensaje para enviarlo más "
+"tarde:"
 
 #: C/evolution.xml:1283(para)
 msgid ""
@@ -3325,20 +3406,25 @@ msgid ""
 "Outbox queue. The next time you connect to the Internet and send or receive "
 "mail, that message is sent."
 msgstr ""
-"Si está desconectado de la red cuando pulsa «Enviar», Evolution guardará sus mensajes en la carpeta «Bandeja de salida». "
-"El mensaje se enviará la próxima vez que se conecte a Internet y envíe o reciba correo."
+"Si está desconectado de la red cuando pulsa «Enviar», Evolution guardará sus "
+"mensajes en la carpeta «Bandeja de salida». El mensaje se enviará la próxima "
+"vez que se conecte a Internet y envíe o reciba correo."
 
 #: C/evolution.xml:1286(para)
 msgid ""
 "Click File &gt; Save Draft to store your messages in the drafts folder for "
 "later revision."
-msgstr "Pulse Archivo &gt; Guardar borrador para guardar sus mensajes en la carpeta de borradores y poder revisarlos después."
+msgstr ""
+"Pulse Archivo &gt; Guardar borrador para guardar sus mensajes en la carpeta "
+"de borradores y poder revisarlos después."
 
 #: C/evolution.xml:1289(para)
 msgid ""
 "If you prefer to save your message as a text file, click File &gt; Save As, "
 "then specify a filename."
-msgstr "Si prefiere guardar el mensaje como un archivo de texto pulse Archivo &gt; Guardar como, y después especifique un nombre de archivo."
+msgstr ""
+"Si prefiere guardar el mensaje como un archivo de texto pulse Archivo &gt; "
+"Guardar como, y después especifique un nombre de archivo."
 
 #: C/evolution.xml:1296(para)
 #, fuzzy
@@ -12488,7 +12574,6 @@ msgid "Copy From Pilot:"
 msgstr "Copiar desde Pilot:"
 
 #: C/evolution.xml:6066(para)
-#, fuzzy
 msgid "If there is any new data on the handheld device, copy it to the computer."
 msgstr "Si el dispositivo de mano contiene datos nuevos, los copia al equipo."
 
@@ -12501,15 +12586,10 @@ msgid "Copy new data from the computer to the handheld."
 msgstr "Copia los datos nuevos del equipo hacia el dispositivo de mano."
 
 #: C/evolution.xml:6072(para)
-#, fuzzy
 msgid ""
 "Select the behavior you want for each conduit you choose to use. If you're "
 "not sure, use Synchronize."
-msgstr ""
-"Especifique el comportamiento de cada conducto elegido. Si no está seguro, "
-"siga adelante, y seleccione <guilabel>Sincronizar</guilabel>. A "
-"continuación, coloque el dispositivo de mano en su base, y pulse el botón "
-"HotSync."
+msgstr "Seleccione el comportamiento de cada conducto elegido. Si no está seguro, use Sincronizar."
 
 #: C/evolution.xml:6077(para)
 msgid ""
@@ -12518,44 +12598,29 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6078(para)
-#, fuzzy
 msgid ""
 "If you want to back up your information before synchronizing, make a copy of "
 "the <command>evolution</command> directory inside your home directory."
-msgstr ""
-"Es siempre buena idea hacer una copia de seguridad. Para ello, copie el "
-"directorio llamado <filename>evolution</filename> que cuelga de su "
-"directorio de inicio."
+msgstr "Si quiere realizar una copia de seguridad de su información antes de sincronizar, haga una copia del directorio <command>evolution</command> dentro de su directorio de inicio."
 
 #: C/evolution.xml:6081(para)
-#, fuzzy
 msgid "Put your handheld device in its cradle and press the HotSync button."
-msgstr "Coloque el dispositivo de mano en su base, y pulse el botón HotSync."
+msgstr "Coloque el dispositivo de mano en su base y pulse el botón HotSync."
 
 #: C/evolution.xml:6082(para)
-#, fuzzy
 msgid ""
 "If you use Palm OS v. 4.0 and have password protection turned on for your "
 "handheld device, you might encounter trouble synchronizing. If this happens, "
 "try turning off password protection on your handheld, synchronize it with "
 "your desktop computer, and then re-enable password protection on your "
 "handheld."
-msgstr ""
-"Si utiliza un dispositivo de mano Palm OS v. 4.0 y activó la protección por "
-"contraseña, es posible que se produzcan problemas durante la sincronización. "
-"En este caso, intente desactivar la protección por contraseña de su "
-"dispositivo de mano, realice la sincronización con su equipo de sobremesa, y "
-"vuelva a habilitar la protección del dispositivo."
+msgstr "Si utiliza un dispositivo de mano Palm OS v. 4.0 y activó la protección por contraseña, es posible que se produzcan problemas durante la sincronización. En este caso, intente desactivar la protección por contraseña de su dispositivo de mano, realice la sincronización con su equipo de sobremesa y vuelva a habilitar la protección de su dispositivo."
 
 #: C/evolution.xml:6085(para)
-#, fuzzy
 msgid ""
 "If you have followed the setup instructions properly, your Palm OS device "
 "will synchronize data with Evolution."
-msgstr ""
-"Si siguió las instrucciones de configuración adecuadamente, los datos de su "
-"dispositivo Palm-OS se podrán sincronizar con <application>Ximian Evolution</"
-"application>."
+msgstr "Si siguió las instrucciones de configuración adecuadamente, los datos de su dispositivo Palm OS se podrán sincronizar con Evolution."
 
 #: C/evolution.xml:6091(para)
 msgid ""
@@ -12564,9 +12629,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6094(title)
-#, fuzzy
 msgid "Migrating Local Outlook Mail Folders"
-msgstr "Creación de filtros de correo"
+msgstr "Migrar las carpetas de correo locales de Outlook"
 
 #: C/evolution.xml:6095(para)
 msgid ""
@@ -12594,14 +12658,10 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6105(para)
-#, fuzzy
 msgid ""
 "Import the files into Mozilla Mail (or another mailer, such as Netscape or "
 "Eudora, that uses the standard mbox format)."
-msgstr ""
-"Desde Windows, importe los archivos en el cliente Mozilla Mail (o en otro "
-"cliente de correo que utilice el formato mbox estándar, como Netscape o "
-"Eudora)."
+msgstr "Importe los archivos en Mozilla Mail (o en otro cliente de correo que utilice el formato mbox estándar, como Netscape o Eudora)."
 
 #: C/evolution.xml:6106(para)
 msgid ""
@@ -12642,18 +12702,16 @@ msgid "Copy all the mail files into your home directory or another convenient pl
 msgstr ""
 
 #: C/evolution.xml:6120(para)
-#, fuzzy
 msgid "Start Evolution."
-msgstr "Imprimir con Evolution"
+msgstr "Inicie Evolution"
 
 #: C/evolution.xml:6123(para)
 msgid "Select File &gt; New Folder to create the folders you want."
 msgstr ""
 
 #: C/evolution.xml:6126(para)
-#, fuzzy
 msgid "To import the data files:"
-msgstr "Para importar sus mensajes existentes:"
+msgstr "Importar los archivos de datos:"
 
 #: C/evolution.xml:6129(para)
 msgid "In Evolution, open the File Import assistant by clicking File &gt; Import."
@@ -12661,7 +12719,7 @@ msgstr ""
 
 #: C/evolution.xml:6132(para)
 msgid "Click Next, then select Import A Single File."
-msgstr ""
+msgstr "Pulse Siguiente, después seleccione Importar un solo archivo."
 
 #: C/evolution.xml:6135(para)
 msgid "Leave the file type as Automatic, then click Browse to select the data file."
@@ -12669,12 +12727,11 @@ msgstr ""
 
 #: C/evolution.xml:6136(para)
 msgid "Remember, the data files are the files that have no file extension."
-msgstr ""
+msgstr "Recuerde, los archivos de datos son los archivos que no tienen extensión de archivo."
 
 #: C/evolution.xml:6139(para)
-#, fuzzy
 msgid "Select the folder where you want to put the imported data file."
-msgstr "Haga clic en la ficha <guibutton>Correo</guibutton>."
+msgstr "Seleccione la carpeta donde quiere poner sus archivos de datos importados."
 
 #: C/evolution.xml:6145(para)
 msgid "Repeat the import steps until you have imported all your mail."
@@ -12688,116 +12745,92 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6156(link) C/evolution.xml:6170(title)
-#, fuzzy
 msgid "Opening or Creating Items"
-msgstr "Apertura y cierre de elementos"
+msgstr "Apertura o cierre de elementos"
 
 #: C/evolution.xml:6159(link) C/evolution.xml:6184(title)
 msgid "Mail Tasks"
 msgstr "Tareas de correo"
 
 #: C/evolution.xml:6165(link) C/evolution.xml:6214(title)
-#, fuzzy
 msgid "Address Book"
-msgstr "Contactos"
+msgstr "Libreta de direcciones"
 
 #: C/evolution.xml:6171(bridgehead)
-#, fuzzy
 msgid "New Item"
-msgstr "Nuevo elemento:"
+msgstr "Nuevo elemento"
 
 #: C/evolution.xml:6172(para)
-#, fuzzy
 msgid ""
 "Press Ctrl+N to open a new item for whatever part of Evolution you're "
 "working in. In mail, this means you create a new message. If you're looking "
 "at your address book, Ctrl+N creates a new contact card, and in the "
 "calendar, a new appointment."
 msgstr ""
-"Pulse la combinación de teclas <keycombo action=\"simul\"> <keycap>Ctrl</"
-"keycap> <keycap>N</keycap> </keycombo> para abrir un elemento nuevo desde "
-"cualquier lugar de la aplicación <application>Ximian Evolution</application> "
-"donde se encuentre. En el contexto del correo, la orden abrirá un mensaje "
-"nuevo. Si consulta su lista de direcciones, la tecla <keycombo action=\"simul"
-"\"> <keycap>Ctrl</keycap> <keycap>N</keycap> </keycombo> creará una nueva "
-"tarjeta para un contacto; y en calendario, se abrirá una nueva cita."
+"Pulse la combinación de teclas Ctrl+N para abrir un elemento nuevo desde cualquier lugar de Evolution en la que se encuentre. En el contexto del correo, la orden abrirá un mensaje nuevo. Si está consultando su libreta de direcciones, Ctrl+N creará una nueva "
+"tarjeta para un contacto; y en el calendario se abrirá una nueva cita."
 
 #: C/evolution.xml:6173(bridgehead)
-#, fuzzy
 msgid "Creating a New E-Mail Message"
-msgstr "Creación de un nuevo mensaje de correo electrónico:"
+msgstr "Crear un nuevo mensaje de correo-e"
 
 #: C/evolution.xml:6174(para)
 msgid "Use File &gt; New &gt; Mail Message or Shift+Ctrl+M."
-msgstr ""
+msgstr "Use Archivo &gt; Nuevo &gt; Mensaje de correo o Mayús.+Ctrl+M."
 
 # index.docbook:41, index.docbook:293
 #: C/evolution.xml:6175(bridgehead) C/evolution.xml:6206(bridgehead)
-#, fuzzy
 msgid "Creating a New Appointment"
-msgstr "Creación de una nueva cita:"
+msgstr "Crear una cita nueva"
 
 #: C/evolution.xml:6176(para) C/evolution.xml:6207(para)
 msgid "Use File &gt; New Appointment or Shift+Ctrl+A."
-msgstr ""
+msgstr "Use Archivo &gt; Nuevo &gt; Cita o Mayús+Ctrl+A."
 
 #: C/evolution.xml:6177(bridgehead)
-#, fuzzy
 msgid "Entering a New Contact"
-msgstr "Creación de un nuevo contacto:"
+msgstr "Crear un contacto nuevo"
 
 #: C/evolution.xml:6178(para)
 msgid ""
 "Double-click in any blank space in the contact manager to create a new "
 "address card. You can also use File &gt; New Contact or Shift+Ctrl+C."
-msgstr ""
+msgstr "Pulse dos veces sobre cualquier espacio vacío en el administrador de contactos para crear una tarjeta de direcciones nueva. También puede usar Archivo &gt; Nuevo &gt; Contacto o Mayús.+Ctrl+C."
 
 #: C/evolution.xml:6180(para)
 msgid "File &gt; New Task or Shift+Ctrl+T."
-msgstr ""
+msgstr "Archivo &gt; Nuevo &gt; Tarea o Mayús.+Ctrl+T."
 
 #: C/evolution.xml:6185(bridgehead)
-#, fuzzy
 msgid "Send and Receive Mail"
-msgstr "Enviar y recibir correo:"
+msgstr "Enviar y recibir correo"
 
 #: C/evolution.xml:6186(para)
 msgid ""
 "Press F9, click the Send/Receive button in the toolbar, or click File &gt; "
 "Send/Receive."
-msgstr ""
+msgstr "Pulse F9, pulse el botón Enviar/Recibir en la barra de herramientas, o pulse Archivo &gt; Enviar/Recibir."
 
 #: C/evolution.xml:6187(bridgehead)
-#, fuzzy
 msgid "Navigating the Message List with the Keyboard"
-msgstr "Moverse por el buzón mediante el teclado:"
+msgstr "Navegar por la lista de mensajes mediante el teclado"
 
 #: C/evolution.xml:6188(para)
-#, fuzzy
 msgid ""
 "Press (]) or (.) to jump to the next unread message. ([) or (,) goes to the "
 "previous unread message. Use the arrow keys to move up and down in the list "
 "of all messages."
-msgstr ""
-"Pulse <keycap>]</keycap> o <keycap>.</keycap> para saltar al siguiente "
-"mensaje sin leer. <keycap>[</keycap> o <keycap>,</keycap> salta al anterior "
-"mensaje no leído. Use las teclas del cursor para moverse arriba y abajo por "
-"toda la lista de mensajes."
+msgstr "Pulse (]) o (.) para saltar al siguiente mensaje sin leer. ([) o (,) salta al anterior mensaje no leído. Use las teclas del cursor para moverse arriba y abajo por toda la lista de mensajes."
 
 #: C/evolution.xml:6189(bridgehead)
-#, fuzzy
 msgid "Moving the Display Up and Down in the Preview Pane"
-msgstr "Moverse adelante y atrás en el panel de visualización de mensajes:"
+msgstr "Moverse adelante y atrás en el panel de visualización de mensajes"
 
 #: C/evolution.xml:6190(para)
-#, fuzzy
 msgid "Press the Spacebar to move down a page. Press Backspace to move up a page."
-msgstr ""
-"Pulse la barra de espacio para avanzar una página. Pulse la tecla "
-"<keycap>Retroceso</keycap> para volver hacia atrás."
+msgstr "Pulse la barra espaciadora para avanzar una página. Pulse la tecla Retroceso para volver hacia atrás una página."
 
 #: C/evolution.xml:6191(bridgehead)
-#, fuzzy
 msgid "Replying To a Message"
 msgstr "Responder un mensaje"
 
@@ -12805,89 +12838,65 @@ msgstr "Responder un mensaje"
 msgid ""
 "To reply only to the sender of the message, click Reply in the toolbar, or "
 "press Ctrl+R."
-msgstr ""
+msgstr "Para responder sólo al remitente del mensaje, pulse Responder en la barra de herramientas o pulse Ctrl+R."
 
 #: C/evolution.xml:6193(para)
-#, fuzzy
 msgid ""
 "To reply to the sender and all the other visible recipients of the message, "
 "click Reply to All or select the message and press Shift+Ctrl+R."
-msgstr ""
-"Para responder al remitente y a todos los destinatarios visibles pulse en "
-"<guibutton>Re: Todos</guibutton> o seleccione el mensaje y pulse la "
-"combinación de teclas <keycombo action=\"simul\"><keycap>Mayús</"
-"keycap><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>."
+msgstr "Para responder al remitente y a todos los destinatarios visibles pulse en Responder a todos o seleccione el mensaje y pulse Mayús.+Ctrl+R."
 
 #: C/evolution.xml:6194(bridgehead)
-#, fuzzy
 msgid "Forwarding a Message"
-msgstr "Reenviar un mensaje:"
+msgstr "Reenviar un mensaje"
 
 #: C/evolution.xml:6195(para)
-#, fuzzy
 msgid ""
 "Select the message or messages you want to forward, then click Forward in "
 "the toolbar, or press Ctrl+F."
-msgstr ""
-"Seleccione los mensajes que quiera reenviar (uno o varios) y pulse en "
-"<guibutton>Reenviar</guibutton> en la barra de tareas o pulse la "
-"combinación de teclas <keycombo action=\"simul\"><keycap>Ctrl</"
-"keycap><keycap>F</keycap></keycombo>."
+msgstr "Seleccione el o los mensajes que quiera reenviar y pulse en Reenviar en la barra de herramientas o pulse Ctrl+F."
 
 #: C/evolution.xml:6196(bridgehead)
-#, fuzzy
 msgid "Opening a Message In a New Window"
-msgstr "Abrir un mensaje en una nueva ventana:"
+msgstr "Abrir un mensaje en una nueva ventana"
 
 #: C/evolution.xml:6197(para)
-#, fuzzy
 msgid ""
 "Double-click the message you want to view, or select it and press Enter or "
 "Ctrl+O."
 msgstr ""
-"Haga clic dos veces sobre el mensaje que quiera ver o selecciónelo y "
-"pulse <keycap>Retorno</keycap> o la combinación de teclas <keycombo action="
-"\"simul\"><keycap>Ctrl</keycap> <keycap>O</keycap></keycombo>."
+"Pulse dos veces sobre el mensaje que quiera ver o selecciónelo y pulse "
+"Retorno o Ctrl+O."
 
 #: C/evolution.xml:6198(bridgehead)
-#, fuzzy
 msgid "Creating Filters and Search Folders"
-msgstr "Creación de filtros y carpetas virtuales:"
+msgstr "Crear filtros y carpetas de búsqueda"
 
 #: C/evolution.xml:6199(para)
-#, fuzzy
 msgid ""
 "Right-click a message and select Create Rule From Message. You can also "
 "create filters and Search folders in the Edit menu."
 msgstr ""
-"Haga clic con el botón derecho en un mensaje y elija <guimenuitem>Crear una "
-"regla con el mensaje</guimenuitem>. También puede crear filtros y carpetas "
-"virtuales desde el menú <guimenu>Herramientas</guimenu>."
+"Pulse con el botón derecho en un mensaje y seleccione Crear una regla con el mensaje. También puede crear filtros y carpetas "
+"de búsqueda desde el menú Editar."
 
 #: C/evolution.xml:6200(bridgehead)
-#, fuzzy
 msgid "Adding a Sender to the Address Book"
-msgstr "Incluir un remitente a la lista de contactos:"
+msgstr "Añadir un remitente a la libreta de direcciones"
 
 #: C/evolution.xml:6201(para)
-#, fuzzy
 msgid ""
 "Right-click a message and select Add Sender to Address Book. You can also "
 "right-click on any e-mail address to add it to your address book."
 msgstr ""
-"Haga clic con el botón derecho sobre un mensaje y elija <guimenuitem>Añadir "
-"remitente a la libreta de direcciones</guimenuitem>. También puede pulsar el "
-"botón derecho sobre cualquier dirección de correo y agregarla a su lista de "
-"contactos."
+"Pulse con el botón derecho sobre un mensaje y seleccione Añadir remitente a la libreta de direcciones. También puede pulsar el "
+"botón derecho sobre cualquier dirección de correo y añadirla a su libreta de direcciones."
 
 #: C/evolution.xml:6208(para)
-#, fuzzy
 msgid ""
 "You can also click in any blank spot in the calendar and start typing to "
 "create a new appointment entry."
-msgstr ""
-"Para crear una nueva cita simplemente pulse en cualquier lugar vacío del "
-"calendario y empiece a escribir."
+msgstr "También puede pulsar en cualquier lugar vacío del calendario y empezar a escribir para crear una nueva cita."
 
 #: C/evolution.xml:6210(para)
 msgid "Use File &gt; New Task or Shift+Ctrl+T."
@@ -12899,7 +12908,9 @@ msgstr "Editar un contacto"
 
 #: C/evolution.xml:6216(para)
 msgid "Double-click the contact's address card to change details."
-msgstr "Pulse dos veces en la dirección de la tarjeta del contacto para modificar los detalles."
+msgstr ""
+"Pulse dos veces en la dirección de la tarjeta del contacto para modificar "
+"los detalles."
 
 #: C/evolution.xml:6217(bridgehead)
 msgid "Deleting a Contact"
@@ -12909,7 +12920,10 @@ msgstr "Borrar un contacto"
 msgid ""
 "Right-click a contact, then click Delete; or select a contact, then click "
 "Delete on the toolbar."
-msgstr "Pulse con el botón derecho sobre un contacto, después elija Borrar o seleccione el contacto y después pulse el botón Borrar en la barra de herramientas."
+msgstr ""
+"Pulse con el botón derecho sobre un contacto, después elija Borrar o "
+"seleccione el contacto y después pulse el botón Borrar en la barra de "
+"herramientas."
 
 #: C/evolution.xml:6219(bridgehead)
 msgid "Sending E-Mail To a Contact"
@@ -13256,7 +13270,9 @@ msgstr "iCal"
 
 #: C/evolution.xml:6379(para)
 msgid "iCal is a protocol that Evolution uses to manage the calendar section."
-msgstr "iCal es un protocolo que Evolution usa para gestionar la sección del calendario."
+msgstr ""
+"iCal es un protocolo que Evolution usa para gestionar la sección del "
+"calendario."
 
 #: C/evolution.xml:6383(glossterm)
 msgid "IMAP"
@@ -13433,7 +13449,9 @@ msgstr "SMTP"
 msgid ""
 "Simple Mail Transfer Protocol. The most common way of transporting mail "
 "messages from your computer to the server."
-msgstr "Simple Mail Transfer Protocol. La forma más común de transportar mensajes de correo desde su equipo al servidor."
+msgstr ""
+"Simple Mail Transfer Protocol. La forma más común de transportar mensajes de "
+"correo desde su equipo al servidor."
 
 #: C/evolution.xml:6479(glossterm)
 msgid "tooltip"
@@ -13443,7 +13461,9 @@ msgstr "consejo"
 msgid ""
 "A small box of explanatory text that appears when the mouse pointer is held "
 "over a button or other interface element."
-msgstr "Una pequeña caja con texto explicativo que aparece cuando el puntero del ratón se mantiene sobre un botón u otro elemento del interfaz."
+msgstr ""
+"Una pequeña caja con texto explicativo que aparece cuando el puntero del "
+"ratón se mantiene sobre un botón u otro elemento del interfaz."
 
 #: C/evolution.xml:6485(glossterm)
 msgid "virus"
@@ -13465,7 +13485,10 @@ msgstr "vCard"
 msgid ""
 "A file format for the exchange of contact information. When you get an "
 "address card attached to an e-mail, it is probably in vCard format."
-msgstr "Un formato de archivo para intercambiar información de contactos. Cuando obtiene una tarjeta de dirección adjuntada a un correo-e, probablemente esté en formato vCard."
+msgstr ""
+"Un formato de archivo para intercambiar información de contactos. Cuando "
+"obtiene una tarjeta de dirección adjuntada a un correo-e, probablemente esté "
+"en formato vCard."
 
 #: C/evolution.xml:6499(title)
 msgid "Legal Notices"
