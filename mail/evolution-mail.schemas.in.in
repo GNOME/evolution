@@ -292,7 +292,7 @@
       <applyto>/apps/evolution/mail/display/sender_photo</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>true</default>
+      <default>false</default>
       <locale name="C">
          <short>Show photo of the sender</short>
          <long>
