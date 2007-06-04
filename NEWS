@@ -1,3 +1,81 @@
+Evolution 2.11.3 2007-06-04
+---------------------------
+
+New in 2.11.3:
+	Improved search and show options for Calendar/Memo/Tasks. 
+	 (Chenthill, Abhishek and Keshav)
+	Included support for Contact Image in the preview pane
+	 (Srinivasa Ragavan)
+	Improved thread sorting. Even expanded threads are
+	 promoted up the list. (Srinivasa Ragavan)
+	Improved options for offline support. (Srinivasa Ragavan)
+	Added Swedish Welcome mail. (Daniel Nylander)
+	Version less binary for Evolution. (Gilles Dartiguelongue)
+
+Bug fixes:
+	#311512: New message notification is not triggered even by
+	 identified spam. (Karl Relton)
+	#315012: Fixed crash when reopening an encrypted sent email (Pascal
+	 Terjan)
+	#321741: Default date for appointment or meeting is now set to
+	 current date (Milan Crha)
+	#326388: Delete button is disabled for 'Birthdays & Anniversaries'
+	 calendar (Raghavendaran)
+	#333707: Thread message selection improvements, while deleting
+	 messages in thread. (David Moore)
+	#333858: Fixed popping of multiple categories dialog in contact
+	 editor (Milan Crha)
+	#335241: Send/Receive Messages window size fixed (Matthew Barnes)
+	#335396: Account Editor's "Sent / Draft Folder" dialogs now has
+	 proper title (Muktha)
+	#347767: A confirmation dialog will come up if a memo is saved
+	 without a summary (Ushveen Kaur)
+	#351729: Fixed unnecessary/broken windows (Milan Crha)
+	#386503: Help Menu or F1 now works (Matthew Barnes, Götz Waschk)
+	#415770: Outlook style reply option (Christian Kellner)
+	#424562: Dropped support for GTK+ < 2.10 (Matthew Barnes)
+	#427232: Fixed a crash during startup due to missing relative-URI
+	 (Matthew Barnes)
+	#436985: Move files that have translations but are not shipped to
+	 POTFILES.skip (Philip Withnall)
+	#438461: Mail preferences buttons now has a consistent look (Gilles
+	 Dartiguelongue)
+	#438467, #439118, #437584, #441055, #441014: Compilation warning
+	 cleanups (Gilles Dartiguelongue)
+	#439049: Setting time for an appointment in "ja" locale now works
+	 correctly (Wang Xin)
+	#439122: Compilation warnings cleanup (Gilles Dartiguelongue)
+	#439146, #438711: Improvements for the new mail-notification plugin
+	 (Ross Burton and Daniel Gryniewicz)
+	#439316: Fixed translation issues and some fixes around broken gtk.
+	 (Srinivasa Ragavan)
+	#439512: Mark strings for translation. (Srinivasa Ragavan)
+	#439957: Fix camel warnings (Ross Burton)
+	#440741: Added apps-evolution-mail-notification.schemas.in.in to
+	 translation. (Srinivasa Ragavan)
+	#441010: Fixed dropdowns in mailer's view editor (Matthew Barnes)
+	#441992: Fixed a crash when selecting a mail (Jeff Cai)
+	#443140: Added a missing mnemonic in Preferences window (Vinod)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Theppitak Karoonboonyanan (th)
+	Ivar Smolin (et)
+	Hendrik Richter (de)
+	Daniel Nylander (sv)
+	Stéphane Raimbault (fr)
+	Rhys Jones (cy)
+	Yair Hershkoviz (he)
+	Jakub Friedl (cs)
+	David Lodge (en_GB)
+
+Other Contributors:
+	Fixed casts and other compilation warnings (Gilles Dartiguelongue)
+	Added German translations for help files (Andre Klapper)
+	Fix file descriptor leak (Jules Colding)
+	Do not fetch folder-info from backend - just use the data from the
+	 current folder tree. (Veerapuram Varadhan)
+
 Evolution 2.11.2 2007-05-14
 ---------------------------
 

@@ -1,3 +1,10 @@
+2007-06-04  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Evolution 2.11.3 release
+
+	* NEWS:
+	* configure.in:
+
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
         ** Fix for version removal from Installed files from Gilles Dartiguelongue 
