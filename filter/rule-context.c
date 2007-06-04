@@ -924,6 +924,9 @@ new_element(RuleContext *rc, const char *type)
 		return (FilterElement *) filter_input_new_type_name (type);
 	} else if (!strcmp (type, "label")) {
 		return (FilterElement *) filter_label_new ();
+	}else if (!strcmp(type, "completedpercent")) {
+                 return (FilterElement *) filter_int_new_type("completedpercent", 0,100);
+
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return NULL;
