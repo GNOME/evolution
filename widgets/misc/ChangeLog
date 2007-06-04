@@ -1,3 +1,10 @@
+2007-06-04  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* e-filter-bar.[c]: (e_filter_bar_new), (e_filter_bar_new_construct):
+	Added a construct function.
+
+	Committing on behalf of Keshav Upadhayaya <ukeshav@novell.com>
+
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #386503 from Matthew Barnes

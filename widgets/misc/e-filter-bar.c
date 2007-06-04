@@ -945,9 +945,23 @@ e_filter_bar_new (RuleContext *context,
 		  void *data)
 {
 	EFilterBar *bar;
-	ESearchBarItem item = { NULL, -1, 0 };
 	
 	bar = g_object_new (e_filter_bar_get_type (), NULL);
+
+ 	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
+		
+	return bar;
+}
+
+
+void 
+e_filter_bar_new_construct (RuleContext *context,
+		  const char *systemrules,
+		  const char *userrules,
+		  EFilterBarConfigRule config,
+		  void *data ,EFilterBar *bar )
+{
+	ESearchBarItem item = { NULL, -1, 0 };
 
 	bar->context = context;
 	g_object_ref (context);
@@ -965,8 +979,7 @@ e_filter_bar_new (RuleContext *context,
 	
 	g_signal_connect (context, "changed", G_CALLBACK (context_changed), bar);
 	g_signal_connect (context, "rule_removed", G_CALLBACK (context_rule_removed), bar);
-	
-	return bar;
+
 }
 
 GtkType
