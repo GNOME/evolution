@@ -2011,6 +2011,7 @@ emft_popup_new_folder (EPopup *ep, EPopupItem *pitem, void *data)
 
 	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
 		em_folder_utils_create_folder(fi);
+		camel_folder_info_free(fi);
 	}
 }
 
@@ -2380,7 +2381,7 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *emft)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char *full_name = NULL;
+	char *full_name = NULL, *name = NULL, *uri = NULL;
 	CamelException ex;
 	CamelStore *store = NULL;
 	CamelFolderInfo *fi = NULL;
@@ -2392,12 +2393,29 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *emft)
 	selection = gtk_tree_view_get_selection(emft->priv->treeview);
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
-				    COL_STRING_FULL_NAME, &full_name, -1);
+				    COL_STRING_FULL_NAME, &full_name, 
+				    COL_STRING_DISPLAY_NAME, &name, 
+				    COL_STRING_URI, &uri, -1);
 
-	fi = camel_store_get_folder_info (store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+	fi = g_new0(CamelFolderInfo, 1);
+	fi->full_name = g_strdup (full_name);
+	fi->uri = g_strdup (uri);
+	fi->name = g_strdup (name);
 
-	camel_exception_clear (&ex);
+	d(g_print ("em_folder_tree_get_selected_folder_info: fi->full_name=[%s], fi->uri=[%s], fi->name=[%s]\n",
+		   fi->full_name, fi->uri, fi->name));
+	d(g_print ("em_folder_tree_get_selected_folder_info: full_name=[%s], uri=[%s], name=[%s]\n",
+		   full_name, uri, name));
 
+	if (!fi->full_name)
+		goto done;
+
+	g_free (fi->name);
+        if (!g_ascii_strcasecmp (fi->full_name, "INBOX"))
+                fi->name = g_strdup (_("Inbox"));
+        else
+                fi->name = g_strdup (name);
+ done:
 	return fi;
 }
 
