@@ -1812,6 +1812,37 @@ e_cal_model_set_search_query (ECalModel *model, const char *sexp)
 }
 
 /**
+ * e_cal_model_set_query
+ */
+void
+e_cal_model_set_search_query_with_time_range (ECalModel *model, const char *sexp, time_t start, time_t end)
+{
+	ECalModelPrivate *priv;
+	gboolean do_query = FALSE;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	priv = model->priv;
+
+	if (strcmp (sexp ? sexp : "", priv->search_sexp ? priv->search_sexp : "")) {
+		if (priv->search_sexp)
+			g_free (priv->search_sexp);
+
+		priv->search_sexp = g_strdup (sexp);
+		do_query = TRUE;
+	}
+		
+	if (!(priv->start == start && priv->end == end)) {
+		priv->start = start;
+		priv->end = end;
+		do_query = TRUE;
+	}
+
+	if (do_query)
+		redo_queries (model);
+}
+
+/**
  * e_cal_model_create_component_with_defaults
  */
 icalcomponent *

@@ -154,6 +154,7 @@ void                e_cal_model_generate_instances             (ECalModel       
 								gpointer             cb_data);
 GPtrArray * e_cal_model_get_object_array (ECalModel *model);
 void e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icaltimezone *zone);
+void e_cal_model_set_search_query_with_time_range (ECalModel *model, const char *sexp, time_t start, time_t end);
 
 
 

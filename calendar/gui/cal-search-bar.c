@@ -31,23 +31,39 @@
 #include <gtk/gtksignal.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-categories.h>
+#include <libecal/e-cal-time-util.h>
 #include <e-util/e-icon-factory.h>
 #include <libedataserver/e-categories.h>
+#include <filter/rule-editor.h>
 #include "cal-search-bar.h"
+#include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
+
 
 typedef struct CALSearchBarItem {
 	 ESearchBarItem search;
-	 char *image;
-}CALSearchBarItem;
+	 const char *image;
+} CALSearchBarItem;
+
+static ESearchBarItem calendar_search_items[] = {
+	E_FILTERBAR_ADVANCED,
+	{NULL, 0, 0},
+	E_FILTERBAR_SAVE,
+	E_FILTERBAR_EDIT,
+	{NULL, -1, 0}
+};
+
 
 /* IDs and option items for the ESearchBar */
 enum {
 	SEARCH_SUMMARY_CONTAINS,
 	SEARCH_DESCRIPTION_CONTAINS,
+	SEARCH_ANY_FIELD_CONTAINS,
 	SEARCH_CATEGORY_IS,
 	SEARCH_COMMENT_CONTAINS,
 	SEARCH_LOCATION_CONTAINS,
-	SEARCH_ANY_FIELD_CONTAINS
+	SEARCH_ATTENDEE_CONTAINS
+	
 };
 
 /* Comments are disabled because they are kind of useless right now, see bug 33247 */
@@ -61,14 +77,44 @@ static ESearchBarItem search_option_items[] = {
 };
 
 /* IDs for the categories suboptions */
-#define CATEGORIES_ALL 0
-#define CATEGORIES_UNMATCHED 1
-#define CATEGORIES_OFFSET 3
+
+typedef enum {
+	CATEGORIES_ALL,
+	CATEGORIES_UNMATCHED,
+	LAST_FIELD
+} common_search_options;
+
+typedef enum {
+	N_DAY_TASK = LAST_FIELD,
+	ACTIVE_TASK,
+	OVERDUE_TASK,
+	COMPLETED_TASK,
+	TASK_WITH_ATTACHMENT,
+	TASK_LAST_FIELD
+} task_search_options;
+
+typedef enum  {
+	ACTIVE_APPONTMENT = LAST_FIELD,
+	N_DAY_APPOINTMENT,
+	CAL_LAST_FIELD
+} cal_search_options;
+
+/* We add 2 to the offset to include the separators used to differenciate the quick search queries. */
+#define CATEGORIES_TASKS_OFFSET (TASK_LAST_FIELD + 2)
+#define CATEGORIES_MEMOS_OFFSET (LAST_FIELD + 1)
+#define CATEGORIES_CALENDAR_OFFSET (CAL_LAST_FIELD + 2)
 
 /* Private part of the CalSearchBar structure */
 struct CalSearchBarPrivate {
 	/* Array of categories */
 	GPtrArray *categories;
+
+	RuleContext *search_context;
+	FilterRule *search_rule;
+	guint32 view_flag;
+
+	time_t start;
+	time_t end;
 };
 
 static void cal_search_bar_destroy (GtkObject *object);
@@ -84,16 +130,17 @@ enum {
 
 static guint cal_search_bar_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (CalSearchBar, cal_search_bar, E_SEARCH_BAR_TYPE)
+
+G_DEFINE_TYPE (CalSearchBar, cal_search_bar, E_FILTER_BAR_TYPE)
 
 /* Class initialization function for the calendar search bar */
 static void
 cal_search_bar_class_init (CalSearchBarClass *class)
 {
-	ESearchBarClass *e_search_bar_class;
-	GtkObjectClass *object_class;
 
-	e_search_bar_class = (ESearchBarClass *) class;
+	EFilterBarClass *e_search_bar_class;
+	GtkObjectClass *object_class;
+	e_search_bar_class = (EFilterBarClass *) class;
 	object_class = (GtkObjectClass *) class;
 
 	cal_search_bar_signals[SEXP_CHANGED] =
@@ -116,9 +163,7 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 
 	class->sexp_changed = NULL;
 	class->category_changed = NULL;
-
-	e_search_bar_class->search_activated = cal_search_bar_search_activated;
-
+	((ESearchBarClass *) e_search_bar_class)->search_activated = cal_search_bar_search_activated; 
 	object_class->destroy = cal_search_bar_destroy;
 }
 
@@ -133,6 +178,9 @@ cal_search_bar_init (CalSearchBar *cal_search)
 
 	priv->categories = g_ptr_array_new ();
 	g_ptr_array_set_size (priv->categories, 0);
+
+	priv->start = -1;
+	priv->end = -1;
 }
 
 /* Frees an array of categories */
@@ -168,6 +216,17 @@ cal_search_bar_destroy (GtkObject *object)
 			priv->categories = NULL;
 		}
 		
+		if (priv->search_rule) {
+			g_object_unref (priv->search_rule);
+			priv->search_rule = NULL;
+		}
+		
+		/* FIXME 		
+		if (priv->search_context) {
+			g_object_unref (priv->search_context);
+			priv->search_context = NULL;
+		}*/
+
 		g_free (priv);
 		cal_search->priv = NULL;
 	}
@@ -186,14 +245,13 @@ notify_sexp_changed (CalSearchBar *cal_search, const char *sexp)
 			 sexp);
 }
 
-/* Returns the string of the currently selected category, NULL for "Unmatched",
- * or (const char *) 1 for "All".
- */
+/* Returns the string of the currently selected category, NULL for "Unmatched" and "All
+*/
 static const char *
 get_current_category (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	gint viewid;
+	gint viewid, i;
 
 	priv = cal_search->priv;
 
@@ -201,18 +259,20 @@ get_current_category (CalSearchBar *cal_search)
 
 	viewid = e_search_bar_get_viewitem_id (E_SEARCH_BAR (cal_search));
 
-	if (viewid == CATEGORIES_ALL)
-		return (const char *) 1;
-	else if (viewid == CATEGORIES_UNMATCHED)
+	if (viewid == CATEGORIES_ALL || viewid == CATEGORIES_UNMATCHED)
 		return NULL;
-	else {
-		int i;
 
-		i = viewid - CATEGORIES_OFFSET;
-		g_assert (i >= 0 && i < priv->categories->len);
-
+	if (priv->view_flag == CAL_SEARCH_TASKS_DEFAULT)
+		i = viewid - CATEGORIES_TASKS_OFFSET;
+	else if (priv->view_flag == CAL_SEARCH_MEMOS_DEFAULT) 
+		i = viewid - CATEGORIES_MEMOS_OFFSET;
+	else if (priv->view_flag == CAL_SEARCH_CALENDAR_DEFAULT)
+		i = viewid - CATEGORIES_CALENDAR_OFFSET;
+	
+	if (i >= 0 && i < priv->categories->len)
 		return priv->categories->pdata[i];
-	}
+	else
+		return NULL;
 }
 
 
@@ -221,21 +281,122 @@ get_current_category (CalSearchBar *cal_search)
  * as NULL.
  */
 static char *
-get_category_sexp (CalSearchBar *cal_search)
+get_show_option_sexp (CalSearchBar *cal_search)
 {
-	const char *category;
+	CalSearchBarPrivate *priv ;
+	gint viewid ;
+	char *start, *end, *due, *ret = NULL;
+	const char *category = NULL ;
+	time_t start_range, end_range;
+
+	priv = cal_search->priv;
+	viewid = e_search_bar_get_viewitem_id (E_SEARCH_BAR (cal_search));
+
+	if (viewid == CATEGORIES_UNMATCHED)
+		return g_strdup ("(has-categories? #f)"); /* Unfiled items */
+	else if (viewid == CATEGORIES_ALL) 
+		return NULL; /* All items */
+
+	switch (priv->view_flag) {
+	case CAL_SEARCH_TASKS_DEFAULT:
+		if (viewid == N_DAY_TASK) {
+			start_range = time(NULL);
+			end_range = time_add_day(start_range, 7);
+			start = isodate_from_time_t (start_range);
+			due = isodate_from_time_t (end_range);
+
+			ret =  g_strdup_printf ("(due-in-time-range? (make-time \"%s\")"
+					"                      (make-time \"%s\"))",
+					start, due);
+
+			g_free (start);
+			g_free (due);
+
+			return ret;
+		} else if (viewid == ACTIVE_TASK) {
+			/* Shows the tasks due for an year from now which are not completed yet*/
+			start_range = time(NULL);
+			end_range = time_add_day(start_range, 365);
+			start = isodate_from_time_t (start_range);
+			due = isodate_from_time_t (end_range);
+
+			ret =  g_strdup_printf ("(and (due-in-time-range? (make-time \"%s\")"
+					"                      (make-time \"%s\")) (not (is-completed?)))",
+					start, due);
+
+			g_free (start);
+			g_free (due);
+
+			return ret;
+		} else if (viewid == OVERDUE_TASK) {
+			/* Shows the tasks which are overdue from lower limit 1970 to the current time */
+			start_range = 0;
+			end_range = time (NULL);
+			start = isodate_from_time_t (start_range);
+			due = isodate_from_time_t (end_range);
+
+			ret =  g_strdup_printf ("(and (due-in-time-range? (make-time \"%s\")"
+					"                      (make-time \"%s\")) (not (is-completed?)))",
+					start, due);
+
+			g_free (start);
+			g_free (due);
+
+			return ret;
+		} else if (viewid == COMPLETED_TASK)  
+			return g_strdup ("(is-completed?)");
+		else if (viewid == TASK_WITH_ATTACHMENT) 
+			return g_strdup ("(has-attachments?)");
+		break;
+	case CAL_SEARCH_CALENDAR_DEFAULT:
+		if (viewid == ACTIVE_APPONTMENT) {
+			/* Shows next one year's Appointments */
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 365);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			ret = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
+					"                      (make-time \"%s\"))",
+					start, end);
+
+			cal_search->priv->start = start_range;
+			cal_search->priv->end = end_range;
+
+			g_free (start);
+			g_free (end);
+
+			return ret;
+		} else if (viewid == N_DAY_APPOINTMENT) { 
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 7);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			ret = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
+					"                      (make-time \"%s\"))",
+					start, end);
+
+			cal_search->priv->start = start_range;
+			cal_search->priv->end = end_range;
+
+			g_free (start);
+			g_free (end);
+
+			return ret;
+		}
+		break;
+	default:
+		break;
+	}
 
 	category = get_current_category (cal_search);
 
-	if (category == NULL)
-		return g_strdup ("(has-categories? #f)"); /* Unfiled items */
-	else if (category == (const char *) 1) {
-		return NULL; /* All items */
-	}
+	if (category != NULL)
+		return g_strdup_printf ("(has-categories? \"%s\")", category);
 	else
-		return g_strdup_printf ("(has-categories? \"%s\")", category); /* Specific category */
+		return NULL;
 }
-
 
 /* Sets the query string to be (contains? "field" "text") */
 static void
@@ -257,11 +418,12 @@ notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const c
 
 
 	/* Apply the selected view on search */
-	view = get_category_sexp (cal_search);
-	if (view && *view)
+	if (view && *view){	
 	    sexp = g_strconcat ("(and ",sexp, view, ")", NULL);
-
+	}
+ 
 	notify_sexp_changed (cal_search, sexp);
+	
 	g_free (sexp);
 }
 
@@ -272,7 +434,7 @@ notify_category_is (CalSearchBar *cal_search)
 {
 	char *sexp;
 
-	sexp = get_category_sexp (cal_search);
+	sexp = get_show_option_sexp (cal_search);
 
 	if (!sexp)
 		notify_sexp_changed (cal_search, "#t"); /* Match all */
@@ -289,39 +451,62 @@ static void
 regen_query (CalSearchBar *cal_search)
 {
 	int id;
-	const char *category_sexp;
+	char *show_option_sexp = NULL;
+	char *sexp = NULL;
+	GString *out = NULL;
+	EFilterBar *efb = (EFilterBar *) cal_search;
 
 	/* Fetch the data from the ESearchBar's entry widgets */
 	id = e_search_bar_get_item_id (E_SEARCH_BAR (cal_search));
 
+	cal_search->priv->start = -1;
+	cal_search->priv->end = -1;
+	
 	/* Get the selected view */
-	category_sexp = get_category_sexp (cal_search);
+	show_option_sexp = get_show_option_sexp (cal_search);
 
 	/* Generate the different types of queries */
 	switch (id) {
 	case SEARCH_ANY_FIELD_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "any", category_sexp);
+		notify_e_cal_view_contains (cal_search, "any", show_option_sexp);
 		break;
 
 	case SEARCH_SUMMARY_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "summary", category_sexp);
+		notify_e_cal_view_contains (cal_search, "summary", show_option_sexp);
 		break;
 
 	case SEARCH_DESCRIPTION_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "description", category_sexp);
+		notify_e_cal_view_contains (cal_search, "description", show_option_sexp);
 		break;
 
 	case SEARCH_COMMENT_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "comment", category_sexp);
+		notify_e_cal_view_contains (cal_search, "comment", show_option_sexp);
 		break;
 
 	case SEARCH_LOCATION_CONTAINS:
-		notify_e_cal_view_contains (cal_search, "location", category_sexp);
+		notify_e_cal_view_contains (cal_search, "location", show_option_sexp);
+		break;
+	case SEARCH_ATTENDEE_CONTAINS:
+		notify_e_cal_view_contains (cal_search, "attendee", show_option_sexp);
+		break;
+	case  E_FILTERBAR_ADVANCED_ID:
+		out = g_string_new ("");
+		filter_rule_build_code (efb->current_query, out);
+
+		if (show_option_sexp && *show_option_sexp)	
+		    sexp = g_strconcat ("(and ", out->str, show_option_sexp, ")", NULL);
+		
+		notify_sexp_changed (cal_search, sexp ? sexp : out->str);
+		
+		g_string_free (out, TRUE);
+		g_free(sexp);
 		break;
 
 	default:
 		g_assert_not_reached ();
 	}
+
+	g_free (show_option_sexp);
 }
 
 #if 0
@@ -407,13 +592,44 @@ generate_viewoption_menu (CALSearchBarItem *subitems)
 	return menu;
 }
 
+static void
+setup_category_options (CalSearchBar *cal_search, CALSearchBarItem *subitems, gint index, gint offset)
+{
+	CalSearchBarPrivate *priv;
+	gint i;
+
+	priv = cal_search->priv;
+
+	if (priv->categories->len > 0) {
+		subitems[index].search.text = NULL; /* separator */
+		subitems[index].search.id = 0;
+		subitems[index].image = NULL;
+
+		for (i = 0; i < priv->categories->len; i++) {
+			const char *category;
+
+			category = priv->categories->pdata[i] ? priv->categories->pdata [i] : "";
+
+			/* The search.text field should not be free'd */
+			subitems[i + offset].search.text = (char *) category;
+			subitems[i + offset].search.id = i + offset;
+			subitems[i + offset].image = e_categories_get_icon_file_for (category);
+		}
+		index = i + offset;
+	}
+	
+	subitems[index].search.id = -1; /* terminator */
+	subitems[index].search.text = NULL;
+	subitems[index].image = NULL;
+}
+
+
 /* Creates the suboptions menu for the ESearchBar with the list of categories */
 static void
 make_suboptions (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	CALSearchBarItem *subitems;
-	int i;
+	CALSearchBarItem *subitems = NULL;
 	GtkWidget *menu;
 	
 	priv = cal_search->priv;
@@ -421,56 +637,110 @@ make_suboptions (CalSearchBar *cal_search)
 	g_assert (priv->categories != NULL);
 
 	/* Categories plus "all", "unmatched", separator, terminator */
-	subitems = g_new (CALSearchBarItem, priv->categories->len + 3 + 1);
 
 	/* All, unmatched, separator */
 
-	subitems[0].search.text = _("Any Category");
-	subitems[0].search.id = CATEGORIES_ALL;
-	subitems[0].image = NULL;
+	if (priv->view_flag == CAL_SEARCH_TASKS_DEFAULT) {
+		subitems = g_new (CALSearchBarItem, priv->categories->len + CATEGORIES_TASKS_OFFSET + 1);
 
-	subitems[1].search.text = _("Unmatched");
-	subitems[1].search.id = CATEGORIES_UNMATCHED;
-	subitems[1].image = NULL;
-	
-	/* All the other items */
+		subitems[0].search.text = _("Any Category");
+		subitems[0].search.id = CATEGORIES_ALL;
+		subitems[0].image = NULL;
 
-	if (priv->categories->len > 0) {
-		 subitems[2].search.text = NULL; /* separator */
-		 subitems[2].search.id = 0;
-		 subitems[2].image = 0;
-		 
-		 for (i = 0; i < priv->categories->len; i++) {
-			  const char *category;
-			  char *str;
+		subitems[1].search.text = _("Unmatched");
+		subitems[1].search.id = CATEGORIES_UNMATCHED;
+		subitems[1].image = NULL;
 
-			  category = priv->categories->pdata[i];
-			  str = g_strdup (category ? category : "");
+		subitems[2].search.text = NULL; 
+		subitems[2].search.id = 0;
+		subitems[2].image = 0;
 
-			  subitems[i + CATEGORIES_OFFSET].search.text      = str;
-			  subitems[i + CATEGORIES_OFFSET].search.id        = i + CATEGORIES_OFFSET;
-			  subitems[i + CATEGORIES_OFFSET].image        = g_strdup (e_categories_get_icon_file_for(str));
-		 }
+		subitems[3].search.text = _("Next 7 days Tasks");
+		subitems[3].search.id = N_DAY_TASK;
+		subitems[3].image = NULL;
 
-		 subitems[i + CATEGORIES_OFFSET].search.id = -1; /* terminator */
-		 subitems[2].search.text = NULL;
-		 subitems[2].image = NULL;		
-	} else {
-		 
-		 subitems[2].search.id = -1; /* terminator */
-		 subitems[2].search.text = NULL;
-		 subitems[2].image = NULL;
-	}	
+		subitems[4].search.text = _("Active Tasks");
+		subitems[4].search.id = ACTIVE_TASK;
+		subitems[4].image = NULL;
 
-	menu = generate_viewoption_menu (subitems);
-	e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
-	
-	/* Free the strings */
-	for (i = 0; i < priv->categories->len; i++) {
-		g_free (subitems[i + CATEGORIES_OFFSET].search.text);
-		g_free (subitems[i + CATEGORIES_OFFSET].image);
+		subitems[5].search.text = _("Over Due Tasks");
+		subitems[5].search.id = OVERDUE_TASK;
+		subitems[5].image = NULL;
+
+		subitems[6].search.text = _("Completed Tasks");
+		subitems[6].search.id = COMPLETED_TASK;
+		subitems[6].image = NULL;
+
+		subitems[7].search.text = _("Tasks With Attachments");
+		subitems[7].search.id = TASK_WITH_ATTACHMENT;
+		subitems[7].image = NULL;
+
+		/* All the other items */
+		setup_category_options (cal_search, subitems, 8, CATEGORIES_TASKS_OFFSET);
+		
+		menu = generate_viewoption_menu (subitems);
+		e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
+
+	} else if (priv->view_flag == CAL_SEARCH_MEMOS_DEFAULT) {
+		subitems = g_new (CALSearchBarItem, priv->categories->len + CATEGORIES_MEMOS_OFFSET + 1);
+
+		/* All, unmatched, separator */
+
+		subitems[0].search.text = _("Any Category");
+		subitems[0].search.id = CATEGORIES_ALL;
+		subitems[0].image = NULL;
+
+		subitems[1].search.text = _("Unmatched");
+		subitems[1].search.id = CATEGORIES_UNMATCHED;
+		subitems[1].image = NULL;
+
+		/* All the other items */
+		setup_category_options (cal_search, subitems, 2, CATEGORIES_MEMOS_OFFSET);
+
+		menu = generate_viewoption_menu (subitems);
+		e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
+
+	} else if (priv->view_flag == CAL_SEARCH_CALENDAR_DEFAULT) {
+		subitems = g_new (CALSearchBarItem, priv->categories->len + CATEGORIES_CALENDAR_OFFSET + 1);
+
+		/* All, unmatched, separator */
+
+		subitems[0].search.text = _("Any Category");
+		subitems[0].search.id = CATEGORIES_ALL;
+		subitems[0].image = NULL;
+
+		subitems[1].search.text = _("Unmatched");
+		subitems[1].search.id = CATEGORIES_UNMATCHED;
+		subitems[1].image = NULL;
+
+		subitems[2].search.text = NULL; 
+		subitems[2].search.id = 0;
+		subitems[2].image = 0;
+
+		subitems[3].search.text = _("Active Appointments"); 
+		subitems[3].search.id = ACTIVE_APPONTMENT;
+		subitems[3].image = NULL;
+
+		subitems[4].search.text = _("Next 7 Day Appointments"); 
+		subitems[4].search.id = N_DAY_APPOINTMENT;
+		subitems[4].image = NULL;
+
+		/* All the other items */
+		setup_category_options (cal_search, subitems, 5, CATEGORIES_CALENDAR_OFFSET);
+
+		menu = generate_viewoption_menu (subitems);
+		e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
 	}
-	g_free (subitems);
+
+	if(subitems != NULL)	
+		g_free (subitems);
+}
+
+static void
+search_menu_activated (ESearchBar *esb, int id)
+{
+	if (id == E_FILTERBAR_ADVANCED_ID)
+		e_search_bar_set_item_id (esb, id);
 }
 
 /**
@@ -488,6 +758,11 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 	ESearchBarItem *items;
 	guint32 bit = 0x1;
 	int i, j;
+	char *xmlfile = NULL;
+	char *userfile = NULL;
+	FilterPart *part;	
+	RuleContext *search_context;
+	FilterRule  *search_rule;
 	
 	g_return_val_if_fail (IS_CAL_SEARCH_BAR (cal_search), NULL);
 	
@@ -503,10 +778,51 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 	
 	items[j].text = NULL;
 	items[j].id = -1;
+	search_context = rule_context_new ();
+	cal_search->priv->view_flag = flags;
+
+	rule_context_add_part_set (search_context, "partset", filter_part_get_type (),
+			rule_context_add_part, rule_context_next_part);
+	rule_context_add_rule_set (search_context, "ruleset", filter_rule_get_type (),
+			rule_context_add_rule, rule_context_next_rule);
+
+	if (flags == CAL_SEARCH_MEMOS_DEFAULT) {
+		userfile = g_build_filename (g_get_home_dir (), ".evolution/memos/searches.xml", NULL);
+		xmlfile = g_build_filename (SEARCH_RULE_DIR, "memotypes.xml", NULL);
+	} else if (flags == CAL_SEARCH_TASKS_DEFAULT) {
+		userfile = g_build_filename (g_get_home_dir (), ".evolution/tasks/searches.xml", NULL);
+		xmlfile = g_build_filename (SEARCH_RULE_DIR, "tasktypes.xml", NULL);
+	} else {
+		userfile = g_build_filename (g_get_home_dir (), ".evolution/calendar/searches.xml", NULL);
+		xmlfile = g_build_filename (SEARCH_RULE_DIR, "caltypes.xml", NULL);
+	}
+
+	g_object_set_data_full (G_OBJECT (search_context), "user", userfile, g_free);
+	g_object_set_data_full (G_OBJECT (search_context), "system", xmlfile, g_free);
+
+	rule_context_load (search_context, xmlfile, userfile);	
+	search_rule = filter_rule_new ();
+	part = rule_context_next_part (search_context, NULL);
 	
-	e_search_bar_construct (E_SEARCH_BAR (cal_search), NULL, items);
+	if (part == NULL)
+		g_warning ("Could not load calendar search; no parts.");
+	else    
+		filter_rule_add_part (search_rule, filter_part_clone (part));
+
+	e_filter_bar_new_construct (search_context, xmlfile, userfile, NULL, cal_search, 
+			(EFilterBar*) cal_search );
+	e_search_bar_set_menu ((ESearchBar *) cal_search, calendar_search_items);
+
+	g_signal_connect ((ESearchBar *) cal_search, "menu_activated", G_CALLBACK (search_menu_activated), cal_search);
+
 	make_suboptions (cal_search);
 
+	cal_search->priv->search_rule = search_rule;
+	cal_search->priv->search_context = search_context;
+
+	g_free (xmlfile);
+	g_free (userfile);
+	
 	return cal_search;
 }
 
@@ -514,9 +830,9 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
  * cal_search_bar_new:
  * flags: bitfield of items to appear in the search menu
  * 
- * Creates a new calendar search bar.
+ * creates a new calendar search bar.
  * 
- * Return value: A newly-created calendar search bar.  You should connect to the
+ * return value: a newly-created calendar search bar.  you should connect to the
  * "sexp_changed" signal to monitor changes in the generated sexps.
  **/
 GtkWidget *
@@ -605,8 +921,19 @@ cal_search_bar_get_category (CalSearchBar *cal_search)
 
 	category = get_current_category (cal_search);
 
-	if (!category || category == (const char *) 1)
-		return NULL;
-	else
-		return category;
+	return category;
 }
+
+void 
+cal_search_bar_get_time_range (CalSearchBar *cal_search, time_t *start, time_t *end)
+{
+	CalSearchBarPrivate *priv;
+
+	g_return_if_fail (IS_CAL_SEARCH_BAR (cal_search));
+	
+	priv = cal_search->priv;
+
+	*start = priv->start;
+	*end = priv->end;
+}
+

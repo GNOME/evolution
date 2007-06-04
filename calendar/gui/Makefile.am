@@ -51,6 +51,11 @@ ecalendarincludedir = $(privincludedir)/calendar/gui
 ecalendarinclude_HEADERS =	\
 	e-cal-config.h
 
+search_files = tasktypes.xml memotypes.xml caltypes.xml
+
+ruledir = $(privdatadir)
+rule_DATA = $(search_files)
+
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_builddir)/shell				\
@@ -60,6 +65,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/a11y/calendar			\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
@@ -235,6 +241,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
 	$(LIBSOUP_LIBS)							\
@@ -261,7 +268,8 @@ EXTRA_DIST =	 			\
 	$(glade_DATA)			\
 	$(schema_in_files)              \
 	$(etspec_DATA)			\
-	$(server_in_files)
+	$(server_in_files)		\
+	$(search_files) 
 
 BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)

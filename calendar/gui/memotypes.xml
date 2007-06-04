@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<filterdescription>
+<partset>
+ 	<part name="summary">
+            <title>Summary</title>
+            <input type="optionlist" name="summary-type">
+                <option value="contains">
+                    <title>contains</title>
+                    <code>(contains? "summary" ${summary})</code>
+                </option>
+                <option value="not contains">
+                    <title>does not contain</title>
+                    <code>(not (contains? "summary" ${summary}))</code>
+                </option>
+            </input>
+            <input type="string" name="summary"/>
+        </part>
+	
+	<part name="description">
+            <title>Description</title>
+            <input type="optionlist" name="description-type">
+                <option value="contains">
+                    <title>contains</title>
+                    <code>(contains? "description" ${description})</code>
+                </option>
+                <option value="not contains">
+                    <title>does not contain</title>
+                    <code>(not (contains? "description" ${description}))</code>
+                </option>
+            </input>
+            <input type="string" name="description"/>
+        </part>
+
+	<part name="anyfield">
+            <title>Any Field</title>
+            <input type="optionlist" name="anyfield-type">
+                <option value="contains">
+                    <title>contains</title>
+                    <code>(contains? "any" ${anyfield})</code>
+                </option>
+                <option value="not contains">
+                    <title>does not contain</title>
+                    <code>(not (contains? "any" ${anyfield}))</code>
+                </option>
+            </input>
+            <input type="string" name="anyfield"/>
+        </part>
+
+	<part name="name2">
+   	  <title>Organizer</title>
+  	    <input type="optionlist" name="name-type">
+  	     <option value="contains">
+  	         <title>contains</title>
+ 	          <code>(contains? "organizer" ${name})</code>
+ 	     </option>
+	      <option value="not contains">
+ 	        <title>does not contain</title>
+	          <code>(not (contains? "organizer" ${name}))</code>
+ 	     </option>
+    	 </input>
+  	   <input type="string" name="name"/>
+  	 </part>
+
+<part name="name2">
+     <title>Classification</title>
+      <input type="optionlist" name="name-type">
+       <option value="is">
+           <title>is</title>
+           <code>(contains? "classification" ${classification})</code>
+      </option>
+      <option value="is not">
+           <title>is not</title>
+           <code>(not(contains? "classification" ${classification}))</code>
+      </option>
+     </input>
+     <input type="optionlist" name="classification">
+      <option value="Public">
+          <title>Public</title>
+      </option>
+      <option value="Private">
+          <title>Private</title>
+      </option>
+      <option value="Confidential">
+          <title>Confidential</title>
+      </option>
+     </input>	 
+   </part>
+ 
+ <part name="category">
+  <title>Category</title>
+   <input type="optionlist" name="category-type">
+    <option value="is">
+        <title>is</title>
+	<code>(has-categories? ${category})</code>
+    </option>
+    <option value="is not">
+       <title>is not</title>
+      <code>(not(has-categories? ${category}))</code>
+     </option>
+    </input>
+   <input type="optionlist" name="category">
+    <option value="Anniversary">
+        <title>Anniversary</title>
+    </option>
+    <option value="Holiday">
+        <title>Holiday</title>
+    </option>
+    <option value="Ideas">
+        <title>Ideas</title>
+    </option>
+    <option value="Status">
+        <title>Status</title>
+    </option>
+    <option value="Holiday Cards">
+        <title>Holiday Cards</title>
+    </option>
+    <option value="Hot Contacts">
+        <title>Hot Contacts</title>
+    </option>
+    <option value="International">
+        <title>International</title>
+    </option>
+    <option value="Next 7 days">
+        <title>Next 7 days</title>
+    </option>
+    <option value="Birthday">
+        <title>Birthday</title>
+    </option>
+    <option value="VIP">
+        <title>VIP</title>
+    </option>
+    <option value="Gifts">
+        <title>Gifts</title>
+    </option>
+    <option value="Waiting">
+        <title>Waiting</title>
+    </option>
+    <option value="Key Customer">
+        <title>Key Customer</title>
+    </option>
+    <option value="Time &amp; Expenses">
+        <title>Time &amp; Expenses </title>
+    </option>
+    <option value="Miscellaneous">
+        <title>Miscellaneous</title>
+    </option>
+    <option value="Business">
+        <title>Business</title>
+    </option>
+    <option value="Personal">
+        <title>Personal</title>
+    </option>
+    <option value="Suppliers">
+        <title>Suppliers</title>
+    </option>
+    <option value="Goals/Objectives">
+        <title>Goals/Objectives</title>
+    </option>
+    <option value="Strategies">
+        <title>Strategies</title>
+    </option>
+    <option value="Competition">
+        <title>Competition</title>
+    </option>
+    <option value="Favourites">
+        <title>Favourites</title>
+    </option>
+    <option value="Phone Calls">
+        <title>Phone Calls</title>
+    </option>
+   </input>
+ </part>
+
+<part name="attachments">
+  <title>Attachments</title>
+  <input type="optionlist" name="match-type">
+   <option value="exist">
+    <title>Exist</title>
+    <code>
+	(has-attachments?)
+     
+    </code>
+   </option>
+   <option value="not exist">
+    <title>Do Not Exist</title>
+    <code>
+     (not(has-attachments?))
+    </code>
+   </option>
+  </input>
+ </part>
+
+ 
+</partset>
+
+<ruleset>
+
+    <rule grouping="any" source="demand">
+      <_title>Summary Contain</_title>
+	<partset>
+        	<part name="summary">
+	          <value name="summary-type" type="option" value="contains"/>
+        	  <value name="summary" type="string"/>
+        	</part>        
+         </partset>
+      <sources/>
+    </rule>
+    
+    <rule grouping="any" source="demand">
+      <_title>Description Contain</_title>
+	<partset>
+	        <part name="description">
+        	  <value name="description-type" type="option" value="contains"/>
+	          <value name="description" type="string"/>
+        	</part>        
+       </partset>
+      <sources/>
+    </rule>
+    
+    <rule grouping="any" source="demand">
+      <_title>Any field contains</_title>
+	<partset>
+ 	       <part name="anyfield">
+        	  <value name="anyfield-type" type="option" value="contains"/>
+	          <value name="anyfield" type="string"/>
+        	</part>
+        </partset>
+      <sources/>
+    </rule>
+     
+  </ruleset>
+
+  </filterdescription>

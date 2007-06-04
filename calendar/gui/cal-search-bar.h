@@ -48,18 +48,18 @@ enum {
 
 #define CAL_SEARCH_ALL (0xff)
 #define CAL_SEARCH_CALENDAR_DEFAULT (0x33)
-#define CAL_SEARCH_TASKS_DEFAULT    (0x23)
+#define CAL_SEARCH_TASKS_DEFAULT    (0xE3)
 #define CAL_SEARCH_MEMOS_DEFAULT    (0x23)
 
 typedef struct {
-	ESearchBar search_bar;
+	EFilterBar  search_bar;
 
 	/* Private data */
 	CalSearchBarPrivate *priv;
 } CalSearchBar;
 
 typedef struct {
-	ESearchBarClass parent_class;
+	EFilterBarClass parent_class;
 
 	/* Notification signals */
 
@@ -76,6 +76,8 @@ GtkWidget *cal_search_bar_new (guint32 flags);
 void cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories);
 
 const char *cal_search_bar_get_category (CalSearchBar *cal_search);
+
+void cal_search_bar_get_time_range (CalSearchBar *cal_search, time_t *start, time_t *end);
 
 
 

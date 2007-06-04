@@ -1,3 +1,29 @@
+2007-06-04  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/Makefile.am: Added the filter flags and the new files.
+	* gui/cal-search-bar.c: (cal_search_bar_class_init),
+	(cal_search_bar_init), (cal_search_bar_destroy),
+	(get_current_category), (get_show_option_sexp),
+	(notify_e_cal_view_contains), (notify_category_is), (regen_query),
+	(setup_category_options), (make_suboptions),
+	(search_menu_activated), (cal_search_bar_construct),
+	(cal_search_bar_get_category), (cal_search_bar_get_time_range):
+	* gui/cal-search-bar.h: 
+	* gui/e-cal-model.[ch]:
+	(e_cal_model_set_search_query_with_time_range): Set the time range
+	and the search query.							
+	* gui/gnome-cal.c: (set_search_query),
+	(search_bar_sexp_changed_cb), (update_memo_view),
+	(gnome_calendar_init), (update_view_times), (display_view),
+	(display_view_cb), (gnome_calendar_update_date_navigator): Hide
+	the date navigator in list view for searches based on date.	   
+	* gui/caltypes.xml:
+	* gui/memotypes.xml:
+	* gui/tasktypes.xml: Added the Advanced search options.
+
+	Committing on behalf of Keshav Upadhyaya <ukeshav@novell.com> and 
+	Abhishek Parwal <pabhishek@novell.com>.
+
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #386503 from Matthew Barnes
