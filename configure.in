@@ -656,13 +656,18 @@ if test "x${with_krb5}" != "xno"; then
 	
 	mitlibs="-lkrb5 -lk5crypto -lcom_err -lgssapi_krb5"
 	heimlibs="-lkrb5 -lcrypto -lasn1 -lcom_err -lroken -lgssapi"
+	sunlibs="-lkrb5 -lgss"
 	AC_CACHE_CHECK([for Kerberos 5], ac_cv_lib_kerberos5,
 	[
 		LDFLAGS="$LDFLAGS -L$with_krb5_libs $mitlibs"
 		AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$mitlibs",
 		[
 			LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $heimlibs"
-			AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$heimlibs", ac_cv_lib_kerberos5="no")
+			AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$heimlibs", 
+			[
+				LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $sunlibs"
+				AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$sunlibs", ac_cv_lib_kerberos5="no")
+			])
 		])
 		LDFLAGS="$LDFLAGS_save"
 	])
@@ -677,13 +682,23 @@ if test "x${with_krb5}" != "xno"; then
 			fi
 			msg_krb5="yes (MIT)"
 		else
-			AC_DEFINE(HAVE_HEIMDAL_KRB5,1,[Define if you have Heimdal])
-			if test -z "$with_krb5_includes"; then
-				KRB5_CFLAGS="-I$with_krb5/include/heimdal"
+			if test "$ac_cv_lib_kerberos5" = "$heimlibs"; then
+				AC_DEFINE(HAVE_HEIMDAL_KRB5,1,[Define if you have Heimdal])
+				if test -z "$with_krb5_includes"; then
+					KRB5_CFLAGS="-I$with_krb5/include/heimdal"
+				else
+					KRB5_CFLAGS="-I$with_krb5_includes"
+				fi
+				msg_krb5="yes (Heimdal)"
 			else
-				KRB5_CFLAGS="-I$with_krb5_includes"
+				AC_DEFINE(HAVE_SUN_KRB5,1,[Define if you have Sun Kerberosv5])
+				if test -z "$with_krb5_includes"; then
+					KRB5_CFLAGS="-I$with_krb5/include/kerberosv5"
+				else
+					KRB5_CFLAGS="-I$with_krb5_includes"
+				fi
+				msg_krb5="yes (Sun)"
 			fi
-			msg_krb5="yes (Heimdal)"
 		fi
 		KRB5_LDFLAGS="-L$with_krb5_libs $ac_cv_lib_kerberos5"
 	fi

@@ -1,3 +1,8 @@
+2007-06-04  Irene Huang  <irene.huang@sun.com>
+
+	* configure.in: Add configuration option for Sun Kerberos.
+	fixing bug #344728
+
 2007-06-04  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Evolution 2.11.3 release
