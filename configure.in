@@ -1792,6 +1792,7 @@ mail/default/zh_CN/Makefile
 mail/default/ja/Makefile
 mail/default/nl/Makefile
 mail/default/pt/Makefile
+mail/default/sv/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/mark-all-read/Makefile

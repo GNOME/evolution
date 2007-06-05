@@ -1,3 +1,7 @@
+2007-06-05  Pedro Villavicencio  <pvillavi@gnome.org>
+
+	* configure.in: Add missing mail/default/sv/Makefile to configure.in
+
 2007-06-04  Irene Huang  <irene.huang@sun.com>
 
 	* configure.in: Add configuration option for Sun Kerberos.
