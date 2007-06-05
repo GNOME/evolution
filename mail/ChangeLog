@@ -1,3 +1,8 @@
+2007-06-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-view.c (emfv_on_url_cb):
+	Duplicate a translated string since we free it later.
+
 2007-06-05  Daniel Nylander <po@danielnylander.se>
 
 	* default/Makefile.am: Added sv to SUBDIRS

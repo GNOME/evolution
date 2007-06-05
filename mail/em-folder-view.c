@@ -2929,7 +2929,7 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 			camel_url_free(curl);
 			camel_object_unref(cia);
 		} else if (!strncmp (url, "##", 2)) {
-			nice_url = _("Click to hide/unhide addresses");
+			nice_url = g_strdup (_("Click to hide/unhide addresses"));
 		} else
 			nice_url = g_strdup_printf (_("Click to open %s"), url);
 	}
