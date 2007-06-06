@@ -1,0 +1,117 @@
+% To rebuild the .pdf from this source, use something like the following
+%	latex quickref.tex
+%	dvips -t letter -f -Pcmz < quickref.dvi >| quickref.ps
+%	ps2pdf -sPAPERSIZE=letter quickref.ps
+\documentclass[12pt]{article}
+\usepackage[utf-8]{inputenc}
+\usepackage{lscape}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+
+\textheight=9in
+\textwidth=7.5in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\oddsidemargin=-0.4in
+\evensidemargin=-0.6in
+\parindent=0pt
+\parsep=1pt
+\pagestyle{empty}
+
+\date {}
+
+\makeatother
+
+\begin{document}
+	\begin{landscape}
+
+%	\textit{Dan Kuester's all-leather}
+
+	\begin{center}
+	\begin{minipage}[m]
+		{1in}\includegraphics[height=0.9in]{../evolution-logo.eps}\hspace{5mm}
+	\end{minipage}
+	\hspace{5mm}
+	\textbf{\Huge{Skedë referimi e shpejtë për Evolution}}
+	\end{center}
+
+	\begin{center}
+	\begin{multicols}{2}
+	\section*{Globale}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Përbërës}}		&					\\
+		Posta					& \textbf{Ctrl+1}			\\
+		Kontakte				& \textbf{Ctrl+2}			\\
+		Kalendari				& \textbf{Ctrl+3}			\\
+		Aktivitete					& \textbf{Ctrl+4}			\\
+		\vspace{1.5mm}
+		Shënime					& \textbf{Ctrl+5}			\\
+		\textit{\textbf{Kontrolle}}		&					\\
+		Element i ri në modalitetin aktual		& \textbf{Ctrl+N}			\\
+		Shkëmbe fokusin midis panelëve		& \textbf{F6}				\\
+		Pastro fushën e kërkimit			& \textbf{Shift+Ctrl+Q}			\\
+		Mbyll dritaren				& \textbf{Ctrl+W}			\\
+		Hap një dritare të re				& \textbf{Shift+Ctrl+W}			\\
+		\vspace{1.5mm}
+		Mbyll evolution				& \textbf{Ctrl+Q}			\\
+		\textit{\textbf{Zgjedhja}}		&					\\
+		Printo zgjedhjen				& \textbf{Ctrl+P}			\\
+		Ruaj zgjedhjen				& \textbf{Ctrl+S}			\\
+		Elemino zgjedhjen			& \textbf{Del} ose \textbf{Backspace}	\\
+		Lëviz mesazhe/kontakte tek kartela		& \textbf{Shift+Ctrl+V}			\\
+		Kopjo mesazhe/kontakte tek kartela		& \textbf{Shift+Ctrl+Y}			\\
+	\end{tabular*}
+	\section*{Përbërsit e kontakteve/Shënime}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Komandat e përgjithshme}}	&					\\
+		Kontakt i ri				& \textbf{Shift+Ctrl+C}			\\
+		Listë e re kontaktesh			& \textbf{Shift+Ctrl+L}			\\
+		Shënim i ri				& \textbf{Shift+Ctrl+O}			\\
+	\end{tabular*}
+%	{\\ \vspace{5mm} \footnotesize \textit{* denotes the feature may not be implemented yet}}
+	\section*{Komponenti i postës}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Komandat e përgjithshme}}	&					\\
+		Mesazh i ri				& \textbf{Shift+Ctrl+M}			\\
+		\vspace{1.5mm}
+		Dërgo/Merr mesazhe			& \textbf{F9}				\\
+		\textit{\textbf{Zgjedhja}}		&					\\
+		Apliko filtrat				& \textbf{Ctrl+Y}			\\
+		Hap në një dritare të re 			& \textbf{Return} ose \textbf{Ctrl+O}	\\
+		\vspace{1.5mm}
+		Përcill zgjedhjen			& \textbf{Ctrl+F}			\\
+		\textit{\textbf{Paneli i listës së mesazheve}}	&					\\
+		Mesazhi në vijim i palexuar			& \textbf{.} ose \textbf{]}		\\
+		\vspace{1.5mm}
+		Mesazhi paraardhës i palexuar			& \textbf{,} ose \textbf{[}		\\
+		\textit{\textbf{Paneli i pamjes së parë}}		&					\\
+		Përgjigju dërguesit				& \textbf{Ctrl+R}			\\
+		Përgjigju në listë				& \textbf{Ctrl+L}			\\
+		Përgjigju të gjithë dërguesve 		& \textbf{Shift+Ctrl+R}			\\
+		Rrotullo për sipër				& \textbf{Backspace}			\\
+		Rrotullo për poshtë				& \textbf{Space}			\\
+	\end{tabular*}
+	\section*{Përbërsit Kalendari/Aktivitete}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Komandat e përgjithshme}}	&					\\
+		Takim i ri				& \textbf{Shift+Ctrl+A}			\\
+		Mbledhje e re				& \textbf{Shift+Ctrl+E}			\\
+		\vspace{1.5mm}
+		Aktivitet i ri				& \textbf{Shift+Ctrl+T}			\\
+%		\vspace{1.5mm}
+%		Expunge/Purge old schedules		& \textbf{Ctrl+E}			\\
+		\textit{\textbf{Lundrimi}}		&					\\
+		Shko tek dita e sotme				& \textbf{Ctrl+T}			\\
+		Shko tek data				& \textbf{Ctrl+G}			\\
+	\end{tabular*}
+	\end{multicols}
+	\end{center}
+	\end{landscape}
+ \end{document}
