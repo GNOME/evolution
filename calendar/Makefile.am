@@ -1,13 +1,13 @@
-
-SUBDIRS = idl common importers gui
-
 if ENABLE_PILOT_CONDUITS
-SUBDIRS += conduits
+CONDUIT_DIR = conduits
+else
+CONDUIT_DIR =
 endif
+
+SUBDIRS = idl common importers gui $(CONDUIT_DIR)
 
 error_DATA = calendar.error
 errordir = $(privdatadir)/errors
-
 @EVO_PLUGIN_RULE@
 
 EXTRA_DIST =			\

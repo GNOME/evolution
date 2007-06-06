@@ -1,3 +1,10 @@
+2007-06-06  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* Makefile.am:
+	
+	Reverted automake 1.6 breakage. Fixes bug 444747. 
+	Patch by Patch by Daniel Gryniewicz <dang@nemesis.fprintf.net>.
+
 2007-06-04  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/Makefile.am: Added the filter flags and the new files.
