@@ -1,3 +1,10 @@
+2007-06-07  Duarte Loreto <happyguy_pt@hotmail.com>
+
+	* quickref/pt/Makefile.am: Added for Portuguese
+	* quickref/pt/quickref.tex: Added Portuguese translation.
+	* quickref/pt/quickref.pdf: Added PDF conversion of trans.
+	* quickref/Makefile.am: Added Portuguese (pt) to subdirs.
+
 2007-06-03  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
         * es/es.po: Updated Spanish translation
