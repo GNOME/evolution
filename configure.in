@@ -1751,6 +1751,7 @@ help/quickref/Makefile
 help/quickref/C/Makefile
 help/quickref/de/Makefile
 help/quickref/es/Makefile
+help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
 shell/Makefile
