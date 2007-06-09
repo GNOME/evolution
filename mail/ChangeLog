@@ -1,3 +1,8 @@
+2007-06-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Fix a minor typo spotted by Gilles Dartiguelongue (#386503).
+
 2007-06-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-view.c (emfv_on_url_cb):

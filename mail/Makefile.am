@@ -225,7 +225,7 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la	\
-	$(SMIME_LIBS)
+	$(SMIME_LIBS)						\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(REGEX_LIBS)						\
