@@ -1,3 +1,7 @@
+2007-06-13  Andre Klapper  <a9016009@gmx.de>
+
+	* POTFILES.in: add missing files. Fixes bug #444548.
+
 2007-06-11  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
