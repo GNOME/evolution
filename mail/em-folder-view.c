@@ -2455,6 +2455,15 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	case GDK_ISO_Enter:
 		em_folder_view_open_selected(emfv);
 		break;
+#ifdef HAVE_XFREE
+	case XF86XK_Reply:
+		emfv_message_reply(emfv, REPLY_MODE_ALL);
+		break;
+	case XF86XK_MailForward:
+		uids = message_list_get_selected(emfv->list);
+		em_utils_forward_messages (emfv->folder, uids, emfv->folder_uri);
+		break;
+#endif /* HAVE_XFREE */
 	case '!':
 		uids = message_list_get_selected(emfv->list);
 

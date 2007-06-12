@@ -1,3 +1,9 @@
+2007-06-12  Bastien Nocera  <hadess@hadess.net>
+
+	* e-msg-composer.c: (composer_key_pressed):
+	Add support for the XF86Send multimedia key
+	(Closes: #442631)
+
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #386503 from Matthew Barnes

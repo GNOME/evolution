@@ -1,3 +1,8 @@
+2007-06-12  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.in: Detect the X11/XF86keysym.h header, and
+	enable multimedia keys if available (Closes: #442631)
+
 2007-06-07  Duarte Loreto <happyguy_pt@hotmail.com>
 
 	* configure.in: Added help/quickref/pt/Makefile for Portuguese

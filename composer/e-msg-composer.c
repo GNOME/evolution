@@ -3511,6 +3511,15 @@ composer_key_pressed (EMsgComposer *composer, GdkEventKey *event, void *user_dat
 	GtkWidget *widget;
 	EMsgComposerPrivate *p = composer->priv;
 	widget = e_msg_composer_hdrs_get_subject_entry (E_MSG_COMPOSER_HDRS (p->hdrs));
+
+#ifdef HAVE_XFREE
+	if (event->keyval == XF86XK_Send) {
+		g_signal_emit (GTK_OBJECT (data), signals[SEND], 0);
+		g_signal_stop_emission_by_name (composer, "key-press-event");
+		return TRUE;
+	}
+#endif /* HAVE_XFREE */
+
 	if (event->keyval == GDK_Escape) {
 		do_exit (composer);
 		g_signal_stop_emission_by_name (composer, "key-press-event");

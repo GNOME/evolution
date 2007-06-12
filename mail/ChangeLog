@@ -1,3 +1,9 @@
+2007-06-12  Bastien Nocera  <hadess@hadess.net>
+
+	* em-folder-view.c: (emfv_list_key_press):
+	Add support for the XF86Reply and XF86MailForward multimedia
+	keys (Closes: #442631)
+
 2007-06-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am:
