@@ -3518,7 +3518,7 @@ composer_key_pressed (EMsgComposer *composer, GdkEventKey *event, void *user_dat
 
 #ifdef HAVE_XFREE
 	if (event->keyval == XF86XK_Send) {
-		g_signal_emit (GTK_OBJECT (user_data), signals[SEND], 0);
+		g_signal_emit (G_OBJECT (composer), signals[SEND], 0);
 		g_signal_stop_emission_by_name (composer, "key-press-event");
 		return TRUE;
 	}
