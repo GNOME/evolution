@@ -126,6 +126,10 @@
 #include "Editor.h"
 #include "listener.h"
 
+#ifdef HAVE_XFREE
+#include <X11/XF86keysym.h>
+#endif
+
 #define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:" GTKHTML_API_VERSION
 
 #define d(x)
@@ -3514,7 +3518,7 @@ composer_key_pressed (EMsgComposer *composer, GdkEventKey *event, void *user_dat
 
 #ifdef HAVE_XFREE
 	if (event->keyval == XF86XK_Send) {
-		g_signal_emit (GTK_OBJECT (data), signals[SEND], 0);
+		g_signal_emit (GTK_OBJECT (user_data), signals[SEND], 0);
 		g_signal_stop_emission_by_name (composer, "key-press-event");
 		return TRUE;
 	}

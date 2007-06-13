@@ -115,6 +115,10 @@
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
+#ifdef HAVE_XFREE
+#include <X11/XF86keysym.h>
+#endif
+
 static void emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv);
 static void emfv_list_built(MessageList *ml, EMFolderView *emfv);
 static int emfv_list_right_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv);

@@ -1,3 +1,10 @@
+2007-06-13  Sankar P  <psankar@novell.com>
+
+	* e-msg-composer.c: (composer_key_pressed):
+	Fixes build break. Includes a missing header.
+	Fixes an invalid variable name.
+	See #442631
+
 2007-06-12  Bastien Nocera  <hadess@hadess.net>
 
 	* e-msg-composer.c: (composer_key_pressed):
