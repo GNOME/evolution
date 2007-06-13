@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-04 03:19+0100\n"
-"PO-Revision-Date: 2007-06-11 13:50+0100\n"
+"POT-Creation-Date: 2007-06-13 03:18+0100\n"
+"PO-Revision-Date: 2007-06-13 10:39+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -831,7 +831,7 @@ msgstr "_Ny adressbok"
 #: ../calendar/gui/e-memo-table.c:919
 #: ../calendar/gui/memos-component.c:458
 #: ../calendar/gui/tasks-component.c:449
-#: ../mail/em-folder-tree.c:2120
+#: ../mail/em-folder-tree.c:2121
 #: ../mail/em-folder-view.c:1151
 #: ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:40
@@ -2804,6 +2804,9 @@ msgstr "E-post"
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
 #: ../calendar/gui/cal-search-bar.c:76
+#: ../calendar/gui/caltypes.xml.h:1
+#: ../calendar/gui/memotypes.xml.h:1
+#: ../calendar/gui/tasktypes.xml.h:1
 msgid "Any field contains"
 msgstr "Något fält innehåller"
 
@@ -3284,7 +3287,7 @@ msgid "_Open Link in Browser"
 msgstr "_Öppna länk i webbläsare"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2557
 msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
@@ -5216,6 +5219,18 @@ msgstr "Veckovy"
 msgid "Month View"
 msgstr "Månadsvy"
 
+#: ../calendar/gui/caltypes.xml.h:2
+#: ../calendar/gui/memotypes.xml.h:2
+#: ../calendar/gui/tasktypes.xml.h:2
+msgid "Description Contain"
+msgstr "Beskrivningen innehåller"
+
+#: ../calendar/gui/caltypes.xml.h:3
+#: ../calendar/gui/memotypes.xml.h:3
+#: ../calendar/gui/tasktypes.xml.h:3
+msgid "Summary Contain"
+msgstr "Sammanfattningen innehåller"
+
 #: ../calendar/gui/comp-editor-factory.c:415
 msgid "Error while opening the calendar"
 msgstr "Fel vid öppnande av kalendern"
@@ -5793,7 +5808,7 @@ msgstr "Visa _bilageraden"
 #: ../calendar/gui/dialogs/comp-editor.c:1122
 #: ../calendar/gui/dialogs/event-page.c:1904
 #: ../calendar/gui/dialogs/task-page.c:1201
-#: ../composer/e-msg-composer.c:3684
+#: ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5801,15 +5816,15 @@ msgid "_Remove"
 msgstr "_Ta bort"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
-#: ../composer/e-msg-composer.c:3685
-#: ../mail/em-folder-tree.c:2127
+#: ../composer/e-msg-composer.c:3694
+#: ../mail/em-folder-tree.c:2128
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Egenskaper"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../composer/e-msg-composer.c:3687
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "_Lägg till bilaga..."
 
@@ -6626,7 +6641,7 @@ msgstr "%s för en okänd triggertyp"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
 #: ../calendar/gui/e-cal-component-preview.c:72
-#: ../mail/em-folder-view.c:2934
+#: ../mail/em-folder-view.c:2943
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicka för att öppna %s"
@@ -10160,7 +10175,7 @@ msgstr "Dölj _bilageraden"
 
 #: ../composer/e-msg-composer.c:1300
 #: ../composer/e-msg-composer.c:2562
-#: ../composer/e-msg-composer.c:3930
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "Visa _bilageraden"
 
@@ -10199,12 +10214,12 @@ msgid "Si_gnature:"
 msgstr "Si_gnatur:"
 
 #: ../composer/e-msg-composer.c:2573
-#: ../composer/e-msg-composer.c:3812
-#: ../composer/e-msg-composer.c:3815
+#: ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "Skriv ett meddelande"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5049
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(Redigeraren innehåller ett meddelande som inte är text och som inte kan redigeras.)</b>"
 
@@ -11351,6 +11366,7 @@ msgstr "Utkast"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487
+#: ../mail/em-folder-tree.c:2415
 #: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
@@ -11437,7 +11453,7 @@ msgstr "_Flytta till mapp"
 msgid "Scanning folders in \"%s\""
 msgstr "Genomsöker mappar i \"%s\""
 
-#: ../mail/em-folder-tree.c:2108
+#: ../mail/em-folder-tree.c:2109
 #: ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24
 #: ../ui/evolution-mail-global.xml.h:32
@@ -11448,37 +11464,37 @@ msgstr "Genomsöker mappar i \"%s\""
 msgid "_View"
 msgstr "_Visa"
 
-#: ../mail/em-folder-tree.c:2109
+#: ../mail/em-folder-tree.c:2110
 msgid "Open in _New Window"
 msgstr "Öppna i _nytt fönster"
 
-#: ../mail/em-folder-tree.c:2113
+#: ../mail/em-folder-tree.c:2114
 msgid "_Copy..."
 msgstr "_Kopiera..."
 
-#: ../mail/em-folder-tree.c:2114
+#: ../mail/em-folder-tree.c:2115
 msgid "_Move..."
 msgstr "_Flytta..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2118
+#: ../mail/em-folder-tree.c:2119
 msgid "_New Folder..."
 msgstr "_Ny mapp..."
 
-#: ../mail/em-folder-tree.c:2121
+#: ../mail/em-folder-tree.c:2122
 #: ../ui/evolution-mail-list.xml.h:36
 msgid "_Rename..."
 msgstr "_Byt namn..."
 
-#: ../mail/em-folder-tree.c:2122
+#: ../mail/em-folder-tree.c:2123
 msgid "Re_fresh"
 msgstr "Up_pdatera"
 
-#: ../mail/em-folder-tree.c:2123
+#: ../mail/em-folder-tree.c:2124
 msgid "Fl_ush Outbox"
 msgstr "Tö_m utkorg"
 
-#: ../mail/em-folder-tree.c:2129
+#: ../mail/em-folder-tree.c:2130
 #: ../mail/mail.error.xml.h:136
 msgid "_Empty Trash"
 msgstr "_Töm papperskorgen"
@@ -11655,24 +11671,24 @@ msgstr "Kan inte hämta meddelande"
 msgid "<b>Retrieving Message...</b>"
 msgstr "<b>Hämtar meddelande...</b>"
 
-#: ../mail/em-folder-view.c:2550
+#: ../mail/em-folder-view.c:2559
 msgid "Create _Search Folder"
 msgstr "Skapa ny _sökmapp"
 
-#: ../mail/em-folder-view.c:2551
+#: ../mail/em-folder-view.c:2560
 msgid "_From this Address"
 msgstr "_Från denna adress"
 
-#: ../mail/em-folder-view.c:2552
+#: ../mail/em-folder-view.c:2561
 msgid "_To this Address"
 msgstr "_Till denna adress"
 
-#: ../mail/em-folder-view.c:2927
+#: ../mail/em-folder-view.c:2936
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicka för att skicka e-post till %s"
 
-#: ../mail/em-folder-view.c:2932
+#: ../mail/em-folder-view.c:2941
 msgid "Click to hide/unhide addresses"
 msgstr "Klicka för att dölja/visa adresser"
 
@@ -16876,7 +16892,7 @@ msgstr "Du har fått %d nya meddelanden i %s."
 
 #: ../plugins/mail-notification/mail-notification.c:130
 msgid "New email"
-msgstr "Nytt e-postmeddelande"
+msgstr "Nya e-postmeddelanden"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
