@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-04 03:19+0100\n"
-"PO-Revision-Date: 2007-06-05 23:04+0200\n"
+"POT-Creation-Date: 2007-06-13 03:18+0100\n"
+"PO-Revision-Date: 2007-06-15 11:15+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -857,7 +857,7 @@ msgstr "Libreta de direcciones _nueva"
 #: ../calendar/gui/e-calendar-table.c:1303
 #: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:919
 #: ../calendar/gui/memos-component.c:458 ../calendar/gui/tasks-component.c:449
-#: ../mail/em-folder-tree.c:2120 ../mail/em-folder-view.c:1151
+#: ../mail/em-folder-tree.c:2121 ../mail/em-folder-view.c:1151
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -2888,7 +2888,8 @@ msgstr "Correo-e"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
-#: ../calendar/gui/cal-search-bar.c:76
+#: ../calendar/gui/cal-search-bar.c:76 ../calendar/gui/caltypes.xml.h:1
+#: ../calendar/gui/memotypes.xml.h:1 ../calendar/gui/tasktypes.xml.h:1
 msgid "Any field contains"
 msgstr "Cualquier campo contiene"
 
@@ -3347,7 +3348,7 @@ msgid "_Open Link in Browser"
 msgstr "_Abrir enlace en el navegador"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2548
+#: ../mail/em-folder-view.c:2557
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
@@ -5397,6 +5398,16 @@ msgstr "Vista semanal"
 msgid "Month View"
 msgstr "Vista mensual"
 
+#: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
+#: ../calendar/gui/tasktypes.xml.h:2
+msgid "Description Contain"
+msgstr "La descripción contiene"
+
+#: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
+#: ../calendar/gui/tasktypes.xml.h:3
+msgid "Summary Contain"
+msgstr "El resumen contiene"
+
 #: ../calendar/gui/comp-editor-factory.c:415
 msgid "Error while opening the calendar"
 msgstr "Error al abrir el calendario"
@@ -5965,7 +5976,7 @@ msgstr "Mostrar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1122
 #: ../calendar/gui/dialogs/event-page.c:1904
-#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3684
+#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3693
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5973,13 +5984,13 @@ msgid "_Remove"
 msgstr "_Quitar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
-#: ../composer/e-msg-composer.c:3685 ../mail/em-folder-tree.c:2127
+#: ../composer/e-msg-composer.c:3694 ../mail/em-folder-tree.c:2128
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Propiedades"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../composer/e-msg-composer.c:3687
+#: ../composer/e-msg-composer.c:3696
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
@@ -6779,7 +6790,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:2934
+#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:2943
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
@@ -10238,7 +10249,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Ocultar _barra de adjuntos"
 
 #: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2562
-#: ../composer/e-msg-composer.c:3930
+#: ../composer/e-msg-composer.c:3939
 msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
@@ -10273,12 +10284,12 @@ msgstr "Autogenerado"
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
-#: ../composer/e-msg-composer.c:2573 ../composer/e-msg-composer.c:3812
-#: ../composer/e-msg-composer.c:3815
+#: ../composer/e-msg-composer.c:2573 ../composer/e-msg-composer.c:3821
+#: ../composer/e-msg-composer.c:3824
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:5040
+#: ../composer/e-msg-composer.c:5049
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11406,7 +11417,8 @@ msgid "Drafts"
 msgstr "Borradores"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:151
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2415
+#: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Bandeja de entrada"
@@ -11484,7 +11496,7 @@ msgstr "_Mover a la carpeta"
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/em-folder-tree.c:2108 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2109 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:32
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11492,36 +11504,36 @@ msgstr "Analizando carpetas en «%s»"
 msgid "_View"
 msgstr "_Ver"
 
-#: ../mail/em-folder-tree.c:2109
+#: ../mail/em-folder-tree.c:2110
 msgid "Open in _New Window"
 msgstr "Abrir en una ventana _nueva"
 
-#: ../mail/em-folder-tree.c:2113
+#: ../mail/em-folder-tree.c:2114
 msgid "_Copy..."
 msgstr "_Copiar…"
 
-#: ../mail/em-folder-tree.c:2114
+#: ../mail/em-folder-tree.c:2115
 msgid "_Move..."
 msgstr "_Mover…"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2118
+#: ../mail/em-folder-tree.c:2119
 msgid "_New Folder..."
 msgstr "Carpeta _nueva…"
 
-#: ../mail/em-folder-tree.c:2121 ../ui/evolution-mail-list.xml.h:36
+#: ../mail/em-folder-tree.c:2122 ../ui/evolution-mail-list.xml.h:36
 msgid "_Rename..."
 msgstr "_Renombrar…"
 
-#: ../mail/em-folder-tree.c:2122
+#: ../mail/em-folder-tree.c:2123
 msgid "Re_fresh"
 msgstr "A_ctualizar"
 
-#: ../mail/em-folder-tree.c:2123
+#: ../mail/em-folder-tree.c:2124
 msgid "Fl_ush Outbox"
 msgstr "Enviar correos pe_ndientes"
 
-#: ../mail/em-folder-tree.c:2129 ../mail/mail.error.xml.h:136
+#: ../mail/em-folder-tree.c:2130 ../mail/mail.error.xml.h:136
 msgid "_Empty Trash"
 msgstr "_Vaciar papelera"
 
@@ -11687,24 +11699,24 @@ msgstr "No no pudo obtenerse el mensaje"
 msgid "<b>Retrieving Message...</b>"
 msgstr "<b>Obteniendo mensaje…</b>"
 
-#: ../mail/em-folder-view.c:2550
+#: ../mail/em-folder-view.c:2559
 msgid "Create _Search Folder"
 msgstr "Crear carpeta de _búsqueda"
 
-#: ../mail/em-folder-view.c:2551
+#: ../mail/em-folder-view.c:2560
 msgid "_From this Address"
 msgstr "_Desde esta dirección"
 
-#: ../mail/em-folder-view.c:2552
+#: ../mail/em-folder-view.c:2561
 msgid "_To this Address"
 msgstr "_A esta dirección"
 
-#: ../mail/em-folder-view.c:2927
+#: ../mail/em-folder-view.c:2936
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
 
-#: ../mail/em-folder-view.c:2932
+#: ../mail/em-folder-view.c:2941
 msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
