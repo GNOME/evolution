@@ -415,11 +415,22 @@ ecv_dispose (GObject *object)
 }
 
 static void
+ecv_finalize (GObject *object)
+{
+	ECellVbox *ecv = E_CELL_VBOX (object);
+
+	g_free (ecv->model_cols);
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
 e_cell_vbox_class_init (GObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
 	object_class->dispose = ecv_dispose;
+	object_class->finalize = ecv_finalize;
 
 	ecc->new_view         = ecv_new_view;
 	ecc->kill_view        = ecv_kill_view;
