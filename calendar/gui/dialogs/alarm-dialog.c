@@ -98,7 +98,6 @@ typedef struct {
 	/* Audio alarm widgets */
 	GtkWidget *aalarm_group;
 	GtkWidget *aalarm_sound;
-	GtkWidget *aalarm_attach;
 	GtkWidget *aalarm_file_chooser;
 
 	/* Mail alarm widgets */
@@ -329,7 +328,8 @@ aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->aalarm_sound)))
 		return;
 
-	url = e_dialog_editable_get (dialog->aalarm_attach);
+	url = gtk_file_chooser_get_uri (
+		GTK_FILE_CHOOSER (dialog->aalarm_file_chooser));
 	attach = icalattach_new_from_url (url ? url : "");
 	g_free (url);
 
@@ -352,7 +352,8 @@ alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 		return;
 
 	e_dialog_toggle_set (dialog->aalarm_sound, TRUE);
-	e_dialog_editable_set (dialog->aalarm_attach, url);
+	gtk_file_chooser_set_uri (
+		GTK_FILE_CHOOSER (dialog->aalarm_file_chooser), url);
 }
 
 /* Fills the widgets with display alarm data */
@@ -778,7 +779,6 @@ get_widgets (Dialog *dialog)
 
 	dialog->aalarm_group = GW ("aalarm-group");
 	dialog->aalarm_sound = GW ("aalarm-sound");
-	dialog->aalarm_attach = GW ("aalarm-attach");
 	dialog->aalarm_file_chooser = GW ("aalarm-file-chooser");
 
 	dialog->malarm_group = GW ("malarm-group");
@@ -809,7 +809,6 @@ get_widgets (Dialog *dialog)
 		&& dialog->dalarm_description
 		&& dialog->aalarm_group
 		&& dialog->aalarm_sound
-		&& dialog->aalarm_attach
 		&& dialog->aalarm_file_chooser
 		&& dialog->malarm_group
 		&& dialog->malarm_address_group
@@ -908,7 +907,8 @@ check_custom_sound (Dialog *dialog)
 	char *str, *dir;
 	gboolean sens;
 	
-	str = e_dialog_editable_get (dialog->aalarm_attach);
+	str = gtk_file_chooser_get_filename (
+		GTK_FILE_CHOOSER (dialog->aalarm_file_chooser));
 
 	if ( str && *str ) {
 		dir = g_path_get_dirname (str);
@@ -1122,7 +1122,7 @@ init_widgets (Dialog *dialog)
 	/* Handle custom sounds */
 	g_signal_connect (G_OBJECT (dialog->aalarm_sound), "toggled",
 			  G_CALLBACK (aalarm_sound_toggled_cb), dialog);
-	g_signal_connect (G_OBJECT (dialog->aalarm_attach), "changed",
+	g_signal_connect (G_OBJECT (dialog->aalarm_file_chooser), "selection-changed",
 			  G_CALLBACK (aalarm_attach_changed_cb), dialog);
 
 	/* Handle custom messages */

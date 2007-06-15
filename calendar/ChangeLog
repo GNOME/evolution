@@ -1,3 +1,9 @@
+2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/dialogs/alarm-dialog.c:
+	Remove the aalarm_attach widget and retrieve the selected filename
+	using the GtkFileChooser API (#440075).
+
 2007-06-06  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
 
 	* Makefile.am:
