@@ -61,3 +61,29 @@ e_icon_for_mime_type (const char *mime_type, int size_hint)
 
 	return pixbuf;
 }
+
+GtkWidget *e_create_image_widget(gchar *name,
+				 gchar *string1, gchar *string2,
+				 gint int1, gint int2)
+{
+	GtkWidget *alignment = NULL;
+	GtkWidget *w;
+	
+	if (string1) {
+		w = e_icon_factory_get_image (string1, E_ICON_SIZE_DIALOG);
+
+		gtk_misc_set_alignment (GTK_MISC (w), 0.5, 0.5);
+
+		alignment = gtk_widget_new(gtk_alignment_get_type(),
+					   "child", w,
+					   "xalign", (double) 0,
+					   "yalign", (double) 0,
+					   "xscale", (double) 0,
+					   "yscale", (double) 0,
+					   NULL);
+
+		gtk_widget_show_all (alignment);
+	}
+
+	return alignment;
+}

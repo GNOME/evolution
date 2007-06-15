@@ -1,3 +1,11 @@
+2007-06-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #446870
+
+	* e-gui-utils.c: (e_create_image_widget): Add this function back. It
+	is used in glade files.
+	* e-gui-utils.h:
+
 2007-06-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #438467 (Patch from Gilles Dartiguelongue)
