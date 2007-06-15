@@ -28,7 +28,6 @@
 
 #include "e-info-label.h"
 #include <gtk/gtklabel.h>
-#include "e-clipped-label.h"
 
 #include <e-util/e-icon-factory.h>
 
@@ -142,29 +141,37 @@ e_info_label_new(const char *icon)
 void
 e_info_label_set_info(EInfoLabel *el, const char *location, const char *info)
 {
-	char *tmp;
+	gchar *markup;
 
 	if (el->location == NULL) {
-		el->location = e_clipped_label_new(location, PANGO_WEIGHT_BOLD, 1.0);
-		el->info = gtk_label_new(NULL);
+		el->location = gtk_label_new (NULL);
+		el->info = gtk_label_new (NULL);
 
-		gtk_misc_set_alignment((GtkMisc *)el->location, 0.0, 0.0);
-		gtk_misc_set_padding((GtkMisc *)el->location, 0, 6);
-		gtk_misc_set_alignment((GtkMisc *)el->info, 0.0, 1.0);
-		gtk_misc_set_padding((GtkMisc *)el->info, 0, 6);
+		gtk_label_set_ellipsize (
+			GTK_LABEL (el->location), PANGO_ELLIPSIZE_END);
+		gtk_misc_set_alignment (GTK_MISC (el->location), 0.0, 0.0);
+		gtk_misc_set_padding (GTK_MISC (el->location), 0, 6);
+		gtk_misc_set_alignment (GTK_MISC (el->info), 0.0, 1.0);
+		gtk_misc_set_padding (GTK_MISC (el->info), 0, 6);
 
-		gtk_widget_show(el->location);
-		gtk_widget_show(el->info);
+		gtk_widget_show (el->location);
+		gtk_widget_show (el->info);
 
-		gtk_box_pack_start((GtkBox *)el, (GtkWidget *)el->location, TRUE, TRUE, 0);
-		gtk_box_pack_end((GtkBox *)el, (GtkWidget *)el->info, FALSE, TRUE, 6);
-		gtk_widget_set_state((GtkWidget *)el, GTK_STATE_ACTIVE);
-	} else {
-		e_clipped_label_set_text((EClippedLabel *)el->location, location);
+		gtk_box_pack_start (
+			GTK_BOX (el), GTK_WIDGET (el->location),
+			TRUE, TRUE, 0);
+		gtk_box_pack_end (
+			GTK_BOX (el), GTK_WIDGET (el->info),
+			FALSE, TRUE, 6);
+		gtk_widget_set_state (GTK_WIDGET (el), GTK_STATE_ACTIVE);
 	}
 
-	tmp = g_strdup_printf("<span size=\"smaller\">%s</span>", info);
-	gtk_label_set_markup((GtkLabel *)el->info, tmp);
-	g_free(tmp);
+	markup = g_markup_printf_escaped ("<b>%s</b>", location);
+	gtk_label_set_markup (GTK_LABEL (el->location), markup);
+	g_free (markup);
+
+	markup = g_markup_printf_escaped ("<small>%s</small>", info);
+	gtk_label_set_markup (GTK_LABEL (el->info), markup);
+	g_free (markup);
 }
 

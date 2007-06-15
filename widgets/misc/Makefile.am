@@ -45,7 +45,6 @@ widgetsinclude_HEADERS =			\
 	e-cell-percent.h			\
 	e-cell-renderer-combo.h			\
 	e-charset-picker.h			\
-	e-clipped-label.h			\
 	e-combo-cell-editable.h			\
 	e-config-page.h				\
 	e-combo-button.h			\
@@ -91,7 +90,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-cell-percent.c			\
 	e-cell-renderer-combo.c			\
 	e-charset-picker.c			\
-	e-clipped-label.c			\
 	e-combo-cell-editable.c			\
 	e-config-page.c				\
 	e-combo-button.c			\

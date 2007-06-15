@@ -1,3 +1,18 @@
+2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #447727
+
+	* e-info-label.c:
+	* e-multi-config-dialog.c:
+	* e-task-bar.c:
+	Use ellipsized GtkLabels instead of EClippedLabels.
+
+	* e-clipped-label.[ch]:
+	Remove these files.  GTK+ provides this functionality now.
+
+	* Makefile.am:
+	Remove e-clipped-label.[ch].
+
 2007-06-04  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* e-filter-bar.[c]: (e_filter_bar_new), (e_filter_bar_new_construct):

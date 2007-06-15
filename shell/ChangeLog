@@ -1,3 +1,8 @@
+2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-folder-title-bar.c:
+	Use ellipsized GtkLabels instead of EClippedLabels (#447727).
+
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #386503 from Matthew Barnes

@@ -26,11 +26,12 @@
 
 #include "e-task-bar.h"
 
-#include "misc/e-clipped-label.h"
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmisc.h>
 
 struct _ETaskBarPrivate
 {
-	EClippedLabel *message_label;
+	GtkWidget *message_label;
 	GtkHBox  *hbox;
 };
 
@@ -96,11 +97,12 @@ e_task_bar_init (ETaskBar *task_bar)
 	task_bar->priv = g_new (ETaskBarPrivate, 1);
 
 	gtk_box_set_spacing (GTK_BOX (task_bar), 10);
-	
-	label = e_clipped_label_new ("", PANGO_WEIGHT_NORMAL, 1.0);
+
+	label = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 	gtk_box_pack_start (GTK_BOX (task_bar), label, TRUE, TRUE, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5); 
-	task_bar->priv->message_label = E_CLIPPED_LABEL (label);
+	task_bar->priv->message_label = label;
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (task_bar), hbox);
@@ -133,9 +135,9 @@ e_task_bar_set_message (ETaskBar   *task_bar,
 			const char *message)
 {
 	if (message) {
-		gtk_widget_show (GTK_WIDGET (task_bar->priv->message_label));
-		e_clipped_label_set_text (task_bar->priv->message_label,
-					  message);
+		gtk_label_set_text (
+			GTK_LABEL (task_bar->priv->message_label), message);
+		gtk_widget_show (task_bar->priv->message_label);
 	} else {
 		e_task_bar_unset_message (task_bar);
 	}
@@ -144,7 +146,7 @@ e_task_bar_set_message (ETaskBar   *task_bar,
 void
 e_task_bar_unset_message (ETaskBar   *task_bar)
 {
-	gtk_widget_hide (GTK_WIDGET (task_bar->priv->message_label));
+	gtk_widget_hide (task_bar->priv->message_label);
 }
 
 void

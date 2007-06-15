@@ -1,3 +1,8 @@
+2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-send-recv.c:
+	Use ellipsized GtkLabels instead of EClippedLabels (#447727).
+
 2007-06-13  Sankar P  <psankar@novell.com>
 
 	* em-folder-view.c:

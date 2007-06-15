@@ -34,7 +34,6 @@
 #include <glib/gi18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "misc/e-clipped-label.h"
 #include "e-shell-constants.h"
 #include "e-shell-marshal.h"
 #include "e-shell-folder-title-bar.h"
@@ -117,13 +116,15 @@ new_empty_image_widget (void)
 
 /* Utility functions.  */
 
-static int
-get_max_clipped_label_width (EClippedLabel *clipped_label)
+static gint
+get_max_label_width (GtkWidget *label)
 {
-	int width;
+	PangoLayout *layout;
+	gint width;
 
-	pango_layout_get_pixel_size (clipped_label->layout, &width, NULL);
-	width += 2 * GTK_MISC (clipped_label)->xpad;
+	layout = gtk_label_get_layout (GTK_LABEL (label));
+	pango_layout_get_pixel_size (layout, &width, NULL);
+	width += 2 * GTK_MISC (label)->xpad;
 
 	return width;
 }
@@ -152,7 +153,7 @@ size_allocate_title_button (EShellFolderTitleBar *title_bar,
 	child_allocation.height = allocation->height - 2 * border_width;
 
 	child_allocation.width = child_requisition.width;
-	child_allocation.width += get_max_clipped_label_width (E_CLIPPED_LABEL (priv->title_button_label));
+	child_allocation.width += get_max_label_width (priv->title_button_label);
 
 	child_allocation.width = MIN (child_allocation.width, *available_width_inout);
 
@@ -218,7 +219,7 @@ size_allocate_label (EShellFolderTitleBar *title_bar,
 	child_allocation.y = allocation->y + border_width;
 	child_allocation.height = allocation->height - 2 * border_width;
 
-	child_allocation.width = MIN (get_max_clipped_label_width (E_CLIPPED_LABEL (priv->title_label)),
+	child_allocation.width = MIN (get_max_label_width (priv->title_label),
 				      *available_width_inout);
 
 	gtk_widget_size_allocate (priv->title_label, & child_allocation);
@@ -478,6 +479,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 {
 	EShellFolderTitleBarPrivate *priv;
 	GtkWidget *title_button_hbox;
+	GtkWidget *label;
 
 	g_return_if_fail (folder_title_bar != NULL);
 	g_return_if_fail (E_IS_SHELL_FOLDER_TITLE_BAR (folder_title_bar));
@@ -489,18 +491,24 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	gtk_misc_set_padding (GTK_MISC (priv->title_icon), 2, 0);
 	gtk_widget_show (priv->title_icon);
 
-	priv->title_label = e_clipped_label_new ("", PANGO_WEIGHT_BOLD, 1.2);
-	gtk_misc_set_padding (GTK_MISC (priv->title_label), 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (priv->title_label), 0.0, 0.5);
+	label = gtk_label_new ("");
+	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_padding (GTK_MISC (label), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	priv->title_label = label;
 
-	priv->title_button_label = e_clipped_label_new ("", PANGO_WEIGHT_BOLD, 1.2);
-	gtk_misc_set_padding (GTK_MISC (priv->title_button_label), 2, 0);
-	gtk_misc_set_alignment (GTK_MISC (priv->title_button_label), 0.0, 0.5);
-	gtk_widget_show (priv->title_button_label);
+	label = gtk_label_new ("");
+	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_padding (GTK_MISC (label), 2, 0);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_widget_show (label);
+	priv->title_button_label = label;
 
-	priv->folder_bar_label = e_clipped_label_new ("", PANGO_WEIGHT_NORMAL, 1.0);
-	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);
-	gtk_widget_show (priv->folder_bar_label);
+	label = gtk_label_new ("");
+	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+	gtk_widget_show (label);
+	priv->folder_bar_label = label;
 
 	priv->title_button_icon = new_empty_image_widget ();
 	gtk_widget_show (priv->title_button_icon);
@@ -574,21 +582,21 @@ e_shell_folder_title_bar_set_title (EShellFolderTitleBar *folder_title_bar,
 				    const char *title)
 {
 	EShellFolderTitleBarPrivate *priv;
+	gchar *markup;
 
 	g_return_if_fail (folder_title_bar != NULL);
 	g_return_if_fail (E_IS_SHELL_FOLDER_TITLE_BAR (folder_title_bar));
 
 	priv = folder_title_bar->priv;
 
-	if (title == NULL) {
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_button_label), _("(Untitled)"));
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_label), _("(Untitled)"));
-	} else {
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_button_label), title);
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_label), title);
-	}
+	if (title == NULL)
+		title = _("Untitled");
 
-	/* FIXME: There seems to be a bug in EClippedLabel, this is just a workaround.  */
+	markup = g_markup_printf_escaped ("<big><b>%s</b></big>", title);
+	gtk_label_set_markup (GTK_LABEL (priv->title_button_label), markup);
+	gtk_label_set_markup (GTK_LABEL (priv->title_label), markup);
+	g_free (markup);
+
 	gtk_widget_queue_resize (GTK_WIDGET (folder_title_bar));
 }
 
@@ -611,10 +619,7 @@ e_shell_folder_title_bar_set_folder_bar_label (EShellFolderTitleBar *folder_titl
 
 	priv = folder_title_bar->priv;
 
-	if (text == NULL)
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->folder_bar_label), "");
-	else
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->folder_bar_label), text);
+	gtk_label_set_text (GTK_LABEL (priv->folder_bar_label), text);
 
 	/* FIXME: Might want to set the styles somewhere in here too,
            black text on grey background isn't the best combination */

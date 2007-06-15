@@ -43,7 +43,6 @@
 
 #include "libedataserver/e-account-list.h"
 
-#include "misc/e-clipped-label.h"
 #include "em-filter-rule.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"
@@ -156,8 +155,8 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 	if (info->state == SEND_ACTIVE) {
 		camel_operation_cancel(info->cancel);
 		if (info->status_label)
-			e_clipped_label_set_text (
-				E_CLIPPED_LABEL (info->status_label),
+			gtk_label_set_text (
+				GTK_LABEL (info->status_label),
 				_("Canceling..."));
 		info->state = SEND_CANCELLED;
 	}
@@ -267,8 +266,8 @@ operation_status_timeout(void *data)
 			GTK_PROGRESS_BAR (info->progress_bar),
 			info->pc / 100.0);
 		if (info->what)
-			e_clipped_label_set_text (
-				E_CLIPPED_LABEL (info->status_label),
+			gtk_label_set_text (
+				GTK_LABEL (info->status_label),
 				info->what);
 		return TRUE;
 	}
@@ -496,10 +495,11 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		
 		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 
-		status_label = e_clipped_label_new (
+		status_label = gtk_label_new (
 			(info->type == SEND_UPDATE) ?
-			_("Updating...") : _("Waiting..."),
-			PANGO_WEIGHT_NORMAL, 1.0);
+			_("Updating...") : _("Waiting..."));
+		gtk_label_set_ellipsize (
+			GTK_LABEL (status_label), PANGO_ELLIPSIZE_END);
 
 		/* g_object_set(data->label, "bold", TRUE, NULL); */
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
@@ -566,8 +566,9 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		progress_bar = gtk_progress_bar_new ();
 		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 
-		status_label = e_clipped_label_new (
-			_("Waiting..."), PANGO_WEIGHT_NORMAL, 1.0);
+		status_label = gtk_label_new (_("Waiting..."));
+		gtk_label_set_ellipsize (
+			GTK_LABEL (status_label), PANGO_ELLIPSIZE_END);
 
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
@@ -692,8 +693,7 @@ receive_done (char *uri, void *data)
 			info->state = SEND_COMPLETE;
 		}
 
-		e_clipped_label_set_text (
-			E_CLIPPED_LABEL (info->status_label), text);
+		gtk_label_set_text (GTK_LABEL (info->status_label), text);
 	}
 
 	if (info->cancel_button)

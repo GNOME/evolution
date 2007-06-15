@@ -26,8 +26,6 @@
 
 #include "e-multi-config-dialog.h"
 
-#include "e-clipped-label.h"
-
 #include <table/e-table-scrolled.h>
 #include <table/e-table-memory-store.h>
 #include <table/e-cell-pixbuf.h>
@@ -86,18 +84,6 @@ create_page_container (const char *description,
 	GtkWidget *vbox;
 
 	vbox = gtk_vbox_new (FALSE, 0);
-
-#if 0
-	label = e_clipped_label_new (description);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
-
-	separator = gtk_hseparator_new ();
-	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, TRUE, 0);
-
-	gtk_widget_show (label);
-	gtk_widget_show (separator);
-#endif
 
 	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0); 
 

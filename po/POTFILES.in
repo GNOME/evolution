@@ -467,7 +467,6 @@ widgets/misc/e-canvas-vbox.c
 widgets/misc/e-cell-date-edit.c
 widgets/misc/e-cell-percent.c
 widgets/misc/e-charset-picker.c
-widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-expander.c
 widgets/misc/e-filter-bar.c
