@@ -412,6 +412,25 @@ emfb_realize (GtkWidget *widget)
 }
 	      
 static void
+html_scroll (GtkHTML *html,
+	GtkOrientation orientation,
+	GtkScrollType  scroll_type,
+	gfloat         position,
+	EMFolderBrowser *emfb)
+
+{
+	if (html->binding_handled || orientation != GTK_ORIENTATION_VERTICAL)
+		return;
+
+	if (scroll_type == GTK_SCROLL_PAGE_FORWARD) {
+		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
+		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);		
+	} else if (scroll_type == GTK_SCROLL_PAGE_BACKWARD) {
+		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
+		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);		
+	}
+}
+static void
 emfb_init(GObject *o)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
@@ -422,6 +441,8 @@ emfb_init(GObject *o)
 
 	emfb->view.preview_active = TRUE;
 	emfb->view.list_active = TRUE;
+
+	g_signal_connect_after (((EMFormatHTML *)(emfb->view.preview))->html, "scroll", G_CALLBACK (html_scroll), emfb);
 
 	g_slist_foreach (emfb->view.ui_files, free_one_ui_file, NULL);
 	g_slist_free(emfb->view.ui_files);
@@ -1170,20 +1191,34 @@ emfb_search_search_cleared(ESearchBar *esb)
 static int
 emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb)
 {
+	gboolean state, folder_choose = TRUE;
 	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
 		return FALSE;
 	
 	switch (ev->key.keyval) {
 	case GDK_space:
-		em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
+		state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-forward");
+		if (!state)
+			folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
+			
+		//em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
 		break;
 	case GDK_BackSpace:
-		em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), FALSE);
+		state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-backward");
+		if (!state)
+			folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN);
+	
+		//em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), FALSE);
 		break;
 	default:
 		return FALSE;
 	}
 	
+	if (!folder_choose) {
+		EMFolderTree *emft = g_object_get_data((GObject*)emfb, "foldertree");
+		em_folder_tree_select_next_path (emft);
+		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
+	}
 	return TRUE;
 }
 

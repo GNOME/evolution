@@ -38,6 +38,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 
 #include <camel/camel-session.h>
@@ -2275,6 +2276,9 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 static gboolean
 emft_tree_user_event (GtkTreeView *treeview, GdkEvent *e, EMFolderTree *emft)
 {
+	if (e->type == GDK_KEY_PRESS && e->key.keyval == GDK_space) {
+		return TRUE;
+	}
 	if (!emft->priv->do_multiselect)
 		emft_clear_selected_list(emft);
 
@@ -2313,6 +2317,49 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	em_folder_tree_set_selected_list(emft, l);
 	g_list_free(l);
 }
+
+void
+em_folder_tree_select_next_path (EMFolderTree *emft)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter, parent, child;
+	GtkTreePath *path = NULL;
+	struct _EMFolderTreePrivate *priv = emft->priv;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+
+	selection = gtk_tree_view_get_selection(emft->priv->treeview);
+	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+		if (gtk_tree_model_iter_has_child (model, &iter)) {
+			gtk_tree_model_iter_children (model, &child, &iter);
+			path = gtk_tree_model_get_path (model, &child);
+		} else {
+			while (1) {
+				gboolean has_parent = gtk_tree_model_iter_parent (model, &parent, &iter);
+				if (gtk_tree_model_iter_next (model, &iter)) {
+					path = gtk_tree_model_get_path (model, &iter);
+					break;
+				} else {
+					if (has_parent)
+						iter =  parent;
+					else
+						break;
+				}
+			}
+		}
+	}
+	if (path) {
+		gtk_tree_selection_select_path(selection, path);
+		if (!priv->cursor_set) {
+			gtk_tree_view_set_cursor (priv->treeview, path, NULL, FALSE);
+			priv->cursor_set = TRUE;
+		}
+		gtk_tree_view_scroll_to_cell (priv->treeview, path, NULL, TRUE, 0.5f, 0.0f);
+	}	
+	return;
+}
+
 
 char *
 em_folder_tree_get_selected_uri (EMFolderTree *emft)

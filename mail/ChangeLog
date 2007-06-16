@@ -1,3 +1,13 @@
+2007-06-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Add support for the Magic Space Bar.
+
+	* em-folder-browser.c: (html_scroll), (emfb_init),
+	(emfb_list_key_press):
+	* em-folder-tree.c: (emft_tree_user_event),
+	(em_folder_tree_select_next_path):
+	* em-folder-tree.h:
+
 2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-send-recv.c:

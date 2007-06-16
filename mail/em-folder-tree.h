@@ -83,6 +83,7 @@ GList *em_folder_tree_get_selected_uris (EMFolderTree *emft);
 GList *em_folder_tree_get_selected_paths (EMFolderTree *emft);
 
 void em_folder_tree_set_selected (EMFolderTree *emft, const char *uri);
+void em_folder_tree_select_next_path (EMFolderTree *emft);
 char *em_folder_tree_get_selected_uri (EMFolderTree *emft);
 char *em_folder_tree_get_selected_path (EMFolderTree *emft);
 CamelFolder *em_folder_tree_get_selected_folder (EMFolderTree *emft);
