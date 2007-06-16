@@ -1009,7 +1009,7 @@ itip_view_init (ItipView *view)
 	priv->rsvp_box = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->rsvp_box, FALSE, FALSE, 0);
 
-	priv->rsvp_check = gtk_check_button_new_with_mnemonic ("Send _reply to sender");
+	priv->rsvp_check = gtk_check_button_new_with_mnemonic (_("Send _reply to sender"));
 	gtk_widget_show (priv->rsvp_check);
 	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), priv->rsvp_check, FALSE, FALSE, 0);
 
@@ -1037,7 +1037,7 @@ itip_view_init (ItipView *view)
 	priv->update_box = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->update_box, FALSE, FALSE, 0);
 
-	priv->update_check = gtk_check_button_new_with_mnemonic (_("Send u_pdates to attendees"));
+	priv->update_check = gtk_check_button_new_with_mnemonic (_("Send _updates to attendees"));
 	gtk_widget_show (priv->update_check);
 	gtk_box_pack_start (GTK_BOX (priv->update_box), priv->update_check, FALSE, FALSE, 0);
 
@@ -1046,7 +1046,7 @@ itip_view_init (ItipView *view)
 	gtk_widget_show (priv->recur_box);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->recur_box, FALSE, FALSE, 0);
 
-	priv->recur_check = gtk_check_button_new_with_mnemonic (_("A_pply to all instances"));
+	priv->recur_check = gtk_check_button_new_with_mnemonic (_("_Apply to all instances"));
 	gtk_box_pack_start (GTK_BOX (priv->recur_box), priv->recur_check, FALSE, FALSE, 0);
 
 	g_signal_connect (priv->recur_check, "toggled", G_CALLBACK (recur_toggled_cb), view);
