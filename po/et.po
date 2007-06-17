@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-10 03:30+0100\n"
-"PO-Revision-Date: 2007-02-22 12:00+0200\n"
+"PO-Revision-Date: 2007-06-11 00:33+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -3535,7 +3535,7 @@ msgstr "Sellist allikat ei ole olemas"
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Not available in offline mode"
-msgstr "Autonoomses režiimis pole seda saadaval"
+msgstr "Autonoomses olekus pole seda saadaval"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
@@ -3549,8 +3549,8 @@ msgid ""
 "load the addressbook once in online mode to download its contents"
 msgstr ""
 "Seda aadressiraamatut pole võimalik avada. See võib tähendada, et see raamat "
-"pole märgitud kasutamiseks autonoomses olekus või pole selle raamatu sisu "
-"veel autonoomses olekus kasutamiseks alla laaditud. Palun laadi korraks "
+"pole märgitud kasutamiseks võrguvabas olekus või pole selle raamatu sisu "
+"veel võrguvabas olekus kasutamiseks alla laaditud. Palun laadi korraks "
 "aadressiraamat võrgurežiimis, et selle sisu oleks võimalik alla laadida."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:103
@@ -4368,15 +4368,15 @@ msgstr "Evolutioni ülesanded lõpetasid ootamatult."
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The calendar is not marked for offline usage."
-msgstr "Kalender pole märgitud autonoomses režiimis kasutamiseks."
+msgstr "Kalender pole märgitud võrguvabas olekus kasutamiseks."
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
-msgstr "Märkmeloend pole märgitud autonoomses režiimis kasutamiseks"
+msgstr "Märkmeloend pole märgitud võrguvabas olekus kasutamiseks"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
-msgstr "Ülesandeloend pole märgitud autonoomses režiimis kasutamiseks."
+msgstr "Ülesandeloend pole märgitud võrguvabas olekus kasutamiseks."
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "This calendar will be removed permanently."
@@ -5647,7 +5647,7 @@ msgstr "_Meeldetuletusi näidatakse"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
-msgstr "_Kuupäeva valikul kuvatakse nädalate numbreid"
+msgstr "_Kuupäeva valimisel kuvatakse nädalate numbreid"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1093
@@ -7366,7 +7366,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Kuupäev peab olema sisestatud järnevas vormingus: \n"
+"Kuupäev peab olema sisestatud järgnevas vormingus: \n"
 "\n"
 "%s"
 
@@ -15007,7 +15007,7 @@ msgstr "Vali Evolutioni arhiivi nimi"
 
 #: ../plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
-msgstr "_Peale varundamist taaskäivitatakse Evolution"
+msgstr "_Pärast varundamist taaskäivitatakse Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
@@ -15015,7 +15015,7 @@ msgstr "Evolutioni arhiivi valimine taastamiseks"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
-msgstr "_Peale taastamist taaskäivitatakse Evolution"
+msgstr "_Pärast taastamist taaskäivitatakse Evolution"
 
 #: ../plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
@@ -15138,7 +15138,7 @@ msgstr "HTTP-kalendrid"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
-msgstr "Veebi- ja http-kalendrite põhitalitluse tagamine."
+msgstr "Webcal- ja http-kalendrite põhitalitluse tagamine."
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
@@ -15381,7 +15381,7 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
-"Evolution on hetkel autonoomses režiimis.\n"
+"Evolution on hetkel võrguvabas olekus.\n"
 "Sul pole võimalik praegu kaustu luua ega muuta.\n"
 "Nende toimingute teostamiseks lülitu palun võrgurežiimi."
 
@@ -15812,7 +15812,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Exchange Account is offline."
-msgstr "Exchange'i konto on autonoomses režiimis."
+msgstr "Exchange'i konto on võrguvabas olekus."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid ""
@@ -16065,7 +16065,7 @@ msgstr "Sõnumikaustade tellimise lubamine kaustapuu kontekstimenüüst."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
-msgstr "Lõpeta kausta tellimus"
+msgstr "Kausta tellimuse lõpetamine"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
@@ -17333,19 +17333,19 @@ msgstr "Kasutatakse kõigi kaustas olevate sõnumite loetuks määramiseks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr "Kalendri märkimine autonoomse režiimi jaoks"
+msgstr "Kalendri märkimine võrguvaba režiimi jaoks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
 msgid "Marks the selected calendar for offline viewing."
-msgstr "Kalendri märkimine autonoomses režiimis vaatamiseks."
+msgstr "Kalendri märkimine võrguvabas olekus vaatamiseks."
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
-msgstr "_Märgi kalender autonoomses režiimis mittekasutatavaks"
+msgstr "_Märgi kalender võrguvabas olekus mittekasutatavaks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
 msgid "_Mark Calendar for offline use"
-msgstr "_Märgi kalender kasutamiseks autonoomses režiimis"
+msgstr "_Märgi kalender kasutamiseks võrguvabas olekus"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -17843,7 +17843,7 @@ msgstr "Viimati uuendatud seadistuste versioon"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr "Autonoomses režiimis kettale sünkroniseeritavate kaustade radade loend"
+msgstr "Autonoomses olekus kettale sünkroniseeritavate kaustade radade loend"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Sidebar is visible"
@@ -17855,7 +17855,7 @@ msgstr "Arendushoiatuse dialoogi jäetakse vahele"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:472
 msgid "Start in offline mode"
-msgstr "Alustamine autonoomses režiimis"
+msgstr "Alustamine võrguvabas olekus"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Statusbar is visible"
@@ -17906,7 +17906,7 @@ msgstr "Tööriistariba on nähtav"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "Millal Evolution alustab võrgurežiimi asemel autonoomses režiimis."
+msgstr "Millal Evolution alustab võrgurežiimi asemel võrguvabas režiimis."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether or not the window should be maximized."
@@ -17954,7 +17954,7 @@ msgstr "Aktiivsed ühendused"
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
 msgstr ""
-"Kui soovid neid ühendusi sulgeda ja autonoomsesse\n"
+"Kui soovid neid ühendusi sulgeda ja võrguvabasse\n"
 "olekusse siirduda, vajuta \"Olgu\""
 
 #: ../shell/e-shell-folder-title-bar.c:584
@@ -18083,7 +18083,7 @@ msgstr "Siirdu aut_onoomsesse olekusse"
 
 #: ../shell/e-shell-window-commands.c:818
 msgid "Work Offline"
-msgstr "Siirdumine autonoomsesse olekusse"
+msgstr "Siirdumine võrguvabasse olekusse"
 
 #: ../shell/e-shell-window.c:381
 msgid "Evolution is currently online. Click on this button to work offline."
@@ -18093,13 +18093,12 @@ msgstr ""
 
 #: ../shell/e-shell-window.c:389
 msgid "Evolution is in the process of going offline."
-msgstr "Evolution siirdub autonoomsesse olekusse."
+msgstr "Evolution siirdub võrguvabasse olekusse."
 
 #: ../shell/e-shell-window.c:396
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
-"Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks klõpsa seda "
-"nuppu."
+"Evolution on hetkel võrguvabas olekus. Võrku ühendumiseks klõpsa seda nuppu."
 
 #: ../shell/e-shell-window.c:796
 #, c-format
@@ -18697,7 +18696,7 @@ msgstr "Sinu sertifikaadid"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_Redigeeri SK usaldust"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:676
@@ -18869,11 +18868,11 @@ msgstr "Sertifikaadi signatuuri väärtus"
 
 #: ../smime/lib/e-pkcs12.c:266
 msgid "PKCS12 File Password"
-msgstr "PKCS12 faili parool"
+msgstr "PKCS12-faili parool"
 
 #: ../smime/lib/e-pkcs12.c:266
 msgid "Enter password for PKCS12 file:"
-msgstr "Sisesta PKCS12 faili jaoks parool:"
+msgstr "Sisesta PKCS12-faili jaoks parool:"
 
 #: ../smime/lib/e-pkcs12.c:365
 msgid "Imported Certificate"
@@ -20606,7 +20605,7 @@ msgstr "Veateate saatmine Bug Buddy abil"
 
 #: ../ui/evolution.xml.h:35
 msgid "Toggle whether we are working offline."
-msgstr "Autonoomse režiimi sisse- või väljalülitamine"
+msgstr "Võrguvaba oleku sisse- või väljalülitamine"
 
 #: ../ui/evolution.xml.h:36
 msgid "Tool_bar style"
@@ -21259,7 +21258,7 @@ msgstr "Tekst"
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:996
 msgid "Sho_w: "
-msgstr "_Näidatakse kategooriat: "
+msgstr "_kategooria: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
