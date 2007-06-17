@@ -1,3 +1,8 @@
+2007-06-17  Tobias Mueller <tobiasmue@svn.gnome.org>
+
+	* evolution-test-component.c:
+	removed createControls stuff. Fixes #444289
+
 2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-folder-title-bar.c:

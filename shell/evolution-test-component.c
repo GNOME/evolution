@@ -90,39 +90,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 	return CORBA_TRUE;
 }
 
-static void
-impl_createControls (PortableServer_Servant servant,
-		     Bonobo_Control *corba_sidebar_control,
-		     Bonobo_Control *corba_view_control,
-		     Bonobo_Control *corba_statusbar_control,
-		     CORBA_Environment *ev)
-{
-	EvolutionTestComponent *component = EVOLUTION_TEST_COMPONENT (bonobo_object_from_servant (servant));
-	EvolutionTestComponentPrivate *priv;
-	GtkWidget *label, *bar;
-	
-	priv = component->priv;
-
-	/* Sidebar */
-	label = gtk_label_new ("Side Bar Control");
-	gtk_widget_show (label);
-	priv->sidebar_control = bonobo_control_new (label);
-
-	/* View */
-	label = gtk_label_new ("View Control");
-	gtk_widget_show (label);
- 	priv->view_control = bonobo_control_new (label);
-
-	/* Status bar */
-	bar = e_task_bar_new ();
-	gtk_widget_show (bar);	
-	priv->status_control =  bonobo_control_new (bar);
-
-	/* Return the controls */
-	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->sidebar_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->view_control), ev);
-	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->status_control), ev);
-}
 
 static GNOME_Evolution_CreatableItemTypeList *
 impl__get_userCreatableItems (PortableServer_Servant servant,
@@ -175,7 +142,6 @@ evolution_test_component_class_init (EvolutionTestComponentClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
-	epv->createControls          = impl_createControls;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
 
