@@ -1,5 +1,10 @@
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* menus/gal-define-views-dialog.c
+	(gdvd_button_new_dialog_callback): Remove a warning
+
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #446015 from Gilles Dartiguelongue  
 
 	* menus/gal-define-views-dialog.c:

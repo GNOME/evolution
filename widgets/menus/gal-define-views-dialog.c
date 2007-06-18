@@ -118,7 +118,6 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, int id, GalDefineViewsDialog
 						    COL_GALVIEW_DATA, item, 
 						    -1);
 
-				g_warning ("Built-in: %d", item->built_in);
 				gal_view_edit (view, GTK_WINDOW (dialog));
 				g_object_unref (view);
 			}
