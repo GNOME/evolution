@@ -1,3 +1,10 @@
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+	
+        ** Fix for bug #448223 from Gilles Dartiguelongue
+
+	* e-search-bar.c: (set_option), (e_search_bar_set_viewoption),
+	(e_search_bar_set_scopeoption):
+
 2007-06-15  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #257118

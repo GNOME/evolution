@@ -1,4 +1,10 @@
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+	
+        ** Fix for bug #448223 from Gilles Dartiguelongue
+
+	* em-folder-browser.c: (generate_viewoption_menu):
+
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #445812 from Gilles Dartiguelongue
 

@@ -68,6 +68,7 @@ typedef enum {
 	E_FOCUS_END
 } EFocus;
 
+char *		e_str_without_underscores	(const char *s);
 gint		e_str_compare			(gconstpointer x,
 						 gconstpointer y);
 gint		e_str_case_compare		(gconstpointer x,

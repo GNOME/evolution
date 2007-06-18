@@ -35,10 +35,12 @@
 #include <e-util/e-icon-factory.h>
 #include <libedataserver/e-categories.h>
 #include <filter/rule-editor.h>
+
 #include "cal-search-bar.h"
+
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
-
 
 typedef struct CALSearchBarItem {
 	 ESearchBarItem search;
@@ -532,35 +534,6 @@ cal_search_bar_search_activated (ESearchBar *search)
 	regen_query (cal_search);
 }
 
-
-
-
-static char *
-string_without_underscores (const char *s)
-{
-	char *new_string;
-	const char *sp;
-	char *dp;
-
-	new_string = g_malloc (strlen (s) + 1);
-
-	dp = new_string;
-	for (sp = s; *sp != '\0'; sp ++) {
-		if (*sp != '_') {
-			*dp = *sp;
-			dp ++;
-		} else if (sp[1] == '_') {
-			/* Translate "__" in "_".  */
-			*dp = '_';
-			dp ++;
-			sp ++;
-		}
-	}
-	*dp = 0;
-
-	return new_string;
-}
-
 static GtkWidget *
 generate_viewoption_menu (CALSearchBarItem *subitems)
 {
@@ -572,7 +545,7 @@ generate_viewoption_menu (CALSearchBarItem *subitems)
 	for (i = 0; subitems[i].search.id != -1; ++i) {
 		if (subitems[i].search.text) {
 			char *str = NULL;
-			str = string_without_underscores (subitems[i].search.text);
+			str = e_str_without_underscores (subitems[i].search.text);
 			menu_item = gtk_image_menu_item_new_with_label (str);
 /*			if (subitems[i].image)
 				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (subitems[i].image, E_ICON_SIZE_MENU));*/

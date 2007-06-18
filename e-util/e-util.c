@@ -49,6 +49,39 @@
 #include "e-util.h"
 #include "e-util-private.h"
 
+/**
+ * e_str_without_underscores:
+ * @s: the string to strip underscores from.
+ *
+ * Strips underscores from a string in the same way @gtk_label_new_with_mnemonis does.
+ * The returned string should be freed.
+ */
+char *
+e_str_without_underscores (const char *s)
+{
+	char *new_string;
+	const char *sp;
+	char *dp;
+	
+	new_string = g_malloc (strlen (s) + 1);
+	
+	dp = new_string;
+	for (sp = s; *sp != '\0'; sp ++) {
+		if (*sp != '_') {
+			*dp = *sp;
+			dp ++;
+		} else if (sp[1] == '_') {
+			/* Translate "__" in "_".  */
+			*dp = '_';
+			dp ++;
+			sp ++;
+		}
+	}
+	*dp = 0;
+	
+	return new_string;
+}
+
 gint
 e_str_compare (gconstpointer x, gconstpointer y)
 {

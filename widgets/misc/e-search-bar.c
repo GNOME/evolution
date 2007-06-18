@@ -52,8 +52,10 @@
 
 #include "e-icon-entry.h"
 #include "e-search-bar.h"
+#include "e-util/e-util.h"
 #include "e-util/e-util-marshal.h"
 #include "e-util/e-icon-factory.h"
+
 
 enum {
 	QUERY_CHANGED,
@@ -452,32 +454,6 @@ scopeitem_activated_cb(GtkWidget *widget, ESearchBar *esb)
 	esb->block_search = FALSE;	
 }
 
-static char *
-string_without_underscores (const char *s)
-{
-	char *new_string;
-	const char *sp;
-	char *dp;
-
-	new_string = g_malloc (strlen (s) + 1);
-
-	dp = new_string;
-	for (sp = s; *sp != '\0'; sp ++) {
-		if (*sp != '_') {
-			*dp = *sp;
-			dp ++;
-		} else if (sp[1] == '_') {
-			/* Translate "__" in "_".  */
-			*dp = '_';
-			dp ++;
-			sp ++;
-		}
-	}
-	*dp = 0;
-
-	return new_string;
-}
-
 static void
 option_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
@@ -722,7 +698,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 
 		if (items[i].text) {
 			char *str;
-			str = string_without_underscores (_(items[i].text));
+			str = e_str_without_underscores (_(items[i].text));
 			switch (items[i].type) {
 			    case ESB_ITEMTYPE_NORMAL:
 				    item = gtk_menu_item_new_with_label (str);
@@ -1180,7 +1156,7 @@ e_search_bar_set_viewoption (ESearchBar *search_bar, int option_id, ESearchBarIt
 	for (i = 0; subitems[i].id != -1; ++i) {
 		if (subitems[i].text) {
 			char *str = NULL;
-			str = string_without_underscores (subitems[i].text);
+			str = e_str_without_underscores (subitems[i].text);
 			menu_item = gtk_menu_item_new_with_label (str);
 			g_free (str);
 		} else {
@@ -1229,7 +1205,7 @@ e_search_bar_set_scopeoption (ESearchBar *search_bar, ESearchBarItem *scopeitems
 	for (i = 0; scopeitems[i].id != -1; ++i) {
 		if (scopeitems[i].text) {
 			char *str;
-			str = string_without_underscores (_(scopeitems[i].text));
+			str = e_str_without_underscores (_(scopeitems[i].text));
 			menu_item = gtk_menu_item_new_with_label (str);
 			g_object_set_data_full (G_OBJECT (menu_item), "string",str, g_free);			
 		} else {

@@ -78,6 +78,7 @@
 #include <camel/camel-store.h>
 
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "em-utils.h"
@@ -258,32 +259,6 @@ free_one_ui_file (gpointer data,
 	g_free (data);
 }
 
-static char *
-string_without_underscores (const char *s)
-{
-	char *new_string;
-	const char *sp;
-	char *dp;
-
-	new_string = g_malloc (strlen (s) + 1);
-
-	dp = new_string;
-	for (sp = s; *sp != '\0'; sp ++) {
-		if (*sp != '_') {
-			*dp = *sp;
-			dp ++;
-		} else if (sp[1] == '_') {
-			/* Translate "__" in "_".  */
-			*dp = '_';
-			dp ++;
-			sp ++;
-		}
-	}
-	*dp = 0;
-
-	return new_string;
-}
-
 static GtkWidget *
 generate_viewoption_menu (GtkWidget *emfv)
 {
@@ -296,7 +271,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 	for (i = 0; emfb_view_items[i].search.id != -1; ++i) {
 		if (emfb_view_items[i].search.text) {
 			char *str;
-			str = string_without_underscores (_(emfb_view_items[i].search.text));
+			str = e_str_without_underscores (_(emfb_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
  			if (emfb_view_items[i].image)
  				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (emfb_view_items[i].image, E_ICON_SIZE_MENU)); 
@@ -333,7 +308,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 			g_object_unref(gc); 
 			
 			image = gtk_image_new_from_pixmap(pixmap, NULL); 
-			str = string_without_underscores (label->name);
+			str = e_str_without_underscores (label->name);
 			menu_item = gtk_image_menu_item_new_with_label (str);
 			g_free (str);
 			gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, image); 
@@ -351,7 +326,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 	for (i = 0; temp_view_items[i].search.id != -1; ++i) {
 		if (temp_view_items[i].search.text) {
 			char *str;
-			str = string_without_underscores (_(temp_view_items[i].search.text));
+			str = e_str_without_underscores (_(temp_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
 			if (temp_view_items[i].image)
 				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (temp_view_items[i].image, E_ICON_SIZE_MENU)); 

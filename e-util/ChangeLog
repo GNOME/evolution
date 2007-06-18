@@ -1,3 +1,10 @@
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #448223 from Gilles Dartiguelongue  
+
+	* e-util.c: (e_str_without_underscores):
+	* e-util.h:
+
 2007-06-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #446870
