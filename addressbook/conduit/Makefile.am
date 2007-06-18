@@ -1,8 +1,4 @@
 INCLUDES = 					\
-	-I$(top_srcdir)				\
-	-I$(top_srcdir)/addressbook		\
-	-I$(top_srcdir)/addressbook/backend	\
-	-I$(top_builddir)/addressbook/backend	\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	-I$(top_srcdir)/widgets/misc		\
@@ -15,10 +11,11 @@ privconduit_LTLIBRARIES = libeaddress_conduit.la
 libeaddress_conduit_la_SOURCES = 		\
 	address-conduit.c
 
-libeaddress_conduit_la_LDFLAGS = -module -avoid-version
+libeaddress_conduit_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libeconduit.la                           \
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 

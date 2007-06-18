@@ -1,5 +1,11 @@
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #445793 from Gilles Dartiguelongue  
+
+	* conduit/Makefile.am:
+
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
         ** Fix for bug #448223 from Gilles Dartiguelongue
 
 	* gui/widgets/e-addressbook-view.c: (generate_viewoption_menu):
