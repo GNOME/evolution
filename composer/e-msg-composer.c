@@ -2975,7 +2975,7 @@ attachment_guess_mime_type (const char *file_name)
 }
 
 static void
-drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
+drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time, gboolean html_dnd)
 {
 	char *tmp, *str, **urls, *type;
 	CamelMimePart *mime_part;
@@ -3029,7 +3029,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 				
 				if (!g_ascii_strcasecmp (url->protocol, "file")) {
 					type = attachment_guess_mime_type (str);
-					if (strncmp (type, "image", 5) || (!p->send_html && !strncmp (type, "image", 5)))
+					if (strncmp (type, "image", 5) || !html_dnd || (!p->send_html && !strncmp (type, "image", 5)))
 						e_attachment_bar_attach (E_ATTACHMENT_BAR (p->attachment_bar),
 									 url->path, "attachment");
 				} else	{
@@ -3163,14 +3163,14 @@ static void
 drop_popup_copy(EPopup *ep, EPopupItem *item, void *data)
 {
 	struct _drop_data *m = data;
-	drop_action(m->composer, m->context, GDK_ACTION_COPY, m->selection, m->info, m->time);
+	drop_action(m->composer, m->context, GDK_ACTION_COPY, m->selection, m->info, m->time, FALSE);
 }
 
 static void
 drop_popup_move(EPopup *ep, EPopupItem *item, void *data)
 {
 	struct _drop_data *m = data;
-	drop_action(m->composer, m->context, GDK_ACTION_MOVE, m->selection, m->info, m->time);
+	drop_action(m->composer, m->context, GDK_ACTION_MOVE, m->selection, m->info, m->time, FALSE);
 }
 
 static void
@@ -3238,9 +3238,10 @@ drag_data_received (GtkWidget *w, GdkDragContext *context,
 		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
 	} else {
-		drop_action(composer, context, context->action, selection, info, time);
+		drop_action(composer, context, context->action, selection, info, time, w != composer);
 	}
 }
+
 
 static gboolean
 drag_motion(GObject *o, GdkDragContext *context, gint x, gint y, guint time, EMsgComposer *composer)
