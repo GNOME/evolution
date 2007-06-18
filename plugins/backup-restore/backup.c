@@ -28,11 +28,28 @@ static gboolean check_op = FALSE;
 static char *chk_file;
 static gboolean restart_arg = FALSE;
 static gboolean gui_arg = FALSE;
+static gchar **opt_remaining = NULL;
 static int result=0;
 static GtkWidget *progress_dialog;
 static GtkWidget *pbar;
 static char *txt = NULL;
 gboolean complete = FALSE;
+
+static const GOptionEntry options[] = {
+	{ "backup", '\0', 0, G_OPTION_ARG_NONE, &backup_op,
+	  N_("Backup Evolution directory"), NULL },
+	{ "restore", '\0', 0, G_OPTION_ARG_NONE, &restore_op,
+	  N_("Restore Evolution directory"), NULL },
+	{ "check", '\0', 0, G_OPTION_ARG_NONE, &check_op,
+	  N_("Check Evolution archive"), NULL },
+	{ "restart", '\0', 0, G_OPTION_ARG_NONE, &restart_arg,
+	  N_("Restart Evolution"), NULL },
+	{ "gui", '\0', 0, G_OPTION_ARG_NONE, &gui_arg,
+	  N_("With GUI"), NULL },
+	{ G_OPTION_REMAINING, '\0', 0,
+	  G_OPTION_ARG_STRING_ARRAY, &opt_remaining },
+	{ NULL }
+};
 
 #define d(x) x
 
@@ -200,63 +217,42 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 
 	gtk_main_quit ();
 }
+
 int
 main (int argc, char **argv)
 {
-	GValue popt_context_value = { 0, };
 	GnomeProgram *program;
-	poptContext popt_context;
-	const char **args;
+	GOptionContext *context;
 	char *file = NULL, *oper = NULL;
-
-	struct poptOption options[] = {
-		{ "backup", '\0', POPT_ARG_NONE, &backup_op, 0, 
-		  N_("Backup Evolution directory"), NULL },
-		{ "restore", '\0', POPT_ARG_NONE, &restore_op, 0, 
-		  N_("Restore Evolution directory"), NULL },
-		{ "check", '\0', POPT_ARG_NONE, &check_op, 0, 
-		  N_("Check Evolution archive"), NULL },
-		{ "restart", '\0', POPT_ARG_NONE, &restart_arg, 0, 
-		  N_("Restart Evolution"), NULL },
-		{ "gui", '\0', POPT_ARG_NONE, &gui_arg, 0, 
-		  N_("With GUI"), NULL },
-		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
-	};
+	gint i;
 
 	gtk_init (&argc, &argv);
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+	context = g_option_context_new (NULL);
+	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
 	program = gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv, 
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
-				      GNOME_PARAM_POPT_TABLE, options,
-				      NULL);
-
-	g_value_init (&popt_context_value, G_TYPE_POINTER);
-	g_object_get_property (G_OBJECT (program), GNOME_PARAM_POPT_CONTEXT, &popt_context_value);
-	popt_context = g_value_get_pointer (&popt_context_value);
-	args = poptGetArgs (popt_context);
+				      GNOME_PARAM_GOPTION_CONTEXT, context,
+				      GNOME_PARAM_NONE);
 
 
-	if (args != NULL) {
-		const char **p;
-		
-		for (p = args; *p != NULL; p++) {
-			if (backup_op) {
-				oper = _("Backing up to %s");
-				d(g_message ("Backing up to %s", (char *) *p));
-				bk_file = g_strdup ((char *) *p);
-				file = bk_file;
-			} else if (restore_op) {
-				oper = _("Restoring from %s");
-				d(g_message ("Restoring from %s", (char *) *p));
-				res_file = g_strdup ((char *) *p);
-				file = res_file;
-			} else if (check_op) {
-				d(g_message ("Checking %s", (char *) *p));
-				chk_file = g_strdup ((char *) *p);
-			}
+	for (i = 0; i < g_strv_length (opt_remaining); i++) {
+		if (backup_op) {
+			oper = _("Backing up to %s");
+			d(g_message ("Backing up to %s", (char *) opt_remaining[i]));
+			bk_file = g_strdup ((char *) opt_remaining[i]);
+			file = bk_file;
+		} else if (restore_op) {
+			oper = _("Restoring from %s");
+			d(g_message ("Restoring from %s", (char *) opt_remaining[i]));
+			res_file = g_strdup ((char *) opt_remaining[i]);
+			file = res_file;
+		} else if (check_op) {
+			d(g_message ("Checking %s", (char *) opt_remaining[i]));
+			chk_file = g_strdup ((char *) opt_remaining[i]);
 		}
 	}
 
@@ -302,8 +298,6 @@ main (int argc, char **argv)
 
 	g_idle_add (idle_cb, NULL);
 	gtk_main ();
-
-	g_value_unset (&popt_context_value);
 	
 	return result;
 }

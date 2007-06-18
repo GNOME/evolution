@@ -1,3 +1,9 @@
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #428328 from Ghislain MARY
+
+	* backup.c: (main): Use GOptions from popt
+
 2007-04-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Reworked Backup/Restore plugin. It comes in File menu for
