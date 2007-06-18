@@ -1514,6 +1514,44 @@ emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
 	em_utils_post_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid);
 }
 
+static gboolean
+html_contains_nonwhitespace (const char *html, gint len)
+{
+	const char *p;
+	gunichar c = 0;
+
+	if (!html || len<=0)
+		return FALSE;
+
+	p = html;
+
+	while (p && p - html < len) {
+		c = g_utf8_get_char (p);
+		if (!c)
+			break;
+
+		if (c == '<') {
+			/* skip until next '>' */
+			while (c = g_utf8_get_char (p), c && c != '>' && p - html < len)
+				p = g_utf8_next_char (p);
+			if (!c)
+				break;
+		}else if (c == '&') {
+			/* sequence '&nbsp;' is a space */
+			if (g_ascii_strncasecmp (p, "&nbsp;", 6) == 0)
+				p = p + 5;
+			else
+				break;
+		}else if (!g_unichar_isspace (c)) {
+			break;
+		}
+
+		p = g_utf8_next_char (p);
+	}
+
+	return p - html < len - 1 && c != 0;
+}
+
 static void
 emfv_message_reply(EMFolderView *emfv, int mode)
 {
@@ -1528,7 +1566,7 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 
 	if (gtk_html_command(((EMFormatHTML *)emfv->preview)->html, "is-selection-active")
 	    && (html = gtk_html_get_selection_html (((EMFormatHTML *)emfv->preview)->html, &len))
-	    && len && html[0]) {
+	    && len && html[0] && html_contains_nonwhitespace (html, len)) {
 		CamelMimeMessage *msg, *src;
 		struct _camel_header_raw *header;
 		
