@@ -1,3 +1,56 @@
+Evolution 2.11.4 2007-06-18
+---------------------------
+
+New in 2.11.4:
+	Portugese help files (Duarte Loreto)
+	Add initial support for the Magic Space Bar (Mutt) to read unread emails in 
+	all folders.  (Srinivasa Ragavan)
+
+Bug fixes:
+	#257118: Clear button is now getting disabled after clearing the
+	 search (Milan Crha)
+	#263207: Advanced Search "Remove" button is now inactive (Milan
+	 Crha)
+	#325882: Fix some of the window /dialog positions (Milan Crha)
+	#330175: Added helper function which test selection for non-space
+	 characters. (Milan Crha)
+	#344728: Add configuration option for Sun Kerberos v5 (Irene Huang)
+	#386503: Fix a minor typo in Makefile.am (Gilles Dartiguelongue)
+	#428328: Move away from popt to GOptions (Ghislain MARY)
+	#437584, 437935: More compilation warnings cleanup (Gilles
+	 Dartiguelongue)
+	#439186: fix some bad mnemonics, mark string for translation. (Andre
+	 Klapper)
+	#440075: Enable customized alarms to work correctly (Matthew Barnes)
+	#442631: Added support for multimedia keys (Bastien Nocera)
+	#443659: Fix size and alignment mis-match in the evolution
+	 preferences window (Vinod)
+	#444107: Allow adding of image attachments to HTML composer
+	 (Srinivasa Ragavan)
+	#444248: Fix a crash in solaris (Wang Xin)
+	#444289: Allow the "test" component to build (Tobias Mueller)
+	#444548: Included files for translating strings for "Advanced search
+	 options" (Andre Klapper)
+	#444747: Fix a build break (Daniel Gryniewicz)
+	#445793: Addressbook conduit now loads correctly (Gilles
+	 Dartiguelongue)
+	#445812: Included missing icons in popups (Gilles Dartiguelongue)
+	#446015: Improved "Define views" dialog (Gilles Dartiguelongue)
+	#446870: Set the correct size of the duplicate contact warning
+	 window (Srinivasa Ragavan)
+	#447727: Improve display of label text (Matthew Barnes)
+	#447742: Plug a memory leak (Matthew Barnes)
+	#448201: Add translation domain (Gabor Kelemen)
+	#448223: Remove duplicated function string_without_underscores
+	 (Gilles Dartiguelongue)
+
+Updated Translations:
+	Priit Laes (et)
+	Jorge Gonzalez (es)
+	Daniel Nylander (sv)
+	Pema Geyleg (dz)
+	Kjartan Maraas (nb)
+
 Evolution 2.11.3 2007-06-04
 ---------------------------
 
