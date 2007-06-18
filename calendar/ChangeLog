@@ -1,3 +1,13 @@
+2007-06-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #325882
+
+	* gui/dialogs/e-delegate-dialog.glade:
+	* gui/dialogs/schedule-page.glade:
+	* gui/goto-dialog.glade:
+	* gui/e-itip-control.glade:
+	Changed GTK_WIN_POS_NONE to GTK_WIN_POS_CENTER_ON_PARENT.
+
 2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/dialogs/alarm-dialog.c:

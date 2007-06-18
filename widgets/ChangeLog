@@ -1,3 +1,12 @@
+2007-06-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #325882
+
+	* menus/gal-define-views.glade:
+	* table/e-table-field-chooser.glade:
+	* misc/e-attachment.glade:
+	Changed GTK_WIN_POS_NONE to GTK_WIN_POS_CENTER_ON_PARENT.
+
 2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	** Fixes part of bug #441014

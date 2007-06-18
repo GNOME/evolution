@@ -1,3 +1,11 @@
+2007-06-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #325882
+
+	* read_receipts/read.glade:
+	* OOA/ooa.glade:
+	Changed GTK_WIN_POS_NONE to GTK_WIN_POS_CENTER_ON_PARENT.
+
 2006-07-12  Andre Klapper  <a9016009@gmx.de>
 
 	* read_receipts/read.glade: remove empty tab from translation.

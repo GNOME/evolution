@@ -7,7 +7,7 @@
   <property name="visible">True</property>
   <property name="title" translatable="yes">Active Connections</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
   <property name="modal">False</property>
   <property name="default_width">256</property>
   <property name="default_height">192</property>

@@ -1,3 +1,13 @@
+2007-06-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #325882
+
+	* gui/contact-editor/im.glade:
+	* gui/contact-editor/fulladdr.glade:
+	* gui/merging/eab-contact-commit-duplicate-detected.glade:
+	* printing/e-contact-print.glade:
+	Changed GTK_WIN_POS_NONE to GTK_WIN_POS_CENTER_ON_PARENT.
+
 2007-06-12  Wang Xin  <jedy.wang@sun.com>
 
 	Fixes #444248.
