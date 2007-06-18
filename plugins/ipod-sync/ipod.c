@@ -62,7 +62,7 @@ try_mount (char *device)
 	if (!g_spawn_sync (g_get_home_dir (), argv, NULL, 0, NULL, NULL, NULL,
 							 NULL, &exit_status, &err))
 	{
-		warn ("try_mount failed: %s", err->message);
+		g_warning ("try_mount failed: %s", err->message);
 		return FALSE;
 	}
 
@@ -88,7 +88,7 @@ try_umount (char *device)
 	if (!g_spawn_sync (g_get_home_dir (), argv, NULL, 0, NULL, NULL, NULL,
 							 NULL, &exit_status, &err))
 	{
-		warn ("try_umount failed: %s", err->message);
+		g_warning ("try_umount failed: %s", err->message);
 		return FALSE;
 	}
 

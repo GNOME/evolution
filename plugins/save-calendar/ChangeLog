@@ -1,3 +1,9 @@
+2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* rdf-format.c: (add_nummeric_to_rdf), (add_time_to_rdf),
+	(add_string_to_rdf), (do_save_calendar_rdf):
+	more compilation warnings cleanup, completes bug #437584 fixes
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

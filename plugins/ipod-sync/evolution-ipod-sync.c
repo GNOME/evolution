@@ -7,13 +7,15 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
+
 #include "evolution-ipod-sync.h"
 
-#include <gnome.h>
 #include <glib/gi18n-lib.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libhal.h>
 
 char *  mount_point = NULL;
 LibHalContext *ctx;
@@ -77,7 +79,7 @@ ipod_check_status (gboolean silent)
 }
 
 char *
-ipod_get_mount ()
+ipod_get_mount (void)
 {
 	return mount_point;
 }

@@ -365,10 +365,10 @@ static char *
 get_node_text (xmlNodePtr node)
 {
 	if (node->children == NULL || node->children->content == NULL ||
-	    strcmp ((const char *)node->children->name, "text"))
+	    strcmp ((char *)node->children->name, "text"))
 		return NULL;
 
-	return g_strdup (node->children->content);
+	return g_strdup ((char *)node->children->content);
 }
 
 static char *
@@ -410,12 +410,12 @@ parse_contact (xmlNodePtr contact, GList **buddies)
 
 	gb = g_new0 (GaimBuddy, 1);
 
-	gb->proto = e_xml_get_string_prop_by_name (buddy, "proto");
+	gb->proto = e_xml_get_string_prop_by_name (buddy, (const unsigned char *)"proto");
 
 	for (child = buddy->children; child != NULL; child = child->next) {
 		if (! strcmp ((const char *)child->name, "setting")) {
 			char *setting_type;
-			setting_type = e_xml_get_string_prop_by_name (child, "name");
+			setting_type = e_xml_get_string_prop_by_name (child, (const unsigned char *)"name");
 
 			if (! strcmp ((const char *)setting_type, "buddy_icon"))
 				gb->icon = get_buddy_icon_from_setting (child);

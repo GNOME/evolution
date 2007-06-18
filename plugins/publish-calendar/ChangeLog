@@ -1,3 +1,9 @@
+2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* publish-location.c: (migrateURI), (e_publish_uri_from_xml),
+	(e_publish_uri_to_xml): more compilation warnings cleanup,
+	completes bug #437584 fixes
+
 2007-05-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am: Add "eplug" file to CLEANFILES.
@@ -5,7 +11,7 @@
 2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* url-editor-dialog.c: (set_from_uri): fixes casts in strcmp,
-	fixes par of bug #437584
+	fixes part of bug #437584
 
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 

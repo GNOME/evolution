@@ -135,8 +135,8 @@ add_nummeric_to_rdf (xmlNodePtr node, const gchar *tag, gint *nummeric)
 {
 	if (nummeric) {
 		gchar *value = g_strdup_printf ("%d", *nummeric);
-		xmlNodePtr cur_node = xmlNewChild (node, NULL, tag, value);
-		xmlSetProp (cur_node, "rdf:datatype", "http://www.w3.org/2001/XMLSchema#integer");
+		xmlNodePtr cur_node = xmlNewChild (node, NULL, (unsigned char *)tag, (unsigned char *)value);
+		xmlSetProp (cur_node, (const unsigned char *)"rdf:datatype", (const unsigned char *)"http://www.w3.org/2001/XMLSchema#integer");
 		g_free (value);
 	}
 }
@@ -157,12 +157,12 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 		 * */
 		e_utf8_strftime (str, 200, _("%FT%T"), &mytm);
 
-		cur_node = xmlNewChild (node, NULL, tag, str);
+		cur_node = xmlNewChild (node, NULL, (unsigned char *)tag, (unsigned char *)str);
 
 		/* Not sure about this property */
 		timezone = calendar_config_get_timezone ();
 		tmp = g_strdup_printf ("http://www.w3.org/2002/12/cal/tzd/%s#tz", timezone);
-		xmlSetProp (cur_node, "rdf:datatype", tmp);
+		xmlSetProp (cur_node, (const unsigned char *)"rdf:datatype", (unsigned char *)tmp);
 		g_free (tmp);
 		g_free (timezone);
 		g_free (str);
@@ -175,8 +175,8 @@ add_string_to_rdf (xmlNodePtr node, const gchar *tag, const char *value)
 {
 	if (value) {
 		xmlNodePtr cur_node = NULL;
-		cur_node = xmlNewChild (node, NULL, tag, value);
-		xmlSetProp (cur_node, "rdf:datatype", "http://www.w3.org/2001/XMLSchema#string");
+		cur_node = xmlNewChild (node, NULL, (unsigned char *)tag, (unsigned char *)value);
+		xmlSetProp (cur_node, (const unsigned char *)"rdf:datatype", (const unsigned char *)"http://www.w3.org/2001/XMLSchema#string");
 	}
 }
 
@@ -241,34 +241,34 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 		xmlDocPtr doc = xmlNewDoc((xmlChar *) "1.0");
 		xmlNodePtr fnode = doc->children;
 
-		doc->children = xmlNewDocNode (doc, NULL, "rdf:RDF", NULL);
-		xmlSetProp (doc->children, "xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-		xmlSetProp (doc->children, "xmlns", "http://www.w3.org/2002/12/cal/ical#");
+		doc->children = xmlNewDocNode (doc, NULL, (const unsigned char *)"rdf:RDF", NULL);
+		xmlSetProp (doc->children, (const unsigned char *)"xmlns:rdf", (const unsigned char *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+		xmlSetProp (doc->children, (const unsigned char *)"xmlns", (const unsigned char *)"http://www.w3.org/2002/12/cal/ical#");
 
-		fnode = xmlNewChild (doc->children, NULL, "Vcalendar", NULL);
+		fnode = xmlNewChild (doc->children, NULL, (const unsigned char *)"Vcalendar", NULL);
 
 		/* Should Evolution publicise these? */
-		xmlSetProp (fnode, "xmlns:x-wr", "http://www.w3.org/2002/12/cal/prod/Apple_Comp_628d9d8459c556fa#");
-		xmlSetProp (fnode, "xmlns:x-lic", "http://www.w3.org/2002/12/cal/prod/Apple_Comp_628d9d8459c556fa#");
+		xmlSetProp (fnode, (const unsigned char *)"xmlns:x-wr", (const unsigned char *)"http://www.w3.org/2002/12/cal/prod/Apple_Comp_628d9d8459c556fa#");
+		xmlSetProp (fnode, (const unsigned char *)"xmlns:x-lic", (const unsigned char *)"http://www.w3.org/2002/12/cal/prod/Apple_Comp_628d9d8459c556fa#");
 
 		/* Not sure if it's correct like this */
-		xmlNewChild (fnode, NULL, "prodid", "-//" PACKAGE_STRING "//iCal 1.0//EN");
+		xmlNewChild (fnode, NULL, (const unsigned char *)"prodid", (const unsigned char *)"-//" PACKAGE_STRING "//iCal 1.0//EN");
 
 		/* Assuming GREGORIAN is the only supported calendar scale */
-		xmlNewChild (fnode, NULL, "calscale", "GREGORIAN");
+		xmlNewChild (fnode, NULL, (const unsigned char *)"calscale", (const unsigned char *)"GREGORIAN");
 
 		temp = calendar_config_get_timezone ();
-		xmlNewChild (fnode, NULL, "x-wr:timezone", temp);
+		xmlNewChild (fnode, NULL, (const unsigned char *)"x-wr:timezone", (unsigned char *)temp);
 		g_free (temp);
 
-		xmlNewChild (fnode, NULL, "method", "PUBLISH");
+		xmlNewChild (fnode, NULL, (const unsigned char *)"method", (const unsigned char *)"PUBLISH");
 
-		xmlNewChild (fnode, NULL, "x-wr:relcalid", e_source_peek_uid (primary_source));
+		xmlNewChild (fnode, NULL, (const unsigned char *)"x-wr:relcalid", (unsigned char *)e_source_peek_uid (primary_source));
 
-		xmlNewChild (fnode, NULL, "x-wr:calname", e_source_peek_name (primary_source));
+		xmlNewChild (fnode, NULL, (const unsigned char *)"x-wr:calname", (unsigned char *)e_source_peek_name (primary_source));
 
 		/* Version of this RDF-format */
-		xmlNewChild (fnode, NULL, "version", "2.0");
+		xmlNewChild (fnode, NULL, (const unsigned char *)"version", (const unsigned char *)"2.0");
 
 		while (objects != NULL) {
 			ECalComponent *comp = objects->data;
@@ -279,13 +279,13 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			struct icaltimetype *temp_time;
 			int *temp_int;
 			ECalComponentText temp_comptext; 
-			xmlNodePtr c_node = xmlNewChild (fnode, NULL, "component", NULL);
-			xmlNodePtr node = xmlNewChild (c_node, NULL, "Vevent", NULL);
+			xmlNodePtr c_node = xmlNewChild (fnode, NULL, (const unsigned char *)"component", NULL);
+			xmlNodePtr node = xmlNewChild (c_node, NULL, (const unsigned char *)"Vevent", NULL);
 
 			/* Getting the stuff */
 			e_cal_component_get_uid (comp, &temp_constchar);
 			tmp_str = g_strdup_printf ("#%s", temp_constchar);
-			xmlSetProp (node, "about", tmp_str);
+			xmlSetProp (node, (const unsigned char *)"about", (unsigned char *)tmp_str);
 			g_free (tmp_str);
 			add_string_to_rdf (node, "uid",temp_constchar);
 

@@ -54,40 +54,40 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	uri = g_new0 (EPublishUri, 1);
 
 	root = doc->children;
-	location = xmlGetProp (root, "location");
-	enabled = xmlGetProp (root, "enabled");
-	frequency = xmlGetProp (root, "frequency");
-	username = xmlGetProp (root, "username");
+	location = xmlGetProp (root, (const unsigned char *)"location");
+	enabled = xmlGetProp (root, (const unsigned char *)"enabled");
+	frequency = xmlGetProp (root, (const unsigned char *)"frequency");
+	username = xmlGetProp (root, (const unsigned char *)"username");
 
-	vfs_uri = gnome_vfs_uri_new (location);
+	vfs_uri = gnome_vfs_uri_new ((char *)location);
 	
 	if (!vfs_uri) {
 		g_warning ("Could not form the uri for %s \n", location);
 		goto cleanup;		
 	}
 	
-	gnome_vfs_uri_set_user_name (vfs_uri, username);
+	gnome_vfs_uri_set_user_name ((GnomeVFSURI *)vfs_uri, (char *)username);
 	temp = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD | GNOME_VFS_URI_HIDE_PASSWORD);
 	uri->location = g_strdup_printf ("dav://%s", temp);
 	g_free (temp);
 	gnome_vfs_uri_unref (vfs_uri);
 
 	if (enabled != NULL)
-		uri->enabled = atoi (enabled);
+		uri->enabled = atoi ((char *)enabled);
 	if (frequency != NULL)
-		uri->publish_frequency = atoi (frequency);
+		uri->publish_frequency = atoi ((char *)frequency);
 	uri->publish_format = URI_PUBLISH_AS_FB;
 
-	password = e_passwords_get_password ("Calendar", location);
+	password = e_passwords_get_password ("Calendar", (char *)location);
 	if (password) {
-		e_passwords_forget_password ("Calendar", location);
+		e_passwords_forget_password ("Calendar", (char *)location);
 		e_passwords_add_password (uri->location, password);
 		e_passwords_remember_password ("Calendar", uri->location);
 	}
 
 	for (p = root->children; p != NULL; p = p->next) {
-		xmlChar *uid = xmlGetProp (p, "uid");
-		if (strcmp (p->name, "source") == 0) {
+		xmlChar *uid = xmlGetProp (p, (const unsigned char *)"uid");
+		if (strcmp ((char *)p->name, "source") == 0) {
 			events = g_slist_append (events, uid);
 		} else {
 			g_free (uid);
@@ -121,15 +121,15 @@ e_publish_uri_from_xml (const gchar *xml)
 	GSList *events = NULL;
 	EPublishUri *uri;
 
-	doc = xmlParseDoc ((char *) xml);
+	doc = xmlParseDoc ((const unsigned char *)xml);
 	if (doc == NULL)
 		return NULL;
 
 	root = doc->children;
-	if (strcmp (root->name, "uri") != 0)
+	if (strcmp ((char *)root->name, "uri") != 0)
 		return NULL;
 
-	if ((username = xmlGetProp (root, "username"))) {
+	if ((username = xmlGetProp (root, (const unsigned char *)"username"))) {
 		xmlFree (username);
 		return migrateURI (xml, doc);
 		
@@ -137,28 +137,28 @@ e_publish_uri_from_xml (const gchar *xml)
 
 	uri = g_new0 (EPublishUri, 1);
 
-	location = xmlGetProp (root, "location");
-	enabled = xmlGetProp (root, "enabled");
-	frequency = xmlGetProp (root, "frequency");
-	format = xmlGetProp (root, "format");
-	publish_time = xmlGetProp (root, "publish_time");
+	location = xmlGetProp (root, (const unsigned char *)"location");
+	enabled = xmlGetProp (root, (const unsigned char *)"enabled");
+	frequency = xmlGetProp (root, (const unsigned char *)"frequency");
+	format = xmlGetProp (root, (const unsigned char *)"format");
+	publish_time = xmlGetProp (root, (const unsigned char *)"publish_time");
 
 	if (location != NULL)
-		uri->location = location;
+		uri->location = (char *)location;
 	if (enabled != NULL)
-		uri->enabled = atoi (enabled);
+		uri->enabled = atoi ((char *)enabled);
 	if (frequency != NULL)
-		uri->publish_frequency = atoi (frequency);
+		uri->publish_frequency = atoi ((char *)frequency);
 	if (format != NULL)
-		uri->publish_format = atoi (format);
+		uri->publish_format = atoi ((char *)format);
 	if (publish_time != NULL)
-		uri->last_pub_time = publish_time;
+		uri->last_pub_time = (char *)publish_time;
 
 	uri->password = g_strdup ("");
 
 	for (p = root->children; p != NULL; p = p->next) {
-		xmlChar *uid = xmlGetProp (p, "uid");
-		if (strcmp (p->name, "event") == 0) {
+		xmlChar *uid = xmlGetProp (p, (const unsigned char *)"uid");
+		if (strcmp ((char *)p->name, "event") == 0) {
 			events = g_slist_append (events, uid);
 		} else {
 			g_free (uid);
@@ -188,22 +188,22 @@ e_publish_uri_to_xml (EPublishUri *uri)
 	g_return_val_if_fail (uri != NULL, NULL);
 	g_return_val_if_fail (uri->location != NULL, NULL);
 
-	doc = xmlNewDoc ("1.0");
+	doc = xmlNewDoc ((const unsigned char *)"1.0");
 
-	root = xmlNewDocNode (doc, NULL, "uri", NULL);
+	root = xmlNewDocNode (doc, NULL, (const unsigned char *)"uri", NULL);
 	enabled = g_strdup_printf ("%d", uri->enabled);
 	frequency = g_strdup_printf ("%d", uri->publish_frequency);
 	format = g_strdup_printf ("%d", uri->publish_format);
-	xmlSetProp (root, "location", uri->location);
-	xmlSetProp (root, "enabled", enabled);
-	xmlSetProp (root, "frequency", frequency);
-	xmlSetProp (root, "format", format);
-	xmlSetProp (root, "publish_time", uri->last_pub_time);
+	xmlSetProp (root, (const unsigned char *)"location", (unsigned char *)uri->location);
+	xmlSetProp (root, (const unsigned char *)"enabled", (unsigned char *)enabled);
+	xmlSetProp (root, (const unsigned char *)"frequency", (unsigned char *)frequency);
+	xmlSetProp (root, (const unsigned char *)"format", (unsigned char *)format);
+	xmlSetProp (root, (const unsigned char *)"publish_time", (unsigned char *)uri->last_pub_time);
 
 	for (calendars = uri->events; calendars != NULL; calendars = g_slist_next (calendars)) {
 		xmlNodePtr node;
-		node = xmlNewChild (root, NULL, "event", NULL);
-		xmlSetProp (node, "uid", calendars->data);
+		node = xmlNewChild (root, NULL, (const unsigned char *)"event", NULL);
+		xmlSetProp (node, (const unsigned char *)"uid", calendars->data);
 	}
 	xmlDocSetRootElement (doc, root);
 

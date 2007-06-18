@@ -1,3 +1,8 @@
+2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* exchange-mail-send-options.c: (org_gnome_exchange_send_options):
+	more compilation warnings cleanup, completes bug #437584 fixes
+
 2007-06-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #325882

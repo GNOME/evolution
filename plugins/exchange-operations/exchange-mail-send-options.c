@@ -123,8 +123,8 @@ org_gnome_exchange_send_options (EPlugin *ep, EMEventTargetComposer *target)
 	EAccount *account = NULL; 
 	char *temp = NULL;
 	
-	account = e_msg_composer_get_preferred_account (composer) ;
-	temp = strstr (account->transport->url, "exchange") ;
+	account = e_msg_composer_get_preferred_account (composer);
+	temp = strstr (account->transport->url, "exchange");
 	if (!temp) {
 		return;
 	}
@@ -134,8 +134,8 @@ org_gnome_exchange_send_options (EPlugin *ep, EMEventTargetComposer *target)
 		g_print ("New dialog\n\n") ;
 		dialog = exchange_sendoptions_dialog_new () ;
 	}
-	exchange_sendoptions_dialog_run (dialog, composer) ;
-	g_signal_connect (dialog, "sod_response", G_CALLBACK (append_to_header), composer); 
+	exchange_sendoptions_dialog_run (dialog, GTK_WIDGET (composer));
+	g_signal_connect (dialog, "sod_response", G_CALLBACK (append_to_header), GTK_WIDGET (composer));
 
 	g_signal_connect (GTK_WIDGET (composer), "destroy",
 				  G_CALLBACK (send_options_commit), dialog);

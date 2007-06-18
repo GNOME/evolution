@@ -124,7 +124,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	if (gconf_client_get_bool (client, GCONF_KEY_NOTIFICATION, NULL)) {
 		if (!notify_init ("evolution-mail-notification"))
 			fprintf(stderr,"notify init error");
-		printf("creating %d\n", status_icon);
+		printf("creating %p\n", status_icon);
 
 		notify  = notify_notification_new (
 				_("New email"), 

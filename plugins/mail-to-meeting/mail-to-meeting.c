@@ -38,7 +38,7 @@ add_attendee_cb (gpointer key, gpointer value, gpointer user_data)
 {
 	ECalComponentAttendee *ca;
 	const char *str, *name;
-	GList **attendees = user_data;
+	GSList **attendees = user_data;
 
 	if (!camel_internet_address_get (value, 0, &name, &str))
 		return;
@@ -48,6 +48,7 @@ add_attendee_cb (gpointer key, gpointer value, gpointer user_data)
 	ca->cn = name;
 	/* FIXME: missing many fields */
 
+	/* FIXME: user prepend and reverse list order (GList) */
 	*attendees = g_slist_append (*attendees, ca);
 }
 

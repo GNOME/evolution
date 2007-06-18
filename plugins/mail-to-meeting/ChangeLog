@@ -1,3 +1,8 @@
+2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* mail-to-meeting.c: (add_attendee_cb): more compilation
+	warnings cleanup, completes bug #437584 fixes
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
