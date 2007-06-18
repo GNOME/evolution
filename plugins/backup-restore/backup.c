@@ -12,7 +12,7 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-util.h>
 
-#define EVOLUTION "evolution-" BASE_VERSION
+#define EVOLUTION "evolution"
 #define EVOLUTION_DIR "~/.evolution/"
 #define EVOLUTION_DIR_BACKUP "~/.evolution-old/"
 #define GCONF_DUMP_FILE "backup-restore-gconf.xml"
