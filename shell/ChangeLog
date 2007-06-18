@@ -1,3 +1,9 @@
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #448201 from Gabor Kelemen
+
+	* main.c: (main): Add translation domain
+
 2007-06-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #325882

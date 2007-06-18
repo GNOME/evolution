@@ -502,6 +502,8 @@ main (int argc, char **argv)
 
 	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
 
+	g_option_context_set_translation_domain(context, GETTEXT_PACKAGE);
+
 	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
 				      GNOME_PARAM_GOPTION_CONTEXT, context,
