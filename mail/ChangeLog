@@ -1,3 +1,11 @@
+2007-06-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #330175
+	
+	* em-folder-view.c: (emfv_message_reply):
+	Added helper function html_contains_nonwhitespace which returns TRUE
+	if selected html text contains at least one non-space character.
+
 2007-06-02  Ross Burton  <ross@openedhand.com>
 
 	* mail-send-recv.c:
