@@ -1,3 +1,10 @@
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #444107
+
+	* e-msg-composer.c: (drop_action), (drop_popup_copy),
+	(drop_popup_move), (drag_data_received):
+
 2007-06-13  Bastien Nocera  <hadess@hadess.net>
 
 	* e-msg-composer.c: (composer_key_pressed): Use the
