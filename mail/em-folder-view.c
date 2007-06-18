@@ -2596,7 +2596,8 @@ emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem emfv_uri_popups[] = {
-	{ E_POPUP_ITEM, "00.uri.15", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, NULL, EM_POPUP_URI_NOT_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.11", N_("C_all To..."), emp_uri_popup_link_copy, NULL, NULL, EM_POPUP_URI_CALLTO },
+	{ E_POPUP_ITEM, "00.uri.15", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, "gtk-copy", EM_POPUP_URI_NOT_MAILTO },
 
 	{ E_POPUP_SUBMENU, "99.uri.00", N_("Create _Search Folder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
 	{ E_POPUP_ITEM, "99.uri.00/00.10", N_("_From this Address"), emp_uri_popup_vfolder_sender, NULL, NULL, EM_POPUP_URI_MAILTO },
@@ -2976,6 +2977,18 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 			camel_address_decode((CamelAddress *)cia, curl->path);
 			addr = camel_address_format((CamelAddress *)cia);
 			nice_url = g_strdup_printf (_("Click to mail %s"), addr&&addr[0]?addr:(url + 7));
+			g_free(addr);
+			camel_url_free(curl);
+			camel_object_unref(cia);
+		} else if (strncmp (url, "callto:", 7) == 0 || strncmp (url, "h323:", 5) == 0 || strncmp (url, "sip:", 4) == 0) {
+			CamelInternetAddress *cia = camel_internet_address_new();
+			CamelURL *curl;
+			char *addr;
+
+			curl = camel_url_new(url, NULL);
+			camel_address_decode((CamelAddress *)cia, curl->path);
+			addr = camel_address_format((CamelAddress *)cia);
+			nice_url = g_strdup_printf (_("Click to call %s"), addr&&addr[0]?addr:(url + 7));
 			g_free(addr);
 			camel_url_free(curl);
 			camel_object_unref(cia);

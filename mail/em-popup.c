@@ -275,10 +275,15 @@ em_popup_target_new_uri(EMPopup *emp, const char *uri)
 	if (g_ascii_strncasecmp(uri, "http:", 5) == 0
 	    || g_ascii_strncasecmp(uri, "https:", 6) == 0)
 		mask &= ~EM_POPUP_URI_HTTP;
+	else if (g_ascii_strncasecmp(uri, "sip:", 3) == 0
+	    || g_ascii_strncasecmp(uri, "h323:", 5) == 0
+	    || g_ascii_strncasecmp(uri, "callto:", 7) == 0)
+		mask &= ~EM_POPUP_URI_CALLTO;
+
 	if (g_ascii_strncasecmp(uri, "mailto:", 7) == 0)
 		mask &= ~EM_POPUP_URI_MAILTO;
 	else
-		mask &= ~EM_POPUP_URI_NOT_MAILTO;
+		mask &= ~(EM_POPUP_URI_NOT_MAILTO|~mask);
 
 	t->target.mask = mask;
 
@@ -622,9 +627,9 @@ emp_uri_popup_address_add(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem emp_standard_uri_popups[] = {
-	{ E_POPUP_ITEM, "00.uri.00", N_("_Open Link in Browser"), emp_uri_popup_link_open, NULL, NULL, EM_POPUP_URI_NOT_MAILTO },
-	{ E_POPUP_ITEM, "00.uri.10", N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, NULL, EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, NULL, EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.00", N_("_Open Link in Browser"), emp_uri_popup_link_open, NULL, NULL, EM_POPUP_URI_HTTP },
+	{ E_POPUP_ITEM, "00.uri.10", N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, "stock_mail-compose", EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, "gtk-add", EM_POPUP_URI_MAILTO },
 };
 
 /* ********************************************************************** */
@@ -858,6 +863,7 @@ static const EPopupHookTargetMask emph_uri_masks[] = {
 	{ "http", EM_POPUP_URI_HTTP },
 	{ "mailto", EM_POPUP_URI_MAILTO },
 	{ "notmailto", EM_POPUP_URI_NOT_MAILTO },
+	{ "callto", EM_POPUP_URI_CALLTO },
 	{ 0 }
 };
 

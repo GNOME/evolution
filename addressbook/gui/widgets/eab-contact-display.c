@@ -170,8 +170,8 @@ eab_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EABContac
 
 static EPopupItem eab_uri_popups[] = {
 	{ E_POPUP_ITEM, "05.open", N_("_Open Link in Browser"), eab_uri_popup_link_open, NULL, NULL, EAB_POPUP_URI_NOT_MAILTO },
-        { E_POPUP_ITEM, "10.copy", N_("_Copy Link Location"), eab_uri_popup_link_copy, NULL, NULL, EAB_POPUP_URI_NOT_MAILTO },
-        { E_POPUP_ITEM, "15.send", N_("_Send New Message To..."), eab_uri_popup_address_send, NULL, NULL, EAB_POPUP_URI_MAILTO}, 
+        { E_POPUP_ITEM, "10.copy", N_("_Copy Link Location"), eab_uri_popup_link_copy, NULL, "gtk-copy", EAB_POPUP_URI_NOT_MAILTO },
+        { E_POPUP_ITEM, "15.send", N_("_Send New Message To..."), eab_uri_popup_address_send, NULL, "stock_mail-compose", EAB_POPUP_URI_MAILTO}, 
 	{ E_POPUP_ITEM, "20.copy", N_("Copy _Email Address"), eab_uri_popup_email_address_copy, NULL, "gtk-copy", EAB_POPUP_URI_MAILTO},
         };
 

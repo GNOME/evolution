@@ -114,12 +114,14 @@ enum _em_popup_target_select_t {
  * @EM_POPUP_URI_HTTP: This is a HTTP or HTTPS url.
  * @EM_POPUP_URI_MAILTO: This is a MAILTO url.
  * @EM_POPUP_URI_NOT_MAILTO: This is not a MAILTO url.
+ * @EM_POPUP_URI_CALLTO: This is a CALLTO url.
  * 
  **/
 enum _em_popup_target_uri_t {
 	EM_POPUP_URI_HTTP = 1<<0,
 	EM_POPUP_URI_MAILTO = 1<<1,
 	EM_POPUP_URI_NOT_MAILTO = 1<<2,
+	EM_POPUP_URI_CALLTO = 1<<3,
 };
 
 /**

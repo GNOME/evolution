@@ -1,5 +1,13 @@
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #445812 from Gilles Dartiguelongue
+
+	* em-folder-view.c: (emfv_on_url_cb):
+	* em-popup.c: (em_popup_target_new_uri):
+	* em-popup.h:
+
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #437935 from  Gilles Dartiguelongue  
 
 	* em-folder-tree-model.c: (em_folder_tree_model_is_type_inbox):
