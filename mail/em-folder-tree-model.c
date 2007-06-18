@@ -1117,26 +1117,26 @@ em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store,
 	GtkTreeIter iter;
 	guint32 flags;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (full != NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (full != NULL, FALSE);
 
 	u(printf("Checking if the folder is an INBOX type %p '%s' %d\n", store, full, unread));
 
 	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
 		u(printf("  can't find store\n"));
-		return;
+		return FALSE;
 	}
 	
 	if (!(row = g_hash_table_lookup (si->full_hash, full))) {
 		u(printf("  can't find row\n"));
-		return;
+		return FALSE;
 	}
 	
 	tree_path = gtk_tree_row_reference_get_path (row);
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, tree_path)) {
 		gtk_tree_path_free (tree_path);
-		return;
+		return FALSE;
 	}
 
 	gtk_tree_path_free (tree_path);

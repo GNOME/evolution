@@ -1,5 +1,11 @@
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #437935 from  Gilles Dartiguelongue  
+
+	* em-folder-tree-model.c: (em_folder_tree_model_is_type_inbox):
+
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #443659 from Vinod
 
 	* em-account-prefs.c: (account_able_clicked),
