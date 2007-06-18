@@ -25,8 +25,10 @@
 #define __GAL_DEFINE_VIEWS_DIALOG_H__
 
 #include <gtk/gtkdialog.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreemodel.h>
 #include <glade/glade.h>
-#include <table/e-table-model.h>
+
 #include <widgets/menus/gal-view-collection.h>
 
 #ifdef __cplusplus
@@ -57,7 +59,8 @@ struct _GalDefineViewsDialog
 
 	/* item specific fields */
 	GladeXML *gui;
-	ETableModel *model;
+	GtkTreeView *treeview;
+	GtkTreeModel *model;
 
 	GalViewCollection *collection;
 };

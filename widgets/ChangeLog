@@ -1,3 +1,17 @@
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #446015 from Gilles Dartiguelongue  
+
+	* menus/gal-define-views-dialog.c:
+	(gdvd_button_new_dialog_callback), (gdvd_button_new_callback),
+	(gdvd_button_modify_callback), (gdvd_button_delete_callback),
+	(gdvd_cursor_changed_callback), (gdvd_connect_signal),
+	(gal_define_views_dialog_init),
+	(gal_define_views_dialog_set_collection),
+	(gal_define_views_dialog_new):
+	* menus/gal-define-views-dialog.h:
+	* menus/gal-define-views.glade:
+
 2007-06-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #325882
