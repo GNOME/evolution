@@ -96,6 +96,26 @@ set_find_now_sensitive (ESearchBar *search_bar,
 					      "sensitive", sensitive ? "1" : "0", NULL);
 }
 
+static void
+update_clear_menuitem_sensitive (ESearchBar *search_bar)
+{
+	if (search_bar->ui_component != NULL) {
+		gboolean sensitive = GTK_WIDGET_SENSITIVE (search_bar->clear_button) || search_bar->viewitem_id != 0;
+
+		bonobo_ui_component_set_prop (search_bar->ui_component,
+					      "/commands/ESearchBar:Clear",
+					      "sensitive", sensitive ? "1" : "0", NULL);
+	}
+}
+
+static void
+clear_button_state_changed (GtkWidget *clear_button, GtkStateType state, ESearchBar *search_bar)
+{
+	g_assert (clear_button != NULL && search_bar != NULL);
+
+	update_clear_menuitem_sensitive (search_bar);
+}
+
 static char *
 verb_name_from_id (int id)
 {
@@ -115,7 +135,6 @@ clear_search (ESearchBar *esb)
 	e_search_bar_set_viewitem_id (esb, 0);
 	esb->block_search = FALSE;	
 	emit_search_activated (esb);
-
 }
 
 static void
@@ -149,6 +168,7 @@ static void
 emit_query_changed (ESearchBar *esb)
 {
 	g_signal_emit (esb, esb_signals [QUERY_CHANGED], 0);
+	update_clear_menuitem_sensitive (esb);
 }
 
 static void
@@ -162,6 +182,7 @@ emit_search_activated(ESearchBar *esb)
 	g_signal_emit (esb, esb_signals [SEARCH_ACTIVATED], 0);
 
 	set_find_now_sensitive (esb, FALSE);
+	update_clear_menuitem_sensitive (esb);
 }
 
 static void
@@ -236,6 +257,7 @@ setup_standard_verbs (ESearchBar *search_bar)
 
 	/* Make sure the entries are created with the correct sensitivity. */
 	set_find_now_sensitive (search_bar, FALSE);
+	update_clear_menuitem_sensitive (search_bar);
 }
 
 /* Callbacks -- The verbs for all the definable items.  */
@@ -627,6 +649,10 @@ setup_bonobo_menus (ESearchBar *esb)
 	bonobo_ui_component_set (esb->ui_component, "/menu/SearchPlaceholder", xml->str, NULL);
 
 	g_string_free (xml, TRUE);
+
+	if (esb->clear_button) {
+		g_signal_connect (esb->clear_button, "state-changed", G_CALLBACK (clear_button_state_changed), esb);
+	}
 }
 
 static void
@@ -1364,6 +1390,8 @@ e_search_bar_set_item_id (ESearchBar *search_bar, int id)
 
 	if (!search_bar->block_search)
 		emit_query_changed (search_bar);
+
+	update_clear_menuitem_sensitive (search_bar);
 }
 
 void

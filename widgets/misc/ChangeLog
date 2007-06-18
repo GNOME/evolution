@@ -1,5 +1,15 @@
 2007-06-15  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #257118
+
+	* e-search-bar.c: (set_clear_menuitem_sensitive),
+	(clear_button_state_changed): Added two helper functions.
+	* e-search-bar.c: (setup_standard_verbs), (setup_bonobo_menus):
+	Using these helper functions, clear menu item is synchronized
+	by changed state of clear_button of search bar.
+
+2007-06-15  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #263207
 
 	* e-filter-bar.c: (dialog_rule_changed): New callback
