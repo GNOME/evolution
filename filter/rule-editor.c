@@ -50,6 +50,8 @@ static void rule_editor_init (RuleEditor *re);
 static void rule_editor_finalise (GObject *obj);
 static void rule_editor_destroy (GtkObject *obj);
 
+static void dialog_rule_changed (FilterRule *fr, GtkWidget *dialog);
+
 #define _PRIVATE(x)(((RuleEditor *)(x))->priv)
 
 enum {
@@ -385,7 +387,10 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	
 	g_signal_connect (re->dialog, "response", G_CALLBACK (add_editor_response), re);
 	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
-	
+
+	g_signal_connect (re->edit, "changed", G_CALLBACK (dialog_rule_changed), re->dialog);
+	dialog_rule_changed (re->edit, re->dialog);
+
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
 	gtk_widget_show (re->dialog);
@@ -461,7 +466,10 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	
 	g_signal_connect (re->dialog, "response", G_CALLBACK (edit_editor_response), re);
 	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
-	
+
+	g_signal_connect (re->edit, "changed", G_CALLBACK (dialog_rule_changed), re->dialog);
+	dialog_rule_changed (re->edit, re->dialog);
+
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
 	gtk_widget_show (re->dialog);
@@ -653,6 +661,13 @@ set_sensitive (RuleEditor *re)
 	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_BOTTOM]), index >= 0 && index < count);
 }
 
+static void
+dialog_rule_changed (FilterRule *fr, GtkWidget *dialog)
+{
+	g_return_if_fail (dialog != NULL);
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, fr && fr->parts);
+}
 
 static void
 cursor_changed (GtkTreeView *treeview, RuleEditor *re)

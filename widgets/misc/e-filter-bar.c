@@ -145,6 +145,18 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 }
 
 static void
+dialog_rule_changed (FilterRule *fr, GtkWidget *dialog)
+{
+	gboolean sensitive;
+
+	g_return_if_fail (dialog != NULL);
+
+	sensitive = fr && fr->parts;
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, sensitive);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, sensitive);
+}
+
+static void
 do_advanced (ESearchBar *esb)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
@@ -184,7 +196,10 @@ do_advanced (ESearchBar *esb)
 		
 		g_object_ref (rule);
 		g_object_set_data_full ((GObject *) dialog, "rule", rule, (GDestroyNotify) g_object_unref);
-		
+
+		g_signal_connect (rule, "changed", G_CALLBACK (dialog_rule_changed), dialog);
+		dialog_rule_changed (rule, dialog);
+
 		g_signal_connect (dialog, "response", G_CALLBACK (rule_advanced_response), efb);
 		g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
 		
@@ -222,18 +237,21 @@ save_search_dialog (ESearchBar *esb)
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
-		
+
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 500, 300);
-	
+
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
-			
+
 	g_object_ref (rule);
 	g_object_set_data_full ((GObject *) dialog, "rule", rule, (GDestroyNotify) g_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (rule_editor_response), efb);
 	g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
-			
+
+	g_signal_connect (rule, "changed", G_CALLBACK (dialog_rule_changed), dialog);
+	dialog_rule_changed (rule, dialog);
+
 	e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
-		
+
 	gtk_widget_show (dialog);
 }
 

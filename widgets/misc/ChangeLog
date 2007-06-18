@@ -1,3 +1,13 @@
+2007-06-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #263207
+
+	* e-filter-bar.c: (dialog_rule_changed): New callback
+	for disabling OK button in dialog when rule isn't valid.
+	* e-filter-bar.c: (do_advanced), (save_search_dialog):
+	Connecting dialog_rule_changed on "changed" signal of
+	actual rule.
+
 2007-06-15  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #447727

@@ -1,3 +1,15 @@
+2007-06-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #263207
+
+	* filter-rule.c: (validate): No part is not valid.
+	* filter-rule.c: (less_parts): Can remove all parts.
+	* rule-editor.c: (dialog_rule_changed): New callback
+	for disabling OK button in dialog when rule isn't valid.
+	* rule-editor.c: (rule_add), (rule_edit):
+	Connecting dialog_rule_changed on "changed" signal of
+	actual rule.
+
 2007-06-04  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* rule-context.c: (new_element): Added a percentage 

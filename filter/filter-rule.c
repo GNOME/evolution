@@ -198,7 +198,7 @@ int
 filter_rule_validate (FilterRule *fr)
 {
 	g_assert (IS_FILTER_RULE (fr));
-	
+
 	return FILTER_RULE_GET_CLASS (fr)->validate (fr);
 }
 
@@ -220,6 +220,7 @@ validate (FilterRule *fr)
 	
 	/* validate rule parts */
 	parts = fr->parts;
+	valid = parts != NULL;
 	while (parts && valid) {
 		valid = filter_part_validate ((FilterPart *) parts->data);
 		parts = parts->next;
@@ -693,7 +694,7 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 	FilterPart *part;
 	GtkWidget *rule;
 	
-	if (g_list_length (data->fr->parts) < 2)
+	if (g_list_length (data->fr->parts) < 1)
 		return;
 	
 	rule = g_object_get_data ((GObject *) button, "rule");
