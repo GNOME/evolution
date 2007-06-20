@@ -22,13 +22,13 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-06-20 16:23+0200\n"
-"PO-Revision-Date: 2007-06-20 16:25+0200\n"
+"PO-Revision-Date: 2007-06-20 22:44+0200\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -3666,13 +3666,11 @@ msgstr "Fel vid borttagning av kontakt"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
+msgstr ""
 "Att öppna %d kontakt kommer även att öppna %d nytt fönster.\n"
 "Vill du verkligen visa denna kontakt?"
-msgstr[1] ""
 "Att öppna %d kontakter kommer även att öppna %d nya fönster.\n"
 "Vill du verkligen visa denna kontakt?"
 
@@ -16210,7 +16208,7 @@ msgstr "En insticksmodul för att ställa in Groupwise-kalender och kontaktkäll
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "Groupwise Account Setup"
-msgstr "Konfiiguration av Groupwise-konto"
+msgstr "Konfiguration av Groupwise-konto"
 
 #: ../plugins/groupwise-features/install-shared.c:215
 #, c-format
@@ -18221,7 +18219,7 @@ msgstr "Importera data och inställningar från _äldre program"
 
 #: ../shell/e-shell-importer.c:338
 msgid "Import a _single file"
-msgstr "Importera en _ensam fil"
+msgstr "Importera en _enda fil"
 
 #: ../shell/e-shell-settings-dialog.c:319
 msgid "Evolution Preferences"
@@ -20901,7 +20899,7 @@ msgstr "_Avsluta"
 # Osäker.
 #: ../ui/evolution.xml.h:50
 msgid "_Switcher Appearance"
-msgstr "_Växla utseende"
+msgstr "_Utseende för växlaren"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
