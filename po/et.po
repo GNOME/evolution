@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-10 03:30+0100\n"
-"PO-Revision-Date: 2007-06-11 00:33+0300\n"
+"PO-Revision-Date: 2007-06-20 09:29+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4699,7 +4699,7 @@ msgstr "Kirjeldus puudub."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1474
 msgid "No location information available."
-msgstr "Asukoha kohta puuduvad andmed."
+msgstr "Asukoha kohta andmed puuduvad."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1533
 #, c-format
@@ -5243,8 +5243,8 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
-"See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud "
-"päevade arv. Eemaldatud sõnumeid pole hiljem enam võimalik taastada."
+"See tegevus eemaldab lõplikult kõik sündmused, mis on valitud päevade arvust "
+"vanemad. Eemaldatud sõnumeid pole hiljem enam võimalik taastada."
 
 #: ../calendar/gui/calendar-commands.c:354
 msgid "Purge events older than"
@@ -5509,7 +5509,7 @@ msgstr "Alarmid"
 #: ../composer/e-msg-composer-select-file.c:98
 #: ../composer/e-msg-composer-select-file.c:118
 msgid "_Suggest automatic display of attachment"
-msgstr "Manuse _automaatkuvamise soovitamine"
+msgstr "Manust on soovitatav kuvada _automaatselt"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
@@ -19308,7 +19308,7 @@ msgstr "Sulge"
 #: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
 msgid "I_nsert"
-msgstr "_Lisa"
+msgstr "_Lisamine"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
@@ -20866,7 +20866,7 @@ msgstr "Vaate liik:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
-msgstr "Manuse automaatkuvamise soovitamine"
+msgstr "Soovitan manust automaatselt kuvada"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -21930,15 +21930,15 @@ msgstr "Ankur"
 
 #: ../widgets/text/e-text.c:3539 ../widgets/text/e-text.c:3540
 msgid "Clip Width"
-msgstr ""
+msgstr "Klambri laius"
 
 #: ../widgets/text/e-text.c:3546 ../widgets/text/e-text.c:3547
 msgid "Clip Height"
-msgstr ""
+msgstr "Klambri kõrgus"
 
 #: ../widgets/text/e-text.c:3553 ../widgets/text/e-text.c:3554
 msgid "Clip"
-msgstr ""
+msgstr "Klamber"
 
 #: ../widgets/text/e-text.c:3560 ../widgets/text/e-text.c:3561
 msgid "Fill clip rectangle"
