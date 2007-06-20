@@ -1,3 +1,13 @@
+2007-06-20  Laszlo (Laca) Peter  <laca@sun.com>
+
+	** Fix for bug #433732
+
+	* tools/Makefile.am: expand @PERL@ in evolution-addressbook-clean.in
+	* tools/csv2vcard: rename to csv2vcard.in
+	* tools/csv2vcard.in: make the path to perl configurable
+	* tools/evolution-addressbook-clean.in: make the path to perl
+	  configurable
+
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #445793 from Gilles Dartiguelongue  

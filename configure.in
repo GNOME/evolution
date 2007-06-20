@@ -62,6 +62,9 @@ AC_C_INLINE
 AM_PROG_LEX
 AC_PROG_YACC
 AC_PROG_AWK
+AC_PATH_PROG([PERL], [perl])
+AC_SUBST(PERL)
+
 case $YACC in
 *yacc*)
 	AC_MSG_ERROR(You need bison to build Evolution)
@@ -1748,6 +1751,7 @@ addressbook/gui/widgets/Makefile
 addressbook/importers/Makefile
 addressbook/printing/Makefile
 addressbook/tools/Makefile
+addressbook/tools/csv2vcard
 addressbook/util/Makefile
 art/Makefile
 data/Makefile

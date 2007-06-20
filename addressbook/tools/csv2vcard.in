@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!@PERL@ -w
 #
 # cvs2vcard - Script to convert Outlook CSV files into VCard files
 # suitable to be imported into Evolution.

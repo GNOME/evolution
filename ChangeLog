@@ -1,3 +1,9 @@
+2007-06-20  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* configure.in: make the path to perl configurable
+	  and add addressbook/tools/csv2vcard to AC_OUTPUT.
+	  Part of the fix for bug #433732
+
 2007-06-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	** Evolution 2.11.4 release
