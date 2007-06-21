@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-06-20 16:23+0200\n"
-"PO-Revision-Date: 2007-06-20 22:44+0200\n"
+"PO-Revision-Date: 2007-06-20 16:44+0200\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -637,7 +637,7 @@ msgstr "Evolutions konfigurationskontroll för mappinställningar"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
-msgstr "Hantera ditt S/MIME-certifikat här"
+msgstr "Hantera dina S/MIME-certifikat här"
 
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
@@ -1255,7 +1255,7 @@ msgstr "kort"
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:561
 msgid "minutes"
-msgstr "minut"
+msgstr "minuter"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "<b>Email</b>"
@@ -13659,7 +13659,7 @@ msgstr "_Lägg till signatur"
 
 #: ../mail/mail-config.glade.h:160
 msgid "_Always load images from the Internet"
-msgstr "Läs _alltid in bilder från Internet"
+msgstr "Läs _alltid in bilder från nätet"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Default junk plugin:"
@@ -13691,7 +13691,7 @@ msgstr "_Markera meddelanden som lästa efter"
 
 #: ../mail/mail-config.glade.h:170
 msgid "_Never load images from the Internet"
-msgstr "Läs al_drig in bilder från Internet"
+msgstr "Läs al_drig in bilder från nätet"
 
 #: ../mail/mail-config.glade.h:171
 msgid "_Path:"
