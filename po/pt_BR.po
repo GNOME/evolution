@@ -3,6 +3,7 @@
 # Gustavo Maciel Dias Vieira <gustavo@sagui.org>, 2000-2004.
 # Afonso Celso Medina <afmedina@uol.com.br>, 2004, 2005.
 # Washington Lins <washington-lins@uol.com.br>, 2007.
+# Guilherme de S. Pastore <gpastore@gnome.org>, 2007.
 #
 msgid ""
 msgstr ""
@@ -16,7 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: KBabel 1.10\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -10943,7 +10943,7 @@ msgstr "Teste"
 
 #: ../filter/filter-rule.c:799
 msgid "_Search name:"
-msgstr "_Pesquisar nome:"
+msgstr "_Nome da pesquisa:"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
@@ -18236,7 +18236,8 @@ msgid "translator-credits"
 msgstr ""
 "Gustavo Maciel Dias Vieira <gustavo@sagui.org>\n"
 "Afonso Celso Medina <afmedina@uol.com.br>\n"
-"Washington Lins <washington-lins@uol.com.br>"
+"Washington Lins <washington-lins@uol.com.br>\n"
+"Guilherme de S. Pastore <gpastore@gnome.org>"
 
 #: ../shell/e-shell-window-commands.c:576
 msgid "Evolution Website"
