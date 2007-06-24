@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_manual\n"
 "POT-Creation-Date: 2007-05-10 21:27+0100\n"
-"PO-Revision-Date: 2007-06-15 15:09+0200\n"
+"PO-Revision-Date: 2007-06-24 19:13+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -767,7 +767,7 @@ msgstr "GNOME:"
 
 #: C/evolution.xml:171(para)
 msgid "Click Applications &gt; Office &gt; Evolution."
-msgstr "Haga clic en Aplicaciones &gt; Oficina &gt; Evolution."
+msgstr "Pulse en Aplicaciones &gt; Oficina &gt; Evolution."
 
 #: C/evolution.xml:176(para)
 msgid "KDE:"
@@ -775,7 +775,7 @@ msgstr "KDE:"
 
 #: C/evolution.xml:179(para)
 msgid "Click the K menu &gt; Office &gt; More Programs &gt; Evolution."
-msgstr "Haga clic en el menú K &gt; Oficina &gt; Más programas &gt; Evolution."
+msgstr "Pulse en el menú K &gt; Oficina &gt; Más programas &gt; Evolution."
 
 #: C/evolution.xml:184(para)
 msgid "Command Line:"
@@ -2422,7 +2422,7 @@ msgid ""
 "the two panes."
 msgstr ""
 "Si le parece que el panel de previsualización es demasiado pequeño, puede "
-"cambiar su tamaño, aumentar la ventana completamente o hacer doble clic "
+"cambiar su tamaño, aumentar la ventana completamente o pulsar dos veces"
 "sobre el mensaje en la lista de mensajes para abrirlo en una ventana "
 "aislada. Para cambiar los tamaños de un panel sólo hay que pulsar en la "
 "línea divisoria y arrastrarla arriba y abajo hasta la posición deseada."
@@ -3607,124 +3607,93 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:1362(para)
-#, fuzzy
 msgid ""
 "If you're reading a message with several recipients, you can use Reply to "
 "All instead of Reply. If there are large numbers of people in the Cc: or To: "
 "fields, this can save substantial amounts of time."
-msgstr ""
-"Si está leyendo un mensaje que tiene varios destinatarios puede que desee "
-"<guibutton>Responder a todos</guibutton> en lugar de <guibutton> Responder</"
-"guibutton>. Y es que puede ahorrar mucho tiempo si tiene a muchas personas "
-"en los campos <guilabel>Cc:</guilabel><guilabel>Para:</guilabel>."
+msgstr "Si está leyendo un mensaje que tiene varios destinatarios puede que desee Responder a todos en lugar de Responder. Si hay un gran número de personas en los campos Para: o Cc: esto puede ahorrar mucho tiempo."
 
 #: C/evolution.xml:1365(title)
-#, fuzzy
 msgid "Using the Reply To All Feature"
 msgstr "Uso de la característica de Responder a todos"
 
 #: C/evolution.xml:1366(para)
-#, fuzzy
 msgid ""
 "Susan sends an e-mail to a client and sends copies to Tim and to an internal "
 "company mailing list of co-workers. If Tim wants to make a comment for all "
 "of them to read, he uses Reply to All, but if he just wants to tell Susan "
 "that he agrees with her, he uses Reply. His reply does not reach anyone that "
 "Susan put on her Bcc list, because that list is not shared with anyone."
-msgstr ""
-"Susan envía un mensaje a un cliente y pone copia a Tim y a una lista de "
-"correo interna de la compañía para sus compañeros de trabajo. Si Tim quiere "
-"mandar un comentario para que lo lean todos sus compañeros, él pinchará en "
-"<guibutton>Responder a todos</guibutton> pero si lo que quiere es solamente "
-"decirle a Susan que está de acuerdo con ella, usará <guibutton> Responder</"
-"guibutton>.  Observe que esta respuesta no la recibirá nadie a quien Susan "
-"haya incluido en la lista de <guilabel> Cco:</guilabel> de su mensaje "
-"original porque tal lista no ha sido compartida con nadie."
+msgstr "Susana envía un mensaje a un cliente y añade una copia para Tomás y a una lista de correo interna de la compañía para sus compañeros de trabajo. Si Tomás quiere mandar un comentario para que lo lean todos sus compañeros, él pulsará en Responder a todos pero si lo que quiere es solamente decirle a Susana que está de acuerdo con ella, usará Responder. Observe que esta respuesta no la recibirá nadie a quien Susana haya incluido en la lista de Cco: de su mensaje original porque tal lista no ha sido compartida con nadie."
 
 #: C/evolution.xml:1367(para)
-#, fuzzy
 msgid ""
 "If you subscribe to a mailing list, and want your reply to go just to the "
 "list, rather than to the sender, select Reply to List instead of Reply or "
 "Reply to All."
-msgstr ""
-"Si está suscrito a una lista de correo y quiere que su respuesta sólo vaya a "
-"la misma en lugar de al remitente pinche en <guibutton> Responder la lista</"
-"guibutton> en lugar de<guibutton> Responder</guibutton> o "
-"de<guibutton>Responder a todos</guibutton>."
+msgstr "Si está suscrito a una lista de correo y quiere que su respuesta sólo vaya a la misma en lugar de al remitente pulse en Responder la lista en lugar de Responder o de Responder a todos."
 
 #: C/evolution.xml:1371(title)
-#, fuzzy
 msgid "Keyboard shortcuts"
-msgstr "Atajos de teclado personalizados"
+msgstr "Atajos de teclado"
 
 #: C/evolution.xml:1379(para)
-#, fuzzy
 msgid "Tools"
-msgstr "Barra de herramientas"
+msgstr "Herramientas"
 
 #: C/evolution.xml:1382(para)
-#, fuzzy
 msgid "Shortcuts"
-msgstr "Atajo"
+msgstr "Atajos"
 
 #: C/evolution.xml:1389(para)
-#, fuzzy
 msgid "Reply to sender"
-msgstr "Responder un mensaje:"
+msgstr "Responder al remitente"
 
 #: C/evolution.xml:1392(para)
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: C/evolution.xml:1397(para)
-#, fuzzy
 msgid "Reply to List"
-msgstr "Responder un mensaje:"
+msgstr "Responder a la lista"
 
 #: C/evolution.xml:1400(para)
 msgid "Clrl+L"
-msgstr ""
+msgstr "Clrl+L"
 
 #: C/evolution.xml:1405(para)
 msgid "Reply to All"
-msgstr ""
+msgstr "Responder a todos"
 
 #: C/evolution.xml:1408(para)
 msgid "Shift+Ctrl+R"
-msgstr ""
+msgstr "Shift+Ctrl+R"
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
 #: C/evolution.xml:1413(para)
-#, fuzzy
 msgid "Forward"
-msgstr "Reenviar correo"
+msgstr "Reenviar"
 
 #: C/evolution.xml:1416(para)
 msgid "Ctrl+F"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: C/evolution.xml:1427(para)
 msgid "The message composer makes several text searching features available to you."
-msgstr ""
+msgstr "El editor de mensajes le proporciona varias características de búsqueda:"
 
 #: C/evolution.xml:1429(title)
-#, fuzzy
 msgid "Find:"
-msgstr "Buscar"
+msgstr "Buscar:"
 
 #: C/evolution.xml:1430(para)
-#, fuzzy
 msgid "Enter a word or phrase, and Evolution finds it in your message."
-msgstr ""
-"Escriba una palabra o frase y <application>Evolution</application> la "
-"encontrará en el mensaje."
+msgstr "Escriba una palabra o frase y Evolution la encontrará en el mensaje."
 
 #: C/evolution.xml:1433(title)
-#, fuzzy
 msgid "Find Regex:"
-msgstr "Buscar expresión regular"
+msgstr "Buscar expresión regular:"
 
 #: C/evolution.xml:1434(para)
 msgid ""
@@ -3732,109 +3701,77 @@ msgid ""
 "\"regular-expression\">regular expression</link> or &ldquo;regex&rdquo; in "
 "your composer window. If you're not sure what a regular expression is, you "
 "should ignore this feature."
-msgstr ""
+msgstr "Puede buscar un complejo patrón de caracteres, llamao <link linkend=\"regular-expression\">expresión regular</link> o «regex» en la ventana de su editor. Si no está seguro de lo que es una expresión regular, debería ignorar esta característica."
 
 #: C/evolution.xml:1437(title)
-#, fuzzy
 msgid "Find Again:"
-msgstr "Buscar siguiente"
+msgstr "Buscar de nuevo:"
 
 #: C/evolution.xml:1438(para)
 msgid "Select this item to repeat the last search you performed."
-msgstr "Seleccionar este elemento para repetir la última búsqueda que haya realizado."
+msgstr "Seleccione este elemento para repetir la última búsqueda que haya realizado."
 
 #: C/evolution.xml:1441(title)
-#, fuzzy
 msgid "Replace:"
-msgstr "Sustituir"
+msgstr "Reemplazar:"
 
 #: C/evolution.xml:1442(para)
 msgid "Find a word or phrase, and replace it with something else."
 msgstr "Buscar una palabra o una frase y sustituirla por otra cosa."
 
 #: C/evolution.xml:1444(para)
-#, fuzzy
 msgid ""
 "For all of these menu items, you can choose whether to search backwards in "
 "the document from the point where your cursor is. You can also determine "
 "whether the search is to be case sensitive in determining a match."
-msgstr ""
-"Para todos estas opciones puede elegir si quiere o no <guilabel>Hacia atrás</"
-"guilabel>, desde el punto el que se encuentra el cursor. Para todas, excepto "
-"para las búsquedas con expresiones regulares  -que no las necesitan-, tiene "
-"disponible una casilla para decidir si quiere que la búsqueda "
-"<guilabel>distinga mayus./minus.</guilabel>."
+msgstr "Para todos estas opciones puede elegir si quiere o no Hacia atrás, desde el punto el que se encuentra el cursor. También puede determinar si quiere que la búsqueda sea sensible a mayúsculas o no."
 
 #: C/evolution.xml:1449(para)
-#, fuzzy
 msgid ""
 "Normally, you can't set text styles or insert pictures in e-mail. However, "
 "most newer e-mail programs can display images and text styles in addition to "
 "basic alignment and paragraph formatting. They do this with <link linkend="
 "\"html\">HTML</link>, just like Web pages do."
 msgstr ""
-"Normalmente no se pueden aplicar estilos o insertar ilustraciones en "
-"mensajes de correo electrónico, por lo que con frecuencia se le considera "
-"poco comunicativo y frío y por lo que a veces la gente abuse del uso de "
-"signos de exclamación para expresar sus sentimientos. Sin embargo la mayoría "
-"de los clientes de correo moderno son capaces de mostrar imágenes y estilos "
-"en el texto, como alineado básico y formateo de los párrafos. Esto es "
-"posible por usar <glossterm linkend=\"html\">HTML</glossterm> de la misma "
-"manera que lo hacen las páginas web."
+"Normalmente no se pueden aplicar estilos o insertar imágenes en mensajes de correo electrónico. Sin embargo la mayoría "
+"de los clientes de correo moderno son capaces de mostrar imágenes y estilos en el texto, además del alineado básico y formateo de párrafos. Esto es posible al usar <glossterm linkend=\"html\">HTML</glossterm> al igual que las páginas web."
 
 #: C/evolution.xml:1450(para)
-#, fuzzy
 msgid ""
 "Some people do not have HTML-capable mail clients, or prefer not to receive "
 "HTML-enhanced mail because it is slower to download and display. Because of "
 "this, Evolution sends plain text unless you explicitly ask for HTML."
 msgstr ""
-"Algunas personas no tienen clientes de correo capaces de leer HTML o "
-"prefieren no recibir mensajes enriquecidos con HTML porque son más lentos de "
-"descargar y de mostrar en pantalla. Por eso <application> Evolution</"
-"application> envía mensajes de texto puro a menos que explícitamente le pida "
+"Algunas personas no tienen clientes de correo capaces de leer HTML o prefieren no recibir mensajes enriquecidos con HTML porque son más lentos de descargar y de mostrar en pantalla. Por ello Evolution envía mensajes de texto plano a menos que le pida explícitamente"
 "que los componga con HTML."
 
 #: C/evolution.xml:1453(title)
 msgid "Basic HTML Formatting"
-msgstr ""
+msgstr "Formateo básico de HTML"
 
 #: C/evolution.xml:1454(para)
-#, fuzzy
 msgid ""
 "You can change the format of an e-mail message from plain text to HTML by "
 "choosing Format HTML."
-msgstr ""
-"Puede cambiar el formato de un mensaje de correo de texto puro a HTML a "
-"través de <menuchoice><guimenu>Formato</guimenu> <guimenuitem>HTML</"
-"guimenuitem>  </menuchoice>."
+msgstr "Puede cambiar el formato de un mensaje de correo de texto plano a HTML eligiendo Formato HTML."
 
 #: C/evolution.xml:1455(para)
-#, fuzzy
 msgid ""
 "To send all your mail as HTML by default, set your mail format preferences "
 "in the mail configuration dialog box. See <link linkend=\"config-prefs-mail-"
 "composer\">Composer Preferences</link> for more information."
 msgstr ""
-"Para que todos los mensajes que envíe estén compuestos con HTML "
-"predeterminadamente, asigne sus preferencias de formato del correo en el "
-"diálogo de configuración del correo. Para más información consulte <xref "
+"Para que todos los mensajes que envíe estén compuestos con HTML de forma predeterminada, asigne sus preferencias de formato del correo en el diálogo de configuración del correo. Para obtener más información consulte la <xref "
 "linkend=\"config-prefs-mail-composer\"/>."
 
 #: C/evolution.xml:1456(para)
-#, fuzzy
 msgid ""
 "HTML formatting tools are located in the toolbar just above the space where "
 "you actually compose the message. They also appear in the Insert and Format "
 "menus."
-msgstr ""
-"Las herramientas de formateo HTML se encuentran en la barra de herramientas "
-"justo encima del espacio en el que realmente compone su mensaje y también "
-"aparecen en los menús <guimenu>Insertar</guimenu> y <guimenu>Formato</"
-"guimenu>."
+msgstr "Las herramientas de formateo HTML se encuentran en la barra de herramientas justo encima del espacio en el que realmente compone su mensaje y también aparecen en los menús Insertar y Formato."
 
 #: C/evolution.xml:1457(para)
-#, fuzzy
 msgid ""
 "The icons in the toolbar are explained in <link linkend=\"tooltip\">tool-"
 "tips</link>, which appear when you hold your mouse pointer over the buttons. "
@@ -3845,140 +3782,115 @@ msgstr ""
 "los botones. Estos se clasifican en cuatro categorías:"
 
 #: C/evolution.xml:1459(title)
-#, fuzzy
 msgid "Headers and Lists:"
-msgstr "Cabeceras y listas"
+msgstr "Cabeceras y listas:"
 
 #: C/evolution.xml:1460(para)
-#, fuzzy
 msgid ""
 "At the left edge of the toolbar, you can choose Normal for a default text "
 "style or Header 1 through Header 6 for varying sizes of header from large "
 "(1) to tiny (6). Other styles include preformat, to use the HTML tag for "
 "preformatted blocks of text, and three types of bullet points for lists."
 msgstr ""
-"A la izquierda de la barra de herramientas, puede elegir el estilo de texto "
-"predeterminado<guilabel>Normal</guilabel> o los diferentes tamaños de "
-"cabecera disponibles desde <guilabel>Cabecera 1</guilabel> (el más grande) "
-"hasta  <guilabel>Cabecera 6</guilabel> (el más pequeño). Otros estilos "
-"disponibles para los más organizados son <guilabel>Preformato</guilabel>, la "
-"lista de puntos o los tres tipos de listas numeradas."
+"En el borde izquierda de la barra de herramientas puede elegir el estilo de texto predeterminado, Normal o los diferentes tamaños de "
+"cabecera disponibles desde Cabecera 1 (el más grande) hasta Cabecera 6 (el más pequeño). Otros estilos disponibles para los más organizados son Preformato, la lista de puntos o los tres tipos de listas numeradas."
 
 #: C/evolution.xml:1462(para)
-#, fuzzy
 msgid ""
 "For instance, instead of using asterisks to mark a bulleted list, you can "
 "use the Bulleted List style from the style drop-down list. Evolution uses "
 "different bullet styles, and handles word wrap and multiple levels of "
 "indentation."
 msgstr ""
-"En lugar de usar asteriscos para marcar una lista de puntos, pruebe el "
-"estilo Lista de puntos desde el menú desplegable de estilos. "
-"<application>Evolution</application> usa adornos más atractivos y maneja "
-"varios niveles de sangría y el reformateo de los párrafos. "
+"En lugar de usar asteriscos para marcar una lista de puntos, pruebe el estilo Lista de puntos desde el menú desplegable de estilos. "
+"Evolution distintos estilos para las listas de topos y maneja varios niveles de sangría y de ajuste para las palabras."
 
 #: C/evolution.xml:1464(title)
-#, fuzzy
 msgid "Text Styles:"
-msgstr "Estilo del texto"
+msgstr "Estilos de texto:"
 
 #: C/evolution.xml:1465(para)
-#, fuzzy
 msgid ""
 "Use these buttons to determine the way your e-mail looks. If you have text "
 "selected, the style applies to the selected text. If you do not have text "
 "selected, the style applies to whatever you type next."
 msgstr ""
-"Use estos botones para fijar la apariencia de sus cartas. Si tiene "
-"seleccionado un texto, el estilo se aplicará sobre él. Si no, el estilo se "
-"aplicará a lo próximo que escriba. Los botones son:"
+"Use estos botones para fijar la apariencia de sus correos-e. Si tiene seleccionado un texto, el estilo se aplicará sobre él. Si no, el estilo se "
+"aplicará a lo próximo que escriba."
 
 #: C/evolution.xml:1474(para)
-#, fuzzy
 msgid "Button"
 msgstr "Botón"
 
 #: C/evolution.xml:1484(para)
 msgid "TT"
-msgstr ""
+msgstr "TT"
 
 #: C/evolution.xml:1487(para)
 msgid ""
 "Typewriter text, which is approximately the same as the Courier monospace "
 "font."
-msgstr ""
+msgstr "Texto de máquina de escribir, es aproximadamente igual a la tipografía monoespaciadia Courier."
 
 #: C/evolution.xml:1492(para)
 msgid "Bold A"
-msgstr ""
+msgstr "A en negrita"
 
 #: C/evolution.xml:1495(para)
 msgid "Bolds the text."
-msgstr ""
+msgstr "Pone el texto en negrita."
 
 #: C/evolution.xml:1500(para)
 msgid "Italic A"
-msgstr ""
+msgstr "A en cursiva"
 
 #: C/evolution.xml:1503(para)
 msgid "Italicizes the text."
-msgstr ""
+msgstr "Pone el texto en cursiva."
 
 #: C/evolution.xml:1508(para)
 msgid "Underlined A"
-msgstr ""
+msgstr "A subrayada"
 
 #: C/evolution.xml:1511(para)
 msgid "Underlines the text."
-msgstr ""
+msgstr "Subraya el texto."
 
 #: C/evolution.xml:1516(para)
 msgid "Strike through A"
-msgstr ""
+msgstr "A tachada"
 
 #: C/evolution.xml:1519(para)
 msgid "Marks a line through the text."
-msgstr ""
+msgstr "Tacha el texto."
 
 #: C/evolution.xml:1526(title)
-#, fuzzy
 msgid "Alignment:"
-msgstr "Alineación"
+msgstr "Alineación:"
 
 #: C/evolution.xml:1527(para)
-#, fuzzy
 msgid ""
 "Located next to the text style buttons, the three paragraph icons should be "
 "familiar to users of most word processing software. The left most button "
 "aligns your text to the left, the center button centers text, and the right "
 "button aligns the text to the right."
-msgstr ""
-"Situado próximo a los botones de estilo del texto, estos tres iconos de "
-"párrafo deberían ser familiares para los usuarios de procesadores de textos. "
-"El que está más a la izquierda alinea el texto a la izquierda, el del "
-"centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
+msgstr "Situado junto a los botones de estilo del texto, estos tres iconos de párrafo deberían ser familiares para los usuarios de procesadores de textos. El que está más a la izquierda alinea el texto a la izquierda, el del centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
 
 #: C/evolution.xml:1530(title)
-#, fuzzy
 msgid "Indentation Rules:"
-msgstr "Reglas de sangrado"
+msgstr "Reglas de sangrado:"
 
 #: C/evolution.xml:1531(para)
-#, fuzzy
 msgid ""
 "The button with the arrow pointing left decreases a paragraph's indentation, "
 "and the right arrow increases its indentation."
-msgstr ""
-"El botón con la flecha que apunta a la izquierda reducirá la sangría de un "
-"párrafo y el de la derecha la incrementará."
+msgstr "El botón con la flecha que apunta a la izquierda reducirá la sangría de un párrafo y el de la derecha la aumentará."
 
 #: C/evolution.xml:1534(title)
-#, fuzzy
 msgid "Color Selection:"
-msgstr "Elección de color"
+msgstr "Selección de color:"
 
 #: C/evolution.xml:1535(para)
-#, fuzzy
 msgid ""
 "At the far right is the color section tool, where a box displays the current "
 "text color. To choose a new color, click the arrow button to the right. If "
@@ -3986,140 +3898,111 @@ msgid ""
 "not have text selected, the color applies to whatever you type next. You can "
 "select a background color or image by right-clicking the message background, "
 "then selecting Style Page."
-msgstr ""
-"En el extremo de la derecha está la herramiente de elección del colo. La "
-"caja coloreada muestra el color actual del texto. Para elegir uno nuevo "
-"pinche sobre el botón de la flecha que está a su derecha. Si tiene un trozo "
-"de texto seleccionado el color se aplicará al mismo. Si no, el color se "
-"aplicará a lo que escriba después. Para el fondo puede elegir un color o una "
-"imagen pinchando con el botón derecho sobre el fondo del texto y eligiendo "
-"<menuchoice> <guimenuitem>Estilo</guimenuitem><guimenuitem>Estilo de página</"
-"guimenuitem></menuchoice>."
+msgstr "En el extremo de la derecha está la herramienta de selección del color, donde una caja muestra el color actual del texto. Para elegir uno nuevo pulse sobre el botón de la flecha que está a su derecha. Si tiene un trozo de texto seleccionado el color se aplicará al mismo. Si no, el color se aplicará a lo que escriba después. Puede seleccionar un color o imagen de fondo pulsando con el botón derecho del ratón sobre el fondo del mensaje, para después seleccionar Estilo de la página."
 
 #: C/evolution.xml:1540(title)
-#, fuzzy
 msgid "Advanced HTML Formatting"
-msgstr "Configuración avanzada"
+msgstr "Formato HTML avanzado"
 
 #: C/evolution.xml:1541(para)
 msgid ""
 "Under the Insert menu, there are several more items you can use to style "
 "your e-mail. To use these and other HTML formatting tools, make sure you "
 "have enabled HTML mode by using Format HTML."
-msgstr ""
+msgstr "Bajo el menú Insertar, hay varios elementos más que puede usar para dar estilo a su correo-e. Para usar éstas y otras herramientas de formato HTML , asegúrese de que ha activado el modo HTML usando Formato HTML."
 
 #: C/evolution.xml:1544(title)
-#, fuzzy
 msgid "Inserting a Link"
-msgstr "Insertar enlace"
+msgstr "Insertar un enlace"
 
 #: C/evolution.xml:1545(para)
-#, fuzzy
 msgid ""
 "Use the Insert a Link tool to put hyperlinks in your HTML messages. If you "
 "don't want special link text, you can just enter the address directly, and "
 "Evolution recognizes it as a link."
-msgstr ""
-"Enlace un texto con un sitio web. Ponga hiperenlaces con esta herramienta "
-"dentro de sus mensajes HTML. Si no quiere escribir ningún texto en "
-"particular, sólo tiene que escribir la dirección directamente y "
-"<application> Evolution</application>la reconocerá como un enlace. Para "
-"añadir un enlace:"
+msgstr "Use la herramienta de añadir enlace para poner hiperenlaces en sus mensajes HTML. Si no quiere escribir ningún texto en particular, sólo tiene que escribir la dirección directamente y Evolution la reconocerá como un enlace."
 
 #: C/evolution.xml:1548(para)
-#, fuzzy
 msgid "Select the text you want to link from."
-msgstr "Elija el texto en el que quiere poner el enlace."
+msgstr "Seleccione el texto en el que quiere poner el enlace."
 
 #: C/evolution.xml:1551(para)
-#, fuzzy
 msgid "Right-click in the text, then click Insert Link."
-msgstr "Pinche con el botón de la derecha y elija <guibutton>Enlace</guibutton>."
+msgstr "Pulse con el botón derecho del ratón sobre el texto, después elija Insertar enlace."
 
 #: C/evolution.xml:1554(para)
 msgid "Type the URL in the URL field."
-msgstr ""
+msgstr "Escriba el URL en el campo URL."
 
 #: C/evolution.xml:1563(title)
-#, fuzzy
 msgid "Inserting an Image"
-msgstr "Insertar imagen"
+msgstr "Insertar una imagen"
 
 #: C/evolution.xml:1566(para)
-#, fuzzy
 msgid "Click Image."
-msgstr "Pinche en <guibutton>Aceptar</guibutton>."
+msgstr "Pulse Insertar imagen."
 
 #: C/evolution.xml:1569(para)
 msgid "Browse to and select the image file."
-msgstr ""
+msgstr "Navegue y seleccione el archivo de la imagen."
 
 #: C/evolution.xml:1578(title)
-#, fuzzy
 msgid "Inserting a Rule"
-msgstr "Insertar regla"
+msgstr "Insertar una regla"
 
 #: C/evolution.xml:1579(para)
-#, fuzzy
 msgid "You can insert a horizontal line into the text to help divide two sections:"
-msgstr "Insertar una línea horizontal en el texto para dividirlo en dos secciones."
+msgstr "Insertar una línea horizontal en el texto para dividirlo en dos secciones:"
 
 #: C/evolution.xml:1582(para)
-#, fuzzy
 msgid "Click Rule."
-msgstr "Pinche en <guibutton>Aceptar</guibutton>."
+msgstr "Pulse en Regla."
 
 #: C/evolution.xml:1585(para)
-#, fuzzy
 msgid "Select the width, size, and alignment."
-msgstr "Haga clic en la ficha <guilabel>Meteorología</guilabel>."
+msgstr "Seleccione la anchura, tamaño y el alineamiento."
 
 #: C/evolution.xml:1588(para)
 msgid "Select Shade if necessary."
-msgstr ""
+msgstr "Si es necesario, seleccione el sombreado."
 
 #: C/evolution.xml:1597(title)
-#, fuzzy
 msgid "Inserting a Table"
-msgstr "Insertar tabla"
+msgstr "Insertar una tabla"
 
 #: C/evolution.xml:1598(para)
-#, fuzzy
 msgid "You can insert a table into the text:"
-msgstr "Para insertar una tabla:"
+msgstr "Para insertar una tabla en el texto:"
 
 #: C/evolution.xml:1601(para)
-#, fuzzy
 msgid "Click Table."
-msgstr "Pinche en <guibutton>Aceptar</guibutton>."
+msgstr "Pulse sobre Insertar tabla."
 
 #: C/evolution.xml:1604(para)
-#, fuzzy
 msgid "Select the number of rows and columns."
-msgstr "Haga clic en la ficha <guilabel>Meteorología</guilabel>."
+msgstr "Seleccione el número de filas y columnas."
 
 #: C/evolution.xml:1607(para)
-#, fuzzy
 msgid "Select the type of layout for the table."
-msgstr "Elija el fichero que quiere adjuntar"
+msgstr "Seleccione el tipo de disposición para la tabla."
 
 #: C/evolution.xml:1610(para)
 msgid "Select a background for the table."
-msgstr ""
+msgstr "Seleccione un fondo para la tabla."
 
 #: C/evolution.xml:1611(para)
 msgid ""
 "To insert a picture for the background, click Browse and select the desired "
 "image."
-msgstr ""
+msgstr "Para introducir una imagen para el fondo de pantalla, pulse Examinar y seleccione la imagen que desee."
 
 #: C/evolution.xml:1623(para)
 msgid "You can set the following options when sending mails in Evolution."
-msgstr ""
+msgstr "Puede establecer las siguientes opciones cuando envía correos con Evolution."
 
 #: C/evolution.xml:1625(title)
 msgid "Read Receipts:"
-msgstr ""
+msgstr "Confirmación de lectura:"
 
 #: C/evolution.xml:1626(para)
 msgid ""
@@ -4127,31 +4010,29 @@ msgid ""
 "when your message is being viewed by the recipient. Receipts are useful when "
 "sending e-mail that is time-sensitive. To request a receipt, click Insert "
 "&gt; Request Read Receipt in the composer window."
-msgstr ""
+msgstr "Evolution le permite enviar una petición de lectura para los mensajes enviados para indicar si su mensaje está siendo visto por el destinatario. Las confirmaciones de lectura son útiles cuando el tiempo es un aspecto importante. Para enviar una petición de lectura, pulse Insertar &gt; Solicitar confirmación de lectura en la ventana del editor."
 
 #: C/evolution.xml:1629(title)
-#, fuzzy
 msgid "Prioritize Message:"
-msgstr "Mensajes de error"
+msgstr "Priorizar mensaje:"
 
 #: C/evolution.xml:1630(para)
 msgid ""
 "You can prioritize a message to be sent, so that the recipient sees its "
 "relative importance. To prioritize a message, click Insert &gt; Prioritize "
 "Message in the composer window."
-msgstr ""
+msgstr "Puede priorizar un mensaje para ser enviado, para que el destinatario vea su importancia relativa. Para priorizar un mensaje, pulse Insertar &gt; Priorizar mensaje en la ventana del editor."
 
 #: C/evolution.xml:1633(para)
 msgid ""
 "Evolution will ignore the message priority, because it assumes that the "
 "recipient should decide whether the message is important or not."
-msgstr ""
+msgstr "Evolution ignorará la prioridad del mensaje porque asume que el destinatario debería decidir si el mensaje es importante o no."
 
 # index.docbook:29, index.docbook:30
 #: C/evolution.xml:1638(title)
-#, fuzzy
 msgid "Default Settings"
-msgstr "Modificación de la configuración del correo"
+msgstr "Ajustes predeterminados"
 
 #: C/evolution.xml:1639(para)
 msgid ""
@@ -4159,80 +4040,74 @@ msgid ""
 "draft folder and sent folder, set the addresses to which you want to sent "
 "carbon copies and blind carbon copies to. You can also change the settings "
 "for message receipts from Default setting window."
-msgstr ""
+msgstr "Evolution le permite cambiar los ajustes predeterminados. Puede organizar su carpeta de borradores y Correo enviado y establecer las direcciones a las que quiere que se envíen copias de carbón y copias de carbón ocultas. También puede cambiar los ajustes para los destinatarios de los mensajes desde la ventana Predeterminados."
 
 #: C/evolution.xml:1641(para)
-#, fuzzy
 msgid "To change your default settings"
-msgstr "Configuración del servidor Exchange"
+msgstr "Cambiar los ajustes predeterminados"
 
 #: C/evolution.xml:1644(para)
 msgid "Select Edit &gt;Preferences to open Evolution Preferences window"
-msgstr ""
+msgstr "Seleccione Editar &gt; Preferencias para abrir la ventana de preferencias de Evolution"
 
 #: C/evolution.xml:1647(para)
-#, fuzzy
 msgid "Select the mail account you want to change the default settings"
-msgstr "Haga clic en la ficha <guibutton>Correo</guibutton>."
+msgstr "Seleccione la cuenta de correo de la que quiere cambiar los ajustes predeterminados."
 
 #: C/evolution.xml:1650(para)
 msgid "Click Edit to open Account Editor window."
-msgstr ""
+msgstr "Pulse Editar para abrir la ventana del editor de cuentas."
 
 #: C/evolution.xml:1653(para)
 msgid "Click Default tab"
-msgstr ""
+msgstr "Pulse sobre la solapa Predeterminados"
 
 #: C/evolution.xml:1656(para)
 msgid ""
 "Click the respective check boxes and enter the email addresses you want CC "
 "and BCC to."
-msgstr ""
+msgstr "Pulse las respectivas casillas de verificación e introduzca la dirección de correo-e que quiere usar para los campos Cc: y Cco:."
 
 #: C/evolution.xml:1659(para)
 msgid "Select the desired option for send message receipts from the drop down list."
-msgstr ""
+msgstr "Seleccione la opción que desea para la notificación de recepción de mensajes de la lista desplegable."
 
 #: C/evolution.xml:1662(bridgehead)
 msgid "Changing default folder for Sent and Draft items"
-msgstr ""
+msgstr "Cambiar la carpeta predeterminada para los elementos Correo enviado y Borradores"
 
 #: C/evolution.xml:1663(para)
 msgid ""
 "By default, all the sent messages directly goes to Sent folder and those "
 "messages marked as drafts are saved in Draft folder. To change the default "
 "setting for draft items,"
-msgstr ""
+msgstr "De forma predeterminada, todos los correos enviados van directamente a la carpeta Correo enviado y los mensajes marcados como borradores se guardan en la carpeta Borradores. Para cambiar el ajuste predeterminado para los borradores,"
 
 #: C/evolution.xml:1666(para)
 msgid "Click Drafts button to open Folder view."
-msgstr ""
+msgstr "Pulse el botón Borradores para abrir la vista de carpeta."
 
 #: C/evolution.xml:1669(para)
-#, fuzzy
 msgid "Select the folder you want to save the drafts to."
-msgstr "Seleccione las carpetas que quiere abrir."
+msgstr "Seleccione la carpeta en la que quiere guardar los borradores."
 
 #: C/evolution.xml:1675(para) C/evolution.xml:1691(para)
 msgid "Click Revert button to revert back to previous settings."
-msgstr ""
+msgstr "Pulse el botón Revertir para revertir al ajuste anterior."
 
 #: C/evolution.xml:1679(para)
 msgid "To change the default folder for sent items"
-msgstr ""
+msgstr "Cambiar la carpeta predeterminada para los elementos enviados"
 
 #: C/evolution.xml:1682(para)
-#, fuzzy
 msgid "Click Sent button to open the Folder view."
-msgstr "Haga clic en la casilla a la izquierda de la carpeta."
+msgstr "Pulse el botón Correo enviado para abrir la vista de carpeta."
 
 #: C/evolution.xml:1685(para)
-#, fuzzy
 msgid "Select the desired folder for sent items."
-msgstr "Seleccione las carpetas que quiere abrir."
+msgstr "Seleccione la carpeta que desea para los elementos enviados."
 
 #: C/evolution.xml:1698(para)
-#, fuzzy
 msgid ""
 "When you receive an e-mail, you can forward it to other individuals or "
 "groups that might be interested. You can forward a message as an attachment "
@@ -4244,194 +4119,143 @@ msgid ""
 "different sections of the message you are forwarding. Remember to note from "
 "whom the message came, and whether you have removed or altered content."
 msgstr ""
-"La oficina de correos le reenvía su correo cuando usted cambia de dirección "
-"y usted puede reenviar una carta que ha llegado hasta usted por error. El "
-"botón de correo The postReenviar</guilabel> funciona de manera parecida. Es "
-"particularmente útil cuando recibe un mensaje que cree que otra persona "
-"también debería ver. Puede reenviar los mensajes como si fueran adjuntos a "
-"un mensaje nuevo (este es el comportamiento predeterminado) o puede "
-"enviarlo  <glossterm linkend=\"inline\">incluido</glossterm>, como una parte "
-"citada en el mensaje que está enviando. El reenvío en forma de adjunto es el "
-"mejor si quiere enviar una copia íntegra del mensaje. Los envíos incluídos "
-"son mejores si sólo quiere enviar partes del mensaje o si tiene que hacer "
-"una gran cantidad de comentarios a diferentes partes del mensaje que "
-"reenvía. Recuerde que es importante citar al autor original del mensaje y "
-"diferenciar claramente las partes del texto que ha modificado, borrado o "
-"añadido."
+"Cuando reciba un corre-e puede reenviarlo a otras personas o grupos que puedan estar interesados. Puede reenviar un mensaje como un archivo adjunto a un nuevo mensaje (predeterminado) o puede enviarlo <link linkend=\"inline\">incluido</link>, como una parte "
+"citada en el mensaje que está enviando. El reenvío en forma de adjunto es el mejor si quiere enviar una copia íntegra del mensaje. Los envíos incluidos son mejores si sólo quiere enviar partes del mensaje o si tiene que hacer una gran cantidad de comentarios a diferentes partes del mensaje que reenvía. Recuerde que es importante citar al autor original del mensaje y diferenciar claramente las partes del texto que ha modificado, borrado o añadido."
 
 #: C/evolution.xml:1699(para)
 msgid "To forward a message you are reading:"
-msgstr ""
+msgstr "Reenviar un mensaje que está leyendo:"
 
 #: C/evolution.xml:1702(para)
-#, fuzzy
 msgid "Click Forward on the toolbar."
-msgstr "Haga clic en el contacto para seleccionarlo."
+msgstr "Pulse Reenviar en la barra de herramientas."
 
 #: C/evolution.xml:1704(para)
 msgid ""
 "If you prefer to forward the message <link linkend=\"inline\">inline</link> "
 "instead of attached, click Message &gt; Forward As &gt; Inline from the menu."
-msgstr ""
+msgstr "Si prefiere reenviar el mensaje <link linkend=\"inline\">incluido</link> en lugar de como adjunto, pulse en el menú Mensaje &gt; Reenviar como &gt; Incluido en línea."
 
 #: C/evolution.xml:1707(para)
 msgid ""
 "Select an addressee as you would when sending a new message; the subject is "
 "already entered, although you can alter it if you want."
-msgstr ""
+msgstr "Seleccione una dirección como lo haría al enviar un mensaje nuevo, el asunto ya está introducido, aunque puede cambiarlo si lo desea."
 
 #: C/evolution.xml:1710(para)
 msgid "Add your comments on the message in the composition frame, then click Send."
-msgstr ""
+msgstr "Añada sus comentarios en el marco de edición del mensaje, después pulse Enviar."
 
 #: C/evolution.xml:1713(para)
 msgid ""
 "Attachments to a message you are forwarding are forwarded only when you send "
 "the original message as an attachment. Inline messages do not forward any "
 "attachments."
-msgstr ""
+msgstr "Los adjuntos de un mensaje que está reenviado se reenvían sólo cuando envía el mensaje original como un adjunto. Los mensajes incluidos no reenvían ningún adjunto."
 
 #: C/evolution.xml:1720(para)
-#, fuzzy
 msgid ""
 "Don't forward chain letters. If you must, watch out for hoaxes and urban "
 "legends, and make sure the message doesn't have multiple layers of greater-"
 "than signs, (&gt;) indicating multiple layers of careless in-line forwarding."
 msgstr ""
-"No envíe «spam» o reenvíe los mensajes en cadena. Y si tiene que hacerlo, "
-"cuídese de mensajes en broma o de leyendas urbanas y asegúrese de que el "
-"mensaje no tiene varias capas de signos de mayor que (&gt;) que indican "
-"sucesivos reenvíos descuidados."
+"No reenvíe los mensajes en cadena. Y si tiene que hacerlo, cuídese de mensajes falsos o de leyendas urbanas y asegúrese de que el "
+"mensaje no tiene varias capas de signos de mayor que (&gt;) que indican sucesivos reenvíos descuidados."
 
 #: C/evolution.xml:1723(para)
-#, fuzzy
 msgid ""
 "Always begin and close with a salutation. Say &ldquo;please&rdquo; and "
 "&ldquo;thank you,&rdquo; just like you do in real life. You can keep your "
 "pleasantries short, but be polite."
-msgstr ""
-"Siempre empiece y acaba con un saludo. Diga «por favor» y «gracias» de la "
-"misma manera que haría en la vida real. Puede ser breve en sus cumplidos "
-"¡pero sea atento!"
+msgstr "Siempre empiece y acabe con un saludo. Diga «por favor» y «gracias» de la misma manera que haría en la vida real. Puede ser breve en sus cumplidos pero sea educado."
 
 #: C/evolution.xml:1726(para)
 msgid ""
 "WRITING IN CAPITAL LETTERS MEANS YOU'RE SHOUTING! Don't write a whole "
 "message in capital letters. It hurts people's ears."
-msgstr ""
-"¡CUANDO ESCRIBE CON MAYÚSCULAS SIGNIFICA QUE ESTÁ GRITANDO! No escriba "
-"mensajes enteros con mayúsculas porque a la gente le dolerán los oídos."
+msgstr "CUANDO ESCRIBE CON MAYÚSCULAS SIGNIFICA QUE ESTÁ GRITANDO No escriba mensajes enteros con mayúsculas porque a la gente le dolerán los oídos."
 
 #: C/evolution.xml:1729(para)
-#, fuzzy
 msgid ""
 "Check your spelling and use complete sentences. By default, Evolution puts a "
 "red line beneath words it doesn't recognize, as you type them."
-msgstr ""
-"Compruebe su ortografía y use frases completas. <application>Evolution</"
-"application>. está preconfigurado para destacar las palabras que no "
-"reconozca con una línea roja bajo las palabras conforme las vaya escribiendo."
+msgstr "Compruebe su ortografía y use frases completas. Evolution está preconfigurado para destacar las palabras que no reconozca con una línea roja bajo las palabras conforme las vaya escribiendo."
 
 #: C/evolution.xml:1732(para)
-#, fuzzy
 msgid "Don't send nasty e-mails (flames). If you get one, don't write back."
-msgstr "No envíe mensajes desagradables. Si recibe alguno, mejor no lo responda."
+msgstr "No envíe correos desagradables. Si recibe alguno, mejor no lo responda."
 
 #: C/evolution.xml:1735(para)
-#, fuzzy
 msgid ""
 "When you reply or forward, include enough of the previous message to provide "
 "context."
-msgstr ""
-"Cuando conteste o reenvíe un mensaje incluya del mensaje anterior lo justo "
-"para proveer del contexto necesario: ni mucho ni poco."
+msgstr "Cuando conteste o reenvíe un mensaje incluya lo justo del mensaje anterior para proporcionar el contexto necesario."
 
 #: C/evolution.xml:1738(para)
 msgid "Don't send spam."
 msgstr "No envíe spam."
 
 #: C/evolution.xml:1746(para)
-#, fuzzy
 msgid ""
 "If you create an event in the calendar component, you can then send "
 "invitations to the attendee list through the Evolution e-mail tool. The "
 "invitation card is sent as an attachment in iCal format."
 msgstr ""
 "Al crear un evento en la agenda puede enviar invitaciones por correo "
-"electrónicoa la lista de invitados. Las invitaciones se envían como archivos "
+"electrónico la lista de invitados. Las invitaciones se envían como archivos "
 "adjuntos en formato iCal."
 
 #: C/evolution.xml:1747(para)
 msgid ""
 "To send an invitation in Groupwise, right click on the calendar item and "
 "click Forward as iCalendar"
-msgstr ""
+msgstr "Para enviar invitaciones en Groupwise, pulse con el botón derecho sobre el elemento del calendario y pulse Enviar como iCalendar."
 
 #: C/evolution.xml:1748(para)
 msgid "When you receive an invitation, you have several options:"
-msgstr ""
+msgstr "Cuando reciba una invitación, tiene varias opciones:"
 
 #: C/evolution.xml:1750(title)
-#, fuzzy
 msgid "Accept:"
-msgstr "Aceptar"
+msgstr "Aceptar:"
 
 #: C/evolution.xml:1751(para)
-#, fuzzy
 msgid ""
 "Indicates you will attend the meeting. When you click the OK button, the "
 "meeting is entered into your calendar."
-msgstr ""
-"Elija su respuesta y pulse el botón<guibutton> Aceptar</guibutton> para que "
-"la reunión se apunte en el calendario de su agenda."
+msgstr "Indica que asistirá a la reunión. Cuando pulse el botón Aceptar, la reunión se apuntará en su agenda."
 
 #: C/evolution.xml:1754(title)
-#, fuzzy
 msgid "Tentatively Accept:"
-msgstr "Aceptado provisionalmente"
+msgstr "Aceptado provisionalmente:"
 
 #: C/evolution.xml:1755(para)
-#, fuzzy
 msgid ""
 "Indicates you will probably attend the meeting. When you click the OK "
 "button, the meeting is entered into your calendar, but is marked as "
 "tentative."
-msgstr ""
-"Elija esta opción si es probable que asista a la reunión. Cuando pulse "
-"<guibutton>Aceptar</guibutton> la reunión se apuntará en su agenda, pero "
-"marcada como provisional."
+msgstr "Indica que es probable que asista a la reunión. Cuando pulse el botón Aceptar la reunión se apuntará en su agenda, pero marcada como provisional."
 
 #: C/evolution.xml:1758(title)
-#, fuzzy
 msgid "Decline:"
-msgstr "Rehusar"
+msgstr "Rehusar:"
 
 #: C/evolution.xml:1759(para)
-#, fuzzy
 msgid ""
 "Indicates you are unable to attend the meeting. The meeting is not entered "
 "into your calendar when you click OK, although your response is sent to the "
 "meeting host if you have selected the RSVP option."
-msgstr ""
-"Elija esta opción si no va a poder asistir a la reunión. AL "
-"pulsar<guibutton>Aceptar</guibutton> no se anotará en su agenda pero si ha "
-"marcado la casilla <guilabel>Confirmar</guilabel> se enviará automáticamente "
-"un mensaje con su respuesta."
+msgstr "Elija esta opción si no va a poder asistir a la reunión. Al pulsar Aceptar no se anotará en su agenda pero si ha marcado la casilla RSVP (confirmación de asistencia) su respuesta se enviará al organizador."
 
 #: C/evolution.xml:1762(title)
-#, fuzzy
 msgid "RSVP:"
-msgstr "RSVP (confirmación de asistencia)"
+msgstr "RSVP (confirmación de asistencia):"
 
 #: C/evolution.xml:1763(para)
-#, fuzzy
 msgid "Select this option if you want your response sent to the meeting organizers."
-msgstr ""
-"Marque esta casilla si quiere que su respuesta llegue a los organizadores de "
-"la reunión."
+msgstr "Marque esta casilla si quiere que su respuesta llegue a los organizadores de la reunión."
 
 #: C/evolution.xml:1769(para)
-#, fuzzy
 msgid ""
 "Because IMAP folders exist on the server, and opening them or checking them "
 "takes time, you need fine-grained control over the way that you use IMAP "
@@ -4439,56 +4263,36 @@ msgid ""
 "have every mail folder displayed, you can select that option as well. "
 "However, if you want to choose specific items in your mailbox, and exclude "
 "others, you can use the subscription management tool to do that."
-msgstr ""
-"Dado que las carpetas IMAP están en el servidor y que abrirlas y cerrarlas "
-"toma su tiempo, necesita un control muy fino en la manera de gestionarlas. "
-"Por eso <application>Evolution</application> tiene un gestor de "
-"suscripciones IMAP. Si quiere que se le muestren todas las carpetas de "
-"correo también puede elegir esa opción, sin embargo, si quiere escoger "
-"elementos específicos y excluir el resto, puede usar la herramienta de "
-"gestión de suscripciones."
+msgstr "Dado que las carpetas IMAP están en el servidor y que abrirlas y cerrarlas toma su tiempo, necesita un control muy fino en la manera de gestionarlas. Para eso use el gestor de suscripciones IMAP. Si quiere que se le muestren todas las carpetas de correo también puede elegir esa opción. Sin embargo, si quiere escoger elementos específicos y excluir el resto, puede usar la herramienta de gestión de suscripciones."
 
 #: C/evolution.xml:1772(para)
 msgid "Select Folder &gt; Subscriptions."
-msgstr ""
+msgstr "Seleccione Carpeta &gt; Suscripciones."
 
 #: C/evolution.xml:1775(para)
-#, fuzzy
 msgid ""
 "If you have accounts on multiple IMAP servers, select the server where you "
 "want to manage your subscriptions."
-msgstr ""
-"Si tiene cuentas en varios servidores IMAP, elija el servidor donde quiere "
-"gestionar sus suscripciones y  <application>Evolution</application> mostrará "
-"la lista de carpetas y archivos disponibles."
+msgstr "Si tiene cuentas en varios servidores IMAP, seleccione el servidor donde quiere gestionar sus suscripciones. "
 
 #: C/evolution.xml:1776(para)
 msgid "Evolution displays a list of available files and folders."
-msgstr ""
+msgstr "Evolution mostrará la lista de carpetas y archivos disponibles."
 
 #: C/evolution.xml:1779(para)
 msgid "Select a file or folder by clicking it."
-msgstr ""
+msgstr "Seleccione un archivo o carpeta pulsando sobre él."
 
 #: C/evolution.xml:1780(para)
-#, fuzzy
 msgid ""
 "You should select at least the Inbox folder. Depending upon the way your "
 "IMAP server is configured, the list of available files might include non-"
 "mail folders. If it does, you can ignore them."
-msgstr ""
-"Para elegir un archivo o una carpeta pínchelos con el ratón. Al menos "
-"necesitará seleccionar la carpeta <guilabel>Bandeja de entrada</guilabel>. "
-"En función de cómo esté configurado su servidor IMAP la lista de ficheros "
-"puede incluir carpetas que no son de correo, que puede ignorar sin más "
-"problema. "
+msgstr "Necesitará seleccionar, al menos, la carpeta Bandeja de entrada. En función de cómo esté configurado su servidor IMAP la lista de archivos disponibles puede incluir carpetas que no son de correo, que puede ignorar sin mayor problema."
 
 #: C/evolution.xml:1783(para)
-#, fuzzy
 msgid "Click Subscribe to add a folder to the subscribed list."
-msgstr ""
-"Pinche en <guibutton>Suscribir</guibutton> para añadir el elemento a su "
-"lista de suscripción."
+msgstr "Pulse Suscribir para añadir el elemento a su lista de suscripción."
 
 #: C/evolution.xml:1786(para)
 msgid "When you have subscribed to the folders you want, close the window."
@@ -4498,49 +4302,33 @@ msgstr "Cierre la ventana cuando se haya suscrito a las carpetas que desea."
 msgid ""
 "To protect and encode your e-mail transmissions, Evolution offers two "
 "encryption methods:"
-msgstr ""
+msgstr "Para proteger y codificar sus transmisiones de correos-e, Evolution ofrece dos métodos de cifrad:"
 
 #: C/evolution.xml:1796(para)
-#, fuzzy
 msgid "GPG Encryption"
-msgstr "Encriptado"
+msgstr "Cifrado GPG"
 
 #: C/evolution.xml:1799(para) C/evolution.xml:1947(title)
-#, fuzzy
 msgid "S/MIME Encryption"
-msgstr "Encriptado"
+msgstr "Cifrado S/MIME"
 
 #: C/evolution.xml:1802(para)
-#, fuzzy
 msgid ""
 "Evolution helps you protect your privacy by using GNU Privacy Guard (GPG), "
 "an implementation of strong <link linkend=\"public-key-encryption\">Public "
 "Key Encryption.</link>"
-msgstr ""
-"El encriptado es un antiguo método para proteger la información de las "
-"miradas curiosas. <application>Evolution</application> le ayuda a proteger "
-"su privacidad haciendo uso de la aplicación <application>gpg</application>,  "
-"que es una implementación del poderoso algoritmo de <glossterm linkend="
-"\"public-key-encryption\">encriptado de clave pública.</glossterm>"
+msgstr "Evolution le ayuda a proteger su privacidad haciendo uso de GNU Privacy Guard (GPG), una implementación del potente algoritmo de <link linkend=\"public-key-encryption\">cifrado de clave pública</link>."
 
 #: C/evolution.xml:1803(para)
-#, fuzzy
 msgid ""
 "GPG uses two keys: public and private. You can give your public key to "
 "anyone you want to receive encrypted messages, or put it on a public key "
 "server so that people can look it up before contacting you. Your private key "
 "lets you decrypt any message encrypted with your public key. Never give your "
 "private key to anyone."
-msgstr ""
-"GPG usa dos claves: una pública y otra privada. Puede darle su clave pública "
-"a cualquiera del que quiera recibir mensajes encriptados o puede ponerla en "
-"un servidor de claves públicas para que cualquiera pueda mirar allí antes de "
-"escribirle. <emphasis>Nunca jamás le de a nadie su clave privada</emphasis>. "
-"La clave privada es la que le permite descifrar cualquier mensaje encriptado "
-"con su clave pública."
+msgstr "GPG usa dos claves: una pública y otra privada. Puede darle su clave pública a cualquiera del que quiera recibir mensajes cifrados o puede ponerla en un servidor de claves públicas para que cualquiera pueda mirar allí antes de escribirle. La clave privada es la que le permite descifrar cualquier mensaje cifrado con su clave pública. Nunca jamás le de a nadie su clave privada."
 
 #: C/evolution.xml:1804(para)
-#, fuzzy
 msgid ""
 "When you send a message that is encrypted, you must encrypt it using your "
 "intended recipient's public key. To receive an encrypted message, you must "
@@ -4548,48 +4336,32 @@ msgid ""
 "messages, you encrypt the signature with your private key, so only your "
 "public key can unlock it. When you send the message, the recipient gets your "
 "public key and unlocks the signature, verifying your identity."
-msgstr ""
-"Enviar correo encriptado exige un poco de previsión. Para mandar un mensaje "
-"encriptado necesita usar la clave pública del destinatario a quien pretende "
-"enviarlo. Para poder recibir y<emphasis>leer</emphasis> un mensaje es "
-"preciso que el remitente tenga su clave pública (la suya, de usted). Para "
-"firmar mensajes ocurre el inverso: usted cifra la firma del mensaje con su "
-"clave privada de manera que solamente su clave pública puede desvelar la "
-"firma. Cuando envía el mensaje, el destinatario toma su clave pñublica, "
-"desvela la firma y verifica su identidad."
+msgstr "Para mandar un mensaje cifrado necesita usar la clave pública del destinatario a quien pretende enviarlo. Para poder recibir y leer un mensaje cifrado, debe asegurarse de que el remitente tiene su clave pública (la suya, de usted). Para firmar mensajes debe cifrar la firma del mensaje con su clave privada de manera que solamente su clave pública puede debloquearla. Cuando envía el mensaje, el destinatario obtiene su clave pública y desvela la firma, verificando su identidad."
 
 #: C/evolution.xml:1805(para)
 msgid ""
 "Evolution does not support older versions of PGP, such as OpenPGP and Inline "
 "PGP."
-msgstr ""
+msgstr "Evolution no soporta versiones antiguas de PGP, tales como OpenPGP y PGP inluido."
 
 #: C/evolution.xml:1806(para)
 msgid "You can use encryption in two different ways:"
-msgstr "El encriptado puede usarse de dos maneras diferentes:"
+msgstr "El cifrado se puede usar de dos maneras diferentes:"
 
 #: C/evolution.xml:1809(para)
-#, fuzzy
 msgid ""
 "You can encrypt the entire message, so that nobody but the recipient can "
 "read it."
-msgstr ""
-"Cifre el mensaje entero para que nadie, excepto el destinatario, pueda "
-"leerlo."
+msgstr "Puede cifrar el mensaje entero para que nadie, excepto el destinatario, pueda leerlo."
 
 #: C/evolution.xml:1812(para)
-#, fuzzy
 msgid ""
 "You can attach an encrypted signature to a plain text message, so that the "
 "recipient can read the message without decrypting it, and needs decrypting "
 "only to verify the sender's identity."
-msgstr ""
-"Adjuntar una firma cifrada a un mensaje de puro texto, para que el "
-"recipiente pueda leer el mensaje sin tener que descifrarlo. Sólo necesitaría "
-"descifrar la firma cuando quiera verificar la identidad del remitente."
+msgstr "Puede adjuntar una firma cifrada a un mensaje de texto plano, para que el destinatario pueda leer el mensaje sin tener que descifrarlo. Sólo necesitaría descifrar la firma cuando quiera verificar la identidad del remitente."
 
 #: C/evolution.xml:1815(para)
-#, fuzzy
 msgid ""
 "For example, suppose that Kevin wants to send an encrypted message to his "
 "friend Rachel. He looks up her public key on a general key server, and then "
@@ -4597,87 +4369,73 @@ msgid ""
 "$23ui7yr87#@!48970fsd.&rdquo; When the information gets to Rachel, she "
 "decrypts it using her private key, and it appears as plain text for her to "
 "read."
-msgstr ""
-"Kevin quiere enviar un mensaje encriptado a su amiga Rachel. Él busca su "
-"clave pública en un servidor público y entonces le pide a "
-"<application>Evolution</application> que cifra el mensaje. El mensaje ahora "
-"tiene una apariencia del estilo «@#$23ui7yr87#@!48970fsd». Cuando llega a "
-"Rachel, ella usa su clave privada para descifrarlo y el mensaje quedará "
-"listo para su lectura."
+msgstr "Por ejemplo, suponga que Antonio quiere enviar un mensaje cifrado a su amigo Jorge. Él busca su clave pública en un servidor público y entonces le pide a Evolution que cifre el mensaje. El mensaje ahora tiene una apariencia del estilo «@#$23ui7yr87#@!48970fsd». Cuando le llega a Jorge él usa su clave privada para descifrarlo y el mensaje quedará listo para su lectura."
 
 #: C/evolution.xml:1818(title)
-#, fuzzy
 msgid "Making a GPG Encryption Key"
-msgstr "Crear claves de encriptado"
+msgstr "Crear claves de cifrado GPG"
 
 #: C/evolution.xml:1819(para)
-#, fuzzy
 msgid ""
 "Before you can get or send encrypted mail, you need to generate your public "
 "and private keys with GPG. This procedure covers version 1.2.4 of GPG. If "
 "your version is different, these steps might vary slightly. You can find out "
 "your version number by entering <command>gpg --version</command>."
-msgstr ""
-"Este manual describe la versión 1.0.6 de <application>GPG</application>. Si "
-"su versión es diferente puede que este texto no sea completamente exacto. "
-"Puede averiguar la versión exacta usando la orden <command>gpg --version</"
-"command>."
+msgstr "Antes de que pueda enviar correo cifrado, debe generar su par de claves pública y privada con GPG. Éste procedimiento cubre la versión 1.2.4 de GPHP. Si su versión es diferente puede que este texto no sea completamente exacto. Puede averiguar la versión exacta usando la orden <command>gpg --version</command>."
 
 #: C/evolution.xml:1822(para)
-#, fuzzy
 msgid "Open a terminal and enter <command>gpg --gen-key</command>."
-msgstr "Abra una terminal y escriba la orden <command>gpg --gen-key</command>."
+msgstr "Abra una terminal e instroduzca el comando <command>gpg --gen-key</command>."
 
 #: C/evolution.xml:1825(para)
 msgid "Select an algorithm, then press Enter."
-msgstr ""
+msgstr "Seleccione un algoritmo, después pulse Retorno."
 
 #: C/evolution.xml:1827(para)
-#, fuzzy
 msgid ""
 "To accept the default algorithm of DSA and ElGamal, press Enter "
 "(recommended)."
-msgstr "Elija el algoritmo predeterminado, «DSA y ElGamal»."
+msgstr "Para aceptar el algoritmo predeterminado «DSA y ElGamal», pulse Retorno (recomendado)."
 
 #: C/evolution.xml:1830(para)
 msgid ""
 "Select a key length, then press Enter. To accept the default, 1024 bits, "
 "press Enter."
-msgstr ""
+msgstr "Seleccione una longitud de clave, después pulse Retorno. Para aceptar la predeterminada, de 1024 bits, pulse Retorno."
 
 #: C/evolution.xml:1833(para)
 msgid "Enter how long your key should be valid for."
-msgstr ""
+msgstr "Introduzca el timepo para la cual su clave deberá ser válida."
 
 #: C/evolution.xml:1835(para)
 msgid ""
 "To accept the default of no expiration, press Enter, then press Y when you "
 "are prompted to verify the selection."
-msgstr ""
+msgstr "Para aceptar la opción predeterminada sin caducidad, pulse Retorno, después puse Y cuando se le pregunte la verificación de su elección."
 
 #: C/evolution.xml:1838(para)
 msgid "Type your real name, then press Enter."
-msgstr ""
+msgstr "Escriba su nombre real, después pulse Retorno."
 
 #: C/evolution.xml:1841(para)
 msgid "Type your e-mail address, then press Enter."
-msgstr ""
+msgstr "Escriba su dirección de correo-e, después pulse Retorno."
 
 #: C/evolution.xml:1844(para)
 msgid "(Optional) Type a comment, then press Enter."
-msgstr ""
+msgstr "(Opcional) Escriba un comentario, después pulse Retorno."
 
 #: C/evolution.xml:1847(para)
 msgid "Review your selected user ID. If it is correct, press O."
-msgstr ""
+msgstr "Compruebe el ID de usuario que ha seleccionado. Si es correcto pulse O. "
 
 #: C/evolution.xml:1850(para)
 msgid "Type a passphrase, then press Enter."
-msgstr ""
+msgstr "Escriba una frase de paso, después pulse Retorno."
 
 #: C/evolution.xml:1853(para)
 msgid "Move your mouse randomly to generate the keys."
-msgstr ""
+msgstr "Mueva su ratón aleatoriamente para generar las claves."
 
 #: C/evolution.xml:1856(para)
 msgid ""
@@ -4688,44 +4446,36 @@ msgid ""
 "you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]  </"
 "computeroutput>"
 msgstr ""
+"Después de que se hayan generado estas claves, puede ver su información introduciendo <command>gpg --list-keys</command>. Debería ver algo similar a esto: <computeroutput> /home/you/.gnupg/pubring.gpg "
+"----------------------------  pub 1024D/32j38dk2 2001-06-20 you &lt;"
+"you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]  </"
+"computeroutput>"
 
 #: C/evolution.xml:1857(para)
-#, fuzzy
 msgid ""
 "GPG creates one list, or keyring, for your public keys and one for your "
 "private keys. All the public keys you know are stored in the file ~/.gnupg/"
 "pubring.gpg. If you want to give other people your key, send them that file."
-msgstr ""
-"GPG creará una lista, o llavero, con todas las claves públicas que tenga y "
-"otra para las privadas. Todas las claves públicas que conoce están guardadas "
-"en en <filename>~/.gnupg/pubring.gpg</filename>. Si quiere darle a alguien "
-"su clave, envíele este fichero."
+msgstr "GPG creará una lista, o depósito de claves, con todas las claves públicas que tenga y otra para las privadas. Todas las claves públicas que conoce están guardadas en el archivo ~/.gnupg/pubring.gpg. Si quiere darle a alguien su clave, envíele éste archivo."
 
 #: C/evolution.xml:1858(para)
-#, fuzzy
 msgid "If you want, you can upload your keys to a key server."
-msgstr "Si lo desea puede subir sus claves a un servidor de claves:"
+msgstr "Si lo desea puede subir sus claves a un servidor de claves."
 
 #: C/evolution.xml:1861(para)
-#, fuzzy
 msgid ""
 "Check your public key ID with gpg--list-keys. It is the string after 1024D "
 "on the line beginning with pub. In the example above, it is 32j38dk2."
 msgstr ""
-"Compruebe su identificador de clave pública con<command>gpg --list-keys</"
-"command>. Su identificador será la cadena que está detras de 1024D en la "
+"Compruebe su identificador de clave pública con gpg --list-keys. Su identificador será la cadena que está detras de 1024D en la "
 "línea que empieza con «pub». En estte ejemplo es 32j38dk2."
 
 #: C/evolution.xml:1864(para)
-#, fuzzy
 msgid ""
 "Enter the command <command>gpg --send-keys --keyserver wwwkeys.pgp.net "
 "<varname>32j38dk2</varname></command>. Substitute your key ID for "
 "<varname>32j38dk2</varname>. You need your password to do this."
-msgstr ""
-"Escirba la orden  <command>gpg --send-keys --keyserver wwwkeys.pgp.net "
-"32j38dk2</command>. Substituya el identificador de su clave por  32j38dk2. "
-"Necesitará su contraseña para poder hacerlo."
+msgstr "Escirba el comando <command>gpg --send-keys --keyserver wwwkeys.pgp.net <varname>32j38dk2</varname></command>. Sustituya el identificador de su clave por <varname>32j38dk2</varname>. Necesitará su contraseña para poder hacerlo."
 
 #: C/evolution.xml:1867(para)
 #, fuzzy
@@ -4748,12 +4498,11 @@ msgid ""
 "If you don't have a key to unlock or encrypt a message, you can set your "
 "encryption tool to look it up automatically. If it can't find the key, an "
 "error message appears."
-msgstr ""
+msgstr "Si no tiene una clave para desbloquear un mensaje cifrado, puede ajustar su herramienta de cifrado para buscarla automáticamente. Si no puede encontrar la clave se mostrará un mensaje de error."
 
 #: C/evolution.xml:1872(title)
-#, fuzzy
 msgid "Getting and Using GPG Public Keys"
-msgstr "Obteniendo y usando claves públicas"
+msgstr "Obtener y usar claves GPG públicas"
 
 #: C/evolution.xml:1873(para)
 #, fuzzy
@@ -4790,115 +4539,91 @@ msgid ""
 "add it to your keyring."
 msgstr ""
 "Si alguien le envía directamente su clave pública, guárdela como un fichero "
-"de texto puro y en la terminal escriba la orden <command>gpg "
+"de texto plano y en la terminal escriba la orden <command>gpg "
 "nombredelfichero</command>. Así la añadirá a su llavero."
 
 #: C/evolution.xml:1879(title)
-#, fuzzy
 msgid "Setting up GPG Encryption"
-msgstr "Configuración del encriptado en Evolution"
+msgstr "Configurar el cifrado GPG"
 
 #: C/evolution.xml:1882(para) C/evolution.xml:4933(para)
 #: C/evolution.xml:4949(para) C/evolution.xml:5304(para)
 msgid "Click Edit &gt; Preferences, then click Mail Accounts."
-msgstr ""
+msgstr "Pulse Editar &gt; Preferencias, después pulse Cuentas de correo."
 
 #: C/evolution.xml:1885(para)
-#, fuzzy
 msgid "Select the account you want to use securely, then click Edit."
-msgstr "Haga clic en la ficha <guibutton>Correo</guibutton>."
+msgstr "Seleccione la cuenta que quiere usar de forma segura, después pulse Editar."
 
 #: C/evolution.xml:1888(para) C/evolution.xml:1926(para)
 msgid "Click the Security tab."
-msgstr ""
+msgstr "Pulse en la solapa de Seguridad."
 
 #: C/evolution.xml:1891(para)
 msgid "Specify your key ID in the PGP/GPG Key ID field."
-msgstr ""
+msgstr "Especifique el ID de su clave en el campo ID de la clave GPG/PGP."
 
 #: C/evolution.xml:1900(para)
-#, fuzzy
 msgid ""
 "Evolution requires that you know your key ID. If you don't remember it, you "
 "can find it by typing <command>gpg --list-keys</command> in a console "
 "window. Your key ID is an eight-character string with random numbers and "
 "letters."
-msgstr ""
-"<application> Evolution</application> necesita que usted sepa su "
-"identificador (ID) de clave. Si no lo recuerda puede encontrarlo con la "
-"orden  <command>gpg --list-keys</command> en una terminal. El identificador "
-"de clave es una cadena de 8 caracteres con números y letras aleatorios."
+msgstr "Evolution necesita que usted sepa su identificador (ID) de clave. Si no lo recuerda puede encontrarlo con la orden <command>gpg --list-keys</command> en una consola. El identificador de clave es una cadena de 8 caracteres con números y letras aleatorios."
 
 #: C/evolution.xml:1904(title)
-#, fuzzy
 msgid "Encrypting Messages"
-msgstr "Cifrar un mensaje"
+msgstr "Cifrar mensajes"
 
 #: C/evolution.xml:1905(para)
-#, fuzzy
 msgid "To encrypt a single message:"
-msgstr "Cifrar un mensaje"
+msgstr "Cifrar un sólo mensaje:"
 
 #: C/evolution.xml:1908(para)
-#, fuzzy
 msgid "Open a Compose a Message window."
-msgstr "Abra una ventana de Nautilus"
+msgstr "Abra una ventana del editor de mensajes."
 
 #: C/evolution.xml:1911(para)
 msgid "Click Security &gt; PGP Encrypt."
-msgstr ""
+msgstr "Pulse Seguridad &gt; Cifrado PGP."
 
 #: C/evolution.xml:1914(para)
 msgid "Compose your message, then click Send."
-msgstr ""
+msgstr "Edite su mensaje, después pulse Enviar."
 
 #: C/evolution.xml:1917(para)
-#, fuzzy
 msgid "You can set Evolution to always sign your e-mail messages:"
-msgstr ""
-"Puede configurar  <application>Evolution</application> para que firme "
-"siempre sus mensajes de correo electrónico:"
+msgstr "Puede configurar Evolution para que firme siempre sus mensajes de correo electrónico:"
 
 #: C/evolution.xml:1920(para)
 msgid "Click Edit &gt; Preferences, then select Mail Accounts."
-msgstr ""
+msgstr "Pulse Editar &gt; Preferencias, después seleccione Cuentas de correo."
 
 #: C/evolution.xml:1923(para)
 msgid "Select the mail account to encrypt, then click Edit."
-msgstr ""
+msgstr "Seleccione la cuenta de correo para cifrar, después pulse Editar."
 
 # index.docbook:172, index.docbook:216
 #: C/evolution.xml:1929(para)
-#, fuzzy
 msgid "Select Always Sign Outgoing Messages When Using This Account."
-msgstr ""
-"Pinche en el botón <guibutton>Firmar siempre el correo saliente al usar esta "
-"cuenta </guibutton>. "
+msgstr "Seleccione Firmar siempre los mensajes salientes cuando se use esta cuenta."
 
 #: C/evolution.xml:1941(title)
 msgid "Unencrypting a Received Message"
 msgstr "Descifrar un mensaje recibido"
 
 #: C/evolution.xml:1942(para)
-#, fuzzy
 msgid ""
 "If you receive an encrypted message, you need to decrypt it before you read "
 "it. Remember, the sender must have your public key before they can send you "
 "an encrypted message."
-msgstr ""
-"Si recibe un mensaje encriptado necesita descifrarlo antes de poder leerlo. "
-"Recuerde que el remitente tiene que tener su clave pública (la suya, de "
-"usted) antes de enviarle un mensaje encriptado."
+msgstr "Si recibe un mensaje cifrado necesita descifrarlo antes de poder leerlo. Recuerde que el remitente tiene que tener su clave pública (la suya, de usted) antes de enviarle un mensaje encriptado."
 
 #: C/evolution.xml:1943(para)
-#, fuzzy
 msgid ""
 "When you view the message, Evolution prompts you for your PGP password. "
 "Enter it, and the unencrypted message is displayed."
-msgstr ""
-"Cuando vea el mensaje  <application>Evolution</application> le pedirá que "
-"escriba su contraseña PGP. Escríbala y el mensaje será mostrado "
-"apropiadamente."
+msgstr "Cuando vea el mensaje, Evolution le pedirá que escriba su contraseña PGP. Escríbala y el mensaje se mostrará apropiadamente."
 
 #: C/evolution.xml:1948(para)
 msgid ""
@@ -4934,15 +4659,15 @@ msgstr ""
 
 #: C/evolution.xml:1951(para)
 msgid "The certificate file is a password-protected file on your computer."
-msgstr ""
+msgstr "El archivo certificado es un archivo protegido por contraseña en su equipo."
 
 #: C/evolution.xml:1954(title)
 msgid "Adding a Signing Certificate"
-msgstr ""
+msgstr "Añadir un certificado firmado"
 
 #: C/evolution.xml:1957(para)
 msgid "Click Edit &gt; Preferences, then click Certificate."
-msgstr ""
+msgstr "Pulse Editar &gt; Preferencias, después pulse Certificar."
 
 #: C/evolution.xml:1960(para) C/evolution.xml:2080(para)
 #, fuzzy
@@ -4950,9 +4675,8 @@ msgid "Click Import."
 msgstr "Pinche en <guibutton>Aceptar</guibutton>."
 
 #: C/evolution.xml:1963(para)
-#, fuzzy
 msgid "Select the file to import, then click Open."
-msgstr "Seleccione las carpetas que quiere abrir."
+msgstr "Seleccione el archivo a importar, después pulse Abrir."
 
 #: C/evolution.xml:1969(para)
 msgid ""
@@ -4963,29 +4687,28 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:1973(title)
-#, fuzzy
 msgid "Signing or Encrypting Every Message"
-msgstr "Enviar un mensaje encriptado"
+msgstr "Firmar o cifrar cada mensaje"
 
 #: C/evolution.xml:1974(para)
 msgid ""
 "After you have added your certificate, you can sign or encrypt a message by "
 "clicking Security &gt; S/MIME Sign or S/MIME Encrypt in the message composer."
-msgstr ""
+msgstr "Después de que haya añadido su certificado, puede firmar o cifrar cada mensaje pulsando Seguridad &gt; Firma S/MIME o Cifrado S/MIME en el editor de mensajes."
 
 #: C/evolution.xml:1975(para)
 msgid "To have every message signed or encrypted:"
-msgstr ""
+msgstr "Para enviar cada mensaje cifrado o firmado:"
 
 #: C/evolution.xml:1978(para)
 msgid ""
 "Click Edit &gt; Preferences, then select the account to encrypt the messages "
 "in."
-msgstr ""
+msgstr "Pulse Editar &gt; Preferencias, después seleccione la cuenta que en la que cifrar los mensajes."
 
 #: C/evolution.xml:1981(para)
 msgid "Click Edit, then click Security."
-msgstr ""
+msgstr "Pulse Editar, después pulse en Seguridad."
 
 #: C/evolution.xml:1984(para)
 msgid ""
@@ -5000,9 +4723,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:1989(para)
-#, fuzzy
 msgid "Select the appropriate options."
-msgstr "Elija el tipo de carpeta. Los tipos disponibles son:"
+msgstr "Seleccione las opciones apropiadas."
 
 #: C/evolution.xml:2005(para)
 msgid ""
@@ -5012,9 +4734,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:2008(link) C/evolution.xml:2031(title)
-#, fuzzy
 msgid "Importing Your Old E-Mail"
-msgstr "Importación de la configuración y de los mensajes existentes"
+msgstr "Importar su correo-e antiguo"
 
 #: C/evolution.xml:2011(link) C/evolution.xml:2120(title)
 msgid "Sorting the Message List"
@@ -5033,9 +4754,8 @@ msgid "Create Rules to Automatically Organize Mail"
 msgstr "Creación de reglas para organizar automáticamente el correo"
 
 #: C/evolution.xml:2023(link) C/evolution.xml:2732(title)
-#, fuzzy
 msgid "Using Search Folders"
-msgstr "Carpetas, búsquedas y carpetas virtuales"
+msgstr "Usar las carpetas de búsqueda"
 
 #: C/evolution.xml:2026(link) C/evolution.xml:2865(title)
 msgid "Stopping Junk Mail (Spam)"
@@ -5095,28 +4815,22 @@ msgstr ""
 "application>."
 
 #: C/evolution.xml:2046(title)
-#, fuzzy
 msgid "iCalendar or iCal (.ics):"
-msgstr "iCalendar (.ics):"
+msgstr "iCalendar o iCal (.ics):"
 
 #: C/evolution.xml:2047(para)
-#, fuzzy
 msgid ""
 "A format for storing calendar files. iCalendar is used by Palm OS handhelds, "
 "Evolution, and Microsoft Outlook."
-msgstr ""
-"Un formato utilizado para almacenar archivos de calendario. iCalendar es el "
-"programa utilizado por equipos de bolsillo PalmOS, así como Ximian "
-"<application>Evolution</application>, y Microsoft <application>Outlook</"
-"application>."
+msgstr "Un formato utilizado para almacenar archivos de calendario. iCalendar es el programa utilizado por equipos de mano PalmOS, así como Evolution y Microsoft Outlook."
 
 #: C/evolution.xml:2050(title)
 msgid "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
-msgstr ""
+msgstr "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
 
 #: C/evolution.xml:2051(para)
 msgid "CSV or Tab files saved using Evolution, Microsoft Outlook and Mozilla."
-msgstr ""
+msgstr "Los archivos CSV o Tab guardados al usar Evolution, Microsoft Outlook y Mozilla."
 
 #: C/evolution.xml:2054(title)
 msgid "Microsoft Outlook Express 4 (.mbx):"
@@ -5145,7 +4859,7 @@ msgstr "Un formato de datos estándar para tarjetas de visita."
 
 #: C/evolution.xml:2062(title)
 msgid "Berkley Mailbox (.mbox or null extension):"
-msgstr ""
+msgstr "Berkley Mailbox (.mbox o extensión nula):"
 
 #: C/evolution.xml:2063(para)
 #, fuzzy
@@ -5164,11 +4878,11 @@ msgstr "Para importar sus mensajes existentes:"
 #: C/evolution.xml:2068(para) C/evolution.xml:2090(para)
 #: C/evolution.xml:3184(para)
 msgid "Click File &gt; Import."
-msgstr ""
+msgstr "Pulse Archivo &gt; Importar."
 
 #: C/evolution.xml:2074(para)
 msgid "Select Import a Single File, then click Forward."
-msgstr ""
+msgstr "Seleccione Importar un único archivo, después pulse Siguiente."
 
 #: C/evolution.xml:2077(para)
 #, fuzzy
@@ -5184,26 +4898,23 @@ msgstr "Uso de calendarios múltiples"
 msgid ""
 "Evolution automates the import process for several applications it can "
 "recognize."
-msgstr ""
+msgstr "Evolution automatiza el proceso de importación para distintas aplicaciones que puede reconocer."
 
 #: C/evolution.xml:2096(para)
-#, fuzzy
 msgid "Select Import Data and Settings From Older Programs, then click Forward."
-msgstr ""
-"Seleccione <guibutton>Importar datos y configuración de programas antiguos</"
-"guibutton>."
+msgstr "Seleccione Importar datos y configuración de programas antiguos, después pulse Siguiente."
 
 #: C/evolution.xml:2097(para)
 msgid ""
 "Follow the steps <link linkend=\"bsawely\">Step 3</link> through <link "
 "linkend=\"bsawf2t\">Step 5</link> to import."
-msgstr ""
+msgstr "Siga los pasos <link linkend=\"bsawely\">Paso 3</link> hasta <link linkend=\"bsawf2t\">Paso 5</link> para importar."
 
 #: C/evolution.xml:2098(para)
 msgid ""
 "Evolution searches for old mail programs and, if possible, imports the data "
 "from them."
-msgstr ""
+msgstr "Evolution busca programas de correo antiguos y, si es posible, importa los datos de ellos."
 
 #: C/evolution.xml:2102(para)
 msgid ""
@@ -5241,7 +4952,7 @@ msgstr ""
 
 #: C/evolution.xml:2112(para)
 msgid "Use the Evolution import tool to import the files."
-msgstr ""
+msgstr "Use la herramienta de importar de Evolution para importar los archivos."
 
 #: C/evolution.xml:2115(para)
 msgid ""
@@ -5345,23 +5056,20 @@ msgstr ""
 "una lista de opciones:"
 
 #: C/evolution.xml:2136(title)
-#, fuzzy
 msgid "Sort by:"
-msgstr "Pulse en «Ordenar por»."
+msgstr "Ordenar por:"
 
 #: C/evolution.xml:2137(para)
 msgid "Sorts the message by different criteria as listed below:"
-msgstr ""
+msgstr "Ordena los mensajes por diferentes criterios tal y como se lista debajo:"
 
 #: C/evolution.xml:2141(para)
-#, fuzzy
 msgid "Recipients"
-msgstr "Requisitos"
+msgstr "Destinatarios"
 
 #: C/evolution.xml:2144(para) C/evolution.xml:2150(para)
-#, fuzzy
 msgid "Sender"
-msgstr "Recordatorios en Exchange"
+msgstr "Remitente"
 
 #: C/evolution.xml:2147(para)
 #, fuzzy
@@ -5452,28 +5160,27 @@ msgstr ""
 
 #: C/evolution.xml:2199(title)
 msgid "Sort Ascending:"
-msgstr ""
+msgstr "Orden ascendente:"
 
 #: C/evolution.xml:2200(para)
 msgid ""
 "Sorts the messages top to bottom and returns you the sorted e-mail list in "
 "the order of oldest to the latest."
-msgstr ""
+msgstr "Ordena los mensajes de arriba a abajo y le devuelve la lista ordenada de correos electrónicos en el orden de más viejo a más nuevo."
 
 #: C/evolution.xml:2203(title)
 msgid "Sort Descending:"
-msgstr ""
+msgstr "Orden descendente:"
 
 #: C/evolution.xml:2204(para)
 msgid ""
 "Sort descending revers the order and returns you the sorted e-mail list in "
 "the order of newest to oldest."
-msgstr ""
+msgstr "Ordena los mensajes de forma descendente y le devuelve la lista ordenada de correos electrónicos en el orden de más nuevo a más viejo."
 
 #: C/evolution.xml:2207(title)
-#, fuzzy
 msgid "Unsort:"
-msgstr "Puerto"
+msgstr "Desordenar:"
 
 #: C/evolution.xml:2208(para)
 msgid ""
@@ -5483,7 +5190,7 @@ msgstr ""
 
 #: C/evolution.xml:2211(title)
 msgid "Removing a Column:"
-msgstr ""
+msgstr "Eliminar una columna:"
 
 #: C/evolution.xml:2212(para)
 msgid ""
@@ -5495,7 +5202,7 @@ msgstr ""
 
 #: C/evolution.xml:2215(title)
 msgid "Adding a Column:"
-msgstr ""
+msgstr "Añadir una columna:"
 
 #: C/evolution.xml:2216(para)
 #, fuzzy
@@ -5518,9 +5225,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:2223(title)
-#, fuzzy
 msgid "Customizing the Current View:"
-msgstr "Personalización de los módulos del Resumen"
+msgstr "Personalizar la vista actual:"
 
 #: C/evolution.xml:2224(para)
 #, fuzzy
@@ -5537,7 +5243,7 @@ msgstr "Seleccione criterio de búsqueda."
 
 #: C/evolution.xml:2229(para)
 msgid "You can view the messages in the desired order in the message list."
-msgstr ""
+msgstr "Puede ver los mensajes en el orden deseado en la lista de mensajes."
 
 #: C/evolution.xml:2234(title)
 #, fuzzy
@@ -5731,9 +5437,8 @@ msgstr ""
 
 #: C/evolution.xml:2292(title) C/evolution.xml:3046(title)
 #: C/evolution.xml:3856(title)
-#, fuzzy
 msgid "Quick Search:"
-msgstr "Referencia rápida"
+msgstr "Búsqueda rápida:"
 
 #: C/evolution.xml:2293(para)
 msgid ""
@@ -5744,86 +5449,73 @@ msgstr ""
 
 #: C/evolution.xml:2295(para) C/evolution.xml:3859(para)
 msgid "To perform quick search, perform the following procedure:"
-msgstr ""
+msgstr "Para realizar una búsqueda rápida, realice los siguientes procedimientos:"
 
 #: C/evolution.xml:2298(para)
 msgid "Click Show to expand the drop-down list."
-msgstr ""
+msgstr "Pulse Mostrar para expandir la lista desplegable."
 
 #: C/evolution.xml:2301(para)
 msgid "Select the search criteria from the list"
-msgstr ""
+msgstr "Seleccione el criterio de búsqueda para la lista"
 
 #: C/evolution.xml:2304(para)
-#, fuzzy
 msgid "All Messages"
-msgstr "Mensajes de error"
+msgstr "Todos los mensajes"
 
 #: C/evolution.xml:2307(para)
-#, fuzzy
 msgid "Unread Messages"
-msgstr "Recuperar mensajes"
+msgstr "Mensajes sin leer"
 
 #: C/evolution.xml:2310(para)
-#, fuzzy
 msgid "No Label"
 msgstr "Sin etiqueta"
 
 #: C/evolution.xml:2313(para) C/evolution.xml:2355(para)
-#, fuzzy
 msgid "Important"
 msgstr "Importante"
 
 #: C/evolution.xml:2316(para) C/evolution.xml:2358(para)
-#, fuzzy
 msgid "Work"
-msgstr "Semana laboral"
+msgstr "Trabajo"
 
 #: C/evolution.xml:2319(para) C/evolution.xml:2361(para)
 #: C/evolution.xml:3100(para) C/evolution.xml:3910(para)
 #: C/evolution.xml:4695(para)
-#, fuzzy
 msgid "Personal"
-msgstr "Versiones de GPG"
+msgstr "Personal"
 
 #: C/evolution.xml:2322(para) C/evolution.xml:2364(para)
 msgid "To do"
-msgstr ""
+msgstr "Por hacer"
 
 #: C/evolution.xml:2325(para) C/evolution.xml:2367(para)
-#, fuzzy
 msgid "Later"
-msgstr "Apellido:"
+msgstr "Después"
 
 #: C/evolution.xml:2328(para)
-#, fuzzy
 msgid "Read Messages"
-msgstr "Responder un mensaje:"
+msgstr "Mensajes leídos"
 
 #: C/evolution.xml:2331(para)
-#, fuzzy
 msgid "Recent Messages"
-msgstr "Recuperar mensajes"
+msgstr "Mensajes recientes"
 
 #: C/evolution.xml:2334(para)
-#, fuzzy
 msgid "Last 5 Days' Messages"
 msgstr "Mensajes de los últimos 5 días"
 
 #: C/evolution.xml:2337(para)
-#, fuzzy
 msgid "Messages with Attachments"
-msgstr "Adjuntos"
+msgstr "Mensajes con adjuntos"
 
 #: C/evolution.xml:2340(para)
-#, fuzzy
 msgid "Important Messages"
-msgstr "Mensajes de error"
+msgstr "Mensajes importantes"
 
 #: C/evolution.xml:2343(para)
-#, fuzzy
 msgid "Messages Not Junk"
-msgstr "Tipografías del mensaje"
+msgstr "Mensajes que no son spam"
 
 #: C/evolution.xml:2348(para)
 msgid ""
@@ -5841,7 +5533,7 @@ msgstr ""
 #: C/evolution.xml:2372(title) C/evolution.xml:3004(title)
 #: C/evolution.xml:3824(title)
 msgid "Customized Search:"
-msgstr ""
+msgstr "Búsqueda personalizada:"
 
 #: C/evolution.xml:2373(para)
 msgid ""
@@ -7275,8 +6967,9 @@ msgid "Gifts"
 msgstr "Regalos"
 
 #: C/evolution.xml:3076(para) C/evolution.xml:3889(para)
+#, fuzzy
 msgid "Goals/Objectives"
-msgstr ""
+msgstr "Metas/Objetivos"
 
 #: C/evolution.xml:3079(para)
 #, fuzzy
@@ -7925,8 +7618,9 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:3434(para)
+#, fuzzy
 msgid "Or"
-msgstr ""
+msgstr "O"
 
 #: C/evolution.xml:3435(para)
 msgid ""
@@ -10187,8 +9881,9 @@ msgid "Accepting appointments or meetings in offline mode"
 msgstr ""
 
 #: C/evolution.xml:4842(para)
+#, fuzzy
 msgid "Archive"
-msgstr ""
+msgstr "Archivar"
 
 #: C/evolution.xml:4849(para)
 msgid ""
@@ -10198,8 +9893,9 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:4857(para)
+#, fuzzy
 msgid "GroupWise"
-msgstr ""
+msgstr "GroupWise"
 
 #: C/evolution.xml:4860(para) C/evolution.xml:6329(glossterm)
 #, fuzzy
@@ -10712,8 +10408,9 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:5257(para)
+#, fuzzy
 msgid "Write"
-msgstr ""
+msgstr "Escribir"
 
 #: C/evolution.xml:5260(para)
 msgid ""
@@ -11825,7 +11522,7 @@ msgid ""
 "signature or none at all, you can select it from the mail composer itself."
 msgstr ""
 "El editor de firmas permite crear varias firmas diferentes en formato de "
-"texto puro o en HTML así como especificar cuál de ellas debe agregarse a los "
+"texto plano o en HTML así como especificar cuál de ellas debe agregarse a los "
 "mensajes que crea en el editor de mensajes. También puede elegir una firma "
 "alternativa, o no utilizar ninguna, desde el propio editor de correo."
 
@@ -12381,7 +12078,6 @@ msgstr ""
 "777 /dev/ttyUSB0</userinput>."
 
 #: C/evolution.xml:6054(para)
-#, fuzzy
 msgid ""
 "After your computer and your Palm OS device are communicating, select the "
 "<link linkend=\"conduit\">conduits</link> you want under the Pilot Conduits "
@@ -12389,15 +12085,7 @@ msgid ""
 "several applications; the Evolution conduits are labeled EAddress, for the "
 "contacts in your address book; ECalendar, for your calendar; and ETodo, for "
 "your task list."
-msgstr ""
-"Una vez que su equipo y el dispositivo Palm-OS son capaces de comunicarse "
-"con fluidez, seleccione los <glossterm linkend=\"conduit\">conductos</"
-"glossterm> deseados en la sección <guilabel>Conductos del Pilot</guilabel> "
-"del centro de control. Los conductos sirven para sincronizar datos de "
-"numerosas aplicaciones; los conductos de <application>Ximian Evolution</"
-"application> llevan la etiqueta <guilabel>EAddress</guilabel> para los "
-"contactos de la libreta de direcciones, <guilabel>ECalendar</guilabel>, para "
-"el calendario y <guilabel>ETasks</guilabel>, para la lista de tareas."
+msgstr "Una vez que su equipo y el dispositivo Palm-OS son capaces de comunicarse con fluidez, seleccione los <link linkend=\"conduit\">conductos</link> deseados en la sección Conductos del Pilot del Centro de control. Los conductos sirven para sincronizar datos de numerosas aplicaciones; los conductos de Evolution llevan la etiqueta EAddress para los contactos de la libreta de direcciones, ECalendar, para el calendario y ETasks, para la lista de tareas."
 
 #: C/evolution.xml:6055(para)
 msgid ""
