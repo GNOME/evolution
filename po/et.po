@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-10 03:30+0100\n"
-"PO-Revision-Date: 2007-06-20 09:29+0300\n"
+"PO-Revision-Date: 2007-06-24 19:01+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -437,7 +437,7 @@ msgstr "Serveri versioon"
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
 msgstr ""
-"Mõningad võimalused võivad sinu käesoleva serveriga ebakorrektselt töötada"
+"Mõned võimalused võivad sinu praeguse serveriga ebakorrektselt töötada"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -4352,7 +4352,8 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
-msgstr "Mõningad võimalused võivad sinu käesoleva serveriga mitte töötada"
+msgstr ""
+"Mõned võimalused võivad sinu praeguse serveriga ebakorrektselt töötada."
 
 #: ../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
@@ -12118,6 +12119,8 @@ msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
+"Evolutionil pole võimalik seda e-sõnumit renderdada kuna see on liiga suur. "
+"Sa võid vaadata seda vormindamata kujul või välise tekstiredaktori abil."
 
 #: ../mail/em-format-html-print.c:141
 #, c-format
@@ -12749,7 +12752,7 @@ msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele"
 
 #: ../mail/evolution-mail.schemas.in.in.h:78
 msgid "Save directory"
-msgstr ""
+msgstr "Salvestamise kataloog"
 
 #: ../mail/evolution-mail.schemas.in.in.h:79
 msgid "Send HTML mail by default"
@@ -12811,7 +12814,7 @@ msgstr "Terminali kirjatüüp"
 
 #: ../mail/evolution-mail.schemas.in.in.h:95
 msgid "Text message part limit"
-msgstr ""
+msgstr "Sõnumi tekstiosa piirang"
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "The last time empty trash was run, in days since the epoch."
@@ -15688,6 +15691,10 @@ msgid ""
 "Private\n"
 "Confidential"
 msgstr ""
+"Tavaline\n"
+"Era\n"
+"Isiklik\n"
+"Salajane"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 msgid "Request a _delivery receipt for this message"
@@ -17397,7 +17404,7 @@ msgstr "Kirjeldus"
 
 #: ../plugins/plugin-manager/plugin-manager.c:193
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Märkus: mõningad muudatused rakenduvad alles pärast taaskäivitamist"
+msgstr "Märkus: mõned muudatused rakenduvad alles pärast taaskäivitamist"
 
 #: ../plugins/plugin-manager/plugin-manager.c:202
 #: ../plugins/plugin-manager/plugin-manager.c:262
@@ -17411,7 +17418,7 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"Testplugin, mis demonstreerib HTML sõnumite keelamise võimalusega "
+"Testplugin, mis demonstreerib HTML-sõnumite keelamise võimalusega "
 "vorminduspluginat.\n"
 "\n"
 "See plugin on mõeldud koodinäiteks ja pole seetõttu toetatud.\n"
