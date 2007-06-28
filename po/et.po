@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-06-19 03:18+0100\n"
-"PO-Revision-Date: 2007-06-20 09:29+0300\n"
+"PO-Revision-Date: 2007-06-24 19:01+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -437,7 +437,7 @@ msgstr "Serveri versioon"
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
 msgstr ""
-"Mõningad võimalused võivad sinu käesoleva serveriga ebakorrektselt töötada"
+"Mõned võimalused võivad sinu praeguse serveriga ebakorrektselt töötada"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -4321,7 +4321,8 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:44
 msgid "Some features may not work properly with your current server."
-msgstr "Mõningad võimalused võivad sinu käesoleva serveriga mitte töötada"
+msgstr ""
+"Mõned võimalused võivad sinu praeguse serveriga ebakorrektselt töötada."
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "The Evolution calendar has quit unexpectedly."
@@ -10768,7 +10769,7 @@ msgstr "tagasi"
 
 #: ../filter/filter.glade.h:16
 msgid "in the future"
-msgstr ""
+msgstr "tulevikus"
 
 #: ../filter/filter.glade.h:18
 msgid "months"
@@ -11853,7 +11854,7 @@ msgstr "Manus"
 
 #: ../mail/em-format-html-display.c:2114
 msgid "Save attachment as"
-msgstr ""
+msgstr "Manuse salvestamine kui"
 
 #: ../mail/em-format-html-display.c:2118
 msgid "Select folder to save all attachments"
@@ -11900,6 +11901,8 @@ msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
+"Evolutionil pole võimalik seda e-sõnumit renderdada kuna see on liiga suur. "
+"Sa võid vaadata seda vormindamata kujul või välise tekstiredaktori abil."
 
 #: ../mail/em-format-html-print.c:128
 #, c-format
@@ -12045,7 +12048,7 @@ msgstr "Kord kuus"
 #: ../mail/em-mailer-prefs.c:777
 #, c-format
 msgid "%s plugin is available and the binary is installed."
-msgstr ""
+msgstr "%s plugin on saadaval ja binaarfail on paigaldatud."
 
 #: ../mail/em-mailer-prefs.c:785
 #, c-format
@@ -12581,11 +12584,11 @@ msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele"
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Save directory"
-msgstr ""
+msgstr "Salvestamise kataloog"
 
 #: ../mail/evolution-mail.schemas.in.h:87
 msgid "Search for the sender photo in local addressbooks"
-msgstr ""
+msgstr "Saatja foto otsimine kohalikest aadressiraamatutest"
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "Send HTML mail by default"
@@ -12623,7 +12626,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:98
 msgid "Show the photo of the sender in the message reading pane."
-msgstr ""
+msgstr "Saatja foto näitamine sõnumi lugemispaanil."
 
 #: ../mail/evolution-mail.schemas.in.h:99
 msgid "Show the sender email in the messages column in the message list"
@@ -12655,7 +12658,7 @@ msgstr "Terminali kirjatüüp"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid "Text message part limit"
-msgstr ""
+msgstr "Sõnumi tekstiosa piirang"
 
 #: ../mail/evolution-mail.schemas.in.h:107
 msgid "The default plugin for Junk hook"
@@ -14832,7 +14835,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:96
 msgid "Select name of the Evolution archive"
-msgstr "Vali Evolutioni arhiivi nimi"
+msgstr "Evolutioni arhiivi nime valimine"
 
 #: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
@@ -14932,12 +14935,12 @@ msgstr "Ajutiste varufailide eemaldamine"
 #: ../plugins/backup-restore/backup.c:244
 #, c-format
 msgid "Backing up to %s"
-msgstr ""
+msgstr "Varundamine faili %s"
 
 #: ../plugins/backup-restore/backup.c:249
 #, c-format
 msgid "Restoring from %s"
-msgstr ""
+msgstr "Taastamine failist %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:264
@@ -14973,6 +14976,10 @@ msgid ""
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
 msgstr ""
+"Evolutioni varundamist saab läbi viia ainult siis, kui Evolution ei tööta. "
+"Palun veendu, et Sa enne varundamist salvestasid kõik salvestamata andmed ja "
+"sulgesid kõik Evolutioni aknad. Pärast varundamist Evolutioni automaatseks "
+"taaskäivitamiseks märgi allpool olev märkeruut."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Invalid Evolution archive"
@@ -14997,11 +15004,11 @@ msgstr "Evolutioni andmete ja seadistuste varundamine"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
-msgstr "_Taastamise sätted..."
+msgstr "_Taasta sätted..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
-msgstr "_Varundamise sätted..."
+msgstr "_Varunda sätted..."
 
 #: ../plugins/bbdb/bbdb.c:447 ../plugins/bbdb/bbdb.c:456
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -15703,6 +15710,10 @@ msgid ""
 "Private\n"
 "Confidential"
 msgstr ""
+"Tavaline\n"
+"Era\n"
+"Isiklik\n"
+"Salajane"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 msgid "Request a _delivery receipt for this message"
@@ -17102,19 +17113,21 @@ msgstr "Konto keelamine"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Enable libnotify notifications of new mail"
-msgstr ""
+msgstr "Uue sõnumi korral libnotify teavitamise lubamine"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Every time a new mail arrives, pop up a libnotify notification."
-msgstr ""
+msgstr "Teavitusakna avamine iga uue sõnumi saabumisel."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Make the status icon blink"
-msgstr ""
+msgstr "Olekuikooni vilgutamine"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "When the new-mail status icon is visible, make it blink."
 msgstr ""
+"Uute sõnumite olekuikooni vilgutamine iga uue sõnumi saabumisel (kui ikoon "
+"on nähtaval)."
 
 #: ../plugins/mail-notification/mail-notification.c:108
 #, c-format
@@ -17139,6 +17152,8 @@ msgid ""
 "Notifies the user with tray icon and a notify message whenever a new message "
 "is arrived."
 msgstr ""
+"Uue sõnumi saabumisel kasutaja teavitamine salveikooni ja teavitussõnumi "
+"abil."
 
 #: ../plugins/mail-remote/client.c:30
 #, c-format
@@ -17434,7 +17449,7 @@ msgstr "Kirjeldus"
 
 #: ../plugins/plugin-manager/plugin-manager.c:215
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Märkus: mõningad muudatused rakenduvad alles pärast taaskäivitamist"
+msgstr "Märkus: mõned muudatused rakenduvad alles pärast taaskäivitamist"
 
 #: ../plugins/plugin-manager/plugin-manager.c:268
 #: ../plugins/plugin-manager/plugin-manager.c:327
@@ -17448,7 +17463,7 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"Testplugin, mis demonstreerib HTML sõnumite keelamise võimalusega "
+"Testplugin, mis demonstreerib HTML-sõnumite keelamise võimalusega "
 "vorminduspluginat.\n"
 "\n"
 "See plugin on mõeldud koodinäiteks ja pole seetõttu toetatud.\n"
@@ -19552,7 +19567,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Download messages for offline"
-msgstr "Sõnumite allalaagimine võrguvaba režiimi jaoks"
+msgstr "Sõnumite allalaadimine võrguvaba režiimi jaoks"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Download messages of accounts/folders marked for offline"
@@ -22096,51 +22111,11 @@ msgstr "Välksõnumikontekst"
 msgid "Handle Popup"
 msgstr ""
 
-#~ msgid "Enable"
-#~ msgstr "Luba"
-
-#~ msgid "(Untitled)"
-#~ msgstr "(Pealkirjata)"
-
-#~ msgid "_Edit..."
-#~ msgstr "_Redigeeri..."
-
-#~ msgid "..."
-#~ msgstr "..."
-
 #~ msgid "Evolution is importing your old Netscape data"
 #~ msgstr "Evolution impordib sinu Netscape andmeid"
 
 #~ msgid "Importing Netscape data"
 #~ msgstr "Netscape'i andmete importimine"
-
-#~ msgid "Settings"
-#~ msgstr "Sätted"
-
-#~ msgid "Mail Filters"
-#~ msgstr "Kirjade filtrid"
-
-#~ msgid ""
-#~ "Evolution has found Netscape mail files.\n"
-#~ "Would you like them to be imported into Evolution?"
-#~ msgstr ""
-#~ "Evolution leidis Netscape mail'i faile.\n"
-#~ "Kas sa soovid neid Evolutionisse importida?"
-
-#~ msgid "<span weight=\"bold\">Filter Options</span>"
-#~ msgstr "<span weight=\"bold\">Filtri valikud</span>"
-
-#~ msgid "<b>Recipients </b>"
-#~ msgstr "<b>Saajad </b>"
-
-#~ msgid "<b>Action</b>"
-#~ msgstr "<b>Tegevus</b>"
-
-#~ msgid "<b>Date and Time</b>"
-#~ msgstr "<b>Kuupäev ja aeg</b>"
-
-#~ msgid "No output directory!"
-#~ msgstr "Väljundkataloog puudub!"
 
 #~ msgid ""
 #~ "The output directory was not found on iPod! Please ensure that iPod has "
@@ -22148,15 +22123,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Väljundkataloogi ei leitud iPod'ist! Palun veendu, et iPod on korralikult "
 #~ "seadistatud ja proovi uuesti."
-
-#~ msgid "Could not export data!"
-#~ msgstr "Andmeid pole võimalik eksportida!"
-
-#~ msgid "Exporting data failed."
-#~ msgstr "Tõrge andmete eksportimisel."
-
-#~ msgid "Could not open addressbook!"
-#~ msgstr "Aadressiraamatut pole võimalik avada!"
 
 #~ msgid "Could not open the Evolution addressbook to export data."
 #~ msgstr ""
