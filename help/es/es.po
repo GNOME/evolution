@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_manual\n"
 "POT-Creation-Date: 2007-05-10 21:27+0100\n"
-"PO-Revision-Date: 2007-06-27 00:36+0200\n"
+"PO-Revision-Date: 2007-06-30 00:16+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1358,7 +1358,7 @@ msgstr ""
 #: C/evolution.xml:401(para) C/evolution.xml:490(para)
 #: C/evolution.xml:4987(para)
 msgid "Select if you want to check new messages for junk content."
-msgstr "Seleccione si quiere comprobar si los mensajes nuevos son spam."
+msgstr "Seleccione si quiere comprobar si los mensajes nuevos son basura."
 
 #: C/evolution.xml:402(para)
 msgid ""
@@ -1366,13 +1366,13 @@ msgid ""
 "organize-spam\">Stopping Junk Mail (Spam)</link> and <link linkend=\"mail-"
 "prefs-junk\">Junk Mail Preferences</link>."
 msgstr ""
-"Para información adicional acerca del Spam, vea <link linkend=\"usage-mail-"
+"Para información adicional acerca del correo basura, vea <link linkend=\"usage-mail-"
 "organize-spam\">Parar el correo basura (Spam)</link> y <link linkend=\"mail-"
 "prefs-junk\">Preferencias de spam</link>."
 
 #: C/evolution.xml:405(para) C/evolution.xml:4991(para)
 msgid "Select if you want to only check for junk messages in the Inbox folder."
-msgstr "Marque si sólo quiere comprobar spam en la Bandeja de entrada."
+msgstr "Marque si sólo quiere comprobar el correo basura en la Bandeja de entrada."
 
 #: C/evolution.xml:408(para) C/evolution.xml:497(para)
 msgid "Select if you want to automatically synchronize remote mail locally."
@@ -1487,7 +1487,7 @@ msgid ""
 "For more information refer <link linkend=\"usage-mail-organize-spam"
 "\">Stopping Junk Mail (Spam)</link>"
 msgstr ""
-"Para información adicional  vea <link linkend=\"usage-mail-organize-spam"
+"Para información adicional vea <link linkend=\"usage-mail-organize-spam"
 "\">Parar el correo basura (Spam)</link>"
 
 #: C/evolution.xml:466(para)
@@ -1551,7 +1551,7 @@ msgid ""
 "For additional information on junk content, see <link linkend=\"mail-prefs-"
 "junk\">Junk Mail Preferences</link>."
 msgstr ""
-"Para información adicional acerca del spam, vea <link linkend=\"mail-prefs-"
+"Para información adicional acerca del correo basura, vea <link linkend=\"mail-prefs-"
 "junk\">Preferencias de spam</link>."
 
 #: C/evolution.xml:494(para)
@@ -3376,6 +3376,15 @@ msgid ""
 "organizations developed the UTF-8 Unicode* character set to provide a single "
 "compatible set of codes for everyone."
 msgstr ""
+"Un juego de caracteres es una versión electrónica de un alfabeto. En el pasado, el "
+"juego de caracteres ASCII se usó universalmente. No obstante contiene sólo 128 "
+"caracteres, lo que significa que es incapaz de mostrar caracteres en cirílico, kanji u "
+"otros alfabetos latinos. Para trabajar alrededor del problema de la representación "
+"del idioma, los programadores desarrollaron una variedad de métodos para que los "
+"idiomas humanos tuviesen su juego de caracteres específico y los elementos escritos en "
+"otros caracteres se mostraban incorrectamente. Eventualmente, las organizaciones de "
+"estándares desarrollaron el juego de caracteres UTF-8 Unicode* para proporcionar un "
+"juego de caracteres único para todo el mundo."
 
 #: C/evolution.xml:1274(para)
 msgid ""
@@ -3390,6 +3399,15 @@ msgid ""
 "is UTF-8, which offers the widest range of characters for the widest range "
 "of languages."
 msgstr ""
+"La mayoría de mensajes de correo-e advierten con antelación qué juego de caracteres usan, "
+"de tal forma que Evolution sabe cómo representarlo para un número binario dado. No obstante, "
+"si encuentra mensajes representados como filas de caracteres incomprensible, pruebe "
+"seleccionando un juego de caracteres diferente en los ajustes del correo. Si sus destinatarios "
+"no pueden leer sus mensajes, pruebe seleccionando un juego de caracteres diferente en la "
+"caja de diálogo de opciones del editor. Para algunos idiomas, tal como turco o coreano, puede ser "
+"mejor que seleccione el juego de caracteres específico para ellos. No obstante, la mejor opción "
+"para la mayoría de usuarios es UTF-8, que ofrece el rango más grande de caracteres para el "
+"rango más grande de idiomas."
 
 #: C/evolution.xml:1280(para)
 msgid ""
@@ -3605,6 +3623,12 @@ msgid ""
 "before each line (in plain text mode), to indicate that it is part of the "
 "previous message."
 msgstr ""
+"Para responder a un mensaje, pulse en el mensaje para responder en la lista y pulse Responder, o pulse "
+"con el botón derecho en el mensaje y seleccione Responder al remitente. Esto abrirá el editor "
+"de mensajes. Los campos Para: y Asunto: ya estarán completos, aunque puede cambiarlos si lo desea. "
+"Además se insertará el texto completo del mensaje antiguo en el nuevo mensaje, en gris o bien con una "
+"línea azul a un lado (sólo para correos en HTML) o con el carácter &gt; antes de cada línea (para el modo "
+"texto plano), para indicar qué parte corresponde al mensaje anterior."
 
 #: C/evolution.xml:1362(para)
 msgid ""
@@ -4619,7 +4643,7 @@ msgid ""
 "number of certificate authorities, so when you get a message with an S/MIME "
 "certificate, your system automatically receives the public portion of the "
 "certificate and decrypts or verifies the message."
-msgstr ""
+msgstr "El cifrado S/MIME también usa una clave basada en aproximación, pero tiene algunas ventajas en conveniencia y seguridad. S/MIME usa certificados, similares a las claves. La parte pública de cada certificado se mantiene por el remitente del mensaje y por una de las muchas autoridades de certificados, quienes son pagadas para garantizar la identidad del remitente y la seguridad del mensaje. Evolution reconoce una gran parte de autoridades de certificados, de tal forma que cuando obtenga un mensaje con un certificado S/MIME, su sistema recibirá automáticamente la parte pública del certificado y descifrará o verificará el mensaje."
 
 #: C/evolution.xml:1949(para)
 msgid ""
@@ -4629,7 +4653,7 @@ msgid ""
 "certificate authority, with or without a guarantee from a dedicated "
 "authority such as VeriSign* or Thawte*. In either case, the system "
 "administrator provides you with a certificate file."
-msgstr ""
+msgstr "S/MIME se usa generalmente en entornos corporativos. En esos casos, los administradores proporcionan certificados que han comprado a una autoridad de certificados. En algunos, una organización puede actuar como su propia autoridad de certificados, con o sin garantía de una autoridad dedicada como VeriSign* o Thawte*.  En cualquier caso, el administrador del sistema le proporciona un archivo de certificado."
 
 #: C/evolution.xml:1950(para)
 msgid ""
@@ -4666,7 +4690,7 @@ msgid ""
 "any authority by clicking the Contact Certificates tab and using the same "
 "Import tool. You can also add new certificate authorities, which have their "
 "own certificate files, in the same way."
-msgstr ""
+msgstr "De forma similar, puede añadir certificados que le sean enviados independientemente de ninguna autoridad, pulsando la solapa Certificados de contactos y usando la misma herramienta de importación. También puede añadir nuevas autoridades de certificados, que tienen sus propios archivos de certificados, de la misma forma."
 
 #: C/evolution.xml:1973(title)
 msgid "Signing or Encrypting Every Message"
@@ -4696,13 +4720,13 @@ msgstr "Pulse Editar, después pulse en Seguridad."
 msgid ""
 "Click Select next to Signing Certificate and specify the path to your "
 "signing certificate."
-msgstr ""
+msgstr "Pulse Seleccionar junto a Certificado de firma y especificar la ruta a su certificado de firma."
 
 #: C/evolution.xml:1986(para)
 msgid ""
 "Click Select next to Encryption Certificate and specify the path to your "
 "encryption certificate."
-msgstr ""
+msgstr "Pulse seleccionar junto a Certificado de cifrado y especifique la ruta a su certificado de cifrado."
 
 #: C/evolution.xml:1989(para)
 msgid "Select the appropriate options."
@@ -4741,7 +4765,7 @@ msgstr "Usar las carpetas de búsqueda"
 
 #: C/evolution.xml:2026(link) C/evolution.xml:2865(title)
 msgid "Stopping Junk Mail (Spam)"
-msgstr ""
+msgstr "Parar el correo basura (Spam)"
 
 #: C/evolution.xml:2032(para)
 msgid ""
@@ -4881,7 +4905,7 @@ msgid ""
 "\"http://outport.sourceforge.net\">outport.sourceforge.net</ulink> for "
 "additional information. You can also import data into another Windows mail "
 "client such as Mozilla."
-msgstr ""
+msgstr "Microsoft Outlook y las versiones posteriores a Outlook Express 4 usan formatos propietarios que Evolution no puede leer o importar. Un método de migración que funciona bien es usar la aplicación Outport. Vea <ulink url=\"http://outport.sourceforge.net\">outport.sourceforge.net</ulink> para obtener información adicional. También puede importar datos en otro cliente de correo para Windows como Mozilla."
 
 #: C/evolution.xml:2105(para)
 msgid ""
@@ -4897,7 +4921,7 @@ msgid ""
 "Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders "
 "from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports "
 "and undeletes the messages in your Trash folders."
-msgstr ""
+msgstr "Los usuarios de Mozilla y Netscape deben pulsar Archivo &gt; Compactar &gt; Todas las carpetas desde la herramienta de correo de Netscape o Mozilla. De otra manera Evolution importa y recupera los mensajes en sus carpetas de papelera."
 
 #: C/evolution.xml:2109(para)
 msgid "Copy the files to the system or partition that Evolution is installed on."
@@ -4915,7 +4939,7 @@ msgid ""
 "and click Message &gt; Apply Filters, or press Ctrl+Y. To force your filters "
 "to act on all messages in the folder, select the entire folder by pressing "
 "Ctrl+A, then apply the filters by pressing Ctrl+Y."
-msgstr ""
+msgstr "Para correo POP los filtros se aplican al descargarse los mensajes. Para correo IMAP los filtros se aplican sobre los nuevos mensajes cuando abra la carpeta Bandeja de entrada. En servidores Exchange los filtros no se aplican hasta que seleccione la carpeta Bandeja de entrada y pulse Mensaje &gt; Aplicar filtros, o pulse Ctrl+Y. Para forzar a que sus filtros actúen sobre todos los mensajes en la carpeta, seleccione la carpeta entera pulsaando Ctrl+A y después aplique los filtros pulsando Ctrl+Y."
 
 #: C/evolution.xml:2121(para)
 msgid ""
@@ -5086,7 +5110,7 @@ msgid ""
 "example, when you click Recepients for the first time, Evolution sort the "
 "messages by recepients in ascending order and for the second time, sort in "
 "the reverse order. For the next click, messages will be displayed unsorted."
-msgstr ""
+msgstr "Pulsar por cada criterio de ordenación rota por tres posibilidades. Criterio de ordenación ascendente o descendente o sin orden. Cuando pulsa sobre cualquier criterio de ordenación, Evolution ordena los mensajes de forma secuencia, ascendente, descendente y sin ordenar. Por ejemplo, cuando pulsa Destinatarios la primera vez, Evolution ordena los mensajes por destinatarios en orden ascendente, y la segunda vez que pulse los ordenará descendentemente. La siguiente pulsación hará que se muestren sin orden."
 
 #: C/evolution.xml:2199(title)
 msgid "Sort Ascending:"
@@ -5269,7 +5293,7 @@ msgid ""
 "If you prefer a simpler way to remind yourself about messages, you can mark "
 "them as important by right-clicking the message, then click Mark as "
 "Important or Select Message &gt; Mark as &gt;Important."
-msgstr ""
+msgstr "Si prefiere una forma más sencilla de recordarse a sí mismo los mensajes, puede marcarlos como importantes pulsando con el botón derecho del ratón sobre el mensaje y después pulsando Marcar como importante o Seleccionar mensaje &gt; Marcar como &gt; Importante."
 
 #: C/evolution.xml:2275(para)
 msgid ""
@@ -5277,21 +5301,21 @@ msgid ""
 "out with a few mail folders, such as Inbox, Outbox, and Drafts, but you can "
 "create as many as you like. Create new folders by clicking Folder &gt; New, "
 "or by right-clicking in the folder list and selecting New Folder."
-msgstr ""
+msgstr "Evolution, al igual que muchos otros sistemas de correo, almacena el correo en carpetas. Al comenzar a usar Evolution existen unas pocas carpetas, como la Bandeja de entrada y la carpeta Borradores, pero puede crear tantas como desee. Cree nuevas carpetas pulsaando Carpeta &gt; Nueva, o pulsando con el botón derecho sobre la lista y seleccionando Carpeta nueva."
 
 #: C/evolution.xml:2276(para)
 msgid ""
 "When you click OK, your new folder appears in the folder view. You can then "
 "move the messages to it by dragging and dropping them, or right click &gt; "
 "Move to folder or press Shift+Ctrl+V."
-msgstr ""
+msgstr "Cuando pulse Aceptar, su nueva carpeta aparecerá en la vista de carpetas. Entonces podrá mover los mensajes a la carpeta arrastrándolos y soltándolos, o pulsando con el botón derecho &gt; Mover a la carpeta o pulsando Mayús+Ctrl+V."
 
 #: C/evolution.xml:2277(para)
 msgid ""
 "You can also drop the messages to a particular folder by selecting Message "
 "&gt; Move to folder or press Shift+Ctrl +V. This will open Select folder "
 "window, where you can drop your message to any of the folders listed."
-msgstr ""
+msgstr "También puede soltar los mensajes sobre una carpeta en particular seleccionando Mensaje &gt; Mover a la carpeta o pulsando Mayús+Ctrl+V. Esto abrirá la ventana Seleccionar carpeta, donde podrá soltar su mensaje en cualquiera de las carpetas listadas."
 
 #: C/evolution.xml:2279(para)
 msgid ""
@@ -5300,14 +5324,14 @@ msgid ""
 "box appeared at the top. You can also move the messages from one folder to "
 "ao another by selecting the message and then press Move tab at the bottom "
 "right."
-msgstr ""
+msgstr "Si quiere crear una nueva carpeta pulse Nuevo en la parte inferior izquierda de la ventana. Especifique la ubicación e introduzca la etiqueta para la carpeta en la entrada de texto que aparecerá en la parte superior. También puede mover los mensajes desde una carpeta a otra seleccionando el mensaje y pulsando la solapa Mover en la parte inferior derecha."
 
 #: C/evolution.xml:2280(para)
 msgid ""
 "If you create a filter with the filter assistant, you can have mail filed "
 "automatically. For that select Edit &gt; Message Filters to appear Message "
 "Filters window"
-msgstr ""
+msgstr "Si crea un filtro con el asistente de filtros, puede tener el correo ordenado automáticamente. Para ello seleccione Editar &gt; Filtros de mensajes para que aparezca la ventana Filtros de mensajes."
 
 #: C/evolution.xml:2282(para)
 msgid ""
@@ -5338,6 +5362,9 @@ msgid ""
 "differently and efficiently giving you faster search result with Quick "
 "search, Customized Search and Advanced Search."
 msgstr ""
+"La mayoría de clientes de correo electrónico pueden buscar los mensajes, pero Evolution "
+"lo hace de una forma diferente y eficiente proporcionándole una búsqueda más rápida con "
+"Búsqueda rápida, Búsqueda personalizada y Búsqueda avanzada."
 
 #: C/evolution.xml:2292(title) C/evolution.xml:3046(title)
 #: C/evolution.xml:3856(title)
@@ -5350,6 +5377,8 @@ msgid ""
 "selected from the drop-down list at the top left side, just above the "
 "message list."
 msgstr ""
+"La Búsqueda rápida muestra todos los mensajes que coincidan con los criterios predeterminados que "
+"ha seleccionado de la lista desplegable en la parte superior izquierda, justo encima de la lista de mensajes."
 
 #: C/evolution.xml:2295(para) C/evolution.xml:3859(para)
 msgid "To perform quick search, perform the following procedure:"
@@ -5425,7 +5454,7 @@ msgstr "Mensajes que no son spam"
 msgid ""
 "Evolution displays the messages matching the criteria present in the shown "
 "message list"
-msgstr ""
+msgstr "Evolution muestra los mensajes que coincidan con los criterios presentes en la lista de mensajes mostrada."
 
 #: C/evolution.xml:2352(para)
 msgid ""
@@ -5433,6 +5462,9 @@ msgid ""
 "listed here.You can change the name of these labels by selecting Edit &gt; "
 "Preferences &gt; Mail Preferences &gt; Colors."
 msgstr ""
+"Las siguientes etiquetas no son necesariamente las mismas que las de los nombres predeterminados "
+"listados aquí. Puede cambiar el nombre de estas etiquetas seleccionando Editar &gt; Preferencias &gt; "
+"Preferencias del correo &gt; Colores."
 
 #: C/evolution.xml:2372(title) C/evolution.xml:3004(title)
 #: C/evolution.xml:3824(title)
@@ -5577,6 +5609,8 @@ msgid ""
 "linkend=\"bsazsjd\">Step 4</link> under <link linkend=\"vfolder-create"
 "\">Creating A Search Folder</link>."
 msgstr ""
+"Pulse la solapa Añadir para añadir reglas. Para obtener más información acerca de las reglas, vea el <link "
+"linkend=\"bsazsjd\">Paso 4</link> bajo <link linkend=\"vfolder-create\">Crear una carpeta de búsqueda</link>."
 
 #: C/evolution.xml:2457(para)
 msgid "Press Save to save your search results."
@@ -5592,6 +5626,8 @@ msgid ""
 "&gt; Save Search. You can view the label of your search results listed under "
 "Search menu."
 msgstr ""
+"Para guardar el resultado de una búsqueda distinta de la búsqueda avanzada, seleccione Buscar &gt; "
+"Guardar búsqueda. Puede ver la etiqueta de los resultados de su búsqueda listada bajo el menú Buscar."
 
 #: C/evolution.xml:2465(title)
 msgid "Edit Saved Searches:"
@@ -5607,17 +5643,17 @@ msgstr "Seleccione Buscar"
 
 #: C/evolution.xml:2473(para)
 msgid "Click Edit Saved Searches to open Searches dialogue box."
-msgstr ""
+msgstr "Pulse Editar búsquedas guardadas para abrir el cuadro de diálogo Búsquedas."
 
 #: C/evolution.xml:2478(para)
 msgid "Click Edit tab to edit to open Edit Rule dialogue box"
-msgstr ""
+msgstr "Pulse sobre la solapa Editar para abrir el cuadro de diálogo de Editar regla."
 
 #: C/evolution.xml:2479(para)
 msgid ""
 "You can also add or remove Searches from the list by using the respective "
 "buttons available at the right."
-msgstr ""
+msgstr "También puede añadir o quitar Búsquedas de la lista usando los respectivos botones disponibles a la derecha."
 
 #: C/evolution.xml:2484(para)
 msgid "Edit the title or search criteria from the dialobue box."
@@ -6225,19 +6261,19 @@ msgstr ""
 msgid ""
 "Messages can have labels of Important, Work, Personal, To Do, or Later. You "
 "can set labels with other filters or manually."
-msgstr ""
+msgstr "Los mensajes pueden tener las etiquetas Importante, Trabajo, personal, Tareas pendientes o Más tarde. Puede establecer etiquetas con otros filtros o manualmente."
 
 #: C/evolution.xml:2808(title)
 msgid "Follow Up:"
-msgstr ""
+msgstr "Seguimiento:"
 
 #: C/evolution.xml:2820(title)
 msgid "Match all:"
-msgstr ""
+msgstr "Coincidir con todo:"
 
 #: C/evolution.xml:2821(para)
 msgid "Checks whether the message matchs all the criteria listed."
-msgstr ""
+msgstr "Comprueba si el mensaje coincide con todos los criterios listados."
 
 #: C/evolution.xml:2825(para)
 msgid "Select the folders where this search folder will search. Your options are:"
@@ -6251,7 +6287,7 @@ msgstr "Todas las carpetas locales:"
 msgid ""
 "Uses all local folders for the search folder source in addition to "
 "individual folders that are selected."
-msgstr ""
+msgstr "Usa todas las carpetas locales para la fuente de la carpeta de búsqueda, además de las carpetas individuales seleccionadas."
 
 #: C/evolution.xml:2831(title)
 msgid "All active remote folders:"
@@ -6276,7 +6312,7 @@ msgstr "Todas las carpetas locales y remotas activas:"
 msgid ""
 "Uses all local and active remote folders for the search folder source in "
 "addition to individual folders that are selected."
-msgstr ""
+msgstr "Usa todas las carpetas activas remotas y locales para la fuente de la carpeta de búsqueda, además de las carpetas individuales seleccionadas."
 
 #: C/evolution.xml:2839(title)
 msgid "Specific folders only:"
@@ -6284,7 +6320,7 @@ msgstr "Únicamente carpetas especificadas:"
 
 #: C/evolution.xml:2840(para)
 msgid "Uses individual folders for the search folder source."
-msgstr ""
+msgstr "Usa carpetas individuales para la fuente de carpeta de búsqueda."
 
 #: C/evolution.xml:2842(para)
 msgid "If you select Specific folders only"
@@ -6292,7 +6328,7 @@ msgstr "Si seleccione Únicamente carpetas especificadas"
 
 #: C/evolution.xml:2845(para)
 msgid "click Add button to open the Select folder window."
-msgstr ""
+msgstr "pulse el botón Añadir para abrir la ventana Seleccionar carpeta."
 
 #: C/evolution.xml:2852(para)
 msgid "Select the folder and press Add button."
@@ -6302,7 +6338,7 @@ msgstr "Seleccione la carpeta y pulse el botón Añadir."
 msgid ""
 "You can view the folder added to the list in the entry box at the bottom of "
 "the New Search Folder window."
-msgstr ""
+msgstr "Puede ver la carpeta añadida a la lista de carpetas en la caja de texto de la parte inferior de la ventana Carpeta de búsqueda nueva."
 
 #: C/evolution.xml:2866(para)
 msgid ""
@@ -6311,7 +6347,7 @@ msgid ""
 "detects mail that appears to be junk mail, it will flag it and hide it from "
 "your view. Messages that are flagged as junk mail are displayed only in the "
 "Junk folder."
-msgstr ""
+msgstr "Evolution comprueba el correo basura. Evolution usa SpamAssasin* con filtros Bayesianos entrenables para realizar la comprobación de spam. Cuando el software detecta correo que parece ser correo basura, lo marcará y ocultará a su vista. Los mensajes marcados como correo basura sólo se muestran en la carpeta Correo basura."
 
 #: C/evolution.xml:2867(para)
 msgid ""
@@ -6329,26 +6365,26 @@ msgstr ""
 msgid ""
 "You need to mark approximately 300 mails manually as junk so that "
 "SpamAssassin learns spam-filtering."
-msgstr ""
+msgstr "Debe marcar aproximadamente 300 correos como correo basura de forma manual para que SpamAssasin aprenda a aplicar filtros antispam."
 
 #: C/evolution.xml:2871(para)
 msgid ""
 "To change your junk mail filtering preferences, click Edit &gt; Preferences, "
 "then click Mail Preferences. In the mail preferences tool, click the Junk "
 "tab for the following options:"
-msgstr ""
+msgstr "Para cambiar las preferencias de sus filtros de correo basura, pulse Editar &gt; Preferencias, después pulse Opciones de correo. En la herramienta Opciones de correo, pulse la solapa Spam para ver las siguientes opciones:"
 
 #: C/evolution.xml:2873(title)
 msgid "Checking Incoming Mail for Junk:"
-msgstr ""
+msgstr "Detectar si el correo entrante es spam:"
 
 #: C/evolution.xml:2874(para)
 msgid "This option turns automatic junk mail filtering on or off."
-msgstr ""
+msgstr "Esta opción activa los filtros de comprobación automática de correo basura."
 
 #: C/evolution.xml:2877(title)
 msgid "Include Remote Tests:"
-msgstr ""
+msgstr "Incluir tests remotos:"
 
 #: C/evolution.xml:2878(para)
 msgid ""
@@ -6358,7 +6394,7 @@ msgid ""
 "amount of time it takes to check for junk mail, but increase accuracy. When "
 "you select this option, you do not need to do any additional setup to make "
 "this work."
-msgstr ""
+msgstr "Esta opción usa test que requieren conexión a la red, tales como comprobación por si el mensaje está en una lista de correos basura conocidos, o si el remitente o la puerta de enlace están en alguna lista negra de organizaciones antispam. Los test remotos añaden tiempo al que conlleva detectar si el correo entrante es basura, pero aumentan la eficacia. Cuando seleccione esta opción, no necesitará ninguna configuración adicional para que funcione."
 
 #: C/evolution.xml:2880(para)
 msgid ""
@@ -6366,6 +6402,8 @@ msgid ""
 "\">Receiving Mail Options</link> and <link linkend=\"mail-prefs-junk\">Junk "
 "Mail Preferences</link>"
 msgstr ""
+"Para opciones adiciones sobre correo basura, vea <link linkend=\"more-mail-options"
+"\">Opciones de recepción de correo</link> y <link linkend=\"mail-prefs-junk\">Preferencias de spam</link>"
 
 #: C/evolution.xml:2882(para)
 msgid ""
@@ -6391,14 +6429,14 @@ msgid ""
 "\">Ubuntu</ulink> provides bogofilter instead of SpamAssassin. ( Ubuntu, the "
 "Ubuntu logo, Canonical and the Canonical logo are all registered trademarks "
 "of Canonical Ltd)"
-msgstr ""
+msgstr "También puede usar otras soluciones de filtros antispam a través de otros empaquetadores. Por ejemplo, <ulink url=\"http://www.ubuntu.com/\">Ubuntu</ulink> Hoary proporciona bogofilter en lugar de SpamAssasin. (Ubuntu, el logotipo de Ubuntu, Canonical y el logotipo de Canonical son marcas registradas de Canonical Ltd.)"
 
 #: C/evolution.xml:2890(para)
 msgid ""
 "This section shows you how to use the Evolution&trade; contacts tool to "
 "organize any amount of contact information, share addresses over a network, "
 "and save time with everyday tasks."
-msgstr ""
+msgstr "Esta sección le muestra cómo usar la herramienta de contactos de Evolution&trade; para organizar cualquier cantidad de información sobre contactos, compartir direcciones a través de una red y ahorrar tiempo con las tareas cotidianas."
 
 #: C/evolution.xml:2893(link) C/evolution.xml:2910(title)
 msgid "Contacts and Cards"
@@ -6418,7 +6456,7 @@ msgstr "LDAP: libretas de direcciones compartidas en una red"
 
 #: C/evolution.xml:2905(link) C/evolution.xml:3292(title)
 msgid "Send Me a Card: Adding New Cards Quickly"
-msgstr "Envíeme una carta: Cómo añadir tarjetas rápidamente"
+msgstr "Envíeme una tarjeta: Cómo añadir tarjetas rápidamente"
 
 #: C/evolution.xml:2911(para)
 msgid ""
@@ -6428,7 +6466,7 @@ msgid ""
 "organizing your contact list see <link linkend=\"usage-contact-organize"
 "\">Organizing your Contacts</link>. To learn about configuring the contacts "
 "tool, refer <link linkend=\"config-prefs-contact\">Contact Management</link>."
-msgstr ""
+msgstr "Los contactos son individuos que ha elegido añadir a a su libreta de direcciones para mantener un seguimiento de la información sobre ellos y enviarles correos electrónicos. En Evolution, un contacto individual se llama tarjeta. Para obtener más información acerca de cómo organizar su lista de contactos vea <link linkend=\"usage-contact-organize\">Organizar sus contactos</link>. Para aprender a configurar la herramienta de contactos vea <link linkend=\"config-prefs-contact\">Gestión de contactos</link>."
 
 #: C/evolution.xml:2914(title)
 msgid "The Contact Editor"
@@ -6439,7 +6477,7 @@ msgid ""
 "If you want to add or change cards, use the contact editor. You can edit "
 "email address, telephone numbers, mailer addresses and all other contact "
 "information you have entered for a particular contact."
-msgstr ""
+msgstr "Si quiere añadir o modificar tarjetas use el editor de contactos. Puede editar las direcciones de correo-e, números de teléfono, direcciones de mensajería instantánea y el resto de la información que ha introducido para un contacto en particular."
 
 #: C/evolution.xml:2916(para)
 msgid "The contact editor window has three tabs:"
@@ -6461,7 +6499,7 @@ msgstr "Información personal:"
 msgid ""
 "Contains a more specific description of the person, including URLs for "
 "calendar and free/busy information."
-msgstr ""
+msgstr "Contiene una descripción más específica de la persona, incluyendo URL para el calendario e información de disponibilidad."
 
 #: C/evolution.xml:2926(title)
 msgid "Mailing Address"
@@ -6469,20 +6507,20 @@ msgstr "Dirección de correo"
 
 #: C/evolution.xml:2927(para)
 msgid ":Contains the individual's mailing address."
-msgstr ""
+msgstr "Contiene las direcciones de correo individuales."
 
 #: C/evolution.xml:2929(para)
 msgid ""
 "You can also use Action Menu to find Forward Contact, which opens a new "
 "message with the card already attached, and Send Message to Contact, which "
 "opens a new message to the contact's e-mail address."
-msgstr ""
+msgstr "También puede usar el menú Acciones para Reenviar un contacto, lo que abrirá un nuevo mensaje con la tarjeta adjuntada, y Enviar mensaje al contacto, que abrirá un nuevo mensaje con la dirección de correo-e del contacto."
 
 #: C/evolution.xml:2930(para)
 msgid ""
 "From the Contact Editor toolbar, you can save and close, print, close, or "
 "delete the contact."
-msgstr ""
+msgstr "Desde la barra de herramientas del Editor de contactos puede guardar y cerrar, imprimir, cerrar o borrar el contacto."
 
 #: C/evolution.xml:2931(para)
 msgid ""
@@ -6498,7 +6536,7 @@ msgstr ""
 msgid ""
 "Most of the items in the contact editor simply display the information you "
 "enter, but some of them have additional features:"
-msgstr ""
+msgstr "La mayoría de los elementos en el Editor de contactos simplemente muestran la información que haya introducido, pero algunos de ellos tienen características adicionales:"
 
 #: C/evolution.xml:2934(title)
 msgid "Full Name:"
@@ -6530,11 +6568,11 @@ msgid ""
 "Select one of your address books as the location for this contact. You might "
 "not be able to write to all available address books, especially those on a "
 "network."
-msgstr ""
+msgstr "Seleccione una de sus libretas de direcciones como la ubicación para este contacto. Quizá no pueda escribir en todas las libretas de direcciones, especialmente en aquellas de una red."
 
 #: C/evolution.xml:2942(title)
 msgid "Categories:"
-msgstr ""
+msgstr "Categorías:"
 
 #: C/evolution.xml:2943(para)
 msgid ""
@@ -6543,10 +6581,12 @@ msgid ""
 "categories. For more information on contact categories, see <link linkend="
 "\"usage-contact-organize\">Organizing your Contacts</link>"
 msgstr ""
+"Pulse el botón Categorías para seleccionar las categorías para esta tarjeta. Si asigna categorías al contacto, puede buscar los contactos usando esas categorías. Para obtener más información acerca de las categorías de los contactos, vea <link linkend="
+"\"usage-contact-organize\">Organizar sus contactos</link>."
 
 #: C/evolution.xml:2946(title)
 msgid "Free/Busy and Calendar URLs:"
-msgstr ""
+msgstr "URL de Disponibilidad y Calendario"
 
 #: C/evolution.xml:2947(para)
 msgid ""
@@ -6555,7 +6595,7 @@ msgid ""
 "other than Exchange or GroupWise, you can specify the addresses for those "
 "servers here. After you do so, you can check their schedules when creating "
 "appointments in the calendar."
-msgstr ""
+msgstr "Pulse sobre la solapa Información personal para introducir direcciones web para el contacto. Si el contacto publica su Disponibilidad o su calendario en línea, usando un servidor Exchange o GroupWise, puede especificar las direcciones para esos servidores aquí. Después de hacerlo, puede comprobar sus horarios cuando cree citas con el Calendario."
 
 #: C/evolution.xml:2950(bridgehead)
 msgid "Creating and Editing Contacts"
@@ -6563,29 +6603,29 @@ msgstr "Crear y editar contactos"
 
 #: C/evolution.xml:2951(para)
 msgid "Follow the steps given below to create a new card."
-msgstr ""
+msgstr "Siga los pasos dados debajo para crear una nueva tarjeta."
 
 #: C/evolution.xml:2954(para)
 msgid "Click the down arrow key next to the New button in the toolbar"
-msgstr ""
+msgstr "Pulse el botón de flecha abajo junto al botón Nuevo en la barra de herramientas."
 
 #: C/evolution.xml:2957(para)
 msgid ""
 "Select Contacts from the drop down list or press Shift+Ctrl+C to appear "
 "Contact Editor."
-msgstr ""
+msgstr "Seleccione Contactos de la lista desplegable o pulse Mayús+Ctrl+C para mostrar el Editor de contactos."
 
 #: C/evolution.xml:2960(para)
 msgid "Enter the contact information to the entry boxes provided."
-msgstr ""
+msgstr "Introduzca la información del contacto en las cajas de texto proporcionadas."
 
 #: C/evolution.xml:2966(para)
 msgid "If you want to change a card that already exists,"
-msgstr ""
+msgstr "Si quiere modificar una tarjeta que ya existe,"
 
 #: C/evolution.xml:2969(para)
 msgid "Press Contact tool from the Switcher to appear the Contact list."
-msgstr ""
+msgstr "Pulse la herramienta Contactos del Selector para mostrar la lista de Contactos."
 
 #: C/evolution.xml:2972(para)
 msgid "Double click on the card you want to edit."
@@ -6597,7 +6637,7 @@ msgstr "Edite desde la ventana del editor de contactos."
 
 #: C/evolution.xml:2981(para)
 msgid "You can also edit the contact information from the message list."
-msgstr ""
+msgstr "También puede editar la información del contacto desde la lista de mensajes."
 
 #: C/evolution.xml:2984(para)
 msgid "Right click on the address from Message Header"
@@ -6605,11 +6645,11 @@ msgstr "Pulse con el botón derecho en la dirección desde Cabeceras del mensaje
 
 #: C/evolution.xml:2987(para)
 msgid "Select Add to Address Book to appear Contact Quick-Add window"
-msgstr ""
+msgstr "Seleccione Añadir a la libreta de direcciones para mostrar la ventana Añadir contacto rápido"
 
 #: C/evolution.xml:2992(para)
 msgid "Press Edit Full tab at the bottom left to appear Contact Editor window"
-msgstr ""
+msgstr "Pulse la solapa Editar todo en la parte inferior izquierda para mostrar la ventana del Editor de contactos"
 
 #: C/evolution.xml:2995(para)
 msgid "Edit the required information from Contact Editor and press OK."
@@ -6620,7 +6660,7 @@ msgid ""
 "Evolution enables you to find the contact address quickly by using "
 "Customized Search. To find the contact address you are looking for, use the "
 "following procedure:"
-msgstr ""
+msgstr "Evolution le permite buscar direcciones de contactos rápidamente usando la Búsqueda personalizada. Para buscar la dirección del contacto que está buscando, use el siguiente procedimiento:"
 
 #: C/evolution.xml:3009(para)
 msgid ""
@@ -6680,7 +6720,7 @@ msgstr "Para mostrar todos los contactos pulse Limpiar en la barra de búsqueda 
 msgid ""
 "Displays all the contacts that match the in-built criteria you have selected "
 "from the drop-down list at the top left side, just above the Display pane."
-msgstr ""
+msgstr "Muestra todos los contactos que coinciden con el criterio integrado que ha seleccionado de la lista desplegable en la parte izquieda, justo encima del panel de visualización."
 
 #: C/evolution.xml:3049(para)
 msgid "To perform quick search, use the following procedure:"
@@ -6811,7 +6851,7 @@ msgid ""
 "Evolution allows you to organize your contact list. You can create several "
 "individual address books, or contact groups. Within a given address book, "
 "you can have several categories of contacts."
-msgstr ""
+msgstr "Evolution le permite organizar su lista de contactos. Puede crear varias libretas de direcciones individuales o grupos de contactos. Dentro de una libreta de direcciones dada puede tener varias categorías para los contactos."
 
 #: C/evolution.xml:3157(link) C/evolution.xml:3171(title)
 msgid "Contacts Groups"
@@ -6861,11 +6901,11 @@ msgstr "Importar contactos"
 msgid ""
 "You can import contacts from other contact management tools with the Import "
 "tool."
-msgstr ""
+msgstr "Puede importar contactos desde otra herramienta de gestión de contactos con la herramienta Importar."
 
 #: C/evolution.xml:3186(para)
 msgid "Mail yourself a contact as vCard attachment."
-msgstr ""
+msgstr "Envíese a si mismo un contacto como un adjunto vCard."
 
 #: C/evolution.xml:3187(para)
 msgid ""
@@ -6888,7 +6928,7 @@ msgid ""
 "those cards to a contact list called &ldquo;Family.&rdquo; Then, instead of "
 "entering each person's e-mail address individually, you can send e-mail to "
 "&ldquo;Family&rdquo; and the message would go to all of them."
-msgstr ""
+msgstr "Por ejemplo, puede crear una tarjeta para cada miembro de su familia, después añadir esas tarjetas a una lista de contactos llamada «Famili». Después, en lugar de introducir cada dirección de correo electrónico de cada persona individualmente, puede enviar un correo electrónico a «Familia» y el mensaje se enviará a todos ellos."
 
 #: C/evolution.xml:3196(para)
 msgid "To create a list of contacts:"
@@ -6896,7 +6936,7 @@ msgstr "Para crear una lista de contactos:"
 
 #: C/evolution.xml:3199(para)
 msgid "Open the list creation dialog box by clicking the New List button."
-msgstr ""
+msgstr "Abra el cuadro de diálogo de creación de listas pulsando el botón Nueva lista."
 
 #: C/evolution.xml:3201(para)
 msgid "Click File &gt; New &gt; Contact List."
@@ -6977,11 +7017,11 @@ msgstr ""
 
 #: C/evolution.xml:3227(para)
 msgid "To mark a card as belonging to a category,"
-msgstr ""
+msgstr "Para marcar una tarjeta como perteneciente a una categoría,"
 
 #: C/evolution.xml:3230(para)
 msgid "Double click the card to appear the Contact Editor window"
-msgstr ""
+msgstr "Pulse dos veces sobre la tarjeta para que aparezca la ventana del Editor de contactos"
 
 #: C/evolution.xml:3233(para)
 msgid "Click the Categories button at the left."
@@ -6989,7 +7029,7 @@ msgstr "Pulse el botón Categorías de la izquierda."
 
 #: C/evolution.xml:3234(para)
 msgid "You can view the Categories dialogue box as given below."
-msgstr ""
+msgstr "Puede ver el cuadro de diálogo de Categorías tal y como se ve debajo."
 
 #: C/evolution.xml:3246(para)
 msgid ""
@@ -7001,28 +7041,28 @@ msgstr "Seleccione la categoría de la lista. Puede seleccionar tantas categorí
 msgid ""
 "If the master list of categories doesn't suit you, you can add your own "
 "categories.To add new category,"
-msgstr ""
+msgstr "Si la lista maestra de categorías no se ajusta a sus necesidades, puede añadir sus propias categorías. Para añadir una nueva categoría,"
 
 #: C/evolution.xml:3252(para)
 msgid "Enter the new category in the entry box at the top"
-msgstr ""
+msgstr "Introduzca la nueva categoría en la caja de entrada de la parte superior."
 
 #: C/evolution.xml:3256(para)
 msgid ""
 "You can view the category name appeared in the field next to Categories "
 "button in the Contact Editor"
-msgstr ""
+msgstr "Puede ver que el nombre de la categoría aparece en el campo junto al botón Categorías en el Editor de contactos"
 
 #: C/evolution.xml:3259(para)
 msgid "Press OK at the right bottom of the Contact Editor window."
-msgstr ""
+msgstr "Pulse Aceptar en la parte inferior derecha de la ventana del Editor de contactos."
 
 #: C/evolution.xml:3263(para)
 msgid ""
 "You can edit or set the color and icon for each categories available under "
 "categories list. For that click Edit button at the bottom of the Categories "
 "window. Press delete button to delete the items from the list."
-msgstr ""
+msgstr "Puede editar o establecer el color e icono para cada categoría disponible bajo la lista de categorías. Para ello pulse el botón Editar en la parte inferior de la ventana de Categorías. Pulse el botón Borrar para borrar elementos de la lista."
 
 #: C/evolution.xml:3270(para)
 msgid ""
@@ -7065,13 +7105,13 @@ msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
 "right-click the folder, then click Properties. Select Copy Folder Content "
 "Locally for Offline Operation."
-msgstr ""
+msgstr "También puede marcar la carpeta de red para su uso desconectado. Para marcar la carpeta, pulse con el botón derecho sobre la carpeta, después pulse Propiedades. Seleccione Copiar el contenido de la carpeta localmente para operación desconectada."
 
 #: C/evolution.xml:3278(para)
 msgid ""
 "To prevent excess network traffic, Evolution does not normally load data "
 "from the LDAP server upon opening."
-msgstr ""
+msgstr "Para prevenir exceso de tráfico en la red, Evolution no descarga los datos del servidor LDAP de una forma normal al iniciarse."
 
 #: C/evolution.xml:3281(para)
 msgid ""
@@ -7079,13 +7119,15 @@ msgid ""
 "fields in a contact stored on an LDAP server. Some servers prohibit some or "
 "all changes, and others use a smaller set of fields than Evolution allows. "
 "Check with your system administrator if you need different settings."
-msgstr ""
+msgstr "Dependiendo de la configuración de su servidor, quizá no pueda editar todos los campos de un contacto almacenado en un servidor LDAP. Algunos servidores prohíben algunas modificaciones y otros usan una menor cantidad de campos de la que Evolution proporciona. Compruebe con su administrador de su sistema si necesita una configuración diferente."
 
 #: C/evolution.xml:3287(para)
 msgid ""
 "For information about setting up Evolution to use LDAP, refer to <link "
 "linkend=\"config-prefs-contact\">Contact Management</link>."
 msgstr ""
+"Para obtener más información acerca de cómo configurar Evolution para usar LDAP, vea <link "
+"linkend=\"config-prefs-contact\">Gestión de contactos</link>."
 
 #: C/evolution.xml:3293(para)
 msgid ""
@@ -7169,7 +7211,7 @@ msgstr ""
 
 #: C/evolution.xml:3336(para)
 msgid "Appointments for each calendar appear as a different color."
-msgstr ""
+msgstr "Las citas para cada calendario aparecen con un color diferente."
 
 #: C/evolution.xml:3337(para)
 msgid ""
@@ -7253,7 +7295,7 @@ msgstr "Propiedades del calendario"
 msgid ""
 "Evolution allows you to edit the label of your calendar, assign color, and "
 "copy content for offline use. To set your calendar properties"
-msgstr ""
+msgstr "Evolution le permite editar la etiqueta de su calendario, asignar un color y copiar los contenidos para su uso desconectado. Para establecer las propiedades de su calendario"
 
 #: C/evolution.xml:3406(para)
 msgid "Select the calendar from the folder view at the left."
@@ -7261,19 +7303,19 @@ msgstr "Seleccione el calendario desde la vista de carpetas en la izquierda."
 
 #: C/evolution.xml:3409(para)
 msgid "Right click."
-msgstr ""
+msgstr "Pulse con el botón derecho."
 
 #: C/evolution.xml:3412(para)
 msgid "Select Properties to open Calendar Properties dialogue box."
-msgstr ""
+msgstr "Seleccione Propiedades para abrir el cuadro de diálogo Propiedades del calendario."
 
 #: C/evolution.xml:3424(para)
 msgid "Edit the label from Name field."
-msgstr ""
+msgstr "Edite la etiqueta desde el campo Nombre."
 
 #: C/evolution.xml:3427(para)
 msgid "To set the colour, click the Color tab."
-msgstr ""
+msgstr "Para establecer el color, pulse sobre la solapa Color."
 
 #: C/evolution.xml:3430(para)
 msgid "Select the color and click OK."
@@ -7283,7 +7325,7 @@ msgstr "Seleccione el color y pulse Aceptar."
 msgid ""
 "To mark your calendar content for offline use, click Copy calendar contents "
 "locally for offline operations."
-msgstr ""
+msgstr "Para marcar el contenido de su calendario para un uso desconectado, pulse Copiar el contenido del calendario localmente para operación desconectado."
 
 #: C/evolution.xml:3434(para)
 msgid "Or"
@@ -7340,15 +7382,15 @@ msgstr "Uso de la característica de disponibilidad"
 
 #: C/evolution.xml:3463(link) C/evolution.xml:3782(title)
 msgid "Publishing Calendar and Free/Busy Information Without a Groupware Server"
-msgstr ""
+msgstr "Publicar la información de Disponibilidad de calendario sin un servidor Groupware"
 
 #: C/evolution.xml:3466(link) C/evolution.xml:3815(title)
 msgid "Accessing Free/Busy Data Without a Groupware Server"
-msgstr ""
+msgstr "Acceder a datos de Disponibilidad sin un servidor Groupware"
 
 #: C/evolution.xml:3472(para)
 msgid "In Evolution, an appointment is an event you schedule for yourself."
-msgstr ""
+msgstr "En Evolution, una cita es un acontecimiento que programa para si mismo."
 
 #: C/evolution.xml:3475(link) C/evolution.xml:3489(title)
 msgid "Creating Appointments"
@@ -7373,7 +7415,7 @@ msgstr "Pulse Archivo &gt; Nuevo &gt; Cita."
 
 #: C/evolution.xml:3494(para)
 msgid "Click Calendars on the Switcher, then click New &gt; Appointment."
-msgstr ""
+msgstr "Pulse el Calendario en el Selector, después pulse Nuevo &gt; Cita."
 
 #: C/evolution.xml:3496(para)
 msgid ""
@@ -7463,7 +7505,7 @@ msgstr "Para obtener más información acerca de las categorías vea <link linke
 
 #: C/evolution.xml:3544(para)
 msgid "Type a description in the Description field."
-msgstr ""
+msgstr "Escriba una descripción en el campo Descripción."
 
 #: C/evolution.xml:3547(para)
 msgid "To select an alarm for this appointment, click Alarm on the toolbar."
@@ -7574,7 +7616,7 @@ msgid ""
 "Apart from the above notifications, the Evolution alarm icon blinks in the "
 "notification area. To pause the alarm or view the event, click the "
 "notification icon."
-msgstr ""
+msgstr "Aparte de las notificaciones anteriores, el icono de alarma de Evolution parpadea en el área de notificación. Para pausar la alarma o ver el acontecimiento, pulse en el icono de notificación."
 
 #: C/evolution.xml:3599(para)
 msgid "To create a reminder:"
