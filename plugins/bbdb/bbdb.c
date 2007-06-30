@@ -195,6 +195,18 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 		return;
 	}
 
+	if (g_utf8_strchr (name, -1, '\"')) {
+		GString *tmp = g_string_new (name);
+		gchar *p;
+
+		while (p = g_utf8_strchr (tmp->str, tmp->len, '\"'), p)
+			tmp = g_string_erase (tmp, p - tmp->str, 1);
+
+		g_free (temp_name);
+		temp_name = g_string_free (tmp, FALSE);
+		name = temp_name;
+	}
+	
 	/* If a contact exists with this name, add the email address to it. */
 	query_string = g_strdup_printf ("(is \"full_name\" \"%s\")", name);
 	query = e_book_query_from_string (query_string);

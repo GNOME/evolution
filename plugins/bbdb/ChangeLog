@@ -1,3 +1,9 @@
+2007-06-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #334140
+
+	* bbdb.c: (bbdb_do_it): Strip '\"' out of name part, if exists.
+
 2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* gaimbuddies.c: (get_node_text), (parse_contact): more compilation
