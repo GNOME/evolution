@@ -1,3 +1,10 @@
+2007-06-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #352947
+
+	* em-account-editor.c: (smime_sign_key_select),
+	(smime_encrypt_key_select): EMAccountEditor isn't a GtkWidget.
+
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 	
         ** Fix for bug #448223 from Gilles Dartiguelongue
