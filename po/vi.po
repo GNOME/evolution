@@ -342,12 +342,12 @@ msgstr "bật"
 msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
-msgstr "Một liên lạc với địa chỉ này đã có. Bạn có muốn thêm một thẻ mới với cùng "
-"địa chỉ bằng mọi giá không?"
+msgstr "Đã có liên lạc với địa chỉ này. Bạn vẫn muốn thêm một thẻ mới với cùng "
+"địa chỉ chứ?"
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
-msgstr "Địa chỉ « {0} » đã có."
+msgstr "Địa chỉ '{0}' đã có."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Cannot move contact."
@@ -833,7 +833,7 @@ msgstr "Tên thư mục không thể chứa ký tự sổ chéo."
 
 #: ../addressbook/gui/component/addressbook-view.c:445
 msgid "A Folder with this name already exists"
-msgstr "Thư mục tên này đã có"
+msgstr "Đã có thư mục tên này"
 
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "_New Address Book"
@@ -1028,7 +1028,7 @@ msgstr "Không bao giờ"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
 msgid "No encryption"
-msgstr "Không mật mã"
+msgstr "Không mã hoá"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
@@ -2827,7 +2827,7 @@ msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr "Tên hoặc địa chỉ thư điện tử đã thay đổi của liên lạc này\n"
-"đã có trong thư mục này. Bạn có muốn thêm nữa không?"
+"đã có trong thư mục này. Bạn vẫn muốn thêm nữa chứ?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2841,8 +2841,8 @@ msgstr "Liên lạc gốc:"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
-msgstr "Tên hoặc địa chỉ thư điện từ của liên lạc này đã có\n"
-"trong thư mục này. Bạn có muốn thêm nữa nữa?"
+msgstr "Đã có tên hoặc địa chỉ thư điện từ của liên lạc này\n"
+"trong thư mục này. Bạn vẫn muốn thêm nữa chứ?"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:190
 msgid "Merge Contact"
@@ -3658,7 +3658,7 @@ msgstr[0] "Việc mở %d liên lạc sẽ mở %d cửa sổ mới cùng lúc.\
 msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
-msgstr "%s đã có.\n"
+msgstr "Đã có %s.\n"
 "Bạn có muốn ghi đè lên nó không?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:329
@@ -4737,7 +4737,7 @@ msgstr "Chương trình báo động"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:2
 msgid "Ask for confirmation when deleting items"
-msgstr "Hỏi xác thực khi xoá mục"
+msgstr "Hỏi xác nhận trước khi xoá mục"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
@@ -4798,11 +4798,11 @@ msgstr "Độ trong suốt sự kiện"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:17
 msgid "Free/busy server URLs"
-msgstr "Địa chỉ Mạng của máy phục vụ Rảnh/Bận"
+msgstr "Địa chỉ mạng của máy phục vụ Rảnh/Bận"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:18
 msgid "Free/busy template URL"
-msgstr "Địa chỉ Mạng mẫu Rảnh/Bận"
+msgstr "Địa chỉ mạng mẫu Rảnh/Bận"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:19
 msgid "Gradient of the events in calendar views."
@@ -4842,7 +4842,7 @@ msgstr "Giờ báo động cuối cùng"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:28
 msgid "List of server URLs for free/busy publishing."
-msgstr "Danh sách các địa chỉ Mạng kiểu máy phục vụ để xuất bản thông tin Rảnh/Bận."
+msgstr "Danh sách các địa chỉ mạng máy phục vụ để xuất bản thông tin Rảnh/Bận."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:29
 msgid "Marcus Bains Line"
@@ -4935,7 +4935,7 @@ msgstr "Thư mục lưu âm thanh báo động"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:47
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr "Hiện trường RSVP trong bộ sửa cuộc họp/tác vụ/sự kiện"
+msgstr "Hiện trường RSVP (Vui lòng hồi âm) trong bộ sửa cuộc họp/tác vụ/sự kiện"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:48
 msgid "Show Role field in the event/task/meeting editor"
@@ -4992,7 +4992,7 @@ msgstr "Ví trị ô cửa sổ dọc tác vụ"
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
-msgstr "Mẫu địa chỉ Mạng cần dùng là dữ liệu Rảnh/Bận phục hồi: « %u » được thay thế "
+msgstr "Mẫu địa chỉ mạng cần dùng là dữ liệu Rảnh/Bận phục hồi: « %u » được thay thế "
 "bằng phần người dùng của địa chỉ thư, và « %d » được thay thế bằng miền của "
 "địa chỉ."
 
@@ -5083,7 +5083,7 @@ msgstr "Có nên lập bộ nhắc nhở mặc định cho mọi cuộc hẹn ha
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr "Có nên hiển thị trường RSVP trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
+msgstr "Có nên hiển thị trường RSVP (Vui lòng hồi âm) trong bộ sửa cuộc họp/tác vụ/sự kiện hay không"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
 msgid "Whether to show categories field in the event/meeting editor"
@@ -7853,7 +7853,7 @@ msgstr "Người dự                          "
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 #. To translators: RSVP means "please reply"
 msgid "RSVP"
-msgstr "Trả lời trước"
+msgstr "Vui lòng hồi âm"
 
 #: ../calendar/gui/e-meeting-store.c:196
 #: ../calendar/gui/e-meeting-store.c:219
@@ -8177,7 +8177,7 @@ msgstr "Đã cập nhật"
 
 #: ../calendar/gui/itip-utils.c:714
 msgid "Refresh"
-msgstr "Làm tươi"
+msgstr "Nạp lại"
 
 #: ../calendar/gui/itip-utils.c:718
 msgid "Counter-proposal"
@@ -8502,7 +8502,7 @@ msgstr "Phần trăm hoàn tất: %i"
 #: ../calendar/gui/print.c:2399
 #, c-format
 msgid "URL: %s"
-msgstr "Địa chỉ Mạng: %s"
+msgstr "URL: %s"
 
 #: ../calendar/gui/print.c:2412
 #, c-format
@@ -10230,9 +10230,8 @@ msgstr "_Bcc:"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
-msgstr "Bí mật Chép cho: hãy gõ các địa chỉ sẽ nhận một bản sao của thư mà không "
-"xuất hiện tên trong danh sách người nhận (tránh người gửi thư rác ăn cấp các "
-"địa chỉ ấy nhé)."
+msgstr "Hãy gõ các địa chỉ sẽ nhận một bản sao của thư mà không "
+"xuất hiện tên trong danh sách người nhận."
 
 #: ../composer/e-msg-composer-hdrs.c:673
 #.
@@ -10266,7 +10265,7 @@ msgstr "Không thể ký tên thư gửi đi: chưa lập chứng nhận chữ k
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr "Không thể mật mã hoá thư gửi đi: chưa lập chứng nhận mật mã cho tài khoản "
+msgstr "Không thể mã hoá thư gửi đi: chưa lập chứng nhận mã hoá cho tài khoản "
 "này."
 
 #: ../composer/e-msg-composer.c:1301
@@ -10359,7 +10358,7 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr "Đóng cửa sổ soạn này thì sẽ xoá thư ấy hoàn toàn, trừ bạn chọn lưu thư ấy "
+msgstr "Đóng cửa sổ soạn này thì sẽ xoá thư ấy hoàn toàn, trừ khi bạn chọn lưu thư ấy "
 "vào thư mục Nháp. Làm như thế sẽ cho phép bạn tiếp tục thư ấy lần sau."
 
 #: ../composer/mail-composer.error.xml.h:7
@@ -10547,7 +10546,7 @@ msgstr "Bạn có muốn ghi đè lên nó không?"
 
 #: ../e-util/e-system.error.xml.h:5
 msgid "File exists &quot;{0}&quot;."
-msgstr "Tập tin « {0} » đã có."
+msgstr "Đã có tập tin &quot;{0}&quot;."
 
 #: ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
@@ -11234,11 +11233,11 @@ msgstr "không được đặt cờ"
 #: ../mail/mail-config.glade.h:94
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Rác"
+msgstr "Thư rác"
 
 #: ../mail/em-filter-i18n.h:36
 msgid "Junk Test"
-msgstr "Kiểm tra Rác"
+msgstr "Kiểm thử Thư rác"
 
 #: ../mail/em-filter-i18n.h:37
 #: ../widgets/misc/e-expander.c:190
@@ -11263,11 +11262,11 @@ msgstr "Dòng đầu Thư"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Message is Junk"
-msgstr "Thư là Rác"
+msgstr "Thư là rác"
 
 #: ../mail/em-filter-i18n.h:43
 msgid "Message is not Junk"
-msgstr "Thư không phải Rác"
+msgstr "Thư không phải rác"
 
 #: ../mail/em-filter-i18n.h:44
 msgid "Move to Folder"
@@ -11412,7 +11411,7 @@ msgstr "Thư quan trọng"
 
 #: ../mail/em-folder-browser.c:207
 msgid "Messages Not Junk"
-msgstr "Thư không phải Rác"
+msgstr "Thư không phải rác"
 
 #: ../mail/em-folder-browser.c:1025
 msgid "Account Search"
@@ -11603,7 +11602,7 @@ msgstr "Xoá _sạch Hộp Đi"
 #: ../mail/em-folder-tree.c:2131
 #: ../mail/mail.error.xml.h:136
 msgid "_Empty Trash"
-msgstr "Đổ _Rác"
+msgstr "Đổ _rác"
 
 #: ../mail/em-folder-utils.c:104
 #, c-format
@@ -11698,7 +11697,7 @@ msgstr "Đánh dấu _Không quan trọng"
 
 #: ../mail/em-folder-view.c:1165
 msgid "Mark as _Junk"
-msgstr "Đánh dấu _Rác"
+msgstr "Đánh dấu _Thư rác"
 
 #: ../mail/em-folder-view.c:1166
 msgid "Mark as _Not Junk"
@@ -11876,14 +11875,14 @@ msgstr "Thư này có chữ ký hợp lệ, nhưng mà không thể xác minh ng
 #: ../mail/em-format-html-display.c:947
 #: ../mail/em-format-html.c:627
 msgid "Unencrypted"
-msgstr "Không mật mã"
+msgstr "Không mã hoá"
 
 #: ../mail/em-format-html-display.c:947
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
-msgstr "Thư này không mật mã nên bất cứ người nào có xem được nội dung nó trong khi "
-"truyền qua Mạng."
+msgstr "Thư này không được mã hoá nên bất cứ người nào có xem được nội dung nó trong khi "
+"truyền qua Internet."
 
 #: ../mail/em-format-html-display.c:948
 #: ../mail/em-format-html.c:628
@@ -11895,8 +11894,8 @@ msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
-msgstr "Thư này mật mã, nhưng mà dùng thuật toán mật mã yếu. Người khác sẽ gặp khó "
-"khăn đọc thư này được một thời gian hữu ích, nhưng mà có thể làm như thế."
+msgstr "Thư này được mã hoá, nhưng mà dùng thuật toán mã hoá yếu. Người khác sẽ gặp khó "
+"khăn khi đọc thư này được một thời gian hữu ích, nhưng mà có thể làm như thế."
 
 #: ../mail/em-format-html-display.c:949
 #: ../mail/em-format-html.c:629
@@ -11907,7 +11906,7 @@ msgstr "Mật mã"
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
-msgstr "Thư này mật mã. Người khác sẽ gặp khó khăn nhiều đọc nội dung thư."
+msgstr "Thư này được mã hoá. Người khác sẽ gặp khó khăn nhiều khi đọc nội dung thư."
 
 #: ../mail/em-format-html-display.c:950
 #: ../mail/em-format-html.c:630
@@ -11919,8 +11918,8 @@ msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
-msgstr "Thư này mật mã dùng thuật toán mật mã mạnh. Người khác sẽ gặp khó khăn rất "
-"nhiều đọc nội dung thư được thời gian hữu ích. "
+msgstr "Thư này được mã hoá bằng thuật toán mật mã mạnh. Người khác sẽ gặp khó khăn rất "
+"nhiều khi đọc nội dung thư được thời gian hữu ích. "
 
 #: ../mail/em-format-html-display.c:1051
 #: ../smime/gui/smime-ui.glade.h:48
@@ -12015,7 +12014,7 @@ msgstr "Mở _bằng"
 msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
-msgstr "Evolution không thể vẽ lá thư này vì nó quá lớn xử lý được. Bạn vẫn còn có "
+msgstr "Evolution không thể hiện thư này vì nó quá lớn không xử lý được. Bạn vẫn còn có "
 "khả năng xem nó không có định dạng, hoặc trong trình soạn thảo văn bản."
 
 #: ../mail/em-format-html-print.c:128
@@ -12147,7 +12146,7 @@ msgstr "Không thể phân tách thư MIME nên hiện thị dạng mã nguồn.
 
 #: ../mail/em-format.c:1300
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "Kiểu mật mã không được hỗ trợ cho: đa phần/mật mã"
+msgstr "Kiểu mã hoá không được hỗ trợ cho: multipart/encrypted"
 
 #: ../mail/em-format.c:1467
 msgid "Unsupported signature format"
@@ -12192,7 +12191,7 @@ msgstr "Bổ sung %s không sẵn sàng. Hãy kiểm tra gói đó đã được
 
 #: ../mail/em-mailer-prefs.c:806
 msgid "No Junk plugin available"
-msgstr "Không có bổ sung Rác sẵn sàng"
+msgstr "Không có bổ sung Thư rác"
 
 #: ../mail/em-migrate.c:1211
 msgid ""
@@ -12428,23 +12427,23 @@ msgstr "Vẽ chỉ báo lỗi chính tả trên từ khi gõ."
 
 #: ../mail/evolution-mail.schemas.in.h:26
 msgid "Empty Junk folders on exit"
-msgstr "Đổ các thư mục Rác khi thoát"
+msgstr "Làm sạch thư mục Thư rác khi thoát"
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Empty Trash folders on exit"
-msgstr "Đổ các thư mục Rác khi thoát"
+msgstr "Làm sạch thư mục Rác khi thoát"
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid "Empty all Junk folders when exiting Evolution."
-msgstr "Đổ các thư mục Rác khi thoát khỏi trình Evolution."
+msgstr "Làm sạch thư mục Thư rác khi thoát khỏi trình Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "Đổ các thư mục Rác khi thoát trình Evolution."
+msgstr "Làm sạch thư mục Rác khi thoát trình Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr "Hiệu lực chế độ con nháy, để bạn xem con chạy khi đọc thư."
+msgstr "Bật chế độ con nháy, để bạn xem con chạy khi đọc thư."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid "Enable or disable type ahead search feature"
@@ -12456,7 +12455,7 @@ msgid ""
 "by typing in the text. Use is that you can easily find a folder in that side "
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
-msgstr "Hiệu lực tính năng tìm kiếm khung lề để bắt đầu tìm kiếm tương tác bằng cách "
+msgstr "Bật tính năng tìm kiếm khung lề để bắt đầu tìm kiếm tương tác bằng cách "
 "gõ vào đoạn. Có ích để tìm dễ dàng thư mục trong khung lề bằng cách đơn giản "
 "gõ tên thư mục thì phần chọn nhảy tự động tới thư mục đó."
 
@@ -12510,11 +12509,11 @@ msgstr "Nó bật/tắt dấu nhắc trong khi đánh dấu nhiều thư."
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Last time empty junk was run"
-msgstr "Lần cuối cùng đã đổ Rác"
+msgstr "Lần cuối cùng xoá thư rác"
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Last time empty trash was run"
-msgstr "Lần cuối cùng đã đổ Rác"
+msgstr "Lần cuối cùng đã đổ rác"
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid "List of Labels and their associated colors"
@@ -12615,19 +12614,19 @@ msgstr "Kiểu dáng hiển thị thư (chuẩn, dòng đầu đây đủ, mã n
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "Minimum days between emptying the junk on exit"
-msgstr "Số ngày tối thiểu giữa hai lần đổ Rác khi thoát."
+msgstr "Số ngày tối thiểu giữa hai lần xoá thư rác khi thoát."
 
 #: ../mail/evolution-mail.schemas.in.h:66
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Số ngày tối thiểu giữa hai lần đổ Rác khi thoát."
+msgstr "Số ngày tối thiểu giữa hai lần đổ rác khi thoát."
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr "Thời gian tối thiểu giữa hai lần đổ Rác khi thoát, theo ngày."
+msgstr "Thời gian tối thiểu giữa hai lần xoá thư rác khi thoát, theo ngày."
 
 #: ../mail/evolution-mail.schemas.in.h:68
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Thời gian tối thiểu giữa hai lần sổ Rác khi thoát, theo ngày."
+msgstr "Thời gian tối thiểu giữa hai lần sổ rác khi thoát, theo ngày."
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid "New Mail Notify sound file"
@@ -12656,7 +12655,7 @@ msgstr "Nhắc người dùng khi họ cố gửi thư chưa có Chủ đề."
 
 #: ../mail/evolution-mail.schemas.in.h:75
 msgid "Prompt to check if the user wants to go offline immediately"
-msgstr "Nhắc để kiểm tra người dùng muốn ra ngoại tuyến ngay không"
+msgstr "Nhắc để kiểm tra người dùng muốn chuyển sang ngoại tuyến ngay không"
 
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "Prompt when user expunges"
@@ -12699,7 +12698,7 @@ msgstr "Nhận dạng biểu tượng xác cảm trong văn bản và thay thế
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Run junk test on incoming mail"
-msgstr "Chạy kiểm tra thư Rác khi mọi thư gửi Đến"
+msgstr "Chạy kiểm tra thư rác khi mọi thư gửi đến"
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Save directory"
@@ -12727,7 +12726,7 @@ msgstr "Hiện ảnh đã hoạt cảnh kiểu hoạt cảnh."
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "Hiển thị mọi thư bị xoá (kiểu gạch xuyên qua) trong danh sách các thư."
+msgstr "Hiển thị mọi thư bị xoá (kiểu gạch đè) trong danh sách các thư."
 
 #: ../mail/evolution-mail.schemas.in.h:93
 msgid "Show deleted messages in the message-list"
@@ -12781,15 +12780,15 @@ msgstr "Hạn chế phần văn bản thư"
 
 #: ../mail/evolution-mail.schemas.in.h:107
 msgid "The default plugin for Junk hook"
-msgstr "Bổ sung mặc định cho móc Rác"
+msgstr "Bổ sung mặc định cho móc Thư rác"
 
 #: ../mail/evolution-mail.schemas.in.h:108
 msgid "The last time empty junk was run, in days since the epoch."
-msgstr "Lần cuối cùng đã chạy Đổ Rác, theo ngày từ kỷ nguyên bắt đầu."
+msgstr "Lần cuối cùng xoá thư rác, theo ngày từ kỷ nguyên bắt đầu."
 
 #: ../mail/evolution-mail.schemas.in.h:109
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "Lần cuối cùng đã chạy đổ Rác, theo ngày từ kỷ nguyên bắt đầu."
+msgstr "Lần cuối cùng đã chạy đổ rác, theo ngày từ kỷ nguyên bắt đầu."
 
 #: ../mail/evolution-mail.schemas.in.h:110
 msgid "The terminal font for mail display"
@@ -12811,7 +12810,7 @@ msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it wont fall back to "
 "the other available plugins."
-msgstr "Đây là bổ sung Rác mặc định, mặc dù có nhiều bổ sung đã bật. Vậy nếu bổ sung đã liệt kê mặc định bị tắt, nó không bị thay thế bằng bổ sung sẵn sàng khác."
+msgstr "Đây là bổ sung Thư rác mặc định, mặc dù có nhiều bổ sung đã bật. Vậy nếu bổ sung đã liệt kê mặc định bị tắt, nó không bị thay thế bằng bổ sung sẵn sàng khác."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid ""
@@ -13042,7 +13041,7 @@ msgstr[0] "%d bị xoá"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d rác"
+msgstr[0] "%d thư rác"
 
 #: ../mail/mail-component.c:549
 #, c-format
@@ -13263,7 +13262,7 @@ msgstr "_Luôn ký tên lên các thư cần gửi đi khi dùng tài khoản n�
 
 #: ../mail/mail-config.glade.h:37
 msgid "Also encrypt to sel_f when sending encrypted mail"
-msgstr "Cũng mật mã ch_o chính bạn khi gửi thư đã mật mã"
+msgstr "Cũng mã hoá ch_o chính bạn khi gửi thư đã mã hoá"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Alway_s carbon-copy (cc) to:"
@@ -13275,11 +13274,11 @@ msgstr "Luôn _Bí mật Chép Cho (Bcc) tới:"
 
 #: ../mail/mail-config.glade.h:40
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "Luôn _tin khoá trong dây khoá tôi khi mật mã hoá"
+msgstr "Luôn _tin khoá trong dây khoá tôi khi mã hoá"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "Luôn _mật mã cho chính bạn khi gửi thư đã mật mã"
+msgstr "Luôn _mã hoá cho chính bạn khi gửi thư đã mã hoá"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Attach original message"
@@ -13311,7 +13310,7 @@ msgstr "_Kiểm tra có kiểu được hỗ trợ "
 
 #: ../mail/mail-config.glade.h:50
 msgid "Check in_coming mail for junk"
-msgstr "Kiểm tra thư mới đến là _rác"
+msgstr "Kiểm tra thư mới đến là _thư rác"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Check spelling while I _type"
@@ -13319,7 +13318,7 @@ msgstr "Kiểm tra chính _tả khi đang gõ"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Checks incoming mail messages to be Junk"
-msgstr "Kiểm tra nếu thư đã gửi đến là thư Rác"
+msgstr "Kiểm tra nếu thư đã gửi đến là thư rác"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Cle_ar"
@@ -13365,7 +13364,7 @@ msgstr "Bộ ký tự mặc đị_nh:"
 
 #: ../mail/mail-config.glade.h:67
 msgid "Delete junk mails on e_xit"
-msgstr "_Xoá các thư rác khi thoát"
+msgstr "_Xoá thư rác khi thoát"
 
 #: ../mail/mail-config.glade.h:69
 msgid "Digitally _sign outgoing messages (by default)"
@@ -13397,11 +13396,11 @@ msgstr "Đị_a chỉ thư :"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
-msgstr "Đổ các thư mục _Rác khi thoát"
+msgstr "Làm sạch thư mục _rác khi thoát"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
-msgstr "Chứng nhận _mật mã:"
+msgstr "Chứng nhận _mã hoá:"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Encrypt out_going messages (by default)"
@@ -13684,7 +13683,7 @@ msgstr "_Luôn tải ảnh xuống Mạng"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Default junk plugin:"
-msgstr "Bổ sung rác _mặc định:"
+msgstr "Bổ sung thư rác _mặc định:"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Do not notify me when new mail arrives"
@@ -14155,12 +14154,12 @@ msgstr "Thư mục tìm kiếm mới"
 #: ../mail/mail.error.xml.h:1
 msgid ""
 "A folder named &quot;{0}&quot; already exists. Please use a different name."
-msgstr "Thư mục tên « {0} » đã có. Hãy sử dụng tên khác."
+msgstr "Đã có thư mục tên « {0} ». Hãy sử dụng tên khác."
 
 #: ../mail/mail.error.xml.h:2
 msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr "Thư mục tên « {1} » đã có. Hãy sử dụng tên khác."
+msgstr "Đã có thư mục tên « {1} ». Hãy sử dụng tên khác."
 
 #: ../mail/mail.error.xml.h:3
 msgid ""
@@ -14168,7 +14167,7 @@ msgid ""
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
-msgstr "Một thư mục không rỗng tại « {1} » đã có.\n"
+msgstr "Đã có thư mục không rỗng tại « {1} ».\n"
 "\n"
 "Bạn có thể chọn bỏ qua thư mục này, ghi đè lên nó, phụ thêm nội dung nó, "
 "hoặc thoát."
@@ -14183,7 +14182,7 @@ msgstr "Yêu cầu một thông báo đã đọc cho « {1} ». Gửi thông bá
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
-msgstr "Chữ ký tên « {0} » đã có. Hãy gõ tên khác."
+msgstr "Đã có chữ ký tên « {0} ». Hãy gõ tên khác."
 
 #: ../mail/mail.error.xml.h:8
 msgid ""
@@ -14456,7 +14455,7 @@ msgid ""
 msgstr "Nhiều hệ thống thư điện tử thêm một dòng đầu « Có vẻ là Cho » (Apparently-"
 "To) vào mọi thư chỉ có người nhận BCC (Bí mật Chép Cho). Nếu thêm dòng đầu "
 "ấy, nó sẽ liệt kê mọi người nhận trong thư của bạn. Để tránh người gửi thư "
-"Rác ăn cấp các địa chỉ trong danh sách ấy, bạn hãy thêm ít nhất một người "
+"rác ăn cắp các địa chỉ trong danh sách ấy, bạn hãy thêm ít nhất một người "
 "nhận Cho (To) hay Chép Cho (Cc), v.d. địa chỉ mình."
 
 #: ../mail/mail.error.xml.h:71
@@ -14507,7 +14506,7 @@ msgid ""
 msgstr "Hãy đảm bảo rằng những người nhận sau có thể và cũng muốn nhận thư dạng "
 "HTML:\n"
 "{0}\n"
-"Vẫn muốn gửi không?"
+"Vẫn muốn gửi chứ?"
 
 #: ../mail/mail.error.xml.h:84
 msgid "Please provide an unique name to identify this signature."
@@ -14577,8 +14576,8 @@ msgstr "Bạn đang gửi cho một danh sách liên lạc có cấu hình ẩn 
 "\n"
 "Nhiều hệ thống thư điện tử thêm một dòng đầu «Hình như Cho» (Apparently-To) "
 "vào mọi thư chỉ có người nhận BCC (Bí mật Chép Cho). Nếu thêm dòng đầu ấy, "
-"nó sẽ liệt kê mọi người nhận trong thư của bạn. Để tránh người gửi thư Rác "
-"ăn cấp các địa chỉ trong danh sách ấy, bạn hãy thêm ít nhất một người nhận "
+"nó sẽ liệt kê mọi người nhận trong thư của bạn. Để tránh người gửi thư rác "
+"ăn cắp các địa chỉ trong danh sách ấy, bạn hãy thêm ít nhất một người nhận "
 "Cho (To) hay Chép Cho (Cc), v.d. địa chỉ mình."
 
 #: ../mail/mail.error.xml.h:100
@@ -14676,7 +14675,7 @@ msgstr "Bạn chưa điền đủ các thông tin yêu cầu."
 
 #: ../mail/mail.error.xml.h:125
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "Bạn có vài thư chưa gửi, bạn vẫn muốn thoát không?"
+msgstr "Bạn có vài thư chưa gửi, bạn vẫn muốn thoát chứ?"
 
 #: ../mail/mail.error.xml.h:126
 msgid "You may not create two accounts with the same name."
@@ -15257,7 +15256,7 @@ msgstr "Lịch Thời tiết"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr "Một bổ sung thử ra mà biểu diễn một bổ sung trình đơn bật lên cho phép bạn "
+msgstr "Một bổ sung thử nghiệm để biểu diễn một bổ sung trình đơn bật lên cho phép bạn "
 "sao chép điều vào bảng nháp."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
@@ -15717,7 +15716,7 @@ msgstr "Xoá mọi mục"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Own Items"
-msgstr "Xoá mục mình"
+msgstr "Xoá mục của mình"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
 msgid "Edit Any Items"
@@ -15855,7 +15854,7 @@ msgid ""
 "username, and password, and try again."
 msgstr "Không thể cấu hình tài khoản Exchange\n"
 "vì gặp một lỗi lạ. Bạn hãy kiểm tra đã gõ đúng\n"
-"địa chỉ Mạng, tên người dùng và mật khẩu\n"
+"địa chỉ mạng, tên người dùng và mật khẩu\n"
 "rồi thử lại."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
@@ -15972,7 +15971,7 @@ msgstr "Không có hộp thư cho {0} trên máy phục vụ này."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the URL is correct and try again."
-msgstr "Hãy kiểm tra xem gõ địa chỉ Mạng đúng, rồi thử lại."
+msgstr "Hãy kiểm tra xem gõ địa chỉ mạng đúng, rồi thử lại."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "Make sure the server name is spelled correctly and try again."
@@ -16198,19 +16197,19 @@ msgstr "Cài đặt thư mục chia sẻ"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
-msgstr "Thiết lập Rác"
+msgstr "Thiết lập Thư rác"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
 msgid "<b>Junk Mail Settings</b>"
-msgstr "<b>Thiết lập Thư Rác</b>"
+msgstr "<b>Thiết lập Thư rác</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
 msgid "Junk Mail Settings..."
-msgstr "Thiết lập Thư Rác.."
+msgstr "Thiết lập Thư rác.."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List:</b>"
-msgstr "<b>Danh sách Rác:</b>"
+msgstr "<b>Danh sách Thư rác:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
@@ -16218,7 +16217,7 @@ msgstr "Thư điện tử :"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
-msgstr "Thiết lập Thư Rác"
+msgstr "Thiết lập Thư rác"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
@@ -16231,7 +16230,7 @@ msgstr "_Bật"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
-msgstr "Danh sách _Rác"
+msgstr "Danh sách _Thư rác"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message retracted successfully"
@@ -17324,7 +17323,7 @@ msgid ""
 "\n"
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
-msgstr "Sẽ gửi một thư cho địa chỉ Mạng « {0} ». Bạn có thể hoặc tự động gửi thư ấy, "
+msgstr "Sẽ gửi một thư cho địa chỉ mạng « {0} ». Bạn có thể hoặc tự động gửi thư ấy, "
 "hoặc xem và sửa đổi nó trước đó.\n"
 "\n"
 "Bạn nên nhận một trả lời từ hộp thư chung một chút sau khi gửi thư ấy."
@@ -17521,7 +17520,7 @@ msgid ""
 "disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
-msgstr "Một bổ sung thử ra mà biểu diễn một bổ sung định dạng cho phép bạn chọn tắt "
+msgstr "Một bổ sung thử nghiệm để biểu diễn một bổ sung định dạng cho phép bạn chọn tắt "
 "định dạng thư HTML.\n"
 "\n"
 "Bổ sung này chỉ chứa mã biểu diễn không được hỗ trợ thôi.\n"
@@ -17598,7 +17597,7 @@ msgstr "_Xuất bản thông tin lịch"
 
 #: ../plugins/publish-calendar/publish-calendar.c:399
 msgid "Are you sure you want to remove this URL?"
-msgstr "Bạn có chắc muốn gỡ bỏ địa chỉ Mạng này không?"
+msgstr "Bạn có chắc muốn gỡ bỏ địa chỉ mạng này không?"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -17687,7 +17686,7 @@ msgstr "Việc này giúp SpamAssasin đáng tin hơn, còn chậm hơn"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:854
 msgid "I_nclude remote tests"
-msgstr "Cũ_ng thử từ xa"
+msgstr "_Bao gồm các phép thử từ xa"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid ""
@@ -17697,7 +17696,7 @@ msgstr "Lọc thư rác bằng SpamAssassin (bổ sung này cần thiết cài �
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin junk plugin"
-msgstr "Bổ sung rác SpamAssassin"
+msgstr "Bổ sung thư rác SpamAssassin"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -17777,7 +17776,7 @@ msgstr "Phần trăm xong"
 
 #: ../plugins/save-calendar/csv-format.c:398
 msgid "URL"
-msgstr "Địa chỉ Mạng:"
+msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:399
 msgid "Attendees List"
@@ -18526,14 +18525,14 @@ msgid ""
 "Edit trust settings:"
 msgstr "Chức nhận « %s » là một chứng nhận CA (nhà cầm quyền chứng nhận).\n"
 "\n"
-"Sửa đổi thiết lập tin cây:"
+"Sửa đổi thiết lập tin cậy:"
 
 #: ../smime/gui/cert-trust-dialog.c:154
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr "Vì bạn tin cây nhà cầm quyền đã phát hành chứng nhận này, thì bạn tin cây "
+msgstr "Vì bạn tin cậy nhà cầm quyền đã phát hành chứng nhận này, thì bạn tin cậy "
 "xác thực của chứng nhận này trừ khi chỉ thị cách khác ở đây."
 
 #: ../smime/gui/cert-trust-dialog.c:158
@@ -18541,8 +18540,8 @@ msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr "Vì bạn không tin cây nhà cầm quyền đã phát hành chứng nhận này, thì bạn "
-"không tin cây xác thực của chứng nhận này trừ khi chỉ thị cách khác ở đây."
+msgstr "Vì bạn không tin cậy nhà cầm quyền đã phát hành chứng nhận này, thì bạn "
+"không tin cậy xác thực của chứng nhận này trừ khi chỉ thị cách khác ở đây."
 
 #: ../smime/gui/certificate-manager.c:138
 #: ../smime/gui/certificate-manager.c:156
@@ -18688,7 +18687,7 @@ msgstr "Lưu trữ hết"
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
-msgstr "Trước khi tin cây nhà cầm quyền này để làm gì thì bạn nên kiểm tra chứng "
+msgstr "Trước khi tin cậy nhà cầm quyền này để làm gì thì bạn nên kiểm tra chứng "
 "nhận của nó, và chính thức và thủ tục của nó (nếu công bố)."
 
 #: ../smime/gui/smime-ui.glade.h:14
@@ -18718,7 +18717,7 @@ msgstr "Chứng nhận Liên lạc"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
-msgstr "Đừng tin cây tính xác thực của chứng nhận này."
+msgstr "Đừng tin cậy tính xác thực của chứng nhận này."
 
 #: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
@@ -18730,7 +18729,7 @@ msgstr "Hiệu chỉnh"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
-msgstr "Thiết lập Tin cây Chứng nhận Thư điện tử"
+msgstr "Thiết lập Tin cậy Chứng nhận Thư điện tử"
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
@@ -18780,19 +18779,19 @@ msgstr "Chứng nhận máy phục vụ SSL"
 
 #: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
-msgstr "Tin cây tính xác thực của chứng nhận này"
+msgstr "Tin cậy tính xác thực của chứng nhận này"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr "Tin cây nhà cầm quyền chứng nhận này để nhận diện người dùng thư điện tử."
+msgstr "Tin cậy nhà cầm quyền chứng nhận này để nhận diện người dùng thư điện tử."
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
-msgstr "Tin cây nhà cầm quyền chứng nhận này để nhận diện người phát triển phần mềm."
+msgstr "Tin cậy nhà cầm quyền chứng nhận này để nhận diện người phát triển phần mềm."
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
-msgstr "Tin cây nhà cầm quyền chứng nhận này để nhận diện nơi Mạng."
+msgstr "Tin cậy nhà cầm quyền chứng nhận này để nhận diện nơi Mạng."
 
 #: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
@@ -18817,7 +18816,7 @@ msgstr "Chứng nhận của bạn"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
-msgstr "_Sửa tính tin cây CA"
+msgstr "_Sửa tính tin cậy CA"
 
 #: ../smime/lib/e-cert-db.c:676
 #. XXX we shouldn't be popping up dialogs in this code.
@@ -18856,15 +18855,15 @@ msgstr "Phiên bản 3"
 
 #: ../smime/lib/e-cert.c:634
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr "PCKS #1 MD2 với mật mã RSA"
+msgstr "PCKS #1 MD2 với mã hoá RSA"
 
 #: ../smime/lib/e-cert.c:637
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr "PCKS #1 MD5 với mật mã RSA"
+msgstr "PCKS #1 MD5 với mã hoá RSA"
 
 #: ../smime/lib/e-cert.c:640
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr "PCKS #1 SHA-1 với mật mã RSA"
+msgstr "PCKS #1 SHA-1 với mã hoá RSA"
 
 #: ../smime/lib/e-cert.c:667
 msgid "PKCS #1 RSA Encryption"
@@ -19538,7 +19537,7 @@ msgstr "Bật tắt hiển thị trường Kiểu người dự"
 #: ../ui/evolution-event-editor.xml.h:20
 #: ../ui/evolution-task-editor.xml.h:13
 msgid "Toggles whether the RSVP field is displayed"
-msgstr "Bật tắt hiển thị trường Trả lời trước"
+msgstr "Bật tắt hiển thị trường RSVP (Vui lòng hồi âm)"
 
 #: ../ui/evolution-event-editor.xml.h:21
 #: ../ui/evolution-task-editor.xml.h:14
@@ -19604,7 +19603,7 @@ msgstr "_Riêng"
 #: ../ui/evolution-event-editor.xml.h:33
 #: ../ui/evolution-task-editor.xml.h:22
 msgid "_RSVP"
-msgstr "T_rả lời trước"
+msgstr "_Vui lòng hồi âm"
 
 #: ../ui/evolution-event-editor.xml.h:34
 msgid "_Recurrence"
@@ -19654,7 +19653,7 @@ msgstr "Tải về các thư của tài khoản/thư mục có nhãn đọc ngo�
 
 #: ../ui/evolution-mail-global.xml.h:10
 msgid "Empty _Trash"
-msgstr "Đổ _Rác"
+msgstr "Đổ _rác"
 
 #: ../ui/evolution-mail-global.xml.h:11
 #: ../ui/evolution-mail-list.xml.h:11
@@ -19881,7 +19880,7 @@ msgstr "Áp dụng bộ lọc vào các thư đã chọn"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
-msgstr "Kiểm tra tìm thư _Rác"
+msgstr "Kiểm tra tìm thư _rác"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -20001,7 +20000,7 @@ msgstr "Lọc theo _Chủ đề..."
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "Lọc các thư đã chọn để quyết định trạng thái rác"
+msgstr "Lọc các thư đã chọn để quyết định trạng thái thư rác"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
@@ -20049,11 +20048,11 @@ msgstr "Đánh dấu Quan Trọng các thư đã chọn"
 
 #: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected messages as junk"
-msgstr "Đánh dấu Rác các thư đã chọn"
+msgstr "Đánh dấu thư rác các thư đã chọn"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected messages as not being junk"
-msgstr "Đánh dấu Không phải Rác các thư đã chọn"
+msgstr "Đánh dấu Không phải thư rác các thư đã chọn"
 
 #: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected messages as not having been read"
@@ -20249,7 +20248,7 @@ msgstr "Trực t_iếp"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Junk"
-msgstr "_Rác"
+msgstr "_Thư rác"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Load Images"
@@ -21697,7 +21696,7 @@ msgstr "%s (%d%% hoàn tất)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "Click here to go to URL"
-msgstr "Nhấn đây để đi tới địa chỉ Mạng"
+msgstr "Nhấn đây để đi tới địa chỉ mạng"
 
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
