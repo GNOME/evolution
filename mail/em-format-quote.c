@@ -134,6 +134,12 @@ em_format_quote_new(const char *credits, CamelStream *stream, guint32 flags)
 }
 
 static void
+emfq_format_empty_line(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	camel_stream_printf(stream, "<br>\n");
+}
+
+static void
 emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
@@ -143,6 +149,7 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMime
 
 	camel_stream_reset(emfq->stream);
 
+	emfq_format_empty_line(emf, emfq->stream, (CamelMimePart *)msg, NULL);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
 		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle);

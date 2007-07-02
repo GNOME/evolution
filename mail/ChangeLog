@@ -1,3 +1,10 @@
+2007-07-02  Wang Xin  <jedy.wang@sun.com>
+
+	Fixes #450820.
+
+	* em-format-quote.c: Add an empty new line at the beginning
+	of the mail body when relpying a mail.
+
 2007-06-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #352947
