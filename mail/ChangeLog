@@ -1,3 +1,8 @@
+2007-07-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-folder-browser.c: (emfb_list_key_press): Magic space bar works
+	only under non-caret mode.
+
 2007-07-02  Wang Xin  <jedy.wang@sun.com>
 
 	Fixes #450820.

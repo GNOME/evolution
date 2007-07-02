@@ -1172,24 +1172,26 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	
 	switch (ev->key.keyval) {
 	case GDK_space:
-		state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-forward");
-		if (!state)
-			folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
-			
-		//em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
+		if (!emfb->view.preview->caret_mode) {
+			state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-forward");
+			if (!state)
+				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
+		} else 
+			em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
 		break;
 	case GDK_BackSpace:
-		state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-backward");
-		if (!state)
-			folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN);
-	
-		//em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), FALSE);
+		if (!emfb->view.preview->caret_mode) {
+			state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-backward");
+			if (!state)
+				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN);
+		} else
+			em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), FALSE);
 		break;
 	default:
 		return FALSE;
 	}
 	
-	if (!folder_choose) {
+	if (!folder_choose && !emfb->view.preview->caret_mode) {
 		EMFolderTree *emft = g_object_get_data((GObject*)emfb, "foldertree");
 		em_folder_tree_select_next_path (emft);
 		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
