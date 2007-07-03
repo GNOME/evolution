@@ -1,3 +1,26 @@
+Evolution 2.10.3 2007-07-02
+---------------------------
+
+Bug fixes:
+	#315012: Fixed a crash when reopening an encrypted sent email
+	 (Pascal Terjan)
+	#321741: Default first date is now set to current day (Milan Crha)
+	#330175: Added helper function which test selection for non-space
+	 characters. (Milan Crha)
+	#334140: Fixes a crash when replying to emails with bbdb plugin
+	 enabled (Milan Crha)
+	#352947: Fixed a crash while selecting a default S/MIME certificate
+	 (Milan Crha)
+	#439957: Fix camel warnings (Ross Burton)
+	#444107: DnD of images to composer's attachment bar works correctly
+	 (Srinivasa Ragavan)
+	#448970: Fixed a crash in default mailer plugin (Srinivasa Ragavan)
+
+Updated Translations:
+	Priit Laes (et)
+	Takeshi AIHANA (ja)
+	Hendrik Richter (de)
+
 Evolution 2.10.2 2007-05-28
 ---------------------------
 
