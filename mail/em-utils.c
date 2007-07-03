@@ -434,10 +434,12 @@ em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
 
 	for (iter = parts; iter != NULL; iter = iter->next) {
 		CamelMimePart *part = iter->data;
-		const gchar *filename;
+		const gchar *filename, *utf8_filename;
 		gchar *uri;
 
-		filename = emu_save_get_filename_for_part (part);
+		utf8_filename = emu_save_get_filename_for_part (part);
+		filename = g_filename_from_utf8 ((const char *) utf8_filename, -1, NULL, NULL, NULL);
+		g_free (utf8_filename);
 
 		uri = g_build_path ("/", path_uri, filename, NULL);
 

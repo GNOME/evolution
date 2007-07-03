@@ -1,3 +1,10 @@
+2007-07-03  simon.zheng  <simon.zheng@sun.com>
+
+	** Fix for bug #453294
+
+	* em-utils.c: (em_utils_save_parts): Convert filename encoding 
+	from UTF-8 to current locale before saving attachement.
+
 2007-07-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #449811
