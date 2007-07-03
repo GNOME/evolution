@@ -1,15 +1,19 @@
 # evolution/acinclude.m4
 # shared configure.in hacks between Evolution and Connector
 
+# serial 1
 
 # EVO_PURIFY_SUPPORT
 # Add --enable-purify. If the user turns it on, subst PURIFY and set
 # the automake conditional ENABLE_PURIFY
 AC_DEFUN([EVO_PURIFY_SUPPORT], [
-	AC_ARG_ENABLE(purify, 
-	[  --enable-purify=[no/yes]      Enable support for building executables with Purify.],,enable_purify=no)
+	AC_ARG_ENABLE([purify], 
+		      AC_HELP_STRING([--enable-purify],
+			       [Enable support for building executables with Purify.]),,[enable_purify=no])
 	AC_PATH_PROG(PURIFY, purify, impure)
-	AC_ARG_WITH(purify-options, [  --with-purify-options=OPTIONS      Options passed to the purify command line (defaults to PURIFYOPTIONS variable).])
+	AC_ARG_WITH([purify-options], 
+		    AC_HELP_STRING([--with-purify-options=OPTIONS],
+		    		   [Options passed to the purify command line (defaults to PURIFYOPTIONS variable).]))
 	if test "x$with_purify_options" = "xno"; then
 		with_purify_options="-always-use-cache-dir=yes -cache-dir=/gnome/lib/purify"
 	fi
@@ -17,7 +21,7 @@ AC_DEFUN([EVO_PURIFY_SUPPORT], [
 		PURIFYOPTIONS=$with_purify_options
 	fi
 	AC_SUBST(PURIFY)
-	AM_CONDITIONAL(ENABLE_PURIFY, test "x$enable_purify" = "xyes" -a "x$PURIFY" != "ximpure")
+	AM_CONDITIONAL(ENABLE_PURIFY, [test x$enable_purify = xyes -a x$PURIFY != ximpure])
 	PURIFY="$PURIFY $PURIFYOPTIONS"
 ])
 
@@ -31,8 +35,12 @@ AC_DEFUN([EVO_PURIFY_SUPPORT], [
 AC_DEFUN([EVO_LDAP_CHECK], [
 	default="$1"
 
-	AC_ARG_WITH(openldap,     [  --with-openldap=[no/yes/PREFIX]      Enable LDAP support in evolution])
-	AC_ARG_WITH(static-ldap,  [  --with-static-ldap=[no/yes]          Link LDAP support statically into evolution ])
+	AC_ARG_WITH([openldap],
+		    AC_HELP_STRING([--with-openldap],
+		    		   [Enable LDAP support in evolution]))
+	AC_ARG_WITH([static-ldap],
+		    AC_HELP_STRING([--with-static-ldap],
+		    		   [Link LDAP support statically into evolution]))
 	AC_CACHE_CHECK([for OpenLDAP], ac_cv_with_openldap, ac_cv_with_openldap="${with_openldap:=$default}")
 	case $ac_cv_with_openldap in
 	no|"")
@@ -119,8 +127,12 @@ AC_DEFUN([EVO_LDAP_CHECK], [
 AC_DEFUN([EVO_SUNLDAP_CHECK], [
         default="$1"
 
-        AC_ARG_WITH(sunldap,     [  --with-sunldap=[no/yes/PREFIX]      Enable SunLDAP support in evolution])
-        AC_ARG_WITH(static-sunldap,  [  --with-static-sunldap=[no/yes]          Link SunLDAP support statically into evolution ])
+        AC_ARG_WITH([sunldap],
+		    AC_HELP_STRING([--with-sunldap],
+		    		   [Enable SunLDAP support in evolution]))
+        AC_ARG_WITH([static-sunldap],
+		    AC_HELP_STRING([--with-static-sunldap],
+		    		   [Link SunLDAP support statically into evolution ]))
         AC_CACHE_CHECK([for SunLDAP], ac_cv_with_sunldap, ac_cv_with_sunldap="${with_sunldap:=$default}")
         case $ac_cv_with_sunldap in
         no|"")
@@ -217,8 +229,6 @@ AC_DEFUN([EVO_PTHREAD_CHECK],[
 ])
 dnl -*- mode: autoconf -*-
 
-# serial 1
-
 dnl Usage:
 dnl   GTK_DOC_CHECK([minimum-gtk-doc-version])
 AC_DEFUN([GTK_DOC_CHECK],
@@ -226,14 +236,14 @@ AC_DEFUN([GTK_DOC_CHECK],
   AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
   AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
   dnl for overriding the documentation installation directory
-  AC_ARG_WITH(html-dir,
+  AC_ARG_WITH([html-dir],
     AC_HELP_STRING([--with-html-dir=PATH], [path to installed docs]),,
     [with_html_dir='${datadir}/gtk-doc/html'])
   HTML_DIR="$with_html_dir"
   AC_SUBST(HTML_DIR)
 
   dnl enable/disable documentation building
-  AC_ARG_ENABLE(gtk-doc,
+  AC_ARG_ENABLE([gtk-doc],
     AC_HELP_STRING([--enable-gtk-doc],
                    [use gtk-doc to build documentation [default=no]]),,
     enable_gtk_doc=no)
@@ -277,8 +287,10 @@ AC_SUBST(PISOCK_CFLAGS)
 AC_SUBST(PISOCK_LIBS)
 
 AC_DEFUN([PILOT_LINK_HOOK],[
-	AC_ARG_WITH(pisock,
-	[  --with-pisock            Specify prefix for pisock files],[
+	AC_ARG_WITH([pisock],
+		    AC_HELP_STRING([--with-pisock],
+		    		   [Specify prefix for pisock files]),
+	[
 	if test x$withval = xyes; then
 	    dnl Note that an empty true branch is not valid sh syntax.
 	    ifelse([$1], [], :, [$1])
@@ -317,10 +329,11 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 			[ AC_MSG_ERROR([Unable to find libpisock. Try http://www.pilot-link.org.]) ])
 	fi
 	
-	AC_ARG_ENABLE(pilotlinktest,
-		[  --enable-pilotlinktest   Test for correct version of pilot-link],
+	AC_ARG_ENABLE([pilotlinktest],
+		AC_HELP_STRING([--enable-pilotlinktest],
+			       [Test for correct version of pilot-link]),
 		[testplversion=$enableval],
-		[ testplversion=yes ]
+		[testplversion=yes]
 	)
 
 	if test x$piversion_include = x; then

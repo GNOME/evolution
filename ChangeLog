@@ -1,3 +1,8 @@
+2007-07-03  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	* acinclude.m4: introducing AC_HELP_STRING to beautify configure,
+	fixes part of bug #444882
+
 2007-06-20  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* configure.in: make the path to perl configurable
