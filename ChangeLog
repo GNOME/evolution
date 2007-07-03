@@ -1,5 +1,9 @@
 2007-07-03  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
+	* iconv-detect.c: fix iconv-detect.c, second part of bug #444882
+
+2007-07-03  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
 	* acinclude.m4: introducing AC_HELP_STRING to beautify configure,
 	fixes part of bug #444882
 
