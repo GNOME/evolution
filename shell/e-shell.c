@@ -76,6 +76,7 @@ static void set_line_status_complete(EvolutionListener *el, void *data);
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
+static gboolean session_started = FALSE;
 
 struct _EShellPrivate {
 	/* IID for registering the object on OAF.  */
@@ -946,6 +947,13 @@ e_shell_create_window (EShell *shell,
 
 	set_interactive (shell, TRUE);
 
+	if (!session_started) {
+		ESEvent *ese;
+		
+		session_started = TRUE;
+		ese = es_event_peek();
+		e_event_emit((EEvent *)ese, "started.done", (EEventTarget *)es_event_target_new_shell(ese, shell));
+	}
 	return window;
 }
 

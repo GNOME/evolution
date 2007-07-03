@@ -26,6 +26,7 @@
 #include <glib-object.h>
 
 #include "e-util/e-event.h"
+#include "e-shell.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,7 +39,8 @@ typedef struct _ESEventClass ESEventClass;
 /* Current target description */
 enum _es_event_target_t {
 	ES_EVENT_TARGET_STATE,
-	ES_EVENT_TARGET_UPGRADE
+	ES_EVENT_TARGET_UPGRADE,
+	ES_EVENT_TARGET_SHELL
 };
 
 /* Flags that qualify TARGET_STATE */
@@ -49,6 +51,13 @@ enum {
 
 typedef struct _ESEventTargetState ESEventTargetState;
 typedef struct _ESEventTargetUpgrade ESEventTargetUpgrade;
+typedef struct _ESEventTargetShell ESEventTargetShell;
+
+struct _ESEventTargetShell {
+	EEventTarget target;
+
+	EShell *shell;
+};
 
 struct _ESEventTargetState {
 	EEventTarget target;

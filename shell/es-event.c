@@ -129,6 +129,16 @@ es_event_target_new_state(ESEvent *eme, int state)
 	return t;
 }
 
+ESEventTargetShell *
+es_event_target_new_shell(ESEvent *eme, EShell *shell)
+{
+	ESEventTargetShell *t = e_event_target_new(&eme->event, ES_EVENT_TARGET_SHELL, sizeof(*t));
+
+	t->shell = shell;
+
+	return t;
+}
+
 ESEventTargetUpgrade *
 es_event_target_new_upgrade(ESEvent *eme, int major, int minor, int revision)
 {
@@ -155,6 +165,7 @@ static const EEventHookTargetMask emeh_state_masks[] = {
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "state", ES_EVENT_TARGET_STATE, emeh_state_masks },
 	{ "upgrade", ES_EVENT_TARGET_UPGRADE, NULL },
+	{ "shell", ES_EVENT_TARGET_SHELL, NULL },
 	{ 0 }
 };
 

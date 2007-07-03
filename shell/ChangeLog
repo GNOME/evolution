@@ -1,3 +1,11 @@
+2007-07-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added a hook event after the shell is started.
+
+	* e-shell.c: (e_shell_create_window):
+	* es-event.c: (es_event_target_new_shell):
+	* es-event.h:
+
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #448201 from Gabor Kelemen
