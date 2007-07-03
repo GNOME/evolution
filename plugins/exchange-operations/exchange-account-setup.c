@@ -422,7 +422,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	E2kAutoconfigResult result;
 	CamelURL *url=NULL;
 	gboolean remember_password;
-	char *url_string; 
+	char *url_string, *key; 
 	const char *source_url, *id_name, *owa_url;
 	char *at, *user;
 	gboolean valid = FALSE;
@@ -461,18 +461,25 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 		exchange_params->is_ntlm = TRUE;
 	else
 		exchange_params->is_ntlm = FALSE;
-	valid =  e2k_validate_user (owa_url, &url->user, exchange_params, 
-						&remember_password, &result);
+	camel_url_set_authmech (url, exchange_params->is_ntlm ? "NTLM" : "Basic");
 
+	key = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	/* Supress the trailing slash */
+	key [strlen(key) -1] = 0;
+	
+	valid =  e2k_validate_user (owa_url, key, &url->user, exchange_params, 
+						&remember_password, &result);
+	g_free (key);
+	
 	if (!valid && result != E2K_AUTOCONFIG_CANCELLED)
 		print_error (owa_url, result);
 
 	camel_url_set_host (url, valid ? exchange_params->host : "");
+	
 
-	if (valid) {
-		camel_url_set_authmech (url, exchange_params->is_ntlm ? "NTLM" : "Basic");
+	if (valid)
 		camel_url_set_param (url, "save-passwd", remember_password? "true" : "false");
-	}
+	
 	camel_url_set_param (url, "ad_server", valid ? exchange_params->ad_server: NULL);
 	camel_url_set_param (url, "mailbox", valid ? exchange_params->mailbox : NULL);
 	camel_url_set_param (url, "owa_path", valid ? exchange_params->owa_path : NULL);

@@ -1,3 +1,9 @@
+2007-07-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-account-setup.c: (owa_authenticate_user): Form the password
+	url same as what is used every where else, so that the query can be
+	avoided.
+
 2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* exchange-mail-send-options.c: (org_gnome_exchange_send_options):
