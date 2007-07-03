@@ -1,6 +1,6 @@
 # Vietnamese Translation for Evolution.
 # Copyright © 2007 Gnome i18n Project for Vietnamese.
-# Nguyễn Thái Ngọc Duy <pclouds@gmx.net>, 2002-2004.
+# Nguyễn Thái Ngọc Duy <pclouds@gmail.com>, 2002-2004,2007.
 # Clytie Siddall <clytie@riverland.net.au>, 2005-2007.
 # 
 msgid ""
@@ -867,7 +867,7 @@ msgstr "Lưu dạng vCard..."
 #: ../calendar/gui/memos-component.c:459
 #: ../calendar/gui/tasks-component.c:450
 msgid "_Properties..."
-msgstr "Tài _sản..."
+msgstr "_Thuộc tính..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1349
 msgid "Contact Source Selector"
@@ -5778,7 +5778,7 @@ msgstr "Danh sách Ghi nhớ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:477
 msgid "Calendar Properties"
-msgstr "Tài sản Lịch"
+msgstr "Thuộc tính Lịch"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
 msgid "New Calendar"
@@ -5936,7 +5936,7 @@ msgstr "_Gỡ bỏ"
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
-msgstr "Tài _sản"
+msgstr "_Thuộc tính"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../composer/e-msg-composer.c:3701
@@ -11437,7 +11437,7 @@ msgstr[0] "Tổng số thư :"
 #: ../mail/em-folder-properties.c:323
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "Folder Properties"
-msgstr "Tài sản thư mục"
+msgstr "Thuộc tính thư mục"
 
 #: ../mail/em-folder-selection-button.c:123
 msgid "<click here to select a folder>"
@@ -12819,7 +12819,7 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr "Khoá này nên chứa danh sách các cấu trúc XML ghi rõ dòng đầu tự chọn, và nếu "
-"sẽ hiển thị chúng. Dang thức của cấu trúc XML là:\n"
+"sẽ hiển thị chúng. Dạng thức của cấu trúc XML là:\n"
 "&lt;header enabled&gt;\n"
 "(lập đã bật dòng đầu, nếu sẽ hiển thị dòng đầu ấy trong ô xem thư)."
 
@@ -13416,7 +13416,7 @@ msgstr "Độ rộng _cố định:"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Font Properties"
-msgstr "Tài sản phông chữ"
+msgstr "Thuộc tính phông chữ"
 
 #: ../mail/mail-config.glade.h:84
 msgid "Format messages in _HTML"
@@ -15238,11 +15238,11 @@ msgstr "Đơn _vị"
 
 #: ../plugins/calendar-weather/calendar-weather.c:659
 msgid "Metric (Celsius, cm, etc)"
-msgstr "Mét (chia trăm độ, cm v.v.)"
+msgstr "Mét (Celsius, cm v.v.)"
 
 #: ../plugins/calendar-weather/calendar-weather.c:660
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr "Mỹ (ái đo nhiệt Fa-ren-hét, insơ v.v.)"
+msgstr "Mỹ (Fahrenheit, inch v.v.)"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Provides core functionality for weather calendars."
@@ -19019,11 +19019,11 @@ msgstr "Đang tắt %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
 msgid "Address _Book Properties"
-msgstr "Tài sản _Sổ địa chỉ"
+msgstr "Thuộc tính _Sổ địa chỉ"
 
 #: ../ui/evolution-addressbook.xml.h:3
 msgid "Change the properties of the selected folder"
-msgstr "Thay đổi tài sản của thư mục đã chọn"
+msgstr "Thay đổi thuộc tính của thư mục đã chọn"
 
 #: ../ui/evolution-addressbook.xml.h:4
 msgid "Co_py All Contacts To..."
@@ -19735,7 +19735,7 @@ msgstr "Thay đổi tên thư mục này"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
-msgstr "Thay đổi tài sản của thư mục này"
+msgstr "Thay đổi thuộc tính của thư mục này"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
