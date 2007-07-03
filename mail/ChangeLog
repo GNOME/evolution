@@ -1,3 +1,12 @@
+2007-07-04  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Added the hook for plugging into Send/Receive dialog for the
+	Evolution RSS plugin.
+
+	* em-event.c: (em_event_target_new_send_receive):
+	* em-event.h:
+	* mail-send-recv.c: (build_dialog), (mail_send_receive):
+
 2007-07-03  simon.zheng  <simon.zheng@sun.com>
 
 	** Fix for bug #453294

@@ -176,6 +176,19 @@ em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage 
 	return t;
 }
 
+EMEventTargetSendReceive *
+em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer *data, int row, guint32 flags)
+{
+	EMEventTargetSendReceive *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_SEND_RECEIVE, sizeof(*t));
+
+	t->table = table;
+	t->data = data;
+	t->row = row;
+	t->target.mask = ~flags;
+
+	return t;
+}
+
 /* ********************************************************************** */
 
 static void *emeh_parent_class;
@@ -197,10 +210,16 @@ static const EEventHookTargetMask emeh_message_masks[] = {
 	{ 0 }
 };
 
+static const EEventHookTargetMask emeh_send_receive_masks[] = {
+	{ "sendreceive", EM_EVENT_SEND_RECEIVE },
+	{ 0 }
+};
+
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "folder", EM_EVENT_TARGET_FOLDER, emeh_folder_masks },
 	{ "message", EM_EVENT_TARGET_MESSAGE, emeh_message_masks },
 	{ "composer", EM_EVENT_TARGET_COMPOSER, emeh_composer_masks},
+	{ "sendreceive", EM_EVENT_TARGET_SEND_RECEIVE, emeh_send_receive_masks},
 	{ 0 }
 };
 

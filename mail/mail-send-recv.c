@@ -56,6 +56,7 @@
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-folder-cache.h"
+#include "em-event.h"
 #include <e-util/e-icon-factory.h>
 
 #define d(x)
@@ -381,7 +382,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	EAccount *account;
 	EIterator *iter;
 	GList *icon_list;
-	
+	EMEventTargetSendReceive *target;
+
 	gd = (GtkDialog *)(send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
 	
@@ -534,6 +536,10 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	}
 	
 	g_object_unref (iter);
+	
+	/* Hook: If some one wants to hook on to the sendreceive dialog, this is the way to go. */
+	target = em_event_target_new_send_receive (em_event_peek(), table, data, row, EM_EVENT_SEND_RECEIVE);
+	e_event_emit (em_event_peek(), "mail.sendreceive", target);
 	
 	if (outbox && destination) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
@@ -936,7 +942,9 @@ mail_send_receive (void)
 			mail_get_store(info->uri, info->cancel, receive_update_got_store, info);
 			break;
 		default:
-			g_assert_not_reached ();
+			/* Commented for pluggable hooks*/
+			/* g_assert_not_reached () */
+			break;
 		}
 		scan = scan->next;
 	}

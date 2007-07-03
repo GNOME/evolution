@@ -35,6 +35,7 @@ extern "C" {
 struct _CamelFolder;
 struct _CamelMimeMessage;
 struct _EMsgComposer;
+struct _GtkWidget;
 
 typedef struct _EMEvent EMEvent;
 typedef struct _EMEventClass EMEventClass;
@@ -44,6 +45,7 @@ enum _em_event_target_t {
 	EM_EVENT_TARGET_FOLDER,
 	EM_EVENT_TARGET_MESSAGE,
 	EM_EVENT_TARGET_COMPOSER,
+	EM_EVENT_TARGET_SEND_RECEIVE,
 };
 
 /* Flags that describe TARGET_FOLDER */
@@ -59,6 +61,11 @@ enum {
 /* Flags that describe TARGET_COMPOSER */
 enum {
 	EM_EVENT_COMPOSER_SEND_OPTION = 1<< 0,
+};
+
+/* Flags that describe TARGET_SEND_RECEIVE*/
+enum {
+	EM_EVENT_SEND_RECEIVE = 1<< 0,
 };
 
 typedef struct _EMEventTargetFolder EMEventTargetFolder;
@@ -87,6 +94,17 @@ struct _EMEventTargetComposer {
 	struct _EMsgComposer *composer;
 };
 
+typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
+
+struct _EMEventTargetSendReceive {
+	EEventTarget target;
+	
+	struct _GtkWidget *table;
+	gpointer *data;
+	int row;
+};
+
+
 typedef struct _EEventItem EMEventItem;
 
 /* The object */
@@ -107,6 +125,7 @@ EMEvent *em_event_peek(void);
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, guint32 flags);
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const struct _EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
+EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer *data, int row, guint32 flags);
 
 /* ********************************************************************** */
 
