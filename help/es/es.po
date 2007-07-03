@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_manual\n"
 "POT-Creation-Date: 2007-05-10 21:27+0100\n"
-"PO-Revision-Date: 2007-06-30 00:16+0200\n"
+"PO-Revision-Date: 2007-07-03 23:04+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3298,7 +3298,7 @@ msgstr "Enviar los mensajes nuevos más tarde"
 
 #: C/evolution.xml:1235(link) C/evolution.xml:1295(title)
 msgid "Working Offline"
-msgstr "Trabajando desconectado"
+msgstr "Trabar desconectado"
 
 #: C/evolution.xml:1238(link) C/evolution.xml:1309(title)
 msgid "Attachments"
@@ -6359,7 +6359,7 @@ msgid ""
 "+Ctrl+J. If Evolution misses junk mail, right-click the message, then click "
 "Mark as Junk or press Ctrl+J. When you correct it, the filter can recognize "
 "similar messages in the future, and becomes more accurate as time goes on."
-msgstr ""
+msgstr "El filtro de correo basura puede aprender qué tipos de correo son legítimos y cuales no, si lo entrena. Cuando comience a usar el bloqueador de correo basura, compruebe la carpeta de Basura para asegurarse de que el correo legítimo no se marca como correo basura. Si el correo bueno se marca incorrectamente, quítelo de la carpeta Basura pulsando con el botón derecho y seleccionando Marcar como no spam o pulsando Mayús+Ctrl+J. Si Evolution falla algún correo basura, pulse con el botón derecho sobre el mensaje, después pulse Marcar como spam o Ctrl+J. Cuando lo corrija, el filtro puede reconocer mensajes similares para el futuro y se hace más preciso a medida que pasa el tiempo."
 
 #: C/evolution.xml:2869(para)
 msgid ""
@@ -6420,7 +6420,7 @@ msgid ""
 "any case disabled. Refer to <link linkend=\"usage-mail-organize-spam"
 "\">Stopping Junk Mail (Spam)</link> to train SpamAssassin to identify junk "
 "mails."
-msgstr ""
+msgstr "SpamAssasin* es una aplicación que busca en el buzón de correo para encontrar correo basura. Evolution usa SpamAssasin como la aplicación de filtro predeterminada. Antes de empezar a usar filtros antispam, asegúrese de que SpamAssasin está instalado para permitir la característica de filtrado de correo basura de Evolution. Si SpamAssasin ya están instalado, su complemento se comprobará de forma predeterminada el Gestor de complementos del menú Editar. Compruebe Editar &gt; Complementos para abrir el Gestor de complementos. De lo contrario, contacte con su distribuidor. También puede bajrse el código fuente de <ulink url=\"http://spamassassin.apache.org/\">El proyecto SpamAssasin de Apache</ulink>. Una vez que configure SpamAssasin, el complemento se activará automáticamente en el Gestor de Complementos. No obstante necesita activarlo de nuevo si se desactiva por cualquier motivo. Vea <link linkend=\"usage-mail-organize-spam\">Parar el correo basura (Spam)</link> para entrenar a SpamAssasin para identificar correos basura."
 
 #: C/evolution.xml:2883(para)
 msgid ""
@@ -6557,7 +6557,7 @@ msgid ""
 "&ldquo;Doe, John Q.&rdquo; However, Miguel's surname, &ldquo;de "
 "Icaza&rdquo;, has two words, and to sort it correctly you must enter de "
 "Icaza, Miguel in the File As entry."
-msgstr ""
+msgstr "Especifique aquí el nombre de su contacto. Puede escribir un nombre dentro del campo Nombre completo, pero también puede pulsar el botón Nombre completo para mostrar una pequeña caja de diálogo con cajas de texto para nombre y apellido, títulos como «Mr.» o «Su excelencia», y sufijos como «Jr». El nombre completo también interactúa con la caja Archivar como para ayudarle a organizar sus contactos y manejar apellidos multipalabra. Para ver cómo funciona escriba un nombre en el campo Nombre completo. Como ejemplo usaremos Miguel de Icaza. Notará que en campo Archivar como también se rellena, pero en orden inverso: Icaza, Miguel de. Si ha introducido Ignacio S. Matamoros, el editor de contactos debería haber adivinado que la entrada debería archivarse como «Matamoros, Ignacio S.» No obstante el apellido de Miguel, «de Icaza» tiene dos palabras y para ordenarlo correctamente debe introducir de Icaza, Miguel en el campo Archivar como."
 
 #: C/evolution.xml:2938(title)
 msgid "Where:"
@@ -6877,13 +6877,13 @@ msgid ""
 "computer, you only need to provide a name. For contacts on the network, you "
 "need to provide more information about the contacts server you are trying to "
 "access."
-msgstr ""
+msgstr "Los Grupos de contactos no son más que una Libreta de direcciones. La forma más sencilla de organizar los contactos es crear libretas de direcciones adicionales. Puede crear una nueva pulsando Archivo &gt; Nuevo &gt; Libreta de direcciones. Para los grupos de contactos en su equipo, sólo necesitara proporcionar un nombre. Para los contactos en la red debe proporcionar más información acerca del servidor de contactos al que está intentando acceder."
 
 #: C/evolution.xml:3173(para)
 msgid ""
 "To move a card from one group to another, just drag it from the main display "
 "of contacts. You cannot change the contents of most network contact groups."
-msgstr ""
+msgstr "Para mover una tarjeta de un grupo a otro, simplemente arrástrela de la vista general de contactos. No puede modificar el contenido de la mayoría de los contactos de red."
 
 #: C/evolution.xml:3175(para)
 msgid ""
@@ -6891,7 +6891,7 @@ msgid ""
 "folder or address book full of contacts. A contact list is a single contact "
 "that contains other contacts, and is most often used to e-mail several "
 "people at once."
-msgstr ""
+msgstr "Los grupos de contactos no son lo mismo que una lista de contactos. Un grupo de contactos es como una carpeta o libreta de direcciones llena de contactos. Una lista de contactos es un solo contacto que contiene otros contactos y generalmente se usa para enviar correos electrónicos a varias personas a la vez."
 
 #: C/evolution.xml:3180(title)
 msgid "Importing Contacts"
@@ -6911,7 +6911,7 @@ msgstr "Envíese a si mismo un contacto como un adjunto vCard."
 msgid ""
 "Currently VCF and LDIF are supported. CSV and TAB format files are supported "
 "from Microsoft Outlook, Thunderbird, Mozilla, and Evolution."
-msgstr ""
+msgstr "Actualmente se soportan VCF y LDIF. Los formatos CSV y TAB están soportados desde Miscrosoft Outlook, Thunderbird, Mozilla  y Evolution."
 
 #: C/evolution.xml:3194(para)
 msgid ""
@@ -6921,6 +6921,11 @@ msgid ""
 "your computer as a convenience to you, rather than as an actual e-mail "
 "address managed by a mailing list application on a server."
 msgstr ""
+"Una lista de contactos es un juego de contactos que cree con un solo apodo. "
+"Cuando envíe correos electrónicos al apodo, se envía a cada miembro de la lista. "
+"Esto es diferente a una lista de correo que existe sólo en su equipo para su "
+"conveniencia, en lugar de ser una dirección de correo real gestionada "
+"por una aplicación para listas de correo en un servidor."
 
 #: C/evolution.xml:3195(para)
 msgid ""
@@ -7207,7 +7212,7 @@ msgid ""
 "hide the appointments in your calendar view. By hiding and showing different "
 "sets of appointments, you can be sure to avoid conflicts, while keeping a "
 "minimum of clutter in your view."
-msgstr ""
+msgstr "En Evolution puede mantener múltiples calendarios y solaparlos entre ellos. Por ejemplo, puede tener un horario de acontecimientos del trabajo, uno para casa y uno para su equipo de deporte favorito. El selector lista esos calendarios y puede seleccionar o deseleccionar las cajas junto a ellos para mostrar y ocultar las citas en la vista de calendario. Ocultando y mostrando diferentes juegos de citas, puede asegurarse de evitar conflictos, reduciendo la carga en la vista."
 
 #: C/evolution.xml:3336(para)
 msgid "Appointments for each calendar appear as a different color."
@@ -7336,20 +7341,20 @@ msgid ""
 "Right click on the calendar at the left and select Mark Calendar for offline "
 "use. For more information on working offline refer <link linkend=\"usage-"
 "mail-getnsend-offline\">Working Offline</link>."
-msgstr ""
+msgstr "Pulse con el botón derecho sobre el calendario a la izquierda y seleccione Marcar el calendario para uso desconectado. Para obtener más información acerca de trabajar desconectado, vea <link linkend=\"usage-mail-getnsend-offline\">Trabar desconectado</link>."
 
 #: C/evolution.xml:3437(para)
 msgid ""
 "To export or share or to store a calendar locally in iCal format, right "
 "click on the calendar in the calendar view at the left and select Save to "
 "Disk."
-msgstr ""
+msgstr "Para exportar, compartir o almacenar localmente un calendario en formato iCal, pulse con el botón derecho sobre el calendario en la vista de calendario a la izquierda y seleccione Guardar al disco."
 
 #: C/evolution.xml:3439(para)
 msgid ""
 "Click Mark as default folder if you want to mark this folder as your default "
 "calendar folder."
-msgstr ""
+msgstr "Pulse Marcar como carpeta predeterminada si quiere marcar esta carpeta como su carpeta predeterminada para los calendarios."
 
 #: C/evolution.xml:3445(para)
 msgid ""
@@ -7358,7 +7363,7 @@ msgid ""
 "a meeting is an event that you schedule multiple people for. You can also "
 "use the busy/free search for meetings to determine the availability of "
 "invitees."
-msgstr ""
+msgstr "Existen dos tipos de acontecimientos que puede planificar con Evolution: citas y reuniones. Una cita es un acontecimiento que planifica sólo para si mismo y una reunión es un acontecimiento que planifica para michas personas. También puede usar la búsqueda de Disponibilidad para las reuniones y determinar la disponibilidad de los participantes."
 
 #: C/evolution.xml:3448(link) C/evolution.xml:3471(title)
 msgid "Appointments"
@@ -7422,17 +7427,17 @@ msgid ""
 "Double-click in a blank space on the calendar view to open a Appointment "
 "dialogue box.The appointment is created for that particular time on the "
 "calendar view against which you have double clicked on ."
-msgstr ""
+msgstr "Pulse dos veces en un espacio vacío en la vista de calendario para abrir el cuadro de diálogo Cita. Se creará la cita para esa hora en particular en la vista del calendario sobre la que haya pulsado dos veces."
 
 #: C/evolution.xml:3498(para)
 msgid "Select the required duration on the calender view and enter the summary."
-msgstr ""
+msgstr "Seleccione la duración requerida en la vista del calendario y escriba el resumen."
 
 #: C/evolution.xml:3501(para)
 msgid ""
 "Select a calendar in the Calendar drop-down list. Type a brief summary of "
 "the appointment in the Summary field."
-msgstr ""
+msgstr "Seleccione un calendario en la lista desplegable de Calendario. Escriba un pequeño resumen de la cita en el campo Resumen."
 
 #: C/evolution.xml:3506(para)
 msgid "Type a location for the appointment in the Location field."
@@ -7450,7 +7455,7 @@ msgstr "Escriba un pequeño resumen sobre la cita en el campo de descripción."
 msgid ""
 "To select this appointment as an all day event, click Options &gt; All Day "
 "Event."
-msgstr ""
+msgstr "Para seleccionar esta cita como un Acontecimiento para todo el día, pulse Opciones &gt; Acontecimiento para todo el día."
 
 #: C/evolution.xml:3517(para)
 msgid "Click the All Day Event button on the toolbar."
@@ -7458,44 +7463,44 @@ msgstr "Pulse el botón Acontecimiento para todo el día de la barra de herramie
 
 #: C/evolution.xml:3520(para)
 msgid "If the event is an all day event, specify a starting and ending date."
-msgstr ""
+msgstr "Si el acontecimiento es un acontecimiento para todo el día, especifique una fecha de comienzo y final."
 
 #: C/evolution.xml:3523(para)
 msgid "If the event is not an all day event, specify a starting and ending time."
-msgstr ""
+msgstr "Si el acontecimiento no es un acontecimiento para todo el día, especifique una hora de comienzo y final."
 
 #: C/evolution.xml:3526(para)
 msgid "Select For to specify the duration."
-msgstr ""
+msgstr "Seleccione Durante para especificar la duración."
 
 #: C/evolution.xml:3528(para)
 msgid "Select Until to specify the ending time of the event."
-msgstr ""
+msgstr "Seleccione Hasta para especificar la hora de finalización del acontecimiento."
 
 #: C/evolution.xml:3531(para) C/evolution.xml:3691(para)
 #: C/evolution.xml:4030(para) C/evolution.xml:4081(para)
 msgid "Type the time zone information in the Time Zone field."
-msgstr ""
+msgstr "Escriba la información de zona horaria en el campo Zona horaria."
 
 #: C/evolution.xml:3533(para) C/evolution.xml:3693(para)
 #: C/evolution.xml:4032(para) C/evolution.xml:4083(para)
 msgid "Click the globe to customize the time zone."
-msgstr ""
+msgstr "Pulse el globo terráqueo para personalizar la zona horaria."
 
 #: C/evolution.xml:3534(para) C/evolution.xml:3694(para)
 #: C/evolution.xml:4033(para) C/evolution.xml:4084(para)
 msgid "To hide or show the Time Zone field, click View &gt; Time Zone."
-msgstr ""
+msgstr "Para ocultar o mostrar el campo Zona horaria, pulse Ver &gt; Zona horaria."
 
 #: C/evolution.xml:3537(para)
 msgid "To show the time as busy, click Options &gt; Show Time as Busy."
-msgstr ""
+msgstr "Para mostrar la hora como ocupada, pulse Opciones &gt; Mostrar hora como ocupada."
 
 #: C/evolution.xml:3540(para)
 msgid ""
 "(Optional) Type a category in the Categories field. To show or hide the "
 "Categories field, click View &gt; Categories."
-msgstr ""
+msgstr "(Opcional) escriba una categoría en el campo Categorías. Para mostrar u ocultar el campo Categorías, pulse Ver &gt; Categorías."
 
 #: C/evolution.xml:3541(para)
 msgid ""
@@ -7509,26 +7514,26 @@ msgstr "Escriba una descripción en el campo Descripción."
 
 #: C/evolution.xml:3547(para)
 msgid "To select an alarm for this appointment, click Alarm on the toolbar."
-msgstr ""
+msgstr "Para seleccionar una alarma para esta cita, pulse Alarma en la barra de herramientas."
 
 #: C/evolution.xml:3548(para)
 msgid ""
 "If you select an alarm, specify when and how you want the alarm to notify. "
 "For more information on reminders, see <link linkend=\"bshly4v\">Reminders</"
 "link>."
-msgstr ""
+msgstr "Si selecciona una alarma, especifique cuando y cómo quiere que la alarma se notifique. Para obtener más información acerca de Recordatorios, vea <link linkend=\"bshly4v\">Recordatorios</link>."
 
 #: C/evolution.xml:3551(para) C/evolution.xml:3701(para)
 msgid ""
 "(Optional) To add an attachment to the appointment, drag and drop the "
 "attachment into the attachment bar."
-msgstr ""
+msgstr "(Opcional) para añadir un adjunto a la cita, arrastre y suelte el adjunto en la barra de adjuntos."
 
 #: C/evolution.xml:3553(para) C/evolution.xml:3703(para)
 msgid ""
 "Click the Attach button on the toolbar, or click Insert &gt; Attachment and "
 "then browse to the attachment."
-msgstr ""
+msgstr "Pulse el botón Adjuntar en la barra de herramientas, o pulse Insertar &gt; Adjunto y después examine para seleccionar el adjunto."
 
 #: C/evolution.xml:3556(para) C/evolution.xml:3706(para)
 msgid ""
@@ -7538,13 +7543,13 @@ msgstr "(Opcional) seleccione una clasificación (Pública, Privada o Confidenci
 
 #: C/evolution.xml:3559(para) C/evolution.xml:3709(para)
 msgid "(Optional) Click the Recurrence button on the toolbar."
-msgstr ""
+msgstr "(Opcional) pulse el botón Repetición en la barra de herramientas."
 
 #: C/evolution.xml:3561(para) C/evolution.xml:3711(para)
 msgid ""
 "Click Options &gt; Recurrence, and specify whether you want the appointment "
 "to recur and how often."
-msgstr ""
+msgstr "Pulse Opciones &gt; Repetición, y especifique cuando y con qué frecuencia quiere que se repita la cita."
 
 #: C/evolution.xml:3564(bridgehead)
 msgid "All Day Event"
@@ -7589,7 +7594,7 @@ msgstr "Mostrar:"
 
 #: C/evolution.xml:3582(para)
 msgid "A notification pops up on your screen to remind you of your appointment."
-msgstr "Se abrirá una ventana en su pantalla para recordarle su cita."
+msgstr "Se abrirá una ventana emergente en su pantalla para recordarle su cita."
 
 #: C/evolution.xml:3587(title)
 msgid "Audio:"
@@ -7626,7 +7631,7 @@ msgstr "Crear un recordatorio:"
 msgid ""
 "When creating an appointment, click Alarms on the toolbar, or click Options "
 "&gt; Alarms."
-msgstr ""
+msgstr "Cuando cree una cita, pulse Alarmas en la barra de herramientas o pulse Opciones &gt; Alarmas."
 
 #: C/evolution.xml:3605(para)
 msgid "Select the alarm for the event."
@@ -7634,7 +7639,7 @@ msgstr "Seleccione la alarma para el acontecimiento."
 
 #: C/evolution.xml:3608(para)
 msgid "Select Customize to add or remove customized alarms for the event."
-msgstr ""
+msgstr "Seleccione Personalizar para añadir o eliminar alarmas personalizadas para el acontecimiento."
 
 #: C/evolution.xml:3611(para)
 msgid ""
@@ -7661,6 +7666,12 @@ msgid ""
 "vary depending on your server settings; check with your system administrator "
 "or adjust your delegation settings."
 msgstr ""
+"Si está usando un calendario en servidor Novell GroupWise&reg; o Microsoft Exchange, seleccione "
+"una clasificación para la cita para determinar quién puede verla. La categoría predeterminada es Publico, "
+"y una cita pública puede verla cualquiera en un calendario compartido por red. Privado denota "
+"un nivel de seguridad y Confidencial un alto nivel. Los diferentes niveles varían dependiendo "
+"de la configuración del servidor; compruebe con el administrador de su sistema o ajuste "
+"su configuración de delegación."
 
 #: C/evolution.xml:3617(para)
 msgid ""
@@ -7670,25 +7681,30 @@ msgid ""
 "to designate as Free rather than Busy time, select the Free box in the Show "
 "Time As section. Normally, appointments display as Busy."
 msgstr ""
+"Si está usando un calendario en servidor Novell GroupWise o Microsoft Exchange, otras personas "
+"pueden comprobar su horario en el servidor para ver si está disponible a cualquier hora dada. Si "
+"tiene una cita que es flexible o un periodo que quiere designar como libre en lugar de ocupado, "
+"seleccione la caja Libre en la selección Mostrar hora como. Generalmente las citas se muestran "
+"como Ocupado."
 
 #: C/evolution.xml:3618(para)
 msgid "You can categorize appointments in the same way you can categorize contacts."
-msgstr ""
+msgstr "Puede categorizar las citas de la misma manera que categoriza contactos."
 
 #: C/evolution.xml:3621(para)
 msgid "Type a category in the Categories field."
-msgstr ""
+msgstr "Escriba una categoría en el campo Categoría."
 
 #: C/evolution.xml:3624(para)
 msgid ""
 "Select the check box next to each category that matches the appointment you "
 "are creating."
-msgstr ""
+msgstr "Seleccione la casilla de verificación junto a cada categoría que coincida con la cita que está creando."
 
 #: C/evolution.xml:3627(para) C/evolution.xml:4088(para)
 #: C/evolution.xml:4122(para)
 msgid "To show or hide Categories field, click View &gt; Categories."
-msgstr ""
+msgstr "Para mostrar u ocultar el campo Categorías, pulse Ver &gt; Categorías."
 
 #: C/evolution.xml:3631(para)
 msgid ""
@@ -7711,7 +7727,7 @@ msgid ""
 "you can also search for appointments by category. To display only the "
 "appointments in a particular category, select Category Is in the search bar "
 "at the top of the calendar, and select a category."
-msgstr ""
+msgstr "Las citas con categorías aparecen con iconos en la vista de calendario y también puede buscar las citas por categorías. Para mostrar sólo las citas de una categoría en particular, seleccione Categoría es en la barra de búsqueda en la parte superior del calendario y seleccione una categoría."
 
 #: C/evolution.xml:3639(para)
 msgid ""
@@ -7793,29 +7809,29 @@ msgstr "Pulse Archivo &gt; Nuevo &gt; Reunión."
 msgid ""
 "If you have multiple e-mail accounts, select the one to use by selecting an "
 "item in the Organizer field."
-msgstr ""
+msgstr "Si tiene múltiples cuentas de correo, seleccione la que quiere usar seleccionando un elemento en el campo Organizador."
 
 #: C/evolution.xml:3658(para)
 msgid "Select a calendar in the Calendar drop-down list."
-msgstr ""
+msgstr "Seleccione un calendario en la lista desplegable de Calendario."
 
 #: C/evolution.xml:3661(para) C/evolution.xml:3761(para)
 msgid "Click Add to add the e-mail addresses of people you want to invite."
-msgstr ""
+msgstr "Pulse añadir para añadir las direcciones de correo-e de las personas a las que quiere invitar."
 
 #: C/evolution.xml:3664(para)
 msgid "To remove an attendee from the list, select an attendee and press Remove."
-msgstr ""
+msgstr "Para quitar un participante de la lista, seleccione un participante y pulse Quitar."
 
 #: C/evolution.xml:3667(para)
 msgid "To edit a field, select the field and click Edit."
-msgstr ""
+msgstr "Para editar un campo, seleccione el campo y pulse Editar."
 
 #: C/evolution.xml:3670(para)
 msgid ""
 "Click View on the menu bar to show or hide the Type, Role, Status, and RSVP "
 "fields."
-msgstr ""
+msgstr "Pulse Ver en la barra de menú para ver u ocultar los campos Tipo, Rol, Estado y RSVP."
 
 #: C/evolution.xml:3673(para)
 msgid "Type summary of the meeting in the Summary field."
@@ -7823,35 +7839,35 @@ msgstr "Escriba un resumen de la reunión en el campo Resumen."
 
 #: C/evolution.xml:3676(para)
 msgid "Type a location for the meeting in the Location field."
-msgstr ""
+msgstr "Escriba un lugar par ala reunión en el campo Lugar."
 
 #: C/evolution.xml:3679(para)
 msgid ""
 "To select this meeting as an all day event, click the All Day Event button "
 "on the toolbar."
-msgstr ""
+msgstr "Para seleccionar esta reunión como un acontecimiento para todo el día, pulse el botón Acontecimiento para todo el día en la barra de herramientas."
 
 #: C/evolution.xml:3682(para)
 msgid "If the event is an all day event, specify a starting date and an ending date."
-msgstr ""
+msgstr "Si el acontecimiento es un acontecimiento para todo el día, especifique la fecha de comienzo y la fecha de finalización."
 
 #: C/evolution.xml:3685(para)
 msgid ""
 "If the event is not an all day event, specify a starting time and an ending "
 "time."
-msgstr ""
+msgstr "Si el acontecimiento no es un acontecimiento para todo el día, especifique una hora de comienzo y una hora de finalización."
 
 #: C/evolution.xml:3688(para)
 msgid ""
 "Select For to specify the duration or select Until to specify the ending "
 "time of the event."
-msgstr ""
+msgstr "Seleccione «durante» para especificar la duración o seleccione «hasta» para especificar la hora de finalización del acontecimiento."
 
 #: C/evolution.xml:3697(para)
 msgid ""
 "(Optional) To set an alarm for this meeting, click Alarms on the toolbar, "
 "then specify when and how you want to the alarm to notify you."
-msgstr ""
+msgstr "(Opcional) para establecer una alarma para esta reunión, pulse Alarmas en la barra de herramientas, después especifique cuándo y cómo quiere que la alarma se le notifique."
 
 #: C/evolution.xml:3698(para)
 msgid ""
@@ -7863,7 +7879,7 @@ msgstr "Para obtener más información acerca de los recordatorios, vea <link li
 msgid ""
 "To query free/busy information for the attendees, click the Free/Busy button "
 "on the toolbar."
-msgstr ""
+msgstr "Para preguntar la información de Disponibilidad de los asistentes, pulse el botón Disponibilidad en la barra de herramientas."
 
 #: C/evolution.xml:3716(para)
 msgid "Click Options &gt; Free/Busy."
@@ -7875,7 +7891,7 @@ msgstr "Pulse Guardar para guardar la reunión."
 
 #: C/evolution.xml:3722(para)
 msgid "An e-mail is sent out to all the recipients, inviting them to your event."
-msgstr ""
+msgstr "Se enviará un correo-e a todos los destinatarios, invitándoles a su acontecimiento."
 
 #: C/evolution.xml:3724(para)
 msgid ""
@@ -7899,6 +7915,10 @@ msgid ""
 "details are shown about the event, including time and dates. Then you can "
 "choose how to reply to the invitation. Your choices are:"
 msgstr ""
+"Las peticiones de reunión se envían como adjuntos iCal. Para ver o responder a uno, "
+"pulse el icono del adjunto y véalo en línea en la ventana del correo. Se mostrarán todos "
+"tos detalles acerca del acontecimiento, incluyendo hora y fechas. Después puede elegir "
+"cómo responder a la invitación. Sus opciones son:"
 
 #: C/evolution.xml:3734(para)
 msgid "Accept"
@@ -7996,6 +8016,13 @@ msgid ""
 "publish free/busy information at a URL you can reach and you have entered "
 "that URL into their contact cards using the contact editor."
 msgstr ""
+"La rejilla del horario muestra la información de Disponibilidad publicada para las "
+"personas que ha invitado. Aquí es donde puede comparar los horarios para "
+"encontrar una hora libre para planificar una cita. Los individuos tienen su "
+"información de planificación visible sólo si usan el mismo servidor "
+"Novell GruopWise o Microsoft Exchange que usted (esto es, si están en la "
+"misma compañía) o si han publicado su información de Disponibilidad en "
+"un URL y ha indtroducido ese URL en la tarjeta del contacto usando el editor de contactos."
 
 #: C/evolution.xml:3783(para)
 msgid ""
@@ -8004,6 +8031,9 @@ msgid ""
 "support. Check with your system administrator if you are not sure you have "
 "this functionality."
 msgstr ""
+"Puede publicar la información de Disponibilidad y el Calendario a un WebDAV, servidor FTP"
+"o a una máquina remota a traes de Secure Shell u otro servidor web con soporte HTTP PUT. "
+"Compruebe con el administrador de su sistema si no está seguro de disponer de esta funcionalidad."
 
 #: C/evolution.xml:3784(para)
 msgid "To set up Calendar or Free/Busy publishing:"
@@ -8054,12 +8084,18 @@ msgid ""
 "Then, when you schedule a meeting with them, Evolution looks up the schedule "
 "and displays it in the Free/Busy data."
 msgstr ""
+"Si personas individuales de proporcionan sus datos de Disponibilidad en un URL o sus calendarios Web, "
+"puede introducirlos como parte de la información del contacto en la herramienta Contactos. "
+"Después, cuando planifique una reunión con ellos, Evolution comprueba los horarios y los muestra "
+"en los datos de Disponibilidad."
 
 #: C/evolution.xml:3825(para)
 msgid ""
 "Evolution enables you to find the Calender items by using Customized Search. "
 "To start searching for various calendar items, use the following procedure:"
 msgstr ""
+"Evolution le permite buscar los elementos del Calendario usando la Búsqueda personalizada. Para "
+"comenzar a buscar varios elementos del calendario, use el siguiente procedimiento:"
 
 #: C/evolution.xml:3829(para)
 msgid ""
@@ -8097,6 +8133,9 @@ msgid ""
 "have selected from the drop-down list at the top left side, just above the "
 "display pane"
 msgstr ""
+"Muestra todos los elementos del Calendario que coincidan con los criterios "
+"integrados que haya seleccionado de la lista desplegable en la parte superior "
+"izquierda, justo encima del panel de visualización."
 
 #: C/evolution.xml:3862(para)
 msgid "Click show to expand the drop down list"
@@ -8116,7 +8155,7 @@ msgstr "Vacaciones"
 
 #: C/evolution.xml:3904(para)
 msgid "Key Customers"
-msgstr ""
+msgstr "Clientes clave"
 
 #: C/evolution.xml:3925(para)
 msgid "Time &amp; Expenses"
@@ -8124,13 +8163,13 @@ msgstr "Tiempo y gastos"
 
 #: C/evolution.xml:3936(para)
 msgid "You can view the desired items listed in the calender view."
-msgstr ""
+msgstr "Puede ver los elementos deseados listados en la vista del calendario."
 
 #: C/evolution.xml:3941(para)
 msgid ""
 "To print the displayed calendar items, click File &gt; Print or right click "
 "on the calendar item &gt; Print."
-msgstr ""
+msgstr "Para imprimir los elementos mostrados del calendario, pulse Archivo &gt; Imprimir o pulse con el botón derecho sobre el elemento del calendario &gt; Imprimir."
 
 #: C/evolution.xml:3946(para)
 msgid ""
@@ -8138,6 +8177,9 @@ msgid ""
 "calendar. To delete old events, click Actions &gt; Purge, then enter the "
 "number of days of past events you want to keep. Click OK to purge the items."
 msgstr ""
+"Mantener una lista de todo lo que hizo en el paso eventualmente ralentiza su calendario. Para borrar eventos antiguos "
+"pulse Acciones &gt; Purgar, después introduzca el número de días de acontecimientos pasados que quiere mantener. "
+"Pulse Aceptar para purgar los elementos."
 
 #: C/evolution.xml:3951(para)
 msgid "Only attendees of a meeting can delegate a meeting."
@@ -8179,6 +8221,9 @@ msgid ""
 "religious holidays, phases of the moon, sports, and local and regional "
 "events."
 msgstr ""
+"La <ulink url=\"http://icalshare.com\">página web de icalshare.com</ulink> tiene "
+"una extensa lista de calendarios compartidos en línea, incluyendo fiestas nacionales "
+"y religiosas, fases de la luna, deportes y acontecimientos locales y regionales. "
 
 #: C/evolution.xml:3973(para)
 msgid ""
@@ -8208,6 +8253,10 @@ msgid ""
 "and show task lists just like calendars. In the calendar display task pad, "
 "tasks from all visible task lists appear, color coded by list."
 msgstr ""
+"Las listas de tareas están organizadas de una forma más sencilla en la herramienta dedicada Tareas. "
+"Cada lista de tareas tiene asignado un color y puede usar la herramienta del selector de Tareas para "
+"mostrar y ocultar las listas de tareas al igual que los calendarios. En la sección de tareas del calendario "
+"aparecen las tareas de todas las listas de tareas, coloreadas por su código de lista."
 
 #: C/evolution.xml:3982(link) C/evolution.xml:3993(title)
 msgid "Creating a New Task List"
@@ -8254,63 +8303,63 @@ msgstr ""
 
 #: C/evolution.xml:4015(para)
 msgid "Click New &gt; Task."
-msgstr ""
+msgstr "Pulse Nuevo &gt; Tarea."
 
 #: C/evolution.xml:4018(para) C/evolution.xml:4069(para)
 msgid "Select a group for the task."
-msgstr ""
+msgstr "Seleccione un grupo para la tarea."
 
 #: C/evolution.xml:4021(para)
 msgid "Type a brief summary for the task in the Summary field."
-msgstr ""
+msgstr "Escriba un breve resumen para la tarea en el campo Resumen."
 
 #: C/evolution.xml:4024(para)
 msgid "(Optional) Specify a starting date and ending date for the task"
-msgstr ""
+msgstr "(Opcional) especifique una fecha de comienzo y una fecha de finalización para la tarea."
 
 #: C/evolution.xml:4027(para)
 msgid "(Optional) Specify a starting time and ending time for the task"
-msgstr ""
+msgstr "(Opcional) especifique una hora de comienzo y una hora de finalización para la tarea."
 
 #: C/evolution.xml:4036(para) C/evolution.xml:4087(para)
 #: C/evolution.xml:4121(para)
 msgid "(Optional) Type a category in the Categories field."
-msgstr ""
+msgstr "(Opcional) escriba una categoría en el campo Categoría."
 
 #: C/evolution.xml:4037(para)
 msgid "To show or hide the Categories field, click View &gt; Categories."
-msgstr ""
+msgstr "Para mostrar u ocultar el campo Categorías, pulse Ver &gt; Categorías."
 
 #: C/evolution.xml:4040(para) C/evolution.xml:4091(para)
 msgid "Type a description for the task."
-msgstr ""
+msgstr "Escriba una descripción para la tarea."
 
 #: C/evolution.xml:4043(para) C/evolution.xml:4099(para)
 msgid ""
 "(Optional) Click Options &gt; Classifications, then select a classification "
 "(as Public, Private or Confidential) for the task."
-msgstr ""
+msgstr "(Opcional) pulse Opciones &gt; Clasificaciones, después seleccione una clasificación (como Público, Privado o Confidencial) para la tarea."
 
 #: C/evolution.xml:4046(para) C/evolution.xml:4102(para)
 msgid ""
 "(Optional) To specify a status for the task, click Options &gt; Status "
 "Details."
-msgstr ""
+msgstr "(Opcional) para especificar un estado para la tarea, pulse Opciones &gt; Detalles del estado."
 
 #: C/evolution.xml:4049(para)
 msgid ""
 "(Optional) To add an attachment to the task, drag and drop the attachment "
 "into the attachment bar."
-msgstr ""
+msgstr "(Opcional) para añadir un adjunto a la tarea, arrastre y suelte el adjunto en la barra de adjuntos."
 
 #: C/evolution.xml:4051(para) C/evolution.xml:4096(para)
 #: C/evolution.xml:4136(para)
 msgid "Click the Attach button on the toolbar, then browse to the attachment."
-msgstr ""
+msgstr "Pulse el botón Adjuntar en la barra de tareas, después examine para seleccionar el adjunto."
 
 #: C/evolution.xml:4058(para)
 msgid "Evolution can be used to assign a task to multiple people."
-msgstr ""
+msgstr "Evolution se puede usar para asignar una tarea a varias personas."
 
 #: C/evolution.xml:4059(para)
 msgid ""
@@ -8330,7 +8379,7 @@ msgstr "Asignar una tarea nueva:"
 
 #: C/evolution.xml:4063(para)
 msgid "Click File &gt; New &gt; Assigned Task."
-msgstr ""
+msgstr "Pulse Archivo &gt; Nuevo &gt; Tarea asignada."
 
 #: C/evolution.xml:4072(para)
 msgid ""
@@ -8340,28 +8389,35 @@ msgid ""
 "the field, then click Edit.Click View on the menu bar to show or hide the "
 "Type, Role, Status, and RSVP fields."
 msgstr ""
+"Pulse Añadir, pulse la tecla Insertar o pulse con el botón derecho y después pulse Añadir "
+"para añadir las direcciones de correo electrónico de las personas a las que quiere asignar "
+"la tarea. Para eliminar un participante de la lista, seleccione al participante y pulse Quitar. Para "
+"editar un campo, seleccione el campo y después pulse Editar. Pulse Ver en la barra de menú para "
+"mostrar u ocultar los campos Tipo, Rol, Estado y RSVP."
 
 #: C/evolution.xml:4075(para)
 msgid "Type a brief summary of the task in the Summary field."
-msgstr ""
+msgstr "Escriba un breve sumario de la tarea en el campo Sumario."
 
 #: C/evolution.xml:4078(para)
 msgid ""
 "(Optional) Specify a starting date and time, and a due date and time for the "
 "task."
-msgstr ""
+msgstr "(Opcional) especifique una fecha y hora de comienzo y una fecha y hora de caducidad para la tarea."
 
 #: C/evolution.xml:4094(para)
 msgid ""
 "(Optional) To add an attachment to the assigned task, drag and drop the "
 "attachment into the attachment bar."
-msgstr ""
+msgstr "(Opcional) para añadir un adjunto a la tarea asignada, arrastre y suelte el adjunto en la barra de adjuntos."
 
 #: C/evolution.xml:4110(para)
 msgid ""
 "In Evolution, the Memos component lets you create, edit, and store journal "
 "entries without dates, using the filesystem as a backend."
 msgstr ""
+"En Evolution, el componente de Notas le permite crear, editar y almacenar "
+"entradas sin fecha de su diario, usando el sistema de archivos como «backend»."
 
 #: C/evolution.xml:4112(para)
 msgid "To create a new memo entry:"
@@ -8369,11 +8425,11 @@ msgstr "Crear una nueva nota:"
 
 #: C/evolution.xml:4115(para)
 msgid "Click File &gt; New &gt; Memo."
-msgstr ""
+msgstr "Pulse Archivo &gt; Nuevo &gt; Nota."
 
 #: C/evolution.xml:4118(para)
 msgid "Select a group in which you would create a memo entry."
-msgstr ""
+msgstr "Seleccione un grupo en el que quiera crear una nota."
 
 #: C/evolution.xml:4125(para)
 msgid "Type text for the memo in the Summary field."
@@ -8384,26 +8440,28 @@ msgid ""
 "In the Start Date field, type the date this reminder note should appear in "
 "the recipients&rsquo; Calendars."
 msgstr ""
+"En el campo Fecha de inicio, escriba la fecha en la que esta nota recordatoria debería aparecer "
+"en los calendarios de los Destinatarios."
 
 #: C/evolution.xml:4131(para)
 msgid "Type text for the memo in the Memo Content field."
-msgstr ""
+msgstr "Escriba el texto para la nota en el campo Contenido de la nota."
 
 #: C/evolution.xml:4134(para)
 msgid ""
 "(Optional) To add an attachment to the memo, drag and drop the attachment "
 "into the attachment bar."
-msgstr ""
+msgstr "(Opcional) para añadir un adjunto a la nota, arrastre y suelte el adjunto en la barra de adjuntos."
 
 #: C/evolution.xml:4139(para)
 msgid ""
 "(Optional) Click Options &gt; Classifications, then select a classification "
 "(as Public, Private or Confidential) for the memo."
-msgstr ""
+msgstr "(Opcional) pulse Opciones &gt; Clasificaciones, después seleccione una clasificación (como Público, Privado o Confidencial) para la nota."
 
 #: C/evolution.xml:4144(title)
 msgid "The Memo list"
-msgstr ""
+msgstr "La lista de Notas"
 
 #: C/evolution.xml:4145(para)
 msgid ""
@@ -8411,6 +8469,8 @@ msgid ""
 "list is assigned a color, and you can use the Memos switcher to hide and "
 "show memos."
 msgstr ""
+"Al igual que los calendarios y las tareas, puede crear múltiples listas de notas. Cada lista de notas tendrá su color y "
+"podrá usar el selector de Notas para mostrar y ocultar las notas."
 
 #: C/evolution.xml:4146(para)
 msgid "To create a new memo list:"
@@ -8418,11 +8478,11 @@ msgstr "Crear una nueva lista de notas:"
 
 #: C/evolution.xml:4149(para)
 msgid "Click File &gt; New &gt; Memo List."
-msgstr ""
+msgstr "Pulse Archivo &gt; Nuevo &gt; Lista de notas."
 
 #: C/evolution.xml:4152(para)
 msgid "Type the group, name and color for the memo list."
-msgstr ""
+msgstr "Escriba el grupo, nombre y color para la lista de notas."
 
 #: C/evolution.xml:4163(para)
 msgid ""
@@ -8434,11 +8494,11 @@ msgstr ""
 
 #: C/evolution.xml:4169(para)
 msgid "Click the icon next to the Time Zone field, then select your location."
-msgstr ""
+msgstr "Pulse el icono junto al campo Zona horaria, después seleccione su ubicación."
 
 #: C/evolution.xml:4170(para)
 msgid "Each red dot represents a major city."
-msgstr ""
+msgstr "Cada punto rojo representa una gran ciudad."
 
 #: C/evolution.xml:4173(para)
 msgid "Select a city, then click OK."
@@ -8477,10 +8537,13 @@ msgid ""
 "access accounts on Microsoft Exchange 2000 and 2003 servers. Like Evolution, "
 "it is free software and is licensed under the GPL."
 msgstr ""
+"Evolution &trade; Exchange para Microsoft Exchange permite a los clientes de Evolution "
+"acceder a cuentas en servidores Miscrosoft Exchange 2000 y 2003. Al igual que Evolution, es "
+"software libre y está licenciado bajo la GPL."
 
 #: C/evolution.xml:4190(link) C/evolution.xml:4210(title)
 msgid "Evolution Exchange Features"
-msgstr ""
+msgstr "Características de Evolution Exchange"
 
 #: C/evolution.xml:4193(link) C/evolution.xml:4312(title)
 msgid "Adding Your Exchange Account to Evolution"
@@ -8492,7 +8555,7 @@ msgstr "Acceder al servidor Exchange"
 
 #: C/evolution.xml:4199(link) C/evolution.xml:4487(title)
 msgid "Settings Exclusive to Evolution Exchange"
-msgstr ""
+msgstr "Ajustes exclusivos de Evolution Exchange"
 
 #: C/evolution.xml:4202(link) C/evolution.xml:4510(link)
 #: C/evolution.xml:4677(title)
@@ -8511,7 +8574,7 @@ msgstr ""
 
 #: C/evolution.xml:4211(para)
 msgid "Evolution Exchange supports the following basic Microsoft Exchange features:"
-msgstr ""
+msgstr "Evolution Exchange soporta las siguientes características básicas de Microsoft Exchange:"
 
 #: C/evolution.xml:4214(para) C/evolution.xml:5730(link)
 #: C/evolution.xml:5741(title) C/evolution.xml:5784(link)
@@ -8545,7 +8608,7 @@ msgstr "Gestión de contraseñas:"
 msgid ""
 "Allows you to reset your password. If your password has expired, Evolution "
 "asks you to change your password at startup."
-msgstr ""
+msgstr "Le permite borrar su contraseña. Si su contraseña ha caducado, Evolution le pregunta si quiere cambiarla durante el inicio."
 
 #: C/evolution.xml:4237(para) C/evolution.xml:4766(para)
 msgid "Mail"
@@ -8559,7 +8622,7 @@ msgstr "Ver correo en carpetas Exchange:"
 msgid ""
 "Mail stored on the Exchange server is visible in the Mail component in "
 "Evolution."
-msgstr ""
+msgstr "El correo almacenado en el servidor Exchange se verá en el componente de correo de Evolution."
 
 #: C/evolution.xml:4247(title)
 msgid "Sending E-mail via Exchange Protocols:"
@@ -8580,13 +8643,13 @@ msgstr ""
 
 #: C/evolution.xml:4253(title)
 msgid "Out of Office Message:"
-msgstr "Mensaje de Estoy fuera:"
+msgstr "Mensaje de Estoy fuera de la oficina:"
 
 #: C/evolution.xml:4254(para)
 msgid ""
 "You can set &lsquo;out of Office' message that will automatically be sent to "
 "people who send mails to you while you are away from office."
-msgstr ""
+msgstr "Puede establecer su mensaje «Estoy fuera de la oficina» que se enviará automáticamente a las personas que le envíen correos mientras está fuera de la oficina."
 
 #: C/evolution.xml:4259(title)
 msgid "Send Options:"
@@ -8601,6 +8664,10 @@ msgid ""
 "can also enable delivery receipt request and read receipt request for the "
 "messages sent."
 msgstr ""
+"Puede establecer la prioridad y sensibilidad de los mensajes enviados para que los destinatarios "
+"conozcan la importancia del mensaje. La prioridad puede tener uno de estos valores - Alta, Normal o Baja y "
+"la sensibilidad puede ser uno de estos cuatro valores - Normal, Personal, Privado y Confidencial respectivamente. "
+"También puede activar la confirmación de envío de mensaje y de lectura de mensaje para los mensajes enviados."
 
 #: C/evolution.xml:4266(para) C/evolution.xml:4786(para)
 #: C/evolution.xml:6162(link) C/evolution.xml:6205(title)
@@ -8617,6 +8684,9 @@ msgid ""
 "are busy according to their calendars and send the meeting requests "
 "accordingly."
 msgstr ""
+"Permite a los usuarios de Evolution planificar reuniones. Puede comprobar cuando están "
+"ocupados los otros usuarios de acuerdo con sus calendarios y enviar peticiones de reunión "
+"de forma consecuente."
 
 #: C/evolution.xml:4276(title)
 msgid "Adding iCalendar Meeting Requests to the Calendar:"
@@ -8628,6 +8698,9 @@ msgid ""
 "Exchange calendar. Note that you need to specify the calendar from the list, "
 "to which you want to add your meeting schedules."
 msgstr ""
+"Le permite añadir las peticiones de reunión de iCalendar que reciba a su calendario Exchange. "
+"Nótese que necesita especificar el calendario de la lista, en la que quiere añadir sus horarios de "
+"reuniones."
 
 #: C/evolution.xml:4283(para) C/evolution.xml:4701(para)
 #: C/evolution.xml:4797(para)
@@ -8664,6 +8737,9 @@ msgid ""
 "more information see <link linkend=\"usage-mail-getnsend-offline\">Working "
 "Offline</link>."
 msgstr ""
+"Para marcar una carpeta para su uso desconectado, pulse con el botón derecho sobre la carpeta, "
+"después pulse Propiedades. Pulse Copiar el contenido de la carpeta localmente para operación desconectada. Para obtener "
+"más información vea <link linkend=\"usage-mail-getnsend-offline\">Trabar desconectado</link>."
 
 #: C/evolution.xml:4306(para)
 msgid "Recall Message function is not available."
@@ -8733,7 +8809,7 @@ msgstr "Una vez sepa que su servidor está disponible para conectarse, está pre
 msgid ""
 "Evolution Exchange comes with a simple account creation tool for Exchange "
 "accounts."
-msgstr ""
+msgstr "Evolution Exchange proporciona una herramienta de creación de cuentas simple para cuentas Exchange."
 
 #: C/evolution.xml:4353(para)
 msgid ""
@@ -8753,6 +8829,9 @@ msgid ""
 "see <link linkend=\"config-exchange-new-account\">Creating a New Exchange "
 "Account</link>."
 msgstr ""
+"Si la herramienta sencilla de configuración de cuentas no se ejecuta automáticamente, deberá "
+"crear una cuenta manualmente. Para obtener más información acerca de ello, vea "
+"<link linkend=\"config-exchange-new-account\">Creación de una nueva cuenta Exchange</link>."
 
 #: C/evolution.xml:4361(para)
 msgid "Click Edit &gt; Preferences or press Shift+Ctrl+S"
@@ -8763,23 +8842,23 @@ msgid ""
 "Create the account following the procedure in <link linkend=\"usage-"
 "mainwindow-starting\">Starting Evolution for the First Time</link>. Remember "
 "to select Microsoft Exchange as server type in the Receiving Mail section."
-msgstr ""
+msgstr "Cree la cuenta siguiendo el procedimiento en <link linkend=\"usage-mainwindow-starting\">Inicio de Evolution por primera vez</link>. Recuerde seleccionar el servidor Miscrosoft Exchange como el tipo de servidor en la sección Recepción de correo."
 
 #: C/evolution.xml:4380(para)
 msgid ""
 "You may configure only Only one Microsoft Exchange account can be configured "
 "in Evolution."
-msgstr ""
+msgstr "Sólo se puede configurar una cuenta de Microsoft Exchange con Evolution."
 
 #: C/evolution.xml:4401(para)
 msgid ""
 "Use the following procedure to configure your existing account for Evolution "
 "Exchange:"
-msgstr ""
+msgstr "Use el siguiente procedimiento para configurar su cuenta ya existente para Evolution Exchange:"
 
 #: C/evolution.xml:4404(para)
 msgid "Click Edit &gt; Preferences or press Shift+Ctrl+S, then click Mail Accounts."
-msgstr ""
+msgstr "Pulse Editar &gt; Preferencias o pulse Mayús+Ctrl+S, después pulse Cuentas de correo."
 
 #: C/evolution.xml:4407(para)
 msgid ""
@@ -8789,11 +8868,11 @@ msgstr "Seleccione la cuenta que quiera convertir, después pulse Editar para qu
 
 #: C/evolution.xml:4408(para)
 msgid "You can view Identity tab enabled."
-msgstr ""
+msgstr "Podrá ver la solapa Identidad activada."
 
 #: C/evolution.xml:4422(para) C/evolution.xml:4960(para)
 msgid "Change your e-mail address as needed."
-msgstr ""
+msgstr "Modifique su cuenta de correo electrónico si es necesario."
 
 #: C/evolution.xml:4425(para)
 msgid ""
@@ -8807,10 +8886,13 @@ msgid ""
 "Authenticate, then enter the password at the prompt. The Exchange server "
 "authenticates your account."
 msgstr ""
+"Escriba su nombre de usuario y el URL de Outlook Web Access. Pulse "
+"Autenticar, después introduzca la contraseña al ser preguntar. El servidor "
+"autenticará su cuenta."
 
 #: C/evolution.xml:4447(para)
 msgid "Select your authentication method."
-msgstr ""
+msgstr "Seleccione su método de autenticación."
 
 #: C/evolution.xml:4461(para)
 msgid ""
@@ -8825,10 +8907,12 @@ msgid ""
 "Use the Defaults tab to define folders, send cc: or bcc: mails to certain "
 "IDs, and set options for message receipts."
 msgstr ""
+"Use la solapa Predeterminados para definir las carpetas, enviar Cc: o Cco: a determinadas "
+"identidades y establecer opciones para los destinatarios de los mensajes."
 
 #: C/evolution.xml:4467(para)
 msgid "Use the Security tab to set PGP and s/MIME options."
-msgstr ""
+msgstr "Use la solapa Seguridad para establecer las opciones PGP y S/MIME."
 
 # index.docbook:88, index.docbook:89
 #: C/evolution.xml:4470(para)
@@ -8931,7 +9015,7 @@ msgstr ""
 
 #: C/evolution.xml:4519(para)
 msgid "To set the importance and sensitivity of the message:"
-msgstr ""
+msgstr "Para establecer la importancia y sensibilidad del mensaje:"
 
 #: C/evolution.xml:4522(para)
 msgid "Open a Compose Message window."
@@ -8948,11 +9032,11 @@ msgstr "Pulse Insertar &gt; Opciones de envío para abrir el cuadro de diálogo 
 
 #: C/evolution.xml:4533(para)
 msgid "Select the priority for your sent message from the given three options"
-msgstr ""
+msgstr "Seleccione la prioridad para su mensaje enviado de las tres opciones proporcionadas"
 
 #: C/evolution.xml:4536(para)
 msgid "Select the sensitivity for your sent message from the given four options"
-msgstr ""
+msgstr "Seleccione la sensibilidad para su mensaje enviado de las cuatro opciones proporcionadas"
 
 #: C/evolution.xml:4539(para)
 msgid ""
@@ -8985,17 +9069,17 @@ msgstr ""
 
 #: C/evolution.xml:4556(para)
 msgid "To add someone to your list of delegates:"
-msgstr ""
+msgstr "Para añadir alguien a su lista de delegados:"
 
 #: C/evolution.xml:4559(para)
 msgid ""
 "Click Edit &gt; Preferences or press Shift+Ctrl+S, then click the Exchange "
 "Settings tab."
-msgstr ""
+msgstr "Pulse Editar &gt; Preferencias o pulse Mayús+Ctrl+S, después pulse la solpaa Configuración de Exchange."
 
 #: C/evolution.xml:4564(para)
 msgid "Click Add, then search for a contact in the Global Address List."
-msgstr ""
+msgstr "Pulse Añadir, después busque un contacto en la Lista de direcciones global."
 
 #: C/evolution.xml:4565(para)
 msgid ""
@@ -9141,7 +9225,7 @@ msgstr ""
 
 #: C/evolution.xml:4654(para)
 msgid "Click Edit &gt; Preferences &gt; Mail Accounts."
-msgstr ""
+msgstr "Pulse Editar &gt; Preferencias &gt; Cuentas de correo."
 
 # index.docbook:473, index.docbook:474
 #: C/evolution.xml:4657(para)
@@ -9152,15 +9236,15 @@ msgstr "Seleccione la cuenta de Exchange, después pulse Editar."
 msgid ""
 "Select the Exchange Settings tab. The top option allows you to set an Out of "
 "Office message."
-msgstr ""
+msgstr "Seleccione la solapa Configuración de Exchange. La opción superior le permitirá establecer un Mensaje para cuando esté fuera de la oficina."
 
 #: C/evolution.xml:4663(para)
 msgid "Click I Am Currently Out of the Office."
-msgstr ""
+msgstr "Pulse Ahora no estoy en la oficina."
 
 #: C/evolution.xml:4666(para)
 msgid "Type a short message in the text field."
-msgstr ""
+msgstr "Escriba un mensaje corto en el campo de texto."
 
 #: C/evolution.xml:4672(para)
 msgid ""
@@ -9187,11 +9271,11 @@ msgstr "Crear una nueva cita en el calendario."
 msgid ""
 "Right-click the appointment, then select Schedule Meeting to appear "
 "Evolution Meeting editor."
-msgstr ""
+msgstr "Pulse con el botón derecho del ratón sobre la cita, después seleccione Concertar una reunión para mostrar el editor de citas de Evolution."
 
 #: C/evolution.xml:4688(para)
 msgid "Click Add tab to enter the email addresses into the list."
-msgstr ""
+msgstr "Pulse sobre la solapa Añadir para introducir las direcciones de correo-e en la lista."
 
 #: C/evolution.xml:4691(para)
 msgid ""
@@ -9201,7 +9285,7 @@ msgstr "Pulse la solapa Participantes para seleccionar los participantes de List
 
 #: C/evolution.xml:4692(para)
 msgid "You can directly select the participants from the following address lists."
-msgstr ""
+msgstr "Puede seleccionar directamente a los participantes de la siguiente lista de direcciones."
 
 #: C/evolution.xml:4698(para)
 msgid "Global Address List"
@@ -9211,11 +9295,11 @@ msgstr "Lista de direcciones global"
 msgid ""
 "You can also specify the category as Anniversary,Birthday,Business etc from "
 "the drop down list for each address list given."
-msgstr ""
+msgstr "También puede especificar la categoría como Aniversario, Cumpleaños, Negocios etc, de la lista desplegable para cada lista de direcciones dada."
 
 #: C/evolution.xml:4707(para)
 msgid "Add the participants to the following categories of attendees."
-msgstr ""
+msgstr "Añada los participantes a las siguientes categorías de asistentes."
 
 #: C/evolution.xml:4710(para)
 msgid "Chair Persons"
@@ -9235,7 +9319,7 @@ msgstr "Recursos"
 
 #: C/evolution.xml:4724(para)
 msgid "Click Free/Busy tool at the top right corner."
-msgstr ""
+msgstr "La herramienta de Disponibilidad en la esquina superior derecha."
 
 #: C/evolution.xml:4727(para)
 msgid ""
@@ -9264,7 +9348,7 @@ msgstr ""
 
 #: C/evolution.xml:4736(para)
 msgid "Evolution&trade; can access accounts on Novell&reg; GroupWise&reg; 7 system."
-msgstr ""
+msgstr "Evolution&trade; puede acceder a cuentas en el sistema Novell&reg; GroupWise&reg; 7."
 
 #: C/evolution.xml:4739(link) C/evolution.xml:4762(title)
 msgid "GroupWise Features"
@@ -9272,7 +9356,7 @@ msgstr "Características de GroupWise"
 
 #: C/evolution.xml:4742(link) C/evolution.xml:4848(title)
 msgid "GroupWise Terminology vs. Evolution Terminology"
-msgstr ""
+msgstr "Terminologías GroupWise y Evolution"
 
 #: C/evolution.xml:4745(link) C/evolution.xml:4919(title)
 msgid "Adding your GroupWise Account to Evolution"
@@ -9288,25 +9372,25 @@ msgstr "Gestionar los elementos enviados"
 
 #: C/evolution.xml:4754(link) C/evolution.xml:5200(title)
 msgid "Giving Other People Access to Your Mailbox or Calendar"
-msgstr ""
+msgstr "Dar acceso a su Buzón de correo o Calendario a otros"
 
 #: C/evolution.xml:4757(link) C/evolution.xml:5370(title)
 msgid "Junk Mail Handling"
-msgstr ""
+msgstr "Gestión de correo basura"
 
 #: C/evolution.xml:4763(para)
 msgid ""
 "Groupwise connectivity in Evolution supports the following basic Novell "
 "Groupwise features::"
-msgstr ""
+msgstr "La conectividad de GroupWise en Evolution soporta las siguientes características básicas de GroupWise:"
 
 #: C/evolution.xml:4769(para)
 msgid "Viewing mail and folders stored on the GroupWise system."
-msgstr ""
+msgstr "Ver el correo y las carpetas almacenadas en el sistema GroupWise."
 
 #: C/evolution.xml:4772(para)
 msgid "Sending mail from you GroupWise account."
-msgstr ""
+msgstr "Enviar correo desde su cuenta GroupWise."
 
 #: C/evolution.xml:4775(para)
 msgid "Converting mail to a task or meeting."
@@ -9320,7 +9404,7 @@ msgstr "Seguir el estado de un mensaje."
 msgid ""
 "Marking a message as junk mail adds the sender to your GroupWise junk mail "
 "list."
-msgstr ""
+msgstr "Marcar un mensaje como correo basura añade al remitente a su lista de correo basura de GroupWise."
 
 #: C/evolution.xml:4789(para)
 msgid ""
@@ -9377,11 +9461,11 @@ msgstr "Proxy"
 
 #: C/evolution.xml:4822(para)
 msgid "You can assign Proxy access to other users."
-msgstr ""
+msgstr "Puede asignar acceso proxy a otros usuarios."
 
 #: C/evolution.xml:4825(para)
 msgid "You can view other users' accounts through Proxy access."
-msgstr ""
+msgstr "Puede ver las cuentas de otros usuarios a través de un proxy."
 
 #: C/evolution.xml:4830(para)
 msgid "There are, however, some features that are not available:"
@@ -9428,7 +9512,7 @@ msgstr "Reunión"
 
 #: C/evolution.xml:4875(para)
 msgid "Posted Appointment"
-msgstr ""
+msgstr "Cita postpuesta"
 
 #: C/evolution.xml:4886(para) C/evolution.xml:4910(para)
 msgid "None; use a task"
@@ -9436,7 +9520,7 @@ msgstr "Ninguno, usar una tarea"
 
 #: C/evolution.xml:4891(para)
 msgid "Discussion Note"
-msgstr ""
+msgstr "Nota de discusión"
 
 #: C/evolution.xml:4894(para)
 msgid "None; use an assigned task"
@@ -9466,13 +9550,13 @@ msgstr "Modificar una cuenta existente para trabajar con GroupWise"
 msgid ""
 "Create the account following the procedure in <link linkend=\"usage-"
 "mainwindow-starting\">Starting Evolution for the First Time</link>."
-msgstr ""
+msgstr "Cree la cuenta siguiendo el procedimiento en <link linkend=\"usage-mainwindow-starting\">Inicio de Evolution por primera vez</link>."
 
 #: C/evolution.xml:4946(para)
 msgid ""
 "If you have an existing e-mail account, and want to convert it to use with "
 "GroupWise:"
-msgstr ""
+msgstr "Si ya tiene una cuenta de correo-e existente y quiere convertirla para usarla con GroupWise:"
 
 #: C/evolution.xml:4952(para)
 msgid "Select the account you want to convert, then click Edit."
@@ -9480,13 +9564,13 @@ msgstr "Seleccione la cuenta que quiere convertir, después pulse Editar."
 
 #: C/evolution.xml:4955(para)
 msgid "Click the Identity tab."
-msgstr ""
+msgstr "Pulse la solapa de Identidad."
 
 #: C/evolution.xml:4963(para)
 msgid ""
 "Click the Receiving Email tab, then select Novell GroupWise as your server "
 "type."
-msgstr ""
+msgstr "Pulse sobre la solapa Recepción de correo, después seleccione Novell GroupWise como el tipo de servidor."
 
 #: C/evolution.xml:4968(para)
 msgid ""
@@ -9498,19 +9582,19 @@ msgstr "Escriba el nombre del servidor de su correo, su nombre de usuario y sele
 msgid ""
 "Select SSL for a highly secured connection between your client and server. "
 "Contact your administrator for further details."
-msgstr ""
+msgstr "Seleccione SSL para una conexión segura entre su cliente y el servidor. Contacte con el administrador de su sistema para obtener más detalles."
 
 #: C/evolution.xml:4974(para)
 msgid ""
 "Click the Receiving Options tab, then select if you want Evolution to "
 "automatically check for new mail."
-msgstr ""
+msgstr "Pulse sobre la solapa Opciones de recepción, después seleccione si quiere que Evolution compruebe automáticamente si hay correo nuevo."
 
 #: C/evolution.xml:4994(para)
 msgid ""
 "Select if you want to automatically synchronize your remote calendar and "
 "contacts locally."
-msgstr ""
+msgstr "Seleccione si quiere sincronizar automáticamente su calendario remoto y sus contactos localmente."
 
 #: C/evolution.xml:4995(para)
 msgid ""
@@ -9538,7 +9622,7 @@ msgstr ""
 
 #: C/evolution.xml:5008(para) C/evolution.xml:5324(para)
 msgid "Click OK, then click Close."
-msgstr ""
+msgstr "Pulse Aceptar, después pulse Cerrar."
 
 #: C/evolution.xml:5015(title)
 msgid "Reminder Notes"
@@ -9586,13 +9670,13 @@ msgstr "Pulse Nuevo &gt; Nota compartida para abrir la nueva ventana."
 msgid ""
 "Select the Organizer's account name from the drop down list given next to "
 "the Organizer field."
-msgstr ""
+msgstr "Seleccione el nombre de la cuenta del Organizador de la lista desplegable proporcionada junto al campo Organizador."
 
 #: C/evolution.xml:5032(para)
 msgid ""
 "In the To field, type a username, then press Enter. Repeat for additional "
 "users."
-msgstr ""
+msgstr "En el campo Para escriba un nombre de usuario, después pulse Retorno. Repita la operación para añadir usuarios adicionales."
 
 #: C/evolution.xml:5035(para)
 msgid "Select the Group in which you would create the entry."
@@ -9600,7 +9684,7 @@ msgstr "Seleccione el grupo en el que quiere crear la entrada."
 
 #: C/evolution.xml:5038(para)
 msgid "Enter a brief description about the Reminder Note in the Summary field."
-msgstr ""
+msgstr "Introduzca una breve descripción acerca de la Nota de recordatorio en el campo Resumen."
 
 #: C/evolution.xml:5044(para)
 msgid "Specify the category that the Reminder note falls under."
@@ -9642,13 +9726,13 @@ msgstr "Abra una nueva cita en el calendario."
 
 #: C/evolution.xml:5067(para)
 msgid "Click Actions &gt; Schedule Meeting."
-msgstr ""
+msgstr "Pulse Acciones &gt; Planificar una reunión."
 
 #: C/evolution.xml:5070(para)
 msgid ""
 "Add attendees, either by entering their e-mail addresses into the list, or "
 "by clicking the Invite Others button."
-msgstr ""
+msgstr "Añada participantes, ya sea introduciendo sus direcciones de correo-e en la lista o pulsando el botón Invitar a otros."
 
 #: C/evolution.xml:5073(para)
 msgid ""
@@ -9678,7 +9762,7 @@ msgstr ""
 
 #: C/evolution.xml:5083(link) C/evolution.xml:5103(title)
 msgid "Confirming Delivery of Items You have Sent"
-msgstr ""
+msgstr "Confirmar la entrega de los elementos que ha enviado"
 
 #: C/evolution.xml:5086(link) C/evolution.xml:5123(title)
 msgid "Displaying Sent Items"
@@ -9712,7 +9796,7 @@ msgstr ""
 
 #: C/evolution.xml:5105(bridgehead)
 msgid "Track an Item You Sent"
-msgstr ""
+msgstr "Seguir un elemento que haya enviado"
 
 #: C/evolution.xml:5106(para)
 msgid ""
@@ -9792,7 +9876,7 @@ msgstr ""
 
 #: C/evolution.xml:5167(title)
 msgid "Changing the Priority of an E-Mail"
-msgstr ""
+msgstr "Cambiar la prioridad de un correo-e"
 
 #: C/evolution.xml:5173(para)
 msgid "Select High Priority, Standard Priority, Low Priority, or Undefined."
