@@ -1,3 +1,13 @@
+2007-07-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #328484
+
+	* gui/calendar-component.c: (source_changed_cb):
+	New callback to refresh view after source changed.
+	* gui/calendar-component.c: (source_added_cb),
+	(source_removed_cb): Connecting and disconnecting
+	on change callback to source.
+
 2007-07-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #445526

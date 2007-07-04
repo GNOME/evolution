@@ -635,11 +635,23 @@ primary_source_selection_changed_cb (ESourceSelector *selector, CalendarComponen
 }
 
 static void
+source_changed_cb (ESource *source, GnomeCalendar *calendar)
+{
+	if (calendar) {
+		GtkWidget *widget = gnome_calendar_get_current_view_widget (calendar);
+
+		if (widget)
+			gtk_widget_queue_draw (widget);
+	}
+}
+
+static void
 source_added_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource *source, CalendarComponentView *component_view)
 {
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
+		g_signal_connect (source, "changed", G_CALLBACK (source_changed_cb), calendar);
 		break;
 	default:
 		break;
@@ -651,6 +663,7 @@ source_removed_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource 
 {
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
+		g_signal_handlers_disconnect_by_func (source, G_CALLBACK (source_changed_cb), calendar);
 		e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 		break;
 	default:
