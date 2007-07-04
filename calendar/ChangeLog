@@ -1,3 +1,15 @@
+2007-07-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #445526
+
+	* gui/dialogs/alarm-list-dialog.h: (alarm_list_dialog_set_client):
+	* gui/dialogs/alarm-list-dialog.c: (alarm_list_dialog_set_client)
+	New function, need to be called when page source changed.
+	* gui/dialogs/event-page.c: (struct _EventPagePrivate), (init_widgets),
+	(event_page_init), (event_page_finalize), (source_changed_cb):
+	New private property alarm_list_dlg_widget points on dialog's box and
+	calling new callback in source_changed_cb.
+
 2007-06-01  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #321741

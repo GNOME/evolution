@@ -33,6 +33,7 @@ G_BEGIN_DECLS
 
 gboolean alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store);
 GtkWidget *alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store);
+void alarm_list_dialog_set_client (GtkWidget *dlg_box, ECal *client);
 
 G_END_DECLS
 

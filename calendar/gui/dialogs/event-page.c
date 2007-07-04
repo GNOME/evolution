@@ -154,6 +154,8 @@ struct _EventPagePrivate {
 	   same value, since 99% of events start and end in one timezone. */
 	gboolean sync_timezones;
 	gboolean is_meeting;
+
+	GtkWidget *alarm_list_dlg_widget;
 };
 
 
@@ -255,6 +257,8 @@ event_page_init (EventPage *epage)
 	priv->sync_timezones = FALSE;
 
 	priv->default_address = NULL;
+
+	priv->alarm_list_dlg_widget = NULL;
 }
 
 static void
@@ -303,7 +307,9 @@ event_page_finalize (GObject *object)
 		priv->sod = NULL;
 	}
 	g_free (priv->old_summary);
-	
+
+	priv->alarm_list_dlg_widget = NULL;
+
 	g_free (priv);
 	epage->priv = NULL;
 
@@ -2637,6 +2643,8 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 				event_page_hide_options (epage);
 
 			sensitize_widgets (epage);
+
+			alarm_list_dialog_set_client (priv->alarm_list_dlg_widget, client);
 		}
 	}
 }
@@ -2803,7 +2811,7 @@ init_widgets (EventPage *epage)
 	icaltimezone *zone;
 	char *menu_label = NULL;
 	GtkTreeSelection *selection;
-	GtkWidget *w, *cus_item, *menu;
+	GtkWidget *cus_item, *menu;
 	
 	priv = epage->priv;
 
@@ -2889,9 +2897,9 @@ init_widgets (EventPage *epage)
 	/* Alarm dialog */
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "response", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "delete-event", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
-	w = alarm_list_dialog_peek (priv->client, priv->alarm_list_store);
-	gtk_widget_reparent (w, priv->alarm_box);
-	gtk_widget_show_all (w);
+	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (priv->client, priv->alarm_list_store);
+	gtk_widget_reparent (priv->alarm_list_dlg_widget, priv->alarm_box);
+	gtk_widget_show_all (priv->alarm_list_dlg_widget);
 	gtk_widget_hide (priv->alarm_dialog);
 	gtk_window_set_modal (GTK_WINDOW (priv->alarm_dialog), TRUE);
 
