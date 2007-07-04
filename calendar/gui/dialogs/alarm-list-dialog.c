@@ -220,6 +220,20 @@ selection_changed_cb (GtkTreeSelection *selection, gpointer data)
 	sensitize_buttons (dialog);
 }
 
+void
+alarm_list_dialog_set_client (GtkWidget *dlg_box, ECal *client)
+{
+	Dialog *dialog;
+
+	if (!dlg_box) return;
+
+	dialog = g_object_get_data (G_OBJECT (dlg_box), "dialog");
+	if (dialog) {
+		dialog->ecal = client;
+		sensitize_buttons (dialog);
+	}
+}
+
 /* Hooks the widget signals */
 static void
 init_widgets (Dialog *dialog)
