@@ -1,3 +1,11 @@
+2007-07-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for byug #452900 from Cosimo Cecchi
+
+	* mail-notification.c: (org_gnome_mail_read_notify),
+	(icon_activated), (notification_callback),
+	(org_gnome_mail_new_notify):
+
 2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* mail-notification.c: (org_gnome_mail_new_notify):

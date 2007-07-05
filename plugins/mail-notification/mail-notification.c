@@ -46,9 +46,14 @@
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
 void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
+static gboolean notification_callback (gpointer notify);
 
 static gboolean enabled = FALSE;
-GtkStatusIcon *status_icon = NULL;
+static GtkStatusIcon *status_icon = NULL;
+
+#ifdef HAVE_LIBNOTIFY	
+static NotifyNotification *notify = NULL;
+#endif
 
 static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
 
@@ -62,19 +67,39 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 		return;
 	}
 
+#ifdef HAVE_LIBNOTIFY	
+	notify_notification_close (notify, NULL);
+#endif
 	gtk_status_icon_set_visible (status_icon, FALSE);
 
 	g_static_mutex_unlock (&mlock);
 }
 
 static void
-icon_activated (GtkStatusIcon *icon)
+#ifdef HAVE_LIBNOTIFY	
+icon_activated (GtkStatusIcon *icon, NotifyNotification *notify)
+#else
+icon_activated (GtkStatusIcon *icon, gpointer notify)
+#endif
 {
 	g_static_mutex_lock (&mlock);
+#ifdef HAVE_LIBNOTIFY		
+	notify_notification_close (notify, NULL);
+#endif	
 	gtk_status_icon_set_visible (status_icon, FALSE);
 	g_static_mutex_unlock (&mlock);
 
 }
+
+#ifdef HAVE_LIBNOTIFY	
+gboolean
+notification_callback (gpointer notify)
+{
+	printf("fff\n");
+	return (!notify_notification_show(notify, NULL));
+	
+}
+#endif
 
 void
 org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
@@ -83,9 +108,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	char *folder;
 	GConfClient *client;
 	GConfValue  *is_key;
-#ifdef HAVE_LIBNOTIFY	
-	NotifyNotification *notify;
-#endif
+
 	/* FIXME: Should this is_inbox be configurable? */
 	if (!t->new || !t->is_inbox)
 		return;
@@ -100,6 +123,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 		gconf_value_free (is_key);
 
 	if (!status_icon) {
+		printf("creating\n");
 		status_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_from_pixbuf (status_icon, e_icon_factory_get_icon ("stock_mail", E_ICON_SIZE_LARGE_TOOLBAR));
 	}
@@ -124,7 +148,6 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	if (gconf_client_get_bool (client, GCONF_KEY_NOTIFICATION, NULL)) {
 		if (!notify_init ("evolution-mail-notification"))
 			fprintf(stderr,"notify init error");
-		printf("creating %p\n", status_icon);
 
 		notify  = notify_notification_new (
 				_("New email"), 
@@ -135,15 +158,21 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 
 		notify_notification_set_urgency(notify, NOTIFY_URGENCY_NORMAL);
 		notify_notification_set_timeout(notify, NOTIFY_EXPIRES_DEFAULT);
-		notify_notification_show(notify, NULL);
+		g_timeout_add(500, notification_callback, notify);
+
 	}
 #endif
 
 	g_free (folder);
 	g_free (msg);
 	g_object_unref (client);
+#ifdef HAVE_LIBNOTIFY		
+	g_signal_connect (G_OBJECT (status_icon), "activate",
+			  G_CALLBACK (icon_activated), notify);
+#else
 	g_signal_connect (G_OBJECT (status_icon), "activate",
 			  G_CALLBACK (icon_activated), NULL);
+#endif	
 	g_static_mutex_unlock (&mlock);
 }
 
