@@ -1,3 +1,10 @@
+2007-07-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #446894
+
+	* e-shell-window-commands.c (command_page_setup):
+	Callback for new FilePageSetup verb.
+
 2007-07-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added a hook event after the shell is started.

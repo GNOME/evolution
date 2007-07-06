@@ -1,3 +1,17 @@
+2007-07-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #446894
+
+	* e-print.c (load_page_setup):
+	Extract GtkPageSetup properties from a GtkPrintSettings object.
+
+	* e-print.c (save_page_setup):
+	Merge GtkPageSetup properties into a GtkPrintSettings object.
+
+	* e-print.[ch] (e_print_run_page_setup_dialog):
+	New function runs a preconfigured Page Setup dialog and saves
+	the configuration to GConf (/apps/evolution/shell/printing).
+
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #448223 from Gilles Dartiguelongue  

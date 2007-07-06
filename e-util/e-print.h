@@ -27,6 +27,7 @@
 G_BEGIN_DECLS
 
 GtkPrintOperation *	e_print_operation_new		(void);
+void			e_print_run_page_setup_dialog	(GtkWindow *parent);
 
 G_END_DECLS
 

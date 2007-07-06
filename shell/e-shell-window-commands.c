@@ -44,6 +44,7 @@
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
+#include "e-util/e-print.h"
 #include "e-util/e-util-private.h"
 
 #include "e-shell-window-commands.h"
@@ -93,6 +94,14 @@ command_import (BonoboUIComponent *uih,
 		const char *path)
 {
 	e_shell_importer_start_import (window);
+}
+
+static void
+command_page_setup (BonoboUIComponent *uih,
+		    EShellWindow *window,
+		    const char *path)
+{
+	e_print_run_page_setup_dialog (GTK_WINDOW (window));
 }
 
 static void
@@ -717,6 +726,7 @@ command_pilot_settings (BonoboUIComponent *uih,
 
 static BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) command_import),
+	BONOBO_UI_VERB ("FilePageSetup", (BonoboUIVerbFn) command_page_setup),
 	BONOBO_UI_VERB ("FileClose", (BonoboUIVerbFn) command_close),
 	BONOBO_UI_VERB ("FileExit", (BonoboUIVerbFn) command_quit),
 

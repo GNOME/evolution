@@ -112,84 +112,88 @@ em_format_html_print_new (EMFormatHTML *source, GtkPrintOperationAction action)
 	return efhp;
 }
 
-struct footer_info {
-	PangoLayout *layout;
-	gint page_num, pages;
-};
+static gint
+efhp_calc_footer_height (GtkHTML *html,
+                         GtkPrintOperation *operation,
+                         GtkPrintContext *context)
+{
+	PangoContext *pango_context;
+	PangoFontDescription *desc;
+	PangoFontMetrics *metrics;
+	gint footer_height;
+
+	pango_context = gtk_print_context_create_pango_context (context);
+	desc = pango_font_description_from_string ("Sans Regular 10");
+
+	metrics = pango_context_get_metrics (
+		pango_context, desc, pango_language_get_default ());
+	footer_height =
+		pango_font_metrics_get_ascent (metrics) +
+		pango_font_metrics_get_descent (metrics);
+	pango_font_metrics_unref (metrics);
+
+	pango_font_description_free (desc);
+	g_object_unref (pango_context);
+
+	return footer_height;
+}
 
 static void
-efhp_footer_cb (GtkHTML *html, GtkPrintContext *context, gdouble x, gdouble y,
-                gdouble width, gdouble height, gpointer data)
+efhp_draw_footer (GtkHTML *html,
+                  GtkPrintOperation *operation,
+                  GtkPrintContext *context,
+                  gint page_nr,
+                  PangoRectangle *rec)
 {
-	struct footer_info *info = data;
-	gchar *footer_text;
+	PangoFontDescription *desc;
+	PangoLayout *layout;
+	gdouble x, y;
+	gint n_pages;
+	gchar *text;
 	cairo_t *cr;
 
-	footer_text = g_strdup_printf (_("Page %d of %d"),
-		info->page_num++, info->pages);
+	g_object_get (operation, "n-pages", &n_pages, NULL);
+	text = g_strdup_printf (_("Page %d of %d"), page_nr + 1, n_pages);
 
-	pango_layout_set_text (info->layout, footer_text, -1);
-	pango_layout_set_width (info->layout, pango_units_from_double (width));
+	desc = pango_font_description_from_string ("Sans Regular 10");
+	layout = gtk_print_context_create_pango_layout (context);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_font_description (layout, desc);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_width (layout, rec->width);
+
+	x = pango_units_to_double (rec->x);
+	y = pango_units_to_double (rec->y);
 
 	cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_save (cr);
 	cairo_set_source_rgb (cr, .0, .0, .0);
 	cairo_move_to (cr, x, y);
-	pango_cairo_show_layout (cr, info->layout);
+	pango_cairo_show_layout (cr, layout);
 	cairo_restore (cr);
 
-	g_free (footer_text);
-}
-
-static void 
-mail_draw_page (GtkPrintOperation *print, GtkPrintContext *context,
-                gint page_nr, EMFormatHTMLPrint *efhp)
-{
-	GtkHTML *html = efhp->parent.html;
-	PangoFontDescription *desc;
-	PangoFontMetrics *metrics;
-	struct footer_info info;
-	gdouble footer_height;
-
-	desc = pango_font_description_from_string ("Sans Regular 10");
-
-	info.layout = gtk_print_context_create_pango_layout (context);
-	pango_layout_set_alignment (info.layout, PANGO_ALIGN_CENTER);
-	pango_layout_set_font_description (info.layout, desc);
-
-	metrics = pango_context_get_metrics (
-		pango_layout_get_context (info.layout),
-		desc, pango_language_get_default ());
-	footer_height = pango_units_to_double (
-		pango_font_metrics_get_ascent (metrics) +
-		pango_font_metrics_get_descent (metrics));
-	pango_font_metrics_unref (metrics);
-
+	g_object_unref (layout);
 	pango_font_description_free (desc);
 
-	info.page_num = 1;
-	info.pages = gtk_html_print_page_get_pages_num (
-		html, context, 0.0, footer_height);
-
-	gtk_html_print_page_with_header_footer (
-		html, context, 0.0, footer_height,
-		NULL, efhp_footer_cb, &info);
+	g_free (text);
 }
 
 static void
 emfhp_complete (EMFormatHTMLPrint *efhp)
 {
 	GtkPrintOperation *operation;
+	GError *error = NULL;
 
 	operation = e_print_operation_new ();
-	gtk_print_operation_set_n_pages (operation, 1); 
 
-	g_signal_connect (
-		operation, "draw-page",
-		G_CALLBACK (mail_draw_page), efhp);
-
-	gtk_print_operation_run (operation, efhp->action, NULL, NULL); 
+	gtk_html_print_operation_run (
+		efhp->parent.html, operation, efhp->action, NULL,
+		(GtkHTMLPrintCalcHeight) NULL,
+		(GtkHTMLPrintCalcHeight) efhp_calc_footer_height,
+		(GtkHTMLPrintDrawFunc) NULL,
+		(GtkHTMLPrintDrawFunc) efhp_draw_footer,
+		NULL, &error);
 
 	g_object_unref (operation);
 }

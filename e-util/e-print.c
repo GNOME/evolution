@@ -43,7 +43,7 @@ unpack_settings (gchar *item, GtkPrintSettings *settings)
 	gchar *cp, *key, *value;
 	cp = strchr (item, '=');
 	if (cp == NULL)
-		return;	
+		return;
 	*cp ++ = '\0';
 	key = g_strstrip (item);
 	value = g_strstrip (cp);
@@ -78,15 +78,12 @@ load_settings (void)
 }
 
 static void
-save_settings (GtkPrintOperation *operation)
+save_settings (GtkPrintSettings *settings)
 {
-	GtkPrintSettings *settings;
 	GConfClient *client;
 	GSList *list = NULL;
 	GError *error = NULL;
 	
-	settings = gtk_print_operation_get_print_settings (operation);
-
 	client = gconf_client_get_default ();
 	
 	gtk_print_settings_foreach (
@@ -101,6 +98,30 @@ save_settings (GtkPrintOperation *operation)
 	g_slist_free (list);
 	
 	g_object_unref (client);
+}
+
+static GtkPageSetup *
+load_page_setup (GtkPrintSettings *settings)
+{
+	GtkPageSetup *page_setup;
+	GtkPaperSize *paper_size;
+
+	page_setup = gtk_page_setup_new ();
+	gtk_page_setup_set_orientation (
+		page_setup, gtk_print_settings_get_orientation (settings));
+	paper_size = gtk_print_settings_get_paper_size (settings);
+	if (paper_size != NULL)
+		gtk_page_setup_set_paper_size_and_default_margins (
+			page_setup, paper_size);
+}
+
+static void
+save_page_setup (GtkPrintSettings *settings, GtkPageSetup *page_setup)
+{
+	gtk_print_settings_set_orientation (
+		settings, gtk_page_setup_get_orientation (page_setup));
+	gtk_print_settings_set_paper_size (
+		settings, gtk_page_setup_get_paper_size (page_setup));
 }
 
 static void
@@ -139,8 +160,12 @@ handle_error (GtkPrintOperation *operation)
 static void
 print_done_cb (GtkPrintOperation *operation, GtkPrintOperationResult result)
 {
+	GtkPrintSettings *settings;
+
+	settings = gtk_print_operation_get_print_settings (operation);
+
 	if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
-		save_settings (operation);
+		save_settings (settings);
 	if (result == GTK_PRINT_OPERATION_RESULT_ERROR)
 		handle_error (operation);
 }
@@ -160,4 +185,23 @@ e_print_operation_new (void)
 	g_signal_connect (operation, "done", G_CALLBACK (print_done_cb), NULL);
 
 	return operation;
+}
+
+void
+e_print_run_page_setup_dialog (GtkWindow *parent)
+{
+	GtkPageSetup *new_page_setup;
+	GtkPageSetup *old_page_setup;
+	GtkPrintSettings *settings;
+
+	settings = load_settings ();
+	old_page_setup = load_page_setup (settings);
+	new_page_setup = gtk_print_run_page_setup_dialog (
+		parent, old_page_setup, settings);
+	save_page_setup (settings, new_page_setup);
+	save_settings (settings);
+
+	g_object_unref (new_page_setup);
+	g_object_unref (old_page_setup);
+	g_object_unref (settings);
 }

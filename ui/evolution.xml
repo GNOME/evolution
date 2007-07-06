@@ -4,6 +4,8 @@
       _tip="Create a new window displaying this folder"
       accel="*Control**Shift*w"/>
 
+    <cmd name="FilePageSetup" _label="Page Set_up..." _tip="Set up the page settings for your current printer"/>
+
     <cmd name="FileClose" _label="_Close Window" _tip="Close this window"
       pixtype="stock" pixname="gtk-close" accel="*Control*w"/>
 
@@ -76,7 +78,9 @@
 	_tip="Import data from other programs"
 	pixtype="pixbuf"/>
 
-      <placeholder name="Print" delimit="top"/>
+      <placeholder name="Print" delimit="top">
+        <menuitem name="FilePageSetup" verb=""/>
+      </placeholder>
 
 <!--
       <placeholder name="ComponentPlaceholder"/>
