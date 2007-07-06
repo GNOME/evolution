@@ -1,3 +1,11 @@
+2007-07-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #337787
+
+	* gui/widgets/e-address-view.c: (contact_display_has_selection),
+	(eab_view_copy): Copy selection string in contact preview if the
+	preview widget has selection string.
+
 2007-06-20  Laszlo (Laca) Peter  <laca@sun.com>
 
 	** Fix for bug #433732

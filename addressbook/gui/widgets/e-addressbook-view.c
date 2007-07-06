@@ -2085,12 +2085,37 @@ eab_view_cut (EABView *view)
 	eab_view_delete_selection (view, FALSE);
 }
 
+static gboolean
+contact_display_has_selection (EABContactDisplay *display)
+{
+	gchar *string;
+	gint selection_length;
+	gboolean has_selection;
+
+	string = gtk_html_get_selection_html (GTK_HTML (display), &selection_length);
+
+	has_selection = string ? TRUE : FALSE;
+
+	if (string)
+		g_free (string);
+
+	return has_selection;
+}
+
 void
 eab_view_copy (EABView *view)
 {
-	view->clipboard_contacts = get_selected_contacts (view);
+	if (GTK_WIDGET_HAS_FOCUS (view->contact_display) &&
+	    contact_display_has_selection (EAB_CONTACT_DISPLAY (view->contact_display)))
+	{
+		gtk_html_copy (GTK_HTML (view->contact_display));
+	}
+	else 
+	{
+		view->clipboard_contacts = get_selected_contacts (view);
 
-	gtk_selection_owner_set (view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+		gtk_selection_owner_set (view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+	}
 }
 
 void
