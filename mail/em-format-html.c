@@ -449,8 +449,11 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 {
 	CamelStream *cistream = NULL, *costream = NULL, *instream = NULL;
 	CamelURL *url;
-	ssize_t n, total = 0;
+	CamelContentType *content_type;
+	CamelHttpStream *tmp_stream;
+	ssize_t n, total = 0, pc_complete = 0, nread = 0;
 	char buffer[1500];
+	const char *length;
 
 	if (cancelled
 	    || (url = camel_url_new(job->u.uri, NULL)) == NULL)
@@ -481,6 +484,13 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		camel_http_stream_set_proxy((CamelHttpStream *)instream, proxy);
 		g_free(proxy);
 		camel_operation_start(NULL, _("Retrieving `%s'"), job->u.uri);
+		tmp_stream = (CamelHttpStream *)instream;
+		content_type = camel_http_stream_get_content_type(tmp_stream);
+		length = camel_header_raw_find(&tmp_stream->headers, "Content-Length", NULL);
+		d(printf("  Content-Length: %s\n", length));
+		if (length != NULL)
+			total = atoi(length);
+		camel_content_type_unref(content_type);
 	} else
 		camel_operation_start_transient(NULL, _("Retrieving `%s'"), job->u.uri);
 
@@ -496,8 +506,12 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		/* FIXME: progress reporting in percentage, can we get the length always?  do we care? */
 		n = camel_stream_read(instream, buffer, sizeof (buffer));
 		if (n > 0) {
-			camel_operation_progress_count(NULL, total);
-			total += n;
+			nread += n;
+			/* If we didn't get a valid Content-Length header, do not try to calculate percentage */
+			if (total != 0) {
+				pc_complete = ((nread * 100) / total);
+				camel_operation_progress(NULL, pc_complete);
+			}
 			d(printf("  read %d bytes\n", n));
 			if (costream && camel_stream_write(costream, buffer, n) == -1) {
 				camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);

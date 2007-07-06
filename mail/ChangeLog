@@ -1,3 +1,9 @@
+2007-07-07  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #312370 from B S Srinidhi
+
+	* em-format-html.c: (emfh_gethttp):
+
 2007-07-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-format-html-print.c:
