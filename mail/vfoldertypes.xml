@@ -379,6 +379,24 @@
   </input>
  </part>
 
+ <part name="completed-on">
+  <title>Completed On</title>
+  <input type="optionlist" name="date-spec-type">
+   <option value="is set">
+    <title>is set</title>
+    <code>
+       (match-all (not (= (user-tag "completed-on") "")))
+    </code>
+   </option>
+   <option value="is not set">
+    <title>is not set</title>
+    <code>
+       (match-all (= (user-tag "completed-on") ""))
+    </code>
+   </option>
+  </input>    
+ </part>
+
  <part name="attachments">
   <title>Attachments</title>
   <input type="optionlist" name="match-type">

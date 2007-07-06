@@ -1,5 +1,14 @@
 2007-07-07  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #317281 from Michael P. Lepore 
+
+	* filtertypes.xml: Add support to search/filter/vfolders on flag
+	completion status
+	* searchtypes.xml:
+	* vfoldertypes.xml:
+
+2007-07-07  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #312370 from B S Srinidhi
 
 	* em-format-html.c: (emfh_gethttp):
