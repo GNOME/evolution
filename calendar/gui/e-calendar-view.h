@@ -152,7 +152,8 @@ void           e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 						    gboolean meeting);
 void           e_calendar_view_new_appointment_full (ECalendarView *cal_view,
 						     gboolean all_day,
-						     gboolean meeting);
+						     gboolean meeting,
+						     gboolean actual_day);
 void           e_calendar_view_new_appointment (ECalendarView *cal_view);
 void           e_calendar_view_edit_appointment (ECalendarView *cal_view,
 					    ECal *client,

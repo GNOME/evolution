@@ -1,3 +1,16 @@
+2007-07-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #321741
+
+	* gui/e-calendar-view.h:
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_full):
+	Added new parameter 'actual_day', with true always use actual day.
+	* gui/e-calendar-view.c: (on_new_event), (on_new_meeting),
+	(e_calendar_view_new_appointment):
+	* gui/calendar-component.c: (create_new_event):
+	* gui/e-week-view.c: (e_week_view_on_button_press):
+	Changing call of 'e_calendar_view_new_appointment_full'.
+
 2007-06-22  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #328484

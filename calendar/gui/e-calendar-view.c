@@ -1145,7 +1145,7 @@ on_new_event (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
 
-	e_calendar_view_new_appointment_full (cal_view, TRUE, FALSE);
+	e_calendar_view_new_appointment_full (cal_view, TRUE, FALSE, FALSE);
 }
 
 static void
@@ -1153,7 +1153,7 @@ on_new_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
 
-	e_calendar_view_new_appointment_full (cal_view, FALSE, TRUE);
+	e_calendar_view_new_appointment_full (cal_view, FALSE, TRUE, FALSE);
 }
 
 static void
@@ -1891,18 +1891,19 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
  *
  * Opens an event editor dialog for a new appointment. The appointment's
  * start and end times are set to the currently selected time range in
- * the calendar view, with exception when this time is in past, then
- * current date is used too.
+ * the calendar view.
+ *
+ * With @actual_day set to TRUE, there will be always used actual day.
  */
 void
-e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day, gboolean meeting)
+e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day, gboolean meeting, gboolean actual_day)
 {
 	time_t dtstart, dtend;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	if (!e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend) ||
-	    dtstart / (60 * 60 * 24) < time (NULL) / (60 * 60 * 24)) {
+	if (actual_day ||
+	    !e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend)) {
 		dtstart = time (NULL);
 		dtend = dtstart + 3600;
 	}
@@ -1918,7 +1919,7 @@ e_calendar_view_new_appointment (ECalendarView *cal_view)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	e_calendar_view_new_appointment_full (cal_view, FALSE, FALSE);
+	e_calendar_view_new_appointment_full (cal_view, FALSE, FALSE, FALSE);
 }
 
 /* Ensures the calendar is selected */

@@ -1268,7 +1268,7 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 		    || view_type == GNOME_CAL_LIST_VIEW)
 			is_allday = TRUE;
 
-		e_calendar_view_new_appointment_full (view, is_allday, is_meeting);
+		e_calendar_view_new_appointment_full (view, is_allday, is_meeting, TRUE);
 	} else {
 		ECalComponent *comp;
 		EventEditor *editor;
