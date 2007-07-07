@@ -1,3 +1,12 @@
+2007-07-07  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix for bug #448568
+
+	* gui/contact-editor/contact-editor.glade:
+	* gui/contact-editor/e-contact-editor.c: (setup_tab_order):
+	cleanup alignement mess and set correct tabbing order. Thanks
+	to vinod for the initial glade patch.
+
 2007-07-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #337787
@@ -72,8 +81,6 @@
 	* gui/component/Makefile.am:
 
 2007-06-02  Gilles Dartiguelongue  <dartigug@esiee.fr>
-
-	reviewed by: <delete if not using a buddy>
 
 	* conduit/address-conduit.c: (local_record_to_pilot_record):
 	* gui/component/addressbook-config.c: (query_for_supported_bases),
@@ -157,7 +164,7 @@
 
 2007-05-08  Wang Xin  <jedy.wang@sun.com>
 
-	*tools/evolution-addressbook-export-list-cards.c:
+	* tools/evolution-addressbook-export-list-cards.c:
 	Fixes 394932.
 
 2007-04-23  Matthew Barnes  <mbarnes@redhat.com>
@@ -445,7 +452,7 @@
 
 2006-09-18  Matthew Barnes  <mbarnes@redhat.com>
 
-	Fixes bug #351332
+	** Fixes bug #351332
 
 	* gui/widgets/e-minicard.c:
 	Fix implicit function declarations.
@@ -663,7 +670,8 @@
 
 2006-05-12  simon.zheng  <simon.zheng@sun.com>
 
-	Fix for Bug 341521
+	** Fix for Bug 341521
+
 	* gui/contact-editor/contact-editor.glade: Change the label
 	name of categories button.
 

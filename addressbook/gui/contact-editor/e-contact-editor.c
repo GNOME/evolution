@@ -3248,7 +3248,7 @@ setup_tab_order(GladeXML *gui)
 {
 	GtkWidget *container;
 	GList *list = NULL;
-
+/*
 	container = glade_xml_get_widget(gui, "table-contact-editor-general");
 
 	if (container) {
@@ -3271,6 +3271,49 @@ setup_tab_order(GladeXML *gui)
 		e_container_change_tab_order(GTK_CONTAINER(container), list);
 		g_list_free(list);
 	}
+*/
+
+	container = glade_xml_get_widget (gui, "table-home-address");
+	gtk_container_get_focus_chain (GTK_CONTAINER (container), &list);
+
+	list = add_to_tab_order (list, gui, "scrolledwindow-home-address");
+	list = add_to_tab_order (list, gui, "entry-home-city");
+	list = add_to_tab_order (list, gui, "entry-home-zip");
+	list = add_to_tab_order (list, gui, "entry-home-state");
+	list = add_to_tab_order (list, gui, "entry-home-pobox");
+	list = add_to_tab_order (list, gui, "entry-home-country");
+	list = g_list_reverse (list);
+
+	gtk_container_set_focus_chain (GTK_CONTAINER (container), list);
+	g_list_free (list);
+
+	container = glade_xml_get_widget (gui, "table-work-address");
+	gtk_container_get_focus_chain (GTK_CONTAINER (container), &list);
+
+	list = add_to_tab_order (list, gui, "scrolledwindow-work-address");
+	list = add_to_tab_order (list, gui, "entry-work-city");
+	list = add_to_tab_order (list, gui, "entry-work-zip");
+	list = add_to_tab_order (list, gui, "entry-work-state");
+	list = add_to_tab_order (list, gui, "entry-work-pobox");
+	list = add_to_tab_order (list, gui, "entry-work-country");
+	list = g_list_reverse (list);
+
+	gtk_container_set_focus_chain (GTK_CONTAINER (container), list);
+	g_list_free (list);
+
+	container = glade_xml_get_widget (gui, "table-other-address");
+	gtk_container_get_focus_chain (GTK_CONTAINER (container), &list);
+
+	list = add_to_tab_order (list, gui, "scrolledwindow-other-address");
+	list = add_to_tab_order (list, gui, "entry-other-city");
+	list = add_to_tab_order (list, gui, "entry-other-zip");
+	list = add_to_tab_order (list, gui, "entry-other-state");
+	list = add_to_tab_order (list, gui, "entry-other-pobox");
+	list = add_to_tab_order (list, gui, "entry-other-country");
+	list = g_list_reverse (list);
+
+	gtk_container_set_focus_chain (GTK_CONTAINER (container), list);
+	g_list_free (list);
 }
 
 static void
