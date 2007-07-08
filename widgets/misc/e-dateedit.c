@@ -1709,7 +1709,7 @@ static void
 e_date_edit_update_date_entry		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	char buffer[40];
+	char buffer[100];
 	struct tm tmp_tm = { 0 };
 
 	priv = dedit->priv;

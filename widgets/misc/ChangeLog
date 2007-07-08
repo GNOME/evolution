@@ -1,3 +1,10 @@
+2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #387844
+	* e-dateedit.c: Increase the buffer size.
+
+	Committing on behalf of Makuchaku <mayank.gnu@gmail.com>
+	
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 	
         ** Fix for bug #448223 from Gilles Dartiguelongue
