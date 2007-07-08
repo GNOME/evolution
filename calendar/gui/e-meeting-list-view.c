@@ -490,7 +490,7 @@ build_table (EMeetingListView *lview)
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable(col, TRUE);
-	g_object_set (col, "width", 50, NULL);
+	g_object_set (col, "min-width", 50, NULL);
 	g_signal_connect (renderer, "cell_edited", G_CALLBACK (attendee_edited_cb), view);
 	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (attendee_editing_canceled_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL), renderer);	

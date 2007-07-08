@@ -873,6 +873,9 @@ sensitize_widgets (EventPage *epage)
 		       	sensitize ? "1" : "0", NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertSendOptions", "sensitive", sensitize ? "1" : "0"
 			, NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionRecurrence", "sensitive", sensitize ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionFreeBusy", "sensitive", sensitize ? "1" : "0", NULL);
+
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewCategories", "sensitive", "1", NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewTimeZone", "sensitive", "1", NULL);
 

@@ -1,3 +1,18 @@
+2007-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #438613 and #329594
+
+	* gui/dialogs/event-page.c: (sensitize_widgets):
+	Disable recurrence and free/busy actions with read only calendars.
+	* gui/dialogs/comp-editor.c: (prompt_and_save_changes):
+	When clicked "Save", then claim on readonly calendars and didn't
+	discard changes silently.
+	* gui/dialogs/comp-editor.c: (menu_file_save_cb):
+	Claims on readonly calendars before validating form datas.
+
+	* gui/e-meeting-list-view.c: (build_table): Fixed runtime warning.
+	* gui/dialogs/alarm-list-dialog.glade: Fixed runtime warnings.
+
 2007-07-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #321741

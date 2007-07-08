@@ -911,11 +911,14 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 	if (!priv->changed)
 		return TRUE;
 
-	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only)
-		return TRUE;
-
 	switch (save_component_dialog (GTK_WINDOW(editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
+		if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
+			e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal", NULL);
+			/* don't discard changes when selected readonly calendar */
+			return FALSE;
+		}
+
 		comp = comp_editor_get_current_comp (editor);
 		e_cal_component_get_summary (comp, &text);
 		g_object_unref (comp);
@@ -1258,6 +1261,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	CompEditorPrivate *priv = editor->priv;
 	ECalComponentText text;
 	gboolean delegated = FALSE;
+	gboolean read_only;
 	ECalComponent *comp;
 
 	if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
@@ -1280,6 +1284,12 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	if (!response) 
 		return;
 	}	
+
+	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
+		e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal", NULL);
+		return;
+	}
+
 	commit_all_fields (editor);
 	if (e_cal_component_is_instance (priv->comp))
 		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
