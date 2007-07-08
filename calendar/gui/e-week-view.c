@@ -2722,15 +2722,16 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
-		ECalComponentText cal_text;
+		const gchar *summary;
 		GtkWidget *widget;
 		GdkColor color;
+		gboolean free_text = FALSE;
 
 		widget = (GtkWidget *)week_view;
 
 		color = e_week_view_get_text_color (week_view, event, widget);
-		
-		e_cal_component_get_summary (comp, &cal_text);
+		summary = e_calendar_view_get_icalcomponent_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
+
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
 					       e_text_get_type (),
@@ -2738,11 +2739,14 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "clip", TRUE,
 					       "max_lines", 1,
 					       "editable", TRUE,
-					       "text", cal_text.value ? cal_text.value : "",
+					       "text", summary ? summary : "",
 					       "use_ellipsis", TRUE,
 					       "fill_color_gdk", &color,
 					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
+		
+		if (free_text)
+			g_free ((gchar*)summary);
 		
 /*		Uncomment once the pango fix is in 
 		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
@@ -2993,6 +2997,7 @@ cancel_editing (EWeekView *week_view)
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	const gchar *summary;
+	gboolean free_text = FALSE;
 
 	event_num = week_view->editing_event_num;
 	span_num = week_view->editing_span_num;
@@ -3004,9 +3009,12 @@ cancel_editing (EWeekView *week_view)
 
 	/* Reset the text to what was in the component */
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	summary = e_calendar_view_get_icalcomponent_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
 	g_object_set (G_OBJECT (span->text_item), "text", summary ? summary : "", NULL);
 
+	if (free_text)
+		g_free ((gchar*)summary);
+	
 	/* Stop editing */
 	e_week_view_stop_editing_event (week_view);
 }

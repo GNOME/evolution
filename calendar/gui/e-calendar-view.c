@@ -2107,6 +2107,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone, *default_zone;	
 	ECal *client = NULL;
+	gboolean free_text = FALSE;
 
 	/* Delete any stray tooltip if left */
 	if (widget)
@@ -2123,7 +2124,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	box = gtk_vbox_new (FALSE, 0);
 
-	str = icalcomponent_get_summary (pevent->comp_data->icalcomp);
+	str = e_calendar_view_get_icalcomponent_summary (pevent->comp_data->client, pevent->comp_data->icalcomp, &free_text);
 
 	if (!(str && *str)) {
 		g_object_unref (newcomp);
@@ -2137,7 +2138,12 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
 	gtk_label_set_markup ((GtkLabel *)label, tmp);
-	
+
+	if (free_text) {
+		g_free ((char*)str);
+		str = NULL;
+	}
+
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
@@ -2240,7 +2246,67 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	return FALSE;
 }
-	
+
+static gboolean
+icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
+{
+	icalproperty *property;
+
+	g_return_val_if_fail (icalcomp != NULL && category != NULL, FALSE);
+
+	for (property = icalcomponent_get_first_property (icalcomp, ICAL_CATEGORIES_PROPERTY);
+	     property != NULL;
+	     property = icalcomponent_get_next_property (icalcomp, ICAL_CATEGORIES_PROPERTY)) {
+		const char *value = icalproperty_get_value_as_string (property);
+
+		if (value && strcmp (category, value) == 0){
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+/* e_calendar_view_get_icalcomponent_summary returns summary of calcomp,
+ * and for type of birthday or anniversary it append number of years since
+ * beginning. In this case, the free_text is set to TRUE and caller need
+ * to g_free returned string, otherwise free_text is set to FALSE and
+ * returned value is owned by calcomp.
+ */
+
+const gchar *
+e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text)
+{
+	const gchar *summary;
+
+	g_return_val_if_fail (icalcomp != NULL && free_text != NULL, NULL);
+
+	*free_text = FALSE;
+	summary = icalcomponent_get_summary (icalcomp);
+
+	if (icalcomp_contains_category (icalcomp, _("Birthday")) ||
+	    icalcomp_contains_category (icalcomp, _("Anniversary"))) {
+		struct icaltimetype dtstart, dtnow;
+		icalcomponent *item_icalcomp = NULL;
+
+		if (e_cal_get_object (ecal, 
+				      icalcomponent_get_uid (icalcomp),
+				      icalcomponent_get_relcalid (icalcomp),
+				      &item_icalcomp,
+				      NULL)) {
+			dtstart = icalcomponent_get_dtstart (item_icalcomp);
+			dtnow = icalcomponent_get_dtstart (icalcomp);
+
+			if (dtnow.year - dtstart.year > 0) {
+				summary = g_strdup_printf ("%s (%d)", summary ? summary : "", dtnow.year - dtstart.year);
+				*free_text = summary != NULL;
+			}
+		}
+	}
+
+	return summary;
+}
+
 #ifdef ENABLE_CAIRO
 void
 draw_curved_rectangle (cairo_t *cr, double x0, double y0,

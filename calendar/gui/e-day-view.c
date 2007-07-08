@@ -2508,6 +2508,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	const gchar *summary;
+	gboolean free_text = FALSE;
 
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
@@ -2516,11 +2517,15 @@ e_day_view_update_long_event_label (EDayView *day_view,
 	if (!event->canvas_item)
 		return;
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	summary = e_calendar_view_get_icalcomponent_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
+
 	gnome_canvas_item_set (event->canvas_item,
 			       "text", summary ? summary : "",
 			       NULL);
-	
+
+	if (free_text)
+		g_free ((gchar*)summary);
+
 /*	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) 
 		set_text_as_bold (event); */

@@ -170,6 +170,8 @@ gboolean	e_calendar_view_get_tooltips (ECalendarViewEventData *data);
 
 void           e_calendar_view_move_tip (GtkWidget *widget, int x, int y);
 
+const gchar *e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text);
+
 #ifdef ENABLE_CAIRO
 void           draw_curved_rectangle (cairo_t *cr,
                                       double x0,
