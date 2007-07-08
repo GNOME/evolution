@@ -1,3 +1,9 @@
+2007-07-08  Johnny Jacob  <jjohnny@novell.com>
+
+	* e-msg-composer.c : (e_msg_composer_get_raw_message_text ) Added.
+	(e_msg_composer_get_attachment_bar) : Added. Returns the reference
+	to the attachment bar.
+	
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #444107

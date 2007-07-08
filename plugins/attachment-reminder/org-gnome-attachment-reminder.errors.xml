@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<error-list domain="org.gnome.evolution.plugins.attachment_reminder">
+	<error id="attachment-reminder" type="info">
+		<primary>Attachment Reminder</primary>
+		<secondary>Looks like you have missed the attachments</secondary>
+		<button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+		<button response="GTK_RESPONSE_YES" label="_Send"></button>
+	</error>
+</error-list> 

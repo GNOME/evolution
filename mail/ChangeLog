@@ -1,3 +1,8 @@
+2007-07-08  Johnny Jacob  <jjohnny@novell.com>
+
+	* em-composer-utils.c : Added composer.presendcheck event. Fixes
+	#334118.
+	
 2007-07-07  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #317281 from Michael P. Lepore 

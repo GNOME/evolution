@@ -1,0 +1,4 @@
+2007-06-07 Lucky Wankhede <wlakke@novell.com>
+	* New implementation for tnef
+	* For reading "winmail.dat" kind of attachements
+	* using libytnef

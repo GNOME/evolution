@@ -256,6 +256,8 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	EAccount *account;
 	int i;
 	GList *postlist;
+	EMEvent *eme;
+	EMEventTargetMessage *target;
 	
 	gconf = mail_config_get_gconf_client ();
 	
@@ -355,11 +357,28 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 			goto finished;
 	}
 	
+	/** @Event: composer.presendchecks
+	 * @Title: Composer PreSend Checks
+	 * @Target: EMEventTargetMessage
+	 * 
+	 * composer.presendchecks is emitted during pre-checks for the message just before sending.
+	 * Since the e-plugin framework doesn't provide a way to return a value from the plugin, 
+	 * use 'presend_check_status' to set whether the check passed / failed.
+	 */
+	eme = em_event_peek();
+	target = em_event_target_new_composer (eme, composer, 0);
+	g_object_set_data (composer, "presend_check_status", GINT_TO_POINTER(0));
+
+	e_event_emit((EEvent *)eme, "composer.presendchecks", (EEventTarget *)target);
+
+	if (GPOINTER_TO_INT (g_object_get_data (composer, "presend_check_status")))
+		goto finished;
+
 	/* actually get the message now, this will sign/encrypt etc */
 	message = e_msg_composer_get_message (composer, save_html_object_data);
 	if (message == NULL)
 		goto finished;
-	
+       
 	/* Add info about the sending account */
 	account = e_msg_composer_get_preferred_account (composer);
 	

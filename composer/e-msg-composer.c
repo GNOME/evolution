@@ -6224,6 +6224,33 @@ e_msg_composer_unset_autosaved (EMsgComposer *composer)
 	p->autosaved = FALSE;
 }
 
+/**
+ * e_msg_composer_get_raw_message_text:
+ * 
+ * Returns the text/plain of the message from composer
+ **/
+const char *
+e_msg_composer_get_raw_message_text (EMsgComposer *composer)
+{
+       GByteArray *data = NULL;
+       EMsgComposerPrivate *p = composer->priv;
+       g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+       data = get_text (p->persist_stream_interface, "text/plain");
+       if (data)
+               return data->data;
+
+       return NULL;
+}
+
+EAttachmentBar*
+e_msg_composer_get_attachment_bar (EMsgComposer *composer)
+{
+       EMsgComposerPrivate *p = composer->priv;
+
+       return (EAttachmentBar*) p->attachment_bar;
+}
+
 gboolean
 e_msg_composer_is_autosaved (EMsgComposer *composer)
 {

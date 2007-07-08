@@ -1,0 +1,9 @@
+2007-07-09  Johnny Jacob <jjohnny@novell.com>
+
+	** Added attachment Reminder plugins
+	* apps-evolution-attachment-reminder.schemas.in.in:
+	* org-gnome-evolution-attachment-reminder.eplug.xml:
+	* attachment-reminder.c:                             
+	* Makefile.am:
+	* attachment-reminder.glade:                         
+	* org-gnome-attachment-reminder.errors.xml:
