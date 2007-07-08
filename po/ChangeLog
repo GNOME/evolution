@@ -1,3 +1,13 @@
+2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #387844
+	* zh_HK.po:
+	* zh_TW.po: Updated the msgstr for date format
+	at e-dateedit.c 1444
+
+	Committing on behalf of Makuchaku <mayank.gnu@gmail.com>
+
+
 2007-07-07  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation

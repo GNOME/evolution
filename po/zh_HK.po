@@ -20776,7 +20776,7 @@ msgstr "%H:%M"
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../widgets/misc/e-dateedit.c:1441 ../widgets/misc/e-dateedit.c:1768
 msgid "%I:%M %p"
-msgstr "%p %I:%M"
+msgstr "%I %M:%p"
 
 #: ../widgets/misc/e-dateedit.c:1634
 msgid "Invalid Date Value"
