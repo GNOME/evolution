@@ -91,6 +91,7 @@ GType es_event_get_type(void);
 ESEvent *es_event_peek(void);
 
 ESEventTargetState *es_event_target_new_state(ESEvent *emp, int state);
+ESEventTargetShell *es_event_target_new_shell(ESEvent *eme, EShell *shell);
 ESEventTargetUpgrade *es_event_target_new_upgrade(ESEvent *emp, int major, int minor, int revision);
 
 /* ********************************************************************** */
