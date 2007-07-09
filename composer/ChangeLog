@@ -1,3 +1,9 @@
+2007-07-09  Johnny Jacob  <jjohnny@novell.com>	
+	
+	* e-msg-composer.h : Added prototypes for
+	e_msg_composer_get_raw_message_text and
+	e_msg_composer_get_attachment_bar
+	
 2007-07-08  Johnny Jacob  <jjohnny@novell.com>
 
 	* e-msg-composer.c : (e_msg_composer_get_raw_message_text ) Added.

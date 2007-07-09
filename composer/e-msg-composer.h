@@ -33,6 +33,7 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 
 #include "e-msg-composer-hdrs.h"
 #include "Editor.h"
+#include "widgets/misc/e-attachment-bar.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -192,6 +193,9 @@ EMsgComposerHdrs*	 e_msg_composer_get_hdrs			 (EMsgComposer *composer);
 void			 e_msg_composer_set_saved			 (EMsgComposer *composer);
 void			 e_msg_composer_set_send_options		 (EMsgComposer *composer, 
 									  gboolean      send_enable);
+const gchar *            e_msg_composer_get_raw_message_text              (EMsgComposer *composer);
+
+EAttachmentBar*          e_msg_composer_get_attachment_bar                (EMsgComposer *composer);
 
 #ifdef __cplusplus
 }
