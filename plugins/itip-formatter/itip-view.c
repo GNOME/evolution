@@ -64,9 +64,11 @@ struct _ItipViewPrivate {
 	
 	GtkWidget *sender_label;
 	char *organizer;
-	char *sentby;
+	char *organizer_sentby;
 	char *delegator;
 	char *attendee;
+	char *attendee_sentby;
+	char *proxy;
 
 	GtkWidget *summary_label;
 	char *summary;
@@ -335,16 +337,23 @@ set_calendar_sender_text (ItipView *view)
 	ItipViewPrivate *priv;
 	const char *organizer, *attendee;
 	char *sender = NULL;
+	char *on_behalf_of = NULL;
 
 	priv = view->priv;
 
 	organizer = priv->organizer ? priv->organizer : _("An unknown person");
 	attendee = priv->attendee ? priv->attendee : _("An unknown person");
-	
+
+	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
+	if (priv->organizer && priv->proxy)
+		on_behalf_of = g_strdup_printf (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+	else if (priv->attendee && priv->proxy)
+		on_behalf_of = g_strdup_printf (_("Received on behalf of <b>%s</b>"), priv->proxy);
+
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following meeting information:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following meeting information:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has published the following meeting information:"), organizer);
 		break;
@@ -353,37 +362,46 @@ set_calendar_sender_text (ItipView *view)
 		if (priv->delegator) {
 			sender = g_strdup_printf (_("<b>%s</b> has delegated the following meeting to you:"), priv->delegator);
 		} else {
-			if (priv->sentby)
-				sender = g_strdup_printf (_("<b>%s</b> through %s requests your presence at the following meeting:"), organizer, priv->sentby);
+			if (priv->organizer_sentby)
+				sender = g_strdup_printf (_("<b>%s</b> through %s requests your presence at the following meeting:"), organizer, priv->organizer_sentby);
 			else
 				sender = g_strdup_printf (_("<b>%s</b> requests your presence at the following meeting:"), organizer);
 		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing meeting:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing meeting:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing meeting:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
-		sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following meeting:"), attendee);
+		if (priv->attendee_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to receive the latest information for the following meeting:"), attendee, priv->attendee_sentby);
+		else		
+			sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following meeting:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
-		sender = g_strdup_printf (_("<b>%s</b> has sent back the following meeting response:"), attendee);
+		if (priv->attendee_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has sent back the following meeting response:"), attendee, priv->attendee_sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has sent back the following meeting response:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following meeting:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following meeting:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has canceled the following meeting."), organizer);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
-		sender = g_strdup_printf (_("<b>%s</b> has proposed the following meeting changes."), attendee);
+		if (priv->attendee_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has proposed the following meeting changes."), attendee, priv->attendee_sentby);
+		else 
+			sender = g_strdup_printf (_("<b>%s</b> has proposed the following meeting changes."), attendee);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following meeting changes:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following meeting changes:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has declined the following meeting changes."), organizer);
 		break;
@@ -391,9 +409,13 @@ set_calendar_sender_text (ItipView *view)
 		break;
 	}
 
+	if (sender && on_behalf_of)
+		sender = g_strjoin (NULL, sender, "\n", on_behalf_of, NULL);
+
 	gtk_label_set_text (GTK_LABEL (priv->sender_label), sender);
 	gtk_label_set_use_markup (GTK_LABEL (priv->sender_label), TRUE);
 
+	g_free (on_behalf_of);
 	g_free (sender);
 }
 
@@ -403,16 +425,23 @@ set_tasklist_sender_text (ItipView *view)
 	ItipViewPrivate *priv;
 	const char *organizer, *attendee;
 	char *sender = NULL;
+	char *on_behalf_of = NULL;
 
 	priv = view->priv;
 
 	organizer = priv->organizer ? priv->organizer : _("An unknown person");
 	attendee = priv->attendee ? priv->attendee : _("An unknown person");
 	
+	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
+	if (priv->organizer && priv->proxy)
+		on_behalf_of = g_strdup_printf (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+	else if (priv->attendee && priv->proxy)
+		on_behalf_of = g_strdup_printf (_("Received on behalf of <b>%s</b>"), priv->proxy);
+
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following task:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following task:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has published the following task:"), organizer);
 		break;
@@ -421,37 +450,46 @@ set_tasklist_sender_text (ItipView *view)
 		if (priv->delegator) {
 			sender = g_strdup_printf (_("<b>%s</b> requests the assignment of %s to the following task:"), organizer, priv->delegator);
 		} else {
-			if (priv->sentby)
-				sender = g_strdup_printf (_("<b>%s</b> through %s has assigned you a task:"), organizer, priv->sentby);
+			if (priv->organizer_sentby)
+				sender = g_strdup_printf (_("<b>%s</b> through %s has assigned you a task:"), organizer, priv->organizer_sentby);
 			else
 				sender = g_strdup_printf (_("<b>%s</b> has assigned you a task:"), organizer);
 		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing task:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing task:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing task:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
-		sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following assigned task:"), attendee);
+		if (priv->attendee_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to receive the latest information for the following assigned task:"), attendee, priv->attendee_sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following assigned task:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
-		sender = g_strdup_printf (_("<b>%s</b> has sent back the following assigned task response:"), attendee);
+		if (priv->attendee_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through has sent back the following assigned task response:"), attendee, priv->attendee_sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has sent back the following assigned task response:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following assigned task:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following assigned task:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has canceled the following assigned task:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
-		sender = g_strdup_printf (_("<b>%s</b> has proposed the following task assignment changes:"), attendee);
+		if (priv->attendee_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has proposed the following task assignment changes:"), attendee, priv->attendee_sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has proposed the following task assignment changes:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following assigned task:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following assigned task:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has declined the following assigned task:"), organizer);
 		break;
@@ -459,9 +497,13 @@ set_tasklist_sender_text (ItipView *view)
 		break;
 	}
 
+	if (sender && on_behalf_of)
+		sender = g_strjoin (NULL, sender, "\n", on_behalf_of, NULL);
+
 	gtk_label_set_text (GTK_LABEL (priv->sender_label), sender);
 	gtk_label_set_use_markup (GTK_LABEL (priv->sender_label), TRUE);
 
+	g_free (on_behalf_of);
 	g_free (sender);
 }
 
@@ -471,29 +513,36 @@ set_journal_sender_text (ItipView *view)
 	ItipViewPrivate *priv;
 	const char *organizer, *attendee;
 	char *sender = NULL;
+	char *on_behalf_of = NULL;
 
 	priv = view->priv;
 
 	organizer = priv->organizer ? priv->organizer : _("An unknown person");
 	attendee = priv->attendee ? priv->attendee : _("An unknown person");
 	
+	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
+	if (priv->organizer && priv->proxy)
+		on_behalf_of = g_strdup_printf (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+	else if (priv->attendee && priv->proxy)
+		on_behalf_of = g_strdup_printf (_("Received on behalf of <b>%s</b>"), priv->proxy);
+
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following memo:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following memo:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has published the following memo:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing memo:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing memo:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing memo:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
-		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following shared memo:"), organizer, priv->sentby);
+		if (priv->organizer_sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following shared memo:"), organizer, priv->organizer_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has canceled the following shared memo:"), organizer);
 		break;
@@ -501,9 +550,13 @@ set_journal_sender_text (ItipView *view)
 		break;
 	}
 
+	if (sender && on_behalf_of)
+		sender = g_strjoin (NULL, sender, "\n", on_behalf_of, NULL);
+
 	gtk_label_set_text (GTK_LABEL (priv->sender_label), sender);
 	gtk_label_set_use_markup (GTK_LABEL (priv->sender_label), TRUE);
 
+	g_free (on_behalf_of);
 	g_free (sender);
 }
 
@@ -814,9 +867,11 @@ itip_view_destroy (GtkObject *object)
 	
 	if (priv) {		
 		g_free (priv->organizer);
-		g_free (priv->sentby);
+		g_free (priv->organizer_sentby);
 		g_free (priv->delegator);
 		g_free (priv->attendee);
+		g_free (priv->attendee_sentby);
+		g_free (priv->proxy);
 		g_free (priv->summary);
 		g_free (priv->location);
 		g_free (priv->status);
@@ -1159,7 +1214,7 @@ itip_view_get_organizer (ItipView *view)
 }
 
 void
-itip_view_set_sentby (ItipView *view, const char *sentby)
+itip_view_set_organizer_sentby (ItipView *view, const char *sentby)
 {
 	ItipViewPrivate *priv;
 	
@@ -1168,16 +1223,16 @@ itip_view_set_sentby (ItipView *view, const char *sentby)
 	
 	priv = view->priv;
 	
-	if (priv->sentby)
-		g_free (priv->sentby);
+	if (priv->organizer_sentby)
+		g_free (priv->organizer_sentby);
 
-	priv->sentby = g_strdup (sentby);
+	priv->organizer_sentby = g_strdup (sentby);
 
 	set_sender_text (view);
 }
 
 const char *
-itip_view_get_sentby (ItipView *view)
+itip_view_get_organizer_sentby (ItipView *view)
 {
 	ItipViewPrivate *priv;
 
@@ -1186,7 +1241,7 @@ itip_view_get_sentby (ItipView *view)
 	
 	priv = view->priv;
 	
-	return priv->sentby;
+	return priv->organizer_sentby;
 }
 
 void
@@ -1218,6 +1273,68 @@ itip_view_get_attendee (ItipView *view)
 	priv = view->priv;
 	
 	return priv->attendee;
+}
+
+void
+itip_view_set_attendee_sentby (ItipView *view, const char *sentby)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	if (priv->attendee_sentby)
+		g_free (priv->attendee_sentby);
+
+	priv->attendee_sentby = g_strdup (sentby);
+
+	set_sender_text (view);
+}
+
+const char *
+itip_view_get_attendee_sentby (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+	
+	priv = view->priv;
+	
+	return priv->attendee_sentby;
+}
+
+void
+itip_view_set_proxy (ItipView *view, const char *proxy)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	if (priv->proxy)
+		g_free (priv->proxy);
+
+	priv->proxy = g_strdup (proxy);
+
+	set_sender_text (view);
+}
+
+const char *
+itip_view_get_proxy (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+	
+	priv = view->priv;
+	
+	return priv->proxy;
 }
 
 void

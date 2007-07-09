@@ -1,3 +1,23 @@
+2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* itip-formatter.c: (find_attendee), (find_attendee_if_sentby):
+	Finds the address of the account owner in the attendees list.		
+	(find_to_address), (find_from_address): Establishes the current 
+	account id.
+	(extract_itip_data), (view_response_cb), (format_itip_object), 
+	(pitip_free): Sets the corresponding itip-view components.
+	* itip-view.h:
+	* itip-view.c: (set_calendar_sender_text),
+	(set_tasklist_sender_text), (set_journal_sender_text),
+	(itip_view_destroy), (itip_view_set_organizer_sentby),
+	(itip_view_get_organizer_sentby), (itip_view_set_attendee_sentby),
+	(itip_view_get_attendee_sentby), (itip_view_set_proxy),
+	(itip_view_get_proxy): Sets the message appropriately in the itip-view.
+
+	Committing on behalf of Suman Manjunath <msuman@novell.com>
+
 2006-09-14  Andre Klapper  <a9016009@gmx.de>
 
 	* itip-view.c: fix some bad mnemonics, mark string for 

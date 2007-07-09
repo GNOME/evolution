@@ -101,14 +101,20 @@ ECalSourceType itip_view_get_item_type (ItipView *view);
 void itip_view_set_organizer (ItipView *view, const char *organizer);
 const char *itip_view_get_organizer (ItipView *view);
 
-void itip_view_set_sentby (ItipView *view, const char *sentby);
-const char *itip_view_get_sentby (ItipView *view);
+void itip_view_set_organizer_sentby (ItipView *view, const char *sentby);
+const char *itip_view_get_organizer_sentby (ItipView *view);
 
 void itip_view_set_attendee (ItipView *view, const char *attendee);
 const char *itip_view_get_attendee (ItipView *view);
 
+void itip_view_set_attendee_sentby (ItipView *view, const char *sentby);
+const char *itip_view_get_attendee_sentby (ItipView *view);
+
 void itip_view_set_delegator (ItipView *view, const char *delegator);
 const char *itip_view_get_delegator (ItipView *view);
+
+void itip_view_set_proxy (ItipView *view, const char *proxy);
+const char *itip_view_get_proxy (ItipView *view);
 
 void itip_view_set_summary (ItipView *view, const char *summary);
 const char *itip_view_get_summary (ItipView *view);

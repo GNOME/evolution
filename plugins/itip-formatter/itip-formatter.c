@@ -32,6 +32,7 @@
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-medium.h>
+#include <camel/camel-mime-utils.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-multipart.h>
@@ -91,6 +92,9 @@ typedef struct {
 	EAccountList *accounts;
 	
 	gchar *from_address;
+	gchar *from_name;
+	gchar *to_address;
+	gchar *to_name;
 	gchar *delegator_address;
 	gchar *delegator_name;
 	gchar *my_address;
@@ -115,81 +119,230 @@ typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointe
 
 static gboolean check_is_instance (icalcomponent *icalcomp);
 
-static void
-find_my_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparameter_partstat *status)
+static icalproperty *
+find_attendee (icalcomponent *ical_comp, const char *address)
 {
 	icalproperty *prop;
-	char *my_alt_address = NULL;
-	
+
+	if (address == NULL)
+		return NULL;
+
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
-		icalvalue *value;
+		const char *attendee;
+		char *text;
+
+		attendee = icalproperty_get_value_as_string (prop);
+
+		 if (!attendee)
+			continue;
+
+		text = g_strdup (itip_strip_mailto (attendee));
+		text = g_strstrip (text);
+		if (text && !g_ascii_strcasecmp (address, text)) {
+			g_free (text);
+			break;
+		}
+		g_free (text);
+	}
+	
+	return prop;
+}
+
+static icalproperty *
+find_attendee_if_sentby (icalcomponent *ical_comp, const char *address)
+{
+	icalproperty *prop;
+
+	if (address == NULL)
+		return NULL;
+
+	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
 		icalparameter *param;
-		const char *attendee, *name;
-		char *attendee_clean, *name_clean;
-		EIterator *it;
+		const char *attendee_sentby;
+		char *text;
 
-		value = icalproperty_get_value (prop);
-		if (value != NULL) {
-			attendee = icalvalue_get_string (value);
-			attendee_clean = g_strdup (itip_strip_mailto (attendee));
-			attendee_clean = g_strstrip (attendee_clean);
-		} else {
-			attendee = NULL;
-			attendee_clean = NULL;
-		}
-		
-		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
-		if (param != NULL) {
-			name = icalparameter_get_cn (param);
-			name_clean = g_strdup (name);
-			name_clean = g_strstrip (name_clean);
-		} else {
-			name = NULL;
-			name_clean = NULL;
-		}
+		param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+		if (!param)
+			continue;
 
-		it = e_list_get_iterator((EList *)pitip->accounts);
+		attendee_sentby = icalparameter_get_sentby (param);
+
+		if (!attendee_sentby)
+			continue;
+
+		text = g_strdup (itip_strip_mailto (attendee_sentby));
+		text = g_strstrip (text);
+		if (text && !g_ascii_strcasecmp (address, text)) {
+			g_free (text);
+			break;
+		}
+		g_free (text);
+	}
+	
+	return prop;
+}
+
+static void
+find_to_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparameter_partstat *status)
+{
+	EIterator *it;
+	
+	it = e_list_get_iterator((EList *)pitip->accounts);
+
+	/* Look through the list of attendees to find the user's address */
+
+	if (!pitip->my_address)
 		while (e_iterator_is_valid(it)) {
 			const EAccount *account = e_iterator_get(it);
+			icalproperty *prop = NULL;
 
 			if (!account->enabled) {
 				e_iterator_next(it);
 				continue;
 			}
 
-			/* Check for a matching address */
-			if (attendee_clean != NULL
-					&& !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
+			prop = find_attendee (ical_comp, account->id->address);
+
+			if (prop) {
+				const char *text;
+				icalparameter *param;
+
+				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+				if (param)
+					pitip->to_name = g_strdup (icalparameter_get_cn (param));
+
+				text = icalproperty_get_value_as_string (prop);
+
+				pitip->to_address = g_strdup (itip_strip_mailto (text));
+				g_strstrip (pitip->to_address);
+
 				pitip->my_address = g_strdup (account->id->address);
+
 				if (status) {
 					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
 					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
 				}
-				g_free (attendee_clean);
-				g_free (name_clean);
-				g_free (my_alt_address);
-				g_object_unref(it);
-				return;
+
+				break;
 			}
-
-			/* Check for a matching cname to fall back on */
-			if (name_clean != NULL 
-					&& !g_ascii_strcasecmp (account->id->name, name_clean))
-				my_alt_address = g_strdup (attendee_clean);
-
 			e_iterator_next(it);
 		}
-		g_object_unref(it);
 
-		g_free (attendee_clean);
-		g_free (name_clean);
+	e_iterator_reset (it);
+
+	/* If the user's address was not found in the attendee's list, then the user
+	 * might be responding on behalf of his/her delegator. In this case, we 
+	 * would want to go through the SENT-BY fields of the attendees to find 
+	 * the user's address.
+	 *
+	 * Note: This functionality could have been (easily) implemented in the 
+	 * previous loop, but it would hurt the performance for all providers in 
+	 * general. Hence, we choose to iterate through the accounts list again.
+	 */	
+
+	if (!pitip->my_address)
+		while (e_iterator_is_valid(it)) {
+			const EAccount *account = e_iterator_get(it);
+			icalproperty *prop = NULL;
+
+			if (!account->enabled) {
+				e_iterator_next(it);
+				continue;
+			}
+
+			prop = find_attendee_if_sentby (ical_comp, account->id->address);
+
+			if (prop) {
+				const char *text;
+				icalparameter *param;
+
+				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+				if (param)
+					pitip->to_name = g_strdup (icalparameter_get_cn (param));
+
+				text = icalproperty_get_value_as_string (prop);
+
+				pitip->to_address = g_strdup (itip_strip_mailto (text));
+				g_strstrip (pitip->to_address);
+
+				pitip->my_address = g_strdup (account->id->address);
+
+				if (status) {
+					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
+				}
+
+				break;
+			}
+			e_iterator_next(it);
+		}
+
+	g_object_unref(it);
+}
+
+static void
+find_from_address (FormatItipPObject *pitip, icalcomponent *ical_comp)
+{
+	EIterator *it;
+	icalproperty *prop;
+	const char *organizer;
+	icalparameter *param;
+	const char *organizer_sentby;
+	char *organizer_clean = NULL;
+	char *organizer_sentby_clean = NULL;
+
+	prop = icalcomponent_get_first_property (ical_comp, ICAL_ORGANIZER_PROPERTY);
+
+	if (!prop)
+		return;
+
+	organizer = icalproperty_get_value_as_string (prop);
+	if (organizer) {
+		organizer_clean = g_strdup (itip_strip_mailto (organizer));
+		organizer_clean = g_strstrip (organizer_clean);
 	}
 
-	pitip->my_address = my_alt_address;
-	if (status)
-		*status = ICAL_PARTSTAT_NEEDSACTION;
+	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+	if (param)
+		organizer_sentby = icalparameter_get_sentby (param);
+	if (organizer_sentby) {
+		organizer_sentby_clean = g_strdup (itip_strip_mailto (organizer_sentby));
+		organizer_sentby_clean = g_strstrip (organizer_sentby_clean);
+	}
+
+	if (!(organizer_sentby_clean || organizer_clean))
+		return;
+
+	pitip->from_address = g_strdup (organizer_clean);
+	
+	param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+	if (param)
+		pitip->from_name = g_strdup (icalparameter_get_cn (param));
+
+	it = e_list_get_iterator((EList *)pitip->accounts);
+	while (e_iterator_is_valid(it)) {
+		const EAccount *account = e_iterator_get(it);
+
+		if (!account->enabled) {
+			e_iterator_next(it);
+			continue;
+		}
+
+		if ((organizer_clean && !g_ascii_strcasecmp (organizer_clean, account->id->address)) 
+		    || (organizer_sentby_clean && !g_ascii_strcasecmp (organizer_sentby_clean, account->id->address))) {
+			pitip->my_address = g_strdup (account->id->address);
+
+			break;
+		}
+		e_iterator_next(it);
+	}
+	g_object_unref(it);
+	g_free (organizer_sentby_clean);
+	g_free (organizer_clean);
 }
 
 static ECalComponent *
@@ -655,39 +808,6 @@ cleanup_ecal (gpointer data)
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 	
 	g_object_unref (ecal);
-}
-
-static icalproperty *
-find_attendee (icalcomponent *ical_comp, const char *address)
-{
-	icalproperty *prop;
-
-	if (address == NULL)
-		return NULL;
-
-	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-	     prop != NULL;
-	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
-		icalvalue *value;
-		const char *attendee;
-		char *text;
-
-		value = icalproperty_get_value (prop);
-		if (!value)
-			continue;
-
-		attendee = icalvalue_get_string (value);
-
-		text = g_strdup (itip_strip_mailto (attendee));
-		text = g_strstrip (text);
-		if (!g_ascii_strcasecmp (address, text)) {
-			g_free (text);
-			break;
-		}
-		g_free (text);
-	}
-	
-	return prop;
 }
 
 static gboolean
@@ -1305,25 +1425,28 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	}
 
 	if (icalcomponent_isa (pitip->ical_comp) != ICAL_VJOURNAL_COMPONENT) {
+		prop = NULL;
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (pitip->ical_comp));
 		my_address = itip_get_comp_attendee (comp, NULL);
 		g_object_unref (comp);
 		comp = NULL;
 
-		prop = find_attendee (pitip->ical_comp, my_address);	
-
+		if (!prop)
+			prop = find_attendee (pitip->ical_comp, my_address);
+		if (!prop)
+			prop = find_attendee_if_sentby (pitip->ical_comp, my_address);
 		if (prop) {
 			icalparameter *param;
 			const char * delfrom; 
 
-			if ((param =icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER))) {
+			if ((param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER))) {
 				delfrom = icalparameter_get_delegatedfrom (param);
 
 				pitip->delegator_address = g_strdup (itip_strip_mailto (delfrom));
 			}
-
 		}
+		prop = NULL;
 
 		/* Determine any delegate sections */
 		prop = icalcomponent_get_first_property (pitip->ical_comp, ICAL_X_PROPERTY);
@@ -1405,7 +1528,8 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 		e_cal_component_alarm_free (acomp);
 	}
 
-	find_my_address (pitip, pitip->ical_comp, NULL);
+	find_from_address (pitip, pitip->ical_comp);
+	find_to_address (pitip, pitip->ical_comp, NULL);
 
 	return TRUE;
 }
@@ -1441,8 +1565,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
 
 
-	if (!pitip->my_address && pitip->current_ecal != NULL)
-		e_cal_get_cal_address (pitip->current_ecal, &pitip->my_address, NULL);
+	if (!pitip->to_address && pitip->current_ecal != NULL)
+		e_cal_get_cal_address (pitip->current_ecal, &pitip->to_address, NULL);
 
 	/* check if it is a  recur instance (no master object) and
 	 * add a property */
@@ -1455,7 +1579,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
 			if (pitip->type != E_CAL_SOURCE_TYPE_JOURNAL)
-				status = change_status (pitip->ical_comp, pitip->my_address, 
+				status = change_status (pitip->ical_comp, pitip->to_address, 
 					ICAL_PARTSTAT_ACCEPTED);
 			else
 				status = TRUE;
@@ -1467,7 +1591,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			}
 			break;
 		case ITIP_VIEW_RESPONSE_TENTATIVE:
-			status = change_status (pitip->ical_comp, pitip->my_address,
+			status = change_status (pitip->ical_comp, pitip->to_address,
 					ICAL_PARTSTAT_TENTATIVE);
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
@@ -1479,7 +1603,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			break;
 		case ITIP_VIEW_RESPONSE_DECLINE:
 			if (pitip->type != E_CAL_SOURCE_TYPE_JOURNAL)
-				status = change_status (pitip->ical_comp, pitip->my_address,
+				status = change_status (pitip->ical_comp, pitip->to_address,
 					ICAL_PARTSTAT_DECLINED);
 			else {
 				prop = icalproperty_new_x ("1");	
@@ -1569,9 +1693,9 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 if (comp == NULL)
                         return;
 		
-                if (pitip->my_address == NULL)
-                        find_my_address (pitip, pitip->ical_comp, NULL);
-                g_assert (pitip->my_address != NULL);
+                if (pitip->to_address == NULL)
+                        find_to_address (pitip, pitip->ical_comp, NULL);
+                g_assert (pitip->to_address != NULL);
 
                 ical_comp = e_cal_component_get_icalcomponent (comp);
 
@@ -1594,9 +1718,9 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			
 			/* We do this to ensure there is at most one
 			 * attendee in the response */
-                        if (found || g_ascii_strcasecmp (pitip->my_address, text))
-                                list = g_slist_prepend (list, prop);
-			else if (!g_ascii_strcasecmp (pitip->my_address, text))
+            		if (found || g_ascii_strcasecmp (pitip->to_address, text))
+            			list = g_slist_prepend (list, prop);
+			else if (!g_ascii_strcasecmp (pitip->to_address, text))
 				found = TRUE;
                         g_free (text);			
                 }
@@ -1625,8 +1749,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		
                 e_cal_component_rescan (comp);
                 if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL)) {
-			camel_folder_set_message_flags (((EMFormat *) pitip->pobject.format)->folder, ((EMFormat *) pitip->pobject.format)->uid,
-							CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
+			camel_folder_set_message_flags (((EMFormat *) pitip->pobject.format)->folder, ((EMFormat *) pitip->pobject.format)->uid, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
 		}
 
                 g_object_unref (comp);
@@ -1729,7 +1852,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	switch (pitip->method) {
 	case ICAL_METHOD_REQUEST:
 		/* FIXME What about the name? */
-		itip_view_set_delegator (ITIP_VIEW (pitip->view), pitip->delegator_address);
+		itip_view_set_delegator (ITIP_VIEW (pitip->view), pitip->delegator_name ? pitip->delegator_name : pitip->delegator_address);
 	case ICAL_METHOD_PUBLISH:
 	case ICAL_METHOD_ADD:
 	case ICAL_METHOD_CANCEL:
@@ -1739,15 +1862,17 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		/* An organizer sent this */
 		e_cal_component_get_organizer (pitip->comp, &organizer);
 		org = organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value);
+
 		itip_view_set_organizer (ITIP_VIEW (pitip->view), org);
-		/* FIXME, do i need to strip the sentby somehow? Maybe with camel? */
-		itip_view_set_sentby (ITIP_VIEW (pitip->view), organizer.sentby);
-	
-		/* FIXME try and match sender with organizer/attendee/sentby?
-		   pd->from_address = camel_address_encode
-		   ((CamelAddress *)from); g_message ("Detected from address %s",
-		   pd->from_address);
-		*/
+		if (organizer.sentby)
+			itip_view_set_organizer_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (organizer.sentby));
+
+		if (pitip->my_address) {
+			if !(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), pitip->my_address))
+			&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), pitip->my_address))
+			&& (pitip->to_address && g_ascii_strcasecmp (pitip->to_address, pitip->my_address))
+				itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->to_name ? pitip->to_name : pitip->to_address);
+		}
 		break;
 	case ICAL_METHOD_REPLY:
 	case ICAL_METHOD_REFRESH:
@@ -1760,8 +1885,18 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 			ECalComponentAttendee *attendee;
 			
 			attendee = list->data;
-			
+
 			itip_view_set_attendee (ITIP_VIEW (pitip->view), attendee->cn ? attendee->cn : itip_strip_mailto (attendee->value));
+
+			if (attendee->sentby)
+				itip_view_set_attendee_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (attendee->sentby));
+
+			if (pitip->my_address) {
+				if !(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), pitip->my_address))
+				&& !(attendee->sentby && !g_ascii_strcasecmp (itip_strip_mailto (attendee->sentby), pitip->my_address))
+				&& (pitip->from_address && g_ascii_strcasecmp (pitip->from_address, pitip->my_address)) 
+					itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->from_name ? pitip->from_name : pitip->from_address);
+			}
 
 			e_cal_component_free_attendee_list (list);
 		}
@@ -1807,7 +1942,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	    || pitip->method == ICAL_METHOD_COUNTER 
 	    || pitip->method == ICAL_METHOD_DECLINECOUNTER) {
 		/* FIXME Check spec to see if multiple comments are actually valid */
-		/* Comments for ITIP are limited to one per object */
+		/* Comments for iTIP are limited to one per object */
 		e_cal_component_get_comment_list (pitip->comp, &list);
 		if (list) {
 			ECalComponentText *text = list->data;
@@ -1921,7 +2056,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		find_server (pitip, pitip->comp);
 		set_buttons_sensitive (pitip);
 	}
-	
+
 	return TRUE;
 }
 
@@ -1964,6 +2099,12 @@ pitip_free (EMFormatHTMLPObject *pobject)
 
 	g_free (pitip->from_address);
 	pitip->from_address = NULL;
+	g_free (pitip->from_name);
+	pitip->from_name = NULL;
+	g_free (pitip->to_address);
+	pitip->to_address = NULL;	
+	g_free (pitip->to_name);
+	pitip->to_name = NULL;	
 	g_free (pitip->delegator_address);
 	pitip->delegator_address = NULL;
 	g_free (pitip->delegator_name);
