@@ -3,9 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.mail.tnefattachments"
-    location="+PLUGIN_INSTALL_DIR+/liborg-gnome-tnef-attachments.so"
-    domain="+GETTEXT_PACKAGE+"
-    localedir="+LOCALEDIR+"
+    location="@PLUGINDIR@/liborg-gnome-tnef-attachments@SOEXT@"
     _name="TNEF Attachment decoder">
     <_description>A simple plugin which uses ytnef to decode tnef attachments.</_description>
     <author name="Lucky Wankhede" email="wlakke@novell.com"/>
