@@ -1,3 +1,13 @@
+2007-07-09  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue  <dartigug@esiee.fr>
+
+	* imap-headers.c: (add_header_clicked), (remove_header_clicked),
+	(org_gnome_imap_headers):
+	* imap-headers.glade:
+	HIGify. Disable the Delete button when there are no headers.
+	See bug #437892
+
 2007-05-14  Sankar P  <psankar@novell.com>
 
 	** Committed on behalf of Xiurong Simon Zheng <simon.zheng@sun.com>   

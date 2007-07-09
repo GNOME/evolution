@@ -30,6 +30,7 @@
 #include <mail/mail-config.h>
 
 #include <gtk/gtkwidget.h>
+#include <gtk/gtktreemodel.h>
 #include <gtk/gtk.h>
 
 #include <libedataserver/e-account.h>
@@ -127,7 +128,7 @@ add_header_clicked (GtkButton *button)
 	GtkDialog *dialog;
 	GtkEntry *header;
 	GtkTreeModel *model;
-	GtkTreeIter iter;
+	GtkTreeIter iter, first;
 	gint result;
 
 	dialog = GTK_DIALOG (gtk_dialog_new_with_buttons (_("Custom Header"), 
@@ -143,15 +144,20 @@ add_header_clicked (GtkButton *button)
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_ACCEPT);
 	gtk_widget_show_all (GTK_WIDGET(dialog));
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	model = gtk_tree_view_get_model (custom_headers_tree);
+
 	switch (result)
 	{
 		case GTK_RESPONSE_ACCEPT:
-			model = gtk_tree_view_get_model (custom_headers_tree);
 			gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL); 
 			gtk_tree_store_set (GTK_TREE_STORE(model), &iter, 0, gtk_entry_get_text (header), -1);
 			break;
 	}
+
 	gtk_widget_destroy (GTK_WIDGET(dialog));
+
+	if (gtk_tree_model_get_iter_first (model, &first)==FALSE)
+		gtk_widget_set_sensitive (GTK_WIDGET (button), TRUE);
 }
 
 static void
@@ -159,7 +165,7 @@ remove_header_clicked (GtkButton *button)
 {
 	GtkTreeSelection *select;
 	GtkTreeModel *model;
-	GtkTreeIter iter;
+	GtkTreeIter iter, first;
 
 	select = gtk_tree_view_get_selection (custom_headers_tree);
 
@@ -167,6 +173,10 @@ remove_header_clicked (GtkButton *button)
 	{
 		gtk_tree_store_remove(GTK_TREE_STORE(model), &iter);
 	}
+
+	
+	if (gtk_tree_model_get_iter_first (model, &first)==FALSE)
+		gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
 }
 
 static void
@@ -191,6 +201,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GladeXML *gladexml;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
+	GtkTreeIter first;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
@@ -244,6 +255,9 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Custom Headers"), renderer, "text", 0, NULL);
 	gtk_tree_view_append_column (custom_headers_tree , column);
+
+	if (gtk_tree_model_get_iter_first (gtk_tree_view_get_model (custom_headers_tree), &first)==FALSE)
+		gtk_widget_set_sensitive (GTK_WIDGET (remove_header), FALSE);
 
 	g_signal_connect (all_headers, "toggled", G_CALLBACK(fetch_all_headers_toggled), NULL);
 	g_signal_connect (add_header, "clicked", G_CALLBACK(add_header_clicked), NULL);
