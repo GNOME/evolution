@@ -510,6 +510,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 	if (emfv->folder) {
 		char *name, *title;
 		guint32 visible, unread, deleted, junked;
+		GPtrArray *selected;
 		GString *tmp = g_string_new("");
 
 		camel_object_get(emfv->folder, NULL,
@@ -519,51 +520,37 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 				 CAMEL_FOLDER_JUNKED, &junked,
 				 CAMEL_FOLDER_UNREAD, &unread, NULL);
 
+		selected = message_list_get_selected(emfv->list);
+
+		/* This is so that if any of these are
+		 * shared/reused, we fallback to the standard
+		 * display behaviour */
+
 		if (CAMEL_IS_VTRASH_FOLDER(emfv->folder)) {
-			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH)
+			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH) {
 				g_string_append_printf(tmp, ngettext ("%d deleted", "%d deleted", deleted), deleted);
-			else
+			} else {
 				g_string_append_printf(tmp, ngettext ("%d junk", "%d junk", junked), junked);
-		} else {
-			int bits = 0;
-			GPtrArray *selected;
-
-			/* This is so that if any of these are
-			 * shared/reused, we fallback to the standard
-			 * display behaviour */
-
-			selected = message_list_get_selected(emfv->list);
-
-			if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri))
-				bits |= 1;
-			if (em_utils_folder_is_sent(emfv->folder, emfv->folder_uri))
-				bits |= 2;
-			if (em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri))
-				bits |= 4;
-			/* HACK: hardcoded inbox or maildir '.' folder */
-			if (g_ascii_strcasecmp(emfv->folder->full_name, "inbox") == 0
-			    || g_ascii_strcasecmp(emfv->folder->full_name, ".") == 0)
-				bits |= 8;
-
-			if (selected->len > 1)
-				g_string_append_printf(tmp, ngettext ("%d selected, ", "%d selected, ", selected->len), selected->len);
-
-			if (bits == 1)
-				g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
-			else if (bits == 2)
-				g_string_append_printf(tmp, ngettext ("%d sent", "%d sent", visible), visible);
-			else if (bits == 4)
-				g_string_append_printf(tmp, ngettext ("%d unsent", "%d unsent", visible), visible);
-			else {
-				if (!emfv->hide_deleted)
-					visible += deleted;
-				if (unread && selected->len <= 1)
-					g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
-				g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
 			}
-
-			message_list_free_uids(emfv->list, selected);
+		} else if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)) {
+			g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
+		} else if (em_utils_folder_is_sent(emfv->folder, emfv->folder_uri)) {
+			g_string_append_printf(tmp, ngettext ("%d sent", "%d sent", visible), visible);
+		} else if (em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
+			g_string_append_printf(tmp, ngettext ("%d unsent", "%d unsent", visible), visible);
+			/* HACK: hardcoded inbox or maildir '.' folder */
+		} else {
+			if (!emfv->hide_deleted)
+				visible += deleted;
+			if (unread && selected->len <= 1)
+				g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
+			g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
 		}
+
+		if (selected->len > 1)
+			g_string_append_printf(tmp, ngettext (" %d selected, ", " %d selected, ", selected->len), selected->len);
+
+		message_list_free_uids(emfv->list, selected);
 
 		if (emfv->folder->parent_store == mail_component_peek_local_store(NULL)
 		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")

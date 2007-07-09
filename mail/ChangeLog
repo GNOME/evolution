@@ -1,4 +1,10 @@
 2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #271864 from Hiroyuki Ikezoe
+
+	* mail-component.c: (view_changed):
+
+2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fix for bug #347782 from hggdh
 
