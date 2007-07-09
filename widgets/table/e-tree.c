@@ -1386,7 +1386,7 @@ et_connect_to_etta (ETree *et)
 
 }
 
-static ETree *
+static gboolean
 et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
@@ -1480,25 +1480,27 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
  * This is the internal implementation of e_tree_new() for use by
  * subclasses or language bindings.  See e_tree_new() for details.
  * 
- * Return value: 
- * The passed in value @e_tree or %NULL if there's an error.
+ * Return value: %TRUE on success, %FALSE if an error occurred
  **/
-ETree *
+gboolean
 e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   const char *spec_str, const char *state_str)
 {
 	ETableSpecification *specification;
 	ETableState *state;
 
-	g_return_val_if_fail(e_tree != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE(e_tree), NULL);
-	g_return_val_if_fail(etm != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
-	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
-	g_return_val_if_fail(spec_str != NULL, NULL);
+	g_return_val_if_fail(e_tree != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE(e_tree), FALSE);
+	g_return_val_if_fail(etm != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE_MODEL(etm), FALSE);
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), FALSE);
+	g_return_val_if_fail(spec_str != NULL, FALSE);
 
 	specification = e_table_specification_new();
-	e_table_specification_load_from_string(specification, spec_str);
+	if (!e_table_specification_load_from_string(specification, spec_str)) {
+		g_object_unref (specification);
+		return FALSE;
+	}
 	if (state_str) {
 		state = e_table_state_new();
 		e_table_state_load_from_string(state, state_str);
@@ -1512,12 +1514,17 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		g_object_ref(state);
 	}
 
-	e_tree = et_real_construct (e_tree, etm, ete, specification, state);
+	if (!et_real_construct (e_tree, etm, ete, specification, state)) {
+		g_object_unref (specification);
+		g_object_unref (state);
+		return FALSE;
+	}
 
 	e_tree->priv->spec = specification;
-	g_object_unref(state);
 
-	return e_tree;
+	g_object_unref (state);
+
+	return TRUE;
 }
 
 /**
@@ -1532,29 +1539,27 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
  * for use by subclasses or language bindings.  See
  * e_tree_new_from_spec_file() for details.
  * 
- * Return value: 
- * The passed in value @e_tree or %NULL if there's an error.
+ * Return value: %TRUE on success, %FALSE if an error occurred
  **/
-ETree *
+gboolean
 e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 				  const char *spec_fn, const char *state_fn)
 {
 	ETableSpecification *specification;
 	ETableState *state;
 
-	g_return_val_if_fail(e_tree != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE(e_tree), NULL);
-	g_return_val_if_fail(etm != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
-	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
-	g_return_val_if_fail(spec_fn != NULL, NULL);
+	g_return_val_if_fail(e_tree != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE(e_tree), FALSE);
+	g_return_val_if_fail(etm != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE_MODEL(etm), FALSE);
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), FALSE);
+	g_return_val_if_fail(spec_fn != NULL, FALSE);
 
 	specification = e_table_specification_new();
 	if (!e_table_specification_load_from_file(specification, spec_fn)) {
 		g_object_unref(specification);
-		return NULL;
+		return FALSE;
 	}
-
 	if (state_fn) {
 		state = e_table_state_new();
 		if (!e_table_state_load_from_file(state, state_fn)) {
@@ -1572,12 +1577,17 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 		g_object_ref(state);
 	}
 
-	e_tree = et_real_construct (e_tree, etm, ete, specification, state);
+	if (!et_real_construct (e_tree, etm, ete, specification, state)) {
+		g_object_unref (specification);
+		g_object_unref (state);
+		return FALSE;
+	}
 
 	e_tree->priv->spec = specification;
+
 	g_object_unref(state);
 
-	return e_tree;
+	return TRUE;
 }
 
 /**
@@ -1604,7 +1614,7 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 GtkWidget *
 e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *state)
 {
-	ETree *e_tree, *ret_val;
+	ETree *e_tree;
 
 	g_return_val_if_fail(etm != NULL, NULL);
 	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
@@ -1613,13 +1623,12 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
 
 	e_tree = g_object_new (E_TREE_TYPE, NULL);
 
-	ret_val = e_tree_construct (e_tree, etm, ete, spec, state);
-
-	if (ret_val == NULL) {
+	if (!e_tree_construct (e_tree, etm, ete, spec, state)) {
 		g_object_unref (e_tree);
+		return NULL;
 	}
 
-	return (GtkWidget *) ret_val;
+	return (GtkWidget *) e_tree;
 }
 
 /**
@@ -1645,7 +1654,7 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
 GtkWidget *
 e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
 {
-	ETree *e_tree, *ret_val;
+	ETree *e_tree;
 
 	g_return_val_if_fail(etm != NULL, NULL);
 	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
@@ -1654,13 +1663,12 @@ e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_
 
 	e_tree = g_object_new (E_TREE_TYPE, NULL);
 
-	ret_val = e_tree_construct_from_spec_file (e_tree, etm, ete, spec_fn, state_fn);
-
-	if (ret_val == NULL) {
+	if (!e_tree_construct_from_spec_file (e_tree, etm, ete, spec_fn, state_fn)) {
 		g_object_unref (e_tree);
+		return NULL;
 	}
 
-	return (GtkWidget *) ret_val;
+	return (GtkWidget *) e_tree;
 }
 
 void

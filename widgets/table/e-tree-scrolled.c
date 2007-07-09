@@ -73,24 +73,26 @@ e_tree_scrolled_real_construct (ETreeScrolled *ets)
 	gtk_widget_show(GTK_WIDGET(ets->tree));
 }
 
-ETreeScrolled *e_tree_scrolled_construct                 (ETreeScrolled    *ets,
-							    ETreeModel       *etm,
-							    ETableExtras      *ete,
-							    const char        *spec,
-							    const char        *state)
+gboolean
+e_tree_scrolled_construct (ETreeScrolled *ets,
+                           ETreeModel *etm,
+                           ETableExtras *ete,
+                           const char *spec,
+                           const char *state)
 {
-	g_return_val_if_fail(ets != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE_SCROLLED(ets), NULL);
-	g_return_val_if_fail(etm != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
-	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
-	g_return_val_if_fail(spec != NULL, NULL);
+	g_return_val_if_fail(ets != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE_SCROLLED(ets), FALSE);
+	g_return_val_if_fail(etm != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE_MODEL(etm), FALSE);
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), FALSE);
+	g_return_val_if_fail(spec != NULL, FALSE);
 
-	e_tree_construct(ets->tree, etm, ete, spec, state);
+	if (!e_tree_construct (ets->tree, etm, ete, spec, state))
+		return FALSE;
 
 	e_tree_scrolled_real_construct(ets);
 
-	return ets;
+	return TRUE;
 }
 
 GtkWidget      *e_tree_scrolled_new                       (ETreeModel       *etm,
@@ -110,29 +112,34 @@ GtkWidget      *e_tree_scrolled_new                       (ETreeModel       *etm
 						"vadjustment", NULL,
 						NULL));
 
-	ets = e_tree_scrolled_construct (ets, etm, ete, spec, state);
+	if (!e_tree_scrolled_construct (ets, etm, ete, spec, state)) {
+		g_object_unref (ets);
+		return NULL;
+	}
 
 	return GTK_WIDGET (ets);
 }
 
-ETreeScrolled *e_tree_scrolled_construct_from_spec_file  (ETreeScrolled    *ets,
-							    ETreeModel       *etm,
-							    ETableExtras      *ete,
-							    const char        *spec_fn,
-							    const char        *state_fn)
+gboolean
+e_tree_scrolled_construct_from_spec_file  (ETreeScrolled *ets,
+                                           ETreeModel *etm,
+                                           ETableExtras *ete,
+                                           const char *spec_fn,
+                                           const char *state_fn)
 {
-	g_return_val_if_fail(ets != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE_SCROLLED(ets), NULL);
-	g_return_val_if_fail(etm != NULL, NULL);
-	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
-	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
-	g_return_val_if_fail(spec_fn != NULL, NULL);
+	g_return_val_if_fail(ets != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE_SCROLLED(ets), FALSE);
+	g_return_val_if_fail(etm != NULL, FALSE);
+	g_return_val_if_fail(E_IS_TREE_MODEL(etm), FALSE);
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), FALSE);
+	g_return_val_if_fail(spec_fn != NULL, FALSE);
 
-	e_tree_construct_from_spec_file(ets->tree, etm, ete, spec_fn, state_fn);
+	if (!e_tree_construct_from_spec_file (ets->tree, etm, ete, spec_fn, state_fn))
+		return FALSE;
 
 	e_tree_scrolled_real_construct(ets);
 
-	return ets;
+	return TRUE;
 }
 
 GtkWidget      *e_tree_scrolled_new_from_spec_file        (ETreeModel       *etm,
@@ -151,7 +158,10 @@ GtkWidget      *e_tree_scrolled_new_from_spec_file        (ETreeModel       *etm
                                                 "hadjustment", NULL,
                                                 "vadjustment", NULL,
                                                 NULL));
-	ets = e_tree_scrolled_construct_from_spec_file (ets, etm, ete, spec_fn, state_fn);
+	if (!e_tree_scrolled_construct_from_spec_file (ets, etm, ete, spec_fn, state_fn)) {
+		g_object_unref (ets);
+		return NULL;
+	}
 
 	return GTK_WIDGET (ets);
 }

@@ -1,3 +1,12 @@
+2006-08-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	* table/e-table-specification.c: (e_table_specification_duplicate)
+	Return NULL if ETable specification string fails to load.
+
+	* table/e-tree.c:
+	* table/e-tree-scrolled.c:
+	Improve error handling in the constructors.
+
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* menus/gal-define-views-dialog.c

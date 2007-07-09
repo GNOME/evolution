@@ -1,3 +1,8 @@
+2006-08-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-view.c: (emfv_setup_view_instance)
+	Abort if ETable specification file fails to load.
+
 2007-06-22  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #307410

@@ -579,7 +579,9 @@ init_collection (void)
 		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
 					       "e-addressbook-view.etspec",
 					       NULL);
-		e_table_specification_load_from_file (spec, etspecfile);
+		if (!e_table_specification_load_from_file (spec, etspecfile))
+			g_error ("Unable to load ETable specification file "
+				 "for address book");
 		g_free (etspecfile);
 
 		factory = gal_view_factory_etable_new (spec);

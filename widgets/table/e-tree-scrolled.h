@@ -48,7 +48,7 @@ typedef struct {
 
 GType           e_tree_scrolled_get_type                  (void);
 
-ETreeScrolled *e_tree_scrolled_construct                 (ETreeScrolled *ets,
+gboolean	e_tree_scrolled_construct                 (ETreeScrolled *ets,
 							  ETreeModel    *etm,
 							  ETableExtras   *ete,
 							  const char     *spec,
@@ -58,7 +58,7 @@ GtkWidget      *e_tree_scrolled_new                       (ETreeModel    *etm,
 							   const char     *spec,
 							   const char     *state);
 
-ETreeScrolled *e_tree_scrolled_construct_from_spec_file  (ETreeScrolled *ets,
+gboolean	e_tree_scrolled_construct_from_spec_file  (ETreeScrolled *ets,
 							  ETreeModel    *etm,
 							  ETableExtras   *ete,
 							  const char     *spec_fn,

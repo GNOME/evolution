@@ -1373,7 +1373,9 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 		filename = g_build_filename (EVOLUTION_ETSPECDIR,
 					     "e-calendar-table.etspec",
 					     NULL);
-		e_table_specification_load_from_file (spec, filename);
+		if (!e_table_specification_load_from_file (spec, filename))
+			g_error ("Unable to load ETable specification file "
+				 "for tasks");
 		g_free (filename);
 
 		factory = gal_view_factory_etable_new (spec);

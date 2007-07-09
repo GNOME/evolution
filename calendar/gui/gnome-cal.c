@@ -2386,7 +2386,9 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
 					       "e-cal-list-view.etspec",
 					       NULL);
-		e_table_specification_load_from_file (spec, etspecfile);
+		if (!e_table_specification_load_from_file (spec, etspecfile))
+			g_error ("Unable to load ETable specification file "
+				 "for calendar");
 		g_free (etspecfile);
 		gal_factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);

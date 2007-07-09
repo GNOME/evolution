@@ -138,7 +138,7 @@ typedef struct {
 } ETreeClass;
 
 GType           e_tree_get_type                   (void);
-ETree          *e_tree_construct                  (ETree                *e_tree,
+gboolean	e_tree_construct                  (ETree                *e_tree,
 						   ETreeModel           *etm,
 						   ETableExtras         *ete,
 						   const char           *spec,
@@ -149,7 +149,7 @@ GtkWidget      *e_tree_new                        (ETreeModel           *etm,
 						   const char           *state);
 
 /* Create an ETree using files. */
-ETree          *e_tree_construct_from_spec_file   (ETree                *e_tree,
+gboolean	e_tree_construct_from_spec_file   (ETree                *e_tree,
 						   ETreeModel           *etm,
 						   ETableExtras         *ete,
 						   const char           *spec_fn,
