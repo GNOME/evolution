@@ -1,3 +1,12 @@
+2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* em-composer-utils.c: (em_utils_send_receipt): Added some flags so that
+	the receipts work fine even if the account configured is not the default one.
+
+	Committing on behalf of	Bharath Acharya <abharath@novell.com>
+											     
 2006-08-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-view.c: (emfv_setup_view_instance)
