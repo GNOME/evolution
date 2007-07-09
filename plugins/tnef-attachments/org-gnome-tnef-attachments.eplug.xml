@@ -6,19 +6,18 @@
     location="+PLUGIN_INSTALL_DIR+/liborg-gnome-tnef-attachments.so"
     domain="+GETTEXT_PACKAGE+"
     localedir="+LOCALEDIR+"
-    _name="yTNEF decoder">
+    _name="TNEF Attachment decoder">
     <_description>A simple plugin which uses ytnef to decode tnef attachments.</_description>
     <author name="Lucky Wankhede" email="wlakke@novell.com"/>
-    <author name="Michael Zucchi" email="notzed@ximian.com"/>
 
     <hook class="org.gnome.evolution.mail.format:1.0">
       <group id="EMFormatHTML">
 	<item flags="inline_disposition" mime_type="application/vnd.ms-tnef"
-	  format="org_gnome_notzed_format_tnef"/>
+	  format="org_gnome_format_tnef"/>
       </group>
       <group id="EMFormatHTMLDisplay">
 	<item flags="inline_disposition" mime_type="application/vnd.ms-tnef"
-	  format="org_gnome_notzed_format_tnef"/>
+	  format="org_gnome_format_tnef"/>
       </group>
     </hook>
   </e-plugin>
