@@ -1,5 +1,11 @@
 2007-07-09  Johnny Jacob <jjohnny@novell.com>
 
+	* attachment-remidner.glade : Added mnemonics.
+	* attachment-reminder.c : Fixed warnings.
+	* org-gnome-attachment-reminder.errors.xml : Added new strings.
+	
+2007-07-09  Johnny Jacob <jjohnny@novell.com>
+
 	** Added attachment Reminder plugins
 	* apps-evolution-attachment-reminder.schemas.in.in:
 	* org-gnome-evolution-attachment-reminder.eplug.xml:

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<error-list domain="org.gnome.evolution.plugins.attachment_reminder">
+<error-list domain="org.gnome.evolution.plugins.attachment_reminder" default="GTK_RESPONSE_YES">
 	<error id="attachment-reminder" type="info">
-		<primary>Attachment Reminder</primary>
-		<secondary>Looks like you have missed the attachments</secondary>
+		<_title>Attachment Reminder</title>
+		<_primary>Message has no attachments</primary>
+		<_secondary>Evolution has found some keywords that suggest that this message should contain an attachment, but cannot find one.</secondary>
 		<button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
 		<button response="GTK_RESPONSE_YES" label="_Send"></button>
 	</error>
