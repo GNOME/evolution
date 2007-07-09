@@ -32,6 +32,28 @@
 
 
 
+/* is_past_event:
+ * 
+ * returns TRUE if @comp is in the past, FALSE otherwise.
+ * Comparision is based only on date part, time part is ignored.
+ */
+static gboolean
+is_past_event (ECalComponent *comp)
+{
+	ECalComponentDateTime end_date;
+	gboolean res;
+
+	if (!comp) return TRUE;
+
+	e_cal_component_get_dtend (comp, &end_date);
+	res = icaltime_compare_date_only (*end_date.value,
+					  icaltime_current_time_with_zone (icaltime_get_timezone (*end_date.value))
+					 ) == -1;
+	e_cal_component_free_datetime (&end_date);
+
+	return res;
+}
+
 /**
  * cancel_component_dialog:
  * 
@@ -53,6 +75,10 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 	
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
+		if (is_past_event (comp)) {
+			/* don't ask neither send notification to others on past events */
+			return FALSE;
+		}
 		if (deleting)
 			id = "calendar:prompt-cancel-meeting";
 		else

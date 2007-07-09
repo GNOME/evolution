@@ -1,3 +1,11 @@
+2007-06-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #234294
+
+	* gui/dialogs/cancel-comp.c: (is_past_event): New helper function.
+	* gui/dialogs/cancel-comp.c: (cancel_component_dialog):
+	Returns FALSE to EVENTs in the past, based on date, not time part.
+
 2007-07-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #300584
