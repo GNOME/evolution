@@ -1307,7 +1307,7 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 	opart = camel_mime_part_new();
 	valid = camel_cipher_decrypt(context, part, opart, ex);
 	if (valid == NULL) {
-		em_format_format_error(emf, stream, ex->desc?("Could not parse S/MIME message"):_("Could not parse S/MIME message: Unknown error"));
+		em_format_format_error(emf, stream, ex->desc?_("Could not parse PGP/MIME message"):_("Could not parse PGP/MIME message: Unknown error"));
 		if (ex->desc)
 			em_format_format_error(emf, stream, ex->desc);
 		em_format_part_as(emf, stream, part, "multipart/mixed");
@@ -1609,7 +1609,7 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 	/* Decrypt the message */
 	valid = camel_cipher_decrypt (cipher, ipart, opart, ex);	
 	if (!valid) {
-		em_format_format_error(emf, stream, ex->desc?("Could not parse S/MIME message"):_("Could not parse S/MIME message: Unknown error"));
+		em_format_format_error(emf, stream, ex->desc?_("Could not parse PGP message"):_("Could not parse PGP message: Unknown error"));
 		if (ex->desc)
 			em_format_format_error(emf, stream, ex->desc);
 		em_format_format_source(emf, stream, ipart);

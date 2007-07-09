@@ -1,3 +1,10 @@
+2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fix for bug #347782 from hggdh
+
+	* em-format.c: (emf_multipart_encrypted),
+	(emf_inlinepgp_encrypted):
+
 2007-07-08  Johnny Jacob  <jjohnny@novell.com>
 
 	* em-composer-utils.c : Added composer.presendcheck event. Fixes
