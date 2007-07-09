@@ -108,6 +108,9 @@ struct _CamelMimePart *em_utils_contact_photo (struct _CamelInternetAddress *add
 
 const char *em_utils_snoop_type(struct _CamelMimePart *part);
 
+/* clears flag 'get_password_canceled' at every known accounts, so if needed, get_password will show dialog */
+void em_utils_clear_get_password_canceled_accounts_flag (void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

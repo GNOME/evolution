@@ -2107,3 +2107,28 @@ em_utils_snoop_type(CamelMimePart *part)
 	/* We used to load parts to check their type, we dont anymore,
 	   see bug #11778 for some discussion */
 }
+
+void
+em_utils_clear_get_password_canceled_accounts_flag (void)
+{
+	EAccountList *accounts;
+
+	accounts = mail_config_get_accounts ();
+	if (accounts) {
+		EIterator *iter;
+
+		for (iter = e_list_get_iterator ((EList *) accounts);
+		     e_iterator_is_valid (iter);
+		     e_iterator_next (iter)) {
+			EAccount *account = (EAccount *) e_iterator_get (iter);
+
+			if (account && account->source)
+				account->source->get_password_canceled = FALSE;
+
+			if (account && account->transport)
+				account->transport->get_password_canceled = FALSE;
+		}
+
+		g_object_unref (iter);
+	}
+}

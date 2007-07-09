@@ -1013,6 +1013,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 static void
 impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
 {
+	em_utils_clear_get_password_canceled_accounts_flag ();
 	mail_send_receive ();
 }
 

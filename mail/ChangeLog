@@ -1,3 +1,14 @@
+2007-06-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #307410
+
+	* em-utils.[ch]: (em_utils_clear_get_password_canceled_accounts_flag):
+	Added new function to clear previously set flag to default value.
+	* mail-session.c: (get_password): Storing and using new flag within
+	account's service structure.
+	* mail-component.c: (impl_sendAndReceive):
+	Always clear flag to default when user clicks UI component.
+
 2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #271864 from Hiroyuki Ikezoe

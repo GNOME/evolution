@@ -182,9 +182,7 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 
 		ret = e_passwords_get_password(domain, key);
 		if (ret == NULL || (flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
-			guint32 eflags;
 			gboolean remember;
-			char *title;
 
 			if (url) {
 				if  ((account = mail_config_get_account_by_source_url(url)))
@@ -195,45 +193,53 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 
 			remember = config_service?config_service->save_passwd:FALSE;
 
-			if (flags & CAMEL_SESSION_PASSPHRASE) {
-				if (account)
-					title = g_strdup_printf (_("Enter Passphrase for %s"), account->name);
+			if (!config_service || (config_service && !config_service->get_password_canceled)) {
+				guint32 eflags;
+				char *title;
+
+				if (flags & CAMEL_SESSION_PASSPHRASE) {
+					if (account)
+						title = g_strdup_printf (_("Enter Passphrase for %s"), account->name);
+					else
+						title = g_strdup (_("Enter Passphrase"));
+				} else {
+					if (account)
+						title = g_strdup_printf (_("Enter Password for %s"), account->name);
+					else
+						title = g_strdup (_("Enter Password"));				
+				}
+				if ((flags & CAMEL_SESSION_PASSWORD_STATIC) != 0)
+					eflags = E_PASSWORDS_REMEMBER_NEVER;
+				else if (config_service == NULL)
+					eflags = E_PASSWORDS_REMEMBER_SESSION;
 				else
-					title = g_strdup (_("Enter Passphrase"));
-			} else {
-				if (account)
-					title = g_strdup_printf (_("Enter Password for %s"), account->name);
-				else
-					title = g_strdup (_("Enter Password"));				
+					eflags = E_PASSWORDS_REMEMBER_FOREVER;
+
+				if (flags & CAMEL_SESSION_PASSWORD_REPROMPT)
+					eflags |= E_PASSWORDS_REPROMPT;
+
+				if (flags & CAMEL_SESSION_PASSWORD_SECRET)
+					eflags |= E_PASSWORDS_SECRET;
+
+				if (flags & CAMEL_SESSION_PASSPHRASE)
+					eflags |= E_PASSWORDS_PASSPHRASE;
+
+				/* HACK: breaks abstraction ...
+				   e_account_writable doesn't use the eaccount, it also uses the same writable key for
+				   source and transport */
+				if (!e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD))
+					eflags |= E_PASSWORDS_DISABLE_REMEMBER;
+
+				ret = e_passwords_ask_password(title, domain, key, prompt, eflags, &remember, NULL);
+
+				g_free(title);
+
+				if (ret && config_service)
+					mail_config_service_set_save_passwd(config_service, remember);
+
+				if (config_service)
+					config_service->get_password_canceled = ret == NULL;
 			}
-			if ((flags & CAMEL_SESSION_PASSWORD_STATIC) != 0)
-				eflags = E_PASSWORDS_REMEMBER_NEVER;
-			else if (config_service == NULL)
-				eflags = E_PASSWORDS_REMEMBER_SESSION;
-			else
-				eflags = E_PASSWORDS_REMEMBER_FOREVER;
-
-			if (flags & CAMEL_SESSION_PASSWORD_REPROMPT)
-				eflags |= E_PASSWORDS_REPROMPT;
-
-			if (flags & CAMEL_SESSION_PASSWORD_SECRET)
-				eflags |= E_PASSWORDS_SECRET;
-
-			if (flags & CAMEL_SESSION_PASSPHRASE)
-				eflags |= E_PASSWORDS_PASSPHRASE;
-
-			/* HACK: breaks abstraction ...
-			   e_account_writable doesn't use the eaccount, it also uses the same writable key for
-			   source and transport */
-			if (!e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD))
-				eflags |= E_PASSWORDS_DISABLE_REMEMBER;
-
-			ret = e_passwords_ask_password(title, domain, key, prompt, eflags, &remember, NULL);
-
-			g_free(title);
-
-			if (ret && config_service)
-				mail_config_service_set_save_passwd(config_service, remember);
 		}
 
 		g_free(key);
