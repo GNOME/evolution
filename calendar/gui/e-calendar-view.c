@@ -381,7 +381,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 			g_free (uid);
 		}
 
-		if (itip_organizer_is_user (comp, client) &&
+		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) &&
 		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 					   client, comp, TRUE)) {
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
@@ -686,7 +686,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-		if (itip_organizer_is_user (comp, event->comp_data->client) 
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client, comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
@@ -956,7 +956,7 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 	if (delete) {
 		const char *uid;
 		
-		if (itip_organizer_is_user (comp, event->comp_data->client) 
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client,
 						comp, TRUE))
@@ -1093,7 +1093,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 		e_cal_component_free_datetime (&dt);
 
 
-		if (itip_organizer_is_user (comp, event->comp_data->client)
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp))
 				&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 					event->comp_data->client,
 					comp, TRUE) && !e_cal_get_save_schedules (event->comp_data->client)) {
@@ -1411,7 +1411,7 @@ set_attendee_status_for_delegate (icalcomponent *icalcomp, ECal *client)
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
 		const char *attendee = icalproperty_get_attendee (prop);
 
-		if (g_str_equal (itip_strip_mailto (attendee), address)) {
+		if (!g_ascii_strcasecmp (itip_strip_mailto (attendee), address)) {
 			param = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
 			icalproperty_set_parameter (prop, param);
 
@@ -1989,7 +1989,7 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 		ECalComponent *comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 		flags |= COMP_EDITOR_MEETING;
-		if (itip_organizer_is_user (comp, client) || !e_cal_component_has_attendees (comp))
+		if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp) || !e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_USER_ORG;
 		g_object_unref (comp);
 	}
@@ -2006,7 +2006,7 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 				 gboolean new)
 {
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
-		if (itip_organizer_is_user (comp, client) &&
+		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) &&
 		    send_component_dialog (toplevel, client, comp, new))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL, NULL, NULL);
 	} else {

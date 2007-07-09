@@ -66,7 +66,6 @@ static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointe
 static gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 static void create_schedule_page (EventEditor *ee);
 
-
 G_DEFINE_TYPE (EventEditor, event_editor, TYPE_COMP_EDITOR)
 
 /* Class initialization function for the event editor */
@@ -757,7 +756,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	}	
 	e_cal_component_free_attendee_list (attendees);
 
-	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && itip_organizer_is_user (comp, client));
+	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)));
 
 	priv->updating = FALSE;
 }

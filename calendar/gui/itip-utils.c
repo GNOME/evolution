@@ -145,10 +145,13 @@ get_attendee (GSList *attendees, char *address)
 {
 	GSList *l;
 
+	if (!address)
+		return NULL;
+
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
-		if (g_str_equal (itip_strip_mailto (attendee->value), address)) {
+		if (!g_ascii_strcasecmp (itip_strip_mailto (attendee->value), address)) {
 			return attendee;		
 		}	
 	}
@@ -156,6 +159,21 @@ get_attendee (GSList *attendees, char *address)
 	return NULL;
 }
 
+static ECalComponentAttendee *
+get_attendee_if_attendee_sentby_is_user (GSList *attendees, char *address) 
+{
+	GSList *l;
+
+	for (l = attendees; l; l = l->next) {
+		ECalComponentAttendee *attendee = l->data;
+
+		if (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address)) {
+			return attendee;		
+		}	
+	}
+
+	return NULL;
+}
 
 static char *
 html_new_lines_for (char *string)
@@ -204,6 +222,78 @@ html_new_lines_for (char *string)
 	return html_string;
 }
 
+void 
+sanitize_component (ECalComponent *comp, ECal *client)
+{
+	GSList *attendees;
+	EAccountList *al;
+	EAccount *a;
+	EIterator *it;
+	ECalComponentOrganizer organizer;
+	ECalComponentAttendee *attendee = NULL;
+	ESource *cal_source = NULL;
+	char *backend_address = NULL;
+	char *subscriber_address = NULL;
+
+	e_cal_component_get_attendee_list (comp, &attendees);	
+	al = itip_addresses_get ();
+	e_cal_get_cal_address (client, &backend_address, NULL);
+	if (!al || !backend_address)
+		return;
+
+	/* Look for the backend address in the list of enabled accounts */
+	for (it = e_list_get_iterator((EList *)al);
+			e_iterator_is_valid(it);
+			e_iterator_next(it)) {
+
+		a = (EAccount *) e_iterator_get(it);
+		if (!a->enabled) 
+			continue;
+
+		if (!g_ascii_strcasecmp (a->id->address, backend_address)) {
+			e_cal_component_free_attendee_list (attendees);
+			g_free (backend_address);
+			return;
+		}
+	}
+
+	/* Backend address was not found in the list of accounts. Check if its a foreign/susbcribed backend */
+	cal_source = e_cal_get_source (client);
+	if (!cal_source) {
+		e_cal_component_free_attendee_list (attendees);
+		g_free (backend_address);
+		return;
+	}
+
+	subscriber_address = e_source_get_property (cal_source, "subscriber");
+	if (!subscriber_address) {
+		e_cal_component_free_attendee_list (attendees);
+		g_free (backend_address);
+		return;
+	}
+
+	attendee = get_attendee (attendees, backend_address);
+	e_cal_component_get_organizer (comp, &organizer) ;
+
+	e_cal_component_free_attendee_list (attendees);
+
+	if (organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), subscriber_address)) {
+		ECalComponentOrganizer new_organizer;
+ 		new_organizer.value = g_strdup_printf ("MAILTO:%s", backend_address);
+		new_organizer.cn = (attendee && attendee->cn) ? g_strdup (attendee->cn) : g_strdup (backend_address);
+		new_organizer.sentby = g_strdup (organizer.value);
+		new_organizer.language = g_strdup (organizer.language);
+		e_cal_component_set_organizer (comp, &new_organizer);
+	}
+	else if (attendee) {
+		attendee->sentby = g_strdup_printf ("MAILTO:%s", subscriber_address);
+	}
+
+	e_cal_component_rescan (comp);
+	g_free (backend_address);
+	g_free (subscriber_address);
+}
+
 char *
 itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 {
@@ -218,7 +308,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	al = itip_addresses_get ();
 	
 	if (client)
-		 e_cal_get_cal_address (client, &address, NULL);
+		e_cal_get_cal_address (client, &address, NULL);
 
 	if (address && *address) {
 		attendee = get_attendee (attendees, address);	
@@ -228,8 +318,19 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 
 			e_cal_component_free_attendee_list (attendees);
 			g_free (address);
-			return user_email;	
+			return user_email;
 		}
+
+		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address);
+
+		if (attendee) {
+			char *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
+
+			e_cal_component_free_attendee_list (attendees);
+			g_free (address);
+			return user_email;
+		}
+
 		g_free (address);
 		address = NULL;
 	}
@@ -238,13 +339,23 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 			e_iterator_is_valid(it);
 			e_iterator_next(it)) {
 		a = (EAccount *) e_iterator_get(it);
-		
+
 		if (!a->enabled) 
 			continue;
 
 		attendee = get_attendee (attendees, a->id->address);
 		if (attendee) {
 			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
+			
+			e_cal_component_free_attendee_list (attendees);
+			return user_email;		
+		}
+
+		/* If the account was not found in the attendees list, then let's
+		check the 'sentby' fields of the attendees if we can find the account */
+		attendee = get_attendee_if_attendee_sentby_is_user (attendees, a->id->address);
+		if (attendee) {
+			char *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
 			
 			e_cal_component_free_attendee_list (attendees);
 			return user_email;		
@@ -461,6 +572,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 				  _("An organizer must be set."));
 			return NULL;
 		}
+
 		sender = itip_get_comp_attendee (comp, NULL);
 
 		for (l = attendees; l != NULL; l = l->next) {
@@ -468,15 +580,18 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 
 			if (users_has_attendee (users, att->value))
 				continue;
+			else if (att->sentby && users_has_attendee (users, att->sentby))
+				continue;
 			else if (!g_ascii_strcasecmp (att->value, organizer.value))
+				continue;
+			else if (att->sentby && !g_ascii_strcasecmp (att->sentby, organizer.sentby))
 				continue;
 			else if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender))
 				continue;
 			else if (att->status == ICAL_PARTSTAT_DELEGATED && (att->delto && *att->delto)
 					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
 				continue;
-					
-			
+
 			recipient = &(to_list->_buffer[to_list->_length]);
 			if (att->cn)
 				recipient->name = CORBA_string_dup (att->cn);
@@ -579,14 +694,14 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			recipient->name = CORBA_string_dup ("");
 		recipient->address = CORBA_string_dup (itip_strip_mailto (organizer.value));
 		
-		/* send the status to delegatee to the delegate  also*/	
+		/* send the status to delegatee to the delegate also*/	
 		e_cal_component_get_attendee_list (comp, &attendees);
 		sender = itip_get_comp_attendee (comp, NULL);
 
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
 
-			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender)){
+			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender) || (att->sentby && !g_ascii_strcasecmp (itip_strip_mailto (att->sentby), sender))){
 
 				if (!(att->delfrom && *att->delfrom))
 					break;
@@ -674,7 +789,7 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 
 			for (l = alist; l != NULL ; l = l->next) {
 				a = l->data;
-				if ((sender && *sender) && g_str_equal (itip_strip_mailto (a->value), sender)) 
+				if ((sender && *sender) && (g_ascii_strcasecmp (itip_strip_mailto (a->value), sender) || (a->sentby && g_ascii_strcasecmp (itip_strip_mailto (a->sentby), sender)))) 
 					break;
 			}
 			g_free (sender);
@@ -843,9 +958,11 @@ comp_limit_attendees (ECalComponent *comp)
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (icomp, ICAL_ATTENDEE_PROPERTY))
 	{
-		icalvalue *value;
 		const char *attendee;
-		char *text;
+		char *attendee_text;
+		icalparameter *param;
+		const char *attendee_sentby;
+		char *attendee_sentby_text;
 
 		/* If we've already found something, just erase the rest */
 		if (found) {
@@ -853,16 +970,26 @@ comp_limit_attendees (ECalComponent *comp)
 			continue;
 		}
 		
-		value = icalproperty_get_value (prop);
-		if (!value)
+		attendee = icalproperty_get_value_as_string (prop);
+		if (!attendee)
 			continue;
 
-		attendee = icalvalue_get_string (value);
+		attendee_text = g_strdup (itip_strip_mailto (attendee));
+		attendee_text = g_strstrip (attendee_text);
+		found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, attendee_text) != NULL;
 
-		text = g_strdup (itip_strip_mailto (attendee));
-		text = g_strstrip (text);
-		found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, text) != NULL;
-		g_free (text);
+		if (!found) {
+			param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+			if (param) {
+				attendee_sentby = icalparameter_get_sentby (param);
+				attendee_sentby_text = g_strdup (itip_strip_mailto (attendee_sentby));
+				attendee_sentby_text = g_strstrip (attendee_sentby_text);
+				found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, attendee_sentby_text) != NULL;
+			}
+		}
+
+		g_free(attendee_text);
+		g_free (attendee_sentby_text);
 		
 		if (!match)
 			list = g_slist_prepend (list, prop);
@@ -907,7 +1034,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *a = l->data;
 
-		if (g_str_equal (itip_strip_mailto (a->value), user)) {
+		if (!g_ascii_strcasecmp (itip_strip_mailto (a->value), user) || (a->sentby && !g_ascii_strcasecmp (itip_strip_mailto (a->sentby), user))) {
 			g_free (user);
 			return;
 		}
@@ -1178,7 +1305,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	CORBA_Environment ev;
 	gboolean retval = FALSE;
 
-	/* check whether backend could handle sending resuests/updates */
+	/* check whether backend could handle sending requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_save_schedules (client))
 		return TRUE;
 	
@@ -1186,12 +1313,14 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 
 	/* Give the server a chance to manipulate the comp */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
+		sanitize_component (send_comp, client);
 		if (!comp_server_send (method, send_comp, client, zones, &users))
 			goto cleanup;
 	}
 	
 	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp, client, zones);
+
 	if (comp == NULL)
 		goto cleanup;
 
@@ -1242,7 +1371,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string (top_level);
-
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
 		GNOME_Evolution_Composer_setBody (composer_server, ical_string, content_type, &ev);
@@ -1358,6 +1486,9 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 
 	CORBA_exception_init (&ev);
 
+	/* Sanitize the component */
+	sanitize_component (send_comp, client);
+
 	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp, client, zones);
 	if (comp == NULL)
@@ -1375,15 +1506,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 	subject = comp_subject (method, comp);
 	
 	/* From address */
-	{
-		GError *error = NULL;
-		char *address = NULL;
-
-		if (e_cal_get_cal_address (client, &address, &error))
-			from = CORBA_string_dup (address);
-	}
-	if (!from)
-		from = comp_from (method, comp);
+	from = comp_from (method, comp);
 
 	/* Obtain an object reference for the Composer. */
 	composer_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);

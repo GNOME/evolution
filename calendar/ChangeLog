@@ -1,3 +1,24 @@
+2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* gui/dialogs/comp-editor.c: (save_comp), (save_comp_with_send),
+	(real_edit_comp): Organizer/Sentby can save/edit components.
+	* gui/dialogs/event-editor.c: (event_editor_edit_comp):
+	* gui/e-calendar-view.c: (e_calendar_view_add_event),
+	(e_calendar_view_cut_clipboard), (delete_event),
+	(e_calendar_view_delete_selected_occurrence),
+	(set_attendee_status_for_delegate),
+	(e_calendar_view_edit_appointment),
+	(e_calendar_view_modify_and_send):
+	* gui/itip-utils.c: (get_attendee),
+	(get_attendee_if_attendee_sentby_is_user), (sanitize_component),
+	(itip_get_comp_attendee), (comp_to_list), (comp_subject),
+	(comp_limit_attendees), (comp_sentby), (itip_send_comp),
+	(reply_to_calendar_comp): Adding the exchange delegation feature.
+
+	Committing on behalf of Suman Manjunath <msuman@novell.com> 
+
 2006-08-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/e-memos.c: (e_memos_setup_view_menus)
