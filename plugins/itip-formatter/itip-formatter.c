@@ -1868,9 +1868,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 			itip_view_set_organizer_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (organizer.sentby));
 
 		if (pitip->my_address) {
-			if !(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), pitip->my_address))
+			if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), pitip->my_address))
 			&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), pitip->my_address))
-			&& (pitip->to_address && g_ascii_strcasecmp (pitip->to_address, pitip->my_address))
+			&& (pitip->to_address && g_ascii_strcasecmp (pitip->to_address, pitip->my_address)))
 				itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->to_name ? pitip->to_name : pitip->to_address);
 		}
 		break;
@@ -1892,9 +1892,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 				itip_view_set_attendee_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (attendee->sentby));
 
 			if (pitip->my_address) {
-				if !(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), pitip->my_address))
+				if (!(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), pitip->my_address))
 				&& !(attendee->sentby && !g_ascii_strcasecmp (itip_strip_mailto (attendee->sentby), pitip->my_address))
-				&& (pitip->from_address && g_ascii_strcasecmp (pitip->from_address, pitip->my_address)) 
+				&& (pitip->from_address && g_ascii_strcasecmp (pitip->from_address, pitip->my_address))) 
 					itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->from_name ? pitip->from_name : pitip->from_address);
 			}
 

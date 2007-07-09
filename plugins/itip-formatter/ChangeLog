@@ -1,5 +1,9 @@
 2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* itip-formatter.c: (format_itip_object): Fixed a build break.
+
+2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* itip-formatter.c: (find_attendee), (find_attendee_if_sentby):
