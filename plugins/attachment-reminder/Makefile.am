@@ -39,7 +39,9 @@ install-data-local:
 	fi
 
 EXTRA_DIST = org-gnome-evolution-attachment-reminder.eplug.xml \
-	$(error_DATA)					
+	$(error_DATA)						\
+	$(schema_in_files)					\
+	attachment-reminder.glade
 
 CLEANFILES = org-gnome-evolution-attachment-reminder.eplug
 

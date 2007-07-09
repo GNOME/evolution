@@ -1,3 +1,7 @@
+2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* Makefile.am: Fix for build break from Johnny.
+
 2007-07-09  Johnny Jacob <jjohnny@novell.com>
 
 	* attachment-remidner.glade : Added mnemonics.
