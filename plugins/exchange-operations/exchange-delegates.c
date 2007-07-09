@@ -453,12 +453,12 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 			e_error_run (GTK_WINDOW (parent_window), ERROR_DOMAIN ":delegate-existing", 
 				     user->display_name, NULL);
 			g_object_unref (user);
-			exchange_delegates_user_edit (match, parent_window);
+			exchange_delegates_user_edit (delegates->account, match, parent_window);
 			return;
 		}
 	}
 
-	if (!exchange_delegates_user_edit (user, parent_window)) {
+	if (!exchange_delegates_user_edit (delegates->account, user, parent_window)) {
 		g_object_unref (user);
 		return;
 	}
@@ -511,8 +511,32 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 	g_return_if_fail (row >= 0 && row < delegates->users->len);
 
 	parent_window = gtk_widget_get_ancestor (widget, GTK_TYPE_WINDOW);
-	exchange_delegates_user_edit (delegates->users->pdata[row],
+
+	exchange_delegates_user_edit (delegates->account, delegates->users->pdata[row],
 				      parent_window);
+}
+
+const char *
+email_look_up (const char *delegate_legacy, ExchangeAccount *account)
+{
+	E2kGlobalCatalog *gc;
+	E2kGlobalCatalogEntry *entry;
+	E2kGlobalCatalogStatus status;
+
+	const char *email_id;
+	
+	gc = exchange_account_get_global_catalog (account);
+	
+	if (!gc)
+		return;
+
+	status = e2k_global_catalog_lookup (
+			gc, NULL, E2K_GLOBAL_CATALOG_LOOKUP_BY_LEGACY_EXCHANGE_DN,
+			delegate_legacy, 0, &entry);
+
+	email_id = g_strdup (entry->email);
+	e2k_global_catalog_entry_free (gc, entry);
+	return email_id;
 }
 
 static gboolean
@@ -534,7 +558,7 @@ table_click_cb (GtkWidget *widget, GdkEventButton *event, gpointer data)
 		return FALSE;
 
 	parent_window = gtk_widget_get_ancestor (widget, GTK_TYPE_WINDOW);
-	exchange_delegates_user_edit (delegates->users->pdata[row],
+	exchange_delegates_user_edit (delegates->account, delegates->users->pdata[row],
 				      parent_window);
 	return TRUE;
 }

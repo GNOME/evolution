@@ -23,8 +23,10 @@
 #include <config.h>
 #endif
 
+#include <mail/mail-ops.h>
+#include <mail/mail-component.h>
+#include <camel/camel-multipart.h>
 #include "exchange-delegates-user.h"
-
 #include <e2k-global-catalog.h>
 #include <e2k-marshal.h>
 #include <e2k-sid.h>
@@ -45,6 +47,7 @@
 #include <gtk/gtkoptionmenu.h>
 
 #include <string.h>
+
 
 #define EXCHANGE_DELEGATES_USER_SEPARATOR -2
 #define EXCHANGE_DELEGATES_USER_CUSTOM    -3
@@ -67,6 +70,11 @@ static const int exchange_perm_map[] = {
 const char *exchange_delegates_user_folder_names[] = {
 	"calendar", "tasks", "inbox", "contacts"
 };
+
+const char *folder_names_for_display[] = {
+	"Calendar", "Tasks   ", "Inbox   ", "Contacts"
+};
+
 static const char *widget_names[] = {
 	"calendar_perms", "task_perms", "inbox_perms", "contact_perms",
 };
@@ -157,6 +165,43 @@ parent_window_destroyed (gpointer dialog, GObject *where_parent_window_was)
 	gtk_dialog_response (dialog, GTK_RESPONSE_CANCEL);
 }
 
+/* Maps the role_nam parameter to their corresponding Full role name
+*/
+const char *
+map_to_full_role_name (E2kPermissionsRole role_nam)
+{	
+	const char *role_name;
+
+	switch (role_nam)
+	{	
+		case E2K_PERMISSIONS_ROLE_EDITOR: role_name = g_strdup (
+							_("Editor (read, create, edit)"));
+						  break;
+
+		case E2K_PERMISSIONS_ROLE_AUTHOR: role_name = g_strdup (
+							_("Author (read, create)"));
+						  break;
+
+		case E2K_PERMISSIONS_ROLE_REVIEWER: role_name = g_strdup (
+							_("Reviewer (read-only)"));
+						    break;	
+
+		default: role_name = g_strdup (_("None"));
+			 break;
+	}
+
+	return role_name;
+}
+
+static void
+em_utils_delegates_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
+		       int queued, const char *appended_uid, void *data)
+{
+	camel_message_info_free (info);
+	mail_send ();
+}
+
+
 /**
  * exchange_delegates_user_edit:
  * @user: a delegate
@@ -168,11 +213,12 @@ parent_window_destroyed (gpointer dialog, GObject *where_parent_window_was)
  * Return value: %TRUE for "OK", %FALSE for "Cancel".
  **/
 gboolean
-exchange_delegates_user_edit (ExchangeDelegatesUser *user,
-			      GtkWidget *parent_window)
-{
+exchange_delegates_user_edit (ExchangeAccount *account, 
+			     ExchangeDelegatesUser *user,
+			     GtkWidget *parent_window)
+{	
 	GladeXML *xml;
-	GtkWidget *dialog, *table, *label, *menu, *check;
+	GtkWidget *dialog, *table, *label, *menu, *check, *check_delegate;
 	char *title;
 	int button, i;
 	E2kPermissionsRole role;
@@ -242,6 +288,141 @@ exchange_delegates_user_edit (ExchangeDelegatesUser *user,
 			modified = TRUE;
 		}
 	}
+
+
+	/* The following piece of code is used to construct a mail message to be sent to a Delegate
+	   summarizing all the permissions set for him on the various user's folders.
+	*/	
+	check_delegate = glade_xml_get_widget (xml, "delegate_mail");
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_delegate)) == TRUE) {
+		if (button == GTK_RESPONSE_OK) {
+			
+			EAccount *eaccount;
+			CamelMimeMessage *delegate_mail = camel_mime_message_new ();
+			CamelMultipart *body = camel_multipart_new ();
+			CamelMimePart *part;
+			CamelDataWrapper *delegate_mail_text, *delegate_mail_data;
+			CamelContentType *type;
+			CamelInternetAddress *addr;
+			CamelStream *stream;	
+			CamelFolder *out_folder;
+			CamelMessageInfo *info;			
+			char *self_address, *delegate_mail_subject;
+			char *role_name;
+			char *role_name_final = "";
+
+			const char *recipient_address;
+			const char *delegate_exchange_dn;
+
+
+			self_address = g_strdup (exchange_account_get_email_id (account));
+
+			/* Create toplevel container */
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
+					"multipart/alternative;");
+			camel_multipart_set_boundary (body, NULL);	
+
+			/* Create textual receipt */
+			delegate_mail_text = camel_data_wrapper_new ();
+			type = camel_content_type_new ("text", "plain");
+			camel_content_type_set_param (type, "format", "flowed");
+			camel_data_wrapper_set_mime_type_field (delegate_mail_text, type);
+			camel_content_type_unref (type);
+			stream = camel_stream_mem_new ();
+
+			camel_stream_printf (stream,
+					_("This message was sent automatically by Evolution \
+					to inform you that you have been designated as a \
+					delegate. You can now send messages on my behalf.\
+					 \n\nYou have been given the following permissions \
+					on my folders:\n"));
+			for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
+				menu = glade_xml_get_widget (xml, widget_names[i]);
+				role = e_dialog_option_menu_get (menu, exchange_perm_map);
+				role_name = g_strdup (map_to_full_role_name(role));
+				role_name_final = g_strconcat (role_name_final, "\t", 
+						folder_names_for_display[i], ":", "\t", 
+						role_name, "\n", NULL);
+			}
+
+			camel_stream_printf (stream, "%s", role_name_final);
+
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) == TRUE) {
+				camel_stream_printf (stream, _("\nYou are also permitted \
+							to see my private items."));
+			}
+			else
+				camel_stream_printf (stream, _("\nHowever you are not permitted\
+							 to see my private items."));
+			camel_data_wrapper_construct_from_stream (delegate_mail_text, stream);
+			g_free (role_name);
+			g_free (role_name_final);
+			camel_object_unref (stream);
+
+			part = camel_mime_part_new ();
+			camel_medium_set_content_object (CAMEL_MEDIUM (part), delegate_mail_text);
+			camel_object_unref (delegate_mail_text);
+			camel_multipart_add_part (body, part);
+			camel_object_unref (part);	
+
+			/* Create the machine-readable receipt */
+			delegate_mail_data = camel_data_wrapper_new ();
+			type = camel_content_type_new ("message", "disposition-notification");
+			camel_data_wrapper_set_mime_type_field (delegate_mail_data, type);
+			camel_content_type_unref (type);
+			stream = camel_stream_mem_new ();
+			part = camel_mime_part_new ();
+
+			camel_data_wrapper_construct_from_stream (delegate_mail_data, stream);
+			camel_object_unref (stream);
+			camel_medium_set_content_object (CAMEL_MEDIUM (part), delegate_mail_data);
+			camel_object_unref (delegate_mail_data);
+			camel_multipart_add_part (body, part);
+			camel_object_unref (part);	
+
+			/* Finish creating the message */
+			camel_medium_set_content_object (CAMEL_MEDIUM (delegate_mail), CAMEL_DATA_WRAPPER (body));
+			camel_object_unref (body);
+
+			delegate_mail_subject = g_strdup_printf (_("You have been designated \
+						as a delegate for %s"), exchange_account_get_username (account));
+			camel_mime_message_set_subject (delegate_mail, delegate_mail_subject);
+			g_free (delegate_mail_subject);
+
+			addr = camel_internet_address_new ();
+			camel_address_decode (CAMEL_ADDRESS (addr), self_address);
+			camel_mime_message_set_from (delegate_mail, addr);
+			g_free (self_address);
+			camel_object_unref (addr);
+
+			delegate_exchange_dn = e2k_entryid_to_dn (user->entryid);
+			recipient_address = email_look_up (delegate_exchange_dn,account);
+
+			addr = camel_internet_address_new ();
+			camel_address_decode (CAMEL_ADDRESS (addr), recipient_address);
+			camel_mime_message_set_recipients (delegate_mail, CAMEL_RECIPIENT_TYPE_TO, addr);
+			camel_object_unref (addr);
+
+			eaccount = exchange_account_fetch (account);
+			if(eaccount) {
+				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail),
+							 "X-Evolution-Account", eaccount->uid);
+				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail), 
+							 "X-Evolution-Transport", eaccount->transport->url);
+				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail), 
+							 "X-Evolution-Fcc", eaccount->sent_folder_uri);
+			}
+
+			/* Send the permissions summarizing mail */
+			out_folder = mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
+			info = camel_message_info_new (NULL);
+			camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+			mail_append_mail (out_folder, delegate_mail, info, em_utils_delegates_done, 0);
+
+		}
+
+	}
+
 	check = glade_xml_get_widget (xml, "see_private_checkbox");
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) !=
 	    user->see_private) {
@@ -297,8 +478,8 @@ exchange_delegates_user_new (const char *display_name)
  **/
 ExchangeDelegatesUser *
 exchange_delegates_user_new_from_gc (E2kGlobalCatalog *gc,
-				     const char *email,
-				     GByteArray *creator_entryid)
+				    const char *email,
+		                    GByteArray *creator_entryid)
 {
 	E2kGlobalCatalogStatus status;
 	E2kGlobalCatalogEntry *entry;

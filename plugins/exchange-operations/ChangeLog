@@ -1,3 +1,29 @@
+2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* exchange-delegates-user.c: (map_to_full_role_name),
+	(em_utils_delegates_done), (exchange_delegates_user_edit):
+	* exchange-delegates-user.h:
+	* exchange-delegates.c: (add_button_clicked_cb),
+	(edit_button_clicked_cb), (email_look_up), (table_click_cb):
+	* exchange-delegates.glade:
+	* exchange-delegates.h:
+	* exchange-mail-send-options.c: (append_to_header):
+	* exchange-send-options.c:
+	(exchange_send_options_get_widgets_data), (get_widgets),
+	(exchange_send_options_fill_widgets_with_data),
+	(exchange_send_options_cb), (delegate_option_toggled),
+	(addressbook_dialog_response), (addressbook_entry_changed),
+	(address_button_clicked), (exchange_sendoptions_dialog_run),
+	(exchange_sendoptions_dialog_init):
+	* exchange-send-options.glade:
+	* exchange-send-options.h:
+	* org-gnome-exchange-operations.error.xml: Added the exchange
+	delegation support.								     
+
+	Committing on behalf of Bharath Acharya <abharath@novell.com>	
+							  
 2007-07-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* exchange-account-setup.c: (owa_authenticate_user): Form the password

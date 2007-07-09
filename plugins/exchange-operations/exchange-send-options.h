@@ -48,11 +48,18 @@ typedef enum {
 	E_SENSITIVITY_CONFIDENTIAL
 } ExchangeSendOptionsSensitivity;
 
+/* We require the delegate_email and delegate_name to store the address of the delegator selected into 
+   the destination store.
+*/
 typedef struct {
 	ExchangeSendOptionsImp importance;
 	ExchangeSendOptionsSensitivity sensitivity;
+	gboolean send_as_del_enabled;
 	gboolean delivery_enabled;
 	gboolean read_enabled;
+	const char *delegate_name;
+	const char *delegate_email;
+	const char *delegate_address;
 } ExchangeSendOptions ;
 
 struct _ExchangeSendOptionsDialog {

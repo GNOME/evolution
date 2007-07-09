@@ -26,9 +26,11 @@
 #include <glib/gi18n.h>
 
 #include <camel/camel-mime-message.h>
+#include <camel/camel-address.h>
 #include "mail/em-event.h"
 
 #include "composer/e-msg-composer.h"
+#include "composer/e-msg-composer-hdrs.h"
 #include "libedataserver/e-account.h"
 
 #include "exchange-send-options.h"
@@ -41,6 +43,10 @@ static void
 append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 {
 	EMsgComposer *composer;
+	EMsgComposerHdrs *hdrs;
+	CamelInternetAddress *sender_address;
+	const char *sender_id, *recipient_id;
+
 	composer = (EMsgComposer *)data;
 	if (state == GTK_RESPONSE_OK) {
 		if (dialog->options->importance) {
@@ -77,6 +83,44 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		}
 		else
 			e_msg_composer_remove_header (composer, "Sensitivity");
+			
+		hdrs = e_msg_composer_get_hdrs (composer);
+		sender_address = (CamelAddress *) e_msg_composer_hdrs_get_from (hdrs);
+		sender_id = (const char*) camel_address_encode (sender_address);
+	
+		struct _camel_header_address *addr = camel_header_address_decode (
+						dialog->options->delegate_address, NULL);
+
+		struct _camel_header_address *sender_addr = camel_header_address_decode (
+						sender_id, NULL);
+		
+ 		if(dialog->options->send_as_del_enabled && 
+			dialog->options->delegate_address && 
+				g_ascii_strcasecmp(addr->v.addr, sender_addr->v.addr)) {
+
+			e_msg_composer_modify_header (composer, "Sender" , sender_id);
+
+			/* This block handles the case wherein the address to be added 
+			 * in the "From" field has no name associated with it. 
+			 * So for cases where there is no name we append the address 
+			 * (only email) within angular braces.
+			 */
+			if(!g_ascii_strcasecmp (addr->name, "")) {
+				recipient_id = g_strdup_printf ("<%s>", 
+						dialog->options->delegate_address);
+				e_msg_composer_add_header (composer, "From", recipient_id);
+			}		
+			
+			else
+		       		e_msg_composer_add_header (composer, "From", 
+							dialog->options->delegate_address);	
+		}
+		
+		
+		else {
+			e_msg_composer_remove_header (composer, "Sender");
+			e_msg_composer_add_header (composer, "From", sender_id);
+		}
 
 		if (dialog->options->delivery_enabled) {
 			EMsgComposerHdrs *hdrs = e_msg_composer_get_hdrs(composer);
