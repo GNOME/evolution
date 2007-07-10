@@ -1,3 +1,8 @@
+2007-07-10  Sankar P  <psankar@novell.com>
+
+	* org-gnome-attachment-reminder.errors.xml:
+	Fixed Marking for Translation bugs
+
 2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* Makefile.am: Fix for build break from Johnny.
