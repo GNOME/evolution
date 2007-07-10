@@ -1,3 +1,69 @@
+Evolution 2.11.5 2007-07-09
+---------------------------
+
+New in 2.11.5:
+	Hook for plugging into Send/Receive dialog for the Evolution RSS plugin. (Srinivasa Ragavan)
+	Attachment reminder plugin (Johhny Jacob)
+	Tnef attachment plugin (Lucky Wankhede)
+	Exchange Delegation support (Bharath and Suman)
+	Improved email printing with support of most of the Gtk+ print options (Matthew Barnes)
+
+Bug fixes:
+	#271864: Junk and Trash folders now list number of selected emails
+	 correctly (Hiroyuki Ikezoe)
+	#307410: Fix prompting for IMAP password a second time after
+	 canceling first request (Milan Crha)
+	#312370: When loading images from an html message, the download
+	 status is shown correctly (B S Srinidhi)
+	#317281: Allow vFolder to search on the different states of a flag
+	 (Michael P. Lepore)
+	#321741: Default date for appointment or meeting is now set to
+	 current date (Milan Crha)
+	#328484: Changing the color of a calendar wasn't getting reflected
+	 correctly (Milan Crha)
+	#334118: Add EPlugin hook for checking just written mail (Johnny
+	 Jacob)
+	#334140: Fixed a crash when replying to a mail with "Automatic
+	 Contacts" are enabled (Milan Crha)
+	#337787: Fixed copy behavior in the Contact Preview Pane (Hiroyuki
+	 Ikezoe)
+	#347782: Fixed display of gpg/pgp encrypted error message as S/MIME
+	 (hggdh)
+	#352947: Fixed a crash when selecting a default S/MIME certificate
+	 (Milan Crha)
+	#387844: Fix invalid time and date values (Mayank Jain)
+	#433732: Location of perl binaries are now configurable (Laszlo
+	 (Laca) Peter)
+	#437892: Improve display of IMAP headers plugin's configuration
+	 window (Gilles Dartiguelongue)
+	#444882: Fixed configure options beautification (Gilles
+	 Dartiguelongue)
+	#445526: Sensitivity of alarm dialog widgets has been fixed (Milan
+	 Crha)
+	#446894: Clean up printing in Evolution's Mailer (Matthew Barnes)
+	#448568: Fixed alignment issue in the contact editor (Gilles
+	 Dartiguelongue & Vinod)
+	#448970: Fixed a crash during startup (Srinivasa Ragavan)
+	#449811: Fixed magic spacebar break when using caret mode (Srinivasa
+	 Ragavan)
+	#450820: Add an empty line at the beginning of the mail body when
+	 relpying a mail (Wang Xin)
+	#452900: Fixed the alignment of mail notification popup with tray
+	 icon (Cosimo Cecchi)
+	#453294: Fixed attachment name garble on locale 8859-1 (simon.zheng)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Nguyễn Thái Ngọc Duy (vi)
+	Priit Laes (et)
+	Clytie Siddall (vi)
+	Kjartan Maraas (nb)
+	Guilherme de S. Pastore (pt_BR)
+	I. Felix (si)
+	Daniel Nylander (sv)
+	Funda Wang (zh_CN)
+
+
 Evolution 2.11.4 2007-06-18
 ---------------------------
 
