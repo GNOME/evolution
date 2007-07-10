@@ -12,10 +12,10 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.es\n"
+"Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-09 21:10+0100\n"
-"PO-Revision-Date: 2007-07-10 10:57+0200\n"
+"PO-Revision-Date: 2007-07-10 11:04+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -16973,7 +16973,7 @@ msgstr "%A, %e de %B de %Y, %l:%M %p"
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:324
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%A %e de %B de %Y, %l:%M %p"
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:349
 #: ../plugins/itip-formatter/itip-view.c:437
@@ -17029,7 +17029,9 @@ msgstr "<b>%s</b> desea apuntarse a una reunión existente:"
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following meeting:"
-msgstr "<b>%s</b> desea recibir la última información de la siguiente reunión a través de %s:"
+msgstr ""
+"<b>%s</b> desea recibir la última información de la siguiente reunión "
+"a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
@@ -17130,7 +17132,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:474
 #, c-format
 msgid "<b>%s</b> through has sent back the following assigned task response:"
-msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la tarea asignada a través de %s:"
+msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la tarea asignada:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
 #, c-format
