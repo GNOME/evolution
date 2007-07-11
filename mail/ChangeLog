@@ -1,3 +1,8 @@
+2007-07-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-format-html-display.c: (efhd_attachment_button): Take warning
+	softly instead of a crash.
+
 2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>

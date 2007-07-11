@@ -1779,8 +1779,11 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	d(printf("adding attachment button/content\n"));
 
 	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
-	g_assert(info != NULL);
-	g_assert(info->forward == NULL);
+
+	if (!info || info->forward) {
+		g_warning ("unable to expand the attachment\n");
+		return TRUE;
+	}
 
 	if (efhd->priv->attachment_bar) {
 		file = camel_mime_part_get_filename(info->puri.part);
