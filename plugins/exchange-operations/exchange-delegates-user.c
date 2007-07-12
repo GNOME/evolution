@@ -23,10 +23,15 @@
 #include <config.h>
 #endif
 
+#include "exchange-delegates.h"
+#include "exchange-delegates-user.h"
+
 #include <mail/mail-ops.h>
 #include <mail/mail-component.h>
+#include <mail/mail-send-recv.h>
 #include <camel/camel-multipart.h>
-#include "exchange-delegates-user.h"
+#include <camel/camel-stream-mem.h>
+#include <exchange-account.h>
 #include <e2k-global-catalog.h>
 #include <e2k-marshal.h>
 #include <e2k-sid.h>
@@ -167,7 +172,7 @@ parent_window_destroyed (gpointer dialog, GObject *where_parent_window_was)
 
 /* Maps the role_nam parameter to their corresponding Full role name
 */
-const char *
+static const char *
 map_to_full_role_name (E2kPermissionsRole role_nam)
 {	
 	const char *role_name;

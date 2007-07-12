@@ -1,3 +1,8 @@
+2007-07-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* exchange-delegates-user.c:
+	Fix a bunch of new implicit function declarations.
+
 2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>
