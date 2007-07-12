@@ -19,7 +19,7 @@
 
 	Committing on behalf of Suman Manjunath <msuman@novell.com> 
 
-2006-08-31  Matthew Barnes  <mbarnes@redhat.com>
+2007-07-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/e-memos.c: (e_memos_setup_view_menus)
 	* gui/e-tasks.c: (e_tasks_setup_view_menus)

@@ -1,4 +1,4 @@
-2006-08-31  Matthew Barnes  <mbarnes@redhat.com>
+2007-07-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* table/e-table-specification.c: (e_table_specification_duplicate)
 	Return NULL if ETable specification string fails to load.

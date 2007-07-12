@@ -1,4 +1,4 @@
-2006-08-31  Matthew Barnes  <mbarnes@redhat.com>
+2007-07-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/widgets/e-addressbook-view.c: (init_collection)
 	Abort if ETable specification file fails to load.
