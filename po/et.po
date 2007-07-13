@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-10 03:30+0100\n"
-"PO-Revision-Date: 2007-06-24 19:01+0300\n"
+"PO-Revision-Date: 2007-07-07 21:00+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -436,8 +436,7 @@ msgstr "Serveri versioon"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
-msgstr ""
-"Mõned võimalused võivad sinu praeguse serveriga ebakorrektselt töötada"
+msgstr "Mõned võimalused võivad sinu praeguse serveriga ebakorrektselt töötada"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -12393,7 +12392,7 @@ msgstr "Otsingukausta allikas"
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Allows evolution to display text part of limited size"
-msgstr ""
+msgstr "Piiratud suurusega tekstiosa kuvamise lubamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:2
 msgid "Automatic link recognition"
@@ -12907,7 +12906,7 @@ msgstr "Ainult kohalike (mitte-DNS) rämpspostitestide kasutamine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:114
 msgid "Use side-by-side or wide layout"
-msgstr ""
+msgstr "Külg-külje kõrval paigutuse või laia paigutuse kasutamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:115
 msgid "Variable width font"
@@ -20210,7 +20209,7 @@ msgstr "Vor_ming"
 
 #: ../ui/evolution-message-composer.xml.h:9
 msgid "Get delivery notification when your message is read"
-msgstr ""
+msgstr "Kohaletoimetamise märguande saamine sinu sõnumi lugemise korral"
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
@@ -21346,6 +21345,8 @@ msgid ""
 "None\n"
 "Mail Receipt"
 msgstr ""
+"Puudub\n"
+"Kinnituse saatmine e-postiga"
 
 #: ../widgets/misc/e-send-options.glade.h:12
 msgid ""
