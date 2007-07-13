@@ -1,86 +1,86 @@
-# SOME DESCRIPTIVE TITLE.
+# translation of si.po to Sinhala
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+# Danishka Navin <snavin@redhat.com>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: si\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-05-31 03:18+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2007-07-12 17:40+0530\n"
+"Last-Translator: Danishka Navin <snavin@redhat.com>\n"
+"Language-Team: Sinhala <en@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:179
 msgid "evolution addressbook"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොත"
 
 #: ../a11y/addressbook/ea-minicard-view.c:33
 #: ../addressbook/gui/component/addressbook-component.c:228
 msgid "New Contact"
-msgstr ""
+msgstr "නව සම්බන්ධතාව"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:236
 msgid "New Contact List"
-msgstr ""
+msgstr "නව සම්බන්ධතා ලැයිස්තුව"
 
 #: ../a11y/addressbook/ea-minicard-view.c:162
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] ""
+msgstr[0] "දැනට ඇති ලිපින පොතේ %s බහලුම තුළ කාඩ් %d ඇත"
 msgstr[1] ""
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:13
 msgid "Open"
-msgstr ""
+msgstr "විවෘත කරන්න"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
-msgstr ""
+msgstr "සම්බන්ධතා ලැයිස්තුව"
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
-msgstr ""
+msgstr "සම්බන්ධතාව:"
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
-msgstr ""
+msgstr "ඉවෝලුශන් කුඩා කාඩ්පත"
 
 #: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
-msgstr ""
+msgstr "එය සතුව සංඥාවක් ඇත."
 
 #: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
-msgstr ""
+msgstr "එය සතුව පුනරාවර්තනයක් ඇත."
 
 #: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
-msgstr ""
+msgstr "එය සතුව රැස්වීමක් ඇත."
 
 #: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr ""
+msgstr "දිනදර්ශන සිදුවීම්: සාරාංශය %s වේ."
 
 #: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
-msgstr ""
+msgstr "දිනදර්ශන සිදුවීම්: එය සතුව සාරාංශය නැත."
 
 #: ../a11y/calendar/ea-cal-view-event.c:300
 msgid "calendar view event"
-msgstr ""
+msgstr "දිනදර්ශන සිදුවීම් දසුන"
 
 #: ../a11y/calendar/ea-cal-view-event.c:529
 msgid "Grab Focus"
@@ -88,23 +88,23 @@ msgstr ""
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
-msgstr ""
+msgstr "නව සම්මුතියක්"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "New All Day Event"
-msgstr ""
+msgstr "නව සියළුම දින සිදුවීම්"
 
 #: ../a11y/calendar/ea-cal-view.c:304
 msgid "New Meeting"
-msgstr ""
+msgstr "නව රැස්වීම්"
 
 #: ../a11y/calendar/ea-cal-view.c:305
 msgid "Go to Today"
-msgstr ""
+msgstr "අද දිනයට යන්න"
 
 #: ../a11y/calendar/ea-cal-view.c:306
 msgid "Go to Date"
-msgstr ""
+msgstr "දිනයට යන්න"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
@@ -117,14 +117,14 @@ msgstr ""
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "එය සතුව සුදුවීම් %d ඇත."
+msgstr[1] "එය සතුව සුදුවීම් %d ඇත."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../a11y/calendar/ea-day-view.c:155 ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
-msgstr ""
+msgstr "එය සතුව සුදුවීම් නැත."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
@@ -132,7 +132,7 @@ msgstr ""
 #: ../a11y/calendar/ea-day-view.c:162
 #, c-format
 msgid "Work Week View: %s. %s"
-msgstr ""
+msgstr "වැඩකරන සතියේ දසුන %s. %s"
 
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
@@ -140,20 +140,20 @@ msgstr ""
 #: ../a11y/calendar/ea-day-view.c:168
 #, c-format
 msgid "Day View: %s. %s"
-msgstr ""
+msgstr "දින දසුන: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:199
 msgid "calendar view for a work week"
-msgstr ""
+msgstr "වැඩකරන සතිය සඳහා දිනදර්ශන දසුන"
 
 #: ../a11y/calendar/ea-day-view.c:201
 msgid "calendar view for one or more days"
-msgstr ""
+msgstr "දින එකකට හෝ කිහිපයක් සඳහා දිනදර්ශන දසුන"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:188
 #: ../calendar/gui/calendar-component.c:713
 msgid "%A %d %b %Y"
-msgstr ""
+msgstr "%A %d %b %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -168,7 +168,7 @@ msgstr ""
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a %d %b"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:193
 #: ../a11y/calendar/ea-gnome-calendar.c:198
@@ -177,7 +177,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:723
 #: ../calendar/gui/calendar-component.c:725
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%a %d %b %Y"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:217
 #: ../a11y/calendar/ea-gnome-calendar.c:223
@@ -188,7 +188,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:750
 #: ../calendar/gui/calendar-component.c:752
 msgid "%d %b %Y"
-msgstr ""
+msgstr "%d %b %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -202,51 +202,51 @@ msgstr ""
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
-msgstr ""
+msgstr "%d %b"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:248
 #: ../a11y/calendar/ea-gnome-calendar.c:256
 #: ../calendar/importers/icalendar-importer.c:772
 msgid "Gnome Calendar"
-msgstr ""
+msgstr "Gnome දින දර්ශනය"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "search bar"
-msgstr ""
+msgstr "සෙවීමේ තිරුව"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:292
 msgid "evolution calendar search bar"
-msgstr ""
+msgstr "ඉවෝලුශන් දින දර්ශන සෙවීමේ තිරුව"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
-msgstr ""
+msgstr "පැන්නුම් බොත්තම"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr ""
+msgstr "මෙතැන ක්ලික් කරන්න, ඔබට බොහෝ සිදුවීම් සොයාගත හැක."
 
 #: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
-msgstr ""
+msgstr "මාස දසුන: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
-msgstr ""
+msgstr "සති දසුන: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
-msgstr ""
+msgstr "මාසයක් සඳහා දිනදර්ශන දසුන"
 
 #: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
-msgstr ""
+msgstr "සතියක් හෝ සති කිහිපයක් සඳහා දිනදර්ශන දසුන"
 
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
 msgid "popup"
-msgstr ""
+msgstr "උත්පතන"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
@@ -255,7 +255,7 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:614
 msgid "edit"
-msgstr ""
+msgstr "සැකසුම්"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:615
 msgid "begin editing this cell"
@@ -298,7 +298,7 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
-msgstr ""
+msgstr "ක්ලික්"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
@@ -307,28 +307,28 @@ msgstr ""
 #: ../a11y/widgets/ea-calendar-item.c:298
 #: ../a11y/widgets/ea-calendar-item.c:304
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #: ../a11y/widgets/ea-calendar-item.c:306
 #, c-format
 msgid "Calendar: from %s to %s"
-msgstr ""
+msgstr "දිනදර්ශනය: %s සිට %s දක්වා"
 
 #: ../a11y/widgets/ea-calendar-item.c:341
 msgid "evolution calendar item"
-msgstr ""
+msgstr "ඉවෝලුශන් දිනදර්ශන අයිතමය"
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
-msgstr ""
+msgstr "කොම්බෝ බොත්තම"
 
 #: ../a11y/widgets/ea-combo-button.c:50
 msgid "Activate Default"
-msgstr ""
+msgstr "පෙරනිමි සක්‍රීය කරන්න"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "උත්පතන මෙනුව"
 
 #: ../a11y/widgets/ea-expander.c:40
 msgid "Toggle Attachment Bar"
@@ -388,7 +388,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Error saving {0} to {1}: {2}"
-msgstr ""
+msgstr "{0},  {1} ලෙසට සුරකීම දෝෂයකි: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Failed to authenticate with LDAP server."
@@ -414,7 +414,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Server Version"
-msgstr ""
+msgstr "සේවාදායකයේ වෙළුම"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
@@ -425,8 +425,7 @@ msgid "The Evolution addressbook has quit unexpectedly."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:20
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
+msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:21
@@ -460,19 +459,19 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
-msgstr ""
+msgstr "ලිපින පොත විවෘත කළ නොහැක"
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
-msgstr ""
+msgstr "සෙවීම ක්‍රියාත්මක කළ නොහැක."
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to save {0}."
-msgstr ""
+msgstr "{0} සුරකිය නොහැක."
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Would you like to save your changes?"
-msgstr ""
+msgstr "ඔබගේ වෙනස්කම් සුරකීමට ඔබ කැමතිද?"
 
 #: ../addressbook/addressbook.error.xml.h:31
 msgid ""
@@ -494,8 +493,7 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:34
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:510
@@ -503,43 +501,43 @@ msgstr ""
 #: ../plugins/groupwise-features/properties.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
-msgstr ""
+msgstr "එක් කරන්න (_A)"
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "_Discard"
-msgstr ""
+msgstr "ඉවත් කරන්න (_D)"
 
 #: ../addressbook/addressbook.error.xml.h:37
 msgid "_Do not save"
-msgstr ""
+msgstr "නොසුරකින්න (_D)"
 
 #: ../addressbook/addressbook.error.xml.h:38
 msgid "_Resize"
-msgstr ""
+msgstr "ප්‍රමාණය ප්‍රථිසකසන්න (_R)"
 
 #: ../addressbook/addressbook.error.xml.h:39
 msgid "_Use as it is"
-msgstr ""
+msgstr "එලෙසම භාවිතා කරන්න (_U)"
 
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
 #: ../addressbook/addressbook.error.xml.h:41
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #. For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT")
 #: ../addressbook/addressbook.error.xml.h:43
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:298
 msgid "Default Sync Address:"
-msgstr ""
+msgstr "පෙරනිමි සමකාලික ලිපිනය:"
 
 #: ../addressbook/conduit/address-conduit.c:1315
 #: ../addressbook/conduit/address-conduit.c:1316
 msgid "Could not load addressbook"
-msgstr ""
+msgstr "ලිපින පොත පූරණය කළ නොහැකි විය"
 
 #: ../addressbook/conduit/address-conduit.c:1393
 #: ../addressbook/conduit/address-conduit.c:1396
@@ -548,7 +546,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr ""
+msgstr "ස්වයංක්‍රීය නිමාව"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
@@ -556,11 +554,11 @@ msgstr ""
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr ""
+msgstr "සහතික"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
-msgstr ""
+msgstr "මෙහි ස්වයංක්‍රීය නිමාව මානකරණය කරන්න"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
@@ -568,11 +566,11 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:277 ../calendar/gui/migration.c:402
 #: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
-msgstr ""
+msgstr "සබැදි"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 msgid "Evolution Address Book"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොත"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Address Book address pop-up"
@@ -613,7 +611,7 @@ msgstr ""
 #: ../mail/em-folder-tree-model.c:201 ../mail/mail-component.c:300
 #: ../mail/mail-vfolder.c:223
 msgid "On This Computer"
-msgstr ""
+msgstr "මෙම පරිගණකය මත"
 
 #. Create the default Person addressbook
 #. Create the default Person calendar
@@ -630,13 +628,13 @@ msgstr ""
 #: ../calendar/gui/tasks-component.c:204 ../filter/filter-label.c:122
 #: ../mail/em-migrate.c:1055 ../mail/mail-config.glade.h:104
 msgid "Personal"
-msgstr ""
+msgstr "පෞද්ගලික"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:162
 #: ../addressbook/gui/component/addressbook-migrate.c:506
 msgid "On LDAP Servers"
-msgstr ""
+msgstr "LDAP සේවාදායකය මත"
 
 #: ../addressbook/gui/component/addressbook-component.c:229
 msgid "_Contact"
@@ -657,15 +655,15 @@ msgstr ""
 #: ../addressbook/gui/component/addressbook-component.c:244
 #: ../addressbook/gui/component/addressbook-config.c:1208
 msgid "New Address Book"
-msgstr ""
+msgstr "නව ලිපින පොත"
 
 #: ../addressbook/gui/component/addressbook-component.c:245
 msgid "Address _Book"
-msgstr ""
+msgstr "ලිපින පොත (_B)"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
-msgstr ""
+msgstr "නව ලිපින පොතක් නිර්මාණය කරන්න"
 
 #: ../addressbook/gui/component/addressbook-component.c:409
 msgid "Failed upgrading Address Book settings or folders."
@@ -673,12 +671,12 @@ msgstr ""
 
 #: ../addressbook/gui/component/addressbook-config.c:332
 msgid "Base"
-msgstr ""
+msgstr "පාදම"
 
 #: ../addressbook/gui/component/addressbook-config.c:533
 #: ../calendar/gui/dialogs/calendar-setup.c:172
 msgid "_Type:"
-msgstr ""
+msgstr "වර්‍ගය: (_T)"
 
 #: ../addressbook/gui/component/addressbook-config.c:635
 msgid "Copy book content locally for offline operation"
@@ -694,41 +692,41 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:2087
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
-msgstr ""
+msgstr "සාමාන්‍ය"
 
 #: ../addressbook/gui/component/addressbook-config.c:985
 #: ../addressbook/gui/widgets/e-addressbook-view.c:564
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
-msgstr ""
+msgstr "ලිපින පොත"
 
 #: ../addressbook/gui/component/addressbook-config.c:989
 msgid "Server Information"
-msgstr ""
+msgstr "සේවාදායකයේ තොරතුරු"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
 msgid "Authentication"
-msgstr ""
+msgstr "තහවුරු කර ගැනීම"
 
 #: ../addressbook/gui/component/addressbook-config.c:994
 #: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
-msgstr ""
+msgstr "විස්තර"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
 #: ../mail/em-folder-browser.c:853
 msgid "Searching"
-msgstr ""
+msgstr "සොයමින්"
 
 #: ../addressbook/gui/component/addressbook-config.c:997
 msgid "Downloading"
-msgstr ""
+msgstr "භාගත වෙමින්"
 
 #: ../addressbook/gui/component/addressbook-config.c:1206
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
-msgstr ""
+msgstr "ලිපින පොතේ වත්කම්"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:73
 #: ../calendar/gui/migration.c:155 ../mail/em-migrate.c:1202
@@ -743,7 +741,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/addressbook-migrate.c:634
 msgid "LDAP Servers"
-msgstr ""
+msgstr "LDAP සේවාදායකය"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:749
 msgid "Autocompletion Settings"
@@ -782,25 +780,25 @@ msgstr ""
 #: ../mail/em-folder-utils.c:503
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "\"%s\" ලෙසට බහලුමේ නම වෙනස් කරන්න:"
 
 #: ../addressbook/gui/component/addressbook-view.c:437
 #: ../mail/em-folder-utils.c:505
 msgid "Rename Folder"
-msgstr ""
+msgstr "බහලුමේ නම වෙනස් කරන්න"
 
 #: ../addressbook/gui/component/addressbook-view.c:442
 #: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
-msgstr ""
+msgstr "බහලුම් නම තුළ '/' අඩංගු විය නොහැක"
 
 #: ../addressbook/gui/component/addressbook-view.c:445
 msgid "A Folder with this name already exists"
-msgstr ""
+msgstr "මෙම නමින් බහලුමක් දැනටමත් ඇත"
 
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "_New Address Book"
-msgstr ""
+msgstr "නව ලිපින පොත (_N)"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
@@ -814,17 +812,17 @@ msgstr ""
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
-msgstr ""
+msgstr "මකන්න (_D)"
 
 #: ../addressbook/gui/component/addressbook-view.c:959
 msgid "Save As Vcard..."
-msgstr ""
+msgstr "Vcard ලෙස සුරකින්න..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
 #: ../calendar/gui/calendar-component.c:591
 #: ../calendar/gui/memos-component.c:459 ../calendar/gui/tasks-component.c:450
 msgid "_Properties..."
-msgstr ""
+msgstr "වත්කම්... (_P)"
 
 #: ../addressbook/gui/component/addressbook-view.c:1349
 msgid "Contact Source Selector"
@@ -892,39 +890,39 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:2
 msgid "3268"
-msgstr ""
+msgstr "3268"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:3
 msgid "389"
-msgstr ""
+msgstr "389"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:4
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:5
 msgid "636"
-msgstr ""
+msgstr "636"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:6
 msgid "<b>Authentication</b>"
-msgstr ""
+msgstr "<b>තහවුරු කර ගැනීම</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
 msgid "<b>Display</b>"
-msgstr ""
+msgstr "<b>සංදර්ශනය</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
-msgstr ""
+msgstr "<b>භාගත වෙමින්</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Searching</b>"
-msgstr ""
+msgstr "<b>සොයමින්</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "<b>Server Information</b>"
@@ -932,16 +930,16 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "<b>Type:</b>"
-msgstr ""
+msgstr "<b>වර්‍ග:</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:12
 msgid "Add Address Book"
-msgstr ""
+msgstr "ලිපින පොත එක් කරන්න"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 #: ../mail/em-account-editor.c:777
 msgid "Always"
-msgstr ""
+msgstr "සැමවිටම"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "Anonymously"
@@ -949,7 +947,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
-msgstr ""
+msgstr "මූළික"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid "Distinguished name"
@@ -957,11 +955,10 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Email address"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල් ලිපිනය"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
@@ -970,12 +967,12 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 msgid "Lo_gin:"
-msgstr ""
+msgstr "පිවිසුම (_g):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 #: ../mail/em-account-editor.c:776
 msgid "Never"
-msgstr ""
+msgstr "කිසිදාක නැත"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
@@ -986,7 +983,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
-msgstr ""
+msgstr "එක"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
@@ -998,11 +995,11 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
-msgstr ""
+msgstr "සෙවිම් පෙරණය"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
-msgstr ""
+msgstr "සෙවීමේ පදනම් (_b):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
@@ -1115,11 +1112,11 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Add Address Book"
-msgstr ""
+msgstr "ලිපින පොත එක් කරන්න (_A)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
-msgstr ""
+msgstr "භාගත කිරීමේ සීමාව (_D):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
@@ -1127,18 +1124,18 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
-msgstr ""
+msgstr "පිවිසුම් ආකාරය (_L):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:225
 #: ../mail/mail-config.glade.h:164
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Name:"
-msgstr ""
+msgstr "නම (_N):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:54
 msgid "_Port:"
-msgstr ""
+msgstr "තොට (_P):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Search scope:"
@@ -1148,11 +1145,11 @@ msgstr ""
 #: ../mail/mail-config.glade.h:171
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
-msgstr ""
+msgstr "සේවාදායකය (_S):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
-msgstr ""
+msgstr "කාලය ඉකුත් ඉවිය (_T):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
@@ -1160,7 +1157,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
-msgstr ""
+msgstr "කාඩ්"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
@@ -1170,23 +1167,23 @@ msgstr ""
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:561
 msgid "minutes"
-msgstr ""
+msgstr "මිනිත්තු"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "<b>Email</b>"
-msgstr ""
+msgstr "<b>විද්‍යුත් තැපැල</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Home</b>"
-msgstr ""
+msgstr "<b>නිවස</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Instant Messaging</b>"
-msgstr ""
+msgstr "<b>ක්‍ෂණික පණිවිඩ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Job</b>"
-msgstr ""
+msgstr "<b>කාර්‍යය</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "<b>Miscellaneous</b>"
@@ -1194,25 +1191,25 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>වෙනත්</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Telephone</b>"
-msgstr ""
+msgstr "<b>දුරකතනය</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "<b>Web Addresses</b>"
-msgstr ""
+msgstr "<b>වෙබ් ලිපිනය</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Work</b>"
-msgstr ""
+msgstr "<b>වැඩ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
 #: ../addressbook/gui/widgets/eab-contact-display.c:551
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:274
@@ -1220,7 +1217,7 @@ msgstr ""
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:194
 msgid "Contact"
-msgstr ""
+msgstr "සම්බන්දතාව"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:551
@@ -1231,20 +1228,20 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Full _Name..."
-msgstr ""
+msgstr "සම්පූර්ණ නම... (_N)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Image"
-msgstr ""
+msgstr "පිළිඹිබු"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:68
 msgid "MSN Messenger"
-msgstr ""
+msgstr "MSN පණිවිඩකරු"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Mailing Address"
-msgstr ""
+msgstr "තැපැල් ලිපිනය"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
 msgid "Ni_ckname:"
@@ -1257,11 +1254,11 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Personal Information"
-msgstr ""
+msgstr "පෞද්ගලික තොරතුරු"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Telephone"
-msgstr ""
+msgstr "දුරකතනය"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
@@ -1272,11 +1269,11 @@ msgstr ""
 #: ../filter/filter-label.c:121 ../mail/em-migrate.c:1054
 #: ../mail/mail-config.glade.h:153
 msgid "Work"
-msgstr ""
+msgstr "වැඩ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "_Address: "
-msgstr ""
+msgstr "ලිපිනය (_A): "
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Anniversary:"
@@ -1299,11 +1296,11 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "_Categories..."
-msgstr ""
+msgstr "ප්‍රභේද... (_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_City:"
-msgstr ""
+msgstr "නගරය: (_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Company:"
@@ -1357,12 +1354,12 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_State/Province:"
-msgstr ""
+msgstr "ප්‍රාන්තය/පළාත: (_S)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Title:"
-msgstr ""
+msgstr "සිරස්තලය: (_T)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Video Chat:"
@@ -1389,7 +1386,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-contact-display.c:577
 #: ../addressbook/gui/widgets/eab-contact-display.c:592
 msgid "Address"
-msgstr ""
+msgstr "ලිපිනය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:104
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:96
@@ -1407,131 +1404,131 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1264 ../widgets/text/e-text.c:3609
 #: ../widgets/text/e-text.c:3610
 msgid "Editable"
-msgstr ""
+msgstr "සැකසිය හැකි"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "United States"
-msgstr ""
+msgstr "එක්සත් ජනපද"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
 msgid "Afghanistan"
-msgstr ""
+msgstr "ඇෆ්ගනිස්තාන"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "Albania"
-msgstr ""
+msgstr "ඇල්බෙනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Algeria"
-msgstr ""
+msgstr "ඇල්ජිරියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "American Samoa"
-msgstr ""
+msgstr "ඇමරිකානු සැමෝවා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Andorra"
-msgstr ""
+msgstr "ඇන්ඩොර්රා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Angola"
-msgstr ""
+msgstr "ඇන්ගෝලා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Anguilla"
-msgstr ""
+msgstr "ඇන්ගුලියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antarctica"
-msgstr ""
+msgstr "ඇන්ටාක්ටිකා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "ඇන්ටිගුවා සහ බර්මියුඩා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Argentina"
-msgstr ""
+msgstr "අර්ජන්ටිනා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
 msgid "Armenia"
-msgstr ""
+msgstr "අර්මෙනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
 msgid "Aruba"
-msgstr ""
+msgstr "අරුබා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
 msgid "Australia"
-msgstr ""
+msgstr "ඔස්ට්‍රේලියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Austria"
-msgstr ""
+msgstr "ඔස්ට්‍රියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Azerbaijan"
-msgstr ""
+msgstr "අසාර්බයිජාන"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Bahamas"
-msgstr ""
+msgstr "බහමාස්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Bahrain"
-msgstr ""
+msgstr "බහරෙන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Bangladesh"
-msgstr ""
+msgstr "බංගලාදේෂය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Barbados"
-msgstr ""
+msgstr "බර්බඩෝස්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
 msgid "Belarus"
-msgstr ""
+msgstr "බෙලරස්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Belgium"
-msgstr ""
+msgstr "බෙලජියම"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
 msgid "Belize"
-msgstr ""
+msgstr "බෙලිසිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Benin"
-msgstr ""
+msgstr "බෙනින්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
 msgid "Bermuda"
-msgstr ""
+msgstr "බර්මියුඩාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Bhutan"
-msgstr ""
+msgstr "බුතානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Bolivia"
-msgstr ""
+msgstr "බොල්වියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "බොස්නියාව සහ හර්සෙගොවිනාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Botswana"
-msgstr ""
+msgstr "බොස්ට්වානා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Bouvet Island"
-msgstr ""
+msgstr "බොවෙට දිවයින"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Brazil"
-msgstr ""
+msgstr "බ්‍රසීලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "British Indian Ocean Territory"
@@ -1539,35 +1536,35 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "බරුනායි ඩරුස්සාලම"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Bulgaria"
-msgstr ""
+msgstr "බල්ගේරියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Burkina Faso"
-msgstr ""
+msgstr "බර්කිනා ෆාසෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Burundi"
-msgstr ""
+msgstr "බුරුන්ඩි"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
 msgid "Cambodia"
-msgstr ""
+msgstr "කැම්බොඩියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Cameroon"
-msgstr ""
+msgstr "කැමරුන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Canada"
-msgstr ""
+msgstr "කැනඩාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cape Verde"
-msgstr ""
+msgstr "කේප් තුඩුව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Cayman Islands"
@@ -2384,78 +2381,78 @@ msgstr ""
 #: ../plugins/save-attachments/save-attachments.c:366
 #: ../widgets/menus/gal-view-new-dialog.c:73
 msgid "Name"
-msgstr ""
+msgstr "නම"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "AOL Instant Messenger"
-msgstr ""
+msgstr "AOL ක්‍ෂණික පණිවිඩකරු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:554
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:66
 msgid "Yahoo Messenger"
-msgstr ""
+msgstr "Yahoo පණිවිඩකරු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
 msgid "Gadu-Gadu Messenger"
-msgstr ""
+msgstr "Gadu-Gadu පණිවිඩකරු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:69
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/widgets/eab-contact-display.c:553
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:121
 msgid "Service"
-msgstr ""
+msgstr "සේවාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:130
 #: ../calendar/gui/e-cal-list-view.etspec.h:3 ../mail/message-list.etspec.h:8
 #: ../plugins/publish-calendar/publish-calendar.c:497
 #: ../plugins/save-calendar/csv-format.c:400
 msgid "Location"
-msgstr ""
+msgstr "පිහිටීම"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:137
 msgid "Username"
-msgstr ""
+msgstr "පරිශීලක නම"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:204
 #: ../addressbook/gui/widgets/eab-contact-display.c:58
 msgid "Home"
-msgstr ""
+msgstr "නිවස"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:242
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:205
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
 msgid "Other"
-msgstr ""
+msgstr "වෙනත්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:556
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:557
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:555
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:191
 #: ../addressbook/gui/widgets/eab-contact-display.c:552
 msgid "GroupWise"
-msgstr ""
+msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:260
 msgid "Source Book"
@@ -2479,7 +2476,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:309
 msgid "Changed"
-msgstr ""
+msgstr "වෙනස්විය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:561
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
@@ -2531,15 +2528,15 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:336
 msgid "_Full name"
-msgstr ""
+msgstr "සම්පූර්ණ නම (_F)"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
 msgid "E_mail"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල (_m)"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:358
 msgid "_Select Address Book"
-msgstr ""
+msgstr "ලිපින පොත තෝරන්න (_S)"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:322
 #, c-format
@@ -2569,88 +2566,88 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
-msgstr ""
+msgstr "ලිපිනය _2:"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Ci_ty:"
-msgstr ""
+msgstr "නගතය (_t):"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Countr_y:"
-msgstr ""
+msgstr "රට (_y):"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Full Address"
-msgstr ""
+msgstr "සම්පූර්ණ ලිපිනය"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "_Address:"
-msgstr ""
+msgstr "ලිපිනය (_A):"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
-msgstr ""
+msgstr "තැපැල් කේතය (_Z):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:1
 msgid "Dr."
-msgstr ""
+msgstr "Dr."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Full Name"
-msgstr ""
+msgstr "සම්පූර්ණ නම"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:4
 msgid "I"
-msgstr ""
+msgstr "I"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "II"
-msgstr ""
+msgstr "II"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:6
 msgid "III"
-msgstr ""
+msgstr "III"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:8
 msgid "Miss"
-msgstr ""
+msgstr "Miss"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Mr."
-msgstr ""
+msgstr "Mr."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:10
 msgid "Mrs."
-msgstr ""
+msgstr "Mrs."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Ms."
-msgstr ""
+msgstr "Ms."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Sr."
-msgstr ""
+msgstr "Sr."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "_First:"
-msgstr ""
+msgstr "පළමු (_F):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_Last:"
-msgstr ""
+msgstr "අවසාන (_L):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Middle:"
-msgstr ""
+msgstr "මධ්‍ය (_M):"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Suffix:"
@@ -2662,11 +2659,11 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/im.glade.h:2
 msgid "_Account name:"
-msgstr ""
+msgstr "ගිණුමේ නම (_A):"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:3
 msgid "_IM Service:"
-msgstr ""
+msgstr "_IM සේවාව:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
@@ -2674,11 +2671,11 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-calendar.c:242
 #: ../plugins/exchange-operations/exchange-contacts.c:234
 msgid "_Location:"
-msgstr ""
+msgstr "පිහිටීම (_L):"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Add an email to the List"
@@ -2695,7 +2692,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "Members"
-msgstr ""
+msgstr "සාමාජිකයන්"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "Remove an email address from the List"
@@ -2707,11 +2704,11 @@ msgstr ""
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_List name:"
-msgstr ""
+msgstr "නම් ලැයිස්තු ගතකරන්න (_L):"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_Select"
-msgstr ""
+msgstr "තෝරන්න (_S)"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
@@ -2724,15 +2721,15 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
-msgstr ""
+msgstr "පොත"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:181
 msgid "Is New List"
-msgstr ""
+msgstr "නව ලැයිස්තුව"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:759
 msgid "_Members"
-msgstr ""
+msgstr "සාමාජිකයන් (_M)"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
 msgid "Contact List Members"
@@ -2786,7 +2783,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-contact-display.c:780
 #: ../plugins/groupwise-features/junk-settings.c:425 ../smime/lib/e-cert.c:827
 msgid "Email"
-msgstr ""
+msgstr "විද්‍යුත් තැපෑල"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
@@ -2835,7 +2832,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1207 ../widgets/text/e-entry.c:1208
 #: ../widgets/text/e-text.c:3473 ../widgets/text/e-text.c:3474
 msgid "Model"
-msgstr ""
+msgstr "ආකෘතිය"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:104
 msgid "Error modifying card"
@@ -2843,7 +2840,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:231
 msgid "Source"
-msgstr ""
+msgstr "මූලය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:245
 #: ../calendar/gui/e-calendar-table.etspec.h:13
@@ -2851,13 +2848,13 @@ msgstr ""
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:6
 msgid "Type"
-msgstr ""
+msgstr "වර්‍ගය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:835
 #: ../addressbook/gui/widgets/e-addressbook-view.c:2072
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
-msgstr ""
+msgstr "Vcard ලෙස සුරකින්න..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:956
 #: ../calendar/gui/dialogs/comp-editor.c:1121
@@ -2865,7 +2862,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-view.c:1679 ../calendar/gui/e-memo-table.c:902
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
-msgstr ""
+msgstr "විවෘත කරන්න (_O)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:958
 msgid "_New Contact..."
@@ -2877,7 +2874,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:962
 msgid "_Save as VCard..."
-msgstr ""
+msgstr "Vcard ලෙස සුරකින්න... (_S)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "_Forward Contact"
@@ -2901,7 +2898,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "_Print"
-msgstr ""
+msgstr "මුද්‍රණය (_P)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "Cop_y to Address Book..."
@@ -2914,7 +2911,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-view.c:975
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
-msgstr ""
+msgstr "කපන්න (_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:976
 #: ../calendar/gui/calendar-component.c:589
@@ -2929,23 +2926,23 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
 #: ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
-msgstr ""
+msgstr "පිටපත් කරන්න (_C)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "P_aste"
-msgstr ""
+msgstr "අලවන්න (_a)"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1659
 #: ../calendar/gui/cal-search-bar.c:428
 msgid "Any Category"
-msgstr ""
+msgstr "ඕනැම ප්‍රභේදයක්"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1853
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid "Other error"
-msgstr ""
+msgstr "වෙනත් දෝෂයක්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:571
@@ -2995,11 +2992,11 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 2"
-msgstr ""
+msgstr "විද්‍යුත් තැපෑල 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 3"
-msgstr ""
+msgstr "විද්‍යුත් තැපෑල 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Family Name"
@@ -3051,11 +3048,11 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 #: ../addressbook/gui/widgets/eab-contact-display.c:604
 msgid "Note"
-msgstr ""
+msgstr "සටහන"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Office"
-msgstr ""
+msgstr "කාර්‍යාලිය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:28
 msgid "Other Fax"
@@ -3097,7 +3094,7 @@ msgstr ""
 #. different and established translation for this in your language.
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
@@ -3105,11 +3102,11 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
-msgstr ""
+msgstr "සිරස්තලය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
-msgstr ""
+msgstr "ඒකකය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Web Site"
@@ -3129,7 +3126,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
 #: ../widgets/text/e-text.c:3651 ../widgets/text/e-text.c:3652
 msgid "Width"
-msgstr ""
+msgstr "පළල"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:157
@@ -3144,7 +3141,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:3030 ../widgets/table/e-table-item.c:3031
 #: ../widgets/text/e-text.c:3659 ../widgets/text/e-text.c:3660
 msgid "Height"
-msgstr ""
+msgstr "උස"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
 #: ../addressbook/gui/widgets/e-minicard.c:165
@@ -3270,7 +3267,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:569
 msgid "Position"
-msgstr ""
+msgstr "පිහිටීම"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Video Chat"
@@ -3289,7 +3286,7 @@ msgstr ""
 #: ../plugins/hula-account-setup/camel-hula-listener.c:407
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
 msgid "Calendar"
-msgstr ""
+msgstr "දින දර්ශණය"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:574
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
@@ -3338,7 +3335,7 @@ msgstr ""
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:51
 msgid "Success"
-msgstr ""
+msgstr "සාර්ථකයි"
 
 #. E_BOOK_ERROR_INVALID_ARG
 #. E_BOOK_ERROR_BUSY
@@ -3367,7 +3364,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Permission denied"
-msgstr ""
+msgstr "අවසර වලකා ඇත"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: ../addressbook/gui/widgets/eab-gui-util.c:60
@@ -3554,7 +3551,7 @@ msgstr[1] ""
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:427
 msgid "card.vcf"
-msgstr ""
+msgstr "card.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:464
 msgid "Select Address Book"
@@ -3562,7 +3559,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:605
 msgid "list"
-msgstr ""
+msgstr "ලැයිස්තුව"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:771
 msgid "Move contact to"
@@ -3637,27 +3634,27 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "Outlook CSV හෝ Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
 msgid "Outlook CSV and Tab Importer"
-msgstr ""
+msgstr "Outlook CSV සහ Tab Importer"
 
 #: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "Mozilla CSV හෝ Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
 msgid "Mozilla CSV and Tab Importer"
-msgstr ""
+msgstr "Mozilla CSV සහ Tab Importer"
 
 #: ../addressbook/importers/evolution-csv-importer.c:844
 msgid "Evolution CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "ඉවෝලුශන් CSV හෝ Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
-msgstr ""
+msgstr "ඉවෝලුශන් CSV සහ Tab Importer"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -3669,7 +3666,7 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-vcard-importer.c:547
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:548
 msgid "Evolution VCard Importer"
@@ -3677,11 +3674,11 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
-msgstr ""
+msgstr "10 pt. Tahoma"
 
 #: ../addressbook/printing/e-contact-print.glade.h:2
 msgid "8 pt. Tahoma"
-msgstr ""
+msgstr "8 pt. Tahoma"
 
 #: ../addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
@@ -3705,7 +3702,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr ""
+msgstr "අකුරු"
 
 #: ../addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
@@ -3713,7 +3710,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
-msgstr ""
+msgstr "සංයුතිය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
 #: ../widgets/table/e-table-click-to-add.c:495
@@ -3739,7 +3736,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
-msgstr ""
+msgstr "උස:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
@@ -3751,11 +3748,11 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
-msgstr ""
+msgstr "දිගටි හැඩය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
-msgstr ""
+msgstr "වම:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
@@ -3763,7 +3760,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
-msgstr ""
+msgstr "සීමා"
 
 #: ../addressbook/printing/e-contact-print.glade.h:22
 msgid "Number of columns:"
@@ -3771,15 +3768,15 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:23
 msgid "Options"
-msgstr ""
+msgstr "විකල්ප"
 
 #: ../addressbook/printing/e-contact-print.glade.h:24
 msgid "Orientation"
-msgstr ""
+msgstr "දිශානතිය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:25
 msgid "Page"
-msgstr ""
+msgstr "පෛටුව"
 
 #: ../addressbook/printing/e-contact-print.glade.h:26
 msgid "Page Setup:"
@@ -3787,7 +3784,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
-msgstr ""
+msgstr "කඩදාසි"
 
 #: ../addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
@@ -3795,7 +3792,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
-msgstr ""
+msgstr "නිරුපණය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
@@ -3827,7 +3824,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
-msgstr ""
+msgstr "ප්‍රමාණය:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:37
 msgid "Start on a new page"
@@ -3839,20 +3836,20 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:39
 msgid "Top:"
-msgstr ""
+msgstr "ඉහළ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
 #: ../calendar/gui/dialogs/calendar-setup.c:156
 msgid "Type:"
-msgstr ""
+msgstr "වර්‍ගය:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:41
 msgid "Width:"
-msgstr ""
+msgstr "පළල:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr ""
+msgstr "අක්‍ෂර... (_F)"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
@@ -3921,11 +3918,10 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:65
 msgid "NUMBER"
-msgstr ""
+msgstr "NUMBER"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:102
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:116
@@ -3963,8 +3959,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:4
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:5
@@ -3978,8 +3973,7 @@ msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:7
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:8
@@ -3989,8 +3983,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:9
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:10
@@ -4087,8 +4080,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:32
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
+msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:33
@@ -4266,11 +4258,11 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:59
 msgid "_Save"
-msgstr ""
+msgstr "සුරකින්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:72
 msgid "_Save Changes"
-msgstr ""
+msgstr "වෙනස්කම් ආර්ක්‍ෂා කරන්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:73
 #: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:139
@@ -4334,7 +4326,7 @@ msgstr ""
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 #: ../plugins/itip-formatter/itip-formatter.c:2078
 msgid "Calendar and Tasks"
-msgstr ""
+msgstr "දිනදර්ශනය සහ කාර්‍යයන්"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 #: ../calendar/gui/calendar-component.c:1367
@@ -4347,7 +4339,7 @@ msgstr ""
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks"
-msgstr ""
+msgstr "ඉවෝලුෂන් දිනදර්ශනය සහ කාර්‍යයන්"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Evolution Calendar configuration control"
@@ -4398,16 +4390,16 @@ msgstr ""
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:541
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
-msgstr ""
+msgstr "වැඩ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 msgid "_Calendars"
-msgstr ""
+msgstr "දිනදර්ශන (_C)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:15
 #: ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr ""
+msgstr "වැඩ (_T)"
 
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
@@ -4416,8 +4408,8 @@ msgstr ""
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "මිනිත්තු"
+msgstr[1] "මිනිත්තු"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:131
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
@@ -4427,17 +4419,17 @@ msgstr[1] ""
 #: ../plugins/calendar-weather/calendar-weather.c:562
 msgid "hours"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "පැය"
+msgstr[1] "පැය"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
 msgid "Start time"
-msgstr ""
+msgstr "ආරම්භක වේලාව"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
-msgstr ""
+msgstr "හමුවීමේ තොරතුරු"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
@@ -4446,7 +4438,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1145
 #: ../plugins/itip-formatter/itip-view.c:943
 msgid "Location:"
-msgstr ""
+msgstr "පිහිටීම:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
@@ -4465,7 +4457,7 @@ msgstr ""
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:41
 msgid "_Edit"
-msgstr ""
+msgstr "සැකසුම් (_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
@@ -4497,7 +4489,7 @@ msgstr ""
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1654
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1682
 msgid "Warning"
-msgstr ""
+msgstr "අවවාදය"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1658
 msgid ""
@@ -4540,8 +4532,8 @@ msgstr ""
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "පැය %d යි"
+msgstr[1] "පැය %d යි"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
@@ -4549,8 +4541,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "විනාඩි %d යි"
+msgstr[1] "විනාඩි %d යි"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
@@ -4560,8 +4552,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "තත්පර %d යි"
+msgstr[1] "තත්පර %d යි"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
@@ -4584,8 +4576,7 @@ msgid "Calendars to run alarms for"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
@@ -4855,8 +4846,7 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
@@ -4890,8 +4880,7 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
@@ -4919,8 +4908,7 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:85
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
@@ -4985,13 +4973,13 @@ msgstr ""
 
 #: ../calendar/gui/cal-search-bar.c:432
 msgid "Unmatched"
-msgstr ""
+msgstr "නොගැලපුනු"
 
 #: ../calendar/gui/calendar-commands.c:99 ../ui/evolution-addressbook.xml.h:26
 #: ../ui/evolution-calendar.xml.h:20 ../ui/evolution-mail-message.xml.h:75
 #: ../ui/evolution-memos.xml.h:11 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
-msgstr ""
+msgstr "මුද්‍රණය"
 
 #: ../calendar/gui/calendar-commands.c:324
 msgid ""
@@ -5010,7 +4998,7 @@ msgstr ""
 #: ../plugins/calendar-weather/calendar-weather.c:563
 #: ../widgets/misc/e-send-options.glade.h:38
 msgid "days"
-msgstr ""
+msgstr "දින"
 
 #. Create the On the web source group
 #. Create the LDAP source group
@@ -5021,7 +5009,7 @@ msgstr ""
 #: ../calendar/gui/migration.c:609 ../calendar/gui/migration.c:1122
 #: ../calendar/gui/tasks-component.c:223
 msgid "On The Web"
-msgstr ""
+msgstr "වෙබ් අඩවිය මත"
 
 #: ../calendar/gui/calendar-component.c:283 ../calendar/gui/migration.c:405
 msgid "Birthdays & Anniversaries"
@@ -5035,7 +5023,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:588
 msgid "_New Calendar"
-msgstr ""
+msgstr "නව දිනදර්ශනය (_N)"
 
 #: ../calendar/gui/calendar-component.c:905
 msgid "Failed upgrading calendars."
@@ -5072,7 +5060,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1559
 msgid "M_eeting"
-msgstr ""
+msgstr "රැස්වීම (_e)"
 
 #: ../calendar/gui/calendar-component.c:1560
 msgid "Create a new meeting request"
@@ -5084,7 +5072,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1567
 msgid "All Day A_ppointment"
-msgstr ""
+msgstr "දිනය පුරා ඇති සම්මුතිය (_p)"
 
 #: ../calendar/gui/calendar-component.c:1568
 msgid "Create a new all-day appointment"
@@ -5092,31 +5080,31 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1574
 msgid "New calendar"
-msgstr ""
+msgstr "නව දිනදර්ශනය"
 
 #: ../calendar/gui/calendar-component.c:1575
 msgid "Cale_ndar"
-msgstr ""
+msgstr "දිනදර්ශනය (_n)"
 
 #: ../calendar/gui/calendar-component.c:1576
 msgid "Create a new calendar"
-msgstr ""
+msgstr "නව දිනදර්ශනයක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/calendar-view-factory.c:109
 msgid "Day View"
-msgstr ""
+msgstr "දින දසුන"
 
 #: ../calendar/gui/calendar-view-factory.c:112
 msgid "Work Week View"
-msgstr ""
+msgstr "වැඩ කරන දින දසුන"
 
 #: ../calendar/gui/calendar-view-factory.c:115
 msgid "Week View"
-msgstr ""
+msgstr "සති දසුන"
 
 #: ../calendar/gui/calendar-view-factory.c:118
 msgid "Month View"
-msgstr ""
+msgstr "මාස දසුන"
 
 #: ../calendar/gui/comp-editor-factory.c:415
 msgid "Error while opening the calendar"
@@ -5132,7 +5120,7 @@ msgstr ""
 
 #: ../calendar/gui/comp-editor-factory.c:439 ../shell/e-shell.c:1274
 msgid "Unknown error"
-msgstr ""
+msgstr "නොදන්නා දෝෂයක්"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:615
 msgid "Edit Alarm"
@@ -5144,7 +5132,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "<b>විකල්ප</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Repeat</b>"
@@ -5164,7 +5152,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Mes_sage:"
-msgstr ""
+msgstr "පණිවිඩය (_s):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:8
 #: ../calendar/gui/e-alarm-list.c:446
@@ -5183,16 +5171,16 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
 msgid "Select A File"
-msgstr ""
+msgstr "ගොනුවක් තෝරන්න"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
-msgstr ""
+msgstr "වෙත යවන්න:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:13
 #: ../calendar/gui/e-alarm-list.c:454
 msgid "Send an email"
-msgstr ""
+msgstr "විද්‍යුත් තැපැලක් යවන්න"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Arguments:"
@@ -5200,7 +5188,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Program:"
-msgstr ""
+msgstr "වැඩ සටහන (_P):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Repeat the alarm"
@@ -5212,18 +5200,18 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
-msgstr ""
+msgstr "පසු"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:19
 msgid "before"
-msgstr ""
+msgstr "පෙර"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "day(s)"
-msgstr ""
+msgstr "දින(ය)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "end of appointment"
@@ -5235,11 +5223,11 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
 msgid "hour(s)"
-msgstr ""
+msgstr "පැය"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 msgid "minute(s)"
-msgstr ""
+msgstr "මිනිත්තු(ව)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:28
 msgid "start of appointment"
@@ -5251,7 +5239,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr ""
+msgstr "එක් කරන්න (_d)"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
@@ -5269,7 +5257,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
-msgstr ""
+msgstr "ඇමුණුම් ගොනු(ව)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:479
 msgid "Selected Calendars for Alarms"
@@ -5283,11 +5271,15 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
+"මිනිත්තු 60\n"
+"මිනිත්තු 30\n"
+"මිනිත්තු 15\n"
+"මිනිත්තු 10\n"
+"මිනිත්තු 05"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid ""
-"<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -5297,25 +5289,25 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">පෙරනිමි නිදහස්/කාර්‍යය බහුල සේවාදායකය</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">සාමාන්‍ය</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<span weight=\"bold\">Task List</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">කාර්‍යය ලැයිස්තුව</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Time</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">වේලාව</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "<span weight=\"bold\">Work Week</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">වැඩකරන සතිය</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
@@ -5323,17 +5315,17 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
-msgstr ""
+msgstr "දිනයේ අවසානය (_e):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
-msgstr ""
+msgstr "සංදර්ශකය"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.c:1091
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
-msgstr ""
+msgstr "සිකුරාදා"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid ""
@@ -5341,12 +5333,15 @@ msgid ""
 "Hours\n"
 "Days"
 msgstr ""
+"මිනිත්තු\n"
+"පැය\n"
+"දින"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: ../calendar/gui/dialogs/recurrence-page.c:1087
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
-msgstr ""
+msgstr "සදුදා"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid ""
@@ -5358,22 +5353,29 @@ msgid ""
 "Saturday\n"
 "Sunday"
 msgstr ""
+"සදුදා\n"
+"අඟහරුවාදා\n"
+"බදාද\n"
+"බ්‍රහස්පතින්දා\n"
+"සිකුරාදා\n"
+"සෙනසුරාදා\n"
+"ඉරිදා"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: ../mail/mail-config.glade.h:105
 msgid "Pick a color"
-msgstr ""
+msgstr "වර්‍ණයක් තොරාගන්න"
 
 #. Sunday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "S_un"
-msgstr ""
+msgstr "රවි (_u)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1092
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
-msgstr ""
+msgstr "සෙනසුරාදා"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Select the calendars for alarm notification"
@@ -5391,7 +5393,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1093
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
-msgstr ""
+msgstr "ඉරිදා"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "T_asks due today:"
@@ -5400,7 +5402,7 @@ msgstr ""
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "T_hu"
-msgstr ""
+msgstr "ගුරු (_h)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Template:"
@@ -5410,45 +5412,45 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1090
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
-msgstr ""
+msgstr "බ්‍රහස්පතින්දා"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 msgid "Time _zone:"
-msgstr ""
+msgstr "වේලා කළාපය (_z):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "Time format:"
-msgstr ""
+msgstr "වේලා සංයුතිය:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1088
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
-msgstr ""
+msgstr "අඟහරුවාදා"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 #: ../calendar/gui/dialogs/recurrence-page.c:1089
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
-msgstr ""
+msgstr "බදාද"
 
 #. A weekday like "Monday" follows
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "Wee_k starts on:"
-msgstr ""
+msgstr "සතියේ ඇරඹුම (_k):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "Work days:"
-msgstr ""
+msgstr "වැඩ කරන දින:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_12 hour (AM/PM)"
-msgstr ""
+msgstr "පැය _12  (පෙ.ව./ප.ව.)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_24 hour"
-msgstr ""
+msgstr "පැය _24"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Ask for confirmation when deleting items"
@@ -5465,7 +5467,7 @@ msgstr ""
 #. Friday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Fri"
-msgstr ""
+msgstr "ශුක්‍ර (_F)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Hide completed tasks after"
@@ -5474,7 +5476,7 @@ msgstr ""
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Mon"
-msgstr ""
+msgstr "සඳු (_M)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
@@ -5483,7 +5485,7 @@ msgstr ""
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Sat"
-msgstr ""
+msgstr "ශනි (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
@@ -5496,12 +5498,12 @@ msgstr ""
 #. Tuesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
 msgid "_Tue"
-msgstr ""
+msgstr "කුජ (_T)"
 
 #. Wednesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "_Wed"
-msgstr ""
+msgstr "බුද (_W)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
@@ -5521,11 +5523,11 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/calendar-setup.c:342
 msgid "C_olor:"
-msgstr ""
+msgstr "වර්ණය: (_C)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:377
 msgid "Task List"
-msgstr ""
+msgstr "කාර්‍යය ලැයිස්තුව"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:388
 msgid "Memo List"
@@ -5533,11 +5535,11 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/calendar-setup.c:477
 msgid "Calendar Properties"
-msgstr ""
+msgstr "දිනදර්ශනයේ වත්කම්"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
 msgid "New Calendar"
-msgstr ""
+msgstr "නව දිනදර්ශනය"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:564
 msgid "Task List Properties"
@@ -5598,7 +5600,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2179
 msgid " to "
-msgstr ""
+msgstr "වෙත"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2183
 msgid " (Completed "
@@ -5619,7 +5621,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2914
 #, c-format
 msgid "Attached message - %s"
-msgstr ""
+msgstr "ඇමුණුම් පණිවිඩය - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
@@ -5629,13 +5631,13 @@ msgstr ""
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "ඇමුණුම් පණිවිඩය %d"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3178
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1032 ../mail/message-list.c:1962
 msgid "_Move"
-msgstr ""
+msgstr "ගෙන යන්න (_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3180
 #: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:1964
@@ -5650,17 +5652,17 @@ msgstr ""
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ඇමුණුම් <b>%d</b>"
+msgstr[1] "ඇමුණුම් <b>%d</b>"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1000
 msgid "Hide Attachment _Bar"
-msgstr ""
+msgstr "ඇමුණුම් තීරුව සඟවන්න (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1003
 #: ../calendar/gui/dialogs/comp-editor.c:1532
 msgid "Show Attachment _Bar"
-msgstr ""
+msgstr "ඇමුණුම් තීරුව පෙන්වන්න (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1122
 #: ../calendar/gui/dialogs/event-page.c:1902
@@ -5669,23 +5671,23 @@ msgstr ""
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
 msgid "_Remove"
-msgstr ""
+msgstr "ඉවත් කරන්න (_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer.c:3686 ../mail/em-folder-tree.c:2127
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
-msgstr ""
+msgstr "වත්කම් (_P)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../composer/e-msg-composer.c:3688
 msgid "_Add attachment..."
-msgstr ""
+msgstr "ඇමුණුම එක් කරන්න... (_A)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1556
 #: ../mail/em-format-html-display.c:2314
 msgid "Show Attachments"
-msgstr ""
+msgstr "ඇමුණුම් පෙන් වන්න"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1557
 msgid "Press space key to toggle attachment bar"
@@ -5718,7 +5720,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2221
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "කාර්‍යය - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2181
 #: ../calendar/gui/dialogs/comp-editor.c:2224
@@ -5729,12 +5731,12 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2192
 #: ../calendar/gui/dialogs/comp-editor.c:2234
 msgid "No summary"
-msgstr ""
+msgstr "සාරාංශයක් නැත"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2780 ../mail/em-utils.c:370
 #: ../widgets/misc/e-attachment-bar.c:350
 msgid "attachment"
-msgstr ""
+msgstr "ඇමුණුම්"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2869
 #: ../calendar/gui/dialogs/comp-editor.c:2923
@@ -5899,7 +5901,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.c:1903
 #: ../calendar/gui/dialogs/task-page.c:1200
 msgid "_Add "
-msgstr ""
+msgstr "එක් කරන්න (_A)"
 
 #: ../calendar/gui/dialogs/event-page.c:2628
 #, c-format
@@ -5929,7 +5931,7 @@ msgstr[1] ""
 
 #: ../calendar/gui/dialogs/event-page.c:2959
 msgid "Customize"
-msgstr ""
+msgstr "රිසි කළ"
 
 #. an empty string is the same as 'None'
 #: ../calendar/gui/dialogs/event-page.c:2964
@@ -5946,7 +5948,7 @@ msgstr ""
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1504
 #: ../widgets/misc/e-dateedit.c:1718
 msgid "None"
-msgstr ""
+msgstr "කිසිවක් නැත"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
@@ -5967,7 +5969,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "ප්‍රභේද... (_t)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "Custom Alarm:"
@@ -5975,7 +5977,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 msgid "D_escription:"
-msgstr ""
+msgstr "විස්තරය (_e):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
@@ -5985,7 +5987,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr ""
+msgstr "සාරාංශය (_m):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
@@ -5993,21 +5995,21 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
-msgstr ""
+msgstr "වේලාව (_T):"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
-msgstr ""
+msgstr "සඳහා"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
-msgstr ""
+msgstr "තුරු"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
@@ -6043,7 +6045,7 @@ msgstr ""
 #: ../mail/em-format-quote.c:200 ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:91 ../mail/message-list.etspec.h:18
 msgid "To"
-msgstr ""
+msgstr "වෙත"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:5
@@ -6052,17 +6054,17 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 msgid "T_o:"
-msgstr ""
+msgstr "වෙත (_o):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:6
 msgid "_Description:"
-msgstr ""
+msgstr "විස්තරය (_D):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:7
 #: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
-msgstr ""
+msgstr "සමූහය (_G):"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event. What would you like to modify?"
@@ -6077,8 +6079,7 @@ msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid ""
-"You are modifying a recurring journal entry. What would you like to modify?"
+msgid "You are modifying a recurring journal entry. What would you like to modify?"
 msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:87
@@ -6117,7 +6118,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:996
 msgid "first"
-msgstr ""
+msgstr "පළමු"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -6150,7 +6151,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1017
 msgid "last"
-msgstr ""
+msgstr "අවසාන"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
@@ -6187,7 +6188,7 @@ msgstr ""
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/dialogs/recurrence-page.c:1086
 msgid "day"
-msgstr ""
+msgstr "දවස"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
@@ -6218,7 +6219,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2383
 msgid "Date/Time"
-msgstr ""
+msgstr "දිනය/වේලාව"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "<b>Exceptions</b>"
@@ -6237,7 +6238,7 @@ msgstr ""
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
-msgstr ""
+msgstr "සෑම"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6249,23 +6250,23 @@ msgstr ""
 #. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
-msgstr ""
+msgstr "සැමදාම"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
-msgstr ""
+msgstr "මාස(ය)"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
-msgstr ""
+msgstr "සති(ය)"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
-msgstr ""
+msgstr "අවුරුදු"
 
 #: ../calendar/gui/dialogs/task-details-page.c:410
 #: ../calendar/gui/dialogs/task-details-page.c:430
@@ -6274,7 +6275,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-details-page.c:515
 msgid "Web Page"
-msgstr ""
+msgstr "වෙබ් පිටුව"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous</span>"
@@ -6282,7 +6283,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:2
 msgid "<span weight=\"bold\">Status</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">තත්වය</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -6294,13 +6295,13 @@ msgstr ""
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/print.c:2348 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
-msgstr ""
+msgstr "අවසන් කළ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:252
 #: ../calendar/gui/e-calendar-table.c:388 ../mail/message-list.c:1034
 msgid "High"
-msgstr ""
+msgstr "වැඩි"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:6
 #: ../calendar/gui/e-cal-component-preview.c:230
@@ -6315,14 +6316,14 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-preview.c:256
 #: ../calendar/gui/e-calendar-table.c:390 ../mail/message-list.c:1032
 msgid "Low"
-msgstr ""
+msgstr "අවම"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:254
 #: ../calendar/gui/e-cal-model.c:924 ../calendar/gui/e-calendar-table.c:389
 #: ../mail/message-list.c:1033
 msgid "Normal"
-msgstr ""
+msgstr "සාමාන්‍ය"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:9
 #: ../calendar/gui/e-cal-component-preview.c:240
@@ -6338,7 +6339,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Stat_us:"
-msgstr ""
+msgstr "තත්වය (_u):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 #: ../calendar/gui/e-calendar-table.c:391
@@ -6352,20 +6353,20 @@ msgstr ""
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
 #: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Priority:"
-msgstr ""
+msgstr "ප්‍රමුඛත්වය (_P):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Web Page:"
-msgstr ""
+msgstr "වෙබ් පිටුව (_W):"
 
 #: ../calendar/gui/dialogs/task-editor.c:424
 #: ../calendar/gui/tasks-component.c:1250
 msgid "_Task"
-msgstr ""
+msgstr "කාර්‍යය (_T)"
 
 #: ../calendar/gui/dialogs/task-editor.c:428
 msgid "Task Details"
-msgstr ""
+msgstr "කාර්‍යය විස්තර"
 
 #: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
@@ -6386,7 +6387,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "De_scription:"
-msgstr ""
+msgstr "විස්තරය (_s):"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
@@ -6394,7 +6395,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.glade.h:7
 msgid "Time zone:"
-msgstr ""
+msgstr "වේලා කළාපය:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 msgid "_Due date:"
@@ -6405,16 +6406,16 @@ msgstr ""
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "දින %d"
+msgstr[1] "දින %d"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "සති %d"
+msgstr[1] "සති %d"
 
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
@@ -6485,13 +6486,13 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-memo-preview.c:157
 #: ../calendar/gui/e-cal-component-preview.c:157 ../filter/filter-rule.c:804
 msgid "Untitled"
-msgstr ""
+msgstr "නිර්ණාමික"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:208
 #: ../calendar/gui/e-cal-component-preview.c:197
 #: ../calendar/gui/e-cal-component-preview.c:208
 msgid "Start Date:"
-msgstr ""
+msgstr "ඇරඹුම් දිනය:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:221
 #: ../calendar/gui/e-cal-component-preview.c:271
@@ -6499,18 +6500,18 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.glade.h:4 ../mail/mail-config.glade.h:67
 #: ../widgets/misc/e-attachment.glade.h:2
 msgid "Description:"
-msgstr ""
+msgstr "විස්තරය:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:254
 #: ../calendar/gui/e-cal-component-preview.c:304
 msgid "Web Page:"
-msgstr ""
+msgstr "වෙබ් පිටුව:"
 
 #: ../calendar/gui/e-cal-component-preview.c:190
 #: ../calendar/gui/e-itip-control.c:1135
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
-msgstr ""
+msgstr "සාරාංශය:"
 
 #: ../calendar/gui/e-cal-component-preview.c:219
 msgid "Due Date:"
@@ -6523,53 +6524,53 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-account-setup.c:269
 #: ../plugins/itip-formatter/itip-view.c:968
 msgid "Status:"
-msgstr ""
+msgstr "තත්වය:"
 
 #: ../calendar/gui/e-cal-component-preview.c:250
 msgid "Priority:"
-msgstr ""
+msgstr "ප්‍රමුඛත්වය:"
 
 #: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:314
 #: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:366
 msgid "Public"
-msgstr ""
+msgstr "පොදු"
 
 #: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
 #: ../calendar/gui/e-calendar-table.c:367
 msgid "Private"
-msgstr ""
+msgstr "පුද්ගලික"
 
 #: ../calendar/gui/e-cal-list-view.c:257 ../calendar/gui/e-cal-model.c:325
 #: ../calendar/gui/e-calendar-table.c:368
 msgid "Confidential"
-msgstr ""
+msgstr "රහස්‍යය"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
-msgstr ""
+msgstr "අවසන් දිනය"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:4
 msgid "Start Date"
-msgstr ""
+msgstr "ඇරඹුම් දිනය"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5 ../mail/mail-dialogs.glade.h:20
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
-msgstr ""
+msgstr "සාරාංශය"
 
 #: ../calendar/gui/e-cal-model-calendar.c:183
 #: ../calendar/gui/e-calendar-table.c:440
 msgid "Free"
-msgstr ""
+msgstr "නිදහස්"
 
 #: ../calendar/gui/e-cal-model-calendar.c:186
 #: ../calendar/gui/e-calendar-table.c:441
 #: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Busy"
-msgstr ""
+msgstr "කාර්‍යය බහලයි"
 
 #: ../calendar/gui/e-cal-model-tasks.c:610
 msgid ""
@@ -6584,14 +6585,14 @@ msgstr ""
 #: ../calendar/gui/e-meeting-store.c:764
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
-msgstr ""
+msgstr "ඔව්"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1012 ../calendar/gui/e-cal-model.c:930
 #: ../calendar/gui/e-meeting-list-view.c:194
 #: ../calendar/gui/e-meeting-store.c:178
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
-msgstr ""
+msgstr "නැත"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-cal-popup.c:107
@@ -6607,7 +6608,7 @@ msgstr ""
 #: ../widgets/misc/e-attachment-bar.c:712
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
-msgstr ""
+msgstr "නොදන්නා"
 
 #: ../calendar/gui/e-cal-model.c:926
 msgid "Recurring"
@@ -6619,7 +6620,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:417
 msgid "Save As..."
-msgstr ""
+msgstr "සුරකින අයුර..."
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2159
 msgid "Select folder to save selected attachments..."
@@ -6634,65 +6635,65 @@ msgstr ""
 #: ../calendar/gui/e-calendar-view.c:1680 ../calendar/gui/e-memo-table.c:904
 #: ../mail/em-folder-view.c:1147 ../mail/em-popup.c:559 ../mail/em-popup.c:570
 msgid "_Save As..."
-msgstr ""
+msgstr "සුරකින අයුර... (_S)"
 
 #: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:560
 #: ../mail/em-popup.c:571
 msgid "Set as _Background"
-msgstr ""
+msgstr "පසුබිම ලෙස සකසන්න (_B)"
 
 #: ../calendar/gui/e-cal-popup.c:278
 msgid "_Save Selected"
-msgstr ""
+msgstr "තේරිම් සුරකින්න (_S)"
 
 #: ../calendar/gui/e-cal-popup.c:399 ../mail/em-popup.c:781
 #, c-format
 msgid "Open in %s..."
-msgstr ""
+msgstr "%s තුළ විවෘත කරන්න..."
 
 #: ../calendar/gui/e-calendar-table.c:410
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: ../calendar/gui/e-calendar-table.c:411
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: ../calendar/gui/e-calendar-table.c:412
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: ../calendar/gui/e-calendar-table.c:413
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: ../calendar/gui/e-calendar-table.c:414
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: ../calendar/gui/e-calendar-table.c:415
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: ../calendar/gui/e-calendar-table.c:416
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: ../calendar/gui/e-calendar-table.c:417
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: ../calendar/gui/e-calendar-table.c:418
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: ../calendar/gui/e-calendar-table.c:419
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: ../calendar/gui/e-calendar-table.c:420
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: ../calendar/gui/e-calendar-table.c:705
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:483
@@ -6708,12 +6709,12 @@ msgstr ""
 #: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:799
 #: ../composer/e-msg-composer.c:1351
 msgid "Save as..."
-msgstr ""
+msgstr "සුරකින අයුර..."
 
 #: ../calendar/gui/e-calendar-table.c:1278
 #: ../calendar/gui/e-calendar-view.c:1662
 msgid "New _Task"
-msgstr ""
+msgstr "නව කාර්‍යය (_T)"
 
 #: ../calendar/gui/e-calendar-table.c:1282 ../calendar/gui/e-memo-table.c:903
 msgid "Open _Web Page"
@@ -6728,14 +6729,14 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr ""
+msgstr "මුද්‍රණය... (_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1288
 #: ../calendar/gui/e-calendar-view.c:1685 ../calendar/gui/e-memo-table.c:909
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr ""
+msgstr "කපන්න (_u)t"
 
 #: ../calendar/gui/e-calendar-table.c:1290
 #: ../calendar/gui/e-calendar-view.c:1668
@@ -6744,7 +6745,7 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
-msgstr ""
+msgstr "අලවන්න (_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1294 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
@@ -6800,7 +6801,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.etspec.h:8
 #: ../plugins/save-calendar/csv-format.c:397
 msgid "Priority"
-msgstr ""
+msgstr "ප්‍රමුකත්වය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
@@ -6811,7 +6812,7 @@ msgstr ""
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:16
 msgid "Status"
-msgstr ""
+msgstr "තත්වය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
@@ -6872,13 +6873,13 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1696
 msgid "_Reply"
-msgstr ""
+msgstr "පිළිතුර (_R)"
 
 #: ../calendar/gui/e-calendar-view.c:1697 ../mail/em-folder-view.c:1141
 #: ../mail/em-popup.c:564 ../mail/em-popup.c:575
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
-msgstr ""
+msgstr "පිළිතුර සියල්ලන්ටම (_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1702
 msgid "Make this Occurrence _Movable"
@@ -7131,8 +7132,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1258
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1337
@@ -7355,7 +7355,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2292
 msgid "Update"
-msgstr ""
+msgstr "යාවත් කාළීන:"
 
 #: ../calendar/gui/e-itip-control.c:2320
 #: ../plugins/groupwise-features/process-meeting.c:48
@@ -7386,7 +7386,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:2435 ../calendar/gui/itip-utils.c:710
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
-msgstr ""
+msgstr "අවලංගු කරන්න"
 
 #: ../calendar/gui/e-itip-control.glade.h:1
 msgid "--to--"
@@ -7443,7 +7443,7 @@ msgstr ""
 #: ../widgets/table/e-table-config-no-group.glade.h:7
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "සමුහය"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
@@ -7618,7 +7618,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "Language"
-msgstr ""
+msgstr "භාෂාව"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Member"
@@ -7696,7 +7696,7 @@ msgstr ""
 
 #: ../calendar/gui/gnome-cal.c:2430
 msgid "_Save Custom View"
-msgstr ""
+msgstr "රිසි කළ දසුන සුරකින්න (_S)"
 
 #: ../calendar/gui/gnome-cal.c:2435
 msgid "_Define Views..."
@@ -7720,7 +7720,7 @@ msgstr ""
 #: ../calendar/gui/gnome-cal.c:2737
 #, c-format
 msgid "Opening %s"
-msgstr ""
+msgstr "%s විවෘත වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:3673
 msgid "Purging"
@@ -7949,7 +7949,7 @@ msgstr ""
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:429
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:542
 msgid "Notes"
-msgstr ""
+msgstr "සටහන්"
 
 #: ../calendar/gui/print.c:513
 msgid "1st"
@@ -9809,7 +9809,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer-hdrs.c:602
 msgid "Click here for the address book"
-msgstr ""
+msgstr "ලිපින පොත සඳහා මෙතන ක්ලික් කරන්න"
 
 #.
 #. * Reply-To:
@@ -9820,25 +9820,25 @@ msgstr ""
 #.
 #: ../composer/e-msg-composer-hdrs.c:634
 msgid "_Reply-To:"
-msgstr ""
+msgstr "පිළිතුරු ලිපිනය (_R):"
 
 #.
 #. * From
 #.
 #: ../composer/e-msg-composer-hdrs.c:641
 msgid "Fr_om:"
-msgstr ""
+msgstr "යවන්නා (_o):"
 
 #.
 #. * Subject
 #.
 #: ../composer/e-msg-composer-hdrs.c:648
 msgid "S_ubject:"
-msgstr ""
+msgstr "මාතෘකාව (_u):"
 
 #: ../composer/e-msg-composer-hdrs.c:657
 msgid "_To:"
-msgstr ""
+msgstr "ලබන්නා (_T):"
 
 #: ../composer/e-msg-composer-hdrs.c:658
 msgid "Enter the recipients of the message"
@@ -9846,7 +9846,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer-hdrs.c:661
 msgid "_Cc:"
-msgstr ""
+msgstr "පිටපත (_C):"
 
 #: ../composer/e-msg-composer-hdrs.c:662
 msgid "Enter the addresses that will receive a carbon copy of the message"
@@ -9854,7 +9854,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer-hdrs.c:665
 msgid "_Bcc:"
-msgstr ""
+msgstr "රහස් පිටපත (_B):"
 
 #: ../composer/e-msg-composer-hdrs.c:666
 msgid ""
@@ -9883,11 +9883,10 @@ msgstr ""
 
 #: ../composer/e-msg-composer-select-file.c:243
 msgid "Insert Attachment"
-msgstr ""
+msgstr "ඇමුණුම ඇතුළත් කරන්න"
 
 #: ../composer/e-msg-composer.c:830
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
 #: ../composer/e-msg-composer.c:837
@@ -9898,21 +9897,21 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:1297 ../composer/e-msg-composer.c:2559
 msgid "Hide _Attachment Bar"
-msgstr ""
+msgstr "ඇමුණුම් තීරුව සඟවන්න (_A)"
 
 #: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2562
 #: ../composer/e-msg-composer.c:3931
 msgid "Show _Attachment Bar"
-msgstr ""
+msgstr "ඇමුණුම් තීරුව පෙන්වන්න (_A)"
 
 #: ../composer/e-msg-composer.c:1332 ../composer/e-msg-composer.c:1366
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
-msgstr ""
+msgstr "නොදන්නා හේතුවක්"
 
 #: ../composer/e-msg-composer.c:1404
 msgid "Could not open file"
-msgstr ""
+msgstr "ගොනුව විවෘත කළ නොහැක"
 
 #: ../composer/e-msg-composer.c:1412
 msgid "Unable to retrieve message from editor"
@@ -9920,12 +9919,12 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:1697
 msgid "Untitled Message"
-msgstr ""
+msgstr "නිර්ණාමික පණිවිඩය"
 
 #. NB: This function is never used anymore
 #: ../composer/e-msg-composer.c:1732
 msgid "Open File"
-msgstr ""
+msgstr "ගොනුව විවෘත කරන්න "
 
 #: ../composer/e-msg-composer.c:2194 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
@@ -10079,13 +10078,13 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
-msgstr ""
+msgstr "පණිවිඩය සුරකින්න (_S)"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:508
 msgid "Evolution"
-msgstr ""
+msgstr "ඉවෝලුශන්"
 
 #: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:584
 msgid "Groupware Suite"
@@ -10101,19 +10100,19 @@ msgstr ""
 
 #: ../data/evolution.keys.in.in.h:2
 msgid "calendar information"
-msgstr ""
+msgstr "දිනදර්ශන තොරතුරු"
 
 #: ../e-util/e-error.c:86 ../e-util/e-error.c:87 ../e-util/e-error.c:129
 msgid "Evolution Error"
-msgstr ""
+msgstr "ඉවෝලුශන් දෝෂය"
 
 #: ../e-util/e-error.c:88 ../e-util/e-error.c:89 ../e-util/e-error.c:127
 msgid "Evolution Warning"
-msgstr ""
+msgstr "ඉවෝලුශන් අවාදය"
 
 #: ../e-util/e-error.c:126
 msgid "Evolution Information"
-msgstr ""
+msgstr "ඉවෝලුශන් තොරතුරු"
 
 #: ../e-util/e-error.c:128
 msgid "Evolution Query"
@@ -10134,17 +10133,16 @@ msgid "The printing system reported the following details about the error:"
 msgstr ""
 
 #: ../e-util/e-print.c:128
-msgid ""
-"The printing system did not report any additional details about the error."
+msgid "The printing system did not report any additional details about the error."
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
-msgstr ""
+msgstr "&quot;{0}&quot; ගොනුව විවෘත කළ නොහැක."
 
 #: ../e-util/e-system.error.xml.h:3
 msgid "Cannot save file &quot;{0}&quot;."
-msgstr ""
+msgstr "&quot;{0}&quot; ගොනුව සුරකිය නොහැක."
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Do you wish to overwrite it?"
@@ -10152,7 +10150,7 @@ msgstr ""
 
 #: ../e-util/e-system.error.xml.h:5
 msgid "File exists &quot;{0}&quot;."
-msgstr ""
+msgstr "&quot;{0}&quot; ගොනුව දැනටමත් ඇත."
 
 #: ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
@@ -10166,8 +10164,8 @@ msgstr ""
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "තත්පරයකට පෙර"
+msgstr[1] "තත්පර %d කට පෙර"
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -10262,17 +10260,17 @@ msgstr[1] ""
 
 #: ../filter/filter-datespec.c:287
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<දිනයක් තේරිමට මෙතැන කලික් කරන්න>"
 
 #: ../filter/filter-datespec.c:290 ../filter/filter-datespec.c:301
 #: ../filter/filter-datespec.c:312
 msgid "now"
-msgstr ""
+msgstr "දැන්"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../filter/filter-datespec.c:297
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%d-%b-%Y"
 
 #: ../filter/filter-datespec.c:449
 msgid "Select a time to compare against"
@@ -10280,32 +10278,32 @@ msgstr ""
 
 #: ../filter/filter-file.c:296 ../filter/filter-file.c:302
 msgid "Choose a file"
-msgstr ""
+msgstr "ගොනුවක් තෝරන්න"
 
 #: ../filter/filter-label.c:120 ../mail/em-filter-i18n.h:26
 #: ../mail/em-migrate.c:1053 ../mail/mail-config.glade.h:90
 msgid "Important"
-msgstr ""
+msgstr "වැදගත්"
 
 #. forest green
 #: ../filter/filter-label.c:123 ../mail/em-migrate.c:1056
 #: ../mail/mail-config.glade.h:145
 msgid "To Do"
-msgstr ""
+msgstr "කළ යුතු"
 
 #. blue
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1057
 #: ../mail/mail-config.glade.h:95
 msgid "Later"
-msgstr ""
+msgstr "පසුව"
 
 #: ../filter/filter-part.c:532 ../shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
-msgstr ""
+msgstr "පරික්‍ෂණය"
 
 #: ../filter/filter-rule.c:799
 msgid "_Search name:"
-msgstr ""
+msgstr "නම සොයන්න (_S):"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
@@ -10321,7 +10319,7 @@ msgstr ""
 
 #: ../filter/filter-rule.c:868
 msgid "_Find items:"
-msgstr ""
+msgstr "අයිකන සොයන්න (_F):"
 
 #: ../filter/filter-rule.c:890
 msgid "All related"
@@ -10346,11 +10344,11 @@ msgstr ""
 #: ../filter/filter-rule.c:988 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:307
 msgid "Incoming"
-msgstr ""
+msgstr "එන"
 
 #: ../filter/filter-rule.c:988 ../mail/em-utils.c:308
 msgid "Outgoing"
-msgstr ""
+msgstr "යන"
 
 #: ../filter/filter.error.xml.h:1
 msgid "Bad regular expression &quot;{0}&quot;."
@@ -10440,11 +10438,11 @@ msgstr ""
 
 #: ../filter/filter.glade.h:18
 msgid "months"
-msgstr ""
+msgstr "මාස"
 
 #: ../filter/filter.glade.h:19 ../mail/mail-config.glade.h:180
 msgid "seconds"
-msgstr ""
+msgstr "තත්පර"
 
 #: ../filter/filter.glade.h:20
 msgid "the current time"
@@ -10457,11 +10455,11 @@ msgstr ""
 #: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:289
 #: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "weeks"
-msgstr ""
+msgstr "සති"
 
 #: ../filter/filter.glade.h:23
 msgid "years"
-msgstr ""
+msgstr "අවුරුදු"
 
 #: ../filter/rule-editor.c:378
 msgid "Add Rule"
@@ -10480,8 +10478,7 @@ msgid "Composer Preferences"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -10494,7 +10491,7 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
-msgstr ""
+msgstr "ඉවොලුශන් තැපෑල"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail accounts configuration control"
@@ -10522,21 +10519,21 @@ msgstr ""
 #: ../mail/mail-component.c:738
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
-msgstr ""
+msgstr "තැපෑල"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
 #: ../mail/em-account-prefs.c:532
 msgid "Mail Accounts"
-msgstr ""
+msgstr "තැපැල් ගිණුම්"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
 #: ../mail/mail-config.glade.h:98
 msgid "Mail Preferences"
-msgstr ""
+msgstr "තැපැල් අභිප්‍රේත"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 msgid "_Mail"
-msgstr ""
+msgstr "තැපෑල (_M)"
 
 #: ../mail/em-account-editor.c:403
 #, c-format
@@ -10579,13 +10576,13 @@ msgstr ""
 
 #: ../mail/em-account-editor.c:2286 ../mail/mail-config.glade.h:65
 msgid "Defaults"
-msgstr ""
+msgstr "පෙරනිමි"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2352 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
-msgstr ""
+msgstr "ආරක්‍ෂාව"
 
 #. Most sections for this is auto-generated fromt the camel config
 #: ../mail/em-account-editor.c:2389 ../mail/em-account-editor.c:2480
@@ -10598,7 +10595,7 @@ msgstr ""
 
 #: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:31
 msgid "Account Editor"
-msgstr ""
+msgstr "ගිණුම් සකසනය"
 
 #: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
@@ -10607,27 +10604,27 @@ msgstr ""
 #: ../mail/em-account-prefs.c:331 ../mail/em-account-prefs.c:376
 #: ../mail/em-account-prefs.c:409
 msgid "Disable"
-msgstr ""
+msgstr "අක්‍රීය"
 
 #: ../mail/em-account-prefs.c:331 ../mail/em-account-prefs.c:376
 #: ../mail/em-account-prefs.c:411
 msgid "Enable"
-msgstr ""
+msgstr "සක්‍රීය"
 
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:466
 msgid "[Default]"
-msgstr ""
+msgstr "[පෙරනිමි]"
 
 #: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:945
 #: ../plugins/plugin-manager/plugin-manager.c:261
 #: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
-msgstr ""
+msgstr "සක්‍රීය කළා"
 
 #: ../mail/em-account-prefs.c:525
 msgid "Account name"
-msgstr ""
+msgstr "ගිණුමේ නම"
 
 #: ../mail/em-account-prefs.c:527
 msgid "Protocol"
@@ -10636,11 +10633,11 @@ msgstr ""
 #: ../mail/em-composer-prefs.c:310 ../mail/em-composer-prefs.c:436
 #: ../mail/mail-config.c:1029
 msgid "Unnamed"
-msgstr ""
+msgstr "නිර්ණාමික"
 
 #: ../mail/em-composer-prefs.c:951
 msgid "Language(s)"
-msgstr ""
+msgstr "භෂා(ව)"
 
 #: ../mail/em-composer-prefs.c:994
 msgid "Add signature script"
@@ -10686,7 +10683,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:5
 msgid "Attachments"
-msgstr ""
+msgstr "ඇමුණුම්"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "Beep"
@@ -10698,7 +10695,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:8
 msgid "Copy to Folder"
-msgstr ""
+msgstr "බහලුමට පිටපත් කරන්න"
 
 #: ../mail/em-filter-i18n.h:9
 msgid "Date received"
@@ -10714,11 +10711,11 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
 #: ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
-msgstr ""
+msgstr "මකන්න"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Deleted"
-msgstr ""
+msgstr "මැකුවා"
 
 #: ../mail/em-filter-i18n.h:13
 msgid "does not contain"
@@ -10750,7 +10747,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:20
 msgid "Draft"
-msgstr ""
+msgstr "කෙටුම් පත"
 
 #: ../mail/em-filter-i18n.h:21
 msgid "ends with"
@@ -10758,11 +10755,11 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:22
 msgid "Exist"
-msgstr ""
+msgstr "පිටවීම"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "exists"
-msgstr ""
+msgstr "පිටවීම්"
 
 #: ../mail/em-filter-i18n.h:24
 msgid "Expression"
@@ -10807,19 +10804,19 @@ msgstr ""
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:92
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr ""
+msgstr "නිසරු"
 
 #: ../mail/em-filter-i18n.h:36
 msgid "Junk Test"
-msgstr ""
+msgstr "නිසරු පරික්‍ෂණය"
 
 #: ../mail/em-filter-i18n.h:37 ../widgets/misc/e-expander.c:190
 msgid "Label"
-msgstr ""
+msgstr "ලේබලය"
 
 #: ../mail/em-filter-i18n.h:38
 msgid "Mailing list"
-msgstr ""
+msgstr "තැපැල් ලැයිස්තුව"
 
 #: ../mail/em-filter-i18n.h:39
 msgid "Match All"
@@ -10831,11 +10828,11 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Message Header"
-msgstr ""
+msgstr "පණිවිඩ ශිර්ෂකය"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Message is Junk"
-msgstr ""
+msgstr "නිසරු පණිවිඩයකි"
 
 #: ../mail/em-filter-i18n.h:43
 msgid "Message is not Junk"
@@ -10843,7 +10840,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:44
 msgid "Move to Folder"
-msgstr ""
+msgstr "බහලුමට ගෙන යන්න"
 
 #: ../mail/em-filter-i18n.h:45
 msgid "Pipe to Program"
@@ -10855,7 +10852,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:47 ../mail/message-tag-followup.c:81
 msgid "Read"
-msgstr ""
+msgstr "කියවන්න"
 
 #: ../mail/em-filter-i18n.h:48 ../mail/message-list.etspec.h:11
 msgid "Recipients"
@@ -10891,7 +10888,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:56 ../mail/message-list.etspec.h:13
 msgid "Sender"
-msgstr ""
+msgstr "යවන්නා"
 
 #: ../mail/em-filter-i18n.h:57
 msgid "Set Status"
@@ -10899,7 +10896,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:58
 msgid "Size (kB)"
-msgstr ""
+msgstr "ප්‍රමාණය (kB)"
 
 #: ../mail/em-filter-i18n.h:59
 msgid "sounds like"
@@ -10928,7 +10925,7 @@ msgstr ""
 #: ../plugins/groupwise-features/properties.glade.h:6
 #: ../smime/lib/e-cert.c:1132
 msgid "Subject"
-msgstr ""
+msgstr "මාතෘකාව"
 
 #: ../mail/em-filter-i18n.h:66
 msgid "Unset Status"
@@ -10945,19 +10942,19 @@ msgstr ""
 
 #: ../mail/em-folder-browser.c:191
 msgid "All Messages"
-msgstr ""
+msgstr "සියළුම පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:192
 msgid "Unread Messages"
-msgstr ""
+msgstr "නොකියවූ පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:194
 msgid "No Label"
-msgstr ""
+msgstr "ලේබල නැත"
 
 #: ../mail/em-folder-browser.c:201
 msgid "Read Messages"
-msgstr ""
+msgstr "කියවූ පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:202
 msgid "Recent Messages"
@@ -10969,7 +10966,7 @@ msgstr ""
 
 #: ../mail/em-folder-browser.c:204
 msgid "Messages with Attachments"
-msgstr ""
+msgstr "ඇමුණුම් සහිත පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:205
 msgid "Important Messages"
@@ -10981,75 +10978,75 @@ msgstr ""
 
 #: ../mail/em-folder-browser.c:1029
 msgid "Account Search"
-msgstr ""
+msgstr "ගිණුම් සෙවීම"
 
 #: ../mail/em-folder-browser.c:1073
 msgid "All Account Search"
-msgstr ""
+msgstr "සියළුම ගිණුම් සෙවීම"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:149
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "නොමියවූ පණිවිඩ:"
+msgstr[1] "නොමියවූ පණිවිඩ:"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:163
 msgid "Total messages:"
 msgid_plural "Total messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "මුළු පණිවිඩ ගණන:"
+msgstr[1] "මුළු පණිවිඩ ගණන:"
 
 #: ../mail/em-folder-properties.c:323
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "Folder Properties"
-msgstr ""
+msgstr "බහලුම් වත්කම්"
 
 #: ../mail/em-folder-selection-button.c:123
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<බහලුමක් නිර්මාණයට මෙතැන ක්ලික් කරන්න>"
 
 #: ../mail/em-folder-selector.c:261
 msgid "Create"
-msgstr ""
+msgstr "නිර්මාණය කරන්න"
 
 #: ../mail/em-folder-selector.c:265
 msgid "Folder _name:"
-msgstr ""
+msgstr "බහලුම් නම (_n):"
 
 #: ../mail/em-folder-tree-model.c:203 ../mail/em-folder-tree-model.c:205
 #: ../mail/mail-vfolder.c:911 ../mail/mail-vfolder.c:984
 msgid "Search Folders"
-msgstr ""
+msgstr "බහලුම් සොයන්න"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:209 ../mail/em-folder-tree-model.c:211
 msgid "UNMATCHED"
-msgstr ""
+msgstr "UNMATCHED"
 
 #: ../mail/em-folder-tree-model.c:484 ../mail/mail-component.c:152
 msgid "Drafts"
-msgstr ""
+msgstr "කෙටුම් පත්"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
-msgstr ""
+msgstr "එන"
 
 #: ../mail/em-folder-tree-model.c:490 ../mail/mail-component.c:153
 msgid "Outbox"
-msgstr ""
+msgstr "නොයැවු"
 
 #: ../mail/em-folder-tree-model.c:492 ../mail/mail-component.c:154
 msgid "Sent"
-msgstr ""
+msgstr "යැවු"
 
 #: ../mail/em-folder-tree-model.c:514 ../mail/em-folder-tree-model.c:818
 msgid "Loading..."
-msgstr ""
+msgstr "පුරණය වෙමින්..."
 
 #. Translators: This is the string used for displaying the
 #. * folder names in folder trees. "%s" will be replaced by
@@ -11069,21 +11066,21 @@ msgstr ""
 #: ../mail/em-folder-tree.c:368
 #, c-format
 msgid "folder-display|%s (%u)"
-msgstr ""
+msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:720
 msgid "Mail Folder Tree"
-msgstr ""
+msgstr "තැපැල් බහලුම් රුක"
 
 #: ../mail/em-folder-tree.c:880
 #, c-format
 msgid "Moving folder %s"
-msgstr ""
+msgstr "%s බහලුම ගෙනයමින්"
 
 #: ../mail/em-folder-tree.c:882
 #, c-format
 msgid "Copying folder %s"
-msgstr ""
+msgstr "%s බහලුම පිටපත් කරමින්"
 
 #: ../mail/em-folder-tree.c:889 ../mail/message-list.c:1866
 #, c-format
@@ -11101,11 +11098,11 @@ msgstr ""
 
 #: ../mail/em-folder-tree.c:1003 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
-msgstr ""
+msgstr "බහලුම වෙතට පිටපත් කරන්න (_C)"
 
 #: ../mail/em-folder-tree.c:1004 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
-msgstr ""
+msgstr "බහලුම වෙතට ගෙන යන්නන (_M)"
 
 #: ../mail/em-folder-tree.c:1709 ../mail/mail-ops.c:1060
 #, c-format
@@ -11118,28 +11115,28 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
-msgstr ""
+msgstr "දසුන (_V)"
 
 #: ../mail/em-folder-tree.c:2109
 msgid "Open in _New Window"
-msgstr ""
+msgstr "නව කවුළුවක විවෘත කරන්න (_N)"
 
 #: ../mail/em-folder-tree.c:2113
 msgid "_Copy..."
-msgstr ""
+msgstr "පිටපත් කරන්න... (_C)"
 
 #: ../mail/em-folder-tree.c:2114
 msgid "_Move..."
-msgstr ""
+msgstr "ගෙන යන්න... (_M)"
 
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2118
 msgid "_New Folder..."
-msgstr ""
+msgstr "නව බහලුම... (_N)"
 
 #: ../mail/em-folder-tree.c:2121 ../ui/evolution-mail-list.xml.h:36
 msgid "_Rename..."
-msgstr ""
+msgstr "නම වෙනස් කරන්න... (_R)"
 
 #: ../mail/em-folder-tree.c:2122
 msgid "Re_fresh"
@@ -11151,34 +11148,34 @@ msgstr ""
 
 #: ../mail/em-folder-tree.c:2129 ../mail/mail.error.xml.h:135
 msgid "_Empty Trash"
-msgstr ""
+msgstr "ඉවතලන බදුන හිස් කරන්න (_E)"
 
 #: ../mail/em-folder-utils.c:104
 #, c-format
 msgid "Copying `%s' to `%s'"
-msgstr ""
+msgstr "%s', `%s' වෙතට පිටපත් කරන්න"
 
 #: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1032
 #: ../mail/em-folder-view.c:1047
 #: ../mail/importers/evolution-mbox-importer.c:86
 msgid "Select folder"
-msgstr ""
+msgstr "බහලුම තෝරන්න"
 
 #: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1047
 msgid "C_opy"
-msgstr ""
+msgstr "පිටපත් කරන්න (_o)"
 
 #: ../mail/em-folder-utils.c:581
 #: ../plugins/groupwise-features/share-folder-common.c:145
 #, c-format
 msgid "Creating folder `%s'"
-msgstr ""
+msgstr "`%s' බහලුම නිර්මාණය කරන්න"
 
 #: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Create folder"
-msgstr ""
+msgstr "බහලුම නිර්මාණය කරන්න"
 
 #: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:164
@@ -11201,24 +11198,24 @@ msgstr ""
 #: ../mail/em-folder-view.c:1142 ../mail/em-popup.c:566 ../mail/em-popup.c:577
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
-msgstr ""
+msgstr "ඉදිරියට (_F)"
 
 #. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
 #: ../mail/em-folder-view.c:1146 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
-msgstr ""
+msgstr "නව පණිවිඩයක් ලෙස සකසන්න... (_E)"
 
 #: ../mail/em-folder-view.c:1152
 msgid "U_ndelete"
-msgstr ""
+msgstr "නොමකන්න (_n)"
 
 #: ../mail/em-folder-view.c:1153
 msgid "_Move to Folder..."
-msgstr ""
+msgstr "බහලුමට ගෙනයන්න... (_M)"
 
 #: ../mail/em-folder-view.c:1154
 msgid "_Copy to Folder..."
-msgstr ""
+msgstr "බහලුමට පිටපත් කරන්න... (_C)"
 
 #: ../mail/em-folder-view.c:1157
 msgid "Mar_k as Read"
@@ -11238,11 +11235,11 @@ msgstr ""
 
 #: ../mail/em-folder-view.c:1161
 msgid "Mark as _Junk"
-msgstr ""
+msgstr "නිසරු ලෙස සළකුණු කරන්න (_J)"
 
 #: ../mail/em-folder-view.c:1162
 msgid "Mark as _Not Junk"
-msgstr ""
+msgstr "නිසරු නොවන ලෙස සළකුණු කරන්න (_J)"
 
 #: ../mail/em-folder-view.c:1163
 msgid "Mark for Follo_w Up..."
@@ -11250,13 +11247,13 @@ msgstr ""
 
 #: ../mail/em-folder-view.c:1165
 msgid "_Label"
-msgstr ""
+msgstr "ලේබලය (_L)"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
 #: ../mail/em-folder-view.c:1166 ../widgets/misc/e-dateedit.c:473
 msgid "_None"
-msgstr ""
+msgstr "කිසිවක් නැත (_N)"
 
 #: ../mail/em-folder-view.c:1171
 msgid "Fla_g Completed"
@@ -11305,7 +11302,7 @@ msgstr ""
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:2055 ../mail/em-folder-view.c:2099
 msgid "Default"
-msgstr ""
+msgstr "ප්‍රකෘතිය"
 
 #: ../mail/em-folder-view.c:2312
 msgid "Unable to retrieve message"
@@ -11348,16 +11345,16 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:657
 msgid "Fi_nd:"
-msgstr ""
+msgstr "සොයන්න (_n):"
 
 #. gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
 #: ../mail/em-format-html-display.c:681
 msgid "_Previous"
-msgstr ""
+msgstr "පෙර (_P)"
 
 #: ../mail/em-format-html-display.c:686
 msgid "_Next"
-msgstr ""
+msgstr "මීළඟ (_N)"
 
 #: ../mail/em-format-html-display.c:691
 msgid "M_atch case"
@@ -11484,39 +11481,39 @@ msgstr ""
 #: ../mail/em-format-html-display.c:1899 ../mail/em-format-html-display.c:2510
 #: ../mail/mail-config.glade.h:42 ../mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr ""
+msgstr "ඇමුණුම"
 
 #: ../mail/em-format-html-display.c:2113
 msgid "Save attachment as"
-msgstr ""
+msgstr "ඇමුණුම සුරකින අයුරු"
 
 #: ../mail/em-format-html-display.c:2117
 msgid "Select folder to save all attachments"
-msgstr ""
+msgstr "සියළුම ඇමුණුම් සුරකීමට බහලුමක් තෝරන්න"
 
 #: ../mail/em-format-html-display.c:2168
 msgid "_Save Selected..."
-msgstr ""
+msgstr "තේරිම් සුරකින්න... (_S)"
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:2235
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ඇමුණුම් %d ක් (_t)"
+msgstr[1] "ඇමුණුම් %d ක් (_t)"
 
 #: ../mail/em-format-html-display.c:2242 ../mail/em-format-html-display.c:2320
 msgid "S_ave"
-msgstr ""
+msgstr "සුරකින්න (_a)"
 
 #: ../mail/em-format-html-display.c:2253
 msgid "S_ave All"
-msgstr ""
+msgstr "සියල්ල සුරකින්න (_a)"
 
 #: ../mail/em-format-html-display.c:2316
 msgid "No Attachment"
-msgstr ""
+msgstr "ඇමුණුම් නැත"
 
 #: ../mail/em-format-html-display.c:2447 ../mail/em-format-html-display.c:2483
 msgid "View _Unformatted"
@@ -11528,7 +11525,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:2502
 msgid "O_pen With"
-msgstr ""
+msgstr "සමඟ විවෘත කරන්න (_p)"
 
 #: ../mail/em-format-html-display.c:2571
 msgid ""
@@ -11539,7 +11536,7 @@ msgstr ""
 #: ../mail/em-format-html-print.c:128
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "පිටු %d ක් %d අතරින්"
 
 #: ../mail/em-format-html.c:483 ../mail/em-format-html.c:485
 #, c-format
@@ -11587,7 +11584,7 @@ msgstr ""
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
-msgstr ""
+msgstr "වෙතින්"
 
 #: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:90
@@ -11597,45 +11594,45 @@ msgstr ""
 #: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:92
 msgid "Cc"
-msgstr ""
+msgstr "පිටපත"
 
 #: ../mail/em-format-html.c:1489 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:93
 msgid "Bcc"
-msgstr ""
+msgstr "රහස් පිටපත"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1664 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:1174
 msgid "Mailer"
-msgstr ""
+msgstr "තැපැල යවන්නා"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1691
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: ../mail/em-format-html.c:1694
 msgid "<I> (%R %Z)</I>"
-msgstr ""
+msgstr "<I> (%R %Z)</I>"
 
 #: ../mail/em-format-html.c:1704 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:853 ../mail/em-mailer-prefs.c:95
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
-msgstr ""
+msgstr "දිනය"
 
 #: ../mail/em-format-html.c:1727 ../mail/em-format.c:854
 #: ../mail/em-mailer-prefs.c:96
 msgid "Newsgroups"
-msgstr ""
+msgstr "නව සමූහය"
 
 #: ../mail/em-format.c:1118
 #, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "%s ඇමුණුම"
 
 #: ../mail/em-format.c:1157 ../mail/em-format.c:1308 ../mail/em-format.c:1610
 msgid "Could not parse S/MIME message: Unknown error"
@@ -11663,19 +11660,19 @@ msgstr ""
 
 #: ../mail/em-mailer-prefs.c:107
 msgid "Every time"
-msgstr ""
+msgstr "සැමවිටම"
 
 #: ../mail/em-mailer-prefs.c:108
 msgid "Once per day"
-msgstr ""
+msgstr "දිනකට වරක්"
 
 #: ../mail/em-mailer-prefs.c:109
 msgid "Once per week"
-msgstr ""
+msgstr "සතියකට වරක්"
 
 #: ../mail/em-mailer-prefs.c:110
 msgid "Once per month"
-msgstr ""
+msgstr "මසකට වරක්"
 
 #: ../mail/em-mailer-prefs.c:778
 #, c-format
@@ -11684,8 +11681,7 @@ msgstr ""
 
 #: ../mail/em-mailer-prefs.c:786
 #, c-format
-msgid ""
-"%s plugin is not available. Please check whether the package is installed."
+msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr ""
 
 #: ../mail/em-mailer-prefs.c:807
@@ -11757,7 +11753,7 @@ msgstr ""
 
 #: ../mail/em-popup.c:627
 msgid "_Add to Address Book"
-msgstr ""
+msgstr "ලිපින පොතට එක් කරන්න (_A)"
 
 #: ../mail/em-subscribe-editor.c:603
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -11765,16 +11761,16 @@ msgstr ""
 
 #: ../mail/em-subscribe-editor.c:633
 msgid "Subscribed"
-msgstr ""
+msgstr "දායකත්වය"
 
 #: ../mail/em-subscribe-editor.c:637
 msgid "Folder"
-msgstr ""
+msgstr "බහලුම"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:835
 msgid "Please select a server."
-msgstr ""
+msgstr "කරුණාකර සේපාදායකය තෝරන්න"
 
 #: ../mail/em-subscribe-editor.c:856
 msgid "No server has been selected"
@@ -11786,29 +11782,29 @@ msgstr ""
 
 #: ../mail/em-utils.c:315
 msgid "Message Filters"
-msgstr ""
+msgstr "පණිවිඩ පෙරණයන්"
 
 #: ../mail/em-utils.c:368
 msgid "message"
-msgstr ""
+msgstr "පණිවිඩය"
 
 #: ../mail/em-utils.c:557
 msgid "Save Message..."
-msgstr ""
+msgstr "පණිවිඩය සුරකින්න..."
 
 #: ../mail/em-utils.c:606
 msgid "Add address"
-msgstr ""
+msgstr "ලිපිනය එක්කරන්න"
 
 #. Drop filename for messages from a mailbox
 #: ../mail/em-utils.c:1090
 #, c-format
 msgid "Messages from %s"
-msgstr ""
+msgstr "%s වෙතින් පණිවිඩයක්"
 
 #: ../mail/em-vfolder-editor.c:112
 msgid "Search _Folders"
-msgstr ""
+msgstr "බහලුම් සොයන්න (_F)"
 
 #: ../mail/em-vfolder-rule.c:590
 msgid "Search Folder source"
@@ -12011,7 +12007,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "List of accounts"
-msgstr ""
+msgstr "ගිණුම් ලැයිස්තුව"
 
 #: ../mail/evolution-mail.schemas.in.in.h:47
 msgid ""
@@ -12129,8 +12125,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:74
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
@@ -12181,7 +12176,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Save directory"
-msgstr ""
+msgstr "බහලුම සුරකින්න"
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Send HTML mail by default"
@@ -12465,22 +12460,22 @@ msgstr ""
 #: ../mail/mail-autofilter.c:79
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "%s වෙත තැපැල"
 
 #: ../mail/mail-autofilter.c:243 ../mail/mail-autofilter.c:282
 #, c-format
 msgid "Mail from %s"
-msgstr ""
+msgstr "%s වෙතින් තැපැල"
 
 #: ../mail/mail-autofilter.c:266
 #, c-format
 msgid "Subject is %s"
-msgstr ""
+msgstr "මාතෘකාව වනුයේ %s"
 
 #: ../mail/mail-autofilter.c:301
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "%s තැපැල් ලැයිස්තුව"
 
 #: ../mail/mail-autofilter.c:372
 msgid "Add Filter Rule"
@@ -12490,15 +12485,15 @@ msgstr ""
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ක් මකන ලදී"
+msgstr[1] "%d ක් මකන ලදී"
 
 #: ../mail/mail-component.c:526
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "නිසරු %d ක් ඇත"
+msgstr[1] "නිසරු %d ක් ඇත"
 
 #: ../mail/mail-component.c:549
 #, c-format
@@ -12544,11 +12539,11 @@ msgstr[1] ""
 
 #: ../mail/mail-component.c:889
 msgid "New Mail Message"
-msgstr ""
+msgstr "නව තැපැල් පණිවිඩ ඇත"
 
 #: ../mail/mail-component.c:890
 msgid "_Mail Message"
-msgstr ""
+msgstr "තැපැල් පණිවිඩ (_M)"
 
 #: ../mail/mail-component.c:891
 msgid "Compose a new mail message"
@@ -12556,11 +12551,11 @@ msgstr ""
 
 #: ../mail/mail-component.c:897
 msgid "New Mail Folder"
-msgstr ""
+msgstr "නව තැපැල් බහලුම"
 
 #: ../mail/mail-component.c:898
 msgid "Mail _Folder"
-msgstr ""
+msgstr "තැපැල් බහලුම (_F)"
 
 #: ../mail/mail-component.c:899
 msgid "Create a new mail folder"
@@ -12572,7 +12567,7 @@ msgstr ""
 
 #: ../mail/mail-config.c:81
 msgid "I_mportant"
-msgstr ""
+msgstr "ආනයනය (_m)"
 
 #. red
 #: ../mail/mail-config.c:82
@@ -12741,7 +12736,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:41
 msgid "Attach original message"
-msgstr ""
+msgstr "මුල් පණිවිඩය අමුණන්න"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Automatically insert _smiley images"
@@ -12793,7 +12788,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:55
 msgid "Colors"
-msgstr ""
+msgstr "වර්‍ණ"
 
 #: ../mail/mail-config.glade.h:56
 msgid "Confirm _when expunging a folder"
@@ -12811,7 +12806,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:63
 msgid "De_fault"
-msgstr ""
+msgstr "පෙරනිමිය (_f)"
 
 #: ../mail/mail-config.glade.h:64
 msgid "Default character e_ncoding:"
@@ -12848,11 +12843,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:74
 msgid "Email Accounts"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල් ගිණුම්"
 
 #: ../mail/mail-config.glade.h:75
 msgid "Email _Address:"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල් ලිපිනය (_A)"
 
 #: ../mail/mail-config.glade.h:76
 msgid "Empty trash folders on e_xit"
@@ -12884,7 +12879,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:84
 msgid "Full Nam_e:"
-msgstr ""
+msgstr "සම්පූර්ණ නම (_e):"
 
 #: ../mail/mail-config.glade.h:86
 msgid "HTML Mail"
@@ -13147,7 +13142,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Path:"
-msgstr ""
+msgstr "මාර්‍ගය (_P):"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
@@ -13192,11 +13187,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:179
 msgid "description"
-msgstr ""
+msgstr "විස්තරය"
 
 #: ../mail/mail-dialogs.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
 msgid "<b>Search Folder Sources</b>"
@@ -13232,11 +13227,11 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
-msgstr ""
+msgstr "සොයන්න (_i):"
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
-msgstr ""
+msgstr "පණිවිඩය තුළ සොයන්න"
 
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 msgid "Flag to Follow Up"
@@ -13430,7 +13425,7 @@ msgstr ""
 
 #: ../mail/mail-ops.c:2085
 msgid "Saving attachment"
-msgstr ""
+msgstr "ඇමුණුම සුරකිමින්"
 
 #: ../mail/mail-ops.c:2098 ../mail/mail-ops.c:2104
 #, c-format
@@ -13477,7 +13472,7 @@ msgstr ""
 
 #: ../mail/mail-send-recv.c:501
 msgid "Updating..."
-msgstr ""
+msgstr "යාවත්කාළීන කරමින්..."
 
 #: ../mail/mail-send-recv.c:501 ../mail/mail-send-recv.c:570
 msgid "Waiting..."
@@ -13504,7 +13499,7 @@ msgstr ""
 
 #: ../mail/mail-session.c:207
 msgid "Enter Password"
-msgstr ""
+msgstr "රහස්පදය ඇතුළත් කරන්න"
 
 #: ../mail/mail-session.c:245
 msgid "User canceled operation."
@@ -13521,7 +13516,7 @@ msgstr ""
 #: ../mail/mail-signature-editor.c:434
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Name:"
-msgstr ""
+msgstr "නම:"
 
 #: ../mail/mail-tools.c:120
 #, c-format
@@ -13571,13 +13566,11 @@ msgid "New Search Folder"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:1
-msgid ""
-"A folder named &quot;{0}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{0}&quot; already exists. Please use a different name."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:2
-msgid ""
-"A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:3
@@ -13615,8 +13608,7 @@ msgid "Are you sure you want to delete this account?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:11
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
+msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:12
@@ -13842,7 +13834,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:65
 msgid "Ignore"
-msgstr ""
+msgstr "දාවක මට්ටම"
 
 #: ../mail/mail.error.xml.h:66
 msgid "Invalid authentication"
@@ -14005,8 +13997,7 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:113
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:114
@@ -14140,30 +14131,30 @@ msgstr ""
 
 #: ../mail/message-list.c:1508 ../widgets/table/e-cell-date.c:57
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../mail/message-list.c:1515 ../plugins/itip-formatter/itip-view.c:201
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "අද %l:%M %p"
 
 #: ../mail/message-list.c:1524 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "ඊයේ %l:%M %p"
 
 #: ../mail/message-list.c:1536 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: ../mail/message-list.c:1544 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: ../mail/message-list.c:1546 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2305 ../mail/message-list.etspec.h:9
 msgid "Messages"
@@ -14200,7 +14191,7 @@ msgstr ""
 #: ../mail/message-list.etspec.h:15
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
 msgid "Size"
-msgstr ""
+msgstr "ප්‍රමාණය"
 
 #: ../mail/message-tag-followup.c:75
 msgid "Call"
@@ -14208,7 +14199,7 @@ msgstr ""
 
 #: ../mail/message-tag-followup.c:76
 msgid "Do Not Forward"
-msgstr ""
+msgstr "ඉදිරියට යවන්න ඒපා"
 
 #: ../mail/message-tag-followup.c:77
 msgid "Follow-Up"
@@ -14220,7 +14211,7 @@ msgstr ""
 
 #: ../mail/message-tag-followup.c:79 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr ""
+msgstr "ඉදිරියට"
 
 #: ../mail/message-tag-followup.c:80
 msgid "No Response Necessary"
@@ -14228,11 +14219,11 @@ msgstr ""
 
 #: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:80
 msgid "Reply"
-msgstr ""
+msgstr "පිළිතුර"
 
 #: ../mail/message-tag-followup.c:83 ../ui/evolution-mail-message.xml.h:81
 msgid "Reply to All"
-msgstr ""
+msgstr "පිළිතුර සියල්ලන්ටම"
 
 #: ../mail/message-tag-followup.c:84
 msgid "Review"
@@ -14260,7 +14251,7 @@ msgstr ""
 
 #: ../mail/searchtypes.xml.h:6
 msgid "Subject or Sender contains"
-msgstr ""
+msgstr "මාතෘකාව හෝ යවන්නා ඇතුලත්වු"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Local Address Books"
@@ -14456,8 +14447,7 @@ msgstr ""
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:471
-msgid ""
-"_Automatically create entries in the addressbook when responding to mail"
+msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:477
@@ -14470,8 +14460,7 @@ msgstr ""
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:507
-msgid ""
-"Periodically synchronize contact information and images from gaim buddy list"
+msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:513
@@ -14515,7 +14504,7 @@ msgstr ""
 #: ../plugins/caldav/caldav-source.c:247
 #: ../plugins/calendar-http/calendar-http.c:133
 msgid "_URL:"
-msgstr ""
+msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:269
 msgid "Use _SSL"
@@ -14622,8 +14611,7 @@ msgid "Check whether Evolution is the default mailer"
 msgstr ""
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
@@ -14667,7 +14655,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
 msgid "_User:"
-msgstr ""
+msgstr "පරිශීලක (_U):"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
@@ -14822,7 +14810,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
 #: ../widgets/table/e-table-header-item.c:1554
 msgid "Custom"
-msgstr ""
+msgstr "භාවිතය"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:190
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
@@ -14918,30 +14906,30 @@ msgstr ""
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
 msgid "_Inbox:"
-msgstr ""
+msgstr "එන (_I):"
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:19
 msgid "_Tasks:"
-msgstr ""
+msgstr "කාර්‍යය (_T):"
 
 #: ../plugins/exchange-operations/exchange-folder-permission.c:61
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
-msgstr ""
+msgstr "අවසර..."
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:135
 msgid "Folder Name"
-msgstr ""
+msgstr "බහලුමේ නම"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:139
 msgid "Folder Size"
-msgstr ""
+msgstr "බහලුමේ ප්‍රමාණය"
 
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:310
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "වෙනස් පරිශීලකයකුගේ බහලුමකට දායකත්වය දක්වන්න"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
@@ -14951,7 +14939,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-folder.c:235
 #: ../plugins/exchange-operations/exchange-folder.c:245
 msgid "Unsubscribe Folder..."
-msgstr ""
+msgstr "බහලුමේ දායකත්වය ඉවත් කරන්න..."
 
 #: ../plugins/exchange-operations/exchange-folder.c:465
 #: ../plugins/exchange-operations/exchange-folder.c:520
@@ -15029,7 +15017,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User"
-msgstr ""
+msgstr "පරිශීලකයකු එක් කරන්න"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 msgid "<b>Permissions</b>"
@@ -15089,7 +15077,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
 msgid "<b>Message Settings</b>"
-msgstr ""
+msgstr "<b>පණිවිඩ සැකසුම්</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:2
 msgid "<b>Tracking Options</b>"
@@ -15101,7 +15089,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
-msgstr ""
+msgstr "ආනයනය (_m): "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:5
 msgid ""
@@ -15381,7 +15369,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "Unknown type"
-msgstr ""
+msgstr "නොදන්නා වර්‍ගයක්"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "Unsupported operation"
@@ -15499,40 +15487,40 @@ msgstr ""
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
-msgstr ""
+msgstr "නිසරු සැකසුම්"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
 msgid "<b>Junk Mail Settings</b>"
-msgstr ""
+msgstr "<b>නිසරු තැපැල් සැකසුම්</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
 msgid "Junk Mail Settings..."
-msgstr ""
+msgstr "නිසරු තැපැල් සැකසුම්..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List:</b>"
-msgstr ""
+msgstr "<b>නිසරු ලැයිස්තුව:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
-msgstr ""
+msgstr "නිසරු තැපැල් සැකසුම්"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
 msgid "_Disable"
-msgstr ""
+msgstr "අක්‍රීය (_D)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:6
 msgid "_Enable"
-msgstr ""
+msgstr "සක්‍රීය (_E)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
-msgstr ""
+msgstr "නිසරු ලැයිස්තුව (_J)"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message retracted successfully"
@@ -15550,7 +15538,7 @@ msgstr ""
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
-msgstr ""
+msgstr "යැවීමේ විකල්ප"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
@@ -15566,12 +15554,12 @@ msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:1
 msgid "<b>Users:</b>"
-msgstr ""
+msgstr "<b>පරිශීලකයින්:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
 #: ../widgets/table/e-table-click-to-add.c:509
 msgid "Message"
-msgstr ""
+msgstr "පණිවිඩ"
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 msgid "Shared Folder Notification"
@@ -15603,7 +15591,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
 msgid "<b>Name</b>"
-msgstr ""
+msgstr "<b>නම</b>"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
@@ -15611,7 +15599,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
 msgid "Add/Edit"
-msgstr ""
+msgstr "එක් කිරීම/සැකසීම"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
 msgid "Con_tacts"
@@ -15640,11 +15628,11 @@ msgstr ""
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
-msgstr ""
+msgstr "කියවීම (_R)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
-msgstr ""
+msgstr "ලිවීම (_W)"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -15652,7 +15640,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
-msgstr ""
+msgstr "<b>ගිණුමේ නම</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
@@ -15684,7 +15672,7 @@ msgstr ""
 #: ../plugins/groupwise-features/share-folder-common.c:322
 #: ../plugins/groupwise-features/share-folder.c:760
 msgid "Users"
-msgstr ""
+msgstr "පරිශීලකයින්"
 
 #: ../plugins/groupwise-features/share-folder-common.c:323
 msgid "Enter the users and set permissions"
@@ -15700,11 +15688,11 @@ msgstr ""
 
 #: ../plugins/groupwise-features/share-folder.c:765
 msgid "Add   "
-msgstr ""
+msgstr "එක් කරන්න   "
 
 #: ../plugins/groupwise-features/share-folder.c:771
 msgid "Modify"
-msgstr ""
+msgstr "සකසන්න"
 
 #: ../plugins/groupwise-features/status-track.c:103
 msgid "Message Status"
@@ -15713,19 +15701,19 @@ msgstr ""
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:117
 msgid "<b>Subject</b> :"
-msgstr ""
+msgstr "<b>මාතෘකාව</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:129
 msgid "<b>From</b> :"
-msgstr ""
+msgstr "<b>වෙතින්</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:142
 msgid "<b>Creation date</b> :"
-msgstr ""
+msgstr "<b>නිර්මාණය කළ දිනය</b> :"
 
 #: ../plugins/groupwise-features/status-track.c:178
 msgid "Recipient: "
-msgstr ""
+msgstr "ලබන්නා: "
 
 #: ../plugins/groupwise-features/status-track.c:185
 msgid "Delivered: "
@@ -15769,23 +15757,23 @@ msgstr ""
 
 #: ../plugins/imap-features/imap-headers.c:133
 msgid "Custom Header"
-msgstr ""
+msgstr "රිසිකළ ශීර්ෂකය"
 
 #: ../plugins/imap-features/imap-headers.c:245
 msgid "Custom Headers"
-msgstr ""
+msgstr "රිසිකළ ශීර්ෂක"
 
 #: ../plugins/imap-features/imap-headers.c:252
 msgid "IMAP Headers"
-msgstr ""
+msgstr "IMAP ශීර්ෂක"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
 msgid "<b>Custom Headers</b>"
-msgstr ""
+msgstr "<b>රිසිකළ ශීර්ෂක</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
 msgid "<b>IMAP Headers </b>"
-msgstr ""
+msgstr "<b>IMAP ශීර්ෂක</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
@@ -16026,144 +16014,144 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:187 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:239
 msgid "Today"
-msgstr ""
+msgstr "අද"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:192
 msgid "Today %H:%M"
-msgstr ""
+msgstr "අද %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:196
 msgid "Today %H:%M:%S"
-msgstr ""
+msgstr "අද %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:205
 msgid "Today %l:%M:%S %p"
-msgstr ""
+msgstr "අද %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:215
 msgid "Tomorrow"
-msgstr ""
+msgstr "හෙට"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:220
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "හෙට %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:224
 msgid "Tomorrow %H:%M:%S"
-msgstr ""
+msgstr "හෙට %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:229
 msgid "Tomorrow %l:%M %p"
-msgstr ""
+msgstr "හෙට %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:233
 msgid "Tomorrow %l:%M:%S %p"
-msgstr ""
+msgstr "හෙට %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:252
 #, c-format
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:257
 msgid "%A %H:%M"
-msgstr ""
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:261
 msgid "%A %H:%M:%S"
-msgstr ""
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:266
 msgid "%A %l:%M %p"
-msgstr ""
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:270
 msgid "%A %l:%M:%S %p"
-msgstr ""
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:279
 msgid "%A, %B %e"
-msgstr ""
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:285
 msgid "%A, %B %e %H:%M"
-msgstr ""
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:289
 msgid "%A, %B %e %H:%M:%S"
-msgstr ""
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:294
 msgid "%A, %B %e %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:298
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:304
 msgid "%A, %B %e, %Y"
-msgstr ""
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:309
 msgid "%A, %B %e, %Y %H:%M"
-msgstr ""
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:313
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr ""
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:318
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:322
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:347
 #, c-format
@@ -16202,8 +16190,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:370
 #, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:373
@@ -16341,7 +16328,7 @@ msgstr ""
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:762
 msgid "_Open Calendar"
-msgstr ""
+msgstr "දිනදර්ශනය විවෘත කරන්න (_O)"
 
 #: ../plugins/itip-formatter/itip-view.c:768
 #: ../plugins/itip-formatter/itip-view.c:772
@@ -16390,23 +16377,23 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:792
 msgid "_Update"
-msgstr ""
+msgstr "යාවත්කාලීන (_U)"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:951
 msgid "Start time:"
-msgstr ""
+msgstr "ඇරඹුම් වේලාව:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:960
 msgid "End time:"
-msgstr ""
+msgstr "අවසන් නේලාව:"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:976
 #: ../plugins/itip-formatter/itip-view.c:1026
 msgid "Comment:"
-msgstr ""
+msgstr "සටහන:"
 
 #: ../plugins/itip-formatter/itip-view.c:1040
 msgid "Send u_pdates to attendees"
@@ -16418,7 +16405,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:1718
 msgid "_Tasks :"
-msgstr ""
+msgstr "වැඩ (_T) :"
 
 #: ../plugins/itip-formatter/itip-view.c:1720
 msgid "Memos :"
@@ -16443,8 +16430,7 @@ msgid "This meeting has been delegated"
 msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -16502,7 +16488,7 @@ msgstr ""
 #: ../plugins/mail-remote/client.c:30
 #, c-format
 msgid "System error: %s"
-msgstr ""
+msgstr "පද්ධති දෝෂය: %s"
 
 #: ../plugins/mail-remote/client.c:32
 #, c-format
@@ -16518,8 +16504,7 @@ msgid "No store available"
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid ""
-"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
@@ -16581,8 +16566,7 @@ msgid "Mailing _List"
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-msgid ""
-"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
@@ -16655,11 +16639,11 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
-msgstr ""
+msgstr "පණිවිඩය සකසන්න (_E)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
 msgid "_Send message"
-msgstr ""
+msgstr "පණිවිඩය යවන්න (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact List _Owner"
@@ -16715,7 +16699,7 @@ msgstr ""
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
 msgid "Mark Me_ssages as Read"
-msgstr ""
+msgstr "පණිවිඩය කියවූ ලෙස සළකුණු කරන්න (_s)"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
@@ -16769,17 +16753,17 @@ msgstr ""
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
-msgstr ""
+msgstr "ප්ලගීන (_P)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:53
 msgid "Author(s)"
-msgstr ""
+msgstr "කතෘ(න්)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:54
 #: ../widgets/table/e-table-config-no-group.glade.h:6
 #: ../widgets/table/e-table-config.glade.h:5
 msgid "Description"
-msgstr ""
+msgstr "විස්තරය"
 
 #: ../plugins/plugin-manager/plugin-manager.c:215
 msgid "Note: Some changes will not take effect until restart"
@@ -16788,7 +16772,7 @@ msgstr ""
 #: ../plugins/plugin-manager/plugin-manager.c:268
 #: ../plugins/plugin-manager/plugin-manager.c:327
 msgid "Plugin"
-msgstr ""
+msgstr "ප්ලගීන"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
@@ -16829,18 +16813,18 @@ msgstr ""
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 msgid "Print Message"
-msgstr ""
+msgstr "පණිවිඩය මුද්‍රණය"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:27 ../ui/evolution-calendar.xml.h:21
 #: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr ""
+msgstr "මුද්‍රණ පෙර දැක්ම (_v)"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
 msgid "Prints the message"
-msgstr ""
+msgstr "පණිවිඩය මුද්‍රණය කරන්න"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 msgid "Evolution Profiler"
@@ -16860,7 +16844,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
 msgid "Locations"
-msgstr ""
+msgstr "පිහිටීම්"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
 msgid "_Publish Calendar Information"
@@ -16872,11 +16856,11 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">පිහිටිම</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">මූළ</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
 msgid ""
@@ -16910,15 +16894,15 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
-msgstr ""
+msgstr "සේවා වර්‍ගය (_t):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
 msgid "_File:"
-msgstr ""
+msgstr "ගොනු: (_F)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
 msgid "_Password:"
-msgstr ""
+msgstr "රහස්පදය: (_P)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
 msgid "_Publish as:"
@@ -16926,11 +16910,11 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
 msgid "_Remember password"
-msgstr ""
+msgstr "රහස්පදය මතක තබාගන්න (_R)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
 msgid "_Username:"
-msgstr ""
+msgstr "පරිශීලක නම (_U):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:28
 msgid ""
@@ -16968,15 +16952,15 @@ msgstr ""
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 #: ../plugins/save-attachments/save-attachments.c:330
 msgid "Save attachments"
-msgstr ""
+msgstr "ඇමුණුම් සුරකින්න"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
 msgid "Save Attachments..."
-msgstr ""
+msgstr "ඇමුණුම් සුරකින්න..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
 msgid "Save all attachments"
-msgstr ""
+msgstr "සියළුම ඇමුණුම් සුරකින්න"
 
 #: ../plugins/save-attachments/save-attachments.c:336
 msgid "Select save base name"
@@ -16984,12 +16968,12 @@ msgstr ""
 
 #: ../plugins/save-attachments/save-attachments.c:355
 msgid "MIME Type"
-msgstr ""
+msgstr "MIME වර්‍ගය"
 
 #: ../plugins/save-attachments/save-attachments.c:363
 #: ../ui/evolution-editor.xml.h:12 ../ui/evolution-message-composer.xml.h:25
 msgid "Save"
-msgstr ""
+msgstr "සුරකින්න"
 
 #.
 #. * Translator: the %F %T is the thirth argument for a strftime function.
@@ -16997,27 +16981,27 @@ msgstr ""
 #. *
 #: ../plugins/save-calendar/csv-format.c:171
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:385
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
 #: ../plugins/save-calendar/csv-format.c:387
 msgid "Description List"
-msgstr ""
+msgstr "විස්තර ලැයිස්තුව"
 
 #: ../plugins/save-calendar/csv-format.c:388
 msgid "Categories List"
-msgstr ""
+msgstr "ප්‍රභේද ලැයිස්තුව"
 
 #: ../plugins/save-calendar/csv-format.c:389
 msgid "Comment List"
-msgstr ""
+msgstr "සටහන් ලැයිස්තුව"
 
 #: ../plugins/save-calendar/csv-format.c:391
 msgid "Created"
-msgstr ""
+msgstr "නිර්මාණය කරන ලදි"
 
 #: ../plugins/save-calendar/csv-format.c:392
 msgid "Contact List"
@@ -17025,11 +17009,11 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:393
 msgid "Start"
-msgstr ""
+msgstr "ආරම්ඹන්න"
 
 #: ../plugins/save-calendar/csv-format.c:394
 msgid "End"
-msgstr ""
+msgstr "නිමවන්න"
 
 #: ../plugins/save-calendar/csv-format.c:396
 msgid "percent Done"
@@ -17037,7 +17021,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:398
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:399
 msgid "Attendees List"
@@ -17045,7 +17029,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:401
 msgid "Modified"
-msgstr ""
+msgstr "වෙනස් කළ"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
@@ -17073,7 +17057,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
-msgstr ""
+msgstr "තේරිම සුරකින්න"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Saves selected calendar or tasks list to disk."
@@ -17081,7 +17065,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
 msgid "_Save to Disk"
-msgstr ""
+msgstr "තැටියට සුරකින්න (_S)"
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -17090,11 +17074,11 @@ msgstr ""
 #. *
 #: ../plugins/save-calendar/rdf-format.c:158
 msgid "%FT%T"
-msgstr ""
+msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:397
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "RDF සංයුතිය (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:169
 #: ../plugins/save-calendar/save-calendar.c:180
@@ -17131,7 +17115,7 @@ msgstr ""
 
 #: ../plugins/startup-wizard/startup-wizard.c:87
 msgid "Welcome"
-msgstr ""
+msgstr "ආයුබෝවන්"
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
 msgid ""
@@ -17154,7 +17138,7 @@ msgstr ""
 #: ../shell/e-shell-importer.c:397
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "%s වෙතින්:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:508
@@ -17164,7 +17148,7 @@ msgstr ""
 #: ../plugins/startup-wizard/startup-wizard.c:233
 #: ../shell/e-shell-importer.c:522
 msgid "Please wait"
-msgstr ""
+msgstr "කරුණැකර රැදී සිටින්න"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
@@ -17232,8 +17216,7 @@ msgid "Last upgraded configuration version"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
@@ -17308,8 +17291,7 @@ msgid "Whether the toolbar should be visible."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:26
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:27
@@ -17326,11 +17308,11 @@ msgstr ""
 
 #: ../shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
-msgstr ""
+msgstr "<b>සක්‍රීය සම්බන්ධතා</b>"
 
 #: ../shell/e-active-connection-dialog.glade.h:2
 msgid "Active Connections"
-msgstr ""
+msgstr "සක්‍රීය සම්බන්ධතා"
 
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
@@ -17339,7 +17321,7 @@ msgstr ""
 #: ../shell/e-shell-folder-title-bar.c:584
 #: ../shell/e-shell-folder-title-bar.c:585
 msgid "(Untitled)"
-msgstr ""
+msgstr "(නිර්නාමික)"
 
 #: ../shell/e-shell-importer.c:135
 msgid "Choose the type of importer to run:"
@@ -17368,15 +17350,15 @@ msgstr ""
 
 #: ../shell/e-shell-importer.c:285
 msgid "F_ilename:"
-msgstr ""
+msgstr "ගොනු නම (_i):"
 
 #: ../shell/e-shell-importer.c:290
 msgid "Select a file"
-msgstr ""
+msgstr "ගොනුවක් තෝරන්න"
 
 #: ../shell/e-shell-importer.c:299
 msgid "File _type:"
-msgstr ""
+msgstr "ගොනු වර්‍ගය (_t):"
 
 #: ../shell/e-shell-importer.c:335
 msgid "Import data and settings from _older programs"
@@ -17388,7 +17370,7 @@ msgstr ""
 
 #: ../shell/e-shell-settings-dialog.c:319
 msgid "Evolution Preferences"
-msgstr ""
+msgstr "ඉවෝලුෂන් අභිප්‍රේත"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
@@ -17432,7 +17414,7 @@ msgstr ""
 #. * about dialog.
 #: ../shell/e-shell-window-commands.c:575
 msgid "translator-credits"
-msgstr ""
+msgstr "පරිවර්තන ස්තුතිය"
 
 #: ../shell/e-shell-window-commands.c:586
 msgid "Evolution Website"
@@ -17444,7 +17426,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-commands.c:806 ../ui/evolution.xml.h:55
 msgid "_Work Offline"
-msgstr ""
+msgstr "නොබැදිව වැඩ කරන්න (_W)"
 
 #: ../shell/e-shell-window-commands.c:819
 msgid "Work Offline"
@@ -17474,11 +17456,11 @@ msgstr ""
 #: ../shell/e-shell.c:832 ../shell/e-shell.c:833
 #, c-format
 msgid "%ld KB"
-msgstr ""
+msgstr "%ld KB"
 
 #: ../shell/e-shell.c:1264 ../widgets/misc/e-cell-date-edit.c:255
 msgid "OK"
-msgstr ""
+msgstr "හරි"
 
 #: ../shell/e-shell.c:1266
 msgid "Invalid arguments"
@@ -17496,19 +17478,19 @@ msgstr ""
 #: ../shell/e-user-creatable-items-handler.c:688
 #: ../shell/e-user-creatable-items-handler.c:693
 msgid "New"
-msgstr ""
+msgstr "නව"
 
 #: ../shell/evolution-test-component.c:140
 msgid "New Test"
-msgstr ""
+msgstr "නව පරීක්‍ෂණය"
 
 #: ../shell/evolution-test-component.c:141
 msgid "_Test"
-msgstr ""
+msgstr "පරීක්‍ෂණය (_T)"
 
 #: ../shell/evolution-test-component.c:142
 msgid "Create a new test item"
-msgstr ""
+msgstr "නව පරීක්‍ෂණය අයිතමයක් නිර්මාණය කරන්න"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -17536,7 +17518,7 @@ msgstr ""
 
 #: ../shell/import.glade.h:7
 msgid "Select a File"
-msgstr ""
+msgstr "ගොනුවක් තෝරන්න"
 
 #: ../shell/import.glade.h:8
 msgid ""
@@ -17617,7 +17599,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
-msgstr ""
+msgstr "දිගටම කරගෙන යන්න"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
@@ -17695,7 +17677,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:31
 msgid "_Forget"
-msgstr ""
+msgstr "අමතකඋනා (_F)"
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Keep Data"
@@ -17746,24 +17728,24 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:147
 msgid "All PKCS12 files"
-msgstr ""
+msgstr "සියළු PKCS12 ගොනු"
 
 #: ../smime/gui/certificate-manager.c:152
 #: ../smime/gui/certificate-manager.c:403
 #: ../smime/gui/certificate-manager.c:635
 msgid "All files"
-msgstr ""
+msgstr "සියළු ගොනු"
 
 #: ../smime/gui/certificate-manager.c:279
 #: ../smime/gui/certificate-manager.c:496
 #: ../smime/gui/certificate-manager.c:726
 msgid "Certificate Name"
-msgstr ""
+msgstr "සහතික නම"
 
 #: ../smime/gui/certificate-manager.c:288
 #: ../smime/gui/certificate-manager.c:514
 msgid "Purposes"
-msgstr ""
+msgstr "කාරණය"
 
 #: ../smime/gui/certificate-manager.c:297 ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:570
@@ -17772,7 +17754,7 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:305
 msgid "Expires"
-msgstr ""
+msgstr "අවලංගු වීම"
 
 #: ../smime/gui/certificate-manager.c:398
 msgid "All email certificate files"
@@ -17780,7 +17762,7 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:505
 msgid "E-Mail Address"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල් ලිපිනය"
 
 #: ../smime/gui/certificate-manager.c:630
 msgid "All CA certificate files"
@@ -17880,7 +17862,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1077
 msgid "Certificate"
-msgstr ""
+msgstr "සහතිකය"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
@@ -17888,11 +17870,11 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr ""
+msgstr "සහතිකයේ විස්තර"
 
 #: ../smime/gui/smime-ui.glade.h:17
 msgid "Certificates Table"
-msgstr ""
+msgstr "සහතික වගුව"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
@@ -17912,7 +17894,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:23
 msgid "Edit"
-msgstr ""
+msgstr "සැකසුම්"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
@@ -17980,15 +17962,14 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
-msgstr ""
+msgstr "දසුන"
 
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -17997,7 +17978,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr ""
+msgstr "ඔබගේ සහතික"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
@@ -18010,7 +17991,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:239 ../smime/lib/e-cert.c:249
 msgid "%d/%m/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:425
@@ -18023,35 +18004,35 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:531
 msgid "Version"
-msgstr ""
+msgstr "වෙළුම"
 
 #: ../smime/lib/e-cert.c:546
 msgid "Version 1"
-msgstr ""
+msgstr "වෙළුම 1"
 
 #: ../smime/lib/e-cert.c:549
 msgid "Version 2"
-msgstr ""
+msgstr "වෙළුම 2"
 
 #: ../smime/lib/e-cert.c:552
 msgid "Version 3"
-msgstr ""
+msgstr "වෙළුම 3"
 
 #: ../smime/lib/e-cert.c:634
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr ""
+msgstr "RSA කේතාංකනය සමඟ PKCS #1 MD2"
 
 #: ../smime/lib/e-cert.c:637
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr ""
+msgstr "RSA කේතාංකනය සමඟ PKCS #1 MD5"
 
 #: ../smime/lib/e-cert.c:640
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr ""
+msgstr "RSA කේතාංකනය සමඟ PKCS #1 SHA-1"
 
 #: ../smime/lib/e-cert.c:667
 msgid "PKCS #1 RSA Encryption"
-msgstr ""
+msgstr "RSA කේතාංකනය සමඟ PKCS #1"
 
 #: ../smime/lib/e-cert.c:670
 msgid "Certificate Key Usage"
@@ -18216,7 +18197,7 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
-msgstr ""
+msgstr "පිටපත් කරන්න"
 
 #: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
@@ -18228,11 +18209,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr ""
+msgstr "තෝරාගත් කොටස අලවන්න"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
-msgstr ""
+msgstr "බහලුමට පිටපත් කරන්න..."
 
 #: ../ui/evolution-addressbook.xml.h:11
 msgid "Create a new addressbook folder"
@@ -18242,15 +18223,15 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-memos.xml.h:4
 #: ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
-msgstr ""
+msgstr "කපන්න"
 
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr ""
+msgstr "තෝරාගත් කොටස කපන්න"
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
-msgstr ""
+msgstr "ලිපින පොත මකන්න (_e)"
 
 #: ../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
@@ -18284,7 +18265,7 @@ msgstr ""
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
 #: ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
-msgstr ""
+msgstr "අලවන්න"
 
 #: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
@@ -18316,13 +18297,13 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2715
 msgid "Select All"
-msgstr ""
+msgstr "සියල්ල තෝරන්න"
 
 #: ../ui/evolution-addressbook.xml.h:35
 #: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr ""
+msgstr "සියල්ල තෝරන්න (_A)"
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
@@ -18346,11 +18327,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
-msgstr ""
+msgstr "නවතන්න (_o)"
 
 #: ../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
-msgstr ""
+msgstr "නවතන්න"
 
 #: ../ui/evolution-addressbook.xml.h:43
 msgid "Stop Loading"
@@ -18363,7 +18344,7 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:38
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
-msgstr ""
+msgstr "ක්‍රියා (_A)"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
@@ -18391,11 +18372,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:47
 msgid "_New"
-msgstr ""
+msgstr "නව (_N)"
 
 #: ../ui/evolution-addressbook.xml.h:60
 msgid "_Rename"
-msgstr ""
+msgstr "නම වෙනස් කරන්න (_R)"
 
 #: ../ui/evolution-addressbook.xml.h:61
 msgid "_Save Contact as VCard..."
@@ -18411,7 +18392,7 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr ""
+msgstr "දවස"
 
 #: ../ui/evolution-calendar.xml.h:6
 msgid "Delete _all Occurrences"
@@ -18439,20 +18420,20 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
-msgstr ""
+msgstr "ඉදිරියට යන්න"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
-msgstr ""
+msgstr "ලැයිස්තුව"
 
 #: ../ui/evolution-calendar.xml.h:15
 msgid "Month"
-msgstr ""
+msgstr "මාසය"
 
 #: ../ui/evolution-calendar.xml.h:16 ../ui/evolution-mail-message.xml.h:58
 #: ../widgets/misc/e-calendar.c:201
 msgid "Next"
-msgstr ""
+msgstr "මීළඟ"
 
 #: ../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
@@ -18461,7 +18442,7 @@ msgstr ""
 #: ../ui/evolution-calendar.xml.h:19 ../ui/evolution-mail-message.xml.h:74
 #: ../widgets/misc/e-calendar.c:177
 msgid "Previous"
-msgstr ""
+msgstr "පෙර"
 
 #: ../ui/evolution-calendar.xml.h:22
 msgid "Print this calendar"
@@ -18557,11 +18538,11 @@ msgstr ""
 
 #: ../ui/evolution-editor.xml.h:1 ../ui/evolution-message-composer.xml.h:1
 msgid "Attach"
-msgstr ""
+msgstr "අමුණන්න"
 
 #: ../ui/evolution-editor.xml.h:2
 msgid "Click here to attach a file"
-msgstr ""
+msgstr "ගොනුවක් ඇමිණීම සඳහා මෙතැන ක්ලික් කරන්න"
 
 #: ../ui/evolution-editor.xml.h:3
 msgid "Click here to close the current window"
@@ -18584,36 +18565,36 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:3
 #: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
-msgstr ""
+msgstr "වසන්න"
 
 #: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
 msgid "I_nsert"
-msgstr ""
+msgstr "ඇතුලත් කිරීම (_n)"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:47
 msgid "_Attachment..."
-msgstr ""
+msgstr "ඇමුණුම... (_A)"
 
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 #: ../ui/evolution-message-composer.xml.h:50 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
-msgstr ""
+msgstr "වසන්න (_C)"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:53
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:42
 msgid "_File"
-msgstr ""
+msgstr "ගොනු (_F)"
 
 #: ../ui/evolution-editor.xml.h:20 ../ui/evolution.xml.h:44
 msgid "_Help"
-msgstr ""
+msgstr "උදව් (_H)"
 
 #: ../ui/evolution-editor.xml.h:21
 msgid "_Options"
-msgstr ""
+msgstr "විකල්පයන් (_O)"
 
 #: ../ui/evolution-event-editor.xml.h:2
 msgid "All Day Event"
@@ -18673,7 +18654,7 @@ msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:11
 msgid "Time _Zone"
-msgstr ""
+msgstr "හෝරා කලාපය (_Z)"
 
 #: ../ui/evolution-event-editor.xml.h:19 ../ui/evolution-task-editor.xml.h:12
 msgid "Toggles whether the Attendee Type field is displayed"
@@ -18715,7 +18696,7 @@ msgstr ""
 #: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:6
 #: ../ui/evolution-task-editor.xml.h:18
 msgid "_Categories"
-msgstr ""
+msgstr "ප්‍රභේද (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-memo-editor.xml.h:7
 #: ../ui/evolution-task-editor.xml.h:19
@@ -18786,12 +18767,12 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:10
 msgid "Empty _Trash"
-msgstr ""
+msgstr "ඉවතලන බදුන හිස් කරන්න (_T)"
 
 #: ../ui/evolution-mail-global.xml.h:11 ../ui/evolution-mail-list.xml.h:11
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
-msgstr ""
+msgstr "බහලුම (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:12
 msgid "Move the selected folder into another folder"
@@ -18804,7 +18785,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Search F_olders"
-msgstr ""
+msgstr "බහලුම් සොයන්න (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show Message _Preview"
@@ -18832,30 +18813,30 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:22
 msgid "_Copy Folder To..."
-msgstr ""
+msgstr "බහලුම වෙතට පිටපත් කරන්න... (_C)"
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Message Filters"
-msgstr ""
+msgstr "පණිවිඩ පෙරණයන් (_M)"
 
 #: ../ui/evolution-mail-global.xml.h:24
 msgid "_Move Folder To..."
-msgstr ""
+msgstr "බහලුම වෙතට ගෙනයන්න... (_M)"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_New..."
-msgstr ""
+msgstr "නව... (_N)"
 
 #: ../ui/evolution-mail-global.xml.h:26
 msgid "_Preview"
-msgstr ""
+msgstr "පෙන්වන්න (_P)"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 #.
 #: ../ui/evolution-mail-global.xml.h:30
 msgid "_Subscriptions"
-msgstr ""
+msgstr "දායකත්වයන් (_S)"
 
 #: ../ui/evolution-mail-global.xml.h:31
 msgid "_Vertical View"
@@ -18911,13 +18892,12 @@ msgid "Hide _Read Messages"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:16
 msgid "Mar_k All Messages as Read"
-msgstr ""
+msgstr "සියළුම පණිවිඩ කියවූ ලෙස සළකුණු කරන්න (_k)"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
@@ -18945,7 +18925,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:23
 msgid "Select _All Messages"
-msgstr ""
+msgstr "සියළුම පණිවිඩ තෝරන්න (_A)"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select all and only the messages that are not currently selected"
@@ -18986,7 +18966,7 @@ msgstr ""
 #: ../ui/evolution-mail-list.xml.h:34 ../ui/evolution-mail-message.xml.h:116
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
-msgstr ""
+msgstr "පණිවිඩය (_M)"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -19215,7 +19195,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
-msgstr ""
+msgstr "නිසරු නොවේ"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
@@ -19335,15 +19315,15 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Uni_mportant"
-msgstr ""
+msgstr "නොවැදගත් (_m)"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
-msgstr ""
+msgstr "කුඩා කරන්න (_O)"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "_Attached"
-msgstr ""
+msgstr "ඇමුණු (_A)"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
@@ -19355,11 +19335,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Delete Message"
-msgstr ""
+msgstr "පණිවිඩය මකන්න (_D)"
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Find in Message..."
-msgstr ""
+msgstr "පණිවිඩය තුළ සොයන්න... (_F)"
 
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Flag Completed"
@@ -19367,11 +19347,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
-msgstr ""
+msgstr "වෙතට යන්න (_G)"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Important"
-msgstr ""
+msgstr "වැදගත් (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:113
 msgid "_Inline"
@@ -19379,35 +19359,35 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Junk"
-msgstr ""
+msgstr "නිසරු (_J)"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Load Images"
-msgstr ""
+msgstr "පිළිඹිබු පූරණය (_L)"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Message Source"
-msgstr ""
+msgstr "පණිවිඩය මූලය (_M)"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
-msgstr ""
+msgstr "මීළඟ පණිවිඩය (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Normal Size"
-msgstr ""
+msgstr "සාමාන්‍ය ප්‍රමාණය (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Not Junk"
-msgstr ""
+msgstr "නොනිසරු (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Open in New Window"
-msgstr ""
+msgstr "නව කවුළුවක විවෘත කරන්න (_O)"
 
 #: ../ui/evolution-mail-message.xml.h:123
 msgid "_Previous Message"
-msgstr ""
+msgstr "මීට පෙර පණිවිඩය (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Quoted"
@@ -19415,31 +19395,31 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
-msgstr ""
+msgstr "පණිවිඩය සුරකින්න... (_S)"
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Undelete Message"
-msgstr ""
+msgstr "නිර්ණාමික පණිවිඩය (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
-msgstr ""
+msgstr "නොකියවූ (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
-msgstr ""
+msgstr "විශාලණය (_Z)"
 
 #: ../ui/evolution-mail-message.xml.h:132
 msgid "_Zoom In"
-msgstr ""
+msgstr "විශාල කරන්න (_Z)"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
 msgid "Close this window"
-msgstr ""
+msgstr "මෙම කවුළුව මකන්න"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
 msgid "Main toolbar"
-msgstr ""
+msgstr "ප්‍රධාන මෙවලම් තීරුව"
 
 #: ../ui/evolution-memos.xml.h:3
 msgid "Copy selected memo"
@@ -19475,7 +19455,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr ""
+msgstr "ගොනුවක් අමුණන්න"
 
 #.
 #. <cmd name="FileSave" _label="Save"
@@ -19485,7 +19465,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:4
 #: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
-msgstr ""
+msgstr "දැනට භාවිතාවන ගොනුව වසන්න"
 
 #: ../ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
@@ -19502,7 +19482,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:8
 #: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
-msgstr ""
+msgstr "සංයුතිය (_m)"
 
 #: ../ui/evolution-message-composer.xml.h:9
 msgid "Get delivery notification when your message is read"
@@ -19510,7 +19490,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
-msgstr ""
+msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
 msgid "Insert Send options"
@@ -19518,7 +19498,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
-msgstr ""
+msgstr "ගොනුව විවෘත කරන්න"
 
 #: ../ui/evolution-message-composer.xml.h:15
 msgid "PGP Encrypt"
@@ -19558,39 +19538,39 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:24
 msgid "S_end"
-msgstr ""
+msgstr "යවන්න (_e)"
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save As"
-msgstr ""
+msgstr "සුරකින අයුර"
 
 #: ../ui/evolution-message-composer.xml.h:27
 msgid "Save Draft"
-msgstr ""
+msgstr "කෙටුම් පත සුරකින්න"
 
 #: ../ui/evolution-message-composer.xml.h:28
 msgid "Save _As..."
-msgstr ""
+msgstr "සුරකින අයුර... (_A)"
 
 #: ../ui/evolution-message-composer.xml.h:29
 msgid "Save _Draft"
-msgstr ""
+msgstr "කෙටුම් පත සුරකින්න (_D)"
 
 #: ../ui/evolution-message-composer.xml.h:30
 msgid "Save as draft"
-msgstr ""
+msgstr "කෙටුම් පතක් ලෙස සුරකින්න"
 
 #: ../ui/evolution-message-composer.xml.h:31
 msgid "Save in folder..."
-msgstr ""
+msgstr "බහලුම තුළ සුරකින්න..."
 
 #: ../ui/evolution-message-composer.xml.h:32
 msgid "Save the current file"
-msgstr ""
+msgstr "දැනට භාවිතාවන ගොනුව සුරකින්න"
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "දැනට භාවිතාවන ගොනුව වෙනස් නමකින් සුරකින්න"
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Save the message in a specified folder"
@@ -19598,20 +19578,20 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Send"
-msgstr ""
+msgstr "යවන්න"
 
 #: ../ui/evolution-message-composer.xml.h:36
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
-msgstr ""
+msgstr "HTML සංයුතියෙන් තැපැල යවන්න"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "Send this message"
-msgstr ""
+msgstr "මෙම පණිවිඩය යවන්න"
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "Set the message priority to high"
-msgstr ""
+msgstr "පණිවිඩයේ ප්‍රමුඛත්වය උපරිම ලෙස සකසන්න"
 
 #: ../ui/evolution-message-composer.xml.h:39
 msgid "Sign this message with your PGP key"
@@ -19655,7 +19635,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Delete all"
-msgstr ""
+msgstr "සියල්ල මකන්න (_D)"
 
 #: ../ui/evolution-message-composer.xml.h:54
 msgid "_From Field"
@@ -19663,7 +19643,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:55
 msgid "_Open..."
-msgstr ""
+msgstr "විවෘත කරන්න... (_O)"
 
 #: ../ui/evolution-message-composer.xml.h:56
 msgid "_Post-To Field"
@@ -19679,12 +19659,12 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:60
 msgid "_Security"
-msgstr ""
+msgstr "ආරක්‍ෂාව (_S)"
 
 #: ../ui/evolution-message-composer.xml.h:61
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
-msgstr ""
+msgstr "යැවීමේ විකල්ප (_S)"
 
 #: ../ui/evolution-message-composer.xml.h:62
 msgid "_To Field"
@@ -19731,11 +19711,11 @@ msgstr ""
 
 #: ../ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr ""
+msgstr "දායකත්වය"
 
 #: ../ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "දායකත්වය නවතන්න"
 
 #: ../ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -19751,7 +19731,7 @@ msgstr ""
 
 #: ../ui/evolution-task-editor.xml.h:10
 msgid "Time Zone"
-msgstr ""
+msgstr "වේලා කළාපය"
 
 #: ../ui/evolution-task-editor.xml.h:24
 msgid "_Status Details"
@@ -19855,7 +19835,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:13
 msgid "I_mport..."
-msgstr ""
+msgstr "ආනයනය... (_m)"
 
 #: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
@@ -19871,19 +19851,19 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
-msgstr ""
+msgstr "නව කවුළුව (_W)"
 
 #: ../ui/evolution.xml.h:19
 msgid "Prefere_nces"
-msgstr ""
+msgstr "අභිප්‍රේත (_n)"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / Receive"
-msgstr ""
+msgstr "යැවීම / ලැබීම"
 
 #: ../ui/evolution.xml.h:21
 msgid "Send / _Receive"
-msgstr ""
+msgstr "යැවීම / ලැබීම (_R)"
 
 #: ../ui/evolution.xml.h:22
 msgid "Send queued items and retrieve new items"
@@ -19943,23 +19923,23 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:39
 msgid "_About"
-msgstr ""
+msgstr "සම්බන්ධව (_A)"
 
 #: ../ui/evolution.xml.h:40
 msgid "_Close Window"
-msgstr ""
+msgstr "කවුළුව වසන්න (_C)"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Forget Passwords"
-msgstr ""
+msgstr "රහස්පදය අමතක විය (_F)"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Hide buttons"
-msgstr ""
+msgstr "බොත්තම් සඟවන්න (_H)"
 
 #: ../ui/evolution.xml.h:46
 msgid "_Icons only"
-msgstr ""
+msgstr "අයිකන පමණයි (_I)"
 
 #: ../ui/evolution.xml.h:48
 msgid "_Quick Reference"
@@ -19967,7 +19947,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:49
 msgid "_Quit"
-msgstr ""
+msgstr "ඉවත් වන්න (_Q)"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Switcher Appearance"
@@ -19975,7 +19955,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:51
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "සමකාලීක විකල්ප... (_S)"
 
 #: ../ui/evolution.xml.h:52
 msgid "_Text only"
@@ -19983,7 +19963,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:54
 msgid "_Window"
-msgstr ""
+msgstr "කවුළුව (_W)"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
@@ -20047,7 +20027,7 @@ msgstr ""
 
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
-msgstr ""
+msgstr "පණිවිඩ (_M)"
 
 #: ../views/memos/galview.xml.h:1
 msgid "_Memos"
@@ -20116,14 +20096,14 @@ msgstr ""
 
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit..."
-msgstr ""
+msgstr "සැකසුම්... (_E)"
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
 #: ../widgets/table/e-table-header-item.c:1907
 #: ../widgets/table/e-table-scrolled.c:222
 #: ../widgets/table/e-table-scrolled.c:223
 msgid "Table"
-msgstr ""
+msgstr "වගුව"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
@@ -20131,25 +20111,25 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
 msgid "Save Current View"
-msgstr ""
+msgstr "දැනට ඇති දසුන සුරකින්න"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "_Create new view"
-msgstr ""
+msgstr "නව දසුනක් නිර්මාණය කරන්න (_C)"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
 msgid "_Replace existing view"
-msgstr ""
+msgstr "දැනට ඇති දසුන ආදේෂ කරන්න (_R)"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:587
 #: ../widgets/menus/gal-view-menus.c:354
 msgid "Custom View"
-msgstr ""
+msgstr "රිසි කළ දසුන"
 
 #: ../widgets/menus/gal-view-instance.c:588
 msgid "Save Custom View"
-msgstr ""
+msgstr "රිසි කළ දසුන සුරකින්න"
 
 #: ../widgets/menus/gal-view-instance.c:592
 #: ../widgets/menus/gal-view-menus.c:378
@@ -20158,12 +20138,12 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "C_urrent View"
-msgstr ""
+msgstr "දැනට ඇති දසුන (_u)"
 
 #: ../widgets/menus/gal-view-menus.c:315
 #, c-format
 msgid "Select View: %s"
-msgstr ""
+msgstr "දසුන තෝරන්න: %s"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Current view is a customized view"
@@ -20171,19 +20151,19 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:364
 msgid "Save Custom View..."
-msgstr ""
+msgstr "රිසි කළ දසුන සුරකින්න..."
 
 #: ../widgets/menus/gal-view-menus.c:369
 msgid "Save current custom view"
-msgstr ""
+msgstr "දැනට ඇති රිසි කළ දසුන සුරකින්න"
 
 #: ../widgets/menus/gal-view-menus.c:383
 msgid "Create or edit views"
-msgstr ""
+msgstr "දසුන් නිර්මාණය හෝ සැකසුම"
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
-msgstr ""
+msgstr "වැඩපළ"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
@@ -20195,7 +20175,7 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Type of View"
-msgstr ""
+msgstr "දසුන් වර්‍ග"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of view:"
@@ -20226,7 +20206,7 @@ msgstr ""
 
 #: ../widgets/misc/e-attachment.glade.h:4
 msgid "MIME type:"
-msgstr ""
+msgstr "MIME වර්‍ගය:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
@@ -20310,7 +20290,7 @@ msgstr ""
 #: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
 #: ../widgets/misc/e-expander.c:206
 msgid "Spacing"
-msgstr ""
+msgstr "ඉඩ තැබීම"
 
 #: ../widgets/misc/e-cell-date-edit.c:231
 msgid "Now"
@@ -20327,11 +20307,11 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Baltic"
-msgstr ""
+msgstr "බොල්ටික්"
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Central European"
-msgstr ""
+msgstr "මධ්‍යම යුරෝපීය"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Chinese"
@@ -20339,35 +20319,35 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:67
 msgid "Cyrillic"
-msgstr ""
+msgstr "සයිරිලීක"
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Greek"
-msgstr ""
+msgstr "ග්‍රීක"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Hebrew"
-msgstr ""
+msgstr "හෙබ්රුව්"
 
 #: ../widgets/misc/e-charset-picker.c:70
 msgid "Japanese"
-msgstr ""
+msgstr "ජපන්"
 
 #: ../widgets/misc/e-charset-picker.c:71
 msgid "Korean"
-msgstr ""
+msgstr "කොරියානු"
 
 #: ../widgets/misc/e-charset-picker.c:72
 msgid "Thai"
-msgstr ""
+msgstr "තායී"
 
 #: ../widgets/misc/e-charset-picker.c:73
 msgid "Turkish"
-msgstr ""
+msgstr "තුර්කි"
 
 #: ../widgets/misc/e-charset-picker.c:74
 msgid "Unicode"
-msgstr ""
+msgstr "යුනිකේත"
 
 #: ../widgets/misc/e-charset-picker.c:75
 msgid "Western European"
@@ -20380,7 +20360,7 @@ msgstr ""
 #: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #: ../widgets/misc/e-charset-picker.c:96
 msgid "Traditional"
-msgstr ""
+msgstr "සම්ප්‍රදායික"
 
 #: ../widgets/misc/e-charset-picker.c:97 ../widgets/misc/e-charset-picker.c:98
 #: ../widgets/misc/e-charset-picker.c:99
@@ -20411,22 +20391,22 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:342
 msgid "Other..."
-msgstr ""
+msgstr "වෙනත්..."
 
 #: ../widgets/misc/e-charset-picker.c:483
 msgid "Ch_aracter Encoding"
-msgstr ""
+msgstr "අක්‍ෂර කේතාංකනය (_a)"
 
 #. Translators: This is the string to draw when the label
 #. * of a fixed-size button is clipped, e.g. '...'.
 #.
 #: ../widgets/misc/e-clipped-label.c:114
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:321
 msgid "Date and Time"
-msgstr ""
+msgstr "දිනය සහ වේලාව"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
@@ -20442,15 +20422,15 @@ msgstr ""
 
 #: ../widgets/misc/e-dateedit.c:385
 msgid "Time"
-msgstr ""
+msgstr "වේලාව"
 
 #: ../widgets/misc/e-dateedit.c:459
 msgid "No_w"
-msgstr ""
+msgstr "දැන් (_w)"
 
 #: ../widgets/misc/e-dateedit.c:465
 msgid "_Today"
-msgstr ""
+msgstr "අද (_T)"
 
 #: ../widgets/misc/e-dateedit.c:1631
 msgid "Invalid Date Value"
@@ -20474,7 +20454,7 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:198
 msgid "Use underline"
-msgstr ""
+msgstr "යටි ඉර භාවිතා කරන්න"
 
 #: ../widgets/misc/e-expander.c:199
 msgid ""
@@ -20514,52 +20494,52 @@ msgstr ""
 #: ../widgets/misc/e-filter-bar.c:129 ../widgets/misc/e-filter-bar.c:170
 #: ../widgets/misc/e-filter-bar.c:292 ../widgets/misc/e-filter-bar.c:728
 msgid "Advanced Search"
-msgstr ""
+msgstr "උසස් සෙවීම"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:218
 msgid "Save Search"
-msgstr ""
+msgstr "සෙවීම සුරකින්න"
 
 #: ../widgets/misc/e-filter-bar.c:252
 msgid "_Searches"
-msgstr ""
+msgstr "සෙවීම් (_S)"
 
 #: ../widgets/misc/e-filter-bar.c:254
 msgid "Searches"
-msgstr ""
+msgstr "සෙවීම්"
 
 #: ../widgets/misc/e-filter-bar.h:100 ../widgets/misc/e-filter-bar.h:111
 msgid "_Save Search..."
-msgstr ""
+msgstr "සෙවීම සුරකින්න... (_S)"
 
 #: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
 msgid "_Edit Saved Searches..."
-msgstr ""
+msgstr "සුරකින ලඳ සෙවීම් සකසන්න... (_E)"
 
 #: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
 msgid "_Advanced Search..."
-msgstr ""
+msgstr "උසස් සෙවීම... (_A)"
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
-msgstr ""
+msgstr "සියළුම ගිණුම්"
 
 #: ../widgets/misc/e-filter-bar.h:104
 msgid "Current Account"
-msgstr ""
+msgstr "දැනට ඇති ගිණුම"
 
 #: ../widgets/misc/e-filter-bar.h:105
 msgid "Current Folder"
-msgstr ""
+msgstr "දැනට ඇති බහලුම"
 
 #: ../widgets/misc/e-filter-bar.h:106
 msgid "Current Message"
-msgstr ""
+msgstr "දැනට ඇති පණිවිඩය"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
-msgstr ""
+msgstr "පිළිඹිබුව තෝරන්න"
 
 #: ../widgets/misc/e-map.c:627
 msgid "World Map"
@@ -20585,7 +20565,7 @@ msgstr ""
 
 #: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
-msgstr ""
+msgstr "හිස් පණිවිඩයක්"
 
 #: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
@@ -20593,47 +20573,47 @@ msgstr ""
 
 #: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
 msgid "Column width"
-msgstr ""
+msgstr "තීරුවේ පළල"
 
 #: ../widgets/misc/e-search-bar.c:598
 msgid "_Search"
-msgstr ""
+msgstr "සොයන්න (_S)"
 
 #: ../widgets/misc/e-search-bar.c:604
 msgid "_Find Now"
-msgstr ""
+msgstr "දැන් සොයාගන්න (_F)"
 
 #: ../widgets/misc/e-search-bar.c:605
 msgid "_Clear"
-msgstr ""
+msgstr "පැහැදිලි කරන්න (_C)"
 
 #: ../widgets/misc/e-search-bar.c:856
 msgid "Item ID"
-msgstr ""
+msgstr "අයිතම අංකය"
 
 #: ../widgets/misc/e-search-bar.c:863 ../widgets/text/e-entry.c:1221
 #: ../widgets/text/e-entry.c:1222 ../widgets/text/e-text.c:3487
 #: ../widgets/text/e-text.c:3488
 msgid "Text"
-msgstr ""
+msgstr "පෙළ"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:997
 msgid "Sho_w: "
-msgstr ""
+msgstr "දර්ශනය කරන්න (_w): "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:1014
 msgid "Sear_ch: "
-msgstr ""
+msgstr "සොයන්න (_c): "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
 #: ../widgets/misc/e-search-bar.c:1026
 msgid " i_n "
-msgstr ""
+msgstr " තුළ (_n) "
 
 #: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -20747,11 +20727,11 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "_After:"
-msgstr ""
+msgstr "පසු (_A):"
 
 #: ../widgets/misc/e-send-options.glade.h:30
 msgid "_All information"
-msgstr ""
+msgstr "සියළුම තොරතුරු (_A)"
 
 #: ../widgets/misc/e-send-options.glade.h:31
 msgid "_Delay message delivery"
@@ -20781,14 +20761,14 @@ msgstr ""
 #: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 #. %d is a number between 0 and 100, describing the percentage of operation complete
 #: ../widgets/misc/e-task-widget.c:219
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (%d%% නිමවිය)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "Click here to go to URL"
@@ -20816,7 +20796,7 @@ msgstr ""
 
 #: ../widgets/table/e-cell-date.c:64
 msgid "%l:%M %p"
-msgstr ""
+msgstr "%l:%M %p"
 
 #: ../widgets/table/e-cell-pixbuf.c:387
 msgid "Selected Column"
@@ -20852,7 +20832,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
-msgstr ""
+msgstr "<- ඉවත් කරන්න (_R)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
@@ -20868,7 +20848,7 @@ msgstr ""
 #: ../widgets/table/e-table-config-no-group.glade.h:4
 #: ../widgets/table/e-table-config.glade.h:3
 msgid "Clear All"
-msgstr ""
+msgstr "සිරල්ල පැහැදිලි කරන්න"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:4
@@ -20889,7 +20869,7 @@ msgstr ""
 #: ../widgets/table/e-table-config-no-group.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:9
 msgid "Move _Up"
-msgstr ""
+msgstr "ඉහළට ගෙනියන්න (_U)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
@@ -20909,7 +20889,7 @@ msgstr ""
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:12
 msgid "Sort"
-msgstr ""
+msgstr "වර්‍ග කිරීම"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:15
 #: ../widgets/table/e-table-config.glade.h:13
@@ -20923,7 +20903,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 msgid "_Add ->"
-msgstr ""
+msgstr "එක් කරන්න (_A) ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
@@ -20937,7 +20917,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.c:154
 msgid "State"
-msgstr ""
+msgstr "පවත්නා තත්වය"
 
 #: ../widgets/table/e-table-config.c:387 ../widgets/table/e-table-config.c:429
 msgid "(Ascending)"
@@ -20999,14 +20979,14 @@ msgstr ""
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
-msgstr[0] ""
+msgstr[0] "%s : %s (අයිතම %d)"
 msgstr[1] ""
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] ""
+msgstr[0] "%s (අයිතම %d)"
 msgstr[1] ""
 
 #: ../widgets/table/e-table-group-container.c:897
@@ -21152,7 +21132,7 @@ msgstr ""
 #: ../widgets/table/e-tree-scrolled.c:221
 #: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
-msgstr ""
+msgstr "රුක"
 
 #: ../widgets/table/e-table-item.c:2954 ../widgets/table/e-table-item.c:2955
 msgid "Table header"
@@ -21195,7 +21175,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1228 ../widgets/text/e-entry.c:1229
 #: ../widgets/text/e-text.c:3516 ../widgets/text/e-text.c:3517
 msgid "Justification"
-msgstr ""
+msgstr "නිදොස් බව"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
 #: ../widgets/text/e-text.c:3616 ../widgets/text/e-text.c:3617
@@ -21210,7 +21190,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1284 ../widgets/text/e-entry.c:1285
 #: ../widgets/text/e-text.c:3630 ../widgets/text/e-text.c:3631
 msgid "Line wrap"
-msgstr ""
+msgstr "රේඛාවේ වැස්ම"
 
 #: ../widgets/text/e-entry.c:1291 ../widgets/text/e-entry.c:1292
 #: ../widgets/text/e-text.c:3637 ../widgets/text/e-text.c:3638
@@ -21220,7 +21200,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1298 ../widgets/text/e-entry.c:1299
 #: ../widgets/text/e-text.c:3644 ../widgets/text/e-text.c:3645
 msgid "Max lines"
-msgstr ""
+msgstr "උපරිම පෙළ"
 
 #: ../widgets/text/e-entry.c:1305 ../widgets/text/e-entry.c:1306
 #: ../widgets/text/e-text.c:3673 ../widgets/text/e-text.c:3674
@@ -21253,11 +21233,11 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:2727
 msgid "Input Methods"
-msgstr ""
+msgstr "ඇතුලත් කරන ක්‍රම"
 
 #: ../widgets/text/e-text.c:3494 ../widgets/text/e-text.c:3495
 msgid "Bold"
-msgstr ""
+msgstr "තදකුරු"
 
 #: ../widgets/text/e-text.c:3501 ../widgets/text/e-text.c:3502
 msgid "Strikeout"
@@ -21306,3 +21286,4 @@ msgstr ""
 #: ../widgets/text/e-text.c:3708 ../widgets/text/e-text.c:3709
 msgid "Handle Popup"
 msgstr ""
+
