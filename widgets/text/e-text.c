@@ -2572,10 +2572,9 @@ primary_get_cb (GtkClipboard     *clipboard,
 	sel_end = g_utf8_offset_to_pointer (text->text, sel_end) - text->text;
 
 	if (sel_start != sel_end) {
-		gchar *str = g_strndup (text->text + sel_start,
-					sel_end - sel_start);
-		gtk_selection_data_set_text (selection_data, str, -1);
-		g_free (str);
+		gtk_selection_data_set_text (selection_data, 
+					     text->text + sel_start,
+					     sel_end - sel_start);
 	}
 }
 

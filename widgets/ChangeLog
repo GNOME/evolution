@@ -1,3 +1,7 @@
+2007-07-15  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* text/e-text.c: (primary_get_cb): Remove needless g_strndup().
+
 2007-07-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* table/e-table-specification.c: (e_table_specification_duplicate)
