@@ -1,3 +1,11 @@
+2007-07-16  Sankar P  <psankar@novell.com>
+
+	* em-composer-prefs.c: (em_composer_prefs_construct):
+	* em-composer-prefs.h:
+	* mail-config.glade:
+	Provide support for keeping your signature on top
+	while replying.
+
 2007-07-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-format-html-display.c: (efhd_attachment_button): Take warning

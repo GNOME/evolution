@@ -1,3 +1,9 @@
+2007-07-16  Sankar P  <psankar@novell.com>
+
+	* e-msg-composer.c: (set_editor_text):
+	Provide option to keep signature on top,
+	while replying. Outlook users need it. 
+
 2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 

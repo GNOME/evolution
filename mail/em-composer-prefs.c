@@ -924,6 +924,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	toggle_button_init (prefs, prefs->auto_smileys, FALSE,
 			    "/apps/evolution/mail/composer/magic_smileys");
 	
+	prefs->top_signature = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkTopSignature"));
+	toggle_button_init (prefs, prefs->top_signature, FALSE,
+			    "/apps/evolution/mail/composer/top_signature");
+
 	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
 	toggle_button_init (prefs, prefs->spell_check, FALSE,
 			    "/apps/evolution/mail/composer/inline_spelling");

@@ -80,6 +80,7 @@ struct _EMComposerPrefs {
 	/* Forwards and Replies */
 	struct _GtkOptionMenu *forward_style;
 	struct _GtkOptionMenu *reply_style;
+	struct _GtkToggleButton *top_signature;
 	
 	/* Keyboard Shortcuts */
 	struct _GtkOptionMenu *shortcuts_type;

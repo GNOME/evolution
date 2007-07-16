@@ -1259,17 +1259,60 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 	BonoboStream *stream;
 	CORBA_Environment ev;
 	Bonobo_Unknown object;
+	gboolean reply_signature_on_top;
+	char *body = NULL, *html = NULL;
+	GConfClient *gconf;
 
 	g_return_if_fail (p->persist_stream_interface != CORBA_OBJECT_NIL);
 	
 	persist = p->persist_stream_interface;
 	
 	CORBA_exception_init (&ev);
+	
+	gconf = gconf_client_get_default ();
+	
+	/* 
 
-	if (len == -1)
-		len = strlen (text);
+	   Keeping Signatures in the beginning of composer 
+	   ------------------------------------------------
 
-	stream = bonobo_stream_mem_create (text, len, TRUE, FALSE);
+	   Purists are gonna blast me for this. 
+	   But there are so many people (read Outlook users) who want this. 
+	   And Evo is an exchange-client, Outlook-replacement etc.
+	   So Here it goes :( 
+
+	   -- Sankar
+
+	 */
+
+	reply_signature_on_top = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/top_signature", NULL);
+
+	g_object_unref (gconf);
+
+	if (set_signature && reply_signature_on_top) {
+		char *tmp = NULL;
+		tmp = get_signature_html (composer);
+		if (tmp) {
+			/* Minimizing the damage. Make it just a part of the body instead of a signature */
+			html = strstr (tmp, "-- \n");
+			if (html) { 
+				/* That two consecutive - symbols followed by a space */
+				*(html+1) = ' ';
+				body = g_strdup_printf ("</br>%s</br>%s", tmp, text);
+			} else {
+				/* HTML Signature. Make it as part of body */
+				body = g_strdup_printf ("</br>%s</br>%s", tmp, text);
+			}
+		}
+	} else {
+		body = g_strdup(text);
+	}
+
+	if (body) {
+		len = strlen (body);
+	}
+
+	stream = bonobo_stream_mem_create (body, len, TRUE, FALSE);
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (stream));
 	Bonobo_PersistStream_load (persist, (Bonobo_Stream) object, "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -1283,7 +1326,7 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 	
 	bonobo_object_unref (BONOBO_OBJECT (stream));
 	
-	if (set_signature)
+	if (set_signature && !reply_signature_on_top)
 		e_msg_composer_show_sig_file (composer);
 }
 
