@@ -1,3 +1,8 @@
+2007-07-17  Sankar P  <psankar@novell.com>
+
+	* configure.in: Included face plugin to sources.
+	Helps in attaching Face header to outgoing mails.
+
 2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.11.5 release
