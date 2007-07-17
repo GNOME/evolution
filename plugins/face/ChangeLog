@@ -1,0 +1,8 @@
+2007-07-17  Sankar P  <psankar@novell.com>
+
+	* org-gnome-face.eplug.xml:
+	* org-gnome-face-ui.xml:
+	* org-gnome-face.errors.xml:
+	* Makefile.am:
+	* face.c:
+	Initial set of files. Implements Face header support.
