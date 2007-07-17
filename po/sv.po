@@ -16803,7 +16803,7 @@ msgstr "<b>%s</b> önskar få den senaste informationen för följande tilldelad
 
 #: ../plugins/itip-formatter/itip-view.c:474
 #, c-format
-msgid "<b>%s</b> through has sent back the following assigned task response:"
+msgid "<b>%s</b> through %s has sent back the following assigned task response:"
 msgstr "<b>%s</b> via %s har skickat tillbaka följande svar på en tilldelad uppgift:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
