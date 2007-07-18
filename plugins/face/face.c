@@ -88,7 +88,7 @@ void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
 				error = NULL;
 				if (length < 720) {
 
-					GdkPixbuf *pixbuf, *new;
+					GdkPixbuf *pixbuf;
 					GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 
 					gdk_pixbuf_loader_write (loader, (guchar *)file_contents, length, NULL);
@@ -96,7 +96,7 @@ void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
 
 					pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 					if (pixbuf) {
-						int width, height, prompt_response;
+						int width, height;
 
 						g_object_ref (pixbuf);
 
