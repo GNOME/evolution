@@ -760,13 +760,13 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 			rule_context_add_rule, rule_context_next_rule);
 
 	if (flags == CAL_SEARCH_MEMOS_DEFAULT) {
-		userfile = g_build_filename (g_get_home_dir (), ".evolution/memos/searches.xml", NULL);
+		userfile = g_build_filename (g_get_home_dir (), ".evolution", "memos", "searches.xml", NULL);
 		xmlfile = g_build_filename (SEARCH_RULE_DIR, "memotypes.xml", NULL);
 	} else if (flags == CAL_SEARCH_TASKS_DEFAULT) {
-		userfile = g_build_filename (g_get_home_dir (), ".evolution/tasks/searches.xml", NULL);
+		userfile = g_build_filename (g_get_home_dir (), ".evolution", "tasks", "searches.xml", NULL);
 		xmlfile = g_build_filename (SEARCH_RULE_DIR, "tasktypes.xml", NULL);
 	} else {
-		userfile = g_build_filename (g_get_home_dir (), ".evolution/calendar/searches.xml", NULL);
+		userfile = g_build_filename (g_get_home_dir (), ".evolution", "calendar", "searches.xml", NULL);
 		xmlfile = g_build_filename (SEARCH_RULE_DIR, "caltypes.xml", NULL);
 	}
 

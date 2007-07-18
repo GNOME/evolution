@@ -1,3 +1,8 @@
+2007-07-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* gui/cal-search-bar.c: (cal_search_bar_construct): Remove "/" as
+	separator.
+
 2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	reviewed by: Veerapuram Varadhan <vvaradhan@novell.com>
