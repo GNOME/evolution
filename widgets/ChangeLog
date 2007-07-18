@@ -1,3 +1,7 @@
+2007-07-19  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* text/e-text.c: (e_text_copy_clipboard): Remove needless g_strndup().
+
 2007-07-15  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* text/e-text.c: (primary_get_cb): Remove needless g_strndup().

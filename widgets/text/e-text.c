@@ -2492,7 +2492,6 @@ e_text_copy_clipboard (EText *text)
 {
 	gint selection_start_pos; 
 	gint selection_end_pos;
-	char *str;
 
 	selection_start_pos = MIN (text->selection_start, text->selection_end);
 	selection_end_pos = MAX (text->selection_start, text->selection_end);
@@ -2501,14 +2500,11 @@ e_text_copy_clipboard (EText *text)
 	selection_start_pos = g_utf8_offset_to_pointer (text->text, selection_start_pos) - text->text;
 	selection_end_pos = g_utf8_offset_to_pointer (text->text, selection_end_pos) - text->text;
 
-	str = g_strndup (text->text + selection_start_pos,
-			 selection_end_pos - selection_start_pos);
-
 	gtk_clipboard_set_text (
 				gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 							  GDK_SELECTION_CLIPBOARD),
-				str, -1);
-	g_free (str);
+				text->text + selection_start_pos,
+				selection_end_pos - selection_start_pos);
 }
 
 void
