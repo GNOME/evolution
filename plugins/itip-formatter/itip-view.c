@@ -471,7 +471,7 @@ set_tasklist_sender_text (ItipView *view)
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		if (priv->attendee_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through has sent back the following assigned task response:"), attendee, priv->attendee_sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s has sent back the following assigned task response:"), attendee, priv->attendee_sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has sent back the following assigned task response:"), attendee);
 		break;

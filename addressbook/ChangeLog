@@ -1,3 +1,7 @@
+2007-07-20  Claude Paroz  <claude@2xlibre.net>
+
+	* tools/evolution-addressbook-export.c: Minor typo.
+
 2007-07-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/widgets/e-addressbook-view.c: (init_collection)

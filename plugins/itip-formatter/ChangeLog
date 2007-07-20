@@ -1,3 +1,7 @@
+2007-07-20  Claude Paroz  <claude@2xlibre.net>
+
+	* itip-view.c: (set_tasklist_sender_text): Added omitted %s formatter.
+
 2007-07-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* itip-formatter.c: (format_itip_object): Fixed a build break.

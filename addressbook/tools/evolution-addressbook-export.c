@@ -60,7 +60,7 @@ static GOptionEntry entries[] = {
 	  N_("Export in asynchronous mode") },
 	{ "size", '\0', 0,
 	  G_OPTION_ARG_INT, &opt_file_size,
-	  N_("The number of cards in out output file in asynchronous mode, "
+	  N_("The number of cards in one output file in asynchronous mode, "
 	     "default size 100."),
 	  N_("NUMBER") },
 	{ G_OPTION_REMAINING, '\0', 0,
