@@ -1,3 +1,8 @@
+2007-07-20  Claude Paroz  <claude@2xlibre.net>
+
+	* mail-notification.c: (org_gnome_mail_new_notify): Fixed syntax of
+	ngettext.
+
 2007-07-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for byug #452900 from Cosimo Cecchi

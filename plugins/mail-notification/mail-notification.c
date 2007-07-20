@@ -129,7 +129,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	}
 
 	folder = em_utils_folder_name_from_uri (t->uri);
-	msg = g_strdup_printf (ngettext(_("You have received %d new message in %s."), _("You have received %d new messages in %s."), t->new), t->new, folder);
+	msg = g_strdup_printf (ngettext("You have received %d new message in %s.", "You have received %d new messages in %s.", t->new), t->new, folder);
 
 	gtk_status_icon_set_tooltip (status_icon, msg);
 	gtk_status_icon_set_visible (status_icon, TRUE);
