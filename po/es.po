@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-17 11:57+0100\n"
-"PO-Revision-Date: 2007-07-18 17:00+0200\n"
+"POT-Creation-Date: 2007-07-21 03:24+0100\n"
+"PO-Revision-Date: 2007-07-21 16:35+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1489,8 +1489,8 @@ msgstr "Dirección"
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1830 ../widgets/text/e-entry.c:1263
-#: ../widgets/text/e-entry.c:1264 ../widgets/text/e-text.c:3608
-#: ../widgets/text/e-text.c:3609
+#: ../widgets/text/e-entry.c:1264 ../widgets/text/e-text.c:3604
+#: ../widgets/text/e-text.c:3605
 msgid "Editable"
 msgstr "Editable"
 
@@ -2930,7 +2930,7 @@ msgstr "Error al obtener la vista de libro"
 #: ../widgets/table/e-table.c:3340
 #: ../widgets/table/e-tree-selection-model.c:825
 #: ../widgets/text/e-entry.c:1207 ../widgets/text/e-entry.c:1208
-#: ../widgets/text/e-text.c:3472 ../widgets/text/e-text.c:3473
+#: ../widgets/text/e-text.c:3468 ../widgets/text/e-text.c:3469
 msgid "Model"
 msgstr "Modelo"
 
@@ -3225,7 +3225,7 @@ msgstr "Sitio web"
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
-#: ../widgets/text/e-text.c:3650 ../widgets/text/e-text.c:3651
+#: ../widgets/text/e-text.c:3646 ../widgets/text/e-text.c:3647
 msgid "Width"
 msgstr "Anchura"
 
@@ -3240,7 +3240,7 @@ msgstr "Anchura"
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-item.c:3030 ../widgets/table/e-table-item.c:3031
-#: ../widgets/text/e-text.c:3658 ../widgets/text/e-text.c:3659
+#: ../widgets/text/e-text.c:3654 ../widgets/text/e-text.c:3655
 msgid "Height"
 msgstr "Altura"
 
@@ -4060,11 +4060,11 @@ msgstr "Exportar en modo asíncrono"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
-"The number of cards in out output file in asynchronous mode, default size "
+"The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
-"El número de tarjetas en un archivo de salida en modo asíncrono, tamaño "
-"predeterminado 100."
+"El número de tarjetas en un archivo de salida en modo asíncrono, tamaño predeterminado "
+"100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:65
 msgid "NUMBER"
@@ -17133,8 +17133,8 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:474
 #, c-format
-msgid "<b>%s</b> through has sent back the following assigned task response:"
-msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la tarea asignada:"
+msgid "<b>%s</b> through %s has sent back the following assigned task response:"
+msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la tarea asignada a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
 #, c-format
@@ -17348,12 +17348,9 @@ msgstr "Cuando el icono de estado de correo nuevo sea visible, hacerlo parpadear
 #: ../plugins/mail-notification/mail-notification.c:132
 #, c-format
 msgid "You have received %d new message in %s."
-msgstr "Ha recibido %d nuevo mensaje en %s."
-
-#: ../plugins/mail-notification/mail-notification.c:132
-#, c-format
-msgid "You have received %d new messages in %s."
-msgstr "Ha recibido %d nuevos mensajes en %s."
+msgid_plural "You have received %d new messages in %s."
+msgstr[0] "Ha recibido %d nuevo mensaje en %s."
+msgstr[1] "Ha recibido %d nuevos mensajes en %s."
 
 #: ../plugins/mail-notification/mail-notification.c:153
 msgid "New email"
@@ -19327,7 +19324,7 @@ msgstr "Guarda los contactos seleccionados en una VCard."
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "Guarda los contactos de la carpeta seleccionada como VCard"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2714
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2710
 msgid "Select All"
 msgstr "Seleccionar todo"
 
@@ -21271,8 +21268,8 @@ msgstr "Calendario mensual"
 
 #: ../widgets/misc/e-canvas-background.c:457
 #: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1235
-#: ../widgets/text/e-entry.c:1236 ../widgets/text/e-text.c:3564
-#: ../widgets/text/e-text.c:3565
+#: ../widgets/text/e-entry.c:1236 ../widgets/text/e-text.c:3560
+#: ../widgets/text/e-text.c:3561
 msgid "Fill color"
 msgstr "Color de relleno"
 
@@ -21281,16 +21278,16 @@ msgstr "Color de relleno"
 #: ../widgets/misc/e-canvas-background.c:471
 #: ../widgets/misc/e-canvas-background.c:472 ../widgets/text/e-entry.c:1242
 #: ../widgets/text/e-entry.c:1243 ../widgets/text/e-entry.c:1249
-#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3571
-#: ../widgets/text/e-text.c:3572 ../widgets/text/e-text.c:3579
-#: ../widgets/text/e-text.c:3580
+#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3567
+#: ../widgets/text/e-text.c:3568 ../widgets/text/e-text.c:3575
+#: ../widgets/text/e-text.c:3576
 msgid "GDK fill color"
 msgstr "Color de relleno GDK"
 
 #: ../widgets/misc/e-canvas-background.c:478
 #: ../widgets/misc/e-canvas-background.c:479 ../widgets/text/e-entry.c:1256
-#: ../widgets/text/e-entry.c:1257 ../widgets/text/e-text.c:3586
-#: ../widgets/text/e-text.c:3587
+#: ../widgets/text/e-entry.c:1257 ../widgets/text/e-text.c:3582
+#: ../widgets/text/e-text.c:3583
 msgid "Fill stipple"
 msgstr "Punteo de relleno"
 
@@ -21638,8 +21635,8 @@ msgid "Item ID"
 msgstr "ID de elemento"
 
 #: ../widgets/misc/e-search-bar.c:865 ../widgets/text/e-entry.c:1221
-#: ../widgets/text/e-entry.c:1222 ../widgets/text/e-text.c:3486
-#: ../widgets/text/e-text.c:3487
+#: ../widgets/text/e-entry.c:1222 ../widgets/text/e-text.c:3482
+#: ../widgets/text/e-text.c:3483
 msgid "Text"
 msgstr "Texto"
 
@@ -22229,62 +22226,62 @@ msgid "Draw lines and +/- expanders."
 msgstr "Dibujar líneas y expansores +/−."
 
 #: ../widgets/text/e-entry.c:1214 ../widgets/text/e-entry.c:1215
-#: ../widgets/text/e-text.c:3479 ../widgets/text/e-text.c:3480
+#: ../widgets/text/e-text.c:3475 ../widgets/text/e-text.c:3476
 msgid "Event Processor"
 msgstr "Procesador de acontecimientos"
 
 #: ../widgets/text/e-entry.c:1228 ../widgets/text/e-entry.c:1229
-#: ../widgets/text/e-text.c:3515 ../widgets/text/e-text.c:3516
+#: ../widgets/text/e-text.c:3511 ../widgets/text/e-text.c:3512
 msgid "Justification"
 msgstr "Justificación"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
-#: ../widgets/text/e-text.c:3615 ../widgets/text/e-text.c:3616
+#: ../widgets/text/e-text.c:3611 ../widgets/text/e-text.c:3612
 msgid "Use ellipsis"
 msgstr "Usar elipsis"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
-#: ../widgets/text/e-text.c:3622 ../widgets/text/e-text.c:3623
+#: ../widgets/text/e-text.c:3618 ../widgets/text/e-text.c:3619
 msgid "Ellipsis"
 msgstr "Elipsis"
 
 #: ../widgets/text/e-entry.c:1284 ../widgets/text/e-entry.c:1285
-#: ../widgets/text/e-text.c:3629 ../widgets/text/e-text.c:3630
+#: ../widgets/text/e-text.c:3625 ../widgets/text/e-text.c:3626
 msgid "Line wrap"
 msgstr "Ajuste de línea"
 
 #: ../widgets/text/e-entry.c:1291 ../widgets/text/e-entry.c:1292
-#: ../widgets/text/e-text.c:3636 ../widgets/text/e-text.c:3637
+#: ../widgets/text/e-text.c:3632 ../widgets/text/e-text.c:3633
 msgid "Break characters"
 msgstr "Caracteres de ruptura"
 
 #: ../widgets/text/e-entry.c:1298 ../widgets/text/e-entry.c:1299
-#: ../widgets/text/e-text.c:3643 ../widgets/text/e-text.c:3644
+#: ../widgets/text/e-text.c:3639 ../widgets/text/e-text.c:3640
 msgid "Max lines"
 msgstr "Líneas máximas"
 
 #: ../widgets/text/e-entry.c:1305 ../widgets/text/e-entry.c:1306
-#: ../widgets/text/e-text.c:3672 ../widgets/text/e-text.c:3673
+#: ../widgets/text/e-text.c:3668 ../widgets/text/e-text.c:3669
 msgid "Allow newlines"
 msgstr "Permitir nuevas líneas"
 
 #: ../widgets/text/e-entry.c:1312 ../widgets/text/e-entry.c:1313
-#: ../widgets/text/e-text.c:3665 ../widgets/text/e-text.c:3666
+#: ../widgets/text/e-text.c:3661 ../widgets/text/e-text.c:3662
 msgid "Draw borders"
 msgstr "Dibujar bordes"
 
 #: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
-#: ../widgets/text/e-text.c:3679 ../widgets/text/e-text.c:3680
+#: ../widgets/text/e-text.c:3675 ../widgets/text/e-text.c:3676
 msgid "Draw background"
 msgstr "Dibujar fondo"
 
 #: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
-#: ../widgets/text/e-text.c:3686 ../widgets/text/e-text.c:3687
+#: ../widgets/text/e-text.c:3682 ../widgets/text/e-text.c:3683
 msgid "Draw button"
 msgstr "Dibujar botón"
 
 #: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
-#: ../widgets/text/e-text.c:3693 ../widgets/text/e-text.c:3694
+#: ../widgets/text/e-text.c:3689 ../widgets/text/e-text.c:3690
 msgid "Cursor position"
 msgstr "Posición del cursor"
 
@@ -22292,59 +22289,59 @@ msgstr "Posición del cursor"
 msgid "Emulate label resize"
 msgstr "Emular redimensionado de etiqueta"
 
-#: ../widgets/text/e-text.c:2726
+#: ../widgets/text/e-text.c:2722
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
-#: ../widgets/text/e-text.c:3493 ../widgets/text/e-text.c:3494
+#: ../widgets/text/e-text.c:3489 ../widgets/text/e-text.c:3490
 msgid "Bold"
 msgstr "Negrita"
 
-#: ../widgets/text/e-text.c:3500 ../widgets/text/e-text.c:3501
+#: ../widgets/text/e-text.c:3496 ../widgets/text/e-text.c:3497
 msgid "Strikeout"
 msgstr "Tachar"
 
-#: ../widgets/text/e-text.c:3507 ../widgets/text/e-text.c:3508
+#: ../widgets/text/e-text.c:3503 ../widgets/text/e-text.c:3504
 msgid "Anchor"
 msgstr "Ancla"
 
-#: ../widgets/text/e-text.c:3522 ../widgets/text/e-text.c:3523
+#: ../widgets/text/e-text.c:3518 ../widgets/text/e-text.c:3519
 msgid "Clip Width"
 msgstr "Anchura del clip"
 
-#: ../widgets/text/e-text.c:3529 ../widgets/text/e-text.c:3530
+#: ../widgets/text/e-text.c:3525 ../widgets/text/e-text.c:3526
 msgid "Clip Height"
 msgstr "Altura del clip"
 
-#: ../widgets/text/e-text.c:3536 ../widgets/text/e-text.c:3537
+#: ../widgets/text/e-text.c:3532 ../widgets/text/e-text.c:3533
 msgid "Clip"
 msgstr "Clip"
 
-#: ../widgets/text/e-text.c:3543 ../widgets/text/e-text.c:3544
+#: ../widgets/text/e-text.c:3539 ../widgets/text/e-text.c:3540
 msgid "Fill clip rectangle"
 msgstr "Rellenar el rectángulo del clip"
 
-#: ../widgets/text/e-text.c:3550 ../widgets/text/e-text.c:3551
+#: ../widgets/text/e-text.c:3546 ../widgets/text/e-text.c:3547
 msgid "X Offset"
 msgstr "Desplazamiento en X"
 
-#: ../widgets/text/e-text.c:3557 ../widgets/text/e-text.c:3558
+#: ../widgets/text/e-text.c:3553 ../widgets/text/e-text.c:3554
 msgid "Y Offset"
 msgstr "Desplazamiento en Y"
 
-#: ../widgets/text/e-text.c:3593 ../widgets/text/e-text.c:3594
+#: ../widgets/text/e-text.c:3589 ../widgets/text/e-text.c:3590
 msgid "Text width"
 msgstr "Anchura del texto"
 
-#: ../widgets/text/e-text.c:3600 ../widgets/text/e-text.c:3601
+#: ../widgets/text/e-text.c:3596 ../widgets/text/e-text.c:3597
 msgid "Text height"
 msgstr "Altura del texto"
 
-#: ../widgets/text/e-text.c:3700 ../widgets/text/e-text.c:3701
+#: ../widgets/text/e-text.c:3696 ../widgets/text/e-text.c:3697
 msgid "IM Context"
 msgstr "Contexto IM"
 
-#: ../widgets/text/e-text.c:3707 ../widgets/text/e-text.c:3708
+#: ../widgets/text/e-text.c:3703 ../widgets/text/e-text.c:3704
 msgid "Handle Popup"
 msgstr "Tirador emergente"
 
