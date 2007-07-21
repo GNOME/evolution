@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 03:24+0100\n"
-"PO-Revision-Date: 2007-07-21 13:46+0200\n"
+"PO-Revision-Date: 2007-07-21 13:50+0200\n"
 "Last-Translator: Игор Несторовић <igor@prevod.org>\n"
 "Language-Team: Serbian (sr) <gnom@prevod.org>\n"
 "MIME-Version: 1.0\n"
@@ -11440,10 +11440,9 @@ msgstr "Направи Фасциклу претраге из претраге..
 msgid "All Messages"
 msgstr "Све поруке"
 
-# bug: no need for plural-forms
 #: ../mail/em-folder-browser.c:193
 msgid "Unread Messages"
-msgstr "Непрочитаних порука:"
+msgstr "Непрочитане поруке"
 
 #: ../mail/em-folder-browser.c:195
 msgid "No Label"
