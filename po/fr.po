@@ -15295,11 +15295,11 @@ msgstr "Sauvegarde et restaure les données et les réglages d'Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
-msgstr "Paramètres de _restauration..."
+msgstr "Res_taurer les paramètres..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
-msgstr "Paramètres de _sauvegarde..."
+msgstr "Sauve_garder les paramètres..."
 
 #: ../plugins/bbdb/bbdb.c:459 ../plugins/bbdb/bbdb.c:468
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
