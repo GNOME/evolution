@@ -290,6 +290,10 @@ ea_day_view_main_item_get_name (AtkObject *accessible)
 	AtkObject *parent;
 	g_return_val_if_fail (EA_IS_DAY_VIEW_MAIN_ITEM (accessible), NULL);
 	parent = atk_object_get_parent (accessible);
+
+	if (!parent)
+		return NULL;
+
 	return atk_object_get_name (parent);
 }
 
