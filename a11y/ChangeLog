@@ -1,3 +1,9 @@
+2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* e-table/gal-a11y-e-cell-tree.c: (ectr_subcell_weak_ref):
+	The return value of g_list_remove() should be received because the
+	function returns the new start of the list.
+
 2007-07-19  Li Yuan  <liyuan@tackle>
 
 	* calendar/ea-day-view-main-item.c:
