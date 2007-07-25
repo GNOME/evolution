@@ -1,3 +1,8 @@
+2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* default-mailer.c: (org_gnome_default_mailer_check_default): Plugged
+	memory leak.
+
 2007-07-01  Srinivasa Ragavan  <sragavan@novell.com>
 
         ** Fix for bug #448970

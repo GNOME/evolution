@@ -96,4 +96,6 @@ org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *targe
 		
 		g_free(mailer);
 	}
+
+	g_object_unref (client);
 }
