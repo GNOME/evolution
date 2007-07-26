@@ -1,3 +1,7 @@
+2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* gui/widgets/e-minicard.c: (add_email_field): Plugged memory leak.
+
 2007-07-20  Claude Paroz  <claude@2xlibre.net>
 
 	* tools/evolution-addressbook-export.c: Minor typo.

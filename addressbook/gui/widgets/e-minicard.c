@@ -885,6 +885,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		g_free(name);
 		g_free(string);
 	}
+	g_list_foreach (emails, (GFunc) g_free, NULL);
 	g_list_free (emails);
 }
 
