@@ -942,12 +942,16 @@ view_statusbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 {
 	GtkWidget *status_bar = e_shell_window_peek_statusbar (shell_window);
 	gboolean is_visible;
+	GConfClient *gconf_client;
+
 	is_visible = state[0] == '1';	
 	if(is_visible)
 		gtk_widget_show (status_bar);
 	else
 		gtk_widget_hide (status_bar);
-	gconf_client_set_bool (gconf_client_get_default (),"/apps/evolution/shell/view_defaults/statusbar_visible", is_visible, NULL);
+	gconf_client = gconf_client_get_default ();
+	gconf_client_set_bool (gconf_client,"/apps/evolution/shell/view_defaults/statusbar_visible", is_visible, NULL);
+	g_object_unref (gconf_client);
 }
 
 static void
@@ -959,12 +963,16 @@ view_sidebar_item_toggled_handler (BonoboUIComponent           *ui_component,
 {
 	GtkWidget *side_bar = GTK_WIDGET(e_shell_window_peek_sidebar (shell_window));
 	gboolean is_visible;
+	GConfClient *gconf_client;
+
 	is_visible = state[0] == '1';	
 	if(is_visible)
 		gtk_widget_show (side_bar);
 	else
 		gtk_widget_hide (side_bar);
+	gconf_client = gconf_client_get_default ();
 	gconf_client_set_bool (gconf_client_get_default (),"/apps/evolution/shell/view_defaults/sidebar_visible", is_visible, NULL);
+	g_object_unref (gconf_client);
 }
 
 /* Public API.  */

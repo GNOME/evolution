@@ -1,3 +1,11 @@
+2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* e-shell-window-command.c: (view_statusbar_item_toggled_handler),
+	(view_sidebar_item_toggled_handler):
+	* e-shell-window.c: (setup_status_bar):
+	* e-user-creatable-items-handler.c: (setup_toolbar_button): Plugged
+	memory leaks.
+
 2007-07-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* es-event.h: Declare es_event_target_new_shell().

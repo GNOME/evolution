@@ -740,6 +740,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	priv->default_menu_item = get_default_action_for_view (handler);
 	if (!priv->default_menu_item) {
 		gtk_widget_set_sensitive (priv->new_button, FALSE);
+		g_object_unref (gconf);
 		return;
 	}
 
@@ -757,6 +758,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	gtk_tooltips_set_tip (priv->tooltips, priv->new_button,
 			      priv->default_menu_item->tooltip, NULL);
 	g_free (val);
+	g_object_unref (gconf);
 }
 
 

@@ -630,12 +630,15 @@ setup_status_bar (EShellWindow *window)
 {
 	EShellWindowPrivate *priv;
 	BonoboUIEngine *ui_engine;
+	GConfClient *gconf_client;
 
 	priv = window->priv;
 
 	priv->status_bar = gtk_hbox_new (FALSE, 2);
-	if(gconf_client_get_bool (gconf_client_get_default(),"/apps/evolution/shell/view_defaults/statusbar_visible",NULL))
+	gconf_client = gconf_client_get_default ();
+	if(gconf_client_get_bool (gconf_client,"/apps/evolution/shell/view_defaults/statusbar_visible",NULL))
 		gtk_widget_show (priv->status_bar);
+	g_object_unref (gconf_client);
 
 	/* setup dbus interface here*/
 	setup_nm_support (window);
