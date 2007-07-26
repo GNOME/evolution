@@ -1,5 +1,10 @@
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
+	* gui/main.c: Do not need to call g_source_remove(). If the callback
+	function returns FALSE, the event source is automatically removed.
+
+2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
 	* gui/alarm-notify/config-data.c, gui/tasks-component.c,
 	gui/calendar-component.c, gui/memos-component.c: Plugged memory leaks.
 

@@ -94,11 +94,6 @@ launch_alarm_daemon_cb (gpointer data)
 {
 	CORBA_Environment ev;
 	CORBA_Object an;
-	guint *idle_id = (guint *) data;
-
-	/* remove the idle function */
-	g_source_remove (*idle_id);
-	g_free (idle_id);
 
 	/* activate the alarm daemon */
 	CORBA_exception_init (&ev);
@@ -126,10 +121,7 @@ launch_alarm_daemon_cb (gpointer data)
 static void
 launch_alarm_daemon (void)
 {
-	guint *idle_id;
-
-	idle_id = g_new0 (guint, 1);
-	*idle_id = g_idle_add ((GSourceFunc) launch_alarm_daemon_cb, idle_id);
+	g_idle_add ((GSourceFunc) launch_alarm_daemon_cb, NULL);
 }
 
 static void
