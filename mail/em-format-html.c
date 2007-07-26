@@ -579,7 +579,7 @@ efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMForma
 		job = em_format_html_job_new(efh, emfh_gethttp, g_strdup(url));
 	} else if  (g_ascii_strncasecmp(url, "/", 1) == 0) {
 		char *data = NULL;
-		guint length = 0;
+		gsize length = 0;
 		gboolean status;
 		
 		status = g_file_get_contents (url, &data, &length, NULL);
@@ -1371,6 +1371,11 @@ efh_format_timeout(struct _format_msg *m)
 		mail_msg_free(m);
 		p->last_part = NULL;
 	} else {
+		hstream = gtk_html_begin(efh->html);
+		gtk_html_stream_printf(hstream, "<h5>%s</h5>",
+						_("Formatting Message..."));
+		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
+
 		hstream = NULL;
 		m->estream = (EMHTMLStream *)em_html_stream_new(efh->html, hstream);
 
@@ -1765,8 +1770,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	const char *photo_name = NULL;
 	CamelInternetAddress *cia = NULL;
 	gboolean face_decoded  = FALSE;
-	char *face_header_value;
-	int face_header_len;
+	char *face_header_value = NULL;
+	int face_header_len = 0;
 	
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");

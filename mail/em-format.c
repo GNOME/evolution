@@ -489,6 +489,7 @@ emf_clear_puri_node(struct _EMFormatPURITree *node)
 		pw = (EMFormatPURI *)node->uri_list.head;
 		pn = pw->next;
 		while (pn) {
+			d(printf ("freeing pw %p format:%p\n", pw, pw->format));
 			if (pw->free)
 				pw->free(pw);
 			g_free(pw->uri);

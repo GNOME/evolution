@@ -1,3 +1,17 @@
+2007-07-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #273386
+
+	* em-format-html.c: (efh_format_timeout):
+	Clear preview and show text "Formatting message" at the beginning.
+
+	* em-format-html-display.c: (efhd_attachment_show):
+	Changed debug output to print also pointer address.
+	* em-format.c: (emf_clear_puri_node):
+	Added debug output to see which memory is going to be freed.
+	* em-format-html.c: (efh_url_requested), (efh_format_headers):
+	Warnings cleanup.
+
 2007-07-26  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of  Atos Origin Communication Systems 

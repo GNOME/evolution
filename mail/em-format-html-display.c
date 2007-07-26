@@ -121,7 +121,7 @@
 #define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
 #endif
 
-#define d(x)
+#define d(x) 
 
 #define EFHD_TABLE_OPEN "<table>"
 
@@ -1421,7 +1421,7 @@ efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
 {
 	struct _attach_puri *info = data;
 
-	d(printf("show attachment button called\n"));
+	d(printf("show attachment button called %p\n", info));
 
 	info->shown = ~info->shown;
 	em_format_set_inline(info->puri.format, info->puri.part_id, info->shown);
