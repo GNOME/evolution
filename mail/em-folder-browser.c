@@ -1126,7 +1126,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 	message_list_set_search(emfb->view.list, search_word);
 
-
+	g_free (search_word);
 
 	camel_exception_free (ex);
 }
