@@ -682,6 +682,21 @@ e_plugin_enable(EPlugin *ep, int state)
 }
 
 /**
+* e_plugin_configure:
+* @ep: 
+* 
+*
+**/
+
+void
+e_plugin_configure (EPlugin *ep)
+{
+	EPluginClass *ptr;
+	ptr = ((EPluginClass *)G_OBJECT_GET_CLASS(ep));
+        ptr->configure (ep);
+}
+
+/**
  * e_plugin_xml_prop:
  * @node: An XML node.
  * @id: The name of the property to retrieve.
@@ -912,6 +927,24 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 }
 
 static void
+epl_configure (EPlugin *ep)
+{
+	EPluginLibConfigureFunc configure;
+
+	pd(printf ("\n epl_configure \n"));
+
+	if (epl_loadmodule(ep) != 0) {
+		pd(printf ("\n epl_loadmodule  \n"));
+		return;
+	}
+
+	if (g_module_symbol(epl->module, "e_plugin_lib_configure", (void *)&configure)) {
+		pd(printf ("\n g_module_symbol is loaded\n"));
+		configure (epl);
+	}
+}
+
+static void
 epl_enable(EPlugin *ep, int state)
 {
 	EPluginLibEnableFunc enable;
@@ -958,6 +991,7 @@ epl_class_init(EPluginClass *klass)
 	klass->construct = epl_construct;
 	klass->invoke = epl_invoke;
 	klass->enable = epl_enable;
+	klass->configure = epl_configure;
 	klass->type = "shlib";
 }
 

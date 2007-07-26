@@ -1,3 +1,12 @@
+2007-07-26  Sankar P  <psankar@novell.com>
+
+	* e-plugin.c: (e_plugin_configure), (epl_configure),
+	(epl_class_init):
+	* e-plugin.h:
+	Plugins should be configurable within the plugin-manager itself.
+	Fixes Preferences dialog bloating.
+	See bug #459522
+
 2007-07-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #446894

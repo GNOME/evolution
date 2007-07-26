@@ -85,6 +85,7 @@ struct _EPluginClass {
 	int (*construct)(EPlugin *, xmlNodePtr root);
 	void *(*invoke)(EPlugin *, const char *name, void *data);
 	void (*enable)(EPlugin *, int state);
+	void (*configure)(EPlugin *);
 };
 
 GType e_plugin_get_type(void);
@@ -98,6 +99,7 @@ void e_plugin_register_type(GType type);
 
 void *e_plugin_invoke(EPlugin *ep, const char *name, void *data);
 void e_plugin_enable(EPlugin *eph, int state);
+void e_plugin_configure (EPlugin *eph);
 
 /* static helpers */
 /* maps prop or content to 'g memory' */
@@ -119,6 +121,7 @@ typedef void *(*EPluginLibFunc)(EPluginLib *ep, void *data);
  * initialised.  In the future it may also be called when the plugin
  * is disabled. */
 typedef int (*EPluginLibEnableFunc)(EPluginLib *ep, int enable);
+typedef int (*EPluginLibConfigureFunc)(EPluginLib *ep);
 
 /**
  * struct _EPluginLib - 

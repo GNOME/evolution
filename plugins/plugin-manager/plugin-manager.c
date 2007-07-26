@@ -32,6 +32,8 @@
 #include "e-util/e-plugin.h"
 #include "shell/es-menu.h"
 
+#define d(S) (S)
+
 enum {
 	LABEL_NAME,
 	LABEL_AUTHOR,
@@ -69,7 +71,10 @@ struct _Manager {
 /* for tracking if we're shown */
 static GtkDialog *dialog;
 
+const int RESPONSE_CONFIGURE = 1;
+
 void org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t);
+int e_plugin_lib_configure(EPluginLib *ep);
 
 static void
 eppm_set_label(GtkLabel *l, const char *v)
@@ -176,8 +181,24 @@ eppm_free(void *data)
 static void
 eppm_response(GtkDialog *w, int button, Manager *m)
 {
-	gtk_widget_destroy((GtkWidget*)w);
-	dialog = NULL;
+	if (button == GTK_RESPONSE_CLOSE) {
+		gtk_widget_destroy((GtkWidget*)w);
+		dialog = NULL;
+	} else {
+		GtkTreeSelection *selection = NULL;
+		GtkTreeModel *model = NULL;
+		GtkTreeIter iter;
+
+		selection = gtk_tree_view_get_selection(m->treeview);
+		if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+			EPlugin *ep =  NULL;
+
+			gtk_tree_model_get(model, &iter, COL_PLUGIN_DATA, &ep, -1);
+
+			e_plugin_configure (ep);
+		} else
+			d(printf ("\n\a No Plugin is selected \n\a"));
+	}
 }
 
 void
@@ -202,7 +223,9 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	m->dialog = (GtkDialog *)gtk_dialog_new_with_buttons(_("Plugin Manager"),
 							     (GtkWindow *)gtk_widget_get_toplevel(t->target.widget),
 							     GTK_DIALOG_DESTROY_WITH_PARENT,
-							     GTK_STOCK_CLOSE, GTK_RESPONSE_OK, NULL);
+							     _("Configure"), RESPONSE_CONFIGURE, 
+							     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, 
+							     NULL);
 
 	gtk_window_set_default_size((GtkWindow *)m->dialog, 640, 400);
 	g_object_set((GObject *)m->dialog, "has_separator", FALSE, NULL);
@@ -334,6 +357,8 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 
 int e_plugin_lib_enable(EPluginLib *ep, int enable);
 
+int e_plugin_lib_configure(EPluginLib *ep);
+
 int
 e_plugin_lib_enable(EPluginLib *ep, int enable)
 {
@@ -343,5 +368,13 @@ e_plugin_lib_enable(EPluginLib *ep, int enable)
 		return -1;
 	}
 
+	return 0;
+}
+
+int 
+e_plugin_lib_configure(EPluginLib *ep)
+{
+	d(printf ("\n\a e_plugin_lib_configure in plugin-manager\n\a"));
+	/* Makes no sense as this plugin is never shown */
 	return 0;
 }
