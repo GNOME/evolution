@@ -336,11 +336,11 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			stream = camel_stream_mem_new ();
 
 			camel_stream_printf (stream,
-					_("This message was sent automatically by Evolution \
-					to inform you that you have been designated as a \
-					delegate. You can now send messages on my behalf.\
-					 \n\nYou have been given the following permissions \
-					on my folders:\n"));
+					_("This message was sent automatically by Evolution "
+					  "to inform you that you have been designated as a "
+					  "delegate. You can now send messages on my behalf."
+					  " \n\nYou have been given the following permissions "
+					  "on my folders:\n"));
 			for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
 				menu = glade_xml_get_widget (xml, widget_names[i]);
 				role = e_dialog_option_menu_get (menu, exchange_perm_map);

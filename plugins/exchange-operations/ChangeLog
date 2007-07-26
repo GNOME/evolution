@@ -1,3 +1,10 @@
+2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #458511
+
+	* exchange-delegates-user.c: (exchange_delegates_user_edit): each
+	message is enclosed with double quotes line by line.
+
 2007-07-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	* exchange-delegates-user.c:
