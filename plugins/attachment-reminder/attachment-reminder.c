@@ -125,7 +125,8 @@ static gboolean check_for_attachment_clues (gchar *msg)
 	//TODO : Add more strings. RegEx ???
 
 	GConfClient *gconf;
-	GSList *clue_list = NULL;
+	GSList *clue_list = NULL, *list;
+	gboolean ret_val = FALSE;
 
 	gconf = gconf_client_get_default ();
 
@@ -134,12 +135,20 @@ static gboolean check_for_attachment_clues (gchar *msg)
 
 	guint msg_length = strlen (msg);
 
-	for (;clue_list;clue_list=g_slist_next(clue_list)) {
-		if (g_strstr_len (msg, msg_length, g_utf8_strdown (clue_list->data, g_utf8_strlen (clue_list->data, -1) ) ))
-			return TRUE;
+	for (list = clue_list;list && !ret_val;list=g_slist_next(list)) {
+		gchar *needle = g_utf8_strdown (list->data, -1);
+		if (g_strstr_len (msg, msg_length, needle)) {
+			ret_val = TRUE;
+		}
+		g_free (needle);
 	}
 
-	return FALSE;
+	if (clue_list) {
+		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
+		g_slist_free (clue_list);
+	}
+
+	return ret_val;
 }
 
 /* check for the any attachment */
@@ -338,7 +347,7 @@ org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConf
 	GtkTreeIter iter;
     	GConfClient *gconf = gconf_client_get_default();
 	GtkWidget *hbox, *button;
-	GSList *clue_list = NULL;
+	GSList *clue_list = NULL, *list;
 	gboolean enable_ui;
 
 	UIData *ui = g_new0 (UIData, 1);
@@ -392,12 +401,15 @@ org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConf
 	/* Populate tree view with values from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
 
-	while (clue_list){
+	for (list = clue_list; list; list = g_slist_next (clue_list)) {
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-				    CLUE_KEYWORD_COLUMN, clue_list->data, -1);
+				    CLUE_KEYWORD_COLUMN, list->data, -1);
+	}
 
-		clue_list = g_slist_next (clue_list);
+	if (clue_list) {
+		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
+		g_slist_free (clue_list);
 	}
 
 	/* Enable / Disable */
