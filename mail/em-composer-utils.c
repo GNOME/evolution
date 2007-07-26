@@ -1220,15 +1220,15 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	
 	/* Create the machine-readable receipt */
 	receipt_data = camel_data_wrapper_new ();
-	type = camel_content_type_new ("message", "disposition-notification");
-	camel_data_wrapper_set_mime_type_field (receipt_data, type);
-	camel_content_type_unref (type);
 	stream = camel_stream_mem_new ();
 	part = camel_mime_part_new ();
 
 	ua = g_strdup_printf ("%s; %s", hostname, "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 	recipient = g_strdup_printf ("rfc822; %s", self_address);	
 
+	type = camel_content_type_new ("message", "disposition-notification");
+	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (part), type);
+	camel_content_type_unref (type);
 	camel_medium_add_header (CAMEL_MEDIUM (part), "Reporting-UA", ua);
 	camel_medium_add_header (CAMEL_MEDIUM (part), "Final-Recipient", recipient);
 	camel_medium_add_header (CAMEL_MEDIUM (part), "Original-Message-ID", message_id);
