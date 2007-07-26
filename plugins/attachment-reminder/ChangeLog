@@ -1,3 +1,10 @@
+2007-07-26  Sankar P  <psankar@novell.com>
+
+	* attachment-reminder.c: (e_plugin_lib_configure),
+	(org_gnome_attachment_reminder_config_option):
+	* attachment-reminder.glade:
+	Configure attachment-reminder plugin within the plugin-manager.
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* attachment-reminder.c: Plugged memory leak and the second argument

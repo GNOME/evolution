@@ -63,6 +63,8 @@ enum {
 };
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
+void e_plugin_lib_configure (EPlugin *epl);
+
 void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
 GtkWidget* org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
@@ -335,17 +337,15 @@ selection_changed (GtkTreeSelection *selection, UIData *ui)
 	}
 }
 
-/* Configuration in Mail Prefs Page goes here */
-
-GtkWidget *
-org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+void 
+e_plugin_lib_configure (EPlugin *epl)
 {
-	GtkVBox *parent_container = (GtkVBox *) (data->parent);
+	GtkWidget *dialog;
 	GladeXML *xml;
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-    	GConfClient *gconf = gconf_client_get_default();
+	GConfClient *gconf = gconf_client_get_default();
 	GtkWidget *hbox, *button;
 	GSList *clue_list = NULL, *list;
 	gboolean enable_ui;
@@ -355,15 +355,11 @@ org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConf
 	char *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
-				      "attachment-reminder.glade",
-				      NULL);
+			"attachment-reminder.glade",
+			NULL);
 	xml = glade_xml_new (gladefile, "reminder_configuration_box", NULL);
 	g_free (gladefile);
 
-	if (data->old)
-                return data->old;
-		
-	
 	ui->gconf = gconf_client_get_default ();
 	enable_ui = gconf_client_get_bool (ui->gconf, GCONF_KEY_ATTACHMENT_REMINDER, NULL);
 
@@ -378,7 +374,7 @@ org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConf
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
-			                             renderer, "text", CLUE_KEYWORD_COLUMN, NULL);
+			renderer, "text", CLUE_KEYWORD_COLUMN, NULL);
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 	g_signal_connect(renderer, "edited", (GCallback) cell_edited_callback, ui);
 
@@ -401,10 +397,9 @@ org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConf
 	/* Populate tree view with values from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
 
-	for (list = clue_list; list; list = g_slist_next (clue_list)) {
+	for (list = clue_list; list; list = g_slist_next (list)) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				    CLUE_KEYWORD_COLUMN, list->data, -1);
+		gtk_list_store_set (store, &iter, CLUE_KEYWORD_COLUMN, list->data, -1);
 	}
 
 	if (clue_list) {
@@ -423,9 +418,30 @@ org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConf
 	gtk_widget_set_sensitive (ui->clue_container, enable_ui);
 
 	hbox = glade_xml_get_widget (xml, "reminder_configuration_box");
-	gtk_box_pack_start (GTK_BOX (parent_container), hbox, FALSE, FALSE, 0);
-	gtk_widget_show_all (hbox);
 
-	return (GtkWidget *)hbox;
+	dialog = gtk_dialog_new_with_buttons (_("Attachment Reminder Preferences"),
+			NULL,
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_STOCK_CLOSE,
+			GTK_RESPONSE_NONE,
+			NULL);
+
+	g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+
+	gtk_container_add (GTK_CONTAINER (GTK_DIALOG(dialog)->vbox), hbox);
+	gtk_widget_show_all (dialog);
+}
+
+
+/* Configuration in Mail Prefs Page goes here */
+
+GtkWidget *
+org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+{
+	/* This function and the hook needs to be removed,
+	once the configure code is thoroughly tested */
+
+	return NULL;
+
 }
 

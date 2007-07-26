@@ -21,9 +21,11 @@
 
   <child>
     <widget class="GtkVBox" id="reminder_configuration_box">
+      <property name="width_request">385</property>
+      <property name="height_request">189</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">6</property>
+      <property name="spacing">5</property>
 
       <child>
 	<widget class="GtkCheckButton" id="reminder_enable_check">
