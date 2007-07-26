@@ -1,3 +1,10 @@
+2007-07-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #273699
+
+	* gui/alarm-notify/notify-main.c: (main):
+	Do g_warning instead of g_error when factory could not be created.
+
 2007-07-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* gui/cal-search-bar.c: (cal_search_bar_construct): Remove "/" as

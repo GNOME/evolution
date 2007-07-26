@@ -149,8 +149,10 @@ main (int argc, char **argv)
 
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION,
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
-	if (!factory)
-		g_error (_("Could not create the alarm notify service factory"));
+	if (!factory) {
+		g_warning (_("Could not create the alarm notify service factory, maybe it's already running..."));
+		return 1;
+	}
 
 	init_session ();
 
