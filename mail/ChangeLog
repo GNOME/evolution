@@ -1,3 +1,11 @@
+2007-07-26  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of  Atos Origin Communication Systems 
+	<support-syscom@osorigin.com>
+	* em-composer-utils.c: (em_utils_send_receipt):
+	- Fixes malformed body part headers for a MDN
+	See bug #458275
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* em-folder-browser.c: (emfb_search_search_activated): Plugged memory
