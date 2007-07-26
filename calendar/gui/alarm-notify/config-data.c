@@ -111,8 +111,11 @@ config_data_get_calendars (const char *key)
 					    NULL);
 	cal_sources = e_source_list_new_for_gconf (conf_client, key);
 
-	if (cal_sources && g_slist_length (gconf_list))
+	if (cal_sources && g_slist_length (gconf_list)) {
+		g_slist_foreach (gconf_list, (GFunc) g_free, NULL);
+		g_slist_free (gconf_list);
 		return cal_sources;
+	}
 
 	state = gconf_client_get_bool (conf_client, 
 				      "/apps/evolution/calendar/notify/notify_with_tray",
@@ -133,8 +136,17 @@ config_data_get_calendars (const char *key)
 				       source,
 				       NULL);
 		cal_sources = e_source_list_new_for_gconf (conf_client, key);
+
+		if (source) {
+			g_slist_foreach (source, (GFunc) g_free, NULL);
+			g_slist_free (source);
+		}
 	}
-	
+
+	if (gconf_list) {
+		g_slist_foreach (gconf_list, (GFunc) g_free, NULL);
+		g_slist_free (gconf_list);
+	}
 
 	return cal_sources;
 	
@@ -170,6 +182,11 @@ config_data_replace_string_list (const char *key,
 					       NULL);
 			break;
 		}
+	}
+
+	if (source) {
+		g_slist_foreach (source, (GFunc) g_free, NULL);
+		g_slist_free (source);
 	}
 }
 

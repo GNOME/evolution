@@ -204,11 +204,14 @@ ensure_sources (MemosComponent *component)
 	}
 
 	if (!personal_source) {
+		GSList *memos_selected;
 		/* Create the default Person addressbook */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
 
-		if (!calendar_config_get_primary_memos () && !calendar_config_get_memos_selected ()) {
+		memos_selected = calendar_config_get_memos_selected ();
+
+		if (!calendar_config_get_primary_memos () && !memos_selected) {
 			GSList selected;
 
 			calendar_config_set_primary_memos (e_source_peek_uid (source));
@@ -216,6 +219,11 @@ ensure_sources (MemosComponent *component)
 			selected.data = (gpointer)e_source_peek_uid (source);
 			selected.next = NULL;
 			calendar_config_set_memos_selected (&selected);
+		}
+
+		if (memos_selected) {
+			g_slist_foreach (memos_selected, (GFunc) g_free, NULL);
+			g_slist_free (memos_selected);
 		}
 
 		e_source_set_color_spec (source, "#BECEDD");

@@ -241,12 +241,14 @@ ensure_sources (CalendarComponent *component)
 
 	if (!personal_source) {
 		char *primary_calendar = calendar_config_get_primary_calendar();
+		GSList *calendars_selected;
 
 		/* Create the default Person addressbook */
 		personal_source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, personal_source, -1);
 		
-		if (!primary_calendar && !calendar_config_get_calendars_selected ()) {
+		calendars_selected = calendar_config_get_calendars_selected ();
+		if (!primary_calendar && !calendars_selected) {
 			GSList selected;
 
 			calendar_config_set_primary_calendar (e_source_peek_uid (personal_source));
@@ -254,6 +256,11 @@ ensure_sources (CalendarComponent *component)
 			selected.data = (gpointer)e_source_peek_uid (personal_source);
 			selected.next = NULL;
 			calendar_config_set_calendars_selected (&selected);
+		}
+
+		if (calendars_selected) {
+			g_slist_foreach (calendars_selected, (GFunc) g_free, NULL);
+			g_slist_free (calendars_selected);
 		}
 
 		g_free (primary_calendar);
@@ -465,6 +472,11 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 		component_view->task_source_selection = uids_selected;
 	else
 		component_view->memo_source_selection = uids_selected;
+
+	if (uids_selected) {
+		g_slist_foreach (uids_selected, (GFunc) g_free, NULL);
+		g_slist_free (uids_selected);
+	}
 }
 
 static void

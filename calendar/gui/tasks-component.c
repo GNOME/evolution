@@ -200,11 +200,14 @@ ensure_sources (TasksComponent *component)
 	}
 
 	if (!personal_source) {
+		GSList *tasks_selected;
 		/* Create the default Person addressbook */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
 
-		if (!calendar_config_get_primary_tasks () && !calendar_config_get_tasks_selected ()) {
+		tasks_selected = calendar_config_get_tasks_selected ();
+
+		if (!calendar_config_get_primary_tasks () && !tasks_selected) {
 			GSList selected;
 
 			calendar_config_set_primary_tasks (e_source_peek_uid (source));
@@ -212,6 +215,11 @@ ensure_sources (TasksComponent *component)
 			selected.data = (gpointer)e_source_peek_uid (source);
 			selected.next = NULL;
 			calendar_config_set_tasks_selected (&selected);
+		}
+
+		if (tasks_selected) {
+			g_slist_foreach (tasks_selected, (GFunc) g_free, NULL);
+			g_slist_free (tasks_selected);
 		}
 
 		e_source_set_color_spec (source, "#BECEDD");
