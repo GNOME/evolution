@@ -288,6 +288,8 @@ convert_unicode_cb (GtkWidget *widget, gpointer data)
 	GConfClient *gconf = gconf_client_get_default();
 
    	gconf_client_set_bool (gconf, data, active, NULL);
+
+	g_object_unref (gconf);
 }
 
 GtkWidget *
