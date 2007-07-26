@@ -272,6 +272,11 @@ e_text_dispose (GObject *object)
 		text->im_context = NULL;
 	}
 
+	if (text->font_desc) {
+		pango_font_description_free (text->font_desc);
+		text->font_desc = NULL;
+	}
+
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
