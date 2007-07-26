@@ -1,3 +1,9 @@
+2007-07-24  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes 459251
+	
+	* POTFILES.in : Added new files with translatable strings.
+	
 2007-07-23  Matic Žgur  <mr.zgur@gmail.com>
 
 	* sl.po: Updated Slovenian translation.

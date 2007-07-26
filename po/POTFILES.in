@@ -254,6 +254,8 @@ mail/message-tag-editor.c
 mail/message-tag-followup.c
 mail/searchtypes.xml
 plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
+plugins/attachment-reminder/attachment-reminder.c
+plugins/attachment-reminder/attachment-reminder.glade
 plugins/audio-inline/org-gnome-audio-inline.eplug.xml
 plugins/backup-restore/backup-restore.c
 plugins/backup-restore/backup.c
@@ -306,6 +308,9 @@ plugins/exchange-operations/org-gnome-exchange-operations.error.xml
 plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml
 plugins/exchange-operations/org-gnome-folder-permissions.xml
 plugins/exchange-operations/org-gnome-folder-subscription.xml
+plugins/face/face.c
+plugins/face/org-gnome-face-ui.xml
+plugins/face/org-gnome-face.eplug.xml
 plugins/folder-unsubscribe/folder-unsubscribe.c
 plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml
 plugins/groupwise-account-setup/camel-gw-listener.c
@@ -393,6 +398,7 @@ plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml
 plugins/startup-wizard/startup-wizard.c
 plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
+plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml
 shell/GNOME_Evolution_Shell.server.in.in
 shell/GNOME_Evolution_Test.server.in.in
 shell/apps_evolution_shell.schemas.in
