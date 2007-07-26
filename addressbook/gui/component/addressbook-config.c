@@ -1162,6 +1162,7 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 		l = e_source_list_peek_groups(sdialog->source_list);
 		if (!l) {
 			g_warning ("Address Book source groups are missing! Check your GConf setup.");
+			g_object_unref (gconf);
 			g_free (sdialog);
 			return NULL;
 		}

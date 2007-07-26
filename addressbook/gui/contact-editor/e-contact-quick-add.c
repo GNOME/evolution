@@ -318,6 +318,7 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+	g_object_unref (gconf_client);
 	qa->option_menu = e_source_option_menu_new (source_list);
 	book = e_book_new_default_addressbook (NULL);
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (qa->option_menu), e_book_get_source(book));

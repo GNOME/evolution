@@ -1,5 +1,13 @@
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
+	* gui/contact-editor/e-contact-editor.c:
+	(e_contact_editor_create_source_option_menu):
+	* gui/contact-editor/e-contact-quick-add.c: (build_quick_add_dialog):
+	* gui/component/addressbook-config.c: (addressbook_config_edit_source):
+	Plugged memory leaks.
+
+2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
 	* gui/widgets/e-minicard.c: (add_email_field): Plugged memory leak.
 
 2007-07-20  Claude Paroz  <claude@2xlibre.net>
