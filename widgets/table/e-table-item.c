@@ -1059,7 +1059,9 @@ eti_freeze (ETableItem *eti)
 static void
 eti_unfreeze (ETableItem *eti)
 {
-	g_return_if_fail (eti->frozen_count > 0);
+	if (eti->frozen_count <= 0)
+		return;
+
 	eti->frozen_count --;
 	d(g_print ("%s: %d\n", __FUNCTION__, eti->frozen_count));
 	if (eti->frozen_count == 0 && eti->queue_show_cursor) {
