@@ -1982,7 +1982,7 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 	struct _drop_msg *m;
 
 	/* this means we are receiving no data */
-	if (data->data == NULL || data->length == -1)
+	if (!ml->folder || data->data == NULL || data->length == -1)
 		return;
 
 	m = mail_msg_new(&ml_drop_async_op, NULL, sizeof(*m));

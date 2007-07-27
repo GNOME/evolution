@@ -1,3 +1,10 @@
+2007-07-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #303937
+
+	* message-list.c: (ml_tree_drag_data_received):
+	Don't do anything when ml->folder is NULL.
+
 2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* em-utils.c: (em_utils_save_parts): Do not free const pointer.
