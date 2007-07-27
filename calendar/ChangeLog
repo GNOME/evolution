@@ -1,3 +1,12 @@
+2007-07-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #457394
+
+	* gui/e-calendar-table.c: (hide_completed_rows):
+	Properly free component with e_cal_model_free_component_data.
+	* gui/e-calendar-table.c: (show_completed_rows):
+	Reference 'client' on new component.
+
 2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* dialogs/cal-prefs-dialog.c: (calendar_prefs_dialog_finalize):

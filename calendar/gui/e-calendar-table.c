@@ -1423,7 +1423,8 @@ hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPt
 				pos = get_position_in_array (comp_objects, comp_data);
 				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
-				g_ptr_array_remove (comp_objects, comp_data);
+				if (g_ptr_array_remove (comp_objects, comp_data))
+					e_cal_model_free_component_data (comp_data);
 			}
 			e_cal_component_free_id (id);
 			g_object_unref (comp);
@@ -1460,7 +1461,7 @@ show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPt
 			if (!(e_cal_model_get_component_for_uid (model, id))) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
 				comp_data = g_new0 (ECalModelComponent, 1);
-				comp_data->client = client;
+				comp_data->client = g_object_ref (client);
 				comp_data->icalcomp = icalcomponent_new_clone (m->data);
 				e_cal_model_set_instance_times (comp_data,
 						e_cal_model_get_timezone (model));
