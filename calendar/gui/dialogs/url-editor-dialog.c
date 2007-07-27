@@ -306,6 +306,8 @@ init_widgets (UrlDialogData *url_dlg_data)
 	}
 	
 	gtk_widget_show (url_dlg_data->scrolled_window);
+
+	g_object_unref (gconf_client);
 }
 
 static void

@@ -795,6 +795,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
+	GConfClient *gconf_client;
 	GdkGC *gc;
 	gint x1, y1, x2, y2, time_x, time_y;
 	gint icon_x, icon_y, time_width, min_end_time_x, max_icon_x;
@@ -828,9 +829,11 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 
 	g_return_if_fail(wveitem->event_num < week_view->events->len);
 
-	gradient = gconf_client_get_bool (gconf_client_get_default (),
+	gconf_client = gconf_client_get_default ();
+	gradient = gconf_client_get_bool (gconf_client,
 					"/apps/evolution/calendar/display/events_gradient",
 					NULL);
+	g_object_unref (gconf_client);
 
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				wveitem->event_num);

@@ -183,6 +183,7 @@ e_pub_publish (gboolean publish) {
 	
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/calendar/sources");
+	g_object_unref (gconf_client);
 	
 	utc = icaltimezone_get_utc_timezone ();	
 	start = time_day_begin_with_zone (start, utc);

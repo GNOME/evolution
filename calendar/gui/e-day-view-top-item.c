@@ -838,6 +838,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
+	GConfClient *gconf_client;
 	GtkStyle *style;
 	GdkGC *gc, *fg_gc;
 	gint start_day, end_day;
@@ -865,13 +866,15 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	day_view = dvtitem->day_view;
 	cr = gdk_cairo_create (drawable);
 
-	alpha = gconf_client_get_float (gconf_client_get_default (),
+	gconf_client = gconf_client_get_default ();
+	alpha = gconf_client_get_float (gconf_client,
 				         "/apps/evolution/calendar/display/events_transparency",
 		 			NULL);
 
-	gradient = gconf_client_get_bool (gconf_client_get_default (),
+	gradient = gconf_client_get_bool (gconf_client,
 					"/apps/evolution/calendar/display/events_gradient",
 					NULL);
+	g_object_unref (gconf_client);
 
 	/* If the event is currently being dragged, don't draw it. It will
 	   be drawn in the special drag items. */

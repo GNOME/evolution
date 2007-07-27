@@ -67,6 +67,11 @@ calendar_prefs_dialog_finalize (GObject *obj)
 
 	g_object_unref (prefs->gui);
 
+	if (prefs->gconf) {
+		g_object_unref (prefs->gconf);
+		prefs->gconf = NULL;
+	}
+
 	((GObjectClass *)(parent_class))->finalize (obj);
 }
 

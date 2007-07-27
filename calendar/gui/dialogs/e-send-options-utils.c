@@ -143,6 +143,7 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 			sopts->completed = E_RETURN_NOTIFY_MAIL;
 	}
 
+	g_object_unref (gconf);
 }
 
 void 

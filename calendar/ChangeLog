@@ -1,3 +1,16 @@
+2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* dialogs/cal-prefs-dialog.c: (calendar_prefs_dialog_finalize):
+	* dialogs/task-page.c: (task_page_create_source_option_menu):
+	* dialogs/e-send-options-utils.c:
+	(e_sendoptions_utils_set_default_data):
+	* dialogs/url-editor-dialog.c: (init_widgets):
+	* dialogs/event-page.c: (event_page_create_source_option_menu):
+	* dialogs/memo-page.c: (memo_page_create_source_option_menu):
+	* e-week-view-event-item.c: (e_week_view_event_item_draw):
+	* e-day-view-top-item.c: (e_day_view_top_item_draw_long_event):
+	* e-pub-utils.c: (e_pub_publish): Plugged memory leaks.
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* gui/main.c: Do not need to call g_source_remove(). If the callback

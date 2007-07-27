@@ -1969,6 +1969,7 @@ task_page_create_source_option_menu (void)
 
 	menu = e_source_option_menu_new (source_list);
 	g_object_unref (source_list);
+	g_object_unref (gconf_client);
 
 	gtk_widget_show (menu);
 	return menu;
