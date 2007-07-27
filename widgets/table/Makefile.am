@@ -13,7 +13,7 @@ INCLUDES =					\
 	-I$(top_srcdir)                         \
 	-I$(top_srcdir)/widgets                 \
 	$(E_WIDGETS_CFLAGS)			\
-	$(EXTRA_GNOME_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)		\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
         -DG_LOG_DOMAIN=\"e-table\"
 
@@ -155,7 +155,7 @@ libetable_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/libevolution-a11y.la	\
 	$(E_WIDGETS_LIBS)				\
-	$(EXTRA_GNOME_LIBS)
+	$(GNOME_PLATFORM_LIBS)
 
 icons = 			\
 	add-col.xpm		\

@@ -1,3 +1,12 @@
+2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Collect all the required package versions in one place and
+	explicitly require GTK+ 2.10 or higher.  (#380354)
+
+	* tools/Makefile.am:
+	Rename GNOME_FULL_CFLAGS to GNOME_PLATFORM_CFLAGS.
+
 2007-07-17  Sankar P  <psankar@novell.com>
 
 	* configure.in: Included face plugin to sources.

@@ -31,4 +31,4 @@ libevolution_a11y_la_LIBADD =			\
 	e-text/libgal-a11y-etext.la		\
 	e-table/libgal-a11y-etable.la		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(EXTRA_GNOME_LIBS)
+	$(GNOME_PLATFORM_LIBS)

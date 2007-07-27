@@ -1,3 +1,8 @@
+2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* tests/Makefile.am:
+	Rename GNOME_FULL_LIBS to GNOME_PLATFORM_LIBS.
+
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
         ** Fix for version removal from Installed files from Gilles Dartiguelongue 

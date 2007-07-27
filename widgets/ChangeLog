@@ -1,3 +1,9 @@
+2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* text/Makefile.am:
+	Rename EXTRA_GNOME_CFLAGS to GNOME_PLATFORM_CFLAGS.
+	Similarly for EXTRA_GNOME_LIBS.
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* text/e-text.c: (e_text_dispose): Plugged memory leak.

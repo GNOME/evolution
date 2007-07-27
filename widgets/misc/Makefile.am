@@ -10,7 +10,7 @@ INCLUDES =								\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(EVOLUTION_MAIL_CFLAGS)					\
-	$(EXTRA_GNOME_CFLAGS)						\
+	$(GNOME_PLATFORM_CFLAGS)					\
 	$(ICONV_CFLAGS)
 
 
@@ -133,7 +133,7 @@ libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
 	$(top_builddir)/a11y/libevolution-a11y.la			\
 	$(CAMEL_LIBS)							\
-	$(EXTRA_GNOME_LIBS)						\
+	$(GNOME_PLATFORM_LIBS)						\
 	$(ICONV_LIBS)
 
 libefilterbar_la_SOURCES =	\

@@ -4,6 +4,34 @@ AC_PREREQ(2.52)
 AC_INIT(evolution, 2.11.5, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
+# Some requirements have versioned package names
+# XXX In the spirit of getting rid of versioned
+#     files, can we please drop these suffixes?
+EDS_PACKAGE=1.2
+GTKHTML_PACKAGE=3.14
+
+# Required Packages
+m4_define([gtk_minimum_version], [2.10.0])
+m4_define([eds_minimum_version], [1.9.4])
+m4_define([gnome_icon_theme_minimum_version], [1.2.0])
+m4_define([gnome_vfs_minimum_version], [2.4.0])
+m4_define([libbonoboui_minimum_version], [2.4.2])
+m4_define([libgtkhtml_minimum_version], [3.14.0])
+m4_define([gconf_minimum_version], [2.0.0])             # XXX Just a Guess
+m4_define([libglade_minimum_version], [2.0.0])          # XXX Just a Guess
+m4_define([libgnomecanvas_minimum_version], [2.0.0])    # XXX Just a Guess
+m4_define([libgnomeui_minimum_version], [2.0.0])        # XXX Just a Guess
+m4_define([libxml_minimum_version], [2.0.0])            # XXX Just a Guess
+
+# Optional Packages
+#
+# FIXME  Minimum versions for dbus-glib-1 and libnm_glib ?
+# FIXME  Move audio-inline plugin from gstreamer-0.8 to 0.10 ?
+#
+m4_define([dbus_minimum_version], [1.0.0])
+m4_define([hal_minimum_version], [0.5.4])
+m4_define([libnotify_minimum_version], [0.3.0])
+m4_define([gnome_pilot_minimum_version], [2.0.15])
 
 # GNOME Documentation
 GNOME_DOC_INIT
@@ -132,6 +160,27 @@ AC_MSG_RESULT([$os_win32])
 AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
 AC_SUBST(NO_UNDEFINED)
 AC_SUBST(SOEXT)
+
+# Check for base dependencies early.
+PKG_CHECK_MODULES(GNOME_PLATFORM,
+        [gtk+-2.0 >= gtk_minimum_version
+         gconf-2.0 >= gconf_minimum_version
+         gnome-vfs-2.0 >= gnome_vfs_minimum_version
+         libbonoboui-2.0 >= libbonoboui_minimum_version
+         libglade-2.0 >= libglade_minimum_version
+         libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
+         libgnomeui-2.0 >= libgnomeui_minimum_version
+         libxml-2.0 >= libxml_minimum_version])
+AC_SUBST(GNOME_PLATFORM_CFLAGS)
+AC_SUBST(GNOME_PLATFORM_LIBS)
+
+PKG_CHECK_MODULES(EVOLUTION_DATA_SERVER,
+        [libebook-$EDS_PACKAGE >= eds_minimum_version
+         libecal-$EDS_PACKAGE >= eds_minimum_version
+         libedataserver-$EDS_PACKAGE >= eds_minimum_version
+         libedataserverui-$EDS_PACKAGE >= eds_minimum_version
+         libegroupwise-$EDS_PACKAGE >= eds_minimum_version
+         libexchange-storage-$EDS_PACKAGE >= eds_minimum_version])
 
 dnl ******************************
 dnl iconv checking
@@ -409,7 +458,7 @@ AC_CHECK_FUNCS(statfs)
 dnl **************************************************
 dnl * Gnome Icon Theme
 dnl **************************************************
-PKG_CHECK_MODULES(GIT, gnome-icon-theme >= 1.2.0)
+PKG_CHECK_MODULES(GIT, gnome-icon-theme >= gnome_icon_theme_minimum_version)
 
 dnl **************************************************
 dnl * Accessibility support
@@ -587,7 +636,8 @@ AC_CHECK_FUNCS(regexec,,[AC_CHECK_LIB(regex,regexec,
 				      [AC_MSG_ERROR([No regex library found])])])
 AC_SUBST(REGEX_LIBS)
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.14)
+# XXX Drop the version from the package name?
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.14 >= libgtkhtml_minimum_version)
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.14`
@@ -604,7 +654,7 @@ dnl ******************************
 AC_ARG_ENABLE(pilot-conduits, 
 [  --enable-pilot-conduits=[no/yes] Enable support for building pilot conduits.],,enable_pilot_conduits=no)
 if test "x$enable_pilot_conduits" = "xyes"; then
-	PKG_CHECK_MODULES(GNOME_PILOT, gnome-pilot-2.0)
+	PKG_CHECK_MODULES(GNOME_PILOT, gnome-pilot-2.0 >= gnome_pilot_minimum_version)
 
 	CFLAGS_save="$CFLAGS"
 	CFLAGS="$CFLAGS $GNOME_PILOT_CFLAGS"
@@ -1220,27 +1270,12 @@ fi
 
 dnl --- Required version numbers
 
-GTKHTML_REQUIRED=3.14.0
-GTKHTML_PACKAGE=3.14
-EDS_REQUIRED=1.9.4
-EDS_PACKAGE=1.2
-BONOBOUI_REQUIRED=2.4.2
-GNOME_VFS_REQUIRED=2.4
-
-AC_SUBST(GTKHTML_REQUIRED)
-AC_SUBST(GTKHTML_PACKAGE)
-AC_SUBST(EDS_REQUIRED)
-AC_SUBST(EDS_PACKAGE)
+BONOBOUI_REQUIRED=libbonoboui_minimum_version
 AC_SUBST(BONOBOUI_REQUIRED)
-AC_SUBST(GNOME_VFS_REQUIRED)
 
 dnl --- Flags to get all the GNOME stuff
 
-FULL_GNOME_DEPS="glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0"
-
-EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
-AC_SUBST(GNOME_FULL_CFLAGS)
-AC_SUBST(GNOME_FULL_LIBS)
+FULL_GNOME_DEPS="libbonoboui-2.0 gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0"
 
 CPPFLAGS_save="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
@@ -1248,11 +1283,7 @@ AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
 AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
 CPPFLAGS="$CPPFLAGS_save"
 
-PKG_CHECK_MODULES(EXTRA_GNOME, $FULL_GNOME_DEPS)
-AC_SUBST(EXTRA_GNOME_LIBS)
-AC_SUBST(EXTRA_GNOME_CFLAGS)
-
-PKG_CHECK_MODULES(HAL, hal >= 0.5.4, HAVE_HAL="yes", HAVE_HAL="no")
+PKG_CHECK_MODULES(HAL, hal >= hal_minimum_version, HAVE_HAL="yes", HAVE_HAL="no")
 if test "x$HAVE_HAL" = "xyes"; then
    AC_DEFINE(HAVE_HAL, 1, [hal available])
    HAL_REQUIREMENT="hal"
@@ -1282,7 +1313,7 @@ EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED libegroupwise-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libegroupwise-$EDS_PACKAGE)
 AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
 AC_SUBST(CAMEL_GROUPWISE_LIBS)
 
@@ -1295,33 +1326,33 @@ else
 	fi
 fi
 
-EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED libglade-2.0 gtk+-2.0 glib-2.0 gobject-2.0 gthread-2.0,
+EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0,
                       $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS,
 	              $MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
+EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0)
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE >= $EDS_REQUIRED, $GNOME_FULL_CFLAGS, $GNOME_FULL_LIBS)
+EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE, $GNOME_PLATFORM_CFLAGS, $GNOME_PLATFORM_LIBS)
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 gnome-vfs-module-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, libbonoboui-2.0 gnome-vfs-module-2.0 libgnomeui-2.0 libglade-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
  
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libglade-2.0 libbonoboui-2.0 libgnomeui-2.0 libebook-$EDS_PACKAGE)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnomeui-2.0 libglade-2.0 libedataserver-$EDS_PACKAGE)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
@@ -1348,14 +1379,14 @@ AM_CONDITIONAL(NM_SUPPORT_GLIB, test x$NM_SUPPORT_GLIB = xyes)
 AM_CONDITIONAL(NM_SUPPORT, test x$NM_SUPPORT = xyes)
 
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED $NM_SUPPORT_PACKAGES)   
+EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE $NM_SUPPORT_PACKAGES)   
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-$EDS_PACKAGE"
+EVOLUTION_ADDRESSBOOK_DEPS="libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1369,7 +1400,7 @@ fi
 
 LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
-PKG_CHECK_MODULES(LIBNOTIFY, libnotify >= 0.3.0, HAVE_LIBNOTIFY="yes", HAVE_LIBNOTIFY="no")
+PKG_CHECK_MODULES(LIBNOTIFY, libnotify >= libnotify_minimum_version, HAVE_LIBNOTIFY="yes", HAVE_LIBNOTIFY="no")
 if test "x$HAVE_LIBNOTIFY" = "xyes"; then
 	AC_DEFINE(HAVE_LIBNOTIFY, 1, [libnotify available])
 	libnotify="libnotify"
@@ -1393,7 +1424,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, $LIBSOUP >= $LIBSOUP_REQUIRED)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $HAL_REQUIREMENT $libnotify)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1405,7 +1436,7 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE bonobo-activation-2.0 $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1428,7 +1459,7 @@ fi
 
 dnl --- evolution-test flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnome-2.0 libgnomeui-2.0 libbonobo-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnomeui-2.0 libbonoboui-2.0)
 AC_SUBST(EVOLUTION_TEST_CFLAGS)
 AC_SUBST(EVOLUTION_TEST_LIBS)
 
@@ -1647,7 +1678,7 @@ if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 		dnl **************************************************
 		dnl * Exchange Operations plugin
 		dnl **************************************************
-		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gthread-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE)
+		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
 		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
 		AC_SUBST(CAMEL_EXCHANGE_LIBS)
 	else

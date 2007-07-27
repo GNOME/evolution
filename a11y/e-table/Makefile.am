@@ -1,7 +1,7 @@
 INCLUDES =					\
 	-I$(top_srcdir)                         \
 	-I$(top_srcdir)/widgets                 \
-	$(EXTRA_GNOME_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)		\
         -DG_LOG_DOMAIN=\"e-table\"
 
 noinst_LTLIBRARIES = libgal-a11y-etable.la

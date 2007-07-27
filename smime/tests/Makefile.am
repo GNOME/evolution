@@ -11,7 +11,6 @@ TEST_LIBS= \
 	-L/home/toshok/src/mozilla/mozilla/dist/lib	\
 	$(CERT_UI_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(GNOME_FULL_LIBS)
-
+	$(GNOME_PLATFORM_LIBS)
 
 import_cert_LDADD=$(TEST_LIBS)

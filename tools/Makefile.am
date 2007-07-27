@@ -16,7 +16,7 @@ INCLUDES =						\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
 	-DDATADIR=\""$(datadir)"\"			\
 	-DLIBDIR=\""$(libdir)"\"			\
-	$(GNOME_FULL_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)
 
 EXTRA_DIST = verify-evolution-install.sh
 
