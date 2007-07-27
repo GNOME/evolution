@@ -264,6 +264,10 @@ static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterInt *fs = (FilterInt *)fe;
-	
-	g_string_append_printf (out, "%d", fs->val);
+
+	if (fs->val < 0)
+		/* See #364731 #457523 C6*/
+		g_string_append_printf (out, "(- %d)", (fs->val * -1));
+	else
+		g_string_append_printf (out, "%d", fs->val);
 }

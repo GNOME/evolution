@@ -1,3 +1,9 @@
+2007-07-27  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for bug #457523.
+	
+	* filter-int.c: (format_sexp): use (- n) for negative values.
+	
 2007-06-15  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #263207
