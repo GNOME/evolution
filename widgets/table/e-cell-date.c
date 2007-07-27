@@ -33,14 +33,12 @@
 
 #include "e-cell-date.h"
 
-#define PARENT_TYPE e_cell_text_get_type ()
+G_DEFINE_TYPE (ECellDate, e_cell_date, E_CELL_TEXT_TYPE)
 
 #ifdef G_OS_WIN32
 /* The localtime() in Microsoft's C library *is* thread-safe */
 #define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
 #endif
-
-static ECellTextClass *parent_class;
 
 static char *
 ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
@@ -118,18 +116,16 @@ ecd_free_text(ECellText *cell, char *text)
 }
 
 static void
-e_cell_date_class_init (GtkObjectClass *object_class)
+e_cell_date_class_init (ECellDateClass *klass)
 {
-	ECellTextClass *ectc = (ECellTextClass *) object_class;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
+	ECellTextClass *ectc = E_CELL_TEXT_CLASS (klass);
 
 	ectc->get_text  = ecd_get_text;
 	ectc->free_text = ecd_free_text;
 }
 
 static void
-e_cell_date_init (GtkObject *object)
+e_cell_date_init (ECellDate *ecd)
 {
 }
 
@@ -168,4 +164,3 @@ e_cell_date_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecd;
 }
 
-E_MAKE_TYPE(e_cell_date, "ECellDate", ECellDate, e_cell_date_class_init, e_cell_date_init, PARENT_TYPE)

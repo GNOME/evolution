@@ -38,7 +38,7 @@
 d(static gint depth = 0;)
 
 
-static GObjectClass *e_table_model_parent_class;
+G_DEFINE_TYPE (ETableModel, e_table_model, G_TYPE_OBJECT)
 
 enum {
 	MODEL_NO_CHANGE,
@@ -270,15 +270,14 @@ e_table_model_value_to_string (ETableModel *e_table_model, int col, const void *
 static void
 e_table_model_finalize (GObject *object)
 {
-	if (e_table_model_parent_class->finalize)
-		(*e_table_model_parent_class->finalize)(object);
+	if (G_OBJECT_CLASS (e_table_model_parent_class)->finalize)
+		(* G_OBJECT_CLASS (e_table_model_parent_class)->finalize)(object);
 }
 
 static void
-e_table_model_class_init (GObjectClass *object_class)
+e_table_model_class_init (ETableModelClass *klass)
 {
-	ETableModelClass *klass = E_TABLE_MODEL_CLASS(object_class);
-	e_table_model_parent_class = g_type_class_peek_parent (object_class);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);	
 	
 	object_class->finalize = e_table_model_finalize;
 
@@ -373,7 +372,11 @@ e_table_model_class_init (GObjectClass *object_class)
 	klass->model_rows_deleted  = NULL;
 }
 
-E_MAKE_TYPE(e_table_model, "ETableModel", ETableModel, e_table_model_class_init, NULL, G_TYPE_OBJECT)
+static void
+e_table_model_init (ETableModel *e_table_model)
+{
+	/* nothing to do */
+}
 
 #if d(!)0
 static void

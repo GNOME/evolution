@@ -28,7 +28,7 @@
 
 #include "e-cell.h"
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
+G_DEFINE_TYPE (ECell, e_cell, GTK_TYPE_OBJECT)
 
 #define ECVIEW_EC_CLASS(v) (E_CELL_GET_CLASS (v->ecell))
 
@@ -131,37 +131,33 @@ ec_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row, in
 }
 
 static void
-e_cell_class_init (GtkObjectClass *object_class)
+e_cell_class_init (ECellClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
-
-	ecc->realize = ec_realize;
-	ecc->unrealize = ec_unrealize;
-	ecc->new_view = ec_new_view;
-	ecc->kill_view = ec_kill_view;
-	ecc->draw = ec_draw;
-	ecc->event = ec_event;
-	ecc->focus = ec_focus;
-	ecc->unfocus = ec_unfocus;
-	ecc->height = ec_height;
-	ecc->enter_edit = ec_enter_edit;
-	ecc->leave_edit = ec_leave_edit;
-	ecc->save_state = ec_save_state;
-	ecc->load_state = ec_load_state;
-	ecc->free_state = ec_free_state;
-	ecc->print = NULL;
-	ecc->print_height = NULL;
-	ecc->max_width = NULL;
-	ecc->max_width_by_row = NULL;
-	ecc->show_tooltip = ec_show_tooltip;
+	klass->realize = ec_realize;
+	klass->unrealize = ec_unrealize;
+	klass->new_view = ec_new_view;
+	klass->kill_view = ec_kill_view;
+	klass->draw = ec_draw;
+	klass->event = ec_event;
+	klass->focus = ec_focus;
+	klass->unfocus = ec_unfocus;
+	klass->height = ec_height;
+	klass->enter_edit = ec_enter_edit;
+	klass->leave_edit = ec_leave_edit;
+	klass->save_state = ec_save_state;
+	klass->load_state = ec_load_state;
+	klass->free_state = ec_free_state;
+	klass->print = NULL;
+	klass->print_height = NULL;
+	klass->max_width = NULL;
+	klass->max_width_by_row = NULL;
+	klass->show_tooltip = ec_show_tooltip;
 }
 
 static void
-e_cell_init (GtkObject *object)
+e_cell_init (ECell *cell)
 {
 }
-
-E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE)
 
 /**
  * e_cell_event:

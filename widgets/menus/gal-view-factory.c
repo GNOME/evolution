@@ -27,13 +27,11 @@
 
 #include "gal-view-factory.h"
 
-#define PARENT_TYPE G_TYPE_OBJECT
+G_DEFINE_TYPE (GalViewFactory, gal_view_factory, G_TYPE_OBJECT)
 
 #define d(x)
 
 d(static gint depth = 0;)
-
-static GObjectClass *gal_view_factory_parent_class;
 
 /**
  * gal_view_factory_get_title:
@@ -92,11 +90,8 @@ gal_view_factory_get_type_code (GalViewFactory *factory)
 }
 
 static void
-gal_view_factory_class_init      (GObjectClass *object_class)
+gal_view_factory_class_init      (GalViewFactoryClass *klass)
 {
-	GalViewFactoryClass *klass = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_parent_class = g_type_class_ref (PARENT_TYPE);
-	
 	klass->get_title = NULL;     
 	klass->new_view  = NULL;     
 }
@@ -106,4 +101,3 @@ gal_view_factory_init      (GalViewFactory *factory)
 {
 }
 
-E_MAKE_TYPE(gal_view_factory, "GalViewFactory", GalViewFactory, gal_view_factory_class_init, gal_view_factory_init, PARENT_TYPE)

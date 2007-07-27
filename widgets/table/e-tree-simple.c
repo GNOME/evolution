@@ -143,7 +143,7 @@ e_tree_simple_class_init (GObjectClass *object_class)
 	model_class      ->is_editable      = simple_is_editable;
 }
 
-E_MAKE_TYPE(e_tree_simple, "ETreeSimple", ETreeSimple, e_tree_simple_class_init, NULL, E_TREE_MODEL_TYPE)
+G_DEFINE_TYPE (ETreeSimple, e_tree_simple, E_TREE_MODEL_TYPE)
 
 /**
  * e_tree_simple_new:

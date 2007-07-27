@@ -74,12 +74,11 @@ static guint ethi_signals [LAST_SIGNAL] = { 0, };
 
 #define ETHI_RESIZING(x) ((x)->resize_col != -1)
 
-#define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
+#define ethi_get_type e_table_header_item_get_type
+G_DEFINE_TYPE (ETableHeaderItem, ethi, GNOME_TYPE_CANVAS_ITEM)
 
 #define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
 #define d(x)
-
-static GnomeCanvasItemClass *ethi_parent_class;
 
 static void ethi_drop_table_header (ETableHeaderItem *ethi);
 
@@ -1855,12 +1854,11 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-ethi_class_init (GObjectClass *object_class)
+ethi_class_init (ETableHeaderItemClass *klass)
 {
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	ethi_parent_class = g_type_class_ref (PARENT_OBJECT_TYPE);
-	
 	object_class->dispose = ethi_dispose;
 	object_class->set_property = ethi_set_property;
 	object_class->get_property = ethi_get_property;
@@ -1944,9 +1942,9 @@ ethi_class_init (GObjectClass *object_class)
 }
 
 static void
-ethi_init (GnomeCanvasItem *item)
+ethi_init (ETableHeaderItem *ethi)
 {
-	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ethi);
 
 	ethi->resize_col = -1;
 
@@ -1970,9 +1968,3 @@ ethi_init (GnomeCanvasItem *item)
 	ethi->selected_col = 0;
 }
 
-E_MAKE_TYPE (e_table_header_item,
-	     "ETableHeaderItem",
-	     ETableHeaderItem,
-	     ethi_class_init,
-	     ethi_init,
-	     PARENT_OBJECT_TYPE)

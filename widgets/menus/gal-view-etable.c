@@ -27,9 +27,7 @@
 
 #include "gal-view-etable.h"
 
-#define PARENT_TYPE GAL_VIEW_TYPE
-
-static GalViewClass *gal_view_etable_parent_class;
+G_DEFINE_TYPE (GalViewEtable, gal_view_etable, GAL_VIEW_TYPE)
 
 static void
 detach_table (GalViewEtable *view)
@@ -163,10 +161,10 @@ gal_view_etable_dispose         (GObject *object)
 }
 
 static void
-gal_view_etable_class_init      (GObjectClass *object_class)
+gal_view_etable_class_init      (GalViewEtableClass *klass)
 {
-	GalViewClass *gal_view_class  = GAL_VIEW_CLASS(object_class);
-	gal_view_etable_parent_class  = g_type_class_ref (PARENT_TYPE);
+	GalViewClass *gal_view_class  = GAL_VIEW_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	gal_view_class->edit          = gal_view_etable_edit         ;
 	gal_view_class->load          = gal_view_etable_load         ;
@@ -186,8 +184,6 @@ gal_view_etable_init      (GalViewEtable *gve)
 	gve->state = e_table_state_new();
 	gve->title = NULL;
 }
-
-E_MAKE_TYPE(gal_view_etable, "GalViewEtable", GalViewEtable, gal_view_etable_class_init, gal_view_etable_init, PARENT_TYPE)
 
 /**
  * gal_view_etable_new

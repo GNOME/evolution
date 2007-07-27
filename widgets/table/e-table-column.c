@@ -33,8 +33,7 @@ enum {
 
 static guint etc_signals [LAST_SIGNAL] = { 0, };
 
-#define PARENT_CLASS GTK_TYPE_OBJECT
-static GtkObjectClass *e_table_column_parent_class;
+G_DEFINE_TYPE (ETableColumn, e_table_column, GTK_TYPE_OBJECT)
 
 static void
 e_table_column_finalize (GObject *object)
@@ -82,13 +81,6 @@ e_table_column_class_init (GtkObjectClass *object_class)
 			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
-
-E_MAKE_TYPE (e_table_column,
-	     "ETableColumn",
-	     ETableColumn,
-	     e_table_column_class_init,
-	     NULL,
-	     PARENT_TYPE);
 
 static void
 etc_do_insert (ETableColumn *etc, int pos, ETableCol *val)

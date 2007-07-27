@@ -35,7 +35,7 @@
 #include "e-cell-toggle.h"
 #include "e-table-item.h"
 
-#define PARENT_TYPE e_cell_get_type ()
+G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_CELL_TYPE)
 
 typedef struct {
 	ECellView     cell_view;
@@ -43,8 +43,6 @@ typedef struct {
 	GnomeCanvas  *canvas;
 	GdkPixmap   **pixmap_cache;
 } ECellToggleView;
-
-static ECellClass *parent_class;
 
 #define CACHE_SEQ_COUNT 6
 
@@ -388,15 +386,15 @@ etog_finalize (GObject *object)
 	etog->images = NULL;
 	etog->n_states = 0;
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_cell_toggle_parent_class)->finalize (object);
 }
 
 static void
-e_cell_toggle_class_init (GtkObjectClass *object_class)
+e_cell_toggle_class_init (ECellToggleClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
+	ECellClass *ecc = E_CELL_CLASS (klass);
 
-	G_OBJECT_CLASS (object_class)->finalize = etog_finalize;
+	G_OBJECT_CLASS (klass)->finalize = etog_finalize;
 
 	ecc->new_view   = etog_new_view;
 	ecc->kill_view  = etog_kill_view;
@@ -410,22 +408,17 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	ecc->max_width  = etog_max_width;
 	ecc->style_set  = etog_style_set;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
 	gal_a11y_e_cell_registry_add_cell_type (NULL,
 					         E_CELL_TOGGLE_TYPE,
                                                 gal_a11y_e_cell_toggle_new);
 }
 
 static void
-e_cell_toggle_init (GtkObject *object)
+e_cell_toggle_init (ECellToggle *etog)
 {
-	ECellToggle *etog = (ECellToggle *) object;
-
 	etog->images = NULL;
 	etog->n_states = 0;
 }
-
-E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, e_cell_toggle_init, PARENT_TYPE)
 
 /**
  * e_cell_toggle_construct:

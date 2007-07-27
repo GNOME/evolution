@@ -28,10 +28,6 @@
 #include "e-selection-model-array.h"
 #include "e-selection-model-simple.h"
 
-#define PARENT_TYPE e_selection_model_array_get_type ()
-
-static ESelectionModelArray *parent_class;
-
 static gint esms_get_row_count (ESelectionModelArray *esma);
 
 static void
@@ -45,15 +41,12 @@ e_selection_model_simple_class_init (ESelectionModelSimpleClass *klass)
 {
 	ESelectionModelArrayClass *esma_class;
 
-	parent_class              = g_type_class_ref (PARENT_TYPE);
-
 	esma_class                = E_SELECTION_MODEL_ARRAY_CLASS(klass);
 
 	esma_class->get_row_count = esms_get_row_count;
 }
 
-E_MAKE_TYPE(e_selection_model_simple, "ESelectionModelSimple", ESelectionModelSimple,
-	    e_selection_model_simple_class_init, e_selection_model_simple_init, PARENT_TYPE)
+G_DEFINE_TYPE (ESelectionModelSimple, e_selection_model_simple, e_selection_model_array_get_type())
 
 /** 
  * e_selection_model_simple_new

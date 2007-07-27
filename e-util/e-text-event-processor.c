@@ -41,9 +41,6 @@ static void e_text_event_processor_get_property (GObject *object,
 						 GValue *value,
 						 GParamSpec *pspec);
 
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class = NULL;
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -57,12 +54,7 @@ enum {
 
 static guint e_tep_signals[E_TEP_LAST_SIGNAL] = { 0 };
 
-E_MAKE_TYPE (e_text_event_processor,
-	     "ETextEventProcessor",
-	     ETextEventProcessor,
-	     e_text_event_processor_class_init,
-	     e_text_event_processor_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ETextEventProcessor, e_text_event_processor, G_TYPE_OBJECT)
 
 static void
 e_text_event_processor_class_init (ETextEventProcessorClass *klass)
@@ -70,8 +62,6 @@ e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass*) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->set_property = e_text_event_processor_set_property;
 	object_class->get_property = e_text_event_processor_get_property;

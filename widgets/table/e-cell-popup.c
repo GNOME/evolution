@@ -45,7 +45,7 @@
 #define E_CELL_POPUP_ARROW_YPAD		3
 
 
-static void	e_cell_popup_class_init	(GtkObjectClass	*object_class);
+static void	e_cell_popup_class_init	(ECellPopupClass *klass);
 static void	e_cell_popup_init	(ECellPopup	*ecp);
 static void	e_cell_popup_dispose	(GObject	*object);
 
@@ -115,19 +115,14 @@ static gint e_cell_popup_do_popup	(ECellPopupView	*ecp_view,
 					 int             row,
 					 int             model_col);
 
-static ECellClass *parent_class;
-
-
-E_MAKE_TYPE (e_cell_popup, "ECellPopup", ECellPopup, e_cell_popup_class_init,
-	     e_cell_popup_init, e_cell_get_type())
-
+G_DEFINE_TYPE (ECellPopup, e_cell_popup, E_CELL_TYPE)
 
 static void
-e_cell_popup_class_init		(GtkObjectClass	*object_class)
+e_cell_popup_class_init		(ECellPopupClass	*klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
+	ECellClass *ecc = E_CELL_CLASS (klass);
 
-	G_OBJECT_CLASS (object_class)->dispose = e_cell_popup_dispose;
+	G_OBJECT_CLASS (klass)->dispose = e_cell_popup_dispose;
 
 	ecc->new_view     = ecp_new_view;
 	ecc->kill_view    = ecp_kill_view;
@@ -144,7 +139,6 @@ e_cell_popup_class_init		(GtkObjectClass	*object_class)
 	ecc->show_tooltip = ecp_show_tooltip;
 	ecc->get_bg_color = ecp_get_bg_color;
 
-	parent_class = g_type_class_ref (E_CELL_TYPE);
 	gal_a11y_e_cell_registry_add_cell_type (NULL,
                                                 E_CELL_POPUP_TYPE,
                                                 gal_a11y_e_cell_popup_new);
@@ -187,7 +181,7 @@ e_cell_popup_dispose (GObject *object)
 		g_object_unref (ecp->child);
 	ecp->child = NULL;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cell_popup_parent_class)->dispose (object);
 }
 
 
@@ -249,8 +243,8 @@ ecp_realize (ECellView *ecv)
 
 	e_cell_realize (ecp_view->child_view);
 
-	if (parent_class->realize)
-		(* parent_class->realize) (ecv);
+	if (E_CELL_CLASS (e_cell_popup_parent_class)->realize)
+		(* E_CELL_CLASS (e_cell_popup_parent_class)->realize) (ecv);
 }
 
 
@@ -264,8 +258,8 @@ ecp_unrealize (ECellView *ecv)
 
 	e_cell_unrealize (ecp_view->child_view);
 
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (ecv);
+	if (E_CELL_CLASS (e_cell_popup_parent_class)->unrealize)
+		(* E_CELL_CLASS (e_cell_popup_parent_class)->unrealize) (ecv);
 }
 
 

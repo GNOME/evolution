@@ -40,7 +40,9 @@ static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel 
 
 #define d(x)
 
-static ETableModelClass *etss_parent_class;
+/* workaround for avoding API breakage */
+#define etss_get_type e_table_subset_get_type
+G_DEFINE_TYPE (ETableSubset, etss, E_TABLE_MODEL_TYPE)
 
 #define ETSS_CLASS(object) (E_TABLE_SUBSET_GET_CLASS(object))
 
@@ -246,13 +248,11 @@ etss_value_to_string (ETableModel *etm, int col, const void *value)
 }
 
 static void
-etss_class_init (GObjectClass *object_class)
+etss_class_init (ETableSubsetClass *klass)
 {
-	ETableSubsetClass *klass         = (ETableSubsetClass *) object_class;
-	ETableModelClass *table_class    = (ETableModelClass *) object_class;
+	ETableModelClass *table_class    = E_TABLE_MODEL_CLASS (klass);
+	GObjectClass *object_class       = G_OBJECT_CLASS (klass);
 
-	etss_parent_class                = g_type_class_peek_parent (klass);
-	
 	object_class->dispose            = etss_dispose;
 	object_class->finalize           = etss_finalize;
 
@@ -287,8 +287,6 @@ etss_init (ETableSubset *etss)
 {
 	etss->last_access = 0;
 }
-
-E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, E_TABLE_MODEL_TYPE)
 
 static void
 etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm)

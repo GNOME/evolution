@@ -35,9 +35,9 @@
 #include "e-table-sorted.h"
 #include "e-table-sorted-variable.h"
 
-#define PARENT_TYPE e_table_group_get_type ()
-
-static GnomeCanvasGroupClass *etgl_parent_class;
+/* workaround for avoiding APi breakage */
+#define etgl_get_type e_table_group_leaf_get_type
+G_DEFINE_TYPE (ETableGroupLeaf, etgl, E_TABLE_GROUP_TYPE)
 
 /* The arguments we take */
 enum {
@@ -542,18 +542,17 @@ etgl_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 }
 
 static void
-etgl_class_init (GObjectClass *object_class)
+etgl_class_init (ETableGroupLeafClass *klass)
 {
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
-	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS(object_class);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
+	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = etgl_dispose;
 	object_class->set_property = etgl_set_property;
 	object_class->get_property = etgl_get_property;
 
 	item_class->realize = etgl_realize;
-
-	etgl_parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_group_class->add = etgl_add;
 	e_group_class->add_array = etgl_add_array;
@@ -654,10 +653,8 @@ etgl_class_init (GObjectClass *object_class)
 }
 
 static void
-etgl_init (GtkObject *object)
+etgl_init (ETableGroupLeaf *etgl)
 {
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
-
 	etgl->width = 1;
 	etgl->height = 1;
 	etgl->minimum_width = 0;
@@ -683,7 +680,6 @@ etgl_init (GtkObject *object)
 	etgl->selection_model = NULL;
 	etgl->uniform_row_height = FALSE;
 
-	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgl_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (etgl), etgl_reflow);
 }
 
-E_MAKE_TYPE (e_table_group_leaf, "ETableGroupLeaf", ETableGroupLeaf, etgl_class_init, etgl_init, PARENT_TYPE)

@@ -38,7 +38,7 @@
 
 #include "e-tree-memory.h"
 
-static ETreeModelClass *parent_class;
+G_DEFINE_TYPE (ETreeMemory, e_tree_memory, E_TREE_MODEL_TYPE)
 
 enum {
 	FILL_IN_CHILDREN,
@@ -223,7 +223,7 @@ etmm_dispose (GObject *object)
 	}
 	etmm->priv = NULL;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_tree_memory_parent_class)->dispose (object);
 }
 
 static ETreePath
@@ -341,8 +341,8 @@ etmm_node_request_collapse (ETreeModel *etm, ETreePath node)
 	if (node)
 		etmm_clear_children_computed (node);
 
-	if (parent_class->node_request_collapse) {
-		parent_class->node_request_collapse (etm, node);
+	if (E_TREE_MODEL_CLASS (e_tree_memory_parent_class)->node_request_collapse) {
+		E_TREE_MODEL_CLASS (e_tree_memory_parent_class)->node_request_collapse (etm, node);
 	}
 }
 
@@ -353,8 +353,6 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 	ETreeModelClass *tree_class = (ETreeModelClass *) klass;
 	GObjectClass  *object_class = (GObjectClass *) klass;
 
-	parent_class                     = g_type_class_peek_parent (klass);
-	
 	signals [FILL_IN_CHILDREN] =
 		g_signal_new ("fill_in_children",
 			      G_TYPE_FROM_CLASS (object_class),
@@ -385,10 +383,8 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 }
 
 static void
-e_tree_memory_init (GObject *object)
+e_tree_memory_init (ETreeMemory *etmm)
 {
-	ETreeMemory *etmm = (ETreeMemory *)object;
-
 	ETreeMemoryPriv *priv;
 
 	priv = g_new0 (ETreeMemoryPriv, 1);
@@ -400,10 +396,6 @@ e_tree_memory_init (GObject *object)
 	priv->destroy_func = NULL;
 	priv->destroy_user_data = NULL;
 }
-
-E_MAKE_TYPE(e_tree_memory, "ETreeMemory", ETreeMemory, e_tree_memory_class_init, e_tree_memory_init, E_TREE_MODEL_TYPE)
-
-
 
 /**
  * e_tree_memory_construct:

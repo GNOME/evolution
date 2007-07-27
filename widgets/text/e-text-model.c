@@ -61,26 +61,7 @@ static void         e_text_model_real_insert            (ETextModel *model, gint
 static void         e_text_model_real_insert_length     (ETextModel *model, gint postion, const gchar *text, gint length);
 static void         e_text_model_real_delete            (ETextModel *model, gint postion, gint length);
 
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObject *parent_class;
-
-
-
-/**
- * e_text_model_get_type:
- * @void: 
- * 
- * Registers the &ETextModel class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the &ETextModel class.
- **/
-E_MAKE_TYPE (e_text_model,
-	     "ETextModel",
-	     ETextModel,
-	     e_text_model_class_init,
-	     e_text_model_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ETextModel, e_text_model, G_TYPE_OBJECT)
 
 /* Class initialization function for the text item */
 static void
@@ -89,8 +70,6 @@ e_text_model_class_init (ETextModelClass *klass)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass *) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_text_model_signals[E_TEXT_MODEL_CHANGED] =
 		g_signal_new ("changed",
@@ -178,8 +157,8 @@ e_text_model_dispose (GObject *object)
 		model->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (e_text_model_parent_class)->dispose)
+		G_OBJECT_CLASS (e_text_model_parent_class)->dispose (object);
 }
 
 static gint

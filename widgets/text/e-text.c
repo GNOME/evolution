@@ -58,7 +58,7 @@
 
 #include "e-text.h"
 
-#define PARENT_TYPE (gnome_canvas_item_get_type())
+G_DEFINE_TYPE (EText, e_text, GNOME_TYPE_CANVAS_ITEM)
 
 #define BORDER_INDENT 3
 #define d(x)
@@ -168,7 +168,6 @@ static gboolean e_text_delete_surrounding_cb   (GtkIMContext *context,
 						gint          n_chars,
 						EText        *text);
 
-static GnomeCanvasItemClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
 
@@ -277,8 +276,8 @@ e_text_dispose (GObject *object)
 		text->font_desc = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_text_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_text_parent_class)->dispose) (object);
 }
 
 static void
@@ -1199,8 +1198,8 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 
 	text = E_TEXT (item);
 
-	if (parent_class->update)
-		(* parent_class->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->update) (item, affine, clip_path, flags);
 
 	if ( text->needs_recalc_bounds
 	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
@@ -1239,8 +1238,8 @@ e_text_realize (GnomeCanvasItem *item)
 
 	text = E_TEXT (item);
 
-	if (parent_class->realize)
-		(* parent_class->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->realize)
+		(* GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->realize) (item);
 
 	create_layout (text);
 
@@ -1273,8 +1272,8 @@ e_text_unrealize (GnomeCanvasItem *item)
 	gdk_cursor_unref (text->default_cursor);
 	text->default_cursor = NULL;
 
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->unrealize) (item);
 }
 
 static void
@@ -2486,8 +2485,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 	if (return_val)
 		return return_val;
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
-		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
+	if (GNOME_CANVAS_ITEM_CLASS(e_text_parent_class)->event)
+		return GNOME_CANVAS_ITEM_CLASS(e_text_parent_class)->event(item, event);
 	else
 		return 0;
 }
@@ -3415,8 +3414,6 @@ e_text_class_init (ETextClass *klass)
 	gobject_class = (GObjectClass *) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
 	gobject_class->dispose = e_text_dispose;
 	gobject_class->set_property = e_text_set_property;
 	gobject_class->get_property = e_text_get_property;
@@ -3807,23 +3804,6 @@ e_text_init (EText *text)
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
-
-/**
- * e_text_get_type:
- * @void: 
- * 
- * Registers the &EText class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the &EText class.
- **/
-E_MAKE_TYPE (e_text,
-	     "EText",
-	     EText,
-	     e_text_class_init,
-	     e_text_init,
-	     PARENT_TYPE)
-
 
 
 /* IM Context Callbacks */

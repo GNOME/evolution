@@ -33,8 +33,7 @@
 #include "gal-view-instance-save-as-dialog.h"
 #include "gal-view-new-dialog.h"
 
-static GtkDialogClass *parent_class = NULL;
-#define PARENT_TYPE GTK_TYPE_DIALOG
+G_DEFINE_TYPE (GalViewInstanceSaveAsDialog, gal_view_instance_save_as_dialog, GTK_TYPE_DIALOG)
 
 /* The arguments we take */
 enum {
@@ -159,8 +158,8 @@ gal_view_instance_save_as_dialog_dispose (GObject *object)
 		g_object_unref(gal_view_instance_save_as_dialog->gui);
 	gal_view_instance_save_as_dialog->gui = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (gal_view_instance_save_as_dialog_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_view_instance_save_as_dialog_parent_class)->dispose) (object);
 }
 
 /* Init functions */
@@ -170,8 +169,6 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *k
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass*) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->set_property = gal_view_instance_save_as_dialog_set_property;
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
@@ -269,11 +266,6 @@ gal_view_instance_save_as_dialog_new (GalViewInstance *instance)
 	gal_view_instance_save_as_dialog_set_instance(GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (widget), instance);
 	return widget;
 }
-
-E_MAKE_TYPE(gal_view_instance_save_as_dialog, "GalViewInstanceSaveAsDialog",
-	    GalViewInstanceSaveAsDialog,
-	    gal_view_instance_save_as_dialog_class_init,
-	    gal_view_instance_save_as_dialog_init, PARENT_TYPE)
 
 void
 gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)

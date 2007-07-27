@@ -1,3 +1,13 @@
+2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* e-util.h: Remove E_MAKE_TYPE macro.
+
+	* e-text-event-processor.c: 
+	* e-sorter.c:
+	* e-text-event-processor-emacs-like.c:
+	* e-sorter-array.c:
+	* e-bit-array.c: Use G_DEFINE_TYPE instead of E_MAKE_TYPE.
+
 2007-07-26  Sankar P  <psankar@novell.com>
 
 	* e-plugin.c: (e_plugin_configure), (epl_configure),

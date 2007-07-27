@@ -49,7 +49,7 @@
 
 #define d(x)
 
-static ETreeModel *parent_class;
+G_DEFINE_TYPE (ETreeSorted, e_tree_sorted, E_TREE_MODEL_TYPE)
 
 enum {
 	NODE_RESORTED,
@@ -588,7 +588,7 @@ ets_dispose (GObject *object)
 
 	/* FIXME lots of stuff to free here */
 	if (!priv) {
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+		G_OBJECT_CLASS (e_tree_sorted_parent_class)->dispose (object);
 		return;
 	}
 
@@ -657,7 +657,7 @@ ets_finalize (GObject *object)
 	g_free (ets->priv);
 	ets->priv = NULL;
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_tree_sorted_parent_class)->finalize (object);
 }
 
 static ETreePath
@@ -1152,8 +1152,6 @@ e_tree_sorted_class_init (ETreeSortedClass *klass)
 	ETreeModelClass *tree_class      = E_TREE_MODEL_CLASS (klass);
 	GObjectClass *object_class       = G_OBJECT_CLASS (klass);
 
-	parent_class                     = g_type_class_peek_parent (klass);
-
 	klass->node_resorted             = NULL;
 	
 	object_class->dispose            = ets_dispose;
@@ -1205,10 +1203,8 @@ e_tree_sorted_class_init (ETreeSortedClass *klass)
 }
 
 static void
-e_tree_sorted_init (GObject *object)
+e_tree_sorted_init (ETreeSorted *ets)
 {
-	ETreeSorted *ets = (ETreeSorted *)object;
-
 	ETreeSortedPriv *priv;
 
 	priv                                      = g_new0 (ETreeSortedPriv, 1);
@@ -1240,8 +1236,6 @@ e_tree_sorted_init (GObject *object)
 	priv->in_resort_idle                      = 0;
 	priv->nested_resort_idle                  = 0;
 }
-
-E_MAKE_TYPE(e_tree_sorted, "ETreeSorted", ETreeSorted, e_tree_sorted_class_init, e_tree_sorted_init, E_TREE_MODEL_TYPE)
 
 /**
  * e_tree_sorted_construct:

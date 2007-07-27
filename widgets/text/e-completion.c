@@ -64,24 +64,12 @@ static void     e_completion_clear_matches      (ECompletion *complete);
 static gboolean e_completion_sort               (ECompletion *complete);
 #endif
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
-static GtkObjectClass *parent_class;
-
-
-
-E_MAKE_TYPE (e_completion,
-	     "ECompletion",
-	     ECompletion,
-	     e_completion_class_init,
-	     e_completion_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ECompletion, e_completion, GTK_TYPE_OBJECT)
 
 static void
 e_completion_class_init (ECompletionClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass *) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_completion_signals[COMPLETION_STARTED] =
 		g_signal_new ("completion_started",
@@ -140,8 +128,8 @@ e_completion_dispose (GObject *object)
 		complete->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_completion_parent_class)->dispose)
+		(G_OBJECT_CLASS (e_completion_parent_class)->dispose) (object);
 }
 
 static void

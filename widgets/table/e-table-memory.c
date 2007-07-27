@@ -38,7 +38,7 @@
 
 #include "e-table-memory.h"
 
-static ETableModel *parent_class;
+G_DEFINE_TYPE (ETableMemory, e_table_memory, E_TABLE_MODEL_TYPE)
 
 struct ETableMemoryPriv {
 	gpointer *data;
@@ -62,7 +62,7 @@ etmm_finalize (GObject *object)
 	}
 	etmm->priv = NULL;
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_table_memory_parent_class)->finalize (object);
 }
 
 static int
@@ -75,22 +75,19 @@ etmm_row_count (ETableModel *etm)
 
 
 static void
-e_table_memory_class_init (GObjectClass *klass)
+e_table_memory_class_init (ETableMemoryClass *klass)
 {
-	ETableModelClass *table_class = (ETableModelClass *) klass;
+	ETableModelClass *table_class = E_TABLE_MODEL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class               = g_type_class_peek_parent (klass);
-	
-	klass->finalize            = etmm_finalize;
+	object_class->finalize     = etmm_finalize;
 
 	table_class->row_count     = etmm_row_count;
 }
 
 static void
-e_table_memory_init (GObject *object)
+e_table_memory_init (ETableMemory *etmm)
 {
-	ETableMemory *etmm = (ETableMemory *)object;
-
 	ETableMemoryPriv *priv;
 
 	priv = g_new0 (ETableMemoryPriv, 1);
@@ -100,10 +97,6 @@ e_table_memory_init (GObject *object)
 	priv->num_rows = 0;
 	priv->frozen = 0;
 }
-
-E_MAKE_TYPE(e_table_memory, "ETableMemory", ETableMemory, e_table_memory_class_init, e_table_memory_init, E_TABLE_MODEL_TYPE)
-
-
 
 /**
  * e_table_memory_new

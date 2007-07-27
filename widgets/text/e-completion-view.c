@@ -59,11 +59,6 @@ static void    e_completion_view_class_init (ECompletionViewClass *klass);
 static void    e_completion_view_init       (ECompletionView *completion);
 static void    e_completion_view_dispose    (GObject *object);
 
-#define PARENT_TYPE GTK_TYPE_EVENT_BOX
-static GtkObjectClass *parent_class;
-
-
-
 static gint
 e_completion_view_local_key_press_handler (GtkWidget *w, GdkEventKey *ev)
 {
@@ -199,20 +194,13 @@ e_completion_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	}
 }
 
-E_MAKE_TYPE (e_completion_view,
-	     "ECompletionView",
-	     ECompletionView,
-	     e_completion_view_class_init,
-	     e_completion_view_init,
-	     PARENT_TYPE)
-	     
+G_DEFINE_TYPE (ECompletionView, e_completion_view, GTK_TYPE_EVENT_BOX)
+
 static void
 e_completion_view_class_init (ECompletionViewClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass *) klass;
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_NONEMPTY] =
 		g_signal_new ("nonempty",
@@ -309,8 +297,8 @@ e_completion_view_dispose (GObject *object)
 		g_object_unref (cv->completion);
 	cv->completion = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_completion_view_parent_class)->dispose)
+		(G_OBJECT_CLASS (e_completion_view_parent_class)->dispose) (object);
 }
 
 static void

@@ -31,13 +31,13 @@
 
 #define STORE_LOCATOR(etms, col, row) (*((etms)->priv->store + (row) * (etms)->priv->col_count + (col)))
 
-static ETableMemoryClass *parent_class;
-
 struct _ETableMemoryStorePrivate {
 	int col_count;
 	ETableMemoryStoreColumnInfo *columns;
 	void **store;
 };
+
+G_DEFINE_TYPE (ETableMemoryStore, e_table_memory_store, E_TABLE_MEMORY_TYPE)
 
 static void *
 duplicate_value (ETableMemoryStore *etms, int col, const void *val)
@@ -236,8 +236,8 @@ etms_finalize (GObject *obj)
 		g_free (etms->priv);
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		G_OBJECT_CLASS (parent_class)->finalize (obj);
+	if (G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize)
+		G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize (obj);
 }
 	
 static void
@@ -251,11 +251,10 @@ e_table_memory_store_init (ETableMemoryStore *etms)
 }
 
 static void
-e_table_memory_store_class_init (GObjectClass *object_class)
+e_table_memory_store_class_init (ETableMemoryStoreClass *klass)
 {
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
-
-	parent_class = g_type_class_peek_parent (object_class);
+	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->finalize	      = etms_finalize;
 
@@ -270,8 +269,6 @@ e_table_memory_store_class_init (GObjectClass *object_class)
 	model_class->value_to_string  = etms_value_to_string;
 	model_class->append_row       = etms_append_row;
 }
-
-E_MAKE_TYPE(e_table_memory_store, "ETableMemoryStore", ETableMemoryStore, e_table_memory_store_class_init, e_table_memory_store_init, E_TABLE_MEMORY_TYPE)
 
 /**
  * e_table_memory_store_new:

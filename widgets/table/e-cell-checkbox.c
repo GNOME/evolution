@@ -34,7 +34,7 @@
 #include "check-empty.xpm"
 #include "check-filled.xpm"
 
-#define PARENT_TYPE e_cell_toggle_get_type ()
+G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_CELL_TOGGLE_TYPE)
 
 static GdkPixbuf *checks [2];
 
@@ -60,15 +60,19 @@ ecc_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static void
-e_cell_checkbox_class_init (GtkObjectClass *object_class)
+e_cell_checkbox_class_init (ECellCheckboxClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
+	ECellClass *ecc = E_CELL_CLASS (klass);
+
 	ecc->print = ecc_print;
 	checks [0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
 	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
 }
 
-E_MAKE_TYPE(e_cell_checkbox, "ECellCheckbox", ECellCheckbox, e_cell_checkbox_class_init, NULL, PARENT_TYPE)
+static void
+e_cell_checkbox_init (ECellCheckbox *eccb)
+{
+}
 
 /**
  * e_cell_checkbox_new:

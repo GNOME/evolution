@@ -51,11 +51,11 @@ enum {
 
 static guint etcta_signals [LAST_SIGNAL] = { 0 };
 
-#define PARENT_OBJECT_TYPE gnome_canvas_group_get_type ()
+/* workaround for avoiding APi breakage */
+#define etcta_get_type e_table_click_to_add_get_type
+G_DEFINE_TYPE (ETableClickToAdd, etcta, GNOME_TYPE_CANVAS_GROUP)
 
 #define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
-
-static GnomeCanvasGroupClass *etcta_parent_class;
 
 enum {
 	PROP_0,
@@ -477,8 +477,6 @@ etcta_class_init (ETableClickToAddClass *klass)
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS(klass);
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-	etcta_parent_class = g_type_class_ref (PARENT_OBJECT_TYPE);
-
 	klass->cursor_change = NULL;
 	klass->style_set     = etcta_style_set;
 
@@ -547,9 +545,8 @@ etcta_class_init (ETableClickToAddClass *klass)
 }
 
 static void
-etcta_init (GnomeCanvasItem *item)
+etcta_init (ETableClickToAdd *etcta)
 {
-	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 	AtkObject *a11y;
 
 	etcta->one = NULL;
@@ -566,7 +563,7 @@ etcta_init (GnomeCanvasItem *item)
 	g_signal_connect(etcta->selection, "cursor_changed",
 			 G_CALLBACK (etcta_cursor_change), etcta);
 
-	e_canvas_item_set_reflow_callback(item, etcta_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (etcta), etcta_reflow);
 
 	/* create its a11y object at this time if accessibility is enabled*/
 	if (atk_get_root () != NULL) {
@@ -574,9 +571,6 @@ etcta_init (GnomeCanvasItem *item)
 		atk_object_set_name (a11y, _("click to add"));
 	}
 }
-
-E_MAKE_TYPE(e_table_click_to_add, "ETableClickToAdd", ETableClickToAdd, etcta_class_init, etcta_init, PARENT_OBJECT_TYPE)
-
 
 /* The colors in this need to be themefied. */
 /**

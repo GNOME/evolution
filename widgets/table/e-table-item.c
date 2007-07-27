@@ -48,7 +48,9 @@
 #include "e-table-item.h"
 #include "e-table-subset.h"
 
-#define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
+/* workaround for avoiding API breakage */
+#define eti_get_type e_table_item_get_type
+G_DEFINE_TYPE (ETableItem, eti, GNOME_TYPE_CANVAS_ITEM)
 
 #define FOCUSED_BORDER 2
 
@@ -66,8 +68,6 @@ static void eti_cancel_drag_due_to_model_change (ETableItem *eti);
 /* FIXME: Do an analysis of which cell functions are needed before
    realize and make sure that all of them are doable by all the cells
    and that all of the others are only done after realization. */
-
-static GnomeCanvasItemClass *eti_parent_class;
 
 enum {
 	CURSOR_CHANGE,
@@ -1577,10 +1577,8 @@ eti_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 }
 
 static void
-eti_init (GnomeCanvasItem *item)
+eti_init (ETableItem *eti)
 {
-	ETableItem *eti = E_TABLE_ITEM (item);
-
 	eti->motion_row 	       = -1;
 	eti->motion_col 	       = -1;
 	eti->editing_col               = -1;
@@ -2922,13 +2920,11 @@ eti_style_set (ETableItem *eti, GtkStyle *previous_style)
 }
 
 static void
-eti_class_init (GObjectClass *object_class)
+eti_class_init (ETableItemClass *klass)
 {
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
-	ETableItemClass *eti_class  = (ETableItemClass *) object_class;
-	
-	eti_parent_class            = g_type_class_ref (PARENT_OBJECT_TYPE);
-	
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
 	object_class->dispose       = eti_dispose;
 	object_class->set_property  = eti_set_property;
 	object_class->get_property  = eti_get_property;
@@ -2940,16 +2936,16 @@ eti_class_init (GObjectClass *object_class)
 	item_class->point           = eti_point;
 	item_class->event           = eti_event;
 	
-	eti_class->cursor_change    = NULL;
-	eti_class->cursor_activated = NULL;
-	eti_class->double_click     = NULL;
-	eti_class->right_click      = NULL;
-	eti_class->click            = NULL;
-	eti_class->key_press        = NULL;
-	eti_class->start_drag       = NULL;
-	eti_class->style_set        = eti_style_set;
-	eti_class->selection_model_removed = NULL;
-	eti_class->selection_model_added = NULL;
+	klass->cursor_change    = NULL;
+	klass->cursor_activated = NULL;
+	klass->double_click     = NULL;
+	klass->right_click      = NULL;
+	klass->click            = NULL;
+	klass->key_press        = NULL;
+	klass->start_drag       = NULL;
+	klass->style_set        = eti_style_set;
+	klass->selection_model_removed = NULL;
+	klass->selection_model_added = NULL;
 
 	g_object_class_install_property (object_class, PROP_TABLE_HEADER,
 					 g_param_spec_object ("ETableHeader",
@@ -3148,13 +3144,6 @@ eti_class_init (GObjectClass *object_class)
 	/* A11y Init */
 	gal_a11y_e_table_item_init ();
 }
-
-E_MAKE_TYPE (e_table_item,
-	     "ETableItem",
-	     ETableItem,
-	     eti_class_init,
-	     eti_init,
-	     PARENT_OBJECT_TYPE)
 
 /** 
  * e_table_item_set_cursor:

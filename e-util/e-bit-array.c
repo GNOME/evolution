@@ -28,8 +28,6 @@
 #include "e-bit-array.h"
 #include "e-util.h"
 
-#define PARENT_TYPE G_TYPE_OBJECT
-
 #define ONES ((guint32) 0xffffffff)
 
 #define BOX(n) ((n) / 32)
@@ -38,7 +36,7 @@
 #define BITMASK_LEFT(n) ((((n) % 32) == 0) ? 0 : (ONES << (32 - ((n) % 32))))
 #define BITMASK_RIGHT(n) ((guint32)(((guint32) ONES) >> ((n) % 32)))
 
-static GObjectClass *parent_class;
+G_DEFINE_TYPE (EBitArray, e_bit_array, G_TYPE_OBJECT)
 
 static void
 e_bit_array_insert_real(EBitArray *eba, int row)
@@ -151,8 +149,8 @@ eba_dispose (GObject *object)
 		g_free(eba->data);
 	eba->data = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_bit_array_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_bit_array_parent_class)->dispose) (object);
 }
 
 /** 
@@ -411,15 +409,10 @@ e_bit_array_class_init (EBitArrayClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
 	object_class = G_OBJECT_CLASS(klass);
 
 	object_class->dispose = eba_dispose;
 }
-
-E_MAKE_TYPE(e_bit_array, "EBitArray", EBitArray,
-	    e_bit_array_class_init, e_bit_array_init, PARENT_TYPE)
 
 EBitArray *
 e_bit_array_new (int count)

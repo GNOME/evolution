@@ -32,9 +32,7 @@
 
 #include "e-table-selection-model.h"
 
-#define PARENT_TYPE e_selection_model_array_get_type ()
-
-static ESelectionModelArray *parent_class;
+G_DEFINE_TYPE (ETableSelectionModel, e_table_selection_model, E_SELECTION_MODEL_ARRAY_TYPE)
 
 static gint etsm_get_row_count (ESelectionModelArray *esm);
 
@@ -244,8 +242,8 @@ etsm_dispose (GObject *object)
 	drop_model(etsm);
 	free_hash(etsm);
 
-	if (G_OBJECT_CLASS(parent_class)->dispose)
-		G_OBJECT_CLASS(parent_class)->dispose (object);
+	if (G_OBJECT_CLASS(e_table_selection_model_parent_class)->dispose)
+		G_OBJECT_CLASS(e_table_selection_model_parent_class)->dispose (object);
 }
 
 static void
@@ -295,8 +293,6 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 	GObjectClass *object_class;
 	ESelectionModelArrayClass *esma_class;
 
-	parent_class             = g_type_class_ref (PARENT_TYPE);
-
 	object_class             = G_OBJECT_CLASS(klass);
 	esma_class               = E_SELECTION_MODEL_ARRAY_CLASS(klass);
 
@@ -320,9 +316,6 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_READWRITE));
 }
-
-E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,
-	    e_table_selection_model_class_init, e_table_selection_model_init, PARENT_TYPE)
 
 /** 
  * e_table_selection_model_new

@@ -34,8 +34,7 @@ static void e_text_event_processor_emacs_like_init		(ETextEventProcessorEmacsLik
 static void e_text_event_processor_emacs_like_class_init	(ETextEventProcessorEmacsLikeClass	 *klass);
 static gint e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
 
-#define PARENT_TYPE E_TEXT_EVENT_PROCESSOR_TYPE
-static ETextEventProcessorClass *parent_class = NULL;
+G_DEFINE_TYPE (ETextEventProcessorEmacsLike, e_text_event_processor_emacs_like, E_TEXT_EVENT_PROCESSOR_TYPE)
 
 /* The arguments we take */
 enum {
@@ -103,21 +102,12 @@ static const ETextEventProcessorCommand alt_keys[26] =
 
 };
 
-E_MAKE_TYPE (e_text_event_processor_emacs_like,
-	     "ETextEventProcessorEmacsLike",
-	     ETextEventProcessorEmacsLike,
-	     e_text_event_processor_emacs_like_class_init,
-	     e_text_event_processor_emacs_like_init,
-	     PARENT_TYPE)
-
 static void
 e_text_event_processor_emacs_like_class_init (ETextEventProcessorEmacsLikeClass *klass)
 {
   ETextEventProcessorClass *processor_class;
 
   processor_class = (ETextEventProcessorClass*) klass;
-
-  parent_class = g_type_class_ref (PARENT_TYPE);
 
   processor_class->event = e_text_event_processor_emacs_like_event;
 }

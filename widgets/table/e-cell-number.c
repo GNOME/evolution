@@ -30,9 +30,7 @@
 
 #include "e-cell-number.h"
 
-#define PARENT_TYPE e_cell_text_get_type ()
-
-static ECellTextClass *parent_class;
+G_DEFINE_TYPE (ECellNumber, e_cell_number, E_CELL_TEXT_TYPE)
 
 static char *
 ecn_get_text(ECellText *cell, ETableModel *model, int col, int row)
@@ -47,18 +45,16 @@ ecn_free_text(ECellText *cell, char *text)
 }
 
 static void
-e_cell_number_class_init (GtkObjectClass *object_class)
+e_cell_number_class_init (ECellNumberClass *klass)
 {
-	ECellTextClass *ectc = (ECellTextClass *) object_class;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
+	ECellTextClass *ectc = E_CELL_TEXT_CLASS (klass);
 
 	ectc->get_text  = ecn_get_text;
 	ectc->free_text = ecn_free_text;
 }
 
 static void
-e_cell_number_init (GtkObject *object)
+e_cell_number_init (ECellNumber *cell_number)
 {
 }
 
@@ -85,4 +81,3 @@ e_cell_number_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecn;
 }
 
-E_MAKE_TYPE(e_cell_number, "ECellNumber", ECellNumber, e_cell_number_class_init, e_cell_number_init, PARENT_TYPE)

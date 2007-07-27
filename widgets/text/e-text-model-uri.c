@@ -51,15 +51,7 @@ struct _ObjInfo {
 	gint offset, len;
 };
 
-#define PARENT_TYPE E_TYPE_TEXT_MODEL
-static GtkObject *parent_class;
-
-E_MAKE_TYPE (e_text_model_uri,
-	     "ETextModelURI",
-	     ETextModelURI,
-	     e_text_model_uri_class_init,
-	     e_text_model_uri_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ETextModelURI, e_text_model_uri, E_TYPE_TEXT_MODEL)
 	     
 static void
 e_text_model_uri_class_init (ETextModelURIClass *klass)
@@ -69,8 +61,6 @@ e_text_model_uri_class_init (ETextModelURIClass *klass)
 
 	object_class = (GObjectClass *) klass;
 	model_class = E_TEXT_MODEL_CLASS (klass);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose = e_text_model_uri_dispose;
 
@@ -105,8 +95,8 @@ e_text_model_uri_dispose (GObject *object)
 	g_list_free (model_uri->uris);
 	model_uri->uris = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_text_model_uri_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_text_model_uri_parent_class)->dispose) (object);
 
 }
 
@@ -254,8 +244,8 @@ e_text_model_uri_objectify (ETextModel *model)
 	if (model_uri->objectify_idle == 0)
 		model_uri->objectify_idle = g_idle_add (objectify_idle_cb, model);
 
-	if (E_TEXT_MODEL_CLASS(parent_class)->objectify)
-		E_TEXT_MODEL_CLASS(parent_class)->objectify (model);
+	if (E_TEXT_MODEL_CLASS(e_text_model_uri_parent_class)->objectify)
+		E_TEXT_MODEL_CLASS(e_text_model_uri_parent_class)->objectify (model);
 }
 
 static void
@@ -288,8 +278,8 @@ e_text_model_uri_validate_pos (ETextModel *model, gint pos)
 
 	
 
-	if (E_TEXT_MODEL_CLASS (parent_class)->validate_pos)
-		pos = E_TEXT_MODEL_CLASS (parent_class)->validate_pos (model, pos);
+	if (E_TEXT_MODEL_CLASS (e_text_model_uri_parent_class)->validate_pos)
+		pos = E_TEXT_MODEL_CLASS (e_text_model_uri_parent_class)->validate_pos (model, pos);
 
 	return pos;
 }

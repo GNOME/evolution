@@ -50,9 +50,6 @@ static void e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasI
 static void e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
 static void e_canvas_vbox_resize_children (GnomeCanvasItem *item);
 
-#define PARENT_TYPE GNOME_TYPE_CANVAS_GROUP
-static GnomeCanvasGroupClass *parent_class = NULL;
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -62,12 +59,7 @@ enum {
 	PROP_SPACING
 };
 
-E_MAKE_TYPE (e_canvas_vbox,
-	     "ECanvasVbox",
-	     ECanvasVbox,
-	     e_canvas_vbox_class_init,
-	     e_canvas_vbox_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ECanvasVbox, e_canvas_vbox, GNOME_TYPE_CANVAS_GROUP)
 
 static void
 e_canvas_vbox_class_init (ECanvasVboxClass *klass)
@@ -77,8 +69,6 @@ e_canvas_vbox_class_init (ECanvasVboxClass *klass)
 
 	object_class = (GObjectClass*) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	klass->add_item       = e_canvas_vbox_real_add_item;
 	klass->add_item_start = e_canvas_vbox_real_add_item_start;
@@ -206,7 +196,7 @@ e_canvas_vbox_dispose (GObject *object)
 		vbox->items = NULL;
 	}
 
-	G_OBJECT_CLASS(parent_class)->dispose (object);
+	G_OBJECT_CLASS(e_canvas_vbox_parent_class)->dispose (object);
 }
 
 static gint
@@ -239,8 +229,8 @@ e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	}
 	if (!return_val) {
-		if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
-			return GNOME_CANVAS_ITEM_CLASS (parent_class)->event (item, event);
+		if (GNOME_CANVAS_ITEM_CLASS(e_canvas_vbox_parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS (e_canvas_vbox_parent_class)->event (item, event);
 	}
 	return return_val;
 	
@@ -249,8 +239,8 @@ e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 e_canvas_vbox_realize (GnomeCanvasItem *item)
 {
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->realize)
-		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS(e_canvas_vbox_parent_class)->realize)
+		(* GNOME_CANVAS_ITEM_CLASS(e_canvas_vbox_parent_class)->realize) (item);
 	
 	e_canvas_vbox_resize_children(item);
 	e_canvas_item_request_reflow(item);

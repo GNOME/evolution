@@ -27,14 +27,12 @@
 
 #include "gal-view.h"
 
-#define PARENT_TYPE G_TYPE_OBJECT
+G_DEFINE_TYPE (GalView, gal_view, G_TYPE_OBJECT)
 
 #define d(x)
 
 d(static gint depth = 0;)
 
-
-static GObjectClass *gal_view_parent_class;
 
 enum {
 	CHANGED,
@@ -177,11 +175,10 @@ gal_view_changed       (GalView *view)
 }
 
 static void
-gal_view_class_init      (GObjectClass *object_class)
+gal_view_class_init      (GalViewClass *klass)
 {
-	GalViewClass *klass   = GAL_VIEW_CLASS(object_class);
-	gal_view_parent_class = g_type_class_ref (PARENT_TYPE);
-	
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
 	klass->edit           = NULL;     
 	klass->load           = NULL;     
 	klass->save           = NULL;     
@@ -205,4 +202,3 @@ gal_view_init      (GalView *view)
 {
 }
 
-E_MAKE_TYPE(gal_view, "GalView", GalView, gal_view_class_init, gal_view_init, PARENT_TYPE)

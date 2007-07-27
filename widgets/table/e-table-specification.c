@@ -38,7 +38,9 @@
 
 #include "e-table-specification.h"
 
-static GObjectClass *etsp_parent_class;
+/* workaround for avoiding API breakage */
+#define etsp_get_type e_table_specification_get_type
+G_DEFINE_TYPE (ETableSpecification, etsp, G_TYPE_OBJECT)
 
 static void
 etsp_finalize (GObject *object)
@@ -64,15 +66,15 @@ etsp_finalize (GObject *object)
 	g_free (etsp->domain);
 	etsp->domain		   = NULL;
 
-	etsp_parent_class->finalize (object);
+	G_OBJECT_CLASS (etsp_parent_class)->finalize (object);
 }
 
 static void
-etsp_class_init (GObjectClass *klass)
+etsp_class_init (ETableSpecificationClass *klass)
 {
-	etsp_parent_class = g_type_class_peek_parent (klass);
-	
-	klass->finalize = etsp_finalize;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->finalize = etsp_finalize;
 }
 
 static void
@@ -98,8 +100,6 @@ etsp_init (ETableSpecification *etsp)
 	etsp->click_to_add_message   = NULL;
 	etsp->domain                 = NULL;
 }
-
-E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, G_TYPE_OBJECT)
 
 /**
  * e_table_specification_new:

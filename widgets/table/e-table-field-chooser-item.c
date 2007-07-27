@@ -54,11 +54,11 @@ enum {
 static guint etfci_signals [LAST_SIGNAL] = { 0, };
 #endif
 
-#define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
+/* workaround for avoiding API breakage */
+#define etfci_get_type e_table_field_chooser_item_get_type
+G_DEFINE_TYPE (ETableFieldChooserItem, etfci, GNOME_TYPE_CANVAS_ITEM)
 
 #define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
-
-static GnomeCanvasItemClass *etfci_parent_class;
 
 static void etfci_drop_table_header (ETableFieldChooserItem *etfci);
 static void etfci_drop_full_header (ETableFieldChooserItem *etfci);
@@ -615,12 +615,11 @@ etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-etfci_class_init (GObjectClass *object_class)
+etfci_class_init (ETableFieldChooserItemClass *klass)
 {
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	etfci_parent_class = g_type_class_ref (PARENT_OBJECT_TYPE);
-	
 	object_class->dispose = etfci_dispose;
 	object_class->set_property = etfci_set_property;
 	object_class->get_property = etfci_get_property;
@@ -669,10 +668,8 @@ etfci_class_init (GObjectClass *object_class)
 }
 
 static void
-etfci_init (GnomeCanvasItem *item)
+etfci_init (ETableFieldChooserItem *etfci)
 {
-	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
-
 	etfci->full_header = NULL;
 	etfci->header = NULL;
 	etfci->combined_header = NULL;
@@ -691,12 +688,6 @@ etfci_init (GnomeCanvasItem *item)
 	etfci->maybe_drag = 0;
 	etfci->drag_end_id = 0;
 
-	e_canvas_item_set_reflow_callback(item, etfci_reflow);
+	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM (etfci), etfci_reflow);
 }
 
-E_MAKE_TYPE (e_table_field_chooser_item,
-	     "ETableFieldChooserItem",
-	     ETableFieldChooserItem,
-	     etfci_class_init,
-	     etfci_init,
-	     PARENT_OBJECT_TYPE)

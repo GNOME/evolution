@@ -1,3 +1,67 @@
+2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* e-cell-tree.c:
+	* e-cell-hbox.c:
+	* e-cell-popup.c:
+	* e-tree-simple.c:
+	* e-cell-date.c:
+	* e-tree-table-adapter.c:
+	* e-tree-scrolled.c:
+	* e-table-field-chooser.c:
+	* e-table-header-item.c:
+	* e-cell-pixbuf.c:
+	* e-table-subset-variable.c:
+	* e-tree-selection-model.c:
+	* e-tree-sorted-variable.c:
+	* e-tree-memory-callbacks.c:
+	* e-table-sorted.c:
+	* e-table-subset.c:
+	* e-table-search.c:
+	* e-table-extras.c:
+	* e-table-one.c:
+	* e-table-config-field.c:
+	* e-cell-combo.c:
+	* e-table-item.c:
+	* e-cell-toggle.c:
+	* e-tree.c:
+	* e-table-col.c:
+	* e-table-field-chooser-item.c:
+	* e-table-sort-info.c:
+	* e-table-simple.c:
+	* e-table-column.c:
+	* e-table-scrolled.c:
+	* e-tree-model.c:
+	* e-table-column-specification.c:
+	* e-table-group-container.c:
+	* e-cell-text.c:
+	* e-table-specification.c:
+	* e-cell-number.c:
+	* e-table-sorted-variable.c:
+	* e-table-selection-model.c:
+	* e-table-memory-callbacks.c:
+	* e-cell.c:
+	* e-table-click-to-add.c:
+	* e-cell-float.c:
+	* e-table-field-chooser-dialog.c:
+	* e-tree-memory.c:
+	* e-cell-progress.c:
+	* e-table-group-leaf.c:
+	* e-table.c:
+	* e-table-sorter.c:
+	* e-table-header.c:
+	* e-table-group.c:
+	* e-table-model.c:
+	* e-cell-size.c:
+	* e-table-without.c:
+	* e-table-config.c:
+	* e-cell-vbox.c:
+	* e-tree-sorted.c:
+	* e-table-state.c:
+	* e-table-memory-store.c:
+	* e-table-memory.c:
+	* e-cell-spin-button.c:
+	* e-cell-checkbox.c: Use G_DEFINE_TYPE instead of E_MAKE_TYPE.
+
 2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am:

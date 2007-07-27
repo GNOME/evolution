@@ -55,7 +55,7 @@ static void eth_calc_widths (ETableHeader *eth);
 
 static guint eth_signals [LAST_SIGNAL] = { 0, };
 
-static GObjectClass *e_table_header_parent_class;
+G_DEFINE_TYPE (ETableHeader, e_table_header, G_TYPE_OBJECT)
 
 struct two_ints {
 	int column;
@@ -181,8 +181,8 @@ eth_finalize (GObject *object)
 	eth->col_count = 0;
 	eth->columns = NULL;
 
-	if (e_table_header_parent_class->finalize)
-		e_table_header_parent_class->finalize (object);
+	if (G_OBJECT_CLASS (e_table_header_parent_class)->finalize)
+		G_OBJECT_CLASS (e_table_header_parent_class)->finalize (object);
 }
 
 static void
@@ -247,9 +247,9 @@ eth_get_property (GObject *object, guint prop_id, GValue *val, GParamSpec *pspec
 }
 
 static void
-e_table_header_class_init (GObjectClass *object_class)
+e_table_header_class_init (ETableHeaderClass *klass)
 {
-	ETableHeaderClass *klass = E_TABLE_HEADER_CLASS (object_class);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->finalize = eth_finalize;
 	object_class->set_property = eth_set_property;
@@ -905,8 +905,6 @@ e_table_header_update_horizontal (ETableHeader *eth)
 	enqueue(eth, -1, eth->nominal_width);
 	g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 }
-
-E_MAKE_TYPE(e_table_header, "ETableHeader", ETableHeader, e_table_header_class_init, e_table_header_init, G_TYPE_OBJECT)
 
 int
 e_table_header_prioritized_column (ETableHeader *eth)

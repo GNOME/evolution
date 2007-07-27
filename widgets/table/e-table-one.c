@@ -27,7 +27,7 @@
 
 #include "e-table-one.h"
 
-static ETableModelClass *parent_class = NULL;
+G_DEFINE_TYPE (ETableOne, e_table_one, E_TABLE_MODEL_TYPE)
 
 static int
 one_column_count (ETableModel *etm)
@@ -136,7 +136,7 @@ one_value_to_string (ETableModel *etm, int col, const void *value)
 static void
 one_finalize (GObject *object)
 {
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_table_one_parent_class)->finalize (object);
 }
 
 static void
@@ -164,15 +164,14 @@ one_dispose (GObject *object)
 		g_object_unref(one->source);
 	one->source = NULL;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_one_parent_class)->dispose (object);
 }
 
 static void
-e_table_one_class_init (GObjectClass *object_class)
+e_table_one_class_init (ETableOneClass *klass)
 {
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
-
-	parent_class = g_type_class_peek_parent (object_class);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
 
 	model_class->column_count = one_column_count;
 	model_class->row_count = one_row_count;
@@ -190,16 +189,11 @@ e_table_one_class_init (GObjectClass *object_class)
 }
 
 static void
-e_table_one_init (GObject *object)
+e_table_one_init (ETableOne *one)
 {
-	ETableOne *one = E_TABLE_ONE(object);
-
 	one->source = NULL;
 	one->data = NULL;
 }
-
-E_MAKE_TYPE(e_table_one, "ETableOne", ETableOne, e_table_one_class_init, e_table_one_init, E_TABLE_MODEL_TYPE)
-
 
 ETableModel *
 e_table_one_new (ETableModel *source)

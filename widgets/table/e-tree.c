@@ -54,9 +54,7 @@
 
 #define COLUMN_HEADER_HEIGHT 16
 
-#define PARENT_TYPE gtk_table_get_type ()
-
-static GtkObjectClass *parent_class;
+G_DEFINE_TYPE (ETree, e_tree, GTK_TYPE_TABLE)
 
 #define d(x)
 
@@ -429,8 +427,8 @@ et_dispose (GObject *object)
 		et->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (e_tree_parent_class)->dispose)
+		G_OBJECT_CLASS (e_tree_parent_class)->dispose (object);
 }
 
 static void
@@ -439,8 +437,8 @@ et_unrealize (GtkWidget *widget)
 	scroll_off (E_TREE (widget));
 	hover_off (E_TREE (widget));
 
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+	if (GTK_WIDGET_CLASS (e_tree_parent_class)->unrealize)
+		GTK_WIDGET_CLASS (e_tree_parent_class)->unrealize (widget);
 }
 
 typedef struct {
@@ -526,12 +524,11 @@ et_search_accept (ETableSearch *search, ETree *et)
 }
 
 static void
-e_tree_init (GtkObject *object)
+e_tree_init (ETree *e_tree)
 {
-	ETree *e_tree                                    = E_TREE (object);
-	GtkTable *gtk_table                              = GTK_TABLE (object);
+	GtkTable *gtk_table = GTK_TABLE (e_tree);
 
-	GTK_WIDGET_SET_FLAGS (e_tree, GTK_CAN_FOCUS);
+	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (e_tree), GTK_CAN_FOCUS);
 
 	gtk_table->homogeneous               = FALSE;
 
@@ -3049,8 +3046,6 @@ e_tree_class_init (ETreeClass *class)
 	object_class                   = (GObjectClass *) class;
 	widget_class                   = (GtkWidgetClass *) class;
 
-	parent_class                   = g_type_class_ref (PARENT_TYPE);
-
 	object_class->dispose          = et_dispose;
 	object_class->set_property     = et_set_property;
 	object_class->get_property     = et_get_property;
@@ -3366,4 +3361,3 @@ e_tree_class_init (ETreeClass *class)
 	gal_a11y_e_tree_init ();
 }
 
-E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE)

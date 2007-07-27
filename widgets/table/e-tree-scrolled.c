@@ -39,9 +39,7 @@
 
 #define COLUMN_HEADER_HEIGHT 16
 
-#define PARENT_TYPE gtk_scrolled_window_get_type ()
-
-static GtkObjectClass *parent_class;
+G_DEFINE_TYPE (ETreeScrolled, e_tree_scrolled, GTK_TYPE_SCROLLED_WINDOW)
 
 enum {
 	PROP_0,
@@ -49,13 +47,11 @@ enum {
 };
 
 static void
-e_tree_scrolled_init (GtkObject *object)
+e_tree_scrolled_init (ETreeScrolled *ets)
 {
-	ETreeScrolled *ets;
 	GtkScrolledWindow *scrolled_window;
 
-	ets = E_TREE_SCROLLED (object);
-	scrolled_window = GTK_SCROLLED_WINDOW (object);
+	scrolled_window = GTK_SCROLLED_WINDOW (ets);
 
 	GTK_WIDGET_SET_FLAGS (ets, GTK_CAN_FOCUS);
 
@@ -218,8 +214,6 @@ e_tree_scrolled_class_init (ETreeScrolledClass *class)
 	object_class = (GObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
 	object_class->get_property = ets_get_property;
 
 	widget_class->grab_focus = ets_grab_focus;
@@ -233,6 +227,4 @@ e_tree_scrolled_class_init (ETreeScrolledClass *class)
 							      E_TREE_TYPE,
 							      G_PARAM_READABLE));
 }
-
-E_MAKE_TYPE(e_tree_scrolled, "ETreeScrolled", ETreeScrolled, e_tree_scrolled_class_init, e_tree_scrolled_init, PARENT_TYPE)
 

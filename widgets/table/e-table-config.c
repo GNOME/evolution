@@ -45,7 +45,7 @@
 #include "e-table-scrolled.h"
 #include "e-table-without.h"
 
-static GObjectClass *config_parent_class;
+G_DEFINE_TYPE (ETableConfig, e_table_config, G_TYPE_OBJECT)
 
 enum {
 	CHANGED,
@@ -90,7 +90,7 @@ config_finalize (GObject *object)
 	g_free (config->domain);
 	config->domain = NULL;
 
-	config_parent_class->finalize (object);
+	G_OBJECT_CLASS (e_table_config_parent_class)->finalize (object);
 }
 
 static void
@@ -129,11 +129,9 @@ config_get_property (GObject *object,
 }
 
 static void
-config_class_init (GObjectClass *object_class)
+e_table_config_class_init (ETableConfigClass *klass)
 {
-	ETableConfigClass *klass = E_TABLE_CONFIG_CLASS(object_class);
-
-	config_parent_class   = g_type_class_peek_parent (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);	
 	
 	klass->changed        = NULL;
 
@@ -1257,7 +1255,7 @@ setup_gui (ETableConfig *config)
 }
 
 static void
-config_init (ETableConfig *config)
+e_table_config_init (ETableConfig *config)
 {
 	config->domain = NULL;
 }
@@ -1355,4 +1353,3 @@ e_table_config_raise (ETableConfig *config)
 	gdk_window_raise (GTK_WIDGET (config->dialog_toplevel)->window);
 }
 
-E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, G_TYPE_OBJECT)

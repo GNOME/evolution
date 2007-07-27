@@ -27,6 +27,8 @@
 
 #include "e-table-memory-callbacks.h"
 
+G_DEFINE_TYPE (ETableMemoryCalbacks, e_table_memory_callbacks, E_TABLE_MEMORY_TYPE)
+
 static int
 etmc_column_count (ETableModel *etm)
 {
@@ -133,9 +135,9 @@ etmc_append_row (ETableModel *etm, ETableModel *source, int row)
 }
 
 static void
-e_table_memory_callbacks_class_init (GObjectClass *object_class)
+e_table_memory_callbacks_class_init (ETableMemoryCalbacksClass *klass)
 {
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
+	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
 
 	model_class->column_count     = etmc_column_count;
 	model_class->value_at         = etmc_value_at;
@@ -150,8 +152,11 @@ e_table_memory_callbacks_class_init (GObjectClass *object_class)
 
 }
 
-E_MAKE_TYPE(e_table_memory_callbacks, "ETableMemoryCalbacks", ETableMemoryCalbacks, e_table_memory_callbacks_class_init, NULL, E_TABLE_MEMORY_TYPE)
-
+static void
+e_table_memory_callbacks_init (ETableMemoryCalbacks *etmc)
+{
+	/* nothing to do */
+}
 
 /**
  * e_table_memory_callbacks_new:

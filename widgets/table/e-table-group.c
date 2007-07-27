@@ -33,11 +33,11 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 
-#define PARENT_TYPE gnome_canvas_group_get_type ()
+/* workaround for avoiding API breakage*/
+#define etg_get_type e_table_group_get_type
+G_DEFINE_TYPE (ETableGroup, etg, GNOME_TYPE_CANVAS_GROUP)
 
 #define ETG_CLASS(e) (E_TABLE_GROUP_CLASS(GTK_OBJECT_GET_CLASS(e)))
-
-static GnomeCanvasGroupClass *etg_parent_class;
 
 enum {
 	CURSOR_CHANGE,
@@ -611,10 +611,10 @@ etg_get_focus (ETableGroup      *etg)
 }
 
 static void
-etg_class_init (GObjectClass *object_class)
+etg_class_init (ETableGroupClass *klass)
 {
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
-	ETableGroupClass *klass = (ETableGroupClass *) object_class;
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = etg_dispose;
 
@@ -640,8 +640,6 @@ etg_class_init (GObjectClass *object_class)
 	klass->get_printable = NULL;
 	klass->compute_location = NULL;
 	klass->get_cell_geometry = NULL;
-
-	etg_parent_class = g_type_class_ref (PARENT_TYPE);
 
 	etg_signals [CURSOR_CHANGE] =
 		g_signal_new ("cursor_change",
@@ -711,4 +709,8 @@ etg_class_init (GObjectClass *object_class)
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 }
 
-E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE)
+static void
+etg_init (ETableGroup *etg)
+{
+	/* nothing to do */
+}

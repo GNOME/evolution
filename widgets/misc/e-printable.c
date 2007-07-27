@@ -34,10 +34,7 @@
 
 #define EP_CLASS(e) ((EPrintableClass *)((GtkObject *)e)->klass)
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
-					  
-
-static GtkObjectClass *e_printable_parent_class;
+G_DEFINE_TYPE (EPrintable, e_printable, GTK_TYPE_OBJECT)
 
 enum {
 	PRINT_PAGE,
@@ -51,10 +48,9 @@ enum {
 static guint e_printable_signals [LAST_SIGNAL] = { 0, };
 
 static void
-e_printable_class_init (GtkObjectClass *object_class)
+e_printable_class_init (EPrintableClass *klass)
 {
-	EPrintableClass *klass = E_PRINTABLE_CLASS(object_class);
-	e_printable_parent_class = g_type_class_ref (PARENT_TYPE);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
 	e_printable_signals [PRINT_PAGE] =
 		g_signal_new ("print_page",
@@ -111,13 +107,11 @@ e_printable_class_init (GtkObjectClass *object_class)
 	klass->will_fit = NULL;
 }
 
-
-E_MAKE_TYPE (e_printable,
-	     "EPrintable",
-	     EPrintable,
-	     e_printable_class_init,
-	     NULL,
-	     PARENT_TYPE)
+static void
+e_printable_init (EPrintable *e_printable)
+{
+	/* nothing to do */
+}
 
 EPrintable *
 e_printable_new(void)

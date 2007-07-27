@@ -29,14 +29,12 @@
 
 #include "e-reflow-model.h"
 
-#define PARENT_TYPE G_TYPE_OBJECT
+G_DEFINE_TYPE (EReflowModel, e_reflow_model, G_TYPE_OBJECT)
 
 #define d(x)
 
 d(static gint depth = 0;)
 
-
-static GObjectClass *e_reflow_model_parent_class;
 
 enum {
 	MODEL_CHANGED,
@@ -153,10 +151,9 @@ e_reflow_model_reincarnate (EReflowModel *e_reflow_model, int n, GnomeCanvasItem
 }
 
 static void
-e_reflow_model_class_init (GObjectClass *object_class)
+e_reflow_model_class_init (EReflowModelClass *klass)
 {
-	EReflowModelClass *klass = E_REFLOW_MODEL_CLASS(object_class);
-	e_reflow_model_parent_class = g_type_class_ref (PARENT_TYPE);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	e_reflow_model_signals [MODEL_CHANGED] =
 		g_signal_new ("model_changed",
@@ -217,12 +214,9 @@ e_reflow_model_class_init (GObjectClass *object_class)
 }
 
 static void
-e_reflow_model_init (GObject *object)
+e_reflow_model_init (EReflowModel *e_reflow_model)
 {
 }
-
-E_MAKE_TYPE(e_reflow_model, "EReflowModel", EReflowModel,
-	    e_reflow_model_class_init, e_reflow_model_init, PARENT_TYPE)
 
 #if d(!)0
 static void

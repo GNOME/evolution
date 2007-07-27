@@ -40,9 +40,6 @@ static void gal_define_views_dialog_set_property (GObject *object, guint prop_id
 static void gal_define_views_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void gal_define_views_dialog_dispose	 (GObject *object);
 
-static GtkDialogClass *parent_class = NULL;
-#define PARENT_TYPE GTK_TYPE_DIALOG
-
 /* The properties we support */
 enum {
 	PROP_0,
@@ -63,8 +60,7 @@ typedef struct {
 	GalDefineViewsDialog *names;
 } GalDefineViewsDialogChild;
 
-
-E_MAKE_TYPE(gal_define_views_dialog, "GalDefineViewsDialog", GalDefineViewsDialog, gal_define_views_dialog_class_init, gal_define_views_dialog_init, PARENT_TYPE)
+G_DEFINE_TYPE (GalDefineViewsDialog, gal_define_views_dialog, GTK_TYPE_DIALOG)
 
 static void
 gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
@@ -72,8 +68,6 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass*) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->set_property = gal_define_views_dialog_set_property;
 	object_class->get_property = gal_define_views_dialog_get_property;
@@ -305,8 +299,8 @@ gal_define_views_dialog_dispose (GObject *object)
 		g_object_unref(gal_define_views_dialog->gui);
 	gal_define_views_dialog->gui = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose) (object);
 }
 
 static void

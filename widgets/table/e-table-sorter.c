@@ -39,11 +39,11 @@ enum {
 	PROP_SORT_INFO
 };
 
-#define PARENT_TYPE e_sorter_get_type()
+/* workaround for avoiding API breakage */
+#define ets_get_type e_table_sorter_get_type
+G_DEFINE_TYPE (ETableSorter, ets, E_SORTER_TYPE)
 
 #define INCREMENT_AMOUNT 100
-
-static ESorterClass *parent_class;
 
 static void    	ets_model_changed      (ETableModel *etm, ETableSorter *ets);
 static void    	ets_model_row_changed  (ETableModel *etm, int row, ETableSorter *ets);
@@ -109,7 +109,7 @@ ets_dispose (GObject *object)
 		g_object_unref(ets->source);
 	ets->source = NULL;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (ets_parent_class)->dispose (object);
 }
 
 static void
@@ -158,8 +158,6 @@ ets_class_init (ETableSorterClass *klass)
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
 
-	parent_class                            = g_type_class_peek_parent (klass);
-
 	object_class->dispose                   = ets_dispose;
 	object_class->set_property              = ets_set_property;
 	object_class->get_property              = ets_get_property;
@@ -195,8 +193,6 @@ ets_init (ETableSorter *ets)
 	ets->sort_info_changed_id = 0;
 	ets->group_info_changed_id = 0;
 }
-
-E_MAKE_TYPE(e_table_sorter, "ETableSorter", ETableSorter, ets_class_init, ets_init, PARENT_TYPE)
 
 ETableSorter *
 e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)

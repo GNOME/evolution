@@ -33,7 +33,9 @@
 
 #include "e-table-column-specification.h"
 
-static GObjectClass *etcs_parent_class;
+/* workaround for avoiding API breakage */
+#define etcs_get_type e_table_column_specification_get_type
+G_DEFINE_TYPE (ETableColumnSpecification, etcs, G_TYPE_OBJECT)
 
 static void
 free_strings (ETableColumnSpecification *etcs)
@@ -57,15 +59,15 @@ etcs_finalize (GObject *object)
 
 	free_strings(etcs);
 
-	etcs_parent_class->finalize (object);
+	G_OBJECT_CLASS (etcs_parent_class)->finalize (object);
 }
 
 static void
-etcs_class_init (GObjectClass *klass)
+etcs_class_init (ETableColumnSpecificationClass *klass)
 {
-	etcs_parent_class = g_type_class_peek_parent (klass);
-	
-	klass->finalize = etcs_finalize;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->finalize = etcs_finalize;
 }
 
 static void
@@ -86,8 +88,6 @@ etcs_init (ETableColumnSpecification *specification)
 	specification->search        = NULL;
 	specification->priority      = 0;
 }
-
-E_MAKE_TYPE(e_table_column_specification, "ETableColumnSpecification", ETableColumnSpecification, etcs_class_init, etcs_init, G_TYPE_OBJECT)
 
 ETableColumnSpecification *
 e_table_column_specification_new (void)

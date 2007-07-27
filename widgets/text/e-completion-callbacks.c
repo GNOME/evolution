@@ -38,24 +38,12 @@ static void e_completion_callbacks_init       (ECompletionCallbacks *complete);
 static void     callbacks_request_completion    (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
 static void     callbacks_end_completion        (ECompletion *comp);
 
-#define PARENT_TYPE E_COMPLETION_TYPE
-static ECompletionClass *parent_class;
-
-
-
-E_MAKE_TYPE (e_completion_callbacks,
-	     "ECompletionCallbacks",
-	     ECompletionCallbacks,
-	     e_completion_callbacks_class_init,
-	     e_completion_callbacks_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ECompletionCallbacks, e_completion_callbacks, E_COMPLETION_TYPE)
 
 static void
 e_completion_callbacks_class_init (ECompletionCallbacksClass *klass)
 {
 	ECompletionClass *comp_class = (ECompletionClass *) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	comp_class->request_completion = callbacks_request_completion;
 	comp_class->end_completion = callbacks_end_completion;

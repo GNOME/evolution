@@ -55,7 +55,7 @@
 
 #define COLUMN_HEADER_HEIGHT 16
 
-#define PARENT_TYPE gtk_table_get_type ()
+G_DEFINE_TYPE (ETable, e_table, GTK_TYPE_TABLE)
 
 #define d(x)
 
@@ -64,8 +64,6 @@
 #else
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
-
-static GtkObjectClass *parent_class;
 
 enum {
 	CURSOR_CHANGE,
@@ -223,8 +221,8 @@ static void
 et_size_request (GtkWidget *widget, GtkRequisition *request)
 {
 	ETable *et = E_TABLE (widget);
-	if (GTK_WIDGET_CLASS (parent_class)->size_request)
-		GTK_WIDGET_CLASS (parent_class)->size_request (widget, request);
+	if (GTK_WIDGET_CLASS (e_table_parent_class)->size_request)
+		GTK_WIDGET_CLASS (e_table_parent_class)->size_request (widget, request);
 	if (et->horizontal_resize)
 		request->width = MAX (request->width, et->header_width);
 }
@@ -393,7 +391,7 @@ et_dispose (GObject *object)
 	g_free(et->domain);
 	et->domain = NULL;
 
-	(*G_OBJECT_CLASS (parent_class)->dispose)(object);
+	(*G_OBJECT_CLASS (e_table_parent_class)->dispose)(object);
 }
 
 static void
@@ -401,8 +399,8 @@ et_unrealize (GtkWidget *widget)
 {
 	scroll_off (E_TABLE (widget));
 
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+	if (GTK_WIDGET_CLASS (e_table_parent_class)->unrealize)
+		GTK_WIDGET_CLASS (e_table_parent_class)->unrealize (widget);
 }
 
 static gboolean
@@ -500,16 +498,15 @@ et_finalize (GObject *object)
 
 	g_free(et->domain);
 	et->domain = NULL;
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_table_parent_class)->finalize (object);
 }
 
 static void
-e_table_init (GtkObject *object)
+e_table_init (ETable *e_table)
 {
-	ETable *e_table = E_TABLE (object);
-	GtkTable *gtk_table = GTK_TABLE (object);
+	GtkTable *gtk_table = GTK_TABLE (e_table);
 
-	GTK_WIDGET_SET_FLAGS (e_table, GTK_CAN_FOCUS);
+	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (e_table), GTK_CAN_FOCUS);
 
 	gtk_table->homogeneous          = FALSE;
 
@@ -3062,8 +3059,6 @@ e_table_class_init (ETableClass *class)
 	object_class                    = (GObjectClass *) class;
 	widget_class                    = (GtkWidgetClass *) class;
 
-	parent_class                    = g_type_class_peek_parent (class);
-
 	object_class->dispose           = et_dispose;
 	object_class->finalize          = et_finalize;
 	object_class->set_property      = et_set_property;
@@ -3345,4 +3340,3 @@ e_table_class_init (ETableClass *class)
 	gal_a11y_e_table_init ();
 }
 
-E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE)

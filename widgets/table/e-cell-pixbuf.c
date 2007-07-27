@@ -31,8 +31,7 @@
 #include <gtk/gtk.h>
 #include "e-cell-pixbuf.h"
 
-#define PARENT_TYPE E_CELL_TYPE
-static ECellClass *parent_class;
+G_DEFINE_TYPE (ECellPixbuf, e_cell_pixbuf, E_CELL_TYPE)
 
 typedef struct _ECellPixbufView ECellPixbufView;
 
@@ -290,8 +289,8 @@ pixbuf_max_width (ECellView *ecell_view, int model_col, int view_col)
 static void
 pixbuf_dispose (GObject *object)
 {
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_cell_pixbuf_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_cell_pixbuf_parent_class)->dispose) (object);
 }
 
 static void
@@ -353,19 +352,18 @@ pixbuf_get_property (GObject *object,
 }
 
 static void
-e_cell_pixbuf_init (GtkObject *object)
+e_cell_pixbuf_init (ECellPixbuf *ecp)
 {
-	ECellPixbuf *ecp = E_CELL_PIXBUF (object);
-
 	ecp->selected_column = -1;
 	ecp->focused_column = -1;
 	ecp->unselected_column = -1;
 }
 
 static void
-e_cell_pixbuf_class_init (GObjectClass *object_class)
+e_cell_pixbuf_class_init (ECellPixbufClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ECellClass *ecc = E_CELL_CLASS (klass);
 
 	object_class->dispose = pixbuf_dispose;
 	object_class->set_property = pixbuf_set_property;
@@ -379,8 +377,6 @@ e_cell_pixbuf_class_init (GObjectClass *object_class)
 	ecc->print = pixbuf_print;
 	ecc->print_height = pixbuf_print_height;
 	ecc->max_width = pixbuf_max_width;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	g_object_class_install_property (object_class, PROP_SELECTED_COLUMN,
 					 g_param_spec_int ("selected_column",
@@ -404,9 +400,3 @@ e_cell_pixbuf_class_init (GObjectClass *object_class)
 							   G_PARAM_READWRITE));
 }
 
-E_MAKE_TYPE (e_cell_pixbuf,
-	     "ECellPixbuf",
-	     ECellPixbuf,
-	     e_cell_pixbuf_class_init,
-	     e_cell_pixbuf_init,
-	     PARENT_TYPE)

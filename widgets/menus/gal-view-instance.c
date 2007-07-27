@@ -45,9 +45,7 @@
 #include "gal-view-instance.h"
 #include "gal-view-instance-save-as-dialog.h"
 
-#define PARENT_TYPE G_TYPE_OBJECT
-
-static GObjectClass *gal_view_instance_parent_class;
+G_DEFINE_TYPE (GalViewInstance, gal_view_instance, G_TYPE_OBJECT)
 
 static const EPopupMenu separator = E_POPUP_SEPARATOR;
 static const EPopupMenu terminator = E_POPUP_TERMINATOR;
@@ -174,16 +172,15 @@ gal_view_instance_dispose (GObject *object)
 
 	g_free (instance->default_view);
 
-	if (gal_view_instance_parent_class->dispose)
-		(*gal_view_instance_parent_class->dispose)(object);
+	if (G_OBJECT_CLASS (gal_view_instance_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_view_instance_parent_class)->dispose)(object);
 }
 
 static void
-gal_view_instance_class_init (GObjectClass *object_class)
+gal_view_instance_class_init (GalViewInstanceClass *klass)
 {
-	GalViewInstanceClass *klass = GAL_VIEW_INSTANCE_CLASS(object_class);
-	gal_view_instance_parent_class = g_type_class_ref (PARENT_TYPE);
-	
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
 	object_class->dispose = gal_view_instance_dispose;
 
 	gal_view_instance_signals [DISPLAY_VIEW] =
@@ -228,8 +225,6 @@ gal_view_instance_init (GalViewInstance *instance)
 	instance->loaded = FALSE;
 	instance->default_view = NULL;
 }
-
-E_MAKE_TYPE(gal_view_instance, "GalViewInstance", GalViewInstance, gal_view_instance_class_init, gal_view_instance_init, PARENT_TYPE)
 
 static void
 collection_changed (GalView *view, GalViewInstance *instance)

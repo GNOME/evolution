@@ -32,9 +32,7 @@
 
 #include "e-table-config-field.h"
 
-#define PARENT_TYPE (gtk_vbox_get_type())
-
-static GtkVBoxClass *etcf_parent_class;
+G_DEFINE_TYPE (ETableConfigField, etcf, GTK_TYPE_VBOX)
 
 static void
 etcf_dispose (GObject *object)
@@ -53,11 +51,11 @@ etcf_dispose (GObject *object)
 }
 
 static void
-etcf_class_init (GObjectClass *klass)
+etcf_class_init (ETableConfigFieldClass *klass)
 {
-	etcf_parent_class = g_type_class_ref (PARENT_TYPE);
-	
-	klass->dispose = etcf_dispose;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->dispose = etcf_dispose;
 }
 
 static void
@@ -71,8 +69,6 @@ etcf_init (ETableConfigField *etcf)
 	etcf->radio_descending = NULL;
 	etcf->child_fields     = NULL;
 }
-
-E_MAKE_TYPE(e_table_config_field, "ETableConfigField", ETableConfigField, etcf_class_init, etcf_init, PARENT_TYPE)
 
 ETableConfigField *
 e_table_config_field_new       (ETableSpecification *spec,

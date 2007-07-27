@@ -53,9 +53,6 @@ static void e_canvas_style_set      (GtkWidget        *widget,
 
 static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
 
-#define PARENT_TYPE GNOME_TYPE_CANVAS
-static GnomeCanvasClass *parent_class = NULL;
-
 #define d(x)
 
 enum {
@@ -65,12 +62,7 @@ enum {
 
 static guint e_canvas_signals [LAST_SIGNAL] = { 0, };
 
-E_MAKE_TYPE (e_canvas,
-	     "ECanvas",
-	     ECanvas,
-	     e_canvas_class_init,
-	     e_canvas_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ECanvas, e_canvas, GNOME_TYPE_CANVAS)
 
 static void
 e_canvas_class_init (ECanvasClass *klass)
@@ -80,8 +72,6 @@ e_canvas_class_init (ECanvasClass *klass)
 
 	object_class                       = (GObjectClass*) klass;
 	widget_class                       = (GtkWidgetClass *) klass;
-
-	parent_class                       = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose              = e_canvas_dispose;
 
@@ -146,8 +136,8 @@ e_canvas_dispose (GObject *object)
 
 	e_canvas_hide_tooltip(canvas);
 
-	if ((G_OBJECT_CLASS (parent_class))->dispose)
-		(*(G_OBJECT_CLASS (parent_class))->dispose) (object);
+	if ((G_OBJECT_CLASS (e_canvas_parent_class))->dispose)
+		(*(G_OBJECT_CLASS (e_canvas_parent_class))->dispose) (object);
 }
 
 GtkWidget *
@@ -683,8 +673,8 @@ e_canvas_realize (GtkWidget *widget)
 {
 	ECanvas *ecanvas = E_CANVAS (widget);
 
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+	if (GTK_WIDGET_CLASS (e_canvas_parent_class)->realize)
+		(* GTK_WIDGET_CLASS (e_canvas_parent_class)->realize) (widget);
 
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 
@@ -703,8 +693,8 @@ e_canvas_unrealize (GtkWidget *widget)
 
 	gtk_im_context_set_client_window (ecanvas->im_context, NULL);
 
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
+	if (GTK_WIDGET_CLASS (e_canvas_parent_class)->unrealize)
+		(* GTK_WIDGET_CLASS (e_canvas_parent_class)->unrealize) (widget);
 }
 
 static void

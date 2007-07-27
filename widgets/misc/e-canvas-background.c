@@ -38,7 +38,9 @@
 
 #include "e-canvas-background.h"
 
-#define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
+/* workaround for avoiding API broken */
+#define ecb_get_type e_canvas_background_get_type
+G_DEFINE_TYPE (ECanvasBackground, ecb, GNOME_TYPE_CANVAS_ITEM)
 
 #define d(x)
 
@@ -54,8 +56,6 @@ struct _ECanvasBackgroundPrivate {
 
 	guint needs_redraw : 1;
 };
-
-static GnomeCanvasItemClass *parent_class;
 
 enum {
 	STYLE_SET,
@@ -131,8 +131,8 @@ ecb_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 	ArtPoint o1, o2;
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
-		GNOME_CANVAS_ITEM_CLASS (parent_class)->update (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->update)
+		GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->update (item, affine, clip_path, flags);
 
 	o1.x = item->x1;
 	o1.y = item->y1;
@@ -191,8 +191,8 @@ ecb_dispose (GObject *object)
 		ecb->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-                G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (ecb_parent_class)->dispose)
+                G_OBJECT_CLASS (ecb_parent_class)->dispose (object);
 }
 
 static void
@@ -316,10 +316,8 @@ ecb_get_property (GObject *object,
 }
 
 static void
-ecb_init (GnomeCanvasItem *item)
+ecb_init (ECanvasBackground *ecb)
 {
-	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-
 	ecb->priv               = g_new (ECanvasBackgroundPrivate, 1);
 
 	ecb->priv->color.pixel  = 0;
@@ -339,8 +337,8 @@ ecb_realize (GnomeCanvasItem *item)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 	
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->realize)
-                GNOME_CANVAS_ITEM_CLASS (parent_class)->realize (item);
+	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize)
+                GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize (item);
 
 	ecb->priv->gc = gdk_gc_new (item->canvas->layout.bin_window);
 	get_color (ecb);
@@ -361,8 +359,8 @@ ecb_unrealize (GnomeCanvasItem *item)
 	g_object_unref (ecb->priv->gc);
 	ecb->priv->gc = NULL;
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)
-                GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize (item);
+	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->unrealize)
+                GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->unrealize (item);
 }
 
 static void
@@ -433,12 +431,10 @@ ecb_style_set (ECanvasBackground *ecb, GtkStyle *previous_style)
 }
 
 static void
-ecb_class_init (GObjectClass *object_class)
+ecb_class_init (ECanvasBackgroundClass *ecb_class)
 {
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
-	ECanvasBackgroundClass *ecb_class = (ECanvasBackgroundClass *) object_class;
-	
-	parent_class                = g_type_class_ref (PARENT_OBJECT_TYPE);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (ecb_class);
+	GObjectClass *object_class = G_OBJECT_CLASS (ecb_class);
 	
 	object_class->dispose       = ecb_dispose;
 	object_class->set_property  = ecb_set_property;
@@ -517,9 +513,3 @@ ecb_class_init (GObjectClass *object_class)
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 }
 
-E_MAKE_TYPE (e_canvas_background,
-	     "ECanvasBackground",
-	     ECanvasBackground,
-	     ecb_class_init,
-	     ecb_init,
-	     PARENT_OBJECT_TYPE)

@@ -28,7 +28,7 @@
 
 #include "e-table-col.h"
 
-static GObjectClass *parent_class;
+G_DEFINE_TYPE (ETableCol, e_table_col, G_TYPE_OBJECT)
 
 enum {
 	PROP_0,
@@ -52,7 +52,8 @@ etc_dispose (GObject *object)
 		g_free (etc->text);
 	etc->text = NULL;
 	
-	parent_class->dispose (object);
+	if (G_OBJECT_CLASS (e_table_col_parent_class)->dispose)
+		G_OBJECT_CLASS (e_table_col_parent_class)->dispose (object);
 }
 
 static void
@@ -85,9 +86,9 @@ etc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 }
  
 static void
-e_table_col_class_init (GObjectClass *object_class)
+e_table_col_class_init (ETableColClass *klass)
 {
-	parent_class = g_type_class_peek_parent (object_class);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);	
 
 	object_class->dispose = etc_dispose;
 	object_class->set_property = etc_set_property;
@@ -110,8 +111,6 @@ e_table_col_init (ETableCol *etc)
 	etc->justification = GTK_JUSTIFY_LEFT;
 	etc->priority = 0;
 }
-
-E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, G_TYPE_OBJECT)
 
 /** 
  * e_table_col_new:

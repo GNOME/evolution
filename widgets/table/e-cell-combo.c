@@ -77,7 +77,7 @@
 #define E_CELL_COMBO_UTF8_KEY		"UTF-8-TEXT"
 
 
-static void e_cell_combo_class_init	(GObjectClass	*object_class);
+static void e_cell_combo_class_init	(ECellComboClass *klass);
 static void e_cell_combo_init		(ECellCombo	*ecc);
 static void e_cell_combo_dispose	(GObject	*object);
 
@@ -114,25 +114,17 @@ static int e_cell_combo_key_press	(GtkWidget	*popup_window,
 static void e_cell_combo_update_cell	(ECellCombo	*ecc);
 static void e_cell_combo_restart_edit	(ECellCombo	*ecc);
 
-
-static ECellPopupClass *parent_class;
-
-
-E_MAKE_TYPE (e_cell_combo, "ECellCombo", ECellCombo,
-	     e_cell_combo_class_init, e_cell_combo_init,
-	     e_cell_popup_get_type())
-
+G_DEFINE_TYPE (ECellCombo, e_cell_combo, E_CELL_POPUP_TYPE)
 
 static void
-e_cell_combo_class_init			(GObjectClass	*object_class)
+e_cell_combo_class_init			(ECellComboClass	*klass)
 {
-	ECellPopupClass *ecpc = (ECellPopupClass *) object_class;
+	ECellPopupClass *ecpc = E_CELL_POPUP_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = e_cell_combo_dispose;
 
 	ecpc->popup = e_cell_combo_do_popup;
-
-	parent_class = g_type_class_ref (E_CELL_POPUP_TYPE);
 }
 
 
@@ -228,7 +220,7 @@ e_cell_combo_dispose			(GObject *object)
 		gtk_widget_destroy (ecc->popup_window);
 	ecc->popup_window = NULL;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cell_combo_parent_class)->dispose (object);
 }
 
 

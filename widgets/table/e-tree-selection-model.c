@@ -30,9 +30,7 @@
 
 #include "e-tree-selection-model.h"
 
-#define PARENT_TYPE e_selection_model_get_type ()
-
-static ESelectionModelClass *parent_class;
+G_DEFINE_TYPE (ETreeSelectionModel, e_tree_selection_model, E_SELECTION_MODEL_TYPE)
 
 enum {
 	PROP_0,
@@ -280,8 +278,8 @@ etsm_dispose (GObject *object)
 
 	drop_model(etsm);
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_tree_selection_model_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_tree_selection_model_parent_class)->dispose) (object);
 }
 
 static void
@@ -296,8 +294,8 @@ etsm_finalize (GObject *object)
 		etsm->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize)
+		(* G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize) (object);
 }
 
 static void
@@ -778,8 +776,6 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 	GObjectClass *object_class;
 	ESelectionModelClass *esm_class;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
 	object_class = G_OBJECT_CLASS(klass);
 	esm_class = E_SELECTION_MODEL_CLASS(klass);
 
@@ -842,5 +838,3 @@ e_tree_selection_model_new (void)
 	return g_object_new (E_TREE_SELECTION_MODEL_TYPE, NULL);
 }
 
-E_MAKE_TYPE(e_tree_selection_model, "ETreeSelectionModel", ETreeSelectionModel,
-	    e_tree_selection_model_class_init, e_tree_selection_model_init, PARENT_TYPE)

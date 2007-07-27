@@ -34,9 +34,7 @@
 
 #include "e-cell-float.h"
 
-#define PARENT_TYPE e_cell_text_get_type ()
-
-static ECellTextClass *parent_class;
+G_DEFINE_TYPE (ECellFloat, e_cell_float, E_CELL_TEXT_TYPE)
 
 static char *
 ecf_get_text(ECellText *cell, ETableModel *model, int col, int row)
@@ -55,18 +53,16 @@ ecf_free_text(ECellText *cell, char *text)
 }
 
 static void
-e_cell_float_class_init (GtkObjectClass *object_class)
+e_cell_float_class_init (ECellFloatClass *klass)
 {
-	ECellTextClass *ectc = (ECellTextClass *) object_class;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
+	ECellTextClass *ectc = E_CELL_TEXT_CLASS (klass);
 
 	ectc->get_text  = ecf_get_text;
 	ectc->free_text = ecf_free_text;
 }
 
 static void
-e_cell_float_init (GtkObject *object)
+e_cell_float_init (ECellFloat *cell_float)
 {
 }
 
@@ -93,4 +89,3 @@ e_cell_float_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecn;
 }
 
-E_MAKE_TYPE(e_cell_float, "ECellFloat", ECellFloat, e_cell_float_class_init, e_cell_float_init, PARENT_TYPE)

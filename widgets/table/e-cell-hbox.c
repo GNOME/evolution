@@ -41,9 +41,7 @@
 #include "e-cell-hbox.h"
 #include "e-table-item.h"
 
-#define PARENT_TYPE e_cell_get_type ()
-
-static ECellClass *parent_class;
+G_DEFINE_TYPE (ECellHbox, e_cell_hbox, E_CELL_TYPE)
 
 #define INDENT_AMOUNT 16
 #define MAX_CELL_SIZE 25
@@ -117,8 +115,8 @@ ecv_realize (ECellView *ecell_view)
 	for (i = 0; i < hbox_view->subcell_view_count; i++)
 		e_cell_realize (hbox_view->subcell_views[i]);
 
-	if (parent_class->realize)
-		(* parent_class->realize) (ecell_view);
+	if (E_CELL_CLASS (e_cell_hbox_parent_class)->realize)
+		(* E_CELL_CLASS (e_cell_hbox_parent_class)->realize) (ecell_view);
 }
 
 /*
@@ -134,8 +132,8 @@ ecv_unrealize (ECellView *ecv)
 	for (i = 0; i < hbox_view->subcell_view_count; i++)
 		e_cell_unrealize (hbox_view->subcell_views[i]);
 
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (ecv);
+	if (E_CELL_CLASS (e_cell_hbox_parent_class)->unrealize)
+		(* E_CELL_CLASS (e_cell_hbox_parent_class)->unrealize) (ecv);
 }
 
 /*
@@ -260,13 +258,14 @@ ecv_dispose (GObject *object)
 	ecv->subcells = NULL;
 	ecv->subcell_count = 0;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cell_hbox_parent_class)->dispose (object);
 }
 
 static void
-e_cell_hbox_class_init (GObjectClass *object_class)
+e_cell_hbox_class_init (ECellHboxClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ECellClass *ecc = E_CELL_CLASS (klass);
 
 	object_class->dispose = ecv_dispose;
 
@@ -280,21 +279,15 @@ e_cell_hbox_class_init (GObjectClass *object_class)
 
 	ecc->max_width        = ecv_max_width;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
 /* 	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_HBOX_TYPE, gal_a11y_e_cell_hbox_new); */
 }
 
 static void
-e_cell_hbox_init (GtkObject *object)
+e_cell_hbox_init (ECellHbox *ecv)
 {
-	ECellHbox *ecv = E_CELL_HBOX (object);
-
 	ecv->subcells = NULL;
 	ecv->subcell_count = 0;
 }
-
-E_MAKE_TYPE(e_cell_hbox, "ECellHbox", ECellHbox, e_cell_hbox_class_init, e_cell_hbox_init, PARENT_TYPE)
 
 /**
  * e_cell_hbox_new:

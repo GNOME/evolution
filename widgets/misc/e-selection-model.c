@@ -31,9 +31,7 @@
 
 #include "e-selection-model.h"
 
-#define PARENT_TYPE G_TYPE_OBJECT
-
-static GObjectClass *e_selection_model_parent_class;
+G_DEFINE_TYPE (ESelectionModel, e_selection_model, G_TYPE_OBJECT)
 
 enum {
 	CURSOR_CHANGED,
@@ -79,8 +77,8 @@ esm_dispose (GObject *object)
 
 	drop_sorter(esm);
 
-	if (e_selection_model_parent_class->dispose)
-		(* e_selection_model_parent_class->dispose) (object);
+	if (G_OBJECT_CLASS (e_selection_model_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_selection_model_parent_class)->dispose) (object);
 }
 
 static void
@@ -141,8 +139,6 @@ static void
 e_selection_model_class_init (ESelectionModelClass *klass)
 {
 	GObjectClass *object_class;
-
-	e_selection_model_parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS(klass);
 
@@ -232,9 +228,6 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 							   E_CURSOR_LINE,
 							   G_PARAM_READWRITE));
 }
-
-E_MAKE_TYPE(e_selection_model, "ESelectionModel", ESelectionModel,
-	    e_selection_model_class_init, e_selection_model_init, PARENT_TYPE)
 
 /** 
  * e_selection_model_is_row_selected

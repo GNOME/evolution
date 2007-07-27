@@ -41,27 +41,8 @@ static void e_table_text_model_insert (ETextModel *model, gint postion, const gc
 static void e_table_text_model_insert_length (ETextModel *model, gint postion, const gchar *text, gint length);
 static void e_table_text_model_delete (ETextModel *model, gint postion, gint length);
 
-#define PARENT_TYPE E_TYPE_TEXT_MODEL
-static GtkObject *parent_class;
+G_DEFINE_TYPE (ETableTextModel, e_table_text_model, E_TYPE_TEXT_MODEL)
 
-
-
-/**
- * e_table_text_model_get_type:
- * @void: 
- * 
- * Registers the &ETableTextModel class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the &ETableTextModel class.
- **/
-E_MAKE_TYPE (e_table_text_model,
-	     "ETableTextModel",
-	     ETableTextModel,
-	     e_table_text_model_class_init,
-	     e_table_text_model_init,
-	     PARENT_TYPE)
-	     
 /* Class initialization function for the text item */
 static void
 e_table_text_model_class_init (ETableTextModelClass *klass)
@@ -71,8 +52,6 @@ e_table_text_model_class_init (ETableTextModelClass *klass)
 
 	object_class = (GObjectClass *) klass;
 	model_class = (ETextModelClass *) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	model_class->get_text = e_table_text_model_get_text;
 	model_class->set_text = e_table_text_model_set_text;
@@ -122,8 +101,8 @@ e_table_text_model_dispose (GObject *object)
 		g_object_unref (model->model);
 	model->model = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_table_text_model_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_table_text_model_parent_class)->dispose) (object);
 }
 static const gchar *
 e_table_text_model_get_text (ETextModel *text_model)

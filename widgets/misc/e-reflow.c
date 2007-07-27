@@ -56,8 +56,7 @@ static void e_reflow_resize_children (GnomeCanvasItem *item);
 #define E_REFLOW_BORDER_WIDTH 7
 #define E_REFLOW_FULL_GUTTER (E_REFLOW_DIVIDER_WIDTH + E_REFLOW_BORDER_WIDTH * 2)
 
-#define PARENT_TYPE GNOME_TYPE_CANVAS_GROUP
-static GnomeCanvasGroupClass *parent_class = NULL;
+G_DEFINE_TYPE (EReflow, e_reflow, GNOME_TYPE_CANVAS_GROUP)
 
 /* The arguments we take */
 enum {
@@ -825,7 +824,7 @@ e_reflow_dispose (GObject *object)
 		reflow->sorter = NULL;
 	}
 
-	G_OBJECT_CLASS(parent_class)->dispose (object);
+	G_OBJECT_CLASS(e_reflow_parent_class)->dispose (object);
 }
 
 static void
@@ -838,8 +837,8 @@ e_reflow_realize (GnomeCanvasItem *item)
 
 	reflow = E_REFLOW (item);
 
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->realize)
-		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->realize)
+		(* GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->realize) (item);
 	
 	reflow->arrow_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	reflow->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
@@ -893,8 +892,8 @@ e_reflow_unrealize (GnomeCanvasItem *item)
 	disconnect_set_adjustment (reflow);
 	disconnect_adjustment (reflow);
 
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->unrealize) (item);
 }
 
 static gboolean
@@ -1108,8 +1107,8 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 	if (return_val)
 		return return_val;
-	else if (GNOME_CANVAS_ITEM_CLASS( parent_class )->event)
-		return (* GNOME_CANVAS_ITEM_CLASS( parent_class )->event) (item, event);
+	else if (GNOME_CANVAS_ITEM_CLASS( e_reflow_parent_class )->event)
+		return (* GNOME_CANVAS_ITEM_CLASS( e_reflow_parent_class )->event) (item, event);
 	else
 		return FALSE;
 }
@@ -1123,8 +1122,8 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int i;
 	double column_width;
 
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->draw)
-		GNOME_CANVAS_ITEM_CLASS(parent_class)->draw (item, drawable, x, y, width, height);
+	if (GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->draw)
+		GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->draw (item, drawable, x, y, width, height);
 	column_width = reflow->column_width;
 	running_width = E_REFLOW_BORDER_WIDTH + column_width + E_REFLOW_BORDER_WIDTH;
 	x_rect = running_width;
@@ -1196,8 +1195,8 @@ e_reflow_update (GnomeCanvasItem *item, double affine[6], ArtSVP *clip_path, gin
 
 	reflow = E_REFLOW (item);
 
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->update)
-		GNOME_CANVAS_ITEM_CLASS(parent_class)->update (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->update)
+		GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->update (item, affine, clip_path, flags);
 	
 	x0 = item->x1;
 	y0 = item->y1;
@@ -1280,8 +1279,8 @@ e_reflow_point (GnomeCanvasItem *item,
 
 	*actual_item = NULL;
 
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->point)
-		distance = GNOME_CANVAS_ITEM_CLASS(parent_class)->point (item, x, y, cx, cy, actual_item);
+	if (GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->point)
+		distance = GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->point (item, x, y, cx, cy, actual_item);
 	if ((int) (distance * item->canvas->pixels_per_unit + 0.5) <= item->canvas->close_enough && *actual_item)
 		return distance;
 	
@@ -1406,8 +1405,6 @@ e_reflow_class_init (EReflowClass *klass)
 
 	object_class = (GObjectClass*) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->set_property  = e_reflow_set_property;
 	object_class->get_property  = e_reflow_get_property;
@@ -1546,9 +1543,3 @@ e_reflow_init (EReflow *reflow)
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(reflow), e_reflow_reflow);
 }
 
-E_MAKE_TYPE (e_reflow,
-	     "EReflow",
-	     EReflow,
-	     e_reflow_class_init,
-	     e_reflow_init,
-	     PARENT_TYPE)

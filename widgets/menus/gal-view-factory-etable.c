@@ -29,9 +29,7 @@
 #include "gal-view-etable.h"
 #include "gal-view-factory-etable.h"
 
-#define PARENT_TYPE GAL_VIEW_FACTORY_TYPE
-
-static GalViewFactoryClass *gal_view_factory_etable_parent_class;
+G_DEFINE_TYPE (GalViewFactoryEtable, gal_view_factory_etable, GAL_VIEW_FACTORY_TYPE)
 
 static const char *
 gal_view_factory_etable_get_title       (GalViewFactory *factory)
@@ -66,10 +64,10 @@ gal_view_factory_etable_dispose         (GObject *object)
 }
 
 static void
-gal_view_factory_etable_class_init      (GObjectClass *object_class)
+gal_view_factory_etable_class_init      (GalViewFactoryEtableClass *klass)
 {
-	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_etable_parent_class    = g_type_class_ref (PARENT_TYPE);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS (klass);
 
 	view_factory_class->get_title           = gal_view_factory_etable_get_title;
 	view_factory_class->new_view            = gal_view_factory_etable_new_view;
@@ -119,4 +117,3 @@ gal_view_factory_etable_construct  (GalViewFactoryEtable *factory,
 	return GAL_VIEW_FACTORY(factory);
 }
 
-E_MAKE_TYPE(gal_view_factory_etable, "GalViewFactoryEtable", GalViewFactoryEtable, gal_view_factory_etable_class_init, gal_view_factory_etable_init, PARENT_TYPE)

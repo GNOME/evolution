@@ -40,7 +40,7 @@ struct _ETableSearchPrivate {
 	gunichar last_character;
 };
 
-static GObjectClass *e_table_search_parent_class;
+G_DEFINE_TYPE (ETableSearch, e_table_search, G_TYPE_OBJECT)
 
 enum {
 	SEARCH_SEARCH,
@@ -113,15 +113,14 @@ e_table_search_finalize (GObject *object)
 	g_free (ets->priv->search_string);
 	g_free (ets->priv);
 	
-	if (e_table_search_parent_class->finalize)
-		(*e_table_search_parent_class->finalize)(object);
+	if (G_OBJECT_CLASS (e_table_search_parent_class)->finalize)
+		(*G_OBJECT_CLASS (e_table_search_parent_class)->finalize)(object);
 }
 
 static void
-e_table_search_class_init (GObjectClass *object_class)
+e_table_search_class_init (ETableSearchClass *klass)
 {
-	ETableSearchClass *klass = E_TABLE_SEARCH_CLASS(object_class);
-	e_table_search_parent_class = g_type_class_peek_parent (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->finalize = e_table_search_finalize;
 
@@ -156,9 +155,6 @@ e_table_search_init (ETableSearch *ets)
 	ets->priv->search_string = g_strdup ("");
 	ets->priv->last_character = 0;
 }
-
-
-E_MAKE_TYPE(e_table_search, "ETableSearch", ETableSearch, e_table_search_class_init, e_table_search_init, G_TYPE_OBJECT)
 
 ETableSearch *
 e_table_search_new (void)

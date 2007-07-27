@@ -33,7 +33,7 @@
 
 #define PARENT_TYPE G_TYPE_OBJECT
 
-static GObjectClass *parent_class;
+G_DEFINE_TYPE (ESorter, e_sorter, G_TYPE_OBJECT)
 
 static gint es_model_to_sorted (ESorter *es, int row);
 static gint es_sorted_to_model (ESorter *es, int row);
@@ -42,10 +42,8 @@ static void es_get_sorted_to_model_array (ESorter *es, int **array, int *count);
 static gboolean es_needs_sorting(ESorter *es);
 
 static void
-es_class_init (ESorterClass *klass)
+e_sorter_class_init (ESorterClass *klass)
 {
-	parent_class                     = g_type_class_ref (PARENT_TYPE);
-
 	klass->model_to_sorted           = es_model_to_sorted;
 	klass->sorted_to_model           = es_sorted_to_model;
 	klass->get_model_to_sorted_array = es_get_model_to_sorted_array;
@@ -54,11 +52,9 @@ es_class_init (ESorterClass *klass)
 }
 
 static void
-es_init (ESorter *es)
+e_sorter_init (ESorter *es)
 {
 }
-
-E_MAKE_TYPE(e_sorter, "ESorter", ESorter, es_class_init, es_init, PARENT_TYPE)
 
 ESorter *
 e_sorter_new (void)

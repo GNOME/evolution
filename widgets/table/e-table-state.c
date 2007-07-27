@@ -38,7 +38,7 @@
 
 #define STATE_VERSION 0.1
 
-static GObjectClass *etst_parent_class;
+G_DEFINE_TYPE (ETableState, e_table_state, G_TYPE_OBJECT)
 
 static void
 etst_dispose (GObject *object)
@@ -50,7 +50,7 @@ etst_dispose (GObject *object)
 		etst->sort_info = NULL;
 	}
 
-	G_OBJECT_CLASS (etst_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_state_parent_class)->dispose (object);
 }
 	
 static void
@@ -68,27 +68,25 @@ etst_finalize (GObject *object)
 		etst->expansions = NULL;
 	}
 	
-	G_OBJECT_CLASS (etst_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_table_state_parent_class)->finalize (object);
 }
 
 static void
-etst_class_init (GObjectClass *klass)
+e_table_state_class_init (ETableStateClass *klass)
 {
-	etst_parent_class = g_type_class_peek_parent (klass);
-	
-	klass->dispose = etst_dispose;
-	klass->finalize = etst_finalize;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->dispose = etst_dispose;
+	object_class->finalize = etst_finalize;
 }
 
 static void
-etst_init (ETableState *state)
+e_table_state_init (ETableState *state)
 {
 	state->columns = NULL;
 	state->expansions = NULL;
 	state->sort_info = e_table_sort_info_new();
 }
-
-E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, G_TYPE_OBJECT)
 
 ETableState *
 e_table_state_new (void)

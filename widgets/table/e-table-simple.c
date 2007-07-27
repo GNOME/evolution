@@ -28,6 +28,8 @@
 
 #include "e-table-simple.h"
 
+G_DEFINE_TYPE (ETableSimple, e_table_simple, E_TABLE_MODEL_TYPE)
+
 static int
 simple_column_count (ETableModel *etm)
 {
@@ -167,9 +169,9 @@ simple_value_to_string (ETableModel *etm, int col, const void *value)
 }
 
 static void
-e_table_simple_class_init (GObjectClass *object_class)
+e_table_simple_class_init (ETableSimpleClass *klass)
 {
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
+	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
 
 	model_class->column_count      = simple_column_count;
 	model_class->row_count         = simple_row_count;
@@ -189,7 +191,11 @@ e_table_simple_class_init (GObjectClass *object_class)
 	model_class->value_to_string   = simple_value_to_string;
 }
 
-E_MAKE_TYPE(e_table_simple, "ETableSimple", ETableSimple, e_table_simple_class_init, NULL, E_TABLE_MODEL_TYPE)
+static void
+e_table_simple_init (ETableSimple *simple)
+{
+	/* nothing to do */
+}
 
 /**
  * e_table_simple_new:

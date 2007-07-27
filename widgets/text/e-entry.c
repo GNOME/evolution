@@ -50,9 +50,7 @@
 
 #define d(x)
 
-#define PARENT_TYPE gtk_table_get_type ()
-
-static GtkObjectClass *parent_class;
+G_DEFINE_TYPE (EEntry, e_entry, GTK_TYPE_TABLE)
 
 enum {
 	E_ENTRY_CHANGED,
@@ -296,10 +294,9 @@ proxy_populate_popup (EText *text, GdkEventButton *ev, gint pos, GtkWidget *menu
 }
 
 static void
-e_entry_init (GtkObject *object)
+e_entry_init (EEntry *entry)
 {
-	EEntry *entry = E_ENTRY (object);
-	GtkTable *gtk_table = GTK_TABLE (object);
+	GtkTable *gtk_table = GTK_TABLE (entry);
 
 	entry->priv = g_new0 (EEntryPrivate, 1);
 
@@ -1127,8 +1124,8 @@ e_entry_dispose (GObject *object)
 		entry->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_entry_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_entry_parent_class)->dispose) (object);
 }
 
 static void
@@ -1136,8 +1133,8 @@ e_entry_realize (GtkWidget *widget)
 {
 	EEntry *entry;
 
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+	if (GTK_WIDGET_CLASS (e_entry_parent_class)->realize)
+		(* GTK_WIDGET_CLASS (e_entry_parent_class)->realize) (widget);
 
 	entry = E_ENTRY (widget);
 
@@ -1150,12 +1147,10 @@ e_entry_realize (GtkWidget *widget)
 }
 
 static void
-e_entry_class_init (GObjectClass *object_class)
+e_entry_class_init (EEntryClass *klass)
 {
-	EEntryClass *klass = E_ENTRY_CLASS(object_class);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(object_class);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->set_property = et_set_property;
 	object_class->get_property = et_get_property;
@@ -1343,4 +1338,4 @@ e_entry_class_init (GObjectClass *object_class)
 							       G_PARAM_READWRITE));
 }
 
-E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE)
+

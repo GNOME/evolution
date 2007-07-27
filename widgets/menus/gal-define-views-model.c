@@ -32,8 +32,7 @@
 
 #include "gal-define-views-model.h"
 
-#define PARENT_TYPE E_TABLE_MODEL_TYPE
-static ETableModelClass *parent_class;
+G_DEFINE_TYPE (GalDefineViewsModel, gal_define_views_model, E_TABLE_MODEL_TYPE)
 
 /*
  * GalDefineViewsModel callbacks
@@ -57,8 +56,8 @@ gdvm_dispose(GObject *object)
 		g_object_unref(model->collection);
 	model->collection = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (gal_define_views_model_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_define_views_model_parent_class)->dispose) (object);
 }
 
 /* This function returns the number of columns in our ETableModel. */
@@ -166,11 +165,10 @@ gal_define_views_model_append (GalDefineViewsModel *model,
 }
 
 static void
-gal_define_views_model_class_init (GObjectClass *object_class)
+gal_define_views_model_class_init (GalDefineViewsModelClass *klass)
 {
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
+	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose        = gdvm_dispose;
 	object_class->set_property   = gal_define_views_model_set_property;
@@ -204,10 +202,8 @@ gal_define_views_model_class_init (GObjectClass *object_class)
 }
 
 static void
-gal_define_views_model_init (GObject *object)
+gal_define_views_model_init (GalDefineViewsModel *model)
 {
-	GalDefineViewsModel *model = GAL_DEFINE_VIEWS_MODEL(object);
-
 	model->collection = NULL;
 }
 
@@ -254,8 +250,6 @@ gal_define_views_model_get_property (GObject *object, guint prop_id, GValue *val
 		break;
 	}
 }
-
-E_MAKE_TYPE(gal_define_views_model, "GalDefineViewsModel", GalDefineViewsModel, gal_define_views_model_class_init, gal_define_views_model_init, PARENT_TYPE)
 
 /**
  * gal_define_views_model_new

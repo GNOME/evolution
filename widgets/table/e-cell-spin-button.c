@@ -40,10 +40,10 @@
 #include "e-cell-spin-button.h"
 
 #define E_CELL_SPIN_BUTTON_ARROW_WIDTH  16
-#define PARENT_TYPE e_cell_get_type ()
+G_DEFINE_TYPE (ECellSpinButton, e_cell_spin_button, E_CELL_TYPE)
 
-static void e_cell_spin_button_class_init   (GObjectClass   *klass);
-static void e_cell_spin_button_init         (GtkObject        *object);
+static void e_cell_spin_button_class_init   (ECellSpinButtonClass *klass);
+static void e_cell_spin_button_init         (ECellSpinButton      *ecsb);
 
 static void         ecsb_dispose      (GObject	*object);
 
@@ -117,15 +117,14 @@ enum {
 };
 
 static guint    signals[LAST_SIGNAL] = { 0 };
-static ECell   *parent_class;
 
 static void 
-e_cell_spin_button_class_init     (GObjectClass   *klass)
+e_cell_spin_button_class_init     (ECellSpinButtonClass   *klass)
 {
-        ECellClass             *ecc    = (ECellClass *) klass;  
-	ECellSpinButtonClass   *ecsbc  = (ECellSpinButtonClass *) klass;
+        ECellClass *ecc = E_CELL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
         
-        klass->dispose     = ecsb_dispose;
+        object_class->dispose = ecsb_dispose;
 
 	ecc->realize       = ecsb_realize;
 	ecc->unrealize     = ecsb_unrealize;
@@ -142,9 +141,7 @@ e_cell_spin_button_class_init     (GObjectClass   *klass)
 	ecc->max_width     = NULL;
 	ecc->show_tooltip  = ecsb_show_tooltip;
 
-	ecsbc->step        = NULL;
-
-        parent_class       = g_type_class_ref (E_CELL_TYPE);
+	klass->step        = NULL;
 
 	signals[STEP] =
 		g_signal_new ("step",
@@ -159,15 +156,10 @@ e_cell_spin_button_class_init     (GObjectClass   *klass)
 }
 
 static void 
-e_cell_spin_button_init           (GtkObject        *object)
+e_cell_spin_button_init           (ECellSpinButton *ecsb)
 {
-        ECellSpinButton   *ecsb;
+	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (ecsb));
 	
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (object));
-	
-	ecsb = E_CELL_SPIN_BUTTON (object);
-
 	ecsb->up_pressed    = FALSE;
 	ecsb->down_pressed  = FALSE;
 }
@@ -512,7 +504,7 @@ ecsb_dispose (GObject	*object)
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (object));
 	
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cell_spin_button_parent_class)->dispose (object);
 }
 
 ECell *
@@ -654,8 +646,4 @@ e_cell_spin_button_step_float  (ECellSpinButton       *ecsb,
 	
 	g_free (str_value);
 }
-
-E_MAKE_TYPE (e_cell_spin_button, "ECellSpinButton", ECellSpinButton, 
-	     e_cell_spin_button_class_init, e_cell_spin_button_init, 
-	     PARENT_TYPE)
 

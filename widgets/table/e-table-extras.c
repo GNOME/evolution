@@ -39,7 +39,9 @@
 #include "e-cell-tree.h"
 #include "e-table-extras.h"
 
-static GObjectClass *ete_parent_class;
+/* workaround for avoiding API breakage */
+#define ete_get_type e_table_extras_get_type
+G_DEFINE_TYPE (ETableExtras, ete, G_TYPE_OBJECT)
 
 static void
 cell_hash_free(gchar	*key,
@@ -91,15 +93,15 @@ ete_finalize (GObject *object)
 	ete->searches = NULL;
 	ete->pixbufs = NULL;
 
-	ete_parent_class->finalize (object);
+	G_OBJECT_CLASS (ete_parent_class)->finalize (object);
 }
 
 static void
-ete_class_init (GObjectClass *klass)
+ete_class_init (ETableExtrasClass *klass)
 {
-	ete_parent_class = g_type_class_peek_parent (klass);
-	
-	klass->finalize = ete_finalize;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->finalize = ete_finalize;
 }
 
 static gint
@@ -183,8 +185,6 @@ ete_init (ETableExtras *extras)
 	e_table_extras_add_cell(extras, "string", e_cell_text_new (NULL, GTK_JUSTIFY_LEFT));
 	e_table_extras_add_cell(extras, "tree-string", e_cell_tree_new (NULL, NULL, TRUE, e_cell_text_new (NULL, GTK_JUSTIFY_LEFT)));
 }
-
-E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, G_TYPE_OBJECT)
 
 ETableExtras *
 e_table_extras_new (void)

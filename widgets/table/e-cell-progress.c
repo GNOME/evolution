@@ -39,15 +39,13 @@
 #include "e-cell-progress.h"
 #include "e-table-item.h"
 
-#define PARENT_TYPE e_cell_get_type ()
+G_DEFINE_TYPE (ECellProgress, e_cell_progress, E_CELL_TYPE)
 
 typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
 	GnomeCanvas *canvas;
 } ECellProgressView;
-
-static ECellClass *parent_class;
 
 static void
 eprog_queue_redraw (ECellProgressView *text_view, int view_col, int view_row)
@@ -299,13 +297,14 @@ eprog_dispose (GObject *object)
 	g_free (eprog->image);
 	g_free (eprog->buffer);
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cell_progress_parent_class)->dispose (object);
 }
 
 static void
-e_cell_progress_class_init (GObjectClass *object_class)
+e_cell_progress_class_init (ECellProgressClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
+	ECellClass *ecc = E_CELL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = eprog_dispose;
 
@@ -317,11 +316,13 @@ e_cell_progress_class_init (GObjectClass *object_class)
 	ecc->event      = eprog_event;
 	ecc->height     = eprog_height;
 	ecc->max_width  = eprog_max_width;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
-E_MAKE_TYPE(e_cell_progress, "ECellProgress", ECellProgress, e_cell_progress_class_init, NULL, PARENT_TYPE)
+static void
+e_cell_progress_init (ECellProgress *eprog)
+{
+	/* nothing to do */
+}
 
 /**
  * e_cell_progress_construct:

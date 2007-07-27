@@ -42,7 +42,7 @@
 
 #define d(x)
 
-static GObjectClass *parent_class;
+G_DEFINE_TYPE (ETreeModel, e_tree_model, G_TYPE_OBJECT)
 
 enum {
 	PRE_CHANGE,
@@ -61,15 +61,13 @@ static guint e_tree_model_signals [LAST_SIGNAL] = {0, };
 
 
 static void
-e_tree_model_class_init (GObjectClass *klass)
+e_tree_model_class_init (ETreeModelClass *klass)
 {
-	ETreeModelClass *tree_class = (ETreeModelClass *) klass;
-
-	parent_class = g_type_class_peek_parent (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	e_tree_model_signals [PRE_CHANGE] =
 		g_signal_new ("pre_change",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, pre_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -78,7 +76,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NO_CHANGE] =
 		g_signal_new ("no_change",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, no_change),
 			      (GSignalAccumulator) NULL, NULL,
@@ -87,7 +85,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_CHANGED] =
 		g_signal_new ("node_changed",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -96,7 +94,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_DATA_CHANGED] =
 		g_signal_new ("node_data_changed",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_data_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -105,7 +103,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_COL_CHANGED] =
 		g_signal_new ("node_col_changed",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_col_changed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -114,7 +112,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_INSERTED] =
 		g_signal_new ("node_inserted",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_inserted),
 			      (GSignalAccumulator) NULL, NULL,
@@ -123,7 +121,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_REMOVED] =
 		g_signal_new ("node_removed",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_removed),
 			      (GSignalAccumulator) NULL, NULL,
@@ -132,7 +130,7 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_DELETED] =
 		g_signal_new ("node_deleted",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_deleted),
 			      (GSignalAccumulator) NULL, NULL,
@@ -141,63 +139,66 @@ e_tree_model_class_init (GObjectClass *klass)
 
 	e_tree_model_signals [NODE_REQUEST_COLLAPSE] =
 		g_signal_new ("node_request_collapse",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_request_collapse),
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	tree_class->get_root              = NULL;
+	klass->get_root              = NULL;
 
-	tree_class->get_parent            = NULL;
-	tree_class->get_first_child       = NULL;
-	tree_class->get_last_child        = NULL;
-	tree_class->get_next              = NULL;
-	tree_class->get_prev              = NULL;
+	klass->get_parent            = NULL;
+	klass->get_first_child       = NULL;
+	klass->get_last_child        = NULL;
+	klass->get_next              = NULL;
+	klass->get_prev              = NULL;
 
-	tree_class->is_root               = NULL;
-	tree_class->is_expandable         = NULL;
-	tree_class->get_children          = NULL;
-	tree_class->depth                 = NULL;
+	klass->is_root               = NULL;
+	klass->is_expandable         = NULL;
+	klass->get_children          = NULL;
+	klass->depth                 = NULL;
 
-	tree_class->icon_at               = NULL;
+	klass->icon_at               = NULL;
 
-	tree_class->get_expanded_default  = NULL;
-	tree_class->column_count          = NULL;
+	klass->get_expanded_default  = NULL;
+	klass->column_count          = NULL;
 
-	tree_class->has_save_id           = NULL;
-	tree_class->get_save_id           = NULL;
-	tree_class->has_get_node_by_id    = NULL;
-	tree_class->get_node_by_id        = NULL;
+	klass->has_save_id           = NULL;
+	klass->get_save_id           = NULL;
+	klass->has_get_node_by_id    = NULL;
+	klass->get_node_by_id        = NULL;
 
-	tree_class->has_change_pending    = NULL;
+	klass->has_change_pending    = NULL;
 
-	tree_class->sort_value_at 	  = NULL;
-	tree_class->value_at              = NULL;
-	tree_class->set_value_at          = NULL;
-	tree_class->is_editable           = NULL;
+	klass->sort_value_at 	  = NULL;
+	klass->value_at              = NULL;
+	klass->set_value_at          = NULL;
+	klass->is_editable           = NULL;
 
-	tree_class->duplicate_value       = NULL;
-	tree_class->free_value            = NULL;
-	tree_class->initialize_value      = NULL;
-	tree_class->value_is_empty        = NULL;
-	tree_class->value_to_string       = NULL;
+	klass->duplicate_value       = NULL;
+	klass->free_value            = NULL;
+	klass->initialize_value      = NULL;
+	klass->value_is_empty        = NULL;
+	klass->value_to_string       = NULL;
 
-	tree_class->pre_change            = NULL;
-	tree_class->no_change             = NULL;
-	tree_class->node_changed          = NULL;
-	tree_class->node_data_changed     = NULL;
-	tree_class->node_col_changed      = NULL;
-	tree_class->node_inserted         = NULL;
-	tree_class->node_removed          = NULL;
-	tree_class->node_deleted          = NULL;
-	tree_class->node_request_collapse = NULL;
+	klass->pre_change            = NULL;
+	klass->no_change             = NULL;
+	klass->node_changed          = NULL;
+	klass->node_data_changed     = NULL;
+	klass->node_col_changed      = NULL;
+	klass->node_inserted         = NULL;
+	klass->node_removed          = NULL;
+	klass->node_deleted          = NULL;
+	klass->node_request_collapse = NULL;
 }
 
-E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, NULL, G_TYPE_OBJECT)
+static void
+e_tree_model_init (ETreeModel *tree_model)
+{
+	/* nothing to do */
+}
 
-
 /* signals */
 
 /**

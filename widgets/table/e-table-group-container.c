@@ -42,9 +42,9 @@
 
 #define TITLE_HEIGHT         16
 
-#define PARENT_TYPE e_table_group_get_type ()
-
-static GnomeCanvasGroupClass *etgc_parent_class;
+/* workaround for avoiding API breakage */
+#define etgc_get_type e_table_group_container_get_type
+G_DEFINE_TYPE (ETableGroupContainer, etgc, E_TABLE_GROUP_TYPE)
 
 /* The arguments we take */
 enum {
@@ -864,10 +864,11 @@ etgc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 }
 
 static void
-etgc_class_init (GObjectClass *object_class)
+etgc_class_init (ETableGroupContainerClass *klass)
 {
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
-	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS(object_class);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS (klass);
 
 	object_class->dispose = etgc_dispose;
 	object_class->set_property = etgc_set_property;
@@ -876,8 +877,6 @@ etgc_class_init (GObjectClass *object_class)
 	item_class->event = etgc_event;
 	item_class->realize = etgc_realize;
 	item_class->unrealize = etgc_unrealize;
-
-	etgc_parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_group_class->add = etgc_add;
 	e_group_class->add_array = etgc_add_array;
@@ -1069,12 +1068,11 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 }
 
 static void
-etgc_init (GtkObject *object)
+etgc_init (ETableGroupContainer *container)
 {
-	ETableGroupContainer *container = E_TABLE_GROUP_CONTAINER(object);
 	container->children = FALSE;
 
-	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgc_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(container), etgc_reflow);
 
 	container->alternating_row_colors = 1;
 	container->horizontal_draw_grid = 1;
@@ -1085,8 +1083,6 @@ etgc_init (GtkObject *object)
 	container->selection_model = NULL;
 	container->uniform_row_height = FALSE;
 }
-
-E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE)
 
 void
 e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, void *closure)

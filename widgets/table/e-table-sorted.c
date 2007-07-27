@@ -35,10 +35,12 @@
 
 #define INCREMENT_AMOUNT 100
 
+/* workaround for avoding API breakage */
+#define ets_get_type e_table_sorted_get_type
+G_DEFINE_TYPE (ETableSorted, ets, E_TABLE_SUBSET_TYPE)
+
 /* maximum insertions between an idle event that we will do without scheduling an idle sort */
 #define ETS_INSERT_MAX (4)
-
-static ETableSubsetClass *ets_parent_class;
 
 static void ets_sort_info_changed        (ETableSortInfo *info, ETableSorted *ets);
 static void ets_sort                     (ETableSorted *ets);
@@ -76,11 +78,10 @@ ets_dispose (GObject *object)
 }
 
 static void
-ets_class_init (GObjectClass *object_class)
+ets_class_init (ETableSortedClass *klass)
 {
-	ETableSubsetClass *etss_class = E_TABLE_SUBSET_CLASS(object_class);
-
-	ets_parent_class = g_type_class_peek_parent (object_class);
+	ETableSubsetClass *etss_class = E_TABLE_SUBSET_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	etss_class->proxy_model_changed = ets_proxy_model_changed;
 	etss_class->proxy_model_row_changed = ets_proxy_model_row_changed;
@@ -102,8 +103,6 @@ ets_init (ETableSorted *ets)
 	ets->sort_idle_id = 0;
 	ets->insert_count = 0;
 }
-
-E_MAKE_TYPE(e_table_sorted, "ETableSorted", ETableSorted, ets_class_init, ets_init, E_TABLE_SUBSET_TYPE)
 
 static gboolean
 ets_sort_idle(ETableSorted *ets)
@@ -130,8 +129,8 @@ e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ETableSorted *ets = g_object_new (E_TABLE_SORTED_TYPE, NULL);
 	ETableSubset *etss = E_TABLE_SUBSET (ets);
 
-	if (ets_parent_class->proxy_model_pre_change)
-		(ets_parent_class->proxy_model_pre_change) (etss, source);
+	if (E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_pre_change)
+		(E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_pre_change) (etss, source);
 
 	if (e_table_subset_construct (etss, source, 0) == NULL){
 		g_object_unref (ets);
@@ -184,8 +183,8 @@ ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, int row)
 	if (!E_TABLE_SORTED(subset)->sort_idle_id)
 		E_TABLE_SORTED(subset)->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, subset, NULL);
 	
-	if (ets_parent_class->proxy_model_row_changed)
-		(ets_parent_class->proxy_model_row_changed) (subset, source, row);
+	if (E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_row_changed)
+		(E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_row_changed) (subset, source, row);
 }
 
 static void
@@ -194,8 +193,8 @@ ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, int col
 	ETableSorted *ets = E_TABLE_SORTED(subset);
 	if (e_table_sorting_utils_affects_sort(ets->sort_info, ets->full_header, col))
 		ets_proxy_model_row_changed(subset, source, row);
-	else if (ets_parent_class->proxy_model_cell_changed)
-		(ets_parent_class->proxy_model_cell_changed) (subset, source, col, row);
+	else if (E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_cell_changed)
+		(E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_cell_changed) (subset, source, col, row);
 }
 
 static void

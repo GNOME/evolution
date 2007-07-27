@@ -37,9 +37,6 @@ static void e_table_field_chooser_dialog_get_property (GObject *object, guint pr
 static void e_table_field_chooser_dialog_dispose (GObject *object);
 static void e_table_field_chooser_dialog_response (GtkDialog *dialog, gint id);
 
-#define PARENT_TYPE GTK_TYPE_DIALOG
-static GtkDialogClass *parent_class = NULL;
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -48,12 +45,7 @@ enum {
 	PROP_HEADER
 };
 
-E_MAKE_TYPE (e_table_field_chooser_dialog,
-	     "ETableFieldChooserDialog",
-	     ETableFieldChooserDialog,
-	     e_table_field_chooser_dialog_class_init,
-	     e_table_field_chooser_dialog_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ETableFieldChooserDialog, e_table_field_chooser_dialog, GTK_TYPE_DIALOG)
 
 static void
 e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *klass)
@@ -63,8 +55,6 @@ e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *klass)
 
 	object_class = (GObjectClass*) klass;
 	dialog_class = GTK_DIALOG_CLASS (klass);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose      = e_table_field_chooser_dialog_dispose;
 	object_class->set_property = e_table_field_chooser_dialog_set_property;
@@ -150,7 +140,7 @@ e_table_field_chooser_dialog_dispose (GObject *object)
 		g_object_unref (etfcd->header);
 	etfcd->header = NULL;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_field_chooser_dialog_parent_class)->dispose (object);
 }
 
 static void

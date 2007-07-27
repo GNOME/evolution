@@ -51,7 +51,8 @@
 #include "tree-unexpanded.xpm"
 
 
-#define PARENT_TYPE e_cell_get_type ()
+G_DEFINE_TYPE (ECellTree, e_cell_tree, E_CELL_TYPE)
+
 
 typedef struct {
 	ECellView    cell_view;
@@ -64,8 +65,6 @@ typedef struct {
 	gint animate_timeout;
 
 } ECellTreeView;
-
-static ECellClass *parent_class;
 
 #define INDENT_AMOUNT 16
 
@@ -183,8 +182,8 @@ ect_realize (ECellView *ecell_view)
 				    GDK_JOIN_MITER);
 	gdk_gc_set_dashes (tree_view->gc, 0, (gint8 *)"\1\1", 2);
 
-	if (parent_class->realize)
-		(* parent_class->realize) (ecell_view);
+	if (E_CELL_CLASS (e_cell_tree_parent_class)->realize)
+		(* E_CELL_CLASS (e_cell_tree_parent_class)->realize) (ecell_view);
 }
 
 /*
@@ -201,8 +200,8 @@ ect_unrealize (ECellView *ecv)
 	g_object_unref (tree_view->gc);
 	tree_view->gc = NULL;
 
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (ecv);
+	if (E_CELL_CLASS (e_cell_tree_parent_class)->unrealize)
+		(* E_CELL_CLASS (e_cell_tree_parent_class)->unrealize) (ecv);
 }
 
 static void
@@ -818,13 +817,14 @@ ect_dispose (GObject *object)
 		g_object_unref (ect->closed_pixbuf);
 	ect->closed_pixbuf = NULL;
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cell_tree_parent_class)->dispose (object);
 }
 
 static void
-e_cell_tree_class_init (GObjectClass *object_class)
+e_cell_tree_class_init (ECellTreeClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ECellClass *ecc = E_CELL_CLASS (klass);
 
 	object_class->dispose = ect_dispose;
 
@@ -843,12 +843,14 @@ e_cell_tree_class_init (GObjectClass *object_class)
 	ecc->show_tooltip     = ect_show_tooltip;
 	ecc->get_bg_color     = ect_get_bg_color;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
         gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TREE_TYPE, gal_a11y_e_cell_tree_new);
 }
 
-E_MAKE_TYPE(e_cell_tree, "ECellTree", ECellTree, e_cell_tree_class_init, NULL, PARENT_TYPE)
+static void
+e_cell_tree_init (ECellTree *ect)
+{
+	/* nothing to do */
+}
 
 /**
  * e_cell_tree_construct:

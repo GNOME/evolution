@@ -32,7 +32,7 @@
 
 #define ETM_CLASS(e) (E_TABLE_SORT_INFO_GET_CLASS (e))
 
-static GObjectClass *e_table_sort_info_parent_class;
+G_DEFINE_TYPE (ETableSortInfo , e_table_sort_info, G_TYPE_OBJECT)
 
 enum {
 	SORT_INFO_CHANGED,
@@ -101,9 +101,6 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 	klass->sort_info_changed = NULL;
 	klass->group_info_changed = NULL;
 }
-
-E_MAKE_TYPE(e_table_sort_info, "ETableSortInfo", ETableSortInfo,
-	    e_table_sort_info_class_init, e_table_sort_info_init, G_TYPE_OBJECT)
 
 static void
 e_table_sort_info_sort_info_changed (ETableSortInfo *info)

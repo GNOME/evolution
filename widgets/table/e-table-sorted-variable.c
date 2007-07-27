@@ -38,7 +38,9 @@
 /* maximum insertions between an idle event that we will do without scheduling an idle sort */
 #define ETSV_INSERT_MAX (4)
 
-static ETableSubsetVariableClass *etsv_parent_class;
+/* workaround for avoiding API breakage */
+#define etsv_get_type e_table_sorted_variable_get_type
+G_DEFINE_TYPE (ETableSortedVariable, etsv, E_TABLE_SUBSET_VARIABLE_TYPE)
 
 static void etsv_sort_info_changed        (ETableSortInfo *info, ETableSortedVariable *etsv);
 static void etsv_sort                     (ETableSortedVariable *etsv);
@@ -76,11 +78,10 @@ etsv_dispose (GObject *object)
 }
 
 static void
-etsv_class_init (GObjectClass *object_class)
+etsv_class_init (ETableSortedVariableClass *klass)
 {
-	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS(object_class);
-
-	etsv_parent_class = g_type_class_peek_parent (object_class);
+	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS(klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = etsv_dispose;
 
@@ -99,8 +100,6 @@ etsv_init (ETableSortedVariable *etsv)
 	etsv->sort_idle_id = 0;
 	etsv->insert_count = 0;
 }
-
-E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariable, etsv_class_init, etsv_init, E_TABLE_SUBSET_VARIABLE_TYPE)
 
 static gboolean
 etsv_sort_idle(ETableSortedVariable *etsv)

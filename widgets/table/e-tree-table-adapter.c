@@ -38,12 +38,12 @@
 #include "e-table-sorting-utils.h"
 #include "e-tree-table-adapter.h"
 
-#define PARENT_TYPE E_TABLE_MODEL_TYPE
+/* workaround for avoiding API breakage */
+#define etta_get_type e_tree_table_adapter_get_type
+G_DEFINE_TYPE (ETreeTableAdapter, etta, E_TABLE_MODEL_TYPE)
 #define d(x)
 
 #define INCREMENT_AMOUNT 100
-
-static ETableModelClass *parent_class;
 
 typedef struct {
 	ETreePath path;
@@ -509,7 +509,7 @@ etta_finalize (GObject *object)
 
 	g_free (etta->priv);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (etta_parent_class)->finalize (object);
 }
 
 static void
@@ -551,7 +551,7 @@ etta_dispose (GObject *object)
 		etta->priv->source = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (etta_parent_class)->dispose (object);
 }
 
 static int
@@ -681,8 +681,6 @@ etta_class_init (ETreeTableAdapterClass *klass)
 	ETableModelClass *table_class   = (ETableModelClass *) klass;
 	GObjectClass *object_class      = (GObjectClass *) klass;
 
-	parent_class                    = g_type_class_peek_parent (klass);
-	
 	object_class->dispose           = etta_dispose;
 	object_class->finalize          = etta_finalize;
 
@@ -731,8 +729,6 @@ etta_init (ETreeTableAdapter *etta)
 	etta->priv->node_removed_id          = 0;
 	etta->priv->node_request_collapse_id = 0;
 }
-
-E_MAKE_TYPE(e_tree_table_adapter, "ETreeTableAdapter", ETreeTableAdapter, etta_class_init, etta_init, PARENT_TYPE)
 
 static void
 etta_proxy_pre_change (ETreeModel *etm, ETreeTableAdapter *etta)

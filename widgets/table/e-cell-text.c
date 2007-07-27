@@ -108,7 +108,7 @@ static guint signals [LAST_SIGNAL] = { 0 };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
-#define PARENT_TYPE e_cell_get_type ()
+G_DEFINE_TYPE (ECellText, e_cell_text, E_CELL_TYPE)
 
 #define UTF8_ATOM  gdk_atom_intern ("UTF8_STRING", FALSE)
 
@@ -215,8 +215,6 @@ static gboolean e_cell_text_delete_surrounding_cb   (GtkIMContext *context, gint
 static void _insert (ECellTextView *text_view, char *string, int value);
 static void _delete_selection (ECellTextView *text_view);
 static PangoAttrList* build_attr_list (ECellTextView *text_view, int row, int text_length);
-
-static ECellClass *parent_class;
 
 char *
 e_cell_text_get_text (ECellText *cell, ETableModel *model, int col, int row)
@@ -400,8 +398,8 @@ ect_realize (ECellView *ecell_view)
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
 	
-	if (parent_class->realize)
-		(* parent_class->realize) (ecell_view);
+	if (E_CELL_CLASS (e_cell_text_parent_class)->realize)
+		(* E_CELL_CLASS (e_cell_text_parent_class)->realize) (ecell_view);
 }
 
 /*
@@ -434,8 +432,8 @@ ect_unrealize (ECellView *ecv)
 		ect->colors = NULL;
 	}
 
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (ecv);
+	if (E_CELL_CLASS (e_cell_text_parent_class)->unrealize)
+		(* E_CELL_CLASS (e_cell_text_parent_class)->unrealize) (ecv);
 
 }
 
@@ -1648,7 +1646,7 @@ ect_finalize (GObject *object)
 
 	g_free (ect->font_name);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_cell_text_parent_class)->finalize (object);
 }
 /* Set_arg handler for the text item */
 static void
@@ -1737,13 +1735,13 @@ static char *ellipsis_default = NULL;
 static gboolean use_ellipsis_default = TRUE;
 
 static void
-e_cell_text_class_init (GObjectClass *object_class)
+e_cell_text_class_init (ECellTextClass *klass)
 {
-	ECellClass *ecc = (ECellClass *) object_class;
-	ECellTextClass *ectc = (ECellTextClass *) object_class;
+	ECellClass *ecc = E_CELL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	const char *ellipsis_env;
 
-	G_OBJECT_CLASS (object_class)->finalize = ect_finalize;
+	object_class->finalize = ect_finalize;
 
 	ecc->new_view   = ect_new_view;
 	ecc->kill_view  = ect_kill_view;
@@ -1764,14 +1762,12 @@ e_cell_text_class_init (GObjectClass *object_class)
 	ecc->show_tooltip = ect_show_tooltip;
 	ecc->get_bg_color = ect_get_bg_color;
 
-	ectc->get_text = ect_real_get_text;
-	ectc->free_text = ect_real_free_text;
-	ectc->set_value = ect_real_set_value;
+	klass->get_text = ect_real_get_text;
+	klass->free_text = ect_real_free_text;
+	klass->set_value = ect_real_set_value;
 
 	object_class->get_property = ect_get_property;
 	object_class->set_property = ect_set_property;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	signals [TEXT_INSERTED] = 
 		g_signal_new ("text_inserted",
@@ -1947,8 +1943,6 @@ e_cell_text_init (ECellText *ect)
 	ect->bg_color_column = -1;
 	ect->editable = TRUE;
 }
-
-E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE)
 
 /**
  * e_cell_text_construct:

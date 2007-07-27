@@ -31,11 +31,9 @@
 
 #define d(x)
 
-#define PARENT_TYPE E_SORTER_TYPE
-
 #define INCREMENT_AMOUNT 100
 
-static ESorterClass *parent_class;
+G_DEFINE_TYPE (ESorterArray, e_sorter_array, E_SORTER_TYPE)
 
 static void    	esa_sort               (ESorterArray *esa);
 static void    	esa_backsort           (ESorterArray *esa);
@@ -237,11 +235,9 @@ e_sorter_array_new (ECompareRowsFunc compare, gpointer closure)
 }
 
 static void
-esa_class_init (ESorterArrayClass *klass)
+e_sorter_array_class_init (ESorterArrayClass *klass)
 {
 	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
-
-	parent_class                            = g_type_class_ref (PARENT_TYPE);
 
 	sorter_class->model_to_sorted           = esa_model_to_sorted           ;
 	sorter_class->sorted_to_model           = esa_sorted_to_model           ;
@@ -251,7 +247,7 @@ esa_class_init (ESorterArrayClass *klass)
 }
 
 static void
-esa_init (ESorterArray *esa)
+e_sorter_array_init (ESorterArray *esa)
 {
 	esa->rows       = 0;
 	esa->compare    = NULL;
@@ -260,4 +256,3 @@ esa_init (ESorterArray *esa)
 	esa->backsorted = NULL;
 }
 
-E_MAKE_TYPE(e_sorter_array, "ESorterArray", ESorterArray, esa_class_init, esa_init, PARENT_TYPE)

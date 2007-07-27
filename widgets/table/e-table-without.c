@@ -30,11 +30,11 @@
 
 #include "e-table-without.h"
 
-#define PARENT_TYPE E_TABLE_SUBSET_TYPE
+/* workaround for avoiding API breakage */
+#define etw_get_type e_table_without_get_type
+G_DEFINE_TYPE (ETableWithout, etw, E_TABLE_SUBSET_TYPE)
 
 #define INCREMENT_AMOUNT 10
-
-static ETableSubsetClass *parent_class;
 
 struct _ETableWithoutPrivate {
 	GHashTable *hash;
@@ -144,8 +144,8 @@ etw_dispose (GObject *object)
 		etw->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (etw_parent_class)->dispose)
+		(* G_OBJECT_CLASS (etw_parent_class)->dispose) (object);
 }
 
 static void
@@ -217,8 +217,8 @@ etw_proxy_model_changed (ETableSubset *etss, ETableModel *etm)
 	}
 	etss->n_map = j;
 
-	if (parent_class->proxy_model_changed)
-		parent_class->proxy_model_changed (etss, etm);
+	if (E_TABLE_SUBSET_CLASS (etw_parent_class)->proxy_model_changed)
+		E_TABLE_SUBSET_CLASS (etw_parent_class)->proxy_model_changed (etss, etm);
 }
 
 static void
@@ -226,8 +226,6 @@ etw_class_init (ETableWithoutClass *klass)
 {
 	ETableSubsetClass *etss_class         = E_TABLE_SUBSET_CLASS (klass);
 	GObjectClass *object_class            = G_OBJECT_CLASS (klass);
-
-	parent_class                          = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose                 = etw_dispose;
 
@@ -247,8 +245,6 @@ etw_init (ETableWithout *etw)
 	etw->priv->free_gotten_key_func     = NULL;
 	etw->priv->free_duplicated_key_func = NULL;
 }
-
-E_MAKE_TYPE(e_table_without, "ETableWithout", ETableWithout, etw_class_init, etw_init, PARENT_TYPE)
 
 ETableModel *
 e_table_without_construct (ETableWithout                 *etw,

@@ -128,7 +128,7 @@ etsv_init (ETreeSortedVariable *etsv)
 	etsv->insert_count = 0;
 }
 
-E_MAKE_TYPE(e_tree_sorted_variable, "ETreeSortedVariable", ETreeSortedVariable, etsv_class_init, etsv_init, E_TREE_MODEL_TYPE)
+G_DEFINE_TYPE (ETreeSortedVariable, etsv, E_TREE_MODEL_TYPE)
 
 static gboolean
 etsv_sort_idle(ETreeSortedVariable *etsv)

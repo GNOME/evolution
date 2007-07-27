@@ -30,9 +30,7 @@
 
 #include "e-selection-model-array.h"
 
-#define PARENT_TYPE e_selection_model_get_type ()
-
-static ESelectionModelClass *parent_class;
+G_DEFINE_TYPE (ESelectionModelArray, e_selection_model_array, e_selection_model_get_type())
 
 enum {
 	PROP_0,
@@ -142,8 +140,8 @@ esma_dispose (GObject *object)
 		esma->eba = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_selection_model_array_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_selection_model_array_parent_class)->dispose) (object);
 }
 
 static void
@@ -513,8 +511,6 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 	GObjectClass *object_class;
 	ESelectionModelClass *esm_class;
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
 	object_class = G_OBJECT_CLASS(klass);
 	esm_class = E_SELECTION_MODEL_CLASS(klass);
 
@@ -557,5 +553,3 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 							   G_PARAM_READWRITE));
 }
 
-E_MAKE_TYPE(e_selection_model_array, "ESelectionModelArray", ESelectionModelArray,
-	    e_selection_model_array_class_init, e_selection_model_array_init, PARENT_TYPE)

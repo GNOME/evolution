@@ -39,9 +39,6 @@ static void e_table_field_chooser_set_property (GObject *object, guint prop_id, 
 static void e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dispose (GObject *object);
 
-#define PARENT_TYPE GTK_TYPE_VBOX
-static GtkVBoxClass *parent_class = NULL;
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -50,12 +47,7 @@ enum {
 	PROP_DND_CODE
 };
 
-E_MAKE_TYPE (e_table_field_chooser,
-	     "ETableFieldChooser",
-	     ETableFieldChooser,
-	     e_table_field_chooser_class_init,
-	     e_table_field_chooser_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (ETableFieldChooser, e_table_field_chooser, GTK_TYPE_VBOX)
 
 static void
 e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
@@ -65,8 +57,6 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 	object_class = (GObjectClass*) klass;
 
 	glade_init();
-
-	parent_class = g_type_class_ref (GTK_TYPE_VBOX);
 
 	object_class->set_property = e_table_field_chooser_set_property;
 	object_class->get_property = e_table_field_chooser_get_property;
@@ -225,8 +215,8 @@ e_table_field_chooser_dispose (GObject *object)
 		g_object_unref (etfc->gui);
 	etfc->gui = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (e_table_field_chooser_parent_class)->dispose)
+		(* G_OBJECT_CLASS (e_table_field_chooser_parent_class)->dispose) (object);
 }
 
 GtkWidget*

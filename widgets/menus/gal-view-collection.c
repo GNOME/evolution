@@ -39,9 +39,7 @@
 
 #include "gal-view-collection.h"
 
-#define PARENT_TYPE G_TYPE_OBJECT
-
-static GObjectClass *gal_view_collection_parent_class;
+G_DEFINE_TYPE (GalViewCollection, gal_view_collection, G_TYPE_OBJECT)
 
 #define d(x)
 
@@ -191,16 +189,15 @@ gal_view_collection_dispose (GObject *object)
 	g_free (collection->title);
 	collection->title = NULL;
 
-	if (gal_view_collection_parent_class->dispose)
-		(*gal_view_collection_parent_class->dispose)(object);
+	if (G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose)(object);
 }
 
 static void
-gal_view_collection_class_init (GObjectClass *object_class)
+gal_view_collection_class_init (GalViewCollectionClass *klass)
 {
-	GalViewCollectionClass *klass = GAL_VIEW_COLLECTION_CLASS(object_class);
-	gal_view_collection_parent_class = g_type_class_ref (PARENT_TYPE);
-	
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
 	object_class->dispose = gal_view_collection_dispose;
 
 	gal_view_collection_signals [DISPLAY_VIEW] =
@@ -244,8 +241,6 @@ gal_view_collection_init (GalViewCollection *collection)
 
 	collection->title                 = NULL;
 }
-
-E_MAKE_TYPE(gal_view_collection, "GalViewCollection", GalViewCollection, gal_view_collection_class_init, gal_view_collection_init, PARENT_TYPE)
 
 /**
  * gal_view_collection_new:

@@ -30,9 +30,7 @@
 
 #include "e-cell-size.h"
 
-#define PARENT_TYPE e_cell_text_get_type ()
-
-static ECellTextClass *parent_class;
+G_DEFINE_TYPE (ECellSize, e_cell_size, E_CELL_TEXT_TYPE)
 
 static char *
 ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
@@ -60,18 +58,16 @@ ecd_free_text(ECellText *cell, char *text)
 }
 
 static void
-e_cell_size_class_init (GtkObjectClass *object_class)
+e_cell_size_class_init (ECellSizeClass *klass)
 {
-	ECellTextClass *ectc = (ECellTextClass *) object_class;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
+	ECellTextClass *ectc = E_CELL_TEXT_CLASS (klass);
 
 	ectc->get_text  = ecd_get_text;
 	ectc->free_text = ecd_free_text;
 }
 
 static void
-e_cell_size_init (GtkObject *object)
+e_cell_size_init (ECellSize *e_cell_size)
 {
 }
 
@@ -110,4 +106,3 @@ e_cell_size_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecd;
 }
 
-E_MAKE_TYPE(e_cell_size, "ECellSize", ECellSize, e_cell_size_class_init, e_cell_size_init, PARENT_TYPE)

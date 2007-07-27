@@ -1,3 +1,34 @@
+2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* text/e-text-model-uri.c:
+	* text/e-completion-view.c:
+	* text/e-text-model.c:
+	* text/e-text.c:
+	* text/e-completion-callbacks.c:
+	* text/e-entry.c:
+	* text/e-table-text-model.c:
+	* text/e-completion.c:
+	* menus/gal-view-new-dialog.c:
+	* menus/gal-view-collection.c:
+	* menus/gal-view-etable.c:
+	* menus/gal-view-instance-save-as-dialog.c:
+	* menus/gal-view-factory-etable.c:
+	* menus/gal-view.c:
+	* menus/gal-view-instance.c:
+	* menus/gal-view-factory.c:
+	* menus/gal-define-views-dialog.c:
+	* menus/gal-define-views-model.c:
+	* misc/e-canvas-vbox.c:
+	* misc/e-reflow-model.c:
+	* misc/e-selection-model-array.c:
+	* misc/e-reflow.c:
+	* misc/e-canvas.c:
+	* misc/e-selection-model.c:
+	* misc/e-printable.c:
+	* misc/e-canvas-background.c:
+	* misc/e-selection-model-simple.c: Use G_DEFINE_TYPE instead of
+	  E_MAKE_TYPE.
+
 2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* text/Makefile.am:
