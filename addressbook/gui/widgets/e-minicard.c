@@ -846,13 +846,13 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 	group = GNOME_CANVAS_GROUP( e_minicard );
 
 	for (l=email_list, le=emails; l!=NULL && count < limit && le!=NULL; l = l->next, le=le->next) {
-		gchar *tmp;
+		const gchar *tmp;
 		
 		tmp = get_email_location ((EVCardAttribute *) l->data);
 		if (tmp)
-			name = g_strdup_printf("%s:", tmp);
+			name = g_strdup_printf ("%s:", tmp);
 		else
-			name = g_strdup_printf("");
+			name = g_strdup ("");
 		string = e_text_to_html (le->data, 0);
 
 		new_item = e_minicard_label_new(group);

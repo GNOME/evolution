@@ -1,3 +1,8 @@
+2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* gui/widgets/e-minicard.c: (add_email_field): Use g_strdup() instead
+	of g_strdup_printf() for duplication of a string
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* gui/contact-editor/e-contact-editor.c:
