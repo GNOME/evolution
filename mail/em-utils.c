@@ -434,14 +434,14 @@ em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
 
 	for (iter = parts; iter != NULL; iter = iter->next) {
 		CamelMimePart *part = iter->data;
-		const gchar *filename, *utf8_filename;
-		gchar *uri;
+		const gchar *utf8_filename;
+		gchar *uri, *filename;
 
 		utf8_filename = emu_save_get_filename_for_part (part);
-		filename = g_filename_from_utf8 ((const char *) utf8_filename, -1, NULL, NULL, NULL);
-		g_free (utf8_filename);
+		filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
 
 		uri = g_build_path ("/", path_uri, filename, NULL);
+		g_free (filename);
 
 		/* XXX Would be nice to mention _why_ we can't save. */
 		if (e_file_can_save (GTK_WINDOW (file_chooser), uri))
