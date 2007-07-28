@@ -1,3 +1,10 @@
+2007-07-24  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for bug #458894
+	
+	* em-account-prefs.c : (account_delete_clicked) : Test the
+	validity of Iter and select the row accordingly.
+
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #453544 from hggdh

@@ -262,6 +262,9 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 		
 		len = e_list_length ((EList *) accounts);
 		if (len > 0) {
+			if ( !gtk_list_store_iter_is_valid ((GtkListStore *) model, &iter))
+				gtk_tree_model_get_iter_first (model, &iter);
+
 			gtk_tree_selection_select_iter (selection, &iter);
 		} else {
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), FALSE);
