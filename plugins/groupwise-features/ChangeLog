@@ -1,3 +1,9 @@
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #410287 from Lucky
+
+	* status-track.c: (track_status):
+
 2007-05-11  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* mail-send-options.c: (org_gnome_composer_send_options):
