@@ -504,6 +504,16 @@ toggle_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
 }
 
+static void
+photo_toggle_changed (GtkToggleButton *toggle, EMMailerPrefs *prefs)
+{
+	toggle_button_toggled (toggle, prefs);
+	if (gtk_toggle_button_get_active (toggle))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->photo_local, TRUE);
+	else
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->photo_local, FALSE);
+}
+
 #if 0
 // not used at the moment, commenting out
 static void
@@ -980,7 +990,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_play_sound, FALSE);
 	
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL);
-	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (prefs->notify_sound_file), buf ? buf : "");
+	if (buf && *buf)
+		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (prefs->notify_sound_file), buf);
 	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (prefs->notify_sound_file), "selection-changed",
 			  G_CALLBACK (notify_sound_changed), prefs);
 	if (val != MAIL_CONFIG_NOTIFY_PLAY_SOUND)
@@ -1087,11 +1098,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->photo_show= GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "photo_show"));
 	toggle_button_init (prefs, prefs->photo_show, FALSE,
 			    "/apps/evolution/mail/display/sender_photo",
-			    G_CALLBACK (toggle_button_toggled));
+			    G_CALLBACK (photo_toggle_changed));
 	prefs->photo_local = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "photo_local"));
 	toggle_button_init (prefs, prefs->photo_local, FALSE,
 			    "/apps/evolution/mail/display/photo_local",
 			    G_CALLBACK (toggle_button_toggled));
+	if (!gtk_toggle_button_get_active (prefs->photo_show))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->photo_local, FALSE);
 	
 	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersAdd"));

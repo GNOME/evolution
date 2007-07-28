@@ -1,3 +1,15 @@
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #458820 from Cosimo Cecchi
+
+	* em-mailer-prefs.c: (photo_toggle_changed),
+	(em_mailer_prefs_construct):
+
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-mailer-prefs.c: (em_mailer_prefs_construct): Fix a crash while
+	starting preferences window.
+
 2007-07-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #303937
