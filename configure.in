@@ -179,8 +179,8 @@ PKG_CHECK_MODULES(EVOLUTION_DATA_SERVER,
          libecal-$EDS_PACKAGE >= eds_minimum_version
          libedataserver-$EDS_PACKAGE >= eds_minimum_version
          libedataserverui-$EDS_PACKAGE >= eds_minimum_version
-         libegroupwise-$EDS_PACKAGE >= eds_minimum_version
-         libexchange-storage-$EDS_PACKAGE >= eds_minimum_version])
+         libegroupwise-$EDS_PACKAGE >= eds_minimum_version])
+
 
 dnl ******************************
 dnl iconv checking
@@ -1674,7 +1674,8 @@ if echo ${plugins_enabled} | grep "new-mail-notify" > /dev/null ; then
 fi
 
 if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
-	if ${PKG_CONFIG} --exists libexchange-storage-$EDS_PACKAGE ; then
+	PKG_CHECK_MODULES(LIBEXCHANGESTORAGE, libexchange-storare-$EDS_PACKAGE >= eds_minimum_version, have_libexchange="yes", have_libexchange="no")
+	if test "x$have_libexchange" = "xyes"; then
 		dnl **************************************************
 		dnl * Exchange Operations plugin
 		dnl **************************************************

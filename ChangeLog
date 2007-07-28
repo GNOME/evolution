@@ -1,3 +1,8 @@
+2007-07-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* configure.in: Enable configure option for support
+	exchange-operatoion.
+
 2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:
