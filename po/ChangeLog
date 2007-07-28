@@ -1,3 +1,7 @@
+2007-07-28  Andre Klapper  <a9016009@gmx.de>
+
+	* POTFILES.in: add two missing files.
+
 2007-07-27  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation
