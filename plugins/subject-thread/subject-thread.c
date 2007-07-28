@@ -51,7 +51,7 @@ org_gnome_subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_
 	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
 	
 	/* Create the checkbox we will display, complete with mnemonic that is unique in the dialog */
-	check = gtk_check_button_new_with_mnemonic (_("Fall back to threading messages by sub_ject"));
+	check = gtk_check_button_new_with_mnemonic (_("F_all back to threading messages by subject"));
 
 	/* Set the toggle button to the current gconf setting */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY, NULL));

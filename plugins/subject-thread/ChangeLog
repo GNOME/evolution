@@ -1,3 +1,9 @@
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #428123 from Lucky
+
+	* subject-thread.c: (org_gnome_subject_thread_factory):
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
