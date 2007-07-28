@@ -1,5 +1,11 @@
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #453544 from hggdh
+
+	* mail.error.xml:
+
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #428123 from Lucky
 
 	* mail-config.glade:
