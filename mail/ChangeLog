@@ -1,3 +1,12 @@
+2007-07-29  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for bug #237989
+
+	* em-folder-browser.c : Adding more support for bkspace in magic
+	space bar feature.
+	* em-folder-tree.c (em_folder_tree_select_prev_path) :
+	Added. Select the previous folder.
+
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #458820 from Cosimo Cecchi

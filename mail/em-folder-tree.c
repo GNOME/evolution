@@ -2318,22 +2318,29 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	g_list_free(l);
 }
 
+
 void
-em_folder_tree_select_next_path (EMFolderTree *emft)
+em_folder_tree_select_next_path (EMFolderTree *emft, gboolean skip_read_folders)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter, parent, child;
-	GtkTreePath *path = NULL;
+	GtkTreePath *current_path, *path = NULL;
+	unsigned int unread = 0;
 	struct _EMFolderTreePrivate *priv = emft->priv;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 
 	selection = gtk_tree_view_get_selection(emft->priv->treeview);
 	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+
+		current_path = gtk_tree_model_get_path (model, &iter);
+
+		do { 
 		if (gtk_tree_model_iter_has_child (model, &iter)) {
 			gtk_tree_model_iter_children (model, &child, &iter);
 			path = gtk_tree_model_get_path (model, &child);
+			iter = child;
 		} else {
 			while (1) {
 				gboolean has_parent = gtk_tree_model_iter_parent (model, &parent, &iter);
@@ -2341,16 +2348,114 @@ em_folder_tree_select_next_path (EMFolderTree *emft)
 					path = gtk_tree_model_get_path (model, &iter);
 					break;
 				} else {
-					if (has_parent)
+					if (has_parent) {
 						iter =  parent;
-					else
+					} else {
+						/* Reached end. Wrapup*/
+						gtk_tree_model_get_iter_first (model, &iter);
+						path = gtk_tree_model_get_path (model, &iter);
 						break;
+					}
 				}
 			}
 		}
+		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
+
+		/* TODO : Flags here for better options */
+		} while (skip_read_folders && unread <=0 && gtk_tree_path_compare (current_path, path));
 	}
+
 	if (path) {
+		if (!gtk_tree_view_row_expanded (emft->priv->treeview, path)) 			
+			gtk_tree_view_expand_to_path (emft->priv->treeview, path);
+
 		gtk_tree_selection_select_path(selection, path);
+
+		if (!priv->cursor_set) {
+			gtk_tree_view_set_cursor (priv->treeview, path, NULL, FALSE);
+			priv->cursor_set = TRUE;
+		}
+		gtk_tree_view_scroll_to_cell (priv->treeview, path, NULL, TRUE, 0.5f, 0.0f);
+	}	
+	return;
+}
+
+static GtkTreeIter 
+get_last_child (GtkTreeModel *model, GtkTreeIter *iter)
+{
+	GtkTreeIter *child = g_new0 (GtkTreeIter, 1);	
+	gboolean has_child = gtk_tree_model_iter_has_child (model, iter);
+
+	if (gtk_tree_model_iter_next (model, iter)) {
+		get_last_child (model, iter);
+	} else {
+
+		if (has_child) {
+			/* Pick the last one */
+			int nchildren = gtk_tree_model_iter_n_children (model, iter);
+			gtk_tree_model_iter_nth_child ( model, child, iter, nchildren-1);
+			get_last_child (model, child);
+		}
+		else {
+			return *iter;
+		}
+
+	}
+//TODO : The function should return the value here !!
+}
+
+void
+em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter, parent, child;
+	GtkTreePath *path, *current_path = NULL;
+	unsigned int unread = 0;
+	struct _EMFolderTreePrivate *priv = emft->priv;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+
+	selection = gtk_tree_view_get_selection(emft->priv->treeview);
+
+	if (gtk_tree_selection_get_selected(selection, &model, &iter)){
+
+		current_path = gtk_tree_model_get_path (model, &iter);
+		do {
+		path = gtk_tree_model_get_path (model, &iter);
+		if (!gtk_tree_path_prev (path)) {
+			gtk_tree_path_up (path);
+
+			if (!gtk_tree_path_compare (gtk_tree_path_new_first (), path))
+			{
+				gtk_tree_model_get_iter_first (model, &iter);
+				iter = get_last_child (model,&iter);
+				path = gtk_tree_model_get_path (model, &iter); 
+			}
+		} else {
+			gtk_tree_model_get_iter (model, &iter, path);
+			if (gtk_tree_model_iter_has_child (model, &iter)) {
+				int nchildren = gtk_tree_model_iter_n_children (model, &iter);
+				gtk_tree_model_iter_nth_child ( model, &child, &iter, nchildren-1);
+				path = gtk_tree_model_get_path (model, &child);
+			}
+		}
+
+		/* TODO : Flags here for better options */
+		gtk_tree_model_get_iter_from_string (model, &iter, gtk_tree_path_to_string (path) );
+
+		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
+
+		} while (skip_read_folders && unread <=0 && gtk_tree_path_compare (current_path, path));
+	}
+
+	if (path) {
+		if (!gtk_tree_view_row_expanded (priv->treeview, path)) {
+			gtk_tree_view_expand_to_path (priv->treeview, path);
+		}
+
+		gtk_tree_selection_select_path(selection, path);
+
 		if (!priv->cursor_set) {
 			gtk_tree_view_set_cursor (priv->treeview, path, NULL, FALSE);
 			priv->cursor_set = TRUE;
