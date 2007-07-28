@@ -1,3 +1,14 @@
+2007-07-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #268162
+
+	* org-gnome-calendar-http.eplug.xml:
+	Added new entry for username.
+	* calendar-http.c: (e_calendar_http_auth):
+	Creates and setup entry for username.
+	* calendar-http.c: (username_changed):
+	New callback when user changes username entry content.
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524

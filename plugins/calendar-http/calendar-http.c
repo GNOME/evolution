@@ -40,6 +40,8 @@ GtkWidget *e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean   e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget * e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data);
+
 static gchar *
 print_uri_noproto (EUri *uri)
 {
@@ -350,6 +352,73 @@ e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_object_set_data (G_OBJECT (parent), "secure_checkbox", (gpointer)secure_setting);
 	
 	return secure_setting;
+}
+
+static void
+username_changed (GtkEntry *entry, ESource *source)
+{
+	const gchar *username;
+
+	username = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	if (username && username[0]) {
+		e_source_set_property (source, "auth", "1");
+		e_source_set_property (source, "username", username);
+	} else {
+		e_source_set_property (source, "auth", NULL);
+		e_source_set_property (source, "username", NULL);
+	}
+}
+
+GtkWidget *
+e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	static GtkWidget *label;
+	GtkWidget *entry, *parent;
+	int row;
+	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
+	ESource *source = t->source;
+	EUri *uri;
+	char* uri_text;
+	static GtkWidget *hidden = NULL;
+
+	if (!hidden)
+		hidden = gtk_label_new ("");
+
+	if (data->old)
+		gtk_widget_destroy (label);
+
+	uri_text = e_source_get_uri (t->source);
+	uri = e_uri_new (uri_text);
+	g_free (uri_text);
+	if ((strcmp (uri->protocol, "http") &&
+	     strcmp (uri->protocol, "https") &&
+	     strcmp (uri->protocol, "webcal"))) {
+		e_uri_free (uri);
+		return hidden;
+	}
+	e_uri_free (uri);
+
+	parent = data->parent;
+
+	row = ((GtkTable*)parent)->nrows;
+
+	label = gtk_label_new_with_mnemonic (_("Userna_me:"));
+	gtk_widget_show (label);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, GTK_SHRINK, 0, 0);
+
+	uri_text = e_source_get_property (t->source, "username");
+
+	entry = gtk_entry_new ();
+	gtk_widget_show (entry);
+	gtk_entry_set_text (GTK_ENTRY (entry), uri_text ? uri_text : "");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
+	g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (username_changed), t->source);
+
+	gtk_table_attach (GTK_TABLE (parent), entry, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
+	return entry;
 }
 
 gboolean
