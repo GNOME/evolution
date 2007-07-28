@@ -272,7 +272,7 @@
     </partset>
     <ruleset>
         <rule grouping="any" source="demand">
-            <_title>Summary Contain</_title>
+            <_title>Summary Contains</_title>
 	 <partset>
         	<part name="summary">
 	          <value name="summary-type" type="option" value="contains"/>
@@ -284,7 +284,7 @@
         </rule>
 
         <rule grouping="any" source="demand">
-            <_title>Description Contain</_title>
+            <_title>Description Contains</_title>
 	<partset>
 	        <part name="description">
         	  <value name="description-type" type="option" value="contains"/>

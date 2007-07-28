@@ -1,3 +1,12 @@
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #444433 from Lucky
+
+	* gui/cal-search-bar.c: (make_suboptions):
+	* gui/caltypes.xml:
+	* gui/memotypes.xml:
+	* gui/tasktypes.xml:
+
 2007-07-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #457394

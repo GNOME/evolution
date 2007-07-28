@@ -628,7 +628,7 @@ make_suboptions (CalSearchBar *cal_search)
 		subitems[2].search.id = 0;
 		subitems[2].image = 0;
 
-		subitems[3].search.text = _("Next 7 days Tasks");
+		subitems[3].search.text = _("Next 7 Days' Tasks");
 		subitems[3].search.id = N_DAY_TASK;
 		subitems[3].image = NULL;
 
@@ -636,7 +636,7 @@ make_suboptions (CalSearchBar *cal_search)
 		subitems[4].search.id = ACTIVE_TASK;
 		subitems[4].image = NULL;
 
-		subitems[5].search.text = _("Over Due Tasks");
+		subitems[5].search.text = _("Overdue Tasks");
 		subitems[5].search.id = OVERDUE_TASK;
 		subitems[5].image = NULL;
 
@@ -644,7 +644,7 @@ make_suboptions (CalSearchBar *cal_search)
 		subitems[6].search.id = COMPLETED_TASK;
 		subitems[6].image = NULL;
 
-		subitems[7].search.text = _("Tasks With Attachments");
+		subitems[7].search.text = _("Tasks with Attachments");
 		subitems[7].search.id = TASK_WITH_ATTACHMENT;
 		subitems[7].image = NULL;
 
@@ -694,7 +694,7 @@ make_suboptions (CalSearchBar *cal_search)
 		subitems[3].search.id = ACTIVE_APPONTMENT;
 		subitems[3].image = NULL;
 
-		subitems[4].search.text = _("Next 7 Day Appointments"); 
+		subitems[4].search.text = _("Next 7 Days' Appointments"); 
 		subitems[4].search.id = N_DAY_APPOINTMENT;
 		subitems[4].image = NULL;
 
