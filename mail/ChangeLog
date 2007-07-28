@@ -1,5 +1,11 @@
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #428123 from Lucky
+
+	* mail-config.glade:
+
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #332112 from Lucky
 
 	* mail-send-recv.c: (receive_done):

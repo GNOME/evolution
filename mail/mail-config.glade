@@ -4735,7 +4735,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <child>
 				<widget class="GtkLabel" id="label444">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Fi_xed width Font:</property>
+				  <property name="label" translatable="yes">Fix_ed width Font:</property>
 				  <property name="use_underline">True</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -5547,7 +5547,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			    <widget class="GtkRadioButton" id="radNotifyBeep">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Beep w_hen new mail arrives</property>
+			      <property name="label" translatable="yes">_Beep when new mail arrives</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
