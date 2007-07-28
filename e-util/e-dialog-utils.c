@@ -366,7 +366,7 @@ e_file_get_save_filesel (GtkWidget *parent, const char *title, const char *name,
 					       NULL,
 					       action,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					       (action == GTK_FILE_CHOOSER_ACTION_OPEN) ? GTK_STOCK_OPEN:GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);

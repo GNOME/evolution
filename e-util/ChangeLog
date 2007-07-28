@@ -1,3 +1,10 @@
+2007-07-27  Lucky Wankhede <wlakke@novell.com>
+
+	** Fixes bug #451211
+
+	* e-event.c
+	Changed in (e_event_emit)
+	
 2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* e-util.h: Remove E_MAKE_TYPE macro.
