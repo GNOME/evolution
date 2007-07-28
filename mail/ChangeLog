@@ -1,3 +1,9 @@
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #332112 from Lucky
+
+	* mail-send-recv.c: (receive_done):
+
 2007-07-29  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fix for bug #237989

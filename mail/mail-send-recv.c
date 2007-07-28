@@ -695,7 +695,7 @@ receive_done (char *uri, void *data)
 		if (info->state == SEND_CANCELLED)
 			text = _("Canceled.");
 		else {
-			text = _("Complete");
+			text = _("Complete.");
 			info->state = SEND_COMPLETE;
 		}
 
