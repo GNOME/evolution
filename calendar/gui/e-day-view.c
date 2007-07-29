@@ -494,6 +494,9 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	/* If we don't show the new selection, don't preserve it */
 	if (day_view->selection_start_day == -1 || day_view->days_shown <= day_view->selection_start_day)
 		e_day_view_set_selected_time_range (E_CALENDAR_VIEW (day_view), start_time, end_time);
+
+	if (day_view->selection_start_row != -1)
+		e_day_view_ensure_rows_visible (day_view, day_view->selection_start_row, day_view->selection_start_row);
 }
 
 

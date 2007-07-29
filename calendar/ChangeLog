@@ -1,5 +1,13 @@
+2007-07-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #200977
+
+	* gui/e-day-view.c: (time_range_changed_cb):
+	Ensures selection start row is visible.
+
 2007-07-29  Rob Bradford  <rob@robster.org.uk>
 
+	Fixes #461474
 	* gui/dialogs/task-page.c: (task_page_set_dates):
 	Remove redundant code.
 
@@ -19,6 +27,7 @@
 
 2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
+	Fixes #460825
 	* gui/cal-search-bar.c: (cal_search_bar_class_init): Remove needless
 	EFilterBarClass.
 
