@@ -1,5 +1,12 @@
 2007-07-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
+	** Fix for bug #455862
+
+	* gui/e-memo-table.c: Paste raw text data from clipboard while
+	editing column.
+
+2007-07-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
 	** Fix for bug #335881
 
 	* gui/e-calendar-table.c: Paste raw text data from clipboard while
