@@ -1,3 +1,10 @@
+2007-07-18  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #326388
+
+	* gui/calendar-component.c: (ensure_sources):
+	Always set 'delete=no' property for birthdays_source.
+
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #444433 from Lucky
