@@ -3,7 +3,7 @@
 	** Fix for bug #326388
 
 	* gui/calendar-component.c: (ensure_sources):
-	Always set 'delete=no' property for birthdays_source.
+	Set 'delete=no' property for birthdays_source if its not set.
 
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 

@@ -290,7 +290,9 @@ ensure_sources (CalendarComponent *component)
 		birthdays_source = e_source_new (_("Birthdays & Anniversaries"), "/");
 		e_source_group_add_source (contacts, birthdays_source, -1);
 	}
-	e_source_set_property(birthdays_source, "delete", "no");
+
+	if (!e_source_get_property (birthdays_source, "delete"))
+		e_source_set_property(birthdays_source, "delete", "no");
 		
 	if (!weather) {
 		/* Create the weather group */
