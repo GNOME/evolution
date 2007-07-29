@@ -1,3 +1,8 @@
+2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* gui/cal-search-bar.c: (cal_search_bar_class_init): Remove needless
+	EFilterBarClass.
+
 2007-07-18  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #326388

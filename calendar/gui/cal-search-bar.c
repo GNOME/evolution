@@ -137,13 +137,11 @@ G_DEFINE_TYPE (CalSearchBar, cal_search_bar, E_FILTER_BAR_TYPE)
 
 /* Class initialization function for the calendar search bar */
 static void
-cal_search_bar_class_init (CalSearchBarClass *class)
+cal_search_bar_class_init (CalSearchBarClass *klass)
 {
 
-	EFilterBarClass *e_search_bar_class;
-	GtkObjectClass *object_class;
-	e_search_bar_class = (EFilterBarClass *) class;
-	object_class = (GtkObjectClass *) class;
+	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	ESearchBarClass *search_bar_class = E_SEARCH_BAR_CLASS (klass);
 
 	cal_search_bar_signals[SEXP_CHANGED] =
 		gtk_signal_new ("sexp_changed",
@@ -163,9 +161,10 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 
-	class->sexp_changed = NULL;
-	class->category_changed = NULL;
-	((ESearchBarClass *) e_search_bar_class)->search_activated = cal_search_bar_search_activated; 
+	klass->sexp_changed = NULL;
+	klass->category_changed = NULL;
+
+	search_bar_class->search_activated = cal_search_bar_search_activated; 
 	object_class->destroy = cal_search_bar_destroy;
 }
 
