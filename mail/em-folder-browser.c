@@ -1207,10 +1207,10 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 		EMFolderTree *emft = g_object_get_data((GObject*)emfb, "foldertree");
 		switch (ev->key.keyval) {
 		    case GDK_space:
-			    em_folder_tree_select_next_path (emft);
+			    em_folder_tree_select_next_path (emft, TRUE);
 			    break;
 		    case GDK_BackSpace:
-			    em_folder_tree_select_prev_path (emft);
+			    em_folder_tree_select_prev_path (emft, TRUE);
 			    break;
 		}
 		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
