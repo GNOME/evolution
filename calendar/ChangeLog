@@ -1,7 +1,9 @@
 2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #453860
 	* gui/e-select-names-editable.c:
-	(e_select_names_editable_get_emails):
+	(e_select_names_editable_get_emails): Check if contact
+	is present before fetching information from it.					      
 	
 	Committing on behalf of Xiurong Simon Zheng <simon.zheng@sun.com>		
 
