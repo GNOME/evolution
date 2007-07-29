@@ -1,3 +1,8 @@
+2007-07-29  Rob Bradford  <rob@robster.org.uk>
+
+	* gui/dialogs/task-page.c: (task_page_set_dates):
+	Remove redundant code.
+
 2007-07-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #455862

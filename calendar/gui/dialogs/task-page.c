@@ -1369,10 +1369,6 @@ task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 	if (priv->updating)
 	        return;
-
-	priv->updating = TRUE;
-
-	priv->updating = FALSE;
 }
 
 
