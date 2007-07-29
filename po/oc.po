@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution 2.11.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-25 22:41+0200\n"
-"PO-Revision-Date: 2007-05-08 15:28+0200\n"
+"PO-Revision-Date: 2007-07-29 09:20+0200\n"
 "Last-Translator: Yannig MARCHEGAY <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "quasernet d'adreças evolution"
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:13
 msgid "Open"
-msgstr "Dubrir"
+msgstr "Dobrir"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
@@ -435,7 +435,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "This addressbook could not be opened."
-msgstr "Impossible de dubrir lo quasernet d'adreças."
+msgstr "Impossible de dobrir lo quasernet d'adreças."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This addressbook server does not have any suggested search bases."
@@ -453,7 +453,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open addressbook"
-msgstr "Impossible de dubrir lo quasernet d'adreças"
+msgstr "Impossible de dobrir lo quasernet d'adreças"
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to perform search."
@@ -3939,7 +3939,7 @@ msgstr ""
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
-msgstr "Impossible de dubrir lo fichièr"
+msgstr "Impossible de dobrir lo fichièr"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
 msgid "Couldn't get list of addressbooks"
@@ -5397,7 +5397,7 @@ msgstr ""
 #. Sunday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "S_un"
-msgstr ""
+msgstr "D_im"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1092
@@ -5430,7 +5430,7 @@ msgstr ""
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "T_hu"
-msgstr ""
+msgstr "Jó_u"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Template:"
@@ -5455,7 +5455,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1088
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
-msgstr ""
+msgstr "Dimars"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 #: ../calendar/gui/dialogs/recurrence-page.c:1089
@@ -5495,7 +5495,7 @@ msgstr "Lo _jorn comença :"
 #. Friday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Fri"
-msgstr ""
+msgstr "_Ven"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Hide completed tasks after"
@@ -5504,7 +5504,7 @@ msgstr ""
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Mon"
-msgstr ""
+msgstr "_Lun"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
@@ -5513,7 +5513,7 @@ msgstr ""
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Sat"
-msgstr ""
+msgstr "_Sab"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
@@ -5526,12 +5526,12 @@ msgstr ""
 #. Tuesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
 msgid "_Tue"
-msgstr ""
+msgstr "_Dima"
 
 #. Wednesday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "_Wed"
-msgstr ""
+msgstr "_Dimè"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "before every appointment"
@@ -6590,7 +6590,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:2897
 #, c-format
 msgid "Click to open %s"
-msgstr "Clicatz per dubrir %s"
+msgstr "Clicatz per dobrir %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:157
 #: ../calendar/gui/e-cal-component-preview.c:157 ../filter/filter-rule.c:804
@@ -10011,7 +10011,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:1404
 msgid "Could not open file"
-msgstr "Impossible de dubrir lo fichièr"
+msgstr "Impossible de dobrir lo fichièr"
 
 #: ../composer/e-msg-composer.c:1412
 msgid "Unable to retrieve message from editor"
@@ -10024,7 +10024,7 @@ msgstr ""
 #. NB: This function is never used anymore
 #: ../composer/e-msg-composer.c:1732
 msgid "Open File"
-msgstr "Dubrir fichièr"
+msgstr "Dobrir fichièr"
 
 #: ../composer/e-msg-composer.c:2194 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
@@ -17594,8 +17594,7 @@ msgstr ""
 #: ../shell/e-shell-window-commands.c:575
 msgid "translator-credits"
 msgstr ""
-"La còla occitana de revirada d'Ubuntu, 2006 - ubuntu-l10n-"
-"oci@lists.ubuntu.com"
+"La còla occitana de revirada d'Ubuntu, 2007 - ubuntu-l10n-oci@lists.ubuntu.com"
 
 #: ../shell/e-shell-window-commands.c:586
 msgid "Evolution Website"
@@ -18745,7 +18744,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:3
 #: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
-msgstr "Barrar"
+msgstr "Tampar"
 
 #: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
@@ -18759,7 +18758,7 @@ msgstr ""
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 #: ../ui/evolution-message-composer.xml.h:45 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
-msgstr "_Barrar"
+msgstr "_Tampar"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:48
@@ -19128,7 +19127,7 @@ msgstr "_Messatge"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
 msgid "Close this window"
-msgstr "Barrar la fenèstra"
+msgstr "Tampar la fenèstra"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
 msgid "Main toolbar"
@@ -19623,7 +19622,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:4
 #: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
-msgstr "Barrar lo fichièr actual"
+msgstr "Tampar lo fichièr actual"
 
 #: ../ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
@@ -19656,7 +19655,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
-msgstr "Dubrir un fichièr"
+msgstr "Dobrir un fichièr"
 
 #: ../ui/evolution-message-composer.xml.h:15
 msgid "PGP Encrypt"
@@ -19810,7 +19809,7 @@ msgstr ""
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
-msgstr "_Barrar"
+msgstr "_Tampar"
 
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
@@ -20065,7 +20064,7 @@ msgstr "_A prepaus"
 
 #: ../ui/evolution.xml.h:40
 msgid "_Close Window"
-msgstr "_Barrar la fenèstra"
+msgstr "_Tampar la fenèstra"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Forget Passwords"
@@ -20110,7 +20109,7 @@ msgstr "_Fenèstra"
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:408
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:759
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "<b>Time Zones</b>"
