@@ -1,5 +1,11 @@
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #459030
+
+	* em-format-html.c (efh_format_address): Workaround broken N_ strings.
+
+2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* em-folder-browser.c: (emfb_list_key_press): Fix a build break with
 	Magic spaebar.
 
