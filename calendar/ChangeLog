@@ -1,3 +1,10 @@
+2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-select-names-editable.c:
+	(e_select_names_editable_get_emails):
+	
+	Committing on behalf of Xiurong Simon Zheng <simon.zheng@sun.com>		
+
 2007-07-29  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #200977

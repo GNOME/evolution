@@ -151,7 +151,8 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 	} else {
 		/* check if the contact is contact list, it does not contain all the email ids  */
 		/* we dont expand it currently, TODO do we need to expand it by getting it from addressbook*/
-		if (e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
+		if (e_destination_get_contact (destination) && 
+		    e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
 			/* If its a contact_list which is not expanded, it wont have a email id,
 			   so we can use the name as the email id */
 
