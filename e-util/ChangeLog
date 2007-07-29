@@ -1,3 +1,10 @@
+2007-07-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #451211.
+
+	* e-event.c: (e_event_emit): Replase "==" with "!=" because g_assert()
+	occurs if expression is NOT true.
+
 2007-07-27  Lucky Wankhede <wlakke@novell.com>
 
 	** Fixes bug #451211
