@@ -36,21 +36,21 @@ static char *
 auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_data)
 {
 	gboolean remember;
-	char *password;
+	char *password, *auth_domain;
 	ESource *source;
-	const gchar *auth_domain, *component_name;
+	const gchar *component_name;
 
 	source = e_cal_get_source (ecal);
-	auth_domain = e_source_get_property (source, "auth-domain");
+	auth_domain = e_source_get_duped_property (source, "auth-domain");
 	component_name = auth_domain ? auth_domain : "Calendar";
 	password = e_passwords_get_password (component_name, key);
-	
+
 	if (!password)
 		password = e_passwords_ask_password (_("Enter password"), component_name, key, prompt,
 						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
 						     &remember,
 						     NULL);
-
+	g_free (auth_domain);
 	return password;
 }
 

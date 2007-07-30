@@ -1,3 +1,9 @@
+2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes a memory corruption.
+	* common/authentication.c: (auth_func_cb): Use
+	e_source_get_duped_property.						   
+
 2007-07-30  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #343716
