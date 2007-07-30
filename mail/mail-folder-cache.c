@@ -459,12 +459,14 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 		   brand new, not junk and not already deleted */
 		for (i = 0; i < changes->uid_added->len; i++) {
 			info = camel_folder_get_message_info (folder, changes->uid_added->pdata[i]);
-			flags = camel_message_info_flags (info);
-			if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
-			    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
-			    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
-			    (camel_message_info_date_received (info) > last_newmail))
-				new++;
+			if (info) {
+				flags = camel_message_info_flags (info);
+				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
+				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
+				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
+				    (camel_message_info_date_received (info) > last_newmail))
+					new++;
+			}
 		}
 	}
 	

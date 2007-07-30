@@ -1,3 +1,11 @@
+2007-07-29  Rob Bradford  <rob@robster.org.uk>
+
+	** Potential fix for: #453668
+
+	* mail-folder-cache.c: (folder_changed):
+	Deal with the fact that camel_folder_get_message_info can return NULL
+	and therefore don't try and dereference anything from that pointer.
+
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #459030
