@@ -1,3 +1,4 @@
+# translation of evo-ta.po to
 # translation of ta.po to
 # translation of evolution.HEAD.po to
 # This file is distributed under the same license as the PACKAGE package.
@@ -8,10 +9,10 @@
 # Dr.T.Vasudevan <agnihot3@gmail.com>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: ta\n"
+"Project-Id-Version: evo-ta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-09 21:10+0100\n"
-"PO-Revision-Date: 2007-07-30 17:04+0530\n"
+"PO-Revision-Date: 2007-07-30 17:18+0530\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +26,7 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:179
 msgid "evolution addressbook"
-msgstr "எவலுஷன் முகவரி புத்தகம்"
+msgstr "எவல்ஷன் முகவரி புத்தகம்"
 
 #: ../a11y/addressbook/ea-minicard-view.c:33
 #: ../addressbook/gui/component/addressbook-component.c:228
