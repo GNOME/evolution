@@ -1,3 +1,8 @@
+2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* configure.in: Fixed a build break due totypo error 
+	in string libexchange-storage.
+
 2007-07-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* configure.in: Enable configure option for support
