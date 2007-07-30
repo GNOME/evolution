@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-30 12:35+0100\n"
-"PO-Revision-Date: 2007-07-30 20:51+0200\n"
+"POT-Creation-Date: 2007-07-30 19:54+0100\n"
+"PO-Revision-Date: 2007-07-30 21:02+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -600,6 +600,7 @@ msgstr "Configure el autocompletado aquí"
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1338
 #: ../calendar/gui/calendar-component.c:284 ../calendar/gui/migration.c:402
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
 msgstr "Contactos"
@@ -3395,6 +3396,7 @@ msgstr "Charla por vídeo"
 #: ../calendar/gui/calendar-component.c:788
 #: ../calendar/gui/dialogs/calendar-setup.c:366
 #: ../calendar/gui/gnome-cal.c:2354
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:575
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:396
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:427
@@ -6259,7 +6261,7 @@ msgstr "Personalizar"
 #: ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
-#: ../plugins/exchange-operations/exchange-delegates-user.c:194
+#: ../plugins/exchange-operations/exchange-delegates-user.c:201
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1910
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1504
@@ -12058,6 +12060,14 @@ msgstr "Fecha"
 msgid "Newsgroups"
 msgstr "Grupos de noticias"
 
+#. To translators: This message suggests to the receipients that the sender of the mail is
+#. different from the one listed in From field.
+#.
+#: ../mail/em-format-html.c:1834
+#, c-format
+msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
+msgstr "Este mensaje lo envió <b>%s</s> en nombre de <b>%s</b>"
+
 #: ../mail/em-format.c:1121
 #, c-format
 msgid "%s attachment"
@@ -15537,40 +15547,48 @@ msgstr "Su contraseña actual ha caducado. Cambie su contraseña ahora."
 msgid "Your password will expire in the next %d days"
 msgstr "Su contraseña caducará en los siguientes %d días"
 
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
+msgid "Tasks   "
+msgstr "Tareas   "
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
+msgid "Inbox   "
+msgstr "Bandeja de entrada   "
+
 #. Custom
-#: ../plugins/exchange-operations/exchange-delegates-user.c:156
+#: ../plugins/exchange-operations/exchange-delegates-user.c:159
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
 #: ../widgets/table/e-table-header-item.c:1558
 msgid "Custom"
 msgstr "Personalizado"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:183
+#: ../plugins/exchange-operations/exchange-delegates-user.c:190
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
 msgstr "Editor (lectura, creación, edición)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:187
+#: ../plugins/exchange-operations/exchange-delegates-user.c:194
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
 msgstr "Autor (lectura, creación)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:191
+#: ../plugins/exchange-operations/exchange-delegates-user.c:198
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
 msgstr "Revisor (sólo lectura)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:241
+#: ../plugins/exchange-operations/exchange-delegates-user.c:248
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
 msgstr "Permisos de delegados"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:252
+#: ../plugins/exchange-operations/exchange-delegates-user.c:259
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
 #, c-format
 msgid "Permissions for %s"
 msgstr "Permisos para %s"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:339
+#: ../plugins/exchange-operations/exchange-delegates-user.c:349
 msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf. \n"
@@ -15582,26 +15600,26 @@ msgstr ""
 "\n"
 "Se le han otorgado los siguientes permisos sobre mis carpetas:\n"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:356
+#: ../plugins/exchange-operations/exchange-delegates-user.c:366
 msgid ""
 "\n"
-"You are also permitted \t\t\t\t\t\t\tto see my private items."
+"You are also permitted to see my private items."
 msgstr ""
 "\n"
-"También se le permite \t\t\t\t\t\t\tver los elementos privados."
+"También se le permite ver los elementos privados."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:360
+#: ../plugins/exchange-operations/exchange-delegates-user.c:370
 msgid ""
 "\n"
-"However you are not permitted\t\t\t\t\t\t\t to see my private items."
+"However you are not permitted to see my private items."
 msgstr ""
 "\n"
-"No obstante no se le permite\t\t\t\t\t\t\t ver los elementos privados."
+"No obstante no se le permite ver los elementos privados."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:392
+#: ../plugins/exchange-operations/exchange-delegates-user.c:402
 #, c-format
-msgid "You have been designated \t\t\t\t\t\tas a delegate for %s"
-msgstr "Ha sido designado \t\t\t\t\t\t\tcomo delegado para %s"
+msgid "You have been designated as a delegate for %s"
+msgstr "Ha sido designado como delegado para %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To"
@@ -16214,7 +16232,7 @@ msgstr "Está cerca de su cuota disponible para almacenar correo en este servido
 msgid ""
 "You are permitted to send a message on behalf of only one delegator at a "
 "time."
-msgstr "Le está permitido mandar un mensaje a través de a un solo delegado cada vez."
+msgstr "Le está permitido mandar un mensaje en nombre de a un solo delegado cada vez."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid "You cannot make yourself your own delegate"
@@ -16743,8 +16761,9 @@ msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
 msgstr ""
-"Se requiere el servicio «hald» pero actualmente no se está ejecutando. Active el "
-"servicio y vuelva a este programa o contacte con el administrador de su sistema."
+"Se requiere el servicio «hald» pero actualmente no se está ejecutando. "
+"Active el servicio y vuelva a este programa o contacte con el administrador "
+"de su sistema."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:66
 msgid "Search for an iPod failed"
@@ -17072,14 +17091,14 @@ msgstr "%A, %B %e, %Y %l:%M:%S %p"
 #: ../plugins/itip-formatter/itip-view.c:525
 #, c-format
 msgid "Please respond on behalf of <b>%s</b>"
-msgstr "Responda a través de <b>%s</b>"
+msgstr "Responda en nombre de <b>%s</b>"
 
 #: ../plugins/itip-formatter/itip-view.c:351
 #: ../plugins/itip-formatter/itip-view.c:439
 #: ../plugins/itip-formatter/itip-view.c:527
 #, c-format
 msgid "Received on behalf of <b>%s</b>"
-msgstr "Recibido de parte de <b>%s</b>"
+msgstr "Recibido en nombre de <b>%s</b>"
 
 #: ../plugins/itip-formatter/itip-view.c:356
 #, c-format
