@@ -73,6 +73,7 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	CamelFolder *folder = (CamelFolder *)data;
 	CamelStore *store = folder->parent_store;	
 	cnc = get_cnc (store);	
+	gchar *msg;
 
 	dialog =  gtk_dialog_new_with_buttons (_("Junk Settings"),
 			NULL,
@@ -86,9 +87,11 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	gtk_widget_ensure_style (dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
 	box = gtk_vbox_new (FALSE, 6);
-	w = gtk_label_new ("");		
-	gtk_label_set_markup (GTK_LABEL (w), _("<b>Junk Mail Settings</b>"));
+	w = gtk_label_new ("");	
+	msg = g_strdup_printf("<b>%s</b>", _("Junk Mail Settings"));
+	gtk_label_set_markup (GTK_LABEL (w), msg);
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
+	g_free(msg);
 
 	junk_tab = junk_settings_new (cnc);
 	w = (GtkWidget *)junk_tab->vbox;

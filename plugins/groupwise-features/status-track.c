@@ -75,6 +75,8 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	time_t time ;
 	char *time_str ;
 
+	gchar *boldmsg;
+
 	const char *status = NULL ;
 
 	int row = 0;
@@ -114,7 +116,9 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	gtk_table_set_row_spacings (table, 6);
 
 	/*Subject*/
-	widget = gtk_label_new (_("<b>Subject</b>:"));
+	boldmsg = g_strdup_printf ("<b>%s</b>", _("Subject:"));
+	widget = gtk_label_new (boldmsg);
+	g_free (boldmsg);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);
@@ -126,7 +130,9 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	/*From*/
 	from = camel_mime_message_get_from (msg) ;
 	camel_internet_address_get (from, 0, &namep, &addp) ;
-	widget = gtk_label_new (_("<b>From</b>:"));
+	boldmsg = g_strdup_printf ("<b>%s</b>", _("From:"));
+	widget = gtk_label_new (boldmsg);
+	g_free (boldmsg);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1,  row,  row + 1, GTK_FILL, 0, 0, 0);
@@ -139,7 +145,9 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	time = camel_mime_message_get_date (msg, NULL) ;
 	time_str = ctime (&time) ;
 	time_str[strlen(time_str)-1] = '\0' ;
-	widget = gtk_label_new (_("<b>Creation date</b>:"));
+	boldmsg = g_strdup_printf ("<b>%s</b>", _("Creation date:"));
+	widget = gtk_label_new (boldmsg);
+	g_free (boldmsg);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);

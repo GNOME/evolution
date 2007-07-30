@@ -2372,11 +2372,13 @@ emfv_spin(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 
 	if (!strcmp(eb->classid, "spinner")) {
 		GtkWidget *box, *label;
-
-		label = gtk_label_new (NULL);
-		gtk_label_set_markup ((GtkLabel *)label, _("<b>Retrieving Message...</b>"));
-		box = gtk_hbox_new (FALSE, 0);
+		gchar *msg = g_strdup_printf("<b>%s</b>", _("Retrieving Message..."));
 		
+		label = gtk_label_new (NULL);
+		gtk_label_set_markup ((GtkLabel *)label, msg);
+		box = gtk_hbox_new (FALSE, 0);
+		g_free (msg);		
+
 		ep = e_spinner_new ();
 		e_spinner_set_size ((ESpinner *)ep, GTK_ICON_SIZE_SMALL_TOOLBAR);
 		e_spinner_start ((ESpinner *)ep);

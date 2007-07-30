@@ -1707,10 +1707,14 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 			msg_offset += (local.tm_hour * 60) + local.tm_min;
 			if (msg_offset >= (24 * 60) || msg_offset < 0) {
 				/* translators: strftime format for local time equivalent in Date header display, with day */
-				e_utf8_strftime(buf, sizeof(buf), _("<I> (%a, %R %Z)</I>"), &local);
+				gchar *msg = g_strdup_printf("<I>%s</I>", _(" (%a, %R %Z)"));
+				e_utf8_strftime(buf, sizeof(buf), msg, &local);
+				g_free(msg);
 			} else {
 				/* translators: strftime format for local time equivalent in Date header display, without day */
-				e_utf8_strftime(buf, sizeof(buf), _("<I> (%R %Z)</I>"), &local);
+				gchar *msg = g_strdup_printf("<I>%s</I>", _(" (%R %Z)"));
+				e_utf8_strftime(buf, sizeof(buf), msg, &local);
+				g_free(msg);
 			}
 			
 			html = camel_text_to_html(txt, efh->text_html_flags, 0);

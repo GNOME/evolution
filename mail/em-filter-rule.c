@@ -485,11 +485,13 @@ get_widget(FilterRule *fr, RuleContext *rc)
         widget = FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
 	
 	/* and now for the action area */
-	label = gtk_label_new(_("<b>Then</b>"));
+	gchar * msg = g_strdup_printf("<b>%s</b>", _("Then"));	
+	label = gtk_label_new(msg);
 	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_box_pack_start(GTK_BOX(widget), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
+	g_free(msg);
 
 	hbox = gtk_hbox_new(FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(widget), hbox, TRUE, TRUE, 0);
