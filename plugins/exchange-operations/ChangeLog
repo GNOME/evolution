@@ -1,3 +1,10 @@
+2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* exchange-delegates-user.c: (map_to_full_role_name),
+	(exchange_delegates_user_edit): Added the translation comments
+	
+	Committing on behalf of Bharath Acharya <abharath@novell.com>	
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #458511

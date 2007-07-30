@@ -76,8 +76,11 @@ const char *exchange_delegates_user_folder_names[] = {
 	"calendar", "tasks", "inbox", "contacts"
 };
 
+/* To translators: The folder names to be displayed in the message being 
+   sent to the delegatee. 
+*/
 const char *folder_names_for_display[] = {
-	"Calendar", "Tasks   ", "Inbox   ", "Contacts"
+	N_("Calendar"), N_("Tasks   "), N_("Inbox   "), N_("Contacts")
 };
 
 static const char *widget_names[] = {
@@ -176,6 +179,10 @@ static const char *
 map_to_full_role_name (E2kPermissionsRole role_nam)
 {	
 	const char *role_name;
+
+	/* To translators: The following are the various types of permissions that can
+	   assigned by an user to his folders.
+	*/
 
 	switch (role_nam)
 	{	
@@ -296,7 +303,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 
 
 	/* The following piece of code is used to construct a mail message to be sent to a Delegate
-	   summarizing all the permissions set for him on the various user's folders.
+	   summarizing all the permissions set for him on the user's various folders.
 	*/	
 	check_delegate = glade_xml_get_widget (xml, "delegate_mail");
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_delegate)) == TRUE) {
@@ -335,6 +342,9 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_content_type_unref (type);
 			stream = camel_stream_mem_new ();
 
+			/* To translators: The content of the message being sent to the delegatee
+			   summarizing the permissions assigned to him.
+			*/
 			camel_stream_printf (stream,
 					_("This message was sent automatically by Evolution "
 					  "to inform you that you have been designated as a "
@@ -353,12 +363,12 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_stream_printf (stream, "%s", role_name_final);
 
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) == TRUE) {
-				camel_stream_printf (stream, _("\nYou are also permitted \
-							to see my private items."));
+				camel_stream_printf (stream, _("\nYou are also permitted "
+							"to see my private items."));
 			}
 			else
-				camel_stream_printf (stream, _("\nHowever you are not permitted\
-							 to see my private items."));
+				camel_stream_printf (stream, _("\nHowever you are not permitted "
+							 "to see my private items."));
 			camel_data_wrapper_construct_from_stream (delegate_mail_text, stream);
 			g_free (role_name);
 			g_free (role_name_final);
@@ -389,8 +399,8 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_medium_set_content_object (CAMEL_MEDIUM (delegate_mail), CAMEL_DATA_WRAPPER (body));
 			camel_object_unref (body);
 
-			delegate_mail_subject = g_strdup_printf (_("You have been designated \
-						as a delegate for %s"), exchange_account_get_username (account));
+			delegate_mail_subject = g_strdup_printf (_("You have been designated "
+						"as a delegate for %s"), exchange_account_get_username (account));
 			camel_mime_message_set_subject (delegate_mail, delegate_mail_subject);
 			g_free (delegate_mail_subject);
 
