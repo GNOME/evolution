@@ -1,5 +1,12 @@
 2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* em-format-html.c: (efh_format_headers): Marked 
+	a string for translation.
+	
+	Committing on behalf of Bharath Acharya <abharath@novell.com>	
+
+2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	* em-format-html.c: (efh_format_headers): Displaying a message
 	to the recipient of the mail informing him about delegated mails.
 	The message is displayed for all mails containing the "Sender" field			       					 

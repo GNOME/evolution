@@ -1831,7 +1831,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			/* To translators: This message suggests to the receipients that the sender of the mail is
 			   different from the one listed in From field.
 			*/   
-			camel_stream_printf(stream, "This message was sent by <b>%s</b> on behalf of <b>%s</b>", header_sender, header_from);
+			camel_stream_printf(stream, _("This message was sent by <b>%s</b> on behalf of <b>%s</b>"), header_sender, header_from);
 			camel_stream_printf(stream, "</td></tr></table></td></tr>");
 			break;
 		}
