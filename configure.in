@@ -1592,7 +1592,7 @@ all_plugins_standard="$plugins_standard"
 
 plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting mail-remote save-attachments"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
-all_plugins_experimental="$plugins_experimental_always ipod-sync $TNEF_ATTACHMENTS"
+all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
 case x"$enable_plugins" in
 xno)

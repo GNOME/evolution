@@ -1,3 +1,8 @@
+2007-07-30  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	* configure.in: Fix build break due to tnef-attachment plugin
+	check - Do not use variable in $all_plugins_experimental.
+	
 2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* configure.in: Fixed a build break due totypo error 
