@@ -1,3 +1,11 @@
+2007-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #343716
+
+	* gui/dialogs/memo-page.c: (memo_page_fill_component):
+	Working properly with UTF-8 characters when cutting and
+	added ellipsize for longer texts.
+
 2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #453860

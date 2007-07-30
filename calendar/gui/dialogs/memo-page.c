@@ -634,32 +634,30 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		e_cal_component_set_description_list (comp, NULL);
 	}
 	else {
-		int idxToUse = -1, nstr = strlen(str);
-		gboolean foundNL = FALSE;
+		int idxToUse = 1;
 		GSList l;
 		ECalComponentText text, sumText;
-		char *txt;
+		char *txt, *p;
+		gunichar uc;
 
-		for(i = 0; i<nstr && i<50; i++){
-			if(str[i] == '\n'){
-				idxToUse = i;
-				foundNL = TRUE;
+		for(i = 0, p = str, uc = g_utf8_get_char_validated (p, -1);
+		    i < 50 && p && uc < (gunichar)-2;
+		    i++, p = g_utf8_next_char (p), uc = g_utf8_get_char_validated (p, -1)) {
+			idxToUse = p - str;
+			if (uc == '\n' || !uc) {
+				p = NULL;
 				break;
 			}
 		}
-		
-		if(foundNL == FALSE){
-			if(nstr > 50){
-				sumText.value = txt = g_strndup(str, 50);
-			}
-			else{
-				sumText.value = txt = g_strdup(str);
-			}
-		}
-		else{
-			sumText.value = txt = g_strndup(str, idxToUse); /* cuts off '\n' */
-		}
-		
+
+		if (p)
+			idxToUse = p - str;
+
+		if (i == 50 && uc && uc < (gunichar)-2)
+			sumText.value = txt = g_strdup_printf ("%.*s...", idxToUse, str);
+		else
+			sumText.value = txt = g_strndup(str, idxToUse);
+
 		sumText.altrep = NULL;
 
 		text.value = str;
