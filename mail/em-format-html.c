@@ -1776,6 +1776,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	gboolean face_decoded  = FALSE;
 	char *face_header_value = NULL;
 	int face_header_len = 0;
+	char *header_sender = NULL, *header_from = NULL, *name;
 	
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
@@ -1784,8 +1785,64 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	if (!efh->simple_headers)
 		camel_stream_printf(stream,
 				    "<font color=\"#%06x\">\n"
-				    "<table cellpadding=\"0\" width=\"100%%\"><tr><td><table cellpadding=\"0\">\n",
+				    "<table cellpadding=\"0\" width=\"100%%\">",
 				    efh->text_colour & 0xffffff);
+				    
+
+	header = ((CamelMimePart *)part)->headers;
+	while (header) {
+		if(!g_ascii_strcasecmp (header->name, "Sender")) {
+			struct _camel_header_address *addrs;
+			GString *html;
+
+			if (!(addrs = camel_header_address_decode(header->value, emf->charset ? emf->charset : emf->default_charset)))
+				return;
+		
+			html = g_string_new("");
+			name = efh_format_address(efh, html, addrs, header->name);
+
+			header_sender= html->str;
+			camel_header_address_unref(addrs);
+			
+			g_string_free(html, FALSE);
+			g_free (name);
+		}
+			
+		if(!g_ascii_strcasecmp (header->name, "From")) {
+			struct _camel_header_address *addrs;
+			GString *html;
+					
+			if (!(addrs = camel_header_address_decode(header->value, emf->charset ? emf->charset : emf->default_charset)))
+				return;
+		
+			html = g_string_new("");
+			name = efh_format_address(efh, html, addrs, header->name);
+
+			header_from= html->str;
+			camel_header_address_unref(addrs);
+
+			g_string_free(html, FALSE);
+			g_free(name);
+		}
+		
+		if (header_sender && header_from) {
+			camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
+			camel_stream_printf(stream, "<td align=\"left\" width=\"100%%\">");
+			/* To translators: This message suggests to the receipients that the sender of the mail is
+			   different from the one listed in From field.
+			*/   
+			camel_stream_printf(stream, "This message was sent by <b>%s</b> on behalf of <b>%s</b>", header_sender, header_from);
+			camel_stream_printf(stream, "</td></tr></table></td></tr>");
+			break;
+		}
+		
+		header = header->next;
+	}
+
+	g_free (header_sender);
+	g_free (header_from);
+
+	camel_stream_printf(stream, "<tr><td><table border=0 cellpadding=\"0\">\n");
 
 	/* dump selected headers */
 	h = (EMFormatHeader *)emf->header_list.head;
