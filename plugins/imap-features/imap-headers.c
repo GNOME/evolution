@@ -223,11 +223,14 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	remove_header = GTK_BUTTON(glade_xml_get_widget (gladexml, "removeHeader"));
 
 	url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), &ex);
+
+	store = gtk_tree_store_new (1, G_TYPE_STRING);
+	gtk_tree_view_set_model (custom_headers_tree, GTK_TREE_MODEL(store));
+
 	if (url) {
 		char *custom_headers;
-		store = gtk_tree_store_new (1, G_TYPE_STRING);
-		custom_headers = g_strdup(camel_url_get_param (url, "imap_custom_headers"));
 
+		custom_headers = g_strdup(camel_url_get_param (url, "imap_custom_headers"));
 		if (custom_headers) {
 			int i=0;
 
@@ -240,7 +243,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 				i++;
 			}
 			g_strfreev (custom_headers_array);
-			gtk_tree_view_set_model (custom_headers_tree, GTK_TREE_MODEL(store));
+
 		}
 		g_free (custom_headers);
 
