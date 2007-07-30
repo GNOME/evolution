@@ -1,3 +1,78 @@
+Evolution 2.11.6 2007-07-30
+---------------------------
+
+New in 2.11.6:
+	New Face plugin - Helps in attaching Face header to outgoing mails
+	 (Sankar P)
+	Plugins are now configurable within the plugin-manager itself
+	 (Sankar P)
+	Provide support for keeping your signature on top while replying
+	 (Sankar P)
+
+Bug fixes:
+	#200977: Ensure that selected day is visible when changed (Milan
+	 Crha)
+	#237989: Included support for backspace in magic space bar feature
+	 (Johnny Jacob)
+	#268162: Add username and password options to webcal dialog (Milan
+	 Crha)
+	#273386: Fixed a crash while viewing an attached image (Milan Crha)
+	#273699: Fixed a crash when starting evolution-alarm-notify if it is
+	 already running (Milan Crha)
+	#303937: Fixed a crash on receiving a drag-n-drop event at startup
+	 (Milan Crha)
+	#323522: Fixed a crash when switching components (Srinivasa Ragavan)
+	#326388: Delete button is disabled for 'Birthdays & Anniversaries'
+	 calendar (Milan Crha)
+	#332112: Fixed inconsistent punctuation in send/receive dialog
+	 (Lucky Wankhede)
+	#335881: Fixed pasting of raw text in task list (Hiroyuki Ikezoe)
+	#380534: Collect all the required package versions in one place and
+	 explicitly require GTK+ 2.10 or higher (Matthew Barnes)
+	#410287: Removed whitespaces in front of punctuation marks (Lucky
+	 Wankhede)
+	#428123: Fixed mnemonic conflicts (Lucky Wankhede)
+	#444433: Fix spelling and grammar errors in "Advanced Search
+	 options" (Lucky Wankhede)
+	#445248: Fixed a crash when changing default drafts / sent folder in
+	 IMAP (Johnny Jacob)
+	#451211: Fixed a crash (Lucky Wankhede, Hiroyuki Ikezoe)
+	#453544: Fixed switched actions of "Do not mark as read" and "Mark
+	 as read" buttons (hggdh)
+	#453668: Fixed a random crash (Rob Bradford)
+	#453860: Fix a crash when creating new meeting (Xiurong Simon Zheng)
+	#457394: Fixed a crash in tasks (Milan Crha)
+	#457523: Fixed parse error in quick search bar (Johnny Jacob)
+	#458275: Fixed malformed body part headers for a MDN (Atos Origin
+	 Communication Systems <support-syscom@atosorigin.com>)
+	#458511: Fix display of exchange delegate emails (Hiroyuki Ikezoe)
+	#458820: Grey out local photos search if sender photo display is
+	 disabled (Cosimo Cecchi)
+	#458894: Fixed a crash when deleting an IMAP account (Johnny Jacob)
+	#459030: Shrink To / Cc / Bcc headers now work in non-english
+	 locales too (Srinivasa Ragavan)
+	#459251: Added new files with translatable strings (Johnny Jacob)
+	#459413: Fixed a crash when connecting to a wcap calendar account
+	 (Li Yuan)
+	#459522: Plugins should be configurable within the plugin-manager
+	 itself. (Sankar P)
+	#460825: Removed needless EFilterBarClass (Hiroyuki Ikezoe)
+	#461474: Remove redundant code in calendar (Rob Bradford)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Matic Žgur (sl)
+	Bharat Kumar (te)
+	Claude Paroz, Myriam Malga and Stéphane Raimbault (fr)
+	Danilo Šegan (sr)
+	Vincent van Adrighem (nl)
+	Raivis Dejus (lv)
+	Daniel Nylander (sv)
+	Ilkka Tuohela (fi)
+	Priit Laes (et)
+	Changwoo Ryu (ko)
+	Ankit Patel (gu)
+
 Evolution 2.11.5 2007-07-09
 ---------------------------
 

@@ -1,5 +1,9 @@
 2007-07-30  Veerapuram Varadhan  <vvaradhan@novell.com>
 
+	* NEWS, configure.in: Evolution 2.11.6 release
+	
+2007-07-30  Veerapuram Varadhan  <vvaradhan@novell.com>
+
 	* configure.in: Fix build break due to tnef-attachment plugin
 	check - Do not use variable in $all_plugins_experimental.
 	
