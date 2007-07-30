@@ -8,6 +8,8 @@ DOC_ENTITIES =
 DOC_INCLUDES =
 DOC_FIGURES =  \
 	figures/account_editor_a.png 		\
+	figures/addrs_book_a.png		\
+	figures/attach_reminder_a.png.png	\
 	figures/calendar.png 			\
 	figures/categories_a.png 		\
 	figures/collap_head_a.png 		\
@@ -22,11 +24,19 @@ DOC_FIGURES =  \
 	figures/evo_add_rule_a.png 		\
 	figures/evo_adv_search_a.png 		\
 	figures/evo_allday_a.png 		\
+	figures/evo_attachreminder_plugin.png	\
+	figures/evo_backup.png			\
+	figures/evo_backup_prgsbar.png		\
+	figures/evo_backup_warning.png		\
+	figures/evo_blink.png			\
 	figures/evo_cal_a.png 			\
+	figures/evo_cal_advsearch.png		\
 	figures/evo_cal_callout_a.png 		\
 	figures/evo_calender_appointmnt.png 	\
-	figures/evo_cal_ prop_a.png		\
+	figures/evo_cal_prop_a.png		\
+	figures/evo_calstatus_a.png		\
 	figures/evo_contacteditor_a.png 	\
+	figures/evo_delegate_permission_a.png	\
 	figures/evo_edit_rule_a.png 		\
 	figures/evo_edit_search.png 		\
 	figures/evo_email_a.png 		\
@@ -34,6 +44,7 @@ DOC_FIGURES =  \
 	figures/evo_gwreceive_a.png 		\
 	figures/evo_gwreceiveedit_a.png 	\
 	figures/evo_gwreceiveoptedit_a.png 	\
+	figures/evo_gwstatustrack.png		\
 	figures/evo_identity_a.png 		\
 	figures/evo_identityedit_a.png 		\
 	figures/evo_imapheader_a.png 		\
@@ -47,7 +58,10 @@ DOC_FIGURES =  \
 	figures/evo_mereceive_a.png 		\
 	figures/evo_message_filters_a.png 	\
 	figures/evo_mhreceive_a.png 		\
+	figures/evo_mail_notifier.png		\
+	figures/evo_memo_a.png			\
 	figures/evo_newmess_a.png 		\
+	figures/evo_newmail.png			\
 	figures/evo_popreceive_a.png 		\
 	figures/evo_proxyadd_a.png 		\
 	figures/evo_receive_setup2_a.png 	\
@@ -62,6 +76,8 @@ DOC_FIGURES =  \
 	figures/evo_shd_memo_a.png 		\
 	figures/evo_timezone_a.png 		\
 	figures/evo_usereceive_a.png 		\
+	figures/evo_junk_a.png			\
+	figures/evo_offline.png			\
 	figures/exchange-delegation.png 	\
 	figures/exchange-identity.png 		\
 	figures/exchange-receive-options.png 	\
@@ -94,6 +110,7 @@ DOC_FIGURES =  \
 	figures/proxy-cal.png 			\
 	figures/proxy-login.png 		\
 	figures/quick_add_a.png 		\
+	figures/quick_reference.png		\
 	figures/replymsg.png 			\
 	figures/schedule.png 			\
 	figures/Screenshot-Evolution -mailer-Preferences.png 	\

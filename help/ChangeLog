@@ -1,3 +1,10 @@
+2007-07-30  Johnny Jacob  <jjohnny@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	* C/figures/* : Added new screenshots.
+	* C/evolution.xml : Updated docs for 2.11.6
+
 2007-07-23  Daniel Nylander <po@danielnylander.se>
 
 	* sv/figures/*: Added some screenshots.
