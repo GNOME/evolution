@@ -1777,6 +1777,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	char *face_header_value = NULL;
 	int face_header_len = 0;
 	char *header_sender = NULL, *header_from = NULL, *name;
+	gboolean mail_from_delegate = FALSE;
 	
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
@@ -1787,7 +1788,6 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 				    "<font color=\"#%06x\">\n"
 				    "<table cellpadding=\"0\" width=\"100%%\">",
 				    efh->text_colour & 0xffffff);
-				    
 
 	header = ((CamelMimePart *)part)->headers;
 	while (header) {
@@ -1824,8 +1824,11 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			g_string_free(html, FALSE);
 			g_free(name);
 		}
+
+		if (!g_ascii_strcasecmp (header->name, "X-Evolution-Mail-From-Delegate"))
+			mail_from_delegate = TRUE;
 		
-		if (header_sender && header_from) {
+		if (header_sender && header_from && mail_from_delegate) {
 			camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
 			camel_stream_printf(stream, "<td align=\"left\" width=\"100%%\">");
 			/* To translators: This message suggests to the receipients that the sender of the mail is

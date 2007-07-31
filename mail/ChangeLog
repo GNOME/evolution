@@ -1,3 +1,10 @@
+2007-07-31  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	* em-format-html.c (efh_format_headers): Do not show the
+	pretty-"on-behalf-of"-band for all messages that has Sender header
+	set, instead rely on the custom X-Evolution-Mail-From-Delegate
+	flag that will be added by each providers.
+	
 2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* em-format-html.c: (efh_format_headers): Marked 
