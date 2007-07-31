@@ -1,3 +1,8 @@
+2007-07-30  Andre Klapper  <a9016009@gmx.de>
+
+	* publish-calendar.glade:
+	remove "window1" string from translation
+
 2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* publish-location.c: (migrateURI), (e_publish_uri_from_xml),

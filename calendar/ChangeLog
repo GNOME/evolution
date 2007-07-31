@@ -1,3 +1,15 @@
+2007-07-30  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/dialogs/schedule-page.glade:
+	gui/dialogs/memo-page.glade:
+	gui/dialogs/meeting-page.glade:
+	gui/dialogs/task-page.glade:
+	gui/dialogs/task-details-page.glade:
+	gui/dialogs/cal-prefs-dialog.glade:
+	gui/dialogs/event-page.glade:
+	gui/e-itip-control.glade:
+	remove "window1" string from translation
+
 2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes a memory corruption.

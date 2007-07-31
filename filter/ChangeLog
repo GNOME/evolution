@@ -1,3 +1,8 @@
+2007-07-30  Andre Klapper  <a9016009@gmx.de>
+
+	* filter.glade:
+	remove "window1" string from translation
+
 2007-07-27  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fix for bug #457523.

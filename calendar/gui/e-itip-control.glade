@@ -4,7 +4,7 @@
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <property name="visible">no</property>
-    <property name="title" translatable="yes">window1</property>
+    <property name="title" translatable="no">window1</property>
     <property name="type">GTK_WINDOW_TOPLEVEL</property>
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>

@@ -4,7 +4,7 @@
 <glade-interface>
 
 <widget class="GtkWindow" id="schedule-toplevel">
-  <property name="title" translatable="yes">window1</property>
+  <property name="title" translatable="no">window1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
   <property name="modal">False</property>

@@ -1,3 +1,8 @@
+2007-07-30  Andre Klapper  <a9016009@gmx.de>
+
+	* exchange-permissions-dialog.glade:
+	remove "window1" string from translation
+
 2007-07-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* exchange-delegates-user.c: (map_to_full_role_name),
