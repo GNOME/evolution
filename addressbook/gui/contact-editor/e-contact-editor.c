@@ -2257,6 +2257,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	else if (E_IS_IMAGE_CHOOSER (widget)) {
 		EContactPhoto photo;
 		photo.type = E_CONTACT_PHOTO_TYPE_INLINED;
+		photo.data.inlined.mime_type = NULL;
 		if (editor->image_changed)
 		{
 			if (editor->image_set &&
@@ -2291,8 +2292,13 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 						
 							new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 							if (new) {
+								GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
+								gchar *format_name = gdk_pixbuf_format_get_name (format);
 								g_free(photo.data.inlined.data);
-								gdk_pixbuf_save_to_buffer (new, (gchar **)&photo.data.inlined.data, &photo.data.inlined.length, "jpeg", NULL, "quality", "100", NULL);
+								gdk_pixbuf_save_to_buffer (new, (gchar **)&(photo.data.inlined.data),
+											   &photo.data.inlined.length,
+											   format_name, NULL, NULL);
+								g_free (format_name);
 								g_object_unref (new);
 							}
 						}

@@ -1,3 +1,10 @@
+2007-07-31  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #462002
+
+	* gui/contact-editor/e-contact-editor.c: (extract_simple_field): Save
+	resizing image as its original format.
+
 2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* gui/widgets/e-minicard.c: (add_email_field): Use g_strdup() instead
