@@ -1,3 +1,10 @@
+Evolution 2.11.6.1 2007-07-31
+-----------------------------
+Changes:
+	Handle mails from delegates appropriately, rather than showing the
+	pretty-on-behalf-of band for all mails containing a Sender field
+	(Veerapuram Varadhan)
+
 Evolution 2.11.6 2007-07-30
 ---------------------------
 
