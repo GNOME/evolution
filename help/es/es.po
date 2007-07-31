@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_manual.es\n"
 "POT-Creation-Date: 2007-07-30 12:49+0100\n"
-"PO-Revision-Date: 2007-07-30 22:37+0200\n"
+"PO-Revision-Date: 2007-07-31 23:38+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -639,7 +639,7 @@ msgstr "2002-2007"
 #: C/evolution.xml:35(date) C/evolution.xml:78(invpartnumber)
 #: C/evolution.xml:7302(para)
 msgid "July 2007"
-msgstr ""
+msgstr "Julio de 2007"
 
 #: C/evolution.xml:37(para) C/evolution.xml:45(para) C/evolution.xml:61(para)
 msgid "Radhika PC"
@@ -2702,6 +2702,9 @@ msgid ""
 "Evolution to your machine and restore it whenever it is required. The backup "
 "saves your evolution gconf settings, mails, and creates an archive."
 msgstr ""
+"Con el complemento para respaldar y restaurar activado puede respaldar "
+"Evolution en su equipo y restaurarlo siempre que sea necesario. El respaldo "
+"guarda sus ajustes de evolution en gconf, correos y crea un archivador."
 
 #: C/evolution.xml:952(para)
 msgid "To take the back up,"
@@ -2720,12 +2723,16 @@ msgid ""
 "Before the back up process starts, it asks you to close Evolution and "
 "displays a warning as shown below:"
 msgstr ""
+"Antes de que comience el proceso de respaldo, se le preguntará para que cierre Evolution "
+"y se mostrará un mensaje de advertencia como el de abajo:"
 
 #: C/evolution.xml:963(para)
 msgid ""
 "Click Restart Evolution after backup to restart Evolution immediately after "
 "the backup process."
 msgstr ""
+"Pulse Reiniciar Evolution después del respaldo para reiniciar Evolution inmediatamente "
+"después del proceso de respaldo."
 
 # index.docbook:88, index.docbook:89
 #: C/evolution.xml:966(para)
@@ -2761,16 +2768,20 @@ msgid ""
 "Before the process starts, it asks you to close Evolution. Close the windows "
 "and click Restore to restore Evolution."
 msgstr ""
+"Antes de que comience el proceso, se le preguntará para que cierre Evolution. Cierre las ventanas "
+"y pulse Restaurar para restaurar Evolution."
 
 #: C/evolution.xml:984(para)
 msgid ""
 "If you are creating your first account via the startup-wizard, you have an "
 "option to restore from the archive if it is available locally."
 msgstr ""
+"Si está creando su primera cuenta a través del asistente, tiene una opción "
+"para restaurar desde el archivador si está disponible localmente."
 
 #: C/evolution.xml:987(para)
 msgid "Evolution will auto-restart after the process."
-msgstr ""
+msgstr "Evolution se iniciará automáticamente después del proceso."
 
 #: C/evolution.xml:994(title)
 msgid "Command Line Options"
@@ -2941,7 +2952,7 @@ msgstr ""
 
 #: C/evolution.xml:1103(title)
 msgid "Magic Spacebar For Reading Mails"
-msgstr ""
+msgstr "Barra espaciadora mágica para leer correos"
 
 #: C/evolution.xml:1104(para)
 msgid ""
@@ -2949,12 +2960,15 @@ msgid ""
 "You can read mails, scroll the mails and switch folders using the spacebar "
 "on your keyboard."
 msgstr ""
+"Con la barra espaciador mágica puede leer fácilmente los correos no leídos en todas las carpetas. "
+"Puede leer correos, deslizar los correos y cambiar entre las carpetas usando la barra espaciadora "
+"de su teclado."
 
 #: C/evolution.xml:1105(para)
 msgid ""
 "When you are on the Mail view, the spacebar will give you the following "
 "behaviour:"
-msgstr ""
+msgstr "Cuando esté en la vista de correo, la barra espaciadora se comportará de la siguiente manera:"
 
 #: C/evolution.xml:1108(para)
 msgid ""
@@ -7370,12 +7384,11 @@ msgstr ""
 "consulte <link linkend=\"mail-prefs-junk\">Preferencias de spam</link>."
 
 #: C/evolution.xml:3075(para)
-#, fuzzy
 msgid ""
 "For additional junk mail settings, see <link linkend=\"more-mail-options"
 "\">Receiving Mail Options</link>."
 msgstr ""
-"Para obtener información adicional, vea <link linkend=\"more-mail-options"
+"Para ver ajustes de correo basura adicionales, consulte <link linkend=\"more-mail-options"
 "\">Opciones de recepción de correo</link>."
 
 #: C/evolution.xml:3077(para)
@@ -8529,9 +8542,8 @@ msgid "Sending a Meeting Invitation"
 msgstr "Enviar una invitación para reunión"
 
 #: C/evolution.xml:3652(link)
-#, fuzzy
 msgid "<br/>Accepting and Replying to a Meeting Request"
-msgstr "Aceptar y responder a solicitudes de reuniones"
+msgstr "<br/>Aceptar y responder a solicitudes de reuniones"
 
 #: C/evolution.xml:3655(link) C/evolution.xml:3949(title)
 msgid "Reading Responses to Meeting Requests"
@@ -9380,9 +9392,8 @@ msgstr ""
 
 #: C/evolution.xml:4033(para) C/evolution.xml:4350(para)
 #: C/evolution.xml:4585(para)
-#, fuzzy
 msgid "Select the search type:"
-msgstr "Seleccione el tipo de búsqueda"
+msgstr "Seleccione el tipo de búsqueda:"
 
 #: C/evolution.xml:4036(para) C/evolution.xml:4353(para)
 #: C/evolution.xml:4588(para)
@@ -9395,7 +9406,6 @@ msgid "Description contains"
 msgstr "La descripción contiene"
 
 #: C/evolution.xml:4042(para) C/evolution.xml:4594(para)
-#, fuzzy
 msgid "Any Field Contain"
 msgstr "Cualquier campo contiene"
 
@@ -9408,26 +9418,21 @@ msgstr "Evolution muestra los elementos del Calendario deseados."
 msgid ""
 "You can perform an advanced search based on any of the search type mentioned "
 "above."
-msgstr ""
+msgstr "Puede realizar una búsqueda avanzada basada en cualquiera de los tipos de búsqueda mencionados anteriormente."
 
 #: C/evolution.xml:4054(para) C/evolution.xml:4371(para)
 #: C/evolution.xml:4606(para)
-#, fuzzy
 msgid "To perform an advanced search:"
-msgstr "Realizar una búsqueda avanzada"
+msgstr "Realizar una búsqueda avanzada:"
 
 #: C/evolution.xml:4057(para) C/evolution.xml:4609(para)
-#, fuzzy
 msgid "Select the desired search type from the drop-down list."
-msgstr ""
-"Seleccione la opción que desea para la notificación de recepción de mensajes "
-"de la lista desplegable."
+msgstr "Seleccione la opción de búsqueda que desea de la lista desplegable."
 
 #: C/evolution.xml:4060(para) C/evolution.xml:4374(para)
 #: C/evolution.xml:4612(para)
-#, fuzzy
 msgid "Select Advanced Search to open Advanced Search dialogue box."
-msgstr "Pulse Búsqueda avanzada para abrir la caja de diálogo Búsqueda avanzada."
+msgstr "Seleccione Búsqueda avanzada para abrir el cuadro de diálogo Búsqueda avanzada."
 
 #: C/evolution.xml:4061(para) C/evolution.xml:4375(para)
 #: C/evolution.xml:4613(para)
@@ -9436,9 +9441,8 @@ msgstr ""
 
 #: C/evolution.xml:4066(para) C/evolution.xml:4380(para)
 #: C/evolution.xml:4618(para)
-#, fuzzy
 msgid "Click Add to add rules."
-msgstr "Pulse Añadir para añadir cualquier cabecera predefinida."
+msgstr "Pulse Añadir para añadir reglas."
 
 #: C/evolution.xml:4069(para) C/evolution.xml:4383(para)
 #: C/evolution.xml:4621(para)
@@ -9449,9 +9453,8 @@ msgstr ""
 "búsqueda."
 
 #: C/evolution.xml:4075(para) C/evolution.xml:4627(para)
-#, fuzzy
 msgid "Click Save to save your search results."
-msgstr "Pulse Guardar par aguardar los resultados."
+msgstr "Pulse Guardar para guardar los resultados."
 
 #: C/evolution.xml:4080(para)
 #, fuzzy
@@ -9470,15 +9473,13 @@ msgstr "Pulse mostrar para expandir la lista desplegable."
 
 #: C/evolution.xml:4088(para) C/evolution.xml:4429(para)
 #: C/evolution.xml:4640(para)
-#, fuzzy
 msgid "Select the search criteria:"
-msgstr "Seleccione el criterio de búsqueda"
+msgstr "Seleccione el criterio de búsqueda:"
 
 #: C/evolution.xml:4091(para) C/evolution.xml:4432(para)
 #: C/evolution.xml:4643(para)
-#, fuzzy
 msgid "Any Category"
-msgstr "Categorías:"
+msgstr "Cualquier categoría"
 
 #: C/evolution.xml:4094(para) C/evolution.xml:4435(para)
 #: C/evolution.xml:4646(para)
@@ -9874,7 +9875,7 @@ msgstr ""
 
 #: C/evolution.xml:4400(title)
 msgid "Next 7 Days Tasks:"
-msgstr ""
+msgstr "Tareas de los próximos 7 días:"
 
 #: C/evolution.xml:4401(para)
 msgid ""
@@ -9895,7 +9896,6 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:4408(title)
-#, fuzzy
 msgid "Over Due Tasks:"
 msgstr "Tareas vencidas:"
 
@@ -9904,18 +9904,16 @@ msgid "It shows all the tasks whose end date has already passed."
 msgstr ""
 
 #: C/evolution.xml:4412(title)
-#, fuzzy
 msgid "Completed Tasks:"
-msgstr "Ocultar las tareas completadas tras:"
+msgstr "Tareas completadas:"
 
 #: C/evolution.xml:4413(para)
 msgid "It shows the tasks whose status is 100 % completed."
 msgstr ""
 
 #: C/evolution.xml:4416(title)
-#, fuzzy
 msgid "Tasks With Attachment:"
-msgstr "Mensajes con adjuntos"
+msgstr "Tareas con adjuntos:"
 
 #: C/evolution.xml:4417(para)
 #, fuzzy
@@ -9924,7 +9922,7 @@ msgstr "Mensajes con adjuntos"
 
 #: C/evolution.xml:4420(title)
 msgid "&lt;List of Categories&gt;:"
-msgstr ""
+msgstr "&lt;Lista de categorías&gt;:"
 
 #: C/evolution.xml:4421(para)
 msgid ""
@@ -9933,9 +9931,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:4423(para) C/evolution.xml:4634(para)
-#, fuzzy
 msgid "To perform quick search,"
-msgstr "Realizar una búsqueda avanzada"
+msgstr "Para realizar una búsqueda rápida,"
 
 #: C/evolution.xml:4426(para)
 #, fuzzy
@@ -9947,24 +9944,20 @@ msgid "Next 7 Days Tasks"
 msgstr ""
 
 #: C/evolution.xml:4441(para)
-#, fuzzy
 msgid "Active Tasks"
-msgstr "Tareas asignadas"
+msgstr "Tareas activas"
 
 #: C/evolution.xml:4444(para)
-#, fuzzy
 msgid "Over Due Tasks"
-msgstr "Tareas vencidas:"
+msgstr "Tareas vencidas"
 
 #: C/evolution.xml:4447(para)
-#, fuzzy
 msgid "Completed Tasks"
-msgstr "Ocultar las tareas completadas tras:"
+msgstr "Tareas completadas"
 
 #: C/evolution.xml:4450(para)
-#, fuzzy
 msgid "Tasks With Attachments"
-msgstr "Mensajes con adjuntos"
+msgstr "Tareas con adjuntos"
 
 #: C/evolution.xml:4518(para)
 #, fuzzy
@@ -10723,9 +10716,8 @@ msgstr ""
 "proporcionadas"
 
 #: C/evolution.xml:5099(title)
-#, fuzzy
 msgid "Message Access Delegation:"
-msgstr "Delegación de acceso"
+msgstr "Delegación de acceso a mensajes:"
 
 #: C/evolution.xml:5100(para)
 msgid ""
@@ -10811,13 +10803,12 @@ msgid "Open a new Meeting composer window."
 msgstr "Abra una ventana del editor."
 
 #: C/evolution.xml:5142(para)
-#, fuzzy
 msgid "Add the recipients."
-msgstr "Destinatarios"
+msgstr "Añada los destinatarios."
 
 #: C/evolution.xml:5145(para)
 msgid "Click Send after filling in all other informations required."
-msgstr ""
+msgstr "Pulse Enviar después de rellenar toda la información necesaria."
 
 #: C/evolution.xml:5146(para)
 msgid ""
@@ -11706,9 +11697,8 @@ msgstr ""
 "destinatario lo abrió o borró."
 
 #: C/evolution.xml:5718(title)
-#, fuzzy
 msgid "Track an Item You Sent:"
-msgstr "Seguir un elemento que haya enviado"
+msgstr "Seguir un elemento que haya enviado:"
 
 #: C/evolution.xml:5719(para)
 msgid ""
@@ -11719,9 +11709,8 @@ msgstr ""
 "electrónico que haya enviado."
 
 #: C/evolution.xml:5722(title)
-#, fuzzy
 msgid "Receive Notification When the Item is Opened or Deleted:"
-msgstr "Recibir una notificación cuando se abre o borra el elemento"
+msgstr "Recibir una notificación cuando se abre o borra el elemento:"
 
 #: C/evolution.xml:5723(para)
 #, fuzzy
@@ -11735,9 +11724,8 @@ msgstr ""
 "notificaciones acerca de elementos que envía</link>."
 
 #: C/evolution.xml:5726(title)
-#, fuzzy
 msgid "Request a Reply:"
-msgstr "Pedir una respuesta"
+msgstr "Pedir una respuesta:"
 
 #: C/evolution.xml:5727(para)
 msgid ""
@@ -11753,25 +11741,22 @@ msgstr ""
 "\">Petición de respuesta para elementos que envíe</link>."
 
 #: C/evolution.xml:5731(title) C/evolution.xml:5855(title)
-#, fuzzy
 msgid "Status Tracking"
-msgstr "Barra de estado"
+msgstr "Seguimiento de estado"
 
 #: C/evolution.xml:5732(para)
 msgid "You can enable Status Tracking before you send any messages."
-msgstr ""
+msgstr "Puede activar el Seguimiento de estado antes de que envíe ningún mensaje."
 
 #: C/evolution.xml:5733(para) C/evolution.xml:5856(para)
-#, fuzzy
 msgid "To track the status of the message you have sent,"
-msgstr "Seguir el estado de un mensaje."
+msgstr "Para seguir el estado de un mensaje que haya enviado,"
 
 #: C/evolution.xml:5736(para)
-#, fuzzy
 msgid ""
 "In the Compose Message window, click Insert &gt; Send Options &gt; Status "
 "Tracking"
-msgstr "En la ventana de Edición de mensaje pulse Insertar &gt; Opciones de envío."
+msgstr "En la ventana de Edición de mensaje pulse Insertar &gt; Opciones de envío &gt; Seguimiento de estado"
 
 #: C/evolution.xml:5741(para) C/evolution.xml:5864(para)
 #, fuzzy
@@ -11793,13 +11778,10 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:5746(para)
-#, fuzzy
 msgid ""
 "For more information, see <link linkend=\"Aal54a9\">Checking the Status of "
 "an Item</link>."
-msgstr ""
-"Para obtener más información acerca de los recordatorios, vea <link linkend="
-"\"bshly4v\">Recordatorios</link>."
+msgstr "Para obtener más información, consulte <link linkend=\"Aal54a9\">Comprobar el estado de un elemento</link>."
 
 #: C/evolution.xml:5749(para) C/evolution.xml:5871(para)
 msgid ""
@@ -11808,9 +11790,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:5753(title) C/evolution.xml:5875(title)
-#, fuzzy
 msgid "Return Notification:"
-msgstr "Notificaciones de correo nuevo:"
+msgstr "Devolver notificación:"
 
 #: C/evolution.xml:5754(para) C/evolution.xml:5876(para)
 #, fuzzy
@@ -11950,11 +11931,10 @@ msgid "Each contact gets a copy of the appointment or meeting."
 msgstr "Cada contacto obtiene una copia de la cita o reunión."
 
 #: C/evolution.xml:5859(para)
-#, fuzzy
 msgid ""
 "In the Compose Meeting window, click Insert &gt; Send Options &gt; Status "
 "Tracking"
-msgstr "En la ventana de Edición de mensaje pulse Insertar &gt; Opciones de envío."
+msgstr "En la ventana del editor de mensaje pulse Insertar &gt; Opciones de envío &gt; Seguimiento de estado"
 
 #: C/evolution.xml:5889(para)
 msgid ""
@@ -12421,9 +12401,8 @@ msgid "There are six items you can customize."
 msgstr "Existen seis elementos que puede personalizar."
 
 #: C/evolution.xml:6196(title)
-#, fuzzy
 msgid "Mail Accounts:"
-msgstr "Cuentas de correo"
+msgstr "Cuentas de correo:"
 
 #: C/evolution.xml:6197(para)
 msgid ""
@@ -12439,9 +12418,8 @@ msgstr ""
 "identity\">Utilización de cuentas de correo</link>."
 
 #: C/evolution.xml:6200(title)
-#, fuzzy
 msgid "Autocompletion:"
-msgstr "Autocompletado"
+msgstr "Autocompletado:"
 
 #: C/evolution.xml:6201(para)
 msgid ""
@@ -12454,9 +12432,8 @@ msgstr ""
 "linkend=\"bshoq5l\">Autocompletado</link>."
 
 #: C/evolution.xml:6204(title)
-#, fuzzy
 msgid "Mail Preferences:"
-msgstr "Opciones de correo"
+msgstr "Opciones de correo:"
 
 #: C/evolution.xml:6205(para)
 msgid ""
@@ -12474,9 +12451,8 @@ msgstr ""
 "\"config-prefs-mail\">Opciones de correo</link>."
 
 #: C/evolution.xml:6208(title)
-#, fuzzy
 msgid "Composer Preferences:"
-msgstr "Editor de correo"
+msgstr "Preferencias del editor:"
 
 #: C/evolution.xml:6209(para)
 msgid ""
@@ -12493,9 +12469,8 @@ msgstr ""
 "linkend=\"config-prefs-mail-composer\">Preferencias del editor</link>."
 
 #: C/evolution.xml:6212(title)
-#, fuzzy
 msgid "Calendar and Tasks:"
-msgstr "Calendario y tareas"
+msgstr "Calendario y tareas:"
 
 #: C/evolution.xml:6213(para)
 msgid ""
@@ -12509,9 +12484,8 @@ msgstr ""
 "calendario y de las tareas</link>."
 
 #: C/evolution.xml:6216(title)
-#, fuzzy
 msgid "Certificates:"
-msgstr "Certificados"
+msgstr "Certificados:"
 
 #: C/evolution.xml:6217(para)
 msgid ""
@@ -13151,9 +13125,8 @@ msgstr ""
 "se pueden eliminar."
 
 #: C/evolution.xml:6403(title)
-#, fuzzy
 msgid "Sender Photograph:"
-msgstr "El remitente contiene:"
+msgstr "Foto del remitente:"
 
 #: C/evolution.xml:6404(para)
 msgid ""
@@ -13185,35 +13158,30 @@ msgid "This feature is disabled by default as it causes delay in fetching the ma
 msgstr ""
 
 #: C/evolution.xml:6413(para)
-#, fuzzy
 msgid ""
 "You can check your incoming messages for junk content using Bogofilter or/"
 "and SpamAssassin tool with trainable Bayesian filters.Note that you need to "
 "enable the respective junk plugins to enable junk filtering."
 msgstr ""
-"Sólo hay dos elementos en esta sección: Detectar si el correo entrante es "
-"spam e Incluir test remotos. Para comprobar el correo basura se usa la "
-"herramienta SpamAssasin con filtros bayesianos entrenables. Note que debe "
-"instalar SpamAssasin de forma separada para activar el filtro de correo "
-"basura."
+"Puede comprobar si el correo entrante es basura usando Bogofilter y/o "
+"SpamAssasin con filtros bayesianos entrenables. Nótese que necesita "
+"activar los respectivos complementos de spam para activar el filtro de spam."
 
 #: C/evolution.xml:6414(para)
 msgid "To enable junk filtering using SpamAssassin and/or Bogofilter,"
 msgstr ""
 
 #: C/evolution.xml:6417(para)
-#, fuzzy
 msgid "Select Edit &gt; Plugins"
-msgstr "Seleccione Editar &gt; Preferencias."
+msgstr "Seleccione Editar &gt; Complementos"
 
 #: C/evolution.xml:6420(para)
 msgid "Select Bogofilter junk plugin and SpamAssassin junk plugin."
 msgstr ""
 
 #: C/evolution.xml:6424(title)
-#, fuzzy
 msgid "General:"
-msgstr "General"
+msgstr "General:"
 
 #: C/evolution.xml:6425(para)
 msgid ""
@@ -13243,9 +13211,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6437(title)
-#, fuzzy
 msgid "SpamAssassin Options:"
-msgstr "Opciones de envío:"
+msgstr "Opciones de SpamAssasin:"
 
 #: C/evolution.xml:6438(para)
 #, fuzzy
@@ -13285,9 +13252,8 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6443(title)
-#, fuzzy
 msgid "Bogofilter Options:"
-msgstr "Opciones de envío:"
+msgstr "Opciones de Bogofilter:"
 
 #: C/evolution.xml:6444(para)
 msgid ""
@@ -13392,9 +13358,8 @@ msgstr ""
 "mensaje original, No citar el mensaje original, Adjuntar mensaje original."
 
 #: C/evolution.xml:6487(title)
-#, fuzzy
 msgid "Top Posting Options:"
-msgstr "Opciones de seguimiento"
+msgstr "Opciones de publicar por encima:"
 
 #: C/evolution.xml:6488(para)
 msgid ""
@@ -14340,9 +14305,8 @@ msgid "Address Book"
 msgstr "Libreta de direcciones"
 
 #: C/evolution.xml:6915(title)
-#, fuzzy
 msgid "New Item:"
-msgstr "Nuevo elemento"
+msgstr "Nuevo elemento:"
 
 #: C/evolution.xml:6916(para)
 msgid ""
@@ -14358,9 +14322,8 @@ msgstr ""
 "calendario se abrirá una nueva cita."
 
 #: C/evolution.xml:6919(title)
-#, fuzzy
 msgid "Creating a New E-mail Message:"
-msgstr "Crear un nuevo mensaje de correo-e"
+msgstr "Crear un nuevo mensaje de correo-e:"
 
 #: C/evolution.xml:6920(para)
 msgid "Use File &gt; New &gt; Mail Message or Shift+Ctrl+M."
@@ -14368,18 +14331,16 @@ msgstr "Use Archivo &gt; Nuevo &gt; Mensaje de correo o Mayús.+Ctrl+M."
 
 # index.docbook:41, index.docbook:293
 #: C/evolution.xml:6923(title) C/evolution.xml:6976(title)
-#, fuzzy
 msgid "Creating a New Appointment:"
-msgstr "Crear una cita nueva"
+msgstr "Crear una cita nueva:"
 
 #: C/evolution.xml:6924(para) C/evolution.xml:6977(para)
 msgid "Use File &gt; New Appointment or Shift+Ctrl+A."
 msgstr "Use Archivo &gt; Nuevo &gt; Cita o Mayús+Ctrl+A."
 
 #: C/evolution.xml:6927(title)
-#, fuzzy
 msgid "Entering a New Contact:"
-msgstr "Crear un contacto nuevo"
+msgstr "Introducir un contacto nuevo:"
 
 #: C/evolution.xml:6928(para)
 msgid ""
@@ -14392,18 +14353,16 @@ msgstr ""
 
 # index.docbook:41, index.docbook:293
 #: C/evolution.xml:6931(title) C/evolution.xml:6981(title)
-#, fuzzy
 msgid "Creating a New Task:"
-msgstr "Crear una tarea nueva"
+msgstr "Crear una tarea nueva:"
 
 #: C/evolution.xml:6932(para)
 msgid "File &gt; New Task or Shift+Ctrl+T."
 msgstr "Archivo &gt; Nuevo &gt; Tarea o Mayús.+Ctrl+T."
 
 #: C/evolution.xml:6939(title)
-#, fuzzy
 msgid "Send and Receive Mail:"
-msgstr "Enviar y recibir correo"
+msgstr "Enviar y recibir correo:"
 
 #: C/evolution.xml:6940(para)
 msgid ""
@@ -14414,9 +14373,8 @@ msgstr ""
 "Archivo &gt; Enviar/Recibir."
 
 #: C/evolution.xml:6943(title)
-#, fuzzy
 msgid "Navigating the Message List with the Keyboard:"
-msgstr "Navegar por la lista de mensajes mediante el teclado"
+msgstr "Navegar por la lista de mensajes mediante el teclado:"
 
 #: C/evolution.xml:6944(para)
 msgid ""
@@ -14429,9 +14387,8 @@ msgstr ""
 "y abajo por toda la lista de mensajes."
 
 #: C/evolution.xml:6947(title)
-#, fuzzy
 msgid "Moving the Display Up and Down in the Preview Pane:"
-msgstr "Moverse adelante y atrás en el panel de visualización de mensajes"
+msgstr "Moverse adelante y atrás en el panel de visualización de mensajes:"
 
 #: C/evolution.xml:6948(para)
 msgid "Press the Spacebar to move down a page. Press Backspace to move up a page."
@@ -14440,9 +14397,8 @@ msgstr ""
 "para volver hacia atrás una página."
 
 #: C/evolution.xml:6951(title)
-#, fuzzy
 msgid "Replying To a Message:"
-msgstr "Responder un mensaje"
+msgstr "Responder un mensaje:"
 
 #: C/evolution.xml:6952(para)
 msgid ""
@@ -14461,9 +14417,8 @@ msgstr ""
 "Responder a todos o seleccione el mensaje y pulse Mayús.+Ctrl+R."
 
 #: C/evolution.xml:6956(title)
-#, fuzzy
 msgid "Forwarding a Message:"
-msgstr "Reenviar un mensaje"
+msgstr "Reenviar un mensaje:"
 
 #: C/evolution.xml:6957(para)
 msgid ""
@@ -14474,9 +14429,8 @@ msgstr ""
 "barra de herramientas o pulse Ctrl+F."
 
 #: C/evolution.xml:6960(title)
-#, fuzzy
 msgid "Opening a Message In a New Window:"
-msgstr "Abrir un mensaje en una nueva ventana"
+msgstr "Abrir un mensaje en una nueva ventana:"
 
 #: C/evolution.xml:6961(para)
 msgid ""
@@ -14487,9 +14441,8 @@ msgstr ""
 "Retorno o Ctrl+O."
 
 #: C/evolution.xml:6964(title)
-#, fuzzy
 msgid "Creating Filters and Search Folders:"
-msgstr "Crear filtros y carpetas de búsqueda"
+msgstr "Crear filtros y carpetas de búsqueda:"
 
 #: C/evolution.xml:6965(para)
 msgid ""
@@ -14501,9 +14454,8 @@ msgstr ""
 "Editar."
 
 #: C/evolution.xml:6968(title)
-#, fuzzy
 msgid "Adding a Sender to the Address Book:"
-msgstr "Añadir un remitente a la libreta de direcciones"
+msgstr "Añadir un remitente a la libreta de direcciones:"
 
 #: C/evolution.xml:6969(para)
 msgid ""
@@ -14527,9 +14479,8 @@ msgid "Use File &gt; New Task or Shift+Ctrl+T."
 msgstr "Use Archivo &gt; Nueva tarea o Mayús.+Ctrl+T."
 
 #: C/evolution.xml:6989(title)
-#, fuzzy
 msgid "Editing a Contact:"
-msgstr "Editar un contacto"
+msgstr "Editar un contacto:"
 
 #: C/evolution.xml:6990(para)
 msgid "Double-click the contact's address card to change details."
@@ -14538,9 +14489,8 @@ msgstr ""
 "los detalles."
 
 #: C/evolution.xml:6993(title)
-#, fuzzy
 msgid "Deleting a Contact:"
-msgstr "Borrar un contacto"
+msgstr "Borrar un contacto:"
 
 #: C/evolution.xml:6994(para)
 msgid ""
@@ -14552,9 +14502,8 @@ msgstr ""
 "herramientas."
 
 #: C/evolution.xml:6997(title)
-#, fuzzy
 msgid "Sending E-mails to a Contact:"
-msgstr "Enviar un correo-e a un contacto"
+msgstr "Enviar correos-e a un contacto:"
 
 #: C/evolution.xml:6998(para)
 msgid "Right-click a contact, then click Send Message to Contact."
@@ -14563,7 +14512,6 @@ msgstr ""
 "mensaje al contacto."
 
 #: C/evolution.xml:7001(title)
-#, fuzzy
 msgid "Creating a New Contact:"
 msgstr "Crear un contacto nuevo:"
 
