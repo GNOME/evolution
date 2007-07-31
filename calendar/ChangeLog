@@ -1,3 +1,8 @@
+2007-07-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	* common/authentication.c: Include <libedataserver/e-source.h>
+	to fix implicit declaration of e_source_get_duped_property().
+
 2007-07-30  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/dialogs/schedule-page.glade:

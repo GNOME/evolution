@@ -27,6 +27,7 @@
 
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
+#include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
 #include "authentication.h"
 
