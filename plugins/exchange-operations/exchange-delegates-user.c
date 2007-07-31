@@ -80,7 +80,7 @@ const char *exchange_delegates_user_folder_names[] = {
    sent to the delegatee. 
 */
 const char *folder_names_for_display[] = {
-	N_("Calendar"), N_("Tasks   "), N_("Inbox   "), N_("Contacts")
+	N_("Calendar"), N_("Tasks"), N_("Inbox"), N_("Contacts")
 };
 
 static const char *widget_names[] = {
@@ -180,12 +180,11 @@ map_to_full_role_name (E2kPermissionsRole role_nam)
 {	
 	const char *role_name;
 
+	switch (role_nam)
+	{	
 	/* To translators: The following are the various types of permissions that can
 	   assigned by an user to his folders.
 	*/
-
-	switch (role_nam)
-	{	
 		case E2K_PERMISSIONS_ROLE_EDITOR: role_name = g_strdup (
 							_("Editor (read, create, edit)"));
 						  break;
@@ -322,9 +321,10 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			char *self_address, *delegate_mail_subject;
 			char *role_name;
 			char *role_name_final = "";
-
+			
 			const char *recipient_address;
 			const char *delegate_exchange_dn;
+			const char *msg_part1 = NULL, *msg_part2 = NULL;
 
 
 			self_address = g_strdup (exchange_account_get_email_id (account));
@@ -336,38 +336,46 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 
 			/* Create textual receipt */
 			delegate_mail_text = camel_data_wrapper_new ();
-			type = camel_content_type_new ("text", "plain");
+			type = camel_content_type_new ("text", "html");
 			camel_content_type_set_param (type, "format", "flowed");
 			camel_data_wrapper_set_mime_type_field (delegate_mail_text, type);
 			camel_content_type_unref (type);
 			stream = camel_stream_mem_new ();
-
-			/* To translators: The content of the message being sent to the delegatee
+			
+			/* To translators: This is a part of the message to be sent to the delegatee 
 			   summarizing the permissions assigned to him.
 			*/
+			msg_part1 = _("This message was sent automatically by Evolution to inform you that you have been "
+				    	"designated as a delegate. You can now send messages on my behalf.");
+			
+			/* To translators: Another chunk of the same message.
+			*/
+			msg_part2 = _("You have been given the following permissions on my folders:");
+
 			camel_stream_printf (stream,
-					_("This message was sent automatically by Evolution "
-					  "to inform you that you have been designated as a "
-					  "delegate. You can now send messages on my behalf."
-					  " \n\nYou have been given the following permissions "
-					  "on my folders:\n"));
+				"<html><body><p>%s<br><br>%s</p><table border = 0 width=\"40%%\">", msg_part1, msg_part2);
 			for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
 				menu = glade_xml_get_widget (xml, widget_names[i]);
 				role = e_dialog_option_menu_get (menu, exchange_perm_map);
 				role_name = g_strdup (map_to_full_role_name(role));
-				role_name_final = g_strconcat (role_name_final, "\t", 
-						folder_names_for_display[i], ":", "\t", 
-						role_name, "\n", NULL);
+				role_name_final = g_strconcat (role_name_final, "<tr><td>" , folder_names_for_display[i],
+					":</td><td>", role_name, "</td> </tr>", NULL);
 			}
 
-			camel_stream_printf (stream, "%s", role_name_final);
+			camel_stream_printf (stream, "%s</table>", role_name_final);
 
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) == TRUE) {
-				camel_stream_printf (stream, _("\nYou are also permitted "
+				/* To translators: This message is included if the delegatee has been given access
+				   to the private items.
+				*/   
+				camel_stream_printf (stream, "<br>%s", _("You are also permitted "
 							"to see my private items."));
 			}
 			else
-				camel_stream_printf (stream, _("\nHowever you are not permitted "
+				/* To translators: This message is included if the delegatee has not been given access
+				   to the private items.
+				*/ 
+				camel_stream_printf (stream, "<br>%s", _("However you are not permitted "
 							 "to see my private items."));
 			camel_data_wrapper_construct_from_stream (delegate_mail_text, stream);
 			g_free (role_name);

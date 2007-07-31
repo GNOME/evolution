@@ -1,3 +1,11 @@
+2007-07-31  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	* exchange-delegates-user.c: (exchange_delegates_user_edit):
+	Generate HTML content for permission-summary mail, instead of
+	ascii-text content.  This is required to align strings in a table.
+
+	Committing on behalf of Bharath Acharya <abharath@novell.com>
+	
 2007-07-30  Andre Klapper  <a9016009@gmx.de>
 
 	* exchange-permissions-dialog.glade:
