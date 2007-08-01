@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-30 19:54+0100\n"
-"PO-Revision-Date: 2007-07-30 21:02+0200\n"
+"POT-Creation-Date: 2007-07-31 22:40+0100\n"
+"PO-Revision-Date: 2007-08-01 15:40+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1310,7 +1310,7 @@ msgstr "Contacto"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:551
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:566
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2425
 msgid "Contact Editor"
 msgstr "Editor de contactos"
 
@@ -2569,20 +2569,20 @@ msgid "Changed"
 msgstr "Modificados"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:561
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2420
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor de contactos: %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2801
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2807
 msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2802
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2808
 msgid "_No image"
 msgstr "_Sin imagen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2590,23 +2590,23 @@ msgstr ""
 "Los datos del contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3107
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3114
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3120
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3129
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3140
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3135
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3146
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» está vacío"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3155
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3161
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -4472,7 +4472,7 @@ msgstr "_Enviar notificación"
 msgid "{0}."
 msgstr "{0}."
 
-#: ../calendar/common/authentication.c:49 ../smime/gui/component.c:50
+#: ../calendar/common/authentication.c:50 ../smime/gui/component.c:50
 msgid "Enter password"
 msgstr "Introduzca contraseña"
 
@@ -4580,6 +4580,7 @@ msgstr "Notas"
 #: ../calendar/gui/tasks-control.c:494
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:587
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:397
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:541
@@ -6261,7 +6262,7 @@ msgstr "Personalizar"
 #: ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
-#: ../plugins/exchange-operations/exchange-delegates-user.c:201
+#: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1910
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1504
@@ -11430,6 +11431,7 @@ msgstr "Borradores"
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2567
 #: ../mail/mail-component.c:151
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Bandeja de entrada"
@@ -12063,7 +12065,7 @@ msgstr "Grupos de noticias"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1834
+#: ../mail/em-format-html.c:1837
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "Este mensaje lo envió <b>%s</s> en nombre de <b>%s</b>"
@@ -15547,14 +15549,6 @@ msgstr "Su contraseña actual ha caducado. Cambie su contraseña ahora."
 msgid "Your password will expire in the next %d days"
 msgstr "Su contraseña caducará en los siguientes %d días"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:83
-msgid "Tasks   "
-msgstr "Tareas   "
-
-#: ../plugins/exchange-operations/exchange-delegates-user.c:83
-msgid "Inbox   "
-msgstr "Bandeja de entrada   "
-
 #. Custom
 #: ../plugins/exchange-operations/exchange-delegates-user.c:159
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
@@ -15562,61 +15556,64 @@ msgstr "Bandeja de entrada   "
 msgid "Custom"
 msgstr "Personalizado"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:190
+#: ../plugins/exchange-operations/exchange-delegates-user.c:189
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
 msgstr "Editor (lectura, creación, edición)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:194
+#: ../plugins/exchange-operations/exchange-delegates-user.c:193
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
 msgstr "Autor (lectura, creación)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:198
+#: ../plugins/exchange-operations/exchange-delegates-user.c:197
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
 msgstr "Revisor (sólo lectura)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:248
+#: ../plugins/exchange-operations/exchange-delegates-user.c:247
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
 msgstr "Permisos de delegados"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:259
+#: ../plugins/exchange-operations/exchange-delegates-user.c:258
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
 #, c-format
 msgid "Permissions for %s"
 msgstr "Permisos para %s"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:349
+#. To translators: This is a part of the message to be sent to the delegatee
+#. summarizing the permissions assigned to him.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:348
 msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
-"been designated as a delegate. You can now send messages on my behalf. \n"
-"\n"
-"You have been given the following permissions on my folders:\n"
+"been designated as a delegate. You can now send messages on my behalf."
 msgstr ""
 "Este mensaje se envió automáticamente por Evolution para informarle de que "
-"ha sido designado como delegado. Ahora puede enviar mensajes en mi nombre. \n"
-"\n"
-"Se le han otorgado los siguientes permisos sobre mis carpetas:\n"
+"ha sido designado como delegado. Ahora puede enviar mensajes en mi nombre."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:366
-msgid ""
-"\n"
-"You are also permitted to see my private items."
-msgstr ""
-"\n"
-"También se le permite ver los elementos privados."
+#. To translators: Another chunk of the same message.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:353
+msgid "You have been given the following permissions on my folders:"
+msgstr "Se le han otorgado los siguientes permisos sobre mis carpetas:"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:370
-msgid ""
-"\n"
-"However you are not permitted to see my private items."
-msgstr ""
-"\n"
-"No obstante no se le permite ver los elementos privados."
+#. To translators: This message is included if the delegatee has been given access
+#. to the private items.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:371
+msgid "You are also permitted to see my private items."
+msgstr "También se le permite ver mis elementos privados."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:402
+#. To translators: This message is included if the delegatee has not been given access
+#. to the private items.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:378
+msgid "However you are not permitted to see my private items."
+msgstr "No obstante no se le permite ver mis elementos privados."
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:410
 #, c-format
 msgid "You have been designated as a delegate for %s"
 msgstr "Ha sido designado como delegado para %s"
