@@ -1749,6 +1749,7 @@ do_exit (EMsgComposer *composer)
 		g_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], 0, TRUE);
 		e_msg_composer_unset_changed (composer);
 		e_msg_composer_unset_autosaved (composer);
+		gtk_widget_destroy (GTK_WIDGET (composer));
 		break;
 	case GTK_RESPONSE_NO:
 		/* Don't save */

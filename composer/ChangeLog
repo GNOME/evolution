@@ -1,3 +1,10 @@
+2007-08-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for downstream bug from openSUSE (bnc #271045)
+
+	* e-msg-composer.c: (do_exit): When exitting, close after the message
+	was saved.
+
 2007-07-16  Sankar P  <psankar@novell.com>
 
 	* e-msg-composer.c: (set_editor_text):
