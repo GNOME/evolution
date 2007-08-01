@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-30 18:23+0200\n"
-"PO-Revision-Date: 2007-07-30 18:30+0100\n"
+"POT-Creation-Date: 2007-08-01 19:31+0200\n"
+"PO-Revision-Date: 2007-08-01 19:33+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -1221,7 +1221,7 @@ msgstr "Kontakt"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:551
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:566
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2425
 msgid "Contact Editor"
 msgstr "Kontaktredigerare"
 
@@ -2484,20 +2484,20 @@ msgid "Changed"
 msgstr "Ändrad"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:561
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2420
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Kontaktredigerare - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2801
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2807
 msgid "Please select an image for this contact"
 msgstr "Välj en bild för denna kontakt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2802
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2808
 msgid "_No image"
 msgstr "_Ingen bild"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2505,23 +2505,23 @@ msgstr ""
 "Data för kontakten är ogiltiga:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3107
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "\"%s\" har ett ogiltigt format"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3114
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3120
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s\"%s\" har ett ogiltigt format"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3129
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3140
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3135
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3146
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s\"%s\" är tom"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3155
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3161
 msgid "Invalid contact."
 msgstr "Ogiltig kontakt."
 
@@ -2944,7 +2944,7 @@ msgstr "Klipp _ut"
 #: ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465
 #: ../calendar/gui/tasks-component.c:456
-#: ../composer/e-msg-composer.c:3223
+#: ../composer/e-msg-composer.c:3224
 #: ../mail/em-folder-tree.c:1006
 #: ../mail/em-folder-view.c:1142
 #: ../mail/message-list.c:1962
@@ -4325,7 +4325,7 @@ msgstr "_Skicka meddelande"
 msgid "{0}."
 msgstr "{0}."
 
-#: ../calendar/common/authentication.c:49
+#: ../calendar/common/authentication.c:50
 #: ../smime/gui/component.c:50
 msgid "Enter password"
 msgstr "Ange lösenord"
@@ -4440,6 +4440,7 @@ msgstr "Memon"
 #: ../calendar/gui/tasks-control.c:494
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:587
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:397
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:541
@@ -5756,7 +5757,7 @@ msgid "Due "
 msgstr "Ska utföras "
 
 #: ../calendar/gui/dialogs/comp-editor.c:209
-#: ../composer/e-msg-composer.c:2960
+#: ../composer/e-msg-composer.c:2961
 #, c-format
 msgid "Attached message - %s"
 msgstr "Bifogat meddelande - %s"
@@ -5764,8 +5765,8 @@ msgstr "Bifogat meddelande - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
 #: ../calendar/gui/dialogs/comp-editor.c:393
-#: ../composer/e-msg-composer.c:2965
-#: ../composer/e-msg-composer.c:3160
+#: ../composer/e-msg-composer.c:2966
+#: ../composer/e-msg-composer.c:3161
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5773,7 +5774,7 @@ msgstr[0] "Bifogat meddelande"
 msgstr[1] "%d bifogade meddelanden"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464
-#: ../composer/e-msg-composer.c:3224
+#: ../composer/e-msg-composer.c:3225
 #: ../mail/em-folder-tree.c:1007
 #: ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1038
@@ -5782,7 +5783,7 @@ msgid "_Move"
 msgstr "_Flytta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466
-#: ../composer/e-msg-composer.c:3226
+#: ../composer/e-msg-composer.c:3227
 #: ../mail/em-folder-tree.c:1009
 #: ../mail/message-list.c:1965
 msgid "Cancel _Drag"
@@ -5793,7 +5794,7 @@ msgid "Could not update object"
 msgstr "Kunde inte uppdatera objekt"
 
 #: ../calendar/gui/dialogs/comp-editor.c:971
-#: ../composer/e-msg-composer.c:2577
+#: ../composer/e-msg-composer.c:2578
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5812,7 +5813,7 @@ msgstr "Visa _bilageraden"
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../calendar/gui/dialogs/event-page.c:1913
 #: ../calendar/gui/dialogs/task-page.c:1201
-#: ../composer/e-msg-composer.c:3741
+#: ../composer/e-msg-composer.c:3742
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5820,7 +5821,7 @@ msgid "_Remove"
 msgstr "_Ta bort"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3742
+#: ../composer/e-msg-composer.c:3743
 #: ../mail/em-folder-tree.c:2129
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:35
@@ -5828,7 +5829,7 @@ msgid "_Properties"
 msgstr "_Egenskaper"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3744
+#: ../composer/e-msg-composer.c:3745
 msgid "_Add attachment..."
 msgstr "_Lägg till bilaga..."
 
@@ -6087,7 +6088,7 @@ msgstr "Anpassa"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
-#: ../composer/e-msg-composer.c:2361
+#: ../composer/e-msg-composer.c:2362
 #: ../filter/filter-rule.c:891
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
@@ -6095,7 +6096,7 @@ msgstr "Anpassa"
 #: ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
-#: ../plugins/exchange-operations/exchange-delegates-user.c:201
+#: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1910
 #: ../widgets/misc/e-cell-date-edit.c:247
@@ -10177,13 +10178,13 @@ msgid "Cannot encrypt outgoing message: No encryption certificate set for this a
 msgstr "Kan inte kryptera utgående meddelande: Inget krypteringscertifikat angivet för detta konto"
 
 #: ../composer/e-msg-composer.c:1344
-#: ../composer/e-msg-composer.c:2606
+#: ../composer/e-msg-composer.c:2607
 msgid "Hide _Attachment Bar"
 msgstr "Dölj _bilageraden"
 
 #: ../composer/e-msg-composer.c:1347
-#: ../composer/e-msg-composer.c:2609
-#: ../composer/e-msg-composer.c:3987
+#: ../composer/e-msg-composer.c:2610
+#: ../composer/e-msg-composer.c:3988
 msgid "Show _Attachment Bar"
 msgstr "Visa _bilageraden"
 
@@ -10206,28 +10207,28 @@ msgid "Untitled Message"
 msgstr "Namnlöst meddelande"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1779
+#: ../composer/e-msg-composer.c:1780
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: ../composer/e-msg-composer.c:2241
+#: ../composer/e-msg-composer.c:2242
 #: ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651
 #: ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Automatiskt genererad"
 
-#: ../composer/e-msg-composer.c:2344
+#: ../composer/e-msg-composer.c:2345
 msgid "Si_gnature:"
 msgstr "Si_gnatur:"
 
-#: ../composer/e-msg-composer.c:2620
-#: ../composer/e-msg-composer.c:3869
-#: ../composer/e-msg-composer.c:3872
+#: ../composer/e-msg-composer.c:2621
+#: ../composer/e-msg-composer.c:3870
+#: ../composer/e-msg-composer.c:3873
 msgid "Compose Message"
 msgstr "Skriv ett meddelande"
 
-#: ../composer/e-msg-composer.c:5097
+#: ../composer/e-msg-composer.c:5098
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(Redigeraren innehåller en meddelandetext som inte är text och som inte kan redigeras.)</b>"
 
@@ -11378,6 +11379,7 @@ msgstr "Utkast"
 #: ../mail/em-folder-tree-model.c:487
 #: ../mail/em-folder-tree.c:2567
 #: ../mail/mail-component.c:151
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Inkorg"
@@ -12023,7 +12025,7 @@ msgstr "Diskussionsgrupper"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1834
+#: ../mail/em-format-html.c:1837
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "Det här meddelandet skickades av <b>%s</b> på uppdrag av <b>%s</b>"
@@ -15263,14 +15265,6 @@ msgstr "Ditt nuvarande lösenord har gått ut. Byt ditt lösenord nu."
 msgid "Your password will expire in the next %d days"
 msgstr "Ditt lösenord går ut om %d dagar"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:83
-msgid "Tasks   "
-msgstr "Uppgifter   "
-
-#: ../plugins/exchange-operations/exchange-delegates-user.c:83
-msgid "Inbox   "
-msgstr "Inkorg   "
-
 #. Custom
 #: ../plugins/exchange-operations/exchange-delegates-user.c:159
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
@@ -15278,59 +15272,60 @@ msgstr "Inkorg   "
 msgid "Custom"
 msgstr "Anpassad"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:190
+#: ../plugins/exchange-operations/exchange-delegates-user.c:189
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
 msgstr "Redaktör (läs, skapa, redigera)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:194
+#: ../plugins/exchange-operations/exchange-delegates-user.c:193
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
 msgstr "Författare (läs, skapa)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:198
+#: ../plugins/exchange-operations/exchange-delegates-user.c:197
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
 msgstr "Granskare (skrivskyddad)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:248
+#: ../plugins/exchange-operations/exchange-delegates-user.c:247
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
 msgstr "Delegaträttigheter"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:259
+#: ../plugins/exchange-operations/exchange-delegates-user.c:258
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
 #, c-format
 msgid "Permissions for %s"
 msgstr "Rättigheter för %s"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:349
-msgid ""
-"This message was sent automatically by Evolution to inform you that you have been designated as a delegate. You can now send messages on my behalf. \n"
-"\n"
-"You have been given the following permissions on my folders:\n"
-msgstr ""
-"Det här meddelandet skickades automatiskt av Evolution för att informera dig om att du har utsetts som en delegat. Du kan nu skicka meddelanden i mitt namn.\n"
-"\n"
-"Du har tilldelats följande rättigheter på mina mappar:\n"
+#. To translators: This is a part of the message to be sent to the delegatee
+#. summarizing the permissions assigned to him.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:348
+msgid "This message was sent automatically by Evolution to inform you that you have been designated as a delegate. You can now send messages on my behalf."
+msgstr "Det här meddelandet skickades automatiskt av Evolution för att informera dig om att du har utsetts som en delegat. Du kan nu skicka meddelanden i mitt namn."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:366
-msgid ""
-"\n"
-"You are also permitted to see my private items."
-msgstr ""
-"\n"
-"Du tillåts även att se mina privata objekt."
+#. To translators: Another chunk of the same message.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:353
+msgid "You have been given the following permissions on my folders:"
+msgstr "Du har tilldelats följande rättigheter på mina mappar:"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:370
-msgid ""
-"\n"
-"However you are not permitted to see my private items."
-msgstr ""
-"\n"
-"Dock har du inte tillåtelse att se mina privata objekt."
+#. To translators: This message is included if the delegatee has been given access
+#. to the private items.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:371
+msgid "You are also permitted to see my private items."
+msgstr "Du tillåts även att se mina privata objekt."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:402
+#. To translators: This message is included if the delegatee has not been given access
+#. to the private items.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:378
+msgid "However you are not permitted to see my private items."
+msgstr "Dock har du inte tillåtelse att se mina privata objekt."
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:410
 #, c-format
 msgid "You have been designated as a delegate for %s"
 msgstr "Du har utsetts till en delegat för %s"
@@ -22148,6 +22143,10 @@ msgstr "IM-sammanhang"
 msgid "Handle Popup"
 msgstr "Handtagspopupfönster"
 
+#~ msgid "Tasks   "
+#~ msgstr "Uppgifter   "
+#~ msgid "Inbox   "
+#~ msgstr "Inkorg   "
 #~ msgid "<b>Then</b>"
 #~ msgstr "<b>Då</b>"
 
