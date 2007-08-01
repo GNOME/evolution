@@ -1,3 +1,8 @@
+2007-08-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* backup-restore.c: (org_gnome_backup_restore_restore): Popup the
+	right warning
+
 2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* backup.c: Remove BASE_VERSION from the binary

@@ -160,7 +160,7 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 		if (sanity_check (filename)) {
 			guint32 mask;
 		
-			mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after restore"), "org.gnome.backup-restore:backup-confirm", NULL);
+			mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after restore"), "org.gnome.backup-restore:restore-confirm", NULL);
 			if (mask & BR_OK) 
 				restore (filename, mask & BR_START);
 		} else {
