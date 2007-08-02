@@ -1,3 +1,11 @@
+2007-08-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #322624
+
+	* gui/alarm-notify/alarm-queue.c: (has_known_notification),
+	(add_component_alarms), (query_objects_changed_async):
+	Don't add alarms for types with unknown/none notification method.
+
 2007-07-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	* common/authentication.c: Include <libedataserver/e-source.h>

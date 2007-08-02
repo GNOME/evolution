@@ -341,6 +341,41 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	return TRUE;
 }
 
+/**
+ * has_known_notification:
+ * Test for notification method and returns if it knows it or not.
+ * @param comp Component with an alarm.
+ * @param alarm_uid ID of the alarm in the comp to test.
+ * @return TRUE when we know the notification type, FALSE otherwise.
+ */
+static gboolean
+has_known_notification (ECalComponent *comp, const gchar *alarm_uid)
+{
+	ECalComponentAlarm *alarm;
+	ECalComponentAlarmAction action;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (alarm_uid != NULL, FALSE);
+
+	alarm = e_cal_component_get_alarm (comp, alarm_uid);
+	if (!alarm)
+		 return FALSE;
+
+	e_cal_component_alarm_get_action (alarm, &action);
+	e_cal_component_alarm_free (alarm);
+
+	switch (action) {
+	case E_CAL_COMPONENT_ALARM_AUDIO:
+	case E_CAL_COMPONENT_ALARM_DISPLAY:
+	case E_CAL_COMPONENT_ALARM_EMAIL:
+	case E_CAL_COMPONENT_ALARM_PROCEDURE:
+		return TRUE;
+	default:
+		break;
+	}
+	return FALSE;
+}
+
 /* Callback used when an alarm triggers */
 static void
 alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
@@ -435,6 +470,11 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		time_t tnow = time(NULL);
 		
 		instance = l->data;
+
+		if (!has_known_notification (cqa->alarms->comp, instance->auid)) {
+			g_debug ("Could not recognize alarm's notification type, discarding.");
+			continue;
+		}
 
 		alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
 		if (!alarm_id) {
@@ -734,6 +774,11 @@ query_objects_changed_async (EThread *e, AlarmMsg *msg, void *data)
 			QueuedAlarm *qa;
 
 			instance = sl->data;
+
+			if (!has_known_notification (cqa->alarms->comp, instance->auid)) {
+				g_debug ("Could not recognize alarm's notification type, discarding.");
+				continue;
+			}
 
 			alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
 			if (!alarm_id) {
