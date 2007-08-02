@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_manual.es\n"
 "POT-Creation-Date: 2007-07-30 12:49+0100\n"
-"PO-Revision-Date: 2007-07-31 23:38+0200\n"
+"PO-Revision-Date: 2007-08-01 22:54+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2974,31 +2974,35 @@ msgstr "Cuando esté en la vista de correo, la barra espaciadora se comportará 
 msgid ""
 "When you press the spacebar for the first time pressed, it takes you to the "
 "next unread mail."
-msgstr ""
+msgstr "Cuando pulsa la barra espaciadora la primera vez, le llevará al siguiente correo no leído."
 
 #: C/evolution.xml:1111(para)
 msgid "If the message is more than one screen long, the spacebar works as pagedown."
-msgstr ""
+msgstr "Si el mensaje es más largo que la pantalla, la barra espaciadora funciona como avance de página."
 
 #: C/evolution.xml:1114(para)
 msgid ""
 "If you press the spacebar when you reach the bottom of the page, it takes "
 "you to the next unread message."
 msgstr ""
+"Si pulsa la barra espaciadora cuando ha llegado al final de la página, le lleva al sigueinte "
+"mensaje no leído."
 
 #: C/evolution.xml:1117(para)
 msgid ""
 "If there are no more unread message in the mailbox, spacebar takes you to "
 "the next unread message in the next folder."
 msgstr ""
+"Si no hay más mensajes sin leer en el buzón de correo, la barra espaciadora le lleva "
+"al siguiente mensaje sin leer en la siguiente carpeta."
 
 #: C/evolution.xml:1120(para)
 msgid "If you have new mail in a number of boxes, spacebar toggles between them."
-msgstr ""
+msgstr "Si tiene correo nuevo en una serie de buzones, la barra espaciadora conmuta entre ellos."
 
 #: C/evolution.xml:1123(para)
 msgid "It allows you to browse till the end of the page and returns the status."
-msgstr ""
+msgstr "Le permite examinar hasta el final de la página y devuelve el estado."
 
 #: C/evolution.xml:1129(title)
 msgid "Checking for New Mail"
@@ -3056,6 +3060,9 @@ msgid ""
 "in your inbox, Evolution display an e-mail notifier at the notification area "
 "for a few seconds."
 msgstr ""
+"Evolution le notifica la llegada de nuevo correo-e. Cuando reciba un nuevo mensaje "
+"en su buzón, Evolution muestra durante unos segundos un notificador de correo-e "
+"en el área de notificación."
 
 #: C/evolution.xml:1142(para)
 msgid ""
@@ -3789,7 +3796,7 @@ msgstr ""
 
 #: C/evolution.xml:1418(para)
 msgid "To mark a folder for offline use,"
-msgstr ""
+msgstr "Para marcar una carpeta para su uso desconectado,"
 
 #: C/evolution.xml:1421(para)
 msgid "Right-click the folder, then click Properties."
@@ -3797,7 +3804,7 @@ msgstr "Pulse con el botón derecho del ratón sobre la carpeta, después elija 
 
 #: C/evolution.xml:1424(para)
 msgid "Click Copy Folder Content Locally for Offline Operation."
-msgstr ""
+msgstr "Pulse Copiar el contenido de la carpeta localmente para operar desconectado."
 
 #: C/evolution.xml:1427(para)
 msgid ""
@@ -3812,25 +3819,31 @@ msgstr ""
 
 #: C/evolution.xml:1428(para)
 msgid "To cache your selected folders and disconnect from the network,"
-msgstr ""
+msgstr "Para cachear las carpetas seleccionadas y desconectar de la red,"
 
 #: C/evolution.xml:1431(para)
 msgid ""
 "Click File &gt; Work Offline, or click the connection status icon in the "
 "lower left of the screen."
 msgstr ""
+"Pulse Archivo &gt; Trabajar desconectado o pulse el icono de estado de la conexión "
+"en la esquina inferior izquierda de la pantalla."
 
 #: C/evolution.xml:1432(para)
 msgid ""
 "A message popups and asks you whether you want to go offline immediately or "
 "cache before you go offline."
 msgstr ""
+"Un mensaje emergerá y le preguntará si quiere desconectarse inmediatamente o "
+"cachear antes de desconectarse."
 
 #: C/evolution.xml:1437(para)
 msgid ""
 "Click Synchronize to download all the messages to the folders marked for "
 "offline."
 msgstr ""
+"Pulse Sincronizar para descargar todos los mensajes en las carpetas marcadas para "
+"trabajar desconectado."
 
 #: C/evolution.xml:1438(para) C/evolution.xml:3632(para)
 msgid "Or"
@@ -3841,24 +3854,28 @@ msgid ""
 "Click Do not synchronize to go offline immediately, without downloading the "
 "messages locally for offline operations."
 msgstr ""
+"Pulse No sincronizar para desconectarse inmediatamente, sin descargar los mensajes "
+"localmente para trabajar desconectado."
 
 #: C/evolution.xml:1440(para)
 msgid ""
 "Select Do not show this message again to switch off this popup. The default "
 "is do not synchronize while going offline."
 msgstr ""
+"Seleccione No mostrar otra vez este mensaje para desactivar este mensaje emergente. Lo "
+"predeterminado es no sincronizar al desconectar."
 
 #: C/evolution.xml:1443(para)
 msgid "When you want to reconnect,"
-msgstr ""
+msgstr "Cuando quiera reconectar,"
 
 #: C/evolution.xml:1446(para)
 msgid "Click File &gt; Work Online, or click the connection status icon again."
-msgstr ""
+msgstr "Pulse Archivo &gt; Trabajar conectado o pulse el icono de estado de la conexión de nuevo."
 
 #: C/evolution.xml:1451(title)
 msgid "Download Messages for Offline Operations"
-msgstr ""
+msgstr "Descargar los mensajes para trabajar desconectado"
 
 #: C/evolution.xml:1452(para)
 msgid ""
@@ -3868,10 +3885,15 @@ msgid ""
 "synchronizing the messages locally for offline operations. But now, by "
 "default it goes offline without downloading the messages."
 msgstr ""
+"Esta característica prepara Evolution para trabajar y operar desconectado. Le "
+"ayuda a descargar todos los mensajes localmente antes de desconectarse. "
+"Antes, cuando pulsa el botón de desconexión, sólo se desconecta después "
+"de sincronizar los mensajes localmente para trabajar desconectado. Pero ahora "
+"se desconecta sin descargar los mensajes de forma predeterminada."
 
 #: C/evolution.xml:1453(para)
 msgid "To download messages for offline operations,"
-msgstr "Para descargar mensajes para operaciones sin conexión,"
+msgstr "Para descargar mensajes para trabajar desconectado,"
 
 #: C/evolution.xml:1456(para)
 msgid "Select File &gt; Download messages for offline."
@@ -3959,7 +3981,7 @@ msgstr ""
 msgid ""
 "Click Add to add keywords such as &ldquo;Attach&rdquo; or &ldquo;"
 "Attachment&rdquo;."
-msgstr ""
+msgstr "Pulse Añadir para añadir palabras clave tales como «Adjuntar» o «Adjunto»."
 
 #: C/evolution.xml:1505(para)
 msgid ""
@@ -8488,7 +8510,7 @@ msgid ""
 "locally for offline operations."
 msgstr ""
 "Para marcar el contenido de su calendario para un uso desconectado, pulse "
-"Copiar el contenido del calendario localmente para operación desconectado."
+"Copiar el contenido del calendario localmente para trabajar desconectado."
 
 #: C/evolution.xml:3633(para)
 msgid ""
@@ -9437,7 +9459,7 @@ msgstr "Seleccione Búsqueda avanzada para abrir el cuadro de diálogo Búsqueda
 #: C/evolution.xml:4061(para) C/evolution.xml:4375(para)
 #: C/evolution.xml:4613(para)
 msgid "Search name field displays the search type you have selected."
-msgstr ""
+msgstr "El campo de búsqueda de nombre muestra el tipo de búsqueda que ha seleccionado."
 
 #: C/evolution.xml:4066(para) C/evolution.xml:4380(para)
 #: C/evolution.xml:4618(para)
@@ -9446,30 +9468,24 @@ msgstr "Pulse Añadir para añadir reglas."
 
 #: C/evolution.xml:4069(para) C/evolution.xml:4383(para)
 #: C/evolution.xml:4621(para)
-#, fuzzy
 msgid "Select the criteria and then, type a search entry in the given field."
-msgstr ""
-"Escriba el nombre de la carpeta de búsqueda en el campo Nombre de la "
-"búsqueda."
+msgstr "Seleccione el criterio y después escriba una entrada de búsqueda en el campo dado."
 
 #: C/evolution.xml:4075(para) C/evolution.xml:4627(para)
 msgid "Click Save to save your search results."
 msgstr "Pulse Guardar para guardar los resultados."
 
 #: C/evolution.xml:4080(para)
-#, fuzzy
 msgid ""
 "Displays all the Calendar items that match the in-built criterias that you "
 "have selected from the drop-down list in the Search bar."
 msgstr ""
 "Muestra todos los elementos del Calendario que coincidan con los criterios "
-"integrados que haya seleccionado de la lista desplegable en la parte "
-"superior izquierda, justo encima del panel de visualización."
+"integrados que haya seleccionado de la lista desplegable en la barra de búsqueda."
 
 #: C/evolution.xml:4085(para) C/evolution.xml:4637(para)
-#, fuzzy
 msgid "Click the Show drop down list."
-msgstr "Pulse mostrar para expandir la lista desplegable."
+msgstr ""
 
 #: C/evolution.xml:4088(para) C/evolution.xml:4429(para)
 #: C/evolution.xml:4640(para)
@@ -9487,14 +9503,12 @@ msgid "Unmatched"
 msgstr "No coincidente"
 
 #: C/evolution.xml:4097(para)
-#, fuzzy
 msgid "Active Appointments"
-msgstr "Citas"
+msgstr "Citas activas"
 
 #: C/evolution.xml:4100(para)
-#, fuzzy
 msgid "Next 7 Day Appointments"
-msgstr "Citas"
+msgstr "Citas de los próximos 7 días"
 
 #: C/evolution.xml:4124(para) C/evolution.xml:4474(para)
 #: C/evolution.xml:4670(para)
@@ -9512,7 +9526,6 @@ msgid "Time &amp; Expenses"
 msgstr "Tiempo y gastos"
 
 #: C/evolution.xml:4168(para)
-#, fuzzy
 msgid "You can view the desired items listed in the Calender view."
 msgstr "Puede ver los elementos deseados listados en la vista del calendario."
 
@@ -9547,9 +9560,8 @@ msgstr ""
 "delegar."
 
 #: C/evolution.xml:4189(para)
-#, fuzzy
 msgid "Click Delegate Meetings."
-msgstr "Pulse Delegar."
+msgstr "Pulse Delegar reunión."
 
 #: C/evolution.xml:4192(para)
 msgid "Select the contacts you want to delegate the meeting to."
@@ -9811,38 +9823,33 @@ msgstr ""
 "adjunto en la barra de adjuntos."
 
 #: C/evolution.xml:4340(title)
-#, fuzzy
 msgid "Searching For Task Items"
-msgstr "Buscar elementos del calendario"
+msgstr "Buscar elementos de las tareas"
 
 #: C/evolution.xml:4343(para)
-#, fuzzy
 msgid ""
 "Evolution enables you to find the task items by using Customized Search. To "
 "start searching for various task items, use the following procedure:"
 msgstr ""
-"Evolution le permite buscar los elementos del Calendario usando la Búsqueda "
-"personalizada. Para comenzar a buscar varios elementos del calendario, use "
+"Evolution le permite buscar los elementos de las tareas usando la Búsqueda "
+"personalizada. Para comenzar a buscar varios elementos de las tareas, use "
 "el siguiente procedimiento:"
 
 #: C/evolution.xml:4359(para)
-#, fuzzy
 msgid "Any Field Contains"
 msgstr "Cualquier campo contiene"
 
 #: C/evolution.xml:4364(para)
-#, fuzzy
 msgid "Evolution displays the desired Task items."
-msgstr "Evolution muestra los elementos del Calendario deseados."
+msgstr "Evolution muestra los elementos de las tareas deseados."
 
 #: C/evolution.xml:4388(para)
-#, fuzzy
 msgid ""
 "Displays all the task items that match the in-built criterias that you have "
 "selected from the drop-down list at the top left side, just above the "
 "display pane."
 msgstr ""
-"Muestra todos los elementos del Calendario que coincidan con los criterios "
+"Muestra todos los elementos de las tareas que coincidan con los criterios "
 "integrados que haya seleccionado de la lista desplegable en la parte "
 "superior izquierda, justo encima del panel de visualización."
 
@@ -9854,24 +9861,22 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:4392(title)
-#, fuzzy
 msgid "Any Category:"
-msgstr "Categorías:"
+msgstr "Cualquier categoría:"
 
 #: C/evolution.xml:4393(para)
 msgid "It shows all the tasks that fall under any category."
-msgstr ""
+msgstr "Muestra todas las tareas que están bajo cualquier categoría."
 
 #: C/evolution.xml:4396(title)
-#, fuzzy
 msgid "Unmatched:"
-msgstr "No coincidente"
+msgstr "No coincidente:"
 
 #: C/evolution.xml:4397(para)
 msgid ""
 "It shows all the tasks that do not fall under any of the categories listed "
 "here."
-msgstr ""
+msgstr "Muestra todas las tareas que no están bajo ninguna de las categorías aquí listadas."
 
 #: C/evolution.xml:4400(title)
 msgid "Next 7 Days Tasks:"
@@ -9883,17 +9888,21 @@ msgid ""
 "can view all the tasks that end within the next seven days from the current "
 "date."
 msgstr ""
+"Muestra todas las tareas cuya fecha de vencimiento está entre los próximos site días. "
+"Puede ver todas las tareas que finalizan entre los siguientes siete días desde la fecha "
+"actual."
 
 #: C/evolution.xml:4404(title)
-#, fuzzy
 msgid "Active Tasks:"
-msgstr "Tareas asignadas"
+msgstr "Tareas activas:"
 
 #: C/evolution.xml:4405(para)
 msgid ""
 "It shows all the tasks whose due date is yet to come. This allows you to see "
 "the date due for tasks due in the future."
 msgstr ""
+"Muestra todas las tareas cuya fecha de vencimiento está por llegar. Esto le permite ver "
+"la fecha de vencimiento de las tareas que caducan en un futuro."
 
 #: C/evolution.xml:4408(title)
 msgid "Over Due Tasks:"
@@ -9901,7 +9910,7 @@ msgstr "Tareas vencidas:"
 
 #: C/evolution.xml:4409(para)
 msgid "It shows all the tasks whose end date has already passed."
-msgstr ""
+msgstr "Muestra todas las tareas cuya fecha de vencimiento ya haya pasado."
 
 #: C/evolution.xml:4412(title)
 msgid "Completed Tasks:"
@@ -9909,16 +9918,15 @@ msgstr "Tareas completadas:"
 
 #: C/evolution.xml:4413(para)
 msgid "It shows the tasks whose status is 100 % completed."
-msgstr ""
+msgstr "Muestra las tareas cuyo estado es 100% completado."
 
 #: C/evolution.xml:4416(title)
 msgid "Tasks With Attachment:"
 msgstr "Tareas con adjuntos:"
 
 #: C/evolution.xml:4417(para)
-#, fuzzy
 msgid "It shows all the tasks with attachment."
-msgstr "Mensajes con adjuntos"
+msgstr "Muestra todas las tareas con adjuntos."
 
 #: C/evolution.xml:4420(title)
 msgid "&lt;List of Categories&gt;:"
@@ -9929,19 +9937,20 @@ msgid ""
 "Lists all the tasks that belong to a particular category such as "
 "Anniversary, Holidays, Gifts etc ."
 msgstr ""
+"Lista todas las tareas que pertenezcan a una categoría particular tal como "
+"Aniversarios, Vacaciones, Reglados, etc."
 
 #: C/evolution.xml:4423(para) C/evolution.xml:4634(para)
 msgid "To perform quick search,"
 msgstr "Para realizar una búsqueda rápida,"
 
 #: C/evolution.xml:4426(para)
-#, fuzzy
 msgid "Click the Show drop-down list from the Search bar."
-msgstr "Pulse sobre la lista desplegable para seleccionar el rango."
+msgstr "Pulse sobre la lista desplegable en la barra de búsqueda."
 
 #: C/evolution.xml:4438(para)
 msgid "Next 7 Days Tasks"
-msgstr ""
+msgstr "Tareas de los próximos 7 días"
 
 #: C/evolution.xml:4441(para)
 msgid "Active Tasks"
@@ -9960,9 +9969,8 @@ msgid "Tasks With Attachments"
 msgstr "Tareas con adjuntos"
 
 #: C/evolution.xml:4518(para)
-#, fuzzy
 msgid "You can view the desired items listed in the Task view."
-msgstr "Puede ver los elementos deseados listados en la vista del calendario."
+msgstr "Puede ver los elementos deseados listados en la vista de tareas."
 
 #: C/evolution.xml:4524(para)
 msgid ""
@@ -10044,34 +10052,29 @@ msgid "Type the group, name and color for the memo list."
 msgstr "Escriba el grupo, nombre y color para la lista de notas."
 
 #: C/evolution.xml:4575(title)
-#, fuzzy
 msgid "Searching For Memo Items"
-msgstr "Buscar elementos del calendario"
+msgstr "Buscar elementos de las notas"
 
 #: C/evolution.xml:4578(para)
-#, fuzzy
 msgid ""
 "Evolution enables you to find the Memo items by using Customized Search. To "
 "start searching for various Memo items, use the following procedure:"
 msgstr ""
-"Evolution le permite buscar los elementos del Calendario usando la Búsqueda "
-"personalizada. Para comenzar a buscar varios elementos del calendario, use "
+"Evolution le permite buscar los elementos de las notas usando la Búsqueda "
+"personalizada. Para comenzar a buscar varios elementos de las notas, use "
 "el siguiente procedimiento:"
 
 #: C/evolution.xml:4632(para)
-#, fuzzy
 msgid ""
 "Displays all the Memo items that match the in-built criterias that you have "
 "selected from the Show drop-down list in the Search bar."
 msgstr ""
-"Muestra todos los elementos del Calendario que coincidan con los criterios "
-"integrados que haya seleccionado de la lista desplegable en la parte "
-"superior izquierda, justo encima del panel de visualización."
+"Muestra todos los elementos de las notas que coincidan con los criterios "
+"integrados que haya seleccionado de la lista desplegable en la barra de búsqueda."
 
 #: C/evolution.xml:4712(para)
-#, fuzzy
 msgid "You can view the desired items listed in the Memo view."
-msgstr "Puede ver los elementos deseados listados en la vista del calendario."
+msgstr "Puede ver los elementos deseados listados en la vista del notas."
 
 #: C/evolution.xml:4720(para)
 msgid ""
@@ -10698,22 +10701,20 @@ msgstr ""
 "Opciones de envío."
 
 #: C/evolution.xml:5092(para)
-#, fuzzy
 msgid ""
 "Select the priority for your sent message from the given three options "
 "(Normal, High, Low)"
 msgstr ""
 "Seleccione la prioridad para su mensaje enviado de las tres opciones "
-"proporcionadas"
+"proporcionadas (Normal, Alta, Baja)."
 
 #: C/evolution.xml:5095(para)
-#, fuzzy
 msgid ""
 "Select the sensitivity for your sent message from the given four options "
 "(Normal, Personal, Private, Confidential)."
 msgstr ""
 "Seleccione la sensibilidad para su mensaje enviado de las cuatro opciones "
-"proporcionadas"
+"proporcionadas (Normal, Personal, Privado, Confidencial)."
 
 #: C/evolution.xml:5099(title)
 msgid "Message Access Delegation:"
@@ -10723,7 +10724,7 @@ msgstr "Delegación de acceso a mensajes:"
 msgid ""
 "Click Send as Delegate to send the message to the recipient on behalf of "
 "someone else."
-msgstr ""
+msgstr "Pulse Enviar como delegado para enviar el mensaje al destinatario en nombre de otra persona."
 
 #: C/evolution.xml:5103(para)
 msgid ""
@@ -10733,15 +10734,16 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:5107(para)
-#, fuzzy
 msgid "Click User to open Show Contacts dialogue box."
-msgstr "Pulse Editar búsquedas guardadas para abrir el cuadro de diálogo Búsquedas."
+msgstr "Pulse Usuario para abrir el cuadro de diálogo Mostrar contactos."
 
 #: C/evolution.xml:5110(para)
 msgid ""
 "Select the contact from the desired Address book and click Add, then close "
 "the dialogue box."
 msgstr ""
+"Seleccione el contacto de la Libreta de direcciones deseada y pulse Añadir, después "
+"cierre el cuadro de diálogo."
 
 #: C/evolution.xml:5112(para)
 msgid ""
@@ -10777,9 +10779,8 @@ msgid "Click OK to confirm your selection."
 msgstr "Pulse Aceptar para confirmar su selección."
 
 #: C/evolution.xml:5131(title)
-#, fuzzy
 msgid "Delegating Calendar Items"
-msgstr "Borrar un elemento"
+msgstr "Delegar elementos del calendario"
 
 #: C/evolution.xml:5132(para)
 msgid ""
@@ -10788,19 +10789,16 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:5133(para)
-#, fuzzy
 msgid "To delegate a Meeting,"
-msgstr "Eliminar reuniones"
+msgstr "Para delegar una reunión,"
 
 #: C/evolution.xml:5136(para)
-#, fuzzy
 msgid "Select the delegator's calendar"
-msgstr "Seleccione el criterio de búsqueda"
+msgstr "Seleccione el calendario del delegado"
 
 #: C/evolution.xml:5139(para)
-#, fuzzy
 msgid "Open a new Meeting composer window."
-msgstr "Abra una ventana del editor."
+msgstr "Abra una ventana del editor de Reuniones."
 
 #: C/evolution.xml:5142(para)
 msgid "Add the recipients."
@@ -10853,9 +10851,8 @@ msgstr ""
 "Configuración de Exchange."
 
 #: C/evolution.xml:5165(para)
-#, fuzzy
 msgid "Click Delegation Assistant to open the Delegates dialogue box."
-msgstr "Pulse sobre la solapa Editar para abrir el cuadro de diálogo de Editar regla."
+msgstr "Pulse Asistente de delegaciones para abrir el cuadro de diálogo de los Delegados."
 
 #: C/evolution.xml:5170(para)
 msgid "Click Add, then search for a contact in the Global Address List."
@@ -10870,11 +10867,10 @@ msgstr ""
 "que haya introducido algo para buscar."
 
 #: C/evolution.xml:5174(para)
-#, fuzzy
 msgid ""
 "Select the delegate and click Edit to open the delegate permission dialogue "
 "box."
-msgstr "Seleccione la cuenta IMAP y pulse Editar para abrir el editor de cuentas."
+msgstr "Seleccione el delegado y pulse Editar para abrir el cuadro de diálogo de permisos del delegado."
 
 #: C/evolution.xml:5179(para)
 msgid ""
@@ -11713,15 +11709,14 @@ msgid "Receive Notification When the Item is Opened or Deleted:"
 msgstr "Recibir una notificación cuando se abre o borra el elemento:"
 
 #: C/evolution.xml:5723(para)
-#, fuzzy
 msgid ""
 "You can receive notification when the recipient opens or deletes a message. "
 "For information, see <link linkend=\"Ak05sv1\">Requesting a Reply for Items "
 "You Send</link>."
 msgstr ""
 "Puede recibir una notificación cuando el destinatario abre o borra un "
-"mensaje. Para obtener más información vea <link linkend=\"Ak05onj\">Recibir "
-"notificaciones acerca de elementos que envía</link>."
+"mensaje. Para obtener más información consulte <link linkend=\"Ak05sv1\">Recibir "
+"notificaciones acerca de elementos que envíe</link>."
 
 #: C/evolution.xml:5726(title)
 msgid "Request a Reply:"
@@ -11759,11 +11754,8 @@ msgid ""
 msgstr "En la ventana de Edición de mensaje pulse Insertar &gt; Opciones de envío &gt; Seguimiento de estado"
 
 #: C/evolution.xml:5741(para) C/evolution.xml:5864(para)
-#, fuzzy
 msgid "Select the check box next to Create a sent item to track information."
-msgstr ""
-"Seleccione la casilla de verificación junto a cada categoría que coincida "
-"con la cita que está creando."
+msgstr "Seleccione la casilla de verificación junto a Crear un elemento enviado para seguimiento de la información."
 
 #: C/evolution.xml:5744(para) C/evolution.xml:5867(para)
 msgid ""
@@ -11794,14 +11786,10 @@ msgid "Return Notification:"
 msgstr "Devolver notificación:"
 
 #: C/evolution.xml:5754(para) C/evolution.xml:5876(para)
-#, fuzzy
 msgid "In the Return Notification, specify the type of return receipt you want."
-msgstr ""
-"En el grupo de opciones Devolver notificación, especifique el tipo de "
-"notificación que desea."
+msgstr "En Devolver notificación, especifique el tipo de notificación que desea recibir."
 
 #: C/evolution.xml:5767(para)
-#, fuzzy
 msgid "Right-click an e-mail in your Sent folder, then click Track Message Status."
 msgstr ""
 "Pulse con el botón derecho sobre un correo-e en su carpeta de Correo "
@@ -11895,7 +11883,6 @@ msgid "Click the Sent Items folder in the Folder List."
 msgstr "Pulse en la carpeta Correo enviado en la lista de carpetas."
 
 #: C/evolution.xml:5836(para)
-#, fuzzy
 msgid ""
 "All sent items reside in this folder unless you select a different folder "
 "for sent e-mail in the account editor default settings. For more information "
@@ -11904,8 +11891,10 @@ msgid ""
 msgstr ""
 "Todos los elementos enviados residen en esta carpeta a no ser que seleccione "
 "una carpeta diferente para los correos-e enviados en la configuración "
-"predeterminada del editor de cuentas. Para obtener más información lea <link "
-"linkend=\"b13uhy6r\">Ajustes predeterminados</link>."
+"predeterminada del editor de cuentas. Para obtener más información vea "
+"la sección <link linkend=\"b17s9qmz\">Cambiar la carpeta predeterminada para "
+"el Correo enviado y los Borradores</link> bajo <link linkend=\"b13uhy6r\">Ajustes "
+"predeterminados</link>."
 
 #: C/evolution.xml:5840(title)
 msgid "Delegating an Item"
@@ -11918,12 +11907,11 @@ msgstr ""
 "quiere delegar."
 
 #: C/evolution.xml:5846(para)
-#, fuzzy
 msgid ""
 "Select Delegate Meeting, then select the contacts you want to delegate the "
 "meeting/appointment for."
 msgstr ""
-"Seleccione Delegar, después seleccione los contactos a los que quiere "
+"Seleccione Delegar reunión, después seleccione los contactos a los que quiere "
 "delegar la reunión o cita."
 
 #: C/evolution.xml:5852(para)
@@ -12013,7 +12001,7 @@ msgstr "Este derecho"
 
 #: C/evolution.xml:5930(para)
 msgid "Lets your proxy do this"
-msgstr "Permitir que su proxy haga esto"
+msgstr "Permite que su proxy haga esto"
 
 #: C/evolution.xml:5937(para)
 msgid "Read"
@@ -12780,7 +12768,6 @@ msgid "Basic Headers:"
 msgstr "Cabeceras básicas:"
 
 #: C/evolution.xml:6278(para)
-#, fuzzy
 msgid ""
 "This will include Date, From,To, CC, Subject, Preferences, In-Reply-To, "
 "Message-ID, Mime-Version, and Content-Type. If you want to just fetch and "
@@ -12788,8 +12775,8 @@ msgid ""
 "lists, choose this option. This will make Evolution work faster and is "
 "generally recommended for common users."
 msgstr ""
-"Esto incluirá FECHA, DE, PARA, CC, ASUNTO, PREFERENCIAS, RESPONDER A, ID DEL "
-"MENSAJE, VERSIÓN MIME y TIPO DE CONTENIDO. Si sólo quiere obtener el correo "
+"Esto incluirá Fecha, De, Para, Cc, Asunto, Preferencias, Responder a, Id del "
+"mensaje, Versión MIME y Tipo de contenido. Si sólo quiere obtener el correo "
 "y ver los correos sin tener que filtrar los correos por categorías basados "
 "en sus listas de correo, elija esta opción. Esto hará que Evolution trabaje "
 "más rápido y generalmente se recomienda para usuarios normales."
@@ -13215,19 +13202,15 @@ msgid "SpamAssassin Options:"
 msgstr "Opciones de SpamAssasin:"
 
 #: C/evolution.xml:6438(para)
-#, fuzzy
 msgid ""
 "Remote test performs filtering junk mails on remote servers.It also includes "
 "online tests, like checking for blacklisted message senders and ISPs."
 msgstr ""
 "Los filtros remotos realizan filtros de correo basura en servidores remotos. "
 "También incluye test en línea como comprobación de remitentes e ISP en "
-"listas negras. Las comprobaciones en línea pueden ralentizar el filtrado "
-"pero son más precisas. Seleccione las opciones proporcionadas aquí para "
-"elegir el método de filtrado."
+"listas negras."
 
 #: C/evolution.xml:6440(para)
-#, fuzzy
 msgid ""
 "This option uses tests that require a network connection, such as checking "
 "to see if a message is in a list of known junk messages, or if the sender or "
@@ -13236,11 +13219,10 @@ msgid ""
 "check for junk mail, but increase accuracy. When you select this option, you "
 "do not need to do any additional setup to make this work."
 msgstr ""
-"Esta opción usa test que requieren conexión a la red, tales como "
-"comprobación por si el mensaje está en una lista de correos basura "
-"conocidos, o si el remitente o la puerta de enlace están en alguna lista "
-"negra de organizaciones antispam. Los test remotos añaden tiempo al que "
-"conlleva detectar si el correo entrante es basura, pero aumentan la "
+"Esta opción usa tests que requieren conexión a la red, tales como comprobación "
+"por si el mensaje está en una lista de correos basura conocidos, o si el remitente o "
+"la puerta de enlace están en alguna lista negra de organizaciones antispam. Los test remotos "
+"añaden tiempo al que conlleva detectar si el correo entrante es basura, pero aumentan la "
 "eficacia. Cuando seleccione esta opción, no necesitará ninguna configuración "
 "adicional para que funcione."
 
