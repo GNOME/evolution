@@ -284,6 +284,7 @@ static GSList *all_composers = NULL;
 static GList *add_recipients (GList *list, const char *recips);
 
 static void handle_mailto (EMsgComposer *composer, const char *mailto);
+static void handle_uri    (EMsgComposer *composer, const char *uri, gboolean html_dnd);
 
 /* used by e_msg_composer_add_message_attachments() */
 static void add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipart,
@@ -353,7 +354,7 @@ get_text (Bonobo_PersistStream persist, char *format)
 	
 	stream_mem = BONOBO_STREAM_MEM (stream);
 	text = g_byte_array_new ();
-	g_byte_array_append (text, stream_mem->buffer, stream_mem->pos);
+	g_byte_array_append (text, (const guint8 *)stream_mem->buffer, stream_mem->pos);
 	bonobo_object_unref (BONOBO_OBJECT (stream));
 	
 	return text;
@@ -449,7 +450,7 @@ best_charset (GByteArray *buf, const char *default_charset, CamelTransferEncodin
 		return charset;
 	
 	/* Try to find something that will work */
-	if (!(charset = (char *) camel_charset_best (buf->data, buf->len))) {
+	if (!(charset = (char *) camel_charset_best ((const gchar *)buf->data, buf->len))) {
 		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 		return NULL;
 	}
@@ -579,7 +580,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			}
 		}
 		data = g_byte_array_new ();
-		g_byte_array_append (data, p->mime_body, strlen (p->mime_body));
+		g_byte_array_append (data, (const guint8 *)p->mime_body, strlen (p->mime_body));
 		type = camel_content_type_decode (p->mime_type);
 	} else {
 		data = get_text (p->persist_stream_interface, "text/plain");
@@ -989,7 +990,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	   signature file that is in his/her locale charset. If it's not in UTF-8 and not in
 	   the charset the composer is in (or their default mail charset) then fuck it,
 	   there's nothing we can do. */
-	if (buffer->len && !g_utf8_validate (buffer->data, buffer->len, NULL)) {
+	if (buffer->len && !g_utf8_validate ((const gchar *)buffer->data, buffer->len, NULL)) {
 		stream = (CamelStream *) memstream;
 		memstream = (CamelStreamMem *) camel_stream_mem_new ();
 		camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
@@ -1015,7 +1016,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	
 	camel_object_unref (memstream);
 	
-	g_byte_array_append (buffer, "", 1);
+	g_byte_array_append (buffer, (const guint8 *)"", 1);
 	content = (char*)buffer->data;
 	g_byte_array_free (buffer, FALSE);
 	
@@ -1692,7 +1693,7 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 		return;
 
 	key = g_path_get_basename(p->autosave_file);
-	if (g_hash_table_lookup_extended(am->table, key, (void **)&oldkey, &olddata)) {
+	if (g_hash_table_lookup_extended(am->table, key, (gpointer)&oldkey, (gpointer)&olddata)) {
 		g_hash_table_remove(am->table, oldkey);
 		g_free(oldkey);
 		g_free(key);
@@ -2995,12 +2996,12 @@ e_msg_composer_get_remote_download_count (EMsgComposer *composer)
 				(E_ATTACHMENT_BAR (p->attachment_bar));
 }
 
-static char *
+static gchar *
 attachment_guess_mime_type (const char *file_name)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult result;
-	char *type = "";
+	gchar *type = NULL;
 
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (file_name, info,
@@ -3018,10 +3019,9 @@ attachment_guess_mime_type (const char *file_name)
 static void
 drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time, gboolean html_dnd)
 {
-	char *tmp, *str, **urls, *type;
+	char *tmp, *str, **urls;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
-	CamelURL *url;
 	CamelMimeMessage *msg;
 	char *content_type;
 	int i, success = FALSE, delete = FALSE;
@@ -3032,7 +3032,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		d(printf ("dropping a message/rfc822\n"));
 		/* write the message(s) out to a CamelStream so we can use it */
 		stream = camel_stream_mem_new ();
-		camel_stream_write (stream, selection->data, selection->length);
+		camel_stream_write (stream, (const gchar *)selection->data, selection->length);
 		camel_stream_reset (stream);
 		
 		msg = camel_mime_message_new ();
@@ -3045,10 +3045,21 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		camel_object_unref(msg);
 		camel_object_unref(stream);
 		break;
-	case DND_TYPE_TEXT_URI_LIST:
 	case DND_TYPE_NETSCAPE_URL:
+		d(printf ("dropping a _NETSCAPE_URL\n"));
+		tmp = g_strndup ((const gchar *) selection->data, selection->length);
+		urls = g_strsplit (tmp, "\n", 2);
+		g_free (tmp);
+
+		/* _NETSCAPE_URL is represented as "URI\nTITLE" */
+		handle_uri (composer, urls[0], html_dnd);
+
+		g_strfreev (urls);
+		success = TRUE;
+		break;
+	case DND_TYPE_TEXT_URI_LIST:
 		d(printf ("dropping a text/uri-list\n"));
-		tmp = g_strndup (selection->data, selection->length);
+		tmp = g_strndup ((const gchar *) selection->data, selection->length);
 		urls = g_strsplit (tmp, "\n", 0);
 		g_free (tmp);
 		
@@ -3059,27 +3070,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 				continue;
 			}
 			
-			if (!g_ascii_strncasecmp (str, "mailto:", 7)) {
-				handle_mailto (composer, str);
-			} else {
-				if (!(url = camel_url_new (str, NULL))) {
-					g_free (str);
-					continue;
-				}
-				
-				if (!g_ascii_strcasecmp (url->protocol, "file")) {
-					type = attachment_guess_mime_type (str);
-					if (strncmp (type, "image", 5) || !html_dnd || (!p->send_html && !strncmp (type, "image", 5)))
-						e_attachment_bar_attach (E_ATTACHMENT_BAR (p->attachment_bar),
-									 url->path, "attachment");
-				} else	{
-					e_attachment_bar_attach_remote_file (E_ATTACHMENT_BAR (p->attachment_bar),
-									     str, "attachment");
-				}
-				
-				camel_url_free (url);
-			}
-			
+			handle_uri (composer, str, html_dnd);
 			g_free (str);
 		}
 		
@@ -3092,7 +3083,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		d(printf ("dropping a %s\n", content_type));
 		
 		mime_part = camel_mime_part_new ();
-		camel_mime_part_set_content (mime_part, selection->data, selection->length, content_type);
+		camel_mime_part_set_content (mime_part, (const gchar *)selection->data, selection->length, content_type);
 		camel_mime_part_set_disposition (mime_part, "inline");
 		
 		e_attachment_bar_attach_mime_part (E_ATTACHMENT_BAR (p->attachment_bar), mime_part);
@@ -3127,7 +3118,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		}
 
 		if (uids->len > 0) {
-			folder = mail_tool_uri_to_folder(selection->data, 0, &ex);
+			folder = mail_tool_uri_to_folder((const gchar *)selection->data, 0, &ex);
 			if (folder) {
 				if (uids->len == 1) {
 					msg = camel_folder_get_message(folder, uids->pdata[0], &ex);
@@ -3278,7 +3269,7 @@ drag_data_received (GtkWidget *w, GdkDragContext *context,
 		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
 	} else {
-		drop_action(composer, context, context->action, selection, info, time, w != composer);
+		drop_action(composer, context, context->action, selection, info, time, w != GTK_WIDGET (composer));
 	}
 }
 
@@ -4329,7 +4320,7 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, in
 	content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 	
 	if (CAMEL_IS_MULTIPART (content)) {
-		multipart = CAMEL_MULTIPART (content);
+		CamelMultipart *content_multipart = CAMEL_MULTIPART (content);
 		
 		/* Note: depth is preserved here because we're not
                    counting multipart/encrypted as a multipart, instead
@@ -4338,16 +4329,16 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, in
 		
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 			/* handle the signed content and configure the composer to sign outgoing messages */
-			handle_multipart_signed (composer, multipart, depth);
+			handle_multipart_signed (composer, content_multipart, depth);
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-			handle_multipart_encrypted (composer, multipart, depth);
+			handle_multipart_encrypted (composer, content_multipart, depth);
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
-			handle_multipart_alternative (composer, multipart, depth);
+			handle_multipart_alternative (composer, content_multipart, depth);
 		} else {
 			/* there must be attachments... */
-			handle_multipart (composer, multipart, depth);
+			handle_multipart (composer, content_multipart, depth);
 		}
 	} else if (camel_content_type_is (content_type, "text", "*")) {
 		ssize_t len;
@@ -4742,7 +4733,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			handle_multipart_signed (new, multipart, 0);
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-			handle_multipart_encrypted (new, message, 0);
+			handle_multipart_encrypted (new, CAMEL_MIME_PART (message), 0);
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
 			handle_multipart_alternative (new, multipart, 0);
@@ -4989,6 +4980,38 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 	}
 }
 
+static void
+handle_uri (EMsgComposer *composer, const char *uri, gboolean html_dnd)
+{
+	EMsgComposerPrivate *p = composer->priv;
+
+	if (!g_ascii_strncasecmp (uri, "mailto:", 7)) {
+		handle_mailto (composer, uri);
+	} else {
+		CamelURL *url = camel_url_new (uri, NULL);
+		gchar *type;
+
+		if (!url)
+			return;
+
+		if (!g_ascii_strcasecmp (url->protocol, "file")) {
+			type = attachment_guess_mime_type (uri);
+			if (!type)
+				return;
+
+			if (strncmp (type, "image", 5) || !html_dnd || (!p->send_html && !strncmp (type, "image", 5))) {
+				e_attachment_bar_attach (E_ATTACHMENT_BAR (p->attachment_bar),
+						url->path, "attachment");
+			}
+			g_free (type);
+		} else	{
+			e_attachment_bar_attach_remote_file (E_ATTACHMENT_BAR (p->attachment_bar),
+					uri, "attachment");
+		}
+		camel_url_free (url);
+	}
+}
+
 /**
  * e_msg_composer_new_from_url:
  * @url: a mailto URL
@@ -5010,23 +5033,6 @@ e_msg_composer_new_from_url (const char *url)
 	handle_mailto (composer, url);
 	
 	return composer;
-}
-
-/**
-* e_msg_composer_show_attachments: 	 
-* @composer: A message composer widget 	 
-* @show: A boolean specifying whether the attachment bar should be shown or 	 
-* not 	 
-* 	 
-* If @show is %FALSE, hide the attachment bar.  Otherwise, show it. 	 
-**/ 	 
-void 	 
-e_msg_composer_show_attachments (EMsgComposer *composer, 	 
-				 gboolean show) 	 
-{ 	 
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer)); 	 
-
-	show_attachments (composer, show); 	 
 }
 
 /**
@@ -6282,7 +6288,7 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 
        data = get_text (p->persist_stream_interface, "text/plain");
        if (data)
-               return data->data;
+               return (const gchar *)data->data;
 
        return NULL;
 }

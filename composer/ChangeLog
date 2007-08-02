@@ -1,4 +1,12 @@
-2007-08-23  Srinivasa Ragavan  <sragavan@novell.com>
+2007-08-02  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #462332
+
+	* e-msg-composer.c: Handle _NETSCAPE_URL correctly.
+	Suppress many warnings.
+	Remove unused e_msg_composer_show_attachments().
+
+2007-08-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for downstream bug from openSUSE (bnc #271045)
 
