@@ -1,3 +1,4 @@
+
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
@@ -573,6 +574,14 @@ struct _EMCreateFolder {
 	void *user_data;
 };
 
+/* Temporary Structure to hold data to pass across function */
+struct _EMCreateFolderTempData 
+{
+	EMFolderTree * emft;
+	EMFolderSelector * emfs;
+	char *uri;
+};
+
 static char *
 emfu_create_folder__desc (struct _mail_msg *mm, int done)
 {
@@ -660,12 +669,16 @@ emfu_create_folder_real (CamelStore *store, const char *full_name, void (* done)
 static void
 new_folder_created_cb (CamelFolderInfo *fi, void *user_data)
 {
-	EMFolderSelector *emfs = user_data;
-	
-	if (fi)
-		gtk_widget_destroy ((GtkWidget *) emfs);
-	
-	g_object_unref (emfs);
+	struct _EMCreateFolderTempData *emcftd=user_data;
+	if (fi){
+		gtk_widget_destroy ((GtkWidget *) emcftd->emfs);
+		
+		/* Exapnding newly created folder */
+		if (emcftd->emft)
+			em_folder_tree_set_selected ((EMFolderTree *) emcftd->emft, emcftd->uri, TRUE); 
+	}	 
+	g_object_unref (emcftd->emfs);
+   	g_free (emcftd);
 }
 
 static void
@@ -675,6 +688,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 	const char *uri, *path;
 	CamelException ex;
 	CamelStore *store;
+	struct _EMCreateFolderTempData  *emcftd;
 	
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy ((GtkWidget *) emfs);
@@ -709,17 +723,23 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 		vfolder_gui_add_rule(rule);
 		gtk_widget_destroy((GtkWidget *)emfs);
 	} else {
+		/* Temp data to pass to create_folder_real function */
+		emcftd = (struct _EMCreateFolderTempData *) g_malloc(sizeof(struct _EMCreateFolderTempData));
+		emcftd->emfs = emfs;
+		emcftd->uri = uri;
+		emcftd->emft = (EMFolderTree *) data;
+		
 		g_object_ref (emfs);
-		emfu_create_folder_real (si->store, path, new_folder_created_cb, emfs);
+		emfu_create_folder_real (si->store, path, new_folder_created_cb, emcftd);
 	}
-
+	
 	camel_object_unref (store);
 	camel_exception_clear (&ex);
 }
 
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_create_folder (CamelFolderInfo *folderinfo) {
+em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft) {
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
 	GtkWidget *dialog;
@@ -730,6 +750,6 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo) {
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
 	if (folderinfo != NULL)
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
-	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), folder_tree);
+	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft);
 	gtk_widget_show (dialog);
 }

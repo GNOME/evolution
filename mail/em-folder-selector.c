@@ -139,7 +139,7 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
 		return;
 	
-	em_folder_utils_create_folder(NULL);
+	em_folder_utils_create_folder(NULL, emfs->emft);
 	
 	g_signal_stop_emission_by_name (emfs, "response");
 }
@@ -282,13 +282,13 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 void
 em_folder_selector_set_selected (EMFolderSelector *emfs, const char *uri)
 {
-	em_folder_tree_set_selected (emfs->emft, uri);
+	em_folder_tree_set_selected (emfs->emft, uri, FALSE);
 }
 
 void
 em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list)
 {
-	em_folder_tree_set_selected_list (emfs->emft, list);
+	em_folder_tree_set_selected_list (emfs->emft, list, FALSE);
 }
 
 const char *

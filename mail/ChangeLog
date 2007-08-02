@@ -1,3 +1,20 @@
+2007-08-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for expanding newly created folders from Lucky
+
+	* em-folder-browser.c: (emfb_folder_create):
+	* em-folder-selector.c: (emfs_response),
+	(em_folder_selector_set_selected),
+	(em_folder_selector_set_selected_list):
+	* em-folder-tree.c: (em_folder_tree_set_selected_list),
+	(emft_popup_new_folder), (em_folder_tree_set_selected):
+	* em-folder-tree.h:
+	* em-folder-utils.c: (new_folder_created_cb),
+	(emfu_popup_new_folder_response), (em_folder_utils_create_folder):
+	* em-folder-utils.h:
+	* mail-component.c: (impl_createView), (create_item),
+	(create_local_item_cb), (impl_requestCreateItem):
+
 2007-07-31  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* em-format-html.c (efh_format_headers): Do not show the

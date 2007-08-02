@@ -78,11 +78,11 @@ void em_folder_tree_set_multiselect (EMFolderTree *emft, gboolean mode);
 void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags);
 void em_folder_tree_set_excluded_func(EMFolderTree *emft, EMFTExcludeFunc exclude, void *data);
 
-void em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list);
+void em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expand_only);
 GList *em_folder_tree_get_selected_uris (EMFolderTree *emft);
 GList *em_folder_tree_get_selected_paths (EMFolderTree *emft);
 
-void em_folder_tree_set_selected (EMFolderTree *emft, const char *uri);
+void em_folder_tree_set_selected (EMFolderTree *emft, const char *uri, gboolean expand_only);
 void em_folder_tree_select_next_path (EMFolderTree *emft, gboolean skip_read_folders);
 void em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders);
 char *em_folder_tree_get_selected_uri (EMFolderTree *emft);

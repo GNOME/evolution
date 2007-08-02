@@ -572,7 +572,7 @@ em_folder_tree_new (void)
 }
 
 /* NOTE: Removes and frees the selected uri structure */
-static void
+static void 
 emft_select_uri(EMFolderTree *emft, GtkTreePath *path, struct _selected_uri *u)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
@@ -1602,13 +1602,14 @@ emft_clear_selected_list(EMFolderTree *emft)
 }
 
 void
-em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list)
+em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expand_only)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	int id = 0;
 
 	/* FIXME: need to remove any currently selected stuff? */
-	emft_clear_selected_list(emft);
+	if (!expand_only)
+		emft_clear_selected_list(emft);
 
 	for (;list;list = list->next) {
 		struct _selected_uri *u = g_malloc0(sizeof(*u));
@@ -1621,9 +1622,11 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list)
 
 		url = camel_url_new(u->uri, NULL);
 		if (u->store == NULL || url == NULL) {
-			u->key = g_strdup_printf("dummy-%d:%s", id++, u->uri);
-			g_hash_table_insert(priv->select_uris_table, u->key, u);
-			priv->select_uris = g_slist_append(priv->select_uris, u);
+			if (!expand_only) {
+				u->key = g_strdup_printf("dummy-%d:%s", id++, u->uri);
+				g_hash_table_insert(priv->select_uris_table, u->key, u);
+				priv->select_uris = g_slist_append(priv->select_uris, u);
+			}
 		} else {
 			const char *path;
 			char *expand_key, *end;
@@ -1645,10 +1648,12 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list)
 			else
 				expand_key = g_strdup_printf ("local/%s", path);
 
-			u->key = g_strdup(expand_key);
+			if (!expand_only) {
+				u->key = g_strdup(expand_key);
 
-			g_hash_table_insert(priv->select_uris_table, u->key, u);
-			priv->select_uris = g_slist_append(priv->select_uris, u);
+				g_hash_table_insert(priv->select_uris_table, u->key, u);
+				priv->select_uris = g_slist_append(priv->select_uris, u);
+			}
 
 			end = strrchr(expand_key, '/');
 			do {
@@ -2011,7 +2016,7 @@ emft_popup_new_folder (EPopup *ep, EPopupItem *pitem, void *data)
 	CamelFolderInfo *fi;
 
 	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		em_folder_utils_create_folder(fi);
+		em_folder_utils_create_folder(fi, emft);
 		camel_folder_info_free(fi);
 	}
 }
@@ -2307,14 +2312,14 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 }
 
 void
-em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
+em_folder_tree_set_selected (EMFolderTree *emft, const char *uri, gboolean expand_only)
 {
 	GList *l = NULL;
 
 	if (uri && uri[0])
 		l = g_list_append(l, (void *)uri);
 
-	em_folder_tree_set_selected_list(emft, l);
+	em_folder_tree_set_selected_list(emft, l, expand_only);
 	g_list_free(l);
 }
 

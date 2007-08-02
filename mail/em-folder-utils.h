@@ -33,6 +33,6 @@ void em_folder_utils_copy_folder (struct _CamelFolderInfo *folderinfo, int delet
 void em_folder_utils_delete_folder (struct _CamelFolder *folder);
 void em_folder_utils_rename_folder (struct _CamelFolder *folder);
 
-void em_folder_utils_create_folder (struct _CamelFolderInfo *folderinfo);
+void em_folder_utils_create_folder (struct _CamelFolderInfo *folderinfo, EMFolderTree * emft);
 
 #endif

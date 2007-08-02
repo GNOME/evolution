@@ -703,7 +703,7 @@ impl_createView (PortableServer_Servant servant,
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
 	
 	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
-		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri);
+		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri, FALSE);
 		em_folder_view_set_folder_uri ((EMFolderView *) view_widget, uri);
 		g_free (uri);
 	}
@@ -892,7 +892,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 }
 
 static int
-create_item(const char *type, EMFolderTreeModel *model, const char *uri)
+create_item(const char *type, EMFolderTreeModel *model, const char *uri, gpointer tree)
 {
 	if (strcmp(type, "message") == 0) {
 		if (!em_utils_check_user_can_send_mail(NULL))
@@ -900,7 +900,7 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri)
 	
 		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
-		em_folder_utils_create_folder(NULL);
+		em_folder_utils_create_folder(NULL, tree);
 	} else
 		return -1;
 
@@ -913,7 +913,7 @@ create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_
 	EMFolderTree *tree = data;
 	char *uri = em_folder_tree_get_selected_uri(tree);
 	
-	create_item(item_type_name, em_folder_tree_get_model(tree), uri);
+	create_item(item_type_name, em_folder_tree_get_model(tree), uri, (gpointer) tree);
 	g_free(uri);
 }
 
@@ -924,7 +924,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 {
 	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
 
-	if (create_item(item_type_name, mc->priv->model, NULL) == -1) {
+	if (create_item(item_type_name, mc->priv->model, NULL, NULL) == -1) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Component_UnknownType, NULL);
 	}
