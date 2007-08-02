@@ -1,3 +1,10 @@
+2007-08-02  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #462007
+
+	* gui/contact-editor/e-contact-editor.c: (update_preview_cb): Plugged
+	memory leak.
+
 2007-07-31  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #462002

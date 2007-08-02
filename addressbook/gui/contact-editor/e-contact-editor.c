@@ -2791,8 +2791,12 @@ update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
 
 	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
 	if (!pixbuf) {
-		filename = e_icon_factory_get_icon_filename ("stock_person",E_ICON_SIZE_DIALOG);
-		pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
+		gchar *alternate_file;
+		alternate_file = e_icon_factory_get_icon_filename ("stock_person",E_ICON_SIZE_DIALOG);
+		if (alternate_file) {
+			pixbuf = gdk_pixbuf_new_from_file_at_size (alternate_file, 128, 128, NULL);
+			g_free (alternate_file);
+		}
 	}
 	g_free (filename);
 
