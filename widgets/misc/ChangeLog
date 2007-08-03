@@ -1,3 +1,10 @@
+2007-08-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #451599
+
+	* e-attachment.c: (async_progress_update_cb): Timing of setting the
+	attachment is downloaded has to be after creating the attachment.
+
 2007-08-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #331729

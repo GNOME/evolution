@@ -339,11 +339,11 @@ async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 			if (!info->file_size)
 				goto error;
 			
-			download_info->attachment->is_available_local = TRUE;
 			download_info->attachment->handle = NULL;
 			camel_exception_init (&ex);
 			e_attachment_build_remote_file (download_info->file_name, download_info->attachment, "attachment", &ex);
 			download_info->attachment->percentage = -1;
+			download_info->attachment->is_available_local = TRUE;
 			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
 			g_free (download_info->file_name);
 			g_free (download_info);
