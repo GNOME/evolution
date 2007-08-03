@@ -558,7 +558,10 @@ move_selection (ESelectionModel *selection,
 	int col = e_selection_model_cursor_col(selection);
 	int row_count;
 
-	row = e_sorter_model_to_sorted(selection->sorter, row);
+	/* there is no selected row when row is -1 */
+	if (row != -1)
+		row = e_sorter_model_to_sorted (selection->sorter, row);
+
 	if (up)
 		row--;
 	else

@@ -1,3 +1,10 @@
+2007-08-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #331729
+
+	* e-selection-model.c: (move_selection): Don't call
+	e_sorter_model_to_sorted when there is no selected row.
+
 2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am:
