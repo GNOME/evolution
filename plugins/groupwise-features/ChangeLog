@@ -1,3 +1,10 @@
+2007-08-03  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #462010
+
+	* proxy.c: (proxy_update_tree_view):
+	* proxy-login.c: (proxy_login_update_tree): Plugged memory leak.
+
 2007-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #410287 from Lucky

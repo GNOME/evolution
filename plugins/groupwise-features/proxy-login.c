@@ -472,6 +472,11 @@ proxy_login_update_tree (void)
 		}
 		gtk_tree_view_set_model (GTK_TREE_VIEW(priv->tree),GTK_TREE_MODEL (priv->store));
 	}
+
+	g_free (file_name);
+	if (broken_image)
+		g_object_unref (broken_image);
+
 	g_object_unref (cnc);
 }
 
