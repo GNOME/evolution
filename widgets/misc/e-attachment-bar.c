@@ -225,12 +225,16 @@ e_attachment_bar_create_attachment_cache (EAttachment *attachment)
 					ratio = width / 48;
 					width = 48;
 					height = height / ratio;
+					if (height == 0)
+						height = 1;
 				}
 			} else {
 				if (height > 48) {
 					ratio = height / 48;
 					height = 48;
 					width = width / ratio;
+					if (width == 0)
+						width = 1;
 				}
 			}
 			
@@ -315,12 +319,16 @@ update (EAttachmentBar *bar)
 						ratio = width / 48;
 						width = 48;
 						height = height / ratio;
+						if (height == 0)
+							height = 1;
 					}
 				} else {
 					if (height > 48) {
 						ratio = height / 48;
 						height = 48;
 						width = width / ratio;
+						if (width == 0)
+							width = 1;
 					}
 				}
 				

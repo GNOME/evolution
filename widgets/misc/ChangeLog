@@ -1,3 +1,10 @@
+2007-08-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #335566
+
+	* e-attachment-bar.c: (e_attachment_bar_create_attachment_cache),
+	(update): When scaling image, ensures nonzero width or height.
+
 2007-08-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #451599
