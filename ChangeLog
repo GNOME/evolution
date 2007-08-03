@@ -1,3 +1,10 @@
+2007-08-04  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #455799
+
+	Remove all .cvsignore and update svn:ignore porperty in whole
+	directories.
+
 2007-07-31  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.11.6.1 release
