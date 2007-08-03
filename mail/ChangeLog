@@ -1,4 +1,12 @@
+2007-08-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #463061
+
+	* em-mailer-prefs.c: (em_mailer_prefs_construct): Set the signal
+	handlers later than assigning values to radio groups.
+
 2007-08-02  Tobias Mueller <muelli@auftrags-killer.org>
+
 	* message-list.c: (regen_list_regened) Removed dead if 
 	statement, fixes bug #387312
 	

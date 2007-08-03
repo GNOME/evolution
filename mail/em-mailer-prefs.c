@@ -1031,22 +1031,23 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
 	prefs->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesNever"));
 	gtk_toggle_button_set_active (prefs->images_never, val == MAIL_CONFIG_HTTP_NEVER);
-	g_signal_connect (prefs->images_never, "toggled", G_CALLBACK (http_images_changed), prefs);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_never, FALSE);
 	
 	prefs->images_sometimes = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesSometimes"));
 	gtk_toggle_button_set_active (prefs->images_sometimes, val == MAIL_CONFIG_HTTP_SOMETIMES);
-	g_signal_connect (prefs->images_sometimes, "toggled", G_CALLBACK (http_images_changed), prefs);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_sometimes, FALSE);
 	
 	prefs->images_always = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesAlways"));
 	gtk_toggle_button_set_active (prefs->images_always, val == MAIL_CONFIG_HTTP_ALWAYS);
-	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (http_images_changed), prefs);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_always, FALSE);
-	
+
+	g_signal_connect (prefs->images_never, "toggled", G_CALLBACK (http_images_changed), prefs);
+	g_signal_connect (prefs->images_sometimes, "toggled", G_CALLBACK (http_images_changed), prefs);
+	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (http_images_changed), prefs);
+
 	prefs->show_animated = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowAnimatedImages"));
 	toggle_button_init (prefs, prefs->show_animated, FALSE,
 			    "/apps/evolution/mail/display/animate_images",
