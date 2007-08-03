@@ -1,3 +1,10 @@
+2007-08-03  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #377173
+
+	* gui/e-cal-component-memo-preview.c:
+	* gui/e-cal-component-preview.c: Show category icon correctly. 
+
 2007-08-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #322624

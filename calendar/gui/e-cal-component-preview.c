@@ -96,6 +96,9 @@ url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointe
 			} while (result == GNOME_VFS_OK);
 
 			gnome_vfs_close (handle);
+
+			if (result == GNOME_VFS_ERROR_EOF)
+				gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 		}
 	}
 }

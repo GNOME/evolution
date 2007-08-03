@@ -98,6 +98,9 @@ url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointe
 			} while (result == GNOME_VFS_OK);
 
 			gnome_vfs_close (handle);
+
+			if (result == GNOME_VFS_ERROR_EOF)
+				gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 		}
 	}
 }
@@ -187,7 +190,8 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 			}
 		}
 		
-		gtk_html_stream_printf(stream, "%s", string->str);
+		if (string->len > 0)
+			gtk_html_stream_printf(stream, "%s", string->str);
 
 		g_string_free (string, TRUE);
 	
