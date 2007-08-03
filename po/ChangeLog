@@ -1,3 +1,8 @@
+2007-08-03  Danishka Navin <snavin@svn.gnome.org>
+
+	* si.po:  Sinhala Translation updated by Danishka Navin
+	
+
 2007-08-01  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
@@ -126,6 +131,7 @@
 
         * es.po: Updated Spanish translation
 
+>>>>>>> .r33860
 2007-07-09  Jovan Naumovski  <jovan@lugola.net>
  
  	 * mk.po: Updated Macedonian translation.
