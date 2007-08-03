@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: si\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-31 22:40+0100\n"
-"PO-Revision-Date: 2007-07-12 17:40+0530\n"
+"POT-Creation-Date: 2007-08-03 07:47+0100\n"
+"PO-Revision-Date: 2007-08-03 13:28+0530\n"
 "Last-Translator: Danishka Navin <snavin@redhat.com>\n"
 "Language-Team: Sinhala <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -250,8 +250,9 @@ msgstr "උත්පතන"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
+#, fuzzy
 msgid "popup a child"
-msgstr ""
+msgstr "අපරයක් උත්පතනය කරන්න"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:614
 msgid "edit"
@@ -271,38 +272,43 @@ msgid "toggle the cell"
 msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:192
+#, fuzzy
 msgid "expand"
-msgstr ""
+msgstr "විදහන්න"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:193
 msgid "expands the row in the ETree containing this cell"
 msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:198
+#, fuzzy
 msgid "collapse"
-msgstr ""
+msgstr "හකුළන්න"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:199
 msgid "collapses the row in the ETree containing this cell"
 msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
+#, fuzzy
 msgid "Table Cell"
-msgstr ""
+msgstr "වගු සෛලය"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
 #: ../widgets/table/e-table-click-to-add.c:571
+#, fuzzy
 msgid "click to add"
-msgstr ""
+msgstr "එක් කිරිමට ක්ලික් කරන්න"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
 msgstr "ක්ලික්"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
+#, fuzzy
 msgid "sort"
-msgstr ""
+msgstr "අනුපිළිවෙලට සකසන්න"
 
 #: ../a11y/widgets/ea-calendar-item.c:298
 #: ../a11y/widgets/ea-calendar-item.c:304
@@ -335,8 +341,9 @@ msgid "Toggle Attachment Bar"
 msgstr ""
 
 #: ../a11y/widgets/ea-expander.c:50
+#, fuzzy
 msgid "activate"
-msgstr ""
+msgstr "පණගන්වන්න"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid ""
@@ -345,12 +352,14 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:2
+#, fuzzy
 msgid "Address '{0}' already exists."
-msgstr ""
+msgstr "'{0}' ලිපිනය දැනටමත් ඇත."
 
 #: ../addressbook/addressbook.error.xml.h:3
+#, fuzzy
 msgid "Cannot move contact."
-msgstr ""
+msgstr "සම්බන්ධතා ගෙනයා නොහැක"
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Category editor not available."
@@ -379,12 +388,14 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:9
+#, fuzzy
 msgid "Delete address book '{0}'?"
-msgstr ""
+msgstr "'{0}' ලිපින පොත මැකීමට අවශ්‍යද?"
 
 #: ../addressbook/addressbook.error.xml.h:10
+#, fuzzy
 msgid "Error loading addressbook."
-msgstr ""
+msgstr "ලිපින පොත පූරණය දෝෂ සහිතයි."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Error saving {0} to {1}: {2}"
@@ -397,8 +408,9 @@ msgstr ""
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1830
+#, fuzzy
 msgid "Failed to delete contact"
-msgstr ""
+msgstr "සම්බන්ධතා මැකීමට අසමත් විය"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "GroupWise Address book creation:"
@@ -409,8 +421,9 @@ msgid "LDAP server did not respond with valid schema information."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:16
+#, fuzzy
 msgid "Permission Denied."
-msgstr ""
+msgstr "අවසර වලකා ඇත."
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Server Version"
@@ -425,8 +438,7 @@ msgid "The Evolution addressbook has quit unexpectedly."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:20
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
+msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:21
@@ -494,8 +506,7 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:34
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:510
@@ -640,8 +651,9 @@ msgid "On LDAP Servers"
 msgstr "LDAP සේවාදායකය මත"
 
 #: ../addressbook/gui/component/addressbook-component.c:229
+#, fuzzy
 msgid "_Contact"
-msgstr ""
+msgstr "සම්බන්ධතා (_C)"
 
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
@@ -780,18 +792,18 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/gui/component/addressbook-view.c:434
-#: ../mail/em-folder-utils.c:503
+#: ../mail/em-folder-utils.c:504
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "\"%s\" ලෙසට බහලුමේ නම වෙනස් කරන්න:"
 
 #: ../addressbook/gui/component/addressbook-view.c:437
-#: ../mail/em-folder-utils.c:505
+#: ../mail/em-folder-utils.c:506
 msgid "Rename Folder"
 msgstr "බහලුමේ නම වෙනස් කරන්න"
 
 #: ../addressbook/gui/component/addressbook-view.c:442
-#: ../mail/em-folder-utils.c:511
+#: ../mail/em-folder-utils.c:512
 msgid "Folder names cannot contain '/'"
 msgstr "බහලුම් නම තුළ '/' අඩංගු විය නොහැක"
 
@@ -810,7 +822,7 @@ msgstr "නව ලිපින පොත (_N)"
 #: ../calendar/gui/e-calendar-table.c:1375
 #: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:992
 #: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
-#: ../mail/em-folder-tree.c:2122 ../mail/em-folder-view.c:1157
+#: ../mail/em-folder-tree.c:2127 ../mail/em-folder-view.c:1157
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -928,8 +940,9 @@ msgid "<b>Searching</b>"
 msgstr "<b>සොයමින්</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
+#, fuzzy
 msgid "<b>Server Information</b>"
-msgstr ""
+msgstr "<b>සේවාදයකයේ තොරතුරු</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "<b>Type:</b>"
@@ -945,8 +958,9 @@ msgid "Always"
 msgstr "සැමවිටම"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
+#, fuzzy
 msgid "Anonymously"
-msgstr ""
+msgstr "නිර්ණාමිකව"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
@@ -961,8 +975,7 @@ msgid "Email address"
 msgstr "විද්‍යුත් තැපැල් ලිපිනය"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
@@ -982,8 +995,9 @@ msgstr "කිසිදාක නැත"
 #. the Mailer. It will not use an encrypted connection.
 #: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:304
+#, fuzzy
 msgid "No encryption"
-msgstr ""
+msgstr "සංකේතනය නැත"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
@@ -994,8 +1008,9 @@ msgstr "එක"
 #. abbreviation.
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 #: ../mail/em-account-editor.c:312
+#, fuzzy
 msgid "SSL encryption"
-msgstr ""
+msgstr "SSL සංකේතනය"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
@@ -1248,8 +1263,9 @@ msgid "Mailing Address"
 msgstr "තැපැල් ලිපිනය"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
+#, fuzzy
 msgid "Ni_ckname:"
-msgstr ""
+msgstr "අනුවර්ත නම (_c):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
@@ -1281,23 +1297,27 @@ msgid "_Address:"
 msgstr "ලිපිනය (_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
+#, fuzzy
 msgid "_Anniversary:"
-msgstr ""
+msgstr "සාංවත්සරික් (_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
+#, fuzzy
 msgid "_Assistant:"
-msgstr ""
+msgstr "සහායක (_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
+#, fuzzy
 msgid "_Birthday:"
-msgstr ""
+msgstr "උපන්දිනය (_B):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 #: ../calendar/gui/dialogs/event-page.c:888
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1833
+#, fuzzy
 msgid "_Calendar:"
-msgstr ""
+msgstr "දිනදර්ශනය (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "_Categories..."
@@ -1308,49 +1328,59 @@ msgid "_City:"
 msgstr "නගරය: (_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
+#, fuzzy
 msgid "_Company:"
-msgstr ""
+msgstr "ආයතනය (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
+#, fuzzy
 msgid "_Country:"
-msgstr ""
+msgstr "රට (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
+#, fuzzy
 msgid "_Department:"
-msgstr ""
+msgstr "දෙපාර්තුමෙන්තුව (_D):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_File under:"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
+#, fuzzy
 msgid "_Free/Busy:"
-msgstr ""
+msgstr "නිදහස්/කාර්‍යය බහුලයි (_F):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
+#, fuzzy
 msgid "_Home Page:"
-msgstr ""
+msgstr "නිවාස පිටුව (_H):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
+#, fuzzy
 msgid "_Manager:"
-msgstr ""
+msgstr "කළමණාකරු (_M):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
+#, fuzzy
 msgid "_Notes:"
-msgstr ""
+msgstr "සටහන් (_N):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
+#, fuzzy
 msgid "_Office:"
-msgstr ""
+msgstr "කාර්‍යයාලය (_O):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
+#, fuzzy
 msgid "_PO Box:"
-msgstr ""
+msgstr "තැපැල් පෙට්ටිය (_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
+#, fuzzy
 msgid "_Profession:"
-msgstr ""
+msgstr "වෘතිය (_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Spouse:"
@@ -1375,8 +1405,9 @@ msgid "_Wants to receive HTML mail"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
+#, fuzzy
 msgid "_Web Log:"
-msgstr ""
+msgstr "වෙබ් සටහන් (_W):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
@@ -1384,8 +1415,9 @@ msgid "_Where:"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
+#, fuzzy
 msgid "_Zip/Postal Code:"
-msgstr ""
+msgstr "තැපැල් සංඛේතය (_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:97
 #: ../addressbook/gui/widgets/eab-contact-display.c:577
@@ -1584,12 +1616,14 @@ msgid "Chad"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
+#, fuzzy
 msgid "Chile"
-msgstr ""
+msgstr "චිලී"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
+#, fuzzy
 msgid "China"
-msgstr ""
+msgstr "චිවය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Christmas Island"
@@ -1600,16 +1634,18 @@ msgid "Cocos (Keeling) Islands"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
+#, fuzzy
 msgid "Colombia"
-msgstr ""
+msgstr "කොලොම්බියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Comoros"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
+#, fuzzy
 msgid "Congo"
-msgstr ""
+msgstr "කොන්ගෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Congo, The Democratic Republic Of The"
@@ -1632,28 +1668,32 @@ msgid "Croatia"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
+#, fuzzy
 msgid "Cuba"
-msgstr ""
+msgstr "කියුබාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
+#, fuzzy
 msgid "Cyprus"
-msgstr ""
+msgstr "සයිප්‍රසය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Czech Republic"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
+#, fuzzy
 msgid "Denmark"
-msgstr ""
+msgstr "ඩෙන්මාර්කය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Djibouti"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
+#, fuzzy
 msgid "Dominica"
-msgstr ""
+msgstr "ඩොමිනිකාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Dominican Republic"
@@ -1664,8 +1704,9 @@ msgid "Ecuador"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
+#, fuzzy
 msgid "Egypt"
-msgstr ""
+msgstr "ඊජිප්තුව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "El Salvador"
@@ -1676,16 +1717,19 @@ msgid "Equatorial Guinea"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
+#, fuzzy
 msgid "Eritrea"
-msgstr ""
+msgstr "එරිත්‍රීයාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
+#, fuzzy
 msgid "Estonia"
-msgstr ""
+msgstr "ඒස්ටොනියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
+#, fuzzy
 msgid "Ethiopia"
-msgstr ""
+msgstr "ඉතියෝපියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Falkland Islands"
@@ -1696,16 +1740,19 @@ msgid "Faroe Islands"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
+#, fuzzy
 msgid "Fiji"
-msgstr ""
+msgstr "ෆිජි"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
+#, fuzzy
 msgid "Finland"
-msgstr ""
+msgstr "ෆින්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
+#, fuzzy
 msgid "France"
-msgstr ""
+msgstr "ප්‍රංශය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Guiana"
@@ -1724,32 +1771,39 @@ msgid "Gabon"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
+#, fuzzy
 msgid "Gambia"
-msgstr ""
+msgstr "ගැම්ගියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
+#, fuzzy
 msgid "Georgia"
-msgstr ""
+msgstr "ජොර්ජියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
+#, fuzzy
 msgid "Germany"
-msgstr ""
+msgstr "ජර්මනිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
+#, fuzzy
 msgid "Ghana"
-msgstr ""
+msgstr "ගානාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
+#, fuzzy
 msgid "Gibraltar"
-msgstr ""
+msgstr "ජිබ්රොල්ටා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
+#, fuzzy
 msgid "Greece"
-msgstr ""
+msgstr "ග්‍රීසිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
+#, fuzzy
 msgid "Greenland"
-msgstr ""
+msgstr "ග්‍රීන්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Grenada"
@@ -1780,12 +1834,14 @@ msgid "Guinea-bissau"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
+#, fuzzy
 msgid "Guyana"
-msgstr ""
+msgstr "ගුයානා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
+#, fuzzy
 msgid "Haiti"
-msgstr ""
+msgstr "හයිති"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Heard And McDonald Islands"
@@ -1800,72 +1856,87 @@ msgid "Honduras"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
+#, fuzzy
 msgid "Hong Kong"
-msgstr ""
+msgstr "හොංග්කොන්ග්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
+#, fuzzy
 msgid "Hungary"
-msgstr ""
+msgstr "හන්ගේරියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
+#, fuzzy
 msgid "Iceland"
-msgstr ""
+msgstr "අයිස්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
+#, fuzzy
 msgid "India"
-msgstr ""
+msgstr "ඉංදියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
+#, fuzzy
 msgid "Indonesia"
-msgstr ""
+msgstr "ඉංදුනිසියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:239
+#, fuzzy
 msgid "Iran"
-msgstr ""
+msgstr "ඉරානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
+#, fuzzy
 msgid "Iraq"
-msgstr ""
+msgstr "ඉරාකය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
+#, fuzzy
 msgid "Ireland"
-msgstr ""
+msgstr "අයර්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Isle of Man"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
+#, fuzzy
 msgid "Israel"
-msgstr ""
+msgstr "ඊශ්‍රාලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
+#, fuzzy
 msgid "Italy"
-msgstr ""
+msgstr "ඉතාලිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
+#, fuzzy
 msgid "Jamaica"
-msgstr ""
+msgstr "ජැමයිකාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
+#, fuzzy
 msgid "Japan"
-msgstr ""
+msgstr "ජපානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Jersey"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
+#, fuzzy
 msgid "Jordan"
-msgstr ""
+msgstr "ජොර්දානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
+#, fuzzy
 msgid "Kazakhstan"
-msgstr ""
+msgstr "කසකස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
+#, fuzzy
 msgid "Kenya"
-msgstr ""
+msgstr "කෙන්යාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
 msgid "Kiribati"
@@ -1880,80 +1951,96 @@ msgid "Korea, Republic Of"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
+#, fuzzy
 msgid "Kuwait"
-msgstr ""
+msgstr "කුවේටය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Kyrgyzstan"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
+#, fuzzy
 msgid "Laos"
-msgstr ""
+msgstr "ලාඔසය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Latvia"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
+#, fuzzy
 msgid "Lebanon"
-msgstr ""
+msgstr "ලෙබනන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
+#, fuzzy
 msgid "Lesotho"
-msgstr ""
+msgstr "ලෙසතෝව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
+#, fuzzy
 msgid "Liberia"
-msgstr ""
+msgstr "ලයිබේරියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
+#, fuzzy
 msgid "Libya"
-msgstr ""
+msgstr "ලිබියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Liechtenstein"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
+#, fuzzy
 msgid "Lithuania"
-msgstr ""
+msgstr "ලිතුවේනියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
+#, fuzzy
 msgid "Luxembourg"
-msgstr ""
+msgstr "ලක්සෙම්බර්ග්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
+#, fuzzy
 msgid "Macao"
-msgstr ""
+msgstr "මැකෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
+#, fuzzy
 msgid "Macedonia"
-msgstr ""
+msgstr "මැසඩොනියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
+#, fuzzy
 msgid "Madagascar"
-msgstr ""
+msgstr "මැඩස්කරය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
+#, fuzzy
 msgid "Malawi"
-msgstr ""
+msgstr "මලාවී"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
+#, fuzzy
 msgid "Malaysia"
-msgstr ""
+msgstr "මැලේසියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
+#, fuzzy
 msgid "Maldives"
-msgstr ""
+msgstr "මාලදිවයින"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
+#, fuzzy
 msgid "Mali"
-msgstr ""
+msgstr "මාලී"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
+#, fuzzy
 msgid "Malta"
-msgstr ""
+msgstr "මොල්ටාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Marshall Islands"
@@ -1976,8 +2063,9 @@ msgid "Mayotte"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
+#, fuzzy
 msgid "Mexico"
-msgstr ""
+msgstr "මෙක්සිකෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Micronesia"
@@ -1992,40 +2080,46 @@ msgid "Monaco"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
+#, fuzzy
 msgid "Mongolia"
-msgstr ""
+msgstr "මොන්ගොලියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Montserrat"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
+#, fuzzy
 msgid "Morocco"
-msgstr ""
+msgstr "මොරොක්කෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
+#, fuzzy
 msgid "Mozambique"
-msgstr ""
+msgstr "මොසැම්බික්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Myanmar"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
+#, fuzzy
 msgid "Namibia"
-msgstr ""
+msgstr "නැම්බියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nauru"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
+#, fuzzy
 msgid "Nepal"
-msgstr ""
+msgstr "නේපාලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
+#, fuzzy
 msgid "Netherlands"
-msgstr ""
+msgstr "නෙදර්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Netherlands Antilles"
@@ -2036,8 +2130,9 @@ msgid "New Caledonia"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
+#, fuzzy
 msgid "New Zealand"
-msgstr ""
+msgstr "නවසිලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Nicaragua"
@@ -2048,8 +2143,9 @@ msgid "Niger"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
+#, fuzzy
 msgid "Nigeria"
-msgstr ""
+msgstr "නයිජිරියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Niue"
@@ -2064,16 +2160,19 @@ msgid "Northern Mariana Islands"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
+#, fuzzy
 msgid "Norway"
-msgstr ""
+msgstr "නොර්වේ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
+#, fuzzy
 msgid "Oman"
-msgstr ""
+msgstr "ඕමානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
+#, fuzzy
 msgid "Pakistan"
-msgstr ""
+msgstr "පාකිස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palau"
@@ -2084,52 +2183,61 @@ msgid "Palestinian Territory"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
+#, fuzzy
 msgid "Panama"
-msgstr ""
+msgstr "පැනමාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
+#, fuzzy
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "පැපුවා නිව් ගිනියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
+#, fuzzy
 msgid "Paraguay"
-msgstr ""
+msgstr "පැරගුවේ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
+#, fuzzy
 msgid "Peru"
-msgstr ""
+msgstr "පේරු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
+#, fuzzy
 msgid "Philippines"
-msgstr ""
+msgstr "පිලිපීනය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Pitcairn"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
+#, fuzzy
 msgid "Poland"
-msgstr ""
+msgstr "පෝලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
+#, fuzzy
 msgid "Portugal"
-msgstr ""
+msgstr "පෘතුගාලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Puerto Rico"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
+#, fuzzy
 msgid "Qatar"
-msgstr ""
+msgstr "කටාරය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Reunion"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
+#, fuzzy
 msgid "Romania"
-msgstr ""
+msgstr "රොමෙනියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Russian Federation"
@@ -2164,72 +2272,87 @@ msgid "Sao Tome And Principe"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
+#, fuzzy
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "සවූදි අරාබිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
+#, fuzzy
 msgid "Senegal"
-msgstr ""
+msgstr "සෙනෙගාලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
+#, fuzzy
 msgid "Serbia And Montenegro"
-msgstr ""
+msgstr "සර්බියාව සහ මොන්ටින්ග්‍රෝව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
+#, fuzzy
 msgid "Seychelles"
-msgstr ""
+msgstr "සයිචෙල්ස්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
+#, fuzzy
 msgid "Sierra Leone"
-msgstr ""
+msgstr "සියරා ලියොන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
+#, fuzzy
 msgid "Singapore"
-msgstr ""
+msgstr "සිංගප්පුරුව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
+#, fuzzy
 msgid "Slovakia"
-msgstr ""
+msgstr "ස්ලෝවැකියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
+#, fuzzy
 msgid "Slovenia"
-msgstr ""
+msgstr "ස්ලොවෙනියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
+#, fuzzy
 msgid "Solomon Islands"
-msgstr ""
+msgstr "සොලොමන් දිවයින්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
+#, fuzzy
 msgid "Somalia"
-msgstr ""
+msgstr "සෝමාලියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
+#, fuzzy
 msgid "South Africa"
-msgstr ""
+msgstr "දකුණු අප්‍රිකාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "South Georgia And The South Sandwich Islands"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
+#, fuzzy
 msgid "Spain"
-msgstr ""
+msgstr "ස්පාඤ්ඤය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
+#, fuzzy
 msgid "Sri Lanka"
-msgstr ""
+msgstr "ශ්‍රි ලංකාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
+#, fuzzy
 msgid "St. Helena"
-msgstr ""
+msgstr "ශාන්ත හේලේනා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "St. Pierre And Miquelon"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
+#, fuzzy
 msgid "Sudan"
-msgstr ""
+msgstr "සූඩානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Suriname"
@@ -2244,60 +2367,70 @@ msgid "Swaziland"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
+#, fuzzy
 msgid "Sweden"
-msgstr ""
+msgstr "ස්වීඩනය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
+#, fuzzy
 msgid "Switzerland"
-msgstr ""
+msgstr "ස්විට්සර්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
+#, fuzzy
 msgid "Syria"
-msgstr ""
+msgstr "සිරියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
+#, fuzzy
 msgid "Taiwan"
-msgstr ""
+msgstr "තායිවානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
+#, fuzzy
 msgid "Tajikistan"
-msgstr ""
+msgstr "ටජිකිස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tanzania, United Republic Of"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
+#, fuzzy
 msgid "Thailand"
-msgstr ""
+msgstr "තායිලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Timor-Leste"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
+#, fuzzy
 msgid "Togo"
-msgstr ""
+msgstr "ටොගෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tokelau"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
+#, fuzzy
 msgid "Tonga"
-msgstr ""
+msgstr "ටොන්ගා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Trinidad And Tobago"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
+#, fuzzy
 msgid "Tunisia"
-msgstr ""
+msgstr "ටියුනිසියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
+#, fuzzy
 msgid "Turkey"
-msgstr ""
+msgstr "තුර්කිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turkmenistan"
@@ -2312,72 +2445,86 @@ msgid "Tuvalu"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
+#, fuzzy
 msgid "Uganda"
-msgstr ""
+msgstr "උගන්ඩාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
+#, fuzzy
 msgid "Ukraine"
-msgstr ""
+msgstr "යුක්‍රේනය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
+#, fuzzy
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "එක්සත් අරාබි එමිර් රාජ්‍යය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:365
+#, fuzzy
 msgid "United Kingdom"
-msgstr ""
+msgstr "එක්සත් රාජධානිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
+#, fuzzy
 msgid "Uruguay"
-msgstr ""
+msgstr "උරුගුවේ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
+#, fuzzy
 msgid "Uzbekistan"
-msgstr ""
+msgstr "උස්බකිස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Vanuatu"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
+#, fuzzy
 msgid "Venezuela"
-msgstr ""
+msgstr "වෙනිසියුලාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
+#, fuzzy
 msgid "Viet Nam"
-msgstr ""
+msgstr "නියට්නාමය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
+#, fuzzy
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "වර්ජින් දූපත්, බ්‍රිතාන්‍යය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
+#, fuzzy
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "වර්ජින් දූපත්, ඒ.ජ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Wallis And Futuna Islands"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:375
+#, fuzzy
 msgid "Western Sahara"
-msgstr ""
+msgstr "බටහිර සහරා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:376
+#, fuzzy
 msgid "Yemen"
-msgstr ""
+msgstr "යේමනය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:377
+#, fuzzy
 msgid "Zambia"
-msgstr ""
+msgstr "සැම්බියාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:378
+#, fuzzy
 msgid "Zimbabwe"
-msgstr ""
+msgstr "සිම්බාබ්වේ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:90
 #: ../plugins/exchange-operations/exchange-delegates.c:958
@@ -2490,37 +2637,38 @@ msgstr "වෙනස්විය"
 msgid "Contact Editor - %s"
 msgstr ""
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2807
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2811
 msgid "Please select an image for this contact"
 msgstr ""
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2808
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2812
+#, fuzzy
 msgid "_No image"
-msgstr ""
+msgstr "පිළිඹිබු නැත (_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3117
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr ""
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3120
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3124
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr ""
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3135
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3146
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3139
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3150
 #, c-format
 msgid "%s'%s' is empty"
 msgstr ""
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3161
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3165
 msgid "Invalid contact."
 msgstr ""
 
@@ -2757,8 +2905,9 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
+#, fuzzy
 msgid "New Contact:"
-msgstr ""
+msgstr "නව සබධතා:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
@@ -2771,12 +2920,14 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:190
+#, fuzzy
 msgid "Merge Contact"
-msgstr ""
+msgstr "සම්බන්ධතා මුසුකිරීම්"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:205
+#, fuzzy
 msgid "Merge"
-msgstr ""
+msgstr "මුසුකිරීම"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:258
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
@@ -2796,32 +2947,37 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#, fuzzy
 msgid "Email begins with"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල ආරම්ඹ වනුයේ"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
+#, fuzzy
 msgid "Name begins with"
-msgstr ""
+msgstr "නම ආරම්ඹ වනුයේ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:150
+#, fuzzy
 msgid "No contacts"
-msgstr ""
+msgstr "සබධතා නැත"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:153
 #, c-format
+#, fuzzy
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "සබධතා %d ඇත"
+msgstr[1] "සබධතා %d ඇත"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
 #: ../addressbook/gui/widgets/e-addressbook-view.c:239
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
+#, fuzzy
 msgid "Query"
-msgstr ""
+msgstr "විමසුම්"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:448
 msgid "Error getting book view"
@@ -2872,8 +3028,9 @@ msgid "_New Contact..."
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:962
+#, fuzzy
 msgid "New Contact _List..."
-msgstr ""
+msgstr "නව සබධතා ලැයිස්තුව... (_L)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "_Save as VCard..."
@@ -2904,12 +3061,14 @@ msgid "_Print"
 msgstr "මුද්‍රණය (_P)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:974
+#, fuzzy
 msgid "Cop_y to Address Book..."
-msgstr ""
+msgstr "ලිපින පොතට එක් කරන්න... (_y)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:975
+#, fuzzy
 msgid "Mo_ve to Address Book..."
-msgstr ""
+msgstr "ලිපින පොතට ගෙන යන්න... (_v)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:978
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
@@ -2922,7 +3081,7 @@ msgstr "කපන්න (_t)"
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../composer/e-msg-composer.c:3223 ../mail/em-folder-tree.c:1006
+#: ../composer/e-msg-composer.c:3215 ../mail/em-folder-tree.c:1006
 #: ../mail/em-folder-view.c:1142 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -2950,32 +3109,38 @@ msgstr "වෙනත් දෝෂයක්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:571
+#, fuzzy
 msgid "Assistant"
-msgstr ""
+msgstr "සහායක"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:2
+#, fuzzy
 msgid "Assistant Phone"
-msgstr ""
+msgstr "සහායක දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:3
+#, fuzzy
 msgid "Business Fax"
-msgstr ""
+msgstr "ව්‍යාපාරික ෆැක්ස්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:4
+#, fuzzy
 msgid "Business Phone"
-msgstr ""
+msgstr "ව්‍යාපාරික දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
+#, fuzzy
 msgid "Business Phone 2"
-msgstr ""
+msgstr "ව්‍යාපාරික දුරකථනය 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Callback Phone"
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
+#, fuzzy
 msgid "Car Phone"
-msgstr ""
+msgstr "රථ දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:7
@@ -2987,12 +3152,14 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 #: ../addressbook/gui/widgets/eab-contact-display.c:566
+#, fuzzy
 msgid "Company"
-msgstr ""
+msgstr "සේවාස්ථානය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
+#, fuzzy
 msgid "Company Phone"
-msgstr ""
+msgstr "සේවාස්ථානයේ දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 2"
@@ -3003,32 +3170,39 @@ msgid "Email 3"
 msgstr "විද්‍යුත් තැපෑල 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
+#, fuzzy
 msgid "Family Name"
-msgstr ""
+msgstr "පෙලපත් නාමය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
+#, fuzzy
 msgid "File As"
-msgstr ""
+msgstr "ලෙස ගොනුව"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
+#, fuzzy
 msgid "Given Name"
-msgstr ""
+msgstr "ලබාදුන් නම"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
+#, fuzzy
 msgid "Home Fax"
-msgstr ""
+msgstr "ගෘහස්ථ ෆැක්ස්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
+#, fuzzy
 msgid "Home Phone"
-msgstr ""
+msgstr "ගෘහස්ථ දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
+#, fuzzy
 msgid "Home Phone 2"
-msgstr ""
+msgstr "ගෘහස්ථ දුරකථනය 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
+#, fuzzy
 msgid "ISDN Phone"
-msgstr ""
+msgstr "ISDN දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Journal"
@@ -3036,18 +3210,21 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:570
+#, fuzzy
 msgid "Manager"
-msgstr ""
+msgstr "කළමණාකරු"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 #: ../addressbook/gui/widgets/eab-contact-display.c:591
+#, fuzzy
 msgid "Mobile Phone"
-msgstr ""
+msgstr "ජංගම දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
+#, fuzzy
 msgid "Nickname"
-msgstr ""
+msgstr "අනුවත්ත නම"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 #: ../addressbook/gui/widgets/eab-contact-display.c:604
@@ -3059,16 +3236,19 @@ msgid "Office"
 msgstr "කාර්‍යාලිය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:28
+#, fuzzy
 msgid "Other Fax"
-msgstr ""
+msgstr "වෙනත් ෆැක්ස්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:29
+#, fuzzy
 msgid "Other Phone"
-msgstr ""
+msgstr "වෙනත් දුරකථන"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:30
+#, fuzzy
 msgid "Pager"
-msgstr ""
+msgstr "විද්‍යුත් කැදවනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Primary Phone"
@@ -3101,8 +3281,9 @@ msgid "TTYTDD"
 msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
+#, fuzzy
 msgid "Telex"
-msgstr ""
+msgstr "ටෙලෙකස්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
@@ -3113,8 +3294,9 @@ msgid "Unit"
 msgstr "ඒකකය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
+#, fuzzy
 msgid "Web Site"
-msgstr ""
+msgstr "වෙබ් අඩවිය"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:150
@@ -3153,12 +3335,14 @@ msgid "Has Focus"
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:136
+#, fuzzy
 msgid "Field"
-msgstr ""
+msgstr "ක්‍ෂේත්‍රය"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:143
+#, fuzzy
 msgid "Field Name"
-msgstr ""
+msgstr "ක්‍ෂේත්‍ර නම"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
@@ -3169,8 +3353,9 @@ msgid "Max field name length"
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:128
+#, fuzzy
 msgid "Column Width"
-msgstr ""
+msgstr "තීරු පළල"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:174
 msgid ""
@@ -3297,39 +3482,47 @@ msgstr "දින දර්ශණය"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: ../calendar/gui/dialogs/event-editor.c:369
 #: ../ui/evolution-event-editor.xml.h:8
+#, fuzzy
 msgid "Free/Busy"
-msgstr ""
+msgstr "නිදහස්/කාර්‍යය බහුලයි"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:575
 #: ../addressbook/gui/widgets/eab-contact-display.c:590
+#, fuzzy
 msgid "Phone"
-msgstr ""
+msgstr "දුරකථනය"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:576
+#, fuzzy
 msgid "Fax"
-msgstr ""
+msgstr "ෆැක්ස්"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:587
+#, fuzzy
 msgid "Home Page"
-msgstr ""
+msgstr "නිවාස පිටුව"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:588
+#, fuzzy
 msgid "Web Log"
-msgstr ""
+msgstr "වෙබ් සටහන්"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:593
 #: ../calendar/gui/e-calendar-view.c:2287
+#, fuzzy
 msgid "Birthday"
-msgstr ""
+msgstr "උපන්දිනය"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:594
 #: ../calendar/gui/e-calendar-view.c:2288
+#, fuzzy
 msgid "Anniversary"
-msgstr ""
+msgstr "සාංවත්සරික"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:776
+#, fuzzy
 msgid "Job Title"
-msgstr ""
+msgstr "රැකියා තනතුර"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:807
 msgid "Home page"
@@ -3550,10 +3743,11 @@ msgstr ""
 #.
 #: ../addressbook/gui/widgets/eab-gui-util.c:376
 #: ../addressbook/gui/widgets/eab-gui-util.c:379
+#, fuzzy
 msgid "contact"
 msgid_plural "contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "අඳුනන්නා"
+msgstr[1] "අඳුනන්නා"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:427
@@ -3692,28 +3886,33 @@ msgid "Blank forms at end:"
 msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:4
+#, fuzzy
 msgid "Body"
-msgstr ""
+msgstr "කඳ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:5
+#, fuzzy
 msgid "Bottom:"
-msgstr ""
+msgstr "පහළ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:6
+#, fuzzy
 msgid "Dimensions:"
-msgstr ""
+msgstr "මාන:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:7
+#, fuzzy
 msgid "F_ont..."
-msgstr ""
+msgstr "අක්‍ෂර... (_o)"
 
 #: ../addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
 msgstr "අකුරු"
 
 #: ../addressbook/printing/e-contact-print.glade.h:9
+#, fuzzy
 msgid "Footer:"
-msgstr ""
+msgstr "පාදකය:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
@@ -3726,20 +3925,24 @@ msgstr "සංයුතිය"
 #: ../widgets/table/e-table-field-chooser.c:81
 #: ../widgets/table/e-table-header-item.c:1896
 #: ../widgets/table/e-table-selection-model.c:314
+#, fuzzy
 msgid "Header"
-msgstr ""
+msgstr "ශීර්ෂකය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:12
+#, fuzzy
 msgid "Header/Footer"
-msgstr ""
+msgstr "ශීර්ෂකය/පාදකය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:13
+#, fuzzy
 msgid "Headings"
-msgstr ""
+msgstr "ශීර්ෂක"
 
 #: ../addressbook/printing/e-contact-print.glade.h:14
+#, fuzzy
 msgid "Headings for each letter"
-msgstr ""
+msgstr "ලිපිය සඳහා ශීර්ෂකය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
@@ -3750,8 +3953,9 @@ msgid "Immediately follow each other"
 msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:17
+#, fuzzy
 msgid "Include:"
-msgstr ""
+msgstr "ඇතුළත්:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
@@ -3770,8 +3974,9 @@ msgid "Margins"
 msgstr "සීමා"
 
 #: ../addressbook/printing/e-contact-print.glade.h:22
+#, fuzzy
 msgid "Number of columns:"
-msgstr ""
+msgstr "තීරු ගණන:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:23
 msgid "Options"
@@ -3786,24 +3991,27 @@ msgid "Page"
 msgstr "පෛටුව"
 
 #: ../addressbook/printing/e-contact-print.glade.h:26
+#, fuzzy
 msgid "Page Setup:"
-msgstr ""
+msgstr "පිටු සැකසුම්:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
 msgstr "කඩදාසි"
 
 #: ../addressbook/printing/e-contact-print.glade.h:28
+#, fuzzy
 msgid "Paper source:"
-msgstr ""
+msgstr "කඩදාසි මූලය:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
 msgstr "නිරුපණය"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
+#, fuzzy
 msgid "Preview:"
-msgstr ""
+msgstr "පූර්‍වදසුන:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
@@ -3814,12 +4022,14 @@ msgid "Reverse on even pages"
 msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:33
+#, fuzzy
 msgid "Right:"
-msgstr ""
+msgstr "දකුණt:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:34
+#, fuzzy
 msgid "Sections:"
-msgstr ""
+msgstr "අංශ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
@@ -3834,12 +4044,14 @@ msgid "Size:"
 msgstr "ප්‍රමාණය:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:37
+#, fuzzy
 msgid "Start on a new page"
-msgstr ""
+msgstr "නව පිටුවක ආරම්ඹකරන්න"
 
 #: ../addressbook/printing/e-contact-print.glade.h:38
+#, fuzzy
 msgid "Style name:"
-msgstr ""
+msgstr "රටා නම:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:39
 msgid "Top:"
@@ -3882,8 +4094,9 @@ msgstr ""
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:668
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:704
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
+#, fuzzy
 msgid "Can not open file"
-msgstr ""
+msgstr "පොත විවෘත කළ නොහැක"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
 msgid "Couldn't get list of addressbooks"
@@ -3898,8 +4111,9 @@ msgid "Specify the output file instead of standard output"
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:50
+#, fuzzy
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "OUTPUTFILE"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:53
 msgid "List local addressbook folders"
@@ -3910,8 +4124,9 @@ msgid "Show cards as vcard or csv file"
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
+#, fuzzy
 msgid "[vcard|csv]"
-msgstr ""
+msgstr "[vcard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "Export in asynchronous mode"
@@ -3928,8 +4143,7 @@ msgid "NUMBER"
 msgstr "NUMBER"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:102
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:116
@@ -3967,8 +4181,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:4
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:5
@@ -3982,8 +4195,7 @@ msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:7
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:8
@@ -3993,8 +4205,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:9
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:10
@@ -4095,8 +4306,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:33
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
+msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:34
@@ -4282,20 +4492,23 @@ msgstr "වෙනස්කම් ආර්ක්‍ෂා කරන්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:74
 #: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:139
+#, fuzzy
 msgid "_Send"
-msgstr ""
+msgstr "යවන්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "_Send Notice"
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:76
+#, fuzzy
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #: ../calendar/common/authentication.c:50 ../smime/gui/component.c:50
+#, fuzzy
 msgid "Enter password"
-msgstr ""
+msgstr "රහස්පදය ඇතුළත් කරන්න"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:253
 msgid "Split Multi-Day Events:"
@@ -4326,8 +4539,9 @@ msgid "Could not write pilot's Memo application block"
 msgstr ""
 
 #: ../calendar/conduits/todo/todo-conduit.c:237
+#, fuzzy
 msgid "Default Priority:"
-msgstr ""
+msgstr "පෙරනිමි ප්‍රමුඛත්වය:"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1190
 #: ../calendar/conduits/todo/todo-conduit.c:1193
@@ -4346,8 +4560,9 @@ msgstr "දිනදර්ශනය සහ කාර්‍යයන්"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 #: ../calendar/gui/calendar-component.c:1394
+#, fuzzy
 msgid "Calendars"
-msgstr ""
+msgstr "දිනදර්ශන"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Configure your timezone, Calendar and Task List here "
@@ -4450,8 +4665,8 @@ msgstr "හමුවීමේ තොරතුරු"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1570
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1576
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1615
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1621
 #: ../calendar/gui/e-itip-control.c:1145
 #: ../plugins/itip-formatter/itip-view.c:998
 msgid "Location:"
@@ -4481,34 +4696,36 @@ msgid "_Snooze"
 msgstr ""
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
+#, fuzzy
 msgid "location of appointment"
-msgstr ""
+msgstr "හමුවීමේ ස්තානය"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1429
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1552
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1474
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1597
 msgid "No summary available."
 msgstr ""
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1438
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1440
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1483
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1485
 msgid "No description available."
 msgstr ""
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1448
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1493
 msgid "No location information available."
 msgstr ""
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1492
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1537
 #, c-format
+#, fuzzy
 msgid "You have %d alarms"
-msgstr ""
+msgstr "ඔබ සතුව සංඥා %d ක් ඇත"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1654
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1682
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1699
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1727
 msgid "Warning"
 msgstr "අවවාදය"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1658
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1703
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4516,7 +4733,7 @@ msgid ""
 "a normal reminder dialog box instead."
 msgstr ""
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1688
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1733
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4527,7 +4744,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1702
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1747
 msgid "Do not ask me about this program again."
 msgstr ""
 
@@ -4542,8 +4759,9 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/alarm-notify/util.c:41
+#, fuzzy
 msgid "invalid time"
-msgstr ""
+msgstr "සාවද්‍ය වේලාව"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
@@ -4575,8 +4793,9 @@ msgstr[0] "තත්පර %d යි"
 msgstr[1] "තත්පර %d යි"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:1
+#, fuzzy
 msgid "Alarm programs"
-msgstr ""
+msgstr "සංඥා වැඩසටහන්"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:2
 msgid "Ask for confirmation when deleting items"
@@ -4595,8 +4814,7 @@ msgid "Calendars to run alarms for"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:6
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
@@ -4616,16 +4834,19 @@ msgid "Days on which the start and end of work hours should be indicated."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:11
+#, fuzzy
 msgid "Default appointment reminder"
-msgstr ""
+msgstr "පෙරනිමි හමුවීම් සිහිගැන්වීම"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
+#, fuzzy
 msgid "Default reminder units"
-msgstr ""
+msgstr "පෙරනිමි සිහිගැන්වීම් ඒකක"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
+#, fuzzy
 msgid "Default reminder value"
-msgstr ""
+msgstr "පෙරනිමි සිහිගැන්වීම් අගය"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 msgid "Directory for saving alarm audio files"
@@ -4680,8 +4901,9 @@ msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:27
+#, fuzzy
 msgid "Last alarm time"
-msgstr ""
+msgstr "අවසාන සංඥාවක් වේලාව"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:28
 msgid "List of server URLs for free/busy publishing."
@@ -4866,13 +5088,13 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
+#, fuzzy
 msgid "Week start"
-msgstr ""
+msgstr "සතියේ ඇරඹුම"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:72
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
@@ -4901,8 +5123,7 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
@@ -4930,8 +5151,7 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
@@ -4951,8 +5171,9 @@ msgid "Whether to use daylight savings time while displaying events."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
+#, fuzzy
 msgid "Work days"
-msgstr ""
+msgstr "වැඩ කරන දින"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid "Workday end hour"
@@ -4975,8 +5196,9 @@ msgid "daylight savings time"
 msgstr ""
 
 #: ../calendar/gui/cal-search-bar.c:73
+#, fuzzy
 msgid "Summary contains"
-msgstr ""
+msgstr "සාරංශයේ ඇතුළත් වනුයේ"
 
 #: ../calendar/gui/cal-search-bar.c:74
 msgid "Description contains"
@@ -5068,8 +5290,9 @@ msgid "On The Web"
 msgstr "වෙබ් අඩවිය මත"
 
 #: ../calendar/gui/calendar-component.c:290 ../calendar/gui/migration.c:405
+#, fuzzy
 msgid "Birthdays & Anniversaries"
-msgstr ""
+msgstr "උපන්දින සහ සාංවත්සරික"
 
 #. Create the weather group
 #: ../calendar/gui/calendar-component.c:299
@@ -5099,20 +5322,24 @@ msgid "Calendar Source Selector"
 msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1577
+#, fuzzy
 msgid "New appointment"
-msgstr ""
+msgstr "නව හමුවීමේ තොරතුරු"
 
 #: ../calendar/gui/calendar-component.c:1578
+#, fuzzy
 msgid "_Appointment"
-msgstr ""
+msgstr "හමුවීමේ තොරතුරු (_A)"
 
 #: ../calendar/gui/calendar-component.c:1579
+#, fuzzy
 msgid "Create a new appointment"
-msgstr ""
+msgstr "නව හමුවීමේ තොරතුරු නිර්මාණය කරන්න"
 
 #: ../calendar/gui/calendar-component.c:1585
+#, fuzzy
 msgid "New meeting"
-msgstr ""
+msgstr "නම මුණගැසීම්"
 
 #: ../calendar/gui/calendar-component.c:1586
 msgid "M_eeting"
@@ -5175,48 +5402,56 @@ msgid "Summary Contains"
 msgstr "සාරාංශය"
 
 #: ../calendar/gui/comp-editor-factory.c:415
+#, fuzzy
 msgid "Error while opening the calendar"
-msgstr ""
+msgstr "දිනදර්ශනය විවෘත කිරීමේදි දෝෂයකි"
 
 #: ../calendar/gui/comp-editor-factory.c:421
 msgid "Method not supported when opening the calendar"
 msgstr ""
 
 #: ../calendar/gui/comp-editor-factory.c:427
+#, fuzzy
 msgid "Permission denied to open the calendar"
-msgstr ""
+msgstr "දිනදර්ශනය විවෘත කිරීම සඳහා අවසර වලකා ඇත"
 
 #: ../calendar/gui/comp-editor-factory.c:439 ../shell/e-shell.c:1282
 msgid "Unknown error"
 msgstr "නොදන්නා දෝෂයක්"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:616
+#, fuzzy
 msgid "Edit Alarm"
-msgstr ""
+msgstr "සංඥාව සකසන්න"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:1
+#, fuzzy
 msgid "<b>Alarm</b>"
-msgstr ""
+msgstr "<b>සංඥාවක</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Options</b>"
 msgstr "<b>විකල්ප</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:3
+#, fuzzy
 msgid "<b>Repeat</b>"
-msgstr ""
+msgstr "<b>පුනරාවර්තන</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:4
+#, fuzzy
 msgid "Add Alarm"
-msgstr ""
+msgstr "සංඥාවක් එක් කරන්න"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:5
+#, fuzzy
 msgid "Custom _message"
-msgstr ""
+msgstr "රිසිකළ පණිවිඩය (_m)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:6
+#, fuzzy
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "රිසිකළ සංඥා හඬ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Mes_sage:"
@@ -5224,8 +5459,9 @@ msgstr "පණිවිඩය (_s):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:8
 #: ../calendar/gui/e-alarm-list.c:446
+#, fuzzy
 msgid "Play a sound"
-msgstr ""
+msgstr "ශබ්දයක් වාදනය කරන්න"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:9
 #: ../calendar/gui/e-alarm-list.c:450
@@ -5234,8 +5470,9 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: ../calendar/gui/e-alarm-list.c:458
+#, fuzzy
 msgid "Run a program"
-msgstr ""
+msgstr "වැඩසටහනක් ක්‍රියාත්මක කරන්න"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
 msgid "Select A File"
@@ -5251,20 +5488,23 @@ msgid "Send an email"
 msgstr "විද්‍යුත් තැපැලක් යවන්න"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
+#, fuzzy
 msgid "_Arguments:"
-msgstr ""
+msgstr "විස්තාරකය (_A):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Program:"
 msgstr "වැඩ සටහන (_P):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:16
+#, fuzzy
 msgid "_Repeat the alarm"
-msgstr ""
+msgstr "සංඥාව පුනරාවර්තන කරන්න (_R)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:17
+#, fuzzy
 msgid "_Sound:"
-msgstr ""
+msgstr "හඬ (_S):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
@@ -5313,8 +5553,9 @@ msgstr "එක් කරන්න (_d)"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: ../calendar/gui/dialogs/event-page.glade.h:4
 #: ../ui/evolution-event-editor.xml.h:1
+#, fuzzy
 msgid "Alarms"
-msgstr ""
+msgstr "සංඥා"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:97
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:116
@@ -5347,8 +5588,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid ""
-"<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -5687,28 +5927,29 @@ msgstr ""
 msgid "Due "
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2960
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2962
 #, c-format
 msgid "Attached message - %s"
 msgstr "ඇමුණුම් පණිවිඩය - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2965
-#: ../composer/e-msg-composer.c:3160
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2967
+#: ../composer/e-msg-composer.c:3152
 #, c-format
+#, fuzzy
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] "ඇමුණුම් පණිවිඩය %d"
+msgstr[0] "ඇමුණුම් පණිවිඩය %d"
+msgstr[1] "ඇමුණුම් පණිවිඩය %dඇමුණුම් පණිවිඩය %d"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3224
-#: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:368
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3216
+#: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:369
 #: ../mail/em-folder-view.c:1038 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "ගෙන යන්න (_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3226
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3218
 #: ../mail/em-folder-tree.c:1009 ../mail/message-list.c:1965
 msgid "Cancel _Drag"
 msgstr ""
@@ -5717,7 +5958,7 @@ msgstr ""
 msgid "Could not update object"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2577
+#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2579
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5735,7 +5976,7 @@ msgstr "ඇමුණුම් තීරුව පෙන්වන්න (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../calendar/gui/dialogs/event-page.c:1913
-#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3741
+#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3733
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5743,13 +5984,13 @@ msgid "_Remove"
 msgstr "ඉවත් කරන්න (_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3742 ../mail/em-folder-tree.c:2129
+#: ../composer/e-msg-composer.c:3734 ../mail/em-folder-tree.c:2134
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "වත්කම් (_P)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3744
+#: ../composer/e-msg-composer.c:3736
 msgid "_Add attachment..."
 msgstr "ඇමුණුම එක් කරන්න... (_A)"
 
@@ -5882,8 +6123,9 @@ msgid "The item could not be deleted due to an error"
 msgstr ""
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
+#, fuzzy
 msgid "Contacts..."
-msgstr ""
+msgstr "සම්බන්ධතා..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 #: ../plugins/exchange-operations/exchange-delegates.c:421
@@ -5900,13 +6142,15 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:605
 #: ../ui/evolution-event-editor.xml.h:14
+#, fuzzy
 msgid "Recurrence"
-msgstr ""
+msgstr "පුනවාර්තනය"
 
 #: ../calendar/gui/dialogs/event-page.c:820
 #: ../calendar/gui/dialogs/event-page.c:2734
+#, fuzzy
 msgid "This event has alarms"
-msgstr ""
+msgstr "මෙම සිදුවීම සතුව සංඥාවක් ඇත"
 
 #: ../calendar/gui/dialogs/event-page.c:895
 #: ../calendar/gui/dialogs/event-page.glade.h:11
@@ -6006,7 +6250,7 @@ msgstr "රිසි කළ"
 #: ../calendar/gui/dialogs/event-page.c:2977
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2361
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2363
 #: ../filter/filter-rule.c:891 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:478
 #: ../mail/em-junk-hook.c:78
@@ -6042,16 +6286,18 @@ msgid "Ca_tegories..."
 msgstr "ප්‍රභේද... (_t)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
+#, fuzzy
 msgid "Custom Alarm:"
-msgstr ""
+msgstr "රිසිකළ සංඥාව:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 msgid "D_escription:"
 msgstr "විස්තරය (_e):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
+#, fuzzy
 msgid "Event Description"
-msgstr ""
+msgstr "සිදිවීම් විස්තරය"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
@@ -6060,8 +6306,9 @@ msgid "Su_mmary:"
 msgstr "සාරාංශය (_m):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
+#, fuzzy
 msgid "_Alarm"
-msgstr ""
+msgstr "සංඥාව (_A)"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
@@ -6121,8 +6368,9 @@ msgstr "වෙත"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:5
+#, fuzzy
 msgid "Sta_rt date:"
-msgstr ""
+msgstr "ආරම්භක දිනය (_r):"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:5
 msgid "T_o:"
@@ -6151,8 +6399,7 @@ msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid ""
-"You are modifying a recurring journal entry. What would you like to modify?"
+msgid "You are modifying a recurring journal entry. What would you like to modify?"
 msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:87
@@ -6176,8 +6423,9 @@ msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.c:819
+#, fuzzy
 msgid "Recurrence date is invalid"
-msgstr ""
+msgstr "පුනවාර්තන දිනය සාවද්‍ය වේ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
@@ -6199,24 +6447,27 @@ msgstr "පළමු"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1002
+#, fuzzy
 msgid "second"
-msgstr ""
+msgstr "දෙනව"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1007
+#, fuzzy
 msgid "third"
-msgstr ""
+msgstr "තෙවන"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1012
+#, fuzzy
 msgid "fourth"
-msgstr ""
+msgstr "සිව්වන"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -6229,32 +6480,36 @@ msgstr "අවසාන"
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
 #: ../calendar/gui/dialogs/recurrence-page.c:1043
+#, fuzzy
 msgid "Other Date"
-msgstr ""
+msgstr "වෙනත් දවසක"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1051
+#, fuzzy
 msgid "1st to 10th"
-msgstr ""
+msgstr "1 සිට 10 දක්වා"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1057
+#, fuzzy
 msgid "11th to 20th"
-msgstr ""
+msgstr "11 සිට 20 දක්වා"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1063
+#, fuzzy
 msgid "21st to 31st"
-msgstr ""
+msgstr "21 සිට 31 දක්වා"
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -6300,12 +6555,14 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
+#, fuzzy
 msgid "<b>Preview</b>"
-msgstr ""
+msgstr "<b>පූර්‍වදසුන</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
+#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr ""
+msgstr "<b>පුනවාර්තනය</b>"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6351,8 +6608,9 @@ msgid "Web Page"
 msgstr "වෙබ් පිටුව"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:1
+#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">විවිධාකාර</span>"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:2
 msgid "<span weight=\"bold\">Status</span>"
@@ -6382,8 +6640,9 @@ msgstr "වැඩි"
 #: ../calendar/gui/e-cal-model-tasks.c:660
 #: ../calendar/gui/e-cal-model-tasks.c:735
 #: ../calendar/gui/e-calendar-table.c:473 ../calendar/gui/print.c:2345
+#, fuzzy
 msgid "In Progress"
-msgstr ""
+msgstr "ක්‍රියාත්මක වෙමින් පවතී"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:256
@@ -6403,12 +6662,14 @@ msgstr "සාමාන්‍ය"
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:472 ../calendar/gui/print.c:2342
+#, fuzzy
 msgid "Not Started"
-msgstr ""
+msgstr "ආරම්ඹව නැත"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:10
+#, fuzzy
 msgid "P_ercent complete:"
-msgstr ""
+msgstr "නිම කළ ප්‍රථිශතය (_e):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Stat_us:"
@@ -6416,12 +6677,14 @@ msgstr "තත්වය (_u):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 #: ../calendar/gui/e-calendar-table.c:402
+#, fuzzy
 msgid "Undefined"
-msgstr ""
+msgstr "නිර්වචනය නොකළ"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:13
+#, fuzzy
 msgid "_Date completed:"
-msgstr ""
+msgstr "නිමකළ දිනය (_D):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
 #: ../widgets/misc/e-send-options.glade.h:33
@@ -6455,8 +6718,9 @@ msgid "Atte_ndees..."
 msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
+#, fuzzy
 msgid "Categor_ies..."
-msgstr ""
+msgstr "ප්‍රභේද... (_i)"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "De_scription:"
@@ -6702,8 +6966,9 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:447
 #, c-format
+#, fuzzy
 msgid "untitled_image.%s"
-msgstr ""
+msgstr "නිර්ණාමික_පිළිඹිබුව.%s"
 
 #: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1355
 #: ../calendar/gui/e-calendar-view.c:1680 ../calendar/gui/e-memo-table.c:977
@@ -6781,7 +7046,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:1179
 #: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:872
-#: ../composer/e-msg-composer.c:1398
+#: ../composer/e-msg-composer.c:1399
 msgid "Save as..."
 msgstr "සුරකින අයුර..."
 
@@ -6791,8 +7056,9 @@ msgid "New _Task"
 msgstr "නව කාර්‍යය (_T)"
 
 #: ../calendar/gui/e-calendar-table.c:1354 ../calendar/gui/e-memo-table.c:976
+#, fuzzy
 msgid "Open _Web Page"
-msgstr ""
+msgstr "වෙබ් පිටුව විවෘත කරන්න (_W)"
 
 #: ../calendar/gui/e-calendar-table.c:1356
 #: ../calendar/gui/e-calendar-view.c:1665
@@ -6852,17 +7118,20 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:1610
 #: ../calendar/gui/e-calendar-table.etspec.h:4
+#, fuzzy
 msgid "Click to add a task"
-msgstr ""
+msgstr "කාර්‍යයක් එක් කිරිමට ක්ලික් කරන්න"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
+#, fuzzy
 msgid "% Complete"
-msgstr ""
+msgstr "නිම කිරීම % "
 
 #: ../calendar/gui/e-calendar-table.etspec.h:5
+#, fuzzy
 msgid "Complete"
-msgstr ""
+msgstr "නිමාව"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
@@ -6889,8 +7158,9 @@ msgid "Status"
 msgstr "තත්වය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:12
+#, fuzzy
 msgid "Task sort"
-msgstr ""
+msgstr "කාර්‍යය අනුපිළිවෙළට සකසන්න"
 
 #: ../calendar/gui/e-calendar-view.c:1348
 msgid "Moving items"
@@ -6905,12 +7175,14 @@ msgid "New _Appointment..."
 msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1660
+#, fuzzy
 msgid "New All Day _Event"
-msgstr ""
+msgstr "නව දිනය පුර ඇති සිදුවීම (_E)"
 
 #: ../calendar/gui/e-calendar-view.c:1661
+#, fuzzy
 msgid "New _Meeting"
-msgstr ""
+msgstr "නව රැස්වීම (_M)"
 
 #. FIXME: hook in this somehow
 #: ../calendar/gui/e-calendar-view.c:1672
@@ -6982,24 +7254,28 @@ msgstr ""
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2185 ../calendar/gui/print.c:2316
 #, c-format
+#, fuzzy
 msgid "Location: %s"
-msgstr ""
+msgstr "පිහිටීම: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../calendar/gui/e-calendar-view.c:2216
 #, c-format
+#, fuzzy
 msgid "Time: %s %s"
-msgstr ""
+msgstr "වේලාව: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:116
+#, fuzzy
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:119
+#, fuzzy
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:127
 #, c-format
@@ -7027,20 +7303,23 @@ msgstr ""
 #: ../calendar/gui/e-day-view.c:2092
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1503
+#, fuzzy
 msgid "%A %d %B"
-msgstr ""
+msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1092
 #: ../calendar/gui/e-week-view.c:503 ../calendar/gui/print.c:811
+#, fuzzy
 msgid "am"
-msgstr ""
+msgstr "පෙ.ව."
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-day-view.c:1095
 #: ../calendar/gui/e-week-view.c:506 ../calendar/gui/print.c:813
+#, fuzzy
 msgid "pm"
-msgstr ""
+msgstr "ප.ව"
 
 #: ../calendar/gui/e-itip-control.c:759
 msgid "Yes. (Complex Recurrence)"
@@ -7053,10 +7332,11 @@ msgstr ""
 #. For Translators : 'Every %d days' is event Recurring every %d days. %d is a digit
 #: ../calendar/gui/e-itip-control.c:775
 #, c-format
+#, fuzzy
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "සෑම දින %d කට වරක්"
+msgstr[1] "සෑම දින %d කට වරක්"
 
 #. For Translators: In this can also be translated as "With the period of %d
 #. week/weeks", where %d is a number. The entire sentence is of the form "Recurring:
@@ -7065,10 +7345,11 @@ msgstr[1] ""
 #. For Translators : 'Every %d weeks' is event Recurring every %d weeks. %d is a digit
 #: ../calendar/gui/e-itip-control.c:785
 #, c-format
+#, fuzzy
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "සෑම සති %d කට වරක්"
+msgstr[1] "සෑම සති %d කට වරක්"
 
 #. For Translators : 'Every week on' is event Recurring every week on (dayname) and (dayname) and (dayname)
 #. For Translators : 'Every %d weeks on' is event Recurring: every %d weeks on (dayname) and (dayname). %d is a digit
@@ -7081,8 +7362,9 @@ msgstr[1] ""
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
 #: ../calendar/gui/e-itip-control.c:798
+#, fuzzy
 msgid " and "
-msgstr ""
+msgstr "සහ"
 
 #. For Translators : 'The %s day of' is part of the sentence 'event recurring on the (nth) day of every month.'
 #: ../calendar/gui/e-itip-control.c:806
@@ -7138,13 +7420,15 @@ msgstr ""
 
 #. For Translators : 'starts' is starts:date implying a task starts on what date
 #: ../calendar/gui/e-itip-control.c:888
+#, fuzzy
 msgid "Starts"
-msgstr ""
+msgstr "ආරම්ඹය"
 
 #. For Translators : 'ends' is ends:date implying a task ends on what date
 #: ../calendar/gui/e-itip-control.c:902
+#, fuzzy
 msgid "Ends"
-msgstr ""
+msgstr "අවසානය"
 
 #: ../calendar/gui/e-itip-control.c:936
 #: ../plugins/save-calendar/csv-format.c:395
@@ -7206,8 +7490,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1258
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1337
@@ -7230,8 +7513,9 @@ msgid "<b>%s</b> requests your presence at a meeting."
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1347
+#, fuzzy
 msgid "Meeting Proposal"
-msgstr ""
+msgstr "රැස්වීමේ සාර්තකත්වය"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1353
@@ -7464,16 +7748,18 @@ msgid "Cancel"
 msgstr "අවලංගු කරන්න"
 
 #: ../calendar/gui/e-itip-control.glade.h:1
+#, fuzzy
 msgid "--to--"
-msgstr ""
+msgstr "--වෙත--"
 
 #: ../calendar/gui/e-itip-control.glade.h:2
 msgid "Calendar Message"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.glade.h:3
+#, fuzzy
 msgid "Date:"
-msgstr ""
+msgstr "දිනය:"
 
 #: ../calendar/gui/e-itip-control.glade.h:5
 msgid "Loading Calendar"
@@ -7527,8 +7813,9 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
+#, fuzzy
 msgid "Room"
-msgstr ""
+msgstr "කාමරය"
 
 #: ../calendar/gui/e-meeting-list-view.c:179
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:151
@@ -7578,8 +7865,9 @@ msgstr ""
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/e-meeting-list-view.c:523
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
+#, fuzzy
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 msgid "In Process"
@@ -7589,8 +7877,9 @@ msgstr ""
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:464
 #: ../calendar/gui/e-meeting-time-sel.c:2116
+#, fuzzy
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -7598,30 +7887,35 @@ msgstr ""
 #. %m = month number, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:468
 #: ../calendar/gui/e-meeting-time-sel.c:2149
+#, fuzzy
 msgid "%a %m/%d/%Y"
-msgstr ""
+msgstr "%a %m/%d/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:472
+#, fuzzy
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%m/%d/%Y"
 
 #: ../calendar/gui/e-meeting-time-sel.c:412
+#, fuzzy
 msgid "Out of Office"
-msgstr ""
+msgstr "කාර්‍යයාලයෙන් පිටත"
 
 #: ../calendar/gui/e-meeting-time-sel.c:413
+#, fuzzy
 msgid "No Information"
-msgstr ""
+msgstr "තොරතුරු නැත"
 
 #: ../calendar/gui/e-meeting-time-sel.c:428
 msgid "A_ttendees..."
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:449
+#, fuzzy
 msgid "O_ptions"
-msgstr ""
+msgstr "විකල්ප (_p)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:466
 msgid "Show _only working hours"
@@ -7636,16 +7930,18 @@ msgid "_Update free/busy"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:506
+#, fuzzy
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: ../calendar/gui/e-meeting-time-sel.c:524
 msgid "_Autopick"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:539
+#, fuzzy
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: ../calendar/gui/e-meeting-time-sel.c:556
 msgid "_All people and resources"
@@ -7656,20 +7952,23 @@ msgid "All _people and one resource"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:574
+#, fuzzy
 msgid "_Required people"
-msgstr ""
+msgstr "අවශ්‍ය පුත්ගලයින් (_R)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:583
 msgid "Required people and _one resource"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:619
+#, fuzzy
 msgid "_Start time:"
-msgstr ""
+msgstr "ආරම්ඹක වේලාව (_S):"
 
 #: ../calendar/gui/e-meeting-time-sel.c:646
+#, fuzzy
 msgid "_End time:"
-msgstr ""
+msgstr "අවසාන් කළ වේලාව (_E):"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
@@ -7680,8 +7979,9 @@ msgid "Click here to add an attendee"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
+#, fuzzy
 msgid "Common Name"
-msgstr ""
+msgstr "පොදු නම"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
@@ -7696,8 +7996,9 @@ msgid "Language"
 msgstr "භාෂාව"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:7
+#, fuzzy
 msgid "Member"
-msgstr ""
+msgstr "සාමාජිකයා"
 
 #: ../calendar/gui/e-memo-table.c:993
 msgid "_Delete Selected Memos"
@@ -7758,8 +8059,9 @@ msgstr ""
 #. change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:327
 #: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1484
+#, fuzzy
 msgid "%d %B"
-msgstr ""
+msgstr "%d %B"
 
 #: ../calendar/gui/gnome-cal.c:824
 msgid "Updating query"
@@ -7802,56 +8104,68 @@ msgid "Purging"
 msgstr ""
 
 #: ../calendar/gui/goto-dialog.glade.h:1
+#, fuzzy
 msgid "April"
-msgstr ""
+msgstr "අප්‍රියෙල්"
 
 #: ../calendar/gui/goto-dialog.glade.h:2
+#, fuzzy
 msgid "August"
-msgstr ""
+msgstr "අගෝස්තු"
 
 #: ../calendar/gui/goto-dialog.glade.h:3
+#, fuzzy
 msgid "December"
-msgstr ""
+msgstr "දෙසැම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:4
+#, fuzzy
 msgid "February"
-msgstr ""
+msgstr "පෙබරවාරි"
 
 #: ../calendar/gui/goto-dialog.glade.h:5
+#, fuzzy
 msgid "January"
-msgstr ""
+msgstr "ජනවාරි"
 
 #: ../calendar/gui/goto-dialog.glade.h:6
+#, fuzzy
 msgid "July"
-msgstr ""
+msgstr "ජූලි"
 
 #: ../calendar/gui/goto-dialog.glade.h:7
+#, fuzzy
 msgid "June"
-msgstr ""
+msgstr "ජූනි"
 
 #: ../calendar/gui/goto-dialog.glade.h:8
+#, fuzzy
 msgid "March"
-msgstr ""
+msgstr "මාර්තු"
 
 #: ../calendar/gui/goto-dialog.glade.h:9
+#, fuzzy
 msgid "May"
-msgstr ""
+msgstr "මැයි"
 
 #: ../calendar/gui/goto-dialog.glade.h:10
+#, fuzzy
 msgid "November"
-msgstr ""
+msgstr "නොවැම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:11
+#, fuzzy
 msgid "October"
-msgstr ""
+msgstr "ඔක්තෝම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
 msgstr ""
 
 #: ../calendar/gui/goto-dialog.glade.h:13
+#, fuzzy
 msgid "September"
-msgstr ""
+msgstr "සැප්තැම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
@@ -7891,8 +8205,9 @@ msgid "Updated"
 msgstr ""
 
 #: ../calendar/gui/itip-utils.c:829
+#, fuzzy
 msgid "Refresh"
-msgstr ""
+msgstr "නැවුම් කරන්න"
 
 #: ../calendar/gui/itip-utils.c:833
 msgid "Counter-proposal"
@@ -8027,195 +8342,240 @@ msgid "Notes"
 msgstr "සටහන්"
 
 #: ../calendar/gui/print.c:513
+#, fuzzy
 msgid "1st"
-msgstr ""
+msgstr "1 වැනි"
 
 #: ../calendar/gui/print.c:513
+#, fuzzy
 msgid "2nd"
-msgstr ""
+msgstr "2 වැනි"
 
 #: ../calendar/gui/print.c:513
+#, fuzzy
 msgid "3rd"
-msgstr ""
+msgstr "3 වැනි"
 
 #: ../calendar/gui/print.c:513
+#, fuzzy
 msgid "4th"
-msgstr ""
+msgstr "4 වැනි"
 
 #: ../calendar/gui/print.c:513
+#, fuzzy
 msgid "5th"
-msgstr ""
+msgstr "5 වැනි"
 
 #: ../calendar/gui/print.c:514
+#, fuzzy
 msgid "6th"
-msgstr ""
+msgstr "6 වැනි"
 
 #: ../calendar/gui/print.c:514
+#, fuzzy
 msgid "7th"
-msgstr ""
+msgstr "7 වැනි"
 
 #: ../calendar/gui/print.c:514
+#, fuzzy
 msgid "8th"
-msgstr ""
+msgstr "8 වැනි"
 
 #: ../calendar/gui/print.c:514
+#, fuzzy
 msgid "9th"
-msgstr ""
+msgstr "9 වැනි"
 
 #: ../calendar/gui/print.c:514
+#, fuzzy
 msgid "10th"
-msgstr ""
+msgstr "10 වැනි"
 
 #: ../calendar/gui/print.c:515
+#, fuzzy
 msgid "11th"
-msgstr ""
+msgstr "11 වැනි"
 
 #: ../calendar/gui/print.c:515
+#, fuzzy
 msgid "12th"
-msgstr ""
+msgstr "12 වැනි"
 
 #: ../calendar/gui/print.c:515
+#, fuzzy
 msgid "13th"
-msgstr ""
+msgstr "13 වැනි"
 
 #: ../calendar/gui/print.c:515
+#, fuzzy
 msgid "14th"
-msgstr ""
+msgstr "14 වැනි"
 
 #: ../calendar/gui/print.c:515
+#, fuzzy
 msgid "15th"
-msgstr ""
+msgstr "15 වැනි"
 
 #: ../calendar/gui/print.c:516
+#, fuzzy
 msgid "16th"
-msgstr ""
+msgstr "16 වැනි"
 
 #: ../calendar/gui/print.c:516
+#, fuzzy
 msgid "17th"
-msgstr ""
+msgstr "17 වැනි"
 
 #: ../calendar/gui/print.c:516
+#, fuzzy
 msgid "18th"
-msgstr ""
+msgstr "18 වැනි"
 
 #: ../calendar/gui/print.c:516
+#, fuzzy
 msgid "19th"
-msgstr ""
+msgstr "19 වැනි"
 
 #: ../calendar/gui/print.c:516
+#, fuzzy
 msgid "20th"
-msgstr ""
+msgstr "20 වැනි"
 
 #: ../calendar/gui/print.c:517
+#, fuzzy
 msgid "21st"
-msgstr ""
+msgstr "21 වැනි"
 
 #: ../calendar/gui/print.c:517
+#, fuzzy
 msgid "22nd"
-msgstr ""
+msgstr "22 වැනි"
 
 #: ../calendar/gui/print.c:517
+#, fuzzy
 msgid "23rd"
-msgstr ""
+msgstr "23 වැනි"
 
 #: ../calendar/gui/print.c:517
+#, fuzzy
 msgid "24th"
-msgstr ""
+msgstr "24 වැනි"
 
 #: ../calendar/gui/print.c:517
+#, fuzzy
 msgid "25th"
-msgstr ""
+msgstr "25 වැනි"
 
 #: ../calendar/gui/print.c:518
+#, fuzzy
 msgid "26th"
-msgstr ""
+msgstr "26 වැනි"
 
 #: ../calendar/gui/print.c:518
+#, fuzzy
 msgid "27th"
-msgstr ""
+msgstr "27 වැනි"
 
 #: ../calendar/gui/print.c:518
+#, fuzzy
 msgid "28th"
-msgstr ""
+msgstr "28 වැනි"
 
 #: ../calendar/gui/print.c:518
+#, fuzzy
 msgid "29th"
-msgstr ""
+msgstr "29 වැනි"
 
 #: ../calendar/gui/print.c:518
+#, fuzzy
 msgid "30th"
-msgstr ""
+msgstr "30 වැනි"
 
 #: ../calendar/gui/print.c:519
+#, fuzzy
 msgid "31st"
-msgstr ""
+msgstr "31 වැනි"
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday
 #: ../calendar/gui/print.c:594
+#, fuzzy
 msgid "Su"
-msgstr ""
+msgstr "රවි"
 
 #: ../calendar/gui/print.c:594
+#, fuzzy
 msgid "Mo"
-msgstr ""
+msgstr "සඳු'"
 
 #: ../calendar/gui/print.c:594
+#, fuzzy
 msgid "Tu"
-msgstr ""
+msgstr "කුජ"
 
 #: ../calendar/gui/print.c:594
+#, fuzzy
 msgid "We"
-msgstr ""
+msgstr "බුධ"
 
 #: ../calendar/gui/print.c:595
+#, fuzzy
 msgid "Th"
-msgstr ""
+msgstr "ගුරු"
 
 #: ../calendar/gui/print.c:595
+#, fuzzy
 msgid "Fr"
-msgstr ""
+msgstr "ශුක්‍ර"
 
 #: ../calendar/gui/print.c:595
+#, fuzzy
 msgid "Sa"
-msgstr ""
+msgstr "ශනි"
 
 #: ../calendar/gui/print.c:2283
 msgid "Appointment"
 msgstr ""
 
 #: ../calendar/gui/print.c:2285
+#, fuzzy
 msgid "Task"
-msgstr ""
+msgstr "කාර්‍යය"
 
 #: ../calendar/gui/print.c:2307
 #, c-format
+#, fuzzy
 msgid "Summary: %s"
-msgstr ""
+msgstr "සාරංශය: %s"
 
 #: ../calendar/gui/print.c:2358
 #, c-format
+#, fuzzy
 msgid "Status: %s"
-msgstr ""
+msgstr "තත්වය: %s"
 
 #: ../calendar/gui/print.c:2375
 #, c-format
+#, fuzzy
 msgid "Priority: %s"
-msgstr ""
+msgstr "ප්‍රමුඛත්වය: %s"
 
 #: ../calendar/gui/print.c:2387
 #, c-format
+#, fuzzy
 msgid "Percent Complete: %i"
-msgstr ""
+msgstr "අවසන් කළ ප්‍රතිශතය: %i"
 
 #: ../calendar/gui/print.c:2399
 #, c-format
+#, fuzzy
 msgid "URL: %s"
-msgstr ""
+msgstr "URL: %s"
 
 #: ../calendar/gui/print.c:2412
 #, c-format
+#, fuzzy
 msgid "Categories: %s"
-msgstr ""
+msgstr "ප්‍රභේද: %s"
 
 #: ../calendar/gui/print.c:2423
 msgid "Contacts: "
@@ -8232,10 +8592,11 @@ msgstr ""
 
 #: ../calendar/gui/tasks-component.c:531
 #, c-format
+#, fuzzy
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "කාර්‍යය %d ක්"
+msgstr[1] "කාර්‍යය %d ක්"
 
 #: ../calendar/gui/tasks-component.c:580
 msgid "Failed upgrading tasks."
@@ -8255,8 +8616,9 @@ msgid "Task Source Selector"
 msgstr ""
 
 #: ../calendar/gui/tasks-component.c:1257
+#, fuzzy
 msgid "New task"
-msgstr ""
+msgstr "නව කාර්‍යය"
 
 #: ../calendar/gui/tasks-component.c:1259
 msgid "Create a new task"
@@ -8304,8 +8666,9 @@ msgstr ""
 
 #. The first letter of each day of the week starting with Sunday
 #: ../calendar/gui/weekday-picker.c:319
+#, fuzzy
 msgid "SMTWTFS"
-msgstr ""
+msgstr "SMTWTFS"
 
 #: ../calendar/importers/icalendar-importer.c:79
 msgid "Appointments and Meetings"
@@ -8350,1529 +8713,1910 @@ msgstr ""
 #. * Don't include in any C files.
 #.
 #: ../calendar/zones.h:7
+#, fuzzy
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "අප්‍රිකාව/අබිද්ජානය"
 
 #: ../calendar/zones.h:8
+#, fuzzy
 msgid "Africa/Accra"
-msgstr ""
+msgstr "අප්‍රිකාව/Accra"
 
 #: ../calendar/zones.h:9
+#, fuzzy
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "අප්‍රිකාව/Addis_Ababa"
 
 #: ../calendar/zones.h:10
+#, fuzzy
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "අප්‍රිකාව/ඇල්ජිරියාව"
 
 #: ../calendar/zones.h:11
+#, fuzzy
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "අප්‍රිකාව/ඇසඤමෙරාව"
 
 #: ../calendar/zones.h:12
+#, fuzzy
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "අප්‍රිකාව/Bamako"
 
 #: ../calendar/zones.h:13
+#, fuzzy
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "අප්‍රිකාව/Bangui"
 
 #: ../calendar/zones.h:14
+#, fuzzy
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "අප්‍රිකාව/Banjul"
 
 #: ../calendar/zones.h:15
+#, fuzzy
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "අප්‍රිකාව/Bissau"
 
 #: ../calendar/zones.h:16
+#, fuzzy
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "අප්‍රිකාව/Blantyre"
 
 #: ../calendar/zones.h:17
+#, fuzzy
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "අප්‍රිකාව/Brazzaville"
 
 #: ../calendar/zones.h:18
+#, fuzzy
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "අප්‍රිකාව/Bujumbura"
 
 #: ../calendar/zones.h:19
+#, fuzzy
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "අප්‍රිකාව/Cairo"
 
 #: ../calendar/zones.h:20
+#, fuzzy
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "අප්‍රිකාව/Casablanca"
 
 #: ../calendar/zones.h:21
+#, fuzzy
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "අප්‍රිකාව/Ceuta"
 
 #: ../calendar/zones.h:22
+#, fuzzy
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "අප්‍රිකාව/Conakry"
 
 #: ../calendar/zones.h:23
+#, fuzzy
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "අප්‍රිකාව/ඩකා"
 
 #: ../calendar/zones.h:24
+#, fuzzy
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "අප්‍රිකාව/Dar_es_Salaam"
 
 #: ../calendar/zones.h:25
+#, fuzzy
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "අප්‍රිකාව/Djibouti"
 
 #: ../calendar/zones.h:26
+#, fuzzy
 msgid "Africa/Douala"
-msgstr ""
+msgstr "අප්‍රිකාව/Douala"
 
 #: ../calendar/zones.h:27
+#, fuzzy
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "අප්‍රිකාව/El_Aaiun"
 
 #: ../calendar/zones.h:28
+#, fuzzy
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "අප්‍රිකාව/Freetown"
 
 #: ../calendar/zones.h:29
+#, fuzzy
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "අප්‍රිකාව/Gaborone"
 
 #: ../calendar/zones.h:30
+#, fuzzy
 msgid "Africa/Harare"
-msgstr ""
+msgstr "අප්‍රිකාව/හරාරේ"
 
 #: ../calendar/zones.h:31
+#, fuzzy
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "අප්‍රිකාව/ජොහැන්නස්බර්ග්"
 
 #: ../calendar/zones.h:32
+#, fuzzy
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "අප්‍රිකාව/Kampala"
 
 #: ../calendar/zones.h:33
+#, fuzzy
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "අප්‍රිකාව/Khartoum"
 
 #: ../calendar/zones.h:34
+#, fuzzy
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "අප්‍රිකාව/Kigali"
 
 #: ../calendar/zones.h:35
+#, fuzzy
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "අප්‍රිකාව/Kinshasa"
 
 #: ../calendar/zones.h:36
+#, fuzzy
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "අප්‍රිකාව/ලගොසය"
 
 #: ../calendar/zones.h:37
+#, fuzzy
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "අප්‍රිකාව/ලයිබෙරියාව"
 
 #: ../calendar/zones.h:38
+#, fuzzy
 msgid "Africa/Lome"
-msgstr ""
+msgstr "අප්‍රිකාව/Lome"
 
 #: ../calendar/zones.h:39
+#, fuzzy
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "අප්‍රිකාව/Luanda"
 
 #: ../calendar/zones.h:40
+#, fuzzy
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "අප්‍රිකාව/Lubumbashi"
 
 #: ../calendar/zones.h:41
+#, fuzzy
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "අප්‍රිකාව/Lusaka"
 
 #: ../calendar/zones.h:42
+#, fuzzy
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "අප්‍රිකාව/Malabo"
 
 #: ../calendar/zones.h:43
+#, fuzzy
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "අප්‍රිකාව/Maputo"
 
 #: ../calendar/zones.h:44
+#, fuzzy
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "අප්‍රිකාව/Maseru"
 
 #: ../calendar/zones.h:45
+#, fuzzy
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "අප්‍රිකාව/Mbabane"
 
 #: ../calendar/zones.h:46
+#, fuzzy
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "අප්‍රිකාව/Mogadishu"
 
 #: ../calendar/zones.h:47
+#, fuzzy
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "අප්‍රිකාව/Monrovia"
 
 #: ../calendar/zones.h:48
+#, fuzzy
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "අප්‍රිකාව/නයිරෝබී"
 
 #: ../calendar/zones.h:49
+#, fuzzy
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "අප්‍රිකාව/Ndjamena"
 
 #: ../calendar/zones.h:50
+#, fuzzy
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "අප්‍රිකාව/Niamey"
 
 #: ../calendar/zones.h:51
+#, fuzzy
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "අප්‍රිකාව/Nouakchott"
 
 #: ../calendar/zones.h:52
+#, fuzzy
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "අප්‍රිකාව/Ouagadougou"
 
 #: ../calendar/zones.h:53
+#, fuzzy
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "අප්‍රිකාව/Porto-Novo"
 
 #: ../calendar/zones.h:54
+#, fuzzy
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "අප්‍රිකාව/Sao_Tome"
 
 #: ../calendar/zones.h:55
+#, fuzzy
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "අප්‍රිකාව/Timbuktu"
 
 #: ../calendar/zones.h:56
+#, fuzzy
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "අප්‍රිකාව/Tripoli"
 
 #: ../calendar/zones.h:57
+#, fuzzy
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "අප්‍රිකාව/Tunis"
 
 #: ../calendar/zones.h:58
+#, fuzzy
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "අප්‍රිකාව/Windhoek"
 
 #: ../calendar/zones.h:59
+#, fuzzy
 msgid "America/Adak"
-msgstr ""
+msgstr "ඇමරිකාව/Adak"
 
 #: ../calendar/zones.h:60
+#, fuzzy
 msgid "America/Anchorage"
-msgstr ""
+msgstr "ඇමරිකාව/Anchorage"
 
 #: ../calendar/zones.h:61
+#, fuzzy
 msgid "America/Anguilla"
-msgstr ""
+msgstr "ඇමරිකාව/Anguilla"
 
 #: ../calendar/zones.h:62
+#, fuzzy
 msgid "America/Antigua"
-msgstr ""
+msgstr "ඇමරිකාව/ඇන්ටිගුවාව"
 
 #: ../calendar/zones.h:63
+#, fuzzy
 msgid "America/Araguaina"
-msgstr ""
+msgstr "ඇමරිකාව/Araguaina"
 
 #: ../calendar/zones.h:64
+#, fuzzy
 msgid "America/Aruba"
-msgstr ""
+msgstr "ඇමරිකාව/Aruba"
 
 #: ../calendar/zones.h:65
+#, fuzzy
 msgid "America/Asuncion"
-msgstr ""
+msgstr "ඇමරිකාව/Asuncion"
 
 #: ../calendar/zones.h:66
+#, fuzzy
 msgid "America/Barbados"
-msgstr ""
+msgstr "ඇමරිකාව/බාර්බඩොස්"
 
 #: ../calendar/zones.h:67
+#, fuzzy
 msgid "America/Belem"
-msgstr ""
+msgstr "ඇමරිකාව/Belem"
 
 #: ../calendar/zones.h:68
+#, fuzzy
 msgid "America/Belize"
-msgstr ""
+msgstr "ඇමරිකාව/Belize"
 
 #: ../calendar/zones.h:69
+#, fuzzy
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "ඇමරිකාව/Boa_Vista"
 
 #: ../calendar/zones.h:70
+#, fuzzy
 msgid "America/Bogota"
-msgstr ""
+msgstr "ඇමරිකාව/Bogota"
 
 #: ../calendar/zones.h:71
+#, fuzzy
 msgid "America/Boise"
-msgstr ""
+msgstr "ඇමරිකාව/Boise"
 
 #: ../calendar/zones.h:72
+#, fuzzy
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "ඇමරිකාව/Buenos_Aires"
 
 #: ../calendar/zones.h:73
+#, fuzzy
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "ඇමරිකාව/Cambridge_Bay"
 
 #: ../calendar/zones.h:74
+#, fuzzy
 msgid "America/Cancun"
-msgstr ""
+msgstr "ඇමරිකාව/Cancun"
 
 #: ../calendar/zones.h:75
+#, fuzzy
 msgid "America/Caracas"
-msgstr ""
+msgstr "ඇමරිකාව/Caracas"
 
 #: ../calendar/zones.h:76
+#, fuzzy
 msgid "America/Catamarca"
-msgstr ""
+msgstr "ඇමරිකාව/Catamarca"
 
 #: ../calendar/zones.h:77
+#, fuzzy
 msgid "America/Cayenne"
-msgstr ""
+msgstr "ඇමරිකාව/Cayenne"
 
 #: ../calendar/zones.h:78
+#, fuzzy
 msgid "America/Cayman"
-msgstr ""
+msgstr "ඇමරිකාව/Cayman"
 
 #: ../calendar/zones.h:79
+#, fuzzy
 msgid "America/Chicago"
-msgstr ""
+msgstr "ඇමරිකාව/චිකාගෝ"
 
 #: ../calendar/zones.h:80
+#, fuzzy
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "ඇමරිකාව/Chihuahua"
 
 #: ../calendar/zones.h:81
+#, fuzzy
 msgid "America/Cordoba"
-msgstr ""
+msgstr "ඇමරිකාව/Cordoba"
 
 #: ../calendar/zones.h:82
+#, fuzzy
 msgid "America/Costa_Rica"
-msgstr ""
+msgstr "ඇමරිකාව/Costa_Rica"
 
 #: ../calendar/zones.h:83
+#, fuzzy
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "ඇමරිකාව/Cuiaba"
 
 #: ../calendar/zones.h:84
+#, fuzzy
 msgid "America/Curacao"
-msgstr ""
+msgstr "ඇමරිකාව/Curacao"
 
 #: ../calendar/zones.h:85
+#, fuzzy
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "ඇමරිකාව/Danmarkshavn"
 
 #: ../calendar/zones.h:86
+#, fuzzy
 msgid "America/Dawson"
-msgstr ""
+msgstr "ඇමරිකාව/Dawson"
 
 #: ../calendar/zones.h:87
+#, fuzzy
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "ඇමරිකාව/Dawson_Creek"
 
 #: ../calendar/zones.h:88
+#, fuzzy
 msgid "America/Denver"
-msgstr ""
+msgstr "ඇමරිකාව/Denver"
 
 #: ../calendar/zones.h:89
+#, fuzzy
 msgid "America/Detroit"
-msgstr ""
+msgstr "ඇමරිකාව/Detroit"
 
 #: ../calendar/zones.h:90
+#, fuzzy
 msgid "America/Dominica"
-msgstr ""
+msgstr "ඇමරිකාව/Dominica"
 
 #: ../calendar/zones.h:91
+#, fuzzy
 msgid "America/Edmonton"
-msgstr ""
+msgstr "ඇමරිකාව/Edmonton"
 
 #: ../calendar/zones.h:92
+#, fuzzy
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "ඇමරිකාව/Eirunepe"
 
 #: ../calendar/zones.h:93
+#, fuzzy
 msgid "America/El_Salvador"
-msgstr ""
+msgstr "ඇමරිකාව/El_Salvador"
 
 #: ../calendar/zones.h:94
+#, fuzzy
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "ඇමරිකාව/Fortaleza"
 
 #: ../calendar/zones.h:95
+#, fuzzy
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "ඇමරිකාව/Glace_Bay"
 
 #: ../calendar/zones.h:96
+#, fuzzy
 msgid "America/Godthab"
-msgstr ""
+msgstr "ඇමරිකාව/Godthab"
 
 #: ../calendar/zones.h:97
+#, fuzzy
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "ඇමරිකාව/Goose_Bay"
 
 #: ../calendar/zones.h:98
+#, fuzzy
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "ඇමරිකාව/Grand_Turk"
 
 #: ../calendar/zones.h:99
+#, fuzzy
 msgid "America/Grenada"
-msgstr ""
+msgstr "ඇමරිකාව/Grenada"
 
 #: ../calendar/zones.h:100
+#, fuzzy
 msgid "America/Guadeloupe"
-msgstr ""
+msgstr "ඇමරිකාව/Guadeloupe"
 
 #: ../calendar/zones.h:101
+#, fuzzy
 msgid "America/Guatemala"
-msgstr ""
+msgstr "ඇමරිකාව/Guatemala"
 
 #: ../calendar/zones.h:102
+#, fuzzy
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "ඇමරිකාවGuayaquil"
 
 #: ../calendar/zones.h:103
+#, fuzzy
 msgid "America/Guyana"
-msgstr ""
+msgstr "ඇමරිකාව/Guyana"
 
 #: ../calendar/zones.h:104
+#, fuzzy
 msgid "America/Halifax"
-msgstr ""
+msgstr "ඇමරිකාව/Halifax"
 
 #: ../calendar/zones.h:105
+#, fuzzy
 msgid "America/Havana"
-msgstr ""
+msgstr "ඇමරිකාව/Havana"
 
 #: ../calendar/zones.h:106
+#, fuzzy
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "ඇමරිකාව/Hermosillo"
 
 #: ../calendar/zones.h:107
+#, fuzzy
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "ඇමරිකාව/Indiana/Indianapolis"
 
 #: ../calendar/zones.h:108
+#, fuzzy
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "ඇමරිකාව/Indiana/Knox"
 
 #: ../calendar/zones.h:109
+#, fuzzy
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "ඇමරිකාව/Indiana/Marengo"
 
 #: ../calendar/zones.h:110
+#, fuzzy
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "ඇමරිකාව/Indiana/Vevay"
 
 #: ../calendar/zones.h:111
+#, fuzzy
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "ඇමරිකාව/Indianapolis"
 
 #: ../calendar/zones.h:112
+#, fuzzy
 msgid "America/Inuvik"
-msgstr ""
+msgstr "ඇමරිකාව/Inuvik"
 
 #: ../calendar/zones.h:113
+#, fuzzy
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "ඇමරිකාව/Iqaluit"
 
 #: ../calendar/zones.h:114
+#, fuzzy
 msgid "America/Jamaica"
-msgstr ""
+msgstr "ඇමරිකාව/Jamaica"
 
 #: ../calendar/zones.h:115
+#, fuzzy
 msgid "America/Jujuy"
-msgstr ""
+msgstr "ඇමරිකාව/Jujuy"
 
 #: ../calendar/zones.h:116
+#, fuzzy
 msgid "America/Juneau"
-msgstr ""
+msgstr "ඇමරිකාව/Juneau"
 
 #: ../calendar/zones.h:117
+#, fuzzy
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "ඇමරිකාව/Kentucky/Louisville"
 
 #: ../calendar/zones.h:118
+#, fuzzy
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "ඇමරිකාව/Kentucky/Monticello"
 
 #: ../calendar/zones.h:119
+#, fuzzy
 msgid "America/La_Paz"
-msgstr ""
+msgstr "ඇමරිකාව/La_Paz"
 
 #: ../calendar/zones.h:120
+#, fuzzy
 msgid "America/Lima"
-msgstr ""
+msgstr "ඇමරිකාව/Lima"
 
 #: ../calendar/zones.h:121
+#, fuzzy
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "ඇමරිකාව/ලෝස් ඇන්ජලීස්"
 
 #: ../calendar/zones.h:122
+#, fuzzy
 msgid "America/Louisville"
-msgstr ""
+msgstr "ඇමරිකාව/Louisville"
 
 #: ../calendar/zones.h:123
+#, fuzzy
 msgid "America/Maceio"
-msgstr ""
+msgstr "ඇමරිකාව/Maceio"
 
 #: ../calendar/zones.h:124
+#, fuzzy
 msgid "America/Managua"
-msgstr ""
+msgstr "ඇමරිකාව/Managua"
 
 #: ../calendar/zones.h:125
+#, fuzzy
 msgid "America/Manaus"
-msgstr ""
+msgstr "ඇමරිකාව/Manaus"
 
 #: ../calendar/zones.h:126
+#, fuzzy
 msgid "America/Martinique"
-msgstr ""
+msgstr "ඇමරිකාව/Martinique"
 
 #: ../calendar/zones.h:127
+#, fuzzy
 msgid "America/Mazatlan"
-msgstr ""
+msgstr "ඇමරිකාව/Mazatlan"
 
 #: ../calendar/zones.h:128
+#, fuzzy
 msgid "America/Mendoza"
-msgstr ""
+msgstr "ඇමරිකාව/Mendoza"
 
 #: ../calendar/zones.h:129
+#, fuzzy
 msgid "America/Menominee"
-msgstr ""
+msgstr "ඇමරිකාව/Menominee"
 
 #: ../calendar/zones.h:130
+#, fuzzy
 msgid "America/Merida"
-msgstr ""
+msgstr "ඇමරිකාව/Merida"
 
 #: ../calendar/zones.h:131
+#, fuzzy
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "ඇමරිකාව/මෙක්සිකෝ නගරය"
 
 #: ../calendar/zones.h:132
+#, fuzzy
 msgid "America/Miquelon"
-msgstr ""
+msgstr "ඇමරිකාව/Miquelon"
 
 #: ../calendar/zones.h:133
+#, fuzzy
 msgid "America/Monterrey"
-msgstr ""
+msgstr "ඇමරිකාව/Monterrey"
 
 #: ../calendar/zones.h:134
+#, fuzzy
 msgid "America/Montevideo"
-msgstr ""
+msgstr "ඇමරිකාව/Montevideo"
 
 #: ../calendar/zones.h:135
+#, fuzzy
 msgid "America/Montreal"
-msgstr ""
+msgstr "ඇමරිකාව/Montreal"
 
 #: ../calendar/zones.h:136
+#, fuzzy
 msgid "America/Montserrat"
-msgstr ""
+msgstr "ඇමරිකාව/Montserrat"
 
 #: ../calendar/zones.h:137
+#, fuzzy
 msgid "America/Nassau"
-msgstr ""
+msgstr "ඇමරිකාව/Nassau"
 
 #: ../calendar/zones.h:138
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
+#, fuzzy
 msgid "America/New_York"
-msgstr ""
+msgstr "ඇමරිකාව/නිව්යොර්ක්"
 
 #: ../calendar/zones.h:139
+#, fuzzy
 msgid "America/Nipigon"
-msgstr ""
+msgstr "ඇමරිකාව/Nipigon"
 
 #: ../calendar/zones.h:140
+#, fuzzy
 msgid "America/Nome"
-msgstr ""
+msgstr "ඇමරිකාව/Nome"
 
 #: ../calendar/zones.h:141
+#, fuzzy
 msgid "America/Noronha"
-msgstr ""
+msgstr "ඇමරිකාව/Noronha"
 
 #: ../calendar/zones.h:142
+#, fuzzy
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "ඇමරිකාව/North_Dakota/Center"
 
 #: ../calendar/zones.h:143
+#, fuzzy
 msgid "America/Panama"
-msgstr ""
+msgstr "ඇමරිකාව/Panama"
 
 #: ../calendar/zones.h:144
+#, fuzzy
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "ඇමරිකාව/Pangnirtung"
 
 #: ../calendar/zones.h:145
+#, fuzzy
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "ඇමරිකාව/Paramaribo"
 
 #: ../calendar/zones.h:146
+#, fuzzy
 msgid "America/Phoenix"
-msgstr ""
+msgstr "ඇමරිකාව/Phoenix"
 
 #: ../calendar/zones.h:147
+#, fuzzy
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "ඇමරිකාව/Port-au-Prince"
 
 #: ../calendar/zones.h:148
+#, fuzzy
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "ඇමරිකාව/Port_of_Spain"
 
 #: ../calendar/zones.h:149
+#, fuzzy
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "ඇමරිකාව/Porto_Velho"
 
 #: ../calendar/zones.h:150
+#, fuzzy
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "ඇමරිකාව/Puerto_Rico"
 
 #: ../calendar/zones.h:151
+#, fuzzy
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "ඇමරිකාව/Rainy_River"
 
 #: ../calendar/zones.h:152
+#, fuzzy
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "ඇමරිකාව/Rankin_Inlet"
 
 #: ../calendar/zones.h:153
+#, fuzzy
 msgid "America/Recife"
-msgstr ""
+msgstr "ඇමරිකාව/Recife"
 
 #: ../calendar/zones.h:154
+#, fuzzy
 msgid "America/Regina"
-msgstr ""
+msgstr "ඇමරිකාව/Regina"
 
 #: ../calendar/zones.h:155
+#, fuzzy
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "ඇමරිකාව/Rio_Branco"
 
 #: ../calendar/zones.h:156
+#, fuzzy
 msgid "America/Rosario"
-msgstr ""
+msgstr "ඇමරිකාව/Rosario"
 
 #: ../calendar/zones.h:157
+#, fuzzy
 msgid "America/Santiago"
-msgstr ""
+msgstr "ඇමරිකාව/සන්තියාගෝ"
 
 #: ../calendar/zones.h:158
+#, fuzzy
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "ඇමරිකාව/Santo_Domingo"
 
 #: ../calendar/zones.h:159
+#, fuzzy
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "ඇමරිකාව/Sao_Paulo"
 
 #: ../calendar/zones.h:160
+#, fuzzy
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "ඇමරිකාව/Scoresbysund"
 
 #: ../calendar/zones.h:161
+#, fuzzy
 msgid "America/Shiprock"
-msgstr ""
+msgstr "ඇමරිකාව/Shiprock"
 
 #: ../calendar/zones.h:162
+#, fuzzy
 msgid "America/St_Johns"
-msgstr ""
+msgstr "ඇමරිකාව/ශාන්ත ජොන්ස්"
 
 #: ../calendar/zones.h:163
+#, fuzzy
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "ඇමරිකාව/St_Kitts"
 
 #: ../calendar/zones.h:164
+#, fuzzy
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "ඇමරිකාව/ශාන්ත ලුසියා"
 
 #: ../calendar/zones.h:165
+#, fuzzy
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "ඇමරිකාව/ශාන්ත තෝමස්"
 
 #: ../calendar/zones.h:166
+#, fuzzy
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "ඇමරිකාව/ශාන්ත වින්සන්ට්"
 
 #: ../calendar/zones.h:167
+#, fuzzy
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "ඇමරිකාව/Swift_Current"
 
 #: ../calendar/zones.h:168
+#, fuzzy
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "ඇමරිකාව/Tegucigalpa"
 
 #: ../calendar/zones.h:169
+#, fuzzy
 msgid "America/Thule"
-msgstr ""
+msgstr "ඇමරිකාව/Thule"
 
 #: ../calendar/zones.h:170
+#, fuzzy
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "ඇමරිකාව/Thunder_Bay"
 
 #: ../calendar/zones.h:171
+#, fuzzy
 msgid "America/Tijuana"
-msgstr ""
+msgstr "ඇමරිකාව/Tijuana"
 
 #: ../calendar/zones.h:172
+#, fuzzy
 msgid "America/Tortola"
-msgstr ""
+msgstr "ඇමරිකාව/Tortola"
 
 #: ../calendar/zones.h:173
+#, fuzzy
 msgid "America/Vancouver"
-msgstr ""
+msgstr "ඇමරිකාව/Vancouver"
 
 #: ../calendar/zones.h:174
+#, fuzzy
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "ඇමරිකාව/ධවලමන්දිරය"
 
 #: ../calendar/zones.h:175
+#, fuzzy
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "ඇමරිකාව/Winnipeg"
 
 #: ../calendar/zones.h:176
+#, fuzzy
 msgid "America/Yakutat"
-msgstr ""
+msgstr "ඇමරිකාව/Yakutat"
 
 #: ../calendar/zones.h:177
+#, fuzzy
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "ඇමරිකාව/Yellowknife"
 
 #: ../calendar/zones.h:178
+#, fuzzy
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/Casey"
 
 #: ../calendar/zones.h:179
+#, fuzzy
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/Davis"
 
 #: ../calendar/zones.h:180
+#, fuzzy
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/DumontDUrville"
 
 #: ../calendar/zones.h:181
+#, fuzzy
 msgid "Antarctica/Mawson"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/Mawson"
 
 #: ../calendar/zones.h:182
+#, fuzzy
 msgid "Antarctica/McMurdo"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/McMurdo"
 
 #: ../calendar/zones.h:183
+#, fuzzy
 msgid "Antarctica/Palmer"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/Palmer"
 
 #: ../calendar/zones.h:184
+#, fuzzy
 msgid "Antarctica/South_Pole"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/South_Pole"
 
 #: ../calendar/zones.h:185
+#, fuzzy
 msgid "Antarctica/Syowa"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/Syowa"
 
 #: ../calendar/zones.h:186
+#, fuzzy
 msgid "Antarctica/Vostok"
-msgstr ""
+msgstr "ඇන්ටාර්ක්ටිකාව/Vostok"
 
 #: ../calendar/zones.h:187
+#, fuzzy
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "අර්ක්ටික්/Longyearbyen"
 
 #: ../calendar/zones.h:188
+#, fuzzy
 msgid "Asia/Aden"
-msgstr ""
+msgstr "ආසියාව/ආඩෙන්"
 
 #: ../calendar/zones.h:189
+#, fuzzy
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "ආසියාව/අල්මැටි"
 
 #: ../calendar/zones.h:190
+#, fuzzy
 msgid "Asia/Amman"
-msgstr ""
+msgstr "ආසියාව/අම්මාන්"
 
 #: ../calendar/zones.h:191
+#, fuzzy
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "ආසියාව/ඇන්ඩිර්"
 
 #: ../calendar/zones.h:192
+#, fuzzy
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "ආසියාව/ඇක්ටො"
 
 #: ../calendar/zones.h:193
+#, fuzzy
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "ආසියාව/ඇක්ටොබ්"
 
 #: ../calendar/zones.h:194
+#, fuzzy
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "ආසියාව/අශ්බගත්"
 
 #: ../calendar/zones.h:195
+#, fuzzy
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "ආසියාව/බැග්ඩැඩ්"
 
 #: ../calendar/zones.h:196
+#, fuzzy
 msgid "Asia/Bahrain"
-msgstr ""
+msgstr "ආසියාව/ගහරේන්"
 
 #: ../calendar/zones.h:197
+#, fuzzy
 msgid "Asia/Baku"
-msgstr ""
+msgstr "ආසියාව/බකු"
 
 #: ../calendar/zones.h:198
+#, fuzzy
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "ආසියාව/බැංකොක්"
 
 #: ../calendar/zones.h:199
+#, fuzzy
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "ආසියාව/බෙයිරුට්"
 
 #: ../calendar/zones.h:200
+#, fuzzy
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "ආසියාව/බිෂ්කෙක්"
 
 #: ../calendar/zones.h:201
+#, fuzzy
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "ආසියාව/බ්රුනායි"
 
 #: ../calendar/zones.h:202
+#, fuzzy
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "ආසියාව/කල්කටා"
 
 #: ../calendar/zones.h:203
+#, fuzzy
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "ආසියාව/චොයිබාල්සාන්"
 
 #: ../calendar/zones.h:204
+#, fuzzy
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "ආසියාව/චොන්ගින්ග්"
 
 #: ../calendar/zones.h:205
+#, fuzzy
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "ආසියාව/කොළඹ"
 
 #: ../calendar/zones.h:206
+#, fuzzy
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "ආසියාව/ඩමාසකස්"
 
 #: ../calendar/zones.h:207
+#, fuzzy
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "ආසියාව/ඩකා"
 
 #: ../calendar/zones.h:208
+#, fuzzy
 msgid "Asia/Dili"
-msgstr ""
+msgstr "ආසියාව/දිල්ලී"
 
 #: ../calendar/zones.h:209
+#, fuzzy
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "ආසියාව/ඩුබායි"
 
 #: ../calendar/zones.h:210
+#, fuzzy
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "ආසියාව/ඩුෂාන්බේ"
 
 #: ../calendar/zones.h:211
+#, fuzzy
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "ආසියාව/ගාසා"
 
 #: ../calendar/zones.h:212
+#, fuzzy
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "ආසියාව/හාර්බින්"
 
 #: ../calendar/zones.h:213
+#, fuzzy
 msgid "Asia/Hong_Kong"
-msgstr ""
+msgstr "ආසියාව/හොන්ග්කොංග්"
 
 #: ../calendar/zones.h:214
+#, fuzzy
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "ආසියාව/හොව්ඩ්"
 
 #: ../calendar/zones.h:215
+#, fuzzy
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "ආසියාව/අර්කට්ස්ක්"
 
 #: ../calendar/zones.h:216
+#, fuzzy
 msgid "Asia/Istanbul"
-msgstr ""
+msgstr "ආසියාව/ඉස්තාන්බුල්"
 
 #: ../calendar/zones.h:217
+#, fuzzy
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "ආසියාව/ජකර්තා"
 
 #: ../calendar/zones.h:218
+#, fuzzy
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "ආසියාව/ජයපුර"
 
 #: ../calendar/zones.h:219
+#, fuzzy
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "ආසියාව/ජෙරුසෙලම"
 
 #: ../calendar/zones.h:220
+#, fuzzy
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "ආසියාව/කාබුල්"
 
 #: ../calendar/zones.h:221
+#, fuzzy
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "ආසියාව/කම්චටා"
 
 #: ../calendar/zones.h:222
+#, fuzzy
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "ආසියාව/කරච්චි"
 
 #: ../calendar/zones.h:223
+#, fuzzy
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "ආසියාව/කශ්ගර්"
 
 #: ../calendar/zones.h:224
+#, fuzzy
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "ආසියාව/කත්මන්ඩු"
 
 #: ../calendar/zones.h:225
+#, fuzzy
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "ආසියාව/ක්‍රස්නොයර්ස්ක්"
 
 #: ../calendar/zones.h:226
+#, fuzzy
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "ආසියාව/ක්වලාලම්පූර්"
 
 #: ../calendar/zones.h:227
+#, fuzzy
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "ආසියාව/කුචින්ග්"
 
 #: ../calendar/zones.h:228
+#, fuzzy
 msgid "Asia/Kuwait"
-msgstr ""
+msgstr "ආසියාව/කුවෙයිට්"
 
 #: ../calendar/zones.h:229
+#, fuzzy
 msgid "Asia/Macao"
-msgstr ""
+msgstr "ආසියාව/මැකෝ"
 
 #: ../calendar/zones.h:230
+#, fuzzy
 msgid "Asia/Macau"
-msgstr ""
+msgstr "ආසියාව/මැකාවු"
 
 #: ../calendar/zones.h:231
+#, fuzzy
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "ආසියාව/මගඩන්"
 
 #: ../calendar/zones.h:232
+#, fuzzy
 msgid "Asia/Makassar"
-msgstr ""
+msgstr "ආසියාව/මකස්සර්"
 
 #: ../calendar/zones.h:233
+#, fuzzy
 msgid "Asia/Manila"
-msgstr ""
+msgstr "ආසියාව/මැනිලා"
 
 #: ../calendar/zones.h:234
+#, fuzzy
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "ආසියාව/මස්කට්"
 
 #: ../calendar/zones.h:235
+#, fuzzy
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "ආසියාව/නිකොසියා"
 
 #: ../calendar/zones.h:236
+#, fuzzy
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "ආසියාව/නොවොසිබිර්ස්ක්"
 
 #: ../calendar/zones.h:237
+#, fuzzy
 msgid "Asia/Omsk"
-msgstr ""
+msgstr "ආසියාව/ඔම්ස්ක්"
 
 #: ../calendar/zones.h:238
+#, fuzzy
 msgid "Asia/Oral"
-msgstr ""
+msgstr "ආසියාව/ඔරල්"
 
 #: ../calendar/zones.h:239
+#, fuzzy
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "ආසියාව/ප්නොම්පෙන්හ්"
 
 #: ../calendar/zones.h:240
+#, fuzzy
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "ආසියාව/පොන්ටිනක්"
 
 #: ../calendar/zones.h:241
+#, fuzzy
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "ආසියාව/ප්යොන්ගියාන්ග්"
 
 #: ../calendar/zones.h:242
+#, fuzzy
 msgid "Asia/Qatar"
-msgstr ""
+msgstr "ආසියාව/කටාර්"
 
 #: ../calendar/zones.h:243
+#, fuzzy
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "ආසියාව/Qyzylorda"
 
 #: ../calendar/zones.h:244
+#, fuzzy
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "ආසියාව/රැගූන්"
 
 #: ../calendar/zones.h:245
+#, fuzzy
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "ආසියාව/රියාද්"
 
 #: ../calendar/zones.h:246
+#, fuzzy
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "ආසියාව/සයිගොන්"
 
 #: ../calendar/zones.h:247
+#, fuzzy
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "ආසියාව/සක්හාලින්"
 
 #: ../calendar/zones.h:248
+#, fuzzy
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "ආසියාව/Samarkand"
 
 #: ../calendar/zones.h:249
+#, fuzzy
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "ආසියාව/Seoul"
 
 #: ../calendar/zones.h:250
+#, fuzzy
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "ආසියාව/ශැන්ග්හයි"
 
 #: ../calendar/zones.h:251
+#, fuzzy
 msgid "Asia/Singapore"
-msgstr ""
+msgstr "ආසියාව/සිංගප්පුරුව"
 
 #: ../calendar/zones.h:252
+#, fuzzy
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "ආසියාව/තායිපෙයි"
 
 #: ../calendar/zones.h:253
+#, fuzzy
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "ආසියාව/තෂ්කෙන්ට්"
 
 #: ../calendar/zones.h:254
+#, fuzzy
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "ආසියාව/ටබිලිසි"
 
 #: ../calendar/zones.h:255
+#, fuzzy
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "ආසියාව/ටෙහ්රාන්"
 
 #: ../calendar/zones.h:256
+#, fuzzy
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "ආසියාව/තිම්පු"
 
 #: ../calendar/zones.h:257
+#, fuzzy
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "ආසියාව/ටොකියෝ"
 
 #: ../calendar/zones.h:258
+#, fuzzy
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "ආසියාව/උජුන්ග්පන්ඩන්ග්"
 
 #: ../calendar/zones.h:259
+#, fuzzy
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "ආසියාව/උලාන්බාටර්"
 
 #: ../calendar/zones.h:260
+#, fuzzy
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "ආසියාව/උරුම්කි"
 
 #: ../calendar/zones.h:261
+#, fuzzy
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "ආසියාව/වින්ටිඅනස්"
 
 #: ../calendar/zones.h:262
+#, fuzzy
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "ආසියාව/ව්ලැදිවොස්ටොක්"
 
 #: ../calendar/zones.h:263
+#, fuzzy
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "ආසියාව/යකුට්ස්ක්"
 
 #: ../calendar/zones.h:264
+#, fuzzy
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "ආසියාව/යේකටරින්බර්ග්"
 
 #: ../calendar/zones.h:265
+#, fuzzy
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "ආසියාව/යෙරෙවන්"
 
 #: ../calendar/zones.h:266
+#, fuzzy
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "අත්ලාන්තික්/Azores"
 
 #: ../calendar/zones.h:267
+#, fuzzy
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "අත්ලාන්තික්/Bermuda"
 
 #: ../calendar/zones.h:268
+#, fuzzy
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "අත්ලාන්තික්/Canary"
 
 #: ../calendar/zones.h:269
+#, fuzzy
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "අත්ලාන්තික්/Cape_Verde"
 
 #: ../calendar/zones.h:270
+#, fuzzy
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "අත්ලාන්තික්/Faeroe"
 
 #: ../calendar/zones.h:271
+#, fuzzy
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "අත්ලාන්තික්/Jan_Mayen"
 
 #: ../calendar/zones.h:272
+#, fuzzy
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "අත්ලාන්තික්/Madeira"
 
 #: ../calendar/zones.h:273
+#, fuzzy
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "අත්ලාන්තික්/Reykjavik"
 
 #: ../calendar/zones.h:274
+#, fuzzy
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "අත්ලාන්තික්/South_Georgia"
 
 #: ../calendar/zones.h:275
+#, fuzzy
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "අත්ලාන්තික්/St_Helena"
 
 #: ../calendar/zones.h:276
+#, fuzzy
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "අත්ලාන්තික්/Stanley"
 
 #: ../calendar/zones.h:277
+#, fuzzy
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/ඇඩ්ලීඩ්"
 
 #: ../calendar/zones.h:278
+#, fuzzy
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/බ්‍රිස්බේන්"
 
 #: ../calendar/zones.h:279
+#, fuzzy
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/Broken_Hill"
 
 #: ../calendar/zones.h:280
+#, fuzzy
 msgid "Australia/Darwin"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/Darwin"
 
 #: ../calendar/zones.h:281
+#, fuzzy
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/Hobart"
 
 #: ../calendar/zones.h:282
+#, fuzzy
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/Lindeman"
 
 #: ../calendar/zones.h:283
+#, fuzzy
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/Lord_Howe"
 
 #: ../calendar/zones.h:284
+#, fuzzy
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/මෙල්බන්"
 
 #: ../calendar/zones.h:285
+#, fuzzy
 msgid "Australia/Perth"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/පර්ත්"
 
 #: ../calendar/zones.h:286
+#, fuzzy
 msgid "Australia/Sydney"
-msgstr ""
+msgstr "ඔස්ට්‍රෙලියාව/සිඩ්නි"
 
 #: ../calendar/zones.h:287
+#, fuzzy
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "යුරෝපය/ඇමෙස්ට්‍රඩැම්"
 
 #: ../calendar/zones.h:288
+#, fuzzy
 msgid "Europe/Andorra"
-msgstr ""
+msgstr "යුරෝපය/Andorra"
 
 #: ../calendar/zones.h:289
+#, fuzzy
 msgid "Europe/Athens"
-msgstr ""
+msgstr "යුරෝපය/ඇතන්ස්"
 
 #: ../calendar/zones.h:290
+#, fuzzy
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "යුරෝපය/Belfast"
 
 #: ../calendar/zones.h:291
+#, fuzzy
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "යුරෝපය/Belgrade"
 
 #: ../calendar/zones.h:292
+#, fuzzy
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "යුරෝපය/බර්ලින්"
 
 #: ../calendar/zones.h:293
+#, fuzzy
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "යුරෝපය/Bratislava"
 
 #: ../calendar/zones.h:294
+#, fuzzy
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "යුරෝපය/බ්රසල්ස්"
 
 #: ../calendar/zones.h:295
+#, fuzzy
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "යුරෝපය/Bucharest"
 
 #: ../calendar/zones.h:296
+#, fuzzy
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "යුරෝපය/Budapest"
 
 #: ../calendar/zones.h:297
+#, fuzzy
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "යුරෝපය/Chisinau"
 
 #: ../calendar/zones.h:298
+#, fuzzy
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "යුරෝපය/Copenhagen"
 
 #: ../calendar/zones.h:299
+#, fuzzy
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "යුරෝපය/ඩබ්ලින්"
 
 #: ../calendar/zones.h:300
+#, fuzzy
 msgid "Europe/Gibraltar"
-msgstr ""
+msgstr "යුරෝපය/Gibraltar"
 
 #: ../calendar/zones.h:301
+#, fuzzy
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "යුරෝපය/Helsinki"
 
 #: ../calendar/zones.h:302
+#, fuzzy
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "යුරෝපය/Istanbul"
 
 #: ../calendar/zones.h:303
+#, fuzzy
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "යුරෝපය/Kaliningrad"
 
 #: ../calendar/zones.h:304
+#, fuzzy
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "යුරෝපය/Kiev"
 
 #: ../calendar/zones.h:305
+#, fuzzy
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "යුරෝපය/ලිස්බන්"
 
 #: ../calendar/zones.h:306
+#, fuzzy
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "යුරෝපය/Ljubljana"
 
 #: ../calendar/zones.h:307
+#, fuzzy
 msgid "Europe/London"
-msgstr ""
+msgstr "යුරෝපය/ලංන්ඩන්"
 
 #: ../calendar/zones.h:308
+#, fuzzy
 msgid "Europe/Luxembourg"
-msgstr ""
+msgstr "යුරෝපය/ලක්සෙම්බර්ග්"
 
 #: ../calendar/zones.h:309
+#, fuzzy
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "යුරෝපය/Madrid"
 
 #: ../calendar/zones.h:310
+#, fuzzy
 msgid "Europe/Malta"
-msgstr ""
+msgstr "යුරෝපය/Malta"
 
 #: ../calendar/zones.h:311
+#, fuzzy
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "යුරෝපය/Minsk"
 
 #: ../calendar/zones.h:312
+#, fuzzy
 msgid "Europe/Monaco"
-msgstr ""
+msgstr "යුරෝපය/Monaco"
 
 #: ../calendar/zones.h:313
+#, fuzzy
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "යුරෝපය/මොස්කව්"
 
 #: ../calendar/zones.h:314
+#, fuzzy
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "යුරෝපය/Nicosia"
 
 #: ../calendar/zones.h:315
+#, fuzzy
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "යුරෝපය/Oslo"
 
 #: ../calendar/zones.h:316
+#, fuzzy
 msgid "Europe/Paris"
-msgstr ""
+msgstr "යුරෝපය/Paris"
 
 #: ../calendar/zones.h:317
+#, fuzzy
 msgid "Europe/Prague"
-msgstr ""
+msgstr "යුරෝපය/Prague"
 
 #: ../calendar/zones.h:318
+#, fuzzy
 msgid "Europe/Riga"
-msgstr ""
+msgstr "යුරෝපය/Riga"
 
 #: ../calendar/zones.h:319
+#, fuzzy
 msgid "Europe/Rome"
-msgstr ""
+msgstr "යුරෝපය/රෝමය"
 
 #: ../calendar/zones.h:320
+#, fuzzy
 msgid "Europe/Samara"
-msgstr ""
+msgstr "යුරෝපය/Samara"
 
 #: ../calendar/zones.h:321
+#, fuzzy
 msgid "Europe/San_Marino"
-msgstr ""
+msgstr "යුරෝපය/San_Marino"
 
 #: ../calendar/zones.h:322
+#, fuzzy
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "යුරෝපය/Sarajevo"
 
 #: ../calendar/zones.h:323
+#, fuzzy
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "යුරෝපය/Simferopol"
 
 #: ../calendar/zones.h:324
+#, fuzzy
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "යුරෝපය/Skopje"
 
 #: ../calendar/zones.h:325
+#, fuzzy
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "යුරෝපය/Sofia"
 
 #: ../calendar/zones.h:326
+#, fuzzy
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "යුරෝපය/ස්ටොක්හොල්ම්"
 
 #: ../calendar/zones.h:327
+#, fuzzy
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "යුරෝපය/Tallinn"
 
 #: ../calendar/zones.h:328
+#, fuzzy
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "යුරෝපය/Tirane"
 
 #: ../calendar/zones.h:329
+#, fuzzy
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "යුරෝපය/Uzhgorod"
 
 #: ../calendar/zones.h:330
+#, fuzzy
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "යුරෝපය/Vaduz"
 
 #: ../calendar/zones.h:331
+#, fuzzy
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "යුරෝපය/Vatican"
 
 #: ../calendar/zones.h:332
+#, fuzzy
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "යුරෝපය/වියානා"
 
 #: ../calendar/zones.h:333
+#, fuzzy
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "යුරෝපය/Vilnius"
 
 #: ../calendar/zones.h:334
+#, fuzzy
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "යුරෝපය/Warsaw"
 
 #: ../calendar/zones.h:335
+#, fuzzy
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "යුරෝපය/Zagreb"
 
 #: ../calendar/zones.h:336
+#, fuzzy
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "යුරෝපය/Zaporozhye"
 
 #: ../calendar/zones.h:337
+#, fuzzy
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "යුරෝපය/සුරිච්"
 
 #: ../calendar/zones.h:338
+#, fuzzy
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "ඉන්දියානු/Antananarivo"
 
 #: ../calendar/zones.h:339
+#, fuzzy
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "ඉන්දියානු/Chagos"
 
 #: ../calendar/zones.h:340
+#, fuzzy
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "ඉන්දියානු/Christmas"
 
 #: ../calendar/zones.h:341
+#, fuzzy
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "ඉන්දියානු/Cocos"
 
 #: ../calendar/zones.h:342
+#, fuzzy
 msgid "Indian/Comoro"
-msgstr ""
+msgstr "ඉන්දියානු/Comoro"
 
 #: ../calendar/zones.h:343
+#, fuzzy
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "ඉන්දියානු/Kerguelen"
 
 #: ../calendar/zones.h:344
+#, fuzzy
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "ඉන්දියානු/Mahe"
 
 #: ../calendar/zones.h:345
+#, fuzzy
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "ඉන්දියානු/මාලදිවයින"
 
 #: ../calendar/zones.h:346
+#, fuzzy
 msgid "Indian/Mauritius"
-msgstr ""
+msgstr "ඉන්දියානු/Mauritius"
 
 #: ../calendar/zones.h:347
+#, fuzzy
 msgid "Indian/Mayotte"
-msgstr ""
+msgstr "ඉන්දියානු/Mayotte"
 
 #: ../calendar/zones.h:348
+#, fuzzy
 msgid "Indian/Reunion"
-msgstr ""
+msgstr "ඉන්දියානු/Reunion"
 
 #: ../calendar/zones.h:349
+#, fuzzy
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "පැසිෆික්/Apia"
 
 #: ../calendar/zones.h:350
+#, fuzzy
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "පැසිෆික්/Auckland"
 
 #: ../calendar/zones.h:351
+#, fuzzy
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "පැසිෆික්/Chatham"
 
 #: ../calendar/zones.h:352
+#, fuzzy
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "පැසිෆික්/Easter"
 
 #: ../calendar/zones.h:353
+#, fuzzy
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "පැසිෆික්/Efate"
 
 #: ../calendar/zones.h:354
+#, fuzzy
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "පැසිෆික්/Enderbury"
 
 #: ../calendar/zones.h:355
+#, fuzzy
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "පැසිෆික්/Fakaofo"
 
 #: ../calendar/zones.h:356
+#, fuzzy
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "පැසිෆික්/ෆිජි"
 
 #: ../calendar/zones.h:357
+#, fuzzy
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "පැසිෆික්/Funafuti"
 
 #: ../calendar/zones.h:358
+#, fuzzy
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "පැසිෆික්/Galapagos"
 
 #: ../calendar/zones.h:359
+#, fuzzy
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "පැසිෆික්/Gambier"
 
 #: ../calendar/zones.h:360
+#, fuzzy
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "පැසිෆික්/Guadalcanal"
 
 #: ../calendar/zones.h:361
+#, fuzzy
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "පැසිෆික්/Guam"
 
 #: ../calendar/zones.h:362
+#, fuzzy
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "පැසිෆික්/Honolulu"
 
 #: ../calendar/zones.h:363
+#, fuzzy
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "පැසිෆික්/Johnston"
 
 #: ../calendar/zones.h:364
+#, fuzzy
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "පැසිෆික්/Kiritimati"
 
 #: ../calendar/zones.h:365
+#, fuzzy
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "පැසිෆික්/Kosrae"
 
 #: ../calendar/zones.h:366
+#, fuzzy
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "පැසිෆික්/Kwajalein"
 
 #: ../calendar/zones.h:367
+#, fuzzy
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "පැසිෆික්/Majuro"
 
 #: ../calendar/zones.h:368
+#, fuzzy
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "පැසිෆික්/Marquesas"
 
 #: ../calendar/zones.h:369
+#, fuzzy
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "පැසිෆික්/Midway"
 
 #: ../calendar/zones.h:370
+#, fuzzy
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "පැසිෆික්/Nauru"
 
 #: ../calendar/zones.h:371
+#, fuzzy
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "පැසිෆික්/Niue"
 
 #: ../calendar/zones.h:372
+#, fuzzy
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "පැසිෆික්/Norfolk"
 
 #: ../calendar/zones.h:373
+#, fuzzy
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "පැසිෆික්/Noumea"
 
 #: ../calendar/zones.h:374
+#, fuzzy
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "පැසිෆික්/Pago_Pago"
 
 #: ../calendar/zones.h:375
+#, fuzzy
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "පැසිෆික්/Palau"
 
 #: ../calendar/zones.h:376
+#, fuzzy
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "පැසිෆික්/Pitcairn"
 
 #: ../calendar/zones.h:377
+#, fuzzy
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "පැසිෆික්/Ponape"
 
 #: ../calendar/zones.h:378
+#, fuzzy
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "පැසිෆික්/Port_Moresby"
 
 #: ../calendar/zones.h:379
+#, fuzzy
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "පැසිෆික්/Rarotonga"
 
 #: ../calendar/zones.h:380
+#, fuzzy
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "පැසිෆික්/Saipan"
 
 #: ../calendar/zones.h:381
+#, fuzzy
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "පැසිෆික්/Tahiti"
 
 #: ../calendar/zones.h:382
+#, fuzzy
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "පැසිෆික්/Tarawa"
 
 #: ../calendar/zones.h:383
+#, fuzzy
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "පැසිෆික්/Tongatapu"
 
 #: ../calendar/zones.h:384
+#, fuzzy
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "පැසිෆික්/Truk"
 
 #: ../calendar/zones.h:385
+#, fuzzy
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "පැසිෆික්/Wake"
 
 #: ../calendar/zones.h:386
+#, fuzzy
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "පැසිෆික්/Wallis"
 
 #: ../calendar/zones.h:387
+#, fuzzy
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "පැසිෆික්/Yap"
 
 #: ../composer/e-msg-composer-hdrs.c:570
 msgid "Posting destination"
@@ -9953,70 +10697,72 @@ msgid "Post To:"
 msgstr ""
 
 #: ../composer/e-msg-composer-select-file.c:82
+#, fuzzy
 msgid "A_ttach"
-msgstr ""
+msgstr "අමුණන්න (_t)"
 
 #: ../composer/e-msg-composer-select-file.c:243
 msgid "Insert Attachment"
 msgstr "ඇමුණුම ඇතුළත් කරන්න"
 
-#: ../composer/e-msg-composer.c:834
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+#: ../composer/e-msg-composer.c:835
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
-#: ../composer/e-msg-composer.c:841
+#: ../composer/e-msg-composer.c:842
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
 
-#: ../composer/e-msg-composer.c:1344 ../composer/e-msg-composer.c:2606
+#: ../composer/e-msg-composer.c:1345 ../composer/e-msg-composer.c:2608
 msgid "Hide _Attachment Bar"
 msgstr "ඇමුණුම් තීරුව සඟවන්න (_A)"
 
-#: ../composer/e-msg-composer.c:1347 ../composer/e-msg-composer.c:2609
-#: ../composer/e-msg-composer.c:3987
+#: ../composer/e-msg-composer.c:1348 ../composer/e-msg-composer.c:2611
+#: ../composer/e-msg-composer.c:3979
 msgid "Show _Attachment Bar"
 msgstr "ඇමුණුම් තීරුව පෙන්වන්න (_A)"
 
-#: ../composer/e-msg-composer.c:1379 ../composer/e-msg-composer.c:1413
+#: ../composer/e-msg-composer.c:1380 ../composer/e-msg-composer.c:1414
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "නොදන්නා හේතුවක්"
 
-#: ../composer/e-msg-composer.c:1451
+#: ../composer/e-msg-composer.c:1452
 msgid "Could not open file"
 msgstr "ගොනුව විවෘත කළ නොහැක"
 
-#: ../composer/e-msg-composer.c:1459
+#: ../composer/e-msg-composer.c:1460
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
-#: ../composer/e-msg-composer.c:1744
+#: ../composer/e-msg-composer.c:1745
 msgid "Untitled Message"
 msgstr "නිර්ණාමික පණිවිඩය"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1779
+#: ../composer/e-msg-composer.c:1781
 msgid "Open File"
 msgstr "ගොනුව විවෘත කරන්න "
 
-#: ../composer/e-msg-composer.c:2241 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2243 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
+#, fuzzy
 msgid "Autogenerated"
-msgstr ""
+msgstr "ස්වයංක්‍රීය ජනනය"
 
-#: ../composer/e-msg-composer.c:2344
+#: ../composer/e-msg-composer.c:2346
 msgid "Si_gnature:"
 msgstr ""
 
-#: ../composer/e-msg-composer.c:2620 ../composer/e-msg-composer.c:3869
-#: ../composer/e-msg-composer.c:3872
+#: ../composer/e-msg-composer.c:2622 ../composer/e-msg-composer.c:3861
+#: ../composer/e-msg-composer.c:3864
+#, fuzzy
 msgid "Compose Message"
-msgstr ""
+msgstr "පණිවිඩය සකසන්න"
 
-#: ../composer/e-msg-composer.c:5097
+#: ../composer/e-msg-composer.c:5104
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10209,8 +10955,7 @@ msgid "The printing system reported the following details about the error:"
 msgstr ""
 
 #: ../e-util/e-print.c:149
-msgid ""
-"The printing system did not report any additional details about the error."
+msgid "The printing system did not report any additional details about the error."
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:2
@@ -10234,8 +10979,9 @@ msgid "Overwrite file?"
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:138
+#, fuzzy
 msgid "_Overwrite"
-msgstr ""
+msgstr "මත ලියන්න (_O)"
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -10510,8 +11256,9 @@ msgid "ago"
 msgstr ""
 
 #: ../filter/filter.glade.h:16
+#, fuzzy
 msgid "in the future"
-msgstr ""
+msgstr "අනාගතයේදි"
 
 #: ../filter/filter.glade.h:18
 msgid "months"
@@ -10522,12 +11269,14 @@ msgid "seconds"
 msgstr "තත්පර"
 
 #: ../filter/filter.glade.h:20
+#, fuzzy
 msgid "the current time"
-msgstr ""
+msgstr "දැන් වේලාව"
 
 #: ../filter/filter.glade.h:21
+#, fuzzy
 msgid "the time you specify"
-msgstr ""
+msgstr "ඔබ දක්වන ලඳ වේලාව"
 
 #: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:291
 #: ../plugins/calendar-weather/calendar-weather.c:564
@@ -10551,12 +11300,12 @@ msgid "Rule name"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
+#, fuzzy
 msgid "Composer Preferences"
-msgstr ""
+msgstr "සකසනයේ අභිප්‍රේත"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -10580,8 +11329,9 @@ msgid "Evolution Mail component"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
+#, fuzzy
 msgid "Evolution Mail composer"
-msgstr ""
+msgstr "ඉවොලුශන් තැපැල් සකසනය"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer configuration control"
@@ -10688,8 +11438,9 @@ msgstr "අක්‍රීය"
 #: ../mail/em-account-prefs.c:334 ../mail/em-account-prefs.c:379
 #: ../mail/em-account-prefs.c:414 ../mail/mail-config.glade.h:74
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
+#, fuzzy
 msgid "E_nable"
-msgstr ""
+msgstr "සක්‍රීය කරන්න (_n)"
 
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:469
@@ -10728,29 +11479,35 @@ msgid "Signature(s)"
 msgstr ""
 
 #: ../mail/em-composer-utils.c:893 ../mail/em-format-quote.c:396
+#, fuzzy
 msgid "-------- Forwarded Message --------"
-msgstr ""
+msgstr "-------- ඉදිරියට යැවූ පණිවිඩය --------"
 
 #: ../mail/em-composer-utils.c:1692
+#, fuzzy
 msgid "an unknown sender"
-msgstr ""
+msgstr "නොදන්නා යවන්නේක්"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
 #: ../mail/em-composer-utils.c:1739
+#, fuzzy
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+" ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
+"${TimeZone} දා, ${Sender} ලියන ලඳි:"
 
 #: ../mail/em-composer-utils.c:1880
 msgid "-----Original Message-----"
 msgstr ""
 
 #: ../mail/em-filter-editor.c:155
+#, fuzzy
 msgid "_Filter Rules"
-msgstr ""
+msgstr "පෙරහන රීතිය (_F)"
 
 #. Automatically generated. Do not edit.
 #: ../mail/em-filter-i18n.h:2
@@ -10770,24 +11527,28 @@ msgid "Attachments"
 msgstr "ඇමුණුම්"
 
 #: ../mail/em-filter-i18n.h:6
+#, fuzzy
 msgid "Beep"
-msgstr ""
+msgstr "බීප් හඬ"
 
 #: ../mail/em-filter-i18n.h:7
+#, fuzzy
 msgid "contains"
-msgstr ""
+msgstr "අඩංගු"
 
 #: ../mail/em-filter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "බහලුමට පිටපත් කරන්න"
 
 #: ../mail/em-filter-i18n.h:9
+#, fuzzy
 msgid "Date received"
-msgstr ""
+msgstr "ලැබුනු දිනය"
 
 #: ../mail/em-filter-i18n.h:10
+#, fuzzy
 msgid "Date sent"
-msgstr ""
+msgstr "යවන ලඳ දිනය"
 
 #: ../mail/em-filter-i18n.h:11
 #: ../plugins/groupwise-features/share-folder.c:777
@@ -10834,8 +11595,9 @@ msgid "Draft"
 msgstr "කෙටුම් පත"
 
 #: ../mail/em-filter-i18n.h:21
+#, fuzzy
 msgid "ends with"
-msgstr ""
+msgstr "සමඟ අවසන්වන"
 
 #: ../mail/em-filter-i18n.h:22
 msgid "Exist"
@@ -10854,8 +11616,9 @@ msgid "Follow Up"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:27
+#, fuzzy
 msgid "is"
-msgstr ""
+msgstr "වනුයේ"
 
 #: ../mail/em-filter-i18n.h:28
 msgid "is after"
@@ -10878,8 +11641,9 @@ msgid "is less than"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:33
+#, fuzzy
 msgid "is not"
-msgstr ""
+msgstr "නොවනුයේ"
 
 #: ../mail/em-filter-i18n.h:34
 msgid "is not Flagged"
@@ -10907,8 +11671,9 @@ msgid "Match All"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:40
+#, fuzzy
 msgid "Message Body"
-msgstr ""
+msgstr "පණිවිඩයේ කඳ"
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Message Header"
@@ -10919,8 +11684,9 @@ msgid "Message is Junk"
 msgstr "නිසරු පණිවිඩයකි"
 
 #: ../mail/em-filter-i18n.h:43
+#, fuzzy
 msgid "Message is not Junk"
-msgstr ""
+msgstr "නොනිසරු පණිවිඩයකි"
 
 #: ../mail/em-filter-i18n.h:44
 msgid "Move to Folder"
@@ -10931,16 +11697,18 @@ msgid "Pipe to Program"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:46
+#, fuzzy
 msgid "Play Sound"
-msgstr ""
+msgstr "හඬ වාදනය කරන්න"
 
 #: ../mail/em-filter-i18n.h:47 ../mail/message-tag-followup.c:81
 msgid "Read"
 msgstr "කියවන්න"
 
 #: ../mail/em-filter-i18n.h:48 ../mail/message-list.etspec.h:11
+#, fuzzy
 msgid "Recipients"
-msgstr ""
+msgstr "ලබන්නන්"
 
 #: ../mail/em-filter-i18n.h:49
 msgid "Regex Match"
@@ -10963,12 +11731,14 @@ msgid "returns less than"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:54
+#, fuzzy
 msgid "Run Program"
-msgstr ""
+msgstr "වැඩසටහන ක්‍රියාත්මක කරන්න"
 
 #: ../mail/em-filter-i18n.h:55 ../mail/message-list.etspec.h:12
+#, fuzzy
 msgid "Score"
-msgstr ""
+msgstr "අඟය"
 
 #: ../mail/em-filter-i18n.h:56 ../mail/message-list.etspec.h:13
 msgid "Sender"
@@ -11021,8 +11791,9 @@ msgid "Then"
 msgstr ""
 
 #: ../mail/em-folder-browser.c:171
+#, fuzzy
 msgid "C_reate Search Folder From Search..."
-msgstr ""
+msgstr "සේවිම මඟින් සෙවුම් බහලුමක් නිර්මාණය කරන්න... (_r)"
 
 #: ../mail/em-folder-browser.c:193
 msgid "All Messages"
@@ -11041,24 +11812,28 @@ msgid "Read Messages"
 msgstr "කියවූ පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:204
+#, fuzzy
 msgid "Recent Messages"
-msgstr ""
+msgstr "මැතකදී ලැබුණු පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:205
+#, fuzzy
 msgid "Last 5 Days' Messages"
-msgstr ""
+msgstr "පසුගිය දින 5 තුළ ලැබුණු පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:206
 msgid "Messages with Attachments"
 msgstr "ඇමුණුම් සහිත පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:207
+#, fuzzy
 msgid "Important Messages"
-msgstr ""
+msgstr "වැදහත් පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:208
+#, fuzzy
 msgid "Messages Not Junk"
-msgstr ""
+msgstr "නොනිසරු පණිවිඩ"
 
 #: ../mail/em-folder-browser.c:1026
 msgid "Account Search"
@@ -11115,7 +11890,7 @@ msgid "Drafts"
 msgstr "කෙටුම් පත්"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2567
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2572
 #: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11190,12 +11965,12 @@ msgstr "බහලුම වෙතට පිටපත් කරන්න (_C)"
 msgid "_Move to Folder"
 msgstr "බහලුම වෙතට ගෙන යන්නන (_M)"
 
-#: ../mail/em-folder-tree.c:1710 ../mail/mail-ops.c:1060
+#: ../mail/em-folder-tree.c:1715 ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr ""
 
-#: ../mail/em-folder-tree.c:2110 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2115 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:32
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11203,67 +11978,67 @@ msgstr ""
 msgid "_View"
 msgstr "දසුන (_V)"
 
-#: ../mail/em-folder-tree.c:2111
+#: ../mail/em-folder-tree.c:2116
 msgid "Open in _New Window"
 msgstr "නව කවුළුවක විවෘත කරන්න (_N)"
 
-#: ../mail/em-folder-tree.c:2115
+#: ../mail/em-folder-tree.c:2120
 msgid "_Copy..."
 msgstr "පිටපත් කරන්න... (_C)"
 
-#: ../mail/em-folder-tree.c:2116
+#: ../mail/em-folder-tree.c:2121
 msgid "_Move..."
 msgstr "ගෙන යන්න... (_M)"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2120
+#: ../mail/em-folder-tree.c:2125
 msgid "_New Folder..."
 msgstr "නව බහලුම... (_N)"
 
-#: ../mail/em-folder-tree.c:2123 ../ui/evolution-mail-list.xml.h:36
+#: ../mail/em-folder-tree.c:2128 ../ui/evolution-mail-list.xml.h:36
 msgid "_Rename..."
 msgstr "නම වෙනස් කරන්න... (_R)"
 
-#: ../mail/em-folder-tree.c:2124
+#: ../mail/em-folder-tree.c:2129
 msgid "Re_fresh"
 msgstr ""
 
-#: ../mail/em-folder-tree.c:2125
+#: ../mail/em-folder-tree.c:2130
 msgid "Fl_ush Outbox"
 msgstr ""
 
-#: ../mail/em-folder-tree.c:2131 ../mail/mail.error.xml.h:135
+#: ../mail/em-folder-tree.c:2136 ../mail/mail.error.xml.h:135
 msgid "_Empty Trash"
 msgstr "ඉවතලන බදුන හිස් කරන්න (_E)"
 
-#: ../mail/em-folder-utils.c:104
+#: ../mail/em-folder-utils.c:105
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "%s', `%s' වෙතට පිටපත් කරන්න"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1038
+#: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1038
 #: ../mail/em-folder-view.c:1053
 #: ../mail/importers/evolution-mbox-importer.c:86
 msgid "Select folder"
 msgstr "බහලුම තෝරන්න"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:1053
+#: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1053
 msgid "C_opy"
 msgstr "පිටපත් කරන්න (_o)"
 
-#: ../mail/em-folder-utils.c:581
+#: ../mail/em-folder-utils.c:590
 #: ../plugins/groupwise-features/share-folder-common.c:145
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "`%s' බහලුම නිර්මාණය කරන්න"
 
-#: ../mail/em-folder-utils.c:730
+#: ../mail/em-folder-utils.c:750
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Create folder"
 msgstr "බහලුම නිර්මාණය කරන්න"
 
-#: ../mail/em-folder-utils.c:730
+#: ../mail/em-folder-utils.c:750
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Specify where to create the folder:"
@@ -11809,8 +12584,7 @@ msgstr ""
 
 #: ../mail/em-mailer-prefs.c:795
 #, c-format
-msgid ""
-"%s plugin is not available. Please check whether the package is installed."
+msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr ""
 
 #: ../mail/em-mailer-prefs.c:816
@@ -12254,8 +13028,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:74
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:75
@@ -12643,38 +13416,43 @@ msgstr[1] "නිසරු %d ක් ඇත"
 
 #: ../mail/mail-component.c:536
 #, c-format
+#, fuzzy
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "කෙටුම්පත් %d ක් ඇත"
+msgstr[1] "කෙටුම්පත් %d ක් ඇත"
 
 #: ../mail/mail-component.c:538
 #, c-format
+#, fuzzy
 msgid "%d sent"
 msgid_plural "%d sent"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "යැවු %d ඇත"
+msgstr[1] "යැවු %d ඇත"
 
 #: ../mail/mail-component.c:540
 #, c-format
+#, fuzzy
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "නොයැවු %d ඇත"
+msgstr[1] "නොයැවු %d ඇත"
 
 #: ../mail/mail-component.c:546
 #, c-format
+#, fuzzy
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "නොකියවූ %d ඇත, "
+msgstr[1] "නොකියවූ %d ඇත, "
 
 #: ../mail/mail-component.c:547
 #, c-format
+#, fuzzy
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "සියළුම %d ක් ඇත"
+msgstr[1] "සියළුම %d ක් ඇත"
 
 #: ../mail/mail-component.c:551
 #, fuzzy, c-format
@@ -12692,8 +13470,9 @@ msgid "_Mail Message"
 msgstr "තැපැල් පණිවිඩ (_M)"
 
 #: ../mail/mail-component.c:878
+#, fuzzy
 msgid "Compose a new mail message"
-msgstr ""
+msgstr "නව තැපැල් පණිවිඩයක් සකසන්න"
 
 #: ../mail/mail-component.c:884
 msgid "New Mail Folder"
@@ -12704,8 +13483,9 @@ msgid "Mail _Folder"
 msgstr "තැපැල් බහලුම (_F)"
 
 #: ../mail/mail-component.c:886
+#, fuzzy
 msgid "Create a new mail folder"
-msgstr ""
+msgstr "නව තැපැල් බහලුමක් නිර්මාණය කරන්න"
 
 #: ../mail/mail-component.c:1033
 msgid "Failed upgrading Mail settings or folders."
@@ -12717,23 +13497,27 @@ msgstr "ආනයනය (_m)"
 
 #. red
 #: ../mail/mail-config.c:82
+#, fuzzy
 msgid "_Work"
-msgstr ""
+msgstr "කාර්‍යය (_W)"
 
 #. orange
 #: ../mail/mail-config.c:83
+#, fuzzy
 msgid "_Personal"
-msgstr ""
+msgstr "පෞද්ගලික (_P)"
 
 #. forest green
 #: ../mail/mail-config.c:84
+#, fuzzy
 msgid "_To Do"
-msgstr ""
+msgstr "කිරීමට ඇති (_T)"
 
 #. blue
 #: ../mail/mail-config.c:85
+#, fuzzy
 msgid "_Later"
-msgstr ""
+msgstr "පසුව (_L)"
 
 #: ../mail/mail-config.glade.h:1
 msgid " Ch_eck for Supported Types "
@@ -12748,113 +13532,137 @@ msgid "<b>Sender  Photograph</b>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:5
+#, fuzzy
 msgid "<b>Sig_natures</b>"
-msgstr ""
+msgstr "<b>අත්සන (_n)</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>Top Posting Option</b> (Not Recommended)"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:7
+#, fuzzy
 msgid "<b>_Languages</b>"
-msgstr ""
+msgstr "<b>භාෂා (_L)</b>"
 
 #: ../mail/mail-config.glade.h:8
+#, fuzzy
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ගිණුම් තොරතුරු</span>"
 
 #: ../mail/mail-config.glade.h:10
+#, fuzzy
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">සත්‍යාපන වර්‍ගය</span>"
 
 #: ../mail/mail-config.glade.h:11
+#, fuzzy
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">සත්‍යාපනය</span>"
 
 #: ../mail/mail-config.glade.h:12
+#, fuzzy
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">පණිවිඩ සැකසීම</span>"
 
 #: ../mail/mail-config.glade.h:13
+#, fuzzy
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">මානකරණ්න</span>"
 
 #: ../mail/mail-config.glade.h:14
+#, fuzzy
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">පෙරනිමි හැසිරිම</span>"
 
 #: ../mail/mail-config.glade.h:15
+#, fuzzy
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">තැපැල් මකන්න</span>"
 
 #: ../mail/mail-config.glade.h:16
+#, fuzzy
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">දර්ශනය කළ තැපැල් ශිර්ෂක (_H)</span>"
 
 #: ../mail/mail-config.glade.h:18
+#, fuzzy
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ලේබල සහ වර්‍ණ</span>"
 
 #: ../mail/mail-config.glade.h:19
+#, fuzzy
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">පිළිඹිබු පූරණය වෙමින්</span>"
 
 #: ../mail/mail-config.glade.h:20
+#, fuzzy
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">පණිවිඩ සංදර්ශනය</span>"
 
 #: ../mail/mail-config.glade.h:21
+#, fuzzy
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">පණිවිඩ අක්‍ෂර</span>"
 
 #: ../mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Receipts</span>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:23
+#, fuzzy
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">නව තැපැල් දැනුම් දීම</span>"
 
 #: ../mail/mail-config.glade.h:24
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
+#, fuzzy
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">විකල්ප තොරතුරු</span>"
 
 #: ../mail/mail-config.glade.h:25
+#, fuzzy
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">විකල්ප</span>"
 
 #: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:27
+#, fuzzy
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">මුද්‍රිත අක්‍ෂර</span>"
 
 #: ../mail/mail-config.glade.h:28
+#, fuzzy
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">අවශ්‍ය තොරතුරු</span>"
 
 #: ../mail/mail-config.glade.h:29
+#, fuzzy
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ආරක්‍ෂිත MIME (S/MIME)</span>"
 
 #: ../mail/mail-config.glade.h:30
+#, fuzzy
 msgid "<span weight=\"bold\">Security</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ආරක්‍ෂාව</span>"
 
 #: ../mail/mail-config.glade.h:31
+#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">යැවූ සහ කෙටුම් පත් පණිවිඩ</span>"
 
 #: ../mail/mail-config.glade.h:32
+#, fuzzy
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">සේවාදායක මානකරණය</span>"
 
 #: ../mail/mail-config.glade.h:34
+#, fuzzy
 msgid "Account Management"
-msgstr ""
+msgstr "ගිණුම් කළමණාකරනය"
 
 #: ../mail/mail-config.glade.h:35
 msgid "Add Ne_w Signature..."
@@ -13015,8 +13823,9 @@ msgid "Fix_ed width Font:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:83
+#, fuzzy
 msgid "Font Properties"
-msgstr ""
+msgstr "අක්‍ෂර වත්කම්"
 
 #: ../mail/mail-config.glade.h:84
 msgid "Format messages in _HTML"
@@ -13027,48 +13836,57 @@ msgid "Full Nam_e:"
 msgstr "සම්පූර්ණ නම (_e):"
 
 #: ../mail/mail-config.glade.h:87
+#, fuzzy
 msgid "HTML Mail"
-msgstr ""
+msgstr "HTML තැපැල"
 
 #: ../mail/mail-config.glade.h:88
+#, fuzzy
 msgid "Headers"
-msgstr ""
+msgstr "ශීර්ශහක"
 
 #: ../mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:92
+#, fuzzy
 msgid "Inline"
-msgstr ""
+msgstr "පේළිගත"
 
 #: ../mail/mail-config.glade.h:93
 msgid "Inline original message (Outlook style)"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:95
+#, fuzzy
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: ../mail/mail-config.glade.h:96
+#, fuzzy
 msgid "Languages Table"
-msgstr ""
+msgstr "භාෂා වගුව"
 
 #: ../mail/mail-config.glade.h:98
+#, fuzzy
 msgid "Mail Configuration"
-msgstr ""
+msgstr "තැපැල් මානකරණය"
 
 #: ../mail/mail-config.glade.h:99
+#, fuzzy
 msgid "Mail Headers Table"
-msgstr ""
+msgstr "තැපැල් ශිර්ෂක වගුව"
 
 #: ../mail/mail-config.glade.h:101
+#, fuzzy
 msgid "Mailbox location"
-msgstr ""
+msgstr "තැපැල් පෙට්ටියේ පිහිටීම"
 
 #: ../mail/mail-config.glade.h:102
+#, fuzzy
 msgid "Message Composer"
-msgstr ""
+msgstr "පණිවිඩ සකසනය"
 
 #: ../mail/mail-config.glade.h:103
 msgid ""
@@ -13081,8 +13899,9 @@ msgid "Or_ganization:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:105
+#, fuzzy
 msgid "PGP/GPG _Key ID:"
-msgstr ""
+msgstr "PGP/GPG යතුරු අංක (_K):"
 
 #: ../mail/mail-config.glade.h:108
 msgid "Play sound file when new mail arri_ves"
@@ -13124,24 +13943,27 @@ msgid "Quoted"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:117
+#, fuzzy
 msgid "Re_member password"
-msgstr ""
+msgstr "රහස්පදය මතකයේ  තබාගන්න (_m)"
 
 #: ../mail/mail-config.glade.h:118
 msgid "Re_ply-To:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:120
+#, fuzzy
 msgid "Remember _password"
-msgstr ""
+msgstr "රහස්පදය මතකයේ  තබාගන්න (_p)"
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_earch for sender photograph only in local addressbooks"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:122
+#, fuzzy
 msgid "S_elect..."
-msgstr ""
+msgstr "තෝරන්න... (_e)"
 
 #: ../mail/mail-config.glade.h:123
 msgid "S_end message receipts:"
@@ -13152,8 +13974,9 @@ msgid "S_tandard Font:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:125
+#, fuzzy
 msgid "Se_lect..."
-msgstr ""
+msgstr "තෝරන්න... (_l)"
 
 #: ../mail/mail-config.glade.h:127
 msgid "Select HTML fixed width font"
@@ -13176,8 +13999,9 @@ msgid "Select sound file"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:133
+#, fuzzy
 msgid "Sending Mail"
-msgstr ""
+msgstr "තැපැල යවමින්"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Sent _Messages Folder:"
@@ -13188,8 +14012,9 @@ msgid "Ser_ver requires authentication"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:136
+#, fuzzy
 msgid "Server _Type: "
-msgstr ""
+msgstr "සේවාදායක වර්‍ගය (_T): "
 
 #: ../mail/mail-config.glade.h:137
 msgid "Sig_ning certificate:"
@@ -13212,12 +14037,14 @@ msgid "Specify _filename:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:142
+#, fuzzy
 msgid "Spell Checking"
-msgstr ""
+msgstr "අක්‍ෂර වන්‍යාසය පරීක්‍ෂාව"
 
 #: ../mail/mail-config.glade.h:143
+#, fuzzy
 msgid "T_ype: "
-msgstr ""
+msgstr "වර්‍ගය (_y): "
 
 #: ../mail/mail-config.glade.h:144
 msgid ""
@@ -13343,12 +14170,14 @@ msgid "_Use the same fonts as other applications"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:183
+#, fuzzy
 msgid "addresses"
-msgstr ""
+msgstr "ලිපිනය"
 
 #: ../mail/mail-config.glade.h:184
+#, fuzzy
 msgid "color"
-msgstr ""
+msgstr "වර්‍ණය"
 
 #: ../mail/mail-config.glade.h:185
 msgid "description"
@@ -13359,36 +14188,43 @@ msgid "    "
 msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
+#, fuzzy
 msgid "<b>Search Folder Sources</b>"
-msgstr ""
+msgstr "<b>බහලුම් මූල සොයන්න</b>"
 
 #: ../mail/mail-dialogs.glade.h:3
+#, fuzzy
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">අංකිත අත්සන</span>"
 
 #: ../mail/mail-dialogs.glade.h:4
+#, fuzzy
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">කේතාංඛනය</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
+#, fuzzy
 msgid "All active remote folders"
-msgstr ""
+msgstr "සියළු සක්‍රීය දුරස්ථ බහලුම්"
 
 #: ../mail/mail-dialogs.glade.h:6
+#, fuzzy
 msgid "All local and active remote folders"
-msgstr ""
+msgstr "සියළු ප්‍රාදේෂිය බහලුම් සහ සක්‍රීය දුරස්ථ බහලුම්"
 
 #: ../mail/mail-dialogs.glade.h:7
+#, fuzzy
 msgid "All local folders"
-msgstr ""
+msgstr "සියළු ප්‍රාදේෂිය බහලුම්"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:9
+#, fuzzy
 msgid "Co_mpleted"
-msgstr ""
+msgstr "සම්පූර්ණ කළා (_m)"
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
@@ -13403,28 +14239,34 @@ msgid "Flag to Follow Up"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:14
+#, fuzzy
 msgid "Folder Subscriptions"
-msgstr ""
+msgstr "බහලුම් දායකත්වය"
 
 #: ../mail/mail-dialogs.glade.h:15
+#, fuzzy
 msgid "License Agreement"
-msgstr ""
+msgstr "බලපත්‍ර ගිවිසුම"
 
 #: ../mail/mail-dialogs.glade.h:16
+#, fuzzy
 msgid "None Selected"
-msgstr ""
+msgstr "කිසිවක් තෝරාගත්තේ නැත"
 
 #: ../mail/mail-dialogs.glade.h:17
+#, fuzzy
 msgid "S_erver:"
-msgstr ""
+msgstr "සේවාදායකය (_e):"
 
 #: ../mail/mail-dialogs.glade.h:18
+#, fuzzy
 msgid "Security Information"
-msgstr ""
+msgstr "ආරක්‍ෂක තොරතුරු"
 
 #: ../mail/mail-dialogs.glade.h:19
+#, fuzzy
 msgid "Specific folders"
-msgstr ""
+msgstr "විශේෂිත බහලුම්"
 
 #: ../mail/mail-dialogs.glade.h:21
 msgid ""
@@ -13490,12 +14332,14 @@ msgid "Failed to send %d of %d messages"
 msgstr ""
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:696
+#, fuzzy
 msgid "Canceled."
-msgstr ""
+msgstr "අවලංගු කරන ලඳි."
 
 #: ../mail/mail-ops.c:765 ../mail/mail-send-recv.c:698
+#, fuzzy
 msgid "Complete."
-msgstr ""
+msgstr "නිම කරන ලඳි."
 
 #: ../mail/mail-ops.c:862
 msgid "Saving message to folder"
@@ -13559,8 +14403,9 @@ msgid "Emptying trash in '%s'"
 msgstr ""
 
 #: ../mail/mail-ops.c:1663
+#, fuzzy
 msgid "Local Folders"
-msgstr ""
+msgstr "ප්‍රාදේෂීය බහලුම්"
 
 #: ../mail/mail-ops.c:1746
 #, c-format
@@ -13731,13 +14576,11 @@ msgid "New Search Folder"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:1
-msgid ""
-"A folder named &quot;{0}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{0}&quot; already exists. Please use a different name."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:2
-msgid ""
-"A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:3
@@ -13775,8 +14618,7 @@ msgid "Are you sure you want to delete this account?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:11
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
+msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:12
@@ -14171,8 +15013,7 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:114
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:115
@@ -14657,8 +15498,7 @@ msgstr ""
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:483
-msgid ""
-"_Automatically create entries in the addressbook when responding to mail"
+msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:489
@@ -14671,8 +15511,7 @@ msgstr ""
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:519
-msgid ""
-"Periodically synchronize contact information and images from gaim buddy list"
+msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:525
@@ -14828,8 +15667,7 @@ msgid "Check whether Evolution is the default mailer"
 msgstr ""
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
@@ -15319,8 +16157,9 @@ msgid "Folder contact"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
+#, fuzzy
 msgid "Folder owner"
-msgstr ""
+msgstr "බහලුම් හිමිකරු"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 msgid "Folder visible"
@@ -15351,19 +16190,28 @@ msgid "I_mportance: "
 msgstr "ආනයනය (_m): "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:5
+#, fuzzy
 msgid ""
 "Normal\n"
 "High\n"
 "Low"
 msgstr ""
+"සාමාන්‍ය\n"
+"උපරිම\n"
+"අවම"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:8
+#, fuzzy
 msgid ""
 "Normal\n"
 "Personal\n"
 "Private\n"
 "Confidential"
 msgstr ""
+"සාමාන්‍ය\n"
+"පෞද්ගලික\n"
+"පෞද්ගලික\n"
+"රහස්‍ය"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 msgid "Request a _delivery receipt for this message"
@@ -15392,12 +16240,14 @@ msgid "button-user"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:143
+#, fuzzy
 msgid "Select User"
-msgstr ""
+msgstr "පරිශීලක තෝරන්න"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:181
+#, fuzzy
 msgid "Address Book..."
-msgstr ""
+msgstr "ලිපින පොත..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
@@ -16027,8 +16877,9 @@ msgid "Recipient: "
 msgstr "ලබන්නා: "
 
 #: ../plugins/groupwise-features/status-track.c:193
+#, fuzzy
 msgid "Delivered: "
-msgstr ""
+msgstr "යවන්නා: "
 
 #: ../plugins/groupwise-features/status-track.c:199
 msgid "Opened: "
@@ -16535,8 +17386,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:386
@@ -16630,8 +17480,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:474
 #, c-format
-msgid ""
-"<b>%s</b> through %s has sent back the following assigned task response:"
+msgid "<b>%s</b> through %s has sent back the following assigned task response:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:476
@@ -16651,8 +17500,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:486
 #, c-format
-msgid ""
-"<b>%s</b> through %s has proposed the following task assignment changes:"
+msgid "<b>%s</b> through %s has proposed the following task assignment changes:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:488
@@ -16809,8 +17657,7 @@ msgid "This meeting has been delegated"
 msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -16881,8 +17728,7 @@ msgid "No store available"
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid ""
-"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
@@ -16940,12 +17786,12 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
+#, fuzzy
 msgid "Mailing _List"
-msgstr ""
+msgstr "තැපැල් ලැයිස්තුව (_L)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-msgid ""
-"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
@@ -17188,8 +18034,9 @@ msgid "Only ever show PLAIN"
 msgstr ""
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
+#, fuzzy
 msgid "HTML Mode"
-msgstr ""
+msgstr "HTML ආකාරය"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -17609,8 +18456,7 @@ msgid "Last upgraded configuration version"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
@@ -17685,8 +18531,7 @@ msgid "Whether the toolbar should be visible."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27
@@ -18303,8 +19148,9 @@ msgid "Expires On"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:29
+#, fuzzy
 msgid "Import"
-msgstr ""
+msgstr "ආයාත කරන්න"
 
 #: ../smime/gui/smime-ui.glade.h:30
 msgid "Issued On"
@@ -18359,8 +19205,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -18725,8 +19570,9 @@ msgid "Stop"
 msgstr "නවතන්න"
 
 #: ../ui/evolution-addressbook.xml.h:43
+#, fuzzy
 msgid "Stop Loading"
-msgstr ""
+msgstr "පූරණය නවතන්න"
 
 #: ../ui/evolution-addressbook.xml.h:44
 msgid "View the current contact"
@@ -18802,12 +19648,14 @@ msgid "Delete this occurrence"
 msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:11
+#, fuzzy
 msgid "Go To"
-msgstr ""
+msgstr "වෙත යන්න"
 
 #: ../ui/evolution-calendar.xml.h:12
+#, fuzzy
 msgid "Go back"
-msgstr ""
+msgstr "පසුපසට යන්න"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
@@ -18848,24 +19696,28 @@ msgid "Purge old appointments and meetings"
 msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:25
+#, fuzzy
 msgid "Select _Date"
-msgstr ""
+msgstr "දිනය තෝරන්න (_D)"
 
 #: ../ui/evolution-calendar.xml.h:26
+#, fuzzy
 msgid "Select _Today"
-msgstr ""
+msgstr "අද දවස තෝරන්න (_T)"
 
 #: ../ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
 msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:28
+#, fuzzy
 msgid "Select today"
-msgstr ""
+msgstr "අද දවස තෝරන්න"
 
 #: ../ui/evolution-calendar.xml.h:29
+#, fuzzy
 msgid "Show as list"
-msgstr ""
+msgstr "ලැයිස්තුවක් ලෙස පෙන්වන්න"
 
 #: ../ui/evolution-calendar.xml.h:30
 msgid "Show one day"
@@ -18888,12 +19740,14 @@ msgid "View the current appointment"
 msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:36
+#, fuzzy
 msgid "Week"
-msgstr ""
+msgstr "සතිය"
 
 #: ../ui/evolution-calendar.xml.h:37
+#, fuzzy
 msgid "Work Week"
-msgstr ""
+msgstr "වැඩ කරන සතිය"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
@@ -18988,12 +19842,14 @@ msgid "_Options"
 msgstr "විකල්පයන් (_O)"
 
 #: ../ui/evolution-event-editor.xml.h:2
+#, fuzzy
 msgid "All Day Event"
-msgstr ""
+msgstr "දිනය තුරා ඇති සිදුවීම්"
 
 #: ../ui/evolution-event-editor.xml.h:3
+#, fuzzy
 msgid "All _Day Event"
-msgstr ""
+msgstr "දිනය තුරා ඇති සිදුවීම් (_D)"
 
 #: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-memo-editor.xml.h:1
 #: ../ui/evolution-task-editor.xml.h:1
@@ -19036,8 +19892,9 @@ msgid "R_ole Field"
 msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:16
+#, fuzzy
 msgid "Send _Options"
-msgstr ""
+msgstr "යැවීමේ විකල්ප (_O)"
 
 #: ../ui/evolution-event-editor.xml.h:17
 msgid "Show time as _busy"
@@ -19081,8 +19938,9 @@ msgid "Toggles whether to show time as busy"
 msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:27
+#, fuzzy
 msgid "_Alarms"
-msgstr ""
+msgstr "සංඥා (_A)"
 
 #: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:6
 #: ../ui/evolution-task-editor.xml.h:18
@@ -19091,50 +19949,61 @@ msgstr "ප්‍රභේද (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-memo-editor.xml.h:7
 #: ../ui/evolution-task-editor.xml.h:19
+#, fuzzy
 msgid "_Classification"
-msgstr ""
+msgstr "වර්ගීකරණය (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:30 ../ui/evolution-memo-editor.xml.h:8
 #: ../ui/evolution-task-editor.xml.h:20
+#, fuzzy
 msgid "_Confidential"
-msgstr ""
+msgstr "රහස්‍ය (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:31
+#, fuzzy
 msgid "_Free/Busy"
-msgstr ""
+msgstr "නිදහස්/කාර්‍යය බහුල (_F)"
 
 #: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-memo-editor.xml.h:9
 #: ../ui/evolution-task-editor.xml.h:21
+#, fuzzy
 msgid "_Private"
-msgstr ""
+msgstr "පෞද්ගලික (_P)"
 
 #: ../ui/evolution-event-editor.xml.h:33 ../ui/evolution-task-editor.xml.h:22
+#, fuzzy
 msgid "_RSVP"
-msgstr ""
+msgstr "_RSVP"
 
 #: ../ui/evolution-event-editor.xml.h:34
+#, fuzzy
 msgid "_Recurrence"
-msgstr ""
+msgstr "පුනවාර්තනය (_R)"
 
 #: ../ui/evolution-event-editor.xml.h:35 ../ui/evolution-task-editor.xml.h:25
+#, fuzzy
 msgid "_Status Field"
-msgstr ""
+msgstr "තත්ව ක්‍ෂේත්‍රය (_S)"
 
 #: ../ui/evolution-event-editor.xml.h:36 ../ui/evolution-task-editor.xml.h:26
+#, fuzzy
 msgid "_Type Field"
-msgstr ""
+msgstr "වර්‍ග ක්‍ෂේත්‍රය (_T)"
 
 #: ../ui/evolution-mail-global.xml.h:2
+#, fuzzy
 msgid "Cancel the current mail operation"
-msgstr ""
+msgstr "දැනට ඇති තැපැල් මෙහෙයුම අහොසි කරන්න"
 
 #: ../ui/evolution-mail-global.xml.h:3
+#, fuzzy
 msgid "Copy the selected folder into another folder"
-msgstr ""
+msgstr "තෝරගත් බහලුම වෙනත් බහලුමක් තුළට පිටපත් කරන්න"
 
 #: ../ui/evolution-mail-global.xml.h:4
+#, fuzzy
 msgid "Create a new folder for storing mail"
-msgstr ""
+msgstr "තැපැල් එක්රැස් කිරීම සඳහා නව බහලුමක් නිර්මාණය කරන්න"
 
 #: ../ui/evolution-mail-global.xml.h:5
 msgid "Create or edit Search Folder definitions"
@@ -19166,13 +20035,15 @@ msgid "F_older"
 msgstr "බහලුම (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:12
+#, fuzzy
 msgid "Move the selected folder into another folder"
-msgstr ""
+msgstr "තෝරාගත් බහලුම වෙනත් බහලුමක් වෙතට ගෙනයන්න"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:14
+#, fuzzy
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
+msgstr "මකන ලඳ සියළුම පණිවිඩ සියළුම බහලුම් තුළින් ස්ථිරව ඉවත් කරන්න"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Search F_olders"
@@ -19230,8 +20101,9 @@ msgid "_Subscriptions"
 msgstr "දායකත්වයන් (_S)"
 
 #: ../ui/evolution-mail-global.xml.h:31
+#, fuzzy
 msgid "_Vertical View"
-msgstr ""
+msgstr "සිරස් දසුන (_V)"
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the name of this folder"
@@ -19263,28 +20135,31 @@ msgid "E_xpand All Threads"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:9
+#, fuzzy
 msgid "E_xpunge"
-msgstr ""
+msgstr "ඉවත් කරන්න (_x)"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Expand all message threads"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:12
+#, fuzzy
 msgid "Hide S_elected Messages"
-msgstr ""
+msgstr "තේරු පණිවිඩ සඟවන්න (_S)"
 
 #: ../ui/evolution-mail-list.xml.h:13
+#, fuzzy
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "මැකූ පණිවිඩ සඟවන්න (_D)"
 
 #: ../ui/evolution-mail-list.xml.h:14
+#, fuzzy
 msgid "Hide _Read Messages"
-msgstr ""
+msgstr "කියවූ පණිවිඩ සඟවන්න (_R)"
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -19296,20 +20171,24 @@ msgid "Paste message(s) from the clipboard"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:18
+#, fuzzy
 msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
+msgstr "මකන ලඳ සියළු පණිවිඩ මෙම බහලුමෙන් ස්ථිරවම ඉවත් කරන්න"
 
 #: ../ui/evolution-mail-list.xml.h:19
+#, fuzzy
 msgid "Permanently remove this folder"
-msgstr ""
+msgstr "මෙම බහලුම ස්ථිරවම ඉවත් කරන්න"
 
 #: ../ui/evolution-mail-list.xml.h:20
+#, fuzzy
 msgid "Re_fresh..."
-msgstr ""
+msgstr "නැවුම් කරන්න... (_f)"
 
 #: ../ui/evolution-mail-list.xml.h:21
+#, fuzzy
 msgid "Refresh the folder"
-msgstr ""
+msgstr "බහලුම නැවුම් කරන්න"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Select Message _Thread"
@@ -19328,12 +20207,14 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:26
+#, fuzzy
 msgid "Select all visible messages"
-msgstr ""
+msgstr "දර්ශනය වන සියළු ගොනු තෝරන්න"
 
 #: ../ui/evolution-mail-list.xml.h:27
+#, fuzzy
 msgid "Show Hidde_n Messages"
-msgstr ""
+msgstr "සැඟවු පණිවිඩ පෙන්වන්න (_n)"
 
 #: ../ui/evolution-mail-list.xml.h:28
 msgid "Show messages that have been temporarily hidden"
@@ -19365,29 +20246,35 @@ msgid "A_dd Sender to Address Book"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:2
+#, fuzzy
 msgid "A_pply Filters"
-msgstr ""
+msgstr "පෙරනහන යොදන්න (_p)"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-message.xml.h:4
+#, fuzzy
 msgid "Add Sender to Address Book"
-msgstr ""
+msgstr "යවන්නා ලිපින පොතට එක්කරන්න"
 
 #: ../ui/evolution-mail-message.xml.h:5
+#, fuzzy
 msgid "All Message _Headers"
-msgstr ""
+msgstr "සියළු පණිවිඩ ශීර්ෂක (_H)"
 
 #: ../ui/evolution-mail-message.xml.h:6
+#, fuzzy
 msgid "Apply filter rules to the selected messages"
-msgstr ""
+msgstr "තෝරාගත් පණිවිඩ සඳහා පෙරහන රීති යොදන්න"
 
 #: ../ui/evolution-mail-message.xml.h:7
+#, fuzzy
 msgid "Check for _Junk"
-msgstr ""
+msgstr "නිසරු සඳහා පරික්‍ෂා කරන්න (_J)"
 
 #: ../ui/evolution-mail-message.xml.h:8
+#, fuzzy
 msgid "Compose _New Message"
-msgstr ""
+msgstr "නව පණිවිඩයක් සකසන්න (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
@@ -19410,8 +20297,9 @@ msgid "Copy selected messages to the clipboard"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:14
+#, fuzzy
 msgid "Create R_ule"
-msgstr ""
+msgstr "රීතියක් නිර්මාණය කරන්න (_u)"
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
@@ -19486,8 +20374,9 @@ msgid "F_orward As..."
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:34
+#, fuzzy
 msgid "Filter on Mailing _List..."
-msgstr ""
+msgstr "තැපැල් ලැයිස්තුව මත පෙරන්න (_L)"
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
@@ -19574,16 +20463,19 @@ msgid "Move selected messages to another folder"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:59
+#, fuzzy
 msgid "Next _Important Message"
-msgstr ""
+msgstr "මීළඟ වැදගත් පණිවිඩය (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:60
+#, fuzzy
 msgid "Next _Thread"
-msgstr ""
+msgstr "මීළඟ පොට (_T)"
 
 #: ../ui/evolution-mail-message.xml.h:61
+#, fuzzy
 msgid "Next _Unread Message"
-msgstr ""
+msgstr "මීළඟ නොකියවූ පණිවිඩය (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
@@ -19614,8 +20506,9 @@ msgid "Pos_t New Message to Folder"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:69
+#, fuzzy
 msgid "Post a Repl_y"
-msgstr ""
+msgstr "පිළිතුරක් යවන්න (_y)"
 
 #: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a message to a Public folder"
@@ -19634,8 +20527,9 @@ msgid "Preview the message to be printed"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:77
+#, fuzzy
 msgid "Print this message"
-msgstr ""
+msgstr "මෙම පණිවිඩය මුද්‍රණය කරන්න"
 
 #: ../ui/evolution-mail-message.xml.h:78
 msgid "Re_direct"
@@ -19674,8 +20568,9 @@ msgid "Search for text in the body of the displayed message"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:91
+#, fuzzy
 msgid "Select _All Text"
-msgstr ""
+msgstr "පෙළ සියල්ල තෝරන්න (_A)"
 
 #: ../ui/evolution-mail-message.xml.h:92
 msgid "Select all the text in a message"
@@ -19746,8 +20641,9 @@ msgid "_Important"
 msgstr "වැදගත් (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:113
+#, fuzzy
 msgid "_Inline"
-msgstr ""
+msgstr "පේළිගත (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Junk"
@@ -19885,8 +20781,9 @@ msgid "HT_ML"
 msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
+#, fuzzy
 msgid "Insert Send options"
-msgstr ""
+msgstr "යැවීමේ විකල්ප ඇතුළත් කරන්න"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
@@ -20018,20 +20915,23 @@ msgid "Toggles whether the To field is displayed"
 msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:48
+#, fuzzy
 msgid "_Bcc Field"
-msgstr ""
+msgstr "රහස් පිටපත ක්‍ෂේත්‍රය (_B)"
 
 #: ../ui/evolution-message-composer.xml.h:49
+#, fuzzy
 msgid "_Cc Field"
-msgstr ""
+msgstr "පිටපත ක්‍ෂේත්‍රය (_C)"
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Delete all"
 msgstr "සියල්ල මකන්න (_D)"
 
 #: ../ui/evolution-message-composer.xml.h:54
+#, fuzzy
 msgid "_From Field"
-msgstr ""
+msgstr "වෙත ක්‍ෂේත්‍රය (_F)"
 
 #: ../ui/evolution-message-composer.xml.h:55
 msgid "_Open..."
@@ -20042,12 +20942,14 @@ msgid "_Post-To Field"
 msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:57
+#, fuzzy
 msgid "_Prioritize Message"
-msgstr ""
+msgstr "ප්‍රමුඛතාවය සහිත පනිවිඩය (_P)"
 
 #: ../ui/evolution-message-composer.xml.h:58
+#, fuzzy
 msgid "_Reply-To Field"
-msgstr ""
+msgstr "පිළිතුරු ලිපිනය ක්‍ෂේත්‍රය (_R)"
 
 #: ../ui/evolution-message-composer.xml.h:60
 msgid "_Security"
@@ -20059,27 +20961,32 @@ msgid "_Send Options"
 msgstr "යැවීමේ විකල්ප (_S)"
 
 #: ../ui/evolution-message-composer.xml.h:62
+#, fuzzy
 msgid "_To Field"
-msgstr ""
+msgstr "ලබන්නා ක්‍ෂේත්‍රය (_T)"
 
 #: ../ui/evolution-signature-editor.xml.h:1
+#, fuzzy
 msgid "C_lose"
-msgstr ""
+msgstr "වසන්න (_l)"
 
 #: ../ui/evolution-signature-editor.xml.h:15
+#, fuzzy
 msgid "H_TML"
-msgstr ""
+msgstr "H_TML"
 
 #: ../ui/evolution-signature-editor.xml.h:17
+#, fuzzy
 msgid "Save and Close"
-msgstr ""
+msgstr "සුරකීම සහ වැසීම"
 
 #.
 #. <menuitem name="FileSave" verb="" _label="_Save"/>
 #.
 #: ../ui/evolution-signature-editor.xml.h:21
+#, fuzzy
 msgid "Save and _Close"
-msgstr ""
+msgstr "සුරකීම සහ වැසීම (_C)"
 
 #: ../ui/evolution-signature-editor.xml.h:22
 msgid "Save the current file and close the window"
@@ -20126,8 +21033,9 @@ msgid "Time Zone"
 msgstr "වේලා කළාපය"
 
 #: ../ui/evolution-task-editor.xml.h:24
+#, fuzzy
 msgid "_Status Details"
-msgstr ""
+msgstr "තත්ව විස්තරය (_S)"
 
 #: ../ui/evolution-tasks.xml.h:3
 msgid "Copy selected tasks"
@@ -20214,40 +21122,46 @@ msgid "Display window buttons with text only"
 msgstr ""
 
 #: ../ui/evolution.xml.h:10
+#, fuzzy
 msgid "Exit the program"
-msgstr ""
+msgstr "වැඩසටහනින් ඉවත්වන්න"
 
 #: ../ui/evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr ""
 
 #: ../ui/evolution.xml.h:12
+#, fuzzy
 msgid "Hide window buttons"
-msgstr ""
+msgstr "නව ගොත්තම් සඟවන්න"
 
 #: ../ui/evolution.xml.h:13
 msgid "I_mport..."
 msgstr "ආනයනය... (_m)"
 
 #: ../ui/evolution.xml.h:14
+#, fuzzy
 msgid "Icons _and text"
-msgstr ""
+msgstr "අයිකන සහ පෙළ (_a)"
 
 #: ../ui/evolution.xml.h:15
+#, fuzzy
 msgid "Import data from other programs"
-msgstr ""
+msgstr "වෙනත් වැඩ සටහනකින් දත්ත ආයාත කරන්න"
 
 #: ../ui/evolution.xml.h:16
+#, fuzzy
 msgid "Lay_out"
-msgstr ""
+msgstr "පිරිසැලසුම (_o)"
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
 msgstr "නව කවුළුව (_W)"
 
 #: ../ui/evolution.xml.h:19
+#, fuzzy
 msgid "Page Set_up..."
-msgstr ""
+msgstr "පිටු සැකසුම... (_u)"
 
 #: ../ui/evolution.xml.h:20
 msgid "Prefere_nces"
@@ -20262,32 +21176,37 @@ msgid "Send / _Receive"
 msgstr "යැවීම / ලැබීම (_R)"
 
 #: ../ui/evolution.xml.h:23
+#, fuzzy
 msgid "Send queued items and retrieve new items"
-msgstr ""
+msgstr "පෙළ ගසන ලඳ අයිතම යවන්න සහ නව අයිතම ලබාගන්න"
 
 #: ../ui/evolution.xml.h:24
 msgid "Set up Pilot configuration"
 msgstr ""
 
 #: ../ui/evolution.xml.h:26
+#, fuzzy
 msgid "Show Side _Bar"
-msgstr ""
+msgstr "පැති තීරුව පෙන්වන්න (_B)"
 
 #: ../ui/evolution.xml.h:27
+#, fuzzy
 msgid "Show _Status Bar"
-msgstr ""
+msgstr "තත්ව තීරුව පෙන්වන්න (_S)"
 
 #: ../ui/evolution.xml.h:28
+#, fuzzy
 msgid "Show _Toolbar"
-msgstr ""
+msgstr "මෙවලම් තීරුව පෙන්වන්න (_T)"
 
 #: ../ui/evolution.xml.h:29
 msgid "Show information about Evolution"
 msgstr ""
 
 #: ../ui/evolution.xml.h:30
+#, fuzzy
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "දෝෂ වාර්ථාවක් යවන්න"
 
 #. <menuitem name="HelpFAQ" verb=""
 #. _label="Evolution _FAQ"/>
@@ -20306,8 +21225,9 @@ msgid "Toggle whether we are working offline."
 msgstr ""
 
 #: ../ui/evolution.xml.h:38
+#, fuzzy
 msgid "Tool_bar style"
-msgstr ""
+msgstr "මෙවලම් තීරුවේ රටාව (_b)"
 
 #: ../ui/evolution.xml.h:39
 msgid "View/Hide the Side Bar"
@@ -20338,8 +21258,9 @@ msgid "_Icons only"
 msgstr "අයිකන පමණයි (_I)"
 
 #: ../ui/evolution.xml.h:50
+#, fuzzy
 msgid "_Quick Reference"
-msgstr ""
+msgstr "ක්‍ෂණික යොමුව (_Q)"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Quit"
@@ -20354,44 +21275,53 @@ msgid "_Synchronization Options..."
 msgstr "සමකාලීක විකල්ප... (_S)"
 
 #: ../ui/evolution.xml.h:54
+#, fuzzy
 msgid "_Text only"
-msgstr ""
+msgstr "පෙළ පමණයි (_T)"
 
 #: ../ui/evolution.xml.h:56
 msgid "_Window"
 msgstr "කවුළුව (_W)"
 
 #: ../views/addressbook/galview.xml.h:1
+#, fuzzy
 msgid "By _Company"
-msgstr ""
+msgstr "ආයතනය මඟින් (_C)"
 
 #: ../views/addressbook/galview.xml.h:2
+#, fuzzy
 msgid "_Address Cards"
-msgstr ""
+msgstr "ලිපින පත (_A)"
 
 #: ../views/addressbook/galview.xml.h:3
+#, fuzzy
 msgid "_Phone List"
-msgstr ""
+msgstr "දුරකථන ලැයිස්තුව (_P)"
 
 #: ../views/calendar/galview.xml.h:1
+#, fuzzy
 msgid "W_eek View"
-msgstr ""
+msgstr "සති දසුන (_e)"
 
 #: ../views/calendar/galview.xml.h:2
+#, fuzzy
 msgid "_Day View"
-msgstr ""
+msgstr "දින දසුන (_D)"
 
 #: ../views/calendar/galview.xml.h:3
+#, fuzzy
 msgid "_List View"
-msgstr ""
+msgstr "ලැයිස්තු දසුන (_L)"
 
 #: ../views/calendar/galview.xml.h:4
+#, fuzzy
 msgid "_Month View"
-msgstr ""
+msgstr "මාස දසුන (_M)"
 
 #: ../views/calendar/galview.xml.h:5
+#, fuzzy
 msgid "_Work Week View"
-msgstr ""
+msgstr "වැඩ කරන සති දසුන (_W)"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
@@ -20402,16 +21332,19 @@ msgid "As _Sent Folder"
 msgstr ""
 
 #: ../views/mail/galview.xml.h:3
+#, fuzzy
 msgid "By S_tatus"
-msgstr ""
+msgstr "තත්වය මඟින් (_t)"
 
 #: ../views/mail/galview.xml.h:4
+#, fuzzy
 msgid "By Se_nder"
-msgstr ""
+msgstr "යවන්නා මඟින් (_n)"
 
 #: ../views/mail/galview.xml.h:5
+#, fuzzy
 msgid "By Su_bject"
-msgstr ""
+msgstr "මාතෘකාව මඟින් (_b)"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
@@ -20443,20 +21376,24 @@ msgstr ""
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:408
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:410
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:761
+#, fuzzy
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
+#, fuzzy
 msgid "<b>Time Zones</b>"
-msgstr ""
+msgstr "<b>වේලා කළාපය</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
+#, fuzzy
 msgid "<b>_Selection</b>"
-msgstr ""
+msgstr "<b>තේරීම (_S)</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
+#, fuzzy
 msgid "Select a Time Zone"
-msgstr ""
+msgstr "වේලා කළාපයක් තෝරන්න"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "TimeZone Combobox"
@@ -20471,8 +21408,9 @@ msgstr ""
 
 #: ../widgets/menus/gal-define-views-dialog.c:78
 #: ../widgets/menus/gal-define-views-model.c:186
+#, fuzzy
 msgid "Collection"
-msgstr ""
+msgstr "එකතුව"
 
 #: ../widgets/menus/gal-define-views-dialog.c:360
 #: ../widgets/menus/gal-define-views.glade.h:4
@@ -20482,8 +21420,9 @@ msgstr ""
 
 #: ../widgets/menus/gal-define-views-dialog.c:368
 #: ../widgets/menus/gal-define-views-dialog.c:370
+#, fuzzy
 msgid "Define Views"
-msgstr ""
+msgstr "දසුන් නිර්වචනය"
 
 #: ../widgets/menus/gal-define-views.glade.h:2
 #, no-c-format
@@ -20525,8 +21464,9 @@ msgstr "රිසි කළ දසුන සුරකින්න"
 
 #: ../widgets/menus/gal-view-instance.c:587
 #: ../widgets/menus/gal-view-menus.c:378
+#, fuzzy
 msgid "Define Views..."
-msgstr ""
+msgstr "දසුන් නිර්වචනය..."
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "C_urrent View"
@@ -20558,30 +21498,35 @@ msgid "Factory"
 msgstr "වැඩපළ"
 
 #: ../widgets/menus/gal-view-new-dialog.c:107
+#, fuzzy
 msgid "Define New View"
-msgstr ""
+msgstr "නව දසුනක් නිවචනය කරන්න"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
+#, fuzzy
 msgid "Name of new view:"
-msgstr ""
+msgstr "නව දසුනේ නම:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Type of View"
 msgstr "දසුන් වර්‍ග"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
+#, fuzzy
 msgid "Type of view:"
-msgstr ""
+msgstr "දසුන් වර්‍ග:"
 
 #: ../widgets/misc/e-attachment-bar.c:1019
+#, fuzzy
 msgid "Attachment Bar"
-msgstr ""
+msgstr "ඇමුණුම් තීරුව"
 
 #: ../widgets/misc/e-attachment.c:241 ../widgets/misc/e-attachment.c:256
 #: ../widgets/misc/e-attachment.c:439 ../widgets/misc/e-attachment.c:456
 #, c-format
+#, fuzzy
 msgid "Cannot attach file %s: %s"
-msgstr ""
+msgstr "%s ගොනුව ඇමිණිය නොහැක: %s"
 
 #: ../widgets/misc/e-attachment.c:249 ../widgets/misc/e-attachment.c:448
 #, c-format
@@ -20589,12 +21534,14 @@ msgid "Cannot attach file %s: not a regular file"
 msgstr ""
 
 #: ../widgets/misc/e-attachment.glade.h:1
+#, fuzzy
 msgid "Attachment Properties"
-msgstr ""
+msgstr "ඇමුණුමේ වත්කම්"
 
 #: ../widgets/misc/e-attachment.glade.h:3
+#, fuzzy
 msgid "File name:"
-msgstr ""
+msgstr "ගොනු නම:"
 
 #: ../widgets/misc/e-attachment.glade.h:4
 msgid "MIME type:"
@@ -20607,25 +21554,29 @@ msgstr ""
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: ../widgets/misc/e-calendar-item.c:416
+#, fuzzy
 msgid "MTWTFSS"
-msgstr ""
+msgstr "MTWTFSS"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1088
 #: ../widgets/misc/e-calendar-item.c:1742
+#, fuzzy
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:226
+#, fuzzy
 msgid "Month Calendar"
-msgstr ""
+msgstr "මාස දින දර්ශනය"
 
 #: ../widgets/misc/e-canvas-background.c:453
 #: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-entry.c:1230
 #: ../widgets/text/e-entry.c:1231 ../widgets/text/e-text.c:3562
 #: ../widgets/text/e-text.c:3563
+#, fuzzy
 msgid "Fill color"
-msgstr ""
+msgstr "වර්‍ණය පුරවන්න"
 
 #: ../widgets/misc/e-canvas-background.c:460
 #: ../widgets/misc/e-canvas-background.c:461
@@ -20647,37 +21598,43 @@ msgstr ""
 
 #: ../widgets/misc/e-canvas-background.c:481
 #: ../widgets/misc/e-canvas-background.c:482
+#, fuzzy
 msgid "X1"
-msgstr ""
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:488
 #: ../widgets/misc/e-canvas-background.c:489
+#, fuzzy
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:495
 #: ../widgets/misc/e-canvas-background.c:496
+#, fuzzy
 msgid "Y1"
-msgstr ""
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:502
 #: ../widgets/misc/e-canvas-background.c:503
+#, fuzzy
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1426
 #: ../widgets/table/e-table-group-container.c:973
 #: ../widgets/table/e-table-group-leaf.c:635
 #: ../widgets/table/e-table-item.c:3015
+#, fuzzy
 msgid "Minimum width"
-msgstr ""
+msgstr "අවම පළල"
 
 #: ../widgets/misc/e-canvas-vbox.c:93 ../widgets/misc/e-reflow.c:1427
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3016
+#, fuzzy
 msgid "Minimum Width"
-msgstr ""
+msgstr "අවම පළල"
 
 #: ../widgets/misc/e-canvas-vbox.c:104 ../widgets/misc/e-canvas-vbox.c:105
 #: ../widgets/misc/e-expander.c:206
@@ -20685,8 +21642,9 @@ msgid "Spacing"
 msgstr "ඉඩ තැබීම"
 
 #: ../widgets/misc/e-cell-date-edit.c:231
+#, fuzzy
 msgid "Now"
-msgstr ""
+msgstr "දැන්"
 
 #: ../widgets/misc/e-cell-date-edit.c:795
 #, c-format
@@ -20698,8 +21656,9 @@ msgid "The percent value must be between 0 and 100, inclusive"
 msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:65
+#, fuzzy
 msgid "Arabic"
-msgstr ""
+msgstr "අරාබී"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Baltic"
@@ -20710,8 +21669,9 @@ msgid "Central European"
 msgstr "මධ්‍යම යුරෝපීය"
 
 #: ../widgets/misc/e-charset-picker.c:68
+#, fuzzy
 msgid "Chinese"
-msgstr ""
+msgstr "චීන"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Cyrillic"
@@ -20746,12 +21706,14 @@ msgid "Unicode"
 msgstr "යුනිකේත"
 
 #: ../widgets/misc/e-charset-picker.c:77
+#, fuzzy
 msgid "Western European"
-msgstr ""
+msgstr "බටහිර යුරෝපීය"
 
 #: ../widgets/misc/e-charset-picker.c:78
+#, fuzzy
 msgid "Western European, New"
-msgstr ""
+msgstr "බටහිර යුරෝපීය, නව"
 
 #: ../widgets/misc/e-charset-picker.c:97 ../widgets/misc/e-charset-picker.c:98
 #: ../widgets/misc/e-charset-picker.c:99
@@ -20762,25 +21724,30 @@ msgstr "සම්ප්‍රදායික"
 #: ../widgets/misc/e-charset-picker.c:101
 #: ../widgets/misc/e-charset-picker.c:102
 #: ../widgets/misc/e-charset-picker.c:103
+#, fuzzy
 msgid "Simplified"
-msgstr ""
+msgstr "සරල"
 
 #: ../widgets/misc/e-charset-picker.c:106
+#, fuzzy
 msgid "Ukrainian"
-msgstr ""
+msgstr "යුක්රේනියානු"
 
 #: ../widgets/misc/e-charset-picker.c:109
+#, fuzzy
 msgid "Visual"
-msgstr ""
+msgstr "දෘශ්‍ය"
 
 #: ../widgets/misc/e-charset-picker.c:178
 #, c-format
+#, fuzzy
 msgid "Unknown character set: %s"
-msgstr ""
+msgstr "නොදන්නා අක්‍ෂර මාළාවක්: %s"
 
 #: ../widgets/misc/e-charset-picker.c:223
+#, fuzzy
 msgid "Character Encoding"
-msgstr ""
+msgstr "අක්‍ෂර කේතාංඛනය"
 
 #: ../widgets/misc/e-charset-picker.c:238
 msgid "Enter the character set to use"
@@ -20823,12 +21790,14 @@ msgid "_Today"
 msgstr "අද (_T)"
 
 #: ../widgets/misc/e-dateedit.c:1631
+#, fuzzy
 msgid "Invalid Date Value"
-msgstr ""
+msgstr "සාවද්‍ය දින අඟය"
 
 #: ../widgets/misc/e-dateedit.c:1657
+#, fuzzy
 msgid "Invalid Time Value"
-msgstr ""
+msgstr "සාවද්‍ය වේලා අඟය"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
@@ -20932,8 +21901,9 @@ msgid "Choose Image"
 msgstr "පිළිඹිබුව තෝරන්න"
 
 #: ../widgets/misc/e-map.c:627
+#, fuzzy
 msgid "World Map"
-msgstr ""
+msgstr "ලෝක සිතියම"
 
 #: ../widgets/misc/e-map.c:629
 msgid ""
@@ -20942,16 +21912,19 @@ msgid ""
 msgstr ""
 
 #: ../widgets/misc/e-pilot-settings.c:103
+#, fuzzy
 msgid "Sync with:"
-msgstr ""
+msgstr "සමඟ සමකාලීක කරන්න:"
 
 #: ../widgets/misc/e-pilot-settings.c:111
+#, fuzzy
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "පෞද්ගලික වාර්තා සමකාලීක කරන්න:"
 
 #: ../widgets/misc/e-pilot-settings.c:120
+#, fuzzy
 msgid "Sync Categories:"
-msgstr ""
+msgstr "සමකාලීක ප්‍රභේද:"
 
 #: ../widgets/misc/e-reflow.c:1448 ../widgets/misc/e-reflow.c:1449
 msgid "Empty message"
@@ -21016,12 +21989,14 @@ msgid "Cursor Column"
 msgstr ""
 
 #: ../widgets/misc/e-selection-model.c:210
+#, fuzzy
 msgid "Sorter"
-msgstr ""
+msgstr "අනුපිළිවෙළට සකසණය"
 
 #: ../widgets/misc/e-selection-model.c:217
+#, fuzzy
 msgid "Selection Mode"
-msgstr ""
+msgstr "තේරිමෙ ආකාරය"
 
 #: ../widgets/misc/e-selection-model.c:225
 msgid "Cursor Mode"
@@ -21032,12 +22007,14 @@ msgid "When de_leted:"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:1
+#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr ""
+msgstr "<b>බෙදාහැරීමෙ </b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
+#, fuzzy
 msgid "<b>Replies</b>"
-msgstr ""
+msgstr "<b>පිළිතුරු විකල්ප</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 msgid "<b>Return Notification</b>"
@@ -21052,8 +22029,9 @@ msgid "A_uto-delete sent item"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:6
+#, fuzzy
 msgid "Classification"
-msgstr ""
+msgstr "වර්ගිකරණය"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
@@ -21064,8 +22042,9 @@ msgid "Deli_vered and opened"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:9
+#, fuzzy
 msgid "Gene_ral Options"
-msgstr ""
+msgstr "සාමාන්‍ය විකල්ප (_r)"
 
 #: ../widgets/misc/e-send-options.glade.h:10
 msgid ""
@@ -21092,12 +22071,17 @@ msgid "Sta_tus Tracking"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:21
+#, fuzzy
 msgid ""
 "Undefined\n"
 "High\n"
 "Standard\n"
 "Low"
 msgstr ""
+"නිර්වචනය නොකළ\n"
+"උපරිම\n"
+"සම්මත\n"
+"ාවම"
 
 #: ../widgets/misc/e-send-options.glade.h:25
 msgid "When acce_pted:"
@@ -21112,8 +22096,9 @@ msgid "When decli_ned:"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:28
+#, fuzzy
 msgid "Wi_thin"
-msgstr ""
+msgstr "තුළ (_t)"
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "_After:"
@@ -21128,16 +22113,19 @@ msgid "_Delay message delivery"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:32
+#, fuzzy
 msgid "_Delivered"
-msgstr ""
+msgstr "ලබාදුන්නා (_D)"
 
 #: ../widgets/misc/e-send-options.glade.h:34
+#, fuzzy
 msgid "_Set expiration date"
-msgstr ""
+msgstr "කල්ඉකුත්වන දිනය සකසන්න (_S)"
 
 #: ../widgets/misc/e-send-options.glade.h:35
+#, fuzzy
 msgid "_Until:"
-msgstr ""
+msgstr "තුරු (_U):"
 
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "_When convenient"
@@ -21173,12 +22161,14 @@ msgid "Item(s) belong to these _categories:"
 msgstr ""
 
 #: ../widgets/misc/gal-categories.glade.h:3
+#, fuzzy
 msgid "_Available Categories:"
-msgstr ""
+msgstr "භාවිතයට ඇති ප්‍රභේද (_A):"
 
 #: ../widgets/misc/gal-categories.glade.h:4
+#, fuzzy
 msgid "categories"
-msgstr ""
+msgstr "ප්‍රභේද"
 
 #: ../widgets/table/e-cell-combo.c:169
 msgid "popup list"
@@ -21226,8 +22216,9 @@ msgstr "<- ඉවත් කරන්න (_R)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
+#, fuzzy
 msgid "A_vailable Fields:"
-msgstr ""
+msgstr "භාවිතයට ඇති ක්‍ෂේත්‍ර (_v):"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
@@ -21268,8 +22259,9 @@ msgstr ""
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.c:641
 #: ../widgets/table/e-table-config.glade.h:10
+#, fuzzy
 msgid "Show Fields"
-msgstr ""
+msgstr "ක්‍ෂේත්‍ර පෙන්වන්න"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
@@ -21283,8 +22275,9 @@ msgstr "වර්‍ග කිරීම"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:15
 #: ../widgets/table/e-table-config.glade.h:13
+#, fuzzy
 msgid "Sort Items By"
-msgstr ""
+msgstr "අයිතම අනුපිළිවෙළට සැකසිය යුත්තේ"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:16
 #: ../widgets/table/e-table-config.glade.h:14
@@ -21297,13 +22290,15 @@ msgstr "එක් කරන්න (_A) ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
+#, fuzzy
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "පෙන්වන ක්‍ෂේත්‍ර... (_F)"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
+#, fuzzy
 msgid "_Sort..."
-msgstr ""
+msgstr "අනුපිළිවෙළට සකසන්න... (_S)"
 
 #: ../widgets/table/e-table-config.c:152
 msgid "State"
@@ -21318,16 +22313,18 @@ msgid "(Descending)"
 msgstr ""
 
 #: ../widgets/table/e-table-config.c:392
+#, fuzzy
 msgid "Not sorted"
-msgstr ""
+msgstr "අනුපිළිවෙළට සකසා නැත"
 
 #: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
 msgstr ""
 
 #: ../widgets/table/e-table-config.c:662
+#, fuzzy
 msgid "Available Fields"
-msgstr ""
+msgstr "භාවිතයට ඇති ක්‍ෂේත්‍ර"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
@@ -21348,12 +22345,14 @@ msgstr ""
 #: ../widgets/table/e-table-field-chooser-item.c:643
 #: ../widgets/table/e-table-field-chooser.c:74
 #: ../widgets/table/e-table-header-item.c:1889
+#, fuzzy
 msgid "Full Header"
-msgstr ""
+msgstr "පූර්‍ණ ශීර්ෂක"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:116
+#, fuzzy
 msgid "Add a column..."
-msgstr ""
+msgstr "තීරුවත් එක්කරන්න"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
@@ -21506,8 +22505,9 @@ msgid "Custo_mize Current View..."
 msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1540
+#, fuzzy
 msgid "Sort By"
-msgstr ""
+msgstr "අනුපිළිවෙළට සැකසන අයුර"
 
 #: ../widgets/table/e-table-header-item.c:1882
 msgid "Font Description"
@@ -21515,8 +22515,9 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1903
 #: ../widgets/table/e-table-sorter.c:173
+#, fuzzy
 msgid "Sort Info"
-msgstr ""
+msgstr "අනුපිළිවෙළට සැකසීමේ තොරතුරු"
 
 #: ../widgets/table/e-table-header-item.c:1917
 #: ../widgets/table/e-tree-scrolled.c:225
@@ -21609,13 +22610,15 @@ msgstr ""
 
 #: ../widgets/text/e-entry.c:1321 ../widgets/text/e-entry.c:1322
 #: ../widgets/text/e-text.c:3684 ../widgets/text/e-text.c:3685
+#, fuzzy
 msgid "Draw button"
-msgstr ""
+msgstr "චිත්‍රණ බොත්තම"
 
 #: ../widgets/text/e-entry.c:1328 ../widgets/text/e-entry.c:1329
 #: ../widgets/text/e-text.c:3691 ../widgets/text/e-text.c:3692
+#, fuzzy
 msgid "Cursor position"
-msgstr ""
+msgstr "කර්සරයේ පිහිටුම"
 
 #: ../widgets/text/e-entry.c:1335 ../widgets/text/e-entry.c:1336
 msgid "Emulate label resize"
@@ -21634,20 +22637,24 @@ msgid "Strikeout"
 msgstr ""
 
 #: ../widgets/text/e-text.c:3505 ../widgets/text/e-text.c:3506
+#, fuzzy
 msgid "Anchor"
-msgstr ""
+msgstr "ඇන්කරය"
 
 #: ../widgets/text/e-text.c:3520 ../widgets/text/e-text.c:3521
+#, fuzzy
 msgid "Clip Width"
-msgstr ""
+msgstr "පසුර පළල"
 
 #: ../widgets/text/e-text.c:3527 ../widgets/text/e-text.c:3528
+#, fuzzy
 msgid "Clip Height"
-msgstr ""
+msgstr "පසුර උස"
 
 #: ../widgets/text/e-text.c:3534 ../widgets/text/e-text.c:3535
+#, fuzzy
 msgid "Clip"
-msgstr ""
+msgstr "පසුර"
 
 #: ../widgets/text/e-text.c:3541 ../widgets/text/e-text.c:3542
 msgid "Fill clip rectangle"
@@ -21662,12 +22669,14 @@ msgid "Y Offset"
 msgstr ""
 
 #: ../widgets/text/e-text.c:3591 ../widgets/text/e-text.c:3592
+#, fuzzy
 msgid "Text width"
-msgstr ""
+msgstr "පෙළ පළල"
 
 #: ../widgets/text/e-text.c:3598 ../widgets/text/e-text.c:3599
+#, fuzzy
 msgid "Text height"
-msgstr ""
+msgstr "පෙළ උස"
 
 #: ../widgets/text/e-text.c:3698 ../widgets/text/e-text.c:3699
 msgid "IM Context"
@@ -21677,26 +22686,3 @@ msgstr ""
 msgid "Handle Popup"
 msgstr ""
 
-#~ msgid "_Address: "
-#~ msgstr "ලිපිනය (_A): "
-
-#~ msgid "Enable"
-#~ msgstr "සක්‍රීය"
-
-#~ msgid "<b>Junk Mail Settings</b>"
-#~ msgstr "<b>නිසරු තැපැල් සැකසුම්</b>"
-
-#~ msgid "<b>Subject</b> :"
-#~ msgstr "<b>මාතෘකාව</b> :"
-
-#~ msgid "<b>From</b> :"
-#~ msgstr "<b>වෙතින්</b> :"
-
-#~ msgid "(Untitled)"
-#~ msgstr "(නිර්නාමික)"
-
-#~ msgid "_Edit..."
-#~ msgstr "සැකසුම්... (_E)"
-
-#~ msgid "..."
-#~ msgstr "..."
