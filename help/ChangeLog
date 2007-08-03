@@ -1,3 +1,9 @@
+2007-08-03  Frederic Peters  <fpeters@0d.be>
+
+	reviewed by: Srinivasa Ragavan
+
+	* C/evolution.xml: add id attribute to top <book> element
+
 2007-08-02  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation

@@ -10,7 +10,7 @@
 ] >
 
 <?yelp:chunk-depth 3?>
-<book lang="en">
+<book lang="en" id="index">
 <title>Evolution 2.12 User Guide</title>
 
  <bookinfo id="Front">
