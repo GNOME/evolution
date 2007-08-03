@@ -1,3 +1,10 @@
+2007-08-03  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #460821
+
+	* attachment-reminder.c: (strip_text_msg): The second argument of
+	g_utf8_strdown() expects the length of string in bytes or -1.
+
 2007-07-30  Andre Klapper  <a9016009@gmx.de>
 
 	* attachment-reminder.glade:

@@ -185,7 +185,7 @@ static gchar* strip_text_msg (gchar *msg)
 
 	g_strfreev (lines);
 
-	return g_utf8_strdown (stripped_msg, g_utf8_strlen (stripped_msg, -1));
+	return g_utf8_strdown (stripped_msg, -1);
 }
 
 static void
