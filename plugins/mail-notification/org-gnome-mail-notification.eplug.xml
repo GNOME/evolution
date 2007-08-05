@@ -5,7 +5,7 @@
 	_name="Mail Notification" 
 	location="@PLUGINDIR@/liborg-gnome-mail-notification@SOEXT@">
 
-		<_description>Notifies the user with tray icon and a notify message whenever a new message is arrived.</_description>
+		<_description>Notifies the user with tray icon and a notify message whenever a new message has arrived.</_description>
 		<author name="Srinivasa Ragavan" email="sragavan@novell.com"/>
 
 		<hook class="org.gnome.evolution.mail.events:1.0">

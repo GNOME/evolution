@@ -1,3 +1,12 @@
+2007-08-03  Anand V M     <avmuttagi@gmail.com>
+	
+	** Fix for bug #458822
+	
+	*  org-gnome-mail-notification.eplug.xml:Replacement of wrong
+	string in mail-notification plugin with the correct string.
+
+	(Committed by Johnny <jjohnny@novell.com>)
+
 2007-07-20  Claude Paroz  <claude@2xlibre.net>
 
 	* mail-notification.c: (org_gnome_mail_new_notify): Fixed syntax of
