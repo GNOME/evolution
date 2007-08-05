@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_manual.es\n"
 "POT-Creation-Date: 2007-07-30 12:49+0100\n"
-"PO-Revision-Date: 2007-08-01 22:54+0200\n"
+"PO-Revision-Date: 2007-08-05 18:18+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -919,7 +919,7 @@ msgstr ""
 "Editar &gt; Preferencias, después pulse Cuantas de correo. seleccione la "
 "cuenta que quiera cambiar, después pulse Editar. Alternativamente, añada una "
 "cuenta nueva pulsando Añadir. Vea <link linkend=\"config-prefs-mail"
-"\">Preferencias de correo</link> para los detalles."
+"\">Opciones de correo</link> para los detalles."
 
 #: C/evolution.xml:213(para)
 msgid ""
@@ -2883,7 +2883,7 @@ msgstr ""
 "su correo-e, le ofrece una guía en profundidad de </link>las posibilidades "
 "de Evolution&trade; como cliente de correo. Para saber más sobre cómo "
 "configurar su cuenta de correo consulte <link linkend=\"config-prefs-mail"
-"\">Preferencias de correo</link>."
+"\">Opciones de correo</link>."
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
@@ -2919,7 +2919,7 @@ msgstr ""
 "Si no está viendo ya el correo, cambie la la herramienta de correo pulsando "
 "en el botón Correo, o pulsando Ctrl+1. Para leer un mensaje, selecciónelo en "
 "la lista de mensajes, si quiere verlo en su propia ventana, puede o bien "
-"pulsar dos veces en él, pulsar Retorno o pulsar Ctrol+O."
+"pulsar dos veces en él, pulsar Intro o pulsar Ctrol+O."
 
 #: C/evolution.xml:1098(para)
 msgid ""
@@ -3676,7 +3676,7 @@ msgid ""
 msgstr ""
 "Para mostrar un unas mayores capacidades del idioma, pulse Editar &gt; "
 "Preferencias, después seleccione las opciones del juego de codificación en "
-"las secciones Preferencias de correo y Preferencias del editor. Si no está "
+"las secciones Opciones de correo y Preferencias del editor. Si no está "
 "seguro de cuáles usar, seleccione UTF-8, que ofrece el mayor rango de "
 "caracteres disponibles en el mayor número de idiomas."
 
@@ -3958,12 +3958,17 @@ msgid ""
 "your email if it appears that you have not. If it finds that you have missed "
 "to attach a file, a message is displayed as shown below:"
 msgstr ""
+"Con el complemento de adjuntos activado, Evolution le recuerda adjuntar un archivo "
+"a su correo-e si parece que no lo haya hecho. Se mostrará un mensaje como de abajo "
+"si se encuentra que se le ha olvidado adjuntar un archivo:"
 
 #: C/evolution.xml:1490(para)
 msgid ""
 "Click Continue Editing to attach the missing file you are reminded of, or "
 "click Send to send the message without any attachment."
 msgstr ""
+"Pulse continuar editando para adjuntar el archivo que se le está recordando que falta o "
+"pulse Enviar para enviar el mensaje sin ningún adjunto."
 
 #: C/evolution.xml:1493(para)
 msgid "To enable the Attachment Reminder,"
@@ -3975,7 +3980,7 @@ msgstr "Seleccione Editar &gt; Complementos &gt; Complemento de adjuntos."
 
 #: C/evolution.xml:1499(para)
 msgid "Click Configure to add the keywords."
-msgstr ""
+msgstr "Pulse Configurar para añadir las palabras clave."
 
 #: C/evolution.xml:1504(para)
 msgid ""
@@ -3989,6 +3994,9 @@ msgid ""
 "sending. If it finds the keywords such as \"attach\" in your e-mail and no "
 "actual attached file, you are reminded of missing attachments."
 msgstr ""
+"Busca cada correo electrónico que esté enviando basándose en las palabras clave "
+"que haya añadido aquí. Si encuentra palabras clave tales como «adjuntar» en su correo-e "
+"y no hay un archivo adjunto, se le recuerda que faltan adjuntos."
 
 #: C/evolution.xml:1513(para)
 msgid ""
@@ -5099,14 +5107,14 @@ msgstr "Abra una terminal e instroduzca el comando <command>gpg --gen-key</comma
 
 #: C/evolution.xml:2013(para)
 msgid "Select an algorithm, then press Enter."
-msgstr "Seleccione un algoritmo, después pulse Retorno."
+msgstr "Seleccione un algoritmo, después pulse Intro."
 
 #: C/evolution.xml:2015(para)
 msgid ""
 "To accept the default algorithm of DSA and ElGamal, press Enter "
 "(recommended)."
 msgstr ""
-"Para aceptar el algoritmo predeterminado «DSA y ElGamal», pulse Retorno "
+"Para aceptar el algoritmo predeterminado «DSA y ElGamal», pulse Intro "
 "(recomendado)."
 
 #: C/evolution.xml:2018(para)
@@ -5114,8 +5122,8 @@ msgid ""
 "Select a key length, then press Enter. To accept the default, 1024 bits, "
 "press Enter."
 msgstr ""
-"Seleccione una longitud de clave, después pulse Retorno. Para aceptar la "
-"predeterminada, de 1024 bits, pulse Retorno."
+"Seleccione una longitud de clave, después pulse Intro. Para aceptar la "
+"predeterminada, de 1024 bits, pulse Intro."
 
 #: C/evolution.xml:2021(para)
 msgid "Enter how long your key should be valid for."
@@ -5126,20 +5134,20 @@ msgid ""
 "To accept the default of no expiration, press Enter, then press Y when you "
 "are prompted to verify the selection."
 msgstr ""
-"Para aceptar la opción predeterminada sin caducidad, pulse Retorno, después "
+"Para aceptar la opción predeterminada sin caducidad, pulse Intro, después "
 "puse Y cuando se le pregunte la verificación de su elección."
 
 #: C/evolution.xml:2026(para)
 msgid "Type your real name, then press Enter."
-msgstr "Escriba su nombre real, después pulse Retorno."
+msgstr "Escriba su nombre real, después pulse Intro."
 
 #: C/evolution.xml:2029(para)
 msgid "Type your e-mail address, then press Enter."
-msgstr "Escriba su dirección de correo-e, después pulse Retorno."
+msgstr "Escriba su dirección de correo-e, después pulse Intro."
 
 #: C/evolution.xml:2032(para)
 msgid "(Optional) Type a comment, then press Enter."
-msgstr "(Opcional) Escriba un comentario, después pulse Retorno."
+msgstr "(Opcional) Escriba un comentario, después pulse Intro."
 
 #: C/evolution.xml:2035(para)
 msgid "Review your selected user ID. If it is correct, press O."
@@ -5147,7 +5155,7 @@ msgstr "Compruebe el ID de usuario que ha seleccionado. Si es correcto pulse O. 
 
 #: C/evolution.xml:2038(para)
 msgid "Type a passphrase, then press Enter."
-msgstr "Escriba una frase de paso, después pulse Retorno."
+msgstr "Escriba una frase de paso, después pulse Intro."
 
 #: C/evolution.xml:2041(para)
 msgid "Move your mouse randomly to generate the keys."
@@ -5804,6 +5812,12 @@ msgid ""
 "date of the recent message received. ie;The threads are sorted by the date "
 "of most recent message in the threads."
 msgstr ""
+"En la vista por conversación cada mensaje nuevo se apila sobre los que hayan "
+"llegado antes que él, de tal forma que el mensaje más reciente es siempre el "
+"primero que ve. Siempre que llegue un nuevo mensaje sobre una conversación "
+"antigua, esa conversación se presenta al principio. Siempre verá la conversación basada en la "
+"fecha del mensaje más recientemente recibido. Por ejemplo, las conversaciones se ordenan por la fecha "
+"del mensaje más reciente en las conversaciones."
 
 #: C/evolution.xml:2318(para)
 msgid ""
@@ -5814,6 +5828,12 @@ msgid ""
 "option and restart evolution, all the threads are made to this state. This "
 "is a higly advanced option only for super users."
 msgstr ""
+"También hay una clave de gconf para el estado predeterminado del estado expandido "
+"de una conversación. Lo predeterminado es «true» y puede cambiar su valor en "
+"/apps/evolution/mail/display/thread_expand. Si el valor es «false», el estado predeterminado "
+"de las conversaciones es contraído y se recordarán los estados expandidos. Cuando cambia "
+"esta opción y reinicia Evolution, todas las conversaciones toman este estado. Es "
+"una opción muy avanzada sólo para súper usuarios."
 
 #: C/evolution.xml:2323(title)
 msgid "Sorting Mail with Column Headers"
@@ -6467,7 +6487,7 @@ msgstr "Mensaje actual"
 
 #: C/evolution.xml:2626(para)
 msgid "Type the search string in the search entry and press Enter."
-msgstr "Escriba la cadena de búsqueda en el campo de búsqueda y pulse Retorno."
+msgstr "Escriba la cadena de búsqueda en el campo de búsqueda y pulse Intro."
 
 #: C/evolution.xml:2628(para)
 msgid ""
@@ -7394,6 +7414,11 @@ msgid ""
 "to mark it manually by clickcing \"Not junk\" button in the toolbar to learn "
 "that it is HAM. The \"Junk\" button learns a message as SPAM."
 msgstr ""
+"Cada filtro necesita aprender al menos 100 mensajes SPAM y 100 correctos para "
+"comenzar a funcionar. Anteriormente se necesitaba entrenar los filtros de spam. Ahora "
+"sólo tiene que marcarlo manualmente como «No es spam» en el botón de la barra "
+"de herramientas para que aprenda que es correo válido. El botón «SPAM» aprende "
+"de mensajes SPAM."
 
 #: C/evolution.xml:3074(para)
 msgid ""
@@ -7420,6 +7445,10 @@ msgid ""
 "application. For more information, see<ulink url=\"http://spamassassin."
 "apache.org/\"> The Apache SpamAssassin Project</ulink>."
 msgstr ""
+"SpamAssasin* es una aplicación que busca a través del buzón para encontrar correo "
+"basura. Evolution usa SpamAssasin como la aplicación predeterminada para filtrar "
+"el spam. Para obtener más información, consulte <ulink url=\"http://spamassassin."
+"apache.org/\">El proyecto Apache SpamAssasin</ulink>."
 
 #: C/evolution.xml:3078(para)
 msgid ""
@@ -7429,6 +7458,11 @@ msgid ""
 "For more information on Bogofilter, see <ulink url=\"http://bogofilter."
 "sourceforge.net/\">Bogofilter site</ulink>."
 msgstr ""
+"Bogofilter* es un filtro de correo que clasifica los correos como spam o no spam a través "
+"de un análisis estadístico de las cabeceras del mensaje y de su contenido (el cuerpo). "
+"Es capaz de aprender de las clasificaciones y correcciones del usuario. "
+"Para obtener más información acerca de Bogofilter, consulte el <ulink url=\"http://bogofilter."
+"sourceforge.net/\">sitio de Bogofilter</ulink>."
 
 #: C/evolution.xml:3085(para)
 msgid ""
@@ -7750,7 +7784,7 @@ msgstr "Cualquier campo contiene"
 
 #: C/evolution.xml:3224(para)
 msgid "Press Enter to begin the search"
-msgstr "Pulse Retorno para iniciar la búsqueda"
+msgstr "Pulse Intro para iniciar la búsqueda"
 
 #: C/evolution.xml:3227(para)
 msgid ""
@@ -9485,7 +9519,7 @@ msgstr ""
 
 #: C/evolution.xml:4085(para) C/evolution.xml:4637(para)
 msgid "Click the Show drop down list."
-msgstr ""
+msgstr "Pulse Mostrar la lista desplegable."
 
 #: C/evolution.xml:4088(para) C/evolution.xml:4429(para)
 #: C/evolution.xml:4640(para)
@@ -9859,6 +9893,9 @@ msgid ""
 "search result. This allows you to quickly see when tasks are due, as it can "
 "become unwieldy for planning if you have a lot of tasks in hand."
 msgstr ""
+"Esta característica proporciona las mejores opciones de búsqueda rápida para "
+"un mejor resultado. Le permite ver rápidamente cuándo vence una tarea, ya que "
+"puede ser interesante para planificarse si tiene muchas tareas entre manos."
 
 #: C/evolution.xml:4392(title)
 msgid "Any Category:"
@@ -10732,6 +10769,9 @@ msgid ""
 "delegator's message and also you should have necessary rights assigned to "
 "you by the delegator."
 msgstr ""
+"Para enviar un mensaje o un elemento del calendario como delegado, debe suscribirse "
+"al mensaje del delgado y también debe tener asignados los permisos necesarios por el "
+"delegador."
 
 #: C/evolution.xml:5107(para)
 msgid "Click User to open Show Contacts dialogue box."
@@ -10749,7 +10789,7 @@ msgstr ""
 msgid ""
 "You are not permitted to send a message on behalf of more than one person at "
 "a time."
-msgstr ""
+msgstr "No se le permite enviar un mensaje en nombre de a más de una persona a la vez."
 
 #: C/evolution.xml:5114(para)
 msgid ""
@@ -10757,6 +10797,9 @@ msgid ""
 "<emphasis>Delegator's name</emphasis>&gt; on behalf of &lt;"
 "<emphasis>Delegate's name</emphasis>&gt;."
 msgstr ""
+"El destinatario recibe el mensaje con un campo De que muestra &lt; "
+"<emphasis>Nombre del delegador</emphasis>&gt; en nombre de "
+"&lt;<emphasis>Nombre del delegado</emphasis>&gt;."
 
 #: C/evolution.xml:5119(para)
 msgid ""
@@ -10787,6 +10830,8 @@ msgid ""
 "You can send Meetings or Appointments on behalf of someone else if you have "
 "subscribed to his or her Calendar."
 msgstr ""
+"Puede enviar Reuniones o Citas en nombre de otra persona si se ha suscrito "
+"a su calendario."
 
 #: C/evolution.xml:5133(para)
 msgid "To delegate a Meeting,"
@@ -10815,6 +10860,10 @@ msgid ""
 "<emphasis>&lt;Delegate&gt;</emphasis> requests your presence at the "
 "following meeting."
 msgstr ""
+"Cuando el destinatario recibe el elemento del calendario puede leer el "
+"mensaje al principio que el <emphasis>&lt;Delegador&gt;</emphasis> a "
+"través de <emphasis>&lt;Delegado&gt;</emphasis> requiere su presencia "
+"en la siguiente reunión."
 
 #: C/evolution.xml:5147(para)
 msgid ""
@@ -10824,6 +10873,11 @@ msgid ""
 "meeting. Please respond of behalf of his or her &lt;<emphasis>Delegator</"
 "emphasis>&gt;."
 msgstr ""
+"Cuando un delegado recibe el elemento del calendario de otro delegado, podrá "
+"leer que el &lt;<emphasis>Delegador</emphasis>&gt; a través del &lt;"
+"<emphasis>Delegado</emphasis>&gt; solicita su presencia para la siguiente "
+"reunión. Por favor, responda en nombre de su &lt;<emphasis>Delegador</"
+"emphasis>&gt;."
 
 #: C/evolution.xml:5155(para)
 msgid ""
@@ -10922,6 +10976,9 @@ msgid ""
 "added to your list of delegates. The mail summarizes all the rights that has "
 "been assigned to him or her."
 msgstr ""
+"Se notificará al delegado a través de un correo separado que se le ha "
+"añadido a su lista de delegados. El correo resume todos los permisos que "
+"se le han asignado."
 
 #: C/evolution.xml:5206(para)
 msgid "To access the folders delegated to you:"
@@ -11230,7 +11287,7 @@ msgstr ""
 
 #: C/evolution.xml:5393(para)
 msgid "Improved Status Tracking"
-msgstr ""
+msgstr "Seguimiento de estado mejorado"
 
 #: C/evolution.xml:5401(para)
 msgid ""
@@ -11564,7 +11621,7 @@ msgid ""
 "In the To field, type a username, then press Enter. Repeat for additional "
 "users."
 msgstr ""
-"En el campo Para escriba un nombre de usuario, después pulse Retorno. Repita "
+"En el campo Para escriba un nombre de usuario, después pulse Intro. Repita "
 "la operación para añadir usuarios adicionales."
 
 #: C/evolution.xml:5647(para)
@@ -11761,13 +11818,15 @@ msgstr "Seleccione la casilla de verificación junto a Crear un elemento enviado
 msgid ""
 "Select any of the options given (Delivered, Delivered and opened, All "
 "information)"
-msgstr ""
+msgstr "Seleccione cualqueira de las opciones dadas (Entregado, Entregado y abierto, Toda la información)"
 
 #: C/evolution.xml:5745(para) C/evolution.xml:5868(para)
 msgid ""
 "Based on this selection, you can view the status of the send message in the "
 "Sent Items folder."
 msgstr ""
+"Basándose en esta selección, puede ver el estado del mensaje enviado en la carpeta "
+"de Correo enviado."
 
 #: C/evolution.xml:5746(para)
 msgid ""
@@ -11780,6 +11839,8 @@ msgid ""
 "Select the check box next to Auto-delete sent item to delete the sent item "
 "automatically from the Sent folder."
 msgstr ""
+"Seleccione la casilla junto a Autoborrar el elemento enviado para borrar "
+"automáticamente el elemento enviado de la carpeta Correo enviado."
 
 #: C/evolution.xml:5753(title) C/evolution.xml:5875(title)
 msgid "Return Notification:"
@@ -11801,6 +11862,9 @@ msgid ""
 "or read by them. You will also know exactly who received your message, who "
 "read your message, who deleted and when."
 msgstr ""
+"Con el seguimiento del mensaje podrá saber cuándo llegó el elemento a los destinatarios o "
+"cuándo se leyó. También podrá saber exactamente quién recibió su mensaje, quién lo leyó y "
+"quién lo borró y cuándo."
 
 #: C/evolution.xml:5775(title)
 msgid "Changing the Priority of an E-Mail"
@@ -11844,31 +11908,35 @@ msgstr ""
 msgid ""
 "Click Set exipiration date, and specify the number of date for the message "
 "to get expired."
-msgstr ""
+msgstr "Pulse Establecer fecha de caducidad y especifique la fecha en la que caducará el mensaje."
 
 #: C/evolution.xml:5804(para)
 msgid ""
 "Until the specified count of days have passed, your message remains in the "
 "recipient's inbox."
 msgstr ""
+"Hasta que no haya pasado la cantidad de días especificada, su mensaje permanecerá "
+"en la bandeja de entrada del destinatario."
 
 #: C/evolution.xml:5813(title)
 msgid "Setting Message Delivery Options"
-msgstr ""
+msgstr "Establecer opciones de entrega de los mensajes"
 
 #: C/evolution.xml:5814(para)
 msgid ""
 "You can delay the delivery of an individual message by having them held in "
 "the Outbox for a specified time after clicking Send."
 msgstr ""
+"Puede posponer la entrega de un mensaje individual dejándolos en la Bandeja de salida "
+"por un periodo de tiempo especificado después de pulsar Enviar. "
 
 #: C/evolution.xml:5817(para)
 msgid "Click Delay message delivery."
-msgstr ""
+msgstr "Pulse Retrasar la entrega del mensaje."
 
 #: C/evolution.xml:5820(para)
 msgid "Set the Date and Time unttil you want the message to be held in the Outbox."
-msgstr ""
+msgstr "Establezca la fecha y hora hasta que desee que el mensaje se mantenga en la bandeja de salida."
 
 #: C/evolution.xml:5830(para)
 msgid ""
@@ -13120,6 +13188,8 @@ msgid ""
 "This feature adds support for viewing the photograph of the sender at the "
 "right side of the preview pane."
 msgstr ""
+"Esta característica añade soporte para ver la fotografía del remitente en la parte "
+"derecha del panel de vista preliminar."
 
 #: C/evolution.xml:6406(para)
 msgid ""
@@ -13127,6 +13197,9 @@ msgid ""
 "&gt; Header &gt; Show the photograph of sender in the email preview. "
 "Deselect this option to disable this feature."
 msgstr ""
+"Para activar esta característica, seleccione Editar &gt; Preferencias &gt; Opciones de correo "
+"&gt; Cabeceras &gt; Mostrar la foto del remitente en la vista preliminar del correo-e. "
+"Deseleccione esta opción para desactivar esta característica."
 
 #: C/evolution.xml:6407(para)
 msgid ""
@@ -13139,10 +13212,17 @@ msgid ""
 "Here, Evolution takes the first contact regardless of it not having a "
 "photograph."
 msgstr ""
+"De forma predeterminada sólo se busca en las libretas de direcciones locales activadas "
+"para autocompletado. Si deselecciona la opción «Buscar la foto del remitente sólo en "
+"libretas de direcciones locales», se busca en todas las libretas de direcciones activadas "
+"para autocompletado. Si hay múltiples coincidencias para el mismo contacto, siempre se "
+"toma la primera. Considere que un contacto tiene múltiples coincidencias; la primera con "
+"una fotografía y la segunda sin fotografía. En este caso Evolution tomará el primer contacto "
+"independientemente de que tenga o no una fotografía."
 
 #: C/evolution.xml:6408(para)
 msgid "This feature is disabled by default as it causes delay in fetching the mails."
-msgstr ""
+msgstr "Esta característica está desactivada de forma predeterminada ya que causa retraso al obtener los correos."
 
 #: C/evolution.xml:6413(para)
 msgid ""
@@ -13156,7 +13236,7 @@ msgstr ""
 
 #: C/evolution.xml:6414(para)
 msgid "To enable junk filtering using SpamAssassin and/or Bogofilter,"
-msgstr ""
+msgstr "Para activar el filtro de correo basura usando SpamAssasin y/o Bogofilter,"
 
 #: C/evolution.xml:6417(para)
 msgid "Select Edit &gt; Plugins"
@@ -13164,7 +13244,7 @@ msgstr "Seleccione Editar &gt; Complementos"
 
 #: C/evolution.xml:6420(para)
 msgid "Select Bogofilter junk plugin and SpamAssassin junk plugin."
-msgstr ""
+msgstr "Seleccione el complemento de correo basura Bogofilter y SpamAssasin."
 
 #: C/evolution.xml:6424(title)
 msgid "General:"
@@ -13177,6 +13257,9 @@ msgid ""
 "choose either Spam assasin or Bogofilter or both.Click Check incoming mail "
 "for junk"
 msgstr ""
+"Puede activar la detección para comprobar si el correo entrante es basura y también decidir "
+"con qué frecuencia quiere borrar el correo basura a la salida. También tiene la opción de "
+"elegir SpamAssasin, Bogofilter o ambos. Pulse Detectar si el correo entrante es spam."
 
 #: C/evolution.xml:6428(title)
 msgid "Checking Incoming Mail for Junk:"
@@ -13188,7 +13271,7 @@ msgstr "Esta opción activa los filtros de comprobación automática de correo b
 
 #: C/evolution.xml:6432(title)
 msgid "Default junk plugin:"
-msgstr ""
+msgstr "Complemento spam predeterminado:"
 
 #: C/evolution.xml:6433(para)
 msgid ""
@@ -13196,6 +13279,9 @@ msgid ""
 "only if you have enabled the respective plugins. When you select any option, "
 "It also reports if the underlying binary is available or not."
 msgstr ""
+"Seleccione SpamAssasin y/o Bogofilter como su filtro de correo basura. Sólo podrá verlos "
+"si tiene activados los complementos respectivos. Cuando seleccione cualquier opción, "
+"también le informa si el binario correspondiente está disponible o no."
 
 #: C/evolution.xml:6437(title)
 msgid "SpamAssassin Options:"
@@ -13232,6 +13318,9 @@ msgid ""
 "messages from the options (Every time, Once per day, Once per week, Once per "
 "month)."
 msgstr ""
+"Seleccione Borrar los correos spam a la salida y también especifique cuándo se deben "
+"borrar los correos basura de las opciones (Cada vez, Una vez por día, Una vez por semana, "
+"Una vez por mes)."
 
 #: C/evolution.xml:6443(title)
 msgid "Bogofilter Options:"
@@ -13243,6 +13332,9 @@ msgid ""
 "more information on Bogofilter, see <ulink url=\"http://bogofilter."
 "sourceforge.net/\">Bogofilter site</ulink>"
 msgstr ""
+"Seleccione Convertir el texto del correo a Unicode para activar el filtro basado en unicode. "
+"Para obtener más información acerca de Bogofilter, consulte el <ulink url=\"http://bogofilter."
+"sourceforge.net/\">sitio de Bogofilter</ulink>."
 
 #: C/evolution.xml:6447(para)
 msgid ""
@@ -14420,7 +14512,7 @@ msgid ""
 "Ctrl+O."
 msgstr ""
 "Pulse dos veces sobre el mensaje que quiera ver o selecciónelo y pulse "
-"Retorno o Ctrl+O."
+"Intro o Ctrl+O."
 
 #: C/evolution.xml:6964(title)
 msgid "Creating Filters and Search Folders:"
