@@ -166,7 +166,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		GString *string = g_string_new (NULL);
 		
 		
-		gtk_html_stream_printf(stream, "<H3>Categories: ");
+		gtk_html_stream_printf(stream, "<H3>%s: ", _("Categories"));
 
 		for (node = l; node != NULL; node = node->next) {
 			const char *icon_file;

@@ -1,5 +1,12 @@
 2007-08-06  Milan Crha  <mcrha@redhat.com>
 
+	** Partially fix bug #401533
+
+	* gui/e-cal-component-memo-preview.c: (write_html):
+	Text marked to localize.
+
+2007-08-06  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #463129
 
 	* gui/calendar-component.c: (update_task_memo_selection),
