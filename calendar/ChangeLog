@@ -1,3 +1,12 @@
+2007-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #463129
+
+	* gui/calendar-component.c: (update_task_memo_selection),
+	(destroy_component_view): Frees task_source_selection and
+	memo_source_selection in destroy_component_view instead of
+	immediately after assigning it to the structure.
+
 2007-08-06  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #454253

@@ -438,7 +438,6 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 		uids_selected = calendar_config_get_tasks_selected ();
 		source_list = component_view->task_source_list;
 		source_selection = component_view->task_source_selection;
-		
 	} else {
 		uids_selected = calendar_config_get_memos_selected ();
 		source_list = component_view->memo_source_list;
@@ -474,11 +473,6 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 		component_view->task_source_selection = uids_selected;
 	else
 		component_view->memo_source_selection = uids_selected;
-
-	if (uids_selected) {
-		g_slist_foreach (uids_selected, (GFunc) g_free, NULL);
-		g_slist_free (uids_selected);
-	}
 }
 
 static void
@@ -1504,6 +1498,16 @@ destroy_component_view (CalendarComponentView *component_view)
 
 	if (component_view->activity_handler)
 		g_object_unref (component_view->activity_handler);
+
+	if (component_view->task_source_selection) {
+		g_slist_foreach (component_view->task_source_selection, (GFunc) g_free, NULL);
+		g_slist_free (component_view->task_source_selection);
+	}
+
+	if (component_view->memo_source_selection) {
+		g_slist_foreach (component_view->memo_source_selection, (GFunc) g_free, NULL);
+		g_slist_free (component_view->memo_source_selection);
+	}
 
 	g_free (component_view);
 }
