@@ -1,3 +1,10 @@
+2007-08-06  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #460326
+
+	* itip-formatter.c: (extract_itip_data): If the vcalendar isn't there
+	don't crash but report invalid.
+
 2007-07-20  Claude Paroz  <claude@2xlibre.net>
 
 	* itip-view.c: (set_tasklist_sender_text): Added omitted %s formatter.

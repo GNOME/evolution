@@ -1339,6 +1339,15 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (content, mem);
 
+	if (((CamelStreamMem *) mem)->buffer->len == 0) {
+		camel_object_unref (mem);	
+		set_itip_error (pitip, container, 
+				_("The calendar attached is not valid"), 
+				_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."));
+
+		return FALSE;
+	}
+
 	pitip->vcalendar = g_strndup ((char *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 
 	camel_object_unref (mem);	
