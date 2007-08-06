@@ -1,3 +1,10 @@
+2007-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Partial fix for bug #427469
+
+	* importers/evolution-vcard-importer.c: (vcard_import_contact):
+	if HOME or WORK isn't specified for EMAIL, add TYPE=OTHER
+
 2007-08-02  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #462007

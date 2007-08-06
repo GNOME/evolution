@@ -177,7 +177,7 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 	}
 
 	/*
-	  Deal with ADR attributes that don't conform to what we need.
+	  Deal with ADR and EMAIL attributes that don't conform to what we need.
 
 	  if HOME or WORK isn't specified, add TYPE=OTHER.
 	*/
@@ -187,8 +187,8 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 		gboolean no_location = TRUE;
 		GList *params, *param;
 
-		if (g_ascii_strcasecmp (e_vcard_attribute_get_name (a),
-					EVC_ADR))
+		if (g_ascii_strcasecmp (e_vcard_attribute_get_name (a), EVC_ADR) &&
+		    g_ascii_strcasecmp (e_vcard_attribute_get_name (a), EVC_EMAIL))
 			continue;
 
 		params = e_vcard_attribute_get_params (a);
