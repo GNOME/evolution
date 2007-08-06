@@ -686,6 +686,7 @@ destroy (GtkObject *object)
 		priv->batch_unref = TRUE;
 		for (i = 0; i < priv->attachments->len; i++) {
 			attachment = priv->attachments->pdata[i];
+			g_object_weak_unref ((GObject *) attachment, (GWeakNotify) attachment_destroy, bar);
 			g_object_unref (attachment);
 		}
 		g_ptr_array_free (priv->attachments, TRUE);

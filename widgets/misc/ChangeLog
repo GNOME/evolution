@@ -1,3 +1,10 @@
+2007-08-06  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #429234
+
+	* e-attachment-bar.c: (destroy): Remove the weak ref while the purpose
+	is achieved.
+
 2007-08-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #335566
