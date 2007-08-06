@@ -273,10 +273,14 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 					EVCardAttributeParam *p = param->data;
 					if (!strcmp (EVC_TYPE, e_vcard_attribute_param_get_name (p))) {
 						GList *v = e_vcard_attribute_param_get_values (p);
-						if (v && v->data)
+						while (v && v->data) {
 							if (!strcmp ("VOICE", v->data)
-							    || !strcmp ("FAX", v->data))
+							    || !strcmp ("FAX", v->data)) {
 								found = TRUE;
+								break;
+							}
+							v = v->next;
+						}
 					}
 				}
 
@@ -297,10 +301,15 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 					p = param->data;
 					if (!strcmp (EVC_TYPE, e_vcard_attribute_param_get_name (p))) {
 						GList *v = e_vcard_attribute_param_get_values (p);
-						if (v && v->data && !strcmp ("POSTAL", v->data)) {
-							found = TRUE;
-							break;
+						while (v && v->data ) {
+							if (!strcmp ("POSTAL", v->data)) {
+								found = TRUE;
+								break;
+							}
+							v = v->next;
 						}
+						if (found)
+							break;
 					}
 				}
 
@@ -937,11 +946,12 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 						EVCardAttributeParam *p = param->data;
 						if (!strcmp (EVC_TYPE, e_vcard_attribute_param_get_name (p))) {
 							GList *v = e_vcard_attribute_param_get_values (p);
-							if (v && v->data) {
+							while (v && v->data) {
 								if (!strcmp ("VOICE", v->data))
 									found_voice = TRUE;
 								else if (!strcmp ("WORK", v->data))
 									found_work = TRUE;
+								v = v->next;
 							}
 						}
 

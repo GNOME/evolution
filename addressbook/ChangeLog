@@ -1,5 +1,14 @@
 2007-08-06  Milan Crha  <mcrha@redhat.com>
 
+	** Partial fix for bug #313221
+
+	* gui/component/addressbook-migrate.c
+	(migrate_contacts), (migrate_company_phone_for_local_folders):
+	changes as part of fixing bug #313221,
+	looping through all param values, not only testing first one
+
+2007-08-06  Milan Crha  <mcrha@redhat.com>
+
 	** Partial fix for bug #427469
 
 	* importers/evolution-vcard-importer.c: (vcard_import_contact):
