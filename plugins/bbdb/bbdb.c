@@ -96,7 +96,8 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 static gboolean
 bbdb_timeout (gpointer data)
 {
-	bbdb_sync_buddy_list_check ();
+	if (bbdb_check_gaim_enabled ())
+		bbdb_sync_buddy_list_check ();
 
 	return TRUE;
 }
@@ -272,22 +273,13 @@ bbdb_open_addressbook (int type)
 	
 	gconf = gconf_client_get_default ();
 
-	/* Check to see if we're supposed to be running */
-	if (type == GAIM_ADDRESSBOOK)
-		enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE_GAIM, NULL);
-	else
-		enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
-	if (! enable) {
-		g_object_unref (G_OBJECT (gconf));
-		return NULL;
-	}
-
 	/* Open the appropriate addresbook. */
 	if (type == GAIM_ADDRESSBOOK)
 		uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL);
 	else
 		uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
 	g_object_unref (G_OBJECT (gconf));
+
 	if (uri == NULL)
 		book = e_book_new_system_addressbook (&error);
 	else {

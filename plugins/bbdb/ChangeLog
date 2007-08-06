@@ -1,3 +1,14 @@
+2007-08-06  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Diego Escalante Urrelo
+	<diegoe@gnome.org>
+
+	* bbdb.c: (bbdb_timeout), (bbdb_open_addressbook):
+	* gaimbuddies.c: (bbdb_sync_buddy_list_check):
+	"Synchronize now" should work even if periodic checking 
+	is not enabled.
+	Fixes bug #377309
+
 2007-06-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #334140

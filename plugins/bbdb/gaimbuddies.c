@@ -85,11 +85,6 @@ bbdb_sync_buddy_list_check (void)
 
 	gconf = gconf_client_get_default ();
 	
-	if (! gconf_client_get_bool (gconf, GCONF_KEY_ENABLE_GAIM, NULL)) {
-		g_object_unref (G_OBJECT (gconf));
-		return;
-	}
-
 	blist_path = g_build_path ("/", getenv ("HOME"), ".gaim/blist.xml", NULL);
 	if (stat (blist_path, &statbuf) < 0) {
 		g_free (blist_path);
