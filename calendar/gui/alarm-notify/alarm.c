@@ -56,7 +56,10 @@ pop_alarm (void)
 	AlarmRecord *ar;
 	GList *l;
 
-	g_assert (alarms != NULL);
+	if (!alarms) {
+		g_warning ("Nothing to pop from the alarm queue");
+		return;
+	}
 
 	ar = alarms->data;
 
@@ -72,7 +75,11 @@ alarm_ready_cb (gpointer data)
 {
 	time_t now;
 
-	g_assert (alarms != NULL);
+	if (!alarms) {
+		g_warning ("Alarm triggered, but no alarm present\n");
+		return FALSE;
+	}
+
 	timeout_id = 0;
 
 	now = time (NULL);
@@ -120,7 +127,11 @@ setup_timeout (void)
 	const AlarmRecord *ar;
 	guint diff;
 	time_t now;
-	g_assert (alarms != NULL);
+
+	if (!alarms) {
+		g_warning ("No alarm to setup\n");
+		return;
+	}
 
 	ar = alarms->data;
 
@@ -273,14 +284,18 @@ alarm_done (void)
 	GList *l;
 
 	if (timeout_id == 0) {
-		g_assert (alarms == NULL);
+		if (alarms)
+			g_warning ("No timeout, but queue is not NULL\n");
 		return;
 	}
 
-	g_assert (alarms != NULL);
-
 	g_source_remove (timeout_id);
 	timeout_id = 0;
+
+	if (!alarms) {
+		g_warning ("timeout present, freed, but no alarms active\n");
+		return;
+	}
 
 	for (l = alarms; l; l = l->next) {
 		AlarmRecord *ar;

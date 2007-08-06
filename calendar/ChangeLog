@@ -1,3 +1,11 @@
+2007-08-06  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #454253
+
+	* gui/alarm-notify/alarm.c: (pop_alarm), (alarm_ready_cb),
+	(setup_timeout), (alarm_done): Fail safe instead of crash, when it is
+	not really required to crash. 
+
 2007-08-03  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #377173
