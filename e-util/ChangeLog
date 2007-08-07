@@ -1,3 +1,12 @@
+2007-08-07  Sankar P  <psankar@novell.com>
+
+	reviewed by: Srinivasa Ragavan <sragavan@novell.com> 
+
+	* e-plugin.c: (ep_load_pending):
+	Do not load pending hooks,
+	if the corresponding plugin is disabled.
+	Fixes #383684
+
 2007-07-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #451211.

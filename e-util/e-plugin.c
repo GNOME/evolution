@@ -438,12 +438,16 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 		if (class) {
 			if (strcmp(class, type->id) == 0) {
 				hook = g_object_new(G_OBJECT_CLASS_TYPE(type), NULL);
-				res = type->construct(hook, ep, node);
-				if (res == -1) {
-					g_warning("Plugin '%s' failed to load hook '%s'", ep->name, type->id);
-					g_object_unref(hook);
-				} else {
-					ep->hooks = g_slist_append(ep->hooks, hook);
+				
+				/* Don't bother loading hooks for plugins that are not anyway enabled */
+				if (ep->enabled) {
+					res = type->construct(hook, ep, node);
+					if (res == -1) {
+						g_warning("Plugin '%s' failed to load hook '%s'", ep->name, type->id);
+						g_object_unref(hook);
+					} else {
+						ep->hooks = g_slist_append(ep->hooks, hook);
+					}
 				}
 
 				if (p)
