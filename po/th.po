@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-04 15:56+0700\n"
-"PO-Revision-Date: 2007-08-04 17:59+0700\n"
+"POT-Creation-Date: 2007-08-07 12:02+0700\n"
+"PO-Revision-Date: 2007-08-07 12:04+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgid "calendar view for one or more days"
 msgstr "มุมมองปฏิทินสำหรับวันเดียวหรือหลายวัน"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:188
-#: ../calendar/gui/calendar-component.c:740
+#: ../calendar/gui/calendar-component.c:734
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Ey"
 
@@ -167,7 +167,7 @@ msgstr "%A %d %b %Ey"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:191
-#: ../calendar/gui/calendar-component.c:743
+#: ../calendar/gui/calendar-component.c:737
 #: ../calendar/gui/e-day-view-top-item.c:1318
 #: ../calendar/gui/e-day-view.c:2109
 #: ../calendar/gui/e-week-view-main-item.c:319
@@ -178,9 +178,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:193
 #: ../a11y/calendar/ea-gnome-calendar.c:198
 #: ../a11y/calendar/ea-gnome-calendar.c:200
-#: ../calendar/gui/calendar-component.c:745
-#: ../calendar/gui/calendar-component.c:750
-#: ../calendar/gui/calendar-component.c:752
+#: ../calendar/gui/calendar-component.c:739
+#: ../calendar/gui/calendar-component.c:744
+#: ../calendar/gui/calendar-component.c:746
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Ey"
 
@@ -188,10 +188,10 @@ msgstr "%a %d %b %Ey"
 #: ../a11y/calendar/ea-gnome-calendar.c:223
 #: ../a11y/calendar/ea-gnome-calendar.c:229
 #: ../a11y/calendar/ea-gnome-calendar.c:231
-#: ../calendar/gui/calendar-component.c:764
+#: ../calendar/gui/calendar-component.c:758
+#: ../calendar/gui/calendar-component.c:765
 #: ../calendar/gui/calendar-component.c:771
-#: ../calendar/gui/calendar-component.c:777
-#: ../calendar/gui/calendar-component.c:779
+#: ../calendar/gui/calendar-component.c:773
 msgid "%d %b %Y"
 msgstr "%d %b %Ey"
 
@@ -201,7 +201,7 @@ msgstr "%d %b %Ey"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:221
-#: ../calendar/gui/calendar-component.c:769
+#: ../calendar/gui/calendar-component.c:763
 #: ../calendar/gui/e-day-view-top-item.c:1322
 #: ../calendar/gui/e-day-view.c:2125
 #: ../calendar/gui/e-week-view-main-item.c:333
@@ -624,7 +624,7 @@ msgstr "จัดการการตรวจสอบ S/MIME ของคุ�
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:144
-#: ../addressbook/gui/component/addressbook-migrate.c:488
+#: ../addressbook/gui/component/addressbook-migrate.c:497
 #: ../calendar/gui/calendar-component.c:236
 #: ../calendar/gui/memos-component.c:200 ../calendar/gui/migration.c:481
 #: ../calendar/gui/migration.c:582 ../calendar/gui/migration.c:1095
@@ -640,7 +640,7 @@ msgstr "ในคอมพิวเตอร์นี้"
 #. Create the default Person addressbook
 #. orange
 #: ../addressbook/gui/component/addressbook-component.c:152
-#: ../addressbook/gui/component/addressbook-migrate.c:496
+#: ../addressbook/gui/component/addressbook-migrate.c:505
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
 #: ../calendar/gui/calendar-component.c:247
@@ -653,7 +653,7 @@ msgstr "ส่วนบุคคล"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:162
-#: ../addressbook/gui/component/addressbook-migrate.c:506
+#: ../addressbook/gui/component/addressbook-migrate.c:515
 msgid "On LDAP Servers"
 msgstr "ในเซิร์ฟเวอร์ LDAP"
 
@@ -710,7 +710,7 @@ msgstr "คัดลอกเนื้อหาสมุดที่อยู่
 #: ../calendar/gui/dialogs/calendar-setup.c:376
 #: ../calendar/gui/dialogs/calendar-setup.c:387
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2228
+#: ../plugins/itip-formatter/itip-formatter.c:2237
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "ทั่วไป"
@@ -760,15 +760,15 @@ msgstr "กำลังเคลื่อนย้าย..."
 msgid "Migrating `%s':"
 msgstr "กำลังเคลื่อนย้าย `%s':"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:634
+#: ../addressbook/gui/component/addressbook-migrate.c:643
 msgid "LDAP Servers"
 msgstr "เซิร์ฟเวอร์ LDAP"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:749
+#: ../addressbook/gui/component/addressbook-migrate.c:758
 msgid "Autocompletion Settings"
 msgstr "การตั้งค่าการเติมเต็มคำอัตโนมัติ"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1124
+#: ../addressbook/gui/component/addressbook-migrate.c:1134
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -779,7 +779,7 @@ msgstr ""
 "\n"
 "กรุณาอดใจรอ ขณะที่ Evolution ถ่ายโอนโฟลเดอร์ของคุณ..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1138
+#: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -789,7 +789,7 @@ msgstr ""
 "\n"
 "กรุณารอ ในขณะที่ Evolution ถ่ายโอนโฟลเดอร์ของคุณ..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1147
+#: ../addressbook/gui/component/addressbook-migrate.c:1157
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -799,7 +799,7 @@ msgstr ""
 "\n"
 "กรุณาอดใจรอ ขณะที่ Evolution ถ่ายโอนโฟลเดอร์ของคุณ..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1157
+#: ../addressbook/gui/component/addressbook-migrate.c:1167
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -836,7 +836,7 @@ msgstr "สมุดที่อยู่ใ_หม่"
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:981
-#: ../calendar/gui/calendar-component.c:604
+#: ../calendar/gui/calendar-component.c:598
 #: ../calendar/gui/e-calendar-table.c:1375
 #: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:992
 #: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
@@ -852,7 +852,7 @@ msgid "Save As Vcard..."
 msgstr "บันทึกเป็น VCard..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
-#: ../calendar/gui/calendar-component.c:605
+#: ../calendar/gui/calendar-component.c:599
 #: ../calendar/gui/memos-component.c:467 ../calendar/gui/tasks-component.c:458
 msgid "_Properties..."
 msgstr "คุณ_สมบัติ..."
@@ -2985,7 +2985,7 @@ msgid "Cu_t"
 msgstr "_ตัด"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
-#: ../calendar/gui/calendar-component.c:603
+#: ../calendar/gui/calendar-component.c:597
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
@@ -3047,6 +3047,7 @@ msgstr "โทรศัพท์รถ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:7
+#: ../calendar/gui/e-cal-component-memo-preview.c:169
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -3362,7 +3363,7 @@ msgstr "การสนทนาภาพ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:573
 #: ../calendar/gui/calendar-commands.c:99
-#: ../calendar/gui/calendar-component.c:788
+#: ../calendar/gui/calendar-component.c:782
 #: ../calendar/gui/dialogs/calendar-setup.c:366
 #: ../calendar/gui/gnome-cal.c:2354
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
@@ -4454,12 +4455,12 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "ไม่สามารถเขียนบล็อคโปรแกรม ToDo ของปาล์มได้"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2219
+#: ../plugins/itip-formatter/itip-formatter.c:2228
 msgid "Calendar and Tasks"
 msgstr "ปฏิทินและงาน"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1394
+#: ../calendar/gui/calendar-component.c:1388
 msgid "Calendars"
 msgstr "ปฏิทิน"
 
@@ -5211,72 +5212,72 @@ msgstr "วันเกิด & วันครบรอบปี"
 msgid "Weather"
 msgstr "รายงานอากาศ"
 
-#: ../calendar/gui/calendar-component.c:602
+#: ../calendar/gui/calendar-component.c:596
 msgid "_New Calendar"
 msgstr "ปฏิทินใ_หม่"
 
-#: ../calendar/gui/calendar-component.c:932
+#: ../calendar/gui/calendar-component.c:926
 msgid "Failed upgrading calendars."
 msgstr "การปรับปรุงรุ่นปฏิทินล้มเหลว"
 
-#: ../calendar/gui/calendar-component.c:1231
+#: ../calendar/gui/calendar-component.c:1225
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "ไม่สามารถเปิดปฏิทิน '%s' เพื่อการสร้างเหตุการณ์และการประชุม"
 
-#: ../calendar/gui/calendar-component.c:1247
+#: ../calendar/gui/calendar-component.c:1241
 msgid "There is no calendar available for creating events and meetings"
 msgstr "ไม่มีปฏิทินที่จะใช้ได้สำหรับการสร้างเหตุการณ์และการประชุม"
 
-#: ../calendar/gui/calendar-component.c:1369
+#: ../calendar/gui/calendar-component.c:1363
 msgid "Calendar Source Selector"
 msgstr "ช่องเลือกแหล่งปฏิทิน"
 
-#: ../calendar/gui/calendar-component.c:1577
+#: ../calendar/gui/calendar-component.c:1581
 msgid "New appointment"
 msgstr "นัดหมายใหม่"
 
-#: ../calendar/gui/calendar-component.c:1578
+#: ../calendar/gui/calendar-component.c:1582
 msgid "_Appointment"
 msgstr "_นัดหมาย"
 
-#: ../calendar/gui/calendar-component.c:1579
+#: ../calendar/gui/calendar-component.c:1583
 msgid "Create a new appointment"
 msgstr "สร้างนัดหมายใหม่"
 
-#: ../calendar/gui/calendar-component.c:1585
+#: ../calendar/gui/calendar-component.c:1589
 msgid "New meeting"
 msgstr "การประชุมใหม่"
 
-#: ../calendar/gui/calendar-component.c:1586
+#: ../calendar/gui/calendar-component.c:1590
 msgid "M_eeting"
 msgstr "การ_ประชุม"
 
-#: ../calendar/gui/calendar-component.c:1587
+#: ../calendar/gui/calendar-component.c:1591
 msgid "Create a new meeting request"
 msgstr "สร้างการขอการประชุมใหม่"
 
-#: ../calendar/gui/calendar-component.c:1593
+#: ../calendar/gui/calendar-component.c:1597
 msgid "New all day appointment"
 msgstr "นัดหมายตลอดทั้งวันใหม่"
 
-#: ../calendar/gui/calendar-component.c:1594
+#: ../calendar/gui/calendar-component.c:1598
 msgid "All Day A_ppointment"
 msgstr "นัดหมาย_ตลอดทั้งวัน"
 
-#: ../calendar/gui/calendar-component.c:1595
+#: ../calendar/gui/calendar-component.c:1599
 msgid "Create a new all-day appointment"
 msgstr "สร้างการประชุมตลอดทั้งวันใหม่"
 
-#: ../calendar/gui/calendar-component.c:1601
+#: ../calendar/gui/calendar-component.c:1605
 msgid "New calendar"
 msgstr "ปฏิทินใหม่"
 
-#: ../calendar/gui/calendar-component.c:1602
+#: ../calendar/gui/calendar-component.c:1606
 msgid "Cale_ndar"
 msgstr "_ปฏิทิน"
 
-#: ../calendar/gui/calendar-component.c:1603
+#: ../calendar/gui/calendar-component.c:1607
 msgid "Create a new calendar"
 msgstr "สร้างปฏิทินใหม่"
 
@@ -6147,7 +6148,7 @@ msgstr "ปรับแต่ง"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1910
+#: ../plugins/itip-formatter/itip-formatter.c:1919
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1504
 #: ../widgets/misc/e-dateedit.c:1718
 msgid "None"
@@ -6817,9 +6818,9 @@ msgstr "ไม่ตกลง"
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1206
 #: ../plugins/itip-formatter/itip-formatter.c:393
-#: ../plugins/itip-formatter/itip-formatter.c:1935
+#: ../plugins/itip-formatter/itip-formatter.c:1944
 #: ../plugins/plugin-manager/plugin-manager.c:82
-#: ../widgets/misc/e-attachment-bar.c:720
+#: ../widgets/misc/e-attachment-bar.c:721
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Unknown"
 msgstr "ไม่รู้จัก"
@@ -7324,12 +7325,12 @@ msgstr "<br> กรุณาดูข้อมูลข้างล่างน�
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:802
-#: ../plugins/itip-formatter/itip-formatter.c:1923
+#: ../plugins/itip-formatter/itip-formatter.c:1932
 msgid "Accepted"
 msgstr "ตอบรับแล้ว"
 
 #: ../calendar/gui/e-itip-control.c:1168 ../calendar/gui/itip-utils.c:805
-#: ../plugins/itip-formatter/itip-formatter.c:1926
+#: ../plugins/itip-formatter/itip-formatter.c:1935
 msgid "Tentatively Accepted"
 msgstr "อาจตอบรับ"
 
@@ -7337,7 +7338,7 @@ msgstr "อาจตอบรับ"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:808 ../calendar/gui/itip-utils.c:837
-#: ../plugins/itip-formatter/itip-formatter.c:1929
+#: ../plugins/itip-formatter/itip-formatter.c:1938
 msgid "Declined"
 msgstr "ปฏิเสธ"
 
@@ -7708,7 +7709,7 @@ msgstr "ไม่แน่"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:811
-#: ../plugins/itip-formatter/itip-formatter.c:1932
+#: ../plugins/itip-formatter/itip-formatter.c:1941
 msgid "Delegated"
 msgstr "ส่งผู้แทนเข้าประชุม"
 
@@ -14944,37 +14945,37 @@ msgstr "_ฟื้นค่าตั้ง..."
 msgid "_Backup Settings..."
 msgstr "_สำรองค่าตั้ง..."
 
-#: ../plugins/bbdb/bbdb.c:459 ../plugins/bbdb/bbdb.c:468
+#: ../plugins/bbdb/bbdb.c:451 ../plugins/bbdb/bbdb.c:460
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "ติดต่ออัตโนมัติ"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:483
+#: ../plugins/bbdb/bbdb.c:475
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "เพิ่มรายการในสมุดที่อยู่โดย_อัตโนมัติเมื่อตอบเมล"
 
-#: ../plugins/bbdb/bbdb.c:489
+#: ../plugins/bbdb/bbdb.c:481
 msgid "Select Address book for Automatic Contacts"
 msgstr "เลือกสมุดที่อยู่สำหรับที่อยู่ติดต่ออัตโนมัติ"
 
-#: ../plugins/bbdb/bbdb.c:504
+#: ../plugins/bbdb/bbdb.c:496
 msgid "Instant Messaging Contacts"
 msgstr "ที่อยู่ติดต่อสำหรับข้อความทันใจ"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:519
+#: ../plugins/bbdb/bbdb.c:511
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
 msgstr "ปรับข้อมูลที่อยู่ติดต่อและรูปภาพกับรายการของ gaim เป็นระยะ"
 
-#: ../plugins/bbdb/bbdb.c:525
+#: ../plugins/bbdb/bbdb.c:517
 msgid "Select Address book for Gaim buddy list"
 msgstr "เลือกสมุดที่อยู่สำหรับคู่สนทนาของ Gaim"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:536
+#: ../plugins/bbdb/bbdb.c:528
 msgid "Synchronize with _buddy list now"
 msgstr "ปรับข้อมูลกับรายชื่อ_คู่สนทนาเดี๋ยวนี้"
 
@@ -15369,8 +15370,8 @@ msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf."
 msgstr ""
-"ข้อความนี้ถูกส่งโดยอัตโนมัติจาก Evolution เพื่อแจ้งให้คุณทราบว่าคุณได้รับการมอบฉันทะแล้ว "
-"ต่อไปนี้ คุณสามารถส่งข้อความในนามของข้าพเจ้าได้"
+"ข้อความนี้ถูกส่งโดยอัตโนมัติจาก Evolution เพื่อแจ้งให้คุณทราบว่าคุณได้รับการมอบฉันทะแล้ว ต่อไปนี้ "
+"คุณสามารถส่งข้อความในนามของข้าพเจ้าได้"
 
 #. To translators: Another chunk of the same message.
 #.
@@ -16641,35 +16642,37 @@ msgstr "ไม่สามารถปรับข้อมูลผู้เข
 msgid "Attendee status updated"
 msgstr "ปรับข้อมูลผู้เข้าร่วมเรียบร้อยแล้ว"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1351
+#: ../plugins/itip-formatter/itip-formatter.c:1345
+#: ../plugins/itip-formatter/itip-formatter.c:1360
 msgid "The calendar attached is not valid"
 msgstr "ปฏิทินใช้การไม่ได้"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1352
+#: ../plugins/itip-formatter/itip-formatter.c:1346
+#: ../plugins/itip-formatter/itip-formatter.c:1361
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "ข้อความอ้างว่ามีปฏิทิน แต่ตัวปฏิทินไม่ใช่ iCalendar ที่ใช้การได้"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1387
-#: ../plugins/itip-formatter/itip-formatter.c:1405
-#: ../plugins/itip-formatter/itip-formatter.c:1486
+#: ../plugins/itip-formatter/itip-formatter.c:1396
+#: ../plugins/itip-formatter/itip-formatter.c:1414
+#: ../plugins/itip-formatter/itip-formatter.c:1495
 msgid "The item in the calendar is not valid"
 msgstr "รายการในปฏิทินไม่ถูกต้อง"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1388
-#: ../plugins/itip-formatter/itip-formatter.c:1406
-#: ../plugins/itip-formatter/itip-formatter.c:1487
+#: ../plugins/itip-formatter/itip-formatter.c:1397
+#: ../plugins/itip-formatter/itip-formatter.c:1415
+#: ../plugins/itip-formatter/itip-formatter.c:1496
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr "ข้อความมีปฏิทินมาด้วย แต่ตัวปฏิทินไม่มีข้อมูลเหตุการณ์ งาน หรือสถานะว่าง/ไม่ว่างใดๆ เลย"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1417
+#: ../plugins/itip-formatter/itip-formatter.c:1426
 msgid "The calendar attached contains multiple items"
 msgstr "ปฏิทินที่แนบมามีรายการหลายรายการ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1418
+#: ../plugins/itip-formatter/itip-formatter.c:1427
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -16677,17 +16680,17 @@ msgstr "เพื่อจะดำเนินงานรายการทั
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2244
+#: ../plugins/itip-formatter/itip-formatter.c:2253
 msgid "_Delete message after acting"
 msgstr "_ลบข้อความหลังจากทำแล้ว"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2254
-#: ../plugins/itip-formatter/itip-formatter.c:2286
+#: ../plugins/itip-formatter/itip-formatter.c:2263
+#: ../plugins/itip-formatter/itip-formatter.c:2295
 msgid "Conflict Search"
 msgstr "การค้นหาการชนกัน"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2269
+#: ../plugins/itip-formatter/itip-formatter.c:2278
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "เลือกปฏิทินที่จะค้นหาการประชุมที่ชนกัน"
 
@@ -17218,7 +17221,7 @@ msgstr "การแจ้งเมลฉบับใหม่"
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid ""
 "Notifies the user with tray icon and a notify message whenever a new message "
-"is arrived."
+"has arrived."
 msgstr "แจ้งเตือนผู้ใช้ด้วยไอคอนถาดงานและข้อความแจ้งเตือนเมื่อมีจดหมายใหม่มาถึง"
 
 #: ../plugins/mail-remote/client.c:30
@@ -21032,7 +21035,7 @@ msgstr "ชนิดของมุมมอง"
 msgid "Type of view:"
 msgstr "ชนิดของมุมมอง:"
 
-#: ../widgets/misc/e-attachment-bar.c:1027
+#: ../widgets/misc/e-attachment-bar.c:1028
 msgid "Attachment Bar"
 msgstr "แถบเอกสารแนบ"
 
