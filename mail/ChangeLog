@@ -1,5 +1,17 @@
 2007-08-07  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #464312
+
+	* em-folder-tree-model.c: (em_folder_tree_model_get_selected): If the
+	selected uri is empty string, let it be NULL.
+	* em-folder-tree.c: (emft_tree_selection_changed),
+	(em_folder_tree_select_prev_path): If nothing is selected, remove
+	message list and preview.
+	* em-folder-view.c: (emfv_set_folder): Don't dup NULL
+	* message-list.c: (message_list_set_folder): Don't dup NULL
+
+2007-08-07  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #419690
 
 	* message-list.c: (message_list_construct): FALSE isn't really equal 

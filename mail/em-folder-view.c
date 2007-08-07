@@ -668,7 +668,7 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	
 	message_list_set_folder(emfv->list, folder, uri, isout);
 	g_free(emfv->folder_uri);
-	emfv->folder_uri = g_strdup(uri);
+	emfv->folder_uri = uri ? g_strdup(uri):NULL;
 	
 	if (emfv->folder) {
 		emfv->hide_deleted = emfv->list->hidedeleted; /* <- a bit nasty but makes it track the display better */

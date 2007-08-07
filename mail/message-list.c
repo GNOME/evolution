@@ -3156,7 +3156,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 
 	if (message_list->folder_uri != uri) {
 		g_free(message_list->folder_uri);
-		message_list->folder_uri = g_strdup(uri);
+		message_list->folder_uri = uri ? g_strdup(uri):NULL;
 	}
 	
 	if (message_list->cursor_uid) {

@@ -1212,6 +1212,10 @@ em_folder_tree_model_get_selected (EMFolderTreeModel *model)
 	uri = g_strdup (buf);
 	xmlFree (buf);
 	
+	if (uri && !*uri) {
+		g_free (uri);
+		return NULL;
+	}
 	return uri;
 }
 

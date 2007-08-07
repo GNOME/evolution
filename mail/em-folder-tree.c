@@ -2300,9 +2300,13 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 	GtkTreeIter iter;
 	guint32 flags;
 	
-	if (!emft_selection_get_selected (selection, &model, &iter))
+	if (!emft_selection_get_selected (selection, &model, &iter)) {
+		em_folder_tree_model_set_selected (emft->priv->model, NULL);
+		g_signal_emit (emft, signals[FOLDER_SELECTED], 0, NULL, NULL, 0);	
+		emft_queue_save_state (emft);
 		return;
-	
+	}
+
 	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &full_name,
 			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
 
@@ -2414,7 +2418,7 @@ em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
-	GtkTreeIter iter, parent, child;
+	GtkTreeIter iter, child;
 	GtkTreePath *path, *current_path = NULL;
 	unsigned int unread = 0;
 	struct _EMFolderTreePrivate *priv = emft->priv;
