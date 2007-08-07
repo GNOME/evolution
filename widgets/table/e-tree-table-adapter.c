@@ -1081,6 +1081,8 @@ e_tree_table_adapter_root_node_set_visible (ETreeTableAdapter *etta, gboolean vi
 {
 	int size;
 
+	g_return_if_fail (etta != NULL);
+
 	if (etta->priv->root_visible == visible)
 		return;
 

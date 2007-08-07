@@ -2294,7 +2294,7 @@ message_list_construct (MessageList *message_list)
 								      message_list->extras, 
 								      etspecfile,
 								      NULL)
-			    == NULL);
+			    == FALSE);
 	g_free (etspecfile);
 
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));

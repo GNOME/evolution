@@ -1,3 +1,11 @@
+2007-08-07  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #419690
+
+	* e-tree-table-adapter.c:
+	(e_tree_table_adapter_root_node_set_visible): Add protection around
+	etta.
+
 2007-08-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #463946

@@ -1,3 +1,10 @@
+2007-08-07  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #419690
+
+	* message-list.c: (message_list_construct): FALSE isn't really equal 
+	to NULL.
+
 2007-08-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #463061
