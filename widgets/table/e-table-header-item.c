@@ -144,7 +144,7 @@ ethi_dispose (GObject *object){
 
 	
 	if (ethi->etfcd)
-		g_object_remove_weak_pointer (G_OBJECT (ethi->etfcd), (gpointer *)&ethi->etfcd);
+		g_object_remove_weak_pointer (G_OBJECT (ethi->etfcd), (gpointer *) (void *) &ethi->etfcd);
 	
 
 	if (ethi->config)
@@ -1374,7 +1374,7 @@ ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 	info->ethi->etfcd = e_table_field_chooser_dialog_new ();
 	etfcd = (gpointer)info->ethi->etfcd;
 
-	g_object_add_weak_pointer (G_OBJECT (info->ethi->etfcd), &etfcd);
+	g_object_add_weak_pointer (G_OBJECT (etfcd), (gpointer*) (void *) &info->ethi->etfcd);
 	
 	g_object_set (info->ethi->etfcd,
 		     "full_header", info->ethi->full_header,

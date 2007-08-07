@@ -1,3 +1,10 @@
+2007-08-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #463946
+
+	* e-table-header-item.c: (ethi_dispose), (ethi_popup_field_chooser):
+	Fixes compiler warnings and weak pointer references.
+
 2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* e-cell-tree.c:
