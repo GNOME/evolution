@@ -1,3 +1,10 @@
+2007-08-08  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Add a new command line option to disable crash-on-select mails,
+	tasks, contacts.
+
+	* main.c: (main): Added a new command line option.
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* e-shell-window-command.c: (view_statusbar_item_toggled_handler),

@@ -401,6 +401,21 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/safe_list</key>
+      <applyto>/apps/evolution/mail/display/safe_list</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Hides the per-folder preview and removes the selection</short>
+         <long>
+          This should be a once-readable option and resetted to false after read. This unselects the 
+	  mail in the list and removes the preview for that folder.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/paned_size</key>
       <applyto>/apps/evolution/mail/display/paned_size</applyto>
       <owner>evolution-mail</owner>

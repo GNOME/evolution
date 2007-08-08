@@ -1,3 +1,10 @@
+2007-08-08  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-folder-browser.c: (emfb_set_folder): Use the gconf key to
+	unselect mail and preview.
+	* evolution-mail.schemas.in: Add a new gconf key to have a safe view
+	if the selected mail crashes.
+
 2007-08-07  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #464312

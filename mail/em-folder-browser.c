@@ -1894,8 +1894,18 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	if (folder) {
 		char *sstate;
 		int state;
+		gboolean safe;
 		GConfClient *gconf = mail_config_get_gconf_client();
 		
+		safe = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/safe_list", NULL);
+		if (safe) {
+			if (camel_object_meta_set(emfv->folder, "evolution:show_preview", "0") &&
+			    camel_object_meta_set(emfv->folder, "evolution:selected_uid", NULL)) {
+				camel_object_state_write(emfv->folder);
+			}
+			gconf_client_set_bool (gconf, "/apps/evolution/mail/display/safe_list", FALSE, NULL);
+		}
+
 		mail_refresh_folder(folder, NULL, NULL);
 
 		emfb->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",

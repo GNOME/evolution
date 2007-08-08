@@ -103,7 +103,7 @@ static gboolean killev = FALSE;
 static gboolean force_migrate = FALSE;
 #endif
 static gboolean disable_eplugin = FALSE;
-
+static gboolean disable_preview = FALSE;
 static gboolean idle_cb (gchar **uris);
 
 static char *default_component_id = NULL;
@@ -470,6 +470,8 @@ static const GOptionEntry options[] = {
 	  N_("Send the debugging output of all components to a file."), NULL },
 	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin, 
 	  N_("Disable loading of any plugins."), NULL },
+	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview, 
+	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },	
 	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
 	  &setup_only, NULL, NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
@@ -536,7 +538,13 @@ main (int argc, char **argv)
 		destroy_config (client);
 	}
 #endif
-	
+	if (disable_preview) {
+		gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
+		gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
+		gconf_client_set_bool (client, "/apps/evolution/addressbook/display/show_preview", FALSE, NULL);
+		gconf_client_set_bool (client, "/apps/evolution/calendar/display/show_task_preview", FALSE, NULL);
+	}
+
 	setup_segv_redirect ();
 	
 	if (evolution_debug_log) {
