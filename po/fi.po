@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-06 16:38+0300\n"
+"POT-Creation-Date: 2007-08-09 07:34+0300\n"
 "PO-Revision-Date: 2007-03-05 17:08+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -634,7 +634,7 @@ msgstr "Hallitse S/Mime varmenteitasi"
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:144
-#: ../addressbook/gui/component/addressbook-migrate.c:488
+#: ../addressbook/gui/component/addressbook-migrate.c:497
 #: ../calendar/gui/calendar-component.c:236
 #: ../calendar/gui/memos-component.c:200 ../calendar/gui/migration.c:481
 #: ../calendar/gui/migration.c:582 ../calendar/gui/migration.c:1095
@@ -650,7 +650,7 @@ msgstr "Tällä tietokoneella"
 #. Create the default Person addressbook
 #. orange
 #: ../addressbook/gui/component/addressbook-component.c:152
-#: ../addressbook/gui/component/addressbook-migrate.c:496
+#: ../addressbook/gui/component/addressbook-migrate.c:505
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
 #: ../calendar/gui/calendar-component.c:247
@@ -663,7 +663,7 @@ msgstr "Henkilökohtainen"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:162
-#: ../addressbook/gui/component/addressbook-migrate.c:506
+#: ../addressbook/gui/component/addressbook-migrate.c:515
 msgid "On LDAP Servers"
 msgstr "LDAP-palvelimilla"
 
@@ -770,15 +770,15 @@ msgstr "Siirretään..."
 msgid "Migrating `%s':"
 msgstr "Siirretään  \"%s\""
 
-#: ../addressbook/gui/component/addressbook-migrate.c:634
+#: ../addressbook/gui/component/addressbook-migrate.c:643
 msgid "LDAP Servers"
 msgstr "LDAP-palvelimet"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:749
+#: ../addressbook/gui/component/addressbook-migrate.c:758
 msgid "Autocompletion Settings"
 msgstr "Automaattisen täydennyksen asetukset"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1124
+#: ../addressbook/gui/component/addressbook-migrate.c:1134
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -790,7 +790,7 @@ msgstr ""
 "\n"
 "Odota kärsivällisesti, kun Evolution siirtää kansioitasi..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1138
+#: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -800,7 +800,7 @@ msgstr ""
 "\n"
 "Odota kärsivällisesti, kun Evolution muuntaa kansioitasi..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1147
+#: ../addressbook/gui/component/addressbook-migrate.c:1157
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -810,7 +810,7 @@ msgstr ""
 "\n"
 "Odota kärsivällisesti kun Evolution muuntaa kansioitasi..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1157
+#: ../addressbook/gui/component/addressbook-migrate.c:1167
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -4046,13 +4046,12 @@ msgid "Export in asynchronous mode"
 msgstr "Vie asynkronisesti"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
-#, fuzzy
 msgid ""
 "The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
-"Korttien lukumäärä yhdessä tulostiedostossa käytettäessä asynkronista tilaa. "
-"Oletusarvo on 100."
+"Yhden tulostiedoston sisältämien korttien lukumäärä käytettäessä "
+"asynkronista tilaa. Oletusarvo on 100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:65
 msgid "NUMBER"
@@ -4717,11 +4716,11 @@ msgid "Could not initialize Bonobo"
 msgstr "Bonobon alustus ei onnistunut"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:153
-#, fuzzy
 msgid ""
 "Could not create the alarm notify service factory, maybe it's already "
 "running..."
-msgstr "Hälytyksien ja huomautusten palvelun tehdasta ei voi luoda"
+msgstr ""
+"Hälytysten huomautuspalvelun tehdasta ei voi luoda, ehkä se oli jo käynnissä?"
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -4991,12 +4990,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Näytä tilakenttä tapahtuman, tehtävän tai kokouksen muokkaimessa"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
-#: ../mail/evolution-mail.schemas.in.h:95
+#: ../mail/evolution-mail.schemas.in.h:96
 msgid "Show the \"Preview\" pane"
 msgstr "Näytä \"Esikatselu\"-paneeli"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#: ../mail/evolution-mail.schemas.in.h:96
+#: ../mail/evolution-mail.schemas.in.h:97
 msgid "Show the \"Preview\" pane."
 msgstr "Näytä esikatselupaneeli"
 
@@ -5209,7 +5208,6 @@ msgid "Unmatched"
 msgstr "Täsmäämättömät"
 
 #: ../calendar/gui/cal-search-bar.c:630
-#, fuzzy
 msgid "Next 7 Days' Tasks"
 msgstr "Seuraavien 7 päivän tehtävät"
 
@@ -5218,7 +5216,6 @@ msgid "Active Tasks"
 msgstr "Aktiiviset tehtävät"
 
 #: ../calendar/gui/cal-search-bar.c:638
-#, fuzzy
 msgid "Overdue Tasks"
 msgstr "Vanhentuneet tehtävät"
 
@@ -5227,7 +5224,6 @@ msgid "Completed Tasks"
 msgstr "Valmistuneet tehtävät"
 
 #: ../calendar/gui/cal-search-bar.c:646
-#, fuzzy
 msgid "Tasks with Attachments"
 msgstr "Tehtävät, joissa on liitteitä"
 
@@ -5236,9 +5232,8 @@ msgid "Active Appointments"
 msgstr "Aktiiviset tapaamiset"
 
 #: ../calendar/gui/cal-search-bar.c:696
-#, fuzzy
 msgid "Next 7 Days' Appointments"
-msgstr "Seuraavan 7 päivän tapaamiset"
+msgstr "Seuraavien 7 päivän tapaamiset"
 
 #: ../calendar/gui/calendar-commands.c:99 ../ui/evolution-addressbook.xml.h:26
 #: ../ui/evolution-calendar.xml.h:20 ../ui/evolution-mail-message.xml.h:75
@@ -5376,13 +5371,11 @@ msgstr "Kuukausinäkymä"
 
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
 #: ../calendar/gui/tasktypes.xml.h:2
-#, fuzzy
 msgid "Description Contains"
 msgstr "Kuvaus sisältää"
 
 #: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
 #: ../calendar/gui/tasktypes.xml.h:3
-#, fuzzy
 msgid "Summary Contains"
 msgstr "Yhteenveto sisältää"
 
@@ -10424,7 +10417,7 @@ msgstr "_Tallenna viesti"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:510
+#: ../shell/main.c:512
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -11298,7 +11291,6 @@ msgstr "Poista tilan asetus"
 
 #. and now for the action area
 #: ../mail/em-filter-rule.c:488
-#, fuzzy
 msgid "Then"
 msgstr "sitten"
 
@@ -11397,7 +11389,7 @@ msgid "Drafts"
 msgstr "Luonnokset"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2572
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2576
 #: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11677,9 +11669,8 @@ msgid "Unable to retrieve message"
 msgstr "Viestiä ei voida hakea"
 
 #: ../mail/em-folder-view.c:2375
-#, fuzzy
 msgid "Retrieving Message..."
-msgstr "<b>Haetaan viestiä...</b>"
+msgstr "Noudetaan viestiä..."
 
 #: ../mail/em-folder-view.c:2603
 msgid "C_all To..."
@@ -11976,9 +11967,8 @@ msgid "Formatting message"
 msgstr "Muotoillaan viestiä"
 
 #: ../mail/em-format-html.c:1376
-#, fuzzy
 msgid "Formatting Message..."
-msgstr "Muotoillaan viestiä"
+msgstr "Muotoillaan viestiä..."
 
 #: ../mail/em-format-html.c:1508 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:87
@@ -12013,15 +12003,13 @@ msgstr "Postittaja"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1710
-#, fuzzy
 msgid " (%a, %R %Z)"
-msgstr "<I> (%a, %R %Z)</I>"
+msgstr " (%a. %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: ../mail/em-format-html.c:1715
-#, fuzzy
 msgid " (%R %Z)"
-msgstr "<I> (%R %Z)</I>"
+msgstr " (%R %Z)"
 
 #: ../mail/em-format-html.c:1727 ../mail/em-format-quote.c:336
 #: ../mail/em-format.c:856 ../mail/em-mailer-prefs.c:93
@@ -12039,9 +12027,9 @@ msgstr "Uutisryhmät"
 #. different from the one listed in From field.
 #.
 #: ../mail/em-format-html.c:1837
-#, fuzzy, c-format
+#, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
-msgstr "Vastaa henkilön <b>%s</b> puolesta"
+msgstr "Tämä viesti lähetetiin <b>%s</b> käyttäjän <b>%s</b> puolesta"
 
 #: ../mail/em-format.c:1121
 #, c-format
@@ -12405,6 +12393,10 @@ msgid "Height of the message-list pane."
 msgstr "Viestilistapaneelin korkeus."
 
 #: ../mail/evolution-mail.schemas.in.h:37
+msgid "Hides the per-folder preview and removes the selection"
+msgstr "Piilottaa kansiokohtaisen esikatselun ja poistaa valinnan"
+
+#: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -12412,7 +12404,7 @@ msgstr ""
 "Jos yrität avata 10 tai useampia viestejä kerralla, kysytään haluatkotodella "
 "tehdä sen."
 
-#: ../mail/evolution-mail.schemas.in.h:38
+#: ../mail/evolution-mail.schemas.in.h:39
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
@@ -12420,7 +12412,7 @@ msgstr ""
 "Jos \"Esikatselu\"-paneeli on käytössä, se näytetään viestilistan vieressä "
 "eikä alapuolella."
 
-#: ../mail/evolution-mail.schemas.in.h:39
+#: ../mail/evolution-mail.schemas.in.h:40
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
@@ -12430,7 +12422,7 @@ msgstr ""
 "voidaan käyttää mitä tahansa Gnomen MIME-tyyppientietokannassa määriteltyä "
 "bonobo-komponentin katselinta viestin näyttämiseen."
 
-#: ../mail/evolution-mail.schemas.in.h:40
+#: ../mail/evolution-mail.schemas.in.h:41
 msgid ""
 "It disables the feature where repeated prompts to ask if offline sync is "
 "required."
@@ -12438,31 +12430,31 @@ msgstr ""
 "Poistaa käytöstä ominaisuuden, joka kysyy useita kertoja vaaditaanko "
 "synkronointia yhteydettömään tilaan siirryttäessä."
 
-#: ../mail/evolution-mail.schemas.in.h:41
+#: ../mail/evolution-mail.schemas.in.h:42
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr "Näytetäänkö vahvistusikkuna merkittäessä useita viestejä."
 
-#: ../mail/evolution-mail.schemas.in.h:42
+#: ../mail/evolution-mail.schemas.in.h:43
 msgid "Last time empty junk was run"
 msgstr "Viimeisin kerta, kun roskapostikansiot tyhjennettiin"
 
-#: ../mail/evolution-mail.schemas.in.h:43
+#: ../mail/evolution-mail.schemas.in.h:44
 msgid "Last time empty trash was run"
 msgstr "Roskakori tyhjennettiin viimeksi"
 
-#: ../mail/evolution-mail.schemas.in.h:44
+#: ../mail/evolution-mail.schemas.in.h:45
 msgid "List of Labels and their associated colors"
 msgstr "Merkinnät ja niihin liittyvät värit"
 
-#: ../mail/evolution-mail.schemas.in.h:45
+#: ../mail/evolution-mail.schemas.in.h:46
 msgid "List of accepted licenses"
 msgstr "Hyväksytyt lisenssit"
 
-#: ../mail/evolution-mail.schemas.in.h:46
+#: ../mail/evolution-mail.schemas.in.h:47
 msgid "List of accounts"
 msgstr "Lista tileistä"
 
-#: ../mail/evolution-mail.schemas.in.h:47
+#: ../mail/evolution-mail.schemas.in.h:48
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -12471,11 +12463,11 @@ msgstr ""
 "merkkijonoja, jotka nimeävät alihakemistoja hakemiston/apps/evolution/mail/"
 "accounts alla."
 
-#: ../mail/evolution-mail.schemas.in.h:48
+#: ../mail/evolution-mail.schemas.in.h:49
 msgid "List of custom headers and whether they are enabled."
 msgstr "Lista omista otsakkeista ja tieto siitä ovatko ne käytössä."
 
-#: ../mail/evolution-mail.schemas.in.h:49
+#: ../mail/evolution-mail.schemas.in.h:50
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -12483,19 +12475,19 @@ msgstr ""
 "Evolutionin sähköpostiosan tuntemat etiketit. Lista sisältää nimi:väri "
 "pareja, jossa väri on määäritelty HTML-värien heksadesimaalisessa muodossa."
 
-#: ../mail/evolution-mail.schemas.in.h:50
+#: ../mail/evolution-mail.schemas.in.h:51
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "Lista MIME-tyypeistä, joille etsitään bonobo komponenttikatselimia"
 
-#: ../mail/evolution-mail.schemas.in.h:51
+#: ../mail/evolution-mail.schemas.in.h:52
 msgid "List of protocol names whose license has been accepted."
 msgstr "Lista protokollista, joiden lisenssii on hyväksytty."
 
-#: ../mail/evolution-mail.schemas.in.h:52
+#: ../mail/evolution-mail.schemas.in.h:53
 msgid "Load images for HTML messages over http"
 msgstr "Hae HTML-viestien kuvat käyttäen HTTP:ta"
 
-#: ../mail/evolution-mail.schemas.in.h:53
+#: ../mail/evolution-mail.schemas.in.h:54
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
@@ -12505,111 +12497,111 @@ msgstr ""
 "koskaan hae kuvia verkosta 1 - Hae kuvia, jos lähettäjä on osoitekirjassa 2 "
 "- Hae kuvat aina verkosta"
 
-#: ../mail/evolution-mail.schemas.in.h:54
+#: ../mail/evolution-mail.schemas.in.h:55
 msgid "Log filter actions"
 msgstr "Kirjaa suodatintoimenpiteet"
 
-#: ../mail/evolution-mail.schemas.in.h:55
+#: ../mail/evolution-mail.schemas.in.h:56
 msgid "Log filter actions to the specified log file."
 msgstr "Kirjaa suodattimien toimenpiteet määriteltyyn lokitiedostoon."
 
-#: ../mail/evolution-mail.schemas.in.h:56
+#: ../mail/evolution-mail.schemas.in.h:57
 msgid "Logfile to log filter actions"
 msgstr "Lokitiedosto suodattimien toimenpiteille"
 
-#: ../mail/evolution-mail.schemas.in.h:57
+#: ../mail/evolution-mail.schemas.in.h:58
 msgid "Logfile to log filter actions."
 msgstr "Lokitiedosto suodattimien toimenpiteille."
 
-#: ../mail/evolution-mail.schemas.in.h:58
+#: ../mail/evolution-mail.schemas.in.h:59
 msgid "Mark as Seen after specified timeout"
 msgstr "Merkitse nähdyksi määritellyn viiveen jälkeen"
 
-#: ../mail/evolution-mail.schemas.in.h:59
+#: ../mail/evolution-mail.schemas.in.h:60
 msgid "Mark as Seen after specified timeout."
 msgstr "Merkitse nähdyksi määritellyn viiveen jälkeen."
 
-#: ../mail/evolution-mail.schemas.in.h:60
+#: ../mail/evolution-mail.schemas.in.h:61
 msgid "Mark citations in the message \"Preview\""
 msgstr "Merkitse lainaukset viestin \"esikatselussa\""
 
-#: ../mail/evolution-mail.schemas.in.h:61
+#: ../mail/evolution-mail.schemas.in.h:62
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Merkitse lainaukset viestin \"esikatselussa\"."
 
-#: ../mail/evolution-mail.schemas.in.h:62
+#: ../mail/evolution-mail.schemas.in.h:63
 msgid "Message Window default height"
 msgstr "Viestiikkunan oletuskorkeus"
 
-#: ../mail/evolution-mail.schemas.in.h:63
+#: ../mail/evolution-mail.schemas.in.h:64
 msgid "Message Window default width"
 msgstr "Viestiikkunan oletusleveys"
 
-#: ../mail/evolution-mail.schemas.in.h:64
+#: ../mail/evolution-mail.schemas.in.h:65
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr "Viestin näyttötyyli (\"normal\", \"full headers\" tai \"source\")"
 
-#: ../mail/evolution-mail.schemas.in.h:65
+#: ../mail/evolution-mail.schemas.in.h:66
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Lyhin aika päivinä, jonka kuluttua roskapostit poistetaan suljettaessa"
 
-#: ../mail/evolution-mail.schemas.in.h:66
+#: ../mail/evolution-mail.schemas.in.h:67
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Lyhin aika päivinä, jonka kuluttua roskakori tyhjennetään suljettaessa"
 
-#: ../mail/evolution-mail.schemas.in.h:67
+#: ../mail/evolution-mail.schemas.in.h:68
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Lyhin aika jonka kuluttua roskapostit poistetaan suljettaessa, arvo päivinä."
 
-#: ../mail/evolution-mail.schemas.in.h:68
+#: ../mail/evolution-mail.schemas.in.h:69
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Vähimmäisaika roskakorin tyhjennysten välillä (päiviä)."
 
-#: ../mail/evolution-mail.schemas.in.h:69
+#: ../mail/evolution-mail.schemas.in.h:70
 msgid "New Mail Notify sound file"
 msgstr "Uudesta postista huomauttava äänitiedosto"
 
-#: ../mail/evolution-mail.schemas.in.h:70
+#: ../mail/evolution-mail.schemas.in.h:71
 msgid "New Mail Notify type"
 msgstr "Uutta postia-huomuksen tyyppi"
 
-#: ../mail/evolution-mail.schemas.in.h:71
+#: ../mail/evolution-mail.schemas.in.h:72
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "To-, Cc- ja Bcc-osoitteiden näytettävä lukumäärä"
 
-#: ../mail/evolution-mail.schemas.in.h:72
+#: ../mail/evolution-mail.schemas.in.h:73
 msgid "Prompt on empty subject"
 msgstr "Kysy vahvistus, jos viestin aihe on tyhjä"
 
-#: ../mail/evolution-mail.schemas.in.h:73
+#: ../mail/evolution-mail.schemas.in.h:74
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 "Kysy vahvistus, kun kansioista siivotaan pysyvästi poistettuja viestejä."
 
-#: ../mail/evolution-mail.schemas.in.h:74
+#: ../mail/evolution-mail.schemas.in.h:75
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 "Kysy vahvistus, jos yritetään lähettää viestiä tyhjällä aihe-otsakkeella."
 
-#: ../mail/evolution-mail.schemas.in.h:75
+#: ../mail/evolution-mail.schemas.in.h:76
 msgid "Prompt to check if the user wants to go offline immediately"
 msgstr "Kysy vahvisus haluaako käyttäjä siirty yhteydettömään tilaan heti"
 
-#: ../mail/evolution-mail.schemas.in.h:76
+#: ../mail/evolution-mail.schemas.in.h:77
 msgid "Prompt when user expunges"
 msgstr "Kysy vahvistus, kun käyttäjä siivoaa poistettuja"
 
-#: ../mail/evolution-mail.schemas.in.h:77
+#: ../mail/evolution-mail.schemas.in.h:78
 msgid "Prompt when user only fills Bcc"
 msgstr "Kysy vahvistus, jos käyttäjä syöttää ainoastaan Bcc-kentän"
 
-#: ../mail/evolution-mail.schemas.in.h:78
+#: ../mail/evolution-mail.schemas.in.h:79
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Kysy kun käyttäjä yrittää avata kymmenen tai useampia kerralla"
 
-#: ../mail/evolution-mail.schemas.in.h:79
+#: ../mail/evolution-mail.schemas.in.h:80
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -12617,133 +12609,133 @@ msgstr ""
 "Kysy vahvistus, kun ollaan lähettämässä HTML-viestiä vastaanottajille, jotka "
 "eivät sellaista halua vastaanottaa."
 
-#: ../mail/evolution-mail.schemas.in.h:80
+#: ../mail/evolution-mail.schemas.in.h:81
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Varmista, kun käyttäjä yrittää lähettää viestiä ilman Vastaanottaja tai Cc-"
 "kenttiä"
 
-#: ../mail/evolution-mail.schemas.in.h:81
+#: ../mail/evolution-mail.schemas.in.h:82
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Kysy vahvistus, jos yritetään lähteä ei-toivottua HTML-postia"
 
-#: ../mail/evolution-mail.schemas.in.h:82
+#: ../mail/evolution-mail.schemas.in.h:83
 msgid "Prompt while marking multiple messages"
 msgstr "Kysy vahvistus merkittäessä useita viestejä"
 
-#: ../mail/evolution-mail.schemas.in.h:83
+#: ../mail/evolution-mail.schemas.in.h:84
 msgid "Recognize links in text and replace them."
 msgstr "Tunnista linkit tekstissä ja korvaa ne linkillä"
 
-#: ../mail/evolution-mail.schemas.in.h:84
+#: ../mail/evolution-mail.schemas.in.h:85
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Tunnista hymiöt tekstissä ja korvaa ne kuvilla."
 
-#: ../mail/evolution-mail.schemas.in.h:85
+#: ../mail/evolution-mail.schemas.in.h:86
 msgid "Run junk test on incoming mail"
 msgstr "Suorita roskapostitarkistus saapuvalle postille"
 
-#: ../mail/evolution-mail.schemas.in.h:86
+#: ../mail/evolution-mail.schemas.in.h:87
 msgid "Save directory"
 msgstr "Tallenna kansio"
 
-#: ../mail/evolution-mail.schemas.in.h:87
+#: ../mail/evolution-mail.schemas.in.h:88
 msgid "Search for the sender photo in local addressbooks"
 msgstr "Etsi lähettäjän kuvaa paikallisista osoitekirjoista"
 
-#: ../mail/evolution-mail.schemas.in.h:88
+#: ../mail/evolution-mail.schemas.in.h:89
 msgid "Send HTML mail by default"
 msgstr "Lähetä oletuksena HTML-sähköpostia"
 
-#: ../mail/evolution-mail.schemas.in.h:89
+#: ../mail/evolution-mail.schemas.in.h:90
 msgid "Send HTML mail by default."
 msgstr "Lähetä HTML-postia oletuksena."
 
-#: ../mail/evolution-mail.schemas.in.h:90
+#: ../mail/evolution-mail.schemas.in.h:91
 msgid "Show Animations"
 msgstr "Näytä animaatiot"
 
-#: ../mail/evolution-mail.schemas.in.h:91
+#: ../mail/evolution-mail.schemas.in.h:92
 msgid "Show animated images as animations."
 msgstr "Näytä animoidut kuvat animaatioina"
 
-#: ../mail/evolution-mail.schemas.in.h:92
+#: ../mail/evolution-mail.schemas.in.h:93
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Näytä poistetut viestit yliviivattuna viestilistassa."
 
-#: ../mail/evolution-mail.schemas.in.h:93
+#: ../mail/evolution-mail.schemas.in.h:94
 msgid "Show deleted messages in the message-list"
 msgstr "Näytä poistetut viestit viestilistalla"
 
-#: ../mail/evolution-mail.schemas.in.h:94
+#: ../mail/evolution-mail.schemas.in.h:95
 msgid "Show photo of the sender"
 msgstr "Näytä lähettäjän valokuva"
 
-#: ../mail/evolution-mail.schemas.in.h:97
+#: ../mail/evolution-mail.schemas.in.h:98
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
 msgstr ""
 "Näytä lähettäjän sähköpostiosoite viesti-ikkunan viestien yhdistesarakkeessa"
 
-#: ../mail/evolution-mail.schemas.in.h:98
+#: ../mail/evolution-mail.schemas.in.h:99
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Näytä lähettäjän kuva viesti-ikkunan lukupaneelissa"
 
-#: ../mail/evolution-mail.schemas.in.h:99
+#: ../mail/evolution-mail.schemas.in.h:100
 msgid "Show the sender email in the messages column in the message list"
 msgstr "Näytä lähettäjän sähköposti viestilistan viestisarakkeessa"
 
-#: ../mail/evolution-mail.schemas.in.h:100
+#: ../mail/evolution-mail.schemas.in.h:101
 msgid "Sound file to play when new mail arrives."
 msgstr "Äänitiedosto joka soitetaan, kun uusia viestejä saapuu."
 
-#: ../mail/evolution-mail.schemas.in.h:101
+#: ../mail/evolution-mail.schemas.in.h:102
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
 "Määrittelee saapuneiden viestien huomautuksen, jota käyttäjä haluaa käyttää."
 
-#: ../mail/evolution-mail.schemas.in.h:102
+#: ../mail/evolution-mail.schemas.in.h:103
 msgid "Spell check inline"
 msgstr "Oikolue kirjoitettaessa"
 
-#: ../mail/evolution-mail.schemas.in.h:103
+#: ../mail/evolution-mail.schemas.in.h:104
 msgid "Subscribe dialog default height"
 msgstr "Tilausikkunan oletuskorkeus"
 
-#: ../mail/evolution-mail.schemas.in.h:104
+#: ../mail/evolution-mail.schemas.in.h:105
 msgid "Subscribe dialog default width"
 msgstr "Tilausikkunan oletusleveys"
 
-#: ../mail/evolution-mail.schemas.in.h:105
+#: ../mail/evolution-mail.schemas.in.h:106
 msgid "Terminal font"
 msgstr "Päätteen kirjasin"
 
-#: ../mail/evolution-mail.schemas.in.h:106
+#: ../mail/evolution-mail.schemas.in.h:107
 msgid "Text message part limit"
 msgstr "Tekstin viestiosan kokoraja"
 
-#: ../mail/evolution-mail.schemas.in.h:107
+#: ../mail/evolution-mail.schemas.in.h:108
 msgid "The default plugin for Junk hook"
 msgstr "Roskapostikäsittelijän oletusliitännäinen"
 
-#: ../mail/evolution-mail.schemas.in.h:108
+#: ../mail/evolution-mail.schemas.in.h:109
 msgid "The last time empty junk was run, in days since the epoch."
 msgstr "Viimeisimman roskapostien poistokerran unix-aikaleima."
 
-#: ../mail/evolution-mail.schemas.in.h:109
+#: ../mail/evolution-mail.schemas.in.h:110
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "Viimeisimman roskakorin tyhjennyksen unix-aikaleima."
 
-#: ../mail/evolution-mail.schemas.in.h:110
+#: ../mail/evolution-mail.schemas.in.h:111
 msgid "The terminal font for mail display"
 msgstr "Päätekirjasin viestien näyttöön"
 
-#: ../mail/evolution-mail.schemas.in.h:111
+#: ../mail/evolution-mail.schemas.in.h:112
 msgid "The variable width font for mail display"
 msgstr "Vaihtelevan levyinen kirjasin viestien näyttöön"
 
-#: ../mail/evolution-mail.schemas.in.h:112
+#: ../mail/evolution-mail.schemas.in.h:113
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
@@ -12751,7 +12743,7 @@ msgstr ""
 "Tämä määrittää maksimikoon viestin tekstiosalle, joka voidaan esittää "
 "evolutionissa. Oletusarvo on 4096kt ja arvo määritellää kilotavuina."
 
-#: ../mail/evolution-mail.schemas.in.h:113
+#: ../mail/evolution-mail.schemas.in.h:114
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it wont fall back to "
@@ -12761,7 +12753,7 @@ msgstr ""
 "käytössä. Jos oletusliitännäinen ei ole käytössä, ei palata käyttämään muita "
 "käytössä olevia liitännäisiä."
 
-#: ../mail/evolution-mail.schemas.in.h:114
+#: ../mail/evolution-mail.schemas.in.h:115
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -12772,11 +12764,11 @@ msgstr ""
 "otsakkeita ja sen, näytetäänkö niitä. XML-rakenteen muoto on &lt;header "
 "enabled&gt; - määrittele enabled, jos otsake halutaan näyttää postinäkymässä."
 
-#: ../mail/evolution-mail.schemas.in.h:115
+#: ../mail/evolution-mail.schemas.in.h:116
 msgid "This option would help in improving the speed of fetching."
 msgstr "Tämä ominaisuus helpottaa noudon nopeuden parantamista."
 
-#: ../mail/evolution-mail.schemas.in.h:116
+#: ../mail/evolution-mail.schemas.in.h:117
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -12784,7 +12776,7 @@ msgstr ""
 "Tämä asettaa viestilistan oletusnäkymässä näytettävien viestin lukumäärän, "
 "jonka jälkeen näytetään '...'."
 
-#: ../mail/evolution-mail.schemas.in.h:117
+#: ../mail/evolution-mail.schemas.in.h:118
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart"
@@ -12792,103 +12784,112 @@ msgstr ""
 "Tämä asetus määrittää, laajennetaanko vai supistetaanko säikeet oletuksena. "
 "Muutos vaatii Evolutionin uudelleenkäynnistyksen."
 
-#: ../mail/evolution-mail.schemas.in.h:118
+#: ../mail/evolution-mail.schemas.in.h:119
+msgid ""
+"This should be a once-readable option and resetted to false after read. This "
+"unselects the mail in the list and removes the preview for that folder."
+msgstr ""
+"Tämän tulee olla kerran luettava valinta, joka asetetaan luvun jälkeen "
+"vääräksi. Tämä valinta peruu listan postien valinnan ja poistaa kansion "
+"esikatselutiedot."
+
+#: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message list."
 msgstr "Säikeistä viestilista"
 
-#: ../mail/evolution-mail.schemas.in.h:119
+#: ../mail/evolution-mail.schemas.in.h:121
 msgid "Thread the message-list"
 msgstr "Säikeistä viestilista"
 
-#: ../mail/evolution-mail.schemas.in.h:120
+#: ../mail/evolution-mail.schemas.in.h:122
 msgid "Thread the message-list based on Subject"
 msgstr "Säikeistä viestilista aiheen perusteella"
 
-#: ../mail/evolution-mail.schemas.in.h:121
+#: ../mail/evolution-mail.schemas.in.h:123
 msgid "Timeout for marking message as Seen"
 msgstr "Aikakatkaisu merkittäessä viestejä nähdyiksi"
 
-#: ../mail/evolution-mail.schemas.in.h:122
+#: ../mail/evolution-mail.schemas.in.h:124
 msgid "Timeout for marking message as Seen."
 msgstr "Aikakatkaisu merkittäessä viestejä nähdyiksi."
 
-#: ../mail/evolution-mail.schemas.in.h:123
+#: ../mail/evolution-mail.schemas.in.h:125
 msgid "UID string of the default account."
 msgstr "Oletustilin UID-merkkijono."
 
-#: ../mail/evolution-mail.schemas.in.h:124
+#: ../mail/evolution-mail.schemas.in.h:126
 msgid "Use SpamAssassin daemon and client"
 msgstr "Käytä Spamassassin-palvelinta ja -asiakasta"
 
-#: ../mail/evolution-mail.schemas.in.h:125
+#: ../mail/evolution-mail.schemas.in.h:127
 msgid "Use SpamAssassin daemon and client (spamc/spamd)"
 msgstr "Käytä Spamassassin-palvelinta ja -asiakasta (spamc/spamd)"
 
-#: ../mail/evolution-mail.schemas.in.h:126
+#: ../mail/evolution-mail.schemas.in.h:128
 msgid "Use custom fonts"
 msgstr "Käytä omia kirjasimia"
 
-#: ../mail/evolution-mail.schemas.in.h:127
+#: ../mail/evolution-mail.schemas.in.h:129
 msgid "Use custom fonts for displaying mail"
 msgstr "Käytä omia kirjasimia viestien näyttöön"
 
-#: ../mail/evolution-mail.schemas.in.h:128
+#: ../mail/evolution-mail.schemas.in.h:130
 msgid "Use only local spam tests."
 msgstr "Käytä ainoastaan paikallisia roskapostin tarkistuksia"
 
-#: ../mail/evolution-mail.schemas.in.h:129
+#: ../mail/evolution-mail.schemas.in.h:131
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Käytä ainoastaan paikallisia roskapostin tarkistuksia (ei DNS:ää)."
 
-#: ../mail/evolution-mail.schemas.in.h:130
+#: ../mail/evolution-mail.schemas.in.h:132
 msgid "Use side-by-side or wide layout"
 msgstr "Näytä vierekkäistä, leveää asettelua"
 
-#: ../mail/evolution-mail.schemas.in.h:131
+#: ../mail/evolution-mail.schemas.in.h:133
 msgid "Variable width font"
 msgstr "Vaihtuvanlevyinen kirjasin"
 
-#: ../mail/evolution-mail.schemas.in.h:132
+#: ../mail/evolution-mail.schemas.in.h:134
 msgid "View/Bcc menu item is checked"
 msgstr "Näytä/Bcc on valittu"
 
-#: ../mail/evolution-mail.schemas.in.h:133
+#: ../mail/evolution-mail.schemas.in.h:135
 msgid "View/Bcc menu item is checked."
 msgstr "Näytä/Bcc on valittu."
 
-#: ../mail/evolution-mail.schemas.in.h:134
+#: ../mail/evolution-mail.schemas.in.h:136
 msgid "View/Cc menu item is checked"
 msgstr "Näytä/Cc on valittu"
 
-#: ../mail/evolution-mail.schemas.in.h:135
+#: ../mail/evolution-mail.schemas.in.h:137
 msgid "View/Cc menu item is checked."
 msgstr "Näytä/Cc on valittu."
 
-#: ../mail/evolution-mail.schemas.in.h:136
+#: ../mail/evolution-mail.schemas.in.h:138
 msgid "View/From menu item is checked"
 msgstr "Näytä/Lähettäjä on valittu."
 
-#: ../mail/evolution-mail.schemas.in.h:137
+#: ../mail/evolution-mail.schemas.in.h:139
 msgid "View/From menu item is checked."
 msgstr "Näytä/Lähettäjä on valittu."
 
-#: ../mail/evolution-mail.schemas.in.h:138
+#: ../mail/evolution-mail.schemas.in.h:140
 msgid "View/PostTo menu item is checked"
 msgstr "Näytä/Lähetä ryhmään on valittu"
 
-#: ../mail/evolution-mail.schemas.in.h:139
+#: ../mail/evolution-mail.schemas.in.h:141
 msgid "View/PostTo menu item is checked."
 msgstr "Näytä/Lähetä ryhmään on valittu"
 
-#: ../mail/evolution-mail.schemas.in.h:140
+#: ../mail/evolution-mail.schemas.in.h:142
 msgid "View/ReplyTo menu item is checked"
 msgstr "Näytä/Vastausosoite on valittu"
 
-#: ../mail/evolution-mail.schemas.in.h:141
+#: ../mail/evolution-mail.schemas.in.h:143
 msgid "View/ReplyTo menu item is checked."
 msgstr "Näytä/Vastausosoite on valittu"
 
-#: ../mail/evolution-mail.schemas.in.h:142
+#: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -12896,11 +12897,11 @@ msgstr ""
 "Palataanko viestien säikeistämiseen otsikon perusteella, jos otsakkeet eivät "
 "sisällä In-Reply-To tai References-otsakkeita."
 
-#: ../mail/evolution-mail.schemas.in.h:143
+#: ../mail/evolution-mail.schemas.in.h:145
 msgid "Width of the message-list pane"
 msgstr "Viestilistapaneelin leveys"
 
-#: ../mail/evolution-mail.schemas.in.h:144
+#: ../mail/evolution-mail.schemas.in.h:146
 msgid "Width of the message-list pane."
 msgstr "Viestilistapaneelin leveys."
 
@@ -13372,7 +13373,6 @@ msgid "Fi_xed-width:"
 msgstr "_Tasalevyinen:"
 
 #: ../mail/mail-config.glade.h:82
-#, fuzzy
 msgid "Fix_ed width Font:"
 msgstr "_Tasalevyinen kirjasin:"
 
@@ -13644,9 +13644,8 @@ msgid "_Always load images from the Internet"
 msgstr "Lataa _aina kuvat verkosta"
 
 #: ../mail/mail-config.glade.h:159
-#, fuzzy
 msgid "_Beep when new mail arrives"
-msgstr "_Piippaa kun uutta sähköpostia saapuu"
+msgstr "_Piippaa, kun uusia viestejä saapuu"
 
 #: ../mail/mail-config.glade.h:160
 msgid "_Default junk plugin:"
@@ -14348,9 +14347,8 @@ msgid "Do not disable"
 msgstr "Älä poista käytöstä"
 
 #: ../mail/mail.error.xml.h:49
-#, fuzzy
 msgid "Do you want the operation to be performed also in the subfolders?"
-msgstr "Haluatko toiminnon tehtäväksi alikansioissa?"
+msgstr "Haluatko suorittaa toiminnon myös kansion alikansioissa?"
 
 #: ../mail/mail.error.xml.h:50
 msgid ""
@@ -14457,9 +14455,8 @@ msgid "Mark all messages as read"
 msgstr "Merkitse kaikki viestit luetuiksi"
 
 #: ../mail/mail.error.xml.h:72
-#, fuzzy
 msgid "Mark all messages in this folder and subfolders as read?"
-msgstr "Merkitse kaikki alikansioiden viestit luetuksi?"
+msgstr "Merkitse kaikki tämän kansion ja sen alikansioiden viestit luetuksi?"
 
 #: ../mail/mail.error.xml.h:73
 msgid "Missing folder."
@@ -14470,9 +14467,8 @@ msgid "No sources selected."
 msgstr "Lähteitä ei ole valittuna."
 
 #: ../mail/mail.error.xml.h:76
-#, fuzzy
 msgid "Only on _Current Folder"
-msgstr "Valittu kansio"
+msgstr "Vain _nykyiselle kansiolle"
 
 #: ../mail/mail.error.xml.h:77
 msgid "Opening too many messages at once may take a long time."
@@ -14735,9 +14731,8 @@ msgid "_Open Messages"
 msgstr "_Avaa viestit"
 
 #: ../mail/mail.error.xml.h:140
-#, fuzzy
 msgid "on Current Folder and _Subfolders"
-msgstr "Luo alikansioita"
+msgstr "Nykyiselle kansiolle ja _alikansioille"
 
 #: ../mail/message-list.c:1022
 msgid "Unseen"
@@ -14908,40 +14903,38 @@ msgid "Provides core functionality for local address books."
 msgstr "Tarjoaa paikallisten osoitekirjojen perustoiminnot."
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.in.h:1
-#, fuzzy
 msgid "Enable attachment reminder plugin"
-msgstr "Käytä ja poista käytöstä liitännäsiä"
+msgstr "Ota liitemuistuttaja käyttöön"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.in.h:2
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
-msgstr ""
+msgstr "Luettelo vihjeistä, joita liitemuistuttaja etsii viestin rungosta"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:376
 msgid "Keywords"
-msgstr ""
+msgstr "Avainsanat"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:422
-#, fuzzy
 msgid "Attachment Reminder Preferences"
-msgstr "Liitteen ominaisuudet"
+msgstr "Liitemuistuttajan ominaisuudet"
 
 #: ../plugins/attachment-reminder/attachment-reminder.glade.h:1
-#, fuzzy
 msgid "Remind _missing attachments"
-msgstr "Tallennetaan liite"
+msgstr "Muistuta _puuttuvista liitteistä"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
-#, fuzzy
 msgid "Attachment Reminder"
-msgstr "Liitepalkki"
+msgstr "Liitemuistuttaja"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid ""
 "Looks for clues in a message for mention of attachments and warns if the "
 "attachment is missing"
 msgstr ""
+"Tunnistaa viesteistä viitteitä liitetiedostoista, ja varoittaa puuttuvista "
+"liitetiedostoista"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -15243,7 +15236,6 @@ msgid "_Secure connection"
 msgstr "_Salattu yhteys"
 
 #: ../plugins/calendar-http/calendar-http.c:406
-#, fuzzy
 msgid "Userna_me:"
 msgstr "Käyttäjät_unnus:"
 
@@ -15567,45 +15559,37 @@ msgstr "Oikeudet käyttäjälle %s"
 #. summarizing the permissions assigned to him.
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:348
-#, fuzzy
 msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf."
 msgstr ""
-"Tämä viesti lähetettiin automaattisesti Evolutionista \t\t\t\t\t kertomaan, "
-"että sinut on merkitty \t\t\t\t\tvaltuutetuksi. Voit nyt lähettää viestejä "
-"puolestani.\t\t\t\t\t \n"
+"Evolution lähetti tämän viestin automaattisesti kertoakseen, että sinut on "
+"merkitty valtuutetuksi. Voit nyt lähettää viestejä puolestani."
 
 #. To translators: Another chunk of the same message.
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:353
 msgid "You have been given the following permissions on my folders:"
-msgstr ""
+msgstr "Sinulle on annettu seuraavat oikeudet kansioihini:"
 
 #. To translators: This message is included if the delegatee has been given access
 #. to the private items.
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:371
-#, fuzzy
 msgid "You are also permitted to see my private items."
-msgstr ""
-"\n"
-"Sinulla on myös lupa \t\t\t\t\t\t\tkatsoa yksityisiä kohtiani."
+msgstr "Sinulla on myös lupa katsoa yksityisiä tietojani."
 
 #. To translators: This message is included if the delegatee has not been given access
 #. to the private items.
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:378
-#, fuzzy
 msgid "However you are not permitted to see my private items."
-msgstr ""
-"\n"
-"Sinulla ei kuitenkaan ole lupaa\t\t\t\t\t\t\t katsoa yksityisiä kohtiani."
+msgstr "Sinulla ei kuitenkaan ole lupaa katsoa yksityisiä tietojani."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "You have been designated as a delegate for %s"
-msgstr "Sinut on nimetty \t\t\t\t\t\tkäyttäjän %s valtuutetuksi"
+msgstr "Sinut on nimetty käyttäjän %s valtuutetuksi"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To"
@@ -16284,21 +16268,19 @@ msgstr "Tarkista kansion oikeudet"
 
 #: ../plugins/face/face.c:58
 msgid "Select a (48*48) png of size < 700bytes"
-msgstr ""
+msgstr "Valitse (48x48) png-tiedosto, jonka koko on < 700 tavua"
 
 #: ../plugins/face/face.c:68
-#, fuzzy
 msgid "PNG files"
-msgstr "Kaikki tiedostot"
+msgstr "PNG-tiedostot"
 
 #: ../plugins/face/face.c:73
 msgid "Select a (48*48) png of size < 720bytes"
-msgstr ""
+msgstr "Valitse (48x48) png-tiedosto, jonka koko on <720 tavua"
 
 #: ../plugins/face/org-gnome-face-ui.xml.h:1
-#, fuzzy
 msgid "_Face"
-msgstr "Ranska"
+msgstr "_Kasvokuva"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid ""
@@ -16306,11 +16288,14 @@ msgid ""
 "a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces "
 "This will be used in mails that are sent further."
 msgstr ""
+"Liittää kasvokuvaotsakkeen lähteviin viesteihin. Käyttäjien täytyy ensin "
+"määritellä 48x48-pisteen png-kuva. Kuva tallennetaan base64-muodossa, "
+"tallennetaan tiedostoon ~/.evolution/faces. Tätä kuvaa käytetään jatkossa "
+"lähetettävissä viesteissä."
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
-#, fuzzy
 msgid "Face"
-msgstr "Ranska"
+msgstr "Kasvokuva"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -16589,18 +16574,16 @@ msgstr "Viestin tila"
 
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:119
-#, fuzzy
 msgid "Subject:"
-msgstr "_Aihe:"
+msgstr "Aihe:"
 
 #: ../plugins/groupwise-features/status-track.c:133
 msgid "From:"
 msgstr "Lähettäjä:"
 
 #: ../plugins/groupwise-features/status-track.c:148
-#, fuzzy
 msgid "Creation date:"
-msgstr "<b>Luontipäivä</b> :"
+msgstr "Luontipäivä:"
 
 #: ../plugins/groupwise-features/status-track.c:186
 msgid "Recipient: "
@@ -16744,26 +16727,25 @@ msgstr "Tuo ICS-liitteitä kalenteriin."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:33
 msgid "Hardware Abstraction Layer not loaded"
-msgstr ""
+msgstr "Laitteistorajapinta HAL ei ole ladattu"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:34
 msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
 msgstr ""
+"Palvelu \"hald\" vaaditaan, mutta se ei ole päällä. Ota palvelu käyttöön ja "
+"aja ohjelma uudestaan, tai ota yhteyttä ylläpitäjääsi."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:66
 msgid "Search for an iPod failed"
-msgstr ""
+msgstr "iPodia ei löytynyt"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:67
-#, fuzzy
 msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
-"<span weight=\"bold\" size=\"larger\">iPodia ei löytynyt</span>\n"
-"\n"
 "Evolution ei löytänyt iPodia, jonka kanssa synkronoidaan. Joko se ei ole "
 "liitetty tietokoneseen tai se ei ole päällä."
 
@@ -17234,10 +17216,11 @@ msgstr ""
 "<b>%s</b> toivoo saavansa viimeisimmät tiedot seuraavista työtehtävistä:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> lähetti takaisin seuraavan annetun tehtävän vastauksen:"
+msgstr ""
+"<b>%s</b> lähetti takaisin %s kautta seuraavan annetun tehtävän vastauksen:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
 #, c-format
@@ -17450,11 +17433,11 @@ msgid "When the new-mail status icon is visible, make it blink."
 msgstr "Laita uusien viestien tilakuvake vilkkumaan, kun on näkyvissä."
 
 #: ../plugins/mail-notification/mail-notification.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "You have received %d new message in %s."
 msgid_plural "You have received %d new messages in %s."
 msgstr[0] "%d uusi viesti kansiossa %s."
-msgstr[1] "%d uusi viesti kansiossa %s."
+msgstr[1] "%d uutta viestiä kansiossa %s."
 
 #: ../plugins/mail-notification/mail-notification.c:153
 msgid "New email"
@@ -17465,7 +17448,6 @@ msgid "Mail Notification"
 msgstr "Huomautus sähköpostista"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Notifies the user with tray icon and a notify message whenever a new message "
 "has arrived."
@@ -17779,9 +17761,8 @@ msgid "Description"
 msgstr "Kuvaus"
 
 #: ../plugins/plugin-manager/plugin-manager.c:226
-#, fuzzy
 msgid "Configure"
-msgstr "Jatka"
+msgstr "Määrittele"
 
 #: ../plugins/plugin-manager/plugin-manager.c:238
 msgid "Note: Some changes will not take effect until restart"
@@ -18205,18 +18186,16 @@ msgstr "Säikeistä viestit aiheen perusteella"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
-#, fuzzy
 msgid "F_all back to threading messages by subject"
 msgstr "Palaa viestien säikeistämiseen _aiheen perusteella"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
-msgstr ""
+msgstr "Liitännäinen, joka avaa tnef-liitteitä ohjelman ytnef avulla."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
-#, fuzzy
 msgid "TNEF Attachment decoder"
-msgstr "Ei liitteitä"
+msgstr "TNEF-liitteiden purkaja"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -18680,11 +18659,15 @@ msgstr "Lähetä testitulosteet kaikista komponenteista tiedostoon."
 msgid "Disable loading of any plugins."
 msgstr "Älä lataa mitään liitännäisiä."
 
-#: ../shell/main.c:501
+#: ../shell/main.c:474
+msgid "Disable preview pane of Mail, Contacts and Tasks."
+msgstr "Poista sähköpostien, yhteystietojen ja tehtävien esikatselu käytöstä."
+
+#: ../shell/main.c:503
 msgid "- The Evolution PIM and Email Client"
 msgstr ", sähköposti- ja ajanhallintaohjelma"
 
-#: ../shell/main.c:514
+#: ../shell/main.c:516
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
