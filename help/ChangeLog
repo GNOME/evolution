@@ -1,3 +1,8 @@
+2007-08-09  Nikos Charonitakis <nikosx@gmail.com>
+
+	* el/el.po: Added Greek translation
+        * Makefile.am: Added Greek translation
+
 2007-08-05  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation
