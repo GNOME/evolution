@@ -77,7 +77,7 @@
 static AlarmNotificationsDialog *alarm_notifications_dialog = NULL;
 
 /* Whether the queueing system has been initialized */
-static gboolean alarm_queue_inited;
+static gboolean alarm_queue_inited = FALSE;
 
 /* When the alarm queue system is inited, this gets set to the last time an
  * alarm notification was issued.  This lets us present any notifications that
@@ -2146,8 +2146,15 @@ alarm_queue_remove_async (EThread *e, AlarmMsg *msg, void *data)
 	g_hash_table_remove (client_alarms_hash, client);
 }
 
+/** alarm_queue_remove_client
+ *
+ * asynchronously remove client from alarm queue.
+ * @param client Client to remove.
+ * @param immediately Indicates whether use thread or do it right now.
+ */
+
 void
-alarm_queue_remove_client (ECal *client)
+alarm_queue_remove_client (ECal *client, gboolean immediately)
 {
 	AlarmMsg *msg;
 	struct _alarm_client_msg *list;
@@ -2161,7 +2168,10 @@ alarm_queue_remove_client (ECal *client)
 	msg->data = list;
 
 	d(printf("%s:%d (alarm_queue_remove_client) - Posting a task\n",__FILE__, __LINE__));
-	e_thread_put(alarm_operation_thread, (EMsg *)msg);
+	if (immediately)
+		alarm_queue_remove_async (NULL, msg, NULL);
+	else
+		e_thread_put(alarm_operation_thread, (EMsg *)msg);
 }
 
 /* Update non-time related variables for various structures on modification of an existing component 

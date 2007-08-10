@@ -1,3 +1,17 @@
+2007-08-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #351552
+
+	* gui/alarm-notify/alarm-queue.h: (alarm_queue_remove_client):
+	* gui/alarm-notify/alarm-queue.c: (alarm_queue_remove_client):
+	Added new parameter to free immediately, not by thread.
+	* gui/alarm-notify/alarm-notify.c: (dequeue_client),
+	(alarm_notify_remove_calendar): Using alarm_queue_remove_client.
+
+	* gui/alarm-notify/alarm-notify.c: (alarm_notify_add_calendar):
+	Fixed critical warning with e_passwords for calendars without
+	'auth-domain' property (will use name instead).
+
 2007-08-06  Milan Crha  <mcrha@redhat.com>
 
 	** Partially fix bug #401533

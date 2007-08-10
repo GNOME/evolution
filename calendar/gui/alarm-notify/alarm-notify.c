@@ -257,7 +257,7 @@ dequeue_client (gpointer key, gpointer value, gpointer user_data)
 	ECal *client = value;
 
 	d (printf("%s:%d (dequeue_client) - Removing client %p\n ", __FILE__, __LINE__, client));
-	alarm_queue_remove_client (client);
+	alarm_queue_remove_client (client, TRUE);
 }
 
 /* Finalize handler for the alarm notify system */
@@ -442,12 +442,18 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	/* if loading of this requires password and password is not currently availble in e-password
 	   session skip this source loading. we do not really want to prompt for auth from alarm dameon*/
 
-	if ((e_source_get_property (source, "auth") && 
-	     (!e_passwords_get_password (e_source_get_property(source, "auth-domain"), pass_key)))) {
-		g_mutex_unlock (an->priv->mutex);
-		g_free (str_uri);
-		g_free (pass_key);
-		return;
+	if (e_source_get_property (source, "auth")) {
+		const gchar *name = e_source_get_property (source, "auth-domain");
+
+		if (!name)
+			name = e_source_peek_name (source);
+
+		if (!e_passwords_get_password (name, pass_key)) {
+			g_mutex_unlock (an->priv->mutex);
+			g_free (str_uri);
+			g_free (pass_key);
+			return;
+		}
 	}
 	
 	client = auth_new_cal_from_source (source, source_type);
@@ -474,7 +480,7 @@ alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const
 	client = g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri);
 	if (client) {
 		d (printf("%s:%d (alarm_notify_remove_calendar) - Removing Client %p\n", __FILE__, __LINE__, client));
-		alarm_queue_remove_client (client);
+		alarm_queue_remove_client (client, FALSE);
 		g_hash_table_remove (priv->uri_client_hash[source_type], str_uri);
 	}
 }
