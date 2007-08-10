@@ -1,3 +1,12 @@
+2007-08-10  Johnny Jacob  <jjohnny@novell.com>
+	
+	* Modified and committed on behalf of Sankar P  <psankar@novell.com>
+	
+	** Fixes #462138
+	
+	* e-msg-composer.c: (set_editor_text):	Signature on top does not work if 
+	no signature is set as default.
+
 2007-08-02  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #462332

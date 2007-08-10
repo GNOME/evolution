@@ -1304,6 +1304,12 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 				/* HTML Signature. Make it as part of body */
 				body = g_strdup_printf ("</br>%s</br>%s", tmp, text);
 			}
+			g_free (tmp);
+		} else {
+			/* No signature set */
+			body = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
+					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:Noname\">-->"
+					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD> </TD></TR></TABLE>%s", text);
 		}
 	} else {
 		body = g_strdup(text);
