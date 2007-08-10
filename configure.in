@@ -111,7 +111,7 @@ if test x$JW = xno; then
 else
   HAVE_JW="yes"
 fi
-AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
+AM_CONDITIONAL(HAVE_JW, [test x$HAVE_JW = xyes])
 AC_SUBST(HAVE_JW)
 
 dnl I18N stuff
@@ -186,20 +186,22 @@ dnl ******************************
 dnl iconv checking
 dnl ******************************
 have_iconv=no
-AC_ARG_WITH(libiconv, [  --with-libiconv         Prefix where libiconv is in
-stalled])
+AC_ARG_WITH([libiconv],
+	    AC_HELP_STRING([--with-libiconv=PATH],
+			   [Prefix where libiconv is installed]))
 case $withval in
 /*)
-    ICONV_CFLAGS="-I$withval/include"
-    ICONV_LIBS="-L$withval/lib"
-    ;;
+	ICONV_CFLAGS="-I$withval/include"
+	ICONV_LIBS="-L$withval/lib"
+	;;
 esac
 
 save_CFLAGS="$CFLAGS"
 save_LIBS="$LIBS"
 CFLAGS="$CFLAGS $ICONV_CFLAGS"
 LIBS="$LIBS $ICONV_LIBS -liconv"
-AC_CACHE_CHECK(for iconv in -liconv, ac_cv_libiconv, AC_TRY_RUN([
+AC_CACHE_CHECK(for iconv in -liconv, ac_cv_libiconv,
+	       AC_TRY_RUN([
 #include <iconv.h>
 #include <stdlib.h>
 
@@ -209,7 +211,8 @@ int main (int argc, char **argv)
         cd = iconv_open ("UTF-8", "ISO-8859-1");
         exit (0);
 }
-], ac_cv_libiconv=yes, ac_cv_libiconv=no, ac_cv_libiconv=no))
+], [ac_cv_libiconv=yes], [ac_cv_libiconv=no], [ac_cv_libiconv=no]))
+
 if test $ac_cv_libiconv = yes; then
         ICONV_LIBS="$ICONV_LIBS -liconv"
         have_iconv=yes
@@ -315,8 +318,12 @@ EVO_PURIFY_SUPPORT
 dnl **************
 dnl Test Component
 dnl **************
-AC_ARG_ENABLE(test-component, [  --enable-test-component=[no/yes]      Enable test component.],enable_test_comp="$enableval",enable_test_comp=no)
-AM_CONDITIONAL(ENABLE_TEST_COMPONENT, test "x$enable_test_comp" = "xyes")
+AC_ARG_ENABLE([test-component],
+	      AC_HELP_STRING([--enable-test-component],
+			     [Enable test component.]),
+	      [enable_test_comp=$enableval],[enable_test_comp=no])
+
+AM_CONDITIONAL(ENABLE_TEST_COMPONENT, [test x$enable_test_comp = xyes])
 
 dnl ***************
 dnl Timezone checks
@@ -546,59 +553,67 @@ if test "$with_openldap" = no ; then
 else
        with_sunldap=no
 fi
-AM_CONDITIONAL(SUNLDAP, test "$with_sunldap" != no)
+AM_CONDITIONAL(SUNLDAP, [test x$with_sunldap != xno])
 
 dnl **************************************************
 dnl NNTP support.
 dnl **************************************************
-AC_ARG_ENABLE(nntp, 
-[  --enable-nntp=[no/yes]      Build Usenet news (NNTP) backend],,enable_nntp=yes)
+AC_ARG_ENABLE([nntp],
+	      AC_HELP_STRING([--enable-nntp],
+			     [Build Usenet news (NNTP) backend]),
+	      [enable_nntp=$enableval],[enable_nntp=yes])
 if test "x$enable_nntp" = "xyes"; then
 	AC_DEFINE(ENABLE_NNTP,1,[Build NNTP backend])
 	msg_nntp=yes
 else
 	msg_nntp=no
 fi
-AM_CONDITIONAL(ENABLE_NNTP, test x$enable_nntp = xyes)
+AM_CONDITIONAL(ENABLE_NNTP, [test x$enable_nntp = xyes])
 
 dnl **************************************************
 dnl New IMAP code support.
 dnl **************************************************
-AC_ARG_ENABLE(imapp, 
-[  --enable-imapp=[no/yes]      Attempt to compile alternative, incomplete, very unsupported IMAPv4r1 code],,enable_imapp=no)
+AC_ARG_ENABLE([imapp],
+	      AC_HELP_STRING([--enable-imapp],
+			     [Attempt to compile alternative, incomplete, very unsupported IMAPv4r1 code]),,
+	      [enable_imapp=no])
 if test "x$enable_imapp" = "xyes"; then
 	AC_DEFINE(ENABLE_IMAPP,1,[Really don't try this at home])
 	msg_imapp=yes
 else
 	msg_imapp=no
 fi
-AM_CONDITIONAL(ENABLE_IMAPP, test x$enable_imapp = xyes)
+AM_CONDITIONAL(ENABLE_IMAPP, [test x$enable_imapp = xyes])
 
 dnl **************************************************
 dnl New IMAP code support.
 dnl **************************************************
-AC_ARG_ENABLE(imap4, 
-[  --enable-imap4=[no/yes]      Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation],,enable_imap4="yes")
+AC_ARG_ENABLE([imap4],
+	      AC_HELP_STRING([--enable-imap4],
+			     [Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation]),,
+	      [enable_imap4=yes])
 if test "x$enable_imap4" = "xyes"; then
 	AC_DEFINE(ENABLE_IMAP4,1,[Really don't try this at home])
 	msg_imap4=yes
 else
 	msg_imap4=no
 fi
-AM_CONDITIONAL(ENABLE_IMAP4, test x$enable_imap4 = xyes)
+AM_CONDITIONAL(ENABLE_IMAP4, [test x$enable_imap4 = xyes])
 
 dnl **************************************************
 dnl Cairo Calendar support.
 dnl **************************************************
-AC_ARG_ENABLE(cairo-calendar,
-[  --enable-cairo-calendar=[no/yes]      Build evolution calendar with cairo support.],,enable_cairo_calendar="yes")
+AC_ARG_ENABLE([cairo-calendar],
+	      AC_HELP_STRING([--enable-cairo-calendar],
+			     [Build evolution calendar with cairo support.]),,
+	      [enable_cairo_calendar=yes])
 if test "x$enable_cairo_calendar" = "xyes"; then
         AC_DEFINE(ENABLE_CAIRO,1,[Build evolution with cairo support])
         msg_cairo=yes
 else
         msg_cairo=no
 fi
-AM_CONDITIONAL(ENABLE_CAIRO, test x$enable_cairo_calendar = xyes)
+AM_CONDITIONAL(ENABLE_CAIRO, [test x$enable_cairo_calendar = xyes])
 
 dnl **************************************************
 dnl * Posix thread support
@@ -651,8 +666,10 @@ AC_DEFINE_UNQUOTED(GTKHTML_API_VERSION, "$GTKHTML_API_VERSION", [The gtkhtml api
 dnl ******************************
 dnl Pilot checking
 dnl ******************************
-AC_ARG_ENABLE(pilot-conduits, 
-[  --enable-pilot-conduits=[no/yes] Enable support for building pilot conduits.],,enable_pilot_conduits=no)
+AC_ARG_ENABLE([pilot-conduits],
+	      AC_HELP_STRING([--enable-pilot-conduits],
+			     [Enable support for building pilot conduits.]),,
+	      [enable_pilot_conduits=no])
 if test "x$enable_pilot_conduits" = "xyes"; then
 	PKG_CHECK_MODULES(GNOME_PILOT, gnome-pilot-2.0 >= gnome_pilot_minimum_version)
 
@@ -687,7 +704,7 @@ int main (int argc, char **argv)
 		AC_MSG_ERROR(evolution requires pilot-link to have working UTF-8 conversion routines)
 	fi
 fi
-AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, test "x$enable_pilot_conduits" = "xyes")
+AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, [test x$enable_pilot_conduits = xyes])
 dnl ******************************
 dnl If pilot conduits are enabled, check version of pilot-link
 dnl ******************************
@@ -713,12 +730,30 @@ AC_SUBST(GNOME_PILOT_LIBS)
 dnl ********
 dnl Kerberos
 dnl ********
-AC_ARG_WITH(krb5, [  --with-krb5=DIR      Location of Kerberos 5 install dir], with_krb5="$withval", with_krb5="no")
-AC_ARG_WITH(krb5-libs, [  --with-krb5-libs=DIR Location of Kerberos 5 libraries], with_krb5_libs="$withval", with_krb5_libs="$with_krb5/lib")
-AC_ARG_WITH(krb5-includes, [  --with-krb5-includes=DIR Location of Kerberos 5 headers], with_krb5_includes="$withval", with_krb5_includes="")
-AC_ARG_WITH(krb4, [  --with-krb4=DIR      Location of Kerberos 4 install dir], with_krb4="$withval", with_krb4="no")
-AC_ARG_WITH(krb4-libs, [  --with-krb4-libs=DIR Location of Kerberos 4 libraries], with_krb4_libs="$withval", with_krb4_libs="$with_krb4/lib")
-AC_ARG_WITH(krb4-includes, [  --with-krb4-includes=DIR Location of Kerberos 4 headers], with_krb4_includes="$withval", with_krb4_includes="")
+AC_ARG_WITH([krb5],
+	    AC_HELP_STRING([--with-krb5=PATH],
+			   [Location of Kerberos 5 install dir]),
+	    [with_krb5=$withval],[with_krb5=no])
+AC_ARG_WITH([krb5-libs],
+	    AC_HELP_STRING([--with-krb5-libs=PATH],
+			   [Location of Kerberos 5 libraries]),
+	    [with_krb5_libs=$withval],[with_krb5_libs=$with_krb5/lib])
+AC_ARG_WITH([krb5-includes],
+	    AC_HELP_STRING([--with-krb5-includes=PATH],
+			   [Location of Kerberos 5 headers]),
+	    [with_krb5_includes=$withval],[with_krb5_includes=""])
+AC_ARG_WITH([krb4],
+	    AC_HELP_STRING([--with-krb4=PATH],
+			   [Location of Kerberos 4 install dir]),
+	    [with_krb4=$withval],[with_krb4=no])
+AC_ARG_WITH([krb4-libs],
+	    AC_HELP_STRING([--with-krb4-libs=PATH],
+			   [Location of Kerberos 4 libraries]),
+	    [with_krb4_libs=$withval],[with_krb4_libs=$with_krb4/lib])
+AC_ARG_WITH([krb4-includes],
+	    AC_HELP_STRING([--with-krb4-includes=PATH],
+			   [Location of Kerberos 4 headers]),
+	    [with_krb4_includes=$withval],[with_krb4_includes=""])
 
 
 msg_krb5="no"
@@ -845,8 +880,11 @@ AC_SUBST(KRB4_LDFLAGS)
 dnl Mono hooks
 dnl This should just define mono CFLAGS etc here, it is used later to
 dnl turn on the mono plugin or not.
-AC_ARG_ENABLE(mono, [  --enable-mono=[yes,no]        Add Mono embedded hooks.],
-	enable_mono="$enableval", enable_mono="no")
+
+AC_ARG_ENABLE([mono],
+	      AC_HELP_STRING([--enable-mono],
+			     [Add Mono embedded hooks.]),
+	      [enable_mono=$enableval],[enable_mono=no])
 
 if test "x${enable_mono}" = "xyes"; then
 	AC_DEFINE(ENABLE_MONO,1,[Define if Mono embedding should be enabled])
@@ -866,23 +904,32 @@ msg_ssl="no"
 msg_smime="no"
 
 dnl these 2 enable's are inverses of each other
-AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla libnss for SSL support.],
-	enable_nss="$enableval", enable_nss="yes")
 
-AC_ARG_ENABLE(smime, [ --enable-smime=[yes,no]            Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)],
-	enable_smime="$enableval", enable_smime="yes")
+AC_ARG_ENABLE([nss], 
+	      AC_HELP_STRING([--enable-nss=@<:@yes/no/static@:>@],
+			     [Attempt to use Mozilla libnss for SSL support.]),
+	      [enable_nss=$enableval],[enable_nss=yes])
 
-AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX	Location of Mozilla nspr4 includes.],
-	with_nspr_includes="$withval")
+AC_ARG_ENABLE([smime], 
+	      AC_HELP_STRING([--enable-smime],
+			     [Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)]),
+	      [enable_smime=$enableval],[enable_smime=yes])
 
-AC_ARG_WITH(nspr-libs, [  --with-nspr-libs=PREFIX       	Location of Mozilla nspr4 libs.],
-	with_nspr_libs="$withval")
+AC_ARG_WITH([nspr-includes], 
+	    AC_HELP_STRING([--with-nspr-includes=PATH],
+			   [Location of Mozilla nspr4 includes.]))
 
-AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX 	Location of Mozilla nss3 includes.],
-	with_nss_includes="$withval")
+AC_ARG_WITH([nspr-libs], 
+	    AC_HELP_STRING([--with-nspr-libs=PATH],
+			   [Location of Mozilla nspr4 libs.]))
 
-AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX         	Location of Mozilla nss3 libs.],
-	with_nss_libs="$withval")
+AC_ARG_WITH([nss-includes],
+	    AC_HELP_STRING([--with-nss-includes=PATH],
+			   [Location of Mozilla nss3 includes.]))
+
+AC_ARG_WITH([nss-libs],
+	    AC_HELP_STRING([--with-nss-libs=PATH],
+			   [Location of Mozilla nss3 libs.]))
 
 if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	if test -n "${with_nspr_includes}" || test -n "${with_nspr_libs}" || test -n "${with_nss_includes}" || test -n "${with_nss_libs}" || test "x${enable_nss}" = "xstatic"; then
@@ -1093,7 +1140,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	fi
 fi
 
-AM_CONDITIONAL(ENABLE_SMIME, test "x$msg_smime" != "xno")
+AM_CONDITIONAL(ENABLE_SMIME, [test "x$msg_smime" != "xno"])
 
 AC_SUBST(MANUAL_NSPR_CFLAGS)
 AC_SUBST(MANUAL_NSPR_LIBS)
@@ -1103,25 +1150,26 @@ AC_SUBST(MANUAL_NSS_LIBS)
 dnl **************************************************
 dnl Exchange support.
 dnl **************************************************
-AC_ARG_ENABLE(exchange, 
-[  --enable-exchange=[no/yes]      Build Exchange plugins],enable_exchange="$enableval",enable_exchange=yes)
+AC_ARG_ENABLE([exchange],
+	      AC_HELP_STRING([--enable-exchange],
+			     [Build Exchange plugins]),
+	      [enable_exchange=$enableval],[enable_exchange=yes])
 if test "x$enable_exchange" = "xyes"; then
 	msg_exchange=yes
 	EXCHANGE_PLUGIN="exchange-operations"
 else
 	msg_exchange=no
 fi
-AM_CONDITIONAL(ENABLE_EXCHANGE, test x$enable_exchange = xyes)
+AM_CONDITIONAL(ENABLE_EXCHANGE, [test x$enable_exchange = xyes])
 
 dnl ******************
 dnl CDE dtappintegrate
 dnl ******************
 
-AC_ARG_WITH(cde-path, [  --with-cde-path=PATH   Location of CDE installation],
-	    [with_cde_path="$withval"])
-if test -z "$with_cde_path"; then
-	with_cde_path="/usr/dt"
-fi
+AC_ARG_WITH([cde-path],
+	    AC_HELP_STRING([--with-cde-path=PATH],
+			   [Location of CDE installation]),
+	    [with_cde_path=$withval],[with_cde_path=/usr/dt])
 
 AC_MSG_CHECKING(for dtappintegrate)
 if test -x "$with_cde_path/bin/dtappintegrate" ; then
@@ -1132,7 +1180,7 @@ fi
 AC_MSG_RESULT([$DTAPPINTEGRATE])
 
 AC_SUBST(DTAPPINTEGRATE)
-AM_CONDITIONAL(HAVE_DTAPPINTEGRATE, test "x$DTAPPINTEGRATE" != "xno")
+AM_CONDITIONAL(HAVE_DTAPPINTEGRATE, [test x$DTAPPINTEGRATE != xno])
 
 dnl *****************
 dnl killall or pkill?
@@ -1261,7 +1309,11 @@ AC_DEFUN([EVO_SET_COMPILE_FLAGS], [
 ])
 
 dnl enable USE_GTKFILECHOOSER if gtk version is > 2.4.0
-AC_ARG_ENABLE(file-chooser, [  --enable-file-chooser    Enable the usage of the GtkFileChooser in place of the GtkFileSelection dialog], enable_file_chooser="$enableval", enable_file_chooser="yes")
+AC_ARG_ENABLE([file-chooser],
+	      AC_HELP_STRING([--enable-file-chooser],
+			     [Enable the usage of the GtkFileChooser in place of the GtkFileSelection dialog]),
+	      [enable_file_chooser=$enableval],[enable_file_chooser=yes])
+
 if test "x$enable_file_chooser" = "xyes"; then
   if pkg-config --atleast-version=2.4.0 gtk+-2.0; then
     AC_DEFINE(USE_GTKFILECHOOSER,1,[Use new GtkFileChooser])
@@ -1579,7 +1631,10 @@ AC_SUBST(plugindir)
 EVO_PLUGIN_RULE=$srcdir/plugin.mk
 AC_SUBST_FILE(EVO_PLUGIN_RULE)
 
-AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=all)
+AC_ARG_ENABLE([plugins],
+	      AC_HELP_STRING([--enable-plugins=[no/base/all/experimental/list]],
+			     [Enable plugins.]),
+	      [enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup hula-account-setup mail-account-disable publish-calendar caldav imap-features"
@@ -1617,7 +1672,10 @@ xexperimental)
 	;;
 esac
 
-AC_ARG_ENABLE(profiling, [  --enable-profiling=[no/yes]      Enable profiling plugin.],enable_profiling="$enableval",enable_profiling=no)
+AC_ARG_ENABLE([profiling],
+	      AC_HELP_STRING([--enable-profiling],
+			     [Enable profiling plugin.]),
+	      [enable_profiling=$enableval],[enable_profiling=no])
 case x"$enable_profiling" in
 x | xyes)
 	plugins_enabled="$plugins_enabled profiler"
@@ -1692,7 +1750,9 @@ fi
 # Check for gtk-doc.
 ##################################################
 
-AC_ARG_WITH(html-dir, [  --with-html-dir=PATH path to installed docs ])
+AC_ARG_WITH([html-dir],
+	    AC_HELP_STRING([--with-html-dir=PATH],
+			   [path to installed docs.]))
 
 if test "x$with_html_dir" = "x" ; then
   HTML_DIR='${datadir}/gnome/html'
@@ -1720,7 +1780,10 @@ EOF
 fi
 
 dnl Let people disable the gtk-doc stuff.
-AC_ARG_ENABLE(gtk-doc, [  --enable-gtk-doc  Use gtk-doc to build documentation [default=auto]], enable_gtk_doc="$enableval", enable_gtk_doc=auto)
+AC_ARG_ENABLE([gtk-doc],
+	      AC_HELP_STRING([--enable-gtk-doc],
+			     [Use gtk-doc to build documentation [default=auto]]),
+	      [enable_gtk_doc=$enableval],[enable_gtk_doc=auto])
 
 if test x$enable_gtk_doc = xauto ; then
   if test x$GTKDOC = xtrue ; then
@@ -1741,19 +1804,28 @@ AM_GCONF_SOURCE_2
 dnl ******************
 dnl Sub-version number
 dnl ******************
-AC_ARG_WITH(sub-version, [  --with-sub-version=VERSION Specify a sub-version string])
+AC_ARG_WITH([sub-version],
+	    AC_HELP_STRING([--with-sub-version=VERSION],
+			   [Specify a sub-version string]))
+
 AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version", [Version substring, for packagers])
 
-AC_ARG_ENABLE(default-binary, [  --disable-default-binary Do not install as the default "evolution" binary  ], , enable_default_binary=no)
+AC_ARG_ENABLE([default-binary],
+	      AC_HELP_STRING([--disable-default-binary],
+			     [Do not install as the default "evolution" binary]),,
+	      [enable_default_binary=no])
+
 AM_CONDITIONAL(DEFAULT_BINARY, test x$enable_default_binary = xyes)
 
 
 dnl ********************
 dnl KDE applnk directory
 dnl ********************
-AC_ARG_WITH(kde-applnk-path, [  --with-kde-applnk-path=PATH    Location of KDE applnk files],
-            [with_kde_applnk_path="$withval"],
-	    [with_kde_applnk_path="no"])
+AC_ARG_WITH([kde-applnk-path],
+	    AC_HELP_STRING([--with-kde-applnk-path=PATH],
+			   [Location of KDE applnk files]),
+            [with_kde_applnk_path=$withval], [with_kde_applnk_path="no"])
+
 if test x"$with_kde_applnk_path" != x"no"; then
 	if test -z "$with_kde_applnk_path"; then
 		with_kde_applnk_path="$datadir/applnk"

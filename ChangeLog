@@ -1,3 +1,9 @@
+2007-08-10  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix for bug #444882
+
+	* configure.in: configure options beautification
+
 2007-08-08  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* MAINTAINERS: Updated the email/user id
