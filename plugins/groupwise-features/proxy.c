@@ -470,7 +470,7 @@ proxy_dialog_initialize_widgets (EAccount *account)
 }
 
 static EGwConnection * 
-proxy_get_cnc (EAccount *account)
+proxy_get_cnc (EAccount *account, GtkWindow *parent_window)
 {
 	EGwConnection *cnc;
 	char *uri, *failed_auth, *key, *prompt, *password = NULL;
@@ -506,7 +506,7 @@ proxy_get_cnc (EAccount *account)
 	password = e_passwords_get_password ("Groupwise", key);
 	if (!password)
 		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
-				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, NULL);
+				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, parent_window);
 	g_free (prompt);
 
 	cnc = e_gw_connection_new (uri, url->user, password);
@@ -565,7 +565,7 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 		if ( !((aclInstance->flags & E_GW_PROXY_NEW) && (aclInstance->flags & E_GW_PROXY_DELETED))) {
 
 			if ( !E_IS_GW_CONNECTION(prd->cnc)) 	/* Add check in case the connection request fails*/
-				prd->cnc = proxy_get_cnc (account);
+				prd->cnc = proxy_get_cnc (account, GTK_WINDOW (gtk_widget_get_toplevel (button)));
 
 			if (aclInstance->flags & E_GW_PROXY_NEW )         	
 				e_gw_connection_add_proxy (prd->cnc, aclInstance);		
@@ -752,7 +752,7 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 
 	if ((pg_num == num) && account->enabled) {
 		if (!prd->cnc)
-			prd->cnc = proxy_get_cnc(account);	
+			prd->cnc = proxy_get_cnc (account, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (notebook))));
 		 priv = prd->priv;
 
 		if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 

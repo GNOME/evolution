@@ -468,7 +468,8 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	key [strlen(key) -1] = 0;
 	
 	valid =  e2k_validate_user (owa_url, key, &url->user, exchange_params, 
-						&remember_password, &result);
+						&remember_password, &result,
+						GTK_WINDOW (gtk_widget_get_toplevel (button)));
 	g_free (key);
 	
 	if (!valid && result != E2K_AUTOCONFIG_CANCELLED)

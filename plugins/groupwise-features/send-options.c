@@ -50,7 +50,7 @@ void send_options_changed (EPlugin *epl, EConfigHookItemFactoryData *data);
 void send_options_abort (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 static EGwConnection * 
-get_cnc ()
+get_cnc (GtkWindow *parent_window)
 {
 	EGwConnection *cnc;
 	char *uri, *failed_auth, *key, *prompt, *password = NULL;
@@ -86,7 +86,7 @@ get_cnc ()
 	password = e_passwords_get_password ("Groupwise", key);
 	if (!password)
 		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
-				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, NULL);
+				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, parent_window);
 	g_free (prompt);
 
 	cnc = e_gw_connection_new (uri, url->user, password);
@@ -168,7 +168,7 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 		sod = e_sendoptions_dialog_new ();	
 		e_sendoptions_set_global (sod, TRUE);
 		if (!n_cnc) 
-			n_cnc = get_cnc ();
+			n_cnc = get_cnc (GTK_WINDOW (gtk_widget_get_toplevel (button)));
 
 		if (!n_cnc) {
 			g_warning ("Send Options: Could not get the connection to the server \n");

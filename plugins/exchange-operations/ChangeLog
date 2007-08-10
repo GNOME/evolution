@@ -1,3 +1,10 @@
+2007-08-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #327977
+
+	* exchange-account-setup.c: (owa_authenticate_user):
+	Pass parent window to call of e2k_validate_user.
+
 2007-07-31  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* exchange-delegates-user.c: (exchange_delegates_user_edit):

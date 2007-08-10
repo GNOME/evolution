@@ -1,3 +1,16 @@
+2007-08-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #327977
+
+	* proxy.c: (proxy_get_cnc): Added parent_window parameter
+	and uses it in call of e_passwords_ask_password.
+	* proxy.c: (proxy_commit), (proxy_page_changed_cb):
+	Calls proxy_get_cnc, passing in parent window handle.
+	* send-options.c: (get_cnc): Added parent_window parameter
+	and uses it in call of e_passwords_ask_password.
+	* send-options.c: (e_sendoptions_clicked_cb):
+	Calls get_cnc, passing in parent window handle.
+
 2007-08-03  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #462010
