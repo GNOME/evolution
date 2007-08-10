@@ -41,11 +41,11 @@ static const GOptionEntry options[] = {
 	{ "restore", '\0', 0, G_OPTION_ARG_NONE, &restore_op,
 	  N_("Restore Evolution directory"), NULL },
 	{ "check", '\0', 0, G_OPTION_ARG_NONE, &check_op,
-	  N_("Check Evolution archive"), NULL },
+	  N_("Check Evolution Backup"), NULL },
 	{ "restart", '\0', 0, G_OPTION_ARG_NONE, &restart_arg,
 	  N_("Restart Evolution"), NULL },
 	{ "gui", '\0', 0, G_OPTION_ARG_NONE, &gui_arg,
-	  N_("With GUI"), NULL },
+	  N_("With Graphical User Interface"), NULL },
 	{ G_OPTION_REMAINING, '\0', 0,
 	  G_OPTION_ARG_STRING_ARRAY, &opt_remaining },
 	{ NULL }
@@ -79,7 +79,7 @@ backup (const char *filename)
 	/* FIXME stay on this file system ,other options?" */
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
-	/* FIXME archive location?" */
+	/* FIXME backup location?" */
 	command = g_strdup_printf ("cd ~ && tar zpcf %s .evolution .camel_certs", filename);
 	s (command);
 	g_free (command);
@@ -113,7 +113,7 @@ restore (const char *filename)
 	s ("mv ~/.camel_certs ~/.camel_certs_old");
 
 	CANCEL (complete);
-	txt = _("Extracting files from the archive");
+	txt = _("Extracting files from backup");
 	command = g_strdup_printf ("cd ~ && tar zxf %s", filename);
 	s (command);
 	g_free (command);
@@ -241,13 +241,13 @@ main (int argc, char **argv)
 
 	for (i = 0; i < g_strv_length (opt_remaining); i++) {
 		if (backup_op) {
-			oper = _("Backing up to %s");
-			d(g_message ("Backing up to %s", (char *) opt_remaining[i]));
+			oper = _("Backing up to the folder %s");
+			d(g_message ("Backing up to the folder %s", (char *) opt_remaining[i]));
 			bk_file = g_strdup ((char *) opt_remaining[i]);
 			file = bk_file;
 		} else if (restore_op) {
-			oper = _("Restoring from %s");
-			d(g_message ("Restoring from %s", (char *) opt_remaining[i]));
+			oper = _("Restoring from the folder %s");
+			d(g_message ("Restoring from the folder %s", (char *) opt_remaining[i]));
 			res_file = g_strdup ((char *) opt_remaining[i]);
 			file = res_file;
 		} else if (check_op) {

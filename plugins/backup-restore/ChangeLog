@@ -1,3 +1,11 @@
+2007-08-07  Johnny Jacob  <jjohnny@novell.com>
+	
+	* Committed on behalf of Anand V M   <avmuttagi@gmail.com>
+	
+	** Fix for bug #458508
+
+	* backup-restore-plugin: string issues resolved.
+
 2007-08-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* backup-restore.c: (org_gnome_backup_restore_restore): Popup the

@@ -93,9 +93,9 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 	GtkWidget *vbox;
 	int response;
 
-	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution archive"), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
+	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file"), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
 								  
-/* 	dlg = gtk_file_chooser_dialog_new (_("Select name of the Evolution archive"), GTK_WINDOW (target->target.widget),  */
+/* 	dlg = gtk_file_chooser_dialog_new (_("Select name of the Evolution backup file"), GTK_WINDOW (target->target.widget),  */
 /* 					   GTK_FILE_CHOOSER_ACTION_SAVE,  */
 /* 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
 /* 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL); */
@@ -136,9 +136,9 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 	GtkWidget *vbox;
 	int response;
 
-	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution archive to restore"), NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
+	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file to restore"), NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
 								  
-/* 	dlg = gtk_file_chooser_dialog_new (_("Select Evolution archive to restore"), GTK_WINDOW (target->target.widget),  */
+/* 	dlg = gtk_file_chooser_dialog_new (_("Select Evolution backup file to restore"), GTK_WINDOW (target->target.widget),  */
 /* 					   GTK_FILE_CHOOSER_ACTION_OPEN,  */
 /* 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
 /* 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL); */
@@ -164,7 +164,7 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 			if (mask & BR_OK) 
 				restore (filename, mask & BR_START);
 		} else {
-			e_error_run (GTK_WINDOW (target->target.widget), "org.gnome.backup-restore:invalid-archive", NULL);
+			e_error_run (GTK_WINDOW (target->target.widget), "org.gnome.backup-restore:invalid-backup", NULL);
 		}
 		
 		g_free (filename);
@@ -201,7 +201,7 @@ restore_wizard (GnomeDruidPage *druidpage, GnomeDruid *druid, gpointer user_data
 
 	if (state) {
 		if (!file ||!sanity_check (file)) {
-			 e_error_run ((GtkWindow *)druid, "org.gnome.backup-restore:invalid-archive", NULL);
+			 e_error_run ((GtkWindow *)druid, "org.gnome.backup-restore:invalid-backup", NULL);
 		} else
 			restore (file, TRUE);
 		
@@ -235,13 +235,13 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	
 	page = gnome_druid_page_standard_new_with_vals (_("Restore from backup"), NULL, NULL);
 	hbox = gtk_hbox_new (FALSE, 6);
-	label = gtk_label_new (_("You can restore Evolution from your archive. It can restore all the Mails/Calendars/Tasks/Memos/Addressbook. \nIt also restores all your personal settings, mail filters etc."));
+	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. \nIt also restores all your personal settings, mail filters etc."));
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
 	box = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
 	
 	hbox = gtk_hbox_new (FALSE, 6);
-	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the backup archive"));
+	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the backup file"));
 	g_signal_connect (cbox, "toggled", G_CALLBACK (check_toggled), hook_data->parent);
 	gtk_box_pack_start ((GtkBox *)hbox, cbox, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
