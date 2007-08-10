@@ -1,3 +1,12 @@
+2007-08-05  Johnny Jacob  <jjohnny@novell.com> 
+
+	* Committed on behalf of Anand V M  <avmuttagi@gmail.com>
+	
+	** Fix for bug #428125
+	
+	* prefer-plain.c: Added mnemonic for "Plain Text Mode" in
+	preferences
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

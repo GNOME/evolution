@@ -147,9 +147,9 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	g_signal_connect(dropdown, "changed", G_CALLBACK(epp_mode_changed), NULL);
 	gtk_widget_show((GtkWidget *)dropdown);
 
-	w = gtk_label_new(_("HTML Mode"));
+	w = gtk_label_new_with_mnemonic(_("HTML _Mode"));
 	gtk_widget_show(w);
-
+	gtk_label_set_mnemonic_widget(GTK_LABEL(w),(GtkWidget *)dropdown);
 	i = ((GtkTable *)data->parent)->nrows;
 	gtk_table_attach((GtkTable *)data->parent, w, 0, 1, i, i+1, 0, 0, 0, 0);
 	gtk_table_attach((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i, i+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
