@@ -1,3 +1,10 @@
+2007-08-10  Johnny Jacob  <jjohnny@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	* C/evolution.xml : Updated docs for 2.12
+	* C/figures/evo_cal_ prop_a.png : Removed.
+
 2007-08-09  Nikos Charonitakis <nikosx@gmail.com>
 
 	* el/el.po: Added Greek translation
