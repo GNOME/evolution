@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-07 12:02+0700\n"
-"PO-Revision-Date: 2007-08-07 12:04+0700\n"
+"POT-Creation-Date: 2007-08-11 13:51+0700\n"
+"PO-Revision-Date: 2007-08-11 14:08+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -2990,7 +2990,7 @@ msgstr "_ตัด"
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../composer/e-msg-composer.c:3215 ../mail/em-folder-tree.c:1006
+#: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:1006
 #: ../mail/em-folder-view.c:1142 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3934,7 +3934,7 @@ msgstr "การแรเงา"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:963
+#: ../plugins/exchange-operations/exchange-account-setup.c:964
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
@@ -4927,12 +4927,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "แสดงช่องข้อมูลสถานะในเครื่องมือแก้ไขเหตุการณ์/งาน/การประชุม"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
-#: ../mail/evolution-mail.schemas.in.h:95
+#: ../mail/evolution-mail.schemas.in.h:96
 msgid "Show the \"Preview\" pane"
 msgstr "แสดงช่อง \"แสดงตัวอย่าง\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#: ../mail/evolution-mail.schemas.in.h:96
+#: ../mail/evolution-mail.schemas.in.h:97
 msgid "Show the \"Preview\" pane."
 msgstr "แสดงช่อง \"แสดงตัวอย่าง\""
 
@@ -5821,28 +5821,28 @@ msgstr " (กำหนดเสร็จ "
 msgid "Due "
 msgstr "กำหนดเสร็จ "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2962
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2968
 #, c-format
 msgid "Attached message - %s"
 msgstr "ข้อความที่แนบมา - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2967
-#: ../composer/e-msg-composer.c:3152
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2973
+#: ../composer/e-msg-composer.c:3158
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "ข้อความที่แนบมา"
 msgstr[1] "ข้อความที่แนบมา %d ข้อความ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3216
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3222
 #: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:369
 #: ../mail/em-folder-view.c:1038 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "_ย้าย"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3218
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3224
 #: ../mail/em-folder-tree.c:1009 ../mail/message-list.c:1965
 msgid "Cancel _Drag"
 msgstr "ยกเลิกการ_ลาก"
@@ -5851,7 +5851,7 @@ msgstr "ยกเลิกการ_ลาก"
 msgid "Could not update object"
 msgstr "ไม่สามารถปรับข้อมูลอ็อบเจกต์"
 
-#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2579
+#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2585
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5869,7 +5869,7 @@ msgstr "แสดงแ_ถบเอกสารแนบ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../calendar/gui/dialogs/event-page.c:1913
-#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3733
+#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5877,13 +5877,13 @@ msgid "_Remove"
 msgstr "_ลบ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3734 ../mail/em-folder-tree.c:2134
+#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2134
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_คุณสมบัติ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3736
+#: ../composer/e-msg-composer.c:3742
 msgid "_Add attachment..."
 msgstr "เ_พิ่มเอกสารแนบ..."
 
@@ -6140,7 +6140,7 @@ msgstr "ปรับแต่ง"
 #: ../calendar/gui/dialogs/event-page.c:2977
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2363
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2369
 #: ../filter/filter-rule.c:891 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:478
 #: ../mail/em-junk-hook.c:78
@@ -6922,7 +6922,7 @@ msgstr "กำลังปรับข้อมูลออบเจ็กต์
 
 #: ../calendar/gui/e-calendar-table.c:1179
 #: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:872
-#: ../composer/e-msg-composer.c:1399
+#: ../composer/e-msg-composer.c:1405
 msgid "Save as..."
 msgstr "บันทึกเป็น..."
 
@@ -10127,52 +10127,52 @@ msgid ""
 "account"
 msgstr "ไม่สามารถเข้ารหัสลับข้อความขาออก: ไม่ได้กำหนดใบรับรองการเข้ารหัสลับสำหรับบัญชีนี้"
 
-#: ../composer/e-msg-composer.c:1345 ../composer/e-msg-composer.c:2608
+#: ../composer/e-msg-composer.c:1351 ../composer/e-msg-composer.c:2614
 msgid "Hide _Attachment Bar"
 msgstr "ซ่อนแ_ถบเอกสารแนบ"
 
-#: ../composer/e-msg-composer.c:1348 ../composer/e-msg-composer.c:2611
-#: ../composer/e-msg-composer.c:3979
+#: ../composer/e-msg-composer.c:1354 ../composer/e-msg-composer.c:2617
+#: ../composer/e-msg-composer.c:3985
 msgid "Show _Attachment Bar"
 msgstr "แสดงแ_ถบเอกสารแนบ"
 
-#: ../composer/e-msg-composer.c:1380 ../composer/e-msg-composer.c:1414
+#: ../composer/e-msg-composer.c:1386 ../composer/e-msg-composer.c:1420
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "ไม่ทราบสาเหตุ"
 
-#: ../composer/e-msg-composer.c:1452
+#: ../composer/e-msg-composer.c:1458
 msgid "Could not open file"
 msgstr "ไม่สามารถเปิดแฟ้ม"
 
-#: ../composer/e-msg-composer.c:1460
+#: ../composer/e-msg-composer.c:1466
 msgid "Unable to retrieve message from editor"
 msgstr "ไม่สามารถดึงข้อความจากเครื่องมือแก้ไข"
 
-#: ../composer/e-msg-composer.c:1745
+#: ../composer/e-msg-composer.c:1751
 msgid "Untitled Message"
 msgstr "จดหมายไม่มีชื่อเรื่อง"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1781
+#: ../composer/e-msg-composer.c:1787
 msgid "Open File"
 msgstr "เปิดแฟ้ม"
 
-#: ../composer/e-msg-composer.c:2243 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2249 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "สร้างโดยอัตโนมัติ"
 
-#: ../composer/e-msg-composer.c:2346
+#: ../composer/e-msg-composer.c:2352
 msgid "Si_gnature:"
 msgstr "ลายเ_ซ็น:"
 
-#: ../composer/e-msg-composer.c:2622 ../composer/e-msg-composer.c:3861
-#: ../composer/e-msg-composer.c:3864
+#: ../composer/e-msg-composer.c:2628 ../composer/e-msg-composer.c:3867
+#: ../composer/e-msg-composer.c:3870
 msgid "Compose Message"
 msgstr "เขียนจดหมาย"
 
-#: ../composer/e-msg-composer.c:5104
+#: ../composer/e-msg-composer.c:5110
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10327,7 +10327,7 @@ msgstr "_บันทึกข้อความ"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:510
+#: ../shell/main.c:512
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -11295,7 +11295,7 @@ msgid "Drafts"
 msgstr "จดหมายร่าง"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2572
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2576
 #: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -12280,6 +12280,10 @@ msgid "Height of the message-list pane."
 msgstr "ความสูงของช่องรายการข้อความ"
 
 #: ../mail/evolution-mail.schemas.in.h:37
+msgid "Hides the per-folder preview and removes the selection"
+msgstr "ซ่อนการแสดงตัวอย่างอีเมลของโฟลเดอร์และยกเลิกการเลือก"
+
+#: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -12287,13 +12291,13 @@ msgstr ""
 "ถ้าผู้ใช้พยายามเปิดข้อความตั้งแต่ 10 ข้อความขึ้นไปพร้อมกันทีเดียว จะถามผู้ใช้ก่อน "
 "ว่าต้องการเปิดจริงหรือไม่"
 
-#: ../mail/evolution-mail.schemas.in.h:38
+#: ../mail/evolution-mail.schemas.in.h:39
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
 msgstr "ถ้าช่อง \"ตัวอย่างข้อความ\" เปิดใช้ ให้แสดงช่องดังกล่าวในด้านข้าง แทนที่จะเรียงในแนวดิ่ง"
 
-#: ../mail/evolution-mail.schemas.in.h:39
+#: ../mail/evolution-mail.schemas.in.h:40
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
@@ -12303,37 +12307,37 @@ msgstr ""
 "ที่ปรากฏในรายชื่อนี้ จะถูกค้นหาองค์ประกอบ bonobo สำหรับแสดง จากฐานข้อมูลชนิด mime ของ "
 "GNOME"
 
-#: ../mail/evolution-mail.schemas.in.h:40
+#: ../mail/evolution-mail.schemas.in.h:41
 msgid ""
 "It disables the feature where repeated prompts to ask if offline sync is "
 "required."
 msgstr "จะปิดการทำงานใดๆ ที่ต้องมีการถามซ้ำๆ ว่าต้องปรับข้อมูลแบบออฟไลน์หรือไม่"
 
-#: ../mail/evolution-mail.schemas.in.h:41
+#: ../mail/evolution-mail.schemas.in.h:42
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr "เปิด/ปิดการถามเมื่อผู้ใช้ทำเครื่องหมายข้อความหลายรายการ"
 
-#: ../mail/evolution-mail.schemas.in.h:42
+#: ../mail/evolution-mail.schemas.in.h:43
 msgid "Last time empty junk was run"
 msgstr "เวลาเทข้อความขยะครั้งสุดท้าย"
 
-#: ../mail/evolution-mail.schemas.in.h:43
+#: ../mail/evolution-mail.schemas.in.h:44
 msgid "Last time empty trash was run"
 msgstr "เวลาเทขยะครั้งสุดท้าย"
 
-#: ../mail/evolution-mail.schemas.in.h:44
+#: ../mail/evolution-mail.schemas.in.h:45
 msgid "List of Labels and their associated colors"
 msgstr "รายชื่อป้ายและสีที่ใช้"
 
-#: ../mail/evolution-mail.schemas.in.h:45
+#: ../mail/evolution-mail.schemas.in.h:46
 msgid "List of accepted licenses"
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:46
+#: ../mail/evolution-mail.schemas.in.h:47
 msgid "List of accounts"
 msgstr "รายชื่อบัญชีเมล"
 
-#: ../mail/evolution-mail.schemas.in.h:47
+#: ../mail/evolution-mail.schemas.in.h:48
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -12341,11 +12345,11 @@ msgstr ""
 "รายชื่อบัญชีที่องค์ประกอบเมลของ Evolution รู้จัก  รายชื่อนี้เป็นสตริงเก็บชื่อไดเรกทอรีย่อยเทียบกับ /"
 "apps/evolution/mail/accounts"
 
-#: ../mail/evolution-mail.schemas.in.h:48
+#: ../mail/evolution-mail.schemas.in.h:49
 msgid "List of custom headers and whether they are enabled."
 msgstr "รายชื่อข้อมูลส่วนหัวกำหนดเอง พร้อมกำหนดว่าเปิดใช้หรือไม่"
 
-#: ../mail/evolution-mail.schemas.in.h:49
+#: ../mail/evolution-mail.schemas.in.h:50
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -12353,19 +12357,19 @@ msgstr ""
 "รายชื่อของป้ายที่ใช้ในองค์ประกอบเมลของ Evolution  รายชื่อนี้เป็นรายการของสตริงในรูป ชื่อ:สี "
 "โดยแทนสีด้วยรูปแบบฐานสิบหกแบบ HTML"
 
-#: ../mail/evolution-mail.schemas.in.h:50
+#: ../mail/evolution-mail.schemas.in.h:51
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "รายการชนิด mime ที่จะตรวจหาองค์ประกอบ bonobo สำหรับแสดง"
 
-#: ../mail/evolution-mail.schemas.in.h:51
+#: ../mail/evolution-mail.schemas.in.h:52
 msgid "List of protocol names whose license has been accepted."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:52
+#: ../mail/evolution-mail.schemas.in.h:53
 msgid "Load images for HTML messages over http"
 msgstr "โหลดรูปภาพในข้อความ HTML ผ่าน http"
 
-#: ../mail/evolution-mail.schemas.in.h:53
+#: ../mail/evolution-mail.schemas.in.h:54
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
@@ -12375,236 +12379,236 @@ msgstr ""
 "ไม่ต้องโหลดรูปภาพผ่านเครือข่าย, 1 = โหลดรูปภาพในเมลจากผู้ติดต่อ, 2 = "
 "โหลดรูปภาพผ่านเครือข่ายเสมอ"
 
-#: ../mail/evolution-mail.schemas.in.h:54
+#: ../mail/evolution-mail.schemas.in.h:55
 msgid "Log filter actions"
 msgstr "บันทึกปฏิบัติการการกรองข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:55
+#: ../mail/evolution-mail.schemas.in.h:56
 msgid "Log filter actions to the specified log file."
 msgstr "บันทึกปฏิบัติการการกรองข้อความลงในแฟ้มบันทึกปฏิบัติการ"
 
-#: ../mail/evolution-mail.schemas.in.h:56
+#: ../mail/evolution-mail.schemas.in.h:57
 msgid "Logfile to log filter actions"
 msgstr "แฟ้มบันทึกปฏิบัติการที่จะบันทึกปฏิบัติการการกรองข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:57
+#: ../mail/evolution-mail.schemas.in.h:58
 msgid "Logfile to log filter actions."
 msgstr "แฟ้มบันทึกปฏิบัติการที่จะบันทึกปฏิบัติการการกรองข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:58
+#: ../mail/evolution-mail.schemas.in.h:59
 msgid "Mark as Seen after specified timeout"
 msgstr "ทำเครื่องหมายว่าอ่านแล้วหลังระยะเวลาที่กำหนด"
 
-#: ../mail/evolution-mail.schemas.in.h:59
+#: ../mail/evolution-mail.schemas.in.h:60
 msgid "Mark as Seen after specified timeout."
 msgstr "ทำเครื่องหมายว่าอ่านแล้วหลังระยะเวลาที่กำหนด"
 
-#: ../mail/evolution-mail.schemas.in.h:60
+#: ../mail/evolution-mail.schemas.in.h:61
 msgid "Mark citations in the message \"Preview\""
 msgstr "เน้นการอ้างคำพูดในตัวอย่างข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:61
+#: ../mail/evolution-mail.schemas.in.h:62
 msgid "Mark citations in the message \"Preview\"."
 msgstr "เน้นการอ้างคำพูดในตัวอย่างข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:62
+#: ../mail/evolution-mail.schemas.in.h:63
 msgid "Message Window default height"
 msgstr "ความสูงปริยายของหน้าต่างข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:63
+#: ../mail/evolution-mail.schemas.in.h:64
 msgid "Message Window default width"
 msgstr "ความกว้างปริยายของหน้าต่างข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:64
+#: ../mail/evolution-mail.schemas.in.h:65
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr "รูปแบบการแสดงข้อความ (\"normal\", \"full headers\", \"source\")"
 
-#: ../mail/evolution-mail.schemas.in.h:65
+#: ../mail/evolution-mail.schemas.in.h:66
 msgid "Minimum days between emptying the junk on exit"
 msgstr "จำนวนวันที่น้อยที่สุดระหว่างการเทข้อความขยะก่อนออกแต่ละครั้ง"
 
-#: ../mail/evolution-mail.schemas.in.h:66
+#: ../mail/evolution-mail.schemas.in.h:67
 msgid "Minimum days between emptying the trash on exit"
 msgstr "จำนวนวันที่น้อยที่สุดระหว่างการเทขยะก่อนออกแต่ละครั้ง"
 
-#: ../mail/evolution-mail.schemas.in.h:67
+#: ../mail/evolution-mail.schemas.in.h:68
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "เวลาที่น้อยที่สุดระหว่างการเทข้อความขยะก่อนออกแต่ละครั้ง เป็นวัน"
 
-#: ../mail/evolution-mail.schemas.in.h:68
+#: ../mail/evolution-mail.schemas.in.h:69
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "เวลาที่น้อยที่สุดระหว่างการเทขยะก่อนออกแต่ละครั้ง เป็นวัน"
 
-#: ../mail/evolution-mail.schemas.in.h:69
+#: ../mail/evolution-mail.schemas.in.h:70
 msgid "New Mail Notify sound file"
 msgstr "แฟ้มเสียงแจ้งเมลใหม่"
 
-#: ../mail/evolution-mail.schemas.in.h:70
+#: ../mail/evolution-mail.schemas.in.h:71
 msgid "New Mail Notify type"
 msgstr "ชนิดของการแจ้งเมลใหม่"
 
-#: ../mail/evolution-mail.schemas.in.h:71
+#: ../mail/evolution-mail.schemas.in.h:72
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "จำนวนรายการที่อยู่ที่จะแสดงในช่อง ถึง/สำเนาถึง/สำเนาลับถึง"
 
-#: ../mail/evolution-mail.schemas.in.h:72
+#: ../mail/evolution-mail.schemas.in.h:73
 msgid "Prompt on empty subject"
 msgstr "ถามเมื่อหัวเรื่องข้อความว่างเปล่า"
 
-#: ../mail/evolution-mail.schemas.in.h:73
+#: ../mail/evolution-mail.schemas.in.h:74
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "ถามผู้ใช้เมื่อผู้ใช้พยายามเก็บกวาดโฟลเดอร์"
 
-#: ../mail/evolution-mail.schemas.in.h:74
+#: ../mail/evolution-mail.schemas.in.h:75
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "ถามผู้ใช้เมื่อผู้ใช้พยายามส่งข้อความที่ไม่มีหัวเรื่อง"
 
-#: ../mail/evolution-mail.schemas.in.h:75
+#: ../mail/evolution-mail.schemas.in.h:76
 msgid "Prompt to check if the user wants to go offline immediately"
 msgstr "ถามเพื่อตรวจสอบว่าผู้ใช้ต้องการออฟไลน์ทันทีหรือไม่"
 
-#: ../mail/evolution-mail.schemas.in.h:76
+#: ../mail/evolution-mail.schemas.in.h:77
 msgid "Prompt when user expunges"
 msgstr "ถามเมื่อผู้ใช้สั่งเก็บกวาด"
 
-#: ../mail/evolution-mail.schemas.in.h:77
+#: ../mail/evolution-mail.schemas.in.h:78
 msgid "Prompt when user only fills Bcc"
 msgstr "ถามเมื่อผู้ใช้ระบุแต่สำเนาลับ"
 
-#: ../mail/evolution-mail.schemas.in.h:78
+#: ../mail/evolution-mail.schemas.in.h:79
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "ถามก่อนถ้าผู้ใช้พยายามเปิดข้อความตั้งแต่ 10 ข้อความขึ้นไปพร้อมกัน"
 
-#: ../mail/evolution-mail.schemas.in.h:79
+#: ../mail/evolution-mail.schemas.in.h:80
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr "ถามเมื่อผู้ใช้พยายามส่งเมลในรูป HTML ไปยังผู้รับที่อาจไม่ต้องการรับเมลในรูป HTML"
 
-#: ../mail/evolution-mail.schemas.in.h:80
+#: ../mail/evolution-mail.schemas.in.h:81
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "ถามเมื่อผู้ใช้พยายามส่งข้อความโดยไม่มีผู้รับในรายการ \"ถึง\" หรือ \"สำเนาถึง\" เลย"
 
-#: ../mail/evolution-mail.schemas.in.h:81
+#: ../mail/evolution-mail.schemas.in.h:82
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "ถามเมื่อผู้ใช้พยายามส่ง HTML โดยที่ผู้รับไม่ต้องการ"
 
-#: ../mail/evolution-mail.schemas.in.h:82
+#: ../mail/evolution-mail.schemas.in.h:83
 msgid "Prompt while marking multiple messages"
 msgstr "ถามเมื่อผู้ใช้ทำเครื่องหมายข้อความหลายรายการ"
 
-#: ../mail/evolution-mail.schemas.in.h:83
+#: ../mail/evolution-mail.schemas.in.h:84
 msgid "Recognize links in text and replace them."
 msgstr "ตรวจรู้ลิงก์ในข้อความและแทนที่ให้"
 
-#: ../mail/evolution-mail.schemas.in.h:84
+#: ../mail/evolution-mail.schemas.in.h:85
 msgid "Recognize smileys in text and replace them with images."
 msgstr "ตรวจรู้หน้าแสดงอารมณ์ในข้อความและแทนที่ด้วยรูปภาพให้"
 
-#: ../mail/evolution-mail.schemas.in.h:85
+#: ../mail/evolution-mail.schemas.in.h:86
 msgid "Run junk test on incoming mail"
 msgstr "ตรวจความเป็นขยะในจดหมายเข้าทุกฉบับ"
 
-#: ../mail/evolution-mail.schemas.in.h:86
+#: ../mail/evolution-mail.schemas.in.h:87
 msgid "Save directory"
 msgstr "ไดเรกทอรีสำหรับบันทึก"
 
-#: ../mail/evolution-mail.schemas.in.h:87
+#: ../mail/evolution-mail.schemas.in.h:88
 msgid "Search for the sender photo in local addressbooks"
 msgstr "ค้นหารูปของผู้ส่งจากสมุดที่อยู่ในเครื่อง"
 
-#: ../mail/evolution-mail.schemas.in.h:88
+#: ../mail/evolution-mail.schemas.in.h:89
 msgid "Send HTML mail by default"
 msgstr "ส่งเมลในรูป HTML โดยปริยาย"
 
-#: ../mail/evolution-mail.schemas.in.h:89
+#: ../mail/evolution-mail.schemas.in.h:90
 msgid "Send HTML mail by default."
 msgstr "ส่งเมลในรูป HTML โดยปริยาย"
 
-#: ../mail/evolution-mail.schemas.in.h:90
+#: ../mail/evolution-mail.schemas.in.h:91
 msgid "Show Animations"
 msgstr "แสดงภาพเคลื่อนไหว"
 
-#: ../mail/evolution-mail.schemas.in.h:91
+#: ../mail/evolution-mail.schemas.in.h:92
 msgid "Show animated images as animations."
 msgstr "แสดงภาพที่มีการเคลื่อนไหวโดยเคลื่อนไหวภาพ"
 
-#: ../mail/evolution-mail.schemas.in.h:92
+#: ../mail/evolution-mail.schemas.in.h:93
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "แสดงข้อความที่ลบแล้วในรายการข้อความด้วย โดยแสดงแบบขีดฆ่า"
 
-#: ../mail/evolution-mail.schemas.in.h:93
+#: ../mail/evolution-mail.schemas.in.h:94
 msgid "Show deleted messages in the message-list"
 msgstr "แสดงข้อความที่ลบแล้วในรายการข้อความด้วย"
 
-#: ../mail/evolution-mail.schemas.in.h:94
+#: ../mail/evolution-mail.schemas.in.h:95
 msgid "Show photo of the sender"
 msgstr "แสดงรูปของผู้ส่ง"
 
-#: ../mail/evolution-mail.schemas.in.h:97
+#: ../mail/evolution-mail.schemas.in.h:98
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
 msgstr "แสดงอีเมลผู้ส่งในคอลัมน์ในรายการข้อความด้วย"
 
-#: ../mail/evolution-mail.schemas.in.h:98
+#: ../mail/evolution-mail.schemas.in.h:99
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "แสดงรูปของผู้ส่งในช่องอ่านข้อความด้วย"
 
-#: ../mail/evolution-mail.schemas.in.h:99
+#: ../mail/evolution-mail.schemas.in.h:100
 msgid "Show the sender email in the messages column in the message list"
 msgstr "แสดงอีเมลผู้ส่งในคอลัมน์ในรายการข้อความด้วย"
 
-#: ../mail/evolution-mail.schemas.in.h:100
+#: ../mail/evolution-mail.schemas.in.h:101
 msgid "Sound file to play when new mail arrives."
 msgstr "แฟ้มเสียงที่จะเล่นเมื่อมีเมลเข้ามาใหม่"
 
-#: ../mail/evolution-mail.schemas.in.h:101
+#: ../mail/evolution-mail.schemas.in.h:102
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr "ระบุชนิดของการแจ้งเมลใหม่ที่ผู้ใช้ต้องการใช้"
 
-#: ../mail/evolution-mail.schemas.in.h:102
+#: ../mail/evolution-mail.schemas.in.h:103
 msgid "Spell check inline"
 msgstr "ตรวจตัวสะกดขณะพิมพ์"
 
-#: ../mail/evolution-mail.schemas.in.h:103
+#: ../mail/evolution-mail.schemas.in.h:104
 msgid "Subscribe dialog default height"
 msgstr "ความสูงปริยายของหน้าต่างบอกรับข้อมูล"
 
-#: ../mail/evolution-mail.schemas.in.h:104
+#: ../mail/evolution-mail.schemas.in.h:105
 msgid "Subscribe dialog default width"
 msgstr "ความกว้างปริยายของหน้าต่างบอกรับข้อมูล"
 
-#: ../mail/evolution-mail.schemas.in.h:105
+#: ../mail/evolution-mail.schemas.in.h:106
 msgid "Terminal font"
 msgstr "แบบอักษรเทอร์มินัล"
 
-#: ../mail/evolution-mail.schemas.in.h:106
+#: ../mail/evolution-mail.schemas.in.h:107
 msgid "Text message part limit"
 msgstr "ขนาดส่วนของข้อความสูงสุด"
 
-#: ../mail/evolution-mail.schemas.in.h:107
+#: ../mail/evolution-mail.schemas.in.h:108
 msgid "The default plugin for Junk hook"
 msgstr "ปลั๊กอินปริยายสำหรับการตรวจข้อความขยะ"
 
-#: ../mail/evolution-mail.schemas.in.h:108
+#: ../mail/evolution-mail.schemas.in.h:109
 msgid "The last time empty junk was run, in days since the epoch."
 msgstr "เวลาเทข้อความขยะครั้งสุดท้าย เป็นวันนับจากจุดเริ่มนับเวลายูนิกซ์"
 
-#: ../mail/evolution-mail.schemas.in.h:109
+#: ../mail/evolution-mail.schemas.in.h:110
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "เวลาเทขยะครั้งสุดท้าย เป็นวันนับจากจุดเริ่มนับเวลายูนิกซ์"
 
-#: ../mail/evolution-mail.schemas.in.h:110
+#: ../mail/evolution-mail.schemas.in.h:111
 msgid "The terminal font for mail display"
 msgstr "แบบอักษรเทอร์มินัลสำหรับแสดงข้อความเมล"
 
-#: ../mail/evolution-mail.schemas.in.h:111
+#: ../mail/evolution-mail.schemas.in.h:112
 msgid "The variable width font for mail display"
 msgstr "แบบอักษรความกว้างไม่คงที่สำหรับแสดงข้อความเมล"
 
-#: ../mail/evolution-mail.schemas.in.h:112
+#: ../mail/evolution-mail.schemas.in.h:113
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
@@ -12612,7 +12616,7 @@ msgstr ""
 "ค่านี้กำหนดขนาดสูงสุดของส่วนของข้อความที่จะสามารถจัดรูปแบบใน evolution ได้ ค่าปริยายคือ 4 "
 "MB หรือ 4096 KB และกำหนดค่าในหน่วย KB"
 
-#: ../mail/evolution-mail.schemas.in.h:113
+#: ../mail/evolution-mail.schemas.in.h:114
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it wont fall back to "
@@ -12621,7 +12625,7 @@ msgstr ""
 "แม้จะเปิดใช้ปลั๊กอินตรวจข้อความขยะไว้หลายตัว นี่เป็นปลั๊กอินปริยาย ถ้าปลั๊กอินปริยายถูกปิด "
 "ก็จะไม่พยายามถอยไปใช้ปลั๊กอินอื่นแทน"
 
-#: ../mail/evolution-mail.schemas.in.h:114
+#: ../mail/evolution-mail.schemas.in.h:115
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -12632,11 +12636,11 @@ msgstr ""
 "พร้อมกำหนดด้วยว่าจะแสดงหรือไม่ รูปแบบของโครงสร้าง XML คือ &lt;header enabled&gt; "
 "โดยกำหนด enabled ถ้าต้องการให้แสดง header ในมุมมองเมล"
 
-#: ../mail/evolution-mail.schemas.in.h:115
+#: ../mail/evolution-mail.schemas.in.h:116
 msgid "This option would help in improving the speed of fetching."
 msgstr "ตัวเลือกนี้จะช่วยเพิ่มความเร็วในการดึงข้อมูล"
 
-#: ../mail/evolution-mail.schemas.in.h:116
+#: ../mail/evolution-mail.schemas.in.h:117
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -12644,109 +12648,117 @@ msgstr ""
 "กำหนดจำนวนรายการที่อยู่ที่จะแสดงในมุมมองรายการข้อความปริยาย ซึ่งรายการที่เกินนั้น จะถูกแทนด้วย "
 "'...'"
 
-#: ../mail/evolution-mail.schemas.in.h:117
+#: ../mail/evolution-mail.schemas.in.h:118
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart"
 msgstr "ค่านี้กำหนดว่าจะขยายหรือยุบกระทู้โดยปริยาย ต้องเปิด Evolution ใหม่จึงจะมีผล"
 
-#: ../mail/evolution-mail.schemas.in.h:118
+#: ../mail/evolution-mail.schemas.in.h:119
+msgid ""
+"This should be a once-readable option and resetted to false after read. This "
+"unselects the mail in the list and removes the preview for that folder."
+msgstr ""
+"ค่านี้ควรจะถูกอ่านเพียงครั้งเดียว แล้วล้างค่าเป็นเท็จทันทีหลังจากอ่าน หน้าที่ของคีย์นี้ "
+"คือยกเลิกการเลือกเมลในรายการ และยกเลิกการแสดงตัวอย่างอีเมลสำหรับโฟลเดอร์นั้นๆ"
+
+#: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message list."
 msgstr "เรียงกระทู้ในรายการข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:119
+#: ../mail/evolution-mail.schemas.in.h:121
 msgid "Thread the message-list"
 msgstr "เรียงกระทู้ในรายการข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:120
+#: ../mail/evolution-mail.schemas.in.h:122
 msgid "Thread the message-list based on Subject"
 msgstr "เรียงกระทู้ในรายการข้อความตามหัวเรื่อง"
 
-#: ../mail/evolution-mail.schemas.in.h:121
+#: ../mail/evolution-mail.schemas.in.h:123
 msgid "Timeout for marking message as Seen"
 msgstr "กำหนดเวลาที่จะทำเครื่องหมายข้อความว่าอ่านแล้ว"
 
-#: ../mail/evolution-mail.schemas.in.h:122
+#: ../mail/evolution-mail.schemas.in.h:124
 msgid "Timeout for marking message as Seen."
 msgstr "กำหนดเวลาที่จะทำเครื่องหมายข้อความว่าอ่านแล้ว"
 
-#: ../mail/evolution-mail.schemas.in.h:123
+#: ../mail/evolution-mail.schemas.in.h:125
 msgid "UID string of the default account."
 msgstr "สตริง UID ของบัญชีปริยาย"
 
-#: ../mail/evolution-mail.schemas.in.h:124
+#: ../mail/evolution-mail.schemas.in.h:126
 msgid "Use SpamAssassin daemon and client"
 msgstr "ใช้ดีมอนและไคลเอนต์ของ SpamAssassin"
 
-#: ../mail/evolution-mail.schemas.in.h:125
+#: ../mail/evolution-mail.schemas.in.h:127
 msgid "Use SpamAssassin daemon and client (spamc/spamd)"
 msgstr "ใช้ดีมอนและไคลเอนต์ของ SpamAssassin (spamc/spamd)"
 
-#: ../mail/evolution-mail.schemas.in.h:126
+#: ../mail/evolution-mail.schemas.in.h:128
 msgid "Use custom fonts"
 msgstr "ใช้แบบอักษรกำหนดเอง"
 
-#: ../mail/evolution-mail.schemas.in.h:127
+#: ../mail/evolution-mail.schemas.in.h:129
 msgid "Use custom fonts for displaying mail"
 msgstr "ใช้แบบอักษรกำหนดเองสำหรับแสดงผลเมล"
 
-#: ../mail/evolution-mail.schemas.in.h:128
+#: ../mail/evolution-mail.schemas.in.h:130
 msgid "Use only local spam tests."
 msgstr "ทดสอบสแปมแบบไม่ใช้เครือข่ายเท่านั้น"
 
-#: ../mail/evolution-mail.schemas.in.h:129
+#: ../mail/evolution-mail.schemas.in.h:131
 msgid "Use only the local spam tests (no DNS)."
 msgstr "ทดสอบสแปมแบบไม่ใช้เครือข่ายเท่านั้น (ไม่ใช้ DNS)"
 
-#: ../mail/evolution-mail.schemas.in.h:130
+#: ../mail/evolution-mail.schemas.in.h:132
 msgid "Use side-by-side or wide layout"
 msgstr "เรียงช่องหน้าต่างแบบวางข้างกันในแนวนอน"
 
-#: ../mail/evolution-mail.schemas.in.h:131
+#: ../mail/evolution-mail.schemas.in.h:133
 msgid "Variable width font"
 msgstr "แบบอักษรความกว้างไม่คงที่"
 
-#: ../mail/evolution-mail.schemas.in.h:132
+#: ../mail/evolution-mail.schemas.in.h:134
 msgid "View/Bcc menu item is checked"
 msgstr "เมนู มุมมอง/สำเนาลับ กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:133
+#: ../mail/evolution-mail.schemas.in.h:135
 msgid "View/Bcc menu item is checked."
 msgstr "เมนู มุมมอง/สำเนาลับ กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:134
+#: ../mail/evolution-mail.schemas.in.h:136
 msgid "View/Cc menu item is checked"
 msgstr "เมนู มุมมอง/สำเนาถึง กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:135
+#: ../mail/evolution-mail.schemas.in.h:137
 msgid "View/Cc menu item is checked."
 msgstr "เมนู มุมมอง/สำเนาถึง กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:136
+#: ../mail/evolution-mail.schemas.in.h:138
 msgid "View/From menu item is checked"
 msgstr "เมนู มุมมอง/จาก กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:137
+#: ../mail/evolution-mail.schemas.in.h:139
 msgid "View/From menu item is checked."
 msgstr "เมนู มุมมอง/จาก กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:138
+#: ../mail/evolution-mail.schemas.in.h:140
 msgid "View/PostTo menu item is checked"
 msgstr "เมนู มุมมอง/ประกาศที่ กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:139
+#: ../mail/evolution-mail.schemas.in.h:141
 msgid "View/PostTo menu item is checked."
 msgstr "เมนู มุมมอง/ประกาศที่ กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:140
+#: ../mail/evolution-mail.schemas.in.h:142
 msgid "View/ReplyTo menu item is checked"
 msgstr "เมนู มุมมอง/ที่อยู่ตอบกลับ กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:141
+#: ../mail/evolution-mail.schemas.in.h:143
 msgid "View/ReplyTo menu item is checked."
 msgstr "เมนู มุมมอง/ที่อยู่ตอบกลับ กาอยู่"
 
-#: ../mail/evolution-mail.schemas.in.h:142
+#: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -12754,11 +12766,11 @@ msgstr ""
 "กำหนดว่าจะถอยกลับไปใช้การเรียงกระทู้ข้อความโดยอาศัยหัวเรื่องเมื่อข้อความไม่มีข้อมูลส่วนหัว In-"
 "Reply-To หรือ Reference หรือไม่"
 
-#: ../mail/evolution-mail.schemas.in.h:143
+#: ../mail/evolution-mail.schemas.in.h:145
 msgid "Width of the message-list pane"
 msgstr "ความกว้างของช่องรายการข้อความ"
 
-#: ../mail/evolution-mail.schemas.in.h:144
+#: ../mail/evolution-mail.schemas.in.h:146
 msgid "Width of the message-list pane."
 msgstr "ความกว้างของช่องรายการข้อความ"
 
@@ -14765,16 +14777,16 @@ msgid "Audio inline plugin"
 msgstr "ปลั๊กอินเสียงในบรรทัด"
 
 #: ../plugins/backup-restore/backup-restore.c:96
-msgid "Select name of the Evolution archive"
-msgstr "เลือกชื่อของแฟ้มจัดเก็บข้อมูลเก่าของ Evolution"
+msgid "Select name of the Evolution backup file"
+msgstr "เลือกชื่อของแฟ้มสำรองข้อมูลของ Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
 msgstr "เ_ริ่ม Evolution ใหม่หลังการสำรอง"
 
 #: ../plugins/backup-restore/backup-restore.c:139
-msgid "Select name of the Evolution archive to restore"
-msgstr "เลือกแฟ้มจัดเก็บข้อมูลเก่าของ Evolution ที่จะเรียกคืน"
+msgid "Select name of the Evolution backup file to restore"
+msgstr "เลือกแฟ้มสำรองข้อมูลของ Evolution ที่จะเรียกคืน"
 
 #: ../plugins/backup-restore/backup-restore.c:163
 msgid "_Restart Evolution after restore"
@@ -14786,17 +14798,17 @@ msgstr "ฟื้นคืนโดยใช้ข้อมูลสำรอง
 
 #: ../plugins/backup-restore/backup-restore.c:238
 msgid ""
-"You can restore Evolution from your archive. It can restore all the Mails/"
-"Calendars/Tasks/Memos/Addressbook. \n"
+"You can restore Evolution from your backup. It can restore all the Mails, "
+"Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"คุณสามารถฟื้น Evolution คืนโดยใช้แฟ้มจัดเก็บข้อมูลเก่าของคุณ โดยจะฟื้นทั้งข้อมูล เมล/ปฏิทิน/งาน/"
-"บันทึกช่วยจำ/สมุดที่อยู่ \n"
+"คุณสามารถฟื้น Evolution คืนโดยใช้แฟ้มสำรองข้อมูลของคุณ โดยจะฟื้นทั้งข้อมูล เมล, ปฏิทิน, งาน, "
+"บันทึกช่วยจำ, สมุดที่อยู่ \n"
 "และยังฟื้นค่าตั้งส่วนตัว ตัวกรองเมล ฯลฯ ต่างๆ ของคุณด้วย"
 
 #: ../plugins/backup-restore/backup-restore.c:244
-msgid "_Restore Evolution from the backup archive"
-msgstr "_ฟื้น Evolution จากแฟ้มจัดเก็บข้อมูลสำรอง"
+msgid "_Restore Evolution from the backup file"
+msgstr "_ฟื้น Evolution จากแฟ้มสำรองข้อมูล"
 
 #: ../plugins/backup-restore/backup-restore.c:251
 msgid "Please select an Evolution Archive to restore:"
@@ -14815,16 +14827,16 @@ msgid "Restore Evolution directory"
 msgstr "ฟื้นไดเรกทอรี Evolution"
 
 #: ../plugins/backup-restore/backup.c:44
-msgid "Check Evolution archive"
-msgstr "ตรวจสอบแฟ้มจัดเก็บข้อมูลเก่า Evolution"
+msgid "Check Evolution Backup"
+msgstr "ตรวจสอบแฟ้มสำรองข้อมูล Evolution"
 
 #: ../plugins/backup-restore/backup.c:46
 msgid "Restart Evolution"
 msgstr "เริ่มเปิด Evolution ใหม่"
 
 #: ../plugins/backup-restore/backup.c:48
-msgid "With GUI"
-msgstr "ใช้ GUI"
+msgid "With Graphical User Interface"
+msgstr "ใช้ส่วนติดต่อผู้ใช้แบบกราฟิกส์"
 
 #: ../plugins/backup-restore/backup.c:67
 #: ../plugins/backup-restore/backup.c:107
@@ -14853,8 +14865,8 @@ msgid "Backup current Evolution data"
 msgstr "สำรองข้อมูลปัจจุบันของ Evolution"
 
 #: ../plugins/backup-restore/backup.c:116
-msgid "Extracting files from the archive"
-msgstr "กำลังแตกแฟ้มจากแฟ้มจัดเก็บ"
+msgid "Extracting files from backup"
+msgstr "กำลังแตกแฟ้มจากแฟ้มสำรองข้อมูล"
 
 #: ../plugins/backup-restore/backup.c:122
 msgid "Loading Evolution settings"
@@ -14866,13 +14878,12 @@ msgstr "กำลังลบแฟ้มสำรองชั่วคราว
 
 #: ../plugins/backup-restore/backup.c:244
 #, c-format
-msgid "Backing up to %s"
-msgstr "กำลังสำรองไว้ที่ %s"
+msgid "Backing up to the folder %s"
+msgstr "กำลังสำรองไว้ที่โฟลเดอร์ %s"
 
 #: ../plugins/backup-restore/backup.c:249
-#, c-format
-msgid "Restoring from %s"
-msgstr "กำลังฟื้นโดยใช้ %s"
+msgid "Restoring from the folder %s"
+msgstr "กำลังฟื้นโดยใช้โฟลเดอร์ %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:264
@@ -14897,8 +14908,9 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "ยืนยันที่จะปิด Evolution หรือไม่?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid "Are you sure you want to restore Evolution from the selected archive?"
-msgstr "ยืนยันที่จะฟื้น Evolution โดยใช้แฟ้มจัดเก็บที่เลือกหรือไม่?"
+msgid ""
+"Are you sure you want to restore Evolution from the selected backup file?"
+msgstr "ยืนยันที่จะฟื้น Evolution โดยใช้แฟ้มสำรองข้อมูลที่เลือกหรือไม่?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid ""
@@ -14912,12 +14924,12 @@ msgstr ""
 "ถ้าคุณต้องการให้เริ่มเปิด Evolution ใหม่โดยอัตโนมัติหลังการสำรองข้อมูล กรุณากาที่กล่องกา"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-msgid "Invalid Evolution archive"
-msgstr "แฟ้มจัดเก็บข้อมูลเก่า Evolution ใช้การไม่ได้"
+msgid "Invalid Evolution backup file"
+msgstr "แฟ้มสำรองข้อมูล Evolution ใช้การไม่ได้"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
-msgid "Please select a valid archive file to restore."
-msgstr "กรุณาเลือกแฟ้มจัดเก็บข้อมูลเก่าของ Evolution ที่จะฟื้นคืน"
+msgid "Please select a valid backup file to restore."
+msgstr "กรุณาเลือกแฟ้มสำรองข้อมูลของ Evolution ที่จะฟื้นคืน"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -15258,29 +15270,29 @@ msgstr "ขนาดของโฟลเดอร์"
 msgid "Exchange Settings"
 msgstr "ค่าตั้ง Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:617
+#: ../plugins/exchange-operations/exchange-account-setup.c:618
 msgid "_OWA URL:"
 msgstr "_OWA URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:643
+#: ../plugins/exchange-operations/exchange-account-setup.c:644
 msgid "A_uthenticate"
 msgstr "ยื_นยันตัวบุคคล"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:836
+#: ../plugins/exchange-operations/exchange-account-setup.c:837
 msgid "Authentication Type"
 msgstr "ชนิดของการยืนยันตัวบุคคล"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:850
+#: ../plugins/exchange-operations/exchange-account-setup.c:851
 msgid "Ch_eck for Supported Types"
 msgstr "_ตรวจสอบชนิดที่สนับสนุน"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:956
+#: ../plugins/exchange-operations/exchange-account-setup.c:957
 #: ../plugins/exchange-operations/exchange-contacts.c:212
 #, c-format
 msgid "%s KB"
 msgstr "%s KB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:958
+#: ../plugins/exchange-operations/exchange-account-setup.c:959
 #: ../plugins/exchange-operations/exchange-contacts.c:214
 #, c-format
 msgid "0 KB"
@@ -17565,8 +17577,8 @@ msgid "Only ever show PLAIN"
 msgstr "แสดงข้อความล้วนเท่านั้น"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
-msgid "HTML Mode"
-msgstr "โหมด HTML"
+msgid "HTML _Mode"
+msgstr "โ_หมด HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -18399,11 +18411,15 @@ msgstr "ส่งข้อความดีบั๊กของทุกอง
 msgid "Disable loading of any plugins."
 msgstr "ปิดการโหลดปลั๊กอินใดๆ"
 
-#: ../shell/main.c:501
+#: ../shell/main.c:474
+msgid "Disable preview pane of Mail, Contacts and Tasks."
+msgstr "ไม่ใช้ช่องแสดงตัวอย่างสำหรับเมล, ที่อยู่ติดต่อ และงาน"
+
+#: ../shell/main.c:503
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution: โปรแกรมจัดการข้อมูลส่วนบุคคลและไคลเอนต์อีเมล"
 
-#: ../shell/main.c:514
+#: ../shell/main.c:516
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -22154,6 +22170,12 @@ msgstr ""
 #: ../widgets/text/e-text.c:3705 ../widgets/text/e-text.c:3706
 msgid "Handle Popup"
 msgstr "จัดการหน้าต่างผุดขึ้น"
+
+#~ msgid "Check Evolution archive"
+#~ msgstr "ตรวจสอบแฟ้มจัดเก็บข้อมูลเก่า Evolution"
+
+#~ msgid "With GUI"
+#~ msgstr "ใช้ GUI"
 
 #~ msgid "_Address: "
 #~ msgstr "_ที่อยู่: "
