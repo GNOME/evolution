@@ -1,3 +1,13 @@
+2007-08-03  Johnny Jacob  <jjohnny@novell.com>
+
+	* org-gnome-attachment-reminder.errors.xml: Renamed to
+	org-gnome-attachment-reminder.error.xml
+	
+	* org-gnome-attachment-reminder.error.xml:  Marked strings for
+	translation
+	
+	* Makefile.am : Fixed translation rules.
+	
 2007-08-03  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #460821

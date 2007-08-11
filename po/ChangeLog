@@ -1,3 +1,7 @@
+2007-08-12  Johnny Jacob  <jjohnny@novell.com>
+ 
+       * POTFILES.in : Added new file for translation.
+ 
 2007-08-11  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation 

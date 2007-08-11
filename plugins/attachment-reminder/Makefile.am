@@ -4,14 +4,13 @@ INCLUDES =						\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 
+@EVO_PLUGIN_RULE@
+
 error_DATA = 					\
-	org-gnome-attachment-reminder.errors.xml	
+	org-gnome-attachment-reminder.error	
 
 
 errordir = $(privdatadir)/errors
-
-
-@EVO_PLUGIN_RULE@
 
 plugin_DATA = 						\
 	org-gnome-evolution-attachment-reminder.eplug	\
@@ -39,10 +38,13 @@ install-data-local:
 	fi
 
 EXTRA_DIST = org-gnome-evolution-attachment-reminder.eplug.xml \
-	$(error_DATA)						\
+	org-gnome-attachment-reminder.error.xml			\
 	$(schema_in_files)					\
 	attachment-reminder.glade
 
-CLEANFILES = org-gnome-evolution-attachment-reminder.eplug
+BUILT_SOURCES = org-gnome-evolution-attachment-reminder.eplug \
+		org-gnome-attachment-reminder.error
+
+CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
