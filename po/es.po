@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-09 03:20+0100\n"
-"PO-Revision-Date: 2007-08-10 15:00+0200\n"
+"POT-Creation-Date: 2007-08-11 01:23+0100\n"
+"PO-Revision-Date: 2007-08-11 12:46+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3020,7 +3020,7 @@ msgstr "Cor_tar"
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../composer/e-msg-composer.c:3215 ../mail/em-folder-tree.c:1006
+#: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:1006
 #: ../mail/em-folder-view.c:1142 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3971,7 +3971,7 @@ msgstr "Escala de grises"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:963
+#: ../plugins/exchange-operations/exchange-account-setup.c:964
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
@@ -5936,28 +5936,28 @@ msgstr " (Vence "
 msgid "Due "
 msgstr "Vence "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2962
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2968
 #, c-format
 msgid "Attached message - %s"
 msgstr "Mensaje adjunto: %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2967
-#: ../composer/e-msg-composer.c:3152
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2973
+#: ../composer/e-msg-composer.c:3158
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3216
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3222
 #: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:369
 #: ../mail/em-folder-view.c:1038 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3218
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3224
 #: ../mail/em-folder-tree.c:1009 ../mail/message-list.c:1965
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
@@ -5966,7 +5966,7 @@ msgstr "Cancelar _arrastre"
 msgid "Could not update object"
 msgstr "No es posible actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2579
+#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2585
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5984,7 +5984,7 @@ msgstr "Mostrar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../calendar/gui/dialogs/event-page.c:1913
-#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3733
+#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5992,13 +5992,13 @@ msgid "_Remove"
 msgstr "_Quitar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3734 ../mail/em-folder-tree.c:2134
+#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2134
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Propiedades"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3736
+#: ../composer/e-msg-composer.c:3742
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
@@ -6257,7 +6257,7 @@ msgstr "Personalizar"
 #: ../calendar/gui/dialogs/event-page.c:2977
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2363
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2369
 #: ../filter/filter-rule.c:891 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:478
 #: ../mail/em-junk-hook.c:78
@@ -7034,7 +7034,7 @@ msgstr "Actualizando objetos"
 
 #: ../calendar/gui/e-calendar-table.c:1179
 #: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:872
-#: ../composer/e-msg-composer.c:1399
+#: ../composer/e-msg-composer.c:1405
 msgid "Save as..."
 msgstr "Guardar como…"
 
@@ -10256,52 +10256,52 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1345 ../composer/e-msg-composer.c:2608
+#: ../composer/e-msg-composer.c:1351 ../composer/e-msg-composer.c:2614
 msgid "Hide _Attachment Bar"
 msgstr "Ocultar _barra de adjuntos"
 
-#: ../composer/e-msg-composer.c:1348 ../composer/e-msg-composer.c:2611
-#: ../composer/e-msg-composer.c:3979
+#: ../composer/e-msg-composer.c:1354 ../composer/e-msg-composer.c:2617
+#: ../composer/e-msg-composer.c:3985
 msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
-#: ../composer/e-msg-composer.c:1380 ../composer/e-msg-composer.c:1414
+#: ../composer/e-msg-composer.c:1386 ../composer/e-msg-composer.c:1420
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Razón desconocida"
 
-#: ../composer/e-msg-composer.c:1452
+#: ../composer/e-msg-composer.c:1458
 msgid "Could not open file"
 msgstr "No es posible abrir el archivo"
 
-#: ../composer/e-msg-composer.c:1460
+#: ../composer/e-msg-composer.c:1466
 msgid "Unable to retrieve message from editor"
 msgstr "No no pudo obtenerse el mensaje del editor"
 
-#: ../composer/e-msg-composer.c:1745
+#: ../composer/e-msg-composer.c:1751
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1781
+#: ../composer/e-msg-composer.c:1787
 msgid "Open File"
 msgstr "Abrir archivo"
 
-#: ../composer/e-msg-composer.c:2243 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2249 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Autogenerado"
 
-#: ../composer/e-msg-composer.c:2346
+#: ../composer/e-msg-composer.c:2352
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
-#: ../composer/e-msg-composer.c:2622 ../composer/e-msg-composer.c:3861
-#: ../composer/e-msg-composer.c:3864
+#: ../composer/e-msg-composer.c:2628 ../composer/e-msg-composer.c:3867
+#: ../composer/e-msg-composer.c:3870
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:5104
+#: ../composer/e-msg-composer.c:5110
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -12832,8 +12832,9 @@ msgid ""
 "This should be a once-readable option and resetted to false after read. This "
 "unselects the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esto debería ser una opción que se lee una sola vez y después se su lectura se establece a «false». "
-"Esto deselecciona el correo en la lista y elimina la vista preliminar para esa carpeta."
+"Esto debería ser una opción que se lee una sola vez y después se su lectura "
+"se establece a «false». Esto deselecciona el correo en la lista y elimina la "
+"vista preliminar para esa carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message list."
@@ -14982,16 +14983,16 @@ msgid "Audio inline plugin"
 msgstr "Complemento de sonido en línea"
 
 #: ../plugins/backup-restore/backup-restore.c:96
-msgid "Select name of the Evolution archive"
-msgstr "Seleccione el nombre del archivador de Evolution"
+msgid "Select name of the Evolution backup file"
+msgstr "Seleccione el nombre de archivo de respaldo Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
 msgstr "_Reiniciar Evolution después del respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:139
-msgid "Select name of the Evolution archive to restore"
-msgstr "Seleccione el nombre del archivador de Evolution para restaurar"
+msgid "Select name of the Evolution backup file to restore"
+msgstr "Seleccione el nombre del archivo de respaldo de Evolution para restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:163
 msgid "_Restart Evolution after restore"
@@ -15003,17 +15004,17 @@ msgstr "Restaurar desde un respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:238
 msgid ""
-"You can restore Evolution from your archive. It can restore all the Mails/"
-"Calendars/Tasks/Memos/Addressbook. \n"
+"You can restore Evolution from your backup. It can restore all the Mails, "
+"Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Puede restaurar Evolution desde un archivador. Puede restaurar todos los "
-"correos/calendarios/tareas/notas/libreta de direcciones.\n"
+"Puede restaurar Evolution desde su archivo de respaldo. Puede restaurar todos los "
+"correos, calendarios, tareas, notas, libreta de direcciones.\n"
 "También restaura su configuración personal, filtros de correo, etc."
 
 #: ../plugins/backup-restore/backup-restore.c:244
-msgid "_Restore Evolution from the backup archive"
-msgstr "_Restaura Evolution desde el archivador de respaldo"
+msgid "_Restore Evolution from the backup file"
+msgstr "_Restaurar Evolution desde el archivo de respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:251
 msgid "Please select an Evolution Archive to restore:"
@@ -15032,16 +15033,16 @@ msgid "Restore Evolution directory"
 msgstr "Restaurar el directorio de Evolution"
 
 #: ../plugins/backup-restore/backup.c:44
-msgid "Check Evolution archive"
-msgstr "Comprobar el archivador de Evolution"
+msgid "Check Evolution Backup"
+msgstr "Comprobar respaldo de Evolution"
 
 #: ../plugins/backup-restore/backup.c:46
 msgid "Restart Evolution"
 msgstr "Reiniciar Evolution"
 
 #: ../plugins/backup-restore/backup.c:48
-msgid "With GUI"
-msgstr "Con IGU"
+msgid "With Graphical User Interface"
+msgstr "Con interfaz gráfica de usuario"
 
 #: ../plugins/backup-restore/backup.c:67
 #: ../plugins/backup-restore/backup.c:107
@@ -15072,8 +15073,8 @@ msgid "Backup current Evolution data"
 msgstr "Respaldar los datos actuales de Evolution"
 
 #: ../plugins/backup-restore/backup.c:116
-msgid "Extracting files from the archive"
-msgstr "Extrayendo archivos del archivador"
+msgid "Extracting files from backup"
+msgstr "Extrayendo archivos del respaldo"
 
 #: ../plugins/backup-restore/backup.c:122
 msgid "Loading Evolution settings"
@@ -15085,13 +15086,13 @@ msgstr "Eliminando archivos temporales de respaldo"
 
 #: ../plugins/backup-restore/backup.c:244
 #, c-format
-msgid "Backing up to %s"
-msgstr "Respaldando a %s"
+msgid "Backing up to the folder %s"
+msgstr "Respaldando a la carpeta %s"
 
 #: ../plugins/backup-restore/backup.c:249
 #, c-format
-msgid "Restoring from %s"
-msgstr "Restaurando desde %s"
+msgid "Restoring from the folder %s"
+msgstr "Restaurando desde la carpeta %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:264
@@ -15118,8 +15119,8 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "¿Seguro que quiere cerrar Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid "Are you sure you want to restore Evolution from the selected archive?"
-msgstr "¿Seguro que quiere restaurar Evolution desde el archivador seleccionado?"
+msgid "Are you sure you want to restore Evolution from the selected backup file?"
+msgstr "¿Seguro que quiere restaurar Evolution desde el archivo de respaldo seleccionado?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid ""
@@ -15134,12 +15135,12 @@ msgstr ""
 "automáticamente después del respaldo, active el botón conmutador."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-msgid "Invalid Evolution archive"
-msgstr "Archivador de Evolution no válido"
+msgid "Invalid Evolution backup file"
+msgstr "Archivo de respaldo de Evolution no válido"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
-msgid "Please select a valid archive file to restore."
-msgstr "Seleccione un archivador válido para restaurar"
+msgid "Please select a valid backup file to restore."
+msgstr "Seleccione un archivo de respaldo válido para restaurar."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -15489,29 +15490,29 @@ msgstr "Tamaño de las carpetas"
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:617
+#: ../plugins/exchange-operations/exchange-account-setup.c:618
 msgid "_OWA URL:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:643
+#: ../plugins/exchange-operations/exchange-account-setup.c:644
 msgid "A_uthenticate"
 msgstr "A_utenticar"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:836
+#: ../plugins/exchange-operations/exchange-account-setup.c:837
 msgid "Authentication Type"
 msgstr "Tipo de autenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:850
+#: ../plugins/exchange-operations/exchange-account-setup.c:851
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados "
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:956
+#: ../plugins/exchange-operations/exchange-account-setup.c:957
 #: ../plugins/exchange-operations/exchange-contacts.c:212
 #, c-format
 msgid "%s KB"
 msgstr "%s KiB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:958
+#: ../plugins/exchange-operations/exchange-account-setup.c:959
 #: ../plugins/exchange-operations/exchange-contacts.c:214
 msgid "0 KB"
 msgstr "0 KiB"
@@ -17849,8 +17850,8 @@ msgid "Only ever show PLAIN"
 msgstr "Sólo mostrar sin formato"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
-msgid "HTML Mode"
-msgstr "Modo HTML"
+msgid "HTML _Mode"
+msgstr "_Modo HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
