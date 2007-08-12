@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-11 01:23+0100\n"
-"PO-Revision-Date: 2007-08-11 12:46+0200\n"
+"POT-Creation-Date: 2007-08-12 03:20+0100\n"
+"PO-Revision-Date: 2007-08-12 19:43+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -14959,6 +14959,7 @@ msgid "Remind _missing attachments"
 msgstr "Recordar los adjuntos _faltantes"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Attachment Reminder"
 msgstr "Recuerdo de adjuntos"
 
@@ -14969,6 +14970,18 @@ msgid ""
 msgstr ""
 "Busca indicios de mención de adjuntos en un mensaje y avisa si el adjunto "
 "falta"
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
+msgid ""
+"Evolution has found some keywords that suggest that this message should "
+"contain an attachment, but cannot find one."
+msgstr ""
+"Evolution ha encontrado algunas palabras clave que sugieren que este mensaje "
+"debería contener un adjunto pero no puede encontrarlo."
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
+msgid "Message has no attachments"
+msgstr "El mensaje no tiene adjuntos"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -15008,8 +15021,8 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Puede restaurar Evolution desde su archivo de respaldo. Puede restaurar todos los "
-"correos, calendarios, tareas, notas, libreta de direcciones.\n"
+"Puede restaurar Evolution desde su archivo de respaldo. Puede restaurar "
+"todos los correos, calendarios, tareas, notas, libreta de direcciones.\n"
 "También restaura su configuración personal, filtros de correo, etc."
 
 #: ../plugins/backup-restore/backup-restore.c:244
@@ -15120,7 +15133,9 @@ msgstr "¿Seguro que quiere cerrar Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "¿Seguro que quiere restaurar Evolution desde el archivo de respaldo seleccionado?"
+msgstr ""
+"¿Seguro que quiere restaurar Evolution desde el archivo de respaldo "
+"seleccionado?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid ""
