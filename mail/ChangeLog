@@ -1,3 +1,9 @@
+2007-08-13  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for #458498 from Lucky Wankhede <wlakke@novell.com>
+	
+	* evolution-mail.schemas.in : String fix.
+	
 2007-08-08  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-folder-browser.c: (emfb_set_folder): Use the gconf key to

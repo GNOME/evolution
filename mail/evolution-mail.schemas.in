@@ -991,7 +991,7 @@
          <short>The default plugin for Junk hook</short>
          <long>
           This is the default junk plugin, even though there are multiple plugins
-	  enabled. If the default listed plugin is disabled, then it wont fall back
+	  enabled. If the default listed plugin is disabled, then it won't fall back
 	  to the other available plugins.
          </long>
       </locale>
