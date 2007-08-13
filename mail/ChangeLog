@@ -1,3 +1,11 @@
+2007-08-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #352346
+
+	* em-migrate.c (em_update_accounts_2_11), (em_migrate):
+	Added function to change "spool" to "spooldir" for those
+	spools which points on directories.
+
 2007-08-13  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fix for #458498 from Lucky Wankhede <wlakke@novell.com>

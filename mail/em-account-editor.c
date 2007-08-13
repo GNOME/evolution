@@ -1665,8 +1665,18 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 	}
 	if (url->user)
 		gtk_entry_set_text(service->username, url->user);
-	if (service->pathentry && url->path)
-		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (service->pathentry), url->path);
+	if (service->pathentry) {
+		GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+
+		if (service->provider && (service->provider->url_flags & CAMEL_URL_NEED_PATH_DIR) == 0)
+			action = GTK_FILE_CHOOSER_ACTION_OPEN;
+
+		if (action != gtk_file_chooser_get_action (GTK_FILE_CHOOSER (service->pathentry)))
+			gtk_file_chooser_set_action (GTK_FILE_CHOOSER (service->pathentry), action);
+
+		if (url->path)
+			gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (service->pathentry), url->path);
+	}
 
 	tmp = camel_url_get_param(url, "use_ssl");
 	if (tmp == NULL)

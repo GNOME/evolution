@@ -1354,7 +1354,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="right_attach">2</property>
 				  <property name="top_attach">2</property>
 				  <property name="bottom_attach">3</property>
-				  <property name="x_options">fill</property>
 				  <property name="y_options"></property>
 				</packing>
 			      </child>

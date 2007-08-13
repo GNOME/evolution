@@ -2639,6 +2639,39 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	return 0;
 }
 
+static void
+em_update_accounts_2_11 (void)
+{
+	EAccountList *accounts;
+	EIterator *iter;
+	gboolean changed = FALSE;
+
+	if (!(accounts = mail_config_get_accounts ()))
+		return;
+
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		EAccount *account = (EAccount *) e_iterator_get (iter);
+
+		if (g_str_has_prefix (account->source->url, "spool://")) {
+			if (g_file_test (account->source->url + 8, G_FILE_TEST_IS_DIR)) {
+				char *str = g_strdup_printf ("spooldir://%s", account->source->url + 8);
+
+				g_free (account->source->url);
+				account->source->url = str;
+				changed = TRUE;
+			}
+		}
+
+		e_iterator_next (iter);
+	}
+
+	g_object_unref (iter);
+
+	if (changed)
+		mail_config_save_accounts ();
+}
+
 #endif
 
 static int
@@ -2776,6 +2809,10 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		}
 		
 		g_free (path);
+	}
+
+	if (major < 2 || (major == 2 && minor < 12)) {
+		em_update_accounts_2_11 ();
 	}
 #endif	/* !G_OS_WIN32 */
 	return 0;
