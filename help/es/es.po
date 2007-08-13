@@ -7,9 +7,9 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: help.HEAD.es\n"
+"Project-Id-Version: help.HEAD.es(17)\n"
 "POT-Creation-Date: 2007-08-10 14:24+0100\n"
-"PO-Revision-Date: 2007-08-11 12:57+0200\n"
+"PO-Revision-Date: 2007-08-13 16:36+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1060,8 +1060,8 @@ msgid ""
 "configuration instructions, see <link linkend=\"bstfw13\">Remote "
 "Configuration Options</link>."
 msgstr ""
-"Seleccione esta opción si se conecta a Novell Groupwise&reg;. Novell "
-"Groupwise conserva la información de correo-e, calendario, y contactos en el "
+"Seleccione esta opción si se conecta a Novell GroupWise&reg;. Novell "
+"GroupWise conserva la información de correo-e, calendario, y contactos en el "
 "servidor. Para las instrucciones de configuración, vea <link linkend="
 "\"bstfw13\">Opciones de configuración remotas</link>."
 
@@ -1360,7 +1360,7 @@ msgstr ""
 
 #: C/evolution.xml:361(link) C/evolution.xml:390(title)
 msgid "Novell GroupWise Receiving Options"
-msgstr "Opciones de recepción de Novell Groupwise"
+msgstr "Opciones de recepción de Novell GroupWise"
 
 #: C/evolution.xml:364(link) C/evolution.xml:428(title)
 msgid "Microsoft Exchange Receiving Options"
@@ -1401,7 +1401,7 @@ msgid ""
 "If you select Novell GroupWise as your receiving server type, you need to "
 "specify the following options:"
 msgstr ""
-"Si seleccione Novell Groupwise como su tipo de servidor para recepción, "
+"Si seleccione Novell GroupWise como su tipo de servidor para recepción, "
 "necesita especificar las opciones siguientes:"
 
 #: C/evolution.xml:394(para) C/evolution.xml:433(para)
@@ -2030,7 +2030,6 @@ msgid "Side bar:"
 msgstr "Barra lateral:"
 
 #: C/evolution.xml:747(para)
-#, fuzzy
 msgid ""
 "The side bar lets you switch between folders and between Evolution tools. At "
 "the bottom of the side bar is the switcher that let you switch Evolution "
@@ -2038,11 +2037,10 @@ msgid ""
 "tool.For additional information, see <link linkend=\"usage-mainwindow-"
 "shortcutbar\">The Side Bar</link>."
 msgstr ""
-"El selector le permite cambiar entre las carpetas y entre las herramientas "
-"de Evolution. Debajo del selector hay botones que le permiten cambiar las "
-"herramientas de Evolution, y encima hay una lista de las carpetas "
-"disponibles para la herramienta actual. Para información adicional, vea "
-"<link linkend=\"usage-mainwindow-shortcutbar\">El selector</link>."
+"La barra lateral le permite cambiar entre las carpetas y entre las herramientas de Evolution. "
+"Debajo de la barra lateral hay botones que le permiten cambiar las herramientas de "
+"Evolution, y encima hay una lista de las carpetas disponibles para la herramienta actual. "
+"Para obtener información adicional, consulte <link linkend=\"usage-mainwindow-shortcutbar\">La barra lateral</link>."
 
 #: C/evolution.xml:750(title)
 msgid "Switcher:"
@@ -2199,7 +2197,6 @@ msgid "The Side Bar"
 msgstr "La barra lateral"
 
 #: C/evolution.xml:797(para)
-#, fuzzy
 msgid ""
 "The most important job for Evolution is to give you access to your "
 "information and help you use it quickly. One way it does that is through the "
@@ -2208,10 +2205,11 @@ msgid ""
 "tools, such as Mail and Contacts, are the shortcuts. Above them is a list of "
 "folders for the current Evolution tool."
 msgstr ""
-"La labor más importante de Evolution es facilitar el acceso y simplificar la "
-"consulta de su información. Una manera de conseguirlo es mediante el "
-"selector, que es la columna en el lado izquierdo de la ventana principal. "
-"Los botones como correo y Contactos, son atajos. Sobre ellos hay una lista "
+"La labor más importante de Evolution es facilitarle el acceso y simplificar la "
+"consulta de su información. Una manera de conseguirlo es mediante la "
+"barra lateral, que es la columna en el lado izquierdo de la ventana principal. "
+"El selector en la parte inferior de la barra lateral le permite cambiar entre las "
+"herramientas de Evolution, como correo y Contactos que son atajos. Sobre ellos hay una lista "
 "de carpetas para la herramienta actual de Evolution."
 
 #: C/evolution.xml:798(para)
@@ -2568,7 +2566,6 @@ msgid "The Calendar"
 msgstr "El calendario"
 
 #: C/evolution.xml:916(para)
-#, fuzzy
 msgid ""
 "To begin using the calendar, click Calendar in the switcher. By default, the "
 "calendar shows today's schedule on a ruled background. At the left bottom, "
@@ -2576,12 +2573,11 @@ msgid ""
 "there is a Task list, where you can keep a list of tasks separate from your "
 "calendar appointments.Below that, there is a Memo list."
 msgstr ""
-"Para empezar a usar el calendario, pulse Calendario en el selector. Por "
-"omisión, el calendario muestra la programación para hoy en un fondo con "
-"líneas. A la izquierda, abajo, hay un calendario mensual donde puede cambiar "
-"los días. En la parte superior derecha, hay una lista de tareas, donde puede "
-"mantener una lista de tareas separada de sus citas de calendario. Debajo hay "
-"una lista de notas."
+"Para empezar a usar el calendario, pulse Calendario en el selector. De forma predeterminada, el "
+"calendario muestra la programación para hoy en un fondo con líneas. En la parte inferior izquierda, "
+"hay un calendario mensual donde puede cambiar los días. En la parte superior derecha, "
+"hay una lista de tareas, donde puede mantener una lista de tareas separada de sus "
+"citas de calendario. Debajo hay una lista de notas."
 
 #: C/evolution.xml:919(title)
 msgid "Appointment List:"
@@ -2700,7 +2696,6 @@ msgid "Back Up And Restore Evolution"
 msgstr "Respaldar y restaurar Evolution"
 
 #: C/evolution.xml:947(para)
-#, fuzzy
 msgid ""
 "With the Back up and Restore plug-in enabled, you can successfully back up "
 "Evolution to your machine and restore it whenever it is required. The backup "
@@ -2993,7 +2988,6 @@ msgstr ""
 "entre las carpetas usando la barra espaciadora de su teclado."
 
 #: C/evolution.xml:1110(para)
-#, fuzzy
 msgid ""
 "When you are on the Mail view, the spacebar will give you the following "
 "behavior:"
@@ -3103,7 +3097,6 @@ msgstr ""
 "de correo-e en el área de notificación."
 
 #: C/evolution.xml:1144(para)
-#, fuzzy
 msgid ""
 "The e-mail notification feature also includes a blinking tray icon "
 "<inlinegraphic format=\"PNG\" fileref=\"figures/evo_blink.png\"/> that "
@@ -3114,15 +3107,15 @@ msgstr ""
 "La característica de notificación de correo también incluye un icono que "
 "parpadea en el área de notificación <inlinegraphic format=\"PNG\" fileref="
 "\"figures/evo_blink.png\"/> y que desaparece cuando abre su correo nuevo. "
-"También puede pulsar <inlinegraphic format=\"PNG\" fileref=\"figures/"
-"evo_blink.png\"/> para apagar el notificador."
+"También puede pulsar el icono del área de notificación "
+"<inlinegraphic format=\"PNG\" fileref=\"figures/evo_blink.png\"/> "
+"para apagar el notificador."
 
 #: C/evolution.xml:1150(title)
 msgid "Vertical View Vs Classical View"
 msgstr "Vista vertical y vista clásica"
 
 #: C/evolution.xml:1151(para)
-#, fuzzy
 msgid ""
 "Evolution provides you vertical view in addition to the classical view. In "
 "the vertical view, message preview pane is located at the right side of the "
@@ -3133,7 +3126,7 @@ msgstr ""
 "Evolution proporciona una vista vertical además de la vista clásica. En la "
 "vista vertical, el panel de vista previa se encuentra situado en el lado "
 "derecho del panel de mensajes en comparación con la vista clásica, donde el "
-"panel de vista previa de mensajes se encuentra bajo el panel de mensajes. La "
+"panel de vista previa de mensajes se encuentra bajo la lista de mensajes. La "
 "vista vertical le permite usar la anchura extra en los monitores de pantalla "
 "panorámica."
 
@@ -3150,7 +3143,6 @@ msgid "Click View &gt; Preview &gt; Vertical View"
 msgstr "Pulse Ver &gt; Vista previa &gt; Vista vertical"
 
 #: C/evolution.xml:1161(para)
-#, fuzzy
 msgid ""
 "In Vertical view, default message list contains a double line compressed "
 "headers, which enables you to consume the extra width in the preview column."
@@ -3168,7 +3160,6 @@ msgid "Classical View:"
 msgstr "Vista clásica:"
 
 #: C/evolution.xml:1165(para)
-#, fuzzy
 msgid "To switch to classical view"
 msgstr "Para cambiar a la vista clásica"
 
@@ -3560,14 +3551,13 @@ msgstr ""
 "pulse Carpeta &gt; Compactar o pulse Ctrl+E."
 
 #: C/evolution.xml:1331(para)
-#, fuzzy
 msgid ""
 "Trash folders in Groupwise, local and IMAP accounts are actually virtual "
 "search folders that display all messages you have marked for later deletion. "
 "Hence, emptying Trash is nothing but expunging deleted mails from all your "
 "folders in the account."
 msgstr ""
-"Las carpetas papelera en cuentas Groupwise, local e Imap realmente son "
+"Las carpetas papelera en cuentas GroupWise, local e IMAP realmente son "
 "carpetas de búsqueda virtual que muestran todos los mensajes que ha marcado "
 "para un borrado posterior. De tal manera que vaciar la Papelera no es otra "
 "cosa que purgar los correos borrados de todas sus carpetas en la cuenta."
@@ -3877,7 +3867,6 @@ msgstr ""
 "conexión en la esquina inferior izquierda de la pantalla."
 
 #: C/evolution.xml:1434(para)
-#, fuzzy
 msgid ""
 "A message pop-ups and asks you whether you want to go offline immediately or "
 "cache before you go offline."
@@ -3906,13 +3895,12 @@ msgstr ""
 "mensajes localmente para trabajar desconectado."
 
 #: C/evolution.xml:1442(para)
-#, fuzzy
 msgid ""
 "Select Do not show this message again to switch off this popup. The default "
 "is to not synchronize while going offline."
 msgstr ""
-"Seleccione No mostrar otra vez este mensaje para desactivar este mensaje "
-"emergente. Lo predeterminado es no sincronizar al desconectar."
+"Seleccione No mostrar otra vez este mensaje para desactivar este mensaje emergente. Lo predeterminado "
+"es no sincronizar al desconectar."
 
 #: C/evolution.xml:1445(para)
 msgid "When you want to reconnect,"
@@ -3929,7 +3917,6 @@ msgid "Download Messages for Offline Operations"
 msgstr "Descargar los mensajes para trabajar desconectado"
 
 #: C/evolution.xml:1454(para)
-#, fuzzy
 msgid ""
 "This features prepares you for going offline and for offline operations. It "
 "helps you download all the messages locally before you go offline. If "
@@ -3937,10 +3924,9 @@ msgid ""
 "without downloading the message."
 msgstr ""
 "Esta característica prepara Evolution para trabajar y operar desconectado. "
-"Le ayuda a descargar todos los mensajes localmente antes de desconectarse. "
-"Antes, cuando pulsa el botón de desconexión, sólo se desconecta después de "
-"sincronizar los mensajes localmente para trabajar desconectado. Pero ahora "
-"se desconecta sin descargar los mensajes de forma predeterminada."
+"Le ayuda a descargar todos los mensajes localmente antes de desconectarse. De "
+"otra manera y de forma predeterminada, se desconecta cuando pulsa el botón "
+"de desconexión sin descargar los mensajes."
 
 #: C/evolution.xml:1455(para)
 msgid "To download messages for offline operations,"
@@ -4004,15 +3990,14 @@ msgid "Attachment Reminder:"
 msgstr "Recuerdo de adjuntos:"
 
 #: C/evolution.xml:1488(para)
-#, fuzzy
 msgid ""
 "With Attachment plug-in enabled, Evolution reminds you to attach a file to "
 "your email if it appears that you have not. If it finds that you have missed "
 "to attach a file, a message is displayed as shown below:"
 msgstr ""
-"Con el complemento de adjuntos activado, Evolution le recuerda adjuntar un "
-"archivo a su correo-e si parece que no lo haya hecho. Se mostrará un mensaje "
-"como de abajo si se encuentra que se le ha olvidado adjuntar un archivo:"
+"Con el complemento de adjuntos activado, Evolution le recuerda adjuntar un archivo "
+"a su correo-e si parece que no lo haya hecho. Se mostrará un mensaje "
+"como el de abajo si se encuentra que se le ha olvidado adjuntar un archivo:"
 
 #: C/evolution.xml:1492(para)
 msgid ""
@@ -4041,16 +4026,14 @@ msgid ""
 msgstr "Pulse Añadir para añadir palabras clave tales como «Adjuntar» o «Adjunto»."
 
 #: C/evolution.xml:1507(para)
-#, fuzzy
 msgid ""
 "Based on the keywords you have added here, it searches every email you are "
 "sending. If it finds the keywords such as &ldquo;attach&rdquo; in your e-"
 "mail and no actual attached file, you are reminded of missing attachments."
 msgstr ""
 "Busca cada correo electrónico que esté enviando basándose en las palabras "
-"clave que haya añadido aquí. Si encuentra palabras clave tales como "
-"«adjuntar» en su correo-e y no hay un archivo adjunto, se le recuerda que "
-"faltan adjuntos."
+"clave que haya añadido aquí. Si en su correo-e encuentra palabras clave tales como «adjuntar» "
+"y no hay un archivo adjunto, se le recuerda que faltan adjuntos."
 
 #: C/evolution.xml:1515(para)
 msgid ""
@@ -4093,14 +4076,12 @@ msgstr ""
 "\">Crear una lista de contactos</link>."
 
 #: C/evolution.xml:1518(para)
-#, fuzzy
 msgid ""
 "Evolution has the ability to let you specify the Reply-To in an e-mail. "
 "Using this, you can set up a special Reply-To for an e-mail.To do this:"
 msgstr ""
-"Evolution tiene la capacidad de permitirle especificar el campo «Responder "
-"a:» de un mensaje. Usando esto, puede establecer un «Responder a:» especial "
-"para un correo-e. Para hacer esto:"
+"Evolution tiene la capacidad de permitirle especificar el campo «Responder a:» en un correo-e. "
+"Usando esto, puede establecer un «Responder a:» especial para un correo-e. Para hacer esto:"
 
 #: C/evolution.xml:1521(para)
 msgid "Open a compose window."
@@ -4780,9 +4761,8 @@ msgid "Click Revert button to revert back to previous settings."
 msgstr "Pulse el botón Revertir para revertir al ajuste anterior."
 
 #: C/evolution.xml:1868(para)
-#, fuzzy
 msgid "To change the default folder for sent items,"
-msgstr "Cambiar la carpeta predeterminada para los elementos enviados"
+msgstr "Para cambiar la carpeta predeterminada para los elementos enviados,"
 
 #: C/evolution.xml:1871(para)
 msgid "Click Sent button to open the Folder view."
@@ -4921,13 +4901,12 @@ msgstr ""
 "adjuntos en formato iCal."
 
 #: C/evolution.xml:1937(para)
-#, fuzzy
 msgid ""
 "To send an invitation in GroupWise, right click on the calendar item and "
 "click Forward as iCalendar"
 msgstr ""
-"Para enviar invitaciones en Groupwise, pulse con el botón derecho sobre el "
-"elemento del calendario y pulse Enviar como iCalendar."
+"Para enviar invitaciones en GroupWise, pulse con el botón derecho sobre el elemento del calendario y "
+"pulse Enviar como iCalendar."
 
 #: C/evolution.xml:1938(para)
 msgid "When you receive an invitation, you have several options:"
@@ -9369,7 +9348,7 @@ msgstr ""
 "Además de las herramientas estándar de planificación de reuniones puede usar "
 "la vista de disponibilidad para comprobar de antemano si la gente estará "
 "ocupada o no. La característica de disponibilidad es una función dedicada a "
-"servidores GruopWare tales como Microsoft Exchange y Novell Groupwise. Sin "
+"servidores GruopWare tales como Microsoft Exchange y Novell GroupWise. Sin "
 "embargo puede publicar la información de la disponibilidad en línea y "
 "acceder a la información publicada en cualquier sitio. Si todas las personas "
 "con las que colabora no publican su información sobre disponibilidad, "
@@ -13318,7 +13297,6 @@ msgstr ""
 "volver atrás a los ajustes anteriores."
 
 #: C/evolution.xml:6403(para)
-#, fuzzy
 msgid ""
 "The headers on an incoming message are the information about the message "
 "that isn't the content of the message itself, such as the sender and the "
@@ -13383,7 +13361,6 @@ msgstr ""
 "retraso al obtener los correos."
 
 #: C/evolution.xml:6415(para)
-#, fuzzy
 msgid ""
 "You can check your incoming messages for junk content using Bogofilter or/"
 "and SpamAssassin tool with trainable Bayesian filters.Note that you need to "
@@ -13391,7 +13368,7 @@ msgid ""
 msgstr ""
 "Puede comprobar si el correo entrante es basura usando Bogofilter y/o "
 "SpamAssasin con filtros bayesianos entrenables. Nótese que necesita activar "
-"los respectivos complementos de spam para activar el filtro de spam."
+"los respectivos complementos de SPAM para activar el filtro de SPAM."
 
 #: C/evolution.xml:6416(para)
 msgid "To enable junk filtering using SpamAssassin and/or Bogofilter,"
@@ -13410,7 +13387,6 @@ msgid "General:"
 msgstr "General:"
 
 #: C/evolution.xml:6427(para)
-#, fuzzy
 msgid ""
 "You can enable checking incoming mails for junk contents and also decide how "
 "often you want to delete junk mails on exit. You also have the option to "
@@ -13418,8 +13394,8 @@ msgid ""
 "for junk"
 msgstr ""
 "Puede activar la detección para comprobar si el correo entrante es basura y "
-"también decidir con qué frecuencia quiere borrar el correo basura a la "
-"salida. También tiene la opción de elegir SpamAssasin, Bogofilter o ambos. "
+"también decidir con qué frecuencia quiere borrar el correo basura a la salida. "
+"También tiene la opción de elegir SpamAssasin, Bogofilter o ambos. "
 "Pulse Detectar si el correo entrante es spam."
 
 #: C/evolution.xml:6430(title)
@@ -13449,16 +13425,14 @@ msgid "Default junk plugin:"
 msgstr "Complemento spam predeterminado:"
 
 #: C/evolution.xml:6439(para)
-#, fuzzy
 msgid ""
 "Select SpamAssassin or/and Bogofilter as your junk filter. You can view them "
 "only if you have enabled the respective plug-ins. When you select any "
 "option, It also reports if the underlying binary is available or not."
 msgstr ""
 "Seleccione SpamAssasin y/o Bogofilter como su filtro de correo basura. Sólo "
-"podrá verlos si tiene activados los complementos respectivos. Cuando "
-"seleccione cualquier opción, también le informa si el binario "
-"correspondiente está disponible o no."
+"podrá verlos si tiene activados los complementos respectivos. Cuando seleccione cualquier "
+"opción, también le informa si el binario correspondiente está disponible o no."
 
 #: C/evolution.xml:6443(title)
 msgid "SpamAssassin Options:"
@@ -13530,17 +13504,15 @@ msgstr ""
 "los contactos automáticos de la lista."
 
 #: C/evolution.xml:6459(para)
-#, fuzzy
 msgid ""
 "Instant Messaging Contacts periodically synchronizes contact information and "
 "images with your instant messaging program. Currently this only works with "
 "Pidgin.Your address book must not be a read only one for both these features "
 "to function properly."
 msgstr ""
-"Contactos de mensajería instantánea sincroniza periódicamente la información "
-"de los contactos y las imágenes con su programa de mensajería instantánea. "
-"Actualmente esto sólo funciona con Pidgin (antiguo GAIM). Su libreta de "
-"direcciones no debe ser de sólo lectura para que ambas características "
+"Contactos de mensajería instantánea sincroniza periódicamente la información de los contactos y "
+"las imágenes con su programa de mensajería instantánea. Actualmente esto sólo funciona con "
+"Pidgin. Su libreta de direcciones no debe ser de sólo lectura para que ambas características "
 "funcionen correctamente."
 
 #: C/evolution.xml:6464(para)
@@ -13592,22 +13564,20 @@ msgstr ""
 "utilizar emoticones."
 
 #: C/evolution.xml:6490(para)
-#, fuzzy
 msgid ""
 "You can forward messages either as an attachment or inline, or else as "
 "quoted. Choose reply style from the drop down list: Quote original message, "
 "Do not quote original message, Attach original message."
 msgstr ""
 "Puede reenviar mensajes tanto como un adjunto como en línea, o como texto "
-"citado. Elija la forma de responder de la lista desplegable: Citar el "
-"mensaje original, No citar el mensaje original, Adjuntar mensaje original."
+"citado. Elija la forma de responder de la lista desplegable: Citar el mensaje original, "
+"No citar el mensaje original, Adjuntar mensaje original."
 
 #: C/evolution.xml:6492(title)
 msgid "Top Posting Options:"
 msgstr "Opciones de publicar por encima:"
 
 #: C/evolution.xml:6493(para)
-#, fuzzy
 msgid ""
 "When replying, you can choose where to place your signature in the message. "
 "You can place the signature either above the original message or at the end "
@@ -13615,9 +13585,9 @@ msgid ""
 "signature other than at the end of the message is against the mailing "
 "standards."
 msgstr ""
-"Al responder, puede elegir dónde quiere ubicar su firma en el mensaje. Puede "
-"emplazar su firma encima del mensaje original o al final de la ventana del "
-"editor. Esta opción no es recomendable porque al emplazar la firma en "
+"Al responder, puede elegir dónde quiere ubicar su firma en el mensaje. "
+"Puede emplazar su firma encima del mensaje original o al final de la ventana del "
+"editor. Esta opción no es recomendable porque emplazar la firma en "
 "cualquier otro lugar que no sea al final del mensaje está en contra de los "
 "estándares del correo electrónico."
 
