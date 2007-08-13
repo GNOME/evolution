@@ -738,26 +738,30 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 	gpointer val;
 	gint pg_num;
 
-	prd = g_object_get_data ((GObject *) account, "prd");
+	if (g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://")) {
 
-	if (!prd || !prd->priv)
-		return TRUE;
+		prd = g_object_get_data ((GObject *) account, "prd");
 
-       val = g_object_get_data ((GObject *) account, "proxy_tab_num");
+		if (!prd || !prd->priv)
+			return TRUE;
 
-       if (!val)
-               return FALSE;
+		val = g_object_get_data ((GObject *) account, "proxy_tab_num");
 
-       pg_num = GPOINTER_TO_INT (val);
+		if (!val)
+			return FALSE;
 
-	if ((pg_num == num) && account->enabled) {
-		if (!prd->cnc)
-			prd->cnc = proxy_get_cnc (account, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (notebook))));
-		 priv = prd->priv;
+		pg_num = GPOINTER_TO_INT (val);
 
-		if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
+		if ((pg_num == num) && account->enabled) {
+			if (!prd->cnc)
+				prd->cnc = proxy_get_cnc (account, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (notebook))));
+			priv = prd->priv;
+
+			if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
 				return FALSE;
-		proxy_update_tree_view (account);	
+			proxy_update_tree_view (account);
+			return TRUE;
+		}
 	}
 
 	return FALSE;
