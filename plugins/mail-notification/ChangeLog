@@ -1,3 +1,9 @@
+2007-08-03  Johnny Jacob  <jjohnny@novell.com>
+	
+	** Fix for bug #458822 from Anand V M <avmuttagi@gmail.com>
+
+	*  org-gnome-mail-notification.eplug.xml: Description string Fix.
+	
 2007-08-03  Anand V M     <avmuttagi@gmail.com>
 	
 	** Fix for bug #458822
