@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-09 07:34+0300\n"
+"POT-Creation-Date: 2007-08-13 19:35+0300\n"
 "PO-Revision-Date: 2007-03-05 17:08+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -1239,7 +1239,7 @@ msgstr "kortteja"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
-#: ../mail/em-account-editor.c:2054
+#: ../mail/em-account-editor.c:2064
 #: ../plugins/calendar-http/calendar-http.c:288
 #: ../plugins/calendar-weather/calendar-weather.c:561
 msgid "minutes"
@@ -1365,7 +1365,7 @@ msgid "_Birthday:"
 msgstr "_Syntymäpäivä:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
-#: ../calendar/gui/dialogs/event-page.c:888
+#: ../calendar/gui/dialogs/event-page.c:904
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1833
 msgid "_Calendar:"
@@ -3008,7 +3008,7 @@ msgstr "_Leikkaa"
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../composer/e-msg-composer.c:3215 ../mail/em-folder-tree.c:1006
+#: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:1006
 #: ../mail/em-folder-view.c:1142 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3723,6 +3723,7 @@ msgstr "VCard %s:lle"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1048
 #: ../addressbook/gui/widgets/eab-gui-util.c:1066
+#, c-format
 msgid "Contact information"
 msgstr "Yhteystiedot"
 
@@ -3955,7 +3956,7 @@ msgstr "Varjostus"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:963
+#: ../plugins/exchange-operations/exchange-account-setup.c:964
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
@@ -4171,16 +4172,19 @@ msgstr "Haluatko varmasti poistaa tämän tapaamisen?"
 
 #: ../calendar/calendar.error.xml.h:18
 #: ../calendar/gui/dialogs/delete-comp.c:189
+#, c-format
 msgid "Are you sure you want to delete this journal entry?"
 msgstr "Haluatko varmasti poistaa tämän päiväkirjamerkinnän?"
 
 #: ../calendar/calendar.error.xml.h:19
 #: ../calendar/gui/dialogs/delete-comp.c:183
+#, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Haluatko varmasti poistaa tämän tapaamisen?"
 
 #: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:186
+#, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "haluatko varmasti poistaa tämän tehtävän?"
 
@@ -5893,28 +5897,28 @@ msgstr "(erääntyy "
 msgid "Due "
 msgstr "Erääntyy "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2962
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2968
 #, c-format
 msgid "Attached message - %s"
 msgstr "Liitetty viesti - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2967
-#: ../composer/e-msg-composer.c:3152
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2973
+#: ../composer/e-msg-composer.c:3158
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Liitetty viesti"
 msgstr[1] "%d liitettyä viestiä"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3216
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3222
 #: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:369
 #: ../mail/em-folder-view.c:1038 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "_Siirrä"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3218
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3224
 #: ../mail/em-folder-tree.c:1009 ../mail/message-list.c:1965
 msgid "Cancel _Drag"
 msgstr "Peruuta _raahaus"
@@ -5923,7 +5927,7 @@ msgstr "Peruuta _raahaus"
 msgid "Could not update object"
 msgstr "Kohdetta ei voi päivittää"
 
-#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2579
+#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2585
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5940,8 +5944,8 @@ msgid "Show Attachment _Bar"
 msgstr "Näytä _liitepalkki"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../calendar/gui/dialogs/event-page.c:1913
-#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3733
+#: ../calendar/gui/dialogs/event-page.c:1970
+#: ../calendar/gui/dialogs/task-page.c:1252 ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5949,13 +5953,13 @@ msgid "_Remove"
 msgstr "_Poista"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3734 ../mail/em-folder-tree.c:2134
+#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2134
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Ominaisuudet..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3736
+#: ../composer/e-msg-composer.c:3742
 msgid "_Add attachment..."
 msgstr "_Lisää liite..."
 
@@ -6110,110 +6114,117 @@ msgstr "Tapaa_minen"
 msgid "Recurrence"
 msgstr "Toistuvuus"
 
-#: ../calendar/gui/dialogs/event-page.c:820
-#: ../calendar/gui/dialogs/event-page.c:2734
+#: ../calendar/gui/dialogs/event-page.c:831
+#: ../calendar/gui/dialogs/event-page.c:2846
 msgid "This event has alarms"
 msgstr "Tapahtumassa on hälytyksiä"
 
-#: ../calendar/gui/dialogs/event-page.c:895
+#: ../calendar/gui/dialogs/event-page.c:911
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
-#: ../calendar/gui/dialogs/task-page.c:441
+#: ../calendar/gui/dialogs/task-page.c:456
 msgid "Or_ganizer:"
 msgstr "_Järjestäjä:"
 
-#: ../calendar/gui/dialogs/event-page.c:933
+#: ../calendar/gui/dialogs/event-page.c:949
 msgid "_Delegatees"
 msgstr "_Valtuutetut"
 
-#: ../calendar/gui/dialogs/event-page.c:935
+#: ../calendar/gui/dialogs/event-page.c:951
 msgid "Atte_ndees"
 msgstr "_Osanottajat"
 
-#: ../calendar/gui/dialogs/event-page.c:1100
+#: ../calendar/gui/dialogs/event-page.c:1134
 msgid "Event with no start date"
 msgstr "Tapahtuma ilman alkupäivämäärää"
 
-#: ../calendar/gui/dialogs/event-page.c:1103
+#: ../calendar/gui/dialogs/event-page.c:1137
 msgid "Event with no end date"
 msgstr "Tapahtuma ilman päättymispäivää"
 
-#: ../calendar/gui/dialogs/event-page.c:1272
-#: ../calendar/gui/dialogs/memo-page.c:683
-#: ../calendar/gui/dialogs/task-page.c:849
+#: ../calendar/gui/dialogs/event-page.c:1306
+#: ../calendar/gui/dialogs/memo-page.c:693
+#: ../calendar/gui/dialogs/task-page.c:878
 msgid "Start date is wrong"
 msgstr "Aloituspäiväys on virheellinen"
 
-#: ../calendar/gui/dialogs/event-page.c:1282
+#: ../calendar/gui/dialogs/event-page.c:1316
 msgid "End date is wrong"
 msgstr "Lopetuspäiväys on virheellinen"
 
-#: ../calendar/gui/dialogs/event-page.c:1305
+#: ../calendar/gui/dialogs/event-page.c:1339
 msgid "Start time is wrong"
 msgstr "Alkamisaika on väärin"
 
-#: ../calendar/gui/dialogs/event-page.c:1312
+#: ../calendar/gui/dialogs/event-page.c:1346
 msgid "End time is wrong"
 msgstr "Lopetusaika on virheellinen"
 
-#: ../calendar/gui/dialogs/event-page.c:1469
-#: ../calendar/gui/dialogs/memo-page.c:718
-#: ../calendar/gui/dialogs/task-page.c:906
+#: ../calendar/gui/dialogs/event-page.c:1508
+#: ../calendar/gui/dialogs/memo-page.c:733
+#: ../calendar/gui/dialogs/task-page.c:940
 msgid "The organizer selected no longer has an account."
 msgstr "Valitulla järjestäjällä ei enää ole käyttäjätiliä"
 
-#: ../calendar/gui/dialogs/event-page.c:1475
-#: ../calendar/gui/dialogs/memo-page.c:724
-#: ../calendar/gui/dialogs/task-page.c:912
+#: ../calendar/gui/dialogs/event-page.c:1514
+#: ../calendar/gui/dialogs/memo-page.c:739
+#: ../calendar/gui/dialogs/task-page.c:946
 msgid "An organizer is required."
 msgstr "Järjestäjä vaaditaan."
 
-#: ../calendar/gui/dialogs/event-page.c:1490
-#: ../calendar/gui/dialogs/task-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:1539
+#: ../calendar/gui/dialogs/task-page.c:970
 msgid "At least one attendee is required."
 msgstr "Vähintään yksi läsnäolija vaaditaan."
 
-#: ../calendar/gui/dialogs/event-page.c:1914
-#: ../calendar/gui/dialogs/task-page.c:1202
+#: ../calendar/gui/dialogs/event-page.c:1971
+#: ../calendar/gui/dialogs/task-page.c:1253
 msgid "_Add "
 msgstr "_Lisää "
 
-#: ../calendar/gui/dialogs/event-page.c:2639
+#: ../calendar/gui/dialogs/event-page.c:2717
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Kalenteria \"%s\" ei voi avata"
 
-#: ../calendar/gui/dialogs/event-page.c:2947
+#: ../calendar/gui/dialogs/event-page.c:2766
+#: ../calendar/gui/dialogs/memo-page.c:1138
+#: ../calendar/gui/dialogs/task-page.c:1948
+#, c-format
+msgid "You are acting on behalf of %s"
+msgstr "Toimit henkilön %s puolesta"
+
+#: ../calendar/gui/dialogs/event-page.c:3062
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d päivä ennen tapaamista"
 msgstr[1] "%d päivää ennen tapaamista"
 
-#: ../calendar/gui/dialogs/event-page.c:2953
+#: ../calendar/gui/dialogs/event-page.c:3068
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d tunti ennen tapaamista"
 msgstr[1] "%d tuntia ennen tapaamista"
 
-#: ../calendar/gui/dialogs/event-page.c:2959
+#: ../calendar/gui/dialogs/event-page.c:3074
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuutti ennen tapaamista"
 msgstr[1] "%d minuuttia ennen tapaamista"
 
-#: ../calendar/gui/dialogs/event-page.c:2972
+#: ../calendar/gui/dialogs/event-page.c:3087
 msgid "Customize"
 msgstr "Muokkaa"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:2977
+#: ../calendar/gui/dialogs/event-page.c:3092
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2363
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2369
 #: ../filter/filter-rule.c:891 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:478
 #: ../mail/em-junk-hook.c:78
@@ -6313,12 +6324,12 @@ msgstr "Järjestäjä:"
 msgid "Memo"
 msgstr "Muistilappu"
 
-#: ../calendar/gui/dialogs/memo-page.c:866
+#: ../calendar/gui/dialogs/memo-page.c:911
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "Muistilappuja kohteesta '%s' ei voi avata."
 
-#: ../calendar/gui/dialogs/memo-page.c:1017 ../mail/em-format-html.c:1508
+#: ../calendar/gui/dialogs/memo-page.c:1076 ../mail/em-format-html.c:1508
 #: ../mail/em-format-html.c:1522 ../mail/em-format-html.c:1580
 #: ../mail/em-format-html.c:1606 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
@@ -6340,24 +6351,28 @@ msgid "_Description:"
 msgstr "K_uvaus:"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:7
-#: ../calendar/gui/dialogs/task-page.c:434
+#: ../calendar/gui/dialogs/task-page.c:449
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Ryhmä:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
+#, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Olet muokkaamassa toistuvaa tapahtumaa. Mitä haluat muokata?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
+#, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Olet antamassa tehtäväksi toistuvaa tapahtumaa. Mitä haluat delegoida?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
+#, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Olet muokkaamassa toistuvaa tehtävää. Mitä haluat muokata?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
+#, c-format
 msgid ""
 "You are modifying a recurring journal entry. What would you like to modify?"
 msgstr "Olet muokkaamassa toistuvaa päiväkirjamerkintää. Mitä haluat muokata?"
@@ -6649,11 +6664,11 @@ msgstr "_Tehtävä"
 msgid "Task Details"
 msgstr "Tehtävän yksityiskohdat"
 
-#: ../calendar/gui/dialogs/task-page.c:822
+#: ../calendar/gui/dialogs/task-page.c:851
 msgid "Due date is wrong"
 msgstr "Eräpäivä on virheellinen"
 
-#: ../calendar/gui/dialogs/task-page.c:1646
+#: ../calendar/gui/dialogs/task-page.c:1719
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Tehtäviä kohteesta '%s' ei voi avata."
@@ -6992,7 +7007,7 @@ msgstr "Päivitetään olioita"
 
 #: ../calendar/gui/e-calendar-table.c:1179
 #: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:872
-#: ../composer/e-msg-composer.c:1399
+#: ../composer/e-msg-composer.c:1405
 msgid "Save as..."
 msgstr "Tallenna nimellä..."
 
@@ -7395,12 +7410,12 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1164
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
-#: ../calendar/gui/itip-utils.c:802
+#: ../calendar/gui/itip-utils.c:730
 #: ../plugins/itip-formatter/itip-formatter.c:1932
 msgid "Accepted"
 msgstr "Hyväksytty"
 
-#: ../calendar/gui/e-itip-control.c:1168 ../calendar/gui/itip-utils.c:805
+#: ../calendar/gui/e-itip-control.c:1168 ../calendar/gui/itip-utils.c:733
 #: ../plugins/itip-formatter/itip-formatter.c:1935
 msgid "Tentatively Accepted"
 msgstr "Alustavasti hyväksytty"
@@ -7408,7 +7423,7 @@ msgstr "Alustavasti hyväksytty"
 #: ../calendar/gui/e-itip-control.c:1172
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
-#: ../calendar/gui/itip-utils.c:808 ../calendar/gui/itip-utils.c:837
+#: ../calendar/gui/itip-utils.c:736 ../calendar/gui/itip-utils.c:765
 #: ../plugins/itip-formatter/itip-formatter.c:1938
 msgid "Declined"
 msgstr "Hylätty"
@@ -7673,7 +7688,7 @@ msgstr "Päivitä vastaajan tila"
 msgid "Send Latest Information"
 msgstr "Lähetä viimeisimmät tiedot"
 
-#: ../calendar/gui/e-itip-control.c:2439 ../calendar/gui/itip-utils.c:825
+#: ../calendar/gui/e-itip-control.c:2439 ../calendar/gui/itip-utils.c:753
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Peruuta"
@@ -7780,7 +7795,7 @@ msgstr "Alustava"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
-#: ../calendar/gui/itip-utils.c:811
+#: ../calendar/gui/itip-utils.c:739
 #: ../plugins/itip-formatter/itip-formatter.c:1941
 msgid "Delegated"
 msgstr "Valtuutettu"
@@ -8074,57 +8089,57 @@ msgstr "Syyskuu"
 msgid "_Select Today"
 msgstr "_Valitse tämä päivä"
 
-#: ../calendar/gui/itip-utils.c:523 ../calendar/gui/itip-utils.c:572
-#: ../calendar/gui/itip-utils.c:678
+#: ../calendar/gui/itip-utils.c:451 ../calendar/gui/itip-utils.c:500
+#: ../calendar/gui/itip-utils.c:606
 msgid "An organizer must be set."
 msgstr "Järjestäjä tulee asettaa."
 
-#: ../calendar/gui/itip-utils.c:559
+#: ../calendar/gui/itip-utils.c:487
 msgid "At least one attendee is necessary"
 msgstr "Vähintään yksi läsnäoliko on välttämätön."
 
-#: ../calendar/gui/itip-utils.c:764 ../calendar/gui/itip-utils.c:887
+#: ../calendar/gui/itip-utils.c:692 ../calendar/gui/itip-utils.c:815
 msgid "Event information"
 msgstr "Tapahtuman tiedot"
 
-#: ../calendar/gui/itip-utils.c:766 ../calendar/gui/itip-utils.c:889
+#: ../calendar/gui/itip-utils.c:694 ../calendar/gui/itip-utils.c:817
 msgid "Task information"
 msgstr "Tehtävän tiedot"
 
-#: ../calendar/gui/itip-utils.c:768 ../calendar/gui/itip-utils.c:891
+#: ../calendar/gui/itip-utils.c:696 ../calendar/gui/itip-utils.c:819
 msgid "Journal information"
 msgstr "Päiväkirjan tiedot"
 
-#: ../calendar/gui/itip-utils.c:770 ../calendar/gui/itip-utils.c:909
+#: ../calendar/gui/itip-utils.c:698 ../calendar/gui/itip-utils.c:837
 msgid "Free/Busy information"
 msgstr "Vapaa/varattu-tiedot"
 
-#: ../calendar/gui/itip-utils.c:772
+#: ../calendar/gui/itip-utils.c:700
 msgid "Calendar information"
 msgstr "Kalenteritiedot"
 
-#: ../calendar/gui/itip-utils.c:821
+#: ../calendar/gui/itip-utils.c:749
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: ../calendar/gui/itip-utils.c:829
+#: ../calendar/gui/itip-utils.c:757
 msgid "Refresh"
 msgstr "Virkistä"
 
-#: ../calendar/gui/itip-utils.c:833
+#: ../calendar/gui/itip-utils.c:761
 msgid "Counter-proposal"
 msgstr "Vastaehdotus"
 
-#: ../calendar/gui/itip-utils.c:905
+#: ../calendar/gui/itip-utils.c:833
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Vapaa/varattu-tiedot (%s - %s)"
 
-#: ../calendar/gui/itip-utils.c:915
+#: ../calendar/gui/itip-utils.c:843
 msgid "iCalendar information"
 msgstr "iCalendarin tiedot"
 
-#: ../calendar/gui/itip-utils.c:1082
+#: ../calendar/gui/itip-utils.c:1010
 msgid "You must be an attendee of the event."
 msgstr "Sinun täytyy osallistua tapahtumaan."
 
@@ -8231,6 +8246,7 @@ msgstr ""
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:780 ../calendar/gui/migration.c:948
+#, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr ""
 "Vanhojen asetusten siirto ei onnistunut tiedostosta evolution/config.xmldb"
@@ -10211,52 +10227,52 @@ msgstr ""
 "Lähtevää viestiä ei voida salata: Salausvarmennetta ei ole asetettu tälle "
 "tilille"
 
-#: ../composer/e-msg-composer.c:1345 ../composer/e-msg-composer.c:2608
+#: ../composer/e-msg-composer.c:1351 ../composer/e-msg-composer.c:2614
 msgid "Hide _Attachment Bar"
 msgstr "Piilota _liitepalkki"
 
-#: ../composer/e-msg-composer.c:1348 ../composer/e-msg-composer.c:2611
-#: ../composer/e-msg-composer.c:3979
+#: ../composer/e-msg-composer.c:1354 ../composer/e-msg-composer.c:2617
+#: ../composer/e-msg-composer.c:3985
 msgid "Show _Attachment Bar"
 msgstr "Näytä _liitepalkki"
 
-#: ../composer/e-msg-composer.c:1380 ../composer/e-msg-composer.c:1414
+#: ../composer/e-msg-composer.c:1386 ../composer/e-msg-composer.c:1420
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Tuntematon syy"
 
-#: ../composer/e-msg-composer.c:1452
+#: ../composer/e-msg-composer.c:1458
 msgid "Could not open file"
 msgstr "Tiedostoa ei voi avata"
 
-#: ../composer/e-msg-composer.c:1460
+#: ../composer/e-msg-composer.c:1466
 msgid "Unable to retrieve message from editor"
 msgstr "Viestiä ei voida hakea muokkaimelta"
 
-#: ../composer/e-msg-composer.c:1745
+#: ../composer/e-msg-composer.c:1751
 msgid "Untitled Message"
 msgstr "Nimeämätön viesti"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1781
+#: ../composer/e-msg-composer.c:1787
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: ../composer/e-msg-composer.c:2243 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2249 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Automaattisesti luotu"
 
-#: ../composer/e-msg-composer.c:2346
+#: ../composer/e-msg-composer.c:2352
 msgid "Si_gnature:"
 msgstr "_Allekirjoitus:"
 
-#: ../composer/e-msg-composer.c:2622 ../composer/e-msg-composer.c:3861
-#: ../composer/e-msg-composer.c:3864
+#: ../composer/e-msg-composer.c:2628 ../composer/e-msg-composer.c:3867
+#: ../composer/e-msg-composer.c:3870
 msgid "Compose Message"
 msgstr "Uusi viesti"
 
-#: ../composer/e-msg-composer.c:5104
+#: ../composer/e-msg-composer.c:5110
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10909,46 +10925,46 @@ msgstr "Valitse kansio"
 msgid "Ask for each message"
 msgstr "Kysy jokaisen viestin osalta"
 
-#: ../mail/em-account-editor.c:1812 ../mail/mail-config.glade.h:90
+#: ../mail/em-account-editor.c:1822 ../mail/mail-config.glade.h:90
 msgid "Identity"
 msgstr "Omat tiedot"
 
-#: ../mail/em-account-editor.c:1861 ../mail/mail-config.glade.h:119
+#: ../mail/em-account-editor.c:1871 ../mail/mail-config.glade.h:119
 msgid "Receiving Email"
 msgstr "Vastaanotto"
 
-#: ../mail/em-account-editor.c:2046
+#: ../mail/em-account-editor.c:2056
 msgid "Automatically check for _new mail every"
 msgstr "T_arkista onko uutta postia joka"
 
-#: ../mail/em-account-editor.c:2227 ../mail/mail-config.glade.h:132
+#: ../mail/em-account-editor.c:2237 ../mail/mail-config.glade.h:132
 msgid "Sending Email"
 msgstr "Lähetys"
 
-#: ../mail/em-account-editor.c:2286 ../mail/mail-config.glade.h:66
+#: ../mail/em-account-editor.c:2296 ../mail/mail-config.glade.h:66
 msgid "Defaults"
 msgstr "Oletusasetukset"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2352 ../mail/mail-config.glade.h:126
+#: ../mail/em-account-editor.c:2362 ../mail/mail-config.glade.h:126
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Turvallisuus"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2389 ../mail/em-account-editor.c:2480
+#: ../mail/em-account-editor.c:2399 ../mail/em-account-editor.c:2490
 msgid "Receiving Options"
 msgstr "Vastaanoton asetukset"
 
-#: ../mail/em-account-editor.c:2390 ../mail/em-account-editor.c:2481
+#: ../mail/em-account-editor.c:2400 ../mail/em-account-editor.c:2491
 msgid "Checking for New Mail"
 msgstr "Uusien viestien haku"
 
-#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:33
+#: ../mail/em-account-editor.c:2842 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Tilimuokkain"
 
-#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2842 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolutionin sähköpostitilien apulainen"
 
@@ -12155,12 +12171,12 @@ msgstr "POP3 keep-on-server tietoa `%s' ei voi kopioida: %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "Paikallista sähköpostitilaa '%s' ei voi luoda: %s"
 
-#: ../mail/em-migrate.c:2710
+#: ../mail/em-migrate.c:2743
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "Paikallisia sähköpostikansioita ei voi luoda paikkaan '%s': %s"
 
-#: ../mail/em-migrate.c:2729
+#: ../mail/em-migrate.c:2762
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -12746,8 +12762,8 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
-"enabled. If the default listed plugin is disabled, then it wont fall back to "
-"the other available plugins."
+"enabled. If the default listed plugin is disabled, then it won't fall back "
+"to the other available plugins."
 msgstr ""
 "Tämä on roskapostin käsittelyn oletusliitännäin, vaikka useita olisi "
 "käytössä. Jos oletusliitännäinen ei ole käytössä, ei palata käyttämään muita "
@@ -14036,6 +14052,7 @@ msgid "Waiting..."
 msgstr "Odotetaan..."
 
 #: ../mail/mail-send-recv.c:783
+#, c-format
 msgid "Checking for new mail"
 msgstr "Tarkistetaan onko uusia viestejä"
 
@@ -14925,6 +14942,7 @@ msgid "Remind _missing attachments"
 msgstr "Muistuta _puuttuvista liitteistä"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Attachment Reminder"
 msgstr "Liitemuistuttaja"
 
@@ -14935,6 +14953,18 @@ msgid ""
 msgstr ""
 "Tunnistaa viesteistä viitteitä liitetiedostoista, ja varoittaa puuttuvista "
 "liitetiedostoista"
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
+msgid ""
+"Evolution has found some keywords that suggest that this message should "
+"contain an attachment, but cannot find one."
+msgstr ""
+"Evolution löysi joitain avainsanoja, joista ohjelma päätteli että tämän "
+"viestin pitäisi sisältää liitetiedosto, mutta liitettä ei ole lisätty."
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
+msgid "Message has no attachments"
+msgstr "Viestissä ei ole liitteitä"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -14949,16 +14979,16 @@ msgid "Audio inline plugin"
 msgstr "Äänensoiton liitännäinen"
 
 #: ../plugins/backup-restore/backup-restore.c:96
-msgid "Select name of the Evolution archive"
-msgstr "Valitse Evolution-varmuuskopion nimi"
+msgid "Select name of the Evolution backup file"
+msgstr "Valitse Evolutionin varmuuskopiotiedoston nimi"
 
 #: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
 msgstr "Käynnistä Evolution _uudestaan varmuuskopioinnin jälkeen"
 
 #: ../plugins/backup-restore/backup-restore.c:139
-msgid "Select name of the Evolution archive to restore"
-msgstr "Valitse palautettavan Evolution-varmuuskopion nimi"
+msgid "Select name of the Evolution backup file to restore"
+msgstr "Valitse palautettavan Evolutionin varmuuskopiotiedoston nimi"
 
 #: ../plugins/backup-restore/backup-restore.c:163
 msgid "_Restart Evolution after restore"
@@ -14970,21 +15000,21 @@ msgstr "Palauta varmuuskopio"
 
 #: ../plugins/backup-restore/backup-restore.c:238
 msgid ""
-"You can restore Evolution from your archive. It can restore all the Mails/"
-"Calendars/Tasks/Memos/Addressbook. \n"
+"You can restore Evolution from your backup. It can restore all the Mails, "
+"Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Voit palauttaa evolutionin varmuuskopioista. Näin pystyt palauttamaan kaikki "
-"sähköpostit, kalenterit, tehtävät, muistiot ja osoitekirjat.\n"
+"Voit palauttaa evolutionin varmuuskopioista. Näin pystyt palauttamaan "
+"kaikki sähköpostit, kalenterit, tehtävät, muistiot ja osoitekirjat.\n"
 "Palautus palauttaa myös kaikki asetukset, sähköpostisuotimet jne."
 
 #: ../plugins/backup-restore/backup-restore.c:244
-msgid "_Restore Evolution from the backup archive"
-msgstr "Palauta Evolution varmuuskopiosta"
+msgid "_Restore Evolution from the backup file"
+msgstr "_Palauta Evolution varmuuskopiotiedostosta"
 
 #: ../plugins/backup-restore/backup-restore.c:251
 msgid "Please select an Evolution Archive to restore:"
-msgstr "VValitse palautettava Evolution-varmuuskopio:"
+msgstr "Valitse palautettava Evolution-varmuuskopio:"
 
 #: ../plugins/backup-restore/backup-restore.c:254
 msgid "Choose a file to restore"
@@ -14999,16 +15029,16 @@ msgid "Restore Evolution directory"
 msgstr "Palauta Evolutionin hakemisto"
 
 #: ../plugins/backup-restore/backup.c:44
-msgid "Check Evolution archive"
-msgstr "Tarkista Evolutionin arkisto"
+msgid "Check Evolution Backup"
+msgstr "Tarkista evolutionin varmuuskopio"
 
 #: ../plugins/backup-restore/backup.c:46
 msgid "Restart Evolution"
 msgstr "Käynnistä Evolution uudestaan"
 
 #: ../plugins/backup-restore/backup.c:48
-msgid "With GUI"
-msgstr "Graafisen liittymän kanssa"
+msgid "With Graphical User Interface"
+msgstr "Graafisen käyttyliittymän kanssa"
 
 #: ../plugins/backup-restore/backup.c:67
 #: ../plugins/backup-restore/backup.c:107
@@ -15039,7 +15069,7 @@ msgid "Backup current Evolution data"
 msgstr "Varmuuskopioi tämänhetkiset Evolutionin tiedot"
 
 #: ../plugins/backup-restore/backup.c:116
-msgid "Extracting files from the archive"
+msgid "Extracting files from backup"
 msgstr "Puretaan tiedostoja varmuuskopiosta"
 
 #: ../plugins/backup-restore/backup.c:122
@@ -15052,13 +15082,13 @@ msgstr "Poistetaan varmuuskopioinnin väliaikaistiedostoja"
 
 #: ../plugins/backup-restore/backup.c:244
 #, c-format
-msgid "Backing up to %s"
-msgstr "Varmuuskopioidaan tiedostoon %s"
+msgid "Backing up to the folder %s"
+msgstr "Varmuuskopioidaan kansioon %s"
 
 #: ../plugins/backup-restore/backup.c:249
 #, c-format
-msgid "Restoring from %s"
-msgstr "Palautetaan tiedostosta %s"
+msgid "Restoring from the folder %s"
+msgstr "Palautetaan kansiosta %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:264
@@ -15083,8 +15113,10 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "Haluatko varmasti sulkea Evolutionin?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid "Are you sure you want to restore Evolution from the selected archive?"
-msgstr "Haluatko varmasti palauttaa Evolutionin valitusta varmuuskopiosta?"
+msgid ""
+"Are you sure you want to restore Evolution from the selected backup file?"
+msgstr ""
+"Haluatko varmasti palauttaa Evolutionin valitusta varmuuskopiotiedostosta?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid ""
@@ -15099,12 +15131,12 @@ msgstr ""
 "varmuuskopiointi on päättynyt."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-msgid "Invalid Evolution archive"
-msgstr "Virheellinen Evolutionin varmuuskopio"
+msgid "Invalid Evolution backup file"
+msgstr "Virheellinen Evolutionin varmuuskopiotiedosto"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
-msgid "Please select a valid archive file to restore."
-msgstr "Valitse kelvollinen palautettava Evolutionin varmuuskopio"
+msgid "Please select a valid backup file to restore."
+msgstr "Valitse palautettavaksi kelvollinen Evolutionin varmuuskopio"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -15450,30 +15482,31 @@ msgstr "Kansioiden koko"
 msgid "Exchange Settings"
 msgstr "Exchangen asetukset"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:617
+#: ../plugins/exchange-operations/exchange-account-setup.c:618
 msgid "_OWA URL:"
 msgstr "_OWA URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:643
+#: ../plugins/exchange-operations/exchange-account-setup.c:644
 msgid "A_uthenticate"
 msgstr "K_irjautuminen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:836
+#: ../plugins/exchange-operations/exchange-account-setup.c:837
 msgid "Authentication Type"
 msgstr "Kirjautumisen tyyppi"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:850
+#: ../plugins/exchange-operations/exchange-account-setup.c:851
 msgid "Ch_eck for Supported Types"
 msgstr "Tar_kista tuetut tyypit"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:956
+#: ../plugins/exchange-operations/exchange-account-setup.c:957
 #: ../plugins/exchange-operations/exchange-contacts.c:212
 #, c-format
 msgid "%s KB"
 msgstr "%s kt"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:958
+#: ../plugins/exchange-operations/exchange-account-setup.c:959
 #: ../plugins/exchange-operations/exchange-contacts.c:214
+#, c-format
 msgid "0 KB"
 msgstr "0 kt"
 
@@ -17449,8 +17482,8 @@ msgstr "Huomautus sähköpostista"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid ""
-"Notifies the user with tray icon and a notify message whenever a new message "
-"has arrived."
+"Notifies the user with an icon in notification area and a notification "
+"message whenever a new message has arrived."
 msgstr ""
 "Huomauttaa käyttäjää ilmoitusalueen kuvakkeella ja huomautusviestillä, kun "
 "uusia viestejä saapuu."
@@ -17808,8 +17841,8 @@ msgid "Only ever show PLAIN"
 msgstr "Näytä ainoastaan raakatekstiä"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
-msgid "HTML Mode"
-msgstr "HTML-tila"
+msgid "HTML _Mode"
+msgstr "HTML-_tila"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -18164,6 +18197,7 @@ msgstr "Ohjelmasta %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:508
+#, c-format
 msgid "Importing data."
 msgstr "Tuodaan tietoja."
 
@@ -22436,6 +22470,12 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3705 ../widgets/text/e-text.c:3706
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "Check Evolution archive"
+#~ msgstr "Tarkista Evolutionin arkisto"
+
+#~ msgid "With GUI"
+#~ msgstr "Graafisen liittymän kanssa"
 
 #~ msgid "<b>Then</b>"
 #~ msgstr "<b>Silloin</b>"
