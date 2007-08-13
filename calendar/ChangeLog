@@ -1,3 +1,33 @@
+2007-08-13  Suman Manjunath  <msuman@novell.com>
+
+	reviewed by: Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/event-page.c: (event_page_init),
+	(sensitize_widgets), (get_current_account),
+	(event_page_fill_widgets), (event_page_fill_component),
+	(existing_attendee), (event_page_set_info_string), (get_widgets),
+	(source_changed_cb), (init_widgets), (event_page_select_organizer),
+	(event_page_construct):
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/memo-page.c: (memo_page_init), (sensitize_widgets),
+	(memo_page_fill_widgets), (get_current_account),
+	(memo_page_fill_component), (memo_page_set_info_string),
+	(get_widgets), (source_changed_cb), (init_widgets),
+	(memo_page_select_organizer), (memo_page_construct):
+	* gui/dialogs/memo-page.glade:
+	* gui/dialogs/task-page.c: (task_page_init), (sensitize_widgets),
+	(get_current_account), (task_page_fill_widgets),
+	(task_page_fill_component), (existing_attendee),
+	(task_page_set_info_string), (get_widgets), (source_changed_cb),
+	(init_widgets), (task_page_select_organizer),
+	(task_page_construct):
+	* gui/dialogs/task-page.glade: Add a label on the top to show information string 
+	for calendar, task and memo editors. It would be shown while operating on subscribed
+	user's folder items.
+	 * gui/itip-utils.c: (itip_send_comp), (reply_to_calendar_comp): A
+	utility function sanitize_component has been removed. The sentby parameter
+	is set in the event pages.										  
+
 2007-08-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #351552

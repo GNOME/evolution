@@ -70,7 +70,7 @@ void task_page_set_view_rsvp (TaskPage *page, gboolean state);
 void task_page_set_classification (TaskPage *page, ECalComponentClassification class);
 void task_page_set_show_timezone (TaskPage *page, gboolean state);
 void task_page_set_show_categories (TaskPage *page, gboolean state);
-
+void task_page_set_info_string (TaskPage *tpage, const gchar *icon, const gchar *msg);
 
 
 G_END_DECLS

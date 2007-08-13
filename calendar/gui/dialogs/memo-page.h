@@ -55,7 +55,7 @@ MemoPage *memo_page_construct (MemoPage *epage);
 MemoPage *memo_page_new       (BonoboUIComponent *uic, CompEditorPageFlags flags);
 void      memo_page_set_classification (MemoPage *page, ECalComponentClassification class);
 void      memo_page_set_show_categories (MemoPage *page, gboolean state);
-
+void 	  memo_page_set_info_string (MemoPage *mpage, const gchar *icon, const gchar *msg);
 G_END_DECLS
 
 #endif

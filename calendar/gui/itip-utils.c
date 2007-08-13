@@ -222,78 +222,6 @@ html_new_lines_for (char *string)
 	return html_string;
 }
 
-void 
-sanitize_component (ECalComponent *comp, ECal *client)
-{
-	GSList *attendees;
-	EAccountList *al;
-	EAccount *a;
-	EIterator *it;
-	ECalComponentOrganizer organizer;
-	ECalComponentAttendee *attendee = NULL;
-	ESource *cal_source = NULL;
-	char *backend_address = NULL;
-	char *subscriber_address = NULL;
-
-	e_cal_component_get_attendee_list (comp, &attendees);	
-	al = itip_addresses_get ();
-	e_cal_get_cal_address (client, &backend_address, NULL);
-	if (!al || !backend_address)
-		return;
-
-	/* Look for the backend address in the list of enabled accounts */
-	for (it = e_list_get_iterator((EList *)al);
-			e_iterator_is_valid(it);
-			e_iterator_next(it)) {
-
-		a = (EAccount *) e_iterator_get(it);
-		if (!a->enabled) 
-			continue;
-
-		if (!g_ascii_strcasecmp (a->id->address, backend_address)) {
-			e_cal_component_free_attendee_list (attendees);
-			g_free (backend_address);
-			return;
-		}
-	}
-
-	/* Backend address was not found in the list of accounts. Check if its a foreign/susbcribed backend */
-	cal_source = e_cal_get_source (client);
-	if (!cal_source) {
-		e_cal_component_free_attendee_list (attendees);
-		g_free (backend_address);
-		return;
-	}
-
-	subscriber_address = e_source_get_property (cal_source, "subscriber");
-	if (!subscriber_address) {
-		e_cal_component_free_attendee_list (attendees);
-		g_free (backend_address);
-		return;
-	}
-
-	attendee = get_attendee (attendees, backend_address);
-	e_cal_component_get_organizer (comp, &organizer) ;
-
-	e_cal_component_free_attendee_list (attendees);
-
-	if (organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), subscriber_address)) {
-		ECalComponentOrganizer new_organizer;
- 		new_organizer.value = g_strdup_printf ("MAILTO:%s", backend_address);
-		new_organizer.cn = (attendee && attendee->cn) ? g_strdup (attendee->cn) : g_strdup (backend_address);
-		new_organizer.sentby = g_strdup (organizer.value);
-		new_organizer.language = g_strdup (organizer.language);
-		e_cal_component_set_organizer (comp, &new_organizer);
-	}
-	else if (attendee) {
-		attendee->sentby = g_strdup_printf ("MAILTO:%s", subscriber_address);
-	}
-
-	e_cal_component_rescan (comp);
-	g_free (backend_address);
-	g_free (subscriber_address);
-}
-
 char *
 itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 {
@@ -1313,7 +1241,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 
 	/* Give the server a chance to manipulate the comp */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
-		sanitize_component (send_comp, client);
 		if (!comp_server_send (method, send_comp, client, zones, &users))
 			goto cleanup;
 	}
@@ -1485,9 +1412,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 	gboolean retval = FALSE;
 
 	CORBA_exception_init (&ev);
-
-	/* Sanitize the component */
-	sanitize_component (send_comp, client);
 
 	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp, client, zones);

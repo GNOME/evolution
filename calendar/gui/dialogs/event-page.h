@@ -72,6 +72,7 @@ void event_page_set_all_day_event (EventPage *epage, gboolean all_day);
 void event_page_set_show_categories (EventPage *epage, gboolean state);
 void event_page_set_show_time_busy (EventPage *epage, gboolean state);
 void event_page_show_alarm (EventPage *epage);
+void event_page_set_info_string (EventPage *epage, const gchar *icon, const gchar *msg);
 
 void event_page_set_view_role (EventPage *epage, gboolean state);
 void event_page_set_view_status (EventPage *epage, gboolean state);
