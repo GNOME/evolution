@@ -1,3 +1,64 @@
+Evolution 2.11.90 2007-08-13
+---------------------------
+
+New in 2.11.90:
+	- A new command line option (--disable-preview) to disable loading crash-on-selected last mails,
+	  tasks, contacts (Srinivasa Ragavan)
+
+Bug fixes:
+	#287394: (BNC) When exitting, close after the message was saved. (Srinivasa Ragavan)
+	#313221: Improve parsing of VCARD file with multiple TYPE information (Milan Crha)
+	#322624: Don't add alarms for types with unknown/none notification method (Milan Crha)
+	#327977: Fix a crash when setting password in preferences window (Milan Crha)
+	#331729: Fixed a crash when using cursor keys after expunging selected mail (Milan Crha)
+	#335566: Fix a crash when scaling an image in preview pane (Milan Crha)
+	#351552: Fixed critical warning with e_passwords for calendars without 'auth-domain' property (Milan Crha)
+	#352346: Cannot create Maildir account (Milan Crha)
+	#377173: Show category icon correctly (Hiroyuki Ikezoe) 
+	#377309: "Synchronize now" should work even if periodic checking is not enabled (Diego Escalante Urrelo)
+	#383684: Do not load pending hooks if the corresponding plugin is disabled (Sankar P)
+	#387312: Auto-collapse of expanded threads has been fixed (Tobias Mueller)
+	#401533: Text marked for localization in memos (Milan Crha)
+	#419690: Fixed a crash during startup after a unclean shutdown (Srinivasa Ragavan)
+	#427469: When importing VCARD, if HOME or WORK isn't specified for EMAIL, add TYPE=OTHER (Milan Crha)
+	#428125: Added mnemonic for "Plain Text Mode" in preferences (Anand V M)
+	#429234: Fixed a crash when opening an attachment (Srinivasa Ragavan)
+	#444882: Fixed configure options beautification (Gilles Dartiguelongue)
+	#451599: Timing of setting the attachment is downloaded has to be after creating the attachment (Srinivasa Ragavan)
+	#454253: Fixed a crash during alarm notify (Srinivasa Ragavan)
+	#455799: Remove all .cvsignore and update svn:ignore porperty in all directories. (Hiroyuki Ikezoe)
+	#458508: String issues resolved in backup-restore plugin (Anand V M)
+	#458822: Description string fixed for mail-notification plugin (Anand V M)
+	#460326: If the vcalendar isn't there don't crash but report invalid. (Srinivasa Ragavan)
+	#460821: The second argument of g_utf8_strdown() expects the length of string in bytes or -1 (Hiroyuki Ikezoe)
+	#462007: Plugged memory leak. (Hiroyuki Ikezoe)
+	#462010: Plugged memory leak. (Hiroyuki Ikezoe)
+	#462138: Signature on top does not work if no signature is set as default (Sankar P)
+	#462332: Avoid duplicate attachments when DnD image (Hiroyuki Ikezoe)
+	#463061: Fixed a crash while launching preferences window (Srinivasa  Ragavan)
+	#463129: Fix glibc free crash when changing components (Milan Crha)
+	#463946: Calling "Add Column" more than once now works (Milan Crha)
+	#464312: Do not connect to server if the account is disabled. (Srinivasa Ragavan)
+
+Other Contributors:
+	- Fix for expanding newly created folders (Lucky)
+	- Documentation updates (Radhika)
+	- Exchange Calendar delegation bug fixes (Suman)
+
+Updated Translations:
+	Claude Paroz and Stéphane Raimbault (fr)
+	Jorge Gonzalez (es)
+	Andre Klapper (de)
+	Daniel Nylander (sv)
+	Theppitak Karoonboonyanan (th)
+	Takeshi AIHANA (ja)
+	Tirumurthi Vasudevan (ta)
+	Ankit Patel (gu)
+	Ilkka Tuohela (fi)
+	Kostas Papadimas (el)
+	Danishka Navin (si)
+	Kjartan Maraas (nb)
+
 Evolution 2.11.6.1 2007-07-31
 -----------------------------
 Changes:
