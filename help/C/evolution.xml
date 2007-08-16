@@ -77,6 +77,7 @@
   <invpartnumber>July 2007</invpartnumber>
   <title>User guide</title>
  </bookinfo>
+
  <preface id="preface">
   <title>About This Guide</title>
   <para>This guide describes how to use and manage Evolution&trade; 2.12 client software. This guide is intended for users and is divided into the following sections:</para>
@@ -177,7 +178,7 @@
           <para>GNOME:</para>
          </entry>
          <entry colname="2">
-          <para>Click Applications &gt; Office &gt; Evolution.</para>
+          <para>Click  Applications &gt; Office &gt; Evolution.</para>
          </entry>
         </row>
         <row id="bsptywg">
@@ -573,7 +574,7 @@
         <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthth2">
-        <para>Select if you want to user the <emphasis>.folders</emphasis> summary file.</para>
+        <para>Select if you want to use the <emphasis>.folders</emphasis> summary file.</para>
        </listitem>
        <listitem id="bsthtwt">
         <para>Click Forward.</para>
@@ -1014,11 +1015,11 @@
       </row>
       <row id="b17xmf5w">
        <entry colname="1">
-        <para>evolution --disable -preview</para>
+        <para>evolution --disable-preview</para>
        </entry>
        <entry colname="2">
         <para>Disables all the preview panes when you restart Evolution. </para>
-        <para>It lets Evolution not to open the last crashed mail, task or contact when you restart Evolution. Thus, it  provides a way to avoid system crash caused by previewing messages, task or contact. </para>
+        <para>It lets Evolution not to open the last crashed message, task or contact when you restart Evolution. Thus, it  provides a way to avoid system crash caused by previewing message, task or contact. </para>
        </entry>
       </row>
       <row id="bsl8i03">
@@ -1110,7 +1111,7 @@
     <para>When you are on the Mail view, the spacebar will give you the following behavior:</para>
     <itemizedlist>
      <listitem>
-      <para>When you press the spacebar for the first time pressed, it takes you to the next unread mail.</para>
+      <para>When you press the spacebar for the first time pressed, it takes you to the next unread message.</para>
      </listitem>
      <listitem>
       <para>If the message is more than one screen long, the spacebar works as pagedown.</para>
@@ -1119,10 +1120,10 @@
       <para>If you press the spacebar when you reach the bottom of the page, it takes you to the next unread message.</para>
      </listitem>
      <listitem>
-      <para>If there are no more unread message in the mailbox, spacebar takes you to the next unread message in the next folder.</para>
+      <para>If there are no more unread messages in the mailbox, spacebar takes you to the next unread message in the next folder.</para>
      </listitem>
      <listitem>
-      <para>If you have new mails arrived in a number of folders, spacebar toggles between those folders. This feature allows you to switch to the next unread mail in a different folder without having to click the folder.</para>
+      <para>If you have new mail arrived in a number of folders, spacebar toggles between those folders. This feature allows you to switch to the next unread message in a different folder without having to click the folder.</para>
      </listitem>
     </itemizedlist>
    </section>
@@ -1141,7 +1142,7 @@
     <title>New Mail Notification</title>
     <para>Evolution notifies you of new e-mail arriving. When you receive a new mail in your inbox, Evolution display an e-mail notifier at the notification area for a few seconds.</para>
     <mediaobject id="b17qhblw"><imageobject><imagedata format="PNG" fileref="figures/evo_mail_notifier.png"/></imageobject></mediaobject>
-    <para>The e-mail notification feature also includes a blinking tray icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> that disappears when you open the new e-mail. You can also click the tray icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> to turn the notifier off.</para>
+    <para>The e-mail notification feature also includes a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> that disappears when you open the new e-mail. You can also click the icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> to turn the notifier off.</para>
     <mediaobject id="b17qhgui"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
     
    </section>
@@ -2315,9 +2316,9 @@
     <title>Sorting Mail In E-mail Threads</title>
     <para>You can also choose a threaded message view. Click View &gt; Threaded Message List to turn the threaded view on or off. When you select this option, Evolution groups the replies to a message with the original, so you can follow the thread of a conversation from one message to the next.</para>
     <mediaobject id="b1448dzl"><imageobject><imagedata format="PNG" fileref="figures/mail-threaded.png"/></imageobject></mediaobject>
-    <para>In a thread of conversation view, each new message is stacked on top of the ones that arrived before it, so that the newest message is always the one you see first. Whenever a new message arrives to an old thread, that thread is automatically promoted to the top. You always see the thread based on the date of the recent message received. ie; The threads are sorted by the date of most recent message in the threads.</para>
+    <para>In a thread of conversation view, each new message is stacked below of the ones that arrived before it, so that the newest message is always the one you see first. Whenever a new message arrives to an old thread as a reply, you will see it below the parent message. You always see the thread based on the date of the recent message received. ie; The threads are sorted by the date of most recent message in the threads.</para>
     <tip>
-     <para>There is also a gconf key for the default state for the expanded state of thread. Default is true and you can change at /apps/evolution/mail/display/thread_expand. If the value is false, the default state of threads are collapsed and the expanded states are remembered. When you change this option  and restart Evolution,  all the threads are made to this state. This is a higly advanced option only for super users.</para>
+     <para>There is a gconf key to toggle between the collapsed or expanded state of mail thread. By default, it is collapased and you can change this at /apps/evolution/mail/display/thread_expand. If the value is set to false, expanded state is remembered. When you restart Evolution, all the threads are arranged to this state. This is a highly advanced option only for the super users.</para>
     </tip>
    </section>
 
@@ -2608,7 +2609,7 @@
      </formalpara>
     </listitem>
     <listitem id="b131m0yx">
-     <para>Click the in drop-down list to select the scope</para>
+     <para>Click the drop-down list to select the scope</para>
      <itemizedlist>
       <listitem>
        <para>Current Folder</para>
@@ -3072,7 +3073,7 @@
    <title>Stopping Junk Mail (Spam)</title>
    <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin&z-3rdParty;  and/ or Bogofilter* with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
    <para>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn&apos;t get flagged as junk mail. If good mail, is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk or press Shift+Ctrl+J. If Evolution misses junk mail, right-click the message, then click Mark as Junk or press Ctrl+J. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</para>
-   <para>Every filter need to learn at the least 100 SPAM and 100 HAM to start working. Previously we needed other trainer to train the spam filters. Now, you need to mark it manually by clicking  &ldquo;Not junk" button in the toolbar to learn that it is HAM. The &ldquo;Junk&rdquo; button learns a message as SPAM.</para>
+   <para>Every filter need to learn at the least 100 SPAM and 100 HAM to start working. For that, you must  mark it manually by clicking the &ldquo;Not junk" button in the toolbar to learn that it is HAM. The &ldquo;Junk&rdquo; button learns a message as SPAM.</para>
    <para>To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences. For more information on this see, <link linkend="mail-prefs-junk">Junk Mail Preferences</link>. </para>
    <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link>. </para>
    <note>
@@ -6251,8 +6252,8 @@ Accepting and Replying to a Meeting Request</title>
     <para>Use this section to set where this account stores the messages that it has sent, and the messages that you save as drafts. If you want to revert to the default settings, click Restore Defaults.</para>
    </formalpara>
    <para>If you want to send someone a copy of every message from this account, select either Always Carbon-Copy (Cc) To: or Always Blind Carbon-Copy (Bcc) To:, and specify one or more addresses. </para>
-   <para> Specify how do you want to receive message receipts. You can set Send message receipts to Never, Always or Ask for each message. For more information refer <link linkend="b13uhy6r">Default Settings</link>.</para>
-   <para>You can change the default settings of your send items. Click Advanced Send Options to prioritize, classify your send messages. You can also set the date for reply request so that recipient will know the immediacy and can accordingly response to your message. Enable status tracking and set Return Notification for Mail, Calendar and Task.</para>
+   <para>You can specify the way you want to receive message receipts. You can set Send message receipts to Never, Always or Ask for each message. For more information refer <link linkend="b13uhy6r">Default Settings</link>.</para>
+   <para>You can change the default settings of your sent items. Click Advanced Send Options to prioritize, classify your send messages. You can also set the date for reply request so that recipient will know the immediacy and can accordingly response to your message. Enable status tracking and set Return Notification for Mail, Calendar and Task.</para>
    <formalpara id="bsbhndi">
     <title>Security: </title>
     <para>Use this section to set the security options for this account. If you use encryption, enter your PGP key ID (see <link linkend="encryption">Encryption</link> for more information) and select among the four options to determine key and signature handling.</para>
@@ -6897,7 +6898,7 @@ Accepting and Replying to a Meeting Request</title>
 
  <appendix id="menuref">
   <title>Quick Reference</title>
-  <para>You can print this section to use it as a quick reference for most of the things you want to do with Evolution&trade;. You can also find this information online by selecting Help &gt; Quick Reference in the Menubar.</para>
+  <para>You can print this section to use it as a quick reference for most of the things you want to do with Evolution&trade;. You can also find this information by selecting Help &gt; Quick Reference in the Menubar.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="quickref-open">Opening or Creating Items</link></para>
@@ -7070,7 +7071,7 @@ Accepting and Replying to a Meeting Request</title>
     <para>Kjartan Maraas for Norwegian (.no)</para>
    </listitem>
    <listitem>
-    <para>Sergey V. Mironov for Russian (.ru) and French (.fr)</para>
+    <para>Sergey V. Mironov for Russian (.ru) </para>
    </listitem>
   </itemizedlist>
  </appendix>

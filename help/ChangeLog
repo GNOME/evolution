@@ -1,3 +1,9 @@
+2007-08-16  Johnny Jacob  <jjohnny@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	* C/evolution.xml : Fixed comments (typos) from bug #435942.
+	
 2007-08-13  Jorge Gonzalez <jorgegonz@svn.gnome.org> 
 
 	* es/es.po: Updated Spanish translation
