@@ -1,3 +1,10 @@
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #466548
+
+	* em-composer-utils.c: (em_utils_composer_send_cb):
+	e_msg_composer_get_preferred_account can return NULL, so test for it.
+
 2007-08-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #352346

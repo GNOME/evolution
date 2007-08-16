@@ -146,6 +146,9 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 	char *temp = NULL;
 	
 	account = e_msg_composer_get_preferred_account (comp) ;
+	if (!account)
+		return;
+
 	temp = strstr (account->transport->url, "groupwise") ;
 	if (!temp) {
 		return;

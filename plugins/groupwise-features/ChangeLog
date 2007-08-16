@@ -1,3 +1,10 @@
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #466548
+
+	* mail-send-options.c: (org_gnome_composer_send_options):
+	e_msg_composer_get_preferred_account can return NULL, so test for it.
+
 2007-08-13  Sankar P  <psankar@novell.com>
 
 	** Fix for bug #330968

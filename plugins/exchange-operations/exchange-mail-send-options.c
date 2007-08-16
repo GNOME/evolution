@@ -168,6 +168,9 @@ org_gnome_exchange_send_options (EPlugin *ep, EMEventTargetComposer *target)
 	char *temp = NULL;
 	
 	account = e_msg_composer_get_preferred_account (composer);
+	if (!account)
+		return;
+
 	temp = strstr (account->transport->url, "exchange");
 	if (!temp) {
 		return;
