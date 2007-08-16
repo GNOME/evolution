@@ -656,6 +656,8 @@ enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 	CamelException ex;
 	EMFolderView *emfv = (EMFolderView *)emfb;
 
+	camel_exception_init (&ex);
+
 	/* Currently displayed folder */
 	MessageList *ml = emfv->list;
 	folder = ml->folder;
@@ -667,6 +669,7 @@ enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 	folder = mail_tool_uri_to_folder (uri, 0, &ex);
 	selected_curl = camel_url_new (uri, NULL);
 
+	camel_exception_clear (&ex);
 	if (!camel_url_equal (selected_curl, current_curl)) 
  		g_signal_emit_by_name (emft, "folder-selected", emft, uri, folder->full_name, uri, folder->folder_flags); 
 

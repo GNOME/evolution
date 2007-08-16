@@ -1,3 +1,10 @@
+2007-08-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #467198
+
+	* mail-component.c: (enable_folder_tree): Initialize the camel
+	exception.
+
 2007-08-16  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fix for #364431.
