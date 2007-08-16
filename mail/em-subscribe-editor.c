@@ -684,8 +684,10 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 	sub->seq++;
 
 	/* drop any currently pending */
-	if (sub->pending_id != -1)
+	if (sub->pending_id != -1) {
 		mail_msg_cancel(sub->pending_id);
+		mail_msg_wait(sub->pending_id);
+	}
 
 	gtk_tree_store_clear((GtkTreeStore *)gtk_tree_view_get_model(sub->tree));
 

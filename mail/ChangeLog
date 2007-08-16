@@ -1,3 +1,10 @@
+2007-08-16  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for #364431.
+	
+	* em-subscribe-editor.c : (sub_editor_refresh) : Wait for thread
+	to finish before refreshing.
+	
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #466548
