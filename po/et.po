@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-13 11:35+0100\n"
-"PO-Revision-Date: 2007-07-14 19:23+0300\n"
+"POT-Creation-Date: 2007-07-31 22:40+0100\n"
+"PO-Revision-Date: 2007-08-02 13:36+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "Mine tänasele päevale"
 msgid "Go to Date"
 msgstr "Mine kuupäevale"
 
-#: ../a11y/calendar/ea-day-view-main-item.c:299
+#: ../a11y/calendar/ea-day-view-main-item.c:303
 #: ../a11y/calendar/ea-week-view-main-item.c:301
 msgid "a table to view and select the current time range"
 msgstr "tabel praeguse ajavahemiku kuvamiseks ja valimiseks"
@@ -159,7 +159,7 @@ msgid "calendar view for one or more days"
 msgstr "kalendrivaade ühe või enama päeva jaoks"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:188
-#: ../calendar/gui/calendar-component.c:726
+#: ../calendar/gui/calendar-component.c:740
 msgid "%A %d %b %Y"
 msgstr "%A, %d. %b %Y"
 
@@ -170,9 +170,9 @@ msgstr "%A, %d. %b %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:191
-#: ../calendar/gui/calendar-component.c:729
-#: ../calendar/gui/e-day-view-top-item.c:1315
-#: ../calendar/gui/e-day-view.c:2106
+#: ../calendar/gui/calendar-component.c:743
+#: ../calendar/gui/e-day-view-top-item.c:1318
+#: ../calendar/gui/e-day-view.c:2109
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
@@ -181,9 +181,9 @@ msgstr "%a, %d. %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:193
 #: ../a11y/calendar/ea-gnome-calendar.c:198
 #: ../a11y/calendar/ea-gnome-calendar.c:200
-#: ../calendar/gui/calendar-component.c:731
-#: ../calendar/gui/calendar-component.c:736
-#: ../calendar/gui/calendar-component.c:738
+#: ../calendar/gui/calendar-component.c:745
+#: ../calendar/gui/calendar-component.c:750
+#: ../calendar/gui/calendar-component.c:752
 msgid "%a %d %b %Y"
 msgstr "%a, %d. %b %Y"
 
@@ -191,10 +191,10 @@ msgstr "%a, %d. %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:223
 #: ../a11y/calendar/ea-gnome-calendar.c:229
 #: ../a11y/calendar/ea-gnome-calendar.c:231
-#: ../calendar/gui/calendar-component.c:750
-#: ../calendar/gui/calendar-component.c:757
-#: ../calendar/gui/calendar-component.c:763
-#: ../calendar/gui/calendar-component.c:765
+#: ../calendar/gui/calendar-component.c:764
+#: ../calendar/gui/calendar-component.c:771
+#: ../calendar/gui/calendar-component.c:777
+#: ../calendar/gui/calendar-component.c:779
 msgid "%d %b %Y"
 msgstr "%d. %B %Y"
 
@@ -204,9 +204,9 @@ msgstr "%d. %B %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:221
-#: ../calendar/gui/calendar-component.c:755
-#: ../calendar/gui/e-day-view-top-item.c:1319
-#: ../calendar/gui/e-day-view.c:2122
+#: ../calendar/gui/calendar-component.c:769
+#: ../calendar/gui/e-day-view-top-item.c:1322
+#: ../calendar/gui/e-day-view.c:2125
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
@@ -300,7 +300,7 @@ msgstr "Tabeli väli"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
-#: ../widgets/table/e-table-click-to-add.c:574
+#: ../widgets/table/e-table-click-to-add.c:571
 msgid "click to add"
 msgstr "lisamiseks klõpsa"
 
@@ -597,7 +597,8 @@ msgstr "Seadista automaatlõpetamist siit"
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1338
-#: ../calendar/gui/calendar-component.c:277 ../calendar/gui/migration.c:402
+#: ../calendar/gui/calendar-component.c:284 ../calendar/gui/migration.c:402
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
 msgstr "Kontaktid"
@@ -656,10 +657,10 @@ msgstr "Kohalikus arvutis"
 #: ../addressbook/gui/component/addressbook-migrate.c:496
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
-#: ../calendar/gui/calendar-component.c:246
-#: ../calendar/gui/memos-component.c:208 ../calendar/gui/migration.c:491
+#: ../calendar/gui/calendar-component.c:247
+#: ../calendar/gui/memos-component.c:209 ../calendar/gui/migration.c:491
 #: ../calendar/gui/migration.c:590 ../calendar/gui/migration.c:1103
-#: ../calendar/gui/tasks-component.c:204 ../filter/filter-label.c:122
+#: ../calendar/gui/tasks-component.c:205 ../filter/filter-label.c:122
 #: ../mail/em-migrate.c:1056 ../mail/mail-config.glade.h:106
 msgid "Personal"
 msgstr "Isiklik"
@@ -687,7 +688,7 @@ msgid "Create a new contact list"
 msgstr "Uue kontaktide nimekirja loomine"
 
 #: ../addressbook/gui/component/addressbook-component.c:244
-#: ../addressbook/gui/component/addressbook-config.c:1208
+#: ../addressbook/gui/component/addressbook-config.c:1209
 msgid "New Address Book"
 msgstr "Uus aadressiraamat"
 
@@ -749,7 +750,7 @@ msgid "Details"
 msgstr "Üksikasjad"
 
 #: ../addressbook/gui/component/addressbook-config.c:995
-#: ../mail/em-folder-browser.c:849
+#: ../mail/em-folder-browser.c:850
 msgid "Searching"
 msgstr "Otsing"
 
@@ -757,7 +758,7 @@ msgstr "Otsing"
 msgid "Downloading"
 msgstr "Allalaadimine"
 
-#: ../addressbook/gui/component/addressbook-config.c:1206
+#: ../addressbook/gui/component/addressbook-config.c:1207
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "Aadressiraamatu omadused"
@@ -850,10 +851,10 @@ msgstr "_Uus aadressiraamat"
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:981
-#: ../calendar/gui/calendar-component.c:590
-#: ../calendar/gui/e-calendar-table.c:1303
-#: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:919
-#: ../calendar/gui/memos-component.c:458 ../calendar/gui/tasks-component.c:449
+#: ../calendar/gui/calendar-component.c:604
+#: ../calendar/gui/e-calendar-table.c:1375
+#: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:992
+#: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
 #: ../mail/em-folder-tree.c:2122 ../mail/em-folder-view.c:1157
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-memos.xml.h:16
@@ -866,8 +867,8 @@ msgid "Save As Vcard..."
 msgstr "Salvestamine vKaardina..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
-#: ../calendar/gui/calendar-component.c:591
-#: ../calendar/gui/memos-component.c:459 ../calendar/gui/tasks-component.c:450
+#: ../calendar/gui/calendar-component.c:605
+#: ../calendar/gui/memos-component.c:467 ../calendar/gui/tasks-component.c:458
 msgid "_Properties..."
 msgstr "_Omadused..."
 
@@ -1241,7 +1242,7 @@ msgstr "kaarti"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
 #: ../mail/em-account-editor.c:2054
-#: ../plugins/calendar-http/calendar-http.c:286
+#: ../plugins/calendar-http/calendar-http.c:288
 #: ../plugins/calendar-weather/calendar-weather.c:561
 msgid "minutes"
 msgstr "minutit"
@@ -1299,7 +1300,7 @@ msgstr "Kontakt"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:551
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:566
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2419
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2425
 msgid "Contact Editor"
 msgstr "Kontaktiredaktor"
 
@@ -1344,7 +1345,7 @@ msgstr "Telefon"
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
 #: ../filter/filter-label.c:121 ../mail/em-migrate.c:1055
-#: ../mail/mail-config.glade.h:158
+#: ../mail/mail-config.glade.h:156
 msgid "Work"
 msgstr "Töö"
 
@@ -1477,10 +1478,10 @@ msgstr "Aadress"
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
-#: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1830 ../widgets/text/e-entry.c:1263
-#: ../widgets/text/e-entry.c:1264 ../widgets/text/e-text.c:3609
-#: ../widgets/text/e-text.c:3610
+#: ../widgets/menus/gal-define-views-model.c:179
+#: ../widgets/table/e-cell-text.c:1826 ../widgets/text/e-entry.c:1258
+#: ../widgets/text/e-entry.c:1259 ../widgets/text/e-text.c:3606
+#: ../widgets/text/e-text.c:3607
 msgid "Editable"
 msgstr "Redigeeritav"
 
@@ -2455,10 +2456,10 @@ msgstr "Zimbabwe"
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:90
 #: ../plugins/exchange-operations/exchange-delegates.c:958
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
-#: ../plugins/plugin-manager/plugin-manager.c:52
+#: ../plugins/plugin-manager/plugin-manager.c:54
 #: ../plugins/save-attachments/save-attachments.c:366
-#: ../widgets/menus/gal-define-views-dialog.c:354
-#: ../widgets/menus/gal-view-new-dialog.c:73
+#: ../widgets/menus/gal-define-views-dialog.c:348
+#: ../widgets/menus/gal-view-new-dialog.c:65
 msgid "Name"
 msgstr "Nimi"
 
@@ -2558,20 +2559,20 @@ msgid "Changed"
 msgstr "Muudetud"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:561
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2414
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2420
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Kontaktiredaktor - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2801
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2807
 msgid "Please select an image for this contact"
 msgstr "Palun vali selle kontakti jaoks pilt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2802
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2808
 msgid "_No image"
 msgstr "Pilti _ei ole"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3103
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2579,23 +2580,23 @@ msgstr ""
 "Kontaktandmed on vigased:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3107
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' on vigases vormingus"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3114
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3120
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' on vigases vormingus"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3129
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3140
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3135
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3146
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' on tühi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3155
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3161
 msgid "Invalid contact."
 msgstr "Vigane kontakt."
 
@@ -2607,15 +2608,15 @@ msgstr "Kontakti kiirlisamine"
 msgid "_Edit Full"
 msgstr "Täisnime r_edigeerimine"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:338
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:339
 msgid "_Full name"
 msgstr "Täis_nimi"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:349
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:350
 msgid "E_mail"
 msgstr "E-_post:"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:360
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:361
 msgid "_Select Address Book"
 msgstr "_Vali aadressiraamat"
 
@@ -2915,12 +2916,12 @@ msgid "Error getting book view"
 msgstr "Viga raamatu vaate hankimisel"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
-#: ../widgets/table/e-table-click-to-add.c:502
-#: ../widgets/table/e-table-selection-model.c:311
-#: ../widgets/table/e-table.c:3340
-#: ../widgets/table/e-tree-selection-model.c:825
-#: ../widgets/text/e-entry.c:1207 ../widgets/text/e-entry.c:1208
-#: ../widgets/text/e-text.c:3473 ../widgets/text/e-text.c:3474
+#: ../widgets/table/e-table-click-to-add.c:500
+#: ../widgets/table/e-table-selection-model.c:307
+#: ../widgets/table/e-table.c:3335
+#: ../widgets/table/e-tree-selection-model.c:821
+#: ../widgets/text/e-entry.c:1202 ../widgets/text/e-entry.c:1203
+#: ../widgets/text/e-text.c:3470 ../widgets/text/e-text.c:3471
 msgid "Model"
 msgstr "Mudel"
 
@@ -2948,8 +2949,8 @@ msgstr "Salvesta vKaardina..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:959
 #: ../calendar/gui/dialogs/comp-editor.c:1124
-#: ../calendar/gui/e-calendar-table.c:1281
-#: ../calendar/gui/e-calendar-view.c:1679 ../calendar/gui/e-memo-table.c:902
+#: ../calendar/gui/e-calendar-table.c:1353
+#: ../calendar/gui/e-calendar-view.c:1679 ../calendar/gui/e-memo-table.c:975
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "A_va"
@@ -3004,12 +3005,12 @@ msgid "Cu_t"
 msgstr "Lõ_ika"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
-#: ../calendar/gui/calendar-component.c:589
+#: ../calendar/gui/calendar-component.c:603
 #: ../calendar/gui/dialogs/comp-editor.c:463
-#: ../calendar/gui/e-calendar-table.c:1289
-#: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:910
-#: ../calendar/gui/memos-component.c:457 ../calendar/gui/tasks-component.c:448
-#: ../composer/e-msg-composer.c:3180 ../mail/em-folder-tree.c:1006
+#: ../calendar/gui/e-calendar-table.c:1361
+#: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
+#: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
+#: ../composer/e-msg-composer.c:3223 ../mail/em-folder-tree.c:1006
 #: ../mail/em-folder-view.c:1142 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3024,8 +3025,8 @@ msgstr "_Aseta"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1636
-#: ../calendar/gui/cal-search-bar.c:619 ../calendar/gui/cal-search-bar.c:662
-#: ../calendar/gui/cal-search-bar.c:681
+#: ../calendar/gui/cal-search-bar.c:618 ../calendar/gui/cal-search-bar.c:661
+#: ../calendar/gui/cal-search-bar.c:680
 msgid "Any Category"
 msgstr "Iga kategooria"
 
@@ -3205,32 +3206,32 @@ msgstr "Koduleht"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:150
-#: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
-#: ../widgets/misc/e-reflow.c:1436 ../widgets/misc/e-reflow.c:1437
-#: ../widgets/table/e-table-click-to-add.c:516
-#: ../widgets/table/e-table-col.c:98
-#: ../widgets/table/e-table-field-chooser-item.c:658
+#: ../widgets/misc/e-canvas-vbox.c:86 ../widgets/misc/e-canvas-vbox.c:87
+#: ../widgets/misc/e-reflow.c:1433 ../widgets/misc/e-reflow.c:1434
+#: ../widgets/table/e-table-click-to-add.c:514
+#: ../widgets/table/e-table-col.c:99
+#: ../widgets/table/e-table-field-chooser-item.c:657
+#: ../widgets/table/e-table-group-container.c:966
 #: ../widgets/table/e-table-group-container.c:967
-#: ../widgets/table/e-table-group-container.c:968
+#: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
-#: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
-#: ../widgets/text/e-text.c:3651 ../widgets/text/e-text.c:3652
+#: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
+#: ../widgets/text/e-text.c:3648 ../widgets/text/e-text.c:3649
 msgid "Width"
 msgstr "Laius"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:157
-#: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
-#: ../widgets/misc/e-reflow.c:1444 ../widgets/misc/e-reflow.c:1445
-#: ../widgets/table/e-table-click-to-add.c:523
-#: ../widgets/table/e-table-field-chooser-item.c:665
+#: ../widgets/misc/e-canvas-vbox.c:98 ../widgets/misc/e-canvas-vbox.c:99
+#: ../widgets/misc/e-reflow.c:1441 ../widgets/misc/e-reflow.c:1442
+#: ../widgets/table/e-table-click-to-add.c:521
+#: ../widgets/table/e-table-field-chooser-item.c:664
+#: ../widgets/table/e-table-group-container.c:959
 #: ../widgets/table/e-table-group-container.c:960
-#: ../widgets/table/e-table-group-container.c:961
+#: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
-#: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3030 ../widgets/table/e-table-item.c:3031
-#: ../widgets/text/e-text.c:3659 ../widgets/text/e-text.c:3660
+#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
+#: ../widgets/text/e-text.c:3656 ../widgets/text/e-text.c:3657
 msgid "Height"
 msgstr "Kõrgus"
 
@@ -3336,7 +3337,7 @@ msgid "_Open Link in Browser"
 msgstr "Ava _viit veebilehitsejas"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2602
+#: ../mail/em-folder-view.c:2604
 msgid "_Copy Link Location"
 msgstr "Kopeeri _lingi asukoht"
 
@@ -3382,9 +3383,10 @@ msgstr "Videovestlus"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:573
 #: ../calendar/gui/calendar-commands.c:99
-#: ../calendar/gui/calendar-component.c:774
+#: ../calendar/gui/calendar-component.c:788
 #: ../calendar/gui/dialogs/calendar-setup.c:366
 #: ../calendar/gui/gnome-cal.c:2354
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:575
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:396
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:427
@@ -3496,7 +3498,7 @@ msgstr "Toetamata protokoll"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:664
-#: ../calendar/gui/e-calendar-table.c:464 ../calendar/gui/print.c:2351
+#: ../calendar/gui/e-calendar-table.c:475 ../calendar/gui/print.c:2351
 msgid "Canceled"
 msgstr "Katkestatud"
 
@@ -3845,12 +3847,12 @@ msgid "Format"
 msgstr "Vorming"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
-#: ../widgets/table/e-table-click-to-add.c:495
-#: ../widgets/table/e-table-field-chooser-dialog.c:91
-#: ../widgets/table/e-table-field-chooser-item.c:651
-#: ../widgets/table/e-table-field-chooser.c:91
-#: ../widgets/table/e-table-header-item.c:1898
-#: ../widgets/table/e-table-selection-model.c:318
+#: ../widgets/table/e-table-click-to-add.c:493
+#: ../widgets/table/e-table-field-chooser-dialog.c:81
+#: ../widgets/table/e-table-field-chooser-item.c:650
+#: ../widgets/table/e-table-field-chooser.c:81
+#: ../widgets/table/e-table-header-item.c:1896
+#: ../widgets/table/e-table-selection-model.c:314
 msgid "Header"
 msgstr "Päis"
 
@@ -4044,10 +4046,11 @@ msgstr "Eksportimine asünkroonses režiimis"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
-"The number of cards in out output file in asynchronous mode, default size "
+"The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
-"Asünkroonses režiimis ühes väljundfailis olevate kaartide arv, vaikimisi 100."
+"Asünkroonses režiimis ühes väljundfailis olevate kaartide arv, vaikimisi "
+"suurus on 100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:65
 msgid "NUMBER"
@@ -4453,7 +4456,7 @@ msgid "_Save Changes"
 msgstr "_Salvesta muudatused"
 
 #: ../calendar/calendar.error.xml.h:74
-#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:140
+#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:139
 msgid "_Send"
 msgstr "_Saada"
 
@@ -4465,7 +4468,7 @@ msgstr "Saada _teavitus"
 msgid "{0}."
 msgstr "{0}."
 
-#: ../calendar/common/authentication.c:49 ../smime/gui/component.c:50
+#: ../calendar/common/authentication.c:50 ../smime/gui/component.c:50
 msgid "Enter password"
 msgstr "Sisesta parool"
 
@@ -4517,7 +4520,7 @@ msgid "Calendar and Tasks"
 msgstr "Kalender ja ülesanded"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1380
+#: ../calendar/gui/calendar-component.c:1394
 msgid "Calendars"
 msgstr "Kalendrid"
 
@@ -4558,21 +4561,22 @@ msgid "Memo_s"
 msgstr "_Märkmed"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memo-table.c:324 ../calendar/gui/e-memos.c:1093
-#: ../calendar/gui/gnome-cal.c:1669 ../calendar/gui/memos-component.c:536
-#: ../calendar/gui/memos-component.c:1013 ../calendar/gui/memos-control.c:336
+#: ../calendar/gui/e-memo-table.c:335 ../calendar/gui/e-memos.c:1093
+#: ../calendar/gui/gnome-cal.c:1669 ../calendar/gui/memos-component.c:544
+#: ../calendar/gui/memos-component.c:1021 ../calendar/gui/memos-control.c:336
 #: ../calendar/gui/memos-control.c:352
 msgid "Memos"
 msgstr "Märkmed"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:527 ../calendar/gui/e-tasks.c:1357
+#: ../calendar/gui/e-calendar-table.c:538 ../calendar/gui/e-tasks.c:1357
 #: ../calendar/gui/gnome-cal.c:1541 ../calendar/gui/print.c:1809
-#: ../calendar/gui/tasks-component.c:527
-#: ../calendar/gui/tasks-component.c:1018 ../calendar/gui/tasks-control.c:478
+#: ../calendar/gui/tasks-component.c:535
+#: ../calendar/gui/tasks-component.c:1026 ../calendar/gui/tasks-control.c:478
 #: ../calendar/gui/tasks-control.c:494
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:587
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:397
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:541
@@ -4603,7 +4607,7 @@ msgstr[1] "minutit"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
-#: ../plugins/calendar-http/calendar-http.c:287
+#: ../plugins/calendar-http/calendar-http.c:289
 #: ../plugins/calendar-weather/calendar-weather.c:562
 msgid "hours"
 msgid_plural "hours"
@@ -4634,7 +4638,7 @@ msgstr "_Edasilükkamise aeg:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:164
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:163
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
@@ -4716,8 +4720,12 @@ msgid "Could not initialize Bonobo"
 msgstr "Bonobot pole võimalik lähtestada"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:153
-msgid "Could not create the alarm notify service factory"
-msgstr "Alarmteavituse teenuse factory't pole võimalik luua"
+msgid ""
+"Could not create the alarm notify service factory, maybe it's already "
+"running..."
+msgstr ""
+"Alarmteavituse teenuse factory't pole võimalik luua, võibolla see juba "
+"töötab..."
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -5194,37 +5202,37 @@ msgstr "Kommentaar sisaldab"
 msgid "Location contains"
 msgstr "Asukoht sisaldab"
 
-#: ../calendar/gui/cal-search-bar.c:623 ../calendar/gui/cal-search-bar.c:666
-#: ../calendar/gui/cal-search-bar.c:685
+#: ../calendar/gui/cal-search-bar.c:622 ../calendar/gui/cal-search-bar.c:665
+#: ../calendar/gui/cal-search-bar.c:684
 msgid "Unmatched"
 msgstr "Vastavus puudub"
 
-#: ../calendar/gui/cal-search-bar.c:631
-msgid "Next 7 days Tasks"
-msgstr ""
+#: ../calendar/gui/cal-search-bar.c:630
+msgid "Next 7 Days' Tasks"
+msgstr "Järgneva 7 päeva ülesanded"
 
-#: ../calendar/gui/cal-search-bar.c:635
+#: ../calendar/gui/cal-search-bar.c:634
 msgid "Active Tasks"
 msgstr "Aktiivsed ülesanded"
 
-#: ../calendar/gui/cal-search-bar.c:639
-msgid "Over Due Tasks"
+#: ../calendar/gui/cal-search-bar.c:638
+msgid "Overdue Tasks"
 msgstr "Tähtaja ületanud ülesanded"
 
-#: ../calendar/gui/cal-search-bar.c:643
+#: ../calendar/gui/cal-search-bar.c:642
 msgid "Completed Tasks"
 msgstr "Lõpetatud ülesanded"
 
-#: ../calendar/gui/cal-search-bar.c:647
-msgid "Tasks With Attachments"
+#: ../calendar/gui/cal-search-bar.c:646
+msgid "Tasks with Attachments"
 msgstr "Manustega ülesanded"
 
-#: ../calendar/gui/cal-search-bar.c:693
+#: ../calendar/gui/cal-search-bar.c:692
 msgid "Active Appointments"
 msgstr "Aktiivsed sündmused"
 
-#: ../calendar/gui/cal-search-bar.c:697
-msgid "Next 7 Day Appointments"
+#: ../calendar/gui/cal-search-bar.c:696
+msgid "Next 7 Days' Appointments"
 msgstr "Järgneva 7 päeva sündmused"
 
 #: ../calendar/gui/calendar-commands.c:99 ../ui/evolution-addressbook.xml.h:26
@@ -5248,7 +5256,7 @@ msgstr "Puhastada sündmustest, mis on vanemad kui"
 
 #: ../calendar/gui/calendar-commands.c:335
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21 ../filter/filter.glade.h:14
-#: ../plugins/calendar-http/calendar-http.c:288
+#: ../plugins/calendar-http/calendar-http.c:290
 #: ../plugins/calendar-weather/calendar-weather.c:563
 #: ../widgets/misc/e-send-options.glade.h:38
 msgid "days"
@@ -5258,89 +5266,89 @@ msgstr "päeva"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:265
-#: ../calendar/gui/memos-component.c:227 ../calendar/gui/migration.c:511
+#: ../calendar/gui/calendar-component.c:272
+#: ../calendar/gui/memos-component.c:235 ../calendar/gui/migration.c:511
 #: ../calendar/gui/migration.c:609 ../calendar/gui/migration.c:1122
-#: ../calendar/gui/tasks-component.c:223
+#: ../calendar/gui/tasks-component.c:231
 msgid "On The Web"
 msgstr "Veebis"
 
-#: ../calendar/gui/calendar-component.c:283 ../calendar/gui/migration.c:405
+#: ../calendar/gui/calendar-component.c:290 ../calendar/gui/migration.c:405
 msgid "Birthdays & Anniversaries"
 msgstr "Sünnipäevad ja aastapäevad"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:290
+#: ../calendar/gui/calendar-component.c:299
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "Ilm"
 
-#: ../calendar/gui/calendar-component.c:588
+#: ../calendar/gui/calendar-component.c:602
 msgid "_New Calendar"
 msgstr "_Uus kalender"
 
-#: ../calendar/gui/calendar-component.c:918
+#: ../calendar/gui/calendar-component.c:932
 msgid "Failed upgrading calendars."
 msgstr "Tõrge kalendrite uuendamisel."
 
-#: ../calendar/gui/calendar-component.c:1217
+#: ../calendar/gui/calendar-component.c:1231
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Kalendrit '%s' pole võimalik sündmuste ja koosolekute loomiseks avada"
 
-#: ../calendar/gui/calendar-component.c:1233
+#: ../calendar/gui/calendar-component.c:1247
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Sündmuste ja koosolekute loomiseks pole kalendrit saadaval"
 
-#: ../calendar/gui/calendar-component.c:1355
+#: ../calendar/gui/calendar-component.c:1369
 msgid "Calendar Source Selector"
 msgstr "Kalendri allika valimine"
 
-#: ../calendar/gui/calendar-component.c:1563
+#: ../calendar/gui/calendar-component.c:1577
 msgid "New appointment"
 msgstr "Uus sündmus"
 
-#: ../calendar/gui/calendar-component.c:1564
+#: ../calendar/gui/calendar-component.c:1578
 msgid "_Appointment"
 msgstr "_Sündmus"
 
-#: ../calendar/gui/calendar-component.c:1565
+#: ../calendar/gui/calendar-component.c:1579
 msgid "Create a new appointment"
 msgstr "Uue sündmuse lisamine"
 
-#: ../calendar/gui/calendar-component.c:1571
+#: ../calendar/gui/calendar-component.c:1585
 msgid "New meeting"
 msgstr "Uus koosolek"
 
-#: ../calendar/gui/calendar-component.c:1572
+#: ../calendar/gui/calendar-component.c:1586
 msgid "M_eeting"
 msgstr "K_oosolek"
 
-#: ../calendar/gui/calendar-component.c:1573
+#: ../calendar/gui/calendar-component.c:1587
 msgid "Create a new meeting request"
 msgstr "Uue koosolekukutse loomine"
 
-#: ../calendar/gui/calendar-component.c:1579
+#: ../calendar/gui/calendar-component.c:1593
 msgid "New all day appointment"
 msgstr "Uus, kogu päeva hõlmav sündmus"
 
-#: ../calendar/gui/calendar-component.c:1580
+#: ../calendar/gui/calendar-component.c:1594
 msgid "All Day A_ppointment"
 msgstr "Kogu _päeva hõlmav sündmus"
 
-#: ../calendar/gui/calendar-component.c:1581
+#: ../calendar/gui/calendar-component.c:1595
 msgid "Create a new all-day appointment"
 msgstr "Uue kogu päeva hõlmava sündmuse lisamine"
 
-#: ../calendar/gui/calendar-component.c:1587
+#: ../calendar/gui/calendar-component.c:1601
 msgid "New calendar"
 msgstr "Uus kalender"
 
-#: ../calendar/gui/calendar-component.c:1588
+#: ../calendar/gui/calendar-component.c:1602
 msgid "Cale_ndar"
 msgstr "Kale_nder"
 
-#: ../calendar/gui/calendar-component.c:1589
+#: ../calendar/gui/calendar-component.c:1603
 msgid "Create a new calendar"
 msgstr "Uue kalendri loomine"
 
@@ -5362,12 +5370,12 @@ msgstr "Kuu vaade"
 
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
 #: ../calendar/gui/tasktypes.xml.h:2
-msgid "Description Contain"
+msgid "Description Contains"
 msgstr "Kirjeldus sisaldab"
 
 #: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
 #: ../calendar/gui/tasktypes.xml.h:3
-msgid "Summary Contain"
+msgid "Summary Contains"
 msgstr "Kokkuvõte sisaldab"
 
 #: ../calendar/gui/comp-editor-factory.c:415
@@ -5523,7 +5531,7 @@ msgstr "Manust on soovitatav kuvada _automaatselt"
 msgid "Attach file(s)"
 msgstr "Faili(de) manustamine"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:479
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:484
 msgid "Selected Calendars for Alarms"
 msgstr "Alarmidele valitud kalendrid"
 
@@ -5550,7 +5558,7 @@ msgstr ""
 "aadressist.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#: ../mail/mail-config.glade.h:8
+#: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Hoiatused</span>"
 
@@ -5559,7 +5567,7 @@ msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgstr "<span weight=\"bold\">Vaikimisi vaba/hõivatud server</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#: ../mail/mail-config.glade.h:16
+#: ../mail/mail-config.glade.h:17
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Üldine</span>"
@@ -5892,28 +5900,28 @@ msgstr " (Tähtaeg "
 msgid "Due "
 msgstr "Tähtaeg "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2917
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2960
 #, c-format
 msgid "Attached message - %s"
 msgstr "Manustatud sõnum - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2922
-#: ../composer/e-msg-composer.c:3117
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2965
+#: ../composer/e-msg-composer.c:3160
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Manustatud sõnum"
 msgstr[1] "%d manustatud sõnumit"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3181
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3224
 #: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:1038 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "_Tõsta ümber"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3183
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3226
 #: ../mail/em-folder-tree.c:1009 ../mail/message-list.c:1965
 msgid "Cancel _Drag"
 msgstr "Tühista _lohistamine"
@@ -5922,7 +5930,7 @@ msgstr "Tühista _lohistamine"
 msgid "Could not update object"
 msgstr "Objekti pole võimalik uuendada!"
 
-#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2534
+#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2577
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5940,7 +5948,7 @@ msgstr "Näita manuseri_ba"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
 #: ../calendar/gui/dialogs/event-page.c:1913
-#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3698
+#: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:3741
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5948,13 +5956,13 @@ msgid "_Remove"
 msgstr "_Eemalda"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3699 ../mail/em-folder-tree.c:2129
+#: ../composer/e-msg-composer.c:3742 ../mail/em-folder-tree.c:2129
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Omadused"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3701
+#: ../composer/e-msg-composer.c:3744
 msgid "_Add attachment..."
 msgstr "_Lisa manus..."
 
@@ -6139,7 +6147,7 @@ msgid "Event with no end date"
 msgstr "Sündmis ilma lõppkuupäevata"
 
 #: ../calendar/gui/dialogs/event-page.c:1272
-#: ../calendar/gui/dialogs/memo-page.c:685
+#: ../calendar/gui/dialogs/memo-page.c:683
 #: ../calendar/gui/dialogs/task-page.c:849
 msgid "Start date is wrong"
 msgstr "Alguskuupäev on vale"
@@ -6157,13 +6165,13 @@ msgid "End time is wrong"
 msgstr "Lõppemise aeg on vale"
 
 #: ../calendar/gui/dialogs/event-page.c:1469
-#: ../calendar/gui/dialogs/memo-page.c:720
+#: ../calendar/gui/dialogs/memo-page.c:718
 #: ../calendar/gui/dialogs/task-page.c:906
 msgid "The organizer selected no longer has an account."
 msgstr "Valitud korraldajal pole enam kontot."
 
 #: ../calendar/gui/dialogs/event-page.c:1475
-#: ../calendar/gui/dialogs/memo-page.c:726
+#: ../calendar/gui/dialogs/memo-page.c:724
 #: ../calendar/gui/dialogs/task-page.c:912
 msgid "An organizer is required."
 msgstr "Korraldaja peab olema määrtud."
@@ -6212,13 +6220,13 @@ msgstr "Kohandatud"
 #: ../calendar/gui/dialogs/event-page.c:2977
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2318
+#: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2361
 #: ../filter/filter-rule.c:891 ../mail/em-account-editor.c:701
-#: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:475
+#: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:478
 #: ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
-#: ../plugins/exchange-operations/exchange-delegates-user.c:194
+#: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:1910
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1504
@@ -6312,14 +6320,16 @@ msgstr "Korraldaja:"
 msgid "Memo"
 msgstr "Märge"
 
-#: ../calendar/gui/dialogs/memo-page.c:868
+#: ../calendar/gui/dialogs/memo-page.c:866
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "Märkmeid pole võimalik '%s'-s avada."
 
-#: ../calendar/gui/dialogs/memo-page.c:1019 ../mail/em-format-html.c:1503
-#: ../mail/em-format-quote.c:207 ../mail/em-format.c:851
-#: ../mail/em-mailer-prefs.c:89 ../mail/message-list.etspec.h:18
+#: ../calendar/gui/dialogs/memo-page.c:1017 ../mail/em-format-html.c:1508
+#: ../mail/em-format-html.c:1522 ../mail/em-format-html.c:1580
+#: ../mail/em-format-html.c:1606 ../mail/em-format-quote.c:207
+#: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
+#: ../mail/message-list.etspec.h:18
 msgid "To"
 msgstr "Kellele"
 
@@ -6568,7 +6578,7 @@ msgstr "<span weight=\"bold\">Olek</span>"
 #: ../calendar/gui/e-cal-component-preview.c:233
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:662
-#: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/e-itip-control.c:923
+#: ../calendar/gui/e-calendar-table.c:474 ../calendar/gui/e-itip-control.c:923
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/print.c:2348 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
@@ -6576,7 +6586,7 @@ msgstr "Lõpetatud"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:252
-#: ../calendar/gui/e-calendar-table.c:388 ../mail/message-list.c:1034
+#: ../calendar/gui/e-calendar-table.c:399 ../mail/message-list.c:1034
 msgid "High"
 msgstr "Kõrge"
 
@@ -6585,19 +6595,19 @@ msgstr "Kõrge"
 #: ../calendar/gui/e-cal-model-tasks.c:345
 #: ../calendar/gui/e-cal-model-tasks.c:660
 #: ../calendar/gui/e-cal-model-tasks.c:735
-#: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/print.c:2345
+#: ../calendar/gui/e-calendar-table.c:473 ../calendar/gui/print.c:2345
 msgid "In Progress"
 msgstr "Töös"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:256
-#: ../calendar/gui/e-calendar-table.c:390 ../mail/message-list.c:1032
+#: ../calendar/gui/e-calendar-table.c:401 ../mail/message-list.c:1032
 msgid "Low"
 msgstr "Madal"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:254
-#: ../calendar/gui/e-cal-model.c:924 ../calendar/gui/e-calendar-table.c:389
+#: ../calendar/gui/e-cal-model.c:924 ../calendar/gui/e-calendar-table.c:400
 #: ../mail/message-list.c:1033
 msgid "Normal"
 msgstr "Keskmine"
@@ -6606,7 +6616,7 @@ msgstr "Keskmine"
 #: ../calendar/gui/e-cal-component-preview.c:240
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:658
-#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2342
+#: ../calendar/gui/e-calendar-table.c:472 ../calendar/gui/print.c:2342
 msgid "Not Started"
 msgstr "Pole alanud"
 
@@ -6619,7 +6629,7 @@ msgid "Stat_us:"
 msgstr "_Olek:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
-#: ../calendar/gui/e-calendar-table.c:391
+#: ../calendar/gui/e-calendar-table.c:402
 msgid "Undefined"
 msgstr "Määramata"
 
@@ -6637,7 +6647,7 @@ msgid "_Web Page:"
 msgstr "_Koduleht:"
 
 #: ../calendar/gui/dialogs/task-editor.c:424
-#: ../calendar/gui/tasks-component.c:1250
+#: ../calendar/gui/tasks-component.c:1258
 msgid "_Task"
 msgstr "_Ülesanne"
 
@@ -6649,7 +6659,7 @@ msgstr "Ülesande üksikasjad"
 msgid "Due date is wrong"
 msgstr "Tähtaja kuupäev on vale"
 
-#: ../calendar/gui/dialogs/task-page.c:1650
+#: ../calendar/gui/dialogs/task-page.c:1646
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Ülesandeid pole võimalik '%s'-s avada."
@@ -6755,7 +6765,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s tundmatule trigeri tüübile"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3000
+#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3002
 #, c-format
 msgid "Click to open %s"
 msgstr "Klõpsa %s avamiseks"
@@ -6809,17 +6819,17 @@ msgid "Priority:"
 msgstr "Tähtsus:"
 
 #: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:314
-#: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:366
+#: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:377
 msgid "Public"
 msgstr "Avalik"
 
 #: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
-#: ../calendar/gui/e-calendar-table.c:367
+#: ../calendar/gui/e-calendar-table.c:378
 msgid "Private"
 msgstr "Isiklik"
 
 #: ../calendar/gui/e-cal-list-view.c:257 ../calendar/gui/e-cal-model.c:325
-#: ../calendar/gui/e-calendar-table.c:368
+#: ../calendar/gui/e-calendar-table.c:379
 msgid "Confidential"
 msgstr "Salajane"
 
@@ -6840,12 +6850,12 @@ msgid "Summary"
 msgstr "Kokkuvõte"
 
 #: ../calendar/gui/e-cal-model-calendar.c:183
-#: ../calendar/gui/e-calendar-table.c:440
+#: ../calendar/gui/e-calendar-table.c:451
 msgid "Free"
 msgstr "Vaba"
 
 #: ../calendar/gui/e-cal-model-calendar.c:186
-#: ../calendar/gui/e-calendar-table.c:441
+#: ../calendar/gui/e-calendar-table.c:452
 #: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Busy"
 msgstr "Hõivatud"
@@ -6885,7 +6895,7 @@ msgstr "Ei"
 #: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1206
 #: ../plugins/itip-formatter/itip-formatter.c:393
 #: ../plugins/itip-formatter/itip-formatter.c:1935
-#: ../plugins/plugin-manager/plugin-manager.c:77
+#: ../plugins/plugin-manager/plugin-manager.c:82
 #: ../widgets/misc/e-attachment-bar.c:712
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Unknown"
@@ -6912,8 +6922,8 @@ msgstr "Valitud manuste salvestamiseks kataloogi valimine..."
 msgid "untitled_image.%s"
 msgstr "nimetu_pilt.%s"
 
-#: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1283
-#: ../calendar/gui/e-calendar-view.c:1680 ../calendar/gui/e-memo-table.c:904
+#: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1355
+#: ../calendar/gui/e-calendar-view.c:1680 ../calendar/gui/e-memo-table.c:977
 #: ../mail/em-folder-view.c:1153 ../mail/em-popup.c:564 ../mail/em-popup.c:575
 msgid "_Save As..."
 msgstr "_Salvesta kui..."
@@ -6932,78 +6942,78 @@ msgstr "_Salvesta valik"
 msgid "Open in %s..."
 msgstr "Ava programmiga %s..."
 
-#: ../calendar/gui/e-calendar-table.c:410
+#: ../calendar/gui/e-calendar-table.c:421
 msgid "0%"
 msgstr "0%"
 
-#: ../calendar/gui/e-calendar-table.c:411
+#: ../calendar/gui/e-calendar-table.c:422
 msgid "10%"
 msgstr "10%"
 
-#: ../calendar/gui/e-calendar-table.c:412
+#: ../calendar/gui/e-calendar-table.c:423
 msgid "20%"
 msgstr "20%"
 
-#: ../calendar/gui/e-calendar-table.c:413
+#: ../calendar/gui/e-calendar-table.c:424
 msgid "30%"
 msgstr "30%"
 
-#: ../calendar/gui/e-calendar-table.c:414
+#: ../calendar/gui/e-calendar-table.c:425
 msgid "40%"
 msgstr "40%"
 
-#: ../calendar/gui/e-calendar-table.c:415
+#: ../calendar/gui/e-calendar-table.c:426
 msgid "50%"
 msgstr "50%"
 
-#: ../calendar/gui/e-calendar-table.c:416
+#: ../calendar/gui/e-calendar-table.c:427
 msgid "60%"
 msgstr "60%"
 
-#: ../calendar/gui/e-calendar-table.c:417
+#: ../calendar/gui/e-calendar-table.c:428
 msgid "70%"
 msgstr "70%"
 
-#: ../calendar/gui/e-calendar-table.c:418
+#: ../calendar/gui/e-calendar-table.c:429
 msgid "80%"
 msgstr "80%"
 
-#: ../calendar/gui/e-calendar-table.c:419
+#: ../calendar/gui/e-calendar-table.c:430
 msgid "90%"
 msgstr "90%"
 
-#: ../calendar/gui/e-calendar-table.c:420
+#: ../calendar/gui/e-calendar-table.c:431
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:705
-#: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:483
+#: ../calendar/gui/e-calendar-table.c:716
+#: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:494
 msgid "Deleting selected objects"
 msgstr "Valitud objektide kustutamine"
 
-#: ../calendar/gui/e-calendar-table.c:958
-#: ../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:660
+#: ../calendar/gui/e-calendar-table.c:995
+#: ../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:697
 msgid "Updating objects"
 msgstr "Objektide uuendamine"
 
-#: ../calendar/gui/e-calendar-table.c:1107
-#: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:799
-#: ../composer/e-msg-composer.c:1355
+#: ../calendar/gui/e-calendar-table.c:1179
+#: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:872
+#: ../composer/e-msg-composer.c:1398
 msgid "Save as..."
 msgstr "Salvestamine teise nimega..."
 
-#: ../calendar/gui/e-calendar-table.c:1278
+#: ../calendar/gui/e-calendar-table.c:1350
 #: ../calendar/gui/e-calendar-view.c:1662
 msgid "New _Task"
 msgstr "Uus ü_lesanne"
 
-#: ../calendar/gui/e-calendar-table.c:1282 ../calendar/gui/e-memo-table.c:903
+#: ../calendar/gui/e-calendar-table.c:1354 ../calendar/gui/e-memo-table.c:976
 msgid "Open _Web Page"
 msgstr "_Ava veebileht"
 
-#: ../calendar/gui/e-calendar-table.c:1284
+#: ../calendar/gui/e-calendar-table.c:1356
 #: ../calendar/gui/e-calendar-view.c:1665
-#: ../calendar/gui/e-calendar-view.c:1681 ../calendar/gui/e-memo-table.c:905
+#: ../calendar/gui/e-calendar-view.c:1681 ../calendar/gui/e-memo-table.c:978
 #: ../mail/em-folder-view.c:1154
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
@@ -7012,52 +7022,52 @@ msgstr "_Ava veebileht"
 msgid "_Print..."
 msgstr "_Prindi..."
 
-#: ../calendar/gui/e-calendar-table.c:1288
-#: ../calendar/gui/e-calendar-view.c:1685 ../calendar/gui/e-memo-table.c:909
+#: ../calendar/gui/e-calendar-table.c:1360
+#: ../calendar/gui/e-calendar-view.c:1685 ../calendar/gui/e-memo-table.c:982
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Lõika"
 
-#: ../calendar/gui/e-calendar-table.c:1290
+#: ../calendar/gui/e-calendar-table.c:1362
 #: ../calendar/gui/e-calendar-view.c:1668
-#: ../calendar/gui/e-calendar-view.c:1687 ../calendar/gui/e-memo-table.c:911
+#: ../calendar/gui/e-calendar-view.c:1687 ../calendar/gui/e-memo-table.c:984
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:43
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "_Aseta"
 
-#: ../calendar/gui/e-calendar-table.c:1294 ../ui/evolution-tasks.xml.h:22
+#: ../calendar/gui/e-calendar-table.c:1366 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "_Määra ülesanne"
 
-#: ../calendar/gui/e-calendar-table.c:1295 ../calendar/gui/e-memo-table.c:915
+#: ../calendar/gui/e-calendar-table.c:1367 ../calendar/gui/e-memo-table.c:988
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "_Edasta iKalendrina"
 
-#: ../calendar/gui/e-calendar-table.c:1296
+#: ../calendar/gui/e-calendar-table.c:1368
 msgid "_Mark as Complete"
 msgstr "_Märgi lõpetatuks"
 
-#: ../calendar/gui/e-calendar-table.c:1297
+#: ../calendar/gui/e-calendar-table.c:1369
 msgid "_Mark Selected Tasks as Complete"
 msgstr "_Märgi valitud ülesanne lõpetatuks"
 
-#: ../calendar/gui/e-calendar-table.c:1298
+#: ../calendar/gui/e-calendar-table.c:1370
 msgid "_Mark as Incomplete"
 msgstr "_Märgi kui lõpetamata"
 
-#: ../calendar/gui/e-calendar-table.c:1299
+#: ../calendar/gui/e-calendar-table.c:1371
 msgid "_Mark Selected Tasks as Incomplete"
 msgstr "_Märgi valitud ülesanded kui lõpetamata"
 
-#: ../calendar/gui/e-calendar-table.c:1304
+#: ../calendar/gui/e-calendar-table.c:1376
 msgid "_Delete Selected Tasks"
 msgstr "_Kustuta valitud ülesanded"
 
-#: ../calendar/gui/e-calendar-table.c:1537
+#: ../calendar/gui/e-calendar-table.c:1610
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Ülesande lisamiseks klõpsa siia"
@@ -7067,7 +7077,7 @@ msgstr "Ülesande lisamiseks klõpsa siia"
 msgid "% Complete"
 msgstr "(%) valmis"
 
-#: ../calendar/gui/e-calendar-table.etspec.h:5 ../mail/mail-send-recv.c:698
+#: ../calendar/gui/e-calendar-table.etspec.h:5
 msgid "Complete"
 msgstr "Lõpetatud"
 
@@ -7232,21 +7242,21 @@ msgstr "%02i-minutiline jaotamine"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:1311
-#: ../calendar/gui/e-day-view.c:2089
+#: ../calendar/gui/e-day-view-top-item.c:1314
+#: ../calendar/gui/e-day-view.c:2092
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1503
 msgid "%A %d %B"
 msgstr "%A, %d. %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:746 ../calendar/gui/e-day-view.c:1089
+#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1092
 #: ../calendar/gui/e-week-view.c:503 ../calendar/gui/print.c:811
 msgid "am"
 msgstr "el"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1092
+#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-day-view.c:1095
 #: ../calendar/gui/e-week-view.c:506 ../calendar/gui/print.c:813
 msgid "pm"
 msgstr "pl"
@@ -7913,11 +7923,11 @@ msgstr "Keel"
 msgid "Member"
 msgstr "Liige"
 
-#: ../calendar/gui/e-memo-table.c:920
+#: ../calendar/gui/e-memo-table.c:993
 msgid "_Delete Selected Memos"
 msgstr "_Kustuta valitud märkmed"
 
-#: ../calendar/gui/e-memo-table.c:1071 ../calendar/gui/e-memo-table.etspec.h:2
+#: ../calendar/gui/e-memo-table.c:1144 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
 msgstr "Märkme lisamiseks klõpsa siia"
 
@@ -8127,75 +8137,75 @@ msgstr "iKalendri info"
 msgid "You must be an attendee of the event."
 msgstr "Sa pead ise olema sündmusest osavõtja."
 
-#: ../calendar/gui/memos-component.c:456
+#: ../calendar/gui/memos-component.c:464
 msgid "_New Memo List"
 msgstr "_Uus märkmeloend"
 
-#: ../calendar/gui/memos-component.c:532
+#: ../calendar/gui/memos-component.c:540
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "%d märge"
 msgstr[1] "%d märget"
 
-#: ../calendar/gui/memos-component.c:534 ../calendar/gui/tasks-component.c:525
+#: ../calendar/gui/memos-component.c:542 ../calendar/gui/tasks-component.c:533
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", %d valitud"
 msgstr[1] ", %d valitud"
 
-#: ../calendar/gui/memos-component.c:581
+#: ../calendar/gui/memos-component.c:589
 msgid "Failed upgrading memos."
 msgstr "Tõrge märkmete uuendamisel."
 
-#: ../calendar/gui/memos-component.c:879
+#: ../calendar/gui/memos-component.c:887
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr ""
 "Märkmeloendit '%s' pole võimalik sündmuste ja koosolekute loomiseks avada"
 
-#: ../calendar/gui/memos-component.c:892
+#: ../calendar/gui/memos-component.c:900
 msgid "There is no calendar available for creating memos"
 msgstr "Märkmete loomiseks pole ühtegi kalendrit saadaval"
 
-#: ../calendar/gui/memos-component.c:988
+#: ../calendar/gui/memos-component.c:996
 msgid "Memo Source Selector"
 msgstr "Märkmete allika valija"
 
-#: ../calendar/gui/memos-component.c:1171
+#: ../calendar/gui/memos-component.c:1179
 msgid "New memo"
 msgstr "Uus märge"
 
-#: ../calendar/gui/memos-component.c:1172
+#: ../calendar/gui/memos-component.c:1180
 msgid "Mem_o"
 msgstr "Mär_ge"
 
-#: ../calendar/gui/memos-component.c:1173
+#: ../calendar/gui/memos-component.c:1181
 msgid "Create a new memo"
 msgstr "Uue märkme loomine"
 
-#: ../calendar/gui/memos-component.c:1179
+#: ../calendar/gui/memos-component.c:1187
 msgid "New shared memo"
 msgstr "Uus jagatud märge"
 
-#: ../calendar/gui/memos-component.c:1180
+#: ../calendar/gui/memos-component.c:1188
 msgid "_Shared memo"
 msgstr "_Jagatud märge"
 
-#: ../calendar/gui/memos-component.c:1181
+#: ../calendar/gui/memos-component.c:1189
 msgid "Create a shared new memo"
 msgstr "Uue jagatud märkme loomine"
 
-#: ../calendar/gui/memos-component.c:1187
+#: ../calendar/gui/memos-component.c:1195
 msgid "New memo list"
 msgstr "Uus märkmeloend"
 
-#: ../calendar/gui/memos-component.c:1188
+#: ../calendar/gui/memos-component.c:1196
 msgid "Memo li_st"
 msgstr "_Märkmeloend"
 
-#: ../calendar/gui/memos-component.c:1189
+#: ../calendar/gui/memos-component.c:1197
 msgid "Create a new memo list"
 msgstr "Uue märkmeloendi loomine"
 
@@ -8452,65 +8462,65 @@ msgstr "Kontaktid:"
 msgid "Upcoming Appointments"
 msgstr "Saabuvad sündmused"
 
-#: ../calendar/gui/tasks-component.c:447
+#: ../calendar/gui/tasks-component.c:455
 msgid "_New Task List"
 msgstr "Uus ü_lesandeloend"
 
-#: ../calendar/gui/tasks-component.c:523
+#: ../calendar/gui/tasks-component.c:531
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d ülesanne"
 msgstr[1] "%d ülesannet"
 
-#: ../calendar/gui/tasks-component.c:572
+#: ../calendar/gui/tasks-component.c:580
 msgid "Failed upgrading tasks."
 msgstr "Tõrge ülesannete uuendamisel."
 
-#: ../calendar/gui/tasks-component.c:883
+#: ../calendar/gui/tasks-component.c:891
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "Ülesannete loendit '%s' pole võimalik sündmuste ja koosolekute loomiseks "
 "avada"
 
-#: ../calendar/gui/tasks-component.c:896
+#: ../calendar/gui/tasks-component.c:904
 msgid "There is no calendar available for creating tasks"
 msgstr "Ülesannete loomiseks pole ühtegi kalendrit saadaval"
 
-#: ../calendar/gui/tasks-component.c:993
+#: ../calendar/gui/tasks-component.c:1001
 msgid "Task Source Selector"
 msgstr "Ülesannete allika valija"
 
-#: ../calendar/gui/tasks-component.c:1249
+#: ../calendar/gui/tasks-component.c:1257
 msgid "New task"
 msgstr "Uus ülesanne"
 
-#: ../calendar/gui/tasks-component.c:1251
+#: ../calendar/gui/tasks-component.c:1259
 msgid "Create a new task"
 msgstr "Uue ülesande loomine"
 
-#: ../calendar/gui/tasks-component.c:1257
+#: ../calendar/gui/tasks-component.c:1265
 msgid "New assigned task"
 msgstr "Uus omistatud ülesanne"
 
-#: ../calendar/gui/tasks-component.c:1258
+#: ../calendar/gui/tasks-component.c:1266
 msgid "Assigne_d Task"
 msgstr "_Omistatud ülesanne"
 
-#: ../calendar/gui/tasks-component.c:1259
+#: ../calendar/gui/tasks-component.c:1267
 msgid "Create a new assigned task"
 msgstr "Uue omistatud ülesande loomine"
 
-#: ../calendar/gui/tasks-component.c:1265
+#: ../calendar/gui/tasks-component.c:1273
 msgid "New task list"
 msgstr "Uus ülesandeloend"
 
-#: ../calendar/gui/tasks-component.c:1266
+#: ../calendar/gui/tasks-component.c:1274
 msgid "Tas_k list"
 msgstr "Ü_lesandeloend"
 
-#: ../calendar/gui/tasks-component.c:1267
+#: ../calendar/gui/tasks-component.c:1275
 msgid "Create a new task list"
 msgstr "Uue ülesandeloendi loomine"
 
@@ -10208,52 +10218,52 @@ msgstr ""
 "Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole "
 "krüptimissertifikaati määratud."
 
-#: ../composer/e-msg-composer.c:1301 ../composer/e-msg-composer.c:2563
+#: ../composer/e-msg-composer.c:1344 ../composer/e-msg-composer.c:2606
 msgid "Hide _Attachment Bar"
 msgstr "Peida _manuseriba"
 
-#: ../composer/e-msg-composer.c:1304 ../composer/e-msg-composer.c:2566
-#: ../composer/e-msg-composer.c:3944
+#: ../composer/e-msg-composer.c:1347 ../composer/e-msg-composer.c:2609
+#: ../composer/e-msg-composer.c:3987
 msgid "Show _Attachment Bar"
 msgstr "Näita _manuseriba"
 
-#: ../composer/e-msg-composer.c:1336 ../composer/e-msg-composer.c:1370
+#: ../composer/e-msg-composer.c:1379 ../composer/e-msg-composer.c:1413
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Tundmatu põhjus"
 
-#: ../composer/e-msg-composer.c:1408
+#: ../composer/e-msg-composer.c:1451
 msgid "Could not open file"
 msgstr "Faili pole võimalik avada"
 
-#: ../composer/e-msg-composer.c:1416
+#: ../composer/e-msg-composer.c:1459
 msgid "Unable to retrieve message from editor"
 msgstr "Sõnumit pole võimalik redaktorist kätte saada"
 
-#: ../composer/e-msg-composer.c:1701
+#: ../composer/e-msg-composer.c:1744
 msgid "Untitled Message"
 msgstr "Pealkirjata sõnum"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1736
+#: ../composer/e-msg-composer.c:1779
 msgid "Open File"
 msgstr "Ava fail"
 
-#: ../composer/e-msg-composer.c:2198 ../mail/em-account-editor.c:606
+#: ../composer/e-msg-composer.c:2241 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Automaatselt koostatud"
 
-#: ../composer/e-msg-composer.c:2301
+#: ../composer/e-msg-composer.c:2344
 msgid "Si_gnature:"
 msgstr "Si_gnatuur:"
 
-#: ../composer/e-msg-composer.c:2577 ../composer/e-msg-composer.c:3826
-#: ../composer/e-msg-composer.c:3829
+#: ../composer/e-msg-composer.c:2620 ../composer/e-msg-composer.c:3869
+#: ../composer/e-msg-composer.c:3872
 msgid "Compose Message"
 msgstr "Sõnumi koostamine"
 
-#: ../composer/e-msg-composer.c:5054
+#: ../composer/e-msg-composer.c:5097
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10453,7 +10463,7 @@ msgstr "Sisemine viga, küsiti tundmatut viga '%s'"
 
 #: ../e-util/e-print.c:136
 msgid "An error occurred while printing"
-msgstr ""
+msgstr "Printimise ajal tekkis viga"
 
 #: ../e-util/e-print.c:143
 msgid "The printing system reported the following details about the error:"
@@ -10484,7 +10494,7 @@ msgstr "Fail &quot;{0}&quot; on juba olemas."
 msgid "Overwrite file?"
 msgstr "Fail üle kirjutada?"
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:139
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:138
 msgid "_Overwrite"
 msgstr "_Kirjuta üle"
 
@@ -10615,7 +10625,7 @@ msgstr "Tähtis"
 
 #. forest green
 #: ../filter/filter-label.c:123 ../mail/em-migrate.c:1057
-#: ../mail/mail-config.glade.h:150
+#: ../mail/mail-config.glade.h:148
 msgid "To Do"
 msgstr "Ülesanne"
 
@@ -10698,7 +10708,7 @@ msgstr "Kuupäev on puudu."
 msgid "Missing file name."
 msgstr "Failinimi on puudu."
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:75
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:74
 msgid "Missing name."
 msgstr "Nimi on puudu."
 
@@ -10786,7 +10796,7 @@ msgstr "praegune aeg"
 msgid "the time you specify"
 msgstr "sinu poolt määratud aeg"
 
-#: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:289
+#: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:291
 #: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "weeks"
 msgstr "nädalat"
@@ -10858,7 +10868,7 @@ msgid "Mail"
 msgstr "E-post"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
-#: ../mail/em-account-prefs.c:532
+#: ../mail/em-account-prefs.c:535
 msgid "Mail Accounts"
 msgstr "Postikontod"
 
@@ -10910,7 +10920,7 @@ msgstr "E-posti vastuvõtmine"
 msgid "Automatically check for _new mail every"
 msgstr "Uusi sõnumeid _kontrollitakse automaatselt vahemikuga"
 
-#: ../mail/em-account-editor.c:2227 ../mail/mail-config.glade.h:134
+#: ../mail/em-account-editor.c:2227 ../mail/mail-config.glade.h:132
 msgid "Sending Email"
 msgstr "Kirjade saatmine"
 
@@ -10933,7 +10943,7 @@ msgstr "Vastuvõtmise valikud"
 msgid "Checking for New Mail"
 msgstr "Uute sõnumite kontroll"
 
-#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:32
+#: ../mail/em-account-editor.c:2832 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Kontoredaktor"
 
@@ -10941,33 +10951,33 @@ msgstr "Kontoredaktor"
 msgid "Evolution Account Assistant"
 msgstr "Evolutioni kontoabiline"
 
-#: ../mail/em-account-prefs.c:331 ../mail/em-account-prefs.c:376
-#: ../mail/em-account-prefs.c:409
+#: ../mail/em-account-prefs.c:334 ../mail/em-account-prefs.c:379
+#: ../mail/em-account-prefs.c:412
 msgid "Di_sable"
 msgstr "_Keelamine"
 
-#: ../mail/em-account-prefs.c:331 ../mail/em-account-prefs.c:376
-#: ../mail/em-account-prefs.c:411 ../mail/mail-config.glade.h:74
+#: ../mail/em-account-prefs.c:334 ../mail/em-account-prefs.c:379
+#: ../mail/em-account-prefs.c:414 ../mail/mail-config.glade.h:74
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
 msgid "E_nable"
 msgstr "_Lubamine"
 
 #. translators: default account indicator
-#: ../mail/em-account-prefs.c:466
+#: ../mail/em-account-prefs.c:469
 msgid "[Default]"
 msgstr "[Vaikimisi]"
 
-#: ../mail/em-account-prefs.c:519 ../mail/em-composer-prefs.c:945
-#: ../plugins/plugin-manager/plugin-manager.c:261
+#: ../mail/em-account-prefs.c:522 ../mail/em-composer-prefs.c:949
+#: ../plugins/plugin-manager/plugin-manager.c:284
 #: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
 msgstr "Lubatud"
 
-#: ../mail/em-account-prefs.c:525
+#: ../mail/em-account-prefs.c:528
 msgid "Account name"
 msgstr "Konto nimi"
 
-#: ../mail/em-account-prefs.c:527
+#: ../mail/em-account-prefs.c:530
 msgid "Protocol"
 msgstr "Protokoll"
 
@@ -10976,15 +10986,15 @@ msgstr "Protokoll"
 msgid "Unnamed"
 msgstr "Nimetu"
 
-#: ../mail/em-composer-prefs.c:951
+#: ../mail/em-composer-prefs.c:955
 msgid "Language(s)"
 msgstr "Keel(ed)"
 
-#: ../mail/em-composer-prefs.c:994
+#: ../mail/em-composer-prefs.c:998
 msgid "Add signature script"
 msgstr "Allkirjaskripti lisamine"
 
-#: ../mail/em-composer-prefs.c:1014
+#: ../mail/em-composer-prefs.c:1018
 msgid "Signature(s)"
 msgstr "Allkiri(jad)"
 
@@ -11265,8 +11275,8 @@ msgstr "algab stringiga"
 msgid "Stop Processing"
 msgstr "Seiska töötlus"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1674
-#: ../mail/em-format-quote.c:320 ../mail/em-format.c:854
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1679
+#: ../mail/em-format-quote.c:320 ../mail/em-format.c:855
 #: ../mail/em-mailer-prefs.c:92 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
 #: ../plugins/groupwise-features/properties.glade.h:6
@@ -11280,54 +11290,54 @@ msgstr "Määramata olek"
 
 #. and now for the action area
 #: ../mail/em-filter-rule.c:488
-msgid "<b>Then</b>"
-msgstr "<b>siis</b>"
+msgid "Then"
+msgstr "Siis"
 
-#: ../mail/em-folder-browser.c:170
+#: ../mail/em-folder-browser.c:171
 msgid "C_reate Search Folder From Search..."
 msgstr "Loo o_tsingu põhjal otsingukaust..."
 
-#: ../mail/em-folder-browser.c:192
+#: ../mail/em-folder-browser.c:193
 msgid "All Messages"
 msgstr "Kõik sõnumid"
 
-#: ../mail/em-folder-browser.c:193
+#: ../mail/em-folder-browser.c:194
 msgid "Unread Messages"
 msgstr "Lugemata sõnumid"
 
-#: ../mail/em-folder-browser.c:195
+#: ../mail/em-folder-browser.c:196
 msgid "No Label"
 msgstr "Silt puudub"
 
-#: ../mail/em-folder-browser.c:202
+#: ../mail/em-folder-browser.c:203
 msgid "Read Messages"
 msgstr "Loetud sõnumid"
 
-#: ../mail/em-folder-browser.c:203
+#: ../mail/em-folder-browser.c:204
 msgid "Recent Messages"
 msgstr "Värsked sõnumid"
 
-#: ../mail/em-folder-browser.c:204
+#: ../mail/em-folder-browser.c:205
 msgid "Last 5 Days' Messages"
 msgstr "Viimase 5 päeva sõnumid"
 
-#: ../mail/em-folder-browser.c:205
+#: ../mail/em-folder-browser.c:206
 msgid "Messages with Attachments"
 msgstr "Manustega sõnumid"
 
-#: ../mail/em-folder-browser.c:206
+#: ../mail/em-folder-browser.c:207
 msgid "Important Messages"
 msgstr "Tähtsad sõnumid"
 
-#: ../mail/em-folder-browser.c:207
+#: ../mail/em-folder-browser.c:208
 msgid "Messages Not Junk"
 msgstr "Sõnumid, mis pole rämpspost"
 
-#: ../mail/em-folder-browser.c:1025
+#: ../mail/em-folder-browser.c:1026
 msgid "Account Search"
 msgstr "Kontootsing"
 
-#: ../mail/em-folder-browser.c:1069
+#: ../mail/em-folder-browser.c:1070
 msgid "All Account Search"
 msgstr "Otring kõigi kontode hulgast"
 
@@ -11378,8 +11388,9 @@ msgid "Drafts"
 msgstr "Mustandid"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2462
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2567
 #: ../mail/mail-component.c:151
+#: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Sisendkast"
@@ -11494,7 +11505,7 @@ msgstr "_Värskenda"
 msgid "Fl_ush Outbox"
 msgstr ""
 
-#: ../mail/em-folder-tree.c:2131 ../mail/mail.error.xml.h:136
+#: ../mail/em-folder-tree.c:2131 ../mail/mail.error.xml.h:135
 msgid "_Empty Trash"
 msgstr "_Tühjenda prügikast"
 
@@ -11656,37 +11667,37 @@ msgstr "UTF-8"
 msgid "Unable to retrieve message"
 msgstr "Sõnumit pole võimalik vastu võtta"
 
-#: ../mail/em-folder-view.c:2377
-msgid "<b>Retrieving Message...</b>"
-msgstr "<b>Sõnumi vastuvõtmine...</b>"
+#: ../mail/em-folder-view.c:2375
+msgid "Retrieving Message..."
+msgstr "Sõnumi vastuvõtmine..."
 
-#: ../mail/em-folder-view.c:2601
+#: ../mail/em-folder-view.c:2603
 msgid "C_all To..."
 msgstr ""
 
-#: ../mail/em-folder-view.c:2604
+#: ../mail/em-folder-view.c:2606
 msgid "Create _Search Folder"
 msgstr "Loo uus _otsingukaust"
 
-#: ../mail/em-folder-view.c:2605
+#: ../mail/em-folder-view.c:2607
 msgid "_From this Address"
 msgstr "_Sellelt aadressilt"
 
-#: ../mail/em-folder-view.c:2606
+#: ../mail/em-folder-view.c:2608
 msgid "_To this Address"
 msgstr "S_ellele aadressile"
 
-#: ../mail/em-folder-view.c:2981
+#: ../mail/em-folder-view.c:2983
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klõpsa, et saata sõnumit aadressile %s"
 
-#: ../mail/em-folder-view.c:2993
+#: ../mail/em-folder-view.c:2995
 #, c-format
 msgid "Click to call %s"
 msgstr ""
 
-#: ../mail/em-folder-view.c:2998
+#: ../mail/em-folder-view.c:3000
 msgid "Click to hide/unhide addresses"
 msgstr "Klõpsa aadresside peitmiseks/nähtavale toomiseks"
 
@@ -11847,7 +11858,7 @@ msgid "Show _Original Size"
 msgstr "Näita _algset suurust"
 
 #: ../mail/em-format-html-display.c:1903 ../mail/em-format-html-display.c:2514
-#: ../mail/mail-config.glade.h:43 ../mail/message-list.etspec.h:1
+#: ../mail/mail-config.glade.h:44 ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Manus"
 
@@ -11950,97 +11961,113 @@ msgstr "Viide tundmatutele välistele andmetele (tüüp \"%s\")"
 msgid "Formatting message"
 msgstr "Sõnumi vormindamine"
 
-#: ../mail/em-format-html.c:1503 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:87
+#: ../mail/em-format-html.c:1376
+msgid "Formatting Message..."
+msgstr "Sõnumi vormindamine..."
+
+#: ../mail/em-format-html.c:1508 ../mail/em-format-quote.c:207
+#: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:87
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "Saatja"
 
-#: ../mail/em-format-html.c:1503 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:88
+#: ../mail/em-format-html.c:1508 ../mail/em-format-quote.c:207
+#: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
 msgstr "Vastus-Kuhu"
 
-#: ../mail/em-format-html.c:1503 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:90
+#: ../mail/em-format-html.c:1508 ../mail/em-format-html.c:1523
+#: ../mail/em-format-html.c:1587 ../mail/em-format-html.c:1609
+#: ../mail/em-format-quote.c:207 ../mail/em-format.c:853
+#: ../mail/em-mailer-prefs.c:90
 msgid "Cc"
 msgstr "Koopia"
 
-#: ../mail/em-format-html.c:1503 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:853 ../mail/em-mailer-prefs.c:91
+#: ../mail/em-format-html.c:1508 ../mail/em-format-html.c:1524
+#: ../mail/em-format-html.c:1593 ../mail/em-format-html.c:1612
+#: ../mail/em-format-quote.c:207 ../mail/em-format.c:854
+#: ../mail/em-mailer-prefs.c:91
 msgid "Bcc"
 msgstr "Pimekoopia"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1678 ../mail/em-format-quote.c:329
-#: ../mail/em-mailer-prefs.c:1182
+#: ../mail/em-format-html.c:1683 ../mail/em-format-quote.c:329
+#: ../mail/em-mailer-prefs.c:1195
 msgid "Mailer"
 msgstr "Postiprogramm"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1705
-msgid "<I> (%a, %R %Z)</I>"
-msgstr "<I> (%a, %R %Z)</I>"
+#: ../mail/em-format-html.c:1710
+msgid " (%a, %R %Z)"
+msgstr " (%a, %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1708
-msgid "<I> (%R %Z)</I>"
-msgstr "<I> (%R %Z)</I>"
+#: ../mail/em-format-html.c:1715
+msgid " (%R %Z)"
+msgstr " (%R %Z)"
 
-#: ../mail/em-format-html.c:1718 ../mail/em-format-quote.c:336
-#: ../mail/em-format.c:855 ../mail/em-mailer-prefs.c:93
+#: ../mail/em-format-html.c:1727 ../mail/em-format-quote.c:336
+#: ../mail/em-format.c:856 ../mail/em-mailer-prefs.c:93
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Kuupäev"
 
-#: ../mail/em-format-html.c:1741 ../mail/em-format.c:856
+#: ../mail/em-format-html.c:1750 ../mail/em-format.c:857
 #: ../mail/em-mailer-prefs.c:94
 msgid "Newsgroups"
 msgstr "Uudisegrupid"
 
-#: ../mail/em-format.c:1120
+#. To translators: This message suggests to the receipients that the sender of the mail is
+#. different from the one listed in From field.
+#.
+#: ../mail/em-format-html.c:1837
+#, c-format
+msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
+msgstr ""
+
+#: ../mail/em-format.c:1121
 #, c-format
 msgid "%s attachment"
 msgstr "\"%s\" tüüpi manus"
 
-#: ../mail/em-format.c:1159
+#: ../mail/em-format.c:1160
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "S/MIME sõnumit pole võimalik analüüsida: Tundmatu viga"
 
-#: ../mail/em-format.c:1292 ../mail/em-format.c:1448
+#: ../mail/em-format.c:1293 ../mail/em-format.c:1449
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "MIME sõnumit pole võimalik analüüsida. Kuvatakse lähtekoodina."
 
-#: ../mail/em-format.c:1300
+#: ../mail/em-format.c:1301
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Toetamata krüptimistüüp multipart/encrypted sõnumile"
 
-#: ../mail/em-format.c:1310
+#: ../mail/em-format.c:1311
 msgid "Could not parse PGP/MIME message"
 msgstr "PGP/MIME sõnumit pole võimalik analüüsida"
 
-#: ../mail/em-format.c:1310
+#: ../mail/em-format.c:1311
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "PGP/MIME sõnumit pole võimalik analüüsida: Tundmatu viga"
 
-#: ../mail/em-format.c:1467
+#: ../mail/em-format.c:1468
 msgid "Unsupported signature format"
 msgstr "Toetamata allkirjavorming"
 
-#: ../mail/em-format.c:1475 ../mail/em-format.c:1541
+#: ../mail/em-format.c:1476 ../mail/em-format.c:1542
 msgid "Error verifying signature"
 msgstr "Viga allkirja tõestamisel"
 
-#: ../mail/em-format.c:1475 ../mail/em-format.c:1541
+#: ../mail/em-format.c:1476 ../mail/em-format.c:1542
 msgid "Unknown error verifying signature"
 msgstr "Tundmatu viga allkirja tõestamisel"
 
-#: ../mail/em-format.c:1612
+#: ../mail/em-format.c:1613
 msgid "Could not parse PGP message"
 msgstr "PGP-sõnumit pole võimalik analüüsida"
 
-#: ../mail/em-format.c:1612
+#: ../mail/em-format.c:1613
 msgid "Could not parse PGP message: Unknown error"
 msgstr "PGP-sõnumit pole võimalik analüüsida: Tundmatu viga"
 
@@ -12060,18 +12087,18 @@ msgstr "Kord nädalas"
 msgid "Once per month"
 msgstr "Kord kuus"
 
-#: ../mail/em-mailer-prefs.c:777
+#: ../mail/em-mailer-prefs.c:787
 #, c-format
 msgid "%s plugin is available and the binary is installed."
 msgstr "%s plugin on saadaval ja binaarfail on paigaldatud."
 
-#: ../mail/em-mailer-prefs.c:785
+#: ../mail/em-mailer-prefs.c:795
 #, c-format
 msgid ""
 "%s plugin is not available. Please check whether the package is installed."
 msgstr "%s plugin pole saadaval. Palun kontrolli, kas see pakk on paigaldatud."
 
-#: ../mail/em-mailer-prefs.c:806
+#: ../mail/em-mailer-prefs.c:816
 msgid "No Junk plugin available"
 msgstr "Räpsposti plugin pole saadaval"
 
@@ -13057,157 +13084,157 @@ msgid "<b>Sig_natures</b>"
 msgstr "<b>All_kirjad</b>"
 
 #: ../mail/mail-config.glade.h:6
+msgid "<b>Top Posting Option</b> (Not Recommended)"
+msgstr ""
+
+#: ../mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
 msgstr "<b>_Keeled</b>"
 
-#: ../mail/mail-config.glade.h:7
+#: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
 msgstr "<span weight=\"bold\">Konto andmed</span>"
 
-#: ../mail/mail-config.glade.h:9
+#: ../mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication Type</span>"
 msgstr "<span weight=\"bold\">Autentimise liik</span>"
 
-#: ../mail/mail-config.glade.h:10
+#: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\">Autentimine</span>"
 
-#: ../mail/mail-config.glade.h:11
+#: ../mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Composing Messages</span>"
 msgstr "<span weight=\"bold\">Sõnumite koostamine</span>"
 
-#: ../mail/mail-config.glade.h:12
+#: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Configuration</span>"
 msgstr "<span weight=\"bold\">Sätted</span>"
 
-#: ../mail/mail-config.glade.h:13
+#: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
 msgstr "<span weight=\"bold\">Vaikimisi käitumine</span>"
 
-#: ../mail/mail-config.glade.h:14
+#: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Sõnumite kustutamine</span>"
 
-#: ../mail/mail-config.glade.h:15
+#: ../mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
 msgstr "<span weight=\"bold\">Kuvatavad _kirjapäised</span>"
 
-#: ../mail/mail-config.glade.h:17
+#: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels and Colors</span>"
 msgstr "<span weight=\"bold\">Sildid ja värvused</span>"
 
-#: ../mail/mail-config.glade.h:18
+#: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
 msgstr "<span weight=\"bold\">Piltide laadimine</span>"
 
-#: ../mail/mail-config.glade.h:19
+#: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Message Display</span>"
 msgstr "<span weight=\"bold\">Sõnumikuva</span>"
 
-#: ../mail/mail-config.glade.h:20
+#: ../mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\">Sõnumi kirjatüübid</span>"
 
-#: ../mail/mail-config.glade.h:21
+#: ../mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Receipts</span>"
 msgstr "<span weight=\"bold\">Sõnumi saajad</span>"
 
-#: ../mail/mail-config.glade.h:22
+#: ../mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">New Mail Notification</span>"
 msgstr "<span weight=\"bold\">Uutest sõnumitest teavitamine</span>"
 
-#: ../mail/mail-config.glade.h:23
+#: ../mail/mail-config.glade.h:24
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
 msgid "<span weight=\"bold\">Optional Information</span>"
 msgstr "<span weight=\"bold\">Mittekohustuslikud andmed</span>"
 
-#: ../mail/mail-config.glade.h:24
+#: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">Valikud</span>"
 
-#: ../mail/mail-config.glade.h:25
+#: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
-#: ../mail/mail-config.glade.h:26
+#: ../mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">Prinditud kirjatüübid</span>"
 
-#: ../mail/mail-config.glade.h:27
+#: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">Kohustuslikud andmed</span>"
 
-#: ../mail/mail-config.glade.h:28
+#: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\">Turvaline MIME (S/MIME)</span>"
 
-#: ../mail/mail-config.glade.h:29
+#: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">Turvalisus</span>"
 
-#: ../mail/mail-config.glade.h:30
+#: ../mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr "<span weight=\"bold\">Saadetud sõnumid ja mustandid</span>"
 
-#: ../mail/mail-config.glade.h:31
+#: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Serveri sätted</span>"
 
-#: ../mail/mail-config.glade.h:33
+#: ../mail/mail-config.glade.h:34
 msgid "Account Management"
 msgstr "Kontohaldus"
 
-#: ../mail/mail-config.glade.h:34
+#: ../mail/mail-config.glade.h:35
 msgid "Add Ne_w Signature..."
 msgstr "Lisa _uus allkiri..."
 
-#: ../mail/mail-config.glade.h:35
+#: ../mail/mail-config.glade.h:36
 msgid "Add _Script"
 msgstr "Lisa _skript"
 
-#: ../mail/mail-config.glade.h:36
+#: ../mail/mail-config.glade.h:37
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Väljuvad sõnumid _allkirjastatakse alati selle konto abil"
 
-#: ../mail/mail-config.glade.h:37
+#: ../mail/mail-config.glade.h:38
 msgid "Also encrypt to sel_f when sending encrypted mail"
 msgstr "Krüptitud sõnumi saatmisel krüptitakse see ka _endale"
 
-#: ../mail/mail-config.glade.h:38
+#: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "_Alati saadetakse koopia (cc):"
 
-#: ../mail/mail-config.glade.h:39
+#: ../mail/mail-config.glade.h:40
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Alati saadetakse _pimekoopia (bcc):"
 
-#: ../mail/mail-config.glade.h:40
+#: ../mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Minu võtmerõngas olevad võtmed _usaldatakse alati"
 
-#: ../mail/mail-config.glade.h:41
+#: ../mail/mail-config.glade.h:42
 msgid "Always encrypt to _myself when sending encrypted mail"
 msgstr "Krüptitud sõnumi saatmisel krüptitakse alati ka _enda jaoks"
 
-#: ../mail/mail-config.glade.h:42
+#: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
 msgstr "Algupärane sõnum lisatakse manusena"
 
-#: ../mail/mail-config.glade.h:44
+#: ../mail/mail-config.glade.h:45
 msgid "Automatically insert _smiley images"
 msgstr "_Emotikonipildid lisatakse automaatselt"
 
-#: ../mail/mail-config.glade.h:45
+#: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
 msgstr "Balti (ISO-8859-13)"
 
-#: ../mail/mail-config.glade.h:46
+#: ../mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-4)"
 msgstr "Balti (ISO-8859-4)"
-
-#: ../mail/mail-config.glade.h:47
-msgid "Beep w_hen new mail arrives"
-msgstr "Uue sõnumi saabumisel _piiksutakse"
 
 #: ../mail/mail-config.glade.h:48
 msgid "C_haracter set:"
@@ -13318,12 +13345,12 @@ msgid "Encrypt out_going messages (by default)"
 msgstr "Väljuvate sõnumite _krüptimine (vaikimisi)"
 
 #: ../mail/mail-config.glade.h:81
-msgid "Fi_xed width Font:"
-msgstr "Fi_kseeritud laiusega kirjatüüp:"
-
-#: ../mail/mail-config.glade.h:82
 msgid "Fi_xed-width:"
 msgstr "Fi_kseeritud-laiusega:"
+
+#: ../mail/mail-config.glade.h:82
+msgid "Fix_ed width Font:"
+msgstr "Fi_kseeritud laiusega kirjatüüp:"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Font Properties"
@@ -13477,78 +13504,70 @@ msgid "Se_lect..."
 msgstr "V_ali..."
 
 #: ../mail/mail-config.glade.h:127
-msgid "Select Drafts Folder"
-msgstr "Mustandite kausta valimine"
-
-#: ../mail/mail-config.glade.h:128
 msgid "Select HTML fixed width font"
 msgstr "Vali HTML fikseeritud laiusega kirjatüüp"
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:128
 msgid "Select HTML fixed width font for printing"
 msgstr "Vali printimise jaoks HTML fikseeritud laiusega kirjatüüp"
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:129
 msgid "Select HTML variable width font"
 msgstr "Vali HTML muutuva laiusega kirjatüüp"
 
-#: ../mail/mail-config.glade.h:131
+#: ../mail/mail-config.glade.h:130
 msgid "Select HTML variable width font for printing"
 msgstr "Vali printimise jaoks HTML muutuva laiusega kirjatüüp"
 
-#: ../mail/mail-config.glade.h:132
-msgid "Select Sent Folder"
-msgstr "Saadetud sõnumite kausta valimine"
-
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:131
 msgid "Select sound file"
 msgstr "Helifaili valimine"
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:133
 msgid "Sending Mail"
 msgstr "E-posti saatmine"
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:134
 msgid "Sent _Messages Folder:"
 msgstr "Saadetud _sõnumite kaust:"
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:135
 msgid "Ser_ver requires authentication"
 msgstr "Server vajab _autentimist"
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:136
 msgid "Server _Type: "
 msgstr "Serveri l_iik:"
 
-#: ../mail/mail-config.glade.h:139
+#: ../mail/mail-config.glade.h:137
 msgid "Sig_ning certificate:"
 msgstr "All_kirjastamissertifikaat:"
 
-#: ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.glade.h:138
 msgid "Signat_ure:"
 msgstr "All_kiri:"
 
-#: ../mail/mail-config.glade.h:141
+#: ../mail/mail-config.glade.h:139
 msgid "Signatures"
 msgstr "Allkirjad"
 
-#: ../mail/mail-config.glade.h:142
+#: ../mail/mail-config.glade.h:140
 msgid "Signatures Table"
 msgstr "Allkirjatabel"
 
-#: ../mail/mail-config.glade.h:143
+#: ../mail/mail-config.glade.h:141
 msgid "Specify _filename:"
 msgstr "_Faili nimi:"
 
-#: ../mail/mail-config.glade.h:144
+#: ../mail/mail-config.glade.h:142
 msgid "Spell Checking"
 msgstr "Õigekirja kontrollimine"
 
-#: ../mail/mail-config.glade.h:145
+#: ../mail/mail-config.glade.h:143
 msgid "T_ype: "
 msgstr "Lii_k:"
 
-#: ../mail/mail-config.glade.h:146
+#: ../mail/mail-config.glade.h:144
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -13556,7 +13575,7 @@ msgstr ""
 "Siinolev keelteloend kajastab ainult keeli, millede jaoks on sõnastik "
 "paigaldatud."
 
-#: ../mail/mail-config.glade.h:147
+#: ../mail/mail-config.glade.h:145
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -13565,7 +13584,7 @@ msgstr ""
 "Selle skripti väljundit kasutatakse sinu signatuurina.\n"
 "Nimevälja kasutatakse ainult kuvamiseks."
 
-#: ../mail/mail-config.glade.h:151
+#: ../mail/mail-config.glade.h:149
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -13573,15 +13592,15 @@ msgstr ""
 "Sisesta nimi, millega sa soovid sellele kontole viidata.\n"
 "Näiteks: \"Isiklik\" või \"Tööasjad\""
 
-#: ../mail/mail-config.glade.h:153 ../plugins/caldav/caldav-source.c:282
+#: ../mail/mail-config.glade.h:151 ../plugins/caldav/caldav-source.c:282
 msgid "User_name:"
 msgstr "_Kasutajanimi:"
 
-#: ../mail/mail-config.glade.h:154
+#: ../mail/mail-config.glade.h:152
 msgid "V_ariable-width:"
 msgstr "_Muutuva laiusega:"
 
-#: ../mail/mail-config.glade.h:155
+#: ../mail/mail-config.glade.h:153
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13591,29 +13610,37 @@ msgstr ""
 "\n"
 "Jätkamiseks vajuta \"Edasi\"."
 
-#: ../mail/mail-config.glade.h:159
+#: ../mail/mail-config.glade.h:157
 msgid "_Add Signature"
 msgstr "Allkirja _lisamine"
 
-#: ../mail/mail-config.glade.h:160
+#: ../mail/mail-config.glade.h:158
 msgid "_Always load images from the Internet"
 msgstr "_Internetis asuvad pildid laaditakse alati"
 
-#: ../mail/mail-config.glade.h:161
-msgid "_Default junk plugin:"
-msgstr ""
+#: ../mail/mail-config.glade.h:159
+msgid "_Beep when new mail arrives"
+msgstr "Uue sõnumi saabumisel _piiksutakse"
 
-#: ../mail/mail-config.glade.h:162
+#: ../mail/mail-config.glade.h:160
+msgid "_Default junk plugin:"
+msgstr "Vaikimisi _rämpsuplugin:"
+
+#: ../mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Uutest sõnumitest ei teavitata"
 
-#: ../mail/mail-config.glade.h:163
+#: ../mail/mail-config.glade.h:162
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Koosolekupäringuid ei _signeerita (Outlookiga ühilduvuse tarbeks)"
 
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:164
 msgid "_Forward style:"
 msgstr "_Edastamise laad:"
+
+#: ../mail/mail-config.glade.h:165
+msgid "_Keep Signature above the original message on replying"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Load images in mail from contacts"
@@ -13782,7 +13809,7 @@ msgstr "_Märgistus:"
 msgid "_Tick this to accept the license agreement"
 msgstr ""
 
-#: ../mail/mail-folder-cache.c:875
+#: ../mail/mail-folder-cache.c:877
 #, c-format
 msgid "Pinging %s"
 msgstr "%s pingimine"
@@ -13829,7 +13856,7 @@ msgstr "Tõrge sõnumi %d saatmisel (kokku %d)"
 msgid "Canceled."
 msgstr "Tühistatud."
 
-#: ../mail/mail-ops.c:765
+#: ../mail/mail-ops.c:765 ../mail/mail-send-recv.c:698
 msgid "Complete."
 msgstr "Valmis."
 
@@ -14031,7 +14058,7 @@ msgstr "Puhverkataloogi `%s' pole võimalik luua: %s"
 #: ../mail/mail-tools.c:150
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
+msgstr "Movemail'i proovimine mitte-mbox allikaga `%s'"
 
 #: ../mail/mail-tools.c:256
 #, c-format
@@ -14299,14 +14326,16 @@ msgid "Do not disable"
 msgstr "Ära keela"
 
 #: ../mail/mail.error.xml.h:49
-msgid "Do you want the operation to be performed in the subfolders?"
-msgstr "Kas sa soovid seda operatsiooni teostada ka alamkaustades?"
+msgid "Do you want the operation to be performed also in the subfolders?"
+msgstr "Kas sa soovid seda operatsiooni ka alamkaustades läbi viia?"
 
 #: ../mail/mail.error.xml.h:50
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr ""
+"Kas soovid võrguvabas keskkonnas kasutamiseks märgitud kaustad "
+"sünkroniseerida kohapeale?"
 
 #: ../mail/mail.error.xml.h:51
 msgid "Do you want to mark all messages as read?"
@@ -14401,20 +14430,21 @@ msgid "Mark all messages as read"
 msgstr "Kõigi sõnumite loetuksmärkimine"
 
 #: ../mail/mail.error.xml.h:72
-msgid "Mark all messages in subfolders as read?"
-msgstr "Kas märkida kõik alamkausta sõnumid loetuks?"
+msgid "Mark all messages in this folder and subfolders as read?"
+msgstr ""
+"Kas märkida kõik selles kaustas ja alamkaustades olevad sõnumid loetuks?"
 
 #: ../mail/mail.error.xml.h:73
-msgid "Mark as _Read"
-msgstr "_Märgi loetuks"
-
-#: ../mail/mail.error.xml.h:74
 msgid "Missing folder."
 msgstr "Puuduv kaust."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:75
 msgid "No sources selected."
 msgstr "Ühtegi allikat pole valitud."
+
+#: ../mail/mail.error.xml.h:76
+msgid "Only on _Current Folder"
+msgstr "Ainult _käesolevast kaustast"
 
 #: ../mail/mail.error.xml.h:77
 msgid "Opening too many messages at once may take a long time."
@@ -14613,7 +14643,7 @@ msgstr "Vaikekausta kasutamine mustandite jaoks?"
 
 #: ../mail/mail.error.xml.h:124
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "Sa pole kõiki vajalikke andmeid sisestanud."
 
 #: ../mail/mail.error.xml.h:125
 msgid "You have unsent messages, do you wish to quit anyway?"
@@ -14655,20 +14685,20 @@ msgid "_Discard changes"
 msgstr "_Hülga muudatused"
 
 #: ../mail/mail.error.xml.h:134
-msgid "_Do not Mark as Read"
-msgstr "_Ära märgi loetuks"
-
-#: ../mail/mail.error.xml.h:135
 msgid "_Do not Synchronize"
 msgstr "Ä_ra sünkroniseeri"
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:136
 msgid "_Expunge"
 msgstr "_Puhasta"
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:137
 msgid "_Open Messages"
 msgstr "_Ava sõnumid"
+
+#: ../mail/mail.error.xml.h:140
+msgid "on Current Folder and _Subfolders"
+msgstr "_käesolevas kaustas ja alamkaustades"
 
 #: ../mail/message-list.c:1022
 msgid "Unseen"
@@ -14706,30 +14736,30 @@ msgstr "Kõrge"
 msgid "Highest"
 msgstr "Kõrgeim"
 
-#: ../mail/message-list.c:1508 ../widgets/table/e-cell-date.c:57
+#: ../mail/message-list.c:1508 ../widgets/table/e-cell-date.c:55
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../mail/message-list.c:1515 ../plugins/itip-formatter/itip-view.c:203
-#: ../widgets/table/e-cell-date.c:72
+#: ../widgets/table/e-cell-date.c:70
 msgid "Today %l:%M %p"
 msgstr "Täna %l:%M %p"
 
-#: ../mail/message-list.c:1524 ../widgets/table/e-cell-date.c:82
+#: ../mail/message-list.c:1524 ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
 msgstr "Eile %l:%M %p"
 
-#: ../mail/message-list.c:1536 ../widgets/table/e-cell-date.c:94
+#: ../mail/message-list.c:1536 ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
 msgstr "%a, %d. %b %Y"
 
-#: ../mail/message-list.c:1544 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1544 ../widgets/table/e-cell-date.c:100
 msgid "%b %d %l:%M %p"
 msgstr "%a, %d.%m.%Y %I:%M:%S %p"
 
-#: ../mail/message-list.c:1546 ../widgets/table/e-cell-date.c:104
+#: ../mail/message-list.c:1546 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %Y"
 msgstr "%d. %b %Y"
 
@@ -14838,6 +14868,38 @@ msgstr "Kohalikud aadressiraamatud"
 msgid "Provides core functionality for local address books."
 msgstr "Kohalike aadressiraamatute põhitalitluse tagamine."
 
+#: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.in.h:1
+msgid "Enable attachment reminder plugin"
+msgstr ""
+
+#: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.in.h:2
+msgid ""
+"List of clues for the attachment reminder plugin to look for in a message "
+"body"
+msgstr ""
+
+#: ../plugins/attachment-reminder/attachment-reminder.c:376
+msgid "Keywords"
+msgstr "Võtmesõnad"
+
+#: ../plugins/attachment-reminder/attachment-reminder.c:422
+msgid "Attachment Reminder Preferences"
+msgstr ""
+
+#: ../plugins/attachment-reminder/attachment-reminder.glade.h:1
+msgid "Remind _missing attachments"
+msgstr ""
+
+#: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
+msgid "Attachment Reminder"
+msgstr ""
+
+#: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
+msgid ""
+"Looks for clues in a message for mention of attachments and warns if the "
+"attachment is missing"
+msgstr ""
+
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
@@ -14874,6 +14936,9 @@ msgid ""
 "Calendars/Tasks/Memos/Addressbook. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
+"Sul on võimalik Evolutioni arhiivist taastada. Selle abil saab taastada "
+"E-posti, kalenderid, ülesandeid, märkmeid ja aadressiraamatut.\n"
+"Samuti saab taastada ka isiklikud sätted, postifiltrid jne."
 
 #: ../plugins/backup-restore/backup-restore.c:244
 msgid "_Restore Evolution from the backup archive"
@@ -14905,7 +14970,7 @@ msgstr "Evolutioni taaskäivitamine"
 
 #: ../plugins/backup-restore/backup.c:48
 msgid "With GUI"
-msgstr ""
+msgstr "Koos kasutajaliidesega"
 
 #: ../plugins/backup-restore/backup.c:67
 #: ../plugins/backup-restore/backup.c:107
@@ -15074,7 +15139,7 @@ msgstr ""
 msgid "BBDB"
 msgstr "BBDB"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:302
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:304
 msgid "Convert mail text to _Unicode"
 msgstr "Konverdi sõnumi tekst _Unicode kooditabelisse"
 
@@ -15096,7 +15161,7 @@ msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../plugins/caldav/caldav-source.c:247
-#: ../plugins/calendar-http/calendar-http.c:133
+#: ../plugins/calendar-http/calendar-http.c:135
 msgid "_URL:"
 msgstr "_URL:"
 
@@ -15120,14 +15185,18 @@ msgstr "Kohalikud kalendrid"
 msgid "Provides core functionality for local calendars."
 msgstr "Kohalike kalendrite põhitalitluse tagamine."
 
-#: ../plugins/calendar-http/calendar-http.c:271
+#: ../plugins/calendar-http/calendar-http.c:273
 #: ../plugins/calendar-weather/calendar-weather.c:546
 msgid "_Refresh:"
 msgstr "Värskendamissa_gedus:"
 
-#: ../plugins/calendar-http/calendar-http.c:339
+#: ../plugins/calendar-http/calendar-http.c:341
 msgid "_Secure connection"
 msgstr "_Turvaline ühendus"
+
+#: ../plugins/calendar-http/calendar-http.c:406
+msgid "Userna_me:"
+msgstr "Kasutajani_mi:"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
 msgid "HTTP Calendars"
@@ -15419,63 +15488,73 @@ msgid "Your password will expire in the next %d days"
 msgstr "Sinu parool aegub järgneva %d päeva jooksul"
 
 #. Custom
-#: ../plugins/exchange-operations/exchange-delegates-user.c:156
+#: ../plugins/exchange-operations/exchange-delegates-user.c:159
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
-#: ../widgets/table/e-table-header-item.c:1559
+#: ../widgets/table/e-table-header-item.c:1558
 msgid "Custom"
 msgstr "Kohandatud"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:183
+#: ../plugins/exchange-operations/exchange-delegates-user.c:189
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
 msgstr "Toimetaja (lugemine, loomine, muutmine)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:187
+#: ../plugins/exchange-operations/exchange-delegates-user.c:193
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
 msgstr "Autor (lugemine, loomine)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:191
+#: ../plugins/exchange-operations/exchange-delegates-user.c:197
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
 msgstr "Ülevaataja (ainult lugemiseks)"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:241
+#: ../plugins/exchange-operations/exchange-delegates-user.c:247
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
 msgstr "Delegeeritud õigused"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:252
+#: ../plugins/exchange-operations/exchange-delegates-user.c:258
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
 #, c-format
 msgid "Permissions for %s"
 msgstr "%s pääsuõigused"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:339
+#. To translators: This is a part of the message to be sent to the delegatee
+#. summarizing the permissions assigned to him.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:348
 msgid ""
-"This message was sent automatically by Evolution \t\t\t\t\tto inform you "
-"that you have been designated as a \t\t\t\t\tdelegate. You can now send "
-"messages on my behalf.\t\t\t\t\t \n"
-"\n"
-"You have been given the following permissions \t\t\t\t\ton my folders:\n"
+"This message was sent automatically by Evolution to inform you that you have "
+"been designated as a delegate. You can now send messages on my behalf."
 msgstr ""
+"See sõnum saadeti Evolutioni pool automaatselt teavitamaks, et Sind määrati "
+"delegaadiks. Sa saad nüüd minu nimel sõnumeid saata."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:356
-msgid ""
-"\n"
-"You are also permitted \t\t\t\t\t\t\tto see my private items."
-msgstr ""
+#. To translators: Another chunk of the same message.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:353
+msgid "You have been given the following permissions on my folders:"
+msgstr "Samuti on Sulle antud õigus näha järgnevaid minu katalooge:"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:360
-msgid ""
-"\n"
-"However you are not permitted\t\t\t\t\t\t\t to see my private items."
-msgstr ""
+#. To translators: This message is included if the delegatee has been given access
+#. to the private items.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:371
+msgid "You are also permitted to see my private items."
+msgstr "Samuti on Sul lubatud näha minu isiklikke kirjeid."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:392
+#. To translators: This message is included if the delegatee has not been given access
+#. to the private items.
+#.
+#: ../plugins/exchange-operations/exchange-delegates-user.c:378
+msgid "However you are not permitted to see my private items."
+msgstr "Siiski pole Sul lubatud näha minu isiklikke kirjeid."
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:410
 #, c-format
-msgid "You have been designated \t\t\t\t\t\tas a delegate for %s"
-msgstr ""
+msgid "You have been designated as a delegate for %s"
+msgstr "Sind on määratud kasutaja %s delegaadiks"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To"
@@ -16150,6 +16229,33 @@ msgstr "Teiste kasutajate ülesannete tellimine"
 msgid "Check folder permissions"
 msgstr "Kausta pääsuõiguste kontrollimine"
 
+#: ../plugins/face/face.c:58
+msgid "Select a (48*48) png of size < 700bytes"
+msgstr "Vali PNG-pilt mõõtmetega 48x48 ja suurusega mitte rohkem kui 700 baiti"
+
+#: ../plugins/face/face.c:68
+msgid "PNG files"
+msgstr "PNG-failid"
+
+#: ../plugins/face/face.c:73
+msgid "Select a (48*48) png of size < 720bytes"
+msgstr "Vali PNG-pilt mõõtmetega 48x48 ja suurusega mitte rohkem kui 720 baiti"
+
+#: ../plugins/face/org-gnome-face-ui.xml.h:1
+msgid "_Face"
+msgstr ""
+
+#: ../plugins/face/org-gnome-face.eplug.xml.h:1
+msgid ""
+"Attach Face header to outgoing mails. First time the user needs to configure "
+"a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces "
+"This will be used in mails that are sent further."
+msgstr ""
+
+#: ../plugins/face/org-gnome-face.eplug.xml.h:2
+msgid "Face"
+msgstr ""
+
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
@@ -16202,15 +16308,16 @@ msgstr "Jagatud kausta paigaldamine"
 msgid "Shared Folder Installation"
 msgstr "Jagatud kataloogi paigaldamine"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:77
+#: ../plugins/groupwise-features/junk-mail-settings.c:78
 msgid "Junk Settings"
 msgstr "Rämpsposti sätted"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:90
-msgid "<b>Junk Mail Settings</b>"
-msgstr "<b>Rämpsposti sätted</b>"
+#: ../plugins/groupwise-features/junk-mail-settings.c:91
+#: ../plugins/groupwise-features/junk-settings.glade.h:3
+msgid "Junk Mail Settings"
+msgstr "Rämpsposti sätted"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:112
+#: ../plugins/groupwise-features/junk-mail-settings.c:115
 msgid "Junk Mail Settings..."
 msgstr "Rämpsposti sätted..."
 
@@ -16221,10 +16328,6 @@ msgstr "<b>Rämpsposti loend:</b>"
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
 msgstr "E-post:"
-
-#: ../plugins/groupwise-features/junk-settings.glade.h:3
-msgid "Junk Mail Settings"
-msgstr "Rämpsposti sätted"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
@@ -16274,7 +16377,7 @@ msgid "<b>Users:</b>"
 msgstr "<b>Kasutajad:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
-#: ../widgets/table/e-table-click-to-add.c:509
+#: ../widgets/table/e-table-click-to-add.c:507
 msgid "Message"
 msgstr "Sõnum"
 
@@ -16415,56 +16518,56 @@ msgstr ""
 msgid "Modify"
 msgstr ""
 
-#: ../plugins/groupwise-features/status-track.c:103
+#: ../plugins/groupwise-features/status-track.c:105
 msgid "Message Status"
 msgstr "Sõnumi olek"
 
 #. Subject
-#: ../plugins/groupwise-features/status-track.c:117
-msgid "<b>Subject</b> :"
-msgstr "<b>Teema</b> :"
+#: ../plugins/groupwise-features/status-track.c:119
+msgid "Subject:"
+msgstr "Teema:"
 
-#: ../plugins/groupwise-features/status-track.c:129
-msgid "<b>From</b> :"
-msgstr "<b>Saatja</b> :"
+#: ../plugins/groupwise-features/status-track.c:133
+msgid "From:"
+msgstr "Saatja:"
 
-#: ../plugins/groupwise-features/status-track.c:142
-msgid "<b>Creation date</b> :"
-msgstr "<b>Loomise kuupäev</b> :"
+#: ../plugins/groupwise-features/status-track.c:148
+msgid "Creation date:"
+msgstr "Loomise kuupäev:"
 
-#: ../plugins/groupwise-features/status-track.c:178
+#: ../plugins/groupwise-features/status-track.c:186
 msgid "Recipient: "
 msgstr "Saajad: "
 
-#: ../plugins/groupwise-features/status-track.c:185
+#: ../plugins/groupwise-features/status-track.c:193
 msgid "Delivered: "
 msgstr "Kohale toimetatud: "
 
-#: ../plugins/groupwise-features/status-track.c:191
+#: ../plugins/groupwise-features/status-track.c:199
 msgid "Opened: "
 msgstr "Avatud: "
 
-#: ../plugins/groupwise-features/status-track.c:196
+#: ../plugins/groupwise-features/status-track.c:204
 msgid "Accepted: "
 msgstr "Nõustutud: "
 
-#: ../plugins/groupwise-features/status-track.c:201
+#: ../plugins/groupwise-features/status-track.c:209
 msgid "Deleted: "
 msgstr "Kustutatud: "
 
-#: ../plugins/groupwise-features/status-track.c:206
+#: ../plugins/groupwise-features/status-track.c:214
 msgid "Declined: "
 msgstr "Tagasi lükatud: "
 
-#: ../plugins/groupwise-features/status-track.c:211
+#: ../plugins/groupwise-features/status-track.c:219
 msgid "Completed: "
 msgstr "Lõpetatud: "
 
-#: ../plugins/groupwise-features/status-track.c:216
+#: ../plugins/groupwise-features/status-track.c:224
 msgid "Un-delivered: "
 msgstr "Kohale toimetamata: "
 
-#: ../plugins/groupwise-features/status-track.c:241
+#: ../plugins/groupwise-features/status-track.c:249
 msgid "Track Message Status..."
 msgstr "Jälgi sõnumi olekut..."
 
@@ -16480,11 +16583,11 @@ msgstr "Hula konto sätted"
 msgid "Custom Header"
 msgstr "Kohandatud päis"
 
-#: ../plugins/imap-features/imap-headers.c:256
+#: ../plugins/imap-features/imap-headers.c:259
 msgid "Custom Headers"
 msgstr "Kohandatud päised"
 
-#: ../plugins/imap-features/imap-headers.c:266
+#: ../plugins/imap-features/imap-headers.c:269
 msgid "IMAP Headers"
 msgstr "IMAP-i päised"
 
@@ -16565,10 +16668,22 @@ msgstr "Kalendrisse importimine"
 msgid "Imports ICS attachments to calendar."
 msgstr "ICS-manuste importimine kalendrisse."
 
-#: ../plugins/ipod-sync/evolution-ipod-sync.c:64
+#: ../plugins/ipod-sync/evolution-ipod-sync.c:33
+msgid "Hardware Abstraction Layer not loaded"
+msgstr ""
+
+#: ../plugins/ipod-sync/evolution-ipod-sync.c:34
 msgid ""
-"<span weight=\"bold\" size=\"larger\">Search for an iPod failed</span>\n"
-"\n"
+"The \"hald\" service is required but not currently running. Please enable "
+"the service and rerun this program, or contact your system administrator."
+msgstr ""
+
+#: ../plugins/ipod-sync/evolution-ipod-sync.c:66
+msgid "Search for an iPod failed"
+msgstr ""
+
+#: ../plugins/ipod-sync/evolution-ipod-sync.c:67
+msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
@@ -17034,7 +17149,8 @@ msgstr "<b>%s</b> soovib saada värskeimat infot järgneva ülesande kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
 #, fuzzy, c-format
-msgid "<b>%s</b> through has sent back the following assigned task response:"
+msgid ""
+"<b>%s</b> through %s has sent back the following assigned task response:"
 msgstr "<b>%s</b> saatis järgneva määratud ülesande vastuse tagasi:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
@@ -17251,12 +17367,9 @@ msgstr ""
 #: ../plugins/mail-notification/mail-notification.c:132
 #, c-format
 msgid "You have received %d new message in %s."
-msgstr ""
-
-#: ../plugins/mail-notification/mail-notification.c:132
-#, c-format
-msgid "You have received %d new messages in %s."
-msgstr ""
+msgid_plural "You have received %d new messages in %s."
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../plugins/mail-notification/mail-notification.c:153
 msgid "New email"
@@ -17544,7 +17657,7 @@ msgstr "Plugin määramaks millised pluginad on lubatud ja millised mitte."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:202
+#: ../plugins/plugin-manager/plugin-manager.c:223
 msgid "Plugin Manager"
 msgstr "Pluginahaldur"
 
@@ -17556,22 +17669,26 @@ msgstr "Pluginate lubamine ja keelamine"
 msgid "_Plugins"
 msgstr "_Pluginad"
 
-#: ../plugins/plugin-manager/plugin-manager.c:53
+#: ../plugins/plugin-manager/plugin-manager.c:55
 msgid "Author(s)"
 msgstr "Autor(id)"
 
-#: ../plugins/plugin-manager/plugin-manager.c:54
+#: ../plugins/plugin-manager/plugin-manager.c:56
 #: ../widgets/table/e-table-config-no-group.glade.h:6
 #: ../widgets/table/e-table-config.glade.h:5
 msgid "Description"
 msgstr "Kirjeldus"
 
-#: ../plugins/plugin-manager/plugin-manager.c:215
+#: ../plugins/plugin-manager/plugin-manager.c:226
+msgid "Configure"
+msgstr "Seadista"
+
+#: ../plugins/plugin-manager/plugin-manager.c:238
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Märkus: mõned muudatused rakenduvad alles pärast taaskäivitamist"
 
-#: ../plugins/plugin-manager/plugin-manager.c:268
-#: ../plugins/plugin-manager/plugin-manager.c:327
+#: ../plugins/plugin-manager/plugin-manager.c:291
+#: ../plugins/plugin-manager/plugin-manager.c:350
 msgid "Plugin"
 msgstr "Plugin"
 
@@ -17989,8 +18106,16 @@ msgstr "Jutulõngade koostamine teema järgi"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
-msgid "Fall back to threading messages by sub_ject"
+msgid "F_all back to threading messages by subject"
 msgstr ""
+
+#: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
+msgid "A simple plugin which uses ytnef to decode tnef attachments."
+msgstr "Lihtne ytnef'i kasutav plugin, mis kodeerib TNEF-manuseid lahti."
+
+#: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
+msgid "TNEF Attachment decoder"
+msgstr "TNEF-manuse lahtikodeerija"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -18295,7 +18420,7 @@ msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
 "Evolution on hetkel võrguvabas olekus. Võrku ühendumiseks klõpsa seda nuppu."
 
-#: ../shell/e-shell-window.c:820
+#: ../shell/e-shell-window.c:823
 #, c-format
 msgid "Switch to %s"
 msgstr "Ümberlülitumine vaatele \"%s\""
@@ -18711,7 +18836,7 @@ msgid ""
 "  Subject: %s\n"
 msgstr ""
 "Kellele väljastatud:\n"
-"              Teema: %s\n"
+"             Omanik: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:122
 #, c-format
@@ -18720,7 +18845,7 @@ msgid ""
 "  Subject: %s\n"
 msgstr ""
 "Väljastaja:\n"
-"     Teema: %s\n"
+"    Omanik: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:174
 msgid "Select certificate"
@@ -18971,7 +19096,7 @@ msgstr "Netscape'i sertifikaadi tüüp"
 
 #: ../smime/lib/e-cert.c:676
 msgid "Certificate Authority Key Identifier"
-msgstr ""
+msgstr "Sertifitseerimiskeskuse võtme identifikaator"
 
 #: ../smime/lib/e-cert.c:688
 #, c-format
@@ -18988,15 +19113,15 @@ msgstr "Algoritmi parameetrid"
 
 #: ../smime/lib/e-cert.c:769
 msgid "Subject Public Key Info"
-msgstr "Teema avaliku võtme info"
+msgstr "Omaniku avaliku võtme andmed"
 
 #: ../smime/lib/e-cert.c:774
 msgid "Subject Public Key Algorithm"
-msgstr ""
+msgstr "Omaniku avaliku võtme algoritm"
 
 #: ../smime/lib/e-cert.c:789
 msgid "Subject's Public Key"
-msgstr "Teema avalik võti"
+msgstr "Omaniku avalik võti"
 
 #: ../smime/lib/e-cert.c:810 ../smime/lib/e-cert.c:859
 msgid "Error: Unable to process extension"
@@ -19024,11 +19149,11 @@ msgstr "Ebausaldusväärne"
 
 #: ../smime/lib/e-cert.c:875
 msgid "Key Encipherment"
-msgstr ""
+msgstr "Võtme šiffer"
 
 #: ../smime/lib/e-cert.c:879
 msgid "Data Encipherment"
-msgstr ""
+msgstr "Andmete šiffer"
 
 #: ../smime/lib/e-cert.c:883
 msgid "Key Agreement"
@@ -19073,7 +19198,7 @@ msgstr "Väljastaja unikaalne ID"
 
 #: ../smime/lib/e-cert.c:1174
 msgid "Subject Unique ID"
-msgstr "Teema unikaalne ID"
+msgstr "Omaniku unikaalne ID"
 
 #: ../smime/lib/e-cert.c:1217
 msgid "Certificate Signature Value"
@@ -19222,7 +19347,7 @@ msgstr "Valitud kontaktide salvestamine VKaardina."
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "Valitud kaustas olevate kontaktide salvestamine VKaardina"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2715
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2714
 msgid "Select All"
 msgstr "Vali kõik"
 
@@ -21010,19 +21135,19 @@ msgstr ""
 "Kasuta vasakut hiirenuppu, et kaarti suurendada ja ajavööndit valida.\n"
 "Parema hiirenupuga saab kaarti vähendada."
 
-#: ../widgets/menus/gal-define-views-dialog.c:84
-#: ../widgets/menus/gal-define-views-model.c:188
+#: ../widgets/menus/gal-define-views-dialog.c:78
+#: ../widgets/menus/gal-define-views-model.c:186
 msgid "Collection"
 msgstr "Kollektsioon"
 
-#: ../widgets/menus/gal-define-views-dialog.c:366
+#: ../widgets/menus/gal-define-views-dialog.c:360
 #: ../widgets/menus/gal-define-views.glade.h:4
 #, no-c-format
 msgid "Define Views for %s"
 msgstr "Vaadete kirjeldamine %s jaoks"
 
-#: ../widgets/menus/gal-define-views-dialog.c:374
-#: ../widgets/menus/gal-define-views-dialog.c:376
+#: ../widgets/menus/gal-define-views-dialog.c:368
+#: ../widgets/menus/gal-define-views-dialog.c:370
 msgid "Define Views"
 msgstr "Kirjelda vaateid"
 
@@ -21031,18 +21156,18 @@ msgstr "Kirjelda vaateid"
 msgid "Define Views for \"%s\""
 msgstr "\"%s\" jaoks vaadete kirjeldamine"
 
-#: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1912
-#: ../widgets/table/e-table-scrolled.c:222
-#: ../widgets/table/e-table-scrolled.c:223
+#: ../widgets/menus/gal-view-factory-etable.c:37
+#: ../widgets/table/e-table-header-item.c:1910
+#: ../widgets/table/e-table-scrolled.c:216
+#: ../widgets/table/e-table-scrolled.c:217
 msgid "Table"
 msgstr "Tabel"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:179
 msgid "Instance"
 msgstr "Instants"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:229
 msgid "Save Current View"
 msgstr "Salvesta käesolev vaade"
 
@@ -21055,16 +21180,16 @@ msgid "_Replace existing view"
 msgstr "_Asenda olemasolev vaade"
 
 #. bonobo displays this string so it must be in locale
-#: ../widgets/menus/gal-view-instance.c:587
+#: ../widgets/menus/gal-view-instance.c:582
 #: ../widgets/menus/gal-view-menus.c:354
 msgid "Custom View"
 msgstr "Kohandatud vaade"
 
-#: ../widgets/menus/gal-view-instance.c:588
+#: ../widgets/menus/gal-view-instance.c:583
 msgid "Save Custom View"
 msgstr "Salvesta kohandatud vaade"
 
-#: ../widgets/menus/gal-view-instance.c:592
+#: ../widgets/menus/gal-view-instance.c:587
 #: ../widgets/menus/gal-view-menus.c:378
 msgid "Define Views..."
 msgstr "Kirjelda vaateid..."
@@ -21094,11 +21219,11 @@ msgstr "Käesoleva vaate salvestamine"
 msgid "Create or edit views"
 msgstr "Vaadete loomine ja muutmine"
 
-#: ../widgets/menus/gal-view-new-dialog.c:80
+#: ../widgets/menus/gal-view-new-dialog.c:72
 msgid "Factory"
 msgstr "Factory"
 
-#: ../widgets/menus/gal-view-new-dialog.c:115
+#: ../widgets/menus/gal-view-new-dialog.c:107
 msgid "Define New View"
 msgstr "Uue vaate kirjeldamine"
 
@@ -21161,66 +21286,66 @@ msgstr "%B %Y"
 msgid "Month Calendar"
 msgstr "Kuu kalender"
 
-#: ../widgets/misc/e-canvas-background.c:457
-#: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1235
-#: ../widgets/text/e-entry.c:1236 ../widgets/text/e-text.c:3565
-#: ../widgets/text/e-text.c:3566
+#: ../widgets/misc/e-canvas-background.c:453
+#: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-entry.c:1230
+#: ../widgets/text/e-entry.c:1231 ../widgets/text/e-text.c:3562
+#: ../widgets/text/e-text.c:3563
 msgid "Fill color"
 msgstr "Täitevärvus"
 
-#: ../widgets/misc/e-canvas-background.c:464
-#: ../widgets/misc/e-canvas-background.c:465
-#: ../widgets/misc/e-canvas-background.c:471
-#: ../widgets/misc/e-canvas-background.c:472 ../widgets/text/e-entry.c:1242
-#: ../widgets/text/e-entry.c:1243 ../widgets/text/e-entry.c:1249
-#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3572
-#: ../widgets/text/e-text.c:3573 ../widgets/text/e-text.c:3580
-#: ../widgets/text/e-text.c:3581
+#: ../widgets/misc/e-canvas-background.c:460
+#: ../widgets/misc/e-canvas-background.c:461
+#: ../widgets/misc/e-canvas-background.c:467
+#: ../widgets/misc/e-canvas-background.c:468 ../widgets/text/e-entry.c:1237
+#: ../widgets/text/e-entry.c:1238 ../widgets/text/e-entry.c:1244
+#: ../widgets/text/e-entry.c:1245 ../widgets/text/e-text.c:3569
+#: ../widgets/text/e-text.c:3570 ../widgets/text/e-text.c:3577
+#: ../widgets/text/e-text.c:3578
 msgid "GDK fill color"
 msgstr "GDK täitevärvus"
 
-#: ../widgets/misc/e-canvas-background.c:478
-#: ../widgets/misc/e-canvas-background.c:479 ../widgets/text/e-entry.c:1256
-#: ../widgets/text/e-entry.c:1257 ../widgets/text/e-text.c:3587
-#: ../widgets/text/e-text.c:3588
+#: ../widgets/misc/e-canvas-background.c:474
+#: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-entry.c:1251
+#: ../widgets/text/e-entry.c:1252 ../widgets/text/e-text.c:3584
+#: ../widgets/text/e-text.c:3585
 msgid "Fill stipple"
 msgstr "Täpiline täide"
 
-#: ../widgets/misc/e-canvas-background.c:485
-#: ../widgets/misc/e-canvas-background.c:486
+#: ../widgets/misc/e-canvas-background.c:481
+#: ../widgets/misc/e-canvas-background.c:482
 msgid "X1"
 msgstr "X1"
 
-#: ../widgets/misc/e-canvas-background.c:492
-#: ../widgets/misc/e-canvas-background.c:493
+#: ../widgets/misc/e-canvas-background.c:488
+#: ../widgets/misc/e-canvas-background.c:489
 msgid "X2"
 msgstr "X2"
 
-#: ../widgets/misc/e-canvas-background.c:499
-#: ../widgets/misc/e-canvas-background.c:500
+#: ../widgets/misc/e-canvas-background.c:495
+#: ../widgets/misc/e-canvas-background.c:496
 msgid "Y1"
 msgstr "Y1"
 
-#: ../widgets/misc/e-canvas-background.c:506
-#: ../widgets/misc/e-canvas-background.c:507
+#: ../widgets/misc/e-canvas-background.c:502
+#: ../widgets/misc/e-canvas-background.c:503
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1429
-#: ../widgets/table/e-table-group-container.c:974
-#: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3017
+#: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1426
+#: ../widgets/table/e-table-group-container.c:973
+#: ../widgets/table/e-table-group-leaf.c:635
+#: ../widgets/table/e-table-item.c:3015
 msgid "Minimum width"
 msgstr "Vähim laius"
 
-#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1430
-#: ../widgets/table/e-table-group-container.c:975
-#: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3018
+#: ../widgets/misc/e-canvas-vbox.c:93 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/table/e-table-group-container.c:974
+#: ../widgets/table/e-table-group-leaf.c:636
+#: ../widgets/table/e-table-item.c:3016
 msgid "Minimum Width"
 msgstr "Vähim laius"
 
-#: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
+#: ../widgets/misc/e-canvas-vbox.c:104 ../widgets/misc/e-canvas-vbox.c:105
 #: ../widgets/misc/e-expander.c:206
 msgid "Spacing"
 msgstr "Jaotus"
@@ -21407,11 +21532,11 @@ msgstr "Sildividin"
 msgid "A widget to display in place of the usual expander label"
 msgstr ""
 
-#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3359
+#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3354
 msgid "Expander Size"
 msgstr "Laiendaja suurus"
 
-#: ../widgets/misc/e-expander.c:224 ../widgets/table/e-tree.c:3360
+#: ../widgets/misc/e-expander.c:224 ../widgets/table/e-tree.c:3355
 msgid "Size of the expander arrow"
 msgstr "Laienduse noole suurus"
 
@@ -21498,15 +21623,15 @@ msgstr "Isiklike kirjete sünkroniseerimine"
 msgid "Sync Categories:"
 msgstr "Katekooriate sünkroniseerimine:"
 
-#: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
+#: ../widgets/misc/e-reflow.c:1448 ../widgets/misc/e-reflow.c:1449
 msgid "Empty message"
 msgstr "Tühi sõnum"
 
-#: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
+#: ../widgets/misc/e-reflow.c:1455 ../widgets/misc/e-reflow.c:1456
 msgid "Reflow model"
 msgstr ""
 
-#: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
+#: ../widgets/misc/e-reflow.c:1462 ../widgets/misc/e-reflow.c:1463
 msgid "Column width"
 msgstr "Veeru laius"
 
@@ -21526,9 +21651,9 @@ msgstr "_Puhasta"
 msgid "Item ID"
 msgstr "Kirje ID"
 
-#: ../widgets/misc/e-search-bar.c:865 ../widgets/text/e-entry.c:1221
-#: ../widgets/text/e-entry.c:1222 ../widgets/text/e-text.c:3487
-#: ../widgets/text/e-text.c:3488
+#: ../widgets/misc/e-search-bar.c:865 ../widgets/text/e-entry.c:1216
+#: ../widgets/text/e-entry.c:1217 ../widgets/text/e-text.c:3484
+#: ../widgets/text/e-text.c:3485
 msgid "Text"
 msgstr "Tekst"
 
@@ -21550,25 +21675,25 @@ msgstr "Ot_sing: "
 msgid " i_n "
 msgstr ""
 
-#: ../widgets/misc/e-selection-model-array.c:547
-#: ../widgets/table/e-tree-selection-model.c:811
+#: ../widgets/misc/e-selection-model-array.c:543
+#: ../widgets/table/e-tree-selection-model.c:807
 msgid "Cursor Row"
 msgstr "Kursori rida"
 
-#: ../widgets/misc/e-selection-model-array.c:554
-#: ../widgets/table/e-tree-selection-model.c:818
+#: ../widgets/misc/e-selection-model-array.c:550
+#: ../widgets/table/e-tree-selection-model.c:814
 msgid "Cursor Column"
 msgstr "Kursori veerg"
 
-#: ../widgets/misc/e-selection-model.c:214
+#: ../widgets/misc/e-selection-model.c:210
 msgid "Sorter"
 msgstr "Sortija"
 
-#: ../widgets/misc/e-selection-model.c:221
+#: ../widgets/misc/e-selection-model.c:217
 msgid "Selection Mode"
 msgstr "Valimise režiim"
 
-#: ../widgets/misc/e-selection-model.c:229
+#: ../widgets/misc/e-selection-model.c:225
 msgid "Cursor Mode"
 msgstr "Kursorirežiim"
 
@@ -21737,43 +21862,43 @@ msgstr "_Saadaolevad kategooriad:"
 msgid "categories"
 msgstr "kategooriad"
 
-#: ../widgets/table/e-cell-combo.c:177
+#: ../widgets/table/e-cell-combo.c:169
 msgid "popup list"
 msgstr ""
 
-#: ../widgets/table/e-cell-date.c:64
+#: ../widgets/table/e-cell-date.c:62
 msgid "%l:%M %p"
 msgstr "%l:%M %p"
 
-#: ../widgets/table/e-cell-pixbuf.c:387
+#: ../widgets/table/e-cell-pixbuf.c:383
 msgid "Selected Column"
 msgstr "Valitud veerg"
 
-#: ../widgets/table/e-cell-pixbuf.c:394
+#: ../widgets/table/e-cell-pixbuf.c:390
 msgid "Focused Column"
 msgstr "Fokusseeritud veerg"
 
-#: ../widgets/table/e-cell-pixbuf.c:401
+#: ../widgets/table/e-cell-pixbuf.c:397
 msgid "Unselected Column"
 msgstr "Valimata veerg"
 
-#: ../widgets/table/e-cell-text.c:1802
+#: ../widgets/table/e-cell-text.c:1798
 msgid "Strikeout Column"
 msgstr "Läbikriipsutatud veerg"
 
-#: ../widgets/table/e-cell-text.c:1809
+#: ../widgets/table/e-cell-text.c:1805
 msgid "Underline Column"
 msgstr "Allajoonitud veerg"
 
-#: ../widgets/table/e-cell-text.c:1816
+#: ../widgets/table/e-cell-text.c:1812
 msgid "Bold Column"
 msgstr "Rasvane veerg"
 
-#: ../widgets/table/e-cell-text.c:1823
+#: ../widgets/table/e-cell-text.c:1819
 msgid "Color Column"
 msgstr "Värviline veerg"
 
-#: ../widgets/table/e-cell-text.c:1837
+#: ../widgets/table/e-cell-text.c:1833
 msgid "BG Color Column"
 msgstr "Taustavärviga veerg"
 
@@ -21788,7 +21913,7 @@ msgstr "Saadaolevad _väljad:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
-#: ../widgets/table/e-table-header-item.c:1580
+#: ../widgets/table/e-table-header-item.c:1579
 msgid "Ascending"
 msgstr "Kasvavas järjestuses"
 
@@ -21799,7 +21924,7 @@ msgstr "Puhasta kõik"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:4
-#: ../widgets/table/e-table-header-item.c:1580
+#: ../widgets/table/e-table-header-item.c:1579
 msgid "Descending"
 msgstr "Kahanevas järjestuses"
 
@@ -21823,7 +21948,7 @@ msgid "Sh_ow these fields in order:"
 msgstr "Välju _näidatakse sellest järjestuses:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
-#: ../widgets/table/e-table-config.c:643
+#: ../widgets/table/e-table-config.c:641
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "Näidatavad väljad"
@@ -21862,27 +21987,27 @@ msgstr "_Näidatavad väljad..."
 msgid "_Sort..."
 msgstr "_Sortimine..."
 
-#: ../widgets/table/e-table-config.c:154
+#: ../widgets/table/e-table-config.c:152
 msgid "State"
 msgstr "Seisund"
 
-#: ../widgets/table/e-table-config.c:387 ../widgets/table/e-table-config.c:429
+#: ../widgets/table/e-table-config.c:385 ../widgets/table/e-table-config.c:427
 msgid "(Ascending)"
 msgstr "(Kasvav)"
 
-#: ../widgets/table/e-table-config.c:387 ../widgets/table/e-table-config.c:429
+#: ../widgets/table/e-table-config.c:385 ../widgets/table/e-table-config.c:427
 msgid "(Descending)"
 msgstr "(Kahanev)"
 
-#: ../widgets/table/e-table-config.c:394
+#: ../widgets/table/e-table-config.c:392
 msgid "Not sorted"
 msgstr "Sortimata"
 
-#: ../widgets/table/e-table-config.c:435
+#: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
 msgstr "Rühmitus puudub"
 
-#: ../widgets/table/e-table-config.c:664
+#: ../widgets/table/e-table-config.c:662
 msgid "Available Fields"
 msgstr "Saadaolevad väljad"
 
@@ -21894,21 +22019,21 @@ msgstr "_Grupeerimine..."
 msgid "_Show these fields in order:"
 msgstr "_Näita neid välju järjestuses:"
 
-#: ../widgets/table/e-table-field-chooser-dialog.c:77
-#: ../widgets/table/e-table-field-chooser-item.c:637
-#: ../widgets/table/e-table-field-chooser.c:77
-#: ../widgets/table/e-table-header-item.c:1877
+#: ../widgets/table/e-table-field-chooser-dialog.c:67
+#: ../widgets/table/e-table-field-chooser-item.c:636
+#: ../widgets/table/e-table-field-chooser.c:67
+#: ../widgets/table/e-table-header-item.c:1875
 msgid "DnD code"
 msgstr "DnD kood"
 
-#: ../widgets/table/e-table-field-chooser-dialog.c:84
-#: ../widgets/table/e-table-field-chooser-item.c:644
-#: ../widgets/table/e-table-field-chooser.c:84
-#: ../widgets/table/e-table-header-item.c:1891
+#: ../widgets/table/e-table-field-chooser-dialog.c:74
+#: ../widgets/table/e-table-field-chooser-item.c:643
+#: ../widgets/table/e-table-field-chooser.c:74
+#: ../widgets/table/e-table-header-item.c:1889
 msgid "Full Header"
 msgstr "Kogupäis"
 
-#: ../widgets/table/e-table-field-chooser-dialog.c:126
+#: ../widgets/table/e-table-field-chooser-dialog.c:116
 msgid "Add a column..."
 msgstr "Veeru lisamine..."
 
@@ -21938,303 +22063,321 @@ msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d kirje)"
 msgstr[1] "%s (%d kirjet)"
 
+#: ../widgets/table/e-table-group-container.c:896
 #: ../widgets/table/e-table-group-container.c:897
-#: ../widgets/table/e-table-group-container.c:898
+#: ../widgets/table/e-table-group-leaf.c:572
 #: ../widgets/table/e-table-group-leaf.c:573
-#: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2975 ../widgets/table/e-table-item.c:2976
+#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 msgid "Alternating Row Colors"
 msgstr "Reavärvuste asendamine"
 
+#: ../widgets/table/e-table-group-container.c:903
 #: ../widgets/table/e-table-group-container.c:904
-#: ../widgets/table/e-table-group-container.c:905
+#: ../widgets/table/e-table-group-leaf.c:579
 #: ../widgets/table/e-table-group-leaf.c:580
-#: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2982 ../widgets/table/e-table-item.c:2983
-#: ../widgets/table/e-tree.c:3312 ../widgets/table/e-tree.c:3313
+#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
+#: ../widgets/table/e-tree.c:3307 ../widgets/table/e-tree.c:3308
 msgid "Horizontal Draw Grid"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:910
 #: ../widgets/table/e-table-group-container.c:911
-#: ../widgets/table/e-table-group-container.c:912
+#: ../widgets/table/e-table-group-leaf.c:586
 #: ../widgets/table/e-table-group-leaf.c:587
-#: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2989 ../widgets/table/e-table-item.c:2990
-#: ../widgets/table/e-tree.c:3318 ../widgets/table/e-tree.c:3319
+#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
+#: ../widgets/table/e-tree.c:3313 ../widgets/table/e-tree.c:3314
 msgid "Vertical Draw Grid"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:917
 #: ../widgets/table/e-table-group-container.c:918
-#: ../widgets/table/e-table-group-container.c:919
+#: ../widgets/table/e-table-group-leaf.c:593
 #: ../widgets/table/e-table-group-leaf.c:594
-#: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2996 ../widgets/table/e-table-item.c:2997
-#: ../widgets/table/e-tree.c:3324 ../widgets/table/e-tree.c:3325
+#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
+#: ../widgets/table/e-tree.c:3319 ../widgets/table/e-tree.c:3320
 msgid "Draw focus"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:924
 #: ../widgets/table/e-table-group-container.c:925
-#: ../widgets/table/e-table-group-container.c:926
+#: ../widgets/table/e-table-group-leaf.c:600
 #: ../widgets/table/e-table-group-leaf.c:601
-#: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:3003 ../widgets/table/e-table-item.c:3004
+#: ../widgets/table/e-table-item.c:3001 ../widgets/table/e-table-item.c:3002
 msgid "Cursor mode"
 msgstr "Kursorirežiim"
 
+#: ../widgets/table/e-table-group-container.c:931
 #: ../widgets/table/e-table-group-container.c:932
-#: ../widgets/table/e-table-group-container.c:933
+#: ../widgets/table/e-table-group-leaf.c:614
 #: ../widgets/table/e-table-group-leaf.c:615
-#: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2968 ../widgets/table/e-table-item.c:2969
+#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
 msgstr "Valikumudel"
 
+#: ../widgets/table/e-table-group-container.c:938
 #: ../widgets/table/e-table-group-container.c:939
-#: ../widgets/table/e-table-group-container.c:940
+#: ../widgets/table/e-table-group-leaf.c:607
 #: ../widgets/table/e-table-group-leaf.c:608
-#: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3010 ../widgets/table/e-table-item.c:3011
-#: ../widgets/table/e-table.c:3312 ../widgets/table/e-tree.c:3306
-#: ../widgets/table/e-tree.c:3307
+#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
+#: ../widgets/table/e-table.c:3307 ../widgets/table/e-tree.c:3301
+#: ../widgets/table/e-tree.c:3302
 msgid "Length Threshold"
 msgstr "Pikkuse lävi"
 
+#: ../widgets/table/e-table-group-container.c:945
 #: ../widgets/table/e-table-group-container.c:946
-#: ../widgets/table/e-table-group-container.c:947
+#: ../widgets/table/e-table-group-leaf.c:649
 #: ../widgets/table/e-table-group-leaf.c:650
-#: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3044 ../widgets/table/e-table-item.c:3045
-#: ../widgets/table/e-table.c:3319 ../widgets/table/e-tree.c:3338
-#: ../widgets/table/e-tree.c:3339
+#: ../widgets/table/e-table-item.c:3042 ../widgets/table/e-table-item.c:3043
+#: ../widgets/table/e-table.c:3314 ../widgets/table/e-tree.c:3333
+#: ../widgets/table/e-tree.c:3334
 msgid "Uniform row height"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:952
 #: ../widgets/table/e-table-group-container.c:953
-#: ../widgets/table/e-table-group-container.c:954
+#: ../widgets/table/e-table-group-leaf.c:642
 #: ../widgets/table/e-table-group-leaf.c:643
-#: ../widgets/table/e-table-group-leaf.c:644
 msgid "Frozen"
 msgstr "Külmutatud"
 
-#: ../widgets/table/e-table-header-item.c:1457
+#: ../widgets/table/e-table-header-item.c:1456
 msgid "Customize Current View"
 msgstr "Käesoleva vaate kohandamine"
 
-#: ../widgets/table/e-table-header-item.c:1477
+#: ../widgets/table/e-table-header-item.c:1476
 msgid "Sort _Ascending"
 msgstr "Sordi _kasvavalt"
 
-#: ../widgets/table/e-table-header-item.c:1478
+#: ../widgets/table/e-table-header-item.c:1477
 msgid "Sort _Descending"
 msgstr "Sordi ka_hanevalt"
 
-#: ../widgets/table/e-table-header-item.c:1479
+#: ../widgets/table/e-table-header-item.c:1478
 msgid "_Unsort"
 msgstr "Ä_ra sordi"
 
-#: ../widgets/table/e-table-header-item.c:1481
+#: ../widgets/table/e-table-header-item.c:1480
 msgid "Group By This _Field"
 msgstr "Grupeeri selle _välja järgi"
 
-#: ../widgets/table/e-table-header-item.c:1482
+#: ../widgets/table/e-table-header-item.c:1481
 msgid "Group By _Box"
 msgstr ""
 
-#: ../widgets/table/e-table-header-item.c:1484
+#: ../widgets/table/e-table-header-item.c:1483
 msgid "Remove This _Column"
 msgstr "Eemalda see _veerg"
 
-#: ../widgets/table/e-table-header-item.c:1485
+#: ../widgets/table/e-table-header-item.c:1484
 msgid "Add a C_olumn..."
 msgstr "Lisa _veerg..."
 
-#: ../widgets/table/e-table-header-item.c:1487
+#: ../widgets/table/e-table-header-item.c:1486
 msgid "A_lignment"
 msgstr "_Joondus"
 
-#: ../widgets/table/e-table-header-item.c:1488
+#: ../widgets/table/e-table-header-item.c:1487
 msgid "B_est Fit"
 msgstr "_Parim sobitus"
 
-#: ../widgets/table/e-table-header-item.c:1489
+#: ../widgets/table/e-table-header-item.c:1488
 msgid "Format Column_s..."
 msgstr "Kohanda veer_ge..."
 
-#: ../widgets/table/e-table-header-item.c:1491
+#: ../widgets/table/e-table-header-item.c:1490
 msgid "Custo_mize Current View..."
 msgstr "Kohanda käesolevat _vaadet..."
 
-#: ../widgets/table/e-table-header-item.c:1541
+#: ../widgets/table/e-table-header-item.c:1540
 msgid "Sort By"
 msgstr "Sortimine"
 
-#: ../widgets/table/e-table-header-item.c:1884
+#: ../widgets/table/e-table-header-item.c:1882
 msgid "Font Description"
 msgstr "Kirjatüübi kirjeldus"
 
-#: ../widgets/table/e-table-header-item.c:1905
-#: ../widgets/table/e-table-sorter.c:175
+#: ../widgets/table/e-table-header-item.c:1903
+#: ../widgets/table/e-table-sorter.c:173
 msgid "Sort Info"
 msgstr "Sortimisandmed"
 
-#: ../widgets/table/e-table-header-item.c:1919
-#: ../widgets/table/e-tree-scrolled.c:231
-#: ../widgets/table/e-tree-scrolled.c:232
+#: ../widgets/table/e-table-header-item.c:1917
+#: ../widgets/table/e-tree-scrolled.c:225
+#: ../widgets/table/e-tree-scrolled.c:226
 msgid "Tree"
 msgstr "Puu"
 
-#: ../widgets/table/e-table-item.c:2954 ../widgets/table/e-table-item.c:2955
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
 msgid "Table header"
 msgstr "Tabeli päis"
 
-#: ../widgets/table/e-table-item.c:2961 ../widgets/table/e-table-item.c:2962
+#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Table model"
 msgstr "Tabeli mudel"
 
-#: ../widgets/table/e-table-item.c:3037 ../widgets/table/e-table-item.c:3038
+#: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
 msgstr "Kursori rida"
 
-#: ../widgets/table/e-table.c:3326 ../widgets/table/e-tree.c:3345
-#: ../widgets/table/e-tree.c:3346
+#: ../widgets/table/e-table.c:3321 ../widgets/table/e-tree.c:3340
+#: ../widgets/table/e-tree.c:3341
 msgid "Always search"
 msgstr ""
 
-#: ../widgets/table/e-table.c:3333
+#: ../widgets/table/e-table.c:3328
 msgid "Use click to add"
 msgstr "Klõpsa lisamiseks"
 
-#: ../widgets/table/e-tree.c:3331 ../widgets/table/e-tree.c:3332
+#: ../widgets/table/e-tree.c:3326 ../widgets/table/e-tree.c:3327
 msgid "ETree table adapter"
 msgstr ""
 
-#: ../widgets/table/e-tree.c:3352
+#: ../widgets/table/e-tree.c:3347
 msgid "Retro Look"
 msgstr "Retrovälimus"
 
-#: ../widgets/table/e-tree.c:3353
+#: ../widgets/table/e-tree.c:3348
 msgid "Draw lines and +/- expanders."
 msgstr ""
 
-#: ../widgets/text/e-entry.c:1214 ../widgets/text/e-entry.c:1215
-#: ../widgets/text/e-text.c:3480 ../widgets/text/e-text.c:3481
+#: ../widgets/text/e-entry.c:1209 ../widgets/text/e-entry.c:1210
+#: ../widgets/text/e-text.c:3477 ../widgets/text/e-text.c:3478
 msgid "Event Processor"
 msgstr "Sündmusteprotsessor"
 
-#: ../widgets/text/e-entry.c:1228 ../widgets/text/e-entry.c:1229
-#: ../widgets/text/e-text.c:3516 ../widgets/text/e-text.c:3517
+#: ../widgets/text/e-entry.c:1223 ../widgets/text/e-entry.c:1224
+#: ../widgets/text/e-text.c:3513 ../widgets/text/e-text.c:3514
 msgid "Justification"
 msgstr "Joondamine"
 
-#: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
-#: ../widgets/text/e-text.c:3616 ../widgets/text/e-text.c:3617
+#: ../widgets/text/e-entry.c:1265 ../widgets/text/e-entry.c:1266
+#: ../widgets/text/e-text.c:3613 ../widgets/text/e-text.c:3614
 msgid "Use ellipsis"
 msgstr ""
 
-#: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
-#: ../widgets/text/e-text.c:3623 ../widgets/text/e-text.c:3624
+#: ../widgets/text/e-entry.c:1272 ../widgets/text/e-entry.c:1273
+#: ../widgets/text/e-text.c:3620 ../widgets/text/e-text.c:3621
 msgid "Ellipsis"
 msgstr ""
 
-#: ../widgets/text/e-entry.c:1284 ../widgets/text/e-entry.c:1285
-#: ../widgets/text/e-text.c:3630 ../widgets/text/e-text.c:3631
+#: ../widgets/text/e-entry.c:1279 ../widgets/text/e-entry.c:1280
+#: ../widgets/text/e-text.c:3627 ../widgets/text/e-text.c:3628
 msgid "Line wrap"
 msgstr "Reamurdmine"
 
-#: ../widgets/text/e-entry.c:1291 ../widgets/text/e-entry.c:1292
-#: ../widgets/text/e-text.c:3637 ../widgets/text/e-text.c:3638
+#: ../widgets/text/e-entry.c:1286 ../widgets/text/e-entry.c:1287
+#: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
 msgid "Break characters"
 msgstr ""
 
-#: ../widgets/text/e-entry.c:1298 ../widgets/text/e-entry.c:1299
-#: ../widgets/text/e-text.c:3644 ../widgets/text/e-text.c:3645
+#: ../widgets/text/e-entry.c:1293 ../widgets/text/e-entry.c:1294
+#: ../widgets/text/e-text.c:3641 ../widgets/text/e-text.c:3642
 msgid "Max lines"
 msgstr "Suurim ridade arv"
 
-#: ../widgets/text/e-entry.c:1305 ../widgets/text/e-entry.c:1306
-#: ../widgets/text/e-text.c:3673 ../widgets/text/e-text.c:3674
+#: ../widgets/text/e-entry.c:1300 ../widgets/text/e-entry.c:1301
+#: ../widgets/text/e-text.c:3670 ../widgets/text/e-text.c:3671
 msgid "Allow newlines"
 msgstr ""
 
-#: ../widgets/text/e-entry.c:1312 ../widgets/text/e-entry.c:1313
-#: ../widgets/text/e-text.c:3666 ../widgets/text/e-text.c:3667
+#: ../widgets/text/e-entry.c:1307 ../widgets/text/e-entry.c:1308
+#: ../widgets/text/e-text.c:3663 ../widgets/text/e-text.c:3664
 msgid "Draw borders"
 msgstr "Piirjoonte näitamine"
 
-#: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
-#: ../widgets/text/e-text.c:3680 ../widgets/text/e-text.c:3681
+#: ../widgets/text/e-entry.c:1314 ../widgets/text/e-entry.c:1315
+#: ../widgets/text/e-text.c:3677 ../widgets/text/e-text.c:3678
 msgid "Draw background"
 msgstr "Tausta joonistamine"
 
-#: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
-#: ../widgets/text/e-text.c:3687 ../widgets/text/e-text.c:3688
+#: ../widgets/text/e-entry.c:1321 ../widgets/text/e-entry.c:1322
+#: ../widgets/text/e-text.c:3684 ../widgets/text/e-text.c:3685
 msgid "Draw button"
 msgstr "Nupu joonistamine"
 
-#: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
-#: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
+#: ../widgets/text/e-entry.c:1328 ../widgets/text/e-entry.c:1329
+#: ../widgets/text/e-text.c:3691 ../widgets/text/e-text.c:3692
 msgid "Cursor position"
 msgstr "Kursori asukoht"
 
-#: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
+#: ../widgets/text/e-entry.c:1335 ../widgets/text/e-entry.c:1336
 msgid "Emulate label resize"
 msgstr "Sildi suuruse muutmise emuleerimine"
 
-#: ../widgets/text/e-text.c:2727
+#: ../widgets/text/e-text.c:2726
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
 
-#: ../widgets/text/e-text.c:3494 ../widgets/text/e-text.c:3495
+#: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
 msgid "Bold"
 msgstr "Rasvane"
 
-#: ../widgets/text/e-text.c:3501 ../widgets/text/e-text.c:3502
+#: ../widgets/text/e-text.c:3498 ../widgets/text/e-text.c:3499
 msgid "Strikeout"
 msgstr "Läbikriipsutatud"
 
-#: ../widgets/text/e-text.c:3508 ../widgets/text/e-text.c:3509
+#: ../widgets/text/e-text.c:3505 ../widgets/text/e-text.c:3506
 msgid "Anchor"
 msgstr "Ankur"
 
-#: ../widgets/text/e-text.c:3523 ../widgets/text/e-text.c:3524
+#: ../widgets/text/e-text.c:3520 ../widgets/text/e-text.c:3521
 msgid "Clip Width"
 msgstr "Klambri laius"
 
-#: ../widgets/text/e-text.c:3530 ../widgets/text/e-text.c:3531
+#: ../widgets/text/e-text.c:3527 ../widgets/text/e-text.c:3528
 msgid "Clip Height"
 msgstr "Klambri kõrgus"
 
-#: ../widgets/text/e-text.c:3537 ../widgets/text/e-text.c:3538
+#: ../widgets/text/e-text.c:3534 ../widgets/text/e-text.c:3535
 msgid "Clip"
 msgstr "Klamber"
 
-#: ../widgets/text/e-text.c:3544 ../widgets/text/e-text.c:3545
+#: ../widgets/text/e-text.c:3541 ../widgets/text/e-text.c:3542
 msgid "Fill clip rectangle"
 msgstr ""
 
-#: ../widgets/text/e-text.c:3551 ../widgets/text/e-text.c:3552
+#: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3549
 msgid "X Offset"
 msgstr "X-nihe"
 
-#: ../widgets/text/e-text.c:3558 ../widgets/text/e-text.c:3559
+#: ../widgets/text/e-text.c:3555 ../widgets/text/e-text.c:3556
 msgid "Y Offset"
 msgstr "Y-nihe"
 
-#: ../widgets/text/e-text.c:3594 ../widgets/text/e-text.c:3595
+#: ../widgets/text/e-text.c:3591 ../widgets/text/e-text.c:3592
 msgid "Text width"
 msgstr "Teksti laius"
 
-#: ../widgets/text/e-text.c:3601 ../widgets/text/e-text.c:3602
+#: ../widgets/text/e-text.c:3598 ../widgets/text/e-text.c:3599
 msgid "Text height"
 msgstr "Teksti kõrgus"
 
-#: ../widgets/text/e-text.c:3701 ../widgets/text/e-text.c:3702
+#: ../widgets/text/e-text.c:3698 ../widgets/text/e-text.c:3699
 msgid "IM Context"
 msgstr "Välksõnumikontekst"
 
-#: ../widgets/text/e-text.c:3708 ../widgets/text/e-text.c:3709
+#: ../widgets/text/e-text.c:3705 ../widgets/text/e-text.c:3706
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid "<b>Then</b>"
+#~ msgstr "<b>siis</b>"
+
+#~ msgid "Select Drafts Folder"
+#~ msgstr "Mustandite kausta valimine"
+
+#~ msgid "Select Sent Folder"
+#~ msgstr "Saadetud sõnumite kausta valimine"
+
+#~ msgid "Mark as _Read"
+#~ msgstr "_Märgi loetuks"
+
+#~ msgid "_Do not Mark as Read"
+#~ msgstr "_Ära märgi loetuks"
+
+#~ msgid "<b>Junk Mail Settings</b>"
+#~ msgstr "<b>Rämpsposti sätted</b>"
 
 #~ msgid ""
 #~ "The output directory was not found on iPod! Please ensure that iPod has "
