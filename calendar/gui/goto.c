@@ -254,6 +254,9 @@ goto_dialog (GnomeCalendar *gcal)
 	dlg->ecal->calitem->selection_end_month_offset = 0;
 	dlg->ecal->calitem->selection_end_day = tt.day;
 
+	/* Set week_start_day. Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
+	dlg->ecal->calitem->week_start_day = (calendar_config_get_week_start_day () + 6) % 7;
+
 	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (dlg->ecal->calitem));
 
 	b = gtk_dialog_run (GTK_DIALOG (dlg->dialog));
