@@ -537,6 +537,9 @@ load_contacts (EContactPrintContext *ctxt)
 		g_main_context_iteration (NULL, TRUE);
 
 	e_flag_free (book_view_started);
+
+	g_signal_handlers_disconnect_by_func (book_view, G_CALLBACK (contacts_added), ctxt);
+	g_signal_handlers_disconnect_by_func (book_view, G_CALLBACK (sequence_complete), book_view_started);
 }
 
 static void

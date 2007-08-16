@@ -1,3 +1,10 @@
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #412732
+
+	* printing/e-contact-print.c: (load_contacts):
+	Disconnecting previously connected signal handlers.
+
 2007-08-06  Milan Crha  <mcrha@redhat.com>
 
 	** Partial fix for bug #313221
