@@ -775,6 +775,9 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	for (i=0;i<count;i++) {
 		CamelMimePart *newpart = camel_multipart_get_part(mp, i);
 
+		if (!newpart)
+			continue;
+
 		type = camel_mime_part_get_content_type(newpart);
 		if (camel_content_type_is (type, "text", "*") && !camel_content_type_is(type, "text", "calendar")) {
 			camel_stream_printf (stream,
@@ -898,6 +901,11 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 	CamelContentType *type;
 	const char *access_type;
 	char *url = NULL, *desc = NULL;
+
+	if (!part) {
+		camel_stream_printf(stream, _("Unknown external-body part."));
+		return;
+	}
 
 	/* needs to be cleaner */
 	type = camel_mime_part_get_content_type(part);
@@ -1779,6 +1787,9 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	char *header_sender = NULL, *header_from = NULL, *name;
 	gboolean mail_from_delegate = FALSE;
 	
+	if (!part)
+		return;
+
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = e_iconv_charset_name(charset);	

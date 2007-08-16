@@ -1,5 +1,12 @@
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #350539
+
+	* gui/e-cal-popup.c: (ecalp_part_popup_set_background):
+	Ensures non-NULL part.
+
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #464106
 
 	* gui/goto.c: (goto_dialog):

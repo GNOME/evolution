@@ -435,7 +435,10 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
 	else
 		part = ((EMPopupTargetPart *) t)->part;
-	
+
+	if (!part)
+		return;
+
 	filename = g_strdup(camel_mime_part_get_filename(part));
 	   
 	/* if filename is blank, create a default filename based on MIME type */

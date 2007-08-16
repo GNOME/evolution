@@ -4175,7 +4175,10 @@ add_attachments_handle_mime_part (EMsgComposer *composer, CamelMimePart *mime_pa
 {
 	CamelContentType *content_type;
 	CamelDataWrapper *wrapper;
-	
+
+	if (!mime_part)
+		return;
+
 	content_type = camel_mime_part_get_content_type (mime_part);
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 	
@@ -4262,6 +4265,10 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 	e_msg_composer_set_pgp_sign (composer, TRUE);
 	
 	mime_part = camel_multipart_get_part (multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
+
+	if (!mime_part)
+		return;
+
 	content_type = camel_mime_part_get_content_type (mime_part);
 	
 	content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
@@ -4374,6 +4381,10 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 		CamelMimePart *mime_part;
 		
 		mime_part = camel_multipart_get_part (multipart, i);
+
+		if (!mime_part)
+			continue;
+
 		content_type = camel_mime_part_get_content_type (mime_part);
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		
@@ -4428,6 +4439,10 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 		CamelMimePart *mime_part;
 
 		mime_part = camel_multipart_get_part (multipart, i);
+
+		if (!mime_part)
+			continue;
+
 		content_type = camel_mime_part_get_content_type (mime_part);
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		

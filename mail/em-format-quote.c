@@ -358,6 +358,9 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 	const char *charset;
 	EMFormatHeader *h;
 	
+	if (!part)
+		return;
+
 	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = e_iconv_charset_name (charset);	
@@ -457,7 +460,10 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	CamelContentType *type;
 	const char *format;
 	guint32 rgb = 0x737373, flags;
-	
+
+	if (!part)
+		return;
+
 	flags = emfq->text_html_flags;
 	
 	/* Check for RFC 2646 flowed text. */

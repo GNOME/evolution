@@ -230,7 +230,7 @@ update (EMsgComposerAttachmentBar *bar)
 		
 		attachment = p->data;
 
-		if (!attachment->is_available_local) {
+		if (!attachment->is_available_local || !attachment->body) {
 			/* stock_attach would be better, but its fugly scaled up */
 			pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
 			if (pixbuf) {
@@ -776,7 +776,10 @@ attach_to_multipart (CamelMultipart *multipart,
 {
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
-	
+
+	if (!attachment->body)
+		return;
+
 	content_type = camel_mime_part_get_content_type (attachment->body);
 	content = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
 	

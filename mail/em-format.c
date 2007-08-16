@@ -1243,6 +1243,10 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 
 		/* is it correct to use the passed in *part here? */
 		part = camel_multipart_get_part(mp, i);
+
+		if (!part)
+			continue;
+
 		type = camel_mime_part_get_content_type (part);
 		mime_type = camel_content_type_simple (type);
 		
@@ -1533,7 +1537,12 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	CamelStream *ostream;
 	CamelException *ex;
 	char *type;
-	
+
+	if (!ipart) {
+		em_format_format_error(emf, stream, _("Unknown error verifying signature"));
+		return;
+	}
+
 	ex = camel_exception_new();
 	cipher = camel_gpg_context_new(emf->session);
 	/* Verify the signature of the message */

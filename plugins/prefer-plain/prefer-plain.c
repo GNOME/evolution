@@ -66,7 +66,7 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 	nparts = camel_multipart_get_number(mp);	
 	for (i=0; i<nparts; i++) {
 		part = camel_multipart_get_part(mp, i);
-		if (camel_content_type_is(camel_mime_part_get_content_type(part), "text", "plain")) {
+		if (part && camel_content_type_is(camel_mime_part_get_content_type(part), "text", "plain")) {
 			displayid = i;
 			display_part = part;
 			break;

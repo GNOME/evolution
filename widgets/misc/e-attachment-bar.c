@@ -194,6 +194,9 @@ e_attachment_bar_create_attachment_cache (EAttachment *attachment)
 
 	CamelContentType *content_type;
 
+	if (!attachment->body)
+		return;
+
 	content_type = camel_mime_part_get_content_type (attachment->body);
 
 	if (camel_content_type_is(content_type, "image", "*")) {
@@ -277,7 +280,7 @@ update (EAttachmentBar *bar)
 		
 		attachment = priv->attachments->pdata[i];
 		
-		if (!attachment->is_available_local) {
+		if (!attachment->is_available_local || !attachment->body) {
 			/* stock_attach would be better, but its fugly scaled up */
 			if ((pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG))) {
 				attachment->index = gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, "");
@@ -1070,6 +1073,9 @@ attach_to_multipart (CamelMultipart *multipart,
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
 	
+	if (!attachment->body)
+		return;
+
 	content_type = camel_mime_part_get_content_type (attachment->body);
 	content = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
 	

@@ -131,6 +131,9 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 		count--;
 	}
 
+	if (!mime_part)
+		return;
+
 	type = camel_mime_part_get_content_type (mime_part);
 	if (!camel_content_type_is (type, "text", "plain"))
 		return;

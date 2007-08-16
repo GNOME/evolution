@@ -700,7 +700,7 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 	dialog_data->mime_type_entry = GTK_ENTRY (glade_xml_get_widget (editor_gui, "mime_type_entry"));
 	dialog_data->disposition_checkbox = GTK_TOGGLE_BUTTON (glade_xml_get_widget (editor_gui, "disposition_checkbox"));
 	
-	if (attachment->is_available_local) {
+	if (attachment->is_available_local && attachment->body) {
 		set_entry (editor_gui, "file_name_entry", camel_mime_part_get_filename (attachment->body));
 		set_entry (editor_gui, "description_entry", camel_mime_part_get_description (attachment->body));
 		content_type = camel_mime_part_get_content_type (attachment->body);

@@ -1,3 +1,10 @@
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #350539
+
+	* audio-inline.c: (org_gnome_audio_inline_play_clicked):
+	Ensures non-NULL part.
+
 2006-01-09  Kjartan Maraas <kmaraas@gnome.org>
 
 	* audio-inline.c: (org_gnome_audio_inline_add_button):

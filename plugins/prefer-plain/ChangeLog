@@ -1,3 +1,10 @@
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #350539
+
+	* prefer-plain.c: (org_gnome_prefer_plain_multipart_alternative):
+	Ensures non-NULL part.
+
 2007-08-05  Johnny Jacob  <jjohnny@novell.com> 
 
 	* Committed on behalf of Anand V M  <avmuttagi@gmail.com>

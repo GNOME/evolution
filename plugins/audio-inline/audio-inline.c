@@ -214,14 +214,16 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 		d(printf ("audio inline formatter: init gst thread\n"));
 
 		if (gst_init_check (&argc, (char ***) &argv)) {
-			CamelContentType *type;
+			CamelContentType *type = NULL;
 			GstElement *filesrc;
 
 			/* create a disk reader */
 			filesrc = gst_element_factory_make ("filesrc", "disk_source");
 			g_object_set (G_OBJECT (filesrc), "location", po->filename, NULL);
 
-			type = camel_mime_part_get_content_type (po->part);
+			if (po->part)
+				type = camel_mime_part_get_content_type (po->part);
+
 			if (type) {
 				if (!g_ascii_strcasecmp (type->type, "audio")) {
 					if (!g_ascii_strcasecmp (type->subtype, "mpeg") || !g_ascii_strcasecmp (type->subtype, "x-mpeg")

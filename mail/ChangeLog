@@ -1,3 +1,14 @@
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #350539
+
+	* em-format-quote.c: (emfq_format_headers), (emfq_text_plain):
+	* em-format.c: (emf_multipart_alternative), (emf_inlinepgp_signed):
+	* em-popup.c: (emp_part_popup_set_background):
+	* em-format-html.c: (efh_text_plain), (efh_message_external),
+	(efh_format_headers):
+	Ensures non-NULL part.
+
 2007-08-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #467198

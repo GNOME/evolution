@@ -1,3 +1,14 @@
+2007-08-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #350539
+
+	* e-msg-composer-attachment.c: (e_msg_composer_attachment_edit):
+	* e-msg-composer-attachment-bar.c: (update), (attach_to_multipart):
+	* e-msg-composer.c: (add_attachments_handle_mime_part),
+	(handle_multipart_signed), (handle_multipart_alternative),
+	(handle_multipart):
+	Ensures non-NULL part.
+
 2007-08-10  Johnny Jacob  <jjohnny@novell.com>
 	
 	* Modified and committed on behalf of Sankar P  <psankar@novell.com>
