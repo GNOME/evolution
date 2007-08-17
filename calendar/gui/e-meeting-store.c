@@ -1150,9 +1150,11 @@ freebusy_async (gpointer data)
 {
 	FreeBusyAsyncData *fbd = data;
 	EMeetingAttendee *attendee = fbd->attendee;
-	gchar *default_fb_uri;
+	gchar *default_fb_uri = NULL;
+       	const char *fburi = NULL;
 	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 	EMeetingStorePrivate *priv = fbd->store->priv;
+	GnomeVFSAsyncHandle *handle;
 
 	if (fbd->client) {
 		/* FIXME this a work around for getting all th free busy information for the users 
@@ -1184,13 +1186,17 @@ freebusy_async (gpointer data)
 		return TRUE;
 	}
 
-	
-
 	/* Check for free busy info on the default server */
 	default_fb_uri = g_strdup (fbd->fb_uri);
+	fburi = g_strdup (e_meeting_attendee_get_fburi (attendee));
 
-	if (default_fb_uri != NULL && !g_str_equal (default_fb_uri, "")) {
-		GnomeVFSAsyncHandle *handle;
+	if (fburi) {
+		priv->num_queries++;
+		gnome_vfs_async_open (&handle, fburi, GNOME_VFS_OPEN_READ, 
+				      GNOME_VFS_PRIORITY_DEFAULT, start_async_read, 
+				      fbd->qdata);
+		g_free (fburi);
+	} else if (default_fb_uri != NULL && !g_str_equal (default_fb_uri, "")) {
 		gchar *tmp_fb_uri;
 		gchar **split_email;
 		
@@ -1204,7 +1210,6 @@ freebusy_async (gpointer data)
 		gnome_vfs_async_open (&handle, default_fb_uri, GNOME_VFS_OPEN_READ, 
 				      GNOME_VFS_PRIORITY_DEFAULT, start_async_read, 
 				      fbd->qdata);
-		priv->num_queries--;
 		
 		g_free (tmp_fb_uri);
 		g_strfreev (split_email);
@@ -1214,8 +1219,6 @@ freebusy_async (gpointer data)
 	}
 
 	return TRUE;
-
-
 }
 
 #undef USER_SUB
@@ -1431,6 +1434,7 @@ start_async_read (GnomeVFSAsyncHandle *handle,
 	EMeetingStoreQueueData *qdata = data;
 	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
 
+	qdata->store->priv->num_queries--;
 	if (result != GNOME_VFS_OK) {
 		g_warning ("Unable to access free/busy url: %s",
 			   gnome_vfs_result_to_string (result));

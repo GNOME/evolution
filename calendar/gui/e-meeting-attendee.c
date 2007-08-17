@@ -31,6 +31,7 @@
 struct _EMeetingAttendeePrivate {
 	gchar *address;
 	gchar *member;
+	gchar *fburi;
 
 	icalparameter_cutype cutype;
 	icalparameter_role role;
@@ -168,6 +169,7 @@ e_meeting_attendee_finalize (GObject *obj)
 
 	g_free (priv->address);
 	g_free (priv->member);
+	g_free (priv->fburi);
 
 	g_free (priv->delto);
 	g_free (priv->delfrom);
@@ -237,6 +239,30 @@ e_meeting_attendee_as_e_cal_component_attendee (EMeetingAttendee *ia)
 	return ca;
 }
 
+const gchar *
+e_meeting_attendee_get_fburi (EMeetingAttendee *ia)
+{
+	EMeetingAttendeePrivate *priv;
+	
+	priv = ia->priv;
+	
+	return priv->fburi;
+}
+
+void
+e_meeting_attendee_set_fburi (EMeetingAttendee *ia, gchar *fburi)
+{
+	EMeetingAttendeePrivate *priv;
+	
+	priv = ia->priv;
+	
+	if (priv->fburi != NULL)
+		g_free (priv->fburi);
+	
+	priv->fburi = string_test (fburi);
+
+	notify_changed (ia);
+}
 
 const gchar *
 e_meeting_attendee_get_address (EMeetingAttendee *ia)

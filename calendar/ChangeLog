@@ -1,3 +1,13 @@
+2007-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #274070 (bnc)
+	* gui/e-meeting-attendee.[ch]: (e_meeting_attendee_finalize),
+	(e_meeting_attendee_get_fburi), (e_meeting_attendee_set_fburi):
+	* gui/e-meeting-list-view.c: (process_section):
+	* gui/e-meeting-store.c: (freebusy_async), (start_async_read):
+	If the contact has a free busy url specified with it, use it to show
+	free busy information.	
+
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #350539

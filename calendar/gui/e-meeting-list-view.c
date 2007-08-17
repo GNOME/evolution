@@ -755,8 +755,9 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 		
 		for (l = list_dests; l; l = l->next) {
 			EDestination *dest = l->data;
+			EContact *contact;
 			const char *name, *attendee = NULL;
-			char *attr = NULL;
+			char *attr = NULL, *fburi = NULL;
 			
 			name = e_destination_get_name (dest);
 
@@ -765,7 +766,6 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 						      &attr, NULL)) {
 				/* FIXME this should be more general */
 				if (!g_ascii_strcasecmp (attr, "icscalendar")) {
-					EContact *contact;
 
 					/* FIXME: this does not work, have to use first
 					   e_destination_use_contact() */
@@ -782,9 +782,14 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 			if (attendee == NULL || *attendee == '\0') {
 				attendee = e_destination_get_email (dest);
 			}
-		
+
 			if (attendee == NULL || *attendee == '\0')
 				continue;
+			
+			contact = e_destination_get_contact (dest);
+			if (contact) 
+				fburi = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
+			
 		
 			if (e_meeting_store_find_attendee (priv->store, attendee, NULL) == NULL) {
 				EMeetingAttendee *ia = e_meeting_store_add_attendee_with_defaults (priv->store);
@@ -794,6 +799,9 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 				if (role == ICAL_ROLE_NONPARTICIPANT)
 					e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
 				e_meeting_attendee_set_cn (ia, g_strdup (name));
+				
+				if (fburi)
+					e_meeting_attendee_set_fburi (ia, fburi);
 			} else {
 				if (g_slist_length (*la) == 1) {
 					g_slist_free (*la);

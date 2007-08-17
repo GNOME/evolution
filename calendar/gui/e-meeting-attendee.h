@@ -132,6 +132,9 @@ void e_meeting_attendee_set_edit_level (EMeetingAttendee *ia, EMeetingAttendeeEd
 gboolean e_meeting_attendee_get_has_calendar_info (EMeetingAttendee *ia);
 void e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia, gboolean has_calendar_info);
 
+const gchar * e_meeting_attendee_get_fburi (EMeetingAttendee *ia);
+void e_meeting_attendee_set_fburi (EMeetingAttendee *ia, gchar *fburi);
+
 const GArray *e_meeting_attendee_get_busy_periods (EMeetingAttendee *ia);
 gint e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date);
 gboolean e_meeting_attendee_add_busy_period (EMeetingAttendee *ia, 
