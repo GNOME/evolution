@@ -1,3 +1,11 @@
+2007-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #420492
+	* gui/dialogs/event-page.c: (event_page_fill_widgets):
+	set the free_busy flag properly.		
+	
+	Committing on behalf of Ebby Wiselyn <ebbywiselyn@gmail.com>
+
 2007-08-17  Suman Manjunath  <msuman@novell.com>
 
 	reviewed by: Chenthill Palanisamy  <pchenthill@novell.com>

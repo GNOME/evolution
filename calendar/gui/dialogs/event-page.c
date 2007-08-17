@@ -1161,10 +1161,12 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_get_transparency (comp, &transparency);
 	switch (transparency) {
 	case E_CAL_COMPONENT_TRANSP_TRANSPARENT:
+		priv->show_time_as_busy = FALSE;
 		set_busy_time_menu (epage, FALSE);
 		break;
 
 	default:
+		priv->show_time_as_busy = TRUE;
 		set_busy_time_menu (epage, TRUE);
 		break;
 	}
