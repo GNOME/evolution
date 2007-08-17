@@ -1,3 +1,9 @@
+2007-08-17  Claude Paroz  <claude@2xlibre.net>
+
+	* Makefile.am: Added fr to DOC_LINGUAS.
+	* fr/fr.po: Added French translation.
+	* fr/figures/*.png: Added French screenshots.
+
 2007-08-16  Johnny Jacob  <jjohnny@novell.com>
 
 	Committed on behalf of PC Radhika <pradhika@novell.com>
