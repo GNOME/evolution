@@ -1,3 +1,10 @@
+2007-08-17  Johnny Jacob  <jjohnny@novell.com>
+ 
+ 	** Fix for bug #458715.
+	
+        * proxy.c : (proxy_page_changed_cb) : Do not include "<All User
+	Access>" in the list. And use g_malloc0.
+	
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #466548

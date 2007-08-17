@@ -396,7 +396,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 						continue;
 
 					name = (char *) e_destination_get_name (tmp->data);
-					new_proxy = (proxyHandler *) g_malloc (sizeof (proxyHandler));
+					new_proxy = (proxyHandler *) g_malloc0 (sizeof (proxyHandler));
 
 					if (name)
 						new_proxy->proxy_name = g_strdup (name);
@@ -737,6 +737,8 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 	proxyDialogPrivate *priv;
 	gpointer val;
 	gint pg_num;
+	GList *list_iter;
+	proxyHandler *aclInstance;
 
 	if (g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://")) {
 
@@ -759,6 +761,20 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 
 			if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
 				return FALSE;
+
+ 
+			list_iter = priv->proxy_list;
+ 
+			for (;list_iter; list_iter = g_list_next(list_iter)) {        
+				aclInstance = (proxyHandler *) list_iter->data;
+ 
+				/* NOTE: All User Access is not supported */
+				if (!g_ascii_strcasecmp (aclInstance->proxy_name, "<All User Access>")) {
+					priv->proxy_list = g_list_delete_link (priv->proxy_list, list_iter);
+					break;
+				}
+			}
+
 			proxy_update_tree_view (account);
 			return TRUE;
 		}
