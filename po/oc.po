@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution 2.11.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-25 22:41+0200\n"
-"PO-Revision-Date: 2007-07-29 09:20+0200\n"
-"Last-Translator: Yannig MARCHEGAY <yannig@marchegay.org>\n"
+"PO-Revision-Date: 2007-08-07 14:08+0200\n"
+"Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2066,7 +2066,7 @@ msgstr "Macedònian"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "New Zealand"
-msgstr "Nòva Zelanda"
+msgstr "Novèla Zelanda"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Nicaragua"
@@ -3299,7 +3299,7 @@ msgstr "Enregistrar coma VCard..."
 #: ../calendar/gui/e-calendar-view.c:1679 ../calendar/gui/e-memo-table.c:902
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
-msgstr "_Dubrir"
+msgstr "_Dobrir"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:958
 msgid "_New Contact..."
@@ -4944,7 +4944,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:582
 msgid "_New Calendar"
-msgstr "Calendièr _nòu"
+msgstr "Calendièr _novèl"
 
 #: ../calendar/gui/calendar-component.c:899
 msgid "Failed upgrading calendars."
@@ -5006,7 +5006,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1568
 msgid "New calendar"
-msgstr "Calendièr nòu"
+msgstr "Calendièr novèl"
 
 #: ../calendar/gui/calendar-component.c:1569
 msgid "Cale_ndar"
@@ -5241,7 +5241,7 @@ msgstr "Propietats del calendièr"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:479
 msgid "New Calendar"
-msgstr "Calendièr nòu"
+msgstr "Calendièr novèl"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:564
 msgid "Task List Properties"
@@ -5430,7 +5430,7 @@ msgstr ""
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "T_hu"
-msgstr "Jó_u"
+msgstr "Jò_u"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Template:"
@@ -6348,7 +6348,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-details-page.c:515
 msgid "Web Page"
-msgstr "Pagina oèb"
+msgstr "Pagina web"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous</span>"
@@ -11241,7 +11241,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:58 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:53
 msgid "_View"
-msgstr "_Mostrar"
+msgstr "_Visualizar"
 
 #: ../mail/em-folder-tree.c:2092
 msgid "Open in _New Window"
@@ -11258,7 +11258,7 @@ msgstr "_Desplaçar..."
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2101
 msgid "_New Folder..."
-msgstr "Repertòri nòu..."
+msgstr "Repertòri novèl..."
 
 #: ../mail/em-folder-tree.c:2104 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
@@ -13459,7 +13459,7 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "F_ind:"
-msgstr "_Recèrcar :"
+msgstr "_Recercar :"
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "Find in Message"
@@ -14997,7 +14997,7 @@ msgstr "Mot de pas actiu :"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:4
 msgid "New Password:"
-msgstr "Mot de pas nòu :"
+msgstr "Mot de pas novèl :"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
 msgid "Your current password has expired. Please change your password now."
@@ -15108,7 +15108,7 @@ msgstr "_Prètzfaches :"
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
 #: ../widgets/table/e-table-header-item.c:1554
 msgid "Custom"
-msgstr "Personalizat"
+msgstr "Personalisat"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:201
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
@@ -15923,11 +15923,11 @@ msgstr ""
 
 #: ../plugins/imap-features/imap-headers.c:133
 msgid "Custom Header"
-msgstr "Encap personalizat"
+msgstr "Encap personalisat"
 
 #: ../plugins/imap-features/imap-headers.c:245
 msgid "Custom Headers"
-msgstr "Encaps personalizats"
+msgstr "Encaps personalisats"
 
 #: ../plugins/imap-features/imap-headers.c:252
 msgid "IMAP Headers"
@@ -15935,7 +15935,7 @@ msgstr "Encaps IMAP"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
 msgid "<b>Custom Headers</b>"
-msgstr "<b>Encaps personalizats</b>"
+msgstr "<b>Encaps personalisats</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
 msgid "<b>IMAP Headers </b>"
@@ -16529,7 +16529,7 @@ msgstr ""
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:762
 msgid "_Open Calendar"
-msgstr "_Dubrir un calendièr"
+msgstr "_Dobrir un calendièr"
 
 #: ../plugins/itip-formatter/itip-view.c:768
 #: ../plugins/itip-formatter/itip-view.c:772
@@ -17616,7 +17616,7 @@ msgstr ""
 #: ../shell/e-user-creatable-items-handler.c:688
 #: ../shell/e-user-creatable-items-handler.c:693
 msgid "New"
-msgstr "Nòu"
+msgstr "Novèl"
 
 #: ../shell/evolution-test-component.c:140
 msgid "New Test"
@@ -18551,7 +18551,7 @@ msgstr "_Desplaçar lo repertòri dels contactes cap a"
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:47
 msgid "_New"
-msgstr "_Nòu"
+msgstr "_Novèl"
 
 #: ../ui/evolution-addressbook.xml.h:60
 msgid "_Rename"
@@ -18988,7 +18988,7 @@ msgstr "_Desplaçar lo repertòri cap a..."
 
 #: ../ui/evolution-mail-global.xml.h:22
 msgid "_New..."
-msgstr "_Nòu..."
+msgstr "_Novèl..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Preview"
@@ -19780,7 +19780,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Open..."
-msgstr "_Dubrir..."
+msgstr "_Dobrir..."
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Post-To Field"
