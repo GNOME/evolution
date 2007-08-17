@@ -7,7 +7,8 @@
 # Hendrik Richter <hendrikr@gnome.org>, 2004, 2005, 2006, 2007.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Christian Kintner <mail@christian-kintner.de>, 2006, 2007.
-# 
+# Andre Klapper <ak47@gmx.net>, 2007.
+#
 # Sprachregelungen:
 # task = Aufgabe (Auftrag klingt nach Buchhaltung)
 # mailbox = Postfach (dt. Mailbox ist die Übersetzung von "BBS")
@@ -19,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-17 16:01+0200\n"
-"PO-Revision-Date: 2007-08-17 16:02+0200\n"
-"Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
+"PO-Revision-Date: 2007-08-17 16:03+0200\n"
+"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4249,7 +4250,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:24
 msgid "Cannot create a new event"
-msgstr "Anlegen eines neuen Ereignisses fehlgeschlagen"
+msgstr "Anlegen eines neuen Ereignisses gescheitert"
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete calendar '{0}'?"
@@ -11711,7 +11712,7 @@ msgstr "Angeben, wo der Ordner angelegt werden soll:"
 
 #: ../mail/em-folder-view.c:974 ../mail/mail.error.xml.h:68
 msgid "Mail Deletion Failed"
-msgstr "Löschen der E-Mail fehlgeschlagen"
+msgstr "Löschen der E-Mail gescheitert"
 
 #: ../mail/em-folder-view.c:975 ../mail/mail.error.xml.h:123
 msgid "You do not have sufficient permissions to delete this mail."
@@ -13279,7 +13280,7 @@ msgstr "Einen neuen E-Mail-Ordner anlegen"
 
 #: ../mail/mail-component.c:1036
 msgid "Failed upgrading Mail settings or folders."
-msgstr "Auffrischen der E-Mail-Einstellungen oder -Ordner fehlgeschlagen."
+msgstr "Auffrischen der E-Mail-Einstellungen oder -Ordner gescheitert."
 
 #: ../mail/mail-config.c:81
 msgid "I_mportant"
@@ -14535,11 +14536,11 @@ msgstr "Änderungen am Konto konnten nicht gespeichert werden."
 
 #: ../mail/mail.error.xml.h:38
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "Speichern in das Verzeichnis »{0}« fehlgeschlagen."
+msgstr "Speichern in den Ordner »{0}« gescheitert."
 
 #: ../mail/mail.error.xml.h:39
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr "Speichern in die Datei »{0}« fehlgeschlagen."
+msgstr "Speichern in die Datei »{0}« gescheitert."
 
 #: ../mail/mail.error.xml.h:40
 msgid "Cannot set signature script &quot;{0}&quot;."
@@ -15167,7 +15168,7 @@ msgstr ""
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:376
 msgid "Keywords"
-msgstr "Schöüsselwörter"
+msgstr "Schlüsselwörter"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:422
 msgid "Attachment Reminder Preferences"
@@ -16080,11 +16081,11 @@ msgstr "<b>Berechtigungen</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "Cannot Delete"
-msgstr "Löschen fehlgeschlagen"
+msgstr "Löschen gescheitert"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Edit"
-msgstr "Bearbeiten fehlgeschlagen"
+msgstr "Bearbeiten gescheitert"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Create items"
@@ -17048,7 +17049,7 @@ msgstr ""
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:66
 msgid "Search for an iPod failed"
-msgstr "Die Suche nach einem iPod ist fehlgeschlagen"
+msgstr "Die Suche nach einem iPod ist gescheitert"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:67
 msgid ""
