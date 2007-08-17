@@ -3966,6 +3966,9 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 	e_cal_component_set_dtend (comp, &date);
 
+       /* Editor default in week/month view */
+       e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
+
 	e_cal_component_set_categories (
 		comp, e_calendar_view_get_default_category (E_CALENDAR_VIEW (week_view)));
 

@@ -6184,8 +6184,14 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		start_dt.tzid = NULL;
 		start_tt.is_date = 1;
 		end_tt.is_date = 1;
+		
+		/* Editor default in day/work-week view - top canvas */
+		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
 	} else {
 		start_dt.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		
+		/* Editor default in day/work-week view - main canvas */
+		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
 	}
 
 	start_dt.value = &start_tt;
