@@ -159,8 +159,12 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 
 	g_free (filename);
 	if (unscaled != NULL) {
-		pixbuf = gdk_pixbuf_scale_simple (unscaled, size, size, GDK_INTERP_BILINEAR);
-		g_object_unref (unscaled);
+		if(gdk_pixbuf_get_width(unscaled) != size || gdk_pixbuf_get_height(unscaled) != size)
+		{
+			pixbuf = gdk_pixbuf_scale_simple (unscaled, size, size, GDK_INTERP_BILINEAR);
+			g_object_unref (unscaled);
+		} else
+			pixbuf = unscaled;
 	} else {
 		pixbuf = NULL;
 	}
