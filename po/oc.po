@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution 2.11.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-25 22:41+0200\n"
-"PO-Revision-Date: 2007-08-07 14:08+0200\n"
+"PO-Revision-Date: 2007-08-19 18:00+0200\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -3173,7 +3173,7 @@ msgstr ""
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:427
 msgid "card.vcf"
-msgstr ""
+msgstr "carta.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:464
 msgid "Select Address Book"
@@ -5253,7 +5253,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:1
 msgid "Add Calendar"
-msgstr ""
+msgstr "Apondre un calendièr"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Task List"
@@ -5267,7 +5267,7 @@ msgstr "Causissètz una color"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 msgid "_Add Calendar"
-msgstr ""
+msgstr "_Apondre un calendièr"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Task List"
@@ -9618,7 +9618,7 @@ msgstr ""
 
 #: ../calendar/zones.h:309
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Euròpa/Madrid"
 
 #: ../calendar/zones.h:310
 msgid "Europe/Malta"
