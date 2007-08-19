@@ -2281,7 +2281,7 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 static gboolean
 emft_tree_user_event (GtkTreeView *treeview, GdkEvent *e, EMFolderTree *emft)
 {
-	if (e->type == GDK_KEY_PRESS && e->key.keyval == GDK_space) {
+	if (e && e->type == GDK_KEY_PRESS && e->key.keyval == GDK_space) {
 		return TRUE;
 	}
 	if (!emft->priv->do_multiselect)
