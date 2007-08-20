@@ -350,7 +350,7 @@ e_file_dialog_save_folder (const char *title)
  * e_file_get_save_filesel:
  * @parent: parent window
  * @title: dialog title
- * @name: filename
+ * @name: filename; already in a proper form (suitable for file system)
  * @action: action for dialog
  *
  * Creates a save dialog, using the saved directory from gconf.   The dialog has
@@ -360,7 +360,7 @@ GtkWidget *
 e_file_get_save_filesel (GtkWidget *parent, const char *title, const char *name, GtkFileChooserAction action)
 {
 	GtkWidget *filesel;
-	char *realname, *uri;
+	char *uri;
 
 	filesel = gtk_file_chooser_dialog_new (title,
 					       NULL,
@@ -376,18 +376,11 @@ e_file_get_save_filesel (GtkWidget *parent, const char *title, const char *name,
 
 	uri = e_file_get_save_path();
 
-	if (name && name[0]) {
-		realname = gnome_vfs_escape_string (name);
-	} else {
-		realname = NULL;
-	}
-
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (filesel), uri);
 
-	if (realname)
-		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), realname);
+	if (name && name[0])
+		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), name);
 
-	g_free (realname);
 	g_free (uri);
 
 	return filesel;

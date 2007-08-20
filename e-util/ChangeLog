@@ -1,3 +1,10 @@
+2007-08-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #367760
+
+	* e-dialog-utils.c: (e_file_get_save_filesel):
+	Don't escape characters of file name, suppose it has been already done.
+
 2007-08-18  Tobias Mueller  <muelli@auftrags-killer.org>
 
         patch by: Tim Yamin <plasm@roo.me.uk>

@@ -328,9 +328,9 @@ em_filename_make_safe (gchar *string)
 	gchar *p, *ts;
 	gunichar c;
 #ifdef G_OS_WIN32
-	const char *unsafe_chars = "/\":*?<>|\\";
+	const char *unsafe_chars = "/\":*?<>|\\#";
 #else
-	const char *unsafe_chars = "/";
+	const char *unsafe_chars = "/#";
 #endif	
 	
 	g_return_if_fail (string != NULL);
@@ -385,10 +385,12 @@ void
 em_utils_save_part (GtkWidget *parent, const char *prompt, CamelMimePart *part)
 {
 	GtkWidget *file_chooser;
-	const gchar *filename;
-	gchar *uri = NULL;
+	const gchar *utf8_filename;
+	gchar *uri = NULL, *filename;
 
-	filename = emu_save_get_filename_for_part (part);
+	utf8_filename = emu_save_get_filename_for_part (part);
+	filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
+	em_filename_make_safe (filename);
 
 	file_chooser = e_file_get_save_filesel (
 		parent, prompt, filename, GTK_FILE_CHOOSER_ACTION_SAVE);
@@ -413,6 +415,7 @@ em_utils_save_part (GtkWidget *parent, const char *prompt, CamelMimePart *part)
 exit:
 	gtk_widget_destroy (file_chooser);
 	g_free (uri);
+	g_free (filename);
 }
 
 void
@@ -439,6 +442,7 @@ em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
 
 		utf8_filename = emu_save_get_filename_for_part (part);
 		filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
+		em_filename_make_safe (filename);
 
 		uri = g_build_path ("/", path_uri, filename, NULL);
 		g_free (filename);

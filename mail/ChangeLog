@@ -1,3 +1,12 @@
+2007-08-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #367760
+
+	* em-utils.c: (em_filename_make_safe): Added '#' as non-safe character.
+	* em-utils.c: (em_utils_save_part): Using em_filename_make_safe and
+	creates filename similar to em_utils_save_parts.
+	* em-utils.c: (em_utils_save_parts): Using em_filename_make_safe.
+
 2007-08-20  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fix for bug #467599.
