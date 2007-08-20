@@ -1,5 +1,6 @@
 INCLUDES =					\
 	-I$(top_srcdir)				\
+	-I$(top_builddir)/shell			\
 	$(EVOLUTION_CALENDAR_CFLAGS)		\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 

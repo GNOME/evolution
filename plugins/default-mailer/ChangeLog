@@ -1,3 +1,7 @@
+2007-08-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am: Fix a distcheck error.
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* default-mailer.c: (org_gnome_default_mailer_check_default): Plugged

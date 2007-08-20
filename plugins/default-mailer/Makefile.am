@@ -1,5 +1,6 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
+	-I$(top_builddir)/shell				\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 @EVO_PLUGIN_RULE@
