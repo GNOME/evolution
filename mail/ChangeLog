@@ -1,3 +1,11 @@
+2007-08-20  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for bug #467599.
+		
+	* mail-component.c: (enable_folder_tree): No need to emit a
+	folder_selected signal when no folder is selected. Plugged a
+	memory leak.
+			
 2007-08-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #467165

@@ -656,29 +656,33 @@ enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 	CamelException ex;
 	EMFolderView *emfv = (EMFolderView *)emfb;
 
-	camel_exception_init (&ex);
-
-	/* Currently displayed folder */
+	/* current_curl - Currently displayed folder (can be the account_search_vfolder) */
 	MessageList *ml = emfv->list;
 	folder = ml->folder;
 	uri = mail_tools_folder_to_url (folder);
 	current_curl = camel_url_new (uri, NULL);
+	g_free (uri);
 
-	/* Selected folder in emft*/
+	/* selected_curl - Folder that is/was selected in the folder tree */
 	uri = em_folder_tree_get_selected_uri ((EMFolderTree *) emft);
-	folder = mail_tool_uri_to_folder (uri, 0, &ex);
-	selected_curl = camel_url_new (uri, NULL);
 
-	camel_exception_clear (&ex);
-	if (!camel_url_equal (selected_curl, current_curl)) 
- 		g_signal_emit_by_name (emft, "folder-selected", emft, uri, folder->full_name, uri, folder->folder_flags); 
+	/* if no folder is selected, skip this section */
+	if (uri && *uri) {
+		camel_exception_init (&ex);
+		folder = mail_tool_uri_to_folder (uri, 0, &ex);
+		selected_curl = camel_url_new (uri, NULL);
+		camel_exception_clear (&ex);
+
+		if (!camel_url_equal (selected_curl, current_curl)) 
+			g_signal_emit_by_name (emft, "folder-selected", emft, uri, folder->full_name, uri, folder->folder_flags); 
+
+		camel_url_free (selected_curl);
+		g_free (uri);
+	}
 
 	gtk_widget_set_sensitive (emft, TRUE);
 
 	camel_url_free (current_curl);
-	camel_url_free (selected_curl);
-	g_free (uri);
-
 }
 
 /* Evolution::Component CORBA methods.  */
