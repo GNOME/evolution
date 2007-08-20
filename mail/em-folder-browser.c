@@ -148,7 +148,22 @@ static void emfb_search_search_cleared(ESearchBar *esb);
 static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
 static void emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb);
 
-static const EMFolderViewEnable emfb_enable_map[];
+static const EMFolderViewEnable emfb_enable_map[] = {
+	{ "EditInvertSelection", EM_POPUP_SELECT_FOLDER },
+	{ "EditSelectAll", EM_POPUP_SELECT_FOLDER },
+	{ "EditSelectThread", EM_FOLDER_VIEW_SELECT_THREADED },
+	{ "FolderExpunge", EM_POPUP_SELECT_FOLDER },
+	{ "FolderCopy", EM_POPUP_SELECT_FOLDER },
+	{ "FolderMove", EM_POPUP_SELECT_FOLDER },
+	{ "FolderDelete", EM_POPUP_SELECT_FOLDER },
+	{ "FolderRename", EM_POPUP_SELECT_FOLDER },
+	{ "MailPost", EM_POPUP_SELECT_FOLDER },
+	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
+	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
+	{ "ViewThreadsCollapseAll", EM_FOLDER_VIEW_SELECT_THREADED},
+	{ "ViewThreadsExpandAll", EM_FOLDER_VIEW_SELECT_THREADED},
+	{ NULL },
+};
 
 enum {
 	ACCOUNT_SEARCH_ACTIVATED,
@@ -1606,22 +1621,6 @@ static EPixmap emfb_pixmaps[] = {
 	E_PIXMAP_END
 };
 
-static const EMFolderViewEnable emfb_enable_map[] = {
-	{ "EditInvertSelection", EM_POPUP_SELECT_FOLDER },
-	{ "EditSelectAll", EM_POPUP_SELECT_FOLDER },
-	{ "EditSelectThread", EM_FOLDER_VIEW_SELECT_THREADED },
-	{ "FolderExpunge", EM_POPUP_SELECT_FOLDER },
-	{ "FolderCopy", EM_POPUP_SELECT_FOLDER },
-	{ "FolderMove", EM_POPUP_SELECT_FOLDER },
-	{ "FolderDelete", EM_POPUP_SELECT_FOLDER },
-	{ "FolderRename", EM_POPUP_SELECT_FOLDER },
-	{ "MailPost", EM_POPUP_SELECT_FOLDER },
-	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
-	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
-	{ "ViewThreadsCollapseAll", EM_FOLDER_VIEW_SELECT_THREADED},
-	{ "ViewThreadsExpandAll", EM_FOLDER_VIEW_SELECT_THREADED},
-	{ NULL },
-};
 
 static void
 emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
