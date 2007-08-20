@@ -22,11 +22,8 @@ liborg_gnome_evolution_attachment_reminder_la_SOURCES = attachment-reminder.c
 liborg_gnome_evolution_attachment_reminder_la_LDFLAGS = -module -avoid-version
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps-evolution-attachment-reminder.schemas.in.in
-schema_DATA     = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
-
-%-$(BASE_VERSION).schemas.in: %.schemas.in.in
-	cp $< $@
+schema_in_files = apps-evolution-attachment-reminder.schemas.in
+schema_DATA     = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
