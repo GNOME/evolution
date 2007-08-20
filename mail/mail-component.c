@@ -501,7 +501,6 @@ view_on_url (GObject *emitter, const char *url, const char *nice_url, MailCompon
 static void
 view_changed(EMFolderView *emfv, EComponentView *component_view)
 {
-	MailComponent *mc = mail_component_peek ();
 	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
 	CORBA_Environment ev;
 
@@ -650,39 +649,37 @@ disable_folder_tree (gpointer *emfb, GtkWidget *widget)
 static void 
 enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 {
-	char *uri;
+	EMFolderView *emfv = (EMFolderView *) emfb;
 	CamelURL *selected_curl, *current_curl;
-	CamelFolder *folder;
-	CamelException ex;
-	EMFolderView *emfv = (EMFolderView *)emfb;
+	gchar *uri;
 
-	/* current_curl - Currently displayed folder (can be the account_search_vfolder) */
-	MessageList *ml = emfv->list;
-	folder = ml->folder;
-	uri = mail_tools_folder_to_url (folder);
-	current_curl = camel_url_new (uri, NULL);
+	/* Get the currently displayed folder. */
+	uri = mail_tools_folder_to_url (emfv->list->folder);
+	current_curl = uri ? camel_url_new (uri, NULL) : NULL;
 	g_free (uri);
 
-	/* selected_curl - Folder that is/was selected in the folder tree */
-	uri = em_folder_tree_get_selected_uri ((EMFolderTree *) emft);
+	/* Get the selected folder in the folder tree. */
+	uri = em_folder_tree_get_selected_uri (EM_FOLDER_TREE (emft));
+	selected_curl = uri ? camel_url_new (uri, NULL) : NULL;
 
-	/* if no folder is selected, skip this section */
-	if (uri && *uri) {
+	if (current_curl && selected_curl && !camel_url_equal (selected_curl, current_curl)) {
+		CamelFolder *folder;
+		CamelException ex;
+
 		camel_exception_init (&ex);
 		folder = mail_tool_uri_to_folder (uri, 0, &ex);
-		selected_curl = camel_url_new (uri, NULL);
 		camel_exception_clear (&ex);
 
-		if (!camel_url_equal (selected_curl, current_curl)) 
-			g_signal_emit_by_name (emft, "folder-selected", emft, uri, folder->full_name, uri, folder->folder_flags); 
-
-		camel_url_free (selected_curl);
-		g_free (uri);
+		g_signal_emit_by_name (
+			emft, "folder-selected", emft, uri,
+			folder->full_name, uri, folder->folder_flags);
 	}
 
 	gtk_widget_set_sensitive (emft, TRUE);
 
 	camel_url_free (current_curl);
+	camel_url_free (selected_curl);
+	g_free (uri);
 }
 
 /* Evolution::Component CORBA methods.  */
