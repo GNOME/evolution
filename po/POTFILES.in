@@ -254,7 +254,7 @@ mail/message-tag-editor.c
 mail/message-tag-followup.c
 mail/searchtypes.xml
 plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
-plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.in
+plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in
 plugins/attachment-reminder/attachment-reminder.c
 plugins/attachment-reminder/attachment-reminder.glade
 plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml

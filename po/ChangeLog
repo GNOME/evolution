@@ -1,3 +1,8 @@
+2007-08-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Reflect rename in a plugin.
+	* nb.po: Updated Norwegian bokmål translation.
+
 2007-08-20  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
