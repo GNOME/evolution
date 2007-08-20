@@ -5352,7 +5352,7 @@ msgstr "Lo jorn _termina :"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
-msgstr "Afichar"
+msgstr "Visualizar"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.c:1091
@@ -5387,7 +5387,7 @@ msgid ""
 "Sunday"
 msgstr ""
 "Diluns\n"
-"Dimarç\n"
+"Dimars\n"
 "Dimècres\n"
 "Dijòus\n"
 "Divendres\n"
@@ -7903,11 +7903,11 @@ msgstr "Mai"
 
 #: ../calendar/gui/goto-dialog.glade.h:10
 msgid "November"
-msgstr "Noviembre"
+msgstr "Novembre"
 
 #: ../calendar/gui/goto-dialog.glade.h:11
 msgid "October"
-msgstr "Octobre"
+msgstr "Octòbre"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
