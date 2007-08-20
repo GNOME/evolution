@@ -1886,31 +1886,67 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 }
 
 /**
- * e_calendar_view_new_appointment
- * @cal_view: A calendar view.
+ * e_calendar_view_new_appointment_full
+ * @param cal_view: A calendar view.
+ * @param all_day: Whether create all day event or not.
+ * @param meeting: This is a meeting or an appointment.
+ * @param no_past_date: Don't create event in past date, use actual date instead (if TRUE).
  *
  * Opens an event editor dialog for a new appointment. The appointment's
  * start and end times are set to the currently selected time range in
  * the calendar view.
  *
- * With @actual_day set to TRUE, there will be always used actual day.
+ * When the selection is for all day and we don't need @all_day event,
+ * then this do a rounding to the actual hour for actual day (today) and
+ * to the 'day begins' from preferences in other selected day.
  */
 void
-e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day, gboolean meeting, gboolean actual_day)
+e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day, gboolean meeting, gboolean no_past_date)
 {
-	time_t dtstart, dtend;
+	time_t dtstart, dtend, now;
+	gboolean do_rounding = FALSE;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	if (actual_day ||
-	    !e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend)) {
-		dtstart = time (NULL);
+	now = time (NULL);
+
+	if (!e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend)) {
+		dtstart = now;
 		dtend = dtstart + 3600;
 	}
-	/* FIXME This is a rough hack to make sure "all day" is set for */
-	if ((dtend - dtstart) % (60 * 60 * 24) == 0)
-		all_day = TRUE;
-	
+
+	if (no_past_date && dtstart < now) {
+		dtend = time_day_begin (now) + (dtend - dtstart);
+		dtstart = time_day_begin (now);
+		do_rounding = TRUE;
+	}
+
+	/* We either need rounding or don't want to set all_day for this, we will rather use actual */
+	/* time in this cases; dtstart should be a midnight in this case */
+	if (do_rounding || (!all_day && (dtend - dtstart) % (60 * 60 * 24) == 0)) {
+		struct tm local = *localtime (&now);
+		int time_div = calendar_config_get_time_divisions ();
+		int hours, mins;
+
+		if (time_day_begin (now) == time_day_begin (dtstart)) {
+			/* same day as today */
+			hours = local.tm_hour;
+			mins = local.tm_min;
+
+			/* round minutes to nearest time division, up or down */
+			if ((mins % time_div) >= time_div / 2)
+				mins += time_div;
+			mins = (mins - (mins % time_div));
+		} else {
+			/* other day than today */
+			hours = calendar_config_get_day_start_hour ();
+			mins = calendar_config_get_day_start_minute ();
+		}
+
+		dtstart = dtstart + (60 * 60 * hours) + (mins * 60);
+		dtend = dtstart + (time_div * 60);
+	}
+
 	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, all_day, meeting);
 }
 

@@ -1267,15 +1267,6 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 		return FALSE;
 
 	if (component_view && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (component_view->calendar)))) {
-		GnomeCalendarViewType view_type;
-
-		/* Force all for these view types because thats what's selected and it mimics a double click */
-		view_type = gnome_calendar_get_view (component_view->calendar);
-		if (view_type == GNOME_CAL_WEEK_VIEW 
-		    || view_type == GNOME_CAL_MONTH_VIEW
-		    || view_type == GNOME_CAL_LIST_VIEW)
-			is_allday = TRUE;
-
 		e_calendar_view_new_appointment_full (view, is_allday, is_meeting, TRUE);
 	} else {
 		ECalComponent *comp;

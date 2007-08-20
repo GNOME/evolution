@@ -2061,7 +2061,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return FALSE;
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
-		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), TRUE, FALSE, FALSE);
+		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), FALSE, FALSE, FALSE);
 		return TRUE;
 	}
 

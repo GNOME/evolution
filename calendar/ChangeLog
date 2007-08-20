@@ -1,3 +1,26 @@
+2007-08-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #262226
+
+	* gui/e-calendar-view.h:
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_full):
+	Changed meaning of the last parameter: no_past_date to indicate if
+	we accept past dates (we do not for File->New->items).
+	Also changed behavior: when don't need all_day event and there are
+	24 hours selected, then change start/end to actual time in actual day,
+	or to 'day begins' from pereferences for other selected days,
+	instead of setting all_day event to TRUE.
+	* gui/calendar-component.c: (create_new_event):
+	Don't force all day event.
+	* gui/e-week-view.c: (e_week_view_on_button_press):
+	Changing call of 'e_calendar_view_new_appointment_full'.
+
+	* gui/dialogs/event-page.c: (clear_widgets):
+	Fixed critical warning when no default_address set.
+	* gui/dialogs/event-page.c: (event_page_finalize),
+	(event_page_select_organizer): Free memory when no longer needed.
+	* gui/dialogs/event-page.c: (event_page_init): There was twice the same.
+
 2007-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #420492

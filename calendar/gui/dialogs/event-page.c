@@ -268,8 +268,6 @@ event_page_init (EventPage *epage)
 	priv->is_meeting = FALSE;
 	priv->sync_timezones = FALSE;
 
-	priv->default_address = NULL;
-
 	priv->alarm_list_dlg_widget = NULL;
 }
 
@@ -321,6 +319,9 @@ event_page_finalize (GObject *object)
 	g_free (priv->old_summary);
 
 	priv->alarm_list_dlg_widget = NULL;
+
+	g_free (priv->default_address);
+	priv->default_address = NULL;
 
 	g_free (priv);
 	epage->priv = NULL;
@@ -587,7 +588,8 @@ clear_widgets (EventPage *epage)
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
 
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
+	if (priv->default_address)
+		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
 }
 
 static gboolean
@@ -3180,7 +3182,8 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
 			priv->default_address = full;
 		} else if (a == def_account && !priv->default_address) 
 			priv->default_address = full;
-		
+		else
+			g_free (full);
 	}
 	g_object_unref(it);
 
