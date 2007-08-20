@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-11 12:26+0200\n"
-"PO-Revision-Date: 2007-08-11 12:44+0100\n"
+"POT-Creation-Date: 2007-08-20 08:55+0200\n"
+"PO-Revision-Date: 2007-08-20 09:00+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -1162,7 +1162,7 @@ msgstr "kort"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20
 #: ../filter/filter.glade.h:17
-#: ../mail/em-account-editor.c:2054
+#: ../mail/em-account-editor.c:2064
 #: ../plugins/calendar-http/calendar-http.c:288
 #: ../plugins/calendar-weather/calendar-weather.c:561
 msgid "minutes"
@@ -1289,7 +1289,7 @@ msgid "_Birthday:"
 msgstr "_Födelsedag:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
-#: ../calendar/gui/dialogs/event-page.c:888
+#: ../calendar/gui/dialogs/event-page.c:904
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1833
 msgid "_Calendar:"
@@ -3283,7 +3283,7 @@ msgid "Has Cursor"
 msgstr "Har markör"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:172
-#: ../mail/em-popup.c:630
+#: ../mail/em-popup.c:633
 msgid "_Open Link in Browser"
 msgstr "_Öppna länk i webbläsare"
 
@@ -3293,7 +3293,7 @@ msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174
-#: ../mail/em-popup.c:631
+#: ../mail/em-popup.c:634
 msgid "_Send New Message To..."
 msgstr "_Skicka nytt meddelande till..."
 
@@ -5816,8 +5816,8 @@ msgid "Show Attachment _Bar"
 msgstr "Visa _bilageraden"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../calendar/gui/dialogs/event-page.c:1913
-#: ../calendar/gui/dialogs/task-page.c:1201
+#: ../calendar/gui/dialogs/event-page.c:1972
+#: ../calendar/gui/dialogs/task-page.c:1252
 #: ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
@@ -5889,7 +5889,7 @@ msgstr "Ingen sammanfattning"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2789
 #: ../mail/em-utils.c:370
-#: ../widgets/misc/e-attachment-bar.c:358
+#: ../widgets/misc/e-attachment-bar.c:361
 msgid "attachment"
 msgstr "bilaga"
 
@@ -5989,107 +5989,114 @@ msgstr "_Möte"
 msgid "Recurrence"
 msgstr "Upprepning"
 
-#: ../calendar/gui/dialogs/event-page.c:820
-#: ../calendar/gui/dialogs/event-page.c:2734
+#: ../calendar/gui/dialogs/event-page.c:831
+#: ../calendar/gui/dialogs/event-page.c:2848
 msgid "This event has alarms"
 msgstr "Detta evenemang har alarm"
 
-#: ../calendar/gui/dialogs/event-page.c:895
+#: ../calendar/gui/dialogs/event-page.c:911
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
-#: ../calendar/gui/dialogs/task-page.c:441
+#: ../calendar/gui/dialogs/task-page.c:456
 msgid "Or_ganizer:"
 msgstr "Or_ganisatör:"
 
-#: ../calendar/gui/dialogs/event-page.c:933
+#: ../calendar/gui/dialogs/event-page.c:949
 msgid "_Delegatees"
 msgstr "_Delegater"
 
-#: ../calendar/gui/dialogs/event-page.c:935
+#: ../calendar/gui/dialogs/event-page.c:951
 msgid "Atte_ndees"
 msgstr "Delta_gare"
 
-#: ../calendar/gui/dialogs/event-page.c:1100
+#: ../calendar/gui/dialogs/event-page.c:1134
 msgid "Event with no start date"
 msgstr "Evenemang utan startdatum"
 
-#: ../calendar/gui/dialogs/event-page.c:1103
+#: ../calendar/gui/dialogs/event-page.c:1137
 msgid "Event with no end date"
 msgstr "Evenemang utan slutdatum"
 
-#: ../calendar/gui/dialogs/event-page.c:1272
-#: ../calendar/gui/dialogs/memo-page.c:683
-#: ../calendar/gui/dialogs/task-page.c:849
+#: ../calendar/gui/dialogs/event-page.c:1308
+#: ../calendar/gui/dialogs/memo-page.c:693
+#: ../calendar/gui/dialogs/task-page.c:878
 msgid "Start date is wrong"
 msgstr "Startdatumet är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1282
+#: ../calendar/gui/dialogs/event-page.c:1318
 msgid "End date is wrong"
 msgstr "Slutdatumet är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1305
+#: ../calendar/gui/dialogs/event-page.c:1341
 msgid "Start time is wrong"
 msgstr "Starttiden är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1312
+#: ../calendar/gui/dialogs/event-page.c:1348
 msgid "End time is wrong"
 msgstr "Sluttiden är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1469
-#: ../calendar/gui/dialogs/memo-page.c:718
-#: ../calendar/gui/dialogs/task-page.c:906
+#: ../calendar/gui/dialogs/event-page.c:1510
+#: ../calendar/gui/dialogs/memo-page.c:733
+#: ../calendar/gui/dialogs/task-page.c:940
 msgid "The organizer selected no longer has an account."
 msgstr "Organisatören som valts har inte längre ett konto."
 
-#: ../calendar/gui/dialogs/event-page.c:1475
-#: ../calendar/gui/dialogs/memo-page.c:724
-#: ../calendar/gui/dialogs/task-page.c:912
+#: ../calendar/gui/dialogs/event-page.c:1516
+#: ../calendar/gui/dialogs/memo-page.c:739
+#: ../calendar/gui/dialogs/task-page.c:946
 msgid "An organizer is required."
 msgstr "En organisatör krävs."
 
-#: ../calendar/gui/dialogs/event-page.c:1490
-#: ../calendar/gui/dialogs/task-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:1541
+#: ../calendar/gui/dialogs/task-page.c:970
 msgid "At least one attendee is required."
 msgstr "Det måste finnas åtminstone en deltagare."
 
-#: ../calendar/gui/dialogs/event-page.c:1914
-#: ../calendar/gui/dialogs/task-page.c:1202
+#: ../calendar/gui/dialogs/event-page.c:1973
+#: ../calendar/gui/dialogs/task-page.c:1253
 msgid "_Add "
 msgstr "_Lägg till "
 
-#: ../calendar/gui/dialogs/event-page.c:2639
+#: ../calendar/gui/dialogs/event-page.c:2719
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Kan inte öppna kalendern \"%s\"."
 
-#: ../calendar/gui/dialogs/event-page.c:2947
+#: ../calendar/gui/dialogs/event-page.c:2768
+#: ../calendar/gui/dialogs/memo-page.c:1138
+#: ../calendar/gui/dialogs/task-page.c:1948
+#, c-format
+msgid "You are acting on behalf of %s"
+msgstr "Du arbetar på uppdrag av %s"
+
+#: ../calendar/gui/dialogs/event-page.c:3064
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d dag före möte"
 msgstr[1] "%d dagar före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:2953
+#: ../calendar/gui/dialogs/event-page.c:3070
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d timme före möte"
 msgstr[1] "%d timmar före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:2959
+#: ../calendar/gui/dialogs/event-page.c:3076
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minut före möte"
 msgstr[1] "%d minuter före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:2972
+#: ../calendar/gui/dialogs/event-page.c:3089
 msgid "Customize"
 msgstr "Anpassa"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:2977
+#: ../calendar/gui/dialogs/event-page.c:3094
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131
@@ -6197,16 +6204,16 @@ msgstr "Organisatör:"
 msgid "Memo"
 msgstr "Memo"
 
-#: ../calendar/gui/dialogs/memo-page.c:866
+#: ../calendar/gui/dialogs/memo-page.c:911
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "Kan inte öppna memon i \"%s\"."
 
-#: ../calendar/gui/dialogs/memo-page.c:1017
-#: ../mail/em-format-html.c:1508
-#: ../mail/em-format-html.c:1522
-#: ../mail/em-format-html.c:1580
-#: ../mail/em-format-html.c:1606
+#: ../calendar/gui/dialogs/memo-page.c:1076
+#: ../mail/em-format-html.c:1516
+#: ../mail/em-format-html.c:1530
+#: ../mail/em-format-html.c:1588
+#: ../mail/em-format-html.c:1614
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:852
 #: ../mail/em-mailer-prefs.c:89
@@ -6228,7 +6235,7 @@ msgid "_Description:"
 msgstr "_Beskrivning:"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:7
-#: ../calendar/gui/dialogs/task-page.c:434
+#: ../calendar/gui/dialogs/task-page.c:449
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Grupp:"
@@ -6548,11 +6555,11 @@ msgstr "_Uppgift"
 msgid "Task Details"
 msgstr "Uppgiftsdetaljer"
 
-#: ../calendar/gui/dialogs/task-page.c:822
+#: ../calendar/gui/dialogs/task-page.c:851
 msgid "Due date is wrong"
 msgstr "Förfallodatumet är fel"
 
-#: ../calendar/gui/dialogs/task-page.c:1646
+#: ../calendar/gui/dialogs/task-page.c:1719
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Kan inte öppna uppgifter i \"%s\"."
@@ -6805,7 +6812,7 @@ msgstr "Nej"
 #: ../plugins/itip-formatter/itip-formatter.c:393
 #: ../plugins/itip-formatter/itip-formatter.c:1944
 #: ../plugins/plugin-manager/plugin-manager.c:82
-#: ../widgets/misc/e-attachment-bar.c:721
+#: ../widgets/misc/e-attachment-bar.c:724
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Unknown"
 msgstr "Okänd"
@@ -6828,34 +6835,34 @@ msgstr "Spara som..."
 msgid "Select folder to save selected attachments..."
 msgstr "Välj mapp att spara markerade bilagor i..."
 
-#: ../calendar/gui/e-cal-popup.c:222
-#: ../mail/em-popup.c:447
+#: ../calendar/gui/e-cal-popup.c:225
+#: ../mail/em-popup.c:450
 #, c-format
 msgid "untitled_image.%s"
 msgstr "namnlös_bild.%s"
 
-#: ../calendar/gui/e-cal-popup.c:276
+#: ../calendar/gui/e-cal-popup.c:279
 #: ../calendar/gui/e-calendar-table.c:1355
 #: ../calendar/gui/e-calendar-view.c:1680
 #: ../calendar/gui/e-memo-table.c:977
 #: ../mail/em-folder-view.c:1153
-#: ../mail/em-popup.c:564
-#: ../mail/em-popup.c:575
+#: ../mail/em-popup.c:567
+#: ../mail/em-popup.c:578
 msgid "_Save As..."
 msgstr "_Spara som..."
 
-#: ../calendar/gui/e-cal-popup.c:277
-#: ../mail/em-popup.c:565
-#: ../mail/em-popup.c:576
+#: ../calendar/gui/e-cal-popup.c:280
+#: ../mail/em-popup.c:568
+#: ../mail/em-popup.c:579
 msgid "Set as _Background"
 msgstr "Spara som _bakgrund"
 
-#: ../calendar/gui/e-cal-popup.c:278
+#: ../calendar/gui/e-cal-popup.c:281
 msgid "_Save Selected"
 msgstr "_Spara markerade"
 
-#: ../calendar/gui/e-cal-popup.c:399
-#: ../mail/em-popup.c:786
+#: ../calendar/gui/e-cal-popup.c:402
+#: ../mail/em-popup.c:789
 #, c-format
 msgid "Open in %s..."
 msgstr "Öppna i %s..."
@@ -7103,8 +7110,8 @@ msgstr "_Svara"
 
 #: ../calendar/gui/e-calendar-view.c:1697
 #: ../mail/em-folder-view.c:1147
-#: ../mail/em-popup.c:569
-#: ../mail/em-popup.c:580
+#: ../mail/em-popup.c:572
+#: ../mail/em-popup.c:583
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
 msgstr "Svara till _alla"
@@ -7361,13 +7368,13 @@ msgstr "<br> Granska följande information, och välj sedan en åtgärd från me
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:209
-#: ../calendar/gui/itip-utils.c:802
+#: ../calendar/gui/itip-utils.c:730
 #: ../plugins/itip-formatter/itip-formatter.c:1932
 msgid "Accepted"
 msgstr "Godtaget"
 
 #: ../calendar/gui/e-itip-control.c:1168
-#: ../calendar/gui/itip-utils.c:805
+#: ../calendar/gui/itip-utils.c:733
 #: ../plugins/itip-formatter/itip-formatter.c:1935
 msgid "Tentatively Accepted"
 msgstr "Preliminärt godtaget"
@@ -7376,8 +7383,8 @@ msgstr "Preliminärt godtaget"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188
 #: ../calendar/gui/e-meeting-store.c:211
-#: ../calendar/gui/itip-utils.c:808
-#: ../calendar/gui/itip-utils.c:837
+#: ../calendar/gui/itip-utils.c:736
+#: ../calendar/gui/itip-utils.c:765
 #: ../plugins/itip-formatter/itip-formatter.c:1938
 msgid "Declined"
 msgstr "Avslaget"
@@ -7642,7 +7649,7 @@ msgid "Send Latest Information"
 msgstr "Skicka senaste information"
 
 #: ../calendar/gui/e-itip-control.c:2439
-#: ../calendar/gui/itip-utils.c:825
+#: ../calendar/gui/itip-utils.c:753
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Avbryt"
@@ -7760,7 +7767,7 @@ msgstr "Preliminärt"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192
 #: ../calendar/gui/e-meeting-store.c:215
-#: ../calendar/gui/itip-utils.c:811
+#: ../calendar/gui/itip-utils.c:739
 #: ../plugins/itip-formatter/itip-formatter.c:1941
 msgid "Delegated"
 msgstr "Delegerat"
@@ -8062,62 +8069,62 @@ msgstr "september"
 msgid "_Select Today"
 msgstr "_Välj idag"
 
-#: ../calendar/gui/itip-utils.c:523
-#: ../calendar/gui/itip-utils.c:572
-#: ../calendar/gui/itip-utils.c:678
+#: ../calendar/gui/itip-utils.c:451
+#: ../calendar/gui/itip-utils.c:500
+#: ../calendar/gui/itip-utils.c:606
 msgid "An organizer must be set."
 msgstr "En organisatör måste vara angiven."
 
-#: ../calendar/gui/itip-utils.c:559
+#: ../calendar/gui/itip-utils.c:487
 msgid "At least one attendee is necessary"
 msgstr "Åtminstone en deltagare krävs"
 
-#: ../calendar/gui/itip-utils.c:764
-#: ../calendar/gui/itip-utils.c:887
+#: ../calendar/gui/itip-utils.c:692
+#: ../calendar/gui/itip-utils.c:815
 msgid "Event information"
 msgstr "Evenemangsinformation"
 
-#: ../calendar/gui/itip-utils.c:766
-#: ../calendar/gui/itip-utils.c:889
+#: ../calendar/gui/itip-utils.c:694
+#: ../calendar/gui/itip-utils.c:817
 msgid "Task information"
 msgstr "Uppgiftsinformation"
 
-#: ../calendar/gui/itip-utils.c:768
-#: ../calendar/gui/itip-utils.c:891
+#: ../calendar/gui/itip-utils.c:696
+#: ../calendar/gui/itip-utils.c:819
 msgid "Journal information"
 msgstr "Dagboksinformation"
 
-#: ../calendar/gui/itip-utils.c:770
-#: ../calendar/gui/itip-utils.c:909
+#: ../calendar/gui/itip-utils.c:698
+#: ../calendar/gui/itip-utils.c:837
 msgid "Free/Busy information"
 msgstr "Ledig-/upptageninformation"
 
-#: ../calendar/gui/itip-utils.c:772
+#: ../calendar/gui/itip-utils.c:700
 msgid "Calendar information"
 msgstr "Kalenderinformation"
 
-#: ../calendar/gui/itip-utils.c:821
+#: ../calendar/gui/itip-utils.c:749
 msgid "Updated"
 msgstr "Uppdaterat"
 
-#: ../calendar/gui/itip-utils.c:829
+#: ../calendar/gui/itip-utils.c:757
 msgid "Refresh"
 msgstr "Uppdatera"
 
-#: ../calendar/gui/itip-utils.c:833
+#: ../calendar/gui/itip-utils.c:761
 msgid "Counter-proposal"
 msgstr "Motförslag"
 
-#: ../calendar/gui/itip-utils.c:905
+#: ../calendar/gui/itip-utils.c:833
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Ledig-/upptageninformation (%s till %s)"
 
-#: ../calendar/gui/itip-utils.c:915
+#: ../calendar/gui/itip-utils.c:843
 msgid "iCalendar information"
 msgstr "iCalendar-information"
 
-#: ../calendar/gui/itip-utils.c:1082
+#: ../calendar/gui/itip-utils.c:1010
 msgid "You must be an attendee of the event."
 msgstr "Du måste delta i evenemanget."
 
@@ -10238,7 +10245,7 @@ msgstr "Si_gnatur:"
 msgid "Compose Message"
 msgstr "Skriv ett meddelande"
 
-#: ../composer/e-msg-composer.c:5110
+#: ../composer/e-msg-composer.c:5125
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(Redigeraren innehåller en meddelandetext som inte är text och som inte kan redigeras.)</b>"
 
@@ -10832,7 +10839,7 @@ msgstr "Evolutions e-postinställningskontroll"
 #: ../mail/importers/pine-importer.c:387
 #: ../mail/mail-component.c:569
 #: ../mail/mail-component.c:570
-#: ../mail/mail-component.c:725
+#: ../mail/mail-component.c:732
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "E-post"
@@ -10878,54 +10885,54 @@ msgstr "Välj mapp"
 msgid "Ask for each message"
 msgstr "Fråga för varje meddelande"
 
-#: ../mail/em-account-editor.c:1812
+#: ../mail/em-account-editor.c:1822
 #: ../mail/mail-config.glade.h:90
 msgid "Identity"
 msgstr "Identitet"
 
-#: ../mail/em-account-editor.c:1861
+#: ../mail/em-account-editor.c:1871
 #: ../mail/mail-config.glade.h:119
 msgid "Receiving Email"
 msgstr "Mottagande av e-post"
 
-#: ../mail/em-account-editor.c:2046
+#: ../mail/em-account-editor.c:2056
 msgid "Automatically check for _new mail every"
 msgstr "Kontrollera automatiskt _ny e-post var"
 
-#: ../mail/em-account-editor.c:2227
+#: ../mail/em-account-editor.c:2237
 #: ../mail/mail-config.glade.h:132
 msgid "Sending Email"
 msgstr "Sändning av e-post"
 
-#: ../mail/em-account-editor.c:2286
+#: ../mail/em-account-editor.c:2296
 #: ../mail/mail-config.glade.h:66
 msgid "Defaults"
 msgstr "Standardvärden"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2352
+#: ../mail/em-account-editor.c:2362
 #: ../mail/mail-config.glade.h:126
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Säkerhet"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2389
-#: ../mail/em-account-editor.c:2480
+#: ../mail/em-account-editor.c:2399
+#: ../mail/em-account-editor.c:2490
 msgid "Receiving Options"
 msgstr "Alternativ för mottagning"
 
-#: ../mail/em-account-editor.c:2390
-#: ../mail/em-account-editor.c:2481
+#: ../mail/em-account-editor.c:2400
+#: ../mail/em-account-editor.c:2491
 msgid "Checking for New Mail"
 msgstr "Kontroll av ny e-post"
 
-#: ../mail/em-account-editor.c:2832
+#: ../mail/em-account-editor.c:2842
 #: ../mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Kontoredigerare"
 
-#: ../mail/em-account-editor.c:2832
+#: ../mail/em-account-editor.c:2842
 #: ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolutions kontoguide"
@@ -10983,7 +10990,7 @@ msgid "Signature(s)"
 msgstr "Signatur(er)"
 
 #: ../mail/em-composer-utils.c:893
-#: ../mail/em-format-quote.c:396
+#: ../mail/em-format-quote.c:399
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Vidarebefordrat meddelande --------"
 
@@ -11267,7 +11274,7 @@ msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
 #: ../mail/em-filter-i18n.h:65
-#: ../mail/em-format-html.c:1679
+#: ../mail/em-format-html.c:1687
 #: ../mail/em-format-quote.c:320
 #: ../mail/em-format.c:855
 #: ../mail/em-mailer-prefs.c:92
@@ -11572,8 +11579,8 @@ msgid "_Reply to Sender"
 msgstr "Sva_ra till avsändaren"
 
 #: ../mail/em-folder-view.c:1148
-#: ../mail/em-popup.c:571
-#: ../mail/em-popup.c:582
+#: ../mail/em-popup.c:574
+#: ../mail/em-popup.c:585
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "Vidare_befordra"
@@ -11927,43 +11934,47 @@ msgid "Valid signature but cannot verify sender"
 msgstr "Giltig signatur men kan inte verifiera avsändaren"
 
 #: ../mail/em-format-html.c:906
+msgid "Unknown external-body part."
+msgstr "Okänd del med extern meddelandetext."
+
+#: ../mail/em-format-html.c:914
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
-#: ../mail/em-format-html.c:936
+#: ../mail/em-format-html.c:944
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: ../mail/em-format-html.c:947
+#: ../mail/em-format-html.c:955
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: ../mail/em-format-html.c:949
+#: ../mail/em-format-html.c:957
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: ../mail/em-format-html.c:970
+#: ../mail/em-format-html.c:978
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: ../mail/em-format-html.c:981
+#: ../mail/em-format-html.c:989
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: ../mail/em-format-html.c:1208
+#: ../mail/em-format-html.c:1216
 msgid "Formatting message"
 msgstr "Formaterar meddelande"
 
-#: ../mail/em-format-html.c:1376
+#: ../mail/em-format-html.c:1384
 msgid "Formatting Message..."
 msgstr "Formaterar meddelande..."
 
-#: ../mail/em-format-html.c:1508
+#: ../mail/em-format-html.c:1516
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:87
@@ -11972,27 +11983,27 @@ msgstr "Formaterar meddelande..."
 msgid "From"
 msgstr "Från"
 
-#: ../mail/em-format-html.c:1508
+#: ../mail/em-format-html.c:1516
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: ../mail/em-format-html.c:1508
-#: ../mail/em-format-html.c:1523
-#: ../mail/em-format-html.c:1587
-#: ../mail/em-format-html.c:1609
+#: ../mail/em-format-html.c:1516
+#: ../mail/em-format-html.c:1531
+#: ../mail/em-format-html.c:1595
+#: ../mail/em-format-html.c:1617
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:853
 #: ../mail/em-mailer-prefs.c:90
 msgid "Cc"
 msgstr "Kopia"
 
-#: ../mail/em-format-html.c:1508
-#: ../mail/em-format-html.c:1524
-#: ../mail/em-format-html.c:1593
-#: ../mail/em-format-html.c:1612
+#: ../mail/em-format-html.c:1516
+#: ../mail/em-format-html.c:1532
+#: ../mail/em-format-html.c:1601
+#: ../mail/em-format-html.c:1620
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:854
 #: ../mail/em-mailer-prefs.c:91
@@ -12000,23 +12011,23 @@ msgid "Bcc"
 msgstr "Blindkopia"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1683
+#: ../mail/em-format-html.c:1691
 #: ../mail/em-format-quote.c:329
 #: ../mail/em-mailer-prefs.c:1196
 msgid "Mailer"
 msgstr "E-postprogram"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1710
+#: ../mail/em-format-html.c:1718
 msgid " (%a, %R %Z)"
 msgstr " (%a, %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1715
+#: ../mail/em-format-html.c:1723
 msgid " (%R %Z)"
 msgstr " (%R %Z)"
 
-#: ../mail/em-format-html.c:1727
+#: ../mail/em-format-html.c:1735
 #: ../mail/em-format-quote.c:336
 #: ../mail/em-format.c:856
 #: ../mail/em-mailer-prefs.c:93
@@ -12026,7 +12037,7 @@ msgstr " (%R %Z)"
 msgid "Date"
 msgstr "Datum"
 
-#: ../mail/em-format-html.c:1750
+#: ../mail/em-format-html.c:1758
 #: ../mail/em-format.c:857
 #: ../mail/em-mailer-prefs.c:94
 msgid "Newsgroups"
@@ -12035,7 +12046,7 @@ msgstr "Diskussionsgrupper"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1837
+#: ../mail/em-format-html.c:1848
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "Det här meddelandet skickades av <b>%s</b> på uppdrag av <b>%s</b>"
@@ -12049,42 +12060,43 @@ msgstr "%s-bilaga"
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Kunde inte tolka S/MIME-meddelande: Okänt fel"
 
-#: ../mail/em-format.c:1293
-#: ../mail/em-format.c:1449
+#: ../mail/em-format.c:1297
+#: ../mail/em-format.c:1453
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunde inte tolka MIME-meddelande. Visar som källkod."
 
-#: ../mail/em-format.c:1301
+#: ../mail/em-format.c:1305
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Krypteringstypen stöds inte för multipart/encrypted"
 
-#: ../mail/em-format.c:1311
+#: ../mail/em-format.c:1315
 msgid "Could not parse PGP/MIME message"
 msgstr "Kunde inte tolka PGP/MIME-meddelande"
 
-#: ../mail/em-format.c:1311
+#: ../mail/em-format.c:1315
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Kunde inte tolka PGP/MIME-meddelande: Okänt fel"
 
-#: ../mail/em-format.c:1468
+#: ../mail/em-format.c:1472
 msgid "Unsupported signature format"
 msgstr "Signaturformatet stöds inte"
 
-#: ../mail/em-format.c:1476
-#: ../mail/em-format.c:1542
+#: ../mail/em-format.c:1480
+#: ../mail/em-format.c:1551
 msgid "Error verifying signature"
 msgstr "Fel vid verifiering av signatur"
 
-#: ../mail/em-format.c:1476
+#: ../mail/em-format.c:1480
 #: ../mail/em-format.c:1542
+#: ../mail/em-format.c:1551
 msgid "Unknown error verifying signature"
 msgstr "Okänt fel vid verifiering av signatur"
 
-#: ../mail/em-format.c:1613
+#: ../mail/em-format.c:1622
 msgid "Could not parse PGP message"
 msgstr "Kunde inte tolka PGP-meddelande"
 
-#: ../mail/em-format.c:1613
+#: ../mail/em-format.c:1622
 msgid "Could not parse PGP message: Unknown error"
 msgstr "Kunde inte tolka PGP-meddelande: Okänt fel"
 
@@ -12164,27 +12176,27 @@ msgstr "Kan inte kopiera POP3-behåll-på-server-data \"%s\": %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "Misslyckades med att skapa lokalt e-postlager \"%s\": %s"
 
-#: ../mail/em-migrate.c:2710
+#: ../mail/em-migrate.c:2743
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "Kan inte skapa lokala postlådemappar på \"%s\": %s"
 
-#: ../mail/em-migrate.c:2729
+#: ../mail/em-migrate.c:2762
 msgid "Unable to read settings from previous Evolution install, `evolution/config.xmldb' does not exist or is corrupt."
 msgstr "Kan inte läsa inställningar från tidigare Evolution-installation, \"evolution/config.xmldb\" finns inte eller är skadad."
 
-#: ../mail/em-popup.c:567
-#: ../mail/em-popup.c:578
+#: ../mail/em-popup.c:570
+#: ../mail/em-popup.c:581
 msgid "_Reply to sender"
 msgstr "_Svara till avsändaren"
 
-#: ../mail/em-popup.c:568
-#: ../mail/em-popup.c:579
+#: ../mail/em-popup.c:571
+#: ../mail/em-popup.c:582
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to _List"
 msgstr "Svara till _lista"
 
-#: ../mail/em-popup.c:632
+#: ../mail/em-popup.c:635
 msgid "_Add to Address Book"
 msgstr "_Lägg till i adressbok"
 
@@ -12201,11 +12213,11 @@ msgid "Folder"
 msgstr "Mapp"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:835
+#: ../mail/em-subscribe-editor.c:837
 msgid "Please select a server."
 msgstr "Välj en server."
 
-#: ../mail/em-subscribe-editor.c:856
+#: ../mail/em-subscribe-editor.c:858
 msgid "No server has been selected"
 msgstr "Ingen server har valts"
 
@@ -12689,8 +12701,8 @@ msgid "This decides the max size of the text part that can be formatted under ev
 msgstr "Det här bestämmer maximal storlek på textdelen som kan formateras under Evolution. Standard är 4 MB / 4096 KB och anges i KB."
 
 #: ../mail/evolution-mail.schemas.in.h:114
-msgid "This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it wont fall back to the other available plugins."
-msgstr "Det här är standardinsticksmodulen för skräp, även om det finns flera aktiverade insticksmoduler. Om listad standardinsticksmodul är inaktiverad kommer den inte att falla tillbaka på andra tillgängliga insticksmoduler."
+msgid "This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it won't fall back to the other available plugins."
+msgstr "Det här är standardinsticksmodulen för skräppost, även om det finns flera aktiverade insticksmoduler. Om listad standardinsticksmodul är inaktiverad kommer den inte att falla tillbaka på andra tillgängliga insticksmoduler."
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
@@ -12956,31 +12968,31 @@ msgid_plural " %d selected, "
 msgstr[0] " %d markerad, "
 msgstr[1] " %d markerade, "
 
-#: ../mail/mail-component.c:876
+#: ../mail/mail-component.c:883
 msgid "New Mail Message"
 msgstr "Nytt e-postmeddelande"
 
-#: ../mail/mail-component.c:877
+#: ../mail/mail-component.c:884
 msgid "_Mail Message"
 msgstr "_E-postmeddelande"
 
-#: ../mail/mail-component.c:878
+#: ../mail/mail-component.c:885
 msgid "Compose a new mail message"
 msgstr "Skriv ett nytt e-postmeddelande"
 
-#: ../mail/mail-component.c:884
+#: ../mail/mail-component.c:891
 msgid "New Mail Folder"
 msgstr "Ny e-postmapp"
 
-#: ../mail/mail-component.c:885
+#: ../mail/mail-component.c:892
 msgid "Mail _Folder"
 msgstr "E-post_mapp"
 
-#: ../mail/mail-component.c:886
+#: ../mail/mail-component.c:893
 msgid "Create a new mail folder"
 msgstr "Skapa en ny e-postmapp"
 
-#: ../mail/mail-component.c:1033
+#: ../mail/mail-component.c:1040
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Misslyckades med att uppgradera e-postinställningar eller e-postmappar."
 
@@ -13551,7 +13563,7 @@ msgstr "S_tandardinsticksmodul för skräppost:"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
-msgstr "_Notifiera inte mig när ny post anländer"
+msgstr "I_nformera mig inte när ny post anländer"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
@@ -14722,14 +14734,6 @@ msgstr "Lokala adressböcker"
 msgid "Provides core functionality for local address books."
 msgstr "Tillhandahåller grundläggande funktionalitet för lokala adressböcker."
 
-#: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.in.h:1
-msgid "Enable attachment reminder plugin"
-msgstr "Aktivera insticksmodul för bilagepåminnare"
-
-#: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.in.h:2
-msgid "List of clues for the attachment reminder plugin to look for in a message body"
-msgstr "Lista över ledtrådar för bilagepåminnaren att leta efter i en meddelandetext"
-
 #: ../plugins/attachment-reminder/attachment-reminder.c:376
 msgid "Keywords"
 msgstr "Nyckelord"
@@ -14743,12 +14747,21 @@ msgid "Remind _missing attachments"
 msgstr "Påminn om _saknade bilagor"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Attachment Reminder"
 msgstr "Bilagepåminnare"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Looks for clues in a message for mention of attachments and warns if the attachment is missing"
 msgstr "Letar efter ledtrådar i ett meddelande för att påminna om bilagor och varna om bilagan saknas"
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
+msgid "Evolution has found some keywords that suggest that this message should contain an attachment, but cannot find one."
+msgstr "Evolution har hittat några nyckelord som säger att det här meddelandet ska innehålla en bilaga, men kunde inte hitta en."
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
+msgid "Message has no attachments"
+msgstr "Meddelandet saknar bilagor"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid "A formatter plugin which displays audio attachments inline and allows you to play them directly from evolution."
@@ -17073,7 +17086,7 @@ msgstr "Visar text-/kalenderdelar i meddelanden."
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Itip Formatter"
-msgstr "Itip-formatör"
+msgstr "Itip-formaterare"
 
 # FIXME: The whitespace before the colon ought to be bug reported.
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
@@ -17132,8 +17145,8 @@ msgid "Mail Notification"
 msgstr "E-postnotifiering"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
-msgid "Notifies the user with tray icon and a notify message whenever a new message has arrived."
-msgstr "Notifierar användaren via notifieringsikonen och ett notifieringsmeddelande när ett nytt meddelande anländer."
+msgid "Notifies the user with an icon in notification area and a notification message whenever a new message has arrived."
+msgstr "Informerar användaren via notifieringsikonen och ett notifieringsmeddelande när ett nytt meddelande anländer."
 
 #: ../plugins/mail-remote/client.c:30
 #, c-format
@@ -20969,7 +20982,7 @@ msgstr "Typ av vy"
 msgid "Type of view:"
 msgstr "Typ av vy:"
 
-#: ../widgets/misc/e-attachment-bar.c:1028
+#: ../widgets/misc/e-attachment-bar.c:1031
 msgid "Attachment Bar"
 msgstr "Bilagerad"
 
@@ -22170,6 +22183,14 @@ msgstr "IM-sammanhang"
 msgid "Handle Popup"
 msgstr "Handtagspopupfönster"
 
+#~ msgid "Enable attachment reminder plugin"
+#~ msgstr "Aktivera insticksmodul för bilagepåminnare"
+#~ msgid ""
+#~ "List of clues for the attachment reminder plugin to look for in a message "
+#~ "body"
+#~ msgstr ""
+#~ "Lista över ledtrådar för bilagepåminnaren att leta efter i en "
+#~ "meddelandetext"
 #~ msgid "Check Evolution archive"
 #~ msgstr "Kontrollera Evolution-arkiv"
 #~ msgid "With GUI"
