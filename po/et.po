@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-16 10:53+0100\n"
-"PO-Revision-Date: 2007-08-16 16:21+0300\n"
+"PO-Revision-Date: 2007-08-19 14:24+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -254,7 +254,7 @@ msgstr "kalendrivaade ühe või enama nädala jaoks"
 
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
 msgid "popup"
-msgstr ""
+msgstr "hüpikaken"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
@@ -10364,6 +10364,8 @@ msgid ""
 "Send options available only for Novell Groupwise and Microsoft Exchange "
 "accounts."
 msgstr ""
+"Saatmisvalikud on saadaval ainult Novell Groupwise ja Microsoft Exchange "
+"kontodele."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid "Send options not available."
@@ -11217,7 +11219,7 @@ msgstr "Mängi heli"
 
 #: ../mail/em-filter-i18n.h:47 ../mail/message-tag-followup.c:81
 msgid "Read"
-msgstr "Loe läbi"
+msgstr "Loetud"
 
 #: ../mail/em-filter-i18n.h:48 ../mail/message-list.etspec.h:11
 msgid "Recipients"
@@ -17608,11 +17610,11 @@ msgstr "_Hangi postiloendi kasutusteave"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get an archive of the list this message belongs to"
-msgstr ""
+msgstr "Postiloendi, kuhu see sõnum kuulub, arhiivi hankimine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
+msgstr "Postiloendi, kuhu see sõnum kuulub, kasutusjuhendi hankimine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 msgid "Post a message to the mailing list this message belongs to"
@@ -18613,7 +18615,7 @@ msgstr "Kõigi pluginate laadimise keelamine."
 
 #: ../shell/main.c:474
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr ""
+msgstr "Sõnumite, kontaktide ja ülesannete eelvaatepaani keelamine"
 
 #: ../shell/main.c:503
 msgid "- The Evolution PIM and Email Client"
@@ -19842,7 +19844,7 @@ msgstr "Uute sõnumite filtreerimisreeglite loomine või muutmine"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Download messages for Offline"
-msgstr ""
+msgstr "Sõnumite allalaadimine võrguvaba režiimi jaoks"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Download messages for offline"
@@ -19851,6 +19853,8 @@ msgstr "Sõnumite allalaadimine võrguvaba režiimi jaoks"
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Download messages of accounts/folders marked for offline"
 msgstr ""
+"Sõnumite allalaadimine võrguvaba režiimi jaoks märgitud kontodele ja "
+"kaustadele"
 
 #: ../ui/evolution-mail-global.xml.h:10
 msgid "Empty _Trash"
@@ -21400,7 +21404,7 @@ msgstr "Protsendi väärtus peab olema 0 - 100."
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Arabic"
-msgstr ""
+msgstr "Araabia"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Baltic"
@@ -21883,7 +21887,7 @@ msgstr "URL-i avamiseks klõpsa siin"
 
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "Redigeeri peamist kategooriate nimekirja..."
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Item(s) belong to these _categories:"
@@ -21899,7 +21903,7 @@ msgstr "kategooriad"
 
 #: ../widgets/table/e-cell-combo.c:169
 msgid "popup list"
-msgstr ""
+msgstr "hüpikakende loend"
 
 #: ../widgets/table/e-cell-date.c:62
 msgid "%l:%M %p"
