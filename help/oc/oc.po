@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-05-15 00:59+0200\n"
-"PO-Revision-Date: 2007-08-21 15:19+0200\n"
+"PO-Revision-Date: 2007-08-21 21:31+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -556,7 +556,7 @@ msgstr ""
 #: evolution.xml:22(firstname) evolution.xml:24(corpauthor)
 #: evolution.xml:40(para) evolution.xml:48(para)
 msgid "Novell, Inc"
-msgstr ""
+msgstr "Novell, Inc"
 
 #: evolution.xml:28(title)
 msgid "User's Guide to the Evolution Groupware Suite and Email Client"
@@ -769,7 +769,7 @@ msgstr ""
 
 #: evolution.xml:168(para)
 msgid "GNOME:"
-msgstr ""
+msgstr "GNOME :"
 
 #: evolution.xml:171(para)
 msgid "Click Applications &gt; Office &gt; Evolution."
@@ -777,7 +777,7 @@ msgstr ""
 
 #: evolution.xml:176(para)
 msgid "KDE:"
-msgstr ""
+msgstr "KDE :"
 
 #: evolution.xml:179(para)
 msgid "Click the K menu &gt; Office &gt; More Programs &gt; Evolution."
@@ -785,7 +785,7 @@ msgstr ""
 
 #: evolution.xml:184(para)
 msgid "Command Line:"
-msgstr ""
+msgstr "Linha de comandas :"
 
 #: evolution.xml:187(para)
 msgid "Enter <command>evolution</command>."
@@ -949,7 +949,7 @@ msgstr ""
 
 #: evolution.xml:271(title)
 msgid "IMAP:"
-msgstr ""
+msgstr "IMAP :"
 
 #: evolution.xml:272(para)
 msgid ""
@@ -960,7 +960,7 @@ msgstr ""
 
 #: evolution.xml:275(title)
 msgid "POP:"
-msgstr ""
+msgstr "POP :"
 
 #: evolution.xml:276(para)
 msgid ""
