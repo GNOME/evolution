@@ -1,3 +1,9 @@
+2007-08-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #468303
+
+	* em-mailer-prefs.c: (junk_plugin_setup): Add strings for i18n.
+
 2007-08-21  Tobias Mueller  <tobiasmue@svn.gnome.org>
 
 	** Another fix for bug #467382

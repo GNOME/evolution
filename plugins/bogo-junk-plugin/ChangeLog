@@ -1,3 +1,9 @@
+2007-08-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #468303
+
+	* org-gnome-bogo-junk-plugin.eplug.xml: Enable strings for i18n.
+
 2007-07-26  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* bf-junk-filter.c: (convert_unicode_cb): Plugged memory leak.

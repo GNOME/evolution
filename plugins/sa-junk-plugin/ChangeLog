@@ -1,3 +1,9 @@
+2007-08-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #468303
+
+	* org-gnome-sa-junk-plugin.eplug.xml: Add strings for i18n.
+
 2007-05-11  Jules Colding  <colding@omesc.com>
 
 	* em-junk-filter.c (pipe_to_sa_full): File descriptor leaks fixed.

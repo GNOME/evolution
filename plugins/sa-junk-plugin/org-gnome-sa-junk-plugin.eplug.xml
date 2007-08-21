@@ -18,7 +18,7 @@
 		<!-- hook into the 'mail properties' menu -->
 		<hook class="org.gnome.evolution.mail.config:1.0">
 		        <group target="prefs" id="org.gnome.evolution.mail.prefs">
-				<item type="section_table" path="40.junk/10.options" label="Spamassassin Options"/>
+				<item type="section_table" path="40.junk/10.options" _label="Spamassassin Options"/>
 				<item type="item_table" path="40.junk/20.options" factory="org_gnome_sa_use_remote_tests"/>
 		        </group>
 			    </hook>
