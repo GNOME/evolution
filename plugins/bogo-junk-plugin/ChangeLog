@@ -1,5 +1,12 @@
 2007-08-22  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #468294
+
+	* org-gnome-bogo-junk-plugin.eplug.xml: Add a few strings for
+	translation.
+
+2007-08-22  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #468303
 
 	* org-gnome-bogo-junk-plugin.eplug.xml: Enable strings for i18n.

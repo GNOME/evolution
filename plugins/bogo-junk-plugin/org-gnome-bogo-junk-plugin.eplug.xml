@@ -4,7 +4,7 @@
 	          location="@PLUGINDIR@/liborg-gnome-bogo-junk-plugin.so"
 	          id="org.gnome.evolution.bogo.bf_junk_plugin"
 	          name="Bogofilter junk plugin">
-		<description>Filters junk messages using Bogofilter.</description>
+		<_description>Filters junk messages using Bogofilter.</_description>
 		<author name="Mikhail Zabaluev" email="mhz@altlinux.org"/>
 		<hook class="org.gnome.evolution.mail.junk:1.0">
 			<group id="EMJunk" >
