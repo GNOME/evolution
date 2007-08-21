@@ -1,3 +1,8 @@
+2007-08-21  Andre Klapper  <a9016009@gmx.de>
+
+	* org-gnome-attachment-reminder.error.xml:  Marked strings for
+	translation
+
 2007-08-20  Johnny Jacob  <jjohnny@novell.com>	
 
 	** Fix for 468159 from Gilles Dartiguelongue
