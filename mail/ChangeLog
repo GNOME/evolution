@@ -1,3 +1,10 @@
+2007-08-21  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	** Another fix for bug #467382
+
+	* em-folder-view.c: Changing position of emfb_enable_map to 
+	be able to compile with -pedantic
+
 2007-08-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #468734

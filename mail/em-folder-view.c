@@ -149,7 +149,84 @@ static void emfv_set_seen (EMFolderView *emfv, const char *uid);
 static gboolean emfv_on_html_button_released_cb (GtkHTML *html, GdkEventButton *button, EMFolderView *emfv);
 static gboolean emfv_popup_menu (GtkWidget *widget);
 
-static const EMFolderViewEnable emfv_enable_map[];
+
+/* this is added to emfv->enable_map in :init() */
+static const EMFolderViewEnable emfv_enable_map[] = {
+	{ "EditCut",                  EM_POPUP_SELECT_MANY },
+	{ "EditCopy",                 EM_FOLDER_VIEW_SELECT_SELECTION },
+	{ "EditPaste",                EM_POPUP_SELECT_FOLDER },
+	{ "SelectAllText",            EM_POPUP_SELECT_ONE },
+
+	/* FIXME: should these be single-selection? */
+	{ "MailNext",                 EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_NEXT_MSG },
+	{ "MailNextFlagged",          EM_POPUP_SELECT_MANY },
+	{ "MailNextUnread",           EM_POPUP_SELECT_MANY },
+	{ "MailNextThread",           EM_POPUP_SELECT_MANY },
+	{ "MailPrevious",             EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_PREV_MSG },
+	{ "MailPreviousFlagged",      EM_POPUP_SELECT_MANY },
+	{ "MailPreviousUnread",       EM_POPUP_SELECT_MANY },
+
+	{ "AddSenderToAddressbook",   EM_POPUP_SELECT_ADD_SENDER },
+
+	{ "MessageApplyFilters",      EM_POPUP_SELECT_MANY },
+	{ "MessageFilterJunk",        EM_POPUP_SELECT_MANY },
+	{ "MessageCopy",              EM_POPUP_SELECT_MANY },
+	{ "MessageDelete",            EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_DELETE },
+	{ "MessageForward",           EM_POPUP_SELECT_MANY },
+	{ "MessageForwardAttached",   EM_POPUP_SELECT_MANY },
+	{ "MessageForwardInline",     EM_POPUP_SELECT_ONE },
+	{ "MessageForwardQuoted",     EM_POPUP_SELECT_ONE },
+	{ "MessageRedirect",          EM_POPUP_SELECT_ONE },
+	{ "MessageMarkAsRead",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_READ },
+	{ "MessageMarkAsUnRead",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNREAD },
+	{ "MessageMarkAsImportant",   EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_IMPORTANT },
+	{ "MessageMarkAsUnimportant", EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNIMPORTANT },
+	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_JUNK },
+	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY },
+	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_FOLLOWUP },
+	{ "MessageFollowUpComplete",  EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_COMPLETED },
+	{ "MessageFollowUpClear",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_CLEAR },
+	{ "MessageMove",              EM_POPUP_SELECT_MANY },
+	{ "MessageOpen",              EM_POPUP_SELECT_MANY },
+	{ "MessagePostReply",         EM_POPUP_SELECT_ONE },
+	{ "MessageReplyAll",          EM_POPUP_SELECT_ONE },
+	{ "MessageReplyList",         EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
+	{ "MessageReplySender",       EM_POPUP_SELECT_ONE },
+	{ "MessageEdit",              EM_POPUP_SELECT_ONE },
+	{ "MessageSaveAs",            EM_POPUP_SELECT_MANY },
+	{ "MessageSearch",            EM_POPUP_SELECT_ONE| EM_FOLDER_VIEW_PREVIEW_PRESENT },
+	{ "MessageUndelete",          EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_UNDELETE },
+	{ "PrintMessage",             EM_POPUP_SELECT_ONE },
+	{ "PrintPreviewMessage",      EM_POPUP_SELECT_ONE },
+
+	{ "TextZoomIn",		      EM_POPUP_SELECT_ONE },
+	{ "TextZoomOut",	      EM_POPUP_SELECT_ONE },
+	{ "TextZoomReset",	      EM_POPUP_SELECT_ONE },
+
+	{ "ToolsFilterMailingList",   EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST},
+	{ "ToolsFilterRecipient",     EM_POPUP_SELECT_ONE },
+	{ "ToolsFilterSender",        EM_POPUP_SELECT_ONE },
+	{ "ToolsFilterSubject",       EM_POPUP_SELECT_ONE },
+	{ "ToolsVFolderMailingList",  EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST},
+	{ "ToolsVFolderRecipient",    EM_POPUP_SELECT_ONE },
+	{ "ToolsVFolderSender",       EM_POPUP_SELECT_ONE },
+	{ "ToolsVFolderSubject",      EM_POPUP_SELECT_ONE },
+
+	{ "ViewLoadImages",	      EM_POPUP_SELECT_ONE },
+	{ "ViewSource",               EM_POPUP_SELECT_ONE },
+
+	/* always enabled */
+	{ "MailStop", 0 },
+
+	{ NULL },
+
+	/* always enabled
+
+	{ "ViewFullHeaders", IS_0MESSAGE, 0 },
+	{ "ViewNormal",      IS_0MESSAGE, 0 },
+	{ "ViewSource",      IS_0MESSAGE, 0 },
+	{ "CaretMode",       IS_0MESSAGE, 0 }, */
+};
 
 struct _EMFolderViewPrivate {
 	guint seen_id;
@@ -1914,83 +1991,6 @@ static EPixmap emfv_message_pixmaps[] = {
 	E_PIXMAP_END
 };
 
-/* this is added to emfv->enable_map in :init() */
-static const EMFolderViewEnable emfv_enable_map[] = {
-	{ "EditCut",                  EM_POPUP_SELECT_MANY },
-	{ "EditCopy",                 EM_FOLDER_VIEW_SELECT_SELECTION },
-	{ "EditPaste",                EM_POPUP_SELECT_FOLDER },
-	{ "SelectAllText",            EM_POPUP_SELECT_ONE },
-
-	/* FIXME: should these be single-selection? */
-	{ "MailNext",                 EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_NEXT_MSG },
-	{ "MailNextFlagged",          EM_POPUP_SELECT_MANY },
-	{ "MailNextUnread",           EM_POPUP_SELECT_MANY },
-	{ "MailNextThread",           EM_POPUP_SELECT_MANY },
-	{ "MailPrevious",             EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_PREV_MSG },
-	{ "MailPreviousFlagged",      EM_POPUP_SELECT_MANY },
-	{ "MailPreviousUnread",       EM_POPUP_SELECT_MANY },
-
-	{ "AddSenderToAddressbook",   EM_POPUP_SELECT_ADD_SENDER },
-
-	{ "MessageApplyFilters",      EM_POPUP_SELECT_MANY },
-	{ "MessageFilterJunk",        EM_POPUP_SELECT_MANY },
-	{ "MessageCopy",              EM_POPUP_SELECT_MANY },
-	{ "MessageDelete",            EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_DELETE },
-	{ "MessageForward",           EM_POPUP_SELECT_MANY },
-	{ "MessageForwardAttached",   EM_POPUP_SELECT_MANY },
-	{ "MessageForwardInline",     EM_POPUP_SELECT_ONE },
-	{ "MessageForwardQuoted",     EM_POPUP_SELECT_ONE },
-	{ "MessageRedirect",          EM_POPUP_SELECT_ONE },
-	{ "MessageMarkAsRead",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_READ },
-	{ "MessageMarkAsUnRead",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNREAD },
-	{ "MessageMarkAsImportant",   EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_IMPORTANT },
-	{ "MessageMarkAsUnimportant", EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNIMPORTANT },
-	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_JUNK },
-	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY },
-	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_FOLLOWUP },
-	{ "MessageFollowUpComplete",  EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_COMPLETED },
-	{ "MessageFollowUpClear",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_CLEAR },
-	{ "MessageMove",              EM_POPUP_SELECT_MANY },
-	{ "MessageOpen",              EM_POPUP_SELECT_MANY },
-	{ "MessagePostReply",         EM_POPUP_SELECT_ONE },
-	{ "MessageReplyAll",          EM_POPUP_SELECT_ONE },
-	{ "MessageReplyList",         EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
-	{ "MessageReplySender",       EM_POPUP_SELECT_ONE },
-	{ "MessageEdit",              EM_POPUP_SELECT_ONE },
-	{ "MessageSaveAs",            EM_POPUP_SELECT_MANY },
-	{ "MessageSearch",            EM_POPUP_SELECT_ONE| EM_FOLDER_VIEW_PREVIEW_PRESENT },
-	{ "MessageUndelete",          EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_UNDELETE },
-	{ "PrintMessage",             EM_POPUP_SELECT_ONE },
-	{ "PrintPreviewMessage",      EM_POPUP_SELECT_ONE },
-
-	{ "TextZoomIn",		      EM_POPUP_SELECT_ONE },
-	{ "TextZoomOut",	      EM_POPUP_SELECT_ONE },
-	{ "TextZoomReset",	      EM_POPUP_SELECT_ONE },
-
-	{ "ToolsFilterMailingList",   EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST},
-	{ "ToolsFilterRecipient",     EM_POPUP_SELECT_ONE },
-	{ "ToolsFilterSender",        EM_POPUP_SELECT_ONE },
-	{ "ToolsFilterSubject",       EM_POPUP_SELECT_ONE },
-	{ "ToolsVFolderMailingList",  EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST},
-	{ "ToolsVFolderRecipient",    EM_POPUP_SELECT_ONE },
-	{ "ToolsVFolderSender",       EM_POPUP_SELECT_ONE },
-	{ "ToolsVFolderSubject",      EM_POPUP_SELECT_ONE },
-
-	{ "ViewLoadImages",	      EM_POPUP_SELECT_ONE },
-	{ "ViewSource",               EM_POPUP_SELECT_ONE },
-
-	/* always enabled */
-	{ "MailStop", 0 },
-
-	{ NULL },
-
-	/* always enabled
-
-	{ "ViewFullHeaders", IS_0MESSAGE, 0 },
-	{ "ViewNormal",      IS_0MESSAGE, 0 },
-	{ "ViewSource",      IS_0MESSAGE, 0 },
-	{ "CaretMode",       IS_0MESSAGE, 0 }, */
-};
 
 static void
 emfv_enable_menus(EMFolderView *emfv)
