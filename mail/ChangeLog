@@ -1,3 +1,10 @@
+2007-08-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #468734
+
+	* em-mailer-prefs.c: (label_color_set): color-set signal has no rgba
+	passed.
+
 2007-08-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-component.c (enable_folder_tree):

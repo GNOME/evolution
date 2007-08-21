@@ -212,7 +212,7 @@ labels_changed (EMMailerPrefs *prefs)
 }
 
 static void
-label_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, EMMailerPrefs *prefs)
+label_color_set (GtkWidget *widget, EMMailerPrefs *prefs)
 {
 	labels_changed (prefs);
 }
