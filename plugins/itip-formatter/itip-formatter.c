@@ -307,11 +307,12 @@ find_from_address (FormatItipPObject *pitip, icalcomponent *ical_comp)
 	}
 
 	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
-	if (param)
+	if (param) {
 		organizer_sentby = icalparameter_get_sentby (param);
-	if (organizer_sentby) {
-		organizer_sentby_clean = g_strdup (itip_strip_mailto (organizer_sentby));
-		organizer_sentby_clean = g_strstrip (organizer_sentby_clean);
+		if (organizer_sentby) {
+			organizer_sentby_clean = g_strdup (itip_strip_mailto (organizer_sentby));
+			organizer_sentby_clean = g_strstrip (organizer_sentby_clean);
+		}
 	}
 
 	if (!(organizer_sentby_clean || organizer_clean))

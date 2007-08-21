@@ -1,3 +1,10 @@
+2007-08-21  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #301835 (BNC)
+
+	* itip-formatter.c: (find_from_address):
+	Fixed crash when no SENTBY parameter present.
+
 2007-08-06  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #460326
