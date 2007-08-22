@@ -1,3 +1,9 @@
+2007-08-22  Wang Xin <jedy.wang@sun.com>
+
+	** Fix for bug #468804
+
+	* plugins/mail-to-task/mail-to-task.c: Handle NUll pointer.
+
 2007-08-13 Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.11.90 release

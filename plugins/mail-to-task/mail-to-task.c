@@ -199,6 +199,7 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	int parts, i;
 	GSList *list = NULL;
 	const char *uid;
+	char *store_uri;
 	char *store_dir;
 	CamelDataWrapper *content;
 
@@ -211,7 +212,10 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 		return;
 
 	e_cal_component_get_uid (comp, &uid);
-	store_dir = g_filename_from_uri (e_cal_get_local_attachment_store (client), NULL, NULL);
+	store_uri = e_cal_get_local_attachment_store (client);
+	if (!store_uri)
+		return;
+	store_dir = g_filename_from_uri (store_uri, NULL, NULL);
 
 	for (i = 1; i < parts; i++)
 	{
