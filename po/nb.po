@@ -13044,8 +13044,8 @@ msgstr[1] "%d totalt"
 #, c-format
 msgid " %d selected, "
 msgid_plural " %d selected, "
-msgstr[0] "%d valgt, "
-msgstr[1] "%d valgt, "
+msgstr[0] " %d valgt, "
+msgstr[1] " %d valgt, "
 
 #: ../mail/mail-component.c:883
 msgid "New Mail Message"
