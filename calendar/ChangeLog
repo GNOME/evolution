@@ -1,5 +1,13 @@
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #272167
+
+	* gui/e-cal-popup.c: (e_cal_popup_target_new_source):
+	Marks both offline flags on local calendars, so both popup menu
+	items are hidden.
+
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #308636
 
 	* gui/dialogs/calendar-setup.c: (eccp_get_source_type):

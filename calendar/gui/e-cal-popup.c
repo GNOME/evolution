@@ -669,6 +669,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 	ECalPopupTargetSource *t = e_popup_target_new(&eabp->popup, E_CAL_POPUP_TARGET_SOURCE, sizeof(*t));
 	guint32 mask = ~0;
 	const char *source_uri;
+	char *uri;
 	ESource *source;
 	const char *offline = NULL;
 	const char *delete = NULL;
@@ -690,18 +691,23 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 	else
 		mask &= ~E_CAL_POPUP_SOURCE_USER;
 
-
 	source = e_source_selector_peek_primary_selection (selector);
-	/* check for e_target_selector's offline_status property here */
-	offline = e_source_get_property (source, "offline");
+	uri = e_source_get_uri (source);
+	if (!uri || (g_strncasecmp (uri, "file://", 7) && g_strncasecmp (uri, "contacts://", 11))) {
+		/* check for e_target_selector's offline_status property here */
+		offline = e_source_get_property (source, "offline");
 
-	if (offline  && strcmp (offline,"1") == 0) { 
-		/* set the menu item to Mark Offline - */
-		mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE;
+		if (offline  && strcmp (offline,"1") == 0) { 
+			/* set the menu item to Mark Offline - */
+			mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE;
+		} else {
+			mask &= ~E_CAL_POPUP_SOURCE_OFFLINE;
+		}
+	} else {
+		mask |= E_CAL_POPUP_SOURCE_NO_OFFLINE;
+		mask |= E_CAL_POPUP_SOURCE_OFFLINE;
 	}
-	else {
-		mask &= ~E_CAL_POPUP_SOURCE_OFFLINE;
-	}
+	g_free (uri);
 	
 	source = e_source_selector_peek_primary_selection (selector);
 	/*check for delete_status property here*/
