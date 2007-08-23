@@ -192,6 +192,7 @@ struct _CellEdit {
 	gboolean im_context_signals_registered;
 
 	guint16 preedit_length;       /* length of preedit string, in bytes */
+	gint preedit_pos;             /* position of preedit cursor */
 
 	ECellActions actions;
 };
@@ -215,6 +216,7 @@ static gboolean e_cell_text_delete_surrounding_cb   (GtkIMContext *context, gint
 static void _insert (ECellTextView *text_view, char *string, int value);
 static void _delete_selection (ECellTextView *text_view);
 static PangoAttrList* build_attr_list (ECellTextView *text_view, int row, int text_length);
+static void update_im_cursor_location (ECellTextView *tv);
 
 char *
 e_cell_text_get_text (ECellText *cell, ETableModel *model, int col, int row)
@@ -554,6 +556,9 @@ layout_with_preedit (ECellTextView *text_view, int row, const char *text, gint w
 	if (preedit_attrs)
 		pango_attr_list_unref (preedit_attrs);
 	pango_attr_list_unref (attrs);
+
+	update_im_cursor_location (text_view);
+
 	return layout;
 }
 
@@ -1854,6 +1859,66 @@ e_cell_text_class_init (ECellTextClass *klass)
 /* IM Context Callbacks */
 
 static void
+e_cell_text_get_cursor_locations (ECellTextView *tv,
+				  GdkRectangle *strong_pos,
+				  GdkRectangle *weak_pos)
+{
+	GdkRectangle area;
+	CellEdit *edit=tv->edit;
+	ECellView *cell_view = (ECellView *)tv;
+	ETableItem *item = E_TABLE_ITEM ((cell_view)->e_table_item_view);
+	GnomeCanvasItem *parent_item = GNOME_CANVAS_ITEM (item)->parent;
+	PangoRectangle pango_strong_pos;
+	PangoRectangle pango_weak_pos;
+	gint x, y, col, row;
+	gdouble x1,y1;
+	gint cx, cy;
+	gint index;
+
+	row = edit->row;
+	col = edit->view_col;
+
+	e_table_item_get_cell_geometry (item, &row, &col,
+					&x, &y, NULL, &area.height);
+
+	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (parent_item), &x1, &y1, NULL, NULL);
+	
+	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (GNOME_CANVAS_ITEM (parent_item)->canvas), &cx, &cy);
+
+	index = edit->selection_end + edit->preedit_pos;
+
+	pango_layout_get_cursor_pos (edit->layout, 
+				     index,
+				     strong_pos ? &pango_strong_pos : NULL,
+				     weak_pos ? &pango_weak_pos : NULL);
+
+	if (strong_pos) {
+		strong_pos->x = x + x1 - cx - edit->xofs_edit + pango_strong_pos.x / PANGO_SCALE;
+		strong_pos->y = y + y1 - cy - edit->yofs_edit + pango_strong_pos.y / PANGO_SCALE;
+		strong_pos->width = 0;
+		strong_pos->height = pango_strong_pos.height / PANGO_SCALE;
+	}
+
+	if (weak_pos) {
+		weak_pos->x = x + x1 - cx - edit->xofs_edit + pango_weak_pos.x / PANGO_SCALE;
+		weak_pos->y = y + y1 - cy - edit->yofs_edit + pango_weak_pos.y / PANGO_SCALE;
+		weak_pos->width = 0;
+		weak_pos->height = pango_weak_pos.height / PANGO_SCALE;
+	}
+}
+
+static void
+update_im_cursor_location (ECellTextView *tv)
+{
+	CellEdit *edit=tv->edit;
+	GdkRectangle area;
+	
+	e_cell_text_get_cursor_locations (tv, &area, NULL);
+
+	gtk_im_context_set_cursor_location (edit->im_context, &area);
+}
+
+static void
 e_cell_text_preedit_changed_cb (GtkIMContext *context,
 		  ECellTextView    *tv)
 {
@@ -1862,10 +1927,12 @@ e_cell_text_preedit_changed_cb (GtkIMContext *context,
 	CellEdit *edit=tv->edit;
 	gtk_im_context_get_preedit_string (edit->im_context, &preedit_string, 
 					NULL, &cursor_pos);
-	                                                  
+
 	edit->preedit_length = strlen (preedit_string);
-	cursor_pos =  CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1)); 
+	cursor_pos = CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1));
+	edit->preedit_pos = g_utf8_offset_to_pointer (preedit_string, cursor_pos) - preedit_string;
 	g_free (preedit_string);
+
 	ect_queue_redraw (tv, edit->view_col, edit->row);
 }
 

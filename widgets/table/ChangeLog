@@ -1,3 +1,16 @@
+2007-08-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #303877.
+
+	* e-cell-text.c: (update_im_cursor_locations): New function.
+	Set the cursor location to IMContext for candidate window.
+	(e_cell_text_get_cursor_locations): New function.
+	Get the current cursor locations in root canvas.
+	(e_cell_text_preedit_changed_cb): set the preedit cursor position to
+	preedit_pos.
+	(layout_with_preedit): call update_im_cursor_locations in the tail.
+	Patch by Hiroyuki Ikezone.
+
 2007-08-07  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #419690
