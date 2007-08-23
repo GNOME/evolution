@@ -1,3 +1,13 @@
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #308636
+
+	* camel-gw-listener.c: (add_esource):
+	Set "create_source=yes" property to source group based on new parameter
+	and always set property "delete=no" to new source.
+	* camel-gw-listener.c: , (add_calendar_tasks_sources),
+	(add_proxy_sources): Uses add_source.
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* camel-gw-listener.c (remove_esource), (modify_esource):
