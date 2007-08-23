@@ -1,3 +1,18 @@
+2007-08-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #303878
+
+	* text/e-text.h: preedit_pos: new value.
+	* text/e-text.c: (e_text_get_cursor_locations):
+	New function. Get the cursor locations.
+	(update_im_cursor_position): New function.
+	Set the cursor location to IMContext.
+	(insert_preedit_text): Call update_im_cursor_position when draw
+	preedit text.
+	(e_text_preedit_changed_cb): Set the preedit cursor position to
+	preedit_pos.
+	Patch by Hiroyuki Ikezoe and makuchaku.
+
 2007-07-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	* text/e-text-model-uri.c:

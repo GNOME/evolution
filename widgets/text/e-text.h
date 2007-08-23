@@ -109,6 +109,7 @@ struct _EText {
 
 	const gchar *text;              /* Text to display --- from the ETextModel */
 	gint preedit_len;      		/* preedit length to display */
+	gint preedit_pos;      		/* preedit cursor position */
 	PangoLayout *layout;
 	int num_lines;			/* Number of lines of text */
 
