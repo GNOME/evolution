@@ -5454,35 +5454,35 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 	
 	/* printf ("e_msg_composer_show_sig_file\n"); */
 	/* printf ("set sig '%s' '%s'\n", sig_file, p->sig_file); */
+	if (!p->redirect) {
+		p->in_signature_insert = TRUE;
+		CORBA_exception_init (&ev);
+		GNOME_GtkHTML_Editor_Engine_freeze (p->eeditor_engine, &ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-position-save", &ev);
+		GNOME_GtkHTML_Editor_Engine_undoBegin (p->eeditor_engine, "Set signature", "Reset signature", &ev);
 	
-	p->in_signature_insert = TRUE;
-	CORBA_exception_init (&ev);
-	GNOME_GtkHTML_Editor_Engine_freeze (p->eeditor_engine, &ev);
-	GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-position-save", &ev);
-	GNOME_GtkHTML_Editor_Engine_undoBegin (p->eeditor_engine, "Set signature", "Reset signature", &ev);
-	
-	delete_old_signature (composer);
-	html = get_signature_html (composer);
-	if (html) {
-		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "insert-paragraph", &ev);
-		if (!GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-backward", &ev))
+		delete_old_signature (composer);
+		html = get_signature_html (composer);
+		if (html) {
 			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "insert-paragraph", &ev);
-		else
-			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-forward", &ev);
+			if (!GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-backward", &ev))
+				GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "insert-paragraph", &ev);
+			else
+				GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-forward", &ev);
 		/* printf ("insert %s\n", html); */
-		GNOME_GtkHTML_Editor_Engine_setParagraphData (p->eeditor_engine, "orig", "0", &ev);
-		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "indent-zero", &ev);
-		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "style-normal", &ev);
-		GNOME_GtkHTML_Editor_Engine_insertHTML (p->eeditor_engine, html, &ev);
-		g_free (html);
-	}
+			GNOME_GtkHTML_Editor_Engine_setParagraphData (p->eeditor_engine, "orig", "0", &ev);
+			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "indent-zero", &ev);
+			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "style-normal", &ev);
+			GNOME_GtkHTML_Editor_Engine_insertHTML (p->eeditor_engine, html, &ev);
+			g_free (html);
+		}
 		
-	GNOME_GtkHTML_Editor_Engine_undoEnd (p->eeditor_engine, &ev);
-	GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-position-restore", &ev);
-	GNOME_GtkHTML_Editor_Engine_thaw (p->eeditor_engine, &ev);
-	CORBA_exception_free (&ev);
-	p->in_signature_insert = FALSE;
-	
+		GNOME_GtkHTML_Editor_Engine_undoEnd (p->eeditor_engine, &ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-position-restore", &ev);
+		GNOME_GtkHTML_Editor_Engine_thaw (p->eeditor_engine, &ev);
+		CORBA_exception_free (&ev);
+		p->in_signature_insert = FALSE;
+	}
 	/* printf ("e_msg_composer_show_sig_file end\n"); */
 }
 
