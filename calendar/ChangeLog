@@ -1,5 +1,12 @@
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #385517
+
+	* gui/dialogs/cal-prefs-dialog.c: (show_task_list_config):
+	Use actual state to sensitive tasks_hide_completed_* widgets.
+
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #329746
 
 	* gui/dialogs/comp-editor.c: (make_icon_from_comp):

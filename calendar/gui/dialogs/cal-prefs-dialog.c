@@ -430,7 +430,7 @@ show_task_list_config (CalendarPrefsDialog *prefs)
 	GtkColorButton *color_button;
 	GdkColor color;
 	CalUnits units;
-	gboolean hide_completed_tasks = FALSE;
+	gboolean hide_completed_tasks;
 
 	color_button = GTK_COLOR_BUTTON (prefs->tasks_due_today_color);
 	calendar_config_get_tasks_due_today_color (&color);
@@ -441,7 +441,8 @@ show_task_list_config (CalendarPrefsDialog *prefs)
 	gtk_color_button_set_color (color_button, &color);
 
 	/* Hide Completed Tasks. */
-	e_dialog_toggle_set (prefs->tasks_hide_completed, calendar_config_get_hide_completed_tasks ());
+	hide_completed_tasks = calendar_config_get_hide_completed_tasks ();
+	e_dialog_toggle_set (prefs->tasks_hide_completed, hide_completed_tasks);
 
 	/* Hide Completed Tasks Units. */
 	units = calendar_config_get_hide_completed_tasks_units ();
