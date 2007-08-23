@@ -870,15 +870,50 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 	/* Find the nearest half-hour or hour interval, depending on whether
 	   zoomed_out is set. */
 	if (!mts->all_day) {
-		if (mts->zoomed_out) {
+		gint astart_year, astart_month, astart_day, astart_hour, astart_minute;
+		gint aend_year, aend_month, aend_day, aend_hour, aend_minute;
+		int hdiff, mdiff;
+		GDate asdate, aedate;
+
+		e_meeting_time_selector_get_meeting_time (mts_item->mts,
+					       &astart_year,
+					       &astart_month,
+					       &astart_day,
+					       &astart_hour,
+					       &astart_minute,
+					       &aend_year,
+					       &aend_month,
+					       &aend_day,
+					       &aend_hour,
+					       &aend_minute);
+		if (mts->zoomed_out)
 			start_time.minute = 0;
-			end_time = start_time;
-			end_time.hour += 1;
-		} else {
+		else
 			start_time.minute -= start_time.minute % 30;
-			end_time = start_time;
-			end_time.minute += 30;
+
+		g_date_set_dmy (&asdate, astart_day, astart_month, astart_year);
+		g_date_set_dmy (&aedate, aend_day, aend_month, aend_year);
+		end_time = start_time;
+		mdiff = end_time.minute + aend_minute - astart_minute;
+		hdiff = end_time.hour + aend_hour - astart_hour + (24 * g_date_days_between (&asdate, &aedate));
+		while (mdiff < 0) {
+			mdiff += 60;
+			hdiff -= 1;
 		}
+		while (mdiff > 60) {
+			mdiff -= 60;
+			hdiff += 1;
+		}
+		while (hdiff < 0) {
+			hdiff += 24;
+			g_date_subtract_days (end_date, 1);
+		}
+		while (hdiff >= 24) {
+			hdiff -= 24;
+			g_date_add_days (end_date, 1);
+		}
+		end_time.minute = mdiff;
+		end_time.hour = hdiff;
 	} else {
 		start_time.hour = 0;
 		start_time.minute = 0;

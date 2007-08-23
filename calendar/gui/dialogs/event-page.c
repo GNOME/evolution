@@ -543,6 +543,8 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_timezone),
 					    epage);
 	priv->sync_timezones = TRUE; 
+
+	update_end_time_selector (epage);	
 }
 
 /* Fills the widgets with default values */

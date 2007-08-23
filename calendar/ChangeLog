@@ -1,5 +1,16 @@
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #338803
+
+	* gui/e-meeting-time-sel-item.c:
+	(e_meeting_time_selector_item_button_press):
+	Keeps actual meeting duration, not reset to half/full hour.
+
+	* gui/dialogs/event-page.c: (update_time):
+	Updates also duration spin buttons, not only end date/time edits.
+
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #347770
 
 	* gui/e-cal-component-memo-preview.c: (write_html):
