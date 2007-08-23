@@ -289,7 +289,7 @@ eab_show_multiple_contacts (EBook *book,
 			dialog = gtk_message_dialog_new (NULL,
 							 0,
 							 GTK_MESSAGE_QUESTION,
-							 GTK_BUTTONS_YES_NO,
+							 GTK_BUTTONS_NONE,
 							 ngettext("Opening %d contact will open %d new window as well.\n"
 								  "Do you really want to display this contact?",
 								  "Opening %d contacts will open %d new windows as well.\n"
@@ -297,7 +297,10 @@ eab_show_multiple_contacts (EBook *book,
 								  length),
 							 length,
 							 length);
-
+			gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+						_("_Don't Display"), GTK_RESPONSE_NO,
+						_("Display _All Contacts"), GTK_RESPONSE_YES,
+						NULL);
 			response = gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 			if (response == GTK_RESPONSE_YES)

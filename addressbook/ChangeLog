@@ -1,3 +1,11 @@
+2007-08-23  Anand V M  <avmuttagi@gmail.com>
+ 
+       ** Fix for bug #353462
+ 
+       * gui/widgets/eab-gui-util.c:Changing the labels of buttons from 
+       "Yes/No" to "Display All Contacts/Don't Display" to make them HIG 
+       compliant.
+
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #412732
