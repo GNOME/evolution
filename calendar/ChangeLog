@@ -1,5 +1,23 @@
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #329746
+
+	* gui/dialogs/comp-editor.c: (make_icon_from_comp):
+	Return proper icon for memo components.
+	* gui/dialogs/delete-comp.c: (delete_component_dialog),
+	(prompt_retract_dialog):
+	* gui/dialogs/changed-comp.c: (changed_component_dialog):
+	* gui/dialogs/comp-editor.c: (make_title_from_comp),
+	(make_title_from_string):
+	* gui/dialogs/cancel-comp.c: (cancel_component_dialog):
+	* gui/dialogs/delete-error.c: (delete_error_dialog):
+	* gui/dialogs/recur-comp.c: (recur_component_dialog):
+	* gui/itip-utils.c: (comp_subject), (comp_description):
+	* calendar.error.xml:
+	Renamed 'Journal' to 'Memo'.
+
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #428110
 
 	* gui/memos-component.c: (update_single_object):

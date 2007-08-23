@@ -65,7 +65,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 			break;
 
 		case E_CAL_COMPONENT_JOURNAL:
-			str = _("This journal entry has been deleted.");
+			str = _("This memo has been deleted.");
 			break;
 
 		default:
@@ -89,7 +89,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 			break;
 
 		case E_CAL_COMPONENT_JOURNAL:
-			str = _("This journal entry has been changed.");
+			str = _("This memo has been changed.");
 			break;
 
 		default:

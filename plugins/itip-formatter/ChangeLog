@@ -1,3 +1,12 @@
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #329746
+
+	* itip-formatter.c: (send_item), (format_itip_object):
+	Marked strings to localize and renamed 'Journal' to 'Memo'.
+	* itip-formatter.c: (find_cal_opened_cb):
+	Renamed 'Journal' to 'Memo'.
+
 2007-08-21  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #301835 (BNC)

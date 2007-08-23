@@ -693,7 +693,7 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 		case E_CAL_COMPONENT_TODO:
 			description = _("Task information");
 		case E_CAL_COMPONENT_JOURNAL:
-			description = _("Journal information");
+			description = _("Memo information");
 		case E_CAL_COMPONENT_FREEBUSY:
 			description = _("Free/Busy information");
 		default:
@@ -816,7 +816,7 @@ comp_description (ECalComponent *comp)
         case E_CAL_COMPONENT_TODO:
                 return CORBA_string_dup (_("Task information"));
         case E_CAL_COMPONENT_JOURNAL:
-                return CORBA_string_dup (_("Journal information"));
+                return CORBA_string_dup (_("Memo information"));
         case E_CAL_COMPONENT_FREEBUSY:
                 e_cal_component_get_dtstart (comp, &dt);
                 if (dt.value)

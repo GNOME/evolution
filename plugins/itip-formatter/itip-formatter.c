@@ -683,7 +683,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 				break;
 			case E_CAL_SOURCE_TYPE_JOURNAL:
 				itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
-								      _("Unable to find this journal entry in any journal"));
+								      _("Unable to find this memo in any memo list"));
 				break;
 			default:
 				g_assert_not_reached ();
@@ -1247,13 +1247,13 @@ send_item (FormatItipPObject *pitip)
 
 		switch (pitip->type) {
 		case E_CAL_SOURCE_TYPE_EVENT:
-			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Meeting information sent");
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Meeting information sent"));
 			break;
 		case E_CAL_SOURCE_TYPE_TODO:
-			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Task information sent");
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Task information sent"));
 			break;
 		case E_CAL_SOURCE_TYPE_JOURNAL:
-			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Journal entry information sent");
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Memo information sent"));
 			break;
 		default:
 			g_assert_not_reached ();
@@ -1262,13 +1262,13 @@ send_item (FormatItipPObject *pitip)
 	} else {
 		switch (pitip->type) {
 		case E_CAL_SOURCE_TYPE_EVENT:
-			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send meeting information, the meeting does not exist");
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to send meeting information, the meeting does not exist"));
 			break;
 		case E_CAL_SOURCE_TYPE_TODO:
-			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send task information, the task does not exist");
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to send task information, the task does not exist"));
 			break;
 		case E_CAL_SOURCE_TYPE_JOURNAL:
-			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send journal entry information, the journal entry does not exist");
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to send memo information, the memo does not exist"));
 			break;
 		default:
 			g_assert_not_reached ();
@@ -2044,13 +2044,13 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		/* FIXME Tell the user we don't support recurring tasks */
 		switch (pitip->type) {
 		case E_CAL_SOURCE_TYPE_EVENT:
-			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This meeting recurs");
+			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This meeting recurs"));
 			break;
 		case E_CAL_SOURCE_TYPE_TODO:
-			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This task recurs");
+			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This task recurs"));
 			break;
 		case E_CAL_SOURCE_TYPE_JOURNAL:
-			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This journal recurs");
+			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This memo recurs"));
 			break;
 		default:
 			g_assert_not_reached ();

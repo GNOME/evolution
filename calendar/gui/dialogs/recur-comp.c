@@ -59,7 +59,7 @@ recur_component_dialog (ECal *client,
 		break;
 
 	case E_CAL_COMPONENT_JOURNAL:
-		str = g_strdup_printf (_("You are modifying a recurring journal entry. What would you like to modify?"));
+		str = g_strdup_printf (_("You are modifying a recurring memo. What would you like to modify?"));
 		break;
 
 	default:

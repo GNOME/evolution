@@ -57,7 +57,7 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 			str = _("The task could not be deleted due to a corba error");
 			break;
 		case E_CAL_COMPONENT_JOURNAL:
-			str = _("The journal entry could not be deleted due to a corba error");
+			str = _("The memo could not be deleted due to a corba error");
 			break;
 		default:
 			str = _("The item could not be deleted due to a corba error");
@@ -73,7 +73,7 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 			str = _("The task could not be deleted because permission was denied");
 			break;
 		case E_CAL_COMPONENT_JOURNAL:
-			str = _("The journal entry could not be deleted because permission was denied");
+			str = _("The memo could not be deleted because permission was denied");
 			break;
 		default:
 			str = _("The item could not be deleted because permission was denied");
@@ -89,7 +89,7 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 			str = _("The task could not be deleted due to an error");
 			break;
 		case E_CAL_COMPONENT_JOURNAL:
-			str = _("The journal entry could not be deleted due to an error");
+			str = _("The memo could not be deleted due to an error");
 			break;
 		default:
 			str = _("The item could not be deleted due to an error");

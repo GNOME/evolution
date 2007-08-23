@@ -2187,7 +2187,7 @@ make_title_from_comp (ECalComponent *comp, gboolean is_group_item)
 			type_string = _("Task - %s");
 		break;
 	case E_CAL_COMPONENT_JOURNAL:
-		type_string = _("Journal entry - %s");
+		type_string = _("Memo - %s");
 		break;
 	default:
 		g_message ("make_title_from_comp(): Cannot handle object of type %d", type);
@@ -2230,7 +2230,7 @@ make_title_from_string (ECalComponent *comp, const char *str, gboolean is_group_
 			type_string = _("Task - %s");
 		break;
 	case E_CAL_COMPONENT_JOURNAL:
-		type_string = _("Journal entry - %s");
+		type_string = _("Memo - %s");
 		break;
 	default:
 		g_message ("make_title_from_string(): Cannot handle object of type %d", type);
@@ -2260,6 +2260,8 @@ make_icon_from_comp (ECalComponent *comp)
 		return "stock_new-appointment";
 	case E_CAL_COMPONENT_TODO:
 		return "stock_task";
+	case E_CAL_COMPONENT_JOURNAL:
+		return "stock_insert-note";
 	default:
 		return "stock_calendar";
 	}

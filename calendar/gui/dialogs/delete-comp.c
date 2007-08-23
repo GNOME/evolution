@@ -107,9 +107,9 @@ delete_component_dialog (ECalComponent *comp,
 
 		case E_CAL_COMPONENT_JOURNAL:
 			if (arg0)
-				id = "calendar:prompt-delete-named-journal";
+				id = "calendar:prompt-delete-named-memo";
 			else
-				id = "calendar:prompt-delete-journal";
+				id = "calendar:prompt-delete-memo";
 			break;
 
 		default:
@@ -136,9 +136,9 @@ delete_component_dialog (ECalComponent *comp,
 
 		case E_CAL_COMPONENT_JOURNAL:
 			if (n_comps == 1)
-				id = "calendar:prompt-delete-journal";
+				id = "calendar:prompt-delete-memo";
 			else
-				id = "calendar:prompt-delete-journals";
+				id = "calendar:prompt-delete-memos";
 			break;
 
 		default:
@@ -186,7 +186,7 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 			message = g_strdup_printf (_("Are you sure you want to delete this task?"));
 			break;
 		case E_CAL_COMPONENT_JOURNAL:
-			message = g_strdup_printf (_("Are you sure you want to delete this journal entry?"));
+			message = g_strdup_printf (_("Are you sure you want to delete this memo?"));
 			break;
 		default:
 			g_message ("Retract: Unsupported object type \n");

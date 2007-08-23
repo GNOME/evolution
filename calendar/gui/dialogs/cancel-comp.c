@@ -94,9 +94,9 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 
 	case E_CAL_COMPONENT_JOURNAL:
 		if (deleting)
-			id = "calendar:prompt-cancel-journal";
+			id = "calendar:prompt-cancel-memo";
 		else
-			id = "calendar:prompt-delete-journal";
+			id = "calendar:prompt-delete-memo";
 		break;
 
 	default:
