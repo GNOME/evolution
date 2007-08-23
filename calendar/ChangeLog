@@ -1,5 +1,12 @@
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #347770
+
+	* gui/e-cal-component-memo-preview.c: (write_html):
+	Improved description text parsing.
+
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #355864
 
 	* gui/e-week-view.c: (e_week_view_remove_event_cb):

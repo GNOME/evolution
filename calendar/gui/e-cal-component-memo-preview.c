@@ -227,11 +227,14 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		gtk_html_stream_printf (stream, "<TD>");
 
 		for (node = l; node != NULL; node = node->next) {
-			gint i, j;
-			GString *string = g_string_new (NULL);
+			gint i, j, len;
+			GString *string;
 
 			text = * (ECalComponentText *) node->data;
-			for (i = 0, j=0; i < strlen (text.value ? text.value : 0); i++, j++) {
+			len = (text.value ? strlen (text.value) : 0);
+			string = g_string_sized_new (len + 1);
+
+			for (i = 0, j=0; i < len; i++, j++) {
 				if (text.value[i] == '\n'){
 					string = g_string_append_len (string, "<BR>", 4);
 				}
