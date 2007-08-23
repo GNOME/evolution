@@ -1,5 +1,17 @@
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #428110
+
+	* gui/memos-component.c: (update_single_object):
+	Added parameter to rather fail on adding same object with drag&drop,
+	rather than modify and then delete existing one.
+	* gui/memos-component.c: (update_objects): Use new parameter above.
+	* gui/memos-component.c: (selector_tree_drag_data_received):
+	Use result of call 'update_objects' and prevent delete object when
+	the call fails.
+
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #201201
 
 	* gui/e-week-view.h: (struct _EWeekView): Added properties.

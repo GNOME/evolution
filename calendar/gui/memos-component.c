@@ -680,7 +680,7 @@ selector_tree_drag_motion (GtkWidget *widget,
 }
 
 static gboolean
-update_single_object (ECal *client, icalcomponent *icalcomp)
+update_single_object (ECal *client, icalcomponent *icalcomp, gboolean fail_on_modify)
 {
 	char *uid;
 	icalcomponent *tmp_icalcomp;
@@ -689,8 +689,12 @@ update_single_object (ECal *client, icalcomponent *icalcomp)
 
 	uid = (char *) icalcomponent_get_uid (icalcomp);
 	
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
+	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL)) {
+		if (fail_on_modify)
+			return FALSE;
+		else
+			return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
+	}
 
 	return e_cal_create_object (client, icalcomp, &uid, NULL);	
 }
@@ -705,7 +709,7 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 
 	kind = icalcomponent_isa (icalcomp);
 	if (kind == ICAL_VJOURNAL_COMPONENT)
-		return update_single_object (client, icalcomp);
+		return update_single_object (client, icalcomp, TRUE);
 	else if (kind != ICAL_VCALENDAR_COMPONENT)
 		return FALSE;
 
@@ -725,7 +729,7 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 			if (!success)
 				return success;
 		} else if (kind == ICAL_VJOURNAL_COMPONENT) {
-			success = update_single_object (client, subcomp);
+			success = update_single_object (client, subcomp, TRUE);
 			if (!success)
 				return success;
 		}
@@ -786,8 +790,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 		
 		if (client) {
 			if (e_cal_open (client, TRUE, NULL)) {
-				success = TRUE;
-				update_objects (client, icalcomp);
+				success = update_objects (client, icalcomp);
 			}
 			
 			g_object_unref (client);
@@ -802,7 +805,14 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	if (path)
 		gtk_tree_path_free (path);
 
-	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
+	if (!success && context->action == GDK_ACTION_MOVE) {
+		/* because the delete parameter of 'gtk_drag_finish' doesn't work
+		   as expected, then we change context->action to GDK_ACTION_COPY 
+		   to prevent from deleting data when the drag was unsuccessful.
+		*/
+		context->action = GDK_ACTION_COPY;
+	}
+	gtk_drag_finish (context, success, success && context->action == GDK_ACTION_MOVE, time);
 }	
 
 static void
