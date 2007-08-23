@@ -177,12 +177,16 @@ eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 		for (l = sdialog->menu_source_groups; l; l = g_slist_next (l)) {
 			/* Reuse previously defined *group here? */
 			ESourceGroup *group = l->data;
+			gchar *create_source = e_source_group_get_property (group, "create_source");
 
-			gtk_list_store_append (store, &iter);
-			gtk_list_store_set (store, &iter, 0, e_source_group_peek_name (group), 1, group, -1);
-			if (!strcmp (e_source_group_peek_uid (sdialog->source_group), e_source_group_peek_uid (group)))
-				active = i;
-			i++;
+			if ( !(create_source && !strcmp (create_source, "no"))) {
+				gtk_list_store_append (store, &iter);
+				gtk_list_store_set (store, &iter, 0, e_source_group_peek_name (group), 1, group, -1);
+				if (!strcmp (e_source_group_peek_uid (sdialog->source_group), e_source_group_peek_uid (group)))
+					active = i;
+				i++;
+			}
+			g_free (create_source);
 		}
 
 		gtk_cell_layout_pack_start ((GtkCellLayout *) type, cell, TRUE);
@@ -393,6 +397,34 @@ static ECalConfigItem ecmp_items[] = {
 	{ 0 },
 };
 
+/** 
+ * cs_load_sources:
+ * @sdialog: dialog where to load sources list
+ * @conf_key: configuration key where to get sources' list
+ * @group: can be NULL
+ *
+ * Loads list of sources from @conf_key.
+ */
+
+static void
+cs_load_sources (CalendarSourceDialog *sdialog, const gchar *conf_key, ESourceGroup *group)
+{
+	GConfClient *gconf;
+
+	g_return_if_fail (sdialog != NULL && conf_key != NULL);
+
+	sdialog->source = e_source_new ("", "");
+	gconf = gconf_client_get_default ();
+	sdialog->source_list = e_source_list_new_for_gconf (gconf, conf_key);
+	sdialog->menu_source_groups = g_slist_copy (e_source_list_peek_groups (sdialog->source_list));
+	sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
+
+	g_object_unref (gconf);
+
+	if (group)
+		sdialog->source_group = (ESourceGroup *)group;
+}
+
 /**
  * calendar_setup_edit_calendar:
  * @parent: parent window for dialog (current unused)
@@ -424,38 +456,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 		if (color_spec != NULL)
 			e_source_set_color_spec (sdialog->source, color_spec);
 	} else {
-		GConfClient *gconf;
-		GSList *l, *ptr, *temp = NULL;
-
-		sdialog->source = e_source_new ("", "");
-		gconf = gconf_client_get_default ();
-		sdialog->source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
-		l = e_source_list_peek_groups (sdialog->source_list);
-		/* Skip GW as it supports only one calendar */
-		ptr = l;
-		if (!strncmp (e_source_group_peek_base_uri ((ESourceGroup *)ptr->data),
-				"groupwise://", 12 )) {
-				l = l->next;
-				g_object_unref (ptr->data);
-				g_slist_free_1 (ptr);
-		}
-		for (ptr=l; ptr->next;) {
-			if (!strncmp (e_source_group_peek_base_uri ((ESourceGroup *)ptr->next->data),
-				"groupwise://", 12 )) {
-				temp = ptr->next;
-				ptr->next = temp->next;
-				g_object_unref (temp->data);
-				g_slist_free_1 (temp);
-			} else {
-				ptr = ptr->next;
-			}	
-		}
-		sdialog->menu_source_groups = g_slist_copy(l);
-
-		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
-		g_object_unref (gconf);
-		if (group)
-			sdialog->source_group = (ESourceGroup *)group;
+		cs_load_sources (sdialog, "/apps/evolution/calendar/sources", group);
 	}
 
 	/* HACK: doesn't work if you don't do this */
@@ -514,36 +515,7 @@ calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 		color_spec = e_source_peek_color_spec (source);
 		e_source_set_color_spec (sdialog->source, color_spec);
 	} else {
-		GConfClient *gconf;
-		GSList *l, *ptr, *temp = NULL;
-
-		sdialog->source = e_source_new ("", "");
-		gconf = gconf_client_get_default ();
-		sdialog->source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/tasks/sources");
-		l = e_source_list_peek_groups (sdialog->source_list);
-
-		/* Skip GW as it supports only one task list */
-		ptr = l;
-		if (!strncmp (e_source_group_peek_base_uri ((ESourceGroup *)ptr->data),
-				"groupwise://", 12 )) {
-				l = l->next;
-				g_object_unref (ptr->data);
-				g_slist_free_1 (ptr);
-		}
-		for (ptr=l; ptr->next;) {
-			if (!strncmp (e_source_group_peek_base_uri ((ESourceGroup *)ptr->next->data),
-				"groupwise://", 12 )) {
-				temp = ptr->next;
-				ptr->next = temp->next;
-				g_object_unref (temp->data);
-				g_slist_free_1 (temp);
-			} else {
-				ptr = ptr->next;
-			}	
-		}	
-		sdialog->menu_source_groups = g_slist_copy(l);
-		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
-		g_object_unref (gconf);
+		cs_load_sources (sdialog, "/apps/evolution/tasks/sources", NULL);
 	}
 
 	/* HACK: doesn't work if you don't do this */
@@ -599,17 +571,7 @@ calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
 		color_spec = e_source_peek_color_spec (source);
 		e_source_set_color_spec (sdialog->source, color_spec);
 	} else {
-		GConfClient *gconf;
-		GSList *l;
-
-		sdialog->source = e_source_new ("", "");
-		gconf = gconf_client_get_default ();
-		sdialog->source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/memos/sources");
-		l = e_source_list_peek_groups (sdialog->source_list);
-		sdialog->menu_source_groups = g_slist_copy(l);
-
-		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
-		g_object_unref (gconf);
+		cs_load_sources (sdialog, "/apps/evolution/memos/sources", NULL);
 	}
 
 	/* HACK: doesn't work if you don't do this */

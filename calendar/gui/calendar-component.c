@@ -161,6 +161,7 @@ ensure_sources (CalendarComponent *component)
 	ESource *personal_source;
 	ESource *birthdays_source;
 	char *base_uri, *base_uri_proto;
+	gchar *create_source;
 
 	on_this_computer = NULL;
 	on_the_web = NULL;
@@ -285,7 +286,12 @@ ensure_sources (CalendarComponent *component)
 		e_source_list_add_group (source_list, group, -1);
 		contacts = group;
 	}
-	
+
+	create_source = e_source_group_get_property (contacts, "create_source");
+	if (!create_source)
+		e_source_group_set_property (contacts, "create_source", "no");
+	g_free (create_source);
+
 	if (!birthdays_source) {
 		birthdays_source = e_source_new (_("Birthdays & Anniversaries"), "/");
 		e_source_group_add_source (contacts, birthdays_source, -1);
@@ -300,7 +306,7 @@ ensure_sources (CalendarComponent *component)
 		e_source_list_add_group (source_list, group, -1);
 		weather = group;
 	}
-		
+
 	component->priv->source_list = source_list;
 
 	if (personal_source)

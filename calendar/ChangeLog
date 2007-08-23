@@ -1,3 +1,17 @@
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #308636
+
+	* gui/dialogs/calendar-setup.c: (eccp_get_source_type):
+	Add only source groups without property 'create_source=no'.
+	* gui/dialogs/calendar-setup.c: (cs_load_sources):
+	New helper function avoids code copying.
+	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_calendar),
+	(calendar_setup_edit_task_list), (calendar_setup_edit_memo_list):
+	Uses 'cs_load_sources'.
+	* gui/calendar-component.c: (ensure_sources):
+	Sets 'create_source=no' for contacts when not set before.
+
 2007-08-20  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #262226
