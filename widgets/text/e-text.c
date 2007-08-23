@@ -2849,6 +2849,76 @@ find_offset_into_line (EText *text, int offset_into_text, char **start_of_line)
 	}
 }
 
+
+
+/* direction = TRUE (move forward), FALSE (move backward)
+   Any error shall return length(text->text) or 0 or text->selection_end (as deemed fit) */
+static int
+_get_updated_position (EText *text, gboolean direction)
+{
+	PangoLogAttr *log_attrs = NULL;
+	gint n_attrs;
+	char *p = NULL;
+	gint new_pos = 0;
+	gint length = 0;
+	
+	/* Basic sanity test, return whatever position we are currently at. */
+	g_return_val_if_fail (text->layout != NULL, text->selection_end);
+
+	length = g_utf8_strlen (text->text, -1);	
+
+	/* length checks to make sure we are not wandering off into nonexistant memory... */
+	if((text->selection_end >= length) && (TRUE == direction))	/* forward */
+		return length;
+	/* checking for -ve value wont hurt! */
+	if((text->selection_end <= 0) && (FALSE == direction))		/* backward */
+		return 0;
+	
+	/* check for validness of full text->text */
+	if(!g_utf8_validate(text->text, -1, NULL))
+		return text->selection_end;
+
+	/* get layout's PangoLogAttr to facilitate moving when moving across grapheme cluster as in indic langs */
+	pango_layout_get_log_attrs (text->layout, &log_attrs, &n_attrs);
+
+	/* Fetch the current char index in the line & keep moving
+	   forward until we can display cursor */
+	p = g_utf8_offset_to_pointer (text->text, text->selection_end);
+
+	new_pos = text->selection_end;
+	while(1)
+	{
+		/* check before moving forward/backwards if we have more chars to move or not */
+		if(TRUE == direction)
+			p = g_utf8_next_char (p);
+		else
+			p = g_utf8_prev_char (p);
+			
+		/* validate the new string & return with original position if check fails */
+		if(!g_utf8_validate (p, -1, NULL))
+			break;	/* will return old value of new_pos */
+			
+		new_pos = g_utf8_pointer_to_offset (text->text, p);
+		
+		/* if is_cursor_position is set, cursor can appear in front of character.
+		   i.e. this is a grapheme boundary AND make some sanity checks */
+		if((new_pos >=0) && (new_pos < n_attrs) && (log_attrs[new_pos].is_cursor_position))
+			break;
+		else if((new_pos < 0) || (new_pos >= n_attrs))
+		{
+			new_pos = text->selection_end;
+			break;
+		}
+	}
+	
+	if(log_attrs)
+		g_free(log_attrs);
+	
+	return new_pos;
+}
+
+
+
 static int
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
@@ -2924,15 +2994,14 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		if (text->selection_end >= length)
 			new_pos = length;
 		else
-			new_pos = text->selection_end + 1;
-
+			new_pos = _get_updated_position(text, TRUE);	/* get updated position to display cursor */
+		
 		break;
 
 	case E_TEP_BACKWARD_CHARACTER:
 		new_pos = 0;
-		if (text->selection_end >= 1) {
-			new_pos = text->selection_end - 1;
-		}
+		if (text->selection_end >= 1)
+			new_pos = _get_updated_position(text, FALSE);	/* get updated position to display cursor */
 
 		break;
 
@@ -3314,6 +3383,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	if (!text->layout)
 		create_layout (text);
 
+	/* We move cursor only if scroll is TRUE */
 	if (scroll && !text->button_down) {
 		/* XXX do we really need the @trailing logic here?  if
 		   we don't we can scrap the loop and just use
@@ -3322,7 +3392,9 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		int selection_index;
 		PangoLayoutIter *iter = pango_layout_get_iter (text->layout);
 
+		/* check if we are using selection_start or selection_end for moving? */
 		selection_index = use_start ? text->selection_start : text->selection_end;
+		
 		/* convert to a byte index */
 		selection_index = g_utf8_offset_to_pointer (text->text, selection_index) - text->text;
 
