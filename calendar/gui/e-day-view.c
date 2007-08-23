@@ -751,6 +751,9 @@ e_day_view_init (EDayView *day_view)
 	/* String to use in 12-hour time format for times in the afternoon. */
 	day_view->pm_string = _("pm");
 
+	day_view->bc_event_time = 0;
+	day_view->before_click_dtstart = 0;
+	day_view->before_click_dtend = 0;
 
 	/*
 	 * Top Canvas
@@ -1094,6 +1097,9 @@ e_day_view_init (EDayView *day_view)
 	/* String to use in 12-hour time format for times in the afternoon. */
 	day_view->pm_string = _("pm");
 
+	day_view->bc_event_time = 0;
+	day_view->before_click_dtstart = 0;
+	day_view->before_click_dtend = 0;
 
 	/*
 	 * Top Canvas
@@ -3410,6 +3416,11 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 			time_t dtstart, dtend;
 
 			e_day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
+			if (dtstart < day_view->before_click_dtend && dtend > day_view->before_click_dtstart) {
+				dtstart = day_view->before_click_dtstart;
+				dtend = day_view->before_click_dtend;
+				e_day_view_set_selected_time_range ((ECalendarView *) day_view, dtstart, dtend);
+			}
 			e_calendar_view_new_appointment_for (E_CALENDAR_VIEW (day_view),
 							dtstart, dtend,
 							TRUE, FALSE);
@@ -3423,6 +3434,9 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
 				      FALSE, NULL, event->time) == 0) {
+			if (event->time - day_view->bc_event_time > 250)
+				e_day_view_get_selected_time_range ((ECalendarView *) day_view, &day_view->before_click_dtstart, &day_view->before_click_dtend);
+			day_view->bc_event_time = event->time;
 			e_day_view_start_selection (day_view, day, -1);
 		}
 	} else if (event->button == 3) {
@@ -3543,6 +3557,11 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			time_t dtstart, dtend;
 
 			e_day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
+			if (dtstart < day_view->before_click_dtend && dtend > day_view->before_click_dtstart) {
+				dtstart = day_view->before_click_dtstart;
+				dtend = day_view->before_click_dtend;
+				e_day_view_set_selected_time_range ((ECalendarView *) day_view, dtstart, dtend);
+			}
 			e_calendar_view_new_appointment_for (E_CALENDAR_VIEW (day_view),
 							dtstart, dtend,
 							FALSE, FALSE);
@@ -3556,6 +3575,9 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
 				      FALSE, NULL, event->time) == 0) {
+			if (event->time - day_view->bc_event_time > 250)
+				e_day_view_get_selected_time_range ((ECalendarView *) day_view, &day_view->before_click_dtstart, &day_view->before_click_dtend);
+			day_view->bc_event_time = event->time;
 			e_day_view_start_selection (day_view, day, row);
 			g_signal_emit_by_name (day_view, "selected_time_changed");
 		}

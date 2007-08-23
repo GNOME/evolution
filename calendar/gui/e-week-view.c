@@ -505,6 +505,9 @@ e_week_view_init (EWeekView *week_view)
 	/* String to use in 12-hour time format for times in the afternoon. */
 	week_view->pm_string = _("pm");
 
+	week_view->bc_event_time = 0;
+	week_view->before_click_dtstart = 0;
+	week_view->before_click_dtend = 0;
 
 	/*
 	 * Titles Canvas. Note that we don't show it is only shown in the
@@ -2061,6 +2064,12 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return FALSE;
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+		time_t dtstart, dtend;
+
+		e_calendar_view_get_selected_time_range ((ECalendarView *) week_view, &dtstart, &dtend);
+		if (dtstart < week_view->before_click_dtend && dtend > week_view->before_click_dtstart) {
+			e_week_view_set_selected_time_range ((ECalendarView *) week_view, week_view->before_click_dtstart, week_view->before_click_dtend);
+		}
 		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), FALSE, FALSE, FALSE);
 		return TRUE;
 	}
@@ -2074,6 +2083,9 @@ e_week_view_on_button_press (GtkWidget *widget,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
 				      FALSE, NULL, event->time) == 0) {
+			if (event->time - week_view->bc_event_time > 250)
+				e_calendar_view_get_selected_time_range ((ECalendarView *) week_view, &week_view->before_click_dtstart, &week_view->before_click_dtend);
+			week_view->bc_event_time = event->time;
 			week_view->selection_start_day = day;
 			week_view->selection_end_day = day;
 			week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_END;

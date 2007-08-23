@@ -1,5 +1,23 @@
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #201201
+
+	* gui/e-week-view.h: (struct _EWeekView): Added properties.
+	* gui/e-week-view.c: (e_week_view_init),
+	(e_week_view_on_button_press): First click stores actual selection
+	in structure and when second click was inside this selection, then
+	the selection is restored and used for new appointment.
+
+	** Fix for bug #201202
+
+	* gui/e-day-view.h: (struct _EDayView): Added properties.
+	* gui/e-day-view.c: (e_day_view_init),
+	(e_day_view_on_top_canvas_button_press),
+	(e_day_view_on_main_canvas_button_press):
+	Same as with week view above.
+
+2007-08-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #338803
 
 	* gui/e-meeting-time-sel-item.c:
