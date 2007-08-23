@@ -1,3 +1,12 @@
+2007-08-23  Sankar P  <psankar@novell.com>
+
+	reviewed by: Andre Klapper <a9016009@gmx.de>
+
+	* Fix for bug #468869
+
+	* mail-config.glade:
+	Mark strings for Translation.
+
 2007-08-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #468303
