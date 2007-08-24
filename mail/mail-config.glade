@@ -549,6 +549,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="identity_address_label" type="labelled-by"/>
+				<atkrelation target="label464" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -628,6 +632,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="label464" type="labelled-by"/>
+				<atkrelation target="identity_full_name_label" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -827,6 +835,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="identity_organization_label" type="labelled-by"/>
+			    <atkrelation target="label466" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -877,6 +889,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label466" type="labelled-by"/>
+			    <atkrelation target="reply_to_label" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
