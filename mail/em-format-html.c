@@ -2020,7 +2020,7 @@ static void efh_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart 
 	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
 	html_filter = camel_mime_filter_tohtml_new (CAMEL_MIME_FILTER_TOHTML_CONVERT_NL
 						    | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
-						    | CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT, 0);
+						    | CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 	

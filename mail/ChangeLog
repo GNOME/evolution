@@ -1,3 +1,10 @@
+2007-08-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #385414 by makuchaku (Mayank)
+
+	* em-format-html.c: (efh_format_source):
+	Use ...PRESERVE_8BIT rather than ...ESCAPE_8BIT for message source.
+
 2007-08-24  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #464338
