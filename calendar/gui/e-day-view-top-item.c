@@ -544,10 +544,23 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 				 0, 0);
 		icon_x -= icon_x_inc;
 	}
+
 	if (icon_x <= max_icon_x && e_cal_component_has_alarms (comp)) {
 		gdk_gc_set_clip_mask (gc, NULL);
 		gdk_draw_pixbuf (drawable, gc,
 				 day_view->reminder_icon,
+				 0, 0, icon_x, icon_y,
+				 E_DAY_VIEW_ICON_WIDTH,
+				 E_DAY_VIEW_ICON_HEIGHT,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
+		icon_x -= icon_x_inc;
+	}
+
+	if (icon_x <= max_icon_x && e_cal_component_has_organizer (comp)) {
+		gdk_gc_set_clip_mask (gc, NULL);
+		gdk_draw_pixbuf (drawable, gc,
+				 day_view->meeting_icon,
 				 0, 0, icon_x, icon_y,
 				 E_DAY_VIEW_ICON_WIDTH,
 				 E_DAY_VIEW_ICON_HEIGHT,
@@ -1139,6 +1152,15 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	if (icon_x <= max_icon_x && e_cal_component_has_alarms (comp)) {
 		cairo_save (cr);
 		gdk_cairo_set_source_pixbuf (cr, day_view->reminder_icon, icon_x, icon_y);
+		cairo_paint (cr);
+		cairo_restore (cr);
+	
+		icon_x -= icon_x_inc;
+	}
+
+	if (icon_x <= max_icon_x && e_cal_component_has_organizer (comp)) {
+		cairo_save (cr);
+		gdk_cairo_set_source_pixbuf (cr, day_view->meeting_icon, icon_x, icon_y);
 		cairo_paint (cr);
 		cairo_restore (cr);
 	

@@ -1,3 +1,10 @@
+2007-08-24  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #330628
+
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw_long_event):
+	Show meeting icon.
+
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #385517
