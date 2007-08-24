@@ -1575,8 +1575,14 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 
 		return TRUE;
 	} else if (bevent->button.button == 3) {
-		if (!GTK_WIDGET_HAS_FOCUS (week_view))
+		if (!GTK_WIDGET_HAS_FOCUS (week_view)) {
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
+			if (week_view->event_destroyed) {
+				week_view->event_destroyed = FALSE;
+				return FALSE;
+			}
+
+		}
 
 		e_week_view_set_selected_time_range_visible (week_view, event->start, event->end);
 

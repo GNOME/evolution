@@ -331,7 +331,8 @@ struct _EWeekView
 	gchar *pm_string;
 	gint am_string_width;
 	gint pm_string_width;
-	
+	gboolean event_destroyed;
+
 	/* remember last selected interval when click and restore on double click,
 	   if we double clicked inside that interval. */
 	guint32 bc_event_time; 

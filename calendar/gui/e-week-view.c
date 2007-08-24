@@ -454,7 +454,7 @@ e_week_view_init (EWeekView *week_view)
 	GTK_WIDGET_SET_FLAGS (week_view, GTK_CAN_FOCUS);
 
 	week_view->query = NULL;
-
+	week_view->event_destroyed = FALSE;
 	week_view->events = g_array_new (FALSE, FALSE,
 					 sizeof (EWeekViewEvent));
 	week_view->events_sorted = TRUE;
@@ -3469,7 +3469,6 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
 	g_object_get (G_OBJECT (span->text_item), "text", &text, NULL);
-	g_assert (text != NULL);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -3479,9 +3478,10 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	
 	if (string_is_empty (text) && !on_server) {
 		e_cal_component_get_uid (comp, &uid);
-		
+		g_signal_handlers_disconnect_by_func(item, e_week_view_on_text_item_event, week_view);		
 		e_week_view_foreach_event_with_uid (week_view, uid,
 						    e_week_view_remove_event_cb, NULL);
+		week_view->event_destroyed = TRUE;
 		gtk_widget_queue_draw (week_view->main_canvas);
 		e_week_view_check_layout (week_view);
 		goto out;

@@ -1,4 +1,15 @@
 2007-08-24  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fix for bug #468440
+
+	* gui/e-week-view-event-item.c: Dont popup if the event is destroyed
+	(e_week_view_event_item_button_press):
+	* gui/e-week-view.c: (e_week_view_init), Init a variable to tell the
+	event handler that the event is destroyed
+	(e_week_view_on_editing_stopped): Set event_destroyed.
+	* gui/e-week-view.h:
+
+2007-08-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #468411
 
