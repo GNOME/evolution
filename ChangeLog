@@ -1,5 +1,11 @@
 2007-08-24  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #331174
+
+	* configure.in: Rename KRBx_LDFLAGS to KRBx_LIBS.
+
+2007-08-24  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #411619
 
 	* configure.in:

@@ -806,7 +806,7 @@ if test "x${with_krb5}" != "xno"; then
 				msg_krb5="yes (Sun)"
 			fi
 		fi
-		KRB5_LDFLAGS="-L$with_krb5_libs $ac_cv_lib_kerberos5"
+		KRB5_LIBS="-L$with_krb5_libs $ac_cv_lib_kerberos5"
 	fi
 else
 	AC_MSG_CHECKING(for Kerberos 5)
@@ -858,7 +858,7 @@ if test "x${with_krb4}" != "xno"; then
 		else
 			KRB4_CFLAGS="-I$with_krb4_includes"
 		fi
-		KRB4_LDFLAGS="-L$with_krb4_libs $ac_cv_lib_kerberos4"
+		KRB4_LIBS="-L$with_krb4_libs $ac_cv_lib_kerberos4"
 		
 		CFLAGS_save="$CFLAGS"
 		CFLAGS="$CFLAGS $KRB4_CFLAGS"
@@ -873,9 +873,9 @@ else
 fi
 
 AC_SUBST(KRB5_CFLAGS)
-AC_SUBST(KRB5_LDFLAGS)
+AC_SUBST(KRB5_LIBS)
 AC_SUBST(KRB4_CFLAGS)
-AC_SUBST(KRB4_LDFLAGS)
+AC_SUBST(KRB4_LIBS)
 
 dnl Mono hooks
 dnl This should just define mono CFLAGS etc here, it is used later to
