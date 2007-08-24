@@ -65,7 +65,7 @@ org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t)
 	EMFormatHTMLPrint *efhp;
 
 	action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-	message = e_msg_composer_get_message (composer, 1);
+	message = e_msg_composer_get_message_print (composer, 1);
 
 	efhp = em_format_html_print_new (NULL, action);
 	em_format_html_print_raw_message (efhp, message);

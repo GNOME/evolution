@@ -5357,6 +5357,49 @@ e_msg_composer_get_message (EMsgComposer *composer, gboolean save_html_object_da
 }
 
 CamelMimeMessage *
+e_msg_composer_get_message_print (EMsgComposer *composer, gboolean save_html_object_data)
+{
+	EMsgComposer *temp_composer;
+	CamelMimeMessage *msg;
+	GString *flags;
+
+	msg = build_message (composer, save_html_object_data);
+	temp_composer = e_msg_composer_new_with_message (msg);
+	camel_object_unref (msg);
+
+	/* build flags string */
+	flags = g_string_sized_new (128);
+	if (temp_composer->priv->send_html)
+		g_string_append (flags, "text/html");
+	else
+		g_string_append (flags, "text/plain");
+	if (temp_composer->priv->pgp_sign)
+		g_string_append (flags, ", pgp-sign");
+	if (temp_composer->priv->pgp_encrypt)
+		g_string_append (flags, ", pgp-encrypt");
+	if (temp_composer->priv->smime_sign)
+		g_string_append (flags, ", smime-sign");
+	if (temp_composer->priv->smime_encrypt)
+		g_string_append (flags, ", smime-encrypt");
+
+	/* override composer flags */
+	temp_composer->priv->send_html = TRUE;
+	temp_composer->priv->pgp_sign = FALSE;
+	temp_composer->priv->pgp_encrypt = FALSE;
+	temp_composer->priv->smime_sign = FALSE;
+	temp_composer->priv->smime_encrypt = FALSE;
+
+	msg = build_message (temp_composer, save_html_object_data);
+	camel_medium_set_header (CAMEL_MEDIUM (msg),
+		"X-Evolution-Format", flags->str);
+
+	e_msg_composer_delete (temp_composer);
+	g_string_free (flags, TRUE);
+
+	return msg;
+}
+
+CamelMimeMessage *
 e_msg_composer_get_message_draft (EMsgComposer *composer)
 {
 	CamelMimeMessage *msg;
