@@ -202,7 +202,7 @@ mergeit (EContactMergingLookup *lookup)
 
 	gtk_dialog_add_buttons ((GtkDialog *) dialog,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				_("Merge"), GTK_RESPONSE_OK,
+				_("_Merge"), GTK_RESPONSE_OK,
 				NULL);
 
 	email_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_EMAIL);

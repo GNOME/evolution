@@ -1,3 +1,11 @@
+2007-08-24  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #440328
+
+	* gui/merging/eab-contact-duplicate-detected.glade:
+	* gui/merging/eab-contact-merging.c: (mergeit): Missing mnemonics for 
+	the 'Merge' buttons in two separate dialogs.
+
 2007-08-23  Anand V M  <avmuttagi@gmail.com>
  
        ** Fix for bug #353462
