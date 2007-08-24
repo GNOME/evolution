@@ -3091,8 +3091,11 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		if (gdkevent->button.button == 3) {
 			EWeekViewEvent *e;
 
-			if (E_TEXT (item)->editing)
+			if (E_TEXT (item)->editing) {
 				e_week_view_stop_editing_event (week_view);
+				gtk_widget_grab_focus (GTK_WIDGET (week_view));
+				return FALSE;
+			}
 
 			e = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
