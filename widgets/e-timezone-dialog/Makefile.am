@@ -1,7 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
-endif
-
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets						\
@@ -18,9 +14,9 @@ libetimezonedialog_la_SOURCES =	\
 
 libetimezonedialog_la_LDFLAGS = $(NO_UNDEFINED)
 
-libetimezonedialog_la_LIBADD =			\
-	$(WIN32_BOOTSTRAP_LIBS)			\
-	$(top_builddir)/e-util/libeutil.la	\
+libetimezonedialog_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 glade_DATA = e-timezone-dialog.glade

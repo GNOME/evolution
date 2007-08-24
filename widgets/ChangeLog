@@ -1,3 +1,11 @@
+2007-08-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #411619
+
+	* Makefile.am: Fix subdirectory order.
+
+	* e-timezone-dialog/Makefile.am: Remove WIN32_BOOTSTRAP_LIBS.
+
 2007-08-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #309166
