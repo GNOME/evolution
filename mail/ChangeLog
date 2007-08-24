@@ -1,5 +1,14 @@
 2007-08-24  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #414420 by Ed Catmur
+
+	* em-folder-view.c: (struct _EMFolderViewPrivate),
+	(emfv_destroy), (emfv_popup_mark_unread), (mst_free),
+	(emfv_list_done_message_selected):
+	Fix crasher on repeated destroy.
+
+2007-08-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #385414 by makuchaku (Mayank)
 
 	* em-format-html.c: (efh_format_source):

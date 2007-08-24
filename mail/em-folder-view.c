@@ -229,7 +229,6 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 };
 
 struct _EMFolderViewPrivate {
-	guint seen_id;
 	guint setting_notify_id;
 	guint selected_id;
 	guint nomarkseen:1;
@@ -350,9 +349,9 @@ emfv_destroy (GtkObject *o)
 
 	p->destroyed = TRUE;
 
-	if (p->seen_id) {
-		g_source_remove(p->seen_id);
-		p->seen_id = 0;
+	if (emfv->list && emfv->list->seen_id) {
+		g_source_remove(emfv->list->seen_id);
+		emfv->list->seen_id = 0;
 	}
 
 	if (p->setting_notify_id) {
@@ -986,9 +985,9 @@ emfv_popup_mark_unread(EPopup *ep, EPopupItem *pitem, void *data)
 	EMFolderView *emfv = data;
 	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, 0);
 	
-	if (emfv->priv->seen_id) {
-		g_source_remove(emfv->priv->seen_id);
-		emfv->priv->seen_id = 0;
+	if (emfv->list->seen_id) {
+		g_source_remove(emfv->list->seen_id);
+		emfv->list->seen_id = 0;
 	}
 }
 
@@ -2281,7 +2280,7 @@ struct mst_t {
 static void
 mst_free (struct mst_t *mst)
 {
-	mst->emfv->priv->seen_id = 0;
+	mst->emfv->list->seen_id = 0;
 	
 	g_free (mst->uid);
 	g_free (mst);
@@ -2330,8 +2329,8 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 
 	em_format_format((EMFormat *)emfv->preview, folder, uid, msg);
 
-	if (emfv->priv->seen_id)
-		g_source_remove(emfv->priv->seen_id);
+	if (emfv->list->seen_id)
+		g_source_remove(emfv->list->seen_id);
 	
 	if (msg && emfv->mark_seen && !emfv->priv->nomarkseen) {
 		if (emfv->mark_seen_timeout > 0) {
@@ -2341,7 +2340,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 			mst->emfv = emfv;
 			mst->uid = g_strdup (uid);
 			
-			emfv->priv->seen_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, emfv->mark_seen_timeout,
+			emfv->list->seen_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, emfv->mark_seen_timeout,
 								 (GSourceFunc)do_mark_seen, mst, (GDestroyNotify)mst_free);
 		} else {
 			emfv_set_seen (emfv, uid);
