@@ -1,3 +1,14 @@
+2007-08-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #239441
+
+	* e-tree-table-adapter.c: (struct ETreeTableAdapterPriv),
+	(etta_finalize), (etta_init), (resort_model),
+	(etta_proxy_node_changed):
+	Remember resort_idle_id and remove it from g_source when
+	finalizing structure, so it will not be called when the
+	structure itself is already freed.
+
 2007-08-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #303877.

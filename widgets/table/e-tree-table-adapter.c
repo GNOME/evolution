@@ -80,6 +80,8 @@ struct ETreeTableAdapterPriv {
 	int          node_removed_id;
 	int          node_request_collapse_id;
 	int          sort_info_changed_id;
+
+	guint        resort_idle_id;
 };
 
 static void etta_sort_info_changed (ETableSortInfo *sort_info, ETreeTableAdapter *etta);
@@ -498,6 +500,11 @@ etta_finalize (GObject *object)
 {
 	ETreeTableAdapter *etta = E_TREE_TABLE_ADAPTER (object);
 
+	if (etta->priv->resort_idle_id) {
+		g_source_remove (etta->priv->resort_idle_id);
+		etta->priv->resort_idle_id = 0;
+	}
+
 	if (etta->priv->root) {
 		kill_gnode(etta->priv->root, etta);
 		etta->priv->root = NULL;
@@ -728,6 +735,8 @@ etta_init (ETreeTableAdapter *etta)
 	etta->priv->node_inserted_id         = 0;
 	etta->priv->node_removed_id          = 0;
 	etta->priv->node_request_collapse_id = 0;
+
+	etta->priv->resort_idle_id           = 0;
 }
 
 static void
@@ -746,6 +755,7 @@ static gboolean
 resort_model (ETreeTableAdapter *etta)
 {
 	etta_sort_info_changed (NULL, etta);
+	etta->priv->resort_idle_id = 0;
 	return FALSE;
 }
 
@@ -758,7 +768,8 @@ etta_proxy_node_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter *ett
 	/* FIXME: Really it shouldnt be required. But a lot of thread
 	 * which were supposed to be present in the list is way below
 	 */
-	g_idle_add ((GSourceFunc) resort_model, etta);
+	if (!etta->priv->resort_idle_id)
+		etta->priv->resort_idle_id = g_idle_add ((GSourceFunc) resort_model, etta);
 }
 
 static void
