@@ -661,6 +661,8 @@ calendar_config_get_marcus_bains (gboolean *show_line, const char **dayview_colo
 {
 	static char *dcolor = NULL, *tcolor = NULL;
 
+	calendar_config_init ();
+
 	if (dcolor)
 		g_free (dcolor);
 	if (tcolor)
@@ -678,6 +680,8 @@ calendar_config_get_marcus_bains (gboolean *show_line, const char **dayview_colo
 void
 calendar_config_add_notification_marcus_bains (GConfClientNotifyFunc func, gpointer data, gint *not_show, gint *not_dcolor, gint *not_tcolor)
 {
+	calendar_config_init ();
+
 	*not_show = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_LINE, func, data, NULL, NULL);
 	*not_dcolor = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_DAYVIEW, func, data, NULL, NULL);
 	*not_tcolor = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_TIMEBAR, func, data, NULL, NULL);
@@ -771,6 +775,8 @@ calendar_config_add_notification_preview_state (GConfClientNotifyFunc func, gpoi
 {
 	guint id;
 
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASK_PREVIEW, func, data, NULL, NULL);
 
 	return id;
@@ -806,6 +812,8 @@ calendar_config_get_month_vpane_pos	(void)
 void
 calendar_config_set_month_vpane_pos	(gint	      vpane_pos)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, vpane_pos, NULL);
 }
 
@@ -821,6 +829,8 @@ calendar_config_get_tag_vpane_pos	(void)
 void
 calendar_config_set_tag_vpane_pos	(float	      vpane_pos)
 {
+	calendar_config_init ();
+
 	gconf_client_set_float (config, CALENDAR_CONFIG_TAG_VPANE_POS, vpane_pos, NULL);
 }
 
@@ -828,12 +838,16 @@ calendar_config_set_tag_vpane_pos	(float	      vpane_pos)
 GSList   *
 calendar_config_get_tasks_selected (void)
 {
+	calendar_config_init();
+
 	return gconf_client_get_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, NULL);
 }
 
 void
 calendar_config_set_tasks_selected (GSList *selected)
 {
+	calendar_config_init ();
+
 	gconf_client_set_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, selected, NULL);
 }
 
@@ -842,6 +856,8 @@ calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpo
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, func, data, NULL, NULL);
 	
 	return id;
@@ -859,6 +875,8 @@ calendar_config_get_primary_tasks (void)
 void
 calendar_config_set_primary_tasks (const char *primary_uid)
 {
+	calendar_config_init ();
+
 	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_TASKS, primary_uid, NULL);
 }
 
@@ -868,6 +886,8 @@ calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpoi
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_TASKS, func, data, NULL, NULL);
 	
 	return id;
@@ -876,6 +896,8 @@ calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpoi
 gint
 calendar_config_get_task_vpane_pos	(void)
 {
+	calendar_config_init ();
+
 	return  gconf_client_get_int (config, CALENDAR_CONFIG_TASK_VPANE_POS, NULL);
 }
 
@@ -883,6 +905,8 @@ calendar_config_get_task_vpane_pos	(void)
 void
 calendar_config_set_task_vpane_pos	(gint	      vpane_pos)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_TASK_VPANE_POS, vpane_pos, NULL);
 }
 
@@ -892,12 +916,16 @@ calendar_config_set_task_vpane_pos	(gint	      vpane_pos)
 GSList   *
 calendar_config_get_memos_selected (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);
 }
 
 void
 calendar_config_set_memos_selected (GSList *selected)
 {
+	calendar_config_init ();
+
 	gconf_client_set_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, selected, NULL);
 }
 
@@ -906,6 +934,8 @@ calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpo
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, func, data, NULL, NULL);
 	
 	return id;
@@ -923,6 +953,8 @@ calendar_config_get_primary_memos (void)
 void
 calendar_config_set_primary_memos (const char *primary_uid)
 {
+	calendar_config_init ();
+
 	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, primary_uid, NULL);
 }
 
@@ -932,6 +964,8 @@ calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpoi
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_MEMOS, func, data, NULL, NULL);
 	
 	return id;
@@ -942,6 +976,8 @@ calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpoi
 gboolean
 calendar_config_get_compress_weekend	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, NULL);
 }
 
@@ -949,6 +985,8 @@ calendar_config_get_compress_weekend	(void)
 void
 calendar_config_set_compress_weekend	(gboolean     compress)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, compress, NULL);
 }
 
@@ -957,6 +995,8 @@ calendar_config_add_notification_compress_weekend (GConfClientNotifyFunc func, g
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, func, data, NULL, NULL);
 	
 	return id;
@@ -966,6 +1006,8 @@ calendar_config_add_notification_compress_weekend (GConfClientNotifyFunc func, g
 gboolean
 calendar_config_get_show_event_end	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_EVENT_END, NULL);
 }
 
@@ -973,6 +1015,8 @@ calendar_config_get_show_event_end	(void)
 void
 calendar_config_set_show_event_end	(gboolean     show_end)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_EVENT_END, show_end, NULL);
 }
 
@@ -981,6 +1025,8 @@ calendar_config_add_notification_show_event_end (GConfClientNotifyFunc func, gpo
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_SHOW_EVENT_END, func, data, NULL, NULL);
 	
 	return id;
@@ -990,6 +1036,8 @@ calendar_config_add_notification_show_event_end (GConfClientNotifyFunc func, gpo
 CalWeekdays
 calendar_config_get_working_days	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_WORKING_DAYS, NULL);
 }
 
@@ -997,6 +1045,8 @@ calendar_config_get_working_days	(void)
 void
 calendar_config_set_working_days	(CalWeekdays  days)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_WORKING_DAYS, days, NULL);
 }
 
@@ -1005,6 +1055,8 @@ calendar_config_add_notification_working_days (GConfClientNotifyFunc func, gpoin
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_WORKING_DAYS , func, data, NULL, NULL);
 	
 	return id;	
@@ -1014,6 +1066,8 @@ calendar_config_add_notification_working_days (GConfClientNotifyFunc func, gpoin
 gboolean
 calendar_config_get_hide_completed_tasks	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, NULL);
 }
 
@@ -1021,6 +1075,8 @@ calendar_config_get_hide_completed_tasks	(void)
 void
 calendar_config_set_hide_completed_tasks	(gboolean	hide)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, hide, NULL);
 }
 
@@ -1029,6 +1085,8 @@ calendar_config_add_notification_hide_completed_tasks (GConfClientNotifyFunc fun
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED , func, data, NULL, NULL);
 	
 	return id;	
@@ -1039,6 +1097,8 @@ calendar_config_get_hide_completed_tasks_units	(void)
 {
 	char *units;
 	CalUnits cu;
+
+	calendar_config_init ();
 
 	units = gconf_client_get_string (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS, NULL);
 
@@ -1059,6 +1119,8 @@ void
 calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 {
 	char *units;
+
+	calendar_config_init ();
 
 	switch (cu) {
 	case CAL_MINUTES :
@@ -1081,6 +1143,8 @@ calendar_config_add_notification_hide_completed_tasks_units (GConfClientNotifyFu
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS , func, data, NULL, NULL);
 	
 	return id;	
@@ -1089,6 +1153,8 @@ calendar_config_add_notification_hide_completed_tasks_units (GConfClientNotifyFu
 gint
 calendar_config_get_hide_completed_tasks_value	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, NULL);
 }
 
@@ -1096,6 +1162,8 @@ calendar_config_get_hide_completed_tasks_value	(void)
 void
 calendar_config_set_hide_completed_tasks_value	(gint		value)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, value, NULL);
 }
 
@@ -1104,6 +1172,8 @@ calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFu
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE , func, data, NULL, NULL);
 	
 	return id;	
@@ -1120,6 +1190,8 @@ calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFu
 gboolean
 calendar_config_get_confirm_delete (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_PROMPT_DELETE, NULL);
 }
 
@@ -1133,6 +1205,8 @@ calendar_config_get_confirm_delete (void)
 void
 calendar_config_set_confirm_delete (gboolean confirm)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_DELETE, confirm, NULL);
 }
 
@@ -1147,6 +1221,8 @@ calendar_config_set_confirm_delete (gboolean confirm)
 gboolean
 calendar_config_get_confirm_purge (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, NULL);
 }
 
@@ -1160,6 +1236,8 @@ calendar_config_get_confirm_purge (void)
 void
 calendar_config_set_confirm_purge (gboolean confirm)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, confirm, NULL);
 }
 
@@ -1232,6 +1310,8 @@ calendar_config_get_tasks_due_today_color (GdkColor *color)
 
 	g_return_if_fail (color != NULL);
 
+	calendar_config_init ();
+
 	color_spec = gconf_client_get_string (config, key, &error);
 
 	if (color_spec != NULL && !gdk_color_parse (color_spec, color))
@@ -1262,6 +1342,8 @@ calendar_config_set_tasks_due_today_color (GdkColor *color)
 	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
 		color->red, color->green, color->blue);
 
+	calendar_config_init ();
+
 	if (!gconf_client_set_string (config, key, color_spec, &error)) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
@@ -1282,6 +1364,8 @@ calendar_config_get_tasks_overdue_color (GdkColor *color)
 	gchar *color_spec;
 
 	g_return_if_fail (color != NULL);
+
+	calendar_config_init ();
 
 	color_spec = gconf_client_get_string (config, key, &error);
 
@@ -1313,6 +1397,8 @@ calendar_config_set_tasks_overdue_color (GdkColor *color)
 	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
 		color->red, color->green, color->blue);
 
+	calendar_config_init ();
+
 	if (!gconf_client_set_string (config, key, color_spec, &error)) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
@@ -1332,6 +1418,8 @@ calendar_config_set_tasks_overdue_color (GdkColor *color)
 gboolean
 calendar_config_get_use_default_reminder (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_DEFAULT_REMINDER, NULL);
 }
 
@@ -1345,6 +1433,8 @@ calendar_config_get_use_default_reminder (void)
 void
 calendar_config_set_use_default_reminder (gboolean value)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_DEFAULT_REMINDER, value, NULL);
 }
 
@@ -1359,6 +1449,8 @@ calendar_config_set_use_default_reminder (gboolean value)
 int
 calendar_config_get_default_reminder_interval (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DEFAULT_REMINDER_INTERVAL, NULL);
 }
 
@@ -1372,6 +1464,8 @@ calendar_config_get_default_reminder_interval (void)
 void
 calendar_config_set_default_reminder_interval (int interval)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_DEFAULT_REMINDER_INTERVAL, interval, NULL);
 }
 
@@ -1388,6 +1482,8 @@ calendar_config_get_default_reminder_units (void)
 {
 	char *units;
 	CalUnits cu;
+
+	calendar_config_init ();
 
 	units = gconf_client_get_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, NULL);
 
@@ -1411,6 +1507,8 @@ calendar_config_get_default_reminder_units (void)
 void
 calendar_config_set_default_reminder_units (CalUnits units)
 {
+	calendar_config_init ();
+
 	gconf_client_set_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, units_to_string(units), NULL);
 }
 
@@ -1484,12 +1582,16 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 gchar *
 calendar_config_get_free_busy_template (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_string (config, CALENDAR_CONFIG_TEMPLATE, NULL);
 }
 
 void
 calendar_config_set_free_busy_template (const gchar *template)
 {
+	calendar_config_init ();
+
 	gconf_client_set_string (config, CALENDAR_CONFIG_TEMPLATE, template, NULL);
 }
 
@@ -1499,6 +1601,8 @@ calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TEMPLATE, func, data, 
 				      NULL, NULL);
 	
@@ -1508,6 +1612,8 @@ calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
 void
 calendar_config_set_dir_path (const gchar *path)
 {
+	calendar_config_init ();
+
 	gconf_client_set_string (config, CALENDAR_CONFIG_SAVE_DIR, path, NULL);
 }
 
@@ -1515,6 +1621,8 @@ char *
 calendar_config_get_dir_path (void)
 {
 	char *path;
+
+	calendar_config_init ();
 
 	path = gconf_client_get_string (config, CALENDAR_CONFIG_SAVE_DIR, NULL);
 
