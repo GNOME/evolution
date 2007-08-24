@@ -85,7 +85,7 @@ bbdb_sync_buddy_list_check (void)
 
 	gconf = gconf_client_get_default ();
 	
-	blist_path = g_build_path ("/", getenv ("HOME"), ".gaim/blist.xml", NULL);
+	blist_path = g_build_path ("/", getenv ("HOME"), ".purple/blist.xml", NULL);
 	if (stat (blist_path, &statbuf) < 0) {
 		g_free (blist_path);
 		g_object_unref (G_OBJECT (gconf));
@@ -299,18 +299,18 @@ bbdb_get_gaim_buddy_list (void)
 	xmlNodePtr root, child, blist;
 	GList *buddies = NULL;
 
-	blist_path = g_build_path ("/", getenv ("HOME"), ".gaim/blist.xml", NULL);
+	blist_path = g_build_path ("/", getenv ("HOME"), ".purple/blist.xml", NULL);
 
 	buddy_xml = xmlParseFile (blist_path);
 	g_free (blist_path);
 	if (! buddy_xml) {
-		fprintf (stderr, "bbdb: Could not open Gaim buddy list.\n");
+		fprintf (stderr, "bbdb: Could not open Pidgin buddy list.\n");
 		return NULL;
 	}
 
 	root = xmlDocGetRootElement (buddy_xml);
-	if (strcmp ((const char *)root->name, "gaim")) {
-		fprintf (stderr, "bbdb: Could not parse Gaim buddy list.\n");
+	if (strcmp ((const char *)root->name, "purple")) {
+		fprintf (stderr, "bbdb: Could not parse Pidgin buddy list.\n");
 		xmlFreeDoc (buddy_xml);
 		return NULL;
 	}
@@ -323,7 +323,7 @@ bbdb_get_gaim_buddy_list (void)
 		}
 	}
 	if (blist == NULL) {
-		fprintf (stderr, "bbdb: Could not find 'blist' element in Gaim buddy list.\n");
+		fprintf (stderr, "bbdb: Could not find 'blist' element in Pidgin buddy list.\n");
 		xmlFreeDoc (buddy_xml);
 		return NULL;
 	}
@@ -375,7 +375,7 @@ get_buddy_icon_from_setting (xmlNodePtr setting)
 	if (icon [0] != '/') {
 		char *path;
 
-		path = g_build_path ("/", getenv ("HOME"), ".gaim/icons", icon, NULL);
+		path = g_build_path ("/", getenv ("HOME"), ".purple/icons", icon, NULL);
 		g_free (icon);
 		icon = path;
 	}
@@ -399,7 +399,7 @@ parse_contact (xmlNodePtr contact, GList **buddies)
 	}
 
 	if (buddy == NULL) {
-		fprintf (stderr, "bbdb: Could not find buddy in contact.  Malformed Gaim buddy list file.\n");
+		fprintf (stderr, "bbdb: Could not find buddy in contact. Malformed Pidgin buddy list file.\n");
 		return;
 	}
 

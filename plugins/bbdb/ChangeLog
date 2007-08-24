@@ -1,3 +1,13 @@
+2007-08-24  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #440807
+
+	* bbdb.c: (bbdb_page_factory):
+	* gaimbuddies.c: (bbdb_sync_buddy_list_check),
+	(bbdb_get_gaim_buddy_list), (get_buddy_icon_from_setting),
+	(parse_contact):
+	Sync now with Pidgin IM [previously Gaim IM].
+
 2007-08-06  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Diego Escalante Urrelo

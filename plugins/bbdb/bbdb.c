@@ -508,13 +508,13 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 
 	/* Enable Gaim Checkbox */
-	check_gaim = gtk_check_button_new_with_mnemonic (_("Periodically synchronize contact information and images from gaim buddy list"));
+	check_gaim = gtk_check_button_new_with_mnemonic (_("Periodically synchronize contact information and images from Pidgin buddy list"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_gaim), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE_GAIM, NULL));
 	g_signal_connect (GTK_TOGGLE_BUTTON (check_gaim), "toggled", G_CALLBACK (enable_gaim_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
 	stuff->check_gaim = check_gaim;
 	
-	gaim_label = gtk_label_new (_("Select Address book for Gaim buddy list"));
+	gaim_label = gtk_label_new (_("Select Address book for Pidgin buddy list"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_label, FALSE, FALSE, 0);
 
 	/* Gaim Source Selection Option Menu */
