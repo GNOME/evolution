@@ -1429,25 +1429,18 @@ emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
 	CamelFolderInfo *fi = NULL;
-	CamelException ex;
 	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
-
-	camel_exception_init (&ex);
 
 	/* FIXME: This function MUST be multithreaded
 	   FIXME: This interface should NOT use a folderinfo */
 	if (emfb->view.folder) {
-		if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
-						       emfb->view.folder->full_name,
-						       CAMEL_STORE_FOLDER_INFO_FAST,
-						       &ex)) != NULL)
+		if ((fi = em_folder_tree_get_selected_folder_info (tree)) != NULL) {
 			em_folder_utils_create_folder(fi, tree);
+			camel_folder_info_free(fi);
+		}	
 	} else {
 		em_folder_utils_create_folder(NULL, tree);
 	}
-			
-
-	camel_exception_clear (&ex);
 
 	return;
 }

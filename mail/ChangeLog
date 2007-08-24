@@ -1,3 +1,10 @@
+2007-08-24  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #464338
+
+	* em-folder-browser.c: (emfb_folder_create): Fetches the CamelFolderInfo
+	from the EMFolderTree.
+
 2007-08-24  Li Yuan  <li.yuan@sun.com>
 
 	* mail-config.glade:
