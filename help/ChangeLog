@@ -1,3 +1,11 @@
+2007-08-27  Johnny Jacob  <jjohnny@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	** Fixes #337616, #352346, #467364, #468309.
+	
+	* C/evolution.xml : 
+	
 2007-08-25  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation
