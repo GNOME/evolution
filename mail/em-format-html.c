@@ -18,7 +18,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
- */Signature exists, but need public key
+ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>

@@ -1,3 +1,7 @@
+2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-format-html.c: Fix a typo build break.
+
 2007-08-27  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fix for #467635.
