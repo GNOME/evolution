@@ -1,3 +1,8 @@
+2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* bf-junk-filter.c: (e_plugin_lib_enable): Avoid re-entrancy in
+	enable
+
 2007-08-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #468294

@@ -51,6 +51,7 @@
 
 #define d(x) (camel_debug("junk")?(x):0)
 
+static gboolean enabled = FALSE;
 
 static gchar em_junk_bf_binary[] = BOGOFILTER_BINARY;
 
@@ -256,10 +257,10 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
 	GConfClient *gconf;
 
-	if (enable != 1) {
+	if (enable != 1 || enabled == TRUE) {
 		return 0;
 	}
-
+	enabled = TRUE;
 	gconf = gconf_client_get_default();
 
 	gconf_client_add_dir (gconf,
