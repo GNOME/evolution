@@ -595,6 +595,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
 	gboolean draw_timezone_icon = FALSE, draw_attach_icon = FALSE;
+	gboolean draw_meeting_icon = FALSE;
 	GSList *categories_list, *elem;
 
 	week_view = E_WEEK_VIEW (GTK_WIDGET (GNOME_CANVAS_ITEM (wveitem)->canvas)->parent);
@@ -618,6 +619,11 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	
 	if (e_cal_component_has_attachments (comp)) {
 		draw_attach_icon = TRUE;
+		num_icons++;
+	}
+	
+	if (e_cal_component_has_organizer (comp)) {
+		draw_meeting_icon = TRUE;
 		num_icons++;
 	}
 	
@@ -682,6 +688,18 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		gdk_gc_set_clip_mask (gc, NULL);
 		gdk_draw_pixbuf (drawable, gc,
 				 week_view->timezone_icon,
+				 0, 0, icon_x, icon_y,
+				 E_WEEK_VIEW_ICON_WIDTH,
+				 E_WEEK_VIEW_ICON_HEIGHT,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
+		icon_x += icon_x_inc;
+	}
+
+	if (draw_meeting_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
+		gdk_gc_set_clip_mask (gc, NULL);
+		gdk_draw_pixbuf (drawable, gc,
+				 week_view->meeting_icon,
 				 0, 0, icon_x, icon_y,
 				 E_WEEK_VIEW_ICON_WIDTH,
 				 E_WEEK_VIEW_ICON_HEIGHT,
@@ -1294,6 +1312,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
 	gboolean draw_timezone_icon = FALSE, draw_attach_icon = FALSE;
+	gboolean draw_meeting_icon = FALSE;
 	GSList *categories_list, *elem;
 	cairo_t *cr;
 
@@ -1319,6 +1338,11 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	
 	if (e_cal_component_has_attachments (comp)) {
 		draw_attach_icon = TRUE;
+		num_icons++;
+	}
+
+	if (e_cal_component_has_organizer (comp)) {
+		draw_meeting_icon = TRUE;
 		num_icons++;
 	}
 	
@@ -1372,6 +1396,14 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	if (draw_timezone_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 		cairo_save (cr);
 		gdk_cairo_set_source_pixbuf (cr, week_view->timezone_icon, icon_x, icon_y);
+		cairo_paint (cr);
+		cairo_restore (cr);
+		icon_x += icon_x_inc;
+	}
+
+	if (draw_meeting_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
+		cairo_save (cr);
+		gdk_cairo_set_source_pixbuf (cr, week_view->meeting_icon, icon_x, icon_y);
 		cairo_paint (cr);
 		cairo_restore (cr);
 		icon_x += icon_x_inc;

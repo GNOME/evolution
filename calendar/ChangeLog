@@ -1,3 +1,13 @@
+2007-08-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for the same issue of week view of bug #330628
+
+	* gui/e-week-view.h: Add meeting_icon.
+	* gui/e-week-view.c: (e_week_view_realize): Load meeting_icon.
+	* gui/e-week-view.c: (e_week_view_unrealize): Dispose meeting_icon.
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw_icons):
+	Show meeting icon.
+
 2007-08-24  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fix for bug #468440

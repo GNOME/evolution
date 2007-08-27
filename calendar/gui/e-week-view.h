@@ -284,6 +284,7 @@ struct _EWeekView
 	GdkPixbuf *recurrence_icon;
 	GdkPixbuf *attach_icon;
 	GdkPixbuf *timezone_icon;
+	GdkPixbuf *meeting_icon;
 
 	/* Colors for drawing. */
 	GdkColor colors[E_WEEK_VIEW_COLOR_LAST];
