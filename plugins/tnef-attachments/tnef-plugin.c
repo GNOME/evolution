@@ -35,6 +35,7 @@ int verbose = 0;
 int saveRTF = 0;
 int saveintermediate = 0;
 char *filepath = NULL;
+gboolean loaded = FALSE;
 void processTnef(TNEFStruct *tnef);
 void saveVCalendar(TNEFStruct *tnef);
 void saveVCard(TNEFStruct *tnef);
@@ -178,10 +179,15 @@ int e_plugin_lib_enable(EPluginLib *ep, int enable);
 int
 e_plugin_lib_enable(EPluginLib *ep, int enable)
 {
+    if (loaded)
+	    return 0;
+
+    loaded = TRUE;
     if (enable) {
 	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
 	    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
     } 
+
     return 0;
 }
 
