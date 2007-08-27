@@ -61,10 +61,15 @@ static const EPluginHookTargetKey emjh_flag_map[] = {
   </hook>
 
 */
+static const char *
+em_junk_get_name (CamelJunkPlugin *csp);
 
 static void 
 em_junk_init(CamelJunkPlugin *csp)
 {
+	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
+	
+	((EPluginClass *)G_OBJECT_GET_CLASS(item->hook->hook.plugin))->enable(item->hook->hook.plugin, 1);
 }
 
 static const char *

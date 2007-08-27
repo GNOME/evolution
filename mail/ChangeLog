@@ -1,5 +1,20 @@
 2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #431459
+
+	* em-format-hook.c: (emfh_construct): Enable format plugins while
+	loading only.
+
+2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #364700
+
+	* em-junk-hook.c: (em_junk_init): Load/Enable junk plugins while
+	loading only.
+	* mail-session.c: (mail_session_add_junk_plugin):
+
+2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #256878 from Vincent Untz
 
 	* em-format-html-display.c: Set the string for valid signatures.

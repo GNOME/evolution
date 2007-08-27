@@ -737,6 +737,7 @@ mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plu
 		if (!strcmp(def_plugin, plugin_name)) {
 			printf("Loading %s as the default junk plugin\n", def_plugin);
 			session->junk_plugin = junk_plugin;
+			camel_junk_plugin_init (junk_plugin);
 		}
 	}
 

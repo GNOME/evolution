@@ -199,6 +199,8 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	eph->plugin = ep;
 
+	/* Load the plugin as it does a few thing in the formatter thread. */
+	((EPluginClass *)G_OBJECT_GET_CLASS(ep))->enable (ep, 1);
 	return 0;
 }
 
