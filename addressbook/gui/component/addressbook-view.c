@@ -442,7 +442,7 @@ rename_addressbook_folder (AddressbookView *view)
 					"addressbook:no-rename-folder", old_name, new_name, _("Folder names cannot contain '/'"), NULL);
 			done = TRUE;
 		} else if (e_source_group_peek_source_by_name(e_source_peek_group(source), new_name)) {
-			e_error_run (NULL, "addressbook:no-rename-folder", old_name, new_name, _("A Folder with this name already exists"), NULL);
+			e_error_run (NULL, "addressbook:no-rename-folder-exists", old_name, new_name, NULL);
 		} else {
 			e_source_set_name (source, new_name);
 			done = TRUE;

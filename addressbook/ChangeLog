@@ -1,3 +1,16 @@
+2007-08-27  Johnny Jacob <jjohnny@novell.com>
+	 
+	Committed on behalf of Ushveen Kaur <kushveen@novell.com>
+	
+ 	** Fixes bug #352358
+ 
+ 	* gui/merging/eab-contact-commit-duplicate-detected.glade: Label
+ 	string of GtkLabel,id="label1" harmonised.
+ 	* gui/component/addressbook-view.c (rename-addressbook-folder):
+ 	Error tag changed from 'addressbook:no-rename-folder' to 
+ 	'addressbook:no-rename-folder-exists' so that error messages 
+ 	are harmonised.
+ 
 2007-08-24  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #440328
