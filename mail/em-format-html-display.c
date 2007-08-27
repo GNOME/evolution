@@ -934,11 +934,13 @@ efhd_complete(EMFormat *emf)
 /* FIXME: also in em-format-html.c */
 static const struct {
 	const char *icon, *shortdesc, *description;
-} smime_sign_table[4] = {
+} smime_sign_table[5] = {
 	{ "stock_signature-bad", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
 	{ "stock_signature-ok", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
 	{ "stock_signature-bad", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
-	{ "stock_signature", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
+	{ "stock_signature", N_("Valid signature, but cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
+	{ "stock_signature-bad", N_("Signature exists, but need public key"), N_("This message is signed with a signature, but there is no corresponding public key.") },
+
 };
 
 static const struct {

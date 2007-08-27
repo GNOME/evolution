@@ -18,7 +18,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
- */
+ */Signature exists, but need public key
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -628,11 +628,12 @@ efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 /* FIXME: This is duplicated in em-format-html-display, should be exported or in security module */
 static const struct {
 	const char *icon, *shortdesc;
-} smime_sign_table[4] = {
+} smime_sign_table[5] = {
 	{ "stock_signature-bad", N_("Unsigned") },
 	{ "stock_signature-ok", N_("Valid signature") },
 	{ "stock_signature-bad", N_("Invalid signature") },
-	{ "stock_signature", N_("Valid signature but cannot verify sender") },
+	{ "stock_signature", N_("Valid signature, but cannot verify sender") },
+	{ "stock_signature-bad", N_("Signature exists, but need public key") },
 };
 
 static const struct {

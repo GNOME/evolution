@@ -1,3 +1,10 @@
+2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #256878 from Vincent Untz
+
+	* em-format-html-display.c: Set the string for valid signatures.
+	* em-format-html.c:
+
 2007-08-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #414420 by Ed Catmur
