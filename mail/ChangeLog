@@ -1,3 +1,9 @@
+2007-08-27  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for #467635.
+
+	* evolution-mail.schemas.in : Changed string.
+	
 2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #431459
