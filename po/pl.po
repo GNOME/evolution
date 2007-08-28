@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-27 01:27+0200\n"
-"PO-Revision-Date: 2007-08-27 01:34+0100\n"
+"POT-Creation-Date: 2007-08-28 22:50+0200\n"
+"PO-Revision-Date: 2007-08-28 22:54+0100\n"
 "Last-Translator: wadim dziedzic <nikdo@aviary.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -805,10 +805,6 @@ msgstr "Zmień nazwę folderu"
 #: ../mail/em-folder-utils.c:512
 msgid "Folder names cannot contain '/'"
 msgstr "Nazwa folderu nie może zawierać znaku '/'"
-
-#: ../addressbook/gui/component/addressbook-view.c:445
-msgid "A Folder with this name already exists"
-msgstr "Folder o tej nazwie już istnieje"
 
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "_New Address Book"
@@ -2753,12 +2749,10 @@ msgid "Duplicate Contact Detected"
 msgstr "Wykryto powtórzony kontakt"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:4
-msgid ""
-"The changed email or name of this contact already\n"
-"exists in this folder.  Would you like to add it anyway?"
+msgid "The name or email of this contact already exists in this folder.  Would you like to add it anyway?"
 msgstr ""
-"Folder zawiera już kontakt o tej samej nazwie lub adresie e-mail.\n"
-"Czy pomimo tego chcesz go dodać?"
+"Folder zawiera już kontakt o tym samym nazwisku lub adresie e-mail.\n"
+"Czy pomimo tego dodać go?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -5813,7 +5807,7 @@ msgid "_Add attachment..."
 msgstr "Dod_aj załącznik..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1566
-#: ../mail/em-format-html-display.c:2318
+#: ../mail/em-format-html-display.c:2320
 msgid "Show Attachments"
 msgstr "Pokaż załączniki"
 
@@ -6082,7 +6076,7 @@ msgstr "Dostosuj"
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421
 #: ../mail/em-account-prefs.c:478
-#: ../mail/em-junk-hook.c:78
+#: ../mail/em-junk-hook.c:83
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:200
@@ -6187,10 +6181,10 @@ msgid "Unable to open memos in '%s'."
 msgstr "Nie można otworzyć notatek w '%s'."
 
 #: ../calendar/gui/dialogs/memo-page.c:1076
-#: ../mail/em-format-html.c:1516
-#: ../mail/em-format-html.c:1530
-#: ../mail/em-format-html.c:1588
-#: ../mail/em-format-html.c:1614
+#: ../mail/em-format-html.c:1517
+#: ../mail/em-format-html.c:1531
+#: ../mail/em-format-html.c:1589
+#: ../mail/em-format-html.c:1615
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:852
 #: ../mail/em-mailer-prefs.c:89
@@ -6806,7 +6800,7 @@ msgid "Save As..."
 msgstr "Zapisz jako..."
 
 #: ../calendar/gui/e-cal-popup.c:193
-#: ../mail/em-format-html-display.c:2163
+#: ../mail/em-format-html-display.c:2165
 msgid "Select folder to save selected attachments..."
 msgstr "Folder zapisu wybranych załączników..."
 
@@ -11256,7 +11250,7 @@ msgid "Stop Processing"
 msgstr "Zatrzymaj przetwarzanie"
 
 #: ../mail/em-filter-i18n.h:65
-#: ../mail/em-format-html.c:1687
+#: ../mail/em-format-html.c:1688
 #: ../mail/em-format-quote.c:320
 #: ../mail/em-format.c:855
 #: ../mail/em-mailer-prefs.c:92
@@ -11769,108 +11763,118 @@ msgid "The signature of this message cannot be verified, it may have been altere
 msgstr "Nie można zweryfikować podpisu wiadomości, mogła być ona naruszona podczas transmisji."
 
 #: ../mail/em-format-html-display.c:941
-msgid "Valid signature, cannot verify sender"
-msgstr "Poprawny podpis, nie można zweryfikować nadawcy"
+#: ../mail/em-format-html.c:635
+msgid "Valid signature, but cannot verify sender"
+msgstr "Poprawny podpis, ale nie można zweryfikować nadawcy"
 
 #: ../mail/em-format-html-display.c:941
 msgid "This message is signed with a valid signature, but the sender of the message cannot be verified."
 msgstr "Wiadomość ta jest podpisana poprawnym podpisem, ale jej nadawca nie może być zweryfikowany."
 
-#: ../mail/em-format-html-display.c:947
-#: ../mail/em-format-html.c:641
+#: ../mail/em-format-html-display.c:942
+#: ../mail/em-format-html.c:636
+msgid "Signature exists, but need public key"
+msgstr "Sygnatura istnieje, lecz wymaga klucza publicznego"
+
+#: ../mail/em-format-html-display.c:942
+msgid "This message is signed with a signature, but there is no corresponding public key."
+msgstr "Wiadomość ta jest podpisana poprawnym podpisem, ale brak odpowiedniego klucza publicznego."
+
+#: ../mail/em-format-html-display.c:949
+#: ../mail/em-format-html.c:642
 msgid "Unencrypted"
 msgstr "Niezaszyfrowana"
 
-#: ../mail/em-format-html-display.c:947
+#: ../mail/em-format-html-display.c:949
 msgid "This message is not encrypted. Its content may be viewed in transit across the Internet."
 msgstr "Ta wiadomość nie jest zaszyfrowana. Jej zawartość może być przechwycona podczas transmisji przez Internet."
 
-#: ../mail/em-format-html-display.c:948
-#: ../mail/em-format-html.c:642
+#: ../mail/em-format-html-display.c:950
+#: ../mail/em-format-html.c:643
 msgid "Encrypted, weak"
 msgstr "Zaszyfrowana, słabo"
 
-#: ../mail/em-format-html-display.c:948
+#: ../mail/em-format-html-display.c:950
 msgid "This message is encrypted, but with a weak encryption algorithm. It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time."
 msgstr "Ta wiadomość jest zaszyfrowana słabym algorytmem szyfrującym. Możliwe będzie jej odszyfowanie przez osoby trzecie w skończonym czasie."
 
-#: ../mail/em-format-html-display.c:949
-#: ../mail/em-format-html.c:643
+#: ../mail/em-format-html-display.c:951
+#: ../mail/em-format-html.c:644
 msgid "Encrypted"
 msgstr "Zaszyfrowana"
 
-#: ../mail/em-format-html-display.c:949
+#: ../mail/em-format-html-display.c:951
 msgid "This message is encrypted.  It would be difficult for an outsider to view the content of this message."
 msgstr "Ta wiadomość jest zaszyfrowana. Osobie obcej będzie trudno podejrzeć jej zawartość."
 
-#: ../mail/em-format-html-display.c:950
-#: ../mail/em-format-html.c:644
+#: ../mail/em-format-html-display.c:952
+#: ../mail/em-format-html.c:645
 msgid "Encrypted, strong"
 msgstr "Zaszyfrowana, silnie"
 
-#: ../mail/em-format-html-display.c:950
+#: ../mail/em-format-html-display.c:952
 msgid "This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time."
 msgstr "Ta wiadomość jest zaszyfrowana silnym algorytmem szyfrującym. Odszyfowanie jej przez osoby trzecie w skończonym czasie jest bardzo trudne."
 
-#: ../mail/em-format-html-display.c:1051
+#: ../mail/em-format-html-display.c:1053
 #: ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Wyświetl certyfikat"
 
-#: ../mail/em-format-html-display.c:1066
+#: ../mail/em-format-html-display.c:1068
 msgid "This certificate is not viewable"
 msgstr "Tego certyfikatu nie można wyświetlić"
 
-#: ../mail/em-format-html-display.c:1385
+#: ../mail/em-format-html-display.c:1387
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Ukończone %d %B, %Y, %k:%M"
 
-#: ../mail/em-format-html-display.c:1393
+#: ../mail/em-format-html-display.c:1395
 msgid "Overdue:"
 msgstr "Zaległe:"
 
 # FIXME - sprawdzić czy ma być na pawno "od"
-#: ../mail/em-format-html-display.c:1396
+#: ../mail/em-format-html-display.c:1398
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "od %d %B, %Y, %k:%M"
 
-#: ../mail/em-format-html-display.c:1456
+#: ../mail/em-format-html-display.c:1458
 msgid "_View Inline"
 msgstr "_Wyświetlenie w treści wiadomości"
 
-#: ../mail/em-format-html-display.c:1457
+#: ../mail/em-format-html-display.c:1459
 msgid "_Hide"
 msgstr "_Ukryj"
 
-#: ../mail/em-format-html-display.c:1458
+#: ../mail/em-format-html-display.c:1460
 msgid "_Fit to Width"
 msgstr "_Dopasuj szerokość"
 
-#: ../mail/em-format-html-display.c:1459
+#: ../mail/em-format-html-display.c:1461
 msgid "Show _Original Size"
 msgstr "Pokaż _pierwotny rozmiar"
 
-#: ../mail/em-format-html-display.c:1903
-#: ../mail/em-format-html-display.c:2514
+#: ../mail/em-format-html-display.c:1905
+#: ../mail/em-format-html-display.c:2516
 #: ../mail/mail-config.glade.h:44
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Załącznik"
 
-#: ../mail/em-format-html-display.c:2117
+#: ../mail/em-format-html-display.c:2119
 msgid "Save attachment as"
 msgstr "Zapis załącznika jako"
 
-#: ../mail/em-format-html-display.c:2121
+#: ../mail/em-format-html-display.c:2123
 msgid "Select folder to save all attachments"
 msgstr "Folder do zapisu wszystkich załączników"
 
-#: ../mail/em-format-html-display.c:2172
+#: ../mail/em-format-html-display.c:2174
 msgid "_Save Selected..."
 msgstr "_Zapisz zaznaczone..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2239
+#: ../mail/em-format-html-display.c:2241
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
@@ -11878,33 +11882,33 @@ msgstr[0] "%d _załącznik"
 msgstr[1] "%d _załączniki"
 msgstr[2] "%d _załączników"
 
-#: ../mail/em-format-html-display.c:2246
-#: ../mail/em-format-html-display.c:2324
+#: ../mail/em-format-html-display.c:2248
+#: ../mail/em-format-html-display.c:2326
 msgid "S_ave"
 msgstr "_Zapisz"
 
-#: ../mail/em-format-html-display.c:2257
+#: ../mail/em-format-html-display.c:2259
 msgid "S_ave All"
 msgstr "Zapisz _wszystkie"
 
-#: ../mail/em-format-html-display.c:2320
+#: ../mail/em-format-html-display.c:2322
 msgid "No Attachment"
 msgstr "Brak załącznika"
 
-#: ../mail/em-format-html-display.c:2451
-#: ../mail/em-format-html-display.c:2487
+#: ../mail/em-format-html-display.c:2453
+#: ../mail/em-format-html-display.c:2489
 msgid "View _Unformatted"
 msgstr "Pokaż _niesformatowane"
 
-#: ../mail/em-format-html-display.c:2453
+#: ../mail/em-format-html-display.c:2455
 msgid "Hide _Unformatted"
 msgstr "Ukryj _niesformatowane"
 
-#: ../mail/em-format-html-display.c:2506
+#: ../mail/em-format-html-display.c:2508
 msgid "O_pen With"
 msgstr "Ot_wórz z"
 
-#: ../mail/em-format-html-display.c:2577
+#: ../mail/em-format-html-display.c:2579
 msgid "Evolution cannot render this email as it is too large to handle. You can view it unformatted or with an external text editor."
 msgstr "Nie można wyświetlić tej wiadomości ponieważ jest ona zbyt duża. Można wyświetlić ją bez formatowania lub za pomocą zewnętrznego edytora tekstu."
 
@@ -11919,52 +11923,48 @@ msgstr "Strona %d z %d"
 msgid "Retrieving `%s'"
 msgstr "Pobieranie \"%s\""
 
-#: ../mail/em-format-html.c:635
-msgid "Valid signature but cannot verify sender"
-msgstr "Poprawny podpis ale nie można zweryfikować nadawcy"
-
-#: ../mail/em-format-html.c:906
+#: ../mail/em-format-html.c:907
 msgid "Unknown external-body part."
 msgstr "Niepoprawna część external-body."
 
-#: ../mail/em-format-html.c:914
+#: ../mail/em-format-html.c:915
 msgid "Malformed external-body part."
 msgstr "Niepoprawna forma części external-body."
 
-#: ../mail/em-format-html.c:944
+#: ../mail/em-format-html.c:945
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Wskaźnik do witryny FTP (%s)"
 
-#: ../mail/em-format-html.c:955
+#: ../mail/em-format-html.c:956
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Wskaźnik do lokalnego pliku (%s) poprawny na witrynie \"%s\""
 
-#: ../mail/em-format-html.c:957
+#: ../mail/em-format-html.c:958
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Wskaźnik do lokalnego pliku (%s)"
 
-#: ../mail/em-format-html.c:978
+#: ../mail/em-format-html.c:979
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Wskaźnik na zdalne dane (%s)"
 
-#: ../mail/em-format-html.c:989
+#: ../mail/em-format-html.c:990
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Wskaźnik na nieznane zewnętrzne dane (typu \"%s\")"
 
-#: ../mail/em-format-html.c:1216
+#: ../mail/em-format-html.c:1217
 msgid "Formatting message"
 msgstr "Formatowanie wiadomości"
 
-#: ../mail/em-format-html.c:1384
+#: ../mail/em-format-html.c:1385
 msgid "Formatting Message..."
 msgstr "Formatowanie wiadomości..."
 
-#: ../mail/em-format-html.c:1516
+#: ../mail/em-format-html.c:1517
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:87
@@ -11973,27 +11973,27 @@ msgstr "Formatowanie wiadomości..."
 msgid "From"
 msgstr "Od"
 
-#: ../mail/em-format-html.c:1516
+#: ../mail/em-format-html.c:1517
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
 msgstr "Odpowiedź do"
 
-#: ../mail/em-format-html.c:1516
-#: ../mail/em-format-html.c:1531
-#: ../mail/em-format-html.c:1595
-#: ../mail/em-format-html.c:1617
+#: ../mail/em-format-html.c:1517
+#: ../mail/em-format-html.c:1532
+#: ../mail/em-format-html.c:1596
+#: ../mail/em-format-html.c:1618
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:853
 #: ../mail/em-mailer-prefs.c:90
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1516
-#: ../mail/em-format-html.c:1532
-#: ../mail/em-format-html.c:1601
-#: ../mail/em-format-html.c:1620
+#: ../mail/em-format-html.c:1517
+#: ../mail/em-format-html.c:1533
+#: ../mail/em-format-html.c:1602
+#: ../mail/em-format-html.c:1621
 #: ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:854
 #: ../mail/em-mailer-prefs.c:91
@@ -12001,23 +12001,23 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1691
+#: ../mail/em-format-html.c:1692
 #: ../mail/em-format-quote.c:329
 #: ../mail/em-mailer-prefs.c:1196
 msgid "Mailer"
 msgstr "Program pocztowy"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1718
+#: ../mail/em-format-html.c:1719
 msgid " (%a, %R %Z)"
 msgstr "(%a, %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1723
+#: ../mail/em-format-html.c:1724
 msgid " (%R %Z)"
 msgstr "(%R %Z)"
 
-#: ../mail/em-format-html.c:1735
+#: ../mail/em-format-html.c:1736
 #: ../mail/em-format-quote.c:336
 #: ../mail/em-format.c:856
 #: ../mail/em-mailer-prefs.c:93
@@ -12027,7 +12027,7 @@ msgstr "(%R %Z)"
 msgid "Date"
 msgstr "Data"
 
-#: ../mail/em-format-html.c:1758
+#: ../mail/em-format-html.c:1759
 #: ../mail/em-format.c:857
 #: ../mail/em-mailer-prefs.c:94
 msgid "Newsgroups"
@@ -12036,7 +12036,7 @@ msgstr "Grupy dyskusyjne"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1848
+#: ../mail/em-format-html.c:1849
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "Wiadomość została wysłana przez <b>%s</b> w imieniu <b>%s</b>"
@@ -12699,24 +12699,24 @@ msgid "This is the default junk plugin, even though there are multiple plugins e
 msgstr "To jest domyślna wtyczka niechcianych, aktywna nawet gdy włączonych jest więcej wtyczek. Jeśli domyślna wtyczka jest wyłączona, to inne wtyczki nie zostaną aktywowane/"
 
 #: ../mail/evolution-mail.schemas.in.h:115
+msgid "This key is read only once and reset to false after read. This unselects the mail in the list and removes the preview for that folder."
+msgstr "Ten klucz odczytywany jest tylko raz a następnie ustawiany jest jako false. Służy do usuwania zaznaczenia na liście wiadomości oraz wyłącza podgląd folderu."
+
+#: ../mail/evolution-mail.schemas.in.h:116
 msgid "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
 msgstr "Klucz ten powinien zawierać listę struktur XML określających nagłówki własne (użytkownika) oraz kiedy powinny być wyświetlane. Format struktury XML jest następujący: &lt;header enabled&gt; - ustawione enabled (włączony) kiedy nagłówek ma być wyświetlany w widoku wiadomości."
 
-#: ../mail/evolution-mail.schemas.in.h:116
+#: ../mail/evolution-mail.schemas.in.h:117
 msgid "This option would help in improving the speed of fetching."
 msgstr "Ta opcja może zwiększyć prędkość pobierania/."
 
-#: ../mail/evolution-mail.schemas.in.h:117
+#: ../mail/evolution-mail.schemas.in.h:118
 msgid "This sets the number of addresses to show in default message list view, beyond which a '...' is shown."
 msgstr "Określa liczbę adresów wyświetlanych w domyślnym widoku wiadomości. Dla nadmiarowych wyświetlone będą '...'."
 
-#: ../mail/evolution-mail.schemas.in.h:118
+#: ../mail/evolution-mail.schemas.in.h:119
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart"
 msgstr "Ta opcja określa czy wątki mają być domyślnie rozwinięte lub zwinięta. Po zmianie wymagane jest ponowne uruchomienie Evolution."
-
-#: ../mail/evolution-mail.schemas.in.h:119
-msgid "This should be a once-readable option and resetted to false after read. This unselects the mail in the list and removes the preview for that folder."
-msgstr "To ustawienie powinno móc zostać odczytane tylko raz a następnie powinno być ustawiane jako false. Służy do usuwania zaznaczenia na liście wiadomości oraz wyłącza podgląd folderu."
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message list."
@@ -15007,7 +15007,7 @@ msgstr "Automatycznie wstawia nazwy i adresy email do książki adresowej przy o
 msgid "BBDB"
 msgstr "BBDB"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:304
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:305
 msgid "Convert mail text to _Unicode"
 msgstr "Konwertowanie tekstu do _Unicode"
 
@@ -22256,6 +22256,16 @@ msgstr "Kontekst IM"
 msgid "Handle Popup"
 msgstr "Menu podręczne uchwytu"
 
+#~ msgid "A Folder with this name already exists"
+#~ msgstr "Folder o tej nazwie już istnieje"
+#~ msgid ""
+#~ "The changed email or name of this contact already\n"
+#~ "exists in this folder.  Would you like to add it anyway?"
+#~ msgstr ""
+#~ "Folder zawiera już kontakt o tej samej nazwie lub adresie e-mail.\n"
+#~ "Czy pomimo tego chcesz go dodać?"
+#~ msgid "Valid signature, cannot verify sender"
+#~ msgstr "Poprawny podpis, nie można zweryfikować nadawcy"
 #~ msgid ""
 #~ "All information in these journal entries will be deleted and can not be "
 #~ "restored."
