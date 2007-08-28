@@ -1,3 +1,8 @@
+2007-08-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/e-cal-popup.c (e_cal_popup_target_new_source):
+	g_strncasecmp() is deprecated; use g_ascii_strncasecmp() instead.
+
 2007-08-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for the same issue of week view of bug #330628

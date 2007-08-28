@@ -693,7 +693,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 
 	source = e_source_selector_peek_primary_selection (selector);
 	uri = e_source_get_uri (source);
-	if (!uri || (g_strncasecmp (uri, "file://", 7) && g_strncasecmp (uri, "contacts://", 11))) {
+	if (!uri || (g_ascii_strncasecmp (uri, "file://", 7) && g_ascii_strncasecmp (uri, "contacts://", 11))) {
 		/* check for e_target_selector's offline_status property here */
 		offline = e_source_get_property (source, "offline");
 
