@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-23 13:16+0100\n"
-"PO-Revision-Date: 2007-08-23 19:52+0300\n"
+"POT-Creation-Date: 2007-08-23 20:34+0100\n"
+"PO-Revision-Date: 2007-08-27 18:28+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -172,7 +172,7 @@ msgstr "%A, %d. %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:191
 #: ../calendar/gui/calendar-component.c:743
 #: ../calendar/gui/e-day-view-top-item.c:1318
-#: ../calendar/gui/e-day-view.c:2109
+#: ../calendar/gui/e-day-view.c:2115
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
@@ -206,7 +206,7 @@ msgstr "%d. %B %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:221
 #: ../calendar/gui/calendar-component.c:769
 #: ../calendar/gui/e-day-view-top-item.c:1322
-#: ../calendar/gui/e-day-view.c:2125
+#: ../calendar/gui/e-day-view.c:2131
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
@@ -310,7 +310,7 @@ msgstr "klõpsa"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
-msgstr "sorteeri"
+msgstr "sordi"
 
 #: ../a11y/widgets/ea-calendar-item.c:298
 #: ../a11y/widgets/ea-calendar-item.c:304
@@ -1367,7 +1367,7 @@ msgid "_Birthday:"
 msgstr "_Sünnipäev:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
-#: ../calendar/gui/dialogs/event-page.c:906
+#: ../calendar/gui/dialogs/event-page.c:908
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1833
 msgid "_Calendar:"
@@ -4103,61 +4103,56 @@ msgstr ""
 "ülesande sisu kohta."
 
 #: ../calendar/calendar.error.xml.h:3
-msgid ""
-"All information in these journal entries will be deleted and can not be "
-"restored."
+msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
-"Kõik nende päevikukirjete kohta käivad andmed kustutatakse ja neid pole "
-"võimalik enam taastada."
+"Kõik nendes märkmetes sisalduv teave kustutatakse ja seda pole võimalik enam "
+"taastada."
 
 #: ../calendar/calendar.error.xml.h:4
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this memo will be deleted and can not be restored."
 msgstr ""
-"Kõik selle päeviku kohta käivad andmed kustutatakse ja neid pole võimalik "
-"enam taastada."
+"Kõik selles märkmes sisalduv teave kustutatakse ja seda pole võimalik enam "
+"taastada."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Kõik nende sündmuste kohta käivad andmed kustutatakse ja neid pole võimalik "
+"Kõik nende sündmuste kohta käiv teave kustutatakse ja seda pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:6
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
-"Kõik nende ülesannete kohta käivad andmed kustutatakse ja neid pole võimalik "
+"Kõik nende ülesannete kohta käiv teave kustutatakse ja seda pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
-"Kõik selle sündmuse kohta käivad andmed kustutatakse ja neid pole võimalik "
+"Kõik selle sündmuse kohta käiv teave kustutatakse ja seda pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
-"All information on this journal entry will be deleted and can not be "
-"restored."
-msgstr ""
-"Kõik selle päevikukirje kohta käivad andmed kustutatakse ja neid pole "
-"võimalik enam taastada."
-
-#: ../calendar/calendar.error.xml.h:9
-msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
-"Kõik selle koosoleku kohta käivad andmed kustutatakse ja neid pole võimalik "
+"Kõik selle koosoleku kohta käiv teave kustutatakse ja seda pole võimalik "
 "enam taastada."
+
+#: ../calendar/calendar.error.xml.h:9
+msgid "All information on this memo will be deleted and can not be restored."
+msgstr ""
+"Kõik selle märkme kohta käiv teave kustutatakse ja seda pole võimalik enam "
+"taastada."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
-"Kõik selle ülesande kohta käivad andmed kustutatakse ja neid pole võimalik "
-"enam taastada."
+"Kõik selle ülesande kohta käiv teave kustutatakse ja seda pole võimalik enam "
+"taastada."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -4168,34 +4163,34 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Kas sa soovid kustutada sündmust nimega '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:13
-msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Kas sa soovid kustutada päevikukirjet '{0}'?"
+msgid "Are you sure you want to delete the memo '{0}'?"
+msgstr "Kas sa soovid kustutada märget '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Kas sa soovid kustutada neid {0} sündmusi?"
+msgstr "Kas sa soovid kustutada {0} sündmust?"
 
 #: ../calendar/calendar.error.xml.h:15
-msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Kas sa soovid kustutada neid {0} päevikukirjeid?"
+msgid "Are you sure you want to delete these {0} memos?"
+msgstr "Kas sa soovid kustutada {0} märget?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Kas sa soovid kustutada neid {0} ülesandeid?"
+msgstr "Kas sa soovid kustutada {0} ülesannet?"
 
 #: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete this appointment?"
 msgstr "Kas sa soovid kustutada seda sündmust?"
 
 #: ../calendar/calendar.error.xml.h:18
-#: ../calendar/gui/dialogs/delete-comp.c:189
-msgid "Are you sure you want to delete this journal entry?"
-msgstr "Kas sa soovid kustutada seda päevikukirjet?"
-
-#: ../calendar/calendar.error.xml.h:19
 #: ../calendar/gui/dialogs/delete-comp.c:183
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Kas sa soovid kustutada seda koosolekut?"
+
+#: ../calendar/calendar.error.xml.h:19
+#: ../calendar/gui/dialogs/delete-comp.c:189
+msgid "Are you sure you want to delete this memo?"
+msgstr "Kas sa soovid kustutada seda märget?"
 
 #: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:186
@@ -4276,18 +4271,18 @@ msgstr "Viga ülesandeloendi laadimisel"
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
-"the journal has been deleted."
-msgstr ""
-"Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad selle "
-"päeviku kustutamisest mitte teada saada."
-
-#: ../calendar/calendar.error.xml.h:38
-msgid ""
-"If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
 "Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad kohtumise "
 "tühistamisest mitte teada saada."
+
+#: ../calendar/calendar.error.xml.h:38
+msgid ""
+"If you do not send a cancelation notice, the other participants may not know "
+"the memo has been deleted."
+msgstr ""
+"Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad selle "
+"märkme kustutamisest mitte teada saada."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
@@ -4383,8 +4378,8 @@ msgid "Would you like to save your changes to this task?"
 msgstr "Kas soovid selle ülesande muudatusi salvestada?"
 
 #: ../calendar/calendar.error.xml.h:57
-msgid "Would you like to send a cancelation notice for this journal entry?"
-msgstr "Kas soovid teisi osalejaid selle päevikukirje tühistamisest teavitada?"
+msgid "Would you like to send a cancelation notice for this memo?"
+msgstr "Kas soovid saata selle märkme kohta tühistamisteate?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send all the participants a cancelation notice?"
@@ -4573,7 +4568,7 @@ msgstr "_Märkmed"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:335 ../calendar/gui/e-memos.c:1093
 #: ../calendar/gui/gnome-cal.c:1669 ../calendar/gui/memos-component.c:544
-#: ../calendar/gui/memos-component.c:1021 ../calendar/gui/memos-control.c:336
+#: ../calendar/gui/memos-component.c:1031 ../calendar/gui/memos-control.c:336
 #: ../calendar/gui/memos-control.c:352
 msgid "Memos"
 msgstr "Märkmed"
@@ -5541,7 +5536,7 @@ msgstr "Manust on soovitatav kuvada _automaatselt"
 msgid "Attach file(s)"
 msgstr "Faili(de) manustamine"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:484
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:485
 msgid "Selected Calendars for Alarms"
 msgstr "Alarmidele valitud kalendrid"
 
@@ -5847,8 +5842,8 @@ msgid "This task has been deleted."
 msgstr "See ülesanne on kustutatud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:68
-msgid "This journal entry has been deleted."
-msgstr "See päeviku sissekanne on kustutatud."
+msgid "This memo has been deleted."
+msgstr "See märge on kustutatud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
@@ -5870,8 +5865,8 @@ msgid "This task has been changed."
 msgstr "Seda ülesannet on muudetud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:92
-msgid "This journal entry has been changed."
-msgstr "Seda päeviku sissekannet on muudetud."
+msgid "This memo has been changed."
+msgstr "Seda märget on muudetud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
@@ -5957,7 +5952,7 @@ msgid "Show Attachment _Bar"
 msgstr "Näita manuseri_ba"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../calendar/gui/dialogs/event-page.c:1974
+#: ../calendar/gui/dialogs/event-page.c:1976
 #: ../calendar/gui/dialogs/task-page.c:1252 ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
@@ -6017,27 +6012,27 @@ msgstr "Ülesanne - %s"
 #: ../calendar/gui/dialogs/comp-editor.c:2190
 #: ../calendar/gui/dialogs/comp-editor.c:2233
 #, c-format
-msgid "Journal entry - %s"
-msgstr "Päeviku sissekanne - %s"
+msgid "Memo - %s"
+msgstr "Märge - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2201
 #: ../calendar/gui/dialogs/comp-editor.c:2243
 msgid "No summary"
 msgstr "Kokkuvõte puudub"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2789 ../mail/em-utils.c:370
+#: ../calendar/gui/dialogs/comp-editor.c:2791 ../mail/em-utils.c:370
 #: ../widgets/misc/e-attachment-bar.c:361
 msgid "attachment"
 msgstr "manus"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2878
-#: ../calendar/gui/dialogs/comp-editor.c:2932
-#: ../calendar/gui/dialogs/comp-editor.c:2956
+#: ../calendar/gui/dialogs/comp-editor.c:2880
+#: ../calendar/gui/dialogs/comp-editor.c:2934
+#: ../calendar/gui/dialogs/comp-editor.c:2958
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Sellele kirjele tehtud muudatused tühistatakse uuenduste saabumise korral"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2985
+#: ../calendar/gui/dialogs/comp-editor.c:2987
 msgid "Unable to use current version!"
 msgstr "Praegust versiooni pole võimalik kasutada!"
 
@@ -6059,31 +6054,31 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
-msgstr "Seda sündmust pole võimalik tänu corba veale kustutada"
+msgstr "Seda sündmust pole võimalik corba vea tõttu kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:57
 msgid "The task could not be deleted due to a corba error"
-msgstr "Seda ülesannet pole võimalik tänu corba veale kustutada"
+msgstr "Seda ülesannet pole võimalik corba vea tõttu kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:60
-msgid "The journal entry could not be deleted due to a corba error"
-msgstr "Päeviku sissekannet pole võimalik tänu corba veale kustutada"
+msgid "The memo could not be deleted due to a corba error"
+msgstr "Seda märget pole võimalik corba vea tõttu kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr "Seda kirjet pole võimalik tänu corba veale kustutada"
+msgstr "Seda kirjet pole võimalik corba vea tõttu kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr "Sündmust ei saanud kustutada, kuna juurdepääs puudub"
+msgstr "Sündmust pole võimalik ligipääsu piirangute tõttu kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:73
 msgid "The task could not be deleted because permission was denied"
-msgstr "Ülesannet ei saanud kustutada, kuna juurdepääs puudub"
+msgstr "Ülesannet pole võimalik ligipääsu piirangute tõttu kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:76
-msgid "The journal entry could not be deleted because permission was denied"
-msgstr "Päeviku sissekannet ei saanud kustutada, kuna juurdepääs puudub"
+msgid "The memo could not be deleted because permission was denied"
+msgstr "Märget pole võimalik ligipääsu piirangute tõttu kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
@@ -6091,15 +6086,15 @@ msgstr "Kirjet pole võimalik kustutada, kuna juurdepääs puudub"
 
 #: ../calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
-msgstr "Sündmust ei ole vea tõttu võimalik kustutada"
+msgstr "Sündmust pole vea tõttu võimalik kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:89
 msgid "The task could not be deleted due to an error"
-msgstr "Ülesannet ei ole vea tõttu võimalik kustutada"
+msgstr "Ülesannet pole vea tõttu võimalik kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:92
-msgid "The journal entry could not be deleted due to an error"
-msgstr "Päeviku sissekannet ei ole vea tõttu võimalik kustutada"
+msgid "The memo could not be deleted due to an error"
+msgstr "Märget pole vea tõttu võimalik kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
@@ -6127,12 +6122,12 @@ msgstr "Sünd_mus"
 msgid "Recurrence"
 msgstr "Kordumine"
 
-#: ../calendar/gui/dialogs/event-page.c:833
-#: ../calendar/gui/dialogs/event-page.c:2850
+#: ../calendar/gui/dialogs/event-page.c:835
+#: ../calendar/gui/dialogs/event-page.c:2852
 msgid "This event has alarms"
 msgstr "See sündmus on alarmidega"
 
-#: ../calendar/gui/dialogs/event-page.c:913
+#: ../calendar/gui/dialogs/event-page.c:915
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
@@ -6140,101 +6135,101 @@ msgstr "See sündmus on alarmidega"
 msgid "Or_ganizer:"
 msgstr "Ko_rraldaja:"
 
-#: ../calendar/gui/dialogs/event-page.c:951
+#: ../calendar/gui/dialogs/event-page.c:953
 msgid "_Delegatees"
 msgstr "_Delegaadid"
 
-#: ../calendar/gui/dialogs/event-page.c:953
+#: ../calendar/gui/dialogs/event-page.c:955
 msgid "Atte_ndees"
 msgstr "_Osalejad"
 
-#: ../calendar/gui/dialogs/event-page.c:1136
+#: ../calendar/gui/dialogs/event-page.c:1138
 msgid "Event with no start date"
 msgstr "Sündmus ilma alguskuupäevata"
 
-#: ../calendar/gui/dialogs/event-page.c:1139
+#: ../calendar/gui/dialogs/event-page.c:1141
 msgid "Event with no end date"
 msgstr "Sündmis ilma lõppkuupäevata"
 
-#: ../calendar/gui/dialogs/event-page.c:1310
+#: ../calendar/gui/dialogs/event-page.c:1312
 #: ../calendar/gui/dialogs/memo-page.c:693
 #: ../calendar/gui/dialogs/task-page.c:878
 msgid "Start date is wrong"
 msgstr "Alguskuupäev on vale"
 
-#: ../calendar/gui/dialogs/event-page.c:1320
+#: ../calendar/gui/dialogs/event-page.c:1322
 msgid "End date is wrong"
 msgstr "Lõppemise päev on vale"
 
-#: ../calendar/gui/dialogs/event-page.c:1343
+#: ../calendar/gui/dialogs/event-page.c:1345
 msgid "Start time is wrong"
 msgstr "Algusaeg on vale"
 
-#: ../calendar/gui/dialogs/event-page.c:1350
+#: ../calendar/gui/dialogs/event-page.c:1352
 msgid "End time is wrong"
 msgstr "Lõppemise aeg on vale"
 
-#: ../calendar/gui/dialogs/event-page.c:1512
+#: ../calendar/gui/dialogs/event-page.c:1514
 #: ../calendar/gui/dialogs/memo-page.c:733
 #: ../calendar/gui/dialogs/task-page.c:940
 msgid "The organizer selected no longer has an account."
 msgstr "Valitud korraldajal pole enam kontot."
 
-#: ../calendar/gui/dialogs/event-page.c:1518
+#: ../calendar/gui/dialogs/event-page.c:1520
 #: ../calendar/gui/dialogs/memo-page.c:739
 #: ../calendar/gui/dialogs/task-page.c:946
 msgid "An organizer is required."
 msgstr "Korraldaja peab olema määrtud."
 
-#: ../calendar/gui/dialogs/event-page.c:1543
+#: ../calendar/gui/dialogs/event-page.c:1545
 #: ../calendar/gui/dialogs/task-page.c:970
 msgid "At least one attendee is required."
 msgstr "Vähemalt üks osaleja peab olema märgitud."
 
-#: ../calendar/gui/dialogs/event-page.c:1975
+#: ../calendar/gui/dialogs/event-page.c:1977
 #: ../calendar/gui/dialogs/task-page.c:1253
 msgid "_Add "
 msgstr "_Lisa "
 
-#: ../calendar/gui/dialogs/event-page.c:2721
+#: ../calendar/gui/dialogs/event-page.c:2723
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Kalendrit '%s' pole võimalik avada."
 
-#: ../calendar/gui/dialogs/event-page.c:2770
+#: ../calendar/gui/dialogs/event-page.c:2772
 #: ../calendar/gui/dialogs/memo-page.c:1138
 #: ../calendar/gui/dialogs/task-page.c:1948
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:3066
+#: ../calendar/gui/dialogs/event-page.c:3068
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d päev enne sündmust"
 msgstr[1] "%d päeva enne sündmust"
 
-#: ../calendar/gui/dialogs/event-page.c:3072
+#: ../calendar/gui/dialogs/event-page.c:3074
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d tund enne sündmust"
 msgstr[1] "%d tundi enne sündmust"
 
-#: ../calendar/gui/dialogs/event-page.c:3078
+#: ../calendar/gui/dialogs/event-page.c:3080
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minut enne sündmust"
 msgstr[1] "%d minutit enne sündmust"
 
-#: ../calendar/gui/dialogs/event-page.c:3091
+#: ../calendar/gui/dialogs/event-page.c:3093
 msgid "Customize"
 msgstr "Kohandatud"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:3096
+#: ../calendar/gui/dialogs/event-page.c:3098
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2369
@@ -6382,9 +6377,8 @@ msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Sa muudad korduvat ülesannet. Mida sa täpsemalt soovid muuta?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid ""
-"You are modifying a recurring journal entry. What would you like to modify?"
-msgstr "Sa muudad korduvat päevikukirjet. Mida sa täpsemalt soovid muuta?"
+msgid "You are modifying a recurring memo. What would you like to modify?"
+msgstr "Sa muudad korduvat märget. Mida sa täpsemalt soovid muuta?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:87
 msgid "This Instance Only"
@@ -6404,7 +6398,7 @@ msgstr "Kõiki kirjeid"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:498
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "See sündmus sisaldab ressursse, mida Evolution ei saa muuta."
+msgstr "See sündmus sisaldab ressursse, mida Evolutionil pole võimalik muuta."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:819
 msgid "Recurrence date is invalid"
@@ -7260,20 +7254,20 @@ msgstr "%02i-minutiline jaotamine"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:1314
-#: ../calendar/gui/e-day-view.c:2092
+#: ../calendar/gui/e-day-view.c:2098
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1503
 msgid "%A %d %B"
 msgstr "%A, %d. %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1092
+#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1095
 #: ../calendar/gui/e-week-view.c:503 ../calendar/gui/print.c:811
 msgid "am"
 msgstr "el"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-day-view.c:1095
+#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-day-view.c:1098
 #: ../calendar/gui/e-week-view.c:506 ../calendar/gui/print.c:813
 msgid "pm"
 msgstr "pl"
@@ -8118,8 +8112,8 @@ msgid "Task information"
 msgstr "Andmed ülesande kohta"
 
 #: ../calendar/gui/itip-utils.c:696 ../calendar/gui/itip-utils.c:819
-msgid "Journal information"
-msgstr "Päevaraamatu andmed"
+msgid "Memo information"
+msgstr "Märkme andmed"
 
 #: ../calendar/gui/itip-utils.c:698 ../calendar/gui/itip-utils.c:837
 msgid "Free/Busy information"
@@ -8176,53 +8170,53 @@ msgstr[1] ", %d valitud"
 msgid "Failed upgrading memos."
 msgstr "Tõrge märkmete uuendamisel."
 
-#: ../calendar/gui/memos-component.c:887
+#: ../calendar/gui/memos-component.c:897
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr ""
 "Märkmeloendit '%s' pole võimalik sündmuste ja koosolekute loomiseks avada"
 
-#: ../calendar/gui/memos-component.c:900
+#: ../calendar/gui/memos-component.c:910
 msgid "There is no calendar available for creating memos"
 msgstr "Märkmete loomiseks pole ühtegi kalendrit saadaval"
 
-#: ../calendar/gui/memos-component.c:996
+#: ../calendar/gui/memos-component.c:1006
 msgid "Memo Source Selector"
 msgstr "Märkmete allika valija"
 
-#: ../calendar/gui/memos-component.c:1179
+#: ../calendar/gui/memos-component.c:1189
 msgid "New memo"
 msgstr "Uus märge"
 
-#: ../calendar/gui/memos-component.c:1180
+#: ../calendar/gui/memos-component.c:1190
 msgid "Mem_o"
 msgstr "Mär_ge"
 
-#: ../calendar/gui/memos-component.c:1181
+#: ../calendar/gui/memos-component.c:1191
 msgid "Create a new memo"
 msgstr "Uue märkme loomine"
 
-#: ../calendar/gui/memos-component.c:1187
+#: ../calendar/gui/memos-component.c:1197
 msgid "New shared memo"
 msgstr "Uus jagatud märge"
 
-#: ../calendar/gui/memos-component.c:1188
+#: ../calendar/gui/memos-component.c:1198
 msgid "_Shared memo"
 msgstr "_Jagatud märge"
 
-#: ../calendar/gui/memos-component.c:1189
+#: ../calendar/gui/memos-component.c:1199
 msgid "Create a shared new memo"
 msgstr "Uue jagatud märkme loomine"
 
-#: ../calendar/gui/memos-component.c:1195
+#: ../calendar/gui/memos-component.c:1205
 msgid "New memo list"
 msgstr "Uus märkmeloend"
 
-#: ../calendar/gui/memos-component.c:1196
+#: ../calendar/gui/memos-component.c:1206
 msgid "Memo li_st"
 msgstr "_Märkmeloend"
 
-#: ../calendar/gui/memos-component.c:1197
+#: ../calendar/gui/memos-component.c:1207
 msgid "Create a new memo list"
 msgstr "Uue märkmeloendi loomine"
 
@@ -10418,7 +10412,7 @@ msgstr "Hoiatus: salvestamata sõnum"
 
 #: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "Sa ei saa sellele sõnumile manustada faili `{0}'"
+msgstr "Sul pole võimalik sellele sõnumile faili `{0}' manustada."
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
@@ -12395,7 +12389,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid "Enable to render message text part of limited size."
-msgstr ""
+msgstr "Piiratud suurusega tekstiosa kuvamise lubamine."
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Enable/disable caret mode"
@@ -12604,6 +12598,8 @@ msgstr "Teemata sõnumi saatmisel kasutaja käest kinnituse küsimine."
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "Prompt to check if the user wants to go offline immediately"
 msgstr ""
+"Kinnituse küsimine, kui kasutaja soovib viivitamatult võrguvabat režiimi "
+"aktiveerida"
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid "Prompt when user expunges"
@@ -13122,7 +13118,7 @@ msgstr "<b>All_kirjad</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr ""
+msgstr "<b>Ülapostitamise valik</b> (pole soovitatav)"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
@@ -13263,7 +13259,7 @@ msgstr "Algupärane sõnum lisatakse manusena"
 
 #: ../mail/mail-config.glade.h:45
 msgid "Automatically insert _smiley images"
-msgstr "_Emotikonipildid lisatakse automaatselt"
+msgstr "Tuju_nägude pildid lisatakse automaatselt"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
@@ -13347,7 +13343,7 @@ msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Do not format text contents in mails if the text si_ze exceeds"
-msgstr ""
+msgstr "Sõnumite tekstiosa ei vo_rmindata kui selle suurus ületab"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not quote original message"
@@ -13522,7 +13518,7 @@ msgstr "Parool jäetakse _meelde"
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_earch for sender photograph only in local addressbooks"
-msgstr ""
+msgstr "Saatja _fotot otsitakse ainult kohalikust aadressiraamatust"
 
 #: ../mail/mail-config.glade.h:122
 msgid "S_elect..."
@@ -13732,11 +13728,11 @@ msgstr "_Pildianimatsioone näitatakse"
 
 #: ../mail/mail-config.glade.h:181
 msgid "_Show the photograph of sender in the email preview"
-msgstr ""
+msgstr "E-sõnumi eelvaates näidatakse saatja _fotot"
 
 #: ../mail/mail-config.glade.h:182
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "Kellele / Koopia / Pimekoopia välju _vähendatakse"
+msgstr "Kellele / Koopia / Pimekoopia välju vä_hendatakse"
 
 #: ../mail/mail-config.glade.h:183
 msgid "_Use Secure Connection:"
@@ -13852,7 +13848,7 @@ msgstr "_Märgistus:"
 
 #: ../mail/mail-dialogs.glade.h:26
 msgid "_Tick this to accept the license agreement"
-msgstr ""
+msgstr "Litsentsitingimustega _nõustumisel märgi see ruut"
 
 #: ../mail/mail-folder-cache.c:877
 #, c-format
@@ -14652,7 +14648,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:116
 msgid "This signature has been changed, but has not been saved."
-msgstr "Seda allkirja on muudetud, kuid seda ei ole salvestatud."
+msgstr "See allkiri on muudetud, kuid seda ei ole salvestatud."
 
 #: ../mail/mail.error.xml.h:117
 msgid ""
@@ -14696,7 +14692,7 @@ msgstr "Sul on saatmata sõnumeid, kas soovid igal juhul lõpetada?"
 
 #: ../mail/mail.error.xml.h:126
 msgid "You may not create two accounts with the same name."
-msgstr "Sa ei saa luua kahte sama nimega kontot."
+msgstr "Sul pole võimalik kahte sama nimega kontot luua."
 
 #: ../mail/mail.error.xml.h:127
 msgid "You must name this Search Folder."
@@ -16811,15 +16807,15 @@ msgstr "Ühtegi kalendrit pole võimalik leida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:678
 msgid "Unable to find this meeting in any calendar"
-msgstr "Kalendrist pole võimalik ühtegi kohtumist leida"
+msgstr "Seda kohtumist pole võimalik ühestki kalendrist leida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:682
 msgid "Unable to find this task in any task list"
-msgstr "Ülesannete loendist pole võimalik ühtegi ülesannet leida"
+msgstr "Seda ülesannet pole võimalik ühestki ülesannete loendist leida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:686
-msgid "Unable to find this journal entry in any journal"
-msgstr "Seda sissekannet pole võimaliku ühestki päevikust leida"
+msgid "Unable to find this memo in any memo list"
+msgstr "Seda märget pole võimalik ühestki märkmete loendist leida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:759
 msgid "Searching for an existing version of this appointment"
@@ -16880,6 +16876,31 @@ msgstr "Osalejat pole võimalik uuendada. %s"
 msgid "Attendee status updated"
 msgstr "Osaleja olek uuendatud"
 
+#: ../plugins/itip-formatter/itip-formatter.c:1250
+msgid "Meeting information sent"
+msgstr "Koosoleku andmed on saadetud"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1253
+msgid "Task information sent"
+msgstr "Ülesande andmed on saadetud"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1256
+msgid "Memo information sent"
+msgstr "Märkme andmed on saadetud"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1265
+msgid "Unable to send meeting information, the meeting does not exist"
+msgstr ""
+"Koosoleku kohta pole võimalik andmeid saata kuna koosolekut pole olemas"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1268
+msgid "Unable to send task information, the task does not exist"
+msgstr "Ülesande kohta pole võimalik andmeid saata kuna ülesannet pole olemas"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1271
+msgid "Unable to send memo information, the memo does not exist"
+msgstr "Märkme kohta pole võimalik andmeid saata kuna märget pole olemas"
+
 #: ../plugins/itip-formatter/itip-formatter.c:1346
 #: ../plugins/itip-formatter/itip-formatter.c:1361
 msgid "The calendar attached is not valid"
@@ -16921,6 +16942,18 @@ msgid ""
 msgstr ""
 "Kõikide nende kirjete töötlemiseks peab fail olema salvestatud ja kalender "
 "imporditud"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2047
+msgid "This koosolek recurs"
+msgstr "See sündmus kordub"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2050
+msgid "This task recurs"
+msgstr "See sündmus kordub"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2053
+msgid "This memo recurs"
+msgstr "See sündmus kordub"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -18464,7 +18497,7 @@ msgstr "Veateatamisprogramm ei ole paigaldatud."
 
 #: ../shell/e-shell-window-commands.c:144
 msgid "Bug buddy could not be run."
-msgstr "Bug buddy (veateatamisprogramm) ei saa käivitada."
+msgstr "Bug buddy veateatamisprogrammi pole võimalik käivitada."
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
