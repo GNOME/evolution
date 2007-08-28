@@ -1,3 +1,8 @@
+2007-08-28  Wadim Dziedzic  <wadimd@svn.gnome.org>
+
+	* default/Makefile.am: added Polish translation of welcome email
+	* default/pl: 
+
 2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-format-html.c: Fix a typo build break.
