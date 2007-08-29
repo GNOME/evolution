@@ -693,11 +693,13 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		comp_editor_page_display_validation_error (page, _("Start date is wrong"), priv->start_date);
 		return FALSE;
 	}
-	e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
+	if (e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
 					       &start_tt.year,
 					       &start_tt.month,
-					       &start_tt.day);
-	e_cal_component_set_dtstart (comp, &start_date);
+					       &start_tt.day))
+		e_cal_component_set_dtstart (comp, &start_date);
+	else 
+		e_cal_component_set_dtstart (comp, NULL);
 
 	/* Classification. */
 	e_cal_component_set_classification (comp, priv->classification);

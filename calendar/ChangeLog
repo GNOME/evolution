@@ -1,3 +1,10 @@
+2007-08-29  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #466051
+
+	* gui/dialogs/memo-page.c: (memo_page_fill_component): When memo start
+	date is set to 'None', do not store DTSTART property.
+
 2007-08-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/e-cal-popup.c (e_cal_popup_target_new_source):
