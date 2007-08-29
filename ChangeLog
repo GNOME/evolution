@@ -1,3 +1,7 @@
+2007-08-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in: Add mail/default/pl/Makefile to AC_OUTPUT.
+
 2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.11.91 release
