@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-23 07:25+0100\n"
-"PO-Revision-Date: 2007-08-23 17:39+0530\n"
+"POT-Creation-Date: 2007-08-28 03:21+0100\n"
+"PO-Revision-Date: 2007-08-29 14:24+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati <fedora-trans-gu@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
+"\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -214,7 +217,7 @@ msgid "calendar view for one or more days"
 msgstr "એક અથવા વધુ દિવસો માટે કેલેન્ડર દેખાવ"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:188
-#: ../calendar/gui/calendar-component.c:734
+#: ../calendar/gui/calendar-component.c:740
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -225,9 +228,9 @@ msgstr "%A %d %b %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:191
-#: ../calendar/gui/calendar-component.c:737
-#: ../calendar/gui/e-day-view-top-item.c:1318
-#: ../calendar/gui/e-day-view.c:2109
+#: ../calendar/gui/calendar-component.c:743
+#: ../calendar/gui/e-day-view-top-item.c:1340
+#: ../calendar/gui/e-day-view.c:2115
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
@@ -236,9 +239,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:193
 #: ../a11y/calendar/ea-gnome-calendar.c:198
 #: ../a11y/calendar/ea-gnome-calendar.c:200
-#: ../calendar/gui/calendar-component.c:739
-#: ../calendar/gui/calendar-component.c:744
-#: ../calendar/gui/calendar-component.c:746
+#: ../calendar/gui/calendar-component.c:745
+#: ../calendar/gui/calendar-component.c:750
+#: ../calendar/gui/calendar-component.c:752
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -246,10 +249,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:223
 #: ../a11y/calendar/ea-gnome-calendar.c:229
 #: ../a11y/calendar/ea-gnome-calendar.c:231
-#: ../calendar/gui/calendar-component.c:758
-#: ../calendar/gui/calendar-component.c:765
+#: ../calendar/gui/calendar-component.c:764
 #: ../calendar/gui/calendar-component.c:771
-#: ../calendar/gui/calendar-component.c:773
+#: ../calendar/gui/calendar-component.c:777
+#: ../calendar/gui/calendar-component.c:779
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -259,9 +262,9 @@ msgstr "%d %b %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:221
-#: ../calendar/gui/calendar-component.c:763
-#: ../calendar/gui/e-day-view-top-item.c:1322
-#: ../calendar/gui/e-day-view.c:2125
+#: ../calendar/gui/calendar-component.c:769
+#: ../calendar/gui/e-day-view-top-item.c:1344
+#: ../calendar/gui/e-day-view.c:2131
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
@@ -642,7 +645,7 @@ msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખા
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1338
-#: ../calendar/gui/calendar-component.c:284 ../calendar/gui/migration.c:402
+#: ../calendar/gui/calendar-component.c:285 ../calendar/gui/migration.c:402
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
@@ -684,7 +687,7 @@ msgstr "તમારા S/MIME પ્રમાણપત્રોની અંહ
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:144
 #: ../addressbook/gui/component/addressbook-migrate.c:497
-#: ../calendar/gui/calendar-component.c:236
+#: ../calendar/gui/calendar-component.c:237
 #: ../calendar/gui/memos-component.c:200 ../calendar/gui/migration.c:481
 #: ../calendar/gui/migration.c:582 ../calendar/gui/migration.c:1095
 #: ../calendar/gui/tasks-component.c:196 ../mail/em-folder-tree-model.c:199
@@ -702,7 +705,7 @@ msgstr "આ કમ્પ્યુટરમાં"
 #: ../addressbook/gui/component/addressbook-migrate.c:505
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
-#: ../calendar/gui/calendar-component.c:247
+#: ../calendar/gui/calendar-component.c:248
 #: ../calendar/gui/memos-component.c:209 ../calendar/gui/migration.c:491
 #: ../calendar/gui/migration.c:590 ../calendar/gui/migration.c:1103
 #: ../calendar/gui/tasks-component.c:205 ../filter/filter-label.c:122
@@ -765,9 +768,9 @@ msgstr "ઓફલાઈન ક્રિયાઓ માટે બુકના �
 #: ../addressbook/gui/component/addressbook-config.c:984
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: ../calendar/gui/dialogs/calendar-setup.c:365
-#: ../calendar/gui/dialogs/calendar-setup.c:376
-#: ../calendar/gui/dialogs/calendar-setup.c:387
+#: ../calendar/gui/dialogs/calendar-setup.c:369
+#: ../calendar/gui/dialogs/calendar-setup.c:380
+#: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
 #: ../plugins/itip-formatter/itip-formatter.c:2238
 #: ../smime/gui/smime-ui.glade.h:28
@@ -885,10 +888,6 @@ msgstr "ફોલ્ડરનું નામ બદલો"
 msgid "Folder names cannot contain '/'"
 msgstr "ફોલ્ડર નામો '/' સમાવી શકતા નથી"
 
-#: ../addressbook/gui/component/addressbook-view.c:445
-msgid "A Folder with this name already exists"
-msgstr "આ નામ સાથેનું ફોલ્ડર પહેલાથી જ હાજર છે"
-
 #: ../addressbook/gui/component/addressbook-view.c:956
 msgid "_New Address Book"
 msgstr "નવી સરનામા પુસ્તિકા (_N)"
@@ -896,11 +895,11 @@ msgstr "નવી સરનામા પુસ્તિકા (_N)"
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:981
-#: ../calendar/gui/calendar-component.c:598
+#: ../calendar/gui/calendar-component.c:604
 #: ../calendar/gui/e-calendar-table.c:1375
 #: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:992
 #: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
-#: ../mail/em-folder-tree.c:2127 ../mail/em-folder-view.c:1234
+#: ../mail/em-folder-tree.c:2127 ../mail/em-folder-view.c:1233
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -912,7 +911,7 @@ msgid "Save As Vcard..."
 msgstr "Vcard તરીકે સંગ્રહો..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
-#: ../calendar/gui/calendar-component.c:599
+#: ../calendar/gui/calendar-component.c:605
 #: ../calendar/gui/memos-component.c:467 ../calendar/gui/tasks-component.c:458
 msgid "_Properties..."
 msgstr "ગુણધર્મો (_P)..."
@@ -926,12 +925,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "અજાણી રીતે LDAP સર્વર વાપરી રહ્યા છીએ"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:507
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:511
 msgid "Failed to authenticate.\n"
 msgstr "સત્તાધિકરણ કરવામાં નિષ્ફળ.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:487
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:491
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "%s (વપરાશકર્તા %s) માટે પાસવર્ડ દાખલ કરો"
@@ -1243,8 +1242,8 @@ msgid "_Login method:"
 msgstr "પ્રવેશ પદ્ધતિ (_L):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
-#: ../calendar/gui/dialogs/calendar-setup.c:225
-#: ../mail/mail-config.glade.h:169
+#: ../calendar/gui/dialogs/calendar-setup.c:229
+#: ../mail/mail-config.glade.h:171
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Name:"
 msgstr "નામ (_N):"
@@ -1258,7 +1257,7 @@ msgid "_Search scope:"
 msgstr "શોધની હદ (_S):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:178
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "સર્વર (_S):"
@@ -1383,7 +1382,7 @@ msgstr "ટેલિફોન"
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
 #: ../filter/filter-label.c:121 ../mail/em-migrate.c:1055
-#: ../mail/mail-config.glade.h:156
+#: ../mail/mail-config.glade.h:158
 msgid "Work"
 msgstr "કાર્ય"
 
@@ -1405,7 +1404,7 @@ msgid "_Birthday:"
 msgstr "જન્મ દિવસ (_B):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
-#: ../calendar/gui/dialogs/event-page.c:906
+#: ../calendar/gui/dialogs/event-page.c:908
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1833
 msgid "_Calendar:"
@@ -1517,9 +1516,9 @@ msgstr "સરનામું"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:179
-#: ../widgets/table/e-cell-text.c:1826 ../widgets/text/e-entry.c:1258
-#: ../widgets/text/e-entry.c:1259 ../widgets/text/e-text.c:3606
-#: ../widgets/text/e-text.c:3607
+#: ../widgets/table/e-cell-text.c:1831 ../widgets/text/e-entry.c:1258
+#: ../widgets/text/e-entry.c:1259 ../widgets/text/e-text.c:3681
+#: ../widgets/text/e-text.c:3682
 msgid "Editable"
 msgstr "ફેરફાર કરી શકાય તેવું"
 
@@ -2874,11 +2873,9 @@ msgstr "નકલી સંપર્ક કાઢી નખાયો"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:4
 msgid ""
-"The changed email or name of this contact already\n"
-"exists in this folder.  Would you like to add it anyway?"
-msgstr ""
-"બદલાયેલ ઈ-મેઈલ અથવા આ સંપર્કનું નામ પહેલાથી જ\n"
-"આ ફોલ્ડરમાં છે. શું તમે એને કોઈપણ રીતે ઉમેરવા માંગો છો?"
+"The name or email of this contact already exists in this folder.  Would you "
+"like to add it anyway?"
+msgstr "આ સંપર્કનું નામ અથવા ઈ-મેઈલ સરનામું પહેલાથી જ આ ફોલ્ડરમાં હાજર છે.  શું તમે એને કોઈપણ રીતે ઉમેરવા માંગો છો?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2901,8 +2898,8 @@ msgid "Merge Contact"
 msgstr "સંપર્ક ભેગા કરો"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:205
-msgid "Merge"
-msgstr "ભેગું કરો"
+msgid "_Merge"
+msgstr "ભેગું કરો (_M)"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:258
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
@@ -2959,7 +2956,7 @@ msgstr "પુસ્તક દેખાવ મેળવવામાં ભૂલ
 #: ../widgets/table/e-table.c:3335
 #: ../widgets/table/e-tree-selection-model.c:821
 #: ../widgets/text/e-entry.c:1202 ../widgets/text/e-entry.c:1203
-#: ../widgets/text/e-text.c:3470 ../widgets/text/e-text.c:3471
+#: ../widgets/text/e-text.c:3545 ../widgets/text/e-text.c:3546
 msgid "Model"
 msgstr "મોડેલ"
 
@@ -3043,13 +3040,13 @@ msgid "Cu_t"
 msgstr "કાપો (_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
-#: ../calendar/gui/calendar-component.c:597
+#: ../calendar/gui/calendar-component.c:603
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
 #: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:1006
-#: ../mail/em-folder-view.c:1219 ../mail/message-list.c:1962
+#: ../mail/em-folder-view.c:1218 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -3255,7 +3252,7 @@ msgstr "વેબ સાઈટ"
 #: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
-#: ../widgets/text/e-text.c:3648 ../widgets/text/e-text.c:3649
+#: ../widgets/text/e-text.c:3723 ../widgets/text/e-text.c:3724
 msgid "Width"
 msgstr "પહોળાઈ"
 
@@ -3270,7 +3267,7 @@ msgstr "પહોળાઈ"
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
-#: ../widgets/text/e-text.c:3656 ../widgets/text/e-text.c:3657
+#: ../widgets/text/e-text.c:3731 ../widgets/text/e-text.c:3732
 msgid "Height"
 msgstr "ઊંચાઈ"
 
@@ -3376,7 +3373,7 @@ msgid "_Open Link in Browser"
 msgstr "કડીને બ્રાઉઝરમાં ખોલો (_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2604
+#: ../mail/em-folder-view.c:2603
 msgid "_Copy Link Location"
 msgstr "કડીની જગ્યાની નકલ કરો (_C)"
 
@@ -3422,14 +3419,14 @@ msgstr "વિડીયો સંવાદ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:573
 #: ../calendar/gui/calendar-commands.c:99
-#: ../calendar/gui/calendar-component.c:782
-#: ../calendar/gui/dialogs/calendar-setup.c:366
+#: ../calendar/gui/calendar-component.c:788
+#: ../calendar/gui/dialogs/calendar-setup.c:370
 #: ../calendar/gui/gnome-cal.c:2354
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:575
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:396
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:427
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:540
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:400
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:431
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:544
 #: ../plugins/hula-account-setup/camel-hula-listener.c:378
 #: ../plugins/hula-account-setup/camel-hula-listener.c:407
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
@@ -4140,14 +4137,12 @@ msgstr ""
 "છે."
 
 #: ../calendar/calendar.error.xml.h:3
-msgid ""
-"All information in these journal entries will be deleted and can not be "
-"restored."
-msgstr "આ જર્નલ પ્રવેશો માટેની બધી જાણકારી કાઢી નંખાસે અને તે ફરીથી સંગ્રહી શકાશે નહિં."
+msgid "All information in these memos will be deleted and can not be restored."
+msgstr "આ મેમોની બધી જાણકારી કાઢી નંખાશે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #: ../calendar/calendar.error.xml.h:4
-msgid "All information in this journal will be deleted and can not be restored."
-msgstr "આ જર્નલની બધી જાણકારી કાઢી નાંખવામાં આવશે અને ફરીથી સંગ્રહી શકાશે નહિં."
+msgid "All information in this memo will be deleted and can not be restored."
+msgstr "આ મેમોની બધી જાણકારી કાઢી નાંખવામાં આવશે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
@@ -4164,14 +4159,12 @@ msgid "All information on this appointment will be deleted and can not be restor
 msgstr "આ મુલાકાતની બધી જાણકારી કાઢી નાંખવામાં આવે છે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #: ../calendar/calendar.error.xml.h:8
-msgid ""
-"All information on this journal entry will be deleted and can not be "
-"restored."
-msgstr "આ જર્નલ પ્રવેશની બધી જાણકારી કાઢી નંખાયેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
-
-#: ../calendar/calendar.error.xml.h:9
 msgid "All information on this meeting will be deleted and can not be restored."
 msgstr "આ મંત્રણાની બધી જાણકારી કાઢી નાંખવામાં આવેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
+
+#: ../calendar/calendar.error.xml.h:9
+msgid "All information on this memo will be deleted and can not be restored."
+msgstr "આ મેમોની બધી જાણકારી કાઢી નાંખવામાં આવેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
@@ -4186,16 +4179,16 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "શું તમે ખરેખર '{0}' શીર્ષકવાળી મુલાકાત કાઢી નાંખવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:13
-msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "શું તમે ખરેખર જર્નલ પ્રવેશ '{0}' કાઢી નાંખવા માંગો છો?"
+msgid "Are you sure you want to delete the memo '{0}'?"
+msgstr "શું તમે ખરેખર મેમો '{0}' કાઢી નાંખવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr "શું તમે ખરેખર {0} મુલાકાતો કાઢી નાંખવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:15
-msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "શું તમે ખરેખર આ {0} જર્નલ પ્રવેશો કાઢી નાંખવા માંગો છો?"
+msgid "Are you sure you want to delete these {0} memos?"
+msgstr "શું તમે ખરેખર આ {0} મેમો કાઢી નાંખવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} tasks?"
@@ -4206,14 +4199,14 @@ msgid "Are you sure you want to delete this appointment?"
 msgstr "શું તમે ખરેખર આ મુલાકાત કાઢી નાંખવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:18
-#: ../calendar/gui/dialogs/delete-comp.c:189
-msgid "Are you sure you want to delete this journal entry?"
-msgstr "શું તમે ખરેખર આ જર્નલ પ્રવેશ કાઢી નાંખવા માંગો છો?"
-
-#: ../calendar/calendar.error.xml.h:19
 #: ../calendar/gui/dialogs/delete-comp.c:183
 msgid "Are you sure you want to delete this meeting?"
 msgstr "શું તમે ખરેખર આ મંત્રણા કાઢી નાંખવા માંગો છો?"
+
+#: ../calendar/calendar.error.xml.h:19
+#: ../calendar/gui/dialogs/delete-comp.c:189
+msgid "Are you sure you want to delete this memo?"
+msgstr "શું તમે ખરેખર આ મેમો કાઢી નાંખવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:186
@@ -4289,14 +4282,14 @@ msgstr "બાબત યાદી લાવવામાં ભૂલ"
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
-"the journal has been deleted."
-msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે જર્નલ કાઢી નંખાયેલ છે."
+"the meeting is canceled."
+msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે મંત્રણા રદ થઈ ગઈ છે."
 
 #: ../calendar/calendar.error.xml.h:38
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
-"the meeting is canceled."
-msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે મંત્રણા રદ થઈ ગઈ છે."
+"the memo has been deleted."
+msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે મેમો કાઢી નંખાયેલ છે."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
@@ -4381,8 +4374,8 @@ msgid "Would you like to save your changes to this task?"
 msgstr "શું તમે આ બાબતના તમારા બદલાવો સંગ્રહવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:57
-msgid "Would you like to send a cancelation notice for this journal entry?"
-msgstr "શું તમે આ જર્નલ પ્રવેશ માટે નકારાત્મક સૂચન મોકલવા માંગો છો?"
+msgid "Would you like to send a cancelation notice for this memo?"
+msgstr "શું તમે આ મેમો માટે નકારાત્મક સૂચન મોકલવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send all the participants a cancelation notice?"
@@ -4525,7 +4518,7 @@ msgid "Calendar and Tasks"
 msgstr "કેલેન્ડર અને બાબતો"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1379
+#: ../calendar/gui/calendar-component.c:1385
 msgid "Calendars"
 msgstr "કેલેન્ડરો"
 
@@ -4568,7 +4561,7 @@ msgstr "મેમો (_s)"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:335 ../calendar/gui/e-memos.c:1093
 #: ../calendar/gui/gnome-cal.c:1669 ../calendar/gui/memos-component.c:544
-#: ../calendar/gui/memos-component.c:1021 ../calendar/gui/memos-control.c:336
+#: ../calendar/gui/memos-component.c:1031 ../calendar/gui/memos-control.c:336
 #: ../calendar/gui/memos-control.c:352
 msgid "Memos"
 msgstr "મેમો"
@@ -4583,8 +4576,8 @@ msgstr "મેમો"
 #: ../calendar/importers/icalendar-importer.c:741
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:587
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:397
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:541
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:401
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:545
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "બાબતો"
@@ -4643,7 +4636,7 @@ msgstr "પુનરાવર્તન સમય (_t):"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:163
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:165
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
@@ -5260,89 +5253,89 @@ msgstr "દિવસો"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:272
+#: ../calendar/gui/calendar-component.c:273
 #: ../calendar/gui/memos-component.c:235 ../calendar/gui/migration.c:511
 #: ../calendar/gui/migration.c:609 ../calendar/gui/migration.c:1122
 #: ../calendar/gui/tasks-component.c:231
 msgid "On The Web"
 msgstr "વેબ પર"
 
-#: ../calendar/gui/calendar-component.c:290 ../calendar/gui/migration.c:405
+#: ../calendar/gui/calendar-component.c:296 ../calendar/gui/migration.c:405
 msgid "Birthdays & Anniversaries"
 msgstr "જન્મદિવસો અને સાલગીરીઓ"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:299
+#: ../calendar/gui/calendar-component.c:305
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "હવામાન"
 
-#: ../calendar/gui/calendar-component.c:596
+#: ../calendar/gui/calendar-component.c:602
 msgid "_New Calendar"
 msgstr "નવું કેલેન્ડર (_N)"
 
-#: ../calendar/gui/calendar-component.c:926
+#: ../calendar/gui/calendar-component.c:932
 msgid "Failed upgrading calendars."
 msgstr "કેલેન્ડરો સુધારવામાં નિષ્ફળ."
 
-#: ../calendar/gui/calendar-component.c:1225
+#: ../calendar/gui/calendar-component.c:1231
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "ઘટનાઓ અને મંત્રણાઓ બનાવવા માટે કેલેન્ડર '%s' ખોલવા માટે અસમર્થ"
 
-#: ../calendar/gui/calendar-component.c:1241
+#: ../calendar/gui/calendar-component.c:1247
 msgid "There is no calendar available for creating events and meetings"
 msgstr "ત્યાં ઘટનાઓ અને મંત્રણાઓ બનાવવા ામટે કોઈ કેલેન્ડર ઉપલબ્ધ નથી"
 
-#: ../calendar/gui/calendar-component.c:1354
+#: ../calendar/gui/calendar-component.c:1360
 msgid "Calendar Source Selector"
 msgstr "કેલેન્ડર સ્રોત પસંદ કરનાર"
 
-#: ../calendar/gui/calendar-component.c:1572
+#: ../calendar/gui/calendar-component.c:1578
 msgid "New appointment"
 msgstr "નવી મુલાકાત"
 
-#: ../calendar/gui/calendar-component.c:1573
+#: ../calendar/gui/calendar-component.c:1579
 msgid "_Appointment"
 msgstr "મુલાકાત (_A)"
 
-#: ../calendar/gui/calendar-component.c:1574
+#: ../calendar/gui/calendar-component.c:1580
 msgid "Create a new appointment"
 msgstr "નવી મુલાકાત બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1580
+#: ../calendar/gui/calendar-component.c:1586
 msgid "New meeting"
 msgstr "નવી મંત્રણા"
 
-#: ../calendar/gui/calendar-component.c:1581
+#: ../calendar/gui/calendar-component.c:1587
 msgid "M_eeting"
 msgstr "મંત્રણા (_e)"
 
-#: ../calendar/gui/calendar-component.c:1582
+#: ../calendar/gui/calendar-component.c:1588
 msgid "Create a new meeting request"
 msgstr "નવી મંત્રણા મંજૂરી બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1588
+#: ../calendar/gui/calendar-component.c:1594
 msgid "New all day appointment"
 msgstr "નવી બધા દિવસની મુલાકાત"
 
-#: ../calendar/gui/calendar-component.c:1589
+#: ../calendar/gui/calendar-component.c:1595
 msgid "All Day A_ppointment"
 msgstr "બધા દિવસની મુલાકાત (_p)"
 
-#: ../calendar/gui/calendar-component.c:1590
+#: ../calendar/gui/calendar-component.c:1596
 msgid "Create a new all-day appointment"
 msgstr "નવી બધા દિવસની મુલાકાત બનાવો"
 
-#: ../calendar/gui/calendar-component.c:1596
+#: ../calendar/gui/calendar-component.c:1602
 msgid "New calendar"
 msgstr "નવું કેલેન્ડર"
 
-#: ../calendar/gui/calendar-component.c:1597
+#: ../calendar/gui/calendar-component.c:1603
 msgid "Cale_ndar"
 msgstr "કેલેન્ડર (_n)"
 
-#: ../calendar/gui/calendar-component.c:1598
+#: ../calendar/gui/calendar-component.c:1604
 msgid "Create a new calendar"
 msgstr "નવું કેલેન્ડર બનાવો"
 
@@ -5525,7 +5518,7 @@ msgstr "જોડાણનું આપોઆપ પ્રદર્શન સૂ
 msgid "Attach file(s)"
 msgstr "ફાઈલો જોડો"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:484
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:485
 msgid "Selected Calendars for Alarms"
 msgstr "એલાર્મ માટે પસંદ કરેલ કેલેન્ડરો"
 
@@ -5774,43 +5767,43 @@ msgstr "બુધ (_W)"
 msgid "before every appointment"
 msgstr "દરેક મુલાકાત પહેલા"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:268
+#: ../calendar/gui/dialogs/calendar-setup.c:272
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr "ઓફલાઈન પ્રક્રિયા માટે કેલેન્ડરના સમાવિષ્ટોની સ્થાનિક રીતે નકલ કરો (_y)"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:270
+#: ../calendar/gui/dialogs/calendar-setup.c:274
 msgid "Cop_y task list contents locally for offline operation"
 msgstr "ઓફલાઈન પ્રક્રિયા માટે બાબત યાદી સમાવિષ્ટોની સ્થાનિક રીતે નકલ કરો (_y)"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:272
+#: ../calendar/gui/dialogs/calendar-setup.c:276
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr "ઓફલાઈન પ્રક્રિયા માટે મેમો યાદી સમાવિષ્ટોની સ્થાનિક રીતે નકલ કરો (_y)"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:342
+#: ../calendar/gui/dialogs/calendar-setup.c:346
 msgid "C_olor:"
 msgstr "રંગ (_o):"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:377
+#: ../calendar/gui/dialogs/calendar-setup.c:381
 msgid "Task List"
 msgstr "બાબત યાદી"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:388
+#: ../calendar/gui/dialogs/calendar-setup.c:392
 msgid "Memo List"
 msgstr "મેમો યાદી"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:477
+#: ../calendar/gui/dialogs/calendar-setup.c:478
 msgid "Calendar Properties"
 msgstr "કેલેન્ડર ગુણધર્મો"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:479
+#: ../calendar/gui/dialogs/calendar-setup.c:480
 msgid "New Calendar"
 msgstr "નવું કેલેન્ડર"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:564
+#: ../calendar/gui/dialogs/calendar-setup.c:536
 msgid "Task List Properties"
 msgstr "બાબત યાદી ગુણધર્મો"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:630
+#: ../calendar/gui/dialogs/calendar-setup.c:592
 msgid "New Memo List"
 msgstr "નવી મેમો યાદી"
 
@@ -5823,8 +5816,8 @@ msgid "This task has been deleted."
 msgstr "આ બાબત કાઢી નંખાયેલ છે."
 
 #: ../calendar/gui/dialogs/changed-comp.c:68
-msgid "This journal entry has been deleted."
-msgstr "આ જર્નલ પ્રવેશ કાઢી નંખાયેલ છે."
+msgid "This memo has been deleted."
+msgstr "આ મેમો કાઢી નંખાયેલ છે."
 
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
@@ -5845,8 +5838,8 @@ msgid "This task has been changed."
 msgstr "બાબત બદલાઈ ગયેલ છે."
 
 #: ../calendar/gui/dialogs/changed-comp.c:92
-msgid "This journal entry has been changed."
-msgstr "જર્નલ પ્રવેશ બદલાઈ ગયો છે."
+msgid "This memo has been changed."
+msgstr "આ મેમો બદલાઈ ગયેલ છે."
 
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
@@ -5900,7 +5893,7 @@ msgstr[1] "%d જોડાયેલ સંદેશાઓ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3222
 #: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:369
-#: ../mail/em-folder-view.c:1115 ../mail/message-list.c:1963
+#: ../mail/em-folder-view.c:1114 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "ખસેડો (_M)"
 
@@ -5930,7 +5923,7 @@ msgid "Show Attachment _Bar"
 msgstr "જોડાણ પટ્ટી બતાવો (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../calendar/gui/dialogs/event-page.c:1974
+#: ../calendar/gui/dialogs/event-page.c:1976
 #: ../calendar/gui/dialogs/task-page.c:1252 ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
@@ -5950,7 +5943,7 @@ msgid "_Add attachment..."
 msgstr "જોડાણ ઉમેરો (_A)..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1566
-#: ../mail/em-format-html-display.c:2318
+#: ../mail/em-format-html-display.c:2320
 msgid "Show Attachments"
 msgstr "જોડાણો બતાવો"
 
@@ -5990,26 +5983,26 @@ msgstr "બાબત - %s"
 #: ../calendar/gui/dialogs/comp-editor.c:2190
 #: ../calendar/gui/dialogs/comp-editor.c:2233
 #, c-format
-msgid "Journal entry - %s"
-msgstr "જર્નલ પ્રવેશ - %s"
+msgid "Memo - %s"
+msgstr "મેમો - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2201
 #: ../calendar/gui/dialogs/comp-editor.c:2243
 msgid "No summary"
 msgstr "કોઈ સાર નથી"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2789 ../mail/em-utils.c:370
+#: ../calendar/gui/dialogs/comp-editor.c:2791 ../mail/em-utils.c:370
 #: ../widgets/misc/e-attachment-bar.c:361
 msgid "attachment"
 msgstr "જોડાણ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2878
-#: ../calendar/gui/dialogs/comp-editor.c:2932
-#: ../calendar/gui/dialogs/comp-editor.c:2956
+#: ../calendar/gui/dialogs/comp-editor.c:2880
+#: ../calendar/gui/dialogs/comp-editor.c:2934
+#: ../calendar/gui/dialogs/comp-editor.c:2958
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "આ વસ્તુમાં કરેલા ફેરફારો રદ કરાશે જો સુધારો થાય તો"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2985
+#: ../calendar/gui/dialogs/comp-editor.c:2987
 msgid "Unable to use current version!"
 msgstr "વર્તમાન આવૃત્તિ વાપરવા માટે અસમર્થ!"
 
@@ -6038,8 +6031,8 @@ msgid "The task could not be deleted due to a corba error"
 msgstr "કોર્બા ભૂલને કારણે બાબત કાઢી શકાઈ નહિં"
 
 #: ../calendar/gui/dialogs/delete-error.c:60
-msgid "The journal entry could not be deleted due to a corba error"
-msgstr "કોર્બા ભૂલને કારણે જર્નલ પ્રવેશ કાઢી શકાશે નહિં"
+msgid "The memo could not be deleted due to a corba error"
+msgstr "કોર્બા ભૂલને કારણે મેમો કાઢી શક્યા નહિં"
 
 #: ../calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
@@ -6054,8 +6047,8 @@ msgid "The task could not be deleted because permission was denied"
 msgstr "બાબત કાઢી શકાઈ નહિં કારણકે પરવાનગી નથી"
 
 #: ../calendar/gui/dialogs/delete-error.c:76
-msgid "The journal entry could not be deleted because permission was denied"
-msgstr "જર્નલ પ્રવેશ કાઢી શકાયો નહિં કારણકે પરવાનગી નથી"
+msgid "The memo could not be deleted because permission was denied"
+msgstr "મેમો કાઢી શક્યા નહિં કારણકે પરવાનગી નથી"
 
 #: ../calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
@@ -6070,8 +6063,8 @@ msgid "The task could not be deleted due to an error"
 msgstr "ભૂલને કારણે બાબત કાઢી શકાઈ નહિં"
 
 #: ../calendar/gui/dialogs/delete-error.c:92
-msgid "The journal entry could not be deleted due to an error"
-msgstr "ભૂલને કારણે જર્નલ પ્રવેશ કાઢી શકાયો નહિં"
+msgid "The memo could not be deleted due to an error"
+msgstr "ભૂલને કારણે મેમો કાઢી શક્યા નહિં"
 
 #: ../calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
@@ -6099,12 +6092,12 @@ msgstr "મુલાકાત (_m)"
 msgid "Recurrence"
 msgstr "વળતર"
 
-#: ../calendar/gui/dialogs/event-page.c:833
-#: ../calendar/gui/dialogs/event-page.c:2850
+#: ../calendar/gui/dialogs/event-page.c:835
+#: ../calendar/gui/dialogs/event-page.c:2852
 msgid "This event has alarms"
 msgstr "આ ઘટનાને એલાર્મો છે"
 
-#: ../calendar/gui/dialogs/event-page.c:913
+#: ../calendar/gui/dialogs/event-page.c:915
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
@@ -6112,107 +6105,107 @@ msgstr "આ ઘટનાને એલાર્મો છે"
 msgid "Or_ganizer:"
 msgstr "આયોજક (_g):"
 
-#: ../calendar/gui/dialogs/event-page.c:951
+#: ../calendar/gui/dialogs/event-page.c:953
 msgid "_Delegatees"
 msgstr "પ્રતિનિધિઓ (_D)"
 
-#: ../calendar/gui/dialogs/event-page.c:953
+#: ../calendar/gui/dialogs/event-page.c:955
 msgid "Atte_ndees"
 msgstr "સભાજનો (_n)"
 
-#: ../calendar/gui/dialogs/event-page.c:1136
+#: ../calendar/gui/dialogs/event-page.c:1138
 msgid "Event with no start date"
 msgstr "શરુઆતની તારીખ વગરની ઘટના"
 
-#: ../calendar/gui/dialogs/event-page.c:1139
+#: ../calendar/gui/dialogs/event-page.c:1141
 msgid "Event with no end date"
 msgstr "અંતિમ તારીખ વગરની ઘટના"
 
-#: ../calendar/gui/dialogs/event-page.c:1310
+#: ../calendar/gui/dialogs/event-page.c:1312
 #: ../calendar/gui/dialogs/memo-page.c:693
 #: ../calendar/gui/dialogs/task-page.c:878
 msgid "Start date is wrong"
 msgstr "શરુઆતની તારીખ ખોટી છે"
 
-#: ../calendar/gui/dialogs/event-page.c:1320
+#: ../calendar/gui/dialogs/event-page.c:1322
 msgid "End date is wrong"
 msgstr "અંતિમ તારીખ ખોટી છે"
 
-#: ../calendar/gui/dialogs/event-page.c:1343
+#: ../calendar/gui/dialogs/event-page.c:1345
 msgid "Start time is wrong"
 msgstr "શરુઆતનો સમય ખોટો છે"
 
-#: ../calendar/gui/dialogs/event-page.c:1350
+#: ../calendar/gui/dialogs/event-page.c:1352
 msgid "End time is wrong"
 msgstr "અંતિમ સમય ખોટો છે"
 
-#: ../calendar/gui/dialogs/event-page.c:1512
+#: ../calendar/gui/dialogs/event-page.c:1514
 #: ../calendar/gui/dialogs/memo-page.c:733
 #: ../calendar/gui/dialogs/task-page.c:940
 msgid "The organizer selected no longer has an account."
 msgstr "પસંદ થયેલ આયોજકને લાંબા સમય સુધી ખાતુ મળશે નહિં."
 
-#: ../calendar/gui/dialogs/event-page.c:1518
+#: ../calendar/gui/dialogs/event-page.c:1520
 #: ../calendar/gui/dialogs/memo-page.c:739
 #: ../calendar/gui/dialogs/task-page.c:946
 msgid "An organizer is required."
 msgstr "આયોજક જરુરી છે."
 
-#: ../calendar/gui/dialogs/event-page.c:1543
+#: ../calendar/gui/dialogs/event-page.c:1545
 #: ../calendar/gui/dialogs/task-page.c:970
 msgid "At least one attendee is required."
 msgstr "ઓછામાં ઓછો એક સભા ભરનાર તો હોવો જ જોઈએ."
 
-#: ../calendar/gui/dialogs/event-page.c:1975
+#: ../calendar/gui/dialogs/event-page.c:1977
 #: ../calendar/gui/dialogs/task-page.c:1253
 msgid "_Add "
 msgstr "ઉમેરો (_A) "
 
-#: ../calendar/gui/dialogs/event-page.c:2721
+#: ../calendar/gui/dialogs/event-page.c:2723
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "કેલેન્ડર '%s' ખોલી શકાય એમ નથી."
 
-#: ../calendar/gui/dialogs/event-page.c:2770
+#: ../calendar/gui/dialogs/event-page.c:2772
 #: ../calendar/gui/dialogs/memo-page.c:1138
 #: ../calendar/gui/dialogs/task-page.c:1948
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "તમે %s ના વતી કામ કરી રહ્યા છો"
 
-#: ../calendar/gui/dialogs/event-page.c:3066
+#: ../calendar/gui/dialogs/event-page.c:3068
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "મુલાકાત પહેલાનો %d દિવસ"
 msgstr[1] "મુલાકાત પહેલાના %d દિવસો "
 
-#: ../calendar/gui/dialogs/event-page.c:3072
+#: ../calendar/gui/dialogs/event-page.c:3074
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "મુલાકાત પહેલાનો %d કલાક"
 msgstr[1] "મુલાકાત પહેલાના %d કલાકો"
 
-#: ../calendar/gui/dialogs/event-page.c:3078
+#: ../calendar/gui/dialogs/event-page.c:3080
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "મુલાકાત પહેલાં %d મિનિટ"
 msgstr[1] "મુલાકાત પહેલાં %d મિનિટો"
 
-#: ../calendar/gui/dialogs/event-page.c:3091
+#: ../calendar/gui/dialogs/event-page.c:3093
 msgid "Customize"
 msgstr "વૈવિધ્યપૂર્ણ બનાવો"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:3096
+#: ../calendar/gui/dialogs/event-page.c:3098
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2369
 #: ../filter/filter-rule.c:891 ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1421 ../mail/em-account-prefs.c:478
-#: ../mail/em-junk-hook.c:78
+#: ../mail/em-junk-hook.c:83
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:200
@@ -6314,9 +6307,9 @@ msgstr "મેમો"
 msgid "Unable to open memos in '%s'."
 msgstr "'%s' માં મેમો ખોલવામાં અસમર્થ."
 
-#: ../calendar/gui/dialogs/memo-page.c:1076 ../mail/em-format-html.c:1516
-#: ../mail/em-format-html.c:1530 ../mail/em-format-html.c:1588
-#: ../mail/em-format-html.c:1614 ../mail/em-format-quote.c:207
+#: ../calendar/gui/dialogs/memo-page.c:1076 ../mail/em-format-html.c:1517
+#: ../mail/em-format-html.c:1531 ../mail/em-format-html.c:1589
+#: ../mail/em-format-html.c:1615 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:18
 msgid "To"
@@ -6354,8 +6347,8 @@ msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "તમે રીકરીંગ બાબત સુધારી રહ્યા છો. તમે શું સુધારવા માંગો છો?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid "You are modifying a recurring journal entry. What would you like to modify?"
-msgstr "તમે રીકરીંગ જર્નલ પ્રવેશ સુધારી રહ્યા છો. તમે શું સુધારવા માંગો છો?"
+msgid "You are modifying a recurring memo. What would you like to modify?"
+msgstr "તમે રીકરીંગ મેમો સુધારી રહ્યા છો. તમે શું સુધારવા માંગો છો?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:87
 msgid "This Instance Only"
@@ -6753,7 +6746,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s અજ્ઞાત પ્રકારની ફેરબદલી માટે"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3002
+#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3001
 #, c-format
 msgid "Click to open %s"
 msgstr "%s ખોલવા માટે ક્લિક કરો"
@@ -6778,7 +6771,7 @@ msgstr "શરુઆતની તારીખ:"
 msgid "Description:"
 msgstr "વર્ણન:"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:258
+#: ../calendar/gui/e-cal-component-memo-preview.c:261
 #: ../calendar/gui/e-cal-component-preview.c:307
 msgid "Web Page:"
 msgstr "વેબ પાનું:"
@@ -6901,7 +6894,7 @@ msgstr "સોંપેલ"
 msgid "Save As..."
 msgstr "આ રીતે સંગ્રહો..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2163
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2165
 msgid "Select folder to save selected attachments..."
 msgstr "પસંદિત જોડાણો સંગ્રહવા માટે ફોલ્ડર પસંદ કરો..."
 
@@ -6912,7 +6905,7 @@ msgstr "untitled_image.%s"
 
 #: ../calendar/gui/e-cal-popup.c:279 ../calendar/gui/e-calendar-table.c:1355
 #: ../calendar/gui/e-calendar-view.c:1680 ../calendar/gui/e-memo-table.c:977
-#: ../mail/em-folder-view.c:1230 ../mail/em-popup.c:567 ../mail/em-popup.c:578
+#: ../mail/em-folder-view.c:1229 ../mail/em-popup.c:567 ../mail/em-popup.c:578
 msgid "_Save As..."
 msgstr "આ રીતે સંગ્રહો (_S)..."
 
@@ -7002,7 +6995,7 @@ msgstr "વેબ પાનું ખોલો (_W)"
 #: ../calendar/gui/e-calendar-table.c:1356
 #: ../calendar/gui/e-calendar-view.c:1665
 #: ../calendar/gui/e-calendar-view.c:1681 ../calendar/gui/e-memo-table.c:978
-#: ../mail/em-folder-view.c:1231
+#: ../mail/em-folder-view.c:1230
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
@@ -7154,7 +7147,7 @@ msgstr "iCalendar તરીકે આગળ ધપાવો (_F)..."
 msgid "_Reply"
 msgstr "પ્રત્યુત્તર (_R)"
 
-#: ../calendar/gui/e-calendar-view.c:1697 ../mail/em-folder-view.c:1224
+#: ../calendar/gui/e-calendar-view.c:1697 ../mail/em-folder-view.c:1223
 #: ../mail/em-popup.c:572 ../mail/em-popup.c:583
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
@@ -7230,21 +7223,21 @@ msgstr "%02i મિનિટ ભાગલાઓ"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:1314
-#: ../calendar/gui/e-day-view.c:2092
+#: ../calendar/gui/e-day-view-top-item.c:1336
+#: ../calendar/gui/e-day-view.c:2098
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1503
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1092
+#: ../calendar/gui/e-day-view.c:749 ../calendar/gui/e-day-view.c:1095
 #: ../calendar/gui/e-week-view.c:503 ../calendar/gui/print.c:811
 msgid "am"
 msgstr "સવાર"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-day-view.c:1095
+#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-day-view.c:1098
 #: ../calendar/gui/e-week-view.c:506 ../calendar/gui/print.c:813
 msgid "pm"
 msgstr "સાંજ"
@@ -8083,8 +8076,8 @@ msgid "Task information"
 msgstr "બાબતની જાણકારી"
 
 #: ../calendar/gui/itip-utils.c:696 ../calendar/gui/itip-utils.c:819
-msgid "Journal information"
-msgstr "જર્નલની જાણકારી"
+msgid "Memo information"
+msgstr "મેમો જાણકારી"
 
 #: ../calendar/gui/itip-utils.c:698 ../calendar/gui/itip-utils.c:837
 msgid "Free/Busy information"
@@ -8141,52 +8134,52 @@ msgstr[1] ", %d પસંદ થયેલ"
 msgid "Failed upgrading memos."
 msgstr "મેમો સુધારવામાં નિષ્ફળ."
 
-#: ../calendar/gui/memos-component.c:887
+#: ../calendar/gui/memos-component.c:897
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr "ઘટનાઓ અને મંત્રણાઓ બનાવવા માટે મેમો યાદી '%s' ખોલવામાં અસમર્થ"
 
-#: ../calendar/gui/memos-component.c:900
+#: ../calendar/gui/memos-component.c:910
 msgid "There is no calendar available for creating memos"
 msgstr "મેમો બનાવવા માટે કોઈ કેલેન્ડર ઉપલબ્ધ નથી"
 
-#: ../calendar/gui/memos-component.c:996
+#: ../calendar/gui/memos-component.c:1006
 msgid "Memo Source Selector"
 msgstr "મેમો સ્રોત પસંદ કરનાર"
 
-#: ../calendar/gui/memos-component.c:1179
+#: ../calendar/gui/memos-component.c:1189
 msgid "New memo"
 msgstr "નવી મેમો"
 
-#: ../calendar/gui/memos-component.c:1180
+#: ../calendar/gui/memos-component.c:1190
 msgid "Mem_o"
 msgstr "મેમો (_o)"
 
-#: ../calendar/gui/memos-component.c:1181
+#: ../calendar/gui/memos-component.c:1191
 msgid "Create a new memo"
 msgstr "નવી મેમો બનાવો"
 
-#: ../calendar/gui/memos-component.c:1187
+#: ../calendar/gui/memos-component.c:1197
 msgid "New shared memo"
 msgstr "નવો વહેંચાયેલ મેમો"
 
-#: ../calendar/gui/memos-component.c:1188
+#: ../calendar/gui/memos-component.c:1198
 msgid "_Shared memo"
 msgstr "વહેંચાયેલ મેમો (_S)"
 
-#: ../calendar/gui/memos-component.c:1189
+#: ../calendar/gui/memos-component.c:1199
 msgid "Create a shared new memo"
 msgstr "વહેંચાયેલ નવો મેમો બનાવો"
 
-#: ../calendar/gui/memos-component.c:1195
+#: ../calendar/gui/memos-component.c:1205
 msgid "New memo list"
 msgstr "નવી મેમો યાદી"
 
-#: ../calendar/gui/memos-component.c:1196
+#: ../calendar/gui/memos-component.c:1206
 msgid "Memo li_st"
 msgstr "મેમો યાદી (_s)"
 
-#: ../calendar/gui/memos-component.c:1197
+#: ../calendar/gui/memos-component.c:1207
 msgid "Create a new memo list"
 msgstr "નવી મેમો યાદી બનાવો"
 
@@ -8234,9 +8227,9 @@ msgid "Unable to migrate tasks `%s'"
 msgstr "બાબતો `%s' ફેરવવામાં અસમર્થ"
 
 #: ../calendar/gui/migration.c:1226
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:398
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:429
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:542
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:402
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:433
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:546
 msgid "Notes"
 msgstr "નોંધો"
 
@@ -8577,7 +8570,7 @@ msgstr "આફ્રિકા/અકારા"
 
 #: ../calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr "આફ્રિકા/અાદિસ અબાબા (_A)"
+msgstr "આફ્રિકા/આદિસ અબાબા (_A)"
 
 #: ../calendar/zones.h:10
 msgid "Africa/Algiers"
@@ -10592,7 +10585,7 @@ msgstr "મહત્વનું"
 
 #. forest green
 #: ../filter/filter-label.c:123 ../mail/em-migrate.c:1057
-#: ../mail/mail-config.glade.h:148
+#: ../mail/mail-config.glade.h:150
 msgid "To Do"
 msgstr "કરવાનું"
 
@@ -10751,7 +10744,7 @@ msgstr "ભવિષ્યમાં"
 msgid "months"
 msgstr "મહિનાઓ"
 
-#: ../filter/filter.glade.h:19 ../mail/mail-config.glade.h:186
+#: ../filter/filter.glade.h:19 ../mail/mail-config.glade.h:188
 msgid "seconds"
 msgstr "સેકન્ડો"
 
@@ -10824,7 +10817,7 @@ msgstr "ઈવોલ્યુશન મેઈલ કમ્પોઝર રુપ
 msgid "Evolution Mail preferences control"
 msgstr "ઈવોલ્યુશન મેઈલ પસંદગીઓ નિયંત્રણ"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:606
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:605
 #: ../mail/importers/elm-importer.c:341 ../mail/importers/pine-importer.c:387
 #: ../mail/mail-component.c:568 ../mail/mail-component.c:569
 #: ../mail/mail-component.c:729
@@ -10885,7 +10878,7 @@ msgstr "ઈ-મેઈલ મેળવી રહ્યા છીએ"
 msgid "Automatically check for _new mail every"
 msgstr "દરેક નવા મેઈલ માટે આપોઆપ ચકાસો (_n)"
 
-#: ../mail/em-account-editor.c:2237 ../mail/mail-config.glade.h:132
+#: ../mail/em-account-editor.c:2237 ../mail/mail-config.glade.h:134
 msgid "Sending Email"
 msgstr "ઈ-મેઈલ મોકલી રહ્યા છીએ"
 
@@ -11240,7 +11233,7 @@ msgstr "ની સાથે શરુ થાય છે"
 msgid "Stop Processing"
 msgstr "પ્રક્રિયા કરવાનું બંધ કરો"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1687
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1688
 #: ../mail/em-format-quote.c:320 ../mail/em-format.c:855
 #: ../mail/em-mailer-prefs.c:92 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
@@ -11479,13 +11472,13 @@ msgstr "કચરાપેટી ખાલી કરો (_E)"
 msgid "Copying `%s' to `%s'"
 msgstr "`%s' ને `%s' માં નકલ કરી રહ્યા છીએ"
 
-#: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1115
-#: ../mail/em-folder-view.c:1130
+#: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1114
+#: ../mail/em-folder-view.c:1129
 #: ../mail/importers/evolution-mbox-importer.c:86
 msgid "Select folder"
 msgstr "ફોલ્ડર પસંદ કરો"
 
-#: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1130
+#: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1129
 msgid "C_opy"
 msgstr "નકલ કરો (_o)"
 
@@ -11507,162 +11500,162 @@ msgstr "ફોલ્ડર બનાવો"
 msgid "Specify where to create the folder:"
 msgstr "સ્પષ્ટ કરો કે ક્યાં ફોલ્ડર બનાવવું છે:"
 
-#: ../mail/em-folder-view.c:1051 ../mail/mail.error.xml.h:68
+#: ../mail/em-folder-view.c:1050 ../mail/mail.error.xml.h:68
 msgid "Mail Deletion Failed"
 msgstr "મેઈલ કાઢવામાં નિષ્ફળ"
 
-#: ../mail/em-folder-view.c:1052 ../mail/mail.error.xml.h:123
+#: ../mail/em-folder-view.c:1051 ../mail/mail.error.xml.h:123
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "આ મેઈલ કાઢવા માટે તમારી પાસે પૂરતી પરવાનગીઓ નથી."
 
-#: ../mail/em-folder-view.c:1223 ../ui/evolution-mail-message.xml.h:127
+#: ../mail/em-folder-view.c:1222 ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "મોકલનારને વળતો જવાબ આપો (_R)"
 
-#: ../mail/em-folder-view.c:1225 ../mail/em-popup.c:574 ../mail/em-popup.c:585
+#: ../mail/em-folder-view.c:1224 ../mail/em-popup.c:574 ../mail/em-popup.c:585
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "આગળ ધપાવો (_F)"
 
 #. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
-#: ../mail/em-folder-view.c:1229 ../ui/evolution-mail-message.xml.h:107
+#: ../mail/em-folder-view.c:1228 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "નવા સંદેશાઓમાં ફેરફાર કરો (_E)..."
 
-#: ../mail/em-folder-view.c:1235
+#: ../mail/em-folder-view.c:1234
 msgid "U_ndelete"
 msgstr "કાઢી નંહિ (_n)"
 
-#: ../mail/em-folder-view.c:1236
+#: ../mail/em-folder-view.c:1235
 msgid "_Move to Folder..."
 msgstr "ફોલ્ડરમાં ખસેડો (_M)..."
 
-#: ../mail/em-folder-view.c:1237
+#: ../mail/em-folder-view.c:1236
 msgid "_Copy to Folder..."
 msgstr "આ ફોલ્ડરમાં નકલ કરો (_C)..."
 
-#: ../mail/em-folder-view.c:1240
+#: ../mail/em-folder-view.c:1239
 msgid "Mar_k as Read"
 msgstr "વાંચ્યુ હોય એમ નિશાનિત કરો (_k)"
 
-#: ../mail/em-folder-view.c:1241
+#: ../mail/em-folder-view.c:1240
 msgid "Mark as _Unread"
 msgstr "નહિં વાંચેલ છે એમ ચિહ્નિત કરો (_U)"
 
-#: ../mail/em-folder-view.c:1242
+#: ../mail/em-folder-view.c:1241
 msgid "Mark as _Important"
 msgstr "મહત્વનું એમ નિશાનિત કરો (_I)"
 
-#: ../mail/em-folder-view.c:1243
+#: ../mail/em-folder-view.c:1242
 msgid "Mark as Un_important"
 msgstr "મહત્વનું નથી એમ નિશાનિત કરો (_i)"
 
-#: ../mail/em-folder-view.c:1244
+#: ../mail/em-folder-view.c:1243
 msgid "Mark as _Junk"
 msgstr "બગડેલ છે એમ નિશાનિત કરો (_J)"
 
-#: ../mail/em-folder-view.c:1245
+#: ../mail/em-folder-view.c:1244
 msgid "Mark as _Not Junk"
 msgstr "બગડેલ નથી એમ નિશાનિત કરો (_N)"
 
-#: ../mail/em-folder-view.c:1246
+#: ../mail/em-folder-view.c:1245
 msgid "Mark for Follo_w Up..."
 msgstr "અનુસરણ માટેનું ચિહ્ન (_w)..."
 
-#: ../mail/em-folder-view.c:1248
+#: ../mail/em-folder-view.c:1247
 msgid "_Label"
 msgstr "લેબલ (_L)"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1249 ../widgets/misc/e-dateedit.c:473
+#: ../mail/em-folder-view.c:1248 ../widgets/misc/e-dateedit.c:473
 msgid "_None"
 msgstr "કંઈ નહિં (_N)"
 
-#: ../mail/em-folder-view.c:1254
+#: ../mail/em-folder-view.c:1253
 msgid "Fla_g Completed"
 msgstr "નિશાની પૂર્ણ થયેલ છે (_g)"
 
-#: ../mail/em-folder-view.c:1255
+#: ../mail/em-folder-view.c:1254
 msgid "Cl_ear Flag"
 msgstr "નિશાની સાફ કરો (_e)"
 
-#: ../mail/em-folder-view.c:1258
+#: ../mail/em-folder-view.c:1257
 msgid "Crea_te Rule From Message"
 msgstr "સંદેશામાંથી નિયમ બનાવો (_t)"
 
-#: ../mail/em-folder-view.c:1259
+#: ../mail/em-folder-view.c:1258
 msgid "Search Folder from _Subject"
 msgstr "વિષયમાંથી ફોલ્ડર શોધો (_S)"
 
-#: ../mail/em-folder-view.c:1260
+#: ../mail/em-folder-view.c:1259
 msgid "Search Folder from Se_nder"
 msgstr "મોકલનારમાંથી ફોલ્ડર શોધો (_n)"
 
-#: ../mail/em-folder-view.c:1261
+#: ../mail/em-folder-view.c:1260
 msgid "Search Folder from _Recipients"
 msgstr "મેળવનારમાંથી ફોલ્ડર શોધો (_R)"
 
-#: ../mail/em-folder-view.c:1262
+#: ../mail/em-folder-view.c:1261
 msgid "Search Folder from Mailing _List"
 msgstr "મેઈલિંગ યાદીમાંથી ફોલ્ડર શોધો (_L)"
 
-#: ../mail/em-folder-view.c:1266
+#: ../mail/em-folder-view.c:1265
 msgid "Filter on Sub_ject"
 msgstr "વિષય પર ગાળો (_j)"
 
-#: ../mail/em-folder-view.c:1267
+#: ../mail/em-folder-view.c:1266
 msgid "Filter on Sen_der"
 msgstr "મોકલનાર પર ગાળો (_d)"
 
-#: ../mail/em-folder-view.c:1268
+#: ../mail/em-folder-view.c:1267
 msgid "Filter on Re_cipients"
 msgstr "મેળવનારા પર ગાળો (_c)"
 
-#: ../mail/em-folder-view.c:1269
+#: ../mail/em-folder-view.c:1268
 msgid "Filter on _Mailing List"
 msgstr "મેઈલીંગ યાદી પર ગાળો (_M)"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2099 ../mail/em-folder-view.c:2143
+#: ../mail/em-folder-view.c:2098 ../mail/em-folder-view.c:2142
 msgid "Default"
 msgstr "મૂળભુત"
 
-#: ../mail/em-folder-view.c:2356
+#: ../mail/em-folder-view.c:2355
 msgid "Unable to retrieve message"
 msgstr "સંદેશો પાછો મેળવવા સમર્થ નથી"
 
-#: ../mail/em-folder-view.c:2375
+#: ../mail/em-folder-view.c:2374
 msgid "Retrieving Message..."
 msgstr "સંદેશો પુનઃપ્રાપ્ત કરી રહ્યા છીએ..."
 
-#: ../mail/em-folder-view.c:2603
+#: ../mail/em-folder-view.c:2602
 msgid "C_all To..."
 msgstr "ને કોલ કરો (_a)..."
 
-#: ../mail/em-folder-view.c:2606
+#: ../mail/em-folder-view.c:2605
 msgid "Create _Search Folder"
 msgstr "શોધ ફોલ્ડર બનાવો (_S)"
 
-#: ../mail/em-folder-view.c:2607
+#: ../mail/em-folder-view.c:2606
 msgid "_From this Address"
 msgstr "આ સરનામા તરફથી (_F)"
 
-#: ../mail/em-folder-view.c:2608
+#: ../mail/em-folder-view.c:2607
 msgid "_To this Address"
 msgstr "આ સરનામા પ્રતિ (_T)"
 
-#: ../mail/em-folder-view.c:2983
+#: ../mail/em-folder-view.c:2982
 #, c-format
 msgid "Click to mail %s"
 msgstr "મેઈલ %s કરવા માટે ક્લિક કરો"
 
-#: ../mail/em-folder-view.c:2995
+#: ../mail/em-folder-view.c:2994
 #, c-format
 msgid "Click to call %s"
 msgstr "%s ને કોલ કરવા માટે ક્લિક કરો"
 
-#: ../mail/em-folder-view.c:3000
+#: ../mail/em-folder-view.c:2999
 msgid "Click to hide/unhide addresses"
 msgstr "સંદેશાઓ છુપાવવા/બતાવવા ક્લિક કરો"
 
@@ -11719,9 +11712,9 @@ msgid ""
 "in transit."
 msgstr "આ સંદેશાની આ સહી ચકાસાયેલ નથી, તે પરિવહન દરમ્યાન બદલી દેવાયેલ છે."
 
-#: ../mail/em-format-html-display.c:941
-msgid "Valid signature, cannot verify sender"
-msgstr "માન્ય સહી, મોકલનારને ચકાસી શકતા નથી"
+#: ../mail/em-format-html-display.c:941 ../mail/em-format-html.c:635
+msgid "Valid signature, but cannot verify sender"
+msgstr "માન્ય સહી, પરંતુ મોકલનારને ચકાસી શકતા નથી"
 
 #: ../mail/em-format-html-display.c:941
 msgid ""
@@ -11729,21 +11722,31 @@ msgid ""
 "cannot be verified."
 msgstr "આ સંદેશો માન્ય સહી સાથે સહી કરાયેલ છે, પરંતુ સંદેશાનો મોકલનાર ચકાસી શકાતો નથી."
 
-#: ../mail/em-format-html-display.c:947 ../mail/em-format-html.c:641
+#: ../mail/em-format-html-display.c:942 ../mail/em-format-html.c:636
+msgid "Signature exists, but need public key"
+msgstr "સહી અસ્તિત્વમાં છે, પરંતુ જાહેર કી જરૂરી"
+
+#: ../mail/em-format-html-display.c:942
+msgid ""
+"This message is signed with a signature, but there is no corresponding "
+"public key."
+msgstr "આ સંદેશો સહી સાથે સહી કરાયેલ છે, પરંતુ ત્યાં કોઈ લાગતીવળગતી જાહેર કી નથી."
+
+#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:642
 msgid "Unencrypted"
 msgstr "એનક્રિપ્ટ થયેલ નથી"
 
-#: ../mail/em-format-html-display.c:947
+#: ../mail/em-format-html-display.c:949
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr "સંદેશો એનક્રિપ્ટ થયેલ નથી. તેના સમાવિષ્ટો ઈન્ટરનેટ પર પરિવહન દરમ્યાન દેખાઈ શકે છે."
 
-#: ../mail/em-format-html-display.c:948 ../mail/em-format-html.c:642
+#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:643
 msgid "Encrypted, weak"
 msgstr "એનક્રિપ્ટ થયેલ, નબળુ"
 
-#: ../mail/em-format-html-display.c:948
+#: ../mail/em-format-html-display.c:950
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11752,21 +11755,21 @@ msgstr ""
 "આ સંદેશો એનક્રિપ્ટ થયેલ છે, પરંતુ નબળા એનક્રિપ્શન અલગોરિધમ સાથે. તે મુશ્કેલ હશે, પરંતુ એ "
 "બહારના વ્યક્તિ માટે પ્રાયોગિક સમય દરમ્યાન સંદેશાના સમાવિષ્ટો જોવાનું અશક્ય નથી."
 
-#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:643
+#: ../mail/em-format-html-display.c:951 ../mail/em-format-html.c:644
 msgid "Encrypted"
 msgstr "એનક્રિપ્ટ થયેલ"
 
-#: ../mail/em-format-html-display.c:949
+#: ../mail/em-format-html-display.c:951
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "સંદેશો એનક્રિપ્ટ થયેલ છે. બહારની વ્યક્તિ માટે આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
 
-#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:644
+#: ../mail/em-format-html-display.c:952 ../mail/em-format-html.c:645
 msgid "Encrypted, strong"
 msgstr "એનક્રિપ્ટ થયેલ, મજબૂત"
 
-#: ../mail/em-format-html-display.c:950
+#: ../mail/em-format-html-display.c:952
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11775,92 +11778,92 @@ msgstr ""
 "આ સંદેશો એનક્રિપ્ટ થયેલ છે, મજબૂત એનક્રિપ્શન અલગોરિધમ સાથે. બહારની વ્યક્તિ માટે પ્રાયોગિક "
 "સમય દરમ્યાન આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
 
-#: ../mail/em-format-html-display.c:1051 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1053 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "પ્રમાણપત્ર જુઓ (_V)"
 
-#: ../mail/em-format-html-display.c:1066
+#: ../mail/em-format-html-display.c:1068
 msgid "This certificate is not viewable"
 msgstr "આ પ્રમાણપત્ર જોઈ શકાય એમ નથી"
 
-#: ../mail/em-format-html-display.c:1385
+#: ../mail/em-format-html-display.c:1387
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p પૂર્ણ થઈ જશે"
 
-#: ../mail/em-format-html-display.c:1393
+#: ../mail/em-format-html-display.c:1395
 msgid "Overdue:"
 msgstr "ઈચ્છિત સમયે નહિં થયેલ કાર્ય:"
 
-#: ../mail/em-format-html-display.c:1396
+#: ../mail/em-format-html-display.c:1398
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p દ્વારા"
 
-#: ../mail/em-format-html-display.c:1456
+#: ../mail/em-format-html-display.c:1458
 msgid "_View Inline"
 msgstr "લીટીમાં જુઓ (_V)"
 
-#: ../mail/em-format-html-display.c:1457
+#: ../mail/em-format-html-display.c:1459
 msgid "_Hide"
 msgstr "છુપાવો (_H)"
 
-#: ../mail/em-format-html-display.c:1458
+#: ../mail/em-format-html-display.c:1460
 msgid "_Fit to Width"
 msgstr "પહોળાઈમાં બંધબેસાડો (_F)"
 
-#: ../mail/em-format-html-display.c:1459
+#: ../mail/em-format-html-display.c:1461
 msgid "Show _Original Size"
 msgstr "મૂળ માપ બતાવો (_O)"
 
-#: ../mail/em-format-html-display.c:1903 ../mail/em-format-html-display.c:2514
+#: ../mail/em-format-html-display.c:1905 ../mail/em-format-html-display.c:2516
 #: ../mail/mail-config.glade.h:44 ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "જોડાણ"
 
-#: ../mail/em-format-html-display.c:2117
+#: ../mail/em-format-html-display.c:2119
 msgid "Save attachment as"
 msgstr "જોડાણ આ રીતે સંગ્રહો"
 
-#: ../mail/em-format-html-display.c:2121
+#: ../mail/em-format-html-display.c:2123
 msgid "Select folder to save all attachments"
 msgstr "બધા જોડાણો સંગ્રહવા માટે ફોલ્ડર પસંદ કરો"
 
-#: ../mail/em-format-html-display.c:2172
+#: ../mail/em-format-html-display.c:2174
 msgid "_Save Selected..."
 msgstr "પસંદિત સંગ્રહો (_S)..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2239
+#: ../mail/em-format-html-display.c:2241
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
 msgstr[0] "%d જોડાણ (_t)"
 msgstr[1] "%d જોડાણો (_t)"
 
-#: ../mail/em-format-html-display.c:2246 ../mail/em-format-html-display.c:2324
+#: ../mail/em-format-html-display.c:2248 ../mail/em-format-html-display.c:2326
 msgid "S_ave"
 msgstr "સંગ્રહો (_a)"
 
-#: ../mail/em-format-html-display.c:2257
+#: ../mail/em-format-html-display.c:2259
 msgid "S_ave All"
 msgstr "બધું સંગ્રહો (_a)"
 
-#: ../mail/em-format-html-display.c:2320
+#: ../mail/em-format-html-display.c:2322
 msgid "No Attachment"
 msgstr "કોઈ જોડાણ નથી"
 
-#: ../mail/em-format-html-display.c:2451 ../mail/em-format-html-display.c:2487
+#: ../mail/em-format-html-display.c:2453 ../mail/em-format-html-display.c:2489
 msgid "View _Unformatted"
 msgstr "બંધારણવિનાનું જુઓ (_U)"
 
-#: ../mail/em-format-html-display.c:2453
+#: ../mail/em-format-html-display.c:2455
 msgid "Hide _Unformatted"
 msgstr "બંધારણવિનાનું છુપાવો (_U)"
 
-#: ../mail/em-format-html-display.c:2506
+#: ../mail/em-format-html-display.c:2508
 msgid "O_pen With"
 msgstr "ની સાથે ખોલો (_p)"
 
-#: ../mail/em-format-html-display.c:2577
+#: ../mail/em-format-html-display.c:2579
 msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
@@ -11878,100 +11881,96 @@ msgstr "પાનુ %d %d નું"
 msgid "Retrieving `%s'"
 msgstr "`%s' મેળવી રહ્યા છીએ"
 
-#: ../mail/em-format-html.c:635
-msgid "Valid signature but cannot verify sender"
-msgstr "માન્ય સહી પરંતુ મોકલનારને ચકાસી શકતા નથી"
-
-#: ../mail/em-format-html.c:906
+#: ../mail/em-format-html.c:907
 msgid "Unknown external-body part."
 msgstr "અજ્ઞાત બાહ્ય-શરીર ભાગ."
 
-#: ../mail/em-format-html.c:914
+#: ../mail/em-format-html.c:915
 msgid "Malformed external-body part."
 msgstr "બાહ્ય ભાગનો કદરુપો ભાગ."
 
-#: ../mail/em-format-html.c:944
+#: ../mail/em-format-html.c:945
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "FTP સાઈટ (%s) નો નિર્દેશક"
 
-#: ../mail/em-format-html.c:955
+#: ../mail/em-format-html.c:956
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "સ્થાનિક ફાઈલ (%s) નો નિર્દેશક સાઈટ \"%s\" માન્ય છે"
 
-#: ../mail/em-format-html.c:957
+#: ../mail/em-format-html.c:958
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "સ્થાનિક ફાઈલ (%s) નો નિર્દેશક"
 
-#: ../mail/em-format-html.c:978
+#: ../mail/em-format-html.c:979
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "દૂરસ્થા માહિતી (%s) નો નિર્દેશક"
 
-#: ../mail/em-format-html.c:989
+#: ../mail/em-format-html.c:990
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "અજ્ઞાત બાહ્ય માહિતી (\"%s\" પ્રકારની) નો નિર્દેશક"
 
-#: ../mail/em-format-html.c:1216
+#: ../mail/em-format-html.c:1217
 msgid "Formatting message"
 msgstr "સંદેસાનું બંધારણ ઘડી રહ્યા છીએ"
 
-#: ../mail/em-format-html.c:1384
+#: ../mail/em-format-html.c:1385
 msgid "Formatting Message..."
 msgstr "સંદેસાનું બંધારણ ઘડી રહ્યા છીએ..."
 
-#: ../mail/em-format-html.c:1516 ../mail/em-format-quote.c:207
+#: ../mail/em-format-html.c:1517 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:87
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "તરફથી"
 
-#: ../mail/em-format-html.c:1516 ../mail/em-format-quote.c:207
+#: ../mail/em-format-html.c:1517 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
 msgstr "ને જવાબ આપો"
 
-#: ../mail/em-format-html.c:1516 ../mail/em-format-html.c:1531
-#: ../mail/em-format-html.c:1595 ../mail/em-format-html.c:1617
+#: ../mail/em-format-html.c:1517 ../mail/em-format-html.c:1532
+#: ../mail/em-format-html.c:1596 ../mail/em-format-html.c:1618
 #: ../mail/em-format-quote.c:207 ../mail/em-format.c:853
 #: ../mail/em-mailer-prefs.c:90
 msgid "Cc"
 msgstr "ને પણ"
 
-#: ../mail/em-format-html.c:1516 ../mail/em-format-html.c:1532
-#: ../mail/em-format-html.c:1601 ../mail/em-format-html.c:1620
+#: ../mail/em-format-html.c:1517 ../mail/em-format-html.c:1533
+#: ../mail/em-format-html.c:1602 ../mail/em-format-html.c:1621
 #: ../mail/em-format-quote.c:207 ../mail/em-format.c:854
 #: ../mail/em-mailer-prefs.c:91
 msgid "Bcc"
 msgstr "આને પણ ખબર વિના"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1691 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1692 ../mail/em-format-quote.c:329
 #: ../mail/em-mailer-prefs.c:1196
 msgid "Mailer"
 msgstr "મેઈલ મોકલનાર"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1718
+#: ../mail/em-format-html.c:1719
 msgid " (%a, %R %Z)"
 msgstr " (%a, %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1723
+#: ../mail/em-format-html.c:1724
 msgid " (%R %Z)"
 msgstr " (%R %Z)"
 
-#: ../mail/em-format-html.c:1735 ../mail/em-format-quote.c:336
+#: ../mail/em-format-html.c:1736 ../mail/em-format-quote.c:336
 #: ../mail/em-format.c:856 ../mail/em-mailer-prefs.c:93
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "તારીખ"
 
-#: ../mail/em-format-html.c:1758 ../mail/em-format.c:857
+#: ../mail/em-format-html.c:1759 ../mail/em-format.c:857
 #: ../mail/em-mailer-prefs.c:94
 msgid "Newsgroups"
 msgstr "સમાચાર જૂથો"
@@ -11979,7 +11978,7 @@ msgstr "સમાચાર જૂથો"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1848
+#: ../mail/em-format-html.c:1849
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "આ સંદેશો <b>%s</b> દ્વારા <b>%s</b> વતી મોકલાયેલ હતો"
@@ -12690,6 +12689,12 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid ""
+"This key is read only once and reset to false after read. This unselects the "
+"mail in the list and removes the preview for that folder."
+msgstr "આ કી માત્ર એક જ વાર વંચાવી જોઈએ અને વંચાયા પછી ખોટામાં પુનઃસુયોજીત થવી જોઈએ. આ યાદીમાંથી મેઈલની પસંદગી દૂર કરે છે અને તે ફોલ્ડર માટેનું પૂર્વદર્શન દૂર કરે છે."
+
+#: ../mail/evolution-mail.schemas.in.h:116
+msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
 "header enabled&gt; - set enabled if the header is to be displayed in the "
@@ -12699,11 +12704,11 @@ msgstr ""
 "થશે. XML સંરચનાનું બંધારણ &lt;હેડર સક્રિય&gt; હોય છે - સક્રિય સુયોજિત કરો જો હેડર એ મેઈલ "
 "દેખાવમાં પ્રદર્શિત થાય."
 
-#: ../mail/evolution-mail.schemas.in.h:116
+#: ../mail/evolution-mail.schemas.in.h:117
 msgid "This option would help in improving the speed of fetching."
 msgstr "આ વિકલ્પ મેળવવાની ઝડપ સુધારવામાં મદદ કરશે."
 
-#: ../mail/evolution-mail.schemas.in.h:117
+#: ../mail/evolution-mail.schemas.in.h:118
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -12711,21 +12716,13 @@ msgstr ""
 "આ મૂળભૂત સંદેશા યાદી દૃશ્યમાં બતાવવા માટેના સરનામાઓની સંખ્યાને સુયોજિત કરે છે, કે જેના પછી "
 "'...' બતાવાયેલ હોય."
 
-#: ../mail/evolution-mail.schemas.in.h:118
+#: ../mail/evolution-mail.schemas.in.h:119
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart"
 msgstr ""
 "આ સુયોજન સ્પષ્ટ કરે છે કે શું થ્રેડો વિસ્તૃત કે સંકુચિત સ્થિતિમાં મૂળભૂત રીતે હોવા જોઈએ. "
 "ઈવોલ્યુશનને પુનઃશરૂ કરવાની જરૂર છે"
-
-#: ../mail/evolution-mail.schemas.in.h:119
-msgid ""
-"This should be a once-readable option and resetted to false after read. This "
-"unselects the mail in the list and removes the preview for that folder."
-msgstr ""
-"આ એકવાર-વાંચી શકાય તેવો વિકલ્પ હોવો જોઈએ અને વાંચન પછી પુનઃસુયોજીત થવો જોઈએ. આ "
-"યાદીમાં મેઈલની પસંદગી દૂર કરે છે અને તે ફોલ્ડરનું પૂર્વદર્શન દૂર કરે છે."
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message list."
@@ -13458,70 +13455,78 @@ msgid "Se_lect..."
 msgstr "પસંદ કરો (_l)..."
 
 #: ../mail/mail-config.glade.h:127
+msgid "Select Drafts Folder"
+msgstr "ડ્રાફ્ટ ફોલ્ડર પસંદ કરો"
+
+#: ../mail/mail-config.glade.h:128
 msgid "Select HTML fixed width font"
 msgstr "HTML ચોક્કસ પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:128
+#: ../mail/mail-config.glade.h:129
 msgid "Select HTML fixed width font for printing"
 msgstr "છાપવા માટે HTML ચોક્કસ પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:130
 msgid "Select HTML variable width font"
 msgstr "HTML ચલિત પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:131
 msgid "Select HTML variable width font for printing"
 msgstr "છાપન માટે HTML ચલિત પહોળાઈ ફોન્ટ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:131
+#: ../mail/mail-config.glade.h:132
+msgid "Select Sent Folder"
+msgstr "મોકલાયેલ ફોલ્ડર પસંદ કરો"
+
+#: ../mail/mail-config.glade.h:133
 msgid "Select sound file"
 msgstr "ધ્વનિ ફાઈલ પસંદ કરો"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:135
 msgid "Sending Mail"
 msgstr "મેઈલ મોકલી રહ્યા છીએ"
 
-#: ../mail/mail-config.glade.h:134
+#: ../mail/mail-config.glade.h:136
 msgid "Sent _Messages Folder:"
 msgstr "મોકલાયેલ સંદેશાઓનું ફોલ્ડર (_M):"
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:137
 msgid "Ser_ver requires authentication"
 msgstr "સર્વરને સત્તાધિકરણ જરુરી છે (_v)"
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:138
 msgid "Server _Type: "
 msgstr "સર્વરનો પ્રકાર (_T): "
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:139
 msgid "Sig_ning certificate:"
 msgstr "સહી કરવાનું પ્રમાણપત્ર (_n):"
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:140
 msgid "Signat_ure:"
 msgstr "સહી (_u):"
 
-#: ../mail/mail-config.glade.h:139
+#: ../mail/mail-config.glade.h:141
 msgid "Signatures"
 msgstr "સહીઓ"
 
-#: ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.glade.h:142
 msgid "Signatures Table"
 msgstr "સહીઓનું કોષ્ટક"
 
-#: ../mail/mail-config.glade.h:141
+#: ../mail/mail-config.glade.h:143
 msgid "Specify _filename:"
 msgstr "ફાઈલ નામ સ્પષ્ટ કરો (_f):"
 
-#: ../mail/mail-config.glade.h:142
+#: ../mail/mail-config.glade.h:144
 msgid "Spell Checking"
 msgstr "જોડણી ચકાસી રહ્યા છીએ"
 
-#: ../mail/mail-config.glade.h:143
+#: ../mail/mail-config.glade.h:145
 msgid "T_ype: "
 msgstr "પ્રકાર (_y): "
 
-#: ../mail/mail-config.glade.h:144
+#: ../mail/mail-config.glade.h:146
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -13529,7 +13534,7 @@ msgstr ""
 "અંહિય યાદી થયેલ ભાષાઓમાંની માત્ર તે જ ભાષાઓ પરાવર્તિત થાય છે જેમના માટે તમે શબ્દકોષ "
 "સ્થાપિત કર્યો છે."
 
-#: ../mail/mail-config.glade.h:145
+#: ../mail/mail-config.glade.h:147
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -13539,7 +13544,7 @@ msgstr ""
 "તમે સ્પષ્ટ કરેલ નામ માત્ર ડિસ્પ્લેના હેતુ માટે\n"
 "વપરાશે. "
 
-#: ../mail/mail-config.glade.h:149
+#: ../mail/mail-config.glade.h:151
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -13547,15 +13552,15 @@ msgstr ""
 "નામ છાપો કે જેના દ્વારા તમે આ ખાતાને વાપરવા માંગો છો.\n"
 "ઉદાહરણ તરીકે: \"કામ\" અથવા \"ખાનગી\""
 
-#: ../mail/mail-config.glade.h:151 ../plugins/caldav/caldav-source.c:282
+#: ../mail/mail-config.glade.h:153 ../plugins/caldav/caldav-source.c:282
 msgid "User_name:"
 msgstr "વપરાશકર્તા નામ (_n):"
 
-#: ../mail/mail-config.glade.h:152
+#: ../mail/mail-config.glade.h:154
 msgid "V_ariable-width:"
 msgstr "ચલિત-પહોળાઈ (_a):"
 
-#: ../mail/mail-config.glade.h:153
+#: ../mail/mail-config.glade.h:155
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13565,104 +13570,104 @@ msgstr ""
 "\n"
 "શરુઆત કરવા માટે \"આગળ ધપાવો\" પર ક્લિક કરો. "
 
-#: ../mail/mail-config.glade.h:157
+#: ../mail/mail-config.glade.h:159
 msgid "_Add Signature"
 msgstr "સહી ઉમેરો (_A)"
 
-#: ../mail/mail-config.glade.h:158
+#: ../mail/mail-config.glade.h:160
 msgid "_Always load images from the Internet"
 msgstr "હંમેશા ઈન્ટરનેટમાંથી ચિત્રો લાવો (_A)"
 
-#: ../mail/mail-config.glade.h:159
+#: ../mail/mail-config.glade.h:161
 msgid "_Beep when new mail arrives"
 msgstr "જ્યારે નવો મેઈલ આવે ત્યારે બીપ વગાડો (_B)"
 
-#: ../mail/mail-config.glade.h:160
+#: ../mail/mail-config.glade.h:162
 msgid "_Default junk plugin:"
 msgstr "મૂળભૂત બગડેલ પ્લગઈન (_D):"
 
-#: ../mail/mail-config.glade.h:161
+#: ../mail/mail-config.glade.h:163
 msgid "_Do not notify me when new mail arrives"
 msgstr "જ્યારે નવા મેઈલ આવે ત્યારે મને સૂચવો નહિં (_D)"
 
-#: ../mail/mail-config.glade.h:162
+#: ../mail/mail-config.glade.h:164
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "મંત્રણાની માંગણીઓની સહી કરો નહિં (આઉટલુકની સાથે સુસંગતતા માટે) (_D)"
 
-#: ../mail/mail-config.glade.h:164
+#: ../mail/mail-config.glade.h:166
 msgid "_Forward style:"
 msgstr "આગળ ધપાવવાની શૈલી (_F):"
 
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:167
 msgid "_Keep Signature above the original message on replying"
 msgstr "પ્રત્યુત્તર આપવા પર મૂળ સંદેશા ઉપર સહી રાખો (_K)"
 
-#: ../mail/mail-config.glade.h:166
+#: ../mail/mail-config.glade.h:168
 msgid "_Load images in mail from contacts"
 msgstr "સંપર્કોમાંથી મેઈલમાં ઈમેજો લાવો (_L)"
 
-#: ../mail/mail-config.glade.h:167
+#: ../mail/mail-config.glade.h:169
 msgid "_Make this my default account"
 msgstr "આને મારુ મૂળભુત ખાતું બનાવો (_M)"
 
-#: ../mail/mail-config.glade.h:168
+#: ../mail/mail-config.glade.h:170
 msgid "_Mark messages as read after"
 msgstr "પછી વંચાયેલ સંદેશાઓને ચિહ્નિત કરો (_M)"
 
-#: ../mail/mail-config.glade.h:170
+#: ../mail/mail-config.glade.h:172
 msgid "_Never load images from the Internet"
 msgstr "ઈન્ટરનેટમાંથી ક્યારેય ચિત્રો લાવો નહિં (_N)"
 
-#: ../mail/mail-config.glade.h:171
+#: ../mail/mail-config.glade.h:173
 msgid "_Path:"
 msgstr "પથ (_P):"
 
-#: ../mail/mail-config.glade.h:172
+#: ../mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgstr "સંપર્કો કે જેઓને જરુર ના હોય તોપણ HTML સંદેશાઓ મોકલી રહ્યા હોય ત્યારે તેમને પૂછો (_P)"
 
-#: ../mail/mail-config.glade.h:173
+#: ../mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "જ્યારે સંદેશો ખાલી વાક્ય સાથે મોકલી રહ્યા હોય ત્યારે પૂછો (_P)"
 
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:176
 msgid "_Reply style:"
 msgstr "જવાબની શૈલી (_R):"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:177
 msgid "_Script:"
 msgstr "લિપી (_S):"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.glade.h:178
+#: ../mail/mail-config.glade.h:180
 msgid "_Show image animations"
 msgstr "ચિત્ર એનીમેશનો બતાવો (_S)"
 
-#: ../mail/mail-config.glade.h:179
+#: ../mail/mail-config.glade.h:181
 msgid "_Show the photograph of sender in the email preview"
 msgstr "ઈમેઈલ પૂર્વદર્શનમાં મોકલનારનો ફોટોગ્રાફ બતાવો (_S)"
 
-#: ../mail/mail-config.glade.h:180
+#: ../mail/mail-config.glade.h:182
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "પ્રતિ / આને પણ / આને પણ ખબર વિના હેડરો આમાં સંકોચો (_S) "
 
-#: ../mail/mail-config.glade.h:181
+#: ../mail/mail-config.glade.h:183
 msgid "_Use Secure Connection:"
 msgstr "સુરક્ષિત જોડાણ વાપરો (_U):"
 
-#: ../mail/mail-config.glade.h:182
+#: ../mail/mail-config.glade.h:184
 msgid "_Use the same fonts as other applications"
 msgstr "બીજા કાર્યક્રમોનની જેમ સરખા ફોન્ટ વાપરો (_U)"
 
-#: ../mail/mail-config.glade.h:183
+#: ../mail/mail-config.glade.h:185
 msgid "addresses"
 msgstr "સરનામાઓ"
 
-#: ../mail/mail-config.glade.h:184
+#: ../mail/mail-config.glade.h:186
 msgid "color"
 msgstr "રંગ"
 
-#: ../mail/mail-config.glade.h:185
+#: ../mail/mail-config.glade.h:187
 msgid "description"
 msgstr "વર્ણન"
 
@@ -15063,12 +15068,14 @@ msgstr "તુરંત સંદેશા સંપર્કો"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:511
-msgid "Periodically synchronize contact information and images from gaim buddy list"
-msgstr "gaim વ્યક્તિ યાદીમાંથી સંપર્ક જાણકારી અને ચિત્રો સામયિકપણે સુમેળ કરો"
+msgid ""
+"Periodically synchronize contact information and images from Pidgin buddy "
+"list"
+msgstr "Pidgin વ્યક્તિ યાદીમાંથી સામયિકપણે સંપર્ક જાણકારી અને ચિત્રોને સુમેળ કરે છે"
 
 #: ../plugins/bbdb/bbdb.c:517
-msgid "Select Address book for Gaim buddy list"
-msgstr "Gaim વ્યક્તિ યાદી માટે સરનામા પુસ્તિકા પસંદ કરો"
+msgid "Select Address book for Pidgin buddy list"
+msgstr "Pidgin વ્યક્તિ યાદી માટે સરનામા પુસ્તિકા પસંદ કરો"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:528
@@ -15088,7 +15095,7 @@ msgstr ""
 msgid "BBDB"
 msgstr "BBDB"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:304
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:305
 msgid "Convert mail text to _Unicode"
 msgstr "મેઈલ લખાણને યુનિકોડમાં રૂપાંતરિત કરો (_U)"
 
@@ -16222,7 +16229,7 @@ msgstr "ફોલ્ડરોમાંથી ઉમેદવારી દૂર 
 msgid "_Unsubscribe"
 msgstr "ઉમેદવારી દૂર કરો (_U)"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:428
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:432
 msgid "Checklist"
 msgstr "ચકાસણી યાદી"
 
@@ -16699,8 +16706,8 @@ msgid "Unable to find this task in any task list"
 msgstr "કોઈપણ બાબત યાદીમાં આ બાબત શોધવામાં અસમર્થ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:686
-msgid "Unable to find this journal entry in any journal"
-msgstr "કોઈપણ જર્નલમાં આ જર્નલ પ્રવેશ શોધવામાં અસમર્થ"
+msgid "Unable to find this memo in any memo list"
+msgstr "કોઈપણ મેમો યાદીમાંથી આ મેમો શોધવામાં અસમર્થ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:759
 msgid "Searching for an existing version of this appointment"
@@ -16761,6 +16768,30 @@ msgstr "સભાજન સુધારવામાં અસમર્થ. %s"
 msgid "Attendee status updated"
 msgstr "સભાજન સ્થિતિ સુધારાઈ ગઈ"
 
+#: ../plugins/itip-formatter/itip-formatter.c:1250
+msgid "Meeting information sent"
+msgstr "મંત્રણા જાણકારી મોકલાઈ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1253
+msgid "Task information sent"
+msgstr "બાબત જાણકારી મોકલાઈ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1256
+msgid "Memo information sent"
+msgstr "મેમો જાણકારી મોકલાઈ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1265
+msgid "Unable to send meeting information, the meeting does not exist"
+msgstr "મંત્રણા જાણકારી મોકલવામાં અસમર્થ, મંત્રણા અસ્તિત્વમાં નથી"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1268
+msgid "Unable to send task information, the task does not exist"
+msgstr "બાબત જાણકારી મોકલવામાં અસમર્થ, બાબત અસ્તિત્વમાં નથી"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1271
+msgid "Unable to send memo information, the memo does not exist"
+msgstr "મેમો જાણકારી મોકલવામાં અસમર્થ, મેમો અસ્તિત્વમાં નથી"
+
 #: ../plugins/itip-formatter/itip-formatter.c:1346
 #: ../plugins/itip-formatter/itip-formatter.c:1361
 msgid "The calendar attached is not valid"
@@ -16798,6 +16829,18 @@ msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "આ બધી વસ્તુઓ પર પ્રક્રિયા કરવા માટે, ફાઈલ સંગ્રહાવી જોઈએ અને કેલેન્ડર આયાત થવું જોઈએ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2047
+msgid "This meeting recurs"
+msgstr "આ મંત્રણા ફરી થશે"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2050
+msgid "This task recurs"
+msgstr "આ બાબત ફરી થશે"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2053
+msgid "This memo recurs"
+msgstr "આ મેમો ફરી થશે"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -18184,7 +18227,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Toolbar is visible"
-msgstr "સાધનપટ્ટી દ્રશ્યમાન છે"
+msgstr "સાધનપટ્ટી દૃશ્યમાન છે"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
@@ -18204,7 +18247,7 @@ msgstr "શું પરિસ્થિતિદર્શક પટ્ટી દ
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether the toolbar should be visible."
-msgstr "શું સાધનપટ્ટી દ્રશ્યમાન થશે."
+msgstr "શું સાધનપટ્ટી દૃશ્યમાન થશે."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
@@ -18220,7 +18263,7 @@ msgstr "વિન્ડો બટન શૈલી"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid "Window buttons are visible"
-msgstr "વિન્ડો બટનો દ્રશ્યમાન છે"
+msgstr "વિન્ડો બટનો દૃશ્યમાન છે"
 
 #: ../shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -19284,7 +19327,7 @@ msgstr "પસંદ કરેલ સંપર્કોને VCard તરીક
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "પસંદ કરેલ ફોલ્ડરના સંપર્કોને VCard તરીકે સંગ્રહો"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2714
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2717
 msgid "Select All"
 msgstr "બધું પસંદ કરો"
 
@@ -19926,7 +19969,7 @@ msgstr "આ જ થ્રેડમાં બધા સંદેશાઓને �
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Select all visible messages"
-msgstr "બધા દ્રશ્યમાન સંદેશાઓને પસંદ કરો"
+msgstr "બધા દૃશ્યમાન સંદેશાઓને પસંદ કરો"
 
 #: ../ui/evolution-mail-list.xml.h:27
 msgid "Show Hidde_n Messages"
@@ -20788,7 +20831,7 @@ msgstr "ઈવોલ્યુશનના સુયોજનો બદલો"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr "સાધનપટ્ટીની દ્રશ્યમાનતા બદલો"
+msgstr "સાધનપટ્ટીની દૃશ્યમાનતા બદલો"
 
 #: ../ui/evolution.xml.h:5
 msgid "Create a new window displaying this folder"
@@ -21222,8 +21265,8 @@ msgstr "મહિના કેલેન્ડર"
 
 #: ../widgets/misc/e-canvas-background.c:453
 #: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-entry.c:1230
-#: ../widgets/text/e-entry.c:1231 ../widgets/text/e-text.c:3562
-#: ../widgets/text/e-text.c:3563
+#: ../widgets/text/e-entry.c:1231 ../widgets/text/e-text.c:3637
+#: ../widgets/text/e-text.c:3638
 msgid "Fill color"
 msgstr "રંગ ભરો"
 
@@ -21232,16 +21275,16 @@ msgstr "રંગ ભરો"
 #: ../widgets/misc/e-canvas-background.c:467
 #: ../widgets/misc/e-canvas-background.c:468 ../widgets/text/e-entry.c:1237
 #: ../widgets/text/e-entry.c:1238 ../widgets/text/e-entry.c:1244
-#: ../widgets/text/e-entry.c:1245 ../widgets/text/e-text.c:3569
-#: ../widgets/text/e-text.c:3570 ../widgets/text/e-text.c:3577
-#: ../widgets/text/e-text.c:3578
+#: ../widgets/text/e-entry.c:1245 ../widgets/text/e-text.c:3644
+#: ../widgets/text/e-text.c:3645 ../widgets/text/e-text.c:3652
+#: ../widgets/text/e-text.c:3653
 msgid "GDK fill color"
 msgstr "GDK ભરવાનો રંગ"
 
 #: ../widgets/misc/e-canvas-background.c:474
 #: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-entry.c:1251
-#: ../widgets/text/e-entry.c:1252 ../widgets/text/e-text.c:3584
-#: ../widgets/text/e-text.c:3585
+#: ../widgets/text/e-entry.c:1252 ../widgets/text/e-text.c:3659
+#: ../widgets/text/e-text.c:3660
 msgid "Fill stipple"
 msgstr "સ્ટીપલ ભરો"
 
@@ -21586,8 +21629,8 @@ msgid "Item ID"
 msgstr "વસ્તુ ID"
 
 #: ../widgets/misc/e-search-bar.c:865 ../widgets/text/e-entry.c:1216
-#: ../widgets/text/e-entry.c:1217 ../widgets/text/e-text.c:3484
-#: ../widgets/text/e-text.c:3485
+#: ../widgets/text/e-entry.c:1217 ../widgets/text/e-text.c:3559
+#: ../widgets/text/e-text.c:3560
 msgid "Text"
 msgstr "લખાણ"
 
@@ -21816,23 +21859,23 @@ msgstr "પ્રકાશિત કરેલ સ્તંભ"
 msgid "Unselected Column"
 msgstr "પસંદ નહિં કરેલ સ્તંભ"
 
-#: ../widgets/table/e-cell-text.c:1798
+#: ../widgets/table/e-cell-text.c:1803
 msgid "Strikeout Column"
 msgstr "સ્તંંભ ચેકી નાખો"
 
-#: ../widgets/table/e-cell-text.c:1805
+#: ../widgets/table/e-cell-text.c:1810
 msgid "Underline Column"
 msgstr "નીચે લીટી કરેલ સ્તંભ"
 
-#: ../widgets/table/e-cell-text.c:1812
+#: ../widgets/table/e-cell-text.c:1817
 msgid "Bold Column"
 msgstr "ઘાટો સ્તંભ"
 
-#: ../widgets/table/e-cell-text.c:1819
+#: ../widgets/table/e-cell-text.c:1824
 msgid "Color Column"
 msgstr "રંગીન સ્તંભ"
 
-#: ../widgets/table/e-cell-text.c:1833
+#: ../widgets/table/e-cell-text.c:1838
 msgid "BG Color Column"
 msgstr "BG રંગવાળો સ્તંભ"
 
@@ -22176,62 +22219,62 @@ msgid "Draw lines and +/- expanders."
 msgstr "લીટીઓ દોરો અને +/- વિસ્તૃત કરો."
 
 #: ../widgets/text/e-entry.c:1209 ../widgets/text/e-entry.c:1210
-#: ../widgets/text/e-text.c:3477 ../widgets/text/e-text.c:3478
+#: ../widgets/text/e-text.c:3552 ../widgets/text/e-text.c:3553
 msgid "Event Processor"
 msgstr "ઘટના પ્રોસેસર"
 
 #: ../widgets/text/e-entry.c:1223 ../widgets/text/e-entry.c:1224
-#: ../widgets/text/e-text.c:3513 ../widgets/text/e-text.c:3514
+#: ../widgets/text/e-text.c:3588 ../widgets/text/e-text.c:3589
 msgid "Justification"
 msgstr "ન્યાય"
 
 #: ../widgets/text/e-entry.c:1265 ../widgets/text/e-entry.c:1266
-#: ../widgets/text/e-text.c:3613 ../widgets/text/e-text.c:3614
+#: ../widgets/text/e-text.c:3688 ../widgets/text/e-text.c:3689
 msgid "Use ellipsis"
 msgstr "લંબગોળો વાપરો"
 
 #: ../widgets/text/e-entry.c:1272 ../widgets/text/e-entry.c:1273
-#: ../widgets/text/e-text.c:3620 ../widgets/text/e-text.c:3621
+#: ../widgets/text/e-text.c:3695 ../widgets/text/e-text.c:3696
 msgid "Ellipsis"
 msgstr "લંબગોળો"
 
 #: ../widgets/text/e-entry.c:1279 ../widgets/text/e-entry.c:1280
-#: ../widgets/text/e-text.c:3627 ../widgets/text/e-text.c:3628
+#: ../widgets/text/e-text.c:3702 ../widgets/text/e-text.c:3703
 msgid "Line wrap"
 msgstr "લીટી લપેટો"
 
 #: ../widgets/text/e-entry.c:1286 ../widgets/text/e-entry.c:1287
-#: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
+#: ../widgets/text/e-text.c:3709 ../widgets/text/e-text.c:3710
 msgid "Break characters"
 msgstr "અક્ષરો તોડો"
 
 #: ../widgets/text/e-entry.c:1293 ../widgets/text/e-entry.c:1294
-#: ../widgets/text/e-text.c:3641 ../widgets/text/e-text.c:3642
+#: ../widgets/text/e-text.c:3716 ../widgets/text/e-text.c:3717
 msgid "Max lines"
 msgstr "મહત્તમ લીટીઓ"
 
 #: ../widgets/text/e-entry.c:1300 ../widgets/text/e-entry.c:1301
-#: ../widgets/text/e-text.c:3670 ../widgets/text/e-text.c:3671
+#: ../widgets/text/e-text.c:3745 ../widgets/text/e-text.c:3746
 msgid "Allow newlines"
 msgstr "નવી લીટીઓને પરવાનગી આપો"
 
 #: ../widgets/text/e-entry.c:1307 ../widgets/text/e-entry.c:1308
-#: ../widgets/text/e-text.c:3663 ../widgets/text/e-text.c:3664
+#: ../widgets/text/e-text.c:3738 ../widgets/text/e-text.c:3739
 msgid "Draw borders"
 msgstr "કિનારીઓ દોરો"
 
 #: ../widgets/text/e-entry.c:1314 ../widgets/text/e-entry.c:1315
-#: ../widgets/text/e-text.c:3677 ../widgets/text/e-text.c:3678
+#: ../widgets/text/e-text.c:3752 ../widgets/text/e-text.c:3753
 msgid "Draw background"
 msgstr "પાશ્વ ભાગ દોરો"
 
 #: ../widgets/text/e-entry.c:1321 ../widgets/text/e-entry.c:1322
-#: ../widgets/text/e-text.c:3684 ../widgets/text/e-text.c:3685
+#: ../widgets/text/e-text.c:3759 ../widgets/text/e-text.c:3760
 msgid "Draw button"
 msgstr "બટન દોરો"
 
 #: ../widgets/text/e-entry.c:1328 ../widgets/text/e-entry.c:1329
-#: ../widgets/text/e-text.c:3691 ../widgets/text/e-text.c:3692
+#: ../widgets/text/e-text.c:3766 ../widgets/text/e-text.c:3767
 msgid "Cursor position"
 msgstr "કર્સરની સ્થિતિ"
 
@@ -22239,59 +22282,59 @@ msgstr "કર્સરની સ્થિતિ"
 msgid "Emulate label resize"
 msgstr "લેબલનું માપ બદલવાનું ઈમ્યુલેટ કરો"
 
-#: ../widgets/text/e-text.c:2726
+#: ../widgets/text/e-text.c:2729
 msgid "Input Methods"
 msgstr "ઈનપુટ પદ્ધતિઓ"
 
-#: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
+#: ../widgets/text/e-text.c:3566 ../widgets/text/e-text.c:3567
 msgid "Bold"
 msgstr "ઘાટુ"
 
-#: ../widgets/text/e-text.c:3498 ../widgets/text/e-text.c:3499
+#: ../widgets/text/e-text.c:3573 ../widgets/text/e-text.c:3574
 msgid "Strikeout"
 msgstr "ચેકી નાખવાનું"
 
-#: ../widgets/text/e-text.c:3505 ../widgets/text/e-text.c:3506
+#: ../widgets/text/e-text.c:3580 ../widgets/text/e-text.c:3581
 msgid "Anchor"
 msgstr "એન્કર"
 
-#: ../widgets/text/e-text.c:3520 ../widgets/text/e-text.c:3521
+#: ../widgets/text/e-text.c:3595 ../widgets/text/e-text.c:3596
 msgid "Clip Width"
 msgstr "ક્લિપ પહોળાઈ"
 
-#: ../widgets/text/e-text.c:3527 ../widgets/text/e-text.c:3528
+#: ../widgets/text/e-text.c:3602 ../widgets/text/e-text.c:3603
 msgid "Clip Height"
 msgstr "ક્લિપ ઊંચાઈ"
 
-#: ../widgets/text/e-text.c:3534 ../widgets/text/e-text.c:3535
+#: ../widgets/text/e-text.c:3609 ../widgets/text/e-text.c:3610
 msgid "Clip"
 msgstr "ક્લિપ"
 
-#: ../widgets/text/e-text.c:3541 ../widgets/text/e-text.c:3542
+#: ../widgets/text/e-text.c:3616 ../widgets/text/e-text.c:3617
 msgid "Fill clip rectangle"
 msgstr "ક્લિપ લંબચોરસ ભરો"
 
-#: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3549
+#: ../widgets/text/e-text.c:3623 ../widgets/text/e-text.c:3624
 msgid "X Offset"
 msgstr "X ઓફસેટ"
 
-#: ../widgets/text/e-text.c:3555 ../widgets/text/e-text.c:3556
+#: ../widgets/text/e-text.c:3630 ../widgets/text/e-text.c:3631
 msgid "Y Offset"
 msgstr "Y ઓફસેટ"
 
-#: ../widgets/text/e-text.c:3591 ../widgets/text/e-text.c:3592
+#: ../widgets/text/e-text.c:3666 ../widgets/text/e-text.c:3667
 msgid "Text width"
 msgstr "લખાણની પહોળાઈ"
 
-#: ../widgets/text/e-text.c:3598 ../widgets/text/e-text.c:3599
+#: ../widgets/text/e-text.c:3673 ../widgets/text/e-text.c:3674
 msgid "Text height"
 msgstr "લખાણની ઊંચાઈ"
 
-#: ../widgets/text/e-text.c:3698 ../widgets/text/e-text.c:3699
+#: ../widgets/text/e-text.c:3773 ../widgets/text/e-text.c:3774
 msgid "IM Context"
 msgstr "IM સંદર્ભ"
 
-#: ../widgets/text/e-text.c:3705 ../widgets/text/e-text.c:3706
+#: ../widgets/text/e-text.c:3780 ../widgets/text/e-text.c:3781
 msgid "Handle Popup"
-msgstr "પોપ-અપ નિયંત્રિત કરો"
+msgstr "દૃશ્યપોપ-અપ નિયંત્રિત કરો"
 
