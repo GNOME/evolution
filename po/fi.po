@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-29 07:45+0300\n"
+"POT-Creation-Date: 2007-08-30 20:54+0300\n"
 "PO-Revision-Date: 2007-03-05 17:08+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -847,7 +847,7 @@ msgstr "_Uusi osoitekirja"
 #: ../calendar/gui/e-calendar-table.c:1375
 #: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:992
 #: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
-#: ../mail/em-folder-tree.c:2127 ../mail/em-folder-view.c:1233
+#: ../mail/em-folder-tree.c:2109 ../mail/em-folder-view.c:1233
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -3004,7 +3004,7 @@ msgstr "_Leikkaa"
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:1006
+#: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:988
 #: ../mail/em-folder-view.c:1218 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -4102,11 +4102,13 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:3
 msgid "All information in these memos will be deleted and can not be restored."
-msgstr "Kaikki tiedot näissä muistilapuissa poistetaan eikä niitä voida palauttaa."
+msgstr ""
+"Kaikki tiedot näissä muistilapuissa poistetaan eikä niitä voida palauttaa."
 
 #: ../calendar/calendar.error.xml.h:4
 msgid "All information in this memo will be deleted and can not be restored."
-msgstr "Kaikki tiedot tässä muistilapussa poistetaan eikä niitä voida palauttaa."
+msgstr ""
+"Kaikki tiedot tässä muistilapussa poistetaan eikä niitä voida palauttaa."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
@@ -5910,13 +5912,13 @@ msgstr[0] "Liitetty viesti"
 msgstr[1] "%d liitettyä viestiä"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3222
-#: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:369
+#: ../mail/em-folder-tree.c:989 ../mail/em-folder-utils.c:369
 #: ../mail/em-folder-view.c:1114 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "_Siirrä"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3224
-#: ../mail/em-folder-tree.c:1009 ../mail/message-list.c:1965
+#: ../mail/em-folder-tree.c:991 ../mail/message-list.c:1965
 msgid "Cancel _Drag"
 msgstr "Peruuta _raahaus"
 
@@ -5950,7 +5952,7 @@ msgid "_Remove"
 msgstr "_Poista"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2134
+#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Ominaisuudet..."
@@ -6158,13 +6160,13 @@ msgid "End time is wrong"
 msgstr "Lopetusaika on virheellinen"
 
 #: ../calendar/gui/dialogs/event-page.c:1514
-#: ../calendar/gui/dialogs/memo-page.c:733
+#: ../calendar/gui/dialogs/memo-page.c:735
 #: ../calendar/gui/dialogs/task-page.c:940
 msgid "The organizer selected no longer has an account."
 msgstr "Valitulla järjestäjällä ei enää ole käyttäjätiliä"
 
 #: ../calendar/gui/dialogs/event-page.c:1520
-#: ../calendar/gui/dialogs/memo-page.c:739
+#: ../calendar/gui/dialogs/memo-page.c:741
 #: ../calendar/gui/dialogs/task-page.c:946
 msgid "An organizer is required."
 msgstr "Järjestäjä vaaditaan."
@@ -6185,7 +6187,7 @@ msgid "Unable to open the calendar '%s'."
 msgstr "Kalenteria \"%s\" ei voi avata"
 
 #: ../calendar/gui/dialogs/event-page.c:2772
-#: ../calendar/gui/dialogs/memo-page.c:1138
+#: ../calendar/gui/dialogs/memo-page.c:1140
 #: ../calendar/gui/dialogs/task-page.c:1948
 #, c-format
 msgid "You are acting on behalf of %s"
@@ -6320,12 +6322,12 @@ msgstr "Järjestäjä:"
 msgid "Memo"
 msgstr "Muistilappu"
 
-#: ../calendar/gui/dialogs/memo-page.c:911
+#: ../calendar/gui/dialogs/memo-page.c:913
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "Muistilappuja kohteesta '%s' ei voi avata."
 
-#: ../calendar/gui/dialogs/memo-page.c:1076 ../mail/em-format-html.c:1517
+#: ../calendar/gui/dialogs/memo-page.c:1078 ../mail/em-format-html.c:1517
 #: ../mail/em-format-html.c:1531 ../mail/em-format-html.c:1589
 #: ../mail/em-format-html.c:1615 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
@@ -7769,7 +7771,7 @@ msgstr "Vaadittu läsnäolija"
 #: ../calendar/gui/e-meeting-list-view.c:181
 #: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:155
 msgid "Optional Participant"
-msgstr "Vapaaehoinen läsnäolija"
+msgstr "Vapaaehtoinen läsnäolija"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:140 ../calendar/gui/e-meeting-store.c:157
@@ -11400,7 +11402,7 @@ msgid "Drafts"
 msgstr "Luonnokset"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2576
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2558
 #: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11467,20 +11469,20 @@ msgstr "Kopioidaan viestejä kansioon %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Viestiä ei voida tiputtaa ylätason taltioon"
 
-#: ../mail/em-folder-tree.c:1004 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:986 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Kopioi kansioon"
 
-#: ../mail/em-folder-tree.c:1005 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:987 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Siirrä kansioon"
 
-#: ../mail/em-folder-tree.c:1715 ../mail/mail-ops.c:1060
+#: ../mail/em-folder-tree.c:1697 ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Etsitään kansioita kohteessa \"%s\""
 
-#: ../mail/em-folder-tree.c:2115 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2097 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:32
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11488,36 +11490,36 @@ msgstr "Etsitään kansioita kohteessa \"%s\""
 msgid "_View"
 msgstr "_Näytä"
 
-#: ../mail/em-folder-tree.c:2116
+#: ../mail/em-folder-tree.c:2098
 msgid "Open in _New Window"
 msgstr "Avaa _uudessa ikkunassa"
 
-#: ../mail/em-folder-tree.c:2120
+#: ../mail/em-folder-tree.c:2102
 msgid "_Copy..."
 msgstr "_Kopioi..."
 
-#: ../mail/em-folder-tree.c:2121
+#: ../mail/em-folder-tree.c:2103
 msgid "_Move..."
 msgstr "_Siirrä..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2125
+#: ../mail/em-folder-tree.c:2107
 msgid "_New Folder..."
 msgstr "_Uusi kansio..."
 
-#: ../mail/em-folder-tree.c:2128 ../ui/evolution-mail-list.xml.h:36
+#: ../mail/em-folder-tree.c:2110 ../ui/evolution-mail-list.xml.h:36
 msgid "_Rename..."
 msgstr "_Nimeä uudestaan..."
 
-#: ../mail/em-folder-tree.c:2129
+#: ../mail/em-folder-tree.c:2111
 msgid "Re_fresh"
 msgstr "Vi_rkistä"
 
-#: ../mail/em-folder-tree.c:2130
+#: ../mail/em-folder-tree.c:2112
 msgid "Fl_ush Outbox"
 msgstr "T_yhjennä lähtevien kansio"
 
-#: ../mail/em-folder-tree.c:2136 ../mail/mail.error.xml.h:135
+#: ../mail/em-folder-tree.c:2118 ../mail/mail.error.xml.h:135
 msgid "_Empty Trash"
 msgstr "_Tyhjennä roskakori"
 
@@ -12434,8 +12436,8 @@ msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
 msgstr ""
-"Jos \"Esikatselu\"-paneeli on käytössä, se näytetään viestiluettelon vieressä "
-"eikä alapuolella."
+"Jos \"Esikatselu\"-paneeli on käytössä, se näytetään viestiluettelon "
+"vieressä eikä alapuolella."
 
 #: ../mail/evolution-mail.schemas.in.h:40
 msgid ""
@@ -12806,8 +12808,8 @@ msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
 msgstr ""
-"Tämä asettaa viestiluettelon oletusnäkymässä näytettävien viestin lukumäärän, "
-"jonka jälkeen näytetään '...'."
+"Tämä asettaa viestiluettelon oletusnäkymässä näytettävien viestin "
+"lukumäärän, jonka jälkeen näytetään '...'."
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid ""
@@ -18352,8 +18354,8 @@ msgstr "Viimeksi päivitetty konfiguraation versio"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
-"Luettelo poluista kansioihin, jotka synkronisoidaan kovalevylle yhteydettömään "
-"käyttöön"
+"Luettelo poluista kansioihin, jotka synkronisoidaan kovalevylle "
+"yhteydettömään käyttöön"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid "Sidebar is visible"
@@ -22539,4 +22541,3 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3780 ../widgets/text/e-text.c:3781
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
-
