@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: help.HEAD.es(17)\n"
 "POT-Creation-Date: 2007-08-28 03:44+0100\n"
-"PO-Revision-Date: 2007-08-28 22:07+0200\n"
+"PO-Revision-Date: 2007-08-30 11:21+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1559,13 +1559,12 @@ msgstr ""
 "Evolution envía un mensaje de contraseña caducada."
 
 #: C/evolution.xml:458(para)
-#, fuzzy
 msgid ""
 "Select automatically synchronize remote mail locally to download the "
 "messages to your local system."
 msgstr ""
-"Marque si quiere sincronizar automáticamente el correo remoto localmente "
-"para descargar los correos a su sistema local."
+"Marque si quiere sincronizar automáticamente el correo remoto localmente para descargar "
+"los correos a su sistema local."
 
 #: C/evolution.xml:461(para)
 msgid ""
@@ -1576,13 +1575,12 @@ msgstr ""
 "entrada en este servidor para aplicar los filtros."
 
 #: C/evolution.xml:464(para)
-#, fuzzy
 msgid ""
 "Select check new messages for junk contents to filter new messages for spam "
 "messages."
 msgstr ""
-"Marque si quiere comprobar si los mensajes nuevos contienen spam para "
-"filtrar los nuevos mensajes como correos spam."
+"Marque si quiere comprobar si los mensajes nuevos contienen basura para filtrar los nuevos "
+"mensajes como correos SPAM."
 
 #: C/evolution.xml:465(para)
 msgid ""
@@ -2077,14 +2075,12 @@ msgid "Switcher:"
 msgstr "Selector:"
 
 #: C/evolution.xml:778(para)
-#, fuzzy
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "Evolution tools - mail, contacts, Calendars, Memos and Tasks."
 msgstr ""
-"El selector en la parte inferior de la barra lateral le permite cambiar "
-"entre las herramientas de Evolution: correo, contactos, calendarios, notas y "
-"tareas."
+"El selector en la parte inferior de la barra lateral le permite cambiar entre las "
+"herramientas de Evolution: correo, contactos, calendarios, notas y tareas."
 
 #: C/evolution.xml:781(title)
 msgid "Status Bar:"
@@ -2229,7 +2225,6 @@ msgid "The Side Bar"
 msgstr "La barra lateral"
 
 #: C/evolution.xml:824(para)
-#, fuzzy
 msgid ""
 "The most important job for Evolution is to give you access to your "
 "information and help you use it quickly. One way it does that is through the "
@@ -2238,13 +2233,12 @@ msgid ""
 "tools, such as Mail and Contacts, are the shortcuts. Above them is a list of "
 "folders for the current Evolution tool."
 msgstr ""
-"La labor más importante de Evolution es facilitarle el acceso y simplificar "
-"la consulta de su información. Una manera de conseguirlo es mediante la "
-"barra lateral, que es la columna en el lado izquierdo de la ventana "
-"principal. El selector en la parte inferior de la barra lateral le permite "
-"cambiar entre las herramientas de Evolution, como correo y Contactos que son "
-"atajos. Sobre ellos hay una lista de carpetas para la herramienta actual de "
-"Evolution."
+"La labor más importante de Evolution es facilitarle el acceso y simplificar la consulta de su "
+"información, así como ayudarle a usarla rápidamente. Una manera de conseguirlo es mediante la "
+"barra lateral, que es la columna en el lado izquierdo de la ventana principal. El "
+"selector en la parte inferior de la barra lateral le permite cambiar entre las herramientas "
+"de Evolution, como correo y Contactos que son atajos. Sobre ellos hay una lista de "
+"carpetas para la herramienta actual de Evolution."
 
 #: C/evolution.xml:825(para)
 msgid ""
@@ -2537,14 +2531,12 @@ msgstr ""
 "explicación de qué es lo que hay en su ventana de correo-e de Evolution."
 
 #: C/evolution.xml:929(para)
-#, fuzzy
 msgid ""
 "The message list displays all the messages that you have. This includes all "
 "your read and unread messages, and e-mail that is flagged to be deleted."
 msgstr ""
-"La lista de mensajes muestra todos los mensajes de correo que tiene. Esto "
-"incluye todos sus mensajes leídos y no leídos, y el correo marcado para "
-"borrarlo."
+"La lista de mensajes muestra todos los mensajes de correo que tiene. Esto incluye todos "
+"sus mensajes leídos y no leídos, y el correo marcado para borrarlo."
 
 #: C/evolution.xml:933(para)
 msgid "This is where your e-mail is displayed."
@@ -2601,7 +2593,6 @@ msgid "The Calendar"
 msgstr "El calendario"
 
 #: C/evolution.xml:943(para)
-#, fuzzy
 msgid ""
 "To begin using the calendar, click Calendar in the switcher. By default, the "
 "calendar shows today's schedule on a ruled background. At the left bottom, "
@@ -2609,12 +2600,11 @@ msgid ""
 "there is a Task list, where you can keep a list of tasks separate from your "
 "calendar appointments. Below that, there is a Memo list."
 msgstr ""
-"Para empezar a usar el calendario, pulse Calendario en el selector. De forma "
-"predeterminada, el calendario muestra la programación para hoy en un fondo "
-"con líneas. En la parte inferior izquierda, hay un calendario mensual donde "
-"puede cambiar los días. En la parte superior derecha, hay una lista de "
-"tareas, donde puede mantener una lista de tareas separada de sus citas de "
-"calendario. Debajo hay una lista de notas."
+"Para empezar a usar el calendario, pulse Calendario en el selector. De forma predeterminada, el "
+"calendario muestra la programación para hoy en un fondo con líneas. En la parte inferior izquierda "
+"hay un calendario mensual donde puede cambiar los días. En la parte superior derecha "
+"hay una lista de tareas, donde puede mantener una lista de tareas separada de sus "
+"citas de calendario. Debajo hay una lista de notas."
 
 #: C/evolution.xml:946(title)
 msgid "Appointment List:"
@@ -2729,46 +2719,40 @@ msgstr ""
 "direcciones</link>"
 
 #: C/evolution.xml:973(title)
-#, fuzzy
 msgid "Backup And Restore Evolution"
 msgstr "Respaldar y restaurar Evolution"
 
 #: C/evolution.xml:974(para)
-#, fuzzy
 msgid ""
 "With the Backup and Restore plugin enabled, you can successfully backup "
 "Evolution to your machine and restore it whenever it is required. The back "
 "up saves your Evolution gconf settings, mails, contacts, tasks, memos and "
 "calendars and creates an archive."
 msgstr ""
-"Con el complemento para respaldar y restaurar activado puede respaldar "
-"Evolution en su equipo y restaurarlo siempre que sea necesario. El respaldo "
-"guarda sus ajustes de evolution en gconf, correos y crea un archivador."
+"Con el complemento para respaldar y restaurar activado puede respaldar Evolution "
+"en su equipo y restaurarlo siempre que sea necesario. El respaldo "
+"guarda sus ajustes de Evolution en gconf, correos, contactos, tareas, notas y "
+"calendarios y crea un archivador."
 
 #: C/evolution.xml:975(para)
-#, fuzzy
 msgid "To take the backup,"
 msgstr "Para realizar el respaldo,"
 
 #: C/evolution.xml:978(para)
-#, fuzzy
 msgid "Select File &gt; Backup Settings to select the folder to save the backup."
-msgstr ""
-"Seleccione Archivo &gt; Configuración del respaldo para seleccionar la "
-"carpeta donde guardar el respaldo."
+msgstr "Seleccione Archivo &gt; Configuración del respaldo para seleccionar la carpeta donde guardar el respaldo."
 
 #: C/evolution.xml:980(para)
 msgid "Evolution is always backed up as evolution-backup.tar.gz."
 msgstr "Evolution siempre se respalda como evolution-backup.tar.gz."
 
 #: C/evolution.xml:981(para)
-#, fuzzy
 msgid ""
 "Before the backup process starts, it asks you to close Evolution and "
 "displays a warning as shown below:"
 msgstr ""
-"Antes de que comience el proceso de respaldo, se le preguntará para que "
-"cierre Evolution y se mostrará un mensaje de advertencia como el de abajo:"
+"Antes de que comience el proceso de respaldo, se le preguntará para que cierre Evolution y "
+"se mostrará un mensaje de advertencia como el de abajo:"
 
 #: C/evolution.xml:986(para)
 msgid ""
@@ -2864,9 +2848,8 @@ msgid "evolution --disable-preview"
 msgstr "evolution --disable-preview"
 
 #: C/evolution.xml:1047(para)
-#, fuzzy
 msgid "Disables all the preview panes when you launch Evolution."
-msgstr "Deshabilita todos los paneles de vista preliminar cuando reinicie Evolution."
+msgstr "Deshabilita todos los paneles de vista preliminar cuando inicie Evolution."
 
 #: C/evolution.xml:1048(para)
 msgid ""
@@ -3015,20 +2998,18 @@ msgstr ""
 "izquierdo ([) para el mensaje anterior no leído."
 
 #: C/evolution.xml:1135(title)
-#, fuzzy
 msgid "Magic Spacebar For Reading Mail"
 msgstr "Barra espaciadora mágica para leer correos"
 
 #: C/evolution.xml:1136(para)
-#, fuzzy
 msgid ""
 "With Magic Spacebar, you can easily read the unread messages in all the mail "
 "folders. You can read mail, scroll the mail and switch folders using the "
 "spacebar on your keyboard."
 msgstr ""
-"Con la barra espaciador mágica puede leer fácilmente los correos no leídos "
-"en todas las carpetas. Puede leer correos, deslizar los correos y cambiar "
-"entre las carpetas usando la barra espaciadora de su teclado."
+"Con la barra espaciador mágica puede leer fácilmente los correos no leídos en todas las carpetas. "
+"Puede leer correos, deslizar los correos y cambiar entre las carpetas usando la "
+"barra espaciadora de su teclado."
 
 #: C/evolution.xml:1137(para)
 msgid ""
@@ -3039,13 +3020,12 @@ msgstr ""
 "siguiente manera:"
 
 #: C/evolution.xml:1140(para)
-#, fuzzy
 msgid ""
 "When you press the spacebar for the first time, it takes you to the next "
 "unread message."
 msgstr ""
-"Al pulsar la barra espaciadora la primera vez, le llevará al siguiente "
-"correo no leído."
+"Al pulsar la barra espaciadora la primera vez, le llevará al siguiente correo "
+"no leído."
 
 #: C/evolution.xml:1143(para)
 msgid "If the message is more than one screen long, the spacebar works as pagedown."
@@ -3054,34 +3034,30 @@ msgstr ""
 "como avance de página."
 
 #: C/evolution.xml:1146(para)
-#, fuzzy
 msgid ""
 "If you press the spacebar after you reach the bottom of the page, it takes "
 "you to the next unread message if any."
 msgstr ""
-"Si pulsa la barra espaciadora cuando ha llegado al final de la página, le "
-"lleva al sigueinte mensaje no leído."
+"Si pulsa la barra espaciadora cuando ha llegado al final de la página, le lleva "
+"al siguiente mensaje no leído, si queda alguno."
 
 #: C/evolution.xml:1149(para)
-#, fuzzy
 msgid ""
 "If there are no more unread messages in the mailbox, pressing spacebar takes "
 "you to the next unread message in the next folder."
 msgstr ""
-"Si no hay más mensajes sin leer en el buzón de correo, la barra espaciadora "
-"le lleva al siguiente mensaje sin leer en la siguiente carpeta."
+"Si no hay más mensajes sin leer en el buzón de correo, la barra espaciadora le lleva "
+"al siguiente mensaje sin leer en la siguiente carpeta."
 
 #: C/evolution.xml:1152(para)
-#, fuzzy
 msgid ""
 "If new messages arrive in a number of folders, spacebar toggles between "
 "those folders. This feature allows you to switch to the next unread message "
 "in a different folder without having to click the folder."
 msgstr ""
-"Si tiene correo nuevo en varias carpetas diferentes, la barra espaciadora "
-"conmuta entre esas carpetas. Esta característica le permite cambiar al "
-"siguiente mensaje no leído en una carpeta diferente sin tener que pulsar "
-"sobre la carpeta."
+"Si tiene correo nuevo en varias carpetas diferentes, la barra espaciadora conmuta entre "
+"esas carpetas. Esta característica le permite cambiar al siguiente mensaje no leído "
+"en una carpeta diferente sin tener que pulsar sobre la carpeta."
 
 #: C/evolution.xml:1158(title)
 msgid "Checking for New Mail"
@@ -3206,9 +3182,8 @@ msgid "Classical View:"
 msgstr "Vista clásica:"
 
 #: C/evolution.xml:1192(para)
-#, fuzzy
 msgid "To switch to classical view,"
-msgstr "Para cambiar a la vista clásica"
+msgstr "Para cambiar a la vista clásica,"
 
 #: C/evolution.xml:1196(para)
 msgid "Click View &gt; Preview &gt; Classical View"
@@ -3219,15 +3194,14 @@ msgid "Collapsible Message Headers"
 msgstr "Cabeceras de mensajes contraíbles"
 
 #: C/evolution.xml:1203(para)
-#, fuzzy
 msgid ""
 "Evolution compresses the TO, CC, BCC headers of received mail and shows only "
 "limited addresses. You can set the limit of the number of addresses to be "
 "displayed in the preview pane."
 msgstr ""
-"Evolution comprime las cabeceras Para, CC, BCC recibidas en los correos y "
-"muestra sólo el primer límite predefinido. Puede establecer un límite en el "
-"número de direcciones a mostrar en el panel de vista previa."
+"Evolution comprime las cabeceras Para, CC, BCC recibidas en los correos y muestra sólo "
+"direcciones limitadas. Puede establecer un límite en el número de direcciones para "
+"mostrar en el panel de vista previa."
 
 #: C/evolution.xml:1205(para)
 msgid "Use the following procedure to set the limit of addresses to be displayed:"
@@ -3455,7 +3429,6 @@ msgid "To set the default action for loading images:"
 msgstr "Para establecer la acción predeterminada para cargar imágenes:"
 
 #: C/evolution.xml:1291(para)
-#, fuzzy
 msgid "Click Edit &gt; Preferences, then click Mail Preferences."
 msgstr "Pulse Editar &gt; Preferencias, después pulse Opciones de correo."
 
@@ -10075,15 +10048,14 @@ msgid "Next 7 Days' Tasks:"
 msgstr "Tareas de los próximos 7 días:"
 
 #: C/evolution.xml:4426(para)
-#, fuzzy
 msgid ""
 "It shows all the active tasks that are due within the next seven dates. You "
 "can view all the tasks that end within the next seven days from the current "
 "date."
 msgstr ""
-"Muestra todas las tareas cuya fecha de vencimiento está entre los próximos "
-"site días. Puede ver todas las tareas que finalizan entre los siguientes "
-"siete días desde la fecha actual."
+"Muestra todas las tareas cuya fecha de vencimiento está entre los próximos siete días. Puede "
+"ver todas las tareas que finalizan entre los siguientes siete días desde la fecha "
+"actual."
 
 #: C/evolution.xml:4429(title)
 msgid "Active Tasks:"
@@ -10126,7 +10098,6 @@ msgid "&lt;List of Categories&gt;:"
 msgstr "&lt;Lista de categorías&gt;:"
 
 #: C/evolution.xml:4446(para)
-#, fuzzy
 msgid ""
 "Lists all the tasks that belong to a particular category such as "
 "Anniversary, Holidays, Gifts etc."
@@ -10536,9 +10507,8 @@ msgstr ""
 "pulsación."
 
 #: C/evolution.xml:4882(para)
-#, fuzzy
 msgid "Work Offline (disconnected mode)"
-msgstr "Función «Trabajar desconectado» (modo desconectado)."
+msgstr "«Trabajar desconectado» (modo desconectado)"
 
 #: C/evolution.xml:4883(para)
 msgid ""
@@ -10740,14 +10710,12 @@ msgstr ""
 "cualquier otro ajuste que quiera incluir."
 
 #: C/evolution.xml:5046(para)
-#, fuzzy
 msgid ""
 "Use the Defaults tab to define folders, send cc: or bcc: messages to certain "
 "IDs, and set options for message receipts."
 msgstr ""
-"Use la solapa Predeterminados para definir las carpetas, enviar Cc: o Cco: a "
-"determinadas identidades y establecer opciones para los destinatarios de los "
-"mensajes."
+"Use la solapa Predeterminados para definir las carpetas, enviar Cc: o Cco: a determinadas "
+"identidades y establecer opciones para los destinatarios de los mensajes."
 
 #: C/evolution.xml:5049(para)
 msgid "Use the Security tab to set PGP and s/MIME options."
@@ -11004,9 +10972,8 @@ msgid "To delegate a Meeting,"
 msgstr "Para delegar una reunión,"
 
 #: C/evolution.xml:5161(para)
-#, fuzzy
 msgid "Select the delegator's calendar."
-msgstr "Seleccione el calendario del delegado"
+msgstr "Seleccione el calendario del delegado."
 
 #: C/evolution.xml:5164(para)
 msgid "Open a new Meeting composer window."
@@ -11236,7 +11203,6 @@ msgstr ""
 "link>."
 
 #: C/evolution.xml:5285(para)
-#, fuzzy
 msgid ""
 "An Out of Office message is an automatic reply that you can send as a reply "
 "to messages, explaining why you aren't immediately responding to their "
@@ -11244,11 +11210,11 @@ msgid ""
 "your e-mail, you can set an automatic reply so that people know that you "
 "aren't ignoring them."
 msgstr ""
-"Un mensaje Estoy fuera de la oficina es una respuesta automática que puede "
-"enviar para los mensajes que reciba explicando porqué no va a responder. Por "
-"ejemplo, si se va una semana de vacaciones sin acceso a su correo "
-"electrónico, puede fijar una respuesta automática para que la gente que le "
-"escriba sepa que realmente no los está ignorando."
+"Un mensaje Estoy fuera de la oficina es una respuesta automática que puede enviar como respuesta "
+"a los mensajes que reciba, explicando porqué no va a responder inmediatamente. "
+"Por ejemplo, si se va una semana de vacaciones sin acceso a "
+"su correo electrónico, puede establecer una respuesta automática para que la gente sepa que "
+"realmente no los está ignorando."
 
 #: C/evolution.xml:5288(para)
 msgid "Click Edit &gt; Preferences &gt; Mail Accounts."
@@ -11276,13 +11242,12 @@ msgid "Type a short message in the text field."
 msgstr "Escriba un mensaje corto en el campo de texto."
 
 #: C/evolution.xml:5307(para)
-#, fuzzy
 msgid ""
 "Your message is automatically sent to anyone who sends you mail until you "
 "return and select I Am in the office."
 msgstr ""
-"Cada vez que alguien le escriba un mensaje recibirá automáticamente el aviso "
-"que ha escrito hasta que vuelva y pinche Ahora estoy en la oficina."
+"Su mensaje se envía automáticamente a cualquiera que le envíe correo hasta que "
+"vuelva y seleccione Ahora estoy en la oficina."
 
 #: C/evolution.xml:5313(para)
 msgid ""
@@ -11311,20 +11276,16 @@ msgstr ""
 "Concertar una reunión para mostrar el editor de citas de Evolution."
 
 #: C/evolution.xml:5323(para)
-#, fuzzy
 msgid "Click the Add tab to enter the email addresses into the list."
-msgstr ""
-"Pulse sobre la solapa Añadir para introducir las direcciones de correo-e en "
-"la lista."
+msgstr "Pulse sobre la solapa Añadir para introducir las direcciones de correo-e en la lista."
 
 #: C/evolution.xml:5326(para)
-#, fuzzy
 msgid ""
 "Click the Attendees tab to select the participants from Global Address List "
 "(GAL)."
 msgstr ""
-"Pulse la solapa Participantes para seleccionar los participantes de Listas "
-"de direcciones globales (GAL)."
+"Pulse la solapa Participantes para seleccionar los participantes de Listas de direcciones globales "
+"(GAL)."
 
 #: C/evolution.xml:5327(para)
 msgid "You can directly select the participants from the following address lists."
@@ -11337,13 +11298,12 @@ msgid "Global Address List"
 msgstr "Lista de direcciones global"
 
 #: C/evolution.xml:5339(para)
-#, fuzzy
 msgid ""
 "You can also specify the category as Anniversary, Birthday, Business etc. "
 "from the drop-down list for each address list given."
 msgstr ""
-"También puede especificar la categoría como Aniversario, Cumpleaños, "
-"Negocios etc, de la lista desplegable para cada lista de direcciones dada."
+"También puede especificar la categoría como Aniversario, Cumpleaños, Negocios etc, "
+"de la lista desplegable para cada lista de direcciones dada."
 
 #: C/evolution.xml:5342(para)
 msgid "Add the participants to the following categories of attendees."
