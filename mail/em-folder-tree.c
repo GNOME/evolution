@@ -929,24 +929,6 @@ emft_drop_async_drop (struct _mail_msg *mm)
 }
 
 static void
-emft_drop_async_done (struct _mail_msg *mm)
-{
-	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
-	gboolean success, delete;
-	
-	/* ?? */
-	if (m->aborted) {
-		success = FALSE;
-		delete = FALSE;
-	} else {
-		success = !camel_exception_is_set (&mm->ex);
-		delete = success && m->move && !m->moved;
-	}
-	
-	gtk_drag_finish (m->context, success, delete, GDK_CURRENT_TIME);
-}
-
-static void
 emft_drop_async_free (struct _mail_msg *mm)
 {
 	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
@@ -962,7 +944,7 @@ emft_drop_async_free (struct _mail_msg *mm)
 static struct _mail_msg_op emft_drop_async_op = {
 	emft_drop_async_desc,
 	emft_drop_async_drop,
-	emft_drop_async_done,
+	NULL,
 	emft_drop_async_free,
 };
 

@@ -1,3 +1,9 @@
+2007-08-30  Gavin Scott <gavindscott@yahoo.com>
+
+	** Fixes bug #351672
+
+	* em-folder-tree.c: Remove unneeded gtk_drag_finish call
+	
 2007-08-28  Wadim Dziedzic  <wadimd@svn.gnome.org>
 
 	* default/Makefile.am: added Polish translation of welcome email
