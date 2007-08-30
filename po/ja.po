@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-31 00:25+0900\n"
-"PO-Revision-Date: 2007-08-31 00:23+0900\n"
+"POT-Creation-Date: 2007-08-31 07:45+0900\n"
+"PO-Revision-Date: 2007-08-31 07:43+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -15160,11 +15160,11 @@ msgstr "連絡先の自動生成"
 #: ../plugins/bbdb/bbdb.c:475
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr "メールに返信したら自動的にアドレス帳の中に連絡先を登録する(_A)"
+msgstr "メールに返信したら自動的に連絡先をアドレス帳に登録する(_A)"
 
 #: ../plugins/bbdb/bbdb.c:481
 msgid "Select Address book for Automatic Contacts"
-msgstr "アドレス帳の選択 (自動生成の連絡先)"
+msgstr "連絡先の自動登録に使用するアドレス帳を選択して下さい:"
 
 #: ../plugins/bbdb/bbdb.c:496
 msgid "Instant Messaging Contacts"
@@ -15175,7 +15175,7 @@ msgstr "インスタント・メッセンジャーの連絡先"
 msgid ""
 "Periodically synchronize contact information and images from Pidgin buddy "
 "list"
-msgstr "周期的に Pidgin の仲間リストから連絡先とその画像を同期する"
+msgstr "定期的に Pidgin の仲間リストから連絡先とその画像を同期する"
 
 #: ../plugins/bbdb/bbdb.c:517
 msgid "Select Address book for Pidgin buddy list"
