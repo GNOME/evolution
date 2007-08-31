@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-28 08:03+0100\n"
-"PO-Revision-Date: 2007-08-28 12:13+0300\n"
+"POT-Creation-Date: 2007-08-28 10:43+0100\n"
+"PO-Revision-Date: 2007-08-30 22:27+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -580,7 +580,7 @@ msgstr "Pilot'i aadressirakenduse blokki pole võimalik lugeda"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr "Automaatne lõpetamine"
+msgstr "Automaatlõpetus"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
@@ -13467,7 +13467,7 @@ msgstr "PGP/GPG _võtme ID:"
 
 #: ../mail/mail-config.glade.h:108
 msgid "Play sound file when new mail arri_ves"
-msgstr "_Uue sõnumi saabumisel esitatakse helifaili"
+msgstr "Uue sõnumi saabumise_l esitatakse helifaili"
 
 #: ../mail/mail-config.glade.h:109
 msgid ""
@@ -13691,7 +13691,7 @@ msgstr "_Edastamise laad:"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Keep Signature above the original message on replying"
-msgstr ""
+msgstr "Vastamisel paigutatakse a_llkiri algsest sõnumist ettepoole"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Load images in mail from contacts"
@@ -15125,7 +15125,7 @@ msgid ""
 msgstr ""
 "Evolutioni varundamist saab läbi viia ainult siis, kui Evolution ei tööta. "
 "Palun veendu, et Sa enne varundamist salvestasid kõik salvestamata andmed ja "
-"sulgesid kõik Evolutioni aknad. Pärast varundamist Evolutioni automaatseks "
+"sulgesid kõik Evolutioni aknad. Varundamise järel Evolutioni automaatseks "
 "taaskäivitamiseks märgi allpool olev märkeruut."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
@@ -15144,6 +15144,11 @@ msgid ""
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
+"See kustutab kõik Evolutioni praegused andmed ja sätted ning taastab need "
+"varukoopia failist. Evolutioni taastamist saab läbi viia ainult siis, kui "
+"Evolution ei tööta. Palun veendu, et Sa enne taastamist sulgesid kõik "
+"Evolutioni aknad. Taastamise järel Evolutioni automaatseks taaskäivitamiseks "
+"märgi allpool olev märkeruut."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
@@ -15166,7 +15171,7 @@ msgstr "Automaatsed kontaktid"
 #: ../plugins/bbdb/bbdb.c:475
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr "Aa_dressiraamatu kirjete automaatne loomine sõnumile vastamisel"
+msgstr "Sõnumile vastamisel luuakse automaatselt aa_dressiraamatu kirje"
 
 #: ../plugins/bbdb/bbdb.c:481
 msgid "Select Address book for Automatic Contacts"
@@ -15182,8 +15187,8 @@ msgid ""
 "Periodically synchronize contact information and images from Pidgin buddy "
 "list"
 msgstr ""
-"Kontaktandmete ja piltide perioodiline sünkroniseerimine Pidgin'i "
-"sõbranimekirjada"
+"Kontaktandmeid ja pilte sünkroniseeritakse perioodiliselt Pidgin'i "
+"sõbranimekirjaga"
 
 #: ../plugins/bbdb/bbdb.c:517
 msgid "Select Address book for Pidgin buddy list"
@@ -15192,7 +15197,7 @@ msgstr "Vali Pidgin'i sõbranimekirja jaoks aadressiraamat"
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:528
 msgid "Synchronize with _buddy list now"
-msgstr "Sünkroniseeri sõ_braloend nüüd"
+msgstr "Sünkroniseeri sõ_branimekiri kohe"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
@@ -15210,7 +15215,7 @@ msgstr "BBDB"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:305
 msgid "Convert mail text to _Unicode"
-msgstr "Konverdi sõnumi tekst _Unicode kooditabelisse"
+msgstr "Sõnumi tekst teisendatakse _Unicode kooditabelisse"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
 msgid "Convert mail text to Unicode"
@@ -16960,12 +16965,12 @@ msgid "This meeting recurs"
 msgstr "See koosolek kordub"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2050
-msgid "This ülesanne recurs"
-msgstr "See sündmus kordub"
+msgid "This task recurs"
+msgstr "See ülesanne kordub"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2053
-msgid "This märge recurs"
-msgstr "See sündmus kordub"
+msgid "This memo recurs"
+msgstr "See märge kordub"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -18240,7 +18245,7 @@ msgstr "Jutulõngade koostamine teema järgi"
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "F_all back to threading messages by subject"
-msgstr ""
+msgstr "Varuvaria_ndina koostatakse jutulõng teema alusel"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
@@ -22501,6 +22506,9 @@ msgstr "Välksõnumikontekst"
 msgid "Handle Popup"
 msgstr ""
 
+#~ msgid "This ülesanne recurs"
+#~ msgstr "See sündmus kordub"
+
 #~ msgid "A Folder with this name already exists"
 #~ msgstr "Sellise nimega kaust on juba olemas"
 
@@ -22513,9 +22521,6 @@ msgstr ""
 
 #~ msgid "Valid signature, cannot verify sender"
 #~ msgstr "Kehtiv allkiri, saatjat pole võimalik tuvastada"
-
-#~ msgid "This koosolek recurs"
-#~ msgstr "See sündmus kordub"
 
 #~ msgid "Check Evolution archive"
 #~ msgstr "Evolutioni arhiivi kontrollimine"
