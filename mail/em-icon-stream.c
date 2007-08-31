@@ -180,6 +180,13 @@ emis_fit(GdkPixbuf *pixbuf, int maxwidth, int maxheight, int *scale)
 			height = maxheight;
 		}
 
+		/* check if we don't want to scale down too much, if so, do 1 pixel width/height */
+		if (width <= 0)
+			width = 1;
+
+		if (height <= 0)
+			height = 1;
+
 #ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
 		mini = gnome_thumbnail_scale_down_pixbuf(pixbuf, width, height);
 #else

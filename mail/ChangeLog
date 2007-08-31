@@ -1,3 +1,9 @@
+2007-08-31  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #377763
+
+	* em-icon-stream.c: (emis_fit): Do not scale under 1x1 pixel.
+
 2007-08-31  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Move away from g_assert to g_return* calls 
