@@ -1,3 +1,17 @@
+2007-08-31  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Move away from g_assert to g_return* critical warnings to debug
+	them better.
+
+	* e-canvas.c: (e_canvas_button):
+	* e-cursors.c: (create_bitmap_and_mask_from_xpm), (e_cursors_init):
+	* e-expander.c: (e_expander_focus):
+	* e-search-bar.c: (clear_button_state_changed), (search_verb_cb):
+	* e-selection-model.c: (e_selection_model_do_something),
+	(e_selection_model_select_as_key_press):
+	* e-spinner.c: (e_spinner_images_load), (e_spinner_expose):
+	* e-task-bar.c: (reduce_displayed_activities_per_component):
+
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #350539

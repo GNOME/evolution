@@ -68,7 +68,7 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 			int num_items;
 
 			num_items = GPOINTER_TO_INT (hash_item);
-			g_assert (num_items <= MAX_ACTIVITIES_PER_COMPONENT);
+			g_return_if_fail (num_items <= MAX_ACTIVITIES_PER_COMPONENT);
 
 			if (num_items == MAX_ACTIVITIES_PER_COMPONENT) {
 				gtk_widget_hide (child->widget);

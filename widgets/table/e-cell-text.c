@@ -888,7 +888,7 @@ ect_get_bg_color(ECellView *ecell_view, int row)
 static void
 ect_edit_select_all (ECellTextView *text_view)
 {
-	g_assert (text_view->edit);
+	g_return_if_fail (text_view->edit);
 	
 	text_view->edit->selection_start = 0;
 	text_view->edit->selection_end = strlen (text_view->edit->text);
@@ -2327,7 +2327,9 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 	default:
 		return edit->selection_end;
 	}
-	g_assert_not_reached ();
+
+	g_return_val_if_reached(0);
+
 	return 0; /* Kill warning */
 }
 

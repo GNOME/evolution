@@ -229,7 +229,7 @@ objectify_idle_cb (gpointer ptr)
 {
 	ETextModelURI *model_uri = E_TEXT_MODEL_URI (ptr);
 
-	g_assert (model_uri->objectify_idle);
+	g_return_val_if_fail (model_uri->objectify_idle, FALSE);
 	objectify_uris (model_uri);
 	model_uri->objectify_idle = 0;
 

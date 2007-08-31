@@ -113,7 +113,7 @@ update_clear_menuitem_sensitive (ESearchBar *search_bar)
 static void
 clear_button_state_changed (GtkWidget *clear_button, GtkStateType state, ESearchBar *search_bar)
 {
-	g_assert (clear_button != NULL && search_bar != NULL);
+	g_return_if_fail (clear_button != NULL && search_bar != NULL);
 
 	update_clear_menuitem_sensitive (search_bar);
 }
@@ -276,7 +276,7 @@ search_verb_cb (BonoboUIComponent *ui_component,
 	esb = E_SEARCH_BAR (data);
 
 	p = strrchr (verb_name, ':');
-	g_assert (p != NULL);
+	g_return_if_fail (p != NULL);
 
 	id = atoi (p + 1);
 

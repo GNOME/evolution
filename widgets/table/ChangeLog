@@ -1,3 +1,26 @@
+2007-08-31  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Move away from g_assert to g_return* critical warnings to debug
+	them better.
+
+	* e-cell-text.c: (ect_edit_select_all), (_get_position):
+	* e-table-config.c: (configure_combo_box_add),
+	(configure_combo_box_set_active),
+	(update_sort_and_group_config_dialog):
+	* e-table-group.c: (e_table_group_add), (e_table_group_add_array),
+	(e_table_group_add_all), (e_table_group_remove),
+	(e_table_group_increment), (e_table_group_decrement),
+	(e_table_group_row_count), (e_table_group_set_focus),
+	(e_table_group_get_focus), (e_table_group_get_focus_column),
+	(e_table_group_get_printable), (e_table_group_compute_location),
+	(e_table_group_get_cell_geometry):
+	* e-table-header-utils.c: (e_table_header_compute_height),
+	(make_composite_pixmap), (e_table_header_draw_button):
+	* e-table-item.c: (eti_attach_cell_views), (eti_row_height_real),
+	(eti_add_table_model), (eti_add_selection_model),
+	(eti_header_structure_changed), (eti_add_header_model):
+	* e-tree-table-adapter.c: (generate_tree):
+
 2007-08-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #239441

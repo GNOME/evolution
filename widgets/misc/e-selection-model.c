@@ -439,7 +439,7 @@ e_selection_model_do_something (ESelectionModel *selection,
 			}
 			break;
 		default:
-			g_assert_not_reached ();
+			g_return_if_reached();
 			break;
 		}
 		e_selection_model_change_cursor(selection, row, col);
@@ -534,7 +534,7 @@ e_selection_model_select_as_key_press (ESelectionModel *selection,
 		e_selection_model_select_single_row (selection, row);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached();
 		break;
 	}
 	if (row != -1) {

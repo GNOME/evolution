@@ -409,7 +409,7 @@ e_completion_view_set_cursor_row (ECompletionView *cv, gint r)
 		++iteration_count;
 	}
 
-	g_assert_not_reached ();
+	g_return_if_reached();
 }
 
 static void

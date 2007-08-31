@@ -989,8 +989,7 @@ e_expander_focus (GtkWidget        *widget,
 	}
     }
 
-  g_assert_not_reached ();
-  return FALSE;
+  g_return_val_if_reached(FALSE);
 }
 
 static void

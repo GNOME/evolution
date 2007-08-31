@@ -269,7 +269,10 @@ e_spinner_images_load (GdkScreen *screen,
 			goto loser;
 		}
 	}
-	g_assert (icon_info != NULL);
+	if (icon_info == NULL) {
+		g_warning ("icon_info is NULL");
+		goto loser;
+	}
 
 	size = gtk_icon_info_get_base_size (icon_info);
 	icon = gtk_icon_info_get_filename (icon_info);
@@ -309,8 +312,7 @@ e_spinner_images_load (GdkScreen *screen,
 
 	g_object_unref (icon_pixbuf);
 
-	if (list == NULL) goto loser;
-	g_assert (n > 0);
+	if (list == NULL || n <= 0) goto loser;
 
 	if (size > requested_size)
 	{
@@ -332,10 +334,12 @@ e_spinner_images_load (GdkScreen *screen,
 
 	for (l = list; l != NULL; l = l->next)
 	{
-		g_assert (l->data != NULL);
-		images->animation_pixbufs[--n] = l->data;
+		if (l->data)
+			images->animation_pixbufs[--n] = l->data;
 	}
-	g_assert (n == 0);
+	if (n != 0) {
+		g_warning ("n != 0 \n");
+	}
 
 	g_slist_free (list);
 
@@ -645,14 +649,14 @@ e_spinner_expose (GtkWidget *widget,
 	}
 
 	/* Otherwise |images| will be NULL anyway */
-	g_assert (images->n_animation_pixbufs > 0);
+	g_return_val_if_fail (images->n_animation_pixbufs > 0, FALSE);
 		
-	g_assert (details->current_image >= 0 &&
-		  details->current_image < images->n_animation_pixbufs);
+	g_return_val_if_fail (details->current_image >= 0 &&
+		  details->current_image < images->n_animation_pixbufs, FALSE);
 
 	pixbuf = images->animation_pixbufs[details->current_image];
 
-	g_assert (pixbuf != NULL);
+	g_return_val_if_fail (pixbuf != NULL, FALSE);
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);

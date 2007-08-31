@@ -362,7 +362,7 @@ generate_tree(ETreeTableAdapter *etta, ETreePath path)
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 
-	g_assert(e_tree_model_node_is_root(etta->priv->source, path));
+	g_return_if_fail (e_tree_model_node_is_root(etta->priv->source, path));
 
 	if (etta->priv->root)
 		kill_gnode(etta->priv->root, etta);

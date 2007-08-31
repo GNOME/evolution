@@ -531,7 +531,7 @@ e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_val_if_reached(0);
 	}
 
 	return retval;

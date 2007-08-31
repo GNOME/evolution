@@ -175,12 +175,12 @@ configure_combo_box_add (GtkComboBox *combo_box, const gchar *item,
 		COLUMN_ITEM, item, COLUMN_VALUE, value, -1);
 
 	index = g_object_get_data (G_OBJECT (combo_box), "index");
-	g_assert (index != NULL);
+	g_return_if_fail (index != NULL);
 
 	/* Add an entry to the tree model index. */
 	path = gtk_tree_model_get_path (model, &iter);
 	reference = gtk_tree_row_reference_new (model, path);
-	g_assert (reference != NULL);
+	g_return_if_fail (reference != NULL);
 	g_hash_table_insert (index, g_strdup (value), reference);
 	gtk_tree_path_free (path);
 }
@@ -211,7 +211,7 @@ configure_combo_box_set_active (GtkComboBox *combo_box, const gchar *value)
 	GHashTable *index;
 
 	index = g_object_get_data (G_OBJECT (combo_box), "index");
-	g_assert (index != NULL);
+	g_return_if_fail (index != NULL);
 
 	reference = g_hash_table_lookup (index, value);
 	if (reference != NULL) {
@@ -338,9 +338,9 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 				widgets [i].radio_ascending);
 
 			if (is_sort)
-				g_assert (widgets [i].radio_ascending != config->group [i].radio_ascending);
+				g_return_if_fail (widgets [i].radio_ascending != config->group [i].radio_ascending);
 			else
-				g_assert (widgets [i].radio_ascending != config->sort [i].radio_ascending);
+				g_return_if_fail (widgets [i].radio_ascending != config->sort [i].radio_ascending);
 			gtk_toggle_button_set_active (t, 1);
 		}
 

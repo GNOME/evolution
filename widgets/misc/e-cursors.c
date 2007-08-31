@@ -72,9 +72,9 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **x
 
 	sscanf (xpm [0], "%d %d %d %d", &height, &width, &colors, &pix);
 
-	g_assert (height == 32);
-	g_assert (width  == 32);
-	g_assert (colors <= 3);
+	g_return_if_fail (height == 32);
+	g_return_if_fail (width  == 32);
+	g_return_if_fail (colors <= 3);
 
 	transparent_color = ' ';
 	black_color = '.';
@@ -134,7 +134,7 @@ e_cursors_init (void)
 		}
 	}
 
-	g_assert (i == E_CURSOR_NUM_CURSORS);
+	g_return_if_fail (i == E_CURSOR_NUM_CURSORS);
 }
 
 void

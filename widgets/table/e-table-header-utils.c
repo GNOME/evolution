@@ -86,7 +86,7 @@ e_table_header_compute_height (ETableCol *ecol, GtkWidget *widget)
 	pango_layout_get_pixel_size (layout, NULL, &height);
 
 	if (ecol->is_pixbuf) {
-		g_assert (ecol->pixbuf != NULL);
+		g_return_val_if_fail (ecol->pixbuf != NULL, -1);
 		height = MAX (height, gdk_pixbuf_get_height (ecol->pixbuf));
 	}
 
@@ -122,7 +122,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 
 	pwidth = gdk_pixbuf_get_width (pixbuf);
 	pheight = gdk_pixbuf_get_height (pixbuf);
-	g_assert (width <= pwidth && height <= pheight);
+	g_return_val_if_fail (width <= pwidth && height <= pheight, NULL);
 
 	color = ((bg->red & 0xff00) << 8) | (bg->green & 0xff00) | ((bg->blue & 0xff00) >> 8);
 
@@ -404,8 +404,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	}
 
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached();
 	}
 
 	if (inner_width < 1)
@@ -420,7 +419,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		int xpos;
 		GdkPixmap *pixmap;
 
-		g_assert (ecol->pixbuf != NULL);
+		g_return_if_fail (ecol->pixbuf != NULL);
 
 		pwidth = gdk_pixbuf_get_width (ecol->pixbuf);
 		pheight = gdk_pixbuf_get_height (ecol->pixbuf);

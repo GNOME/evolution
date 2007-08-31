@@ -156,7 +156,7 @@ e_table_group_add (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->add != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->add != NULL);
 	ETG_CLASS (etg)->add (etg, row);
 }
 
@@ -177,7 +177,7 @@ e_table_group_add_array (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->add_array != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->add_array != NULL);
 	ETG_CLASS (etg)->add_array (etg, array, count);
 }
 
@@ -194,7 +194,7 @@ e_table_group_add_all (ETableGroup *etg)
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->add_all != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->add_all != NULL);
 	ETG_CLASS (etg)->add_all (etg);
 }
 
@@ -216,7 +216,7 @@ e_table_group_remove (ETableGroup *etg,
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
 
-	g_assert (ETG_CLASS (etg)->remove != NULL);
+	g_return_val_if_fail (ETG_CLASS (etg)->remove != NULL, FALSE);
 	return ETG_CLASS (etg)->remove (etg, row);
 }
 
@@ -238,7 +238,7 @@ e_table_group_increment (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->increment != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->increment != NULL);
 	ETG_CLASS (etg)->increment (etg, position, amount);
 }
 
@@ -260,7 +260,7 @@ e_table_group_decrement (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->decrement != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->decrement != NULL);
 	ETG_CLASS (etg)->decrement (etg, position, amount);
 }
 
@@ -278,7 +278,7 @@ e_table_group_row_count (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
 
-	g_assert (ETG_CLASS (etg)->row_count != NULL);
+	g_return_val_if_fail (ETG_CLASS (etg)->row_count != NULL, -1);
 	return ETG_CLASS (etg)->row_count (etg);
 }
 
@@ -299,7 +299,7 @@ e_table_group_set_focus (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->set_focus != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->set_focus != NULL);
 	ETG_CLASS (etg)->set_focus (etg, direction, view_col);
 }
 
@@ -317,7 +317,7 @@ e_table_group_get_focus (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
 
-	g_assert (ETG_CLASS (etg)->get_focus != NULL);
+	g_return_val_if_fail (ETG_CLASS (etg)->get_focus != NULL, FALSE);
 	return ETG_CLASS (etg)->get_focus (etg);
 }
 
@@ -335,7 +335,7 @@ e_table_group_get_focus_column (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
 
-	g_assert (ETG_CLASS (etg)->get_focus_column != NULL);
+	g_return_val_if_fail (ETG_CLASS (etg)->get_focus_column != NULL, -1);
 	return ETG_CLASS (etg)->get_focus_column (etg);
 }
 
@@ -354,7 +354,7 @@ e_table_group_get_printable (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), NULL);
 
-	g_assert (ETG_CLASS (etg)->get_printable != NULL);
+	g_return_val_if_fail (ETG_CLASS (etg)->get_printable != NULL, NULL);
 	return ETG_CLASS (etg)->get_printable (etg);
 }
 
@@ -378,7 +378,7 @@ e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int 
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->compute_location != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->compute_location != NULL);
 	ETG_CLASS (etg)->compute_location (etg, x, y, row, col);
 }
 
@@ -408,7 +408,7 @@ e_table_group_get_cell_geometry  (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_assert (ETG_CLASS (etg)->get_cell_geometry != NULL);
+	g_return_if_fail (ETG_CLASS (etg)->get_cell_geometry != NULL);
 	ETG_CLASS (etg)->get_cell_geometry (etg, row, col, x, y, width, height);
 }
 

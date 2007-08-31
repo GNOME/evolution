@@ -85,7 +85,7 @@ e_table_text_model_dispose (GObject *object)
 	model = E_TABLE_TEXT_MODEL (object);
 	
 	if (model->model)
-		g_assert (GTK_IS_OBJECT (model->model));
+		g_return_if_fail (GTK_IS_OBJECT (model->model));
 
 	if (model->cell_changed_signal_id)
 		g_signal_handler_disconnect (model->model, 

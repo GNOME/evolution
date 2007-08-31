@@ -1,3 +1,13 @@
+2007-08-31  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Move away from g_assert to g_return* critical warnings to debug
+	them better.
+
+	* e-timezone-dialog/e-timezone-dialog.c: (get_zone_from_point):
+	* text/e-completion-view.c: (e_completion_view_set_cursor_row):
+	* text/e-table-text-model.c: (e_table_text_model_dispose):
+	* text/e-text-model-uri.c: (objectify_idle_cb):
+
 2007-08-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #411619

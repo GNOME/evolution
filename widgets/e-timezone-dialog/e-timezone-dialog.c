@@ -634,9 +634,7 @@ get_zone_from_point (ETimezoneDialog *etd,
 		}
 	}
 
-	g_assert_not_reached ();
-
-	return NULL;
+	g_return_val_if_reached(NULL);
 }
 
 

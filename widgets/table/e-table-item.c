@@ -354,8 +354,8 @@ eti_attach_cell_views (ETableItem *eti)
 {
 	int i;
 
-	g_assert (eti->header);
-	g_assert (eti->table_model);
+	g_return_if_fail (eti->header);
+	g_return_if_fail (eti->table_model);
 
 	/* this is just c&p from model pre change, but it fixes things */
 	eti_cancel_drag_due_to_model_change (eti);
@@ -616,7 +616,7 @@ eti_row_height_real (ETableItem *eti, int row)
 	int col;
 	int h, max_h;
 
-	g_assert (cols == 0 || eti->cell_views);
+	g_return_val_if_fail (cols == 0 || eti->cell_views, 0);
 	
 	max_h = 0;
 	
@@ -1257,7 +1257,7 @@ e_table_item_redraw_row (ETableItem *eti,
 static void
 eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 {
-	g_assert (eti->table_model == NULL);
+	g_return_if_fail (eti->table_model == NULL);
 	
 	eti->table_model = table_model;
 	g_object_ref (eti->table_model);
@@ -1310,7 +1310,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 static void
 eti_add_selection_model (ETableItem *eti, ESelectionModel *selection)
 {
-	g_assert (eti->selection == NULL);
+	g_return_if_fail (eti->selection == NULL);
 	
 	eti->selection = selection;
 	g_object_ref (eti->selection);
@@ -1354,7 +1354,6 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 	 * There should be at least one column
 	 *  BUT: then you can't remove all columns from a header and add new ones.
 	 */
-	/*g_assert (eti->cols != 0);*/
 
 	if (eti->cell_views){
 		eti_unrealize_cell_views (eti);
@@ -1388,7 +1387,7 @@ eti_request_column_width (ETableHeader *eth, int col, ETableItem *eti)
 static void
 eti_add_header_model (ETableItem *eti, ETableHeader *header)
 {
-	g_assert (eti->header == NULL);
+	g_return_if_fail (eti->header == NULL);
 	
 	eti->header = header;
 	g_object_ref (header);
