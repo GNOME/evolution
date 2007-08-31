@@ -1,3 +1,11 @@
+2007-08-31  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #378759
+
+	* gui/component.c: (smime_pk11_passwd), (smime_pk11_change_passwd):
+	* lib/e-pkcs12.c: (prompt_for_password):
+	Do not pass NULL as 'key' parameter.
+
 2007-07-30  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/smime-ui.glade:

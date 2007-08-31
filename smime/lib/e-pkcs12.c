@@ -219,7 +219,7 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 {
 	char *passwd;
 
-	passwd = e_passwords_ask_password (title, "SMIME-PKCS12", NULL, prompt,
+	passwd = e_passwords_ask_password (title, "SMIME-PKCS12", "", prompt,
 					   E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
 					   NULL);
 
