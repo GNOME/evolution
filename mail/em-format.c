@@ -333,7 +333,11 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 
 	d(printf("adding puri for part: %s\n", emf->part_id->str));
 
-	g_assert(size >= sizeof(*puri));
+	if (size < sizeof(*puri)) {
+		g_warning ("size (%d) less than size of puri\n", size);
+		size = sizeof (*puri);
+	}
+
 	puri = g_malloc0(size);
 
 	puri->format = emf;
@@ -374,9 +378,9 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 		}
 	}
 
-	g_assert(puri->cid != NULL);
-	g_assert(emf->pending_uri_level != NULL);
-	g_assert(emf->pending_uri_table != NULL);
+	g_return_val_if_fail (puri->cid != NULL, NULL);
+	g_return_val_if_fail (emf->pending_uri_level != NULL, NULL);
+	g_return_val_if_fail (emf->pending_uri_table != NULL, NULL);
 
 	e_dlist_addtail(&emf->pending_uri_level->uri_list, (EDListNode *)puri);
 

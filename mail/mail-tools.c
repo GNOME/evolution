@@ -327,8 +327,6 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 				folder = camel_store_get_trash (store, ex);
 			else if (offset == 6)
 				folder = camel_store_get_junk (store, ex);
-			else
-				g_assert (FALSE);
 		} else
 			folder = camel_store_get_folder (store, name, flags, ex);
 		camel_object_unref (store);

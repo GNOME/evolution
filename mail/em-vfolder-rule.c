@@ -142,7 +142,7 @@ em_vfolder_rule_new(void)
 void
 em_vfolder_rule_add_source(EMVFolderRule *vr, const char *uri)
 {
-	g_assert(EM_IS_VFOLDER_RULE(vr));
+	g_return_if_fail (EM_IS_VFOLDER_RULE(vr));
 	g_return_if_fail (uri);
 	
 	vr->sources = g_list_append(vr->sources, g_strdup(uri));
@@ -155,7 +155,7 @@ em_vfolder_rule_find_source(EMVFolderRule *vr, const char *uri)
 {
 	GList *l;
 	
-	g_assert(EM_IS_VFOLDER_RULE(vr));
+	g_return_val_if_fail (EM_IS_VFOLDER_RULE(vr), NULL);
 	
 	/* only does a simple string or address comparison, should
 	   probably do a decoded url comparison */
@@ -174,7 +174,7 @@ em_vfolder_rule_remove_source(EMVFolderRule *vr, const char *uri)
 {
 	char *found;
 	
-	g_assert(EM_IS_VFOLDER_RULE(vr));
+	g_return_if_fail (EM_IS_VFOLDER_RULE(vr));
 	
 	found =(char *)em_vfolder_rule_find_source(vr, uri);
 	if (found) {
@@ -256,9 +256,11 @@ xml_encode(FilterRule *fr)
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	xmlNodePtr node, set, work;
 	GList *l;
+
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
-	g_assert(node != NULL);
-	g_assert(vr->with >= 0 && vr->with < sizeof(with_names)/sizeof(with_names[0]));
+	g_return_val_if_fail (node != NULL, NULL);
+	g_return_val_if_fail (vr->with >= 0 && vr->with < sizeof(with_names)/sizeof(with_names[0]), NULL);
+
 	set = xmlNewNode(NULL, (const unsigned char *)"sources");
 	xmlAddChild(node, set);
 	xmlSetProp(set, (const unsigned char *)"with", (unsigned char *)with_names[vr->with]);

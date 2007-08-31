@@ -348,7 +348,10 @@ em_format_html_add_pobject(EMFormatHTML *efh, size_t size, const char *classid, 
 {
 	EMFormatHTMLPObject *pobj;
 
-	g_assert(size >= sizeof(EMFormatHTMLPObject));
+	if (size < sizeof(EMFormatHTMLPObject)) {
+		g_warning ("size is less than the size of EMFormatHTMLPObject\n");
+		size = sizeof(EMFormatHTMLPObject);
+	}
 
 	pobj = g_malloc0(size);
 	if (classid)
@@ -1359,7 +1362,7 @@ efh_format_timeout(struct _format_msg *m)
 		return TRUE;
 	}
 
-	g_assert(e_dlist_empty(&p->pending_jobs));
+	g_return_val_if_fail (e_dlist_empty(&p->pending_jobs), FALSE);
 
 	d(printf(" ready to go, firing off format thread\n"));
 

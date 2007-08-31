@@ -2477,8 +2477,10 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	d(printf("adding attachment button/content for optional rendering\n"));
 
 	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
-	g_assert(info != NULL);
-	g_assert(info->forward == NULL);
+	if (!info || info->forward) {
+		g_warning ("unable to expand the attachment\n");
+		return TRUE;
+	}	
 
 	scroll = gtk_scrolled_window_new (NULL, NULL);	
 	mainbox = gtk_hbox_new(FALSE, 0);

@@ -391,10 +391,10 @@ get_message_uid (MessageList *message_list, ETreePath node)
 {
 	CamelMessageInfo *info;
 	
-	g_assert (node != NULL);
+	g_return_val_if_fail (node != NULL, NULL);
 	info = e_tree_memory_node_get_data (E_TREE_MEMORY (message_list->model), node);
 	/* correct me if I'm wrong, but this should never be NULL, should it? */
-	g_assert (info != NULL);
+	g_return_val_if_fail (info != NULL, NULL);
 	
 	return camel_message_info_uid (info);
 }
@@ -407,9 +407,9 @@ get_message_info (MessageList *message_list, ETreePath node)
 {
 	CamelMessageInfo *info;
 	
-	g_assert (node != NULL);
+	g_return_val_if_fail (node != NULL, NULL);
 	info = e_tree_memory_node_get_data (E_TREE_MEMORY (message_list->model), node);
-	g_assert (info != NULL);
+	g_return_val_if_fail (info != NULL, NULL);
 	
 	return info;
 }
@@ -438,7 +438,7 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 	default:
 		string = NULL;
 		index = NORMALISED_LAST;
-		g_assert_not_reached ();
+		g_warning ("Should not be reached\n");
 	}
 	
 	/* slight optimisation */
@@ -913,7 +913,7 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_LOCATION:
 		return g_strdup (value);
 	default:
-		g_assert_not_reached ();
+		g_warning ("This shouldn't be reached\n");
 	}
 	return NULL;
 }
@@ -947,7 +947,7 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 		g_free (value);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_warning ("This shouldn't be reached\n");
 	}
 }
 
@@ -979,7 +979,7 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	case COL_MIXED_RECIPIENTS:				
 		return g_strdup ("");
 	default:
-		g_assert_not_reached ();
+		g_warning ("This shouldn't be reached\n");
 	}
 
 	return NULL;
@@ -1013,7 +1013,7 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_MIXED_RECIPIENTS:				
 		return !(value && *(char *)value);
 	default:
-		g_assert_not_reached ();
+		g_warning ("This shouldn't be reached\n");
 		return FALSE;
 	}
 }
@@ -1081,7 +1081,7 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_MIXED_RECIPIENTS:				
 		return g_strdup (value);
 	default:
-		g_assert_not_reached ();
+		g_warning ("This shouldn't be reached\n");
 		return NULL;
 	}
 }
@@ -1102,7 +1102,7 @@ subtree_unread(MessageList *ml, ETreePath node)
 	
 	while (node) {
 		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
-		g_assert(info);
+		g_return_val_if_fail (info != NULL, FALSE);
 		
 		if (!(camel_message_info_flags(info) & CAMEL_MESSAGE_SEEN))
 			return TRUE;
@@ -1124,7 +1124,7 @@ subtree_size(MessageList *ml, ETreePath node)
 	
 	while (node) {
 		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
-		g_assert(info);
+		g_return_val_if_fail (info != NULL, 0);
 		
 		size += camel_message_info_size(info);
 		if ((child = e_tree_model_node_get_first_child (E_TREE_MODEL (ml->model), node)))
@@ -1144,7 +1144,7 @@ subtree_latest(MessageList *ml, ETreePath node, int sent)
 	
 	while (node) {
 		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
-		g_assert(info);
+		g_return_val_if_fail (info != NULL, 0);
 		
 		if (sent)
 			date = camel_message_info_date_sent(info);
@@ -1226,7 +1226,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	
 	/* retrieve the message information array */
 	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
-	g_assert (msg_info != NULL);
+	g_return_val_if_fail (msg_info != NULL, NULL);
 	
 	switch (col){
 	case COL_MESSAGE_STATUS:
@@ -1419,7 +1419,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			return (void *)("");		
 	}
  	default:
-		g_assert_not_reached ();
+		g_warning ("This shouldn't be reached\n");
 		return NULL;
 	}
 }
@@ -1438,7 +1438,7 @@ ml_tree_sort_value_at (ETreeModel *etm, ETreePath path, int col, void *model_dat
 
 	/* retrieve the message information array */
 	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
-	g_assert (msg_info != NULL);
+	g_return_val_if_fail (msg_info != NULL, NULL);
 
 	if (col == COL_SENT) {
 		ETreePath child;
@@ -1467,7 +1467,7 @@ static void
 ml_tree_set_value_at (ETreeModel *etm, ETreePath path, int col,
 		      const void *val, void *model_data)
 {
-	g_assert_not_reached ();
+	g_warning ("This shouldn't be reached\n");
 }
 
 static gboolean
@@ -2602,7 +2602,11 @@ build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int 
 
 	while (c) {
 		/* phantom nodes no longer allowed */
-		g_assert(c->message);
+		if (!c->message) {
+			g_warning("c->message shouldn't be NULL\n");
+			c = c->next;
+			continue;
+		}
 
 		node = e_tree_memory_node_insert(E_TREE_MEMORY(tree), parent, -1, (void *)c->message);
 		g_hash_table_insert(ml->uid_nodemap, (void *)camel_message_info_uid(c->message), node);
@@ -2678,7 +2682,7 @@ add_node_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThre
 	ETreeModel *etm = ml->model;
 	ETreePath node;
 
-	g_assert(c->message);
+	g_return_if_fail (c->message != NULL);
  
 	/* we just update the hashtable key, umm, does this leak the info on the message node? */
 	g_hash_table_remove(ml->uid_nodemap, camel_message_info_uid(c->message));
@@ -2717,7 +2721,7 @@ remove_node_diff(MessageList *ml, ETreePath node, int depth)
 	if (depth == 0)
 		e_tree_memory_node_remove(E_TREE_MEMORY(etm), node);
 
-	g_assert(info);
+	g_return_if_fail (info);
 	g_hash_table_remove(ml->uid_nodemap, camel_message_info_uid(info));
 	camel_folder_free_message_info(ml->folder, info);
 }
@@ -2763,7 +2767,6 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 					}
 				} else {
 					g_warning("Cannot find uid %s in table?", camel_message_info_uid(bp->message));
-					/*g_assert_not_reached();*/
 				}
 			}
 #endif
@@ -3340,7 +3343,7 @@ ml_getselected_cb(ETreePath path, void *user_data)
 		return;
 
 	uid = get_message_uid(data->ml, path);
-	g_assert(uid != NULL);
+	g_return_if_fail(uid != NULL);
 	g_ptr_array_add(data->uids, g_strdup(uid));
 }
 
@@ -3398,7 +3401,7 @@ message_list_freeze(MessageList *ml)
 void
 message_list_thaw(MessageList *ml)
 {
-	g_assert(ml->frozen != 0);
+	g_return_if_fail (ml->frozen != 0);
 
 	ml->frozen--;
 	if (ml->frozen == 0) {

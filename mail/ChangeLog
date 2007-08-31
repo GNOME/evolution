@@ -1,3 +1,48 @@
+2007-08-31  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Move away from g_assert to g_return* calls 
+
+	* em-account-editor.c: (emae_auto_detect), (emae_queue_widgets):
+	* em-filter-editor.c: (select_source):
+	* em-filter-rule.c: (xml_encode):
+	* em-folder-properties.c: (emfp_commit), (emfp_get_folder_item):
+	* em-folder-tree-model.c: (folder_renamed):
+	* em-folder-tree.c: (em_folder_tree_get_model_storeinfo):
+	* em-folder-utils.c: (emfu_popup_new_folder_response):
+	* em-folder-view.c: (emfv_setup_view_instance):
+	* em-format-html-display.c: (efhd_attachment_optional):
+	* em-format-html.c: (em_format_html_add_pobject),
+	(efh_format_timeout):
+	* em-format.c: (em_format_add_puri):
+	* em-migrate.c: (emm_setup_initial):
+	* em-sync-stream.c: (sync_op):
+	* em-utils.c: (em_uri_to_camel):
+	* em-vfolder-rule.c: (em_vfolder_rule_add_source),
+	(em_vfolder_rule_find_source), (em_vfolder_rule_remove_source),
+	(xml_encode):
+	* mail-component.c: (view_control_activate_cb), (setline_done),
+	(mail_component_get_folder), (mail_component_get_folder_uri):
+	* mail-config-factory.c: (mail_config_control_factory_cb):
+	* mail-config.c: (mail_config_get_accounts):
+	* mail-folder-cache.c: (mail_note_store_remove), (mail_note_store):
+	* mail-mt.c: (do_op_status):
+	* mail-ops.c: (mail_append_mail), (mail_transfer_messages):
+	* mail-send-recv.c: (free_send_data), (mail_send_receive),
+	(mail_receive_uri):
+	* mail-session.c: (alert_user):
+	* mail-tools.c: (mail_tool_uri_to_folder):
+	* mail-vfolder.c: (mail_vfolder_add_uri),
+	(mail_vfolder_delete_uri), (mail_vfolder_rename_uri),
+	(store_folder_renamed):
+	* message-list.c: (get_message_uid), (get_message_info),
+	(get_normalised_string), (ml_duplicate_value), (ml_free_value),
+	(ml_initialize_value), (ml_value_is_empty), (ml_value_to_string),
+	(subtree_unread), (subtree_size), (subtree_latest),
+	(ml_tree_value_at), (ml_tree_sort_value_at),
+	(ml_tree_set_value_at), (build_subtree), (add_node_diff),
+	(remove_node_diff), (build_subtree_diff), (ml_getselected_cb),
+	(message_list_thaw):
+
 2007-08-30  Gavin Scott <gavindscott@yahoo.com>
 
 	** Fixes bug #351672

@@ -97,7 +97,7 @@ emfp_commit(EConfig *ec, GSList *items, void *data)
 			arg->ca_str = (char *) gtk_entry_get_text ((GtkEntry *) prop_data->widgets[i]);
 			break;
 		default:
-			g_assert_not_reached ();
+			g_warning ("This shouldn't be reached\n");
 			break;
 		}
 	}
@@ -203,7 +203,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 			prop_data->widgets[i] = w;
 			break;
 		default:
-			g_assert_not_reached ();
+			g_warning ("This shouldn't be reached\n");
 			break;
 		}
 		

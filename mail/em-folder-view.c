@@ -589,8 +589,8 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	gboolean outgoing, show_wide;
 	char *id;
 	
-	g_assert(emfv->folder);
-	g_assert(emfv->folder_uri);
+	g_return_if_fail (emfv->folder);
+	g_return_if_fail (emfv->folder_uri);
 	
 	if (collection == NULL) {
 		ETableSpecification *spec;

@@ -2577,8 +2577,7 @@ em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelStore *store)
 	struct _EMFolderTreeModelStoreInfo *si;
 
 	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
-		g_assert_not_reached ();
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 	return si;
 }

@@ -49,7 +49,7 @@ mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *compo
 	} else if (!strcmp (component_id, EM_COMPOSER_PREFS_CONTROL_ID)) {
 		prefs = em_composer_prefs_new ();
 	} else {
-		g_assert_not_reached ();
+		g_return_val_if_reached(NULL);
 	}
 	
 	gtk_widget_show_all (prefs);

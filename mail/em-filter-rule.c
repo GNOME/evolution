@@ -220,7 +220,7 @@ xml_encode(FilterRule *fr)
 	GList *l;
 	
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
-	g_assert(node != NULL);
+	g_return_val_if_fail (node != NULL, NULL);
 	set = xmlNewNode(NULL, (const unsigned char *)"actionset");
 	xmlAddChild(node, set);
 	l = ff->actions;

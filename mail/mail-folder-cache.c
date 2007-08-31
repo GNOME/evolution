@@ -798,7 +798,7 @@ mail_note_store_remove(CamelStore *store)
 	struct _update_data *ud;
 	struct _store_info *si;
 
-	g_assert(CAMEL_IS_STORE(store));
+	g_return_if_fail (CAMEL_IS_STORE(store));
 
 	if (stores == NULL)
 		return;
@@ -970,8 +970,8 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 	guint timeout;
 	int hook = 0;
 	
-	g_assert(CAMEL_IS_STORE(store));
-	g_assert(pthread_equal(pthread_self(), mail_gui_thread));
+	g_return_if_fail (CAMEL_IS_STORE(store));
+	g_return_if_fail (pthread_equal(pthread_self(), mail_gui_thread));
 
 	LOCK(info_lock);
 

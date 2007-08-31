@@ -709,9 +709,8 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 	}
 
 	if (!(si = em_folder_tree_get_model_storeinfo (emfs->emft, store))) {
-		g_assert_not_reached ();
 		camel_object_unref (store);
-		return;
+		g_return_if_reached();
 	}
 
 	/* HACK: we need to create vfolders using the vfolder editor */

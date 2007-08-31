@@ -768,7 +768,8 @@ mail_config_prune_proxies (void)
 EAccountList *
 mail_config_get_accounts (void)
 {
-	g_assert (config != NULL);
+	if (config == NULL)
+		mail_config_init ();	
 	
 	return config->accounts;
 }

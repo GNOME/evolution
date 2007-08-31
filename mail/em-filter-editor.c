@@ -127,7 +127,7 @@ select_source (GtkMenuItem *mi, EMFilterEditor *fe)
 	char *source;
 	
 	source = g_object_get_data(G_OBJECT(mi), "source");
-	g_assert (source);
+	g_return_if_fail (source);
 	
 	rule_editor_set_source ((RuleEditor *)fe, source);
 }

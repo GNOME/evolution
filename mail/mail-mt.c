@@ -947,7 +947,7 @@ static void do_op_status(struct _mail_msg *mm)
 	char *out, *p, *o, c;
 	int pc;
 	
-	g_assert (pthread_equal(mail_gui_thread, pthread_self ()));
+	g_return_if_fail (pthread_equal(mail_gui_thread, pthread_self ()));
 	
 	MAIL_MT_LOCK (mail_msg_lock);
 	

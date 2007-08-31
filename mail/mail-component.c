@@ -404,7 +404,7 @@ view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderVie
 	static int recover = 0;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 	
 	if (activate) {
 		Bonobo_UIContainer container;
@@ -413,7 +413,7 @@ view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderVie
 		bonobo_ui_component_set_container (uic, container, NULL);
 		bonobo_object_release_unref (container, NULL);
 		
-		g_assert (container == bonobo_ui_component_get_container(uic));
+		g_return_if_fail (container == bonobo_ui_component_get_container(uic));
 		g_return_if_fail (container != CORBA_OBJECT_NIL);
 		
 		em_folder_view_activate (view, uic, activate);
@@ -1053,7 +1053,7 @@ setline_done(CamelStore *store, void *data)
 {
 	struct _setline_data *sd = data;
 
-	g_assert(sd->pending > 0);
+	g_return_if_fail (sd->pending > 0);
 
 	sd->pending--;
 	if (sd->pending == 0) {
@@ -1439,7 +1439,7 @@ mail_component_peek_local_store (MailComponent *mc)
 struct _CamelFolder *
 mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
 {
-	g_assert(id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX);
+	g_return_val_if_fail (id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX, NULL);
 
 	MAIL_COMPONENT_DEFAULT(mc);
 	mc_setup_local_store(mc);
@@ -1459,7 +1459,7 @@ mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
 const char *
 mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id)
 {
-	g_assert(id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX);
+	g_return_val_if_fail (id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX, NULL);
 
 	MAIL_COMPONENT_DEFAULT(mc);
 	mc_setup_local_store(mc);

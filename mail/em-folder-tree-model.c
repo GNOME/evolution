@@ -725,7 +725,7 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 			 * suppose if it does in reality, we can add
 			 * code here to add the missing nodes to the
 			 * tree */
-			g_assert_not_reached ();
+			g_warning ("This shouldn't be reached\n");
 			g_free (parent);
 			goto done;
 		}
@@ -737,7 +737,7 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 	
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &root, path)) {
 		gtk_tree_path_free (path);
-		g_assert_not_reached ();
+		g_warning ("This shouldn't be reached\n");		
 		goto done;
 	}
 	

@@ -228,7 +228,7 @@ sync_op(EMSyncStream *emss, enum _write_msg_t op, const char *data, size_t n)
 
 	e_msgport_put(p->data_port, &msg.msg);
 	reply_msg = e_msgport_wait(p->reply_port);
-	g_assert(reply_msg == &msg.msg);
+	g_return_if_fail (reply_msg == &msg.msg);
 
 	d(printf("%p: returned sync op %d\n", emss, op));
 }

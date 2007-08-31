@@ -2706,7 +2706,7 @@ emm_setup_initial(const char *evolution_dir)
 	}
 
 	/* Make sure we found one. */
-	g_assert (*language_names != NULL);
+	g_return_val_if_fail (*language_names != NULL, 0);
 
 	dir = g_dir_open(local, 0, NULL);
 	if (dir) {

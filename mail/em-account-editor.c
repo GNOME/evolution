@@ -563,7 +563,7 @@ emae_auto_detect(EMAccountEditor *emae)
 			continue;
 
 		/* only 2 providers use this, and they only do it for 3 entries only */
-		g_assert(entries[i].type == CAMEL_PROVIDER_CONF_ENTRY);
+		g_return_if_fail (entries[i].type == CAMEL_PROVIDER_CONF_ENTRY);
 
 		w = NULL;
 		for (l = emae->priv->extra_items;l;l=g_slist_next(l)) {
@@ -1752,7 +1752,7 @@ emae_queue_widgets(EMAccountEditor *emae, GladeXML *xml, const char *first, ...)
 	}
 	va_end(ap);
 
-	g_assert(i < sizeof(emae->priv->widgets)/sizeof(emae->priv->widgets[0]));
+	g_return_if_fail(i < sizeof(emae->priv->widgets)/sizeof(emae->priv->widgets[0]));
 
 	emae->priv->widgets[i] = NULL;
 	emae->priv->widgets_index = 0;

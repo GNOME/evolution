@@ -1737,7 +1737,7 @@ char *em_uri_to_camel(const char *euri)
 	if (eurl == NULL)
 		return g_strdup(euri);
 
-	g_assert(eurl->host != NULL);
+	g_return_val_if_fail (eurl->host != NULL, g_strdup(euri));
 
 	if (eurl->user != NULL) {
 		/* Sigh, shoul'dve used mbox@local for mailboxes, not local@local */

@@ -447,7 +447,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 		return;
 	}
 
-	g_assert(pthread_equal(pthread_self(), mail_gui_thread));
+	g_return_if_fail (pthread_equal(pthread_self(), mail_gui_thread));
 
 	is_ignore = uri_is_ignore(store, curi);
 
@@ -508,7 +508,10 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 
 		if (found) {
 			vf = g_hash_table_lookup(vfolder_hash, rule->name);
-			g_assert(vf);
+			if (!vf) {
+				g_warning ("vf is NULL for %s\n", rule->name);
+				continue;
+			}
 			camel_object_ref(vf);
 			folders = g_list_prepend(folders, vf);
 		}
@@ -540,7 +543,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 
 	d(printf ("Deleting uri to check: %s\n", uri));
 	
-	g_assert (pthread_equal(pthread_self(), mail_gui_thread));
+	g_return_if_fail (pthread_equal(pthread_self(), mail_gui_thread));
 	
 	changed = g_string_new ("");
 	
@@ -549,6 +552,12 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 	/* see if any rules directly reference this removed uri */
  	rule = NULL;
 	while ((rule = rule_context_next_rule ((RuleContext *) context, rule, NULL))) {
+
+		if (!rule->name) {
+			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
+			continue;
+		}
+
 		source = NULL;
 		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *) rule, source))) {
 			char *csource = em_uri_to_camel(source);
@@ -557,7 +566,10 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 			   because the adduri call above does the work async */
 			if (camel_store_folder_uri_equal(store, curi, csource)) {
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
-				g_assert (vf != NULL);
+				if (!vf) {
+					g_warning ("vf is NULL for %s\n", rule->name);
+					continue;
+				}
 				g_signal_handlers_disconnect_matched (rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 								      0, NULL, rule_changed, vf);
 				em_vfolder_rule_remove_source ((EMVFolderRule *)rule, source);
@@ -615,7 +627,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 	if (context == NULL || uri_is_spethal(store, cfrom) || uri_is_spethal(store, cto))
 		return;
 
-	g_assert(pthread_equal(pthread_self(), mail_gui_thread));
+	g_return_if_fail (pthread_equal(pthread_self(), mail_gui_thread));
 
 	from = em_uri_from_camel(cfrom);
 	to = em_uri_from_camel(cto);
@@ -634,7 +646,10 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 			if (camel_store_folder_uri_equal(store, cfrom, csource)) {
 				d(printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to));
 				vf = g_hash_table_lookup(vfolder_hash, rule->name);
-				g_assert(vf);
+				if (!vf) {
+					g_warning ("vf is NULL for %s\n", rule->name);
+					continue;
+				}				
 				g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 								     0, NULL, rule_changed, vf);
 				em_vfolder_rule_remove_source((EMVFolderRule *)rule, source);
@@ -866,7 +881,12 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 		g_hash_table_insert(vfolder_hash, g_strdup(info->new->full_name), folder);
 
 		rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
-		g_assert(rule);
+		if (!rule) {
+			UNLOCK ();
+			g_warning ("Rule shouldn't be NULL\n");
+			return;
+		}
+
 		g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 						     0, NULL, rule_changed, folder);
 		filter_rule_set_name(rule, info->new->full_name);

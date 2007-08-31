@@ -191,7 +191,7 @@ free_send_data(void)
 {
 	struct _send_data *data = send_data;
 
-	g_assert(g_hash_table_size(data->active) == 0);
+	g_return_if_fail (g_hash_table_size(data->active) == 0);
 
 	if (data->inbox) {
 		mail_sync_folder(data->inbox, NULL, NULL);
@@ -942,8 +942,6 @@ mail_send_receive (void)
 			mail_get_store(info->uri, info->cancel, receive_update_got_store, info);
 			break;
 		default:
-			/* Commented for pluggable hooks*/
-			/* g_assert_not_reached () */
 			break;
 		}
 		scan = scan->next;
@@ -1145,7 +1143,7 @@ mail_receive_uri (const char *uri, int keep)
 		mail_get_store (info->uri, info->cancel, receive_update_got_store, info);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached();
 	}
 }
 
