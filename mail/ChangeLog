@@ -1,3 +1,8 @@
+2007-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-view:
+	Use modern icon names for "Junk" and "Not Junk".
+
 2007-08-31  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #377763
