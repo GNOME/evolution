@@ -1,3 +1,8 @@
+2007-09-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Update FSF address in header comments (#469886).
+	  Patch from Tobias Mueller.
+
 2007-08-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in: Add mail/default/pl/Makefile to AC_OUTPUT.

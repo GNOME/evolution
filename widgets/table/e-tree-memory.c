@@ -18,8 +18,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
  */
 
 #include <config.h>
@@ -421,9 +421,18 @@ e_tree_memory_new (void)
 	return (ETreeMemory *) g_object_new (E_TREE_MEMORY_TYPE, NULL);
 }
 
+/**
+ * e_tree_memory_set_expanded_default
+ *
+ * Sets the state of nodes to be append to a thread.
+ * They will either be expanded or collapsed, according to
+ * the value of @expanded.
+ */
 void
 e_tree_memory_set_expanded_default         (ETreeMemory *etree, gboolean expanded)
 {
+	g_return_if_fail (etree != NULL);
+	
 	etree->priv->expanded_default = expanded;
 }
 

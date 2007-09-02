@@ -1,7 +1,7 @@
  /* Evolution exchange send options
  * Copyright (C) 2004 Novell, Inc.
  *
- * Authors: Raghavendran R<raghavguru7@gmail.com>
+ * Authors: Raghavendran R <raghavguru7@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Bangalore, MA 02111-1307, India.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, MA 02110-1301.
  */
 
 #ifndef __EXCHANGE_SENDOPTIONS_DIALOG_H__

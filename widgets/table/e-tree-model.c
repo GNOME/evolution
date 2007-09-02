@@ -18,8 +18,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
  */
 
 #include <config.h>
@@ -819,15 +819,6 @@ e_tree_model_value_at (ETreeModel *etree, ETreePath node, int col)
 		return NULL;
 }
 
-/**
- * e_tree_model_icon_of_node
- * @etree: The ETreeModel.
- * @path: The ETreePath to the node we're getting the icon of.
- *
- * XXX docs here.
- *
- * return values: the GdkPixbuf associated with this node.
- */
 void
 e_tree_model_set_value_at (ETreeModel *etree, ETreePath node, int col, const void *val)
 {

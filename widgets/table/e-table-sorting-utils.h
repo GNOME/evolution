@@ -17,16 +17,14 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
  */
 
 #ifndef _E_TABLE_SORTING_UTILS_H_
 #define _E_TABLE_SORTING_UTILS_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #include <table/e-table-model.h>
 #include <table/e-tree-model.h>
@@ -76,8 +74,6 @@ int       e_table_sorting_utils_tree_insert          (ETreeModel     *source,
 						      int             count,
 						      ETreePath       path);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_SORTING_UTILS_H_ */
