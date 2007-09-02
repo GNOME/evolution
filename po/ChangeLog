@@ -1,4 +1,13 @@
-2007-09-02   Clytie Siddall <clytie@riverland.net.au>	* vi.po: Updated Vietnamese translation.2007-09-02  Funda Wang  <fundawang@gmail.com>
+2007-09-02  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* th.po: Updated Thai translation.
+	* ChangeLog: Fix newlines in Clytie's recent entry.
+
+2007-09-02   Clytie Siddall <clytie@riverland.net.au>
+
+	* vi.po: Updated Vietnamese translation.
+
+2007-09-02  Funda Wang  <fundawang@gmail.com>
 
 	* zh_CN.po: Updated Simplified Chinese translation.
 
