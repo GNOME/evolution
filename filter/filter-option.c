@@ -157,7 +157,7 @@ find_option (FilterOption *fo, const char *name)
 void
 filter_option_set_current (FilterOption *option, const char *name)
 {
-	g_assert(IS_FILTER_OPTION(option));
+	g_return_if_fail (IS_FILTER_OPTION(option));
 	
 	option->current = find_option (option, name);
 }
@@ -168,7 +168,7 @@ filter_option_add(FilterOption *fo, const char *value, const char *title, const 
 {
 	struct _filter_option *op;
 	
-	g_assert(IS_FILTER_OPTION(fo));
+	g_return_val_if_fail (IS_FILTER_OPTION(fo), NULL);
 	g_return_val_if_fail(find_option(fo, value) == NULL, NULL);
 	
 	op = g_malloc(sizeof(*op));

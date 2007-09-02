@@ -225,7 +225,7 @@ rule_context_add_part_set(RuleContext *rc, const char *setname, GType part_type,
 {
 	struct _part_set_map *map;
 	
-	g_assert(g_hash_table_lookup(rc->part_set_map, setname) == NULL);
+	g_return_if_fail (g_hash_table_lookup(rc->part_set_map, setname) == NULL);
 	
 	map = g_malloc0(sizeof(*map));
 	map->type = part_type;
@@ -242,7 +242,7 @@ rule_context_add_rule_set(RuleContext *rc, const char *setname, GType rule_type,
 {
 	struct _rule_set_map *map;
 	
-	g_assert(g_hash_table_lookup(rc->rule_set_map, setname) == NULL);
+	g_return_if_fail (g_hash_table_lookup(rc->rule_set_map, setname) == NULL);
 	
 	map = g_malloc0(sizeof(*map));
 	map->type = rule_type;
@@ -264,7 +264,7 @@ rule_context_add_rule_set(RuleContext *rc, const char *setname, GType rule_type,
 static void
 rule_context_set_error(RuleContext *rc, char *error)
 {
-	g_assert(rc);
+	g_return_if_fail (rc);
 	
 	g_free(rc->error);
 	rc->error = error;
@@ -285,7 +285,7 @@ rule_context_load(RuleContext *rc, const char *system, const char *user)
 {
 	int res;
 	
-	g_assert(rc);
+	g_return_val_if_fail (rc, -1);
 	
 	d(printf("rule_context: loading %s %s\n", system, user));
 	
@@ -417,8 +417,8 @@ load(RuleContext *rc, const char *system, const char *user)
 int
 rule_context_save(RuleContext *rc, const char *user)
 {
-	g_assert(rc);
-	g_assert(user);
+	g_return_val_if_fail (rc, -1);
+	g_return_val_if_fail (user, -1);
 	
 	return RULE_CONTEXT_GET_CLASS(rc)->save(rc, user);
 }
@@ -473,7 +473,7 @@ save(RuleContext *rc, const char *user)
 int
 rule_context_revert(RuleContext *rc, const char *user)
 {
-	g_assert(rc);
+	g_return_val_if_fail (rc, 0);
 	
 	d(printf("rule_context: restoring %s\n", user));
 	
@@ -609,8 +609,8 @@ revert(RuleContext *rc, const char *user)
 FilterPart *
 rule_context_find_part(RuleContext *rc, const char *name)
 {
-	g_assert(rc);
-	g_assert(name);
+	g_return_val_if_fail (rc, NULL);
+	g_return_val_if_fail (name, NULL);
 	
 	d(printf("find part : "));
 	return filter_part_find_list(rc->parts, name);
@@ -621,8 +621,8 @@ rule_context_create_part(RuleContext *rc, const char *name)
 {
 	FilterPart *part;
 	
-	g_assert(rc);
-	g_assert(name);
+	g_return_val_if_fail (rc, NULL);
+	g_return_val_if_fail (name, NULL);
 	
 	if ((part = rule_context_find_part(rc, name)))
 		return filter_part_clone(part);
@@ -633,7 +633,7 @@ rule_context_create_part(RuleContext *rc, const char *name)
 FilterPart *
 rule_context_next_part(RuleContext *rc, FilterPart *last)
 {
-	g_assert(rc);
+	g_return_val_if_fail (rc, NULL);
 	
 	return filter_part_next_list(rc->parts, last);
 }
@@ -641,7 +641,7 @@ rule_context_next_part(RuleContext *rc, FilterPart *last)
 FilterRule *
 rule_context_next_rule(RuleContext *rc, FilterRule *last, const char *source)
 {
-	g_assert(rc);
+	g_return_val_if_fail (rc, NULL);
 	
 	return filter_rule_next_list(rc->rules, last, source);
 }
@@ -649,8 +649,8 @@ rule_context_next_rule(RuleContext *rc, FilterRule *last, const char *source)
 FilterRule *
 rule_context_find_rule(RuleContext *rc, const char *name, const char *source)
 {
-	g_assert(name);
-	g_assert(rc);
+	g_return_val_if_fail (name, NULL);
+	g_return_val_if_fail (rc, NULL);
 	
 	return filter_rule_find_list(rc->rules, name, source);
 }
@@ -658,8 +658,8 @@ rule_context_find_rule(RuleContext *rc, const char *name, const char *source)
 void
 rule_context_add_part(RuleContext *rc, FilterPart *part)
 {
-	g_assert(rc);
-	g_assert(part);
+	g_return_if_fail (rc);
+	g_return_if_fail (part);
 	
 	rc->parts = g_list_append(rc->parts, part);
 }
@@ -667,8 +667,8 @@ rule_context_add_part(RuleContext *rc, FilterPart *part)
 void
 rule_context_add_rule(RuleContext *rc, FilterRule *new)
 {
-	g_assert(rc);
-	g_assert(new);
+	g_return_if_fail (rc);
+	g_return_if_fail (new);
 	
 	d(printf("add rule '%s'\n", new->name));
 	
@@ -716,8 +716,8 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const char *title, 
 	
 	d(printf("add rule gui '%s'\n", rule->name));
 	
-	g_assert(rc);
-	g_assert(rule);
+	g_return_if_fail (rc);
+	g_return_if_fail (rule);
 	
 	widget = filter_rule_get_widget(rule, rc);
 	gtk_widget_show(widget);
@@ -751,8 +751,8 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const char *title, 
 void
 rule_context_remove_rule(RuleContext *rc, FilterRule *rule)
 {
-	g_assert(rc);
-	g_assert(rule);
+	g_return_if_fail (rc);
+	g_return_if_fail (rule);
 	
 	d(printf("remove rule '%s'\n", rule->name));
 	
@@ -770,8 +770,8 @@ rule_context_rank_rule(RuleContext *rc, FilterRule *rule, const char *source, in
 	GList *node;
 	int i = 0, index = 0;
 	
-	g_assert(rc);
-	g_assert(rule);
+	g_return_if_fail (rc);
+	g_return_if_fail (rule);
 	
 	if (rule_context_get_rank_rule (rc, rule, source) == rank)
 		return;
@@ -807,8 +807,8 @@ rule_context_get_rank_rule(RuleContext *rc, FilterRule *rule, const char *source
 	GList *node;
 	int i = 0;
 	
-	g_assert(rc);
-	g_assert(rule);
+	g_return_val_if_fail (rc, -1);
+	g_return_val_if_fail (rule, -1);
 	
 	d(printf("getting rank of rule '%s'\n", rule->name));
 	
@@ -836,7 +836,7 @@ rule_context_find_rank_rule(RuleContext *rc, int rank, const char *source)
 	GList *node;
 	int i = 0;
 	
-	g_assert(rc);
+	g_return_val_if_fail (rc, NULL);
 	
 	d(printf("getting rule at rank %d source '%s'\n", rank, source?source:"<any>"));
 	

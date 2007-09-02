@@ -156,7 +156,7 @@ filter_rule_clone (FilterRule *base)
 {
 	FilterRule *rule;
 	
-	g_assert (IS_FILTER_RULE (base));
+	g_return_val_if_fail (IS_FILTER_RULE (base), NULL);
 	
 	rule = g_object_new (G_OBJECT_TYPE (base), NULL, NULL);
 	filter_rule_copy (rule, base);
@@ -167,7 +167,7 @@ filter_rule_clone (FilterRule *base)
 void
 filter_rule_set_name (FilterRule *fr, const char *name)
 {
-	g_assert (IS_FILTER_RULE (fr));
+	g_return_if_fail (IS_FILTER_RULE (fr));
 	
 	if ((fr->name && name && strcmp (fr->name, name) == 0)
 	    || (fr->name == NULL && name == NULL))
@@ -182,7 +182,7 @@ filter_rule_set_name (FilterRule *fr, const char *name)
 void
 filter_rule_set_source (FilterRule *fr, const char *source)
 {
-	g_assert (IS_FILTER_RULE (fr));
+	g_return_if_fail (IS_FILTER_RULE (fr));
 	
 	if ((fr->source && source && strcmp (fr->source, source) == 0)
 	    || (fr->source == NULL && source == NULL))
@@ -197,7 +197,7 @@ filter_rule_set_source (FilterRule *fr, const char *source)
 int
 filter_rule_validate (FilterRule *fr)
 {
-	g_assert (IS_FILTER_RULE (fr));
+	g_return_val_if_fail (IS_FILTER_RULE (fr), 0);
 
 	return FILTER_RULE_GET_CLASS (fr)->validate (fr);
 }
@@ -232,8 +232,8 @@ validate (FilterRule *fr)
 int
 filter_rule_eq (FilterRule *fr, FilterRule *cm)
 {
-	g_assert (IS_FILTER_RULE (fr));
-	g_assert (IS_FILTER_RULE (cm));
+	g_return_val_if_fail (IS_FILTER_RULE (fr), 0);
+	g_return_val_if_fail (IS_FILTER_RULE (cm), 0);
 	
 	return (FILTER_RULE_GET_CLASS (fr) == FILTER_RULE_GET_CLASS (cm))
 		&& FILTER_RULE_GET_CLASS (fr)->eq (fr, cm);
@@ -270,7 +270,7 @@ rule_eq (FilterRule *fr, FilterRule *cm)
 xmlNodePtr
 filter_rule_xml_encode (FilterRule *fr)
 {
-	g_assert (IS_FILTER_RULE (fr));
+	g_return_val_if_fail (IS_FILTER_RULE (fr), NULL);
 	
 	return FILTER_RULE_GET_CLASS (fr)->xml_encode (fr);
 }
@@ -365,9 +365,9 @@ filter_rule_xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
 	int res;
 	
-	g_assert (IS_FILTER_RULE (fr));
-	g_assert (IS_RULE_CONTEXT (f));
-	g_assert (node != NULL);
+	g_return_val_if_fail (IS_FILTER_RULE (fr), 0);
+	g_return_val_if_fail (IS_RULE_CONTEXT (f), 0);
+	g_return_val_if_fail (node != NULL, 0);
 	
 	fr->priv->frozen++;	
 	res = FILTER_RULE_GET_CLASS (fr)->xml_decode (fr, node, f);
@@ -475,8 +475,8 @@ rule_copy (FilterRule *dest, FilterRule *src)
 void
 filter_rule_copy (FilterRule *dest, FilterRule *src)
 {
-	g_assert (IS_FILTER_RULE (dest));
-	g_assert (IS_FILTER_RULE (src));
+	g_return_if_fail (IS_FILTER_RULE (dest));
+	g_return_if_fail (IS_FILTER_RULE (src));
 	
 	FILTER_RULE_GET_CLASS (dest)->copy (dest, src);
 	
@@ -486,8 +486,8 @@ filter_rule_copy (FilterRule *dest, FilterRule *src)
 void
 filter_rule_add_part (FilterRule *fr, FilterPart *fp)
 {
-	g_assert (IS_FILTER_RULE (fr));
-	g_assert (IS_FILTER_PART (fp));
+	g_return_if_fail (IS_FILTER_RULE (fr));
+	g_return_if_fail (IS_FILTER_PART (fp));
 	
 	fr->parts = g_list_append (fr->parts, fp);
 	
@@ -497,8 +497,8 @@ filter_rule_add_part (FilterRule *fr, FilterPart *fp)
 void
 filter_rule_remove_part (FilterRule *fr, FilterPart *fp)
 {
-	g_assert (IS_FILTER_RULE (fr));
-	g_assert (IS_FILTER_PART (fp));
+	g_return_if_fail (IS_FILTER_RULE (fr));
+	g_return_if_fail (IS_FILTER_PART (fp));
 	
 	fr->parts = g_list_remove (fr->parts, fp);
 	
@@ -510,9 +510,9 @@ filter_rule_replace_part (FilterRule *fr, FilterPart *fp, FilterPart *new)
 {
 	GList *l;
 	
-	g_assert (IS_FILTER_RULE (fr));
-	g_assert (IS_FILTER_PART (fp));
-	g_assert (IS_FILTER_PART (new));
+	g_return_if_fail (IS_FILTER_RULE (fr));
+	g_return_if_fail (IS_FILTER_PART (fp));
+	g_return_if_fail (IS_FILTER_PART (new));
 	
 	l = g_list_find (fr->parts, fp);
 	if (l) {
@@ -527,8 +527,8 @@ filter_rule_replace_part (FilterRule *fr, FilterPart *fp, FilterPart *new)
 void
 filter_rule_build_code (FilterRule *fr, GString *out)
 {
-	g_assert (IS_FILTER_RULE (fr));
-	g_assert (out != NULL);
+	g_return_if_fail (IS_FILTER_RULE (fr));
+	g_return_if_fail (out != NULL);
 	
 	FILTER_RULE_GET_CLASS (fr)->build_code (fr, out);
 	
@@ -538,7 +538,7 @@ filter_rule_build_code (FilterRule *fr, GString *out)
 void
 filter_rule_emit_changed(FilterRule *fr)
 {
-	g_assert (IS_FILTER_RULE (fr));
+	g_return_if_fail (IS_FILTER_RULE (fr));
 	
 	if (fr->priv->frozen == 0)
 		g_signal_emit (fr, signals[CHANGED], 0);

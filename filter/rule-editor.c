@@ -550,7 +550,7 @@ rule_move (RuleEditor *re, int from, int to)
 	gtk_tree_path_free (path);
 	
 	gtk_tree_model_get (GTK_TREE_MODEL (re->model), &iter, 1, &rule, -1);
-	g_assert (rule != NULL);
+	g_return_if_fail (rule != NULL);
 	
 	/* remove and then re-insert the row at the new location */
 	gtk_list_store_remove (re->model, &iter);
@@ -680,7 +680,7 @@ cursor_changed (GtkTreeView *treeview, RuleEditor *re)
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (re->model), &iter, 1, &re->current, -1);
 		
-		g_assert (re->current);
+		g_return_if_fail (re->current);
 		
 		rule_editor_set_sensitive (re);
 	}

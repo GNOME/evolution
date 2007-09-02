@@ -1,3 +1,26 @@
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 (Move away from asserts to g_ret*)
+
+	* filter-option.c: (filter_option_set_current),
+	(filter_option_add):
+	* filter-rule.c: (filter_rule_clone), (filter_rule_set_name),
+	(filter_rule_set_source), (filter_rule_validate), (filter_rule_eq),
+	(filter_rule_xml_encode), (filter_rule_xml_decode),
+	(filter_rule_copy), (filter_rule_add_part),
+	(filter_rule_remove_part), (filter_rule_replace_part),
+	(filter_rule_build_code), (filter_rule_emit_changed):
+	* rule-context.c: (rule_context_add_part_set),
+	(rule_context_add_rule_set), (rule_context_set_error),
+	(rule_context_load), (rule_context_save), (rule_context_revert),
+	(rule_context_find_part), (rule_context_create_part),
+	(rule_context_next_part), (rule_context_next_rule),
+	(rule_context_find_rule), (rule_context_add_part),
+	(rule_context_add_rule), (rule_context_add_rule_gui),
+	(rule_context_remove_rule), (rule_context_rank_rule),
+	(rule_context_get_rank_rule), (rule_context_find_rank_rule):
+	* rule-editor.c: (rule_move), (cursor_changed):
+
 2007-08-13  Ross Burton  <ross@openedhand.com>
 
 	* rule-context.c:
