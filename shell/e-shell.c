@@ -351,7 +351,7 @@ window_delete_event_cb (GtkWidget *widget,
 {
 	EShell *shell;
 
-	g_assert (E_IS_SHELL_WINDOW (widget));
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (widget), TRUE);
 	shell = E_SHELL (data);
 
 	return ! e_shell_request_close_window (shell, E_SHELL_WINDOW (widget));
@@ -706,7 +706,7 @@ e_shell_construct (EShell *shell,
 		break;
 	default:
 		start_online = FALSE; /* Make compiler happy.  */
-		g_assert_not_reached ();
+		g_return_val_if_reached(E_SHELL_CONSTRUCT_RESULT_OK);
 	}
 
 	e_passwords_set_online(start_online);
@@ -767,8 +767,8 @@ remove_dir(const char *root, const char *path)
 			goto fail;
 
 		/* make sure we're really removing something from evolution dir */
-		g_assert(strlen(path) >= strlen(root)
-			 && strncmp(root, path, strlen(root)) == 0);
+		g_return_val_if_fail (strlen(path) >= strlen(root)
+			 && strncmp(root, path, strlen(root)) == 0, -1);
 
 		if (S_ISDIR(st.st_mode)) {
 			if (remove_dir(root, new) == -1)
@@ -813,7 +813,7 @@ e_shell_attempt_upgrade (EShell *shell)
 
 	oldpath = g_build_filename(g_get_home_dir(), "evolution", NULL);
 
-	g_assert(sscanf(BASE_VERSION, "%u.%u", &cmajor, &cminor) == 2);
+	g_return_val_if_fail (sscanf(BASE_VERSION, "%u.%u", &cmajor, &cminor) == 2, TRUE);
 	crevision = atoi(UPGRADE_REVISION);
 
 	detect_version (gconf_client, &major, &minor, &revision);

@@ -228,9 +228,9 @@ init_view (EShellWindow *window,
 	int sidebar_notebook_page_num;
 	int view_notebook_page_num;
 
-	g_assert (view->view_widget == NULL);
-	g_assert (view->sidebar_widget == NULL);
-	g_assert (view->notebook_page_num == -1);
+	g_return_if_fail (view->view_widget == NULL);
+	g_return_if_fail (view->sidebar_widget == NULL);
+	g_return_if_fail (view->notebook_page_num == -1);
 
 	CORBA_exception_init (&ev);
 
@@ -294,7 +294,7 @@ init_view (EShellWindow *window,
 	view_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->view_notebook), view->view_widget);
 
 	/* Since we always add a view page and a sidebar page at the same time...  */
-	g_assert (sidebar_notebook_page_num == view_notebook_page_num);
+	g_return_if_fail (sidebar_notebook_page_num == view_notebook_page_num);
 
 	view->notebook_page_num = view_notebook_page_num;
 
@@ -398,8 +398,7 @@ update_offline_toggle_status (EShellWindow *window)
 		flags = ES_MENU_SHELL_OFFLINE;
 		break;
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 
 	gtk_image_set_from_pixmap (GTK_IMAGE (priv->offline_toggle_image), icon_pixmap, icon_mask);
@@ -488,7 +487,7 @@ offline_toggle_clicked_callback (GtkButton *button,
 		e_shell_go_online (priv->shell, window, GNOME_Evolution_USER_ONLINE);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached();
 	}
 }
 
@@ -582,7 +581,7 @@ setup_offline_toggle (EShellWindow *window)
 
 	update_offline_toggle_status (window);
 
-	g_assert (priv->status_bar != NULL);
+	g_return_if_fail (priv->status_bar != NULL);
 
 	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->offline_toggle, FALSE, TRUE, 0);
 }

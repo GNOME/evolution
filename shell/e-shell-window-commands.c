@@ -837,7 +837,7 @@ update_offline_menu_item (EShellWindow *shell_window,
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached();
 	}
 }
 

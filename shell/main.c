@@ -290,7 +290,7 @@ open_uris (GNOME_Evolution_Shell corba_shell, gchar **uris)
 	CORBA_Environment ev;
 	guint n_uris, ii;
 
-	g_assert (uris != NULL);
+	g_return_if_fail (uris != NULL);
 	n_uris = g_strv_length (uris);
 
 	CORBA_exception_init (&ev);
@@ -316,7 +316,7 @@ idle_cb (gchar **uris)
 	EShellConstructResult result;
 	EShellStartupLineMode startup_line_mode;
 
-	g_assert (uris == NULL || g_strv_length (uris) > 0);
+	g_return_val_if_fail (uris == NULL || g_strv_length (uris) > 0, FALSE);
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();

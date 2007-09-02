@@ -165,9 +165,12 @@ create_help (const char *name)
 		if (!strcmp (name, info[i].name))
 			break;
 	}
-	g_assert(i != num_info);
 
-	label = gtk_label_new(_(info[i].text));
+	if (i >= num_info) 
+		g_warning ("i > num_info\n");
+	
+
+	label = gtk_label_new(i < num_info ? _(info[i].text): NULL);
 	gtk_widget_show (label);
 	gtk_label_set_line_wrap((GtkLabel *)label, TRUE);
 

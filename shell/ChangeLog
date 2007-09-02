@@ -1,3 +1,16 @@
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 (Move away from asserts to g_ret*)
+
+	* e-shell-importer.c: (create_help):
+	* e-shell-window-commands.c: (update_offline_menu_item):
+	* e-shell-window.c: (init_view), (update_offline_toggle_status),
+	(offline_toggle_clicked_callback), (setup_offline_toggle):
+	* e-shell.c: (window_delete_event_cb), (e_shell_construct),
+	(remove_dir), (e_shell_attempt_upgrade):
+	* e-user-creatable-items-handler.c: (execute_verb):
+	* main.c: (open_uris), (idle_cb):
+
 2007-08-08  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Add a new command line option to disable crash-on-select mails,

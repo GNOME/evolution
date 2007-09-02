@@ -357,15 +357,15 @@ execute_verb (EUserCreatableItemsHandler *handler,
 	priv = handler->priv;
 
 	p = strchr (verb_name, ':');
-	g_assert (p != NULL);
+	g_return_if_fail (p != NULL);
 	component_number = atoi (p + 1);
 
 	p = strchr (p + 1, ':');
-	g_assert (p != NULL);
+	g_return_if_fail (p != NULL);
 	id = p + 1;
 
 	component_list_item = g_slist_nth (priv->components, component_number);
-	g_assert (component_list_item != NULL);
+	g_return_if_fail (component_list_item != NULL);
 
 	component = (const Component *) component_list_item->data;
 
