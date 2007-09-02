@@ -850,7 +850,10 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 
 		e_name_selector_model_peek_section (name_selector_model, sections [i],
 						    NULL, &destination_store);
-		g_assert (destination_store);
+		if (!destination_store) {
+			g_warning ("destination store is NULL\n");
+			continue;
+		}
 
 		destinations = e_destination_store_list_destinations (destination_store);
 		process_section (view, destinations, roles [i], &la);

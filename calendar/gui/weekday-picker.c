@@ -185,7 +185,7 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 		if (priv->boxes[i] == item || priv->labels[i] == item)
 			break;
 
-	g_assert (i != 7);
+	g_return_val_if_fail (i != 7, TRUE);
 
 	i += priv->week_start_day;
 	if (i >= 7)

@@ -311,7 +311,7 @@ repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	e_cal_component_alarm_set_repeat (alarm, repeat);
@@ -709,7 +709,7 @@ dialog_to_alarm (Dialog *dialog)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 	e_cal_component_alarm_set_trigger (dialog->alarm, trigger);
 
@@ -722,7 +722,7 @@ dialog_to_alarm (Dialog *dialog)
 	/* Options */
 	switch (action) {
 	case E_CAL_COMPONENT_ALARM_NONE:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 		break;
 
 	case E_CAL_COMPONENT_ALARM_AUDIO:
@@ -745,7 +745,7 @@ dialog_to_alarm (Dialog *dialog)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -1099,7 +1099,7 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		check_custom_program (dialog);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 		return;
 	}
 }

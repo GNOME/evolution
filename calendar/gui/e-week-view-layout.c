@@ -243,8 +243,7 @@ e_week_view_find_day		(time_t		 time_to_find,
 		}
 	}
 
-	g_assert_not_reached ();
-	return days_shown;
+	g_return_val_if_reached (days_shown);
 }
 
 

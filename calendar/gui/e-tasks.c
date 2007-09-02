@@ -1346,8 +1346,8 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 
 	g_return_if_fail (priv->view_instance == NULL);
 
-	g_assert (priv->view_instance == NULL);
-	g_assert (priv->view_menus == NULL);
+	g_return_if_fail (priv->view_instance == NULL);
+	g_return_if_fail (priv->view_menus == NULL);
 
 	/* Create the view instance */
 
@@ -1415,9 +1415,7 @@ e_tasks_discard_view_menus (ETasks *tasks)
 	priv = tasks->priv;
 
 	g_return_if_fail (priv->view_instance != NULL);
-
-	g_assert (priv->view_instance != NULL);
-	g_assert (priv->view_menus != NULL);
+	g_return_if_fail (priv->view_menus != NULL);
 
 	g_object_unref (priv->view_instance);
 	priv->view_instance = NULL;

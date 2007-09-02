@@ -316,7 +316,7 @@ comp_editor_strip_categories (const char *categories)
 			if (!start)
 				continue;
 
-			g_assert (start <= end);
+			g_return_val_if_fail (start <= end, NULL);
 
 			len = end - start + 1;
 			strncpy (new_p, start, len);
@@ -336,7 +336,7 @@ comp_editor_strip_categories (const char *categories)
 	if (start) {
 		int len;
 
-		g_assert (start <= end);
+		g_return_val_if_fail (start <= end, NULL);
 
 		len = end - start + 1;
 		strncpy (new_p, start, len);

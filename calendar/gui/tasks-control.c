@@ -153,7 +153,11 @@ sensitize_items(BonoboUIComponent *uic, struct _tasks_sensitize_item *items, gui
 	while (items->command) {
 		char command[32];
 
-		g_assert(strlen(items->command)<21);
+		if (strlen(items->command)>=21) {
+			g_warning ("Size more than 21: %s\n", items->command);
+			continue;
+		}
+
 		sprintf(command, "/commands/%s", items->command);
 
 		bonobo_ui_component_set_prop (uic, command, "sensitive",
@@ -193,7 +197,7 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	ECalendarTable *cal_table;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
 		return;
@@ -265,7 +269,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	char *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	remote_uih = bonobo_control_get_remote_ui_container (control, NULL);
 	bonobo_ui_component_set_container (uic, remote_uih, NULL);
@@ -321,7 +325,7 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
 
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	e_menu_activate ((EMenu *)e_tasks_get_tasks_menu (tasks), uic, 0);
 	e_tasks_set_ui_component (tasks, NULL);

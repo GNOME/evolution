@@ -1,3 +1,86 @@
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 (Move away from asserts to g_ret*)
+
+	* gui/alarm-notify/alarm-queue.c: (alarm_trigger_cb),
+	(remove_comp), (notify_dialog_cb), (audio_notification),
+	(procedure_notification), (remove_cqa), (remove_client_alarms):
+	* gui/alarm-notify/notify-main.c: (alarm_notify_factory_fn),
+	(init_alarm_service):
+	* gui/cal-search-bar.c: (free_categories), (get_current_category),
+	(regen_query), (make_suboptions), (cal_search_bar_set_categories):
+	* gui/calendar-commands.c: (sensitize_items),
+	(calendar_control_sensitize_calendar_commands),
+	(sensitize_taskpad_commands), (gcal_calendar_focus_change_cb),
+	(gcal_taskpad_focus_change_cb), (calendar_control_activate),
+	(calendar_control_deactivate):
+	* gui/calendar-component.c: (set_info):
+	* gui/calendar-config.c: (units_to_string),
+	(calendar_config_get_hide_completed_tasks_sexp):
+	* gui/calendar-view-factory.c: (calendar_view_factory_get_title),
+	(calendar_view_factory_get_type_code):
+	* gui/calendar-view.c: (calendar_view_get_type_code):
+	* gui/comp-editor-factory.c: (free_request), (editor_destroy_cb),
+	(edit_existing), (edit_new), (queue_edit_existing),
+	(queue_edit_new):
+	* gui/comp-util.c: (cal_comp_event_new_with_defaults):
+	* gui/dialogs/alarm-dialog.c: (repeat_widgets_to_alarm),
+	(dialog_to_alarm), (action_selection_done_cb):
+	* gui/dialogs/comp-editor-page.c: (comp_editor_page_get_widget),
+	(comp_editor_page_focus_main_widget),
+	(comp_editor_page_fill_widgets):
+	* gui/dialogs/comp-editor-util.c: (comp_editor_strip_categories):
+	* gui/dialogs/comp-editor.c: (comp_editor_append_page),
+	(raise_and_focus):
+	* gui/dialogs/event-page.c: (event_page_fill_component),
+	(event_page_set_all_day_event), (times_updated),
+	(alarm_custom_clicked_cb):
+	* gui/dialogs/recurrence-page.c: (simple_recur_to_comp),
+	(fill_component), (make_weekly_special), (make_monthly_special),
+	(make_recurrence_special), (make_ending_until_special),
+	(make_ending_count_special), (make_ending_special),
+	(recurrence_page_fill_widgets), (exception_add_cb):
+	* gui/e-cal-model.c: (clear_objects_array), (ecm_value_at),
+	(ecm_set_value_at), (e_cal_model_set_default_client),
+	(update_e_cal_view_for_client), (cal_opened_cb),
+	(remove_client_objects):
+	* gui/e-calendar-table.c: (e_calendar_table_get_selected_comp):
+	* gui/e-calendar-view.c: (e_calendar_view_add_event):
+	* gui/e-day-view.c: (update_row), (model_rows_inserted_cb),
+	(e_day_view_convert_event_coords), (e_day_view_update_query),
+	(cancel_editing), (e_day_view_on_editing_stopped):
+	* gui/e-itip-control.c: (find_cal_opened_cb),
+	(write_recurrence_piece), (get_cancel_options), (show_current),
+	(ok_clicked_cb):
+	* gui/e-meeting-list-view.c: (name_selector_dialog_close_cb):
+	* gui/e-meeting-store.c: (refresh_busy_periods):
+	* gui/e-memo-table.c: (get_selected_comp):
+	* gui/e-memos.c: (e_memos_setup_view_menus),
+	(e_memos_discard_view_menus):
+	* gui/e-tasks.c: (e_tasks_setup_view_menus),
+	(e_tasks_discard_view_menus):
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw):
+	* gui/e-week-view-layout.c: (e_week_view_find_day):
+	* gui/e-week-view.c: (update_row), (model_rows_inserted_cb),
+	(e_week_view_update_query), (e_week_view_start_editing_event),
+	(cancel_editing), (e_week_view_cursor_key_up),
+	(e_week_view_cursor_key_down), (e_week_view_cursor_key_left),
+	(e_week_view_cursor_key_right):
+	* gui/gnome-cal.c: (get_times_for_views), (get_focus_location),
+	(update_query), (gnome_calendar_direction), (set_view),
+	(display_view), (gnome_calendar_setup_view_menus),
+	(gnome_calendar_discard_view_menus), (client_cal_opened_cb),
+	(open_ecal), (backend_died_cb),
+	(gnome_calendar_remove_source_by_uid):
+	* gui/memos-control.c: (memos_control_sensitize_commands),
+	(memos_control_activate), (memos_control_deactivate):
+	* gui/print.c: (print_calendar_draw_page):
+	* gui/tasks-control.c: (sensitize_items),
+	(tasks_control_sensitize_commands), (tasks_control_activate),
+	(tasks_control_deactivate):
+	* gui/weekday-picker.c: (day_event_cb):
+	* importers/icalendar-importer.c: (ivcal_import_items):
+
 2007-08-29  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #466051

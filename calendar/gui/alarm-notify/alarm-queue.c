@@ -431,8 +431,7 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 		break;
 
 	default:
-		g_assert_not_reached ();
-		break;
+		g_return_if_reached ();
 	}
 	d(printf("%s:%d (alarm_trigger_cb) - Notification sent:%d\n",__FILE__, __LINE__, action));
 }
@@ -648,7 +647,7 @@ remove_comp (ClientAlarms *ca, ECalComponentId *id)
 	/* If a component is present, then it means we must have alarms queued
 	 * for it.
 	 */
-	g_assert (cqa->queued_alarms != NULL);
+	g_return_if_fail (cqa->queued_alarms != NULL);
 	
 	d(printf("%s:%d (remove_comp) - Removing CQA %p\n",__FILE__, __LINE__, cqa));
 	remove_alarms (cqa, TRUE);
@@ -1284,7 +1283,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	return;
@@ -1657,7 +1656,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 		return;
 
 	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
-	g_assert (alarm != NULL);
+	g_return_if_fail (alarm != NULL);
 
 	e_cal_component_alarm_get_attach (alarm, &attach);
 	e_cal_component_alarm_free (alarm);
@@ -1778,7 +1777,7 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 		return;
 
 	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
-	g_assert (alarm != NULL);
+	g_return_if_fail (alarm != NULL);
 
 	e_cal_component_alarm_get_attach (alarm, &attach);
 	e_cal_component_alarm_get_description (alarm, &description);
@@ -1794,7 +1793,7 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	}
 
 	url = icalattach_get_url (attach);
-	g_assert (url != NULL);
+	g_return_if_fail (url != NULL);
 
 	/* Ask for confirmation before executing the stuff */
 	if (description.value)
@@ -2062,7 +2061,7 @@ remove_cqa (ClientAlarms *ca, ECalComponentId *id, CompQueuedAlarms *cqa)
 	/* If a component is present, then it means we must have alarms queued
 	 * for it.
 	 */
-	g_assert (cqa->queued_alarms != NULL);
+	g_return_if_fail (cqa->queued_alarms != NULL);
 
 	d(printf("%s:%d (remove_cqa) - removing %d alarms\n",__FILE__, __LINE__, g_slist_length(cqa->queued_alarms)));
 	remove_alarms (cqa, TRUE);
@@ -2093,7 +2092,7 @@ remove_client_alarms (ClientAlarms *ca)
 	g_hash_table_foreach_remove  (ca->uid_alarms_hash, (GHRFunc)remove_comp_by_id, ca);
 	
 	/* The hash table should be empty now */
-	g_assert (g_hash_table_size (ca->uid_alarms_hash) == 0);
+	g_return_if_fail (g_hash_table_size (ca->uid_alarms_hash) == 0);
 }
 
 /**

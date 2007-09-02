@@ -338,7 +338,7 @@ update_row (EWeekView *week_view, int row)
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	comp_data = e_cal_model_get_component_at (model, row);
-	g_assert (comp_data != NULL);
+	g_return_if_fail (comp_data != NULL);
 	process_component (week_view, comp_data);
 
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -374,7 +374,10 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 		ECalModelComponent *comp_data;
 
 		comp_data = e_cal_model_get_component_at (model, row + i);
-		g_assert (comp_data != NULL);
+		if (comp_data == NULL) {
+			g_warning ("comp_data is NULL\n");
+			continue;
+		}
 		process_component (week_view, comp_data);
 	}
 
@@ -1323,7 +1326,10 @@ e_week_view_update_query (EWeekView *week_view)
 		ECalModelComponent *comp_data;
 
 		comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), r);
-		g_assert (comp_data != NULL);
+		if (comp_data == NULL) {
+			g_warning ("comp_data is NULL\n");
+			continue;
+		}
 		process_component (week_view, comp_data);
 	}
 }
@@ -2971,7 +2977,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 			if (event->comp_data == comp_data)
 				break;
 		}
-		g_assert (event_num >= 0);		
+		g_return_val_if_fail (event_num >= 0, FALSE);		
 	}	
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,  event->spans_index + span_num);
 
@@ -3017,7 +3023,7 @@ cancel_editing (EWeekView *week_view)
 	event_num = week_view->editing_event_num;
 	span_num = week_view->editing_span_num;
 
-	g_assert (event_num != -1);
+	g_return_if_fail (event_num != -1);
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
@@ -3798,7 +3804,7 @@ e_week_view_cursor_key_up (EWeekView *week_view, GnomeCalendarViewType view_type
 		e_month_view_do_cursor_key_up (week_view);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -3813,7 +3819,7 @@ e_week_view_cursor_key_down (EWeekView *week_view, GnomeCalendarViewType view_ty
 		e_month_view_do_cursor_key_down (week_view);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -3828,7 +3834,7 @@ e_week_view_cursor_key_left (EWeekView *week_view, GnomeCalendarViewType view_ty
 		e_month_view_do_cursor_key_left (week_view);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -3843,7 +3849,7 @@ e_week_view_cursor_key_right (EWeekView *week_view, GnomeCalendarViewType view_t
 		e_month_view_do_cursor_key_right (week_view);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 

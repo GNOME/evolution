@@ -285,7 +285,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 				break;
 			default:
 				uid = NULL;
-				g_assert_not_reached ();
+				g_return_if_reached ();
 			}	
 	
 			if (uid) {
@@ -844,7 +844,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	len = strlen (buffer);
@@ -1257,8 +1257,7 @@ get_cancel_options (gboolean found, icalcomponent_kind kind)
 		case ICAL_VTODO_COMPONENT:
  			return g_strdup_printf ("<i>%s</i>", _("The task has been canceled, however it could not be found in your task lists"));
 		default:
-			g_assert_not_reached ();
-			return NULL;
+			g_return_val_if_reached (NULL);
 		}		
 	}
 
@@ -1612,7 +1611,7 @@ show_current (EItipControl *itip)
 			trigger.u.rel_duration.days = interval;
 			break;
 		default:
-			g_assert_not_reached ();
+			g_return_if_reached ();
 		}
 
 		e_cal_component_alarm_set_trigger (acomp, trigger);
@@ -2541,7 +2540,7 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 		
 		if (priv->my_address == NULL)
 			find_my_address (itip, priv->ical_comp, NULL);
-		g_assert (priv->my_address != NULL);
+		g_return_if_fail (priv->my_address != NULL);
 		
 		ical_comp = e_cal_component_get_icalcomponent (comp);
 		

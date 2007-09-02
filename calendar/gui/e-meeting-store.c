@@ -1242,7 +1242,7 @@ refresh_busy_periods (gpointer data)
 	/* Check to see if there are any remaining attendees in the queue */
 	for (i = 0; i < priv->refresh_queue->len; i++) {
 		attendee = g_ptr_array_index (priv->refresh_queue, i);
-		g_assert (attendee != NULL);
+		g_return_val_if_fail (attendee != NULL, FALSE);
 
 		qdata = g_hash_table_lookup (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
 		if (!qdata)

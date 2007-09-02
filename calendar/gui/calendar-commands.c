@@ -364,7 +364,10 @@ sensitize_items(BonoboUIComponent *uic, struct _sensitize_item *items, guint32 m
 	while (items->command) {
 		char command[32];
 
-		g_assert(strlen(items->command)<21);
+		if (strlen(items->command)>=21) {
+			g_warning ("items->command >= 21: %s\n", items->command);
+			continue;
+		}
 		sprintf(command, "/commands/%s", items->command);
 
 		bonobo_ui_component_set_prop (uic, command, "sensitive",
@@ -402,7 +405,7 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	ECalMenuTargetSelect *t;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
 		return;
@@ -461,7 +464,7 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 	ECalMenuTargetSelect *t;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	menu = gnome_calendar_get_calendar_menu (gcal);
 	task_pad = gnome_calendar_get_task_pad(gcal);
@@ -513,7 +516,7 @@ gcal_calendar_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 	control = BONOBO_CONTROL (data);
 
 	focus = g_object_get_data (G_OBJECT (control), "focus_data");
-	g_assert (focus != NULL);
+	g_return_if_fail (focus != NULL);
 
 	if (in) {
 		g_signal_connect (gcal, "calendar_selection_changed",
@@ -539,7 +542,7 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 	control = BONOBO_CONTROL (data);
 
 	focus = g_object_get_data (G_OBJECT (control), "focus_data");
-	g_assert (focus != NULL);
+	g_return_if_fail (focus != NULL);
 
 	if (in) {
 		g_signal_connect (gcal, "taskpad_selection_changed",
@@ -613,7 +616,7 @@ calendar_control_activate (BonoboControl *control,
 	gchar *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	remote_uih = bonobo_control_get_remote_ui_container (control, NULL);
 	bonobo_ui_component_set_container (uic, remote_uih, NULL);
@@ -665,7 +668,7 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 	BonoboUIComponent *uic;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	e_menu_activate((EMenu *)gnome_calendar_get_calendar_menu (gcal), uic, 0);
 	e_menu_activate((EMenu *)gnome_calendar_get_taskpad_menu (gcal), uic, 0);
@@ -673,7 +676,7 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 	gnome_calendar_set_ui_component (gcal, NULL);
 
 	focus = g_object_get_data (G_OBJECT (control), "focus_data");
-	g_assert (focus != NULL);
+	g_return_if_fail (focus != NULL);
 
 	g_object_set_data (G_OBJECT (control), "focus_data", NULL);
 	g_free (focus);

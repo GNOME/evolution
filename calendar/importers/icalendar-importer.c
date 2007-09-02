@@ -296,7 +296,7 @@ ivcal_import_items(void *d)
 			/* FIXME: e_error ... */;
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_val_if_reached (FALSE);
 	}
 
 	ivcal_import_done(ici);

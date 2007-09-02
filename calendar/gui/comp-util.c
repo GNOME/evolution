@@ -310,7 +310,7 @@ cal_comp_event_new_with_defaults (ECal *client)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_warning ("wrong units %d\n", units);
 	}
 
 	e_cal_component_alarm_set_trigger (alarm, trigger);

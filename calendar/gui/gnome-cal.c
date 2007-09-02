@@ -675,8 +675,7 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 		*end_time = time_add_month_with_zone (*start_time, 1, priv->zone);
 		break;		
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 }
 
@@ -738,8 +737,7 @@ get_focus_location (GnomeCalendar *gcal)
 				return FOCUS_OTHER;
 
 		default:
-			g_assert_not_reached ();
-			return FOCUS_OTHER;
+			g_return_val_if_reached (FOCUS_OTHER);
 		}
 	}
 }
@@ -839,7 +837,7 @@ update_query (GnomeCalendar *gcal)
 	g_list_free (priv->dn_queries);
 	priv->dn_queries = NULL;
 
-	g_assert (priv->sexp != NULL);
+	g_return_if_fail (priv->sexp != NULL);
 
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
@@ -2058,8 +2056,7 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 		priv->base_view_time = time_add_month_with_zone (priv->base_view_time, direction, priv->zone);
 		break;
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 
 	update_view_times (gcal, priv->base_view_time);
@@ -2170,8 +2167,7 @@ set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean range_s
 		break;
 
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 
 	priv->range_selected = range_selected;
@@ -2249,8 +2245,7 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 		break;
 
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 
 	priv->current_view_type = view_type;
@@ -2342,8 +2337,8 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 	priv = gcal->priv;
 
-	g_assert (priv->view_instance == NULL);
-	g_assert (priv->view_menus == NULL);
+	g_return_if_fail (priv->view_instance == NULL);
+	g_return_if_fail (priv->view_menus == NULL);
 
 	/* Create the view instance */
 	if (collection == NULL) {
@@ -2426,8 +2421,8 @@ gnome_calendar_discard_view_menus (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	g_assert (priv->view_instance != NULL);
-	g_assert (priv->view_menus != NULL);
+	g_return_if_fail (priv->view_instance != NULL);
+	g_return_if_fail (priv->view_menus != NULL);
 
 	g_object_unref (priv->view_instance);
 	priv->view_instance = NULL;
@@ -2683,8 +2678,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), NULL);
 		break;		
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 }
 
@@ -2796,8 +2790,8 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), msg);
 		break;
 	default:
-		g_assert_not_reached ();
-		break;
+		g_free (msg);
+		g_return_val_if_reached (FALSE);
 	}
 
 	g_free (msg);
@@ -2880,8 +2874,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		break;
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 
 	g_object_unref (source);
@@ -3128,8 +3121,7 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 		break;
 		
 	default:
-		g_assert_not_reached ();
-		break;
+		g_return_val_if_reached (TRUE);
 	}
 	
 	g_hash_table_remove (priv->clients[source_type], uid);

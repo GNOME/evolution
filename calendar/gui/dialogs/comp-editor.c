@@ -2006,7 +2006,7 @@ comp_editor_append_page (CompEditor *editor,
 	}
 
 	page_widget = comp_editor_page_get_widget (page);
-	g_assert (page_widget != NULL);
+	g_return_if_fail (page_widget != NULL);
 
 	if (label)
 		label_widget = gtk_label_new_with_mnemonic (label);
@@ -2811,7 +2811,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 static void
 raise_and_focus (GtkWidget *widget)
 {
-	g_assert (GTK_WIDGET_REALIZED (widget));
+	g_return_if_fail (GTK_WIDGET_REALIZED (widget));
 	gdk_window_show (widget->window);
 	gtk_widget_grab_focus (widget);
 }

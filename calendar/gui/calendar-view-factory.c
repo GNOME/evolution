@@ -118,8 +118,7 @@ calendar_view_factory_get_title (GalViewFactory *factory)
 		return _("Month View");
 
 	default:
-		g_assert_not_reached ();
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 }
 
@@ -147,8 +146,7 @@ calendar_view_factory_get_type_code (GalViewFactory *factory)
 		return "month_view";
 
 	default:
-		g_assert_not_reached ();
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 }
 

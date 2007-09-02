@@ -544,7 +544,7 @@ update_row (EDayView *day_view, int row)
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 	comp_data = e_cal_model_get_component_at (model, row);
-	g_assert (comp_data != NULL);
+	g_return_if_fail (comp_data != NULL);
 	process_component (day_view, comp_data);
 
 	gtk_widget_queue_draw (day_view->top_canvas);
@@ -582,7 +582,10 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 		ECalModelComponent *comp_data;
 
 		comp_data = e_cal_model_get_component_at (model, row + i);
-		g_assert (comp_data != NULL);
+		if (comp_data == NULL) {
+			g_warning ("comp_data is NULL\n");
+			continue;
+		}
 		process_component (day_view, comp_data);
 	}
 
@@ -3488,8 +3491,7 @@ e_day_view_convert_event_coords (EDayView *day_view,
 		break;
 	default:
 		/* Shouldn't get here. */
-		g_assert_not_reached ();
-		return FALSE;
+		g_return_val_if_reached (FALSE);
 	}
 
 	while (event_window && event_window != window
@@ -4185,7 +4187,7 @@ e_day_view_update_query (EDayView *day_view)
 		ECalModelComponent *comp_data;
 
 		comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), r);
-		g_assert (comp_data != NULL);
+		g_return_if_fail (comp_data != NULL);
 		process_component (day_view, comp_data);
 	}
 }
@@ -7010,7 +7012,7 @@ cancel_editing (EDayView *day_view)
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
 
-	g_assert (day != -1);
+	g_return_if_fail (day != -1);
 
 	if (day == E_DAY_VIEW_LONG_EVENT)
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
@@ -7613,7 +7615,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	g_object_get (G_OBJECT (event->canvas_item),
 		      "text", &text,
 		      NULL);
-	g_assert (text != NULL);
+	g_return_if_fail (text != NULL);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -7770,7 +7772,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	g_object_get (G_OBJECT (event->canvas_item),
 		      "text", &text,
 		      NULL);
-	g_assert (text != NULL);
+	g_return_if_fail (text != NULL);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));

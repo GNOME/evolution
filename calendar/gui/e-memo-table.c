@@ -444,7 +444,7 @@ get_selected_comp (EMemoTable *memo_table)
 	e_table_selected_row_foreach (etable,
 				      get_selected_row_cb,
 				      &row);
-	g_assert (row != -1);
+	g_return_val_if_fail (row != -1, NULL);
 
 	return e_cal_model_get_component_at (memo_table->model, row);
 }

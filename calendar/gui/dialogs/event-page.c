@@ -1316,7 +1316,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 					       &start_tt.year,
 					       &start_tt.month,
 					       &start_tt.day);
-	g_assert (start_date_set);
+	g_return_val_if_fail (start_date_set, FALSE);
 
 	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->end_time))) {
 		comp_editor_page_display_validation_error (page, _("End date is wrong"), priv->end_time);
@@ -1326,7 +1326,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 					     &end_tt.year,
 					     &end_tt.month,
 					     &end_tt.day);
-	g_assert (end_date_set);
+	g_return_val_if_fail (end_date_set, FALSE);
 
 	/* If the all_day toggle is set, we use DATE values for DTSTART and
 	   DTEND. If not, we fetch the hour & minute from the widgets. */
@@ -1404,7 +1404,10 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 				icalproperty *icalprop;
 				
 				alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (priv->alarm_list_store, &iter);
-				g_assert (alarm != NULL);
+				if (!alarm) {
+					g_warning ("alarm is NULL\n");
+					continue;
+				}
 				
 				/* We set the description of the alarm if it's got
 				 * the X-EVOLUTION-NEEDS-DESCRIPTION property.
@@ -2098,7 +2101,7 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
 				     &start_tt.hour,
 				     &start_tt.minute);
-	g_assert (date_set);
+	g_return_if_fail (date_set);
 
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
 					 &end_tt.year,
@@ -2107,7 +2110,7 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
 				     &end_tt.hour,
 				     &end_tt.minute);
-	g_assert (date_set);
+	g_return_if_fail (date_set);
 
 	/* TODO implement the for portion in end time selector */
 	gtk_widget_set_sensitive (priv->end_time_selector, !all_day);
@@ -2509,13 +2512,13 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 					 &start_tt.year,
 					 &start_tt.month,
 					 &start_tt.day);
-	g_assert (date_set);
+	g_return_if_fail (date_set);
 
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
 					 &end_tt.year,
 					 &end_tt.month,
 					 &end_tt.day);
-	g_assert (date_set);
+	g_return_if_fail (date_set);
 
 	if (all_day_event) {
 		/* All Day Events are simple. We just compare the dates and if
@@ -2905,7 +2908,10 @@ alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 		ECalComponentAlarm *alarm;
 				
 		alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (priv->alarm_list_store, &iter);
-		g_assert (alarm != NULL);
+		if (alarm == NULL) {
+			g_warning ("alarm is NULL\n");
+			continue;
+		}
 
 		e_alarm_list_append (temp_list_store, NULL, alarm);
 	}	

@@ -611,9 +611,9 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		guint8 day_mask;
 		int i;
 
-		g_assert (GTK_BIN (priv->special)->child != NULL);
-		g_assert (priv->weekday_picker != NULL);
-		g_assert (IS_WEEKDAY_PICKER (priv->weekday_picker));
+		g_return_if_fail (GTK_BIN (priv->special)->child != NULL);
+		g_return_if_fail (priv->weekday_picker != NULL);
+		g_return_if_fail (IS_WEEKDAY_PICKER (priv->weekday_picker));
 
 		day_mask = weekday_picker_get_days (WEEKDAY_PICKER (priv->weekday_picker));
 
@@ -647,11 +647,11 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		enum month_num_options month_num;
 		enum month_day_options month_day;
 		
-		g_assert (GTK_BIN (priv->special)->child != NULL);
-		g_assert (priv->month_day_menu != NULL);
-		g_assert (GTK_IS_OPTION_MENU (priv->month_day_menu));
-		g_assert (priv->month_num_menu != NULL);
-		g_assert (GTK_IS_OPTION_MENU (priv->month_num_menu));
+		g_return_if_fail (GTK_BIN (priv->special)->child != NULL);
+		g_return_if_fail (priv->month_day_menu != NULL);
+		g_return_if_fail (GTK_IS_OPTION_MENU (priv->month_day_menu));
+		g_return_if_fail (priv->month_num_menu != NULL);
+		g_return_if_fail (GTK_IS_OPTION_MENU (priv->month_num_menu));
 
 		month_num = e_dialog_option_menu_get (priv->month_num_menu,
 						      month_num_options_map );
@@ -710,7 +710,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 			break;
 
 		default:
-			g_assert_not_reached ();
+			g_return_if_reached ();
 		}
 
 		break;
@@ -721,7 +721,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	/* Ending date */
@@ -731,15 +731,15 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 
 	switch (ending_type) {
 	case ENDING_FOR:
-		g_assert (priv->ending_count_spin != NULL);
-		g_assert (GTK_IS_SPIN_BUTTON (priv->ending_count_spin));
+		g_return_if_fail (priv->ending_count_spin != NULL);
+		g_return_if_fail (GTK_IS_SPIN_BUTTON (priv->ending_count_spin));
 
 		r.count = e_dialog_spin_get_int (priv->ending_count_spin);
 		break;
 
 	case ENDING_UNTIL:
-		g_assert (priv->ending_date_edit != NULL);
-		g_assert (E_IS_DATE_EDIT (priv->ending_date_edit));
+		g_return_if_fail (priv->ending_date_edit != NULL);
+		g_return_if_fail (E_IS_DATE_EDIT (priv->ending_date_edit));
 
 		/* We only allow a DATE value to be set for the UNTIL property,
 		   since we don't support sub-day recurrences. */
@@ -747,7 +747,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 						 &r.until.year,
 						 &r.until.month,
 						 &r.until.day);
-		g_assert (date_set);
+		g_return_if_fail (date_set);
 
 		r.until.is_date = 1;
 
@@ -758,7 +758,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	/* Set the recurrence */
@@ -812,7 +812,7 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 		cdt->value = g_new (struct icaltimetype, 1);
 
 		dt = e_date_time_list_get_date_time (E_DATE_TIME_LIST (model), &iter);
-		g_assert (dt != NULL);
+		g_return_val_if_fail (dt != NULL, FALSE);
 
 		if (!icaltime_is_valid_time (*dt->value)) {
 			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage),
@@ -919,8 +919,8 @@ make_weekly_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	g_assert (GTK_BIN (priv->special)->child == NULL);
-	g_assert (priv->weekday_picker == NULL);
+	g_return_if_fail (GTK_BIN (priv->special)->child == NULL);
+	g_return_if_fail (priv->weekday_picker == NULL);
 
 	/* Create the widgets */
 
@@ -1212,8 +1212,8 @@ make_monthly_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	g_assert (GTK_BIN (priv->special)->child == NULL);
-	g_assert (priv->month_day_menu == NULL);
+	g_return_if_fail (GTK_BIN (priv->special)->child == NULL);
+	g_return_if_fail (priv->month_day_menu == NULL);
 
 	/* Create the widgets */
 
@@ -1307,7 +1307,7 @@ make_recurrence_special (RecurrencePage *rpage)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -1345,8 +1345,8 @@ make_ending_until_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	g_assert (GTK_BIN (priv->ending_special)->child == NULL);
-	g_assert (priv->ending_date_edit == NULL);
+	g_return_if_fail (GTK_BIN (priv->ending_special)->child == NULL);
+	g_return_if_fail (priv->ending_date_edit == NULL);
 
 	/* Create the widget */
 
@@ -1402,8 +1402,8 @@ make_ending_count_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	g_assert (GTK_BIN (priv->ending_special)->child == NULL);
-	g_assert (priv->ending_count_spin == NULL);
+	g_return_if_fail (GTK_BIN (priv->ending_special)->child == NULL);
+	g_return_if_fail (priv->ending_count_spin == NULL);
 
 	/* Create the widgets */
 
@@ -1470,7 +1470,7 @@ make_ending_special (RecurrencePage *rpage)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -1625,7 +1625,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	/* Down to one rule, so test that one */
 
-	g_assert (len == 1);
+	g_return_val_if_fail (len == 1, TRUE);
 	r = rrule_list->data;
 
 	/* Any funky frequency? */
@@ -2172,7 +2172,7 @@ exception_add_cb (GtkWidget *widget, gpointer data)
 						 &icaltime.year,
 						 &icaltime.month,
 						 &icaltime.day);
-		g_assert (date_set);
+		g_return_if_fail (date_set);
 		
 		append_exception (rpage, &dt);
 		preview_recur (rpage);

@@ -191,7 +191,8 @@ free_categories (GPtrArray *categories)
 	int i;
 
 	for (i = 0; i < categories->len; i++) {
-		g_assert (categories->pdata[i] != NULL);
+		if (categories->pdata[i] == NULL)
+			continue;
 		g_free (categories->pdata[i]);
 	}
 
@@ -256,7 +257,7 @@ get_current_category (CalSearchBar *cal_search)
 
 	priv = cal_search->priv;
 
-	g_assert (priv->categories != NULL);
+	g_return_val_if_fail (priv->categories != NULL, NULL);
 
 	viewid = e_search_bar_get_viewitem_id (E_SEARCH_BAR (cal_search));
 
@@ -504,7 +505,7 @@ regen_query (CalSearchBar *cal_search)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	g_free (show_option_sexp);
@@ -606,7 +607,7 @@ make_suboptions (CalSearchBar *cal_search)
 	
 	priv = cal_search->priv;
 
-	g_assert (priv->categories != NULL);
+	g_return_if_fail (priv->categories != NULL);
 
 	/* Categories plus "all", "unmatched", separator, terminator */
 
@@ -869,7 +870,7 @@ cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
 
 	priv = cal_search->priv;
 
-	g_assert (priv->categories != NULL);
+	g_return_if_fail (priv->categories != NULL);
 	free_categories (priv->categories);
 
 	priv->categories = sort_categories (categories);

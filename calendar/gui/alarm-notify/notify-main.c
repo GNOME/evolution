@@ -111,7 +111,7 @@ init_session (void)
 static BonoboObject *
 alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id, void *data)
 {
-	g_assert (alarm_notify_service != NULL);
+	g_return_val_if_fail (alarm_notify_service != NULL, NULL);
 
 	bonobo_object_ref (BONOBO_OBJECT (alarm_notify_service));
 	return BONOBO_OBJECT (alarm_notify_service);
@@ -122,7 +122,7 @@ static gboolean
 init_alarm_service (gpointer user_data)
 {
 	alarm_notify_service = alarm_notify_new ();
-	g_assert (alarm_notify_service != NULL);
+	g_return_val_if_fail  (alarm_notify_service != NULL, FALSE);
 	return FALSE;
 }
 

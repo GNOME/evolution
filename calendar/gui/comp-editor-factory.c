@@ -145,10 +145,8 @@ comp_editor_factory_init (CompEditorFactory *factory)
 static void
 free_request (Request *r)
 {
-	if (r->type == REQUEST_EXISTING) {
-		g_assert (r->u.existing.uid != NULL);
+	if (r->type == REQUEST_EXISTING)
 		g_free (r->u.existing.uid);
-	}
 
 	g_free (r);
 }
@@ -228,7 +226,7 @@ editor_destroy_cb (GtkObject *object, gpointer data)
 	oc->editor_count--;
 
 	/* See if we need to free the client */
-	g_assert (oc->pending == NULL);
+	g_return_if_fail (oc->pending == NULL);
 
 	if (oc->editor_count != 0)
 		return;
@@ -247,7 +245,7 @@ edit_existing (OpenClient *oc, const char *uid)
 	ECalComponentVType vtype;
 	CompEditorFlags flags = { 0, };
 
-	g_assert (oc->open);
+	g_return_if_fail (oc->open);
 
 	/* Get the object */
 	if (!e_cal_get_object (oc->client, uid, NULL, &icalcomp, NULL)) {
@@ -334,7 +332,7 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 		comp = get_default_task (oc->client);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 		return;
 	}
 
@@ -531,7 +529,7 @@ queue_edit_existing (OpenClient *oc, const char *uid)
 {
 	Request *request;
 
-	g_assert (!oc->open);
+	g_return_if_fail (!oc->open);
 
 	request = g_new (Request, 1);
 	request->type = REQUEST_EXISTING;
@@ -587,7 +585,7 @@ queue_edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory
 {
 	Request *request;
 
-	g_assert (!oc->open);
+	g_return_if_fail (!oc->open);
 
 	request = g_new (Request, 1);
 	request->type = REQUEST_NEW;

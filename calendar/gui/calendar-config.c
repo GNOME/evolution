@@ -110,8 +110,7 @@ units_to_string (CalUnits units)
 		return "minutes";
 
 	default:
-		g_assert_not_reached ();
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 }
 
@@ -1561,7 +1560,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 				icaltime_adjust (&tt, 0, 0, -value, 0);
 				break;
 			default:
-				g_assert_not_reached ();
+				g_return_val_if_reached (NULL);
 			}
 
 			t = icaltime_as_timet_with_zone (tt, zone);

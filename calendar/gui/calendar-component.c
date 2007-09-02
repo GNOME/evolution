@@ -782,7 +782,7 @@ set_info (CalendarComponentView *component_view)
 		}
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	e_info_label_set_info (component_view->info_label, _("Calendar"), buffer);

@@ -132,7 +132,7 @@ memos_control_sensitize_commands (BonoboControl *control, EMemos *memos, int n_s
 	ECalModel *model;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
 		return;
@@ -194,7 +194,7 @@ memos_control_activate (BonoboControl *control, EMemos *memos)
 	char *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	remote_uih = bonobo_control_get_remote_ui_container (control, NULL);
 	bonobo_ui_component_set_container (uic, remote_uih, NULL);
@@ -236,7 +236,7 @@ memos_control_deactivate (BonoboControl *control, EMemos *memos)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
 
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	e_memos_set_ui_component (memos, NULL);
 

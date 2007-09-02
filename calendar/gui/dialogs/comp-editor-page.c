@@ -224,8 +224,8 @@ comp_editor_page_get_widget (CompEditorPage *page)
 {
 	g_return_val_if_fail (page != NULL, NULL);
 	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), NULL);
+	g_return_val_if_fail (CLASS (page)->get_widget != NULL, NULL);
 
-	g_assert (CLASS (page)->get_widget != NULL);
 	return (* CLASS (page)->get_widget) (page);
 }
 
@@ -242,8 +242,8 @@ comp_editor_page_focus_main_widget (CompEditorPage *page)
 {
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+	g_return_if_fail (CLASS (page)->focus_main_widget != NULL);
 
-	g_assert (CLASS (page)->focus_main_widget != NULL);
 	(* CLASS (page)->focus_main_widget) (page);
 }
 
@@ -259,8 +259,8 @@ comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
+	g_return_val_if_fail (CLASS (page)->fill_widgets != NULL, FALSE);
 
-	g_assert (CLASS (page)->fill_widgets != NULL);
 	return (* CLASS (page)->fill_widgets) (page, comp);
 }
 

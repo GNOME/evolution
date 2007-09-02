@@ -2214,7 +2214,7 @@ print_calendar_draw_page (GtkPrintOperation *operation,
 			print_month_view (context, pcali->gcal, pcali->start);
 			break;
 		default:
-			g_assert_not_reached ();
+			g_return_if_reached ();
 	}  
 }
 

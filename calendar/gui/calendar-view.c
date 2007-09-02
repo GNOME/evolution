@@ -175,8 +175,7 @@ calendar_view_get_type_code (GalView *view)
 		return "month_view";
 
 	default:
-		g_assert_not_reached ();
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 }
 

@@ -202,7 +202,10 @@ clear_objects_array (ECalModelPrivate *priv)
 		ECalModelComponent *comp_data;
 
 		comp_data = g_ptr_array_index (priv->objects, i);
-		g_assert (comp_data != NULL);
+		if (comp_data == NULL) {
+			g_warning ("comp_data is null\n");
+			continue;
+		}
 		e_cal_model_free_component_data (comp_data);
 	}
 
@@ -441,7 +444,7 @@ ecm_value_at (ETableModel *etm, int col, int row)
 	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
 
 	comp_data = g_ptr_array_index (priv->objects, row);
-	g_assert (comp_data != NULL);
+	g_return_val_if_fail (comp_data != NULL, NULL);
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
@@ -679,7 +682,7 @@ ecm_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	g_return_if_fail (row >= 0 && row < priv->objects->len);
 
 	comp_data = g_ptr_array_index (priv->objects, row);
-	g_assert (comp_data != NULL);
+	g_return_if_fail (comp_data != NULL);
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
@@ -1171,10 +1174,12 @@ e_cal_model_set_default_client (ECalModel *model, ECal *client)
 
 	if (priv->default_client) {
 		client_data = find_client_data (model, priv->default_client);
-		g_assert (client_data);
-
-		if (!client_data->do_query)
-			remove_client (model, client_data);
+		if (!client_data) {
+			g_warning ("client_data is NULL\n");
+		} else {
+			if (!client_data->do_query)
+				remove_client (model, client_data);
+		}
 	}
 	
 	/* Make sure its in the model */
@@ -1499,7 +1504,7 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 	}
 
 	/* prepare the query */
-	g_assert (priv->full_sexp != NULL);
+	g_return_if_fail (priv->full_sexp != NULL);
 
 	/* Don't create the new query if we won't use it */
 	if (!client_data->do_query)
@@ -1551,7 +1556,7 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA, 0, 0, NULL, cal_opened_cb, model);
 
 	client_data = find_client_data (model, client);
-	g_assert (client_data);
+	g_return_if_fail (client_data);
 	
 	update_e_cal_view_for_client (model, client_data);
 }
@@ -1620,7 +1625,7 @@ remove_client_objects (ECalModel *model, ECalModelClient *client_data)
 	for (i = model->priv->objects->len; i > 0; i--) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) g_ptr_array_index (model->priv->objects, i - 1);
 
-		g_assert (comp_data != NULL);
+		g_return_if_fail (comp_data != NULL);
 
 		if (comp_data->client == client_data->client) {
 			e_table_model_pre_change (E_TABLE_MODEL (model));

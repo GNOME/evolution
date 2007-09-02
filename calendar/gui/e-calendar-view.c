@@ -339,8 +339,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 		}
 		break;
 	default:
-		g_assert_not_reached ();
-		return;
+		g_return_if_reached ();
 	}
 	
 
