@@ -686,7 +686,7 @@ control_activate_cb (BonoboControl *control,
 	EABView *v = get_current_view (view);
 
 	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
+	g_return_if_fail (uic != NULL);
 
 	if (activate) {
 		control_activate (control, uic, view);

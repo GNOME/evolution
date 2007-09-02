@@ -641,7 +641,7 @@ static void
 e_contact_list_editor_close (EABEditor *editor)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
-	g_assert (cle->app != NULL);
+	g_return_if_fail (cle->app != NULL);
 
 	gtk_widget_destroy (cle->app);
 	cle->app = NULL;

@@ -1,3 +1,18 @@
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 (Move away from assert to g_ret)
+
+	* gui/component/addressbook-config.c: (ldap_unparse_auth),
+	(ldap_unparse_scope), (ldap_unparse_ssl), (source_to_uri_parts):
+	* gui/component/addressbook-view.c: (control_activate_cb):
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(e_contact_list_editor_close):
+	* gui/widgets/e-addressbook-view.c: (table_double_click),
+	(treeview_row_activated):
+	* gui/widgets/eab-gui-util.c: (eab_search_result_dialog):
+	* gui/widgets/eab-popup-control.c: (set_prop), (get_prop):
+	* printing/e-contact-print.c: (contact_compare):
+
 2007-08-27  Johnny Jacob <jjohnny@novell.com>
 	 
 	Committed on behalf of Ushveen Kaur <kushveen@novell.com>

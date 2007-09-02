@@ -166,7 +166,7 @@ eab_search_result_dialog      (GtkWidget *parent,
 		str = _("This query did not complete successfully.");
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 	
 	e_error_run ((GtkWindow *) parent, "addressbook:search-error", str, NULL);

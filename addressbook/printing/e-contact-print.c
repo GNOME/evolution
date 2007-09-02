@@ -310,7 +310,7 @@ contact_compare (EContact *contact1, EContact *contact2)
 	field1 = e_contact_get_const (contact1, E_CONTACT_UID);
 	field2 = e_contact_get_const (contact2, E_CONTACT_UID);
 
-	g_assert (field1 != NULL && field2 != NULL);
+	g_return_val_if_fail (field1 != NULL && field2 != NULL, (field1 != NULL) ? -1 : 1);
 
 	return strcmp (field1, field2);
 }

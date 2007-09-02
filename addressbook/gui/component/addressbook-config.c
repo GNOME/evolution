@@ -145,8 +145,7 @@ ldap_unparse_auth (AddressbookLDAPAuthType auth_type)
 	case ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN:
 		return "ldap/simple-binddn";
 	default:
-		g_assert(0);
-		return "none";
+		g_return_val_if_reached ("none");
 	}
 }
 
@@ -175,8 +174,7 @@ ldap_unparse_scope (AddressbookLDAPScopeType scope_type)
 	case ADDRESSBOOK_LDAP_SCOPE_SUBTREE:
 		return "sub";
 	default:
-		g_assert(0);
-		return "";
+		g_return_val_if_reached ("");
 	}
 }
 
@@ -191,8 +189,7 @@ ldap_unparse_ssl (AddressbookLDAPSSLType ssl_type)
 	case ADDRESSBOOK_LDAP_SSL_ALWAYS:
 		return "always";
 	default:
-		g_assert(0);
-		return "";
+		g_return_val_if_reached ("");
 	}
 }
 
@@ -217,7 +214,7 @@ source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn, AddressbookL
 	LDAPURLDesc *lud;
 	gint         ldap_error;
 
-	g_assert (source);
+	g_return_val_if_fail (source);
 
 	uri = e_source_get_uri (source);
 	ldap_error = ldap_url_parse ((gchar *) uri, &lud);

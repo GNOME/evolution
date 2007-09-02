@@ -1094,7 +1094,7 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 			     "book", &book,
 			     NULL);
 		
-		g_assert (E_IS_BOOK (book));
+		g_return_if_fail (E_IS_BOOK (book));
 
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
 			eab_show_contact_list_editor (book, contact, FALSE, view->editable);
@@ -1365,7 +1365,7 @@ treeview_row_activated(GtkTreeView *treeview,
 		     "book", &book,
 		     NULL);
 		
-	g_assert (E_IS_BOOK (book));
+	g_return_if_fail (E_IS_BOOK (book));
 
 	if (e_card_evolution_list (card))
 		eab_show_contact_list_editor (book, card, FALSE, view->editable);

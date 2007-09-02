@@ -380,7 +380,7 @@ set_prop (BonoboPropertyBag *bag, const BonoboArg *arg, guint arg_id, CORBA_Envi
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -404,7 +404,7 @@ get_prop (BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA_Environmen
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
