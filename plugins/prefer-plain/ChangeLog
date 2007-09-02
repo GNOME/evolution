@@ -1,3 +1,9 @@
+2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #431459
+
+	* prefer-plain.c: (e_plugin_lib_enable): Avoid reentrancy.
+
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #350539

@@ -35,8 +35,8 @@ enum {
 	EPP_TEXT
 };
 
-static GConfClient *epp_gconf;
-static int epp_mode;
+static GConfClient *epp_gconf = NULL;
+static int epp_mode = -1;
 
 void
 org_gnome_prefer_plain_text_html(void *ep, EMFormatHookTarget *t)
@@ -166,6 +166,9 @@ e_plugin_lib_enable(EPluginLib *ep, int enable)
 {
 	char *key;
 	int i;
+
+	if (epp_gconf || epp_mode != -1)
+		return;
 
 	if (enable) {
 		epp_gconf = gconf_client_get_default();
