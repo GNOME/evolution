@@ -1,3 +1,13 @@
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 (Move away from asserts to g_ret*)
+
+	* e-msg-composer-hdrs.c: (setup_name_selector),
+	(create_from_optionmenu), (e_msg_composer_hdrs_get_recipients):
+	* e-msg-composer.c: (menu_edit_cut_cb), (menu_edit_copy_cb),
+	(menu_edit_paste_cb), (menu_edit_select_all_cb),
+	(update_auto_recipients), (composer_entry_focus_out_event_cb):
+
 2007-08-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #355766

@@ -1896,7 +1896,7 @@ menu_edit_cut_cb (BonoboUIComponent *uic, void *data, const char *path)
 		gtk_editable_cut_clipboard (GTK_EDITABLE (p->focused_entry));
 	} else {
 		/* happy happy joy joy, an EEntry. */
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -1912,7 +1912,7 @@ menu_edit_copy_cb (BonoboUIComponent *uic, void *data, const char *path)
 		gtk_editable_copy_clipboard (GTK_EDITABLE (p->focused_entry));
 	} else {
 		/* happy happy joy joy, an EEntry. */
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -1928,7 +1928,7 @@ menu_edit_paste_cb (BonoboUIComponent *uic, void *data, const char *path)
 		gtk_editable_paste_clipboard (GTK_EDITABLE (p->focused_entry));
 	} else {
 		/* happy happy joy joy, an EEntry. */
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -1960,7 +1960,7 @@ menu_edit_select_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 		gtk_editable_select_region (GTK_EDITABLE (p->focused_entry), 0, -1);
 	} else {
 		/* happy happy joy joy, an EEntry. */
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 }
 
@@ -2701,7 +2701,7 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 		destv = e_msg_composer_hdrs_get_bcc (hdrs);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 	
 	if (destv) {
@@ -2738,7 +2738,7 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 		e_msg_composer_hdrs_set_bcc (hdrs, destv);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 	
 	e_destination_freev (destv);
@@ -3626,7 +3626,7 @@ composer_entry_focus_out_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoi
 	EMsgComposer *composer = user_data;
 	EMsgComposerPrivate *p = composer->priv;
 	
-	g_assert (p->focused_entry == widget);
+	g_return_val_if_fail (p->focused_entry == widget, FALSE);
 	p->focused_entry = NULL;
 
 	bonobo_ui_component_unset_container (p->entry_uic, NULL);

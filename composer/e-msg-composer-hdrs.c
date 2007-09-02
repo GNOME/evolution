@@ -143,7 +143,7 @@ setup_name_selector (EMsgComposerHdrs *hdrs)
 	
 	priv = hdrs->priv;
 	
-	g_assert (priv->name_selector == NULL);
+	g_return_if_fail (priv->name_selector == NULL);
 
 	priv->name_selector = e_name_selector_new ();
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
@@ -399,7 +399,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		
 		/* this should never ever fail */
 		if (!account || !account->name || !account->id) {
-			g_assert_not_reached ();
+			g_warning ("account details are bad\n");
 			continue;
 		}
 	
@@ -1540,7 +1540,9 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	for (i = 0; bcc_destv && bcc_destv[i] != NULL; i++, j++)
 		recip_destv[j] = bcc_destv[i];
 	
-	g_assert (j == n);
+	if (j != n) {
+		g_warning ("j!=n \n");
+	}
 	recip_destv[j] = NULL;
 	
 	g_free (to_destv);
