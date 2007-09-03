@@ -1,5 +1,10 @@
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* gui/component/addressbook-config.c: (source_to_uri_parts): Fix for a
+	build break.
+
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #471791 (Move away from assert to g_ret)
 
 	* gui/component/addressbook-config.c: (ldap_unparse_auth),

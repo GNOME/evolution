@@ -214,7 +214,7 @@ source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn, AddressbookL
 	LDAPURLDesc *lud;
 	gint         ldap_error;
 
-	g_return_val_if_fail (source);
+	g_return_val_if_fail (source, FALSE);
 
 	uri = e_source_get_uri (source);
 	ldap_error = ldap_url_parse ((gchar *) uri, &lud);
