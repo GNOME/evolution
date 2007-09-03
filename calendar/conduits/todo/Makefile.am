@@ -3,6 +3,8 @@ INCLUDES = 					\
 	-I$(top_builddir)/e-util		\
 	-I$(top_srcdir)/widgets/misc		\
 	-I$(top_builddir)/widgets/misc		\
+	-I$(top_srcdir)/calendar/conduits/common		\
+	-I$(top_builddir)/calendar/conduits/common		\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
 # ToDo Conduit
@@ -17,6 +19,7 @@ libetodo_conduit_la_LIBADD = 						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/e-util/libeconduit.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/calendar/conduits/common/libecalendar_common_conduit.la	\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 e-todo.conduit: e-todo.conduit.in

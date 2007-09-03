@@ -45,6 +45,7 @@
 #include <e-pilot-settings.h>
 #include <e-pilot-util.h>
 #include <e-config-listener.h>
+#include <libecalendar-common-conduit.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
@@ -504,70 +505,6 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 }
 
 /*
- * Adds a category to the category app info structure (name and ID),
- * sets category->renamed[i] to true if possible to rename.
- * 
- * This will be packed and written to the app info block during post_sync.
- */
- 
-static int
-add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *category)
-{
-	int i, j;
-	int retval = 0; /* 0 is the Unfiled category */
-	LOG(fprintf(stderr, "add_category_if_possible: called\n"));
-	
-	for(i=0; i<16; i++){
-		/* if strlen is 0, then the category is empty
-		   the PalmOS doesn't let 0-length strings for
-		   categories */
-		LOG(fprintf(stderr, "add_category_if_possible: calling strlen, i==%d\n", i));
-		if(strlen(category->name[i]) == 0){
-			int cat_to_add_len;
-			LOG(fprintf(stderr, "add_category_if_possible: strlen == 0\n"));
-			
-			cat_to_add_len = strlen(cat_to_add);
-			LOG(fprintf(stderr, "add_category_if_possible: cat_to_add_len: %d\n",
-					cat_to_add_len));
-			retval = i;
-			
-			/* only 15 characters for category, 16th is
-			 * '\0' can't do direct mem transfer due to
-			 * declaration type
-			 */
-			LOG(fprintf(stderr, "add_category_if_possible: copying first 15 of category\n"));
-			for(j=0; j<cat_to_add_len; j++){
-				category->name[i][j] = cat_to_add[j];
-			}
-			LOG(fprintf(stderr,
-				"add_category_if_possible: setting from %d to i==15 to \\0\n",
-				cat_to_add_len));
-
-			for(j=cat_to_add_len; j<16; j++)
-				category->name[i][j] = '\0';
-			
-			LOG(fprintf(stderr, "add_category_if_possible: setting ID[%d] to %d\n",
-				category->ID[i], lastDesktopUniqueID));
-			category->ID[i] = lastDesktopUniqueID;
-			lastDesktopUniqueID++;
-			
-			LOG(fprintf(stderr, "add_category_if_possible: setting renamed[%d] to TRUE\n", i));
-			category->renamed[i] = TRUE;
-			
-			LOG(g_message("*** adding category '%s', ID %d ***",
-				category->name[i], category->ID[i]));
-			break;
-		}
-	}
-	
-	if(retval == 0){
-		LOG(g_message("*** not adding category - category list already full ***"));
-	}
-	
-	return retval;
-}
-
-/*
  * converts a ECalComponent object to a EMemoLocalRecord
  */
 static void
@@ -638,51 +575,8 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 		LOG(fprintf(stderr, "local_record_from_comp: done calling dlp_ReadRecordById\n"));
 	}
 	
-	/*
-	 * Grab category from existing category list in ctxt->ai.category
-	 */
-	if(local->local.category == 0){
-		GSList *categ_list_head, *categ_list_cur;
-		int cat = -1;
-		int i;
-		
-		LOG(fprintf(stderr, "local_record_from_comp: trying to set category"));
-		LOG(fprintf(stderr, "local_record_from_comp: calling e_cal_component_get_categories_list\n"));
-		
-		e_cal_component_get_categories_list(comp, &categ_list_head);
-		LOG(fprintf(stderr, "local_record_from_comp: got list, setting categ_list_cur to head\n"));
-		
-		categ_list_cur = categ_list_head;
-		while (categ_list_cur && cat == -1)
-		{	
-			LOG(fprintf(stderr, "local_record_from_comp: iterating, data == %s",
-				(char *)categ_list_cur->data));
-			for(i=0; i<16; i++){
-				LOG(fprintf(stderr, "local_record_from_comp: i == %d\n", i));
-				if(strcmp((char *)categ_list_cur->data,
-					  ctxt->ai.category.name[i]) == 0){
-					cat = i;
-					LOG(fprintf(stderr, "local_record_from_comp: found category, name: %s\n",
-							ctxt->ai.category.name[i]));
-					break;
-				}
-			}
-			
-			LOG(fprintf(stderr, "local_record_from_comp: calling g_slist_next\n"));
-			categ_list_cur = g_slist_next(categ_list_cur);
-		}
-		
-		if(cat != -1){
-			LOG(fprintf(stderr, "local_record_from_comp: setting category\n"));
-			local->local.category = cat;
-		}
-		else if(categ_list_head != NULL){
-			local->local.category =
-				add_category_if_possible(
-					(char *)(categ_list_head->data),
-					&(ctxt->ai.category));
-		}
-	}
+	/*Category support*/
+	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category));
 
 	/* STOP: don't replace these with g_strdup, since free_Memo
 	   uses free to deallocate */
@@ -759,7 +653,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	struct icaltimetype now;
 	icaltimezone *utc_zone;
 	char *txt, *txt2, *txt3;
-	char *category;
 	int i;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
@@ -796,6 +689,9 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 
 	e_cal_component_set_last_modified (comp, &now);
+	
+	/*Category support*/
+	e_pilot_remote_category_to_local(remote->category, comp, &(ai->category));
 	
 	/* The iCal description field */
 	if (!memo.text) {
@@ -851,19 +747,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		e_cal_component_set_classification (comp, E_CAL_COMPONENT_CLASS_PRIVATE);
 	else
 		e_cal_component_set_classification (comp, E_CAL_COMPONENT_CLASS_PUBLIC);
-	
-	
-	/* set the category properly */
-	category = ai->category.name[remote->category];
-	
-	/* TODO The Memos editor page and search bar are not updated until
-	  a restart of the evolution client */
-	if(e_categories_exist(category) == FALSE){
-		/* add if it doesn't exist */
-		e_categories_add(category, NULL, NULL, TRUE);
-	}
-	
-	e_cal_component_set_categories(comp, category);
 
 	e_cal_component_commit_sequence (comp);
 	
@@ -1150,11 +1033,12 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			LOG (g_message ( "for_each: iterating over %d records", g_list_length (comps)));
 
 			*local = g_new0 (EMemoLocalRecord, 1);
-			LOG(fprintf(stderr, "for_each: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, comps->data, ctxt);
-			LOG(fprintf(stderr, "for_each: calling g_list_prepend\n"));
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
-			LOG(fprintf(stderr, "for_each: setting iterator = comps\n"));
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+		        g_list_prepend (ctxt->locals, *local);
 			iterator = comps;
 		} else {
 			LOG (g_message ( "no events" ));
@@ -1163,15 +1047,18 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 		}
 	} else {
 		count++;
-		LOG(fprintf(stderr, "for_each: calling g_list_next (else part)\n"));
+
 		if (g_list_next (iterator)) {
 			iterator = g_list_next (iterator);
-			LOG(fprintf(stderr, "for_each: creating EMemoLocalRecord\n"));
+
 			*local = g_new0 (EMemoLocalRecord, 1);
 			LOG(fprintf(stderr, "for_each: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, iterator->data, ctxt);
-			LOG(fprintf(stderr, "for_each: calling g_list_prepend\n"));
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
@@ -1207,12 +1094,14 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		iterator = next_changed_item (ctxt, iterator);
 		if (iterator != NULL) {
 			ECalChange *ccc = iterator->data;
-			LOG(fprintf(stderr, "for_each_modified: creating EMemoLocalRecord\n"));
+
 			*local = g_new0 (EMemoLocalRecord, 1);
-			LOG(fprintf(stderr, "for_each_modified: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, ccc->comp, ctxt);
-			LOG(fprintf(stderr, "for_each_modified: calling g_list_prepend\n"));
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
 
@@ -1220,17 +1109,18 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		}
 	} else {
 		count++;
-		LOG(fprintf(stderr, "for_each_modified: calling g_list_next\n"));
+
 		iterator = g_list_next (iterator);
-		LOG(fprintf(stderr, "for_each_modified: calling next_changed_item\n"));
 		if (iterator && (iterator = next_changed_item (ctxt, iterator))) {
 			ECalChange *ccc = iterator->data;
-			LOG(fprintf(stderr, "for_each_modified: calling EMemoLocalRecord\n"));
+
 			*local = g_new0 (EMemoLocalRecord, 1);
-			LOG(fprintf(stderr, "for_each_modified: calling local_record_from_comp\n"));
 			local_record_from_comp (*local, ccc->comp, ctxt);
-			LOG(fprintf(stderr, "for_each_modified: calling g_list_prepend\n"));
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 

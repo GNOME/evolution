@@ -1969,6 +1969,7 @@ calendar/importers/Makefile
 calendar/common/Makefile
 calendar/idl/Makefile
 calendar/conduits/Makefile
+calendar/conduits/common/Makefile
 calendar/conduits/todo/Makefile
 calendar/conduits/calendar/Makefile
 calendar/conduits/memo/Makefile

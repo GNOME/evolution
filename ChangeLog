@@ -1,3 +1,9 @@
+2007-09-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #201167 by Nathan Owens
+
+	* configure.in:
+
 2007-09-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Update FSF address in header comments (#469886).

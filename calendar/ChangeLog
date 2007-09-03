@@ -1,3 +1,18 @@
+2007-09-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #201167 by Nathan Owens
+
+	* conduits/todo/Makefile.am:
+	* conduits/todo/todo-conduit.c:
+	* conduits/common/libecalendar-common-conduit.c:
+	* conduits/common/libecalendar-common-conduit.h:
+	* conduits/common/Makefile.am:
+	* conduits/calendar/Makefile.am:
+	* conduits/calendar/calendar-conduit.c:
+	* conduits/Makefile.am:
+	* conduits/memo/memo-conduit.c:
+	* conduits/memo/Makefile.am:
+
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #471791 (Move away from asserts to g_ret*)

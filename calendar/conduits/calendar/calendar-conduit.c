@@ -42,6 +42,7 @@
 #include <e-pilot-settings.h>
 #include <e-pilot-util.h>
 #include <e-config-listener.h>
+#include <libecalendar-common-conduit.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
@@ -87,7 +88,7 @@ calconduit_destroy_record (ECalLocalRecord *local)
 {
 	g_object_unref (local->comp);
 	free_Appointment (local->appt);
-	g_free (local->appt);	
+	g_free (local->appt);
 	g_free (local);
 }
 
@@ -938,6 +939,9 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 		pi_buffer_free (record);
 #endif
 	}
+	
+	/*Category support*/
+	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category));
 
 	/* STOP: don't replace these with g_strdup, since free_Appointment
 	   uses free to deallocate */
@@ -1183,7 +1187,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
 			 ECalComponent *in_comp,
 			 ECal *client,
-			 icaltimezone *timezone)
+			 icaltimezone *timezone,
+			 struct CategoryAppInfo *category)
 {
 	ECalComponent *comp;
 	struct Appointment appt;
@@ -1229,6 +1234,9 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	summary.value = txt = e_pilot_utf8_from_pchar (appt.description);
 	e_cal_component_set_summary (comp, &summary);
 	free (txt);
+	
+	/*Category support*/
+	e_pilot_remote_category_to_local(remote->category, comp, category);
 
 	/* The iCal description field */
 	if (!appt.note) {
@@ -1621,6 +1629,7 @@ pre_sync (GnomePilotConduit *conduit,
 	pi_buffer_free(buffer);
 #endif
 	unpack_AppointmentAppInfo (&(ctxt->ai), buf, len);
+	//unpack_CategoryAppInfo (&(ctxt->ai.category), buf, len);
 	g_free (buf);
 
 	check_for_slow_setting (conduit, ctxt);
@@ -1638,8 +1647,28 @@ post_sync (GnomePilotConduit *conduit,
 {
 	GList *changed;
 	gchar *filename, *change_id;
+	unsigned char *buf;
+	int dlpRetVal, len;
 	
 	LOG (g_message ( "post_sync: Calendar Conduit v.%s", CONDUIT_VERSION ));
+	
+	/* Write AppBlock to PDA - updates categories */
+	buf = (unsigned char*)g_malloc (0xffff);
+	
+	len = pack_AppointmentAppInfo (&(ctxt->ai), buf, 0xffff);
+	
+	dlpRetVal = dlp_WriteAppBlock (dbi->pilot_socket, dbi->db_handle, 
+			      (unsigned char *)buf, len);
+	
+	g_free (buf);
+			      
+	if (dlpRetVal < 0) {
+		WARN ( ("Could not write pilot's Calendar application block"));
+		WARN ("dlp_WriteAppBlock(...) = %d", dlpRetVal);
+		/*gnome_pilot_conduit_error (conduit,
+					   _("Could not write pilot's Calendar application block"));*/
+		return -1;
+	}
 
 	g_free (ctxt->cfg->last_uri);
 	ctxt->cfg->last_uri = g_strdup (e_cal_get_uri (ctxt->client));
@@ -1714,7 +1743,11 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, comps->data, ctxt);
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 
 			iterator = comps;
 		} else {
@@ -1729,7 +1762,11 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, iterator->data, ctxt);
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
@@ -1768,7 +1805,11 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, ccc->comp, ctxt);
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
 
@@ -1782,7 +1823,11 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, ccc->comp, ctxt);
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 
@@ -1837,7 +1882,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote) ));
 
-	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->client, ctxt->timezone);
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->client, ctxt->timezone, &(ctxt->ai.category));
 
 	/* Give it a new UID otherwise it will be the uid of the default comp */
 	uid = e_cal_component_gen_uid ();
@@ -1869,7 +1914,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ("replace_record: replace %s with %s\n",
 			print_local (local), print_remote (remote)));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->client, ctxt->timezone);
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->client, ctxt->timezone, &(ctxt->ai.category));
 	g_object_unref (local->comp);
 	local->comp = new_comp;
 

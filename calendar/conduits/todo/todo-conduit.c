@@ -47,6 +47,7 @@
 #include <e-pilot-settings.h>
 #include <e-pilot-util.h>
 #include <e-config-listener.h>
+#include <libecalendar-common-conduit.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
@@ -430,9 +431,9 @@ static char *print_remote (GnomePilotRecord *remote)
 		    todo.priority,
 		    todo.complete,
 		    todo.description ?
-		    todo.description : "",
+		    e_pilot_utf8_from_pchar(todo.description) : "",
 		    todo.note ?
-		    todo.note : "",
+		    e_pilot_utf8_from_pchar(todo.note) : "",
 		    remote->category);
 
 	free_ToDo (&todo);
@@ -646,55 +647,6 @@ local_record_to_pilot_record (EToDoLocalRecord *local,
 }
 
 /*
- * Adds a category to the category app info structure (name and ID),
- * sets category->renamed[i] to true if possible to rename.
- * 
- * This will be packed and written to the app info block during post_sync.
- */
- 
-static int
-add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *category)
-{
-	int i, j;
-	int retval = 0; // 0 is the Unfiled category
-	
-	for(i=0; i<16; i++){
-		// if strlen is 0, then the category is empty
-		// the PalmOS doesn't let 0-length strings for
-		// categories
-		if(strlen(category->name[i]) == 0){
-			int cat_to_add_len = strlen(cat_to_add);
-			retval = i;
-			
-			/* only 15 characters for category, 16th is
-			 * '\0' can't do direct mem transfer due to
-			 * declaration type
-			 */
-			for(j=0; j<cat_to_add_len; j++)
-				category->name[i][j] = cat_to_add[j];
-
-			for(j=cat_to_add_len; j<16; j++)
-				category->name[i][j] = '\0';
-			
-			category->ID[i] = lastDesktopUniqueID;
-			lastDesktopUniqueID++;
-			
-			category->renamed[i] = TRUE;
-			
-			LOG(g_message("*** adding category '%s', ID %d ***",
-				category->name[i], category->ID[i]));
-			break;
-		}
-	}
-	
-	if(retval == 0){
-		LOG(g_message("*** not adding category - category list already full ***"));
-	}
-	
-	return retval;
-}
-
-/*
  * converts a ECalComponent object to a EToDoLocalRecord
  */
 static void
@@ -755,42 +707,8 @@ local_record_from_comp (EToDoLocalRecord *local, ECalComponent *comp, EToDoCondu
 #endif
 	}
 	
-	/*
-	 * Grab category from existing category list in ctxt->ai.category
-	 */
-	if(local->local.category == 0){
-		GSList *categ_list_head, *categ_list_cur;
-		int cat = -1;
-		int i;
-		
-		e_cal_component_get_categories_list(comp, &categ_list_head);
-		
-		categ_list_cur = categ_list_head;
-		while (categ_list_cur && cat == -1)
-		{	
-			for(i=0; i<16; i++){
-				if(strcmp((char *)categ_list_cur->data,
-					  ctxt->ai.category.name[i]) == 0){
-					cat = i;
-					break;
-				}
-			}
-			
-			categ_list_cur = g_slist_next(categ_list_cur);
-		}
-		
-		if(cat != -1){
-			local->local.category = cat;
-		}
-		else{
-			if(categ_list_head != NULL){
-				local->local.category =
-					add_category_if_possible(
-						(char *)(categ_list_head->data),
-						&(ctxt->ai.category));
-			}
-		}
-	}
+	/*Category support*/
+	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category));
 
 	/* STOP: don't replace these with g_strdup, since free_ToDo
 	   uses free to deallocate */
@@ -907,7 +825,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	icaltimezone *utc_zone;
 	int priority;
 	char *txt;
-	char *category;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
 #endif
@@ -948,6 +865,9 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	summary.value = txt = e_pilot_utf8_from_pchar (todo.description);
 	e_cal_component_set_summary (comp, &summary);
 	free (txt);
+	
+	/*Category support*/
+	e_pilot_remote_category_to_local(remote->category, comp, &(ai->category));
 	
 	/* The iCal description field */
 	if (!todo.note) {
@@ -990,7 +910,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			e_cal_component_set_status (comp, ICAL_STATUS_NEEDSACTION);
 	}
 
-	if (!is_empty_time (todo.due)) {
+	if (!todo.indefinite && !is_empty_time (todo.due)) {
 		due = tm_to_icaltimetype (&todo.due, TRUE);
 		dt.value = &due;
 		e_cal_component_set_due (comp, &dt);
@@ -1020,20 +940,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		e_cal_component_set_classification (comp, E_CAL_COMPONENT_CLASS_PRIVATE);
 	else
 		e_cal_component_set_classification (comp, E_CAL_COMPONENT_CLASS_PUBLIC);
-	
-	
-	// set the category properly
-	category = ai->category.name[remote->category];
-	
-	
-	// TODO The Tasks editor page and search bar are not updated until
-	// a restart of the evolution client
-	if(e_categories_exist(category) == FALSE){
-		// add if it doesn't exist
-		e_categories_add(category, NULL, NULL, TRUE);
-	}
-	
-	e_cal_component_set_categories(comp, category);
 
 	e_cal_component_commit_sequence (comp);
 	
@@ -1315,7 +1221,11 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (EToDoLocalRecord, 1);
 			local_record_from_comp (*local, comps->data, ctxt);
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 			
 			iterator = comps;
 		} else {
@@ -1330,7 +1240,11 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			*local = g_new0 (EToDoLocalRecord, 1);
 			local_record_from_comp (*local, iterator->data, ctxt);
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+			
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
@@ -1369,7 +1283,11 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		
 			*local = g_new0 (EToDoLocalRecord, 1);
 			local_record_from_comp (*local, ccc->comp, ctxt);
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+			
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
 
@@ -1383,7 +1301,11 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			
 			*local = g_new0 (EToDoLocalRecord, 1);
 			local_record_from_comp (*local, ccc->comp, ctxt);			
-			ctxt->locals = g_list_prepend (ctxt->locals, *local);
+			
+			/* NOTE: ignore the return value, otherwise ctxt->locals
+			 * gets messed up. The calling function keeps track of
+			 * the *local variable */
+			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 
