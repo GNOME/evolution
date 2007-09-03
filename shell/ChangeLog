@@ -1,5 +1,10 @@
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* e-shell-window-commands.c: Add contributors to the credits section.
+	Thanks a lot to EvaSDK.
+
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #471791 (Move away from asserts to g_ret*)
 
 	* e-shell-importer.c: (create_help):
