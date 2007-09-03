@@ -1,3 +1,10 @@
+2007-01-08  Wang Xin  <jedy.wang@sun.com>
+	
+	Fixes #470968
+
+	* calendar/gui/e-calendar-table.c: Delete the task with attendee if OK button
+	of the confirm dialog is clicked.
+
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix a build break.

@@ -812,6 +812,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		gboolean retract = FALSE;
 
 		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_table));
+		delete = retract;
 		if (retract) {
 			GList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
