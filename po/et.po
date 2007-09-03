@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-28 10:43+0100\n"
-"PO-Revision-Date: 2007-08-30 22:27+0300\n"
+"PO-Revision-Date: 2007-09-02 09:42+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -11340,7 +11340,7 @@ msgstr "Tähtsad sõnumid"
 
 #: ../mail/em-folder-browser.c:223
 msgid "Messages Not Junk"
-msgstr "Sõnumid, mis pole rämpspost"
+msgstr "Mitte rämpspost"
 
 #: ../mail/em-folder-browser.c:1041
 msgid "Account Search"
@@ -14921,13 +14921,15 @@ msgstr "Kohalike aadressiraamatute põhitalitluse tagamine."
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:1
 msgid "Enable attachment reminder plugin"
-msgstr ""
+msgstr "Manuste meeldetuletaja plugina lubamine"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
 msgstr ""
+"Fraaside kirjeldamine, mille esinemise korral näidatakse manuse puudumise "
+"kohta meeldetuletust"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:376
 msgid "Keywords"
@@ -14935,16 +14937,16 @@ msgstr "Võtmesõnad"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:422
 msgid "Attachment Reminder Preferences"
-msgstr ""
+msgstr "Manuste meeldetuletaja eelistused"
 
 #: ../plugins/attachment-reminder/attachment-reminder.glade.h:1
 msgid "Remind _missing attachments"
-msgstr ""
+msgstr "_Puuduvate manuste kohta näidatakse meeldetuletust"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Attachment Reminder"
-msgstr ""
+msgstr "Manuste meeldetuletaja"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid ""
@@ -14957,10 +14959,13 @@ msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
 msgstr ""
+"Evolution leidis mõned võtmesõnad, mille põhjal on võimalik järeldada, et "
+"see sõnum peaks sisaldama manust, kuid ühtegi manust selle sõnumi küljest ei "
+"leitud."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "Message has no attachments"
-msgstr "Sõnumil ei ole manuseid"
+msgstr "Sõnumil puuduvad manused"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Continue Editing"
@@ -21806,7 +21811,7 @@ msgstr "Tekst"
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:999
 msgid "Sho_w: "
-msgstr "_kategooria: "
+msgstr "_Kategooria: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
