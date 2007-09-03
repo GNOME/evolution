@@ -1,3 +1,11 @@
+2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix a build break.
+
+	* conduits/common/libecalendar-common-conduit.c:
+	(e_pilot_remote_category_to_local):
+	* conduits/common/libecalendar-common-conduit.h:
+
 2007-09-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #201167 by Nathan Owens
