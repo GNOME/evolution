@@ -1,3 +1,37 @@
+Evolution 2.11.92 2007-09-03
+----------------------------
+
+Bug fixes:
+	#201167: Complete implementation of Categories synching and lots of bug fixes (Nathan Owens and Tom Billiet)
+	#351672: Dragging imap message when another is copying locks X (Gavin Scott)
+	#377763: Do not scale under 1x1 pixel (Milan Crha)
+	#378759: Fixed a crash when entering S/MIME password for signing email (Milan Crha)
+	#431459: Avoid reentrancy of prefer-plain plugin (Srinivasa Ragavan)
+	#466051: When memo start date is set to 'None', do not store DTSTART property. (Suman Manjunath)
+	#469886: Update FSF address in header comments (Tobias Mueller) 
+	#471791: Move away from g_assert to g_critical (Srinivasa Ragavan)
+
+Other Contributors:
+	- Add mail/default/pl/Makefile to AC_OUTPUT (Matthew Barnes)
+	- Add Evolution contributors names to credits page (Gilbert Dartiguelongue)
+
+Updated Translations:
+	Kjartan Maraas (nb)
+	Ivar Smolin (et)
+	Takeshi AIHANA (ja)
+	Washington Lins (pt_BR)
+	Jovan Naumovski (mk)
+	Ankit Patel (gu)
+	Tirumurthi Vasudevan (ta)
+	Ilkka Tuohela (fi)
+	GNOME PL Team (pl)
+	Daniel Nylander (sv)
+	Jorge Gonzalez (es)
+	Theppitak Karoonboonyanan (th)
+	Clytie Siddall (vi)
+	Funda Wang (zh_CN)
+	Duarte Loreto (pt)
+
 Evolution 2.11.91 2007-08-27
 ----------------------------
 
