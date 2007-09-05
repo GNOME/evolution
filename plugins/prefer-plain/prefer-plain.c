@@ -168,7 +168,7 @@ e_plugin_lib_enable(EPluginLib *ep, int enable)
 	int i;
 
 	if (epp_gconf || epp_mode != -1)
-		return;
+		return 0;
 
 	if (enable) {
 		epp_gconf = gconf_client_get_default();
