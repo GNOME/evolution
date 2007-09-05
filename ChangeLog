@@ -1,3 +1,9 @@
+2007-09-05  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* configure.in:
+	audio-inline plugin has been ported to gstreamer 0.10
+	(bug #329629).
+
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.11.92 release

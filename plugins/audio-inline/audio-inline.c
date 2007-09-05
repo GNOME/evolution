@@ -10,8 +10,6 @@
 #include "config.h"
 #endif
 
-#include <unistd.h> /* for unlink */
-#include <string.h>
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-mktemp.h"
 #include "camel/camel-medium.h"
@@ -20,6 +18,7 @@
 #include "camel/camel-stream-fs.h"
 #include "mail/em-format-hook.h"
 #include "mail/em-format-html.h"
+#include "glib/gstdio.h"
 #include "gtk/gtkbutton.h"
 #include "gtk/gtkbox.h"
 #include "gtk/gtkimage.h"
@@ -27,7 +26,7 @@
 #include "gtkhtml/gtkhtml-embedded.h"
 #include "gst/gst.h"
 
-#define d(x) x
+#define d(x) 
 
 void org_gnome_audio_inline_format (void *ep, EMFormatHookTarget *t);
 
@@ -38,7 +37,12 @@ struct _org_gnome_audio_inline_pobject {
 
 	CamelMimePart *part;
 	char *filename;
-	GstElement *thread;
+	GstElement *playbin;
+	gulong      bus_id;
+	GstState    target_state;
+	GtkWidget  *play_button;
+	GtkWidget  *pause_button;
+	GtkWidget  *stop_button;
 };
 
 static void
@@ -48,19 +52,41 @@ org_gnome_audio_inline_pobject_free (EMFormatHTMLPObject *o)
 
 	d(printf ("audio inline formatter: pobject free\n"));
 
+
+	if (po->play_button) {
+		g_object_unref (po->play_button);
+		po->play_button = NULL;
+	}
+
+	if (po->pause_button) {
+		g_object_unref (po->pause_button);
+		po->pause_button = NULL;
+	}
+
+	if (po->stop_button) {
+		g_object_unref (po->stop_button);
+		po->stop_button = NULL;
+	}
+
 	if (po->part) {
 		camel_object_unref (po->part);
 		po->part = NULL;
 	}
 	if (po->filename) {
-		unlink (po->filename);
+		g_unlink (po->filename);
 		g_free (po->filename);
 		po->filename = NULL;
 	}
-	if (po->thread) {
-		gst_element_set_state (po->thread, GST_STATE_NULL);
-		gst_object_unref (GST_OBJECT (po->thread));
-		po->thread = NULL;
+
+	if (po->bus_id) {
+		g_source_remove (po->bus_id);
+		po->bus_id = 0;
+	}
+
+	if (po->playbin) {
+		gst_element_set_state (po->playbin, GST_STATE_NULL);
+		gst_object_unref (po->playbin);
+		po->playbin = NULL;
 	}
 }
 
@@ -69,9 +95,9 @@ org_gnome_audio_inline_pause_clicked (GtkWidget *button, EMFormatHTMLPObject *po
 {
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
 
-	if (po->thread) {
-		/* start playing */
-		gst_element_set_state (po->thread, GST_STATE_PAUSED);
+	if (po->playbin) {
+		/* pause playing */
+		gst_element_set_state (po->playbin, GST_STATE_PAUSED);
 	}
 }
 
@@ -80,127 +106,91 @@ org_gnome_audio_inline_stop_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 {
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
 
-	if (po->thread) {
-		/* start playing */
-		gst_element_set_state (po->thread, GST_STATE_READY);
+	if (po->playbin) {
+		/* ready to play */
+		gst_element_set_state (po->playbin, GST_STATE_READY);
+		po->target_state = GST_STATE_READY;
 	}
 }
 
-static GstElement *
-org_gnome_audio_inline_gst_mpeg_thread (GstElement *filesrc)
+static void
+org_gnome_audio_inline_set_audiosink (GstElement *playbin)
 {
-	GstElement *thread, *decoder, *audiosink;
+	GstElement *audiosink;
 
-	/* create a new thread to hold the elements */
-	thread = gst_thread_new ("org-gnome-audio-inline-mpeg-thread");
+	/* now it's time to get the audio sink */
+	audiosink = gst_element_factory_make ("gconfaudiosink", "play_audio");
+	if (audiosink == NULL) {
+		audiosink = gst_element_factory_make ("autoaudiosink", "play_audio");
+	}
 
-	/* now it's time to get the decoder */
-	decoder = gst_element_factory_make ("mad", "decoder");
-                                
-	/* and an audio sink */
-	audiosink = gst_element_factory_make ("osssink", "play_audio");
-                                    
-	/* add objects to the main pipeline */
-	gst_bin_add_many (GST_BIN (thread), filesrc, decoder, audiosink, NULL);
-                                        
-	/* link src to sink */
-	gst_element_link_many (filesrc, decoder, audiosink, NULL);
-
-	return thread;
+	if (audiosink) {
+        	g_object_set (playbin, "audio-sink", audiosink, NULL);
+	}
 }
 
-static GstElement *
-org_gnome_audio_inline_gst_ogg_thread (GstElement *filesrc)
+static gboolean
+org_gnome_audio_inline_gst_callback (GstBus * bus, GstMessage * message, gpointer data)
 {
-	GstElement *thread, *demuxer, *decoder, *converter, *audiosink;
+	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) data;
+	GstMessageType msg_type;
 
-	/* create a new thread to hold the elements */
-	thread = gst_thread_new ("org-gnome-audio-inline-mpeg-thread");
+	g_return_val_if_fail (po != NULL, TRUE);
+	g_return_val_if_fail (po->playbin != NULL, TRUE);
 
-	/* create an ogg demuxer */
-	demuxer = gst_element_factory_make ("oggdemux", "demuxer");
-	g_assert (demuxer != NULL);
-                                                                            
-	/* create a vorbis decoder */
-	decoder = gst_element_factory_make ("vorbisdec", "decoder");
-	g_assert (decoder != NULL);
-                                                                                  
-	/* create an audio converter */
-	converter = gst_element_factory_make ("audioconvert", "converter");
-	g_assert (decoder != NULL);
-                                                                                        
-	/* and an audio sink */
-	audiosink = gst_element_factory_make ("osssink", "play_audio");
-	g_assert (audiosink != NULL);
-                                                                                              
-	/* add objects to the thread */
-	gst_bin_add_many (GST_BIN (thread), filesrc, demuxer, decoder, converter, audiosink, NULL);
+	msg_type = GST_MESSAGE_TYPE (message);
 
-	/* link them in the logical order */
-	gst_element_link_many (filesrc, demuxer, decoder, converter, audiosink, NULL);
+	switch (msg_type) {
+		case GST_MESSAGE_ERROR:
+			gst_element_set_state (po->playbin, GST_STATE_NULL);
+			break;
+		case GST_MESSAGE_EOS:
+			gst_element_set_state (po->playbin, GST_STATE_READY);
+			break;
+		case GST_MESSAGE_STATE_CHANGED:
+			{
+			      GstState old_state, new_state;
 
-	return thread;
-}
+			      if (GST_MESSAGE_SRC(message) != GST_OBJECT (po->playbin))
+				      break;
 
-static GstElement *
-org_gnome_audio_inline_gst_flac_thread (GstElement *filesrc)
-{
-	GstElement *thread, *decoder, *audiosink;
+			      gst_message_parse_state_changed (message, &old_state, &new_state, NULL);
 
-	/* create a new thread to hold the elements */
-	thread = gst_thread_new ("org-gnome-audio-inline-flac-thread");
+			      if (old_state == new_state)
+				      break;
 
-	/* now it's time to get the decoder */
-	decoder = gst_element_factory_make ("flacdec", "decoder");
-                                
-	/* and an audio sink */
-	audiosink = gst_element_factory_make ("osssink", "play_audio");
-                                    
-	/* add objects to the main pipeline */
-	gst_bin_add_many (GST_BIN (thread), filesrc, decoder, audiosink, NULL);
-                                        
-	/* link src to sink */
-	gst_element_link_many (filesrc, decoder, audiosink, NULL);
+			      if (po->play_button) 
+					gtk_widget_set_sensitive (po->play_button, new_state <= GST_STATE_PAUSED);
+			      if (po->pause_button) 
+					gtk_widget_set_sensitive (po->pause_button, new_state > GST_STATE_PAUSED);
+			      if (po->stop_button) 
+				      	gtk_widget_set_sensitive (po->stop_button, new_state >= GST_STATE_PAUSED);
+			}
 
-	return thread;
-}
+			break;
+		default:
+			break;
+	}
 
-static GstElement *
-org_gnome_audio_inline_gst_mod_thread (GstElement *filesrc)
-{
-	GstElement *thread, *decoder, *audiosink;
-
-	/* create a new thread to hold the elements */
-	thread = gst_thread_new ("org-gnome-audio-inline-flac-thread");
-
-	/* now it's time to get the decoder */
-	decoder = gst_element_factory_make ("mikmod", "decoder");
-                                
-	/* and an audio sink */
-	audiosink = gst_element_factory_make ("osssink", "play_audio");
-                                    
-	/* add objects to the main pipeline */
-	gst_bin_add_many (GST_BIN (thread), filesrc, decoder, audiosink, NULL);
-                                        
-	/* link src to sink */
-	gst_element_link_many (filesrc, decoder, audiosink, NULL);
-
-	return thread;
+	return TRUE;
 }
 
 static void
 org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pobject)
 {
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
+	GstState cur_state;
 
 	d(printf ("audio inline formatter: play\n"));
 
 	if (!po->filename) {
 		CamelStream *stream;
 		CamelDataWrapper *data;
+		GError *error = NULL;
 		int argc = 1;
 		char *argv [] = { "org_gnome_audio_inline", NULL };
 
+		/* FIXME this is ugly, we should stream this directly to gstreamer */
 		po->filename = e_mktemp ("org-gnome-audio-inline-file-XXXXXX");
 
 		d(printf ("audio inline formatter: write to temp file %s\n", po->filename));
@@ -211,59 +201,61 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 		camel_stream_flush (stream);
 		camel_object_unref (stream);
 
-		d(printf ("audio inline formatter: init gst thread\n"));
+		d(printf ("audio inline formatter: init gst playbin\n"));
 
-		if (gst_init_check (&argc, (char ***) &argv)) {
-			CamelContentType *type = NULL;
-			GstElement *filesrc;
+		if (gst_init_check (&argc, (char ***) &argv, &error)) {
+			char *uri;
+			GstBus *bus;
 
 			/* create a disk reader */
-			filesrc = gst_element_factory_make ("filesrc", "disk_source");
-			g_object_set (G_OBJECT (filesrc), "location", po->filename, NULL);
+			po->playbin = gst_element_factory_make ("playbin", "playbin");
+			if (po->playbin == NULL) {
+				g_printerr ("Failed to create gst_element_factory playbin; check your installation\n");
+				return;
 
-			if (po->part)
-				type = camel_mime_part_get_content_type (po->part);
-
-			if (type) {
-				if (!g_ascii_strcasecmp (type->type, "audio")) {
-					if (!g_ascii_strcasecmp (type->subtype, "mpeg") || !g_ascii_strcasecmp (type->subtype, "x-mpeg")
-					    || !g_ascii_strcasecmp (type->subtype, "mpeg3") || !g_ascii_strcasecmp (type->subtype, "x-mpeg3")
-					    || !g_ascii_strcasecmp (type->subtype, "mp3") || !g_ascii_strcasecmp (type->subtype, "x-mp3")) {
-						po->thread = org_gnome_audio_inline_gst_mpeg_thread (filesrc);
-					} else if (!g_ascii_strcasecmp (type->subtype, "flac") || !g_ascii_strcasecmp (type->subtype, "x-flac")) {
-						po->thread = org_gnome_audio_inline_gst_flac_thread (filesrc);
-					} else if (!g_ascii_strcasecmp (type->subtype, "mod") || !g_ascii_strcasecmp (type->subtype, "x-mod")) {
-						po->thread = org_gnome_audio_inline_gst_mod_thread (filesrc);
-					}
-				} else if (!g_ascii_strcasecmp (type->type, "application")) {
-					if (!g_ascii_strcasecmp (type->subtype, "ogg") || !g_ascii_strcasecmp (type->subtype, "x-ogg")) {
-						po->thread = org_gnome_audio_inline_gst_ogg_thread (filesrc);
-					}
-				}
 			}
+
+			uri = g_filename_to_uri (po->filename, NULL, NULL);
+			g_object_set (G_OBJECT (po->playbin), "uri", uri, NULL);
+			g_free (uri);
+			org_gnome_audio_inline_set_audiosink(po->playbin);
+
+			bus = gst_element_get_bus (po->playbin);
+			po->bus_id = gst_bus_add_watch (bus, org_gnome_audio_inline_gst_callback, po);
+			gst_object_unref (bus);
+
+		} else {
+			g_printerr ("GStreamer failed to initialize: %s",error ? error->message : "");
+			g_error_free (error);
 		}
 	}
 
-	if (po->thread) {
+        gst_element_get_state (po->playbin, &cur_state, NULL, 0);
+
+        if (cur_state >= GST_STATE_PAUSED) {
+		gst_element_set_state (po->playbin, GST_STATE_READY);
+	}
+
+
+	if (po->playbin) {
 		/* start playing */
-		gst_element_set_state (po->thread, GST_STATE_PLAYING);
+		gst_element_set_state (po->playbin, GST_STATE_PLAYING);
 	}
 }
 
-static void
-org_gnome_audio_inline_add_button (GtkWidget *box, char *icon_name, GCallback cb, gpointer data)
+static GtkWidget *
+org_gnome_audio_inline_add_button (GtkWidget *box, const char *stock_icon, GCallback cb, gpointer data, gboolean sensitive)
 {
-	GtkWidget *icon, *button;
+	GtkWidget *button;
 
-	icon = e_icon_factory_get_image (icon_name, E_ICON_SIZE_LARGE_TOOLBAR);
-	gtk_widget_show (icon);
-
-	button = gtk_button_new ();
+	button = gtk_button_new_from_stock(stock_icon);
+	gtk_widget_set_sensitive (button, sensitive);
 	g_signal_connect (button, "clicked", cb, data);
 
-	gtk_container_add ((GtkContainer *) button, icon);
 	gtk_widget_show (button);
 	gtk_box_pack_end_defaults (GTK_BOX (box), button);
+
+	return button;
 }
 
 static gboolean
@@ -275,9 +267,9 @@ org_gnome_audio_inline_button_panel (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMF
 	/* it is OK to call UI functions here, since we are called from UI thread */
 
 	box = gtk_hbutton_box_new ();
-	org_gnome_audio_inline_add_button (box, "stock_media-play", G_CALLBACK (org_gnome_audio_inline_play_clicked), po);
-	org_gnome_audio_inline_add_button (box, "stock_media-pause", G_CALLBACK (org_gnome_audio_inline_pause_clicked), po);
-	org_gnome_audio_inline_add_button (box, "stock_media-stop", G_CALLBACK (org_gnome_audio_inline_stop_clicked), po);
+	po->play_button = g_object_ref (org_gnome_audio_inline_add_button (box, GTK_STOCK_MEDIA_PLAY, G_CALLBACK (org_gnome_audio_inline_play_clicked), po, TRUE));
+	po->pause_button = g_object_ref (org_gnome_audio_inline_add_button (box, GTK_STOCK_MEDIA_PAUSE, G_CALLBACK (org_gnome_audio_inline_pause_clicked), po, FALSE));
+	po->stop_button = g_object_ref (org_gnome_audio_inline_add_button (box, GTK_STOCK_MEDIA_STOP, G_CALLBACK (org_gnome_audio_inline_stop_clicked), po, FALSE));
 		
 	gtk_widget_show (box);
 	gtk_container_add ((GtkContainer *) eb, box);
@@ -300,8 +292,13 @@ org_gnome_audio_inline_format (void *ep, EMFormatHookTarget *t)
 	camel_object_ref (t->part);
 	pobj->part = t->part;
 	pobj->filename = NULL;
-	pobj->thread = NULL;
+	pobj->playbin = NULL;
+	pobj->play_button = NULL;
+	pobj->stop_button = NULL;
+	pobj->pause_button = NULL;
+	pobj->bus_id = 0;
 	pobj->object.free = org_gnome_audio_inline_pobject_free;
+	pobj->target_state = GST_STATE_NULL;
 
 	camel_stream_printf (t->stream, "<object classid=%s></object>\n", classid);
 }

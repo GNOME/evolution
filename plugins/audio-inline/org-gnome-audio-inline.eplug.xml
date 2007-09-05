@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.audioInline"
-    location="@PLUGINDIR@/liborg-gnome-audio-inline.la"
+    location="@PLUGINDIR@/liborg-gnome-audio-inline@SOEXT@"
     _name="Audio inline plugin">
 
     <_description>A formatter plugin which displays audio attachments inline and allows you to play them directly from evolution.</_description>
@@ -11,16 +11,23 @@
 
     <hook class="org.gnome.evolution.mail.format:1.0">
       <group id="EMFormatHTMLDisplay">
+	<item mime_type="audio/ac3" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
+	<item mime_type="audio/x-ac3" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
+	<item mime_type="audio/basic" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/mpeg" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/x-mpeg" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/mpeg3" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/x-mpeg3" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/mp3" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/x-mp3" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
+	<item mime_type="audio/mp4" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/flac" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/x-flac" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/mod" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="audio/x-mod" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
+	<item mime_type="audio/x-wav" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
+	<item mime_type="audio/x-wma" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
+	<item mime_type="audio/x-ms-wma" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="application/ogg" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
 	<item mime_type="application/x-ogg" format="org_gnome_audio_inline_format" flags="inline_disposition"/>
       </group>

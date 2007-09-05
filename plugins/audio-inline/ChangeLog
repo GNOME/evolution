@@ -1,3 +1,10 @@
+2007-09-05  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* audio-inline.c:
+	* org-gnome-audio-inline.eplug.xml:
+	Port plugin to gstreamer 0.10 and handle additional mimetypes
+	(bug #329629).
+
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #350539
