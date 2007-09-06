@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-28 03:21+0100\n"
-"PO-Revision-Date: 2007-09-02 17:02+0800\n"
+"POT-Creation-Date: 2007-09-02 10:06+0100\n"
+"PO-Revision-Date: 2007-09-06 22:01+0800\n"
 "Last-Translator: Funda Wang <fundawang@gmail.com>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -507,7 +507,7 @@ msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则 {0} 的联系人无法使用。"
 
-#: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:510
+#: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:512
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:15
@@ -827,7 +827,7 @@ msgstr "新建地址簿(_N)"
 #: ../calendar/gui/e-calendar-table.c:1375
 #: ../calendar/gui/e-calendar-view.c:1701 ../calendar/gui/e-memo-table.c:992
 #: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
-#: ../mail/em-folder-tree.c:2127 ../mail/em-folder-view.c:1233
+#: ../mail/em-folder-tree.c:2109 ../mail/em-folder-view.c:1233
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -2790,9 +2790,7 @@ msgstr "复制检测到的联系人"
 msgid ""
 "The name or email of this contact already exists in this folder.  Would you "
 "like to add it anyway?"
-msgstr ""
-"此联系人的姓名或地址已经在本文件夹中存在了。"
-"您一定要添加吗？"
+msgstr "此联系人的姓名或地址已经在本文件夹中存在了。您一定要添加吗？"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2961,7 +2959,7 @@ msgstr "剪切(_T)"
 #: ../calendar/gui/e-calendar-table.c:1361
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:983
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:1006
+#: ../composer/e-msg-composer.c:3221 ../mail/em-folder-tree.c:988
 #: ../mail/em-folder-view.c:1218 ../mail/message-list.c:1962
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3167,7 +3165,7 @@ msgstr "网站"
 #: ../widgets/table/e-table-group-container.c:967
 #: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
-#: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
+#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
 #: ../widgets/text/e-text.c:3723 ../widgets/text/e-text.c:3724
 msgid "Width"
 msgstr "宽度"
@@ -3182,7 +3180,7 @@ msgstr "宽度"
 #: ../widgets/table/e-table-group-container.c:960
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
-#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
+#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
 #: ../widgets/text/e-text.c:3731 ../widgets/text/e-text.c:3732
 msgid "Height"
 msgstr "高度"
@@ -5783,13 +5781,13 @@ msgid_plural "%d attached messages"
 msgstr[0] "%d 封附加的信件"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3222
-#: ../mail/em-folder-tree.c:1007 ../mail/em-folder-utils.c:369
+#: ../mail/em-folder-tree.c:989 ../mail/em-folder-utils.c:369
 #: ../mail/em-folder-view.c:1114 ../mail/message-list.c:1963
 msgid "_Move"
 msgstr "移动(_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3224
-#: ../mail/em-folder-tree.c:1009 ../mail/message-list.c:1965
+#: ../mail/em-folder-tree.c:991 ../mail/message-list.c:1965
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
 
@@ -5822,7 +5820,7 @@ msgid "_Remove"
 msgstr "删除(_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2134
+#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "属性(_P)"
@@ -6030,13 +6028,13 @@ msgid "End time is wrong"
 msgstr "结束时间有错"
 
 #: ../calendar/gui/dialogs/event-page.c:1514
-#: ../calendar/gui/dialogs/memo-page.c:733
+#: ../calendar/gui/dialogs/memo-page.c:735
 #: ../calendar/gui/dialogs/task-page.c:940
 msgid "The organizer selected no longer has an account."
 msgstr "选中的组织者没有帐户了。"
 
 #: ../calendar/gui/dialogs/event-page.c:1520
-#: ../calendar/gui/dialogs/memo-page.c:739
+#: ../calendar/gui/dialogs/memo-page.c:741
 #: ../calendar/gui/dialogs/task-page.c:946
 msgid "An organizer is required."
 msgstr "需要一名组织者。"
@@ -6057,7 +6055,7 @@ msgid "Unable to open the calendar '%s'."
 msgstr "无法打开日历“%s”。"
 
 #: ../calendar/gui/dialogs/event-page.c:2772
-#: ../calendar/gui/dialogs/memo-page.c:1138
+#: ../calendar/gui/dialogs/memo-page.c:1140
 #: ../calendar/gui/dialogs/task-page.c:1948
 #, c-format
 msgid "You are acting on behalf of %s"
@@ -6189,15 +6187,15 @@ msgstr "组织者："
 msgid "Memo"
 msgstr "备忘"
 
-#: ../calendar/gui/dialogs/memo-page.c:911
+#: ../calendar/gui/dialogs/memo-page.c:913
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "无法打开“%s”中的备忘。"
 
-#: ../calendar/gui/dialogs/memo-page.c:1076 ../mail/em-format-html.c:1517
-#: ../mail/em-format-html.c:1531 ../mail/em-format-html.c:1589
-#: ../mail/em-format-html.c:1615 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:89
+#: ../calendar/gui/dialogs/memo-page.c:1078 ../mail/em-format-html.c:1520
+#: ../mail/em-format-html.c:1534 ../mail/em-format-html.c:1592
+#: ../mail/em-format-html.c:1618 ../mail/em-format-quote.c:207
+#: ../mail/em-format.c:856 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:18
 msgid "To"
 msgstr "收件人"
@@ -10710,7 +10708,7 @@ msgstr ""
 "并选中复选框表明您接受该协议\n"
 
 #: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
-#: ../mail/em-vfolder-rule.c:510
+#: ../mail/em-vfolder-rule.c:512
 msgid "Select Folder"
 msgstr "选择文件夹"
 
@@ -10792,7 +10790,7 @@ msgid "Protocol"
 msgstr "协议"
 
 #: ../mail/em-composer-prefs.c:310 ../mail/em-composer-prefs.c:436
-#: ../mail/mail-config.c:1029
+#: ../mail/mail-config.c:1030
 msgid "Unnamed"
 msgstr "未命名"
 
@@ -11085,8 +11083,8 @@ msgstr "开始于"
 msgid "Stop Processing"
 msgstr "停止处理"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1688
-#: ../mail/em-format-quote.c:320 ../mail/em-format.c:855
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1691
+#: ../mail/em-format-quote.c:320 ../mail/em-format.c:859
 #: ../mail/em-mailer-prefs.c:92 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
 #: ../plugins/groupwise-features/properties.glade.h:6
@@ -11182,7 +11180,7 @@ msgid "Folder _name:"
 msgstr "文件夹名称(_N)："
 
 #: ../mail/em-folder-tree-model.c:203 ../mail/em-folder-tree-model.c:205
-#: ../mail/mail-vfolder.c:911 ../mail/mail-vfolder.c:984
+#: ../mail/mail-vfolder.c:931 ../mail/mail-vfolder.c:1004
 msgid "Search Folders"
 msgstr "搜索文件夹"
 
@@ -11196,7 +11194,7 @@ msgid "Drafts"
 msgstr "草稿"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2576
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2558
 #: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11263,20 +11261,20 @@ msgstr "把信件复制到文件夹 %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "无法将信件放到顶级文件夹存储"
 
-#: ../mail/em-folder-tree.c:1004 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:986 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "复制到文件夹(_C)"
 
-#: ../mail/em-folder-tree.c:1005 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:987 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "移至文件夹(_M)"
 
-#: ../mail/em-folder-tree.c:1715 ../mail/mail-ops.c:1060
+#: ../mail/em-folder-tree.c:1697 ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "在“%s”中扫描文件夹"
 
-#: ../mail/em-folder-tree.c:2115 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2097 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:32
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11284,36 +11282,36 @@ msgstr "在“%s”中扫描文件夹"
 msgid "_View"
 msgstr "查看(_V)"
 
-#: ../mail/em-folder-tree.c:2116
+#: ../mail/em-folder-tree.c:2098
 msgid "Open in _New Window"
 msgstr "在新窗口中打开(_N)"
 
-#: ../mail/em-folder-tree.c:2120
+#: ../mail/em-folder-tree.c:2102
 msgid "_Copy..."
 msgstr "复制(_C)..."
 
-#: ../mail/em-folder-tree.c:2121
+#: ../mail/em-folder-tree.c:2103
 msgid "_Move..."
 msgstr "移动(_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2125
+#: ../mail/em-folder-tree.c:2107
 msgid "_New Folder..."
 msgstr "新建文件夹(_N)..."
 
-#: ../mail/em-folder-tree.c:2128 ../ui/evolution-mail-list.xml.h:36
+#: ../mail/em-folder-tree.c:2110 ../ui/evolution-mail-list.xml.h:36
 msgid "_Rename..."
 msgstr "重命名(_R)..."
 
-#: ../mail/em-folder-tree.c:2129
+#: ../mail/em-folder-tree.c:2111
 msgid "Re_fresh"
 msgstr "刷新(_F)"
 
-#: ../mail/em-folder-tree.c:2130
+#: ../mail/em-folder-tree.c:2112
 msgid "Fl_ush Outbox"
 msgstr "清空发件箱(_U)"
 
-#: ../mail/em-folder-tree.c:2136 ../mail/mail.error.xml.h:135
+#: ../mail/em-folder-tree.c:2118 ../mail/mail.error.xml.h:135
 msgid "_Empty Trash"
 msgstr "清空回收站(_E)"
 
@@ -11338,13 +11336,13 @@ msgstr "复制(_O)"
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
-#: ../mail/em-folder-utils.c:750
+#: ../mail/em-folder-utils.c:749
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Create folder"
 msgstr "创建文件夹"
 
-#: ../mail/em-folder-utils.c:750
+#: ../mail/em-folder-utils.c:749
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Specify where to create the folder:"
@@ -11532,7 +11530,7 @@ msgstr "下一项(_N)"
 msgid "M_atch case"
 msgstr "匹配大小写(_A)"
 
-#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:632
+#: ../mail/em-format-html-display.c:938 ../mail/em-format-html.c:635
 msgid "Unsigned"
 msgstr "未签名"
 
@@ -11542,7 +11540,7 @@ msgid ""
 "authentic."
 msgstr "此信件未签名。无法保证这封信是可信的。"
 
-#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:633
+#: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:636
 msgid "Valid signature"
 msgstr "有效签名"
 
@@ -11552,7 +11550,7 @@ msgid ""
 "message is authentic."
 msgstr "此信件已签名，而且签名是有效的。这意味着这封信应该是可信的。"
 
-#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:634
+#: ../mail/em-format-html-display.c:940 ../mail/em-format-html.c:637
 msgid "Invalid signature"
 msgstr "无效签名"
 
@@ -11562,7 +11560,7 @@ msgid ""
 "in transit."
 msgstr "无法校验这封信的签名，可能在传送的过程中邮件被篡改了。"
 
-#: ../mail/em-format-html-display.c:941 ../mail/em-format-html.c:635
+#: ../mail/em-format-html-display.c:941 ../mail/em-format-html.c:638
 msgid "Valid signature, but cannot verify sender"
 msgstr "签名有效，但是无法校验发送者"
 
@@ -11572,7 +11570,7 @@ msgid ""
 "cannot be verified."
 msgstr "这封信的签名有效，但是无法校验邮件的发送者。"
 
-#: ../mail/em-format-html-display.c:942 ../mail/em-format-html.c:636
+#: ../mail/em-format-html-display.c:942 ../mail/em-format-html.c:639
 msgid "Signature exists, but need public key"
 msgstr "签名已存在，但需要公钥"
 
@@ -11582,7 +11580,7 @@ msgid ""
 "public key."
 msgstr "这封信的签名有效，但是没有相应的公钥。"
 
-#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:642
+#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:645
 msgid "Unencrypted"
 msgstr "未加密"
 
@@ -11592,7 +11590,7 @@ msgid ""
 "the Internet."
 msgstr "这封信未加密。在 Internet 上传送时所有人都可以看到其内容。"
 
-#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:643
+#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:646
 msgid "Encrypted, weak"
 msgstr "弱加密"
 
@@ -11605,7 +11603,7 @@ msgstr ""
 "这封信已加密，但使用的是弱加密算法。如果外人想要查看这封信的内容，可能要花一"
 "定时间进行暴力破解，这很困难但并不是不可能。"
 
-#: ../mail/em-format-html-display.c:951 ../mail/em-format-html.c:644
+#: ../mail/em-format-html-display.c:951 ../mail/em-format-html.c:647
 msgid "Encrypted"
 msgstr "加密"
 
@@ -11615,7 +11613,7 @@ msgid ""
 "the content of this message."
 msgstr "这封信已加密。外人要想查看这封信的内容十分困难。"
 
-#: ../mail/em-format-html-display.c:952 ../mail/em-format-html.c:645
+#: ../mail/em-format-html-display.c:952 ../mail/em-format-html.c:648
 msgid "Encrypted, strong"
 msgstr "强加密"
 
@@ -11664,7 +11662,7 @@ msgstr "适合宽度(_F)"
 msgid "Show _Original Size"
 msgstr "显示原始大小(_O)"
 
-#: ../mail/em-format-html-display.c:1905 ../mail/em-format-html-display.c:2516
+#: ../mail/em-format-html-display.c:1905 ../mail/em-format-html-display.c:2518
 #: ../mail/mail-config.glade.h:44 ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "附件"
@@ -11700,7 +11698,7 @@ msgstr "全部保存(_A)"
 msgid "No Attachment"
 msgstr "无附件"
 
-#: ../mail/em-format-html-display.c:2453 ../mail/em-format-html-display.c:2489
+#: ../mail/em-format-html-display.c:2453 ../mail/em-format-html-display.c:2491
 msgid "View _Unformatted"
 msgstr "无格式查看(_U)"
 
@@ -11708,11 +11706,11 @@ msgstr "无格式查看(_U)"
 msgid "Hide _Unformatted"
 msgstr "无格式隐藏(_U)"
 
-#: ../mail/em-format-html-display.c:2508
+#: ../mail/em-format-html-display.c:2510
 msgid "O_pen With"
 msgstr "打开方式(_P)"
 
-#: ../mail/em-format-html-display.c:2579
+#: ../mail/em-format-html-display.c:2581
 msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
@@ -11725,103 +11723,101 @@ msgstr ""
 msgid "Page %d of %d"
 msgstr "第 %d 页，共 %d 页"
 
-#: ../mail/em-format-html.c:486 ../mail/em-format-html.c:495
+#: ../mail/em-format-html.c:489 ../mail/em-format-html.c:498
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "收取“%s”"
 
-#: ../mail/em-format-html.c:907
+#: ../mail/em-format-html.c:910
 msgid "Unknown external-body part."
 msgstr "未知的 external-body 部分。"
 
-#: ../mail/em-format-html.c:915
+#: ../mail/em-format-html.c:918
 msgid "Malformed external-body part."
 msgstr "格式不正确的 external-body 部分。"
 
-#: ../mail/em-format-html.c:945
+#: ../mail/em-format-html.c:948
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "指向 FTP 站点 (%s)"
 
-#: ../mail/em-format-html.c:956
+#: ../mail/em-format-html.c:959
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "在站点“%2$s”指向本地文件 (%1$s) 合法"
 
-#: ../mail/em-format-html.c:958
+#: ../mail/em-format-html.c:961
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "指向本地文件 (%s)"
 
-#: ../mail/em-format-html.c:979
+#: ../mail/em-format-html.c:982
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "指向远程数据 (%s)"
 
-#: ../mail/em-format-html.c:990
+#: ../mail/em-format-html.c:993
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "指向未知的外部数据 (“%s”类型)"
 
-#: ../mail/em-format-html.c:1217
+#: ../mail/em-format-html.c:1220
 msgid "Formatting message"
 msgstr "格式化信件"
 
-#: ../mail/em-format-html.c:1385
+#: ../mail/em-format-html.c:1388
 msgid "Formatting Message..."
 msgstr "正在格式化信件..."
 
-#: ../mail/em-format-html.c:1517 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:87
+#: ../mail/em-format-html.c:1520 ../mail/em-format-quote.c:207
+#: ../mail/em-format.c:854 ../mail/em-mailer-prefs.c:87
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "发件人"
 
-#: ../mail/em-format-html.c:1517 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:88
+#: ../mail/em-format-html.c:1520 ../mail/em-format-quote.c:207
+#: ../mail/em-format.c:855 ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
 msgstr "回复至"
 
-#: ../mail/em-format-html.c:1517 ../mail/em-format-html.c:1532
-#: ../mail/em-format-html.c:1596 ../mail/em-format-html.c:1618
-#: ../mail/em-format-quote.c:207 ../mail/em-format.c:853
+#: ../mail/em-format-html.c:1520 ../mail/em-format-html.c:1535
+#: ../mail/em-format-html.c:1599 ../mail/em-format-html.c:1621
+#: ../mail/em-format-quote.c:207 ../mail/em-format.c:857
 #: ../mail/em-mailer-prefs.c:90
 msgid "Cc"
 msgstr "抄送"
 
-#: ../mail/em-format-html.c:1517 ../mail/em-format-html.c:1533
-#: ../mail/em-format-html.c:1602 ../mail/em-format-html.c:1621
-#: ../mail/em-format-quote.c:207 ../mail/em-format.c:854
+#: ../mail/em-format-html.c:1520 ../mail/em-format-html.c:1536
+#: ../mail/em-format-html.c:1605 ../mail/em-format-html.c:1624
+#: ../mail/em-format-quote.c:207 ../mail/em-format.c:858
 #: ../mail/em-mailer-prefs.c:91
 msgid "Bcc"
 msgstr "密件抄送"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1692 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1695 ../mail/em-format-quote.c:329
 #: ../mail/em-mailer-prefs.c:1196
 msgid "Mailer"
 msgstr "邮件程序"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1719
-#, fuzzy
+#: ../mail/em-format-html.c:1722
 msgid " (%a, %R %Z)"
-msgstr "<I> (%A，%R %Z)</I>"
+msgstr " (%A，%R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1724
-#, fuzzy
+#: ../mail/em-format-html.c:1727
 msgid " (%R %Z)"
-msgstr "<I> (%R %Z)</I>"
+msgstr " (%R %Z)"
 
-#: ../mail/em-format-html.c:1736 ../mail/em-format-quote.c:336
-#: ../mail/em-format.c:856 ../mail/em-mailer-prefs.c:93
+#: ../mail/em-format-html.c:1739 ../mail/em-format-quote.c:336
+#: ../mail/em-format.c:860 ../mail/em-mailer-prefs.c:93
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "日期"
 
-#: ../mail/em-format-html.c:1759 ../mail/em-format.c:857
+#: ../mail/em-format-html.c:1762 ../mail/em-format.c:861
 #: ../mail/em-mailer-prefs.c:94
 msgid "Newsgroups"
 msgstr "新闻组"
@@ -11829,53 +11825,53 @@ msgstr "新闻组"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1849
+#: ../mail/em-format-html.c:1852
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
-msgstr ""
+msgstr "此消息由 <b>%s</b> 以 <b>%s</b> 的身份发送"
 
-#: ../mail/em-format.c:1121
+#: ../mail/em-format.c:1125
 #, c-format
 msgid "%s attachment"
 msgstr "%s 附件"
 
-#: ../mail/em-format.c:1160
+#: ../mail/em-format.c:1164
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "无法解析 S/MIME 信件：未知错误"
 
-#: ../mail/em-format.c:1297 ../mail/em-format.c:1453
+#: ../mail/em-format.c:1301 ../mail/em-format.c:1457
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "无法解析 MIME 信件。显示源文本。"
 
-#: ../mail/em-format.c:1305
+#: ../mail/em-format.c:1309
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "不支持 multipart/encrypted 的加密类型"
 
-#: ../mail/em-format.c:1315
+#: ../mail/em-format.c:1319
 msgid "Could not parse PGP/MIME message"
 msgstr "无法解析 PGP/MIME 信件"
 
-#: ../mail/em-format.c:1315
+#: ../mail/em-format.c:1319
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "无法解析 PGP/MIME 信件：未知错误"
 
-#: ../mail/em-format.c:1472
+#: ../mail/em-format.c:1476
 msgid "Unsupported signature format"
 msgstr "不支持的签名格式"
 
-#: ../mail/em-format.c:1480 ../mail/em-format.c:1551
+#: ../mail/em-format.c:1484 ../mail/em-format.c:1555
 msgid "Error verifying signature"
 msgstr "校验签名错误"
 
-#: ../mail/em-format.c:1480 ../mail/em-format.c:1542 ../mail/em-format.c:1551
+#: ../mail/em-format.c:1484 ../mail/em-format.c:1546 ../mail/em-format.c:1555
 msgid "Unknown error verifying signature"
 msgstr "校验签名发生了未知错误"
 
-#: ../mail/em-format.c:1622
+#: ../mail/em-format.c:1626
 msgid "Could not parse PGP message"
 msgstr "无法分析 PGP 信件"
 
-#: ../mail/em-format.c:1622
+#: ../mail/em-format.c:1626
 msgid "Could not parse PGP message: Unknown error"
 msgstr "无法解析 PGP 信件：未知错误"
 
@@ -12035,7 +12031,7 @@ msgstr "来自 %s 的信件"
 msgid "Search _Folders"
 msgstr "搜索文件夹(_F)"
 
-#: ../mail/em-vfolder-rule.c:590
+#: ../mail/em-vfolder-rule.c:592
 msgid "Search Folder source"
 msgstr "搜索文件夹来源"
 
@@ -12118,9 +12114,8 @@ msgid "Default reply style"
 msgstr "默认回复样式"
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#, fuzzy
 msgid "Default value for thread expand state"
-msgstr "信件的默认主题。"
+msgstr "话题的默认展开状态"
 
 #: ../mail/evolution-mail.schemas.in.h:21
 msgid "Default width of the Composer Window"
@@ -12195,7 +12190,7 @@ msgstr "信件列表面板的高度。"
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid "Hides the per-folder preview and removes the selection"
-msgstr ""
+msgstr "隐藏单文件夹预览并移除选择"
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
@@ -12224,6 +12219,7 @@ msgid ""
 "It disables the feature where repeated prompts to ask if offline sync is "
 "required."
 msgstr ""
+"禁用在需要离线同步时的不停的提示。"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -12335,18 +12331,16 @@ msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr "信件显示风格(普通、全部邮件头、源代码)"
 
 #: ../mail/evolution-mail.schemas.in.h:66
-#, fuzzy
 msgid "Minimum days between emptying the junk on exit"
-msgstr "退出时清空回收站的最少天数"
+msgstr "退出时清空垃圾信件的最少天数"
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "Minimum days between emptying the trash on exit"
 msgstr "退出时清空回收站的最少天数"
 
 #: ../mail/evolution-mail.schemas.in.h:68
-#, fuzzy
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr "退出时清空回收站的最少天数。"
+msgstr "退出时清空垃圾信件的最少时间，以天计。"
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid "Minimum time between emptying the trash on exit, in days."
@@ -12379,7 +12373,7 @@ msgstr "用户视图发送没有主题的邮件时提示。"
 
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "Prompt to check if the user wants to go offline immediately"
-msgstr ""
+msgstr "用户想立即离线时提示检查"
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid "Prompt when user expunges"
@@ -12429,7 +12423,7 @@ msgstr "保存目录"
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "Search for the sender photo in local addressbooks"
-msgstr ""
+msgstr "在本地地址薄中搜索发件人照片"
 
 #: ../mail/evolution-mail.schemas.in.h:89
 msgid "Send HTML mail by default"
@@ -12457,18 +12451,18 @@ msgstr "在信件列表中显示删除了的信件"
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Show photo of the sender"
-msgstr ""
+msgstr "显示发件人照片"
 
 #: ../mail/evolution-mail.schemas.in.h:98
 msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list"
-msgstr "在信件列表的信件组合列中显示电子邮件的发送者"
+msgstr ""
+"在信件列表的信件组合列中显示电子邮件的发送者"
 
 #: ../mail/evolution-mail.schemas.in.h:99
-#, fuzzy
 msgid "Show the photo of the sender in the message reading pane."
-msgstr "在信件列表的信件组合列中显示电子邮件的发送者"
+msgstr "在信件阅读面板中显示发件人照片。"
 
 #: ../mail/evolution-mail.schemas.in.h:100
 msgid "Show the sender email in the messages column in the message list"
@@ -12504,16 +12498,15 @@ msgstr "文本信件部分限制"
 
 #: ../mail/evolution-mail.schemas.in.h:108
 msgid "The default plugin for Junk hook"
-msgstr ""
+msgstr "默认的垃圾信件钩子插件"
 
 #: ../mail/evolution-mail.schemas.in.h:109
-#, fuzzy
 msgid "The last time empty junk was run, in days since the epoch."
-msgstr "上次清空回收站的时间，以 epoch 天数显示。"
+msgstr "上次清空垃圾信件的时间，以自新纪元后的天数显示。"
 
 #: ../mail/evolution-mail.schemas.in.h:110
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "上次清空回收站的时间，以 epoch 天数显示。"
+msgstr "上次清空回收站的时间，以新纪元后的天数显示。"
 
 #: ../mail/evolution-mail.schemas.in.h:111
 msgid "The terminal font for mail display"
@@ -13172,7 +13165,7 @@ msgstr "嵌入"
 
 #: ../mail/mail-config.glade.h:93
 msgid "Inline original message (Outlook style)"
-msgstr ""
+msgstr "嵌入原消息(Outlook 风格)"
 
 #: ../mail/mail-config.glade.h:95
 msgid "KB"
@@ -13877,11 +13870,11 @@ msgstr "更新“%s:%s”的搜索文件夹"
 msgid "Updating Search Folders for '%s'"
 msgstr "更新“%s”的搜索文件夹"
 
-#: ../mail/mail-vfolder.c:1023
+#: ../mail/mail-vfolder.c:1043
 msgid "Edit Search Folder"
 msgstr "编辑搜索文件夹"
 
-#: ../mail/mail-vfolder.c:1107
+#: ../mail/mail-vfolder.c:1127
 msgid "New Search Folder"
 msgstr "新建搜索文件夹"
 
@@ -14103,6 +14096,7 @@ msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr ""
+"您想要同步那些标记为离线使用的文件夹吗？"
 
 #: ../mail/mail.error.xml.h:51
 msgid "Do you want to mark all messages as read?"
@@ -14285,9 +14279,8 @@ msgid "Synchronize"
 msgstr "同步"
 
 #: ../mail/mail.error.xml.h:95
-#, fuzzy
 msgid "Synchronize folders locally for offline usage?"
-msgstr "日历未标为脱机使用。"
+msgstr "同步文件夹到本地以脱机使用吗？"
 
 #: ../mail/mail.error.xml.h:96
 msgid ""
@@ -14453,7 +14446,7 @@ msgstr "打开信件(_O)"
 
 #: ../mail/mail.error.xml.h:140
 msgid "on Current Folder and _Subfolders"
-msgstr ""
+msgstr "在当前文件夹及其子文件夹中(_S)"
 
 #: ../mail/message-list.c:1022
 msgid "Unseen"
@@ -14522,7 +14515,7 @@ msgstr "%Y年%m月%d日"
 msgid "Messages"
 msgstr "信件"
 
-#: ../mail/message-list.c:3752
+#: ../mail/message-list.c:3755
 msgid "Generating message list"
 msgstr "生成信件列表"
 
@@ -14632,6 +14625,7 @@ msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
 msgstr ""
+"消息主体中的用于附件提醒插件的线索列表"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:376
 msgid "Keywords"
@@ -14915,13 +14909,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
-#, fuzzy
 msgid "Bogofilter Options"
-msgstr "记录过滤动作"
+msgstr "Bogofilter 选项"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Filters junk messages using Bogofilter."
-msgstr ""
+msgstr "使用 Bogofilter 过滤垃圾信件"
 
 #: ../plugins/caldav/caldav-source.c:64 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
@@ -15281,7 +15274,8 @@ msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf."
 msgstr ""
-"这封信是 Evolution 自动发送的，目的在于通知你已经被授权为我的代理人。你现在可以以我的身份发送邮件。"
+"这封信是 Evolution 自动发送的，目的在于通知你已经被授权为我的代理人。你现在可"
+"以以我的身份发送邮件。"
 
 #. To translators: Another chunk of the same message.
 #.
@@ -16426,13 +16420,10 @@ msgid "Search for an iPod failed"
 msgstr "搜索 iPod 失败"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:67
-#, fuzzy
 msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
-"<span weight=\"bold\" size=\"larger\">搜索 iPod 失败</span>\n"
-"\n"
 "Evolution 找不到要同步的 iPod。您可能没有将其连接到系统，或者没有开机。"
 
 #: ../plugins/ipod-sync/ical-format.c:137
@@ -16544,32 +16535,28 @@ msgid "Attendee status updated"
 msgstr "出席者状态已更新"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1250
-#, fuzzy
 msgid "Meeting information sent"
-msgstr "会议信息"
+msgstr "会议信息已发送"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1253
-#, fuzzy
 msgid "Task information sent"
-msgstr "任务信息"
+msgstr "任务信息已发送"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1256
-#, fuzzy
 msgid "Memo information sent"
-msgstr "没有信息"
+msgstr "备忘信息已发送"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1265
 msgid "Unable to send meeting information, the meeting does not exist"
-msgstr ""
+msgstr "无法发送会议信息，会议不存在"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1268
-#, fuzzy
 msgid "Unable to send task information, the task does not exist"
-msgstr "无法在任何任务列表中找到此任务"
+msgstr "无法发送任务信息，任务不存在"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1271
 msgid "Unable to send memo information, the memo does not exist"
-msgstr ""
+msgstr "无法发送备忘信息，备忘不存在"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1346
 #: ../plugins/itip-formatter/itip-formatter.c:1361
@@ -16828,11 +16815,12 @@ msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> 希望加入到已有的会议："
 
 #: ../plugins/itip-formatter/itip-view.c:380
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following meeting:"
-msgstr "<b>%s</b> 希望接收到下列会议的最新信息："
+msgstr ""
+"<b>%s</b> 通过 %s 希望接收到下列会议的最新信息："
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
@@ -16841,9 +16829,9 @@ msgid ""
 msgstr "<b>%s</b> 希望接收到下列会议的最新信息："
 
 #: ../plugins/itip-formatter/itip-view.c:386
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> 发回了下列会议请求的响应："
+msgstr "<b>%s</b> 通过 %s 发回了下列会议请求的响应："
 
 #: ../plugins/itip-formatter/itip-view.c:388
 #, c-format
@@ -16861,9 +16849,9 @@ msgid "<b>%s</b> has canceled the following meeting."
 msgstr "<b>%s</b> 取消了下列会议。"
 
 #: ../plugins/itip-formatter/itip-view.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has proposed the following meeting changes."
-msgstr "<b>%s</b> 提议了下列会议变更。"
+msgstr "<b>%s</b> 通过 %s 提议了下列会议变更。"
 
 #: ../plugins/itip-formatter/itip-view.c:400
 #, c-format
@@ -16916,11 +16904,11 @@ msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s<b> 希望加入到已存在的任务："
 
 #: ../plugins/itip-formatter/itip-view.c:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following assigned task:"
-msgstr "<b>%s</b> 想要收到所分配的下列任务的最新信息："
+msgstr "<b>%s</b> 通过 %s 想要收到所分配的下列任务的最新信息："
 
 #: ../plugins/itip-formatter/itip-view.c:470
 #, c-format
@@ -16930,10 +16918,10 @@ msgid ""
 msgstr "<b>%s</b> 想要收到所分配的下列任务的最新信息："
 
 #: ../plugins/itip-formatter/itip-view.c:474
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> 发回了下列分配任务的回应："
+msgstr "<b>%s</b> 通过 %s 发回了下列分配任务的回应："
 
 #: ../plugins/itip-formatter/itip-view.c:476
 #, c-format
@@ -16951,10 +16939,10 @@ msgid "<b>%s</b> has canceled the following assigned task:"
 msgstr "<b>%s</b> 取消分配的下列任务："
 
 #: ../plugins/itip-formatter/itip-view.c:486
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> 提议了下列任务分配变更："
+msgstr "<b>%s</b> 通过 %s 提议了下列任务分配变更："
 
 #: ../plugins/itip-formatter/itip-view.c:488
 #, c-format
@@ -17888,9 +17876,8 @@ msgid "A simple plugin which uses ytnef to decode tnef attachments."
 msgstr ""
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
-#, fuzzy
 msgid "TNEF Attachment decoder"
-msgstr "无附件"
+msgstr "TNEF 附件解码器"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -20837,7 +20824,7 @@ msgstr "状态(_S)"
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:406
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:408
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:410
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:761
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:759
 msgid "UTC"
 msgstr "UTC"
 
@@ -21065,14 +21052,14 @@ msgstr "Y2"
 #: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1426
 #: ../widgets/table/e-table-group-container.c:973
 #: ../widgets/table/e-table-group-leaf.c:635
-#: ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3014
 msgid "Minimum width"
 msgstr "最小宽度"
 
 #: ../widgets/misc/e-canvas-vbox.c:93 ../widgets/misc/e-reflow.c:1427
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3016
+#: ../widgets/table/e-table-item.c:3015
 msgid "Minimum Width"
 msgstr "最小宽度"
 
@@ -21792,7 +21779,7 @@ msgstr[0] "%s (%d 项)"
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-leaf.c:572
 #: ../widgets/table/e-table-group-leaf.c:573
-#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
+#: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
 msgid "Alternating Row Colors"
 msgstr "交替行色"
 
@@ -21800,7 +21787,7 @@ msgstr "交替行色"
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-leaf.c:579
 #: ../widgets/table/e-table-group-leaf.c:580
-#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
+#: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
 #: ../widgets/table/e-tree.c:3307 ../widgets/table/e-tree.c:3308
 msgid "Horizontal Draw Grid"
 msgstr "水平绘制网格"
@@ -21809,7 +21796,7 @@ msgstr "水平绘制网格"
 #: ../widgets/table/e-table-group-container.c:911
 #: ../widgets/table/e-table-group-leaf.c:586
 #: ../widgets/table/e-table-group-leaf.c:587
-#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
+#: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
 #: ../widgets/table/e-tree.c:3313 ../widgets/table/e-tree.c:3314
 msgid "Vertical Draw Grid"
 msgstr "垂直绘制网格"
@@ -21818,7 +21805,7 @@ msgstr "垂直绘制网格"
 #: ../widgets/table/e-table-group-container.c:918
 #: ../widgets/table/e-table-group-leaf.c:593
 #: ../widgets/table/e-table-group-leaf.c:594
-#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
+#: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
 #: ../widgets/table/e-tree.c:3319 ../widgets/table/e-tree.c:3320
 msgid "Draw focus"
 msgstr "绘制焦点"
@@ -21827,7 +21814,7 @@ msgstr "绘制焦点"
 #: ../widgets/table/e-table-group-container.c:925
 #: ../widgets/table/e-table-group-leaf.c:600
 #: ../widgets/table/e-table-group-leaf.c:601
-#: ../widgets/table/e-table-item.c:3001 ../widgets/table/e-table-item.c:3002
+#: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
 msgid "Cursor mode"
 msgstr "光标模式"
 
@@ -21835,7 +21822,7 @@ msgstr "光标模式"
 #: ../widgets/table/e-table-group-container.c:932
 #: ../widgets/table/e-table-group-leaf.c:614
 #: ../widgets/table/e-table-group-leaf.c:615
-#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
+#: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
 msgid "Selection model"
 msgstr "选择模型"
 
@@ -21843,7 +21830,7 @@ msgstr "选择模型"
 #: ../widgets/table/e-table-group-container.c:939
 #: ../widgets/table/e-table-group-leaf.c:607
 #: ../widgets/table/e-table-group-leaf.c:608
-#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
+#: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
 #: ../widgets/table/e-table.c:3307 ../widgets/table/e-tree.c:3301
 #: ../widgets/table/e-tree.c:3302
 msgid "Length Threshold"
@@ -21853,7 +21840,7 @@ msgstr "长度阀值"
 #: ../widgets/table/e-table-group-container.c:946
 #: ../widgets/table/e-table-group-leaf.c:649
 #: ../widgets/table/e-table-group-leaf.c:650
-#: ../widgets/table/e-table-item.c:3042 ../widgets/table/e-table-item.c:3043
+#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
 #: ../widgets/table/e-table.c:3314 ../widgets/table/e-tree.c:3333
 #: ../widgets/table/e-tree.c:3334
 msgid "Uniform row height"
@@ -21933,15 +21920,15 @@ msgstr "排序信息"
 msgid "Tree"
 msgstr "树"
 
-#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+#: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
 msgid "Table header"
 msgstr "表头"
 
-#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
+#: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
 msgid "Table model"
 msgstr "表格模型"
 
-#: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
+#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
 msgid "Cursor row"
 msgstr "光标行"
 
@@ -22085,4 +22072,3 @@ msgstr "输入法环境"
 #: ../widgets/text/e-text.c:3780 ../widgets/text/e-text.c:3781
 msgid "Handle Popup"
 msgstr "处理弹出"
-
