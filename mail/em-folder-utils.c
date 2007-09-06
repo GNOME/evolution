@@ -675,7 +675,7 @@ new_folder_created_cb (CamelFolderInfo *fi, void *user_data)
 		
 		/* Exapnding newly created folder */
 		if (emcftd->emft)
-			em_folder_tree_set_selected ((EMFolderTree *) emcftd->emft, emcftd->uri, TRUE); 
+			em_folder_tree_set_selected ((EMFolderTree *) emcftd->emft, emcftd->uri, GPOINTER_TO_INT(g_object_get_data ((GObject *)emcftd->emft, "select")) ? FALSE : TRUE); 
 	}	 
 	g_object_unref (emcftd->emfs);
    	g_free (emcftd);

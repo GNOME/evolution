@@ -139,6 +139,7 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
 		return;
 	
+	g_object_set_data ((GObject *)emfs->emft, "select", GUINT_TO_POINTER (1));
 	em_folder_utils_create_folder(NULL, emfs->emft);
 	
 	g_signal_stop_emission_by_name (emfs, "response");

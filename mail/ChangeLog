@@ -1,3 +1,12 @@
+2007-09-06  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #304993 (Novell Bugzilla)
+
+	* em-folder-selector.c: (emfs_response): Do allow folder selection of
+	created folders.
+	* em-folder-utils.c: (new_folder_created_cb): Expand only if selection
+	is not asked for.
+
 2007-09-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-view:
