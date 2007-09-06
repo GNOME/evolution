@@ -175,7 +175,13 @@ config_cache_labels (void)
 			
 			*colour++ = '\0';
 			label->tag = g_strdup(label_defaults[num].tag);
-			label->name = g_strdup (_(buf));
+
+			/* Don't translate an empty string */			
+			if (buf == NULL || buf[0] == '\0')
+			        label->name = g_strdup (_("Unnamed"));
+			else
+			        label->name = g_strdup (_(buf));
+
 			label->colour = g_strdup (colour);
 			
 			n = g_slist_alloc ();

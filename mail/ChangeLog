@@ -1,3 +1,9 @@
+2007-09-06  Andre Klapper  <a9016009@gmx.de>
+
+	* mail-config.c: (config_cache_labels):
+	Don't translate empty label names.
+	Fixes bug 363645. Thanks to Bastien Nocera.
+
 2007-09-06  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #304993 (Novell Bugzilla)
