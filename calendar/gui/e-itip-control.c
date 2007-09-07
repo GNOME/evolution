@@ -2194,20 +2194,16 @@ static void
 insert_boxes (GtkHTMLEmbedded *eb, EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	gpointer wbox;
 	
 	priv = itip->priv;
-	wbox = priv->vbox;	
 
 	priv->vbox = gtk_vbox_new (FALSE, 12);
-	g_object_add_weak_pointer (G_OBJECT (priv->vbox), &wbox);	
-
+	g_object_add_weak_pointer (G_OBJECT (priv->vbox), (gpointer *) &(priv->vbox));
 	gtk_container_add (GTK_CONTAINER (eb), priv->vbox);
 	gtk_widget_show (priv->vbox);
 
 	priv->hbox = gtk_hbox_new (FALSE, 6);
-	wbox = priv->hbox;
-	g_object_add_weak_pointer (G_OBJECT (priv->hbox), &wbox);
+	g_object_add_weak_pointer (G_OBJECT (priv->hbox), (gpointer *) &(priv->hbox));
 
 	gtk_box_pack_start (GTK_BOX (priv->vbox), priv->hbox, FALSE, TRUE, 0);
 	gtk_widget_show (priv->hbox);
@@ -2262,12 +2258,10 @@ static void
 insert_ok (GtkWidget *hbox, EItipControl *itip) 
 {
 	EItipControlPrivate *priv;
-	gpointer wbutton;
 	priv = itip->priv;
 	
 	priv->ok = gtk_button_new_from_stock (GTK_STOCK_OK);
-	wbutton = priv->ok;
-	g_object_add_weak_pointer (G_OBJECT (priv->ok), &wbutton);
+	g_object_add_weak_pointer (G_OBJECT (priv->ok), (gpointer *) &(priv->ok) );
 
 	g_signal_connect (priv->ok, "clicked", G_CALLBACK (ok_clicked_cb), itip);
 

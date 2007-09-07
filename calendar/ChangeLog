@@ -1,3 +1,9 @@
+2007-09-07  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	* gui/e-itip-control.c: (insert_boxes), (insert_ok):
+	fix weak references, pointed by Milan Crha <mcrha@redhat.com>
+	which fixes one issue of the patch from bug #439122
+
 2007-09-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #473903
