@@ -651,6 +651,7 @@ enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	CamelURL *selected_curl, *current_curl;
+	CamelFolder *selected_folder;
 	gchar *uri;
 
 	/* Get the currently displayed folder. */
@@ -659,20 +660,16 @@ enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 	g_free (uri);
 
 	/* Get the selected folder in the folder tree. */
-	uri = em_folder_tree_get_selected_uri (EM_FOLDER_TREE (emft));
+	selected_folder = em_folder_tree_get_selected_folder(EM_FOLDER_TREE (emft));
+	uri = mail_tools_folder_to_url (selected_folder);
+
 	selected_curl = uri ? camel_url_new (uri, NULL) : NULL;
 
 	if (current_curl && selected_curl && !camel_url_equal (selected_curl, current_curl)) {
-		CamelFolder *folder;
-		CamelException ex;
-
-		camel_exception_init (&ex);
-		folder = mail_tool_uri_to_folder (uri, 0, &ex);
-		camel_exception_clear (&ex);
 
 		g_signal_emit_by_name (
 			emft, "folder-selected", emft, uri,
-			folder->full_name, uri, folder->folder_flags);
+			selected_folder->full_name, uri, selected_folder->folder_flags);
 	}
 
 	gtk_widget_set_sensitive (emft, TRUE);

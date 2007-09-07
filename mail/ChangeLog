@@ -1,3 +1,10 @@
+2007-09-07  Johnny Jacob  <jjohnny@novell.com>
+ 
+	** Partial Fix for #467581.
+	
+ 	* mail-component.c : (enable_folder_tree) : Get the right URIs for
+	selected and current folders.
+ 	
 2007-09-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #473903
