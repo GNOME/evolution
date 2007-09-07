@@ -1,3 +1,10 @@
+2007-09-06  B S Srinidhi  <srinidhi.bs@gmail.com>
+
+	** Fix for bug #468366
+
+	* attachment-reminder.c: Avoid empty keywords getting added and
+	other small fixes and improvements.
+
 2007-08-21  Andre Klapper  <a9016009@gmx.de>
 
 	* org-gnome-attachment-reminder.error.xml:  Marked strings for

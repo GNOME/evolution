@@ -77,6 +77,8 @@ static void commit_changes (UIData *ui);
 
 static void  cell_edited_callback (GtkCellRendererText *cell, gchar *path_string,
 				   gchar *new_text,UIData *ui);
+gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
+					*path, GtkTreeIter *iter, gpointer data);
 
 static GtkListStore *store = NULL;
 
@@ -204,7 +206,9 @@ commit_changes (UIData *ui)
 		char *keyword;
 
 		gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
-		clue_list = g_slist_append (clue_list, keyword);
+		/* Check if the keyword is not empty */
+		if ((keyword) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0))
+			clue_list = g_slist_append (clue_list, keyword);
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
@@ -213,6 +217,55 @@ commit_changes (UIData *ui)
 
 	g_slist_foreach (clue_list, (GFunc) g_free, NULL);
 	g_slist_free (clue_list);
+}
+
+static void
+clue_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, UIData *ui)
+{
+	GtkTreeSelection *selection;
+	char *keyword;
+	gboolean valid;
+	
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
+	/* move to the previous node */
+	valid = gtk_tree_path_prev(path);
+
+	gtk_tree_model_get(model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
+	if ((keyword) && !(g_utf8_strlen(g_strstrip(keyword), -1) > 0))
+		gtk_list_store_remove(store, iter);
+
+	/* Check if we have a valid row to select. If not, then select
+	 * the previous row */
+	if (gtk_list_store_iter_is_valid(GTK_LIST_STORE(model), iter)) {
+		gtk_tree_selection_select_iter (selection, iter);
+	} else {
+		if (path && valid) {
+			gtk_tree_model_get_iter(model, iter, path);
+			gtk_tree_selection_select_iter (selection, iter);
+		}
+	}
+
+	gtk_widget_grab_focus(ui->treeview);
+}
+
+gboolean
+clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	gboolean valid;
+	char *keyword;
+
+	valid = gtk_tree_model_get_iter_first(model, iter);
+	while (valid && gtk_list_store_iter_is_valid(store, iter)) {
+		gtk_tree_model_get(model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
+		/* Check if the keyword is not empty and then emit the row-changed
+		signal (if we delete the row, then the iter gets corrupted) */
+		if ((keyword) && !(g_utf8_strlen(g_strstrip(keyword), -1) > 0))
+			gtk_tree_model_row_changed(model, path, iter);
+		valid = gtk_tree_model_iter_next (model, iter);
+	}
+
+	g_free(keyword);
+	return FALSE;
 }
 
 static void  cell_edited_callback (GtkCellRendererText *cell,
@@ -230,8 +283,6 @@ static void  cell_edited_callback (GtkCellRendererText *cell,
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    CLUE_KEYWORD_COLUMN, new_text, -1);
 
-	if (new_text == NULL)
-		g_warning ("foobar : we hae a null string here");
 	commit_changes (ui);
 }
 
@@ -245,6 +296,10 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 	GtkTreePath *path;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
+	gtk_tree_model_foreach(model, clue_foreach_check_isempty, NULL);
+
+	/* Disconnect from signal so that we can create an empty row */
+	g_signal_handlers_disconnect_matched(G_OBJECT(model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, clue_check_isempty, ui);
 
 	//TODO : Trim and check for blank strings
 	new_clue = g_strdup ("");
@@ -257,9 +312,12 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 
 	if (path) {
 		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ui->treeview), path, focus_col, TRUE);
-
+		gtk_tree_view_row_activated(GTK_TREE_VIEW(ui->treeview), path, focus_col);
+		gtk_tree_path_free (path);
 	}
 
+	/* We have done our job, connect back to the signal */
+	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(clue_check_isempty), ui);
 }
 
 static void
@@ -268,21 +326,39 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+	GtkTreePath *path;
+	gboolean valid;
 	gint len;
 
+	valid = FALSE;
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
+	/* Get the path and move to the previous node :) */
+	path = gtk_tree_model_get_path (model, &iter);
+	if (path)
+		valid = gtk_tree_path_prev(path);
+	
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
 	len = gtk_tree_model_iter_n_children (model, NULL);
 	if (len > 0) {
-		gtk_tree_selection_select_iter (selection, &iter);
+		if (gtk_list_store_iter_is_valid(GTK_LIST_STORE(model), &iter)) {
+			gtk_tree_selection_select_iter (selection, &iter);
+		} else {
+			if (path && valid) {
+				gtk_tree_model_get_iter(model, &iter, path);
+				gtk_tree_selection_select_iter (selection, &iter);
+			}
+		}
 	} else {
 		gtk_widget_set_sensitive (ui->clue_edit, FALSE);
 		gtk_widget_set_sensitive (ui->clue_remove, FALSE);
 	}
+
+	gtk_widget_grab_focus(ui->treeview);
+	gtk_tree_path_free (path);
 
 	commit_changes (ui);
 }
@@ -309,7 +385,6 @@ clue_edit_clicked (GtkButton *button, UIData *ui)
 		gtk_tree_path_free (path);
 	}
 }
-
 
 static void
 toggle_cb (GtkWidget *widget, UIData *ui)
@@ -348,6 +423,7 @@ e_plugin_lib_configure (EPlugin *epl)
 	GConfClient *gconf = gconf_client_get_default();
 	GtkWidget *hbox, *button;
 	GSList *clue_list = NULL, *list;
+	GtkTreeModel *model;
 	gboolean enable_ui;
 
 	UIData *ui = g_new0 (UIData, 1);
@@ -393,6 +469,9 @@ e_plugin_lib_configure (EPlugin *epl)
 	ui->clue_edit = glade_xml_get_widget (xml, "clue_edit");
 	g_signal_connect (G_OBJECT (ui->clue_edit), "clicked", G_CALLBACK (clue_edit_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_edit, FALSE);
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
+	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(clue_check_isempty), ui);
 
 	/* Populate tree view with values from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
