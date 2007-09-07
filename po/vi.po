@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.4 GNOME TRUNK\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-28 03:21+0100\n"
-"PO-Revision-Date: 2007-09-02 22:13+0930\n"
+"PO-Revision-Date: 2007-09-07 22:05+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3648,7 +3648,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:160
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "Hậu phương cho sổ địa chỉ này không thể phân tách truy vấn này."
+msgstr "Hậu phương cho sổ địa chỉ này không thể phân tích truy vấn này."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:163
 msgid "The backend for this addressbook refused to perform this query."
@@ -12313,12 +12313,12 @@ msgstr "%s đính kèm"
 
 #: ../mail/em-format.c:1160
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "Không thể phân tách thư S/MIME. Không biết sao."
+msgstr "Không thể phân tích thư S/MIME. Không biết sao."
 
 #: ../mail/em-format.c:1297
 #: ../mail/em-format.c:1453
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Không thể phân tách thư MIME nên hiện thị dạng mã nguồn."
+msgstr "Không thể phân tích thư MIME nên hiện thị dạng mã nguồn."
 
 #: ../mail/em-format.c:1305
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -12326,11 +12326,11 @@ msgstr "Kiểu mã hoá không được hỗ trợ cho: multipart/encrypted"
 
 #: ../mail/em-format.c:1315
 msgid "Could not parse PGP/MIME message"
-msgstr "Không thể phân tách thư PGP/MIME"
+msgstr "Không thể phân tích thư PGP/MIME"
 
 #: ../mail/em-format.c:1315
 msgid "Could not parse PGP/MIME message: Unknown error"
-msgstr "Không thể phân tách thư PGP/MIME: lỗi không rõ"
+msgstr "Không thể phân tích thư PGP/MIME: lỗi không rõ"
 
 #: ../mail/em-format.c:1472
 msgid "Unsupported signature format"
@@ -12349,11 +12349,11 @@ msgstr "Gặp lỗi lạ khi xác minh chữ ký."
 
 #: ../mail/em-format.c:1622
 msgid "Could not parse PGP message"
-msgstr "Không thể phân tách thư PGP"
+msgstr "Không thể phân tích thư PGP"
 
 #: ../mail/em-format.c:1622
 msgid "Could not parse PGP message: Unknown error"
-msgstr "Không thể phân tách thư PGP: lỗi không rõ"
+msgstr "Không thể phân tích thư PGP: lỗi không rõ"
 
 #: ../mail/em-mailer-prefs.c:105
 msgid "Every time"
@@ -17105,7 +17105,7 @@ msgstr "Đang tìm kiếm một phiên bản hiện thời của cuộc hẹn n�
 
 #: ../plugins/itip-formatter/itip-formatter.c:922
 msgid "Unable to parse item"
-msgstr "Không thể phân tách mục"
+msgstr "Không thể phân tích mục"
 
 #: ../plugins/itip-formatter/itip-formatter.c:980
 #, c-format
