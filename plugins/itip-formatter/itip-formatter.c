@@ -1550,7 +1550,7 @@ idle_open_cb (gpointer data)
 	FormatItipPObject *pitip = data;	
 	char *command;
 	
-	command = g_strdup_printf ("evolution-%s \"calendar://?startdate=%s&enddate=%s\"", BASE_VERSION, 
+	command = g_strdup_printf ("evolution \"calendar://?startdate=%s&enddate=%s\"", 
 				   isodate_from_time_t (pitip->start_time), isodate_from_time_t (pitip->end_time));
 	if (!g_spawn_command_line_async (command, NULL)) {
 		g_warning ("Could not launch %s", command);

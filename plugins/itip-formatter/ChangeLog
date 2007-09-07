@@ -1,3 +1,9 @@
+2007-09-07  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #273417
+	* itip-formatter.c: (idle_open_cb): Removed the base version
+	while invoking evolution calendar.					    
+
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #329746
