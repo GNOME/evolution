@@ -4345,7 +4345,7 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, in
 			handle_multipart_signed (composer, content_multipart, depth);
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-			handle_multipart_encrypted (composer, content_multipart, depth);
+			handle_multipart_encrypted (composer, mime_part, depth);
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
 			handle_multipart_alternative (composer, content_multipart, depth);

@@ -199,7 +199,7 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	int parts, i;
 	GSList *list = NULL;
 	const char *uid;
-	char *store_uri;
+	const char *store_uri;
 	char *store_dir;
 	CamelDataWrapper *content;
 

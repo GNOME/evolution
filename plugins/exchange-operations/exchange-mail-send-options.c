@@ -44,7 +44,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 {
 	EMsgComposer *composer;
 	EMsgComposerHdrs *hdrs;
-	CamelInternetAddress *sender_address;
+	CamelAddress *sender_address;
 	const char *sender_id, *recipient_id;
 
 	composer = (EMsgComposer *)data;

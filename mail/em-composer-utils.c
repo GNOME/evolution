@@ -257,7 +257,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	int i;
 	GList *postlist;
 	EMEvent *eme;
-	EMEventTargetMessage *target;
+	EMEventTargetComposer *target;
 	
 	gconf = mail_config_get_gconf_client ();
 	
@@ -367,11 +367,11 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	 */
 	eme = em_event_peek();
 	target = em_event_target_new_composer (eme, composer, 0);
-	g_object_set_data (composer, "presend_check_status", GINT_TO_POINTER(0));
+	g_object_set_data (G_OBJECT (composer), "presend_check_status", GINT_TO_POINTER(0));
 
 	e_event_emit((EEvent *)eme, "composer.presendchecks", (EEventTarget *)target);
 
-	if (GPOINTER_TO_INT (g_object_get_data (composer, "presend_check_status")))
+	if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (composer), "presend_check_status")))
 		goto finished;
 
 	/* actually get the message now, this will sign/encrypt etc */

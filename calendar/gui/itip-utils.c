@@ -890,7 +890,7 @@ comp_limit_attendees (ECalComponent *comp)
 		char *attendee_text;
 		icalparameter *param;
 		const char *attendee_sentby;
-		char *attendee_sentby_text;
+		char *attendee_sentby_text = NULL;
 
 		/* If we've already found something, just erase the rest */
 		if (found) {

@@ -1,3 +1,10 @@
+2007-09-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #473903
+
+	* e-print.c: (load_page_setup):
+	Fixes serious compiler warnings.
+
 2007-08-20  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #367760

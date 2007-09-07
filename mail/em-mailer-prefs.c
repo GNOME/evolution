@@ -779,8 +779,10 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 		struct _EMJunkHookItem *item = plugins->data;;
 
 		if (item->plugin_name && def_plugin && !strcmp (item->plugin_name, def_plugin)) {
+			gboolean status;
+
 			session->junk_plugin = CAMEL_JUNK_PLUGIN (&(item->csp));
-			void *status = e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
+			status = e_plugin_invoke (item->hook->hook.plugin, item->validate_binary, NULL) != NULL;
 			if ((gboolean)status == TRUE) {
 				char *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
@@ -833,7 +835,7 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 			
 			def_set = TRUE;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
-			status = (gboolean)e_plugin_invoke(item->hook->hook.plugin, item->validate_binary, NULL);
+			status = e_plugin_invoke (item->hook->hook.plugin, item->validate_binary, NULL) != NULL;
 			if (status) {
 				char *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);

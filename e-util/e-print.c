@@ -113,6 +113,8 @@ load_page_setup (GtkPrintSettings *settings)
 	if (paper_size != NULL)
 		gtk_page_setup_set_paper_size_and_default_margins (
 			page_setup, paper_size);
+	
+	return page_setup;
 }
 
 static void

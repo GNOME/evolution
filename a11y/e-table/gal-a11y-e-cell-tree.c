@@ -51,10 +51,12 @@ ectr_model_row_changed_cb (ETableModel *etm,
 
 static void
 kill_view_cb(ECellView *subcell_view,
-             GList *subcell_a11ies)
+             gpointer psubcell_a11ies)
 {
         GList *node;
+	GList *subcell_a11ies = (GList *) psubcell_a11ies;
         GalA11yECell *subcell;
+
         for (node = subcell_a11ies; node != NULL; node = g_list_next (node))
         {
             subcell = GAL_A11Y_E_CELL(node->data);

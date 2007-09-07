@@ -65,7 +65,7 @@ gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
-gboolean em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
+void *em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
 GtkWidget *org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 static void em_junk_sa_init (void);
@@ -721,10 +721,10 @@ em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 	}
 }
 
-gboolean
+void *
 em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target)
 {
-	return em_junk_sa_is_available ();
+	return em_junk_sa_is_available () ? "1" : NULL;
 }
 
 static void

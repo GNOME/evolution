@@ -1457,7 +1457,7 @@ e_tasks_open_task_id (ETasks *tasks,
 		return;
 
 	attendee_prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-	e_calendar_table_open_task (E_CALENDAR_TABLE (tasks->priv->tasks_view), client, icalcomp, (gboolean)attendee_prop);
+	e_calendar_table_open_task (E_CALENDAR_TABLE (tasks->priv->tasks_view), client, icalcomp, attendee_prop != NULL);
 	icalcomponent_free (icalcomp);
 
 	return;

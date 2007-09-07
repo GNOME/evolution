@@ -1,3 +1,16 @@
+2007-09-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #473903
+
+	* em-folder-utils.c: (new_folder_created_cb),
+	(emfu_popup_new_folder_response):
+	* em-folder-tree.c: (get_last_child),
+	(em_folder_tree_select_prev_path):
+	* em-composer-utils.c: (composer_get_message):
+	* em-format.c: (em_format_add_puri):
+	* em-mailer-prefs.c: (junk_plugin_changed), (junk_plugin_setup):
+	Fixes serious compiler warnings.
+
 2007-09-06  Andre Klapper  <a9016009@gmx.de>
 
 	* mail-config.c: (config_cache_labels):

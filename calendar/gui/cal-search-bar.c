@@ -253,7 +253,7 @@ static const char *
 get_current_category (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	gint viewid, i;
+	gint viewid, i = -1;
 
 	priv = cal_search->priv;
 

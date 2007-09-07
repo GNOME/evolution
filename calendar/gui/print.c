@@ -60,12 +60,12 @@ typedef struct PrintCompItem PrintCompItem;
 typedef struct PrintCalItem PrintCalItem;
 
 struct PrintCompItem {
-	struct ECal *client;
-	struct ECalComponent *comp;
+	ECal *client;
+	ECalComponent *comp;
 };
 
 struct PrintCalItem {
-	struct GnomeCalendar *gcal; 
+	GnomeCalendar *gcal; 
 	time_t start;
 };
 

@@ -1,3 +1,12 @@
+2007-09-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #473903
+
+	* exchange-delegates.c: (email_look_up):
+	* exchange-mail-send-options.c: (append_to_header):
+	* exchange-delegates-user.c: (exchange_delegates_user_edit):
+	Fixes serious compiler warnings.
+
 2007-08-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* org-gnome-exchange-cal-subscription.xml: Fix for empty menu in the

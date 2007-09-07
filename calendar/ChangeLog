@@ -1,3 +1,14 @@
+2007-09-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #473903
+
+	* gui/e-meeting-store.c: (freebusy_async):
+	* gui/cal-search-bar.c: (get_current_category ):
+	* gui/itip-utils.c: (comp_limit_attendees):
+	* gui/e-tasks.c: (e_tasks_open_task_id):
+	* gui/print.c: (struct PrintCompItem), (struct PrintCalItem):
+	Fixes serious compiler warnings.
+
 2007-01-08  Wang Xin  <jedy.wang@sun.com>
 	
 	Fixes #470968

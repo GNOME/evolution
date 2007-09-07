@@ -1,3 +1,10 @@
+2007-09-07  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #473903
+
+	* bf-junk-filter.c: (em_junk_bf_validate_binary): Changing function
+	prototype to fit what is expected in 'invoke', returns value based on it.
+
 2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* bf-junk-filter.c: (e_plugin_lib_enable): Avoid re-entrancy in

@@ -1463,7 +1463,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	g_object_unref(ete);
 
-	return e_tree;
+	return e_tree != NULL;
 }
 
 /**

@@ -1,3 +1,10 @@
+2007-09-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #473903
+
+	* mail-to-task.c: (set_attachments):
+	Fixes serious compiler warning.
+
 2007-08-16  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #350539

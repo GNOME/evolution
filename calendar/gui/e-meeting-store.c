@@ -1151,7 +1151,7 @@ freebusy_async (gpointer data)
 	FreeBusyAsyncData *fbd = data;
 	EMeetingAttendee *attendee = fbd->attendee;
 	gchar *default_fb_uri = NULL;
-       	const char *fburi = NULL;
+       	char *fburi = NULL;
 	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 	EMeetingStorePrivate *priv = fbd->store->priv;
 	GnomeVFSAsyncHandle *handle;

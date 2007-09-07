@@ -60,7 +60,7 @@ GtkWidget * org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfi
 
 /* plugin fonction prototypes */
 gboolean em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target);
-gboolean em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
+void *em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
@@ -244,12 +244,10 @@ em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 {
 }
 
-gboolean
+void *
 em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target)
 {
-
-	 return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS);
-	 
+	return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? "1" : NULL;
 }
 
 int

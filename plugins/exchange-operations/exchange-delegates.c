@@ -528,7 +528,7 @@ email_look_up (const char *delegate_legacy, ExchangeAccount *account)
 	gc = exchange_account_get_global_catalog (account);
 	
 	if (!gc)
-		return;
+		return NULL;
 
 	status = e2k_global_catalog_lookup (
 			gc, NULL, E2K_GLOBAL_CATALOG_LOOKUP_BY_LEGACY_EXCHANGE_DN,

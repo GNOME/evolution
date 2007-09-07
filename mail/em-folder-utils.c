@@ -678,6 +678,7 @@ new_folder_created_cb (CamelFolderInfo *fi, void *user_data)
 			em_folder_tree_set_selected ((EMFolderTree *) emcftd->emft, emcftd->uri, GPOINTER_TO_INT(g_object_get_data ((GObject *)emcftd->emft, "select")) ? FALSE : TRUE); 
 	}	 
 	g_object_unref (emcftd->emfs);
+	g_free (emcftd->uri);
    	g_free (emcftd);
 }
 
@@ -725,7 +726,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 		/* Temp data to pass to create_folder_real function */
 		emcftd = (struct _EMCreateFolderTempData *) g_malloc(sizeof(struct _EMCreateFolderTempData));
 		emcftd->emfs = emfs;
-		emcftd->uri = uri;
+		emcftd->uri = g_strdup (uri);
 		emcftd->emft = (EMFolderTree *) data;
 		
 		g_object_ref (emfs);

@@ -421,10 +421,12 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			delegate_exchange_dn = e2k_entryid_to_dn (user->entryid);
 			recipient_address = email_look_up (delegate_exchange_dn,account);
 
-			addr = camel_internet_address_new ();
-			camel_address_decode (CAMEL_ADDRESS (addr), recipient_address);
-			camel_mime_message_set_recipients (delegate_mail, CAMEL_RECIPIENT_TYPE_TO, addr);
-			camel_object_unref (addr);
+			if (recipient_address) {
+				addr = camel_internet_address_new ();
+				camel_address_decode (CAMEL_ADDRESS (addr), recipient_address);
+				camel_mime_message_set_recipients (delegate_mail, CAMEL_RECIPIENT_TYPE_TO, addr);
+				camel_object_unref (addr);
+			}
 
 			eaccount = exchange_account_fetch (account);
 			if(eaccount) {

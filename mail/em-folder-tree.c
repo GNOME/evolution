@@ -2378,21 +2378,15 @@ get_last_child (GtkTreeModel *model, GtkTreeIter *iter)
 	gboolean has_child = gtk_tree_model_iter_has_child (model, iter);
 
 	if (gtk_tree_model_iter_next (model, iter)) {
-		get_last_child (model, iter);
-	} else {
-
-		if (has_child) {
-			/* Pick the last one */
-			int nchildren = gtk_tree_model_iter_n_children (model, iter);
-			gtk_tree_model_iter_nth_child ( model, child, iter, nchildren-1);
-			get_last_child (model, child);
-		}
-		else {
-			return *iter;
-		}
-
+		return get_last_child (model, iter);
+	} else if (has_child) {
+		/* Pick the last one */
+		int nchildren = gtk_tree_model_iter_n_children (model, iter);
+		gtk_tree_model_iter_nth_child ( model, child, iter, nchildren-1);
+		return get_last_child (model, child);
 	}
-//TODO : The function should return the value here !!
+
+	return *iter;
 }
 
 void
@@ -2401,7 +2395,7 @@ em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter, child;
-	GtkTreePath *path, *current_path = NULL;
+	GtkTreePath *path = NULL, *current_path = NULL;
 	unsigned int unread = 0;
 	struct _EMFolderTreePrivate *priv = emft->priv;
 

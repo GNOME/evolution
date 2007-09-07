@@ -1,3 +1,10 @@
+2007-09-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #473903
+
+	* e-msg-composer.c: (handle_multipart_encrypted):
+	Fixes serious compiler warning.
+
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #471791 (Move away from asserts to g_ret*)
