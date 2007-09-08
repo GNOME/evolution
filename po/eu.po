@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-05 17:49+0200\n"
-"PO-Revision-Date: 2007-09-05 18:24+0200\n"
+"POT-Creation-Date: 2007-09-08 13:52+0200\n"
+"PO-Revision-Date: 2007-09-08 13:54+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -272,19 +272,19 @@ msgstr "txandakatu"
 msgid "toggle the cell"
 msgstr "txandakatu gelaxka"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:192
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:194
 msgid "expand"
 msgstr "zabaldu"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:193
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:195
 msgid "expands the row in the ETree containing this cell"
 msgstr "zabaldu errenkada gelaxka hau duen ETree-an"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:198
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:200
 msgid "collapse"
 msgstr "tolestu"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:199
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:201
 msgid "collapses the row in the ETree containing this cell"
 msgstr "tolestu errenkada gelaxka hau duen ETree-an"
 
@@ -2834,8 +2834,8 @@ msgid ""
 "The name or email of this contact already exists in this folder.  Would you "
 "like to add it anyway?"
 msgstr ""
-"Kontaktu honen izena edo helbide elektronikoa lehendik ere badago "
-"karpeta honetan.  Hala ere gehitu nahi duzu?"
+"Kontaktu honen izena edo helbide elektronikoa lehendik ere badago karpeta "
+"honetan.  Hala ere gehitu nahi duzu?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -4375,8 +4375,8 @@ msgstr "Zereginaren aldaketak gorde nahi dituzu?"
 #: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to send a cancelation notice for this memo?"
 msgstr ""
-"Ziur zaude zirkular hau bertan behera uztearen jakinarazpena "
-"bidaltzea nahi duzula?"
+"Ziur zaude zirkular hau bertan behera uztearen jakinarazpena bidaltzea nahi "
+"duzula?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send all the participants a cancelation notice?"
@@ -4807,7 +4807,7 @@ msgstr "Hitzordu lehenetsiaren oroigarria"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Default reminder units"
-msgstr "Oroigarri lehenestiaren unitateak"
+msgstr "Oroigarri lehenetsiaren unitateak"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Default reminder value"
@@ -7647,41 +7647,41 @@ msgstr "Elementua bidali da!\n"
 msgid "The item could not be sent!\n"
 msgstr "Elementua ezin izan da bidali!\n"
 
-#: ../calendar/gui/e-itip-control.c:2222
+#: ../calendar/gui/e-itip-control.c:2218
 msgid "Choose an action:"
 msgstr "Aukeratu ekintza bat:"
 
-#: ../calendar/gui/e-itip-control.c:2295
+#: ../calendar/gui/e-itip-control.c:2289
 msgid "Update"
 msgstr "Eguneratu"
 
-#: ../calendar/gui/e-itip-control.c:2323
+#: ../calendar/gui/e-itip-control.c:2317
 #: ../plugins/groupwise-features/process-meeting.c:48
 msgid "Accept"
 msgstr "Onartu"
 
-#: ../calendar/gui/e-itip-control.c:2324
+#: ../calendar/gui/e-itip-control.c:2318
 msgid "Tentatively accept"
 msgstr "Onartu oraingoz"
 
-#: ../calendar/gui/e-itip-control.c:2325
+#: ../calendar/gui/e-itip-control.c:2319
 #: ../plugins/groupwise-features/process-meeting.c:50
 msgid "Decline"
 msgstr "Ukatu"
 
-#: ../calendar/gui/e-itip-control.c:2354
+#: ../calendar/gui/e-itip-control.c:2348
 msgid "Send Free/Busy Information"
 msgstr "Bidali libre/okupatuta informazioa"
 
-#: ../calendar/gui/e-itip-control.c:2382
+#: ../calendar/gui/e-itip-control.c:2376
 msgid "Update respondent status"
 msgstr "Eguneratu erantzun-emailearen egoera"
 
-#: ../calendar/gui/e-itip-control.c:2410
+#: ../calendar/gui/e-itip-control.c:2404
 msgid "Send Latest Information"
 msgstr "Bidali azken orduko informazioa"
 
-#: ../calendar/gui/e-itip-control.c:2438 ../calendar/gui/itip-utils.c:753
+#: ../calendar/gui/e-itip-control.c:2432 ../calendar/gui/itip-utils.c:753
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Utzi"
@@ -10457,15 +10457,15 @@ msgstr "Evolution-en kontsulta"
 msgid "Internal error, unknown error '%s' requested"
 msgstr "Barne-errorea, '%s' errore ezezaguna eskatu da"
 
-#: ../e-util/e-print.c:136
+#: ../e-util/e-print.c:138
 msgid "An error occurred while printing"
 msgstr "Errorea gertatu da inprimatzean"
 
-#: ../e-util/e-print.c:143
+#: ../e-util/e-print.c:145
 msgid "The printing system reported the following details about the error:"
 msgstr "Inprimatzeko sistemak erroreari buruzko honako xehetasunak bidali ditu:"
 
-#: ../e-util/e-print.c:149
+#: ../e-util/e-print.c:151
 msgid "The printing system did not report any additional details about the error."
 msgstr "Inprimatzeko sistemak ez du erroreari buruzko bestelako xehetasunik eman."
 
@@ -10857,7 +10857,7 @@ msgstr "Evolution-en postaren hobespenen kontrola"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:605
 #: ../mail/importers/elm-importer.c:341 ../mail/importers/pine-importer.c:387
 #: ../mail/mail-component.c:568 ../mail/mail-component.c:569
-#: ../mail/mail-component.c:729
+#: ../mail/mail-component.c:726
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Posta"
@@ -10977,7 +10977,7 @@ msgid "Protocol"
 msgstr "Protokoloa"
 
 #: ../mail/em-composer-prefs.c:310 ../mail/em-composer-prefs.c:436
-#: ../mail/mail-config.c:1030
+#: ../mail/mail-config.c:181 ../mail/mail-config.c:1036
 msgid "Unnamed"
 msgstr "Izengabea"
 
@@ -11360,11 +11360,11 @@ msgstr "Karpetaren propietateak"
 msgid "<click here to select a folder>"
 msgstr "<egin klik hemen karpeta hautatzeko>"
 
-#: ../mail/em-folder-selector.c:261
+#: ../mail/em-folder-selector.c:262
 msgid "Create"
 msgstr "Sortu"
 
-#: ../mail/em-folder-selector.c:265
+#: ../mail/em-folder-selector.c:266
 msgid "Folder _name:"
 msgstr "_Karpetaren izena:"
 
@@ -11383,7 +11383,7 @@ msgid "Drafts"
 msgstr "Zirriborroa"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2558
+#: ../mail/em-folder-tree-model.c:487 ../mail/em-folder-tree.c:2552
 #: ../mail/mail-component.c:151
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11525,13 +11525,13 @@ msgstr "K_opiatu"
 msgid "Creating folder `%s'"
 msgstr "`%s' karpeta sortzen"
 
-#: ../mail/em-folder-utils.c:749
+#: ../mail/em-folder-utils.c:750
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Create folder"
 msgstr "Sortu karpeta"
 
-#: ../mail/em-folder-utils.c:749
+#: ../mail/em-folder-utils.c:750
 #: ../plugins/groupwise-features/install-shared.c:164
 #: ../plugins/groupwise-features/share-folder-common.c:388
 msgid "Specify where to create the folder:"
@@ -11996,7 +11996,7 @@ msgstr "Bcc"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1695 ../mail/em-format-quote.c:329
-#: ../mail/em-mailer-prefs.c:1196
+#: ../mail/em-mailer-prefs.c:1198
 msgid "Mailer"
 msgstr "Bidalketa-funtzioa"
 
@@ -12092,18 +12092,18 @@ msgid "Once per month"
 msgstr "Hilean behin"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:787 ../mail/em-mailer-prefs.c:841
+#: ../mail/em-mailer-prefs.c:789 ../mail/em-mailer-prefs.c:843
 #, c-format
 msgid "%s plugin is available and the binary is installed."
 msgstr "%s plugin-a erabilgarri dago eta bitarra instalatu da."
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:795 ../mail/em-mailer-prefs.c:850
+#: ../mail/em-mailer-prefs.c:797 ../mail/em-mailer-prefs.c:852
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr "%s plugin-a ez dago erabilgarri. Egiaztatu paketea instalatuta dagoen."
 
-#: ../mail/em-mailer-prefs.c:816
+#: ../mail/em-mailer-prefs.c:818
 msgid "No Junk plugin available"
 msgstr "Ez dago Baztergarrien plugin erabilgarririk"
 
@@ -12732,7 +12732,7 @@ msgid ""
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
 msgstr ""
 "Testu-zatiaren gehiengo tamaina zehazten du Evolution-ek formatu emateko. "
-"Lehenestia 4MB (4096 KB) da, KB unitatean zehaztuz."
+"Lehenetsia 4MB (4096 KB) da, KB unitatean zehaztuz."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid ""
@@ -12748,7 +12748,10 @@ msgstr ""
 msgid ""
 "This key is read only once and reset to false after read. This unselects the "
 "mail in the list and removes the preview for that folder."
-msgstr "Gako hau mehin bakarrik irakurtzen da, eta faltsu balioarekin berrezartzeb da irakurri ostean. Mezua desautatzen du zerrendatik eta karpetako aurrebista ezabatzen du."
+msgstr ""
+"Gako hau mehin bakarrik irakurtzen da, eta faltsu balioarekin berrezartzeb "
+"da irakurri ostean. Mezua desautatzen du zerrendatik eta karpetako "
+"aurrebista ezabatzen du."
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid ""
@@ -13028,31 +13031,31 @@ msgid_plural " %d selected, "
 msgstr[0] "%d hautatuta, "
 msgstr[1] "%d hautatuta, "
 
-#: ../mail/mail-component.c:880
+#: ../mail/mail-component.c:877
 msgid "New Mail Message"
 msgstr "Posta-mezu berria"
 
-#: ../mail/mail-component.c:881
+#: ../mail/mail-component.c:878
 msgid "_Mail Message"
 msgstr "_Mezua"
 
-#: ../mail/mail-component.c:882
+#: ../mail/mail-component.c:879
 msgid "Compose a new mail message"
 msgstr "Prestatu posta-mezu berria"
 
-#: ../mail/mail-component.c:888
+#: ../mail/mail-component.c:885
 msgid "New Mail Folder"
 msgstr "Mezu berrien karpeta"
 
-#: ../mail/mail-component.c:889
+#: ../mail/mail-component.c:886
 msgid "Mail _Folder"
 msgstr "Posta _Karpeta"
 
-#: ../mail/mail-component.c:890
+#: ../mail/mail-component.c:887
 msgid "Create a new mail folder"
 msgstr "Sortu posta-karpeta berria"
 
-#: ../mail/mail-component.c:1037
+#: ../mail/mail-component.c:1034
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Huts egin du Postaren ezarpenak edo karpetak bertsio-berritzean."
 
@@ -14895,11 +14898,11 @@ msgstr ""
 "Aztarnen zerrenda eranskinen ohartarazlearen plugin-akmezuaren gorputzean "
 "begiratzeko"
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:376
+#: ../plugins/attachment-reminder/attachment-reminder.c:452
 msgid "Keywords"
 msgstr "Gako-hitzak"
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:422
+#: ../plugins/attachment-reminder/attachment-reminder.c:501
 msgid "Attachment Reminder Preferences"
 msgstr "Eranskinen ohartarazlearen hobespenak"
 
@@ -14925,8 +14928,8 @@ msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
 msgstr ""
-"Mezuak eranskin bat duela adierazten duten zenbait gako aurkitu ditu Evolutionek, "
-"baina ezin du eraskinik aurkitu."
+"Mezuak eranskin bat duela adierazten duten zenbait gako aurkitu ditu "
+"Evolutionek, baina ezin du eraskinik aurkitu."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "Message has no attachments"
@@ -14974,8 +14977,8 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Evolution babeskoiatik leheneratu dezakezu. Posta, Egutegi, Kontaktu, Zirkular eta "
-"Helbide-liburu guztiak berreskura ditzake.\n"
+"Evolution babeskoiatik leheneratu dezakezu. Posta, Egutegi, Kontaktu, "
+"Zirkular eta Helbide-liburu guztiak berreskura ditzake.\n"
 "Ezarpen pertsonalak, mezu iragazki eta bestelako guztiak berreskura ditzake "
 "ere."
 
@@ -15087,7 +15090,9 @@ msgstr "Ziur zaude Evolution ixtea nahi duzula?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "Ziur zaude Evolution hautatutako babeskopiako fitxategitik leheneratzea nahi duzula?"
+msgstr ""
+"Ziur zaude Evolution hautatutako babeskopiako fitxategitik leheneratzea nahi "
+"duzula?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid ""
@@ -15186,7 +15191,7 @@ msgstr ""
 msgid "BBDB"
 msgstr "BBDB"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:305
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:303
 msgid "Convert mail text to _Unicode"
 msgstr "Bihurtu mezuaren testua _Unicode"
 
