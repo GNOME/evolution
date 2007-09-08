@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: Evolution 2.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-02 10:06+0100\n"
-"PO-Revision-Date: 2007-09-06 22:01+0800\n"
-"Last-Translator: Funda Wang <fundawang@gmail.com>\n"
-"Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
+"PO-Revision-Date: 2007-09-08 16:30+0800\n"
+"Last-Translator: YangZhang <zyangmath@gmail.com>\n"
+"Language-Team: Chinese i18n <i18n-zh@googlegroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10099,7 +10099,7 @@ msgstr "签名(_G)："
 #: ../composer/e-msg-composer.c:2628 ../composer/e-msg-composer.c:3867
 #: ../composer/e-msg-composer.c:3870
 msgid "Compose Message"
-msgstr "撰写新邮件"
+msgstr "撰写新信件"
 
 #: ../composer/e-msg-composer.c:5125
 msgid ""
@@ -12530,12 +12530,16 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
+"这是默认的垃圾邮件插件，即使启用了多个插件。如果默认列出的插件"
+"被禁用，它不会缺省到其它可用的插件。"
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid ""
 "This key is read only once and reset to false after read. This unselects the "
 "mail in the list and removes the preview for that folder."
 msgstr ""
+"此键只被读取一次并在读取后被重设为 false。它取消选中列表中的"
+"邮件并移除相应文件夹的预览。"
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid ""
@@ -12549,7 +12553,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "This option would help in improving the speed of fetching."
-msgstr ""
+msgstr "此选项能帮助提高获取信件的速度"
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid ""
@@ -12562,6 +12566,7 @@ msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart"
 msgstr ""
+"此设置指定了默认情况下线索是被展开还是被折叠。需要重启 Evolution。"
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message list."
@@ -12869,7 +12874,7 @@ msgstr "<b>签名(_N)</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr ""
+msgstr "<b>Top Posting 选项</b> (不推荐)"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
@@ -14649,12 +14654,14 @@ msgid ""
 "Looks for clues in a message for mention of attachments and warns if the "
 "attachment is missing"
 msgstr ""
+"在信件中搜索提及附件的线索并在无附件时警告"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
 msgstr ""
+"Evolution 找到一些关键字表明此信件应当包含附件，但却没发现附件。"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "Message has no attachments"
@@ -14701,6 +14708,9 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
+"您可以从备份中恢复 Evolution。它能够恢复所有邮件、日历、任"
+"务、备忘和联系人。\n"
+"它还能恢复您的所有的个人设置和邮件过滤器等。"
 
 #: ../plugins/backup-restore/backup-restore.c:244
 msgid "_Restore Evolution from the backup file"
@@ -14745,7 +14755,7 @@ msgstr "备份 Evolution 的账户及设置"
 
 #: ../plugins/backup-restore/backup.c:77
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr ""
+msgstr "备份 Evolution 数据(邮件、联系人、日历、任务、备忘)"
 
 #: ../plugins/backup-restore/backup.c:87
 msgid "Backup complete"
@@ -14816,6 +14826,9 @@ msgid ""
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
 msgstr ""
+"Evolution 备份只能在 Evolution 未运行时启动。请确保在开始之前您"
+"保存和关闭了您的所有的未保存的窗口。如果您想让 Evolution 在备份"
+"后自动重启动，请启用切换按钮。"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Invalid Evolution backup file"
@@ -14833,6 +14846,11 @@ msgid ""
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
+"这将删除您当前的所有 Evolution 数据和设置并从您的备份中恢复它们。"
+"Evolution 恢复只能在 Evolution 未运行时启动。请确保在开始之前您"
+"保存和关闭了您的所有的未保存的窗口。如果您想让 Evolution 在恢复"
+"后自动重启动，请启用切换按钮。"
+
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
@@ -14907,6 +14925,7 @@ msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
 msgstr ""
+"将信件文本转换到 Unicode UTF-8 以一致化来自于不同字符集的垃圾信件特征。"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
 msgid "Bogofilter Options"
@@ -15611,7 +15630,7 @@ msgstr "用户(_U)"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:17
 msgid "button-user"
-msgstr ""
+msgstr "用户按钮"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:143
 msgid "Select User"
@@ -15812,6 +15831,7 @@ msgstr "密码已经成功更改。"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Please enter a Delegate's ID or deselect the Send as a Delegate option."
 msgstr ""
+"请输入一个代理人 ID 或取消选中“以代理人身份发送”选项。"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "Please make sure the Global Catalog Server name is correct."
@@ -15899,6 +15919,7 @@ msgid ""
 "You are permitted to send a message on behalf of only one delegator at a "
 "time."
 msgstr ""
+"您被允许每次只能够以一个(而非多个)代理人的身份发送信件。"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid "You cannot make yourself your own delegate"
@@ -15956,7 +15977,7 @@ msgstr "更改文件夹权限"
 
 #: ../plugins/face/face.c:58
 msgid "Select a (48*48) png of size < 700bytes"
-msgstr ""
+msgstr "选择一个小于 700B 的 48*48 的 PNG 图像"
 
 #: ../plugins/face/face.c:68
 msgid "PNG files"
@@ -15964,7 +15985,7 @@ msgstr "PNG 文件"
 
 #: ../plugins/face/face.c:73
 msgid "Select a (48*48) png of size < 720bytes"
-msgstr ""
+msgstr "选择一个小于 720B 的 48*48 的 PNG 图像"
 
 #: ../plugins/face/org-gnome-face-ui.xml.h:1
 msgid "_Face"
@@ -15976,6 +15997,9 @@ msgid ""
 "a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces "
 "This will be used in mails that are sent further."
 msgstr ""
+"在发出的邮件的邮件头中附上头像。第一次使用时用户需要配置一个 48*48 "
+"的 PNG 图象。它以 base64 编码并保存在 ~/.evolution/faces 下。这将在"
+"以后发出的邮件中使用。"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
@@ -16407,13 +16431,15 @@ msgstr "将 ICS 附件导入到日历。"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:33
 msgid "Hardware Abstraction Layer not loaded"
-msgstr ""
+msgstr "硬件抽象层(HAL)尚未加载"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:34
 msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
 msgstr ""
+"需要“hald”服务但它目前尚未运行。请启用该服务并重新支持此程"
+"序，或联系您的系统管理员。"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:66
 msgid "Search for an iPod failed"
@@ -16770,14 +16796,14 @@ msgstr "%Y年%-m月%-d日%A%p%l:%M:%S"
 #: ../plugins/itip-formatter/itip-view.c:525
 #, c-format
 msgid "Please respond on behalf of <b>%s</b>"
-msgstr ""
+msgstr "请以 <b>%s</b> 的身份回应"
 
 #: ../plugins/itip-formatter/itip-view.c:351
 #: ../plugins/itip-formatter/itip-view.c:439
 #: ../plugins/itip-formatter/itip-view.c:527
 #, c-format
 msgid "Received on behalf of <b>%s</b>"
-msgstr ""
+msgstr "以 <b>%s</b> 的身份接收"
 
 #: ../plugins/itip-formatter/itip-view.c:356
 #, c-format
@@ -17116,25 +17142,25 @@ msgstr "禁用账户"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Enable libnotify notifications of new mail"
-msgstr ""
+msgstr "启用新邮件的 libnotify 通知"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Every time a new mail arrives, pop up a libnotify notification."
-msgstr ""
+msgstr "每当新邮件到达时，弹出一个 libnotify 通知。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Make the status icon blink"
-msgstr ""
+msgstr "闪烁状态图标"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "When the new-mail status icon is visible, make it blink."
-msgstr ""
+msgstr "当新邮件状态图标可见时，使之闪烁。"
 
 #: ../plugins/mail-notification/mail-notification.c:132
 #, c-format
 msgid "You have received %d new message in %s."
 msgid_plural "You have received %d new messages in %s."
-msgstr[0] ""
+msgstr[0] "您在 %2$s 中收到了 %1$d 封新邮件。"
 
 #: ../plugins/mail-notification/mail-notification.c:153
 msgid "New email"
@@ -17149,6 +17175,7 @@ msgid ""
 "Notifies the user with an icon in notification area and a notification "
 "message whenever a new message has arrived."
 msgstr ""
+"当新邮件到达时使用通知区图标和通知消息通知用户。"
 
 #: ../plugins/mail-remote/client.c:30
 #, c-format
@@ -17873,7 +17900,7 @@ msgstr "默认按照主题对线索中的信件排序(_A)"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
-msgstr ""
+msgstr "一个使用 ytnef 来解码 tnef 附件的简单插件。"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Attachment decoder"
@@ -19536,7 +19563,7 @@ msgstr "下载信件进行脱机处理"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Download messages of accounts/folders marked for offline"
-msgstr ""
+msgstr "为标记为脱机的帐户/文件夹下载信件"
 
 #: ../ui/evolution-mail-global.xml.h:10
 msgid "Empty _Trash"
@@ -19590,7 +19617,7 @@ msgstr "文件夹复制到(_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Message Filters"
-msgstr "邮件过滤(_M)"
+msgstr "信件过滤(_M)"
 
 #: ../ui/evolution-mail-global.xml.h:24
 msgid "_Move Folder To..."
@@ -19629,7 +19656,7 @@ msgstr "折叠全部线索(_T)"
 
 #: ../ui/evolution-mail-list.xml.h:4
 msgid "Collapse all message threads"
-msgstr "折叠全部邮件线索"
+msgstr "折叠全部信件线索"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
@@ -19650,7 +19677,7 @@ msgstr "销毁(_X)"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Expand all message threads"
-msgstr "展开全部邮件线索"
+msgstr "展开全部信件线索"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
@@ -19777,7 +19804,7 @@ msgstr "为选中信件的所有收件人撰写回复"
 
 #: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr "为选中邮件的邮件列表撰写回复"
+msgstr "为选中信件的邮件列表撰写回复"
 
 #: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
@@ -19901,7 +19928,7 @@ msgstr "强制装入 HTML 邮件中的图像"
 
 #: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr "在新信体中转发选中邮件"
+msgstr "在新信体中转发选中信件"
 
 #: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
@@ -20053,7 +20080,7 @@ msgstr "基于发件人的搜索文件夹(_D)..."
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
-msgstr "在显示邮件的邮件体中搜索文本"
+msgstr "在显示信件的主体中搜索文本"
 
 #: ../ui/evolution-mail-message.xml.h:91
 msgid "Select _All Text"
@@ -20247,7 +20274,7 @@ msgstr "删除签名以外的所有内容"
 
 #: ../ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr "用 PGP 加密该邮件"
+msgstr "用 PGP 加密该信件"
 
 #: ../ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
