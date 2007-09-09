@@ -491,7 +491,7 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GConfClient *client;
 	char *gladefile;
 
-	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "publish-calendar.glade",
 				      NULL);
 	xml = glade_xml_new (gladefile, "toplevel", NULL);
