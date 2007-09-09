@@ -1,5 +1,12 @@
 2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #277159 (bnc)
+	* url-editor-dialog.c: (frequency_changed_cb),
+	(url_editor_dialog_construct): Listen to the changes made
+	in publish frequency.				       
+
+2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #274048
 	* publish-calendar.c: (publish): Prompt for a password
 	if required.					 

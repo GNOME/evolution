@@ -218,6 +218,17 @@ type_selector_changed (GtkComboBox *combo, UrlEditorDialog *dialog)
 }
 
 static void
+frequency_changed_cb (GtkComboBox *combo, UrlEditorDialog *dialog)
+{
+	gint selected = gtk_combo_box_get_active (combo);
+
+	EPublishUri *uri;
+
+	uri = dialog->uri;
+	uri->publish_frequency = selected;
+}
+
+static void
 server_entry_changed (GtkEntry *entry, UrlEditorDialog *dialog)
 {
 	check_input (dialog);
@@ -419,6 +430,7 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 
 	g_signal_connect (G_OBJECT (dialog->publish_service), "changed",           G_CALLBACK (publish_service_changed),  dialog);
 	g_signal_connect (G_OBJECT (dialog->type_selector),   "changed",           G_CALLBACK (type_selector_changed),    dialog);
+	g_signal_connect (G_OBJECT (dialog->publish_frequency),   "changed",           G_CALLBACK (frequency_changed_cb),    dialog);
 	g_signal_connect (G_OBJECT (dialog->events_selector), "selection_changed", G_CALLBACK (source_selection_changed), dialog);
 
 	g_signal_connect (G_OBJECT (dialog->server_entry),    "changed",           G_CALLBACK (server_entry_changed),     dialog);
