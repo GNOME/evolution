@@ -333,7 +333,7 @@ static void e_day_view_ensure_events_sorted (EDayView *day_view);
 static void e_day_view_start_editing_event (EDayView *day_view,
 					    gint day,
 					    gint event_num,
-					    gchar *initial_text);
+					    GdkEventKey *key_event);
 static void e_day_view_stop_editing_event (EDayView *day_view);
 static gboolean e_day_view_on_text_item_event (GnomeCanvasItem *item,
 					       GdkEvent *event,
@@ -6036,7 +6036,6 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	ECalModel *model;
 	ECalComponent *comp;
 	gint day, event_num;
-	gchar *initial_text;
 	guint keyval;
 	gboolean stop_emission;
 	time_t dtstart, dtend;
@@ -6177,15 +6176,13 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* We only want to start an edit with a return key or a simple
 	   character. */
-	if (keyval == GDK_Return) {
-		initial_text = NULL;
-	} else if (((keyval >= 0x20) && (keyval <= 0xFF)
-		    && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
-		   || (event->length == 0)
-		   || (keyval == GDK_Tab)) {
+	if ((keyval != GDK_Return) &&
+	    (((keyval >= 0x20) && (keyval <= 0xFF)
+	      && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
+	     || (event->length == 0)
+	     || (keyval == GDK_Tab))) {
 		return FALSE;
-	} else
-		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
+	} 
 
 	/* Add a new event covering the selected range */	
 	icalcomp = e_cal_model_create_component_with_defaults (model);
@@ -6237,14 +6234,10 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	gtk_widget_queue_draw (day_view->main_canvas);
 
 	if (e_day_view_find_event_from_uid (day_view, ecal, uid, NULL, &day, &event_num)) {
-		e_day_view_start_editing_event (day_view, day, event_num,
-						initial_text);
+		e_day_view_start_editing_event (day_view, day, event_num, event);
 	} else {
 		g_warning ("Couldn't find event to start editing.\n");
 	}
-
-	if (initial_text)
-		g_free (initial_text);
 
 	g_object_unref (comp);
 
@@ -6927,7 +6920,7 @@ static void
 e_day_view_start_editing_event (EDayView *day_view,
 				gint	  day,
 				gint	  event_num,
-				gchar    *initial_text)
+				GdkEventKey *key_event)
 {
 	EDayViewEvent *event;
 	ETextEventProcessor *event_processor = NULL;
@@ -6964,10 +6957,20 @@ e_day_view_start_editing_event (EDayView *day_view,
 	   rid of the start and end times. */
 	e_canvas_item_grab_focus (event->canvas_item, TRUE);
 
-	if (initial_text) {
-		gnome_canvas_item_set (event->canvas_item,
-				       "text", initial_text,
-				       NULL);
+	if (key_event) {
+                if (gtk_im_context_filter_keypress (((EText *)(event->canvas_item))->im_context, key_event)) {
+                        ((EText *)(event->canvas_item))->need_im_reset = TRUE;
+                }
+                else {
+			char *initial_text;
+
+			initial_text = e_utf8_from_gtk_event_key (GTK_WIDGET (day_view), key_event->keyval, key_event->string);
+			gnome_canvas_item_set (event->canvas_item,
+					       "text", initial_text,
+					       NULL);
+			if (initial_text)
+				g_free (initial_text);	
+		}
 	}
 
 	/* Try to move the cursor to the end of the text. */

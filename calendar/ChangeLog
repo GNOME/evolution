@@ -1,5 +1,14 @@
 2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes#332026
+	* gui/e-day-view.c: (e_day_view_do_key_press),
+	(e_day_view_start_editing_event): Filter the input context
+	key events.					  
+
+	Committing on behalf of Mayank <mayank.gnu@gmail.com>
+
+2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #270605
 	* gui/dialogs/event-page.c: (event_page_select_organizer),
 	(event_page_construct):
