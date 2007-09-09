@@ -1,3 +1,9 @@
+2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #274048
+	* publish-calendar.c: (publish): Prompt for a password
+	if required.					 
+
 2007-07-30  Andre Klapper  <a9016009@gmx.de>
 
 	* publish-calendar.glade:

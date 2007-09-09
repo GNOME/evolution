@@ -70,6 +70,8 @@ publish (EPublishUri *uri)
 		GnomeVFSResult result;
 		GnomeVFSHandle *handle;
 		gchar *password;
+		const char *username;
+		gboolean req_pass = FALSE;
 
 		if (g_slist_find (queued_publishes, uri))
 			queued_publishes = g_slist_remove (queued_publishes, uri);
@@ -80,6 +82,21 @@ publish (EPublishUri *uri)
 		vfs_uri = gnome_vfs_uri_new (uri->location);
 
 		password = e_passwords_get_password ("Calendar", uri->location);
+		username = gnome_vfs_uri_get_user_name (vfs_uri);
+		req_pass = ((username && *username) && !(uri->service_type == TYPE_ANON_FTP && 
+					!strcmp (username, "anonymous"))) ? TRUE:FALSE;
+
+		if (!password && req_pass) {
+			gboolean remember;
+			char *prompt = g_strdup_printf (_("Enter the password for %s"), uri->location);
+			
+			password = e_passwords_ask_password (_("Enter password"), "", uri->location, prompt,
+						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
+						     &remember,
+						     NULL);
+			g_free (prompt);
+		}
+
 		gnome_vfs_uri_set_password (vfs_uri, password);
 
 		if (vfs_uri == NULL) {
