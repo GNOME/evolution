@@ -81,6 +81,7 @@ struct _EventPagePrivate {
 	GtkWidget *location_label;
 
 	EAccountList *accounts;
+	GList *address_strings;
 	EMeetingAttendee *ia;	
 	char *default_address;
 	char *user_add;
@@ -253,6 +254,7 @@ event_page_init (EventPage *epage)
 	priv->comp = NULL;
 
 	priv->accounts = NULL;
+	priv->address_strings = NULL;
 	priv->ia = NULL;
 	priv->default_address = NULL;
 	priv->invite = NULL;
@@ -286,6 +288,7 @@ event_page_finalize (GObject *object)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
+	GList *l;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_EVENT_PAGE (object));
@@ -293,6 +296,10 @@ event_page_finalize (GObject *object)
 	epage = EVENT_PAGE (object);
 	priv = epage->priv;
 	
+	for (l = priv->address_strings; l != NULL; l = l->next)
+		g_free (l->data);
+	g_list_free (priv->address_strings);
+
 	if (priv->comp != NULL)
 		g_object_unref (priv->comp);
 
@@ -319,9 +326,6 @@ event_page_finalize (GObject *object)
 	g_free (priv->old_summary);
 
 	priv->alarm_list_dlg_widget = NULL;
-
-	g_free (priv->default_address);
-	priv->default_address = NULL;
 
 	g_free (priv);
 	epage->priv = NULL;
@@ -589,9 +593,6 @@ clear_widgets (EventPage *epage)
 	
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
-
-	if (priv->default_address)
-		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
 }
 
 static gboolean
@@ -1501,13 +1502,10 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 		if (!priv->existing) {
 			EAccount *a;
-			gchar *backend_addr, *org_addr = NULL, *sentby = NULL;
+			gchar *backend_addr = NULL, *org_addr = NULL, *sentby = NULL;
 			
 			e_cal_get_cal_address (priv->client, &backend_addr, NULL);
 			
-			/* FIXME need not set Organizer strings here */
-			event_page_select_organizer (epage, backend_addr);
-
 			/* Find the identity for the organizer or sentby field */
 			a = get_current_account (epage);
 
@@ -1524,7 +1522,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 				return FALSE;
 			} 
 
-			if (!backend_addr || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
+			if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
 				org_addr = g_strdup_printf ("MAILTO:%s", a->id->address);
 				organizer.value = org_addr;
 				organizer.cn = a->id->name;
@@ -2741,14 +2739,10 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 
 				e_cal_get_cal_address(client, &backend_addr, NULL);
 				
-				if (backend_addr && *backend_addr) {
+				if (backend_addr && priv->is_meeting)
+					event_page_select_organizer (epage, backend_addr);
 
-					if (priv->is_meeting)
-						event_page_select_organizer (epage, backend_addr);
-
-					set_subscriber_info_string (epage, backend_addr);
-				}
-
+				set_subscriber_info_string (epage, backend_addr);
 				g_free (backend_addr);
 			}
 
@@ -2758,7 +2752,6 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 		}
 	}
 }
-
 
 static void
 set_subscriber_info_string (EventPage *epage, const char *backend_address)
@@ -3152,12 +3145,16 @@ static void
 event_page_select_organizer (EventPage *epage, const char *backend_address)
 {
 	EventPagePrivate *priv;
-	EIterator *it;
+	GList *l;
 	EAccount *def_account;
-	EAccount *a;
+	const char *def_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;
+
+	def_account = itip_addresses_get_default();
+	if (def_account)
+		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
 	priv = epage->priv;
 	if (COMP_EDITOR_PAGE (epage)->client)
@@ -3170,40 +3167,22 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
 	else
 		user_addr = backend_address;
 
-	/*FIXME find the organizer using the address strings which is set in org combo box */
-	def_account = itip_addresses_get_default();
-	for (it = e_list_get_iterator((EList *)priv->accounts);
-	     e_iterator_is_valid(it);
-	     e_iterator_next(it)) {
-		gchar *full = NULL;
-		
-		a = (EAccount *)e_iterator_get(it);
-		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+	priv->default_address = NULL;
+	for (l = priv->address_strings; l != NULL; l = l->next)
+		if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
+			priv->default_address = (gchar *) l->data;
+			break;
+		}
 
-		/* Note that the address specified by the backend gets
-		 * precedence over the default mail address.
-		 */
-		if (user_addr && !g_ascii_strcasecmp (user_addr, a->id->address)) {
-			if (priv->default_address)
-				g_free (priv->default_address);
-
-			priv->default_address = full;
-		} else if (a == def_account && !priv->default_address) 
-			priv->default_address = full;
-		else
-			g_free (full);
-	}
-	g_object_unref(it);
+	if (!priv->default_address && def_account)
+		priv->default_address = def_address;
 
 	if (priv->default_address) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
 			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
 			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), TRUE);
+			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), !subscribed_cal);
 		}
-		if (subscribed_cal) 
-			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), FALSE);
 	} else
 		g_warning ("No potential organizers!");
 }
@@ -3222,8 +3201,6 @@ event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client)
 {
 	EventPagePrivate *priv;
 	EIterator *it;
-	EAccount *def_account;
-	GList *address_strings = NULL, *l;
 	EAccount *a;
 	char *gladefile;
 
@@ -3251,7 +3228,6 @@ event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client)
 	}
 
 	priv->accounts = itip_addresses_get ();
-	def_account = itip_addresses_get_default();
 	for (it = e_list_get_iterator((EList *)priv->accounts);
 	     e_iterator_is_valid(it);
 	     e_iterator_next(it)) {
@@ -3260,20 +3236,15 @@ event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client)
 		a = (EAccount *)e_iterator_get(it);
 		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
-		address_strings = g_list_append(address_strings, full);
+		priv->address_strings = g_list_append(priv->address_strings, full);
 	}
 	
 	g_object_unref(it);
 
-	if (address_strings)
-		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), address_strings);
+	if (priv->address_strings)
+		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
 	else
 		g_warning ("No potential organizers!");
-
-	for (l = address_strings; l != NULL; l = l->next)
-		g_free (l->data);
-	g_list_free (address_strings);
-	
 
 	if (!init_widgets (epage)) {
 		g_message ("event_page_construct(): " 

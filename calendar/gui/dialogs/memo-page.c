@@ -97,6 +97,7 @@ struct _MemoPagePrivate {
 
 	GtkWidget *source_selector;
 
+	GList *address_strings;
 	char *default_address;
 
 	ENameSelector *name_selector;
@@ -120,6 +121,7 @@ static void memo_page_focus_main_widget (CompEditorPage *page);
 static gboolean memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean memo_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void memo_page_select_organizer (MemoPage *mpage, const char *backend_address);
+static void set_subscriber_info_string (MemoPage *mpage, const char *backend_address);
 
 G_DEFINE_TYPE (MemoPage, memo_page, TYPE_COMP_EDITOR_PAGE)
 
@@ -174,6 +176,9 @@ memo_page_init (MemoPage *mpage)
 	priv->info_string = NULL;
 
 	priv->updating = FALSE;
+
+	priv->address_strings = NULL;
+	priv->default_address = NULL;
 }
 
 /* Destroy handler for the memo page */
@@ -182,6 +187,7 @@ memo_page_finalize (GObject *object)
 {
 	MemoPage *mpage;
 	MemoPagePrivate *priv;
+	GList *l;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEMO_PAGE (object));
@@ -189,17 +195,16 @@ memo_page_finalize (GObject *object)
 	mpage = MEMO_PAGE (object);
 	priv = mpage->priv;
 	
+	for (l = priv->address_strings; l != NULL; l = l->next)
+		g_free (l->data);
+	g_list_free (priv->address_strings);
+
 	if (priv->main)
 		g_object_unref (priv->main);
 
 	if (priv->xml) {
 		g_object_unref (priv->xml);
 		priv->xml = NULL;
-	}
-
-	if (priv->default_address) {
-		g_free (priv->default_address);
-		priv->default_address = NULL;
 	}
 
 	g_free (priv);
@@ -279,9 +284,6 @@ clear_widgets (MemoPage *mpage)
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
-
-	if (priv->default_address)
-		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), priv->default_address);
 }
 
 void 
@@ -349,6 +351,7 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentDateTime d;
 	GSList *l;
 	const char *categories;
+	gchar *backend_addr = NULL;
 	ESource *source;
 
 	mpage = MEMO_PAGE (page);
@@ -416,6 +419,9 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
 
+	e_cal_get_cal_address (COMP_EDITOR_PAGE (mpage)->client, &backend_addr, NULL);
+	set_subscriber_info_string (mpage, backend_addr);
+
 	if (e_cal_component_has_organizer (comp)) {
 		ECalComponentOrganizer organizer;
 
@@ -440,6 +446,9 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			g_list_free (list);
 		}
 	}
+
+	if (backend_addr) 
+		g_free (backend_addr);
 
 	/* Source */
 	source = e_cal_get_source (page->client);
@@ -723,9 +732,6 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
  
 		e_cal_get_cal_address (page->client, &backend_addr, NULL);
 
-		/* Organizer strings */
-		memo_page_select_organizer (mpage, backend_addr);
-
 		/* Find the identity for the organizer or sentby field */
 		a = get_current_account (mpage);
 
@@ -742,7 +748,7 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			return FALSE;
 		} 
 
-		if (!backend_addr || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
+		if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
 			org_addr = g_strdup_printf ("MAILTO:%s", a->id->address);
 			organizer.value = org_addr;
 			organizer.cn = a->id->name;
@@ -751,7 +757,7 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			sentby = g_strdup_printf ("MAILTO:%s", a->id->address);
 			organizer.value = org_addr;
 			organizer.sentby = sentby;
-		};
+		}
 
 		e_cal_component_set_organizer (comp, &organizer);
 
@@ -923,15 +929,34 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 				gchar *backend_addr = NULL;
 
 				e_cal_get_cal_address(client, &backend_addr, NULL);
-				if (backend_addr) {
+
+				if (backend_addr && (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_IS_SHARED))
 					memo_page_select_organizer (mpage, backend_addr);
-					g_free (backend_addr);
-				}
+
+				set_subscriber_info_string (mpage, backend_addr);
+				g_free (backend_addr);
 			}
 
 			sensitize_widgets (mpage);
 		}
 	}
+}
+
+static void
+set_subscriber_info_string (MemoPage *mpage, const char *backend_address)
+{
+	ECal *client = COMP_EDITOR_PAGE (mpage)->client;
+	ESource *source;
+	
+	source = e_cal_get_source (client);
+	
+	if (e_source_get_property (source, "subscriber"))
+		/* Translators: This string is used when we are creating a Memo 
+		   on behalf of some other user */
+		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, 
+				g_strdup_printf(_("You are acting on behalf of %s"), backend_address));
+	else
+		memo_page_set_info_string (mpage, NULL, NULL);
 }
 
 /*sets the current focused widget */
@@ -1085,14 +1110,16 @@ static void
 memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 {
 	MemoPagePrivate *priv;
-	EIterator *it;
+	GList *l;
 	EAccount *def_account;
-	EAccount *a;
+	const char *def_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;
 
-	memo_page_set_info_string (mpage, NULL, NULL);
+	def_account = itip_addresses_get_default();
+	if (def_account)
+		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
 	priv = mpage->priv;
 	if (COMP_EDITOR_PAGE (mpage)->client)
@@ -1105,41 +1132,21 @@ memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 	else 
 		user_addr = backend_address;
 
-	def_account = itip_addresses_get_default();
-	for (it = e_list_get_iterator((EList *)priv->accounts);
-	     e_iterator_is_valid(it);
-	     e_iterator_next(it)) {
-		gchar *full = NULL;
-		
-		a = (EAccount *)e_iterator_get(it);
-		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+	priv->default_address = NULL;
+	for (l = priv->address_strings; l != NULL; l = l->next)
+		if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
+			priv->default_address = (gchar *) l->data;
+			break;
+		}
 
-		/* Note that the address specified by the backend gets
-		 * precedence over the default mail address.
-		 */
-		if (user_addr && !g_ascii_strcasecmp (user_addr, a->id->address)) {
-			if (priv->default_address)
-				g_free (priv->default_address);
-
-			priv->default_address = full;
-		} else if (a == def_account && !priv->default_address)
-			priv->default_address = full;
-	}
-	g_object_unref(it);
+	if (!priv->default_address && def_account)
+		priv->default_address = def_address;
 
 	if (priv->default_address) {
 		if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) {
 			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), priv->default_address);
 			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->org_combo)->button), TRUE);
-		}
-		if (subscribed_cal) {
-			/* Translators: This string is used when we are creating a Memo
-			   on behalf of some other user */
-			memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, 
-				g_strdup_printf(_("You are acting on behalf of %s"), backend_address));
-			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->org_combo)->button), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->org_combo)->button), !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
@@ -1158,14 +1165,10 @@ MemoPage *
 memo_page_construct (MemoPage *mpage)
 {
 	MemoPagePrivate *priv;
-	char *backend_address = NULL;
 	EIterator *it;
 	char *gladefile;
-	GList *address_strings = NULL, *l;
-	EAccount *def_account;
 	EAccount *a;
 	CompEditorPageFlags flags = COMP_EDITOR_PAGE (mpage)->flags;
-	ECal *client = COMP_EDITOR_PAGE (mpage)->client;
 
 	priv = mpage->priv;
 
@@ -1187,13 +1190,8 @@ memo_page_construct (MemoPage *mpage)
 		return NULL;
 	}
 
-	/* Address information */
-	if (client && !e_cal_get_cal_address (client, &backend_address, NULL))
-		return NULL;
-
 	if (flags & COMP_EDITOR_PAGE_IS_SHARED) {
 		priv->accounts = itip_addresses_get ();
-		def_account = itip_addresses_get_default();
 		for (it = e_list_get_iterator((EList *)priv->accounts);
 				e_iterator_is_valid(it);
 				e_iterator_next(it)) {
@@ -1202,24 +1200,15 @@ memo_page_construct (MemoPage *mpage)
 			a = (EAccount *)e_iterator_get(it);
 			full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
-			address_strings = g_list_append(address_strings, full);
+			priv->address_strings = g_list_append(priv->address_strings, full);
 		}
-
-		memo_page_select_organizer (mpage, backend_address);
-
-		if (backend_address)
-			g_free (backend_address);
 
 		g_object_unref(it);
 
-		if (address_strings)
-			gtk_combo_set_popdown_strings (GTK_COMBO (priv->org_combo), address_strings);
+		if (priv->address_strings)
+			gtk_combo_set_popdown_strings (GTK_COMBO (priv->org_combo), priv->address_strings);
 		else
 			g_warning ("No potential organizers!");
-
-		for (l = address_strings; l != NULL; l = l->next)
-			g_free (l->data);
-		g_list_free (address_strings);
 
 		gtk_widget_show (priv->org_label);
 		gtk_widget_show (priv->org_combo);

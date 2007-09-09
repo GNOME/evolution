@@ -68,6 +68,7 @@ struct _TaskPagePrivate {
 	GtkWidget *main;
 
 	EAccountList *accounts;
+	GList *address_strings;
 	EMeetingAttendee *ia;	
 	char *default_address;
 	char *user_add;
@@ -149,6 +150,7 @@ static gboolean task_page_fill_timezones (CompEditorPage *page, GHashTable *time
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 static void task_page_select_organizer (TaskPage *tpage, const char *backend_address);
+static void set_subscriber_info_string (TaskPage *tpage, const char *backend_address);
 
 G_DEFINE_TYPE (TaskPage, task_page, TYPE_COMP_EDITOR_PAGE)
 
@@ -211,13 +213,13 @@ task_page_init (TaskPage *tpage)
 	priv->comp = NULL;
 
 	priv->accounts = NULL;
+	priv->address_strings = NULL;
 	priv->ia = NULL;
 	priv->default_address = NULL;
 	priv->invite = NULL;
 	
 	priv->model = NULL;
 	priv->list_view = NULL;	
-	priv->default_address = NULL;
 }
 
 static void
@@ -235,12 +237,17 @@ task_page_finalize (GObject *object)
 {
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
+	GList *l;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_TASK_PAGE (object));
 
 	tpage = TASK_PAGE (object);
 	priv = tpage->priv;
+
+	for (l = priv->address_strings; l != NULL; l = l->next)
+		g_free (l->data);
+	g_list_free (priv->address_strings);
 
 	if (priv->main)
 		g_object_unref (priv->main);
@@ -342,9 +349,6 @@ clear_widgets (TaskPage *tpage)
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
-	
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
-	
 }
 
 void
@@ -528,6 +532,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	icalcomponent *icalcomp;
 	const char *categories, *uid;
 	icaltimezone *zone, *default_zone;
+	gchar *backend_addr = NULL;
 	ESource *source;
 
 	tpage = TASK_PAGE (page);
@@ -675,14 +680,15 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	source = e_cal_get_source (page->client);
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
+	e_cal_get_cal_address (COMP_EDITOR_PAGE (tpage)->client, &backend_addr, NULL);
+	set_subscriber_info_string (tpage, backend_addr);
+
 	if (priv->is_assignment) {
 		ECalComponentOrganizer organizer;	
-		gchar *backend_addr = NULL;
 		
 		priv->user_add = itip_get_comp_attendee (comp, COMP_EDITOR_PAGE (tpage)->client);	
 
 		/* Organizer strings */
-		e_cal_get_cal_address (COMP_EDITOR_PAGE (tpage)->client, &backend_addr, NULL);
 		task_page_select_organizer (tpage, backend_addr);
 
 		/* If there is an existing organizer show it properly */
@@ -742,11 +748,11 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
 				e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), priv->ia);
 			}
-
 		}
-		if (backend_addr) 
-			g_free (backend_addr);
 	}
+
+	if (backend_addr) 
+		g_free (backend_addr);
 
 	priv->updating = FALSE;
 
@@ -928,9 +934,6 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 			e_cal_get_cal_address (page->client, &backend_addr, NULL);
 
-			/* FIXME need not set organizer strings here */
-			task_page_select_organizer (tpage, backend_addr);
-
 			/* Find the identity for the organizer or sentby field */
 			a = get_current_account (tpage);
 
@@ -947,7 +950,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 				return FALSE;
 			} 
 
-			if (!backend_addr || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
+			if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
 				org_addr = g_strdup_printf ("MAILTO:%s", a->id->address);
 				organizer.value = org_addr;
 				organizer.cn = a->id->name;
@@ -1412,8 +1415,7 @@ task_page_set_info_string (TaskPage *tpage, const gchar *icon, const gchar *msg)
 
 	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
 	gtk_label_set_text (GTK_LABEL(priv->info_string), msg);
-	
-	
+
 	if (msg && icon)
 		gtk_widget_show (priv->info_hbox); 
 	else
@@ -1735,15 +1737,33 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 
 				e_cal_get_cal_address(client, &backend_addr, NULL);
 				
-				if (backend_addr && *backend_addr) 
+				if (backend_addr && priv->is_assignment)
 					task_page_select_organizer (tpage, backend_addr);
 
+				set_subscriber_info_string (tpage, backend_addr);
 				g_free (backend_addr);
 			}
 
 			sensitize_widgets (tpage);
 		}
 	}
+}
+
+static void
+set_subscriber_info_string (TaskPage *tpage, const char *backend_address)
+{
+	ECal *client = COMP_EDITOR_PAGE (tpage)->client;
+	ESource *source;
+	
+	source = e_cal_get_source (client);
+	
+	if (e_source_get_property (source, "subscriber"))
+		/* Translators: This string is used when we are creating a Task 
+		   on behalf of some other user */
+		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, 
+				g_strdup_printf(_("You are acting on behalf of %s"), backend_address));
+	else
+		task_page_set_info_string (tpage, NULL, NULL);
 }
 
 void
@@ -1891,14 +1911,16 @@ static void
 task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 {
 	TaskPagePrivate *priv;
-	EIterator *it;
+	GList *l;
 	EAccount *def_account;
-	EAccount *a;
+	const char *def_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;
 
-	task_page_set_info_string (tpage, NULL, NULL);
+	def_account = itip_addresses_get_default();
+	if (def_account)
+		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
 	priv = tpage->priv;
 	if (COMP_EDITOR_PAGE (tpage)->client)
@@ -1911,43 +1933,21 @@ task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 	else 
 		user_addr = backend_address;
 
-	def_account = itip_addresses_get_default();
-	for (it = e_list_get_iterator((EList *)priv->accounts);
-	     e_iterator_is_valid(it);
-	     e_iterator_next(it)) {
-		gchar *full = NULL;
-		
-		a = (EAccount *)e_iterator_get(it);
-		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+	priv->default_address = NULL;
+	for (l = priv->address_strings; l != NULL; l = l->next)
+		if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
+			priv->default_address = (gchar *) l->data;
+			break;
+		}
 
-		/* Note that the address specified by the backend gets
-		 * precedence over the default mail address.
-		 */
-		if (user_addr && !g_ascii_strcasecmp (user_addr, a->id->address)) {
-			if (priv->default_address)
-				g_free (priv->default_address);
-
-			priv->default_address = full;
-		} else if (a == def_account && !priv->default_address)
-			priv->default_address = full;
-	}
-	g_object_unref(it);
+	if (!priv->default_address && def_account)
+		priv->default_address = def_address;
 
 	if (priv->default_address) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
 			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
 			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), TRUE);
-		}
-
-		/*FIXME do not set the info string here */
-		if (subscribed_cal) {
-			/* Translators: This string is used when we are creating a Task 
-			   on behalf of some other user */
-			task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, 
-				g_strdup_printf(_("You are acting on behalf of %s"), backend_address));
-			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
@@ -1966,10 +1966,7 @@ TaskPage *
 task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 {
 	TaskPagePrivate *priv;
-	char *backend_address = NULL;
 	EIterator *it;
-	EAccount *def_account;
-	GList *address_strings = NULL, *l;
 	EAccount *a;
 	char *gladefile;
 	
@@ -1995,12 +1992,8 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 			   "Could not find all widgets in the XML file!");
 		return NULL;
 	}
-	/* Address information */
-	if (!e_cal_get_cal_address (client, &backend_address, NULL))
-		return NULL;
 
 	priv->accounts = itip_addresses_get ();
-	def_account = itip_addresses_get_default();
 	for (it = e_list_get_iterator((EList *)priv->accounts);
 	     e_iterator_is_valid(it);
 	     e_iterator_next(it)) {
@@ -2009,25 +2002,15 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 		a = (EAccount *)e_iterator_get(it);
 		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
-		address_strings = g_list_append(address_strings, full);
+		priv->address_strings = g_list_append(priv->address_strings, full);
 	}
 	
-	task_page_select_organizer (tpage, backend_address);
-
-	if (backend_address)
-		g_free (backend_address);
-
 	g_object_unref(it);
 
-	if (address_strings)
-		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), address_strings);
+	if (priv->address_strings)
+		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
 	else
 		g_warning ("No potential organizers!");
-
-	for (l = address_strings; l != NULL; l = l->next)
-		g_free (l->data);
-	g_list_free (address_strings);
-	
 
 	if (!init_widgets (tpage)) {
 		g_message ("task_page_construct(): " 

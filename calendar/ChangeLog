@@ -1,3 +1,20 @@
+2007-09-09  Suman Manjunath  <msuman@novell.com>
+
+	* gui/dialogs/event-page.c: (event_page_init),
+	(event_page_finalize), (clear_widgets),
+	(event_page_fill_component), (source_changed_cb),
+	(event_page_select_organizer), (event_page_construct):
+	* gui/dialogs/memo-page.c: (memo_page_init), (memo_page_finalize),
+	(clear_widgets), (memo_page_fill_widgets),
+	(memo_page_fill_component), (source_changed_cb),
+	(set_subscriber_info_string), (memo_page_select_organizer),
+	(memo_page_construct):
+	* gui/dialogs/task-page.c: (task_page_init), (task_page_finalize),
+	(clear_widgets), (task_page_fill_widgets),
+	(task_page_fill_component), (task_page_set_info_string),
+	(source_changed_cb), (set_subscriber_info_string),
+	(task_page_select_organizer), (task_page_construct): code cleanup.
+
 2007-09-07  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	* gui/e-itip-control.c: (insert_boxes), (insert_ok):
