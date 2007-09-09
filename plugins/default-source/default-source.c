@@ -41,8 +41,7 @@ commit_default_calendar (EPlugin *epl, EConfigTarget *target)
 	cal_target = (ECalConfigTargetSource *) target;
 	source = cal_target->source;
 	if (e_source_get_property (source, "default")) 
-		if (!e_cal_set_default_source (source, E_CAL_SOURCE_TYPE_EVENT, NULL))
-			e_cal_set_default_source (source, E_CAL_SOURCE_TYPE_TODO, NULL);
+		e_cal_set_default_source (source, cal_target->source_type, NULL);
 }
 
 void

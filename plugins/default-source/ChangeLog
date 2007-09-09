@@ -1,3 +1,10 @@
+2007-09-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #330223
+
+	* default-source.c: (commit_default_calendar):
+	Added type E_CAL_SOURCE_TYPE_JOURNAL to other types.
+
 2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #419524
