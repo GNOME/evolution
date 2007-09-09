@@ -1,3 +1,8 @@
+2007-09-09  Luca Ferretti  <elle.uca@libero.it>
+
+	* quickref/Makefile.am: Added it to SUBDIRS.
+	* quickref/it/*: Added Italian translation
+
 2007-09-08  Claude Paroz  <claude@2xlibre.net>
 
 	* quickref/Makefile.am: Added fr to SUBDIRS.

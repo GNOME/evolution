@@ -1,3 +1,8 @@
+2007-09-09  Luca Ferretti  <elle.uca@libero.it>
+
+	* configure.in: include help/quickref/it/Makefile
+	to AC_OUTPUT.
+
 2007-09-05  Frederic Crozat  <fcrozat@mandriva.com>
 
 	* configure.in:
