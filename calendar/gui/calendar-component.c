@@ -300,6 +300,9 @@ ensure_sources (CalendarComponent *component)
 	if (!e_source_get_property (birthdays_source, "delete"))
 		e_source_set_property(birthdays_source, "delete", "no");
 		
+	if (e_source_peek_color_spec (birthdays_source) == NULL)
+		e_source_set_color_spec (birthdays_source, "#DDBECE");
+
 	if (!weather) {
 		/* Create the weather group */
 		group = e_source_group_new (_("Weather"), WEATHER_BASE_URI);

@@ -1,3 +1,10 @@
+2007-09-10  Milan Crha  <mcrha@redhat.com>
+	
+	** Fix for bug #368033
+
+	* gui/calendar-component.c: (ensure_sources):
+	Assign default color for B&A when no color is set.
+
 2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes#332026
