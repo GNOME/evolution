@@ -1737,7 +1737,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 
 				e_cal_get_cal_address(client, &backend_addr, NULL);
 				
-				if (backend_addr && priv->is_assignment)
+				if (priv->is_assignment)
 					task_page_select_organizer (tpage, backend_addr);
 
 				set_subscriber_info_string (tpage, backend_addr);
@@ -1913,13 +1913,13 @@ task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 	TaskPagePrivate *priv;
 	GList *l;
 	EAccount *def_account;
-	const char *def_address;
+	const char *def_address = NULL;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;
 
 	def_account = itip_addresses_get_default();
-	if (def_account)
+	if (def_account && def_account->enabled)
 		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
 	priv = tpage->priv;
@@ -1931,16 +1931,17 @@ task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 	if (user_addr)
 		subscribed_cal = TRUE;
 	else 
-		user_addr = backend_address;
+		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
 	priv->default_address = NULL;
-	for (l = priv->address_strings; l != NULL; l = l->next)
-		if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-			priv->default_address = (gchar *) l->data;
-			break;
-		}
+	if (user_addr)
+		for (l = priv->address_strings; l != NULL && user_addr; l = l->next)
+			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
+				priv->default_address = (gchar *) l->data;
+				break;
+			}
 
-	if (!priv->default_address && def_account)
+	if (!priv->default_address && def_address)
 		priv->default_address = def_address;
 
 	if (priv->default_address) {
@@ -2000,6 +2001,10 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 		gchar *full = NULL;
 		
 		a = (EAccount *)e_iterator_get(it);
+
+		if (!a->enabled)
+			continue;
+
 		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 		priv->address_strings = g_list_append(priv->address_strings, full);
