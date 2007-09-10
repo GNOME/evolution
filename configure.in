@@ -1947,6 +1947,7 @@ help/quickref/C/Makefile
 help/quickref/de/Makefile
 help/quickref/es/Makefile
 help/quickref/it/Makefile
+help/quickref/fr/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
