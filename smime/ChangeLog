@@ -1,3 +1,10 @@
+2007-09-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 
+
+	* gui/e-cert-selector.c: (ecs_find_current): Move away from g_assert
+	to critical warnings
+
 2007-08-31  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #378759

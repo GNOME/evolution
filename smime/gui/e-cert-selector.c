@@ -84,7 +84,7 @@ ecs_find_current(ECertSelector *ecs)
 		node = CERT_LIST_NEXT(node);
 	}
 
-	g_assert(!CERT_LIST_END(node, p->certlist));
+	g_return_val_if_fail (!CERT_LIST_END(node, p->certlist), NULL);
 
 	return node;
 }
