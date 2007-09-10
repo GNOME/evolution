@@ -1,3 +1,10 @@
+2007-09-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #301044  (Novell Bugzilla)
+
+	* exchange-user-dialog.c: (e2k_user_dialog_get_user_list): Dont append
+	the comma from the Nameselector.
+
 2007-09-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #473903
