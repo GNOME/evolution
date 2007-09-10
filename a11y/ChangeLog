@@ -1,3 +1,17 @@
+2007-09-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 
+	
+	* addressbook/ea-minicard-view.c: (ea_minicard_view_get_name),
+	(atk_action_interface_do_action): Move away from g_assert to critical
+	warnings.
+	* calendar/ea-cal-view-event.c:
+	(ea_cal_view_event_get_index_in_parent):
+	* calendar/ea-calendar-helpers.c:
+	(ea_calendar_helpers_get_cal_view_event_from):
+	* calendar/ea-gnome-calendar.c:
+	(ea_gnome_calendar_get_label_description):
+
 2007-09-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #473903

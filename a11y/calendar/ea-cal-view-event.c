@@ -391,8 +391,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		}
 	}
 	else {
-		g_assert_not_reached ();
-		return -1;
+		g_return_val_if_reached (-1);
 	}
 	return -1;
 }

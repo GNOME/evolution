@@ -152,8 +152,7 @@ ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)
 		cal_view_event = (ECalendarViewEvent *)week_view_event;
 	}
 	else {
-		g_assert_not_reached ();
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 	return cal_view_event;
 }

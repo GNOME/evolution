@@ -234,8 +234,7 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 		}
 		break;
 	default:
-		g_assert_not_reached ();
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 	return buffer;
 }

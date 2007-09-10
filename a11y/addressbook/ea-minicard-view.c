@@ -154,7 +154,7 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	/* Get the current name of minicard view*/
 	card_view = E_MINICARD_VIEW (reflow);
 	g_object_get (card_view->adapter, "book", &book, NULL);
-	g_assert (E_IS_BOOK (book));
+	g_return_val_if_fail (E_IS_BOOK (book), NULL);
 	source_name = e_source_peek_name (e_book_get_source (book));
 	if (!source_name)
 		source_name="";
@@ -378,7 +378,7 @@ static gboolean atk_action_interface_do_action (AtkAction *action, gint i)
 	g_object_get(card_view,
 		     "book", &book,
 		     NULL);
-	g_assert (E_IS_BOOK (book));
+	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 
 	switch (i) {
 		case 0:
