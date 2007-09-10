@@ -88,7 +88,7 @@ publish (EPublishUri *uri)
 
 		if (!password && req_pass) {
 			gboolean remember;
-			char *prompt = g_strdup_printf (_("Enter the password for %s"), uri->location);
+			char *prompt = g_strdup_printf (_("Enter the password for `%s'"), uri->location);
 			
 			password = e_passwords_ask_password (_("Enter password"), "", uri->location, prompt,
 						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,

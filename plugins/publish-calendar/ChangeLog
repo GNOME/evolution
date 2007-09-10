@@ -1,3 +1,8 @@
+2007-09-10  Andre Klapper  <a9016009@gmx.de>
+
+	* publish-calendar.c: (publish):
+	fix chen's string freeze break.
+
 2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #274047 (bnc)
@@ -14,7 +19,7 @@
 
 2007-09-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #274048
+	Fixes #274048 (bnc)
 	* publish-calendar.c: (publish): Prompt for a password
 	if required.					 
 
