@@ -281,7 +281,7 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 		}
 	} else {
 		kd = (KeyData *) orig_value;
-		g_assert (kd != NULL);
+		g_return_val_if_fail (kd != NULL, FALSE);
 
 		if (kd->type == GCONF_VALUE_BOOL) {
 			value = kd->value.v_bool;
@@ -334,7 +334,7 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 		}
 	} else {
 		kd = (KeyData *) orig_value;
-		g_assert (kd != NULL);
+		g_return_val_if_fail (kd != NULL, -1);
 
 		if (kd->type == GCONF_VALUE_FLOAT) {
 			value = kd->value.v_float;
@@ -387,7 +387,7 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 		}
 	} else {
 		kd = (KeyData *) orig_value;
-		g_assert (kd != NULL);
+		g_return_val_if_fail (kd != NULL, -1);
 
 		if (kd->type == GCONF_VALUE_INT) {
 			value = kd->value.v_long;
@@ -440,7 +440,7 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 		}
 	} else {
 		kd = (KeyData *) orig_value;
-		g_assert (kd != NULL);
+		g_return_val_if_fail (kd != NULL, NULL);
 
 		if (kd->type == GCONF_VALUE_STRING) {
 			str = g_strdup (kd->value.v_str);

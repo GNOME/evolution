@@ -645,7 +645,10 @@ void *e_popup_target_new(EPopup *ep, int type, size_t size)
 {
 	EPopupTarget *t;
 
-	g_assert(size >= sizeof(EPopupTarget));
+	if (size < sizeof(EPopupTarget)) {
+		g_warning ("Size is less than the size of EPopupTarget\n");
+		size = sizeof(EPopupTarget);
+	}
 
 	t = g_malloc0(size);
 	t->popup = ep;

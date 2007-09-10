@@ -218,7 +218,7 @@ e_config_get_type(void)
  **/
 EConfig *e_config_construct(EConfig *ep, int type, const char *id)
 {
-	g_assert(type == E_CONFIG_BOOK || type == E_CONFIG_DRUID);
+	g_return_val_if_fail (type == E_CONFIG_BOOK || type == E_CONFIG_DRUID, NULL);
 
 	ep->type = type;
 	ep->id = g_strdup(id);
@@ -568,7 +568,7 @@ ec_rebuild(EConfig *emp)
 				page = item->factory(emp, item, root, wn->frame, wn->context->data);
 				if (emp->type == E_CONFIG_DRUID) {
 					if (page) {
-						g_assert(GNOME_IS_DRUID_PAGE_STANDARD(page));
+						g_return_if_fail (GNOME_IS_DRUID_PAGE_STANDARD(page));
 						connect = wn->frame != page;
 						wn->frame = page;
 						page = ((GnomeDruidPageStandard *)page)->vbox;
@@ -824,7 +824,7 @@ e_config_create_widget(EConfig *emp)
 	/*char *domain = NULL;*/
 	int i;
 
-	g_assert(emp->target != NULL);
+	g_return_val_if_fail (emp->target != NULL, NULL);
 
 	ec_add_static_items(emp);
 
@@ -1195,7 +1195,10 @@ void *e_config_target_new(EConfig *ep, int type, size_t size)
 {
 	EConfigTarget *t;
 
-	g_assert(size >= sizeof(EConfigTarget));
+	if (size < sizeof(EConfigTarget)) {
+		g_warning ("Size is less than size of EConfigTarget\n");
+		size = sizeof (EConfigTarget);
+	}
 
 	t = g_malloc0(size);
 	t->config = ep;

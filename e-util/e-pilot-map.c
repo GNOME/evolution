@@ -138,8 +138,8 @@ map_sax_start_element (void *data, const xmlChar *name,
 			attrs = ++val;
 		}
 
-		g_assert (uid != NULL);
-		g_assert (pid != 0 || archived);
+		g_return_if_fail (uid != NULL);
+		g_return_if_fail (pid != 0 || archived);
 
 		real_e_pilot_map_insert (map, pid, uid, archived, FALSE);
 	}
@@ -259,7 +259,7 @@ e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
 	
 	g_hash_table_lookup_extended (map->uid_map, pnode->uid, &ukey,
 				      (gpointer *)&unode);
-	g_assert (unode != NULL);
+	g_return_if_fail (unode != NULL);
 	
 	g_hash_table_remove (map->pid_map, &pid);
 	g_hash_table_remove (map->uid_map, pnode->uid);
@@ -339,7 +339,7 @@ e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid, gboolean touch)
 		EPilotMapUidNode *unode = NULL;
 		
 		unode = g_hash_table_lookup (map->uid_map, pnode->uid);
-		g_assert (unode != NULL);
+		g_return_val_if_fail (unode != NULL, NULL);
 		
 		unode->touched = TRUE;
 		pnode->touched = TRUE;

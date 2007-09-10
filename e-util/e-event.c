@@ -321,7 +321,10 @@ void *e_event_target_new(EEvent *ep, int type, size_t size)
 {
 	EEventTarget *t;
 
-	g_assert(size >= sizeof(EEventTarget));
+	if (size < sizeof(EEventTarget)) {
+		g_warning ("Size is less than the size of EEventTarget\n");
+		size = sizeof(EEventTarget);
+	}
 
 	t = g_malloc0(size);
 	t->event = ep;

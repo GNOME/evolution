@@ -574,7 +574,7 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 	decimal_point = locale_data->decimal_point;
 	decimal_point_len = strlen (decimal_point);
 
-	g_assert (decimal_point_len != 0);
+	g_return_val_if_fail (decimal_point_len != 0, 0);
 
 	decimal_point_pos = NULL;
 	if (!strcmp (decimal_point, "."))
@@ -730,7 +730,7 @@ e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 	decimal_point = locale_data->decimal_point;
 	decimal_point_len = strlen (decimal_point);
 
-	g_assert (decimal_point_len != 0);
+	g_return_val_if_fail (decimal_point_len != 0, NULL);
 
 	if (strcmp (decimal_point, ".")) {
 		p = buffer;

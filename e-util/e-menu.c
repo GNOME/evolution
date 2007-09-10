@@ -542,7 +542,10 @@ void *e_menu_target_new(EMenu *ep, int type, size_t size)
 {
 	EMenuTarget *t;
 
-	g_assert(size >= sizeof(EMenuTarget));
+	if (size < sizeof(EMenuTarget)) {
+		g_warning ("size less than size of EMenuTarget\n");
+		size = sizeof (EMenuTarget);
+	}
 
 	t = g_malloc0(size);
 	t->menu = ep;

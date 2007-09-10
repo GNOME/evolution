@@ -351,7 +351,10 @@ void *e_import_target_new(EImport *ep, int type, size_t size)
 {
 	EImportTarget *t;
 
-	g_assert(size >= sizeof(EImportTarget));
+	if (size < sizeof(EImportTarget)) {
+		g_warning ("Size less than size of EImportTarget\n");
+		size = sizeof (EImportTarget);
+	}
 
 	t = g_malloc0(size);
 	t->import = ep;

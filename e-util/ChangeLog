@@ -1,3 +1,24 @@
+2007-09-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #471791 
+
+	* e-config-listener.c: Move away from g_asserts to g_crit*
+	(e_config_listener_get_boolean_with_default),
+	(e_config_listener_get_float_with_default),
+	(e_config_listener_get_long_with_default),
+	(e_config_listener_get_string_with_default):
+	* e-config.c: (e_config_construct), (ec_rebuild),
+	(e_config_create_widget), (e_config_target_new):
+	* e-dialog-widgets.c: (e_dialog_radio_get),
+	(e_dialog_option_menu_get), (e_dialog_get_values):
+	* e-event.c: (e_event_target_new):
+	* e-import.c: (e_import_target_new):
+	* e-menu.c: (e_menu_target_new):
+	* e-pilot-map.c: (map_sax_start_element),
+	(e_pilot_map_remove_by_pid), (e_pilot_map_lookup_uid):
+	* e-popup.c: (e_popup_target_new):
+	* e-util.c: (e_flexible_strtod), (e_ascii_dtostr):
+
 2007-09-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #473903

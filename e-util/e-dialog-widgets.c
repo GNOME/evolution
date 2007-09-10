@@ -359,7 +359,7 @@ e_dialog_radio_get (GtkWidget *widget, const int *value_map)
 			break;
 	}
 	
-	g_assert (l != NULL);
+	g_return_val_if_fail (l != NULL, -1);
 	
 	/* Groups are built by prepending items, so the list ends up in reverse
 	 * order; we need to flip the index around.
@@ -530,7 +530,7 @@ e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
 	menu = GTK_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (widget)));
 	
 	active = gtk_menu_get_active (menu);
-	g_assert (active != NULL);
+	g_return_val_if_fail (active != NULL, -1);
 	
 	children = GTK_MENU_SHELL (menu)->children;
 	
@@ -539,7 +539,7 @@ e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
 			break;
 	}
 	
-	g_assert (l != NULL);
+	g_return_val_if_fail (l != NULL, -1);
 	
 	v = index_to_value (value_map, i);
 	if (v == -1) {
@@ -742,7 +742,7 @@ e_dialog_get_values (GtkWidget *dialog)
 		else if (GTK_IS_EDITABLE (wh->widget))
 			get_editable_value (GTK_EDITABLE (wh->widget), wh->value_var, wh->info);
 		else
-			g_assert_not_reached ();
+			g_return_if_reached ();
 	}
 }
 
