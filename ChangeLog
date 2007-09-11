@@ -1,3 +1,11 @@
+2007-09-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Add shell/test/Makefile to AC_OUTPUT (#469992).
+
+	* Makefile.am:
+	Add --enable-test-component to DISTCHECK_CONFIGURE_FLAGS.
+
 2007-09-10  Sankar P  <psankar@novell.com>
 
 	* configure.in: include help/quickref/fr/Makefile

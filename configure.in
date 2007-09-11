@@ -1953,6 +1953,7 @@ help/quickref/sv/Makefile
 help/quickref/sq/Makefile
 shell/Makefile
 shell/evolution-nognome
+shell/test/Makefile
 ui/Makefile
 views/Makefile
 views/addressbook/Makefile

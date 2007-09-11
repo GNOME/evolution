@@ -1,3 +1,7 @@
+if ENABLE_TEST_COMPONENT
+SUBDIRS = . test
+endif
+
 INCLUDES =							\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/misc				\
@@ -17,8 +21,7 @@ INCLUDES =							\
 	-DLIBDIR=\""$(datadir)"\"				\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(TZDIALOG_CFLAGS)					\
-	$(SHELL_CFLAGS)						\
-	$(EVOLUTION_TEST_CFLAGS)
+	$(SHELL_CFLAGS)
 
 noinst_PROGRAMS = evolution
 
@@ -157,29 +160,6 @@ evolution_LDADD =							\
 	$(TZDIALOG_LIBS)						\
 	$(SHELL_LIBS)
 
-# Test component
-
-if ENABLE_TEST_COMPONENT
-component_LTLIBRARIES = libevolution-test.la
-endif
-
-libevolution_test_la_SOURCES =		\
-	$(IDL_GENERATED)		\
-	evolution-test-component.c	\
-	evolution-test-component.h
-
-libevolution_test_la_LIBADD = 		\
-	libeshell.la			\
-	$(EVOLUTION_TEST_LIBS)
-
-libevolution_test_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
-
-if ENABLE_TEST_COMPONENT
-testserver_in_files = GNOME_Evolution_Test.server.in.in
-testserver_DATA = $(testserver_in_files:.server.in.in=.server)
-testserverdir = $(serverdir)
-endif
-
 # Misc stuff
 
 server_in_files = GNOME_Evolution_Shell.server.in.in
@@ -223,7 +203,7 @@ install-data-local:
 	fi
 endif
 
-install-evolution:
+install-evolution: $(install-privsolibLTLIBRARIES)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution$(EXEEXT) $(DESTDIR)$(bindir)/evolution$(EXEEXT)
 
@@ -256,7 +236,6 @@ MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
 EXTRA_DIST = 					\
 	$(IDLS)					\
 	$(server_in_files)			\
-	GNOME_Evolution_Test.server.in.in	\
 	shell.error.xml				\
 	$(glade_DATA)				\
 	$(schema_in_files)			\
@@ -278,7 +257,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
