@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-11 03:26+0100\n"
-"PO-Revision-Date: 2007-09-11 14:37+0530\n"
+"PO-Revision-Date: 2007-09-11 16:31+0530\n"
 "Last-Translator: Amitakhya Phukan <amitakhya@svn.gnome.org>\n"
 "Language-Team: Assamese\n"
 "MIME-Version: 1.0\n"
@@ -2957,30 +2957,25 @@ msgid "Send _Message to List"
 msgstr "তালিকালৈ বাৰ্তা প্ৰেৰণ কৰক (_M)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:970
-#, fuzzy
 msgid "Send _Message to Contacts"
-msgstr "পৰিচিতদেৰ বাৰ্তা প্ৰেৰণ কৰক (_M)"
+msgstr "পৰিচিতলৈ বাৰ্তা প্ৰেৰণ কৰক (_M)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:971
-#, fuzzy
 msgid "_Print"
-msgstr "প্ৰিন্ট কৰক(_P)"
+msgstr "মুদ্ৰণ কৰক(_P)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:974
-#, fuzzy
 msgid "Cop_y to Address Book..."
-msgstr "ঠিকনা-বহিয়ে কপি কৰক...(_y)"
+msgstr "ঠিকনা-বহিলৈ নকল কৰক...(_y)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:975
-#, fuzzy
 msgid "Mo_ve to Address Book..."
-msgstr "ঠিকনা-বহিয়ে সৰিয়ে নিন...(_v)"
+msgstr "ঠিকনা-বহিলৈ লৈ যাওক...(_v)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:978
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
-#, fuzzy
 msgid "Cu_t"
-msgstr "কাট কৰক (_t)"
+msgstr "কাটক (_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
 #: ../calendar/gui/calendar-component.c:606
@@ -2994,65 +2989,54 @@ msgstr "কাট কৰক (_t)"
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
 #: ../ui/evolution-tasks.xml.h:23
-#, fuzzy
 msgid "_Copy"
-msgstr "কপি কৰক (_C)"
+msgstr "নকল কৰক (_C)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:980
-#, fuzzy
 msgid "P_aste"
-msgstr "পেস্ট কৰক(_a)"
+msgstr "আঠা লগাওক(_a)"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1636
 #: ../calendar/gui/cal-search-bar.c:619 ../calendar/gui/cal-search-bar.c:662
 #: ../calendar/gui/cal-search-bar.c:681
-#, fuzzy
 msgid "Any Category"
-msgstr "যেকোনো শ্ৰেণী"
+msgstr "যিকোনো শ্ৰেণী"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1830
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
-#, fuzzy
 msgid "Other error"
 msgstr "অন্য কোনো সমস্যা"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:571
-#, fuzzy
 msgid "Assistant"
 msgstr "সহকাৰী"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:2
-#, fuzzy
 msgid "Assistant Phone"
 msgstr "সহকাৰীৰ ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:3
-#, fuzzy
 msgid "Business Fax"
-msgstr "ব্যৱসা প্ৰতিষ্ঠানেৰ ফ্যাক্স"
+msgstr "ব্যৱসা প্ৰতিষ্ঠানৰ ফেক্স"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:4
-#, fuzzy
 msgid "Business Phone"
-msgstr "ব্যৱসা প্ৰতিষ্ঠানেৰ ফোন"
+msgstr "ব্যৱসা প্ৰতিষ্ঠানৰ ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
-#, fuzzy
 msgid "Business Phone 2"
-msgstr "ব্যৱসা প্ৰতিষ্ঠানেৰ ফোন২"
+msgstr "ব্যৱসা প্ৰতিষ্ঠানৰ ফোন২"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
-#, fuzzy
 msgid "Callback Phone"
-msgstr "প্ৰত্যুত্তৰেৰ ফোন"
+msgstr "প্ৰত্যুত্তৰৰ ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
-#, fuzzy
 msgid "Car Phone"
-msgstr "গাড়িৰ ফোন"
+msgstr "গাড়ীৰ ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:7
@@ -3060,122 +3044,99 @@ msgstr "গাড়িৰ ফোন"
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
-#, fuzzy
 msgid "Categories"
 msgstr "শ্ৰেণীবিভাগ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 #: ../addressbook/gui/widgets/eab-contact-display.c:566
-#, fuzzy
 msgid "Company"
 msgstr "কোম্পানি"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#, fuzzy
 msgid "Company Phone"
 msgstr "কোম্পানিৰ ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
-#, fuzzy
 msgid "Email 2"
 msgstr "ই-মেইল ২"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
-#, fuzzy
 msgid "Email 3"
 msgstr "ই-মেইল ৩"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
-#, fuzzy
 msgid "Family Name"
 msgstr "পাৰিবাৰিক নাম"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
-#, fuzzy
 msgid "File As"
-msgstr "এই ৰূপে নথিপত্ৰ কৰক"
+msgstr "এই ৰূপে নথিভূক্ত কৰক"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
-#, fuzzy
 msgid "Given Name"
 msgstr "প্ৰদত্ত নাম"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
-#, fuzzy
 msgid "Home Fax"
-msgstr "গৃহেৰ ফ্যাক্স"
+msgstr "ঘৰৰ ফেক্স"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
-#, fuzzy
 msgid "Home Phone"
-msgstr "গৃহেৰ ফোন"
+msgstr "ঘৰৰ ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-#, fuzzy
 msgid "Home Phone 2"
-msgstr "গৃহেৰ ফোন ২"
+msgstr "ঘৰৰ ফোন ২"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
-#, fuzzy
 msgid "ISDN Phone"
-msgstr "আইএসডিএন ফোন"
+msgstr "ISDN ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
-#, fuzzy
 msgid "Journal"
 msgstr "জাৰ্নাল"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:570
-#, fuzzy
 msgid "Manager"
 msgstr "ম্যানেজাৰ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 #: ../addressbook/gui/widgets/eab-contact-display.c:591
-#, fuzzy
 msgid "Mobile Phone"
 msgstr "মোবাইল ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
-#, fuzzy
 msgid "Nickname"
-msgstr "ডাকনাম"
+msgstr "চমুনাম"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 #: ../addressbook/gui/widgets/eab-contact-display.c:604
-#, fuzzy
 msgid "Note"
 msgstr "নোট"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-#, fuzzy
 msgid "Office"
 msgstr "অফিস"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:28
-#, fuzzy
 msgid "Other Fax"
-msgstr "অন্যান্য ফ্যাক্স"
+msgstr "অন্যান্য ফেক্স"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:29
-#, fuzzy
 msgid "Other Phone"
 msgstr "অন্য ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:30
-#, fuzzy
 msgid "Pager"
 msgstr "পেজাৰ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
-#, fuzzy
 msgid "Primary Phone"
 msgstr "প্ৰথম ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:32
-#, fuzzy
 msgid "Radio"
 msgstr "ৰেডিও"
 
@@ -3183,13 +3144,11 @@ msgstr "ৰেডিও"
 #: ../calendar/gui/e-meeting-list-view.c:511
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
-#, fuzzy
 msgid "Role"
 msgstr "ভূমিকা"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 #: ../addressbook/gui/widgets/eab-contact-display.c:595
-#, fuzzy
 msgid "Spouse"
 msgstr "স্বামী/স্ত্ৰী"
 
@@ -3200,29 +3159,24 @@ msgstr "স্বামী/স্ত্ৰী"
 #. abbreviation unchanged unless you know that there is actually a
 #. different and established translation for this in your language.
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
-#, fuzzy
 msgid "TTYTDD"
 msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
-#, fuzzy
 msgid "Telex"
 msgstr "টেলেক্স"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#, fuzzy
 msgid "Title"
 msgstr "শিৰোনাম"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
-#, fuzzy
 msgid "Unit"
 msgstr "একক"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
-#, fuzzy
 msgid "Web Site"
-msgstr "ওয়েব সাইট"
+msgstr "ৱেব চাইট"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:150
@@ -3237,7 +3191,6 @@ msgstr "ওয়েব সাইট"
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
 #: ../widgets/text/e-text.c:3723 ../widgets/text/e-text.c:3724
-#, fuzzy
 msgid "Width"
 msgstr "প্ৰস্থ"
 
@@ -3253,43 +3206,35 @@ msgstr "প্ৰস্থ"
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
 #: ../widgets/text/e-text.c:3731 ../widgets/text/e-text.c:3732
-#, fuzzy
 msgid "Height"
 msgstr "উচ্চতা"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
 #: ../addressbook/gui/widgets/e-minicard.c:165
-#, fuzzy
 msgid "Has Focus"
-msgstr "ফোকাসকৃত অবস্থায় আছে"
+msgstr "ফোকাচ আছে"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:136
-#, fuzzy
 msgid "Field"
 msgstr "ক্ষেত্ৰ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:143
-#, fuzzy
 msgid "Field Name"
-msgstr "ক্ষেত্ৰেৰ নাম"
+msgstr "ক্ষেত্ৰৰ নাম"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:150
-#, fuzzy
 msgid "Text Model"
 msgstr "টেক্সট মডেল"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:157
-#, fuzzy
 msgid "Max field name length"
-msgstr "ক্ষেত্ৰেৰ নামেৰ সৰ্বোচ্চ দৈৰ্ঘ্য"
+msgstr "ক্ষেত্ৰৰ নামৰ সৰ্বোচ্চ দৈৰ্ঘ্য"
 
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:128
-#, fuzzy
 msgid "Column Width"
-msgstr "কলামেৰ প্ৰস্থ"
+msgstr "স্তম্ভৰ প্ৰস্থ"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:174
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3301,10 +3246,9 @@ msgstr ""
 "\n"
 "পৰিচিতি অনুসন্ধান।\n"
 "\n"
-"নতুন পৰিচিতি নিৰ্মাণ কৰোঁতে এই স্থানে দুবাৰ ক্লিক কৰক।"
+"নতুন পৰিচিতি নিৰ্মাণ কৰোঁতে এই স্থানত দুবাৰ টিপক ।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:177
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3314,12 +3258,11 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"এই দৃশ্যে প্ৰদৰ্শন কৰাৰ মত কিছু নাই।\n"
+"এই দৃশ্যত প্ৰদৰ্শন কৰিবলৈ একো নাই ।\n"
 "\n"
-"এটা নতুন পৰিচিতি তৈৰি কৰাৰ বাবে এখানে দুইবাৰ ক্লিক কৰক।"
+"এটা নতুন পৰিচিতি সৃষ্টি কৰাৰ বাবে ইয়াত দুবাৰ টিপক ।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:182
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3330,7 +3273,6 @@ msgstr ""
 "পৰিচিতি অনুসন্ধান।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:184
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3338,97 +3280,80 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"এই ভিউতে প্ৰদৰ্শন কৰাৰ মত কিছু নাই।"
+"এই প্ৰদৰ্শনত দেখুৱাবলৈ একো নাই ।"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:501
-#, fuzzy
 msgid "Adapter"
-msgstr "অ্যাডাপ্টাৰ"
+msgstr "এডাপ্টাৰ"
 
 #: ../addressbook/gui/widgets/e-minicard.c:102
-#, fuzzy
 msgid "Work Email"
-msgstr "কৰ্মস্থলেৰ ই-মেইল"
+msgstr "কৰ্মস্থলৰ ই-মেইল"
 
 #: ../addressbook/gui/widgets/e-minicard.c:103
-#, fuzzy
 msgid "Home Email"
-msgstr "গৃহেৰ ই-মেইল"
+msgstr "ঘৰৰ ই-মেইল"
 
 #: ../addressbook/gui/widgets/e-minicard.c:104
-#, fuzzy
 msgid "Other Email"
 msgstr "অন্যান্য ই-মেইল"
 
 #: ../addressbook/gui/widgets/e-minicard.c:173
-#, fuzzy
 msgid "Selected"
 msgstr "নিৰ্বাচিত"
 
 #: ../addressbook/gui/widgets/e-minicard.c:180
-#, fuzzy
 msgid "Has Cursor"
 msgstr "কাৰ্সাৰ আছে"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:172 ../mail/em-popup.c:633
-#, fuzzy
 msgid "_Open Link in Browser"
-msgstr "লিঙ্কটি ব্ৰাউজাৰে প্ৰদৰ্শন কৰক (_O)"
+msgstr "লিঙ্কটো চৰকত প্ৰদৰ্শন কৰক (_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
 #: ../mail/em-folder-view.c:2603
-#, fuzzy
 msgid "_Copy Link Location"
-msgstr "লিঙ্কেৰ স্থান কপি কৰক (_C)"
+msgstr "লিঙ্কৰ স্থান নকল কৰক (_C)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:634
-#, fuzzy
 msgid "_Send New Message To..."
-msgstr "নতুন বাৰ্তা প্ৰাপক (_S)..."
+msgstr "নতুন বাৰ্তা পথাওক (_S)..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:175
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
-#, fuzzy
 msgid "Copy _Email Address"
-msgstr "ই-মেইল ঠিকনা কপি কৰক (_E)"
+msgstr "ই-মেইল ঠিকনা নকল কৰক (_E)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:296
 #: ../addressbook/gui/widgets/eab-contact-display.c:359
-#, fuzzy
 msgid "(map)"
-msgstr "(ম্যাপ)"
+msgstr "(map)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:306
 #: ../addressbook/gui/widgets/eab-contact-display.c:372
-#, fuzzy
 msgid "map"
-msgstr "ম্যাপ"
+msgstr "মেপ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:456
 #: ../addressbook/gui/widgets/eab-contact-display.c:758
-#, fuzzy
 msgid "List Members"
-msgstr "তালিকােৰ সদস্যবৃন্দ"
+msgstr "তালিকাসৰ সদস্যবৃন্দ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:567
-#, fuzzy
 msgid "Department"
 msgstr "বিভাগ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:568
-#, fuzzy
 msgid "Profession"
-msgstr "পেশা"
+msgstr "জীৱিকা"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:569
-#, fuzzy
 msgid "Position"
-msgstr "অবস্থান"
+msgstr "স্থান"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:572
-#, fuzzy
 msgid "Video Chat"
-msgstr "ভিডিও চ্যাট"
+msgstr "ভিডিও চেট"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:573
 #: ../calendar/gui/calendar-commands.c:99
@@ -3443,7 +3368,6 @@ msgstr "ভিডিও চ্যাট"
 #: ../plugins/hula-account-setup/camel-hula-listener.c:378
 #: ../plugins/hula-account-setup/camel-hula-listener.c:407
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
-#, fuzzy
 msgid "Calendar"
 msgstr "বৰ্ষপঞ্জি"
 
@@ -3451,115 +3375,96 @@ msgstr "বৰ্ষপঞ্জি"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: ../calendar/gui/dialogs/event-editor.c:369
 #: ../ui/evolution-event-editor.xml.h:8
-#, fuzzy
 msgid "Free/Busy"
 msgstr "মুক্ত/ব্যস্ত"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:575
 #: ../addressbook/gui/widgets/eab-contact-display.c:590
-#, fuzzy
 msgid "Phone"
 msgstr "ফোন"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:576
-#, fuzzy
 msgid "Fax"
 msgstr "ফ্যাক্স"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:587
-#, fuzzy
 msgid "Home Page"
 msgstr "হোম পেজ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:588
-#, fuzzy
 msgid "Web Log"
 msgstr "ওয়েব লগ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:593
 #: ../calendar/gui/e-calendar-view.c:2322
-#, fuzzy
 msgid "Birthday"
 msgstr "জন্মদিন"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:594
 #: ../calendar/gui/e-calendar-view.c:2323
-#, fuzzy
 msgid "Anniversary"
 msgstr "বাৰ্ষিকী"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:776
-#, fuzzy
 msgid "Job Title"
-msgstr "কাজেৰ শিৰোনাম"
+msgstr "কামৰ শিৰোনাম"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:807
-#, fuzzy
 msgid "Home page"
 msgstr "হোম পেজ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:815
-#, fuzzy
 msgid "Blog"
 msgstr "ব্লগ"
 
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:51
-#, fuzzy
 msgid "Success"
 msgstr "সাফল্য"
 
 #. E_BOOK_ERROR_INVALID_ARG
 #. E_BOOK_ERROR_BUSY
 #: ../addressbook/gui/widgets/eab-gui-util.c:53
-#, fuzzy
 msgid "Backend busy"
-msgstr "ব্যাকএন্ডটি ব্যস্ত"
+msgstr "ব্যাকএন্ড ব্যস্ত"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:54
-#, fuzzy
 msgid "Repository offline"
-msgstr "ৰিপোসিটৰি অফলাইন আছে"
+msgstr "ভঁৰাল অফলাইন আছে"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: ../addressbook/gui/widgets/eab-gui-util.c:55
-#, fuzzy
 msgid "Address Book does not exist"
 msgstr "ঠিকনা-বহি উপস্থিত নাই"
 
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: ../addressbook/gui/widgets/eab-gui-util.c:56
-#, fuzzy
 msgid "No Self Contact defined"
-msgstr "নিজেৰ বাবে কোনো পৰিচিত উল্লেখ কৰা হয়নি"
+msgstr "নিজৰ বাবে কোনো পৰিচিত উল্লেখ কৰা নাই"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
 #. E_BOOK_ERROR_PERMISSION_DENIED
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
-#, fuzzy
 msgid "Permission denied"
-msgstr "অনুমতি পাওয়া নাযায়"
+msgstr "অনুমতি পোৱা নাযায়"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: ../addressbook/gui/widgets/eab-gui-util.c:60
-#, fuzzy
 msgid "Contact not found"
-msgstr "পৰিচিতি পাওয়া নাযায়"
+msgstr "পৰিচিতি পোৱা নাযায়"
 
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
 #: ../addressbook/gui/widgets/eab-gui-util.c:61
-#, fuzzy
 msgid "Contact ID already exists"
-msgstr "পৰিচিতিৰ আইডি ইতিমধ্যেই বিদ্যমান"
+msgstr "পৰিচিতিৰ আইডি ইতিমধে আছে"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: ../addressbook/gui/widgets/eab-gui-util.c:62
-#, fuzzy
 msgid "Protocol not supported"
-msgstr "অসমৰ্থিত প্ৰোটোকল"
+msgstr "অসমৰ্থিত নীতি"
 
 #. E_BOOK_ERROR_CANCELLED
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
@@ -3568,181 +3473,156 @@ msgstr "অসমৰ্থিত প্ৰোটোকল"
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:664
 #: ../calendar/gui/e-calendar-table.c:475 ../calendar/gui/print.c:2351
-#, fuzzy
 msgid "Canceled"
 msgstr "বাতিল কৰা হৈছে"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: ../addressbook/gui/widgets/eab-gui-util.c:64
-#, fuzzy
 msgid "Could not cancel"
-msgstr "বাতিল কৰা সম্ভব হয়নি"
+msgstr "বাতিল কৰা সম্ভৱ নহয়"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:65
 #: ../calendar/gui/comp-editor-factory.c:431
-#, fuzzy
 msgid "Authentication Failed"
 msgstr "পৰিচয় প্ৰমাণ প্ৰক্ৰিয়া ব্যৰ্থ"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: ../addressbook/gui/widgets/eab-gui-util.c:66
-#, fuzzy
 msgid "Authentication Required"
-msgstr "পৰিচয় প্ৰমাণ কৰা আবশ্যক"
+msgstr "পৰিচয় প্ৰমাণ কৰা আৱশ্যক"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:67
-#, fuzzy
 msgid "TLS not Available"
-msgstr "টিএলএস (TLS) উপলব্ধ নাই"
+msgstr "TLS নাই"
 
 #. E_BOOK_ERROR_CORBA_EXCEPTION
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
-#, fuzzy
 msgid "No such source"
-msgstr "এৰকম কোনো উত্স নাই"
+msgstr "এনে কোনো উৎস নাই"
 
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
-#, fuzzy
 msgid "Not available in offline mode"
-msgstr "অফলাইন মোডে উপলব্ধ নহয়"
+msgstr "অফলাইন মোডত উপলব্ধ নহয়"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:72
-#, fuzzy
 msgid "Invalid server version"
-msgstr "সেৱকেৰ সংস্কৰণ বৈধ নহয়"
+msgstr "সেৱকৰ সংস্কৰণ বৈধ নহয়"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:95
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 msgstr ""
-"উল্লিখিত ঠিকনা বহি পড়া সম্ভব হয়নি। সম্ভবত এই বহিটি অফলাইন ব্যৱহাৰেৰ উদ্দেশ্যে চিহ্নিত "
-"হয়নি অথবা ডাউনলোড কৰা হয়নি। এৰ মধ্যে উপস্থিত বিষয়বস্তু ডাউনলোড কৰাৰ বাবে অনলাইন "
-"অবস্থায় এই ঠিকনা বহিটি অনুগ্ৰহ কৰে লোড কৰক।"
+"উল্লেখিত ঠিকনাবহি খোলা সম্ভৱ নহয় । সম্ভৱত এই বহি অফলাইন ব্যৱহাৰৰ উদ্দেশ্যে চিহ্নিত "
+"নহয় বা ডাউনলোড কৰা নহয় । ইয়াত উপস্থিত বিষয়বস্তু ডাউনলোড কৰাৰ বাবে অনলাইন "
+"অৱস্থায় এই ঠিকনা বহি অনুগ্ৰহ কৰি তুলি লওক ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:104
 #, c-format
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"উল্লিখিত ঠিকনা বহি পড়া সম্ভব হয়নি।  অনুগ্ৰহ কৰে পৰীক্ষা কৰক %s পাথটি উপস্থিত ৰয়েছে "
-"কিনা এবং আপনি তা পড়তে অনুমোদিত কিনা।"
+"উল্লেখিত ঠিকনাবহি খোলা সম্ভৱ নহয় ।  অনুগ্ৰহ কৰি পৰীক্ষা কৰক %s পথ উপস্থিত আছে "
+"নে নাই আৰু আপুনি সেইটো পঢ়িবলৈ অনুমোদিত নে নহয় ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:113
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"উল্লিখিত ঠিকনা বহি পড়া সম্ভব হয়নি।  সম্ভবত আপাৰ উল্লিখিত URI-টি সঠিক নহয় অথবা LDAP "
-"সেৱকেৰ সৈতে বৰ্তমানে সংযোগ স্থাপন কৰা সম্ভব হয়নি।"
+"উল্লেখিত ঠিকনাবহি খোলা সম্ভৱ নহয় । সম্ভৱত উল্লেখিত URI সঠিক নহয় বা LDAP "
+"সেৱকৰ সৈতে বৰ্তমানে সংযোগ স্থাপন কৰা সম্ভৱ নহয় ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:118
-#, fuzzy
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
-"Evolution-ৰ এই সংস্কৰণেৰ মধ্যে LDAP সমৰ্থনব্যৱস্থা কম্পাইল কৰা হয়নি। Evolution-ৰ "
-"সৈতে LDAP ব্যৱহাৰেৰ বাবে LDAP-সক্ৰিয় Evolution প্যাকেজ ইনস্টল কৰা আবশ্যক।"
+"Evolution-ৰ এই সংস্কৰণত LDAP সমৰ্থনব্যৱস্থা সঙ্কলণ কৰা হোৱা নাই।  Evolution-ৰ "
+"সৈতে LDAP ব্যৱহাৰৰ বাবে LDAP-সক্ৰিয় Evolution প্যাকেজ সংস্থাপন কৰা আ॥শ্যক ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:125
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr ""
-"আমৰা এই ঠিকনা-বহিটি পড়তে ব্যৰ্থ হয়েছি। এৰ অৰ্থ হল, হয় আপনি এটা ভুল ইউআৰআই "
-"লিখেছেন অথবা সেৱকটিৰ সৈতে সংযোগ স্থাপন কৰা সম্ভব নহয়।"
+"আমি এই ঠিকনা-বহি খোলাত ব্যৰ্থ হৈছো । ইয়াৰ অৰ্থ হল, হয় আপুনি এটা ভুল URI"
+"লিখিছে বা সেৱকৰ সৈতে সংযোগ স্থাপন কৰা সম্ভৱ নহয় ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
-#, fuzzy
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
-"সেৱক কিংবা Evolutionকে যে সংখ্যক ফলাফলেৰ বাবে বিন্যাস কৰা \n"
-" হৈছে, এক্ষেত্ৰে ফলাফল স্বৰূপ তা অপেক্ষাও বেশি\n"
-"সংখ্যক কাৰ্ড পাওয়া গিয়েছে। এ অবস্থায় অনুগ্ৰহপূৰ্বক আপোনাৰ অনুসন্ধানকে আৰো সুনিৰ্দিষ্ট কৰক "
-"অথবা এই ঠিকনা-বহিৰ\n"
-"বাবে ডিৰেক্টৰি সেৱক সংক্ৰান্ত পছন্দ ৰ পৰা ফলাফলেৰ সংখ্যা-সীমা বৃদ্ধি কৰক।"
+"সেৱক বা Evolution ক যি সংখ্যক ফলাফলৰ বাবে বিন্যাস কৰা \n"
+" হৈছে, এই ক্ষেত্ৰৰ ফলাফলত অপেক্ষাতকৈও অধিক\n"
+"সংখ্যক কাৰ্ড পোৱা গৈছে । আপোনাৰ অনুসন্ধানক আৰু সুনিৰ্দিষ্ট কৰক "
+"বা এই ঠিকনা-বহিৰ\n"
+"বাবে পঞ্জিকা সেৱক সংক্ৰান্ত পছন্দৰ পৰা ফলাফলৰ সংখ্যা-সীমা বৃদ্ধি কৰক ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:154
-#, fuzzy
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
-"সেৱক কিংবা Evolutionকে যে সংখ্যক সময়েৰ বাবে বিন্যাস কৰা হৈছে, এ অনুসন্ধানেৰ \n"
-"ক্ষেত্ৰে তা অপেক্ষাও বেশি সময় ব্যয় হৈছে। এ অবস্থায় অনুগ্ৰহপূৰ্বক আপোনাৰ অনুসন্ধানকে আৰো "
-"সুনিৰ্দিষ্ট কৰক অথবা এই \n"
-"ঠিকনা-বহিৰ বাবে ডিৰেক্টৰি সেৱক সংক্ৰান্ত পছন্দ ৰ পৰা অনুসন্ধানেৰ \n"
-" সময়সীমা বৃদ্ধি কৰক।"
+"সেৱক বা Evolution ক যি সংখ্যক সময়ৰ বাবে বিন্যাস কৰা হৈছে, এই অনুসন্ধানৰ \n"
+"ক্ষেত্ৰত তাৰ অপেক্ষাতকৈও অধিক সময় ব্যয় হৈছে । অনুগ্ৰহ কৰি আপোনাৰ অনুসন্ধানক আৰু "
+"সুনিৰ্দিষ্ট কৰক বা এই \n"
+"ঠিকনা-বহিৰ বাবে পঞ্জিকা সেৱক সংক্ৰান্ত পছন্দৰ পৰা অনুসন্ধানৰ \n"
+" সময়সীমা বৃদ্ধি কৰক ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:160
-#, fuzzy
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "এই ঠিকনা-বহিৰ ব্যাক-এন্ড'টি অনুসন্ধানটি বুঝতে সক্ষম হয়নি।"
+msgstr "এই ঠিকনা-বহিৰ ব্যাক-এন্ডে অনুসন্ধানৰ বিশ্লেষণত সক্ষম হোৱা নাই।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:163
-#, fuzzy
 msgid "The backend for this addressbook refused to perform this query."
-msgstr "ঠিকনা-বহিৰ ব্যাক-এন্ড'টি এই অনুসন্ধান চালাতে অস্বীকাৰ কৰেছে।"
+msgstr "ঠিকনা-বহিৰ ব্যাক-এন্ডে এই অনুসন্ধান চলাবলৈ অস্বীকাৰ কৰিছে ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:166
-#, fuzzy
 msgid "This query did not complete successfully."
-msgstr "এই অনুসন্ধানটি সফলভাবে সম্পন্ন হয়নি।"
+msgstr "এই অনুসন্ধান সফলভাবে সম্পন্ন হোৱা নাই।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:188
-#, fuzzy
 msgid "Error adding list"
 msgstr "তালিকা যোগ কৰোঁতে সমস্যা হৈছে"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:188
 #: ../addressbook/gui/widgets/eab-gui-util.c:713
-#, fuzzy
 msgid "Error adding contact"
 msgstr "পৰিচিতি যোগ কৰোঁতে সমস্যা হৈছে"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:199
-#, fuzzy
 msgid "Error modifying list"
 msgstr "তালিকা পৰিবৰ্তন কৰোঁতে সমস্যা হৈছে"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:199
-#, fuzzy
 msgid "Error modifying contact"
 msgstr "পৰিচিতি পৰিবৰ্তন কৰোঁতে সমস্যা হৈছে"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:211
-#, fuzzy
 msgid "Error removing list"
-msgstr "তালিকা মুছে ফেলতে সমস্যা হৈছে"
+msgstr "তালিকা আঁতৰাওঁতে সমস্যা হৈছে"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:211
 #: ../addressbook/gui/widgets/eab-gui-util.c:663
-#, fuzzy
 msgid "Error removing contact"
-msgstr "পৰিচিতি মুছে ফেলতে সমস্যা হৈছে"
+msgstr "পৰিচিতি আঁতৰাওঁতে সমস্যা হৈছে"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:293
 #, c-format
-#, fuzzy
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -3750,16 +3630,15 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
-"%d সংখ্যক নতুন পৰিচিতি খুললে %d সংখ্যক নতুন উইন্ডোও খুলবে।\n"
-"আপনি কি নিশ্চিতৰূপে এই সমস্ত পৰিচিতি প্ৰদৰ্শন কৰোঁতে ইচ্ছুক?"
+"%d সংখ্যক নতুন পৰিচিতি খুলিলে %d সংখ্যক নতুন উইন্ডোও খুলিব।\n"
+"আপুনি সঁচাকৈ এই পৰিচিতি প্ৰদৰ্শন কৰিব বিচাৰেনে ?"
 msgstr[1] ""
-"%d সংখ্যক নতুন পৰিচিতি খুললে %d সংখ্যক নতুন উইন্ডোও খুলবে।\n"
-"আপনি কি নিশ্চিতৰূপে এই সমস্ত পৰিচিতি প্ৰদৰ্শন কৰোঁতে ইচ্ছুক?"
+"%d সংখ্যক নতুন পৰিচিতি খুলিলে %d সংখ্যক নতুন উইন্ডোও খুলিব।\n"
+"আপুনি সঁচাকৈ এই পৰিচিতি প্ৰদৰ্শন কৰিব বিচাৰেনে ?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:301
-#, fuzzy
 msgid "_Don't Display"
-msgstr "প্ৰদৰ্শন কৰা হ'ব না (_D)"
+msgstr "প্ৰদৰ্শন কৰা নহ'ব (_D)"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:302
 #, fuzzy
@@ -3817,7 +3696,7 @@ msgstr "পৰিচিতিটিকে এখানে স্থানান�
 #: ../addressbook/gui/widgets/eab-gui-util.c:776
 #, fuzzy
 msgid "Copy contact to"
-msgstr "পৰিচিতিটিকে এখানে কপি কৰক"
+msgstr "পৰিচিতিটিকে এখানে নকল কৰক"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:779
 #, fuzzy
@@ -3827,7 +3706,7 @@ msgstr "পৰিচিতি এখানে স্থানান্তৰ ক
 #: ../addressbook/gui/widgets/eab-gui-util.c:781
 #, fuzzy
 msgid "Copy contacts to"
-msgstr "পৰিচিতি এখানে কপি কৰক"
+msgstr "পৰিচিতি এখানে নকল কৰক"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1007
 #, fuzzy
@@ -4175,7 +4054,7 @@ msgstr "কনটেক্ট প্ৰিন্ট বিন্যাস সম
 #: ../addressbook/printing/test-print.c:47
 #, fuzzy
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr "কপিৰাইট (C) ২০০০, Ximian, Inc."
+msgstr "নকলৰাইট (C) ২০০০, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 #, fuzzy
@@ -4202,12 +4081,12 @@ msgstr "নথিপত্ৰটি খোলা যাচ্ছে না"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
 #, fuzzy
 msgid "Couldn't get list of addressbooks"
-msgstr "ঠিকনা-বহিৰ তালিকা পাওয়া নাযায়"
+msgstr "ঠিকনা-বহিৰ তালিকা পোৱা নাযায়"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:72
 #, fuzzy
 msgid "failed to open book"
-msgstr "বহি পড়া সম্ভব হয়নি"
+msgstr "বহি পড়া সম্ভব হোৱা নাই"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:49
 #, fuzzy
@@ -4346,7 +4225,7 @@ msgstr "আপনি কি '{0}' কৰ্ম-টি নিশ্চিতৰ�
 #: ../calendar/calendar.error.xml.h:12
 #, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "আপনি কি '{0}' দ্বাৰা উল্লিখিত সাক্ষাৎকাৰটি নিশ্চিতৰূপে মুছে ফেলতে ইচ্ছুক?"
+msgstr "আপনি কি '{0}' দ্বাৰা উল্লেখিত সাক্ষাৎকাৰটি নিশ্চিতৰূপে মুছে ফেলতে ইচ্ছুক?"
 
 #: ../calendar/calendar.error.xml.h:13
 #, fuzzy
@@ -4565,17 +4444,17 @@ msgstr "Evolution-ৰ কৰ্মসমূহ অপ্ৰত্যাশিত
 #: ../calendar/calendar.error.xml.h:48
 #, fuzzy
 msgid "The calendar is not marked for offline usage."
-msgstr "বৰ্ষপঞ্জিটি অফ-লাইন ব্যৱহাৰেৰ উদ্দেশ্যে চিহ্নিত কৰা হয়নি।"
+msgstr "বৰ্ষপঞ্জিটি অফ-লাইন ব্যৱহাৰেৰ উদ্দেশ্যে চিহ্নিত কৰা হোৱা নাই।"
 
 #: ../calendar/calendar.error.xml.h:49
 #, fuzzy
 msgid "The memo list is not marked for offline usage"
-msgstr "কৰ্মসূচী অফ-লাইন ব্যৱহাৰেৰ উদ্দেশ্যে চিহ্নিত কৰা হয়নি"
+msgstr "কৰ্মসূচী অফ-লাইন ব্যৱহাৰেৰ উদ্দেশ্যে চিহ্নিত কৰা হোৱা নাই"
 
 #: ../calendar/calendar.error.xml.h:50
 #, fuzzy
 msgid "The task list is not marked for offline usage."
-msgstr "কৰ্মতালিকা অফ-লাইন ব্যৱহাৰেৰ উদ্দেশ্যে চিহ্নিত কৰা হয়নি।"
+msgstr "কৰ্মতালিকা অফ-লাইন ব্যৱহাৰেৰ উদ্দেশ্যে চিহ্নিত কৰা হোৱা নাই।"
 
 #: ../calendar/calendar.error.xml.h:51
 #, fuzzy
@@ -4739,7 +4618,7 @@ msgstr "একাধিক-দিনব্যাপী অনুষ্ঠান�
 #: ../calendar/conduits/todo/todo-conduit.c:1013
 #, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "Evolution-data-server আৰম্ভ কৰা সম্ভব হয়নি"
+msgstr "Evolution-data-server আৰম্ভ কৰা সম্ভব হোৱা নাই"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:1620
 #: ../calendar/conduits/calendar/calendar-conduit.c:1623
@@ -5076,17 +4955,17 @@ msgstr "কিছু মুছে ফেলাৰ পূৰ্বে নিশ�
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgstr ""
 "আজকেৰ বাবে নিৰ্ধাৰিত সমস্ত কৰ্ম চিহ্নিত কৰোঁতে ব্যৱহৃত ৰং, \"#rrggbb\" বিন্যাসে "
-"উল্লিখিত।"
+"উল্লেখিত।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:4
 #, fuzzy
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "সময়োত্তীৰ্ণ সমস্ত কৰ্ম চিহ্নিত কৰোঁতে ব্যৱহৃত ৰং, \"#rrggbb\" বিন্যাসে উল্লিখিত।"
+msgstr "সময়োত্তীৰ্ণ সমস্ত কৰ্ম চিহ্নিত কৰোঁতে ব্যৱহৃত ৰং, \"#rrggbb\" বিন্যাসে উল্লেখিত।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:5
 #, fuzzy
 msgid "Calendars to run alarms for"
-msgstr "বৰ্ষপঞ্জি উল্লিখিত কাৰনে সতৰ্কধ্বনি দেবে"
+msgstr "বৰ্ষপঞ্জি উল্লেখিত কাৰনে সতৰ্কধ্বনি দেবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:6
 #, fuzzy
@@ -5111,7 +4990,7 @@ msgstr "এক্সপাঞ্জ কৰাৰ পূৰ্বে সম্ম
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:10
 #, fuzzy
 msgid "Days on which the start and end of work hours should be indicated."
-msgstr "যে সমস্ত দিনে কৰ্ম আৰম্ভ ও শেষ হওয়াৰ সময় উল্লিখিত হ'ব।"
+msgstr "যে সমস্ত দিনে কৰ্ম আৰম্ভ ও শেষ হওয়াৰ সময় উল্লেখিত হ'ব।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:11
 #, fuzzy
@@ -5131,7 +5010,7 @@ msgstr "অবিকল্পিত তাগাদাৰ মান"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 #, fuzzy
 msgid "Directory for saving alarm audio files"
-msgstr "সতৰ্কবাণীৰ বাবে ব্যৱহৃত অডিও নথিপত্ৰ ধাৰণকাৰী ডিৰেক্টৰি"
+msgstr "সতৰ্কবাণীৰ বাবে ব্যৱহৃত অডিও নথিপত্ৰ ধাৰণকাৰী পঞ্জিকা"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 msgid "Event Gradient"
@@ -5188,7 +5067,7 @@ msgstr "দিনেৰ কাজ যে সময় আৰম্ভ হ'ব, চ�
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:26
 #, fuzzy
 msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr "দিন ও সাপ্তাহিক কৰ্মেৰ দিন অনুযায়ী প্ৰদৰ্শনে উল্লিখিত অন্তৰাল, মিনিট অনুসাৰে ব্যক্ত।"
+msgstr "দিন ও সাপ্তাহিক কৰ্মেৰ দিন অনুযায়ী প্ৰদৰ্শনে উল্লেখিত অন্তৰাল, মিনিট অনুসাৰে ব্যক্ত।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:27
 #, fuzzy
@@ -5312,7 +5191,7 @@ msgstr "চেতাবনিৰ অংশ হিসাবে যে সমস�
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:46
 #, fuzzy
 msgid "Save directory for alarm audio"
-msgstr "সতৰ্কবাণীৰ অডিও-ৰ বাবে ডিৰেক্টৰি সংৰক্ষণ কৰক"
+msgstr "সতৰ্কবাণীৰ অডিও-ৰ বাবে পঞ্জিকা সংৰক্ষণ কৰক"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:47
 #, fuzzy
@@ -5808,7 +5687,7 @@ msgstr "বৰ্ষপঞ্জি খোলাৰ সময় মেথড স�
 #: ../calendar/gui/comp-editor-factory.c:425
 #, fuzzy
 msgid "Permission denied to open the calendar"
-msgstr "বৰ্ষপঞ্জি পড়াৰ অনুমতি পাওয়া নাযায়"
+msgstr "বৰ্ষপঞ্জি পড়াৰ অনুমতি পোৱা নাযায়"
 
 #: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1282
 #, fuzzy
@@ -6047,7 +5926,7 @@ msgstr "<span weight=\"bold\">কৰ্ম সপ্তাহ</span>"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 #, fuzzy
 msgid "Adjust for daylight sa_ving time"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 #, fuzzy
@@ -6237,7 +6116,7 @@ msgstr "শুক্ৰ (_F)"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 #, fuzzy
 msgid "_Hide completed tasks after"
-msgstr "উল্লিখিত সময়েৰ পৰ সম্পন্ন কৰ্ম আড়াল কৰা হ'ব (_H)"
+msgstr "উল্লেখিত সময়েৰ পৰ সম্পন্ন কৰ্ম আড়াল কৰা হ'ব (_H)"
 
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
@@ -6286,17 +6165,17 @@ msgstr "প্ৰতি সাক্ষাৎকাৰেৰ পূৰ্বে"
 #: ../calendar/gui/dialogs/calendar-setup.c:272
 #, fuzzy
 msgid "Cop_y calendar contents locally for offline operation"
-msgstr "অফলাইন কৰ্মেৰ উদ্দেশ্যে বৰ্ষপঞ্জিৰ বিষয়বস্তু স্থানীয় পঞ্জিকাে কপি কৰক (_y)"
+msgstr "অফলাইন কৰ্মেৰ উদ্দেশ্যে বৰ্ষপঞ্জিৰ বিষয়বস্তু স্থানীয় পঞ্জিকাে নকল কৰক (_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:274
 #, fuzzy
 msgid "Cop_y task list contents locally for offline operation"
-msgstr "অফলাইন কৰ্মেৰ উদ্দেশ্যে কাৰ্যতালিকাৰ বিষয়বস্তু স্থানীয় পঞ্জিকাে কপি কৰক (_y)"
+msgstr "অফলাইন কৰ্মেৰ উদ্দেশ্যে কাৰ্যতালিকাৰ বিষয়বস্তু স্থানীয় পঞ্জিকাে নকল কৰক (_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:276
 #, fuzzy
 msgid "Cop_y memo list contents locally for offline operation"
-msgstr "অফলাইন কৰ্মেৰ উদ্দেশ্যে কৰ্মসূচী বিষয়বস্তু স্থানীয় পঞ্জিকাে কপি কৰক (_y)"
+msgstr "অফলাইন কৰ্মেৰ উদ্দেশ্যে কৰ্মসূচী বিষয়বস্তু স্থানীয় পঞ্জিকাে নকল কৰক (_y)"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:346
 #, fuzzy
@@ -6573,17 +6452,17 @@ msgstr "কোনো আপডেটেৰ আবিৰ্ভাব ঘটলে
 #: ../calendar/gui/dialogs/comp-editor.c:2987
 #, fuzzy
 msgid "Unable to use current version!"
-msgstr "বৰ্তমান সংস্কৰণ ব্যৱহাৰ কৰা সম্ভব হয়নি!"
+msgstr "বৰ্তমান সংস্কৰণ ব্যৱহাৰ কৰা সম্ভব হোৱা নাই!"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 #, fuzzy
 msgid "Could not open source"
-msgstr "উত্স খোলা সম্ভব হয়নি"
+msgstr "উত্স খোলা সম্ভব হোৱা নাই"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:69
 #, fuzzy
 msgid "Could not open destination"
-msgstr "গন্তব্য খোলা সম্ভব হয়নি"
+msgstr "গন্তব্য খোলা সম্ভব হোৱা নাই"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:78
 #, fuzzy
@@ -6891,7 +6770,7 @@ msgstr "সময়: (_T)"
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 #, fuzzy
 msgid "for"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
@@ -6936,7 +6815,7 @@ msgstr "কৰ্মসূচী"
 #, c-format
 #, fuzzy
 msgid "Unable to open memos in '%s'."
-msgstr "'%s'-এ উপস্থিত কৰ্মসূচী খোলা সম্ভব হয়নি।"
+msgstr "'%s'-এ উপস্থিত কৰ্মসূচী খোলা সম্ভব হোৱা নাই।"
 
 #: ../calendar/gui/dialogs/memo-page.c:1103 ../mail/em-format-html.c:1520
 #: ../mail/em-format-html.c:1534 ../mail/em-format-html.c:1592
@@ -7137,7 +7016,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:2200
 #, fuzzy
 msgid "Could not get a selection to modify."
-msgstr "পৰিবৰ্তনেৰ উদ্দেশ্যে নিৰ্বাচিত অংশ পাওয়া নাযায়।"
+msgstr "পৰিবৰ্তনেৰ উদ্দেশ্যে নিৰ্বাচিত অংশ পোৱা নাযায়।"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2206
 #, fuzzy
@@ -7147,7 +7026,7 @@ msgstr "পৰিবৰ্তন কৰক"
 #: ../calendar/gui/dialogs/recurrence-page.c:2252
 #, fuzzy
 msgid "Could not get a selection to delete."
-msgstr "মুছে ফেলাৰ উদ্দেশ্যে নিৰ্বাচিত অংশ পাওয়া নাযায়।"
+msgstr "মুছে ফেলাৰ উদ্দেশ্যে নিৰ্বাচিত অংশ পোৱা নাযায়।"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2383
 #, fuzzy
@@ -7283,7 +7162,7 @@ msgstr "স্বাভাবিক"
 #: ../calendar/gui/e-calendar-table.c:472 ../calendar/gui/print.c:2342
 #, fuzzy
 msgid "Not Started"
-msgstr "আৰম্ভ হয়নি"
+msgstr "আৰম্ভ হোৱা নাই"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:10
 #, fuzzy
@@ -7337,7 +7216,7 @@ msgstr "দেয় তাৰিখ সঠিক নহয়"
 #, c-format
 #, fuzzy
 msgid "Unable to open tasks in '%s'."
-msgstr "'%s'-এ উপস্থিত কাৰ্য খোলা সম্ভব হয়নি।"
+msgstr "'%s'-এ উপস্থিত কাৰ্য খোলা সম্ভব হোৱা নাই।"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:1
 #, fuzzy
@@ -7576,7 +7455,7 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
-"ভৌগলিক অবস্থান উল্লিখিত ফৰ্মায় লিখতে হ'ব: \n"
+"ভৌগলিক অবস্থান উল্লেখিত ফৰ্মায় লিখতে হ'ব: \n"
 "\n"
 "৪৫.৪৩৬৮৪৫, ১২৫.৮৬২৫০১"
 
@@ -7874,7 +7753,7 @@ msgstr "বস্তু সৰানো হৈছে"
 #: ../calendar/gui/e-calendar-view.c:1349
 #, fuzzy
 msgid "Copying items"
-msgstr "বস্তু কপি কৰা হৈছে"
+msgstr "বস্তু নকল কৰা হৈছে"
 
 #: ../calendar/gui/e-calendar-view.c:1658
 #, fuzzy
@@ -7910,7 +7789,7 @@ msgstr "তাৰিখ নিৰ্বাচন কৰক (_S)..."
 #: ../calendar/gui/e-calendar-view.c:1690
 #, fuzzy
 msgid "Cop_y to Calendar..."
-msgstr "বৰ্ষপঞ্জিতে কপি কৰক (_y)..."
+msgstr "বৰ্ষপঞ্জিতে নকল কৰক (_y)..."
 
 #: ../calendar/gui/e-calendar-view.c:1691
 #, fuzzy
@@ -8006,7 +7885,7 @@ msgid ""
 "The date must be entered in the format: \n"
 "%s"
 msgstr ""
-"তাৰিখটা উল্লিখিত বিন্যাসে লেখা আবশ্যক: \n"
+"তাৰিখটা উল্লেখিত বিন্যাসে লেখা আবশ্যক: \n"
 "%s"
 
 #. TO TRANSLATORS: %02i is the number of minutes; this is a context menu entry
@@ -8232,12 +8111,12 @@ msgstr "প্ৰত্যাখ্যান কৰক"
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr "সভাটি বাতিল কৰা হলেও এটি আপোনাৰ বৰ্যপঞ্জিতে খুঁজে পাওয়া নাযায়।"
+msgstr "সভাটি বাতিল কৰা হলেও এটি আপোনাৰ বৰ্যপঞ্জিতে খুঁজে পোৱা নাযায়।"
 
 #: ../calendar/gui/e-itip-control.c:1258
 #, fuzzy
 msgid "The task has been canceled, however it could not be found in your task lists"
-msgstr "কাজটি বাতিল কৰা হলেও এটি আপোনাৰ কৰ্মতালিকায় খুঁজে পাওয়া নাযায়।"
+msgstr "কাজটি বাতিল কৰা হলেও এটি আপোনাৰ কৰ্মতালিকায় খুঁজে পোৱা নাযায়।"
 
 #: ../calendar/gui/e-itip-control.c:1336
 #, c-format
@@ -8443,7 +8322,7 @@ msgstr "বাজে মুক্ত/ব্যস্ত বাৰ্তা"
 #: ../calendar/gui/e-itip-control.c:1577
 #, fuzzy
 msgid "The message does not appear to be properly formed"
-msgstr "এই বাৰ্তাটি সঠিকভাবে গঠন কৰা হয়নি"
+msgstr "এই বাৰ্তাটি সঠিকভাবে গঠন কৰা হোৱা নাই"
 
 #: ../calendar/gui/e-itip-control.c:1636
 #, fuzzy
@@ -8480,7 +8359,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:2011
 #, fuzzy
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "অবৈধ মান হওয়াৰ দৰুন অংশগ্ৰহনকাৰীৰ অবস্থা আপডেট কৰা সম্ভব হয়নি!\n"
+msgstr "অবৈধ মান হওয়াৰ দৰুন অংশগ্ৰহনকাৰীৰ অবস্থা আপডেট কৰা সম্ভব হোৱা নাই!\n"
 
 #: ../calendar/gui/e-itip-control.c:2035
 #, fuzzy
@@ -8491,7 +8370,7 @@ msgstr "অংশগ্ৰহণকাৰীৰ অবস্থা আপডে�
 #: ../plugins/itip-formatter/itip-formatter.c:1229
 #, fuzzy
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "অংশগ্ৰহণকাৰীৰ অবস্থা আপডেট কৰা সম্ভব হয়নি কাৰন বস্তুটিৰ আৰ অস্তিত্ব নাই"
+msgstr "অংশগ্ৰহণকাৰীৰ অবস্থা আপডেট কৰা সম্ভব হোৱা নাই কাৰন বস্তুটিৰ আৰ অস্তিত্ব নাই"
 
 #: ../calendar/gui/e-itip-control.c:2073 ../calendar/gui/e-itip-control.c:2130
 #, fuzzy
@@ -8501,7 +8380,7 @@ msgstr "বস্তু প্ৰেৰিত হৈছে!\n"
 #: ../calendar/gui/e-itip-control.c:2079 ../calendar/gui/e-itip-control.c:2138
 #, fuzzy
 msgid "The item could not be sent!\n"
-msgstr "বস্তুটি প্ৰেৰণ কৰা সম্ভব হয়নি!\n"
+msgstr "বস্তুটি প্ৰেৰণ কৰা সম্ভব হোৱা নাই!\n"
 
 #: ../calendar/gui/e-itip-control.c:2218
 #, fuzzy
@@ -9223,21 +9102,21 @@ msgstr ""
 #: ../calendar/gui/migration.c:780 ../calendar/gui/migration.c:948
 #, fuzzy
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr "evolution/config.xmldb ৰ পৰা পুৰোনো বৈশিষ্ট্যাবলী পড়া সম্ভব হয়নি"
+msgstr "evolution/config.xmldb ৰ পৰা পুৰোনো বৈশিষ্ট্যাবলী পড়া সম্ভব হোৱা নাই"
 
 #. FIXME: domain/code
 #: ../calendar/gui/migration.c:809
 #, c-format
 #, fuzzy
 msgid "Unable to migrate calendar `%s'"
-msgstr "`%s' বৰ্ষপঞ্জিটি মাইগ্ৰেট কৰা সম্ভব হয়নি"
+msgstr "`%s' বৰ্ষপঞ্জিটি মাইগ্ৰেট কৰা সম্ভব হোৱা নাই"
 
 #. FIXME: domain/code
 #: ../calendar/gui/migration.c:977
 #, c-format
 #, fuzzy
 msgid "Unable to migrate tasks `%s'"
-msgstr "`%s' কৰ্মটি মাইগ্ৰেট কৰা সম্ভব হয়নি"
+msgstr "`%s' কৰ্মটি মাইগ্ৰেট কৰা সম্ভব হোৱা নাই"
 
 #: ../calendar/gui/migration.c:1226
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:402
@@ -11636,7 +11515,7 @@ msgstr "বাৰ্তাৰ অপ্ৰকাশিত অনুলিপি 
 #: ../composer/e-msg-composer-hdrs.c:673
 #, fuzzy
 msgid "_Post To:"
-msgstr "উল্লিখিত স্থানে পোস্ট কৰক(_P):"
+msgstr "উল্লেখিত স্থানে পোস্ট কৰক(_P):"
 
 #: ../composer/e-msg-composer-hdrs.c:678
 #, fuzzy
@@ -11663,7 +11542,7 @@ msgstr "সংযুক্ত বস্তু সন্নিবেশ কৰক
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "বহিৰ্মুখি বাৰ্তা স্বাক্ষৰ কৰা সম্ভব নহয়: এই অ্যাকাউন্টেৰ বাবে কোনো স্বাক্ষৰকাৰী "
-"প্ৰমাণপত্ৰ নিৰ্ধাৰিত হয়নি"
+"প্ৰমাণপত্ৰ নিৰ্ধাৰিত হোৱা নাই"
 
 #: ../composer/e-msg-composer.c:842
 #, fuzzy
@@ -11672,7 +11551,7 @@ msgid ""
 "account"
 msgstr ""
 "বহিৰ্মুখি বাৰ্তা এনক্ৰিপ্ট কৰা সম্ভব নহয়: এই অ্যাকাউন্টেৰ বাবে কোনো এনক্ৰিপশনকাৰী "
-"প্ৰমাণপত্ৰ নিৰ্ধাৰিত হয়নি"
+"প্ৰমাণপত্ৰ নিৰ্ধাৰিত হোৱা নাই"
 
 #: ../composer/e-msg-composer.c:1351 ../composer/e-msg-composer.c:2614
 #, fuzzy
@@ -11699,7 +11578,7 @@ msgstr "নথিপত্ৰ খোলা নাযায়"
 #: ../composer/e-msg-composer.c:1466
 #, fuzzy
 msgid "Unable to retrieve message from editor"
-msgstr "এডিটাৰ ৰ পৰা বাৰ্তা উদ্ধাৰ কৰা সম্ভব হয়নি"
+msgstr "এডিটাৰ ৰ পৰা বাৰ্তা উদ্ধাৰ কৰা সম্ভব হোৱা নাই"
 
 #: ../composer/e-msg-composer.c:1751
 #, fuzzy
@@ -11807,7 +11686,7 @@ msgstr "অটোসেভ নথিপত্ৰ &quot;{0}&quot;-এ সংৰ�
 #: ../composer/mail-composer.error.xml.h:12
 #, fuzzy
 msgid "Directories can not be attached to Messages."
-msgstr "বাৰ্তাৰ সৈতে কোনো ডিৰেক্টৰি সংযুক্ত কৰা যাবে না।"
+msgstr "বাৰ্তাৰ সৈতে কোনো পঞ্জিকা সংযুক্ত কৰা যাবে না।"
 
 #: ../composer/mail-composer.error.xml.h:13
 #, fuzzy
@@ -11856,8 +11735,8 @@ msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
-"এই ডিৰেক্টৰিৰ বস্তুসমূহ সংযুক্ত কৰোঁতে হলে, প্ৰত্যেকটি নথিপত্ৰ আলাদাভাবে যোগ কৰক অথবা "
-"ডিৰেক্টৰিটিৰ এটা আৰ্কাইভ তৈৰি কৰে তা যুক্ত কৰক।"
+"এই পঞ্জিকাৰ বস্তুসমূহ সংযুক্ত কৰোঁতে হলে, প্ৰত্যেকটি নথিপত্ৰ আলাদাভাবে যোগ কৰক অথবা "
+"পঞ্জিকাটিৰ এটা আৰ্কাইভ তৈৰি কৰে তা যুক্ত কৰক।"
 
 #: ../composer/mail-composer.error.xml.h:21
 #, fuzzy
@@ -11869,7 +11748,7 @@ msgid ""
 msgstr ""
 "HTML সম্পাদকেৰ নিয়ন্ত্ৰন সক্ৰিয় কৰা নাযায়।\n"
 "\n"
-"gtkhtml এবং libgtkhtml এৰ সঠিক সংস্কৰণ ইনস্টল কৰা আছে কিনা তা অনুগ্ৰহ কৰে পৰীক্ষা "
+"gtkhtml এবং libgtkhtml এৰ সঠিক সংস্কৰণ সংস্থাপন কৰা আছে কিনা তা অনুগ্ৰহ কৰে পৰীক্ষা "
 "কৰক।"
 
 #: ../composer/mail-composer.error.xml.h:24
@@ -11880,7 +11759,7 @@ msgstr "ঠিকনা নিৰ্বাচনেৰ নিয়ন্ত্ৰ�
 #: ../composer/mail-composer.error.xml.h:25
 #, fuzzy
 msgid "Unfinished messages found"
-msgstr "অসমাপ্ত বাৰ্তা পাওয়া গেছে"
+msgstr "অসমাপ্ত বাৰ্তা পোৱা গেছে"
 
 #: ../composer/mail-composer.error.xml.h:26
 #, fuzzy
@@ -12677,7 +12556,7 @@ msgstr "ধাৰন কৰে"
 #: ../mail/em-filter-i18n.h:8
 #, fuzzy
 msgid "Copy to Folder"
-msgstr "পঞ্জিকাে কপি কৰক"
+msgstr "পঞ্জিকাে নকল কৰক"
 
 #: ../mail/em-filter-i18n.h:9
 #, fuzzy
@@ -13149,7 +13028,7 @@ msgstr "%s পঞ্জিকাটি সৰিয়ে ফেলা হৈছে
 #, c-format
 #, fuzzy
 msgid "Copying folder %s"
-msgstr "%s পঞ্জিকাটি কপি কৰা হৈছে"
+msgstr "%s পঞ্জিকাটি নকল কৰা হৈছে"
 
 #: ../mail/em-folder-tree.c:890 ../mail/message-list.c:1867
 #, c-format
@@ -13161,7 +13040,7 @@ msgstr "%s পঞ্জিকাে বাৰ্তা সৰিয়ে নেও
 #, c-format
 #, fuzzy
 msgid "Copying messages into folder %s"
-msgstr "%s পঞ্জিকাে বাৰ্তা কপি কৰা হৈছে"
+msgstr "%s পঞ্জিকাে বাৰ্তা নকল কৰা হৈছে"
 
 #: ../mail/em-folder-tree.c:908
 #, fuzzy
@@ -13171,7 +13050,7 @@ msgstr "উপৰেৰ স্তৰেৰ সংগ্ৰহস্থলে ব
 #: ../mail/em-folder-tree.c:986 ../ui/evolution-mail-message.xml.h:105
 #, fuzzy
 msgid "_Copy to Folder"
-msgstr "উল্লিখিত পঞ্জিকাে কপি কৰক (_C)"
+msgstr "উল্লেখিত পঞ্জিকাে নকল কৰক (_C)"
 
 #: ../mail/em-folder-tree.c:987 ../ui/evolution-mail-message.xml.h:118
 #, fuzzy
@@ -13201,7 +13080,7 @@ msgstr "নতুন উইন্ডোতে খোলো (_N)"
 #: ../mail/em-folder-tree.c:2102
 #, fuzzy
 msgid "_Copy..."
-msgstr "কপি কৰক (_C)..."
+msgstr "নকল কৰক (_C)..."
 
 #: ../mail/em-folder-tree.c:2103
 #, fuzzy
@@ -13238,7 +13117,7 @@ msgstr "আবৰ্জনা ফাঁকা কৰা হ'ব (_E)"
 #, c-format
 #, fuzzy
 msgid "Copying `%s' to `%s'"
-msgstr "`%s',`%s'-এ কপি কৰা হৈছে"
+msgstr "`%s',`%s'-এ নকল কৰা হৈছে"
 
 #: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1114
 #: ../mail/em-folder-view.c:1129
@@ -13250,7 +13129,7 @@ msgstr "পঞ্জিকা নিৰ্বাচন কৰক"
 #: ../mail/em-folder-utils.c:369 ../mail/em-folder-view.c:1129
 #, fuzzy
 msgid "C_opy"
-msgstr "কপি কৰক (_o)"
+msgstr "নকল কৰক (_o)"
 
 #: ../mail/em-folder-utils.c:590
 #: ../plugins/groupwise-features/share-folder-common.c:145
@@ -13313,7 +13192,7 @@ msgstr "এই পঞ্জিকাে সৰিয়ে ফেলুন (_M)..."
 #: ../mail/em-folder-view.c:1236
 #, fuzzy
 msgid "_Copy to Folder..."
-msgstr "এই পঞ্জিকাে কপি কৰক ... (_C)"
+msgstr "এই পঞ্জিকাে নকল কৰক ... (_C)"
 
 #: ../mail/em-folder-view.c:1239
 #, fuzzy
@@ -13323,7 +13202,7 @@ msgstr "পড়া হৈছে হিসাবে চিহ্নিত কৰ�
 #: ../mail/em-folder-view.c:1240
 #, fuzzy
 msgid "Mark as _Unread"
-msgstr "পড়া-হয়নি হিসাবে চিহ্নিত কৰা হ'ব(_U)"
+msgstr "পড়া-হোৱা নাই হিসাবে চিহ্নিত কৰা হ'ব(_U)"
 
 #: ../mail/em-folder-view.c:1241
 #, fuzzy
@@ -13348,7 +13227,7 @@ msgstr "অনাকাঙ্ক্ষিত নহয় হিসাবে চি
 #: ../mail/em-folder-view.c:1245
 #, fuzzy
 msgid "Mark for Follo_w Up..."
-msgstr "উল্লিখিত সময় অবধি."
+msgstr "উল্লেখিত সময় অবধি."
 
 #: ../mail/em-folder-view.c:1247
 #, fuzzy
@@ -13426,7 +13305,7 @@ msgstr "অবিকল্পিত"
 #: ../mail/em-folder-view.c:2355
 #, fuzzy
 msgid "Unable to retrieve message"
-msgstr " বাৰ্তা উদ্ধাৰ কৰা সম্ভব হয়নি"
+msgstr " বাৰ্তা উদ্ধাৰ কৰা সম্ভব হোৱা নাই"
 
 #: ../mail/em-folder-view.c:2374
 #, fuzzy
@@ -13446,12 +13325,12 @@ msgstr "অনুসন্ধানেৰ পঞ্জিকা নিৰ্ম�
 #: ../mail/em-folder-view.c:2606
 #, fuzzy
 msgid "_From this Address"
-msgstr "উল্লিখিত ঠিকনা ৰ পৰা প্ৰাপ্ত(_F)"
+msgstr "উল্লেখিত ঠিকনা ৰ পৰা প্ৰাপ্ত(_F)"
 
 #: ../mail/em-folder-view.c:2607
 #, fuzzy
 msgid "_To this Address"
-msgstr "উল্লিখিত ঠিকনায় প্ৰেৰিত (_T)"
+msgstr "উল্লেখিত ঠিকনায় প্ৰেৰিত (_T)"
 
 #: ../mail/em-folder-view.c:2982
 #, c-format
@@ -13508,7 +13387,7 @@ msgstr "স্বাক্ষৰিত নহয়"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr "এই বাৰ্তাটি ডিজিটালি স্বাক্ষৰিত নহয়। এই বাৰ্তাটিৰ সত্যতা প্ৰমানিত হয়নি।"
+msgstr "এই বাৰ্তাটি ডিজিটালি স্বাক্ষৰিত নহয়। এই বাৰ্তাটিৰ সত্যতা প্ৰমানিত হোৱা নাই।"
 
 #: ../mail/em-format-html-display.c:939 ../mail/em-format-html.c:636
 #, fuzzy
@@ -13533,13 +13412,13 @@ msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
-"এই বাৰ্তাটিৰ স্বাক্ষৰটি পৰীক্ষা কৰা সম্ভব হয়নি, সম্ভবত যাত্ৰাকালে এতে পৰিবৰ্তন কৰা "
+"এই বাৰ্তাটিৰ স্বাক্ষৰটি পৰীক্ষা কৰা সম্ভব হোৱা নাই, সম্ভবত যাত্ৰাকালে এতে পৰিবৰ্তন কৰা "
 "হৈছে।"
 
 #: ../mail/em-format-html-display.c:941 ../mail/em-format-html.c:638
 #, fuzzy
 msgid "Valid signature, but cannot verify sender"
-msgstr "স্বাক্ষৰ বৈধ কিন্তু প্ৰেৰকেৰ পৰিচয় প্ৰমাণিত হয়নি"
+msgstr "স্বাক্ষৰ বৈধ কিন্তু প্ৰেৰকেৰ পৰিচয় প্ৰমাণিত হোৱা নাই"
 
 #: ../mail/em-format-html-display.c:941
 #, fuzzy
@@ -13548,7 +13427,7 @@ msgid ""
 "cannot be verified."
 msgstr ""
 "এই বাৰ্তাটি এটা বৈধ স্বাক্ষৰসহ স্বাক্ষৰিত হৈছে, কিন্তু প্ৰেৰকেৰ পৰিচয় নিশ্চিতায়ন "
-"কৰা সম্ভব হয়নি।"
+"কৰা সম্ভব হোৱা নাই।"
 
 #: ../mail/em-format-html-display.c:942 ../mail/em-format-html.c:639
 #, fuzzy
@@ -13573,7 +13452,7 @@ msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"এই বাৰ্তাটি এনক্ৰিপ্ট কৰা হয়নি।  ইন্টাৰনেটেৰ মাধ্যমে যাত্ৰাকালে এতে অন্তৰ্ভুক্ত বস্তু "
+"এই বাৰ্তাটি এনক্ৰিপ্ট কৰা হোৱা নাই।  ইন্টাৰনেটেৰ মাধ্যমে যাত্ৰাকালে এতে অন্তৰ্ভুক্ত বস্তু "
 "প্ৰত্যক্ষ কৰা সম্ভব।"
 
 #: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:646
@@ -13876,12 +13755,12 @@ msgstr "%s সংযুক্ত বস্তু"
 #: ../mail/em-format.c:1164
 #, fuzzy
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "S/MIME বাৰ্তা পাৰ্স কৰা সম্ভব হয়নি: অজানা সমস্যা"
+msgstr "S/MIME বাৰ্তা পাৰ্স কৰা সম্ভব হোৱা নাই: অজানা সমস্যা"
 
 #: ../mail/em-format.c:1301 ../mail/em-format.c:1457
 #, fuzzy
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "MIME বাৰ্তা পাৰ্স কৰা সম্ভব হয়নি। উত্স হিসাবে প্ৰদৰ্শিত হ'ব।"
+msgstr "MIME বাৰ্তা পাৰ্স কৰা সম্ভব হোৱা নাই। উত্স হিসাবে প্ৰদৰ্শিত হ'ব।"
 
 #: ../mail/em-format.c:1309
 #, fuzzy
@@ -13891,12 +13770,12 @@ msgstr "মাল্টিপাৰ্ট/এনক্ৰিপ্টকৃত�
 #: ../mail/em-format.c:1319
 #, fuzzy
 msgid "Could not parse PGP/MIME message"
-msgstr "PGP/MIME বাৰ্তা পাৰ্স কৰা সম্ভব হয়নি"
+msgstr "PGP/MIME বাৰ্তা পাৰ্স কৰা সম্ভব হোৱা নাই"
 
 #: ../mail/em-format.c:1319
 #, fuzzy
 msgid "Could not parse PGP/MIME message: Unknown error"
-msgstr "PGP/MIME বাৰ্তা পাৰ্স কৰা সম্ভব হয়নি: অজানা সমস্যা"
+msgstr "PGP/MIME বাৰ্তা পাৰ্স কৰা সম্ভব হোৱা নাই: অজানা সমস্যা"
 
 #: ../mail/em-format.c:1476
 #, fuzzy
@@ -13921,7 +13800,7 @@ msgstr "PGP বাৰ্তা পাৰ্স কৰোঁতে ব্যৰ�
 #: ../mail/em-format.c:1626
 #, fuzzy
 msgid "Could not parse PGP message: Unknown error"
-msgstr "PGP বাৰ্তা পাৰ্স কৰা সম্ভব হয়নি: অজানা সমস্যা"
+msgstr "PGP বাৰ্তা পাৰ্স কৰা সম্ভব হোৱা নাই: অজানা সমস্যা"
 
 #: ../mail/em-mailer-prefs.c:105
 #, fuzzy
@@ -13948,14 +13827,14 @@ msgstr "প্ৰতি মাসে একবাৰ"
 #, c-format
 #, fuzzy
 msgid "%s plugin is available and the binary is installed."
-msgstr "%s প্লাগ-ইন উপলব্ধ ও বাইনাৰি ইনস্টল কৰা হৈছে।"
+msgstr "%s প্লাগ-ইন উপলব্ধ ও বাইনাৰি সংস্থাপন কৰা হৈছে।"
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:797 ../mail/em-mailer-prefs.c:852
 #, c-format
 #, fuzzy
 msgid "%s plugin is not available. Please check whether the package is installed."
-msgstr "%s প্লাগ-ইন উপলব্ধ নহয়। অনুগ্ৰহ কৰে পৰীক্ষা কৰক প্যাকেজটি ইনস্টল কৰা হৈছে কি না।"
+msgstr "%s প্লাগ-ইন উপলব্ধ নহয়। অনুগ্ৰহ কৰে পৰীক্ষা কৰক প্যাকেজটি সংস্থাপন কৰা হৈছে কি না।"
 
 #: ../mail/em-mailer-prefs.c:818
 #, fuzzy
@@ -13985,13 +13864,13 @@ msgstr "নতুন পঞ্জিকা `%s' তৈৰি কৰা নায
 #, c-format
 #, fuzzy
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "পঞ্জিকা `%s' -কে `%s' -এ কপি কৰা নাযায়: %s"
+msgstr "পঞ্জিকা `%s' -কে `%s' -এ নকল কৰা নাযায়: %s"
 
 #: ../mail/em-migrate.c:1861
 #, c-format
 #, fuzzy
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "`%s' এ উপস্থিত মেইলবক্স অনুসন্ধান কৰা সম্ভব হয়নি: %s"
+msgstr "`%s' এ উপস্থিত মেইলবক্স অনুসন্ধান কৰা সম্ভব হোৱা নাই: %s"
 
 #: ../mail/em-migrate.c:2065
 #, c-format
@@ -14003,13 +13882,13 @@ msgstr "পুৰোনো, POP সেৱকে-সংৰক্ষণ-কৰা-
 #, c-format
 #, fuzzy
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "POP3 সেৱকে-সংৰক্ষণ-কৰা-হ'ব ডাটা ডিৰেক্টৰি `%s' তৈৰি কৰোঁতে ব্যৰ্থ: %s"
+msgstr "POP3 সেৱকে-সংৰক্ষণ-কৰা-হ'ব ডাটা পঞ্জিকা `%s' তৈৰি কৰোঁতে ব্যৰ্থ: %s"
 
 #: ../mail/em-migrate.c:2108
 #, c-format
 #, fuzzy
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "POP3 সেৱকে-সংৰক্ষণ-কৰা-হ'ব ডাটা `%s' কপি কৰোঁতে ব্যৰ্থ: %s"
+msgstr "POP3 সেৱকে-সংৰক্ষণ-কৰা-হ'ব ডাটা `%s' নকল কৰোঁতে ব্যৰ্থ: %s"
 
 #: ../mail/em-migrate.c:2579 ../mail/em-migrate.c:2591
 #, c-format
@@ -14029,7 +13908,7 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
-"পূৰ্ববৰ্তী Evolution ইনস্টলেশনেৰ বৈশিষ্ট্যাবলী পড়া সম্ভব হয়নি, `evolution/config."
+"পূৰ্ববৰ্তী Evolution সংস্থাপনেশনেৰ বৈশিষ্ট্যাবলী পড়া সম্ভব হোৱা নাই, `evolution/config."
 "xmldb' সম্ভবত উপস্থিত নাই অথবা ক্ষতিগ্ৰস্থ হৈছে।"
 
 #: ../mail/em-popup.c:570 ../mail/em-popup.c:581
@@ -14051,7 +13930,7 @@ msgstr "ঠিকনা বহিয়ে যোগ কৰক (_A)"
 #: ../mail/em-subscribe-editor.c:603
 #, fuzzy
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "এই সংৰক্ষণস্থলে সাবস্ক্ৰিপশন সমৰ্থিত নহয় অথবা সক্ৰিয় কৰা হয়নি।"
+msgstr "এই সংৰক্ষণস্থলে সাবস্ক্ৰিপশন সমৰ্থিত নহয় অথবা সক্ৰিয় কৰা হোৱা নাই।"
 
 #: ../mail/em-subscribe-editor.c:633
 #, fuzzy
@@ -14072,7 +13951,7 @@ msgstr "অনুগ্ৰহ কৰে এটা সেৱক নিৰ্ব�
 #: ../mail/em-subscribe-editor.c:858
 #, fuzzy
 msgid "No server has been selected"
-msgstr "কোনো সেৱক নিৰ্বাচন কৰা হয়নি"
+msgstr "কোনো সেৱক নিৰ্বাচন কৰা হোৱা নাই"
 
 #: ../mail/em-utils.c:120
 #, fuzzy
@@ -14215,7 +14094,7 @@ msgstr "উত্তৰ লেখাৰ অবিকল্পিত বিন্
 #: ../mail/evolution-mail.schemas.in.h:20
 #, fuzzy
 msgid "Default value for thread expand state"
-msgstr "অবিকল্পিত উল্লিখিত সময় অবধি প্ৰসাৰণ"
+msgstr "অবিকল্পিত উল্লেখিত সময় অবধি প্ৰসাৰণ"
 
 #: ../mail/evolution-mail.schemas.in.h:21
 #, fuzzy
@@ -14235,7 +14114,7 @@ msgstr "সাবস্ক্ৰাইব উইন্ডোৰ অবিকল�
 #: ../mail/evolution-mail.schemas.in.h:24
 #, fuzzy
 msgid "Directory for saving mail component files"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../mail/evolution-mail.schemas.in.h:25
 #, fuzzy
@@ -14361,7 +14240,7 @@ msgstr "লেবেলেৰ তালিকা এবং তাদেৰ স�
 #: ../mail/evolution-mail.schemas.in.h:46
 #, fuzzy
 msgid "List of accepted licenses"
-msgstr "গৃহীত অনুমতিৰ তালিকা"
+msgstr "ঘৰীত অনুমতিৰ তালিকা"
 
 #: ../mail/evolution-mail.schemas.in.h:47
 #, fuzzy
@@ -14375,7 +14254,7 @@ msgid ""
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
 "Evolution-ৰ মেইল কম্পোনেন্টেৰ পৰিচিত অ্যাকাউন্টেৰ তালিকা। এই তালিকায় /apps/"
-"evolution/mail/accounts-এৰ আপেক্ষায় সাবডিৰেক্টৰিসমূহৰ নাম লেখা আছে।"
+"evolution/mail/accounts-এৰ আপেক্ষায় সাবপঞ্জিকাসমূহৰ নাম লেখা আছে।"
 
 #: ../mail/evolution-mail.schemas.in.h:49
 #, fuzzy
@@ -14399,7 +14278,7 @@ msgstr "বোনোবো কম্পোনেন্ট প্ৰদৰ্শ�
 #: ../mail/evolution-mail.schemas.in.h:52
 #, fuzzy
 msgid "List of protocol names whose license has been accepted."
-msgstr "যে সব প্ৰোটোকলেৰ তালিকা গৃহীত হৈছে তাৰ নামেৰ তালিকা।"
+msgstr "যে সব প্ৰোটোকলেৰ তালিকা ঘৰীত হৈছে তাৰ নামেৰ তালিকা।"
 
 #: ../mail/evolution-mail.schemas.in.h:53
 #, fuzzy
@@ -14512,7 +14391,7 @@ msgstr "ঠিকনা"
 #: ../mail/evolution-mail.schemas.in.h:73
 #, fuzzy
 msgid "Prompt on empty subject"
-msgstr "কোনো বিষয় না উল্লিখিত না হলে সতৰ্কবাণী প্ৰদৰ্শন কৰবে"
+msgstr "কোনো বিষয় না উল্লেখিত না হলে সতৰ্কবাণী প্ৰদৰ্শন কৰবে"
 
 #: ../mail/evolution-mail.schemas.in.h:74
 #, fuzzy
@@ -14589,12 +14468,12 @@ msgstr "অন্তৰ্মূখী মেইলে জঞ্জাল পৰ
 #: ../mail/evolution-mail.schemas.in.h:87
 #, fuzzy
 msgid "Save directory"
-msgstr "সংৰক্ষণেৰ ডিৰেক্টৰি"
+msgstr "সংৰক্ষণেৰ পঞ্জিকা"
 
 #: ../mail/evolution-mail.schemas.in.h:88
 #, fuzzy
 msgid "Search for the sender photo in local addressbooks"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../mail/evolution-mail.schemas.in.h:89
 #, fuzzy
@@ -14686,7 +14565,7 @@ msgstr "টেক্সট বাৰ্তা"
 #: ../mail/evolution-mail.schemas.in.h:108
 #, fuzzy
 msgid "The default plugin for Junk hook"
-msgstr "উল্লিখিত সময় অবধি অনাকাঙ্ক্ষিত"
+msgstr "উল্লেখিত সময় অবধি অনাকাঙ্ক্ষিত"
 
 #: ../mail/evolution-mail.schemas.in.h:109
 #, fuzzy
@@ -14728,7 +14607,7 @@ msgstr "হলো হলো."
 msgid ""
 "This key is read only once and reset to false after read. This unselects the "
 "mail in the list and removes the preview for that folder."
-msgstr "হলো পৰে তালিকা উল্লিখিত সময় অবধি."
+msgstr "হলো পৰে তালিকা উল্লেখিত সময় অবধি."
 
 #: ../mail/evolution-mail.schemas.in.h:116
 #, fuzzy
@@ -15031,16 +14910,16 @@ msgstr[1] "%d টি প্ৰেৰিত"
 #, fuzzy
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] "%d টি প্ৰেৰিত হয়নি"
-msgstr[1] "%d টি প্ৰেৰিত হয়নি"
+msgstr[0] "%d টি প্ৰেৰিত হোৱা নাই"
+msgstr[1] "%d টি প্ৰেৰিত হোৱা নাই"
 
 #: ../mail/mail-component.c:545
 #, c-format
 #, fuzzy
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] ", %d-টি পড়া হয়নি"
-msgstr[1] ", %d-টি পড়া হয়নি"
+msgstr[0] ", %d-টি পড়া হোৱা নাই"
+msgstr[1] ", %d-টি পড়া হোৱা নাই"
 
 #: ../mail/mail-component.c:546
 #, c-format
@@ -15633,7 +15512,7 @@ msgstr "গুপ্তশব্দ মনে ৰাখবে (_p)"
 #: ../mail/mail-config.glade.h:121
 #, fuzzy
 msgid "S_earch for sender photograph only in local addressbooks"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../mail/mail-config.glade.h:122
 #, fuzzy
@@ -15750,7 +15629,7 @@ msgstr "ধৰন(_y): "
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr "এই স্থানে প্ৰদৰ্শিত ভাষাৰ তালিকায় উপস্থিত ভাষাসমূহৰ বাবে অভিধান ইনস্টল কৰা হৈছে।"
+msgstr "এই স্থানে প্ৰদৰ্শিত ভাষাৰ তালিকায় উপস্থিত ভাষাসমূহৰ বাবে অভিধান সংস্থাপন কৰা হৈছে।"
 
 #: ../mail/mail-config.glade.h:147
 #, fuzzy
@@ -15992,7 +15871,7 @@ msgstr "লাইসেন্স সংক্ৰান্ত চুক্তি�
 #: ../mail/mail-dialogs.glade.h:16
 #, fuzzy
 msgid "None Selected"
-msgstr "কিছু বাছাই কৰা হয়নি"
+msgstr "কিছু বাছাই কৰা হোৱা নাই"
 
 #: ../mail/mail-dialogs.glade.h:17
 #, fuzzy
@@ -16014,7 +15893,7 @@ msgstr "সুনিৰ্দিষ্ট পঞ্জিকা"
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
-msgstr "উল্লিখিত সময় অবধি."
+msgstr "উল্লেখিত সময় অবধি."
 
 #: ../mail/mail-dialogs.glade.h:23
 #, fuzzy
@@ -16057,7 +15936,7 @@ msgstr "মেইল আহৰণ কৰা হৈছে"
 #, c-format
 #, fuzzy
 msgid "Failed to apply outgoing filters: %s"
-msgstr "বহিৰ্গমন সম্বন্ধীয় ফিল্টাৰ প্ৰয়োগ কৰা সম্ভব হয়নি: %s"
+msgstr "বহিৰ্গমন সম্বন্ধীয় ফিল্টাৰ প্ৰয়োগ কৰা সম্ভব হোৱা নাই: %s"
 
 #: ../mail/mail-ops.c:578 ../mail/mail-ops.c:607
 #, c-format
@@ -16073,7 +15952,7 @@ msgstr ""
 #, c-format
 #, fuzzy
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "স্থানীয় 'প্ৰেৰিত বাৰ্তা' -ৰ পঞ্জিকাে লেখা সম্ভব হয়নি: %s"
+msgstr "স্থানীয় 'প্ৰেৰিত বাৰ্তা' -ৰ পঞ্জিকাে লেখা সম্ভব হোৱা নাই: %s"
 
 #: ../mail/mail-ops.c:736
 #, c-format
@@ -16112,7 +15991,7 @@ msgstr "%s এ বাৰ্তা সৰিয়ে নেওয়া হৈছে"
 #, c-format
 #, fuzzy
 msgid "Copying messages to %s"
-msgstr "%s এ বাৰ্তা কপি কৰা হৈছে"
+msgstr "%s এ বাৰ্তা নকল কৰা হৈছে"
 
 #: ../mail/mail-ops.c:1170
 #, fuzzy
@@ -16220,14 +16099,14 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
-"আউটপুট নথিপত্ৰ  তৈৰি কৰা সম্ভব হয়নি: %s:\n"
+"আউটপুট নথিপত্ৰ  তৈৰি কৰা সম্ভব হোৱা নাই: %s:\n"
 " %s"
 
 #: ../mail/mail-ops.c:2114
 #, c-format
 #, fuzzy
 msgid "Could not write data: %s"
-msgstr "ডাটা লেখা সম্ভব হয়নি: %s"
+msgstr "ডাটা লেখা সম্ভব হোৱা নাই: %s"
 
 #: ../mail/mail-ops.c:2263
 #, c-format
@@ -16330,7 +16209,7 @@ msgstr "নাম:"
 #, c-format
 #, fuzzy
 msgid "Could not create spool directory `%s': %s"
-msgstr "`%s' স্পুল ডিৰেক্টৰিটি তৈৰি কৰা নাযায়: %s"
+msgstr "`%s' স্পুল পঞ্জিকাটি তৈৰি কৰা নাযায়: %s"
 
 #: ../mail/mail-tools.c:150
 #, c-format
@@ -16359,7 +16238,7 @@ msgstr "অবৈধ পঞ্জিকা: `%s'"
 #, c-format
 #, fuzzy
 msgid "Setting up Search Folder: %s"
-msgstr "উল্লিখিত অনুসন্ধান পঞ্জিকা স্থাপন কৰা হৈছে: %s"
+msgstr "উল্লেখিত অনুসন্ধান পঞ্জিকা স্থাপন কৰা হৈছে: %s"
 
 #: ../mail/mail-vfolder.c:240
 #, c-format
@@ -16513,7 +16392,7 @@ msgstr "অনুসন্ধানেৰ পঞ্জিকা &quot;{0}&quot; 
 #: ../mail/mail.error.xml.h:23
 #, fuzzy
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "পঞ্জিকা &quot;{0}&quot;, &quot;{1}&quot;-এ কপি কৰা সম্ভব নহয়।"
+msgstr "পঞ্জিকা &quot;{0}&quot;, &quot;{1}&quot;-এ নকল কৰা সম্ভব নহয়।"
 
 #: ../mail/mail.error.xml.h:24
 #, fuzzy
@@ -16523,12 +16402,12 @@ msgstr "পঞ্জিকা &quot;{0}&quot; নিৰ্মাণ কৰা �
 #: ../mail/mail.error.xml.h:25
 #, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "অস্থায়ী সংৰক্ষণেৰ ডিৰেক্টৰি তৈৰি কৰা সম্ভব হয়নি।"
+msgstr "অস্থায়ী সংৰক্ষণেৰ পঞ্জিকা তৈৰি কৰা সম্ভব হোৱা নাই।"
 
 #: ../mail/mail.error.xml.h:26
 #, fuzzy
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr "&quot;{1}&quot;-ৰ দৰুন সংৰক্ষণেৰ ডিৰেক্টৰি নিৰ্মাণ কৰা নাযায়"
+msgstr "&quot;{1}&quot;-ৰ দৰুন সংৰক্ষণেৰ পঞ্জিকা নিৰ্মাণ কৰা নাযায়"
 
 #: ../mail/mail.error.xml.h:27
 #, fuzzy
@@ -16572,7 +16451,7 @@ msgid ""
 "problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"ইনস্টলেশন জড়িত সমস্যাৰ বাবে &quot;{0}&quot; লাইসেন্স নথিপত্ৰটি পড়া সম্ভব হয়নি।  "
+"সংস্থাপনেশন জড়িত সমস্যাৰ বাবে &quot;{0}&quot; লাইসেন্স নথিপত্ৰটি পড়া সম্ভব হোৱা নাই।  "
 "লাইসেন্স গ্ৰহণ না কৰা অবধি আপনি এই উপলব্ধকাৰীৰ সেৱা ব্যৱহাৰ কৰোঁতে সক্ষম হ'বন না।"
 
 #: ../mail/mail.error.xml.h:35
@@ -16593,7 +16472,7 @@ msgstr "অ্যাকাউন্টে পৰিবৰ্তন সংৰক�
 #: ../mail/mail.error.xml.h:38
 #, fuzzy
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "ডিৰেক্টৰি &quot;{0}&quot;-তে সংৰক্ষণ কৰোঁতে ব্যৰ্থ।"
+msgstr "পঞ্জিকা &quot;{0}&quot;-তে সংৰক্ষণ কৰোঁতে ব্যৰ্থ।"
 
 #: ../mail/mail.error.xml.h:39
 #, fuzzy
@@ -16618,7 +16497,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:42
 #, fuzzy
 msgid "Could not save signature file."
-msgstr "স্বাক্ষৰেৰ নথিপত্ৰটি সংৰক্ষণ কৰা সম্ভব হয়নি।"
+msgstr "স্বাক্ষৰেৰ নথিপত্ৰটি সংৰক্ষণ কৰা সম্ভব হোৱা নাই।"
 
 #: ../mail/mail.error.xml.h:43
 #, fuzzy
@@ -16660,7 +16539,7 @@ msgstr "সাব-পঞ্জিকােৰ মধ্যেও কি এই �
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
-msgstr "উল্লিখিত সময় অবধি?"
+msgstr "উল্লেখিত সময় অবধি?"
 
 #: ../mail/mail.error.xml.h:51
 #, fuzzy
@@ -16788,7 +16667,7 @@ msgstr "অনুপস্থিত পঞ্জিকা।"
 #: ../mail/mail.error.xml.h:75
 #, fuzzy
 msgid "No sources selected."
-msgstr "কোনো উত্স বাছাই কৰা হয়নি।"
+msgstr "কোনো উত্স বাছাই কৰা হোৱা নাই।"
 
 #: ../mail/mail.error.xml.h:76
 #, fuzzy
@@ -16989,7 +16868,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:116
 #, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr "এই স্বাক্ষৰটি পৰিবৰ্তন কৰা হৈছে, কিন্তু সংৰক্ষণ কৰা হয়নি।"
+msgstr "এই স্বাক্ষৰটি পৰিবৰ্তন কৰা হৈছে, কিন্তু সংৰক্ষণ কৰা হোৱা নাই।"
 
 #: ../mail/mail.error.xml.h:117
 #, fuzzy
@@ -17037,7 +16916,7 @@ msgstr "আপনি সকল প্ৰয়োজনীয় তথ্য পু�
 #: ../mail/mail.error.xml.h:125
 #, fuzzy
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "প্ৰেৰিত হয়নি এমন বাৰ্তা আছে, আপনি কি প্ৰস্থান কৰোঁতে ইচ্ছুক?"
+msgstr "প্ৰেৰিত হোৱা নাই এমন বাৰ্তা আছে, আপনি কি প্ৰস্থান কৰোঁতে ইচ্ছুক?"
 
 #: ../mail/mail.error.xml.h:126
 #, fuzzy
@@ -17103,7 +16982,7 @@ msgstr "বৰ্তমান পঞ্জিকা ও সাব-পঞ্জ�
 #: ../mail/message-list.c:1022
 #, fuzzy
 msgid "Unseen"
-msgstr "পড়া হয়নি"
+msgstr "পড়া হোৱা নাই"
 
 #: ../mail/message-list.c:1023
 #, fuzzy
@@ -17210,7 +17089,7 @@ msgstr ""
 #: ../mail/message-list.etspec.h:10
 #, fuzzy
 msgid "Received"
-msgstr "গৃহীত"
+msgstr "ঘৰীত"
 
 #: ../mail/message-list.etspec.h:14
 #, fuzzy
@@ -17317,7 +17196,7 @@ msgstr "সংযুক্ত বস্তু"
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
-msgstr "তালিকা উল্লিখিত সময় অবধি সংযুক্ত বস্তু উল্লিখিত সময় অবধি বাৰ্তা"
+msgstr "তালিকা উল্লেখিত সময় অবধি সংযুক্ত বস্তু উল্লেখিত সময় অবধি বাৰ্তা"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:452
 #, fuzzy
@@ -17344,7 +17223,7 @@ msgstr "সংযুক্ত বস্তু"
 msgid ""
 "Looks for clues in a message for mention of attachments and warns if the "
 "attachment is missing"
-msgstr "উল্লিখিত সময় অবধি বাৰ্তা উল্লিখিত সময় অবধি সংযুক্ত বস্তু হলো"
+msgstr "উল্লেখিত সময় অবধি বাৰ্তা উল্লেখিত সময় অবধি সংযুক্ত বস্তু হলো"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 #, fuzzy
@@ -17804,13 +17683,13 @@ msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
 msgstr ""
-"ক্লিপবোৰ্ডে বিষয়বস্তু কপি কৰাৰ উদ্দেশ্যে এটা প'পআপ তালিকা প্লাগ-ইন প্ৰদৰ্শন কৰোঁতে ব্যৱহৃত "
+"ক্লিপবোৰ্ডে বিষয়বস্তু নকল কৰাৰ উদ্দেশ্যে এটা প'পআপ তালিকা প্লাগ-ইন প্ৰদৰ্শন কৰোঁতে ব্যৱহৃত "
 "এটা পৰীক্ষামূলক প্লাগ-ইন।"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
 #, fuzzy
 msgid "Copy tool"
-msgstr "কপি কৰাৰ সৰঞ্জাম"
+msgstr "নকল কৰাৰ সৰঞ্জাম"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 #, fuzzy
@@ -18018,7 +17897,7 @@ msgstr "০ কিলোবাইট"
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
-msgstr "Evolution হলো এখন উল্লিখিত সময় অবধি."
+msgstr "Evolution হলো এখন উল্লেখিত সময় অবধি."
 
 #. User entered a wrong existing
 #. * password. Prompt him again.
@@ -18137,7 +18016,7 @@ msgstr ""
 #, c-format
 #, fuzzy
 msgid "You have been designated as a delegate for %s"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
 #, fuzzy
@@ -18153,18 +18032,18 @@ msgstr "%s প্ৰতিনিধিকে অপসাৰণ কৰা হ'�
 #: ../plugins/exchange-operations/exchange-delegates.c:704
 #, fuzzy
 msgid "Could not access Active Directory"
-msgstr "সক্ৰিয় ডিৰেক্টৰিটি ব্যৱহাৰ কৰা নাযায়"
+msgstr "সক্ৰিয় পঞ্জিকাটি ব্যৱহাৰ কৰা নাযায়"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:716
 #, fuzzy
 msgid "Could not find self in Active Directory"
-msgstr "সক্ৰিয় ডিৰেক্টৰিৰ মধ্যে নিজেকে পাওয়া নাযায়"
+msgstr "সক্ৰিয় পঞ্জিকাৰ মধ্যে নিজেকে পোৱা নাযায়"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:729
 #, c-format
 #, fuzzy
 msgid "Could not find delegate %s in Active Directory"
-msgstr "সক্ৰিয় ডিৰেক্টৰিৰ মধ্যে %s প্ৰতিনিধিকে পাওয়া নাযায়"
+msgstr "সক্ৰিয় পঞ্জিকাৰ মধ্যে %s প্ৰতিনিধিকে পোৱা নাযায়"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:741
 #, c-format
@@ -18208,7 +18087,7 @@ msgstr "প্ৰতিনিধি"
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 #, fuzzy
 msgid "Permissions for"
-msgstr "উল্লিখিত বস্তুৰ বাবে অনুমতি"
+msgstr "উল্লেখিত বস্তুৰ বাবে অনুমতি"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
 #, fuzzy
@@ -18364,7 +18243,7 @@ msgstr "গুপ্তশব্দ পৰিবৰ্তন কৰক (_C)"
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
 #, fuzzy
 msgid "(Permission denied.)"
-msgstr "(অনুমতি প্ৰদান কৰা হয়নি।)"
+msgstr "(অনুমতি প্ৰদান কৰা হোৱা নাই।)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 #, fuzzy
@@ -18489,12 +18368,12 @@ msgstr "স্বাভাবিক"
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 #, fuzzy
 msgid "Request a _delivery receipt for this message"
-msgstr "উল্লিখিত সময় অবধি বাৰ্তা"
+msgstr "উল্লেখিত সময় অবধি বাৰ্তা"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:13
 #, fuzzy
 msgid "Request a _read receipt for this message"
-msgstr "উল্লিখিত সময় অবধি বাৰ্তা"
+msgstr "উল্লেখিত সময় অবধি বাৰ্তা"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:14
 #, fuzzy
@@ -18573,7 +18452,7 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 #, fuzzy
 msgid "Could not authenticate to server."
-msgstr "সেৱকে অনুমোদন কৰা সম্ভব হয়নি।"
+msgstr "সেৱকে অনুমোদন কৰা সম্ভব হোৱা নাই।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 #, fuzzy
@@ -18604,12 +18483,12 @@ msgstr "সেৱক {0}-ৰ সৈতে সংযোগ স্থাপন ক
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 #, fuzzy
 msgid "Could not determine folder permissions for delegates."
-msgstr "প্ৰতিনিধিদেৰ বাবে পঞ্জিকা সংক্ৰান্ত অনুমতি নিৰ্ধাৰণ কৰা সম্ভব হয়নি।"
+msgstr "প্ৰতিনিধিদেৰ বাবে পঞ্জিকা সংক্ৰান্ত অনুমতি নিৰ্ধাৰণ কৰা সম্ভব হোৱা নাই।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 #, fuzzy
 msgid "Could not find Exchange Web Storage System."
-msgstr "Exchange ওয়েব স্টোৰেজ ব্যৱস্থা খুঁজে পাওয়া নাযায়।"
+msgstr "Exchange ওয়েব স্টোৰেজ ব্যৱস্থা খুঁজে পোৱা নাযায়।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 #, fuzzy
@@ -18624,12 +18503,12 @@ msgstr "{0}-কে প্ৰতিনিধিৰূপে চিহ্নিত
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 #, fuzzy
 msgid "Could not read folder permissions"
-msgstr "পঞ্জিকা সংক্ৰান্ত অনুমতি পড়া সম্ভব হয়নি"
+msgstr "পঞ্জিকা সংক্ৰান্ত অনুমতি পড়া সম্ভব হোৱা নাই"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
 #, fuzzy
 msgid "Could not read folder permissions."
-msgstr "পঞ্জিকা সংক্ৰান্ত অনুমতি পড়া সম্ভব হয়নি।"
+msgstr "পঞ্জিকা সংক্ৰান্ত অনুমতি পড়া সম্ভব হোৱা নাই।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 #, fuzzy
@@ -18666,7 +18545,7 @@ msgid ""
 "\n"
 "{0}\n"
 "  "
-msgstr "উপৰ হলো উল্লিখিত সময় অবধি Evolution "
+msgstr "উপৰ হলো উল্লেখিত সময় অবধি Evolution "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 #, fuzzy
@@ -18716,12 +18595,12 @@ msgstr "{0}-ৰ মেইলবক্স এই সেৱকেৰ মধ্য�
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 #, fuzzy
 msgid "Make sure the URL is correct and try again."
-msgstr "URL-টি সঠিকৰূপে উল্লিখিত হৈছে কিনা পৰীক্ষা কৰে পুনৰায় প্ৰচেষ্টা কৰক।"
+msgstr "URL-টি সঠিকৰূপে উল্লেখিত হৈছে কিনা পৰীক্ষা কৰে পুনৰায় প্ৰচেষ্টা কৰক।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 #, fuzzy
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr "সেৱকেৰ নামেৰ বানান সঠিকৰূপে উল্লিখিত হৈছে কিনা পৰীক্ষা কৰে পুনৰায় প্ৰচেষ্টা কৰক।"
+msgstr "সেৱকেৰ নামেৰ বানান সঠিকৰূপে উল্লেখিত হৈছে কিনা পৰীক্ষা কৰে পুনৰায় প্ৰচেষ্টা কৰক।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 #, fuzzy
@@ -18731,7 +18610,7 @@ msgstr "ব্যৱহাৰকৰোঁতাৰ নাম ও গুপ্ত
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 #, fuzzy
 msgid "No Global Catalog server configured for this account."
-msgstr "এই অ্যাকাউন্টেৰ বাবে কোনো Global Catalog সেৱক বিন্যাস কৰা হয়নি"
+msgstr "এই অ্যাকাউন্টেৰ বাবে কোনো Global Catalog সেৱক বিন্যাস কৰা হোৱা নাই"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 #, fuzzy
@@ -19014,7 +18893,7 @@ msgstr "ফৰওয়াৰ্ড"
 #: ../plugins/groupwise-features/install-shared.c:220
 #, fuzzy
 msgid "Install the shared folder"
-msgstr "শেয়াৰ কৰা পঞ্জিকা ইনস্টল কৰক"
+msgstr "শেয়াৰ কৰা পঞ্জিকা সংস্থাপন কৰক"
 
 #: ../plugins/groupwise-features/install-shared.c:222
 #, fuzzy
@@ -19518,7 +19397,7 @@ msgstr "'%s' বৰ্ষপঞ্জিৰ এটা সাক্ষাৎক�
 #, c-format
 #, fuzzy
 msgid "Found the appointment in the calendar '%s'"
-msgstr "'%s' বৰ্ষপঞ্জিৰ মধ্যে সাক্ষাৎকাৰ পাওয়া গিয়েছে"
+msgstr "'%s' বৰ্ষপঞ্জিৰ মধ্যে সাক্ষাৎকাৰ পোৱা গৈছে"
 
 #: ../plugins/itip-formatter/itip-formatter.c:671
 #, fuzzy
@@ -19528,7 +19407,7 @@ msgstr "বৰ্ষপঞ্জি সনাক্ত কৰোঁতে ব্
 #: ../plugins/itip-formatter/itip-formatter.c:678
 #, fuzzy
 msgid "Unable to find this meeting in any calendar"
-msgstr "কোনো বৰ্ষপঞ্জিৰ মধ্যে এই সাক্ষাৎকাৰ পাওয়া নাযায়"
+msgstr "কোনো বৰ্ষপঞ্জিৰ মধ্যে এই সাক্ষাৎকাৰ পোৱা নাযায়"
 
 #: ../plugins/itip-formatter/itip-formatter.c:682
 #, fuzzy
@@ -19543,12 +19422,12 @@ msgstr "কোনো মেমো তালিকায় এই মেমো স�
 #: ../plugins/itip-formatter/itip-formatter.c:759
 #, fuzzy
 msgid "Searching for an existing version of this appointment"
-msgstr "অনুসন্ধান উল্লিখিত সময় অবধি"
+msgstr "অনুসন্ধান উল্লেখিত সময় অবধি"
 
 #: ../plugins/itip-formatter/itip-formatter.c:922
 #, fuzzy
 msgid "Unable to parse item"
-msgstr "বস্তু পাৰ্স কৰা সম্ভব হয়নি"
+msgstr "বস্তু পাৰ্স কৰা সম্ভব হোৱা নাই"
 
 #: ../plugins/itip-formatter/itip-formatter.c:980
 #, c-format
@@ -19560,7 +19439,7 @@ msgstr "'%s' বৰ্ষপঞ্জিতে বস্তু প্ৰেৰ�
 #, c-format
 #, fuzzy
 msgid "Sent to calendar '%s' as accepted"
-msgstr "'%s' বৰ্ষপঞ্জিতে গৃহীত হিসাবে প্ৰেৰণ কৰা হৈছে"
+msgstr "'%s' বৰ্ষপঞ্জিতে ঘৰীত হিসাবে প্ৰেৰণ কৰা হৈছে"
 
 #: ../plugins/itip-formatter/itip-formatter.c:996
 #, c-format
@@ -19599,7 +19478,7 @@ msgstr "প্ৰতিনিধিৰ উদ্দেশ্যে বাতি�
 #: ../plugins/itip-formatter/itip-formatter.c:1194
 #, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "অবৈধ মান হওয়াৰ দৰুন অংশগ্ৰহনকাৰীৰ অবস্থা আপডেট কৰা সম্ভব হয়নি"
+msgstr "অবৈধ মান হওয়াৰ দৰুন অংশগ্ৰহনকাৰীৰ অবস্থা আপডেট কৰা সম্ভব হোৱা নাই"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1221
 #, c-format
@@ -19903,7 +19782,7 @@ msgstr "উপৰ<b></b>"
 #, c-format
 #, fuzzy
 msgid "Received on behalf of <b>%s</b>"
-msgstr "গৃহীত উপৰ<b></b>"
+msgstr "ঘৰীত উপৰ<b></b>"
 
 #: ../plugins/itip-formatter/itip-view.c:356
 #, c-format
@@ -20289,7 +20168,7 @@ msgstr "সভাটি বন্টন কৰা হৈছে"
 #, fuzzy
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
-"বৰ্তমানে উপস্থিত কোনো অংশগ্ৰহণকাৰীৰ ৰ পৰা এই প্ৰত্যূত্তৰটি প্ৰাপ্ত কৰাৰ হয়নি।  নতুন "
+"বৰ্তমানে উপস্থিত কোনো অংশগ্ৰহণকাৰীৰ ৰ পৰা এই প্ৰত্যূত্তৰটি প্ৰাপ্ত কৰাৰ হোৱা নাই।  নতুন "
 "অংশগ্ৰহণকাৰী হিসাবে যোগ কৰা হ'ব কি?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -20530,7 +20409,7 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
-"কৰ্ম সঞ্চালন কৰা সম্ভব হয়নি। সম্ভবত সংশ্লিষ্ট কৰ্মেৰ হেডাৰে আমাদেৰ পক্ষে সঞ্চালনযোগ্য "
+"কৰ্ম সঞ্চালন কৰা সম্ভব হোৱা নাই। সম্ভবত সংশ্লিষ্ট কৰ্মেৰ হেডাৰে আমাদেৰ পক্ষে সঞ্চালনযোগ্য "
 "কোনো কৰ্ম উপস্থিত ছিল না।\n"
 "\n"
 "হেডাৰ: {0}"
@@ -20542,7 +20421,7 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"চিহ্নিত বাৰ্তাৰ {0} হেডাৰটি সঠিক ৰূপে গঠিত হয়নি এবং এৰ সঞ্চালন কৰা সম্ভব হয়নি।\n"
+"চিহ্নিত বাৰ্তাৰ {0} হেডাৰটি সঠিক ৰূপে গঠিত হোৱা নাই এবং এৰ সঞ্চালন কৰা সম্ভব হোৱা নাই।\n"
 "\n"
 "হেডাৰ: {1}"
 
@@ -20551,7 +20430,7 @@ msgstr ""
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "উল্লিখিত কৰ্মেৰ বাবে প্ৰযোজ্য হেডাৰেৰ তথ্য এই বাৰ্তাৰ মধ্যে উপস্থিত ছিল না।"
+msgstr "উল্লেখিত কৰ্মেৰ বাবে প্ৰযোজ্য হেডাৰেৰ তথ্য এই বাৰ্তাৰ মধ্যে উপস্থিত ছিল না।"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 #, fuzzy
@@ -20636,7 +20515,7 @@ msgstr "বাৰ্তা পড়া-হৈছে হিসাবে চিহ�
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 #, fuzzy
 msgid "Used for marking all the messages under a folder as read"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 #, fuzzy
@@ -21476,7 +21355,7 @@ msgid ""
 msgstr ""
 "Evolution-ৰ দ্বাৰা নিম্নলিখিত অ্যাপ্লিকেশনসমূহ ৰ পৰা ইম্পোৰ্ট প্ৰক্ৰিয়া চালানোৰ\n"
 "বৈশিষ্ট্য পৰীক্ষা কৰা হৈছে: Pine, Netscape, Elm, iCalender। অনুসন্ধানেৰ\n"
-"স্থানে কোনো ইম্পোৰ্টযোগ্য বৈশিষ্ট্য পাওয়া নাযায়। পুনৰায়\n"
+"স্থানে কোনো ইম্পোৰ্টযোগ্য বৈশিষ্ট্য পোৱা নাযায়। পুনৰায়\n"
 "চেষ্টা কৰোঁতে ইচ্ছুক হলে অনুগ্ৰহ কৰে \"পূৰ্বাবস্থা\" বুটামটি টিপুন।\n"
 
 #: ../shell/e-shell-importer.c:288
@@ -21512,7 +21391,7 @@ msgstr "Evolution সংক্ৰান্ত পছন্দ"
 #: ../shell/e-shell-utils.c:118
 #, fuzzy
 msgid "No folder name specified."
-msgstr "কোনো পঞ্জিকােৰ নাম উল্লেখ কৰা হয়নি।"
+msgstr "কোনো পঞ্জিকােৰ নাম উল্লেখ কৰা হোৱা নাই।"
 
 #: ../shell/e-shell-utils.c:125
 #, fuzzy
@@ -21537,7 +21416,7 @@ msgstr "'.' এবং '..' পঞ্জিকােৰ নামসমূহ স
 #: ../shell/e-shell-window-commands.c:77
 #, fuzzy
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "গহনোম পাইলট টুলসমূহ সম্ভবত এই সিস্টেমে ইনস্টল কৰা হয়নি।"
+msgstr "গহনোম পাইলট টুলসমূহ সম্ভবত এই সিস্টেমে সংস্থাপন কৰা হোৱা নাই।"
 
 #: ../shell/e-shell-window-commands.c:85
 #, c-format
@@ -21548,7 +21427,7 @@ msgstr "%s চালাতে সমস্যা হৈছে।"
 #: ../shell/e-shell-window-commands.c:141
 #, fuzzy
 msgid "Bug buddy is not installed."
-msgstr "বাগ-বাডি ইনস্টল কৰা হয়নি।"
+msgstr "বাগ-বাডি সংস্থাপন কৰা হোৱা নাই।"
 
 #: ../shell/e-shell-window-commands.c:144
 #, fuzzy
@@ -21633,7 +21512,7 @@ msgstr "OAF-এ ৰেজিস্টাৰ কৰা নাযায়"
 #: ../shell/e-shell.c:1278
 #, fuzzy
 msgid "Configuration Database not found"
-msgstr "বিন্যাসেশনেৰ ডাটাবেস পাওয়া নাযায়"
+msgstr "বিন্যাসেশনেৰ ডাটাবেস পোৱা নাযায়"
 
 #: ../shell/e-user-creatable-items-handler.c:678
 #: ../shell/e-user-creatable-items-handler.c:688
@@ -21728,10 +21607,10 @@ msgstr ""
 "ডাউনলোড কৰাৰ বাবে ধন্যবাদ।\n"
 "\n"
 "Evolution-ৰ এই ভাৰ্সানটি সম্পূৰ্ণ নহয়। এৰ কিছু বৈশিষ্ট্য সম্পন্ন কৰা\n"
-"হয়নি অথবা সঠিকভাবে কাৰ্যকৰী নহয়।\n"
+"হোৱা নাই অথবা সঠিকভাবে কাৰ্যকৰী নহয়।\n"
 "\n"
 "আপনি যদি Evolution-ৰ এটা স্থায়ী সংস্কৰণ ব্যৱহাৰ কৰোঁতে ইচ্ছুক থাকেন\n"
-"তাহলে এই সংস্কৰণ আন-ইনস্টল কৰে, %s সংস্কৰণ ইনস্টল কৰক।\n"
+"তাহলে এই সংস্কৰণ আন-সংস্থাপন কৰে, %s সংস্কৰণ সংস্থাপন কৰক।\n"
 "\n"
 "আপনি যদি কোনো বাগেৰ সম্মূখীন হয়ে থাকেন, তাহলে অনুগ্ৰহ কৰে তাৰ সূচনা bugzilla."
 "ximian.com-তে কৰক।\n"
@@ -21857,7 +21736,7 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"&quot;evolution&quot; ডিৰেক্টৰিৰ সমস্ত অন্তৰ্ভুক্ত বস্তু এখন স্থায়ীৰূপে মুছে ফেলা হ'ব।\n"
+"&quot;evolution&quot; পঞ্জিকাৰ সমস্ত অন্তৰ্ভুক্ত বস্তু এখন স্থায়ীৰূপে মুছে ফেলা হ'ব।\n"
 "\n"
 "পুৰোনো ডাটা মুছে ফেলাৰ পূৰ্বে আপোনাৰ সমস্ত মেইল, পৰিচিতি এবং বৰ্ষপঞ্জিৰ ডাটা উপস্থিত "
 "আছে কিনা, এবং Evolution-ৰ এই সংস্কৰণ সঠিকভাবে চলছে কিনা তা পৰীক্ষা কৰে নেওয়া "
@@ -21899,7 +21778,7 @@ msgstr ""
 "আপোনাৰ ডাটা এবং বৈশিষ্ট্যাবলী উন্নত কৰোঁতে হলে ডিস্কে {0} স্থান প্ৰয়োজন, কিন্তু আপোনাৰ "
 "ডিস্কে অকল {1} স্থান উপলব্ধ আছে।\n"
 "\n"
-"অগ্ৰসৰ হওয়াৰ পূৰ্বে, আপোনাৰ ব্যক্তিগত ডিৰেক্টৰিতে অধিকতৰ স্থান উপলব্ধ কৰা আবশ্যক।"
+"অগ্ৰসৰ হওয়াৰ পূৰ্বে, আপোনাৰ ব্যক্তিগত পঞ্জিকাতে অধিকতৰ স্থান উপলব্ধ কৰা আবশ্যক।"
 
 #: ../shell/shell.error.xml.h:23
 #, fuzzy
@@ -22057,7 +21936,7 @@ msgstr "প্ৰমাণপত্ৰ প্ৰদৰ্শনকাৰী: %s"
 #: ../smime/gui/component.c:70
 #, fuzzy
 msgid "Enter new password for certificate database"
-msgstr "প্ৰমাণপত্ৰ ডিৰেক্টৰিৰ বাবে নতুন গুপ্তশব্দ লিখুন"
+msgstr "প্ৰমাণপত্ৰ পঞ্জিকাৰ বাবে নতুন গুপ্তশব্দ লিখুন"
 
 #: ../smime/gui/component.c:72
 #, fuzzy
@@ -22072,7 +21951,7 @@ msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
-"উল্লিখিত পৰিচিতিৰ উদ্দেশ্যে প্ৰকাশ কৰা হৈছে:\n"
+"উল্লেখিত পৰিচিতিৰ উদ্দেশ্যে প্ৰকাশ কৰা হৈছে:\n"
 "  বিষয়: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:122
@@ -22123,7 +22002,7 @@ msgstr "<b>প্ৰকাশক</b>"
 #: ../smime/gui/smime-ui.glade.h:7
 #, fuzzy
 msgid "<b>Issued To</b>"
-msgstr "<b>উল্লিখিত পৰিচিতিৰ উদ্দেশ্যে প্ৰকাশ কৰা হৈছে</b>"
+msgstr "<b>উল্লেখিত পৰিচিতিৰ উদ্দেশ্যে প্ৰকাশ কৰা হৈছে</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 #, fuzzy
@@ -22546,7 +22425,7 @@ msgstr "ইম্পোৰ্ট কৰা প্ৰমাণপত্ৰ"
 #, c-format
 #, fuzzy
 msgid "Could not execute '%s': %s\n"
-msgstr "'%s' চালানো সম্ভব হয়নি: %s\n"
+msgstr "'%s' চালানো সম্ভব হোৱা নাই: %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
@@ -22567,7 +22446,7 @@ msgstr "নিৰ্বাচিত পঞ্জিকােৰ বৈশিষ�
 #: ../ui/evolution-addressbook.xml.h:4
 #, fuzzy
 msgid "Co_py All Contacts To..."
-msgstr "সমস্ত পৰিচিতি চিহ্নিত স্থানে কপি কৰা হ'ব...(_p)"
+msgstr "সমস্ত পৰিচিতি চিহ্নিত স্থানে নকল কৰা হ'ব...(_p)"
 
 #: ../ui/evolution-addressbook.xml.h:5
 #, fuzzy
@@ -22579,27 +22458,27 @@ msgstr "পৰিচিতিৰ তথ্যেৰ পূৰ্বপ্ৰদ�
 #: ../ui/evolution-tasks.xml.h:2
 #, fuzzy
 msgid "Copy"
-msgstr "কপি কৰক"
+msgstr "নকল কৰক"
 
 #: ../ui/evolution-addressbook.xml.h:7
 #, fuzzy
 msgid "Copy Selected Contacts to Another Folder..."
-msgstr "নিৰ্বাচিত পৰিচিতিদেৰ তথ্য অন্য পঞ্জিকাে কপি কৰক..."
+msgstr "নিৰ্বাচিত পৰিচিতিদেৰ তথ্য অন্য পঞ্জিকাে নকল কৰক..."
 
 #: ../ui/evolution-addressbook.xml.h:8
 #, fuzzy
 msgid "Copy the contacts of the selected folder into another folder"
-msgstr "নিৰ্বাচিত পঞ্জিকােৰ মধ্যে অন্তৰ্ভুক্ত পৰিচিতি অন্য এটা পঞ্জিকাে কপি কৰক"
+msgstr "নিৰ্বাচিত পঞ্জিকােৰ মধ্যে অন্তৰ্ভুক্ত পৰিচিতি অন্য এটা পঞ্জিকাে নকল কৰক"
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 #, fuzzy
 msgid "Copy the selection"
-msgstr "নিৰ্বাচিত বস্তু কপি কৰক"
+msgstr "নিৰ্বাচিত বস্তু নকল কৰক"
 
 #: ../ui/evolution-addressbook.xml.h:10
 #, fuzzy
 msgid "Copy to Folder..."
-msgstr "পঞ্জিকাে কপি কৰক ..."
+msgstr "পঞ্জিকাে নকল কৰক ..."
 
 #: ../ui/evolution-addressbook.xml.h:11
 #, fuzzy
@@ -22768,12 +22647,12 @@ msgstr "কৰ্ম (_A)"
 #: ../ui/evolution-addressbook.xml.h:47
 #, fuzzy
 msgid "_Copy Contact to..."
-msgstr "চিহ্নিত স্থানে পৰিচিতি কপি কৰক...(_C)"
+msgstr "চিহ্নিত স্থানে পৰিচিতি নকল কৰক...(_C)"
 
 #: ../ui/evolution-addressbook.xml.h:48
 #, fuzzy
 msgid "_Copy Folder Contacts To"
-msgstr "পঞ্জিকােৰ পৰিচিতি নিৰ্বাচিত স্থানে কপি কৰা হ'ব (_C)"
+msgstr "পঞ্জিকােৰ পৰিচিতি নিৰ্বাচিত স্থানে নকল কৰা হ'ব (_C)"
 
 #: ../ui/evolution-addressbook.xml.h:50
 #, fuzzy
@@ -22793,7 +22672,7 @@ msgstr "পৰিচিতি চিহ্নিত অবস্থানে স
 #: ../ui/evolution-addressbook.xml.h:54
 #, fuzzy
 msgid "_Move Folder Contacts To"
-msgstr "পঞ্জিকােৰ মধ্যে উপস্থিত পৰিচিত চিহ্নিত স্থানে কপি কৰক (_M)"
+msgstr "পঞ্জিকােৰ মধ্যে উপস্থিত পৰিচিত চিহ্নিত স্থানে নকল কৰক (_M)"
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:49
 #, fuzzy
@@ -22970,12 +22849,12 @@ msgstr "সাক্ষাৎকাৰ খোলো(_O)"
 #: ../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:7
 #, fuzzy
 msgid "Copy selected text to the clipboard"
-msgstr "নিৰ্বাচিত টেক্সটটি ক্লিপবোৰ্ডে কপি কৰা হ'ব"
+msgstr "নিৰ্বাচিত টেক্সটটি ক্লিপবোৰ্ডে নকল কৰা হ'ব"
 
 #: ../ui/evolution-composer-entries.xml.h:3
 #, fuzzy
 msgid "Copy selection to clipboard"
-msgstr "নিৰ্বাচিত অংশ ক্লিপবোৰ্ডে কপি কৰা হ'ব"
+msgstr "নিৰ্বাচিত অংশ ক্লিপবোৰ্ডে নকল কৰা হ'ব"
 
 #: ../ui/evolution-composer-entries.xml.h:6 ../ui/evolution-editor.xml.h:9
 #, fuzzy
@@ -23105,7 +22984,7 @@ msgstr "সাৰ্বজনীন ৰূপে চিহ্নিত কৰা
 #: ../ui/evolution-event-editor.xml.h:7
 #, fuzzy
 msgid "Click here to set or unset alarms for this event"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 #, fuzzy
@@ -23249,7 +23128,7 @@ msgstr "বৰ্তমান মেইল অপাৰেশনটি বাত
 #: ../ui/evolution-mail-global.xml.h:3
 #, fuzzy
 msgid "Copy the selected folder into another folder"
-msgstr "নিৰ্বাচিত পঞ্জিকাটি অন্য এটা পঞ্জিকাে কপি কৰক"
+msgstr "নিৰ্বাচিত পঞ্জিকাটি অন্য এটা পঞ্জিকাে নকল কৰক"
 
 #: ../ui/evolution-mail-global.xml.h:4
 #, fuzzy
@@ -23269,7 +23148,7 @@ msgstr "নতুন মেইল ফিল্টাৰ কৰাৰ বাব�
 #: ../ui/evolution-mail-global.xml.h:7
 #, fuzzy
 msgid "Download messages for Offline"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../ui/evolution-mail-global.xml.h:8
 #, fuzzy
@@ -23279,7 +23158,7 @@ msgstr "অফ-লাইন ব্যৱহাৰেৰ বাবে বাৰ�
 #: ../ui/evolution-mail-global.xml.h:9
 #, fuzzy
 msgid "Download messages of accounts/folders marked for offline"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../ui/evolution-mail-global.xml.h:10
 #, fuzzy
@@ -23341,7 +23220,7 @@ msgstr "পাৰম্পৰিক প্ৰদৰ্শন(_C)"
 #: ../ui/evolution-mail-global.xml.h:22
 #, fuzzy
 msgid "_Copy Folder To..."
-msgstr "পঞ্জিকা কপি কৰাৰ স্থান (_C)..."
+msgstr "পঞ্জিকা নকল কৰাৰ স্থান (_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 #, fuzzy
@@ -23399,7 +23278,7 @@ msgstr "সমস্ত বাৰ্তাৰ থ্ৰেড সংকুচি
 #: ../ui/evolution-mail-list.xml.h:5
 #, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "নিৰ্বাচিত বাৰ্তা ক্লিপবোৰ্ডে কপি কৰক"
+msgstr "নিৰ্বাচিত বাৰ্তা ক্লিপবোৰ্ডে নকল কৰক"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:7
@@ -23490,7 +23369,7 @@ msgstr "সমগ্ৰ এবং বৰ্তমানে অনিৰ্বা
 #: ../ui/evolution-mail-list.xml.h:25
 #, fuzzy
 msgid "Select all messages in the same thread as the selected message"
-msgstr "নিৰ্বাচিত বাৰ্তাৰ বিষয় উল্লিখিত বাকি সমস্ত মেইল নিৰ্বাচন কৰক"
+msgstr "নিৰ্বাচিত বাৰ্তাৰ বিষয় উল্লেখিত বাকি সমস্ত মেইল নিৰ্বাচন কৰক"
 
 #: ../ui/evolution-mail-list.xml.h:26
 #, fuzzy
@@ -23587,12 +23466,12 @@ msgstr "নিৰ্বাচিত বাৰ্তাৰ প্ৰেৰকে�
 #: ../ui/evolution-mail-message.xml.h:12
 #, fuzzy
 msgid "Copy selected messages to another folder"
-msgstr "নিৰ্বাচিত বাৰ্তাসমূহ অন্য এটা পঞ্জিকাে কপি কৰক"
+msgstr "নিৰ্বাচিত বাৰ্তাসমূহ অন্য এটা পঞ্জিকাে নকল কৰক"
 
 #: ../ui/evolution-mail-message.xml.h:13
 #, fuzzy
 msgid "Copy selected messages to the clipboard"
-msgstr "নিৰ্বাচিত বাৰ্তা ক্লিপবোৰ্ডে কপি কৰক"
+msgstr "নিৰ্বাচিত বাৰ্তা ক্লিপবোৰ্ডে নকল কৰক"
 
 #: ../ui/evolution-mail-message.xml.h:14
 #, fuzzy
@@ -23617,7 +23496,7 @@ msgstr "চিহ্নিত প্ৰেৰকেৰ বাবে এটা �
 #: ../ui/evolution-mail-message.xml.h:18
 #, fuzzy
 msgid "Create a Search Folder for this subject"
-msgstr "উল্লিখিত বিষয়েৰ বাবে এটা অনুসন্ধান পঞ্জিকা নিৰ্মাণ কৰক"
+msgstr "উল্লেখিত বিষয়েৰ বাবে এটা অনুসন্ধান পঞ্জিকা নিৰ্মাণ কৰক"
 
 #: ../ui/evolution-mail-message.xml.h:19
 #, fuzzy
@@ -23637,7 +23516,7 @@ msgstr "এই মেইলিং তালিকাে প্ৰেৰিত �
 #: ../ui/evolution-mail-message.xml.h:22
 #, fuzzy
 msgid "Create a rule to filter messages with this subject"
-msgstr "এই বিষয় উল্লিখিত বাৰ্তাসমূহ ফিল্টাৰ কৰাৰ বাবে এটা নিয়ম তৈৰি কৰক"
+msgstr "এই বিষয় উল্লেখিত বাৰ্তাসমূহ ফিল্টাৰ কৰাৰ বাবে এটা নিয়ম তৈৰি কৰক"
 
 #: ../ui/evolution-mail-message.xml.h:23
 #, fuzzy
@@ -23717,7 +23596,7 @@ msgstr "নিৰ্বাচিত বাৰ্তাসমূহতে অন�
 #: ../ui/evolution-mail-message.xml.h:39
 #, fuzzy
 msgid "Flag selected messages for follow-up"
-msgstr "উল্লিখিত সময় অবধি"
+msgstr "উল্লেখিত সময় অবধি"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -23781,7 +23660,7 @@ msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে অন�
 #: ../ui/evolution-mail-message.xml.h:54
 #, fuzzy
 msgid "Mark the selected messages as not having been read"
-msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে পড়া-হয়নি হিসাবে চিহ্নিত কৰক"
+msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে পড়া-হোৱা নাই হিসাবে চিহ্নিত কৰক"
 
 #: ../ui/evolution-mail-message.xml.h:55
 #, fuzzy
@@ -24076,7 +23955,7 @@ msgstr "মুছে ফেলা বাৰ্তা পুনৰুদ্ধা
 #: ../ui/evolution-mail-message.xml.h:130
 #, fuzzy
 msgid "_Unread"
-msgstr "পড়া হয়নি(_U)"
+msgstr "পড়া হোৱা নাই(_U)"
 
 #: ../ui/evolution-mail-message.xml.h:131
 #, fuzzy
@@ -24101,7 +23980,7 @@ msgstr "প্ৰধান টুলবাৰ"
 #: ../ui/evolution-memos.xml.h:3
 #, fuzzy
 msgid "Copy selected memo"
-msgstr "নিৰ্বাচিত কৰ্মসূচী কপি কৰক"
+msgstr "নিৰ্বাচিত কৰ্মসূচী নকল কৰক"
 
 #: ../ui/evolution-memos.xml.h:5
 #, fuzzy
@@ -24492,7 +24371,7 @@ msgstr "অবস্থাৰ বিকল্প (_S)"
 #: ../ui/evolution-tasks.xml.h:3
 #, fuzzy
 msgid "Copy selected tasks"
-msgstr "নিৰ্বাচিত কৰ্ম কপি কৰক"
+msgstr "নিৰ্বাচিত কৰ্ম নকল কৰক"
 
 #: ../ui/evolution-tasks.xml.h:5
 #, fuzzy
@@ -24820,7 +24699,7 @@ msgstr "কাৰ্যসপ্তাহ ভিউ (_W)"
 #: ../views/mail/galview.xml.h:1
 #, fuzzy
 msgid "As Sent Folder for Wi_de View"
-msgstr "প্ৰেৰণ কৰা বস্তু পঞ্জিকা উল্লিখিত সময় অবধি ভিউ"
+msgstr "প্ৰেৰণ কৰা বস্তু পঞ্জিকা উল্লেখিত সময় অবধি ভিউ"
 
 #: ../views/mail/galview.xml.h:2
 #, fuzzy
@@ -25495,7 +25374,7 @@ msgstr ""
 #: ../widgets/misc/e-pilot-settings.c:103
 #, fuzzy
 msgid "Sync with:"
-msgstr "উল্লিখিত বস্তুৰ সৈতে সুসংগত কৰা হ'ব:"
+msgstr "উল্লেখিত বস্তুৰ সৈতে সুসংগত কৰা হ'ব:"
 
 #: ../widgets/misc/e-pilot-settings.c:111
 #, fuzzy
@@ -25784,7 +25663,7 @@ msgstr "প্ৰধান বিভাগেৰ তালিকা সম্প
 #: ../widgets/misc/gal-categories.glade.h:2
 #, fuzzy
 msgid "Item(s) belong to these _categories:"
-msgstr "বস্তুসমূহ উল্লিখিত শ্ৰেণীবিভাগেৰ অন্তৰ্গত(_c):"
+msgstr "বস্তুসমূহ উল্লেখিত শ্ৰেণীবিভাগেৰ অন্তৰ্গত(_c):"
 
 #: ../widgets/misc/gal-categories.glade.h:3
 #, fuzzy
@@ -25877,7 +25756,7 @@ msgstr "ডাঙৰ ৰ পৰা সৰু"
 #: ../widgets/table/e-table-config.glade.h:7
 #, fuzzy
 msgid "Group Items By"
-msgstr "বস্তু উল্লিখিত পৰিমাপ অনুযায়ী দলভুক্ত কৰা হ'ব"
+msgstr "বস্তু উল্লেখিত পৰিমাপ অনুযায়ী দলভুক্ত কৰা হ'ব"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
@@ -25919,7 +25798,7 @@ msgstr "ক্ৰমানুযায়ী বিন্যাস"
 #: ../widgets/table/e-table-config.glade.h:13
 #, fuzzy
 msgid "Sort Items By"
-msgstr "উল্লিখিত পৰিমাপ অনুযায়ী ক্ৰম"
+msgstr "উল্লেখিত পৰিমাপ অনুযায়ী ক্ৰম"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:16
 #: ../widgets/table/e-table-config.glade.h:14
@@ -25967,7 +25846,7 @@ msgstr "বিন্যস্ত নহয়"
 #: ../widgets/table/e-table-config.c:433
 #, fuzzy
 msgid "No grouping"
-msgstr "দল নিৰ্ধাৰিত হয়নি"
+msgstr "দল নিৰ্ধাৰিত হোৱা নাই"
 
 #: ../widgets/table/e-table-config.c:662
 #, fuzzy
@@ -25977,7 +25856,7 @@ msgstr "উপস্থিত ক্ষেত্ৰ"
 #: ../widgets/table/e-table-config.glade.h:17
 #, fuzzy
 msgid "_Group By..."
-msgstr "উল্লিখিত বিষয় অনুসাৰে দল নিৰ্মাণ (_G)..."
+msgstr "উল্লেখিত বিষয় অনুসাৰে দল নিৰ্মাণ (_G)..."
 
 #: ../widgets/table/e-table-config.glade.h:19
 #, fuzzy
