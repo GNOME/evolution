@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-11 03:26+0100\n"
-"PO-Revision-Date: 2007-09-11 13:25+0530\n"
+"PO-Revision-Date: 2007-09-11 13:46+0530\n"
 "Last-Translator: Amitakhya Phukan <aphukan@redhat.com>\n"
 "Language-Team: Assamese\n"
 "MIME-Version: 1.0\n"
@@ -1128,108 +1128,88 @@ msgstr ""
 "ব্যৱহাৰ গতি কম হৈ যাব ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"Evolution এই প্ৰক্ৰিয়ায় আপোনাৰ পৰিচয় প্ৰমাণ কৰবে।  লক্ষ কৰক যে, এৰ মান \"ই-মেইল "
-"ঠিকনা\" লেখা হলে এলড্যাপ (LDAP) সেৱকটিতে আপোনাৰ বেনামীভাবে প্ৰবেশেৰ অধিকাৰ "
-"থাকতে হ'ব।"
+"Evolution এ এই প্ৰক্ৰিয়াই আপোনাৰ পৰিচয় প্ৰমাণ কৰিব। মন কৰক যে, ইয়াৰ মান \"ই-মেইল "
+"ঠিকনা\" লিখা হলে LDAP সেৱকত আপোনাৰ বেনামীভাবে প্ৰবেশৰ প্ৰয়োজন হ'ব ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
-#, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
-msgstr ""
-"এই সেৱকটিৰ বাবে ইভোলিউশনেৰ পঞ্জিকা তালিকায় এই নামটি দেখা যাবে।নাম প্ৰদৰ্শন "
-"ব্যতীত এৰ আৰ কোনো ব্যৱহাৰ নাই। "
+msgstr "এই সেৱকৰ বাবে Evolution ৰ পঞ্জিকা তালিকাত এই নাম দেখা যাব । এইটো অকল নাম প্ৰদৰ্শনৰ বাবেহে । "
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
-#, fuzzy
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"এলড্যাপ (LDAP) সেৱকেৰ এই পোৰ্টটিতে Evolution সংযুক্ত হওয়াৰ চেষ্টা কৰবে। প্ৰমিত "
-"(Standard) পোৰ্টসমূহেৰ একটি তালিকা প্ৰদান কৰা হল। কোন পোৰ্টটি আপোনাৰ উল্লেখ কৰা "
-"উচিৎতা জানতে হলে আপোনাৰ সিস্টেম অ্যাডমিনস্ট্ৰেটৰকে জিজ্ঞাসা কৰক।"
+"LDAP সেৱকৰ এই পোৰ্টত Evolution এ সংযুক্ত হোৱাৰ চেষ্টা কৰিব। প্ৰমিত "
+"পোৰ্টসমূহৰ এখন তালিকা প্ৰদান কৰা হ'ল । কোন পোৰ্টত আপুনি উল্লেখ কৰা "
+"উচিৎ সেইটো জানিবলৈ আপোনাৰ ব্যৱস্থাপ্ৰণালীৰ পৰিচালকক সোধক ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
-#, fuzzy
 msgid "Using distinguished name (DN)"
-msgstr "Distinguished name ব্যৱহাৰ কৰা হৈছে (DN)"
+msgstr "বিশিষ্ট নাম ব্যৱহাৰ কৰা হৈছে (DN)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:47
-#, fuzzy
 msgid "Using email address"
-msgstr "ই-মেইল ঠিকনা ব্যৱহাৰ কৰে"
+msgstr "ই-মেইল ঠিকনা ব্যৱহাৰ কৰি"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:48
-#, fuzzy
 msgid "Whenever Possible"
-msgstr "যখন সম্ভব"
+msgstr "যেতিয়াই সম্ভব"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:49
-#, fuzzy
 msgid "_Add Address Book"
 msgstr "ঠিকনা বহি যোগ কৰক (_A)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "_Download limit:"
-msgstr "ডাউনলোডেৰ সীমা: (_D)"
+msgstr "ডাউনলোডৰ সীমা: (_D)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
-#, fuzzy
 msgid "_Find Possible Search Bases"
-msgstr "সম্ভাব্য অনুসন্ধানেৰ স্থান খোঁজ কৰক (_F)"
+msgstr "সম্ভাব্য অনুসন্ধানৰ স্থান বিচাৰক (_F)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
-#, fuzzy
 msgid "_Login method:"
-msgstr "লগ-ইন প্ৰক্ৰিয়া (_L):"
+msgstr "প্ৰৱেশ প্ৰক্ৰিয়া (_L):"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:171
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
-#, fuzzy
 msgid "_Name:"
 msgstr "নাম :(_N)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:54
-#, fuzzy
 msgid "_Port:"
 msgstr "পোৰ্ট: (_P)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:55
-#, fuzzy
 msgid "_Search scope:"
-msgstr "অনুসন্ধানেৰ ক্ষেত্ৰ: (_S)"
+msgstr "অনুসন্ধানৰ ক্ষেত্ৰ: (_S)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
 #: ../mail/mail-config.glade.h:178
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
-#, fuzzy
 msgid "_Server:"
 msgstr "সেৱক: (_S)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
-#, fuzzy
 msgid "_Timeout:"
 msgstr "সময়সীমা: (_T)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:58
-#, fuzzy
 msgid "_Use secure connection:"
 msgstr "সুৰক্ষিত সংযোগ ব্যৱহাৰ কৰক: (_U)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:59
-#, fuzzy
 msgid "cards"
 msgstr "কাৰ্ড"
 
@@ -1240,59 +1220,48 @@ msgstr "কাৰ্ড"
 #: ../mail/em-account-editor.c:2064
 #: ../plugins/calendar-http/calendar-http.c:288
 #: ../plugins/calendar-weather/calendar-weather.c:561
-#, fuzzy
 msgid "minutes"
 msgstr "মিনিট"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid "<b>Email</b>"
 msgstr "<b>ই-মেইল</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
-#, fuzzy
 msgid "<b>Home</b>"
 msgstr "<b>হোম</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
 msgid "<b>Instant Messaging</b>"
 msgstr "<b>ইনস্ট্যান্ট মেসেজিং</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
-#, fuzzy
 msgid "<b>Job</b>"
-msgstr "<b>কৰ্মস্থল</b>"
+msgstr "<b>কাম</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:5
-#, fuzzy
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>বিবিধ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
-#, fuzzy
 msgid "<b>Other</b>"
 msgstr "<b>অন্যান্য</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "<b>Telephone</b>"
-msgstr "<b>টেলিফোন</b>"
+msgstr "<b>দূৰভাষ</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
-#, fuzzy
 msgid "<b>Web Addresses</b>"
-msgstr "<b>ওয়েব ঠিকনা</b>"
+msgstr "<b>ওৱেব ঠিকনা</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
-#, fuzzy
 msgid "<b>Work</b>"
 msgstr "<b>কৰ্ম</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
 #: ../addressbook/gui/widgets/eab-contact-display.c:551
-#, fuzzy
 msgid "AIM"
 msgstr "AIM"
 
@@ -1301,7 +1270,6 @@ msgstr "AIM"
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:174
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:194
-#, fuzzy
 msgid "Contact"
 msgstr "পৰিচিতি"
 
@@ -1309,51 +1277,42 @@ msgstr "পৰিচিতি"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:551
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:566
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2425
-#, fuzzy
 msgid "Contact Editor"
 msgstr "পৰিচিতি সম্পাদক"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#, fuzzy
 msgid "Full _Name..."
 msgstr "সম্পূৰ্ণ নাম ...(_N)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
-#, fuzzy
 msgid "Image"
 msgstr "চিত্ৰ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:68
-#, fuzzy
 msgid "MSN Messenger"
-msgstr "MSN মেসেঞ্জাৰ"
+msgstr "MSN মেচেঞ্জাৰ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
-#, fuzzy
 msgid "Mailing Address"
 msgstr "চিঠি লেখাৰ ঠিকনা"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
-#, fuzzy
 msgid "Ni_ckname:"
-msgstr "ডাকনাম: (_c)"
+msgstr "সৰুনাম: (_c)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#, fuzzy
 msgid "Novell Groupwise"
-msgstr "Novell গ্ৰুপওয়াইস"
+msgstr "Novell Groupwise"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
-#, fuzzy
 msgid "Personal Information"
 msgstr "ব্যক্তিগত তথ্য"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
-#, fuzzy
 msgid "Telephone"
-msgstr "টেলিফোন"
+msgstr "দূৰভাষ"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
@@ -1363,28 +1322,23 @@ msgstr "টেলিফোন"
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
 #: ../filter/filter-label.c:121 ../mail/em-migrate.c:1055
 #: ../mail/mail-config.glade.h:158
-#, fuzzy
 msgid "Work"
 msgstr "কৰ্ম"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
-#, fuzzy
 msgid "_Address:"
 msgstr "ঠিকনা: (_A)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
-#, fuzzy
 msgid "_Anniversary:"
 msgstr "বাৰ্ষিকী:(_A)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
-#, fuzzy
 msgid "_Assistant:"
 msgstr "সহকাৰী:(_A)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Birthday:"
 msgstr "জন্মদিন:(_B)"
 
@@ -1392,123 +1346,100 @@ msgstr "জন্মদিন:(_B)"
 #: ../calendar/gui/dialogs/event-page.c:909
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1833
-#, fuzzy
 msgid "_Calendar:"
 msgstr "বৰ্ষপঞ্জি:(_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
-#, fuzzy
 msgid "_Categories..."
 msgstr "শ্ৰেণীবিভাগ...(_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "_City:"
-msgstr "শহৰ:(_C)"
+msgstr "চহৰ:(_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
-#, fuzzy
 msgid "_Company:"
 msgstr "কোম্পানি:(_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
-#, fuzzy
 msgid "_Country:"
 msgstr "দেশ:(_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "_Department:"
 msgstr "বিভাগ:(_D)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
-#, fuzzy
 msgid "_File under:"
-msgstr "এৰ মধ্যে নথিপত্ৰ কৰক: (_F)"
+msgstr "ইয়াত নথিভুক্ত কৰক: (_F)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
-#, fuzzy
 msgid "_Free/Busy:"
 msgstr "মুক্ত/ব্যস্ত(_F):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "_Home Page:"
 msgstr "হোম পেজ(_H):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_Manager:"
 msgstr "ম্যানেজাৰ(_M):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "_Notes:"
 msgstr "নোট(_N) :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
-#, fuzzy
 msgid "_Office:"
 msgstr "কাৰ্যালয়(_O) :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
-#, fuzzy
 msgid "_PO Box:"
 msgstr "পোস্ট বক্স (_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
-#, fuzzy
 msgid "_Profession:"
-msgstr "পেশা(_P):"
+msgstr "জীৱিকা(_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
-#, fuzzy
 msgid "_Spouse:"
 msgstr "স্বামী/স্ত্ৰী(_S):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
-#, fuzzy
 msgid "_State/Province:"
 msgstr "ৰাষ্ট্ৰ/প্ৰদেশ (_S):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fullname.glade.h:17
-#, fuzzy
 msgid "_Title:"
 msgstr "শিৰোনাম (_T):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
-#, fuzzy
 msgid "_Video Chat:"
 msgstr "ভিডিও চ্যাট(_V):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
-#, fuzzy
 msgid "_Wants to receive HTML mail"
-msgstr "HTML বিন্যাসেৰ মেইল প্ৰাপ্ত কৰতে ইচ্ছুক(_W)"
+msgstr "HTML মেইল প্ৰাপ্ত কৰিবলৈ ইচ্ছুক(_W)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
-#, fuzzy
 msgid "_Web Log:"
-msgstr "ওয়েব লগ(_W):"
+msgstr "ওৱেব লগ(_W):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
-#, fuzzy
 msgid "_Where:"
-msgstr "কোথায় (_W):"
+msgstr "ক'ত (_W):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
-#, fuzzy
 msgid "_Zip/Postal Code:"
 msgstr "জিপ/পোস্টাল কোড(_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:97
 #: ../addressbook/gui/widgets/eab-contact-display.c:577
 #: ../addressbook/gui/widgets/eab-contact-display.c:592
-#, fuzzy
 msgid "Address"
 msgstr "ঠিকনা"
 
@@ -1527,1217 +1458,974 @@ msgstr "ঠিকনা"
 #: ../widgets/table/e-cell-text.c:1831 ../widgets/text/e-entry.c:1258
 #: ../widgets/text/e-entry.c:1259 ../widgets/text/e-text.c:3681
 #: ../widgets/text/e-text.c:3682
-#, fuzzy
 msgid "Editable"
 msgstr "সম্পাদনযোগ্য"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
-#, fuzzy
 msgid "United States"
 msgstr "যুক্তৰাষ্ট্ৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
-#, fuzzy
 msgid "Afghanistan"
 msgstr "আফগানিস্থান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
-#, fuzzy
 msgid "Albania"
 msgstr "আলবানিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
-#, fuzzy
 msgid "Algeria"
 msgstr "আলজেৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
-#, fuzzy
 msgid "American Samoa"
 msgstr "আমেৰিকান সামোয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
-#, fuzzy
 msgid "Andorra"
 msgstr "এনডোৰা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
-#, fuzzy
 msgid "Angola"
 msgstr "অ্যাঙ্গোলা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
-#, fuzzy
 msgid "Anguilla"
 msgstr "অ্যাঙ্গুইল্লা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
-#, fuzzy
 msgid "Antarctica"
 msgstr "অ্যান্টাৰ্কটিকা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
-#, fuzzy
 msgid "Antigua And Barbuda"
 msgstr "অ্যান্টিগুয়া ও বাৰ্বুডা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
-#, fuzzy
 msgid "Argentina"
 msgstr "আৰ্জেনটিনা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
-#, fuzzy
 msgid "Armenia"
 msgstr "আৰ্মেনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
-#, fuzzy
 msgid "Aruba"
 msgstr "আৰুবা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
-#, fuzzy
 msgid "Australia"
 msgstr "অস্ট্ৰেলিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
-#, fuzzy
 msgid "Austria"
 msgstr "অস্ট্ৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
-#, fuzzy
 msgid "Azerbaijan"
 msgstr "আজাৰবাইজান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
-#, fuzzy
 msgid "Bahamas"
 msgstr "বাহামাস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
-#, fuzzy
 msgid "Bahrain"
 msgstr "বাহৰেন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
-#, fuzzy
 msgid "Bangladesh"
 msgstr "বাংলাদেশ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
-#, fuzzy
 msgid "Barbados"
 msgstr "বাৰবাডোস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
-#, fuzzy
 msgid "Belarus"
 msgstr "বেলাৰুস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
-#, fuzzy
 msgid "Belgium"
 msgstr "বেলজিয়াম"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
-#, fuzzy
 msgid "Belize"
 msgstr "বেলিজে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
-#, fuzzy
 msgid "Benin"
 msgstr "বেনিন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
-#, fuzzy
 msgid "Bermuda"
 msgstr "বাৰমুডা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
-#, fuzzy
 msgid "Bhutan"
 msgstr "ভুটান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
-#, fuzzy
 msgid "Bolivia"
 msgstr "বোলিভিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
-#, fuzzy
 msgid "Bosnia And Herzegowina"
 msgstr "বসনিয়া ও হাৰ্জেগোভিনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
-#, fuzzy
 msgid "Botswana"
 msgstr "বোতসোওয়ানা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
-#, fuzzy
 msgid "Bouvet Island"
 msgstr "বুভে দ্বীপ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
-#, fuzzy
 msgid "Brazil"
 msgstr "ব্ৰাজিল"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
-#, fuzzy
 msgid "British Indian Ocean Territory"
 msgstr "ব্ৰিটিশ দ্বীপ ওশান টেৰিটোৰি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
-#, fuzzy
 msgid "Brunei Darussalam"
 msgstr "ব্ৰুনাই দাৰুস্‌সালাম"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
-#, fuzzy
 msgid "Bulgaria"
 msgstr "বুলগাৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
-#, fuzzy
 msgid "Burkina Faso"
 msgstr "বাৰ্কিনা ফাসো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
-#, fuzzy
 msgid "Burundi"
 msgstr "বুৰুন্ডি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
-#, fuzzy
 msgid "Cambodia"
 msgstr "কম্বোডিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
-#, fuzzy
 msgid "Cameroon"
 msgstr "ক্যামেৰুন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
-#, fuzzy
 msgid "Canada"
 msgstr "কানাডা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
-#, fuzzy
 msgid "Cape Verde"
 msgstr "কেপ ভাৰ্দে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
-#, fuzzy
 msgid "Cayman Islands"
 msgstr "কেম্যান দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
-#, fuzzy
 msgid "Central African Republic"
 msgstr "সেন্ট্ৰাল আফ্ৰিকান ৰিপাবলিক"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:179
-#, fuzzy
 msgid "Chad"
 msgstr "চাদ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
-#, fuzzy
 msgid "Chile"
 msgstr "চিলি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
-#, fuzzy
 msgid "China"
 msgstr "চীন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
-#, fuzzy
 msgid "Christmas Island"
 msgstr "ক্ৰিস্টমাস দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
-#, fuzzy
 msgid "Cocos (Keeling) Islands"
 msgstr "কোকোস (কিলিং) দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
-#, fuzzy
 msgid "Colombia"
 msgstr "কোলোম্বিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
-#, fuzzy
 msgid "Comoros"
 msgstr "কোমোৰোস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
-#, fuzzy
 msgid "Congo"
 msgstr "কঙ্গো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
-#, fuzzy
 msgid "Congo, The Democratic Republic Of The"
 msgstr "গণ প্ৰজাতন্ত্ৰী কঙ্গো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
-#, fuzzy
 msgid "Cook Islands"
 msgstr "কুক দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
-#, fuzzy
 msgid "Costa Rica"
 msgstr "কোস্টা ৰিকা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
-#, fuzzy
 msgid "Cote d'Ivoire"
 msgstr "কটে ডি ভইৰে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
-#, fuzzy
 msgid "Croatia"
 msgstr "ক্ৰোয়েশিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
-#, fuzzy
 msgid "Cuba"
 msgstr "কিউবা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
-#, fuzzy
 msgid "Cyprus"
 msgstr "সাইপৰাস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
-#, fuzzy
 msgid "Czech Republic"
 msgstr "চেখ প্ৰজাতন্ত্ৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
-#, fuzzy
 msgid "Denmark"
 msgstr "ডেনমাৰ্ক"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
-#, fuzzy
 msgid "Djibouti"
 msgstr "জিবুতি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
-#, fuzzy
 msgid "Dominica"
 msgstr "ডমিনিকা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
-#, fuzzy
 msgid "Dominican Republic"
 msgstr "ডোমিনিকান প্ৰজাতন্ত্ৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:199
-#, fuzzy
 msgid "Ecuador"
 msgstr "ইকুয়েডৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
-#, fuzzy
 msgid "Egypt"
 msgstr "মিশৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
-#, fuzzy
 msgid "El Salvador"
 msgstr "এল সালভাডোৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
-#, fuzzy
 msgid "Equatorial Guinea"
 msgstr "ইকুয়েটোৰিয়াল গিনি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
-#, fuzzy
 msgid "Eritrea"
 msgstr "ইৰিত্ৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
-#, fuzzy
 msgid "Estonia"
 msgstr "এস্টোনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
-#, fuzzy
 msgid "Ethiopia"
 msgstr "ইথিওপিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
-#, fuzzy
 msgid "Falkland Islands"
 msgstr "ফকল্যান্ড দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
-#, fuzzy
 msgid "Faroe Islands"
 msgstr "ফাৰাও দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
-#, fuzzy
 msgid "Fiji"
 msgstr "ফিজি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
-#, fuzzy
 msgid "Finland"
 msgstr "ফিনল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
-#, fuzzy
 msgid "France"
 msgstr "ফ্ৰাঁন্স"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
-#, fuzzy
 msgid "French Guiana"
 msgstr "ফ্ৰেঞ্চ গায়ানা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
-#, fuzzy
 msgid "French Polynesia"
 msgstr "ফ্ৰেন্চ পলিনেশিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:213
-#, fuzzy
 msgid "French Southern Territories"
 msgstr "ফৰাসি দক্ষিণ অঞ্চল"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:214
-#, fuzzy
 msgid "Gabon"
 msgstr "গ্যাবন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
-#, fuzzy
 msgid "Gambia"
 msgstr "গাম্বিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
-#, fuzzy
 msgid "Georgia"
 msgstr "জৰ্জিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
-#, fuzzy
 msgid "Germany"
 msgstr "জাৰ্মানি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
-#, fuzzy
 msgid "Ghana"
 msgstr "ঘানা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
-#, fuzzy
 msgid "Gibraltar"
 msgstr "জিব্ৰাল্টাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
-#, fuzzy
 msgid "Greece"
 msgstr "গ্ৰীস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
-#, fuzzy
 msgid "Greenland"
 msgstr "গ্ৰিনল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
-#, fuzzy
 msgid "Grenada"
 msgstr "গ্ৰানাডা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
-#, fuzzy
 msgid "Guadeloupe"
 msgstr "গুয়েদুলুপ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
-#, fuzzy
 msgid "Guam"
 msgstr "গুয়াম"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
-#, fuzzy
 msgid "Guatemala"
 msgstr "গুয়াটেমালা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
-#, fuzzy
 msgid "Guernsey"
 msgstr "গুয়েৰ্নসে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
-#, fuzzy
 msgid "Guinea"
 msgstr "গিনি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
-#, fuzzy
 msgid "Guinea-bissau"
 msgstr "গিনি-বিসাউ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
-#, fuzzy
 msgid "Guyana"
 msgstr "গায়ানা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
-#, fuzzy
 msgid "Haiti"
 msgstr "হাইতি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
-#, fuzzy
 msgid "Heard And McDonald Islands"
 msgstr "হাৰ্ড ও ম্যাকডোনাল্ড দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
-#, fuzzy
 msgid "Holy See"
 msgstr "হোলি সি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
-#, fuzzy
 msgid "Honduras"
 msgstr "হোনডুৰাস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
-#, fuzzy
 msgid "Hong Kong"
 msgstr "হং কং"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
-#, fuzzy
 msgid "Hungary"
 msgstr "হাঙ্গেৰি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
-#, fuzzy
 msgid "Iceland"
 msgstr "আইসল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
-#, fuzzy
 msgid "India"
 msgstr "ভাৰত"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
-#, fuzzy
 msgid "Indonesia"
 msgstr "ইন্দোনেশিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:239
-#, fuzzy
 msgid "Iran"
 msgstr "ইৰান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
-#, fuzzy
 msgid "Iraq"
 msgstr "ইৰাক"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
-#, fuzzy
 msgid "Ireland"
 msgstr "আয়াৰল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
-#, fuzzy
 msgid "Isle of Man"
 msgstr "আইল অফ ম্যান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
-#, fuzzy
 msgid "Israel"
 msgstr "ইজৰায়েল"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
-#, fuzzy
 msgid "Italy"
 msgstr "ইটালি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
-#, fuzzy
 msgid "Jamaica"
 msgstr "জামাইকা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
-#, fuzzy
 msgid "Japan"
 msgstr "জাপান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
-#, fuzzy
 msgid "Jersey"
 msgstr "জাৰ্সি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
-#, fuzzy
 msgid "Jordan"
 msgstr "জৰ্ডান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
-#, fuzzy
 msgid "Kazakhstan"
 msgstr "কাজাখস্তান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
-#, fuzzy
 msgid "Kenya"
 msgstr "কেনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
-#, fuzzy
 msgid "Kiribati"
 msgstr "কিৰিবাতি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
-#, fuzzy
 msgid "Korea, Democratic People's Republic Of"
 msgstr "গণপ্ৰজাতন্ত্ৰী কোৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
-#, fuzzy
 msgid "Korea, Republic Of"
 msgstr "কোৰিয়ান প্ৰজাতন্ত্ৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
-#, fuzzy
 msgid "Kuwait"
 msgstr "কুয়েত"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
-#, fuzzy
 msgid "Kyrgyzstan"
 msgstr "কিৰঘিজিস্থান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
-#, fuzzy
 msgid "Laos"
 msgstr "লাওস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
-#, fuzzy
 msgid "Latvia"
 msgstr "লাটভিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
-#, fuzzy
 msgid "Lebanon"
 msgstr "লেবানন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
-#, fuzzy
 msgid "Lesotho"
 msgstr "লেসোথো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
-#, fuzzy
 msgid "Liberia"
 msgstr "লাইবেৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
-#, fuzzy
 msgid "Libya"
 msgstr "লিবিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
-#, fuzzy
 msgid "Liechtenstein"
 msgstr "লিখেনস্টাইন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
-#, fuzzy
 msgid "Lithuania"
 msgstr "লিথুয়েনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
-#, fuzzy
 msgid "Luxembourg"
 msgstr "লাক্সেমবুৰ্গ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
-#, fuzzy
 msgid "Macao"
 msgstr "ম্যাকাও"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
-#, fuzzy
 msgid "Macedonia"
 msgstr "মেসিডোনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
-#, fuzzy
 msgid "Madagascar"
 msgstr "মাদাগাস্কাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
-#, fuzzy
 msgid "Malawi"
 msgstr "মালাউয়ি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
-#, fuzzy
 msgid "Malaysia"
 msgstr "মালেশিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
-#, fuzzy
 msgid "Maldives"
 msgstr "মালদ্বীপ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
-#, fuzzy
 msgid "Mali"
 msgstr "মালি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
-#, fuzzy
 msgid "Malta"
 msgstr "মাল্টা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
-#, fuzzy
 msgid "Marshall Islands"
 msgstr "মাৰ্শাল দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
-#, fuzzy
 msgid "Martinique"
 msgstr "মাৰ্টিনিক"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
-#, fuzzy
 msgid "Mauritania"
 msgstr "মৌৰিটানিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
-#, fuzzy
 msgid "Mauritius"
 msgstr "মৰিশাস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
-#, fuzzy
 msgid "Mayotte"
 msgstr "মায়োতি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
-#, fuzzy
 msgid "Mexico"
 msgstr "মেক্সিকো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
-#, fuzzy
 msgid "Micronesia"
 msgstr "মাইক্ৰোনেশিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
-#, fuzzy
 msgid "Moldova, Republic Of"
 msgstr "মলদোভা প্ৰজাতন্ত্ৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
-#, fuzzy
 msgid "Monaco"
 msgstr "মোনাকো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
-#, fuzzy
 msgid "Mongolia"
 msgstr "মঙ্গোলিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
-#, fuzzy
 msgid "Montserrat"
 msgstr "মনসেৰাত"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
-#, fuzzy
 msgid "Morocco"
 msgstr "মৰোক্কো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
-#, fuzzy
 msgid "Mozambique"
 msgstr "মোজাম্বিক"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
-#, fuzzy
 msgid "Myanmar"
 msgstr "মায়ানমাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
-#, fuzzy
 msgid "Namibia"
 msgstr "নামিবিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
-#, fuzzy
 msgid "Nauru"
 msgstr "নাউৰু"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
-#, fuzzy
 msgid "Nepal"
 msgstr "নেপাল"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
-#, fuzzy
 msgid "Netherlands"
 msgstr "নেদাৰল্যান্ডস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
-#, fuzzy
 msgid "Netherlands Antilles"
 msgstr "নেদাৰল্যান্ড্‌স অ্যান্টিল্লা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
-#, fuzzy
 msgid "New Caledonia"
 msgstr "নিউ ক্যালিডোনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
-#, fuzzy
 msgid "New Zealand"
 msgstr "নিউজিল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
-#, fuzzy
 msgid "Nicaragua"
 msgstr "নিকাৰাগুয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
-#, fuzzy
 msgid "Niger"
 msgstr "নাইজাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
-#, fuzzy
 msgid "Nigeria"
 msgstr "নাইজেৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
-#, fuzzy
 msgid "Niue"
 msgstr "নিউ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
-#, fuzzy
 msgid "Norfolk Island"
 msgstr "নোৰফোল্ক দ্বীপ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
-#, fuzzy
 msgid "Northern Mariana Islands"
 msgstr "উত্তৰ মাৰিয়ানা দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
-#, fuzzy
 msgid "Norway"
 msgstr "নৰওয়ে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
-#, fuzzy
 msgid "Oman"
 msgstr "ওমান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
-#, fuzzy
 msgid "Pakistan"
 msgstr "পাকিস্তান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
-#, fuzzy
 msgid "Palau"
 msgstr "পালাউ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
-#, fuzzy
 msgid "Palestinian Territory"
 msgstr "ফিলিস্তিন ভূখন্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
-#, fuzzy
 msgid "Panama"
 msgstr "পানামা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
-#, fuzzy
 msgid "Papua New Guinea"
 msgstr "পাপুয়া নিউ গিনি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
-#, fuzzy
 msgid "Paraguay"
 msgstr "প্যাৰাগুয়ে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
-#, fuzzy
 msgid "Peru"
 msgstr "পেৰু"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
-#, fuzzy
 msgid "Philippines"
 msgstr "ফিলিপাইন্স"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
-#, fuzzy
 msgid "Pitcairn"
 msgstr "পিটকেয়াৰ্ন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
-#, fuzzy
 msgid "Poland"
 msgstr "পোল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
-#, fuzzy
 msgid "Portugal"
 msgstr "পোৰ্টুগাল"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
-#, fuzzy
 msgid "Puerto Rico"
 msgstr "পুয়েৰ্তো ৰিকো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
-#, fuzzy
 msgid "Qatar"
 msgstr "কাতাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
-#, fuzzy
 msgid "Reunion"
 msgstr "ৰিইউনিয়ন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
-#, fuzzy
 msgid "Romania"
 msgstr "ৰোমানিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
-#, fuzzy
 msgid "Russian Federation"
 msgstr "ৰুশ ফেডাৰেশন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
-#, fuzzy
 msgid "Rwanda"
 msgstr "ৰুয়ান্ডা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
-#, fuzzy
 msgid "Saint Kitts And Nevis"
 msgstr "সেন্ট কিট্‌স ও নেভিস"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
-#, fuzzy
 msgid "Saint Lucia"
 msgstr "সেন্ট লুসিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
-#, fuzzy
 msgid "Saint Vincent And The Grenadines"
 msgstr "সেন্ট ভিনসেন্ট ও গ্ৰেনাডাইন্স"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
-#, fuzzy
 msgid "Samoa"
 msgstr "সামোয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
-#, fuzzy
 msgid "San Marino"
 msgstr "সান মাৰিনো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
-#, fuzzy
 msgid "Sao Tome And Principe"
 msgstr "সাওতোমা ও প্ৰিন্সিপি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
-#, fuzzy
 msgid "Saudi Arabia"
 msgstr "সৌদি আৰব"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
-#, fuzzy
 msgid "Senegal"
 msgstr "সেনেগাল"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
-#, fuzzy
 msgid "Serbia And Montenegro"
 msgstr "সাৰ্বিয়া এবং মন্টেনিগ্ৰো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
-#, fuzzy
 msgid "Seychelles"
 msgstr "সেশিল্স"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
-#, fuzzy
 msgid "Sierra Leone"
 msgstr "সিয়েৰা লিওন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
-#, fuzzy
 msgid "Singapore"
 msgstr "সিঙ্গাপুৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
-#, fuzzy
 msgid "Slovakia"
 msgstr "স্লোভাকিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
-#, fuzzy
 msgid "Slovenia"
 msgstr "স্লোভেনিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
-#, fuzzy
 msgid "Solomon Islands"
 msgstr "সলোমন দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
-#, fuzzy
 msgid "Somalia"
 msgstr "সোমালিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
-#, fuzzy
 msgid "South Africa"
 msgstr "দক্ষিণ আফ্ৰিকা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
-#, fuzzy
 msgid "South Georgia And The South Sandwich Islands"
 msgstr "দক্ষিণ জৰ্জিয়া ও দক্ষিণ স্যান্ডউইচ দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
-#, fuzzy
 msgid "Spain"
 msgstr "স্পেন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
-#, fuzzy
 msgid "Sri Lanka"
 msgstr "শ্ৰীলঙ্কা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
-#, fuzzy
 msgid "St. Helena"
 msgstr "সেন্ট হেলেনা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
-#, fuzzy
 msgid "St. Pierre And Miquelon"
 msgstr "সেন্ট পিয়েৰ ও মিকুয়েলন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
-#, fuzzy
 msgid "Sudan"
 msgstr "সুদান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
-#, fuzzy
 msgid "Suriname"
 msgstr "সুৰিনাম"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
-#, fuzzy
 msgid "Svalbard And Jan Mayen Islands"
 msgstr "স্‌ভালবাৰ্ড ও জাঁ মায়েন দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
-#, fuzzy
 msgid "Swaziland"
 msgstr "সোয়াজিল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
-#, fuzzy
 msgid "Sweden"
 msgstr "সুইডেন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
-#, fuzzy
 msgid "Switzerland"
 msgstr "সুইত্জাৰল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
-#, fuzzy
 msgid "Syria"
 msgstr "সিৰিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
-#, fuzzy
 msgid "Taiwan"
 msgstr "তাইওয়ান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
-#, fuzzy
 msgid "Tajikistan"
 msgstr "তাজাখস্তান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
-#, fuzzy
 msgid "Tanzania, United Republic Of"
 msgstr "সংযুক্ত তানজানিয়া প্ৰজাতন্ত্ৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
-#, fuzzy
 msgid "Thailand"
 msgstr "তাইল্যান্ড"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
-#, fuzzy
 msgid "Timor-Leste"
 msgstr "টিমুৰ-লেস্তে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
-#, fuzzy
 msgid "Togo"
 msgstr "টোগো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
-#, fuzzy
 msgid "Tokelau"
 msgstr "টোকেলাউ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
-#, fuzzy
 msgid "Tonga"
 msgstr "টোঙ্গা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
-#, fuzzy
 msgid "Trinidad And Tobago"
 msgstr "ত্ৰিনিদাদ ও টোবাগো"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
-#, fuzzy
 msgid "Tunisia"
 msgstr "তিউনিসিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
-#, fuzzy
 msgid "Turkey"
 msgstr "তুৰ্কি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
-#, fuzzy
 msgid "Turkmenistan"
 msgstr "তুৰ্কমেনিস্তান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
-#, fuzzy
 msgid "Turks And Caicos Islands"
 msgstr "তুৰ্কি ও কায়কোস দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
-#, fuzzy
 msgid "Tuvalu"
 msgstr "টুভালু"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
-#, fuzzy
 msgid "Uganda"
 msgstr "উগান্ডা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
-#, fuzzy
 msgid "Ukraine"
 msgstr "ইউক্ৰেন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
-#, fuzzy
 msgid "United Arab Emirates"
 msgstr "সংযুক্ত আৰব আমিৰশাহী"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:365
-#, fuzzy
 msgid "United Kingdom"
 msgstr "যুক্তৰাজ্য"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
-#, fuzzy
 msgid "United States Minor Outlying Islands"
 msgstr "ইউনাইটেড স্টেটস্ মাইনৰ আউটলায়িং দ্বীপস্"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
-#, fuzzy
 msgid "Uruguay"
 msgstr "উৰুগুয়ে"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
-#, fuzzy
 msgid "Uzbekistan"
 msgstr "উজবেকিস্তান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
-#, fuzzy
 msgid "Vanuatu"
 msgstr "ভানুয়াটু"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
-#, fuzzy
 msgid "Venezuela"
 msgstr "ভেনেজুয়েলা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
-#, fuzzy
 msgid "Viet Nam"
 msgstr "ভিয়েত নাম"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
-#, fuzzy
 msgid "Virgin Islands, British"
 msgstr "ব্ৰিটিশ ভাৰ্জিন দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
-#, fuzzy
 msgid "Virgin Islands, U.S."
 msgstr "মাৰ্কিন ভাৰ্জিন দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:374
-#, fuzzy
 msgid "Wallis And Futuna Islands"
 msgstr "ওয়ালিস ও ফুতুনা দ্বীপপুঞ্জ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:375
-#, fuzzy
 msgid "Western Sahara"
 msgstr "পশ্চিম সাহাৰা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:376
-#, fuzzy
 msgid "Yemen"
 msgstr "ইয়েমেন"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:377
-#, fuzzy
 msgid "Zambia"
 msgstr "জাম্বিয়া"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:378
-#, fuzzy
 msgid "Zimbabwe"
 msgstr "জিম্বাবুয়ে"
 
@@ -2748,119 +2436,99 @@ msgstr "জিম্বাবুয়ে"
 #: ../plugins/save-attachments/save-attachments.c:366
 #: ../widgets/menus/gal-define-views-dialog.c:348
 #: ../widgets/menus/gal-view-new-dialog.c:65
-#, fuzzy
 msgid "Name"
 msgstr "নাম"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:63
-#, fuzzy
 msgid "AOL Instant Messenger"
-msgstr "AOL ইনস্ট্যান্ট মেসেঞ্জাৰ"
+msgstr "AOL ইনস্ট্যান্ট মেচেঞ্জাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:554
-#, fuzzy
 msgid "Jabber"
 msgstr "জ্যাবাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:66
-#, fuzzy
 msgid "Yahoo Messenger"
-msgstr "Yahoo মেসেঞ্জাৰ"
+msgstr "Yahoo মেচেঞ্জাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#, fuzzy
 msgid "Gadu-Gadu Messenger"
-msgstr "Gadu-Gadu মেসেঞ্জাৰ"
+msgstr "Gadu-Gadu মেচেঞ্জাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:69
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/widgets/eab-contact-display.c:553
-#, fuzzy
 msgid "ICQ"
 msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:121
-#, fuzzy
 msgid "Service"
-msgstr "পৰিসেবা"
+msgstr "সেৱা"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:130
 #: ../calendar/gui/e-cal-list-view.etspec.h:3 ../mail/message-list.etspec.h:8
 #: ../plugins/publish-calendar/publish-calendar.c:514
 #: ../plugins/save-calendar/csv-format.c:400
-#, fuzzy
 msgid "Location"
-msgstr "অবস্থান"
+msgstr "স্থান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:137
-#, fuzzy
 msgid "Username"
 msgstr "ব্যৱহাৰকৰোঁতাৰ নাম"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:204
 #: ../addressbook/gui/widgets/eab-contact-display.c:58
-#, fuzzy
 msgid "Home"
-msgstr "গৃহ"
+msgstr "ঘৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:242
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:205
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
-#, fuzzy
 msgid "Other"
 msgstr "অন্যান্য"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:556
-#, fuzzy
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:557
-#, fuzzy
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:555
-#, fuzzy
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:191
 #: ../addressbook/gui/widgets/eab-contact-display.c:552
-#, fuzzy
 msgid "GroupWise"
-msgstr "গ্ৰুপওযাইস"
+msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:260
-#, fuzzy
 msgid "Source Book"
 msgstr "উৎস বহি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:267
-#, fuzzy
 msgid "Target Book"
 msgstr "গন্তব্যৰ বহি"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:281
-#, fuzzy
 msgid "Is New Contact"
 msgstr "নতুন পৰিচিতি হল"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:288
-#, fuzzy
 msgid "Writable Fields"
 msgstr "লিখনযোগ্য ক্ষেত্ৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:295
-#, fuzzy
 msgid "Required Fields"
-msgstr "আবশ্যক মান"
+msgstr "আৱশ্যক মান"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:309
 #, fuzzy
@@ -17488,7 +17156,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:131
 #, fuzzy
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "আপোনাৰ সেৱক &quot;{0}&quot; -এ আপোনাৰ লগ-ইন &quot;{0}&quot; ব্যৰ্থ হৈছে।"
+msgstr "আপোনাৰ সেৱক &quot;{0}&quot; -এ আপোনাৰ প্ৰৱেশ &quot;{0}&quot; ব্যৰ্থ হৈছে।"
 
 #: ../mail/mail.error.xml.h:132
 #, fuzzy
@@ -19634,7 +19302,7 @@ msgstr "<b>অ্যাকাউন্টেৰ নাম</b>"
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 #, fuzzy
 msgid "Proxy Login"
-msgstr "প্ৰক্সি লগ-ইন"
+msgstr "প্ৰক্সি প্ৰৱেশ"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:262
@@ -19651,7 +19319,7 @@ msgstr "%s %s -ৰ(ব্যৱহাৰকৰোঁতা %s) বাবে গ�
 #: ../plugins/groupwise-features/proxy-login.c:521
 #, fuzzy
 msgid "_Proxy Login..."
-msgstr "প্ৰক্সি লগ-ইন(_P)..."
+msgstr "প্ৰক্সি প্ৰৱেশ(_P)..."
 
 #: ../plugins/groupwise-features/proxy.c:701
 #, fuzzy
