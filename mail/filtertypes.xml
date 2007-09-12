@@ -681,6 +681,11 @@
   <title>Stop Processing</title>
   <code>(stop)</code>
  </part>
+ <part name="label">
+  <title>Set Label</title>
+  <code>(set-label ${label})</code>
+  <input type="label" name="label"/>
+ </part>
  <part name="colour">
   <title>Assign Color</title>
   <code>(set-colour ${colour})</code>

@@ -37,6 +37,7 @@
 
 #include "filter-label.h"
 #include <libedataserver/e-sexp.h>
+#include "e-util/e-util.h"
 
 #define d(x) 
 
@@ -157,7 +158,7 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	FilterOption *fo = (FilterOption *) fe;
 	GConfClient *gconf;
 	GSList *list, *l;
-	char *title, *p;
+	char *title, *p, *nounderscores_title;
 	int i = 0;
 	
         FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
@@ -170,8 +171,11 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 		if ((p = strrchr (title, ':')))
 			*p++ = '\0';
 		
-		filter_option_add (fo, i < 5 ? labels[i++].value : (p ? p : "#ffffff"), title, NULL);
+		nounderscores_title = e_str_without_underscores (title);
+		
+		filter_option_add (fo, i < 5 ? labels[i++].value : (p ? p : "#ffffff"), nounderscores_title, NULL);
 		g_free (title);
+		g_free (nounderscores_title);
 		
 		l = l->next;
 	}

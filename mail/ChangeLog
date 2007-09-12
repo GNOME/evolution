@@ -1,3 +1,9 @@
+2007-09-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #231178
+
+	* filtertypes.xml: Added 'label' filtertype to the list.
+
 2007-09-07  Johnny Jacob  <jjohnny@novell.com>
  
 	** Partial Fix for #467581.

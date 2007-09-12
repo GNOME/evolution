@@ -1,3 +1,10 @@
+2007-09-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #231178
+
+	* filter-label.c: (xml_create):
+	Removes underscores from titles.
+
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #471791 (Move away from asserts to g_ret*)
