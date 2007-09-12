@@ -1,5 +1,16 @@
 2007-09-12  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #473514
+
+	* filter-part.c: (filter_part_get_widget):
+	Allow expand and fill free space to FilterFile.
+	* filter-rule.c: (option_activate), (get_rule_part_widget):
+	Allow rule part fill space if requested.
+
+	* filter-file.c: (get_widget): Fixed runtime warning.
+
+2007-09-12  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #231178
 
 	* filter-label.c: (xml_create):

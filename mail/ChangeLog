@@ -1,5 +1,12 @@
 2007-09-12  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #473514
+
+	* em-filter-rule.c: (option_activate), (get_rule_part_widget):
+	Allow rule part fill space if requested.
+
+2007-09-12  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #231178
 
 	* filtertypes.xml: Added 'label' filtertype to the list.

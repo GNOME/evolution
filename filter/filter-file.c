@@ -294,7 +294,6 @@ get_widget (FilterElement *fe)
 
 #ifdef USE_GTKFILECHOOSER
 	filewidget = (GtkWidget *) gtk_file_chooser_button_new (_("Choose a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
-	g_object_set (G_OBJECT (filewidget), "use_filechooser", TRUE, NULL);
 	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (filewidget), file->path);
 	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (filewidget), "selection-changed", 
 			G_CALLBACK (filename_changed), fe);

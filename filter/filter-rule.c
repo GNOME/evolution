@@ -623,7 +623,7 @@ option_activate (GtkMenuItem *item, struct _part_data *data)
 	data->part = newpart;
 	data->partwidget = filter_part_get_widget (newpart);
 	if (data->partwidget)
-		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, TRUE, TRUE, 0);
 	
 	g_object_set_data ((GObject *) data->container, "part", newpart);
 }
@@ -675,7 +675,7 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	
 	gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
 	if (p)
-		gtk_box_pack_start (GTK_BOX (hbox), p, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), p, TRUE, TRUE, 0);
 	
 	gtk_widget_show_all (hbox);
 	

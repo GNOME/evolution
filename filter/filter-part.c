@@ -34,6 +34,7 @@
 
 #include "filter-part.h"
 #include "rule-context.h"
+#include "filter-file.h"
 
 #define d(x)
 
@@ -348,7 +349,7 @@ filter_part_get_widget (FilterPart *ff)
 		fe = l->data;
 		w = filter_element_get_widget (fe);
 		if (w)
-			gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 3);
+			gtk_box_pack_start (GTK_BOX (hbox), w, IS_FILTER_FILE (fe), IS_FILTER_FILE (fe), 3);
 		
 		l = g_list_next (l);
 	}
