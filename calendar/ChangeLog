@@ -1,3 +1,12 @@
+2007-09-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #476040
+
+	* gui/e-day-view.c:
+	* gui/e-week-view.c:
+	* gui/dialogs/comp-editor.c:
+	Use "mail-attachment" icon instead of "stock_attach".
+
 2007-09-10  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #300284 (bnc)

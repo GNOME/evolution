@@ -218,7 +218,7 @@ static EMFBSearchBarItem temp_view_items[] = {
 	{{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 }, "stock_mail-open"},
 	{{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 }, NULL},
 	{{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 }, NULL},
-	{{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 }, "stock_attach"},
+	{{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 }, "mail-attachment"},
 	{{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0}, "emblem-important"},
 	{{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 }, "stock_not-spam"},
 /* 	{ NULL, 0, NULL }, */

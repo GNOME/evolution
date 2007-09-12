@@ -231,8 +231,7 @@ update (EMsgComposerAttachmentBar *bar)
 		attachment = p->data;
 
 		if (!attachment->is_available_local || !attachment->body) {
-			/* stock_attach would be better, but its fugly scaled up */
-			pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
+			pixbuf = e_icon_factory_get_icon("mail-attachment", E_ICON_SIZE_DIALOG);
 			if (pixbuf) {
 				attachment->index = gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, "");
 				g_object_unref(pixbuf);
@@ -320,8 +319,7 @@ update (EMsgComposerAttachmentBar *bar)
 			pixbuf = e_icon_for_mime_type (mime_type, 48);
 			if (pixbuf == NULL) {
 				g_warning("cannot find icon for mime type %s (installation problem?)", mime_type);
-				/* stock_attach would be better, but its fugly scaled up */
-				pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
+				pixbuf = e_icon_factory_get_icon("mail-attachment", E_ICON_SIZE_DIALOG);
 			}
 			g_free (mime_type);
 		}

@@ -2208,11 +2208,11 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixcache [] = {
-	E_PIXMAP ("/Toolbar/FileAttach", "stock_attach", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/FileAttach", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/FileSend", "stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/FileSaveDraft", "stock_save", E_ICON_SIZE_LARGE_TOOLBAR) ,
 	
-/*	E_PIXMAP ("/menu/Insert/FileAttach", "stock_attach", E_ICON_SIZE_LARGE_TOOLBAR), */
+/*	E_PIXMAP ("/menu/Insert/FileAttach", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR), */
 	E_PIXMAP ("/commands/FileSend", "stock_mail-send", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FileSave", "stock_save", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FileSaveAs", "stock_save-as", E_ICON_SIZE_MENU),
@@ -3989,7 +3989,7 @@ create_composer (int visible_mask)
 	gtk_misc_set_alignment (GTK_MISC (p->attachment_expander_num), 1.0, 0.5);
 	expander_hbox = gtk_hbox_new (FALSE, 0);
 	
-	p->attachment_expander_icon = e_icon_factory_get_image ("stock_attach", E_ICON_SIZE_MENU);
+	p->attachment_expander_icon = e_icon_factory_get_image ("mail-attachment", E_ICON_SIZE_MENU);
 	gtk_misc_set_alignment (GTK_MISC (p->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (p->attachment_expander_icon, 100, -1);
 

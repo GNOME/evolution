@@ -693,7 +693,7 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_ICON_SIZE_MENU);
 	week_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_ICON_SIZE_MENU);
 	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
-	week_view->attach_icon = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU);
+	week_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", E_ICON_SIZE_MENU);
 	week_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_ICON_SIZE_MENU);
 }
 

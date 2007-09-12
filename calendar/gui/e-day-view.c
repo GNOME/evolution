@@ -1419,7 +1419,7 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_ICON_SIZE_MENU);
 	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
 	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_ICON_SIZE_MENU);
-	day_view->attach_icon = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU); 
+	day_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", E_ICON_SIZE_MENU); 
 
 
 	/* Set the canvas item colors. */
@@ -1493,7 +1493,7 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_ICON_SIZE_MENU);
 	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
 	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_ICON_SIZE_MENU);
-	day_view->attach_icon = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU); 
+	day_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", E_ICON_SIZE_MENU); 
 
 
 	/* Set the canvas item colors. */

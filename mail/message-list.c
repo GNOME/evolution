@@ -223,7 +223,7 @@ static struct {
 	{ "stock_mail-unread-multiple",        NULL },
 	{ "stock_mail-open-multiple",          NULL },
 	{ NULL,                                NULL },
-	{ "stock_attach",                      NULL },
+	{ "mail-attachment",                   NULL },
 	{ "emblem-important",                  NULL },
 	{ "stock_score-lowest",                NULL },
 	{ "stock_score-lower",                 NULL },

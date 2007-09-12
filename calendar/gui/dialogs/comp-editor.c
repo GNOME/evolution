@@ -1486,8 +1486,8 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps[] = {
-	E_PIXMAP ("/Toolbar/InsertAttachments", "stock_attach", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/menu/Insert/Attachments/InsertAttachments", "stock_attach", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/Toolbar/InsertAttachments", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/Insert/Attachments/InsertAttachments", "mail-attachment", E_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };
@@ -1546,7 +1546,7 @@ setup_widgets (CompEditor *editor)
 	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_num), 1.0, 0.5);
 	expander_hbox = gtk_hbox_new (FALSE, 0);
 	
-	attachment_pixbuf = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU);
+	attachment_pixbuf = e_icon_factory_get_icon ("mail-attachment", E_ICON_SIZE_MENU);
 	priv->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
 	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (priv->attachment_expander_icon, 100, -1);
