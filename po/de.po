@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-06 10:52+0200\n"
-"PO-Revision-Date: 2007-09-06 10:53+0200\n"
+"PO-Revision-Date: 2007-09-12 19:51+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4465,7 +4465,7 @@ msgid ""
 "highlight a calendar that can accept appointments."
 msgstr ""
 "Sie haben eine schreibgeschützte Kalenderquelle ausgewählt. Wechseln Sie zur "
-"Kalenderansicht und wählen Sie einen Kalender, der Termine aktzeptieren "
+"Kalenderansicht und wählen Sie einen Kalender, der Termine akzeptieren "
 "kann, aus."
 
 #: ../calendar/calendar.error.xml.h:65
@@ -4894,10 +4894,7 @@ msgstr "Ereignisverlauf"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Event Transparency"
-msgstr ""
-"Sie haben eine schreibgeschützte Kalenderquelle ausgewählt. Wechseln Sie zur "
-"Kalenderansicht und wählen Sie einen Kalender, der Termine aktzeptieren "
-"kann, aus."
+msgstr "Ereignistransparenz"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:17
 msgid "Free/busy server URLs"
