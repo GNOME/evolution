@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+ <!ENTITY appname "Evolution" >
+ <!ENTITY appversion "2.12" >
  <!ENTITY z-3rdParty "*" >
  <!ENTITY z-SM "(SM)" >
  <!ENTITY z-CM "(CM)" >
@@ -31,7 +33,7 @@
    <revhistory>
      <revision>
        <revnumber>&appversion;</revnumber>
-       <date>July 2007</date>
+       <date>September 2007</date>
        <revdescription>
 	 <para role="author">Radhika PC</para>
 	 <para role="publisher">Novell, Inc</para>
@@ -74,7 +76,7 @@
    </abstract>
   <productname>&appname;&trade;</productname>
   <productnumber>&appversion;</productnumber>
-  <invpartnumber>July 2007</invpartnumber>
+  <invpartnumber>September 2007</invpartnumber>
   <title>User guide</title>
  </bookinfo>
 
@@ -416,6 +418,8 @@
        </listitem>
        <listitem id="bsthmhx">
         <para>Select if you want to automatically synchronize remote mail locally.</para>
+        <para>Evolution, by default downloads only the header information such as From, Subject, and Date.  The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don&apos;t read all the messages you receive.</para>
+        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparitevely less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
        </listitem>
        <listitem id="bsthnab">
         <para>Type your Post Office Agent SOAP port in the Post Office Agent SOAP Port field.</para>
@@ -505,6 +509,8 @@
        </listitem>
        <listitem id="bstgje2">
         <para>Select if you want to automatically synchronize remote mail locally.</para>
+        <para>Evolution, by default downloads only the header information such as From, Subject, and Date. The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don&apos;t read all the messages you receive.</para>
+        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
        </listitem>
        <listitem id="bstgjlq">
         <para>Click Forward.</para>
@@ -3678,7 +3684,7 @@
      <para><link linkend="usage-calendar-rsvp">Sending a Meeting Invitation</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="replying-to-rsvp"> <br/>Accepting and Replying to a Meeting Request</link></para>
+     <para><link linkend="replying-to-rsvp">Accepting and Replying to a Meeting Request</link></para>
     </listitem>
     <listitem>
      <para><link linkend="receiving-rsvp-response">Reading Responses to Meeting Requests</link></para>
@@ -3952,8 +3958,7 @@
    </section>
 
    <section id="replying-to-rsvp">
-    <title>
-Accepting and Replying to a Meeting Request</title>
+    <title>Accepting and Replying to a Meeting Request</title>
     <para>Meeting requests are sent as iCal attachments. To view or respond to one, click the attachment icon and view it inline in the mail window. All the details are shown about the event, including time and dates. Then you can choose how to reply to the invitation. Your choices are:</para>
     <itemizedlist>
      <listitem>
@@ -5724,7 +5729,7 @@ Accepting and Replying to a Meeting Request</title>
      <para><link linkend="Aal4xf4">Displaying Sent Items</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="Aal54a9">Checking the Status of an Item You have sent</link></para>
+     <para><link linkend="Aal54a9">Checking the Status of an Item You Have Sent</link></para>
     </listitem>
     <listitem>
      <para><link linkend="Ak05sv1">Requesting a Reply for Items You Send</link></para>
@@ -5769,7 +5774,7 @@ Accepting and Replying to a Meeting Request</title>
       <listitem id="b17qt9yd">
        <para>Select any of the options given (Delivered, Delivered and opened, All information)</para>
        <para>Based on this selection, you can view the status of the send message in the Sent Items folder.</para>
-       <para>For more information, see <link linkend="Aal54a9">Checking the Status of an Item You have sent</link>.</para>
+       <para>For more information, see <link linkend="Aal54a9">Checking the Status of an Item You Have Sent</link>.</para>
       </listitem>
       <listitem id="b17qtcil">
        <para>Select the check box next to Auto-delete sent item to delete the sent item automatically from the Sent folder.</para>
@@ -5787,7 +5792,7 @@ Accepting and Replying to a Meeting Request</title>
     </section>
 
     <section id="Aal54a9">
-     <title>Checking the Status of an Item You have sent</title>
+     <title>Checking the Status of an Item You Have Sent</title>
      <orderedlist>
       <listitem id="Aaezj33">
        <para>Right-click an e-mail in your Sent folder, then click Track Message Status.</para>
