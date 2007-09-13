@@ -1,3 +1,11 @@
+2007-09-13  Johnny Jacob  <jjohnny@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	** Fixes #354699 #475198 #467364 #468309 #337616
+	
+	* C/evolution.xml : Updating docs.
+	
 2007-09-09  Luca Ferretti  <elle.uca@libero.it>
 
 	* quickref/Makefile.am: Added it to SUBDIRS.
