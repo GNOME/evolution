@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: si\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-03 07:47+0100\n"
-"PO-Revision-Date: 2007-09-12 18:03+0530\n"
+"PO-Revision-Date: 2007-09-13 11:57+0530\n"
 "Last-Translator: Danishka Navin <snavin@redhat.com>\n"
 "Language-Team: Sinhala <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -567,7 +567,7 @@ msgstr "මෙහි ස්වයංක්‍රීය නිමාව මාන
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:581
 msgid "Contacts"
-msgstr "සබැදි"
+msgstr "සම්බන්ධතා"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 msgid "Evolution Address Book"
@@ -587,7 +587,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Address Book component"
-msgstr ""
+msgstr "ඉවොලුශන් ලිපින පොත් සංරචකය"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
@@ -2683,7 +2683,7 @@ msgstr ""
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:938
 msgid "Contact List Editor"
-msgstr ""
+msgstr "සම්බන්ධතා ලැයිස්තු සැකසුම"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Insert email addresses from Address Book"
@@ -2732,11 +2732,11 @@ msgstr "සාමාජිකයන් (_M)"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
 msgid "Contact List Members"
-msgstr ""
+msgstr "සම්බන්ධතා ලැයිස්තු සාමාජිකයන්"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
-msgstr ""
+msgstr "සම්බන්ධතා වෙනස්වීම්:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
@@ -3177,6 +3177,11 @@ msgid ""
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"සම්බන්ධතා සඳහා සොයන්න\n"
+"\n"
+"හෝ නව සම්ගන්ධතාවක් නිර්මාණයට දෙවරක් ක්ලික් කරන්න."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:177
 msgid ""
@@ -3193,6 +3198,9 @@ msgid ""
 "\n"
 "Search for the Contact."
 msgstr ""
+"\n"
+"\n"
+"සම්බන්ධතා සඳහා සොයන්න."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
@@ -4055,19 +4063,19 @@ msgstr "නව සිදුවීම් නිර්මාණය කරන්න
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete calendar '{0}'?"
-msgstr ""
+msgstr "'{0}' දිනදර්ශනය මකන්නද'?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete memo list '{0}'?"
-msgstr ""
+msgstr "'{0}' සිහිපත් ලැයිස්තුව මකන්නද?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Delete task list '{0}'?"
-msgstr ""
+msgstr "'{0}' කාර්‍යය ලැයිස්තුව මකන්නද?"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Do _not Send"
-msgstr ""
+msgstr "නොයවන්න (_n)"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Download in progress. Do you want to save the appointment?"
@@ -4261,7 +4269,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:71
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
-msgstr ""
+msgstr "වෙනස්කම් ඉවත දමන්න (_D)"
 
 #: ../calendar/calendar.error.xml.h:72 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:59
@@ -4279,7 +4287,7 @@ msgstr "යවන්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "_Send Notice"
-msgstr ""
+msgstr "නිවේදනය යනවන්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "{0}."
@@ -4363,19 +4371,19 @@ msgstr ""
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution's Calendar component"
-msgstr ""
+msgstr "ඉවොලුශන් දිනදර්ශන සංරචකය"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution's Memos component"
-msgstr ""
+msgstr "ඉවොලුශන් සිහිපත් සංරචකය"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Tasks component"
-msgstr ""
+msgstr "ඉවොලුශන් කාර්‍යය සංරචකය"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Memo_s"
-msgstr ""
+msgstr "සිහිපත් (_s)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:335 ../calendar/gui/e-memos.c:1093
@@ -4383,7 +4391,7 @@ msgstr ""
 #: ../calendar/gui/memos-component.c:1021 ../calendar/gui/memos-control.c:336
 #: ../calendar/gui/memos-control.c:352
 msgid "Memos"
-msgstr ""
+msgstr "සිහිපත්"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:538 ../calendar/gui/e-tasks.c:1357
@@ -4399,7 +4407,7 @@ msgstr ""
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:541
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
-msgstr "වැඩ"
+msgstr "කාර්‍යය"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 msgid "_Calendars"
@@ -4408,7 +4416,7 @@ msgstr "දිනදර්ශන (_C)"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:15
 #: ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr "වැඩ (_T)"
+msgstr "කාර්‍යය (_T)"
 
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
@@ -4451,7 +4459,7 @@ msgstr "පිහිටීම:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
-msgstr ""
+msgstr "කෙටි විරාම කාළය (_t):"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
@@ -4470,7 +4478,7 @@ msgstr "සැකසුම් (_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
-msgstr ""
+msgstr "කෙටි විරාමය (_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
@@ -4479,16 +4487,16 @@ msgstr "හමුවීමේ ස්තානය"
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1474
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1597
 msgid "No summary available."
-msgstr ""
+msgstr "සාරාංශයක් භාවිතයට නැත."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1483
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1485
 msgid "No description available."
-msgstr ""
+msgstr "විස්තරයක් භාවිතයට නැත."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1493
 msgid "No location information available."
-msgstr ""
+msgstr "පිහිටුම් තොරතුරු භාවිතයට නැත."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1537
 #, c-format
@@ -5581,7 +5589,7 @@ msgstr "කාර්‍යය ලැයිස්තුව"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:388
 msgid "Memo List"
-msgstr ""
+msgstr "සිහිපත් ලැයිස්තුව"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:477
 msgid "Calendar Properties"
@@ -5593,11 +5601,11 @@ msgstr "නව දිනදර්ශනය"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:564
 msgid "Task List Properties"
-msgstr ""
+msgstr "කාර්‍යය ලැයිස්තු වත්කම්"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:630
 msgid "New Memo List"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුව"
 
 #: ../calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
@@ -5654,11 +5662,11 @@ msgstr "වෙත"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2183
 msgid " (Completed "
-msgstr ""
+msgstr " (නිම කළා "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2185
 msgid "Completed "
-msgstr "Completed "
+msgstr "නිම කළා "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2190
 msgid " (Due "
@@ -5752,19 +5760,19 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2222
 #, c-format
 msgid "Meeting - %s"
-msgstr ""
+msgstr "රැස්වීම - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2181
 #: ../calendar/gui/dialogs/comp-editor.c:2224
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "සම්මුතීන් - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2185
 #: ../calendar/gui/dialogs/comp-editor.c:2228
 #, c-format
 msgid "Assigned Task - %s"
-msgstr ""
+msgstr "නියම කළ කාර්‍යය - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2187
 #: ../calendar/gui/dialogs/comp-editor.c:2230
@@ -5776,7 +5784,7 @@ msgstr "කාර්‍යය - %s"
 #: ../calendar/gui/dialogs/comp-editor.c:2233
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "දෛනික ඇතුලත් කිරීම් - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2201
 #: ../calendar/gui/dialogs/comp-editor.c:2243
@@ -5877,7 +5885,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:601
 msgid "Appoint_ment"
-msgstr ""
+msgstr "සම්මුතීන් (_m)"
 
 #: ../calendar/gui/dialogs/event-editor.c:605
 #: ../ui/evolution-event-editor.xml.h:14
@@ -6072,7 +6080,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "Co_ntacts..."
-msgstr ""
+msgstr "සම්බන්ධතා... (_n)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
@@ -6085,12 +6093,12 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2287
 msgid "Memo"
-msgstr ""
+msgstr "සිහිපත"
 
 #: ../calendar/gui/dialogs/memo-page.c:866
 #, c-format
 msgid "Unable to open memos in '%s'."
-msgstr ""
+msgstr "'%s' තුළ ඇති සිහිපත් විවෘත කිරීමට නොහැකි විය."
 
 #: ../calendar/gui/dialogs/memo-page.c:1017 ../mail/em-format-html.c:1508
 #: ../mail/em-format-html.c:1522 ../mail/em-format-html.c:1580
@@ -6534,7 +6542,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3002
 #, c-format
 msgid "Click to open %s"
-msgstr ""
+msgstr "%s විවෘත කිතීමට ක්ලික් කරන්න"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:157
 #: ../calendar/gui/e-cal-component-preview.c:157 ../filter/filter-rule.c:805
@@ -6666,11 +6674,11 @@ msgstr "නොදන්නා"
 
 #: ../calendar/gui/e-cal-model.c:926
 msgid "Recurring"
-msgstr ""
+msgstr "පුනරාවර්තනය වීම"
 
 #: ../calendar/gui/e-cal-model.c:928
 msgid "Assigned"
-msgstr ""
+msgstr "නියම කළ "
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:422
 msgid "Save As..."
@@ -6678,7 +6686,7 @@ msgstr "සුරකින අයුර..."
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2163
 msgid "Select folder to save selected attachments..."
-msgstr ""
+msgstr "තෝරාගත් ඇමුණුම් සුරකීමට බහලුමක් තෝරන්න..."
 
 #: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:447
 #, c-format
@@ -6752,12 +6760,12 @@ msgstr "100%"
 #: ../calendar/gui/e-calendar-table.c:716
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:494
 msgid "Deleting selected objects"
-msgstr ""
+msgstr "තෝරාගත් වස්තු මකමින්"
 
 #: ../calendar/gui/e-calendar-table.c:995
 #: ../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:697
 msgid "Updating objects"
-msgstr ""
+msgstr "වස්තු යාවත්කාලීන කරමින්"
 
 #: ../calendar/gui/e-calendar-table.c:1179
 #: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:872
@@ -6803,7 +6811,7 @@ msgstr "අලවන්න (_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1366 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
-msgstr ""
+msgstr "නියම කළ  කාර්‍යය (_A)"
 
 #: ../calendar/gui/e-calendar-table.c:1367 ../calendar/gui/e-memo-table.c:988
 #: ../ui/evolution-tasks.xml.h:26
@@ -6812,23 +6820,23 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:1368
 msgid "_Mark as Complete"
-msgstr ""
+msgstr "නිම කළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1369
 msgid "_Mark Selected Tasks as Complete"
-msgstr ""
+msgstr "තෝරාගත් කාර්‍යය නිනිම කළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1370
 msgid "_Mark as Incomplete"
-msgstr ""
+msgstr "නිම නොකළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1371
 msgid "_Mark Selected Tasks as Incomplete"
-msgstr ""
+msgstr "තෝරාගත් කාර්‍යය නිම නොකළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1376
 msgid "_Delete Selected Tasks"
-msgstr ""
+msgstr "තෝරාගත් කාර්‍යය මකන්න (_D)"
 
 #: ../calendar/gui/e-calendar-table.c:1610
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -6846,11 +6854,11 @@ msgstr "නිමාව"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
-msgstr ""
+msgstr "නිම කළ දිනය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
-msgstr ""
+msgstr "නිම කළ යුතු දිනය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:8
 #: ../plugins/save-calendar/csv-format.c:397
@@ -6859,7 +6867,7 @@ msgstr "ප්‍රමුකත්වය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
-msgstr ""
+msgstr "ආරම්ඹක දිනය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:10
 #: ../calendar/gui/e-meeting-list-view.c:534
@@ -6874,15 +6882,15 @@ msgstr "කාර්‍යය අනුපිළිවෙළට සකසන්�
 
 #: ../calendar/gui/e-calendar-view.c:1348
 msgid "Moving items"
-msgstr ""
+msgstr "අයිතම ගෙනයමින්"
 
 #: ../calendar/gui/e-calendar-view.c:1350
 msgid "Copying items"
-msgstr ""
+msgstr "අයිතම පිටපත් කරමින්"
 
 #: ../calendar/gui/e-calendar-view.c:1659
 msgid "New _Appointment..."
-msgstr ""
+msgstr "නව සම්මුතීන්... (_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1660
 msgid "New All Day _Event"
@@ -6895,23 +6903,23 @@ msgstr "නව රැස්වීම (_M)"
 #. FIXME: hook in this somehow
 #: ../calendar/gui/e-calendar-view.c:1672
 msgid "_Current View"
-msgstr ""
+msgstr "දැනට ඇති දසුන (_C)"
 
 #: ../calendar/gui/e-calendar-view.c:1674
 msgid "Select T_oday"
-msgstr ""
+msgstr "අද දිනය තෝරන්න (_o)"
 
 #: ../calendar/gui/e-calendar-view.c:1675
 msgid "_Select Date..."
-msgstr ""
+msgstr "දිනය තෝරන්න... (_S)"
 
 #: ../calendar/gui/e-calendar-view.c:1691
 msgid "Cop_y to Calendar..."
-msgstr ""
+msgstr "දිනදර්ශනයට පිටපත් කරන්න... (_y)"
 
 #: ../calendar/gui/e-calendar-view.c:1692
 msgid "Mo_ve to Calendar..."
-msgstr ""
+msgstr "දිනදර්ශනයට ගෙනයන්න... (_v)"
 
 #: ../calendar/gui/e-calendar-view.c:1693
 msgid "_Delegate Meeting..."
@@ -7680,15 +7688,15 @@ msgstr "සාමාජිකයා"
 
 #: ../calendar/gui/e-memo-table.c:993
 msgid "_Delete Selected Memos"
-msgstr ""
+msgstr "තෝරාගත් සිහිපත් මකන්න (_D)"
 
 #: ../calendar/gui/e-memo-table.c:1144 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
-msgstr ""
+msgstr "සිහිපතක් එක් කිරීමට ක්ලික් කරන්න"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
 msgid "Memo sort"
-msgstr ""
+msgstr "සිහිපත් පිළිවෙලට සැකසීම"
 
 #: ../calendar/gui/e-memos.c:732 ../calendar/gui/e-tasks.c:844
 #: ../calendar/gui/gnome-cal.c:2828
@@ -7697,32 +7705,34 @@ msgid ""
 "Error on %s:\n"
 " %s"
 msgstr ""
+"%s මත දෝෂයකි:\n"
+" %s"
 
 #: ../calendar/gui/e-memos.c:781
 msgid "Loading memos"
-msgstr ""
+msgstr "සිහිපත් පූරණය වෙමින්"
 
 #: ../calendar/gui/e-memos.c:862
 #, c-format
 msgid "Opening memos at %s"
-msgstr ""
+msgstr "%s හි සිහිපත් විවෘත වෙමින්"
 
 #: ../calendar/gui/e-memos.c:1035 ../calendar/gui/e-tasks.c:1249
 msgid "Deleting selected objects..."
-msgstr ""
+msgstr "තෝරාගත් වස්තුන් මකමින්..."
 
 #: ../calendar/gui/e-tasks.c:894
 msgid "Loading tasks"
-msgstr ""
+msgstr "කාර්‍යය පූරණය වෙමින්"
 
 #: ../calendar/gui/e-tasks.c:981
 #, c-format
 msgid "Opening tasks at %s"
-msgstr ""
+msgstr "%s හි කාර්‍යය විවෘත වෙමින්"
 
 #: ../calendar/gui/e-tasks.c:1226
 msgid "Completing tasks..."
-msgstr ""
+msgstr "කාර්‍යය නිමකරමින්..."
 
 #: ../calendar/gui/e-tasks.c:1276
 msgid "Expunging"
@@ -7730,7 +7740,7 @@ msgstr ""
 
 #: ../calendar/gui/e-timezone-entry.c:135
 msgid "Select Timezone"
-msgstr ""
+msgstr "වේලාකළාපය තෝරන්න"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -7746,7 +7756,7 @@ msgstr ""
 
 #: ../calendar/gui/gnome-cal.c:2479
 msgid "_Custom View"
-msgstr ""
+msgstr "රිසිකළ දසුන (_C)"
 
 #: ../calendar/gui/gnome-cal.c:2480
 msgid "_Save Custom View"
@@ -7754,22 +7764,22 @@ msgstr "රිසි කළ දසුන සුරකින්න (_S)"
 
 #: ../calendar/gui/gnome-cal.c:2485
 msgid "_Define Views..."
-msgstr ""
+msgstr "දසුන නිර්වචනය කරන්න... (_D)"
 
 #: ../calendar/gui/gnome-cal.c:2651
 #, c-format
 msgid "Loading appointments at %s"
-msgstr ""
+msgstr "%s හි සම්මුතියන් පූරණය වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:2670
 #, c-format
 msgid "Loading tasks at %s"
-msgstr ""
+msgstr "%s හි කාර්‍යය පූරණය වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:2679
 #, c-format
 msgid "Loading memos at %s"
-msgstr ""
+msgstr "%s හි සිහිපත් පූරණය වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:2787
 #, c-format
@@ -7778,7 +7788,7 @@ msgstr "%s විවෘත වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:3726
 msgid "Purging"
-msgstr ""
+msgstr "නෙරපීමින්"
 
 #: ../calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -7826,7 +7836,7 @@ msgstr "ඔක්තෝම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr ""
+msgstr "දිනය තෝරන්න"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "September"
@@ -7834,7 +7844,7 @@ msgstr "සැප්තැම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
-msgstr ""
+msgstr "අද දිනය තෝරන්න (_S)"
 
 #: ../calendar/gui/itip-utils.c:523 ../calendar/gui/itip-utils.c:572
 #: ../calendar/gui/itip-utils.c:678
@@ -7847,27 +7857,27 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:764 ../calendar/gui/itip-utils.c:887
 msgid "Event information"
-msgstr ""
+msgstr "සිදුවීම් තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:766 ../calendar/gui/itip-utils.c:889
 msgid "Task information"
-msgstr ""
+msgstr "කාර්‍යය තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:768 ../calendar/gui/itip-utils.c:891
 msgid "Journal information"
-msgstr ""
+msgstr "දෛනික සටහන් තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:770 ../calendar/gui/itip-utils.c:909
 msgid "Free/Busy information"
-msgstr ""
+msgstr "නිදහස්/කාර්‍යය බහුල තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:772
 msgid "Calendar information"
-msgstr ""
+msgstr "දිනදර්ශන තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:821
 msgid "Updated"
-msgstr ""
+msgstr "යාවත්කාලීන කළ"
 
 #: ../calendar/gui/itip-utils.c:829
 msgid "Refresh"
@@ -7880,7 +7890,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:905
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr ""
+msgstr "නිදහස්/කාර්‍යය බහුල තොරතුරු (%s, %s වෙතට)"
 
 #: ../calendar/gui/itip-utils.c:915
 msgid "iCalendar information"
@@ -7892,21 +7902,21 @@ msgstr ""
 
 #: ../calendar/gui/memos-component.c:464
 msgid "_New Memo List"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුව (_N)"
 
 #: ../calendar/gui/memos-component.c:540
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "සිහිපත් %d ක්"
+msgstr[1] "සිහිපත් %d ක්"
 
 #: ../calendar/gui/memos-component.c:542 ../calendar/gui/tasks-component.c:533
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d තෝරාගන් ලඳි"
+msgstr[1] ", %d තෝරාගන් ලඳි"
 
 #: ../calendar/gui/memos-component.c:589
 msgid "Failed upgrading memos."
@@ -7923,47 +7933,47 @@ msgstr ""
 
 #: ../calendar/gui/memos-component.c:996
 msgid "Memo Source Selector"
-msgstr ""
+msgstr "සිහිපත් මූල තෝරණය"
 
 #: ../calendar/gui/memos-component.c:1179
 msgid "New memo"
-msgstr ""
+msgstr "නව සිහිපත"
 
 #: ../calendar/gui/memos-component.c:1180
 msgid "Mem_o"
-msgstr ""
+msgstr "සිහිපත (_o)"
 
 #: ../calendar/gui/memos-component.c:1181
 msgid "Create a new memo"
-msgstr ""
+msgstr "නව සිහිපතක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/memos-component.c:1187
 msgid "New shared memo"
-msgstr ""
+msgstr "නව හවුල් සිහිපත"
 
 #: ../calendar/gui/memos-component.c:1188
 msgid "_Shared memo"
-msgstr ""
+msgstr "හවුල් සිහිපත (_S)"
 
 #: ../calendar/gui/memos-component.c:1189
 msgid "Create a shared new memo"
-msgstr ""
+msgstr "නව හවුල් සිහිපතක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/memos-component.c:1195
 msgid "New memo list"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුව"
 
 #: ../calendar/gui/memos-component.c:1196
 msgid "Memo li_st"
-msgstr ""
+msgstr "සිහිපත් ලැයිස්තුව (_s)"
 
 #: ../calendar/gui/memos-component.c:1197
 msgid "Create a new memo list"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුවක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/memos-control.c:336 ../calendar/gui/memos-control.c:352
 msgid "Print Memos"
-msgstr ""
+msgstr "සිහිපත් මුද්‍රණය කරන්න"
 
 #: ../calendar/gui/migration.c:164
 msgid ""
@@ -8160,7 +8170,7 @@ msgstr "ශනි"
 
 #: ../calendar/gui/print.c:2283
 msgid "Appointment"
-msgstr ""
+msgstr "සම්මුතිය"
 
 #: ../calendar/gui/print.c:2285
 msgid "Task"
@@ -8198,16 +8208,16 @@ msgstr "ප්‍රභේද: %s"
 
 #: ../calendar/gui/print.c:2423
 msgid "Contacts: "
-msgstr ""
+msgstr "සම්බන්ධතා:"
 
 #. TODO Allow the user to customize the title.
 #: ../calendar/gui/print.c:2524
 msgid "Upcoming Appointments"
-msgstr ""
+msgstr "ඉදිරියට ඇති සම්මුති"
 
 #: ../calendar/gui/tasks-component.c:455
 msgid "_New Task List"
-msgstr ""
+msgstr "නව කාර්‍යය ලැයිස්තුව (_N)"
 
 #: ../calendar/gui/tasks-component.c:531
 #, c-format
@@ -8218,7 +8228,7 @@ msgstr[1] "කාර්‍යය %d ක්"
 
 #: ../calendar/gui/tasks-component.c:580
 msgid "Failed upgrading tasks."
-msgstr ""
+msgstr "කාර්‍යයන් යාවත්කාලීන කරන්න."
 
 #: ../calendar/gui/tasks-component.c:891
 #, c-format
@@ -8231,7 +8241,7 @@ msgstr ""
 
 #: ../calendar/gui/tasks-component.c:1001
 msgid "Task Source Selector"
-msgstr ""
+msgstr "කාර්‍යය මූල තෝරණය"
 
 #: ../calendar/gui/tasks-component.c:1257
 msgid "New task"
@@ -8239,31 +8249,31 @@ msgstr "නව කාර්‍යය"
 
 #: ../calendar/gui/tasks-component.c:1259
 msgid "Create a new task"
-msgstr ""
+msgstr "නව කාර්‍යයක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/tasks-component.c:1265
 msgid "New assigned task"
-msgstr ""
+msgstr "නව නියම කළ කාර්‍යය"
 
 #: ../calendar/gui/tasks-component.c:1266
 msgid "Assigne_d Task"
-msgstr ""
+msgstr "නියම කළ කාර්‍යය (_d) Tas"
 
 #: ../calendar/gui/tasks-component.c:1267
 msgid "Create a new assigned task"
-msgstr ""
+msgstr "නව නියම කළ කාර්‍යයක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/tasks-component.c:1273
 msgid "New task list"
-msgstr ""
+msgstr "නව කාර්‍යය ලැයිස්තුව"
 
 #: ../calendar/gui/tasks-component.c:1274
 msgid "Tas_k list"
-msgstr ""
+msgstr "කාර්‍යය ලැයිස්තුව (_k)"
 
 #: ../calendar/gui/tasks-component.c:1275
 msgid "Create a new task list"
-msgstr ""
+msgstr "නව කාර්‍යය ලැයිස්තුවක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/tasks-control.c:438
 msgid ""
@@ -8275,11 +8285,11 @@ msgstr ""
 
 #: ../calendar/gui/tasks-control.c:441
 msgid "Do not ask me again."
-msgstr ""
+msgstr "නැවත මාගෙන් අහන්න ඒපා."
 
 #: ../calendar/gui/tasks-control.c:478 ../calendar/gui/tasks-control.c:494
 msgid "Print Tasks"
-msgstr ""
+msgstr "කාර්‍යයන් මුද්‍රණය කරන්න"
 
 #. The first letter of each day of the week starting with Sunday
 #: ../calendar/gui/weekday-picker.c:319
@@ -8288,12 +8298,12 @@ msgstr "SMTWTFS"
 
 #: ../calendar/importers/icalendar-importer.c:79
 msgid "Appointments and Meetings"
-msgstr ""
+msgstr "සම්මුතීන් සහ රැස්වීම්"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
 msgid "Opening calendar"
-msgstr ""
+msgstr "දිනදර්ශනය විවෘත වෙමින්"
 
 #: ../calendar/importers/icalendar-importer.c:444
 msgid "iCalendar files (.ics)"
@@ -8305,7 +8315,7 @@ msgstr ""
 
 #: ../calendar/importers/icalendar-importer.c:521
 msgid "Reminder!"
-msgstr ""
+msgstr "සිහිකැදවීම!"
 
 #: ../calendar/importers/icalendar-importer.c:573
 msgid "vCalendar files (.vcf)"
@@ -8317,7 +8327,7 @@ msgstr ""
 
 #: ../calendar/importers/icalendar-importer.c:736
 msgid "Calendar Events"
-msgstr ""
+msgstr "දිනදර්ශන සිදුවීම්"
 
 #: ../calendar/importers/icalendar-importer.c:773
 msgid "Evolution Calendar intelligent importer"
@@ -10553,7 +10563,7 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
-msgstr ""
+msgstr "ඉවොලුශන් තැපැල් සංරචකය"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail composer"
@@ -10736,7 +10746,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:3
 msgid "Assign Color"
-msgstr ""
+msgstr "නියම කළ වර්‍ණය"
 
 #: ../mail/em-filter-i18n.h:4
 msgid "Assign Score"
@@ -17533,7 +17543,7 @@ msgstr ""
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr ""
+msgstr "ඉවොලුශන් පරික්‍ෂණ සංරචකය"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "A string description of the current printer settings"
@@ -18841,7 +18851,7 @@ msgstr "වැඩ කරන සතිය දර්ශනය කරන්න"
 
 #: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
-msgstr ""
+msgstr "දැනට ඇති සම්මූතින් පෙන්වන්න"
 
 #: ../ui/evolution-calendar.xml.h:36
 msgid "Week"
@@ -18853,7 +18863,7 @@ msgstr "වැඩ කරන සතිය"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
-msgstr ""
+msgstr "සම්මුතින් විවෘත කරන්න (_O)"
 
 #: ../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:7
 msgid "Copy selected text to the clipboard"
@@ -18881,7 +18891,7 @@ msgstr ""
 
 #: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:14
 msgid "Select all text"
-msgstr ""
+msgstr "සියළු පෙළ තෝරන්න"
 
 #: ../ui/evolution-editor.xml.h:1 ../ui/evolution-message-composer.xml.h:1
 msgid "Attach"
