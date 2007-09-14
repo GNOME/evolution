@@ -51,7 +51,6 @@ void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
 		const char *image_filename;
 		gsize length;
 
-#ifdef USE_GTKFILECHOOSER
 		GtkFileFilter *filter;
 
 		filesel = gtk_file_chooser_dialog_new (_
@@ -69,16 +68,8 @@ void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
 		gtk_file_filter_add_mime_type (filter, "image/png");
 		gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
-#else
-		filesel = gtk_file_selection_new (_("Select a (48*48) png of size < 720bytes"));
-#endif
-
 		if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-#ifdef USE_GTKFILECHOOSER
 			image_filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-#else
-			image_filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
-#endif
 
 			error = NULL;
 			file_contents = NULL;

@@ -1,3 +1,11 @@
+2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #476231
+
+	* gui/dialogs/cal-attachment-select-file.c:
+	Remove non-USE_GTKFILECHOOSER code.
+	GtkFileChooser has been around since 2004.
+
 2007-09-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #476040

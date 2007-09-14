@@ -1,3 +1,9 @@
+2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Remove the --enable-file-chooser option.
+	GtkFileChooser has been around since 2004.
+
 2007-09-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

@@ -2713,11 +2713,7 @@ image_selected (EContactEditor *editor)
 	gchar     *file_name;
 	GtkWidget *image_chooser;
 
-#ifdef USE_GTKFILECHOOSER
 	file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (editor->file_selector));
-#else
-	file_name = (gchar *) gtk_file_selection_get_filename (GTK_FILE_SELECTION (editor->file_selector));
-#endif
 
 	if (!file_name)
 		return;
@@ -2754,8 +2750,6 @@ image_cleared (EContactEditor *editor)
 	object_changed (G_OBJECT (image_chooser), editor);
 }
 
-#ifdef USE_GTKFILECHOOSER
-
 static void
 file_chooser_response (GtkWidget *widget, gint response, EContactEditor *editor)
 {
@@ -2766,8 +2760,6 @@ file_chooser_response (GtkWidget *widget, gint response, EContactEditor *editor)
 
 	gtk_widget_hide (editor->file_selector);
 }
-
-#endif
 
 static gboolean
 file_selector_deleted (GtkWidget *widget)
@@ -2813,7 +2805,6 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 	GtkImage *preview;
 
 	if (!editor->file_selector) {
-#ifdef USE_GTKFILECHOOSER
 		editor->file_selector = gtk_file_chooser_dialog_new (title,
 								     GTK_WINDOW (editor->app),
 								     GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -2831,35 +2822,6 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 
 		g_signal_connect (editor->file_selector, "response",
 				  G_CALLBACK (file_chooser_response), editor);
-#else
-		GtkWidget *clear_button;
-		GtkWidget *dialog;
-
-		/* Create the selector */
-
-		editor->file_selector = gtk_file_selection_new (title);
-
-		dialog = GTK_FILE_SELECTION (editor->file_selector)->fileop_dialog;
-
-		clear_button = gtk_dialog_add_button (GTK_DIALOG (editor->file_selector), no_image, 0);
-
-		g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->ok_button),
-					  "clicked", G_CALLBACK (image_selected), editor);
-
-		g_signal_connect_swapped (clear_button,
-					  "clicked", G_CALLBACK (image_cleared), editor);
-
-		/* Ensure that the dialog box gets hidden when the user clicks a button */
-
-		g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->ok_button),
-					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
-
-		g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->cancel_button),
-					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
-
-		g_signal_connect_swapped (clear_button,
-					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
-#endif
 
 		g_signal_connect_after (editor->file_selector,
 					"delete-event", G_CALLBACK (file_selector_deleted),

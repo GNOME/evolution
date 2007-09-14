@@ -28,12 +28,8 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#ifdef USE_GTKFILECHOOSER
-#  include <gtk/gtkfilechooser.h>
-#  include <gtk/gtkfilechooserdialog.h>
-#else
-#  include <gtk/gtkfilesel.h>
-#endif
+#include <gtk/gtkfilechooser.h>
+#include <gtk/gtkfilechooserdialog.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtk.h>
@@ -164,8 +160,6 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	g_signal_connect (G_OBJECT(combo), "changed", 
 		G_CALLBACK (on_type_combobox_changed), extra_widget);
 
-#ifdef USE_GTKFILECHOOSER
-
 	dialog = gtk_file_chooser_dialog_new (_("Select destination file"),
 					      NULL,
 					      GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -176,10 +170,6 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), extra_widget);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
-#else
-	dialog = gtk_file_selection_new (_("Select destination file"));
-	gtk_box_pack_start (GTK_BOX (GTK_FILE_SELECTION (dialog)->main_vbox), extra_widget, FALSE, TRUE, 0);
-#endif
 	gtk_widget_show (GTK_WIDGET(combo));
 	gtk_widget_show (extra_widget);
 
@@ -191,13 +181,8 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 		gtk_tree_model_get (model, &iter, 
 			DEST_HANDLER, &handler, -1);
 
-#ifdef USE_GTKFILECHOOSER
 	       dest_uri = gtk_file_chooser_get_uri 
 			(GTK_FILE_CHOOSER (dialog));
-#else
-	       dest_uri = g_strdup (gtk_file_selection_get_filename 
-			(GTK_FILE_SELECTION (dialog)));
-#endif
 
 		tmp = strstr (dest_uri, handler->filename_ext);
 

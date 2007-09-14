@@ -25,12 +25,8 @@
 #endif
 #include <glib.h>
 #include <glib/gi18n.h>
-#ifdef USE_GTKFILECHOOSER
-#  include <gtk/gtkfilechooser.h>
-#  include <gtk/gtkfilechooserdialog.h>
-#else
-#  include <gtk/gtkfilesel.h>
-#endif
+#include <gtk/gtkfilechooser.h>
+#include <gtk/gtkfilechooserdialog.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>

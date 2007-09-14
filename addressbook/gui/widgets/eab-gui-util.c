@@ -352,12 +352,8 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	gint response = 0;
 	
 
-#ifdef USE_GTKFILECHOOSER
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
 	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));	
-#else
-	filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (info->filesel));
-#endif
 	
 	if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		response = file_exists(GTK_WINDOW (info->filesel), filename);
@@ -409,7 +405,6 @@ destroy_it(void *data, GObject *where_the_object_was)
 	g_free (info);
 }
 
-#ifdef USE_GTKFILECHOOSER
 static void
 filechooser_response (GtkWidget *widget, gint response_id, SaveAsInfo *info)
 {
@@ -418,7 +413,6 @@ filechooser_response (GtkWidget *widget, gint response_id, SaveAsInfo *info)
 	else
 		close_it (widget, info);
 }
-#endif
 
 static char *
 make_safe_filename (char *name)
@@ -511,9 +505,7 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 	GtkWidget *filesel;
 	char *file;
 	char *name;
-#ifndef USE_GTKFILECHOOSER
 	char *full_filename;
-#endif
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
 
 	name = e_contact_get (contact, E_CONTACT_FILE_AS);
@@ -521,7 +513,6 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 
 	info->has_multiple_contacts = FALSE;
 
-#ifdef USE_GTKFILECHOOSER
 	filesel = gtk_file_chooser_dialog_new (title,
 					       parent_window,
 					       GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -540,22 +531,6 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 	g_signal_connect (G_OBJECT (filesel), "response",
 			  G_CALLBACK (filechooser_response), info);
 	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
-#else
-	filesel = gtk_file_selection_new (title);
-
-	full_filename = g_strdup_printf ("%s/%s", g_get_home_dir (), file);
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), full_filename);
-	g_free (full_filename);
-	
-	info->filesel = filesel;
-	info->vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
-
-	g_signal_connect(G_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button), "clicked",
-			 G_CALLBACK (save_it), info);
-	g_signal_connect(G_OBJECT (GTK_FILE_SELECTION (filesel)->cancel_button), "clicked",
-			 G_CALLBACK (close_it), info);
-	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
-#endif
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),
@@ -573,11 +548,8 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 	GtkWidget *filesel;
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
 	char *file;
-#ifndef USE_GTKFILECHOOSER
 	char *full_filename;
-#endif
 
-#ifdef USE_GTKFILECHOOSER
 	filesel = gtk_file_chooser_dialog_new (title,
 					       parent_window,
 					       GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -586,9 +558,6 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_ACCEPT);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
-#else
-	filesel = gtk_file_selection_new(title);
-#endif
 
 	/* Check if the list has more than one contact */
 	if (g_list_next (list))
@@ -608,29 +577,15 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 		file = make_safe_filename (_("list"));
 	}
 
-#ifdef USE_GTKFILECHOOSER
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
-#else
-	full_filename = g_strdup_printf ("%s/%s", g_get_home_dir (), file);
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), full_filename);
-	g_free (full_filename);
-#endif
 
 	info->filesel = filesel;
 	info->vcard = eab_contact_list_to_string (list);
 
-#ifdef USE_GTKFILECHOOSER
 	g_signal_connect (G_OBJECT (filesel), "response",
 			  G_CALLBACK (filechooser_response), info);
 	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
-#else
-	g_signal_connect(G_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button), "clicked",
-			 G_CALLBACK (save_it), info);
-	g_signal_connect(G_OBJECT (GTK_FILE_SELECTION (filesel)->cancel_button), "clicked",
-			 G_CALLBACK (close_it), info);
-	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
-#endif
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),

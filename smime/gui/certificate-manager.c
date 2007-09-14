@@ -132,7 +132,6 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 	GtkWidget *filesel;
 	const char *filename;
 
-#ifdef USE_GTKFILECHOOSER
 	GtkFileFilter* filter;
 
 	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
@@ -152,16 +151,9 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_filter_set_name (filter, _("All files"));
 	gtk_file_filter_add_pattern (filter, "*");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
-#else
-	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
-#endif
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-#ifdef USE_GTKFILECHOOSER
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-#else
-		filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
-#endif
 		
 		if (e_cert_db_import_pkcs12_file (e_cert_db_peek (),
 						  filename, NULL /* XXX */)) {
@@ -383,7 +375,6 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 	GtkWidget *filesel;
 	const char *filename;
 
-#ifdef USE_GTKFILECHOOSER
 	GtkFileFilter *filter;
 
 	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
@@ -403,16 +394,9 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_filter_set_name (filter, _("All files"));
 	gtk_file_filter_add_pattern (filter, "*");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
-#else
-	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
-#endif
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-#ifdef USE_GTKFILECHOOSER
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-#else
-		filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
-#endif
 
 		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
 						      filename,
@@ -615,7 +599,6 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 	GtkWidget *filesel;
 	const char *filename;
 
-#ifdef USE_GTKFILECHOOSER
 	GtkFileFilter *filter;
 
 	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
@@ -635,16 +618,9 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_filter_set_name (filter, _("All files"));
 	gtk_file_filter_add_pattern (filter, "*");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
-#else
-	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
-#endif
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-#ifdef USE_GTKFILECHOOSER
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-#else
-		filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
-#endif
 
 		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
 						      filename,

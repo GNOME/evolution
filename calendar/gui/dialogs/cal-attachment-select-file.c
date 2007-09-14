@@ -36,13 +36,9 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkversion.h>
 
-#ifdef USE_GTKFILECHOOSER
 #include <gtk/gtkfilechooser.h>
 #include <gtk/gtkfilechooserdialog.h>
 #include <gtk/gtkstock.h>
-#else
-#include <gtk/gtkfilesel.h>
-#endif
 
 #include <libgnomeui/gnome-uidefs.h>
 #include <glib/gi18n.h>
@@ -65,7 +61,6 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 	
 	path = g_object_get_data ((GObject *) editor, "attach_path");
 	
-#ifdef USE_GTKFILECHOOSER
 	if (flags & SELECTOR_MODE_SAVE)
 		selection = gtk_file_chooser_dialog_new (title,
 							 NULL,
@@ -98,26 +93,6 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 		gtk_widget_show (showinline);
 		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (selection), showinline);
         }
-#else
-	selection = gtk_file_selection_new (title);
-	
-	gtk_file_selection_set_select_multiple ((GtkFileSelection *) selection, (flags & SELECTOR_MODE_MULTI));
-	
-	/* restore last path used */
-	if (!path) {
-		path = g_strdup_printf ("%s/", g_get_home_dir ());
-		gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
-		g_free (path);
-	} else {
-		gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
-	}
-	
-	if (showinline_p) {
-		showinline = gtk_check_button_new_with_mnemonic (_("_Suggest automatic display of attachment"));
-		gtk_widget_show (showinline);
-		gtk_box_pack_end (GTK_BOX (GTK_FILE_SELECTION (selection)->main_vbox), showinline, FALSE, FALSE, 4);
-	}
-#endif
 	
 	gtk_window_set_transient_for ((GtkWindow *) selection, (GtkWindow *) editor);
 	gtk_window_set_wmclass ((GtkWindow *) selection, "fileselection", "Evolution:editor");
@@ -134,11 +109,7 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 		if (showinline_p)
 			*showinline_p = gtk_toggle_button_get_active ((GtkToggleButton *) showinline);
 		
-#ifdef USE_GTKFILECHOOSER
 		path = g_path_get_dirname (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selection)));
-#else
-		path = g_path_get_dirname (gtk_file_selection_get_filename (GTK_FILE_SELECTION (selection)));
-#endif
 		
 		g_object_set_data_full ((GObject *) editor, "attach_path", g_strdup_printf ("%s/", path), g_free);
 		g_free (path);
@@ -171,11 +142,7 @@ comp_editor_select_file (CompEditor *editor, const char *title, gboolean save_mo
 	
 	selection = run_selector (editor, title, flags, NULL);
 	if (selection) {
-#ifdef USE_GTKFILECHOOSER
 		name = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selection)));
-#else
-		name = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (selection)));
-#endif
 		gtk_widget_destroy (selection);
 	}
 
@@ -191,7 +158,6 @@ comp_editor_select_file_attachments (CompEditor *editor, gboolean *showinline_p)
 	selection = run_selector (editor, _("Attach file(s)"), SELECTOR_MODE_MULTI, showinline_p);
 	
 	if (selection) {
-#ifdef USE_GTKFILECHOOSER
 		GSList *l, *n;
 		
 		if ((l = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (selection)))) {
@@ -204,18 +170,6 @@ comp_editor_select_file_attachments (CompEditor *editor, gboolean *showinline_p)
 				l = n;
 			}
 		}
-#else
-		char **files;
-		int i;
-		
-		if ((files = gtk_file_selection_get_selections (GTK_FILE_SELECTION (selection)))) {
-			list = g_ptr_array_new ();
-			for (i = 0; files[i]; i++)
-				g_ptr_array_add (list, files[i]);
-			
-			g_free (files);
-		}
-#endif
 		
 		gtk_widget_destroy (selection);
 	}

@@ -1,3 +1,11 @@
+2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #476231
+
+	* ical-format.c:
+	Remove non-USE_GTKFILECHOOSER code.
+	GtkFileChooser has been around since 2004.
+
 2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* evolution-ipod-sync.c: (ipod_get_mount):
