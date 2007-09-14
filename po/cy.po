@@ -14774,7 +14774,7 @@ msgstr "Ddoe %l:%M %p"
 
 #: ../mail/message-list.c:1536 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
-msgstr "%a %l:$M %p"
+msgstr "%a %l:%M %p"
 
 #: ../mail/message-list.c:1544 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
