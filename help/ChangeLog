@@ -1,3 +1,10 @@
+2007-09-15  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* help/quickref/hu/quickref.pdf:
+	* help/quickref/hu/quickref.tex:
+	* help/quickref/hu/Makefile.am:
+	* help/quickref/Makefile.am: Hungarian translation of quickref added.
+
 2007-09-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation

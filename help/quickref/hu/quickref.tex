@@ -1,0 +1,116 @@
+% To rebuild the .pdf from this source, use something like the following
+%	latex quickref.tex
+%	dvips -t letter -f -Pcmz < quickref.dvi >| quickref.ps
+%	ps2pdf -sPAPERSIZE=letter quickref.ps
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lscape}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{hyperref}
+
+\textheight=9in
+\textwidth=7.5in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\oddsidemargin=-0.4in
+\evensidemargin=-0.6in
+\parindent=0pt
+\parsep=1pt
+\pagestyle{empty}
+
+\date {}
+
+\makeatother
+
+\begin{document}
+	\begin{landscape}
+
+%	\textit{Dan Kuester's all-leather}
+
+	\begin{center}
+	\begin{minipage}[m]
+		{1in}\includegraphics[height=0.9in]{../evolution-logo.eps}\hspace{5mm}
+	\end{minipage}
+	\hspace{5mm}
+	\textbf{\Huge{Az Evolution rövid bemutatása}}
+	\end{center}
+
+	\begin{center}
+	\begin{multicols}{2}
+	\section*{Globális}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Összetevők}}		&					\\
+		Levelező				& \textbf{Ctrl+1}			\\
+		Névjegyek				& \textbf{Ctrl+2}			\\
+		Naptár					& \textbf{Ctrl+3}			\\
+		Feladatok				& \textbf{Ctrl+4}			\\
+		\vspace{1.5mm}
+		Feljegyzések				& \textbf{Ctrl+5}			\\
+		\textit{\textbf{Vezérlőelemek}}		&					\\
+		Új elem az aktuális módban		& \textbf{Ctrl+N}			\\
+		Átváltás az ablaktáblák között		& \textbf{F6}				\\
+		Keresősáv törlése			& \textbf{Shift+Ctrl+Q}			\\
+		Ablak bezárása				& \textbf{Ctrl+W}			\\
+		Új ablak megnyitása			& \textbf{Shift+Ctrl+W}			\\
+		\vspace{1.5mm}
+		Kilépés az Evolutionből			& \textbf{Ctrl+Q}			\\
+		\textit{\textbf{Kijelölés}}		&					\\
+		Kijelölt elem nyomtatása		& \textbf{Ctrl+P}			\\
+		Kijelölt elem mentése			& \textbf{Ctrl+S}			\\
+		Kijelölt elem törlése			& \textbf{Del} vagy \textbf{Backspace}	\\
+		Levél/névjegyek áthelyezése mappába	& \textbf{Shift+Ctrl+V}			\\
+		Levél/névjegyek másolása mappába	& \textbf{Shift+Ctrl+Y}			\\
+	\end{tabular*}
+	\section*{Névjegy/feljegyzés összetevők}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Általános parancsok}}	&					\\
+		Új névjegy				& \textbf{Shift+Ctrl+C}			\\
+		Új címlista				& \textbf{Shift+Ctrl+L}			\\
+		Új feljegyzés				& \textbf{Shift+Ctrl+O}			\\
+	\end{tabular*}
+%	{\\ \vspace{5mm} \footnotesize \textit{* denotes the feature may not be implemented yet}}
+	\section*{Levelező-összetevő}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Általános parancsok}}	&					\\
+		Új üzenet				& \textbf{Shift+Ctrl+M}			\\
+		\vspace{1.5mm}
+		Üzenetek küldése/fogadása		& \textbf{F9}				\\
+		\textit{\textbf{Kijelölés}}		&					\\
+		Szűrők alkalmazása			& \textbf{Ctrl+Y}			\\
+		Megnyitás új ablakban			& \textbf{Enter} vagy \textbf{Ctrl+O}	\\
+		\vspace{1.5mm}
+		Kijelölt elem továbbítása		& \textbf{Ctrl+F}			\\
+		\textit{\textbf{Üzenetlista}}		&					\\
+		Következő olvasatlan üzenet		& \textbf{.} vagy \textbf{]}		\\
+		\vspace{1.5mm}
+		Előző olvasatlan üzenet			& \textbf{,} vagy \textbf{[}		\\
+		\textit{\textbf{Előnézet}}	&					\\
+		Válasz a feladónak			& \textbf{Ctrl+R}			\\
+		Válasz a listának			& \textbf{Ctrl+L}			\\
+		Válasz minden címzettnek		& \textbf{Shift+Ctrl+R}			\\
+		Görgetés fel				& \textbf{Backspace}			\\
+		Görgetés le				& \textbf{Szóköz}			\\
+	\end{tabular*}
+	\section*{Naptár/feladat összetevők}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Általános parancsok}}	&					\\
+		Új értekezlet				& \textbf{Shift+Ctrl+A}			\\
+		Új találkozó				& \textbf{Shift+Ctrl+E}			\\
+		\vspace{1.5mm}
+		Új feladat				& \textbf{Shift+Ctrl+T}			\\
+%		\vspace{1.5mm}
+%		Expunge/Purge old schedules		& \textbf{Ctrl+E}			\\
+		\textit{\textbf{Navigáció}}		&					\\
+		Mai nap kiválasztása			& \textbf{Ctrl+T}			\\
+		Dátum kiválasztása			& \textbf{Ctrl+G}			\\
+	\end{tabular*}
+	\end{multicols}
+	\end{center}
+	\end{landscape}
+ \end{document}
