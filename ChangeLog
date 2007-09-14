@@ -1,3 +1,8 @@
+2007-09-15  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* configure.in: Hungarian translation of quickref added: 
+			help/quickref/hu/Makefile added to AC_OUTPUT.
+
 2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

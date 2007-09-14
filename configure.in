@@ -1934,6 +1934,7 @@ help/quickref/Makefile
 help/quickref/C/Makefile
 help/quickref/de/Makefile
 help/quickref/es/Makefile
+help/quickref/hu/Makefile
 help/quickref/it/Makefile
 help/quickref/fr/Makefile
 help/quickref/pt/Makefile
