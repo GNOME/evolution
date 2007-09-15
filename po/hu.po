@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-12 03:22+0100\n"
-"PO-Revision-Date: 2007-09-15 11:15+0200\n"
+"PO-Revision-Date: 2007-09-15 11:30+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -3483,7 +3483,7 @@ msgstr "A névjegy nem található"
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
 #: ../addressbook/gui/widgets/eab-gui-util.c:61
 msgid "Contact ID already exists"
-msgstr "A névjegyazonosító már létezik"
+msgstr "A névjegy-azonosító már létezik"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: ../addressbook/gui/widgets/eab-gui-util.c:62
@@ -3733,12 +3733,12 @@ msgstr "%s VCard-ja"
 #: ../addressbook/gui/widgets/eab-gui-util.c:1051
 #: ../addressbook/gui/widgets/eab-gui-util.c:1069
 msgid "Contact information"
-msgstr "Névjegyinformációk"
+msgstr "Névjegy-információk"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1071
 #, c-format
 msgid "Contact information for %s"
-msgstr "Névjegyinformációk a következőhöz: %s"
+msgstr "Névjegy-információk a következőhöz: %s"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:289
 msgid "Querying Address Book..."
@@ -8190,7 +8190,7 @@ msgstr "Új megosztott feljegyzés létrehozása"
 
 #: ../calendar/gui/memos-component.c:1205
 msgid "New memo list"
-msgstr "Új feljegyzésista"
+msgstr "Új feljegyzéslista"
 
 #: ../calendar/gui/memos-component.c:1206
 msgid "Memo li_st"
@@ -9654,7 +9654,7 @@ msgstr "Atlanti-óceán/South_Georgia"
 
 #: ../calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr "Atlanti-óceán/Szent_Ilona"
+msgstr "Atlanti-óceán/Szent _Ilona"
 
 #: ../calendar/zones.h:276
 msgid "Atlantic/Stanley"
@@ -11116,7 +11116,7 @@ msgstr "Kifejezés"
 
 #: ../mail/em-filter-i18n.h:25
 msgid "Follow Up"
-msgstr "Nyomonkövetés"
+msgstr "Nyomon követés"
 
 #: ../mail/em-filter-i18n.h:27
 msgid "is"
@@ -11594,7 +11594,7 @@ msgstr "Nem le_vélszemét"
 
 #: ../mail/em-folder-view.c:1245
 msgid "Mark for Follo_w Up..."
-msgstr "Nyomon_követés..."
+msgstr "Nyomon _követés..."
 
 #: ../mail/em-folder-view.c:1247
 msgid "_Label"
@@ -13781,7 +13781,7 @@ msgstr "Keresés üzenetben"
 
 #: ../mail/mail-dialogs.glade.h:13 ../mail/message-tag-followup.c:297
 msgid "Flag to Follow Up"
-msgstr "Jelölő nyomonkövetéshez"
+msgstr "Jelölő nyomon követéshez"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "Folder Subscriptions"
@@ -13812,8 +13812,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"Az alábbiakban felsorolt üzeneteket jelölte meg nyomonkövetésre.\n"
-"Válasszon egy nyomonkövetési tevékenységet a \"Jelölő\" menüből."
+"Az alábbiakban felsorolt üzeneteket jelölte meg nyomon követésre.\n"
+"Válasszon egy nyomon követési tevékenységet a \"Jelölő\" menüből."
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
@@ -14802,7 +14802,7 @@ msgstr "Megjelölve"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Nyomonkövetés jelölő"
+msgstr "Nyomonkövetés-jelölő"
 
 #: ../mail/message-list.etspec.h:10
 msgid "Received"
@@ -14827,7 +14827,7 @@ msgstr "Ne küldd tovább"
 
 #: ../mail/message-tag-followup.c:77
 msgid "Follow-Up"
-msgstr "Nyomonkövetés"
+msgstr "Nyomon követés"
 
 #: ../mail/message-tag-followup.c:78
 msgid "For Your Information"
@@ -14970,7 +14970,7 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"A mentésből visszaállíthatja az Evolutiont, beleértve a leveletek, naptárakat, feladatokat, fejlegyzéseket, névjegyeket.\n"
+"A mentésből visszaállíthatja az Evolutiont, beleértve a leveletek, naptárakat, feladatokat, feljegyzéseket, névjegyeket.\n"
 "Ezen kívül a személyes beállításait, levélszűrőit, stb. is visszaállíthatja."
 
 #: ../plugins/backup-restore/backup-restore.c:244
@@ -14983,7 +14983,7 @@ msgstr "Válassza ki a helyreállítandó Evolution archívumot:"
 
 #: ../plugins/backup-restore/backup-restore.c:254
 msgid "Choose a file to restore"
-msgstr "Válassza ki a fisszaállítandó fájlt"
+msgstr "Válassza ki a visszaállítandó fájlt"
 
 #: ../plugins/backup-restore/backup.c:40
 msgid "Backup Evolution directory"
@@ -15141,7 +15141,7 @@ msgstr "Azonnali üzenetküldő névjegyek"
 msgid ""
 "Periodically synchronize contact information and images from Pidgin buddy "
 "list"
-msgstr "Névjegyinformációk és képek rendszeres szinkronizálása a Pidgin partnerlistájából"
+msgstr "Névjegy-információk és képek rendszeres szinkronizálása a Pidgin partnerlistájából"
 
 #: ../plugins/bbdb/bbdb.c:517
 msgid "Select Address book for Pidgin buddy list"
@@ -15159,8 +15159,7 @@ msgid ""
 "lists."
 msgstr ""
 "Automatikusan feltölti a címjegyzékét nevekkel és e-mail címekkel amikor "
-"üzenetekre válaszol. Ezen kívül az azonnali üzenő névjegyinformációkat is "
-"kitölti a partnerlistája alapján."
+"üzenetekre válaszol. Ezen kívül az azonnali üzenő névjegy-információkat is kitölti a partnerlistája alapján."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -19231,7 +19230,7 @@ msgstr "Hiba: Nem dolgozható fel a kiterjesztés"
 
 #: ../smime/lib/e-cert.c:831 ../smime/lib/e-cert.c:843
 msgid "Object Signer"
-msgstr "Objektumaláíró"
+msgstr "Objektum-aláíró"
 
 #: ../smime/lib/e-cert.c:835
 msgid "SSL Certificate Authority"
@@ -20271,11 +20270,11 @@ msgstr "A kijelölt üzenetek szűrése levélszemét állapotuk szerint"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
-msgstr "A kijelölt üzeneteket nyomonkövetésre jelöli meg"
+msgstr "A kijelölt üzeneteket nyomon követésre jelöli meg"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "_Nyomonkövetés..."
+msgstr "_Nyomon követés..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -21179,7 +21178,7 @@ msgstr "_Tárgy szerint"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
-msgstr "Nyomonkövetési _jelölő szerint"
+msgstr "Nyomon követési _jelölő szerint"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
