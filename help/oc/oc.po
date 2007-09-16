@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-05-15 00:59+0200\n"
-"PO-Revision-Date: 2007-08-21 21:31+0200\n"
+"PO-Revision-Date: 2007-09-16 13:29+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -569,15 +569,15 @@ msgstr "2002-2007"
 #: evolution.xml:37(date) evolution.xml:68(invpartnumber)
 #: evolution.xml:6521(para)
 msgid "March 14, 2007"
-msgstr ""
+msgstr "14 de març de 2007"
 
 #: evolution.xml:39(para)
 msgid "Radhika PC"
-msgstr ""
+msgstr "Radhika PC"
 
 #: evolution.xml:45(date)
 msgid "November 20, 2006"
-msgstr ""
+msgstr "20 de novembre de 2006"
 
 #: evolution.xml:47(para)
 msgid "Francisco Serrador"
@@ -589,7 +589,7 @@ msgstr "2.8"
 
 #: evolution.xml:53(date)
 msgid "October 5, 2006"
-msgstr ""
+msgstr "5 d'octòbre de 2006"
 
 #: evolution.xml:57(releaseinfo)
 msgid "This manual describes version 2.10 of Evolution"
@@ -634,7 +634,7 @@ msgstr ""
 
 #: evolution.xml:89(link) evolution.xml:3298(title)
 msgid "Evolution Calendar"
-msgstr ""
+msgstr "Calendièr Evolution"
 
 #: evolution.xml:92(link) evolution.xml:4186(title)
 msgid "Connecting to Exchange Servers"
@@ -844,7 +844,7 @@ msgstr ""
 
 #: evolution.xml:219(link) evolution.xml:687(title)
 msgid "Time Zone"
-msgstr ""
+msgstr "Fus orari"
 
 #: evolution.xml:225(para)
 msgid "The Identity window is the first step in the assistant."
@@ -4168,7 +4168,7 @@ msgstr ""
 
 #: evolution.xml:2038(title)
 msgid "vCard (.vcf, .gcrd):"
-msgstr ""
+msgstr "vCard (.vcf, .gcrd):"
 
 #: evolution.xml:2039(para)
 msgid ""
@@ -4746,7 +4746,7 @@ msgstr "Personal"
 
 #: evolution.xml:2322(para) evolution.xml:2364(para)
 msgid "To do"
-msgstr ""
+msgstr "De far"
 
 #: evolution.xml:2325(para) evolution.xml:2367(para)
 msgid "Later"
@@ -9911,7 +9911,7 @@ msgstr ""
 
 #: evolution.xml:5801(title)
 msgid "Time Zone:"
-msgstr ""
+msgstr "Fus orari :"
 
 #: evolution.xml:5802(para)
 msgid "The city you're located in, to specify your time zone."
@@ -9927,7 +9927,7 @@ msgstr ""
 
 #: evolution.xml:5809(title)
 msgid "Week Starts:"
-msgstr ""
+msgstr "La setmana comença :"
 
 #: evolution.xml:5810(para)
 msgid "Select the day to display as the first in each week."
@@ -11239,7 +11239,7 @@ msgstr ""
 
 #: evolution.xml:6485(glossterm)
 msgid "virus"
-msgstr ""
+msgstr "virus"
 
 #: evolution.xml:6487(para)
 msgid ""
@@ -11251,7 +11251,7 @@ msgstr ""
 
 #: evolution.xml:6491(glossterm)
 msgid "vCard"
-msgstr ""
+msgstr "vCard"
 
 #: evolution.xml:6493(para)
 msgid ""
@@ -11395,5 +11395,5 @@ msgstr ""
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2.
 #: evolution.xml:0(None)
 msgid "translator-credits"
-msgstr "La còla occitana de revirada d'Ubuntu, 2007 - ubuntu-l10n-oci@lists.ubuntu.com"
+msgstr "Yannig Marchegay (Kokoyaya) <yannig@marchegay.org)"
 
