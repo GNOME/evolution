@@ -147,8 +147,12 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 		}
 	}
 
-	res = em_utils_prompt_user((GtkWindow *)composer,"/apps/evolution/mail/prompts/unwanted_html",
-				   "mail:ask-send-html", str->str, NULL);
+	if (str->len)
+		res = em_utils_prompt_user((GtkWindow *)composer,"/apps/evolution/mail/prompts/unwanted_html",
+					   "mail:ask-send-html", str->str, NULL);
+	else
+		res = TRUE;
+
 	g_string_free(str, TRUE);
 
 	return res;
