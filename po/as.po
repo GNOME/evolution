@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Amitakhya Phukan <amitakhya@svn.gnome.org>, 2007.
+# Amitakhya Phukan <aphukan@redhat.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-11 03:26+0100\n"
-"PO-Revision-Date: 2007-09-11 16:31+0530\n"
+"PO-Revision-Date: 2007-09-11 16:43+0530\n"
 "Last-Translator: Amitakhya Phukan <amitakhya@svn.gnome.org>\n"
 "Language-Team: Assamese\n"
 "MIME-Version: 1.0\n"
@@ -3641,32 +3642,28 @@ msgid "_Don't Display"
 msgstr "প্ৰদৰ্শন কৰা নহ'ব (_D)"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:302
-#, fuzzy
 msgid "Display _All Contacts"
 msgstr "সমস্ত পৰিচিতি প্ৰদৰ্শন কৰা হ'ব (_A)"
 
 #. For Translators only: "it" refers to the filename %s.
 #: ../addressbook/gui/widgets/eab-gui-util.c:328
 #, c-format
-#, fuzzy
 msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
 "%s ইতিমধ্যেই বিদ্যমান\n"
-"আপনি কি এটি মুছে ফেলে নতুন কৰে লিখতে ইচ্ছুক?"
+"আপুনি ইয়াক পুনঃ লিখিব বিচাৰে নেকি ?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:332
-#, fuzzy
 msgid "Overwrite"
-msgstr "মুছে নতুন কৰে লেখা"
+msgstr "ইয়াৰ ওপৰত লিখক"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
 #: ../addressbook/gui/widgets/eab-gui-util.c:379
 #: ../addressbook/gui/widgets/eab-gui-util.c:382
-#, fuzzy
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "পৰিচিতি"
@@ -3674,94 +3671,77 @@ msgstr[1] "পৰিচিতি"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:430
-#, fuzzy
 msgid "card.vcf"
 msgstr "card.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:467
-#, fuzzy
 msgid "Select Address Book"
 msgstr "ঠিকনা বহি নিৰ্বাচন কৰক"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:608
-#, fuzzy
 msgid "list"
 msgstr "তালিকা"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:774
-#, fuzzy
 msgid "Move contact to"
-msgstr "পৰিচিতিটিকে এখানে স্থানান্তৰ কৰক"
+msgstr "পৰিচিতিক স্থানান্তৰ কৰক"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:776
-#, fuzzy
 msgid "Copy contact to"
-msgstr "পৰিচিতিটিকে এখানে নকল কৰক"
+msgstr "পৰিচিতিক নকল কৰক"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:779
-#, fuzzy
 msgid "Move contacts to"
-msgstr "পৰিচিতি এখানে স্থানান্তৰ কৰক"
+msgstr "পৰিচিতিক স্থানান্তৰ কৰক"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:781
-#, fuzzy
 msgid "Copy contacts to"
-msgstr "পৰিচিতি এখানে নকল কৰক"
+msgstr "পৰিচিতি নকল কৰক"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1007
-#, fuzzy
 msgid "Multiple VCards"
-msgstr "একাধিক ভিকাৰ্ড"
+msgstr "একাধিক VCards"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1010
 #, c-format
-#, fuzzy
 msgid "VCard for %s"
-msgstr "%s -ৰ বাবে ভিকাৰ্ড"
+msgstr "%s -ৰ বাবে VCard"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1051
 #: ../addressbook/gui/widgets/eab-gui-util.c:1069
-#, fuzzy
 msgid "Contact information"
 msgstr "পৰিচিতিৰ তথ্য"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1071
 #, c-format
-#, fuzzy
 msgid "Contact information for %s"
 msgstr "%s'ৰ পৰিচিতিৰ তথ্য"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:289
-#, fuzzy
 msgid "Querying Address Book..."
-msgstr "ঠিকনা-বহিয়ে অনুসন্ধান কৰা হৈছে..."
+msgstr "ঠিকনা-বহিত অনুসন্ধান কৰা হৈছে..."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:143
 #, c-format
-#, fuzzy
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "অন্য পৰিচিতি উপস্থিত নাই।"
-msgstr[1] "অন্য পৰিচিতি উপস্থিত নাই।"
+msgstr[0] "অন্য এজন পৰিচিতি উপস্থিত ।"
+msgstr[1] "অন্য %d পৰিচিতি উপস্থিত ।"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:281
-#, fuzzy
 msgid "Show Full VCard"
 msgstr "সম্পূৰ্ণ VCard প্ৰদৰ্শন কৰক"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:232
-#, fuzzy
 msgid "Show Compact VCard"
 msgstr "সংক্ষিপ্ত VCard প্ৰদৰ্শন কৰক"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:286
-#, fuzzy
 msgid "Save in addressbook"
-msgstr "ঠিকনা বহিয়ে সংৰক্ষণ কৰক"
+msgstr "ঠিকনা বহিত সংৰক্ষণ কৰক"
 
 #: ../addressbook/gui/widgets/gal-view-factory-minicard.c:25
-#, fuzzy
 msgid "Card View"
 msgstr "কাৰ্ড ভিউ"
 
@@ -3770,107 +3750,86 @@ msgstr "কাৰ্ড ভিউ"
 #: ../addressbook/importers/evolution-vcard-importer.c:250
 #: ../calendar/importers/icalendar-importer.c:312
 #: ../calendar/importers/icalendar-importer.c:677 ../shell/shell.error.xml.h:6
-#, fuzzy
 msgid "Importing..."
 msgstr "ইম্পোৰ্ট কৰা হৈছে..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
-#, fuzzy
 msgid "Outlook CSV or Tab (.csv, .tab)"
 msgstr "Outlook CSV অথবা Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
-#, fuzzy
 msgid "Outlook CSV and Tab Importer"
 msgstr "Outlook CSV ও Tab ইম্পোৰ্ট ব্যৱস্থা"
 
 #: ../addressbook/importers/evolution-csv-importer.c:835
-#, fuzzy
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr "Mozilla CSV অথবা Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
-#, fuzzy
 msgid "Mozilla CSV and Tab Importer"
 msgstr "Mozilla CSV ও Tab ইম্পোৰ্ট ব্যৱস্থা"
 
 #: ../addressbook/importers/evolution-csv-importer.c:844
-#, fuzzy
 msgid "Evolution CSV or Tab (.csv, .tab)"
 msgstr "Evolution CSV অথবা Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
-#, fuzzy
 msgid "Evolution CSV and Tab Importer"
 msgstr "Evolution CSV ও Tab ইম্পোৰ্ট ব্যৱস্থা"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:754
-#, fuzzy
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr "এলড্যাপ-এৰ তথ্য বিনিময় ৰীতি (Format) (.ldif)"
+msgstr "LDAP ৰ তথ্য বিনিময় আকৃতি (.ldif)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:755
-#, fuzzy
 msgid "Evolution LDIF importer"
-msgstr "Evolution এলডিআইএফ ইম্পোৰ্টাৰ"
+msgstr "Evolution LDIF importer"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:547
-#, fuzzy
 msgid "VCard (.vcf, .gcrd)"
 msgstr "VCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:548
-#, fuzzy
 msgid "Evolution VCard Importer"
 msgstr "Evolution VCard Importer"
 
 #: ../addressbook/printing/e-contact-print.glade.h:1
-#, fuzzy
 msgid "10 pt. Tahoma"
 msgstr "১০ পয়েন্ট তাহোমা"
 
 #: ../addressbook/printing/e-contact-print.glade.h:2
-#, fuzzy
 msgid "8 pt. Tahoma"
 msgstr "৮ পয়েন্ট তাহোমা"
 
 #: ../addressbook/printing/e-contact-print.glade.h:3
-#, fuzzy
 msgid "Blank forms at end:"
-msgstr "শেষ প্ৰান্তে ফাঁকা ফৰ্ম:"
+msgstr "শেষ প্ৰান্তে ৰিক্ত ফৰ্ম:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:4
-#, fuzzy
 msgid "Body"
 msgstr "মূল অংশ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:5
-#, fuzzy
 msgid "Bottom:"
 msgstr "তলদেশ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:6
-#, fuzzy
 msgid "Dimensions:"
 msgstr "মাত্ৰা:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:7
-#, fuzzy
 msgid "F_ont..."
 msgstr "ফন্ট (_o)..."
 
 #: ../addressbook/printing/e-contact-print.glade.h:8
-#, fuzzy
 msgid "Fonts"
 msgstr "ফন্ট"
 
 #: ../addressbook/printing/e-contact-print.glade.h:9
-#, fuzzy
 msgid "Footer:"
 msgstr "ফুটাৰ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:10
-#, fuzzy
 msgid "Format"
 msgstr "ফৰমা"
 
@@ -3881,127 +3840,102 @@ msgstr "ফৰমা"
 #: ../widgets/table/e-table-field-chooser.c:81
 #: ../widgets/table/e-table-header-item.c:1896
 #: ../widgets/table/e-table-selection-model.c:314
-#, fuzzy
 msgid "Header"
 msgstr "হেডাৰ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:12
-#, fuzzy
 msgid "Header/Footer"
 msgstr "হেডাৰ/ফুটাৰ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:13
-#, fuzzy
 msgid "Headings"
 msgstr "শিৰোনাম"
 
 #: ../addressbook/printing/e-contact-print.glade.h:14
-#, fuzzy
 msgid "Headings for each letter"
 msgstr "প্ৰতিটি পত্ৰেৰ শিৰোনাম"
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
-#, fuzzy
 msgid "Height:"
 msgstr "উচ্চতা:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:16
-#, fuzzy
 msgid "Immediately follow each other"
-msgstr "একে অপৰকে লাগোয়াভাবে অনুসৰণ কৰে"
+msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:17
-#, fuzzy
 msgid "Include:"
 msgstr "অন্তৰ্গত:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:18
-#, fuzzy
 msgid "Landscape"
 msgstr "ল্যান্ডস্কেপ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:19
-#, fuzzy
 msgid "Left:"
-msgstr "বাঁদিক:"
+msgstr "বাওঁ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
-#, fuzzy
 msgid "Letter tabs on side"
-msgstr "প্ৰতি প্ৰান্তে লেটাৰ ট্যাব"
+msgstr "প্ৰতি প্ৰান্তত লেটাৰ ট্যাব"
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
-#, fuzzy
 msgid "Margins"
 msgstr "মাৰ্জিন"
 
 #: ../addressbook/printing/e-contact-print.glade.h:22
-#, fuzzy
 msgid "Number of columns:"
-msgstr "কলাম সংখ্যা:"
+msgstr "স্তম্ভৰ সংখ্যা:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:23
-#, fuzzy
 msgid "Options"
-msgstr "অপশন"
+msgstr "বিকল্প"
 
 #: ../addressbook/printing/e-contact-print.glade.h:24
-#, fuzzy
 msgid "Orientation"
-msgstr "দিশা"
+msgstr "দিশ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:25
-#, fuzzy
 msgid "Page"
-msgstr "পাগে"
+msgstr "পৃষ্ঠ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:26
-#, fuzzy
 msgid "Page Setup:"
 msgstr "পৃষ্ঠাৰ বৈশিষ্ট্যাবলী:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:27
-#, fuzzy
 msgid "Paper"
 msgstr "কাগজ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:28
-#, fuzzy
 msgid "Paper source:"
-msgstr "কাগজেৰ উৎস:"
+msgstr "কাগজৰ উৎস:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
-#, fuzzy
 msgid "Portrait"
 msgstr "পোৰ্ট্ৰেট"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
-#, fuzzy
 msgid "Preview:"
 msgstr "পূৰ্বপ্ৰদৰ্শন:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:31
-#, fuzzy
 msgid "Print using gray shading"
-msgstr "ধূসৰ ছায়া সহকাৰে প্ৰিন্ট কৰক"
+msgstr "ধোঁৱাৰ ছায়া সহকাৰে প্ৰিন্ট কৰক"
 
 #: ../addressbook/printing/e-contact-print.glade.h:32
-#, fuzzy
 msgid "Reverse on even pages"
-msgstr "জোড় সংখ্যাৰ পাতাৰ ক্ষেত্ৰে বিপৰীত"
+msgstr "যুগ্ম সংখ্যাৰ পৃষ্ঠাৰ ক্ষেত্ৰত বিপৰীত"
 
 #: ../addressbook/printing/e-contact-print.glade.h:33
-#, fuzzy
 msgid "Right:"
-msgstr "ডানদিক:"
+msgstr "সোঁ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:34
-#, fuzzy
 msgid "Sections:"
 msgstr "অনুচ্ছেদ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:35
-#, fuzzy
 msgid "Shading"
 msgstr "ছায়া"
 
@@ -4010,88 +3944,72 @@ msgstr "ছায়া"
 #: ../plugins/exchange-operations/exchange-account-setup.c:964
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
-#, fuzzy
 msgid "Size:"
 msgstr "মাপ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:37
-#, fuzzy
 msgid "Start on a new page"
-msgstr "এটা নতুন পৃষ্ঠায় আৰম্ভ কৰক"
+msgstr "এটা নতুন পৃষ্ঠাত আৰম্ভ কৰক"
 
 #: ../addressbook/printing/e-contact-print.glade.h:38
-#, fuzzy
 msgid "Style name:"
-msgstr "বিন্যাসেৰ নাম:"
+msgstr "ধৰণৰ নাম:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:39
-#, fuzzy
 msgid "Top:"
-msgstr "উপৰ:"
+msgstr "ওপৰ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
 #: ../calendar/gui/dialogs/calendar-setup.c:156
-#, fuzzy
 msgid "Type:"
-msgstr "ধৰন:"
+msgstr "ধৰণ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:41
-#, fuzzy
 msgid "Width:"
 msgstr "প্ৰস্থ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:42
-#, fuzzy
 msgid "_Font..."
 msgstr "ফন্ট (_F)..."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:53
-#, fuzzy
 msgid "Contact Print Style Editor Test"
 msgstr "কনটেক্ট প্ৰিন্ট বিন্যাস সম্পাদন ব্যৱস্থা পৰীক্ষণ"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
 #: ../addressbook/printing/test-print.c:47
-#, fuzzy
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr "নকলৰাইট (C) ২০০০, Ximian, Inc."
+msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
-#, fuzzy
 msgid "This should test the contact print style editor widget"
-msgstr "এৰ সাহায্যে কনটেক্ট প্ৰিন্ট বিন্যাস সম্পাদনাৰ উইজেট পৰীক্ষা কৰা সম্ভব"
+msgstr "এইটোৱে কনটেক্ট প্ৰিন্ট বিন্যাস সম্পাদনাৰ উইজেট পৰীক্ষা কৰিব"
 
 #: ../addressbook/printing/test-print.c:46
-#, fuzzy
 msgid "Contact Print Test"
 msgstr "কনটেক্ট প্ৰিন্ট পৰীক্ষণ"
 
 #: ../addressbook/printing/test-print.c:49
-#, fuzzy
 msgid "This should test the contact print code"
-msgstr "এৰ সাহায্যে কনটেক্ট প্ৰিন্ট ব্যৱস্থাৰ কোড পৰীক্ষা কৰা সম্ভব"
+msgstr "এইটোৱে কনটেক্ট প্ৰিন্ট ব্যৱস্থাৰ কোড পৰীক্ষা কৰিব"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:668
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:704
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
-#, fuzzy
 msgid "Can not open file"
-msgstr "নথিপত্ৰটি খোলা যাচ্ছে না"
+msgstr "নথিপত্ৰ খোলিব পৰা ন'গ'ল"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
-#, fuzzy
 msgid "Couldn't get list of addressbooks"
 msgstr "ঠিকনা-বহিৰ তালিকা পোৱা নাযায়"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:72
-#, fuzzy
 msgid "failed to open book"
-msgstr "বহি পড়া সম্ভব হোৱা নাই"
+msgstr "বহি খোলা সম্ভৱ হোৱা নাই"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:49
-#, fuzzy
 msgid "Specify the output file instead of standard output"
-msgstr "স্ট্যান্ডাৰ্ড আউটপুটেৰ পৰিবৰ্তে আউটপুট নথিপত্ৰ উল্লেখ কৰক"
+msgstr "মানপ্ৰাপ্ত নিৰ্গমৰ পৰিবৰ্তে নিৰ্গম নথিপত্ৰ উল্লেখ কৰক"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:50
 #, fuzzy
@@ -4109,9 +4027,8 @@ msgid "Show cards as vcard or csv file"
 msgstr "সমস্ত কাৰ্ড ভিকাৰ্ড অথবা csv নথিপত্ৰ হিসাবে প্ৰদৰ্শন কৰা হ'ব"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
-#, fuzzy
 msgid "[vcard|csv]"
-msgstr "[ভিকাৰ্ড|csv]"
+msgstr "[vcard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 #, fuzzy
