@@ -486,9 +486,9 @@ main (int argc, char **argv)
 #endif
 
 #if DEVELOPMENT
-	GConfClient *client;
 	gboolean skip_warning_dialog;
 #endif
+	GConfClient *client;
 	GnomeProgram *program;
 	GOptionContext *context;
 	char *filename;
@@ -530,10 +530,10 @@ main (int argc, char **argv)
 #ifdef G_OS_WIN32
 	gtk_rc_parse_string ("gtk-fallback-icon-theme = \"gnome\"");
 #endif
-
-#if DEVELOPMENT
 	client = gconf_client_get_default ();
 
+#if DEVELOPMENT
+	
 	if (force_migrate) {
 		destroy_config (client);
 	}
@@ -594,11 +594,11 @@ main (int argc, char **argv)
 	else
 		g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 
-	g_object_unref (client);
 #else
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);	
 #endif
-	
+	g_object_unref (client);
+
 	bonobo_main ();
 	
 	e_icon_factory_shutdown ();

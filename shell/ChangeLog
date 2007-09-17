@@ -1,3 +1,7 @@
+2007-09-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* main.c: (main): Fix for a build break.
+
 2007-09-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-shell-window-commands.c: Add contributors to the credits section.
