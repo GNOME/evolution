@@ -13402,7 +13402,7 @@ msgstr "Ставити _цифровий підпис на повідомлен�
 
 #: ../mail/mail-config.glade.h:70
 msgid "Do not format text contents in mails if the text si_ze exceeds"
-msgstr "Не форматувати текстовий зміст у пошті, якщо розмір тексту перевищує"
+msgstr "Не форматувати текстовий зміст у пошті, якщо _розмір тексту перевищує"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not quote original message"
@@ -13587,7 +13587,7 @@ msgstr "В_ибрати..."
 
 #: ../mail/mail-config.glade.h:123
 msgid "S_end message receipts:"
-msgstr "Надіслати сповіщення про отримання:"
+msgstr "_Надіслати сповіщення про отримання:"
 
 #: ../mail/mail-config.glade.h:124
 msgid "S_tandard Font:"
@@ -15256,7 +15256,7 @@ msgstr "Виберіть адресну книгу для списку конт�
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:528
 msgid "Synchronize with _buddy list now"
-msgstr "Синхронізувати зі списком контактів зараз"
+msgstr "Синхронізувати зі списком _контактів зараз"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
@@ -17632,7 +17632,7 @@ msgstr "Модуль, що створює завдання з вмісту по�
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
 msgid "Con_vert to Task"
-msgstr "Перетворити у З-авдання"
+msgstr "Пере_творити у Завдання"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 msgid "Mail to task"
@@ -19451,7 +19451,7 @@ msgstr "К_опіювати контакти у..."
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
-msgstr "Попередній перегляд контакту"
+msgstr "_Попередній перегляд контакту"
 
 #: ../ui/evolution-addressbook.xml.h:6
 #: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
@@ -21939,7 +21939,7 @@ msgstr "С_творити інформацію для відстеження з 
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
-msgstr "Доставлено та відкрито"
+msgstr "_Доставлено та відкрито"
 
 #: ../widgets/misc/e-send-options.glade.h:9
 msgid "Gene_ral Options"
