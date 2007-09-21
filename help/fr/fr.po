@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Evolution doc fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-14 20:49+0200\n"
-"PO-Revision-Date: 2007-08-29 21:46+0200\n"
+"PO-Revision-Date: 2007-09-21 21:52+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -192,6 +192,7 @@ msgstr ""
 msgid ""
 "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
 msgstr ""
+"@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -613,6 +614,8 @@ msgid ""
 "@@image: 'figures/evo_gwstatustrack.png'; "
 "md5=d4eb84e2d55870af1408c430ce8c0e66"
 msgstr ""
+"@@image: 'figures/evo_gwstatustrack.png'; "
+"md5=d4eb84e2d55870af1408c430ce8c0e66"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -620,6 +623,7 @@ msgstr ""
 msgid ""
 "@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
 msgstr ""
+"@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -627,6 +631,7 @@ msgstr ""
 msgid ""
 "@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
 msgstr ""
+"@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
