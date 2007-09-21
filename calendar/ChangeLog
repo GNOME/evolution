@@ -1,3 +1,15 @@
+2007-09-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #411125
+
+	* gui/dialogs/meeting-page.etspec:
+	* gui/e-meeting-time-sel.etspec:
+	* gui/e-memo-table.etspec:
+	* gui/e-calendar-table.etspec:
+	* gui/e-cal-list-view.etspec:
+	Uses 'compare="collate"' instead of 'compare="string"' to handle UTF
+	characters correctly.
+
 2007-09-21  Jedy Wang  <jedy.wang@sun.com>
 
 	** Fixes bug #476124.

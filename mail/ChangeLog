@@ -1,3 +1,11 @@
+2007-09-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #411125
+
+	* message-list.etspec:
+	Uses 'compare="collate"' instead of 'compare="string"' to handle UTF
+	characters correctly.
+
 2007-09-17  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #472865

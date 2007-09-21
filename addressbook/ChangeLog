@@ -1,3 +1,12 @@
+2007-09-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #411125
+
+	* gui/widgets/e-addressbook-view.etspec:
+	* gui/contact-list-editor/e-contact-list-editor.etspec:
+	Uses 'compare="collate"' instead of 'compare="string"' to handle UTF
+	characters correctly.
+
 2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #476231
