@@ -2362,6 +2362,8 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 		/* get url sans protocol and add it to the bar.
 		 * how to set the filename properly */		
 		file_name = g_filename_from_uri (attach_filename, NULL, NULL);
+		if (!file_name)
+			continue;
 		
 		if (g_stat (file_name, &statbuf) < 0) {
 			g_warning ("Cannot attach file %s: %s", file_name, g_strerror (errno));
