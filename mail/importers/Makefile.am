@@ -22,10 +22,6 @@ libevolution_mail_importers_la_SOURCES =	\
 
 libevolution_mail_importers_la_LDFLAGS = $(NO_UNDEFINED)
 
-# these haven't been converted to plugins yet
-#	netscape-importer.c
-#	evolution-outlook-importer.c
-
 libevolution_mail_importers_la_LIBADD =				\
 	$(WIN32_BOOTSTRAP_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la			\

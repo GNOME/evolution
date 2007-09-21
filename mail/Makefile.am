@@ -267,6 +267,7 @@ etspec_DATA = message-list.etspec
 
 EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
+	README.async			\
 	em-marshal.list			\
 	$(SPELL_IDL)			\
 	$(MAIL_IDL)			\

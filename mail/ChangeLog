@@ -1,3 +1,13 @@
+2007-09-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Distribute README.async (#478704).
+
+	* importers/Makefile.am:
+	Remove references to evolution-outlook-importer.c and
+	netscape-importer.c; we haven't shipped them for over two years
+	(see ChangeLog entry for 2005-07-01).
+
 2007-09-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #411125
