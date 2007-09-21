@@ -1,3 +1,13 @@
+2007-09-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Add sounds/Makefile to AC_OUTPUT.
+
+	* Makefile.am:
+	Distribute the "sounds" directory and its contents.  The iCalendar
+	importer in calendar still uses "default_alarm.wav" and configure.in
+	still defines "soundsdir". (#478704)
+
 2007-09-15  Gabor Kelemen  <kelemeng@gnome.hu>
 
 	* configure.in: Hungarian translation of quickref added: 

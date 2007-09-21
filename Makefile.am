@@ -50,7 +50,8 @@ SUBDIRS = 			\
 	views			\
 	tools			\
 	help			\
-	po
+	po			\
+	sounds
 
 DISTCLEANFILES = 		\
 	intltool-extract	\
