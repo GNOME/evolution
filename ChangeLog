@@ -1,3 +1,8 @@
+2007-09-23  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* configure.in (libgtkhtml_minimum_version): Bump required GtkHTML
+	minimum version to 3.16.  Fixes bug #478757.
+
 2007-09-21  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

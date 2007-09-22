@@ -16,7 +16,7 @@ m4_define([eds_minimum_version], [1.9.4])
 m4_define([gnome_icon_theme_minimum_version], [1.2.0])
 m4_define([gnome_vfs_minimum_version], [2.4.0])
 m4_define([libbonoboui_minimum_version], [2.4.2])
-m4_define([libgtkhtml_minimum_version], [3.14.0])
+m4_define([libgtkhtml_minimum_version], [3.16.0])
 m4_define([gconf_minimum_version], [2.0.0])             # XXX Just a Guess
 m4_define([libglade_minimum_version], [2.0.0])          # XXX Just a Guess
 m4_define([libgnomecanvas_minimum_version], [2.0.0])    # XXX Just a Guess
