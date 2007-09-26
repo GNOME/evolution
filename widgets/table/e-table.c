@@ -1348,6 +1348,8 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 	e_table->need_rebuild = TRUE;
 	if (!e_table->rebuild_idle_id)
 		e_table->rebuild_idle_id = g_idle_add_full (20, changed_idle, e_table, NULL);
+
+	e_table_state_change (e_table);
 }
 
 /**
