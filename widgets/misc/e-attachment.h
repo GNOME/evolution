@@ -26,6 +26,7 @@
 #define __E_ATTACHMENT_H__
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtkwindow.h>
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-exception.h>
@@ -83,7 +84,8 @@ GType e_attachment_get_type (void);
 EAttachment *e_attachment_new (const char *file_name,
 			       const char *disposition,
 			       CamelException *ex);
-EAttachment * e_attachment_new_remote_file (const char *url,
+EAttachment * e_attachment_new_remote_file (GtkWindow *error_dlg_parent,
+					    const char *url,
 			       		    const char *disposition,
 					    const char *path,
 	  	   			    CamelException *ex);

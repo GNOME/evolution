@@ -54,6 +54,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
+#include "e-util/e-error.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-util-private.h"
 
@@ -316,6 +317,8 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 typedef struct DownloadInfo {
 	EAttachment *attachment;
 	char *file_name;
+	char *uri;
+	GtkWindow *parent; /* for error dialog */
 } DownloadInfo;
 
 static int
@@ -336,23 +339,37 @@ async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 			CamelException ex;
 			
-			if (!info->file_size)
-				goto error;
+			if (!info->file_size) {
+				if (info->vfs_status == GNOME_VFS_OK)
+					info->vfs_status = GNOME_VFS_ERROR_EOF;
+				goto error_msg;
+			}
 			
 			download_info->attachment->handle = NULL;
 			camel_exception_init (&ex);
 			e_attachment_build_remote_file (download_info->file_name, download_info->attachment, "attachment", &ex);
+			if (camel_exception_is_set (&ex)) {
+				e_error_run (download_info->parent, "mail-composer:no-attach",
+						download_info->uri, camel_exception_get_description (&ex), NULL);
+				camel_exception_clear (&ex);
+				goto error;
+			}
 			download_info->attachment->percentage = -1;
 			download_info->attachment->is_available_local = TRUE;
 			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
 			g_free (download_info->file_name);
+			g_free (download_info->uri);
 			g_free (download_info);
 		}
 		return TRUE;
 	case GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR:
+	error_msg:
+		e_error_run (download_info->parent, "mail-composer:no-attach",
+				download_info->uri, gnome_vfs_result_to_string (info->vfs_status), NULL);
 	error:
 		g_object_unref (download_info->attachment);
 		g_free (download_info->file_name);
+		g_free (download_info->uri);
 		g_free (download_info);
 		return FALSE;
 	default:
@@ -387,7 +404,7 @@ download_to_local_path (GnomeVFSURI *source_uri, GnomeVFSURI *target_uri, Downlo
 }
 
 EAttachment *
-e_attachment_new_remote_file (const char *uri, const char *disposition, const char *path, CamelException *ex)
+e_attachment_new_remote_file (GtkWindow *error_dlg_parent, const char *uri, const char *disposition, const char *path, CamelException *ex)
 {
 	EAttachment *new;
 	DownloadInfo *download_info;
@@ -415,6 +432,8 @@ e_attachment_new_remote_file (const char *uri, const char *disposition, const ch
 	download_info = g_new (DownloadInfo, 1);
 	download_info->attachment = new;
 	download_info->file_name = g_strdup (new->file_name);
+	download_info->uri = g_strdup (uri);
+	download_info->parent = error_dlg_parent;
 	download_to_local_path (gnome_vfs_uri_new (uri), gnome_vfs_uri_new (new->file_name), download_info);
 	
 	return new;

@@ -1203,19 +1203,21 @@ e_attachment_bar_attach_remote_file (EAttachmentBar *bar, const char *url, const
 {
 	EAttachment *attachment;
 	CamelException ex;
+	GtkWindow *parent;
 	
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
 	if (!bar->priv->path)
 		bar->priv->path = e_mkdtemp ("attach-XXXXXX");
-	
+
+	parent = (GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) bar);
 	camel_exception_init (&ex);
-	if ((attachment = e_attachment_new_remote_file (url, disposition, bar->priv->path, &ex))) {
+	if ((attachment = e_attachment_new_remote_file (parent, url, disposition, bar->priv->path, &ex))) {
 		add_common (bar, attachment);
 		g_signal_connect (attachment, "update", G_CALLBACK (update_remote_file), bar);
 	} else {
-		e_error_run ((GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) bar), "mail-composer:no-attach",
-			     attachment->file_name, camel_exception_get_description (&ex), NULL);
+		e_error_run (parent, "mail-composer:no-attach",
+			     url, camel_exception_get_description (&ex), NULL);
 		camel_exception_clear (&ex);
 	}
 }

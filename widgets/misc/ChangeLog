@@ -1,5 +1,15 @@
 2007-09-26  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #423401
+
+	* e-attachment.h: (e_attachment_new_remote_file):
+	* e-attachment.c: (struct DownloadInfo), (async_progress_update_cb),
+	(e_attachment_new_remote_file):
+	* e-attachment-bar.c: (e_attachment_bar_attach_remote_file):
+	Better error handling when attaching remote file.
+
+2007-09-26  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #351333
 
 	* e-search-bar.c: (paint_search_text), (option_activated_cb):
