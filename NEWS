@@ -1,3 +1,51 @@
+Evolution 2.12.0 2007-09-17
+----------------------------
+
+Bug fixes:
+	#270605: Skip disabled accounts and choose first available address as organizer. (Chenthill Palanisamy, Milan Crha)
+	#274047: (Novell Bugzilla) Pick the glade file from install area (Chenthill Palanisamy)
+	#274048: (Novell Bugzilla) Prompt for a password if required (Chenthill Palanisamy)
+	#277159: (Novell Bugzilla) Listen to the changes made in publish frequency (Chenthill Palanisamy)
+	#300284: (Novell Bugzilla) Do not allow the user to set a 'no-date' for start/end of appointments in list view (Suman Manjunath)
+	#301044: (Novell Bugzilla) Dont append the comma from the Nameselector (Srinivasa Ragavan)
+	#304993: (Novell Bugzilla) Allow folder selection of created folders and expand only if selection is not asked for (Srinivasa Ragavan)
+	#329629: audio-inline plugin has been ported to gstreamer 0.10 (Frederic Crozat)
+	#330223: More than one memo list was getting marked as default (Milan Crha)
+	#332026: Filter the input context key events (Chenthill Palanisamy)
+	#363645: Don't translate empty label names. (Bastien Nocera)
+	#368033: Assign default color for B&A when no color is set (Milan Crha)
+	#467581: Get the right URIs for selected and current folders. (Johnny Jacob)
+	#468366: Avoid empty keywords getting added and other small fixes and improvements. (B S Srinidhi)
+	#471791: Move away from g_assert to g_critical (Srinivasa Ragavan)
+	#473903: Fixes serious compiler warning (Milan Crha)
+
+Other Contributors:
+	Fix weak references which fixes one issue of the patch from bug #439122 (Gilles Dartiguelongue)
+	Code cleanup (Suman Manjunath)
+
+Updated Translations:
+	Yannig Marchegay (oc)
+	Nickolay V. Shmyrev (ru)
+	Gabor Kelemen (hu)
+	Iestyn Pryce (cy)
+	Ahmad Farghal (ar)
+	Jamil Ahmed (bn)
+	Hendrik Richter (de)
+	Danishka Navin (si)
+	Igor Nestorovi (sr)
+	Ani Peter (ml)
+	Amitakhya Phukan (as)
+	Ilkka Tuohela (fi)
+	Jorge Gonzalez (es)
+	Kenneth Nielsen (da)
+	Daniel Nylander (sv)
+	Jovan Naumovski (mk)
+	Ankit Patel (gu)
+	Luca Ferretti (it)
+	Inaki Larranaga Murgoitio (eu)
+	Clytie Siddall (vi)
+	Priit Laes (et)
+
 Evolution 2.11.92 2007-09-03
 ----------------------------
 
