@@ -338,11 +338,16 @@ paint_search_text (GtkWidget *widget, ESearchBar *esb)
 	
 		
 	if (text && *text) {
+		gchar *t;
+
 		if (!GTK_WIDGET_HAS_FOCUS(esb->entry)) {
 			gtk_entry_set_text (GTK_ENTRY (esb->entry), text);
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_INSENSITIVE]));
 		}
-		gtk_tooltips_set_tip (esb->tooltips, esb->option_button, text, "Search type");
+
+		t = g_strdup_printf ("%s: %s\n%s", _("Search"), text, _("Click here to change the search type"));
+		gtk_tooltips_set_tip (esb->tooltips, esb->option_button, t, "Search type");
+		g_free (t);
 		gtk_widget_set_sensitive (esb->clear_button, FALSE);
 	}
 	
@@ -466,9 +471,15 @@ option_activated_cb (GtkWidget *widget,
 	e_search_bar_set_item_id (esb, id);
 
 	if (GTK_IS_RADIO_MENU_ITEM (gtk_menu_get_active ( GTK_MENU (esb->option_menu)))) {
+		gchar *t;
 		text = get_selected_item_label (esb->option_menu);
-		if (text && *text) 
-			gtk_tooltips_set_tip (esb->tooltips, esb->option_button, text, "Search type");
+		if (text && *text)
+			t = g_strdup_printf ("%s: %s\n%s", _("Search"), text, _("Click here to change the search type"));
+		else
+			t = g_strdup_printf ("%s: %s", _("Search"), _("Click here to change the search type"));
+		
+		gtk_tooltips_set_tip (esb->tooltips, esb->option_button, t, "Search type");
+		g_free (t);
 	}
 
 	if (!esb->block_search) {
