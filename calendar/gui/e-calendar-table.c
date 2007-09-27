@@ -104,7 +104,7 @@ static gint e_calendar_table_on_key_press	(ETable		*table,
 
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
 						    gpointer data);
-static void mark_row_complete_cb (int model_row, gpointer data);
+static void mark_as_complete_cb (EPopup *ep, EPopupItem *pitem, void *data);
 
 static void hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPtrArray *comp_objects);
 static void show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPtrArray *comp_objects);
@@ -628,13 +628,10 @@ e_calendar_table_open_selected (ECalendarTable *cal_table)
 void
 e_calendar_table_complete_selected (ECalendarTable *cal_table)
 {
-	ETable *etable;
-
 	g_return_if_fail (cal_table != NULL);
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	e_table_selected_row_foreach (etable, mark_row_complete_cb, cal_table);
+	mark_as_complete_cb (NULL, NULL, cal_table);
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
@@ -1263,46 +1260,98 @@ e_calendar_table_on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 	}
 }
 
-/* Used from e_table_selected_row_foreach() */
-static void
-mark_row_complete_cb (int model_row, gpointer data)
-{
+struct AffectedComponents {
 	ECalendarTable *cal_table;
+	GSList *components; /* contains pointers to ECalModelComponent */
+};
 
-	cal_table = E_CALENDAR_TABLE (data);
-	e_cal_model_tasks_mark_task_complete (E_CAL_MODEL_TASKS (cal_table->model), model_row);
+/**
+ * get_selected_components_cb
+ * Helper function to fill list of selected components in ECalendarTable.
+ * This function is called from e_table_selected_row_foreach.
+ **/
+static void
+get_selected_components_cb (int model_row, gpointer data)
+{
+	struct AffectedComponents *ac = (struct AffectedComponents *) data;
+
+	if (!ac || !ac->cal_table)
+		return;
+
+	ac->components = g_slist_prepend (ac->components, e_cal_model_get_component_at (E_CAL_MODEL (ac->cal_table->model), model_row));
 }
 
-/* Used from e_table_selected_row_foreach() */
+/**
+ * do_for_selected_components
+ * Calls function func for all selected components in cal_table.
+ *
+ * @param cal_table Table with selected components of our interest
+ * @param func Function to be called on each selected component from cal_table.
+ *        The first parameter of this function is a pointer to ECalModelComponent and
+ *        the second parameter of this function is pointer to cal_table
+ **/
 static void
-mark_row_incomplete_cb (int model_row, gpointer data)
+do_for_selected_components (ECalendarTable *cal_table, GFunc func)
+{
+	ETable *etable;
+	struct AffectedComponents ac;
+
+	g_return_if_fail (cal_table != NULL);
+
+	ac.cal_table = cal_table;
+	ac.components = NULL;
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, get_selected_components_cb, &ac);
+
+	g_slist_foreach (ac.components, func, cal_table);
+	g_slist_free (ac.components);
+}
+
+/**
+ * mark_comp_complete_cb
+ * Function used in call to @ref do_for_selected_components to mark each component as complete
+ **/
+static void
+mark_comp_complete_cb (gpointer data, gpointer user_data)
 {
 	ECalendarTable *cal_table;
+	ECalModelComponent *comp_data;
 
-	cal_table = E_CALENDAR_TABLE (data);
-	e_cal_model_tasks_mark_task_incomplete (E_CAL_MODEL_TASKS (cal_table->model), model_row);
+	comp_data = (ECalModelComponent *) data;
+	cal_table = E_CALENDAR_TABLE (user_data);
+
+	e_cal_model_tasks_mark_comp_complete (E_CAL_MODEL_TASKS (cal_table->model), comp_data);
+}
+
+/**
+ * mark_comp_incomplete_cb
+ * Function used in call to @ref do_for_selected_components to mark each component as incomplete
+ **/
+static void
+mark_comp_incomplete_cb (gpointer data, gpointer user_data)
+{
+	ECalendarTable *cal_table;
+	ECalModelComponent *comp_data;
+
+	comp_data = (ECalModelComponent *) data;
+	cal_table = E_CALENDAR_TABLE (user_data);
+
+	e_cal_model_tasks_mark_comp_incomplete (E_CAL_MODEL_TASKS (cal_table->model), comp_data);
 }
 
 /* Callback used for the "mark tasks as incomplete" menu item */
 static void
 mark_as_incomplete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	ECalendarTable *cal_table = data;
-	ETable *etable;
-
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	e_table_selected_row_foreach (etable, mark_row_incomplete_cb, cal_table);
+	do_for_selected_components (data, mark_comp_incomplete_cb);
 }
 
 /* Callback used for the "mark tasks as complete" menu item */
 static void
 mark_as_complete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	ECalendarTable *cal_table = data;
-	ETable *etable;
-
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	e_table_selected_row_foreach (etable, mark_row_complete_cb, cal_table);
+	do_for_selected_components (data, mark_comp_complete_cb);
 }
 
 /* Opens the URL of the task */

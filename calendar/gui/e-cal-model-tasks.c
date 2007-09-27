@@ -51,6 +51,7 @@ static char *ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 static const char *ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 static void ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
+static void commit_component_changes (ECalModelComponent *comp_data);
 
 G_DEFINE_TYPE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL)
 
@@ -829,12 +830,7 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		break;
 	}
 
-	/* FIXME ask about mod type */
-	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
-		g_warning (G_STRLOC ": Could not modify the object!");
-		
-		/* FIXME Show error dialog */
-	}
+	commit_component_changes (comp_data);
 }
 
 static gboolean
@@ -1098,69 +1094,88 @@ e_cal_model_tasks_new (void)
 }
 
 /**
- * e_cal_model_tasks_mark_task_complete
- */
-void
-e_cal_model_tasks_mark_task_complete (ECalModelTasks *model, gint model_row)
+ * e_cal_model_tasks_mark_comp_complete
+ * Marks component as complete and commits changes to the calendar backend.
+ *
+ * @param model Currently not used...
+ * @param comp_data Component of our interest
+ **/
+void e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelComponent *comp_data)
 {
-	ECalModelComponent *comp_data;
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (comp_data != NULL);
 
-	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
-	g_return_if_fail (model_row >= 0 && model_row < e_table_model_row_count (E_TABLE_MODEL (model)));
+	/* we will receive changes when committed, so don't do this */
+	/*e_table_model_pre_change (E_TABLE_MODEL (model));*/
 
-	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), model_row);
-	if (comp_data) {
-		e_table_model_pre_change (E_TABLE_MODEL (model));
+	ensure_task_complete (comp_data, -1);
 
-		ensure_task_complete (comp_data, -1);
-
-		e_table_model_row_changed (E_TABLE_MODEL (model), model_row);
-	}
+	/*e_table_model_row_changed (E_TABLE_MODEL (model), model_row);*/
+	
+	commit_component_changes (comp_data);
 }
 
 /**
- * e_cal_model_tasks_mark_task_incomplete
- */
-void
-e_cal_model_tasks_mark_task_incomplete (ECalModelTasks *model, gint model_row)
+ * e_cal_model_tasks_mark_comp_incomplete
+ * Marks component as incomplete and commits changes to the calendar backend.
+ *
+ * @param model Currently not used...
+ * @param comp_data Component of our interest
+ **/
+void e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelComponent *comp_data)
 {
- 	ECalModelComponent *comp_data; 
 	icalproperty *prop,*prop1;
 
- 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model)); 
- 	g_return_if_fail (model_row >= 0 && model_row < e_table_model_row_count (E_TABLE_MODEL (model))); 
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (comp_data != NULL);
+	
+	/* we will receive changes when committed, so don't do this */
+	/*e_table_model_pre_change (E_TABLE_MODEL (model));*/
 
- 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), model_row); 
- 	if (comp_data)
-	{ 
-	    e_table_model_pre_change (E_TABLE_MODEL (model));
-	    /* Status */
-	    prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY); 
- 	    if (prop) 
+	/* Status */
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY); 
+	if (prop) 
 		icalproperty_set_status (prop, ICAL_STATUS_NEEDSACTION);
-	    else 	     
+	else 	     
 		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_NEEDSACTION));
-	    
-	    /*complete property*/
-	    prop1= icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-	    if (prop1) 
-	    {
+
+	/*complete property*/
+	prop1 = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+	if (prop1) {
 		icalcomponent_remove_property (comp_data->icalcomp, prop1);
 		icalproperty_free (prop1);
-	    }
-	    
-	    /* Percent. */
-	    prop1 = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
-	    if (prop1)
-	    {
-		icalcomponent_remove_property (comp_data->icalcomp, prop1);
-		icalproperty_free (prop1);
-	    }
-	    
-	    e_table_model_row_changed (E_TABLE_MODEL (model), model_row); 
 	}
+
+	/* Percent. */
+	prop1 = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
+	if (prop1) {
+		icalcomponent_remove_property (comp_data->icalcomp, prop1);
+		icalproperty_free (prop1);
+	}
+
+	/*e_table_model_row_changed (E_TABLE_MODEL (model), model_row);*/
+
+	commit_component_changes (comp_data);
 }
 
+/**
+ * commit_component_changes
+ * Commits changes to the backend calendar of the component.
+ *
+ * @param comp_data Component of our interest, which has been changed.
+ **/
+static void
+commit_component_changes (ECalModelComponent *comp_data)
+{
+	g_return_if_fail (comp_data != NULL);
+
+	/* FIXME ask about mod type */
+	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
+		g_warning (G_STRLOC ": Could not modify the object!");
+
+		/* FIXME Show error dialog */
+	}
+}
 
 /**
  * e_cal_model_tasks_update_due_tasks

@@ -1,3 +1,20 @@
+2007-09-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #324472
+
+	* gui/e-calendar-table.c: (struct AffectedComponents),
+	(e_calendar_table_complete_selected),  (get_selected_components_cb),
+	(do_for_selected_components), (mark_comp_complete_cb),
+	(mark_comp_incomplete_cb): Added new helper structure and functions.
+	* gui/e-calendar-table.c: (mark_as_complete_cb),
+	(mark_as_incomplete_cb): Using new helper functions.
+	* gui/e-cal-model-tasks.h: (e_cal_model_tasks_mark_comp_complete),
+	(e_cal_model_tasks_mark_comp_incomplete): New functions (replace old).
+	* gui/e-cal-model-tasks.c: (commit_component_changes),
+	(ecmt_set_value_at), (e_cal_model_tasks_mark_comp_complete),
+	(e_cal_model_tasks_mark_comp_incomplete): Added new functions to work
+	with components instead of table's rows and using them.
+
 2007-09-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #411125
