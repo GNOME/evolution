@@ -172,6 +172,8 @@ ecmm_is_cell_editable (ETableModel *etm, int col, int row)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, FALSE);
 	g_return_val_if_fail (row >= -1 || (row >= 0 && row < e_table_model_row_count (etm)), FALSE);
 
+	if (!e_cal_model_test_row_editable (E_CAL_MODEL (etm), row))
+		return FALSE;
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		retval = E_TABLE_MODEL_CLASS (e_cal_model_memos_parent_class)->is_cell_editable (etm, col, row);

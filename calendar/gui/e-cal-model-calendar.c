@@ -403,6 +403,9 @@ ecmc_is_cell_editable (ETableModel *etm, int col, int row)
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->is_cell_editable (etm, col, row);
 
+	if (!e_cal_model_test_row_editable (E_CAL_MODEL (etm), row))
+		return FALSE;
+
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :

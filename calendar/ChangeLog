@@ -1,5 +1,18 @@
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #346686
+
+	* gui/e-cal-model.h: (e_cal_model_test_row_editable):
+	* gui/e-cal-model.c: (e_cal_model_test_row_editable): New helper
+	function to check if row is editable or not, based on calendar.
+	* gui/e-cal-model-memos.c: (ecmm_is_cell_editable):
+	* gui/e-cal-model-tasks.c: (ecmt_is_cell_editable):
+	* gui/e-cal-model-calendar.c: (ecmc_is_cell_editable):
+	* gui/e-cal-model.c: (ecm_is_cell_editable):
+	Uses new helper function to determine if row is editable.
+
+2007-09-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #324472
 
 	* gui/e-calendar-table.c: (struct AffectedComponents),

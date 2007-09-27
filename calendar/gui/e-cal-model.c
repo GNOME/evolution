@@ -710,6 +710,41 @@ ecm_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	}
 }
 
+/**
+ * e_cal_model_test_row_editable
+ * Checks if component at row 'row' is editable or not. It doesn't check bounds for 'row'.
+ *
+ * @param model Calendar model.
+ * @param row Row of our interest. -1 is editable only when default client is editable.
+ * @return Whether row is editable or not.
+ **/
+gboolean
+e_cal_model_test_row_editable (ECalModel *model, int row)
+{
+	gboolean readonly;
+	ECal *cal = NULL;
+	
+	if (row != -1) {
+		ECalModelComponent *comp_data;
+
+		comp_data = e_cal_model_get_component_at (model, row);
+
+		if (comp_data)
+			cal = comp_data->client;
+
+	} else {
+		cal = e_cal_model_get_default_client (model);
+	}
+
+	readonly = cal == NULL;
+
+	if (!readonly)
+		if (!e_cal_is_read_only (cal, &readonly, NULL))
+			readonly = TRUE;
+
+	return !readonly;
+}
+
 static gboolean
 ecm_is_cell_editable (ETableModel *etm, int col, int row)
 {
@@ -722,6 +757,9 @@ ecm_is_cell_editable (ETableModel *etm, int col, int row)
 
 	g_return_val_if_fail (col >= 0 && col <= E_CAL_MODEL_FIELD_LAST, FALSE);
 	g_return_val_if_fail (row >= -1 || (row >= 0 && row < priv->objects->len), FALSE);
+
+	if (!e_cal_model_test_row_editable (E_CAL_MODEL (etm), row))
+		return FALSE;
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
