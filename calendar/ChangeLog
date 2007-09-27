@@ -1,5 +1,15 @@
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #300693
+
+	* gui/e-calendar-table.c: (task_compare_cb), (e_calendar_table_init):
+	* gui/e-calendar-table.etspec:
+	* gui/e-memo-table.c: (task_compare_cb):
+	* gui/e-memo-table.etspec:
+	Removed obsolete code and references to "task-sort" virtual column.
+
+2007-09-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fixes part of bug #228832
 
 	* gui/gnome-cal.h: (gnome_calendar_new_task):

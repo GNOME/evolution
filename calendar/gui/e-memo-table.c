@@ -177,63 +177,6 @@ date_compare_cb (gconstpointer a, gconstpointer b)
 	return icaltime_compare (dv1->tt, tt);
 }
 
-/* Comparison function for the task-sort column.  Sorts by due date and then by
- * priority.
- *
- * FIXME: Does this ever get called?? It doesn't seem to.
- * I specified that the table should be sorted by this column, but it still
- * never calls this function.
- * Also, this assumes it is passed pointers to ECalComponents, but I think it
- * may just be passed pointers to the 2 cell values.
- */
-#if 0
-static gint
-task_compare_cb (gconstpointer a, gconstpointer b)
-{
-	ECalComponent *ca, *cb;
-	ECalComponentDateTime due_a, due_b;
-	int *prio_a, *prio_b;
-	int retval;
-
-	ca = E_CAL_COMPONENT (a);
-	cb = E_CAL_COMPONENT (b);
-
-	e_cal_component_get_due (ca, &due_a);
-	e_cal_component_get_due (cb, &due_b);
-	e_cal_component_get_priority (ca, &prio_a);
-	e_cal_component_get_priority (cb, &prio_b);
-
-	if (due_a.value && due_b.value) {
-		int v;
-
-		/* FIXME: TIMEZONES. But currently we have no way to get the
-		   ECal, so we can't get the timezone. */
-		v = icaltime_compare (*due_a.value, *due_b.value);
-
-		if (v == 0)
-			retval = compare_priorities (prio_a, prio_b);
-		else
-			retval = v;
-	} else if (due_a.value)
-		retval = -1;
-	else if (due_b.value)
-		retval = 1;
-	else
-		retval = compare_priorities (prio_a, prio_b);
-
-	e_cal_component_free_datetime (&due_a);
-	e_cal_component_free_datetime (&due_b);
-
-	if (prio_a)
-		e_cal_component_free_priority (prio_a);
-
-	if (prio_b)
-		e_cal_component_free_priority (prio_b);
-
-	return retval;
-}
-#endif
-
 static void
 row_appended_cb (ECalModel *model, EMemoTable *memo_table) 
 {
