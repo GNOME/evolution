@@ -1,3 +1,9 @@
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Remove the --enable-gtk-doc configure option since we don't
+	ship any Gtk-Doc content (#476926).
+
 2007-09-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.12.0 release
