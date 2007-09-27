@@ -1,3 +1,16 @@
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #477045
+
+	* gui/component/addressbook-component.c:
+	* gui/component/addressbook-view.c:
+	* gui/contact-editor/e-contact-editor-address.c:
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	* gui/contact-editor/e-contact-editor-im.c:
+	* gui/widgets/e-addressbook-view.c:
+	* gui/widgets/eab-contact-display.c:
+	Use standard icon names where applicable.
+
 2007-09-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #411125

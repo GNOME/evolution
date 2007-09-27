@@ -1,3 +1,11 @@
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #477045
+
+	* e-msg-composer-select-file.c:
+	* e-msg-composer.c:
+	Use standard icon names where applicable.
+
 2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #476231

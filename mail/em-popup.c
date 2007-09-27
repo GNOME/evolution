@@ -564,25 +564,25 @@ emp_part_popup_forward (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EMPopupItem emp_standard_object_popups[] = {
-	{ E_POPUP_ITEM, "00.part.00", N_("_Save As..."), emp_part_popup_saveas, NULL, "stock_save-as", 0 },
+	{ E_POPUP_ITEM, "00.part.00", N_("_Save As..."), emp_part_popup_saveas, NULL, "document-save-as", 0 },
 	{ E_POPUP_ITEM, "00.part.10", N_("Set as _Background"), emp_part_popup_set_background, NULL, NULL, EM_POPUP_PART_IMAGE },
 	{ E_POPUP_BAR, "10.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
-	{ E_POPUP_ITEM, "10.part.00", N_("_Reply to sender"), emp_part_popup_reply_sender, NULL, "stock_mail-reply" , EM_POPUP_PART_MESSAGE },
+	{ E_POPUP_ITEM, "10.part.00", N_("_Reply to sender"), emp_part_popup_reply_sender, NULL, "mail-reply-sender" , EM_POPUP_PART_MESSAGE },
 	{ E_POPUP_ITEM, "10.part.01", N_("Reply to _List"), emp_part_popup_reply_list, NULL, NULL, EM_POPUP_PART_MESSAGE},
-	{ E_POPUP_ITEM, "10.part.03", N_("Reply to _All"), emp_part_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_PART_MESSAGE},
+	{ E_POPUP_ITEM, "10.part.03", N_("Reply to _All"), emp_part_popup_reply_all, NULL, "mail-reply-all", EM_POPUP_PART_MESSAGE},
 	{ E_POPUP_BAR, "20.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
-	{ E_POPUP_ITEM, "20.part.00", N_("_Forward"), emp_part_popup_forward, NULL, "stock_mail-forward", EM_POPUP_PART_MESSAGE },
+	{ E_POPUP_ITEM, "20.part.00", N_("_Forward"), emp_part_popup_forward, NULL, "mail-forward", EM_POPUP_PART_MESSAGE },
 };
 
 static EMPopupItem emp_attachment_object_popups[] = {
-	{ E_POPUP_ITEM, "00.attach.00", N_("_Save As..."), emp_part_popup_saveas, NULL, "stock_save-as", 0 },
+	{ E_POPUP_ITEM, "00.attach.00", N_("_Save As..."), emp_part_popup_saveas, NULL, "document-save-as", 0 },
 	{ E_POPUP_ITEM, "00.attach.10", N_("Set as _Background"), emp_part_popup_set_background, NULL, NULL, EM_POPUP_ATTACHMENTS_IMAGE },
 	{ E_POPUP_BAR, "05.attach", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MESSAGE },
-	{ E_POPUP_ITEM, "05.attach.00", N_("_Reply to sender"), emp_part_popup_reply_sender, NULL, "stock_mail-reply" , EM_POPUP_ATTACHMENTS_MESSAGE },
+	{ E_POPUP_ITEM, "05.attach.00", N_("_Reply to sender"), emp_part_popup_reply_sender, NULL, "mail-reply-sender" , EM_POPUP_ATTACHMENTS_MESSAGE },
 	{ E_POPUP_ITEM, "05.attach.01", N_("Reply to _List"), emp_part_popup_reply_list, NULL, NULL, EM_POPUP_ATTACHMENTS_MESSAGE},
-	{ E_POPUP_ITEM, "05.attach.03", N_("Reply to _All"), emp_part_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_ATTACHMENTS_MESSAGE},
+	{ E_POPUP_ITEM, "05.attach.03", N_("Reply to _All"), emp_part_popup_reply_all, NULL, "mail-reply-all", EM_POPUP_ATTACHMENTS_MESSAGE},
 	{ E_POPUP_BAR, "05.attach.10", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MESSAGE },
-	{ E_POPUP_ITEM, "05.attach.15", N_("_Forward"), emp_part_popup_forward, NULL, "stock_mail-forward", EM_POPUP_ATTACHMENTS_MESSAGE },
+	{ E_POPUP_ITEM, "05.attach.15", N_("_Forward"), emp_part_popup_forward, NULL, "mail-forward", EM_POPUP_ATTACHMENTS_MESSAGE },
 };
 
 static const EPopupItem emp_standard_part_apps_bar = { E_POPUP_BAR, "99.object" };
@@ -631,8 +631,8 @@ emp_uri_popup_address_add(EPopup *ep, EPopupItem *item, void *data)
 
 static EPopupItem emp_standard_uri_popups[] = {
 	{ E_POPUP_ITEM, "00.uri.00", N_("_Open Link in Browser"), emp_uri_popup_link_open, NULL, NULL, EM_POPUP_URI_HTTP },
-	{ E_POPUP_ITEM, "00.uri.10", N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, "stock_mail-compose", EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, "gtk-add", EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.10", N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, "mail-message-new", EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, "edit-add", EM_POPUP_URI_MAILTO },
 };
 
 /* ********************************************************************** */

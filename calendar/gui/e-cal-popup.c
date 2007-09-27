@@ -276,9 +276,9 @@ ecalp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 static const EPopupItem ecalp_standard_part_apps_bar = { E_POPUP_BAR, "99.object" };
 
 static ECalPopupItem ecalp_attachment_object_popups[] = {
-	{ E_POPUP_ITEM, "00.attach.00", N_("_Save As..."), ecalp_part_popup_saveas, NULL, "stock_save-as", E_CAL_POPUP_ATTACHMENTS_ONE },
+	{ E_POPUP_ITEM, "00.attach.00", N_("_Save As..."), ecalp_part_popup_saveas, NULL, "document-save-as", E_CAL_POPUP_ATTACHMENTS_ONE },
 	{ E_POPUP_ITEM, "00.attach.10", N_("Set as _Background"), ecalp_part_popup_set_background, NULL, NULL, E_CAL_POPUP_ATTACHMENTS_IMAGE },
-	{ E_POPUP_ITEM, "00.attach.20", N_("_Save Selected"), ecalp_part_popup_save_selected, NULL, "stock_save-as", E_CAL_POPUP_ATTACHMENTS_MULTIPLE },
+	{ E_POPUP_ITEM, "00.attach.20", N_("_Save Selected"), ecalp_part_popup_save_selected, NULL, "document-save-as", E_CAL_POPUP_ATTACHMENTS_MULTIPLE },
 	{ E_POPUP_BAR, "05.attach", },
 };
 

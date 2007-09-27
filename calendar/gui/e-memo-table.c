@@ -928,7 +928,7 @@ static EPopupItem memos_popup_items [] = {
 
 	{ E_POPUP_BAR, "70.bar" },
 
-	{ E_POPUP_ITEM, "80.forward", N_("_Forward as iCalendar"), e_memo_table_on_forward, NULL, "stock_mail-forward", E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "80.forward", N_("_Forward as iCalendar"), e_memo_table_on_forward, NULL, "mail-forward", E_CAL_POPUP_SELECT_ONE },
 
 	{ E_POPUP_BAR, "90.bar" },
 

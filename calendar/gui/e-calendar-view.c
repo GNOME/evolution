@@ -1657,7 +1657,7 @@ on_paste (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem ecv_main_items [] = {
-	{ E_POPUP_ITEM, "00.new", N_("New _Appointment..."), on_new_appointment, NULL, "stock_new-appointment", 0, 0 },
+	{ E_POPUP_ITEM, "00.new", N_("New _Appointment..."), on_new_appointment, NULL, "appointment-new", 0, 0 },
 	{ E_POPUP_ITEM, "10.newallday", N_("New All Day _Event"), on_new_event, NULL, "stock_new-24h-appointment", 0, 0},
 	{ E_POPUP_ITEM, "20.meeting", N_("New _Meeting"), on_new_meeting, NULL, "stock_new-meeting", 0, 0},
 	{ E_POPUP_ITEM, "30.task", N_("New _Task"), on_new_task, NULL, "stock_task", 0, 0},
@@ -1693,9 +1693,9 @@ static EPopupItem ecv_child_items [] = {
 	{ E_POPUP_ITEM, "44.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
 	{ E_POPUP_ITEM, "45.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
 	{ E_POPUP_ITEM, "46.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
-	{ E_POPUP_ITEM, "47.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "48.reply", N_("_Reply"), on_reply, NULL, "stock_mail-reply", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "49.reply-all", N_("Reply to _All"), on_reply_all, NULL, "stock_mail-reply-to-all", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "47.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "48.reply", N_("_Reply"), on_reply, NULL, "mail-reply-sender", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "49.reply-all", N_("Reply to _All"), on_reply_all, NULL, "mail-reply-all", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
 
 	{ E_POPUP_BAR, "50." },
 

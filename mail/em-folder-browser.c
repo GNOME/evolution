@@ -206,7 +206,7 @@ enum {
 /* Options for View */
 static EMFBSearchBarItem emfb_view_items[] = {
 	{{ N_("All Messages"), VIEW_ALL_MESSAGES, 0 }, NULL},
-	{{ N_("Unread Messages"), VIEW_UNREAD_MESSAGES, 0 }, "stock_mail-unread"},
+	{{ N_("Unread Messages"), VIEW_UNREAD_MESSAGES, 0 }, "mail-unread"},
 	{{ NULL, 0, 0 }, NULL},
 	{{ N_("No Label"),VIEW_NO_LABEL, 0 }, NULL},
 	{{ NULL, -1, 0 }, NULL}
@@ -215,12 +215,12 @@ static EMFBSearchBarItem emfb_view_items[] = {
 /* TODO: Following options should be  customizable */
 static EMFBSearchBarItem temp_view_items[] = {
 	{{ NULL, 0, 0 }, NULL},
-	{{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 }, "stock_mail-open"},
+	{{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 }, "mail-read"},
 	{{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 }, NULL},
 	{{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 }, NULL},
 	{{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 }, "mail-attachment"},
-	{{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0}, "emblem-important"},
-	{{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 }, "stock_not-spam"},
+	{{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0}, "mail-mark-important"},
+	{{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 }, "mail-mark-notjunk"},
 /* 	{ NULL, 0, NULL }, */
 /* 	{ N_("Customize"), NOT_IMPLEMENTED, NULL }, */
 	{{ NULL, -1, 0 }, NULL}

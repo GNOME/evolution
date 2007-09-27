@@ -63,7 +63,7 @@ static void exchange_get_folder (char *uri, CamelFolder *folder, void *data);
 
 
 static EPopupItem popup_inbox_items[] = {
-	{ E_POPUP_ITEM, "29.inbox_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_inbox_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "29.inbox_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_inbox_unsubscribe, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -232,7 +232,7 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
 }
 
 static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, "29.calendar_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "29.calendar_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_unsubscribe, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -242,7 +242,7 @@ popup_free (EPopup *ep, GSList *items, void *data)
 }
 
 static EPopupItem popup_ab_items[] = {
-	{ E_POPUP_ITEM, "29.address_book_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_ab_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "29.address_book_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_ab_unsubscribe, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void

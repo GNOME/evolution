@@ -58,7 +58,7 @@ void org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect 
 gchar *selected_exchange_folder_uri = NULL;
 
 static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, "30.emc.10", N_("Permissions..."), org_folder_permissions_cb, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "30.emc.10", N_("Permissions..."), org_folder_permissions_cb, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 static void

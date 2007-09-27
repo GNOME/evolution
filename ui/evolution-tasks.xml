@@ -1,20 +1,20 @@
 <Root>
   <commands>
     <cmd name="TasksOpenTask" _tip="View the selected task" accel="*Control*o"/>
-    <cmd name="TasksPrint" _tip="Print the list of tasks" pixtype="stock" pixname="gtk-print"
+    <cmd name="TasksPrint" _tip="Print the list of tasks" pixtype="pixbuf"
 	 accel="*Control*p"/>
-    <cmd name="TasksPrintPreview" _tip="Previews the list of tasks to be printed" pixtype="stock" pixname="gtk-print-preview"/>
+    <cmd name="TasksPrintPreview" _tip="Previews the list of tasks to be printed" pixtype="pixbuf"/>
 
-    <cmd name="TasksCut" _tip="Cut selected tasks" accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
-    <cmd name="TasksCopy" _tip="Copy selected tasks" accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
-    <cmd name="TasksPaste" _tip="Paste tasks from the clipboard" accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
+    <cmd name="TasksCut" _tip="Cut selected tasks" accel="*Control*x" pixtype="pixbuf"/>
+    <cmd name="TasksCopy" _tip="Copy selected tasks" accel="*Control*c" pixtype="pixbuf"/>
+    <cmd name="TasksPaste" _tip="Paste tasks from the clipboard" accel="*Control*v" pixtype="pixbuf"/>
     <cmd name="TasksDelete" _tip="Delete selected tasks" accel="*Control*d" sensitive="0"
-         pixtype="stock" pixname="gtk-delete"/>
+         pixtype="pixbuf"/>
     <cmd name="TasksMarkComplete" _tip="Mark selected tasks as complete" accel="*Control*k" sensitive="0"/>
 
     <cmd name="TasksPurge" _label="Purg_e" _tip="Delete completed tasks" accel="*Control*e"/>
     <cmd name="TasksAssign" _label="_Assign Task"/>
-    <cmd name="TasksForward" _label="_Forward as iCalendar" accel="*Control*f"/>
+    <cmd name="TasksForward" _label="_Forward as iCalendar" accel="*Control*f" pixtype="pixbuf"/>
 
     <cmd name="ViewPreview" _tip="Show task preview window" accel="*Control*m" type="toggle"/>
 
@@ -59,22 +59,22 @@
     <submenu name="Actions" _label="_Actions">
 	<menuitem name="TasksPurge" verb=""/>
 	<menuitem name="TasksAssign" verb=""/>
-	<menuitem name="TasksForward" verb="" pixtype="pixbuf"/>
+	<menuitem name="TasksForward" verb=""/>
     </submenu>
     </placeholder>
 
   </menu>
 
   <dockitem name="Toolbar">
-    <toolitem name="Cut" _label="Cut" verb="TasksCut"/>
-    <toolitem name="Copy" _label="Copy" verb="TasksCopy"/>
-    <toolitem name="Paste" _label="Paste" verb="TasksPaste"/>
+    <toolitem name="Cut" _label="Cut" verb="TasksCut" pixtype="pixbuf"/>
+    <toolitem name="Copy" _label="Copy" verb="TasksCopy" pixtype="pixbuf"/>
+    <toolitem name="Paste" _label="Paste" verb="TasksPaste" pixtype="pixbuf"/>
 
     <separator/>
 
-    <toolitem name="Print" _label="Print" verb="TasksPrint"/>
+    <toolitem name="Print" _label="Print" verb="TasksPrint" pixtype="pixbuf"/>
 
-    <toolitem name="Delete" _label="Delete" verb="TasksDelete"/>
+    <toolitem name="Delete" _label="Delete" verb="TasksDelete" pixtype="pixbuf"/>
 
   </dockitem>
 

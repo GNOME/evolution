@@ -593,15 +593,29 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static EPixmap pixmaps [] =
-{
-	E_PIXMAP ("/Toolbar/DayView",	      "stock_calendar-view-day",       E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/WorkWeekView",    "stock_calendar-view-work-week", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/WeekView",	      "stock_calendar-view-week",      E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MonthView",	      "stock_calendar-view-month",     E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/ListView",	      "stock_calendar-view-list",      E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Prev",             "stock_previous",                   E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Next",             "stock_next",                   E_ICON_SIZE_LARGE_TOOLBAR),
+static EPixmap pixmaps [] = {
+	E_PIXMAP ("/commands/CalendarPrev", "go-previous", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/CalendarPrint", "document-print", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/DeleteAllOccurrences", "edit-delete", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/DeleteOccurrence", "edit-delete", E_ICON_SIZE_MENU),
+        E_PIXMAP ("/commands/CalendarGoto", "go-jump", E_ICON_SIZE_MENU),
+        E_PIXMAP ("/commands/CalendarNext", "go-next", E_ICON_SIZE_MENU),
+        E_PIXMAP ("/commands/CalendarPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
+        E_PIXMAP ("/commands/Copy", "edit-copy", E_ICON_SIZE_MENU),
+        E_PIXMAP ("/commands/Cut", "edit-cut", E_ICON_SIZE_MENU),
+        E_PIXMAP ("/commands/Delete", "edit-delete", E_ICON_SIZE_MENU),
+        E_PIXMAP ("/commands/Paste", "edit-paste", E_ICON_SIZE_MENU),
+
+	E_PIXMAP ("/Toolbar/Print", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Delete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Prev", "go-previous", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Next", "go-next", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Goto", "go-jump", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/DayView", "stock_calendar-view-day", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/WorkWeekView", "stock_calendar-view-work-week", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/WeekView", "stock_calendar-view-week", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MonthView",	"stock_calendar-view-month", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ListView", "stock_calendar-view-list", E_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };

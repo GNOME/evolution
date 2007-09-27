@@ -339,7 +339,7 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 }
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_ITEM, "20.emc.001", N_("New _Shared Folder..."), create_shared_folder, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+{ E_POPUP_ITEM, "20.emc.001", N_("New _Shared Folder..."), create_shared_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 static void 

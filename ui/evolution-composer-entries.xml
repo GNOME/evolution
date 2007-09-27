@@ -3,15 +3,15 @@
 
     <cmd name="EditCut"
      _tip="Cut selected text to the clipboard"
-     accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
+     accel="*Control*x" pixtype="pixbuf"/>
 
     <cmd name="EditCopy"
      _tip="Copy selected text to the clipboard"
-     accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
+     accel="*Control*c" pixtype="pixbuf"/>
 
     <cmd name="EditPaste"
      _tip="Paste text from the clipboard"
-     accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
+     accel="*Control*v" pixtype="pixbuf"/>
 
     <cmd name="EditSelectAll"
      _tip="Select all text"

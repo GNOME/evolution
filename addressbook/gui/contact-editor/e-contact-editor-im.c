@@ -289,7 +289,7 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 	gtk_widget_grab_focus(glade_xml_get_widget(gui, "entry-username"));
 
 	/* set the icon */
-	icon_list = e_icon_factory_get_icon_list ("stock_contact");
+	icon_list = e_icon_factory_get_icon_list ("contact-new");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (e_contact_editor_im), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);

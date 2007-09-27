@@ -1,15 +1,15 @@
 <Root>
   <commands>
-	  <cmd name="FileSave" _tip="Click here to save the current window" accel="*Control*s" pixtype="stock" pixname="gtk-save"/>
-	  <cmd name="FileClose" _tip="Click here to close the current window" accel="*Control*w" pixtype="stock" pixname="gtk-close"/>
+	  <cmd name="FileSave" _tip="Click here to save the current window" accel="*Control*s" pixtype="pixbuf"/>
+	  <cmd name="FileClose" _tip="Click here to close the current window" accel="*Control*w" pixtype="pixbuf"/>
 	  
-    	  <cmd name="EditCut" _tip="Cut selected text to the clipboard" accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
-	  <cmd name="EditCopy" _tip="Copy selected text to the clipboard" accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
-	  <cmd name="EditPaste" _tip="Paste text from the clipboard" accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
+    	  <cmd name="EditCut" _tip="Cut selected text to the clipboard" accel="*Control*x" pixtype="pixbuf"/>
+	  <cmd name="EditCopy" _tip="Copy selected text to the clipboard" accel="*Control*c" pixtype="pixbuf"/>
+	  <cmd name="EditPaste" _tip="Paste text from the clipboard" accel="*Control*v" pixtype="pixbuf"/>
 	  <cmd name="EditSelectAll" _tip="Select all text" accel="*Control*a"/>
 
 	  <cmd name="InsertAttachments" _tip="Click here to attach a file" accel="*Control*m" pixtype="pixbuf"/>
-	  <cmd name="Help" _tip="Click here to view help available" accel="F1" pixtype="stock" pixname="gtk-help"/>
+	  <cmd name="Help" _tip="Click here to view help available" accel="F1" pixtype="pixbuf"/>
 	  
 	  
   </commands>
@@ -39,7 +39,7 @@
 
     <submenu name="Insert" _label="I_nsert">
       <placeholder name="Attachments">
-	      <menuitem name="InsertAttachments" verb="" _label="_Attachment..." pixtype="pixbuf"/>
+	      <menuitem name="InsertAttachments" verb="" _label="_Attachment..."/>
       </placeholder>
      </submenu>
 
@@ -53,8 +53,8 @@
 
   <dockitem name="Toolbar">
   
-    <toolitem name="FileSave" verb="" _label="Save"/>
-    <toolitem name="FileClose" verb="" _label="Close"/>
+    <toolitem name="FileSave" verb="" _label="Save" pixtype="pixbuf"/>
+    <toolitem name="FileClose" verb="" _label="Close" pixtype="pixbuf"/>
     <separator f="" name="editor1"/>
 
     <toolitem name="InsertAttachments" verb="" _label="Attach" pixtype="pixbuf"/>

@@ -463,7 +463,7 @@ edit_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem emc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Memo List"), new_memo_list_cb, NULL, "stock_notes", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy"), copy_memo_list_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_memo_list_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_memo_list_cb, NULL, "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
 	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_memo_list_cb, NULL, "stock_folder-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 

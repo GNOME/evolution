@@ -1215,30 +1215,30 @@ EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
 /* TODO: Move some of these to be 'standard' menu's */
 
 static EPopupItem emfv_popup_items[] = {
-	{ E_POPUP_ITEM, "00.emfv.00", N_("_Copy"), emfv_popup_copy_text, NULL, "stock_copy", EM_FOLDER_VIEW_SELECT_DISPLAY|EM_FOLDER_VIEW_SELECT_SELECTION },
+	{ E_POPUP_ITEM, "00.emfv.00", N_("_Copy"), emfv_popup_copy_text, NULL, "edit-copy", EM_FOLDER_VIEW_SELECT_DISPLAY|EM_FOLDER_VIEW_SELECT_SELECTION },
 
 	{ E_POPUP_BAR, "10.emfv", NULL, NULL, NULL, NULL },
 
-	{ E_POPUP_ITEM, "10.emfv.00", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "stock_mail-reply", EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "10.emfv.01", N_("Reply to _All"), emfv_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "10.emfv.02", N_("_Forward"), emfv_popup_forward, NULL, "stock_mail-forward", EM_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "10.emfv.00", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "mail-reply-sender", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "10.emfv.01", N_("Reply to _All"), emfv_popup_reply_all, NULL, "mail-reply-all", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "10.emfv.02", N_("_Forward"), emfv_popup_forward, NULL, "mail-forward", EM_POPUP_SELECT_MANY },
 
 	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL },
 	/* EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone */
 	{ E_POPUP_ITEM, "20.emfv.00", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "20.emfv.01", N_("_Save As..."), emfv_popup_saveas, NULL, "stock_save-as", EM_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print..."), emfv_popup_print, NULL, "stock_print", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "20.emfv.01", N_("_Save As..."), emfv_popup_saveas, NULL, "document-save-as", EM_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print..."), emfv_popup_print, NULL, "document-print", EM_POPUP_SELECT_ONE },
 
 	{ E_POPUP_BAR, "40.emfv", NULL, NULL, NULL, NULL },
-	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "stock_delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "edit-delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, NULL, EM_POPUP_SELECT_UNDELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "40.emfv.02", N_("_Move to Folder..."), emfv_popup_move, NULL, "stock_mail-move", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "40.emfv.03", N_("_Copy to Folder..."), emfv_popup_copy, NULL, "stock_mail-copy", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_BAR, "50.emfv", NULL, NULL, NULL, NULL },
-	{ E_POPUP_ITEM, "50.emfv.00", N_("Mar_k as Read"), emfv_popup_mark_read, NULL, "stock_mail-open", EM_POPUP_SELECT_MARK_READ|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "stock_mail-unread", EM_POPUP_SELECT_MARK_UNREAD|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "emblem-important", EM_POPUP_SELECT_MARK_IMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.00", N_("Mar_k as Read"), emfv_popup_mark_read, NULL, "mail-read", EM_POPUP_SELECT_MARK_READ|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "mail-unread", EM_POPUP_SELECT_MARK_UNREAD|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "mail-mark-important", EM_POPUP_SELECT_MARK_IMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "50.emfv.03", N_("Mark as Un_important"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "50.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "mail-mark-junk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_JUNK },
 	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "mail-mark-notjunk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_NOT_JUNK },
@@ -1949,43 +1949,47 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_VERB_END
 };
 static EPixmap emfv_message_pixmaps[] = {
-	E_PIXMAP ("/commands/EditCut", "stock_cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditCopy", "stock_copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditPaste", "stock_paste", E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/commands/PrintMessage", "stock_print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/PrintPreviewMessage", "stock_print-preview", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageDelete", "gnome-fs-trash-empty", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageCopy", "stock_mail-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMove", "stock_mail-move", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageReplyAll", "stock_mail-reply-to-all", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageReplySender", "stock_mail-reply", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageForward", "stock_mail-forward", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditCopy", "edit-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditCut", "edit-cut", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditPaste", "edit-paste", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MailCompose", "mail-message-new", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageApplyFilters", "stock_mail-filters-apply", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageCopy", "stock_mail-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageDelete", "user-trash", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageFilterJunk", "mail-mark-junk", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageSearch", "stock_search", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageSaveAs", "stock_save-as", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsRead", "stock_mail-open", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsUnRead", "stock_mail-unread", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsImportant", "emblem-important", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageFollowUpFlag", "stock_mail-flag-for-followup", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageForward", "mail-forward", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageMarkAsImportant", "mail-mark-important", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageMarkAsJunk", "mail-mark-junk", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageMarkAsNotJunk", "mail-mark-notjunk", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageFollowUpFlag", "stock_mail-flag-for-followup", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ViewLoadImages", "stock_insert_image", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MailCompose", "stock_mail-compose", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageMarkAsRead", "mail-read", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageMarkAsUnRead", "mail-unread", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageMove", "stock_mail-move", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageReplyAll", "mail-reply-all", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageReplySender", "mail-reply-sender", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageSaveAs", "document-save-as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageSearch", "edit-find", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/PrintMessage", "document-print", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/PrintPreviewMessage", "document-print-preview", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TextZoomIn", "zoom-in", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TextZoomOut", "zoom-out", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TextZoomReset", "zoom-reset", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ViewLoadImages", "insert-image", E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "stock_mail-reply", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplyAll", "stock_mail-reply-to-all", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageForward", "stock_mail-forward", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/PrintMessage", "stock_print", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/MessagePlaceholder/Message/MessageNavigation/GoTo", "go-jump", E_ICON_SIZE_MENU),
+
+	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "mail-reply-sender", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplyAll", "mail-reply-all", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageForward", "mail-forward", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MailMessageToolbar/PrintMessage", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMove", "stock_mail-move", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageCopy", "stock_mail-copy", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageDelete", "stock_delete", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageDelete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMarkAsJunk", "mail-mark-junk", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMarkAsNotJunk", "mail-mark-notjunk", E_ICON_SIZE_LARGE_TOOLBAR),
-
-	E_PIXMAP ("/Toolbar/MailNextButtons/MailNext", "stock_next", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailNextButtons/MailPrevious", "stock_previous", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MailNextButtons/MailNext", "go-next", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MailNextButtons/MailPrevious", "go-previous", E_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };
@@ -2600,7 +2604,7 @@ emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 
 static EPopupItem emfv_uri_popups[] = {
 	{ E_POPUP_ITEM, "00.uri.11", N_("C_all To..."), emp_uri_popup_link_copy, NULL, NULL, EM_POPUP_URI_CALLTO },
-	{ E_POPUP_ITEM, "00.uri.15", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, "gtk-copy", EM_POPUP_URI_NOT_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.15", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, "edit-copy", EM_POPUP_URI_NOT_MAILTO },
 
 	{ E_POPUP_SUBMENU, "99.uri.00", N_("Create _Search Folder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
 	{ E_POPUP_ITEM, "99.uri.00/00.10", N_("_From this Address"), emp_uri_popup_vfolder_sender, NULL, NULL, EM_POPUP_URI_MAILTO },

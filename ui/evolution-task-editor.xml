@@ -61,7 +61,7 @@
 		    <menuitem name="ActionClassPrivate" id="ActionClassPrivate" verb=""/>
 		    <menuitem name="ActionClassConfidential" id="ActionClassConfidential" verb=""/>
 	    </submenu>
-	      <menuitem name="OptionStatus" verb="" _label="_Status Details" pixtype="pixbuf"/>	    
+	      <menuitem name="OptionStatus" verb="" _label="_Status Details"/>	    
     </submenu>
   </menu>
 

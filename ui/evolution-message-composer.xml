@@ -2,22 +2,22 @@
 	<commands>
 
 	        <cmd name="FileOpen" _label="Open" hidden="1"
-		_tip="Open a file" pixtype="stock" pixname="gtk-open" accel="*Control*o"/>
+		_tip="Open a file" pixtype="pixbuf" accel="*Control*o"/>
 		
 	        <cmd name="FileSave" _label="Save"
-		_tip="Save the current file" pixtype="stock" pixname="gtk-save"
+		_tip="Save the current file" pixtype="pixbuf"
 		accel="*Ctrl*s"/>
 
 		<cmd name="FileSaveDraft" _label="Save Draft"
-		_tip="Save as draft" pixtype="pixbuf" 
+		_tip="Save as draft" pixtype="pixbuf"
 		accel="*Ctrl**Shift*s"/>
 
 	        <cmd name="FileSaveAs" _label="Save As"
 	        _tip="Save the current file with a different name"
-		pixtype="stock" pixname="gtk-save-as"/>
+		pixtype="pixbuf"/>
 		
 	        <cmd name="FileClose" _label="Close"
-		_tip="Close the current file" pixtype="stock" pixname="gtk-close"
+		_tip="Close the current file" pixtype="pixbuf"
 		accel="*Ctrl*w"/>
 		
 		<cmd name="FileSaveInFolder" _label="Save in folder..."
@@ -32,7 +32,7 @@
 		pixtype="pixbuf"/>
 		
 		<cmd name="DeleteAll" _label="_Delete all"
-		pixtype="stock" pixname="gtk-delete"
+		pixtype="pixbuf"
 		_tip="Delete all but signature"/>
 
 		<cmd name="RequestReceipt" _label="R_equest Read Receipt"
@@ -84,8 +84,7 @@
                 _tip="Encrypt this message with your S/MIME Encryption Certificate"
 		type="toggle" state="0" hidden="1"/>
 		
-		<cmd name="InsertXSendOptions" _tip="Insert Send options"
-    		 pixtype="pixbuf"/>
+		<cmd name="InsertXSendOptions" _tip="Insert Send options"/>
 
 	</commands>
 	
@@ -101,8 +100,8 @@
 
 			<separator f="" name="emailcomposer1"/>
 
-			<menuitem name="FileSave" verb="" _label="_Save" pixtype="stock" pixname="gtk-save"/>
-			<menuitem name="FileSaveAs" verb="" _label="Save _As..." pixtype="stock" pixname="gtk-save-as"/>
+			<menuitem name="FileSave" verb="" _label="_Save"/>
+			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
                         <menuitem name="FileSaveDraft" verb="" _label="Save _Draft"/>
 			<placeholder name="Print" delimit="top"/>
 
@@ -134,7 +133,7 @@
 		
                 <submenu name="Insert" _label="I_nsert">
 	                <menuitem name="FileAttach" verb=""
-	                _label="_Attachment..." pixtype="pixbuf"/>
+	                _label="_Attachment..."/>
 			<separator/>
 			<menuitem name="InsertXSendOptions" verb="" _label="_Send Options"/>
 			<separator/>

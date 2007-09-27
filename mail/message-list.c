@@ -217,14 +217,14 @@ static struct {
 	char *icon_name;
 	GdkPixbuf  *pixbuf;
 } states_pixmaps[] = {
-	{ "stock_mail-unread",                 NULL },
-	{ "stock_mail-open",                   NULL },
-	{ "stock_mail-replied",                NULL },
+	{ "mail-unread",                       NULL },
+	{ "mail-read",                         NULL },
+	{ "mail-replied",                      NULL },
 	{ "stock_mail-unread-multiple",        NULL },
 	{ "stock_mail-open-multiple",          NULL },
 	{ NULL,                                NULL },
 	{ "mail-attachment",                   NULL },
-	{ "emblem-important",                  NULL },
+	{ "mail-mark-important",               NULL },
 	{ "stock_score-lowest",                NULL },
 	{ "stock_score-lower",                 NULL },
 	{ "stock_score-low",                   NULL },

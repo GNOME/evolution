@@ -98,7 +98,7 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 	gtk_window_set_wmclass ((GtkWindow *) selection, "fileselection", "Evolution:editor");
 	gtk_window_set_modal ((GtkWindow *) selection, TRUE);
 	
-	icon_list = e_icon_factory_get_icon_list ("stock_mail-compose");
+	icon_list = e_icon_factory_get_icon_list ("mail-message-new");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (selection), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);

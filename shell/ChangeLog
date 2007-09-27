@@ -1,3 +1,10 @@
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #477045
+
+	* e-shell-window-commands.c:
+	Use standard icon names where applicable.
+
 2007-09-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Move the test component to a 'test' subdirectory (#469992).

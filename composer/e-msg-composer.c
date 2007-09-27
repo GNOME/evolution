@@ -2208,14 +2208,17 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixcache [] = {
-	E_PIXMAP ("/Toolbar/FileAttach", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/FileSend", "stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/FileSaveDraft", "stock_save", E_ICON_SIZE_LARGE_TOOLBAR) ,
+	E_PIXMAP ("/commands/DeleteAll", "edit-delete", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileAttach", "mail-attachment", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileClose", "window-close", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileOpen", "document-open", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileSave", "document-save", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileSaveAs", "document-save-as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileSend", "mail-send", E_ICON_SIZE_MENU),
 	
-/*	E_PIXMAP ("/menu/Insert/FileAttach", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR), */
-	E_PIXMAP ("/commands/FileSend", "stock_mail-send", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FileSave", "stock_save", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FileSaveAs", "stock_save-as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/Toolbar/FileSend", "mail-send", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/FileSaveDraft", "document-save", E_ICON_SIZE_LARGE_TOOLBAR) ,
+	E_PIXMAP ("/Toolbar/FileAttach", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR),
 	
 	E_PIXMAP_END
 };
@@ -3591,6 +3594,17 @@ static BonoboUIVerb entry_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static EPixmap entry_pixcache [] = {
+	E_PIXMAP ("/Toolbar/EditCut", "edit-cut", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/EditCopy", "edit-copy", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/EditPaste", "edit-paste", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/commands/EditCut", "edit-cut", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditCopy", "edit-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditPaste", "edit-paste", E_ICON_SIZE_MENU),
+
+	E_PIXMAP_END
+};
+
 /* All this snot is so that Cut/Copy/Paste work. */
 static gboolean
 composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
@@ -3614,6 +3628,8 @@ composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoin
 			       xmlfile,
 			       "evolution-composer-entries", NULL);
 	g_free (xmlfile);
+
+	e_pixmaps_update (p->entry_uic, entry_pixcache);
 	
 	bonobo_ui_component_thaw (p->entry_uic, NULL);
 	
@@ -3879,7 +3895,7 @@ create_composer (int visible_mask)
 			  G_CALLBACK (msg_composer_destroy_notify),
 			  NULL);
 
-	icon_list = e_icon_factory_get_icon_list ("stock_mail-compose");
+	icon_list = e_icon_factory_get_icon_list ("mail-message-new");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (composer), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);

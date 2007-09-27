@@ -1486,8 +1486,17 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps[] = {
+	E_PIXMAP ("/commands/FileSave", "document-save", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileClose", "window-close", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditCut", "edit-cut", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditCopy", "edit-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/EditPaste", "edit-paste", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/InsertAttachments", "mail-attachment", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/Help", "help-contents", E_ICON_SIZE_MENU),
+
+	E_PIXMAP ("/Toolbar/FileSave", "document-save", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/FileClose", "window-close", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/InsertAttachments", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/menu/Insert/Attachments/InsertAttachments", "mail-attachment", E_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };
@@ -2257,7 +2266,7 @@ make_icon_from_comp (ECalComponent *comp)
 	type = e_cal_component_get_vtype (comp);
 	switch (type) {
 	case E_CAL_COMPONENT_EVENT:
-		return "stock_new-appointment";
+		return "appointment-new";
 	case E_CAL_COMPONENT_TODO:
 		return "stock_task";
 	case E_CAL_COMPONENT_JOURNAL:

@@ -288,11 +288,11 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	guint32 flags;
 	
 	if (!initialised) {
-		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("stock_folder", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("folder", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_INBOX] = e_icon_factory_get_icon ("stock_inbox", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_OUTBOX] = e_icon_factory_get_icon ("stock_outbox", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_TRASH] = e_icon_factory_get_icon ("gnome-fs-trash-empty", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("stock_spam", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_TRASH] = e_icon_factory_get_icon ("user-trash", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("mail-mark-junk", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_SHARED_TO_ME] = e_icon_factory_get_icon ("stock_shared-to-me", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_SHARED_BY_ME] = e_icon_factory_get_icon ("stock_shared-by-me", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_SENT] = e_icon_factory_get_icon ("stock_sent-mail", E_ICON_SIZE_MENU);
@@ -988,7 +988,7 @@ static EPopupItem emft_drop_popup_menu[] = {
 	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), emft_drop_popup_copy, NULL, "stock_folder-copy", 2 },
 	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), emft_drop_popup_move, NULL, "stock_folder-move", 2 },
 	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, "stock_cancel", 0 },
+	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, "dialog-cancel", 0 },
 };
 
 static void
@@ -2104,12 +2104,12 @@ static EPopupItem emft_popup_items[] = {
 	
 	{ E_POPUP_BAR, "20.emc" },
 	/* FIXME: need to disable for nochildren folders */
-	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS },
+	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS },
 	/* FIXME: need to disable for undeletable folders */
-	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "stock_delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "edit-delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	{ E_POPUP_ITEM, "20.emc.02", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ E_POPUP_ITEM, "20.emc.03", N_("Re_fresh"), emft_popup_refresh_folder, NULL, "stock_refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
-	{ E_POPUP_ITEM, "20.emc.04", N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, "stock_mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
+	{ E_POPUP_ITEM, "20.emc.03", N_("Re_fresh"), emft_popup_refresh_folder, NULL, "view-refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
+	{ E_POPUP_ITEM, "20.emc.04", N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, "mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
 
 	
 	{ E_POPUP_BAR, "80.emc" },

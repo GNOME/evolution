@@ -71,7 +71,7 @@
 static GObjectClass *parent_class = NULL;
 
 /* This is used for the addressbook status bar */
-#define EVOLUTION_CONTACTS_PROGRESS_IMAGE "stock_contact"
+#define EVOLUTION_CONTACTS_PROGRESS_IMAGE "contact-new"
 static GdkPixbuf *progress_icon = NULL;
 
 #define d(x)
@@ -614,26 +614,24 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "stock_save-as", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/Print/ContactsPrint", "stock_print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "stock_print-preview", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ChangeFolderProperties", "stock_folder-properties", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactDelete", "edit-delete", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsCopy", "edit-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsCut", "edit-cut", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsPaste", "edit-paste", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsPrint", "document-print", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSaveAsVCard", "document-save-as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSendContactToOther", "mail-forward", E_ICON_SIZE_MENU),	
+	E_PIXMAP ("/commands/ContactsSendMessageToContact", "mail-send", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderCopy", "stock_folder-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderDelete", "edit-delete", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderMove", "stock_folder-move", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderSave", "document-save-as", E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCut", "stock_cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "stock_copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "stock_paste", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "stock_delete", E_ICON_SIZE_MENU),
-	
-	E_PIXMAP ("/menu/ActionsPlaceholder/Actions/ContactsSendContactToOther", "stock_mail-forward", E_ICON_SIZE_MENU),	
-	E_PIXMAP ("/menu/ActionsPlaceholder/Actions/ContactsSendMessageToContact", "stock_mail-send", E_ICON_SIZE_MENU),
-	
-	E_PIXMAP ("/Toolbar/ContactsPrint", "stock_print", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/ContactDelete", "stock_delete", E_ICON_SIZE_LARGE_TOOLBAR),
-	
-	E_PIXMAP ("/menu/FolderPlaceholder/Folder/FolderCopy", "stock_folder-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/FolderPlaceholder/Folder/FolderMove", "stock_folder-move", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/FolderPlaceholder/Folder/ChangeFolderProperties", "stock_folder-properties", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/FolderPlaceholder/Folder/FolderSave", "stock_save-as", E_ICON_SIZE_MENU),
-	
+	E_PIXMAP ("/Toolbar/ContactsPrint", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ContactDelete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
+
 	E_PIXMAP_END
 };
 
@@ -953,10 +951,10 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 }
 
 static EPopupItem abv_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Address Book"), new_addressbook_cb, NULL, "stock_contact", 0, 0 },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_addressbook_cb, NULL, "stock_delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "10.new", N_("_New Address Book"), new_addressbook_cb, NULL, "contact-new", 0, 0 },
+	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
  	{ E_POPUP_BAR,  "40.bar"},
- 	{ E_POPUP_ITEM, "40.saveasvcard", N_("Save As Vcard..."), save_addressbook_cb, NULL,"stock_save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
+ 	{ E_POPUP_ITEM, "40.saveasvcard", N_("Save As Vcard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
 	{ E_POPUP_BAR,  "30.bar"},
 	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"stock_folder-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
 };
@@ -1334,7 +1332,7 @@ addressbook_view_init (AddressbookView *view)
 	e_activity_handler_attach_task_bar (priv->activity_handler,
 					    E_TASK_BAR (priv->statusbar_widget));
 
-	priv->info_widget = e_info_label_new("stock_contact");
+	priv->info_widget = e_info_label_new("contact-new");
 	e_info_label_set_info((EInfoLabel*)priv->info_widget, _("Contacts"), "");
 	gtk_widget_show (priv->info_widget);
 

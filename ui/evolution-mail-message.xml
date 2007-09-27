@@ -11,15 +11,15 @@
 
     <cmd name="EditCut"
      _tip="Cut selected messages to the clipboard"
-     accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
+     accel="*Control*x" pixtype="pixbuf"/>
 
     <cmd name="EditCopy"
      _tip="Copy selected messages to the clipboard"
-     accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
+     accel="*Control*c" pixtype="pixbuf"/>
 
     <cmd name="EditPaste"
      _tip="Paste messages from the clipboard"
-     accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
+     accel="*Control*v" pixtype="pixbuf"/>
 
     <cmd name="MailNext"
      _tip="Display the next message"
@@ -126,8 +126,7 @@
 
     <cmd name="MessageOpen"
      _tip="Open the selected messages in a new window"
-     accel="*Control*o"
-     pixtype="pixbuf"/>
+     accel="*Control*o"/>
 
     <cmd name="MailPost"
      _tip="Post a message to a Public folder"/>
@@ -157,12 +156,12 @@
     <cmd name="MessageSaveAs"
      _tip="Save the selected messages as a text file"
      accel="*Control*s"
-     pixtype="stock" pixname="gtk-save-as"/>
+     pixtype="pixbuf"/>
 
     <cmd name="MessageSearch"
      _tip="Search for text in the body of the displayed message"
      accel="*Control**Shift*f"
-     pixtype="stock" pixname="gtk-find"/>
+     pixtype="pixbuf"/>
 
     <cmd name="MessageUndelete"
      _tip="Undelete the selected messages"
@@ -171,15 +170,14 @@
     <cmd name="PrintMessage"
      _tip="Print this message"
      accel="*Control*p"
-     pixtype="stock" pixname="gtk-print"/>
+     pixtype="pixbuf"/>
 
     <cmd name="PrintPreviewMessage"
      _tip="Preview the message to be printed"
-     pixtype="stock" pixname="gtk-print-preview"/>
+     pixtype="pixbuf"/>
 
     <cmd name="PrintSetup"
-     _tip="Set up the page settings for your current printer"
-     pixtype="pixbuf"/>
+     _tip="Set up the page settings for your current printer"/>
 
     <cmd name="SelectAllText"
      _tip="Select all the text in a message"
@@ -227,15 +225,15 @@
 
     <cmd name="TextZoomIn"
     _tip="Increase the text size"
-    accel="*Control*plus"/>
+    accel="*Control*plus" pixtype="pixbuf"/>
 
     <cmd name="TextZoomOut"
     _tip="Decrease the text size"
-    accel="*Control*minus"/>
+    accel="*Control*minus" pixtype="pixbuf"/>
 
     <cmd name="TextZoomReset"
     _tip="Reset the text to its original size"
-    accel="*Control*0"/>
+    accel="*Control*0" pixtype="pixbuf"/>
 
   </commands>
 
@@ -287,13 +285,9 @@
     <submenu name="View">
        <placeholder name="MailMessageZoom">
           <submenu name="zoom" _label="_Zoom">
- 	  <menuitem name="TextZoomIn" verb="" _label="_Zoom In"
-		    pixtype="stock" pixname="gtk-zoom-in"/>
- 	  <menuitem name="TextZoomOut" verb="" _label="Zoom _Out"
-		    pixtype="stock" pixname="gtk-zoom-out"/>
-
- 	  <menuitem name="TextZoomReset" verb="" _label="_Normal Size"
-		    pixtype="stock" pixname="gtk-zoom-100"/>
+ 	  <menuitem name="TextZoomIn" verb="" _label="_Zoom In"/>
+ 	  <menuitem name="TextZoomOut" verb="" _label="Zoom _Out"/>
+ 	  <menuitem name="TextZoomReset" verb="" _label="_Normal Size"/>
 	  </submenu>
        </placeholder>
 
@@ -318,7 +312,7 @@
         </placeholder>
 
         <placeholder name="MessageNavigation">
-          <submenu name="GoTo" _label="_Go To" pixtype="stock" pixname="gtk-jump-to">
+          <submenu name="GoTo" _label="_Go To" pixtype="pixbuf">
             <menuitem name="MailNext" verb="" _label="_Next Message"/>
             <menuitem name="MailNextUnread" verb="" _label="Next _Unread Message"/>
             <menuitem name="MailNextFlagged" verb="" _label="Next _Important Message"/>
@@ -370,7 +364,7 @@
 
             <menuitem name="MessageFollowUpFlag" verb="" _label="Follow _Up..."/>
             <menuitem name="MessageFollowUpClear" verb="" _label="_Clear Flag"/>
-            <menuitem name="MessageFollowUpComplete" verb="" _label="_Flag Completed" pixtype="pixbuf"/>
+            <menuitem name="MessageFollowUpComplete" verb="" _label="_Flag Completed"/>
 
           </submenu>
           <menuitem name="MessageApplyFilters" verb="" _label="A_pply Filters"/>
@@ -416,7 +410,7 @@
 
       <toolitem name="PrintMessage" verb=""
        _label="Print"
-       pixtype="stock" pixname="gtk-print"/>
+       pixtype="pixbuf"/>
 
       <toolitem name="MessageDelete" verb=""
        _label="Delete"

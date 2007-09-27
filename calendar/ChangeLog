@@ -1,3 +1,25 @@
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #477045
+
+	* gui/calendar-commands.c:
+	* gui/calendar-component.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	* gui/dialogs/comp-editor.c:
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/task-editor.c:
+	* gui/e-cal-popup.c:
+	* gui/e-calendar-table.c:
+	* gui/e-calendar-view.c:
+	* gui/e-day-view.c:
+	* gui/e-memo-table.c:
+	* gui/e-week-view.c:
+	* gui/memos-component.c:
+	* gui/memos-control.c:
+	* gui/tasks-component.c:
+	* gui/tasks-control.c:
+	Use standard icon names where applicable.
+
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #346686

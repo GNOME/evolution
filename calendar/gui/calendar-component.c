@@ -604,7 +604,7 @@ edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem ecc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy"), copy_calendar_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "stock_delete", 0,E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
+	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "edit-delete", 0,E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
 	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_calendar_cb, NULL, "stock_folder-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
@@ -1582,7 +1582,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].menuDescription = _("_Appointment");
 	list->_buffer[0].tooltip = _("Create a new appointment");
 	list->_buffer[0].menuShortcut = 'a';
-	list->_buffer[0].iconName = "stock_new-appointment";
+	list->_buffer[0].iconName = "appointment-new";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = CREATE_MEETING_ID;

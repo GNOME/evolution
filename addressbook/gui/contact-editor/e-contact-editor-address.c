@@ -455,7 +455,7 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (e_contact_editor_address)->vbox), widget, TRUE, TRUE, 0);
 	g_object_unref(widget);
 
-	icon_list = e_icon_factory_get_icon_list ("stock_contact");
+	icon_list = e_icon_factory_get_icon_list ("contact-new");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (e_contact_editor_address), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);

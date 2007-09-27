@@ -229,7 +229,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].menuDescription = _("_Contact");
 	list->_buffer[0].tooltip = _("Create a new contact");
 	list->_buffer[0].menuShortcut = 'c';
-	list->_buffer[0].iconName = "stock_contact";
+	list->_buffer[0].iconName = "contact-new";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = "contact_list";

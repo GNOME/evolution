@@ -7,10 +7,10 @@
     <cmd name="FilePageSetup" _label="Page Set_up..." _tip="Set up the page settings for your current printer"/>
 
     <cmd name="FileClose" _label="_Close Window" _tip="Close this window"
-      pixtype="stock" pixname="gtk-close" accel="*Control*w"/>
+      accel="*Control*w"/>
 
     <cmd name="FileExit" _label="_Quit" _tip="Exit the program"
-      pixtype="stock" pixname="gtk-quit" accel="*Control*q"/>
+      accel="*Control*q"/>
 
     <cmd name="ViewButtonsIconText" _label="Icons _and text" 
       type="radio" group="button_display" _tip="Display window buttons with icons and text"/>
@@ -67,7 +67,8 @@
 
       <separator f="" name="eshell4"/>
       
-      <menuitem name="SendReceive" verb="" _label="Send / _Receive" accel="F9"/>
+      <menuitem name="SendReceive" verb="" _label="Send / _Receive"
+	pixtype="pixbuf" accel="F9"/>
 
       <placeholder name="FileOps"/>
 
@@ -98,9 +99,11 @@
 	pixtype="pixbuf"/>
       
       <menuitem name="FileClose" verb=""
-	_label="_Close Window"/>
+	_label="_Close Window"
+        pixtype="pixbuf"/>
 
-      <menuitem name="FileExit" verb="FileExit"/>
+      <menuitem name="FileExit" verb="FileExit"
+	pixtype="pixbuf"/>
     </submenu>
 
     <submenu name="Edit" _label="_Edit">

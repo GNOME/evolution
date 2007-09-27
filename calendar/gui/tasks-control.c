@@ -38,7 +38,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-print.h>
-#include "e-util/e-icon-factory.h"
+#include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
@@ -253,7 +253,19 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/ActionsPlaceholder/Actions/TasksForward", "stock_mail-forward", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksCopy", "edit-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksCut", "edit-cut", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksDelete", "edit-delete", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksForward", "mail-forward", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksPaste", "edit-paste", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksPrint", "document-print", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
+
+	E_PIXMAP ("/Toolbar/Cut", "edit-cut", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Copy", "edit-copy", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Paste", "edit-paste", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Print", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Delete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
 	
 	E_PIXMAP_END
 };

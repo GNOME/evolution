@@ -399,7 +399,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gtk_widget_show (cancel_button);
 	gtk_dialog_add_action_widget (gd, cancel_button, GTK_RESPONSE_CANCEL);
 	
-	icon_list = e_icon_factory_get_icon_list ("stock_mail-send-receive");
+	icon_list = e_icon_factory_get_icon_list ("mail-send-receive");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (gd), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
@@ -560,7 +560,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
 		send_icon = e_icon_factory_get_image (
-			"stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
+			"mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
 		pretty_url = format_url (destination, NULL);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (

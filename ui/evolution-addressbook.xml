@@ -1,18 +1,17 @@
 <Root>
   <commands>
+
     <cmd name="ContactDelete"
 	 _tip="Delete selected contacts"
-	 pixtype="stock" pixname="gtk-delete"
-	 accel="*Control*d"/>
+	 accel="*Control*d" pixtype="pixbuf"/>
 
     <cmd name="ContactsPrint"
 	 _tip="Print selected contacts"
-	 pixtype="stock" pixname="gtk-print"
-	 accel="*Control*p"/>
+	 accel="*Control*p" pixtype="pixbuf"/>
 
     <cmd name="ContactsPrintPreview"
 	 _tip="Previews the contacts to be printed"
-	 pixtype="stock" pixname="gtk-print-preview"/>
+         pixtype="pixbuf"/>
 
     <cmd name="ContactsView"
 	 _tip="View the current contact"
@@ -22,19 +21,17 @@
 	 _tip="Stop Loading"
 	 pixtype="stock" pixname="gtk-stop"/>
 
-    <cmd name="ContactsCut" _label="Cut" _tip="Cut the selection"
-	 pixtype="stock" pixname="gtk-cut"
-	 accel="*Control*x"/>
+    <cmd name="ContactsCut" _label="Cut"
+	 _tip="Cut the selection"
+	 accel="*Control*x" pixtype="pixbuf"/>
 
     <cmd name="ContactsCopy" _label="Copy"
 	 _tip="Copy the selection"
-	 pixtype="stock" pixname="gtk-copy"
-	 accel="*Control*c"/>
+	 accel="*Control*c" pixtype="pixbuf"/>
 
     <cmd name="ContactsPaste" _label="Paste"
 	 _tip="Paste the clipboard"
-	 pixtype="stock" pixname="gtk-paste"
-	 accel="*Control*v"/>
+	 accel="*Control*v" pixtype="pixbuf"/>
 
     <cmd name="ContactsSelectAll" _label="Select All"
 	 _tip="Select all contacts"
@@ -42,14 +39,15 @@
 
     <cmd name="ContactsSaveAsVCard" _label="Save as VCard..."
 	 _tip="Save selected contacts as a VCard."
-	 pixtype="stock" pixname="gtk-save-as"
-	 accel="*Control*s"/>
+	 accel="*Control*s" pixtype="pixbuf"/>
 
     <cmd name="ContactsSendContactToOther" _label="Forward Contact"
-	 _tip="Send selected contacts to another person."/>
+	 _tip="Send selected contacts to another person."
+	 pixtype="pixbuf"/>
 
     <cmd name="ContactsSendMessageToContact" _label="Send message to contact"
-	 _tip="Send a message to the selected contacts."/>
+	 _tip="Send a message to the selected contacts."
+	 pixtype="pixbuf"/>
 
     <cmd name="ContactsCopyToFolder" _label="Copy to Folder..."
 	 _tip="Copy Selected Contacts to Another Folder..."
@@ -75,19 +73,24 @@
     <cmd name="FolderMove" _label="_Move Folder Contacts To"
 	 _tip="Move the contacts of the selected folder into another folder" 
 	 pixtype="pixbuf"/>  
+
     <cmd name="FolderSave" _label="_Save Folder Contacts As VCard"
 	 _tip="Save the contacts of the selected folder as VCard"
 	 pixtype="pixbuf"/>   
+
     <cmd name="FolderDelete" _label="_Delete"
 	 _tip="Delete the selected folder"
-	 pixtype="pixbuf"/>   
+	 pixtype="pixbuf"/>
+
     <cmd name="FolderRename" _label="_Rename"
 	 _tip="Rename the selected folder"
 	 pixtype="pixbuf"
 	 accel="F2"/>   
+
     <cmd name="ChangeFolderProperties" _label="_Properties"
 	 _tip="Change the properties of the selected folder"
 	 pixtype="pixbuf"/>   
+
   </commands>
 
   <menu>
@@ -98,14 +101,12 @@
 	<menuitem name="ContactsSaveAsVCard"
 		  verb="" _label="_Save Contact as VCard..."/>
 	<menuitem name="FolderSave" 
-		  verb="" _label="S_ave Address Book As VCard" pixtype="pixbuf"/>
+		  verb="" _label="S_ave Address Book As VCard"/>
       </placeholder>
 
       <placeholder name="Print">
-	<menuitem name="ContactsPrintPreview" verb=""
-		  _label="Print Pre_view"/>
-	<menuitem name="ContactsPrint" verb=""
-		  _label="_Print..."/>
+	<menuitem name="ContactsPrintPreview" verb="" _label="Print Pre_view"/>
+	<menuitem name="ContactsPrint" verb="" _label="_Print..."/>
       </placeholder>
 
     </submenu>
@@ -130,7 +131,7 @@
 
 	<menuitem name="ContactDelete" verb="" _label="_Delete Contact"/>
 	
-	<menuitem name="FolderDelete" verb="" _label="Del_ete Address Book" pixtype="stock" pixname="gtk-delete"/>
+	<menuitem name="FolderDelete" verb="" _label="Del_ete Address Book"/>
       </placeholder>
     </submenu>
 
@@ -140,10 +141,10 @@
     <placeholder name="ActionsPlaceholder">
       <submenu name="Actions" _label="_Actions">
 	<menuitem name="ContactsSendContactToOther"
-		  _label="_Forward Contact..." verb="" pixtype="pixbuf"/>
+		  _label="_Forward Contact..." verb=""/>
 
 	<menuitem name="ContactsSendMessageToContact"
-		  _label="_Send Message to Contact..." verb="" pixtype="pixbuf"/>
+		  _label="_Send Message to Contact..." verb=""/>
 	<menuitem name="ContactActionStop" verb="ContactStop" _label="St_op"/>
 
 	<separator f="" name="eadbk5"/>
@@ -153,13 +154,13 @@
 	
 	<separator f="" name="eadbk4"/>
 
-	<menuitem name="FolderCopy" verb="" _label="Co_py All Contacts To..." pixtype="pixbuf"/>
+	<menuitem name="FolderCopy" verb="" _label="Co_py All Contacts To..."/>
 
-	<menuitem name="FolderMove" verb="" _label="Mo_ve All Contacts To..." pixtype="pixbuf"/>
+	<menuitem name="FolderMove" verb="" _label="Mo_ve All Contacts To..."/>
 
 	<separator f="" name="eadbk3"/>
 
-	<menuitem name="ChangeFolderProperties" verb="" _label="Address _Book Properties" pixtype="pixbuf"/>
+	<menuitem name="ChangeFolderProperties" verb="" _label="Address _Book Properties"/>
 
       </submenu>
     </placeholder>
@@ -168,10 +169,10 @@
 
   <dockitem name="Toolbar">
     <toolitem name="ContactsPrint" verb=""
-	      _label="Print"/>
+	      _label="Print" pixtype="pixbuf"/>
 
     <toolitem name="ContactDelete" verb=""
-	      _label="Delete"/>
+	      _label="Delete" pixtype="pixbuf"/>
 
     <toolitem name="ContactStop" verb=""
 	      _label="Stop"/>

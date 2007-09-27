@@ -294,9 +294,11 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps[] = {
+	E_PIXMAP ("/commands/OptionStatus", "stock_view-details", E_ICON_SIZE_MENU),	
+	E_PIXMAP ("/commands/ViewTimeZone", "stock_timezone", E_ICON_SIZE_MENU),
+
 	E_PIXMAP ("/Toolbar/ViewTimeZone", "stock_timezone", E_ICON_SIZE_LARGE_TOOLBAR),	
 	E_PIXMAP ("/Toolbar/OptionStatus", "stock_view-details", E_ICON_SIZE_LARGE_TOOLBAR),	
-	E_PIXMAP ("/commands/OptionStatus", "stock_view-details", E_ICON_SIZE_LARGE_TOOLBAR),	
 	
 	E_PIXMAP_END
 };
