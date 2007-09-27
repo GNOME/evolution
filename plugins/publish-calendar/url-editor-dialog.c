@@ -320,7 +320,7 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 
 	gconf = gconf_client_get_default ();
 
-	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "publish-calendar.glade",
 				      NULL);
 	gui = glade_xml_new (gladefile, "publishing toplevel", NULL);
