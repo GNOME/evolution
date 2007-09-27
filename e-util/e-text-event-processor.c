@@ -72,7 +72,7 @@ e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextEventProcessorClass, command),
 			      NULL, NULL,
-			      e_util_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 

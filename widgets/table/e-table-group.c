@@ -647,7 +647,7 @@ etg_class_init (ETableGroupClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, cursor_change),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	etg_signals [CURSOR_ACTIVATED] =
@@ -656,7 +656,7 @@ etg_class_init (ETableGroupClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, cursor_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	etg_signals [DOUBLE_CLICK] =

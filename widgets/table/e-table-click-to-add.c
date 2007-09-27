@@ -538,7 +538,7 @@ etcta_class_init (ETableClickToAddClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClickToAddClass, style_set),
 			      NULL, NULL,
-			      e_util_marshal_NONE__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 
 	gal_a11y_e_table_click_to_add_init ();

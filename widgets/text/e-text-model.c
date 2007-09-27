@@ -77,7 +77,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextModelClass, changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_text_model_signals[E_TEXT_MODEL_REPOSITION] =
@@ -96,7 +96,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextModelClass, object_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_INT);
 
@@ -106,7 +106,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextModelClass, cancel_completion),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	
 	/* No default signal handlers. */

@@ -136,7 +136,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, selection_change),
 			      NULL, NULL,
-			      eab_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	signals [COLUMN_WIDTH_CHANGED] =
@@ -145,7 +145,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, column_width_changed),
 			      NULL, NULL,
-			      eab_marshal_NONE__DOUBLE,
+			      g_cclosure_marshal_VOID__DOUBLE,
 			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 
 	signals [RIGHT_CLICK] =

@@ -172,7 +172,7 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMinicardLabelClass, style_set),
 			      NULL, NULL,
-			      eab_marshal_VOID__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      GTK_TYPE_STYLE);
 

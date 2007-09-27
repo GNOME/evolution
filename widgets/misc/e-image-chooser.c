@@ -137,7 +137,7 @@ e_image_chooser_class_init (EImageChooserClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EImageChooserClass, changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      GTK_TYPE_NONE, 0);
 
 	/*

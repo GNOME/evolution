@@ -1,3 +1,14 @@
+2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #461195
+
+	* e-table-header-item.c:
+	* e-table-item.c:
+	* e-tree.c:
+	* e-table-click-to-add.c:
+	* e-table.c:
+	* e-table-group.c: Use GObject's marshalers.
+
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #478871

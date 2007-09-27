@@ -259,7 +259,7 @@ e_date_edit_class_init		(EDateEditClass	*class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EDateEditClass, changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      GTK_TYPE_NONE, 0);
 
 	object_class->dispose = e_date_edit_dispose;

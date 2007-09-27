@@ -1,3 +1,22 @@
+2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #461195
+
+	* text/e-completion-view.c:
+	* text/e-text-model.c:
+	* text/e-text.c:
+	* text/e-entry.c:
+	* text/e-completion.c:
+	* misc/e-dateedit.c:
+	* misc/e-reflow-model.c:
+	* misc/e-reflow.c:
+	* misc/e-canvas.c:
+	* misc/e-image-chooser.c:
+	* misc/e-selection-model.c:
+	* misc/e-printable.c:
+	* misc/e-canvas-background.c:
+	* misc/e-search-bar.c: Use GObject's marshalers.
+
 2007-08-31  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Move away from g_assert to g_return* critical warnings to debug

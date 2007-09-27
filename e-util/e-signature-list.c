@@ -98,7 +98,7 @@ e_signature_list_class_init (ESignatureListClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESignatureListClass, signature_added),
 			      NULL, NULL,
-			      e_util_marshal_NONE__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      E_TYPE_SIGNATURE);
 	signals[SIGNATURE_CHANGED] =
@@ -107,7 +107,7 @@ e_signature_list_class_init (ESignatureListClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESignatureListClass, signature_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      E_TYPE_SIGNATURE);
 	signals[SIGNATURE_REMOVED] =
@@ -116,7 +116,7 @@ e_signature_list_class_init (ESignatureListClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESignatureListClass, signature_removed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      E_TYPE_SIGNATURE);
 }

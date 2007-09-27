@@ -509,7 +509,7 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECanvasBackgroundClass, style_set),
 			      NULL, NULL,
-			      e_util_marshal_NONE__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 }
 

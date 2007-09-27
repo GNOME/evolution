@@ -469,7 +469,7 @@ e_sidebar_class_init (ESidebarClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (ESidebarClass, button_selected),
 				NULL, NULL,
-				e_shell_marshal_NONE__INT,
+				g_cclosure_marshal_VOID__INT,
 				G_TYPE_NONE, 1,
 				G_TYPE_INT);
 	signals[BUTTON_PRESSED]

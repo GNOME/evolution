@@ -220,7 +220,7 @@ e_minicard_class_init (EMinicardClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMinicardClass, style_set),
 			      NULL, NULL,
-			      eab_marshal_VOID__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      GTK_TYPE_STYLE);
 

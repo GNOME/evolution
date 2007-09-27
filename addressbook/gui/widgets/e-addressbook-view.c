@@ -256,7 +256,7 @@ eab_view_class_init (EABViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABViewClass, status_message),
 			      NULL, NULL,
-			      eab_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	eab_view_signals [SEARCH_RESULT] =
@@ -265,7 +265,7 @@ eab_view_class_init (EABViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABViewClass, search_result),
 			      NULL, NULL,
-			      eab_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	eab_view_signals [FOLDER_BAR_MESSAGE] =
@@ -274,7 +274,7 @@ eab_view_class_init (EABViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABViewClass, folder_bar_message),
 			      NULL, NULL,
-			      eab_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	eab_view_signals [COMMAND_STATE_CHANGE] =
@@ -283,7 +283,7 @@ eab_view_class_init (EABViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABViewClass, command_state_change),
 			      NULL, NULL,
-			      eab_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	if (!clipboard_atom)

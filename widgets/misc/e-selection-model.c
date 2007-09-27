@@ -170,7 +170,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, selection_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_selection_model_signals [SELECTION_ROW_CHANGED] =
@@ -179,7 +179,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, selection_row_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	klass->cursor_changed        = NULL;

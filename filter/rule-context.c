@@ -133,7 +133,7 @@ rule_context_class_init(RuleContextClass *klass)
 			      G_STRUCT_OFFSET(RuleContextClass, rule_added),
 			      NULL,
 			      NULL,
-			      filter_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 	
 	signals[RULE_REMOVED] =
@@ -143,7 +143,7 @@ rule_context_class_init(RuleContextClass *klass)
 			      G_STRUCT_OFFSET(RuleContextClass, rule_removed),
 			      NULL,
 			      NULL,
-			      filter_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 	
 	signals[CHANGED] =
@@ -153,7 +153,7 @@ rule_context_class_init(RuleContextClass *klass)
 			      G_STRUCT_OFFSET(RuleContextClass, changed),
 			      NULL,
 			      NULL,
-			      filter_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 }
 

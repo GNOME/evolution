@@ -417,7 +417,7 @@ e_shell_folder_title_bar_class_init (EShellFolderTitleBarClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EShellFolderTitleBarClass, title_toggled),
 				NULL, NULL,
-				e_shell_marshal_NONE__BOOL,
+				g_cclosure_marshal_VOID__BOOLEAN,
 				G_TYPE_NONE, 1,
 				G_TYPE_BOOLEAN);
 
@@ -427,7 +427,7 @@ e_shell_folder_title_bar_class_init (EShellFolderTitleBarClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EShellFolderTitleBarClass, back_clicked),
 				NULL, NULL,
-				e_shell_marshal_NONE__NONE,
+				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
 
 	signals[FORWARD_CLICKED]
@@ -436,7 +436,7 @@ e_shell_folder_title_bar_class_init (EShellFolderTitleBarClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EShellFolderTitleBarClass, forward_clicked),
 				NULL, NULL,
-				e_shell_marshal_NONE__NONE,
+				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
 }
 

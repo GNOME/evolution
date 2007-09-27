@@ -3049,7 +3049,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, cursor_change),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	eti_signals [CURSOR_ACTIVATED] =
@@ -3058,7 +3058,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, cursor_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	eti_signals [DOUBLE_CLICK] =
@@ -3117,7 +3117,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, style_set),
 			      NULL, NULL,
-			      e_util_marshal_NONE__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 
 	eti_signals[SELECTION_MODEL_REMOVED] =

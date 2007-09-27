@@ -77,7 +77,7 @@ e_printable_class_init (EPrintableClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EPrintableClass, reset),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0, G_TYPE_NONE);
 
 	e_printable_signals [HEIGHT] =

@@ -1,3 +1,14 @@
+2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #461195
+
+	* e-shell-marshal.list: Remove needless marshalers.
+	* e-shell-folder-title-bar.c:
+	* e-shell.c:
+	* e-shell-window.c:
+	* e-shell-marshal.list:
+	* e-sidebar.c: Use GObject's marshalers.
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #477045

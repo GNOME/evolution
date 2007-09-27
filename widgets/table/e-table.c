@@ -3099,7 +3099,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, cursor_change),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	et_signals [CURSOR_ACTIVATED] =
@@ -3108,7 +3108,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, cursor_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	et_signals [SELECTION_CHANGE] =
@@ -3117,7 +3117,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, selection_change),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	et_signals [DOUBLE_CLICK] =
@@ -3176,7 +3176,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, state_change),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	et_signals [WHITE_SPACE_EVENT] =

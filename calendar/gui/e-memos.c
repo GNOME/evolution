@@ -513,7 +513,7 @@ e_memos_class_init (EMemosClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMemosClass, source_added),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_OBJECT);
@@ -524,7 +524,7 @@ e_memos_class_init (EMemosClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMemosClass, source_removed),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_OBJECT);

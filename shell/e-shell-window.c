@@ -998,7 +998,7 @@ e_shell_window_class_init (EShellWindowClass *klass)
 						   G_SIGNAL_RUN_FIRST,
 						   G_STRUCT_OFFSET (EShellWindowClass, component_changed),
 						   NULL, NULL,
-						   e_shell_marshal_NONE__NONE,
+						   g_cclosure_marshal_VOID__VOID,
 						   G_TYPE_NONE, 0);
 
 	load_icons ();

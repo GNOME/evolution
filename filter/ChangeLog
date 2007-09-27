@@ -1,3 +1,11 @@
+2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #461195
+
+	* filter-marshal.list: Remove needless marshalers.
+	* filter-rule.c:
+	* filter-context.c: Use GObject's marshalers.
+
 2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #476231

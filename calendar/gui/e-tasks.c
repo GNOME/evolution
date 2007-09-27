@@ -641,7 +641,7 @@ e_tasks_class_init (ETasksClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (ETasksClass, source_added),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_OBJECT);
@@ -652,7 +652,7 @@ e_tasks_class_init (ETasksClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (ETasksClass, source_removed),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__OBJECT,
+			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_OBJECT);

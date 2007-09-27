@@ -171,7 +171,7 @@ eab_editor_class_init (EABEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EABEditorClass, editor_closed),
 			      NULL, NULL,
-			      e_contact_editor_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 }
 

@@ -1,3 +1,19 @@
+2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #461195
+
+	* util/eab-marshal.list:
+	* gui/contact-list-editor/e-contact-list-editor-marshal.list:
+	* gui/contact-editor/e-contact-editor-marshal.list: Remove
+	needless marshalers.
+	* gui/contact-editor/eab-editor.c:
+	* gui/widgets/e-minicard-view-widget.c:
+	* gui/widgets/eab-marshal.list:
+	* gui/widgets/e-minicard.c:
+	* gui/widgets/e-minicard-label.c:
+	* gui/widgets/e-addressbook-model.c:
+	* gui/widgets/e-addressbook-view.c: Use GObject's marshalers.
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #477045

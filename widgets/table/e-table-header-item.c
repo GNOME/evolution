@@ -1937,7 +1937,7 @@ ethi_class_init (ETableHeaderItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderItemClass, button_pressed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__BOXED,
+			      g_cclosure_marshal_VOID__BOXED,
 			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
 }
 

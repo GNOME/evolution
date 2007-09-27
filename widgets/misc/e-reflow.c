@@ -1480,7 +1480,7 @@ e_reflow_class_init (EReflowClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowClass, column_width_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__DOUBLE,
+			      g_cclosure_marshal_VOID__DOUBLE,
 			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 }
 

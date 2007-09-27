@@ -161,7 +161,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowModelClass, model_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_reflow_model_signals [COMPARISON_CHANGED] =
@@ -170,7 +170,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowModelClass, comparison_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_reflow_model_signals [MODEL_ITEMS_INSERTED] =
@@ -188,7 +188,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowModelClass, model_item_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	e_reflow_model_signals [MODEL_ITEM_REMOVED] =
@@ -197,7 +197,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowModelClass, model_item_removed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	klass->set_width            = NULL;

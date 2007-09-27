@@ -87,7 +87,7 @@ e_completion_class_init (ECompletionClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionClass, completion_found),
 			      NULL, NULL,
-			      e_util_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
@@ -97,7 +97,7 @@ e_completion_class_init (ECompletionClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionClass, completion_finished),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	object_class->dispose = e_completion_dispose;

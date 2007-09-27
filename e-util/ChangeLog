@@ -1,3 +1,11 @@
+2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #461195
+
+	* e-uril-marshal.list: Remove needless marshalers.
+	* e-text-event-processor.c:
+	* e-signature-list.c: Use GObject's marshalers.
+
 2007-09-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #471791 

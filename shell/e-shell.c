@@ -504,7 +504,7 @@ e_shell_class_init (EShellClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EShellClass, no_windows_left),
 			      NULL, NULL,
-			      e_shell_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	signals[LINE_STATUS_CHANGED] =
@@ -513,7 +513,7 @@ e_shell_class_init (EShellClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EShellClass, line_status_changed),
 			      NULL, NULL,
-			      e_shell_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_INT);
 
@@ -523,7 +523,7 @@ e_shell_class_init (EShellClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EShellClass, new_window_created),
 			      NULL, NULL,
-			      e_shell_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 

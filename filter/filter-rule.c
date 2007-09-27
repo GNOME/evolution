@@ -113,7 +113,7 @@ filter_rule_class_init (FilterRuleClass *klass)
 			      G_STRUCT_OFFSET (FilterRuleClass, changed),
 			      NULL,
 			      NULL,
-			      filter_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 }
 

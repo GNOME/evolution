@@ -1167,7 +1167,7 @@ e_entry_class_init (EEntryClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EEntryClass, changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_entry_signals[E_ENTRY_ACTIVATE] =
@@ -1176,7 +1176,7 @@ e_entry_class_init (EEntryClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EEntryClass, activate),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_entry_signals[E_ENTRY_POPULATE_POPUP] =

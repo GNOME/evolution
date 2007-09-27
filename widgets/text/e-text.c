@@ -3510,7 +3510,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_text_signals[E_TEXT_ACTIVATE] =
@@ -3519,7 +3519,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, activate),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	e_text_signals[E_TEXT_KEYPRESS] =

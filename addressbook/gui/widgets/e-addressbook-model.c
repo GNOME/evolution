@@ -320,7 +320,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, writable_status),
 			      NULL, NULL,
-			      eab_marshal_NONE__BOOL,
+			      g_cclosure_marshal_VOID__BOOLEAN,
 			      G_TYPE_NONE,
 			      1, G_TYPE_BOOLEAN);
 
@@ -330,7 +330,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, status_message),
 			      NULL, NULL,
-			      eab_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE,
 			      1, G_TYPE_POINTER);
 
@@ -340,7 +340,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, search_started),
 			      NULL, NULL,
-			      eab_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	
 	eab_model_signals [SEARCH_RESULT] =
@@ -349,7 +349,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, search_result),
 			      NULL, NULL,
-			      eab_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 	
 	eab_model_signals [FOLDER_BAR_MESSAGE] =
@@ -358,7 +358,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, folder_bar_message),
 			      NULL, NULL,
-			      eab_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	eab_model_signals [CONTACT_ADDED] =
@@ -376,7 +376,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, contacts_removed),
 			      NULL, NULL,
-			      eab_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	eab_model_signals [CONTACT_CHANGED] =
@@ -385,7 +385,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, contact_changed),
 			      NULL, NULL,
-			      eab_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	eab_model_signals [MODEL_CHANGED] =
@@ -394,7 +394,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, model_changed),
 			      NULL, NULL,
-			      eab_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	eab_model_signals [STOP_STATE_CHANGED] =
@@ -403,7 +403,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, stop_state_changed),
 			      NULL, NULL,
-			      eab_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	eab_model_signals [BACKEND_DIED] =
@@ -412,7 +412,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, backend_died),
 			      NULL, NULL,
-			      eab_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 }
 

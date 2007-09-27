@@ -884,7 +884,7 @@ class_init (ESearchBarClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESearchBarClass, query_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	
 	esb_signals [MENU_ACTIVATED] =
@@ -893,7 +893,7 @@ class_init (ESearchBarClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESearchBarClass, menu_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	esb_signals [SEARCH_ACTIVATED] =
@@ -902,7 +902,7 @@ class_init (ESearchBarClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESearchBarClass, search_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
 	esb_signals [SEARCH_CLEARED] =
@@ -911,7 +911,7 @@ class_init (ESearchBarClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESearchBarClass, search_cleared),
 			      NULL, NULL,
-			      e_util_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);	
 }
 
