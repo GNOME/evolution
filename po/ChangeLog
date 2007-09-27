@@ -1,3 +1,9 @@
+2007-09-27  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #479716
+
+	* POTFILES.in: get rid of e-table-config-no-group.glade.
+
 2007-09-17  Priit Laes  <plaes@svn.gnome.org>
 
 	* et.po: Few typos fixed.

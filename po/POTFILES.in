@@ -498,7 +498,6 @@ widgets/table/e-cell-pixbuf.c
 widgets/table/e-cell-text.c
 widgets/table/e-table-click-to-add.c
 widgets/table/e-table-col.c
-widgets/table/e-table-config-no-group.glade
 widgets/table/e-table-config.c
 widgets/table/e-table-config.glade
 widgets/table/e-table-field-chooser-dialog.c

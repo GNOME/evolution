@@ -1,3 +1,11 @@
+2007-09-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #479716
+
+	* e-table-config.c: (setup_gui):
+	* Makefile.am: Get rid of e-table-config-no-group.glade and
+	keep consistent with behavior and appearence.
+
 2007-09-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #340748

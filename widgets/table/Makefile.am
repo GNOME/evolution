@@ -6,7 +6,6 @@ endif
 
 glade_DATA = 					\
 	e-table-config.glade			\
-	e-table-config-no-group.glade		\
 	e-table-field-chooser.glade
 
 INCLUDES =					\

@@ -1196,24 +1196,17 @@ static void
 setup_gui (ETableConfig *config)
 {
 	GladeXML *gui;
+	gboolean can_group;
+	gchar *filename;
 
 	create_global_store (config);
 
-	if (e_table_sort_info_get_can_group (config->state->sort_info)) {
-		gchar *filename =
-			g_build_filename (EVOLUTION_GLADEDIR,
+	can_group = e_table_sort_info_get_can_group (config->state->sort_info);
+	filename = g_build_filename (EVOLUTION_GLADEDIR,
 					  "e-table-config.glade",
 					  NULL);
-		gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
-		g_free (filename);
-	} else {
-		gchar *filename =
-			g_build_filename (EVOLUTION_GLADEDIR,
-					  "e-table-config-no-group.glade",
-					  NULL);
-		gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
-		g_free (filename);
-	}
+	gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
+	g_free (filename);
 
 	g_object_unref (global_store);
 	
@@ -1240,7 +1233,23 @@ setup_gui (ETableConfig *config)
 	connect_button (config, gui, "button-sort", G_CALLBACK (config_button_sort));
 	connect_button (config, gui, "button-group", G_CALLBACK (config_button_group));
 	connect_button (config, gui, "button-fields", G_CALLBACK (config_button_fields));
-	
+
+	if (!can_group) {
+		GtkWidget *w;
+
+		w = glade_xml_get_widget (gui, "button-group");
+		if (w)
+			gtk_widget_hide (w);
+
+		w = glade_xml_get_widget (gui, "label3");
+		if (w)
+			gtk_widget_hide (w);
+
+		w = config->group_label;
+		if (w)
+			gtk_widget_hide (w);
+	}
+
 	configure_sort_dialog (config, gui);
 	configure_group_dialog (config, gui);
 	configure_fields_dialog (config, gui);
