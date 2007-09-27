@@ -1,5 +1,12 @@
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #478871
+
+	* e-table-config.c: (config_fields_info_update):
+	Shows proper 'Fields shown' description for all tables.
+
+2007-09-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #479716
 
 	* e-table-config.c: (setup_gui):
