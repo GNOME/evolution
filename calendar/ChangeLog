@@ -1,3 +1,12 @@
+2007-09-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fixes part of bug #228832
+
+	* gui/gnome-cal.h: (gnome_calendar_new_task):
+	* gui/gnome-cal.c: (gnome_calendar_new_task): Added parameters to
+	inherit selected time for 'dtstart' and 'due' of new task.
+	* gui/e-calendar-view.c: (on_new_task): Passing selected time to use.
+
 2007-09-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #411125

@@ -3210,11 +3210,13 @@ gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 /**
  * gnome_calendar_new_task:
  * @gcal: An Evolution calendar.
+ * @param dtstart Start time of the task, in same timezone as model.
+ * @param dtend End time of the task, in same timezone as model.
  *
- * Opens a task editor dialog for a new task.
+ * Opens a task editor dialog for a new task. dtstart or dtend can be NULL.
  **/
 void
-gnome_calendar_new_task		(GnomeCalendar *gcal)
+gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *ecal;
@@ -3224,6 +3226,8 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 	icalcomponent *icalcomp;
 	const char *category;
 	guint32 flags = 0;
+	ECalComponentDateTime dt;
+	struct icaltimetype itt;
 	
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -3243,6 +3247,22 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	e_cal_component_set_categories (comp, category);
+
+	dt.value = &itt;
+	dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (model));
+
+	if (dtstart) {
+		itt = icaltime_from_timet_with_zone (*dtstart, FALSE, e_cal_model_get_timezone (model));
+		e_cal_component_set_dtstart (comp, &dt);
+	}
+
+	if (dtend) {
+		itt = icaltime_from_timet_with_zone (*dtend, FALSE, e_cal_model_get_timezone (model));
+		e_cal_component_set_due (comp, &dt); /* task uses 'due' not 'dtend' */
+	}
+
+	if (dtstart || dtend)
+		e_cal_component_commit_sequence (comp);
 
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	g_object_unref (comp);

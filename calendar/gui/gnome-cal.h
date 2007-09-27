@@ -156,7 +156,7 @@ void	   gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 						   time_t	 *start_time,
 						   time_t	 *end_time);
 
-void       gnome_calendar_new_task		(GnomeCalendar *gcal);
+void       gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend);
 
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip

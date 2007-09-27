@@ -1159,8 +1159,10 @@ static void
 on_new_task (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
+	time_t dtstart, dtend;
 
-	gnome_calendar_new_task (cal_view->priv->calendar);
+	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+	gnome_calendar_new_task (cal_view->priv->calendar, &dtstart, &dtend);
 }
 
 static void
