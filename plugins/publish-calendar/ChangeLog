@@ -1,3 +1,10 @@
+2007-09-27  Pedro Villavicencio Garrido  <pvillavi@gnome.org>
+
+	* url-editor-dialog.c: (url_editor_dialog_construct):
+	use EVOLUTION_GLADEDIR instead of EVOLUTION_PLUGINDIR.
+	
+	Fixes #480804.
+
 2007-09-10  Andre Klapper  <a9016009@gmx.de>
 
 	* publish-calendar.c: (publish):
