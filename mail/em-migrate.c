@@ -778,10 +778,13 @@ upgrade_passwords_1_2(void)
 						
 						if (namep && valuep) {
 							char *value = e_bconf_hex_decode(valuep);
+							guchar *decoded;
 							char *p, *new;
-							size_t len;
+							gsize len;
 
-							len = camel_base64_decode_simple(namep, strlen(namep));
+							decoded = g_base64_decode (namep, &len);
+							memcpy (namep, decoded, len);
+							g_free (decoded);
 							namep[len] = 0;
 							p = namep;
 

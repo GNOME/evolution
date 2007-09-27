@@ -1786,8 +1786,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	const char *photo_name = NULL;
 	CamelInternetAddress *cia = NULL;
 	gboolean face_decoded  = FALSE;
-	char *face_header_value = NULL;
-	int face_header_len = 0;
+	guchar *face_header_value = NULL;
+	gsize face_header_len = 0;
 	char *header_sender = NULL, *header_from = NULL, *name;
 	gboolean mail_from_delegate = FALSE;
 	
@@ -1896,16 +1896,14 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					if (strstr(header->value, "Evolution"))
 						have_icon = TRUE;
 				} else if (!g_ascii_strcasecmp (header->name, "Face") && !face_decoded) {
-					char *tmp;
-					
+					gchar *cp;
+
+					/* Skip over spaces */
+					for (cp = header->name; *cp == ' '; cp++);
+					face_header_value = g_base64_decode (cp, &face_header_len);
+					face_header_value = g_realloc (face_header_value, face_header_len + 1);
+					face_header_value[face_header_len] = 0;
 					face_decoded = TRUE;
-					tmp = g_strdup (header->value);
-					for (; *tmp == ' '; tmp++);
-
-					face_header_len = camel_base64_decode_simple (tmp, strlen(tmp));
-					tmp[face_header_len] = 0;
-
-					face_header_value = tmp;
 
 				} else if (!g_ascii_strcasecmp (header->name, h->name)) {
 					efh_format_header(emf, stream, part, header, h->flags, charset);

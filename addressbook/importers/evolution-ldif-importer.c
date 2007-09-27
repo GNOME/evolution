@@ -116,93 +116,6 @@ ldif_fields[] = {
 };
 static int num_ldif_fields = sizeof(ldif_fields) / sizeof (ldif_fields[0]);
 
-static unsigned char base64_rank[256] = {
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255, 62,255,255,255, 63,
-	 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,255,255,255,  0,255,255,
-	255,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
-	 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,255,255,255,255,255,
-	255, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-	 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-};
-
-/**
- * base64_decode_step: decode a chunk of base64 encoded data
- * @in: input stream
- * @len: max length of data to decode
- * @out: output stream
- * @state: holds the number of bits that are stored in @save
- * @save: leftover bits that have not yet been decoded
- *
- * Decodes a chunk of base64 encoded data
- **/
-static int
-base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, unsigned int *save)
-{
-	register unsigned char *inptr, *outptr;
-	unsigned char *inend, c;
-	register unsigned int v;
-	int i;
-
-	inend = in+len;
-	outptr = out;
-
-	/* convert 4 base64 bytes to 3 normal bytes */
-	v=*save;
-	i=*state;
-	inptr = in;
-	while (inptr<inend) {
-		c = base64_rank[*inptr++];
-		if (c != 0xff) {
-			v = (v<<6) | c;
-			i++;
-			if (i==4) {
-				*outptr++ = v>>16;
-				*outptr++ = v>>8;
-				*outptr++ = v;
-				i=0;
-			}
-		}
-	}
-
-	*save = v;
-	*state = i;
-
-	/* quick scan back for '=' on the end somewhere */
-	/* fortunately we can drop 1 output char for each trailing = (upto 2) */
-	i=2;
-	while (inptr>in && i) {
-		inptr--;
-		if (base64_rank[*inptr] != 0xff) {
-			if (*inptr == '=')
-				outptr--;
-			i--;
-		}
-	}
-
-	/* if i!= 0 then there is a truncation error! */
-	return outptr-out;
-}
-
-static int
-base64_decode_simple (char *data, int len)
-{
-	int state = 0;
-	unsigned int save = 0;
-
-	return base64_decode_step ((unsigned char *)data, len,
-				   (unsigned char *)data, &state, &save);
-}
-
 static GString *
 getValue( char **src )
 {
@@ -224,11 +137,14 @@ getValue( char **src )
 	}
 
 	if (need_base64) {
-		int new_len;
-		/* it's base64 encoded */
-		dest = g_string_erase (dest, 0, 2);
-		new_len = base64_decode_simple (dest->str, strlen (dest->str));
-		dest = g_string_truncate (dest, new_len);
+		guchar *data;
+		gsize length;
+
+		/* XXX g_string_assign_len() would be nice here */
+		data = g_base64_decode (dest->str + 2, &length);
+		g_string_truncate (dest, 0);
+		g_string_append_len (dest, (gchar *) data, length);
+		g_free (data);
 	}
 
 	*src = s;
