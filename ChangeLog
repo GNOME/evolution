@@ -1,5 +1,13 @@
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #477045
+
+	* configure.in:
+	Bump minimum gnome-icon-theme version to 2.19.91 to ensure we
+	get the new mail icons.
+
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
 	* configure.in:
 	Remove the --enable-gtk-doc configure option since we don't
 	ship any Gtk-Doc content (#476926).
