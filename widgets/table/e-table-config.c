@@ -466,20 +466,22 @@ config_fields_info_update (ETableConfig *config)
 {
 	ETableColumnSpecification **column;
 	GString *res = g_string_new ("");
-	int i;
+	int i, j;
 
 	for (i = 0; i < config->state->col_count; i++){
-		for (column = config->source_spec->columns; *column; column++){
+		for (j = 0, column = config->source_spec->columns; *column; column++, j++){
 
 			if ((*column)->disabled)
 				continue;
 
-			if (config->state->columns [i] != (*column)->model_col)
+			if (config->state->columns [i] != j)
 				continue;
 
 			g_string_append (res, dgettext (config->domain, (*column)->title));
-			if (column [1])
+			if (i + 1 < config->state->col_count)
 				g_string_append (res, ", ");
+
+			break;
 		}
 	}
 	
