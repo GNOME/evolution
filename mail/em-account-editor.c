@@ -2053,7 +2053,7 @@ emae_receive_options_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *par
 	row = ((GtkTable *)parent)->nrows;
 
 	box = gtk_hbox_new(FALSE, 4);
-	w = gtk_check_button_new_with_mnemonic (_("Automatically check for _new mail every"));
+	w = gtk_check_button_new_with_mnemonic (_("Check for _new messages every"));
 	emae_account_toggle_widget(emae, (GtkToggleButton *)w, E_ACCOUNT_SOURCE_AUTO_CHECK);
 	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
 
@@ -2397,7 +2397,7 @@ static EMConfigItem emae_editor_items[] = {
 
 	/* Most sections for this is auto-generated fromt the camel config */
 	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
-	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Mail"), },
+	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Messages"), },
 	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
 	{ E_CONFIG_PAGE, "30.send", "vboxTransportBorder", emae_send_page },
@@ -2488,7 +2488,7 @@ static EMConfigItem emae_druid_items[] = {
 
 	/* Most sections for this is auto-generated fromt the camel config */
 	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
-	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Mail"), },
+	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Messages"), },
 	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
 	{ E_CONFIG_PAGE, "30.send", "vboxTransportBorder", emae_send_page },

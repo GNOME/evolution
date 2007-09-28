@@ -1,5 +1,10 @@
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
+	* org-gnome-face-eplug.xml:
+	Use consistent terminology for mail messages (#480621).
+
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #474000
 
 	* face.c:

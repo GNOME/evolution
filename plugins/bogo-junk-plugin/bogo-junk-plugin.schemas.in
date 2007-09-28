@@ -7,7 +7,7 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Convert mail text to Unicode</short>
+        <short>Convert mail messages to Unicode</short>
         <long>
           Convert message text to Unicode UTF-8 to unify spam/ham tokens
           coming from different character sets.

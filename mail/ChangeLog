@@ -1,5 +1,12 @@
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
+	* em-account-editor.c:
+	* evolution-mail.schemas.in:
+	* mail-config.glade:
+	Use consistent terminology for mail messages (#480621).
+
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #477045
 
 	* em-format-html.c (efh_format_headers):

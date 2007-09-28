@@ -1,3 +1,8 @@
+2007-08-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* org-gnome-print-message.eplug.xml:
+	Use consistent terminology for mail messages (#480621).
+
 2007-08-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #355766

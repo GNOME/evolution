@@ -472,7 +472,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 	
 	/* Enable BBDB checkbox */
-	check = gtk_check_button_new_with_mnemonic (_("_Automatically create entries in the addressbook when responding to mail"));
+	check = gtk_check_button_new_with_mnemonic (_("_Automatically create entries in the addressbook when responding to messages"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (enable_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);

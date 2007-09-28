@@ -3630,7 +3630,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			    <widget class="GtkCheckButton" id="pgp_encrypt_to_self">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Always encrypt to _myself when sending encrypted mail</property>
+			      <property name="label" translatable="yes">Always encrypt to _myself when sending encrypted messages</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -3810,7 +3810,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			<widget class="GtkCheckButton" id="smime_encrypt_to_self">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Also encrypt to sel_f when sending encrypted mail</property>
+			  <property name="label" translatable="yes">Also encrypt to sel_f when sending encrypted messages</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -4975,7 +4975,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				<widget class="GtkCheckButton" id="mlimit_checkbutton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Do not format text contents in mails if the text si_ze exceeds</property>
+				  <property name="label" translatable="yes">Do not format text contents in messages if the text si_ze exceeds</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>
@@ -5471,7 +5471,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 	      <child>
 		<widget class="GtkLabel" id="label498">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;New Mail Notification&lt;/span&gt;</property>
+		  <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;New Message Notification&lt;/span&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5543,7 +5543,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			    <widget class="GtkRadioButton" id="radNotifyNot">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">_Do not notify me when new mail arrives</property>
+			      <property name="label" translatable="yes">_Do not notify me when new messages arrive</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -5562,7 +5562,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			    <widget class="GtkRadioButton" id="radNotifyBeep">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">_Beep when new mail arrives</property>
+			      <property name="label" translatable="yes">_Beep when new messages arrive</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -5582,7 +5582,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			    <widget class="GtkRadioButton" id="radNotifyPlaySound">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Play sound file when new mail arri_ves</property>
+			      <property name="label" translatable="yes">Play sound file when new messages arri_ve</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -5924,7 +5924,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			<widget class="GtkRadioButton" id="radImagesSometimes">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Load images in mail from contacts</property>
+			  <property name="label" translatable="yes">_Load images in messages from contacts</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -5990,7 +5990,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
       <child>
 	<widget class="GtkLabel" id="lblHtmlMail">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">HTML Mail</property>
+	  <property name="label" translatable="yes">HTML Messages</property>
 	  <property name="use_underline">True</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -6424,7 +6424,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			<widget class="GtkCheckButton" id="photo_show">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Show the photograph of sender in the email preview</property>
+			  <property name="label" translatable="yes">_Show the photograph of sender in the message preview</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -6495,7 +6495,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 	  <child>
 	    <widget class="GtkLabel" id="label524">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;Displayed Mail _Headers&lt;/span&gt;</property>
+	      <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;Displayed Message _Headers&lt;/span&gt;</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -6804,7 +6804,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="visible">True</property>
 		      <property name="tooltip" translatable="yes">Checks incoming mail messages to be Junk</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Check in_coming mail for junk</property>
+		      <property name="label" translatable="yes">Check in_coming messages for junk</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -6891,7 +6891,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			<widget class="GtkCheckButton" id="junk_empty_check">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Delete junk mails on e_xit</property>
+			  <property name="label" translatable="yes">Delete junk messages on e_xit</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>

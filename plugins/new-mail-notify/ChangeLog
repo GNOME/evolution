@@ -1,3 +1,8 @@
+2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	* org-gnome-new-mail-notify.eplug.xml:
+	Use consistent terminology for mail messages (#480621).
+
 2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #414195 from Loïc Minier

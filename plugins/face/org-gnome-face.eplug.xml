@@ -4,7 +4,7 @@
 		location="@PLUGINDIR@/liborg-gnome-face@SOEXT@">
 
 		<author name="Sankar P" email="psankar@novell.com"/>
-		<_description>Attach Face header to outgoing mails. First time the user needs to configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces  This will be used in mails that are sent further.</_description>
+		<_description>Attach Face header to outgoing messages. First time the user needs to configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces  This will be used in messages that are sent further.</_description>
 
 		<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
 			<menu id="org.gnome.evolution.mail.composer" target="widget">

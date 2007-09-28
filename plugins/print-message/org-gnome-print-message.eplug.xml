@@ -5,7 +5,7 @@
     id="org.gnome.evolution.plugin.compose.PrintMessage"
     location="@PLUGINDIR@/liborg-gnome-print-message@SOEXT@"
     _name="Print Message">
-    <_description>Gives an option to print mail from composer</_description>
+    <_description>Gives an option to print from the composer.</_description>
     <author name="Vivek Jain" email="jvivek@novell.com"/>
 
     <!-- hook into the popup menu -->
