@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-04 13:41+0200\n"
-"PO-Revision-Date: 2007-09-04 14:12+0200\n"
+"PO-Revision-Date: 2007-09-30 20:00+0200\n"
 "Last-Translator: Stéphane Raimbault <stephane.raimbault@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -3935,7 +3935,7 @@ msgstr "Gauche :"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr "Sélecteurs de lettre sur le coté"
+msgstr "Sélecteurs de lettre sur le côté"
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
