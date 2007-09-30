@@ -1,3 +1,9 @@
+2007-09-30  Stéphane Raimbault  <stephane.raimbault@gmail.com>
+
+	* POTFILES.in: Move GNOME_Evolution_Test.server.in.in and
+	evolution-test-component.c in test directory (not done by
+	revno 34235).
+
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #479716

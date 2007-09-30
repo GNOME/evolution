@@ -403,7 +403,7 @@ plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
 plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml
 shell/GNOME_Evolution_Shell.server.in.in
-shell/GNOME_Evolution_Test.server.in.in
+shell/test/GNOME_Evolution_Test.server.in.in
 shell/apps_evolution_shell.schemas.in
 shell/e-active-connection-dialog.glade
 shell/e-component-registry.c
@@ -417,7 +417,7 @@ shell/e-shell-window.c
 shell/e-shell.c
 shell/e-user-creatable-items-handler.c
 shell/evolution-shell-component-utils.c
-shell/evolution-test-component.c
+shell/test/evolution-test-component.c
 shell/import.glade
 shell/main.c
 shell/shell.error.xml
