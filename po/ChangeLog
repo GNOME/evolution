@@ -1,5 +1,9 @@
 2007-09-30  Stéphane Raimbault  <stephane.raimbault@gmail.com>
 
+	* fr.po: Merged French translation from gnome-2-20.
+
+2007-09-30  Stéphane Raimbault  <stephane.raimbault@gmail.com>
+
 	* POTFILES.in: Move GNOME_Evolution_Test.server.in.in and
 	evolution-test-component.c in test directory (not done by
 	revno 34235).
