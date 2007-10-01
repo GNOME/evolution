@@ -1785,7 +1785,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	gboolean have_icon = FALSE;
 	const char *photo_name = NULL;
 	CamelInternetAddress *cia = NULL;
-	gboolean face_decoded  = FALSE;
+	gboolean face_decoded  = FALSE, contact_has_photo = FALSE;
 	guchar *face_header_value = NULL;
 	gsize face_header_len = 0;
 	char *header_sender = NULL, *header_from = NULL, *name;
@@ -1927,6 +1927,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			photopart = em_utils_contact_photo (cia, emf->photo_local);
 
 			if (photopart) {
+				contact_has_photo = TRUE;
 				classid = g_strdup_printf("icon:///em-format-html/%s/photo/header",
 				emf->part_id->str);
 				camel_stream_printf(stream,
@@ -1939,7 +1940,9 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 				g_free(classid);
 			}
 			camel_object_unref(cia);
-		} else if (face_decoded) {
+		} 
+		
+		if (!contact_has_photo && face_decoded) {
 			char *classid;
 			CamelMimePart *part;
 
@@ -1949,7 +1952,6 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=64 src=\"%s\"></td>", classid);
 			em_format_add_puri(emf, sizeof(EMFormatPURI), classid, part, efh_write_image);
 			camel_object_unref(part);
-
 		}
 
 		if (have_icon && efh->show_icon) {
