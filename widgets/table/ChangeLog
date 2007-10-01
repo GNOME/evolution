@@ -1,3 +1,10 @@
+2007-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #474557
+
+	* e-table-group-container.c: (etgc_reflow):
+	Choose right widget and use PANGO_PIXELS to calculate height.
+
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #478871
