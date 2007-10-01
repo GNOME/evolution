@@ -1,3 +1,11 @@
+2007-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #413420
+
+	* e-attachment.c: (file_ext_is): New helper function.
+	* e-attachment.c: (attachment_guess_mime_type): Change mimetype
+	if knows the extension and if the content of file is valid.
+
 2007-09-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #423401

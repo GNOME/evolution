@@ -54,6 +54,8 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
+#include <libebook/e-vcard.h>
+
 #include "e-util/e-error.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-util-private.h"
@@ -194,6 +196,33 @@ e_attachment_get_type (void)
 	return type;
 }
 
+/**
+ * file_ext_is:
+ * @param file_name: path for file
+ * @param ext: desired extension, with a dot
+ * @return if file_name has extension ext or not
+ **/
+
+static gboolean
+file_ext_is (const char *file_name, const char *ext)
+{
+	int i, dot = -1;
+
+	if (!file_name || !ext)
+		return FALSE;
+
+	for (i = 0; file_name[i]; i++) {
+		if (file_name [i] == '.')
+			dot = i;
+	}
+
+	if (dot > 0) {
+		return 0 == g_ascii_strcasecmp (file_name + dot, ext);
+	}
+
+	return FALSE;
+}
+
 static char *
 attachment_guess_mime_type (const char *file_name)
 {
@@ -206,8 +235,28 @@ attachment_guess_mime_type (const char *file_name)
 					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (result == GNOME_VFS_OK)
+	if (result == GNOME_VFS_OK) {
+		gchar *content = NULL;
+
 		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
+
+		if (type && strcmp (type, "text/directory") == 0 && 
+		    file_ext_is (file_name, ".vcf") &&
+		    g_file_get_contents (file_name, &content, NULL, NULL) &&
+		    content) {
+			EVCard *vc = e_vcard_new_from_string (content);
+
+			if (vc) {
+				g_free (type);
+				g_object_unref (G_OBJECT (vc));
+
+				type = g_strdup ("text/x-vcard");
+			}
+
+		}
+
+		g_free (content);
+	}
 
 	gnome_vfs_file_info_unref (info);
 
