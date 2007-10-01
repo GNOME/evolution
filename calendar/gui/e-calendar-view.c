@@ -1204,14 +1204,8 @@ static void
 on_print (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
-	time_t start, end;
 
-	e_calendar_view_get_visible_time_range (cal_view, &start, &end);
-
-	print_calendar (
-		cal_view->priv->calendar,
-		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-		start);
+	calendar_command_print (cal_view->priv->calendar, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void

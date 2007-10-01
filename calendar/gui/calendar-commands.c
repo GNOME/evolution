@@ -87,8 +87,8 @@ file_open_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 
 
 /* Prints the calendar at its current view and time range */
-static void
-print (GnomeCalendar *gcal, GtkPrintOperationAction action)
+void
+calendar_command_print (GnomeCalendar *gcal, GtkPrintOperationAction action)
 {
 	if (gnome_calendar_get_view (gcal) == GNOME_CAL_LIST_VIEW) {
 		ECalListView *list_view;
@@ -111,7 +111,7 @@ file_print_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (data);
 
-	print (gcal, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	calendar_command_print (gcal, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
@@ -119,7 +119,7 @@ file_print_preview_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (data);
 
-	print (gcal, GTK_PRINT_OPERATION_ACTION_PREVIEW);
+	calendar_command_print (gcal, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 /* Sets a clock cursor for the specified calendar window */

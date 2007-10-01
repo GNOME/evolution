@@ -37,4 +37,7 @@ void calendar_control_sensitize_calendar_commands (BonoboControl *control, Gnome
 
 void calendar_goto_today (GnomeCalendar *gcal);
 
+void calendar_command_print (GnomeCalendar *gcal, GtkPrintOperationAction action);
+
+
 #endif /* CALENDAR_COMMANDS_H */

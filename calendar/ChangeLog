@@ -1,5 +1,15 @@
 2007-10-01  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #342283
+
+	* gui/calendar-commands.h: (calendar_command_print): New function.
+	* gui/calendar-commands.c: (calendar_command_print), (file_print_cb),
+	(file_print_preview_cb):
+	* gui/e-calendar-view.c: (on_print):
+	Behaves consistently when printing from File->Print and popup->Print.
+
+2007-10-01  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #230339
 
 	* gui/print.c: (print_day_event): Print also location, if present.
