@@ -1,3 +1,9 @@
+2007-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #230339
+
+	* gui/print.c: (print_day_event): Print also location, if present.
+
 2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #461195

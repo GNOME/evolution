@@ -1040,7 +1040,7 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		 double left, double right, double top, double bottom,
 		 EDayViewEvent *event, struct pdinfo *pdi, ECalModel *model)
 {
-	const gchar *summary;
+	const gchar *summary, *location;
 	double x1, x2, y1, y2, col_width, row_height;
 	int start_offset, end_offset, start_row, end_row;
 	char *text, start_buffer[32], end_buffer[32];
@@ -1082,9 +1082,16 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 	text = summary ? (char*) summary : "";
-	
+
+	location = icalcomponent_get_location (event->comp_data->icalcomp);
+	if (location && *location) {
+		text = g_strdup_printf ("%s (%s)", text, location);
+		free_text = TRUE;
+	}
 
 	if (display_times) {
+		gchar *t = NULL;
+
 		date_tm.tm_year = 2001;
 		date_tm.tm_mon = 0;
 		date_tm.tm_mday = 1;
@@ -1102,10 +1109,16 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		e_time_format_time (&date_tm, pdi->use_24_hour_format, FALSE,
 				    end_buffer, sizeof (end_buffer));
 
+		if (free_text)
+			t = text;
+
 		text = g_strdup_printf ("%s - %s %s ", start_buffer,
 					end_buffer, text);
 
 		free_text = TRUE;
+
+		if (t)
+			g_free (t);
 	}
 
 	bound_text (context, font, text, x1 + 2, y1, x2 - 2, y2);
