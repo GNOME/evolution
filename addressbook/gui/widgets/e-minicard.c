@@ -890,12 +890,15 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 }
 
 static int
-get_left_width(EMinicard *e_minicard)
+get_left_width (EMinicard *e_minicard, gboolean is_list)
 {
 	gchar *name;
 	EContactField field;
 	int width = -1;
 	PangoLayout *layout;
+
+	if (is_list)
+		return 0;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas), "");
 	for(field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
@@ -985,7 +988,7 @@ remodel( EMinicard *e_minicard )
 			} else {
 				char *string;
 				if (left_width == -1) {
-					left_width = get_left_width(e_minicard);
+					left_width = get_left_width (e_minicard, is_list);
 				}
 
 				if (is_email) {
