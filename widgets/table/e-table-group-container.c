@@ -1009,11 +1009,11 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				PangoContext *context;
 				PangoFontMetrics *metrics;
 
-				context = gtk_widget_get_pango_context (GTK_WIDGET (etgc));
+				context = gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
 				metrics = pango_context_get_metrics (context, etgc->font_desc, NULL);
 				extra_height +=
-					pango_font_metrics_get_ascent (metrics) +
-					pango_font_metrics_get_descent (metrics) +
+					PANGO_PIXELS (pango_font_metrics_get_ascent (metrics)) +
+					PANGO_PIXELS (pango_font_metrics_get_descent (metrics)) +
 					BUTTON_PADDING * 2;
 				pango_font_metrics_unref (metrics);
 			}
