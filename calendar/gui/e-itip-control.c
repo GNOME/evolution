@@ -1567,9 +1567,10 @@ show_current (EItipControl *itip)
 	/* Strip out alarms for security purposes */
 	alarm_iter = icalcomponent_begin_component (priv->ical_comp, ICAL_VALARM_COMPONENT);
 	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
-		icalcomponent_remove_component (priv->ical_comp, alarm_comp);
-		
 		icalcompiter_next (&alarm_iter);
+
+		icalcomponent_remove_component (priv->ical_comp, alarm_comp);
+		icalcomponent_free (alarm_comp);
 	}
 
 	priv->comp = e_cal_component_new ();
@@ -1946,6 +1947,7 @@ update_item (EItipControl *itip)
 	gtk_widget_destroy (dialog);
 
 	icalcomponent_remove_component (priv->top_level, clone);
+	icalcomponent_free (clone);
 }
 
 static void

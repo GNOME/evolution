@@ -1,5 +1,17 @@
 2007-10-01  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #428402
+
+	* gui/e-itip-control.c: (show_current): First move to next component,
+	then remove last alarm and then free that last component.
+
+	* gui/e-itip-control.c: (update_item): Free component when done.
+
+	* importers/icalendar-importer.c: (prepare_events), (prepare_tasks):
+	Really go through every component when removing one.
+
+2007-10-01  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #342283
 
 	* gui/calendar-commands.h: (calendar_command_print): New function.

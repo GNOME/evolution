@@ -1481,9 +1481,10 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 		/* Strip out alarms for security purposes */
 		alarm_iter = icalcomponent_begin_component (pitip->ical_comp, ICAL_VALARM_COMPONENT);
 		while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
-			icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
-
 			icalcompiter_next (&alarm_iter);
+
+			icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
+			icalcomponent_free (alarm_comp);
 		}
 	}
 
