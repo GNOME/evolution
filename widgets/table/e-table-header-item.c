@@ -1496,20 +1496,26 @@ sort_by_id (GtkWidget *menu_item, ETableHeaderItem *ethi)
 {
 	int col = GPOINTER_TO_INT (g_object_get_data(G_OBJECT (menu_item), "col-number"));
 	ETableCol *ecol;
+	gboolean clearfirst;
 
-	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (menu_item)))
-		return;
-	
 	ecol = e_table_header_get_column (ethi->full_header, col);
+	clearfirst = e_table_sort_info_sorting_get_count (ethi->sort_info) > 1;
+
+	if (!clearfirst && ecol && e_table_sort_info_sorting_get_count (ethi->sort_info) == 1) {
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, 0);
+
+		clearfirst = ecol->sortable && ecol->col_idx != column.column;
+	}
+
+	if (clearfirst)
+		e_table_sort_info_sorting_truncate (ethi->sort_info, 0);
+
 	ethi_change_sort_state (ethi, ecol);
 }
 
 static void
 popup_custom (GtkWidget *menu_item, EthiHeaderInfo *info)
 {
-	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (menu_item)))
-		return;
-
 	ethi_popup_customize_view(menu_item, info);
 }
 
@@ -1521,7 +1527,6 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	GtkMenu *popup;
 	int ncol, sort_count, sort_col;
 	GtkWidget *menu_item, *sub_menu;
-	GSList *group = NULL;
 	ETableSortColumn column;
 	gboolean ascending = TRUE;
 	
@@ -1555,13 +1560,13 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	}
 	
 	/* Custom */
-	menu_item = gtk_radio_menu_item_new_with_label (group, _("Custom"));
-	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menu_item));
+	menu_item = gtk_check_menu_item_new_with_label (_("Custom"));
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
 	if (sort_col == -1)
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-	g_signal_connect (menu_item, "toggled", G_CALLBACK (popup_custom), info);
+	gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+	g_signal_connect (menu_item, "activate", G_CALLBACK (popup_custom), info);
 	
 	/* Show a seperator */
 	menu_item = gtk_separator_menu_item_new ();
@@ -1572,25 +1577,27 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	{
 		char *text=NULL;
 
-		if (!ethi->full_header->columns[ncol]->sortable)
+		if (!ethi->full_header->columns[ncol]->sortable ||
+		    ethi->full_header->columns[ncol]->disabled)
 			continue;
 		
 		if (ncol == sort_col) {
 			text = g_strdup_printf("%s (%s)", ethi->full_header->columns[ncol]->text, ascending ? _("Ascending"):_("Descending"));
-			menu_item = gtk_radio_menu_item_new_with_label (group, text);
+			menu_item = gtk_check_menu_item_new_with_label (text);
 			g_free (text);
 		} else
-			menu_item = gtk_radio_menu_item_new_with_label (group, ethi->full_header->columns[ncol]->text);
+			menu_item = gtk_check_menu_item_new_with_label (ethi->full_header->columns[ncol]->text);
 		
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
 		
 		if (ncol == sort_col)
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+		gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
 		g_object_set_data (G_OBJECT (menu_item), "col-number", GINT_TO_POINTER (ncol));
 		g_signal_connect (menu_item, "activate", G_CALLBACK (sort_by_id), ethi);
 	}
-	
+
 	g_object_ref_sink (popup);
 	g_signal_connect (popup, "selection-done",
 			  G_CALLBACK (free_popup_info), info);
@@ -1610,7 +1617,7 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 	int model_col = -1;
 	int length;
 	int i;
-	int found = FALSE;
+	gboolean found = FALSE;
 	
 	if (col == NULL)
 		return;
@@ -1626,7 +1633,7 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 			ascending = ! ascending;
 			column.ascending = ascending;
 			e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
-			found = 1;
+			found = TRUE;
 			if (model_col != -1)
 				break;
 		}
@@ -1643,29 +1650,36 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 				if (ascending == 0 && model_col != -1){
 					/*
 					 * This means the user has clicked twice
-					 * already, lets kill sorting now.
+					 * already, lets kill sorting of this column now.
 					 */
-					e_table_sort_info_sorting_truncate (ethi->sort_info, i);
+					int j;
+
+					for (j = i + 1; j < length; j++)
+						e_table_sort_info_sorting_set_nth (ethi->sort_info,
+										j - 1,
+										e_table_sort_info_sorting_get_nth (ethi->sort_info, j));
+
+					e_table_sort_info_sorting_truncate (ethi->sort_info, length - 1);
+					length --;
+					i --;
 				} else {
 					ascending = !ascending;
 					column.ascending = ascending;
 					e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
 				}
-				found = 1;
+				found = TRUE;
 				if (model_col != -1)
 					break;
 			}
 		}
 	}
 
-	if (!found) {
+	if (!found && model_col != -1) {
 		ETableSortColumn column;
 		column.column = model_col;
 		column.ascending = 1;
-		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
-		if (length == 0)
-			length++;
-		e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
+		e_table_sort_info_sorting_truncate (ethi->sort_info, 0);
+		e_table_sort_info_sorting_set_nth(ethi->sort_info, 0, column);
 	}
 }
 
