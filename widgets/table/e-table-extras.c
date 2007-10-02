@@ -44,16 +44,6 @@
 G_DEFINE_TYPE (ETableExtras, ete, G_TYPE_OBJECT)
 
 static void
-pixbuf_hash_free(gchar	*key,
-		 GdkPixbuf *pixbuf,
-		 gpointer	user_data)
-{
-	g_free(key);
-	if (pixbuf)
-		g_object_unref(pixbuf);
-}
-
-static void
 ete_finalize (GObject *object)
 {
 	ETableExtras *ete = E_TABLE_EXTRAS (object);
