@@ -576,12 +576,6 @@ ldif_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-free_dn_hash(void *k, void *v, void *d)
-{
-	g_free(k);
-}
-
-static void
 ldif_import_done(LDIFImporter *gci)
 {
 	if (gci->idle_id)
@@ -593,7 +587,6 @@ ldif_import_done(LDIFImporter *gci)
 	g_slist_foreach(gci->list_contacts, (GFunc) g_object_unref, NULL);
 	g_slist_free(gci->contacts);
 	g_slist_free(gci->list_contacts);
-	g_hash_table_foreach(gci->dn_contact_hash, free_dn_hash, NULL);
 	g_hash_table_destroy(gci->dn_contact_hash);
 
 	e_import_complete(gci->import, gci->target);
@@ -639,7 +632,10 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	fseek(file, 0, SEEK_END);
 	gci->size = ftell(file);
 	fseek(file, 0, SEEK_SET);
-	gci->dn_contact_hash = g_hash_table_new(g_str_hash, g_str_equal);
+	gci->dn_contact_hash = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 
 	e_book_open(gci->book, FALSE, NULL);
 

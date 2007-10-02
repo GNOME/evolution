@@ -127,6 +127,14 @@ static CamelDataCache *emfh_http_cache;
 #define EMFH_HTTP_CACHE_PATH "http"
 
 static void
+efh_free_cache(struct _EMFormatHTMLCache *efhc)
+{
+	if (efhc->textmp)
+		camel_object_unref(efhc->textmp);
+	g_free(efhc);
+}
+
+static void
 efh_init(GObject *o)
 {
 	EMFormatHTML *efh = (EMFormatHTML *)o;
@@ -137,7 +145,10 @@ efh_init(GObject *o)
 	e_dlist_init(&efh->priv->pending_jobs);
 	efh->priv->lock = g_mutex_new();
 	efh->priv->format_id = -1;
-	efh->priv->text_inline_parts = g_hash_table_new(g_str_hash, g_str_equal);
+	efh->priv->text_inline_parts = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) efh_free_cache);
 
 	efh->html = (GtkHTML *)gtk_html_new();
 	gtk_html_set_blocking(efh->html, FALSE);
@@ -193,16 +204,6 @@ efh_insert_cache(EMFormatHTML *efh, const char *partid)
 
 
 static void
-efh_free_cache(void *key, void *val, void *dat)
-{
-	struct _EMFormatHTMLCache *efhc = val;
-
-	if (efhc->textmp)
-		camel_object_unref(efhc->textmp);
-	g_free(efhc);
-}
-
-static void
 efh_finalise(GObject *o)
 {
 	EMFormatHTML *efh = (EMFormatHTML *)o;
@@ -213,7 +214,6 @@ efh_finalise(GObject *o)
 
 	efh_gtkhtml_destroy(efh->html, efh);
 
-	g_hash_table_foreach(efh->priv->text_inline_parts, efh_free_cache, NULL);
 	g_hash_table_destroy(efh->priv->text_inline_parts);
 
 	g_free(efh->priv);
@@ -1397,9 +1397,7 @@ efh_format_timeout(struct _format_msg *m)
 						  | GTK_HTML_BEGIN_BLOCK_UPDATES | GTK_HTML_BEGIN_BLOCK_IMAGES);
 		} else {
 			/* clear cache of inline-scanned text parts */
-			g_hash_table_foreach(p->text_inline_parts, efh_free_cache, NULL);
-			g_hash_table_destroy(p->text_inline_parts);
-			p->text_inline_parts = g_hash_table_new(g_str_hash, g_str_equal);
+			g_hash_table_remove_all(p->text_inline_parts);
 
 			p->last_part = m->message;
 		}

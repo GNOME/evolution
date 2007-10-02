@@ -1,3 +1,11 @@
+2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #469657
+
+	* e-table-extras.c:
+	* e-table-selection-model.c:
+	Use destroy functions in GHashTables to simplify memory management.
+
 2007-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #470837

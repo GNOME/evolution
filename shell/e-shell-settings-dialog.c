@@ -268,14 +268,6 @@ load_pages (EShellSettingsDialog *dialog)
 
 /* GtkObject methods.  */
 
-static gboolean
-destroy_type_entry (gpointer key, gpointer value, gpointer data)
-{
-	g_free (key);
-	
-	return TRUE;
-}
-		
 static void
 impl_finalize (GObject *object)
 {
@@ -285,7 +277,6 @@ impl_finalize (GObject *object)
 	dialog = E_SHELL_SETTINGS_DIALOG (object);
 	priv = dialog->priv;
 	
-	g_hash_table_foreach_remove (priv->types, destroy_type_entry, NULL);
 	g_hash_table_destroy (priv->types);
 
 	g_free (priv);
@@ -309,7 +300,10 @@ e_shell_settings_dialog_init (EShellSettingsDialog *dialog)
 	EShellSettingsDialogPrivate *priv;
 
 	priv = g_new (EShellSettingsDialogPrivate, 1);
-	priv->types = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->types = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 
 	dialog->priv = priv;
 

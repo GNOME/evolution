@@ -134,6 +134,27 @@ static CamelFolder *receive_get_folder(CamelFilterDriver *d, const char *uri, vo
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
 
+static void
+free_folder_info(struct _folder_info *info)
+{
+	/*camel_folder_thaw (info->folder);	*/
+	mail_sync_folder(info->folder, NULL, NULL);
+	camel_object_unref(info->folder);
+	g_free(info->uri);
+	g_free(info);
+}
+
+static void
+free_send_info(struct _send_info *info)
+{
+	g_free(info->uri);
+	camel_operation_unref(info->cancel);
+	if (info->timeout_id != 0)
+		g_source_remove(info->timeout_id);
+	g_free(info->what);
+	g_free(info);
+}
+
 static struct _send_data *
 setup_send_data(void)
 {
@@ -142,10 +163,16 @@ setup_send_data(void)
 	if (send_data == NULL) {
 		send_data = data = g_malloc0(sizeof(*data));
 		data->lock = g_mutex_new();
-		data->folders = g_hash_table_new(g_str_hash, g_str_equal);
+		data->folders = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) NULL,
+			(GDestroyNotify) free_folder_info);
 		data->inbox = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_LOCAL_INBOX);
 		camel_object_ref(data->inbox);
-		data->active = g_hash_table_new(g_str_hash, g_str_equal);
+		data->active = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) NULL,
+			(GDestroyNotify) free_send_info);
 	}
 	return send_data;
 }
@@ -166,27 +193,6 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 }
 
 static void
-free_folder_info(void *key, struct _folder_info *info, void *data)
-{
-	/*camel_folder_thaw (info->folder);	*/
-	mail_sync_folder(info->folder, NULL, NULL);
-	camel_object_unref(info->folder);
-	g_free(info->uri);
-	g_free(info);
-}
-
-static void
-free_send_info(void *key, struct _send_info *info, void *data)
-{
-	g_free(info->uri);
-	camel_operation_unref(info->cancel);
-	if (info->timeout_id != 0)
-		g_source_remove(info->timeout_id);
-	g_free(info->what);
-	g_free(info);
-}
-
-static void
 free_send_data(void)
 {
 	struct _send_data *data = send_data;
@@ -200,9 +206,7 @@ free_send_data(void)
 	}
 
 	g_list_free(data->infos);
-	g_hash_table_foreach(data->active, (GHFunc)free_send_info, NULL);
 	g_hash_table_destroy(data->active);
-	g_hash_table_foreach(data->folders, (GHFunc)free_folder_info, NULL);
 	g_hash_table_destroy(data->folders);
 	g_mutex_free(data->lock);
 	g_free(data);
@@ -708,9 +712,9 @@ receive_done (char *uri, void *data)
 	/* remove/free this active download */
 	d(printf("%s: freeing info %p\n", G_GNUC_FUNCTION, info));
 	if (info->type == SEND_SEND)
-		g_hash_table_remove(info->data->active, SEND_URI_KEY);
+		g_hash_table_steal(info->data->active, SEND_URI_KEY);
 	else
-		g_hash_table_remove(info->data->active, info->uri);
+		g_hash_table_steal(info->data->active, info->uri);
 	info->data->infos = g_list_remove(info->data->infos, info);
 
 	if (g_hash_table_size(info->data->active) == 0) {
@@ -719,7 +723,7 @@ receive_done (char *uri, void *data)
 		free_send_data();
 	}
 
-	free_send_info(NULL, info, NULL);
+	free_send_info(info);
 }
 
 /* although we dont do anythign smart here yet, there is no need for this interface to

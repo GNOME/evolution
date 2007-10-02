@@ -129,18 +129,6 @@ comp_editor_factory_class_init (CompEditorFactoryClass *class)
 	object_class->finalize = comp_editor_factory_finalize;
 }
 
-/* Object initialization function for the component editor factory */
-static void
-comp_editor_factory_init (CompEditorFactory *factory)
-{
-	CompEditorFactoryPrivate *priv;
-
-	priv = g_new (CompEditorFactoryPrivate, 1);
-	factory->priv = priv;
-
-	priv->uri_client_hash = g_hash_table_new (g_str_hash, g_str_equal);
-}
-
 /* Frees a Request structure */
 static void
 free_request (Request *r)
@@ -175,14 +163,19 @@ free_client (OpenClient *oc)
 	g_free (oc);
 }
 
-/* Used from g_hash_table_foreach(); frees a client structure */
+/* Object initialization function for the component editor factory */
 static void
-free_client_cb (gpointer key, gpointer value, gpointer data)
+comp_editor_factory_init (CompEditorFactory *factory)
 {
-	OpenClient *oc;
+	CompEditorFactoryPrivate *priv;
 
-	oc = value;
-	free_client (oc);
+	priv = g_new (CompEditorFactoryPrivate, 1);
+	factory->priv = priv;
+
+	priv->uri_client_hash = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) free_client);
 }
 
 /* Destroy handler for the component editor factory */
@@ -198,7 +191,6 @@ comp_editor_factory_finalize (GObject *object)
 	factory = COMP_EDITOR_FACTORY (object);
 	priv = factory->priv;
 
-	g_hash_table_foreach (priv->uri_client_hash, free_client_cb, NULL);
 	g_hash_table_destroy (priv->uri_client_hash);
 	priv->uri_client_hash = NULL;
 
@@ -232,7 +224,6 @@ editor_destroy_cb (GtkObject *object, gpointer data)
 		return;
 
 	g_hash_table_remove (priv->uri_client_hash, oc->uri);
-	free_client (oc);
 }
 
 /* Starts editing an existing component on a client that is already open */
@@ -442,7 +433,6 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 	gtk_widget_destroy (dialog);
 
 	g_hash_table_remove (priv->uri_client_hash, oc->uri);
-	free_client (oc);
 }
 
 /* Creates a new OpenClient structure and queues the component editing/creation

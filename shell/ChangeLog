@@ -1,3 +1,10 @@
+2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #469657
+
+	* shell/e-shell-settings-dialog.c:
+	Use destroy functions in GHashTables to simplify memory management.
+
 2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #461195

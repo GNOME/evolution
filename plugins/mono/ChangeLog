@@ -1,3 +1,10 @@
+2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #469657
+
+	* mono-plugin.c:
+	Use destroy functions in GHashTables to simplify memory management.
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

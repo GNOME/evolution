@@ -129,7 +129,7 @@ static int sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
 static void sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub);
 
 static void
-sub_node_free(char *key, EMSubscribeNode *node, EMSubscribe *sub)
+sub_node_free(EMSubscribeNode *node)
 {
 	d(printf("sub node free '%s'\n", node->info?node->info->full_name:"<unknown>"));
 	if (node->path)
@@ -153,10 +153,8 @@ sub_unref(EMSubscribe *sub)
 		d(printf("subscribe object finalised\n"));
 		/* we dont have to delete the "subscribe" task list, as it must be empty,
 		   otherwise we wouldn't be unreffed (intentional circular reference) */
-		if (sub->folders) {
-			g_hash_table_foreach(sub->folders, (GHFunc)sub_node_free, sub);
+		if (sub->folders)
 			g_hash_table_destroy(sub->folders);
-		}
 		l = sub->info_list;
 		while (l) {
 			GSList *n = l->next;
@@ -615,7 +613,10 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 
 		sub->store = store;
 		camel_object_ref(store);
-		sub->folders = g_hash_table_new(g_str_hash, g_str_equal);
+		sub->folders = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) NULL,
+			(GDestroyNotify) sub_node_free);
 		
 		model = gtk_tree_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 		sub->tree = (GtkTreeView *) gtk_tree_view_new_with_model ((GtkTreeModel *) model);
@@ -692,11 +693,13 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 	gtk_tree_store_clear((GtkTreeStore *)gtk_tree_view_get_model(sub->tree));
 
 	e_dlist_init(&sub->pending);
-	if (sub->folders) {
-		g_hash_table_foreach(sub->folders, (GHFunc)sub_node_free, sub);
+
+	if (sub->folders)
 		g_hash_table_destroy(sub->folders);
-	}
-	sub->folders = g_hash_table_new(g_str_hash, g_str_equal);
+	sub->folders = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) sub_node_free);
 
 	l = sub->info_list;
 	sub->info_list = NULL;

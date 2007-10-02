@@ -87,10 +87,9 @@ static const char *patterns[] = {
 };
 static const int n_patterns = G_N_ELEMENTS (patterns);
 
-static gboolean
-kill_component (gpointer key, gpointer value, gpointer data)
+static void
+kill_component (KillevComponent *comp)
 {
-	KillevComponent *comp = value;
 	char *base_name, *exe_name, *dash;
 	int i;
 
@@ -101,7 +100,7 @@ kill_component (gpointer key, gpointer value, gpointer data)
 		if (kill_process (exe_name, comp)) {
 			g_free (exe_name);
 			g_free (base_name);
-			return TRUE;
+			return;
 		}
 		g_free (exe_name);
 	}
@@ -113,7 +112,6 @@ kill_component (gpointer key, gpointer value, gpointer data)
 	}
 
 	g_free (base_name);
-	return TRUE;
 }
 
 static void
@@ -200,10 +198,13 @@ main (int argc, char **argv)
 	while (*language_names != NULL)
 		languages = g_slist_append (languages, *language_names++);
 
-	components = g_hash_table_new (g_str_hash, g_str_equal);
+	components = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) kill_component);
 
 	add_matching_repo_id ("IDL:GNOME/Evolution/Shell:" BASE_VERSION);
-	g_hash_table_foreach_remove (components, kill_component, NULL);
+	g_hash_table_remove_all (components);
 
 	add_matching_repo_id ("IDL:GNOME/Evolution/Component:" BASE_VERSION);
 	add_matching_repo_id ("IDL:GNOME/Evolution/DataServer/CalFactory:" DATASERVER_API_VERSION);
@@ -214,8 +215,9 @@ main (int argc, char **argv)
 
 	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION);
 	add_matching_iid ("OAFIID:GNOME_GtkHTML_Editor_Factory:3.1");
+	g_hash_table_remove_all (components);
 
-	g_hash_table_foreach_remove (components, kill_component, NULL);
+	g_hash_table_destroy (components);
 
 	return 0;
 }

@@ -68,7 +68,12 @@ parse_elm_rc(const char *elmrc)
 {
 	char line[4096];
 	FILE *handle;
-	GHashTable *prefs = g_hash_table_new(g_str_hash, g_str_equal);
+	GHashTable *prefs;
+
+	prefs = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
 
 	if (!g_file_test(elmrc, G_FILE_TEST_IS_REGULAR))
 		return prefs;
@@ -119,19 +124,6 @@ parse_elm_rc(const char *elmrc)
 	return prefs;
 }
 
-static void
-elm_free_rc_item(void *k, void *v, void *d)
-{
-	g_free(k);
-	g_free(v);
-}
-
-static void
-elm_free_rc(void *prefs)
-{
-	g_hash_table_foreach(prefs, elm_free_rc_item, NULL);
-}
-
 static char *
 elm_get_rc(EImport *ei, const char *name)
 {
@@ -143,7 +135,7 @@ elm_get_rc(EImport *ei, const char *name)
 		elmrc = g_build_filename(g_get_home_dir(), ".elm/elmrc", NULL);
 		prefs = parse_elm_rc(elmrc);
 		g_free(elmrc);
-		g_object_set_data_full((GObject *)ei, "elm-rc", prefs, elm_free_rc);
+		g_object_set_data((GObject *)ei, "elm-rc", prefs);
 	}
 
 	if (prefs == NULL)

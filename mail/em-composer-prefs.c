@@ -121,13 +121,10 @@ static void
 em_composer_prefs_init (EMComposerPrefs *prefs)
 {
 	prefs->enabled_pixbuf = e_icon_factory_get_icon ("stock_mark", E_ICON_SIZE_MENU);
-	prefs->sig_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
-}
-
-static void
-row_free (ESignature *sig, GtkTreeRowReference *row, gpointer user_data)
-{
-	gtk_tree_row_reference_free (row);
+	prefs->sig_hash = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) gtk_tree_row_reference_free);
 }
 
 static void
@@ -138,7 +135,6 @@ em_composer_prefs_finalise (GObject *obj)
 	g_object_unref (prefs->gui);
 	g_object_unref (prefs->enabled_pixbuf);
 	
-	g_hash_table_foreach (prefs->sig_hash, (GHFunc) row_free, NULL);
 	g_hash_table_destroy (prefs->sig_hash);
 	
         G_OBJECT_CLASS (parent_class)->finalize (obj);
@@ -241,11 +237,9 @@ signature_removed (ESignatureList *signatures, ESignature *sig, EMComposerPrefs 
 	if (!(row = g_hash_table_lookup (prefs->sig_hash, sig)))
 		return;
 	
-	g_hash_table_remove (prefs->sig_hash, sig);
-	
 	model = gtk_tree_view_get_model (prefs->sig_list);
 	path = gtk_tree_row_reference_get_path (row);
-	gtk_tree_row_reference_free (row);
+	g_hash_table_remove (prefs->sig_hash, sig);
 	
 	if (!gtk_tree_model_get_iter (model, &iter, path)) {
 		gtk_tree_path_free (path);

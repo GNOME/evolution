@@ -460,13 +460,6 @@ impl_dispose (GObject *object)
 }
 
 static void
-store_hash_free (CamelStore *store, struct _store_info *si, void *data)
-{
-	si->removed = 1;
-	store_info_unref(si);
-}
-
-static void
 impl_finalize (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
@@ -475,7 +468,6 @@ impl_finalize (GObject *object)
 	
 	mail_async_event_destroy (priv->async_event);
 	
-	g_hash_table_foreach (priv->store_hash, (GHFunc)store_hash_free, NULL);
 	g_hash_table_destroy (priv->store_hash);
 	
 	if (mail_async_event_destroy (priv->async_event) == -1) {
@@ -1172,6 +1164,13 @@ mail_component_class_init (MailComponentClass *class)
 }
 
 static void
+store_hash_free (struct _store_info *si)
+{
+	si->removed = 1;
+	store_info_unref(si);
+}
+
+static void
 mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
@@ -1200,7 +1199,10 @@ mail_component_init (MailComponent *component)
 	mail_session_init (priv->base_directory);
 	
 	priv->async_event = mail_async_event_new();
-	priv->store_hash = g_hash_table_new (NULL, NULL);
+	priv->store_hash = g_hash_table_new_full (
+		NULL, NULL,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) store_hash_free);
 	
 	mail_autoreceive_init();
 }
@@ -1319,7 +1321,6 @@ void
 mail_component_remove_store (MailComponent *component, CamelStore *store)
 {
 	MailComponentPrivate *priv;
-	struct _store_info *si;
 
 	MAIL_COMPONENT_DEFAULT(component);
 
@@ -1331,13 +1332,11 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	 * URL will always return the same object. So this works.
 	 */
 	
-	if (!(si = g_hash_table_lookup (priv->store_hash, store)))
+	if (g_hash_table_lookup (priv->store_hash, store) == NULL)
 		return;
 	
 	camel_object_ref (store);
 	g_hash_table_remove (priv->store_hash, store);
-	si->removed = 1;
-	store_info_unref(si);
 	
 	/* so i guess potentially we could have a race, add a store while one
 	   being removed.  ?? */

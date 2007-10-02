@@ -71,20 +71,8 @@ e_config_listener_class_init (EConfigListenerClass *klass)
 }
 
 static void
-e_config_listener_init (EConfigListener *cl, EConfigListenerClass *klass)
+free_key_data (KeyData *kd)
 {
-	/* allocate internal structure */
-	cl->priv = g_new0 (EConfigListenerPrivate, 1);
-
-	cl->priv->keys = g_hash_table_new (g_str_hash, g_str_equal);
-	cl->priv->db = gconf_client_get_default ();
-}
-
-static void
-free_key_hash (gpointer key, gpointer value, gpointer user_data)
-{
-	KeyData *kd = (KeyData *) value;
-
 	g_return_if_fail (kd != NULL);
 
 	gconf_client_notify_remove (kd->cl->priv->db, kd->lid);
@@ -102,13 +90,25 @@ free_key_hash (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
+e_config_listener_init (EConfigListener *cl, EConfigListenerClass *klass)
+{
+	/* allocate internal structure */
+	cl->priv = g_new0 (EConfigListenerPrivate, 1);
+
+	cl->priv->keys = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) free_key_data);
+	cl->priv->db = gconf_client_get_default ();
+}
+
+static void
 e_config_listener_finalize (GObject *object)
 {
 	EConfigListener *cl = (EConfigListener *) object;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 
-	g_hash_table_foreach (cl->priv->keys, (GHFunc) free_key_hash, NULL);
 	g_hash_table_destroy (cl->priv->keys);
 	cl->priv->keys = NULL;
 
@@ -256,13 +256,13 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 	GConfValue *conf_value;
 	gboolean value;
 	KeyData *kd;
-	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), FALSE);
 	g_return_val_if_fail (key != NULL, FALSE);
 
 	/* search for the key in our hash table */
-	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd == NULL) {
 		/* not found, so retrieve it from the configuration database */
 		conf_value = gconf_client_get (cl->priv->db, key, NULL);
 		if (conf_value) {
@@ -280,9 +280,6 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 				*used_default = TRUE;
 		}
 	} else {
-		kd = (KeyData *) orig_value;
-		g_return_val_if_fail (kd != NULL, FALSE);
-
 		if (kd->type == GCONF_VALUE_BOOL) {
 			value = kd->value.v_bool;
 			if (used_default != NULL)
@@ -309,13 +306,13 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 	GConfValue *conf_value;
 	float value;
 	KeyData *kd;
-	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), -1);
 	g_return_val_if_fail (key != NULL, -1);
 
 	/* search for the key in our hash table */
-	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd == NULL) {
 		/* not found, so retrieve it from the configuration database */
 		conf_value = gconf_client_get (cl->priv->db, key, NULL);
 		if (conf_value) {
@@ -333,9 +330,6 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 				*used_default = TRUE;
 		}
 	} else {
-		kd = (KeyData *) orig_value;
-		g_return_val_if_fail (kd != NULL, -1);
-
 		if (kd->type == GCONF_VALUE_FLOAT) {
 			value = kd->value.v_float;
 			if (used_default != NULL)
@@ -362,13 +356,13 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 	GConfValue *conf_value;
 	long value;
 	KeyData *kd;
-	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), -1);
 	g_return_val_if_fail (key != NULL, -1);
 
 	/* search for the key in our hash table */
-	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd == NULL) {
 		/* not found, so retrieve it from the configuration database */
 		conf_value = gconf_client_get (cl->priv->db, key, NULL);
 		if (conf_value) {
@@ -386,9 +380,6 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 				*used_default = TRUE;
 		}
 	} else {
-		kd = (KeyData *) orig_value;
-		g_return_val_if_fail (kd != NULL, -1);
-
 		if (kd->type == GCONF_VALUE_INT) {
 			value = kd->value.v_long;
 			if (used_default != NULL)
@@ -415,13 +406,13 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 	GConfValue *conf_value;
 	char *str;
 	KeyData *kd;
-	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), NULL);
 	g_return_val_if_fail (key != NULL, NULL);
 
 	/* search for the key in our hash table */
-	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd == NULL) {
 		/* not found, so retrieve it from the configuration database */
 		conf_value = gconf_client_get (cl->priv->db, key, NULL);
 		if (conf_value) {
@@ -439,9 +430,6 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 				*used_default = TRUE;
 		}
 	} else {
-		kd = (KeyData *) orig_value;
-		g_return_val_if_fail (kd != NULL, NULL);
-
 		if (kd->type == GCONF_VALUE_STRING) {
 			str = g_strdup (kd->value.v_str);
 			if (used_default != NULL)
@@ -565,23 +553,10 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 void
 e_config_listener_remove_value (EConfigListener *cl, const char *key)
 {
-	gpointer orig_key, orig_value;
-
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
 
-	if (g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
-		KeyData *kd = orig_value;
-
-		g_hash_table_remove (cl->priv->keys, key);
-		g_free (kd->key);
-		if (kd->type == GCONF_VALUE_STRING)
-			g_free (kd->value.v_str);
-		gconf_client_notify_remove (cl->priv->db, kd->lid);
-
-		g_free (kd);
-	}
-
+	g_hash_table_remove (cl->priv->keys, key);
 	gconf_client_unset (cl->priv->db, key, NULL);
 }
 

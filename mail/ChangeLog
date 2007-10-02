@@ -1,3 +1,19 @@
+2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #469657
+
+	* em-composer-prefs.c:
+	* em-folder-tree-model.c:
+	* em-format.c:
+	* em-format-html.c:
+	* em-migrate.c:
+	* em-subscribe-editor.c:
+	* mail-component.c:
+	* mail-send-recv.c:
+	* message-list.c:
+	* importers/elm-importer.c:
+	Use destroy functions in GHashTables to simplify memory management.
+
 2007-10-01  Sankar P  <psankar@novell.com>
 
 	* em-format-html.c: (efh_format_headers):

@@ -2065,7 +2065,10 @@ message_list_init (MessageList *message_list)
 	gtk_scrolled_window_set_vadjustment ((GtkScrolledWindow *) message_list, adjustment);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (message_list), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	
-	message_list->normalised_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	message_list->normalised_hash = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) e_poolv_destroy);
 	
 	message_list->hidden = NULL;
 	message_list->hidden_pool = NULL;
@@ -2094,14 +2097,6 @@ message_list_init (MessageList *message_list)
 	g_signal_connect(p->invisible, "selection_received", G_CALLBACK(ml_selection_received), message_list);
 	
 	g_signal_connect (((GtkScrolledWindow *) message_list)->vscrollbar, "value-changed", G_CALLBACK (ml_scrolled), message_list);
-}
-
-static gboolean
-normalised_free (gpointer key, gpointer value, gpointer user_data)
-{
-	e_poolv_destroy (value);
-	
-	return TRUE;
 }
 
 static void
@@ -2169,7 +2164,6 @@ message_list_finalise (GObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	struct _MessageListPrivate *p = message_list->priv;
 	
-	g_hash_table_foreach (message_list->normalised_hash, (GHFunc) normalised_free, NULL);
 	g_hash_table_destroy (message_list->normalised_hash);
 	
 	if (message_list->thread_tree)
@@ -3044,16 +3038,10 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 		d(printf("changed = %d added = %d removed = %d\n",
 			 changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len));
 		
-		for (i = 0; i < changes->uid_removed->len; i++) {
-			/* uncache the normalised strings for these uids */
-			EPoolv *poolv;
-			
-			poolv = g_hash_table_lookup (ml->normalised_hash, changes->uid_removed->pdata[i]);
-			if (poolv != NULL) {
-				g_hash_table_remove (ml->normalised_hash, changes->uid_removed->pdata[i]);
-				e_poolv_destroy (poolv);
-			}
-		}
+		for (i = 0; i < changes->uid_removed->len; i++)
+			g_hash_table_remove (
+				ml->normalised_hash,
+				changes->uid_removed->pdata[i]);
 		
 		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
 		if (ml->hidejunk || ml->hidedeleted)
@@ -3132,7 +3120,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	}
 	
 	/* reset the normalised sort performance hack */
-	g_hash_table_foreach_remove (message_list->normalised_hash, normalised_free, NULL);
+	g_hash_table_remove_all (message_list->normalised_hash);
 	
 	mail_regen_cancel(message_list);
 	

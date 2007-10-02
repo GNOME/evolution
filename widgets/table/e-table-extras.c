@@ -44,16 +44,6 @@
 G_DEFINE_TYPE (ETableExtras, ete, G_TYPE_OBJECT)
 
 static void
-cell_hash_free(gchar	*key,
-	       ECell    *cell,
-	       gpointer	user_data)
-{
-	g_free(key);
-	if (cell)
-		g_object_unref(cell);
-}
-
-static void
 pixbuf_hash_free(gchar	*key,
 		 GdkPixbuf *pixbuf,
 		 gpointer	user_data)
@@ -69,29 +59,24 @@ ete_finalize (GObject *object)
 	ETableExtras *ete = E_TABLE_EXTRAS (object);
 
 	if (ete->cells) {
-		g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
 		g_hash_table_destroy (ete->cells);
+		ete->cells = NULL;
 	}
 
 	if (ete->compares) {
-		g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
 		g_hash_table_destroy (ete->compares);
+		ete->compares = NULL;
 	}
 
 	if (ete->searches) {
-		g_hash_table_foreach (ete->searches, (GHFunc) g_free, NULL);
 		g_hash_table_destroy (ete->searches);
+		ete->searches = NULL;
 	}
 
 	if (ete->pixbufs) {
-		g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
 		g_hash_table_destroy (ete->pixbufs);
+		ete->pixbufs = NULL;
 	}
-
-	ete->cells = NULL;
-	ete->compares = NULL;
-	ete->searches = NULL;
-	ete->pixbufs = NULL;
 
 	G_OBJECT_CLASS (ete_parent_class)->finalize (object);
 }
@@ -162,12 +147,34 @@ e_string_search(gconstpointer haystack, const char *needle)
 }
 
 static void
+safe_unref (gpointer object)
+{
+	if (object != NULL)
+		g_object_unref (object);
+}
+
+static void
 ete_init (ETableExtras *extras)
 {
-	extras->cells = g_hash_table_new(g_str_hash, g_str_equal);
-	extras->compares = g_hash_table_new(g_str_hash, g_str_equal);
-	extras->searches = g_hash_table_new(g_str_hash, g_str_equal);
-	extras->pixbufs = g_hash_table_new(g_str_hash, g_str_equal);
+	extras->cells = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) safe_unref);
+
+	extras->compares = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
+
+	extras->searches = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
+
+	extras->pixbufs = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) safe_unref);
 
 	e_table_extras_add_compare(extras, "string", e_str_compare);
 	e_table_extras_add_compare(extras, "stringcase", e_str_case_compare);
@@ -199,16 +206,6 @@ e_table_extras_add_cell     (ETableExtras *extras,
 			     char         *id,
 			     ECell        *cell)
 {
-	gchar *old_key;
-	ECell *old_cell;
-
-	if (g_hash_table_lookup_extended (extras->cells, id, (gpointer *)&old_key, (gpointer *)&old_cell)) {
-		g_hash_table_remove (extras->cells, old_key);
-		g_free (old_key);
-		if (old_cell)
-			g_object_unref (old_cell);
-	}
-
 	if (cell)
 		g_object_ref_sink (cell);
 	g_hash_table_insert (extras->cells, g_strdup(id), cell);
@@ -226,14 +223,6 @@ e_table_extras_add_compare  (ETableExtras *extras,
 			     char         *id,
 			     GCompareFunc  compare)
 {
-	gchar *old_key;
-	GCompareFunc old_compare;
-
-	if (g_hash_table_lookup_extended (extras->compares, id, (gpointer *)&old_key, (gpointer *)&old_compare)) {
-		g_hash_table_remove (extras->compares, old_key);
-		g_free (old_key);
-	}
-
 	g_hash_table_insert(extras->compares, g_strdup(id), (gpointer) compare);
 }
 
@@ -249,14 +238,6 @@ e_table_extras_add_search  (ETableExtras     *extras,
 			    char             *id,
 			    ETableSearchFunc  search)
 {
-	gchar *old_key;
-	ETableSearchFunc old_search;
-
-	if (g_hash_table_lookup_extended (extras->searches, id, (gpointer *)&old_key, (gpointer *)&old_search)) {
-		g_hash_table_remove (extras->searches, old_key);
-		g_free (old_key);
-	}
-
 	g_hash_table_insert(extras->searches, g_strdup(id), search);
 }
 
@@ -272,16 +253,6 @@ e_table_extras_add_pixbuf     (ETableExtras *extras,
 			       char         *id,
 			       GdkPixbuf    *pixbuf)
 {
-	gchar *old_key;
-	GdkPixbuf *old_pixbuf;
-
-	if (g_hash_table_lookup_extended (extras->pixbufs, id, (gpointer *)&old_key, (gpointer *)&old_pixbuf)) {
-		g_hash_table_remove (extras->cells, old_key);
-		g_free (old_key);
-		if (old_pixbuf)
-			g_object_unref (old_pixbuf);
-	}
-
 	if (pixbuf)
 		g_object_ref(pixbuf);
 	g_hash_table_insert (extras->pixbufs, g_strdup(id), pixbuf);

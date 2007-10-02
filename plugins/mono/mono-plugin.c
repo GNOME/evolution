@@ -152,7 +152,6 @@ epm_finalise(GObject *o)
 	g_free(epm->location);
 	g_free(epm->handler);
 
-	g_hash_table_foreach(p->methods, (GHFunc)g_free, NULL);
 	g_hash_table_destroy(p->methods);
 
 	g_free(epm->priv);
@@ -175,7 +174,10 @@ epm_init(GObject *o)
 	EPlugin *ep = (EPlugin *)o;
 
 	epm->priv = g_malloc0(sizeof(*epm->priv));
-	epm->priv->methods = g_hash_table_new(g_str_hash, g_str_equal);
+	epm->priv->methods = g_hash_table_new_full(
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 }
 
 void *

@@ -91,10 +91,8 @@ static guint emf_signals[EMF_LAST_SIGNAL];
 static GObjectClass *emf_parent;
 
 static void
-emf_free_cache(void *key, void *val, void *dat)
+emf_free_cache(struct _EMFormatCache *efc)
 {
-	struct _EMFormatCache *efc = val;
-
 	if (efc->valid)
 		camel_cipher_validity_free(efc->valid);
 	if (efc->secured)
@@ -119,7 +117,10 @@ emf_init(GObject *o)
 {
 	EMFormat *emf = (EMFormat *)o;
 		
-	emf->inline_table = g_hash_table_new(g_str_hash, g_str_equal);
+	emf->inline_table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) emf_free_cache);
 	emf->composer = FALSE;
 	emf->show_photo = TRUE;
 	emf->photo_local = TRUE;
@@ -136,7 +137,6 @@ emf_finalise(GObject *o)
 	if (emf->session)
 		camel_object_unref(emf->session);
 
-	g_hash_table_foreach(emf->inline_table, emf_free_cache, NULL);
 	g_hash_table_destroy(emf->inline_table);
 
 	em_format_clear_headers(emf);
@@ -642,9 +642,7 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeM
 	em_format_clear_puri_tree(emf);
 
 	if (emf != emfsource) {
-		g_hash_table_foreach(emf->inline_table, emf_free_cache, NULL);
-		g_hash_table_destroy(emf->inline_table);
-		emf->inline_table = g_hash_table_new(g_str_hash, g_str_equal);
+		g_hash_table_remove_all(emf->inline_table);
 		if (emfsource) {
 			struct _EMFormatHeader *h;
 

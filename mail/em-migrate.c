@@ -233,10 +233,8 @@ static GHashTable *accounts_1_0 = NULL;
 static GHashTable *accounts_name_1_0 = NULL;
 
 static void
-imap_folder_info_1_0_free(gpointer key, gpointer value, gpointer user_data)
+imap_folder_info_1_0_free (struct _imap_folder_info_1_0 *fi)
 {
-	struct _imap_folder_info_1_0 *fi = value;
-	
 	g_free(fi->folder);
 	g_free(fi);
 }
@@ -249,15 +247,8 @@ account_info_1_0_free (struct _account_info_1_0 *ai)
 	g_free(ai->base_uri);
 	g_free(ai->u.imap.namespace);
 	g_free(ai->u.imap.namespace_full);
-	g_hash_table_foreach(ai->u.imap.folders, (GHFunc) imap_folder_info_1_0_free, NULL);
 	g_hash_table_destroy(ai->u.imap.folders);
 	g_free(ai);
-}
-
-static void
-accounts_1_0_free(gpointer key, gpointer value, gpointer user_data)
-{
-	account_info_1_0_free(value);
 }
 
 static char *
@@ -394,7 +385,10 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 	char *buf, *folder, dir_sep, *path, *name, *p;
 	struct _imap_folder_info_1_0 *fi;
 	
-	si->u.imap.folders = g_hash_table_new (g_str_hash, g_str_equal);
+	si->u.imap.folders = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) imap_folder_info_1_0_free);
 	
 	/* get details from uri first */
 	name = strstr (si->uri, ";override_namespace");
@@ -545,14 +539,16 @@ load_accounts_1_0 (xmlDocPtr doc)
 static int
 em_migrate_1_0 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
-	accounts_1_0 = g_hash_table_new (g_str_hash, g_str_equal);
+	accounts_1_0 = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) account_info_1_0_free);
 	accounts_name_1_0 = g_hash_table_new (g_str_hash, g_str_equal);	
 	load_accounts_1_0 (config_xmldb);
 
 	upgrade_xml_uris(filters, upgrade_xml_uris_1_0);
 	upgrade_xml_uris(vfolders, upgrade_xml_uris_1_0);
 	
-	g_hash_table_foreach (accounts_1_0, (GHFunc) accounts_1_0_free, NULL);
 	g_hash_table_destroy (accounts_1_0);
 	g_hash_table_destroy (accounts_name_1_0);
 	

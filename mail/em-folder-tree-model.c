@@ -234,27 +234,6 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 }
 
 static void
-em_folder_tree_model_init (EMFolderTreeModel *model)
-{
-	model->store_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
-	model->uri_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	
-	gtk_tree_sortable_set_default_sort_func ((GtkTreeSortable *) model, sort_cb, NULL, NULL);
-	
-	model->accounts = mail_config_get_accounts ();
-	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
-	model->account_changed_id = g_signal_connect (model->accounts, "account-changed", G_CALLBACK (account_changed), model);
-	model->account_removed_id = g_signal_connect (model->accounts, "account-removed", G_CALLBACK (account_removed), model);
-}
-
-static void
-full_hash_free (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	gtk_tree_row_reference_free (value);
-}
-
-static void
 store_info_free (struct _EMFolderTreeModelStoreInfo *si)
 {
 	camel_object_remove_event (si->store, si->created_id);
@@ -266,23 +245,29 @@ store_info_free (struct _EMFolderTreeModelStoreInfo *si)
 	g_free (si->display_name);
 	camel_object_unref (si->store);
 	gtk_tree_row_reference_free (si->row);
-	g_hash_table_foreach (si->full_hash, full_hash_free, NULL);
+	g_hash_table_destroy (si->full_hash);
 	g_free (si);
 }
 
 static void
-store_hash_free (gpointer key, gpointer value, gpointer user_data)
+em_folder_tree_model_init (EMFolderTreeModel *model)
 {
-	struct _EMFolderTreeModelStoreInfo *si = value;
-	
-	store_info_free (si);
-}
+	model->store_hash = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) store_info_free);
 
-static void
-uri_hash_free (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	gtk_tree_row_reference_free (value);
+	model->uri_hash = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gtk_tree_row_reference_free);
+	
+	gtk_tree_sortable_set_default_sort_func ((GtkTreeSortable *) model, sort_cb, NULL, NULL);
+	
+	model->accounts = mail_config_get_accounts ();
+	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	model->account_changed_id = g_signal_connect (model->accounts, "account-changed", G_CALLBACK (account_changed), model);
+	model->account_removed_id = g_signal_connect (model->accounts, "account-removed", G_CALLBACK (account_removed), model);
 }
 
 static void
@@ -294,10 +279,7 @@ em_folder_tree_model_finalize (GObject *obj)
 	if (model->state)
 		xmlFreeDoc (model->state);
 	
-	g_hash_table_foreach (model->store_hash, store_hash_free, NULL);
 	g_hash_table_destroy (model->store_hash);
-	
-	g_hash_table_foreach (model->uri_hash, uri_hash_free, NULL);
 	g_hash_table_destroy (model->uri_hash);
 	
 	g_hash_table_destroy (model->account_hash);
@@ -807,7 +789,10 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	si->store = store;
 	si->account = account;
 	si->row = row;
-	si->full_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	si->full_hash = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gtk_tree_row_reference_free);
 	g_hash_table_insert (model->store_hash, store, si);
 	g_hash_table_insert (model->account_hash, account, si);
 	
@@ -842,15 +827,10 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 static void
 em_folder_tree_model_remove_uri (EMFolderTreeModel *model, const char *uri)
 {
-	GtkTreeRowReference *row;
-	
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (uri != NULL);
-	
-	if ((row = g_hash_table_lookup (model->uri_hash, uri))) {
-		g_hash_table_remove (model->uri_hash, uri);
-		gtk_tree_row_reference_free (row);
-	}
+
+	g_hash_table_remove (model->uri_hash, uri);
 }
 
 
@@ -874,7 +854,6 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *st
 void
 em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si, GtkTreeIter *toplevel)
 {
-	GtkTreeRowReference *row;
 	char *uri, *full_name;
 	gboolean is_store, go;
 	GtkTreeIter iter;
@@ -892,11 +871,9 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 	gtk_tree_model_get ((GtkTreeModel *) model, toplevel, COL_STRING_URI, &uri,
 			    COL_STRING_FULL_NAME, &full_name,
 			    COL_BOOL_IS_STORE, &is_store, -1);
-	
-	if (full_name && (row = g_hash_table_lookup (si->full_hash, full_name))) {
+
+	if (full_name)
 		g_hash_table_remove (si->full_hash, full_name);
-		gtk_tree_row_reference_free (row);
-	}
 	
 	if (uri)
 		em_folder_tree_model_remove_uri (model, uri);

@@ -52,16 +52,9 @@ save_to_hash(int model_row, gpointer closure)
 }
 
 static void
-free_key(gpointer key, gpointer value, gpointer closure)
-{
-	g_free(key);
-}
-
-static void
 free_hash(ETableSelectionModel *etsm)
 {
 	if (etsm->hash) {
-		g_hash_table_foreach(etsm->hash, free_key, NULL);
 		g_hash_table_destroy(etsm->hash);
 		etsm->hash = NULL;
 	}
@@ -78,7 +71,10 @@ model_pre_change (ETableModel *etm, ETableSelectionModel *etsm)
 	if (etsm->model && e_table_model_has_save_id (etsm->model)) {
 		gint cursor_row;
 
-		etsm->hash = g_hash_table_new(g_str_hash, g_str_equal);
+		etsm->hash = g_hash_table_new_full(
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) NULL);
 		e_selection_model_foreach(E_SELECTION_MODEL(etsm), save_to_hash, etsm);
 
 		g_object_get(etsm,

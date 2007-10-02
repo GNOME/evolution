@@ -460,15 +460,6 @@ best_charset (GByteArray *buf, const char *default_charset, CamelTransferEncodin
 	return g_strdup (charset);
 }
 
-static gboolean
-clear_inline_images (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	camel_object_unref (value);
-
-	return TRUE;
-}
-
 static void
 clear_current_images (EMsgComposer *composer)
 {
@@ -477,21 +468,13 @@ clear_current_images (EMsgComposer *composer)
 	p->current_images = NULL;
 }
 
-static gboolean
-clear_url (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-
-	return TRUE;
-}
-
 void
 e_msg_composer_clear_inlined_table (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *p = composer->priv;
 
-	g_hash_table_foreach_remove (p->inline_images, clear_inline_images, NULL);
-	g_hash_table_foreach_remove (p->inline_images_by_url, clear_url, NULL);
+	g_hash_table_remove_all (p->inline_images);
+	g_hash_table_remove_all (p->inline_images_by_url);
 }
 
 static void
@@ -1658,9 +1641,15 @@ static AutosaveManager *
 autosave_manager_new ()
 {
 	AutosaveManager *am;
+	GHashTable *table;
+
+	table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 	
 	am = g_new (AutosaveManager, 1);
-	am->table = g_hash_table_new (g_str_hash, g_str_equal);
+	am->table = table;
 	am->id = 0;
 	am->ask = TRUE;
 	
@@ -1691,19 +1680,15 @@ autosave_manager_register (AutosaveManager *am, EMsgComposer *composer)
 static void
 autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer) 
 {
-	char *key, *oldkey;
-	void *olddata;
 	EMsgComposerPrivate *p = composer->priv;
+	gchar *key;
 
 	if (!p->autosave_file)
 		return;
 
-	key = g_path_get_basename(p->autosave_file);
-	if (g_hash_table_lookup_extended(am->table, key, (gpointer)&oldkey, (gpointer)&olddata)) {
-		g_hash_table_remove(am->table, oldkey);
-		g_free(oldkey);
-		g_free(key);
-	}
+	key = g_path_get_basename (p->autosave_file);
+	g_hash_table_remove (am->table, key);
+	g_free (key);
 	
 	/* only remove the file if we can successfully save it */
 	/* FIXME this test could probably be more efficient */
@@ -2795,7 +2780,6 @@ composer_finalise (GObject *object)
 		g_ptr_array_free (p->extra_hdr_values, TRUE);
 	}
 	
-	e_msg_composer_clear_inlined_table (composer);
 	g_hash_table_destroy (p->inline_images);
 	g_hash_table_destroy (p->inline_images_by_url);
 	
@@ -3354,6 +3338,18 @@ static void
 init (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *p = g_new0(EMsgComposerPrivate,1);
+	GHashTable *inline_images;
+	GHashTable *inline_images_by_url;
+
+	inline_images = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
+
+	inline_images_by_url = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) camel_object_unref);
 
 	p->uic                      = NULL;
 	
@@ -3374,8 +3370,8 @@ init (EMsgComposer *composer)
 	p->persist_stream_interface = CORBA_OBJECT_NIL;
 	
 	p->eeditor_engine            = CORBA_OBJECT_NIL;
-	p->inline_images            = g_hash_table_new (g_str_hash, g_str_equal);
-	p->inline_images_by_url     = g_hash_table_new (g_str_hash, g_str_equal);
+	p->inline_images            = inline_images;
+	p->inline_images_by_url     = inline_images_by_url;
 	p->current_images           = NULL;
 	
 	p->attachment_bar_visible   = FALSE;
@@ -4528,12 +4524,6 @@ set_signature_gui (EMsgComposer *composer)
 }
 
 
-static void
-auto_recip_free (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-}
-
 /**
  * e_msg_composer_new_with_message:
  * @message: The message to use as the source
@@ -4599,8 +4589,15 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 	
 	if (postto == NULL) {
-		auto_cc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
-		auto_bcc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+		auto_cc = g_hash_table_new_full (
+			camel_strcase_hash, camel_strcase_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) NULL);
+
+		auto_bcc = g_hash_table_new_full (
+			camel_strcase_hash, camel_strcase_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) NULL);
 		
 		if (account) {
 			CamelInternetAddress *iaddr;
@@ -4672,7 +4669,6 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		}
 		
 		Ccv = destination_list_to_vector (Cc);
-		g_hash_table_foreach (auto_cc, auto_recip_free, NULL);
 		g_hash_table_destroy (auto_cc);
 		g_list_free (Cc);
 		
@@ -4693,7 +4689,6 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		}
 		
 		Bccv = destination_list_to_vector (Bcc);
-		g_hash_table_foreach (auto_bcc, auto_recip_free, NULL);
 		g_hash_table_destroy (auto_bcc);
 		g_list_free (Bcc);
 	} else {
