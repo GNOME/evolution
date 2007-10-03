@@ -811,6 +811,9 @@ set_buttons (ItipView *view)
 	is_recur_set = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recur_check));
 	gtk_container_foreach (GTK_CONTAINER (priv->button_box), (GtkCallback) gtk_widget_destroy, NULL);
 
+	if (priv->mode == ITIP_VIEW_MODE_HIDE_ALL)
+		return;
+
 	/* Everything gets the open button */
 	set_one_button (view, _("_Open Calendar"), GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
 	

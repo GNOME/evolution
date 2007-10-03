@@ -1,3 +1,14 @@
+2007-10-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #346146
+
+	* itip-view.h: (enum ItipViewMode): Added ITIP_VIEW_MODE_HIDE_ALL.
+	* itip-view.c: (set_buttons): Don't add buttons when in this mode.
+	* itip-formatter.c: (in_proper_folder): New helper function.
+	* itip-formatter.c: (format_itip_object): Check if the mail is in
+	proper folder and allow response in this case, otherwise only show
+	info from calendar and don't check in local calendar for anything.
+
 2007-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #428402

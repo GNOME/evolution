@@ -47,6 +47,7 @@
 #include <mail/em-config.h>
 #include <mail/em-format-html.h>
 #include <mail/em-utils.h>
+#include <mail/mail-tools.h>
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-error.h>
@@ -58,7 +59,7 @@
 #define CLASSID "itip://"
 #define GCONF_KEY_DELETE "/apps/evolution/itip/delete_processed"
 
-#define d(x) x
+#define d(x) 
 
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
@@ -1787,6 +1788,28 @@ check_is_instance (icalcomponent *icalcomp)
 	return FALSE;
 }
 
+
+static gboolean
+in_proper_folder (CamelFolder *folder)
+{
+	gboolean res = TRUE;
+	gchar *uri;
+
+	if (!folder)
+		return res;
+
+	uri = mail_tools_folder_to_url (folder);
+
+	res = !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH) &&
+	      !em_utils_folder_is_sent (folder, uri) &&
+	      !em_utils_folder_is_outbox (folder, uri) &&
+	      !em_utils_folder_is_drafts (folder, uri);
+
+	g_free (uri);
+
+	return res;
+}
+
 static gboolean
 format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
@@ -1800,6 +1823,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	icalcomponent *icalcomp;
 	const char *string, *org;
 	int i;
+	gboolean response_enabled;
 
 	/* Accounts */
 	pitip->accounts = itip_addresses_get ();
@@ -1822,100 +1846,108 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	gtk_container_add (GTK_CONTAINER (eb), pitip->view);
 	gtk_widget_show (pitip->view);
 
-	switch (pitip->method) {
-	case ICAL_METHOD_PUBLISH:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
-		break;
-	case ICAL_METHOD_REQUEST:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REQUEST);
-		break;
-	case ICAL_METHOD_REPLY:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REPLY);
-		break;
-	case ICAL_METHOD_ADD:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ADD);
-		break;
-	case ICAL_METHOD_CANCEL:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_CANCEL);
-		break;
-	case ICAL_METHOD_REFRESH:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REFRESH);
-		break;
-	case ICAL_METHOD_COUNTER:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_COUNTER);
-		break;
-	case ICAL_METHOD_DECLINECOUNTER:
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_DECLINECOUNTER);
-		break;
-	case ICAL_METHOD_X :
-		/* Handle appointment requests from Microsoft Live. This is
-		 * a best-at-hand-now handling. Must be revisited when we have
-		 * better access to the source of such meetings */
-		pitip->method = ICAL_METHOD_REQUEST;
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REQUEST);
-		break;
-	default:
-		return FALSE;
+	response_enabled = in_proper_folder (((EMFormat*)efh)->folder);
+
+	if (!response_enabled) {
+		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_HIDE_ALL);
+	} else {
+		switch (pitip->method) {
+		case ICAL_METHOD_PUBLISH:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
+			break;
+		case ICAL_METHOD_REQUEST:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REQUEST);
+			break;
+		case ICAL_METHOD_REPLY:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REPLY);
+			break;
+		case ICAL_METHOD_ADD:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ADD);
+			break;
+		case ICAL_METHOD_CANCEL:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_CANCEL);
+			break;
+		case ICAL_METHOD_REFRESH:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REFRESH);
+			break;
+		case ICAL_METHOD_COUNTER:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_COUNTER);
+			break;
+		case ICAL_METHOD_DECLINECOUNTER:
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_DECLINECOUNTER);
+			break;
+		case ICAL_METHOD_X :
+			/* Handle appointment requests from Microsoft Live. This is
+			 * a best-at-hand-now handling. Must be revisited when we have
+			 * better access to the source of such meetings */
+			pitip->method = ICAL_METHOD_REQUEST;
+			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REQUEST);
+			break;
+		default:
+			return FALSE;
+		}
 	}
 
 	itip_view_set_item_type (ITIP_VIEW (pitip->view), pitip->type);
 	
-	switch (pitip->method) {
-	case ICAL_METHOD_REQUEST:
-		/* FIXME What about the name? */
-		itip_view_set_delegator (ITIP_VIEW (pitip->view), pitip->delegator_name ? pitip->delegator_name : pitip->delegator_address);
-	case ICAL_METHOD_PUBLISH:
-	case ICAL_METHOD_ADD:
-	case ICAL_METHOD_CANCEL:
-	case ICAL_METHOD_DECLINECOUNTER:
-		itip_view_set_show_update (ITIP_VIEW (pitip->view), FALSE);
+	if (response_enabled) {
+		switch (pitip->method) {
+		case ICAL_METHOD_REQUEST:
+			/* FIXME What about the name? */
+			itip_view_set_delegator (ITIP_VIEW (pitip->view), pitip->delegator_name ? pitip->delegator_name : pitip->delegator_address);
+		case ICAL_METHOD_PUBLISH:
+		case ICAL_METHOD_ADD:
+		case ICAL_METHOD_CANCEL:
+		case ICAL_METHOD_DECLINECOUNTER:
+			itip_view_set_show_update (ITIP_VIEW (pitip->view), FALSE);
 
-		/* An organizer sent this */
-		e_cal_component_get_organizer (pitip->comp, &organizer);
-		org = organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value);
+			/* An organizer sent this */
+			e_cal_component_get_organizer (pitip->comp, &organizer);
+			org = organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value);
 
-		itip_view_set_organizer (ITIP_VIEW (pitip->view), org);
-		if (organizer.sentby)
-			itip_view_set_organizer_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (organizer.sentby));
-
-		if (pitip->my_address) {
-			if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), pitip->my_address))
-			&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), pitip->my_address))
-			&& (pitip->to_address && g_ascii_strcasecmp (pitip->to_address, pitip->my_address)))
-				itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->to_name ? pitip->to_name : pitip->to_address);
-		}
-		break;
-	case ICAL_METHOD_REPLY:
-	case ICAL_METHOD_REFRESH:
-	case ICAL_METHOD_COUNTER:
-		itip_view_set_show_update (ITIP_VIEW (pitip->view), TRUE);
-
-		/* An attendee sent this */
-		e_cal_component_get_attendee_list (pitip->comp, &list);
-		if (list != NULL) {
-			ECalComponentAttendee *attendee;
-			
-			attendee = list->data;
-
-			itip_view_set_attendee (ITIP_VIEW (pitip->view), attendee->cn ? attendee->cn : itip_strip_mailto (attendee->value));
-
-			if (attendee->sentby)
-				itip_view_set_attendee_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (attendee->sentby));
+			itip_view_set_organizer (ITIP_VIEW (pitip->view), org);
+			if (organizer.sentby)
+				itip_view_set_organizer_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (organizer.sentby));
 
 			if (pitip->my_address) {
-				if (!(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), pitip->my_address))
-				&& !(attendee->sentby && !g_ascii_strcasecmp (itip_strip_mailto (attendee->sentby), pitip->my_address))
-				&& (pitip->from_address && g_ascii_strcasecmp (pitip->from_address, pitip->my_address))) 
-					itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->from_name ? pitip->from_name : pitip->from_address);
+				if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), pitip->my_address))
+				&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), pitip->my_address))
+				&& (pitip->to_address && g_ascii_strcasecmp (pitip->to_address, pitip->my_address)))
+					itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->to_name ? pitip->to_name : pitip->to_address);
 			}
+			break;
+		case ICAL_METHOD_REPLY:
+		case ICAL_METHOD_REFRESH:
+		case ICAL_METHOD_COUNTER:
+			itip_view_set_show_update (ITIP_VIEW (pitip->view), TRUE);
 
-			e_cal_component_free_attendee_list (list);
+			/* An attendee sent this */
+			e_cal_component_get_attendee_list (pitip->comp, &list);
+			if (list != NULL) {
+				ECalComponentAttendee *attendee;
+			
+				attendee = list->data;
+
+				itip_view_set_attendee (ITIP_VIEW (pitip->view), attendee->cn ? attendee->cn : itip_strip_mailto (attendee->value));
+
+				if (attendee->sentby)
+					itip_view_set_attendee_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (attendee->sentby));
+
+				if (pitip->my_address) {
+					if (!(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), pitip->my_address))
+					&& !(attendee->sentby && !g_ascii_strcasecmp (itip_strip_mailto (attendee->sentby), pitip->my_address))
+					&& (pitip->from_address && g_ascii_strcasecmp (pitip->from_address, pitip->my_address))) 
+						itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->from_name ? pitip->from_name : pitip->from_address);
+				}
+
+				e_cal_component_free_attendee_list (list);
+			}
+			break;		
+		default:
+			g_assert_not_reached ();
+			break;
 		}
-		break;		
-	default:
-		g_assert_not_reached ();
-		break;
-	}	
+	}
 
 	e_cal_component_get_summary (pitip->comp, &text);
 	itip_view_set_summary (ITIP_VIEW (pitip->view), text.value ? text.value : _("None"));
@@ -1924,7 +1956,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	itip_view_set_location (ITIP_VIEW (pitip->view), string);
 
 	/* Status really only applies for REPLY */
-	if (pitip->method == ICAL_METHOD_REPLY) {
+	if (response_enabled && pitip->method == ICAL_METHOD_REPLY) {
 		e_cal_component_get_attendee_list (pitip->comp, &list);
 		if (list != NULL) {
 			ECalComponentAttendee *a = list->data;			
@@ -2059,13 +2091,15 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		}
 	}
 
-	g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
+	if (response_enabled) {
+		g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
 
-	if (pitip->calendar_uid)
-		pitip->current_ecal = start_calendar_server_by_uid (pitip, pitip->calendar_uid, pitip->type);
-	else {
-		find_server (pitip, pitip->comp);
-		set_buttons_sensitive (pitip);
+		if (pitip->calendar_uid)
+			pitip->current_ecal = start_calendar_server_by_uid (pitip, pitip->calendar_uid, pitip->type);
+		else {
+			find_server (pitip, pitip->comp);
+			set_buttons_sensitive (pitip);
+		}
 	}
 
 	return TRUE;
