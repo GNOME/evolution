@@ -543,7 +543,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	
 	/* Hook: If some one wants to hook on to the sendreceive dialog, this is the way to go. */
 	target = em_event_target_new_send_receive (em_event_peek(), table, data, row, EM_EVENT_SEND_RECEIVE);
-	e_event_emit (em_event_peek(), "mail.sendreceive", target);
+	e_event_emit ((EEvent *)em_event_peek (), "mail.sendreceive", (EEventTarget *) target);
 	
 	if (outbox && destination) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
@@ -736,7 +736,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	struct _send_info *info = data;
 	CamelFolder *folder;
 	struct _folder_info *oldinfo;
-	gpointer oldkey;
+	gpointer oldkey, oldinfoptr;
 
 	g_mutex_lock(info->data->lock);
 	oldinfo = g_hash_table_lookup(info->data->folders, uri);
@@ -753,7 +753,8 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	/* and we assume the newer one is the same, but unref the old one anyway */
 	g_mutex_lock(info->data->lock);
 	
-	if (g_hash_table_lookup_extended(info->data->folders, uri, &oldkey, (void **)&oldinfo)) {
+	if (g_hash_table_lookup_extended (info->data->folders, uri, &oldkey, &oldinfoptr)) {
+		oldinfo = (struct _folder_info *) oldinfoptr;
 		camel_object_unref(oldinfo->folder);
 		oldinfo->folder = folder;
 	} else {

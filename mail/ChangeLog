@@ -1,3 +1,14 @@
+2007-10-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #473903
+
+	* mail-send-recv.c: (build_dialog), (receive_get_folder):
+	Fixes serious warnings, rest is because of this fix.
+	* em-event.c: (em_event_target_new_send_receive):
+	* em-event.h: (struct _EMEventTargetSendReceive),
+	(em_event_target_new_send_receive):
+	Changed structure member and function prototype to reflect fixes.
+
 2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #469657

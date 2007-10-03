@@ -177,7 +177,7 @@ em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage 
 }
 
 EMEventTargetSendReceive *
-em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer *data, int row, guint32 flags)
+em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, int row, guint32 flags)
 {
 	EMEventTargetSendReceive *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_SEND_RECEIVE, sizeof(*t));
 

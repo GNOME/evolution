@@ -100,7 +100,7 @@ struct _EMEventTargetSendReceive {
 	EEventTarget target;
 	
 	struct _GtkWidget *table;
-	gpointer *data;
+	gpointer data;
 	int row;
 };
 
@@ -125,7 +125,7 @@ EMEvent *em_event_peek(void);
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, guint32 flags);
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const struct _EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
-EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer *data, int row, guint32 flags);
+EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer data, int row, guint32 flags);
 
 /* ********************************************************************** */
 
