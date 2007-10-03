@@ -3106,7 +3106,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
-msgstr "Titol"
+msgstr "Títol"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
@@ -4004,7 +4004,7 @@ msgstr "Sètz segur que volètz suprimir lo prètzfach '{0}' ?"
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Sètz segur que volètz suprimir lo rendètz-vos titolat '{0}' ?"
+msgstr "Sètz segur que volètz suprimir lo rendètz-vos títolat '{0}' ?"
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the memo '{0}'?"
@@ -7782,7 +7782,7 @@ msgstr ""
 #: ../calendar/gui/gnome-cal.c:2787
 #, c-format
 msgid "Opening %s"
-msgstr "Dubertura de %s"
+msgstr "Dobertura de %s"
 
 #: ../calendar/gui/gnome-cal.c:3726
 msgid "Purging"
@@ -8295,7 +8295,7 @@ msgstr ""
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
 msgid "Opening calendar"
-msgstr "Dubertura del calendièr"
+msgstr "Dobertura del calendièr"
 
 #: ../calendar/importers/icalendar-importer.c:444
 msgid "iCalendar files (.ics)"
@@ -9981,7 +9981,7 @@ msgstr ""
 #. NB: This function is never used anymore
 #: ../composer/e-msg-composer.c:1787
 msgid "Open File"
-msgstr "Ouvrir un fichier"
+msgstr "Dobrir un fichièr"
 
 #: ../composer/e-msg-composer.c:2249 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
@@ -13491,7 +13491,7 @@ msgstr ""
 #: ../mail/mail-ops.c:1213
 #, c-format
 msgid "Opening folder %s"
-msgstr "Dubertura del repertòri %s"
+msgstr "Dobertura del repertòri %s"
 
 #: ../mail/mail-ops.c:1285
 #, c-format
@@ -13774,7 +13774,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:17
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "Sètz segur que volètz enviar un messatge sens titol ?"
+msgstr "Sètz segur que volètz enviar un messatge sens títol ?"
 
 #: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{0}&quot;."
@@ -19959,7 +19959,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save As"
-msgstr "Salvar e nommar:"
+msgstr "Enregistrar coma"
 
 #: ../ui/evolution-message-composer.xml.h:27
 msgid "Save Draft"
@@ -20520,7 +20520,7 @@ msgstr ""
 #: ../widgets/table/e-table-scrolled.c:216
 #: ../widgets/table/e-table-scrolled.c:217
 msgid "Table"
-msgstr "Taula"
+msgstr "Tablèu"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:179
 msgid "Instance"
