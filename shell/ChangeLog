@@ -1,8 +1,13 @@
+2007-10-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window-commands.c (command_about):
+	Fix capitalization of program name in About dialog (#481325).
+
 2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #469657
 
-	* shell/e-shell-settings-dialog.c:
+	* e-shell-settings-dialog.c:
 	Use destroy functions in GHashTables to simplify memory management.
 
 2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>

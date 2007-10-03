@@ -666,7 +666,7 @@ command_about (BonoboUIComponent *uih,
 
 	gtk_show_about_dialog (
 		GTK_WINDOW (window),
-		"name", "Evolution",
+		"program-name", "Evolution",
 		"version", VERSION,
 		"copyright", EVOLUTION_COPYRIGHT,
 		"comments", _("Groupware Suite"),
