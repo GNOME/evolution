@@ -3590,17 +3590,6 @@ static BonoboUIVerb entry_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static EPixmap entry_pixcache [] = {
-	E_PIXMAP ("/Toolbar/EditCut", "edit-cut", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/EditCopy", "edit-copy", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/EditPaste", "edit-paste", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/commands/EditCut", "edit-cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditPaste", "edit-paste", E_ICON_SIZE_MENU),
-
-	E_PIXMAP_END
-};
-
 /* All this snot is so that Cut/Copy/Paste work. */
 static gboolean
 composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
@@ -3625,8 +3614,6 @@ composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoin
 			       "evolution-composer-entries", NULL);
 	g_free (xmlfile);
 
-	e_pixmaps_update (p->entry_uic, entry_pixcache);
-	
 	bonobo_ui_component_thaw (p->entry_uic, NULL);
 	
 	return FALSE;

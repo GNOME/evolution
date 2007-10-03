@@ -1,3 +1,10 @@
+2007-10-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-msg-cmposer.c:
+	Remove the entry_pixcache array to silence the run-time warnings
+	when opening a new composer window.  The composer seems to work
+	fine without them; not sure why it was needed in the first place.
+
 2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #469657
