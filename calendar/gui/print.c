@@ -1362,14 +1362,17 @@ print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 	x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3 ) + 4;
 	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3);    
 
-	date_tm.tm_hour = event->end_minute / 60;
-	date_tm.tm_min = event->end_minute % 60;
+	if (psi->weeks_shown <= 2) {
+		date_tm.tm_hour = event->end_minute / 60;
+		date_tm.tm_min = event->end_minute % 60;
 
-	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
-			    buffer, sizeof (buffer));
+		e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
+				    buffer, sizeof (buffer));
 
-	print_rectangle (context, x1, y1, (x2 + 6) - x1, (y2 + 4) - y1, red, green, blue); 
-	x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3) + 4;
+		print_rectangle (context, x1, y1, (x2 + 6) - x1, (y2 + 4) - y1, red, green, blue); 
+		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3) + 4;
+	}
+
 	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3);  
 }
 
