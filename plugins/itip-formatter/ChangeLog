@@ -1,3 +1,14 @@
+2007-10-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #331578
+
+	* itip-formatter.c: (struct _opencal_msg), (open_calendar_desc),
+	(open_calendar_do), (open_calendar_done), (open_calendar_free),
+	(struct _mail_msg_op open_calendar_op):
+	New functions and structures to run command line in other thread.
+	* itip-formatter.c: (idle_open_cb):
+	Run command line in other thread rather than in main thread.
+
 2007-10-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #346146

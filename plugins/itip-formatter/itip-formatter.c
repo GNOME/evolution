@@ -48,6 +48,7 @@
 #include <mail/em-format-html.h>
 #include <mail/em-utils.h>
 #include <mail/mail-tools.h>
+#include <mail/mail-mt.h>
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-error.h>
@@ -1546,18 +1547,60 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	return TRUE;
 }
 
+struct _opencal_msg {
+	struct _mail_msg msg;
+
+	char *command; /* command line to run */
+};
+
+static char *
+open_calendar_desc (struct _mail_msg *mm, int done)
+{
+	return g_strdup (_("Opening calendar"));
+}
+
+static void
+open_calendar_do (struct _mail_msg *mm)
+{
+	struct _opencal_msg *m = (struct _opencal_msg *)mm;
+
+	if (!g_spawn_command_line_async (m->command, NULL)) {
+		g_warning ("Could not launch %s", m->command);
+	}
+}
+
+static void
+open_calendar_done (struct _mail_msg *mm)
+{
+	/*struct _opencal_msg *m = (struct _opencal_msg *)mm;*/
+}
+
+static void
+open_calendar_free (struct _mail_msg *mm)
+{
+	struct _opencal_msg *m = (struct _opencal_msg *)mm;
+
+	g_free (m->command);
+	m->command = NULL;
+}
+
+static struct _mail_msg_op open_calendar_op = {
+	open_calendar_desc,
+	open_calendar_do,
+	open_calendar_done,
+	open_calendar_free,
+};
+
 static gboolean
 idle_open_cb (gpointer data) 
 {
 	FormatItipPObject *pitip = data;	
-	char *command;
+	struct _opencal_msg *m;
 	
-	command = g_strdup_printf ("evolution \"calendar://?startdate=%s&enddate=%s\"", 
+	m = mail_msg_new (&open_calendar_op, NULL, sizeof (*m));
+	m->command = g_strdup_printf ("evolution \"calendar://?startdate=%s&enddate=%s\"", 
 				   isodate_from_time_t (pitip->start_time), isodate_from_time_t (pitip->end_time));
-	if (!g_spawn_command_line_async (command, NULL)) {
-		g_warning ("Could not launch %s", command);
-	}
-	g_free (command);
+	e_thread_put (mail_thread_queued_slow, (EMsg *)m);
 
 	return FALSE;
 }
