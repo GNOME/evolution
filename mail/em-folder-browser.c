@@ -1607,7 +1607,7 @@ static BonoboUIVerb emfb_verbs[] = {
 };
 
 static EPixmap emfb_pixmaps[] = {
-	E_PIXMAP ("/commands/ChangeFolderProperties", "stock_folder-properties", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ChangeFolderProperties", "document-properties", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderCopy", "stock_folder-copy", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderMove", "stock_folder-move", E_ICON_SIZE_MENU),
 

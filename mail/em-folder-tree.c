@@ -2113,7 +2113,7 @@ static EPopupItem emft_popup_items[] = {
 
 	
 	{ E_POPUP_BAR, "80.emc" },
-	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "stock_folder-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
+	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "document-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
 static EPopupItem trash_popup_item = {E_POPUP_ITEM, "20.emc.03", N_("_Empty Trash"), emft_popup_empty_trash,NULL,NULL, 1, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT};
 
