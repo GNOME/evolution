@@ -646,6 +646,11 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 
 		if (str) {
 			html = e_text_to_html (str, 0);
+#ifdef HANDLE_MAILTO_INTERNALLY
+			if (e_contact_get (contact, E_CONTACT_IS_LIST))
+				gtk_html_stream_printf (html_stream, "<h2><a href=\"internal-mailto:0\">%s</a></h2>", html);
+			else
+#endif
 			gtk_html_stream_printf (html_stream, "<h2>%s</h2>", html);
 			g_free (html);
 		}

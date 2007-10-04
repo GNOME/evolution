@@ -1,3 +1,10 @@
+2007-10-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #331421
+
+	* gui/widgets/eab-contact-display.c:
+	(eab_contact_display_render_normal): Make contact list name clickable.
+
 2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #469657
