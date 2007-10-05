@@ -2167,9 +2167,11 @@ alarm_queue_remove_client (ECal *client, gboolean immediately)
 	msg->data = list;
 
 	d(printf("%s:%d (alarm_queue_remove_client) - Posting a task\n",__FILE__, __LINE__));
-	if (immediately)
+	if (immediately) {
 		alarm_queue_remove_async (NULL, msg, NULL);
-	else
+		g_free (list);
+		g_free (msg);
+	} else
 		e_thread_put(alarm_operation_thread, (EMsg *)msg);
 }
 
