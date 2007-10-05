@@ -2197,6 +2197,9 @@ em_folder_view_print (EMFolderView *emfv, GtkPrintOperationAction action)
 	em_format_set_session (
 		(EMFormat *) efhp,
 		((EMFormat *) emfv->preview)->session);
+	em_format_merge_handler ((EMFormat *) efhp,
+		(EMFormat *) emfv->preview);
+
 	em_format_html_print_message (
 		efhp, emfv->folder, uids->pdata[0]);
 	g_object_unref (efhp);
