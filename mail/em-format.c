@@ -224,6 +224,38 @@ em_format_class_add_handler(EMFormatClass *emfc, EMFormatHandler *info)
 	g_hash_table_insert(emfc->type_handlers, info->mime_type, info);
 }
 
+struct _class_handlers {
+	EMFormatClass *old;
+	EMFormatClass *new;
+};	
+static void
+merge_missing (gpointer key, gpointer value, gpointer userdata)
+{
+	struct _class_handlers *classes = (struct _class_handlers *) userdata;
+	EMFormatHandler *info, *oldinfo;
+	
+	oldinfo = (EMFormatHandler *) value;
+	info = g_hash_table_lookup (classes->new->type_handlers, key);
+	if (!info) {
+		/* Might be from a plugin */
+		g_hash_table_insert (classes->new->type_handlers, key, value);
+	}
+
+}
+
+void
+em_format_merge_handler(EMFormat *new, EMFormat *old)
+{
+	EMFormatClass *oldc = (EMFormatClass *)G_OBJECT_GET_CLASS(old);
+	EMFormatClass *newc = (EMFormatClass *)G_OBJECT_GET_CLASS(new);
+	struct _class_handlers fclasses;
+
+	fclasses.old = oldc;
+	fclasses.new = newc;
+
+	g_hash_table_foreach (oldc->type_handlers, merge_missing, &fclasses);
+
+}
 /**
  * em_format_class_remove_handler:
  * @emfc: 

@@ -328,5 +328,6 @@ void em_format_format_text(EMFormat *emf, struct _CamelStream *stream, struct _C
 
 void em_format_part_as(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part, const char *mime_type);
 void em_format_part(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part);
+void em_format_merge_handler(EMFormat *new, EMFormat *old);
 
 #endif /* ! _EM_FORMAT_H */
