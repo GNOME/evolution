@@ -1,3 +1,8 @@
+2007-10-05  Milan Crha  <mcrha@redhat.com>
+
+	* gui/alarm-notify/alarm-queue.c: (alarm_queue_remove_client):
+	Fixed leak caused by my changes in fix for bug #325685.
+
 2007-09-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #324472
