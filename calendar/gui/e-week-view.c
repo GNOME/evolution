@@ -2698,8 +2698,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Calculate how many icons we need to show. */
 	num_icons = 0;
 	if (show_icons) {
-		GSList *categories_list, *elem;
-
 		if (e_cal_component_has_alarms (comp))
 			num_icons++;
 		if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
@@ -2708,19 +2706,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			num_icons++;
 		if (event->different_timezone)
 			num_icons++;
-
-		e_cal_component_get_categories_list (comp, &categories_list);
-		for (elem = categories_list; elem; elem = elem->next) {
-			char *category;
-			GdkPixmap *pixmap = NULL;
-			GdkBitmap *mask = NULL;
-
-			category = (char *) elem->data;
-			if (e_categories_config_get_icon_for (category, &pixmap, &mask))
-				num_icons++;
-		}
-
-		e_cal_component_free_categories_list (categories_list);
+		num_icons += cal_comp_util_get_n_icons (comp);
 	}
 
 	/* Create the background canvas item if necessary. */

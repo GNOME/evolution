@@ -36,6 +36,7 @@
 #include "e-day-view-main-item.h"
 #include "ea-calendar.h"
 #include "e-calendar-view.h"
+#include "comp-util.h"
 #include <libecal/e-cal-time-util.h>
 #include <e-calendar-view.h>
 
@@ -655,16 +656,9 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		num_icons++;
 	}
 
-	e_cal_component_get_categories_list (comp, &categories_list);
-	for (elem = categories_list; elem; elem = elem->next) {
-		char *category;
-		GdkPixmap *pixmap = NULL;
-		GdkBitmap *mask = NULL;
+	num_icons += cal_comp_util_get_n_icons (comp);
 
-		category = (char *) elem->data;
-		if (e_categories_config_get_icon_for (category, &pixmap, &mask))
-			num_icons++;
-	}
+	e_cal_component_get_categories_list (comp, &categories_list);
 
 	if (num_icons != 0) {
 		if (item_h >= (E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD)
@@ -1800,16 +1794,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			num_icons++;
 		}
 
+		num_icons += cal_comp_util_get_n_icons (comp);
 		e_cal_component_get_categories_list (comp, &categories_list);
-		for (elem = categories_list; elem; elem = elem->next) {
-			char *category;
-			GdkPixmap *pixmap = NULL;
-			GdkBitmap *mask = NULL;
-
-			category = (char *) elem->data;
-			if (e_categories_config_get_icon_for (category, &pixmap, &mask))
-				num_icons++;
-		}
 
 		if (num_icons != 0) {
 			if (item_h >= (E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD)

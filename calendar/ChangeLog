@@ -1,3 +1,17 @@
+2007-10-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #455862
+	Plugged memory leaks.
+
+	* gui/comp-util.c:
+	* gui/comp-util.h:(cal_comp_util_get_n_icons): A new function to
+	get the number of icons owned by ECalComponent.
+
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view.c:
+	* gui/e-week-view-event-item.c:
+	* gui/e-week-view.c: Use cal_comp_util_get_n_icons.
+
 2007-10-05  Milan Crha  <mcrha@redhat.com>
 
 	* gui/alarm-notify/alarm-queue.c: (alarm_queue_remove_client):

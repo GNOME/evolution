@@ -28,6 +28,8 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "dialogs/delete-comp.h"
+#include <libecal/e-cal-component.h>
+#include "e-util/e-categories-config.h"
 
 
 
@@ -393,4 +395,40 @@ cal_comp_memo_new_with_defaults (ECal *client)
 	}
 
 	return comp;
+}
+
+/**
+ * cal_comp_util_get_n_icons:
+ * @comp: A calendar component object.
+ * 
+ * Get the number of icons owned by the component.
+ *
+ * Returns: the number of icons owned by the component.
+ **/
+gint
+cal_comp_util_get_n_icons (ECalComponent *comp)
+{
+	GSList *categories_list, *elem;
+	gint num_icons = 0;
+
+	g_return_val_if_fail (comp != NULL, 0);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), 0);
+
+	e_cal_component_get_categories_list (comp, &categories_list);
+	for (elem = categories_list; elem; elem = elem->next) {
+		char *category;
+		GdkPixmap *pixmap = NULL;
+		GdkBitmap *mask = NULL;
+
+		category = (char *) elem->data;
+		if (e_categories_config_get_icon_for (category, &pixmap, &mask)) {
+			num_icons++;
+			g_object_unref (pixmap);
+			if (mask)
+				g_object_unref (mask);
+		}
+	}
+	e_cal_component_free_categories_list (categories_list);
+
+	return num_icons;
 }

@@ -37,6 +37,7 @@
 
 #include <gtk/gtksignal.h>
 #include "e-calendar-view.h"
+#include "comp-util.h"
 
 #include <text/e-text.h>
 
@@ -632,16 +633,8 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		num_icons++;
 	}
 
+	num_icons += cal_comp_util_get_n_icons (comp);
 	e_cal_component_get_categories_list (comp, &categories_list);
-	for (elem = categories_list; elem; elem = elem->next) {
-		char *category;
-		GdkPixmap *pixmap = NULL;
-		GdkBitmap *mask = NULL;
-
-		category = (char *) elem->data;
-		if (e_categories_config_get_icon_for (category, &pixmap, &mask))
-			num_icons++;
-	}
 
 	icon_x_inc = E_WEEK_VIEW_ICON_WIDTH + E_WEEK_VIEW_ICON_X_PAD;
 
@@ -1351,16 +1344,9 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		num_icons++;
 	}
 
-	e_cal_component_get_categories_list (comp, &categories_list);
-	for (elem = categories_list; elem; elem = elem->next) {
-		char *category;
-		GdkPixmap *pixmap = NULL;
-		GdkBitmap *mask = NULL;
+	num_icons += cal_comp_util_get_n_icons (comp);
 
-		category = (char *) elem->data;
-		if (e_categories_config_get_icon_for (category, &pixmap, &mask))
-			num_icons++;
-	}
+	e_cal_component_get_categories_list (comp, &categories_list);
 
 	icon_x_inc = E_WEEK_VIEW_ICON_WIDTH + E_WEEK_VIEW_ICON_X_PAD;
 

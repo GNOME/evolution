@@ -5625,8 +5625,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (show_icons) {
-		GSList *categories_list, *elem;
-
 		if (e_cal_component_has_alarms (comp))
 			num_icons++;
 		if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
@@ -5638,17 +5636,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
 			num_icons++;
-		e_cal_component_get_categories_list (comp, &categories_list);
-		for (elem = categories_list; elem; elem = elem->next) {
-			char *category;
-			GdkPixmap *pixmap = NULL;
-			GdkBitmap *mask = NULL;
-
-			category = (char *) elem->data;
-			if (e_categories_config_get_icon_for (category, &pixmap, &mask))
-				num_icons++;
-		}
-		e_cal_component_free_categories_list (categories_list);
+		num_icons += cal_comp_util_get_n_icons (comp);
 	}
 
 	if (!event->canvas_item) {
@@ -5798,7 +5786,6 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_NONE
 		    || day_view->resize_event_day != day
 		    || day_view->resize_event_num != event_num) {
-			GSList *categories_list, *elem;
 			ECalComponent *comp;
 
 			comp = e_cal_component_new ();
@@ -5815,17 +5802,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			if (e_cal_component_has_organizer (comp))
 				num_icons++;
 
-			e_cal_component_get_categories_list (comp, &categories_list);
-			for (elem = categories_list; elem; elem = elem->next) {
-				char *category;
-				GdkPixmap *pixmap = NULL;
-				GdkBitmap *mask = NULL;
-
-				category = (char *) elem->data;
-				if (e_categories_config_get_icon_for (category, &pixmap, &mask))
-					num_icons++;
-			}
-			e_cal_component_free_categories_list (categories_list);
+			num_icons += cal_comp_util_get_n_icons (comp);
 			g_object_unref(comp);
 		}
 
