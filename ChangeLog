@@ -1,3 +1,11 @@
+2007-10-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in: Require libbonobo 2.16.0 or later (#483989).
+
+	This is to make sure we pick up the implementation of
+	gnome_vfs_mime_get_all_components(), which now lives in
+	libbonobo instead of gnome-vfs.
+
 2007-10-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in: Require GTK+ 2.12 (#481325).
