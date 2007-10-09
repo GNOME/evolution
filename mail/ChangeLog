@@ -1,3 +1,10 @@
+2007-10-09  Tobias Mueller  <muelli@auftrags-killer.org>
+
+	** Fix for bug #482575
+
+	* em-folder-view.c: Don't use "insert_image" icon.
+	Patch by Michael Monreal <infernux@web.de>
+
 2007-10-09  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #484635

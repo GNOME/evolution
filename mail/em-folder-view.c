@@ -1975,7 +1975,7 @@ static EPixmap emfv_message_pixmaps[] = {
 	E_PIXMAP ("/commands/TextZoomIn", "zoom-in", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/TextZoomOut", "zoom-out", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/TextZoomReset", "zoom-reset", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ViewLoadImages", "insert-image", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ViewLoadImages", "image-x-generic", E_ICON_SIZE_MENU),
 
 	E_PIXMAP ("/menu/MessagePlaceholder/Message/MessageNavigation/GoTo", "go-jump", E_ICON_SIZE_MENU),
 
