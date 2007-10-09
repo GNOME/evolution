@@ -1,3 +1,10 @@
+2007-10-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #324526
+
+	* gui/print.c: (print_week_event): Draw picture with dots to indicate
+	that not all events are printed in a day.
+
 2007-10-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #455862

@@ -56,6 +56,8 @@
 
 #include <glade/glade-xml.h>
 
+#include "art/jump.xpm"
+
 typedef struct PrintCompItem PrintCompItem;
 typedef struct PrintCalItem PrintCalItem;
 
@@ -1392,6 +1394,7 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 	int num_days, start_x, start_y, start_h, end_x, end_y, end_h;
 	double x1, x2, y1, y2;
 	double red, green, blue;
+	GdkPixbuf *pixbuf = NULL;
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 	text = summary ? (char*) summary : "";
@@ -1453,8 +1456,52 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 						       x1, x2, y1, y2,
 						       event, span, text, red, green, blue);
 			} 
+		} else {
+			cairo_t *cr = gtk_print_context_get_cairo_context (context);
+
+			e_week_view_layout_get_day_position
+				(span->start_day,
+				 psi->multi_week_view,
+				 psi->weeks_shown,
+				 psi->display_start_weekday,
+				 psi->compress_weekend,
+				 &start_x, &start_y, &start_h);
+
+			x1 = left + (start_x + 1) * cell_width - 16;
+			y1 = top + start_y * cell_height
+				 + psi->header_row_height
+				 + psi->rows_per_cell * psi->row_height;
+
+			if (span->row >= psi->rows_per_compressed_cell && psi->compress_weekend) {
+				gint end_day_of_week = (psi->display_start_weekday + span->start_day) % 7;
+
+				if (end_day_of_week == 5 || end_day_of_week == 6) {
+					/* Sat or Sun */
+					y1 = y1 + (psi->rows_per_compressed_cell - psi->rows_per_cell) * psi->row_height - 3.0;
+				}
+			}
+
+			if (!pixbuf) {
+				const char **xpm = (const char **)jump_xpm;
+
+				/* this ugly thing is here only to get rid of compiler warning
+				   about unused 'jump_xpm_focused' */
+				if (pixbuf)
+					xpm = (const char **)jump_xpm_focused;
+
+				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+			}
+
+			cairo_save (cr);
+			cairo_scale (cr, 0.5, 0.5);
+			gdk_cairo_set_source_pixbuf (cr, pixbuf, x1 * 2.0, y1 * 2.0);
+			cairo_paint (cr);
+			cairo_restore (cr);
 		}
 	}
+
+	if (pixbuf)
+		g_object_unref (pixbuf);
 }
 
 
