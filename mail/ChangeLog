@@ -1,3 +1,10 @@
+2007-10-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #477045
+
+	* em-popup.c: (EPopupItem emp_standard_uri_popups[]): Use 'contact-new'
+	icon name rather than 'edit-add' for "Add to address book" item.
+
 2007-10-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #468736 

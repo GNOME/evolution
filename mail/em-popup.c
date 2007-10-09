@@ -632,7 +632,7 @@ emp_uri_popup_address_add(EPopup *ep, EPopupItem *item, void *data)
 static EPopupItem emp_standard_uri_popups[] = {
 	{ E_POPUP_ITEM, "00.uri.00", N_("_Open Link in Browser"), emp_uri_popup_link_open, NULL, NULL, EM_POPUP_URI_HTTP },
 	{ E_POPUP_ITEM, "00.uri.10", N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, "mail-message-new", EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, "edit-add", EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, "contact-new", EM_POPUP_URI_MAILTO },
 };
 
 /* ********************************************************************** */
