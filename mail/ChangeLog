@@ -1,3 +1,11 @@
+2007-10-09  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #484635
+
+	* em-folder-tree-model.c: (em_folder_tree_model_remove_store_info): 
+	Destroy functions in GHashTables to simplify memory management already 
+	free the store info. So do no free it again in this function.
+
 2007-10-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #477045

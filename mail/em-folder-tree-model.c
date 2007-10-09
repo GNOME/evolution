@@ -847,7 +847,6 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *st
 	
 	g_hash_table_remove (model->store_hash, si->store);
 	g_hash_table_remove (model->account_hash, si->account);
-	store_info_free (si);
 }
 
 
