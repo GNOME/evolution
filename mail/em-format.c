@@ -366,7 +366,7 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 	d(printf("adding puri for part: %s\n", emf->part_id->str));
 
 	if (size < sizeof(*puri)) {
-		g_warning ("size (%ld) less than size of puri\n", size);
+		g_warning ("size (%d) less than size of puri\n", size);
 		size = sizeof (*puri);
 	}
 

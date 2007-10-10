@@ -284,7 +284,6 @@ get_widget (FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
 	GtkWidget *filewidget;
-	GtkWidget *entry;
 
 	filewidget = (GtkWidget *) gtk_file_chooser_button_new (_("Choose a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (filewidget), file->path);

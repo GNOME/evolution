@@ -834,9 +834,10 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 			      ECalConduitContext *ctxt)
 {
 	GnomePilotRecord p;
-	static char record[0xffff];
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
+#else
+	static char record[0xffff];
 #endif
 
 	g_assert (local->comp != NULL);
@@ -1729,6 +1730,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 {
 	static GList *comps, *iterator;
 	static int count;
+        GList *unused;
 
 	g_return_val_if_fail (local != NULL, -1);
 
@@ -1747,7 +1749,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			/* NOTE: ignore the return value, otherwise ctxt->locals
 			 * gets messed up. The calling function keeps track of
 			 * the *local variable */
-			g_list_prepend (ctxt->locals, *local);
+			unused = g_list_prepend (ctxt->locals, *local);
 
 			iterator = comps;
 		} else {
@@ -1766,7 +1768,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			/* NOTE: ignore the return value, otherwise ctxt->locals
 			 * gets messed up. The calling function keeps track of
 			 * the *local variable */
-			g_list_prepend (ctxt->locals, *local);
+			unused = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
@@ -1787,6 +1789,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 {
 	static GList *iterator;
 	static int count;
+        GList *unused;
 
 	g_return_val_if_fail (local != NULL, -1);
 
@@ -1809,7 +1812,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			/* NOTE: ignore the return value, otherwise ctxt->locals
 			 * gets messed up. The calling function keeps track of
 			 * the *local variable */
-			g_list_prepend (ctxt->locals, *local);
+			unused = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
 
@@ -1827,7 +1830,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			/* NOTE: ignore the return value, otherwise ctxt->locals
 			 * gets messed up. The calling function keeps track of
 			 * the *local variable */
-			g_list_prepend (ctxt->locals, *local);
+			unused = g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 

@@ -624,6 +624,8 @@ populate_widgets_from_alarm (Dialog *dialog)
 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:	
 		e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END, time_map);
 		break;
+        default:
+                g_warning ("%s: Unexpected alarm type (%d)", G_STRLOC, trigger->type);
 	}
 
 	switch ( trigger->u.rel_duration.is_neg ){
@@ -674,6 +676,8 @@ populate_widgets_from_alarm (Dialog *dialog)
 	case E_CAL_COMPONENT_ALARM_PROCEDURE:
 		alarm_to_palarm_widgets (dialog, dialog->alarm);
 		break;
+        default:
+                g_warning ("%s: Unexpected alarm action (%d)", G_STRLOC, *action);
 	}
 }
 

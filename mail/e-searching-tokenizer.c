@@ -162,7 +162,7 @@ loop:
 static char *ignored_tags[] = { "B", "I", "FONT", "TT", "EM", /* and more? */};
 
 static int
-ignore_tag(const char *tag)
+ignore_tag (const char *tag)
 {
 	char *t = alloca(strlen(tag)+1), c, *out;
 	const char *in;
@@ -260,10 +260,10 @@ g(struct _state *q, guint32 c)
 }
 
 static struct _trie *
-build_trie(int nocase, int len, char **words)
+build_trie(int nocase, int len, unsigned char **words)
 {
 	struct _state *q, *qt, *r;
-	char *word;
+	const unsigned char *word;
 	struct _match *m, *n = NULL;
 	int i, depth;
 	guint32 c;
@@ -294,7 +294,7 @@ build_trie(int nocase, int len, char **words)
 		word = words[i];
 		q = &trie->root;
 		depth = 0;
-		while ((c = camel_utf8_getc((const unsigned char **)&word))) {
+		while ((c = camel_utf8_getc (&word))) {
 			if (nocase)
 				c = g_unichar_tolower(c);
 			m = g(q, c);
@@ -439,7 +439,7 @@ searcher_set_tokenfunc(struct _searcher *s, char *(*next)(), void *data)
 }
 
 static struct _searcher *
-searcher_new(int flags, int argc, char **argv, const char *tags, const char *tage)
+searcher_new (int flags, int argc, unsigned char **argv, const char *tags, const char *tage)
 {
 	int i, m;
 	struct _searcher *s;
@@ -717,7 +717,7 @@ static char *
 searcher_next_token(struct _searcher *s)
 {
 	struct _token *token;
-	char *tok, *stok, *pre_tok;
+	const unsigned char *tok, *stok, *pre_tok;
 	struct _trie *t = s->t;
 	struct _state *q = s->state;
 	struct _match *m = NULL;
@@ -726,7 +726,7 @@ searcher_next_token(struct _searcher *s)
 
 	while (e_dlist_empty(&s->output)) {
 		/* get next token */
-		tok = s->next_token(s->next_data);
+		tok = (unsigned char *)s->next_token(s->next_data);
 		if (tok == NULL) {
 			output_subpending(s);
 			output_pending(s);
@@ -734,15 +734,15 @@ searcher_next_token(struct _searcher *s)
 		}
 
 		/* we dont always have to copy each token, e.g. if we dont match anything */
-		token = append_token(&s->input, tok, -1);
+		token = append_token(&s->input, (char *)tok, -1);
 		token->offset = s->offset;
-		tok = token->tok;
+		tok = (unsigned char *)token->tok;
 
 		d(printf("new token %d '%s'\n", token->offset, token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 
 		/* tag test, reset state on unknown tags */
 		if (tok[0] == TAG_ESCAPE) {
-			if (!ignore_tag(tok)) {
+			if (!ignore_tag ((char *)tok)) {
 				/* force reset */
 				output_subpending(s);
 				output_pending(s);
@@ -754,7 +754,7 @@ searcher_next_token(struct _searcher *s)
 
 		/* process whole token */
 		pre_tok = stok = tok;
-		while ((c = camel_utf8_getc((const unsigned char **)&tok))) {
+		while ((c = camel_utf8_getc (&tok))) {
 			if ((s->flags & SEARCH_CASE) == 0)
 				c = g_unichar_tolower(c);
 			while (q && (m = g(q, c)) == NULL)
@@ -876,21 +876,22 @@ search_info_set_colour(struct _search_info *si, const char *colour)
 static void
 search_info_add_string(struct _search_info *si, const char *s)
 {
-	const char *start;
+	const unsigned char *start;
 	guint32 c;
 
 	if (s && s[0]) {
+		const unsigned char *us = (unsigned char *) s;
 		/* strip leading whitespace */
-		start = s;
-		while ((c = camel_utf8_getc((const unsigned char **)&s))) {
-			if (!g_unichar_isspace(c)) {
+		start = us;
+		while ((c = camel_utf8_getc (&us))) {
+			if (!g_unichar_isspace (c)) {
 				break;
 			}
-			start = s;
+			start = us;
 		}
 		/* should probably also strip trailing, but i'm lazy today */
 		if (start[0])
-			g_ptr_array_add(si->strv, g_strdup(start));
+			g_ptr_array_add(si->strv, g_strdup ((char *)start));
 	}
 }
 
@@ -953,7 +954,7 @@ search_info_to_searcher(struct _search_info *si)
 	tage = alloca(20);
 	sprintf(tage, "%c</font>", TAG_ESCAPE);
 
-	return searcher_new(si->flags, si->strv->len, (char **)si->strv->pdata, tags, tage);
+	return searcher_new (si->flags, si->strv->len, (unsigned char **)si->strv->pdata, tags, tage);
 }
 
 /* ********************************************************************** */

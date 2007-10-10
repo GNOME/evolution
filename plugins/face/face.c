@@ -98,7 +98,7 @@ void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
 							d (printf ("\n\a Invalid Image Size. Please choose a 48*48 image\n\a"));
 							e_error_run (NULL, "org.gnome.evolution.plugins.face:invalid-image-size", NULL, NULL);
 						} else {
-							file_contents = g_base64_encode (file_contents, length);
+							file_contents = g_base64_encode ((guchar *) file_contents, length);
 							g_file_set_contents (filename, file_contents, -1, &error);
 						}
 					}

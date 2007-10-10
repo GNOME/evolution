@@ -725,15 +725,17 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp(folder->full_name, rule->name) != 0) {
-		char *key, *oldname;
-		CamelFolder *old;
+		char *oldname;
+
+		gpointer key;
+		gpointer oldfolder;
 
 		LOCK();
 		d(printf("Changing folder name in hash table to '%s'\n", rule->name));
-		if (g_hash_table_lookup_extended(vfolder_hash, folder->full_name, (void **)&key, (void **)&old)) {
-			g_hash_table_remove(vfolder_hash, key);
-			g_free(key);
-			g_hash_table_insert(vfolder_hash, g_strdup(rule->name), folder);
+		if (g_hash_table_lookup_extended (vfolder_hash, folder->full_name, &key, &oldfolder)) {
+			g_hash_table_remove (vfolder_hash, key);
+			g_free (key);
+			g_hash_table_insert (vfolder_hash, g_strdup(rule->name), folder);
 			UNLOCK();
 		} else {
 			UNLOCK();
@@ -787,8 +789,9 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 
 static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 {
-	char *key, *path;
-	CamelFolder *folder = NULL;
+	char *path;
+
+	gpointer key, folder = NULL;
 
 	d(printf("rule removed; %s\n", rule->name));
 
@@ -802,16 +805,16 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	g_free(path);
 	
 	LOCK();
-	if (g_hash_table_lookup_extended(vfolder_hash, rule->name, (void **)&key, (void **)&folder)) {
-		g_hash_table_remove(vfolder_hash, key);
-		g_free(key);
+	if (g_hash_table_lookup_extended (vfolder_hash, rule->name, &key, &folder)) {
+		g_hash_table_remove (vfolder_hash, key);
+		g_free (key);
 	}
 	UNLOCK();
 
 	camel_store_delete_folder(vfolder_store, rule->name, NULL);
 	/* this must be unref'd after its deleted */
 	if (folder)
-		camel_object_unref(folder);
+		camel_object_unref ((CamelFolder *) folder);
 }
 
 static void
@@ -865,8 +868,8 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	CamelRenameInfo *info = event_data;
 	FilterRule *rule;
 	char *user;
-	char *key;
-	CamelFolder *folder;
+
+	gpointer key, folder;
 	
 	/* This should be more-or-less thread-safe */
 
@@ -875,10 +878,10 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	/* Folder is already renamed? */
 	LOCK();
 	d(printf("Changing folder name in hash table to '%s'\n", info->new->full_name));
-	if (g_hash_table_lookup_extended(vfolder_hash, info->old_base, (void **)&key, (void **)&folder)) {
-		g_hash_table_remove(vfolder_hash, key);
-		g_free(key);
-		g_hash_table_insert(vfolder_hash, g_strdup(info->new->full_name), folder);
+	if (g_hash_table_lookup_extended (vfolder_hash, info->old_base, &key, &folder)) {
+		g_hash_table_remove (vfolder_hash, key);
+		g_free (key);
+		g_hash_table_insert (vfolder_hash, g_strdup(info->new->full_name), folder);
 
 		rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
 		if (!rule) {

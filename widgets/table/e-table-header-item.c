@@ -142,10 +142,8 @@ ethi_dispose (GObject *object){
 		g_object_unref (ethi->full_header);
 	ethi->full_header = NULL;
 
-	
 	if (ethi->etfcd)
-		g_object_remove_weak_pointer (G_OBJECT (ethi->etfcd), (gpointer *) (void *) &ethi->etfcd);
-	
+		g_object_remove_weak_pointer (G_OBJECT (ethi->etfcd), &ethi->etfcd_pointer);
 
 	if (ethi->config)
 		g_object_unref (ethi->config);
@@ -220,9 +218,7 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 			item->y1 = c1.y;
 			item->x2 = c2.x;
 			item->y2 = c2.y;
-#ifndef NO_WARNINGS
-#warning FOO BAA
-#endif
+/* FIXME: Group Child bounds !? (FOO BAA) */
 #if 0
 			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 #endif
@@ -956,7 +952,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		for (i = 0; i < length; i++) {
 			ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
 			g_hash_table_insert (arrows, 
-					     GINT_TO_POINTER (column.column),
+					     GINT_TO_POINTER ((gint) column.column),
 					     GINT_TO_POINTER (column.ascending ?
 							      E_TABLE_COL_ARROW_DOWN : 
 							      E_TABLE_COL_ARROW_UP));
@@ -965,7 +961,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		for (i = 0; i < length; i++) {
 			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
 			g_hash_table_insert (arrows, 
-					     GINT_TO_POINTER (column.column),
+					     GINT_TO_POINTER ((gint) column.column),
 					     GINT_TO_POINTER (column.ascending ?
 							      E_TABLE_COL_ARROW_DOWN : 
 							      E_TABLE_COL_ARROW_UP));
@@ -1154,7 +1150,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 			group_indent ++;
 			g_hash_table_insert (
 				arrows, 
-				GINT_TO_POINTER (column.column),
+				GINT_TO_POINTER ((gint) column.column),
 				GINT_TO_POINTER (column.ascending ?
 						 E_TABLE_COL_ARROW_DOWN : 
 						 E_TABLE_COL_ARROW_UP));
@@ -1167,7 +1163,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 			g_hash_table_insert (
 				arrows, 
-				GINT_TO_POINTER (column.column),
+				GINT_TO_POINTER ((gint) column.column),
 				GINT_TO_POINTER (column.ascending ?
 						 E_TABLE_COL_ARROW_DOWN : 
 						 E_TABLE_COL_ARROW_UP));
@@ -1363,7 +1359,7 @@ ethi_popup_remove_column(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 {
-	gpointer etfcd = (gpointer)info->ethi->etfcd;
+	GtkWidget *etfcd = info->ethi->etfcd;
 
 	if (etfcd) {
 		gtk_window_present (GTK_WINDOW (etfcd));
@@ -1372,9 +1368,8 @@ ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 	}
 	
 	info->ethi->etfcd = e_table_field_chooser_dialog_new ();
-	etfcd = (gpointer)info->ethi->etfcd;
 
-	g_object_add_weak_pointer (G_OBJECT (etfcd), (gpointer*) (void *) &info->ethi->etfcd);
+	g_object_add_weak_pointer (G_OBJECT (etfcd), &info->ethi->etfcd_pointer);
 	
 	g_object_set (info->ethi->etfcd,
 		     "full_header", info->ethi->full_header,

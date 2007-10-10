@@ -745,7 +745,7 @@ mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plu
 }
 
 const GList *
-mail_session_get_junk_plugins ()
+mail_session_get_junk_plugins (void)
 {
 	MailSession *ms = (MailSession *) session;	
 	return ms->junk_plugins;

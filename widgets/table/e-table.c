@@ -2926,9 +2926,7 @@ context_destroyed (gpointer data)
 {
 	ETable *et = data;
 	/* if (!GTK_OBJECT_DESTROYED (et)) */
-#ifndef NO_WARNINGS
-#warning FIXME
-#endif
+/* FIXME: */
 	{
 		et->last_drop_x       = 0;
 		et->last_drop_y       = 0;

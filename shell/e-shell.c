@@ -98,7 +98,10 @@ struct _EShellPrivate {
 	EvolutionListener *line_status_listener;
 
 	/* Settings Dialog */
-	GtkWidget *settings_dialog;
+	union {
+		GtkWidget *settings_dialog;
+		gpointer settings_dialog_pointer;
+	};
 
 	/* If we're quitting and things are still busy, a timeout handler */
 	guint quit_timeout;
@@ -1257,7 +1260,7 @@ e_shell_show_settings (EShell *shell,
 	if (type != NULL)
 		e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
 
-	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog), (void **) & priv->settings_dialog);
+	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog), &priv->settings_dialog_pointer);
 
 	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog), GTK_WINDOW (shell_window));
 	gtk_widget_show (priv->settings_dialog);

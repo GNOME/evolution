@@ -88,7 +88,10 @@ typedef struct _ComponentView ComponentView;
 
 
 struct _EShellWindowPrivate {
-	EShell *shell;
+	union {
+		EShell *shell;
+		gpointer shell_pointer;
+	};
 
 	EShellView *shell_view;	/* CORBA wrapper for this, just a placeholder */
 
@@ -869,7 +872,7 @@ impl_dispose (GObject *object)
 	priv->destroyed = TRUE;
 	
 	if (priv->shell != NULL) {
-		g_object_remove_weak_pointer (G_OBJECT (priv->shell), (void **) &priv->shell);
+		g_object_remove_weak_pointer (G_OBJECT (priv->shell), &priv->shell_pointer);
 		priv->shell = NULL;
 	}
 
@@ -1052,7 +1055,7 @@ e_shell_window_new (EShell *shell,
 	}
 
 	window->priv->shell = shell;
-	g_object_add_weak_pointer (G_OBJECT (shell), (void **) &window->priv->shell);
+	g_object_add_weak_pointer (G_OBJECT (shell), &window->priv->shell_pointer);
 
 	/* FIXME TODO: Add system_exception signal handling and all the other
 	   stuff from e_shell_view_construct().  */

@@ -196,7 +196,8 @@ main (int argc, char **argv)
 
 	language_names = g_get_language_names ();
 	while (*language_names != NULL)
-		languages = g_slist_append (languages, *language_names++);
+		languages = g_slist_append (
+                        languages, (gpointer) *language_names++);
 
 	components = g_hash_table_new_full (
 		g_str_hash, g_str_equal,

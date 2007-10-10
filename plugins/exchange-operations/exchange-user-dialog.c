@@ -250,7 +250,7 @@ e2k_user_dialog_get_user_list (E2kUserDialog *dialog)
 		return NULL;
 
 	for (l = destinations; l; l = g_list_next (l)) {
-		char *mail;
+		const char *mail;
 		destination = l->data;
 
 		mail = e_destination_get_email (destination);

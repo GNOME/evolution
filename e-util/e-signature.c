@@ -325,7 +325,8 @@ e_signature_set_from_xml (ESignature *signature, const char *xml)
 char *
 e_signature_to_xml (ESignature *signature)
 {
-	char *xmlbuf, *tmp;
+	xmlChar *xmlbuf;
+	char *tmp;
 	xmlNodePtr root, node;
 	xmlDocPtr doc;
 	int n;
@@ -352,7 +353,7 @@ e_signature_to_xml (ESignature *signature)
 		xmlSetProp (root, (const unsigned char *)"format", (const unsigned char *)"text/html");
 	}
 	
-	xmlDocDumpMemory (doc, (xmlChar **)&xmlbuf, &n);
+	xmlDocDumpMemory (doc, &xmlbuf, &n);
 	xmlFreeDoc (doc);
 	
 	/* remap to glib memory */

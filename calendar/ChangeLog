@@ -1,3 +1,19 @@
+2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #437579
+
+	* conduits/calendar/calendar-conduit.c:
+	* conduits/memo/memo-conduit.c:
+	* conduits/todo/todo-conduit.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/memo-page.c:
+	* gui/dialogs/task-page.c:
+	* gui/e-day-view-layout.c:
+	* gui/e-day-view-layout.h:
+	* gui/print.c:
+	Fix various compiler warnings.  Patch from Milan Crha.
+
 2007-10-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #324526

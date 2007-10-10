@@ -39,15 +39,15 @@ static void e_day_view_layout_long_event (EDayViewEvent	  *event,
 static void e_day_view_layout_day_event (EDayViewEvent    *event,
 					 guint8	          *grid,
 					 guint16	  *group_starts,
-					 gint8	          *cols_per_row,
+					 guint8	          *cols_per_row,
 					 gint	           rows,
 					 gint	           mins_per_row);
 static void e_day_view_expand_day_event (EDayViewEvent    *event,
 					 guint8	          *grid,
-					 gint8	          *cols_per_row,
+					 guint8	          *cols_per_row,
 					 gint	           mins_per_row);
 static void e_day_view_recalc_cols_per_row (gint           rows,
-					    gint8	  *cols_per_row,
+					    guint8	  *cols_per_row,
 					    guint16       *group_starts);
 
 
@@ -131,7 +131,7 @@ void
 e_day_view_layout_day_events (GArray	   *events,
 			      gint	    rows,
 			      gint	    mins_per_row,
-			      gint8	   *cols_per_row)
+			      guint8	   *cols_per_row)
 {
 	EDayViewEvent *event;
 	gint row, event_num;
@@ -192,7 +192,7 @@ static void
 e_day_view_layout_day_event (EDayViewEvent *event,
 			     guint8	   *grid,
 			     guint16	   *group_starts,
-			     gint8	   *cols_per_row,
+			     guint8	   *cols_per_row,
 			     gint	    rows,
 			     gint	    mins_per_row)
 {
@@ -261,7 +261,7 @@ e_day_view_layout_day_event (EDayViewEvent *event,
    rows, and set the number of cols in each of the rows to that. */
 static void
 e_day_view_recalc_cols_per_row (gint      rows,
-				gint8	 *cols_per_row,
+				guint8	 *cols_per_row,
 				guint16  *group_starts)
 {
 	gint start_row = 0, row, next_start_row, max_events;
@@ -285,7 +285,7 @@ e_day_view_recalc_cols_per_row (gint      rows,
 static void
 e_day_view_expand_day_event (EDayViewEvent *event,
 			     guint8	   *grid,
-			     gint8	   *cols_per_row,
+			     guint8	   *cols_per_row,
 			     gint	    mins_per_row)
 {
 	gint start_row, end_row, col, row;

@@ -2408,7 +2408,7 @@ emfv_message_selected_timeout(void *data)
 
 	if (emfv->priv->selected_uid) {
 		if (emfv->displayed_uid == NULL || strcmp(emfv->displayed_uid, emfv->priv->selected_uid) != 0) {
-			GtkHTMLStream *hstream;
+			/*GtkHTMLStream *hstream;*/
 
 			g_free(emfv->displayed_uid);
 			emfv->displayed_uid = emfv->priv->selected_uid;

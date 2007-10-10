@@ -581,6 +581,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 {
 	ECert *certToShow;
 	SECItem der;
+	char *raw_der = NULL;
 	CERTCertificate *tmpCert;
 
 	/* First thing we have to do is figure out which certificate
@@ -648,10 +649,12 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		return FALSE;
 	}
 
-	if (!e_cert_get_raw_der (certToShow, (char**)&der.data, &der.len)) {
+	if (!e_cert_get_raw_der (certToShow, &raw_der, &der.len)) {
 		/* XXX gerror */
 		return FALSE;
 	}
+
+	der.data = (unsigned char *)raw_der;
 
 	{
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Creating temp cert\n"));*/

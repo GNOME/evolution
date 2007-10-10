@@ -620,7 +620,7 @@ calc_height (EText *text)
 static void
 calc_ellipsis (EText *text)
 {
-#warning "AIEEEE FIX ME.  a pango layout per calc_ellipsis sucks"
+/* FIXME: a pango layout per calc_ellipsis sucks */
 	int width;
 	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 							      text->ellipsis ? text->ellipsis : "...");
@@ -1247,9 +1247,7 @@ e_text_realize (GnomeCanvasItem *item)
 	create_layout (text);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
-#ifndef NO_WARNINGS
-#warning Color brokenness ...
-#endif
+/* FIXME: Color brokenness ... */
 #if 0
 	gdk_color_context_query_color (item->canvas->cc, &text->color);
 	gdk_gc_set_foreground (text->gc, &text->color);
@@ -1936,7 +1934,7 @@ tooltip_destroy(gpointer data, GObject *where_object_was)
 static gboolean
 _do_tooltip (gpointer data)
 {
-#warning "need to sort out tooltip stuff."
+/* FIXME: need to sort out tooltip stuff. */
 	EText *text = E_TEXT (data);
 	GtkWidget *canvas;
 	int i;

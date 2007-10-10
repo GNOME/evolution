@@ -111,7 +111,6 @@ struct _EMFolderBrowserPrivate {
 
 	guint search_menu_activated_id;
 	guint search_activated_id;
-	guint search_query_changed_id;
 
 	double default_scroll_position;
 	guint idle_scroll_id;
@@ -142,7 +141,6 @@ static void emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, cons
 static void emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data);
 static void emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb);
 static void emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb);
-static void emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *emfb);
 static void emfb_search_search_cleared(ESearchBar *esb);
 
 static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
@@ -471,7 +469,6 @@ emfb_init(GObject *o)
 
 		p->search_menu_activated_id = g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
 		p->search_activated_id = g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
-/* 		p->search_query_changed_id = g_signal_connect(emfb->search, "query_changed", G_CALLBACK(emfb_search_query_changed), emfb); */
 		g_signal_connect(emfb->search, "search_cleared", G_CALLBACK(emfb_search_search_cleared), NULL);
 		
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
@@ -1145,29 +1142,6 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	g_free (search_word);
 
 	camel_exception_free (ex);
-}
-
-static void
-emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *emfb)
-{
-	int search_scope;
-	int item_id;
-
-	search_scope = e_search_bar_get_search_scope (esb);
-	item_id = e_search_bar_get_item_id (esb);
-
-	/* Close the current message search bar */
-	if ( search_scope != E_FILTERBAR_CURRENT_MESSAGE_ID ) {
-		em_format_html_display_search_close (emfb->view.preview);
-		gtk_widget_set_sensitive (esb->option_button, TRUE);
-	} else
-		gtk_widget_set_sensitive (esb->option_button, FALSE);
-	
-	switch (item_id) {
-	    case E_FILTERBAR_ADVANCED_ID:
-		    emfb_search_search_activated(esb, emfb);
-		    break;
-	}
 }
 
 static void

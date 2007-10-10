@@ -377,9 +377,9 @@ e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *entry, *parent;
 	int row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
-	ESource *source = t->source;
 	EUri *uri;
-	char* uri_text;
+	char *uri_text;
+	const char *username;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -408,11 +408,11 @@ e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
 	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, GTK_SHRINK, 0, 0);
 
-	uri_text = e_source_get_property (t->source, "username");
+	username = e_source_get_property (t->source, "username");
 
 	entry = gtk_entry_new ();
 	gtk_widget_show (entry);
-	gtk_entry_set_text (GTK_ENTRY (entry), uri_text ? uri_text : "");
+	gtk_entry_set_text (GTK_ENTRY (entry), username ? username : "");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 	g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (username_changed), t->source);
 

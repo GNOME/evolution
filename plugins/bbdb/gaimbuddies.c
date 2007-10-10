@@ -241,11 +241,12 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 	if (b->icon != NULL) {
 		photo = e_contact_get (c, E_CONTACT_PHOTO);
 		if (photo == NULL) {
+			gchar *contents = NULL;
 
 			photo = g_new0 (EContactPhoto, 1);
 			photo->type = E_CONTACT_PHOTO_TYPE_INLINED;
 
-			if (! g_file_get_contents (b->icon, (gchar **) &photo->data.inlined.data, &photo->data.inlined.length, &error)) {
+			if (! g_file_get_contents (b->icon, &contents, &photo->data.inlined.length, &error)) {
 				g_warning ("bbdb: Could not read buddy icon: %s\n", error->message);
 				g_error_free (error);
 				for (l = ims; l != NULL; l = l->next)
@@ -254,6 +255,7 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 				return dirty;
 			}
 
+			photo->data.inlined.data = (unsigned char *)contents;
 			e_contact_set (c, E_CONTACT_PHOTO, (gpointer) photo);
 			dirty = TRUE;
 		}

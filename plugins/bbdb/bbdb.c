@@ -266,8 +266,6 @@ bbdb_open_addressbook (int type)
 	char        *uri;
 	EBook       *book = NULL;
 
-	gboolean     enable;
-
 	gboolean     status;
 	GError      *error = NULL;
 	

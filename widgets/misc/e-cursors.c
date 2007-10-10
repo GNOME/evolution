@@ -115,7 +115,7 @@ e_cursors_init (void)
 	e_color_init ();
 
 	for (i = 0; cursors [i].hot_x; i++){
-		GdkBitmap *bitmap, *mask;
+		GdkBitmap *bitmap = NULL, *mask = NULL;
 
 		if (cursors [i].hot_x < 0)
 			cursors [i].cursor = gdk_cursor_new (cursors [i].hot_y);

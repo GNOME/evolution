@@ -187,21 +187,20 @@ ep_construct(EPlugin *ep, xmlNodePtr root)
 					ep->hooks = g_slist_append(ep->hooks, hook);
 				}
 			} else {
-				GSList *l;
-				char *oldclass;
+				gpointer l, oldclass;
 
 				if (ep_plugins_pending_hooks == NULL)
 					ep_plugins_pending_hooks = g_hash_table_new(g_str_hash, g_str_equal);
-				if (!g_hash_table_lookup_extended(ep_plugins_pending_hooks, class, (void **)&oldclass, (void **)&l)) {
+				if (!g_hash_table_lookup_extended (ep_plugins_pending_hooks, class, &oldclass, &l)) {
 					oldclass = class;
 					l = NULL;
 				}
 				else {
 					g_free(class);
 				}
-				l = g_slist_prepend(l, ep);
-				g_hash_table_insert(ep_plugins_pending_hooks, oldclass, l);
-				ep->hooks_pending = g_slist_prepend(ep->hooks_pending, node);
+				l = g_slist_prepend (l, ep);
+				g_hash_table_insert (ep_plugins_pending_hooks, oldclass, l);
+				ep->hooks_pending = g_slist_prepend (ep->hooks_pending, node);
 			}
 		} else if (strcmp((char *)node->name, "description") == 0) {
 			ep->description = e_plugin_xml_content_domain(node, ep->domain);
@@ -1110,8 +1109,10 @@ void
 e_plugin_hook_register_type(GType type)
 {
 	EPluginHookClass *klass, *oldklass;
-	GSList *l, *plugins;
-	char *class;
+	GSList *l;
+
+	gpointer plugins; /* GSList */
+	gpointer class;
 
 	if (eph_types == NULL)
 		eph_types = g_hash_table_new(g_str_hash, g_str_equal);
@@ -1133,17 +1134,17 @@ e_plugin_hook_register_type(GType type)
 	/* if we've already loaded a plugin that needed this hook but it didn't exist, re-load it now */
 
 	if (ep_plugins_pending_hooks
-	    && g_hash_table_lookup_extended(ep_plugins_pending_hooks, klass->id, (void **)&class, (void **)&plugins)) {
+	    && g_hash_table_lookup_extended (ep_plugins_pending_hooks, klass->id, &class, &plugins)) {
 		struct _plugin_doc *pdoc, *ndoc;
 
-		g_hash_table_remove(ep_plugins_pending_hooks, class);
-		g_free(class);
+		g_hash_table_remove (ep_plugins_pending_hooks, class);
+		g_free (class);
 		for (l = plugins; l; l = g_slist_next(l)) {
 			EPlugin *ep = l->data;
 
-			ep_load_pending(ep, klass);
+			ep_load_pending (ep, klass);
 		}
-		g_slist_free(plugins);
+		g_slist_free (plugins);
 
 		/* See if we can now garbage collect the xml definition since its been fully loaded */
 

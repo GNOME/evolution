@@ -206,39 +206,23 @@ e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid)
 void 
 e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived)
 {
-	gpointer key, value;
-	
-	if (g_hash_table_lookup_extended (map->pid_map, &pid, &key, &value)) {
-		EPilotMapPidNode *pnode = value;
-		gpointer other_key, other_value;
+        EPilotMapPidNode *pnode;
+        EPilotMapUidNode *unode;
+
+        pnode = g_hash_table_lookup (map->pid_map, &pid);
+        if (pnode != NULL) {
+		/* In case the pid<->uid mapping is not the same anymore */
+                g_hash_table_remove (map->uid_map, pnode->uid);
 
 		g_hash_table_remove (map->pid_map, &pid);
-
-		/* In case the pid<->uid mapping is not the same anymore */
-		if (g_hash_table_lookup_extended (map->uid_map, pnode->uid, &other_key, &other_value)) {
-			g_hash_table_remove (map->uid_map, pnode->uid);
-			g_free (other_key);
-			g_free (other_value);
-		}
-
-		g_free (key);
-		g_free (value);
 	}
-	if (g_hash_table_lookup_extended (map->uid_map, uid, &key, &value)) {
-		EPilotMapUidNode *unode = value;
-		gpointer other_key, other_value;
+
+        unode = g_hash_table_lookup (map->uid_map, uid);
+        if (unode != NULL) {
+		/* In case the pid<->uid mapping is not the same anymore */
+                g_hash_table_remove (map->pid_map, &unode->pid);
 
 		g_hash_table_remove (map->uid_map, uid);
-
-		/* In case the pid<->uid mapping is not the same anymore */
-		if (g_hash_table_lookup_extended (map->pid_map, &unode->pid, &other_key, &other_value)) {
-			g_hash_table_remove (map->pid_map, &unode->pid);
-			g_free (other_key);
-			g_free (other_value);
-		}
-
-		g_free (key);
-		g_free (value);
 	}
 
 	real_e_pilot_map_insert (map, pid, uid, archived, TRUE);
@@ -247,54 +231,39 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 void 
 e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
 {
-	EPilotMapPidNode *pnode = NULL;
-	EPilotMapUidNode *unode = NULL;
-	gpointer pkey, ukey;
-	
+	EPilotMapPidNode *pnode;
+	EPilotMapUidNode *unode;
+
 	g_return_if_fail (map != NULL);
 
-	if (!g_hash_table_lookup_extended (map->pid_map, &pid, 
-					   &pkey, (gpointer *)&pnode))
+        pnode = g_hash_table_lookup (map->pid_map, &pid);
+        if (pnode == NULL)
 		return;
-	
-	g_hash_table_lookup_extended (map->uid_map, pnode->uid, &ukey,
-				      (gpointer *)&unode);
-	g_return_if_fail (unode != NULL);
-	
-	g_hash_table_remove (map->pid_map, &pid);
-	g_hash_table_remove (map->uid_map, pnode->uid);
 
-	g_free (pkey);
-	g_free (ukey);
-	g_free (pnode);
-	g_free (unode);
+        unode = g_hash_table_lookup (map->uid_map, pnode->uid);
+	g_return_if_fail (unode != NULL);
+
+	g_hash_table_remove (map->uid_map, pnode->uid);
+	g_hash_table_remove (map->pid_map, &pid);
 }
 
 void 
 e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 {
-	EPilotMapPidNode *pnode = NULL;
-	EPilotMapUidNode *unode = NULL;
-	gpointer pkey, ukey;
-	
+	EPilotMapPidNode *pnode;
+	EPilotMapUidNode *unode;
+
 	g_return_if_fail (map != NULL);
 	g_return_if_fail (uid != NULL);
 
-	if (!g_hash_table_lookup_extended (map->uid_map, uid, &ukey, (gpointer *)&unode))
+        unode = g_hash_table_lookup (map->uid_map, uid);
+        if (unode == NULL)
 		return;
 
-	g_hash_table_lookup_extended (map->pid_map, &unode->pid, &pkey, (gpointer *)&pnode);
+        pnode = g_hash_table_lookup (map->pid_map, &unode->pid);
 
-	g_hash_table_remove (map->uid_map, uid);
 	g_hash_table_remove (map->pid_map, &unode->pid);
-
-	if (unode->pid != 0)
-		g_free (pkey);
-	g_free (ukey);
-
-	if (unode->pid != 0)
-		g_free (pnode);
-	g_free (unode);
+	g_hash_table_remove (map->uid_map, uid);
 }
 
 
@@ -363,8 +332,14 @@ e_pilot_map_read (const char *filename, EPilotMap **map)
 	memset (&handler, 0, sizeof (xmlSAXHandler));
 	handler.startElement = map_sax_start_element;
 
-	new_map->pid_map = g_hash_table_new (g_int_hash, g_int_equal);
-	new_map->uid_map = g_hash_table_new (g_str_hash, g_str_equal);
+	new_map->pid_map = g_hash_table_new_full (
+                g_int_hash, g_int_equal,
+                (GDestroyNotify) g_free,
+                (GDestroyNotify) g_free);
+	new_map->uid_map = g_hash_table_new_full (
+                g_str_hash, g_str_equal,
+                (GDestroyNotify) g_free,
+                (GDestroyNotify) g_free);
 
 	if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		if (xmlSAXUserParseFile (&handler, new_map, filename) < 0) {
@@ -416,22 +391,13 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 	return 0;
 }
 
-static gboolean
-foreach_remove (gpointer key, gpointer value, gpointer data)
-{
-	g_free (key);
-	g_free (value);
-
-	return TRUE;
-}
-
 void
 e_pilot_map_clear (EPilotMap *map)
 {
 	g_return_if_fail (map != NULL);
 
-	g_hash_table_foreach_remove (map->pid_map, foreach_remove, NULL);
-	g_hash_table_foreach_remove (map->uid_map, foreach_remove, NULL);
+        g_hash_table_remove_all (map->pid_map);
+        g_hash_table_remove_all (map->uid_map);
 
 	map->since = 0;
 	map->write_touched_only = FALSE;
@@ -442,9 +408,6 @@ e_pilot_map_destroy (EPilotMap *map)
 {
 	g_return_if_fail (map != NULL);
 
-	g_hash_table_foreach_remove (map->pid_map, foreach_remove, NULL);
-	g_hash_table_foreach_remove (map->uid_map, foreach_remove, NULL);
-	
 	g_hash_table_destroy (map->pid_map);
 	g_hash_table_destroy (map->uid_map);
 	g_free (map);

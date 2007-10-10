@@ -1,3 +1,10 @@
+2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #437579
+
+	* filter-file.c:
+	Fix various compiler warnings.  Patch from Milan Crha.
+
 2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #461195

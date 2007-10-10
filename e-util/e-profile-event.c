@@ -125,7 +125,7 @@ e_profile_event_target_new(EProfileEvent *eme, const char *id, const char *uid, 
 }
 
 #ifdef ENABLE_PROFILING
-void
+static void
 e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 {
 	EProfileEvent *epe = e_profile_event_peek();
@@ -134,11 +134,12 @@ e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 	e_event_emit((EEvent *)epe, "event", (EEventTarget *)t);
 }
 #else
+/* simply keep macro from header file expand to "nothing".
 #undef e_profile_event_emit
-void
+static void
 e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 {
-}
+}*/
 #endif
 
 /* ********************************************************************** */

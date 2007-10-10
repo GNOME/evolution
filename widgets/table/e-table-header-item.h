@@ -95,8 +95,12 @@ typedef struct {
 	ETableHeader    *full_header;
 	ETable          *table;
 	ETree           *tree;
-	GtkWidget       *etfcd;
 	void            *config;
+
+	union {
+		GtkWidget *etfcd;
+		gpointer etfcd_pointer;
+	};
 
 	/* For keyboard navigation*/
 	int selected_col;

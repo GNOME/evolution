@@ -1,3 +1,13 @@
+2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #437579
+
+	* e-plugin.c:
+	* e-pilot-map.c:
+	* e-profile-event.c:
+	* e-signature.c:
+	Fix various compiler warnings.  Patch from Milan Crha.
+
 2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #469657

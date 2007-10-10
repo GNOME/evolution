@@ -1,3 +1,20 @@
+2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #437579
+
+	* e-searching-tokenizer.c:
+	* em-folder-browser.c:
+	* em-format-html.c:
+	* em-format-view.c:
+	* em-format.c:
+	* em-mailer-prefs.c:
+	* em-mailer-prefs.h:
+	* mail-session.c:
+	* mail-session.h:
+	* mail-vfolder.c:
+	* message-list.c:
+	Fix various compiler warnings.  Patch from Milan Crha.
+
 2007-10-09  Tobias Mueller  <muelli@auftrags-killer.org>
 
 	** Fix for bug #482575

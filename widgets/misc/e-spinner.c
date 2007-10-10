@@ -101,6 +101,7 @@ static void e_spinner_cache_class_init (ESpinnerCacheClass *klass);
 static void e_spinner_cache_init	  (ESpinnerCache *cache);
 
 static GObjectClass *e_spinner_cache_parent_class;
+static gpointer spinner_cache = NULL;
 
 static GType
 e_spinner_cache_get_type (void)
@@ -484,24 +485,17 @@ e_spinner_cache_class_init (ESpinnerCacheClass *klass)
 	g_type_class_add_private (object_class, sizeof (ESpinnerCachePrivate));
 }
 
-static ESpinnerCache *spinner_cache = NULL;
-
 static ESpinnerCache *
 e_spinner_cache_ref (void)
 {
-	if (spinner_cache == NULL)
+	if (G_UNLIKELY (spinner_cache == NULL))
 	{
-		ESpinnerCache **cache_ptr;
-
 		spinner_cache = g_object_new (E_TYPE_SPINNER_CACHE, NULL);
-		cache_ptr = &spinner_cache;
-		g_object_add_weak_pointer (G_OBJECT (spinner_cache),
-					   (gpointer *) cache_ptr);
-
-		return spinner_cache;
+		g_object_add_weak_pointer (
+                        G_OBJECT (spinner_cache), &spinner_cache);
 	}
-		
-	return g_object_ref (spinner_cache);
+
+	return g_object_ref_sink (spinner_cache);
 }
 
 /* Spinner implementation */

@@ -2752,11 +2752,10 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 			/* matching nodes, verify details/children */
 #if 0
 			if (bp->message) {
-				char *olduid;
-				int oldrow;
+				gpointer olduid, oldrow;
 				/* if this is a message row, check/update the row id map */
-				if (g_hash_table_lookup_extended(ml->uid_rowmap, camel_message_info_uid(bp->message), (void *)&olduid, (void *)&oldrow)) {
-					if (oldrow != (*row)) {
+				if (g_hash_table_lookup_extended(ml->uid_rowmap, camel_message_info_uid(bp->message), &olduid, &oldrow)) {
+					if ((int)oldrow != (*row)) {
 						g_hash_table_insert(ml->uid_rowmap, olduid, (void *)(*row));
 					}
 				} else {

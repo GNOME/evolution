@@ -2260,12 +2260,15 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		photo.data.inlined.mime_type = NULL;
 		if (editor->image_changed)
 		{
+			gchar *img_buff = NULL;
 			if (editor->image_set &&
 			    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
-							    (char **)&photo.data.inlined.data, &photo.data.inlined.length)) {
+							    &img_buff, &photo.data.inlined.length)) {
 				GdkPixbuf *pixbuf, *new;
 				GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 				
+				photo.data.inlined.data = (unsigned char *)img_buff;
+				img_buff = NULL;
 				gdk_pixbuf_loader_write (loader, photo.data.inlined.data, photo.data.inlined.length, NULL);
 				gdk_pixbuf_loader_close (loader, NULL);
 				
@@ -2295,9 +2298,11 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 								GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
 								gchar *format_name = gdk_pixbuf_format_get_name (format);
 								g_free(photo.data.inlined.data);
-								gdk_pixbuf_save_to_buffer (new, (gchar **)&(photo.data.inlined.data),
+								gdk_pixbuf_save_to_buffer (new, &img_buff,
 											   &photo.data.inlined.length,
 											   format_name, NULL, NULL);
+								photo.data.inlined.data = (unsigned char *)img_buff;
+								img_buff = NULL;
 								g_free (format_name);
 								g_object_unref (new);
 							}

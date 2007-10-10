@@ -1,3 +1,10 @@
+2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #437579
+
+	* face.c:
+	Fix various compiler warnings.  Patch from Milan Crha.
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* org-gnome-face-eplug.xml:

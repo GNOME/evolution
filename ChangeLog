@@ -1,5 +1,12 @@
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #437579
+
+	* tools/killev.c:
+	Fix various compiler warnings.  Patch from Milan Crha.
+
+2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
 	* iconv-detect.c (main): Remove an unused variable (#483301).
 
 2007-10-08  Matthew Barnes  <mbarnes@redhat.com>

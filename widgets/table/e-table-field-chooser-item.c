@@ -206,9 +206,7 @@ etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flag
 			item->y1 = c1.y;
 			item->x2 = c2.x;
 			item->y2 = c2.y;
-#ifndef NO_WARNINGS
-#warning Group Child bounds !?
-#endif
+/* FIXME: Group Child bounds !? */
 #if 0
 			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 #endif

@@ -1512,12 +1512,6 @@ static char *addrspec_hdrs[] = {
 	"resent-to", "resent-cc", "resent-bcc", NULL
 };
 
-/* FIXME: include Sender and Resent-* headers too? */
-/* For Translators only: The following strings are used in the header table in the preview pane */
-static char *i18n_hdrs[] = {
-	N_("From"), N_("Reply-To"), N_("To"), N_("Cc"), N_("Bcc")
-};
-
 static gchar *
 efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_address *a, gchar *field)
 {

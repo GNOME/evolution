@@ -180,7 +180,7 @@ struct pdinfo
 	gint end_minute_offset;
 	gint rows;
 	gint mins_per_row;
-	gint8 cols_per_row[DAY_VIEW_ROWS];
+	guint8 cols_per_row[DAY_VIEW_ROWS];
 	gboolean use_24_hour_format;
 };
 
@@ -1721,6 +1721,8 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 }
 
 
+/* XXX Evolution doesn't have a "year" view. */
+#if 0
 static void
 print_year_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		    double left, double right, double top, double bottom,
@@ -1763,6 +1765,7 @@ print_year_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence
 		}
 	}
 }
+#endif
 
 static void
 print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
@@ -2118,6 +2121,7 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 }
 
 /* XXX Evolution doesn't have a "year" view. */
+#if 0
 static void
 print_year_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
@@ -2146,6 +2150,7 @@ print_year_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	cr=gtk_print_context_get_cairo_context (context);
 	cairo_show_page (cr);
 }
+#endif
 
 static void
 write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
@@ -2576,7 +2581,7 @@ print_table_draw_page (GtkPrintOperation *operation,
                        EPrintable *printable)
 {
 	GtkPageSetup *setup;
-	gdouble width, height;
+	gdouble width;
 
 	setup = gtk_print_context_get_page_setup (context);
 

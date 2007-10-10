@@ -396,7 +396,7 @@ static void
 query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 {
 	GtkTreeSelection *selection;
-	GtkListStore *model;
+	GtkTreeModel *model;
 	GtkTreeView *table;
 	GtkWidget *dialog;
 	GtkWidget *supported_bases_table;
@@ -423,19 +423,19 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	gtk_widget_show_all (supported_bases_table);
 
 	table = g_object_get_data (G_OBJECT (supported_bases_table), "table");
-	model = GTK_LIST_STORE (gtk_tree_view_get_model(table));
+	model = gtk_tree_view_get_model (table);
 	selection = gtk_tree_view_get_selection (table);
 	g_signal_connect (selection, "changed", G_CALLBACK (search_base_selection_model_changed), dialog);
 	search_base_selection_model_changed (selection, dialog);
 
-	if (do_ldap_root_dse_query (sdialog, model, sdialog->source)) {
+	if (do_ldap_root_dse_query (sdialog, GTK_LIST_STORE (model), sdialog->source)) {
 		gtk_widget_show (dialog);
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK
-		    && gtk_tree_selection_get_selected(selection, (GtkTreeModel **)&model, &iter)) {
+		    && gtk_tree_selection_get_selected (selection, &model, &iter)) {
 			char *dn;
 
-			gtk_tree_model_get ((GtkTreeModel *)model, &iter, 0, &dn, -1);
+			gtk_tree_model_get (model, &iter, 0, &dn, -1);
 			gtk_entry_set_text((GtkEntry *)sdialog->rootdn, dn);
 			g_free(dn);
 		}

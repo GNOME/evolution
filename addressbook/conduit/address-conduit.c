@@ -806,9 +806,10 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 			      EAddrConduitContext *ctxt)
 {
 	GnomePilotRecord p;
-	static char record[0xffff];
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
+#else
+	static char record[0xffff];
 #endif
 	
 	g_assert (local->addr != NULL );
@@ -1283,13 +1284,14 @@ pre_sync (GnomePilotConduit *conduit,
 	EBookQuery *query;
     	GList *l;
 	int len;
-	unsigned char *buf;
 	char *filename;
 	char *change_id;
 	char *auth;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t *buffer;
+#else
+	unsigned char *buf;
 #endif
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);

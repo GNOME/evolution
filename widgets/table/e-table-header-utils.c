@@ -333,7 +333,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	int inner_width, inner_height;
 	GdkGC *gc;
 	PangoLayout *layout;
-	static GtkWidget *g_label = NULL;
+	static gpointer g_label = NULL;
 
 	g_return_if_fail (drawable != NULL);
 	g_return_if_fail (ecol != NULL);
@@ -350,11 +350,11 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		gtk_widget_ensure_style (window);
 		gtk_widget_ensure_style (button);
 		g_label = GTK_BIN(button)->child;
-		g_object_add_weak_pointer (G_OBJECT (g_label), (gpointer *) &g_label);
+		g_object_add_weak_pointer (G_OBJECT (g_label), &g_label);
 		gtk_widget_ensure_style (g_label);
 	}
 
-	gc = g_label->style->fg_gc[state];
+	gc = GTK_WIDGET (g_label)->style->fg_gc[state];
 
 	gdk_gc_set_clip_rectangle (gc, NULL);
 

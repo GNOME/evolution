@@ -3147,7 +3147,7 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
 	EventPagePrivate *priv;
 	GList *l;
 	EAccount *def_account;
-	const char *def_address = NULL;
+	gchar *def_address = NULL;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;

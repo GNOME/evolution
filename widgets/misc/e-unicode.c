@@ -53,9 +53,7 @@
 static gint e_canonical_decomposition (gunichar ch, gunichar * buf);
 static gunichar e_stripped_char (gunichar ch);
 
-#ifndef NO_WARNINGS
-#warning FIXME: this has not been ported fully yet - non ASCII people beware.
-#endif
+/* FIXME: this has not been ported fully yet - non ASCII people beware. */
 
 /*
  * This my favourite

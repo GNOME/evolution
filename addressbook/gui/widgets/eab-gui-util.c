@@ -505,7 +505,6 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 	GtkWidget *filesel;
 	char *file;
 	char *name;
-	char *full_filename;
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
 
 	name = e_contact_get (contact, E_CONTACT_FILE_AS);
@@ -548,7 +547,6 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 	GtkWidget *filesel;
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
 	char *file;
-	char *full_filename;
 
 	filesel = gtk_file_chooser_dialog_new (title,
 					       parent_window,
