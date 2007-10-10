@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-30 20:31+0200\n"
+"POT-Creation-Date: 2007-10-10 14:25+0200\n"
 "PO-Revision-Date: 2006-10-02 12:08+0200\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego <trasno@ceu.fi.udc.es>\n"
@@ -3356,7 +3356,7 @@ msgid "_Open Link in Browser"
 msgstr "_Abrir ligazón no navegador"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2603
+#: ../mail/em-folder-view.c:2606
 msgid "_Copy Link Location"
 msgstr "_Copiar localización da ligazón"
 
@@ -6428,7 +6428,7 @@ msgstr "Non é posible abrir as notas en '%s'."
 #: ../calendar/gui/dialogs/memo-page.c:1103 ../mail/em-format-html.c:1520
 #: ../mail/em-format-html.c:1534 ../mail/em-format-html.c:1592
 #: ../mail/em-format-html.c:1618 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:856 ../mail/em-mailer-prefs.c:89
+#: ../mail/em-format.c:888 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:18
 msgid "To"
 msgstr "Para"
@@ -6874,7 +6874,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de activador descoñecido"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3001
+#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3004
 #, c-format
 msgid "Click to open %s"
 msgstr "Prema para abrir %s"
@@ -11409,7 +11409,7 @@ msgid "Stop Processing"
 msgstr "Deter o procesamento"
 
 #: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1691
-#: ../mail/em-format-quote.c:320 ../mail/em-format.c:859
+#: ../mail/em-format-quote.c:320 ../mail/em-format.c:891
 #: ../mail/em-mailer-prefs.c:92 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
 #: ../plugins/groupwise-features/properties.glade.h:6
@@ -11801,42 +11801,42 @@ msgstr "Filtrar por lista de _correo"
 msgid "Default"
 msgstr "Predeterminado"
 
-#: ../mail/em-folder-view.c:2355
+#: ../mail/em-folder-view.c:2358
 msgid "Unable to retrieve message"
 msgstr "Non se puido obter a mensaxe"
 
-#: ../mail/em-folder-view.c:2374
+#: ../mail/em-folder-view.c:2377
 #, fuzzy
 msgid "Retrieving Message..."
 msgstr "<b>Obtendo a mensaxe...</b>"
 
-#: ../mail/em-folder-view.c:2602
+#: ../mail/em-folder-view.c:2605
 msgid "C_all To..."
 msgstr ""
 
-#: ../mail/em-folder-view.c:2605
+#: ../mail/em-folder-view.c:2608
 msgid "Create _Search Folder"
 msgstr "Crear cartafol de _busca"
 
-#: ../mail/em-folder-view.c:2606
+#: ../mail/em-folder-view.c:2609
 msgid "_From this Address"
 msgstr "_Desde este enderezo"
 
-#: ../mail/em-folder-view.c:2607
+#: ../mail/em-folder-view.c:2610
 msgid "_To this Address"
 msgstr "_A este enderezo"
 
-#: ../mail/em-folder-view.c:2982
+#: ../mail/em-folder-view.c:2985
 #, c-format
 msgid "Click to mail %s"
 msgstr "Prema para enviar un correo a %s"
 
-#: ../mail/em-folder-view.c:2994
+#: ../mail/em-folder-view.c:2997
 #, fuzzy, c-format
 msgid "Click to call %s"
 msgstr "Prema para enviar un correo a %s"
 
-#: ../mail/em-folder-view.c:2999
+#: ../mail/em-folder-view.c:3002
 msgid "Click to hide/unhide addresses"
 msgstr "Prema para ocultar ou mostrar os enderezos"
 
@@ -12130,26 +12130,26 @@ msgid "Formatting Message..."
 msgstr "Formatando a mensaxe"
 
 #: ../mail/em-format-html.c:1520 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:854 ../mail/em-mailer-prefs.c:87
+#: ../mail/em-format.c:886 ../mail/em-mailer-prefs.c:87
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "De"
 
 #: ../mail/em-format-html.c:1520 ../mail/em-format-quote.c:207
-#: ../mail/em-format.c:855 ../mail/em-mailer-prefs.c:88
+#: ../mail/em-format.c:887 ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
 msgstr "Responder a"
 
 #: ../mail/em-format-html.c:1520 ../mail/em-format-html.c:1535
 #: ../mail/em-format-html.c:1599 ../mail/em-format-html.c:1621
-#: ../mail/em-format-quote.c:207 ../mail/em-format.c:857
+#: ../mail/em-format-quote.c:207 ../mail/em-format.c:889
 #: ../mail/em-mailer-prefs.c:90
 msgid "Cc"
 msgstr "Cc"
 
 #: ../mail/em-format-html.c:1520 ../mail/em-format-html.c:1536
 #: ../mail/em-format-html.c:1605 ../mail/em-format-html.c:1624
-#: ../mail/em-format-quote.c:207 ../mail/em-format.c:858
+#: ../mail/em-format-quote.c:207 ../mail/em-format.c:890
 #: ../mail/em-mailer-prefs.c:91
 msgid "Bcc"
 msgstr "Cco"
@@ -12173,13 +12173,13 @@ msgid " (%R %Z)"
 msgstr "<I> (%R %Z)</I>"
 
 #: ../mail/em-format-html.c:1739 ../mail/em-format-quote.c:336
-#: ../mail/em-format.c:860 ../mail/em-mailer-prefs.c:93
+#: ../mail/em-format.c:892 ../mail/em-mailer-prefs.c:93
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
 #: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Data"
 
-#: ../mail/em-format-html.c:1762 ../mail/em-format.c:861
+#: ../mail/em-format-html.c:1762 ../mail/em-format.c:893
 #: ../mail/em-mailer-prefs.c:94
 msgid "Newsgroups"
 msgstr "Grupos de noticias"
@@ -12192,51 +12192,51 @@ msgstr "Grupos de noticias"
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr ""
 
-#: ../mail/em-format.c:1125
+#: ../mail/em-format.c:1157
 #, c-format
 msgid "%s attachment"
 msgstr "%s anexo"
 
-#: ../mail/em-format.c:1164
+#: ../mail/em-format.c:1196
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Non se puido analizar a mensaxe S/MIME: erro descoñecido"
 
-#: ../mail/em-format.c:1301 ../mail/em-format.c:1457
+#: ../mail/em-format.c:1333 ../mail/em-format.c:1489
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Non se puido analizar a mensaxe MIME. Mostrando como orixe."
 
-#: ../mail/em-format.c:1309
+#: ../mail/em-format.c:1341
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipo de cifrado non soportado para multipart/encrypted"
 
-#: ../mail/em-format.c:1319
+#: ../mail/em-format.c:1351
 #, fuzzy
 msgid "Could not parse PGP/MIME message"
 msgstr "Non se puido analizar a mensaxe S/MIME: erro descoñecido"
 
-#: ../mail/em-format.c:1319
+#: ../mail/em-format.c:1351
 #, fuzzy
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Non se puido analizar a mensaxe S/MIME: erro descoñecido"
 
-#: ../mail/em-format.c:1476
+#: ../mail/em-format.c:1508
 msgid "Unsupported signature format"
 msgstr "Formato de sinatura non soportado"
 
-#: ../mail/em-format.c:1484 ../mail/em-format.c:1555
+#: ../mail/em-format.c:1516 ../mail/em-format.c:1587
 msgid "Error verifying signature"
 msgstr "Erro ao verificar a sinatura"
 
-#: ../mail/em-format.c:1484 ../mail/em-format.c:1546 ../mail/em-format.c:1555
+#: ../mail/em-format.c:1516 ../mail/em-format.c:1578 ../mail/em-format.c:1587
 msgid "Unknown error verifying signature"
 msgstr "Erro descoñecido ao verificar a sinatura"
 
-#: ../mail/em-format.c:1626
+#: ../mail/em-format.c:1658
 #, fuzzy
 msgid "Could not parse PGP message"
 msgstr "Non se puido crear a mensaxe."
 
-#: ../mail/em-format.c:1626
+#: ../mail/em-format.c:1658
 #, fuzzy
 msgid "Could not parse PGP message: Unknown error"
 msgstr "Non se puido analizar a mensaxe S/MIME: erro descoñecido"
@@ -15075,7 +15075,7 @@ msgstr "Para a súa información"
 
 #: ../mail/message-tag-followup.c:79 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr "Seguinte"
+msgstr "Reenviar"
 
 #: ../mail/message-tag-followup.c:80
 msgid "No Response Necessary"
