@@ -2016,4 +2016,5 @@ echo "\
 	SSL support:      $msg_ssl
 	SMIME support:    $msg_smime
 	Plugins:	  $msg_plugins
-	DBus API version  $DBUS_VERSION"
+	DBus API version  $DBUS_VERSION
+"

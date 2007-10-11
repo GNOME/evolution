@@ -1,3 +1,9 @@
+2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Put a blank line between the configuration summary and the
+	final "now type make" message.
+
 2007-10-11  Tobias Mueller  <muelli@auftrags-killer.org>
 
 	** Fixes bug 360134

@@ -1,3 +1,9 @@
+2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-format.c (em_format_add_puri):
+	Use G_GSIZE_FORMAT when printing a gsize/size_t to make compilers
+	on all arches happy.
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #323977

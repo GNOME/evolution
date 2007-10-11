@@ -1,3 +1,9 @@
+2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-notification.c:
+	Put the notification_callback() declaration inside a
+	#ifdef HAVE_LIBNOTIFY block to avoid a potential compiler warning.
+
 2007-08-03  Johnny Jacob  <jjohnny@novell.com>
 	
 	** Fix for bug #458822 from Anand V M <avmuttagi@gmail.com>

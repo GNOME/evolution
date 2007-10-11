@@ -46,12 +46,12 @@
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
 void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
-static gboolean notification_callback (gpointer notify);
 
 static gboolean enabled = FALSE;
 static GtkStatusIcon *status_icon = NULL;
 
 #ifdef HAVE_LIBNOTIFY	
+static gboolean notification_callback (gpointer notify);
 static NotifyNotification *notify = NULL;
 #endif
 
