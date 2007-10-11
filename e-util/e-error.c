@@ -458,6 +458,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		gtk_label_set_selectable((GtkLabel *)w, TRUE);
 		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 		gtk_label_set_markup((GtkLabel *)w, tmp);
+		GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 		gtk_widget_show(w);
 		gtk_box_pack_start((GtkBox *)dialog->vbox, w, TRUE, TRUE, 12);
 
@@ -543,6 +544,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	gtk_label_set_selectable((GtkLabel *)w, TRUE);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_label_set_markup((GtkLabel *)w, out->str);
+	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 	g_string_free(out, TRUE);
 	if (e->scroll) {
 		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);
