@@ -1,3 +1,15 @@
+2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #484814
+
+	* data/evolution.desktop.in.in:
+	Modernize the Name and Comment.  Most other applications use the
+	form "AppName GenericName" for the Name and "Verb Something" for
+	the Comment.  Ours will be:
+
+	    Name: Evolution Mail and Calendar
+	    Comment: Manage your email, contacts and schedule
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579
