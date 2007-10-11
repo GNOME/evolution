@@ -12319,7 +12319,7 @@ msgstr "Automatinis šypsniukų atpažinimas"
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Check incoming mail being junk"
-msgstr "Tikrinti gaunamus laiškus nuo šlamšto"
+msgstr "Filtruoti šlamštą tarp gaunamų laiškų"
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Citation highlight color"
@@ -12698,7 +12698,7 @@ msgstr "Atpažinti šypsniukus tekste ir juos pakeisti paveikslėliais."
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Run junk test on incoming mail"
-msgstr "Tikrinti gaunamą paštą nuo galimo šlamšto"
+msgstr "Vykdyti šlamšto testą gaunamiems laiškams"
 
 #: ../mail/evolution-mail.schemas.in.h:87
 msgid "Save directory"
@@ -12900,7 +12900,7 @@ msgstr "Naudoti tik vietinius šlamšto testus."
 
 #: ../mail/evolution-mail.schemas.in.h:131
 msgid "Use only the local spam tests (no DNS)."
-msgstr "Naudoti tik vietinius šlamšto testus (no DNS)."
+msgstr "Naudoti tik vietinius šlamšto testus (be DNS)."
 
 #: ../mail/evolution-mail.schemas.in.h:132
 msgid "Use side-by-side or wide layout"
@@ -13057,8 +13057,8 @@ msgstr[2] "%d ištrintų"
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d šlamštas"
-msgstr[1] "%d šlamštas"
-msgstr[2] "%d šlamštas"
+msgstr[1] "%d šlamšto žinutės"
+msgstr[2] "%d šlamšto žinučių"
 
 #: ../mail/mail-component.c:535
 #, c-format
@@ -20376,7 +20376,7 @@ msgstr "Filtruoti pagal _temą..."
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "Filtruoti pažymėtas žinutes dėl šlamšto statuso"
+msgstr "Filtruoti pažymėtas žinutes norint nustatyti šlamšto statusą"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
