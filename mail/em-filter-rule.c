@@ -513,7 +513,8 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	
 	hbox = gtk_hbox_new(FALSE, 3);
 	
-	add = gtk_button_new_from_stock(GTK_STOCK_ADD);
+	add = gtk_button_new_with_mnemonic (_("Add Ac_tion"));
+	gtk_button_set_image (GTK_BUTTON (add), gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
 	/* gtk_button_set_relief(GTK_BUTTON(add), GTK_RELIEF_NONE); */
 	g_signal_connect(add, "clicked", G_CALLBACK(more_parts), data);
 	gtk_box_pack_start(GTK_BOX(hbox), add, FALSE, FALSE, 0);

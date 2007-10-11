@@ -1,3 +1,10 @@
+2007-10-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #323977
+
+	* filter-rule.c: (get_widget):
+	Use "Add Filter Criteria" instead of plain "Add" for button label.
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

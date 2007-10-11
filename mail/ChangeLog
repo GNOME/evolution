@@ -1,5 +1,12 @@
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #323977
+
+	* em-filter-rule.c: (get_widget):
+	Use "Add Action" instead of plain "Add" for button label.
+
+2007-10-11  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #329823
 
 	* mail-component.h: (mail_indicate_new_mail):
