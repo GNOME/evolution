@@ -1,3 +1,22 @@
+2007-10-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #329823
+
+	* Evolution-Shell.idl: (setButtonIcon):
+	* e-sidebar.h: (e_sidebar_change_button_icon):
+	* e-sidebar.c: (struct Button), (button_new), (button_free),
+	(e_sidebar_change_button_icon):
+	* e-shell.h: (EMainShellFunc), (e_shell_foreach_shell_window):
+	* e-shell.c: (EMainShellFunc), (e_shell_foreach_shell_window):
+	* e-component-view.h: (e_component_view_set_button_icon):
+	* e-component-view.c: (e_component_view_set_button_icon):
+	* e-shell-window.h: (e_shell_window_change_component_button_icon):
+	* e-shell-window.c: (e_shell_window_change_component_button_icon):
+	* e-shell-view.c: (struct change_icon_struct),
+	(change_button_icon_func), (impl_ShellView_setButtonIcon),
+	(e_shell_view_class_init):
+	Added support to change component's button icon.
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

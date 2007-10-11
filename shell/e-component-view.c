@@ -137,5 +137,15 @@ e_component_view_set_title(EComponentView *ecv, const char *title)
 	CORBA_exception_free(&ev);
 }
 
+void
+e_component_view_set_button_icon (EComponentView *ecv, const char *iconName)
+{
+	CORBA_Environment ev = { 0 };
+
+	/* save roundtrips, check title is the same */
+	GNOME_Evolution_ShellView_setButtonIcon(ecv->shell_view, ecv->id, iconName, &ev);
+	CORBA_exception_free(&ev);
+}
+
 BONOBO_TYPE_FUNC_FULL (EComponentView, GNOME_Evolution_ComponentView, bonobo_object_get_type(), e_component_view)
 

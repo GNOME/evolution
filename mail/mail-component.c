@@ -139,6 +139,8 @@ struct _MailComponentPrivate {
 	char *context_path;	/* current path for right-click menu */
 	
 	CamelStore *local_store;
+
+	EComponentView *component_view;
 };
 
 /* indexed by _mail_component_folder_t */
@@ -455,7 +457,9 @@ impl_dispose (GObject *object)
 		camel_object_unref (priv->local_store);
 		priv->local_store = NULL;
 	}
-	
+
+	priv->component_view = NULL;
+
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
@@ -741,6 +745,8 @@ impl_createView (PortableServer_Servant servant,
 	
 	g_object_set_data((GObject*)info, "folderview", view_widget);
 	g_object_set_data((GObject*)view_widget, "foldertree", tree_widget);
+
+	priv->component_view = component_view;
 
 	return BONOBO_OBJREF(component_view);
 }
@@ -1461,6 +1467,26 @@ mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t i
 	mc_setup_local_store(mc);
 
 	return mc_default_folders[id].uri;
+}
+
+/**
+ * mail_indicate_new_mail
+ * Indicates new mail in a shell window.
+ * @param have_new_mail TRUE when have new mail, false otherwise.
+ **/
+void
+mail_indicate_new_mail (gboolean have_new_mail)
+{
+	const char *icon = NULL;
+	MailComponent *mc = mail_component_peek ();
+
+	g_return_if_fail (mc != NULL);
+
+	if (have_new_mail)
+		icon = "mail-unread";
+
+	if (mc->priv->component_view)
+		e_component_view_set_button_icon (mc->priv->component_view, icon);
 }
 
 BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_MailComponent, PARENT_TYPE, mail_component)

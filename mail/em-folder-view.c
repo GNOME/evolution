@@ -2322,7 +2322,9 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	}
 
 	e_profile_event_emit("goto.loaded", emfv->displayed_uid, 0);
-		
+
+	mail_indicate_new_mail (FALSE);
+
 	/** @Event: message.reading
 	 * @Title: Viewing a message
 	 * @Target: EMEventTargetMessage

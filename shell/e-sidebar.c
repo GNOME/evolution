@@ -43,6 +43,7 @@ typedef struct {
 	GtkWidget *icon;
 	GtkWidget *hbox;
 	GtkTooltips *tooltips;
+	GdkPixbuf *default_icon;
 	int id;
 } Button;
 
@@ -89,6 +90,7 @@ button_new (GtkWidget *button_widget, GtkWidget *label, GtkWidget *icon, GtkTool
 	button->hbox = hbox;
 	button->tooltips = tooltips;
 	button->id = id;
+	button->default_icon = NULL;
 
 	g_object_ref (button_widget);
 	g_object_ref (label);
@@ -107,6 +109,8 @@ button_free (Button *button)
 	g_object_unref (button->icon);
 	g_object_unref (button->hbox);
 	g_object_unref (button->tooltips);
+	if (button->default_icon)
+		g_object_unref (button->default_icon);
 	g_free (button);
 }
 
@@ -578,6 +582,45 @@ e_sidebar_add_button (ESidebar *sidebar,
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
 }
 
+/**
+ * e_sidebar_change_button_icon
+ * This will change icon in icon_widget of the button of known component.
+ * You cannot change icon as in a stack, only one default icon will be stored.
+ * @param sidebar ESidebar instance.
+ * @param icon Pointer to buffer with icon. Can by NULL, in this case the icon will be
+ *             put back to default one for the component.
+ * @param button_id Component's button ID, for which change the icon.
+ **/
+
+void
+e_sidebar_change_button_icon (ESidebar *sidebar, GdkPixbuf  *icon, int button_id)
+{
+	GSList *p;
+
+	g_return_if_fail (sidebar != NULL);
+
+	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
+		Button *button = p->data;
+
+		if (button->id == button_id) {
+			if (!button->icon)
+				break;
+
+			if (icon) {
+				if (!button->default_icon)
+					button->default_icon = gdk_pixbuf_copy (gtk_image_get_pixbuf (GTK_IMAGE (button->icon)));
+
+				gtk_image_set_from_pixbuf (GTK_IMAGE (button->icon), icon);
+			} else if (button->default_icon) {
+				gtk_image_set_from_pixbuf (GTK_IMAGE (button->icon), button->default_icon);
+				g_object_unref (button->default_icon);
+				button->default_icon = NULL;
+			}
+
+			break;
+		}
+	}
+}
 
 void
 e_sidebar_select_button (ESidebar *sidebar, int id)

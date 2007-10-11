@@ -30,6 +30,7 @@ module Evolution {
 		/* Should really use a ComponentView i guess */
 		void setTitle(in string component, in string title);
 		void setComponent(in string component);
+		void setButtonIcon(in string component, in string iconName);
 	};
 
 	interface Shell : Bonobo::Unknown {

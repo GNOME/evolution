@@ -1,3 +1,16 @@
+2007-10-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #329823
+
+	* mail-component.h: (mail_indicate_new_mail):
+	* mail-component.c: (mail_indicate_new_mail),
+	(struct _MailComponentPrivate), (impl_dispose), (impl_createView):
+	New function to indicate new mails on sidebar's button and storing
+	component_view in priv struct for later use.
+	* em-folder-view.c: (emfv_list_done_message_selected):
+	* mail-folder-cache.c: (real_flush_updates):
+	Indicate changes like for plugins for new mails.
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

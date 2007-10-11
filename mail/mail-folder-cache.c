@@ -251,6 +251,10 @@ real_flush_updates(void *o, void *event_data, void *data)
 			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new);
 
 			t->is_inbox = em_folder_tree_model_is_type_inbox (model, up->store, up->full_name);
+
+			if (t->new > 0)
+				mail_indicate_new_mail (TRUE);
+
 			/** @Event: folder.changed
 			 * @Title: Folder changed
 			 * @Target: EMEventTargetFolder

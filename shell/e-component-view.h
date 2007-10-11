@@ -69,6 +69,7 @@ EComponentView *e_component_view_new(GNOME_Evolution_ShellView shell_view, const
 EComponentView *e_component_view_new_controls(GNOME_Evolution_ShellView parent, const char *id, struct _BonoboControl *side, struct _BonoboControl *view, struct _BonoboControl *statusbar);
 
 void e_component_view_set_title(EComponentView *ecv, const char *title);
+void e_component_view_set_button_icon (EComponentView *ecv, const char *iconName);
 
 #ifdef __cplusplus
 }

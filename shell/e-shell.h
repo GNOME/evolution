@@ -133,6 +133,8 @@ gboolean e_shell_quit (EShell *shell);
 
 const char *e_shell_construct_result_to_string (EShellConstructResult result);
 
+typedef gboolean (*EMainShellFunc) (EShell *shell, EShellWindow *window, gpointer user_data);
+void e_shell_foreach_shell_window (EShell *shell, EMainShellFunc func, gpointer user_data);
 
 #ifdef __cplusplus
 }

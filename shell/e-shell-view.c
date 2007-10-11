@@ -32,6 +32,7 @@
 
 #include "e-shell-view.h"
 #include "e-shell-window.h"
+#include "e-util/e-icon-factory.h"
 
 static BonoboObjectClass *parent_class = NULL;
 
@@ -55,6 +56,43 @@ impl_ShellView_setComponent(PortableServer_Servant _servant, const CORBA_char *i
 	EShellView *esw = (EShellView *)bonobo_object_from_servant(_servant);
 
 	e_shell_window_switch_to_component(esw->window, id);
+}
+
+struct change_icon_struct {
+	const char *component_name;
+	GdkPixbuf *icon;
+};
+
+static gboolean
+change_button_icon_func (EShell *shell, EShellWindow *window, gpointer user_data)
+{
+	struct change_icon_struct *cis = (struct change_icon_struct*)user_data;
+
+	g_return_val_if_fail (window != NULL, FALSE);
+	g_return_val_if_fail (cis != NULL, FALSE);
+
+	e_shell_window_change_component_button_icon (window, cis->component_name, cis->icon);
+
+	return TRUE;
+}
+
+static void
+impl_ShellView_setButtonIcon (PortableServer_Servant _servant, const CORBA_char *id, const CORBA_char * iconName, CORBA_Environment * ev)
+{
+	EShellView *esw = (EShellView *)bonobo_object_from_servant(_servant);
+	EShell *shell = e_shell_window_peek_shell (esw->window);
+
+	struct change_icon_struct cis;
+	cis.component_name = id;
+	cis.icon = NULL;
+
+	if (iconName)
+		cis.icon = e_icon_factory_get_icon (iconName, E_ICON_SIZE_BUTTON);
+
+	e_shell_foreach_shell_window (shell, change_button_icon_func, &cis);
+
+	if (cis.icon)
+		g_object_unref (cis.icon);
 }
 
 static void
@@ -86,6 +124,7 @@ e_shell_view_class_init (EShellViewClass *klass)
 	epv = & klass->epv;
 	epv->setTitle = impl_ShellView_setTitle;
 	epv->setComponent = impl_ShellView_setComponent;
+	epv->setButtonIcon = impl_ShellView_setButtonIcon;
 }
 
 static void

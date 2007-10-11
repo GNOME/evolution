@@ -1290,3 +1290,36 @@ e_shell_window_set_title(EShellWindow *window, const char *component_id, const c
 	}
 }
 
+/**
+ * e_shell_window_change_component_button_icon
+ * Changes icon of components button at sidebar. For more info how this behaves see
+ * info at @ref e_sidebar_change_button_icon.
+ * @param window EShellWindow instance.
+ * @param component_id ID of the component.
+ * @param icon Icon buffer.
+ **/
+void
+e_shell_window_change_component_button_icon (EShellWindow *window, const char *component_id, GdkPixbuf *icon)
+{
+	EShellWindowPrivate *priv;
+	GSList *p;
+
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (component_id != NULL);
+
+	priv = window->priv;
+
+	if (priv->destroyed)
+		return;
+
+	for (p = priv->component_views; p != NULL; p = p->next) {
+		ComponentView *this_view = p->data;
+
+		if (strcmp (this_view->component_id, component_id) == 0
+		    || (this_view->component_alias != NULL
+			&& strcmp (this_view->component_alias, component_id) == 0)) {
+			e_sidebar_change_button_icon (E_SIDEBAR (priv->sidebar), icon, this_view->button_id);
+			break;
+		}
+	}
+}

@@ -1382,4 +1382,42 @@ e_shell_quit(EShell *shell)
 	return can_quit;
 }
 
+/**
+ * gboolean (*EMainShellFunc) (EShell *shell, EShellWindow *window, gpointer user_data);
+ * Function used in @ref e_shell_foreach_shell_window.
+ * @param shell Pointer to EShell.
+ * @param window Pointer to EShellWindow.
+ * @param user_data User's data passed to @ref main_shell_foreach_shell_window.
+ * @return TRUE if need to go to next window, FALSE when stop looking for next window.
+ **/
+
+/**
+ * e_shell_foreach_shell_window
+ * This will call function callback for all known EShellWindow of main shell.
+ * When there is no shell active, then this will do nothing.
+ * @param shell EShell instance.
+ * @param func Function to be called.
+ * @param user_data User data to pass to func.
+ **/
+void
+e_shell_foreach_shell_window (EShell *shell, EMainShellFunc func, gpointer user_data)
+{
+	EShellPrivate *priv;
+	GList *p;
+
+	if (!shell)
+		return;
+
+	priv = shell->priv;
+
+	for (p = priv->windows; p != NULL; p = p->next) {
+		EShellWindow *window;
+
+		window = E_SHELL_WINDOW (p->data);
+
+		if (window && !func (shell, window, user_data))
+			break;
+	}
+}
+
 BONOBO_TYPE_FUNC_FULL (EShell, GNOME_Evolution_Shell, PARENT_TYPE, e_shell)

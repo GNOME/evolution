@@ -73,6 +73,10 @@ void  e_sidebar_add_button  (ESidebar   *sidebar,
 void  e_sidebar_select_button  (ESidebar *sidebar,
 				int       id);
 
+void e_sidebar_change_button_icon (ESidebar *sidebar,
+				   GdkPixbuf  *icon,
+				   int button_id);
+
 ESidebarMode e_sidebar_get_mode (ESidebar *sidebar);
 void e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode);
 
