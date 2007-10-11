@@ -1,3 +1,15 @@
+2007-10-11  Tobias Mueller  <muelli@auftrags-killer.org>
+
+	** Fixes bug 360134
+
+	* widgets/table/e-table-header-item.c:
+	* widgets/table/e-table-field-chooser-dialog.c:
+	* widgets/table/e-table-field-chooser-item.c:
+	* widgets/table/e-table-field-chooser.c:
+	* widgets/misc/e-reflow.c:
+	Don't g_strdup strings passed to g_value_set_string since it 
+	dups the strings itself.
+	
 2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #484814

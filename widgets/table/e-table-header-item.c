@@ -381,7 +381,7 @@ ethi_get_property (GObject *object,
 		g_value_set_object (value, ethi->full_header);
 		break;
 	case PROP_DND_CODE:
-		g_value_set_string (value, g_strdup (ethi->dnd_code));
+		g_value_set_string (value, ethi->dnd_code);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -1524,6 +1524,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	GtkWidget *menu_item, *sub_menu;
 	ETableSortColumn column;
 	gboolean ascending = TRUE;
+	d( g_print("ethi_header_context_menu: \n") );
 	
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);

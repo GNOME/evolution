@@ -776,7 +776,7 @@ e_reflow_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec
 		g_value_set_double (value, reflow->height);
 		break;
 	case PROP_EMPTY_MESSAGE:
-		g_value_set_string (value, g_strdup(reflow->empty_message));
+		g_value_set_string (value, reflow->empty_message);
 		break;
 	case PROP_MODEL:
 		g_value_set_object (value, reflow->model);

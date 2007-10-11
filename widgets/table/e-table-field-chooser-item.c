@@ -370,7 +370,7 @@ etfci_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *p
 	switch (prop_id){
 
 	case PROP_DND_CODE:
-		g_value_set_string (value, g_strdup (etfci->dnd_code));
+		g_value_set_string (value, etfci->dnd_code);
 		break;
 	case PROP_WIDTH:
 		g_value_set_double (value, etfci->width);

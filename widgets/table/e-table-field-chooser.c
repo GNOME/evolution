@@ -280,7 +280,7 @@ e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *valu
 
 	switch (prop_id) {
 	case PROP_DND_CODE:
-		g_value_set_string (value, g_strdup (etfc->dnd_code));
+		g_value_set_string (value, etfc->dnd_code);
 		break;
 	case PROP_FULL_HEADER:
 		g_value_set_object (value, etfc->full_header);
