@@ -1,3 +1,14 @@
+2007-10-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #412360
+
+	* e-msg-composer-hdrs.c: (entry_query_tooltip):
+	New callback to query tooltip over GtkEntry.
+	* e-msg-composer-hdrs.c: (connect_entry_for_tooltip):
+	New function to connect GtkEntry to previous function and let it works.
+	* e-msg-composer-hdrs.c: (create_addressbook_entry), (create_headers):
+	Connect entries for tooltips.
+
 2007-10-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-msg-cmposer.c:

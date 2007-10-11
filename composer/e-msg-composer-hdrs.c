@@ -477,6 +477,44 @@ addressbook_entry_changed (GtkWidget *entry,
 	g_signal_emit (hdrs, signals[HDRS_CHANGED], 0);
 }
 
+static gboolean
+entry_query_tooltip (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
+{
+	const char *text;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ENTRY (widget), FALSE);
+	g_return_val_if_fail (tooltip != NULL, FALSE);
+
+	if (keyboard_mode)
+		return FALSE;
+
+	text = gtk_entry_get_text (GTK_ENTRY (widget));
+
+	if (!text || !*text)
+		return FALSE;
+
+	gtk_tooltip_set_text (tooltip, text);
+
+	return TRUE;
+}
+
+/**
+ * connect_entry_for_tooltip
+ * This connects "tooltip" callback to entry.
+ * If entry has tooltip depends on the length of the text inside it.
+ * @param entry GtkEntry widget, to connect to.
+ **/
+static void
+connect_entry_for_tooltip (GtkWidget *entry)
+{
+	g_return_if_fail (entry != NULL);
+	g_return_if_fail (GTK_IS_ENTRY (entry));
+
+	g_signal_connect (G_OBJECT (entry), "query-tooltip", G_CALLBACK (entry_query_tooltip), NULL);
+	gtk_widget_set_has_tooltip (entry, TRUE);
+}
+
 static GtkWidget *
 create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 {
@@ -490,8 +528,8 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 	e_name_selector_model_add_section (name_selector_model, name, name, NULL);
 
 	name_selector_entry = (ENameSelectorEntry *)e_name_selector_peek_section_list (priv->name_selector, name);
-	g_signal_connect (name_selector_entry, "changed",
-			  G_CALLBACK (addressbook_entry_changed), hdrs);
+	g_signal_connect (name_selector_entry, "changed", G_CALLBACK (addressbook_entry_changed), hdrs);
+	connect_entry_for_tooltip (GTK_WIDGET (name_selector_entry));
 
 	e_name_selector_entry_set_contact_editor_func (name_selector_entry, e_contact_editor_new);
 	e_name_selector_entry_set_contact_list_editor_func (name_selector_entry, e_contact_list_editor_new);
@@ -649,6 +687,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 	priv->subject.entry = gtk_entry_new ();
 	gtk_label_set_mnemonic_widget((GtkLabel *)priv->subject.label, priv->subject.entry);
 	g_signal_connect(priv->subject.entry, "changed", G_CALLBACK(entry_changed), hdrs);
+	connect_entry_for_tooltip (priv->subject.entry);
 
 	/*
 	 * To, CC, and Bcc
@@ -684,6 +723,8 @@ create_headers (EMsgComposerHdrs *hdrs)
 	
 	g_signal_connect(priv->post_to.entry, "changed",
 			 G_CALLBACK (post_entry_changed_cb), hdrs);
+
+	connect_entry_for_tooltip (priv->post_to.entry);
 }
 
 static void
