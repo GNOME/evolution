@@ -1,3 +1,10 @@
+2007-10-12  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #466659
+
+	* gui/e-cal-list-view.c: (setup_e_table): Do not allow the user to set
+	a 'no-date' for start/end of appointments in list view.
+
 2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/alarm-notify/alarm-queue.c:

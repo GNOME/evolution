@@ -235,7 +235,7 @@ setup_e_table (ECalListView *cal_list_view)
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	cal_list_view->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
-	gtk_widget_set_sensitive (E_CELL_DATE_EDIT (popup_cell)->none_button, FALSE);
+	gtk_widget_hide (E_CELL_DATE_EDIT (popup_cell)->none_button);
 
 	e_cell_date_edit_set_get_time_callback (E_CELL_DATE_EDIT (popup_cell),
 						get_current_time_cb,
