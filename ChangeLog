@@ -1,3 +1,9 @@
+2007-10-12  Michael Monreal <michael.monreal@gmail.com>
+
+	** Migration of theme icons to data/icons/ (bug #479257)
+
+	* configure.in: Include new data/icons/ directory.
+
 2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

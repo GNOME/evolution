@@ -1,3 +1,10 @@
+2007-10-12  Michael Monreal <michael.monreal@gmail.com>
+
+	** Migration of theme icons to data/icons/ (bug #479257)
+
+	* file e-util/e-icon-factory.c:
+	Append a private icon directory to the search path.
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #311179

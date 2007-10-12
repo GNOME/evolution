@@ -1,3 +1,9 @@
+2007-10-12  Michael Monreal <michael.monreal@gmail.com>
+
+	** New view-calendar icons (bug #479257)
+
+	* calendar/gui/calendar-commands.c: Change icon references.
+
 2007-10-12  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #466659

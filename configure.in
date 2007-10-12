@@ -1880,6 +1880,7 @@ data/cde_app_root/dt/appconfig/icons/C/Makefile
 data/cde_app_root/dt/appconfig/types/Makefile
 data/cde_app_root/dt/appconfig/types/C/Makefile
 data/cde_app_root/dt/appconfig/types/C/Ximian.dt
+data/icons/Makefile
 e-util/Makefile
 filter/Makefile
 help/Makefile

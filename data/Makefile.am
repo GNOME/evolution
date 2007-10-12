@@ -40,7 +40,7 @@ endif
 noinst_MANS = evolution.1
 noinst_DATA = $(keys_file) $(desktop_file)
 
-SUBDIRS = cde_app_root
+SUBDIRS = cde_app_root icons
 
 install-data-local: install-kde-applnk $(desktop_file) $(keys_file) $(mime_file)
 	$(mkinstalldirs) $(DESTDIR)$(desktopdir);							\

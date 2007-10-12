@@ -489,7 +489,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
 		recv_icon = e_icon_factory_get_image (
-			"stock_mail-receive", E_ICON_SIZE_LARGE_TOOLBAR);
+			"mail-inbox", E_ICON_SIZE_LARGE_TOOLBAR);
 	       	pretty_url = format_url (source->url, account->name);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (
@@ -564,7 +564,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
 		send_icon = e_icon_factory_get_image (
-			"mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
+			"mail-outbox", E_ICON_SIZE_LARGE_TOOLBAR);
 		pretty_url = format_url (destination, NULL);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (

@@ -213,7 +213,9 @@ e_icon_factory_init (void)
 
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_append_search_path (icon_theme,
-                                   EVOLUTION_DATADIR G_DIR_SEPARATOR_S "icons");
+                                   EVOLUTION_DATADIR G_DIR_SEPARATOR_S 
+                                   "evolution" G_DIR_SEPARATOR_S 
+                                   BASE_VERSION G_DIR_SEPARATOR_S "icons");
 	g_signal_connect (
 		icon_theme, "changed",
 		G_CALLBACK (icon_theme_changed_cb), NULL);

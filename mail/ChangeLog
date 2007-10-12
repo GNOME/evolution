@@ -1,3 +1,10 @@
+2007-10-12  Michael Monreal <michael.monreal@gmail.com>
+
+	** New inbox/outbox/sent icons (bug #479257)
+
+	* mail/em-folder-tree.c, mail/mail-send-recv.c:
+	Change icon references.
+
 2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-format.c (em_format_add_puri):
