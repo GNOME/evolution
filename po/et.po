@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-03 09:10+0100\n"
-"PO-Revision-Date: 2007-10-06 16:15+0300\n"
+"PO-Revision-Date: 2007-10-11 14:51+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -12413,7 +12413,7 @@ msgstr "Sõnumiloendi paani kõrgus."
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid "Hides the per-folder preview and removes the selection"
-msgstr ""
+msgstr "Kaustapõhise eelvaate peitmine ja valiku eemaldamine"
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
@@ -12447,6 +12447,8 @@ msgid ""
 "It disables the feature where repeated prompts to ask if offline sync is "
 "required."
 msgstr ""
+"Selle abil keelatakse korduvad võrguvaba režiimi jaoks toimuva "
+"sünkroniseerimise kohta käiva kinnituse küsimised."
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -19796,7 +19798,7 @@ msgstr "_Fail"
 
 #: ../ui/evolution-editor.xml.h:20 ../ui/evolution.xml.h:46
 msgid "_Help"
-msgstr "_Abi"
+msgstr "A_bi"
 
 #: ../ui/evolution-editor.xml.h:21
 msgid "_Options"
