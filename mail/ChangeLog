@@ -1,3 +1,8 @@
+2007-10-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-view.c:
+	Fix broken icon for View -> Zoom -> Normal Size.
+
 2007-10-12  Michael Monreal <michael.monreal@gmail.com>
 
 	** New inbox/outbox/sent icons (bug #479257)
