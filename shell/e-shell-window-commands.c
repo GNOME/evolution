@@ -848,6 +848,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/OpenNewWindow", "window-new", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/SendReceive", "mail-send-receive", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/Print/FilePageSetup", "stock_print-setup", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileClose", "window-close", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileExit", "application-exit", E_ICON_SIZE_MENU),

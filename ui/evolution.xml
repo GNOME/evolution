@@ -80,7 +80,7 @@
 	pixtype="pixbuf"/>
 
       <placeholder name="Print" delimit="top">
-        <menuitem name="FilePageSetup" verb=""/>
+        <menuitem name="FilePageSetup" verb="" pixtype="pixbuf"/>
       </placeholder>
 
 <!--

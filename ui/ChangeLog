@@ -1,3 +1,8 @@
+2007-10-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution.xml:
+	Add an icon for FilePageSetup.
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #477045

@@ -1,3 +1,8 @@
+2007-10-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window-commands.c:
+	Add an icon for FilePageSetup.
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #329823
