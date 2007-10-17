@@ -1,3 +1,26 @@
+Evolution 2.12.1 2007-10-15
+----------------------------
+
+Bug fixes:
+	#311179: Prevent label from gaining focus by <Tab> (Milan Crha)
+	#324472: Tasks marked as complete using multiple selection are now saved (Milan Crha)
+	#337539: Omit left column when showing list of contacts (Milan Crha)
+	#340748: Notifies others about field change (Milan Crha)
+	#468736: Fixed an infinite loop when printing calendar events (Srinivasa Ragavan)
+	#474557: Fix runtime warnings when changing views in contacts (Milan Crha)
+	#478757: Bump required GtkHTML minimum version to 3.16 (Karsten Bräckelmann)
+	#478871: Show proper 'Fields shown' description for all tables (Milan Crha)
+	#480804: Fix a crash on missing glade file (Pedro Villavicencio Garrido)
+
+Updated Translations:
+	Gintautas Miliauskas (lt)
+	Ignacio Casal Quinteiro (gl)
+	Priit Laes (et)
+	Luca Ferretti (it)
+	Stéphane Raimbault (fr)
+	Takeshi AIHANA (ja)
+	Changwoo Ryu (ko)
+
 Evolution 2.12.0 2007-09-17
 ----------------------------
 

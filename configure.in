@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.12.0, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.12.1, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
 # Some requirements have versioned package names
@@ -1696,11 +1696,11 @@ plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face" 
+plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore" 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
-plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting mail-remote save-attachments"
+plugins_experimental_always="folder-unsubscribe mail-to-meeting mail-remote save-attachments"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
