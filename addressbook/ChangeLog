@@ -1,3 +1,11 @@
+2007-10-18  Tobias Mueller  <tobiasmue@svn.gnome.org>
+	Patch by Michael Monreal <michael.monreal@gmx.net>
+	
+	** Fixes bug #482603
+
+	* gui/component/addressbook-view.c:
+	Use document-properties icon instead of stock_folder-properties
+	
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

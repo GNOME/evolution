@@ -614,7 +614,7 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/ChangeFolderProperties", "stock_folder-properties", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ChangeFolderProperties", "document-properties", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ContactDelete", "edit-delete", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ContactsCopy", "edit-copy", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ContactsCut", "edit-cut", E_ICON_SIZE_MENU),
@@ -956,7 +956,7 @@ static EPopupItem abv_source_popups[] = {
  	{ E_POPUP_BAR,  "40.bar"},
  	{ E_POPUP_ITEM, "40.saveasvcard", N_("Save As Vcard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
 	{ E_POPUP_BAR,  "30.bar"},
-	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"stock_folder-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
 };
 
 static void
