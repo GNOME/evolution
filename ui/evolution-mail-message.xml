@@ -373,17 +373,17 @@
 
         <placeholder name="MessageRuleCreate">
           <submenu name="CreateRule" _label="Create R_ule">
-            <menuitem name="ToolsFilterSubject" verb="" _label="Filter on _Subject..."/>
-            <menuitem name="ToolsFilterSender" verb="" _label="Filter on Se_nder..."/>
-            <menuitem name="ToolsFilterRecipient" verb="" _label="Filter on _Recipients..."/>
-            <menuitem name="ToolsFilterMailingList" verb="" _label="Filter on Mailing _List..."/>
-
-            <separator f="" name="RuleSeparator"/>
-
             <menuitem name="ToolsVFolderSubject" verb="" _label="Search Folder from S_ubject..."/>
             <menuitem name="ToolsVFolderSender" verb="" _label="Search Folder from Sen_der..."/>
             <menuitem name="ToolsVFolderRecipient" verb="" _label="Search Folder from Recipien_ts..."/>
             <menuitem name="ToolsVFolderMailingList" verb="" _label="Search Folder from Mailing _List..."/>
+
+            <separator f="" name="RuleSeparator"/>
+
+            <menuitem name="ToolsFilterSubject" verb="" _label="Filter on _Subject..."/>
+            <menuitem name="ToolsFilterSender" verb="" _label="Filter on Se_nder..."/>
+            <menuitem name="ToolsFilterRecipient" verb="" _label="Filter on _Recipients..."/>
+            <menuitem name="ToolsFilterMailingList" verb="" _label="Filter on Mailing _List..."/>
 
           </submenu>
         </placeholder>

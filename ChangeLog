@@ -1,3 +1,10 @@
+2007-10-18  Diego Escalante Urrelo  <diegoe@gnome.org>
+
+	** Fixes bug #476389
+
+	* ui/evolution-mail-message.xml: Reorder the Filter/VFolder menu
+	entries to keep consistency between this and the main menu.
+
 2007-10-12  Michael Monreal <michael.monreal@gmail.com>
 
 	** Migration of theme icons to data/icons/ (bug #479257)
