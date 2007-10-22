@@ -37,7 +37,7 @@ liborg_gnome_exchange_mapi_la_CFLAGS = -I/usr/local/samba/include/
 #errordir = $(privdatadir)/errors
 
 EXTRA_DIST = 							\
-	org-gnome-exchange-mapi.eplug.in 
+	org-gnome-exchange-mapi.eplug.xml
 
 BUILT_SOURCES = org-gnome-exchange-mapi.eplug	
 

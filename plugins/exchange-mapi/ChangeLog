@@ -1,6 +1,12 @@
 2007-10-22  Sankar P  <psankar@novell.com>
 
 	* Makefile.am:
+	Changed eplug.in to eplug.xml
+	.eplug.xml is the EPlugin standard
+
+2007-10-22  Sankar P  <psankar@novell.com>
+
+	* Makefile.am:
 	* exchange-account-listener.c: (add_addressbook_sources),
 	(account_added), (exchange_account_listener_construct):
 	* exchange-mapi-account-setup.c: (create_profile):
