@@ -1,3 +1,13 @@
+2007-10-22  Suman Manjunath  <msuman@novell.com>
+
+	* exchange-account-listener.c: (add_cal_esource),
+	(remove_cal_esource), (add_calendar_sources),
+	(remove_calendar_sources), (add_addressbook_sources),
+	(remove_addressbook_sources), (account_added), (account_removed),
+	(exchange_account_listener_construct): Add esources for calendar, tasks, 
+	memos, also remove esources when account is deleted. 
+	**Note: Modify esources is not yet completed.
+
 2007-10-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* exchange-account-listener.c: (add_addressbook_sources),

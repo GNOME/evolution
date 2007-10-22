@@ -1,6 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- *  Srinivasa Ragavan <sragavan@novell.com>
+ *  Authors: 
+ *  	Srinivasa Ragavan <sragavan@novell.com>
+ * 	Suman Manjunath <msuman@novell.com>
  *  Copyright (C) 2007 Novell, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -24,7 +26,7 @@
 
 #include <exchange-account-listener.h>
 #include <string.h>
-#include  <camel/camel-i18n.h>
+#include <camel/camel-i18n.h>
 #include <libedataserverui/e-passwords.h>
 #include "e-util/e-error.h"
 #include <libedataserver/e-account.h>
@@ -165,99 +167,97 @@ lookup_account_info (const char *key)
 	return NULL;
 }
 
-#define CALENDAR_SOURCES "/apps/evolution/calendar/sources"
-#define TASKS_SOURCES "/apps/evolution/tasks/sources"
-#define NOTES_SOURCES "/apps/evolution/memos/sources"
-#define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
-#define SELECTED_TASKS   "/apps/evolution/calendar/tasks/selected_tasks"
-#define SELECTED_NOTES   "/apps/evolution/calendar/memos/selected_memos"
+#define CALENDAR_SOURCES 	"/apps/evolution/calendar/sources"
+#define TASK_SOURCES 		"/apps/evolution/tasks/sources"
+#define JOURNAL_SOURCES 	"/apps/evolution/memos/sources"
+#define SELECTED_CALENDARS 	"/apps/evolution/calendar/display/selected_calendars"
+#define SELECTED_TASKS 		"/apps/evolution/calendar/tasks/selected_tasks"
+#define SELECTED_JOURNALS 	"/apps/evolution/calendar/memos/selected_memos"
 
 static void
-add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url, const char* parent_id_name, gboolean can_create)
+add_cal_esource (EAccount *account, GSList *folders, const char* conf_key, ExchangeMAPIFolderType folder_type, CamelURL *url)
 {
-	ESourceList *source_list;
-	ESourceGroup *group;
-	ESource *source;
-        GConfClient* client;
+	ESourceList *source_list = NULL;
+	ESourceGroup *group = NULL;
+ 
+ 	GSList *temp_list = NULL;
+	GConfClient* client;
 	GSList *ids, *temp ;
-	char *source_selection_key;
 	char *relative_uri;
-	const char *soap_port;
-	const char * use_ssl;
-	const char *poa_address;
-	const char *offline_sync;
-	
-	poa_address = url->host;
-	if (!poa_address || strlen (poa_address) ==0)
-		return;
+	char *source_selection_key;
 
-	soap_port = camel_url_get_param (url, "soap_port");
-
- 	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7191";
-
-	use_ssl = camel_url_get_param (url, "use_ssl");
-
-
-	offline_sync = camel_url_get_param (url, "offline_sync");
-	
-	client = gconf_client_get_default();	
-	source_list = e_source_list_new_for_gconf (client, conf_key);
-	group = e_source_group_new (group_name,  MAPI_URI_PREFIX);
-
-	if (!e_source_list_add_group (source_list, group, -1))
-		return;
-
-	if (!can_create)
-		e_source_group_set_property (group, "create_source", "no");
-
-	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
-	source = e_source_new (source_name, relative_uri);
-	e_source_set_property (source, "auth", "1");
-	e_source_set_property (source, "username", url->user);
-	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
-	e_source_set_property (source, "auth-domain", "MAPI");
-	e_source_set_property (source, "use_ssl", use_ssl);
-	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
-	e_source_set_property (source, "delete", "no");
-	if (parent_id_name) {
-		e_source_set_property (source, "parent_id_name", parent_id_name);
-		e_source_set_color_spec (source, camel_url_get_param (url, "color"));
-	} else
-		e_source_set_color_spec (source, "#EEBC60");
-	e_source_group_add_source (group, source, -1);
-	e_source_list_sync (source_list, NULL);
-
-	if (!strcmp (conf_key, CALENDAR_SOURCES)) 
+	if (folder_type ==  MAPI_FOLDER_TYPE_APPOINTMENT) 
 		source_selection_key = SELECTED_CALENDARS;
-	else if (!strcmp (conf_key, TASKS_SOURCES))
+	else if (folder_type == MAPI_FOLDER_TYPE_TASK)
 		source_selection_key = SELECTED_TASKS;
-	else if (!strcmp (conf_key, NOTES_SOURCES))
-		source_selection_key = SELECTED_NOTES;
+	else if (folder_type == MAPI_FOLDER_TYPE_JOURNAL)
+		source_selection_key = SELECTED_JOURNALS;
 	else 
 		source_selection_key = NULL;
 
-	if (source_selection_key) {
-		ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
-		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
-		gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
-		temp  = ids;
+	client = gconf_client_get_default ();
+	source_list = e_source_list_new_for_gconf (client, conf_key);
+	group = e_source_group_new (account->name, MAPI_URI_PREFIX);
+	e_source_group_set_property (group, "create_source", "yes");
 
-		for (; temp != NULL; temp = g_slist_next (temp))
-			g_free (temp->data);
+	for (temp_list = folders; temp_list != NULL; temp_list = g_slist_next (temp_list)) {
+ 		ExchangeMAPIFolder *folder = temp_list->data;
+		ESource *source = NULL;
+		char *tmp = NULL;
 
-		g_slist_free (ids);
+		if (folder->container_class != folder_type)
+			continue;
+
+		relative_uri = g_strdup_printf ("%s@%s/", url->user, url->host);
+		source = e_source_new (folder->folder_name, relative_uri);
+		e_source_set_property (source, "auth", "1");
+		e_source_set_property (source, "auth-domain", "MAPI");
+		e_source_set_property (source, "username", url->user);
+		e_source_set_property(source, "host", url->host);
+		e_source_set_property(source, "profile", camel_url_get_param (url, "profile"));
+		e_source_set_property(source, "domain", camel_url_get_param (url, "domain"));
+		e_source_set_property (source, "offline_sync", 
+					       camel_url_get_param (url, "offline_sync") ? "1" : "0");
+
+		tmp = g_strdup_printf ("%016llx", folder->folder_id);
+		e_source_set_property(source, "folder-id", tmp);
+		g_free (tmp);
+#if 0 
+		if (folder->parent_folder_name) {
+			e_source_set_property (source, "parent_folder_name", folder->parent_folder_name);
+			e_source_set_property (source, "parent_folder_id", folder->parent_folder_id);
+		}
+#endif
+		e_source_group_add_source (group, source, -1);
+
+		if (source_selection_key) {
+			ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
+			ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
+			gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
+			temp  = ids;
+
+			for (; temp != NULL; temp = g_slist_next (temp))
+				g_free (temp->data);
+
+			g_slist_free (ids);
+		}
+
+		g_object_unref (source);
+		g_free (relative_uri);
 	}
-	
-	g_object_unref (source);
+
+	if (!e_source_list_add_group (source_list, group, -1))
+		return;
+	if (!e_source_list_sync (source_list, NULL))
+		return;
+
 	g_object_unref (group);
 	g_object_unref (source_list);
 	g_object_unref (client);
-	g_free (relative_uri);
 }
 
 static void 
-remove_esource (const char *conf_key, const char *group_name, char* source_name, const char* relative_uri)
+remove_cal_esource (EAccount *existing_account_info, const char *conf_key, ExchangeMAPIFolderType folder_type, const char* relative_uri)
 {
 	ESourceList *list;
         GSList *groups;
@@ -266,7 +266,16 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 	GSList *ids;
 	GSList *node_tobe_deleted;
 	char *source_selection_key;
-                                                                                                                             
+
+	if (folder_type ==  MAPI_FOLDER_TYPE_APPOINTMENT) 
+		source_selection_key = SELECTED_CALENDARS;
+	else if (folder_type == MAPI_FOLDER_TYPE_TASK)
+		source_selection_key = SELECTED_TASKS;
+	else if (folder_type == MAPI_FOLDER_TYPE_JOURNAL)
+		source_selection_key = SELECTED_JOURNALS;
+	else 
+		source_selection_key = NULL;	
+
         client = gconf_client_get_default();
         list = e_source_list_new_for_gconf (client, conf_key);
 	groups = e_source_list_peek_groups (list); 
@@ -276,8 +285,8 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 		
-		if (strcmp (e_source_group_peek_name (group), group_name) == 0 && 
-		   strcmp (e_source_group_peek_base_uri (group), MAPI_URI_PREFIX ) == 0) {
+		if (strcmp (e_source_group_peek_name (group), existing_account_info->name) == 0 && 
+		   strcmp (e_source_group_peek_base_uri (group), MAPI_URI_PREFIX) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
 			
 			for( ; sources != NULL; sources = g_slist_next (sources)) {
@@ -287,47 +296,32 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 				source_relative_uri = e_source_peek_relative_uri (source);
 				if (source_relative_uri == NULL)
 					continue;
-				if (strcmp (source_relative_uri, relative_uri) == 0) {
-				
-					if (!strcmp (conf_key, CALENDAR_SOURCES)) 
-						source_selection_key = SELECTED_CALENDARS;
-					else if (!strcmp (conf_key, TASKS_SOURCES))
-						source_selection_key = SELECTED_TASKS;
-					else if (!strcmp (conf_key, NOTES_SOURCES))
-						source_selection_key = SELECTED_NOTES;
-					else source_selection_key = NULL;
-					if (source_selection_key) {
-						ids = gconf_client_get_list (client, source_selection_key , 
-									     GCONF_VALUE_STRING, NULL);
-						node_tobe_deleted = g_slist_find_custom (ids, e_source_peek_uid (source), (GCompareFunc) strcmp);
-						if (node_tobe_deleted) {
-							g_free (node_tobe_deleted->data);
-							ids = g_slist_delete_link (ids, node_tobe_deleted);
-						}
-						gconf_client_set_list (client,  source_selection_key, 
-								       GCONF_VALUE_STRING, ids, NULL);
 
+				if (strcmp (source_relative_uri, relative_uri) == 0 && source_selection_key) {
+					ids = gconf_client_get_list (client, source_selection_key , 
+								     GCONF_VALUE_STRING, NULL);
+					node_tobe_deleted = g_slist_find_custom (ids, e_source_peek_uid (source), (GCompareFunc) strcmp);
+					if (node_tobe_deleted) {
+						g_free (node_tobe_deleted->data);
+						ids = g_slist_delete_link (ids, node_tobe_deleted);
 					}
-					e_source_list_remove_group (list, group);
-					e_source_list_sync (list, NULL);	
-					found_group = TRUE;
-					break;
-					
+					gconf_client_set_list (client,  source_selection_key, 
+							       GCONF_VALUE_STRING, ids, NULL);
 				}
 			}
-
+			e_source_list_remove_group (list, group);
+			e_source_list_sync (list, NULL);	
+			found_group = TRUE;
+			break;
 		}
-		
-	      
 	}
 
 	g_object_unref (list);
 	g_object_unref (client);		
-	
 }
 
 /* looks up for e-source with having same info as old_account_info and changes its values passed in new values */
-
+#if 0
 static void 
 modify_esource (const char* conf_key, ExchangeAccountInfo *old_account_info, const char* new_group_name, CamelURL *new_url)
 {
@@ -393,57 +387,44 @@ modify_esource (const char* conf_key, ExchangeAccountInfo *old_account_info, con
 
 	
 }
+#endif
 
-#if 0
 /* add sources for calendar and tasks if the account added is exchange account
    adds the new account info to  mapi_accounts list */
 
 static void 
-add_calendar_tasks_sources (ExchangeAccountInfo *info)
+add_calendar_sources (EAccount *account, GSList *folders, ExchangeAccountInfo *info)
 {
 	CamelURL *url;
 	
 	url = camel_url_new (info->source_url, NULL);
-	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, NULL, FALSE);
-	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, NULL, FALSE);
-	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, NULL, TRUE);
+
+	add_cal_esource (account, folders, CALENDAR_SOURCES, MAPI_FOLDER_TYPE_APPOINTMENT, url);
+	add_cal_esource (account, folders, TASK_SOURCES, MAPI_FOLDER_TYPE_TASK, url);
+	add_cal_esource (account, folders, JOURNAL_SOURCES, MAPI_FOLDER_TYPE_JOURNAL, url);
 	
 	camel_url_free (url);
-
-
 }
 
 /* removes calendar and tasks sources if the account removed is exchange account 
    removes the the account info from mapi_account list */
 
 static void 
-remove_calendar_tasks_sources (ExchangeAccountInfo *info)
+remove_calendar_sources (EAccount *account, ExchangeAccountInfo *info)
 {
 	CamelURL *url;
 	char *relative_uri;
-        const char *soap_port;
-	const char *poa_address;
 
 	url = camel_url_new (info->source_url, NULL);
 
-	poa_address = url->host; 
-	if (!poa_address || strlen (poa_address) ==0)
-		return;
-
-	soap_port = camel_url_get_param (url, "soap_port");
-	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7191";
-
-	relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
-	remove_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), relative_uri);
-	remove_esource ("/apps/evolution/tasks/sources", info->name,  _("Checklist"), relative_uri);
-	remove_esource ("/apps/evolution/memos/sources", info->name,  _("Notes"), relative_uri);
+	relative_uri =  g_strdup_printf ("%s@%s/", url->user, url->host);
+	remove_cal_esource (account, CALENDAR_SOURCES, MAPI_FOLDER_TYPE_APPOINTMENT, relative_uri);
+	remove_cal_esource (account, TASK_SOURCES, MAPI_FOLDER_TYPE_TASK, relative_uri);
+	remove_cal_esource (account, JOURNAL_SOURCES, MAPI_FOLDER_TYPE_JOURNAL, relative_uri);
 	
 	camel_url_free (url);
 	g_free (relative_uri);
-
 }
-#endif
 
 static gboolean
 add_addressbook_sources (EAccount *account, GSList *folders)
@@ -453,10 +434,9 @@ add_addressbook_sources (EAccount *account, GSList *folders)
         ESourceGroup *group;
         ESource *source;
        	char *base_uri;
-	GList *books_list, *temp_list;
+	GSList *books_list, *temp_list;
 	GConfClient* client;
 	const char* use_ssl;
-	const char *poa_address;
 	gboolean is_frequent_contacts = FALSE, is_writable = FALSE;
 
         url = camel_url_new (account->source->url, NULL);
@@ -503,10 +483,45 @@ add_addressbook_sources (EAccount *account, GSList *folders)
 	return TRUE;
 }
 
+static void 
+remove_addressbook_sources (ExchangeAccountInfo *existing_account_info)
+{
+	ESourceList *list;
+        ESourceGroup *group;
+	GSList *groups;
+       	gboolean found_group;
+	CamelURL *url;
+	char *base_uri;
+	GConfClient *client;
 
+	url = camel_url_new (existing_account_info->source_url, NULL);
+	if (url == NULL) {
+		return;
+	}
 
+	base_uri =  g_strdup_printf ("mapi://%s@%s", url->user,  url->host);
+	client = gconf_client_get_default ();
+	list = e_source_list_new_for_gconf (client, "/apps/evolution/addressbook/sources" );
+	groups = e_source_list_peek_groups (list); 
 
+	found_group = FALSE;
 
+	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
+
+		group = E_SOURCE_GROUP (groups->data);
+		if ( strcmp ( e_source_group_peek_base_uri (group), base_uri) == 0 && strcmp (e_source_group_peek_name (group), existing_account_info->name) == 0) {
+
+			e_source_list_remove_group (list, group);
+			e_source_list_sync (list, NULL);
+			found_group = TRUE;
+		}
+	}
+
+	g_object_unref (list);
+	g_object_unref (client);
+	g_free (base_uri);
+	camel_url_free (url);
+}
 /*
 static void 
 modify_addressbook_sources ( EAccount *account, ExchangeAccountInfo *existing_account_info )
@@ -595,57 +610,6 @@ modify_addressbook_sources ( EAccount *account, ExchangeAccountInfo *existing_ac
 }
 */
 
-static void 
-remove_addressbook_sources (ExchangeAccountInfo *existing_account_info)
-{
-	ESourceList *list;
-        ESourceGroup *group;
-	GSList *groups;
-       	gboolean found_group;
-	CamelURL *url;
-	char *base_uri;
-	const char *soap_port;
-	GConfClient *client;
-	const char *poa_address;
-
-	url = camel_url_new (existing_account_info->source_url, NULL);
-	if (url == NULL) {
-		return;
-	}
-
-	poa_address = url->host; 
-	if (!poa_address || strlen (poa_address) ==0)
-		return;
-
-	soap_port = camel_url_get_param (url, "soap_port");
-	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7191";
-	base_uri =  g_strdup_printf ("mapi://%s@%s", url->user,  poa_address);
-	client = gconf_client_get_default ();
-	list = e_source_list_new_for_gconf (client, "/apps/evolution/addressbook/sources" );
-	groups = e_source_list_peek_groups (list); 
-
-	found_group = FALSE;
-
-	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
-
-		group = E_SOURCE_GROUP (groups->data);
-		if ( strcmp ( e_source_group_peek_base_uri (group), base_uri) == 0 && strcmp (e_source_group_peek_name (group), existing_account_info->name) == 0) {
-
-			e_source_list_remove_group (list, group);
-			e_source_list_sync (list, NULL);
-			found_group = TRUE;
-						
-		}
-	}
-	g_object_unref (list);
-	g_object_unref (client);
-	g_free (base_uri);
-	camel_url_free (url);
-	
-
-}
-
 static void
 account_added (EAccountList *account_listener, EAccount *account)
 {
@@ -669,13 +633,11 @@ account_added (EAccountList *account_listener, EAccount *account)
 	add_addressbook_sources (account, folders_list);
 	/*FIXME: Maybe the folders_list above should be freed */
 
-		
-//	if (status) 
-//		add_calendar_tasks_sources (info);
+	add_calendar_sources (account, folders_list, info);
+
 	mapi_accounts = g_list_append (mapi_accounts, info);
 }
 
-#if 0
 static void 
 account_removed (EAccountList *account_listener, EAccount *account)
 {
@@ -688,16 +650,20 @@ account_removed (EAccountList *account_listener, EAccount *account)
 	if (info == NULL) 
 		return;
 
-	remove_calendar_tasks_sources (info);
+	/* This foo needs a lotta work.. at present, using this to remove calendar sources */
+
+	remove_calendar_sources (account, info);
 	remove_addressbook_sources (info);
+#if 0
 	mapi_accounts = g_list_remove (mapi_accounts, info);
 	g_free (info->uid);
 	g_free (info->name);
 	g_free (info->source_url);
         g_free (info);
+#endif
 }
 
-
+#if 0
 static void
 account_changed (EAccountList *account_listener, EAccount *account)
 {
@@ -813,7 +779,7 @@ exchange_account_listener_construct (ExchangeAccountListener *config_listener)
 
 	g_signal_connect (config_listener->priv->account_list, "account_added", G_CALLBACK (account_added), NULL);
 //	g_signal_connect (config_listener->priv->account_list, "account_changed", G_CALLBACK (account_changed), NULL);
-//	g_signal_connect (config_listener->priv->account_list, "account_removed", G_CALLBACK (account_removed), NULL);    
+	g_signal_connect (config_listener->priv->account_list, "account_removed", G_CALLBACK (account_removed), NULL);    
 }
 
 void
