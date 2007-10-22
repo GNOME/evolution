@@ -33,7 +33,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkdialog.h>
 
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 
 #include <table/e-table-scrolled.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -78,7 +78,7 @@ static void select_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_name_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_image_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor);
-static void source_selected (GtkWidget *source_option_menu, ESource *source, EContactListEditor *editor);
+static void source_changed_cb (ESourceComboBox *source_combo_box, EContactListEditor *editor);
 static gboolean email_key_pressed (GtkWidget *w, GdkEventKey *event, EContactListEditor *editor);
 static void email_match_selected (GtkWidget *w, EDestination *destination, EContactListEditor *editor);
 
@@ -233,7 +233,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->list_name_entry = glade_xml_get_widget (gui, "list-name-entry");
 	editor->list_image = glade_xml_get_widget (gui, "list-image");
 	editor->visible_addrs_checkbutton = glade_xml_get_widget (gui, "visible-addrs-checkbutton");
-	editor->source_menu = glade_xml_get_widget (gui, "source-option-menu-source");
+	editor->source_menu = glade_xml_get_widget (gui, "source-combo-box-source");
 
 	editor->ok_button = glade_xml_get_widget (gui, "ok-button");
 	editor->cancel_button = glade_xml_get_widget (gui, "cancel-button");
@@ -276,7 +276,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "changed", G_CALLBACK(list_image_changed_cb), editor);
 
 	g_signal_connect (editor->source_menu,
-			  "source_selected", G_CALLBACK (source_selected), editor);
+			  "changed", G_CALLBACK (source_changed_cb), editor);
 
 	command_state_changed (editor);
 
@@ -306,8 +306,9 @@ new_target_cb (EBook *new_book, EBookStatus status, EContactListEditor *editor)
 	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
 		eab_load_error_dialog (NULL, e_book_get_source (new_book), status);
 
-		e_source_option_menu_select (E_SOURCE_OPTION_MENU (editor->source_menu),
-					     e_book_get_source (editor->book));
+		e_source_combo_box_set_active (
+			E_SOURCE_COMBO_BOX (editor->source_menu),
+			e_book_get_source (editor->book));
 
 		if (new_book)
 			g_object_unref (new_book);
@@ -332,8 +333,12 @@ cancel_load (EContactListEditor *editor)
 }
 
 static void
-source_selected (GtkWidget *source_option_menu, ESource *source, EContactListEditor *editor)
+source_changed_cb (ESourceComboBox *source_combo_box, EContactListEditor *editor)
 {
+	ESource *source;
+
+	source = e_source_combo_box_get_active (source_combo_box);
+
 	cancel_load (editor);
 
 	if (e_source_equal (e_book_get_source (editor->book), source))
@@ -795,28 +800,28 @@ select_cb (GtkWidget *w, EContactListEditor *editor)
 }
 
 GtkWidget *
-e_contact_list_editor_create_source_option_menu (gchar *name,
-						 gchar *string1, gchar *string2,
-						 gint int1, gint int2);
+e_contact_list_editor_create_source_combo_box (gchar *name,
+                                               gchar *string1, gchar *string2,
+                                               gint int1, gint int2);
 
 GtkWidget *
-e_contact_list_editor_create_source_option_menu (gchar *name,
-						 gchar *string1, gchar *string2,
-						 gint int1, gint int2)
+e_contact_list_editor_create_source_combo_box (gchar *name,
+                                               gchar *string1, gchar *string2,
+                                               gint int1, gint int2)
 {
 
-	GtkWidget   *menu;
+	GtkWidget   *combo_box;
 	GConfClient *gconf_client;
 	ESourceList *source_list;
 
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
 
-	menu = e_source_option_menu_new (source_list);
+	combo_box = e_source_combo_box_new (source_list);
 	g_object_unref (source_list);
 
-	gtk_widget_show (menu);
-	return menu;
+	gtk_widget_show (combo_box);
+	return combo_box;
 }
 
 GtkWidget *
@@ -1262,10 +1267,9 @@ fill_in_info(EContactListEditor *editor)
 	}
 	
 	if (editor->book) {
-		ESource   *source;
-
-		source = e_book_get_source (editor->book);		
-		e_source_option_menu_select (E_SOURCE_OPTION_MENU (editor->source_menu), source);
+		e_source_combo_box_set_active (
+			E_SOURCE_COMBO_BOX (editor->source_menu),
+			e_book_get_source (editor->book));
 		gtk_widget_set_sensitive (editor->source_menu, editor->is_new_list);
 		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "source-label"), editor->is_new_list);
 	}

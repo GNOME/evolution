@@ -44,7 +44,7 @@
 #include <string.h>
 
 #include <libebook/e-book.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 
 #include <sys/time.h>
 #include <sys/stat.h>

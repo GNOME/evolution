@@ -1,3 +1,16 @@
+2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #417999
+
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/memo-page.c:
+	* gui/dialogs/memo-page.glade:
+	* gui/dialogs/task-page.c:
+	* gui/dialogs/task-page.glade:
+	* gui/e-itip-control.c:
+	Use ESourceComboBox instead of ESourceOptionMenu (deprecated).
+
 2007-10-12  Michael Monreal <michael.monreal@gmail.com>
 
 	** New view-calendar icons (bug #479257)

@@ -37,7 +37,7 @@
 #include <libgnomeui/gnome-app.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
@@ -269,8 +269,12 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 }
 
 static void
-source_selected (GtkWidget *source_option_menu, ESource *source, QuickAdd *qa)
+source_changed (ESourceComboBox *source_combo_box, QuickAdd *qa)
 {
+	ESource *source;
+
+	source = e_source_combo_box_get_active (source_combo_box);
+
 	if (qa->book) {
 		g_object_unref (qa->book);
 		qa->book = NULL;
@@ -319,16 +323,20 @@ build_quick_add_dialog (QuickAdd *qa)
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
 	g_object_unref (gconf_client);
-	qa->option_menu = e_source_option_menu_new (source_list);
+	qa->option_menu = e_source_combo_box_new (source_list);
 	book = e_book_new_default_addressbook (NULL);
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (qa->option_menu), e_book_get_source(book));
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (qa->option_menu),
+		e_book_get_source (book));
 	if (qa->book) {
 		g_object_unref (qa->book);
 		qa->book = NULL;
 	}
 	qa->book = book ;
-	source_selected(qa->option_menu, e_source_option_menu_peek_selected ((ESourceOptionMenu *)qa->option_menu), qa);
-	g_signal_connect (qa->option_menu, "source_selected", G_CALLBACK (source_selected), qa);
+	source_changed (E_SOURCE_COMBO_BOX (qa->option_menu), qa);
+	g_signal_connect (
+		qa->option_menu, "changed",
+		G_CALLBACK (source_changed), qa);
 	
 	g_object_unref (source_list);	
 

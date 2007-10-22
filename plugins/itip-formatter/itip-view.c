@@ -35,7 +35,7 @@
 #include <camel/camel-mime-message.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
 #include <gtkhtml/gtkhtml-embedded.h>
@@ -105,8 +105,8 @@ struct _ItipViewPrivate {
 	char *description;
 
 	GtkWidget *selector_box;
-	GtkWidget *esom;
-	GtkWidget *esom_header;
+	GtkWidget *escb;
+	GtkWidget *escb_header;
 	ESourceList *source_list;
 	
 	GtkWidget *rsvp_box;
@@ -1791,10 +1791,12 @@ itip_view_clear_lower_info_items (ItipView *view)
 }
 
 static void
-source_selected_cb (ESourceOptionMenu *esom, ESource *source, gpointer data)
+source_changed_cb (ESourceComboBox *escb, ItipView *view)
 {
-	ItipView *view = data;
-	
+	ESource *source;
+
+	source = e_source_combo_box_get_active (escb);
+
 	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
 }
 
@@ -1811,40 +1813,42 @@ itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 	if (priv->source_list)
 		g_object_unref (priv->source_list);
 
-	if (priv->esom)
-		gtk_widget_destroy (priv->esom);
+	if (priv->escb)
+		gtk_widget_destroy (priv->escb);
 		
 	if (!source_list) {
-		if (priv->esom_header)
-			gtk_widget_destroy (priv->esom_header);
+		if (priv->escb_header)
+			gtk_widget_destroy (priv->escb_header);
 
 		priv->source_list = NULL;
-		priv->esom = NULL;
-		priv->esom_header = NULL;
+		priv->escb = NULL;
+		priv->escb_header = NULL;
 		
 		return;
 	}
 
 	priv->source_list = g_object_ref (source_list);
 	
-	priv->esom = e_source_option_menu_new (source_list);
-	gtk_widget_show (priv->esom);
-	g_signal_connect (priv->esom, "source_selected", G_CALLBACK (source_selected_cb), view);
+	priv->escb = e_source_combo_box_new (source_list);
+	gtk_widget_show (priv->escb);
+	g_signal_connect (
+		priv->escb, "changed",
+		G_CALLBACK (source_changed_cb), view);
 
-	if (!priv->esom_header) {
+	if (!priv->escb_header) {
 		if (priv->type == E_CAL_SOURCE_TYPE_EVENT)
-			priv->esom_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
 		else if (priv->type == E_CAL_SOURCE_TYPE_TODO)
-			priv->esom_header = gtk_label_new_with_mnemonic (_("_Tasks :"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("_Tasks :"));
 		else if (priv->type == E_CAL_SOURCE_TYPE_JOURNAL)
-			priv->esom_header = gtk_label_new_with_mnemonic (_("Memos :"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("Memos :"));
 
-		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->esom_header), priv->esom);
-		gtk_widget_show (priv->esom_header);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->escb_header), priv->escb);
+		gtk_widget_show (priv->escb_header);
 	}
 	
-	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->esom_header, FALSE, TRUE, 6);
-	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->esom, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->escb_header, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->escb, FALSE, TRUE, 0);
 }
 
 ESourceList *
@@ -1870,10 +1874,11 @@ itip_view_set_source (ItipView *view, ESource *source)
 	
 	priv = view->priv;
 
-	if (!priv->esom)
+	if (!priv->escb)
 		return;
 
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->esom), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (priv->escb), source);
 }
 
 ESource *
@@ -1886,10 +1891,11 @@ itip_view_get_source (ItipView *view)
 	
 	priv = view->priv;
 	
-	if (!priv->esom)
+	if (!priv->escb)
 		return NULL;
 
-	return e_source_option_menu_peek_selected (E_SOURCE_OPTION_MENU (priv->esom));
+	return e_source_combo_box_get_active (
+		E_SOURCE_COMBO_BOX (priv->escb));
 }
 
 void

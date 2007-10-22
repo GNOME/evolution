@@ -1,3 +1,14 @@
+2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #417999
+
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-editor/contact-editor.glade:
+	* gui/contact-editor/e-contact-quick-add.c:
+	* gui/contact-list-editor/contact-list-editor.c:
+	* gui/contact-list-editor/contact-list-editor.glade:
+	Use ESourceComboBox instead of ESourceOptionMenu (deprecated).
+
 2007-10-18  Tobias Mueller  <tobiasmue@svn.gnome.org>
 	Patch by Michael Monreal <michael.monreal@gmx.net>
 	

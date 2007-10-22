@@ -27,7 +27,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include "e-pilot-settings.h"
 
 struct _EPilotSettingsPrivate 
@@ -102,7 +102,7 @@ build_ui (EPilotSettings *ps, ESourceList *source_list)
 
 	lbl = gtk_label_new (_("Sync with:"));
 	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
-	priv->source = e_source_option_menu_new (source_list);
+	priv->source = e_source_combo_box_new (source_list);
 	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, 0, 1);
 	gtk_table_attach_defaults (GTK_TABLE (ps), priv->source, 1, 2, 0, 1);
 	gtk_widget_show (lbl);
@@ -152,8 +152,9 @@ e_pilot_settings_get_source (EPilotSettings *ps)
 	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), FALSE);
 
 	priv = ps->priv;
-	
-	return e_source_option_menu_peek_selected (E_SOURCE_OPTION_MENU (priv->source));
+
+	return e_source_combo_box_get_active (
+		E_SOURCE_COMBO_BOX (priv->source));
 }
 
 void
@@ -166,7 +167,8 @@ e_pilot_settings_set_source (EPilotSettings *ps, ESource *source)
 
 	priv = ps->priv;
 
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (priv->source), source);
 }
 
 gboolean

@@ -44,7 +44,7 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-source-list.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include <libical/ical.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-time-util.h>
@@ -226,13 +226,13 @@ typedef struct {
 } EItipControlFindData;
 
 static void
-source_selected_cb (ESourceOptionMenu *esom, ESource *source, gpointer data)
+source_changed_cb (ESourceComboBox *escb, EItipControl *itip)
 {
-	EItipControl *itip = data;
-	EItipControlPrivate *priv;
-	
-	priv = itip->priv;
+	EItipControlPrivate *priv = itip->priv;
+	ESource *source;
 
+	source = e_source_combo_box_get_active (escb);
+	
 	if (priv->ok)
 		gtk_widget_set_sensitive (priv->ok, FALSE);
 
@@ -273,7 +273,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
  cleanup:
 	if (fd->count == 0) {
 		if (fd->show_selector && !priv->current_ecal && priv->vbox) {
-			GtkWidget *esom;
+			GtkWidget *escb;
 			char *uid;
 
 			switch (priv->type) {
@@ -297,17 +297,17 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 			if (!source)
 				source = e_source_list_peek_source_any (priv->source_lists[priv->type]);
 
-			esom = e_source_option_menu_new (priv->source_lists[priv->type]);
-			g_signal_connect_object (esom, "source_selected",
-						 G_CALLBACK (source_selected_cb), 
-						 fd->itip, 0);
+			escb = e_source_combo_box_new (priv->source_lists[priv->type]);
+			g_signal_connect_object (
+				escb, "changed",
+				G_CALLBACK (source_changed_cb), fd->itip, 0);
 
-			gtk_box_pack_start (GTK_BOX (priv->vbox), esom, FALSE, TRUE, 0);
-			gtk_widget_show (esom);
+			gtk_box_pack_start (GTK_BOX (priv->vbox), escb, FALSE, TRUE, 0);
+			gtk_widget_show (escb);
 
 			/* FIXME What if there is no source? */
 			if (source)
-				e_source_option_menu_select (E_SOURCE_OPTION_MENU (esom), source);
+				e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (escb), source);
 		} else {
 			/* FIXME Display error message to user */
 		}

@@ -40,7 +40,6 @@
 #include <camel/camel-store.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
-#include <libedataserverui/e-source-option-menu.h>
 #include <libedataserverui/e-source-selector.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <mail/em-format-hook.h>

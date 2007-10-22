@@ -35,7 +35,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include <misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
 #include "common/authentication.h"
@@ -533,7 +533,6 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	const char *categories, *uid;
 	icaltimezone *zone, *default_zone;
 	gchar *backend_addr = NULL;
-	ESource *source;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -677,8 +676,9 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_dialog_editable_set (priv->categories, categories);
 
 	/* Source */
-	source = e_cal_get_source (page->client);
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (priv->source_selector),
+		e_cal_get_source (page->client));
 
 	e_cal_get_cal_address (COMP_EDITOR_PAGE (tpage)->client, &backend_addr, NULL);
 	set_subscriber_info_string (tpage, backend_addr);
@@ -1688,13 +1688,12 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
+source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 {
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
+	TaskPagePrivate *priv = tpage->priv;
+	ESource *source;
 
-	tpage = TASK_PAGE (data);
-	priv = tpage->priv;
+	source = e_source_combo_box_get_active (source_combo_box);
 
 	if (!priv->updating) {
 		ECal *client;
@@ -1713,8 +1712,9 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			if (client)
 				g_object_unref (client);
 
-			e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector),
-						     e_cal_get_source (COMP_EDITOR_PAGE (tpage)->client));
+			e_source_combo_box_set_active (
+				E_SOURCE_COMBO_BOX (priv->source_selector),
+				e_cal_get_source (COMP_EDITOR_PAGE (tpage)->client));
 
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
@@ -1726,7 +1726,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			comp_editor_notify_client_changed (
 				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
 				client);
-			field_changed_cb (widget, data);
+			field_changed_cb (GTK_WIDGET (source_combo_box), tpage);
 			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_assignment)
 				task_page_show_options (tpage);
 			else
@@ -1778,7 +1778,8 @@ task_page_sendoptions_clicked_cb (TaskPage *tpage)
 	if (!priv->sod) {
 		priv->sod = e_sendoptions_dialog_new ();
 		priv->sod->data->initialized = TRUE;
-		source = e_source_option_menu_peek_selected  (E_SOURCE_OPTION_MENU (priv->source_selector));
+		source = e_source_combo_box_get_active (
+			E_SOURCE_COMBO_BOX (priv->source_selector));
 		e_sendoptions_utils_set_default_data (priv->sod, source, "task");
 	}
 	
@@ -1836,7 +1837,7 @@ init_widgets (TaskPage *tpage)
 			    G_CALLBACK (categories_clicked_cb), tpage);
 	
 	/* Source selector */
-	g_signal_connect((priv->source_selector), "source_selected",
+	g_signal_connect((priv->source_selector), "source_changed",
 			 G_CALLBACK (source_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
@@ -2081,22 +2082,23 @@ task_page_create_date_edit (void)
 	return dedit;
 }
 
-GtkWidget *task_page_create_source_option_menu (void);
+GtkWidget *task_page_create_source_combo_box (void);
 
 GtkWidget *
-task_page_create_source_option_menu (void)
+task_page_create_source_combo_box (void)
 {
-	GtkWidget   *menu;
+	GtkWidget   *combo_box;
 	GConfClient *gconf_client;
 	ESourceList *source_list;
 
 	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/tasks/sources");
+	source_list = e_source_list_new_for_gconf (
+		gconf_client, "/apps/evolution/tasks/sources");
 
-	menu = e_source_option_menu_new (source_list);
+	combo_box = e_source_combo_box_new (source_list);
 	g_object_unref (source_list);
 	g_object_unref (gconf_client);
 
-	gtk_widget_show (menu);
-	return menu;
+	gtk_widget_show (combo_box);
+	return combo_box;
 }

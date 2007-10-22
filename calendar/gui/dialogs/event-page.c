@@ -33,7 +33,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include "common/authentication.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-widgets.h"
@@ -1000,7 +1000,6 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	const char *location, *uid = NULL;
 	const char *categories;
 	gchar *backend_addr = NULL;
-	ESource *source;
 	GSList *l;
 	gboolean validated = TRUE;
 	
@@ -1215,8 +1214,9 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_dialog_editable_set (priv->categories, categories);
 	
 	/* Source */
-	source = e_cal_get_source (page->client);
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (priv->source_selector),
+		e_cal_get_source (page->client));
 
 	e_cal_component_get_uid (comp, &uid);
 	if (!(COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) 
@@ -2662,7 +2662,8 @@ event_page_sendoptions_clicked_cb (EventPage *epage)
 
 	if (!priv->sod) {
 		priv->sod = e_sendoptions_dialog_new ();
-		source = e_source_option_menu_peek_selected  (E_SOURCE_OPTION_MENU (priv->source_selector));
+		source = e_source_combo_box_get_active (
+			E_SOURCE_COMBO_BOX (priv->source_selector));
 		e_sendoptions_utils_set_default_data (priv->sod, source, "calendar");
 		priv->sod->data->initialized = TRUE;
 	}	
@@ -2691,13 +2692,12 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
+source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 {
-	EventPage *epage;
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
+	ESource *source;
 
-	epage = EVENT_PAGE (data);
-	priv = epage->priv;
+	source = e_source_combo_box_get_active (source_combo_box);
 
 	if (!priv->updating) {
 		ECal *client;
@@ -2716,8 +2716,9 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			if (client)
 				g_object_unref (client);
 
-			e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector),
-						     e_cal_get_source (COMP_EDITOR_PAGE (epage)->client));
+			e_source_combo_box_set_active (
+				E_SOURCE_COMBO_BOX (priv->source_selector),
+				e_cal_get_source (COMP_EDITOR_PAGE (epage)->client));
 
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
@@ -2980,7 +2981,7 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (categories_clicked_cb), epage);
 	
 	/* Source selector */
-	g_signal_connect((priv->source_selector), "source_selected",
+	g_signal_connect((priv->source_selector), "changed",
 			    G_CALLBACK (source_changed_cb), epage);
 	/* Alarms */
 	priv->alarm_list_store = e_alarm_list_new ();
@@ -3306,24 +3307,25 @@ make_timezone_entry (void)
 	return w;
 }
 
-GtkWidget *event_page_create_source_option_menu (void);
+GtkWidget *event_page_create_source_combo_box (void);
 
 GtkWidget *
-event_page_create_source_option_menu (void)
+event_page_create_source_combo_box (void)
 {
-	GtkWidget   *menu;
+	GtkWidget   *combo_box;
 	GConfClient *gconf_client;
 	ESourceList *source_list;
 
 	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/calendar/sources");
+	source_list = e_source_list_new_for_gconf (
+		gconf_client, "/apps/evolution/calendar/sources");
 
-	menu = e_source_option_menu_new (source_list);
+	combo_box = e_source_combo_box_new (source_list);
 	g_object_unref (source_list);
 	g_object_unref (gconf_client);
 
-	gtk_widget_show (menu);
-	return menu;
+	gtk_widget_show (combo_box);
+	return combo_box;
 }
 
 GtkWidget *make_status_icons (void);

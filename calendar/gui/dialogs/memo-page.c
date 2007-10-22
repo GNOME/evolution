@@ -35,7 +35,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include <libedataserverui/e-name-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
 #include <libedataserverui/e-name-selector-list.h>
@@ -352,7 +352,6 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	GSList *l;
 	const char *categories;
 	gchar *backend_addr = NULL;
-	ESource *source;
 
 	mpage = MEMO_PAGE (page);
 	priv = mpage->priv;
@@ -451,8 +450,9 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		g_free (backend_addr);
 
 	/* Source */
-	source = e_cal_get_source (page->client);
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (priv->source_selector),
+		e_cal_get_source (page->client));
 
 	priv->updating = FALSE;
 
@@ -893,13 +893,12 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
+source_changed_cb (ESourceComboBox *source_combo_box, MemoPage *mpage)
 {
-	MemoPage *mpage;
-	MemoPagePrivate *priv;
+	MemoPagePrivate *priv = mpage->priv;
+	ESource *source;
 
-	mpage = MEMO_PAGE (data);
-	priv = mpage->priv;
+	source = e_source_combo_box_get_active (source_combo_box);
 
 	if (!priv->updating) {
 		ECal *client;
@@ -911,8 +910,9 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			if (client)
 				g_object_unref (client);
 
-			e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector),
-						     e_cal_get_source (COMP_EDITOR_PAGE (mpage)->client));
+			e_source_combo_box_set_active (
+				E_SOURCE_COMBO_BOX (priv->source_selector),
+				e_cal_get_source (COMP_EDITOR_PAGE (mpage)->client));
 
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
@@ -1055,7 +1055,7 @@ init_widgets (MemoPage *mpage)
 			    G_CALLBACK (categories_clicked_cb), mpage);
 
 	/* Source selector */
-	g_signal_connect((priv->source_selector), "source_selected",
+	g_signal_connect((priv->source_selector), "changed",
 			 G_CALLBACK (source_changed_cb), mpage);
 	
 	/* Connect the default signal handler to use to make sure the "changed"
@@ -1271,22 +1271,23 @@ memo_page_create_date_edit (void)
 	return dedit;
 }
 
-GtkWidget *memo_page_create_source_option_menu (void);
+GtkWidget *memo_page_create_source_combo_box (void);
 
 GtkWidget *
-memo_page_create_source_option_menu (void)
+memo_page_create_source_combo_box (void)
 {
-	GtkWidget   *menu;
+	GtkWidget   *combo_box;
 	GConfClient *gconf_client;
 	ESourceList *source_list;
 
 	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/memos/sources");
+	source_list = e_source_list_new_for_gconf (
+		gconf_client, "/apps/evolution/memos/sources");
 
-	menu = e_source_option_menu_new (source_list);
+	combo_box = e_source_combo_box_new (source_list);
 	g_object_unref (source_list);
 	g_object_unref (gconf_client);
 
-	gtk_widget_show (menu);
-	return menu;
+	gtk_widget_show (combo_box);
+	return combo_box;
 }

@@ -46,7 +46,7 @@
 #include <text/e-entry.h>
 
 #include <libebook/e-address-western.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 
 #include <camel/camel.h>
 
@@ -589,15 +589,16 @@ static void
 fill_in_source_field (EContactEditor *editor)
 {
 	GtkWidget *source_menu;
-	ESource   *source;
 
 	if (!editor->target_book)
 		return;
 
-	source_menu = glade_xml_get_widget (editor->gui, "source-option-menu-source");
-	source = e_book_get_source (editor->target_book);
+	source_menu = glade_xml_get_widget (
+		editor->gui, "source-combo-box-source");
 
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (source_menu), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (source_menu),
+		e_book_get_source (editor->target_book));
 }
 
 static void
@@ -2532,13 +2533,15 @@ new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
 	editor->load_book      = NULL;
 
 	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
-		GtkWidget *source_option_menu;
+		GtkWidget *source_combo_box;
 
 		eab_load_error_dialog (NULL, e_book_get_source (new_book), status);
 
-		source_option_menu = glade_xml_get_widget (editor->gui, "source-option-menu-source");
-		e_source_option_menu_select (E_SOURCE_OPTION_MENU (source_option_menu),
-					     e_book_get_source (editor->target_book));
+		source_combo_box = glade_xml_get_widget (
+			editor->gui, "source-combo-box-source");
+		e_source_combo_box_set_active (
+			E_SOURCE_COMBO_BOX (source_combo_box),
+			e_book_get_source (editor->target_book));
 
 		if (new_book)
 			g_object_unref (new_book);
@@ -2562,8 +2565,12 @@ cancel_load (EContactEditor *editor)
 }
 
 static void
-source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor *editor)
+source_changed (ESourceComboBox *source_combo_box, EContactEditor *editor)
 {
+	ESource *source;
+
+	source = e_source_combo_box_get_active (source_combo_box);
+
 	cancel_load (editor);
 
 	if (e_source_equal (e_book_get_source (editor->target_book), source))
@@ -3350,8 +3357,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	g_signal_connect (widget, "clicked", G_CALLBACK (full_name_clicked), e_contact_editor);
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-categories");
 	g_signal_connect (widget, "clicked", G_CALLBACK (categories_clicked), e_contact_editor);
-	widget = glade_xml_get_widget (e_contact_editor->gui, "source-option-menu-source");
-	g_signal_connect (widget, "source_selected", G_CALLBACK (source_selected), e_contact_editor);
+	widget = glade_xml_get_widget (e_contact_editor->gui, "source-combo-box-source");
+	g_signal_connect (widget, "changed", G_CALLBACK (source_changed), e_contact_editor);
 	label = glade_xml_get_widget (e_contact_editor->gui, "where-label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	widget = glade_xml_get_widget (e_contact_editor->gui, "button-ok");
@@ -3802,26 +3809,26 @@ e_contact_editor_create_web(gchar *name,
 }
 
 GtkWidget *
-e_contact_editor_create_source_option_menu (gchar *name,
-					    gchar *string1, gchar *string2,
-					    gint int1, gint int2);
+e_contact_editor_create_source_combo_box (gchar *name,
+					  gchar *string1, gchar *string2,
+					  gint int1, gint int2);
 
 GtkWidget *
-e_contact_editor_create_source_option_menu (gchar *name,
-					    gchar *string1, gchar *string2,
-					    gint int1, gint int2)
+e_contact_editor_create_source_combo_box (gchar *name,
+				    	  gchar *string1, gchar *string2,
+					  gint int1, gint int2)
 {
-	GtkWidget   *menu;
+	GtkWidget   *combo_box;
 	GConfClient *gconf_client;
 	ESourceList *source_list;
 
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
 
-	menu = e_source_option_menu_new (source_list);
+	combo_box = e_source_combo_box_new (source_list);
 	g_object_unref (source_list);
 	g_object_unref (gconf_client);
 
-	gtk_widget_show (menu);
-	return menu;
+	gtk_widget_show (combo_box);
+	return combo_box;
 }
