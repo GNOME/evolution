@@ -18,8 +18,7 @@ plugin_LTLIBRARIES = liborg-gnome-exchange-mapi.la
 
 liborg_gnome_exchange_mapi_la_SOURCES = 		\
 	exchange-mapi-account-setup.c			\
-	exchange-account-listener.c			\
-	exchange-mapi-folder.c
+	exchange-account-listener.c
 
 liborg_gnome_exchange_mapi_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\

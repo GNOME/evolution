@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include "exchange-account-listener.h"
+#include <exchange-account-listener.h>
 #include <string.h>
 #include  <camel/camel-i18n.h>
 #include <libedataserverui/e-passwords.h>
@@ -31,13 +31,18 @@
 #include <libecal/e-cal.h>
 
 #include <libmapi/libmapi.h>
-#include "exchange-mapi-folder.h"
+
+
+/* FIXME: The mapi should not be needed in the include statement.
+LIMBAPI_CFLAGS or something is going wrong */
+
+#include <mapi/exchange-mapi-folder.h>
+#include <mapi/exchange-mapi-connection.h>
 
 /*stores some info about all currently existing mapi accounts 
   list of ExchangeAccountInfo structures */
 
 static 	GList *mapi_accounts = NULL;
-static  GList *mapi_folders = NULL;
 
 struct _ExchangeAccountListenerPrivate {
 	GConfClient *gconf_client;
@@ -441,7 +446,7 @@ remove_calendar_tasks_sources (ExchangeAccountInfo *info)
 #endif
 
 static gboolean
-add_addressbook_sources (EAccount *account, GList *folders)
+add_addressbook_sources (EAccount *account, GSList *folders)
 {
 	CamelURL *url;
 	ESourceList *list;
@@ -464,7 +469,7 @@ add_addressbook_sources (EAccount *account, GList *folders)
 	list = e_source_list_new_for_gconf (client, "/apps/evolution/addressbook/sources" );
 	group = e_source_group_new (account->name, base_uri);
 
-	for (temp_list = folders; temp_list != NULL; temp_list = g_list_next (temp_list)) {
+	for (temp_list = folders; temp_list != NULL; temp_list = g_slist_next (temp_list)) {
  		ExchangeMAPIFolder *folder = temp_list->data;
 		char *tmp = NULL;
 		if (folder->container_class != MAPI_FOLDER_TYPE_CONTACT)
@@ -497,147 +502,10 @@ add_addressbook_sources (EAccount *account, GList *folders)
 	return TRUE;
 }
 
-static char *utf8tolinux(TALLOC_CTX *mem_ctx, const char *wstring)
-{
-	char		*newstr;
 
-	newstr = windows_to_utf8(mem_ctx, wstring);
-	return newstr;
-}
 
-static const char *
-get_container_class(TALLOC_CTX *mem_ctx, mapi_object_t *parent, mapi_id_t folder_id)
-{
-	enum MAPISTATUS		retval;
-	mapi_object_t		obj_folder;
-	struct SPropTagArray	*SPropTagArray;
-	struct SPropValue	*lpProps;
-	uint32_t		count;
 
-	mapi_object_init(&obj_folder);
-	retval = OpenFolder(parent, folder_id, &obj_folder);
-	if (retval != MAPI_E_SUCCESS) return false;
 
-	SPropTagArray = set_SPropTagArray(mem_ctx, 0x1, PR_CONTAINER_CLASS);
-	retval = GetProps(&obj_folder, SPropTagArray, &lpProps, &count);
-	MAPIFreeBuffer(SPropTagArray);
-	if ((lpProps[0].ulPropTag != PR_CONTAINER_CLASS) || (retval != MAPI_E_SUCCESS)) {
-		errno = 0;
-		return IPF_NOTE;
-	}
-	return lpProps[0].value.lpszA;
-}
-
-static gboolean
-get_child_folders(TALLOC_CTX *mem_ctx, mapi_object_t *parent, const char *parent_name, mapi_id_t folder_id, int count, GList *folders)
-{
-	enum MAPISTATUS		retval;
-	bool			ret;
-	mapi_object_t		obj_folder;
-	mapi_object_t		obj_htable;
-	struct SPropTagArray	*SPropTagArray;
-	struct SRowSet		rowset;
-	const char	       	*name;
-	const char 		*class;
-	char			*newname;
-	const uint32_t		*child;
-	uint32_t		index;
-	const uint64_t		*fid;
-	int			i;
-
-	mapi_object_init(&obj_folder);
-	retval = OpenFolder(parent, folder_id, &obj_folder);
-	if (retval != MAPI_E_SUCCESS) 
-		return FALSE;
-
-	mapi_object_init(&obj_htable);
-	retval = GetHierarchyTable(&obj_folder, &obj_htable);
-	if (retval != MAPI_E_SUCCESS) 
-		return FALSE;
-
-	SPropTagArray = set_SPropTagArray(mem_ctx, 0x3,
-					  PR_DISPLAY_NAME,
-					  PR_FID,
-					  PR_FOLDER_CHILD_COUNT);
-	retval = SetColumns(&obj_htable, SPropTagArray);
-	MAPIFreeBuffer(SPropTagArray);
-	if (retval != MAPI_E_SUCCESS)
-		return FALSE;
-	
-	while ((retval = QueryRows(&obj_htable, 0x32, TBL_ADVANCE, &rowset) != MAPI_E_NOT_FOUND) && rowset.cRows) {
-		for (index = 0; index < rowset.cRows; index++) {
-			ExchangeMAPIFolder *folder;
-			fid = (const uint64_t *)find_SPropValue_data(&rowset.aRow[index], PR_FID);
-			name = (const char *)find_SPropValue_data(&rowset.aRow[index], PR_DISPLAY_NAME);
-			child = (const uint32_t *)find_SPropValue_data(&rowset.aRow[index], PR_FOLDER_CHILD_COUNT);
-			class = get_container_class(mem_ctx, parent, *fid);
-			newname = utf8tolinux(mem_ctx, name);
-			printf("|---+ %-15s : (Container class: %s %016llx)\n", newname, class, *fid);
-			folder = exchange_mapi_folder_new (newname, parent_name, class, *fid, folder_id, child);
-			folders = g_list_append (folders, folder);
-			if (*child)
-				get_child_folders(mem_ctx, &obj_folder, newname, *fid, count + 1, folders);
-			MAPIFreeBuffer(newname);
-
-			
-		}
-	}
-	return FALSE;
-}
-
-void
-exchange_account_fetch_folders ()
-{
-	TALLOC_CTX *mem_ctx;
-	mapi_object_t obj_store;
-	enum MAPISTATUS			retval;
-	mapi_id_t			id_mailbox;
-	struct SPropTagArray		*SPropTagArray;
-	struct SPropValue		*lpProps = NULL;
-	uint32_t			cValues;
-	const char			*mailbox_name;
-	char				*utf8_mailbox_name;
-	ExchangeMAPIFolder *folder;
-
-	mem_ctx = talloc_init("Evolution");
-	mapi_object_init(&obj_store);
-
-	retval = OpenMsgStore(&obj_store);
-	if (retval != MAPI_E_SUCCESS) {
-		mapi_errstr("OpenMsgStore", GetLastError());
-		return NULL;
-	}
-
-	/* Retrieve the mailbox folder name */
-	SPropTagArray = set_SPropTagArray(mem_ctx, 0x1, PR_DISPLAY_NAME);
-	retval = GetProps(&obj_store, SPropTagArray, &lpProps, &cValues);
-	MAPIFreeBuffer(SPropTagArray);
-	if (retval != MAPI_E_SUCCESS) 
-		return NULL;
-
-	if (lpProps[0].value.lpszA) {
-		mailbox_name = lpProps[0].value.lpszA;
-	} else {
-		return NULL;
-	}	
-
-	/* Prepare the directory listing */
-	retval = GetDefaultFolder(&obj_store, &id_mailbox, olFolderTopInformationStore);
-	if (retval != MAPI_E_SUCCESS) {
-		mapi_errstr("[Openchange_plugin] Error ", retval);
-		return NULL;
-	}
-	utf8_mailbox_name = utf8tolinux(mem_ctx, mailbox_name);
-
-	/* FIXME: May have to get the child folders count? Do we need/use it? */
-	folder = exchange_mapi_folder_new (utf8_mailbox_name, NULL, IPF_NOTE, id_mailbox, 0, 0); 
-
-	mapi_folders = g_list_append (mapi_folders, folder);
-	get_child_folders(mem_ctx, &obj_store, utf8_mailbox_name, id_mailbox, 0, mapi_folders);
-
-	MAPIFreeBuffer(utf8_mailbox_name);
-
-}
 /*
 static void 
 modify_addressbook_sources ( EAccount *account, ExchangeAccountInfo *existing_account_info )
@@ -784,7 +652,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 	EAccount *parent;
 	gboolean status;
 	CamelURL *parent_url;
-	GList *folders;
+	GSList *folders_list = NULL;
 
 	if (!is_mapi_account (account))
 		return;
@@ -795,7 +663,16 @@ account_added (EAccountList *account_listener, EAccount *account)
 	info->source_url = g_strdup (account->source->url);
 	printf("account happens\n");
 
-	add_addressbook_sources (account, mapi_folders);	
+		/* Fetch the folders into a global list for future use.*/
+
+	if (exchange_mapi_get_folders_list (&folders_list)) {
+		printf ("\n\aget folders list call is sucessful \n\a");
+	}
+	
+
+	add_addressbook_sources (account, folders_list);
+	/*FIXME: Maybe the folders_list above should be freed */
+
 		
 //	if (status) 
 //		add_calendar_tasks_sources (info);
@@ -935,6 +812,8 @@ exchange_account_listener_construct (ExchangeAccountListener *config_listener)
 		}
 			
 	}
+
+	printf ("\n\alistener is constructed \n\a");
 
 	g_signal_connect (config_listener->priv->account_list, "account_added", G_CALLBACK (account_added), NULL);
 //	g_signal_connect (config_listener->priv->account_list, "account_changed", G_CALLBACK (account_changed), NULL);

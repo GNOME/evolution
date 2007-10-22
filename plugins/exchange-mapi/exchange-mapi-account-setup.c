@@ -209,9 +209,6 @@ create_profile(const char *username, const char *password, const char *domain, c
 	if (!exchange_mapi_connection_new(profname, NULL))
 			return FALSE;
 
-	/* Fetch the folders into a global list for future use.*/
-	exchange_account_fetch_folders ();
-	
 	g_free (profname);
 	
 	return TRUE;
