@@ -210,7 +210,9 @@ create_profile(const char *username, const char *password, const char *domain, c
 			return FALSE;
 
 	g_free (profname);
-	
+
+	exchange_account_listener_get_folder_list ();
+
 	return TRUE;
   
 }

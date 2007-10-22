@@ -1,3 +1,10 @@
+2007-10-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-account-listener.c: (add_addressbook_sources),
+	(account_added), (exchange_account_listener_get_folder_list):
+	* exchange-mapi-account-setup.c: (create_profile): Hack it, so that
+	folders are fetched during account setup.
+
 2007-10-22  Sankar P  <psankar@novell.com>
 
 	* Makefile.am:

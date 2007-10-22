@@ -43,7 +43,7 @@ LIMBAPI_CFLAGS or something is going wrong */
   list of ExchangeAccountInfo structures */
 
 static 	GList *mapi_accounts = NULL;
-
+static	GSList *folders_list = NULL;
 struct _ExchangeAccountListenerPrivate {
 	GConfClient *gconf_client;
 	/* we get notification about mail account changes form this object */
@@ -485,8 +485,9 @@ add_addressbook_sources (EAccount *account, GSList *folders)
 		tmp = g_strdup_printf ("%016llx", folder->folder_id);
 		e_source_set_property(source, "folder-id", tmp);
 		g_free (tmp);
-		e_source_set_property (source, "offline_sync", 
-					       camel_url_get_param (url, "offline_sync") ? "1" : "0");
+//		e_source_set_property (source, "offline_sync", 
+//					       camel_url_get_param (url, "offline_sync") ? "1" : "0");
+		e_source_set_property(source, "offline_sync", "1");
 		e_source_set_property (source, "completion", "true");
 		e_source_group_add_source (group, source, -1);
 		g_object_unref (source);
@@ -652,7 +653,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 	EAccount *parent;
 	gboolean status;
 	CamelURL *parent_url;
-	GSList *folders_list = NULL;
+
 
 	if (!is_mapi_account (account))
 		return;
@@ -664,11 +665,6 @@ account_added (EAccountList *account_listener, EAccount *account)
 	printf("account happens\n");
 
 		/* Fetch the folders into a global list for future use.*/
-
-	if (exchange_mapi_get_folders_list (&folders_list)) {
-		printf ("\n\aget folders list call is sucessful \n\a");
-	}
-	
 
 	add_addressbook_sources (account, folders_list);
 	/*FIXME: Maybe the folders_list above should be freed */
@@ -818,6 +814,17 @@ exchange_account_listener_construct (ExchangeAccountListener *config_listener)
 	g_signal_connect (config_listener->priv->account_list, "account_added", G_CALLBACK (account_added), NULL);
 //	g_signal_connect (config_listener->priv->account_list, "account_changed", G_CALLBACK (account_changed), NULL);
 //	g_signal_connect (config_listener->priv->account_list, "account_removed", G_CALLBACK (account_removed), NULL);    
+}
+
+void
+exchange_account_listener_get_folder_list ()
+{
+	if (folders_list)
+		return;
+	
+	if (exchange_mapi_get_folders_list (&folders_list)) {
+		printf ("\n\aget folders list call is sucessful \n\a");
+	}	
 }
 
 GType
