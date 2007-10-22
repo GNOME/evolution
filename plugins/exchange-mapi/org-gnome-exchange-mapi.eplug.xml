@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<e-plugin-list>
+	<e-plugin type="shlib" location="@PLUGINDIR@/liborg-gnome-exchange-mapi.so" load-on-startup="true" id="org.gnome.evolution.plugin.exchange-mapi" name="Exchange MAPI">
+	<author name="Srinivasa Ragavan" email="sragavan@novell.com"/>
+    	<author name="Johnny Jacob" email="jjohnny@novell.com"/>
+	<description>Exchange MAPI Plugin</description>
+
+   <hook class="org.gnome.evolution.mail.config:1.0">
+      <group target="account"   
+	     id="org.gnome.evolution.mail.config.accountWizard"
+	     check="org_gnome_exchange_mapi_check_options">
+	<item type="item_table" path="10.receive/10.config/30.mapi" factory="org_gnome_exchange_mapi_account_setup"/>
+      </group>
+    </hook>
+   <hook class="org.gnome.evolution.mail.config:1.0">
+      <group target="account"  
+	     id="org.gnome.evolution.mail.config.accountDruid"
+	     check="org_gnome_exchange_mapi_check_options">
+	<item type="item_table" path="10.receive/10.config/30.mapi" factory="org_gnome_exchange_mapi_account_setup"/>
+      </group>
+    </hook>
+   <hook class="org.gnome.evolution.mail.config:1.0">
+      <group target="account" id="org.gnome.evolution.mail.config.accountEditor"
+	     check="org_gnome_exchange_mapi_check_options"
+	     commit="org_gnome_exchange_mapi_commit">
+	<item type="item_table" path="10.receive/10.config/30.mapi" factory="org_gnome_exchange_mapi_account_setup"/>
+      </group>
+    </hook>
+  </e-plugin>
+</e-plugin-list>

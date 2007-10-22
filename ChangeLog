@@ -1,3 +1,7 @@
+2007-10-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* configure.in: Code drop for the Exchange MAPI plugin.
+
 2007-10-18  Diego Escalante Urrelo  <diegoe@gnome.org>
 
 	** Fixes bug #476389

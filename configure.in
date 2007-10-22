@@ -1164,6 +1164,34 @@ else
 fi
 AM_CONDITIONAL(ENABLE_EXCHANGE, [test x$enable_exchange = xyes])
 
+dnl **************************************************
+dnl Exchange MAPI support.
+dnl **************************************************
+AC_ARG_ENABLE([exchange-mapi],
+	      AC_HELP_STRING([--enable-exchange-mapi],
+			     [Build Exchange MAPI plugins]),
+	      [enable_exchange_mapi=$enableval],[enable_exchange_mapi=yes])
+if test "x$enable_exchange_mapi" = "xyes"; then
+	LIBMAPI_CFLAGS=
+	LIBMAPI_LIBS=
+	PKG_CHECK_MODULES(LIBMAPI, libexchangemapi-1.0 , HAVE_LIBMAPI="yes", HAVE_LIBMAPI="no")
+	if test "x$HAVE_LIBMAPI" = "xyes"; then
+		AC_DEFINE(HAVE_LIBMAPI, 1, [libmapi available])
+		libmapi="libmapi"
+		msg_exchange_mapi=yes
+		EXCHANGE_MAPI_PLUGIN="exchange-mapi"
+	else
+		libmapi==""
+	fi
+	AC_SUBST(LIBMAPI_CFLAGS)
+	AC_SUBST(LIBMAPI_LIBS)	
+
+else
+	msg_exchange_mapi=no
+fi
+AM_CONDITIONAL(ENABLE_EXCHANGE_MAPI, [test x$enable_exchange_mapi = xyes])
+
+
 dnl ******************
 dnl CDE dtappintegrate
 dnl ******************
@@ -1683,7 +1711,7 @@ AC_ARG_ENABLE([plugins],
 
 dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup hula-account-setup mail-account-disable publish-calendar caldav imap-features"
-plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
+plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $EXCHANGE_MAPI_PLUGIN $MONO_PLUGIN" 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
 plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face" 
@@ -1968,6 +1996,7 @@ plugins/mailing-list-actions/Makefile
 plugins/itip-formatter/Makefile
 plugins/backup-restore/Makefile
 plugins/exchange-operations/Makefile
+plugins/exchange-mapi/Makefile
 plugins/default-source/Makefile
 plugins/default-mailer/Makefile
 plugins/addressbook-file/Makefile
@@ -2013,6 +2042,8 @@ fi
 echo "\
 	Pilot conduits:   $msg_pilot
 	Libnotify:	  $HAVE_LIBNOTIFY
+	LibMAPI:	  $HAVE_LIBMAPI
+	ExchangeMAPI:	$msg_exchange_mapi
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
 	SSL support:      $msg_ssl
 	SMIME support:    $msg_smime
