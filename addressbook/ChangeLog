@@ -1,3 +1,11 @@
+2007-10-23  Tobias Mueller  <tobiasmue@svn.gnome.org>
+	Patch by Michael Monreal <michael.monreal@gmx.net>
+	
+	** Fixes bug #486406
+
+	* gui/component/addressbook-component.c:
+	Use addressbook-new icon instead of stock_addressbook
+
 2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #417999
