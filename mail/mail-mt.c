@@ -988,6 +988,8 @@ static void do_op_status(struct _mail_msg *mm)
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			if (msg->ops->describe_msg)
 				what = msg->ops->describe_msg (msg, FALSE);
+			else if (m->what)
+				what = g_strdup (m->what);
 			/* uncommenting because message is not very useful for a user, see bug 271734*/
 			else {
 				what = g_strdup("");
@@ -997,15 +999,22 @@ static void do_op_status(struct _mail_msg *mm)
 			data->activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
 			
 			g_free (what);
-			
 			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {
+				int activity_id = data->activity_id;
+
 				MAIL_MT_UNLOCK (mail_msg_lock);
-				if (msg->cancel)
+				if (msg->cancel) {
+					camel_operation_mute (msg->cancel);
 					camel_operation_unref (msg->cancel);
+				}
 				camel_exception_clear (&msg->ex);
 				g_free (msg->priv);
 				g_free (msg);
+				
+				if (activity_id != 0)
+					mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) end_event_callback,
+								NULL, GINT_TO_POINTER (activity_id), NULL);
 			} else {
 				data->activity_state = 2;
 				MAIL_MT_UNLOCK (mail_msg_lock);

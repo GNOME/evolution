@@ -1,3 +1,11 @@
+2007-10-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #271734
+
+	* mail-mt.c: (do_op_status): Show description of operation, if
+	available, instead of empty string and end activity properly, if
+	operation ended before/during activity start. 
+
 2007-10-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #468736
