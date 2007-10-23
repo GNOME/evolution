@@ -1,3 +1,11 @@
+2007-10-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* configure.in
+	* plugins/google-account-setup: Initial commit for the 
+	Google Calendar Feature.
+
+	Committing on behalf of Ebby Wiselyn <ebbywiselyn@gmail.com>
+
 2007-10-18  Diego Escalante Urrelo  <diegoe@gnome.org>
 
 	** Fixes bug #476389
