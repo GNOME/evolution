@@ -34,7 +34,7 @@
 #include <e-util/e-config-listener.h>
 
 EConfigListener *
-eab_get_config_database ()
+eab_get_config_database (void)
 {
 	static EConfigListener *config_db;
 

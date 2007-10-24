@@ -100,7 +100,7 @@ eab_menu_get_type(void)
 
 EABMenu *eab_menu_new(const char *menuid)
 {
-	EABMenu *emp = g_object_new(eab_menu_get_type(), 0);
+	EABMenu *emp = g_object_new(eab_menu_get_type(), NULL);
 
 	e_menu_construct(&emp->menu, menuid);
 
@@ -208,12 +208,12 @@ static const EMenuHookTargetMask eabmph_select_masks[] = {
 	{ "any", EAB_MENU_SELECT_ANY },
 	{ "editable", EAB_MENU_SELECT_EDITABLE },
 	{ "email", EAB_MENU_SELECT_EMAIL },
-	{ 0 }
+	{ NULL }
 };
 
 static const EMenuHookTargetMap eabmph_targets[] = {
 	{ "select", EAB_MENU_TARGET_SELECT, eabmph_select_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void

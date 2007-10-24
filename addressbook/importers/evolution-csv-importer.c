@@ -86,7 +86,7 @@ typedef struct {
 	int flags;
 }import_fields;
 
-import_fields csv_fields_outlook[] = {
+static import_fields csv_fields_outlook[] = {
 	{"Title", NOMAP},
 	{"First Name", E_CONTACT_GIVEN_NAME},
 	{"Middle Name", NOMAP},
@@ -181,7 +181,7 @@ import_fields csv_fields_outlook[] = {
 	{"Web Page", E_CONTACT_HOMEPAGE_URL},
 };
 
-import_fields csv_fields_mozilla[] = {
+static import_fields csv_fields_mozilla[] = {
 	{"First Name", E_CONTACT_GIVEN_NAME},
 	{"Last Name", E_CONTACT_FAMILY_NAME},
 	{"Display Name", NOMAP},
@@ -222,7 +222,7 @@ import_fields csv_fields_mozilla[] = {
 	
 };
 
-import_fields csv_fields_evolution[] = {
+static import_fields csv_fields_evolution[] = {
 	{"First Name", E_CONTACT_GIVEN_NAME},
 	{"Last Name", E_CONTACT_FAMILY_NAME},
 	{"id", NOMAP, FLAG_INVALID},

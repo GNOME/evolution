@@ -29,9 +29,6 @@
 #include <bonobo/bonobo-main.h>
 #include "e-contact-print.h"
 
-/* This is a horrible thing to do, but it is just a test. */
-GtkWidget *print;
-
 #if 0
 static void about_callback( GtkWidget *widget, gpointer data )
 {

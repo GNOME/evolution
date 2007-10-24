@@ -29,7 +29,7 @@
 #include "e-contact-print-style-editor.h"
 
 /* This is a horrible thing to do, but it is just a test. */
-GtkWidget *editor;
+static GtkWidget *editor;
 
 static void destroy_callback(GtkWidget *app, gpointer data)
 {

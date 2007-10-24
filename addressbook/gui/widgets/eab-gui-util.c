@@ -108,7 +108,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	}
 	else if (!strncmp (uri, "ldap:", 5)) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
-#if HAVE_LDAP
+#ifdef HAVE_LDAP
 		label_string = 
 			_("We were unable to open this addressbook.  This either "
 			  "means you have entered an incorrect URI, or the LDAP server "

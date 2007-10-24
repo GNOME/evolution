@@ -738,7 +738,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	if (GNOME_CANVAS_ITEM_CLASS( parent_class )->event)
 		return (* GNOME_CANVAS_ITEM_CLASS( parent_class )->event) (item, event);
 	else
-		return 0;
+		return FALSE;
 }
 
 static void
@@ -1021,28 +1021,29 @@ remodel( EMinicard *e_minicard )
 }
 
 static void
-e_minicard_reflow( GnomeCanvasItem *item, int flags )
+e_minicard_reflow(GnomeCanvasItem *item, int flags)
 {
 	EMinicard *e_minicard = E_MINICARD(item);
-	if ( GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED ) {
+	if (GTK_OBJECT_FLAGS (e_minicard) & GNOME_CANVAS_ITEM_REALIZED) {
 		GList *list;
 		gdouble text_height;
 		gint old_height;
 		
 		old_height = e_minicard->height;
 
-		g_object_get( e_minicard->header_text,
+		g_object_get(e_minicard->header_text,
 			      "text_height", &text_height,
-			      NULL );
+			      NULL);
 		
 		e_minicard->height = text_height + 10.0;
 		
-		gnome_canvas_item_set( e_minicard->header_rect,
+		gnome_canvas_item_set(e_minicard->header_rect,
 				       "y2", text_height + 9.0,
-				       NULL );
+				       NULL);
 		
 		for(list = e_minicard->fields; list; list = g_list_next(list)) {
 			EMinicardField *field = E_MINICARD_FIELD(list->data);
+			/* Why not use the item that is passed in? */
 			GnomeCanvasItem *item = field->label;
 			g_object_get (item,
 				      "height", &text_height,
@@ -1052,13 +1053,13 @@ e_minicard_reflow( GnomeCanvasItem *item, int flags )
 		}
 		e_minicard->height += 2;
 		
-		gnome_canvas_item_set( e_minicard->rect,
+		gnome_canvas_item_set(e_minicard->rect,
 				       "x2", (double) e_minicard->width - 1.0,
 				       "y2", (double) e_minicard->height - 1.0,
-				       NULL );
-		gnome_canvas_item_set( e_minicard->header_rect,
+				       NULL);
+		gnome_canvas_item_set(e_minicard->header_rect,
 				       "x2", (double) e_minicard->width - 3.0,
-				       NULL );
+				       NULL);
 
 		if (old_height != e_minicard->height)
 			e_canvas_item_request_parent_reflow(item);

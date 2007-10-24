@@ -162,7 +162,7 @@ e_contact_list_model_construct (EContactListModel *model)
 }
 
 ETableModel *
-e_contact_list_model_new ()
+e_contact_list_model_new (void)
 {
 	EContactListModel *model;
 

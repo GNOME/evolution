@@ -1,3 +1,39 @@
+2007-10-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/contact-editor/e-contact-editor-address.c:
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	* gui/contact-editor/e-contact-editor-im.c:
+	* gui/contact-editor/e-contact-editor.c: (save_contact),
+	(app_delete_event_cb), (e_contact_editor_set_property),
+	(e_contact_editor_create_date):
+	* gui/contact-list-editor/e-contact-list-model.c:
+	(e_contact_list_model_new):
+	* gui/merging/eab-contact-merging.c: (mergeit), (response):
+	* gui/widgets/e-minicard.c: (e_minicard_event), (add_field),
+	(get_email_location), (add_email_field), (remodel),
+	(e_minicard_reflow), (e_minicard_compare):
+	* gui/widgets/eab-config.c: (eab_config_new):
+	* gui/widgets/eab-gui-util.c: (eab_load_error_dialog),
+	(file_exists), (save_it), (contact_added_cb),
+	(eab_send_to_contact_and_email_num_list):
+	* gui/widgets/eab-menu.c: (eab_menu_new):
+	* gui/widgets/eab-popup.c: (eab_popup_new):
+	* importers/evolution-csv-importer.c: (parseLine),
+	(getNextCSVEntry):
+	* printing/e-contact-print-style-editor.c:
+	* printing/test-contact-print-style-editor.c:
+	* printing/test-print.c:
+	* util/eab-book-util.c: (eab_get_config_database):
+
+	Warning fixes:
+	- mixing code and declarations
+	- NULL vs 0 vs FALSE/TRUE
+	- mark code static
+	- some coding style fixes
+	- if vs ifdef
+	- Remove some unused bits
+	- ANSIfication of declarations
+
 2007-10-23  Tobias Mueller  <tobiasmue@svn.gnome.org>
 	Patch by Michael Monreal <michael.monreal@gmx.net>
 	

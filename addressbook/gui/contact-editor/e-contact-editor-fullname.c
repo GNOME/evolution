@@ -148,7 +148,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	}
 }
 
-void
+static void
 e_contact_editor_fullname_dispose (GObject *object)
 {
 	EContactEditorFullname *e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME(object);

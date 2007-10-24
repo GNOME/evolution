@@ -297,7 +297,7 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 	}
 }
 
-void
+static void
 e_contact_editor_im_dispose (GObject *object)
 {
 	EContactEditorIm *e_contact_editor_im = E_CONTACT_EDITOR_IM(object);

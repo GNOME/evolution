@@ -112,7 +112,7 @@ e_contact_print_style_editor_init (EContactPrintStyleEditor *e_contact_print_sty
 			    GTK_WIDGET(e_contact_print_style_editor));
 }
 
-void
+static void
 e_contact_print_style_editor_destroy (GtkObject *object)
 {
 	EContactPrintStyleEditor *e_contact_print_style_editor = E_CONTACT_PRINT_STYLE_EDITOR(object);

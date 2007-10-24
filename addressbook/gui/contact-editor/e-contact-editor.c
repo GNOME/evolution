@@ -2980,7 +2980,9 @@ static void
 save_contact (EContactEditor *ce, gboolean should_close)
 {
 	char *uid;
-	
+	const char *name_entry_string, *file_as_entry_string, *company_name_string;
+	GtkWidget *entry_fullname, *entry_file_as, *company_name;
+
 	if (!ce->target_book)
 		return;
 	
@@ -2990,12 +2992,12 @@ save_contact (EContactEditor *ce, gboolean should_close)
 			return;
 	}
 
-	GtkWidget *entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
-	GtkWidget *entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
-	GtkWidget *company_name = glade_xml_get_widget (ce->gui, "entry-company");
-	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
-	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
-	const char *company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));
+	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
+	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	company_name = glade_xml_get_widget (ce->gui, "entry-company");
+	name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
+	file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
+	company_name_string = gtk_entry_get_text (GTK_ENTRY (company_name));
 
 	if (strcmp (company_name_string , "")) {
 		if (!strcmp (name_entry_string, "")) 
@@ -3388,7 +3390,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	gtk_widget_show (e_contact_editor->app);
 }
 
-void
+static void
 e_contact_editor_dispose (GObject *object)
 {
 	EContactEditor *e_contact_editor = E_CONTACT_EDITOR(object);

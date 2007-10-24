@@ -185,7 +185,7 @@ mergeit (EContactMergingLookup *lookup)
 	int num_of_email;
 	GList *email_attr_list;
 	int row = -1;
-	int value = 0;
+	int value = 0, result;
 
 	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_container_border_width (GTK_CONTAINER(dialog), 5);
@@ -332,7 +332,7 @@ mergeit (EContactMergingLookup *lookup)
 	gtk_widget_show (scrolled_window);	
 	g_signal_connect (dialog, "map-event", G_CALLBACK (dialog_map), table);	
 	gtk_widget_show_all ((GtkWidget *)table);
-	gint result = gtk_dialog_run (dialog);
+	result = gtk_dialog_run (dialog);
 
 	switch (result)
 	{	     

@@ -116,7 +116,7 @@ eab_popup_get_type(void)
 
 EABPopup *eab_popup_new(const char *menuid)
 {
-	EABPopup *eabp = g_object_new(eab_popup_get_type(), 0);
+	EABPopup *eabp = g_object_new(eab_popup_get_type(), NULL);
 
 	e_popup_construct(&eabp->popup, menuid);
 
@@ -298,24 +298,24 @@ static const EPopupHookTargetMask eabph_select_masks[] = {
 	{ "any", EAB_POPUP_SELECT_ANY },
 	{ "editable", EAB_POPUP_SELECT_EDITABLE },
 	{ "email", EAB_POPUP_SELECT_EMAIL },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask eabph_source_masks[] = {
 	{ "primary", EAB_POPUP_SOURCE_PRIMARY },
 	{ "system", EAB_POPUP_SOURCE_SYSTEM },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask eabph_uri_masks[] = {
 	{ "http", EAB_POPUP_URI_HTTP },
 	{ "internal-mailto", EAB_POPUP_URI_MAILTO },
 	{ "notmailto", EAB_POPUP_URI_NOT_MAILTO },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask eabph_select_names_masks[] = {
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMap eabph_targets[] = {
@@ -323,7 +323,7 @@ static const EPopupHookTargetMap eabph_targets[] = {
         { "uri", EAB_POPUP_TARGET_URI, eabph_uri_masks },
 	{ "source", EAB_POPUP_TARGET_SOURCE, eabph_source_masks },
 	{ "select-names", EAB_POPUP_TARGET_SELECT_NAMES, eabph_select_names_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void

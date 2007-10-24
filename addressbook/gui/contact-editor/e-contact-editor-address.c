@@ -463,7 +463,7 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 	}
 }
 
-void
+static void
 e_contact_editor_address_dispose (GObject *object)
 {
 	EContactEditorAddress *e_contact_editor_address = E_CONTACT_EDITOR_ADDRESS(object);

@@ -127,7 +127,7 @@ eab_config_get_type (void)
 EABConfig *
 eab_config_new (int type, const char *menuid)
 {
-	EABConfig *ecp = g_object_new (eab_config_get_type(), 0);
+	EABConfig *ecp = g_object_new (eab_config_get_type(), NULL);
 	e_config_construct (&ecp->config, type, menuid);
 	return ecp;
 }
@@ -144,12 +144,12 @@ eab_config_target_new_source (EABConfig *ecp, struct _ESource *source)
 }
 
 static const EConfigHookTargetMask ecph_no_masks[] = {
-	{ 0 }
+	{ NULL }
 };
 
 static const EConfigHookTargetMap ecph_targets[] = {
 	{ "source", EAB_CONFIG_TARGET_SOURCE, ecph_no_masks },
-	{ 0 },
+	{ NULL },
 };
 
 static void
