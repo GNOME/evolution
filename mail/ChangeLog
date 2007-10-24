@@ -1,3 +1,9 @@
+2007-10-24  Andre Klapper <a9016009@gmx.de>
+
+	** Fix for bug #261165
+
+	* filtertypes.xml: added search on CC and BCC
+
 2007-10-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #271734
