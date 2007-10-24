@@ -1,10 +1,10 @@
 # This file is distributed under the same license as the evolution package.
 #
-# Slovenian maintainer: Matej Urbančič <matej.urban@gmail.com>.
+# Slovenian maintainer: Matej Urbančič <mateju@svn.gnome.org>.
 #
 # Translators:
 # Andraz Tori <andraz.tori1@guest.arnes.si>, 2002.
-# Matej Urbančič <matej.urban@gmail.com>, 2006 - 2007.
+# Matej Urbančič <mateju@svn.gnome.org>, 2006 - 2007.
 #
 #
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-28 16:28+0100\n"
-"PO-Revision-Date: 2007-10-16 17:13+0100\n"
-"Last-Translator: Matej Urbančič <matej.urban@gmail.com>\n"
+"PO-Revision-Date: 2007-10-24 14:23+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -693,7 +693,7 @@ msgstr "Vsebino knjige kopiraj lokalno za delo brez povezave"
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222
 #: ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2316
+#: ../plugins/itip-formatter/itip-formatter.c:2315
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Splošno"
@@ -976,7 +976,7 @@ msgstr "Evolution bo uporabila ta e-poštni naslov, za vašo overitev pri poveza
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
-msgstr "Najdi možne iskalne zbirke"
+msgstr "Najdi mogoče iskalne zbirke"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 msgid "Lo_gin:"
@@ -1104,7 +1104,7 @@ msgstr "_Omejitev prenosa:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
-msgstr "_Najdi možne iskalne zbirke"
+msgstr "_Najdi mogoče iskalne zbirke"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
@@ -1207,7 +1207,7 @@ msgstr "Stik"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:551
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:566
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2430
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2431
 msgid "Contact Editor"
 msgstr "Urejevalnik stikov"
 
@@ -1277,7 +1277,7 @@ msgstr "_Rojstni dan:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 #: ../calendar/gui/dialogs/event-page.c:909
 #: ../calendar/gui/dialogs/event-page.glade.h:15
-#: ../plugins/itip-formatter/itip-view.c:1836
+#: ../plugins/itip-formatter/itip-view.c:1840
 msgid "_Calendar:"
 msgstr "_Koledar:"
 
@@ -2470,20 +2470,20 @@ msgid "Changed"
 msgstr "Spremenjeno"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:561
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2425
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2426
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Urejevalnik stikov - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2808
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2815
 msgid "Please select an image for this contact"
 msgstr "Izberite sliko za ta stik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2809
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2816
 msgid "_No image"
 msgstr "_Brez slike"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3080
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3087
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2491,43 +2491,43 @@ msgstr ""
 "Podatki o stiku so neveljavni:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3084
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3091
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' ima neveljavno obliko"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3091
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3098
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' ima neveljavno obliko"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3106
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3117
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3124
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' je prazen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3132
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3139
 msgid "Invalid contact."
 msgstr "Neveljaven stik."
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:294
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:298
 msgid "Contact Quick-Add"
 msgstr "Hitro dodaj stik"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:297
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:301
 msgid "_Edit Full"
 msgstr "_Uredi celoto"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:339
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
 msgid "_Full name"
 msgstr "_Polno ime"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:350
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:358
 msgid "E_mail"
 msgstr "E-_pošta"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:361
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:369
 msgid "_Select Address Book"
 msgstr "_Izberite imenik"
 
@@ -2679,7 +2679,7 @@ msgid "Add an email to the List"
 msgstr "Dodaj e-pošto na seznam"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:938
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:943
 msgid "Contact List Editor"
 msgstr "Urejevalnik stikov"
 
@@ -2724,11 +2724,11 @@ msgstr "Knjiga"
 msgid "Is New List"
 msgstr "Je nov seznam"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:759
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:764
 msgid "_Members"
 msgstr "_Člani"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:767
 msgid "Contact List Members"
 msgstr "Člani seznama stikov"
 
@@ -4364,7 +4364,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Ni mogoče zapisati Pilotovega seznama opravil"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2307
+#: ../plugins/itip-formatter/itip-formatter.c:2306
 msgid "Calendar and Tasks"
 msgstr "Koledar in opravila"
 
@@ -5967,7 +5967,7 @@ msgid "Recurrence"
 msgstr "Ponovitev"
 
 #: ../calendar/gui/dialogs/event-page.c:836
-#: ../calendar/gui/dialogs/event-page.c:2848
+#: ../calendar/gui/dialogs/event-page.c:2849
 msgid "This event has alarms"
 msgstr "Dogodek ima alarme"
 
@@ -5987,11 +5987,11 @@ msgstr "_Pooblaščenci"
 msgid "Atte_ndees"
 msgstr "Udeleže_nci"
 
-#: ../calendar/gui/dialogs/event-page.c:1139
+#: ../calendar/gui/dialogs/event-page.c:1138
 msgid "Event with no start date"
 msgstr "Dogodek brez začetnega datuma"
 
-#: ../calendar/gui/dialogs/event-page.c:1142
+#: ../calendar/gui/dialogs/event-page.c:1141
 msgid "Event with no end date"
 msgstr "Dogodek brez končnega datuma"
 
@@ -6035,19 +6035,19 @@ msgstr "Potreben je vsaj en udeleženec."
 msgid "_Add "
 msgstr "Dod_aj"
 
-#: ../calendar/gui/dialogs/event-page.c:2724
+#: ../calendar/gui/dialogs/event-page.c:2725
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Ni bilo mogoče odpreti koledarja '%s'."
 
-#: ../calendar/gui/dialogs/event-page.c:2768
+#: ../calendar/gui/dialogs/event-page.c:2769
 #: ../calendar/gui/dialogs/memo-page.c:957
 #: ../calendar/gui/dialogs/task-page.c:1764
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Trenutno delujete v imenu %s"
 
-#: ../calendar/gui/dialogs/event-page.c:3067
+#: ../calendar/gui/dialogs/event-page.c:3068
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -6056,7 +6056,7 @@ msgstr[1] "%d dan pred sestankom"
 msgstr[2] "%d dni pred sestankom"
 msgstr[3] "%d dni pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:3073
+#: ../calendar/gui/dialogs/event-page.c:3074
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -6065,7 +6065,7 @@ msgstr[1] "%d ura pred sestankom"
 msgstr[2] "%d uri pred sestankom"
 msgstr[3] "%d ure pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:3079
+#: ../calendar/gui/dialogs/event-page.c:3080
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
@@ -6074,12 +6074,12 @@ msgstr[1] "%d minuto pred sestankom"
 msgstr[2] "%d minuti pred sestankom"
 msgstr[3] "%d minute pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:3092
+#: ../calendar/gui/dialogs/event-page.c:3093
 msgid "Customize"
 msgstr "Prilagodi"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:3097
+#: ../calendar/gui/dialogs/event-page.c:3098
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:657
 #: ../calendar/gui/e-itip-control.c:1131
@@ -6093,7 +6093,7 @@ msgstr "Prilagodi"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1996
+#: ../plugins/itip-formatter/itip-formatter.c:1995
 #: ../widgets/misc/e-cell-date-edit.c:247
 #: ../widgets/misc/e-dateedit.c:1504
 #: ../widgets/misc/e-dateedit.c:1718
@@ -6790,8 +6790,8 @@ msgstr "Ne"
 #: ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:222
 #: ../mail/em-utils.c:1210
-#: ../plugins/itip-formatter/itip-formatter.c:396
-#: ../plugins/itip-formatter/itip-formatter.c:2021
+#: ../plugins/itip-formatter/itip-formatter.c:395
+#: ../plugins/itip-formatter/itip-formatter.c:2020
 #: ../plugins/plugin-manager/plugin-manager.c:82
 #: ../widgets/misc/e-attachment-bar.c:722
 #: ../widgets/misc/e-charset-picker.c:64
@@ -7343,13 +7343,13 @@ msgstr "<br> Prosimo, preglejte sledeče podatke in izberite dejanje iz spodnjeg
 #: ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:730
-#: ../plugins/itip-formatter/itip-formatter.c:2009
+#: ../plugins/itip-formatter/itip-formatter.c:2008
 msgid "Accepted"
 msgstr "Sprejeto"
 
 #: ../calendar/gui/e-itip-control.c:1168
 #: ../calendar/gui/itip-utils.c:733
-#: ../plugins/itip-formatter/itip-formatter.c:2012
+#: ../plugins/itip-formatter/itip-formatter.c:2011
 msgid "Tentatively Accepted"
 msgstr "Poskusno sprejeto"
 
@@ -7359,7 +7359,7 @@ msgstr "Poskusno sprejeto"
 #: ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:736
 #: ../calendar/gui/itip-utils.c:765
-#: ../plugins/itip-formatter/itip-formatter.c:2015
+#: ../plugins/itip-formatter/itip-formatter.c:2014
 msgid "Declined"
 msgstr "Odklonjeno"
 
@@ -7574,7 +7574,7 @@ msgid "Attendee status updated\n"
 msgstr "Stanje udeleženca posodobljeno\n"
 
 #: ../calendar/gui/e-itip-control.c:2044
-#: ../plugins/itip-formatter/itip-formatter.c:1231
+#: ../plugins/itip-formatter/itip-formatter.c:1230
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Stanja udeleženca ni bilo možno posodobiti, ker predmet ne obstaja več"
 
@@ -7741,7 +7741,7 @@ msgstr "Poskusno"
 #: ../calendar/gui/e-meeting-store.c:192
 #: ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:739
-#: ../plugins/itip-formatter/itip-formatter.c:2018
+#: ../plugins/itip-formatter/itip-formatter.c:2017
 msgid "Delegated"
 msgstr "Pooblaščeno"
 
@@ -8512,7 +8512,7 @@ msgstr "Sestanki"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
-#: ../plugins/itip-formatter/itip-formatter.c:1559
+#: ../plugins/itip-formatter/itip-formatter.c:1558
 msgid "Opening calendar"
 msgstr "Odpiranje koledarja"
 
@@ -12270,12 +12270,12 @@ msgid "Allows evolution to display text part of limited size"
 msgstr "Omogoča programu prikaz dela besedila omejene velikosti"
 
 #: ../mail/evolution-mail.schemas.in.h:2
-msgid "Automatic link recognition"
-msgstr "Samodejna prepoznava povezav"
+msgid "Automatic emoticon recognition"
+msgstr "Samodejna prepoznava smeškov"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-msgid "Automatic smiley recognition"
-msgstr "Samodejna prepoznava smeškov"
+msgid "Automatic link recognition"
+msgstr "Samodejna prepoznava povezav"
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Check incoming mail being junk"
@@ -12598,12 +12598,12 @@ msgid "Prompt while marking multiple messages"
 msgstr "Opozori ob označevanju več sporočil"
 
 #: ../mail/evolution-mail.schemas.in.h:84
-msgid "Recognize links in text and replace them."
-msgstr "Prepoznaj povezave v besedilu in jih zamenjaj."
+msgid "Recognize emoticons in text and replace them with images."
+msgstr "Prepoznaj smeške v besedilu in jih zamenjaj s slikami."
 
 #: ../mail/evolution-mail.schemas.in.h:85
-msgid "Recognize smileys in text and replace them with images."
-msgstr "Prepoznaj smeške v besedilu in jih zamenjaj s slikami."
+msgid "Recognize links in text and replace them."
+msgstr "Prepoznaj povezave v besedilu in jih zamenjaj."
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Run junk test on incoming mail"
@@ -13203,7 +13203,7 @@ msgid "Attach original message"
 msgstr "Priloži izvirno sporočilo"
 
 #: ../mail/mail-config.glade.h:45
-msgid "Automatically insert _smiley images"
+msgid "Automatically insert _emoticon images"
 msgstr "Samodejno vstavi slike _smeškov"
 
 #: ../mail/mail-config.glade.h:46
@@ -14976,36 +14976,36 @@ msgstr "_Povrni nastavitve ..."
 msgid "_Backup Settings..."
 msgstr "_Nastavitve varnostne kopije ..."
 
-#: ../plugins/bbdb/bbdb.c:449
-#: ../plugins/bbdb/bbdb.c:458
+#: ../plugins/bbdb/bbdb.c:533
+#: ../plugins/bbdb/bbdb.c:542
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Samodejni stiki"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:473
+#: ../plugins/bbdb/bbdb.c:557
 msgid "_Automatically create entries in the addressbook when responding to messages"
 msgstr "S_amodejno ustvari vnose v imeniku pri odgovarjanju na sporočila"
 
-#: ../plugins/bbdb/bbdb.c:479
+#: ../plugins/bbdb/bbdb.c:563
 msgid "Select Address book for Automatic Contacts"
 msgstr "Izberite imenik za samodejne stike"
 
-#: ../plugins/bbdb/bbdb.c:494
+#: ../plugins/bbdb/bbdb.c:578
 msgid "Instant Messaging Contacts"
 msgstr "Stiki neposrednega sporočanja"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:509
+#: ../plugins/bbdb/bbdb.c:593
 msgid "Periodically synchronize contact information and images from Pidgin buddy list"
 msgstr "Občasno uskladi podatke in slike s seznamom stikov programa Pidgin"
 
-#: ../plugins/bbdb/bbdb.c:515
+#: ../plugins/bbdb/bbdb.c:599
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Izberite imenik za Pidgin seznam stikov"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:526
+#: ../plugins/bbdb/bbdb.c:610
 msgid "Synchronize with _buddy list now"
 msgstr "Uskladi s _seznamom prijateljev"
 
@@ -15314,7 +15314,7 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
-"Evolution ni na zvezi, zato ne morete ustvarjati in spreminjati map.\n"
+"Evolution ni na zvezi, zato ni mogoče ustvarjati in spreminjati map.\n"
 "Če želite to storiti, preklopite na način na zvezi."
 
 #. User entered a wrong existing
@@ -16029,7 +16029,7 @@ msgstr "Vaša trenutna uporaba je: {0} KB. Poskusite sprostiti nekaj prostora, t
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "Your current usage is: {0} KB. You will not be able to either send or receive mail now."
-msgstr "Vaša trenutna uporaba je: {0} KB. Trenutno ne morete pošiljati ali prejemati e-pošte."
+msgstr "Vaša trenutna uporaba je: {0} KB. Trenutno ni mogoče pošiljati ali prejemati e-pošte."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "Your current usage is: {0} KB. You will not be able to send mail until you clear up some space by deleting some mail."
@@ -16536,176 +16536,176 @@ msgstr "Uskladi z iPodom"
 msgid "iPod Synchronization"
 msgstr "Usklajevanje z iPodom"
 
-#: ../plugins/itip-formatter/itip-formatter.c:430
-#: ../plugins/itip-formatter/itip-formatter.c:551
+#: ../plugins/itip-formatter/itip-formatter.c:429
+#: ../plugins/itip-formatter/itip-formatter.c:550
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Ni mogoče naložiti koledarja '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:571
+#: ../plugins/itip-formatter/itip-formatter.c:570
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Sestanek v koledarju '%s' je v sporu s tem sestankom"
 
-#: ../plugins/itip-formatter/itip-formatter.c:597
+#: ../plugins/itip-formatter/itip-formatter.c:596
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Najden sestanek v koledarju '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:673
+#: ../plugins/itip-formatter/itip-formatter.c:672
 msgid "Unable to find any calendars"
 msgstr "Ni mogoče najti nobenega koledarja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:680
+#: ../plugins/itip-formatter/itip-formatter.c:679
 msgid "Unable to find this meeting in any calendar"
 msgstr "Sestanka ni mogoče najti v nobenem koledarju"
 
-#: ../plugins/itip-formatter/itip-formatter.c:684
+#: ../plugins/itip-formatter/itip-formatter.c:683
 msgid "Unable to find this task in any task list"
 msgstr "Opravila ni mogoče najti v nobenem seznamu opravil"
 
-#: ../plugins/itip-formatter/itip-formatter.c:688
+#: ../plugins/itip-formatter/itip-formatter.c:687
 msgid "Unable to find this memo in any memo list"
 msgstr "Opomnika ni mogoče najti v nobenem seznamu opravil"
 
-#: ../plugins/itip-formatter/itip-formatter.c:761
+#: ../plugins/itip-formatter/itip-formatter.c:760
 msgid "Searching for an existing version of this appointment"
 msgstr "Iskanje obstoječe različice tega sestanka"
 
-#: ../plugins/itip-formatter/itip-formatter.c:924
+#: ../plugins/itip-formatter/itip-formatter.c:923
 msgid "Unable to parse item"
 msgstr "Ni mogoče razčleniti predmeta"
 
-#: ../plugins/itip-formatter/itip-formatter.c:982
+#: ../plugins/itip-formatter/itip-formatter.c:981
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Ni mogoče poslati predmeta v koledar '%s'. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:994
+#: ../plugins/itip-formatter/itip-formatter.c:993
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Poslano koledarju '%s' kot sprejeto"
 
-#: ../plugins/itip-formatter/itip-formatter.c:998
+#: ../plugins/itip-formatter/itip-formatter.c:997
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Poslano koledarju '%s' kot poskusno"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1003
+#: ../plugins/itip-formatter/itip-formatter.c:1002
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Poslano koledarju '%s' kot odklonjeno"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1008
+#: ../plugins/itip-formatter/itip-formatter.c:1007
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Poslano koledarju '%s' kot preklicano"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1102
+#: ../plugins/itip-formatter/itip-formatter.c:1101
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizator je odstranil pooblaščenca %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1109
+#: ../plugins/itip-formatter/itip-formatter.c:1108
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Pooblaščencu pošlji obvestilo o preklicu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1111
+#: ../plugins/itip-formatter/itip-formatter.c:1110
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Pooblaščencu ni mogoče poslati obvestila o preklicu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1196
+#: ../plugins/itip-formatter/itip-formatter.c:1195
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Stanja udeleženca ni mogoče posodobiti zaradi neveljavnega stanja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1223
+#: ../plugins/itip-formatter/itip-formatter.c:1222
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Ni mogoče posodobiti udeleženca. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1227
+#: ../plugins/itip-formatter/itip-formatter.c:1226
 msgid "Attendee status updated"
 msgstr "Stanje udeleženca posodobljeno"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1252
+#: ../plugins/itip-formatter/itip-formatter.c:1251
 msgid "Meeting information sent"
 msgstr "Podrobnosti sestanka uspešno poslane"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1255
+#: ../plugins/itip-formatter/itip-formatter.c:1254
 msgid "Task information sent"
 msgstr "Podrobnosti naloge uspešno poslane"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1257
 msgid "Memo information sent"
 msgstr "Podrobnosti opomnika uspešno poslane"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1267
+#: ../plugins/itip-formatter/itip-formatter.c:1266
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Ni mogoče poslati podrobnosti o sestanku, saj ta še ni ustvarjen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1270
+#: ../plugins/itip-formatter/itip-formatter.c:1269
 msgid "Unable to send task information, the task does not exist"
 msgstr "Podrobnosti opravila ni mogoče poslati; opravilo ne obstaja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1273
+#: ../plugins/itip-formatter/itip-formatter.c:1272
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Ni mogoče poslati opomnika, saj ta še ni ustvarjen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1348
-#: ../plugins/itip-formatter/itip-formatter.c:1363
+#: ../plugins/itip-formatter/itip-formatter.c:1347
+#: ../plugins/itip-formatter/itip-formatter.c:1362
 msgid "The calendar attached is not valid"
 msgstr "Priložen koledar ni veljaven"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1349
-#: ../plugins/itip-formatter/itip-formatter.c:1364
+#: ../plugins/itip-formatter/itip-formatter.c:1348
+#: ../plugins/itip-formatter/itip-formatter.c:1363
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Sporočilo trdi, da vsebuje koledar, vendar ni v veljavni obliki iCalendar."
+
+#: ../plugins/itip-formatter/itip-formatter.c:1398
+#: ../plugins/itip-formatter/itip-formatter.c:1416
+#: ../plugins/itip-formatter/itip-formatter.c:1498
+msgid "The item in the calendar is not valid"
+msgstr "Predmet v koledarju ni veljaven"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1399
 #: ../plugins/itip-formatter/itip-formatter.c:1417
 #: ../plugins/itip-formatter/itip-formatter.c:1499
-msgid "The item in the calendar is not valid"
-msgstr "Predmet v koledarju ni veljaven"
-
-#: ../plugins/itip-formatter/itip-formatter.c:1400
-#: ../plugins/itip-formatter/itip-formatter.c:1418
-#: ../plugins/itip-formatter/itip-formatter.c:1500
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Sporočilo vsebuje koledar, vendar koledar ne vsebuje nobenih dogodkov, opravil ali podatkov o zasedenosti"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1429
+#: ../plugins/itip-formatter/itip-formatter.c:1428
 msgid "The calendar attached contains multiple items"
 msgstr "Priložen koledar vsebuje več predmetov"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1430
+#: ../plugins/itip-formatter/itip-formatter.c:1429
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "Za obdelavo vseh predmetov morate shraniti datoteko in uvoziti koledar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2123
+#: ../plugins/itip-formatter/itip-formatter.c:2122
 msgid "This meeting recurs"
 msgstr "Sestanek se ponavlja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2126
+#: ../plugins/itip-formatter/itip-formatter.c:2125
 msgid "This task recurs"
 msgstr "Ta naloga se ponavlja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2129
+#: ../plugins/itip-formatter/itip-formatter.c:2128
 msgid "This memo recurs"
 msgstr "Opomnik se ponavlja"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2332
+#: ../plugins/itip-formatter/itip-formatter.c:2331
 msgid "_Delete message after acting"
 msgstr "Zbriši sporočilo po _dejanju"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2342
-#: ../plugins/itip-formatter/itip-formatter.c:2374
+#: ../plugins/itip-formatter/itip-formatter.c:2341
+#: ../plugins/itip-formatter/itip-formatter.c:2373
 msgid "Conflict Search"
 msgstr "Iskanje sporov"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2357
+#: ../plugins/itip-formatter/itip-formatter.c:2356
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Izberite koledarje za iskanje sporov sestankov"
 
@@ -17149,11 +17149,11 @@ msgstr "Pošlji _posodobitve obiskovalcem"
 msgid "_Apply to all instances"
 msgstr "Uveljavi za vse _primere"
 
-#: ../plugins/itip-formatter/itip-view.c:1838
+#: ../plugins/itip-formatter/itip-view.c:1842
 msgid "_Tasks :"
 msgstr "_Opravila:"
 
-#: ../plugins/itip-formatter/itip-view.c:1840
+#: ../plugins/itip-formatter/itip-view.c:1844
 msgid "Memos :"
 msgstr "Zapiski :"
 
@@ -17238,7 +17238,7 @@ msgstr "Kamelja napaka: %s"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:476
 msgid "Account cannot send e-mail"
-msgstr "Račun ne more poslati e-pošte"
+msgstr "Z računom ni mogoče poslati e-pošte"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
 msgid "No store available"
@@ -18148,7 +18148,7 @@ msgstr "Ime mape ni navedeno."
 
 #: ../shell/e-shell-utils.c:125
 msgid "Folder name cannot contain the Return character."
-msgstr "Ime mape ne more vsebovati znaka return"
+msgstr "Ime mape me sme vsebovati znaka return"
 
 #: ../shell/e-shell-utils.c:131
 msgid "Folder name cannot contain the character \"/\"."
@@ -18190,16 +18190,16 @@ msgstr "Matjaž Horvat <m@owca.info>"
 msgid "Evolution Website"
 msgstr "Evolution - spletna stran"
 
-#: ../shell/e-shell-window-commands.c:884
+#: ../shell/e-shell-window-commands.c:885
 msgid "_Work Online"
 msgstr "Delaj na _mreži"
 
-#: ../shell/e-shell-window-commands.c:897
+#: ../shell/e-shell-window-commands.c:898
 #: ../ui/evolution.xml.h:57
 msgid "_Work Offline"
 msgstr "Delaj _brez mreže"
 
-#: ../shell/e-shell-window-commands.c:910
+#: ../shell/e-shell-window-commands.c:911
 msgid "Work Offline"
 msgstr "Delaj brez mreže"
 
@@ -18432,7 +18432,7 @@ msgstr ""
 "\n"
 "Priporočljivo je, da pred brisanjem teh starih podatkov ročno preverite, da je prisotna vsa vaša pošta, stiki in koledar ter da ta različica Evolutiona deluje pravilno.\n"
 "\n"
-"Po izbrisu ne morete več nazadovati na starejšo različico Evolutiona brez ročnega posega.\n"
+"Po izbrisu ni mogoče nazadovati na starejšo različico Evolutiona brez ročnega posega.\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
@@ -20838,8 +20838,9 @@ msgid "_Address Cards"
 msgstr "_Vizitke"
 
 #: ../views/addressbook/galview.xml.h:3
-msgid "_Phone List"
-msgstr "_Seznam telefonov"
+#: ../views/calendar/galview.xml.h:3
+msgid "_List View"
+msgstr "Pog_led seznama"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "W_eek View"
@@ -20848,10 +20849,6 @@ msgstr "T_edenski pogled"
 #: ../views/calendar/galview.xml.h:2
 msgid "_Day View"
 msgstr "_Dnevni pogled"
-
-#: ../views/calendar/galview.xml.h:3
-msgid "_List View"
-msgstr "Pog_led seznama"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
@@ -21752,7 +21749,7 @@ msgstr "(padajoč)"
 
 #: ../widgets/table/e-table-config.c:392
 msgid "Not sorted"
-msgstr "Neurejen"
+msgstr "Nerazvrščeno"
 
 #: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
@@ -22230,4 +22227,9 @@ msgstr "Vsebina IM"
 #: ../widgets/text/e-text.c:3779
 msgid "Handle Popup"
 msgstr "Pojavno okno ročice"
+
+#~ msgid "Automatic smiley recognition"
+#~ msgstr "Samodejna prepoznava smeškov"
+#~ msgid "_Phone List"
+#~ msgstr "_Seznam telefonov"
 
