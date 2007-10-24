@@ -371,8 +371,8 @@ alarm_notify_new (void)
 	alarm_channel_setup(&alarm_reply_port, &alarm_reply_channel, alarm_msgport_replied);
 
 	alarm_operation_thread = e_thread_new(E_THREAD_QUEUE);
-	e_thread_set_msg_destroy(alarm_operation_thread, alarm_msg_destroy, 0);
-	e_thread_set_msg_received(alarm_operation_thread, alarm_msg_received, 0);
+	e_thread_set_msg_destroy(alarm_operation_thread, alarm_msg_destroy, NULL);
+	e_thread_set_msg_received(alarm_operation_thread, alarm_msg_received, NULL);
 	e_thread_set_reply_port(alarm_operation_thread, alarm_reply_port);
 
 	an = g_object_new (TYPE_ALARM_NOTIFY,

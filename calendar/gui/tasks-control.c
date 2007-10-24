@@ -177,7 +177,7 @@ static struct _tasks_sensitize_item tasks_sensitize_table[] = {
 	{ "TasksPurge",  E_CAL_MENU_SELECT_EDITABLE },
 	{ "TasksAssign", E_CAL_MENU_SELECT_ONE | E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_ASSIGNABLE },
 	{ "TasksForward", E_CAL_MENU_SELECT_ONE },
-	{ 0 }
+	{ NULL }
 };
 
 /* Sensitizes the UI Component menu/toolbar commands based on the number of

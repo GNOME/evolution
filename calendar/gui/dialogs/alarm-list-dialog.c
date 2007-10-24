@@ -336,12 +336,12 @@ alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 
 	if (!dialog->xml) {
 		g_message (G_STRLOC ": Could not load the Glade XML file!");
-		return FALSE;
+		return NULL;
 	}
 
 	if (!get_widgets (dialog)) {
 		g_object_unref(dialog->xml);
-		return FALSE;
+		return NULL;
 	}
 
 	init_widgets (dialog);

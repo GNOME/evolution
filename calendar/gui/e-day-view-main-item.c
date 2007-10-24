@@ -1939,6 +1939,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		e_cal_component_free_categories_list (categories_list);
 	}
 
+	g_free (text);
 	g_object_unref (comp);
 	cairo_destroy (cr);
 }

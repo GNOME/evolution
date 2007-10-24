@@ -254,19 +254,19 @@ config_data_get_notify_with_tray (void)
 void
 config_data_set_last_notification_time (time_t t)
 {
-	GConfClient *conf_client;
+	GConfClient *client;
 	time_t current_t;
 
 	g_return_if_fail (t != -1);
 
-	if (!(conf_client = config_data_get_conf_client ()))
+	if (!(client = config_data_get_conf_client ()))
 		return;
 
 	/* we only store the new notification time if it is bigger
 	   than the already stored one */
-	current_t = gconf_client_get_int (conf_client, KEY_LAST_NOTIFICATION_TIME, NULL);
+	current_t = gconf_client_get_int (client, KEY_LAST_NOTIFICATION_TIME, NULL);
 	if (t > current_t)
-		gconf_client_set_int (conf_client, KEY_LAST_NOTIFICATION_TIME, t, NULL);
+		gconf_client_set_int (client, KEY_LAST_NOTIFICATION_TIME, t, NULL);
 }
 
 /**
@@ -279,13 +279,13 @@ config_data_set_last_notification_time (time_t t)
 time_t
 config_data_get_last_notification_time (void)
 {
-	GConfClient *conf_client;
 	GConfValue *value;
+	GConfClient *client;
 
-	if (!(conf_client = config_data_get_conf_client ()))
+	if (!(client = config_data_get_conf_client ()))
 		return -1;
 
-	value = gconf_client_get_without_default (conf_client, KEY_LAST_NOTIFICATION_TIME, NULL);
+	value = gconf_client_get_without_default (client, KEY_LAST_NOTIFICATION_TIME, NULL);
 	if (value)
 		return (time_t) gconf_value_get_int (value);
 
@@ -301,15 +301,15 @@ config_data_get_last_notification_time (void)
 void
 config_data_save_blessed_program (const char *program)
 {
-	GConfClient *conf_client;
+	GConfClient *client;
 	GSList *l;
 
-	if (!(conf_client = config_data_get_conf_client ()))
+	if (!(client = config_data_get_conf_client ()))
 		return;
 
-	l = gconf_client_get_list (conf_client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
+	l = gconf_client_get_list (client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
 	l = g_slist_append (l, g_strdup (program));
-	gconf_client_set_list (conf_client, KEY_PROGRAMS, GCONF_VALUE_STRING, l, NULL);
+	gconf_client_set_list (client, KEY_PROGRAMS, GCONF_VALUE_STRING, l, NULL);
 	g_slist_foreach (l, (GFunc) g_free, NULL);
 	g_slist_free (l);
 }
@@ -325,14 +325,14 @@ config_data_save_blessed_program (const char *program)
 gboolean
 config_data_is_blessed_program (const char *program)
 {
-	GConfClient *conf_client;
+	GConfClient *client;
 	GSList *l, *n;
 	gboolean found = FALSE;
 
-	if (!(conf_client = config_data_get_conf_client ()))
+	if (!(client = config_data_get_conf_client ()))
 		return FALSE;
 
-	l = gconf_client_get_list (conf_client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
+	l = gconf_client_get_list (client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
 	while (l) {
 		n = l->next;
 		if (!found)

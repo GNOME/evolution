@@ -158,7 +158,7 @@ e_meeting_list_view_init (EMeetingListView *view)
 }
 
 static GList *
-get_type_strings ()
+get_type_strings (void)
 {
 	GList *strings = NULL;
 
@@ -172,7 +172,7 @@ get_type_strings ()
 }
 
 static GList *
-get_role_strings ()
+get_role_strings (void)
 {
 	GList *strings = NULL;
 
@@ -186,7 +186,7 @@ get_role_strings ()
 }
 
 static GList *
-get_rsvp_strings ()
+get_rsvp_strings (void)
 {
 	GList *strings = NULL;
 
@@ -197,7 +197,7 @@ get_rsvp_strings ()
 }
 
 static GList *
-get_status_strings ()
+get_status_strings (void)
 {
 	GList *strings = NULL;
 

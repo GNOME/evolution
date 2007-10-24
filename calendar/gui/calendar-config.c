@@ -1241,7 +1241,7 @@ calendar_config_set_confirm_purge (gboolean confirm)
 }
 
 void
-calendar_config_check_timezone_set ()
+calendar_config_check_timezone_set (void)
 {
 	ETimezoneDialog *timezone_dialog;
 	GtkWidget *dialog;

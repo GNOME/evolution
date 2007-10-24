@@ -41,7 +41,7 @@ static void         e_date_time_list_init            (EDateTimeList      *file_l
 static void         e_date_time_list_class_init      (EDateTimeListClass *class);
 static void         e_date_time_list_tree_model_init (GtkTreeModelIface  *iface);
 static void         e_date_time_list_finalize        (GObject            *object);
-static guint        e_date_time_list_get_flags       (GtkTreeModel       *tree_model);
+static GtkTreeModelFlags e_date_time_list_get_flags       (GtkTreeModel       *tree_model);
 static gint         e_date_time_list_get_n_columns   (GtkTreeModel       *tree_model);
 static GType        e_date_time_list_get_column_type (GtkTreeModel       *tree_model,
 						      gint                index);
@@ -227,7 +227,7 @@ e_date_time_list_finalize (GObject *object)
 }
 
 /* Fulfill the GtkTreeModel requirements */
-static guint
+static GtkTreeModelFlags
 e_date_time_list_get_flags (GtkTreeModel *tree_model)
 {
 	g_return_val_if_fail (E_IS_DATE_TIME_LIST (tree_model), 0);

@@ -3436,7 +3436,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
-				      FALSE, NULL, event->time) == 0) {
+				      NULL, NULL, event->time) == 0) {
 			if (event->time - day_view->bc_event_time > 250)
 				e_day_view_get_selected_time_range ((ECalendarView *) day_view, &day_view->before_click_dtstart, &day_view->before_click_dtend);
 			day_view->bc_event_time = event->time;
@@ -3576,7 +3576,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
-				      FALSE, NULL, event->time) == 0) {
+				      NULL, NULL, event->time) == 0) {
 			if (event->time - day_view->bc_event_time > 250)
 				e_day_view_get_selected_time_range ((ECalendarView *) day_view, &day_view->before_click_dtstart, &day_view->before_click_dtend);
 			day_view->bc_event_time = event->time;
@@ -3838,7 +3838,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		if (gdk_pointer_grab (GTK_LAYOUT (day_view->top_canvas)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
-				      FALSE, NULL, bevent->time) == 0) {
+				      NULL, NULL, bevent->time) == 0) {
 
 			day_view->resize_event_day = E_DAY_VIEW_LONG_EVENT;
 			day_view->resize_event_num = event_num;
@@ -3904,7 +3904,7 @@ e_day_view_on_event_click (EDayView *day_view,
 		if (gdk_pointer_grab (GTK_LAYOUT (day_view->main_canvas)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
-				      FALSE, NULL, bevent->time) == 0) {
+				      NULL, NULL, bevent->time) == 0) {
 
 			day_view->resize_event_day = day;
 			day_view->resize_event_num = event_num;

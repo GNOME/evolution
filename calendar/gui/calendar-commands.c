@@ -385,7 +385,7 @@ static struct _sensitize_item calendar_sensitize_table[] = {
 	{ "Delete", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_NONRECURRING },
 	{ "DeleteOccurrence", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_RECURRING },
 	{ "DeleteAllOccurrences", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_RECURRING },
-	{ 0 }
+	{ NULL }
 };
 
 /* Sensitizes the UI Component menu/toolbar calendar commands based on the
@@ -445,7 +445,7 @@ static struct _sensitize_item taskpad_sensitize_table[] = {
 	{ "Copy", E_CAL_MENU_SELECT_ANY },
 	{ "Paste", E_CAL_MENU_SELECT_EDITABLE },
 	{ "Delete", E_CAL_MENU_SELECT_EDITABLE },
-	{ 0 }
+	{ NULL }
 };
 
 /* Sensitizes the UI Component menu/toolbar tasks commands based on the number

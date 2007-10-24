@@ -1603,9 +1603,9 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	if (!e_cal_component_has_rdates (comp)
 	    && !e_cal_component_has_rrules (comp)
 	    && !e_cal_component_has_exrules (comp)) {
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurs), rpage);
+		g_signal_handlers_block_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		e_dialog_toggle_set (priv->recurs, FALSE);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurs), rpage);
+		g_signal_handlers_unblock_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 		sensitize_buttons (rpage);
 		preview_recur (rpage);

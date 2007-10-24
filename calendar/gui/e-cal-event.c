@@ -85,7 +85,7 @@ e_cal_event_peek (void)
 {
 	static ECalEvent *e_cal_event = NULL;
 	if (!e_cal_event) {
-		e_cal_event = g_object_new (e_cal_event_get_type (), 0);
+		e_cal_event = g_object_new (e_cal_event_get_type (), NULL);
 		e_event_construct (&e_cal_event->event, "org.gnome.evolution.calendar.events");
 	}
 	return e_cal_event;
@@ -108,12 +108,12 @@ static void *eceh_parent_class;
 
 static const EEventHookTargetMask eceh_component_masks[] = {
 	{ "migration", E_CAL_EVENT_COMPONENT_MIGRATION },
-	{ 0 },
+	{ NULL },
 };
 
 static const EEventHookTargetMap eceh_targets[] = {
 	{ "component", E_CAL_EVENT_TARGET_COMPONENT, eceh_component_masks },
-	{ 0 },
+	{ NULL },
 };
 
 static void

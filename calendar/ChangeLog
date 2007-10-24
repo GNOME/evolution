@@ -1,3 +1,48 @@
+2007-10-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/alarm-notify/alarm-notify-dialog.c:
+	* gui/alarm-notify/alarm-notify.c: 
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/alarm-notify/config-data.c:
+	* gui/cal-search-bar.c: 
+	* gui/calendar-commands.c:
+	* gui/calendar-config.c: 
+	* gui/dialogs/alarm-dialog.c: 
+	* gui/dialogs/alarm-list-dialog.c: 
+	* gui/dialogs/cal-prefs-dialog.c: 
+	* gui/dialogs/comp-editor.c: 
+	* gui/dialogs/event-page.c: 
+	* gui/dialogs/recurrence-page.c: 
+	* gui/e-alarm-list.c: 
+	* gui/e-cal-config.c:
+	* gui/e-cal-event.c: 
+	* gui/e-cal-menu.c:
+	* gui/e-cal-popup.c: 
+	* gui/e-calendar-table.c: 
+	* gui/e-calendar-view.c:
+	* gui/e-date-time-list.c:
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-time-item.c:
+	* gui/e-day-view.c: 
+	* gui/e-itip-control.c: 
+	* gui/e-meeting-list-view.c: 
+	* gui/e-memo-table.c:
+	* gui/e-select-names-editable.c: 
+	* gui/e-week-view-event-item.c: 
+	* gui/e-week-view.c: 
+	* gui/goto.c:
+	* gui/migration.c: 
+	* gui/print.c: 
+	* gui/tasks-control.c: 
+	* importers/icalendar-importer.c: 
+
+	Warning fixes:
+	- NULL vs 0 vs FALSE/TRUE
+	- ANSIfication of declarations
+	- mixing declarations and code
+	- mark some code static
+	- remove use of some deprecated Gtk+ apis
+
 2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #417999

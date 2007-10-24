@@ -881,8 +881,8 @@ setup_select_names (Dialog *dialog)
 	gtk_widget_show (dialog->malarm_addresses);
 	gtk_box_pack_end_defaults (GTK_BOX (dialog->malarm_address_group), dialog->malarm_addresses);
 
-	gtk_signal_connect (GTK_OBJECT (dialog->malarm_addressbook), "clicked",
-			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), dialog);
+	g_signal_connect (G_OBJECT (dialog->malarm_addressbook), "clicked",
+			  G_CALLBACK (addressbook_clicked_cb), dialog);
 
 	name_selector_dialog = e_name_selector_peek_dialog (dialog->name_selector);
 	g_signal_connect (name_selector_dialog, "response",

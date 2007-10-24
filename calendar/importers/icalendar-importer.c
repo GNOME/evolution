@@ -62,11 +62,11 @@ typedef struct {
 
 	icalcomponent *icalcomp;
 
-	int cancelled:1;
+	guint cancelled:1;
 } ICalImporter;
 
 typedef struct {
-	int cancelled:1;
+	guint cancelled:1;
 } ICalIntelligentImporter;
 
 static const int import_type_map[] = {
@@ -506,7 +506,7 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 static icalcomponent*
 load_vcalendar_file (const char *filename)
 {
-	icalvcal_defaults defaults = { 0 };
+	icalvcal_defaults defaults = { NULL };
 	icalcomponent *icalcomp = NULL;
 	char *contents;
 	char *default_alarm_filename;

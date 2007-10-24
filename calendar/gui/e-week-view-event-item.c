@@ -1111,6 +1111,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			cairo_save (cr);
 			gdk_cairo_set_source_color (cr,  &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
 			cairo_set_line_width (cr, 0.7);
+			/* rect_x2 is used uninitialized here */
 			cairo_move_to (cr, rect_x2, y2);
 			cairo_line_to (cr, rect_x2, y2);
 			cairo_stroke (cr);

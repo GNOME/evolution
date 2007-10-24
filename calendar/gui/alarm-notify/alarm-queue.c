@@ -1165,7 +1165,7 @@ tray_list_remove_async(EThread *e, AlarmMsg *msg, void *data)
 }
 
 static void
-tray_list_remove_icons ()
+tray_list_remove_icons (void)
 {
 	AlarmMsg *msg;
 

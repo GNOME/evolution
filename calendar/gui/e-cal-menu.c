@@ -99,7 +99,7 @@ e_cal_menu_get_type(void)
 
 ECalMenu *e_cal_menu_new(const char *menuid)
 {
-	ECalMenu *emp = g_object_new(e_cal_menu_get_type(), 0);
+	ECalMenu *emp = g_object_new(e_cal_menu_get_type(), NULL);
 
 	e_menu_construct(&emp->menu, menuid);
 
@@ -243,12 +243,12 @@ static const EMenuHookTargetMask ecalph_select_masks[] = {
 	{ "assignable", E_CAL_MENU_SELECT_ASSIGNABLE },
 	{ "hasurl", E_CAL_MENU_SELECT_HASURL },
 	{ "not-complete", E_CAL_MENU_SELECT_NOTCOMPLETE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EMenuHookTargetMap ecalph_targets[] = {
 	{ "select", E_CAL_MENU_TARGET_SELECT, ecalph_select_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void
@@ -267,7 +267,7 @@ ecalph_class_init(EPluginHookClass *klass)
 	((GObjectClass *)klass)->finalize = ecalph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.calendar.bonobomenu:1.0";
 
-	for (i=0;ecalph_targets[i].type;i++)
+	for (i = 0; ecalph_targets[i].type; i++)
 		e_menu_hook_class_add_target_map((EMenuHookClass *)klass, &ecalph_targets[i]);
 
 	/* FIXME: leaks parent set class? */

@@ -99,10 +99,6 @@ edit_pressed_cb (GtkButton *button, gpointer user_data);
 static void
 snooze_pressed_cb (GtkButton *button, gpointer user_data);
 
-AlarmNotify *an = NULL;
-gboolean have_one = FALSE;
-
-
 static void
 an_update_minutes_label (GtkSpinButton *sb, gpointer data)
 {
@@ -147,9 +143,9 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 	}
 
 	if (!funcinfo) {
-		GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
-		gtk_tree_model_get_iter_first (model, &iter);
-		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+		GtkTreeModel *treemodel = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
+		gtk_tree_model_get_iter_first (treemodel, &iter);
+		gtk_tree_model_get (treemodel, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 	}
 	g_return_if_fail (funcinfo);
 	switch (response_id) {

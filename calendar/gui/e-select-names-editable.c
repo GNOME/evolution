@@ -97,7 +97,7 @@ e_select_names_editable_get_type (void)
 }
 
 ESelectNamesEditable *
-e_select_names_editable_new ()
+e_select_names_editable_new (void)
 {
 	ESelectNamesEditable *esne = g_object_new (E_TYPE_SELECT_NAMES_EDITABLE, NULL);
 

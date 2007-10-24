@@ -630,7 +630,7 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 
 	/* get month days */
 	tm = *convert_timet_to_struct_tm (month, zone);
-	build_month (tm.tm_mon, tm.tm_year + 1900, days, 0, 0);
+	build_month (tm.tm_mon, tm.tm_year + 1900, days, NULL, NULL);
 
 	font_normal = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 	font_bold = get_font_for_size (font_size, PANGO_WEIGHT_BOLD);

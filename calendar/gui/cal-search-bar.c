@@ -626,7 +626,7 @@ make_suboptions (CalSearchBar *cal_search)
 
 		subitems[2].search.text = NULL; 
 		subitems[2].search.id = 0;
-		subitems[2].image = 0;
+		subitems[2].image = NULL;
 
 		subitems[3].search.text = _("Next 7 Days' Tasks");
 		subitems[3].search.id = N_DAY_TASK;
@@ -688,7 +688,7 @@ make_suboptions (CalSearchBar *cal_search)
 
 		subitems[2].search.text = NULL; 
 		subitems[2].search.id = 0;
-		subitems[2].image = 0;
+		subitems[2].image = NULL;
 
 		subitems[3].search.text = _("Active Appointments"); 
 		subitems[3].search.id = ACTIVE_APPONTMENT;

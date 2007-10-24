@@ -462,7 +462,7 @@ e_calendar_view_set_model (ECalendarView *cal_view, ECalModel *model)
 
 	if (cal_view->priv->model) {
 		g_signal_handlers_disconnect_matched (cal_view->priv->model, G_SIGNAL_MATCH_DATA,
-						      0, 0, 0, NULL, cal_view);
+						      0, 0, NULL, NULL, cal_view);
 		g_object_unref (cal_view->priv->model);
 	}
 

@@ -81,7 +81,7 @@ static e_gconf_map_t calendar_display_map[] = {
 	{ "CompressWeekend", "calendar/display/compress_weekend", E_GCONF_MAP_BOOL },
 	{ "ShowEventEndTime", "calendar/display/show_event_end", E_GCONF_MAP_BOOL },
 	{ "WorkingDays", "calendar/display/working_days", E_GCONF_MAP_INT },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_tasks_map[] = {
@@ -89,7 +89,7 @@ static e_gconf_map_t calendar_tasks_map[] = {
 	{ "HideCompletedTasks", "calendar/tasks/hide_completed", E_GCONF_MAP_BOOL },
 	{ "HideCompletedTasksUnits", "calendar/tasks/hide_completed_units", E_GCONF_MAP_STRING },
 	{ "HideCompletedTasksValue", "calendar/tasks/hide_completed_value", E_GCONF_MAP_INT },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_tasks_colours_map[] = {
@@ -97,7 +97,7 @@ static e_gconf_map_t calendar_tasks_colours_map[] = {
 	{ "TasksDueToday", "calendar/tasks/colors/due_today", E_GCONF_MAP_STRING },
 	{ "TasksOverDue", "calendar/tasks/colors/overdue", E_GCONF_MAP_STRING },
 	{ "TasksDueToday", "calendar/tasks/colors/due_today", E_GCONF_MAP_STRING },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_other_map[] = {
@@ -107,13 +107,13 @@ static e_gconf_map_t calendar_other_map[] = {
 	{ "UseDefaultReminder", "calendar/other/use_default_reminder", E_GCONF_MAP_BOOL },
 	{ "DefaultReminderInterval", "calendar/other/default_reminder_interval", E_GCONF_MAP_INT },
 	{ "DefaultReminderUnits", "calendar/other/default_reminder_units", E_GCONF_MAP_STRING },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_datenavigator_map[] = {
 	/* /Calendar/DateNavigator */
 	{ "ShowWeekNumbers", "calendar/date_navigator/show_week_numbers", E_GCONF_MAP_BOOL },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_alarmnotify_map[] = {
@@ -121,25 +121,25 @@ static e_gconf_map_t calendar_alarmnotify_map[] = {
 	{ "LastNotificationTime", "calendar/notify/last_notification_time", E_GCONF_MAP_INT },
 	{ "CalendarToLoad%i", "calendar/notify/calendars", E_GCONF_MAP_STRING|E_GCONF_MAP_LIST },
 	{ "BlessedProgram%i", "calendar/notify/programs", E_GCONF_MAP_STRING|E_GCONF_MAP_LIST },
-	{ 0 },
+	{ NULL },
 };
 
-e_gconf_map_list_t calendar_remap_list[] = {
+static e_gconf_map_list_t calendar_remap_list[] = {
 
 	{ "/Calendar/Display", calendar_display_map },
 	{ "/Calendar/Other/Map", calendar_other_map },
 	{ "/Calendar/DateNavigator", calendar_datenavigator_map },
 	{ "/Calendar/AlarmNotify", calendar_alarmnotify_map },
 
-	{ 0 },
+	{ NULL },
 };
 
-e_gconf_map_list_t task_remap_list[] = {
+static e_gconf_map_list_t task_remap_list[] = {
 
 	{ "/Calendar/Tasks", calendar_tasks_map },
 	{ "/Calendar/Tasks/Colors", calendar_tasks_colours_map },
 
-	{ 0 },
+	{ NULL },
 };
 
 static GtkWidget *window;

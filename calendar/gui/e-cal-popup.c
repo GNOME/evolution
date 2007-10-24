@@ -454,7 +454,7 @@ e_cal_popup_get_type(void)
 
 ECalPopup *e_cal_popup_new(const char *menuid)
 {
-	ECalPopup *eabp = g_object_new(e_cal_popup_get_type(), 0);
+	ECalPopup *eabp = g_object_new(e_cal_popup_get_type(), NULL);
 
 	e_popup_construct(&eabp->popup, menuid);
 
@@ -825,7 +825,7 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "not-complete", E_CAL_POPUP_SELECT_NOTCOMPLETE },
 	{ "no-save-schedules", E_CAL_POPUP_SELECT_NOSAVESCHEDULES },
 	{ "complete" , E_CAL_POPUP_SELECT_COMPLETE},
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask ecalph_source_masks[] = {
@@ -837,7 +837,7 @@ static const EPopupHookTargetMask ecalph_source_masks[] = {
 	{ "delete", E_CAL_POPUP_SOURCE_DELETE},
 	{ "no-delete", E_CAL_POPUP_SOURCE_NO_DELETE},	
 
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask ecalph_attachments_masks[] = {
@@ -846,14 +846,14 @@ static const EPopupHookTargetMask ecalph_attachments_masks[] = {
 	{ "modify", E_CAL_POPUP_ATTACHMENTS_MODIFY },
 	{ "multiple", E_CAL_POPUP_ATTACHMENTS_MULTIPLE },
 	{ "image", E_CAL_POPUP_ATTACHMENTS_IMAGE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMap ecalph_targets[] = {
 	{ "select", E_CAL_POPUP_TARGET_SELECT, ecalph_select_masks },
 	{ "source", E_CAL_POPUP_TARGET_SOURCE, ecalph_source_masks },
 	{ "attachments", E_CAL_POPUP_TARGET_ATTACHMENTS, ecalph_attachments_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void

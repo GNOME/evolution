@@ -1230,19 +1230,19 @@ get_request_options (void)
 }
 
 static char*
-get_request_fb_options ()
+get_request_fb_options (void)
 {
 	return g_strdup_printf ("<object classid=\"itip:freebusy_options\"></object>");
 }
 
 static char*
-get_reply_options ()
+get_reply_options (void)
 {
 	return g_strdup_printf ("<object classid=\"itip:reply_options\"></object>");
 }
 
 static char*
-get_refresh_options ()
+get_refresh_options (void)
 {
 	return g_strdup_printf ("<object classid=\"itip:refresh_options\"></object>");
 }

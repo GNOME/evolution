@@ -869,7 +869,7 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *dvtmitem,
 	if (gdk_pointer_grab (GTK_LAYOUT (canvas)->bin_window, FALSE,
 			      GDK_POINTER_MOTION_MASK
 			      | GDK_BUTTON_RELEASE_MASK,
-			      FALSE, NULL, event->button.time) == 0) {
+			      NULL, NULL, event->button.time) == 0) {
 		e_day_view_start_selection (day_view, -1, row);
 		dvtmitem->dragging_selection = TRUE;
 	}

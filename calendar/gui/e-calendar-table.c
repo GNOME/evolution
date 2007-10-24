@@ -122,7 +122,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static const char* icon_names[E_CALENDAR_MODEL_NUM_ICONS] = {
 	"stock_task", "stock_task-recurring", "stock_task-assigned", "stock_task-assigned-to"
 };
-static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { 0 };
+static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { NULL };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 

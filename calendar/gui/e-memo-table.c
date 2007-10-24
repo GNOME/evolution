@@ -118,7 +118,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static const char* icon_names[E_MEMO_MODEL_NUM_ICONS] = {
 	"stock_notes", "stock_insert-note"
 };
-static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { 0 };
+static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 

@@ -2091,7 +2091,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
-				      FALSE, NULL, event->time) == 0) {
+				      NULL, NULL, event->time) == 0) {
 			if (event->time - week_view->bc_event_time > 250)
 				e_calendar_view_get_selected_time_range ((ECalendarView *) week_view, &week_view->before_click_dtstart, &week_view->before_click_dtend);
 			week_view->bc_event_time = event->time;

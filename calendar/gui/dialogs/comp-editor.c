@@ -179,12 +179,12 @@ static struct {
 	GdkAtom atom;
 	guint32 actions;
 } drag_info[] = {
-	{ "message/rfc822", 0, GDK_ACTION_COPY },
-	{ "x-uid-list", 0, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
-	{ "text/uri-list", 0, GDK_ACTION_COPY },
-	{ "_NETSCAPE_URL", 0, GDK_ACTION_COPY },
-	{ "text/x-vcard", 0, GDK_ACTION_COPY },
-	{ "text/calendar", 0, GDK_ACTION_COPY },
+	{ "message/rfc822", NULL, GDK_ACTION_COPY },
+	{ "x-uid-list", NULL, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "text/uri-list", NULL, GDK_ACTION_COPY },
+	{ "_NETSCAPE_URL", NULL, GDK_ACTION_COPY },
+	{ "text/x-vcard", NULL, GDK_ACTION_COPY },
+	{ "text/calendar", NULL, GDK_ACTION_COPY },
 };
 
 enum {

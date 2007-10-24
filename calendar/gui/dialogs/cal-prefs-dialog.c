@@ -321,7 +321,7 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 	GSList *l;
 	GSList *groups;
 	ESource *source;
-	gchar *alarm;
+	const gchar *alarm;
 
 	/* first we clear all the alarm flags from all sources */
 	g_message ("Clearing selection");
@@ -331,7 +331,7 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			source = E_SOURCE (sources->data);
 
-			alarm = (gchar *)e_source_get_property (source, "alarm");
+			alarm = e_source_get_property (source, "alarm");
 			if (alarm && !g_ascii_strcasecmp (alarm, "never"))
 				continue;
 				

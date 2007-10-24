@@ -507,8 +507,7 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	if (all_day_event)
 		start_zone = calendar_config_get_icaltimezone ();
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
-					  epage);
+	g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	e_date_edit_set_date (E_DATE_EDIT (priv->start_time), start_tt->year,
@@ -521,15 +520,12 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
 				     end_tt->hour, end_tt->minute);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
-					    epage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time),
-					    epage);
+	g_signal_handlers_unblock_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_unblock_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	/* Set the timezones, and set sync_timezones to TRUE if both timezones
 	   are the same. */
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_timezone),
-					  epage);
+	g_signal_handlers_block_matched (priv->start_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_block_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	
 	if (start_zone)
@@ -543,9 +539,8 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	
 	/*unblock the endtimezone widget*/
 	g_signal_handlers_unblock_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_unblock_matched (priv->start_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_timezone),
-					    epage);
 	priv->sync_timezones = TRUE; 
 
 	update_end_time_selector (epage);	
@@ -565,17 +560,14 @@ clear_widgets (EventPage *epage)
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
 
 	/* Start and end times */
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
-					  epage);
+	g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), 0);
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), 0);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
-					    epage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time),
-					    epage);
+	g_signal_handlers_unblock_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_unblock_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	epage->priv->all_day_event = FALSE;
 	set_all_day (epage, FALSE);
@@ -2165,10 +2157,8 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	}
 	
 	event_page_set_show_timezone (epage, calendar_config_get_show_timezone() & !all_day);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
-					  epage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time),
-					  epage);
+	g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	e_date_edit_set_date (E_DATE_EDIT (priv->start_time), start_tt.year,
 			      start_tt.month, start_tt.day);
@@ -2180,10 +2170,8 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
 				     end_tt.hour, end_tt.minute);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
-					    epage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time),
-					    epage);
+	g_signal_handlers_unblock_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_unblock_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	/* Notify upstream */
 	notify_dates_changed (epage, &start_tt, &end_tt);

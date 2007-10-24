@@ -41,7 +41,7 @@ typedef struct
 	
 } GoToDialog;
 
-GoToDialog *dlg = NULL;
+static GoToDialog *dlg = NULL;
 
 /* Callback used when the year adjustment is changed */
 static void
