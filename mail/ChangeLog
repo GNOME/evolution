@@ -1,3 +1,10 @@
+2007-10-24  Milan Crha <mcrha@redhat.com>
+
+	** Fix for bug #467364 by Christian Kintner
+
+	* evolution-mail.schemas.in: 
+	* mail-config.glade: Evolution uses "Emoticon" instead of "Smiley".
+
 2007-10-24  Andre Klapper <a9016009@gmx.de>
 
 	** Fix for bug #261165

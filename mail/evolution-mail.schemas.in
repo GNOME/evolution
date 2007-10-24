@@ -52,9 +52,9 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Automatic smiley recognition</short>
+         <short>Automatic emoticon recognition</short>
          <long>
-	 Recognize smileys in text and replace them with images.
+	 Recognize emoticons in text and replace them with images.
          </long>
       </locale>
     </schema>
