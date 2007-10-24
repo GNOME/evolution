@@ -1,3 +1,8 @@
+2007-10-24  Anand V M  <avmuttagi@gmail.com>
+	
+	** Fix for bug #353656
+	* addressbook/galview.xml:Rename "Phone List" to "List View".
+
 2006-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail/Makefile.am: Added two new views Wide_View_Sent.galview
