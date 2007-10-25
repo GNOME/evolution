@@ -1690,7 +1690,7 @@ plugins_standard_always="bbdb subject-thread save-calendar select-one-source cop
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
-plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting mail-remote save-attachments"
+plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting mail-remote save-attachments external-editor"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
@@ -1986,6 +1986,7 @@ plugins/import-ics-attachments/Makefile
 plugins/imap-features/Makefile
 plugins/tnef-attachments/Makefile
 plugins/face/Makefile
+plugins/external-editor/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

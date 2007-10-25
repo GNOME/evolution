@@ -1,0 +1,17 @@
+<Root>
+  <commands>
+
+    <cmd name="EPExtEditor" _label="Compose in External Editor"
+      _tip="Compose mails using an external editor"
+      pixtype="pixmap"/>
+
+  </commands>
+
+  <menu>
+    <submenu name="File">
+      <placeholder name="FileOps">
+	  <menuitem name="EPExtEditor" verb=""/>
+      </placeholder>
+   </submenu>
+  </menu>
+</Root>

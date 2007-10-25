@@ -1,0 +1,17 @@
+2007-10-25  Sankar P  <psankar@novell.com>
+
+	* Makefile.am:
+	* org-gnome-external-editor.eplug.xml:
+	* org-gnome-external-editor.xml:
+	* org-gnome-external-editor.error.xml:
+	* external-editor.c:
+
+	- Initial files for the plugin. 
+
+	- This plugin allows you to use an external editor 
+	as the composer.
+
+	- I've tested this gvim and it works fine. 
+
+	- Needs a lot of more work before this 
+	moves out of experimental state.

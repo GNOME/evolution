@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <!-- the path to the shared library -->
+  <e-plugin
+    id="org.gnome.plugin.external.editor"
+    type="shlib"
+    location="@PLUGINDIR@/liborg-gnome-external-editor@SOEXT@"
+    _name="External Editor">
+    <author name="Sankar P" email="sankar2u@gmail.com"/>
+    <_description>A plugin for using an external editor as the composer. You can send only plain-text mails. </_description>
+
+    <hook class="org.gnome.evolution.shell.bonobomenu:1.0">
+
+      <menu id="org.gnome.evolution.shell" target="shell">
+	<!-- the path to the bonobo menu description -->
+	<ui file="@PLUGINDIR@/org-gnome-external-editor.xml"/>
+	<item
+	  type="item"
+	  verb="EPExtEditor"
+	  path="/commands/EPExtEditor"
+	  activate="org_gnome_external_editor"/>
+      </menu>
+
+    </hook>
+
+  </e-plugin>
+</e-plugin-list>

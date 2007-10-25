@@ -1,3 +1,11 @@
+2007-10-25  Sankar P  <psankar@novell.com>
+
+	* configure.in:
+	* plugins/external-editor:
+	Added new plugins external-editor, which will
+	make it possible to use an external editor as 
+	the mail composer.
+
 2007-10-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* configure.in
