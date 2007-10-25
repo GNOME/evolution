@@ -1,3 +1,20 @@
+2007-10-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #489661
+
+	* gui/widgets/gal-view-treeview.c:
+	* gui/widgets/gal-view-treeview.h:
+	* gui/widgets/gal-view-factory-treeview.c:
+	* gui/widgets/gal-view-factory-treeview.h:
+	* gui/widgets/e-addressbook-treeview-adapter.c:
+	* gui/widgets/e-addressbook-treeview-adapter.h:
+	Remove these dead files from SCM.
+
+	* gui/widgets/e-addressbook-view.h:
+	* gui/widgets/e-addressbook-view.c:
+	* gui/widgets/Makefile.am:
+	Remove dead WITH_ADDRESSBOOK_VIEW_TREEVIEW code.
+
 2007-10-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/contact-editor/e-contact-editor-address.c:

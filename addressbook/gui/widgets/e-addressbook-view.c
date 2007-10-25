@@ -47,11 +47,6 @@
 #include "libedataserver/e-sexp.h"
 #include <libedataserver/e-categories.h>
 
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-#include <misc/e-treeview-selection-model.h>
-#include "gal-view-factory-treeview.h"
-#include "gal-view-treeview.h"
-#endif
 #include "gal-view-minicard.h"
 #include "gal-view-factory-minicard.h"
 
@@ -61,9 +56,6 @@
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include "e-addressbook-table-adapter.h"
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-#include "e-addressbook-treeview-adapter.h"
-#endif
 #include "eab-contact-merging.h"
 
 #include "e-util/e-error.h"
@@ -593,12 +585,6 @@ init_collection (void)
 		gal_view_collection_add_factory (collection, factory);
 		g_object_unref (factory);
 
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-		factory = gal_view_factory_treeview_new ();
-		gal_view_collection_add_factory (collection, factory);
-		g_object_unref (factory);
-#endif
-
 		gal_view_collection_load(collection);
 	}
 }
@@ -636,12 +622,6 @@ display_view(GalViewInstance *instance,
 		change_view_type (address_view, EAB_VIEW_MINICARD);
 		gal_view_minicard_attach (GAL_VIEW_MINICARD (view), address_view);
 	}
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-	else if (GAL_IS_VIEW_TREEVIEW (view)) {
-		change_view_type (address_view, EAB_VIEW_TREEVIEW);
-		gal_view_treeview_attach (GAL_VIEW_TREEVIEW(view), GTK_TREE_VIEW (address_view->object));
-	}
-#endif
 	address_view->current_view = view;
 
 	set_paned_position (address_view);
@@ -797,10 +777,6 @@ get_selection_model (EABView *view)
 		return e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(view->widget)));
 	else if (view->view_type == EAB_VIEW_MINICARD)
 		return e_minicard_view_widget_get_selection_model (E_MINICARD_VIEW_WIDGET(view->object));
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-	else if (view->view_type == EAB_VIEW_TREEVIEW)
-		return e_treeview_get_selection_model (GTK_TREE_VIEW (view->object));
-#endif
 	g_return_val_if_reached (NULL);
 }
 
@@ -1350,102 +1326,6 @@ create_table_view (EABView *view)
 	gtk_widget_show( GTK_WIDGET(table) );
 }
 
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-static void
-treeview_row_activated(GtkTreeView *treeview,
-		       GtkTreePath *path, GtkTreeViewColumn *column,
-		       EABView *view)
-{
-	EABModel *model = view->model;
-	int row = gtk_tree_path_get_indices (path)[0];
-	ECard *card = eab_model_get_card(model, row);
-	EBook *book;
-
-	g_object_get(model,
-		     "book", &book,
-		     NULL);
-		
-	g_return_if_fail (E_IS_BOOK (book));
-
-	if (e_card_evolution_list (card))
-		eab_show_contact_list_editor (book, card, FALSE, view->editable);
-	else
-		eab_show_contact_editor (book, card, FALSE, view->editable);
-
-	g_object_unref (book);
-	g_object_unref (card);
-}
-
-static void
-create_treeview_view (EABView *view)
-{
-	GtkTreeModel *adapter;
-	ECardSimple *simple;
-	GtkWidget *treeview;
-	GtkWidget *scrolled;
-	int i;
-
-	simple = e_card_simple_new(NULL);
-
-	adapter = eab_treeview_adapter_new(view->model);
-
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
-	treeview = gtk_tree_view_new_with_model (adapter);
-	g_object_unref (adapter);
-
-	gtk_widget_show (treeview);
-
-	gtk_container_add (GTK_CONTAINER (scrolled), treeview);
-
-	for (i = 0; i < 15; i ++) {
-		GtkTreeViewColumn *column =
-			gtk_tree_view_column_new_with_attributes (e_card_simple_get_name (simple, i),
-								  gtk_cell_renderer_text_new (),
-								  "text", i,
-								  NULL);
-
-		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
-	}
-
-	view->object = G_OBJECT(treeview);
-	view->widget = scrolled;
-
-	gtk_tree_selection_set_mode (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), GTK_SELECTION_MULTIPLE);
-	gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (treeview), 
-						GDK_BUTTON1_MASK,
-						drag_types,
-						num_drag_types,
-						GDK_ACTION_MOVE);
-
-	g_signal_connect(treeview, "row_activated",
-			 G_CALLBACK (treeview_row_activated), view);
-#if 0
-	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(table)), "right_click",
-			 G_CALLBACK(table_right_click), view);
-
-	/* drag & drop signals */
-	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
-				 drag_types, num_drag_types, GDK_ACTION_MOVE);
-	
-	g_signal_connect (E_TABLE_SCROLLED(table)->table,
-			  "table_drag_data_get",
-			  G_CALLBACK (table_drag_data_get),
-			  view);
-#endif
-
-
-	g_signal_connect(e_treeview_get_selection_model (GTK_TREE_VIEW (treeview)), "selection_changed",
-			 G_CALLBACK(selection_changed), view);
-
-	gtk_paned_add1 (GTK_PANED (view->paned), scrolled);
-
-	gtk_widget_show( GTK_WIDGET(scrolled) );
-
-	g_object_unref (simple);
-}
-#endif
-
 static void
 change_view_type (EABView *view, EABViewType view_type)
 {
@@ -1465,11 +1345,6 @@ change_view_type (EABView *view, EABViewType view_type)
 	case EAB_VIEW_MINICARD:
 		create_minicard_view (view);
 		break;
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-	case EAB_VIEW_TREEVIEW:
-		create_treeview_view (view);
-		break;
-#endif
 	default:
 		g_warning ("view_type not recognized.");
 		return;

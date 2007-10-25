@@ -79,13 +79,6 @@ libeabwidgets_la_SOURCES =			\
 	gal-view-factory-minicard.c		\
 	gal-view-factory-minicard.h
 
-#TREEVIEW_SOURCES=	e-addressbook-treeview-adapter.c	\
-#			e-addressbook-treeview-adapter.h	\
-#			gal-view-factory-treeview.c		\
-#			gal-view-factory-treeview.h		\
-#			gal-view-treeview.c			\
-#			gal-view-treeview.h
-
 MARSHAL_GENERATED = eab-marshal.c eab-marshal.h
 @EVO_MARSHAL_RULE@
 
