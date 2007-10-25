@@ -4,13 +4,13 @@
 # Young-Ho Cha <ganadist@mizi.com>, 2000, 2002.
 # Changwoo Ryu <cwryu@debian.org>, 2003-2006, 2007.
 # Eunju Kim <eukim@redhat.com>, 2007.
-# evolution ko.po
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-22 16:51+0900\n"
-"PO-Revision-Date: 2007-09-22 21:22+0900\n"
+"POT-Creation-Date: 2007-09-23 11:44+0900\n"
+"PO-Revision-Date: 2007-10-25 06:14+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr "달력 보기, 일 단위"
 #: ../a11y/calendar/ea-gnome-calendar.c:188
 #: ../calendar/gui/calendar-component.c:743
 msgid "%A %d %b %Y"
-msgstr "%Y년 %m %e일 (%A)"
+msgstr "%Y년 %b %e일 (%A)"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -193,7 +193,7 @@ msgstr "%Y년 %b %e일 (%a)"
 #: ../calendar/gui/calendar-component.c:780
 #: ../calendar/gui/calendar-component.c:782
 msgid "%d %b %Y"
-msgstr "%Y년 %m %e일"
+msgstr "%Y년 %b %e일"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -207,7 +207,7 @@ msgstr "%Y년 %m %e일"
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
-msgstr "%m %d"
+msgstr "%b %d"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:247
 #: ../a11y/calendar/ea-gnome-calendar.c:255
@@ -369,10 +369,7 @@ msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
-msgstr ""
-"암호를 올바르게 입력했는 지 확인하시고, 지원하는 로그인 방법을 사용하고 있는 "
-"지 확인하십시오. 많은 경우에 암호는 대소문자를 구별합니다; 지금 Caps Lock이 "
-"켜져 있을 수도 있습니다."
+msgstr "암호를 올바르게 입력했는 지 확인하시고, 지원하는 로그인 방법을 사용하고 있는 지 확인하십시오. 보통 암호는 대소문자를 구별합니다. 지금 Caps Lock이 켜져 있을 수도 있습니다."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
@@ -1125,9 +1122,7 @@ msgstr "LDAP 서버의 완전한 이름입니다. 예를 들어 \"ldap.mycompany
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
-msgstr ""
-"다운로드할 항목의 최대 개수입니다. 이 숫자를 너무 크게 하면 주소록의 속도가 "
-"느려집니다."
+msgstr "다운로드할 항목의 최대 개수입니다. 이 숫자를 너무 크게 하면 주소록 동작이 느려집니다."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
@@ -2819,7 +2814,9 @@ msgstr "중복되는 연락처를 찾았습니다"
 msgid ""
 "The name or email of this contact already exists in this folder.  Would you "
 "like to add it anyway?"
-msgstr "이 연락처의 이름이나 메일 주소가 이미 이 폴더에 들어 있습니다. 그래도 연락처를 더하시겠습니까?"
+msgstr ""
+"이 연락처의 이름이나 메일 주소가 이미 이 폴더에 들어 있습니다. 그래도 연락처"
+"를 더하시겠습니까?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -3529,10 +3526,7 @@ msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
-msgstr ""
-"이 주소록을 열 수 없습니다.  이 주소록을 오프라인에서 사용할 수 있도록 하지 "
-"않았거나 아직 오프라인에서 사용할 수 있게 다운로드하지 않은 상태입니다. 온라"
-"인 모드에서 주소록을 다시 읽어들여서 그 내용을 내려 받으십시오."
+msgstr "이 주소록을 열 수 없습니다. 이 주소록을 오프라인에서 사용할 수 있게 표시하지 않았거나 아직 오프라인에서 사용할 수 있게 다운로드하지 않은 상태입니다. 온라인 모드에서 주소록을 다시 읽어들여서 그 내용을 내려 받으십시오."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:104
 #, c-format
@@ -3575,8 +3569,8 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
-"이 쿼리에, 서버에서 리턴하기로 설정된 것보다 많은 카드가 일치하거나,\n"
-"에볼루션에서 표시하도록 설정된 것보다 많은 카드가 일치하였습니다.\n"
+"이 쿼리에, 서버에서 리턴하기로 설정한 것보다 많은 카드가 일치하거나,\n"
+"에볼루션에서 표시하도록 설정한 것보다 많은 카드가 일치하였습니다.\n"
 "좀 더 구체적으로 찾거나 주소록의 디렉토리 서버 기본 설정에서 \n"
 "결과의 한계치를 지정해 주십시오."
 
@@ -4251,7 +4245,9 @@ msgstr ""
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the memo has been deleted."
-msgstr "취소 공지를 보내지 않으면, 다른 참가자들이 이 메모를 지웠다는 사실을 알 지 못할 수도 있습니다."
+msgstr ""
+"취소 공지를 보내지 않으면, 다른 참가자들이 이 메모를 지웠다는 사실을 알 지 못"
+"할 수도 있습니다."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
@@ -4699,7 +4695,9 @@ msgstr "보노보를 초기화 할 수 없습니다"
 msgid ""
 "Could not create the alarm notify service factory, maybe it's already "
 "running..."
-msgstr "알림 기능 서비스 팩토리를 만들 수가 없습니다. 아마도 이미 동작하는 것 같습니다..."
+msgstr ""
+"알림 기능 서비스 팩토리를 만들 수가 없습니다. 아마도 이미 동작하는 것 같습니"
+"다..."
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -5186,7 +5184,7 @@ msgstr "앞으로 7일 간의 작업"
 
 #: ../calendar/gui/cal-search-bar.c:635
 msgid "Active Tasks"
-msgstr "활성화된 작업"
+msgstr "활성화한 작업"
 
 #: ../calendar/gui/cal-search-bar.c:639
 msgid "Overdue Tasks"
@@ -5195,7 +5193,7 @@ msgstr "마감이 지난 작업"
 # FIXME - hard to translate UI + string based on English grammar
 #: ../calendar/gui/cal-search-bar.c:643
 msgid "Completed Tasks"
-msgstr "완료된 작업"
+msgstr "완료한 작업"
 
 #: ../calendar/gui/cal-search-bar.c:647
 msgid "Tasks with Attachments"
@@ -5203,7 +5201,7 @@ msgstr "첨부가 있는 작업"
 
 #: ../calendar/gui/cal-search-bar.c:693
 msgid "Active Appointments"
-msgstr "활성화된 약속"
+msgstr "활성화한 약속"
 
 #: ../calendar/gui/cal-search-bar.c:697
 msgid "Next 7 Days' Appointments"
@@ -5221,9 +5219,7 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr ""
-"이 작업은 선택한 기간보다 오래 된 행사들을 모두 영구적으로 지우게 됩니다. 계"
-"속하시면, 이 행사를 복구할 수 없게 됩니다."
+msgstr "이 작업은 선택한 기간보다 오래 된 행사들을 모두 영구적으로 지우게 됩니다. 계속하시면, 이 행사를 복구할 수 없게 됩니다."
 
 # FIXME - hard to translate UI + string based on English grammar
 # event -> 행사, Microsoft Office XP 참고
@@ -8554,8 +8550,7 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"마쳤다고 표시된 작업을 모두 지우게 됩니다. 계속하시면, 이 작업들을 복구할 수 "
-"없게 됩니다.\n"
+"마쳤다고 표시한 작업을 모두 지우게 됩니다. 계속하시면, 이 작업들을 복구할 수 없게 됩니다.\n"
 "\n"
 "정말로 이 작업들을 지우시겠습니까?"
 
@@ -10746,7 +10741,7 @@ msgstr "날짜를 선택해야 합니다."
 
 #: ../filter/filter.error.xml.h:10
 msgid "You must name this filter."
-msgstr "이 거르게에 이름을 주어야 합니다."
+msgstr "이 필터에 이름을 붙여야 합니다."
 
 #: ../filter/filter.error.xml.h:11
 msgid "You must specify a file name."
@@ -10754,7 +10749,7 @@ msgstr "파일 이름을 지정해야 합니다."
 
 #: ../filter/filter.glade.h:1
 msgid "<b>_Filter Rules</b>"
-msgstr "<b>거르게 규칙(_F)</b>"
+msgstr "<b>필터 규칙(_F)</b>"
 
 #: ../filter/filter.glade.h:2
 msgid "Compare against"
@@ -10762,7 +10757,7 @@ msgstr "비교할 시각:"
 
 #: ../filter/filter.glade.h:4
 msgid "Show filters for mail:"
-msgstr "다음 메일에 대한 거르게 표시:"
+msgstr "다음 메일에 대한 필터 표시:"
 
 #: ../filter/filter.glade.h:5
 msgid ""
@@ -11044,7 +11039,7 @@ msgstr "-----Original Message-----"
 
 #: ../mail/em-filter-editor.c:155
 msgid "_Filter Rules"
-msgstr "거르게 규칙(_F)"
+msgstr "필터 규칙(_F)"
 
 #. Automatically generated. Do not edit.
 #: ../mail/em-filter-i18n.h:2
@@ -11338,7 +11333,7 @@ msgstr "그러면"
 
 #: ../mail/em-folder-browser.c:186
 msgid "C_reate Search Folder From Search..."
-msgstr "찾은 것에서 찾기 폴더 만들기(_R)..."
+msgstr "찾은 결과로 찾기 폴더 만들기(_R)..."
 
 #: ../mail/em-folder-browser.c:208
 msgid "All Messages"
@@ -11604,7 +11599,7 @@ msgstr "전달(_F)"
 #. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
 #: ../mail/em-folder-view.c:1228 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
-msgstr "새 메세지로 고침(_E)..."
+msgstr "새 메세지로 편집(_E)..."
 
 #: ../mail/em-folder-view.c:1234
 msgid "U_ndelete"
@@ -11686,19 +11681,19 @@ msgstr "메일링 리스트에 대한 찾기 폴더(_L)"
 
 #: ../mail/em-folder-view.c:1265
 msgid "Filter on Sub_ject"
-msgstr "제목에 대한 거르게(_J)"
+msgstr "제목에 대한 필터(_J)"
 
 #: ../mail/em-folder-view.c:1266
 msgid "Filter on Sen_der"
-msgstr "보낸 사람에 대한 거르게(_D)"
+msgstr "보낸 사람에 대한 필터(_D)"
 
 #: ../mail/em-folder-view.c:1267
 msgid "Filter on Re_cipients"
-msgstr "받은이에 대한 거르게(_C)"
+msgstr "받은이에 대한 필터(_C)"
 
 #: ../mail/em-folder-view.c:1268
 msgid "Filter on _Mailing List"
-msgstr "메일링 리스트에 대한 거르게(_M)"
+msgstr "메일링 리스트에 대한 필터(_M)"
 
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:2098 ../mail/em-folder-view.c:2142
@@ -12261,7 +12256,7 @@ msgstr "이 메세지를 다시 보지 않기."
 
 #: ../mail/em-utils.c:315
 msgid "Message Filters"
-msgstr "메세지 거르게"
+msgstr "메세지 필터"
 
 #: ../mail/em-utils.c:368
 msgid "message"
@@ -12546,19 +12541,19 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid "Log filter actions"
-msgstr "거르게 동작 기록"
+msgstr "필터 동작 기록"
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "Log filter actions to the specified log file."
-msgstr "지정한 로그 파일에 대한 거르게 동작을 기록합니다."
+msgstr "지정한 로그 파일에 대한 필터 동작을 기록합니다."
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid "Logfile to log filter actions"
-msgstr "거르게 동작을 기록할 로그 파일"
+msgstr "필터 동작을 기록할 로그 파일"
 
 #: ../mail/evolution-mail.schemas.in.h:58
 msgid "Logfile to log filter actions."
-msgstr "거르게 동작을 기록할 로그 파일입니다."
+msgstr "필터 동작을 기록할 로그 파일입니다."
 
 #: ../mail/evolution-mail.schemas.in.h:59
 msgid "Mark as Seen after specified timeout"
@@ -12787,13 +12782,18 @@ msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
-msgstr "여러 플러그인이 활성화되어 있지만, 이 플러그인이 기본 정크 메일 플러그인입니다. 기본 목록 플러그인을 사용하지 않는 경우, 사용 가능한 다른 플러그인을 대신 사용하지 않습니다."
+msgstr ""
+"여러 플러그인이 활성화되어 있지만, 이 플러그인이 기본 정크 메일 플러그인입니"
+"다. 기본 목록 플러그인을 사용하지 않는 경우, 사용 가능한 다른 플러그인을 대"
+"신 사용하지 않습니다."
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid ""
 "This key is read only once and reset to false after read. This unselects the "
 "mail in the list and removes the preview for that folder."
-msgstr "이 키는 한 번만 읽고 읽은 다음에 거짓으로 다시 설정됩니다. 목록의 메일의 선택을 지우고 그 폴더에 대한 미리 보기를 없앱니다."
+msgstr ""
+"이 키는 한 번만 읽고 읽은 다음에 거짓으로 다시 설정됩니다. 목록의 메일의 선택"
+"을 지우고 그 폴더에 대한 미리 보기를 없앱니다."
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid ""
@@ -12822,7 +12822,9 @@ msgstr ""
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart"
-msgstr "이 설정에서 기본값으로 글타래를 확장 또는 축소 상태로 할 지를 정합니다. 에볼루션을 다시 시작해야 합니다."
+msgstr ""
+"이 설정에서 기본값으로 글타래를 확장 또는 축소 상태로 할 지를 정합니다. 에볼"
+"루션을 다시 시작해야 합니다."
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message list."
@@ -12924,7 +12926,9 @@ msgstr "보기/회신_주소 메뉴 항목이 체크."
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr "메세지에 In-Reply-To 혹은 References 헤더가 없을 경우에 대신에 제목으로 글타래 표시를 할 것인지 여부."
+msgstr ""
+"메세지에 In-Reply-To 혹은 References 헤더가 없을 경우에 대신에 제목으로 글타"
+"래 표시를 할 것인지 여부."
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid "Width of the message-list pane"
@@ -13010,7 +13014,7 @@ msgstr "%s 메일링 리스트"
 
 #: ../mail/mail-autofilter.c:372
 msgid "Add Filter Rule"
-msgstr "거르게 규칙을 더하기"
+msgstr "필터 규칙 더하기"
 
 #: ../mail/mail-component.c:530
 #, c-format
@@ -13247,7 +13251,7 @@ msgstr "이 계정으로 보내는 메세지는 항상 서명(_W)"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Also encrypt to sel_f when sending encrypted mail"
-msgstr "암호화된 메일을 보낼 때 자신에 대해서도 암호화(_F)"
+msgstr "암호화한 메일을 보낼 때 자신에 대해서도 암호화(_F)"
 
 #: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
@@ -13263,7 +13267,7 @@ msgstr "암호화할 때 내 키 모음에 들어 있는 키는 언제나 신뢰
 
 #: ../mail/mail-config.glade.h:42
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "암호화된 메일을 보낼 때 자신에 대해서 언제나 암호화(_M)"
+msgstr "암호화한 메일을 보낼 때 자신에 대해서 언제나 암호화(_M)"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
@@ -13778,11 +13782,11 @@ msgstr "<span weight=\"bold\">암호화</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
 msgid "All active remote folders"
-msgstr "모든 활성화된 원격 폴더"
+msgstr "모든 활성화한 원격 폴더"
 
 #: ../mail/mail-dialogs.glade.h:6
 msgid "All local and active remote folders"
-msgstr "모든 로컬 폴더와 활성화된 원격 폴더"
+msgstr "모든 로컬 폴더와 활성화한 원격 폴더"
 
 #: ../mail/mail-dialogs.glade.h:7
 msgid "All local folders"
@@ -13873,7 +13877,7 @@ msgstr "메일 가져오는 중"
 #: ../mail/mail-ops.c:566
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "나가는 거르게를 적용하는 데 실패했습니다: %s"
+msgstr "나가는 필터를 적용하는 데 실패했습니다: %s"
 
 #: ../mail/mail-ops.c:578 ../mail/mail-ops.c:607
 #, c-format
@@ -13923,7 +13927,7 @@ msgstr "메시지들을 %s(으)로 복사하는 중"
 
 #: ../mail/mail-ops.c:1170
 msgid "Forwarded messages"
-msgstr "전달된 메시지"
+msgstr "전달한 메시지"
 
 #: ../mail/mail-ops.c:1213
 #, c-format
@@ -14109,11 +14113,11 @@ msgstr "mbox가 아닌 소스 `%s'에서 메일 옮기기를 시도했습니다"
 #: ../mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
-msgstr "전달된 메시지 - %s"
+msgstr "전달한 메시지 - %s"
 
 #: ../mail/mail-tools.c:258
 msgid "Forwarded message"
-msgstr "전달된 메시지"
+msgstr "전달한 메시지"
 
 #: ../mail/mail-tools.c:298
 #, c-format
@@ -14371,7 +14375,7 @@ msgstr "하위 폴더에서도 해당 작업을 수행하시겠습니까?"
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
-msgstr "오프라인 사용이라고 표시된 폴더를 로컬에 동기화하시겠습니까?"
+msgstr "오프라인 사용이라고 표시한 폴더를 로컬에 동기화하시겠습니까?"
 
 #: ../mail/mail.error.xml.h:51
 msgid "Do you want to mark all messages as read?"
@@ -14387,7 +14391,7 @@ msgstr "암호를 입력하십시오."
 
 #: ../mail/mail.error.xml.h:54
 msgid "Error loading filter definitions."
-msgstr "거르게 정의를 읽어들이는 데 오류가 발생했습니다."
+msgstr "필터 정의를 읽어들이는 데 오류가 발생했습니다."
 
 #: ../mail/mail.error.xml.h:55
 msgid "Error while performing operation."
@@ -14447,7 +14451,7 @@ msgstr "인증이 틀렸습니다"
 
 #: ../mail/mail.error.xml.h:69
 msgid "Mail filters automatically updated."
-msgstr "메일 거르게를 자동으로 업데이트했습니다."
+msgstr "메일 필터를 자동으로 업데이트했습니다."
 
 #: ../mail/mail.error.xml.h:70
 msgid ""
@@ -14942,13 +14946,17 @@ msgstr "첨부 알림"
 msgid ""
 "Looks for clues in a message for mention of attachments and warns if the "
 "attachment is missing"
-msgstr "메세지에서 첨부 파일에 대해 언급한 근거를 찾아보고 첨부가 없다면 경고를 표시합니다."
+msgstr ""
+"메세지에서 첨부 파일에 대해 언급한 근거를 찾아보고 첨부가 없다면 경고를 표시"
+"합니다."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
-msgstr "이 메세지에서 첨부 파일이 들어 있어야 한다는 키워드를 찾았지만, 첨부 파일이 없습니다."
+msgstr ""
+"이 메세지에서 첨부 파일이 들어 있어야 한다는 키워드를 찾았지만, 첨부 파일이 "
+"없습니다."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "Message has no attachments"
@@ -14996,7 +15004,8 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"백업에서 에볼루션을 복구하실 수 있습니다. 메일, 달력, 작업, 메모, 주소록 모두를 복구하실 수 있습니다. \n"
+"백업에서 에볼루션을 복구하실 수 있습니다. 메일, 달력, 작업, 메모, 주소록 모두"
+"를 복구하실 수 있습니다. \n"
 "모든 개인 설정 사항, 메일 필터 기능 등도 복구합니다."
 
 #: ../plugins/backup-restore/backup-restore.c:244
@@ -15132,11 +15141,7 @@ msgid ""
 "not running. Please make sure that you close all your unsaved windows before "
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
-msgstr ""
-"현재 에볼루션에 있는 모든 데이터 및 설정을 삭제하고 이를 백업 파일에서 복구합"
-"니다. 에볼루션이 실행되지 않을 경우에만 이를 복구할 수 있습니다. 백업을 시작"
-"하기 전에 모든 파일을 저장 후 종료하였는 지를 확인합니다. 백업 후 에볼루션을 "
-"자동으로 실행하시고자 할 경우 토글 단추를 활성화합니다."
+msgstr "현재 에볼루션에 있는 모든 데이터 및 설정을 지우고 이를 백업 파일에서 복구합니다. 에볼루션이 실행되지 않을 경우에만 이를 복구할 수 있습니다. 백업을 시작하기 전에 모든 파일을 저장 후 종료하였는 지를 확인합니다. 백업 후 에볼루션을 자동으로 실행하시고자 할 경우 토글 단추를 활성화합니다."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
@@ -15148,7 +15153,7 @@ msgstr "설정 복구(_E)..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
-msgstr "백업 설정(_B)..."
+msgstr "설정 백업(_B)..."
 
 #: ../plugins/bbdb/bbdb.c:451 ../plugins/bbdb/bbdb.c:460
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -15420,7 +15425,7 @@ msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"아래에 지정된 메세지는 부재 중에 메일을 보낸 각 사람들에게\n"
+"아래에 지정한 메세지는 부재 중에 메일을 보낸 각 사람들에게\n"
 "자동으로 전달됩니다."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:276
@@ -15582,7 +15587,7 @@ msgstr "%s에 대한 권한"
 msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf."
-msgstr "이 메세지는 에볼루션에서 대리인으로 지정된 것을 알리는 메세지입니다. 이제 내 자격으로 메세지를 보낼 수 있습니다."
+msgstr "이 메세지는 에볼루션에서 대리인으로 지정한 것을 알리는 메세지입니다. 이제 내 자격으로 메세지를 보낼 수 있습니다."
 
 #. To translators: Another chunk of the same message.
 #.
@@ -15757,7 +15762,7 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
-"<small>아래에 지정된 메세지는 부재 중에 메일을 보낸 각 사람들에게 자동으로\n"
+"<small>아래에 지정한 메세지는 부재 중에 메일을 보낸 각 사람들에게 자동으로\n"
 "전달됩니다.</small>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:8
@@ -16299,7 +16304,10 @@ msgid ""
 "Attach Face header to outgoing mails. First time the user needs to configure "
 "a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces "
 "This will be used in mails that are sent further."
-msgstr "보내는 메일에 Face 헤더를 붙입니다. 맨 처음에 48*48 PNG 그림을 설정해야 합니다. 이 그림은 base64로 인코딩해서 ~/.evolution/faces 파일에 저장합니다. 그러면 그 후에 보내는 메일에 이 그림을 사용합니다."
+msgstr ""
+"보내는 메일에 Face 헤더를 붙입니다. 맨 처음에 48*48 PNG 그림을 설정해야 합니"
+"다. 이 그림은 base64로 인코딩해서 ~/.evolution/faces 파일에 저장합니다. 그러"
+"면 그 후에 보내는 메일에 이 그림을 사용합니다."
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
@@ -16490,7 +16498,7 @@ msgstr "폴더/옵션/규칙 고치기(_F)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr "개인으로 표시된 항목 읽기(_P)"
+msgstr "개인으로 표시한 항목 읽기(_P)"
 
 # Reminder -> 미리 알림, Microsoft Office XP
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
@@ -16739,7 +16747,10 @@ msgstr "하드웨어 추상화 레이어를 읽어들이지 못했습니다"
 msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
-msgstr "\"hald\" 서비스가 필요하지만 이 서비스가 현재 동작하고 있지 않습니다. 이 서비스를 시작하고 프로그램을 다시 시작하십시오. 아니면 시스템 관리자에게 연락하십시오."
+msgstr ""
+"\"hald\" 서비스가 필요하지만 이 서비스가 현재 동작하고 있지 않습니다. 이 서비"
+"스를 시작하고 프로그램을 다시 시작하십시오. 아니면 시스템 관리자에게 연락하십"
+"시오."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:66
 msgid "Search for an iPod failed"
@@ -16749,7 +16760,9 @@ msgstr "iPod 찾기가 실패했습니다"
 msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
-msgstr "동기화할 iPod를 에볼루션에서 찾을 수 없습니다. iPod가 시스템에 연결이 되지 않았거나 전원이 꺼져 있습니다."
+msgstr ""
+"동기화할 iPod를 에볼루션에서 찾을 수 없습니다. iPod가 시스템에 연결이 되지 않"
+"았거나 전원이 꺼져 있습니다."
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:194
@@ -16917,7 +16930,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:1427
 msgid "The calendar attached contains multiple items"
-msgstr "첨부된 달력에 여러 개의 항목이 들어 있습니다"
+msgstr "첨부한 달력에 여러 개의 항목이 들어 있습니다"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1428
 msgid ""
@@ -17263,12 +17276,12 @@ msgstr "<b>%s</b>님이 다음 작업 할당 응답을 보냈습니다:"
 #: ../plugins/itip-formatter/itip-view.c:480
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
-msgstr "<b>%s</b>님이 %s을(를) 통해 다음 할당된 작업을 취소했습니다:"
+msgstr "<b>%s</b>님이 %s을(를) 통해 다음 할당 작업을 취소했습니다:"
 
 #: ../plugins/itip-formatter/itip-view.c:482
 #, c-format
 msgid "<b>%s</b> has canceled the following assigned task:"
-msgstr "<b>%s</b>님이 다음 할당된 작업을 취소했습니다:"
+msgstr "<b>%s</b>님이 다음 할당 작업을 취소했습니다:"
 
 #: ../plugins/itip-formatter/itip-view.c:486
 #, c-format
@@ -17481,7 +17494,9 @@ msgstr "새 메일 알림"
 msgid ""
 "Notifies the user with an icon in notification area and a notification "
 "message whenever a new message has arrived."
-msgstr "새로운 메세지가 도착할 때마다 알림 영역의 아이콘과 알림 메세지로 사용자에게 알립니다."
+msgstr ""
+"새로운 메세지가 도착할 때마다 알림 영역의 아이콘과 알림 메세지로 사용자에게 "
+"알립니다."
 
 #: ../plugins/mail-remote/client.c:30
 #, c-format
@@ -17978,7 +17993,9 @@ msgstr "원격 테스트 포함(_N)"
 msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
-msgstr "스팸어새신을 이용해 정크메일을 걸러냅니다. 이 플러그인을 사용하려면 스팸어새신을 설치해야 합니다."
+msgstr ""
+"스팸어새신을 이용해 정크메일을 걸러냅니다. 이 플러그인을 사용하려면 스팸어새"
+"신을 설치해야 합니다."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin junk plugin"
@@ -19896,7 +19913,7 @@ msgstr "찾기 폴더 정의를 만들거나 편집합니다"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
-msgstr "새 메일 거르게 규칙을 만들거나 편집합니다"
+msgstr "새 메일 필터 규칙을 만들거나 편집합니다"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Download messages for Offline"
@@ -19908,7 +19925,7 @@ msgstr "오프라인으로 메세지 다운로드"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Download messages of accounts/folders marked for offline"
-msgstr "오프라인으로 표시된 계정/폴더에 대한 메세지를 다운로드합니다"
+msgstr "오프라인으로 표시한 계정/폴더에 대한 메세지를 다운로드합니다"
 
 #: ../ui/evolution-mail-global.xml.h:10
 msgid "Empty _Trash"
@@ -19958,15 +19975,15 @@ msgstr "전통적으로 보기(_C)"
 
 #: ../ui/evolution-mail-global.xml.h:22
 msgid "_Copy Folder To..."
-msgstr "폴더를 복사(_C)..."
+msgstr "폴더 복사(_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Message Filters"
-msgstr "메세지 거르게(_M)"
+msgstr "메세지 필터(_M)"
 
 #: ../ui/evolution-mail-global.xml.h:24
 msgid "_Move Folder To..."
-msgstr "폴더를 이동(_M)..."
+msgstr "폴더 옮기기(_M)..."
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_New..."
@@ -20120,7 +20137,7 @@ msgstr "보낸 사람을 주소록에 더하기(_D)"
 
 #: ../ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "거르게 적용(_P)"
+msgstr "필터 적용(_P)"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-message.xml.h:4
@@ -20133,7 +20150,7 @@ msgstr "모든 메세지 머리말(_H)"
 
 #: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
-msgstr "선택한 메세지에 거르게 규칙을 적용합니다"
+msgstr "선택한 메세지에 필터 규칙을 적용합니다"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
@@ -20185,19 +20202,19 @@ msgstr "이 제목으로 찾기 폴더를 만듭니다"
 
 #: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
-msgstr "이 보낸 사람이 보낸 메세지를 거르게 규칙으로 만듭니다"
+msgstr "이 보낸 사람이 보낸 메세지를 필터 규칙으로 만듭니다"
 
 #: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
-msgstr "이 받는 사람에게 보낸 메세지를 거르게 규칙으로 만듭니다"
+msgstr "이 받는 사람에게 보낸 메세지를 필터 규칙으로 만듭니다"
 
 #: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "이 메일링 리스트에게 보낸 메세지를 거르게 규칙으로 만듭니다"
+msgstr "이 메일링 리스트에게 보낸 메세지를 필터 규칙으로 만듭니다"
 
 #: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
-msgstr "이 제목으로 도착한 메세지를 거르게 규칙으로 만듭니다"
+msgstr "이 제목으로 도착한 메세지를 필터 규칙으로 만듭니다"
 
 #: ../ui/evolution-mail-message.xml.h:23
 msgid "Cut selected messages to the clipboard"
@@ -20242,23 +20259,23 @@ msgstr "전달 방식(_O)..."
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "메일링 리스트에대한 거르게(_L)..."
+msgstr "메일링 리스트에대한 필터(_L)..."
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "보낸 사람에 대한 거르게(_N)..."
+msgstr "보낸 사람에 대한 필터(_N)..."
 
 #: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "받는 사람에 대한 거르게(_R)..."
+msgstr "받는 사람에 대한 필터(_R)..."
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr "제목에 대한 거르게(_S)..."
+msgstr "제목에 대한 필터(_S)..."
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "선택한 메세지를 정크메일인지 거릅니다"
+msgstr "선택한 메세지를 정크메일인지 필터링합니다"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
@@ -20558,7 +20575,7 @@ msgstr "메세지 되살리기(_U)"
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
-msgstr "읽음 취소(_U)"
+msgstr "읽기 취소(_U)"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
@@ -21103,7 +21120,7 @@ msgstr "아이콘만(_I)"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Quick Reference"
-msgstr "간단한 참조 문서(_Q)"
+msgstr "짧은 참조 문서(_Q)"
 
 #: ../ui/evolution.xml.h:51
 msgid "_Quit"
@@ -21673,7 +21690,7 @@ msgstr "찾기 저장(_S)..."
 
 #: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
 msgid "_Edit Saved Searches..."
-msgstr "저장된 찾기 편집(_E)..."
+msgstr "저장한 찾기 편집(_E)..."
 
 #: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
 msgid "_Advanced Search..."
@@ -21979,7 +21996,7 @@ msgstr "선택한 열"
 
 #: ../widgets/table/e-cell-pixbuf.c:390
 msgid "Focused Column"
-msgstr "포커스된 열"
+msgstr "포커스한 열"
 
 #: ../widgets/table/e-cell-pixbuf.c:397
 msgid "Unselected Column"
