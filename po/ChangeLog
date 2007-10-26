@@ -1,3 +1,8 @@
+2007-10-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	* POTFILES.in:
+	Add files for external-editor and google-account-setup plugins.
+
 2007-10-26  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation.
