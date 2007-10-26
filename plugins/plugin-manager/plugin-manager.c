@@ -132,7 +132,6 @@ eppm_selection_changed(GtkTreeSelection *selection, Manager *m)
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
 		EPlugin *ep;
-		EPluginLibConfigureFunc configure;
 		gboolean enabled = FALSE;
 
 		gtk_tree_model_get(model, &iter, COL_PLUGIN_DATA, &ep, -1);

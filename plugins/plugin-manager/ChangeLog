@@ -1,5 +1,10 @@
 2007-10-26  Sankar P  <psankar@novell.com>
 
+	* plugin-manager.c: (eppm_selection_changed):
+	Ssssshhhhhhhh the compiler warning.
+
+2007-10-26  Sankar P  <psankar@novell.com>
+
 	** Fix for bug #461272
 
 	* plugin-manager.c: (eppm_selection_changed),
