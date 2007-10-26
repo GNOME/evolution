@@ -1837,8 +1837,7 @@ init_widgets (TaskPage *tpage)
 			    G_CALLBACK (categories_clicked_cb), tpage);
 	
 	/* Source selector */
-	g_signal_connect((priv->source_selector), "source_changed",
-			 G_CALLBACK (source_changed_cb), tpage);
+	g_signal_connect (priv->source_selector, "changed", G_CALLBACK (source_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
