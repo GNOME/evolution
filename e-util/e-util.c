@@ -810,7 +810,7 @@ e_strdup_append_strings (gchar *first_string, ...)
 }
 
 cairo_font_options_t *
-get_font_options ()
+get_font_options (void)
 {
 	gchar *antialiasing, *hinting, *subpixel_order;
 	GConfClient *gconf = gconf_client_get_default ();

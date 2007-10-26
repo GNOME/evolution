@@ -101,7 +101,7 @@ e_profile_event_get_type(void)
 EProfileEvent *e_profile_event_peek(void)
 {
 	if (e_profile_event == NULL) {
-		e_profile_event = g_object_new(e_profile_event_get_type(), 0);
+		e_profile_event = g_object_new(e_profile_event_get_type(), NULL);
 		e_event_construct(&e_profile_event->popup, "org.gnome.evolution.profile.events");
 	}
 
@@ -151,12 +151,12 @@ static const EEventHookTargetMask emeh_profile_masks[] = {
 	{ "start", E_PROFILE_EVENT_START },
 	{ "end", E_PROFILE_EVENT_END },
 	{ "cancel", E_PROFILE_EVENT_CANCEL },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "event", E_PROFILE_EVENT_TARGET, emeh_profile_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void

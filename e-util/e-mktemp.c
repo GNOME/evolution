@@ -105,7 +105,7 @@ static GString *
 get_dir (gboolean make)
 {
 	GString *path;
-	time_t now = time(0);
+	time_t now = time(NULL);
 	static time_t last = 0;
 	
 #ifdef TEMP_HOME

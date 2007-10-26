@@ -609,7 +609,7 @@ static const EPluginHookTargetKey emph_item_types[] = {
 	{ "item", E_MENU_ITEM },
 	{ "toggle", E_MENU_TOGGLE },
 	{ "radio", E_MENU_RADIO },
-	{ 0 }
+	{ NULL }
 };
 
 /* 1:1 with e-icon-factory sizes */
@@ -620,7 +620,7 @@ static const EPluginHookTargetKey emph_pixmap_sizes[] = {
 	{ "large_toolbar", 3},
 	{ "dnd", 4},
 	{ "dialog", 5},
-	{ 0 }
+	{ NULL }
 };
 
 static void

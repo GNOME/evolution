@@ -398,7 +398,7 @@ static void *emph_parent_class;
 static const EPluginHookTargetKey emph_item_types[] = {
 	{ "pass", E_EVENT_PASS },
 	{ "sink", E_EVENT_SINK },
-	{ 0 }
+	{ NULL }
 };
 
 static void

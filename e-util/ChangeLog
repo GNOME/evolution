@@ -1,3 +1,23 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-config.c:
+	* e-event.c:
+	* e-gui-utils.c:
+	* e-import.c:
+	* e-menu.c:
+	* e-mktemp.c: (get_dir):
+	* e-popup.c:
+	* e-profile-event.c: (e_profile_event_peek):
+	* e-util.c: (get_font_options):
+	* e-xml-utils.c: (e_xml_get_string_prop_by_name),
+	(e_xml_get_string_prop_by_name_with_default),
+	(e_xml_get_translated_string_prop_by_name):
+
+	Warning fixes.
+	- NULL vs 0
+	- ANSIfication of declarations
+	- missing include
+
 2007-10-12  Michael Monreal <michael.monreal@gmail.com>
 
 	** Migration of theme icons to data/icons/ (bug #479257)

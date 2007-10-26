@@ -431,13 +431,13 @@ static void *emph_parent_class;
 #define emph ((EImportHook *)eph)
 
 static const EImportHookTargetMask eih_no_masks[] = {
-	{ 0 }
+	{ NULL }
 };
 
 static const EImportHookTargetMap eih_targets[] = {
 	{ "uri", E_IMPORT_TARGET_URI, eih_no_masks },
 	{ "home", E_IMPORT_TARGET_HOME, eih_no_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static gboolean eih_supported(EImport *ei, EImportTarget *target, EImportImporter *im)

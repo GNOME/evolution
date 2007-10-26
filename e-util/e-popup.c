@@ -714,7 +714,7 @@ static const EPluginHookTargetKey emph_item_types[] = {
 	{ "image", E_POPUP_IMAGE },
 	{ "submenu", E_POPUP_SUBMENU },
 	{ "bar", E_POPUP_BAR },
-	{ 0 }
+	{ NULL }
 };
 
 static void

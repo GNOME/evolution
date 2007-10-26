@@ -1265,7 +1265,7 @@ static const EPluginHookTargetKey ech_item_types[] = {
 	{ "section_table", E_CONFIG_SECTION_TABLE },
 	{ "item", E_CONFIG_ITEM },
 	{ "item_table", E_CONFIG_ITEM_TABLE },
-	{ 0 },
+	{ NULL },
 };
 
 static void

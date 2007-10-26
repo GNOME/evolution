@@ -26,6 +26,7 @@
 #include <gtk/gtkbutton.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkicontheme.h>
 
 #include <libgnome/gnome-program.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
