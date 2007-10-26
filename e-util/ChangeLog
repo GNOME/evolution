@@ -1,3 +1,12 @@
+2007-10-26  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #461272
+
+	* e-plugin.c: (ep_load), (e_plugin_load_plugins),
+	(e_plugin_is_configurable), (epl_configure):
+	* e-plugin.h:
+	Configure button should not be enabled for all.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-config.c:

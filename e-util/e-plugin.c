@@ -929,8 +929,8 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	return 0;
 }
 
-static void
-epl_configure (EPlugin *ep)
+gboolean
+e_plugin_is_configurable (EPlugin *ep)
 {
 	EPluginLibConfigureFunc configure;
 
@@ -938,9 +938,24 @@ epl_configure (EPlugin *ep)
 
 	if (epl_loadmodule(ep) != 0) {
 		pd(printf ("\n epl_loadmodule  \n"));
-		return;
+		return FALSE;
 	}
 
+	if (g_module_symbol(epl->module, "e_plugin_lib_configure", (void *)&configure)) {
+		pd(printf ("\n g_module_symbol is loaded\n"));
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static void
+epl_configure (EPlugin *ep)
+{
+	EPluginLibConfigureFunc configure;
+
+	pd(printf ("\n epl_configure \n"));
+
+	/* Probably we dont need a load_module */
 	if (g_module_symbol(epl->module, "e_plugin_lib_configure", (void *)&configure)) {
 		pd(printf ("\n g_module_symbol is loaded\n"));
 		configure (epl);

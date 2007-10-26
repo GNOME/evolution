@@ -132,9 +132,16 @@ eppm_selection_changed(GtkTreeSelection *selection, Manager *m)
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
 		EPlugin *ep;
+		EPluginLibConfigureFunc configure;
+		gboolean enabled = FALSE;
 
 		gtk_tree_model_get(model, &iter, COL_PLUGIN_DATA, &ep, -1);
 		eppm_show_plugin(m, ep);
+
+		enabled = e_plugin_is_configurable (ep);
+
+		gtk_dialog_set_response_sensitive (m->dialog, RESPONSE_CONFIGURE, enabled);
+
 	} else {
 		eppm_show_plugin(m, NULL);
 	}
@@ -223,7 +230,7 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	m->dialog = (GtkDialog *)gtk_dialog_new_with_buttons(_("Plugin Manager"),
 							     (GtkWindow *)gtk_widget_get_toplevel(t->target.widget),
 							     GTK_DIALOG_DESTROY_WITH_PARENT,
-							     _("Configure"), RESPONSE_CONFIGURE, 
+							     _("Con_figure"), RESPONSE_CONFIGURE, 
 							     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, 
 							     NULL);
 

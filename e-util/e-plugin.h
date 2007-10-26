@@ -101,6 +101,8 @@ void *e_plugin_invoke(EPlugin *ep, const char *name, void *data);
 void e_plugin_enable(EPlugin *eph, int state);
 void e_plugin_configure (EPlugin *eph);
 
+gboolean e_plugin_is_configurable (EPlugin *ep);
+
 /* static helpers */
 /* maps prop or content to 'g memory' */
 char *e_plugin_xml_prop(xmlNodePtr node, const char *id);
@@ -274,3 +276,4 @@ struct _EPluginTypeHookClass {
 GType e_plugin_type_hook_get_type(void);
 
 #endif /* ! _E_PLUGIN_H */
+
