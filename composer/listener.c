@@ -40,7 +40,7 @@ listener_from_servant (PortableServer_Servant servant)
 }
 
 static CORBA_any *
-get_any_null ()
+get_any_null (void)
 {
 	CORBA_any *rv;
 

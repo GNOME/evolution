@@ -1,3 +1,13 @@
+2007-10-25  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer.c:
+	* e-msg-composer.h:
+	* listener.c: 
+	Warning fixes.
+	- NULL vs. 0
+	- ANSIfication of declarations
+	- mixing code and declarations
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #412360

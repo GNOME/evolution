@@ -66,10 +66,6 @@ EMsgComposer            *e_msg_composer_new_redirect                     (CamelM
 									  const char        *resent_from);
 void			e_msg_composer_show_attachments_ui		 (EMsgComposer *composer);
 
-/*
-void                     e_msg_composer_show_attachments                 (EMsgComposer      *composer,
-									  gboolean           show);*/
-
 void                     e_msg_composer_set_alternative                  (EMsgComposer      *composer,
 									  gboolean           alt);
 									  

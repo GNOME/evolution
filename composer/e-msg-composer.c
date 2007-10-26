@@ -262,12 +262,12 @@ static struct {
 	GdkAtom atom;
 	guint32 actions;
 } drag_info[] = {
-	{ "message/rfc822", 0, GDK_ACTION_COPY },
-	{ "x-uid-list", 0, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
-	{ "text/uri-list", 0, GDK_ACTION_COPY },
-	{ "_NETSCAPE_URL", 0, GDK_ACTION_COPY },
-	{ "text/x-vcard", 0, GDK_ACTION_COPY },
-	{ "text/calendar", 0, GDK_ACTION_COPY },
+	{ "message/rfc822", NULL, GDK_ACTION_COPY },
+	{ "x-uid-list", NULL, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "text/uri-list", NULL, GDK_ACTION_COPY },
+	{ "_NETSCAPE_URL", NULL, GDK_ACTION_COPY },
+	{ "text/x-vcard", NULL, GDK_ACTION_COPY },
+	{ "text/calendar", NULL, GDK_ACTION_COPY },
 };
 
 static const char *emc_draft_format_names[] = { "pgp-sign", "pgp-encrypt", "smime-sign", "smime-encrypt" };
@@ -1638,7 +1638,7 @@ autosave_manager_stop (AutosaveManager *am)
 }
 
 static AutosaveManager *
-autosave_manager_new ()
+autosave_manager_new (void)
 {
 	AutosaveManager *am;
 	GHashTable *table;
@@ -2765,9 +2765,10 @@ static void
 composer_finalise (GObject *object)
 {
 	EMsgComposer *composer;
+	EMsgComposerPrivate *p;
 
 	composer = E_MSG_COMPOSER (object);
-	EMsgComposerPrivate *p = composer->priv;
+	p = composer->priv;
 	
 	if (p->extra_hdr_names) {
 		int i;
@@ -3384,7 +3385,7 @@ init (EMsgComposer *composer)
 	p->has_changed              = FALSE;
 	p->autosaved                = FALSE;
 	
-	p->redirect                 = FALSE;
+	p->redirect                 = NULL; 
 	p->send_invoked		    = FALSE;	
 	p->charset                  = NULL;
 	
