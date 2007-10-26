@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-24 12:25+0100\n"
-"PO-Revision-Date: 2007-10-25 20:31+0200\n"
+"POT-Creation-Date: 2007-10-26 11:55+0100\n"
+"PO-Revision-Date: 2007-10-26 19:55+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -413,7 +413,7 @@ msgstr "No es posible autenticar con el servidor LDAP."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1830
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1705
 msgid "Failed to delete contact"
 msgstr "Falló al borrar el contacto"
 
@@ -732,7 +732,7 @@ msgid "General"
 msgstr "General"
 
 #: ../addressbook/gui/component/addressbook-config.c:982
-#: ../addressbook/gui/widgets/e-addressbook-view.c:565
+#: ../addressbook/gui/widgets/e-addressbook-view.c:557
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "Libreta de direcciones"
@@ -849,7 +849,7 @@ msgstr "Libreta de direcciones _nueva"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:955
-#: ../addressbook/gui/widgets/e-addressbook-view.c:981
+#: ../addressbook/gui/widgets/e-addressbook-view.c:957
 #: ../calendar/gui/calendar-component.c:607
 #: ../calendar/gui/e-calendar-table.c:1345
 #: ../calendar/gui/e-calendar-view.c:1696 ../calendar/gui/e-memo-table.c:935
@@ -1371,7 +1371,7 @@ msgid "_Birthday:"
 msgstr "_Cumpleaños:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
-#: ../calendar/gui/dialogs/event-page.c:909
+#: ../calendar/gui/dialogs/event-page.c:901
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1840
 msgid "_Calendar:"
@@ -2576,7 +2576,7 @@ msgstr "Seleccione una imagen para este contacto"
 msgid "_No image"
 msgstr "_Sin imagen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3087
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3089
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2584,23 +2584,23 @@ msgstr ""
 "Los datos del contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3091
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3093
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3098
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3100
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3124
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3115
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3126
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» está vacío"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3139
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3141
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2807,7 +2807,7 @@ msgstr "_Teclee una dirección de correo o arrastre un contacto a la lista infer
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:383
-#: ../addressbook/gui/widgets/e-addressbook-view.c:225
+#: ../addressbook/gui/widgets/e-addressbook-view.c:217
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
@@ -2880,19 +2880,19 @@ msgid "Email"
 msgstr "Correo-e"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:173
+#: ../addressbook/gui/widgets/e-addressbook-view.c:165
 #: ../calendar/gui/cal-search-bar.c:78 ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/memotypes.xml.h:1 ../calendar/gui/tasktypes.xml.h:1
 msgid "Any field contains"
 msgstr "Cualquier campo contiene"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#: ../addressbook/gui/widgets/e-addressbook-view.c:164
 msgid "Email begins with"
 msgstr "El correo-e empieza por"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:171
+#: ../addressbook/gui/widgets/e-addressbook-view.c:163
 msgid "Name begins with"
 msgstr "El nombre empieza por"
 
@@ -2909,7 +2909,7 @@ msgstr[1] "%d contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
-#: ../addressbook/gui/widgets/e-addressbook-view.c:239
+#: ../addressbook/gui/widgets/e-addressbook-view.c:231
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
@@ -2933,11 +2933,11 @@ msgstr "Modelo"
 msgid "Error modifying card"
 msgstr "Error al modificar la tarjeta"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:232
+#: ../addressbook/gui/widgets/e-addressbook-view.c:224
 msgid "Source"
 msgstr "Fuente"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:246
+#: ../addressbook/gui/widgets/e-addressbook-view.c:238
 #: ../calendar/gui/e-calendar-table.etspec.h:12
 #: ../calendar/gui/e-meeting-list-view.c:500
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
@@ -2945,13 +2945,13 @@ msgstr "Fuente"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:838
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2049
+#: ../addressbook/gui/widgets/e-addressbook-view.c:814
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1924
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Guardar como VCard…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:959
+#: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/dialogs/comp-editor.c:1124
 #: ../calendar/gui/e-calendar-table.c:1323
 #: ../calendar/gui/e-calendar-view.c:1674 ../calendar/gui/e-memo-table.c:918
@@ -2959,61 +2959,61 @@ msgstr "Guardar como VCard…"
 msgid "_Open"
 msgstr "_Abrir"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:961
+#: ../addressbook/gui/widgets/e-addressbook-view.c:937
 msgid "_New Contact..."
 msgstr "Contacto _nuevo…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:962
+#: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "New Contact _List..."
 msgstr "_Lista de contactos nueva…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:965
+#: ../addressbook/gui/widgets/e-addressbook-view.c:941
 msgid "_Save as VCard..."
 msgstr "G_uardar como vCard…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:966
+#: ../addressbook/gui/widgets/e-addressbook-view.c:942
 msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:967
+#: ../addressbook/gui/widgets/e-addressbook-view.c:943
 msgid "_Forward Contacts"
 msgstr "_Reenviar contactos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:968
+#: ../addressbook/gui/widgets/e-addressbook-view.c:944
 msgid "Send _Message to Contact"
 msgstr "Enviar un _mensaje al contacto"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:969
+#: ../addressbook/gui/widgets/e-addressbook-view.c:945
 msgid "Send _Message to List"
 msgstr "Enviar un _mensaje a la lista"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:970
+#: ../addressbook/gui/widgets/e-addressbook-view.c:946
 msgid "Send _Message to Contacts"
 msgstr "Enviar un _mensaje a los contactos"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:947
 msgid "_Print"
 msgstr "Im_primir"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:974
+#: ../addressbook/gui/widgets/e-addressbook-view.c:950
 msgid "Cop_y to Address Book..."
 msgstr "_Copiar a la libreta de direcciones…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:951
 msgid "Mo_ve to Address Book..."
 msgstr "Mo_ver a la libreta de direcciones…"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:978
+#: ../addressbook/gui/widgets/e-addressbook-view.c:954
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../addressbook/gui/widgets/e-addressbook-view.c:955
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1331
 #: ../calendar/gui/e-calendar-view.c:1681 ../calendar/gui/e-memo-table.c:926
-#: ../composer/e-msg-composer.c:3208 ../mail/em-folder-tree.c:988
-#: ../mail/em-folder-view.c:1218 ../mail/message-list.c:1962
+#: ../composer/e-msg-composer.c:3209 ../mail/em-folder-tree.c:988
+#: ../mail/em-folder-view.c:1218 ../mail/message-list.c:1969
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -3021,19 +3021,19 @@ msgstr "Cor_tar"
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:980
+#: ../addressbook/gui/widgets/e-addressbook-view.c:956
 msgid "P_aste"
 msgstr "_Pegar"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1636
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1511
 #: ../calendar/gui/cal-search-bar.c:619 ../calendar/gui/cal-search-bar.c:662
 #: ../calendar/gui/cal-search-bar.c:681
 msgid "Any Category"
 msgstr "Cualquier categoría"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1830
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1705
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid "Other error"
 msgstr "Otro error"
@@ -4007,7 +4007,7 @@ msgid "Contact Print Style Editor Test"
 msgstr "Test del editor de impresión de estilos de contactos"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
-#: ../addressbook/printing/test-print.c:47
+#: ../addressbook/printing/test-print.c:44
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright © 2000, Ximian, Inc."
 
@@ -4015,11 +4015,11 @@ msgstr "Copyright © 2000, Ximian, Inc."
 msgid "This should test the contact print style editor widget"
 msgstr "Esto debería probar el widget de estilo de impresión de contactos"
 
-#: ../addressbook/printing/test-print.c:46
+#: ../addressbook/printing/test-print.c:43
 msgid "Contact Print Test"
 msgstr "Prueba de impresión de contactos"
 
-#: ../addressbook/printing/test-print.c:49
+#: ../addressbook/printing/test-print.c:46
 msgid "This should test the contact print code"
 msgstr "Esto debería probar el código de impresión de los contactos"
 
@@ -4595,13 +4595,13 @@ msgstr "_Tareas"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Servicio de notificación por alerta del Calendario de Evolution"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:112
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuto"
 msgstr[1] "minutos"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:131
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:127
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
@@ -4612,7 +4612,7 @@ msgid_plural "hours"
 msgstr[0] "hora"
 msgstr[1] "horas"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:273
 msgid "Start time"
 msgstr "Hora de inicio"
 
@@ -5327,7 +5327,7 @@ msgstr "_Copiar…"
 #: ../calendar/gui/calendar-component.c:608
 #: ../calendar/gui/dialogs/comp-editor.c:1126
 #: ../calendar/gui/memos-component.c:467 ../calendar/gui/tasks-component.c:458
-#: ../composer/e-msg-composer.c:3739 ../mail/em-folder-tree.c:2116
+#: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Propiedades"
@@ -5941,29 +5941,29 @@ msgstr " (Vence "
 msgid "Due "
 msgstr "Vence "
 
-#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2955
+#: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2956
 #, c-format
 msgid "Attached message - %s"
 msgstr "Mensaje adjunto: %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
-#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2960
-#: ../composer/e-msg-composer.c:3145
+#: ../calendar/gui/dialogs/comp-editor.c:393 ../composer/e-msg-composer.c:2961
+#: ../composer/e-msg-composer.c:3146
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3209
+#: ../calendar/gui/dialogs/comp-editor.c:464 ../composer/e-msg-composer.c:3210
 #: ../mail/em-folder-tree.c:989 ../mail/em-folder-utils.c:369
-#: ../mail/em-folder-view.c:1114 ../mail/message-list.c:1963
+#: ../mail/em-folder-view.c:1114 ../mail/message-list.c:1970
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3211
-#: ../mail/em-folder-tree.c:991 ../mail/message-list.c:1965
+#: ../calendar/gui/dialogs/comp-editor.c:466 ../composer/e-msg-composer.c:3212
+#: ../mail/em-folder-tree.c:991 ../mail/message-list.c:1972
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
@@ -5988,8 +5988,8 @@ msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../calendar/gui/dialogs/event-page.c:1977
-#: ../calendar/gui/dialogs/task-page.c:1255 ../composer/e-msg-composer.c:3738
+#: ../calendar/gui/dialogs/event-page.c:1969
+#: ../calendar/gui/dialogs/task-page.c:1255 ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5997,7 +5997,7 @@ msgid "_Remove"
 msgstr "_Quitar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3741
+#: ../composer/e-msg-composer.c:3742
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
@@ -6153,12 +6153,12 @@ msgstr "_Cita"
 msgid "Recurrence"
 msgstr "Repetición"
 
-#: ../calendar/gui/dialogs/event-page.c:836
-#: ../calendar/gui/dialogs/event-page.c:2849
+#: ../calendar/gui/dialogs/event-page.c:828
+#: ../calendar/gui/dialogs/event-page.c:2837
 msgid "This event has alarms"
 msgstr "Este acontecimiento tiene alertas."
 
-#: ../calendar/gui/dialogs/event-page.c:916
+#: ../calendar/gui/dialogs/event-page.c:908
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
@@ -6166,101 +6166,101 @@ msgstr "Este acontecimiento tiene alertas."
 msgid "Or_ganizer:"
 msgstr "Or_ganizador:"
 
-#: ../calendar/gui/dialogs/event-page.c:954
+#: ../calendar/gui/dialogs/event-page.c:946
 msgid "_Delegatees"
 msgstr "_Delegados"
 
-#: ../calendar/gui/dialogs/event-page.c:956
+#: ../calendar/gui/dialogs/event-page.c:948
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:1138
+#: ../calendar/gui/dialogs/event-page.c:1130
 msgid "Event with no start date"
 msgstr "Acontecimiento sin fecha de inicio"
 
-#: ../calendar/gui/dialogs/event-page.c:1141
+#: ../calendar/gui/dialogs/event-page.c:1133
 msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1313
+#: ../calendar/gui/dialogs/event-page.c:1305
 #: ../calendar/gui/dialogs/memo-page.c:702
 #: ../calendar/gui/dialogs/task-page.c:884
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1323
+#: ../calendar/gui/dialogs/event-page.c:1315
 msgid "End date is wrong"
 msgstr "La fecha de finalización está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1346
+#: ../calendar/gui/dialogs/event-page.c:1338
 msgid "Start time is wrong"
 msgstr "La hora de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1353
+#: ../calendar/gui/dialogs/event-page.c:1345
 msgid "End time is wrong"
 msgstr "La hora de finalización está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1515
+#: ../calendar/gui/dialogs/event-page.c:1507
 #: ../calendar/gui/dialogs/memo-page.c:741
 #: ../calendar/gui/dialogs/task-page.c:943
 msgid "The organizer selected no longer has an account."
 msgstr "El organizador seleccionado ya no tiene una cuenta."
 
-#: ../calendar/gui/dialogs/event-page.c:1521
+#: ../calendar/gui/dialogs/event-page.c:1513
 #: ../calendar/gui/dialogs/memo-page.c:747
 #: ../calendar/gui/dialogs/task-page.c:949
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1546
+#: ../calendar/gui/dialogs/event-page.c:1538
 #: ../calendar/gui/dialogs/task-page.c:973
 msgid "At least one attendee is required."
 msgstr "Es necesario por lo menos un participante."
 
-#: ../calendar/gui/dialogs/event-page.c:1978
+#: ../calendar/gui/dialogs/event-page.c:1970
 #: ../calendar/gui/dialogs/task-page.c:1256
 msgid "_Add "
 msgstr "_Añadir"
 
-#: ../calendar/gui/dialogs/event-page.c:2725
+#: ../calendar/gui/dialogs/event-page.c:2713
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "No es posible abrir el calendario «%s»."
 
-#: ../calendar/gui/dialogs/event-page.c:2769
+#: ../calendar/gui/dialogs/event-page.c:2757
 #: ../calendar/gui/dialogs/memo-page.c:957
 #: ../calendar/gui/dialogs/task-page.c:1764
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Está actuando en nombre de <b>%s</b>"
 
-#: ../calendar/gui/dialogs/event-page.c:3068
+#: ../calendar/gui/dialogs/event-page.c:3056
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes de la cita"
 msgstr[1] "%d días antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3074
+#: ../calendar/gui/dialogs/event-page.c:3062
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes de la cita"
 msgstr[1] "%d horas antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3080
+#: ../calendar/gui/dialogs/event-page.c:3068
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuto antes de la cita"
 msgstr[1] "%d minutos antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3093
+#: ../calendar/gui/dialogs/event-page.c:3081
 msgid "Customize"
 msgstr "Personalizar"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:3098
+#: ../calendar/gui/dialogs/event-page.c:3086
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:657
 #: ../calendar/gui/e-itip-control.c:1131 ../composer/e-msg-composer.c:2357
@@ -6627,7 +6627,7 @@ msgstr "Terminado"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:255
-#: ../calendar/gui/e-calendar-table.c:325 ../mail/message-list.c:1034
+#: ../calendar/gui/e-calendar-table.c:325 ../mail/message-list.c:1036
 msgid "High"
 msgstr "Alta"
 
@@ -6642,14 +6642,14 @@ msgstr "En proceso"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:259
-#: ../calendar/gui/e-calendar-table.c:327 ../mail/message-list.c:1032
+#: ../calendar/gui/e-calendar-table.c:327 ../mail/message-list.c:1034
 msgid "Low"
 msgstr "Baja"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:257
 #: ../calendar/gui/e-cal-model.c:965 ../calendar/gui/e-calendar-table.c:326
-#: ../mail/message-list.c:1033
+#: ../mail/message-list.c:1035
 msgid "Normal"
 msgstr "Normal"
 
@@ -10258,7 +10258,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Ocultar _barra de adjuntos"
 
 #: ../composer/e-msg-composer.c:1337 ../composer/e-msg-composer.c:2605
-#: ../composer/e-msg-composer.c:3984
+#: ../composer/e-msg-composer.c:3985
 msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
@@ -10293,12 +10293,12 @@ msgstr "Autogenerado"
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
-#: ../composer/e-msg-composer.c:2616 ../composer/e-msg-composer.c:3866
-#: ../composer/e-msg-composer.c:3869
+#: ../composer/e-msg-composer.c:2616 ../composer/e-msg-composer.c:3867
+#: ../composer/e-msg-composer.c:3870
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:5123
+#: ../composer/e-msg-composer.c:5124
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10647,7 +10647,7 @@ msgid "%d-%b-%Y"
 msgstr "%e/%b/%Y"
 
 # Aquí time se refiere a fecha
-#: ../filter/filter-datespec.c:449
+#: ../filter/filter-datespec.c:451
 msgid "Select a time to compare against"
 msgstr "Seleccione una fecha con la que comparar"
 
@@ -11010,7 +11010,7 @@ msgid "[Default]"
 msgstr "[Predeterminada]"
 
 #: ../mail/em-account-prefs.c:522 ../mail/em-composer-prefs.c:943
-#: ../plugins/plugin-manager/plugin-manager.c:284
+#: ../plugins/plugin-manager/plugin-manager.c:291
 #: ../plugins/publish-calendar/publish-calendar.c:510
 msgid "Enabled"
 msgstr "Activado"
@@ -11487,12 +11487,12 @@ msgstr "Moviendo la carpeta %s"
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:890 ../mail/message-list.c:1867
+#: ../mail/em-folder-tree.c:890 ../mail/message-list.c:1874
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:892 ../mail/message-list.c:1869
+#: ../mail/em-folder-tree.c:892 ../mail/message-list.c:1876
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
@@ -12849,102 +12849,112 @@ msgstr ""
 "reinicio."
 
 #: ../mail/evolution-mail.schemas.in.h:120
+msgid ""
+"This setting specifies whether the threads should be sorted based on latest "
+"message in each thread, rather than by message's date. Evolution requires a "
+"restart."
+msgstr ""
+"Este ajuste especifica si las conversaciones se deberían ordenar en base al último "
+"mensaje de cada conversación, en lugar de por la fecha del mensaje. Evolution necesita "
+"un reinicio."
+
+#: ../mail/evolution-mail.schemas.in.h:121
 msgid "Thread the message list."
 msgstr "Agrupar la lista de mensajes."
 
-#: ../mail/evolution-mail.schemas.in.h:121
+#: ../mail/evolution-mail.schemas.in.h:122
 msgid "Thread the message-list"
 msgstr "Agrupar la lista de mensajes"
 
-#: ../mail/evolution-mail.schemas.in.h:122
+#: ../mail/evolution-mail.schemas.in.h:123
 msgid "Thread the message-list based on Subject"
 msgstr "Agrupar la lista de mensajes en conversaciones basadas en el asunto"
 
-#: ../mail/evolution-mail.schemas.in.h:123
+#: ../mail/evolution-mail.schemas.in.h:124
 msgid "Timeout for marking message as Seen"
 msgstr "Temporización para marcar un mensaje como visto"
 
-#: ../mail/evolution-mail.schemas.in.h:124
+#: ../mail/evolution-mail.schemas.in.h:125
 msgid "Timeout for marking message as Seen."
 msgstr "Temporización para marcar un mensaje como visto."
 
-#: ../mail/evolution-mail.schemas.in.h:125
+#: ../mail/evolution-mail.schemas.in.h:126
 msgid "UID string of the default account."
 msgstr "Cadena UID para la cuenta predeterminada."
 
-#: ../mail/evolution-mail.schemas.in.h:126
+#: ../mail/evolution-mail.schemas.in.h:127
 msgid "Use SpamAssassin daemon and client"
 msgstr "Usar el demonio y cliente de SpamAssassin"
 
-#: ../mail/evolution-mail.schemas.in.h:127
+#: ../mail/evolution-mail.schemas.in.h:128
 msgid "Use SpamAssassin daemon and client (spamc/spamd)"
 msgstr "Usar el demonio y cliente de SpamAssassin (spamc/spamd)"
 
-#: ../mail/evolution-mail.schemas.in.h:128
+#: ../mail/evolution-mail.schemas.in.h:129
 msgid "Use custom fonts"
 msgstr "Usar tipografía personalizada"
 
-#: ../mail/evolution-mail.schemas.in.h:129
+#: ../mail/evolution-mail.schemas.in.h:130
 msgid "Use custom fonts for displaying mail"
 msgstr "Usar tipografía personalizada para mostrar el correo"
 
-#: ../mail/evolution-mail.schemas.in.h:130
+#: ../mail/evolution-mail.schemas.in.h:131
 msgid "Use only local spam tests."
 msgstr "Usar sólo los tests de SPAM locales."
 
-#: ../mail/evolution-mail.schemas.in.h:131
+#: ../mail/evolution-mail.schemas.in.h:132
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Usa sólo los tests de SPAM locales (sin DNS)."
 
-#: ../mail/evolution-mail.schemas.in.h:132
+#: ../mail/evolution-mail.schemas.in.h:133
 msgid "Use side-by-side or wide layout"
 msgstr "Usar distribución lado a lado o ancha"
 
-#: ../mail/evolution-mail.schemas.in.h:133
+#: ../mail/evolution-mail.schemas.in.h:134
 msgid "Variable width font"
 msgstr "Tipografía de anchura variable"
 
-#: ../mail/evolution-mail.schemas.in.h:134
+#: ../mail/evolution-mail.schemas.in.h:135
 msgid "View/Bcc menu item is checked"
 msgstr "El elemento del menú «Ver/Cco» está marcado"
 
-#: ../mail/evolution-mail.schemas.in.h:135
+#: ../mail/evolution-mail.schemas.in.h:136
 msgid "View/Bcc menu item is checked."
 msgstr "El elemento del menú «Ver/Cco» está marcado."
 
-#: ../mail/evolution-mail.schemas.in.h:136
+#: ../mail/evolution-mail.schemas.in.h:137
 msgid "View/Cc menu item is checked"
 msgstr "El elemento del menú «Ver/Cc» está marcado"
 
-#: ../mail/evolution-mail.schemas.in.h:137
+#: ../mail/evolution-mail.schemas.in.h:138
 msgid "View/Cc menu item is checked."
 msgstr "El elemento del menú «Ver/Cc» está marcado."
 
-#: ../mail/evolution-mail.schemas.in.h:138
+#: ../mail/evolution-mail.schemas.in.h:139
 msgid "View/From menu item is checked"
 msgstr "El elemento del menú «Ver/De» está marcado"
 
-#: ../mail/evolution-mail.schemas.in.h:139
+#: ../mail/evolution-mail.schemas.in.h:140
 msgid "View/From menu item is checked."
 msgstr "El elemento del menú «Ver/De» está marcado."
 
-#: ../mail/evolution-mail.schemas.in.h:140
+#: ../mail/evolution-mail.schemas.in.h:141
 msgid "View/PostTo menu item is checked"
 msgstr "El elemento del menú «Ver/Publicar en» está marcado"
 
-#: ../mail/evolution-mail.schemas.in.h:141
+#: ../mail/evolution-mail.schemas.in.h:142
 msgid "View/PostTo menu item is checked."
 msgstr "El elemento del menú «Ver/Publicar en» está marcado."
 
-#: ../mail/evolution-mail.schemas.in.h:142
+#: ../mail/evolution-mail.schemas.in.h:143
 msgid "View/ReplyTo menu item is checked"
 msgstr "El elemento del menú «Ver/Responder a» está marcado"
 
-#: ../mail/evolution-mail.schemas.in.h:143
+#: ../mail/evolution-mail.schemas.in.h:144
 msgid "View/ReplyTo menu item is checked."
 msgstr "El elemento del menú «Ver/Responder a» está marcado."
 
-#: ../mail/evolution-mail.schemas.in.h:144
+#: ../mail/evolution-mail.schemas.in.h:145
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -12952,11 +12962,15 @@ msgstr ""
 "Indica si se debe o no volver al agrupado de conversaciones por asuntos "
 "cuando los mensajes no contienen cabeceras «In-Reply-To» o «References»."
 
-#: ../mail/evolution-mail.schemas.in.h:145
+#: ../mail/evolution-mail.schemas.in.h:146
+msgid "Whether sort threads based on latest message in that thread"
+msgstr "Indica si ordenar las conversaciones basándose en el último mensaje de esa conversación"
+
+#: ../mail/evolution-mail.schemas.in.h:147
 msgid "Width of the message-list pane"
 msgstr "Anchura del panel de lista de mensajes"
 
-#: ../mail/evolution-mail.schemas.in.h:146
+#: ../mail/evolution-mail.schemas.in.h:148
 msgid "Width of the message-list pane."
 msgstr "Anchura del panel de lista de mensajes."
 
@@ -14786,74 +14800,74 @@ msgstr "_Abrir mensajes"
 msgid "on Current Folder and _Subfolders"
 msgstr "en la carpeta actual y sus _subcarpetas"
 
-#: ../mail/message-list.c:1022
+#: ../mail/message-list.c:1024
 msgid "Unseen"
 msgstr "Sin leer"
 
-#: ../mail/message-list.c:1023
+#: ../mail/message-list.c:1025
 msgid "Seen"
 msgstr "Visto"
 
-#: ../mail/message-list.c:1024
+#: ../mail/message-list.c:1026
 msgid "Answered"
 msgstr "Contestado"
 
-#: ../mail/message-list.c:1025
+#: ../mail/message-list.c:1027
 msgid "Multiple Unseen Messages"
 msgstr "Múltiples mensajes sin leer"
 
-#: ../mail/message-list.c:1026
+#: ../mail/message-list.c:1028
 msgid "Multiple Messages"
 msgstr "Múltiples mensajes"
 
-#: ../mail/message-list.c:1030
+#: ../mail/message-list.c:1032
 msgid "Lowest"
 msgstr "La más baja"
 
-#: ../mail/message-list.c:1031
+#: ../mail/message-list.c:1033
 msgid "Lower"
 msgstr "Más baja"
 
-#: ../mail/message-list.c:1035
+#: ../mail/message-list.c:1037
 msgid "Higher"
 msgstr "Más alta"
 
-#: ../mail/message-list.c:1036
+#: ../mail/message-list.c:1038
 msgid "Highest"
 msgstr "La más alta"
 
-#: ../mail/message-list.c:1508 ../widgets/table/e-cell-date.c:55
+#: ../mail/message-list.c:1515 ../widgets/table/e-cell-date.c:55
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1515 ../plugins/itip-formatter/itip-view.c:203
+#: ../mail/message-list.c:1522 ../plugins/itip-formatter/itip-view.c:203
 #: ../widgets/table/e-cell-date.c:70
 msgid "Today %l:%M %p"
 msgstr "Hoy %l:%M %p"
 
-#: ../mail/message-list.c:1524 ../widgets/table/e-cell-date.c:80
+#: ../mail/message-list.c:1531 ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
 msgstr "Ayer %l:%M %p"
 
-#: ../mail/message-list.c:1536 ../widgets/table/e-cell-date.c:92
+#: ../mail/message-list.c:1543 ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1544 ../widgets/table/e-cell-date.c:100
+#: ../mail/message-list.c:1551 ../widgets/table/e-cell-date.c:100
 msgid "%b %d %l:%M %p"
 msgstr "%b %e %l:%M %p"
 
-#: ../mail/message-list.c:1546 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1553 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %Y"
 msgstr "%e %b %Y"
 
-#: ../mail/message-list.c:2300 ../mail/message-list.etspec.h:9
+#: ../mail/message-list.c:2310 ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Mensajes"
 
-#: ../mail/message-list.c:3742
+#: ../mail/message-list.c:3752
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -17867,7 +17881,7 @@ msgstr ""
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:223
+#: ../plugins/plugin-manager/plugin-manager.c:230
 msgid "Plugin Manager"
 msgstr "Administrador de complementos"
 
@@ -17888,16 +17902,16 @@ msgstr "Autores(s)"
 msgid "Description"
 msgstr "Descripción"
 
-#: ../plugins/plugin-manager/plugin-manager.c:226
-msgid "Configure"
-msgstr "Configurar"
+#: ../plugins/plugin-manager/plugin-manager.c:233
+msgid "Con_figure"
+msgstr "Con_figurar"
 
-#: ../plugins/plugin-manager/plugin-manager.c:238
+#: ../plugins/plugin-manager/plugin-manager.c:245
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Nota: Algunos cambios no tendrán efecto hasta que reinicie"
 
-#: ../plugins/plugin-manager/plugin-manager.c:291
-#: ../plugins/plugin-manager/plugin-manager.c:350
+#: ../plugins/plugin-manager/plugin-manager.c:298
+#: ../plugins/plugin-manager/plugin-manager.c:357
 msgid "Plugin"
 msgstr "Complemento"
 
