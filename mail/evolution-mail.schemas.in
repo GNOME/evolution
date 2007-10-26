@@ -602,6 +602,22 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/thread_latest</key>
+      <applyto>/apps/evolution/mail/display/thread_latest</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Whether sort threads based on latest message in that thread</short>
+         <long>
+	  This setting specifies whether the threads should be sorted based
+	  on latest message in each thread, rather than by message's date.
+	  Evolution requires a restart.
+         </long>
+      </locale>
+    </schema>
+
     <!-- Message Window -->
 
     <schema>

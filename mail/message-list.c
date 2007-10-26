@@ -111,6 +111,8 @@ struct _MessageListPrivate {
 
 	struct _MLSelection clipboard;
 	gboolean destroyed;
+
+	gboolean thread_latest;
 };
 
 static struct {
@@ -1441,21 +1443,26 @@ ml_tree_sort_value_at (ETreeModel *etm, ETreePath path, int col, void *model_dat
 	g_return_val_if_fail (msg_info != NULL, NULL);
 
 	if (col == COL_SENT) {
-		ETreePath child;
+		if (message_list->priv->thread_latest) {
+			ETreePath child;
 
-		child = e_tree_model_node_get_first_child(etm, path);
-		if (child) {
-			return GINT_TO_POINTER (subtree_latest (message_list, child, 1));
+			child = e_tree_model_node_get_first_child (etm, path);
+			if (child) {
+				return GINT_TO_POINTER (subtree_latest (message_list, child, 1));
+			}
 		}
-		
+
 		return GINT_TO_POINTER (camel_message_info_date_sent(msg_info));
 	} else if (col == COL_RECEIVED) {
-		ETreePath child;
+		if (message_list->priv->thread_latest) {
+			ETreePath child;
 
-		child = e_tree_model_node_get_first_child(etm, path);
-		if (child) {
-			return GINT_TO_POINTER (subtree_latest (message_list, child, 0));
+			child = e_tree_model_node_get_first_child (etm, path);
+			if (child) {
+				return GINT_TO_POINTER (subtree_latest (message_list, child, 0));
+			}
 		}
+
 		return GINT_TO_POINTER (camel_message_info_date_received(msg_info));
 	}	
 
@@ -2247,6 +2254,7 @@ message_list_construct (MessageList *message_list)
 	AtkObject *a11y;
 	gboolean construct_failed;
 	char *etspecfile;
+	GConfClient *gconf = mail_config_get_gconf_client ();
 
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
@@ -2273,9 +2281,11 @@ message_list_construct (MessageList *message_list)
 					     message_list);
 
 	e_tree_memory_set_expanded_default(E_TREE_MEMORY(message_list->model), 
-					   gconf_client_get_bool (mail_config_get_gconf_client(),
+					   gconf_client_get_bool (gconf,
 					   			  "/apps/evolution/mail/display/thread_expand",
 								  NULL));
+
+	message_list->priv->thread_latest = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_latest", NULL);
 	
 	/*
 	 * The etree

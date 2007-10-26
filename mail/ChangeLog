@@ -1,3 +1,13 @@
+2007-10-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #489027
+
+	* evolution-mail.schemas.in: New hidden option 'thread_latest' to fall
+	back to thread sorting like before 2007-05-17 (see below).
+	* message-list.c: (struct _MessageListPrivate),
+	(message_list_construct): New property 'thread_latest'.
+	* message-list.c: (ml_tree_sort_value_at): Sort based on this property.
+
 2007-10-24  Milan Crha <mcrha@redhat.com>
 
 	** Fix for bug #467364 by Christian Kintner
