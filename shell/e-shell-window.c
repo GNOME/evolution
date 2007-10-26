@@ -171,7 +171,7 @@ static void
 component_view_free (ComponentView *view)
 {
 	if (view->component_view) {
-		CORBA_Environment ev = { 0 };
+		CORBA_Environment ev = { NULL };
 
 		CORBA_Object_release(view->component_view, &ev);
 		CORBA_exception_free(&ev);

@@ -1,3 +1,21 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-component-registry.c: (query_components):
+	* e-component-view.c: (e_component_view_new),
+	(e_component_view_new_controls), (e_component_view_set_title),
+	(e_component_view_set_button_icon):
+	* e-config-upgrade.c:
+	* e-shell-settings-dialog.c: (e_shell_settings_dialog_new):
+	* e-shell-window.c: (component_view_free):
+	* es-event.c: (es_event_peek):
+	* es-menu.c: (es_menu_new):
+	* importer/evolution-importer-client.c:
+	(evolution_importer_client_create_control):
+	Warning fixes:
+	- NULL vs 0 vs FALSE
+	- ANSIfication of declarations
+	- guint for 1-bit bitfields
+
 2007-10-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-window-commands.c:

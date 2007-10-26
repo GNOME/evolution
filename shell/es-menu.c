@@ -89,7 +89,7 @@ es_menu_get_type(void)
 
 ESMenu *es_menu_new(const char *menuid)
 {
-	ESMenu *esm = g_object_new(es_menu_get_type(), 0);
+	ESMenu *esm = g_object_new(es_menu_get_type(), NULL);
 
 	e_menu_construct(&esm->menu, menuid);
 
@@ -126,12 +126,12 @@ static void *esph_parent_class;
 static const EMenuHookTargetMask esph_shell_masks[] = {
 	{ "online", ES_MENU_SHELL_ONLINE },
 	{ "offline", ES_MENU_SHELL_OFFLINE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EMenuHookTargetMap esph_targets[] = {
 	{ "shell", ES_MENU_TARGET_SHELL, esph_shell_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void

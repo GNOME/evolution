@@ -39,7 +39,7 @@
 struct _EComponentRegistryPrivate {
 	GSList *infos;
 
-	int init:1;
+	guint init:1;
 };
 
 G_DEFINE_TYPE (EComponentRegistry, e_component_registry, G_TYPE_OBJECT)

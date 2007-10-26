@@ -99,7 +99,7 @@ es_event_get_type(void)
 ESEvent *es_event_peek(void)
 {
 	if (es_event == NULL) {
-		es_event = g_object_new(es_event_get_type(), 0);
+		es_event = g_object_new(es_event_get_type(), NULL);
 		/** @HookPoint: Shell Events Hookpoint
 		 * Id: org.gnome.evolution.shell.events
 		 *
@@ -159,14 +159,14 @@ static void *emeh_parent_class;
 static const EEventHookTargetMask emeh_state_masks[] = {
 	{ "online", ES_EVENT_STATE_ONLINE },
 	{ "offline", ES_EVENT_STATE_OFFLINE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "state", ES_EVENT_TARGET_STATE, emeh_state_masks },
 	{ "upgrade", ES_EVENT_TARGET_UPGRADE, NULL },
 	{ "shell", ES_EVENT_TARGET_SHELL, NULL },
-	{ 0 }
+	{ NULL }
 };
 
 static void

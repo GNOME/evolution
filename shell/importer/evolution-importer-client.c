@@ -124,8 +124,8 @@ evolution_importer_client_create_control (EvolutionImporterClient *client)
 	Bonobo_Control control;
 	CORBA_Environment ev;
 	
-	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (EVOLUTION_IS_IMPORTER_CLIENT (client), FALSE);
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (EVOLUTION_IS_IMPORTER_CLIENT (client), NULL);
 
 	CORBA_exception_init (&ev);
 	corba_importer = client->objref;

@@ -316,7 +316,7 @@ e_shell_settings_dialog_init (EShellSettingsDialog *dialog)
 
 
 GtkWidget *
-e_shell_settings_dialog_new ()
+e_shell_settings_dialog_new (void)
 {
 	EShellSettingsDialog *new;
 
