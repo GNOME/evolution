@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-28 16:28+0100\n"
-"PO-Revision-Date: 2007-10-24 14:23+0100\n"
+"PO-Revision-Date: 2007-10-26 12:45+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:179
 msgid "evolution addressbook"
-msgstr "Evolution imenik"
+msgstr "evolution imenik"
 
 #: ../a11y/addressbook/ea-minicard-view.c:33
 #: ../addressbook/gui/component/addressbook-component.c:228
@@ -400,7 +400,7 @@ msgstr "Overitev na LDAP strežniku ni uspela."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1830
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1705
 msgid "Failed to delete contact"
 msgstr "Brisanje stika ni uspelo"
 
@@ -699,7 +699,7 @@ msgid "General"
 msgstr "Splošno"
 
 #: ../addressbook/gui/component/addressbook-config.c:982
-#: ../addressbook/gui/widgets/e-addressbook-view.c:565
+#: ../addressbook/gui/widgets/e-addressbook-view.c:557
 #: ../mail/importers/pine-importer.c:392
 msgid "Address Book"
 msgstr "Imenik"
@@ -816,7 +816,7 @@ msgstr "_Nov imenik"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:955
-#: ../addressbook/gui/widgets/e-addressbook-view.c:981
+#: ../addressbook/gui/widgets/e-addressbook-view.c:957
 #: ../calendar/gui/calendar-component.c:607
 #: ../calendar/gui/e-calendar-table.c:1345
 #: ../calendar/gui/e-calendar-view.c:1696
@@ -1275,7 +1275,7 @@ msgid "_Birthday:"
 msgstr "_Rojstni dan:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
-#: ../calendar/gui/dialogs/event-page.c:909
+#: ../calendar/gui/dialogs/event-page.c:901
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 #: ../plugins/itip-formatter/itip-view.c:1840
 msgid "_Calendar:"
@@ -2483,7 +2483,7 @@ msgstr "Izberite sliko za ta stik"
 msgid "_No image"
 msgstr "_Brez slike"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3087
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3089
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2491,23 +2491,23 @@ msgstr ""
 "Podatki o stiku so neveljavni:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3091
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3093
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' ima neveljavno obliko"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3098
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3100
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' ima neveljavno obliko"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3113
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3124
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3115
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3126
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' je prazen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3139
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3141
 msgid "Invalid contact."
 msgstr "Neveljaven stik."
 
@@ -2714,7 +2714,7 @@ msgstr "Vnesite e-poštni naslov ali potegnite stik na spodnji seznam:"
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:167
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:383
-#: ../addressbook/gui/widgets/e-addressbook-view.c:225
+#: ../addressbook/gui/widgets/e-addressbook-view.c:217
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
 msgid "Book"
@@ -2784,7 +2784,7 @@ msgid "Email"
 msgstr "E-pošta"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../addressbook/gui/widgets/e-addressbook-view.c:173
+#: ../addressbook/gui/widgets/e-addressbook-view.c:165
 #: ../calendar/gui/cal-search-bar.c:78
 #: ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/memotypes.xml.h:1
@@ -2793,12 +2793,12 @@ msgid "Any field contains"
 msgstr "Katerokoli polje vsebuje"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#: ../addressbook/gui/widgets/e-addressbook-view.c:164
 msgid "Email begins with"
 msgstr "E-pošta se začne z"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../addressbook/gui/widgets/e-addressbook-view.c:171
+#: ../addressbook/gui/widgets/e-addressbook-view.c:163
 msgid "Name begins with"
 msgstr "Ime se začne z"
 
@@ -2817,7 +2817,7 @@ msgstr[3] "%d stiki"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
-#: ../addressbook/gui/widgets/e-addressbook-view.c:239
+#: ../addressbook/gui/widgets/e-addressbook-view.c:231
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
 msgid "Query"
@@ -2843,11 +2843,11 @@ msgstr "Model"
 msgid "Error modifying card"
 msgstr "Napaka ob spreminjanju vizitke"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:232
+#: ../addressbook/gui/widgets/e-addressbook-view.c:224
 msgid "Source"
 msgstr "Izvorna koda"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:246
+#: ../addressbook/gui/widgets/e-addressbook-view.c:238
 #: ../calendar/gui/e-calendar-table.etspec.h:12
 #: ../calendar/gui/e-meeting-list-view.c:500
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
@@ -2855,13 +2855,13 @@ msgstr "Izvorna koda"
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:838
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2049
+#: ../addressbook/gui/widgets/e-addressbook-view.c:814
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1924
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Shrani kot VCard ..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:959
+#: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/dialogs/comp-editor.c:1124
 #: ../calendar/gui/e-calendar-table.c:1323
 #: ../calendar/gui/e-calendar-view.c:1674
@@ -2870,65 +2870,65 @@ msgstr "Shrani kot VCard ..."
 msgid "_Open"
 msgstr "_Odpri"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:961
+#: ../addressbook/gui/widgets/e-addressbook-view.c:937
 msgid "_New Contact..."
 msgstr "_Nov stik ..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:962
+#: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "New Contact _List..."
 msgstr "Nov _seznam stikov ..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:965
+#: ../addressbook/gui/widgets/e-addressbook-view.c:941
 msgid "_Save as VCard..."
 msgstr "_Shrani kot VCard ..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:966
+#: ../addressbook/gui/widgets/e-addressbook-view.c:942
 msgid "_Forward Contact"
 msgstr "_Posreduj stik"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:967
+#: ../addressbook/gui/widgets/e-addressbook-view.c:943
 msgid "_Forward Contacts"
 msgstr "Posreduj _stike"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:968
+#: ../addressbook/gui/widgets/e-addressbook-view.c:944
 msgid "Send _Message to Contact"
 msgstr "Pošlji sporočilo _stiku"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:969
+#: ../addressbook/gui/widgets/e-addressbook-view.c:945
 msgid "Send _Message to List"
 msgstr "Pošlji sporočilo se_znamu stikov"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:970
+#: ../addressbook/gui/widgets/e-addressbook-view.c:946
 msgid "Send _Message to Contacts"
 msgstr "Pošlji sporočilo stiko_m"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:947
 msgid "_Print"
 msgstr "_Natisni"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:974
+#: ../addressbook/gui/widgets/e-addressbook-view.c:950
 msgid "Cop_y to Address Book..."
 msgstr "_Kopiraj v imenik ..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:975
+#: ../addressbook/gui/widgets/e-addressbook-view.c:951
 msgid "Mo_ve to Address Book..."
 msgstr "_Premakni v imenik ..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:978
+#: ../addressbook/gui/widgets/e-addressbook-view.c:954
 #: ../ui/evolution-composer-entries.xml.h:4
 #: ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "_Izreži"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../addressbook/gui/widgets/e-addressbook-view.c:955
 #: ../calendar/gui/dialogs/comp-editor.c:463
 #: ../calendar/gui/e-calendar-table.c:1331
 #: ../calendar/gui/e-calendar-view.c:1681
 #: ../calendar/gui/e-memo-table.c:926
-#: ../composer/e-msg-composer.c:3208
+#: ../composer/e-msg-composer.c:3209
 #: ../mail/em-folder-tree.c:988
 #: ../mail/em-folder-view.c:1218
-#: ../mail/message-list.c:1962
+#: ../mail/message-list.c:1969
 #: ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13
@@ -2939,12 +2939,12 @@ msgstr "_Izreži"
 msgid "_Copy"
 msgstr "_Kopiraj"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:980
+#: ../addressbook/gui/widgets/e-addressbook-view.c:956
 msgid "P_aste"
 msgstr "P_rilepi"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1636
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1511
 #: ../calendar/gui/cal-search-bar.c:619
 #: ../calendar/gui/cal-search-bar.c:662
 #: ../calendar/gui/cal-search-bar.c:681
@@ -2952,7 +2952,7 @@ msgid "Any Category"
 msgstr "katerakoli kategorija"
 
 #. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1830
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1705
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid "Other error"
 msgstr "Drugačna napaka"
@@ -3920,7 +3920,7 @@ msgid "Contact Print Style Editor Test"
 msgstr "Preskus urejevalnika izpisa stikov"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
-#: ../addressbook/printing/test-print.c:47
+#: ../addressbook/printing/test-print.c:44
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Avtorske pravice pridržane (C) 2000, Ximian, Inc."
 
@@ -3928,11 +3928,11 @@ msgstr "Avtorske pravice pridržane (C) 2000, Ximian, Inc."
 msgid "This should test the contact print style editor widget"
 msgstr "S tem lahko preizkusite gradnik za urejanje sloga izpisa"
 
-#: ../addressbook/printing/test-print.c:46
+#: ../addressbook/printing/test-print.c:43
 msgid "Contact Print Test"
 msgstr "Preskus izpisa stikov"
 
-#: ../addressbook/printing/test-print.c:49
+#: ../addressbook/printing/test-print.c:46
 msgid "This should test the contact print code"
 msgstr "S tem lahko preizkusite kodo izpisa vizitke"
 
@@ -4452,7 +4452,7 @@ msgstr "_Opravila"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Storitev obvestil alarma koledarja Evolution"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:112
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minut"
@@ -4460,7 +4460,7 @@ msgstr[1] "minuta"
 msgstr[2] "minuti"
 msgstr[3] "minute"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:131
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:127
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19
@@ -4474,7 +4474,7 @@ msgstr[1] "ura"
 msgstr[2] "uri"
 msgstr[3] "ure"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:273
 msgid "Start time"
 msgstr "Čas začetka"
 
@@ -5126,7 +5126,7 @@ msgstr "_Kopiraj ..."
 #: ../calendar/gui/dialogs/comp-editor.c:1126
 #: ../calendar/gui/memos-component.c:467
 #: ../calendar/gui/tasks-component.c:458
-#: ../composer/e-msg-composer.c:3739
+#: ../composer/e-msg-composer.c:3740
 #: ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:35
@@ -5743,7 +5743,7 @@ msgid "Due "
 msgstr "Rok"
 
 #: ../calendar/gui/dialogs/comp-editor.c:209
-#: ../composer/e-msg-composer.c:2955
+#: ../composer/e-msg-composer.c:2956
 #, c-format
 msgid "Attached message - %s"
 msgstr "Priloženo sporočilo - %s"
@@ -5751,8 +5751,8 @@ msgstr "Priloženo sporočilo - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
 #: ../calendar/gui/dialogs/comp-editor.c:393
-#: ../composer/e-msg-composer.c:2960
-#: ../composer/e-msg-composer.c:3145
+#: ../composer/e-msg-composer.c:2961
+#: ../composer/e-msg-composer.c:3146
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5762,18 +5762,18 @@ msgstr[2] "%d priloženi sporočili"
 msgstr[3] "%d priložena sporočila"
 
 #: ../calendar/gui/dialogs/comp-editor.c:464
-#: ../composer/e-msg-composer.c:3209
+#: ../composer/e-msg-composer.c:3210
 #: ../mail/em-folder-tree.c:989
 #: ../mail/em-folder-utils.c:369
 #: ../mail/em-folder-view.c:1114
-#: ../mail/message-list.c:1963
+#: ../mail/message-list.c:1970
 msgid "_Move"
 msgstr "Pre_makni"
 
 #: ../calendar/gui/dialogs/comp-editor.c:466
-#: ../composer/e-msg-composer.c:3211
+#: ../composer/e-msg-composer.c:3212
 #: ../mail/em-folder-tree.c:991
-#: ../mail/message-list.c:1965
+#: ../mail/message-list.c:1972
 msgid "Cancel _Drag"
 msgstr "Prekliči _vlečenje"
 
@@ -5801,9 +5801,9 @@ msgid "Show Attachment _Bar"
 msgstr "Prikaži vrstico priponk"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#: ../calendar/gui/dialogs/event-page.c:1977
+#: ../calendar/gui/dialogs/event-page.c:1969
 #: ../calendar/gui/dialogs/task-page.c:1255
-#: ../composer/e-msg-composer.c:3738
+#: ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5811,7 +5811,7 @@ msgid "_Remove"
 msgstr "_Odstrani"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../composer/e-msg-composer.c:3741
+#: ../composer/e-msg-composer.c:3742
 msgid "_Add attachment..."
 msgstr "Dod_aj priponke ..."
 
@@ -5966,12 +5966,12 @@ msgstr "Sestanki"
 msgid "Recurrence"
 msgstr "Ponovitev"
 
-#: ../calendar/gui/dialogs/event-page.c:836
-#: ../calendar/gui/dialogs/event-page.c:2849
+#: ../calendar/gui/dialogs/event-page.c:828
+#: ../calendar/gui/dialogs/event-page.c:2837
 msgid "This event has alarms"
 msgstr "Dogodek ima alarme"
 
-#: ../calendar/gui/dialogs/event-page.c:916
+#: ../calendar/gui/dialogs/event-page.c:908
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
@@ -5979,75 +5979,75 @@ msgstr "Dogodek ima alarme"
 msgid "Or_ganizer:"
 msgstr "Or_ganizator:"
 
-#: ../calendar/gui/dialogs/event-page.c:954
+#: ../calendar/gui/dialogs/event-page.c:946
 msgid "_Delegatees"
 msgstr "_Pooblaščenci"
 
-#: ../calendar/gui/dialogs/event-page.c:956
+#: ../calendar/gui/dialogs/event-page.c:948
 msgid "Atte_ndees"
 msgstr "Udeleže_nci"
 
-#: ../calendar/gui/dialogs/event-page.c:1138
+#: ../calendar/gui/dialogs/event-page.c:1130
 msgid "Event with no start date"
 msgstr "Dogodek brez začetnega datuma"
 
-#: ../calendar/gui/dialogs/event-page.c:1141
+#: ../calendar/gui/dialogs/event-page.c:1133
 msgid "Event with no end date"
 msgstr "Dogodek brez končnega datuma"
 
-#: ../calendar/gui/dialogs/event-page.c:1313
+#: ../calendar/gui/dialogs/event-page.c:1305
 #: ../calendar/gui/dialogs/memo-page.c:702
 #: ../calendar/gui/dialogs/task-page.c:884
 msgid "Start date is wrong"
 msgstr "Datum začetka je napačen"
 
-#: ../calendar/gui/dialogs/event-page.c:1323
+#: ../calendar/gui/dialogs/event-page.c:1315
 msgid "End date is wrong"
 msgstr "Končni datum je napačen"
 
-#: ../calendar/gui/dialogs/event-page.c:1346
+#: ../calendar/gui/dialogs/event-page.c:1338
 msgid "Start time is wrong"
 msgstr "Čas začetka je napačen"
 
-#: ../calendar/gui/dialogs/event-page.c:1353
+#: ../calendar/gui/dialogs/event-page.c:1345
 msgid "End time is wrong"
 msgstr "Končni čas je napačen"
 
-#: ../calendar/gui/dialogs/event-page.c:1515
+#: ../calendar/gui/dialogs/event-page.c:1507
 #: ../calendar/gui/dialogs/memo-page.c:741
 #: ../calendar/gui/dialogs/task-page.c:943
 msgid "The organizer selected no longer has an account."
 msgstr "Izbran organizator nima več računa."
 
-#: ../calendar/gui/dialogs/event-page.c:1521
+#: ../calendar/gui/dialogs/event-page.c:1513
 #: ../calendar/gui/dialogs/memo-page.c:747
 #: ../calendar/gui/dialogs/task-page.c:949
 msgid "An organizer is required."
 msgstr "Potreben je organizator."
 
-#: ../calendar/gui/dialogs/event-page.c:1546
+#: ../calendar/gui/dialogs/event-page.c:1538
 #: ../calendar/gui/dialogs/task-page.c:973
 msgid "At least one attendee is required."
 msgstr "Potreben je vsaj en udeleženec."
 
-#: ../calendar/gui/dialogs/event-page.c:1978
+#: ../calendar/gui/dialogs/event-page.c:1970
 #: ../calendar/gui/dialogs/task-page.c:1256
 msgid "_Add "
 msgstr "Dod_aj"
 
-#: ../calendar/gui/dialogs/event-page.c:2725
+#: ../calendar/gui/dialogs/event-page.c:2713
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Ni bilo mogoče odpreti koledarja '%s'."
 
-#: ../calendar/gui/dialogs/event-page.c:2769
+#: ../calendar/gui/dialogs/event-page.c:2757
 #: ../calendar/gui/dialogs/memo-page.c:957
 #: ../calendar/gui/dialogs/task-page.c:1764
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Trenutno delujete v imenu %s"
 
-#: ../calendar/gui/dialogs/event-page.c:3068
+#: ../calendar/gui/dialogs/event-page.c:3056
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -6056,7 +6056,7 @@ msgstr[1] "%d dan pred sestankom"
 msgstr[2] "%d dni pred sestankom"
 msgstr[3] "%d dni pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:3074
+#: ../calendar/gui/dialogs/event-page.c:3062
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -6065,7 +6065,7 @@ msgstr[1] "%d ura pred sestankom"
 msgstr[2] "%d uri pred sestankom"
 msgstr[3] "%d ure pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:3080
+#: ../calendar/gui/dialogs/event-page.c:3068
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
@@ -6074,12 +6074,12 @@ msgstr[1] "%d minuto pred sestankom"
 msgstr[2] "%d minuti pred sestankom"
 msgstr[3] "%d minute pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:3093
+#: ../calendar/gui/dialogs/event-page.c:3081
 msgid "Customize"
 msgstr "Prilagodi"
 
 #. an empty string is the same as 'None'
-#: ../calendar/gui/dialogs/event-page.c:3098
+#: ../calendar/gui/dialogs/event-page.c:3086
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:657
 #: ../calendar/gui/e-itip-control.c:1131
@@ -6459,7 +6459,7 @@ msgstr "končano"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:255
 #: ../calendar/gui/e-calendar-table.c:325
-#: ../mail/message-list.c:1034
+#: ../mail/message-list.c:1036
 msgid "High"
 msgstr "visoka"
 
@@ -6476,7 +6476,7 @@ msgstr "v teku"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:259
 #: ../calendar/gui/e-calendar-table.c:327
-#: ../mail/message-list.c:1032
+#: ../mail/message-list.c:1034
 msgid "Low"
 msgstr "nizka"
 
@@ -6484,7 +6484,7 @@ msgstr "nizka"
 #: ../calendar/gui/e-cal-component-preview.c:257
 #: ../calendar/gui/e-cal-model.c:965
 #: ../calendar/gui/e-calendar-table.c:326
-#: ../mail/message-list.c:1033
+#: ../mail/message-list.c:1035
 msgid "Normal"
 msgstr "običajna"
 
@@ -10173,7 +10173,7 @@ msgstr "_Skrij vrstico priponk"
 
 #: ../composer/e-msg-composer.c:1337
 #: ../composer/e-msg-composer.c:2605
-#: ../composer/e-msg-composer.c:3984
+#: ../composer/e-msg-composer.c:3985
 msgid "Show _Attachment Bar"
 msgstr "_Prikaži vrstico priponk"
 
@@ -10212,12 +10212,12 @@ msgid "Si_gnature:"
 msgstr "_Podpis:"
 
 #: ../composer/e-msg-composer.c:2616
-#: ../composer/e-msg-composer.c:3866
-#: ../composer/e-msg-composer.c:3869
+#: ../composer/e-msg-composer.c:3867
+#: ../composer/e-msg-composer.c:3870
 msgid "Compose Message"
 msgstr "Sestavi sporočilo"
 
-#: ../composer/e-msg-composer.c:5123
+#: ../composer/e-msg-composer.c:5124
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
 msgstr "<b>(Sestavljalnik vsebuje nebesedilno telo sporočila, ki ga ni mogoče urejati.)</b>"
 
@@ -10570,7 +10570,7 @@ msgstr "sedaj"
 msgid "%d-%b-%Y"
 msgstr "%d-%b-%Y"
 
-#: ../filter/filter-datespec.c:449
+#: ../filter/filter-datespec.c:451
 msgid "Select a time to compare against"
 msgstr "Izberi čas s katerim naj se primerja"
 
@@ -11457,13 +11457,13 @@ msgid "Copying folder %s"
 msgstr "Kopiram mapo %s"
 
 #: ../mail/em-folder-tree.c:890
-#: ../mail/message-list.c:1867
+#: ../mail/message-list.c:1874
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Premikanje sporočil v mapo %s"
 
 #: ../mail/em-folder-tree.c:892
-#: ../mail/message-list.c:1869
+#: ../mail/message-list.c:1876
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopiranje sporočil v mapo %s"
@@ -12731,113 +12731,121 @@ msgstr "To določa število naslovov, ki se prikažejo v privzetem pogledu sezna
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart"
-msgstr "Nastavitev določa ali naj privzeto niti drevesne oblike sporočil ostanejo razširnjene lai skrčene. Spreminjanje nastavitve zahteva ponoven zagon programa."
+msgstr "Nastavitev določa ali naj privzeto niti sporočil ostanejo razširjene ali skrčene. Spreminjanje nastavitve zahteva ponoven zagon programa."
 
 #: ../mail/evolution-mail.schemas.in.h:120
+msgid "This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart."
+msgstr "Nastavitev določa ali naj privzeto niti sporočil ostanejo razvrščene po novosti sporočil namesto po datumu sporočila. Spreminjanje nastavitve zahteva ponoven zagon programa."
+
+#: ../mail/evolution-mail.schemas.in.h:121
 msgid "Thread the message list."
 msgstr "Niten seznam sporočil."
 
-#: ../mail/evolution-mail.schemas.in.h:121
+#: ../mail/evolution-mail.schemas.in.h:122
 msgid "Thread the message-list"
 msgstr "Niten seznam sporočil"
 
-#: ../mail/evolution-mail.schemas.in.h:122
+#: ../mail/evolution-mail.schemas.in.h:123
 msgid "Thread the message-list based on Subject"
 msgstr "Niten seznam sporočil na podlagi polja Zadeva"
 
-#: ../mail/evolution-mail.schemas.in.h:123
+#: ../mail/evolution-mail.schemas.in.h:124
 msgid "Timeout for marking message as Seen"
 msgstr "Zakasnitev, po kateri sporočilo postane Ogledano"
 
-#: ../mail/evolution-mail.schemas.in.h:124
+#: ../mail/evolution-mail.schemas.in.h:125
 msgid "Timeout for marking message as Seen."
 msgstr "Zakasnitev, po kateri sporočilo postane Ogledano."
 
-#: ../mail/evolution-mail.schemas.in.h:125
+#: ../mail/evolution-mail.schemas.in.h:126
 msgid "UID string of the default account."
 msgstr "Niz UID privzetega računa."
 
-#: ../mail/evolution-mail.schemas.in.h:126
+#: ../mail/evolution-mail.schemas.in.h:127
 msgid "Use SpamAssassin daemon and client"
 msgstr "Uporabi Spamassassin demon in odjemalca"
 
-#: ../mail/evolution-mail.schemas.in.h:127
+#: ../mail/evolution-mail.schemas.in.h:128
 msgid "Use SpamAssassin daemon and client (spamc/spamd)"
 msgstr "Uporabi Spamassassin demon in odjemalca (spamc/spamd)"
 
-#: ../mail/evolution-mail.schemas.in.h:128
+#: ../mail/evolution-mail.schemas.in.h:129
 msgid "Use custom fonts"
 msgstr "Uporabi poljubne pisave"
 
-#: ../mail/evolution-mail.schemas.in.h:129
+#: ../mail/evolution-mail.schemas.in.h:130
 msgid "Use custom fonts for displaying mail"
 msgstr "Uporabi poljubne pisave za prikaz pošte"
 
-#: ../mail/evolution-mail.schemas.in.h:130
+#: ../mail/evolution-mail.schemas.in.h:131
 msgid "Use only local spam tests."
 msgstr "Uporabi samo lokalno preskušanje neželene pošte"
 
-#: ../mail/evolution-mail.schemas.in.h:131
+#: ../mail/evolution-mail.schemas.in.h:132
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Uporabi samo lokalno preskušanje neželene pošte (brez DNS)."
 
-#: ../mail/evolution-mail.schemas.in.h:132
+#: ../mail/evolution-mail.schemas.in.h:133
 msgid "Use side-by-side or wide layout"
 msgstr "Uporabi stransko razporeditev namesto široke"
 
-#: ../mail/evolution-mail.schemas.in.h:133
+#: ../mail/evolution-mail.schemas.in.h:134
 msgid "Variable width font"
 msgstr "Pisava spremenljive širine"
 
-#: ../mail/evolution-mail.schemas.in.h:134
+#: ../mail/evolution-mail.schemas.in.h:135
 msgid "View/Bcc menu item is checked"
 msgstr "Predmet menija Pogled/Bcc je označen"
 
-#: ../mail/evolution-mail.schemas.in.h:135
+#: ../mail/evolution-mail.schemas.in.h:136
 msgid "View/Bcc menu item is checked."
 msgstr "Predmet menija Pogled/Bcc je označen."
 
-#: ../mail/evolution-mail.schemas.in.h:136
+#: ../mail/evolution-mail.schemas.in.h:137
 msgid "View/Cc menu item is checked"
 msgstr "Predmet menija Pogled/Cc je označen"
 
-#: ../mail/evolution-mail.schemas.in.h:137
+#: ../mail/evolution-mail.schemas.in.h:138
 msgid "View/Cc menu item is checked."
 msgstr "Predmet menija Pogled/Cc je označen."
 
-#: ../mail/evolution-mail.schemas.in.h:138
+#: ../mail/evolution-mail.schemas.in.h:139
 msgid "View/From menu item is checked"
 msgstr "Predmet menija Pogled/Od je označen"
 
-#: ../mail/evolution-mail.schemas.in.h:139
+#: ../mail/evolution-mail.schemas.in.h:140
 msgid "View/From menu item is checked."
 msgstr "Predmet menija Pogled/Od je označen."
 
-#: ../mail/evolution-mail.schemas.in.h:140
+#: ../mail/evolution-mail.schemas.in.h:141
 msgid "View/PostTo menu item is checked"
 msgstr "Predmet menija Pogled/PošljiZa je označen"
 
-#: ../mail/evolution-mail.schemas.in.h:141
+#: ../mail/evolution-mail.schemas.in.h:142
 msgid "View/PostTo menu item is checked."
 msgstr "Predmet menija Pogled/PošljiZa je označen."
 
-#: ../mail/evolution-mail.schemas.in.h:142
+#: ../mail/evolution-mail.schemas.in.h:143
 msgid "View/ReplyTo menu item is checked"
 msgstr "Predmet menija Pogled/OdgovoriNa je označen"
 
-#: ../mail/evolution-mail.schemas.in.h:143
+#: ../mail/evolution-mail.schemas.in.h:144
 msgid "View/ReplyTo menu item is checked."
 msgstr "Predmet menija Pogled/OdgovoriNa je označen."
 
-#: ../mail/evolution-mail.schemas.in.h:144
+#: ../mail/evolution-mail.schemas.in.h:145
 msgid "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
 msgstr "Ali naj se nitene, ko sporočila ne vsebujejo glav Kot-Odgovor-Na ali Reference, navezuje na zadeve."
 
-#: ../mail/evolution-mail.schemas.in.h:145
+#: ../mail/evolution-mail.schemas.in.h:146
+msgid "Whether sort threads based on latest message in that thread"
+msgstr ""
+
+#: ../mail/evolution-mail.schemas.in.h:147
 msgid "Width of the message-list pane"
 msgstr "Širina panoja s seznamom sporočil"
 
-#: ../mail/evolution-mail.schemas.in.h:146
+#: ../mail/evolution-mail.schemas.in.h:148
 msgid "Width of the message-list pane."
 msgstr "Širina panoja s seznamom sporočil."
 
@@ -14587,81 +14595,81 @@ msgstr "_Odpri sporočila"
 msgid "on Current Folder and _Subfolders"
 msgstr "na trenutni mapi in podmapah"
 
-#: ../mail/message-list.c:1022
+#: ../mail/message-list.c:1024
 msgid "Unseen"
 msgstr "Neogledano"
 
-#: ../mail/message-list.c:1023
+#: ../mail/message-list.c:1025
 msgid "Seen"
 msgstr "Ogledano"
 
-#: ../mail/message-list.c:1024
+#: ../mail/message-list.c:1026
 msgid "Answered"
 msgstr "Odgovorjeno"
 
-#: ../mail/message-list.c:1025
+#: ../mail/message-list.c:1027
 msgid "Multiple Unseen Messages"
 msgstr "Več neogledanih sporočil"
 
-#: ../mail/message-list.c:1026
+#: ../mail/message-list.c:1028
 msgid "Multiple Messages"
 msgstr "Več sporočil"
 
-#: ../mail/message-list.c:1030
+#: ../mail/message-list.c:1032
 msgid "Lowest"
 msgstr "najnižja"
 
-#: ../mail/message-list.c:1031
+#: ../mail/message-list.c:1033
 msgid "Lower"
 msgstr "nizka"
 
-#: ../mail/message-list.c:1035
+#: ../mail/message-list.c:1037
 msgid "Higher"
 msgstr "visoka"
 
-#: ../mail/message-list.c:1036
+#: ../mail/message-list.c:1038
 msgid "Highest"
 msgstr "najvišja"
 
-#: ../mail/message-list.c:1508
+#: ../mail/message-list.c:1515
 #: ../widgets/table/e-cell-date.c:55
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1515
+#: ../mail/message-list.c:1522
 #: ../plugins/itip-formatter/itip-view.c:203
 #: ../widgets/table/e-cell-date.c:70
 msgid "Today %l:%M %p"
 msgstr "Danes %l:%M %p"
 
-#: ../mail/message-list.c:1524
+#: ../mail/message-list.c:1531
 #: ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
 msgstr "Včeraj %l:%M %p"
 
-#: ../mail/message-list.c:1536
+#: ../mail/message-list.c:1543
 #: ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1544
+#: ../mail/message-list.c:1551
 #: ../widgets/table/e-cell-date.c:100
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: ../mail/message-list.c:1546
+#: ../mail/message-list.c:1553
 #: ../widgets/table/e-cell-date.c:102
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2300
+#: ../mail/message-list.c:2310
 #: ../mail/message-list.etspec.h:9
 msgid "Messages"
 msgstr "Sporočila"
 
-#: ../mail/message-list.c:3742
+#: ../mail/message-list.c:3752
 msgid "Generating message list"
 msgstr "Ustvarjam seznam sporočil"
 
@@ -22227,9 +22235,4 @@ msgstr "Vsebina IM"
 #: ../widgets/text/e-text.c:3779
 msgid "Handle Popup"
 msgstr "Pojavno okno ročice"
-
-#~ msgid "Automatic smiley recognition"
-#~ msgstr "Samodejna prepoznava smeškov"
-#~ msgid "_Phone List"
-#~ msgstr "_Seznam telefonov"
 
