@@ -1570,17 +1570,23 @@ e_search_bar_get_text (ESearchBar *search_bar)
 void e_search_bar_scope_enable (ESearchBar *esb, int did, gboolean state)
 {
 	GtkWidget *widget=NULL;
-	GList *l = GTK_MENU_SHELL (esb->scopeoption_menu)->children;
-	int row = -1, i = 0, id;
+	GList *l ;
+	int id;
+	gpointer *pointer;
 
+	g_return_if_fail (esb != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (esb));
+
+	l = GTK_MENU_SHELL (esb->scopeoption_menu)->children;
 	while (l) {
-		id = GPOINTER_TO_INT (g_object_get_data (l->data, "EsbItemId"));
-		if (id == did) {
-			row = i;
-			widget = l->data;
-			break;
+		pointer = g_object_get_data (l->data, "EsbItemId");
+		if (pointer) {
+			id = GPOINTER_TO_INT (pointer);
+			if (id == did) {
+				widget = l->data;
+				break;
+			}
 		}
-		i++;
 		l = l->next;
 	}
 

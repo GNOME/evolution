@@ -1,3 +1,10 @@
+2007-10-26  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	** Workaround for bug #395272
+
+	* e-search-bar.c:
+	Minor code cleanups and value checking
+
 2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #417999
