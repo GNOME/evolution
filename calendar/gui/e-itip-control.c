@@ -72,9 +72,19 @@ struct _EItipControlPrivate {
 	char action;
 	gboolean rsvp;
 
-	GtkWidget *ok;
-	GtkWidget *hbox;
-	GtkWidget *vbox;
+	/* Use the gpointer variants for weak pointers. */
+	union {
+		GtkWidget *ok;
+		gpointer ok_pointer;
+	};
+	union {
+		GtkWidget *hbox;
+		gpointer hbox_pointer;
+	};
+	union {
+		GtkWidget *vbox;
+		gpointer vbox_pointer;
+	};
 	
 	char *vcalendar;
 	ECalComponent *comp;
@@ -2200,12 +2210,12 @@ insert_boxes (GtkHTMLEmbedded *eb, EItipControl *itip)
 	priv = itip->priv;
 
 	priv->vbox = gtk_vbox_new (FALSE, 12);
-	g_object_add_weak_pointer (G_OBJECT (priv->vbox), (gpointer *) &(priv->vbox));
+	g_object_add_weak_pointer (G_OBJECT (priv->vbox), &priv->vbox_pointer);
 	gtk_container_add (GTK_CONTAINER (eb), priv->vbox);
 	gtk_widget_show (priv->vbox);
 
 	priv->hbox = gtk_hbox_new (FALSE, 6);
-	g_object_add_weak_pointer (G_OBJECT (priv->hbox), (gpointer *) &(priv->hbox));
+	g_object_add_weak_pointer (G_OBJECT (priv->hbox), &priv->hbox_pointer);
 
 	gtk_box_pack_start (GTK_BOX (priv->vbox), priv->hbox, FALSE, TRUE, 0);
 	gtk_widget_show (priv->hbox);
@@ -2263,7 +2273,7 @@ insert_ok (GtkWidget *hbox, EItipControl *itip)
 	priv = itip->priv;
 	
 	priv->ok = gtk_button_new_from_stock (GTK_STOCK_OK);
-	g_object_add_weak_pointer (G_OBJECT (priv->ok), (gpointer *) &(priv->ok) );
+	g_object_add_weak_pointer (G_OBJECT (priv->ok), &priv->ok_pointer);
 
 	g_signal_connect (priv->ok, "clicked", G_CALLBACK (ok_clicked_cb), itip);
 

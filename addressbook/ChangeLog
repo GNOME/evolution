@@ -1,3 +1,8 @@
+2007-10-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	* conduit/address-conduit.c (local_record_to_pilot_record):
+	Zero out the GnomePilotRecord struct to silence a compiler warning.
+
 2007-10-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #489661

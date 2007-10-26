@@ -478,6 +478,8 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 	
 	LOG (g_message ( "local_record_to_pilot_record\n" ));
 
+	memset (&p, 0, sizeof (GnomePilotRecord));
+
 	p.ID = local->local.ID;
 	p.category = local->local.category;
 	p.attr = local->local.attr;

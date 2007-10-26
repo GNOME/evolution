@@ -1112,7 +1112,7 @@ memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 	MemoPagePrivate *priv;
 	GList *l;
 	EAccount *def_account;
-	gchar *def_address;
+	gchar *def_address = NULL;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;

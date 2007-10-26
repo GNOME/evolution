@@ -1,3 +1,16 @@
+2007-10-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	* conduits/calendar/calendar-conduit.c (local_record_to_pilot_record):
+	* conduits/memo/memo-conduit.c (local_record_to_pilot_record):
+	* conduits/todo/todo-conduit.c (local_record_to_pilot_record):
+	Zero out the GnomePilotRecord struct to silence a compiler warning.
+
+	* gui/dialogs/memo-page.c (memo_page_select_organizer):
+	Initialize def_address.
+
+	* gui/e-itip-control.c:
+	Use unions to avoid strict-aliasing violations.
+
 2007-10-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/alarm-notify/alarm-notify-dialog.c:

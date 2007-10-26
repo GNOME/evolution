@@ -842,7 +842,9 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 
 	g_assert (local->comp != NULL);
 	g_assert (local->appt != NULL );
-	
+
+	memset (&p, 0, sizeof (GnomePilotRecord));
+
 	p.ID = local->local.ID;
 	p.category = local->local.category;
 	p.attr = local->local.attr;
