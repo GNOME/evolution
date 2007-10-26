@@ -306,7 +306,7 @@ editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 			RuleEditorUndo *undo, *next;
 			
 			undo = re->undo_log;
-			re->undo_log = 0;
+			re->undo_log = NULL;
 			while (undo) {
 				next = undo->next;
 				g_object_unref (undo->rule);

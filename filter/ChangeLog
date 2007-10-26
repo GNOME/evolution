@@ -1,3 +1,15 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-datespec.c: (set_values):
+	* filter-rule.c: (filter_rule_get_type), (filter_rule_new),
+	(rule_copy):
+	* rule-editor.c: (editor_response), (rule_delete), (rule_move):
+
+	Warning fixes:
+	- NULL vs 0
+	- ANSIfication of declarations
+	- mixing code and declarations
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #323977

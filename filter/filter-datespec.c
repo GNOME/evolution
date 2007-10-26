@@ -359,11 +359,13 @@ get_values (FilterDatespec *fds)
 static void
 set_values (FilterDatespec *fds)
 {
+	int note_type;
+
 	struct _FilterDatespecPrivate *p = PRIV(fds);
 	
 	p->type = fds->type==FDST_UNKNOWN ? FDST_NOW : fds->type;
 
-	int note_type = fds->type==FDST_X_FUTURE ? FDST_X_AGO : fds->type; // FUTURE and AGO use the same notebook pages/etc.
+	note_type = fds->type==FDST_X_FUTURE ? FDST_X_AGO : fds->type; // FUTURE and AGO use the same notebook pages/etc.
 	
 	switch (p->type) {
 	case FDST_NOW:

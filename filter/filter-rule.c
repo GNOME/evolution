@@ -64,7 +64,7 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 GType
-filter_rule_get_type ()
+filter_rule_get_type (void)
 {
 	static GType type = 0;
 	
@@ -146,7 +146,7 @@ filter_rule_finalise (GObject *obj)
  * Return value: A new #FilterRule object.
  **/
 FilterRule *
-filter_rule_new ()
+filter_rule_new (void)
 {
 	return (FilterRule *) g_object_new (FILTER_TYPE_RULE, NULL, NULL);
 }
