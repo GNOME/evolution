@@ -1,3 +1,9 @@
+2007-10-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution-mail-sessionlistener.c:
+	Use g_cclosure_marshal_VOID__POINTER instead of
+	evolution_mail_marshal_VOID__POINTER.
+
 2007-09-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #461195

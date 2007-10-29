@@ -154,7 +154,7 @@ evolution_mail_sessionlistener_class_init (EvolutionMailSessionListenerClass *kl
 			     G_SIGNAL_RUN_LAST,
 			     G_STRUCT_OFFSET (EvolutionMailSessionListenerClass, changed),
 			     NULL, NULL,
-			     evolution_mail_marshal_VOID__POINTER,
+			     g_cclosure_marshal_VOID__POINTER,
 			     G_TYPE_NONE, 1,
 			     G_TYPE_POINTER);
 }
