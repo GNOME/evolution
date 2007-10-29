@@ -1,3 +1,11 @@
+2007-10-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #490538
+
+	* gui/dialogs/memo-page.c: (fill_comp_with_recipients):
+	* gui/e-meeting-list-view.c: (process_section):
+	Free memory properly after call of e_contact_store_get_books.
+
 2007-10-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #417999

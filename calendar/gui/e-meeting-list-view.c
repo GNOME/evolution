@@ -745,6 +745,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 					e_book_query_unref (query);
 					g_free (qu);
 				}
+				g_list_free (books);
 			} else {
 				card_dest.next = NULL;
 				card_dest.prev = NULL;

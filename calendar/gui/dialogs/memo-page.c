@@ -531,6 +531,7 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 					e_book_query_unref (query);
 					g_free (qu);
 				}
+				g_list_free (books);
 			} else {
 				card_dest.next = NULL;
 				card_dest.prev = NULL;
