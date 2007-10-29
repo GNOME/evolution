@@ -1166,7 +1166,7 @@ selection_interface_clear_selection (AtkSelection *selection)
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
-		return -1;
+		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = main_item->week_view;

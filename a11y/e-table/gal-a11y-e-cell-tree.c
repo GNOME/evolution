@@ -72,7 +72,7 @@ static void
 ectr_subcell_weak_ref (GalA11yECellTree *a11y,
 		       GalA11yECell     *subcell_a11y)
 {
-        ECellView *subcell_view = subcell_a11y ? subcell_a11y->cell_view : 0;
+        ECellView *subcell_view = subcell_a11y ? subcell_a11y->cell_view : NULL;
         if (subcell_a11y && subcell_view && subcell_view->kill_view_cb_data)
             subcell_view->kill_view_cb_data = g_list_remove(subcell_view->kill_view_cb_data, subcell_a11y);
 

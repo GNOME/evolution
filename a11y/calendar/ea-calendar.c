@@ -125,7 +125,7 @@ e_week_view_main_item_a11y_init (void)
 	EA_SET_FACTORY (e_week_view_main_item_get_type (), ea_week_view_main_item);
 }
 
-gboolean
+static gboolean
 ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
                            guint n_param_values,
                            const GValue *param_values,

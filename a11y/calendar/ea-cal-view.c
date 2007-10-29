@@ -396,7 +396,7 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 		return NULL;
 
 	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
-		return FALSE;
+		return NULL;
 
 	 switch (index) {
 	 case 0:

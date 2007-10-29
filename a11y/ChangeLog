@@ -1,3 +1,15 @@
+2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* addressbook/ea-addressbook.c:
+	* calendar/ea-cal-view.c: (action_interface_get_keybinding):
+	* calendar/ea-calendar.c:
+	* calendar/ea-week-view-main-item.c:
+	(selection_interface_clear_selection):
+	* e-table/gal-a11y-e-cell-tree.c: (ectr_subcell_weak_ref),
+	(gal_a11y_e_cell_tree_get_type):
+
+	- Fix warnings from sparse.
+
 2007-09-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #471791 
