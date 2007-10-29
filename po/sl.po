@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-28 16:28+0100\n"
-"PO-Revision-Date: 2007-10-26 12:45+0100\n"
+"PO-Revision-Date: 2007-10-29 11:06+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -527,13 +527,13 @@ msgstr "{1}"
 msgid "Default Sync Address:"
 msgstr "Privzet usklajevalni naslov:"
 
-#: ../addressbook/conduit/address-conduit.c:1317
-#: ../addressbook/conduit/address-conduit.c:1318
+#: ../addressbook/conduit/address-conduit.c:1319
+#: ../addressbook/conduit/address-conduit.c:1320
 msgid "Could not load addressbook"
 msgstr "Ni mogoče naložiti imenika"
 
-#: ../addressbook/conduit/address-conduit.c:1395
-#: ../addressbook/conduit/address-conduit.c:1398
+#: ../addressbook/conduit/address-conduit.c:1397
+#: ../addressbook/conduit/address-conduit.c:1400
 msgid "Could not read pilot's Address application block"
 msgstr "Ni mogoče prebrati Pilotovega imenika"
 
@@ -1151,6 +1151,7 @@ msgstr "vizitke"
 #: ../mail/em-account-editor.c:2064
 #: ../plugins/calendar-http/calendar-http.c:288
 #: ../plugins/calendar-weather/calendar-weather.c:561
+#: ../plugins/google-account-setup/google-source.c:372
 msgid "minutes"
 msgstr "minut"
 
@@ -4325,27 +4326,27 @@ msgstr "Vnesite geslo"
 msgid "Split Multi-Day Events:"
 msgstr "Loči večdnevne dogodke:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1513
-#: ../calendar/conduits/calendar/calendar-conduit.c:1514
-#: ../calendar/conduits/memo/memo-conduit.c:814
-#: ../calendar/conduits/memo/memo-conduit.c:815
-#: ../calendar/conduits/todo/todo-conduit.c:1012
-#: ../calendar/conduits/todo/todo-conduit.c:1013
+#: ../calendar/conduits/calendar/calendar-conduit.c:1515
+#: ../calendar/conduits/calendar/calendar-conduit.c:1516
+#: ../calendar/conduits/memo/memo-conduit.c:816
+#: ../calendar/conduits/memo/memo-conduit.c:817
+#: ../calendar/conduits/todo/todo-conduit.c:1014
+#: ../calendar/conduits/todo/todo-conduit.c:1015
 msgid "Could not start evolution-data-server"
 msgstr "Ni mogoče zagnati evolution-data-server"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1621
-#: ../calendar/conduits/calendar/calendar-conduit.c:1624
+#: ../calendar/conduits/calendar/calendar-conduit.c:1623
+#: ../calendar/conduits/calendar/calendar-conduit.c:1626
 msgid "Could not read pilot's Calendar application block"
 msgstr "Ni mogoče prebrati Pilotovega koledarja"
 
-#: ../calendar/conduits/memo/memo-conduit.c:908
-#: ../calendar/conduits/memo/memo-conduit.c:911
+#: ../calendar/conduits/memo/memo-conduit.c:910
+#: ../calendar/conduits/memo/memo-conduit.c:913
 msgid "Could not read pilot's Memo application block"
 msgstr "Ni mogoče prebrati Pilotovega zapiska"
 
-#: ../calendar/conduits/memo/memo-conduit.c:955
-#: ../calendar/conduits/memo/memo-conduit.c:958
+#: ../calendar/conduits/memo/memo-conduit.c:957
+#: ../calendar/conduits/memo/memo-conduit.c:960
 msgid "Could not write pilot's Memo application block"
 msgstr "Ni mogoče zapisati Pilotovega zapiska"
 
@@ -4353,13 +4354,13 @@ msgstr "Ni mogoče zapisati Pilotovega zapiska"
 msgid "Default Priority:"
 msgstr "Privzeta prednost:"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1096
-#: ../calendar/conduits/todo/todo-conduit.c:1099
+#: ../calendar/conduits/todo/todo-conduit.c:1098
+#: ../calendar/conduits/todo/todo-conduit.c:1101
 msgid "Could not read pilot's ToDo application block"
 msgstr "Ni mogoče prebrati Pilotovega seznama opravil"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1141
-#: ../calendar/conduits/todo/todo-conduit.c:1144
+#: ../calendar/conduits/todo/todo-conduit.c:1143
+#: ../calendar/conduits/todo/todo-conduit.c:1146
 msgid "Could not write pilot's ToDo application block"
 msgstr "Ni mogoče zapisati Pilotovega seznama opravil"
 
@@ -4467,6 +4468,7 @@ msgstr[3] "minute"
 #: ../filter/filter.glade.h:15
 #: ../plugins/calendar-http/calendar-http.c:289
 #: ../plugins/calendar-weather/calendar-weather.c:562
+#: ../plugins/google-account-setup/google-source.c:373
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "ur"
@@ -4487,7 +4489,7 @@ msgstr "Sestanki"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1615
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1621
-#: ../calendar/gui/e-itip-control.c:1145
+#: ../calendar/gui/e-itip-control.c:1155
 #: ../plugins/itip-formatter/itip-view.c:1001
 msgid "Location:"
 msgstr "Kraj:"
@@ -5083,6 +5085,7 @@ msgstr "Počisti dogodke, starejše kot"
 #: ../filter/filter.glade.h:14
 #: ../plugins/calendar-http/calendar-http.c:290
 #: ../plugins/calendar-weather/calendar-weather.c:563
+#: ../plugins/google-account-setup/google-source.c:374
 #: ../widgets/misc/e-send-options.glade.h:38
 msgid "days"
 msgstr "dni"
@@ -5442,7 +5445,7 @@ msgstr "Prikaz"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.c:1091
-#: ../calendar/gui/e-itip-control.c:730
+#: ../calendar/gui/e-itip-control.c:740
 msgid "Friday"
 msgstr "petek"
 
@@ -5458,7 +5461,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: ../calendar/gui/dialogs/recurrence-page.c:1087
-#: ../calendar/gui/e-itip-control.c:726
+#: ../calendar/gui/e-itip-control.c:736
 msgid "Monday"
 msgstr "ponedeljek"
 
@@ -5492,7 +5495,7 @@ msgstr "_ned"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1092
-#: ../calendar/gui/e-itip-control.c:731
+#: ../calendar/gui/e-itip-control.c:741
 msgid "Saturday"
 msgstr "sobota"
 
@@ -5510,7 +5513,7 @@ msgstr "Prikaži številke tednov v krmarju po dnevih"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1093
-#: ../calendar/gui/e-itip-control.c:725
+#: ../calendar/gui/e-itip-control.c:735
 msgid "Sunday"
 msgstr "nedeljo"
 
@@ -5529,7 +5532,7 @@ msgstr "Predloga:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: ../calendar/gui/dialogs/recurrence-page.c:1090
-#: ../calendar/gui/e-itip-control.c:729
+#: ../calendar/gui/e-itip-control.c:739
 msgid "Thursday"
 msgstr "četrtek"
 
@@ -5544,13 +5547,13 @@ msgstr "Oblika izpisa časa:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1088
-#: ../calendar/gui/e-itip-control.c:727
+#: ../calendar/gui/e-itip-control.c:737
 msgid "Tuesday"
 msgstr "torek"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 #: ../calendar/gui/dialogs/recurrence-page.c:1089
-#: ../calendar/gui/e-itip-control.c:728
+#: ../calendar/gui/e-itip-control.c:738
 msgid "Wednesday"
 msgstr "sreda"
 
@@ -5996,7 +5999,7 @@ msgid "Event with no end date"
 msgstr "Dogodek brez končnega datuma"
 
 #: ../calendar/gui/dialogs/event-page.c:1305
-#: ../calendar/gui/dialogs/memo-page.c:702
+#: ../calendar/gui/dialogs/memo-page.c:703
 #: ../calendar/gui/dialogs/task-page.c:884
 msgid "Start date is wrong"
 msgstr "Datum začetka je napačen"
@@ -6014,13 +6017,13 @@ msgid "End time is wrong"
 msgstr "Končni čas je napačen"
 
 #: ../calendar/gui/dialogs/event-page.c:1507
-#: ../calendar/gui/dialogs/memo-page.c:741
+#: ../calendar/gui/dialogs/memo-page.c:742
 #: ../calendar/gui/dialogs/task-page.c:943
 msgid "The organizer selected no longer has an account."
 msgstr "Izbran organizator nima več računa."
 
 #: ../calendar/gui/dialogs/event-page.c:1513
-#: ../calendar/gui/dialogs/memo-page.c:747
+#: ../calendar/gui/dialogs/memo-page.c:748
 #: ../calendar/gui/dialogs/task-page.c:949
 msgid "An organizer is required."
 msgstr "Potreben je organizator."
@@ -6041,7 +6044,7 @@ msgid "Unable to open the calendar '%s'."
 msgstr "Ni bilo mogoče odpreti koledarja '%s'."
 
 #: ../calendar/gui/dialogs/event-page.c:2757
-#: ../calendar/gui/dialogs/memo-page.c:957
+#: ../calendar/gui/dialogs/memo-page.c:958
 #: ../calendar/gui/dialogs/task-page.c:1764
 #, c-format
 msgid "You are acting on behalf of %s"
@@ -6082,7 +6085,7 @@ msgstr "Prilagodi"
 #: ../calendar/gui/dialogs/event-page.c:3086
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:657
-#: ../calendar/gui/e-itip-control.c:1131
+#: ../calendar/gui/e-itip-control.c:1141
 #: ../composer/e-msg-composer.c:2357
 #: ../filter/filter-rule.c:892
 #: ../mail/em-account-editor.c:701
@@ -6187,12 +6190,12 @@ msgstr "Organizator:"
 msgid "Memo"
 msgstr "Zapisek"
 
-#: ../calendar/gui/dialogs/memo-page.c:919
+#: ../calendar/gui/dialogs/memo-page.c:920
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "Ni mogoče odpreti zapiskov v '%s'."
 
-#: ../calendar/gui/dialogs/memo-page.c:1103
+#: ../calendar/gui/dialogs/memo-page.c:1104
 #: ../mail/em-format-html.c:1526
 #: ../mail/em-format-html.c:1584
 #: ../mail/em-format-html.c:1610
@@ -6448,7 +6451,7 @@ msgstr "<span weight=\"bold\">Stanje</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:348
 #: ../calendar/gui/e-cal-model-tasks.c:663
 #: ../calendar/gui/e-calendar-table.c:400
-#: ../calendar/gui/e-itip-control.c:923
+#: ../calendar/gui/e-itip-control.c:933
 #: ../calendar/gui/e-meeting-store.c:194
 #: ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/print.c:2416
@@ -6667,7 +6670,7 @@ msgstr "Datum začetka:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:225
 #: ../calendar/gui/e-cal-component-preview.c:274
-#: ../calendar/gui/e-itip-control.c:1191
+#: ../calendar/gui/e-itip-control.c:1201
 #: ../calendar/gui/e-itip-control.glade.h:4
 #: ../mail/mail-config.glade.h:68
 #: ../widgets/misc/e-attachment.glade.h:2
@@ -6680,7 +6683,7 @@ msgid "Web Page:"
 msgstr "Spletna stran:"
 
 #: ../calendar/gui/e-cal-component-preview.c:193
-#: ../calendar/gui/e-itip-control.c:1135
+#: ../calendar/gui/e-itip-control.c:1145
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
 msgstr "Povzetek:"
@@ -6692,7 +6695,7 @@ msgstr "Do datuma:"
 #. write status
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:229
-#: ../calendar/gui/e-itip-control.c:1159
+#: ../calendar/gui/e-itip-control.c:1169
 #: ../plugins/exchange-operations/exchange-account-setup.c:269
 #: ../plugins/itip-formatter/itip-view.c:1026
 msgid "Status:"
@@ -6782,8 +6785,8 @@ msgstr "Ne"
 #: ../calendar/gui/e-cal-popup.c:107
 #: ../calendar/gui/e-cal-popup.c:124
 #: ../calendar/gui/e-cal-popup.c:171
-#: ../calendar/gui/e-itip-control.c:1176
-#: ../calendar/gui/e-itip-control.c:1316
+#: ../calendar/gui/e-itip-control.c:1186
+#: ../calendar/gui/e-itip-control.c:1326
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
 #: ../calendar/gui/e-meeting-store.c:124
@@ -7189,7 +7192,7 @@ msgstr "dop"
 msgid "pm"
 msgstr "pop"
 
-#: ../calendar/gui/e-itip-control.c:759
+#: ../calendar/gui/e-itip-control.c:769
 msgid "Yes. (Complex Recurrence)"
 msgstr "Da. (Zapletena ponovitev)"
 
@@ -7198,7 +7201,7 @@ msgstr "Da. (Zapletena ponovitev)"
 #. Every %d day/days"
 #. For Translators : 'Every day' is event Recurring every day
 #. For Translators : 'Every %d days' is event Recurring every %d days. %d is a digit
-#: ../calendar/gui/e-itip-control.c:775
+#: ../calendar/gui/e-itip-control.c:785
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
@@ -7212,7 +7215,7 @@ msgstr[3] "Vsak %d dan"
 #. Every %d week/weeks"
 #. For Translators : 'Every week' is event Recurring every week
 #. For Translators : 'Every %d weeks' is event Recurring every %d weeks. %d is a digit
-#: ../calendar/gui/e-itip-control.c:785
+#: ../calendar/gui/e-itip-control.c:795
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
@@ -7223,7 +7226,7 @@ msgstr[3] "Vsak %d teden"
 
 #. For Translators : 'Every week on' is event Recurring every week on (dayname) and (dayname) and (dayname)
 #. For Translators : 'Every %d weeks on' is event Recurring: every %d weeks on (dayname) and (dayname). %d is a digit
-#: ../calendar/gui/e-itip-control.c:789
+#: ../calendar/gui/e-itip-control.c:799
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
@@ -7233,19 +7236,19 @@ msgstr[2] "Vsak %d teden v"
 msgstr[3] "Vsak %d teden v"
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
-#: ../calendar/gui/e-itip-control.c:798
+#: ../calendar/gui/e-itip-control.c:808
 msgid " and "
 msgstr " in"
 
 #. For Translators : 'The %s day of' is part of the sentence 'event recurring on the (nth) day of every month.'
-#: ../calendar/gui/e-itip-control.c:806
+#: ../calendar/gui/e-itip-control.c:816
 #, c-format
 msgid "The %s day of "
 msgstr "%s dan v "
 
 #. For Translators : 'The %s %s of' is part of the sentence 'event recurring on the (nth) (dayname) of every month.'
 #. eg,third monday of every month
-#: ../calendar/gui/e-itip-control.c:821
+#: ../calendar/gui/e-itip-control.c:831
 #, c-format
 msgid "The %s %s of "
 msgstr "%s %s v "
@@ -7256,7 +7259,7 @@ msgstr "%s %s v "
 #. For Translators : 'every month' is part of the sentence 'event recurring on the (nth) day of every month.'
 #. For Translators : 'every %d months' is part of the sentence 'event recurring on the (nth) day of every %d months.'
 #. %d is a digit
-#: ../calendar/gui/e-itip-control.c:834
+#: ../calendar/gui/e-itip-control.c:844
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
@@ -7270,7 +7273,7 @@ msgstr[3] "Vsak %d mesec"
 #. Every %d year/years"
 #. For Translators : 'Every year' is event Recurring every year
 #. For Translators : 'Every %d years' is event Recurring every %d years. %d is a digit
-#: ../calendar/gui/e-itip-control.c:843
+#: ../calendar/gui/e-itip-control.c:853
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
@@ -7281,7 +7284,7 @@ msgstr[3] "Vsako %d leto"
 
 #. For Translators:'a total of %d time' is part of the sentence of the form 'event recurring every day,a total of % time.' %d is a digit
 #. For Translators:'a total of %d times' is part of the sentence of the form 'event recurring every day,a total of % times.' %d is a digit
-#: ../calendar/gui/e-itip-control.c:856
+#: ../calendar/gui/e-itip-control.c:866
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
@@ -7291,39 +7294,39 @@ msgstr[2] "Skupaj %d-krat"
 msgstr[3] "Skupaj %d-krat"
 
 #. For Translators : ', ending on' is part of the sentence of the form 'event recurring every day, ending on (date).'
-#: ../calendar/gui/e-itip-control.c:866
+#: ../calendar/gui/e-itip-control.c:876
 msgid ", ending on "
 msgstr ", ki se konča"
 
 #. For Translators : 'starts' is starts:date implying a task starts on what date
-#: ../calendar/gui/e-itip-control.c:888
+#: ../calendar/gui/e-itip-control.c:898
 msgid "Starts"
 msgstr "Začetek"
 
 #. For Translators : 'ends' is ends:date implying a task ends on what date
-#: ../calendar/gui/e-itip-control.c:902
+#: ../calendar/gui/e-itip-control.c:912
 msgid "Ends"
 msgstr "Konec"
 
-#: ../calendar/gui/e-itip-control.c:936
+#: ../calendar/gui/e-itip-control.c:946
 #: ../plugins/save-calendar/csv-format.c:391
 msgid "Due"
 msgstr "Konec"
 
-#: ../calendar/gui/e-itip-control.c:976
-#: ../calendar/gui/e-itip-control.c:1033
+#: ../calendar/gui/e-itip-control.c:986
+#: ../calendar/gui/e-itip-control.c:1043
 msgid "iCalendar Information"
 msgstr "Podatki o iKoledarju"
 
 #. Title
-#: ../calendar/gui/e-itip-control.c:993
+#: ../calendar/gui/e-itip-control.c:1003
 msgid "iCalendar Error"
 msgstr "Napaka iKoledarja"
 
-#: ../calendar/gui/e-itip-control.c:1065
-#: ../calendar/gui/e-itip-control.c:1081
-#: ../calendar/gui/e-itip-control.c:1092
-#: ../calendar/gui/e-itip-control.c:1109
+#: ../calendar/gui/e-itip-control.c:1075
+#: ../calendar/gui/e-itip-control.c:1091
+#: ../calendar/gui/e-itip-control.c:1102
+#: ../calendar/gui/e-itip-control.c:1119
 #: ../plugins/itip-formatter/itip-view.c:344
 #: ../plugins/itip-formatter/itip-view.c:345
 #: ../plugins/itip-formatter/itip-view.c:432
@@ -7334,11 +7337,11 @@ msgid "An unknown person"
 msgstr "neznana oseba"
 
 #. Describe what the user can do
-#: ../calendar/gui/e-itip-control.c:1116
+#: ../calendar/gui/e-itip-control.c:1126
 msgid "<br> Please review the following information, and then select an action from the menu below."
 msgstr "<br> Prosimo, preglejte sledeče podatke in izberite dejanje iz spodnjega menuja."
 
-#: ../calendar/gui/e-itip-control.c:1164
+#: ../calendar/gui/e-itip-control.c:1174
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:209
@@ -7347,13 +7350,13 @@ msgstr "<br> Prosimo, preglejte sledeče podatke in izberite dejanje iz spodnjeg
 msgid "Accepted"
 msgstr "Sprejeto"
 
-#: ../calendar/gui/e-itip-control.c:1168
+#: ../calendar/gui/e-itip-control.c:1178
 #: ../calendar/gui/itip-utils.c:733
 #: ../plugins/itip-formatter/itip-formatter.c:2011
 msgid "Tentatively Accepted"
 msgstr "Poskusno sprejeto"
 
-#: ../calendar/gui/e-itip-control.c:1172
+#: ../calendar/gui/e-itip-control.c:1182
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188
 #: ../calendar/gui/e-meeting-store.c:211
@@ -7363,266 +7366,266 @@ msgstr "Poskusno sprejeto"
 msgid "Declined"
 msgstr "Odklonjeno"
 
-#: ../calendar/gui/e-itip-control.c:1256
+#: ../calendar/gui/e-itip-control.c:1266
 msgid "The meeting has been canceled, however it could not be found in your calendars"
 msgstr "Sestanek je bil odpovedan, vendar ga ni bilo mogoče najti v vaših koledarjih"
 
-#: ../calendar/gui/e-itip-control.c:1258
+#: ../calendar/gui/e-itip-control.c:1268
 msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr "Opravilo je bilo preklicano, vendar ga ni bilo mogoče najti v vašem seznamu opravil"
 
-#: ../calendar/gui/e-itip-control.c:1336
+#: ../calendar/gui/e-itip-control.c:1346
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> je izdal(a) podatke o sestanku."
 
-#: ../calendar/gui/e-itip-control.c:1337
+#: ../calendar/gui/e-itip-control.c:1347
 msgid "Meeting Information"
 msgstr "Podatki o sestanku"
 
-#: ../calendar/gui/e-itip-control.c:1343
+#: ../calendar/gui/e-itip-control.c:1353
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> zahteva prisotnost %s na sestanku."
 
-#: ../calendar/gui/e-itip-control.c:1345
+#: ../calendar/gui/e-itip-control.c:1355
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> zahteva vašo prisotnost na sestanku."
 
-#: ../calendar/gui/e-itip-control.c:1346
+#: ../calendar/gui/e-itip-control.c:1356
 msgid "Meeting Proposal"
 msgstr "Predlog sestanka"
 
 #. FIXME Whats going on here?
-#: ../calendar/gui/e-itip-control.c:1352
+#: ../calendar/gui/e-itip-control.c:1362
 #, c-format
 msgid "<b>%s</b> wishes to be added to an existing meeting."
 msgstr "<b>%s</b> želi biti dodan na seznam udeležencev sestanka."
 
-#: ../calendar/gui/e-itip-control.c:1353
+#: ../calendar/gui/e-itip-control.c:1363
 msgid "Meeting Update"
 msgstr "Posodobitev sestanka"
 
-#: ../calendar/gui/e-itip-control.c:1357
+#: ../calendar/gui/e-itip-control.c:1367
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> želi dobiti najnovejše podatke o sestanku."
 
-#: ../calendar/gui/e-itip-control.c:1358
+#: ../calendar/gui/e-itip-control.c:1368
 msgid "Meeting Update Request"
 msgstr "Zahtevek za posodobitev sestanka"
 
-#: ../calendar/gui/e-itip-control.c:1365
+#: ../calendar/gui/e-itip-control.c:1375
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> je odgovoril(a) na zahtevek po sestanku."
 
-#: ../calendar/gui/e-itip-control.c:1366
+#: ../calendar/gui/e-itip-control.c:1376
 msgid "Meeting Reply"
 msgstr "Odgovor na sestanek"
 
-#: ../calendar/gui/e-itip-control.c:1373
+#: ../calendar/gui/e-itip-control.c:1383
 #, c-format
 msgid "<b>%s</b> has canceled a meeting."
 msgstr "<b>%s</b> je preklical(a) sestanek."
 
-#: ../calendar/gui/e-itip-control.c:1374
+#: ../calendar/gui/e-itip-control.c:1384
 msgid "Meeting Cancelation"
 msgstr "Preklic sestanka"
 
-#: ../calendar/gui/e-itip-control.c:1384
-#: ../calendar/gui/e-itip-control.c:1461
-#: ../calendar/gui/e-itip-control.c:1501
+#: ../calendar/gui/e-itip-control.c:1394
+#: ../calendar/gui/e-itip-control.c:1471
+#: ../calendar/gui/e-itip-control.c:1511
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> je poslal(a) nerazumljivo sporočilo."
 
-#: ../calendar/gui/e-itip-control.c:1385
+#: ../calendar/gui/e-itip-control.c:1395
 msgid "Bad Meeting Message"
 msgstr "Nerazumljivo sporočilo o sestanku"
 
-#: ../calendar/gui/e-itip-control.c:1412
+#: ../calendar/gui/e-itip-control.c:1422
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> je objavil(a) podatke o nalogi."
 
-#: ../calendar/gui/e-itip-control.c:1413
+#: ../calendar/gui/e-itip-control.c:1423
 msgid "Task Information"
 msgstr "Podatki o nalogi"
 
-#: ../calendar/gui/e-itip-control.c:1420
+#: ../calendar/gui/e-itip-control.c:1430
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> zahteva, da %s opravi nalogo."
 
-#: ../calendar/gui/e-itip-control.c:1422
+#: ../calendar/gui/e-itip-control.c:1432
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> zahteva, da opravite nalogo."
 
-#: ../calendar/gui/e-itip-control.c:1423
+#: ../calendar/gui/e-itip-control.c:1433
 msgid "Task Proposal"
 msgstr "Predlog naloge"
 
 #. FIXME Whats going on here?
-#: ../calendar/gui/e-itip-control.c:1429
+#: ../calendar/gui/e-itip-control.c:1439
 #, c-format
 msgid "<b>%s</b> wishes to be added to an existing task."
 msgstr "<b>%s</b> želi biti dodan na seznam izvajalcev izbrane naloge."
 
-#: ../calendar/gui/e-itip-control.c:1430
+#: ../calendar/gui/e-itip-control.c:1440
 msgid "Task Update"
 msgstr "Posodobitev naloge"
 
-#: ../calendar/gui/e-itip-control.c:1434
+#: ../calendar/gui/e-itip-control.c:1444
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> želi dobiti najnovejše podatke o nalogi."
 
-#: ../calendar/gui/e-itip-control.c:1435
+#: ../calendar/gui/e-itip-control.c:1445
 msgid "Task Update Request"
 msgstr "Zahtevek za posodobitev naloge"
 
-#: ../calendar/gui/e-itip-control.c:1442
+#: ../calendar/gui/e-itip-control.c:1452
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> je odgovoril(a) na dodelitev naloge."
 
-#: ../calendar/gui/e-itip-control.c:1443
+#: ../calendar/gui/e-itip-control.c:1453
 msgid "Task Reply"
 msgstr "Odgovor na nalogo"
 
-#: ../calendar/gui/e-itip-control.c:1450
+#: ../calendar/gui/e-itip-control.c:1460
 #, c-format
 msgid "<b>%s</b> has canceled a task."
 msgstr "<b>%s</b> je preklical(a) opravilo."
 
-#: ../calendar/gui/e-itip-control.c:1451
+#: ../calendar/gui/e-itip-control.c:1461
 msgid "Task Cancelation"
 msgstr "Preklic opravila"
 
-#: ../calendar/gui/e-itip-control.c:1462
+#: ../calendar/gui/e-itip-control.c:1472
 msgid "Bad Task Message"
 msgstr "Nerazumljivo sporočilo o nalogi"
 
-#: ../calendar/gui/e-itip-control.c:1486
+#: ../calendar/gui/e-itip-control.c:1496
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> je objavil(a) podatke o zasedenosti."
 
-#: ../calendar/gui/e-itip-control.c:1487
+#: ../calendar/gui/e-itip-control.c:1497
 msgid "Free/Busy Information"
 msgstr "Podatek o zasedenosti"
 
-#: ../calendar/gui/e-itip-control.c:1491
+#: ../calendar/gui/e-itip-control.c:1501
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> zahteva vaše podatke o zasedenosti."
 
-#: ../calendar/gui/e-itip-control.c:1492
+#: ../calendar/gui/e-itip-control.c:1502
 msgid "Free/Busy Request"
 msgstr "Zahtevek po podatkih o zasedenosti"
 
-#: ../calendar/gui/e-itip-control.c:1496
+#: ../calendar/gui/e-itip-control.c:1506
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> je odgovoril(a) na zahtevek po podatkih o zasedenosti."
 
-#: ../calendar/gui/e-itip-control.c:1497
+#: ../calendar/gui/e-itip-control.c:1507
 msgid "Free/Busy Reply"
 msgstr "Odgovor zasedenosti"
 
-#: ../calendar/gui/e-itip-control.c:1502
+#: ../calendar/gui/e-itip-control.c:1512
 msgid "Bad Free/Busy Message"
 msgstr "Nerazumljivo sporočilo o zasedenosti"
 
-#: ../calendar/gui/e-itip-control.c:1578
+#: ../calendar/gui/e-itip-control.c:1588
 msgid "The message does not appear to be properly formed"
 msgstr "Zdi se, da sporočilo ni pravilno oblikovano"
 
-#: ../calendar/gui/e-itip-control.c:1637
+#: ../calendar/gui/e-itip-control.c:1647
 msgid "The message contains only unsupported requests."
 msgstr "To sporočilo vsebuje le nepodprte zahtevke."
 
-#: ../calendar/gui/e-itip-control.c:1670
+#: ../calendar/gui/e-itip-control.c:1680
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Priponka ne vsebuje veljavnega sporočila koledarja"
 
-#: ../calendar/gui/e-itip-control.c:1702
+#: ../calendar/gui/e-itip-control.c:1712
 msgid "The attachment has no viewable calendar items"
 msgstr "Priponka nima gledljivih predmetov koledarja"
 
-#: ../calendar/gui/e-itip-control.c:1944
+#: ../calendar/gui/e-itip-control.c:1954
 msgid "Update complete\n"
 msgstr "Posodobitev končana\n"
 
-#: ../calendar/gui/e-itip-control.c:1978
+#: ../calendar/gui/e-itip-control.c:1988
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Predmet je neveljaven in ga ni mogoče posodobiti\n"
 
-#: ../calendar/gui/e-itip-control.c:1995
+#: ../calendar/gui/e-itip-control.c:2005
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "Odgovora ni poslal trenutni udeleženec. Ga želite dodati kot udeleženca?"
 
-#: ../calendar/gui/e-itip-control.c:2013
+#: ../calendar/gui/e-itip-control.c:2023
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Stanja udeleženca ni bilo možno posodobiti zaradi neveljavnega stanja!\n"
 
-#: ../calendar/gui/e-itip-control.c:2037
+#: ../calendar/gui/e-itip-control.c:2047
 msgid "Attendee status updated\n"
 msgstr "Stanje udeleženca posodobljeno\n"
 
-#: ../calendar/gui/e-itip-control.c:2044
+#: ../calendar/gui/e-itip-control.c:2054
 #: ../plugins/itip-formatter/itip-formatter.c:1230
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Stanja udeleženca ni bilo možno posodobiti, ker predmet ne obstaja več"
 
-#: ../calendar/gui/e-itip-control.c:2075
-#: ../calendar/gui/e-itip-control.c:2132
+#: ../calendar/gui/e-itip-control.c:2085
+#: ../calendar/gui/e-itip-control.c:2142
 msgid "Item sent!\n"
 msgstr "Predmet poslan!\n"
 
-#: ../calendar/gui/e-itip-control.c:2081
-#: ../calendar/gui/e-itip-control.c:2140
+#: ../calendar/gui/e-itip-control.c:2091
+#: ../calendar/gui/e-itip-control.c:2150
 msgid "The item could not be sent!\n"
 msgstr "Predmeta ni bilo mogoče poslati!\n"
 
-#: ../calendar/gui/e-itip-control.c:2220
+#: ../calendar/gui/e-itip-control.c:2230
 msgid "Choose an action:"
 msgstr "Izberi dejanje:"
 
-#: ../calendar/gui/e-itip-control.c:2291
+#: ../calendar/gui/e-itip-control.c:2301
 msgid "Update"
 msgstr "Posodobi"
 
-#: ../calendar/gui/e-itip-control.c:2319
+#: ../calendar/gui/e-itip-control.c:2329
 #: ../plugins/groupwise-features/process-meeting.c:48
 msgid "Accept"
 msgstr "Sprejmi"
 
-#: ../calendar/gui/e-itip-control.c:2320
+#: ../calendar/gui/e-itip-control.c:2330
 msgid "Tentatively accept"
 msgstr "Poskusno sprejmi"
 
-#: ../calendar/gui/e-itip-control.c:2321
+#: ../calendar/gui/e-itip-control.c:2331
 #: ../plugins/groupwise-features/process-meeting.c:50
 msgid "Decline"
 msgstr "Odbij"
 
-#: ../calendar/gui/e-itip-control.c:2350
+#: ../calendar/gui/e-itip-control.c:2360
 msgid "Send Free/Busy Information"
 msgstr "Pošlji podatek o zasedenosti"
 
-#: ../calendar/gui/e-itip-control.c:2378
+#: ../calendar/gui/e-itip-control.c:2388
 msgid "Update respondent status"
 msgstr "Osveži stanje respondenta"
 
-#: ../calendar/gui/e-itip-control.c:2406
+#: ../calendar/gui/e-itip-control.c:2416
 msgid "Send Latest Information"
 msgstr "Pošlji zadnje podatke"
 
-#: ../calendar/gui/e-itip-control.c:2434
+#: ../calendar/gui/e-itip-control.c:2444
 #: ../calendar/gui/itip-utils.c:753
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -10772,6 +10775,7 @@ msgstr "čas, ki ga navedete"
 #: ../filter/filter.glade.h:22
 #: ../plugins/calendar-http/calendar-http.c:291
 #: ../plugins/calendar-weather/calendar-weather.c:564
+#: ../plugins/google-account-setup/google-source.c:375
 msgid "weeks"
 msgstr "tedenov"
 
@@ -10957,7 +10961,7 @@ msgstr "[Privzeto]"
 
 #: ../mail/em-account-prefs.c:522
 #: ../mail/em-composer-prefs.c:943
-#: ../plugins/plugin-manager/plugin-manager.c:284
+#: ../plugins/plugin-manager/plugin-manager.c:290
 #: ../plugins/publish-calendar/publish-calendar.c:510
 msgid "Enabled"
 msgstr "Vključeno"
@@ -12839,7 +12843,7 @@ msgstr "Ali naj se nitene, ko sporočila ne vsebujejo glav Kot-Odgovor-Na ali Re
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "Ali naj bodo niti razvrščene po zadnjih sporočilih v niti"
 
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid "Width of the message-list pane"
@@ -13568,6 +13572,7 @@ msgstr "Vpišite ime s katerimi želite imenovati ta račun. Na primer:\"službe
 
 #: ../mail/mail-config.glade.h:153
 #: ../plugins/caldav/caldav-source.c:282
+#: ../plugins/google-account-setup/google-source.c:335
 msgid "User_name:"
 msgstr "Uporab_niško ime:"
 
@@ -14113,7 +14118,7 @@ msgstr "Če boste sporočila dopolnili z ustrezno izpolnjenim poljem Zadeva, bod
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "Ste prepričani, da želite izbrisati ta račun in vse njegove strežnike proxy?"
+msgstr "Ste prepričani, da želite izbrisati ta račun in vse njegove posredovalne strežnike?"
 
 #: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to delete this account?"
@@ -14121,7 +14126,7 @@ msgstr "Ste prepričani, da želite izbrisati ta račun?"
 
 #: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to disable this account and delete all its proxies?"
-msgstr "Ste prepričani, da želite onemogočiti ta račun in izbrisati vse njegove strežnike proxy?"
+msgstr "Ste prepričani, da želite onemogočiti ta račun in izbrisati vse njegove posredovalne strežnike?"
 
 #: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to open {0} messages at once?"
@@ -14317,7 +14322,7 @@ msgstr "Če zbrišete mapo, bo njena vsebina in vsebina njenih podmap za vedno i
 
 #: ../mail/mail.error.xml.h:61
 msgid "If you proceed, all proxy accounts will be deleted permanently."
-msgstr "Če boste nadaljevali, bodo vsi računi proxy izbrisani za vedno."
+msgstr "Če boste nadaljevali, bodo vsi računi posredovalnih strežnikov trajno izbrisani."
 
 #: ../mail/mail.error.xml.h:62
 msgid ""
@@ -14325,7 +14330,7 @@ msgid ""
 "all proxy information will be deleted permanently."
 msgstr ""
 "Če boste nadaljevali, bodo podatki o računu in\n"
-"vsi podatki o proxyju izbrisani za vedno."
+"vsi podatki o posredovalnih strežnikih trajno izbrisani."
 
 #: ../mail/mail.error.xml.h:64
 msgid "If you proceed, the account information will be deleted permanently."
@@ -15056,6 +15061,7 @@ msgid "_URL:"
 msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:269
+#: ../plugins/google-account-setup/google-source.c:328
 msgid "Use _SSL"
 msgstr "Uporabi _SSL"
 
@@ -15077,6 +15083,7 @@ msgstr "Omogoča osnovne zmogljivosti za lokalne koledarje."
 
 #: ../plugins/calendar-http/calendar-http.c:273
 #: ../plugins/calendar-weather/calendar-weather.c:546
+#: ../plugins/google-account-setup/google-source.c:352
 msgid "_Refresh:"
 msgstr "_Osveži"
 
@@ -16067,6 +16074,23 @@ msgstr "Naroči se na opravila drugih uporabnikov"
 msgid "Check folder permissions"
 msgstr "Preveri dovoljenja map"
 
+#: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
+msgid "A plugin for using an external editor as the composer. You can send only plain-text mails."
+msgstr "Vstavek za uporabo zunanjega urejevalnika besedila. Pošiljate lahko le gola besedilna sporočila."
+
+#. the path to the shared library
+#: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
+msgid "External Editor"
+msgstr "Zunanji urejevalnik"
+
+#: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
+msgid "Compose in External Editor"
+msgstr "Uredi v zunanjem urejevalniku"
+
+#: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
+msgid "Compose mails using an external editor"
+msgstr "Urejanje sporočil z zunanjim urejevalnikom"
+
 #: ../plugins/face/face.c:57
 msgid "Select a (48*48) png of size < 700bytes"
 msgstr "Izbor (48*48) sliko png manjšo kot 700 bajtov"
@@ -16103,6 +16127,19 @@ msgstr "Prekliči naročnino na mape"
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "_Prekliči naročnino"
+
+#: ../plugins/google-account-setup/google-source.c:69
+#: ../plugins/google-account-setup/google-source.c:76
+msgid "Google"
+msgstr "Google"
+
+#: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
+msgid "A plugin to setup google calendar."
+msgstr "Vstavek za nastavitev virov koledarja Google."
+
+#: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
+msgid "Google sources"
+msgstr "Google viri"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:432
 msgid "Checklist"
@@ -16298,7 +16335,7 @@ msgstr "_Piši"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
-msgstr "Proxy"
+msgstr "Posredovalni strežnik"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
@@ -16306,7 +16343,7 @@ msgstr "<b>Ime računa</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr "Prijava proxy"
+msgstr "Prijava v posredovalni strežnik"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:262
@@ -16321,15 +16358,15 @@ msgstr "%sVnesite geslo za %s (uporabnik %s)"
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:521
 msgid "_Proxy Login..."
-msgstr "_Prijava proxy ..."
+msgstr "_Prijava posredovanja ..."
 
 #: ../plugins/groupwise-features/proxy.c:701
 msgid "The Proxy tab will be available only when the account is online."
-msgstr "Zavihek Proxy bo na voljo samo, ko je račun na zvezi."
+msgstr "Zavihek posredovalnega strežnika bo na voljo samo, ko je račun na zvezi."
 
 #: ../plugins/groupwise-features/proxy.c:706
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "Zavihek Proxy bo na voljo samo, ko je račun omogočen."
+msgstr "Zavihek posredovalnega strežnika bo na voljo samo, ko je račun omogočen."
 
 #: ../plugins/groupwise-features/share-folder-common.c:322
 #: ../plugins/groupwise-features/share-folder.c:760
@@ -17187,7 +17224,7 @@ msgstr "Odgovora ni poslal trenutni udeleženec. Dodam pošiljatelja kot udelež
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
-msgstr "_Odjava strežnika proxy"
+msgstr "_Odjava posredovalnega strežnika"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
 msgid "Allows disabling of accounts."
@@ -17490,7 +17527,7 @@ msgstr "Vstavek za omogočanje in onemogočanje vstavkov."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:223
+#: ../plugins/plugin-manager/plugin-manager.c:229
 msgid "Plugin Manager"
 msgstr "Upravljalnik profilov"
 
@@ -17511,16 +17548,16 @@ msgstr "Avtor(ji)"
 msgid "Description"
 msgstr "Opis"
 
-#: ../plugins/plugin-manager/plugin-manager.c:226
-msgid "Configure"
-msgstr "Nastavitve"
+#: ../plugins/plugin-manager/plugin-manager.c:232
+msgid "Con_figure"
+msgstr "N_astavitve"
 
-#: ../plugins/plugin-manager/plugin-manager.c:238
+#: ../plugins/plugin-manager/plugin-manager.c:244
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Opozorilo: nekatere spremembe ne bodo uveljavljene do ponovnega zagona"
 
-#: ../plugins/plugin-manager/plugin-manager.c:291
-#: ../plugins/plugin-manager/plugin-manager.c:350
+#: ../plugins/plugin-manager/plugin-manager.c:297
+#: ../plugins/plugin-manager/plugin-manager.c:356
 msgid "Plugin"
 msgstr "Vstavek"
 
@@ -18054,7 +18091,7 @@ msgstr "Ali naj se Evolution zažene v načinu brez povezave namestu z povezavo.
 
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "Whether or not the window should be maximized."
-msgstr "Ali naj bo okno razpeto."
+msgstr "Ali naj bo okno razprto."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Whether the sidebar should be visible."
