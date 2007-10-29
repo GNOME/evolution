@@ -1,3 +1,8 @@
+2007-10-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* GNOME_Evolution_Shell.server.in.in: Remove the version.
+	* main.c: (show_development_warning): Update the stable version.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-component-registry.c: (query_components):
