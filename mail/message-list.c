@@ -120,9 +120,9 @@ static struct {
 	GdkAtom atom;
 	guint32 actions;
 } ml_drag_info[] = {
-	{ "x-uid-list", 0, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
-	{ "message/rfc822", 0, GDK_ACTION_COPY },
-	{ "text/uri-list", 0, GDK_ACTION_COPY },
+	{ "x-uid-list", NULL, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "message/rfc822", NULL, GDK_ACTION_COPY },
+	{ "text/uri-list", NULL, GDK_ACTION_COPY },
 };
 
 enum {
@@ -3822,7 +3822,7 @@ regen_list_regen (struct _mail_msg *mm)
 			}
 			
 			for (i = 0; i < uidnew->len; i++) {
-				if (g_hash_table_lookup (m->ml->hidden, uidnew->pdata[i]) == 0) {
+				if (g_hash_table_lookup (m->ml->hidden, uidnew->pdata[i]) == NULL) {
 					char *uid = e_mempool_strdup (m->ml->hidden_pool, uidnew->pdata[i]);
 					g_hash_table_insert (m->ml->hidden, uid, uid);
 				}
@@ -3849,7 +3849,7 @@ regen_list_regen (struct _mail_msg *mm)
 		/* first, hide matches */
 		if (m->ml->hidden) {
 			for (i = 0; i < uids->len; i++) {
-				if (g_hash_table_lookup (m->ml->hidden, uids->pdata[i]) == 0)
+				if (g_hash_table_lookup (m->ml->hidden, uids->pdata[i]) == NULL)
 					g_ptr_array_add (uidnew, uids->pdata[i]);
 			}
 		}

@@ -481,11 +481,12 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	struct _rule_data *data;
 	EMFilterRule *ff =(EMFilterRule *)fr;
 	int rows, i = 0;
+	gchar *msg;
 	
         widget = FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
 	
 	/* and now for the action area */
-	gchar * msg = g_strdup_printf("<b>%s</b>", _("Then"));	
+	msg = g_strdup_printf("<b>%s</b>", _("Then"));	
 	label = gtk_label_new(msg);
 	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);

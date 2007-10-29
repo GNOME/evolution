@@ -277,7 +277,7 @@ static void
 flush_updates(void)
 {
 	if (update_id == -1 && !e_dlist_empty(&updates))
-		update_id = mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)real_flush_updates, 0, 0, 0);
+		update_id = mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)real_flush_updates, NULL, NULL, NULL);
 }
 
 static void

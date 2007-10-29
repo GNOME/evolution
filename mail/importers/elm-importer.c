@@ -186,7 +186,7 @@ elm_import_describe (struct _mail_msg *mm, int complete)
 
 static MailImporterSpecial elm_special_folders[] = {
 	{ "received", "Inbox" },
-	{ 0 },
+	{ NULL },
 };
 
 static void

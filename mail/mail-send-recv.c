@@ -644,7 +644,7 @@ static void
 receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data)
 {
 	struct _send_info *info = data;
-	time_t now = time(0);
+	time_t now = time(NULL);
 
 	/* let it flow through to the folder, every now and then too? */
 	g_hash_table_foreach(info->data->folders, (GHFunc)update_folders, &now);

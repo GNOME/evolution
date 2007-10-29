@@ -109,7 +109,7 @@ static const struct {
 	const char *type;
 	const char *subtype;
 	CamelTransferEncoding encoding;
-	int plain:1;
+	guint plain:1;
 } emif_types[] = {
 	{ "text",        "plain",                 CAMEL_TRANSFER_ENCODING_DEFAULT,  1, },
 	{ "application", "octet-stream",          CAMEL_TRANSFER_ENCODING_UUENCODE, 0, },

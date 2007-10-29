@@ -268,7 +268,7 @@ em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 static EMFilterSource em_filter_source_element_names[] = {
 	{ "incoming", },
 	{ "outgoing", },
-	{ 0 }
+	{ NULL }
 };
 
 /**
@@ -878,7 +878,7 @@ em_utils_read_messages_from_stream(CamelFolder *folder, CamelStream *stream)
 	camel_mime_parser_scan_from(mp, TRUE);
 	camel_mime_parser_init_with_stream(mp, stream);
 
-	while (camel_mime_parser_step(mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+	while (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMimeMessage *msg;
 
 		/* NB: de-from filter, once written */
@@ -894,7 +894,7 @@ em_utils_read_messages_from_stream(CamelFolder *folder, CamelStream *stream)
 		if (camel_exception_is_set (ex))
 			break;
 		
-		camel_mime_parser_step(mp, 0, 0);
+		camel_mime_parser_step(mp, NULL, NULL);
 	}
 	
 	camel_object_unref(mp);
@@ -1450,7 +1450,7 @@ em_utils_get_proxy_uri(void)
 	pthread_mutex_lock(&emu_proxy_lock);
 
 	if (!emu_proxy_init) {
-		mail_call_main(MAIL_CALL_p_p, emu_proxy_setup, NULL);
+		mail_call_main(MAIL_CALL_p_p, (MailMainFunc)emu_proxy_setup, NULL);
 		emu_proxy_init = TRUE;
 	}
 
@@ -1864,7 +1864,7 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 	pthread_mutex_lock(&emu_addr_lock);
 
 	if (emu_addr_cache == NULL) {
-		mail_call_main(MAIL_CALL_p_p, emu_addr_setup, NULL);
+		mail_call_main(MAIL_CALL_p_p, (MailMainFunc)emu_addr_setup, NULL);
 	}
 
 	if (emu_addr_list == NULL) {
@@ -1872,7 +1872,7 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 		return FALSE;
 	}
 
-	now = time(0);
+	now = time(NULL);
 
 	d(printf("Checking '%s' is in addressbook", addr));
 

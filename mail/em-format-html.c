@@ -277,7 +277,7 @@ EMFormatHTML *em_format_html_new(void)
 {
 	EMFormatHTML *efh;
 
-	efh = g_object_new(em_format_html_get_type(), 0);
+	efh = g_object_new(em_format_html_get_type(), NULL);
 
 	return efh;
 }

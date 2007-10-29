@@ -57,7 +57,7 @@ struct _EMSyncStreamPrivate {
 };
 
 #ifdef LOG_STREAM
-int dolog;
+static int dolog;
 #endif
 
 /* Should probably expose messages to outside world ... so subclasses can extend */

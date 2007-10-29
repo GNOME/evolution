@@ -232,7 +232,7 @@ pine_import_describe (struct _mail_msg *mm, int complete)
 static MailImporterSpecial pine_special_folders[] = {
 	{ "sent-mail", "Sent" }, /* pine */
 	{ "saved-messages", "Drafts" },	/* pine */
-	{ 0 },
+	{ NULL },
 };
 
 static void

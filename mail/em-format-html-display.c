@@ -2470,7 +2470,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	struct _attach_puri *info;
 	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
 	AtkObject *a11y;
-	GtkTextView *view;
+	GtkWidget *view;
 	GtkTextBuffer *buffer;
 
 	/* FIXME: handle default shown case */
@@ -2490,27 +2490,27 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	img = e_icon_factory_get_image ("stock_show-all", E_ICON_SIZE_BUTTON);
 	label = gtk_label_new_with_mnemonic(_("View _Unformatted"));
 	g_object_set_data (G_OBJECT (button), "text-label", (gpointer)label);
-	gtk_box_pack_start ((GtkBox *)hbox, img, TRUE, TRUE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox, label, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);
 	gtk_widget_show_all (hbox);
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
 	if (info->handle)
-		g_signal_connect(button, "clicked", G_CALLBACK(efhd_optional_button_show), scroll);
+		g_signal_connect(G_OBJECT (button), "clicked", G_CALLBACK(efhd_optional_button_show), scroll);
 	else {
 		gtk_widget_set_sensitive(button, FALSE);
 		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
 	}
 	
 	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start((GtkBox *)mainbox, button, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
 	button = gtk_button_new();
 	hbox = gtk_hbox_new (FALSE, 0);
 	img = e_icon_factory_get_image ("stock_open", E_ICON_SIZE_BUTTON);
 	label = gtk_label_new_with_mnemonic(_("O_pen With"));
-	gtk_box_pack_start ((GtkBox *)hbox, img, TRUE, TRUE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox, label, TRUE, TRUE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox, gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE), TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE), TRUE, TRUE, 2);
 	gtk_widget_show_all (hbox);
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
 	
@@ -2520,16 +2520,16 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);
-	gtk_box_pack_start((GtkBox *)mainbox, button, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(mainbox);
 
-	gtk_box_pack_start((GtkBox *)vbox, mainbox, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX (vbox), mainbox, FALSE, FALSE, 6);
 
-	view = (GtkTextView *)gtk_text_view_new ();
-	gtk_text_view_set_editable (view, FALSE);
-	gtk_text_view_set_cursor_visible (view, FALSE);
-	buffer = gtk_text_view_get_buffer(view);
+	view = gtk_text_view_new ();
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
+	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (view));
 	gtk_text_buffer_set_text (buffer, (char *)info->mstream->buffer->data, info->mstream->buffer->len);
 	camel_object_unref(info->mstream);
 	info->mstream = NULL;
@@ -2537,10 +2537,10 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (view));
-	gtk_box_pack_start((GtkBox *)vbox, scroll, TRUE, TRUE, 6);
+	gtk_box_pack_start(GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
 	gtk_widget_show (GTK_WIDGET(view));
 
-	gtk_widget_set_size_request (scroll, ((GtkWidget *)efh->html)->allocation.width-48, 250);
+	gtk_widget_set_size_request (scroll, (GTK_WIDGET (efh->html))->allocation.width - 48, 250);
 	g_signal_connect (scroll, "size_allocate", G_CALLBACK(efhd_resize), efh);
 	gtk_widget_show (scroll);
 
@@ -2548,7 +2548,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 		gtk_widget_hide (scroll);
 	
 	gtk_widget_show (vbox);
-	gtk_container_add((GtkContainer *)eb, vbox);
+	gtk_container_add(GTK_CONTAINER (eb), vbox);
 	info->handle = NULL;
 
 	return TRUE;

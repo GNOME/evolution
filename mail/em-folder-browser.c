@@ -122,7 +122,7 @@ struct _EMFolderBrowserPrivate {
 	char *select_uid;
 	guint folder_changed_id;
 
-	int show_wide:1;
+	guint show_wide:1;
 	gboolean scope_restricted;
 	
 	EMMenu *menu;		/* toplevel menu manager */

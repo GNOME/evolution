@@ -129,7 +129,7 @@ em_menu_get_type(void)
 
 EMMenu *em_menu_new(const char *menuid)
 {
-	EMMenu *emp = g_object_new(em_menu_get_type(), 0);
+	EMMenu *emp = g_object_new(em_menu_get_type(), NULL);
 
 	e_menu_construct(&emp->popup, menuid);
 
@@ -310,19 +310,19 @@ static const EMenuHookTargetMask emph_select_masks[] = {
 	{ "mark_junk", EM_MENU_SELECT_MARK_JUNK },
 	{ "mark_nojunk", EM_MENU_SELECT_MARK_NOJUNK },
 	{ "folder", EM_MENU_SELECT_FOLDER },
-	{ 0 }
+	{ NULL }
 };
 
 /* dummy widget target, probably wont have any useful masks.
    this should probably be a more specific target type */
 static const EMenuHookTargetMask emph_widget_masks[] = {
-	{ 0 }
+	{ NULL }
 };
 
 static const EMenuHookTargetMap emph_targets[] = {
 	{ "select", EM_MENU_TARGET_SELECT, emph_select_masks },
 	{ "widget", EM_MENU_TARGET_WIDGET, emph_widget_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void

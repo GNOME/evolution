@@ -464,7 +464,7 @@ em_folder_view_get_type(void)
 
 GtkWidget *em_folder_view_new(void)
 {
-	EMFolderView *emfv = g_object_new(em_folder_view_get_type(), 0);
+	EMFolderView *emfv = g_object_new(em_folder_view_get_type(), NULL);
 
 	return (GtkWidget *)emfv;
 }

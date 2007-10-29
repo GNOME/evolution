@@ -62,7 +62,7 @@ static void *emfh_parent_class;
 static const EPluginHookTargetKey emfh_flag_map[] = {
 	{ "inline", EM_FORMAT_HANDLER_INLINE },
 	{ "inline_disposition", EM_FORMAT_HANDLER_INLINE_DISPOSITION },
-	{ 0 }
+	{ NULL }
 };
 
 static void

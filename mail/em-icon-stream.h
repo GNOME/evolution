@@ -47,7 +47,7 @@ typedef struct _EMIconStream {
 	struct _GtkImage *image;
 	char *key;
 
-	int keep:1;
+	guint keep:1;
 } EMIconStream;
 
 typedef struct {

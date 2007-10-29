@@ -43,7 +43,7 @@ static GObjectClass *emj_parent;
 #define d(x)
 
 static const EPluginHookTargetKey emjh_flag_map[] = {
-	{ 0 }
+	{ NULL }
 };
 
 /* ********************************************************************** */

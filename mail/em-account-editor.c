@@ -286,7 +286,7 @@ em_account_editor_get_type(void)
  **/
 EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type, char *id)
 {
-	EMAccountEditor *emae = g_object_new(em_account_editor_get_type(), 0);
+	EMAccountEditor *emae = g_object_new(em_account_editor_get_type(), NULL);
 
 	em_account_editor_construct(emae, account, type, id);
 

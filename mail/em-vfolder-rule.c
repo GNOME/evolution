@@ -208,10 +208,10 @@ em_vfolder_rule_next_source(EMVFolderRule *vr, const char *last)
 static int
 validate(FilterRule *fr)
 {
-	g_return_val_if_fail(fr != NULL, FALSE);
+	g_return_val_if_fail(fr != NULL, 0);
 	
 	if (!fr->name || !*fr->name) {
-		/* FIXME: set a aprent window? */
+		/* FIXME: set a parent window? */
 		e_error_run(NULL, "mail:no-name-vfolder", NULL);
 		return 0;
 	}

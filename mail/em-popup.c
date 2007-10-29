@@ -155,7 +155,7 @@ em_popup_get_type(void)
 
 EMPopup *em_popup_new(const char *menuid)
 {
-	EMPopup *emp = g_object_new(em_popup_get_type(), 0);
+	EMPopup *emp = g_object_new(em_popup_get_type(), NULL);
 
 	e_popup_construct(&emp->popup, menuid);
 
@@ -641,8 +641,6 @@ static EPopupItem emp_standard_uri_popups[] = {
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
-	EMPopupTargetPart *target;
-
 static void
 emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 {
@@ -859,7 +857,7 @@ static const EPopupHookTargetMask emph_select_masks[] = {
 	{ "folder", EM_POPUP_SELECT_FOLDER },
 	{ "junk", EM_POPUP_SELECT_JUNK },
 	{ "not_junk", EM_POPUP_SELECT_NOT_JUNK },	
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask emph_uri_masks[] = {
@@ -867,13 +865,13 @@ static const EPopupHookTargetMask emph_uri_masks[] = {
 	{ "mailto", EM_POPUP_URI_MAILTO },
 	{ "notmailto", EM_POPUP_URI_NOT_MAILTO },
 	{ "callto", EM_POPUP_URI_CALLTO },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask emph_part_masks[] = {
 	{ "message", EM_POPUP_PART_MESSAGE },
 	{ "image", EM_POPUP_PART_IMAGE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask emph_folder_masks[] = {
@@ -884,7 +882,7 @@ static const EPopupHookTargetMask emph_folder_masks[] = {
 	{ "select", EM_POPUP_FOLDER_SELECT },
 	{ "outbox", EM_POPUP_FOLDER_OUTBOX },
 	{ "nonstatic", EM_POPUP_FOLDER_NONSTATIC },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMask emph_attachments_masks[] = {
@@ -893,7 +891,7 @@ static const EPopupHookTargetMask emph_attachments_masks[] = {
 	{ "multiple", EM_POPUP_ATTACHMENTS_MULTIPLE },
 	{ "image", EM_POPUP_ATTACHMENTS_IMAGE },
 	{ "message", EM_POPUP_ATTACHMENTS_MESSAGE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EPopupHookTargetMap emph_targets[] = {
@@ -902,7 +900,7 @@ static const EPopupHookTargetMap emph_targets[] = {
 	{ "part", EM_POPUP_TARGET_PART, emph_part_masks },
 	{ "folder", EM_POPUP_TARGET_FOLDER, emph_folder_masks },
 	{ "attachments", EM_POPUP_TARGET_ATTACHMENTS, emph_attachments_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void

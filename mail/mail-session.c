@@ -733,7 +733,7 @@ mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plu
 	def_plugin = gconf_client_get_string (gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
 	
 	ms->junk_plugins = g_list_append(ms->junk_plugins, junk_plugin);
-	if (def_plugin &&  plugin_name) {
+	if (def_plugin && plugin_name) {
 		if (!strcmp(def_plugin, plugin_name)) {
 			printf("Loading %s as the default junk plugin\n", def_plugin);
 			session->junk_plugin = junk_plugin;

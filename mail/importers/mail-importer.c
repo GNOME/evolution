@@ -232,7 +232,7 @@ import_mbox_import(struct _mail_msg *mm)
 
 		camel_operation_start(NULL, _("Importing `%s'"), folder->full_name);
 		camel_folder_freeze(folder);
-		while (camel_mime_parser_step(mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+		while (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 			CamelMimeMessage *msg;
 			const char *tmp;
 			int pc = 0;
@@ -269,7 +269,7 @@ import_mbox_import(struct _mail_msg *mm)
 			if (camel_exception_is_set(&mm->ex))
 				break;
 
-			camel_mime_parser_step(mp, 0, 0);
+			camel_mime_parser_step(mp, NULL, NULL);
 		}
 		camel_folder_sync(folder, FALSE, NULL);
 		camel_folder_thaw(folder);

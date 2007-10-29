@@ -203,7 +203,7 @@ emmb_list_message_selected (struct _MessageList *ml, const char *uid, EMMessageB
 
 GtkWidget *em_message_browser_new(void)
 {
-	EMMessageBrowser *emmb = g_object_new(em_message_browser_get_type(), 0);
+	EMMessageBrowser *emmb = g_object_new(em_message_browser_get_type(), NULL);
 
 	/** @HookPoint-EMMenu: Standalone Mssage View Menu
 	 * @Id: org.gnome.evolution.mail.messagebrowser

@@ -1300,7 +1300,7 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	out_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, 0);
+	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, NULL);
 }
 
 /* Replying to messages... */

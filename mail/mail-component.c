@@ -1052,7 +1052,7 @@ setline_done(CamelStore *store, void *data)
 
 	sd->pending--;
 	if (sd->pending == 0) {
-		CORBA_Environment ev = { 0 };
+		CORBA_Environment ev = { NULL };
 
 		GNOME_Evolution_Listener_complete(sd->listener, &ev);
 		CORBA_exception_free(&ev);

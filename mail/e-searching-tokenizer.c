@@ -312,7 +312,7 @@ build_trie(int nocase, int len, unsigned char **words)
 					state_depth = g_realloc(state_depth, sizeof(*state_depth[0])*state_depth_max);
 				}
 				if (state_depth_size < depth) {
-					state_depth[depth] = 0;
+					state_depth[depth] = NULL;
 					state_depth_size = depth;
 				}
 				q->next = state_depth[depth];
@@ -456,7 +456,7 @@ searcher_new (int flags, int argc, unsigned char **argv, const char *tags, const
 
 	e_dlist_init(&s->input);
 	e_dlist_init(&s->output);
-	s->current = 0;
+	s->current = NULL;
 
 	s->offset = 0;
 	s->offout = 0;

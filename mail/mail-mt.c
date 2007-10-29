@@ -96,7 +96,7 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 
 #if defined(LOG_OPS) || defined(LOG_LOCKS)
 	if (!log_init) {
-		time_t now = time(0);
+		time_t now = time(NULL);
 
 		log_init = TRUE;
 		log_ops = getenv("EVOLUTION_MAIL_LOG_OPS") != NULL;
@@ -636,18 +636,18 @@ void mail_msg_init(void)
 	mail_gui_watch2 = em_channel_setup(&mail_gui_port2, &mail_gui_channel2, mail_msgport_received2);
 
 	mail_thread_queued = e_thread_new(E_THREAD_QUEUE);
-	e_thread_set_msg_destroy(mail_thread_queued, mail_msg_destroy, 0);
-	e_thread_set_msg_received(mail_thread_queued, mail_msg_received, 0);
+	e_thread_set_msg_destroy(mail_thread_queued, mail_msg_destroy, NULL);
+	e_thread_set_msg_received(mail_thread_queued, mail_msg_received, NULL);
 	e_thread_set_reply_port(mail_thread_queued, mail_gui_reply_port);
 
 	mail_thread_queued_slow = e_thread_new(E_THREAD_QUEUE);
-	e_thread_set_msg_destroy(mail_thread_queued_slow, mail_msg_destroy, 0);
-	e_thread_set_msg_received(mail_thread_queued_slow, mail_msg_received, 0);
+	e_thread_set_msg_destroy(mail_thread_queued_slow, mail_msg_destroy, NULL);
+	e_thread_set_msg_received(mail_thread_queued_slow, mail_msg_received, NULL);
 	e_thread_set_reply_port(mail_thread_queued_slow, mail_gui_reply_port);
 
 	mail_thread_new = e_thread_new(E_THREAD_NEW);
-	e_thread_set_msg_destroy(mail_thread_new, mail_msg_destroy, 0);
-	e_thread_set_msg_received(mail_thread_new, mail_msg_received, 0);
+	e_thread_set_msg_destroy(mail_thread_new, mail_msg_destroy, NULL);
+	e_thread_set_msg_received(mail_thread_new, mail_msg_received, NULL);
 	e_thread_set_reply_port(mail_thread_new, mail_gui_reply_port);
 	e_thread_set_queue_limit(mail_thread_new, 10);
 

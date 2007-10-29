@@ -1,3 +1,79 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-searching-tokenizer.c: (build_trie), (searcher_new),
+	(output_token), (output_match), (merge_subpending),
+	(searcher_next_token):
+	* em-account-editor.c: (em_account_editor_new), (emae_load_text),
+	(emae_check_license), (emae_auto_detect), (smime_sign_key_select),
+	(smime_encrypt_key_select), (emae_service_url_path_changed),
+	(emae_ssl_changed), (emae_service_provider_changed),
+	(emae_refresh_providers), (emae_refresh_authtype),
+	(emae_setup_service), (emae_identity_page):
+	* em-composer-utils.c: (em_utils_send_receipt),
+	(generate_account_hash), (em_utils_camel_address_to_destination),
+	(reply_get_composer):
+	* em-config.c: (em_config_new):
+	* em-event.c: (em_event_peek):
+	* em-filter-rule.c: (get_widget):
+	* em-folder-browser.c: (generate_viewoption_menu),
+	(em_folder_browser_show_preview), (get_view_query),
+	(vfolder_setup_do), (emfb_search_search_activated),
+	(emfb_list_key_press), (emfb_list_built):
+	* em-folder-view.c: (em_folder_view_new),
+	(emfv_setup_view_instance), (emfv_popup_forward),
+	(emp_uri_popup_vfolder_sender), (emp_uri_popup_vfolder_recipient),
+	(emfv_enable_menus):
+	* em-format-hook.c:
+	* em-format-html-display.c: (efhd_attachment_optional):
+	* em-format-html.c: (em_format_html_new),
+	(em_format_html_add_pobject), (em_format_html_find_pobject),
+	(em_format_html_find_pobject_func), (efh_text_enriched),
+	(efh_multipart_related), (efh_format_address), (efh_format_header):
+	* em-icon-stream.h:
+	* em-inline-filter.c: (emif_add_part), (emif_scan):
+	* em-junk-hook.c: (emjh_construct_group):
+	* em-mailer-prefs.c: (junk_plugin_setup):
+	* em-menu.c: (em_menu_new), (em_menu_target_new_select):
+	* em-message-browser.c: (em_message_browser_new):
+	* em-popup.c: (em_popup_new), (em_popup_target_new_select):
+	* em-sync-stream.c:
+	* em-utils.c: (em_utils_save_part_to_file), (tag_editor_response),
+	(em_utils_read_messages_from_stream), (em_utils_get_proxy_uri),
+	(em_utils_in_addressbook):
+	* em-vfolder-rule.c: (validate):
+	* importers/elm-importer.c:
+	* importers/mail-importer.c: (import_mbox_import),
+	(import_folders_rec):
+	* importers/pine-importer.c:
+	* mail-component.c: (setline_done):
+	* mail-folder-cache.c: (flush_updates):
+	* mail-mt.c: (mail_msg_new), (checkmem), (mail_msg_check_error),
+	(mail_msg_cancel), (mail_msg_wait), (mail_msg_init),
+	(do_op_status):
+	* mail-send-recv.c: (receive_status), (receive_done),
+	(refresh_folders_get):
+	* mail-vfolder.c: (mail_vfolder_get_sources_local),
+	(mail_vfolder_get_sources_remote), (context_rule_added),
+	(store_folder_renamed):
+	* message-list.c: (e_mail_address_new), (e_mail_address_compare),
+	(get_normalised_string), (ml_search_forward), (ml_search_backward),
+	(ml_search_path), (message_list_select_uid),
+	(thread_select_foreach), (message_list_copy), (ml_duplicate_value),
+	(ml_free_value), (ml_initialize_value), (ml_value_is_empty),
+	(ml_value_to_string), (subtree_latest), (sanitize_recipients),
+	(ml_tree_value_at), (ml_tree_sort_value_at),
+	(message_list_init_images), (filter_date), (build_tree),
+	(build_flat_diff), (regen_list_regen):
+
+	Warning fixes:
+	- NULL vs. 0 vs FALSE
+	- ANSIfication of function declarations
+	- Remove unused bits
+	- use unsigned ints for 1-bit bitfields
+	- invalid pointer type
+	- mark a global var static
+	- mixing code and declarations
+
 2007-10-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #489027

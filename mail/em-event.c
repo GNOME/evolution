@@ -128,7 +128,7 @@ em_event_get_type(void)
 EMEvent *em_event_peek(void)
 {
 	if (em_event == NULL) {
-		em_event = g_object_new(em_event_get_type(), 0);
+		em_event = g_object_new(em_event_get_type(), NULL);
 		e_event_construct(&em_event->popup, "org.gnome.evolution.mail.events");
 	}
 
@@ -196,23 +196,23 @@ static void *emeh_parent_class;
 
 static const EEventHookTargetMask emeh_folder_masks[] = {
 	{ "newmail", EM_EVENT_FOLDER_NEWMAIL },
-	{ 0 }
+	{ NULL }
 };
 
 
 static const EEventHookTargetMask emeh_composer_masks[] = {
 	{ "sendoption", EM_EVENT_COMPOSER_SEND_OPTION },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMask emeh_message_masks[] = {
 	{ "replyall", EM_EVENT_MESSAGE_REPLY_ALL },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMask emeh_send_receive_masks[] = {
 	{ "sendreceive", EM_EVENT_SEND_RECEIVE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMap emeh_targets[] = {
@@ -220,7 +220,7 @@ static const EEventHookTargetMap emeh_targets[] = {
 	{ "message", EM_EVENT_TARGET_MESSAGE, emeh_message_masks },
 	{ "composer", EM_EVENT_TARGET_COMPOSER, emeh_composer_masks},
 	{ "sendreceive", EM_EVENT_TARGET_SEND_RECEIVE, emeh_send_receive_masks},
-	{ 0 }
+	{ NULL }
 };
 
 static void

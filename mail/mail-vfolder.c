@@ -678,13 +678,13 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 }
 
 GList *
-mail_vfolder_get_sources_local ()
+mail_vfolder_get_sources_local (void)
 {
 	return source_folders_local;
 }
 
 GList *
-mail_vfolder_get_sources_remote ()
+mail_vfolder_get_sources_remote (void)
 {
 	return source_folders_remote;
 }
