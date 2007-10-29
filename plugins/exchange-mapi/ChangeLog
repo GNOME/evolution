@@ -1,3 +1,9 @@
+2007-10-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-account-listener.c:
+	(exchange_account_listener_get_folder_list): Get the folder list from
+	the global list and use it.
+
 2007-10-22  Suman Manjunath  <msuman@novell.com>
 
 	* exchange-account-listener.c: (add_cal_esource),

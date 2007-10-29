@@ -787,10 +787,8 @@ exchange_account_listener_get_folder_list ()
 {
 	if (folders_list)
 		return;
-	
-	if (exchange_mapi_get_folders_list (&folders_list)) {
-		printf ("\n\aget folders list call is sucessful \n\a");
-	}	
+
+	folders_list = exchange_mapi_peek_folder_list ();
 }
 
 GType
