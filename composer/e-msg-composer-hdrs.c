@@ -53,8 +53,6 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <text/e-entry.h>
-
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
 
