@@ -1,3 +1,9 @@
+2007-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Disable the mail-remote plugin until it can be made to work
+	or at least compile again (#491386).
+
 2007-10-25  Sankar P  <psankar@novell.com>
 
 	* configure.in:

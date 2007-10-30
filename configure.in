@@ -1690,7 +1690,13 @@ plugins_standard_always="bbdb subject-thread save-calendar select-one-source cop
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
-plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting mail-remote save-attachments external-editor"
+# Disable the mail-remote plugin until it can be made to work or at least
+# compile again.  If there is no movement on this before GNOME 2.24 ships
+# then it should be considered dead code and removed from source control.
+#
+# To reenable, add "mail-remote" to plugins_experimental_always.
+
+plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting save-attachments external-editor"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
