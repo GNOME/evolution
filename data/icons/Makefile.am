@@ -25,6 +25,16 @@ private_icons = \
 	hicolor_actions_24x24_view-calendar-month.png \
 	hicolor_actions_24x24_view-calendar-week.png \
 	hicolor_actions_24x24_view-calendar-workweek.png \
+	hicolor_actions_32x32_view-calendar-day.png \
+	hicolor_actions_32x32_view-calendar-list.png \
+	hicolor_actions_32x32_view-calendar-month.png \
+	hicolor_actions_32x32_view-calendar-week.png \
+	hicolor_actions_32x32_view-calendar-workweek.png \
+	hicolor_actions_scalable_view-calendar-day.svg \
+	hicolor_actions_scalable_view-calendar-list.svg \
+	hicolor_actions_scalable_view-calendar-month.svg \
+	hicolor_actions_scalable_view-calendar-week.svg \
+	hicolor_actions_scalable_view-calendar-workweek.svg \
 	hicolor_categories_48x48_preferences-autocompletion.png \
 	hicolor_categories_48x48_preferences-calendar-and-tasks.png \
 	hicolor_categories_48x48_preferences-certificates.png \
@@ -53,6 +63,11 @@ noinst_DATA = \
 	hicolor_actions_22x22_view-calendar-month.svg \
 	hicolor_actions_22x22_view-calendar-week.svg \
 	hicolor_actions_22x22_view-calendar-workweek.svg \
+	hicolor_actions_32x32_view-calendar-day.svg \
+	hicolor_actions_32x32_view-calendar-list.svg \
+	hicolor_actions_32x32_view-calendar-month.svg \
+	hicolor_actions_32x32_view-calendar-week.svg \
+	hicolor_actions_32x32_view-calendar-workweek.svg \
 	hicolor_places_16x16_mail-inbox.svg \
 	hicolor_places_16x16_mail-outbox.svg \
 	hicolor_places_16x16_mail-sent.svg \

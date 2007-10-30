@@ -1,3 +1,21 @@
+2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #486351
+
+	* data/icons/Makefile.am:
+	* data/icons/hicolor_actions_32x32_view-calendar-day.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-list.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-month.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-week.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-workweek.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-day.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-list.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-month.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-week.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-workweek.svg:
+	Add view-calendar-* icons in higher resolutions for use with 
+	a11y themes like LargePrint.
+
 2007-10-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:
