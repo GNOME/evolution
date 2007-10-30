@@ -1,3 +1,8 @@
+2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/contact-editor/e-contact-editor.c:
+	Remove unneeded include.
+
 2007-10-26  Matthew Barnes  <mbarnes@redhat.com>
 
 	* conduit/address-conduit.c (local_record_to_pilot_record):

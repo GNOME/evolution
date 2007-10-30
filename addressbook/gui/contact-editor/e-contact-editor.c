@@ -43,7 +43,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserverui/e-categories-dialog.h>
 #include <misc/e-gui-utils.h>
-#include <text/e-entry.h>
 
 #include <libebook/e-address-western.h>
 #include <libedataserverui/e-source-combo-box.h>
