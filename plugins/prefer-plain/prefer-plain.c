@@ -221,7 +221,7 @@ e_plugin_lib_enable(EPluginLib *ep, int enable)
 	} else {
 		if (epp_gconf) {
 			g_object_unref(epp_gconf);
-			epp_gconf = 0;
+			epp_gconf = NULL;
 		}
 	}
 

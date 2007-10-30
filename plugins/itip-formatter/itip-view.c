@@ -1856,8 +1856,8 @@ itip_view_get_source_list (ItipView *view)
 {
 	ItipViewPrivate *priv;
 
-	g_return_val_if_fail (view != NULL, FALSE);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 	
 	priv = view->priv;
 	
@@ -1886,8 +1886,8 @@ itip_view_get_source (ItipView *view)
 {
 	ItipViewPrivate *priv;
 
-	g_return_val_if_fail (view != NULL, FALSE);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 	
 	priv = view->priv;
 	
@@ -2027,8 +2027,8 @@ itip_view_get_rsvp_comment (ItipView *view)
 {
 	ItipViewPrivate *priv;
 
-	g_return_val_if_fail (view != NULL, FALSE);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 	
 	priv = view->priv;
 	

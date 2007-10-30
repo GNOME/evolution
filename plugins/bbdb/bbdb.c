@@ -341,7 +341,7 @@ bbdb_open_addressbook (int type)
 }
 
 gboolean
-bbdb_check_gaim_enabled ()
+bbdb_check_gaim_enabled (void)
 {
 	GConfClient *gconf;
 	gboolean     gaim_enabled;

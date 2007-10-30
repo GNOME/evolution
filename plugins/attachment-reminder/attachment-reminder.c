@@ -126,18 +126,19 @@ static gboolean ask_for_missing_attachment (GtkWindow *window)
 /* check for the clues */
 static gboolean check_for_attachment_clues (gchar *msg)
 {
-	//TODO : Add more strings. RegEx ???
+	/* TODO : Add more strings. RegEx ??? */
 
 	GConfClient *gconf;
 	GSList *clue_list = NULL, *list;
 	gboolean ret_val = FALSE;
+	guint msg_length;
 
 	gconf = gconf_client_get_default ();
 
-	//Get the list from gconf
+	/* Get the list from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
 
-	guint msg_length = strlen (msg);
+	msg_length = strlen (msg);
 
 	for (list = clue_list;list && !ret_val;list=g_slist_next(list)) {
 		gchar *needle = g_utf8_strdown (list->data, -1);
@@ -301,7 +302,7 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 	/* Disconnect from signal so that we can create an empty row */
 	g_signal_handlers_disconnect_matched(G_OBJECT(model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, clue_check_isempty, ui);
 
-	//TODO : Trim and check for blank strings
+	/* TODO : Trim and check for blank strings */
 	new_clue = g_strdup ("");
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,

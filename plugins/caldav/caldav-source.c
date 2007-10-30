@@ -50,7 +50,7 @@ GtkWidget *      oge_caldav               (EPlugin                    *epl,
 /* plugin intialization */
 
 static void
-ensure_caldav_source_group ()
+ensure_caldav_source_group (void)
 {
 	ESourceList  *slist;
 	ESourceGroup *group;

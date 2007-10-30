@@ -1,3 +1,8 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* calendar-weather.c: (load_locations), (treeview_clicked):
+	ANSIfication of function declaration.
+
 2007-05-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	* calendar-weather.c (e_calendar_weather_location):

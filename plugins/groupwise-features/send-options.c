@@ -229,7 +229,7 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static void
-send_options_finalize ()
+send_options_finalize (void)
 {
 	if (n_cnc) {
 		g_object_unref (n_cnc);

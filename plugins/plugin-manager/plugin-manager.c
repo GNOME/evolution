@@ -71,7 +71,7 @@ struct _Manager {
 /* for tracking if we're shown */
 static GtkDialog *dialog;
 
-const int RESPONSE_CONFIGURE = 1;
+static const int RESPONSE_CONFIGURE = 1;
 
 void org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t);
 int e_plugin_lib_configure(EPluginLib *ep);
@@ -217,6 +217,8 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GSList *l;
+	char *string;
+	GtkWidget *vbox, *subvbox;
 
 	if (dialog) {
 		gdk_window_raise(((GtkWidget *)dialog)->window);
@@ -240,7 +242,6 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	gtk_container_set_border_width((GtkContainer *)hbox, 12);
 	gtk_box_pack_start((GtkBox *)m->dialog->vbox, hbox, TRUE, TRUE, 0);
 
-	char *string;
 	string = g_strdup_printf("<i>%s</i>", _("Note: Some changes will not take effect until restart"));
 
 	w = g_object_new(gtk_label_get_type(),
@@ -307,12 +308,10 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	gtk_container_add((GtkContainer *)w, (GtkWidget *)m->treeview);
 	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)w, FALSE, TRUE, 6);
 
-	GtkWidget *vbox;
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start((GtkBox *)hbox, vbox, TRUE, TRUE, 6);
 
 	/* this is plugin's name label */
-	GtkWidget *subvbox;
 	subvbox = gtk_vbox_new(FALSE, 0);
 	m->items[0] = g_object_new(gtk_label_get_type(),
 				   "wrap", TRUE,
@@ -324,9 +323,10 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 
 	/* this is every other data */
 	for (i=1;i<LABEL_LAST;i++) {
+		char *markup;
+
 		subvbox = gtk_vbox_new(FALSE, 0);
 
-		char *markup;
 		markup = g_strdup_printf("<span weight=\"bold\">%s :</span>", _(label_info[i].label));
 		m->labels[i] = g_object_new(gtk_label_get_type(),
 					    "label", markup,

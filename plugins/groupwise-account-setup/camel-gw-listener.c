@@ -1018,7 +1018,7 @@ camel_gw_listener_get_type (void)
 }
 
 CamelGwListener*
-camel_gw_listener_new ()
+camel_gw_listener_new (void)
 {
 	CamelGwListener *config_listener;
        

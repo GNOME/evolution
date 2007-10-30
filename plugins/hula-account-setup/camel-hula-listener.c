@@ -592,7 +592,7 @@ camel_hula_listener_get_type (void)
 }
 
 CamelHulaListener*
-camel_hula_listener_new ()
+camel_hula_listener_new (void)
 {
 	CamelHulaListener *config_listener;
        

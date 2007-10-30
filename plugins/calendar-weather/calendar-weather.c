@@ -146,7 +146,7 @@ parse_subtree (GtkTreeIter *parent, xmlNode *node)
 }
 
 static void
-load_locations ()
+load_locations (void)
 {
 	xmlDoc *doc;
 	xmlNode *root, *child;

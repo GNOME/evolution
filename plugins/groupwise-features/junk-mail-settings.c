@@ -70,10 +70,10 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	JunkSettings *junk_tab;
 	int page_count =0;
 	EGwConnection *cnc;
+	gchar *msg;
 	CamelFolder *folder = (CamelFolder *)data;
 	CamelStore *store = folder->parent_store;	
 	cnc = get_cnc (store);	
-	gchar *msg;
 
 	dialog =  gtk_dialog_new_with_buttons (_("Junk Settings"),
 			NULL,

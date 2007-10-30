@@ -87,7 +87,7 @@ typedef struct {
 	GtkWidget *text_view;
 }OOFData;
 
-OOFData *oof_data;
+static OOFData *oof_data;
 
 static void
 update_state (GtkTextBuffer *buffer, gpointer data)
@@ -280,7 +280,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		radio_iof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), NULL);
 		radio_oof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), "group", radio_iof, NULL);
 	}
-	gtk_signal_connect (GTK_OBJECT (radio_oof), "toggled", G_CALLBACK (toggled_state), NULL);
+	g_signal_connect (radio_oof, "toggled", G_CALLBACK (toggled_state), NULL);
 	
 
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (lbl_status), 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
@@ -335,7 +335,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_dass), 0, 0.5);
 	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assistant"), NULL);
-	gtk_signal_connect (GTK_OBJECT (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
+	g_signal_connect (btn_dass, "clicked", G_CALLBACK (btn_dass_clicked), NULL);
 	/* Add items to the table */
 #ifdef HAVE_KRB5
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_chpass), 0, 1, 0, 1);
@@ -359,7 +359,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_fsize = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("View the size of all Exchange folders"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_fsize), 0, 0.5);
 	btn_fsize = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Folders Size"), NULL);
-	gtk_signal_connect (GTK_OBJECT (btn_fsize), "clicked", G_CALLBACK (btn_fsize_clicked), NULL);
+	g_signal_connect (btn_fsize, "clicked", G_CALLBACK (btn_fsize_clicked), NULL);
 	gtk_table_attach_defaults (tbl_misc, GTK_WIDGET (lbl_fsize), 0, 1, 0, 1);
 	gtk_table_attach (tbl_misc, GTK_WIDGET (btn_fsize), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_box_pack_start (GTK_BOX (vbox_misc), GTK_WIDGET (tbl_misc), FALSE, FALSE, 0);
@@ -694,7 +694,7 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 }
 
 static void 
-set_oof_info ()
+set_oof_info (void)
 {
 	ExchangeAccount *account;
 
@@ -707,7 +707,7 @@ set_oof_info ()
 }
 
 static void
-destroy_oof_data ()
+destroy_oof_data (void)
 {
 	if (oof_data->message)
 		g_free (oof_data->message);

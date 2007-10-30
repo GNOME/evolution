@@ -1,3 +1,8 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* camel-hula-listener.c: (camel_hula_listener_new):
+	ANSIfication of function declaration.
+
 2007-05-25  Matthew Barnes  <mbarnes@redhat.com>
 
 	* camel-hula-listener.c (remove_esource), (modify_esource):

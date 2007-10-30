@@ -1,3 +1,13 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* junk-mail-settings.c: (junk_mail_settings),
+	(org_gnome_junk_settings):
+	* send-options.c: (send_options_finalize), (get_source):
+	* status-track.c: (track_status), (org_gnome_track_status):
+	Warning fixes:
+	- mixing code and declarations
+	- ANSIfication of function declaration
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #477045

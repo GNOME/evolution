@@ -79,7 +79,7 @@ const char *exchange_delegates_user_folder_names[] = {
 /* To translators: The folder names to be displayed in the message being 
    sent to the delegatee. 
 */
-const char *folder_names_for_display[] = {
+static const char *folder_names_for_display[] = {
 	N_("Calendar"), N_("Tasks"), N_("Inbox"), N_("Contacts")
 };
 
@@ -442,7 +442,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			out_folder = mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 			info = camel_message_info_new (NULL);
 			camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-			mail_append_mail (out_folder, delegate_mail, info, em_utils_delegates_done, 0);
+			mail_append_mail (out_folder, delegate_mail, info, em_utils_delegates_done, NULL);
 
 		}
 

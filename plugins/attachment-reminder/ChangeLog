@@ -1,3 +1,9 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* attachment-reminder.c: (check_for_attachment_clues),
+	(clue_check_isempty): Don't mix code and declarations. Also
+	remove a c++ comment.
+
 2007-09-06  B S Srinidhi  <srinidhi.bs@gmail.com>
 
 	** Fix for bug #468366

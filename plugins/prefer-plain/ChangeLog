@@ -1,3 +1,8 @@
+2007-10-26  Kjartan Maraas <kmaraas@gnome.org>
+
+	* prefer-plain.c: (e_plugin_lib_enable):
+	Fix NULL vs. 0.
+
 2007-10-30  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #487922

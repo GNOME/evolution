@@ -46,6 +46,8 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 	EMsgComposerHdrs *hdrs;
 	CamelAddress *sender_address;
 	const char *sender_id, *recipient_id;
+	struct _camel_header_address *addr;
+	struct _camel_header_address *sender_addr;
 
 	composer = (EMsgComposer *)data;
 	if (state == GTK_RESPONSE_OK) {
@@ -88,11 +90,8 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		sender_address = (CamelAddress *) e_msg_composer_hdrs_get_from (hdrs);
 		sender_id = (const char*) camel_address_encode (sender_address);
 	
-		struct _camel_header_address *addr = camel_header_address_decode (
-						dialog->options->delegate_address, NULL);
-
-		struct _camel_header_address *sender_addr = camel_header_address_decode (
-						sender_id, NULL);
+		addr = camel_header_address_decode (dialog->options->delegate_address, NULL);
+		sender_addr = camel_header_address_decode (sender_id, NULL);
 		
  		if(dialog->options->send_as_del_enabled && 
 			dialog->options->delegate_address && 

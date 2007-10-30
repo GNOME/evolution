@@ -177,6 +177,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 		{
 			EGwItemRecipient *recipient;
 			GString *label = NULL;
+			GtkLabel *detail;
 
 			label = g_string_new("");
 			recipient = recipient_list->data;
@@ -226,7 +227,6 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 				label = g_string_append_c (label, '\n');
 			}
 
-			GtkLabel *detail;
 			detail = GTK_LABEL(gtk_label_new (label->str));
 			g_string_free (label, TRUE);
 			gtk_label_set_selectable (detail, TRUE);
