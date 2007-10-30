@@ -48,6 +48,49 @@ org_gnome_prefer_plain_text_html(void *ep, EMFormatHookTarget *t)
 		em_format_part_as(t->format, t->stream, t->part, NULL);
 }
 
+static void
+export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream, CamelMimePart *except)
+{
+	int i, nparts, partidlen;
+	CamelMimePart *part;
+
+	if (!mp || !CAMEL_IS_MULTIPART (mp))
+		return;
+
+	partidlen = format->part_id->len;
+
+	nparts = camel_multipart_get_number(mp);
+	for (i = 0; i < nparts; i++) {
+		part = camel_multipart_get_part (mp, i);
+
+		if (part != except) {
+			CamelMultipart *multipart = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+
+			if (CAMEL_IS_MULTIPART (multipart)) {
+				export_as_attachments (multipart, format, stream, except);
+			} else {
+				g_string_append_printf (format->part_id, ".alternative.%d", i);
+
+				if (camel_content_type_is (camel_mime_part_get_content_type (part), "text", "html")) {
+					/* always show HTML as attachments and not inline */
+					camel_mime_part_set_disposition (part, "attachment");
+
+					if (!camel_mime_part_get_filename (part)) {
+						char *str = g_strdup_printf ("%s.html", _("attachment"));
+						camel_mime_part_set_filename (part, str);
+						g_free (str);
+					}
+
+					em_format_part_as (format, stream, part, "application/octet-stream");
+				} else
+					em_format_part (format, stream, part);
+
+				g_string_truncate (format->part_id, partidlen);
+			}
+		}
+	}
+}
+
 void
 org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 {
@@ -84,16 +127,7 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 	}
 
 	/* all other parts are attachments */
-	for (i=0;i<nparts; i++) {
-		part = camel_multipart_get_part(mp, i);
-		if (part != display_part) {
-			g_string_append_printf(t->format->part_id, ".alternative.%d", i);
-
-			em_format_part_as(t->format, t->stream, t->part, NULL);
-
-			g_string_truncate(t->format->part_id, partidlen);
-		}
-	}
+	export_as_attachments (mp, t->format, t->stream, display_part);
 
 	g_string_truncate(t->format->part_id, partidlen);
 }
