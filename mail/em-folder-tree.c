@@ -273,7 +273,8 @@ enum {
 	FOLDER_ICON_SHARED_TO_ME,
 	FOLDER_ICON_SHARED_BY_ME,
 	FOLDER_ICON_SENT,
-	FOLDER_ICON_LAST
+	FOLDER_ICON_LAST,
+	FOLDER_ICON_VIRTUAL
 };
 
 static GdkPixbuf *folder_icons[FOLDER_ICON_LAST];
@@ -296,6 +297,7 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		folder_icons[FOLDER_ICON_SHARED_TO_ME] = e_icon_factory_get_icon ("stock_shared-to-me", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_SHARED_BY_ME] = e_icon_factory_get_icon ("stock_shared-by-me", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_SENT] = e_icon_factory_get_icon ("mail-sent", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_VIRTUAL] = e_icon_factory_get_icon ("folder-saved-search", E_ICON_SIZE_MENU);
 		
 		initialised = TRUE;
 	}
@@ -324,6 +326,8 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 				pixbuf = folder_icons[FOLDER_ICON_SHARED_TO_ME];
 			else if (flags & CAMEL_FOLDER_SHARED_BY_ME) 
 				pixbuf = folder_icons[FOLDER_ICON_SHARED_BY_ME];
+			else if (flags & CAMEL_FOLDER_VIRTUAL)
+				pixbuf = folder_icons[FOLDER_ICON_VIRTUAL];
 			else
 				pixbuf = folder_icons[FOLDER_ICON_NORMAL];
 		}

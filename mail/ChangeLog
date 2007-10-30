@@ -1,3 +1,10 @@
+2007-10-30  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #446035
+
+	* em-folder-tree.c: (render_pixbuf):
+	Use the folder-saved-search icon for vfolders.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-searching-tokenizer.c: (build_trie), (searcher_new),
