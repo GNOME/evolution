@@ -43,6 +43,8 @@
 
 #define CALENDAR_LOCATION "http://www.google.com/calendar/feeds/"
 
+#define d(x)
+
 /*****************************************************************************/
 /* prototypes */
 int              e_plugin_lib_enable      (EPluginLib                 *ep,
@@ -92,7 +94,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
 
 	if (enable) {
-		g_print ("\n Google Eplugin starting up ...\n");
+		d(printf ("\n Google Eplugin starting up ...\n"));
 		ensure_google_source_group ();
 	}
 
@@ -138,12 +140,18 @@ print_uri_noproto (EUri *uri)
 	return uri_noproto;
 }
 
+#if 0
+
+FIXME: Not sure why this function is declared but called no where. This needs fixing.
+
 static void
 ssl_changed (GtkToggleButton *button, ESource *source)
 {
 	e_source_set_property(source, "ssl", 
 			      gtk_toggle_button_get_active(button) ? "1" : "0");
 }
+
+#endif
 
 
 static void

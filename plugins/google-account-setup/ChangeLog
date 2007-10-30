@@ -1,0 +1,8 @@
+2007-10-30  Sankar P  <psankar@novell.com>
+
+	* ChangeLog:
+	Every plugin should have a ChangeLog. Added.
+
+	* google-source.c: 
+	Commented an unused function. 
+	Marked Debug statements conditional.
