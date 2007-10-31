@@ -623,7 +623,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/commands/ContactsPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ContactsSaveAsVCard", "document-save-as", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ContactsSendContactToOther", "mail-forward", E_ICON_SIZE_MENU),	
-	E_PIXMAP ("/commands/ContactsSendMessageToContact", "mail-send", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSendMessageToContact", "mail-message-new", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderCopy", "edit-copy", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderDelete", "edit-delete", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderMove", "stock_folder-move", E_ICON_SIZE_MENU),

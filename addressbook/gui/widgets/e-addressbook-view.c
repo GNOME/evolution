@@ -941,9 +941,9 @@ static EPopupItem eabv_popup_items[] = {
 	{ E_POPUP_ITEM, "30.saveas", N_("_Save as VCard..."), save_as, NULL, "document-save-as", 0, EAB_POPUP_SELECT_ANY },
 	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contact"), send_as, NULL, "mail-forward", EAB_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contacts"), send_as, NULL, "mail-forward", EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contact"), send_to, NULL, "mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to List"), send_to, NULL, "mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contacts"), send_to, NULL, "mail-send", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contact"), send_to, NULL, "mail-message-new", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to List"), send_to, NULL, "mail-message-new", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contacts"), send_to, NULL, "mail-message-new", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
 	{ E_POPUP_ITEM, "60.print", N_("_Print"), print, NULL, "document-print", 0, EAB_POPUP_SELECT_ANY },
 
 	{ E_POPUP_BAR, "70.bar" },

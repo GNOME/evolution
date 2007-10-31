@@ -1,3 +1,12 @@
+2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #484064
+
+	* gui/component/addressbook-view.c:
+	* gui/widgets/e-addressbook-view.c:
+	Use mail-message-new instead of mail-send for composing
+	mail to contact, contacts or group.
+
 2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/contact-editor/e-contact-editor.c:
