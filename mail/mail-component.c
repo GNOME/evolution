@@ -524,6 +524,8 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 		/* This is so that if any of these are
 		 * shared/reused, we fallback to the standard
 		 * display behaviour */
+		if (selected->len > 1)
+			g_string_append_printf(tmp, ngettext (" %d selected, ", " %d selected, ", selected->len), selected->len);
 
 		if (CAMEL_IS_VTRASH_FOLDER(emfv->folder)) {
 			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH) {
@@ -545,9 +547,6 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 				g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
 			g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
 		}
-
-		if (selected->len > 1)
-			g_string_append_printf(tmp, ngettext (" %d selected, ", " %d selected, ", selected->len), selected->len);
 
 		message_list_free_uids(emfv->list, selected);
 
