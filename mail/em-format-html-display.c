@@ -2187,7 +2187,7 @@ efhd_bar_button_press_event(EAttachmentBar *bar, GdkEventButton *event, EMFormat
 	if (event && event->button != 3)
 		return FALSE;
 
-	/** @HookPoint-EMPopup: Attachment Bar  Context Menu
+	/** @HookPoint-EMPopup: Attachment Bar Context Menu
 	 * @Id: org.gnome.evolution.mail.attachments.popup
 	 * @Class: org.gnome.evolution.mail.popup:1.0
 	 * @Target: EMPopupTargetPart

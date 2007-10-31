@@ -205,7 +205,7 @@ GtkWidget *em_message_browser_new(void)
 {
 	EMMessageBrowser *emmb = g_object_new(em_message_browser_get_type(), NULL);
 
-	/** @HookPoint-EMMenu: Standalone Mssage View Menu
+	/** @HookPoint-EMMenu: Standalone Message View Menu
 	 * @Id: org.gnome.evolution.mail.messagebrowser
 	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
 	 * @Target: EMMenuTargetSelect

@@ -1,4 +1,9 @@
 2007-10-31  Priit Laes  <plaes@svn.gnome.org>
+	
+	* em-format-html-display.c: Fix typo in documentation.
+	* em-message-browser.c: Ditto.
+
+2007-10-31  Priit Laes  <plaes@svn.gnome.org>
 
 	* mail-component.c: (view_changed): Fix the ordering of the string
 	components.
