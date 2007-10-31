@@ -306,7 +306,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 #if 0
 static int
-get_local_offset ()
+get_local_offset (void)
 {
 	time_t now = time(NULL), t_gmt, t_local;
 	struct tm gmt, local;
@@ -322,8 +322,8 @@ get_local_offset ()
 }
 #endif
 
-static const icaltimezone*
-get_local_timezone()
+static icaltimezone*
+get_local_timezone(void)
 {
 	icaltimezone *zone;
 	
@@ -672,7 +672,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 				icaltimezone    *zone)
 {
 	ETimezoneDialogPrivate *priv;
-	char *display=NULL;
+	char *display = NULL;
 	
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
@@ -683,7 +683,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	}
 
 	if (zone)
-		display=zone_display_name_with_offset(zone);
+		display = zone_display_name_with_offset(zone);
 	
 	priv = etd->priv;
 

@@ -1,3 +1,27 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-timezone-dialog/e-timezone-dialog.c: (get_local_offset),
+	(get_local_timezone), (on_map_visibility_changed),
+	(on_map_button_pressed), (get_zone_from_point),
+	(e_timezone_dialog_set_timezone), (on_combo_changed):
+	* menus/gal-view-factory.c: (gal_view_factory_get_title):
+	* text/Makefile.am:
+	* text/e-text.c: (e_text_event), (popup_targets_received),
+	(next_word), (find_offset_into_line), (_get_position),
+	(e_text_class_init):
+	* text/e.entry.[ch]
+	* text/e-completion.[ch]
+	* text/e-text-model-uri.[ch]
+	* text/e-completion-view.[ch]
+	* text/e-completion-callbacks.[ch]
+	* text/e-completion-match.[ch]
+	* text/e-table-text-model.[ch]: Remove all of these. They
+	are now unused.
+
+	Warning fixes:
+	- NULL vs 0 vs FALSE
+	- ANSIfication of function declarations
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

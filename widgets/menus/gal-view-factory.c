@@ -42,8 +42,8 @@ d(static gint depth = 0;)
 const char *
 gal_view_factory_get_title (GalViewFactory *factory)
 {
-	g_return_val_if_fail (factory != NULL, 0);
-	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), 0);
+	g_return_val_if_fail (factory != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
 	if (GAL_VIEW_FACTORY_GET_CLASS (factory)->get_title)
 		return GAL_VIEW_FACTORY_GET_CLASS (factory)->get_title (factory);

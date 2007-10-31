@@ -2199,7 +2199,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	gint return_val = 0;
 
 	if (!text->model)
-		return FALSE;
+		return 0;
 
 	e_tep_event.type = event->type;
 	switch (event->type) {
@@ -2289,7 +2289,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			button->time = event->key.time;
 			button->button = 0;
 			e_text_do_popup (text, button, 0);
-			return TRUE;
+			return 1;
 		}
 
 		/* Fall Through */
@@ -2387,7 +2387,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (text->handle_popup) {
 				e_text_do_popup (text, &(event->button),
 						 get_position_from_xy (text, event->button.x, event->button.y));
-				return TRUE;
+				return 1;
 			}
 			else {
 				break;
