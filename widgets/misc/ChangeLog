@@ -1,3 +1,11 @@
+2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #483785
+
+	* e-url-entry.c: (init):
+	Use go-jump icon instead of stock_connect-to-url
+	to get rid of deprecated icons from gnome-icon-theme.
+
 2007-10-26  Tobias Mueller  <tobiasmue@svn.gnome.org>
 
 	** Workaround for bug #395272
