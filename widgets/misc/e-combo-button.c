@@ -194,8 +194,10 @@ menu_detacher (GtkWidget *widget,
 
 	combo_button = E_COMBO_BUTTON (widget);
 	priv = combo_button->priv;
-
-	gtk_signal_disconnect_by_data (GTK_OBJECT (menu), combo_button);
+	g_signal_handlers_disconnect_matched (menu,
+					      G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL,
+					      combo_button);
 	priv->menu = NULL;
 }
 

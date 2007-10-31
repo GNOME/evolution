@@ -393,7 +393,7 @@ e_combo_cell_editable_get_type (void)
 }
 
 GtkCellEditable *
-e_combo_cell_editable_new ()
+e_combo_cell_editable_new (void)
 {
 	return GTK_CELL_EDITABLE (g_object_new (E_TYPE_COMBO_CELL_EDITABLE, NULL));
 }

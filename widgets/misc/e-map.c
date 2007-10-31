@@ -26,7 +26,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libart_lgpl/art_filterlevel.h>
 #include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"
@@ -102,7 +101,7 @@ static gint e_map_expose (GtkWidget *widget, GdkEventExpose *event);
 static gint e_map_key_press (GtkWidget *widget, GdkEventKey *event);
 static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustment *vadj);
 
-static void update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays);
+static void update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays);
 static void set_scroll_area (EMap *view);
 static void request_paint_area (EMap *view, GdkRectangle *area);
 static void center_at (EMap *map, int x, int y, gboolean scroll);
@@ -585,17 +584,17 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 
 		scroll_to (view, x, y);
 
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->hadj), view);
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->vadj), view);
+		g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 
 		priv->hadj->value = x;
 		priv->vadj->value = y;
 
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->hadj), "value_changed");
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->vadj), "value_changed");
+		g_signal_emit_by_name (priv->hadj, "value_changed");
+		g_signal_emit_by_name (priv->vadj, "value_changed");
 
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->hadj), view);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->vadj), view);
+		g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	}
 
 	return TRUE;
@@ -617,7 +616,7 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
  **/
 
 EMap *
-e_map_new ()
+e_map_new (void)
 {
 	GtkWidget *widget;
 	AtkObject *a11y;
@@ -967,7 +966,7 @@ load_map_background (EMap *view, gchar *name)
 
 
 static void
-update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays)
+update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays)
 {
 	EMapPrivate *priv;
 	EMapPoint *point;
@@ -1661,9 +1660,8 @@ zoom_do (EMap *map)
 	EMapPrivate *priv;
 
 	priv = map->priv;
-
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->hadj), map);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->vadj), map);
+	g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+	g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 
 	if (priv->zoom_state == E_MAP_ZOOMING_IN)
 	{
@@ -1676,8 +1674,8 @@ zoom_do (EMap *map)
 		zoom_out (map);
 	}
   
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->hadj), map);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->vadj), map);
+	g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+	g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 
 	set_scroll_area(map);
 }
@@ -1728,8 +1726,8 @@ set_scroll_area (EMap *view)
 	if (priv->map_render_pixbuf)
 		priv->vadj->upper = gdk_pixbuf_get_height (priv->map_render_pixbuf);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (priv->hadj), "changed");
-	gtk_signal_emit_by_name (GTK_OBJECT (priv->vadj), "changed");
+	g_signal_emit_by_name (priv->hadj, "changed");
+	g_signal_emit_by_name (priv->vadj, "changed");
 
 	priv->xofs = CLAMP (priv->xofs, 0, priv->hadj->upper - priv->hadj->page_size);
 	priv->yofs = CLAMP (priv->yofs, 0, priv->vadj->upper - priv->vadj->page_size);
@@ -1738,17 +1736,17 @@ set_scroll_area (EMap *view)
 	{
 		priv->hadj->value = priv->xofs;
 
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->hadj), view);
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->hadj), "value_changed");
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->hadj), view);
+		g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_emit_by_name (priv->hadj, "value_changed");
+		g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	}
 
 	if (priv->vadj->value != priv->yofs)
 	{
 		priv->vadj->value = priv->yofs;
 
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->vadj), view);
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->vadj), "value_changed");
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->vadj), view);
+		g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_emit_by_name (priv->vadj, "value_changed");
+		g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	}
 }

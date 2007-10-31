@@ -705,7 +705,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 
 		/* Create a new group */
 		if (items[i].id == 0)
-			group = 0;
+			group = NULL;
 
 		if (items[i].text) {
 			char *str;

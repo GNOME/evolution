@@ -1,3 +1,34 @@
+2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-activity-handler.c: (e_activity_handler_new):
+	* e-canvas.c: (e_canvas_new), (emit_event), (pick_current_item),
+	(e_canvas_button):
+	* e-combo-button.c: (menu_detacher), (impl_destroy),
+	(impl_button_press_event):
+	* e-combo-cell-editable.c: (e_combo_cell_editable_new):
+	* e-expander.c: (e_expander_init), (e_expander_size_request),
+	(e_expander_size_allocate), (e_expander_button_press),
+	(e_expander_focus):
+	* e-gui-utils.c: (e_popup_menu),
+	(e_container_change_tab_order_callback):
+	* e-image-chooser.c: (image_drag_data_received_cb):
+	* e-info-label.c: (e_info_label_new):
+	* e-map.c: (e_map_key_press), (e_map_new), (update_render_pixbuf),
+	(blowup_window_area), (zoom_do), (set_scroll_area):
+	* e-pilot-settings.c: (e_pilot_settings_get_source):
+	* e-printable.c: (e_printable_will_fit):
+	* e-reflow.c: (items_inserted), (model_changed), (set_empty),
+	(e_reflow_event), (e_reflow_draw):
+	* e-search-bar.c: (set_option):
+	* e-search-bar.h:
+	* e-unicode.c: (e_xml_get_translated_utf8_string_prop_by_name):
+	
+	Warning fixes:
+	- NULL vs 0 vs FALSE
+	- ANSIfication of function declarations.
+	- Use non-deprecated GSignal functions
+	- Don't mix different enum types
+
 2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #483785

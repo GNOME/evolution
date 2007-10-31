@@ -2029,8 +2029,8 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlC
 	gchar *ret_val = NULL;
 	gchar *combined_name;
 
-	g_return_val_if_fail (parent != NULL, 0);
-	g_return_val_if_fail (prop_name != NULL, 0);
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (prop_name != NULL, NULL);
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {

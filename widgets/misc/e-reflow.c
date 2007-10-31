@@ -430,7 +430,7 @@ items_inserted (EReflowModel *model, int position, int count, EReflow *reflow)
 	memmove (reflow->heights + position + count, reflow->heights + position, (reflow->count - position - count) * sizeof (int));
 	memmove (reflow->items + position + count, reflow->items + position, (reflow->count - position - count) * sizeof (GnomeCanvasItem *));
 	for (i = position; i < position + count; i++) {
-		reflow->items[i] = 0;
+		reflow->items[i] = NULL;
 		reflow->heights[i] = e_reflow_model_height (reflow->model, i, GNOME_CANVAS_GROUP (reflow));
 	}
 
@@ -485,7 +485,7 @@ model_changed (EReflowModel *model, EReflow *reflow)
 
 	count = reflow->count;
 	for (i = 0; i < count; i++) {
-		reflow->items[i] = 0;
+		reflow->items[i] = NULL;
 		reflow->heights[i] = e_reflow_model_height (reflow->model, i, GNOME_CANVAS_GROUP (reflow));
 	}
 
@@ -927,11 +927,11 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 						if (has_focus) {
 							if (event->key.state & GDK_SHIFT_MASK) {
 								if (i == 0)
-									return 0;
+									return FALSE;
 								i--;
 							} else {
 								if (i == count - 1)
-									return 0;
+									return FALSE;
 								i++;
 							}
 							
@@ -944,7 +944,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 							gnome_canvas_item_set(item,
 									      "has_focus", (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START,
 									      NULL);
-							return 1;
+							return TRUE;
 						}
 					}
 				}

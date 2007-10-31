@@ -194,8 +194,8 @@ e_printable_will_fit            (EPrintable        *e_printable,
 {
         gboolean ret_val;
 
-	g_return_val_if_fail (e_printable != NULL, -1);
-	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), -1);
+	g_return_val_if_fail (e_printable != NULL, FALSE);
+	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), FALSE);
 
 	g_signal_emit (e_printable,
 		       e_printable_signals [WILL_FIT], 0,

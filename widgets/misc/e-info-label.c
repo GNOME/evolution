@@ -111,7 +111,7 @@ e_info_label_get_type(void)
 GtkWidget *
 e_info_label_new(const char *icon)
 {
-	EInfoLabel *el = g_object_new(e_info_label_get_type(), 0);
+	EInfoLabel *el = g_object_new(e_info_label_get_type(), NULL);
 	GtkWidget *image;
 	char *name = e_icon_factory_get_icon_filename (icon, E_ICON_SIZE_MENU);
 	

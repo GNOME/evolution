@@ -60,7 +60,7 @@ typedef struct {
 typedef struct _ESearchBar       ESearchBar;
 typedef struct _ESearchBarClass  ESearchBarClass;
 
-typedef void (*ESearchBarMenuFunc)(ESearchBar *esb, ESearchBarItem *menu_items );
+typedef void (*ESearchBarMenuFunc)(ESearchBar *esb, ESearchBarItem *menu_items);
 
 struct _ESearchBar
 {

@@ -262,7 +262,7 @@ e_expander_init (EExpander *expander)
   GTK_WIDGET_SET_FLAGS (expander, GTK_CAN_FOCUS);
   GTK_WIDGET_UNSET_FLAGS (expander, GTK_NO_WINDOW);
 
-  priv->label_widget = 0;
+  priv->label_widget = NULL;
   priv->spacing = 0;
 
   priv->expander_style = GTK_EXPANDER_COLLAPSED;

@@ -141,7 +141,7 @@ e_canvas_dispose (GObject *object)
 }
 
 GtkWidget *
-e_canvas_new ()
+e_canvas_new (void)
 {
 	return GTK_WIDGET (g_object_new (E_CANVAS_TYPE, NULL));
 }

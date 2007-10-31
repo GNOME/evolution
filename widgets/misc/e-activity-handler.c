@@ -268,7 +268,7 @@ e_activity_handler_init (EActivityHandler *activity_handler)
 EActivityHandler *
 e_activity_handler_new (void)
 {
-	return g_object_new (e_activity_handler_get_type (), 0);
+	return g_object_new (e_activity_handler_get_type (), NULL);
 }
 
 void

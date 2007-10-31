@@ -148,8 +148,8 @@ e_pilot_settings_get_source (EPilotSettings *ps)
 {
 	EPilotSettingsPrivate *priv;
 	
-	g_return_val_if_fail (ps != NULL, FALSE);
-	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), FALSE);
+	g_return_val_if_fail (ps != NULL, NULL);
+	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
 
 	priv = ps->priv;
 
