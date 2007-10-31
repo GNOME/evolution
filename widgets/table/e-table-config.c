@@ -529,7 +529,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		case GTK_RESPONSE_OK:
 			g_object_unref (config->state);
 			config->state = config->temp_state;
-			config->temp_state = 0;
+			config->temp_state = NULL;
 			running = 0;
 			config_dialog_changed (config);
 			break;
@@ -537,7 +537,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		case GTK_RESPONSE_DELETE_EVENT:
 		case GTK_RESPONSE_CANCEL:
 			g_object_unref (config->temp_state);
-			config->temp_state = 0;
+			config->temp_state = NULL;
 			running = 0;
 			break;
 		}
@@ -573,7 +573,7 @@ do_fields_config_dialog (ETableConfig *config)
 		case GTK_RESPONSE_OK:
 			g_object_unref (config->state);
 			config->state = config->temp_state;
-			config->temp_state = 0;
+			config->temp_state = NULL;
 			running = 0;
 			config_dialog_changed (config);
 			break;
@@ -581,7 +581,7 @@ do_fields_config_dialog (ETableConfig *config)
 		case GTK_RESPONSE_DELETE_EVENT:
 		case GTK_RESPONSE_CANCEL:
 			g_object_unref (config->temp_state);
-			config->temp_state = 0;
+			config->temp_state = NULL;
 			running = 0;
 			break;
 		}
@@ -619,7 +619,7 @@ create_global_store (ETableConfig *config)
 	}
 }
 
-char *spec = "<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" " 	 
+static char *spec = "<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" " 	 
 " draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">" 	 
 "<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" 	 
 "<ETableState> <column source=\"0\"/>" 	 

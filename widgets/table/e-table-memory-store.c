@@ -159,7 +159,7 @@ etms_initialize_value (ETableModel *etm, int col)
 	default:
 		break;
 	}
-	return 0;
+	return NULL;
 }
 
 static gboolean
@@ -180,7 +180,7 @@ etms_value_is_empty (ETableModel *etm, int col, const void *value)
 	default:
 		break;
 	}
-	return value == 0;
+	return value == NULL;
 }
 
 static char *

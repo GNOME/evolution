@@ -389,7 +389,7 @@ e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed
  * return values: a newly constructed ETreeModel.
  */
 ETreeModel *
-e_tree_model_new ()
+e_tree_model_new (void)
 {
 	return (ETreeModel *) g_object_new (E_TREE_MODEL_TYPE, NULL);
 }

@@ -922,7 +922,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		return 0;
 	
 	if ( edit && !edit->preedit_length && flags & E_CELL_PREEDIT)
-		return TRUE;
+		return 1;
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		edit_display = TRUE;
@@ -988,9 +988,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 			edit->need_im_reset = TRUE;
 			if (preedit_len && flags & E_CELL_PREEDIT)
-				return FALSE;
+				return 0;
 			else
-		 		return TRUE;
+		 		return 1;
 		}
 				
 		if (event->key.keyval == GDK_Escape){

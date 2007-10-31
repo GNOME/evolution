@@ -1,3 +1,24 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-cell-text.c: (ect_event), (_blink_scroll_timeout):
+	* e-table-config.c: (do_sort_and_group_config_dialog),
+	(do_fields_config_dialog):
+	* e-table-group-container.c: (etgc_add_array),
+	(etgc_get_focus_column), (etgc_get_cell_geometry),
+	(etgc_set_property), (etgc_get_property), (etgc_class_init),
+	(etgc_reflow), (etgc_init), (e_table_group_container_print_page),
+	(e_table_group_container_height):
+	* e-table-group.c: (e_table_group_get_focus_column):
+	* e-table-header.c: (e_table_header_get_columns), (eth_set_size):
+	* e-table-item.c: (eti_tree_unfreeze), (eti_draw), (find_cell),
+	(_do_tooltip), (eti_event), (e_table_item_height):
+	* e-table-memory-store.c: (etms_initialize_value),
+	(etms_value_is_empty):
+	* e-tree-model.c: (e_tree_model_new), (e_tree_model_node_find):
+	Warning fixes:
+	- NULL vs. 0 vs. FALSE
+	- Mark som code static
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

@@ -510,7 +510,7 @@ etgc_add_array (ETableGroup *etg, const int *array, int count)
 {
 	int i;
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	void *lastval = 0;
+	void *lastval = NULL;
 	int laststart = 0;
 	GCompareFunc comp = etgc->ecol->compare;
 	ETableGroupContainerChildNode *child_node;
@@ -1070,7 +1070,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 static void
 etgc_init (ETableGroupContainer *container)
 {
-	container->children = FALSE;
+	container->children = NULL;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(container), etgc_reflow);
 
