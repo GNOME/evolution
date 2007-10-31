@@ -520,5 +520,4 @@ widgets/table/e-table.c
 widgets/table/e-tree-scrolled.c
 widgets/table/e-tree-selection-model.c
 widgets/table/e-tree.c
-widgets/text/e-entry.c
 widgets/text/e-text.c
