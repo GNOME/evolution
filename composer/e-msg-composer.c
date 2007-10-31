@@ -78,7 +78,6 @@
 #include <glade/glade.h>
 
 #include <libedataserver/e-iconv.h>
-#include <text/e-entry.h>
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-signature-list.h"
