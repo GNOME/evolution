@@ -261,8 +261,6 @@ eab_vcard_control_new (void)
 
 	EABVCardControl    *vcard_control = g_new (EABVCardControl, 1);
 
-	printf ("inside eab_vcard_control_new\n");
-
 	vcard_control->card_list = NULL;
 	vcard_control->display = NULL;
 	vcard_control->label = NULL;
