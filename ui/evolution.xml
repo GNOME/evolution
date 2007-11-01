@@ -54,7 +54,7 @@
 
     <cmd name="HelpAbout" _label="About Evolution..."
       _tip="Show information about Evolution"
-      pixtype="stock" pixname="About"/>
+      pixtype="stock" pixname="help-about"/>
   </commands>
 
   <menu>

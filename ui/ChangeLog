@@ -1,3 +1,11 @@
+2007-11-01  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #492106
+
+	* evolution.xml:
+	Use the about icon from the freedesktop spec, not
+	the deprecated gnomeui icon.
+
 2007-10-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution.xml:
