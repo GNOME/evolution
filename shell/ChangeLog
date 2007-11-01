@@ -1,5 +1,10 @@
 2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
 
+	* e-shell-window-commands.c:
+	Update the copyright notice in the About dialog.
+
+2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
+
 	* e-user-creatable-items-handler.c (ensure_menu_items):
 	Don't compare a character pointer to a string literal.
 
