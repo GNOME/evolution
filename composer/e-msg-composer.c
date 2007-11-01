@@ -63,6 +63,7 @@
 
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-help.h>
+#include <libgnome/gnome-url.h>
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-window-icon.h>
@@ -6628,6 +6629,26 @@ e_msg_composer_url_requested (EMsgComposer *composer, gchar *url)
 		return NULL;
 
 	return part;
+}
+
+void
+e_msg_composer_link_clicked (EMsgComposer *composer, const gchar *url)
+{
+	g_return_if_fail (composer != NULL);
+
+	if (url && *url &&
+	    g_ascii_strncasecmp (url, "mailto:", 7) &&
+	    g_ascii_strncasecmp (url, "thismessage:", 12) &&
+	    g_ascii_strncasecmp (url, "cid:", 4)) {
+		GError *err = NULL;
+
+		gnome_url_show (url, &err);
+
+		if (err) {
+			g_warning ("gnome_url_show: %s", err->message);
+			g_error_free (err);
+		}
+	}
 }
 
 EMsgComposerHdrs*

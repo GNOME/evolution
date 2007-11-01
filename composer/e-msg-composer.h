@@ -186,6 +186,8 @@ void			 e_msg_composer_delete				 (EMsgComposer *composer);
 gchar*			 e_msg_composer_resolve_image_url 		 (EMsgComposer *composer, gchar *url);
 CamelMimePart*		 e_msg_composer_url_requested 			 (EMsgComposer *composer, gchar *url);
 
+void			 e_msg_composer_link_clicked			 (EMsgComposer *composer, const gchar *url);
+
 EMsgComposerHdrs*	 e_msg_composer_get_hdrs			 (EMsgComposer *composer);
 void			 e_msg_composer_set_saved			 (EMsgComposer *composer);
 void			 e_msg_composer_set_send_options		 (EMsgComposer *composer, 

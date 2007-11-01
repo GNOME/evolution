@@ -117,6 +117,8 @@ impl_event (PortableServer_Servant _servant,
 
 		camel_object_unref (cstream);
 			
+	} else if (!strcmp (name, "link_clicked")) {
+		e_msg_composer_link_clicked (l->composer, BONOBO_ARG_GET_STRING (arg));
 	}
 
 	return rv ? rv : get_any_null ();

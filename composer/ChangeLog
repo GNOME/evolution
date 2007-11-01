@@ -1,3 +1,12 @@
+2007-11-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #318592
+
+	* e-msg-composer.h: (e_msg_composer_link_clicked):
+	* e-msg-composer.c: (e_msg_composer_link_clicked):
+	Helper function to response on editor's "link_clicked" event.
+	* listener.c: (impl_event): Call helper function on that event.
+
 2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-msg-composer.c (e_msg_composer_set_body_text):
