@@ -1,3 +1,7 @@
+2007-11-01  Gil Forcada  <gforcada@svn.gnome.org>
+
+	* ca.po: Some fixes to Catalan translation by David Planella.
+
 2007-10-31  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* POTFILES.in: Remove e-entry.c here.
