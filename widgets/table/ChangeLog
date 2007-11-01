@@ -1,3 +1,8 @@
+2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-table-click-to-add.c (etcta_add_message):
+	Fix a const warning.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-cell-text.c: (ect_event), (_blink_scroll_timeout):

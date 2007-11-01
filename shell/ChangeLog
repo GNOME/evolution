@@ -1,3 +1,8 @@
+2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-user-creatable-items-handler.c (ensure_menu_items):
+	Don't compare a character pointer to a string literal.
+
 2007-10-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* GNOME_Evolution_Shell.server.in.in: Remove the version.

@@ -265,7 +265,7 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 				    && strcmp (corba_item->id, "message") == 0)
 					default_verb = item->verb;
 
-				if (corba_item->iconName == "") {
+				if (corba_item->iconName == NULL || *corba_item->iconName == '\0') {
 					item->icon = NULL;
 				} else {
 					item->icon = e_icon_factory_get_icon (corba_item->iconName, E_ICON_SIZE_MENU);

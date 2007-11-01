@@ -162,7 +162,7 @@ etcta_drop_model (ETableClickToAdd *etcta)
 }
 
 static void
-etcta_add_message (ETableClickToAdd *etcta, char *message)
+etcta_add_message (ETableClickToAdd *etcta, const gchar *message)
 {
 	etcta->message = g_strdup(message);
 }
@@ -211,7 +211,7 @@ etcta_set_property (GObject *object, guint prop_id, const GValue *value, GParamS
 		break;
 	case PROP_MESSAGE:
 		etcta_drop_message (etcta);
-		etcta_add_message (etcta, (char*)g_value_get_string (value));
+		etcta_add_message (etcta, g_value_get_string (value));
 		break;
 	case PROP_WIDTH:
 		etcta->width = g_value_get_double (value);

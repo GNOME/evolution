@@ -5100,8 +5100,9 @@ void
 e_msg_composer_set_body_text (EMsgComposer *composer, const char *text, ssize_t len)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+        g_return_if_fail (text != NULL);
 	
-	set_editor_text (composer, text, len, TRUE, text == "");
+	set_editor_text (composer, text, len, TRUE, *text == '\0');
 }
 
 /**
