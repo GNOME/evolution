@@ -89,9 +89,9 @@ typedef struct _ComponentView ComponentView;
 
 struct _EShellWindowPrivate {
 	union {
-		EShell *shell;
-		gpointer shell_pointer;
-	};
+		EShell *eshell;
+		gpointer pointer;
+	} shell;
 
 	EShellView *shell_view;	/* CORBA wrapper for this, just a placeholder */
 
@@ -220,7 +220,7 @@ init_view (EShellWindow *window,
 	   ComponentView *view)
 {
 	EShellWindowPrivate *priv = window->priv;
-	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
+	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell.eshell);
 	GNOME_Evolution_Component component_iface;
 	GNOME_Evolution_ComponentView component_view;
 	Bonobo_UIContainer container;
@@ -320,7 +320,7 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 {
 	EShellWindowPrivate *priv = window->priv;
 	GConfClient *gconf_client = gconf_client_get_default ();
-	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
+	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell.eshell);
 	EComponentInfo *info = e_component_registry_peek_info (registry,
 							       ECR_FIELD_ID,
 							       component_view->component_id);
@@ -376,7 +376,7 @@ update_offline_toggle_status (EShellWindow *window)
 
 	priv = window->priv;
 
-	switch (e_shell_get_line_status (priv->shell)) {
+	switch (e_shell_get_line_status (priv->shell.eshell)) {
 	case E_SHELL_LINE_STATUS_ONLINE:
 		icon_pixmap = online_pixmap;
 		icon_mask   = online_mask;
@@ -417,7 +417,7 @@ update_offline_toggle_status (EShellWindow *window)
 static void
 update_send_receive_sensitivity (EShellWindow *window)
 {
-	if (e_shell_get_line_status (window->priv->shell) == E_SHELL_LINE_STATUS_OFFLINE)
+	if (e_shell_get_line_status (window->priv->shell.eshell) == E_SHELL_LINE_STATUS_OFFLINE)
 		bonobo_ui_component_set_prop (window->priv->ui_component,
 					      "/commands/SendReceive",
 					      "sensitive", "0", NULL);
@@ -467,7 +467,7 @@ sidebar_button_pressed_callback (ESidebar       *sidebar,
 		ComponentView *component_view;
 
 		if ((component_view = get_component_view (window, button_id))) {
-			e_shell_create_window (window->priv->shell, 
+			e_shell_create_window (window->priv->shell.eshell, 
 					       component_view->component_id,
 					       window);
 		}
@@ -482,12 +482,12 @@ offline_toggle_clicked_callback (GtkButton *button,
 {
 	EShellWindowPrivate *priv = window->priv;
 
-	switch (e_shell_get_line_status (priv->shell)) {
+	switch (e_shell_get_line_status (priv->shell.eshell)) {
 	case E_SHELL_LINE_STATUS_ONLINE:
-		e_shell_go_offline (priv->shell, window, GNOME_Evolution_USER_OFFLINE);
+		e_shell_go_offline (priv->shell.eshell, window, GNOME_Evolution_USER_OFFLINE);
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
-		e_shell_go_online (priv->shell, window, GNOME_Evolution_USER_ONLINE);
+		e_shell_go_online (priv->shell.eshell, window, GNOME_Evolution_USER_ONLINE);
 		break;
 	default:
 		g_return_if_reached();
@@ -679,7 +679,7 @@ static void
 setup_widgets (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
-	EComponentRegistry *registry = e_shell_peek_component_registry (priv->shell);
+	EComponentRegistry *registry = e_shell_peek_component_registry (priv->shell.eshell);
 	GConfClient *gconf_client = gconf_client_get_default ();
 	GtkWidget *contents_vbox;
 	GSList *p;
@@ -871,9 +871,9 @@ impl_dispose (GObject *object)
 
 	priv->destroyed = TRUE;
 	
-	if (priv->shell != NULL) {
-		g_object_remove_weak_pointer (G_OBJECT (priv->shell), &priv->shell_pointer);
-		priv->shell = NULL;
+	if (priv->shell.eshell != NULL) {
+		g_object_remove_weak_pointer (G_OBJECT (priv->shell.eshell), &priv->shell.pointer);
+		priv->shell.eshell = NULL;
 	}
 
 	if (priv->ui_component != NULL) {
@@ -1054,8 +1054,8 @@ e_shell_window_new (EShell *shell,
 		return NULL;
 	}
 
-	window->priv->shell = shell;
-	g_object_add_weak_pointer (G_OBJECT (shell), &window->priv->shell_pointer);
+	window->priv->shell.eshell = shell;
+	g_object_add_weak_pointer (G_OBJECT (shell), &window->priv->shell.pointer);
 
 	/* FIXME TODO: Add system_exception signal handling and all the other
 	   stuff from e_shell_view_construct().  */
@@ -1163,7 +1163,7 @@ e_shell_window_peek_shell (EShellWindow *window)
 {
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
 
-	return window->priv->shell;
+	return window->priv->shell.eshell;
 }
 
 
@@ -1258,7 +1258,7 @@ e_shell_window_show_settings (EShellWindow *window)
 {
 	g_return_if_fail (E_IS_SHELL_WINDOW (window));
 
-	e_shell_show_settings (window->priv->shell, window->priv->current_view ? window->priv->current_view->component_alias : NULL, window);
+	e_shell_show_settings (window->priv->shell.eshell, window->priv->current_view ? window->priv->current_view->component_alias : NULL, window);
 }
 
 void

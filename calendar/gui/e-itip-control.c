@@ -74,17 +74,17 @@ struct _EItipControlPrivate {
 
 	/* Use the gpointer variants for weak pointers. */
 	union {
-		GtkWidget *ok;
-		gpointer ok_pointer;
-	};
+		GtkWidget *widget;
+		gpointer pointer;
+	} ok;
 	union {
-		GtkWidget *hbox;
-		gpointer hbox_pointer;
-	};
+		GtkWidget *widget;
+		gpointer pointer;
+	} hbox;
 	union {
-		GtkWidget *vbox;
-		gpointer vbox_pointer;
-	};
+		GtkWidget *widget;
+		gpointer pointer;
+	} vbox;
 	
 	char *vcalendar;
 	ECalComponent *comp;
@@ -143,13 +143,13 @@ set_ok_sens (EItipControl *itip)
 	
 	priv = itip->priv;
 
-	if (!priv->ok)
+	if (!priv->ok.widget)
 		return;
 	
 	if (priv->current_ecal)
 		e_cal_is_read_only (priv->current_ecal, &read_only, NULL);
 	
-	gtk_widget_set_sensitive (priv->ok, priv->current_ecal != NULL && !read_only);
+	gtk_widget_set_sensitive (priv->ok.widget, priv->current_ecal != NULL && !read_only);
 }
 
 static void
@@ -243,8 +243,8 @@ source_changed_cb (ESourceComboBox *escb, EItipControl *itip)
 
 	source = e_source_combo_box_get_active (escb);
 	
-	if (priv->ok)
-		gtk_widget_set_sensitive (priv->ok, FALSE);
+	if (priv->ok.widget)
+		gtk_widget_set_sensitive (priv->ok.widget, FALSE);
 
 	start_calendar_server (itip, source, priv->type, cal_opened_cb, itip);
 }
@@ -282,7 +282,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
  cleanup:
 	if (fd->count == 0) {
-		if (fd->show_selector && !priv->current_ecal && priv->vbox) {
+		if (fd->show_selector && !priv->current_ecal && priv->vbox.widget) {
 			GtkWidget *escb;
 			char *uid;
 
@@ -312,7 +312,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 				escb, "changed",
 				G_CALLBACK (source_changed_cb), fd->itip, 0);
 
-			gtk_box_pack_start (GTK_BOX (priv->vbox), escb, FALSE, TRUE, 0);
+			gtk_box_pack_start (GTK_BOX (priv->vbox.widget), escb, FALSE, TRUE, 0);
 			gtk_widget_show (escb);
 
 			/* FIXME What if there is no source? */
@@ -2209,16 +2209,16 @@ insert_boxes (GtkHTMLEmbedded *eb, EItipControl *itip)
 	
 	priv = itip->priv;
 
-	priv->vbox = gtk_vbox_new (FALSE, 12);
-	g_object_add_weak_pointer (G_OBJECT (priv->vbox), &priv->vbox_pointer);
-	gtk_container_add (GTK_CONTAINER (eb), priv->vbox);
-	gtk_widget_show (priv->vbox);
+	priv->vbox.widget = gtk_vbox_new (FALSE, 12);
+	g_object_add_weak_pointer (G_OBJECT (priv->vbox.widget), &priv->vbox.pointer);
+	gtk_container_add (GTK_CONTAINER (eb), priv->vbox.widget);
+	gtk_widget_show (priv->vbox.widget);
 
-	priv->hbox = gtk_hbox_new (FALSE, 6);
-	g_object_add_weak_pointer (G_OBJECT (priv->hbox), &priv->hbox_pointer);
+	priv->hbox.widget = gtk_hbox_new (FALSE, 6);
+	g_object_add_weak_pointer (G_OBJECT (priv->hbox.widget), &priv->hbox.pointer);
 
-	gtk_box_pack_start (GTK_BOX (priv->vbox), priv->hbox, FALSE, TRUE, 0);
-	gtk_widget_show (priv->hbox);
+	gtk_box_pack_start (GTK_BOX (priv->vbox.widget), priv->hbox.widget, FALSE, TRUE, 0);
+	gtk_widget_show (priv->hbox.widget);
 }
 
 static void
@@ -2272,15 +2272,15 @@ insert_ok (GtkWidget *hbox, EItipControl *itip)
 	EItipControlPrivate *priv;
 	priv = itip->priv;
 	
-	priv->ok = gtk_button_new_from_stock (GTK_STOCK_OK);
-	g_object_add_weak_pointer (G_OBJECT (priv->ok), &priv->ok_pointer);
+	priv->ok.widget = gtk_button_new_from_stock (GTK_STOCK_OK);
+	g_object_add_weak_pointer (G_OBJECT (priv->ok.widget), &priv->ok.pointer);
 
-	g_signal_connect (priv->ok, "clicked", G_CALLBACK (ok_clicked_cb), itip);
+	g_signal_connect (priv->ok.widget, "clicked", G_CALLBACK (ok_clicked_cb), itip);
 
 	set_ok_sens (itip);
 
-	gtk_box_pack_start (GTK_BOX (hbox), priv->ok, FALSE, TRUE, 0);
-	gtk_widget_show (priv->ok);	
+	gtk_box_pack_start (GTK_BOX (hbox), priv->ok.widget, FALSE, TRUE, 0);
+	gtk_widget_show (priv->ok.widget);	
 }
 
 static gboolean
@@ -2292,7 +2292,7 @@ publish_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
-	insert_label (priv->hbox);
+	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
 	
@@ -2303,10 +2303,10 @@ publish_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
-	gtk_box_pack_start (GTK_BOX (priv->hbox), option, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), option, FALSE, TRUE, 0);
 	gtk_widget_show (option);
 
-	insert_ok (priv->hbox, itip);
+	insert_ok (priv->hbox.widget, itip);
 
 	return TRUE;
 }
@@ -2320,7 +2320,7 @@ request_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
-	insert_label (priv->hbox);
+	insert_label (priv->hbox.widget);
 	
 	option = gtk_option_menu_new ();
 	
@@ -2333,11 +2333,11 @@ request_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
-	gtk_box_pack_start (GTK_BOX (priv->hbox), option, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), option, FALSE, TRUE, 0);
 	gtk_widget_show (option);
 
-	insert_rsvp (priv->hbox, itip);
-	insert_ok (priv->hbox, itip);
+	insert_rsvp (priv->hbox.widget, itip);
+	insert_ok (priv->hbox.widget, itip);
 
 	return TRUE;
 }
@@ -2351,7 +2351,7 @@ freebusy_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
-	insert_label (priv->hbox);
+	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
 	
@@ -2362,10 +2362,10 @@ freebusy_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
-	gtk_container_add (GTK_CONTAINER (priv->hbox), option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
 	gtk_widget_show (option);
 
-	insert_ok (priv->hbox, itip);
+	insert_ok (priv->hbox.widget, itip);
 
 	return TRUE;
 }
@@ -2379,7 +2379,7 @@ reply_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
-	insert_label (priv->hbox);
+	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
 	
@@ -2390,10 +2390,10 @@ reply_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
-	gtk_container_add (GTK_CONTAINER (priv->hbox), option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
 	gtk_widget_show (option);
 
-	insert_ok (priv->hbox, itip);
+	insert_ok (priv->hbox.widget, itip);
 
 	return TRUE;
 }
@@ -2407,7 +2407,7 @@ refresh_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
-	insert_label (priv->hbox);
+	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
 	
@@ -2418,10 +2418,10 @@ refresh_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
-	gtk_container_add (GTK_CONTAINER (priv->hbox), option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
 	gtk_widget_show (option);
 
-	insert_ok (priv->hbox, itip);
+	insert_ok (priv->hbox.widget, itip);
 
 	return TRUE;
 }
@@ -2435,7 +2435,7 @@ cancel_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
-	insert_label (priv->hbox);
+	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
 	
@@ -2446,10 +2446,10 @@ cancel_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
-	gtk_container_add (GTK_CONTAINER (priv->hbox), option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
 	gtk_widget_show (option);
 
-	insert_ok (priv->hbox, itip);
+	insert_ok (priv->hbox.widget, itip);
 
 	return TRUE;
 }

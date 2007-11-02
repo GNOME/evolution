@@ -1,3 +1,11 @@
+2007-11-02  Damien Carbery  <damien.carbery@sun.com>
+
+	** Fixes bug #492058
+
+	* e-table-header-item.h:
+	* e-table-header-item.c: Name the anonymous unions to build
+	with the Sun Studio compiler.
+
 2007-11-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #463946

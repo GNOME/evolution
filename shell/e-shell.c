@@ -99,9 +99,9 @@ struct _EShellPrivate {
 
 	/* Settings Dialog */
 	union {
-		GtkWidget *settings_dialog;
-		gpointer settings_dialog_pointer;
-	};
+		GtkWidget *widget;
+		gpointer pointer;
+	} settings_dialog;
 
 	/* If we're quitting and things are still busy, a timeout handler */
 	guint quit_timeout;
@@ -454,9 +454,9 @@ impl_dispose (GObject *object)
 	/* No unreffing for these as they are aggregate.  */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */
 
-	if (priv->settings_dialog != NULL) {
-		gtk_widget_destroy (priv->settings_dialog);
-		priv->settings_dialog = NULL;
+	if (priv->settings_dialog.widget != NULL) {
+		gtk_widget_destroy (priv->settings_dialog.widget);
+		priv->settings_dialog.widget = NULL;
 	}
 
 	if (priv->line_status_listener) {
@@ -1249,21 +1249,21 @@ e_shell_show_settings (EShell *shell,
 
 	priv = shell->priv;
 	
-	if (priv->settings_dialog != NULL) {
-		gdk_window_show (priv->settings_dialog->window);
-		gtk_widget_grab_focus (priv->settings_dialog);
+	if (priv->settings_dialog.widget != NULL) {
+		gdk_window_show (priv->settings_dialog.widget->window);
+		gtk_widget_grab_focus (priv->settings_dialog.widget);
 		return;
 	}
 	
-	priv->settings_dialog = e_shell_settings_dialog_new ();
+	priv->settings_dialog.widget = e_shell_settings_dialog_new ();
 
 	if (type != NULL)
-		e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
+		e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog.widget), type);
 
-	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog), &priv->settings_dialog_pointer);
+	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog.widget), &priv->settings_dialog.pointer);
 
-	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog), GTK_WINDOW (shell_window));
-	gtk_widget_show (priv->settings_dialog);
+	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog.widget), GTK_WINDOW (shell_window));
+	gtk_widget_show (priv->settings_dialog.widget);
 }
 
 

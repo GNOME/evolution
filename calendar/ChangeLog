@@ -1,3 +1,10 @@
+2007-11-02  Damien Carbery  <damien.carbery@sun.com>
+
+	** Fixes bug #492058
+
+	* gui/e-itip-control.c: Name the anonymous unions to build
+	with the Sun Studio compiler.
+
 2007-10-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/alarm-notify/alarm-notify.glade:

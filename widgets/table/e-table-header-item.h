@@ -98,9 +98,9 @@ typedef struct {
 	void            *config;
 
 	union {
-		GtkWidget *etfcd;
-		gpointer etfcd_pointer;
-	};
+		GtkWidget *widget;
+		gpointer pointer;
+	} etfcd;
 
 	/* For keyboard navigation*/
 	int selected_col;

@@ -142,8 +142,8 @@ ethi_dispose (GObject *object){
 		g_object_unref (ethi->full_header);
 	ethi->full_header = NULL;
 
-	if (ethi->etfcd)
-		g_object_remove_weak_pointer (G_OBJECT (ethi->etfcd), &ethi->etfcd_pointer);
+	if (ethi->etfcd.widget)
+		g_object_remove_weak_pointer (G_OBJECT (ethi->etfcd.widget), &ethi->etfcd.pointer);
 
 	if (ethi->config)
 		g_object_unref (ethi->config);
@@ -1359,7 +1359,7 @@ ethi_popup_remove_column(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 {
-	GtkWidget *etfcd = info->ethi->etfcd;
+	GtkWidget *etfcd = info->ethi->etfcd.widget;
 
 	if (etfcd) {
 		gtk_window_present (GTK_WINDOW (etfcd));
@@ -1367,12 +1367,12 @@ ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 		return;
 	}
 	
-	info->ethi->etfcd = e_table_field_chooser_dialog_new ();
-	etfcd = info->ethi->etfcd;
+	info->ethi->etfcd.widget = e_table_field_chooser_dialog_new ();
+	etfcd = info->ethi->etfcd.widget;
 
-	g_object_add_weak_pointer (G_OBJECT (etfcd), &info->ethi->etfcd_pointer);
+	g_object_add_weak_pointer (G_OBJECT (etfcd), &info->ethi->etfcd.pointer);
 	
-	g_object_set (info->ethi->etfcd,
+	g_object_set (info->ethi->etfcd.widget,
 		     "full_header", info->ethi->full_header,
 		     "header", info->ethi->eth,
 		     "dnd_code", info->ethi->dnd_code,
