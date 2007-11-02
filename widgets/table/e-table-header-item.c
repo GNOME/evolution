@@ -1368,6 +1368,7 @@ ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 	}
 	
 	info->ethi->etfcd = e_table_field_chooser_dialog_new ();
+	etfcd = info->ethi->etfcd;
 
 	g_object_add_weak_pointer (G_OBJECT (etfcd), &info->ethi->etfcd_pointer);
 	

@@ -1,3 +1,10 @@
+2007-11-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #463946
+
+	* e-table-header-item.c: (ethi_popup_field_chooser):
+	Fix of critical warning and misused variable.
+
 2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-table-click-to-add.c (etcta_add_message):
