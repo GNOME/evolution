@@ -1,3 +1,20 @@
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove dead files from source control.  The dates below
+	   indicate when the file was removed from Makefile.am.
+	   Fixes part of bug #478704.
+
+	* gui/dialogs/calendar-setup.glade	(Nov 2004)
+	* gui/dialogs/meeting-page.etspec	(Sep 2003)
+	* gui/dialogs/new-calendar.glade	(Jan 2003)
+	* gui/dialogs/new-task-list.glade	(Jan 2004)
+	* gui/dialogs/url-editor-dialog.c	(Dec 2005)
+	* gui/dialogs/url-editor-dialog.glade	(Dec 2005)
+	* gui/dialogs/url-editor-dialog.h	(Dec 2005)
+	* gui/e-pub-utils.c			(Dec 2005)
+	* gui/e-pub-utils.h			(Dec 2005)
+	* gui/gnome-calendar-conduit.png	(May 2000)
+
 2007-11-02  Damien Carbery  <damien.carbery@sun.com>
 
 	** Fixes bug #492058

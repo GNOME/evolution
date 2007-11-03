@@ -1,3 +1,12 @@
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove dead files from source control.  The dates below
+	   indicate when the file was removed from Makefile.am.
+	   Fixes part of bug #478704.
+
+	* e-categories-master-list-wombat.c	(Jun 2005)
+	* e-categories-master-list-wombat.h	(Jun 2005)
+
 2007-10-26  Sankar P  <psankar@novell.com>
 
 	** Fix for bug #461272

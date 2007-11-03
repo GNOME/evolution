@@ -1,3 +1,15 @@
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove dead files from source control.  The dates below
+	   indicate when the file was removed from Makefile.am.
+	   Fixes part of bug #478704.
+
+	* tools/evolution-launch-composer.c	(Jun 2003)
+
+	* configure.in:
+	Remove plugins/mail-remote/Makefile from AC_OUTPUT.
+	Fixes a distcheck error.
+
 2007-10-31  Priit Laes  <plaes@svn.gnome.org>
 	
 	* addressbook/gui/widgets/eab-vcard-control.c: Remove debugging output.

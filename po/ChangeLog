@@ -1,3 +1,7 @@
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* POTFILES.in: Remove files for mail-remote plugin.
+
 2007-11-01  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation

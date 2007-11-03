@@ -1959,7 +1959,6 @@ plugins/attachment-reminder/Makefile
 plugins/mail-notification/Makefile
 plugins/mail-to-meeting/Makefile
 plugins/mail-to-task/Makefile
-plugins/mail-remote/Makefile
 plugins/mono/Makefile
 plugins/new-mail-notify/Makefile
 plugins/subject-thread/Makefile

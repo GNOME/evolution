@@ -1,3 +1,14 @@
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove dead files from source control.  The dates below
+	   indicate when the file was removed from Makefile.am.
+	   Fixes part of bug #478704.
+
+	* printing/e-contact-print-envelope.c	(Apr 2007)
+	* printing/e-contact-print-envelope.h	(Apr 2007)
+	* tools/evolution-addressbook-abuse.c	(May 2004)
+	* tools/evolution-addressbook-import.c	(no history)
+
 2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #484064

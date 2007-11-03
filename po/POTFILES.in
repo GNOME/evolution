@@ -362,10 +362,6 @@ plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
 plugins/mail-notification/apps-evolution-mail-notification.schemas.in
 plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
-plugins/mail-remote/client.c
-plugins/mail-remote/e-corba-utils.c
-plugins/mail-remote/evolution-mail-store.c
-plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml
 plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
 plugins/mail-to-task/org-gnome-mail-to-task.xml
