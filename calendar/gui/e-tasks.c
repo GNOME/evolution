@@ -340,6 +340,7 @@ static void
 config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	process_completed_tasks (data, TRUE);
+	update_view (data);
 }
 
 static void

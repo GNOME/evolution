@@ -1,5 +1,12 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #491345
+
+	* gui/e-tasks.c: (config_hide_completed_tasks_changed_cb):
+	Also change default filter for tasks, to let this work without restart.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #353780
 
 	* gui/dialogs/comp-editor.h: (comp_editor_get_current_comp):
