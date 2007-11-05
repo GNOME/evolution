@@ -1633,7 +1633,7 @@ html_contains_nonwhitespace (const char *html, gint len)
 static void
 emfv_message_reply(EMFolderView *emfv, int mode)
 {
-	char *html;
+	char *html = NULL;
 	gint len;
 	
 	if (emfv->list->cursor_uid == NULL)
@@ -1666,6 +1666,8 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 	} else {
 		em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, NULL, mode, (EMFormat *)emfv->preview);
 	}
+
+	g_free (html);
 }
 
 static void

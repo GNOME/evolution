@@ -1,5 +1,15 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #334675
+
+	* mail-to-task.c: (do_mail_to_task), (text_contains_nonwhitespace),
+	(get_selected_text), (convert_to_task), (org_gnome_mail_to_task),
+	(org_gnome_mail_to_task_menu):
+	When selected only one message, then try to use selected text in
+	preview as description, instead of whole message body.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #353779
 
 	* org-gnome-mail-to-task.eplug.xml:

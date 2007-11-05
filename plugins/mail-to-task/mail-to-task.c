@@ -28,12 +28,16 @@
 #include "mail/em-menu.h"
 #include "mail/em-popup.h"
 #include "mail/em-utils.h"
+#include "mail/em-folder-view.h"
+#include "mail/em-format-html.h"
+#include <gtkhtml/gtkhtml.h>
 #include <calendar/common/authentication.h>
 
 typedef struct {
 	ECal *client;
 	struct _CamelFolder *folder;
 	GPtrArray *uids;
+	char *selected_text;
 }AsyncData;
 
 static char *
@@ -285,7 +289,17 @@ do_mail_to_task (AsyncData *data)
 			e_cal_component_set_summary (comp, &text);
 
 			/* set all fields */
-			set_description (comp, message);
+			if (data->selected_text) {
+				GSList sl;
+
+				text.value = data->selected_text;
+				text.altrep = NULL;
+				sl.next = NULL;
+				sl.data = &text;
+
+				e_cal_component_set_description_list (comp, &sl);
+			} else
+				set_description (comp, message);
 			set_organizer (comp, message);
 			set_attendees (comp, message);
 
@@ -308,6 +322,7 @@ do_mail_to_task (AsyncData *data)
 	/* free memory */
 	g_object_unref (data->client);
 	g_ptr_array_free (data->uids, TRUE);
+	g_free (data->selected_text);
 	g_free (data);
 	data = NULL;
 
@@ -323,8 +338,55 @@ copy_uids (char *uid, GPtrArray *uid_array)
 	g_ptr_array_add (uid_array, g_strdup (uid));
 }
 
+static gboolean
+text_contains_nonwhitespace (const char *text, gint len)
+{
+	const char *p;
+	gunichar c = 0;
+
+	if (!text || len<=0)
+		return FALSE;
+
+	p = text;
+
+	while (p && p - text < len) {
+		c = g_utf8_get_char (p);
+		if (!c)
+			break;
+
+		if (!g_unichar_isspace (c))
+			break;
+
+		p = g_utf8_next_char (p);
+	}
+
+	return p - text < len - 1 && c != 0;
+}
+
+/* should be freed with g_free after done with it */
+static char *
+get_selected_text (EMFolderView *emfv)
+{
+	char *text = NULL;
+	gint len;
+
+	if (!emfv || !emfv->preview || !gtk_html_command (((EMFormatHTML *)emfv->preview)->html, "is-selection-active"))
+		return NULL;
+
+	if (gtk_html_command (((EMFormatHTML *)emfv->preview)->html, "is-selection-active")
+	    && (text = gtk_html_get_selection_plain_text (((EMFormatHTML *)emfv->preview)->html, &len))
+	    && len && text && text[0] && text_contains_nonwhitespace (text, len)) {
+		/* selection is ok, so use it as returned from gtkhtml widget */
+	} else {
+		g_free (text);
+		text = NULL;
+	}
+
+	return text;
+}
+
 static void
-convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder)
+convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder, EMFolderView *emfv)
 {
 	GtkWidget *dialog;
 	GConfClient *conf_client;
@@ -366,6 +428,11 @@ convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder)
 			data->folder = folder; 
 			data->uids = uid_array;
 
+			if (uid_array->len == 1)
+				data->selected_text = get_selected_text (emfv);
+			else
+				data->selected_text = NULL;
+
 			thread = g_thread_create ((GThreadFunc) do_mail_to_task, data, FALSE, &error);
 			if (!thread) {
 				g_warning (G_STRLOC ": %s", error->message);
@@ -396,7 +463,7 @@ org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
 		return;
 	}
 
-	convert_to_task (uid_array, t->folder);
+	convert_to_task (uid_array, t->folder, (EMFolderView *) t->target.widget);
 }
 
 void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t)
@@ -413,7 +480,7 @@ void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t)
 		return;
 	}
 
-	convert_to_task (uid_array, t->folder);
+	convert_to_task (uid_array, t->folder, (EMFolderView *) t->target.widget);
 }
 
 int e_plugin_lib_enable(EPluginLib *ep, int enable);
