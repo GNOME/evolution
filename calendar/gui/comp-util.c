@@ -432,3 +432,72 @@ cal_comp_util_get_n_icons (ECalComponent *comp)
 
 	return num_icons;
 }
+
+/**
+ * cal_comp_selection_set_string_list
+ * Stores list of strings into selection target data.
+ * Use @ref cal_comp_selection_get_string_list to get this list from target data.
+ *
+ * @param data Selection data, where to put list of strings.
+ * @param str_list List of strings. (Each element is of type const gchar *.)
+ **/
+void
+cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
+{
+	/* format is "str1\0str2\0...strN\0" */
+	GSList *p;
+	GByteArray *array;
+
+	g_return_if_fail (data != NULL);
+
+	if (!str_list)
+		return;
+
+	array = g_byte_array_new ();
+	for (p = str_list; p; p = p->next) {
+		const guint8 *c = p->data;
+
+		if (c)
+			g_byte_array_append (array, c, strlen ((const char *) c) + 1);
+	}
+
+	gtk_selection_data_set (data, data->target, 8, array->data, array->len);
+	g_byte_array_free (array, TRUE);
+}
+
+/**
+ * cal_comp_selection_get_string_list
+ * Converts data from selection to list of strings. Data should be assigned
+ * to selection data with @ref cal_comp_selection_set_string_list.
+ * Each string in newly created list should be freed by g_free.
+ * List itself should be freed by g_slist_free.
+ *
+ * @param data Selection data, where to put list of strings.
+ * @return Newly allocated GSList of strings.
+ **/
+GSList *
+cal_comp_selection_get_string_list (GtkSelectionData *data)
+{
+	/* format is "str1\0str2\0...strN\0" */
+	char *inptr, *inend;
+	GSList *list;
+
+	g_return_val_if_fail (data != NULL, NULL);
+
+	list = NULL;
+	inptr = (char *)data->data;
+	inend = (char *)(data->data + data->length);
+
+	while (inptr < inend) {
+		char *start = inptr;
+
+		while (inptr < inend && *inptr)
+			inptr++;
+
+		list = g_slist_prepend (list, g_strndup (start, inptr - start));
+
+		inptr++;
+	}
+
+	return list;
+}

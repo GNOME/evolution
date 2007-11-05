@@ -1,5 +1,27 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #315101
+
+	* drag and drop to other source for multiselect
+	* gui/comp-util.h:
+	* gui/comp-util.c: (cal_comp_selection_set_string_list),
+	(cal_comp_selection_get_string_list): Two new helper functions
+	to set and get list of strings into GtkSelectionData.
+	* gui/e-tasks.c: (get_selected_components_cb),
+	(do_for_selected_components), (obtain_list_of_components),
+	(table_drag_data_get):
+	* gui/e-memos.c: (get_selected_components_cb),
+	(do_for_selected_components), (obtain_list_of_components),
+	(table_drag_data_get): Pass list of selected components as data
+	for drag and drop instead of focused component from the list.
+	* gui/e-tasks.c: (table_drag_data_delete):
+	* gui/e-memos.c: (table_drag_data_delete): Obsolete now.
+	* gui/tasks-component.c: (selector_tree_drag_data_received):
+	* gui/memos-component.c: (selector_tree_drag_data_received):
+	Receiving list of components, so made changes here to reflect it.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #318604
 
 	* Enable source when adding event to disabled source.

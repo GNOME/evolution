@@ -742,6 +742,8 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	gboolean success = FALSE;
 	icalcomponent *icalcomp = NULL;
 	ECal *client = NULL;
+	GSList *components, *p;
+	TasksComponent *component = TASKS_COMPONENT (user_data);
 
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
@@ -755,48 +757,92 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	
 	gtk_tree_model_get (model, &iter, 0, &source, -1);
 
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source))
+	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source) || !data->data)
 		goto finish;
 
-	icalcomp = icalparser_parse_string ((char *)data->data);
+	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 
-	if (icalcomp) {
+	if (!client || !e_cal_open (client, TRUE, NULL))
+		goto  finish;
+
+	components = cal_comp_selection_get_string_list (data);
+	for (p = components; p; p = p->next) {
 		const char * uid;
-		
+		char *old_uid = NULL;
+		icalcomponent *tmp_icalcomp = NULL;
+		GError *error = NULL;
+		char *comp_str; /* do not free this! */
+
+		/* p->data is "source_uid\ncomponent_string" */
+		comp_str = strchr (p->data, '\n');
+		if (!comp_str)
+			continue;
+
+		comp_str [0] = 0;
+		comp_str++;
+		icalcomp = icalparser_parse_string (comp_str);
+
+		if (!icalcomp)
+			continue;
+
 		/* FIXME deal with GDK_ACTION_ASK */
 		if (context->action == GDK_ACTION_COPY) {
+			old_uid = g_strdup (icalcomponent_get_uid (icalcomp));
 			uid = e_cal_component_gen_uid ();
 			icalcomponent_set_uid (icalcomp, uid);
 		}
 
-		client = auth_new_cal_from_source (source, 
-						   E_CAL_SOURCE_TYPE_TODO);
-		
-		if (client) {
-			if (e_cal_open (client, TRUE, NULL)) {
-				icalcomponent *tmp_icalcomp = NULL;
-				GError *error = NULL;
-				uid = icalcomponent_get_uid (icalcomp);
-				if (!e_cal_get_object (client, uid, NULL, &tmp_icalcomp, &error)) {
-			        	if ((error != NULL) && (error->code != E_CALENDAR_STATUS_OBJECT_NOT_FOUND))
-						 g_message ("Failed to search the object in destination task list: %s",error->message);
-					else {
-						success = TRUE;
-						update_objects (client, icalcomp);
-					}
+		uid = icalcomponent_get_uid (icalcomp);
+		if (!old_uid)
+			old_uid = g_strdup (uid);
 
-					g_clear_error (&error);
-				} else 
-					icalcomponent_free (tmp_icalcomp);
+		if (!e_cal_get_object (client, uid, NULL, &tmp_icalcomp, &error)) {
+			if ((error != NULL) && (error->code != E_CALENDAR_STATUS_OBJECT_NOT_FOUND))
+				g_message ("Failed to search the object in destination task list: %s",error->message);
+			else {
+				/* this will report success by last item, but we don't care */
+				success = update_objects (client, icalcomp);
+
+				if (success && context->action == GDK_ACTION_MOVE) {
+					/* remove components rather here, because we know which has been moved */
+					ESource *source_source;
+					ECal *source_client;
+
+					source_source = e_source_list_peek_source_by_uid (component->priv->source_list, p->data);
+
+					if (source_source && !E_IS_SOURCE_GROUP (source_source) && !e_source_get_readonly (source_source)) {
+						source_client = auth_new_cal_from_source (source_source, E_CAL_SOURCE_TYPE_TODO);
+
+						if (source_client) {
+							gboolean read_only = TRUE;
+
+							e_cal_is_read_only (source_client, &read_only, NULL);
+
+							if (!read_only && e_cal_open (source_client, TRUE, NULL))
+								e_cal_remove_object (source_client, old_uid, NULL);
+							else if (!read_only)
+								g_message ("Cannot open source client to remove old task");
+
+							g_object_unref (source_client);
+						} else
+							g_message ("Cannot create source client to remove old task");
+					}
+				}
 			}
 
-			g_object_unref (client);
-		}
+			g_clear_error (&error);
+		} else
+			icalcomponent_free (tmp_icalcomp);
 
+		g_free (old_uid);
 		icalcomponent_free (icalcomp);
 	}
+	g_slist_foreach (components, (GFunc)g_free, NULL);
+	g_slist_free (components);
 
  finish:
+	if (client)
+		g_object_unref (client);
 	if (source)
 		g_object_unref (source);
 	if (path)

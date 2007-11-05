@@ -429,6 +429,94 @@ setup_config (ETasks *tasks)
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 }
 
+struct AffectedComponents {
+	ECalendarTable *cal_table;
+	GSList *components; /* contains pointers to ECalModelComponent */
+};
+
+/**
+ * get_selected_components_cb
+ * Helper function to fill list of selected components in ECalendarTable.
+ * This function is called from e_table_selected_row_foreach.
+ **/
+static void
+get_selected_components_cb (int model_row, gpointer data)
+{
+	struct AffectedComponents *ac = (struct AffectedComponents *) data;
+
+	if (!ac || !ac->cal_table)
+		return;
+
+	ac->components = g_slist_prepend (ac->components, e_cal_model_get_component_at (E_CAL_MODEL (ac->cal_table->model), model_row));
+}
+
+/**
+ * do_for_selected_components
+ * Calls function func for all selected components in cal_table.
+ *
+ * @param cal_table Table with selected components of our interest.
+ * @param func Function to be called on each selected component from cal_table.
+ *        The first parameter of this function is a pointer to ECalModelComponent and
+ *        the second parameter of this function is pointer to cal_table
+ * @param user_data User data, will be passed to func.
+ **/
+static void
+do_for_selected_components (ECalendarTable *cal_table, GFunc func, gpointer user_data)
+{
+	ETable *etable;
+	struct AffectedComponents ac;
+
+	g_return_if_fail (cal_table != NULL);
+
+	ac.cal_table = cal_table;
+	ac.components = NULL;
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, get_selected_components_cb, &ac);
+
+	g_slist_foreach (ac.components, func, user_data);
+	g_slist_free (ac.components);
+}
+
+/**
+ * obtain_list_of_components
+ * As a callback function to convert each ECalModelComponent to string
+ * of format "source_uid\ncomponent_str" and add this newly allocated
+ * string to the list of components. Strings should be freed with g_free.
+ *
+ * @param data ECalModelComponent object.
+ * @param user_data Pointer to GSList list, where to put new strings.
+ **/
+static void
+obtain_list_of_components (gpointer data, gpointer user_data)
+{
+	GSList **list;
+	ECalModelComponent *comp_data;
+
+	list = (GSList **) user_data;
+	comp_data = (ECalModelComponent *) data;
+
+	if (list && comp_data) {
+		char *comp_str;
+		icalcomponent *vcal;
+
+		vcal = e_cal_util_new_top_level ();
+		e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
+		icalcomponent_add_component (vcal, icalcomponent_new_clone (comp_data->icalcomp));
+
+		comp_str = icalcomponent_as_ical_string (vcal);
+		if (comp_str) {
+			ESource *source = e_cal_get_source (comp_data->client);
+			const char *source_uid = e_source_peek_uid (source);
+
+			*list = g_slist_prepend (*list, g_strdup_printf ("%s\n%s", source_uid, comp_str));
+			g_free (comp_str);
+		}
+
+		icalcomponent_free (vcal);
+	}
+}
+
 static void
 table_drag_data_get (ETable             *table,
 		     int                 row,
@@ -440,33 +528,20 @@ table_drag_data_get (ETable             *table,
 		     ETasks             *tasks)
 {
 	ETasksPrivate *priv;
-	ECalModelComponent *comp_data;
 
 	priv = tasks->priv;
 
-	if (priv->current_uid) {
-		ECalModel *model;
+	if (info == TARGET_VCALENDAR) {
+		/* we will pass an icalcalendar component for both types */
+		GSList *components = NULL;
 
-		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-		comp_data = e_cal_model_get_component_at (model, row);
+		do_for_selected_components (E_CALENDAR_TABLE (priv->tasks_view), obtain_list_of_components, &components);
 
-		if (info == TARGET_VCALENDAR) {
-			/* we will pass an icalcalendar component for both types */
-			char *comp_str;
-			icalcomponent *vcal;
-		
-			vcal = e_cal_util_new_top_level ();
-			e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
-			icalcomponent_add_component (
-			        vcal,
-				icalcomponent_new_clone (comp_data->icalcomp));
+		if (components) {
+			cal_comp_selection_set_string_list (selection_data, components);
 
-			comp_str = icalcomponent_as_ical_string (vcal);
-			if (comp_str) {
-				gtk_selection_data_set (selection_data, selection_data->target,
-							8, (unsigned char *)comp_str, strlen (comp_str));
-			}
-			icalcomponent_free (vcal);
+			g_slist_foreach (components, (GFunc)g_free, NULL);
+			g_slist_free (components);
 		}
 	}
 }
@@ -501,21 +576,11 @@ table_drag_data_delete (ETable         *table,
 			GdkDragContext *context,
 			ETasks         *tasks)
 {
-	ETasksPrivate *priv;
-	ECalModelComponent *comp_data;
-	ECalModel *model;
-	gboolean read_only = TRUE;
-	priv = tasks->priv;
-	
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	comp_data = e_cal_model_get_component_at (model, row);
-
-	e_cal_is_read_only (comp_data->client, &read_only, NULL);
-	if (read_only)
-		return;
-
-	if(gdk_drag_drop_succeeded(context))
-		e_cal_remove_object (comp_data->client, icalcomponent_get_uid (comp_data->icalcomp), NULL);
+	/* Moved components are deleted from source immediately when moved,
+	   because some of them can be part of destination source, and we
+	   don't want to delete not-moved tasks. There is no such information
+	   which event has been moved and which not, so skip this method.
+	*/
 }
 
 #define E_TASKS_TABLE_DEFAULT_STATE					\
