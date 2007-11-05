@@ -45,13 +45,14 @@
 #include <gtk/gtkarrow.h>
 #include <gtk/gtkbbox.h>
 #include <gtk/gtkbutton.h>
-#include <gtk/gtkcombo.h>
+#include <gtk/gtkcomboboxentry.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkcelllayout.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkhbbox.h>
 #include <gtk/gtklabel.h>
-#include <gtk/gtklist.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkvbox.h>
@@ -181,7 +182,7 @@ static gboolean e_date_edit_parse_date		(EDateEdit	*dedit,
 static gboolean e_date_edit_parse_time		(EDateEdit	*dedit,
 						 const gchar	*time_text,
 						 struct tm	*time_tm);
-static void on_date_edit_time_selected		(GtkList	*list,
+static void on_date_edit_time_selected		(GtkComboBox	*combo,
 						 EDateEdit	*dedit);
 static gint on_time_entry_key_press		(GtkWidget	*widget,
 						 GdkEventKey	*event,
@@ -332,6 +333,8 @@ create_children			(EDateEdit	*dedit)
 	GtkWidget *frame, *arrow;
 	GtkWidget *vbox, *bbox;
 	AtkObject *a11y;
+	GtkListStore *time_store;
+	GList *cells;
 
 	priv = dedit->priv;
 
@@ -375,29 +378,49 @@ create_children			(EDateEdit	*dedit)
 	priv->space = gtk_drawing_area_new ();
 	gtk_box_pack_start (GTK_BOX (dedit), priv->space, FALSE, FALSE, 2);
 
+	gtk_rc_parse_string (
+		"style \"e-dateedit-timecombo-style\" {\n"
+		"  GtkComboBox::appears-as-list = 1\n"
+		"}\n"
+		"\n"
+		"widget \"*.e-dateedit-timecombo\" style \"e-dateedit-timecombo-style\"");
 
-	priv->time_combo = gtk_combo_new ();
+	time_store = gtk_list_store_new (1, G_TYPE_STRING);
+	priv->time_combo = gtk_combo_box_entry_new_with_model (GTK_TREE_MODEL (time_store), 0);
+	g_object_unref (time_store);
+	
+	/* We need to make sure labels are right-aligned, since we want digits to line up,
+	 * and with a nonproportional font, the width of a space != width of a digit.
+	 * Technically, only 12-hour format needs this, but we do it always, for consistency. */
+	g_object_set (GTK_BIN (priv->time_combo)->child, "xalign", 1.0, NULL);
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (priv->time_combo));
+	if (cells) {
+		g_object_set (GTK_CELL_RENDERER (cells->data), "xalign", 1.0, NULL);
+		g_list_free (cells);
+	}
+
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
-	gtk_widget_set_size_request (priv->time_combo, 110, -1);	
+	gtk_widget_set_size_request (priv->time_combo, 110, -1);
+	gtk_widget_set_name (priv->time_combo, "e-dateedit-timecombo");
 	rebuild_time_popup (dedit);
 	a11y = gtk_widget_get_accessible (priv->time_combo);
 	atk_object_set_description (a11y, _("Combo box to select time"));
 	atk_object_set_name (a11y, _("Time"));
 
-	g_signal_connect (GTK_COMBO (priv->time_combo)->entry,
+	g_signal_connect (GTK_BIN (priv->time_combo)->child,
 			  "key_press_event",
 			  G_CALLBACK (on_time_entry_key_press),
 			  dedit);
-	g_signal_connect (GTK_COMBO (priv->time_combo)->entry,
+	g_signal_connect (GTK_BIN (priv->time_combo)->child,
 			  "key_release_event",
 			  G_CALLBACK (on_time_entry_key_release),
 			  dedit);
-	g_signal_connect_after (GTK_COMBO (priv->time_combo)->entry,
+	g_signal_connect_after (GTK_BIN (priv->time_combo)->child,
 				"focus_out_event",
 				G_CALLBACK (on_time_entry_focus_out),
 				dedit);
-	g_signal_connect_after (GTK_COMBO (priv->time_combo)->list,
-				"selection_changed",
+	g_signal_connect_after (priv->time_combo,
+				"changed",
 				G_CALLBACK (on_date_edit_time_selected),
 				dedit);
 
@@ -523,7 +546,7 @@ e_date_edit_grab_focus		(GtkWidget	*widget)
 	if (dedit->priv->show_date)
 		gtk_widget_grab_focus (dedit->priv->date_entry);
 	else
-		gtk_widget_grab_focus (GTK_COMBO (dedit->priv->time_combo)->entry);
+		gtk_widget_grab_focus (GTK_BIN (dedit->priv->time_combo)->child);
 }
 
 
@@ -1398,17 +1421,16 @@ static void
 rebuild_time_popup			(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	GtkList *list;
-	GtkWidget *listitem, *label;
+	GtkComboBox *combo;
 	char buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 
 	priv = dedit->priv;
 
-	list = GTK_LIST (GTK_COMBO (priv->time_combo)->list);
+	combo = GTK_COMBO_BOX (priv->time_combo);
 
-	gtk_list_clear_items (list, 0, -1);
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo)));
 
 	/* Fill the struct tm with some sane values. */
 	tmp_tm.tm_year = 2000;
@@ -1443,16 +1465,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 			if (!priv->use_24_hour_format && buffer [0] == '0')
 				buffer [0] = ' ';
 
-			/* We need to make sure labels are right-aligned, since we want digits to line up,
-			 * and with a nonproportional font, the width of a space != width of a digit.
-			 * Technically, only 12-hour format needs this, but we do it always, for consistency. */
-			listitem = gtk_list_item_new ();
-			label = gtk_label_new (buffer);
-			gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
-			gtk_container_add (GTK_CONTAINER (listitem), label);
-
-			gtk_widget_show_all (listitem);
-			gtk_container_add (GTK_CONTAINER (list), listitem);
+			gtk_combo_box_append_text (combo, buffer);
 		}
 	}
 }
@@ -1510,18 +1523,15 @@ field_set_to_none (const char *text)
 
 
 static void
-on_date_edit_time_selected	(GtkList	*list,
+on_date_edit_time_selected	(GtkComboBox	*combo,
 				 EDateEdit	*dedit)
 {
-	GtkWidget *toplevel;
-
 	/* We only want to emit signals when an item is selected explicitly,
 	   not when it is selected by the silly combo update thing. */
-	if (!list->selection)
+	if (gtk_combo_box_get_active (combo) == -1)
 		return;
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (list));
-	if (!GTK_WIDGET_MAPPED (toplevel))
+	if (!GTK_WIDGET_MAPPED (GTK_BIN (combo)->child))
 		return;
 
 	e_date_edit_check_time_changed (dedit);
@@ -1568,7 +1578,7 @@ on_time_entry_key_press			(GtkWidget	*widget,
 #endif
 		g_signal_stop_emission_by_name (widget,
 						"key_press_event");
-		g_signal_emit_by_name (GTK_COMBO (dedit->priv->time_combo)->entry, "activate", 0);
+		g_signal_emit_by_name (GTK_BIN (dedit->priv->time_combo)->child, "activate", 0);
 		return TRUE;
 	}
 
@@ -1744,8 +1754,13 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 	priv = dedit->priv;
 
 	if (priv->time_set_to_none || !priv->time_is_valid) {
-		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry), "");
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->time_combo), -1);
+		gtk_entry_set_text (GTK_ENTRY (GTK_BIN (priv->time_combo)->child), "");
 	} else {
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		char *b;
+
 		/* Set these to reasonable values just in case. */
 		tmp_tm.tm_year = 2000;
 		tmp_tm.tm_mon = 0;
@@ -1764,8 +1779,41 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 			/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
 			e_time_format_time (&tmp_tm, 0, 0, buffer, sizeof (buffer));
 
-		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
+		/* For 12-hour am/pm format, we want space padding, not zero padding. This
+		 * can be done with strftime's %l, but it's a potentially unportable extension. */
+		if (!priv->use_24_hour_format && buffer [0] == '0')
+			buffer [0] = ' ';
+
+		gtk_entry_set_text (GTK_ENTRY (GTK_BIN (priv->time_combo)->child),
 				    buffer);
+
+		/* truncate left spaces */
+		b = buffer;
+		while (*b == ' ')
+			b++;
+
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->time_combo));
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
+			do {
+				char *text = NULL;
+
+				gtk_tree_model_get (model, &iter, 0, &text, -1);
+				if (text) {
+					char *t = text;
+
+					/* truncate left spaces */
+					while (*t == ' ')
+						t++;
+
+					if (strcmp (b, t) == 0) {
+						gtk_combo_box_set_active_iter (GTK_COMBO_BOX (priv->time_combo), &iter);
+						break;
+					}
+				}
+
+				g_free (text);
+			} while (gtk_tree_model_iter_next (model, &iter));
+		}
 	}
 
 	add_relation (dedit, priv->time_combo);
@@ -1802,9 +1850,9 @@ e_date_edit_update_time_combo_state	(EDateEdit	*dedit)
 
 	if (clear_entry) {
 		/* Only clear it if it isn't empty already. */
-		text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
+		text = gtk_entry_get_text (GTK_ENTRY (GTK_BIN (priv->time_combo)->child));
 		if (text[0])
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry), "");
+			gtk_entry_set_text (GTK_ENTRY (GTK_BIN (priv->time_combo)->child), "");
 	}
 
 	gtk_widget_set_sensitive (priv->time_combo, sensitive);
@@ -1880,7 +1928,7 @@ e_date_edit_check_time_changed		(EDateEdit	*dedit)
 	tmp_tm.tm_hour = 0;
 	tmp_tm.tm_min = 0;
 
-	time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
+	time_text = gtk_entry_get_text (GTK_ENTRY (GTK_BIN (priv->time_combo)->child));
 	if (field_set_to_none (time_text))
 		none = TRUE;
 	else if (!e_date_edit_parse_time (dedit, time_text, &tmp_tm))
@@ -1890,9 +1938,11 @@ e_date_edit_check_time_changed		(EDateEdit	*dedit)
 						      tmp_tm.tm_hour,
 						      tmp_tm.tm_min);
 
-	if (time_changed)
+	if (time_changed) {
+		e_date_edit_update_time_entry (dedit);
 		g_signal_emit (dedit,
 			       date_edit_signals [CHANGED], 0);
+	}
 }
 
 
