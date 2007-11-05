@@ -675,6 +675,7 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 	char *full_name;
 	char *key;
 	struct _selected_uri *u;
+	gboolean is_expanded;
 
 	gtk_tree_model_get ((GtkTreeModel *) model, iter,
 			    COL_STRING_FULL_NAME, &full_name,
@@ -693,10 +694,18 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 		key = g_strdup_printf ("local/%s", full_name ? full_name : "");
 	}
 
+	is_expanded = em_folder_tree_model_get_expanded (model, key);
 	u = g_hash_table_lookup(priv->select_uris_table, key);
-	if (em_folder_tree_model_get_expanded (model, key) || u) {
-		gtk_tree_view_expand_to_path (priv->treeview, tree_path);
-		gtk_tree_view_expand_row (priv->treeview, tree_path, FALSE);
+	if (is_expanded || u) {
+		if (is_expanded) {
+			gtk_tree_view_expand_to_path (priv->treeview, tree_path);
+			gtk_tree_view_expand_row (priv->treeview, tree_path, FALSE);
+		} else {
+			char *c = strrchr (key, '/');
+
+			*c = '\0';
+			emft_expand_node (model, key, emft);
+		}
 
 		if (u)
 			emft_select_uri(emft, tree_path, u);

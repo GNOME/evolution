@@ -137,6 +137,9 @@ void em_folder_tree_model_set_selected (EMFolderTreeModel *model, const char *ur
 gboolean em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key);
 void em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gboolean expanded);
 
+gboolean em_folder_tree_model_get_expanded_uri (EMFolderTreeModel *model, const char *uri);
+void em_folder_tree_model_set_expanded_uri (EMFolderTreeModel *model, const char *uri, gboolean expanded);
+
 void em_folder_tree_model_save_state (EMFolderTreeModel *model);
 
 typedef void (* EMFTModelExpandFunc) (EMFolderTreeModel *model, const char *path, void *user_data);

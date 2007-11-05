@@ -699,8 +699,15 @@ impl_createView (PortableServer_Servant servant,
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
 	
 	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
+		gboolean expanded;
+
+		expanded = em_folder_tree_model_get_expanded_uri (priv->model, uri);
 		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri, FALSE);
 		em_folder_view_set_folder_uri ((EMFolderView *) view_widget, uri);
+
+		if (!expanded)
+			em_folder_tree_model_set_expanded_uri (priv->model, uri, expanded);
+
 		g_free (uri);
 	}
 	

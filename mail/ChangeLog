@@ -1,5 +1,21 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #343011
+	(restore collapse state of selected folder after start)
+
+	* em-folder-tree.c: (emft_maybe_expand_row): Do not expand subtree of
+	a node, only make it visible.
+	* em-folder-tree-model.h: (em_folder_tree_model_get_expanded_uri),
+	(em_folder_tree_model_set_expanded_uri):
+	* em-folder-tree-model.c: (em_folder_tree_model_get_expanded_uri),
+	(em_folder_tree_model_set_expanded_uri):
+	Same as ..._get/_set_expanded, but using 'uri', instead of 'key'.
+	* em-folder-tree-model.c: (emftm_uri_to_key): New helper function.
+	* mail-component.c: (impl_createView): Restore collapsed state after
+	selecting last selected folder, if necessary.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #488298
 
 	* em-folder-view.c: (EMFolderViewEnable emfv_enable_map[]):

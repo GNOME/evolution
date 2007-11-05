@@ -55,6 +55,7 @@
 #include "em-utils.h"
 
 #include <camel/camel-folder.h>
+#include <camel/camel-vee-store.h>
 
 #include "em-marshal.h"
 #include "em-folder-tree-model.h"
@@ -1019,6 +1020,99 @@ em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gb
 		
 		name = p ? p + 1 : NULL;
 	} while (name);
+}
+
+/**
+ * emftm_uri_to_key
+ * Converts uri to key used in functions like em_folder_tree_model_[s/g]et_expanded.
+ * @param uri Uri to be converted.
+ * @return Key of the uri or NULL, if failed. Returned value should be clear by g_free.
+ **/
+static gchar *
+emftm_uri_to_key (const char *uri)
+{
+	CamelException ex = { 0 };
+	CamelStore *store;
+	CamelURL *url;
+	gchar *key;
+
+	if (!uri)
+		return NULL;
+
+	store = (CamelStore *)camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
+	camel_exception_clear(&ex);
+
+	url = camel_url_new (uri, NULL);
+
+	if (store == NULL || url == NULL) {
+		key = NULL;
+	} else {
+		const char *path;
+		EAccount *account;
+	
+		if (((CamelService *)store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+			path = url->fragment;
+		else
+			path = url->path && url->path[0]=='/' ? url->path+1:url->path;
+
+		if (path == NULL)
+			path = "";
+
+		if ( (account = mail_config_get_account_by_source_url (uri)) )
+			key = g_strdup_printf ("%s/%s", account->uid, path);
+		else if (CAMEL_IS_VEE_STORE (store))
+			key = g_strdup_printf ("vfolder/%s", path);
+		else
+			key = g_strdup_printf ("local/%s", path);
+	}
+
+	if (url)
+		camel_url_free (url);
+
+	if (store)
+		camel_object_unref (store);
+
+	return key;
+}
+
+/**
+ * em_folder_tree_model_get_expanded_uri
+ * Same as @ref em_folder_tree_model_get_expanded, but here we use uri, not key for node.
+ **/
+gboolean
+em_folder_tree_model_get_expanded_uri (EMFolderTreeModel *model, const char *uri)
+{
+	gchar *key;
+	gboolean expanded;
+
+	g_return_val_if_fail (model != NULL, FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	key = emftm_uri_to_key (uri);
+	expanded = key && em_folder_tree_model_get_expanded (model, key);
+
+	g_free (key);
+
+	return expanded;
+}
+
+/**
+ * em_folder_tree_model_set_expanded_uri
+ * Same as @ref em_folder_tree_model_set_expanded, but here we use uri, not key for node.
+ **/
+void
+em_folder_tree_model_set_expanded_uri (EMFolderTreeModel *model, const char *uri, gboolean expanded)
+{
+	gchar *key;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (uri != NULL);
+
+	key = emftm_uri_to_key (uri);
+	if (key)
+		em_folder_tree_model_set_expanded (model, key, expanded);
+
+	g_free (key);
 }
 
 void
