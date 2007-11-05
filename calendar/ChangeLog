@@ -1,5 +1,35 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #318604
+
+	* Enable source when adding event to disabled source.
+	* gui/gnome-cal.h: (gnome_calendar_emit_user_created_signal):
+	New helper function which will store used calendar before emitting
+	signal "user_created" on the instance to GnomeCalendar for later use
+	and unset it right after the emit.
+	* gui/gnome-cal.c: (struct _GnomeCalendarPrivate): New member to store
+	used ECal before emitting "user_created" signal.
+	* gui/gnome-cal.c: (gnome_calendar_emit_user_created_signal),
+	(user_created_cb): Implementation of new helper function and enabling
+	last used source instead of default one on "user_created" signal.
+	* gui/e-day-view.c: (e_day_view_on_editing_stopped):
+	* gui/e-week-view.c: (e_week_view_on_editing_stopped):
+	* gui/e-calendar-view.c: (object_created_cb): Use our new
+	helper function to emit "user_created" signal with proper ECal.
+	* gui/e-calendar-table.h: (struct _ECalendarTable):
+	* gui/e-memo-table.h: (struct _EMemoTable): New member added.
+	* gui/e-calendar-table.c: (e_calendar_table_init):
+	* gui/e-memo-table.c: (e_memo_table_init): Initialize member to NULL.
+	* gui/tasks-component.c: (object_created_cb), (create_new_todo):
+	* gui/memos-component.c: (object_created_cb), (create_new_memo):
+	Add new callback function to notice new object created and emit
+	"user_created" signal with proper ECal stored in ECalendarTable.
+	* gui/e-tasks.c: (user_created_cb):
+	* gui/e-memos.c: (user_created_cb): Use previously stored ECal, which
+	has been used to create event, instead of using default ECal.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #346693
 
 	* gui/e-day-view-top-item.h: (EDayViewTopItem):

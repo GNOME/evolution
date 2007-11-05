@@ -183,13 +183,20 @@ static void
 user_created_cb (GtkWidget *view, EMemos *memos)
 {
 	EMemosPrivate *priv;	
+	EMemoTable *memo_table;
 	ECal *ecal;
-	ECalModel *model;
 	
 	priv = memos->priv;
+	memo_table = E_MEMO_TABLE (priv->memos_view);
 
-	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-	ecal = e_cal_model_get_default_client (model);
+	if (memo_table->user_created_cal)
+		ecal = memo_table->user_created_cal;
+	else {
+		ECalModel *model;
+
+		model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
+		ecal = e_cal_model_get_default_client (model);
+	}
 
 	e_memos_add_memo_source (memos, e_cal_get_source (ecal));
 }

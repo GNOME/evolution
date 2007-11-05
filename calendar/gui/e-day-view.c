@@ -7745,7 +7745,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
 			else
-				g_signal_emit_by_name (day_view, "user_created");
+				gnome_calendar_emit_user_created_signal (day_view, e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)), client);
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
@@ -7902,7 +7902,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
 			else
-				g_signal_emit_by_name (day_view, "user_created");
+				gnome_calendar_emit_user_created_signal (day_view, e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)), client);
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);

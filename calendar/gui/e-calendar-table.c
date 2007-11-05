@@ -244,6 +244,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	cal_table->model = (ECalModel *) e_cal_model_tasks_new ();
 	g_signal_connect (cal_table->model, "row_appended", G_CALLBACK (row_appended_cb), cal_table);
 
+	cal_table->user_created_cal = NULL;
+
 	/* Create the header columns */
 
 	extras = e_table_extras_new();

@@ -919,6 +919,17 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 	return priv->create_ecal ;
 }
 
+/* Ensures the calendar is selected */
+static void
+object_created_cb (CompEditor *ce, ECalendarTable *cal_table)
+{
+	g_return_if_fail (cal_table != NULL);
+
+	cal_table->user_created_cal = comp_editor_get_e_cal (ce);
+	g_signal_emit_by_name (cal_table, "user_created");
+	cal_table->user_created_cal = NULL;
+}
+
 static gboolean
 create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComponentView *component_view)
 {
@@ -938,6 +949,8 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 
 	editor = task_editor_new (ecal, flags);
 	comp = cal_comp_task_new_with_defaults (ecal);
+
+	g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_tasks_get_calendar_table (component_view->tasks));
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
 	if (is_assigned)

@@ -201,6 +201,8 @@ void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
 
 GtkWidget * gnome_calendar_get_tag (GnomeCalendar *gcal);
 
+void gnome_calendar_emit_user_created_signal  (gpointer instance, GnomeCalendar *gcal, ECal *calendar);
+
 G_END_DECLS
 
 #endif

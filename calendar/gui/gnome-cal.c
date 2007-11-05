@@ -189,6 +189,10 @@ struct _GnomeCalendarPrivate {
 	/* If this is true list view uses range of showing the events as the  dates selected in date navigator which is one month, else
 	   it uses the date range set in search bar */
 	gboolean lview_select_daten_range;
+
+	/* We should know which calendar has been used to create object, so store it here
+	   before emitting "user_created" signal and make it NULL just after the emit. */
+	ECal *user_created_cal;
 };
 
 /* Signal IDs */
@@ -995,17 +999,43 @@ view_selection_changed_cb (GtkWidget *view, GnomeCalendar *gcal)
 			 gnome_calendar_signals[CALENDAR_SELECTION_CHANGED]);
 }
 
+
+/**
+ * gnome_calendar_emit_user_created_signal
+ * Emits "user_created" signal on a gcal and use calendar as a store where was event created.
+ *
+ * @param instance Instance on which emit signal.
+ * @param gcal GnomeCalendar, it will store info about used calendar here.
+ * @param calendar Used calendar, where was event created.
+ **/
+void
+gnome_calendar_emit_user_created_signal (gpointer instance, GnomeCalendar *gcal, ECal *calendar)
+{
+	GnomeCalendarPrivate *priv;
+
+	g_return_if_fail (gcal != NULL);
+
+	priv = gcal->priv;
+	priv->user_created_cal = calendar;
+	g_signal_emit_by_name (instance, "user_created");
+	priv->user_created_cal = NULL;
+}
+
 static void
 user_created_cb (GtkWidget *view, GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;	
 	ECal *ecal;
-	ECalModel *model;
 	
 	priv = gcal->priv;	
+	ecal = priv->user_created_cal;
 
-	model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
-	ecal = e_cal_model_get_default_client (model);
+	if (!ecal) {
+		ECalModel *model;
+
+		model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
+		ecal = e_cal_model_get_default_client (model);
+	}
 
 	gnome_calendar_add_source (gcal, E_CAL_SOURCE_TYPE_EVENT, e_cal_get_source (ecal));
 }

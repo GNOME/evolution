@@ -925,6 +925,17 @@ setup_create_ecal (MemosComponent *component, MemosComponentView *component_view
 	return priv->create_ecal ;
 }
 
+/* Ensures the calendar is selected */
+static void
+object_created_cb (CompEditor *ce, EMemoTable *memo_table)
+{
+	g_return_if_fail (memo_table != NULL);
+
+	memo_table->user_created_cal = comp_editor_get_e_cal (ce);
+	g_signal_emit_by_name (memo_table, "user_created");
+	memo_table->user_created_cal = NULL;
+}
+
 static gboolean
 create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComponentView *component_view)
 {
@@ -945,6 +956,8 @@ create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComp
 
 	editor = memo_editor_new (ecal, flags);
 	comp = cal_comp_memo_new_with_defaults (ecal);
+
+	g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_memos_get_calendar_table (component_view->memos));
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
 	comp_editor_focus (COMP_EDITOR (editor));

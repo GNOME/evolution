@@ -199,6 +199,8 @@ e_memo_table_init (EMemoTable *memo_table)
 	memo_table->model = (ECalModel *) e_cal_model_memos_new ();
 	g_signal_connect (memo_table->model, "row_appended", G_CALLBACK (row_appended_cb), memo_table);
 
+	memo_table->user_created_cal = NULL;
+
 	/* Create the header columns */
 
 	extras = e_table_extras_new();

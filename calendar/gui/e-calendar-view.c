@@ -1957,7 +1957,7 @@ e_calendar_view_new_appointment (ECalendarView *cal_view)
 static void
 object_created_cb (CompEditor *ce, ECalendarView *cal_view)
 {
-	g_signal_emit_by_name (cal_view, "user_created");
+	gnome_calendar_emit_user_created_signal (cal_view, e_calendar_view_get_calendar (cal_view), comp_editor_get_e_cal (ce));
 }
 
 static void

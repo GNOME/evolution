@@ -65,6 +65,10 @@ struct _EMemoTable {
 	/* Activity ID for the EActivityHandler (i.e. the status bar).  */
 	EActivityHandler *activity_handler;
 	guint activity_id;
+
+	/* We should know which calendar has been used to create object, so store it here
+	   before emitting "user_created" signal and make it NULL just after the emit. */
+	ECal *user_created_cal;
 };
 
 struct _EMemoTableClass {

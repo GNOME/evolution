@@ -195,14 +195,21 @@ table_selection_change_cb (ETable *etable, gpointer data)
 static void
 user_created_cb (GtkWidget *view, ETasks *tasks)
 {
-	ETasksPrivate *priv;	
+	ETasksPrivate *priv;
+	ECalendarTable *cal_table;
 	ECal *ecal;
-	ECalModel *model;
-	
-	priv = tasks->priv;
 
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	ecal = e_cal_model_get_default_client (model);
+	priv = tasks->priv;
+	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
+
+	if (cal_table->user_created_cal)
+		ecal = cal_table->user_created_cal;
+	else {
+		ECalModel *model;
+
+		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+		ecal = e_cal_model_get_default_client (model);
+	}
 
 	e_tasks_add_todo_source (tasks, e_cal_get_source (ecal));
 }
