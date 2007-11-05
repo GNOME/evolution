@@ -1,3 +1,10 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #353779
+
+	* org-gnome-mail-to-task.eplug.xml:
+	Allow convert more than one mail to task with one click.
+
 2007-09-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #473903
