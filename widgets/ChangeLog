@@ -1,3 +1,10 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #341085
+
+	* text/e-text.c: (get_bounds), (e_text_draw): Use 'x_offset' and
+	'y_offset' only for text drawing, not for changing bounds of EText.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-timezone-dialog/e-timezone-dialog.c: (get_local_offset),

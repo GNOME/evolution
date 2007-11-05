@@ -1,5 +1,12 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #341085
+
+	* gui/e-day-view.c: (e_day_view_reshape_day_event):
+	Use 'x_offset' instead of changing event size when has icons.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #359267
 
 	* gui/gnome-cal.c: (update_memo_view):

@@ -507,7 +507,7 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	wx = 0;
 	wy = 0;
 	gnome_canvas_item_i2w (item, &wx, &wy);
-	gnome_canvas_w2c (item->canvas, wx + text->xofs, wy + text->yofs, &text->cx, &text->cy);
+	gnome_canvas_w2c (item->canvas, wx, wy, &text->cx, &text->cy);
 	gnome_canvas_w2c (item->canvas, wx, wy, &text->clip_cx, &text->clip_cy);
 
 	if (text->clip_width < 0)
@@ -1524,15 +1524,15 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	xpos = text->text_cx;
 	ypos = text->text_cy;
 
-	xpos -= x;
-	ypos -= y;
+	xpos = xpos - x + text->xofs;
+	ypos = ypos - y + text->yofs;
 
 	clip_rect = NULL;
 	if (text->clip) {
 		rect.x = xpos;
 		rect.y = ypos;
-		rect.width = text->clip_cwidth;
-		rect.height = text->clip_cheight;
+		rect.width = text->clip_cwidth - text->xofs;
+		rect.height = text->clip_cheight - text->yofs;
 		
 		gdk_gc_set_clip_rectangle (main_gc, &rect);
 		clip_rect = &rect;

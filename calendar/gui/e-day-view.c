@@ -5867,6 +5867,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 
 		/* We don't show the icons while resizing, since we'd have to
 		   draw them on top of the resize rect. */
+		icons_offset = 0;
 		num_icons = 0;
 		if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_NONE
 		    || day_view->resize_event_day != day
@@ -5896,8 +5897,6 @@ e_day_view_reshape_day_event (EDayView *day_view,
 				icons_offset = E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD * 2;
 			else
 				icons_offset = (E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD) * num_icons + E_DAY_VIEW_ICON_X_PAD;
-			item_x += icons_offset;
-			item_w -= icons_offset;
 		}
 
 		if (!event->canvas_item) {
@@ -5934,6 +5933,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		gnome_canvas_item_set (event->canvas_item,
 				       "clip_width", (gdouble) item_w,
 				       "clip_height", (gdouble) item_h,
+				       "x_offset", (gdouble) icons_offset,
 				       NULL);
 		e_canvas_item_move_absolute(event->canvas_item,
 					    item_x, item_y);
