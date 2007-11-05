@@ -994,8 +994,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		}
 				
 		if (event->key.keyval == GDK_Escape){
+			/* if not changed, then pass this even to parent */
+			return_val = text_view->edit != NULL && text_view->edit->text && text_view->edit->old_text && 0 != strcmp (text_view->edit->text, text_view->edit->old_text);
 			ect_cancel_edit (text_view);
-			return_val = TRUE;
 			break;
 		}
 

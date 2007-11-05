@@ -433,6 +433,16 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 		default:
 			return FALSE;
+		case GDK_Escape:
+			if (etcta->row) {
+				e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
+				etcta_drop_one (etcta);
+				gtk_object_destroy(GTK_OBJECT (etcta->row));
+				etcta->row = NULL;
+				create_rect_and_text (etcta);
+				e_canvas_item_move_absolute (etcta->text, 3, 3);
+			}
+			break;
 		}
 		break;
 			

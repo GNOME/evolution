@@ -1,3 +1,13 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #255051
+
+	* e-cell-combo.c: (e_cell_combo_key_press):
+	* e-cell-text.c: (ect_event):
+	Pass Escape event to parent, if there is no action to do with it.
+	* e-table-click-to-add.c: (etcta_event): Drop changes when pressed
+	Escape and go back to default line with text "Click to add...".
+
 2007-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #474557
