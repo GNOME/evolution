@@ -178,6 +178,7 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 	EMPopupTargetSelect *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_SELECT, sizeof(*t));
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	guint32 mask = ~0;
+	gboolean draft_or_outbox;
 	int i;
 	const char *tmp;
 
@@ -197,9 +198,8 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 	if (em_utils_folder_is_sent(folder, folder_uri))
 		mask &= ~EM_POPUP_SELECT_EDIT;
 	
-	if (!(em_utils_folder_is_drafts(folder, folder_uri)
-	      || em_utils_folder_is_outbox(folder, folder_uri))
-	    && uids->len == 1)
+	draft_or_outbox = em_utils_folder_is_drafts(folder, folder_uri) || em_utils_folder_is_outbox(folder, folder_uri);
+	if (!draft_or_outbox && uids->len == 1)
 		mask &= ~EM_POPUP_SELECT_ADD_SENDER;
 
 	if (uids->len == 1)
@@ -221,11 +221,15 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_READ;
 
-		if (store->flags & CAMEL_STORE_VJUNK) {
+		if ((store->flags & CAMEL_STORE_VJUNK) && !draft_or_outbox) {
 			if ((flags & CAMEL_MESSAGE_JUNK))
 				mask &= ~EM_POPUP_SELECT_NOT_JUNK;
 			else
 				mask &= ~EM_POPUP_SELECT_JUNK;
+		} else if (draft_or_outbox) {
+			/* Show none option */
+			mask |= EM_POPUP_SELECT_NOT_JUNK;
+			mask |= EM_POPUP_SELECT_JUNK;			
 		} else {
 			/* Show both options */
 			mask &= ~EM_POPUP_SELECT_NOT_JUNK;

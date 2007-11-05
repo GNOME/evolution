@@ -1,3 +1,14 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488298
+
+	* em-folder-view.c: (EMFolderViewEnable emfv_enable_map[]):
+	Disable "MessageMarkAsNotJunk" if requested by context.
+	* mail-folder-cache.c: (update_1folder): Do not count junked
+	messages into "new" messages in drafts and out box.
+	* em-popup.c: (em_popup_target_new_select): Disable "MarkAsJunk"
+	and "MarnAsNotJunk" in drafts and out box.
+
 2007-11-05  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #492102

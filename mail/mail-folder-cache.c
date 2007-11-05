@@ -360,8 +360,15 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 			unread = camel_folder_get_message_count (folder);
 			if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX) 
 					|| folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)) {
+				guint32 junked = 0;
+
 				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)
 					unread -= deleted;
+
+				camel_object_get (folder, NULL, CAMEL_FOLDER_JUNKED, &junked, NULL);
+				if (junked > 0)
+					unread -= junked;
+				
 			}
 		} else {
 			d(printf(" unread count\n"));
