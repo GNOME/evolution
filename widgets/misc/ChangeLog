@@ -1,3 +1,13 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #231166
+
+	* e-dateedit.c: (create_children), (e_date_edit_check_time_changed),
+	(rebuild_time_popup), (on_date_edit_time_selected),
+	(on_time_entry_key_press), (e_date_edit_update_time_entry),
+	(e_date_edit_grab_focus), (e_date_edit_update_time_combo_state):
+	Migrate from gtk_combo to gtk_com_box_entry for time_combo.
+
 2007-08-31  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Move away from g_assert to g_return* critical warnings to debug
