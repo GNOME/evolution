@@ -628,6 +628,9 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	    && event->keyval != GDK_3270_Enter)
 		return FALSE;
 
+	if (event->keyval == GDK_Escape && (!ecc->popup_window||!GTK_WIDGET_VISIBLE (ecc->popup_window)))
+		return FALSE;
+
 	gtk_grab_remove (ecc->popup_window);
 	gdk_pointer_ungrab (event->time);
 	gdk_keyboard_ungrab (event->time);
