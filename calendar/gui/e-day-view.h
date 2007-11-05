@@ -194,9 +194,16 @@ struct _EDayView
 {
 	ECalendarView cal_view;
 
+	/* The top canvas where the dates are shown. */
+	GtkWidget *top_dates_canvas;
+	GnomeCanvasItem *top_dates_canvas_item;
+
 	/* The top canvas where the dates and long appointments are shown. */
 	GtkWidget *top_canvas;
 	GnomeCanvasItem *top_canvas_item;
+
+	/* scrollbar for top_canvas */
+	GtkWidget *tc_vscrollbar;
 
 	/* The main canvas where the rest of the appointments are shown. */
 	GtkWidget *main_canvas;

@@ -1,3 +1,32 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #346693
+
+	* gui/e-day-view-top-item.h: (EDayViewTopItem):
+	New property 'show_dates'.
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw),
+	(e_day_view_top_item_class_init), (e_day_view_top_item_init),
+	(e_day_view_top_item_set_arg):
+	Always draw background rectangle over whole requested place and
+	draw dates or event only, based on new property 'show_dates'.
+	* gui/e-day-view.h: (struct _EDayView): New properties 'tc_vscrollbar',
+	'top_dates_canvas', 'top_dates_canvas_item'.
+	* gui/e-day-view.c: (E_DAY_VIEW_MAX_ROWS_AT_TOP),
+	(e_day_view_top_scroll), (e_day_view_update_top_scroll),
+	(e_day_view_on_top_canvas_scroll), (e_day_view_init),
+	(e_day_view_style_set), (e_day_view_size_allocate),
+	(e_day_view_check_layout), (e_day_view_on_editing_started):
+	Added support for scrolling 'top_canvas' when number of items there
+	increases over the 'E_DAY_VIEW_MAX_ROWS_AT_TOP'.
+	* gui/e-day-view.c: (e_day_view_set_selected_time_range),
+	(e_day_view_set_selected_time_range_in_top_visible),
+	(e_day_view_set_selected_time_range_visible),
+	(e_day_view_set_selected_time_range), (e_day_view_update_query),
+	(e_day_view_goto_start_of_work_day), (e_day_view_goto_end_of_work_day),
+	(e_day_view_change_duration_to_start_of_work_day),
+	(e_day_view_change_duration_to_end_of_work_day),
+	(e_day_view_layout_timeout_cb): Redraw top_dates_canvas if necessary.
+
 2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Remove dead files from source control.  The dates below

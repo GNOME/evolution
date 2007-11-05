@@ -104,6 +104,10 @@
    we get from the server. */
 #define E_DAY_VIEW_LAYOUT_TIMEOUT	100
 
+/* How many rows can be shown at a top_canvas; there will be always + 2 for
+   caption item and DnD space */
+#define E_DAY_VIEW_MAX_ROWS_AT_TOP     6
+
 typedef struct {
 	EDayView *day_view;
 	ECalModelComponent *comp_data;
@@ -182,6 +186,11 @@ static void e_day_view_cursor_key_right (EDayView *day_view,
 static void e_day_view_scroll	(EDayView	*day_view,
 				 gfloat		 pages_to_scroll);
 
+static void e_day_view_top_scroll (EDayView	*day_view,
+				   gfloat	 pages_to_scroll);
+
+static void e_day_view_update_top_scroll (EDayView *day_view, gboolean scroll_to_top);
+
 static gboolean e_day_view_check_if_new_event_fits (EDayView *day_view);
 
 static void e_day_view_on_canvas_realized (GtkWidget *widget,
@@ -203,6 +212,11 @@ static gboolean e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 static gboolean e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 							  GdkEventButton *event,
 							  EDayView *day_view);
+
+static gboolean e_day_view_on_top_canvas_scroll (GtkWidget *widget,
+						 GdkEventScroll *scroll,
+						 EDayView *day_view);
+
 static gboolean e_day_view_on_main_canvas_scroll (GtkWidget *widget,
 						  GdkEventScroll *scroll,
 						  EDayView *day_view);
@@ -769,6 +783,8 @@ e_day_view_init (EDayView *day_view)
 				G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
 	g_signal_connect (day_view->top_canvas, "button_release_event",
 			  G_CALLBACK (e_day_view_on_top_canvas_button_release), day_view);
+	g_signal_connect (day_view->top_canvas, "scroll_event",
+			  G_CALLBACK (e_day_view_on_top_canvas_scroll), day_view);
 	g_signal_connect (day_view->top_canvas, "motion_notify_event",
 			  G_CALLBACK (e_day_view_on_top_canvas_motion), day_view);
 	g_signal_connect (day_view->top_canvas, "drag_motion",
@@ -954,11 +970,15 @@ e_day_view_init (EDayView *day_view)
 	/*
 	 * Scrollbar.
 	 */
+	day_view->tc_vscrollbar = gtk_vscrollbar_new (GTK_LAYOUT (day_view->top_canvas)->vadjustment);
+	gtk_table_attach (GTK_TABLE (day_view), day_view->tc_vscrollbar,
+			  2, 3, 0, 1, 0, GTK_FILL, 0, 0);
+	/* gtk_widget_show (day_view->tc_vscrollbar); */
+
 	day_view->vscrollbar = gtk_vscrollbar_new (GTK_LAYOUT (day_view->main_canvas)->vadjustment);
 	gtk_table_attach (GTK_TABLE (day_view), day_view->vscrollbar,
 			  2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->vscrollbar);
-
 
 	/* Create the cursors. */
 	day_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
@@ -1006,6 +1026,7 @@ e_day_view_init (EDayView *day_view)
 	gint day;
 	GnomeCanvasGroup *canvas_group;
 	ECalModel *model;
+	GtkWidget *w;
 	
 	GTK_WIDGET_SET_FLAGS (day_view, GTK_CAN_FOCUS);
 
@@ -1107,14 +1128,23 @@ e_day_view_init (EDayView *day_view)
 	/*
 	 * Top Canvas
 	 */
+	w = gtk_vbox_new (FALSE, 0);
+	
+	day_view->top_dates_canvas = e_canvas_new ();
+	gtk_box_pack_start (GTK_BOX (w), day_view->top_dates_canvas, TRUE, TRUE, 0);
 	day_view->top_canvas = e_canvas_new ();
-	gtk_table_attach (GTK_TABLE (day_view), day_view->top_canvas,
+	gtk_box_pack_end (GTK_BOX (w), day_view->top_canvas, TRUE, TRUE, 0);
+
+	gtk_table_attach (GTK_TABLE (day_view), w,
 			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
-	gtk_widget_show (day_view->top_canvas);
+	gtk_widget_show_all (w);
+
 	g_signal_connect_after (day_view->top_canvas, "button_press_event",
 				G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
 	g_signal_connect (day_view->top_canvas, "button_release_event",
 			  G_CALLBACK (e_day_view_on_top_canvas_button_release), day_view);
+	g_signal_connect (day_view->top_canvas, "scroll_event",
+			  G_CALLBACK (e_day_view_on_top_canvas_scroll), day_view);
 	g_signal_connect (day_view->top_canvas, "motion_notify_event",
 			  G_CALLBACK (e_day_view_on_top_canvas_motion), day_view);
 	g_signal_connect (day_view->top_canvas, "drag_motion",
@@ -1131,12 +1161,23 @@ e_day_view_init (EDayView *day_view)
 	g_signal_connect (day_view->top_canvas, "drag_data_received",
 			  G_CALLBACK (e_day_view_on_top_canvas_drag_data_received), day_view);
 
+	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_dates_canvas)->root);
+
+	day_view->top_dates_canvas_item =
+		gnome_canvas_item_new (canvas_group,
+				       e_day_view_top_item_get_type (),
+				       "EDayViewTopItem::day_view", day_view,
+				       "EDayViewTopItem::show_dates", TRUE,
+				       NULL);
+	gtk_widget_set_size_request (day_view->top_dates_canvas, -1, day_view->top_row_height);
+
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root);
 
 	day_view->top_canvas_item =
 		gnome_canvas_item_new (canvas_group,
 				       e_day_view_top_item_get_type (),
 				       "EDayViewTopItem::day_view", day_view,
+				       "EDayViewTopItem::show_dates", FALSE,
 				       NULL);
 
 	day_view->drag_long_event_rect_item =
@@ -1264,11 +1305,15 @@ e_day_view_init (EDayView *day_view)
 	/*
 	 * Scrollbar.
 	 */
+	day_view->tc_vscrollbar = gtk_vscrollbar_new (GTK_LAYOUT (day_view->top_canvas)->vadjustment);
+	gtk_table_attach (GTK_TABLE (day_view), day_view->tc_vscrollbar,
+			  2, 3, 0, 1, 0, GTK_FILL, 0, 0);
+	/* gtk_widget_show (day_view->tc_vscrollbar); */
+
 	day_view->vscrollbar = gtk_vscrollbar_new (GTK_LAYOUT (day_view->main_canvas)->vadjustment);
 	gtk_table_attach (GTK_TABLE (day_view), day_view->vscrollbar,
 			  2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->vscrollbar);
-
 
 	/* Create the cursors. */
 	day_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
@@ -1592,13 +1637,51 @@ e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *
 	return color;
 }
 
+static void
+e_day_view_update_top_scroll (EDayView *day_view, gboolean scroll_to_top)
+{
+	gint top_rows, top_canvas_height;
+	gdouble old_x2, old_y2, new_x2, new_y2;
+
+	/* Set the height of the top canvas based on the row height and the
+	   number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
+	top_rows = MAX (1, day_view->rows_in_top_display);
+	top_canvas_height = (top_rows + 1) * day_view->top_row_height;
+	if (top_rows <= E_DAY_VIEW_MAX_ROWS_AT_TOP) {
+		gtk_widget_set_size_request (day_view->top_canvas, -1, top_canvas_height);
+		gtk_widget_hide (day_view->tc_vscrollbar);
+	} else {
+		gtk_widget_set_size_request (day_view->top_canvas, -1, (E_DAY_VIEW_MAX_ROWS_AT_TOP + 1) * day_view->top_row_height);
+		gtk_widget_show (day_view->tc_vscrollbar);
+	}
+
+	/* Set the scroll region of the top canvas */
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (day_view->top_canvas),
+					NULL, NULL, &old_x2, &old_y2);
+	new_x2 = day_view->top_canvas->allocation.width - 1;
+	new_y2 = (MAX (1, day_view->rows_in_top_display) + 1) * day_view->top_row_height - 1;
+	if (old_x2 != new_x2 || old_y2 != new_y2) {
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (day_view->top_canvas),
+						0, 0, new_x2, new_y2);
+
+		if (scroll_to_top)
+			gnome_canvas_scroll_to (GNOME_CANVAS (day_view->top_canvas), 0, 0);
+	}
+	new_y2 = day_view->top_row_height - 1 - 2;
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (day_view->top_dates_canvas), NULL, NULL, &old_x2, &old_y2);
+
+	if (old_x2 != new_x2 || old_y2 != new_y2) {
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (day_view->top_dates_canvas), 0, 0, new_x2, new_y2);
+		gnome_canvas_scroll_to (GNOME_CANVAS (day_view->top_dates_canvas), 0, 0);
+	}
+}
+
 #ifndef ENABLE_CAIRO
 static void
 e_day_view_style_set (GtkWidget *widget,
 		      GtkStyle  *previous_style)
 {
 	EDayView *day_view;
-	gint top_rows, top_canvas_height;
 	gint hour;
 	gint minute, max_minute_width, i;
 	gint month, day, width;
@@ -1687,12 +1770,9 @@ e_day_view_style_set (GtkWidget *widget,
 		E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT * 2 + E_DAY_VIEW_LONG_EVENT_Y_PAD * 2 +
 		E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 	day_view->top_row_height = MAX (day_view->top_row_height, E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD + 2 + E_DAY_VIEW_TOP_CANVAS_Y_GAP);
+	GTK_LAYOUT (day_view->top_canvas)->vadjustment->step_increment = day_view->top_row_height;
 
-	/* Set the height of the top canvas based on the row height and the
-	   number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
-	top_rows = MAX (1, day_view->rows_in_top_display);
-	top_canvas_height = (top_rows + 2) * day_view->top_row_height;
-	gtk_widget_set_size_request (day_view->top_canvas, -1, top_canvas_height);
+	e_day_view_update_top_scroll (day_view, TRUE);
 
 	/* Find the longest full & abbreviated month names. */
 	memset (&date_tm, 0, sizeof (date_tm));
@@ -1803,7 +1883,6 @@ e_day_view_style_set (GtkWidget *widget,
 		      GtkStyle  *previous_style)
 {
 	EDayView *day_view;
-	gint top_rows, top_canvas_height;
 	gint hour;
 	gint minute, max_minute_width, i;
 	gint month, day, width;
@@ -1884,12 +1963,10 @@ e_day_view_style_set (GtkWidget *widget,
 		E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT * 2 + E_DAY_VIEW_LONG_EVENT_Y_PAD * 2 +
 		E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 	day_view->top_row_height = MAX (day_view->top_row_height, E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD + 2 + E_DAY_VIEW_TOP_CANVAS_Y_GAP);
+	GTK_LAYOUT (day_view->top_canvas)->vadjustment->step_increment = day_view->top_row_height;
+	gtk_widget_set_size_request (day_view->top_dates_canvas, -1, day_view->top_row_height - 2);
 
-	/* Set the height of the top canvas based on the row height and the
-	   number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
-	top_rows = MAX (1, day_view->rows_in_top_display);
-	top_canvas_height = (top_rows + 2) * day_view->top_row_height;
-	gtk_widget_set_size_request (day_view->top_canvas, -1, top_canvas_height);
+	e_day_view_update_top_scroll (day_view, TRUE);
 
 	/* Find the longest full & abbreviated month names. */
 	memset (&date_tm, 0, sizeof (date_tm));
@@ -2001,7 +2078,6 @@ e_day_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	EDayView *day_view;
 	gint day, scroll_y;
 	gboolean need_reshape;
-	gdouble old_x2, old_y2, new_x2, new_y2;
 
 #if 0
 	g_print ("In e_day_view_size_allocate\n");
@@ -2012,14 +2088,8 @@ e_day_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	e_day_view_recalc_cell_sizes (day_view);
 
-	/* Set the scroll region of the top canvas to its allocated size. */
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (day_view->top_canvas),
-					NULL, NULL, &old_x2, &old_y2);
-	new_x2 = day_view->top_canvas->allocation.width - 1;
-	new_y2 = day_view->top_canvas->allocation.height - 1;
-	if (old_x2 != new_x2 || old_y2 != new_y2)
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (day_view->top_canvas),
-						0, 0, new_x2, new_y2);
+	/* Set the scroll region of the top canvas */
+	e_day_view_update_top_scroll (day_view, TRUE);
 
 	need_reshape = e_day_view_update_scroll_regions (day_view);
 
@@ -2694,6 +2764,7 @@ e_day_view_set_selected_time_range_in_top_visible	(EDayView	*day_view,
 
 	if (need_redraw) {
 		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->top_dates_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
 }
@@ -2748,6 +2819,7 @@ e_day_view_set_selected_time_range_visible	(EDayView	*day_view,
 
 	if (need_redraw) {
 		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->top_dates_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
 }
@@ -2850,6 +2922,7 @@ e_day_view_set_selected_time_range	(ECalendarView	*cal_view,
 
 	if (need_redraw) {
 		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->top_dates_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
 }
@@ -3620,6 +3693,24 @@ e_day_view_on_main_canvas_scroll (GtkWidget *widget,
 	return FALSE;
 }
 
+static gboolean
+e_day_view_on_top_canvas_scroll (GtkWidget *widget,
+				  GdkEventScroll *scroll,
+				  EDayView *day_view)
+{
+	switch (scroll->direction) {
+	case GDK_SCROLL_UP:
+		e_day_view_top_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
+		return TRUE;
+	case GDK_SCROLL_DOWN:
+		e_day_view_top_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
+		return TRUE;
+	default:
+		break;
+	}
+
+	return FALSE;
+}
 
 static gboolean
 e_day_view_on_time_canvas_scroll (GtkWidget      *widget,
@@ -4178,6 +4269,7 @@ e_day_view_update_query (EDayView *day_view)
 	e_day_view_stop_editing_event (day_view);
 
 	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->top_dates_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 	e_day_view_free_events (day_view);
 	e_day_view_queue_layout (day_view);
@@ -5489,7 +5581,7 @@ e_day_view_add_event (ECalComponent *comp,
 void
 e_day_view_check_layout (EDayView *day_view)
 {
-	gint day, rows_in_top_display, top_canvas_height, top_rows;
+	gint day, rows_in_top_display;
 
 	/* Don't bother if we aren't visible. */
 	if (!GTK_WIDGET_VISIBLE (day_view))
@@ -5523,16 +5615,9 @@ e_day_view_check_layout (EDayView *day_view)
 					       day_view->day_starts,
 					       &rows_in_top_display);
 
-		/* Set the height of the top canvas based on the row height
-		   and the number of rows needed (min 1 + 1 for the dates + 1
-		   space for DnD).*/
 		if (day_view->rows_in_top_display != rows_in_top_display) {
 			day_view->rows_in_top_display = rows_in_top_display;
-			top_rows = MAX (1, rows_in_top_display);
-			top_canvas_height = (top_rows + 2)
-				* day_view->top_row_height;
-			gtk_widget_set_size_request (
-				day_view->top_canvas, -1, top_canvas_height);
+			e_day_view_update_top_scroll (day_view, FALSE);
 		}
 	}
 
@@ -6255,6 +6340,7 @@ e_day_view_goto_start_of_work_day (EDayView *day_view)
 	e_day_view_update_calendar_selection_time (day_view);
 	
 	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->top_dates_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
@@ -6279,6 +6365,7 @@ e_day_view_goto_end_of_work_day (EDayView *day_view)
 	e_day_view_update_calendar_selection_time (day_view);
 
 	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->top_dates_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
@@ -6316,6 +6403,7 @@ e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 	e_day_view_update_calendar_selection_time (day_view);
 
 	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->top_dates_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
@@ -6353,6 +6441,7 @@ e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 	e_day_view_update_calendar_selection_time (day_view);
 	
 	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->top_dates_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
@@ -6839,6 +6928,17 @@ e_day_view_scroll	(EDayView	*day_view,
 	gtk_adjustment_set_value (adj, new_value);
 }
 
+static void
+e_day_view_top_scroll	(EDayView	*day_view,
+			 gfloat		 pages_to_scroll)
+{
+	GtkAdjustment *adj = GTK_LAYOUT (day_view->top_canvas)->vadjustment;
+	gfloat new_value;
+
+	new_value = adj->value - adj->page_size * pages_to_scroll;
+	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
+	gtk_adjustment_set_value (adj, new_value);
+}
 
 static gboolean
 e_day_view_check_if_new_event_fits (EDayView *day_view)
@@ -7533,7 +7633,16 @@ e_day_view_on_editing_started (EDayView *day_view,
 	day_view->editing_event_num = event_num;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
+		gint item_y, scroll_y;
+
 		e_day_view_reshape_long_event (day_view, event_num);
+
+		/* and ensure it's visible too */
+		item_y = (event_num * (day_view->top_row_height + 1)) - 1;
+		scroll_y = gtk_adjustment_get_value (GTK_LAYOUT (day_view->top_canvas)->vadjustment);
+		if (item_y + day_view->top_row_height > day_view->top_canvas->allocation.height + scroll_y ||
+		    item_y < scroll_y)
+			gnome_canvas_scroll_to (GNOME_CANVAS (day_view->top_canvas), 0, item_y);
 	} else {
 		day_view->resize_bars_event_day = day;
 		day_view->resize_bars_event_num = event_num;
@@ -8189,7 +8298,7 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 	*item_w = day_view->day_offsets[*end_day + 1] - *item_x
 		- E_DAY_VIEW_GAP_WIDTH;
 	*item_w = MAX (*item_w, 0);
-	*item_y = (event->start_row_or_col + 1) * day_view->top_row_height;
+	*item_y = (event->start_row_or_col) * day_view->top_row_height;
 	*item_h = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 	return TRUE;
 }
@@ -8216,7 +8325,7 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 	if (x < 0 || y < 0)
 		return E_CALENDAR_VIEW_POS_OUTSIDE;
 
-	row = y / day_view->top_row_height - 1;
+	row = y / day_view->top_row_height;
 
 	day = -1;
 	for (col = 1; col <= day_view->days_shown; col++) {
@@ -9337,6 +9446,7 @@ e_day_view_layout_timeout_cb (gpointer data)
 	EDayView *day_view = E_DAY_VIEW (data);
 
 	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->top_dates_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 	e_day_view_check_layout (day_view);
 

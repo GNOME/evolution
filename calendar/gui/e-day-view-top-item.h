@@ -46,6 +46,9 @@ typedef struct {
 
 	/* The parent EDayView widget. */
 	EDayView *day_view;
+
+	/* Show dates or events. */
+	gboolean show_dates;
 } EDayViewTopItem;
 
 typedef struct {

@@ -77,7 +77,8 @@ static gint e_day_view_top_item_event		(GnomeCanvasItem *item,
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_DAY_VIEW
+	ARG_DAY_VIEW,
+	ARG_SHOW_DATES
 };
 
 G_DEFINE_TYPE (EDayViewTopItem, e_day_view_top_item, GNOME_TYPE_CANVAS_ITEM)
@@ -95,6 +96,10 @@ e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 				 GTK_TYPE_POINTER, GTK_ARG_WRITABLE,
 				 ARG_DAY_VIEW);
 
+	gtk_object_add_arg_type ("EDayViewTopItem::show_dates",
+				 GTK_TYPE_BOOL, GTK_ARG_WRITABLE,
+				 ARG_SHOW_DATES);
+
 	object_class->set_arg = e_day_view_top_item_set_arg;
 
 	/* GnomeCanvasItem method overrides */
@@ -109,6 +114,7 @@ static void
 e_day_view_top_item_init (EDayViewTopItem *dvtitem)
 {
 	dvtitem->day_view = NULL;
+	dvtitem->show_dates = FALSE;
 }
 
 
@@ -122,6 +128,9 @@ e_day_view_top_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_DAY_VIEW:
 		dvtitem->day_view = GTK_VALUE_POINTER (*arg);
+		break;
+	case ARG_SHOW_DATES:
+		dvtitem->show_dates = GTK_VALUE_BOOL (*arg);
 		break;
 	}
 }
@@ -181,7 +190,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	light_gc = style->light_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;
-	canvas_height = GTK_WIDGET (canvas_item->canvas)->allocation.height;
+	canvas_height = (MAX (1, day_view->rows_in_top_display) + 2) * day_view->top_row_height;
 	left_edge = 0;
 	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
@@ -685,6 +694,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	PangoLayout *layout;
 	cairo_t *cr;
 	GdkColor fg, bg, light, dark;
+	gboolean show_dates;
 
 #if 0
 	g_print ("In e_day_view_top_item_draw %i,%i %ix%i\n",
@@ -693,6 +703,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	dvtitem = E_DAY_VIEW_TOP_ITEM (canvas_item);
 	day_view = dvtitem->day_view;
 	g_return_if_fail (day_view != NULL);
+	show_dates = dvtitem->show_dates;
 
 	cr = gdk_cairo_create (drawable);
 
@@ -703,7 +714,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	light_gc = style->light_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;
-	canvas_height = GTK_WIDGET (canvas_item->canvas)->allocation.height;
+	canvas_height = (show_dates ? 1 : (MAX (1, day_view->rows_in_top_display) + 1)) * day_view->top_row_height;
 	left_edge = 0;
 	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
@@ -712,130 +723,137 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	light = style->light[GTK_STATE_NORMAL];
 	dark = style->dark[GTK_STATE_NORMAL];
 
-	/* Draw the shadow around the dates. */
-	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &light);
-	cairo_move_to (cr, left_edge - x, 1 - y);
-	cairo_line_to (cr, canvas_width - 2 - x, 1 - y);
-	cairo_move_to (cr, left_edge - x, 2 - y);
-	cairo_line_to (cr, left_edge - x, item_height - 2 - y);
-	cairo_stroke (cr);
-	cairo_restore (cr);
+	if (show_dates) {
+		/* Draw the shadow around the dates. */
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &light);
+		cairo_move_to (cr, left_edge - x, 1 - y);
+		cairo_line_to (cr, canvas_width - 2 - x, 1 - y);
+		cairo_move_to (cr, left_edge - x, 2 - y);
+		cairo_line_to (cr, left_edge - x, item_height - 2 - y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 
-	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &dark);
-	cairo_move_to (cr, left_edge - x, item_height - 1 - y);
-	cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
-	cairo_move_to (cr, canvas_width - 1 - x, 1 - y);
-	cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
-	cairo_stroke (cr);
-	cairo_restore (cr);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &dark);
+		cairo_move_to (cr, left_edge - x, item_height - 1 - y);
+		cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
+		cairo_move_to (cr, canvas_width - 1 - x, 1 - y);
+		cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 
-	/* Draw the background for the dates. */
-	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &bg);
-	cairo_rectangle (cr, left_edge + 2 - x, 2 - y,
-			    canvas_width - left_edge - 3,
-			    item_height - 3);
-	cairo_fill (cr);
-	cairo_restore (cr);
+		/* Draw the background for the dates. */
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &bg);
+		cairo_rectangle (cr, left_edge + 2 - x, 2 - y,
+				 canvas_width - left_edge - 3,
+				 item_height - 3);
+		cairo_fill (cr);
+		cairo_restore (cr);
+	}
 
-	/* Clear the main area background. */
-	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
-	cairo_rectangle (cr, left_edge - x, item_height - y,
-			    canvas_width - left_edge,
-			    canvas_height - item_height);
-	cairo_fill (cr);
-	cairo_restore (cr);
+	if (!show_dates) {
+		/* Clear the main area background. */
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
+		cairo_rectangle (cr, left_edge - x, - y,
+				 canvas_width - left_edge,
+				 canvas_height);
+		cairo_fill (cr);
+		cairo_restore (cr);
 
-	/* Draw the selection background. */
-	if (GTK_WIDGET_HAS_FOCUS (day_view)
-	    && day_view->selection_start_day != -1) {
-		gint start_col, end_col, rect_x, rect_y, rect_w, rect_h;
+		/* Draw the selection background. */
+		if (GTK_WIDGET_HAS_FOCUS (day_view)
+			&& day_view->selection_start_day != -1) {
+			gint start_col, end_col, rect_x, rect_y, rect_w, rect_h;
 
-		start_col = day_view->selection_start_day;
-		end_col = day_view->selection_end_day;
+			start_col = day_view->selection_start_day;
+			end_col = day_view->selection_end_day;
 
-		if (end_col > start_col
-		    || day_view->selection_start_row == -1
-		    || day_view->selection_end_row == -1) {
-			rect_x = day_view->day_offsets[start_col];
-			rect_y = item_height;
-			rect_w = day_view->day_offsets[end_col + 1] - rect_x;
-			rect_h = canvas_height - 1 - rect_y;
+			if (end_col > start_col
+			    || day_view->selection_start_row == -1
+			    || day_view->selection_end_row == -1) {
+				rect_x = day_view->day_offsets[start_col];
+				rect_y = 0;
+				rect_w = day_view->day_offsets[end_col + 1] - rect_x;
+				rect_h = canvas_height - 1 - rect_y;
 
-			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
-			cairo_rectangle (cr, rect_x - x, rect_y - y,
-					    rect_w, rect_h);
-			cairo_fill (cr);
-			cairo_restore (cr);
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
+				cairo_rectangle (cr, rect_x - x, rect_y - y,
+						 rect_w, rect_h);
+				cairo_fill (cr);
+				cairo_restore (cr);
+			}
 		}
 	}
 
-	/* Draw the date. Set a clipping rectangle so we don't draw over the
-	   next day. */
-	for (day = 0; day < day_view->days_shown; day++) {
-		e_day_view_top_item_get_day_label (day_view, day,
-						   buffer, sizeof (buffer));
-		clip_rect.x = day_view->day_offsets[day] - x;
-		clip_rect.y = 2 - y;
-		clip_rect.width = day_view->day_widths[day];
-		clip_rect.height = item_height - 2;
+	if (show_dates) {
+		/* Draw the date. Set a clipping rectangle so we don't draw over the
+		   next day. */
+		for (day = 0; day < day_view->days_shown; day++) {
+			e_day_view_top_item_get_day_label (day_view, day, buffer, sizeof (buffer));
+			clip_rect.x = day_view->day_offsets[day] - x;
+			clip_rect.y = 2 - y;
+			clip_rect.width = day_view->day_widths[day];
+			clip_rect.height = item_height - 2;
 	
-		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
-		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-		pango_layout_get_pixel_size (layout, &date_width, NULL);
-		date_x = day_view->day_offsets[day] + (day_view->day_widths[day] - date_width) / 2;
+			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+			pango_layout_get_pixel_size (layout, &date_width, NULL);
+			date_x = day_view->day_offsets[day] + (day_view->day_widths[day] - date_width) / 2;
 
-		gdk_draw_layout (drawable, fg_gc,
-				 date_x - x,
-				 3 - y,
-				 layout);
-		g_object_unref (layout);
+			gdk_draw_layout (drawable, fg_gc,
+					 date_x - x,
+					 3 - y,
+					 layout);
+			g_object_unref (layout);
 
-		gdk_gc_set_clip_rectangle (fg_gc, NULL);
+			gdk_gc_set_clip_rectangle (fg_gc, NULL);
 
-		/* Draw the lines down the left and right of the date cols. */
-		if (day != 0) {
-			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, &light);
-			cairo_move_to (cr, day_view->day_offsets[day] - x,
-				       4 - y);
-			cairo_line_to (cr, day_view->day_offsets[day] - x,
-				       item_height - 4 - y);
-			cairo_stroke (cr);
-			gdk_cairo_set_source_color (cr, &dark);
-			cairo_move_to (cr, day_view->day_offsets[day] - 1 - x,
-				       4 - y);
-			cairo_line_to (cr, day_view->day_offsets[day] - 1 - x,
-				       item_height - 4 - y);
-			cairo_stroke (cr);
-			cairo_restore (cr);
-		}
+			/* Draw the lines down the left and right of the date cols. */
+			if (day != 0) {
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &light);
+				cairo_move_to (cr, day_view->day_offsets[day] - x,
+						4 - y);
+				cairo_line_to (cr, day_view->day_offsets[day] - x,
+						item_height - 4 - y);
+				cairo_stroke (cr);
+				gdk_cairo_set_source_color (cr, &dark);
+				cairo_move_to (cr, day_view->day_offsets[day] - 1 - x,
+						4 - y);
+				cairo_line_to (cr, day_view->day_offsets[day] - 1 - x,
+						item_height - 4 - y);
+				cairo_stroke (cr);
+				cairo_restore (cr);
+			}
 
-		/* Draw the lines between each column. */
-		if (day != 0) {
-			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
-			cairo_move_to (cr, day_view->day_offsets[day] - x,
-				       item_height - y);
-			cairo_line_to (cr, day_view->day_offsets[day] - x,
-				       canvas_height - y);
-			cairo_stroke (cr);
-			cairo_restore (cr);
+			/* Draw the lines between each column. */
+			if (day != 0) {
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
+				cairo_move_to (cr, day_view->day_offsets[day] - x,
+						item_height - y);
+				cairo_line_to (cr, day_view->day_offsets[day] - x,
+						canvas_height - y);
+				cairo_stroke (cr);
+				cairo_restore (cr);
+			}
 		}
 	}
 
-	/* Draw the long events. */
-	for (event_num = 0; event_num < day_view->long_events->len;
-	     event_num++) {
-		e_day_view_top_item_draw_long_event (dvtitem, event_num,
-						     drawable,
-						     x, y, width, height);
+	if (!show_dates) {
+		/* Draw the long events. */
+		for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
+			e_day_view_top_item_draw_long_event (dvtitem, event_num,
+							     drawable,
+							     x, y, width, height);
+		}
 	}
+
 	cairo_destroy (cr);
 }
 
