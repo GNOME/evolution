@@ -1,3 +1,9 @@
+2007-11-05  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #492102
+
+	* em-folder-view.c: Use mail-mark-read icon.
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	* em-folder-view.c: (emfv_message_reply): Leak fix.
