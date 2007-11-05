@@ -1,3 +1,9 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #492692
+
+	* e-util.c: (e_str_case_compare): Leak fix.
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #311179
