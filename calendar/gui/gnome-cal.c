@@ -1281,7 +1281,7 @@ update_memo_view (GnomeCalendar *gcal)
 			g_free (priv->memo_sexp);
 		}
 	
-		priv->memo_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
+		priv->memo_sexp = g_strdup_printf ("(not (has-start?)) or (and (occur-in-time-range? (make-time \"%s\")"
 				"                           (make-time \"%s\"))"
 				"     %s)",
 				iso_start, iso_end, 

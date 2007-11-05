@@ -1,5 +1,12 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #359267
+
+	* gui/gnome-cal.c: (update_memo_view):
+	Changed memo_sexp to show always memos without start date.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #351932
 
 	* gui/dialogs/task-page.c: (check_start_before_end), (times_updated),
