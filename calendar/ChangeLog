@@ -1,5 +1,15 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #353780
+
+	* gui/dialogs/comp-editor.h: (comp_editor_get_current_comp):
+	* gui/dialogs/comp-editor.c: (prompt_and_save_changes),
+	(menu_file_save_cb), (comp_editor_append_page),
+	(comp_editor_get_current_comp):
+	Stop processing immediately when page is filled incorrectly.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #341085
 
 	* gui/e-day-view.c: (e_day_view_reshape_day_event):

@@ -902,7 +902,7 @@ static gboolean
 prompt_and_save_changes (CompEditor *editor, gboolean send)
 {
 	CompEditorPrivate *priv;
-	gboolean read_only;
+	gboolean read_only, correct = FALSE;
 	ECalComponent *comp;
 	ECalComponentText text;
 
@@ -919,9 +919,12 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 			return FALSE;
 		}
 
-		comp = comp_editor_get_current_comp (editor);
+		comp = comp_editor_get_current_comp (editor, &correct);
 		e_cal_component_get_summary (comp, &text);
 		g_object_unref (comp);
+
+		if (!correct)
+			return FALSE;
 
 		if (!text.value)
 			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
@@ -1261,7 +1264,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	CompEditorPrivate *priv = editor->priv;
 	ECalComponentText text;
 	gboolean delegated = FALSE;
-	gboolean read_only;
+	gboolean read_only, correct = FALSE;
 	ECalComponent *comp;
 
 	if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
@@ -1295,9 +1298,12 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
 			return;
 
-	comp = comp_editor_get_current_comp (editor);
+	comp = comp_editor_get_current_comp (editor, &correct);
 	e_cal_component_get_summary (comp, &text);
 	g_object_unref (comp);
+
+	if (!correct)
+		return;
 
 	if (!text.value) 
 		if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
@@ -2009,7 +2015,7 @@ comp_editor_append_page (CompEditor *editor,
 	if (priv->comp != NULL) {
 		ECalComponent *comp;
 
-		comp = comp_editor_get_current_comp (editor);
+		comp = comp_editor_get_current_comp (editor, NULL);
 		comp_editor_page_fill_widgets (page, comp);
 		g_object_unref (comp);
 	}
@@ -2681,12 +2687,21 @@ comp_editor_get_comp (CompEditor *editor)
 	return priv->comp;
 }
 
+/**
+ * comp_editor_get_current_comp
+ * 
+ * @param editor
+ * @param correct Set this no non-NULL if you are interested to know if
+ *                all pages reported success when filling component.
+ * @return Newly allocated component, should be unref-ed by g_object_unref.
+ **/
 ECalComponent *
-comp_editor_get_current_comp (CompEditor *editor)
+comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)
 {
 	CompEditorPrivate *priv;
 	ECalComponent *comp;
 	GList *l;
+	gboolean all_ok = TRUE;
 
 	g_return_val_if_fail (editor != NULL, NULL);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
@@ -2696,8 +2711,11 @@ comp_editor_get_current_comp (CompEditor *editor)
 	comp = e_cal_component_clone (priv->comp);
 	if (priv->changed) {
 		for (l = priv->pages; l != NULL; l = l->next)
-			comp_editor_page_fill_component (l->data, comp);
+			all_ok = comp_editor_page_fill_component (l->data, comp) && all_ok;
 	}
+
+	if (correct)
+		*correct = all_ok;
 
 	return comp;
 }
