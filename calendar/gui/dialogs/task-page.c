@@ -1687,6 +1687,156 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
 
+static gboolean
+check_start_before_end (struct icaltimetype *start_tt,
+			icaltimezone *start_zone,
+			struct icaltimetype *end_tt,
+			icaltimezone *end_zone,
+			gboolean adjust_end_time,
+			gboolean adjust_by_hour)
+{
+	struct icaltimetype end_tt_copy;
+	int cmp;
+
+	/* Convert the end time to the same timezone as the start time. */
+	end_tt_copy = *end_tt;
+	icaltimezone_convert_time (&end_tt_copy, end_zone, start_zone);
+
+	/* Now check if the start time is after the end time. If it is,
+	   we need to modify one of the times. */
+	cmp = icaltime_compare (*start_tt, end_tt_copy);
+	if (cmp > 0) {
+		if (adjust_end_time) {
+			/* Modify the end time, to be the start + 1 hour/day. */
+			*end_tt = *start_tt;
+			icaltime_adjust (end_tt, 0, adjust_by_hour ? 1 : 24, 0, 0);
+			icaltimezone_convert_time (end_tt, start_zone,
+						   end_zone);
+		} else {
+			/* Modify the start time, to be the end - 1 hour/day. */
+			*start_tt = *end_tt;
+			icaltime_adjust (start_tt, 0, adjust_by_hour ? -1 : -24, 0, 0);
+			icaltimezone_convert_time (start_tt, end_zone,
+						   start_zone);
+		}
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+/*
+ * This is called whenever the start or due dates.
+ * It makes sure that the start date < end date. It also emits the notification
+ * signals so the other event editor pages update their labels etc.
+ *
+ * If adjust_end_time is TRUE, if the start time < end time it will adjust
+ * the end time. If FALSE it will adjust the start time. If the user sets the
+ * start or end time, the other time is adjusted to make it valid.
+ *
+ * Time part of the value is changed only when both edits have time set,
+ * otherwise times will differ one hour.
+ */
+static void
+times_updated (TaskPage *tpage, gboolean adjust_end_time)
+{
+	TaskPagePrivate *priv;
+	struct icaltimetype start_tt = icaltime_null_time();
+	struct icaltimetype end_tt = icaltime_null_time();
+	gboolean date_set;
+	gboolean set_start_date = FALSE, set_end_date = FALSE, adjust_by_hour;
+	icaltimezone *zone;
+	
+	priv = tpage->priv;
+
+	if (priv->updating)
+		return;
+
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
+					 &start_tt.year,
+					 &start_tt.month,
+					 &start_tt.day);
+	if (!date_set)
+		return;
+
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
+					 &end_tt.year,
+					 &end_tt.month,
+					 &end_tt.day);
+	if (!date_set)
+		return;
+
+	/* For DATE-TIME events, we have to convert to the same
+	   timezone before comparing. */
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
+				     &start_tt.hour,
+				     &start_tt.minute);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
+				     &end_tt.hour,
+				     &end_tt.minute);
+
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+	adjust_by_hour = e_date_edit_have_time (E_DATE_EDIT (priv->due_date)) &&
+			 e_date_edit_have_time (E_DATE_EDIT (priv->start_date));
+
+	if (check_start_before_end (&start_tt, zone,
+				    &end_tt, zone,
+				    adjust_end_time,
+				    adjust_by_hour)) {
+		if (adjust_end_time)
+			set_end_date = TRUE;
+		else
+			set_start_date = TRUE;
+	}
+
+
+	if (set_start_date) {
+		g_signal_handlers_block_matched (priv->start_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
+		e_date_edit_set_date (E_DATE_EDIT (priv->start_date), start_tt.year, start_tt.month, start_tt.day);
+		if (adjust_by_hour)
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date), start_tt.hour, start_tt.minute);
+		g_signal_handlers_unblock_matched (priv->start_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
+	}
+
+	if (set_end_date) {
+		g_signal_handlers_block_matched (priv->due_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
+		e_date_edit_set_date (E_DATE_EDIT (priv->due_date), end_tt.year, end_tt.month, end_tt.day);
+		if (adjust_by_hour)
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date), end_tt.hour, end_tt.minute);
+		g_signal_handlers_unblock_matched (priv->due_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
+	}
+
+	/* Notify upstream */
+	date_changed_cb ((EDateEdit *) priv->start_date, tpage);
+	date_changed_cb ((EDateEdit *) priv->due_date, tpage);
+}
+
+static void
+start_date_changed_cb (GtkWidget *widget, gpointer data)
+{
+	TaskPage *tpage;
+
+	tpage = TASK_PAGE (data);
+
+	if (!tpage->priv->updating) {
+		field_changed_cb (widget, data);
+		times_updated (tpage, TRUE);
+	}
+}
+
+static void
+due_date_changed_cb (GtkWidget *widget, gpointer data)
+{
+	TaskPage *tpage;
+
+	tpage = TASK_PAGE (data);
+
+	if (!tpage->priv->updating) {
+		field_changed_cb (widget, data);
+		times_updated (tpage, FALSE);
+	}
+}
+
 static void
 source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 {
@@ -1861,9 +2011,9 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect (priv->start_date, "changed",
-			  G_CALLBACK (field_changed_cb), tpage);
+			  G_CALLBACK (start_date_changed_cb), tpage);
 	g_signal_connect (priv->due_date, "changed",
-			  G_CALLBACK (field_changed_cb), tpage);
+			  G_CALLBACK (due_date_changed_cb), tpage);
 	g_signal_connect((priv->timezone), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->categories), "changed",

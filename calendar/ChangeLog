@@ -1,5 +1,13 @@
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #351932
+
+	* gui/dialogs/task-page.c: (check_start_before_end), (times_updated),
+	(start_date_changed_cb), (due_date_changed_cb), (init_widgets):
+	Ensure due date is not before start date.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #315101
 
 	* drag and drop to other source for multiselect

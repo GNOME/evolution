@@ -86,6 +86,9 @@ void       e_date_edit_set_editable             (EDateEdit      *dedit, gboolean
 gboolean   e_date_edit_date_is_valid		(EDateEdit	*dedit);
 gboolean   e_date_edit_time_is_valid		(EDateEdit	*dedit);
 
+/* Returns TRUE if time was set, FALSE otherwise. */
+gboolean   e_date_edit_have_time		(EDateEdit	*dedit);
+
 /* Returns the last valid date & time set, or -1 if the date & time was set to
    'None' and this is permitted via e_date_edit_set_allow_no_date_set. */
 time_t	   e_date_edit_get_time			(EDateEdit	*dedit);

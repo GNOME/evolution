@@ -1,3 +1,11 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #351932
+
+	* e-dateedit.h: (e_date_edit_have_time):
+	* e-dateedit.c: (e_date_edit_have_time): Extend API to be able
+	to check if time is set independently of date part.
+
 2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-activity-handler.c: (e_activity_handler_new):
