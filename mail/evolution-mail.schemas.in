@@ -928,7 +928,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default>[I_mportant:#ff0000,_Work:#ff8c00,_Personal:#008b00,_To Do:#0000ff,_Later:#8b008b]</default>
+      <default>[I_mportant:#EF2929,_Work:#F57900,_Personal:#4E9A06,_To Do:#3465A4,_Later:#75507B]</default>
       <locale name="C">
          <short>List of Labels and their associated colors</short>
          <long>

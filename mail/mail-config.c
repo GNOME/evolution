@@ -78,11 +78,11 @@
 
 /* Note, the first element of each MailConfigLabel must NOT be translated */
 MailConfigLabel label_defaults[5] = {
-	{ "important", N_("I_mportant"), "#ff0000" },  /* red */
-	{ "work",      N_("_Work"),      "#ff8c00" },  /* orange */
-	{ "personal",  N_("_Personal"),  "#008b00" },  /* forest green */
-	{ "todo",      N_("_To Do"),     "#0000ff" },  /* blue */
-	{ "later",     N_("_Later"),     "#8b008b" }   /* magenta */
+	{ "important", N_("I_mportant"), "#EF2929" },  /* red */
+	{ "work",      N_("_Work"),      "#F57900" },  /* orange */
+	{ "personal",  N_("_Personal"),  "#4E9A06" },  /* green */
+	{ "todo",      N_("_To Do"),     "#3465A4" },  /* blue */
+	{ "later",     N_("_Later"),     "#75507B" }   /* purple */
 };
 
 typedef struct {

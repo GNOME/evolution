@@ -1,3 +1,13 @@
+2007-11-06  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #492170
+
+	* em-migrate.c:
+	* evolution-mail.schemas.in:
+	* mail-config.c:
+	Replace the old color definitions with very similar colors from
+	the Tango color palette.
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #343011

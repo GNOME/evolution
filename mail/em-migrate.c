@@ -1050,11 +1050,11 @@ static struct {
 	char *label;
 	char *colour;
 } label_default[5] = {
-	{ N_("Important"), "#ff0000" },  /* red */
-	{ N_("Work"),      "#ff8c00" },  /* orange */
-	{ N_("Personal"),  "#008b00" },  /* forest green */
-	{ N_("To Do"),     "#0000ff" },  /* blue */
-	{ N_("Later"),     "#8b008b" }   /* magenta */
+	{ N_("Important"), "#EF2929" },  /* red */
+	{ N_("Work"),      "#F57900" },  /* orange */
+	{ N_("Personal"),  "#4E9A06" },  /* green */
+	{ N_("To Do"),     "#3465A4" },  /* blue */
+	{ N_("Later"),     "#75507B" }   /* purple */
 };
 
 /* remaps mail config from bconf to gconf */
