@@ -1,3 +1,8 @@
+2007-11-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-selector.h:
+	Fix some typos in the GObject macros.
+
 2007-11-06  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #492170
