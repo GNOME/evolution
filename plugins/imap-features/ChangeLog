@@ -1,3 +1,15 @@
+2007-11-08  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	* imap-headers.c: (imap_headers_abort), (imap_headers_commit),
+	(epif_header_is_valid), (epif_add_sensitivity), (epif_add_header),
+	(epif_remove_header_clicked), (epif_fetch_all_headers_toggled),
+	(epif_entry_changed), (org_gnome_imap_headers):
+	* imap-headers.glade:
+	Remove useless GtkVBox,
+	remove the useless popup to have an inline header entry field,
+	concentrate all UI elements in a structure, added a prefix to
+	relevant functions.
+
 2007-07-30  Andre Klapper  <a9016009@gmx.de>
 
 	* imap-headers.glade:
