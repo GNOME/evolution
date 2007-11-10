@@ -1666,7 +1666,7 @@ static EPopupItem ecv_main_items [] = {
 	/* FIXME: hook in this somehow */
 	{ E_POPUP_SUBMENU, "60.view", N_("_Current View") },
 	
-	{ E_POPUP_ITEM, "61.today", N_("Select T_oday"), on_goto_today, NULL, GTK_STOCK_HOME },
+	{ E_POPUP_ITEM, "61.today", N_("Select T_oday"), on_goto_today, NULL, "go-today" },
 	{ E_POPUP_ITEM, "62.todate", N_("_Select Date..."), on_goto_date, NULL, GTK_STOCK_JUMP_TO },
 };
 

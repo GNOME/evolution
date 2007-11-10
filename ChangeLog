@@ -1,3 +1,13 @@
+2007-11-10  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #209425
+
+	* data/icons/Makefile.am:
+	* data/icons/hicolor_actions_16x16_go-today.svg:
+	* data/icons/hicolor_actions_22x22_go-today.svg:
+	Don't use gtk-home for the go-today action. Add new
+	icons to the build.
+
 2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Remove dead files from source control.  The dates below

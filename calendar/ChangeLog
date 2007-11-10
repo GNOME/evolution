@@ -1,3 +1,11 @@
+2007-11-10  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #209425
+
+	* gui/calendar-commands.c:
+	* gui/e-calendar-view.c:
+	Don't use gtk-home for the go-today action.
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #491345

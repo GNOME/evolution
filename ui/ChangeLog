@@ -1,3 +1,10 @@
+2007-11-10  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #209425
+
+	* evolution-calendar.xml:
+	Don't use gtk-home for the go-today action.
+
 2007-11-01  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #492106
