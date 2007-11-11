@@ -1,3 +1,7 @@
+2007-11-11  Gilles Dartiguelongue  <gdartigug@svn.gnome.org>
+
+	* mk.po, mn.po, ga.po: remove executable property
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #344516
