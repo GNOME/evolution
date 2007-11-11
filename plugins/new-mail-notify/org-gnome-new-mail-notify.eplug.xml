@@ -5,7 +5,7 @@
 	_name="New Mail Notification" 
 	location="@PLUGINDIR@/liborg-gnome-new-mail-notify@SOEXT@">
 
-		<_description>Generates a D-BUS message when new mail messages arrive.</_description>
+		<_description>Generates a D-Bus message when new mail messages arrive.</_description>
 		<author name="Miguel Angel López Hernández" email="miguel@gulev.org.mx"/>
 
 		<hook class="org.gnome.evolution.mail.events:1.0">

@@ -1,3 +1,10 @@
+2007-11-11  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #487318
+
+	* org-gnome-new-mail-notify.eplug.xml:
+	Fix typo in D-Bus
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* org-gnome-new-mail-notify.eplug.xml:
