@@ -876,6 +876,21 @@
          </long>
       </locale>
     </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/mail/prompts/delete_in_vfolder</key>
+      <applyto>/apps/evolution/mail/prompts/delete_in_vfolder</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Prompt when deleting messages in search folder</short>
+         <long>
+	 It disables the feature where repeated prompts to ask if delete messages from search folder.
+         </long>
+      </locale>
+    </schema>
+
        <!-- Trash settings -->
 
     <schema>

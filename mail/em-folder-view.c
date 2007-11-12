@@ -58,6 +58,7 @@
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-disco-store.h>
 #include <camel/camel-offline-store.h>
+#include <camel/camel-vee-store.h>
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
@@ -1031,42 +1032,98 @@ emfv_popup_mark_nojunk (EPopup *ep, EPopupItem *pitem, void *data)
 		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
 }
 
+#define DelInVFolderCheckName  "DelInVFolderCheck"
+#define DelInVFolderKey        "/apps/evolution/mail/prompts/delete_in_vfolder"
+
 static void
-emfv_popup_delete(EPopup *ep, EPopupItem *pitem, void *data)
+emfv_delete_msg_response (GtkWidget *dialog, int response, gpointer data)
+{
+	if (response == GTK_RESPONSE_OK) {
+		EMFolderView *emfv = data;
+		int count;
+		GPtrArray *uids;
+
+		if (dialog) {
+			GList *children, *l;
+
+			children = gtk_container_get_children (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox));
+			for (l = children; l; l = l->next) {
+				if (GTK_IS_CHECK_BUTTON (l->data) &&
+				    !strcmp (gtk_widget_get_name (GTK_WIDGET (l->data)), DelInVFolderCheckName))
+					break;
+			}
+
+			if (l) {
+				GConfClient *gconf = gconf_client_get_default ();
+				gconf_client_set_bool (gconf, DelInVFolderKey, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (l->data)), NULL);
+				g_object_unref (gconf);
+			}
+
+			g_list_free (children);
+		}
+
+		uids = message_list_get_selected(emfv->list);
+		camel_folder_freeze(emfv->folder);
+
+		for (count=0; count < uids->len; count++) {
+			if (camel_folder_get_message_flags (emfv->folder, uids->pdata[count]) & CAMEL_MESSAGE_USER_NOT_DELETABLE) {
+				if (emfv->preview_active) {
+					GtkHTMLStream *hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
+
+					gtk_html_stream_printf(hstream, "<h2>%s</h2><p>%s</p>",
+							_("Mail Deletion Failed"),
+							_("You do not have sufficient permissions to delete this mail."));
+					gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
+				} else 
+					e_error_run (NULL, "mail:no-delete-permission", "", "");
+
+				count = -1;
+				break;
+			} else 
+				camel_folder_set_message_flags(emfv->folder, uids->pdata[count], CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED );
+		}
+
+		message_list_free_uids(emfv->list, uids);
+		camel_folder_thaw(emfv->folder);
+
+		if (count == 1) {
+			if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
+				message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+		}
+	}
+
+	if (dialog)
+		gtk_widget_destroy (dialog);
+}
+
+static void
+emfv_popup_delete (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
-	int count;
-	GPtrArray *uids;
+	GConfClient *gconf = gconf_client_get_default ();
 
-	uids = message_list_get_selected(emfv->list);
-	camel_folder_freeze(emfv->folder);
+	if (emfv->folder && emfv->folder->parent_store && CAMEL_IS_VEE_STORE (emfv->folder->parent_store)
+	    && !gconf_client_get_bool (gconf, DelInVFolderKey, NULL)) {
+		GtkWidget *dialog, *checkbox, *align;
 
-	for (count=0; count < uids->len; count++) {
-		if (camel_folder_get_message_flags (emfv->folder, uids->pdata[count]) & CAMEL_MESSAGE_USER_NOT_DELETABLE) {
-			if (emfv->preview_active) {
-				GtkHTMLStream *hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
-
-				gtk_html_stream_printf(hstream, "<h2>%s</h2><p>%s</p>",
-						_("Mail Deletion Failed"),
-						_("You do not have sufficient permissions to delete this mail."));
-				gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
-			} else 
-				e_error_run (NULL, "mail:no-delete-permission", "", "");
-
-			count = -1;
-			break;
-		} else 
-			camel_folder_set_message_flags(emfv->folder, uids->pdata[count], CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED );
+		dialog = e_error_new (NULL, "mail:ask-delete-vfolder-msg", emfv->folder->full_name, NULL);
+		g_signal_connect (dialog, "response", G_CALLBACK (emfv_delete_msg_response), emfv);
+		checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
+		gtk_widget_set_name (checkbox, DelInVFolderCheckName);
+		align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
+		gtk_container_add (GTK_CONTAINER (align), checkbox);
+		gtk_widget_show (checkbox);
+		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)->vbox), align, TRUE, TRUE, 6);
+		gtk_widget_show (align);
+		gtk_widget_show (dialog);
+	} else {
+		emfv_delete_msg_response (NULL, GTK_RESPONSE_OK, emfv);
 	}
 
-	message_list_free_uids(emfv->list, uids);
-	camel_folder_thaw(emfv->folder);
-
-	if (count == 1) {
-		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
-			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
-	}
+	g_object_unref (gconf);
 }
+#undef DelInVFolderCheckName
+#undef DelInVFolderKey
 
 static void
 emfv_popup_undelete(EPopup *ep, EPopupItem *pitem, void *data)

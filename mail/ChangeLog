@@ -1,3 +1,14 @@
+2007-11-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #263236
+
+	* mail.error.xml: New message "ask-delete-vfolder-msg".
+	* em-folder-view.c: (emfv_delete_msg_response),
+	(emfv_popup_delete): When deleting from vFolder, ask if really want
+	to and warn about deleting in a real folder too.
+	* evolution-mail.schemas.in: New option
+	"/apps/evolution/mail/prompts/delete_in_vfolder" to not ask again.
+
 2007-11-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-selector.h:

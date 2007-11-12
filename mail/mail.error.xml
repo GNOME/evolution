@@ -190,6 +190,15 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
+  <error id="ask-delete-vfolder-msg" type="question" default="GTK_RESPONSE_CANCEL">
+    <_title>Delete messages in virtual folder?</_title>
+    <_primary>Delete messages in virtual folder &quot;{0}&quot;?</_primary>
+    <_secondary xml:space="preserve">Warning deleting email from a virtual folder will delete the actual email from one of your Inbox folders.
+Do you really want to do this?</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+  </error>
+
   <error id="no-rename-folder-exists" type="error">
     <_primary>Cannot rename &quot;{0}&quot; to &quot;{1}&quot;.</_primary>
     <_secondary xml:space="preserve">A folder named &quot;{1}&quot; already exists. Please use a different name.</_secondary>
