@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-12 10:45+0000\n"
-"PO-Revision-Date: 2007-11-12 18:45+0100\n"
+"POT-Creation-Date: 2007-11-12 22:10+0000\n"
+"PO-Revision-Date: 2007-11-12 23:41+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12482,8 +12482,8 @@ msgid ""
 "It disables the feature where repeated prompts to ask if delete messages "
 "from search folder."
 msgstr ""
-"Deshabilita la característica donde la pregunta de si se deben borrar los mensajes "
-"de la carpeta de búsqueda se repite."
+"Deshabilita la característica donde la pregunta de si se deben borrar los "
+"mensajes de la carpeta de búsqueda se repite."
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid ""
@@ -14773,8 +14773,8 @@ msgid ""
 "from one of your Inbox folders.\n"
 "Do you really want to do this?"
 msgstr ""
-"Advertencia: borrar correo-e de una carpeta virtual borrará el correo-e actual "
-"de una de sus carpetas de bandeja de entrada.\n"
+"Advertencia: borrar correo-e de una carpeta virtual borrará el correo-e "
+"actual de una de sus carpetas de bandeja de entrada.\n"
 "¿Quiere borrar estos mensajes?"
 
 #: ../mail/mail.error.xml.h:128
@@ -16787,8 +16787,8 @@ msgid "Completed: "
 msgstr "Completado: "
 
 #: ../plugins/groupwise-features/status-track.c:225
-msgid "Un-delivered: "
-msgstr "No entregado: "
+msgid "Undelivered: "
+msgstr "Sin entregar: "
 
 #: ../plugins/groupwise-features/status-track.c:249
 msgid "Track Message Status..."
