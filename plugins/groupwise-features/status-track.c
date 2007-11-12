@@ -222,7 +222,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 				label = g_string_append_c (label, '\n');
 			}
 			if (recipient->undelivered_date) {
-				label = g_string_append (label, _("Un-delivered: "));
+				label = g_string_append (label, _("Undelivered: "));
 				label = g_string_append (label, format_date(recipient->undelivered_date));
 				label = g_string_append_c (label, '\n');
 			}
