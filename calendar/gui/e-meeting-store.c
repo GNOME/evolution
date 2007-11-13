@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <libebook/e-book.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
@@ -50,8 +49,6 @@ struct _EMeetingStorePrivate {
 	icaltimezone *zone;
 	
 	char *fb_uri;
-
-	EBook *ebook;
 
 	GPtrArray *refresh_queue;
 	GHashTable *refresh_data;
@@ -85,13 +82,6 @@ struct _EMeetingStoreQueueData {
 static GObjectClass *parent_class = NULL;
 
 static void start_async_read (GnomeVFSAsyncHandle *handle, GnomeVFSResult result, gpointer data);
-
-static void
-start_addressbook_server (EMeetingStore *store)
-{
-	store->priv->ebook = e_book_new_system_addressbook (NULL);
-	e_book_open (store->priv->ebook, FALSE, NULL);
-}
 
 static icalparameter_cutype
 text_to_type (const char *type)
@@ -553,9 +543,6 @@ ems_finalize (GObject *obj)
 	if (priv->client != NULL)
 		g_object_unref (priv->client);
 
-	if (priv->ebook != NULL)
-		g_object_unref (priv->ebook);
-
  	while (priv->refresh_queue->len > 0)
  		refresh_queue_remove (store, g_ptr_array_index (priv->refresh_queue, 0));
  	g_ptr_array_free (priv->refresh_queue, TRUE);
@@ -604,8 +591,6 @@ ems_init (EMeetingStore *store)
 	priv->mutex = g_mutex_new ();
 
 	priv->num_queries = 0;
-
-	start_addressbook_server (store);
 }
 
 GType

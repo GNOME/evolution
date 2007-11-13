@@ -1,3 +1,9 @@
+2007-11-13  Ondrej Jirman  <megous@megous.com>
+
+	** Fix for bug #494323
+
+	* gui/e-meeting-store.c: removed useless EBook use.
+
 2007-11-12  Andre Klapper  <a9016009@gmx.de>
 
 	** Fix for bug #496248
