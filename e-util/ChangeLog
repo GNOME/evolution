@@ -1,3 +1,10 @@
+2007-11-13  Ondrej Jirman  <megous@megous.com>
+
+	** Fix for bug #494320
+
+	* e-popup.c: (e_popup_create_menu): Add support for redefining
+	existing menu items.
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #492692

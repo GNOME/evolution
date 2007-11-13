@@ -507,8 +507,14 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 	/* create tree structure */
 	for (i=0;i<items->len;i++) {
 		struct _item_node *inode = items->pdata[i], *pnode;
+		struct _item_node *nextnode = (i + 1 < items->len) ? items->pdata[i+1] : NULL;
 		struct _EPopupItem *item = inode->item;
 		const char *tmp;
+
+		if (nextnode && !strcmp (nextnode->item->path, item->path)) {
+			d(printf ("skipping item %s\n", item->path));
+			continue;
+		}
 
 		g_string_truncate(ppath, 0);
 		tmp = strrchr(item->path, '/');
