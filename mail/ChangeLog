@@ -1,3 +1,9 @@
+2007-11-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #263236
+
+	* mail.error.xml: Terminology cleanup.
+
 2007-11-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #263236

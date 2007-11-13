@@ -191,9 +191,9 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   </error>
 
   <error id="ask-delete-vfolder-msg" type="question" default="GTK_RESPONSE_CANCEL">
-    <_title>Delete messages in virtual folder?</_title>
-    <_primary>Delete messages in virtual folder &quot;{0}&quot;?</_primary>
-    <_secondary xml:space="preserve">Warning deleting email from a virtual folder will delete the actual email from one of your Inbox folders.
+    <_title>Delete messages in Search Folder?</_title>
+    <_primary>Delete messages in Search Folder &quot;{0}&quot;?</_primary>
+    <_secondary xml:space="preserve">Warning: Deleting messages from a Search Folder will delete the actual message from one of your local or remote folders.
 Do you really want to do this?</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
