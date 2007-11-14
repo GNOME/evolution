@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-12 22:10+0000\n"
-"PO-Revision-Date: 2007-11-12 23:41+0100\n"
+"POT-Creation-Date: 2007-11-13 17:46+0000\n"
+"PO-Revision-Date: 2007-11-14 14:58+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -14418,12 +14418,12 @@ msgid "Delete account?"
 msgstr "¿Desea borrar la cuenta?"
 
 #: ../mail/mail.error.xml.h:45
-msgid "Delete messages in virtual folder &quot;{0}&quot;?"
-msgstr "¿Borrar los mensajes en la carpeta virtual «{0}»?"
+msgid "Delete messages in Search Folder &quot;{0}&quot;?"
+msgstr "¿Borrar los mensajes en la carpeta de búsqueda «{0}»?"
 
 #: ../mail/mail.error.xml.h:46
-msgid "Delete messages in virtual folder?"
-msgstr "¿Borrar los mensajes en la carpeta virtual?"
+msgid "Delete messages in Search Folder?"
+msgstr "¿Borrar los mensajes en la carpeta de búsqueda?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Discard changes?"
@@ -14769,12 +14769,12 @@ msgstr "¿Desea usar la carpeta de borradores predeterminada?"
 
 #: ../mail/mail.error.xml.h:125
 msgid ""
-"Warning deleting email from a virtual folder will delete the actual email "
-"from one of your Inbox folders.\n"
+"Warning: Deleting messages from a Search Folder will delete the actual "
+"message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
-"Advertencia: borrar correo-e de una carpeta virtual borrará el correo-e "
-"actual de una de sus carpetas de bandeja de entrada.\n"
+"Advertencia: borrar correo-e de una carpeta de búsqueda borrará el correo-e "
+"actual de una de sus carpetas locales o remotas.\n"
 "¿Quiere borrar estos mensajes?"
 
 #: ../mail/mail.error.xml.h:128
